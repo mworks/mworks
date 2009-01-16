@@ -1,0 +1,27 @@
+#!/bin/sh
+
+##############################################################
+# EDIT THESE PARAMETERS
+UNPACK_DIR=~/temp_unpack
+NUM_EVENTS_PER_PACK=500000
+
+FILES=(\
+/Library/MonkeyWorks/DataFiles/wenis.mwk \
+/Library/MonkeyWorks/DataFiles/wenis2.mwk \
+)
+
+# DON'T EDIT ANYTHING BELOW THIS LINE
+##############################################################
+
+DYLD_LIBRARY_PATH=/Applications/MATLAB74/bin/maci/
+export DYLD_LIBRARY_PATH
+
+mkdir -p $UNPACK_DIR
+
+for FILE in ${FILES[@]}
+  do
+  echo "unpacking $FILE into $UNPACK_DIR"
+
+  OUTPUT_NAME=$(echo $FILE | sed -e 's/\/.*\///g' | sed -e 's/\.mwk/_data_/g')
+  /Library/MonkeyWorks/tools/mw2ml $FILE $UNPACK_DIR/$OUTPUT_NAME $NUM_EVENTS_PER_PACK
+done

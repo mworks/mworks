@@ -1,0 +1,240 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 42;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		0E60D69A0E6DBC4A00B82521 /* UninstallDataFileReader */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 0E60D6A00E6DBC6100B82521 /* Build configuration list for PBXAggregateTarget "UninstallDataFileReader" */;
+			buildPhases = (
+				0E60D6990E6DBC4A00B82521 /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = UninstallDataFileReader;
+			productName = UninstallDataFileReader;
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		0E40C41D0D73384A00472673 /* mwdfr.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E40C3950D732BAB00472673 /* mwdfr.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		0E40C3950D732BAB00472673 /* mwdfr.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = mwdfr.cpp; sourceTree = "<group>"; };
+		0E40C39E0D732BF900472673 /* mwdfr-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "mwdfr-Info.plist"; sourceTree = "<group>"; };
+		0E40C4180D73380100472673 /* mwdfr */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = mwdfr; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		0E40C4160D73380100472673 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0E40C3870D732B8200472673 = {
+			isa = PBXGroup;
+			children = (
+				0E40C3950D732BAB00472673 /* mwdfr.cpp */,
+				0E40C39C0D732BF900472673 /* Products */,
+				0E40C39E0D732BF900472673 /* mwdfr-Info.plist */,
+			);
+			sourceTree = "<group>";
+		};
+		0E40C39C0D732BF900472673 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0E40C4180D73380100472673 /* mwdfr */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		0E40C4170D73380100472673 /* mwdfr */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0E40C4210D73387500472673 /* Build configuration list for PBXNativeTarget "mwdfr" */;
+			buildPhases = (
+				0E40C4150D73380100472673 /* Sources */,
+				0E40C4160D73380100472673 /* Frameworks */,
+				0E40C4230D73388800472673 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = mwdfr;
+			productName = mwdfr;
+			productReference = 0E40C4180D73380100472673 /* mwdfr */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		0E40C3890D732B8200472673 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 0E40C38C0D732B8200472673 /* Build configuration list for PBXProject "DataFileReader" */;
+			compatibilityVersion = "Xcode 2.4";
+			hasScannedForEncodings = 0;
+			mainGroup = 0E40C3870D732B8200472673;
+			productRefGroup = 0E40C39C0D732BF900472673 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				0E40C4170D73380100472673 /* mwdfr */,
+				0E60D69A0E6DBC4A00B82521 /* UninstallDataFileReader */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		0E40C4230D73388800472673 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "mkdir -p \"$INSTALL_PATH\"\nrm -Rf \"$INSTALL_PATH/mwdfr\"\ncp -Rf \"$BUILT_PRODUCTS_DIR/mwdfr\" \"$INSTALL_PATH/mwdfr\"\n";
+		};
+		0E60D6990E6DBC4A00B82521 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "rm -f /Library/MonkeyWorks/tools/mwdfr\nexit 0";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		0E40C4150D73380100472673 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0E40C41D0D73384A00472673 /* mwdfr.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		0E40C38A0D732B8200472673 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+			};
+			name = Debug;
+		};
+		0E40C38B0D732B8200472673 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+			};
+			name = Release;
+		};
+		0E40C41A0D73380100472673 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				HEADER_SEARCH_PATHS = /Library/MonkeyWorks/include;
+				INSTALL_PATH = /Library/MonkeyWorks/tools;
+				LIBRARY_SEARCH_PATHS = /Library/MonkeyWorks/lib;
+				OTHER_LDFLAGS = "-lscarab";
+				PREBINDING = NO;
+				PRODUCT_NAME = mwdfr;
+			};
+			name = Debug;
+		};
+		0E40C41B0D73380100472673 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				HEADER_SEARCH_PATHS = /Library/MonkeyWorks/include;
+				INSTALL_PATH = /Library/MonkeyWorks/tools;
+				LIBRARY_SEARCH_PATHS = /Library/MonkeyWorks/lib;
+				OTHER_LDFLAGS = "-lscarab";
+				PREBINDING = NO;
+				PRODUCT_NAME = mwdfr;
+			};
+			name = Release;
+		};
+		0E60D69B0E6DBC4B00B82521 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = UninstallDataFileReader;
+			};
+			name = Debug;
+		};
+		0E60D69C0E6DBC4B00B82521 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				PRODUCT_NAME = UninstallDataFileReader;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		0E40C38C0D732B8200472673 /* Build configuration list for PBXProject "DataFileReader" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0E40C38A0D732B8200472673 /* Debug */,
+				0E40C38B0D732B8200472673 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0E40C4210D73387500472673 /* Build configuration list for PBXNativeTarget "mwdfr" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0E40C41A0D73380100472673 /* Debug */,
+				0E40C41B0D73380100472673 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0E60D6A00E6DBC6100B82521 /* Build configuration list for PBXAggregateTarget "UninstallDataFileReader" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0E60D69B0E6DBC4B00B82521 /* Debug */,
+				0E60D69C0E6DBC4B00B82521 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 0E40C3890D732B8200472673 /* Project object */;
+}
