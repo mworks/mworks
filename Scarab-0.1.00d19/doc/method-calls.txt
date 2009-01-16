@@ -1,0 +1,224 @@
+
+
+Early Draft                                                   K. MacLeod
+method-calls                                          The Casbah Project
+                                                            October 1999
+
+
+                Method Call Request Encoding as Objects
+
+
+Abstract
+
+   This document describes a marshalling format for procedure and
+   method call requests and responses using dictionaries, lists, and
+   atomic values.  Procedure and method calls may include the intended
+   target or receiver of the request, the procedure or method name, a
+   request identifier, and call parameters or arguments.
+
+1. Introduction
+
+   This protocol is being developed as part of LDO[2], a framework for
+   handling data and distributed computing.  LDO itself is being
+   developed as part of Casbah[3], a language independent environment
+   for writing applications that access a wide variety of data sources.
+   LDO supports other message protocols addition to this protocol.
+
+   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+   "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
+   document are to be interpreted as described in RFC 2119[1].
+
+   Within this draft, text enclosed within brackets (`[text]')
+   represents issues or incomplete specifications.
+
+1.1 Examples of Method Call Requests
+
+   [Need to fill out this section.  Using Python/Opossum syntax.
+   Minimal RPC, object method on root, complex example.]
+
+2. Requests
+
+   Requests are marshalled as dictionaries.  The "operation" and "args"
+   parameters are required, all other fields are optional. All keys are
+   unique, unordered, string values.
+
+   [XML2RFC: this is an annoying style, find better style in RFCs for
+   option, argument, or parameter definitions.]
+   operation MUST contain the string value "reo:call".
+   args A list containing the arguments or parameters to the procedure
+      or method call, which may be any type.
+   method A value of any type identifying the procedure or method to
+      call.  Most implementations will use a string value.  If not
+      present, then the call is directed at the default or implicit
+
+
+MacLeod                                                         [Page 1]
+
+                Method Call Request Encoding as Objects     October 1999
+
+
+      procedure of the target.
+   target A value of any type identifying the intended target or object
+      to direct a method call to.  If not present, then the call is
+      directed at the default or implicit target of the connection or
+      session.
+   call-id A value of any type identifying this request.  The "call-id"
+      can be used to implement asynchronous operations or other call
+      status operations.  The "call-id" of the request will be returned
+      as the "call-id" of the response.  If a "call-id" is not present,
+      then the call is performed synchronously.
+
+   [Issue: another field may be useful for systems that allow named
+   parameters.]
+
+   [Issue: synchronous and asynchronous calls cannot be intermixed in
+   the same session or connection, right?]
+
+   [Issue: "call-id" values are allowed on synchronous connections, the
+   mere presence of a "call-id" does not imply the connection or
+   session is asynchronous.  This should be stated clearly.]
+
+3. Responses
+
+   Responses are marshalled as dictionaries.  The "operation" field is
+   required, all other fields are optional.  All keys are unique,
+   unordered, string values.
+   operation MUST contain the string value "reo:result".
+   result The value returned by the procedure or method call, which may
+      be of any type.  If not present, then the call did not return a
+      result, which is often the case if an error field is also
+      present.  A value for "result" may be provided even if there is
+      also a value for "error".
+   error A value of any type identifying the error result of the
+      operation.  Most implementations will use a string message for
+      the error.  If an "error" field is present, this indicates a
+      partial or complete failure of the call.
+   call-id A value of any type identifying this response as the result
+      for the call request with the same "call-id".  If not present,
+      then this response is a result of the last request made.
+
+   [Issue: as in requests, the semantics of "call-id" are not written
+   clearly for the case of present or not present vs. synchronous or
+   asynchronous.]
+
+   [Issue: "error" does not distinguish operation (out-of-band) errors
+   and procedure or method call exceptions.  The previous version of
+   this doc had an operation "reo:operation-error" to support
+   non-procedure/method call errors.]
+
+
+
+MacLeod                                                         [Page 2]
+
+                Method Call Request Encoding as Objects     October 1999
+
+
+   [Issue: some systems allow results to contain multiple or named
+   values.]
+
+4. Conformance and Interoperability
+
+   [need to fill out this section]
+
+5. Security Considerations
+
+   [preliminary]
+   o  This protocol allows actions to be initiated.
+   o  This protocol does not describe facilities for validating
+      request/reponse conformance to an interface.
+   o  Requests and responses are unbounded in size or depth.
+   o  Should reference work on firewall, proxy, and other security
+      specs.
+
+References
+
+   [1]  Bradner, S., "Key words for use in RFCs to Indicate Requirement
+        Levels", BCP 14, RFC 2119, March 1997.
+
+   [2]  http://casbah.org/LDO/
+
+   [3]  http://casbah.org/
+
+Author's Address
+
+   Ken MacLeod
+   The Casbah Project
+   1330 66th Street
+   Des Moines, IA  50311
+   US
+
+   Phone: +1 515 279 0319
+   EMail: ken@bitsko.slc.ut.us
+   URI:   http://casbah.org/LDO/
+
+Appendix A. Changes since Request Encoding as Objects
+   o  The title of the document now reflects that these requests are
+      specifically method (or procedure) requests as opposed to any
+      other type of request that may be encoded as objects.
+   o  Discussion of proxies and interfaces, and their operations, have
+      been removed.  Those will be addressed in seperate specs. Proxy
+      and interface requests will most likely become method requests on
+      special targets.
+   o  The "reo:hello" and "reo:operation-error" operations have been
+      removed.  If need be, they will be addressed in a separate spec
+      dealing with configuration negotiation.  Note the issue in the
+
+
+MacLeod                                                         [Page 3]
+
+                Method Call Request Encoding as Objects     October 1999
+
+
+      "Responses" section that "operation-error" also had provided an
+      out-of-band error that may not be clearly represented in an
+      in-band "reo:result" response.
+   o  The "object" field of "reo:call" was renamed "target".
+   o  The "target", "method", and "call-id" field value types are
+      relaxed to allow any value type.
+   o  The "method" field is now optional, if it's missing then the
+      default or implicit method of the target is used.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+MacLeod                                                         [Page 4]
+

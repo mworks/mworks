@@ -1,0 +1,76 @@
+* 0.00
+ ** fill out areas in specs surrounded by [brackets]
+ ** complete LDO-Types spec
+ ** sync Java, Python, Perl, and C versions, check-in SmallTalk version
+ ** implement LDO-Types pattern
+ ** make test servers available on Casbah.org
+ ** document examples and sync implementations
+   - scarab (client)
+   - marshal (plain marshaling)
+   - echo-server (server, used for timing tests)
+   - time-echo (client, used for timing tests)
+   - "hello world" examples of client and server
+
+* implementation checklist
+ ** clients can choose serialization
+ ** servers can determine serialization of incoming connection
+
+* global object spec (LDO-Types?)
+* distributed GC per HTTP-ng
+* layering over HTTP spec
+* authentication and authorization
+* protocol negotiation
+* Name mapping pattern
+ ** global object pattern
+* Connection pattern
+* Connection Manager pattern
+* CGI implementation pattern
+* protocol semantics
+ ** blocking
+ ** asynchronous, in-order
+ ** asynchronous, out-of-order
+ ** referentially transparent (non deadlocking)
+* mod_scarab, re: mod_xml_rpc <http://www.ensor.org/xml>
+
+* needs to be categorized
+ ** [none]
+
+* needs to be ref'ed
+ ** Access Protocol
+  <http://www.ietf.org/internet-drafts/draft-earhart-ap-spec-01.txt>
+
+* Perl implementation
+ ** better error handling
+ ** logging
+ ** move debug, scalar, and array streams into support classes
+ ** add pod
+ ** doesn't die when socket can't be opened
+ ** language-dependent misfeatures
+  *** unblessed arrays and hashes are copied by-value, possibly
+giving unexpected results when non-DO-savvy modules are used.
+
+* Python implementation
+ ** language-dependent misfeatures
+  *** Python overloads common math operators with different
+functionality for non-math objects, so Python cannot receive untyped
+values (i.e. needs IDLs or can only talk to implementations that
+distinguish numerics in all cases)
+
+* examples
+ ** CGI/Apache module
+ ** Casbah prototypes
+ ** States demo
+ ** KBiff
+ ** transferring a small tree of xml documents to a remote machine and
+invoking an xml validator on them
+ ** how about this: parse an xml document on machine A, pickle parsed
+output, send it to Machine B, reconstruct the document (!)
+ ** WebDAV
+ ** HTTP-ng testbed
+  *** performance (not at this time)
+  *** DOM demonstration
+   **** push like demo, where content is inserted using the DOM API from a server to the client. 
+   **** distributed authoring, based on WebDav semantics but achieved by the way of direct
+   **** remote access 
+   **** shared HTML white board
+  *** HTTP proxy

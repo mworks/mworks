@@ -1,0 +1,398 @@
+<html><head><title>Self-Describing Binary Data Representation</title>
+<STYLE type='text/css'>
+    .title { color: #990000; font-size: 22px; line-height: 22px; font-weight: bold; text-align: right;
+             font-family: helvetica, arial, sans-serif }
+    .filename { color: #666666; font-size: 18px; line-height: 28px; font-weight: bold; text-align: right;
+                  font-family: helvetica, arial, sans-serif }
+    p.copyright { color: #000000; font-size: 10px;
+                  font-family: verdana, charcoal, helvetica, arial, sans-serif }
+    p { margin-left: 2em; margin-right: 2em; }
+    ol { margin-left: 2em; margin-right: 2em; }
+    ul.text { margin-left: 2em; margin-right: 2em; }
+    pre { margin-left: 3em; color: #333333 }
+    ul.toc { color: #000000; line-height: 16px;
+             font-family: verdana, charcoal, helvetica, arial, sans-serif }
+    H3 { color: #333333; font-size: 16px; line-height: 16px; font-family: helvetica, arial, sans-serif }
+    H4 { color: #000000; font-size: 14px; font-family: helvetica, arial, sans-serif }
+    TD.header { color: #ffffff; font-size: 10px; font-family: arial, helvetica, san-serif; valign: top }
+    TD.author-text { color: #000000; font-size: 10px;
+                     font-family: verdana, charcoal, helvetica, arial, sans-serif }
+    TD.author { color: #000000; font-weight: bold; margin-left: 4em; font-size: 10px; font-family: verdana, charcoal, helvetica, arial, sans-serif }
+    A:link { color: #990000; font-size: 10px; text-transform: uppercase; font-weight: bold;
+             font-family: MS Sans Serif, verdana, charcoal, helvetica, arial, sans-serif }
+    A:visited { color: #333333; font-weight: bold; font-size: 10px; text-transform: uppercase;
+                font-family: MS Sans Serif, verdana, charcoal, helvetica, arial, sans-serif }
+    A:name { color: #333333; font-weight: bold; font-size: 10px; text-transform: uppercase;
+             font-family: MS Sans Serif, verdana, charcoal, helvetica, arial, sans-serif }
+    .link2 { color:#ffffff; font-weight: bold; text-decoration: none;
+             font-family: monaco, charcoal, geneva, MS Sans Serif, helvetica, monotype, verdana, sans-serif;
+             font-size: 9px }
+    .RFC { color:#666666; font-weight: bold; text-decoration: none;
+           font-family: monaco, charcoal, geneva, MS Sans Serif, helvetica, monotype, verdana, sans-serif;
+           font-size: 9px }
+    .hotText { color:#ffffff; font-weight: normal; text-decoration: none;
+               font-family: charcoal, monaco, geneva, MS Sans Serif, helvetica, monotype, verdana, sans-serif;
+               font-size: 9px }
+</style>
+</head>
+<body bgcolor="#ffffff"alink="#000000" vlink="#666666" link="#990000">
+<table width="66%" border="0" cellpadding="0" cellspacing="0"><tr><td><table width="100%" border="0" cellpadding="2" cellspacing="1">
+<tr valign="top"><td width="33%" bgcolor="#666666" class="header">Early Draft</td><td width="33%" bgcolor="#666666" class="header">K. MacLeod</td></tr>
+<tr valign="top"><td width="33%" bgcolor="#666666" class="header">binary-serialization</td><td width="33%" bgcolor="#666666" class="header">The Casbah Project</td></tr>
+<tr valign="top"><td width="33%" bgcolor="#666666" class="header">&nbsp;</td><td width="33%" bgcolor="#666666" class="header">October 1999</td></tr>
+</table></td></tr></table>
+<div align="right"><font face="monaco, MS Sans Serif" color="#990000" size="+3"><b><br><span class="title">Self-Describing Binary Data Representation</span></b></font></div>
+<font face="verdana, helvetica, arial, sans-serif" size="2">
+
+<h3>Abstract</h3>
+
+<p>
+This document describes a simple, self-describing, binary
+    encoding for structured data.  The base format defined here allows
+    for nested values made up of dictionaries, lists, and atomic
+    values without arbitrary size limits.
+</p>
+
+<a name="anchor1"><br><hr size="1" shade="0"></a>
+<h3>1.&nbsp;Introduction</h3>
+
+<p>
+[brief description of Binary]
+</p>
+
+<p>
+This format is being developed as part of <a href="http://casbah.org/Scarab/">Scarab</a>, a framework for
+     handling data and distributed computing.  Scarab itself is being
+     developed as part of <a href="http://casbah.org/">Casbah</a>, a language independent
+     environment for writing applications that access a wide variety
+     of data sources.  Scarab also includes a plain-text, XML-based
+     format comparable to the binary format.  Scarab supports storage
+     or transfer using other serialization formats as well.
+</p>
+
+<p>
+The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL
+     NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and
+     "OPTIONAL" in this document are to be interpreted as described in
+     <a href="#refs.RFC2119">RFC 2119</a>[1].
+</p>
+
+<p>
+Within this draft, text enclosed within brackets (`[text]')
+    represents issues or incomplete specifications.
+</p>
+
+<a name="anchor2"><br><hr size="1" shade="0"></a>
+<h3>2.&nbsp;Data Model</h3>
+
+<p>
+LDO binary serialization (LDO-Binary) provides for the
+    representation of data as dictionaries, lists, and the atomic
+    types integer, float, opaque (string), and null.  All values can
+    have optional attributes, such as their type or encoding.
+    Identifiers may be assigned to values and a value may be reused by
+    reference.
+</p>
+
+<h4><a name="anchor3">2.1</a>&nbsp;Dictionary Values</h4>
+
+<p>
+Dictionaries are sets of key/value pairs.  Keys and values
+      may be of any type.  This document does not define whether
+      dictionary key/value pairs are ordered or if keys must be unique
+      within a dictionary.
+</p>
+
+<h4><a name="anchor4">2.2</a>&nbsp;List Values</h4>
+
+<p>
+Lists contain sequences of values.  Values may be of any
+      type.
+</p>
+
+<h4><a name="anchor5">2.3</a>&nbsp;Atomic Values</h4>
+
+<p>
+The atomic values--integer, float, and null--may be encoded
+      either in the BER format described here or opaquely using
+      strings.  For example, the string "123" is semantically
+      equivalent to the BER compressed integer 123.
+</p>
+
+<p>
+LDO-Binary defines several types of atomic values: integer,
+      float, opaque (string), and null.
+</p>
+
+<p>
+Variable length encoding is used for integers, floats, and
+      the length of opaque values so there are no bounds to the size
+      of these values.
+</p>
+
+<p>
+Floating point values (floats) are represented in decimal as
+      a mantissa and an exponent.
+</p>
+
+<p>
+Opaque values are used to represent both string values and
+      binary values.
+</p>
+
+<p>
+Null values are used to represent undefined values,
+      comparible to NIL or NULL in many languages.
+</p>
+
+<h4><a name="anchor6">2.4</a>&nbsp;Attributes</h4>
+
+<p>
+All values may have attributes associated with them to hold
+      information describing the value, such as a type or encoding.
+      Attributes are passed as a dictionary.
+</p>
+
+<h4><a name="anchor7">2.5</a>&nbsp;References</h4>
+
+<p>
+All values may have an identifier associated with them that
+      will allow those values to be re-used later in the encoded
+      data.
+</p>
+
+<a name="anchor8"><br><hr size="1" shade="0"></a>
+<h3>3.&nbsp;Format</h3>
+
+<p>
+The binary format is described by the following
+    grammar:
+
+    </font><pre>
+stream     :=  magic version item*
+magic      :=  #x89 'C' 'B' 'F'
+version    :=  VERSION Major Minor
+item       :=  define-id? attributes? ( atomic | list | dictionary )
+             | reference
+atomic     :=  ( INTEGER-N | INTEGER-P ) Integer
+             | ( FLOAT-NN | FLOAT-NP | FLOAT-PN | FLOAT-PP ) Mantissa Exponent
+             | FLOAT-INF
+             | FLOAT-NAN
+             | OPAQUE Length String
+             | NULL
+reference  :=  REFERENCE Id
+define-id  :=  DEFINE-REFERENCE Id
+attributes :=  ATTRIBUTES ( REFERENCE Id | define-id? dictionary )
+list       :=  LIST Length item*
+dictionary :=  DICTIONARY Length (item, item)*
+</pre><font face="verdana, helvetica, arial, sans-serif" size="2">
+
+</p>
+
+<p>
+The terminals "Major", "Minor", "Length", "Id", "Integer",
+    "Mantissa", and "Exponent" are BER encoded integers.
+</p>
+
+<p>
+"String" is an 8bit-clean value and can be used for any plain
+    text or binary value.
+</p>
+
+<p>
+The length of "String" is the number of octets contained in the
+    string.  The length of a list is the count of the number of items
+    in the list.  The length of a dictionary is the count of the
+    number of key/value pairs in the dictionary.
+</p>
+
+<p>
+"Id" values start at one (1) and increase sequentially.
+</p>
+
+<p>
+The octets of a BER compressed integer represent an unsigned
+    integer in base 128, most significant digit first, with as few
+    digits as possible.  Bit eight (the high bit) is set on each byte
+    except the last.
+</p>
+
+<p>
+[Issue: is BER the right name? ASN.1 uses the term but it
+    doesn't match this usage.  Possible solution: drop the term
+    entirely.]
+</p>
+
+<p>
+The explicit field types are defined as follows:
+
+    </font><pre>
+VERSION          :=  #x01
+INTEGER-N        :=  #x02
+INTEGER-P        :=  #x03
+FLOAT-NN         :=  #x04
+FLOAT-NP         :=  #x05
+FLOAT-PN         :=  #x06
+FLOAT-PP         :=  #x07
+FLOAT-INF        :=  #x08
+FLOAT-NAN        :=  #x09
+OPAQUE           :=  #x0A
+NULL             :=  #x0B
+LIST             :=  #x0C
+DICTIONARY       :=  #x0D
+DEFINE-REFERENCE :=  #x0E
+REFERENCE        :=  #x0F
+ATTRIBUTES       :=  #x10
+</pre><font face="verdana, helvetica, arial, sans-serif" size="2">
+
+</p>
+
+<a name="anchor9"><br><hr size="1" shade="0"></a>
+<h3>4.&nbsp;Sanity Checking</h3>
+
+<p>
+[Issue: it may be possible to label these checks or provide an
+    outline for implementations to copy so they can communicate what
+    their limits are.  It might also be useful to define default
+    minimums or maximums.]
+</p>
+
+<p>
+Several elements in this protocol have no defined upper
+    limits on size or quantity.  Implementations MUST perform sanity
+    checks on data received to avoid buffer overruns and out of
+    resource (memory, disk, etc.) conditions.  The following elements
+    are highlited for sanity checking:
+</p>
+
+<blockquote class="text"><dl>
+
+<dt>BER compressed integers</dt>
+<dd>
+The format for BER
+      compressed integers allows for unlimited size.  Implementations
+      SHOULD check for integers outside the limit supported by the
+      implementation (five (5) BER digits for a 32-bit value, ten (10)
+      BER digits for a 64 bit value).  Implementations that support
+      large integer values for scalars SHOULD, nevertheless, check BER
+      compressed integers used elsewhere in the protocol.
+</dd>
+
+<dt>BER integer overflow</dt>
+<dd>
+In addition to the gross size
+      checking above, implementations SHOULD also check for bitwise
+      integer overflow, including the sign for integer and float
+      scalar values, when converting BER compressed integers to
+      smaller integers.
+</dd>
+
+<dt>Opaque values</dt>
+<dd>
+Opaque values are explicitly sized,
+      implementations SHOULD check that the size of an opaque value
+      will not exhaust resources.
+</dd>
+
+<dt>Lists and dictionaries</dt>
+<dd>
+There is no defined limit to
+      the size of lists and dictionaries, implementations SHOULD check
+      that a list or dictionary being decoded will not exhaust
+      resources.
+</dd>
+
+<dt>Attributes and dictionary keys</dt>
+<dd>
+Attributes are
+      dictionaries and dictionary keys may be any item, possibly
+      including their own attributes.  These elements are recursive
+      and can be of any size, implementations SHOULD check these
+      values to ensure they are reasonable.
+</dd>
+
+<dt>Overall size</dt>
+<dd>
+Most elements are unlimited in size
+      and recursive, implementations SHOULD check the overall size of
+      the data being decoded and the depth of recursion to ensure they
+      are reasonable.
+</dd>
+
+</dl></blockquote>
+
+<a name="anchor10"><br><hr size="1" shade="0"></a>
+<h3>5.&nbsp;Security Considerations</h3>
+
+<p>
+This protocol does not contain any features for initiating
+    actions.
+</p>
+
+<p>
+The section Sanity Checks contains a checklist for ensuring the
+    reasonableness of data being decoded.
+</p>
+<a name="rfc.references"><br><hr size="1" shade="0"></a>
+<h3>References</h3>
+<table width="99%" border="0">
+<tr><td class="author-text" valign="top"><b><a name="refs.RFC2119">[1]</a></b></td>
+<td class="author-text"><a href="mailto:sob@harvard.edu">Bradner, S.</a>, "<a href="http://info.internet.isi.edu/in-notes/rfc/files/rfc2119.txt">Key words for use in RFCs to Indicate Requirement Levels</a>", BCP 14, RFC 2119, March 1997.</td></tr>
+</table>
+
+<a name="rfc.authors"><br><hr size="1" shade="0"></a>
+<h3>Author's Address</h3>
+<table width="99%" border="0" cellpadding="0" cellspacing="0">
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">Ken MacLeod</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">The Casbah Project</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">1330 66th Street</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">Des Moines, IA  50311</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">US</td></tr>
+<tr><td class="author" align="right">Phone:&nbsp;</td>
+<td class="author-text">+1 515 279 0319</td></tr>
+<tr><td class="author" align="right">EMail:&nbsp;</td>
+<td class="author-text"><a href="mailto:ken@bitsko.slc.ut.us">ken@bitsko.slc.ut.us</a></td></tr>
+<tr><td class="author" align="right">URI:&nbsp;</td>
+<td class="author-text"><a href="http://casbah.org/Scarab/">http://casbah.org/Scarab/</a></td></tr>
+</table>
+
+<a name="anchor11"><br><hr size="1" shade="0"></a>
+<h3>Appendix A.&nbsp;Other References</h3>
+
+<p>
+``If you must use a binary format, you can improve portability,
+    and perhaps take advantage of prewritten I/O libraries, by making
+    use of standardized formats such as Sun's XDR (RFC 1014), OSI's
+    ASN.1 (referenced in CCITT X.409 and ISO 8825 "Basic Encoding
+    Rules"), CDF, netCDF, or HDF.  See also questions 2.12 and
+    12.38. -- comp.lang.c Answers to Frequently Asked Questions (FAQ
+    List)
+</p>
+
+<p>
+</font><pre>
+Perl modules NetCDF and PDL::NetCDF
+
+RFC 1832  XDR: External Data Representation Standard
+http://info.internet.isi.edu:80/in-notes/rfc/files/rfc1832.txt
+RFC 971 A SURVEY OF DATA REPRESENTATION STANDARDS
+http://www.java.sun.com/products/jdk/rmi/doc/serial-spec/protocol.doc.html
+Python's pickle.py
+ObjC?'s serialization (similar to pickle, tho)
+WDDX http://www.wddx.org/
+http://www.ietf.org/internet-drafts/draft-low-sdr-00.txt
+   This document describes a human-readable, textual syntax for
+   representing self-describing structured data. This representation
+   was designed as a transfer syntax for loosely-coupled distributed
+   applications where one cannot depend on sender(s) and receiver(s)
+   sharing a schema for exchanged data. The syntax is compact,
+   expressive, intuitive, and simple to implement.
+</pre><font face="verdana, helvetica, arial, sans-serif" size="2">
+
+</p>
+</font></body></html>

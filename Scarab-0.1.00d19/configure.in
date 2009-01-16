@@ -1,0 +1,19 @@
+dnl
+dnl  $Id: configure.in,v 1.3 1999/10/07 03:42:46 kmacleod Exp $
+dnl
+dnl  Process this file with autoconf to produce a configure script.
+
+AC_INIT(doc/binary-serialization.xml)
+VERSION=0.00d19
+AC_SUBST(VERSION)
+
+AC_PROG_INSTALL
+
+AC_PATH_PROGS(GZIP, gzip)
+AC_SUBST(GZIP)
+AC_PATH_PROGS(TAR, tar)
+AC_SUBST(TAR)
+AC_PATH_PROGS(PERL5, perl5 perl)
+AC_SUBST(PERL5)
+
+AC_OUTPUT(Makefile)

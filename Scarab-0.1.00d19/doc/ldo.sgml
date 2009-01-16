@@ -1,0 +1,109 @@
+
+<sect1><title>What is Scarab?</title>
+
+<para>Scarab is an open source communications framework, developed by
+Ken MacLeod as part of the Casbah project.
+
+	general description of the system, what it is used for
+
+<sect1><title>Scarab and the Casbah Application Framework</title>
+
+	how Scarab fits into Casbah as a whole
+
+<sect1><title>Scarab Design Principles and Considerations</title>
+
+	what principles and real-world constraints guided the design
+
+<para>Scarab was primarily developed because other Distributed Object
+systems are not be widely available or easy enough to use in support
+of Casbah.
+
+<sect2><title>Distributed Object Systems Evaluated</title>
+
+ * CORBA was reviewed and rejected because:
+
+  ** it requires implementations which are not yet completed or widely
+available
+
+  ** CORBA implementation is difficult, slowing it's broader acceptence
+
+  ** it places an undue level of complexity on the casual user
+
+ * RMI was reviewed and rejected because it is not intended to be
+language independent, though if it were, it's believed it would suffer
+the same issues as CORBA
+
+ * HTTP-ng was reviewed and rejected because:
+
+  ** it places a similar level of complexity on the casual user as
+CORBA
+
+  ** its implementation is only slightly less difficult than CORBA
+
+
+
+ * Apple and GNU Distributed Objects, Perl RPC, Python, and similar
+lightweight systems were reviewed and found to be very close to the
+ideal we are looking for, but none are language independent
+
+<sect2><title>Design Principles</title>
+
+ * Scarab must be relatively easy to implement to justify it's broad
+use and acceptance among existing systems
+
+ * Scarab should not require formal specification, prototypes, or IDL
+to be used in an end-user-written client or server
+
+ * Scarab must be able to carry complex, arbitrarily deep, data types,
+including records, binary data (graphics, audio, etc.), parsed XML and
+HTML
+
+ * Scarab must be able to support remote method calls on objects
+
+ * Scarab should be usable through an HTTP server, either by modifying
+the main receive port code or through a [CGI -- isn't the generic
+term].
+
+<sect1><title>LDO specifications</title>
+
+<sect2><title>LDO Request Encoding as Objects</title>
+<sect2><title>LDO Binary Serialization</title>
+<sect2><title>LDO XML Serialization</title>
+<sect2><title>LDO Requests over HTTP</title>
+
+(what about the locking stuff Paul was talking about on Sunday?)
+
+<sect1><title>Prospective Scarab Features and Design Patterns</title>
+
+this should be titled something else;
+
+my idea here is to talk about the 'future feature' stuff you want
+to put in, which if memory serves was design pattern kinds of things
+like Factory, etc. 
+
+<sect1><title>Scarab Implementations</title>
+
+	these would talk about the particularities of each port
+
+<sect2><title>Perl</title>
+
+the reference port
+
+<sect2><title>Python</title>
+
+<sect2><title>Scheme</title>
+
+chewy could talk about the data representation bugaboos
+
+<sect2><title>Java</title>
+
+josh could talk about the Java classes he inherited from, etc.
+
+<sect1><title>Other Uses of Scarab</title>
+
+this would be the part where we talk about the 
+uses GNOME/KDE and others could put Scarab to
+
+<sect1><title>Conclusion</title>
+
+general bullshit stuff

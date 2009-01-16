@@ -1,0 +1,74 @@
+
+PACKAGE=Scarab
+VERSION=@VERSION@
+DOCS_SGML=
+
+DOCS_XML= \
+  doc/binary-serialization.xml \
+  doc/ldo-types.xml \
+  doc/method-calls.xml \
+  doc/xml-serialization.xml
+
+DOCS_TXT=$(DOCS_SGML:%.sgml=%.txt) $(DOCS_XML:%.xml=%.txt)
+DOCS_HTML=$(DOCS_SGML:%.sgml=%.html) $(DOCS_XML:%.xml=%.html)
+
+GZIP=@GZIP@
+TAR=@TAR@
+JADE=jade
+HTRANS=-t sgml
+STYLE=-d /usr/local/sgml/dsssl/db140/html/docbook.dsl
+PROLOG=doc/prolog.sgml
+JADE_OPTS=-V nochunks
+
+# The following need xml2rfc from http://memory.palace.org/authoring/
+# and the two commands need to be written using this:
+#   #!/usr/bin/tclsh
+#   source /Local/Users/ken/delete-me/isrc/xml2rfc/xml2rfc.tcl
+#   xml2txt $argv
+
+XML2RFCHTML=xml2rfchtml
+XML2RFCTXT=xml2rfctxt
+
+.SUFFIXES: .xml .txt .sgml .html
+
+all: $(DOCS_HTML)
+
+# This only takes XML docs as text, not SGML docs
+dist: $(DOCS_XML:%.xml=%.txt) $(DOCS_HTML) distclean
+	dirname=`basename \`pwd\``; \
+	cd ..; \
+	$(RM) $(PACKAGE)-$(VERSION).tar.* $(PACKAGE)-$(VERSION); \
+	ln -s $$dirname $(PACKAGE)-$(VERSION); \
+	$(TAR) hcvf $(PACKAGE)-$(VERSION).tar $(PACKAGE)-$(VERSION); \
+	$(GZIP) $(PACKAGE)-$(VERSION).tar; \
+	$(RM) $(PACKAGE)-$(VERSION)
+
+clean:
+	$(RM) *~ */*~ */*/*~ */*/*/*~
+
+distclean: clean
+	$(RM) Makefile
+
+realclean: distclean
+	$(RM) config.cache config.log config.status
+
+maintainerclean: realclean
+	$(RM) $(DOCS_TXT) $(DOCS_HTML)
+	$(RM) configure
+
+.sgml.txt:
+	$(RM) $*.txt
+	sroff --docbook --ascii $*.sgml >$*.txt || ( $(RM) $*.txt; exit 1)
+
+.sgml.html:
+	$(RM) $*.html
+	${JADE} ${HTRANS} ${STYLE} ${JADE_OPTS} ${PROLOG} $*.sgml >$*.html || ( $(RM) $*.html; exit 1)
+
+# Only works for RFC DTD
+.xml.html:
+	$(RM) $*.html
+	${XML2RFCHTML} $*.xml || ( $(RM) $*.html; exit 1 )
+
+.xml.txt:
+	$(RM) $*.txt
+	${XML2RFCTXT} $*.xml || ( $(RM) $*.txt; exit 1 )

@@ -1,0 +1,336 @@
+
+
+Early Draft                                                   K. MacLeod
+binary-serialization                                  The Casbah Project
+                                                            October 1999
+
+
+               Self-Describing Binary Data Representation
+
+
+Abstract
+
+   This document describes a simple, self-describing, binary encoding
+   for structured data.  The base format defined here allows for nested
+   values made up of dictionaries, lists, and atomic values without
+   arbitrary size limits.
+
+1. Introduction
+
+   [brief description of Binary]
+
+   This format is being developed as part of Scarab[2], a framework for
+   handling data and distributed computing.  Scarab itself is being
+   developed as part of Casbah[3], a language independent environment
+   for writing applications that access a wide variety of data sources.
+   Scarab also includes a plain-text, XML-based format comparable to
+   the binary format.  Scarab supports storage or transfer using other
+   serialization formats as well.
+
+   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+   "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
+   document are to be interpreted as described in RFC 2119[1].
+
+   Within this draft, text enclosed within brackets (`[text]')
+   represents issues or incomplete specifications.
+
+2. Data Model
+
+   LDO binary serialization (LDO-Binary) provides for the
+   representation of data as dictionaries, lists, and the atomic types
+   integer, float, opaque (string), and null.  All values can have
+   optional attributes, such as their type or encoding. Identifiers may
+   be assigned to values and a value may be reused by reference.
+
+2.1 Dictionary Values
+
+   Dictionaries are sets of key/value pairs.  Keys and values may be of
+   any type.  This document does not define whether dictionary
+   key/value pairs are ordered or if keys must be unique within a
+   dictionary.
+
+
+
+
+MacLeod                                                         [Page 1]
+
+                               LDO-Binary                   October 1999
+
+
+2.2 List Values
+
+   Lists contain sequences of values.  Values may be of any type.
+
+2.3 Atomic Values
+
+   The atomic values--integer, float, and null--may be encoded either
+   in the BER format described here or opaquely using strings.  For
+   example, the string "123" is semantically equivalent to the BER
+   compressed integer 123.
+
+   LDO-Binary defines several types of atomic values: integer, float,
+   opaque (string), and null.
+
+   Variable length encoding is used for integers, floats, and the
+   length of opaque values so there are no bounds to the size of these
+   values.
+
+   Floating point values (floats) are represented in decimal as a
+   mantissa and an exponent.
+
+   Opaque values are used to represent both string values and binary
+   values.
+
+   Null values are used to represent undefined values, comparible to
+   NIL or NULL in many languages.
+
+2.4 Attributes
+
+   All values may have attributes associated with them to hold
+   information describing the value, such as a type or encoding.
+   Attributes are passed as a dictionary.
+
+2.5 References
+
+   All values may have an identifier associated with them that will
+   allow those values to be re-used later in the encoded data.
+
+3. Format
+
+   The binary format is described by the following grammar: 
+
+
+
+
+
+
+
+
+
+
+MacLeod                                                         [Page 2]
+
+                               LDO-Binary                   October 1999
+
+
+   stream     :=  magic version item*
+   magic      :=  #x89 'C' 'B' 'F'
+   version    :=  VERSION Major Minor
+   item       :=  define-id? attributes? ( atomic | list | dictionary )
+                | reference
+   atomic     :=  ( INTEGER-N | INTEGER-P ) Integer
+                | ( FLOAT-NN | FLOAT-NP | FLOAT-PN | FLOAT-PP ) Mantissa Exponent
+                | FLOAT-INF
+                | FLOAT-NAN
+                | OPAQUE Length String
+                | NULL
+   reference  :=  REFERENCE Id
+   define-id  :=  DEFINE-REFERENCE Id
+   attributes :=  ATTRIBUTES ( REFERENCE Id | define-id? dictionary )
+   list       :=  LIST Length item*
+   dictionary :=  DICTIONARY Length (item, item)*
+
+   The terminals "Major", "Minor", "Length", "Id", "Integer",
+   "Mantissa", and "Exponent" are BER encoded integers.
+
+   "String" is an 8bit-clean value and can be used for any plain text
+   or binary value.
+
+   The length of "String" is the number of octets contained in the
+   string.  The length of a list is the count of the number of items in
+   the list.  The length of a dictionary is the count of the number of
+   key/value pairs in the dictionary.
+
+   "Id" values start at one (1) and increase sequentially.
+
+   The octets of a BER compressed integer represent an unsigned integer
+   in base 128, most significant digit first, with as few digits as
+   possible.  Bit eight (the high bit) is set on each byte except the
+   last.
+
+   [Issue: is BER the right name? ASN.1 uses the term but it doesn't
+   match this usage.  Possible solution: drop the term entirely.]
+
+   The explicit field types are defined as follows: 
+
+
+
+
+
+
+
+
+
+
+
+
+MacLeod                                                         [Page 3]
+
+                               LDO-Binary                   October 1999
+
+
+   VERSION          :=  #x01
+   INTEGER-N        :=  #x02
+   INTEGER-P        :=  #x03
+   FLOAT-NN         :=  #x04
+   FLOAT-NP         :=  #x05
+   FLOAT-PN         :=  #x06
+   FLOAT-PP         :=  #x07
+   FLOAT-INF        :=  #x08
+   FLOAT-NAN        :=  #x09
+   OPAQUE           :=  #x0A
+   NULL             :=  #x0B
+   LIST             :=  #x0C
+   DICTIONARY       :=  #x0D
+   DEFINE-REFERENCE :=  #x0E
+   REFERENCE        :=  #x0F
+   ATTRIBUTES       :=  #x10
+
+4. Sanity Checking
+
+   [Issue: it may be possible to label these checks or provide an
+   outline for implementations to copy so they can communicate what
+   their limits are.  It might also be useful to define default
+   minimums or maximums.]
+
+   Several elements in this protocol have no defined upper limits on
+   size or quantity.  Implementations MUST perform sanity checks on
+   data received to avoid buffer overruns and out of resource (memory,
+   disk, etc.) conditions.  The following elements are highlited for
+   sanity checking:
+   BER compressed integers The format for BER compressed integers
+      allows for unlimited size.  Implementations SHOULD check for
+      integers outside the limit supported by the implementation (five
+      (5) BER digits for a 32-bit value, ten (10) BER digits for a 64
+      bit value).  Implementations that support large integer values
+      for scalars SHOULD, nevertheless, check BER compressed integers
+      used elsewhere in the protocol.
+   BER integer overflow In addition to the gross size checking above,
+      implementations SHOULD also check for bitwise integer overflow,
+      including the sign for integer and float scalar values, when
+      converting BER compressed integers to smaller integers.
+   Opaque values Opaque values are explicitly sized, implementations
+      SHOULD check that the size of an opaque value will not exhaust
+      resources.
+   Lists and dictionaries There is no defined limit to the size of
+      lists and dictionaries, implementations SHOULD check that a list
+      or dictionary being decoded will not exhaust resources.
+   Attributes and dictionary keys Attributes are dictionaries and
+      dictionary keys may be any item, possibly including their own
+      attributes.  These elements are recursive and can be of any size,
+
+
+MacLeod                                                         [Page 4]
+
+                               LDO-Binary                   October 1999
+
+
+      implementations SHOULD check these values to ensure they are
+      reasonable.
+   Overall size Most elements are unlimited in size and recursive,
+      implementations SHOULD check the overall size of the data being
+      decoded and the depth of recursion to ensure they are reasonable.
+
+5. Security Considerations
+
+   This protocol does not contain any features for initiating actions.
+
+   The section Sanity Checks contains a checklist for ensuring the
+   reasonableness of data being decoded.
+
+References
+
+   [1]  Bradner, S., "Key words for use in RFCs to Indicate Requirement
+        Levels", BCP 14, RFC 2119, March 1997.
+
+   [2]  http://casbah.org/Scarab/
+
+   [3]  http://casbah.org/
+
+Author's Address
+
+   Ken MacLeod
+   The Casbah Project
+   1330 66th Street
+   Des Moines, IA  50311
+   US
+
+   Phone: +1 515 279 0319
+   EMail: ken@bitsko.slc.ut.us
+   URI:   http://casbah.org/Scarab/
+
+Appendix A. Other References
+
+   ``If you must use a binary format, you can improve portability, and
+   perhaps take advantage of prewritten I/O libraries, by making use of
+   standardized formats such as Sun's XDR (RFC 1014), OSI's ASN.1
+   (referenced in CCITT X.409 and ISO 8825 "Basic Encoding Rules"),
+   CDF, netCDF, or HDF.  See also questions 2.12 and 12.38. --
+   comp.lang.c Answers to Frequently Asked Questions (FAQ List)
+
+
+
+
+
+
+
+
+
+MacLeod                                                         [Page 5]
+
+                               LDO-Binary                   October 1999
+
+
+   Perl modules NetCDF and PDL::NetCDF
+
+   RFC 1832  XDR: External Data Representation Standard
+   http://info.internet.isi.edu:80/in-notes/rfc/files/rfc1832.txt
+   RFC 971 A SURVEY OF DATA REPRESENTATION STANDARDS
+   http://www.java.sun.com/products/jdk/rmi/doc/serial-spec/protocol.doc.html
+   Python's pickle.py
+   ObjC?'s serialization (similar to pickle, tho)
+   WDDX http://www.wddx.org/
+   http://www.ietf.org/internet-drafts/draft-low-sdr-00.txt
+      This document describes a human-readable, textual syntax for
+      representing self-describing structured data. This representation
+      was designed as a transfer syntax for loosely-coupled distributed
+      applications where one cannot depend on sender(s) and receiver(s)
+      sharing a schema for exchanged data. The syntax is compact,
+      expressive, intuitive, and simple to implement.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+MacLeod                                                         [Page 6]
+

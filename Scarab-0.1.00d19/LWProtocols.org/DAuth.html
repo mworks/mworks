@@ -1,0 +1,104 @@
+<!-- $Id: DAuth.html,v 1.2 2000/03/11 16:42:18 kmacleod Exp $ -->
+<HTML>
+  <HEAD>
+    <TITLE>DAuth -- Distributed Authentication</TITLE>
+    <META NAME="keywords" CONTENT="lightweight protocol DAuth">
+  </HEAD>
+  <BODY>
+
+<h1>DAuth -- Distributed Authentication API</h1>
+<h3>Draft/Request for Discussion -- March 10, 2000</h3>
+
+<p>DAuth is a simple protocol for authenticating users via a
+third-party, a public key server or organization.  DAuth is inspired
+the Kerberos authentication system.</p>
+
+<p>DAuth provides an answer to "Why do I need so many different
+passwords to use the web?"  The answer now is: you don't.  Use DAuth
+and share the same password among many DAuth-enabled sites, without
+providing your "secret" password to any site except the key
+server.</p>
+
+<p>DAuth works by having you and the web site you visit both use a
+common "trusted key server".  When you begin your daily session, you
+contact the key server and get a "ticket", much like a daily ticket to
+many city's mass transit systems.  Whenever you want to connect to a
+site that needs your "password", you give them the ticket instead.
+The site then contacts the key server to verify that the ticket they
+received from you is a valid ticket.  The more sites that share common
+key servers, the fewer passwords you will need.<p>
+
+<p>DAuth can be implemented alongside an existing password system for
+backward compatibility.  Users who use an existing, site-local
+password system can continue to do so while other users begin using a
+DAuth password.  Sites can choose to trust as many or as few key
+servers as they desire.</p>
+
+<p>There are two basic operations in DAuth: the user logging in to the
+key server to get a ticket and a site checking a user's ticket with
+the key server.  To get a ticket is a very simple and can be done
+through a web page or applet.  You provide your email address and
+password to the key server (via a web form or applet) and your ticket
+is returned to you so you can paste it in password forms.  In the
+future, this will get built into web client software directly.</p>
+
+<p>In DAuth, "login names" are your email address or a URI.  A ticket
+is a string of the form
+"<var>ticket_value</var><tt>@</tt><var>key_server</var>" where
+<var>ticket_value</var> is a unique string that <var>key_server</var>
+can use to verify the ticket.  <var>key_server</var> is the server
+that generated the ticket.</p>
+
+<p>For security purposes, to keep your passwords and tickets from
+being snooped on the Internet, DAuth requires passwords and tickets to
+be public-key encrypted with the public-key of the site you are
+sending the password or ticket to.  [FIXME refer to public key-server
+docs] For backward compatibility, tickets sent in password fields are
+passed in the clear unless HTTP-level encryption is used.</p>
+
+<p>Whether you log in through a web form on the key server or via an
+applet, the web form or applet is going to use this API call on the
+key server (and you can too, directly):</p>
+
+<p>
+<dl><dt><b><tt class=function>getTicket</tt></b>(<var>address</var>, <var>password</var>)
+<dd>
+Called by a user, will generate and return a ticket.
+<var>address</var> is an email address or URI and <var>password</var>
+is the public-key encrypted password associated with
+<var>address</var></dl></p>
+
+<p>Servers call <tt>checkTicket()</tt> to verify a ticket:</p>
+
+<p>
+<dl><dt><b><tt class=function>checkTicket</tt></b>(<var>address</var>, <var>ticket</var>)
+<dd>
+Called by a web site, will return the expiration date of the ticket if
+<var>ticket</var> is a current and valid ticket for <var>address</var>
+or fail with a fault (exception) describing the reason for failure.
+<var>ticket</var> is public-key encrypted with the key-server's public
+key.</dl></p>
+
+<p>Notes:
+
+<ul>
+ <li>The ticket entered into password forms is still passed in the
+ clear (just as in HTTP passwords) unless other means are used to
+ encrypt the session.
+ <li>Scarab-based sessions will encrypt the ticket with the web-site's
+ public key before passing it to the site, the site then decrypts it
+ and reencrypts it with the key-server's public key to verify it
+ <li>Encryption shouldn't be necessary at the application level, it
+ should be provided by the transport/session layer.  If the app has
+ foreknowledge of when encryption should be used (logins, ticket
+ checking) it can provide that as a hint out-of-band.
+ <li>Additional APIs will probably be implemented for account
+ maintenance.
+ <li>Verify that there isn't something like this already available,
+ like an easier-to-use-than-I-thought part of Kerberos.
+ <li>There's still room for spoofing attacks in this API based on
+ current protocols.
+</ul>
+
+  </BODY>
+</HTML>

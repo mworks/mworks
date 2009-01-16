@@ -1,0 +1,47 @@
+"""Just wraps Python's zlib module."""
+
+import sys
+
+try:
+    import zlib
+except ImportError:
+    sys.exit
+
+class ScarabZlib:
+    def __init__(self, level=6, buffer=1024):
+        self.level = level
+        self.buffer = buffer
+
+    def compress(self, str):
+        if len(str) < self.buffer:
+            return zlib.compress(str, self.level)
+        else:
+            compobj = zlib.compobj(self.level)
+            while len(str) > self.buffer:
+                s = s + compobj.compress(str[0:self.buffer])
+                str = str[self.buffer:]
+            else:
+                s = s + compobj.compress(str)
+                compobj.flush()
+                del compobj
+                return s
+
+    def decompress(self, str):
+        if len(str) < self.buffer:
+            return zlib.decompress(str)
+        else:
+            decompobj = zlib.decompressobj(self.level)
+            while len(str) > self.buffer:
+                s = s + decompobj.decompress(str[0:self.buffer])
+                str = str[self.buffer:]
+            else:
+                s = s + decompobj.decompress(str)
+                decompobj.flush()
+                del decompobj
+                return s
+
+    def crc32(self, str, value=""):
+        if value = "":
+            return zlib.crc32(str)
+        else:
+            return zlib.crc32(str, value)

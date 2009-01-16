@@ -1,0 +1,329 @@
+<html><head><title>Method Call Request Encoding as Objects</title>
+<STYLE type='text/css'>
+    .title { color: #990000; font-size: 22px; line-height: 22px; font-weight: bold; text-align: right;
+             font-family: helvetica, arial, sans-serif }
+    .filename { color: #666666; font-size: 18px; line-height: 28px; font-weight: bold; text-align: right;
+                  font-family: helvetica, arial, sans-serif }
+    p.copyright { color: #000000; font-size: 10px;
+                  font-family: verdana, charcoal, helvetica, arial, sans-serif }
+    p { margin-left: 2em; margin-right: 2em; }
+    ol { margin-left: 2em; margin-right: 2em; }
+    ul.text { margin-left: 2em; margin-right: 2em; }
+    pre { margin-left: 3em; color: #333333 }
+    ul.toc { color: #000000; line-height: 16px;
+             font-family: verdana, charcoal, helvetica, arial, sans-serif }
+    H3 { color: #333333; font-size: 16px; line-height: 16px; font-family: helvetica, arial, sans-serif }
+    H4 { color: #000000; font-size: 14px; font-family: helvetica, arial, sans-serif }
+    TD.header { color: #ffffff; font-size: 10px; font-family: arial, helvetica, san-serif; valign: top }
+    TD.author-text { color: #000000; font-size: 10px;
+                     font-family: verdana, charcoal, helvetica, arial, sans-serif }
+    TD.author { color: #000000; font-weight: bold; margin-left: 4em; font-size: 10px; font-family: verdana, charcoal, helvetica, arial, sans-serif }
+    A:link { color: #990000; font-size: 10px; text-transform: uppercase; font-weight: bold;
+             font-family: MS Sans Serif, verdana, charcoal, helvetica, arial, sans-serif }
+    A:visited { color: #333333; font-weight: bold; font-size: 10px; text-transform: uppercase;
+                font-family: MS Sans Serif, verdana, charcoal, helvetica, arial, sans-serif }
+    A:name { color: #333333; font-weight: bold; font-size: 10px; text-transform: uppercase;
+             font-family: MS Sans Serif, verdana, charcoal, helvetica, arial, sans-serif }
+    .link2 { color:#ffffff; font-weight: bold; text-decoration: none;
+             font-family: monaco, charcoal, geneva, MS Sans Serif, helvetica, monotype, verdana, sans-serif;
+             font-size: 9px }
+    .RFC { color:#666666; font-weight: bold; text-decoration: none;
+           font-family: monaco, charcoal, geneva, MS Sans Serif, helvetica, monotype, verdana, sans-serif;
+           font-size: 9px }
+    .hotText { color:#ffffff; font-weight: normal; text-decoration: none;
+               font-family: charcoal, monaco, geneva, MS Sans Serif, helvetica, monotype, verdana, sans-serif;
+               font-size: 9px }
+</style>
+</head>
+<body bgcolor="#ffffff"alink="#000000" vlink="#666666" link="#990000">
+<table width="66%" border="0" cellpadding="0" cellspacing="0"><tr><td><table width="100%" border="0" cellpadding="2" cellspacing="1">
+<tr valign="top"><td width="33%" bgcolor="#666666" class="header">Early Draft</td><td width="33%" bgcolor="#666666" class="header">K. MacLeod</td></tr>
+<tr valign="top"><td width="33%" bgcolor="#666666" class="header">method-calls</td><td width="33%" bgcolor="#666666" class="header">The Casbah Project</td></tr>
+<tr valign="top"><td width="33%" bgcolor="#666666" class="header">&nbsp;</td><td width="33%" bgcolor="#666666" class="header">October 1999</td></tr>
+</table></td></tr></table>
+<div align="right"><font face="monaco, MS Sans Serif" color="#990000" size="+3"><b><br><span class="title">Method Call Request Encoding as Objects</span></b></font></div>
+<font face="verdana, helvetica, arial, sans-serif" size="2">
+
+<h3>Abstract</h3>
+
+<p>
+This document describes a marshalling format for
+  procedure and method call requests and responses using dictionaries,
+  lists, and atomic values.  Procedure and method calls may include
+  the intended target or receiver of the request, the procedure or
+  method name, a request identifier, and call parameters or
+  arguments.
+</p>
+
+<a name="anchor1"><br><hr size="1" shade="0"></a>
+<h3>1.&nbsp;Introduction</h3>
+
+<p>
+This protocol is being developed as part of <a href="http://casbah.org/LDO/">LDO</a>, a framework for
+     handling data and distributed computing.  LDO itself is being
+     developed as part of <a href="http://casbah.org/">Casbah</a>, a language independent
+     environment for writing applications that access a wide variety
+     of data sources.  LDO supports other message protocols
+     addition to this protocol.
+</p>
+
+<p>
+The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL
+     NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and
+     "OPTIONAL" in this document are to be interpreted as described in
+     <a href="#refs.RFC2119">RFC 2119</a>[1].
+</p>
+
+<p>
+Within this draft, text enclosed within brackets (`[text]')
+    represents issues or incomplete specifications.
+</p>
+
+<h4><a name="anchor2">1.1</a>&nbsp;Examples of Method Call Requests</h4>
+
+<p>
+[Need to fill out this section.  Using Python/Opossum syntax.
+      Minimal RPC, object method on root, complex example.]
+</p>
+
+<a name="anchor3"><br><hr size="1" shade="0"></a>
+<h3>2.&nbsp;Requests</h3>
+
+<p>
+Requests are marshalled as dictionaries.  The "operation" and
+    "args" parameters are required, all other fields are optional.
+    All keys are unique, unordered, string values.
+</p>
+
+<p>
+[XML2RFC: this is an annoying style, find better style in RFCs
+    for option, argument, or parameter definitions.]
+</p>
+
+<blockquote class="text"><dl>
+
+<dt>operation</dt>
+<dd>
+MUST contain the string value
+      "reo:call".
+</dd>
+
+<dt>args</dt>
+<dd>
+A list containing the arguments or parameters
+      to the procedure or method call, which may be any type.
+</dd>
+
+<dt>method</dt>
+<dd>
+A value of any type identifying the
+      procedure or method to call.  Most implementations will use a
+      string value.  If not present, then the call is directed at the
+      default or implicit procedure of the target.
+</dd>
+
+<dt>target</dt>
+<dd>
+A value of any type identifying the
+      intended target or object to direct a method call to.  If not
+      present, then the call is directed at the default or implicit
+      target of the connection or session.
+</dd>
+
+<dt>call-id</dt>
+<dd>
+A value of any type identifying this
+      request.  The "call-id" can be used to implement asynchronous
+      operations or other call status operations.  The "call-id" of
+      the request will be returned as the "call-id" of the
+      response.  If a "call-id" is not present, then the call is
+      performed synchronously.
+</dd>
+
+</dl></blockquote>
+
+<p>
+[Issue: another field may be useful for systems that allow
+    named parameters.]
+</p>
+
+<p>
+[Issue: synchronous and asynchronous calls cannot be intermixed
+    in the same session or connection, right?]
+</p>
+
+<p>
+[Issue: "call-id" values are allowed on synchronous
+    connections, the mere presence of a "call-id" does not imply the
+    connection or session is asynchronous.  This should be stated
+    clearly.]
+</p>
+
+<a name="anchor4"><br><hr size="1" shade="0"></a>
+<h3>3.&nbsp;Responses</h3>
+
+<p>
+Responses are marshalled as dictionaries.  The "operation" field
+    is required, all other fields are optional.  All keys are unique,
+    unordered, string values.
+</p>
+
+<blockquote class="text"><dl>
+
+<dt>operation</dt>
+<dd>
+MUST contain the string value
+      "reo:result".
+</dd>
+
+<dt>result</dt>
+<dd>
+The value returned by the procedure or
+      method call, which may be of any type.  If not present, then the
+      call did not return a result, which is often the case if an
+      error field is also present.  A value for "result" may be
+      provided even if there is also a value for "error".
+</dd>
+
+<dt>error</dt>
+<dd>
+A value of any type identifying the error
+      result of the operation.  Most implementations will use a string
+      message for the error.  If an "error" field is present, this
+      indicates a partial or complete failure of the call.
+</dd>
+
+<dt>call-id</dt>
+<dd>
+A value of any type identifying this
+      response as the result for the call request with the same
+      "call-id".  If not present, then this response is a result of
+      the last request made.
+</dd>
+
+</dl></blockquote>
+
+<p>
+[Issue: as in requests, the semantics of "call-id" are not
+    written clearly for the case of present or not present
+    vs. synchronous or asynchronous.]
+</p>
+
+<p>
+[Issue: "error" does not distinguish operation (out-of-band)
+    errors and procedure or method call exceptions.  The previous
+    version of this doc had an operation "reo:operation-error" to
+    support non-procedure/method call errors.]
+</p>
+
+<p>
+[Issue: some systems allow results to contain multiple or named
+    values.]
+</p>
+
+<a name="anchor5"><br><hr size="1" shade="0"></a>
+<h3>4.&nbsp;Conformance and Interoperability</h3>
+
+<p>
+[need to fill out this section]
+</p>
+
+<a name="anchor6"><br><hr size="1" shade="0"></a>
+<h3>5.&nbsp;Security Considerations</h3>
+
+<p>
+[preliminary]
+</p>
+
+<ul class="text">
+
+<li>
+This protocol allows actions to be initiated.
+</li>
+
+<li>
+This protocol does not describe facilities for validating
+      request/reponse conformance to an interface.
+</li>
+
+<li>
+Requests and responses are unbounded in size or depth.
+</li>
+
+<li>
+Should reference work on firewall, proxy, and other security
+      specs.
+</li>
+
+</ul>
+<a name="rfc.references"><br><hr size="1" shade="0"></a>
+<h3>References</h3>
+<table width="99%" border="0">
+<tr><td class="author-text" valign="top"><b><a name="refs.RFC2119">[1]</a></b></td>
+<td class="author-text"><a href="mailto:sob@harvard.edu">Bradner, S.</a>, "<a href="http://info.internet.isi.edu/in-notes/rfc/files/rfc2119.txt">Key words for use in RFCs to Indicate Requirement Levels</a>", BCP 14, RFC 2119, March 1997.</td></tr>
+</table>
+
+<a name="rfc.authors"><br><hr size="1" shade="0"></a>
+<h3>Author's Address</h3>
+<table width="99%" border="0" cellpadding="0" cellspacing="0">
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">Ken MacLeod</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">The Casbah Project</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">1330 66th Street</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">Des Moines, IA  50311</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">US</td></tr>
+<tr><td class="author" align="right">Phone:&nbsp;</td>
+<td class="author-text">+1 515 279 0319</td></tr>
+<tr><td class="author" align="right">EMail:&nbsp;</td>
+<td class="author-text"><a href="mailto:ken@bitsko.slc.ut.us">ken@bitsko.slc.ut.us</a></td></tr>
+<tr><td class="author" align="right">URI:&nbsp;</td>
+<td class="author-text"><a href="http://casbah.org/LDO/">http://casbah.org/LDO/</a></td></tr>
+</table>
+
+<a name="anchor7"><br><hr size="1" shade="0"></a>
+<h3>Appendix A.&nbsp;Changes since Request Encoding as Objects</h3>
+
+<ul class="text">
+
+<li>
+The title of the document now reflects that these requests
+      are specifically method (or procedure) requests as opposed to
+      any other type of request that may be encoded as objects.
+</li>
+
+<li>
+Discussion of proxies and interfaces, and their operations,
+      have been removed.  Those will be addressed in seperate specs.
+      Proxy and interface requests will most likely become method
+      requests on special targets.
+</li>
+
+<li>
+The "reo:hello" and "reo:operation-error" operations have
+      been removed.  If need be, they will be addressed in a separate
+      spec dealing with configuration negotiation.  Note the issue in
+      the "Responses" section that "operation-error" also had provided
+      an out-of-band error that may not be clearly represented in an
+      in-band "reo:result" response.
+</li>
+
+<li>
+The "object" field of "reo:call" was renamed "target".
+</li>
+
+<li>
+The "target", "method", and "call-id" field value types are
+      relaxed to allow any value type.
+</li>
+
+<li>
+The "method" field is now optional, if it's missing then the
+      default or implicit method of the target is used.
+</li>
+
+</ul>
+</font></body></html>

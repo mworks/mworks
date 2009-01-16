@@ -1,0 +1,108 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+<!-- $Id: ldo.html,v 1.2 2000/03/09 17:43:26 kmacleod Exp $ -->
+<html>
+  <head>
+
+    <title>Scarab: Lightweight Distributed Objects (LDO)</title>
+
+    <META NAME="DC.Title" CONTENT="Scarab: Lightweight Distributed Objects (LDO)">
+    <META NAME="DC.Creator" CONTENT="The Casbah Project">
+    <META NAME="DC.Creator.Address" CONTENT="devel@casbah.org">
+    <META NAME="DC.Subject" CONTENT="open source communications framework, distributed computing, distributed objects, remote, rpc, xml, scripting, linux, unix, casbah, free">
+    <META NAME="DC.Publisher" CONTENT="The Casbah Project">
+    <META NAME="DC.Type" CONTENT="Text.Homepage.Organizational">
+    <META NAME="DC.Format" CONTENT="text/html">
+    <META NAME="DC.Identifier" CONTENT="http://casbah.org/">
+
+    <link rel="stylesheet" href="http://casbah.org/new_casbah.css" type="text/css" media="screen">
+
+  </head>
+
+  <body>
+
+  <table bgcolor="#d2b48c" border="0" cellpadding="4"
+   cellspacing="1" width="90%" class="navbar">
+    <tr>
+      <td>
+        <font face="Verdana, Lucida Sans, Arial, Helvetica,
+	             Geneva, sans-serif">
+	   <strong>Scarab:</strong> Lightweight Distributed Objects (LDO)
+        </font>
+      </td>
+    </tr>
+  </table>
+
+<!-- start of page table -->
+<TABLE WIDTH="100%" BORDER=0 CELLSPACING=0 CELLPADDING=0>
+<TR>
+<TD WIDTH=100 VALIGN=TOP BGCOLOR="#d2b48c">
+<!-- start of sidebar table -->
+<TABLE WIDTH="100%" BORDER=0 CELLSPACING=0 CELLPADDING=3
+       BGCOLOR="#ffffff">
+
+<!-- **** References **** -->
+<TR><TD BGCOLOR="#003366"><B><FONT COLOR="#ffffff">
+References
+</FONT></B></TD></TR>
+<TR><TD BGCOLOR="#d2b48c">
+<A HREF="method-calls.html">Method Calls</A>&nbsp;(<A HREF="method-calls.txt">txt</A>)
+</TD></TR>
+<TR><TD BGCOLOR="#d2b48c">
+<A HREF="ldo-types.html">Type naming and LDO Types</A>&nbsp;(<A HREF="ldo-types.txt">txt</A>)
+</TD></TR>
+<TR><TD BGCOLOR="#d2b48c">
+<A HREF="binary-serialization.html">Binary Serialization</A>&nbsp;(<A HREF="binary-serialization.txt">txt</A>)
+</TD></TR>
+<TR><TD BGCOLOR="#d2b48c">
+<A HREF="xml-serialization.html">XML Serialization</A>&nbsp;(<A HREF="xml-serialization.txt">txt</A>)
+</TD></TR>
+<!-- **** end of items **** -->
+
+</TABLE>
+<!-- end of sidebar cell -->
+
+<TD WIDTH=15>&nbsp;&nbsp;</TD><!--spacer-->
+
+<!-- start of body cell -->
+<TD VALIGN=TOP WIDTH="90%"><BR>
+
+<p>Scarab includes a reference protocol implementing distributed
+objects, called Lightweight Distributed Objects (LDO).  The various
+parts of the protocol are defined in the following documents:</p>
+
+<p>
+<dl><dt><a href="method-calls.html">Method Call Request Encoding as Objects</a>
+<dd>
+"Method Call REO" describes the way caller requests and responses are
+encoded as objects.  It establishes a set of responsibilities between
+the caller and the callee: the responsibility of the caller to use the
+naming required by the callee, and the responsibility of callee to
+validate request parameters and coerce parameters as necessary.</dl></p>
+
+<p>
+<dl><dt><a href="ldo-types.html">Type naming and LDO Types</a>
+<dd>
+"LDO Types" describes [should describe] the format for
+representing data type names, the object types and encoding for
+common inter-language types, communicating surrogate or remote
+objects (proxies), and formats for several language or
+scheme-specific type names.</dl></p>
+
+<p>
+<dl><dt><a href="binary-serialization.html">Binary Serialization</a>
+<dd>
+"LDO Binary Serialization" describes a compact, binary-encoded
+on-the-wire protocol.</dl></p>
+
+<p>
+<dl><dt><a href="xml-serialization.html">XML Serialization</a>
+<dd>
+"LDO XML Serialization" describes a plaintext, XML-encoded
+on-the-wire protocol.</dl></p>
+
+</TD><!-- end of body cell -->
+</TR><!-- end of sidebar/body row -->
+</TABLE><!-- end of page table -->
+
+  </body>
+</html>

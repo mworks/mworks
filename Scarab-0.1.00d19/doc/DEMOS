@@ -1,0 +1,138 @@
+$Id: DEMOS,v 1.2 2000/03/04 19:38:33 kmacleod Exp $
+
+The following demos are available for Lightweight Distributed Objects.
+Unless stated otherwise, the following demos are available in both
+Python and Perl.
+
+There are also real and demo clients and servers available elsewhere
+in CVS, the `cairo-perl' module is a server.
+
+echo-server
+
+    `echo-server' is a simple server with one method to echo back
+    whatever you send it.  `echo-server' creates a root (default)
+    object that has only one method: `echo'.  `echo' simply takes its
+    arguments and returns them as its results.
+
+    To run the Perl server, cd into the `Scarab/perl' directory and run:
+
+        $ perl echo-server.pl
+        connect to me on port 2776
+
+    `echo-server.pl' returns the port number that you'll use to
+    run clients with.
+
+    To run the Python server, cd into the `Scarab/python' directory and
+    run:
+
+        $ python echo-server.py
+
+    `echo-server.py' runs on port 50007 (because I haven't figured out
+    how to have Python pick an arbitrary port, `0' doesn't seem to do
+    it, write me if you know the answer).
+
+scarab
+
+    `scarab' is a generic client, its usage is:
+
+        perl scarab.pl HOST:PORT OBJECT METHOD [ARGS ...]
+        python scarab.py HOST:PORT OBJECT METHOD [ARGS ...]
+
+    where HOST:PORT is the host and port to connect to, like
+    `localhost:2776', OBJECT is the object name to send a method
+    request to, where `root' is the default, top-level object.  METHOD
+    is the METHOD to run, like `echo' for `echo-server' above.  And
+    ARGS are the arguments to send to the call.
+
+    The Perl and Python `scarab' clients both support their native (Perl
+    or Python) syntax for hashes/dictionaries and arrays.  If ARGS
+    contains non-word syntax characters like `[', `{', or `"', it will
+    be `eval'ed as a Perl or Python expression so you can send complex
+    objects.
+
+    Here are the results of calling `echo-server' above with Perl:
+
+    $ perl scarab.pl localhost:2776 root echo testing, 1 2 3
+    $result = 'testing,'
+
+    $ perl scarab.pl localhost:2776 root echo "testing, 1 2 3"
+    $result = 'testing, 1 2 3'
+
+    $ perl scarab.pl localhost:2776 root echo '{ testing => [ 1, 2, 3 ] }'
+    $result = HASH(0x81273ec)
+       'testing' => ARRAY(0x8127410)
+          0  1
+          1  2
+          2  3
+
+time-echo
+
+    `time-echo' is a performance test, its usage is:
+
+        perl scarab.pl HOST:PORT COUNT
+        python scarab.py HOST:PORT COUNT
+
+    where HOST:PORT is the host and port to connect to, like
+    `localhost:2776', and COUNT is the number of round-trips to make
+    (unoptimized Perl or Python takes about 5-10 seconds for 100 calls
+    on a 486/66).  `time-echo' will report the total number of seconds
+    for all calls and the milliseconds per call.
+
+perl/canvas.pl
+
+    This is a cool demo.  `canvas.pl' requires Perl/Tk (see install
+    and usage instructions below if you don't already have Perl/Tk).
+
+    `canvas.pl' creates a Perl/Tk Canvas object, makes it the ``root''
+    object of the connection, and then displays it on the screen.  You
+    can then have a client have the canvas object do anything
+    described in
+
+       <http://sunscript.sun.com/man/tcl7.6/TkCmd/canvas.n.html>
+
+    with one of my standard tests being:
+
+       $ perl scarab.pl localhost:2598 root create rectangle 100 100 200 200
+       $result = 1
+
+
+c/kbiff-strawman.c
+
+    `kbiff-strawman.c' is a non-working example of what an Scarab
+    server might look like if it were written in C.  Take a look and
+    post comments to the Casbah mailing list.
+
+
+Installing Perl/Tk
+
+    Perl/Tk has installed very easily for me on Linux and Solaris.
+    I've been using the Tk402.004 Perl module.  You can download it
+    from
+
+        <http://www.cpan.org/modules/by-module/Tk/Tk402.004.tar.gz>
+
+    It supports a standard Perl install, but I always install in my
+    home directory:
+
+        $ perl Makefile.PL PREFIX=$HOME/tk
+        [[ lots of output ]]
+        $ make
+        [[ lots of output, takes a few minutes ]]
+        $ make pure_install
+        [[ lots more output ]]
+
+    PREFIX=$HOME/tk tells Perl you're going to install it in your home
+    dir.  `make pure_install' is a special install target that works
+    around a bug when not installing in the standard Perl location.
+
+    After installing Perl/Tk in your home directory, you need to set
+    the `PERL5LIB' environment variable before running `canvas.pl':
+
+    In Bourne-shell like systems:
+
+        $ PERL5LIB=$HOME/tk/lib/perl5/site_perl
+        $ export PERL5LIB
+
+    In `csh'-like systems:
+
+        % setenv PERL5LIB $HOME/tk/lib/perl5/site_perl

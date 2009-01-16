@@ -1,0 +1,33 @@
+Scarab
+
+Scarab is a set of libraries implemented in several languages for sending
+XML and other messages over HTTP, TCP/IP, and other transport
+protocols.
+
+Scarab is very modular and supports several higher and lower level
+protocols in a consistent way.  All of the libraries are implemented
+with a similar API but tailored to the unique features of each
+language.
+
+This package contains modules for the following protocols and
+languages:
+
+
+Language   TCP/IP  HTTP  SOAP XML-RPC LDO-XML LDO-Binary
+Python       X                           X        X
+Perl         X                           X        X
+Java         X                                    X
+C                                                 X
+
+Current versions and mailing list archives are available at the Scarab
+web site, <http://Casbah.org/Scarab/>.
+
+Contributors
+
+Niel Bornstein <niel@casbah.org>
+Kendall Clark <kclark@ntlug.org>
+Wes Felter <wesf@cs.utexas.edu>
+Ken MacLeod <ken@bitsko.slc.ut.us>
+Scott Miller <scgmille@indiana.edu>
+Bijan Parsia <bparsia@email.unc.edu>
+Shawn Pearce <spearce@casbah.org>

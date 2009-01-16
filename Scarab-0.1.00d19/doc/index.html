@@ -1,0 +1,196 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+<!-- $Id: index.html,v 1.22 2000/03/06 20:54:22 kmacleod Exp $ -->
+<html>
+  <head>
+
+    <title>Scarab</title>
+
+    <META NAME="DC.Title" CONTENT="Scarab">
+    <META NAME="DC.Creator" CONTENT="The Casbah Project">
+    <META NAME="DC.Creator.Address" CONTENT="devel@casbah.org">
+    <META NAME="DC.Subject" CONTENT="open source communications framework, distributed computing, distributed objects, remote, rpc, xml, scripting, linux, unix, casbah, free">
+    <META NAME="DC.Publisher" CONTENT="The Casbah Project">
+    <META NAME="DC.Type" CONTENT="Text.Homepage.Organizational">
+    <META NAME="DC.Format" CONTENT="text/html">
+    <META NAME="DC.Identifier" CONTENT="http://casbah.org/">
+
+    <link rel="stylesheet" href="http://casbah.org/new_casbah.css" type="text/css" media="screen">
+
+  </head>
+
+  <body>
+
+  <table bgcolor="#d2b48c" border="0" cellpadding="4"
+   cellspacing="1" width="90%" class="navbar">
+    <tr>
+      <td>
+        <font face="Verdana, Lucida Sans, Arial, Helvetica,
+	             Geneva, sans-serif">
+	   <strong>Scarab:</strong> Open Source Communications Framework
+        </font>
+      </td>
+    </tr>
+  </table>
+
+<!-- start of page table -->
+<TABLE WIDTH="100%" BORDER=0 CELLSPACING=0 CELLPADDING=0>
+<TR>
+<TD WIDTH=100 VALIGN=TOP BGCOLOR="#d2b48c">
+<!-- start of sidebar table -->
+<TABLE WIDTH="100%" BORDER=0 CELLSPACING=0 CELLPADDING=3
+       BGCOLOR="#ffffff">
+
+<!-- **** About **** -->
+<TR><TD BGCOLOR="#003366"><B><FONT COLOR="#ffffff">
+About Scarab
+</FONT></B></TD></TR>
+<!-- <TR><TD BGCOLOR="#d2b48c">
+<A HREF="intro.html">Introduction</A>
+</TD></TR> -->
+<TR><TD BGCOLOR="#d2b48c">
+<A HREF="http://casbah.org/pipermail/devel/">Mailing List</A>
+</TD></TR>
+<TR><TD BGCOLOR="#d2b48c">
+<A HREF="Scarab-@VERSION@.tar.gz">Download</A>
+</TD></TR>
+<TR><TD BGCOLOR="#d2b48c">
+<A HREF="http://casbah.org/">Anonymous CVS</A>
+</TD></TR>
+<TR><TD BGCOLOR="#d2b48c">
+<A HREF="http://casbah.org/cgi-bin/cvsweb.cgi/Scarab/">Browse CVS</A>
+</TD></TR>
+<TR><TD BGCOLOR="#d2b48c">
+<A HREF="FAQ.html">Frequently Asked Questions</A>
+</TD></TR>
+<TR><TD BGCOLOR="#d2b48c">
+<A HREF="user-api.html">Scarab API</A>
+</TD></TR>
+<!--<TR><TD BGCOLOR="#d2b48c">
+<A HREF="">Links</A>
+</TD></TR>-->
+
+<!-- **** References **** -->
+<TR><TD BGCOLOR="#d2b48c">&nbsp;
+<TR><TD BGCOLOR="#003366"><B><FONT COLOR="#ffffff">
+References
+</FONT></B></TD></TR>
+<TR><TD BGCOLOR="#d2b48c">
+<A HREF="http://www.develop.com/SOAP/">SOAP</A>
+</TD></TR>
+<TR><TD BGCOLOR="#d2b48c">
+<A HREF="http://www.xmlrpc.com/">XML-RPC</A>
+</TD></TR>
+<TR><TD BGCOLOR="#d2b48c">
+<A HREF="http://wddx.org/">WDDX</A>
+</TD></TR>
+<TR><TD BGCOLOR="#d2b48c">
+<A HREF="ldo.html">LDO</A>
+</TD></TR>
+
+<!-- **** Applications **** -->
+<TR><TD BGCOLOR="#d2b48c">&nbsp;
+<TR><TD BGCOLOR="#003366"><B><FONT COLOR="#ffffff">
+Applications
+</FONT></B></TD></TR>
+<TR><TD BGCOLOR="#d2b48c">
+<A HREF="http://casbah.org/">Casbah</A>
+</TD></TR>
+
+</TABLE>
+<!-- end of sidebar cell -->
+
+<TD WIDTH=15>&nbsp;&nbsp;</TD><!--spacer-->
+
+<!-- start of body cell -->
+<TD VALIGN=TOP WIDTH="90%"><BR>
+
+ <p>Scarab is an open source communcations library implementing
+ protocols, formats, and interfaces for writing distributed
+ applications, with an emphasis on low-end and lightweight
+ implementations.  Users can combine Scarab module implementations to
+ build a messaging system to fit their needs, scaling from very simple
+ messaging or data transfer all the way up to where CORBA can take
+ over.  Scarab implementations include support for such areas as
+ distributed objects, remote procedure calls, XML messages, TCP
+ transport, and HTTP transport.</p>
+
+ <p>There are implementations of Scarab in Java, Python, Perl, and
+ C.</p>
+
+ <p>Scarab was initially developed to provide the <a
+ href="http://casbah.org/">Casbah Project</a> with an easy to
+ implement solution for distributing Casbah services among several
+ scripting and compiled languages without requiring predefined object
+ interfaces.</p>
+
+ <!-- <p>If you are not familiar with Scarab, please read the <a
+ href="intro.html">Introduction</a> before jumping to any of the
+ specifications.</p> -->
+
+ <p>The current version of the reference implementations of and
+ document sets for Scarab is @VERSION@.  Source is available as
+ gzipped tar file: <a
+ href="Scarab-@VERSION@.tar.gz">Scarab-@VERSION@.tar.gz</a></p>
+
+ <p>Future work:
+
+   <ul>
+     <li>specifications for transporting arbitrary XML messages
+
+     <li>specifications for using HTTP and other transports
+
+     <li>compression, encryption, authentication, and transport
+     negotiation to support them
+
+     <li>support for new protocols (SOAP, XML-RPC)
+
+     <li>support for interface definitions (IDL, WIDL, XSchema)
+
+     <li>implementation guides
+
+     <li>firewall proxy
+   </ul></p>
+
+<font size=5><b>Special Announcements</b></font><br>
+
+ <p><b>Where can you help?</b> Anywhere you want or can!  Adopt the
+ Perl or Python reference implementations or the web site.  Write new
+ implementations for different languages.  Create applications that
+ use Scarab.  Create simpler examples.  Write tutorials.  Evangelize.
+ Add support for new transports (HTTP, multiplexing, encryption,
+ compression).  Add support for new serialization formats (XML-RPC,
+ SOAP, WDDX, IIOP).  Submit bug reports, comments, and
+ suggestions!</p>
+
+<font size=5><b>News</b></font><br>
+
+<!-- **** Item **** -->
+<FONT SIZE=4 face="Helvetica,Arial"><B><A HREF="http://casbah.org/Scarab/">LDO library gets renamed Scarab</A></b></FONT><BR>
+
+<font size=2>March 4, 2000</font><BR>
+
+<font size=3>LDO has been split into two seperate entities, Scarab,
+the library implementing the framework, and LDO, a set of reference
+protocols implementing RPCs and distributed objects.</font><BR>
+
+<BR>
+<!-- **** Item **** -->
+<FONT SIZE=4 face="Helvetica,Arial"><B><A HREF="http://casbah.org/Scarab/xml-serialization.html">New XML Serialization draft</A></b></FONT><BR>
+
+<font size=2>October 6, 1999</font><BR>
+
+<font size=3>The XML Serialization spec has been updated and expanded.
+The specification has been converted to the Internet RFC XML DTD and
+uses xml2rfc to convert the XML to RFC and Internet Draft format.
+Please read this spec and post technical and editorial comments and
+suggestions to the mailing list.</font><BR>
+
+<BR>
+<!-- **** end of items **** -->
+
+</TD><!-- end of body cell -->
+</TR><!-- end of sidebar/body row -->
+</TABLE><!-- end of page table -->
+
+  </body>
+</html>

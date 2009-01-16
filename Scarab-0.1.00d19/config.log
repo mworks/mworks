@@ -1,0 +1,8 @@
+This file contains any messages produced by compilers while
+running configure, to aid debugging if configure makes a mistake.
+
+configure:555: checking for a BSD compatible install
+configure:610: checking for gzip
+configure:647: checking for tar
+configure:684: checking for perl5
+configure:684: checking for perl

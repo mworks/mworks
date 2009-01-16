@@ -1,0 +1,57 @@
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook V3.1//EN" [
+<!-- $Id: prolog.sgml,v 1.5 2000/03/04 19:38:33 kmacleod Exp $ -->
+
+<!-- binary-serialization.sgml -->
+
+<!ENTITY Major    "<literal>Major</literal>">
+<!ENTITY Minor    "<literal>Minor</literal>">
+<!ENTITY Length   "<literal>Length</literal>">
+<!ENTITY Id       "<literal>Id</literal>">
+<!ENTITY Integer  "<literal>Integer</literal>">
+<!ENTITY Mantissa "<literal>Mantissa</literal>">
+<!ENTITY Exponent "<literal>Exponent</literal>">
+<!ENTITY String   "<literal>String</literal>">
+
+<!ENTITY BER "<application>BER</application>">
+<!ENTITY LDO-Typing "<application>LDO Typing</application>">
+
+<!-- xml-serialization.sgml -->
+
+<!ENTITY dictionary "<literal>dictionary</literal>">
+<!ENTITY list       "<literal>list</literal>">
+<!--
+  All references to `scalar' should be replace by `atom'
+ <!ENTITY scalar     "<literal>scalar</literal>">
+ -->
+<!ENTITY atom       "<literal>atom</literal>">
+<!ENTITY ref        "<literal>ref</literal>">
+<!ENTITY id         "<literal>id</literal>">
+<!ENTITY ref-attr   "<literal>ref</literal>">
+<!ENTITY class      "<literal>class</literal>">
+<!ENTITY type       "<literal>type</literal>">
+<!ENTITY encoding   "<literal>encoding</literal>">
+<!ENTITY length     "<literal>length</literal>">
+<!ENTITY ldo-xml.dtd    SYSTEM "ldo-xml.dtd">
+
+<!-- req-enc-as-objs.sgml -->
+
+<!ENTITY leachAndSalzURL '<ulink url="http://casbah.org/cbRFC/misc/draft-leach-uuids-guids-01.txt">http://casbah.org/cbRFC/misc/draft-leach-uuids-guids-01.txt</ulink>'>
+<!ENTITY reo "Request Encoding as Objects">
+
+
+<!-- Casbah RFC entities -->
+
+<!ENTITY tcp "The Casbah Project">
+<!ENTITY c "Casbah">
+<!ENTITY capi "&c API Reference">
+<!ENTITY must "<emphasis role='required'>must</emphasis>">
+<!ENTITY may "<emphasis role='optional'>may</emphasis>">
+<!ENTITY mustnt "<emphasis role='prohibition'>must not</emphasis>">
+<!ENTITY should "<emphasis role='recommendation'>should</emphasis>">
+<!ENTITY shouldnt "<emphasis role='disuasion'>should not</emphasis>">
+<!ENTITY true "<emphasis role='returnfalse'>TRUE</emphasis>">
+<!ENTITY false "<emphasis role='returntrue'>FALSE</emphasis>">
+<!ENTITY mdash "---">
+<!ENTITY ndash " -- ">
+
+]>

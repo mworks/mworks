@@ -1,0 +1,122 @@
+============================== General ===============================
+
+CORBA, COM
+RMI http://www.java.sun.com/products/jdk/rmi/index.html
+http://www.w3.org/Protocols/HTTP-NG/
+http://www.inria.fr/rodeo/personnel/hoschka/asn1.html
+XML-RPC http://www.xml-rpc.com/
+http://www.ietf.org/internet-drafts/draft-brown-dcom-v1-spec-03.txt
+   The Distributed Component Object Model protocol is an
+   application-level protocol for object-oriented remote procedure
+   calls useful for distributed, component-based systems of all
+   types. It is a generic protocol layered on the distributed
+   computing environment (DCE) RPC specification and facilitates the
+   construction of task-specific communication protocols through
+   features such as: a platform neutral argument/parameter marshaling
+   format (NDR), the ability for objects to support multiple
+   interfaces with a safe, interface-level versioning scheme suited to
+   independent evolution by multiple parties, the ability to make
+   authenticated connections and to choose levels of channel security,
+   and a transport-neutral data representation for references
+   (including by-value) to objects.
+Tcl-DP http://www2.cs.cornell.edu/zeno/Projects/tcldp
+   A distributed programming extension to Tcl/Tk. Adds TCP and IP
+   connection management, RPC and distributed object support to
+   Tcl/Tk.
+
+======================== Data Representation =========================
+
+RFC 1014 XDR: External Data Representation Standard
+RFC 971 A SURVEY OF DATA REPRESENTATION STANDARDS
+http://www.java.sun.com/products/jdk/rmi/doc/serial-spec/protocol.doc.html
+Python's pickle.py
+ObjC?'s serialization (similar to pickle, tho)
+WDDX http://www.wddx.org/
+<http://www.dejanews.com/[ST_rn=qs]/getdoc.xp?AN=238231884> refers to
+   the following encodings among some other interesting notes:
+   1 - ASN.1 
+   2-63 - Reserved for IANA assignment for future versions of OSI ASN.*.
+      - For all ASN.* codings, the subcoding indicates what encoding
+        rules are in use as listed  below.
+
+        ASN.* SUBCODINGS
+        0 - reserved.
+        1 - BER ( Basic Encoding Rules [BER] ).
+        2 - DER ( Distinguished Encoding Rules [DER] ).
+        3 - PER ( Packed Encoding Rules ) Aligned.
+        4 - PER Unaligned.
+        5 - CER ( Canonical Encoding Rules ).
+        6 - SNMP Restricted BER
+        7-253 - available for IANA assignment to future OSI encoding
+             rules.
+        254 - private.  This subcoding will never be assigned to a
+             standard set of encoding rules. The OID will appear as
+             part of the data.
+RFC 1698 "ThinOSI Upper-Layers Cookbook" contains a reference to
+   compressed integers as part of BER/ASN.1
+http://www.ietf.org/internet-drafts/draft-low-sdr-00.txt
+   This document describes a human-readable, textual syntax for
+   representing self-describing structured data. This representation
+   was designed as a transfer syntax for loosely-coupled distributed
+   applications where one cannot depend on sender(s) and receiver(s)
+   sharing a schema for exchanged data. The syntax is compact,
+   expressive, intuitive, and simple to implement.
+
+================================ Perl ================================
+
+We Cope -- Web of Corba Perl
+David Muir Sharnoff's Async Server Library
+
+From the Perl module list:
+
+  Marshaling
+
+6) Data Types and Data Type Utilities (see also Database Interfaces)
+
+Class::
+::Eroot        RdpO  Eternal Root - Object persistence            DMR
+
+Ref            RdpO  Print, compare, and copy perl structures     MUIR
+
+Data Type Marshaling (converting to/from strings) and Persistent Storage
+
+Name           DSLI  Description                                  Info
+-----------    ----  -------------------------------------------- -----
+FreezeThaw     bdpf  Convert arbitrary objects to/from strings    ILYAZ
+Persistent     adpO  (not supported anymore, placeholder)         JPC
+Storable       bdcr  Persistent data structure mechanism          RAM !
+Marshal::
+::Dispatch     cdpO  Convert arbitrary objects to/from strings    MUIR
+::Packed       cdpO  Run-length coded version of Marshal module   MUIR
+::Eval         cdpO  Undo serialization with eval                 MUIR
+
+17) Archiving, Compression and Conversion
+
+Convert::
+::BER          adpO  Class for encoding/decoding BER messages     GBARR
+
+  RPC
+
+5) Networking, Device Control (modems) and InterProcess Communication
+
+RPC::                Remote Procedure Calls (see also DCE::RPC)
+::pServer      RdpO  Interface for building Perl Servers          JWIED
+::pClient      RdpO  Interface for building pServer Clients       JWIED
+::ONC          adcO  ONC RPC interface (works with perlrpcgen)    JAKE
+::Simple       adpO  Simple OO async remote procedure calls       DDUMONT
+
+DCE::                Distributed Computing Environment (OSF)
+::RPC          c     Remote Procedure Calls                       PHENSON
+
+Proxy          i     Transport-independent remote processing      MICB
+Proxy::
+::Tk           ?     Tk transport class for Proxy (part of Tk)    MICB
+
+============================== Python ==============================
+
+pickle.py
+marshal built-in
+DO-sig
+Fnorb (CORBA)
+Paos <http://www.cs.colorado.edu/~carlosm/software.html>
+Bobo
