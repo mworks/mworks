@@ -1,0 +1,502 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 44;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		5C23D5420D8827670044AC9E /* MWStringTruncateValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C23D5410D8827670044AC9E /* MWStringTruncateValueTransformer.m */; };
+		5C23D5640D882FFA0044AC9E /* MonkeyWorksCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C23D5630D882FFA0044AC9E /* MonkeyWorksCocoa.framework */; };
+		5C23D6770D8878810044AC9E /* MWExperimentPlayStopIconTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C23D6760D8878810044AC9E /* MWExperimentPlayStopIconTransformer.m */; };
+		5C23D8F60D8B27E50044AC9E /* MWCodec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C23D8F50D8B27E50044AC9E /* MWCodec.m */; };
+		5C55E10D0D8E00A8000E1CB5 /* NSMenuExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C55E10C0D8E00A8000E1CB5 /* NSMenuExtensions.m */; };
+		5C6DA5130DEF2237005E496A /* MWGroupedPluginWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C6DA5120DEF2237005E496A /* MWGroupedPluginWindowController.m */; };
+		5C6DA5150DEF22F7005E496A /* GroupedPluginsWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5C6DA5140DEF22F7005E496A /* GroupedPluginsWindow.xib */; };
+		5CD6D2E40D96C20A0042051C /* FileServer_Off.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5CD6D2E20D96C20A0042051C /* FileServer_Off.tiff */; };
+		5CD6D2E50D96C20A0042051C /* FileServer_On.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5CD6D2E30D96C20A0042051C /* FileServer_On.tiff */; };
+		5CD6D3130D96C57E0042051C /* NotConnected.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5CD6D3120D96C57E0042051C /* NotConnected.tiff */; };
+		5CD6D4390D9751580042051C /* MWErrorColorTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CD6D4380D9751580042051C /* MWErrorColorTransformer.m */; };
+		5CDBF29D0DF0FB7700FA9A64 /* MWNotebook.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CDBF29C0DF0FB7700FA9A64 /* MWNotebook.m */; };
+		5CE19A7E0D86DC9D007E2ABA /* KBPopupButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CE19A7D0D86DC9D007E2ABA /* KBPopupButton.m */; };
+		5CEDF82C0D85D7550044D738 /* Clear.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5CEDF8190D85D7550044D738 /* Clear.tiff */; };
+		5CEDF82D0D85D7550044D738 /* ClientConnected.tif in Resources */ = {isa = PBXBuildFile; fileRef = 5CEDF81A0D85D7550044D738 /* ClientConnected.tif */; };
+		5CEDF82E0D85D7550044D738 /* ClientNotConnected.tif in Resources */ = {isa = PBXBuildFile; fileRef = 5CEDF81B0D85D7550044D738 /* ClientNotConnected.tif */; };
+		5CEDF82F0D85D7550044D738 /* ClientProgramIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 5CEDF81C0D85D7550044D738 /* ClientProgramIcon.icns */; };
+		5CEDF8300D85D7550044D738 /* CommandKeyGlyph_nib.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5CEDF81D0D85D7550044D738 /* CommandKeyGlyph_nib.tiff */; };
+		5CEDF8310D85D7550044D738 /* ComputerTBIcon.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5CEDF81E0D85D7550044D738 /* ComputerTBIcon.tiff */; };
+		5CEDF8320D85D7550044D738 /* Console.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5CEDF81F0D85D7550044D738 /* Console.tiff */; };
+		5CEDF8330D85D7550044D738 /* errorGlyph.tif in Resources */ = {isa = PBXBuildFile; fileRef = 5CEDF8200D85D7550044D738 /* errorGlyph.tif */; };
+		5CEDF8340D85D7550044D738 /* InfoTBIcon.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5CEDF8210D85D7550044D738 /* InfoTBIcon.tiff */; };
+		5CEDF8350D85D7550044D738 /* InstallerLarge.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5CEDF8220D85D7550044D738 /* InstallerLarge.tiff */; };
+		5CEDF8360D85D7550044D738 /* NoX.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5CEDF8230D85D7550044D738 /* NoX.tiff */; };
+		5CEDF8370D85D7550044D738 /* OkCheck.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5CEDF8240D85D7550044D738 /* OkCheck.tiff */; };
+		5CEDF8380D85D7550044D738 /* OpenExperimentTBIcon.tif in Resources */ = {isa = PBXBuildFile; fileRef = 5CEDF8250D85D7550044D738 /* OpenExperimentTBIcon.tif */; };
+		5CEDF8390D85D7550044D738 /* OptionKeyGlyph_nib.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5CEDF8260D85D7550044D738 /* OptionKeyGlyph_nib.tiff */; };
+		5CEDF83A0D85D7550044D738 /* PauseTBIcon.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5CEDF8270D85D7550044D738 /* PauseTBIcon.tiff */; };
+		5CEDF83B0D85D7550044D738 /* RunTBIcon.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5CEDF8280D85D7550044D738 /* RunTBIcon.tiff */; };
+		5CEDF83C0D85D7550044D738 /* ShifteyGlyph_nib.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5CEDF8290D85D7550044D738 /* ShifteyGlyph_nib.tiff */; };
+		5CEDF83D0D85D7550044D738 /* StopTBIcon.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5CEDF82A0D85D7550044D738 /* StopTBIcon.tiff */; };
+		5CEDF83E0D85D7550044D738 /* warningGlyph.tif in Resources */ = {isa = PBXBuildFile; fileRef = 5CEDF82B0D85D7550044D738 /* warningGlyph.tif */; };
+		5CEDF85D0D85E49D0044D738 /* MWClientInstance.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CEDF85C0D85E49D0044D738 /* MWClientInstance.m */; };
+		5CEDF8F10D86247F0044D738 /* AppController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CEDF8F00D86247F0044D738 /* AppController.m */; };
+		5CEDF93E0D862FC60044D738 /* MonkeyWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CEDF93D0D862FC60044D738 /* MonkeyWorksCore.framework */; };
+		5CEDFA7C0D86C8C90044D738 /* MWServerConnectedIconTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CEDFA7B0D86C8C90044D738 /* MWServerConnectedIconTransformer.m */; };
+		5CF675C00DF58FF5006C80D5 /* candybar.tif in Resources */ = {isa = PBXBuildFile; fileRef = 5CF675BF0DF58FF5006C80D5 /* candybar.tif */; };
+		8D11072A0486CEB800E47090 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 29B97318FDCFA39411CA2CEA /* MainMenu.nib */; };
+		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
+		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
+		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		13E42FB307B3F0F600E4EEF1 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
+		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		29B97319FDCFA39411CA2CEA /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/MainMenu.nib; sourceTree = "<group>"; };
+		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
+		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		32CA4F630368D1EE00C91783 /* New Client_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "New Client_Prefix.pch"; sourceTree = "<group>"; };
+		5C23D5400D8827670044AC9E /* MWStringTruncateValueTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWStringTruncateValueTransformer.h; sourceTree = "<group>"; };
+		5C23D5410D8827670044AC9E /* MWStringTruncateValueTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWStringTruncateValueTransformer.m; sourceTree = "<group>"; };
+		5C23D5630D882FFA0044AC9E /* MonkeyWorksCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MonkeyWorksCocoa.framework; path = /Library/Frameworks/MonkeyWorksCocoa.framework; sourceTree = "<absolute>"; };
+		5C23D6750D8878810044AC9E /* MWExperimentPlayStopIconTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWExperimentPlayStopIconTransformer.h; sourceTree = "<group>"; };
+		5C23D6760D8878810044AC9E /* MWExperimentPlayStopIconTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWExperimentPlayStopIconTransformer.m; sourceTree = "<group>"; };
+		5C23D8F40D8B27E50044AC9E /* MWCodec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWCodec.h; sourceTree = "<group>"; };
+		5C23D8F50D8B27E50044AC9E /* MWCodec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWCodec.m; sourceTree = "<group>"; };
+		5C55E10B0D8E00A8000E1CB5 /* NSMenuExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSMenuExtensions.h; sourceTree = "<group>"; };
+		5C55E10C0D8E00A8000E1CB5 /* NSMenuExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSMenuExtensions.m; sourceTree = "<group>"; };
+		5C6DA5110DEF2237005E496A /* MWGroupedPluginWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWGroupedPluginWindowController.h; sourceTree = "<group>"; };
+		5C6DA5120DEF2237005E496A /* MWGroupedPluginWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWGroupedPluginWindowController.m; sourceTree = "<group>"; };
+		5C6DA5140DEF22F7005E496A /* GroupedPluginsWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GroupedPluginsWindow.xib; sourceTree = "<group>"; };
+		5CD6D2E20D96C20A0042051C /* FileServer_Off.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = FileServer_Off.tiff; path = Images/FileServer_Off.tiff; sourceTree = "<group>"; };
+		5CD6D2E30D96C20A0042051C /* FileServer_On.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = FileServer_On.tiff; path = Images/FileServer_On.tiff; sourceTree = "<group>"; };
+		5CD6D3120D96C57E0042051C /* NotConnected.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = NotConnected.tiff; path = Images/NotConnected.tiff; sourceTree = "<group>"; };
+		5CD6D4370D9751580042051C /* MWErrorColorTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWErrorColorTransformer.h; sourceTree = "<group>"; };
+		5CD6D4380D9751580042051C /* MWErrorColorTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWErrorColorTransformer.m; sourceTree = "<group>"; };
+		5CDBF29B0DF0FB7700FA9A64 /* MWNotebook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWNotebook.h; sourceTree = "<group>"; };
+		5CDBF29C0DF0FB7700FA9A64 /* MWNotebook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWNotebook.m; sourceTree = "<group>"; };
+		5CE19A7C0D86DC9D007E2ABA /* KBPopupButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KBPopupButton.h; sourceTree = "<group>"; };
+		5CE19A7D0D86DC9D007E2ABA /* KBPopupButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBPopupButton.m; sourceTree = "<group>"; };
+		5CEDF8190D85D7550044D738 /* Clear.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = Clear.tiff; path = Images/Clear.tiff; sourceTree = "<group>"; };
+		5CEDF81A0D85D7550044D738 /* ClientConnected.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = ClientConnected.tif; path = Images/ClientConnected.tif; sourceTree = "<group>"; };
+		5CEDF81B0D85D7550044D738 /* ClientNotConnected.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = ClientNotConnected.tif; path = Images/ClientNotConnected.tif; sourceTree = "<group>"; };
+		5CEDF81C0D85D7550044D738 /* ClientProgramIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = ClientProgramIcon.icns; path = Images/ClientProgramIcon.icns; sourceTree = "<group>"; };
+		5CEDF81D0D85D7550044D738 /* CommandKeyGlyph_nib.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = CommandKeyGlyph_nib.tiff; path = Images/CommandKeyGlyph_nib.tiff; sourceTree = "<group>"; };
+		5CEDF81E0D85D7550044D738 /* ComputerTBIcon.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = ComputerTBIcon.tiff; path = Images/ComputerTBIcon.tiff; sourceTree = "<group>"; };
+		5CEDF81F0D85D7550044D738 /* Console.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = Console.tiff; path = Images/Console.tiff; sourceTree = "<group>"; };
+		5CEDF8200D85D7550044D738 /* errorGlyph.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = errorGlyph.tif; path = Images/errorGlyph.tif; sourceTree = "<group>"; };
+		5CEDF8210D85D7550044D738 /* InfoTBIcon.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = InfoTBIcon.tiff; path = Images/InfoTBIcon.tiff; sourceTree = "<group>"; };
+		5CEDF8220D85D7550044D738 /* InstallerLarge.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = InstallerLarge.tiff; path = Images/InstallerLarge.tiff; sourceTree = "<group>"; };
+		5CEDF8230D85D7550044D738 /* NoX.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = NoX.tiff; path = Images/NoX.tiff; sourceTree = "<group>"; };
+		5CEDF8240D85D7550044D738 /* OkCheck.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = OkCheck.tiff; path = Images/OkCheck.tiff; sourceTree = "<group>"; };
+		5CEDF8250D85D7550044D738 /* OpenExperimentTBIcon.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = OpenExperimentTBIcon.tif; path = Images/OpenExperimentTBIcon.tif; sourceTree = "<group>"; };
+		5CEDF8260D85D7550044D738 /* OptionKeyGlyph_nib.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = OptionKeyGlyph_nib.tiff; path = Images/OptionKeyGlyph_nib.tiff; sourceTree = "<group>"; };
+		5CEDF8270D85D7550044D738 /* PauseTBIcon.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = PauseTBIcon.tiff; path = Images/PauseTBIcon.tiff; sourceTree = "<group>"; };
+		5CEDF8280D85D7550044D738 /* RunTBIcon.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = RunTBIcon.tiff; path = Images/RunTBIcon.tiff; sourceTree = "<group>"; };
+		5CEDF8290D85D7550044D738 /* ShifteyGlyph_nib.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = ShifteyGlyph_nib.tiff; path = Images/ShifteyGlyph_nib.tiff; sourceTree = "<group>"; };
+		5CEDF82A0D85D7550044D738 /* StopTBIcon.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = StopTBIcon.tiff; path = Images/StopTBIcon.tiff; sourceTree = "<group>"; };
+		5CEDF82B0D85D7550044D738 /* warningGlyph.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = warningGlyph.tif; path = Images/warningGlyph.tif; sourceTree = "<group>"; };
+		5CEDF85B0D85E49D0044D738 /* MWClientInstance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWClientInstance.h; sourceTree = "<group>"; };
+		5CEDF85C0D85E49D0044D738 /* MWClientInstance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWClientInstance.m; sourceTree = "<group>"; };
+		5CEDF8EF0D86247F0044D738 /* AppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppController.h; sourceTree = "<group>"; };
+		5CEDF8F00D86247F0044D738 /* AppController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppController.m; sourceTree = "<group>"; };
+		5CEDF93D0D862FC60044D738 /* MonkeyWorksCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MonkeyWorksCore.framework; path = /Library/Frameworks/MonkeyWorksCore.framework; sourceTree = "<absolute>"; };
+		5CEDFA7A0D86C8C90044D738 /* MWServerConnectedIconTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWServerConnectedIconTransformer.h; sourceTree = "<group>"; };
+		5CEDFA7B0D86C8C90044D738 /* MWServerConnectedIconTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWServerConnectedIconTransformer.m; sourceTree = "<group>"; };
+		5CF675BF0DF58FF5006C80D5 /* candybar.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = candybar.tif; path = Images/candybar.tif; sourceTree = "<group>"; };
+		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8D1107320486CEB800E47090 /* MWClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MWClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8D11072E0486CEB800E47090 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
+				5CEDF93E0D862FC60044D738 /* MonkeyWorksCore.framework in Frameworks */,
+				5C23D5640D882FFA0044AC9E /* MonkeyWorksCocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		080E96DDFE201D6D7F000001 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				5C55E10A0D8E007A000E1CB5 /* Extensions */,
+				5CE19A5C0D86D8AA007E2ABA /* BorrowedClasses */,
+				5CEDFA790D86C8A00044D738 /* ValueTransformers */,
+				5CEDF85B0D85E49D0044D738 /* MWClientInstance.h */,
+				5CEDF85C0D85E49D0044D738 /* MWClientInstance.m */,
+				5CEDF8EF0D86247F0044D738 /* AppController.h */,
+				5CEDF8F00D86247F0044D738 /* AppController.m */,
+				5C23D8F40D8B27E50044AC9E /* MWCodec.h */,
+				5C23D8F50D8B27E50044AC9E /* MWCodec.m */,
+				5C6DA5110DEF2237005E496A /* MWGroupedPluginWindowController.h */,
+				5C6DA5120DEF2237005E496A /* MWGroupedPluginWindowController.m */,
+				5CDBF29B0DF0FB7700FA9A64 /* MWNotebook.h */,
+				5CDBF29C0DF0FB7700FA9A64 /* MWNotebook.m */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
+			);
+			name = "Linked Frameworks";
+			sourceTree = "<group>";
+		};
+		1058C7A2FEA54F0111CA2CBB /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				29B97324FDCFA39411CA2CEA /* AppKit.framework */,
+				13E42FB307B3F0F600E4EEF1 /* CoreData.framework */,
+				29B97325FDCFA39411CA2CEA /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		19C28FACFE9D520D11CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8D1107320486CEB800E47090 /* MWClient.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		29B97314FDCFA39411CA2CEA /* New Client */ = {
+			isa = PBXGroup;
+			children = (
+				080E96DDFE201D6D7F000001 /* Classes */,
+				29B97315FDCFA39411CA2CEA /* Other Sources */,
+				29B97317FDCFA39411CA2CEA /* Resources */,
+				29B97323FDCFA39411CA2CEA /* Frameworks */,
+				19C28FACFE9D520D11CA2CBB /* Products */,
+			);
+			name = "New Client";
+			sourceTree = "<group>";
+		};
+		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				32CA4F630368D1EE00C91783 /* New Client_Prefix.pch */,
+				29B97316FDCFA39411CA2CEA /* main.m */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		29B97317FDCFA39411CA2CEA /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				5C6DA5140DEF22F7005E496A /* GroupedPluginsWindow.xib */,
+				5CEDF8180D85D7400044D738 /* Images */,
+				8D1107310486CEB800E47090 /* Info.plist */,
+				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
+				29B97318FDCFA39411CA2CEA /* MainMenu.nib */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				5C23D5630D882FFA0044AC9E /* MonkeyWorksCocoa.framework */,
+				5CEDF93D0D862FC60044D738 /* MonkeyWorksCore.framework */,
+				1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */,
+				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		5C55E10A0D8E007A000E1CB5 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				5C55E10B0D8E00A8000E1CB5 /* NSMenuExtensions.h */,
+				5C55E10C0D8E00A8000E1CB5 /* NSMenuExtensions.m */,
+			);
+			name = Extensions;
+			sourceTree = "<group>";
+		};
+		5CE19A5C0D86D8AA007E2ABA /* BorrowedClasses */ = {
+			isa = PBXGroup;
+			children = (
+				5CE19A7C0D86DC9D007E2ABA /* KBPopupButton.h */,
+				5CE19A7D0D86DC9D007E2ABA /* KBPopupButton.m */,
+			);
+			name = BorrowedClasses;
+			sourceTree = "<group>";
+		};
+		5CEDF8180D85D7400044D738 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				5CF675BF0DF58FF5006C80D5 /* candybar.tif */,
+				5CD6D3120D96C57E0042051C /* NotConnected.tiff */,
+				5CD6D2E20D96C20A0042051C /* FileServer_Off.tiff */,
+				5CD6D2E30D96C20A0042051C /* FileServer_On.tiff */,
+				5CEDF8190D85D7550044D738 /* Clear.tiff */,
+				5CEDF81A0D85D7550044D738 /* ClientConnected.tif */,
+				5CEDF81B0D85D7550044D738 /* ClientNotConnected.tif */,
+				5CEDF81C0D85D7550044D738 /* ClientProgramIcon.icns */,
+				5CEDF81D0D85D7550044D738 /* CommandKeyGlyph_nib.tiff */,
+				5CEDF81E0D85D7550044D738 /* ComputerTBIcon.tiff */,
+				5CEDF81F0D85D7550044D738 /* Console.tiff */,
+				5CEDF8200D85D7550044D738 /* errorGlyph.tif */,
+				5CEDF8210D85D7550044D738 /* InfoTBIcon.tiff */,
+				5CEDF8220D85D7550044D738 /* InstallerLarge.tiff */,
+				5CEDF8230D85D7550044D738 /* NoX.tiff */,
+				5CEDF8240D85D7550044D738 /* OkCheck.tiff */,
+				5CEDF8250D85D7550044D738 /* OpenExperimentTBIcon.tif */,
+				5CEDF8260D85D7550044D738 /* OptionKeyGlyph_nib.tiff */,
+				5CEDF8270D85D7550044D738 /* PauseTBIcon.tiff */,
+				5CEDF8280D85D7550044D738 /* RunTBIcon.tiff */,
+				5CEDF8290D85D7550044D738 /* ShifteyGlyph_nib.tiff */,
+				5CEDF82A0D85D7550044D738 /* StopTBIcon.tiff */,
+				5CEDF82B0D85D7550044D738 /* warningGlyph.tif */,
+			);
+			name = Images;
+			sourceTree = "<group>";
+		};
+		5CEDFA790D86C8A00044D738 /* ValueTransformers */ = {
+			isa = PBXGroup;
+			children = (
+				5CEDFA7A0D86C8C90044D738 /* MWServerConnectedIconTransformer.h */,
+				5CEDFA7B0D86C8C90044D738 /* MWServerConnectedIconTransformer.m */,
+				5C23D5400D8827670044AC9E /* MWStringTruncateValueTransformer.h */,
+				5C23D5410D8827670044AC9E /* MWStringTruncateValueTransformer.m */,
+				5C23D6750D8878810044AC9E /* MWExperimentPlayStopIconTransformer.h */,
+				5C23D6760D8878810044AC9E /* MWExperimentPlayStopIconTransformer.m */,
+				5CD6D4370D9751580042051C /* MWErrorColorTransformer.h */,
+				5CD6D4380D9751580042051C /* MWErrorColorTransformer.m */,
+			);
+			name = ValueTransformers;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8D1107260486CEB800E47090 /* MWClient */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "MWClient" */;
+			buildPhases = (
+				8D1107290486CEB800E47090 /* Resources */,
+				8D11072C0486CEB800E47090 /* Sources */,
+				8D11072E0486CEB800E47090 /* Frameworks */,
+				5C1239440D91A55700B5FA1F /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MWClient;
+			productInstallPath = "$(HOME)/Applications";
+			productName = "New Client";
+			productReference = 8D1107320486CEB800E47090 /* MWClient.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		29B97313FDCFA39411CA2CEA /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "New Client" */;
+			compatibilityVersion = "Xcode 3.0";
+			hasScannedForEncodings = 1;
+			mainGroup = 29B97314FDCFA39411CA2CEA /* New Client */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8D1107260486CEB800E47090 /* MWClient */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8D1107290486CEB800E47090 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D11072A0486CEB800E47090 /* MainMenu.nib in Resources */,
+				8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */,
+				5CEDF82C0D85D7550044D738 /* Clear.tiff in Resources */,
+				5CEDF82D0D85D7550044D738 /* ClientConnected.tif in Resources */,
+				5CEDF82E0D85D7550044D738 /* ClientNotConnected.tif in Resources */,
+				5CEDF82F0D85D7550044D738 /* ClientProgramIcon.icns in Resources */,
+				5CEDF8300D85D7550044D738 /* CommandKeyGlyph_nib.tiff in Resources */,
+				5CEDF8310D85D7550044D738 /* ComputerTBIcon.tiff in Resources */,
+				5CEDF8320D85D7550044D738 /* Console.tiff in Resources */,
+				5CEDF8330D85D7550044D738 /* errorGlyph.tif in Resources */,
+				5CEDF8340D85D7550044D738 /* InfoTBIcon.tiff in Resources */,
+				5CEDF8350D85D7550044D738 /* InstallerLarge.tiff in Resources */,
+				5CEDF8360D85D7550044D738 /* NoX.tiff in Resources */,
+				5CEDF8370D85D7550044D738 /* OkCheck.tiff in Resources */,
+				5CEDF8380D85D7550044D738 /* OpenExperimentTBIcon.tif in Resources */,
+				5CEDF8390D85D7550044D738 /* OptionKeyGlyph_nib.tiff in Resources */,
+				5CEDF83A0D85D7550044D738 /* PauseTBIcon.tiff in Resources */,
+				5CEDF83B0D85D7550044D738 /* RunTBIcon.tiff in Resources */,
+				5CEDF83C0D85D7550044D738 /* ShifteyGlyph_nib.tiff in Resources */,
+				5CEDF83D0D85D7550044D738 /* StopTBIcon.tiff in Resources */,
+				5CEDF83E0D85D7550044D738 /* warningGlyph.tif in Resources */,
+				5CD6D2E40D96C20A0042051C /* FileServer_Off.tiff in Resources */,
+				5CD6D2E50D96C20A0042051C /* FileServer_On.tiff in Resources */,
+				5CD6D3130D96C57E0042051C /* NotConnected.tiff in Resources */,
+				5C6DA5150DEF22F7005E496A /* GroupedPluginsWindow.xib in Resources */,
+				5CF675C00DF58FF5006C80D5 /* candybar.tif in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		5C1239440D91A55700B5FA1F /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "rm -dfR \"/Applications/MWClient.app\"\ncp -Rf \"$BUILT_PRODUCTS_DIR/MWClient.app\" \"/Applications/\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8D11072C0486CEB800E47090 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D11072D0486CEB800E47090 /* main.m in Sources */,
+				5CEDF85D0D85E49D0044D738 /* MWClientInstance.m in Sources */,
+				5CEDF8F10D86247F0044D738 /* AppController.m in Sources */,
+				5CEDFA7C0D86C8C90044D738 /* MWServerConnectedIconTransformer.m in Sources */,
+				5CE19A7E0D86DC9D007E2ABA /* KBPopupButton.m in Sources */,
+				5C23D5420D8827670044AC9E /* MWStringTruncateValueTransformer.m in Sources */,
+				5C23D6770D8878810044AC9E /* MWExperimentPlayStopIconTransformer.m in Sources */,
+				5C23D8F60D8B27E50044AC9E /* MWCodec.m in Sources */,
+				5C55E10D0D8E00A8000E1CB5 /* NSMenuExtensions.m in Sources */,
+				5CD6D4390D9751580042051C /* MWErrorColorTransformer.m in Sources */,
+				5C6DA5130DEF2237005E496A /* MWGroupedPluginWindowController.m in Sources */,
+				5CDBF29D0DF0FB7700FA9A64 /* MWNotebook.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		089C165CFE840E0CC02AAC07 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				089C165DFE840E0CC02AAC07 /* English */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		29B97318FDCFA39411CA2CEA /* MainMenu.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				29B97319FDCFA39411CA2CEA /* English */,
+			);
+			name = MainMenu.nib;
+			sourceTree = SOURCE_ROOT;
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		C01FCF4B08A954540054247B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = /Library/Frameworks;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_ENABLE_OBJC_GC = supported;
+				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
+				GCC_OBJC_CALL_CXX_CDTORS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "New Client_Prefix.pch";
+				HEADER_SEARCH_PATHS = /Library/MonkeyWorks/include;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Applications";
+				LIBRARY_SEARCH_PATHS = /Library/MonkeyWorks/lib;
+				PRODUCT_NAME = MWClient;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		C01FCF4C08A954540054247B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "New Client_Prefix.pch";
+				HEADER_SEARCH_PATHS = /Library/MonkeyWorks/include;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Applications";
+				LIBRARY_SEARCH_PATHS = /Library/MonkeyWorks/lib;
+				OTHER_LDFLAGS = "-lboost";
+				PRODUCT_NAME = "New Client";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		C01FCF4F08A954540054247B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				PREBINDING = NO;
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
+			};
+			name = Debug;
+		};
+		C01FCF5008A954540054247B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				PREBINDING = NO;
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "MWClient" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C01FCF4B08A954540054247B /* Debug */,
+				C01FCF4C08A954540054247B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "New Client" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C01FCF4F08A954540054247B /* Debug */,
+				C01FCF5008A954540054247B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 29B97313FDCFA39411CA2CEA /* Project object */;
+}
