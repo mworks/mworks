@@ -1,0 +1,17 @@
+Title ITC Driver for MacOSX 10.4 (PPC and Intel platforms)
+Version 
+Description Install ITC Driver and Library
+DefaultLocation /
+DeleteWarning 
+
+### Package Flags
+
+NeedsAuthorization YES
+Required NO
+Relocatable NO
+RequiresReboot NO
+UseUserMask NO
+OverwritePermissions NO
+InstallFat NO
+RootVolumeOnly NO
+OnlyUpdateInstalledLanguages NO

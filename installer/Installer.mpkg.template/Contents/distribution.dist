@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<installer-gui-script minSpecVersion="1.0">
+    <title>MonkeyWorks</title>
+    <welcome file="Welcome.txt"></welcome>
+    <background file="background.pdf" scaling="none" alignment="topleft"></background>
+    <options allow-external-scripts="no" customize="never" rootVolumeOnly="false"></options>
+    <script>
+/* js:pkmk:start */
+function installationCheckRAM() {
+	return  checkMemsize() ;
+}
+/* js:pkmk:end */
+
+
+/* js:pkmk:start */
+function checkMemsize() {
+	var result = false;
+	try {
+		result = system.sysctl('hw.memsize') >= '134217728';
+	} catch (e) {}
+	
+	if(!result) {
+		my.result.type = 'Warn';
+		my.result.title = 'Memory Warning';
+		my.result.message = 'You have less than 128 MB of RAM.';
+	}
+	return result;
+}
+/* js:pkmk:end */
+
+
+/* ******* DO NOT EDIT ANYTHING BELOW THIS LINE ******* */
+/* THE TEXT BELOW IS THE DEFINITION FOR THE REQUIREMENTS EDITOR */
+
+/*
+ %%%Requirements Editor%%%
+ {
+	 clauses = (
+				{
+					anyOrAll = 2; 
+					connector = ""; 
+					msg = "You have less than 128 MB of RAM."; 
+					msgTitle = "Memory Warning"; 
+					rules = (
+							 {
+								 argumentField = "hw.memsize"; 
+								 argumentStringField = ""; 
+								 booleanType = true; 
+								 choiceProperty = enabled; 
+								 comboType = ""; 
+								 comparator = ">="; 
+								 mainChoice = "Result of Sysctl"; 
+								 numberType = ""; 
+								 pathField = ""; 
+								 pathKeyKeyField = ""; 
+								 pathKeyPathField = ""; 
+								 specificChoice = choice0; 
+								 stringType = 134217728; 
+							 }
+							 ); 
+					title = "Check memsize"; 
+					type = 2; 
+				}
+				); 
+	 functionName = installationCheckRAM; 
+ }
+ %%%Requirements Editor%%%
+ */
+</script>
+    <script>
+/* js:pkmk:start */
+function volumeCheckTiger() {
+	return  checkSystemversion() ;
+}
+/* js:pkmk:end */
+
+
+/* js:pkmk:start */
+function checkSystemversion() {
+	var result = false;
+	try {
+		result = my.target.systemVersion.ProductVersion >= '10.4';
+	} catch (e) {}
+	
+	if(!result) {
+		my.result.type = 'Fatal';
+		my.result.title = '';
+		my.result.message = '';
+	}
+	return result;
+}
+/* js:pkmk:end */
+
+
+/* ******* DO NOT EDIT ANYTHING BELOW THIS LINE ******* */
+/* THE TEXT BELOW IS THE DEFINITION FOR THE REQUIREMENTS EDITOR */
+
+/*
+ %%%Requirements Editor%%%
+ {
+	 clauses = (
+				{
+					anyOrAll = 2; 
+					connector = ""; 
+					msg = ""; 
+					msgTitle = ""; 
+					rules = (
+							 {
+								 argumentField = ""; 
+								 argumentStringField = ""; 
+								 booleanType = true; 
+								 choiceProperty = enabled; 
+								 comboType = ""; 
+								 comparator = ">="; 
+								 mainChoice = "Target OS Version (e.g. 10.x.x)"; 
+								 numberType = ""; 
+								 pathField = ""; 
+								 pathKeyKeyField = ""; 
+								 pathKeyPathField = ""; 
+								 specificChoice = choice0; 
+								 stringType = "10.4"; 
+							 }
+							 ); 
+					title = "Check systemVersion"; 
+					type = 3; 
+				}
+				); 
+	 functionName = volumeCheckTiger; 
+ }
+ %%%Requirements Editor%%%
+ */
+</script>
+    <choices-outline>
+        <line choice="choice0">
+            <line choice="choice9"></line>
+        </line>
+    </choices-outline>
+    <choice id="choice0" title="Full User Install" description="Perform an ordinary user (i.e. not developer) installation of the MonkeyWorks suite." tooltip="Full User Installation" start_selected="true" start_enabled="true" start_visible="true" selected="choices.choice1.enabled == true"></choice>
+    <choice id="choice9" title="Base Install" start_selected="true" start_enabled="true" start_visible="true">
+        <pkg-ref id="edu.mit.monkeyworksapps"></pkg-ref>
+        <pkg-ref id="edu.mit.monkeyworksframeworks"></pkg-ref>
+        <pkg-ref id="edu.mit.monkeyworkssupport"></pkg-ref>
+        <pkg-ref id="edu.mit.monkeyworksresources"></pkg-ref>
+        <pkg-ref id="edu.mit.monkeyworksappsupport"></pkg-ref>
+        <pkg-ref id="com.instrutech.itcdriver"></pkg-ref>
+    </choice>
+    <pkg-ref id="edu.mit.monkeyworksapps" version="0.1.9.0.1" installKBytes="17764" auth="Admin" onConclusion="None">file:./Contents/Packages/MonkeyWorksApps.pkg</pkg-ref>
+    <pkg-ref id="edu.mit.monkeyworksframeworks" version="0.2.0.0.2" installKBytes="90156" auth="Admin" onConclusion="None">file:./Contents/Packages/MonkeyWorksFrameworks.pkg</pkg-ref>
+    <pkg-ref id="edu.mit.monkeyworkssupport" version="0.1.0.0.1" installKBytes="0" auth="Admin" onConclusion="None">file:./Contents/Packages/MonkeyWorksSupport.pkg</pkg-ref>
+    <pkg-ref id="edu.mit.monkeyworksresources" version="0.1.0.0.1" installKBytes="83904" auth="Admin" onConclusion="None">file:./Contents/Packages/MonkeyWorksResources.pkg</pkg-ref>
+    <pkg-ref id="edu.mit.monkeyworksappsupport" version="0.1.0.0.1" installKBytes="1928" auth="Admin" onConclusion="None">file:./Contents/Packages/MonkeyWorksAppSupport.pkg</pkg-ref>
+    <pkg-ref id="com.instrutech.itcdriver" version="20.14" installKBytes="1928" auth="Admin" onConclusion="RecommendRestart">file:./Contents/Packages/ITCMacOSXi_2007_05_10.pkg</pkg-ref>
+</installer-gui-script>
