@@ -1,0 +1,609 @@
+<?xml version="1.0"?>
+<monkeyml version="1.0">
+    <io_devices/>
+    <variables>
+        <variable tag="x" default_value="0" scope="GLOBAL" type="INTEGER" editable="ALWAYS" persistant="NO" logging="WHEN_CHANGED"/>
+        <variable tag="y" default_value="0" scope="GLOBAL" type="INTEGER" editable="ALWAYS" persistant="NO" logging="WHEN_CHANGED"/>
+        <variable tag="x_size" default_value="5" scope="GLOBAL" type="INTEGER" editable="ALWAYS" persistant="NO" logging="WHEN_CHANGED"/>
+        <variable tag="y_size" default_value="5" scope="GLOBAL" type="INTEGER" editable="ALWAYS" persistant="NO" logging="WHEN_CHANGED"/>
+        <variable tag="rotation" default_value="0" scope="GLOBAL" type="INTEGER" editable="ALWAYS" persistant="NO" logging="WHEN_CHANGED"/>
+    </variables>
+    <sounds/>
+    <stimuli>
+        <stimulus tag="image1" type="circle" color="0,0,0" x_size="x_size" y_size="y_size" x_position="x" y_position="y" rotation="rotation" contrast="0.0" affine_transform="0"/>
+    </stimuli>
+    <experiment tag="stimulusPresentTest" full_name="" description="">
+        <protocol tag="Protocol" full_name="Protocol " description="" interruptible="YES" selection="sequential" nsamples="1" sampling_method="cycles">
+            <block tag="Block" full_name="Block " description="" interruptible="YES" selection="sequential" nsamples="1" sampling_method="cycles">
+                <trial tag="Trial" description="" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
+                    <task_system tag="TSS" full_name="" description="" interruptible="YES">
+                        <task_system_state tag="TS1" full_name="" description="" interruptible="YES">
+                            <action tag="Assign X" type="assignment" variable="x" value="0"/>
+                            <action tag="Queue Stim 1" full_name="" type="report" message="Queue Stim 1 ... x = $x"/>
+                            <action tag="Queue Stim 1" type="queue_stimulus" stimulus="image1"/>
+                            <action tag="USD" type="update_stimulus_display"/>
+                            <transition tag="goTS2" full_name="goTS2" target="TS2" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="TS2" full_name="" description="" interruptible="YES">
+                            <action tag="Dequeue Stim 1" full_name="" type="report" message="Dequeue Stim 1 ... x = $x"/>
+                            <action tag="Dequeue Stim 1" type="dequeue_stimulus" stimulus="image1"/>
+                            <action tag="USD" type="update_stimulus_display"/>
+                            <transition tag="goTS3" full_name="goTS3" target="TS3" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="TS3" full_name="" description="" interruptible="YES">
+                            <action tag="Assign X" type="assignment" variable="x" value="1"/>
+                            <action tag="Queue Stim 1" full_name="" type="report" message="Queue Stim 1 ... x = $x"/>
+                            <action tag="Queue Stim 1" type="queue_stimulus" stimulus="image1"/>
+                            <action tag="USD" type="update_stimulus_display"/>
+                            <transition tag="goTS4" full_name="goTS4" target="TS4" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="TS4" full_name="" description="" interruptible="YES">
+                            <action tag="Dequeue Stim 1" full_name="" type="report" message="Dequeue Stim 1"/>
+                            <action tag="Dequeue Stim 1" type="dequeue_stimulus" stimulus="image1"/>
+                            <action tag="USD" type="update_stimulus_display"/>
+                            <transition tag="goTS5" full_name="goTS5" target="TS5" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="TS5" full_name="" description="" interruptible="YES">
+                            <action tag="Assign X" type="assignment" variable="x" value="-1"/>
+                            <action tag="Queue Stim 1" full_name="" type="report" message="Queue Stim 1 ... x = $x"/>
+                            <action tag="Queue Stim 1" type="queue_stimulus" stimulus="image1"/>
+                            <action tag="USD" type="update_stimulus_display"/>
+                            <transition tag="goTS6" full_name="goTS6" target="TS6" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="TS6" full_name="" description="" interruptible="YES">
+                            <action tag="Dequeue Stim 1" full_name="" type="report" message="Dequeue Stim 1"/>
+                            <action tag="Dequeue Stim 1" type="dequeue_stimulus" stimulus="image1"/>
+                            <action tag="USD" type="update_stimulus_display"/>
+                            <transition tag="goTS7" full_name="goTS7" target="TS7" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="TS7" full_name="" description="" interruptible="YES">
+                            <action tag="Assign X" type="assignment" variable="x" value="2"/>
+                            <action tag="Queue Stim 1" full_name="" type="report" message="Queue Stim 1 ... x = $x"/>
+                            <action tag="Queue Stim 1" type="queue_stimulus" stimulus="image1"/>
+                            <action tag="USD" type="update_stimulus_display"/>
+                            <transition tag="goTS8" full_name="goTS8" target="TS8" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="TS8" full_name="" description="" interruptible="YES">
+                            <action tag="Assign X" type="assignment" variable="x" value="3"/>
+                            <action tag="Update X but dont queue stimulus" full_name="" type="report" message="Update X but dont queue stimulus ... x = $x"/>
+                            <action tag="USD" type="update_stimulus_display"/>
+                            <transition tag="goTS9" full_name="goTS9" target="TS9" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="TS9" full_name="" description="" interruptible="YES">
+                            <action tag="Dequeue Stim 1" full_name="" type="report" message="Dequeue Stim 1"/>
+                            <action tag="Dequeue Stim 1" type="dequeue_stimulus" stimulus="image1"/>
+                            <action tag="USD" type="update_stimulus_display"/>
+                            <transition tag="goTS10" full_name="goTS10" target="TS10" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="TS10" full_name="" description="" interruptible="YES">
+                            <action tag="Assign X" type="assignment" variable="x" value="0"/>
+                            <action tag="Live Queue Stim 1" full_name="" type="report" message="Live Queue Stim 1 ... x = $x"/>
+                            <action tag="Live Queue Stim 1" type="live_queue_stimulus" stimulus="image1"/>
+                            <action tag="USD" type="update_stimulus_display"/>
+                            <transition tag="goTS11" full_name="goTS11" target="TS11" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="TS11" full_name="" description="" interruptible="YES">
+                            <action tag="Dequeue Stim 1" full_name="" type="report" message="Dequeue Stim 1 ... x = $x"/>
+                            <action tag="Dequeue Stim 1" type="dequeue_stimulus" stimulus="image1"/>
+                            <action tag="USD" type="update_stimulus_display"/>
+                            <transition tag="goTS12" full_name="goTS12" target="TS12" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="TS12" full_name="" description="" interruptible="YES">
+                            <action tag="Assign X" type="assignment" variable="x" value="1"/>
+                            <action tag="Live Queue Stim 1" full_name="" type="report" message="Live Queue Stim 1 ... x = $x"/>
+                            <action tag="Live Queue Stim 1" type="live_queue_stimulus" stimulus="image1"/>
+                            <action tag="USD" type="update_stimulus_display"/>
+                            <transition tag="goTS14" full_name="goTS14" target="TS14" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="TS14" full_name="" description="" interruptible="YES">
+                            <action tag="Dequeue Stim 1" full_name="" type="report" message="Dequeue Stim 1"/>
+                            <action tag="Dequeue Stim 1" type="dequeue_stimulus" stimulus="image1"/>
+                            <action tag="USD" type="update_stimulus_display"/>
+                            <transition tag="goTS15" full_name="goTS15" target="TS15" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="TS15" full_name="" description="" interruptible="YES">
+                            <action tag="Assign X" type="assignment" variable="x" value="-1"/>
+                            <action tag="Live Queue Stim 1" full_name="" type="report" message="Live Queue Stim 1 ... x = $x"/>
+                            <action tag="Live Queue Stim 1" type="live_queue_stimulus" stimulus="image1"/>
+                            <action tag="USD" type="update_stimulus_display"/>
+                            <transition tag="goTS16" full_name="goTS16" target="TS16" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="TS16" full_name="" description="" interruptible="YES">
+                            <action tag="Dequeue Stim 1" full_name="" type="report" message="Dequeue Stim 1"/>
+                            <action tag="Dequeue Stim 1" type="dequeue_stimulus" stimulus="image1"/>
+                            <action tag="USD" type="update_stimulus_display"/>
+                            <transition tag="goTS17" full_name="goTS17" target="TS17" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="TS17" full_name="" description="" interruptible="YES">
+                            <action tag="Assign X" type="assignment" variable="x" value="2"/>
+                            <action tag="Live Queue Stim 1" full_name="" type="report" message="Live Queue Stim 1 ... x = $x"/>
+                            <action tag="Live Queue Stim 1" type="live_queue_stimulus" stimulus="image1"/>
+                            <action tag="USD" type="update_stimulus_display"/>
+                            <transition tag="goTS18" full_name="goTS18" target="TS18" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="TS18" full_name="" description="" interruptible="YES">
+                            <action tag="Assign X" type="assignment" variable="x" value="3"/>
+                            <action tag="Update X but dont queue stimulus" full_name="" type="report" message="Update X but dont queue stimulus ... x = $x"/>
+                            <action tag="USD" type="update_stimulus_display"/>
+                            <transition tag="goTS19" full_name="goTS19" target="TS19" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="TS19" full_name="" description="" interruptible="YES">
+                            <action tag="Dequeue Stim 1" full_name="" type="report" message="Dequeue Stim 1"/>
+                            <action tag="Dequeue Stim 1" type="dequeue_stimulus" stimulus="image1"/>
+                            <action tag="USD" type="update_stimulus_display"/>
+                            <transition tag="goTSa1" full_name="goTSa1" target="TSa1" type="direct"/>
+                        </task_system_state>
+                       <task_system_state tag="TSa1" full_name="" description="" interruptible="YES">
+                            <action tag="Assign Y" type="assignment" variable="y" value="0"/>
+                            <action tag="Queue Stim 1" full_name="" type="report" message="Queue Stim 1 ... y = $y"/>
+                            <action tag="Queue Stim 1" type="queue_stimulus" stimulus="image1"/>
+                            <action tag="USD" type="update_stimulus_display"/>
+                            <transition tag="goTSa2" full_name="goTSa2" target="TSa2" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="TSa2" full_name="" description="" interruptible="YES">
+                            <action tag="Dequeue Stim 1" full_name="" type="report" message="Dequeue Stim 1 ... y = $y"/>
+                            <action tag="Dequeue Stim 1" type="dequeue_stimulus" stimulus="image1"/>
+                            <action tag="USD" type="update_stimulus_display"/>
+                            <transition tag="goTSa3" full_name="goTSa3" target="TSa3" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="TSa3" full_name="" description="" interruptible="YES">
+                            <action tag="Assign Y" type="assignment" variable="y" value="1"/>
+                            <action tag="Queue Stim 1" full_name="" type="report" message="Queue Stim 1 ... y = $y"/>
+                            <action tag="Queue Stim 1" type="queue_stimulus" stimulus="image1"/>
+                            <action tag="USD" type="update_stimulus_display"/>
+                            <transition tag="goTSa4" full_name="goTSa4" target="TSa4" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="TSa4" full_name="" description="" interruptible="YES">
+                            <action tag="Dequeue Stim 1" full_name="" type="report" message="Dequeue Stim 1"/>
+                            <action tag="Dequeue Stim 1" type="dequeue_stimulus" stimulus="image1"/>
+                            <action tag="USD" type="update_stimulus_display"/>
+                            <transition tag="goTSa5" full_name="goTSa5" target="TSa5" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="TSa5" full_name="" description="" interruptible="YES">
+                            <action tag="Assign Y" type="assignment" variable="y" value="-1"/>
+                            <action tag="Queue Stim 1" full_name="" type="report" message="Queue Stim 1 ... y = $y"/>
+                            <action tag="Queue Stim 1" type="queue_stimulus" stimulus="image1"/>
+                            <action tag="USD" type="update_stimulus_display"/>
+                            <transition tag="goTSa6" full_name="goTSa6" target="TSa6" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="TSa6" full_name="" description="" interruptible="YES">
+                            <action tag="Dequeue Stim 1" full_name="" type="report" message="Dequeue Stim 1"/>
+                            <action tag="Dequeue Stim 1" type="dequeue_stimulus" stimulus="image1"/>
+                            <action tag="USD" type="update_stimulus_display"/>
+                            <transition tag="goTSa7" full_name="goTSa7" target="TSa7" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="TSa7" full_name="" description="" interruptible="YES">
+                            <action tag="Assign Y" type="assignment" variable="y" value="2"/>
+                            <action tag="Queue Stim 1" full_name="" type="report" message="Queue Stim 1 ... y = $y"/>
+                            <action tag="Queue Stim 1" type="queue_stimulus" stimulus="image1"/>
+                            <action tag="USD" type="update_stimulus_display"/>
+                            <transition tag="goTSa8" full_name="goTSa8" target="TSa8" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="TSa8" full_name="" description="" interruptible="YES">
+                            <action tag="Assign Y" type="assignment" variable="y" value="3"/>
+                            <action tag="Update X but dont queue stimulus" full_name="" type="report" message="Update X but dont queue stimulus ... y = $y"/>
+                            <action tag="USD" type="update_stimulus_display"/>
+                            <transition tag="goTSa9" full_name="goTSa9" target="TSa9" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="TSa9" full_name="" description="" interruptible="YES">
+                            <action tag="Dequeue Stim 1" full_name="" type="report" message="Dequeue Stim 1"/>
+                            <action tag="Dequeue Stim 1" type="dequeue_stimulus" stimulus="image1"/>
+                            <action tag="USD" type="update_stimulus_display"/>
+                            <transition tag="goTSa10" full_name="goTSa10" target="TSa10" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="TSa10" full_name="" description="" interruptible="YES">
+                            <action tag="Assign Y" type="assignment" variable="y" value="0"/>
+                            <action tag="Live Queue Stim 1" full_name="" type="report" message="Live Queue Stim 1 ... y = $y"/>
+                            <action tag="Live Queue Stim 1" type="live_queue_stimulus" stimulus="image1"/>
+                            <action tag="USD" type="update_stimulus_display"/>
+                            <transition tag="goTSa11" full_name="goTSa11" target="TSa11" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="TSa11" full_name="" description="" interruptible="YES">
+                            <action tag="Dequeue Stim 1" full_name="" type="report" message="Dequeue Stim 1 ... y = $y"/>
+                            <action tag="Dequeue Stim 1" type="dequeue_stimulus" stimulus="image1"/>
+                            <action tag="USD" type="update_stimulus_display"/>
+                            <transition tag="goTSa12" full_name="goTSa12" target="TSa12" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="TSa12" full_name="" description="" interruptible="YES">
+                            <action tag="Assign Y" type="assignment" variable="y" value="1"/>
+                            <action tag="Live Queue Stim 1" full_name="" type="report" message="Live Queue Stim 1 ... y = $y"/>
+                            <action tag="Live Queue Stim 1" type="live_queue_stimulus" stimulus="image1"/>
+                            <action tag="USD" type="update_stimulus_display"/>
+                            <transition tag="goTSa14" full_name="goTSa14" target="TSa14" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="TSa14" full_name="" description="" interruptible="YES">
+                            <action tag="Dequeue Stim 1" full_name="" type="report" message="Dequeue Stim 1"/>
+                            <action tag="Dequeue Stim 1" type="dequeue_stimulus" stimulus="image1"/>
+                            <action tag="USD" type="update_stimulus_display"/>
+                            <transition tag="goTSa15" full_name="goTSa15" target="TSa15" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="TSa15" full_name="" description="" interruptible="YES">
+                            <action tag="Assign Y" type="assignment" variable="y" value="-1"/>
+                            <action tag="Live Queue Stim 1" full_name="" type="report" message="Live Queue Stim 1 ... y = $y"/>
+                            <action tag="Live Queue Stim 1" type="live_queue_stimulus" stimulus="image1"/>
+                            <action tag="USD" type="update_stimulus_display"/>
+                            <transition tag="goTSa16" full_name="goTSa16" target="TSa16" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="TSa16" full_name="" description="" interruptible="YES">
+                            <action tag="Dequeue Stim 1" full_name="" type="report" message="Dequeue Stim 1"/>
+                            <action tag="Dequeue Stim 1" type="dequeue_stimulus" stimulus="image1"/>
+                            <action tag="USD" type="update_stimulus_display"/>
+                            <transition tag="goTSa17" full_name="goTSa17" target="TSa17" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="TSa17" full_name="" description="" interruptible="YES">
+                            <action tag="Assign Y" type="assignment" variable="y" value="2"/>
+                            <action tag="Live Queue Stim 1" full_name="" type="report" message="Live Queue Stim 1 ... y = $y"/>
+                            <action tag="Live Queue Stim 1" type="live_queue_stimulus" stimulus="image1"/>
+                            <action tag="USD" type="update_stimulus_display"/>
+                            <transition tag="goTSa18" full_name="goTSa18" target="TSa18" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="TSa18" full_name="" description="" interruptible="YES">
+                            <action tag="Assign Y" type="assignment" variable="y" value="3"/>
+                            <action tag="Update Y but dont queue stimulus" full_name="" type="report" message="Update Y but dont queue stimulus ... y = $y"/>
+                            <action tag="USD" type="update_stimulus_display"/>
+                            <transition tag="goTSa19" full_name="goTSa19" target="TSa19" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="TSa19" full_name="" description="" interruptible="YES">
+                            <action tag="Dequeue Stim 1" full_name="" type="report" message="Dequeue Stim 1"/>
+                            <action tag="Dequeue Stim 1" type="dequeue_stimulus" stimulus="image1"/>
+                            <action tag="USD" type="update_stimulus_display"/>
+                            <transition tag="goTSb1" full_name="goTb1" target="TSb1" type="direct"/>
+                        </task_system_state>
+                       <task_system_state tag="TSb1" full_name="" description="" interruptible="YES">
+                            <action tag="Assign Size X" type="assignment" variable="x_size" value="5"/>
+                            <action tag="Queue Stim 1" full_name="" type="report" message="Queue Stim 1 ... x_size = $x_size"/>
+                            <action tag="Queue Stim 1" type="queue_stimulus" stimulus="image1"/>
+                            <action tag="USD" type="update_stimulus_display"/>
+                            <transition tag="goTSb2" full_name="goTSb2" target="TSb2" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="TSb2" full_name="" description="" interruptible="YES">
+                            <action tag="Dequeue Stim 1" full_name="" type="report" message="Dequeue Stim 1 ... x_size = $x_size"/>
+                            <action tag="Dequeue Stim 1" type="dequeue_stimulus" stimulus="image1"/>
+                            <action tag="USD" type="update_stimulus_display"/>
+                            <transition tag="goTSb3" full_name="goTSb3" target="TSb3" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="TSb3" full_name="" description="" interruptible="YES">
+                            <action tag="Assign Size X" type="assignment" variable="x_size" value="1"/>
+                            <action tag="Queue Stim 1" full_name="" type="report" message="Queue Stim 1 ... x_size = $x_size"/>
+                            <action tag="Queue Stim 1" type="queue_stimulus" stimulus="image1"/>
+                            <action tag="USD" type="update_stimulus_display"/>
+                            <transition tag="goTSb4" full_name="goTSb4" target="TSb4" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="TSb4" full_name="" description="" interruptible="YES">
+                            <action tag="Dequeue Stim 1" full_name="" type="report" message="Dequeue Stim 1"/>
+                            <action tag="Dequeue Stim 1" type="dequeue_stimulus" stimulus="image1"/>
+                            <action tag="USD" type="update_stimulus_display"/>
+                            <transition tag="goTSb5" full_name="goTSb5" target="TSb5" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="TSb5" full_name="" description="" interruptible="YES">
+                            <action tag="Assign Size X" type="assignment" variable="x_size" value="5"/>
+                            <action tag="Queue Stim 1" full_name="" type="report" message="Queue Stim 1 ... x_size = $x_size"/>
+                            <action tag="Queue Stim 1" type="queue_stimulus" stimulus="image1"/>
+                            <action tag="USD" type="update_stimulus_display"/>
+                            <transition tag="goTSb6" full_name="goTSb6" target="TSb6" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="TSb6" full_name="" description="" interruptible="YES">
+                            <action tag="Dequeue Stim 1" full_name="" type="report" message="Dequeue Stim 1"/>
+                            <action tag="Dequeue Stim 1" type="dequeue_stimulus" stimulus="image1"/>
+                            <action tag="USD" type="update_stimulus_display"/>
+                            <transition tag="goTSb7" full_name="goTSb7" target="TSb7" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="TSb7" full_name="" description="" interruptible="YES">
+                            <action tag="Assign Size X" type="assignment" variable="x_size" value="2"/>
+                            <action tag="Queue Stim 1" full_name="" type="report" message="Queue Stim 1 ... x_size = $x_size"/>
+                            <action tag="Queue Stim 1" type="queue_stimulus" stimulus="image1"/>
+                            <action tag="USD" type="update_stimulus_display"/>
+                            <transition tag="goTSb8" full_name="goTSb8" target="TSb8" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="TSb8" full_name="" description="" interruptible="YES">
+                            <action tag="Assign Size X" type="assignment" variable="x_size" value="3"/>
+                            <action tag="Update X Size but dont queue stimulus" full_name="" type="report" message="Update X Size but don't queue stimulus ... x_size = $x_size"/>
+                            <action tag="USD" type="update_stimulus_display"/>
+                            <transition tag="goTSb9" full_name="goTSb9" target="TSb9" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="TSb9" full_name="" description="" interruptible="YES">
+                            <action tag="Dequeue Stim 1" full_name="" type="report" message="Dequeue Stim 1"/>
+                            <action tag="Dequeue Stim 1" type="dequeue_stimulus" stimulus="image1"/>
+                            <action tag="USD" type="update_stimulus_display"/>
+                            <transition tag="goTSb10" full_name="goTSb10" target="TSb10" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="TSb10" full_name="" description="" interruptible="YES">
+                            <action tag="Assign Size X" type="assignment" variable="x_size" value="5"/>
+                            <action tag="Live Queue Stim 1" full_name="" type="report" message="Live Queue Stim 1 ... x_size = $x_size"/>
+                            <action tag="Live Queue Stim 1" type="live_queue_stimulus" stimulus="image1"/>
+                            <action tag="USD" type="update_stimulus_display"/>
+                            <transition tag="goTSb11" full_name="goTSb11" target="TSb11" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="TSb11" full_name="" description="" interruptible="YES">
+                            <action tag="Dequeue Stim 1" full_name="" type="report" message="Dequeue Stim 1 ... x_size = $x_size"/>
+                            <action tag="Dequeue Stim 1" type="dequeue_stimulus" stimulus="image1"/>
+                            <action tag="USD" type="update_stimulus_display"/>
+                            <transition tag="goTSb12" full_name="goTSb12" target="TSb12" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="TSb12" full_name="" description="" interruptible="YES">
+                            <action tag="Assign Size X" type="assignment" variable="x_size" value="1"/>
+                            <action tag="Live Queue Stim 1" full_name="" type="report" message="Live Queue Stim 1 ... x_size = $x_size"/>
+                            <action tag="Live Queue Stim 1" type="live_queue_stimulus" stimulus="image1"/>
+                            <action tag="USD" type="update_stimulus_display"/>
+                            <transition tag="goTSb14" full_name="goTSb14" target="TSb14" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="TSb14" full_name="" description="" interruptible="YES">
+                            <action tag="Dequeue Stim 1" full_name="" type="report" message="Dequeue Stim 1"/>
+                            <action tag="Dequeue Stim 1" type="dequeue_stimulus" stimulus="image1"/>
+                            <action tag="USD" type="update_stimulus_display"/>
+                            <transition tag="goTSb15" full_name="goTSb15" target="TSb15" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="TSb15" full_name="" description="" interruptible="YES">
+                            <action tag="Assign Size X" type="assignment" variable="x_size" value="5"/>
+                            <action tag="Live Queue Stim 1" full_name="" type="report" message="Live Queue Stim 1 ... x_size = $x_size"/>
+                            <action tag="Live Queue Stim 1" type="live_queue_stimulus" stimulus="image1"/>
+                            <action tag="USD" type="update_stimulus_display"/>
+                            <transition tag="goTSb16" full_name="goTSb16" target="TSb16" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="TSb16" full_name="" description="" interruptible="YES">
+                            <action tag="Dequeue Stim 1" full_name="" type="report" message="Dequeue Stim 1"/>
+                            <action tag="Dequeue Stim 1" type="dequeue_stimulus" stimulus="image1"/>
+                            <action tag="USD" type="update_stimulus_display"/>
+                            <transition tag="goTSb17" full_name="goTSb17" target="TSb17" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="TSb17" full_name="" description="" interruptible="YES">
+                            <action tag="Assign Size X" type="assignment" variable="x_size" value="2"/>
+                            <action tag="Live Queue Stim 1" full_name="" type="report" message="Live Queue Stim 1 ... x_size = $x_size"/>
+                            <action tag="Live Queue Stim 1" type="live_queue_stimulus" stimulus="image1"/>
+                            <action tag="USD" type="update_stimulus_display"/>
+                            <transition tag="goTSb18" full_name="goTSb18" target="TSb18" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="TSb18" full_name="" description="" interruptible="YES">
+                            <action tag="Assign Size X" type="assignment" variable="x_size" value="3"/>
+                            <action tag="Update X Size but dont queue stimulus" full_name="" type="report" message="Update X Size but dont queue stimulus ... x_size = $x_size"/>
+                            <action tag="USD" type="update_stimulus_display"/>
+                            <transition tag="goTSb19" full_name="goTSb19" target="TSb19" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="TSb19" full_name="" description="" interruptible="YES">
+                            <action tag="Dequeue Stim 1" full_name="" type="report" message="Dequeue Stim 1"/>
+                            <action tag="Dequeue Stim 1" type="dequeue_stimulus" stimulus="image1"/>
+                            <action tag="USD" type="update_stimulus_display"/>
+                            <transition tag="goTSc1" full_name="goTSc1" target="TSc1" type="direct"/>
+                        </task_system_state>
+                       <task_system_state tag="TSc1" full_name="" description="" interruptible="YES">
+                            <action tag="Assign Size Y" type="assignment" variable="y_size" value="5"/>
+                            <action tag="Queue Stim 1" full_name="" type="report" message="Queue Stim 1 ... y_size = $y_size"/>
+                            <action tag="Queue Stim 1" type="queue_stimulus" stimulus="image1"/>
+                            <action tag="USD" type="update_stimulus_display"/>
+                            <transition tag="goTSc2" full_name="goTSc2" target="TSc2" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="TSc2" full_name="" description="" interruptible="YES">
+                            <action tag="Dequeue Stim 1" full_name="" type="report" message="Dequeue Stim 1 ... y_size = $y_size"/>
+                            <action tag="Dequeue Stim 1" type="dequeue_stimulus" stimulus="image1"/>
+                            <action tag="USD" type="update_stimulus_display"/>
+                            <transition tag="goTSc3" full_name="goTSc3" target="TSc3" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="TSc3" full_name="" description="" interruptible="YES">
+                            <action tag="Assign Size Y" type="assignment" variable="y_size" value="1"/>
+                            <action tag="Queue Stim 1" full_name="" type="report" message="Queue Stim 1 ... y_size = $y_size"/>
+                            <action tag="Queue Stim 1" type="queue_stimulus" stimulus="image1"/>
+                            <action tag="USD" type="update_stimulus_display"/>
+                            <transition tag="goTSc4" full_name="goTSc4" target="TSc4" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="TSc4" full_name="" description="" interruptible="YES">
+                            <action tag="Dequeue Stim 1" full_name="" type="report" message="Dequeue Stim 1"/>
+                            <action tag="Dequeue Stim 1" type="dequeue_stimulus" stimulus="image1"/>
+                            <action tag="USD" type="update_stimulus_display"/>
+                            <transition tag="goTSc5" full_name="goTSc5" target="TSc5" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="TSc5" full_name="" description="" interruptible="YES">
+                            <action tag="Assign Size Y" type="assignment" variable="y_size" value="5"/>
+                            <action tag="Queue Stim 1" full_name="" type="report" message="Queue Stim 1 ... y_size = $y_size"/>
+                            <action tag="Queue Stim 1" type="queue_stimulus" stimulus="image1"/>
+                            <action tag="USD" type="update_stimulus_display"/>
+                            <transition tag="goTSc6" full_name="goTSc6" target="TSc6" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="TSc6" full_name="" description="" interruptible="YES">
+                            <action tag="Dequeue Stim 1" full_name="" type="report" message="Dequeue Stim 1"/>
+                            <action tag="Dequeue Stim 1" type="dequeue_stimulus" stimulus="image1"/>
+                            <action tag="USD" type="update_stimulus_display"/>
+                            <transition tag="goTSc7" full_name="goTSc7" target="TSc7" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="TSc7" full_name="" description="" interruptible="YES">
+                            <action tag="Assign Size Y" type="assignment" variable="y_size" value="2"/>
+                            <action tag="Queue Stim 1" full_name="" type="report" message="Queue Stim 1 ... y_size = $y_size"/>
+                            <action tag="Queue Stim 1" type="queue_stimulus" stimulus="image1"/>
+                            <action tag="USD" type="update_stimulus_display"/>
+                            <transition tag="goTSc8" full_name="goTSc8" target="TSc8" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="TSc8" full_name="" description="" interruptible="YES">
+                            <action tag="Assign Size Y" type="assignment" variable="y_size" value="3"/>
+                            <action tag="Update Y Size but dont queue stimulus" full_name="" type="report" message="Update Y Size but don't queue stimulus ... y_size = $y_size"/>
+                            <action tag="USD" type="update_stimulus_display"/>
+                            <transition tag="goTSc9" full_name="goTSc9" target="TSc9" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="TSc9" full_name="" description="" interruptible="YES">
+                            <action tag="Dequeue Stim 1" full_name="" type="report" message="Dequeue Stim 1"/>
+                            <action tag="Dequeue Stim 1" type="dequeue_stimulus" stimulus="image1"/>
+                            <action tag="USD" type="update_stimulus_display"/>
+                            <transition tag="goTSc10" full_name="goTSc10" target="TSc10" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="TSc10" full_name="" description="" interruptible="YES">
+                            <action tag="Assign Size Y" type="assignment" variable="y_size" value="5"/>
+                            <action tag="Live Queue Stim 1" full_name="" type="report" message="Live Queue Stim 1 ... y_size = $y_size"/>
+                            <action tag="Live Queue Stim 1" type="live_queue_stimulus" stimulus="image1"/>
+                            <action tag="USD" type="update_stimulus_display"/>
+                            <transition tag="goTSc11" full_name="goTSc11" target="TSc11" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="TSc11" full_name="" description="" interruptible="YES">
+                            <action tag="Dequeue Stim 1" full_name="" type="report" message="Dequeue Stim 1 ... y_size = $y_size"/>
+                            <action tag="Dequeue Stim 1" type="dequeue_stimulus" stimulus="image1"/>
+                            <action tag="USD" type="update_stimulus_display"/>
+                            <transition tag="goTSc12" full_name="goTSc12" target="TSc12" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="TSc12" full_name="" description="" interruptible="YES">
+                            <action tag="Assign Size Y" type="assignment" variable="y_size" value="1"/>
+                            <action tag="Live Queue Stim 1" full_name="" type="report" message="Live Queue Stim 1 ... y_size = $y_size"/>
+                            <action tag="Live Queue Stim 1" type="live_queue_stimulus" stimulus="image1"/>
+                            <action tag="USD" type="update_stimulus_display"/>
+                            <transition tag="goTSc14" full_name="goTSc14" target="TSc14" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="TSc14" full_name="" description="" interruptible="YES">
+                            <action tag="Dequeue Stim 1" full_name="" type="report" message="Dequeue Stim 1"/>
+                            <action tag="Dequeue Stim 1" type="dequeue_stimulus" stimulus="image1"/>
+                            <action tag="USD" type="update_stimulus_display"/>
+                            <transition tag="goTSc15" full_name="goTSc15" target="TSc15" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="TSc15" full_name="" description="" interruptible="YES">
+                            <action tag="Assign Size Y" type="assignment" variable="y_size" value="5"/>
+                            <action tag="Live Queue Stim 1" full_name="" type="report" message="Live Queue Stim 1 ... y_size = $y_size"/>
+                            <action tag="Live Queue Stim 1" type="live_queue_stimulus" stimulus="image1"/>
+                            <action tag="USD" type="update_stimulus_display"/>
+                            <transition tag="goTSc16" full_name="goTSc16" target="TSc16" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="TSc16" full_name="" description="" interruptible="YES">
+                            <action tag="Dequeue Stim 1" full_name="" type="report" message="Dequeue Stim 1"/>
+                            <action tag="Dequeue Stim 1" type="dequeue_stimulus" stimulus="image1"/>
+                            <action tag="USD" type="update_stimulus_display"/>
+                            <transition tag="goTSc17" full_name="goTSc17" target="TSc17" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="TSc17" full_name="" description="" interruptible="YES">
+                            <action tag="Assign Size Y" type="assignment" variable="y_size" value="2"/>
+                            <action tag="Live Queue Stim 1" full_name="" type="report" message="Live Queue Stim 1 ... y_size = $y_size"/>
+                            <action tag="Live Queue Stim 1" type="live_queue_stimulus" stimulus="image1"/>
+                            <action tag="USD" type="update_stimulus_display"/>
+                            <transition tag="goTSc18" full_name="goTSc18" target="TSc18" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="TSc18" full_name="" description="" interruptible="YES">
+                            <action tag="Assign Size Y" type="assignment" variable="y_size" value="3"/>
+                            <action tag="Update Y Size but dont queue stimulus" full_name="" type="report" message="Update Y Size but dont queue stimulus ... y_size = $y_size"/>
+                            <action tag="USD" type="update_stimulus_display"/>
+                            <transition tag="goTSc19" full_name="goTSc19" target="TSc19" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="TSc19" full_name="" description="" interruptible="YES">
+                            <action tag="Dequeue Stim 1" full_name="" type="report" message="Dequeue Stim 1"/>
+                            <action tag="Dequeue Stim 1" type="dequeue_stimulus" stimulus="image1"/>
+                            <action tag="USD" type="update_stimulus_display"/>
+                            <transition tag="goTSd1" full_name="goTSd1" target="TSd1" type="direct"/>
+                        </task_system_state>
+                       <task_system_state tag="TSd1" full_name="" description="" interruptible="YES">
+                            <action tag="Assign Rotation" type="assignment" variable="rotation" value="0"/>
+                            <action tag="Queue Stim 1" full_name="" type="report" message="Queue Stim 1 ... rotation = $rotation"/>
+                            <action tag="Queue Stim 1" type="queue_stimulus" stimulus="image1"/>
+                            <action tag="USD" type="update_stimulus_display"/>
+                            <transition tag="goTSd2" full_name="goTSd2" target="TSd2" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="TSd2" full_name="" description="" interruptible="YES">
+                            <action tag="Dequeue Stim 1" full_name="" type="report" message="Dequeue Stim 1 ... rotation = $rotation"/>
+                            <action tag="Dequeue Stim 1" type="dequeue_stimulus" stimulus="image1"/>
+                            <action tag="USD" type="update_stimulus_display"/>
+                            <transition tag="goTSd3" full_name="goTSd3" target="TSd3" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="TSd3" full_name="" description="" interruptible="YES">
+                            <action tag="Assign Rotation" type="assignment" variable="rotation" value="10"/>
+                            <action tag="Queue Stim 1" full_name="" type="report" message="Queue Stim 1 ... rotation = $rotation"/>
+                            <action tag="Queue Stim 1" type="queue_stimulus" stimulus="image1"/>
+                            <action tag="USD" type="update_stimulus_display"/>
+                            <transition tag="goTSd4" full_name="goTSd4" target="TSd4" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="TSd4" full_name="" description="" interruptible="YES">
+                            <action tag="Dequeue Stim 1" full_name="" type="report" message="Dequeue Stim 1"/>
+                            <action tag="Dequeue Stim 1" type="dequeue_stimulus" stimulus="image1"/>
+                            <action tag="USD" type="update_stimulus_display"/>
+                            <transition tag="goTSd5" full_name="goTSd5" target="TSd5" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="TSd5" full_name="" description="" interruptible="YES">
+                            <action tag="Assign Rotation" type="assignment" variable="rotation" value="-10"/>
+                            <action tag="Queue Stim 1" full_name="" type="report" message="Queue Stim 1 ... rotation = $rotation"/>
+                            <action tag="Queue Stim 1" type="queue_stimulus" stimulus="image1"/>
+                            <action tag="USD" type="update_stimulus_display"/>
+                            <transition tag="goTSd6" full_name="goTSd6" target="TSd6" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="TSd6" full_name="" description="" interruptible="YES">
+                            <action tag="Dequeue Stim 1" full_name="" type="report" message="Dequeue Stim 1"/>
+                            <action tag="Dequeue Stim 1" type="dequeue_stimulus" stimulus="image1"/>
+                            <action tag="USD" type="update_stimulus_display"/>
+                            <transition tag="goTSd7" full_name="goTSd7" target="TSd7" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="TSd7" full_name="" description="" interruptible="YES">
+                            <action tag="Assign Rotation" type="assignment" variable="rotation" value="20"/>
+                            <action tag="Queue Stim 1" full_name="" type="report" message="Queue Stim 1 ... rotation = $rotation"/>
+                            <action tag="Queue Stim 1" type="queue_stimulus" stimulus="image1"/>
+                            <action tag="USD" type="update_stimulus_display"/>
+                            <transition tag="goTSd8" full_name="goTSd8" target="TSd8" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="TSd8" full_name="" description="" interruptible="YES">
+                            <action tag="Assign Rotation" type="assignment" variable="rotation" value="30"/>
+                            <action tag="Update Rotation but dont queue stimulus" full_name="" type="report" message="Update Rotation but don't queue stimulus ... rotation = $rotation"/>
+                            <action tag="USD" type="update_stimulus_display"/>
+                            <transition tag="goTSd9" full_name="goTSd9" target="TSd9" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="TSd9" full_name="" description="" interruptible="YES">
+                            <action tag="Dequeue Stim 1" full_name="" type="report" message="Dequeue Stim 1"/>
+                            <action tag="Dequeue Stim 1" type="dequeue_stimulus" stimulus="image1"/>
+                            <action tag="USD" type="update_stimulus_display"/>
+                            <transition tag="goTSd10" full_name="goTSd10" target="TSd10" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="TSd10" full_name="" description="" interruptible="YES">
+                            <action tag="Assign Rotation" type="assignment" variable="rotation" value="0"/>
+                            <action tag="Live Queue Stim 1" full_name="" type="report" message="Live Queue Stim 1 ... rotation = $rotation"/>
+                            <action tag="Live Queue Stim 1" type="live_queue_stimulus" stimulus="image1"/>
+                            <action tag="USD" type="update_stimulus_display"/>
+                            <transition tag="goTSd11" full_name="goTSd11" target="TSd11" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="TSd11" full_name="" description="" interruptible="YES">
+                            <action tag="Dequeue Stim 1" full_name="" type="report" message="Dequeue Stim 1 ... rotation = $rotation"/>
+                            <action tag="Dequeue Stim 1" type="dequeue_stimulus" stimulus="image1"/>
+                            <action tag="USD" type="update_stimulus_display"/>
+                            <transition tag="goTSd12" full_name="goTSd12" target="TSd12" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="TSd12" full_name="" description="" interruptible="YES">
+                            <action tag="Assign Rotation" type="assignment" variable="rotation" value="10"/>
+                            <action tag="Live Queue Stim 1" full_name="" type="report" message="Live Queue Stim 1 ... rotation = $rotation"/>
+                            <action tag="Live Queue Stim 1" type="live_queue_stimulus" stimulus="image1"/>
+                            <action tag="USD" type="update_stimulus_display"/>
+                            <transition tag="goTSd14" full_name="goTSd14" target="TSd14" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="TSd14" full_name="" description="" interruptible="YES">
+                            <action tag="Dequeue Stim 1" full_name="" type="report" message="Dequeue Stim 1"/>
+                            <action tag="Dequeue Stim 1" type="dequeue_stimulus" stimulus="image1"/>
+                            <action tag="USD" type="update_stimulus_display"/>
+                            <transition tag="goTSd15" full_name="goTSd15" target="TSd15" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="TSd15" full_name="" description="" interruptible="YES">
+                            <action tag="Assign Rotation" type="assignment" variable="rotation" value="-10"/>
+                            <action tag="Live Queue Stim 1" full_name="" type="report" message="Live Queue Stim 1 ... rotation = $rotation"/>
+                            <action tag="Live Queue Stim 1" type="live_queue_stimulus" stimulus="image1"/>
+                            <action tag="USD" type="update_stimulus_display"/>
+                            <transition tag="goTSd16" full_name="goTSd16" target="TSd16" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="TSd16" full_name="" description="" interruptible="YES">
+                            <action tag="Dequeue Stim 1" full_name="" type="report" message="Dequeue Stim 1"/>
+                            <action tag="Dequeue Stim 1" type="dequeue_stimulus" stimulus="image1"/>
+                            <action tag="USD" type="update_stimulus_display"/>
+                            <transition tag="goTSd17" full_name="goTSd17" target="TSd17" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="TSd17" full_name="" description="" interruptible="YES">
+                            <action tag="Assign Rotation" type="assignment" variable="rotation" value="20"/>
+                            <action tag="Live Queue Stim 1" full_name="" type="report" message="Live Queue Stim 1 ... rotation = $rotation"/>
+                            <action tag="Live Queue Stim 1" type="live_queue_stimulus" stimulus="image1"/>
+                            <action tag="USD" type="update_stimulus_display"/>
+                            <transition tag="goTSd18" full_name="goTSd18" target="TSd18" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="TSd18" full_name="" description="" interruptible="YES">
+                            <action tag="Assign Rotation" type="assignment" variable="rotation" value="30"/>
+                            <action tag="Update Rotation but dont queue stimulus" full_name="" type="report" message="Update Rotation but dont queue stimulus ... rotation = $rotation"/>
+                            <action tag="USD" type="update_stimulus_display"/>
+                            <transition tag="goTSd19" full_name="goTSd19" target="TSd19" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="TSd19" full_name="" description="" interruptible="YES">
+                            <action tag="Dequeue Stim 1" full_name="" type="report" message="Dequeue Stim 1"/>
+                            <action tag="Dequeue Stim 1" type="dequeue_stimulus" stimulus="image1"/>
+                            <action tag="USD" type="update_stimulus_display"/>
+                            <transition tag="goEnd" full_name="goEnd" target="End" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="End" full_name="" description="" interruptible="YES">
+                            <action tag="End report" full_name="report end" type="report" message="End"/>
+                            <transition tag="Yield" full_name="Yield" type="yield"/>
+                        </task_system_state>
+                    </task_system>
+                </trial>
+            </block>
+        </protocol>
+    </experiment>
+</monkeyml>

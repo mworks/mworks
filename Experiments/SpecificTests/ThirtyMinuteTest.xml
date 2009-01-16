@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<monkeyml version="1.0">
+    <io_devices/>
+    <variables>
+        <variable tag="counter" full_name="counter" default_value="0" scope="GLOBAL" type="INTEGER" editable="NEVER" logging="WHEN_CHANGED"/>
+    </variables>
+    <sounds/>
+    <stimuli/>
+    <experiment tag="ThirtyMinuteTest" full_name="ThirtyMinuteTest">
+        <protocol tag="Protocol" full_name="Protocol" description="" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
+            <block tag="Block" full_name="Block" description="" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
+                <trial tag="Trial" full_name="Trial" description="" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
+                    <task_system tag="TS" full_name="TS" description="" interruptible="YES">
+                        <task_system_state tag="start" full_name="fullname_3" description="" interruptible="YES">
+                            <action tag="initCounter" full_name="initCounter" type="assignment" variable="counter" value="0"/>
+                            <action tag="setTimebase" full_name="setTimebase" type="set_timebase" timebase="timebase"/>
+                            <transition tag="goToCounterUp" full_name="goToCounterUp" target="counterUp" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="counterUp" full_name="fullname_5" description="" interruptible="YES">
+                            <action tag="assignCounter" full_name="assignCounter" type="assignment" variable="counter" value="counter+1"/>
+                            <action type="report" message="counter=$counter" tag="counterReport" full_name="counterReport"/>
+                            <action tag="StartTimer" timebase="timebase" full_name="fullname" type="start_timer" timer="timer" duration="counter * 100ms"/>
+                            <transition tag="goToEnd" full_name="goToEnd" target="end" type="conditional" condition="counter==18000"/>
+                            <transition tag="timerExpired" full_name="timerExpired" target="counterUp" type="timer_expired" timer="timer"/>
+                        </task_system_state>
+                        <task_system_state tag="end" full_name="fullname_13" description="" interruptible="YES">
+                            <action tag="reportEnd" full_name="reportEnd" type="report" message="end"/>
+                            <transition type="yield" tag="Yield" full_name="Yield"/>
+                        </task_system_state>
+                    </task_system>
+                </trial>
+            </block>
+        </protocol>
+    </experiment>
+</monkeyml>

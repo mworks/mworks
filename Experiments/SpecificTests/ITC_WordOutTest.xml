@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<monkeyml version="1.0">
+    <io_devices>
+        <iodevice tag="ITC18" priority="" type="ITC18" id="" alt="FM">
+            <iochannel tag="wordOut" variable="wordout" capability="ITC18_TTL_AUX_WORD1" type="uint8" device="ITC18" direction="output" synchrony="asynchronous" range_min="0" range_max="0" resolution="1" update_interval="3ms" data_interval="1ms" TTL_trigger_port="0" pre_trigger_interval="5ms" post_trigger_interval="5ms"/>
+            <iochannel tag="wordSentFeedback" variable="wordSent" capability="ITC18_TTL_INPUT0" data_type="digital" device="ITC18" direction="input" synchrony="hardware_timed_synchronous" range_min="0" range_max="0" resolution="1" update_interval="3ms" data_interval="0.05ms" TTL_trigger_port="0" pre_trigger_interval="5ms" post_trigger_interval="5ms"/>
+        </iodevice>
+		<iodevice tag="FM" priority="" type="fake_monkey" id="" alt="">
+        </iodevice>
+    </io_devices>
+    <calibrators/>
+    <filters/>
+    <sounds/>
+    <stimuli/>
+    <variables>
+        <variable tag="ITI" full_name="" default_value="1000000" scope="GLOBAL" type="INTEGER" editable="ALWAYS" persistant="NO" logging="WHEN_CHANGED"/>
+        <variable tag="wordout" full_name="" default_value="0" scope="GLOBAL" type="INTEGER" editable="ALWAYS" persistant="NO" logging="WHEN_CHANGED"/>
+        <variable tag="wordSent" full_name="" default_value="0" scope="GLOBAL" type="INTEGER" editable="ALWAYS" persistant="NO" logging="WHEN_CHANGED"/>
+        <variable tag="PlexonHoldTime" full_name="" default_value="250" scope="GLOBAL" type="INTEGER" editable="ALWAYS" persistant="NO" logging="WHEN_CHANGED"/>
+    </variables>
+    <experiment tag="Experiment" full_name="" description="">
+        <protocol tag="Protocol" full_name="" description="" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
+            <block tag="Block" full_name="" description="" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
+                <trial tag="Trial" full_name="" description="" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
+                    <action tag="Start Device IO" full_name="" type="start_device_io" device="ITC18"/>
+                    <task_system tag="Task System" full_name="" description="" interruptible="YES">
+                        <task_system_state tag="setWord" full_name="" description="" interruptible="YES">
+                            <action tag="assign_wordout" full_name="" type="assignment" variable="wordout" value="disc_rand(128,255)"/>
+                            <!--action tag="assign_wordSent" full_name="" type="assignment" variable="wordSent" value="0"/-->
+                            <action tag="Report wordout" full_name="" type="report" message="Setting Word to $wordout"/>
+                            <transition tag="waitForWordToBeSent" full_name="" target="holdForPlexon" type="conditional" condition="wordSent == 1"/>
+                        </task_system_state>
+                        <task_system_state tag="holdForPlexon" full_name="" description="" interruptible="YES">
+                            <action tag="Waiting for Plexon" full_name="" type="report" message="Waiting $PlexonHoldTime us for Plexon hold time"/>
+                            <action tag="StartHoldTimer" full_name="" type="start_timer" timer="holdTimer" duration="PlexonHoldTime" timebase=""/>
+                            <transition tag="holdTimerExpired" full_name="" target="resetWord" type="timer_expired" timer="holdTimer"/>
+                        </task_system_state>
+                        <task_system_state tag="resetWord" full_name="" description="" interruptible="YES">
+                            <action tag="ResettingSignals" full_name="" type="report" message="Resetting Signals"/>
+                            <action tag="assign_wordout" full_name="" type="assignment" variable="wordout" value="0"/>
+                            <transition tag="waitForWordToBeReeset" full_name="" target="end" type="conditional" condition="wordSent == 0"/>
+                        </task_system_state>
+                        <task_system_state tag="end" full_name="" description="" interruptible="YES">
+                            <action tag="Waiting" full_name="" type="report" message="Waiting $ITI us for trial to end"/>
+                            <action tag="TimeBetweenTrialDelay" full_name="" type="wait" duration="ITI"/>
+                            <transition tag="Yield" full_name="" type="yield"/>
+                        </task_system_state>
+                    </task_system>
+                    <action tag="Stop Device IO" full_name="" type="stop_device_io" device="ITC18"/>
+                </trial>
+            </block>
+        </protocol>
+    </experiment>
+</monkeyml>

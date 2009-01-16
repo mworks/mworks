@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<monkeyml version="1.0">
+    <io_devices>
+        <iodevice tag="FM" priority="" type="fake_monkey" id=""/>
+        <iodevice tag="ITC" priority="" alt="FM" type="ITC18" id="">
+            <iochannel device="ITC18" variable="TTLchannel0" capability="ITC18_TTL_INPUT0" data_type="edge_any" direction="input" synchrony="hardware_timed_synchronous" range_min="0" range_max="5" resolution="1" update_interval="5ms" data_interval="0.5ms" tag="ioTTLchannel0" TTL_trigger_port="0" pre_trigger_interval="5ms" post_trigger_interval="5ms"/>
+        </iodevice>
+    </io_devices>
+    <variables>
+        <variable tag="TTLchannel0" full_name="TTLchannel0" default_value="0" scope="GLOBAL" type="INTEGER" editable="never" logging="when_changed"/>
+    </variables>
+    <sounds/>
+    <stimuli/>
+    <experiment tag="DigitalInExample" full_name="DigitalInExample">
+        <protocol tag="Protocol" full_name="Protocol" interruptable="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles" description="" interruptible="YES">
+            <block tag="Block" full_name="Block" interruptable="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles" description="" interruptible="YES">
+                <trial tag="Trial" full_name="Trial" description="" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
+                    <task_system tag="TS" full_name="TS" interruptable="YES" description="" interruptible="YES">
+                        <task_system_state tag="openITC" full_name="openITC" interruptable="YES" description="" interruptible="YES">
+                            <action tag="startIO" full_name="startIO" type="start_device_IO" device="ITC"/>
+                            <action tag="StartTrialTimer" full_name="StartTrialTimer" type="start_timer" timer="trialTimer" duration="20000ms"/>
+                            <transition tag="goToReadDigitalIn" full_name="goToReadDigitalIn" target="ReadDigitalIn" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="ReadDigitalIn" full_name="ReadDigitalIn" description="" interruptible="YES">
+                            <action tag="ReportDigital" full_name="ReportDigital" type="report" message="TTLchannel0 = $TTLchannel0"/>
+                            <transition tag="goToContinue" full_name="goToContinue" target="Continue" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="Continue" full_name="Continue" description="" interruptible="YES">
+                            <action tag="StartReadTimer" full_name="StartReadTimer" type="start_timer" timer="readTimer" duration="500ms"/>
+                            <transition tag="goToReadDigitalInTE" full_name="goToReadDigitalInTE" target="ReadDigitalIn" type="timer_expired" timer="readTimer"/>
+                            <transition tag="goToCloseITCTE" full_name="goToCloseITCTE" target="CloseITC" type="timer_expired" timer="trialTimer"/>
+                        </task_system_state>
+                        <task_system_state tag="CloseITC" full_name="CloseITC" interruptable="YES" description="" interruptible="YES">
+                            <action tag="stopIO" full_name="stopIO" type="stop_device_IO" device="ITC"/>
+                            <transition type="yield" tag="end" full_name="end"/>
+                        </task_system_state>
+                    </task_system>
+                </trial>
+            </block>
+        </protocol>
+    </experiment>
+</monkeyml>

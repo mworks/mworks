@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<monkeyml version="1.0">
+    <io_devices/>
+    <variables>
+        <variable tag="x" full_name="fullname12" default_value="0" scope="GLOBAL" type="INTEGER" editable="NEVER" logging="WHEN_CHANGED"/>
+        <variable tag="variable11" full_name="fullname11" default_value="0" scope="GLOBAL" type="INTEGER" editable="NEVER" logging="WHEN_CHANGED"/>
+        <variable tag="variable10" full_name="fullname10" default_value="0" scope="GLOBAL" type="INTEGER" editable="NEVER" logging="WHEN_CHANGED"/>
+        <variable tag="variable9" full_name="fullname9" default_value="0" scope="GLOBAL" type="INTEGER" editable="NEVER" logging="WHEN_CHANGED"/>
+    </variables>
+    <sounds/>
+    <stimuli>
+        <stimulus_group tag="myGroup" full_name="fullname_27">
+            <stimulus tag="Image_26" full_name="fullname_26" type="image_file" path="square50.png" x_size="2" y_size="2" x_position="0" y_position="0" rotation="0.0" contrast="0.0" affine_transform="0"/>
+            <stimulus tag="Image_3" full_name="fullname_3" type="image_file" path="square180.png" x_size="3" y_size="3" x_position="0" y_position="0" rotation="0.0" contrast="0.0" affine_transform="0"/>
+        </stimulus_group>
+    </stimuli>
+    <experiment tag="MyExperiment" full_name="My Experiment">
+        <protocol tag="Protocol1" full_name="Protocol 1" description="" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
+            <block tag="Block1" full_name="Block 1" description="" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
+                <task_system tag="Task System_1" full_name="fullname_1" description="" interruptible="YES">
+                    <task_system_state tag="queue" full_name="queue" description="" interruptible="YES">
+                        <action tag="Assignment_8" full_name="fullname_8" type="assignment" variable="x" value="0"/>
+                        <action tag="QueueStimulus_7" full_name="fullname_7" type="queue_stimulus" stimulus="myGroup[x]"/>
+                        <action tag="Assignment_8" full_name="fullname_8" type="assignment" variable="x" value="1"/>
+                        <action tag="StartTimer_9" full_name="fullname_9" type="start_timer" timer="timer" duration="500ms"/>
+                        <action tag="UpdateStimulusDisplay_11" full_name="fullname_11" type="update_stimulus_display"/>
+                        <transition tag="TimerExpired_20" full_name="fullname_20" target="stimOff1" type="timer_expired" timer="timer"/>
+                    </task_system_state>
+                    <task_system_state tag="stimOff1" full_name="fullname_4" description="" interruptible="YES">
+                        <action tag="StartTimer_9" full_name="fullname_9" type="start_timer" timer="timer" duration="500ms"/>
+                        <action tag="DequeueStimulus_24" full_name="fullname_24" type="dequeue_stimulus" stimulus="myGroup[0]"/>
+                        <action tag="UpdateStimulusDisplay_11" full_name="fullname_11" type="update_stimulus_display"/>
+                        <transition tag="TimerExpired_21" full_name="fullname_21" target="liveQueue" type="timer_expired" timer="timer"/>
+                    </task_system_state>
+                    <task_system_state tag="liveQueue" full_name="queue" description="" interruptible="YES">
+                        <action tag="StartTimer_9" full_name="fullname_9" type="start_timer" timer="timer" duration="500ms"/>
+                        <action tag="Assignment_8" full_name="fullname_8" type="assignment" variable="x" value="0"/>
+                        <action tag="LiveQueueStimulus_19" full_name="fullname_19" type="live_queue_stimulus" stimulus="myGroup[x]"/>
+                        <action tag="Assignment_8" full_name="fullname_8" type="assignment" variable="x" value="1"/>
+                        <action tag="UpdateStimulusDisplay_11" full_name="fullname_11" type="update_stimulus_display"/>
+                        <transition tag="TimerExpired_22" full_name="fullname_22" target="stimOff2" type="timer_expired" timer="timer"/>
+                    </task_system_state>
+                    <task_system_state tag="stimOff2" full_name="queue" description="" interruptible="YES">
+                        <action tag="DequeueStimulus_24" full_name="fullname_24" type="dequeue_stimulus" stimulus="myGroup[x]"/>
+                        <action tag="UpdateStimulusDisplay_11" full_name="fullname_11" type="update_stimulus_display"/>
+                        <transition type="yield" tag="Yield_23" full_name="fullname_23"/>
+                    </task_system_state>
+                </task_system>
+            </block>
+        </protocol>
+    </experiment>
+</monkeyml>

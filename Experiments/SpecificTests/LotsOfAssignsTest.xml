@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<monkeyml version="1.0">
+    <io_devices/>
+    <variables>
+        <variable tag="thetarget" full_name="fullname12" default_value="0" scope="GLOBAL" type="INTEGER" editable="NEVER" logging="WHEN_CHANGED" persistant="NO"/>
+    </variables>
+    <sounds/>
+    <stimuli/>
+    <experiment tag="MyExperiment" full_name="My Experiment" description="">
+        <protocol tag="Protocol1" full_name="Protocol 1" description="" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
+            <block tag="Block1" full_name="Block 1" description="" interruptible="YES" selection="sequential_ascending" nsamples="10000" sampling_method="cycles">
+                <action tag="set thetarget" type="assignment" variable="thetarget" value="1"/>
+            </block>
+        </protocol>
+    </experiment>
+</monkeyml>

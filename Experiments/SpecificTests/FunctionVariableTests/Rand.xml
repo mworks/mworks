@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<monkeyml version="1.0">
+    <io_devices/>
+    <calibrators/>
+    <filters/>
+    <sounds/>
+    <stimuli/>
+    <variables>
+        <variable tag="settee" full_name="" default_value="0" scope="GLOBAL" type="INTEGER" editable="ALWAYS" persistant="NO" logging="WHEN_CHANGED"/>
+        <variable tag="setter" full_name="" default_value="0" scope="GLOBAL" type="INTEGER" editable="ALWAYS" persistant="NO" logging="WHEN_CHANGED"/>
+    </variables>
+    <experiment tag="Experiment" full_name="" description="">
+        <protocol tag="Protocol" full_name="" description="" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
+            <block tag="Block" full_name="" description="" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
+                <task_system tag="Task System" full_name="" description="" interruptible="YES">
+                    <task_system_state tag="Task System State" full_name="" description="" interruptible="YES">
+                        <action tag="Assignment" full_name="" type="assignment" variable="setter" value="4"/>
+                        <action tag="Assignment" full_name="" type="assignment" variable="settee" value="rand(4,4)"/>
+                        <action tag="Assert" full_name="" type="assert" condition="settee==4" message="1. settee != 4 ... ( settee == $settee ) :: ( setter == $setter )"/>
+                        <action tag="Assignment" full_name="" type="assignment" variable="settee" value="rand(-4,-4)"/>
+                        <action tag="Assert" full_name="" type="assert" condition="settee==-4" message="2. settee != -4 ... ( settee == $settee ) :: ( setter == $setter )"/>
+                        <action tag="Assignment" full_name="" type="assignment" variable="settee" value="rand(0,0)"/>
+                        <action tag="Assert" full_name="" type="assert" condition="settee==0" message="3. settee != 0 ... ( settee == $settee ) :: ( setter == $setter )"/>
+                        <action tag="Assignment" full_name="" type="assignment" variable="settee" value="rand(4.3,4.5)"/>
+                        <action tag="Assert" full_name="" type="assert" condition="settee #GE 4.3 #AND settee #LE 4.5" message="4. settee #GE 4.3 and settee #LE 4.5 ... ( settee == $settee ) :: ( setter == $setter )"/>
+                        <action tag="Assignment" full_name="" type="assignment" variable="settee" value="rand(setter,setter)"/>
+                        <action tag="Assert" full_name="" type="assert" condition="settee==setter" message="5. settee != $setter ... ( settee == $settee ) :: ( setter == $setter )"/>
+                        <action tag="Assert" full_name="" type="assert" condition="settee==4" message="6. settee != 4 ... ( settee == $settee ) :: ( setter == $setter )"/>
+                        <action tag="Assignment" full_name="" type="assignment" variable="settee" value="rand(-setter,-setter)"/>
+                        <action tag="Assert" full_name="" type="assert" condition="settee==-setter" message="settee != -$setter"/>
+                        <action tag="Assert" full_name="" type="assert" condition="settee==-4" message="7. settee != -4 ... ( settee == $settee ) :: ( setter == $setter )"/>
+                        <action tag="Assignment" full_name="" type="assignment" variable="settee" value="rand(0,0)"/>
+                        <action tag="Assert" full_name="" type="assert" condition="settee==0" message="8. settee != 0 ... ( settee == $settee ) :: ( setter == $setter )"/>
+                        <action tag="Assignment" full_name="" type="assignment" variable="setter" value="0"/>
+                        <action tag="Assignment" full_name="" type="assignment" variable="settee" value="rand(setter,setter)"/>
+                        <action tag="Assert" full_name="" type="assert" condition="settee==setter" message="9. settee != $setter ... ( settee == $settee ) :: ( setter == $setter )"/>
+                        <action tag="Assert" full_name="" type="assert" condition="settee==0" message="10. settee != 0"/>
+                        <action tag="Assignment" full_name="" type="assignment" variable="settee" value="rand(-setter,-setter)"/>
+                        <action tag="Assert" full_name="" type="assert" condition="settee==-setter" message="11. settee != -$setter ... ( settee == $settee ) :: ( setter == $setter )"/>
+                        <action tag="Assert" full_name="" type="assert" condition="settee==0" message="12. settee != 0 ... ( settee == $settee ) :: ( setter == $setter )"/>
+                        <action tag="Assignment" full_name="" type="assignment" variable="settee" value="rand(-setter,setter)"/>
+                        <action tag="Assert" full_name="" type="assert" condition="settee==setter" message="13. settee != $setter ... ( settee == $settee ) :: ( setter == $setter )"/>
+                        <action tag="Assert" full_name="" type="assert" condition="settee==-setter" message="14. settee != -$setter ... ( settee == $settee ) :: ( setter == $setter )"/>
+                        <action tag="Assert" full_name="" type="assert" condition="settee==0" message="15. settee != 0 ... ( settee == $settee ) :: ( setter == $setter )"/>
+                        <action tag="Assignment" full_name="" type="assignment" variable="settee" value="rand(4,4.5)"/>
+                        <action tag="Assert" full_name="" type="assert" condition="settee #GE 4 #AND settee #LE 4.5" message="16. settee #GE 4 and settee #LE 4.5 ... ( settee == $settee ) :: ( setter == $setter )"/>
+                        <action tag="Assignment" full_name="" type="assignment" variable="settee" value="rand(4.1,4.5)"/>
+                        <action tag="Assert" full_name="" type="assert" condition="settee #GE 4.1 #AND settee #LE 4.5" message="17. settee #GE 4.1 and settee #LE 4.5 ... ( settee == $settee ) :: ( setter == $setter )"/>
+                        <action tag="Assignment" full_name="" type="assignment" variable="settee" value="rand(4.5,4.5)"/>
+                        <action tag="Assert" full_name="" type="assert" condition="settee==4.5" message="18. settee != 4.5 ... ( settee == $settee ) :: ( setter == $setter )"/>
+                        <action tag="Assignment" full_name="" type="assignment" variable="settee" value="rand(-4.5,-4.1)"/>
+                        <action tag="Assert" full_name="" type="assert" condition="settee #GE -4.5 #AND settee #LE -4.1" message="19. settee #GE -4.5 and settee #LE -4.1 ... ( settee == $settee ) :: ( setter == $setter )"/>
+                        <action tag="Assignment" full_name="" type="assignment" variable="settee" value="rand(-4.5,4.1)"/>
+                        <action tag="Assert" full_name="" type="assert" condition="settee #GE -4.5 #AND settee #LE 4.1" message="20. settee #GE -4.5 and settee #LE 4.1 ... ( settee == $settee ) :: ( setter == $setter )"/>
+                        <transition tag="Yield" full_name="" target="~STATE_REF~" type="yield"/>
+                    </task_system_state>
+                </task_system>
+            </block>
+        </protocol>
+    </experiment>
+</monkeyml>

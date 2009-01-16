@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<monkeyml version="1.0">
+    <io_devices/>
+    <variables>
+        <variable tag="x" full_name="x" default_value="5" scope="GLOBAL" type="INTEGER" editable="NEVER" logging="WHEN_CHANGED"/>
+        <variable tag="y" full_name="y" default_value="1" scope="GLOBAL" type="INTEGER" editable="NEVER" logging="WHEN_CHANGED"/>
+<!--        <variable tag="z" full_name="z" default_value="3" scope="GLOBAL" type="INTEGER" editable="NEVER" logging="WHEN_CHANGED"/> -->
+    </variables>
+    <sounds/>
+    <stimuli/>
+    <experiment tag="ExpressionVariableTest" full_name="ExpressionVariableTest">
+        <protocol tag="Protocol" full_name="Protocol" description="" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
+            <block tag="Block" full_name="Block" description="" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
+                <task_system tag="Task System" full_name="Task System" description="" interruptible="YES">
+                    <task_system_state tag="theTrial" full_name="the Trial" description="" interruptible="YES">
+                        <action tag="Assert_0" full_name="Assert__0" type="assert" condition="x==y+4" message="Assertion: x==y+4"/>
+                        <transition type="yield" tag="Yield" full_name="Yield"/>
+                    </task_system_state>
+                </task_system>
+            </block>
+        </protocol>
+    </experiment>
+</monkeyml>

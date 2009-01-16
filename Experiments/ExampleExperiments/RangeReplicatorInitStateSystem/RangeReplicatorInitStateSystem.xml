@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<monkeyml version="1.0">
+    <io_devices/>
+    <variables>
+        <variable tag="x" full_name="fullname_15" default_value="0.45" scope="GLOBAL" type="DOUBLE" editable="ALWAYS" logging="WHEN_CHANGED"/>
+        <variable tag="RR_var" full_name="RR_var" default_value="0" scope="LOCAL" type="INTEGER" editable="ALWAYS" logging="WHEN_CHANGED"/>
+    </variables>
+    <sounds/>
+    <stimuli/>
+    <experiment tag="Experiment" full_name="Experiment">
+        <protocol tag="Protocol" full_name="Protocol" description="" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
+            <block tag="Block" full_name="Block" description="" interruptible="YES" selection="sequential_ascending" nsamples="3" sampling_method="cycles">
+                <range_replicator tag="RR" full_name="fullname_13" from="0" to="1" step="1" variable="RR_var">
+                    <task_system tag="TS1" full_name="fullname_1" description="" interruptible="YES">
+                        <task_system_state tag="TSS1" full_name="fullname_3" description="" interruptible="YES">
+                            <action tag="assignX" full_name="assignX" type="assignment" variable="x" value="RR_var"/>
+                            <action tag="Report TSS1 and x" full_name="Report TSS1 and x" type="report" message="TSS1: x=$x"/>
+                            <transition tag="goToTSS2" full_name="goToTSS2" target="TSS2" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="TSS2" full_name="fullname_2" description="" interruptible="YES">
+                            <action tag="Report TSS2 and x" full_name="Report TSS2 and x" type="report" message="TSS2: x=$x"/>
+                            <transition type="yield" tag="yield1" full_name="yield1"/>
+                        </task_system_state>
+                    </task_system>
+                </range_replicator>
+                <trial tag="Trial" full_name="Trial" description="" interruptible="YES" selection="sequential_ascending" nsamples="4" sampling_method="samples">
+                    <task_system tag="TS2" full_name="TS2" description="" interruptible="YES">
+                        <task_system_state tag="TSS3" full_name="TSS3" description="" interruptible="YES">
+                            <action tag="Report TSS3 and x" full_name="Report TSS3 and x" type="report" message="TSS3: x=$x"/>
+                            <transition type="yield" tag="Yield2" full_name="Yield2"/>
+                        </task_system_state>
+                    </task_system>
+                </trial>
+            </block>
+        </protocol>
+    </experiment>
+</monkeyml>

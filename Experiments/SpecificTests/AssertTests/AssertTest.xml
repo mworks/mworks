@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<monkeyml version="1.0">
+    <stimuli/>
+    <experiment tag="AssertTest" full_name="Assert Unit Test">
+        <protocol tag="AT Protocol" full_name="AT" interruptable="YES" selection="sequential" nsamples="1" sampling_method="cycles" description="" interruptible="YES">
+            <block tag="AT Block" interruptable="YES" selection="sequential" nsamples="1" sampling_method="cycles" full_name="fullname_~ELEMENTCOUNT~" description="" interruptible="YES">
+                <trial tag="AT trial" interruptable="YES" selection="sequential" nsamples="1" sampling_method="cycles" full_name="fullname_~ELEMENTCOUNT~" description="" interruptible="YES">
+                    <task_system tag="AT">
+                        <task_system_state tag="assert" interruptible="YES">
+                            <action type="report" message="About to not assert"/>
+                            <action type="assert" condition="1" message="This should not assert"/>
+                            <action type="report" message="About to assert"/>
+                            <action type="assert" condition="0" message="This is a test assertion 1"/>
+                            <action type="report" message="About to not assert"/>
+                            <action type="assert" condition="1" message="This should not assert"/>
+                            <action type="report" message="About to assert"/>
+                            <action type="assert" condition="0" message="This is a test assertion 2"/>
+                            <action type="report" message="About to not assert"/>
+                            <action type="assert" condition="1" message="This should not assert"/>
+                            <action type="report" message="About to not assert"/>
+                            <action type="assert" condition="1" message="This should not assert"/>
+                            <action type="report" message="About to assert"/>
+                            <action type="assert" condition="0" message="This is a test assertion 3"/>
+                            <action type="report" message="About to assert"/>
+                            <action type="assert" condition="0" message="This is a test assertion 4"/>
+                            <action type="report" message="About to not assert"/>
+                            <action type="assert" condition="1" message="This should not assert"/>
+                            <action type="report" message="About to not assert"/>
+                            <action type="assert" condition="1" message="This should not assert"/>
+                            <action type="report" message="About to not assert"/>
+                            <action type="assert" condition="1" message="This should not assert"/>
+                            <transition type="yield"/>
+                        </task_system_state>
+                    </task_system>
+                </trial>
+            </block>
+        </protocol>
+    </experiment>
+</monkeyml>

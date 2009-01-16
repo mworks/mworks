@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<monkeyml version="1.0">
+    <io_devices/>
+    <variables>
+        <variable tag="index" full_name="index" default_value="0" scope="LOCAL" type="INTEGER" editable="NEVER" logging="WHEN_CHANGED" persistant="NO"/>
+        <variable tag="reportVar" full_name="index" default_value="0" scope="GLOBAL" type="INTEGER" editable="NEVER" logging="WHEN_CHANGED" persistant="NO"/>
+        <variable type="selection" tag="selectionVar" full_name="selectionVar" values="0,1,2,3,4" selection="random_with_replacement" nsamples="5" sampling_method="samples"/>
+    </variables>
+    <sounds/>
+    <stimuli/>
+    <experiment tag="SelectionTest_07" full_name="SelectionTest_07" description="">
+        <protocol tag="Protocol" full_name="Protocol" description="" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
+            <block tag="Block" full_name="Block" description="" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
+                <trial tag="Trial" full_name="fullname_1" description="" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
+                    <range_replicator tag="Range Replicator" full_name="fullname_5" from="1" to="8" step="1" variable="index">
+                        <task_system tag="SelectionTask" full_name="fullname_2" description="" interruptible="YES">
+                            <task_system_state tag="check accept or not" full_name="fullname_3" description="" interruptible="YES">
+                                <action tag="If" type="if" condition="index == 5">
+                                    <action tag="Report reset" type="report" message="resetting selectionVar"/>
+                                    <action tag="Reset Selection_2" type="reset_selection" selection="selectionVar"/>
+                                </action>
+                                <action tag="assign report var" type="assignment" variable="reportVar" value="selectionVar"/>
+                                <action tag="Report 1" type="report" message="Before get next selection reportVar = $reportVar"/>
+                                <action tag="get next selectionVar" full_name="fullname_7" type="next_selection" selection="selectionVar"/>
+                                <action tag="assign report var 2" type="assignment" variable="reportVar" value="selectionVar"/>
+                                <action tag="Report 2" type="report" message="After get next selection reportVar = $reportVar"/>
+                                <transition type="yield" tag="Yield_18" full_name="fullname_18"/>
+                            </task_system_state>
+                        </task_system>
+                    </range_replicator>
+                </trial>
+            </block>
+        </protocol>
+    </experiment>
+</monkeyml>

@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<?oxygen SCHSchema="../../../../../../../../Library/MonkeyWorks/Scripting/Perl/MonkeyWorksAdvancedSchematron.xml"?>
+<monkeyml version="1.0">
+    <io_devices/>
+    <variables>
+        <variable tag="currTime" full_name="currTime" default_value="0" scope="GLOBAL" type="INTEGER" editable="NEVER" logging="WHEN_CHANGED" persistant="NO"/>
+        <variable tag="difference" full_name="difference" default_value="0" scope="GLOBAL" type="INTEGER" editable="NEVER" logging="WHEN_CHANGED" persistant="NO"/>
+        <variable tag="avgDifference" full_name="avgDifference" default_value="0" scope="GLOBAL" type="INTEGER" editable="NEVER" logging="WHEN_CHANGED" persistant="NO"/>
+        <variable tag="accumDiff" full_name="accumDiff" default_value="0" scope="GLOBAL" type="INTEGER" editable="NEVER" logging="WHEN_CHANGED" persistant="NO"/>
+        <variable tag="startTime" full_name="startTime" default_value="0" scope="GLOBAL" type="INTEGER" editable="ALWAYS" logging="WHEN_CHANGED" persistant="NO"/>
+        <variable tag="slop" full_name="slop" default_value="1000" scope="GLOBAL" type="INTEGER" editable="ALWAYS" logging="WHEN_CHANGED" persistant="NO"/>
+        <variable tag="counter" full_name="counter" default_value="0" scope="GLOBAL" type="INTEGER" editable="ALWAYS" logging="WHEN_CHANGED" persistant="NO"/>
+        <variable tag="counterCondition1" full_name="counterCondition1" default_value="0" scope="GLOBAL" type="INTEGER" editable="ALWAYS" logging="WHEN_CHANGED" persistant="NO"/>
+        <variable tag="counterCondition2" full_name="counterCondition2" default_value="0" scope="GLOBAL" type="INTEGER" editable="ALWAYS" logging="WHEN_CHANGED" persistant="NO"/>
+    </variables>
+    <sounds/>
+    <stimuli/>
+    <experiment tag="CurrentTimeTest" full_name="CurrentTimeTest" description="">
+        <protocol tag="Protocol" full_name="Protocol" description="" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
+            <block tag="Block" full_name="Block" description="" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
+                <trial tag="Trial" full_name="Trial" description="" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
+                    <task_system tag="TS" full_name="TS" description="" interruptible="YES">
+                        <task_system_state tag="start" full_name="start" description="" interruptible="YES">
+                            <action tag="setStartTime" full_name="setStartTime" type="assignment" variable="startTime" value="now()"/>
+                            <action tag="setTimebase" full_name="setTimebase" type="set_timebase" timebase="timebase"/>
+                            <action tag="clear accumulated" full_name="initCounter" type="assignment" variable="accumDiff" value="0"/>
+                            <action tag="initCounter" full_name="initCounter" type="assignment" variable="counter" value="0"/>
+                            <transition tag="goToNextState" full_name="goToNextState" target="nextState" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="nextState" full_name="nextState" description="" interruptible="YES">
+                            <action type="report" message="********* entering timer state" tag="enterReport" full_name="enterReport"/>
+                            <action tag="setTimeVar" full_name="setTimeVar" type="assignment" variable="currTime" value="now()"/>
+                            <action type="report" message="current time=$currTime" tag="timeReport" full_name="timeReport"/>
+                            <action type="report" message="current counter=$counter" tag="counterReport" full_name="counterReport"/>
+                            <action tag="setCC1" full_name="setTimeVar" type="assignment" variable="counterCondition1" value="startTime+(counter*100000)-slop"/>
+                            <action type="report" message="minTimeRange = $counterCondition1" tag="counterCondition1Report" full_name="counterReport"/>
+                            <action tag="setCC2" full_name="setTimeVar" type="assignment" variable="counterCondition2" value="startTime+(counter*100000)+slop"/>
+                            <action type="report" message="maxTimeRange = $counterCondition2" tag="counterCondition2Report" full_name="counterReport"/>
+                            <action tag="set Time difference" type="assignment" variable="difference" value="currTime-(startTime+(counter*100000))"/>
+                            <action tag="timeDifferenceReoprt" type="report" message="time difference = $difference"/>
+                            <action tag="accumulateError" type="assignment" variable="accumDiff" value="accumDiff + difference"/>
+                            <action tag="incrementCounter" full_name="incrementCounter" type="assignment" variable="counter" value="counter+1"/>
+                            <action type="report" message="current counter=$counter" tag="counterReport2" full_name="counterReport2"/>
+                            <action tag="StartStateTimer" timebase="timebase" full_name="fullname" type="start_timer" timer="stateTimer" duration="counter*100ms"/>
+                            <transition tag="counterReachedEnd" target="end" type="conditional" condition="counter == 250"/>
+                            <transition tag="stateTimerExpired" full_name="stateTimerExpired" target="nextState" type="timer_expired" timer="stateTimer"/>
+                        </task_system_state>
+                        <task_system_state tag="end" full_name="fullname_13" description="" interruptible="YES">
+                            <action tag="avgDiff" type="assignment" variable="avgDifference" value="accumDiff/(counter-1)"/>
+                            <action tag="checkTime" full_name="checkTime" type="report" message="Time is off by $avgDifference"/>
+                            <action tag="reportEnd" full_name="reportEnd" type="report" message="end ^^ averageDifference = $avgDifference"/>
+                            <transition type="yield" tag="Yield" full_name="Yield"/>
+                        </task_system_state>
+                    </task_system>
+                </trial>
+            </block>
+        </protocol>
+    </experiment>
+</monkeyml>

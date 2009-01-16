@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<monkeyml version="1.0">
+    <io_devices/>
+    <variables>
+        <variable tag="index" full_name="index" default_value="0" scope="LOCAL" type="INTEGER" editable="NEVER" logging="WHEN_CHANGED"/>
+        <variable type="selection" tag="AcceptOrReject" full_name="AcceptOrReject" values="0,1" selection="random_with_replacement" nsamples="1000" sampling_method="cycles"/>
+    </variables>
+    <sounds/>
+    <stimuli/>
+    <experiment tag="MyExperiment" full_name="My Experiment">
+        <protocol tag="Protocol1" full_name="Protocol 1" description="" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
+            <block tag="Block1" full_name="Block 1" description="" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
+                <trial tag="Trial_1" full_name="fullname_1" description="" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
+                        <range_replicator tag="Range Replicator_5" full_name="fullname_5" from="1" to="5" step="1" variable="index">
+                            <task_system tag="SelectionTask" full_name="fullname_2" description="" interruptible="YES">
+                                <task_system_state tag="check accept or not" full_name="fullname_3" description="" interruptible="YES">
+                                    <action tag="accept or not" full_name="fullname_7" type="next_selection" selection="AcceptOrReject"/>
+                                    <transition tag="go to accept" full_name="go to accept" target="accept" type="conditional" condition="AcceptOrReject==1"/>
+                                    <transition tag="go to reject" full_name="fullname_9" target="reject" type="conditional" condition="AcceptOrReject==0"/>
+                                </task_system_state>
+                                <task_system_state tag="accept" full_name="fullname_10" description="" interruptible="YES">
+                                    <action tag="Report_19" full_name="fullname_19" type="report" message="*************** Accept ****************"/>
+                                    <action tag="accept AcceptOrReject" full_name="fullname_12" type="accept_selections" selection="AcceptOrReject"/>
+                                    <transition type="yield" tag="Yield_17" full_name="fullname_17"/>
+                                </task_system_state>
+                                <task_system_state tag="reject" full_name="fullname_11" description="" interruptible="YES">
+                                    <action tag="Report_20" full_name="fullname_20" type="report" message="*************** Reject ****************"/>
+                                    <action tag="accept AcceptOrReject" full_name="fullname_13" type="accept_selections" selection="AcceptOrReject"/>
+                                    <transition type="yield" tag="Yield_18" full_name="fullname_18"/>
+                                </task_system_state>
+                            </task_system>
+                        </range_replicator>
+                </trial>
+            </block>
+        </protocol>
+    </experiment>
+</monkeyml>

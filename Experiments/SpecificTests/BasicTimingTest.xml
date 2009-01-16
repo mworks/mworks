@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<monkeyml version="1.0">
+    <io_devices>
+    </io_devices>
+    <variables>
+        <variable tag="counter" full_name="counter" default_value="0" scope="GLOBAL" type="INTEGER" editable="never" logging="when_changed" persistant="NO"/>
+        <variable tag="currentTime" full_name="currentTime" default_value="0" scope="GLOBAL" type="INTEGER" editable="never" logging="when_changed" persistant="NO"/>
+    </variables>
+    <sounds/>
+    <stimuli>
+        <stimulus tag="background" full_name="background" type="blank_screen" color="0, 0, 0"/>
+    </stimuli>
+    <experiment tag="TimingTest" full_name="Super Awesome Happy" description="">
+        <protocol tag="TimingProtocol" full_name="sup" interruptable="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles" description="" interruptible="YES">
+            <block tag="block" full_name="supsup" interruptable="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles" description="" interruptible="YES">
+                <trial tag="trial" full_name="fullname20" interruptable="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles" description="" interruptible="YES">
+                    <list tag="RSVP_list" selection="sequential_ascending" nsamples="100" sampling_method="samples" description="" interruptible="YES">
+                        <task_system tag="task_system21" full_name="fullname21" interruptable="YES" description="" interruptible="YES">
+                            <task_system_state tag="initiation" full_name="initiation" interruptable="YES" description="" interruptible="YES">
+                                <action tag="Set Timebase_1" type="set_timebase" timebase="beginning_of_trial"/>
+                                <action tag="report message" full_name="report message" type="report" message="**************TRIAL STARTING**************"/>
+                                <action tag="update counter" full_name="update counter" type="assignment" variable="counter" value="0"/>
+                                <action tag="update counter" full_name="update counter" type="assignment" variable="currentTime" value="now()"/>								
+                                <action tag="report message" full_name="report message" type="report" message="* Current Time = $currentTime"/>
+                                <action tag="report message" full_name="report message" type="report" message="* counter = $counter"/>
+                                <transition tag="go to background on" full_name="go to background on" target="A" type="direct"/>
+                            </task_system_state>
+                            <task_system_state tag="A" full_name="background on" interruptable="YES" description="" interruptible="YES">
+                                <action tag="update counter" full_name="update counter" type="assignment" variable="counter" value="counter+1"/>
+                                <action tag="update counter" full_name="update counter" type="assignment" variable="currentTime" value="now()"/>								
+                                <action tag="report message" full_name="report message" type="report" message="*A* Current Time = $currentTime"/>
+                                <action tag="report message" full_name="report message" type="report" message="*A* counter = $counter"/>
+                                <action tag="start stm_timer" full_name="start stm_timer" type="start_timer" timer="stm_timer" duration="33ms" timebase=""/>
+                                <transition tag="go to stm on" full_name="go to stm on" target="B" type="timer_expired" timer="stm_timer"/>
+                            </task_system_state>
+                            <task_system_state tag="B" full_name="stm on" interruptable="YES" description="" interruptible="YES">
+                                <action tag="update counter" full_name="update counter" type="assignment" variable="currentTime" value="now()"/>								
+                                <action tag="report message" full_name="report message" type="report" message="*B* Current Time = $currentTime"/>
+                                <action tag="report message" full_name="report message" type="report" message="*B* counter = $counter"/>
+                                <transition tag="go to trial end" full_name="go to trial end" target="trial end" type="conditional" condition="counter==5"/>
+                                <transition tag="go to background on" full_name="go to background on" target="A" type="timer_expired" timer="stm_timer"/>
+                            </task_system_state>
+                            <task_system_state tag="trial end" full_name="trial end" interruptable="YES" description="" interruptible="YES">
+                                <action tag="report message" full_name="report message" type="report" message="**************TRIAL ENDING**************"/>
+                                <action tag="update counter" full_name="update counter" type="assignment" variable="currentTime" value="now()"/>								
+                                <action tag="report message" full_name="report message" type="report" message="**** Current Time = $currentTime"/>
+                                <action tag="report message" full_name="report message" type="report" message="**** counter = $counter"/>
+                                <transition type="yield" tag="yield" full_name="yield"/>
+                            </task_system_state>
+                        </task_system>
+                    </list>
+                </trial>
+            </block>
+        </protocol>
+    </experiment>
+</monkeyml>

@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<monkeyml version="1.0">
+    <io_devices/>
+    <variables>
+        <variable tag="v1" full_name="v1" default_value="0" scope="GLOBAL" type="INTEGER" editable="NEVER" logging="WHEN_CHANGED" persistant="NO" groups="g1"/>
+        <variable tag="v2" full_name="v2" default_value="0" scope="GLOBAL" type="INTEGER" editable="ALWAYS" logging="WHEN_CHANGED" persistant="NO" groups="g2,g3"/>
+        <variable tag="v3" full_name="v3" default_value="1000" scope="GLOBAL" type="INTEGER" editable="ALWAYS" logging="WHEN_CHANGED" persistant="NO" groups="g1 , g2 , g3"/>
+        <variable tag="v4" full_name="v4" default_value="0" scope="GLOBAL" type="INTEGER" editable="ALWAYS" logging="WHEN_CHANGED" persistant="NO" groups=" "/>
+    </variables>
+    <sounds/>
+    <stimuli/>
+    <experiment tag="VariableGroupTest" full_name="VariableGroupTest" description="">
+        <protocol tag="Protocol" full_name="Protocol" description="" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
+            <block tag="Block" full_name="Block" description="" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
+                <trial tag="Trial" full_name="Trial" description="" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
+                    <task_system tag="TS" full_name="TS" description="" interruptible="YES">
+                        <task_system_state tag="start" full_name="start" description="" interruptible="YES">
+                            <transition tag="goToNextState" full_name="goToNextState" target="done" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="done" full_name="fullname_13" description="" interruptible="YES">
+                            <action tag="reportEnd" full_name="reportEnd" type="report" message="end"/>
+                            <transition type="yield" tag="Yield" full_name="Yield"/>
+                        </task_system_state>
+                    </task_system>
+                </trial>
+            </block>
+        </protocol>
+    </experiment>
+</monkeyml>

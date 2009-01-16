@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<monkeyml version="1.0">
+    <io_devices>
+        <iodevice tag="FM" priority="" type="fake_monkey" id="">
+            <iochannel type="eye_movement" eye_v="eye_v" eye_h="eye_h" data_interval="1ms" update_interval="10ms"/>
+        </iodevice>
+        <iodevice tag="ITC" priority="" alt="FM" type="ITC18" id="">
+            <iochannel variable="eye_h" capability="ITC18_ADC_INPUT0" data_type="analog" direction="input" synchrony="hardware_timed_synchronous" range_min="-10" range_max="10" resolution="16" update_interval="3ms" data_interval="1ms" tag="Eye_H_channel" TTL_trigger_port="0" pre_trigger_interval="5ms" post_trigger_interval="5ms"/>
+            <iochannel variable="eye_v" capability="ITC18_ADC_INPUT1" data_type="analog" direction="input" synchrony="hardware_timed_synchronous" range_min="-10" range_max="10" resolution="16" update_interval="3ms" data_interval="1ms" tag="Eye_V_channel" TTL_trigger_port="0" pre_trigger_interval="5ms" post_trigger_interval="5ms"/>
+            <iochannel variable="reward" capability="ITC18_TTL_ASYCH_OUT00" data_type="pulse_active_low" direction="output" synchrony="asynchronous" range_min="0" range_max="5" resolution="1" update_interval="3ms" data_interval="1ms" tag="Reward_channel" TTL_trigger_port="0" pre_trigger_interval="5ms" post_trigger_interval="5ms"/>
+            <iochannel variable="TTLchannel0" capability="ITC18_TTL_INPUT0" data_type="edge_low_to_high" direction="input" synchrony="hardware_timed_synchronous" range_min="0" range_max="5" resolution="1" update_interval="5ms" data_interval="0.5ms" tag="ioTTLchannel0" TTL_trigger_port="0" pre_trigger_interval="5ms" post_trigger_interval="5ms"/>
+            <iochannel variable="TTLchannel1" capability="ITC18_TTL_INPUT1" data_type="edge_high_to_low" direction="input" synchrony="hardware_timed_synchronous" range_min="0" range_max="5" resolution="1" update_interval="5ms" data_interval="0.5ms" tag="ioTTLchannel1" TTL_trigger_port="0" pre_trigger_interval="5ms" post_trigger_interval="5ms"/>
+            <iochannel variable="TTLchannel2" capability="ITC18_TTL_INPUT2" data_type="edge_any" direction="input" synchrony="hardware_timed_synchronous" range_min="0" range_max="5" resolution="1" update_interval="10ms" data_interval="1ms" tag="ioTTLchannel2" TTL_trigger_port="0" pre_trigger_interval="5ms" post_trigger_interval="5ms"/>
+            <iochannel variable="TTLchannel3" capability="ITC18_TTL_INPUT3" data_type="digital" direction="input" synchrony="hardware_timed_synchronous" range_min="0" range_max="5" resolution="1" update_interval="50ms" data_interval="50ms" tag="ioTTLchannel3" TTL_trigger_port="0" pre_trigger_interval="5ms" post_trigger_interval="5ms"/>
+        </iodevice>
+    </io_devices>
+    <variables>
+        <variable tag="reward" full_name="reward" default_value="0" scope="GLOBAL" type="INTEGER" editable="never" logging="when_changed"/>
+        <variable tag="eye_h" full_name="eye_h" default_value="0" scope="GLOBAL" type="FLOAT" editable="never" logging="when_changed"/>
+        <variable tag="eye_v" full_name="eye_v" default_value="0" scope="GLOBAL" type="FLOAT" editable="never" logging="when_changed"/>
+        <variable tag="TTLchannel0" full_name="TTLchannel0" default_value="0" scope="GLOBAL" type="INTEGER" editable="never" logging="when_changed"/>
+        <variable tag="TTLchannel1" full_name="TTLchannel1" default_value="0" scope="GLOBAL" type="INTEGER" editable="never" logging="when_changed"/>
+        <variable tag="TTLchannel2" full_name="TTLchannel2" default_value="0" scope="GLOBAL" type="INTEGER" editable="never" logging="when_changed"/>
+        <variable tag="TTLchannel3" full_name="TTLchannel3" default_value="0" scope="GLOBAL" type="INTEGER" editable="never" logging="when_changed"/>
+    </variables>
+    <sounds/>
+    <stimuli/>
+    <experiment tag="It is your boy" full_name="Super Awesome Happy">
+        <protocol tag="refprot" full_name="sup" interruptable="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles" description="" interruptible="YES">
+            <block tag="sup2" full_name="supsup" interruptable="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles" description="" interruptible="YES">
+                <trial tag="Trial_1" full_name="fullname_1" description="" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
+                    <task_system tag="task_system12" full_name="fullname12" interruptable="YES" description="" interruptible="YES">
+                        <task_system_state tag="task_system_state13" full_name="fullname13" interruptable="YES" description="" interruptible="YES">
+                            <action tag="action14" full_name="fullname14" type="start_device_IO" device="ITC"/>
+                            <action tag="action15" full_name="fullname15" type="start_timer" timer="timer" duration="100ms"/>
+                            <transition tag="transition18" full_name="fullname18" target="task_system_state16" type="timer_expired" timer="timer"/>
+                        </task_system_state>
+                        <task_system_state tag="task_system_state16" full_name="fullname16" interruptable="YES" description="" interruptible="YES">
+                            <action tag="action19" full_name="fullname19" type="stop_device_IO" device="ITC"/>
+                            <transition type="yield" tag="transition17" full_name="fullname17"/>
+                        </task_system_state>
+                    </task_system>
+                </trial>
+            </block>
+        </protocol>
+    </experiment>
+</monkeyml>

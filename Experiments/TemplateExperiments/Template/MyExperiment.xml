@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<monkeyml version="1.0">
+    <filters>
+        <filter tag="filter_eyeH" full_name="filter_eyeH" id="" type="boxcar_filter_1D" in1="eye_h_calibrated" out1="eye_h" width_samples="5"/>
+        <filter tag="filter_eyeV" full_name="filter_eyeV" id="" type="boxcar_filter_1D" in1="eye_v_calibrated" out1="eye_v" width_samples="5"/>
+        <filter tag="eyeMonitor" full_name="eyeMonitor" id="" type="basic_eye_monitor" eyeh_calibrated="eye_h" eyev_calibrated="eye_v" eye_state="saccade" width_samples="5" saccade_entry_speed="120" saccade_exit_speed="20"/>
+    </filters>
+    <io_devices>
+        <iodevice tag="Setup 1 ITC18" priority="" type="ITC18" id="">
+            <iochannel variable="eye_h_raw" capability="ITC18_ADC_INPUT0" data_type="analog" direction="input" synchrony="hardware_timed_synchronous" range_min="-10" range_max="10" resolution="16" update_interval="3ms" data_interval="1ms" tag="Eye_H_channel"/>
+            <iochannel variable="eye_v_raw" capability="ITC18_ADC_INPUT1" data_type="analog" direction="input" synchrony="hardware_timed_synchronous" range_min="-10" range_max="10" resolution="16" update_interval="3ms" data_interval="1ms" tag="Eye_V_channel"/>
+            <iochannel variable="reward" capability="ITC18_TTL_PULSE_LOW_OUT00" data_type="pulse_active_low" direction="output" synchrony="asynchronous" range_min="0" range_max="5" resolution="1" update_interval="3ms" data_interval="1ms" tag="Reward_channel"/>
+            <iochannel variable="vertical_refresh" capability="ITC18_TTL_INPUT1_EDGEH" data_type="edge_low_to_high" direction="input" synchrony="hardware_timed_synchronous" range_min="0" range_max="5" resolution="1" update_interval="3ms" data_interval="0.1ms" tag="Vertical_Refresh_channel"/>
+        </iodevice>
+    </io_devices>
+    <calibrators>
+        <calibrator tag="eyeCalibrator" full_name="eyeCalibrator" type="standard_eye_calibrator" eyeh_raw="eye_h_raw" eyev_raw="eye_v_raw" eyeh_calibrated="eye_h_calibrated" eyev_calibrated="eye_v_calibrated"/>
+    </calibrators>
+    <variables>
+        <variable tag="saccade" full_name="saccade" default_value="0" scope="GLOBAL" type="INTEGER" editable="never" logging="when_changed"/>
+        <variable tag="eye_in_window" full_name="eye_in_window" default_value="0" scope="GLOBAL" type="INTEGER" editable="never" logging="when_changed"/>
+        <variable tag="success" full_name="success" default_value="0" scope="GLOBAL" type="INTEGER" editable="never" logging="when_changed"/>
+        <variable tag="failure" full_name="failure" default_value="0" scope="GLOBAL" type="INTEGER" editable="never" logging="when_changed"/>
+        <variable tag="ignore" full_name="ignore" default_value="0" scope="GLOBAL" type="INTEGER" editable="never" logging="when_changed"/>
+        <variable tag="eye_h_raw" full_name="eye_h_raw" default_value="0" scope="GLOBAL" type="FLOAT" editable="never" logging="when_changed"/>
+        <variable tag="eye_v_raw" full_name="eye_v_raw" default_value="0" scope="GLOBAL" type="FLOAT" editable="never" logging="when_changed"/>
+        <variable tag="eye_h_calibrated" full_name="eye_h_calibrated" default_value="0" scope="GLOBAL" type="FLOAT" editable="never" logging="never"/>
+        <variable tag="eye_v_calibrated" full_name="eye_v_calibrated" default_value="0" scope="GLOBAL" type="FLOAT" editable="never" logging="never"/>
+        <variable tag="eye_h" full_name="eye_h" default_value="0" scope="GLOBAL" type="FLOAT" editable="never" logging="when_changed"/>
+        <variable tag="eye_v" full_name="eye_v" default_value="0" scope="GLOBAL" type="FLOAT" editable="never" logging="when_changed"/>
+        <variable tag="vertical_refresh" full_name="vertical_refresh" default_value="0" scope="GLOBAL" type="INTEGER" editable="never" logging="when_changed"/>
+        <variable tag="fixation_pos_x" full_name="fixation_pos_y" default_value="0" scope="GLOBAL" type="FLOAT" editable="never" logging="when_changed"/>
+        <variable tag="fixation_pos_y" full_name="fixation_pos_y" default_value="0" scope="GLOBAL" type="FLOAT" editable="never" logging="when_changed"/>
+        <variable tag="fixation_size" full_name="fixation_size" default_value="0" scope="GLOBAL" type="FLOAT" editable="never" logging="when_changed"/>
+        <variable tag="fixation_width" full_name="fixation_width" default_value="20" scope="GLOBAL" type="FLOAT" editable="never" logging="when_changed"/>
+        <variable tag="reward" full_name="reward duration" default_value="0" scope="GLOBAL" type="INTEGER" editable="never" logging="when_changed">
+            <action tag="play reward_sound" full_name="play reward_sound" type="play_sound" sound="reward_sound"/>
+        </variable>
+    </variables>
+    <stimuli>
+        <stimulus tag="fixation_dot" full_name="fixation_dot" type="fixation_point" color="1,1,1" trigger_width="fixation_width" trigger_watch_x="eye_h" trigger_watch_y="eye_v" trigger_flag="eye_in_window" x_size="fixation_size" y_size="fixation_size" x_position="fixation_pos_x" y_position="fixation_pos_y" rotation="0.0" contrast="1.0" affine_transform="0"/>
+    </stimuli>
+    <sounds>
+        <sound tag="stm_on_sound" type="wav_file" path="./sounds/stm_on.wav" full_name="stm_on_sound"/>
+        <sound tag="reward_sound" type="wav_file" path="./sounds/reward.wav" full_name="reward_sound"/>
+        <sound tag="failure_sound" type="wav_file" path="./sounds/failure.wav" full_name="failure_sound"/>
+        <sound tag="complete_sound" type="wav_file" path="./sounds/complete.wav" full_name="complete_sound"/>
+        <sound tag="acquire_sound" type="wav_file" path="./sounds/acquire.wav" full_name="acquire_sound"/>
+    </sounds>
+    <experiment tag="MyExperiment" full_name="MyExperiment">
+        <protocol tag="my protocol" full_name="my protocol" interruptable="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles" description="" interruptible="YES">
+            <block tag="my block" full_name="my block" interruptable="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles" description="" interruptible="YES">
+                <trial tag="my trial" full_name="my trial" interruptable="YES" selection="sequential_ascending" nsamples="6" sampling_method="cycles" description="" interruptible="YES">
+                    <task_system tag="start">
+                        <task_system_state tag="StartIO_state" full_name="StartIO_state" description="" interruptible="YES">
+                            <action tag="start IO" full_name="start IO" type="start_device_IO" device="Setup 1 ITC18"/>
+                            <action tag="report" full_name="report" type="report" message="********** TRIAL START **********"/>
+                            <transition type="yield" tag="yield" full_name="yield"/>
+                        </task_system_state>
+                    </task_system>
+                    <list tag="my_list" selection="random_without_replacement" nsamples="1" sampling_method="cycles" full_name="my_list" description="" interruptible="YES"/>
+                    <task_system tag="complete">
+                        <task_system_state tag="StopIO_state" full_name="StartIO_state" description="" interruptible="YES">
+                            <action tag="report message" full_name="report message" type="report" message="************* SWAP TRIAL FINISHED **********"/>
+                            <action type="play_sound" sound="complete_sound" tag="play complete sound" full_name="play complete sound"/>
+                            <action type="stop_device_IO" device="Setup 1 ITC18" tag="stop IO" full_name="stop IO"/>
+                            <transition type="yield" tag="yield" full_name="yield"/>
+                        </task_system_state>
+                    </task_system>
+                </trial>
+            </block>
+        </protocol>
+    </experiment>
+</monkeyml>

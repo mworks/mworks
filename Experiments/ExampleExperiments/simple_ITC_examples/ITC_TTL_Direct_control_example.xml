@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<monkeyml version="1.0">
+    <io_devices>
+        <iodevice tag="sITC" priority="" alt="s1_FM" type="ITC18" id="">
+            <iochannel variable="x" capability="ITC18_TTL_ASYCH_OUT00" data_type="digital" direction="output" synchrony="asynchronous" range_min="0" range_max="5" resolution="1" update_interval="3ms" data_interval="1ms" tag="TTL_channel" TTL_trigger_port="0" pre_trigger_interval="5ms" post_trigger_interval="5ms"/>
+        </iodevice>
+        <iodevice tag="s1_FM" priority="" type="fake_monkey" id=""/>
+    </io_devices>
+    <variables>
+        <variable tag="x" full_name="x" default_value="1" scope="GLOBAL" type="INTEGER" editable="ALWAYS" logging="WHEN_CHANGED"/>
+    </variables>
+    <sounds/>
+    <stimuli/>
+    <experiment tag="ITC_TTL_Direct_control_example" full_name="ITC_TTL_Direct_control_example">
+        <protocol tag="Protocol" full_name="Protocol" interruptable="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles" description="" interruptible="YES">
+            <block tag="Block" full_name="Block" interruptable="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles" description="" interruptible="YES">
+                <task_system tag="TS" full_name="TS" interruptable="YES" description="" interruptible="YES">
+                    <task_system_state tag="TSS1" full_name="TSS1" interruptable="YES" description="" interruptible="YES">
+                        <action tag="reportStart" full_name="report message" type="report" message="************Start**********"/>
+                        <action tag="Assignment_X" full_name="Assignment_X" type="assignment" variable="x" value="1"/>
+                        <action tag="StartIIO" full_name="fullname14" type="start_device_IO" device="sITC"/>
+                        <transition tag="goToTSS2" full_name="goToTSS2" target="TSS2" type="direct"/>
+                    </task_system_state>
+                    <task_system_state tag="TSS2" full_name="TSS2" interruptable="YES" description="" interruptible="YES">
+                        <action tag="report message" full_name="report message" type="report" message="************TTL low**********"/>
+                        <action tag="Assignment_X" full_name="Assignment_X" type="assignment" variable="x" value="0"/>
+                        <action tag="startTimer" full_name="startTimer" type="start_timer" timer="timer" duration="5000ms"/>
+                        <transition tag="goToTSS3" full_name="goToTSS3" target="TSS3" type="timer_expired" timer="timer"/>
+                    </task_system_state>
+                    <task_system_state tag="TSS3" full_name="TSS3" interruptable="YES" description="" interruptible="YES">
+                        <action tag="report message" full_name="report message" type="report" message="************End**********"/>
+                        <action tag="Assignment_X" full_name="Assignment_X" type="assignment" variable="x" value="0"/>
+                        <action tag="stopIO" full_name="stopIO" type="stop_device_IO" device="sITC"/>
+                        <transition type="yield" tag="yielder" full_name="yielder"/>
+                    </task_system_state>
+                </task_system>
+            </block>
+        </protocol>
+    </experiment>
+</monkeyml>

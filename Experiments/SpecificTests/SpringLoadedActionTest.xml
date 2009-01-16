@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<monkeyml version="1.0">
+    <variables>
+        <variable tag="X" default_value="1" scope="GLOBAL" type="DOUBLE" editable="ALWAYS" logging="WHEN_CHANGED" persistant="NO">
+			<action type="assignment" variable="Y" value="X"/>
+		</variable>
+        <variable tag="Y" default_value="2" scope="GLOBAL" type="DOUBLE" editable="ALWAYS" logging="WHEN_CHANGED" persistant="NO"/>
+    </variables>
+    <stimuli>
+        <stimulus tag="blank screen" full_name="bland screen" type="blank_screen" color="1,0,0"/>
+    </stimuli>
+    <experiment tag="theExperiment" full_name="the Experiment" description="">
+        <protocol tag="theProtocol" full_name="the Protocol" interruptable="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles" description="" interruptible="YES">
+            <block tag="theBlock" full_name="the Block" interruptable="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles" description="" interruptible="YES">
+                <trial tag="theTrial" full_name="the Trial" description="" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
+                    <task_system tag="theTaskSystem">
+                        <task_system_state tag="theState" full_name="the State" description="" interruptible="YES">
+							<action  type="assert" condition="X!=Y" message="X==Y"/>
+							<action type="assignment" variable="X" value="10"/>
+                            <!--action type="wait" duration="5000 ms"/-->
+							<action  type="assert" condition="X==Y" message="X!=Y"/>
+                            <transition type="yield"/>
+                        </task_system_state>
+                    </task_system>
+                </trial>
+            </block>
+        </protocol>
+    </experiment>
+</monkeyml>

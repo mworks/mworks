@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<monkeyml version="1.0">
+    <io_devices/>
+    <variables>
+        <variable tag="counter" full_name="fullname_5" default_value="0" scope="GLOBAL" type="INTEGER" editable="ALWAYS" logging="WHEN_CHANGED"/>
+        <variable tag="stm" full_name="stm" default_value="0" scope="GLOBAL" type="INTEGER" editable="never" logging="when_changed"/>
+        <variable tag="stm_pos_x" full_name="stm_pos_x" default_value="40" scope="GLOBAL" type="INTEGER" editable="never" logging="when_changed"/>
+        <variable tag="stm_pos_y" full_name="stm_pos_y" default_value="0" scope="GLOBAL" type="INTEGER" editable="never" logging="when_changed"/>
+    </variables>
+    <sounds/>
+    <stimuli>
+        <stimulus tag="Image1" full_name="sti1" type="image_file" path="./Image1.png" x_size="72" y_size="72" x_position="stm_pos_x" y_position="stm_pos_y" rotation="0.0" contrast="1" affine_transform="0"/>
+    </stimuli>
+    <experiment tag="simple_refresh_test" full_name="simple_refresh_test">
+        <protocol tag="srt" full_name="srt" interruptable="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles" description="" interruptible="YES">
+            <block tag="srt_" full_name="srt" interruptable="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles" description="" interruptible="YES">
+                <task_system tag="task_system1" full_name="fullname_1" description="" interruptible="YES">
+                    <task_system_state tag="initiation" full_name="initiation" interruptable="YES" description="" interruptible="YES">
+                        <action tag="report message" full_name="report message" type="report" message="**********STARTING**********"/>
+                        <action tag="display refresh" full_name="display refresh" type="update_stimulus_display"/>
+                        <action tag="start timer" full_name="start timer" type="start_timer" timer="timer" duration="100ms"/>
+                        <transition tag="go to present1" full_name="go present1" target="present1" type="timer_expired" timer="timer"/>
+                    </task_system_state>
+                    <task_system_state tag="present1" full_name="present1" interruptable="YES" description="" interruptible="YES">
+                        <action tag="report message" full_name="report message" type="report" message="************Left**********"/>
+                        <action tag="QueueStimulus_1" full_name="fullname_1" type="queue_stimulus" stimulus="Image1"/>
+                        <action tag="set stm_pos_x" full_name="set stm_pos_x" type="assignment" variable="stm_pos_x" value="-stm_pos_x"/>
+                        <action tag="display refresh" full_name="display refresh" type="update_stimulus_display"/>
+                        <transition tag="AlwaysGo_2" full_name="fullname_2" target="present2" type="direct"/>
+                    </task_system_state>
+                    <task_system_state tag="present2" full_name="present1" interruptable="YES" description="" interruptible="YES">
+                        <action tag="report message" full_name="report message" type="report" message="************Right**********"/>
+                        <action tag="QueueStimulus_1" full_name="fullname_1" type="queue_stimulus" stimulus="Image1"/>
+                        <action tag="set stm_pos_x" full_name="set stm_pos_x" type="assignment" variable="stm_pos_x" value="-stm_pos_x"/>
+                        <action tag="display refresh" full_name="display refresh" type="update_stimulus_display"/>
+                        <action tag="update_counter" full_name="fullname_1" type="assignment" variable="counter" value="counter+1"/>
+                        <transition tag="ConditionalTransition_4" full_name="fullname_4" target="success" type="conditional" condition="counter==450"/>
+                        <transition tag="AlwaysGo_2" full_name="fullname_2" target="present1" type="direct"/>
+                    </task_system_state>
+                    <task_system_state tag="success" full_name="success" interruptable="YES" description="" interruptible="YES">
+                        <action tag="report message" full_name="report message" type="report" message="************TRIAL COMPLETE**********"/>
+                        <transition type="yield" tag="yield" full_name="yield"/>
+                    </task_system_state>
+                </task_system>
+            </block>
+        </protocol>
+    </experiment>
+</monkeyml>

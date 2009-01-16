@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<monkeyml version="1.0">
+    <io_devices/>
+    <variables>
+        <variable tag="flag1" full_name="fullname12" default_value="0" scope="GLOBAL" type="INTEGER" editable="NEVER" logging="WHEN_CHANGED" persistant="NO"/>
+        <variable tag="flag2" full_name="fullname12" default_value="0" scope="GLOBAL" type="INTEGER" editable="NEVER" logging="WHEN_CHANGED" persistant="NO"/>
+        <variable tag="flag3" full_name="fullname12" default_value="0" scope="GLOBAL" type="INTEGER" editable="NEVER" logging="WHEN_CHANGED" persistant="NO"/>
+    </variables>
+    <sounds/>
+    <stimuli/>
+    <experiment tag="MyExperiment" full_name="My Experiment" description="">
+        <protocol tag="Protocol1" full_name="Protocol 1" description="" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
+            <block tag="Block1" full_name="Block 1" description="" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
+                <action tag="If always" type="if" condition="1">
+                    <action tag="flag1 = 1" type="assignment" variable="flag1" value="1"/>
+                    <action tag="If always" type="if" condition="1">
+                        <action tag="flag2 = 1" type="assignment" variable="flag2" value="1"/>
+                    </action>
+                    <action tag="If always" type="if" condition="1">
+                        <action tag="flag3 = 1" type="assignment" variable="flag3" value="1"/>
+                    </action>
+                </action>
+                <action tag="Assert flag1" type="assert" condition="flag1" message="Flag1 should be 1"/>
+                <action tag="Assert flag2" type="assert" condition="flag2" message="Flag2 should be 1"/>
+                <action tag="Assert flag3" type="assert" condition="flag3" message="Flag3 should be 1"/>
+            </block>
+        </protocol>
+    </experiment>
+</monkeyml>

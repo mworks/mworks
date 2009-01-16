@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+<monkeyml version="1.0">
+    
+    <filters/>
+    
+    
+    <io_devices/>
+	<calibrators/>
+    
+    
+    <variables/>    
+    
+    
+    <stimuli>
+        <stimulus tag="blank screen" full_name="blank screen" type="blank_screen" color="0.5,0.5,0.5"/>
+        <stimulus tag="dog" full_name="Dog" type="image_file" alpha_multiplier="1" path="dog.png" x_size="15" y_size="15" x_position="0" y_position="0" rotation="0"/>
+    </stimuli>
+    
+    <sounds>
+        <sound tag="woof" type="wav_file" path="woof.wav"/>
+    </sounds>
+    
+    
+    <experiment tag="Metronome" full_name="Metronome Experiment">
+	
+        <protocol tag="tick tock protocol" full_name="Tick Tock Test" interruptable="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
+            <block tag="tick tock block" interruptable="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
+               
+                <trial tag="tick tock trial" interruptable="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
+                    
+                    <task_system tag="Start_TS">
+                        <task_system_state tag="Start_state">
+                                <action type="report" message="start" />
+                            <transition type="yield"/>
+                        </task_system_state>
+                    </task_system>
+                    
+                    <trial tag="tick_tock_list" selection="sequential_ascending" nsamples="30" sampling_method="cycles">
+                        
+                        <task_system tag="tick_tock_TS">
+                            <task_system_state tag="rising">
+                                <action type="set_timebase" timebase="frame"/>
+                                <action type="show_stimulus" stimulus="blank screen"/>
+                                <action type="show_stimulus" stimulus="dog"/>
+                                <action type="update_stimulus_display"/>
+                                <action type="play_sound" sound="woof"/>
+                                <action type="start_timer" timer="rising_timer" timebase="frame" duration="2000ms"/>
+                                <transition type="timer_expired" timer="rising_timer" target="falling"/>
+                            </task_system_state>
+                            
+                            <task_system_state tag="falling">
+                                <action type="set_timebase" timebase="frame2"/>
+                                <action type="show_stimulus" stimulus="blank screen"/>
+                                <action type="hide_stimulus" stimulus="dog"/>
+                                <action type="update_stimulus_display"/>
+                                <action type="start_timer" timer="falling_timer" timebase="frame2" duration="1000 ms"/>
+                                <transition type="timer_expired" timer="falling_timer" target="end"/>
+                            </task_system_state>
+                            
+                            <task_system_state tag="end">
+                                <action type="report" message="done" />
+                                <transition type="yield"/>
+                            </task_system_state>
+
+                        </task_system>
+                    </trial>
+                    
+                    <task_system tag="Stop_TS">
+                        <task_system_state tag="Stop_state">
+							<action type="report" message="STOP" />
+                            <transition type="yield"/>
+                        </task_system_state>
+                    </task_system> 
+                </trial>
+                
+            </block>
+        </protocol>
+    </experiment>
+</monkeyml>

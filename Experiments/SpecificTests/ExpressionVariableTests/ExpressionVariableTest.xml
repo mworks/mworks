@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<monkeyml version="1.0">
+    <io_devices/>
+    <variables>
+        <variable tag="x" full_name="x" default_value="1" scope="GLOBAL" type="INTEGER" editable="NEVER" logging="WHEN_CHANGED"/>
+        <variable tag="y" full_name="y" default_value="2" scope="GLOBAL" type="INTEGER" editable="NEVER" logging="WHEN_CHANGED"/>
+        <variable tag="z" full_name="z" default_value="3" scope="GLOBAL" type="INTEGER" editable="NEVER" logging="WHEN_CHANGED"/>
+    </variables>
+    <sounds/>
+    <stimuli/>
+    <experiment tag="ExpressionVariableTest" full_name="ExpressionVariableTest">
+        <protocol tag="Protocol" full_name="Protocol" description="" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
+            <block tag="Block" full_name="Block" description="" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
+                <task_system tag="Task System" full_name="Task System" description="" interruptible="YES">
+                    <task_system_state tag="theTrial" full_name="the Trial" description="" interruptible="YES">
+                        <action tag="Assert_0" full_name="Assert__0" type="assert" condition="x==1" message="Assertion: x==1"/>
+                        <action tag="Assert_1" full_name="Assert__1" type="assert" condition="1==x" message="Assertion: 1==x"/>
+                        <action tag="Assert_2" full_name="Assert__2" type="assert" condition="x>0" message="Assertion: x>0"/>
+                        <action tag="Assert_3" full_name="Assert__3" type="assert" condition="x>0.5" message="Assertion: x>0.5"/>
+                        <action tag="Assert_4" full_name="Assert__4" type="assert" condition="x&lt;2" message="Assertion: x&lt;2"/>
+                        <action tag="Assert_5" full_name="Assert__5" type="assert" condition="x&lt;1.5" message="Assertion: x&lt;1.5"/>
+                        <action tag="Assert_6" full_name="Assert__6" type="assert" condition="x>-1" message="Assertion: x>-1"/>
+                        <action tag="Assert_7" full_name="Assert__7" type="assert" condition="x>=0" message="Assertion: x>=0"/>
+                        <action tag="Assert_8" full_name="Assert__8" type="assert" condition="x>=-1" message="Assertion: x>=-1"/>
+                        <action tag="Assert_9" full_name="Assert__9" type="assert" condition="x>=-1.5" message="Assertion: x>=-1.5"/>
+                        <action tag="Assert_10" full_name="Assert__10" type="assert" condition="x>=1" message="Assertion: x>=1"/>
+                        <action tag="Assert_11" full_name="Assert__11" type="assert" condition="0&lt;x" message="Assertion: 0&lt;x"/>
+                        <action tag="Assert_12" full_name="Assert__12" type="assert" condition="0.5&lt;x" message="Assertion: 0.5&lt;x"/>
+                        <action tag="Assert_13" full_name="Assert__13" type="assert" condition="2>x" message="Assertion: 2>x"/>
+                        <action tag="Assert_14" full_name="Assert__14" type="assert" condition="1.5>x" message="Assertion: 1.5>x"/>
+                        <action tag="Assert_15" full_name="Assert__15" type="assert" condition="-1&lt;x" message="Assertion: -1&lt;x"/>
+                        <action tag="Assert_16" full_name="Assert__16" type="assert" condition="0&lt;=x" message="Assertion: 0&lt;=x"/>
+                        <action tag="Assert_17" full_name="Assert__17" type="assert" condition="-1&lt;=x" message="Assertion: -1&lt;=x"/>
+                        <action tag="Assert_18" full_name="Assert__18" type="assert" condition="-1.5&lt;=x" message="Assertion: -1.5&lt;=x"/>
+                        <action tag="Assert_19" full_name="Assert__19" type="assert" condition="1&lt;=x" message="Assertion: 1&lt;=x"/>
+                        <action tag="Assert_20" full_name="Assert__20" type="assert" condition="1>=x" message="Assertion: 1>=x"/>
+                        <action tag="Assert_21" full_name="Assert__21" type="assert" condition="0==x-1" message="Assertion: 0==x-1"/>
+                        <action tag="Assert_22" full_name="Assert__22" type="assert" condition="1-x==0" message="Assertion: 1-x==0"/>
+                        <action tag="Assert_23" full_name="Assert__23" type="assert" condition="x-1+2>x" message="Assertion: x-1+2>x"/>
+                        <action tag="Assert_24" full_name="Assert__24" type="assert" condition="2*x>x" message="Assertion: 2*x>x"/>
+                        <action tag="Assert_25" full_name="Assert__25" type="assert" condition="x/2&lt;x" message="Assertion: x/2&lt;x"/>
+                        <action tag="Assert_26" full_name="Assert__26" type="assert" condition="2*x/2==10*x/10" message="Assertion: 2*x/2==10*x/10"/>
+                        <action tag="Assert_27" full_name="Assert__27" type="assert" condition="x&lt;y" message="Assertion: x&lt;y"/>
+                        <action tag="Assert_28" full_name="Assert__28" type="assert" condition="y>x" message="Assertion: y>x"/>
+                        <action tag="Assert_29" full_name="Assert__29" type="assert" condition="x==y-1" message="Assertion: x==y-1"/>
+                        <action tag="Assert_30" full_name="Assert__30" type="assert" condition="x+1==y" message="Assertion: x+1==y"/>
+                        <action tag="Assert_31" full_name="Assert__31" type="assert" condition="2*x==y" message="Assertion: 2*x==y"/>
+                        <action tag="Assert_32" full_name="Assert__32" type="assert" condition="y/2==x" message="Assertion: y/2==x"/>
+                        <action tag="Assert_33" full_name="Assert__33" type="assert" condition="y*x==y" message="Assertion: y*x==y"/>
+                        <action tag="Assert_34" full_name="Assert__34" type="assert" condition="y*x==1+1" message="Assertion: y*x==1+1"/>
+                        <action tag="Assert_35" full_name="Assert__35" type="assert" condition="y==z-1" message="Assertion: y==z-1"/>
+                        <action tag="Assert_36" full_name="Assert__36" type="assert" condition="y*z==x+5" message="Assertion: y*z==x+5"/>
+                        <action tag="Assert_37" full_name="Assert__37" type="assert" condition="x==z-y" message="Assertion: x==z-y"/>
+                        <action tag="Assert_38" full_name="Assert__38" type="assert" condition="2*(y+1)==z*2" message="Assertion: 2*(y+1)==z*2"/>
+                        <action tag="Assert_39" full_name="Assert__39" type="assert" condition="y*z*(x-1)==15*0/16" message="Assertion: y*z*(x-1)==15*0/16"/>
+                        <action tag="Assert_40" full_name="Assert__40" type="assert" condition="(y+x)*(z-x)==1+1+1+1+1+1" message="Assertion: (y+x)*(z-x)==1+1+1+1+1+1"/>
+                        <action tag="Assert_41" full_name="Assert__41" type="assert" condition="2*6+9==21" message="Assertion: 2*6+9==21"/>
+                        <action tag="Assert_42" full_name="Assert__42" type="assert" condition="2*6+9!=20" message="Assertion: 2*6+9!=20"/>
+                        <action tag="Assert_43" full_name="Assert__43" type="assert" condition="2*6+9&lt;22" message="Assertion: 2*6+9&lt;22"/>
+                        <action tag="Assert_44" full_name="Assert__44" type="assert" condition="3.13+0.77!=15-234*32/5" message="Assertion: 3.13+0.77!=15-234*32/5"/>
+                        <action tag="Assert_45" full_name="Assert__45" type="assert" condition="12/4==z" message="Assertion: 12/4==z"/>
+                        <action tag="Assert_46" full_name="Assert__46" type="assert" condition="z==12/4" message="Assertion: z==12/4"/>
+                        <action tag="Assert_47" full_name="Assert__47" type="assert" condition="6==12/4*2" message="Assertion: 6==12/4*2"/>
+                        <action tag="Assert_48" full_name="Assert__48" type="assert" condition="x==12/4/3" message="Assertion: x==12/4/3"/>
+                        <action tag="Assert_49" full_name="Assert__49" type="assert" condition="x==12/(4*z)" message="Assertion: x==12/(4*z)"/>
+                        <transition type="yield" tag="Yield" full_name="Yield"/>
+                    </task_system_state>
+                </task_system>
+            </block>
+        </protocol>
+    </experiment>
+</monkeyml>

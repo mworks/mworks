@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<monkeyml version="1.0">
+    <filters/>
+    <io_devices/>
+    <calibrators/>
+    <variables>
+        <variable tag="A_global" full_name="fullname_3" default_value="16" scope="GLOBAL" type="INTEGER" editable="ALWAYS" logging="WHEN_CHANGED"/>
+        <variable tag="B_global" full_name="fullname_4" default_value="17" scope="GLOBAL" type="INTEGER" editable="ALWAYS" logging="WHEN_CHANGED"/>
+        <variable tag="X_local" full_name="X_local" default_value="1" scope="LOCAL" type="INTEGER" editable="never" logging="when_changed"/>
+        <variable tag="Y_local" full_name="Y_local" default_value="2" scope="LOCAL" type="INTEGER" editable="ALWAYS" logging="WHEN_CHANGED"/>
+    </variables>
+    <stimuli/>
+    <sounds/>
+    <experiment tag="LocalVarTest" full_name="Local Var Test">
+        <protocol tag="theProtocol" full_name="the protocol" interruptable="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles" description="" interruptible="YES">
+            <block tag="theBlock" full_name="the block" interruptable="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles" description="" interruptible="YES">
+                <trial tag="theTrial" full_name="the trial" interruptable="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles" description="" interruptible="YES">
+					<range_replicator tag="X_local replicator" full_name="fullname_5" from="101" to="102" step="1" variable="X_local">
+						<task_system tag="theTask" full_name="the task" interruptable="YES" description="" interruptible="YES">
+							<task_system_state tag="theState" full_name="the state" interruptable="YES" description="" interruptible="YES">
+								<action tag="test Y_local 1" full_name="test Y_local" type="assert" condition="Y_local==2" message="ASSERT: (Y_local==2)"/>
+                                <action tag="set B_global" full_name="set B_global" type="assignment" variable="B_global" value="25"/>
+								<action tag="set A_global" full_name="set A_global" type="assignment" variable="A_global" value="X_local"/>
+								<transition type="yield" tag="yield" full_name="yield"/>
+							</task_system_state>
+						</task_system>
+					</range_replicator>
+					<task_system tag="comparison Task" full_name="the task" interruptable="YES" description="" interruptible="YES">
+						<task_system_state tag="comparison State" full_name="the state" interruptable="YES" description="" interruptible="YES">
+							<action tag="test A_global" full_name="test A_global" type="assert" condition="A_global==102" message="ASSERT: (A_global==102)"/>
+							<action tag="test B_global" full_name="test B_global" type="assert" condition="B_global==25" message="ASSERT: (B_global==25)"/>
+							<action tag="report A_global" full_name="report A_global" type="report" message="A_global=$A_global"/>
+							<action tag="report B_global" full_name="report B_global" type="report" message="B_global=$B_global"/>
+							<action tag="test X_local" full_name="test X_local" type="assert" condition="X_local==1" message="ASSERT: (X_local==1)"/>
+							<action tag="test Y_local 3" full_name="test Y_local" type="assert" condition="Y_local==2" message="ASSERT: (Y_local==2)"/>
+							<transition type="yield" tag="yield2" full_name="yield2"/>
+						</task_system_state>
+					</task_system>
+                </trial>
+            </block>
+        </protocol>
+    </experiment>
+</monkeyml>

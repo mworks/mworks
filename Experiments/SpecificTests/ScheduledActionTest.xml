@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<monkeyml version="1.0">
+    <variables>
+        <variable tag="some_Var" full_name="some Var" default_value="0" scope="GLOBAL" type="DOUBLE" editable="ALWAYS" logging="WHEN_CHANGED" persistant="NO"/>
+    </variables>
+    <stimuli>
+        <stimulus tag="blank screen" full_name="bland screen" type="blank_screen" color="1,0,0"/>
+    </stimuli>
+    <experiment tag="theExperiment" full_name="the Experiment" description="">
+        <protocol tag="theProtocol" full_name="the Protocol" interruptable="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles" description="" interruptible="YES">
+            <block tag="theBlock" full_name="the Block" interruptable="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles" description="" interruptible="YES">
+                <trial tag="theTrial" full_name="the Trial" description="" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
+                    <task_system tag="theTaskSystem">
+                        <task_system_state tag="theState" full_name="the State" description="" interruptible="YES">
+                            <action tag="SchedulerAction" full_name="" type="schedule" delay="2000 ms" duration="160 ms" repeats="4">
+                                <action tag="some_Var assignment" full_name="fullname_1" type="assignment" variable="some_Var" value="some_Var + 1"/>
+                            </action>
+							<action  type="assert" condition="some_Var==0" message="some_Var != 0"/>
+                            <action tag="Wait" full_name="" type="wait" duration="5000 ms"/>
+							<action  type="assert" condition="some_Var==4" message="some_Var != 4"/>
+                            <transition type="yield"/>
+                        </task_system_state>
+                    </task_system>
+                </trial>
+            </block>
+        </protocol>
+    </experiment>
+</monkeyml>
