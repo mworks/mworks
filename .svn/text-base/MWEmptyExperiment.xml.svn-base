@@ -1,0 +1,14 @@
+<monkeyml version="1.0">
+    <io_devices/>
+    <variables/>
+    <sounds/>
+    <stimuli>
+        <stimulus tag="background" full_name="background" type="blank_screen" color="0, 0, 0"/>
+    </stimuli>
+    <filters/>
+    <optimizers/>
+    <experiment tag="New Experiment" full_name="" description="">
+        <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential"/>
+    </experiment>
+
+</monkeyml>

@@ -1,0 +1,102 @@
+<xsl:stylesheet version = '1.0'
+     xmlns:xsl='http://www.w3.org/1999/XSL/Transform'>
+
+
+<!-- Place a passthrough in the output XSLT -->
+<xsl:template match="/">
+	<xsl:element name="xsl:stylesheet">
+		<xsl:attribute name="version"><xsl:text>1.0</xsl:text></xsl:attribute>
+		<xsl:attribute name="xmlns:xsl"><xsl:text>http://www.w3.org/1999/XSL/Transform</xsl:text></xsl:attribute>
+		<xsl:element name="xsl:template">
+			<xsl:attribute name="match">@*|node()</xsl:attribute>
+			<xsl:element name="xsl:copy">	
+				<xsl:element name="xsl:apply-templates">
+					<xsl:attribute name="select">@*|node()</xsl:attribute>
+				</xsl:element>
+			</xsl:element>
+		</xsl:element>
+	
+		<xsl:apply-templates/>
+	</xsl:element>
+</xsl:template>
+
+
+<!--<xsl:template name="inherit_element">
+	<xsl:param name="isa"/>
+	<xsl:attribute name="_isa"><xsl:value-of select="$isa"/></xsl:attribute>
+</xsl:template>-->
+
+<!-- Now build templates for processing the MW XML -->
+<xsl:template match="/MWElements/MWElement">
+	<xsl:element name="xsl:template">
+		<xsl:attribute name="match"><xsl:value-of select="./match_signature"/></xsl:attribute>
+		<xsl:element name="xsl:copy">
+			
+			<!--xsl:if test="./isa">
+				<xsl:variable name="isa" select="./isa"/>
+				<xsl:call-template name="inherit_element">
+					<xsl:with-param name="isa" select="$isa"/>
+				</xsl:call-template>
+			</xsl:if-->
+			
+			<xsl:element name="xsl:attribute">
+				<xsl:attribute name="name">_id</xsl:attribute>
+				<xsl:element name="xsl:value-of">
+					<xsl:attribute name="select">generate-id(.)</xsl:attribute>
+				</xsl:element>
+			</xsl:element>
+
+			<xsl:if test="./display_as_group">
+				<xsl:element name="xsl:attribute">
+					<xsl:attribute name="name">_display_as_group</xsl:attribute>
+					<xsl:value-of select="./display_as_group"/>
+				</xsl:element>
+			</xsl:if>
+			
+			<xsl:if test="./@unmoveable">
+				<xsl:element name="xsl:attribute">
+					<xsl:attribute name="name">_unmoveable</xsl:attribute>
+					<xsl:value-of select="./@unmoveable"/>
+				</xsl:element>
+			</xsl:if>
+			
+			<xsl:if test="./mandatory_tag">
+				<xsl:element name="xsl:attribute">
+					<xsl:attribute name="name">tag</xsl:attribute>
+					<xsl:value-of select="./mandatory_tag"/>
+				</xsl:element>
+			</xsl:if>
+			
+			<xsl:if test="./icon">
+				<xsl:element name="xsl:attribute">
+					<xsl:attribute name="name">_icon</xsl:attribute>
+					<xsl:value-of select="./icon"/>
+				</xsl:element>
+			</xsl:if>
+			
+			<xsl:if test="./inspector">
+				<xsl:element name="xsl:attribute">
+					<xsl:attribute name="name">_inspector</xsl:attribute>
+					<xsl:value-of select="./inspector"/>
+				</xsl:element>
+			</xsl:if>
+			
+			<xsl:if test="./@name">
+				<xsl:element name="xsl:attribute">
+					<xsl:attribute name="name">_element_key</xsl:attribute>
+					<xsl:value-of select="./@name"/>
+				</xsl:element>
+			</xsl:if>
+			
+			<xsl:element name="xsl:apply-templates">
+				<xsl:attribute name="select">@*|node()</xsl:attribute>
+			</xsl:element>
+			
+		</xsl:element> <!-- xsl:copy -->
+	</xsl:element>
+</xsl:template>
+
+<!-- Throw away extraneous text -->
+<xsl:template match="text()"/>
+
+</xsl:stylesheet>

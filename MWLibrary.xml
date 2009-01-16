@@ -1,0 +1,1625 @@
+<MWElements>
+	<!-- MWElement Groups -->
+	
+	<!-- These groups are organizational and appear in the "Library" browser
+		 in the main UI.  Multiple groups can contain the same element, and
+		 groups can be nested. 
+	-->
+	
+    <!-- ***************************
+			   VARIABLES GROUP
+		 *************************** -->
+	<MWElementGroup name="Variables">
+		<icon>smallFolder</icon>
+		<description>
+		</description>
+	</MWElementGroup>
+    
+    
+	<!-- ***************************
+				ACTIONS GROUP
+		 *************************** -->
+	<MWElementGroup name="Actions">
+		<icon>smallFolder</icon>
+		<description>
+			Actions are paradigm components which cause some action (such as playing a sound, 
+			showing a visual stimulus, or assigning a variable) to occur
+		</description>
+	</MWElementGroup>
+
+
+	<!-- ***************************
+			   TRANSITIONS GROUP
+		 *************************** -->
+	<MWElementGroup name="Transitions">
+		<icon>smallFolder</icon>
+		<description>
+			Transitions are paradigm components which control how you move through
+			a task system.  Each state loops through its transition list until one
+			of its transitions returns a valid target state.
+		</description>
+	</MWElementGroup>
+
+
+	<!-- ****************************
+				STIMULI GROUP
+		 ****************************  -->
+	
+	<MWElementGroup name="Stimuli">
+		<icon>smallStimulusFolder</icon>
+		<description>A grouping of stimulus related elements, including stimuli, and stimulus-related actions
+		</description>
+		
+		<MWElementGroup name="Stimulus-Related Actions">
+			<icon>smallFolder</icon>
+			<description>A test of nested groups</description>
+		</MWElementGroup>
+		
+	</MWElementGroup>
+
+
+	<!-- ******************************
+			Paradigm Component GROUP
+		******************************* -->
+	<MWElementGroup name="Paradigm Components">
+		<icon>smallFolder</icon>
+		<description>
+			Experiment building blocks (e.g. block, trial, task-system, etc.)
+		</description>
+	</MWElementGroup>	
+	
+	<!-- ******************************
+				IO Related GROUP
+		******************************* -->
+	<MWElementGroup name="Input/Output">
+		<icon>smallIOFolder</icon>
+		<description>
+			IO Devices, calibrators, filters, etc.
+		</description>
+	</MWElementGroup>
+	
+	
+    <!-- ****************************
+				OPTIMIZERS GROUP
+		 ****************************  -->
+	
+	<MWElementGroup name="Optimizers and Variable Monitors">
+		<icon>smallFolder</icon>
+		<description>A variety of objects that watch variable values, automatically
+                     perform computations, and output results
+		</description>
+	</MWElementGroup>
+    
+	<!-- Top-level container descriptions -->
+	
+	<!-- These elements are the "top-level" group elements that appear specially
+		 in the editor, are not editable, and are
+	-->
+	
+	<MWElement name="IODevices">
+		<match_signature>io_devices</match_signature>
+		<mandatory_tag>IO Devices</mandatory_tag>
+		<icon>smallIOFolder</icon>
+		<display_as_group>1</display_as_group>
+	</MWElement>
+	
+	<MWElement name="Sounds">
+		<match_signature>sounds</match_signature>
+		<mandatory_tag>Sounds</mandatory_tag>
+		<icon>smallFolder</icon>
+		<display_as_group>1</display_as_group>
+	</MWElement>
+	
+	<MWElement name="Stimuli">
+		<match_signature>stimuli</match_signature>
+		<mandatory_tag>Stimuli</mandatory_tag>
+		<icon>smallStimulusFolder</icon>
+		<display_as_group>1</display_as_group>
+	</MWElement>
+
+	<MWElement name="Variables">
+		<match_signature>variables</match_signature>
+		<mandatory_tag>Variables</mandatory_tag>
+		<icon>smallVariablesFolder</icon>
+		<display_as_group>1</display_as_group>
+	</MWElement>
+
+	<MWElement name="Calibrators">
+		<match_signature>calibrators</match_signature>
+		<mandatory_tag>Calibrators</mandatory_tag>
+		<icon>smallFolder</icon>
+		<display_as_group>1</display_as_group>
+	</MWElement>
+
+	<MWElement name="Optimizers">
+		<match_signature>optimizers</match_signature>
+		<mandatory_tag>Optimizers</mandatory_tag>
+		<icon>smallFolder</icon>
+		<display_as_group>1</display_as_group>
+	</MWElement>
+
+	<MWElement name="Filters">
+		<match_signature>filters</match_signature>
+		<mandatory_tag>Filters</mandatory_tag>
+		<icon>smallFolder</icon>
+		<display_as_group>1</display_as_group>
+	</MWElement>
+
+	<MWElement name="Experiment">
+		<match_signature>experiment</match_signature>
+		<mandatory_tag>Experiment</mandatory_tag>
+		<icon>smallExperiment</icon>
+		<display_as_group>1</display_as_group>
+	</MWElement>
+    
+    <!-- ******************** -->
+	<!-- Misc definitions -->
+	<!-- ******************** -->
+	<MWElement name="Folder">
+		<match_signature>folder</match_signature>
+		<icon>smallFolder</icon>
+        
+        <allowed_parent>Variables</allowed_parent>
+        <allowed_parent>IODevices</allowed_parent>
+        <allowed_parent>Filters</allowed_parent>
+        <allowed_parent>Optimizers</allowed_parent>
+        <allowed_parent>Stimuli</allowed_parent>
+        <allowed_parent>Sounds</allowed_parent>
+        <allowed_parent>Calibrators</allowed_parent>
+        
+        <description>
+            A folder for (purely) organizational purposes
+        </description>
+        
+        <code><folder tag="New Folder"/></code>
+	</MWElement>
+
+	<!-- ******************** -->
+	<!-- Variable definitions -->
+	<!-- ******************** -->
+
+	<MWElement name="Variable">
+		<!-- XPath 2.0 expression defining nodes of this type -->
+		<match_signature>variable</match_signature>
+
+		<!-- Inheritance -->
+		<!-- none -->
+		
+		<!-- Placement rules -->
+		<allowed_parent>Variables</allowed_parent>
+        <allowed_parent>Folder</allowed_parent>
+		
+		<!-- Information for display in the GUI -->
+		<icon>xyz</icon>
+		<inspector>VariableInspectorView</inspector>
+		<belongs_to_group>Variables</belongs_to_group>
+		<description>
+			A variable object.
+		</description>
+		
+		<!-- Payload -->
+		<code>
+			<variable tag="New Variable" scope="global" logging="when_changed" default_value="0" type="integer"/>
+		</code>
+	</MWElement>
+	
+	<MWElement name="Selection Variable">
+		<!-- XPath 2.0 expression defining nodes of this type -->
+		<match_signature>selection_variable</match_signature>
+
+		<!-- Inheritance -->
+		<!-- none -->
+		
+		<!-- Placement rules -->
+		<allowed_parent>Variables</allowed_parent>
+		
+		<!-- Information for display in the GUI -->
+		<icon>xyz</icon>
+		<!--<inspector>VariableInspectorView</inspector>-->
+		<belongs_to_group>Variables</belongs_to_group>
+		<description>
+			A variable whose value is controlled by a selection
+			object.  A list of values is associated with the
+			Selection Variable that are selected by a selection
+			object.  Use the "Next Selection" action to advance
+			the variable's selection.
+		</description>
+		
+		<!-- Payload -->
+		<code>
+			<selection_variable tag="New Selection Variable" 
+								values=""
+								selection=""
+								nsamples=""
+								sampling_method=""/>
+		</code>
+	</MWElement>
+	
+	
+	<!-- ****************************** -->
+	<!-- Stimulus Definitions -->
+	<!-- ****************************** -->
+
+	<!-- Base-level stub -->
+	<MWElement name="Stimulus" hidden="1">
+		<match_signature>dummy</match_signature>
+		
+		<!-- Inheritance -->
+		<!-- none -->
+				
+		<!-- Placement Rules -->
+		<allowed_parent>Range Replicator</allowed_parent>
+		<allowed_parent>Stimuli</allowed_parent>
+		<allowed_parent>Stimulus Group</allowed_parent>
+        <allowed_parent>Folder</allowed_parent>
+
+		<!-- Information for display in the GUI -->
+		<icon>smallStimulus</icon>
+		<belongs_to_group>Stimuli</belongs_to_group>
+		<description>Base-level stimulus stub</description>
+		
+	</MWElement>
+	
+
+	<MWElement name="Stimulus Group">
+		<match_signature>stimulus_group</match_signature>
+		
+		<!-- Inheritance -->
+		<isa>Stimulus</isa>
+				
+		<!-- Placement Rules -->
+		<allowed_parent>Range Replicator</allowed_parent>
+		<allowed_parent>Stimuli</allowed_parent>
+		<allowed_parent>Stimulus Group</allowed_parent>
+        <allowed_parent>Folder</allowed_parent>
+
+		<!-- Information for display in the GUI -->
+		<icon>smallStimulusFolder</icon>
+		<belongs_to_group>Stimuli</belongs_to_group>
+		<description>An indexable group of stimuli</description>
+		
+		<code>
+			<stimulus_group tag="New Stimulus Group"/>
+		</code>
+
+		
+	</MWElement>
+	
+	
+
+	<MWElement name="Image Stimulus">
+		<!-- XPath 2.0 expression defining nodes of this type -->
+		<match_signature>stimulus[@type="image_file"]</match_signature>
+		
+		<isa>Stimulus</isa>
+        
+		<inspector>ImageStimulusInspectorView</inspector>
+		<description>
+			An image stimulus loaded from any standard-format image file.
+		</description>
+		
+		<!-- Payload -->
+		<code>
+			<stimulus type="image_file" tag="New Image File"
+                                        path=""
+										x_size="5.0"
+										y_size="5.0"
+										x_position="0.0"
+										y_position="0.0"
+										rotation="0.0"
+										alpha_multiplier="1.0"/>
+		</code>
+	</MWElement>
+
+
+	<MWElement name="Blank Fullscreen Stimulus">
+		<!-- XPath 2.0 expression defining nodes of this type -->
+		<match_signature>stimulus[@type="blank_screen"]</match_signature>
+		
+		<isa>Stimulus</isa>
+		
+		<description>
+			A stimulus that clears the screen with a user-defined color.  This
+			stimulus must be queued like any other.
+		</description>
+		
+		<!-- Payload -->
+		<code>
+			<stimulus type="blank_screen"   tag="New Blank Screen"
+                                            color="0.5,0.5,0.5"/>
+		</code>
+	</MWElement>
+
+	<MWElement name="Fixation Point Stimulus">
+		<!-- XPath 2.0 expression defining nodes of this type -->
+		<match_signature>stimulus[@type="fixation_point"]</match_signature>
+		
+		<isa>Stimulus</isa>
+		
+		<description>
+			A fixation point stimulus
+		</description>
+		
+		<!-- Payload -->
+		<code>
+			<stimulus type="fixation_point" tag="New Fixation Point"
+                                            color="1,1,1"
+											trigger_width=""
+											trigger_watch_x=""
+											trigger_watch_y=""
+											trigger_flag=""
+											x_size=""
+											y_size=""
+											x_position=""
+											y_position=""
+											rotation=""
+											contrast=""/>/>
+		</code>
+	</MWElement>
+
+	
+	<MWElement name="Sound Stimulus">
+		<!-- XPath 2.0 expression defining nodes of this type -->
+		<match_signature>sound[@type="wav_file"]</match_signature>
+		
+        <belongs_to_group>Stimuli</belongs_to_group>
+        
+		<allowed_parent>Sounds</allowed_parent>
+        <allowed_parent>Folder</allowed_parent>
+		
+        <inspector>SoundStimulusInspectorView</inspector>
+		<description>
+			A simple wav-file based sound stimulus.
+		</description>
+		
+		<!-- Payload -->
+		<code>
+			<sound tag="New Sound File" type="wav_file" path=""/>
+		</code>
+	</MWElement>
+
+	
+	<!-- ****************************** -->
+	<!-- Paradigm Component Definitions -->
+	<!-- ****************************** -->
+
+	<!-- Base-level stub -->
+	<MWElement name="Paradigm Component" hidden="1">
+		<match_signature>dummy</match_signature>
+		
+		<!-- Inheritance -->
+		<allowed_parent>Range Replicator</allowed_parent>
+						
+		<!-- Information for display in the GUI -->
+		<icon>fakeMonkey</icon>
+		<belongs_to_group>Paradigm Components</belongs_to_group>
+		<description>Base-level paradigm component stub</description>
+		
+	</MWElement>
+
+
+	<MWElement name="Range Replicator">
+		<!-- XPath 2.0 expression defining nodes of this type -->
+		<match_signature>//range_replicator</match_signature>
+		
+		<!-- Placement Rules -->
+		<allowed_parent>Experiment</allowed_parent>
+		<allowed_parent>Protocol</allowed_parent>
+		<allowed_parent>Block</allowed_parent>
+		<allowed_parent>Trial</allowed_parent>
+		<allowed_parent>List</allowed_parent>
+		<allowed_parent>Range Replicator</allowed_parent>
+		<allowed_parent>Stimuli</allowed_parent>
+		<allowed_parent>Stimulus Group</allowed_parent>
+		<allowed_parent>Sounds</allowed_parent>
+		<allowed_parent>Variables</allowed_parent>
+		
+		
+		<!-- Information for display in the GUI -->
+		<icon>replicatorIcon</icon>
+		<inspector>RangeReplicatorInspectorView</inspector>
+		<description>
+			An object that lexically replicates its contents at parse
+			time, with substitution of a range variable (like a "for" loop).
+		</description>
+		<belongs_to_group>Paradigm Components</belongs_to_group>
+		<belongs_to_group>Stimulus</belongs_to_group>
+		
+		<!-- Payload -->
+		<code>
+			<range_replicator tag="New Replicator"
+							  from=""
+							  to=""
+							  step=""
+							  variable=""/>
+		</code>
+	</MWElement>
+	
+
+	<MWElement name="Protocol">
+		<!-- XPath 2.0 expression defining nodes of this type -->
+		<match_signature>//protocol</match_signature>
+		
+		<!-- Inheritance -->
+		<isa>Paradigm Component</isa>
+		
+		<!-- Placement Rules -->
+		<allowed_parent>Experiment</allowed_parent>
+		
+		<!-- Information for display in the GUI -->
+		<icon>smallProtocol</icon>
+		<inspector>ListStateInspectorView</inspector>
+		<description>
+			A top-level paradigm component that contains other sub-components.
+			Protocols appear in a user-selected menu at run-time, and
+			represent the largest unit of logical organization in an experiment.
+		</description>
+		
+		<!-- Payload -->
+		<code>
+			<protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential"/>
+		</code>
+	</MWElement>
+
+	<MWElement name="Block">
+		<!-- XPath 2.0 expression defining nodes of this type -->
+		<match_signature>//block</match_signature>
+		
+		<!-- Inheritance -->
+		<isa>Paradigm Component</isa>
+		
+		<!-- Placement Rules -->
+		<allowed_parent>Protocol</allowed_parent>
+
+		<!-- Information for display in the GUI -->
+		<icon>smallBlock</icon>
+		<inspector>ListStateInspectorView</inspector>
+		<description>
+			A container paradigm component.  Blocks can contain other 
+			paradigm components and have a mechanism for selecting the ordering
+			of selection of components contained within them.
+		</description>
+		
+		<!-- Payload -->
+		<code>
+			<block tag="New Block" nsamples="1" sampling_method="cycles" selection="sequential"/>
+		</code>
+	</MWElement>
+
+	<MWElement name="Trial">
+		<!-- XPath 2.0 expression defining nodes of this type -->
+		<match_signature>//trial</match_signature>
+		
+		<!-- Inheritance -->
+		<isa>Paradigm Component</isa>
+		
+		<!-- Placement Rules -->
+		<allowed_parent>Protocol</allowed_parent>
+		<allowed_parent>Block</allowed_parent>
+		<allowed_parent>Trial</allowed_parent>
+		<allowed_parent>List</allowed_parent>
+
+		<!-- Information for display in the GUI -->
+		<icon>smallTrial</icon>
+		<inspector>ListStateInspectorView</inspector>
+		<description>
+			A container paradigm component.  Trials can contain other 
+			paradigm components and have a mechanism for selecting the ordering
+			of selection of components contained within them.
+		</description>
+		
+		<!-- Payload -->
+		<code>
+			<trial tag="New Trial" nsamples="1" sampling_method="cycles" selection="sequential"/>
+		</code>
+	</MWElement>
+
+	<MWElement name="List">
+		<!-- XPath 2.0 expression defining nodes of this type -->
+		<match_signature>//list</match_signature>
+		
+		<!-- Inheritance -->
+		<isa>Paradigm Component</isa>
+		
+		<!-- Placement Rules -->
+		<allowed_parent>Protocol</allowed_parent>
+		<allowed_parent>Block</allowed_parent>
+		<allowed_parent>Trial</allowed_parent>
+		<allowed_parent>List</allowed_parent>
+
+		<!-- Information for display in the GUI -->
+		<icon>smallList</icon>
+		<inspector>ListStateInspectorView</inspector>
+		<description>
+			A container paradigm component.  Trials can contain other 
+			paradigm components and have a mechanism for selecting the ordering
+			of selection of components contained within them.
+		</description>
+		
+		<!-- Payload -->
+		<code>
+			<trial tag="New List" nsamples="1" sampling_method="cycles" selection="sequential"/>
+		</code>
+	</MWElement>
+
+
+	<MWElement name="Task System">
+		<!-- XPath 2.0 expression defining nodes of this type -->
+		<match_signature>//task_system</match_signature>
+		
+		<!-- Inheritance -->
+		<isa>Paradigm Component</isa>
+		
+		<!-- Placement Rules -->
+		<allowed_parent>Protocol</allowed_parent>
+		<allowed_parent>Block</allowed_parent>
+		<allowed_parent>List</allowed_parent>
+		<allowed_parent>Trial</allowed_parent>
+
+		<!-- Information for display in the GUI -->
+		<icon>smallTaskSystem</icon>
+		<description>
+			A paradigm component defining a finite state machine.  It contains
+			"Task System State" objects, which define transitions from one
+			state to the next.  The Task System finishes when one of the states
+			evaluates a "yield" transition.
+		</description>
+		
+		<!-- Payload -->
+		<code>
+			<task_system tag="New Task System" interruptible="YES">
+                <task_system_state tag="Begin State System" interruptible="YES">
+                    <action_marker tag="Actions"/>
+                    <action type="report" tag="Announce Begin State System" message="State system beginning"/>
+                    <transition_marker tag="Transitions"/>
+                    <transition tag="Go to Exit" type="direct" target="Exit State System"/>
+                </task_system_state>
+            
+                <task_system_state tag="Exit State System" interruptible="YES">
+                    <action_marker tag="Actions"/>
+                    <action type="report" tag="Announce Exit State System" message="Leaving state system"/>
+                    <transition_marker tag="Transitions"/>
+                    <transition tag="Return to parent task system" type="yield"/>
+                </task_system_state>
+            
+            </task_system>
+		</code>
+	</MWElement>
+
+
+	<MWElement name="Task System State">
+		<!-- XPath 2.0 expression defining nodes of this type -->
+		<match_signature>//task_system_state</match_signature>
+		
+		<!-- Inheritance -->
+		<isa>Paradigm Component</isa>
+		
+		<!-- Placement Rules -->
+		<allowed_parent>Task System</allowed_parent>
+
+		<!-- Information for display in the GUI -->
+		<icon>smallTaskSystemState</icon>
+		<description>
+			A paradigm component defining a state within a finite state machine.  
+			It is contained within a Task System objects, and defines a list of
+			Actions, which are executed when the state first gains control,
+			and a list of Transitions, which are repeatedly evaluated until
+			one of them returns a valid target state.
+		</description>
+		
+		<!-- Payload -->
+		<code>
+			<task_system_state tag="New Task System State" interruptible="YES">
+				<action_marker tag="Actions"/>
+				<transition_marker tag="Transitions"/>
+			</task_system_state>
+		</code>
+	</MWElement>
+
+
+
+	<!-- ****************** -->
+	<!-- Action Definitions -->
+	<!-- ****************** -->
+
+	<!-- Base-level stub -->
+	<MWElement name="Action" hidden="1">
+		<match_signature>dummy</match_signature>
+		
+		<!-- Inheritance -->
+		<!-- none -->
+		
+		<!-- Placement rules -->
+		<allowed_parent>Task System State</allowed_parent>
+		<allowed_parent>Variable</allowed_parent>
+		
+		<allowed_parent>Trial</allowed_parent>
+		<allowed_parent>Block</allowed_parent>
+		<allowed_parent>List</allowed_parent>
+		<allowed_parent>Protocol</allowed_parent>
+        <allowed_parent>Conditionally Execute Actions</allowed_parent>
+        <allowed_parent>Folder</allowed_parent>
+		
+		<disallowed_sibling_before>Transition</disallowed_sibling_before>
+		<disallowed_sibling_before>Variable</disallowed_sibling_before>
+		<disallowed_sibling_after>ActionMarker</disallowed_sibling_after>
+        <disallowed_sibling_before>TransitionMarker</disallowed_sibling_before>
+		
+		<!-- Information for display in the GUI -->
+		<icon>actionIcon</icon>
+		<belongs_to_group>Actions</belongs_to_group>
+		<description>Base-level action stub</description>
+		
+	</MWElement>
+
+	<!-- Base-level stub -->
+	<MWElement name="ActionMarker" unmoveable="1">
+		<match_signature>action_marker</match_signature>
+		
+		<!-- Placement rules -->
+		<allowed_parent>Task System State</allowed_parent>
+		<disallowed_sibling_before>TransitionMarker</disallowed_sibling_before>
+		
+		<!-- Information for display in the GUI -->
+		<description></description>
+	</MWElement>
+
+	<MWElement name="Report / Message">
+		<!-- XPath 2.0 expression defining nodes of this type -->
+		<match_signature>action[@type='report']</match_signature>
+		
+		<!-- Inheritance -->
+		<isa>Action</isa>
+		
+		<!-- Information for display in the GUI -->
+		<icon>reportAction</icon>
+		<description>
+			Print a message to the console. You can place variables in the 
+			message by placing a '$' in front of them (e.g. "x = $x")
+		</description>
+		
+		<!-- Payload -->
+		<code>
+			<action type="report" tag="Report" message="Your message here."/>
+		</code>
+	</MWElement>
+
+	<MWElement name="Assign Variable">
+		<!-- XPath 2.0 expression defining nodes of this type -->
+		<match_signature>action[@type='assignment']</match_signature>
+		
+		<!-- Inheritance -->
+		<isa>Action</isa>
+		
+		<!-- Information for display in the GUI -->
+		<icon>actionIcon</icon>
+		<inspector>AssignmentInspectorView</inspector>
+		<description>
+			Print a message to the console. You can place variables in the 
+			message by placing a '$' in front of them (e.g. "x = $x")
+		</description>
+		
+		<!-- Payload -->
+		<code>
+			<action type="assignment" tag="Assign Variable" 
+									  variable=""
+									  value=""/>
+		</code>
+	</MWElement>
+	
+	<MWElement name="Pulse Variable">
+		<!-- XPath 2.0 expression defining nodes of this type -->
+		<match_signature>action[@type='pulse']</match_signature>
+		
+		<!-- Inheritance -->
+		<isa>Action</isa>
+		
+		<!-- Information for display in the GUI -->
+		<inspector>PulseInspectorView</inspector>
+		<description>
+			Pulse a variable high (1.0) for some duration, and then set it low 
+			(0.0) again.
+		</description>
+		
+		<!-- Payload -->
+		<code>
+			<action type="pulse" tag="Pulse Variable" 
+									  variable=""
+									  duration=""/>
+		</code>
+	</MWElement>
+
+	<MWElement name="Schedule Actions">
+		<!-- XPath 2.0 expression defining nodes of this type -->
+		<match_signature>action[@type='schedule']</match_signature>
+		
+		<!-- Inheritance -->
+		<isa>Action</isa>
+		
+		<!-- Information for display in the GUI -->
+		<inspector>ScheduleInspectorView</inspector>
+		<description>
+			Schedule the execution of a list of contained actions.  These 
+			actions can be scheduled to occur after a user-defined delay, and 
+			can be repeated some number of times, with a user-defined
+			inter-execution interval.
+		</description>
+		
+		<!-- Payload -->
+		<code>
+			<action type="schedule" tag="Scheduler Action" 
+									  delay=""
+									  duration=""
+									  repeats=""/>
+		</code>
+	</MWElement>
+
+	<MWElement name="Conditionally Execute Actions">
+		<!-- XPath 2.0 expression defining nodes of this type -->
+		<match_signature>action[@type='if']</match_signature>
+		
+		<!-- Inheritance -->
+		<isa>Action</isa>
+		
+		<!-- Information for display in the GUI -->
+		<inspector>IfInspectorView</inspector>
+		<description>
+			Execute a list of actions if a condition is true.
+		</description>
+		
+		<!-- Payload -->
+		<code>
+			<action type="if" tag="Conditionally Execute Actions" 
+							  condition="1"/>
+		</code>
+	</MWElement>
+	
+	<MWElement name="Wait">
+		<!-- XPath 2.0 expression defining nodes of this type -->
+		<match_signature>action[@type='wait']</match_signature>
+		
+		<!-- Inheritance -->
+		<isa>Action</isa>
+		
+		<!-- Information for display in the GUI -->
+		<icon>startTimer</icon>
+		<inspector>WaitInspectorView</inspector>
+		<description>
+			Pause for a specified amount of time.  Note: this action is
+            not intended for precise coordination of timed events.  For 
+            a greater degree of temporal control, use a Task System with
+            Timer objects and Timer-Expiration-based transitions.
+		</description>
+		
+		<!-- Payload -->
+		<code>
+			<action type="wait" tag="Wait" duration="1.0" duration_units="s"/>
+		</code>
+	</MWElement>
+    
+
+	<MWElement name="Start Timer">
+		<!-- XPath 2.0 expression defining nodes of this type -->
+		<match_signature>action[@type='start_timer']</match_signature>
+		
+		<!-- Inheritance -->
+		<isa>Action</isa>
+		
+		<!-- Information for display in the GUI -->
+		<icon>startTimer</icon>
+		<inspector>StartTimerInspectorView</inspector>
+		<description>
+			Starts a nameable timer that can be use to control the flow
+			through a task system. "Timer Expired" Transitions, and the 
+			"timer()" function can be used to evaulate whether the timer 
+			has expired.
+		</description>
+		
+		<!-- Payload -->
+		<code>
+			<action type="start_timer" tag="Start Timer"
+									   timer="MyTimer"
+									   timebase=""
+									   duration="0.0"
+                                       duration_units="s"/>
+		</code>
+	</MWElement>
+
+
+	<MWElement name="Set Timebase">
+		<!-- XPath 2.0 expression defining nodes of this type -->
+		<match_signature>action[@type='set_timebase']</match_signature>
+		
+		<!-- Inheritance -->
+		<isa>Action</isa>
+		
+		<!-- Information for display in the GUI -->
+		<icon>startTimer</icon>
+		<inspector>SetTimebaseInspectorView</inspector>
+		<description>
+			Sets a named reference time against which timers can be defined.
+		</description>
+		
+		
+		<!-- Payload -->
+		<code>
+			<action type="set_timebase" tag="Set Timebase"
+									   timebase="MyTimebase"/>
+		</code>
+	</MWElement>
+
+	<MWElement name="Queue Stimulus">
+		<!-- XPath 2.0 expression defining nodes of this type -->
+		<match_signature>action[@type='queue_stimulus']</match_signature>
+		
+		<!-- Inheritance -->
+		<isa>Action</isa>
+		
+		<belongs_to_group>Stimulus-Related Actions</belongs_to_group>
+		
+		<description>
+			Places a stimulus into the display queue, ready to be displayed
+			when the next Update Display action is issued.
+		</description>
+		<inspector>QueueStimulusInspectorView</inspector>
+		
+		<!-- Payload -->
+		<code>
+			<action tag="Queue Stimulus" type="queue_stimulus" stimulus=""/>
+		</code>
+	</MWElement>
+
+
+	<MWElement name="Dequeue Stimulus">
+		<match_signature>action[@type='dequeue_stimulus']</match_signature>
+		<isa>Action</isa>
+		
+		<belongs_to_group>Stimulus-Related Actions</belongs_to_group>
+		
+		<description>
+			Removes a stimulus from the display queue, such that it will not be 
+			displayed when the next Update Display action is issued.
+		</description>
+		<inspector>DequeueStimulusInspectorView</inspector>
+		<code>
+			<action tag="Dequeue Stimulus" type="dequeue_stimulus" stimulus=""/>
+		</code>
+	</MWElement>
+
+	<MWElement name="Update Stimulus Display">
+		<match_signature>action[@type='update_stimulus_display']</match_signature>
+		<isa>Action</isa>
+		
+		<belongs_to_group>Stimulus-Related Actions</belongs_to_group>
+		
+		<description>
+			Redraw the stimulus display.  Any stimuli that have been queued
+			will actually be drawn at this point; any stimulus that has
+			been dequeued will not be drawn (and will thus be erased, if it was
+			previously visible).
+		</description>
+		
+		<inspector>UpdateDisplayInspectorView</inspector>
+		<code>
+			<action tag="Update Stimulus" type="update_stimulus_display"/>
+		</code>
+	</MWElement>
+
+	<MWElement name="Play Sound">
+		<match_signature>action[@type='play_sound']</match_signature>
+		<isa>Action</isa>
+		
+        <belongs_to_group>Stimulus-Related Actions</belongs_to_group>
+		<inspector>PlaySoundInspectorView</inspector>
+		<description>
+			Play a sound stimulus.
+		</description>
+		
+		<code>
+			<action tag="Play Sound" type="play_sound" sound=""/>
+		</code>
+	</MWElement>
+
+	<MWElement name="Stop Sound">
+		<match_signature>action[@type='stop_sound']</match_signature>
+		<isa>Action</isa>
+		
+        <belongs_to_group>Stimulus-Related Actions</belongs_to_group>
+		<inspector>StopSoundInspectorView</inspector>
+		<description>
+			Stop playing a sound stimulus, if it is playing.
+		</description>
+		
+		<code>
+			<action tag="Stop Sound" type="stop_sound" sound=""/>
+		</code>
+	</MWElement>
+
+
+	<MWElement name="Accept Selections">
+		<match_signature>action[@type='accept_selections']</match_signature>
+		<isa>Action</isa>
+		
+		<inspector>AcceptSelectionsInspectorView</inspector>
+		<description>
+			Permanently accept selections on a selectable object that have been
+			made so far.  Once accepted, these selections can not be undone with
+			a "Reject Selections" action.
+		</description>
+		
+		<code>
+			<action tag="Accept Selections" type="accept_selections" 
+											selection=""/>
+		</code>
+	</MWElement>
+
+
+	<MWElement name="Reject Selections">
+		<match_signature>action[@type='reject_selections']</match_signature>
+		<isa>Action</isa>
+		
+		<inspector>RejectSelectionsInspectorView</inspector>
+		<description>
+			Reject all previous selections from a selectable object, since the
+			last "Accept Selections" action.  From the point of view of the
+			selectable object, it will be as if these selections were never
+			made
+		</description>
+		
+		<code>
+			<action tag="Reject Selections" type="reject_selections" 
+											selection=""/>
+		</code>
+	</MWElement>
+
+	<MWElement name="Reset Selections">
+		<match_signature>action[@type='reset_selections']</match_signature>
+		<isa>Action</isa>
+		
+		<inspector>ResetSelectionInspectorView</inspector>
+		<description>
+			Reset all previous selections from a selectable object.  From the 
+			point of view of the selectable object, it will be as if these 
+			selections were never made.
+		</description>
+		
+		<code>
+			<action tag="Reset Selections" type="reset_selections" 
+											selection=""/>
+		</code>
+	</MWElement>
+
+	<MWElement name="Next Selection">
+		<match_signature>action[@type='next_selections']</match_signature>
+		<isa>Action</isa>
+		
+		<inspector>NextSelectionInspectorView</inspector>
+		<description>
+			Advance to the next selection on a selection variable.  This
+			action does not work on other selectable objects (such as 
+			blocks or trials).
+		</description>
+		
+		<code>
+			<action tag="Next Selection" type="next_selection" 
+											selection=""/>
+		</code>
+	</MWElement>
+
+	<MWElement name="Start IO Device">
+		<match_signature>action[@type='start_device_io']</match_signature>
+		<isa>Action</isa>
+		
+		<inspector>StartIOInspectorView</inspector>
+		<description>
+			Enable an IO Device.  Variables will be modified by input channels,
+			external outputs to be set by variables, as defined in the 
+			IO channels for the IO device. 
+		</description>
+		
+		<code>
+			<action tag="Start IO Device" type="start_device_IO" 
+											device=""/>
+		</code>
+	</MWElement>
+
+	<MWElement name="Stop IO Device">
+		<match_signature>action[@type='stop_device_io']</match_signature>
+		<isa>Action</isa>
+		
+		<inspector>StopIOInspectorView</inspector>
+		<description>
+			Disable an IO Device.
+		</description>
+		
+		<code>
+			<action tag="Stop IO Device" type="stop_device_IO" 
+											device=""/>
+		</code>
+	</MWElement>
+	
+	<MWElement name="Synthetic Saccade">
+		<match_signature>action[@type='fake_monkey_saccade_to_location']</match_signature>
+		<isa>Action</isa>
+		
+		<description>
+			Direct a synthetic data source "IO" device to make a fake
+			saccade to a predefined location. This action will have no 
+			effect if the synthetic data source is not started.
+		</description>
+		
+		<inspector>SyntheticSaccadeInspectorView</inspector>
+		
+		<code>
+			<action tag="Synthetic Saccade" 
+										type="fake_monkey_saccade_to_location" 
+										fake_monkey=""
+										h=""
+										v=""/>
+		</code>
+	</MWElement>
+	
+	
+	<MWElement name="Take Calibration Sample">
+		<match_signature>action[@type='take_calibration_sample']</match_signature>
+		<isa>Action</isa>
+		
+		<description>
+			Instruct a calibrator object to take a sample from a "calibratable"
+			object.  The calibratable objects contain both a measured and a
+			"true" value, and the calibrator uses these to determine a mapping
+			function.
+		</description>
+		
+		<code>
+			<action tag="Take Calibration Sample" 
+										type="take_calibration_sample" 
+										calibrator=""
+										calibratable_object=""/>
+		</code>
+	</MWElement>
+
+
+	<MWElement name="Update Calibration">
+		<match_signature>action[@type='update_calibration']</match_signature>
+		<isa>Action</isa>
+		
+		<description>
+			Prompt a calibrator object to compute a new calibration mapping
+			function based on samples taken using the "Take Calibration Sample"
+			action.
+		</description>
+		
+		<code>
+			<action tag="Update Calibration" 
+										type="update_calibration" 
+										calibrator=""/>
+		</code>
+	</MWElement>	
+
+	<MWElement name="Clear Calibration">
+		<match_signature>action[@type='clear_calibration']</match_signature>
+		<isa>Action</isa>
+		
+		<description>
+			Prompt a calibrator object to "forget" all previously collected
+			calibration samples.
+		</description>
+		
+		<code>
+			<action tag="Update Calibration" 
+										type="update_calibration" 
+										calibrator=""/>
+		</code>
+	</MWElement>	
+
+	<MWElement name="Begin Averaged Calibration Sample">
+		<match_signature>action[@type='begin_calibration_average']</match_signature>
+		<isa>Action</isa>
+		
+		<description>
+			Begin averaging calibration the values of a variable to be
+			calibrated.
+		</description>
+		
+		<code>
+			<action tag="Begin Averaged Calibration Sample" 
+										type="begin_calibration_average" 
+										calibrator=""/>
+		</code>
+	</MWElement>	
+
+	<MWElement name="End Averaged Calibration Sample">
+		<match_signature>action[@type='end_calibration_average_and_accept']</match_signature>
+		<isa>Action</isa>
+		
+		<description>
+			Stop averaging calibration the values of a variable to be
+			calibrated, and add the sample to the specified calibrator.
+		</description>
+		
+		<code>
+			<action tag="Begin Averaged Calibration Sample" 
+										type="end_calibration_average_and_accept" 
+										calibrator=""/>
+		</code>
+	</MWElement>	
+
+
+	<!-- ****************** -->
+	<!-- Transition Definitions -->
+	<!-- ****************** -->
+
+	<!-- Base-level stub -->
+	<MWElement name="Transition" hidden="1">
+		<match_signature>dummy</match_signature>
+		
+		<!-- Inheritance -->
+		<!-- none -->
+		
+		<!-- Placement rules -->
+		<allowed_parent>Task System State</allowed_parent>
+		<disallowed_sibling_after>Action</disallowed_sibling_after>
+		<disallowed_sibling_after>ActionMarker</disallowed_sibling_after>
+        <disallowed_sibling_after>TransitionMarker</disallowed_sibling_after>
+        
+		<!-- Information for display in the GUI -->
+		<icon>transitionIcon</icon>
+		<belongs_to_group>Transitions</belongs_to_group>
+		<description>Base-level transition stub</description>
+		
+	</MWElement>
+
+	<!-- Base-level stub -->
+	<MWElement name="TransitionMarker" unmoveable="1">
+		<match_signature>//transition_marker</match_signature>
+		
+		<!-- Placement rules -->
+		<allowed_parent>Task System State</allowed_parent>
+		<disallowed_sibling_after>ActionMarker</disallowed_sibling_after>
+		
+		<!-- Information for display in the GUI -->
+		<description></description>
+	</MWElement>
+
+
+	<MWElement name="Always Go Transition">
+		<!-- XPath 2.0 expression defining nodes of this type -->
+		<match_signature>transition[@type='direct']</match_signature>
+		
+		<!-- Inheritance -->
+		<isa>Transition</isa>
+		
+		<!-- Information for display in the GUI -->
+		<icon>alwaysGo</icon>
+		<inspector>AlwaysGoTransitionInspectorView</inspector>
+		<description>
+			A transition that always goes to the specified target.
+		</description>
+		
+		<!-- Payload -->
+		<code>
+			<transition type="direct" tag="Always Go to ..." target=""/>
+		</code>
+	</MWElement>
+
+	<MWElement name="Conditional Transition">
+		<!-- XPath 2.0 expression defining nodes of this type -->
+		<match_signature>transition[@type='conditional']</match_signature>
+		
+		<!-- Inheritance -->
+		<isa>Transition</isa>
+		
+		<!-- Information for display in the GUI -->
+		<icon>conditionalTransition</icon>
+		<inspector>ConditionalTransitionInspectorView</inspector>
+		<description>
+			A transition that goes to the target if a specified condition
+			expression is true.
+		</description>
+		
+		<!-- Payload -->
+		<code>
+			<transition type="conditional" tag="If Condition is True, Transition to ..." 
+											 condition=""
+											 target=""/>
+		</code>
+	</MWElement>
+
+	<MWElement name="Timer Expired Transition">
+		<!-- XPath 2.0 expression defining nodes of this type -->
+		<match_signature>transition[@type='timer_expired']</match_signature>
+		
+		<!-- Inheritance -->
+		<isa>Transition</isa>
+		
+		<!-- Information for display in the GUI -->
+		<icon>timerTransition</icon>
+		<inspector>TimerExpiredTransitionInspectorView</inspector>
+		<description>
+			A transition that goes to the target if a specified timer has
+			expired.
+		</description>
+		
+		<!-- Payload -->
+		<code>
+			<transition type="timer_expired" tag="If Timer Expired, Transition to ..." 
+											 target=""
+											 timer=""/>
+		</code>
+	</MWElement>
+
+
+	<MWElement name="Exit Task System">
+		<!-- XPath 2.0 expression defining nodes of this type -->
+		<match_signature>transition[@type='yield']</match_signature>
+		
+		<!-- Inheritance -->
+		<isa>Transition</isa>
+		
+		<!-- Information for display in the GUI -->
+		<icon>yieldToParent</icon>
+		<inspector>ExitTaskSystemTransitionInspectorView</inspector>
+		<description>
+			A transition that yields control back to the Task
+			System's parent.
+		</description>
+		
+		<!-- Payload -->
+		<code>
+			<transition type="yield" tag="Exit Task System..."/>
+		</code>
+	</MWElement>
+
+
+	<!-- ****************** -->
+	<!-- IODevice Definitions -->
+	<!-- ****************** -->
+
+	<MWElement name="IODevice" hidden="1">
+		<match_signature>dummy</match_signature>
+
+		<!-- Inheritance -->
+		<!-- none -->
+		
+		<!-- Placement rules -->
+		<allowed_parent>IODevices</allowed_parent>
+        <allowed_parent>Folder</allowed_parent>
+		
+		<!-- Information for display in the GUI -->
+		<icon>smallIOFolder</icon>
+		<belongs_to_group>Input/Output</belongs_to_group>
+		<belongs_to_group>IODevices</belongs_to_group>
+		<description>Base-level IO device stub</description>
+		
+	</MWElement>
+
+	
+	<MWElement name="Generic IO Device">
+		<!-- XPath 2.0 expression defining nodes of this type -->
+		<match_signature>//iodevice</match_signature>
+
+		<!-- Inheritance -->
+		<isa>IODevice</isa>
+		
+		<description>
+			A generic IO device
+		</description>
+		
+		<!-- Payload -->
+		<code>
+			<iodevice tag="device" type="" alt=""/>
+		</code>
+	</MWElement>
+
+	<!-- ****************** -->
+	<!-- IOChannel Definitions -->
+	<!-- ****************** -->
+
+	<MWElement name="IOChannel" hidden="1">
+		<match_signature>dummy</match_signature>
+		
+		<!-- Inheritance -->
+		<!-- none -->
+		
+		<!-- Placement rules -->
+        <allowed_parent>Folder</allowed_parent>
+
+		
+		<!-- Information for display in the GUI -->
+		<icon>smallIOFolder</icon>
+		<belongs_to_group>Input/Output</belongs_to_group>
+		<belongs_to_group>IODevice</belongs_to_group>
+		<description>Base-level IO channel stub</description>
+		
+	</MWElement>
+
+	
+	<MWElement name="Generic IO Channel">
+		<!-- XPath 2.0 expression defining nodes of this type -->
+		<match_signature>//iochannel</match_signature>
+
+		<!-- Inheritance -->
+		<isa>IOChannel</isa>
+
+		<!-- Placement rules -->
+		<allowed_parent>Generic IO Device</allowed_parent>
+		
+		<description>
+			A generic IO channel
+		</description>
+		
+		<!-- Payload -->
+		<code>
+			<iochannel tag="channel" variable="" capability="" data_type="" direction="" synchrony="" range_min="" range_max="" resolution="" update_interval="3ms" data_interval="1ms"/>
+		</code>
+	</MWElement>
+
+	<!-- ********************** -->
+	<!-- Calibrator Definitions -->
+	<!-- ********************** -->
+
+	<MWElement name="Calibrator" hidden="1">
+		<match_signature>dummy</match_signature>
+		
+		<!-- Inheritance -->
+		<!-- none -->
+		
+		<!-- Placement rules -->
+		<allowed_parent>Calibrators</allowed_parent>
+		<allowed_parent>IODevices</allowed_parent>
+        <allowed_parent>Folder</allowed_parent>
+		
+		<!-- Information for display in the GUI -->
+		<icon>fakeMonkey</icon>
+		<belongs_to_group>Input/Output</belongs_to_group>
+		<belongs_to_group>Calibrators</belongs_to_group>
+		<description>Base-level calibrator stub</description>
+		
+	</MWElement>
+
+
+	<MWElement name="Eye Calibrator">
+		<!-- XPath 2.0 expression defining nodes of this type -->
+		<match_signature>calibrator[@type='standard_eye_calibrator']</match_signature>
+
+		<!-- Inheritance -->
+		<isa>Calibrator</isa>
+				
+		<!-- Information for display in the GUI -->
+		<icon>fakeMonkey</icon>
+
+		<description>
+			A IO calibrator specially tailored for eye movement signals.
+		</description>
+		
+		<!-- Payload -->
+		<code>
+			<calibrator type="standard_eye_calibrator" eyeh_raw=""
+													   eyev_raw=""
+													   eyeh_calibrated=""
+													   eyev_calibrated=""/>
+		</code>
+	</MWElement>
+
+
+
+
+	<!-- ****************** -->
+	<!-- Filter Definitions -->
+	<!-- ****************** -->
+
+	<MWElement name="Filter" hidden="1">
+		<match_signature>dummy</match_signature>
+		
+		<!-- Inheritance -->
+		<!-- none -->
+		
+		<!-- Placement rules -->
+		<allowed_parent>Filters</allowed_parent>
+		<allowed_parent>IODevices</allowed_parent>
+        <allowed_parent>Folder</allowed_parent>
+		
+		<!-- Information for display in the GUI -->
+		<icon>fakeMonkey</icon>
+		<belongs_to_group>Input/Output</belongs_to_group>
+		<belongs_to_group>Filters</belongs_to_group>
+		<description>Base-level filter stub</description>
+		
+	</MWElement>
+
+	
+	<MWElement name="Box-car Filter">
+		<!-- XPath 2.0 expression defining nodes of this type -->
+		<match_signature>filter[@type='boxcar_filter_1D']</match_signature>
+
+		<!-- Inheritance -->
+		<isa>Filter</isa>
+		
+		<!-- Information for display in the GUI -->
+		<icon>fakeMonkey</icon>
+		<!--inspector>VariableInspectorView</inspector-->  <!-- TODO -->
+
+		<description>
+			A basic 1D boxcar filter
+		</description>
+		
+		<!-- Payload -->
+		<code>
+			<filter type="boxcar_filter_1D" in1=""  out1="" width_samples=""/>
+		</code>
+	</MWElement>
+	
+	
+	<MWElement name="Basic Eye Monitor">
+		<!-- XPath 2.0 expression defining nodes of this type -->
+		<match_signature>filter[@type='basic_eye_monitor']</match_signature>
+
+		<!-- Inheritance -->
+		<isa>Filter</isa>
+		
+		<!-- Information for display in the GUI -->
+		<icon>fakeMonkey</icon>
+		<!--inspector>VariableInspectorView</inspector-->  <!-- TODO -->
+
+		<description>
+			A filter that takes in an eye signal and outputs basic parameters,
+			such as velocity, saccade state, etc.
+		</description>
+		
+		<!-- Payload -->
+		<code>
+			<filter type="basic_eye_monitor" eyeh_calibrated=""
+											 eyev_calibrated=""
+											 eye_state=""
+											 width_samples=""
+											 saccade_entry_speed=""
+											 saccade_exit_speed=""/>
+		</code>
+	</MWElement>
+
+
+	<MWElement name="Advanced Eye Monitor">
+		<!-- XPath 2.0 expression defining nodes of this type -->
+		<match_signature>filter[@type='basic_eye_monitor']</match_signature>
+
+		<!-- Inheritance -->
+		<isa>Filter</isa>
+		
+		<!-- Information for display in the GUI -->
+		<icon>fakeMonkey</icon>
+		<!--inspector>VariableInspectorView</inspector-->  <!-- TODO -->
+
+		<description>
+			A filter that takes in an eye signal and outputs basic parameters,
+			such as velocity, saccade state, etc.  The advanced version of this
+			monitor additionally takes into account minimum saccade amplitude
+			and duration
+		</description>
+		
+		<!-- Payload -->
+		<code>
+			<filter type="basic_eye_monitor" eyeh_calibrated=""
+											 eyev_calibrated=""
+											 eye_state=""
+											 width_samples=""
+											 saccade_entry_speed=""
+											 saccade_exit_speed=""
+											 saccade_min_amplitude=""
+											 saccade_min_duration=""/>
+		</code>
+	</MWElement>
+
+	<!-- ********************** -->
+	<!-- Trigger Definitions -->
+	<!-- ********************** -->
+
+	<MWElement name="Trigger" hidden="1">
+		<match_signature>dummy</match_signature>
+		
+		<!-- Inheritance -->
+		<!-- none -->
+		
+		<!-- Placement rules -->
+		<allowed_parent>Triggers</allowed_parent>
+		<allowed_parent>IODevices</allowed_parent>
+		
+		<!-- Information for display in the GUI -->
+		<icon>fakeMonkey</icon>
+		<belongs_to_group>Input/Output</belongs_to_group>
+		<belongs_to_group>Triggers</belongs_to_group>
+		<description>Base-level trigger stub</description>
+		
+	</MWElement>
+    
+    
+    
+    <!-- ********************** -->
+	<!-- Optimizer Definitions -->
+	<!-- ********************** -->
+    
+    <MWElement name="Optimizer" hidden="1">
+		<match_signature>dummy</match_signature>
+		
+		<!-- Inheritance -->
+		<!-- none -->
+		
+		<!-- Placement rules -->
+		<allowed_parent>Optimizers</allowed_parent>
+		
+		<!-- Information for display in the GUI -->
+		<icon>smallFolder</icon>
+		<belongs_to_group>Optimizers</belongs_to_group>
+		<description>Base-level Optimizer stub</description>
+		
+	</MWElement>
+    
+    <MWElement name="Simple Staircase Optimizer">
+		<!-- XPath 2.0 expression defining nodes of this type -->
+		<match_signature>staircase</match_signature>
+
+		<!-- Inheritance -->
+		<isa>Optimizer</isa>
+		
+		<!-- Information for display in the GUI -->
+		<icon>fakeMonkey</icon>
+		<inspector>StaircaseInspectorView</inspector>  <!-- TODO -->
+        <belongs_to_group>Optimizers and Variable Monitors</belongs_to_group>
+
+
+		<description>
+			An object that watches a variable (e.g. a flag reporting success in 
+            a behavioral task), and moves another variable up and down according
+            to some criteria.
+		</description>
+		
+		<!-- Payload -->
+		<code>
+        <staircase  type="simple"    tag="New Staircase Optimizer"
+                                     watch=""
+                                     output=""
+                                     lower_limit=""
+                                     upper_limit=""
+                                     up_criterion=""
+                                     down_criterion=""
+                                     step_size=""
+                                     grace_period=""
+                                     history=""/>
+		</code>
+	</MWElement>
+	
+    <MWElement name="Bias Monitor">
+		<!-- XPath 2.0 expression defining nodes of this type -->
+		<match_signature>bias_monitor</match_signature>
+
+		<!-- Inheritance -->
+		<isa>Optimizer</isa>
+		
+		<!-- Information for display in the GUI -->
+		<icon>fakeMonkey</icon>
+		<inspector>BiasMonitorInspectorView</inspector>  <!-- TODO -->
+        <belongs_to_group>Optimizers and Variable Monitors</belongs_to_group>
+
+		<description>
+			An object that watches parameters of a behavioral task and assesses
+            the probability that the subject is adopting some form of biased
+            strategy
+		</description>
+		
+        
+		<!-- Payload -->
+		<code>
+        <bias_monitor type="simple"  tag="New Bias Monitor"
+                                     success=""
+                                     response_index=""
+                                     task_correlation=""
+                                     response_bias_correlation=""
+                                     alternation_correlation=""
+                                     history=""
+                                     grace_period=""/>
+		</code>
+	</MWElement>
+
+
+	
+</MWElements>

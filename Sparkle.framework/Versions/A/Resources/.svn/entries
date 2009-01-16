@@ -1,0 +1,120 @@
+8
+
+dir
+3722
+https://svn6.cvsdude.com/dicarlolab/MonkeyWorks/trunk/COXLAB/NewEditor/Sparkle.framework/Versions/A/Resources
+https://svn6.cvsdude.com/dicarlolab/MonkeyWorks
+
+
+
+2009-01-07T14:50:27.208913Z
+3695
+bkennedy
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+15980662-76f2-0310-8555-e334231c6679
+
+fr_CA.lproj
+file
+
+
+
+
+2009-01-16T16:34:16.000000Z
+92b44d17be3fa80e9035d53e09e848ed
+2009-01-07T14:50:27.208913Z
+3695
+bkennedy
+has-props
+
+
+svn:special
+
+License.txt
+file
+
+
+
+
+2009-01-16T16:34:16.000000Z
+29284fe742e0698808c766d3384bf6c1
+2009-01-07T14:50:27.208913Z
+3695
+bkennedy
+
+it.lproj
+dir
+
+SUModelTranslation.plist
+file
+
+
+
+
+2009-01-16T16:34:16.000000Z
+f1ea04fe15a18d331dd1cde62aee3953
+2009-01-07T14:50:27.208913Z
+3695
+bkennedy
+
+relaunch
+file
+
+
+
+
+2009-01-16T16:34:16.000000Z
+6ce0319cbc53a542b000e27950f9c6ca
+2009-01-07T14:50:27.208913Z
+3695
+bkennedy
+has-props
+
+SUStatus.nib
+dir
+
+Info.plist
+file
+
+
+
+
+2009-01-16T16:34:16.000000Z
+97f5de4b42bb6d8d02d51b01cac8c3ca
+2009-01-07T14:50:27.208913Z
+3695
+bkennedy
+
+en.lproj
+dir
+
+ru.lproj
+dir
+
+es.lproj
+dir
+
+fr.lproj
+dir
+
+de.lproj
+dir
+
+sv.lproj
+dir
+
+nl.lproj
+dir
+

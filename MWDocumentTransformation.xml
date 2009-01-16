@@ -1,0 +1,49 @@
+<xsl:stylesheet version = '1.0'
+     xmlns:xsl='http://www.w3.org/1999/XSL/Transform'>
+
+<xsl:template match="@*|node()">
+	<xsl:copy>
+		<!-- Scan the library -->
+		<xsl:variable name="library" select="document('./MWLibrary.xml')/MWElements"/>
+		<xsl:variable name="current_name" select="name()"/>
+		<xsl:variable name="current_node" select="current()"/>
+		<xsl:for-each select="$library/MWElement">
+			<xsl:variable name="match_signature">
+				<xsl:value-of select="./match_signature"/>
+			</xsl:variable>
+			
+			<xsl:if test="$match_signature">
+				<xsl:attribute name="matched"><xsl:value-of select="$match_signature"/></xsl:attribute>
+			</xsl:if>
+		</xsl:for-each>
+		
+		<!-- Further passthrough -->
+		<xsl:apply-templates select="@*|node()"/>
+	</xsl:copy>
+</xsl:template>
+
+
+<!-- <xsl:template match="*">
+	<xsl:variable name="library" select="document('./MWLibrary.xml')/MWElements"/>
+	<xsl:for-each select="$library/MWElement">
+		<xsl:variable name="match_signature">
+			<xsl:value-of select="./match_signature"/>
+		</xsl:variable>
+		
+		<xsl:if test="$match_signature">
+			<xsl:text>BLAH</xsl:text>
+		</xsl:if>
+	</xsl:for-each>
+	<xsl:for-each select="//$match_signature">
+		<xsl:text>Match: </xsl:text>
+		<xsl:value-of select="$match_signature"/>
+	</xsl:for-each>
+</xsl:template>
+
+<xsl:template name="pass_through">
+	<xsl:copy select="."/>
+</xsl:template> -->
+
+
+
+</xsl:stylesheet>

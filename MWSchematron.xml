@@ -1,0 +1,130 @@
+<schema>
+
+<!-- DEFINITIONS -->
+
+<let name="ordinary_paradigm_components" value="block | trial | list | task_system | task_system_state"/>
+<let name="paradigm_container_components" value="protocol | block | trial | list"/>
+
+
+<pattern name="Document Structure">
+    <rule context="/*">
+		<assert test="name()='monkeyml'">The root element must be named monkeyml</assert>
+	</rule>
+</pattern>
+
+<pattern name="Stimuli">
+	<rule context="stimulus">
+		<assert test="@type">Each stimulus must define a type attribute</assert>
+	</rule>
+	
+	<rule context="stimulus_group">
+		<assert test="@tag">Stimulus Groups must define a tag attribute</assert>
+		<assert test="count(*)=count(stimulus)">Stimulus Groups can only contain stimuli</assert>
+	</rule>
+</pattern>
+	
+	
+<pattern name="Variables">
+	<!-- VARIABLES -->
+	<rule context="variable">
+		<assert test="@tag != 'bukkit'">Don't call variables "bukkit."  It's just silly.</assert>
+		<assert test="@tag">Each variable must be assigned a unique tag name</assert>
+		<assert test="@scope">Each variable must be a assigned a scope (local or global)</assert>
+	</rule>
+	
+	<rule context="variable_assignment">
+		<assert test="@variable">A Variable Assignment must specify a variable</assert>
+		<assert test="@value">A Variable Assignment must specify a value</assert>
+	</rule>
+</pattern>
+
+	
+<pattern name="Replicators">
+	
+	<rule context="range_replicator">
+		<assert test="(@variable) and  (@from) and (@to) and (@step)">Range Replicators must define variable, from, to and step attributes</assert>
+	</rule>
+</pattern>
+
+<pattern name="IO Devices">
+	<!-- ALL IODEVICES -->
+	<rule context="iodevice">
+		<assert test="@type">You must specify an IO device type</assert>
+		<assert test="count(channel)!=0">You must specify at least one channel on each IO device</assert>
+	</rule>
+
+	<!-- CHANNEL -->
+	<rule context="channel">
+		<assert test="@capability">A channel must define a capability attribute</assert>
+		<assert test="@variable">A channel must define a variable attribute</assert>
+		<assert test="@type">A channel must define a type attribute</assert>
+	</rule>
+	
+</pattern>
+
+
+<pattern name="Basic Structure">
+
+    <!-- ALL PARADIGM COMPONENTS -->
+	<rule context="experiment | protocol | block | trial | list | task_system | task_system_state">
+		<assert test="@tag">Paradigm components must have a tag attribute defined</assert>
+    </rule>
+	
+</pattern>
+
+
+<pattern name="Paradigm Components"> 
+
+	
+	<!-- ALL CONTAINERS -->
+
+	<!-- EXPERIMENT -->
+	<rule context="experiment">
+		<assert test="count(child::protocol) != 0">You must define at least one protocol in an experiment</assert>
+        <assert test="count(*)=count(child::protocol)">Experiments can only contain protocols</assert>
+    </rule>
+	
+	<!-- TASK_SYSTEM -->
+	<rule context="task_system">
+		<assert test="count(*)=count(task_system_state)">Task Systems can only contain task system states</assert>
+		<assert test="count(task_system_state)>0">Task systems must contain at least one state</assert>
+		<assert test="count(.//task_system_state//transition[@type='yield']) &gt; 0">Task Systems must contain at least one transition that yields to the Task System parent</assert>
+	</rule>
+
+	<!-- TASK_SYSTEM_STATE -->
+	<rule context="task_system_state">
+		<assert test="count(action | transition | action_marker | transition_marker)=count(*)">Task System States can only contain actions and transitions</assert>
+		<assert test="count(transition) != 0">You must have at least one transition in every Task System State</assert>
+	</rule>
+	
+	<!-- ACTIONS -->
+	<rule context="action">
+		<assert test="@type">Actions must have a type attribute</assert>
+		<!--assert test="not(preceding-sibling::transition)">Transitions cannot appear before actions</assert-->
+		<report test="not(@type = 'if' or @type = 'scheduler') and (count(./*) > 0)">Actions (other that "if" and "scheduler" cannot contain subactions)</report>
+	</rule>
+	
+	<!-- TRANSITIONS -->
+	<rule context="transition">
+		<assert test="@type">Transitions must have a type attribute</assert>
+		<!--assert test="not(following-sibling::action)">Actions must precede transitions</assert-->
+		<assert test="@type='yield' or @target">All transitions must have a target attribute defined</assert>
+		<!--assert test="@type='yield' or count(../../task_system_state[@tag = node()[@target]]) != 0">A transition must point to a valid state within the same task system</assert-->
+		<report test="@type='conditional' and not(@condition)">You must specify a condition for conditional transitions</report>
+		<report test="@type='timer_expired' and not(@timer)">You must specify a timer for a timer_expired transition</report>
+		<report test="@type='timer_expired' and count(../..//action[@timer]) = 0">You must set a timer to be able to use a timer_expired transition</report>
+	</rule>
+	
+	
+</pattern>
+
+<pattern name="Specific Actions">
+
+    <rule context="action[@type='queue_stimulus'] | action[@type='dequeue_stimulus']">
+        <assert test="not(@stimulus='')">Stimulus actions must refer to a valid stimulus</assert>
+    </rule>
+
+</pattern>
+
+
+</schema>

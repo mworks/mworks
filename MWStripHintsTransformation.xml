@@ -1,0 +1,17 @@
+<xsl:stylesheet version = '1.0'
+     xmlns:xsl='http://www.w3.org/1999/XSL/Transform'>
+
+<xsl:template match="@*|node()">
+	<xsl:copy>
+		<!-- passthrough -->
+		<xsl:apply-templates select="@*|node()"/>
+	</xsl:copy>
+</xsl:template>
+
+<!-- Things to strip out -->
+<xsl:template match="@_display_as_group"/>
+<xsl:template match="@_icon"/>
+<xsl:template match="@_element_key"/>
+<xsl:template match="@_inspector"/>
+
+</xsl:stylesheet>

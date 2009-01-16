@@ -1,0 +1,191 @@
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/dicarlolab/MonkeyWorks/!svn/ver/3713/trunk/COXLAB/NewEditor/InspectorViews
+END
+SyntheticSaccadeInspectorView.xib
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/dicarlolab/MonkeyWorks/!svn/ver/3695/trunk/COXLAB/NewEditor/InspectorViews/SyntheticSaccadeInspectorView.xib
+END
+ConditionalTransitionInspectorView.xib
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/dicarlolab/MonkeyWorks/!svn/ver/3695/trunk/COXLAB/NewEditor/InspectorViews/ConditionalTransitionInspectorView.xib
+END
+PlaySoundInspectorView.xib
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/dicarlolab/MonkeyWorks/!svn/ver/3695/trunk/COXLAB/NewEditor/InspectorViews/PlaySoundInspectorView.xib
+END
+VariableInspectorView.xib
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/dicarlolab/MonkeyWorks/!svn/ver/3695/trunk/COXLAB/NewEditor/InspectorViews/VariableInspectorView.xib
+END
+StartIOInspectorView.xib
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/dicarlolab/MonkeyWorks/!svn/ver/3695/trunk/COXLAB/NewEditor/InspectorViews/StartIOInspectorView.xib
+END
+ResetSelectionInspectorView.xib
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/dicarlolab/MonkeyWorks/!svn/ver/3695/trunk/COXLAB/NewEditor/InspectorViews/ResetSelectionInspectorView.xib
+END
+QueueStimulusInspectorView.xib
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/dicarlolab/MonkeyWorks/!svn/ver/3695/trunk/COXLAB/NewEditor/InspectorViews/QueueStimulusInspectorView.xib
+END
+DequeueStimulusInspectorView.xib
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/dicarlolab/MonkeyWorks/!svn/ver/3695/trunk/COXLAB/NewEditor/InspectorViews/DequeueStimulusInspectorView.xib
+END
+UpdateDisplayInspectorView.xib
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/dicarlolab/MonkeyWorks/!svn/ver/3695/trunk/COXLAB/NewEditor/InspectorViews/UpdateDisplayInspectorView.xib
+END
+TimerExpiredTransitionInspectorView.xib
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/dicarlolab/MonkeyWorks/!svn/ver/3695/trunk/COXLAB/NewEditor/InspectorViews/TimerExpiredTransitionInspectorView.xib
+END
+ExitTaskSystemTransitionInspectorView.xib
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/dicarlolab/MonkeyWorks/!svn/ver/3695/trunk/COXLAB/NewEditor/InspectorViews/ExitTaskSystemTransitionInspectorView.xib
+END
+ListStateInspectorView.xib
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/dicarlolab/MonkeyWorks/!svn/ver/3695/trunk/COXLAB/NewEditor/InspectorViews/ListStateInspectorView.xib
+END
+StopIOInspectorView.xib
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/dicarlolab/MonkeyWorks/!svn/ver/3695/trunk/COXLAB/NewEditor/InspectorViews/StopIOInspectorView.xib
+END
+StaircaseInspectorView.xib
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/dicarlolab/MonkeyWorks/!svn/ver/3695/trunk/COXLAB/NewEditor/InspectorViews/StaircaseInspectorView.xib
+END
+RangeReplicatorInspectorView.xib
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/dicarlolab/MonkeyWorks/!svn/ver/3695/trunk/COXLAB/NewEditor/InspectorViews/RangeReplicatorInspectorView.xib
+END
+NextSelectionInspectorView.xib
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/dicarlolab/MonkeyWorks/!svn/ver/3695/trunk/COXLAB/NewEditor/InspectorViews/NextSelectionInspectorView.xib
+END
+BiasMonitorInspectorView.xib
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/dicarlolab/MonkeyWorks/!svn/ver/3695/trunk/COXLAB/NewEditor/InspectorViews/BiasMonitorInspectorView.xib
+END
+AcceptSelectionsInspectorView.xib
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/dicarlolab/MonkeyWorks/!svn/ver/3695/trunk/COXLAB/NewEditor/InspectorViews/AcceptSelectionsInspectorView.xib
+END
+ImageStimulusInspectorView.xib
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/dicarlolab/MonkeyWorks/!svn/ver/3713/trunk/COXLAB/NewEditor/InspectorViews/ImageStimulusInspectorView.xib
+END
+PulseInspectorView.xib
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/dicarlolab/MonkeyWorks/!svn/ver/3695/trunk/COXLAB/NewEditor/InspectorViews/PulseInspectorView.xib
+END
+ExampleInspectorView.xib
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/dicarlolab/MonkeyWorks/!svn/ver/3695/trunk/COXLAB/NewEditor/InspectorViews/ExampleInspectorView.xib
+END
+ScheduleInspectorView.xib
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/dicarlolab/MonkeyWorks/!svn/ver/3695/trunk/COXLAB/NewEditor/InspectorViews/ScheduleInspectorView.xib
+END
+StopSoundInspectorView.xib
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/dicarlolab/MonkeyWorks/!svn/ver/3695/trunk/COXLAB/NewEditor/InspectorViews/StopSoundInspectorView.xib
+END
+StartTimerInspectorView.xib
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/dicarlolab/MonkeyWorks/!svn/ver/3695/trunk/COXLAB/NewEditor/InspectorViews/StartTimerInspectorView.xib
+END
+SoundStimulusInspectorView.xib
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/dicarlolab/MonkeyWorks/!svn/ver/3695/trunk/COXLAB/NewEditor/InspectorViews/SoundStimulusInspectorView.xib
+END
+IfInspectorView.xib
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/dicarlolab/MonkeyWorks/!svn/ver/3695/trunk/COXLAB/NewEditor/InspectorViews/IfInspectorView.xib
+END
+AlwaysGoTransitionInspectorView.xib
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/dicarlolab/MonkeyWorks/!svn/ver/3695/trunk/COXLAB/NewEditor/InspectorViews/AlwaysGoTransitionInspectorView.xib
+END
+WaitInspectorView.xib
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/dicarlolab/MonkeyWorks/!svn/ver/3695/trunk/COXLAB/NewEditor/InspectorViews/WaitInspectorView.xib
+END
+SetTimebaseInspectorView.xib
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/dicarlolab/MonkeyWorks/!svn/ver/3695/trunk/COXLAB/NewEditor/InspectorViews/SetTimebaseInspectorView.xib
+END
+RejectSelectionsInspectorView.xib
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/dicarlolab/MonkeyWorks/!svn/ver/3695/trunk/COXLAB/NewEditor/InspectorViews/RejectSelectionsInspectorView.xib
+END
+AssignmentInspectorView.xib
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/dicarlolab/MonkeyWorks/!svn/ver/3695/trunk/COXLAB/NewEditor/InspectorViews/AssignmentInspectorView.xib
+END
