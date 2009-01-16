@@ -1,0 +1,55 @@
+8
+
+dir
+3722
+https://svn6.cvsdude.com/dicarlolab/MonkeyWorks/trunk/MonkeyWorksCore/Core/DataFiles
+https://svn6.cvsdude.com/dicarlolab/MonkeyWorks
+
+
+
+2008-11-26T22:05:05.679309Z
+3258
+bkennedy
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+15980662-76f2-0310-8555-e334231c6679
+
+tests
+dir
+
+DataFileManager.cpp
+file
+
+
+
+
+2008-12-09T20:08:46.000000Z
+2f73dd7a6847c7917be0e832a9ed148f
+2008-11-26T22:05:05.679309Z
+3258
+bkennedy
+
+DataFileManager.h
+file
+
+
+
+
+2008-12-09T20:08:46.000000Z
+407a9984f6ddcb93609b43a44514ed10
+2008-11-26T22:05:05.679309Z
+3258
+bkennedy
+

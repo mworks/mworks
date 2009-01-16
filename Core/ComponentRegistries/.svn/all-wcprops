@@ -1,0 +1,77 @@
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/dicarlolab/MonkeyWorks/!svn/ver/3696/trunk/MonkeyWorksCore/Core/ComponentRegistries
+END
+ServiceRegistry.h
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/ComponentRegistries/ServiceRegistry.h
+END
+VariableRegistry.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/ComponentRegistries/VariableRegistry.cpp
+END
+ComponentRegistry.h
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/ComponentRegistries/ComponentRegistry.h
+END
+VariableRegistry.h
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/ComponentRegistries/VariableRegistry.h
+END
+ComponentRegistry_new.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/dicarlolab/MonkeyWorks/!svn/ver/3696/trunk/MonkeyWorksCore/Core/ComponentRegistries/ComponentRegistry_new.cpp
+END
+CollectionPoint.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/ComponentRegistries/CollectionPoint.cpp
+END
+ServiceTypes.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/ComponentRegistries/ServiceTypes.cpp
+END
+ComponentRegistry_new.h
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/dicarlolab/MonkeyWorks/!svn/ver/3265/trunk/MonkeyWorksCore/Core/ComponentRegistries/ComponentRegistry_new.h
+END
+ServiceRegistry.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/ComponentRegistries/ServiceRegistry.cpp
+END
+CollectionPoint.h
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/ComponentRegistries/CollectionPoint.h
+END
+ServiceTypes.h
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/ComponentRegistries/ServiceTypes.h
+END
+ComponentRegistry.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/ComponentRegistries/ComponentRegistry.cpp
+END

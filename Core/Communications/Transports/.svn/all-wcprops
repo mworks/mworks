@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/Communications/Transports
+END
+ASIOEventTransport.h
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/Communications/Transports/ASIOEventTransport.h
+END
+DummyEventTransport.h
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/Communications/Transports/DummyEventTransport.h
+END
+IPCEventTransport.h
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/Communications/Transports/IPCEventTransport.h
+END
+EventTransport.h
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/Communications/Transports/EventTransport.h
+END
+ASIOEventTransport.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/dicarlolab/MonkeyWorks/!svn/ver/3080/trunk/MonkeyWorksCore/Core/Communications/Transports/ASIOEventTransport.cpp
+END
+DummyEventTransport.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/Communications/Transports/DummyEventTransport.cpp
+END
+IPCEventTransport.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/Communications/Transports/IPCEventTransport.cpp
+END

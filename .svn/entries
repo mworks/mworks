@@ -1,0 +1,232 @@
+8
+
+dir
+3722
+https://svn6.cvsdude.com/dicarlolab/MonkeyWorks/trunk/MonkeyWorksCore
+https://svn6.cvsdude.com/dicarlolab/MonkeyWorks
+
+
+
+2009-01-09T09:49:10.807242Z
+3714
+bkennedy
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+15980662-76f2-0310-8555-e334231c6679
+
+HeadlessServer
+dir
+
+MachClock
+dir
+
+MonkeyWorksCore-Info.plist
+file
+
+
+
+
+2008-12-09T20:08:50.000000Z
+de3d02b88d73395040ac7470fb5f4378
+2005-03-21T19:48:57.088857Z
+6
+paul
+
+MonkeyWorksCoreTest-Info.plist
+file
+
+
+
+
+2008-12-09T20:08:50.000000Z
+e1ae584b83b60c87a03506ece079c630
+2006-03-31T05:03:46.929910Z
+815
+davidcox
+
+MachClockPlugin-Info.plist
+file
+
+
+
+
+2008-12-09T20:08:50.000000Z
+1c1d3afda4f5f31efd87d4c510671bc8
+2005-03-21T19:48:57.088857Z
+6
+paul
+
+NE500
+dir
+
+Docs
+dir
+
+Core
+dir
+
+TestBed
+dir
+
+MarionetteTest-Info.plist
+file
+
+
+
+
+2008-12-09T20:08:50.000000Z
+352224d6db7373a156d2f348a84615a3
+2008-09-09T16:10:54.849317Z
+3028
+bkennedy
+
+ZenScheduler
+dir
+
+MonkeyWorksCore.xcodeproj
+dir
+
+ZenSchedulerPlugin-Info.plist
+file
+
+
+
+
+2008-12-09T20:08:50.000000Z
+723c42e46fe6c3967360879dbef66663
+2005-06-17T16:22:59.826208Z
+168
+davidcox
+
+MonkeyWorksScripting-Info.plist
+file
+
+
+
+
+2008-12-09T20:08:50.000000Z
+27a2691414467f71293eabcc637dc92b
+2005-03-21T19:48:57.088857Z
+6
+paul
+
+StandardScheduler
+dir
+
+StandardSchedulerPlugin-Info.plist
+file
+
+
+
+
+2008-12-09T20:08:50.000000Z
+5edf3bf403d7b486af73ad21a115c50d
+2005-03-21T19:48:57.088857Z
+6
+paul
+
+ZenStateSystem
+dir
+
+UnitTests
+dir
+
+LowPrioritySchedulerPlugin-Info.plist
+file
+
+
+
+
+2008-12-09T20:08:50.000000Z
+2d4144e20b968f4480ed0622c2c23e91
+2006-03-25T15:36:40.622697Z
+802
+davidcox
+
+ZenStateSystemPlugin-Info.plist
+file
+
+
+
+
+2008-12-09T20:08:50.000000Z
+7a6394ece719e7558d02122d2074bfd4
+2005-06-17T16:22:59.826208Z
+168
+davidcox
+
+StandardStateSystem
+dir
+
+Phidgets
+dir
+
+ZenClock
+dir
+
+StandardStateSystemPlugin-Info.plist
+file
+
+
+
+
+2008-12-09T20:08:50.000000Z
+e625bf368f48b573792897a23f5a9675
+2005-03-21T19:48:57.088857Z
+6
+paul
+
+ZenClockPlugin-Info.plist
+file
+
+
+
+
+2008-12-09T20:08:50.000000Z
+6f5b2255efe5411709c70490b042c00f
+2005-03-21T19:48:57.088857Z
+6
+paul
+
+MonkeyWorksScripting
+dir
+
+StandardClock
+dir
+
+StandardClockPlugin-Info.plist
+file
+
+
+
+
+2008-12-09T20:08:50.000000Z
+8cc8384c45c94f5b7ae3e1930a5b051a
+2005-03-21T19:48:57.088857Z
+6
+paul
+
+ZenScheduler-Info.plist
+file
+
+
+
+
+2008-12-09T20:08:50.000000Z
+6632a9d99c80e51f998c52ce9d3bacba
+2005-06-17T16:22:59.826208Z
+168
+davidcox
+

@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<monkeyml version="1.1">
+	<!-- this file needs to be named "setup_variables.xml" and be located in the directory /Library/MonkeyWorks/local -->
+	<variable_assignments>
+		<!--variable_assignment variable="#setupName" type="string" value="Setup 1"/-->
+		<variable_assignment variable="#mainScreenInfo">
+			<dictionary>
+				<dictionary_element>
+					<key>width</key>
+					<value type="float">286.5</value>
+					</dictionary_element>
+				<dictionary_element>
+					<key>height</key>
+					<value type="float">179</value>
+					</dictionary_element>
+				<dictionary_element>
+					<key>distance</key>
+					<value type="float">450</value>
+					</dictionary_element>
+				<dictionary_element>
+					<key>refresh_rate_hz</key>
+					<value type="float">60</value>
+					</dictionary_element>
+				<dictionary_element>
+		            <key>always_display_mirror_window</key>
+		            <value type="integer">0</value>
+					</dictionary_element>
+				<dictionary_element>
+		            <key>display_to_use</key>
+		            <value type="integer">1</value>
+					</dictionary_element>
+		        <dictionary_element>
+		            <key>mirror_window_base_height</key>
+		            <value type="integer">400</value>
+					</dictionary_element>	
+				</dictionary>
+			</variable_assignment>
+		</variable_assignments>
+	</monkeyml>

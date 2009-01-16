@@ -1,0 +1,79 @@
+<schema>
+
+<!-- DEFINITIONS -->
+
+<let name="ordinary_paradigm_components" value="block | trial | list | task_system | task_system_state"/>
+<let name="paradigm_container_components" value="protocol | block | trial | list"/>
+
+
+<pattern name="Document Structure">
+    <!--<rule context="/*">
+		<assert test="name()='MonkeyWorkXML'">The root element must be named MonkeyWorksXML</assert>
+	</rule>-->
+</pattern>
+
+
+<pattern name="Variables">
+	<!-- VARIABLES -->
+	<rule context="variable">
+		<assert test="@tag">Each variable must be assigned a unique tag name</assert>
+		<assert test="@scope">Each variable must be a assigned a scope (local or global)</assert>
+	</rule>
+</pattern>
+
+
+<pattern name="IO Devices">
+	<!-- ALL IODEVICES -->
+	<rule context="iodevice">
+		<assert test="@type">You must specify an IO device type</assert>
+		<assert test="count(channel)!=0">You must specify at least on channel on each IO device</assert>
+	</rule>
+
+	<!-- CHANNEL -->
+	<rule context="channel">
+	</rule>
+	
+</pattern>
+
+
+<pattern name="Paradigm Components"> 
+
+	<!-- ALL PARADIGM COMPONENTS -->
+	<rule context="experiment | protocol | block | trial | list | task_system | task_system_state">
+		<assert test="@tag">Paradigm components must have a tag attribute defined</assert>
+		<assert test="count((ordinary_paradigm_components))=0">You cannot place a non-protocol paradigm component directly subordinate to an Experiment</assert>
+	</rule>
+
+	<!-- EXPERIMENT -->
+	<rule context="experiment">
+		<assert test="count(protocol)> 0">You must define at least one protocol in an experiment</assert>
+	</rule>
+
+	<!-- PROTOCOL -->
+	<rule context="protocol">
+		<assert test="count(*)=count(block|trial)">Protocols can only contain blocks or trials</assert>
+	</rule>
+	
+	<!-- TASK_SYSTEM -->
+	<rule context="task_system">
+		<assert test="count(*)=count(task_system_state)">Task Systems can only contain task system states</assert>
+		<assert test="count(task_system_state)>0">Task systems must contain at least one state</assert>
+	</rule>
+
+	<!-- TASK_SYSTEM_STATE -->
+	<rule context="task_system_state">
+		<assert test="count(action|transition)=count(*)">Task System States can only contain actions and transitions</assert>
+		<assert test="count(transition)>=1">You must have at least one transition in every Task System State</assert>
+	</rule>
+	
+	<!-- TRANSITIONS -->
+	<rule context="transition">
+		<assert test="@type='yield' or @target">All transitions must have a target attribute defined</assert>
+		<report test="@type='conditional' and not(@condition)">You must specify a condition for conditional transitions</report>
+		<report test="@type='timer_expired' and not(@timer)">You must specify a timer for a timer_expired transition</report>
+	</rule>
+	
+</pattern>
+
+
+</schema>

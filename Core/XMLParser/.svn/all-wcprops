@@ -1,0 +1,89 @@
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/dicarlolab/MonkeyWorks/!svn/ver/3714/trunk/MonkeyWorksCore/Core/XMLParser
+END
+XMLParser.h
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/XMLParser/XMLParser.h
+END
+XMLRangeReplicatorExpander.pl
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/dicarlolab/MonkeyWorks/!svn/ver/2162/trunk/MonkeyWorksCore/Core/XMLParser/XMLRangeReplicatorExpander.pl
+END
+XMLSavedVarParser.pl
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/dicarlolab/MonkeyWorks/!svn/ver/2162/trunk/MonkeyWorksCore/Core/XMLParser/XMLSavedVarParser.pl
+END
+XMLParserTest.h
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/dicarlolab/MonkeyWorks/!svn/ver/3638/trunk/MonkeyWorksCore/Core/XMLParser/XMLParserTest.h
+END
+XMLVariableWriter.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/dicarlolab/MonkeyWorks/!svn/ver/3698/trunk/MonkeyWorksCore/Core/XMLParser/XMLVariableWriter.cpp
+END
+XMLExperimentPathReplacer.pl
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/dicarlolab/MonkeyWorks/!svn/ver/2471/trunk/MonkeyWorksCore/Core/XMLParser/XMLExperimentPathReplacer.pl
+END
+XMLMediaParser.pl
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/dicarlolab/MonkeyWorks/!svn/ver/2471/trunk/MonkeyWorksCore/Core/XMLParser/XMLMediaParser.pl
+END
+XMLparser.pl
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/dicarlolab/MonkeyWorks/!svn/ver/2589/trunk/MonkeyWorksCore/Core/XMLParser/XMLparser.pl
+END
+XMLVariableWriter.h
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/dicarlolab/MonkeyWorks/!svn/ver/3638/trunk/MonkeyWorksCore/Core/XMLParser/XMLVariableWriter.h
+END
+MonkeyWorksSchematron.xml
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/dicarlolab/MonkeyWorks/!svn/ver/2162/trunk/MonkeyWorksCore/Core/XMLParser/MonkeyWorksSchematron.xml
+END
+MWParserTransformation.xsl
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/dicarlolab/MonkeyWorks/!svn/ver/3023/trunk/MonkeyWorksCore/Core/XMLParser/MWParserTransformation.xsl
+END
+test_schematron.pl
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/dicarlolab/MonkeyWorks/!svn/ver/2162/trunk/MonkeyWorksCore/Core/XMLParser/test_schematron.pl
+END
+XMLParser.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/dicarlolab/MonkeyWorks/!svn/ver/3698/trunk/MonkeyWorksCore/Core/XMLParser/XMLParser.cpp
+END
+XMLParserTest.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/dicarlolab/MonkeyWorks/!svn/ver/3714/trunk/MonkeyWorksCore/Core/XMLParser/XMLParserTest.cpp
+END

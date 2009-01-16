@@ -1,0 +1,52 @@
+8
+
+dir
+3722
+https://svn6.cvsdude.com/dicarlolab/MonkeyWorks/trunk/MonkeyWorksCore/Core/Triggers/tests
+https://svn6.cvsdude.com/dicarlolab/MonkeyWorks
+
+
+
+2008-11-26T22:05:05.679309Z
+3258
+bkennedy
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+15980662-76f2-0310-8555-e334231c6679
+
+TriggerTest.cpp
+file
+
+
+
+
+2008-12-09T20:08:44.000000Z
+e91159358c5fe75239a18e05b9c147d7
+2008-11-26T22:05:05.679309Z
+3258
+bkennedy
+
+TriggerTest.h
+file
+
+
+
+
+2008-12-09T20:08:44.000000Z
+0354332d582d07e15b1d8c3b00959ef1
+2008-11-26T22:05:05.679309Z
+3258
+bkennedy
+

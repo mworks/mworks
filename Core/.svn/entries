@@ -1,0 +1,160 @@
+8
+
+dir
+3722
+https://svn6.cvsdude.com/dicarlolab/MonkeyWorks/trunk/MonkeyWorksCore/Core
+https://svn6.cvsdude.com/dicarlolab/MonkeyWorks
+
+
+
+2009-01-09T09:49:10.807242Z
+3714
+bkennedy
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+15980662-76f2-0310-8555-e334231c6679
+
+Exceptions
+dir
+
+CoreBuilders
+dir
+
+.project
+file
+
+
+
+
+2008-12-09T20:08:50.000000Z
+ca191219d65e3e1d0c8195a2394e537c
+2005-12-13T02:15:17.358809Z
+557
+davidcox
+
+Triggers
+dir
+
+Stimuli
+dir
+
+Communications
+dir
+
+SoundStimuli
+dir
+
+PluginServices
+dir
+
+ComponentRegistries
+dir
+
+RealtimeServices
+dir
+
+ExperimentDataLoading
+dir
+
+Listeners
+dir
+
+IODevices
+dir
+
+Utilities
+dir
+
+PlatformDependent
+dir
+
+XMLParser
+dir
+
+.cdtproject
+file
+
+
+
+
+2008-12-09T20:08:49.000000Z
+9a4b8582c3b5a144787fdde059796501
+2005-12-13T02:15:01.141210Z
+556
+davidcox
+
+GenericStructures
+dir
+
+AdaptiveOptimizers
+dir
+
+Interpreters
+dir
+
+SetupVariables
+dir
+
+Network
+dir
+
+ParadigmComponents
+dir
+
+Scarab
+dir
+
+DataFiles
+dir
+
+SwigWrappers
+dir
+
+Transforms
+dir
+
+MonkeyWorksTypes.h
+file
+
+
+
+
+2008-12-09T20:08:50.000000Z
+2474f6b6cbcf3c5522991317609fc1e4
+2008-11-26T22:00:17.351741Z
+3253
+bkennedy
+
+Events
+dir
+
+InterfaceHooks
+dir
+
+Variables
+dir
+
+.cdtbuild
+file
+
+
+
+
+2008-12-09T20:08:50.000000Z
+507b41777a6cc11f6f1b78d1a383b6a7
+2005-12-13T02:15:01.141210Z
+556
+davidcox
+

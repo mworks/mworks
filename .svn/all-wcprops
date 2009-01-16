@@ -1,0 +1,83 @@
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/dicarlolab/MonkeyWorks/!svn/ver/3714/trunk/MonkeyWorksCore
+END
+StandardSchedulerPlugin-Info.plist
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/dicarlolab/MonkeyWorks/!svn/ver/2162/trunk/MonkeyWorksCore/StandardSchedulerPlugin-Info.plist
+END
+MonkeyWorksCore-Info.plist
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/dicarlolab/MonkeyWorks/!svn/ver/2162/trunk/MonkeyWorksCore/MonkeyWorksCore-Info.plist
+END
+MonkeyWorksCoreTest-Info.plist
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/dicarlolab/MonkeyWorks/!svn/ver/2162/trunk/MonkeyWorksCore/MonkeyWorksCoreTest-Info.plist
+END
+LowPrioritySchedulerPlugin-Info.plist
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/dicarlolab/MonkeyWorks/!svn/ver/2162/trunk/MonkeyWorksCore/LowPrioritySchedulerPlugin-Info.plist
+END
+ZenStateSystemPlugin-Info.plist
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/dicarlolab/MonkeyWorks/!svn/ver/2162/trunk/MonkeyWorksCore/ZenStateSystemPlugin-Info.plist
+END
+MachClockPlugin-Info.plist
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/dicarlolab/MonkeyWorks/!svn/ver/2162/trunk/MonkeyWorksCore/MachClockPlugin-Info.plist
+END
+StandardStateSystemPlugin-Info.plist
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/dicarlolab/MonkeyWorks/!svn/ver/2162/trunk/MonkeyWorksCore/StandardStateSystemPlugin-Info.plist
+END
+MarionetteTest-Info.plist
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/dicarlolab/MonkeyWorks/!svn/ver/3028/trunk/MonkeyWorksCore/MarionetteTest-Info.plist
+END
+ZenClockPlugin-Info.plist
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/dicarlolab/MonkeyWorks/!svn/ver/2162/trunk/MonkeyWorksCore/ZenClockPlugin-Info.plist
+END
+ZenSchedulerPlugin-Info.plist
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/dicarlolab/MonkeyWorks/!svn/ver/2162/trunk/MonkeyWorksCore/ZenSchedulerPlugin-Info.plist
+END
+MonkeyWorksScripting-Info.plist
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/dicarlolab/MonkeyWorks/!svn/ver/2162/trunk/MonkeyWorksCore/MonkeyWorksScripting-Info.plist
+END
+StandardClockPlugin-Info.plist
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/dicarlolab/MonkeyWorks/!svn/ver/2162/trunk/MonkeyWorksCore/StandardClockPlugin-Info.plist
+END
+ZenScheduler-Info.plist
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/dicarlolab/MonkeyWorks/!svn/ver/2162/trunk/MonkeyWorksCore/ZenScheduler-Info.plist
+END

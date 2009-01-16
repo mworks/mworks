@@ -1,0 +1,52 @@
+8
+
+dir
+3722
+https://svn6.cvsdude.com/dicarlolab/MonkeyWorks/trunk/MonkeyWorksCore/Core/Communications/Conduits/tests
+https://svn6.cvsdude.com/dicarlolab/MonkeyWorks
+
+
+
+2008-11-26T22:05:05.679309Z
+3258
+bkennedy
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+15980662-76f2-0310-8555-e334231c6679
+
+SimpleConduitTest.cpp
+file
+
+
+
+
+2008-12-09T20:08:45.000000Z
+c62b23585e4b121afc8a54a15c5b816e
+2008-11-26T22:05:05.679309Z
+3258
+bkennedy
+
+SimpleConduitTest.h
+file
+
+
+
+
+2008-12-09T20:08:45.000000Z
+8c8297896509d14fdc5b322ddd78ed2d
+2008-11-26T22:05:05.679309Z
+3258
+bkennedy
+

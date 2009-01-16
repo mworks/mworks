@@ -1,0 +1,65 @@
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/CoreBuilders
+END
+StandardClientCoreBuilder.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/CoreBuilders/StandardClientCoreBuilder.cpp
+END
+TestBedCoreBuilder.h
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/CoreBuilders/TestBedCoreBuilder.h
+END
+AbstractCoreBuilder.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/CoreBuilders/AbstractCoreBuilder.cpp
+END
+StandardClientCoreBuilder.h
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/CoreBuilders/StandardClientCoreBuilder.h
+END
+CoreBuilderForeman.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/CoreBuilders/CoreBuilderForeman.cpp
+END
+StandardServerCoreBuilder.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/CoreBuilders/StandardServerCoreBuilder.cpp
+END
+AbstractCoreBuilder.h
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/CoreBuilders/AbstractCoreBuilder.h
+END
+TestBedCoreBuilder.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/CoreBuilders/TestBedCoreBuilder.cpp
+END
+CoreBuilderForeman.h
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/CoreBuilders/CoreBuilderForeman.h
+END
+StandardServerCoreBuilder.h
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/CoreBuilders/StandardServerCoreBuilder.h
+END

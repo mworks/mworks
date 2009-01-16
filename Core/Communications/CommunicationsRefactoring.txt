@@ -1,0 +1,42 @@
+What are all of these new files and terms??
+
+Here is an attempt to squeeze some order and increased flexiblity out of what is currently the networking code.  Already, there are several layers that map somewhat unpleasantly onto the related tasks of streaming over the network and streaming to a file.  The goals of the refactoring are as follows:
+
+1) Dissociate the mechanics of moving events from one place to another from the mechanics of serializing data, attaching to buffers, interacting with variables, etc.
+
+2) Increase the number of options for communication.  Currently, interprocess communication is awkward, but could be very valuable on both the server (for IODevices that naturally run in a separate process), or for client plugins (which could run in separate processes to avoid destabilizing the core).
+
+3) Make use of Boost serialization.  This will eventually be somewhat disruptive if/when we fully replace Scarab, but it will greatly enhance the maintainability of the code, and make it easier / possible to add in new data types (e.g. vectors).  On the bright side, Boost serialization includes mechanisms for versioning, so that backwards compatibility can be maintained, even if we change how the files work in the future.
+
+4) Build in mechanisms for event filtering from the ground up.  Not all clients/devices/etc. that communicate with the core will want to hear every event.  There should be mechanisms for only sending the events that are of interest.
+
+5) Kludgey EventHandler stuff should be replaced, wholesale, with arbitrary functors, for maximum flexibility and understandability.
+
+6) Replace ad hoc networking code with boost.asio
+
+==========
+The parts:
+==========
+
+1) "Transports" are soley engaged in moving mEvent objects from one transport object to another, presenting a unified interface that hides whether the other end is in another thread, process, or network location.  There will still need to be a distinction between whether these are read, write, or bidirectional, and there will still need to be a notion of server/client/equal-peer (so we know who accepts, or if that even is necessary), but these should come into play at initialization and then become invisible.
+
+Transports do not know anything about event codes, codecs, etc. etc.  They just take events and move them verbatim.
+
+Kinds of transports that we might want:
+
+* TCP (Boost.asio)
+* file IO
+* Interprocess/shared mem (Boost.Interprocess)
+* Multicast (Boost.asio, and/or possibly Spread Toolkit)
+
+-> Currently, the equivalent of interchangeable transports is found deep down in the bowels of Scarab, clothed in faux-polymorphism, where it is cumbersome to work with.  The hope is to bring it up and out into the light.
+
+2) "Conduits" translate between the state of the system on one side of a transport, and the anonymous stream of events that the transport expects.  There are several kinds of Conduits that I can imagine, each of which aims to transparently funnel system state into a transport,  at various different levels of abstraction:
+
+    * Buffer Conduit (constructor arguments: buffer manager, variable registry): Obtain buffer readers and start threads that read the event buffers, pushing what they find into the transport.  Events that emerge from the transport are put onto the incoming event buffer.  Upon connection, the conduit drops codecs into the transport.  
+    
+    This is effectively what we have now.  A pair of such conduits could synchronize the state between two full systems (e.g. the Client and Server applications).
+    
+    * Simplified Conduit: A simpler interface for use with IO devices and (potentially) client plugins.  Basically, for a networked IO device, we'd just like to call something like "conduit->putData(gaze_direction_h, data)", where "gaze_direction_h" is a constant internal to the device.  The conduit would transparently translate this into the appropriate system codec code (based on it's communications with the conduit on the other side) and send the data.  The emphasis here is on presenting a simple interface, where the conduit manages all of the complexity of catching codecs, receiving translation dictionaries etc.  Incoming data would be received by registering callback functors.  Of course, the two sides of a conduit pair needn't be matched: a Simplified Conduit could talk to a Buffer Conduit, without the other side necessarily knowing the difference.
+    
+-> Currently, this functionality is smeared across the Scarab "Interfaces" and Scarab "Connections" sections of the project, AND the Event "Handlers" and "Listeners".  This is probably the last great bastion of Paul-derived code, that, while heavily patched over the last few years, remains to be fully rewrited.

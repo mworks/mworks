@@ -1,0 +1,209 @@
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/dicarlolab/MonkeyWorks/!svn/ver/3681/trunk/MonkeyWorksCore/Core/ParadigmComponents
+END
+RandomWithReplacementSelection.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/ParadigmComponents/RandomWithReplacementSelection.cpp
+END
+States.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/ParadigmComponents/States.cpp
+END
+Selectable.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/ParadigmComponents/Selectable.cpp
+END
+DoneTableSelection.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/ParadigmComponents/DoneTableSelection.cpp
+END
+BlockAndProtocol.h
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/ParadigmComponents/BlockAndProtocol.h
+END
+Filters.h
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/ParadigmComponents/Filters.h
+END
+RandomWORSelection.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/ParadigmComponents/RandomWORSelection.cpp
+END
+CoordinateTransform2D.h
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/ParadigmComponents/CoordinateTransform2D.h
+END
+Experiment.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/ParadigmComponents/Experiment.cpp
+END
+KeyTrigger.h
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/ParadigmComponents/KeyTrigger.h
+END
+SequentialSelection.h
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/ParadigmComponents/SequentialSelection.h
+END
+CancelScheduledActionsAction.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/ParadigmComponents/CancelScheduledActionsAction.cpp
+END
+ScheduledActions.h
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/ParadigmComponents/ScheduledActions.h
+END
+EyeStatus.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/ParadigmComponents/EyeStatus.cpp
+END
+PulseAction.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/ParadigmComponents/PulseAction.cpp
+END
+Selection.h
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/ParadigmComponents/Selection.h
+END
+TrialBuildingBlocks.h
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/ParadigmComponents/TrialBuildingBlocks.h
+END
+Scriptable.h
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/ParadigmComponents/Scriptable.h
+END
+BlockAndProtocol.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/ParadigmComponents/BlockAndProtocol.cpp
+END
+RandomWithReplacementSelection.h
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/ParadigmComponents/RandomWithReplacementSelection.h
+END
+DoneTableSelection.h
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/ParadigmComponents/DoneTableSelection.h
+END
+Selectable.h
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/ParadigmComponents/Selectable.h
+END
+States.h
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/ParadigmComponents/States.h
+END
+KeyTrigger.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/ParadigmComponents/KeyTrigger.cpp
+END
+SequentialSelection.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/ParadigmComponents/SequentialSelection.cpp
+END
+ScheduledActions.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/dicarlolab/MonkeyWorks/!svn/ver/3681/trunk/MonkeyWorksCore/Core/ParadigmComponents/ScheduledActions.cpp
+END
+RandomWORSelection.h
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/ParadigmComponents/RandomWORSelection.h
+END
+Experiment.h
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/ParadigmComponents/Experiment.h
+END
+Selection.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/ParadigmComponents/Selection.cpp
+END
+TrialBuildingBlocks.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/dicarlolab/MonkeyWorks/!svn/ver/3681/trunk/MonkeyWorksCore/Core/ParadigmComponents/TrialBuildingBlocks.cpp
+END
+CommonUIDefinitions.h
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/dicarlolab/MonkeyWorks/!svn/ver/3253/trunk/MonkeyWorksCore/Core/ParadigmComponents/CommonUIDefinitions.h
+END
+CancelScheduledActionsAction.h
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/ParadigmComponents/CancelScheduledActionsAction.h
+END
+PulseAction.h
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/ParadigmComponents/PulseAction.h
+END
+EyeStatus.h
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/ParadigmComponents/EyeStatus.h
+END

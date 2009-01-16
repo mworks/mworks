@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/Network
+END
+NetworkReturn.h
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/Network/NetworkReturn.h
+END
+NetworkConnectionStats.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/Network/NetworkConnectionStats.cpp
+END
+NetworkReturn.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/Network/NetworkReturn.cpp
+END
+NetworkConnectionStats.h
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/Network/NetworkConnectionStats.h
+END

@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/SoundStimuli
+END
+OpenALContextManager.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/SoundStimuli/OpenALContextManager.cpp
+END
+StandardSounds.h
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/SoundStimuli/StandardSounds.h
+END
+OpenALContextManager.h
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/SoundStimuli/OpenALContextManager.h
+END
+Sound.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/dicarlolab/MonkeyWorks/!svn/ver/2162/trunk/MonkeyWorksCore/Core/SoundStimuli/Sound.cpp
+END
+StandardSounds.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/SoundStimuli/StandardSounds.cpp
+END
+Sound.h
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/SoundStimuli/Sound.h
+END

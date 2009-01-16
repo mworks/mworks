@@ -1,0 +1,125 @@
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/dicarlolab/MonkeyWorks/!svn/ver/3639/trunk/MonkeyWorksCore/Core/Transforms
+END
+Transforms.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/Transforms/Transforms.cpp
+END
+FitableFunctions.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/dicarlolab/MonkeyWorks/!svn/ver/3639/trunk/MonkeyWorksCore/Core/Transforms/FitableFunctions.cpp
+END
+SVDfit.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/Transforms/SVDfit.cpp
+END
+Transforms.h
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/Transforms/Transforms.h
+END
+FilterTransforms.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/Transforms/FilterTransforms.cpp
+END
+FitableFunctions.h
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/dicarlolab/MonkeyWorks/!svn/ver/3639/trunk/MonkeyWorksCore/Core/Transforms/FitableFunctions.h
+END
+SVDfit.h
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/Transforms/SVDfit.h
+END
+EyeCalibrators.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/dicarlolab/MonkeyWorks/!svn/ver/3639/trunk/MonkeyWorksCore/Core/Transforms/EyeCalibrators.cpp
+END
+FilterTransforms.h
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/Transforms/FilterTransforms.h
+END
+EyeCalibrators.h
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/dicarlolab/MonkeyWorks/!svn/ver/3639/trunk/MonkeyWorksCore/Core/Transforms/EyeCalibrators.h
+END
+EyeMonitors.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/Transforms/EyeMonitors.cpp
+END
+VariableTransformAdaptors.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/Transforms/VariableTransformAdaptors.cpp
+END
+Averagers.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/Transforms/Averagers.cpp
+END
+FilterManager.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/Transforms/FilterManager.cpp
+END
+EyeMonitors.h
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/Transforms/EyeMonitors.h
+END
+Averagers.h
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/Transforms/Averagers.h
+END
+VariableTransformAdaptors.h
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/Transforms/VariableTransformAdaptors.h
+END
+FilterManager.h
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/Transforms/FilterManager.h
+END
+RewardCoordinator.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/Transforms/RewardCoordinator.cpp
+END
+RewardCoordinator.h
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/Transforms/RewardCoordinator.h
+END

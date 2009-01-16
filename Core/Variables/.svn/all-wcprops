@@ -1,0 +1,215 @@
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/dicarlolab/MonkeyWorks/!svn/ver/3693/trunk/MonkeyWorksCore/Core/Variables
+END
+VariableNotification.h
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/Variables/VariableNotification.h
+END
+VariableProperties.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/dicarlolab/MonkeyWorks/!svn/ver/3301/trunk/MonkeyWorksCore/Core/Variables/VariableProperties.cpp
+END
+InterfaceSetting.h
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/Variables/InterfaceSetting.h
+END
+VariableReference.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/Variables/VariableReference.cpp
+END
+ConstantVariable.h
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/Variables/ConstantVariable.h
+END
+GenericData.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/dicarlolab/MonkeyWorks/!svn/ver/3638/trunk/MonkeyWorksCore/Core/Variables/GenericData.cpp
+END
+VariableSave.h
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/Variables/VariableSave.h
+END
+ExpressionVariable.h
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/Variables/ExpressionVariable.h
+END
+GlobalVariable.h
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/Variables/GlobalVariable.h
+END
+ScopedVariableEnvironment.h
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/Variables/ScopedVariableEnvironment.h
+END
+UnresolvedReferenceVariable.h
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/Variables/UnresolvedReferenceVariable.h
+END
+GenericVariable.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/dicarlolab/MonkeyWorks/!svn/ver/3681/trunk/MonkeyWorksCore/Core/Variables/GenericVariable.cpp
+END
+VariableLoad.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/Variables/VariableLoad.cpp
+END
+ScopedVariable.h
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/Variables/ScopedVariable.h
+END
+VariableNotification.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/Variables/VariableNotification.cpp
+END
+ScopedVariableContext.h
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/Variables/ScopedVariableContext.h
+END
+InterfaceSetting.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/Variables/InterfaceSetting.cpp
+END
+ConstantVariable.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/dicarlolab/MonkeyWorks/!svn/ver/2162/trunk/MonkeyWorksCore/Core/Variables/ConstantVariable.cpp
+END
+VariableContext.h
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/Variables/VariableContext.h
+END
+SelectionVariable.h
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/Variables/SelectionVariable.h
+END
+VariableSave.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/Variables/VariableSave.cpp
+END
+ExpressionVariable.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/dicarlolab/MonkeyWorks/!svn/ver/3682/trunk/MonkeyWorksCore/Core/Variables/ExpressionVariable.cpp
+END
+GlobalVariable.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/Variables/GlobalVariable.cpp
+END
+VariableProperties.h
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/Variables/VariableProperties.h
+END
+ScopedVariableEnvironment.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/Variables/ScopedVariableEnvironment.cpp
+END
+VariableReference.h
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/Variables/VariableReference.h
+END
+GenericData.h
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/dicarlolab/MonkeyWorks/!svn/ver/3638/trunk/MonkeyWorksCore/Core/Variables/GenericData.h
+END
+UnresolvedReferenceVariable.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/dicarlolab/MonkeyWorks/!svn/ver/2628/trunk/MonkeyWorksCore/Core/Variables/UnresolvedReferenceVariable.cpp
+END
+XMLWriteVar.pl
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/dicarlolab/MonkeyWorks/!svn/ver/2479/trunk/MonkeyWorksCore/Core/Variables/XMLWriteVar.pl
+END
+ScopedVariable.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/Variables/ScopedVariable.cpp
+END
+GenericVariable.h
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/Variables/GenericVariable.h
+END
+ScopedVariableContext.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/Variables/ScopedVariableContext.cpp
+END
+VariableLoad.h
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/Variables/VariableLoad.h
+END
+VariableContext.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/Variables/VariableContext.cpp
+END
+SelectionVariable.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/dicarlolab/MonkeyWorks/!svn/ver/3258/trunk/MonkeyWorksCore/Core/Variables/SelectionVariable.cpp
+END
