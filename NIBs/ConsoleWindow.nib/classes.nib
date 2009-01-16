@@ -1,0 +1,26 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {setAlertFocus = id; setErrorFiltering = id; }; 
+            CLASS = MWConsoleController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                alertSwitch = NSButton; 
+                delegate = id; 
+                messageTypeControl = NSSegmentedControl; 
+                msgTextView = NSTextView; 
+                scrollToBottomSwitch = NSButton; 
+            }; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {
+            CLASS = MWConsoleToolbar; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {delegate = id; window = NSWindow; }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {CLASS = NSSegmentedControl; LANGUAGE = ObjC; SUPERCLASS = NSControl; }
+    ); 
+    IBVersion = 1; 
+}

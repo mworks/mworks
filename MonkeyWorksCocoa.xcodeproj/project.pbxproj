@@ -1,0 +1,549 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 42;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		0E121BCB0E6B1B4E007B29B8 /* UninstallMWCocoa */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 0E121BCE0E6B1B77007B29B8 /* Build configuration list for PBXAggregateTarget "UninstallMWCocoa" */;
+			buildPhases = (
+				0E121BCA0E6B1B4E007B29B8 /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = UninstallMWCocoa;
+			productName = UninstallMWCocoa;
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		0E1F31840C5B1E6900EB89EA /* MWNotifications.h in Headers */ = {isa = PBXBuildFile; fileRef = 0E1F31830C5B1E6900EB89EA /* MWNotifications.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0E1F319F0C5B1EB700EB89EA /* MWConsoleController.h in Headers */ = {isa = PBXBuildFile; fileRef = 0E1F319B0C5B1EB700EB89EA /* MWConsoleController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0E1F31A00C5B1EB700EB89EA /* MWConsoleController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E1F319C0C5B1EB700EB89EA /* MWConsoleController.m */; };
+		0E1F31A10C5B1EB700EB89EA /* MWMessageContainer.h in Headers */ = {isa = PBXBuildFile; fileRef = 0E1F319D0C5B1EB700EB89EA /* MWMessageContainer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0E1F31A20C5B1EB700EB89EA /* MWMessageContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E1F319E0C5B1EB700EB89EA /* MWMessageContainer.m */; };
+		0E1F32130C5B26BC00EB89EA /* ConsoleWindow.nib in Resources */ = {isa = PBXBuildFile; fileRef = 0E1F32120C5B26BC00EB89EA /* ConsoleWindow.nib */; };
+		0E36D05F0C7A2F440050471A /* MWWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = 0E36D05D0C7A2F440050471A /* MWWindowController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0E36D0600C7A2F440050471A /* MWWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E36D05E0C7A2F440050471A /* MWWindowController.m */; };
+		0E727A1B0CB64819000C7B3F /* MWConsoleToolbar.h in Headers */ = {isa = PBXBuildFile; fileRef = 0E727A190CB64819000C7B3F /* MWConsoleToolbar.h */; };
+		0E727A1C0CB64819000C7B3F /* MWConsoleToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E727A1A0CB64819000C7B3F /* MWConsoleToolbar.m */; };
+		0E7EEF210C73529D005C39C0 /* Console.tif in Resources */ = {isa = PBXBuildFile; fileRef = 0E7EEF200C73529D005C39C0 /* Console.tif */; };
+		0E7EEF3A0C735403005C39C0 /* greenCheck.tif in Resources */ = {isa = PBXBuildFile; fileRef = 0E7EEF380C735403005C39C0 /* greenCheck.tif */; };
+		0E7EEF3B0C735403005C39C0 /* redX.tif in Resources */ = {isa = PBXBuildFile; fileRef = 0E7EEF390C735403005C39C0 /* redX.tif */; };
+		0E7EF0750C73930A005C39C0 /* yellowCheck.tif in Resources */ = {isa = PBXBuildFile; fileRef = 0E7EF0740C73930A005C39C0 /* yellowCheck.tif */; };
+		0EDBEBA20C721A8200694CA9 /* MWCocoaEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = 0EDBEBA00C721A8200694CA9 /* MWCocoaEvent.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0EDBEBA30C721A8200694CA9 /* MWCocoaEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EDBEBA10C721A8200694CA9 /* MWCocoaEvent.m */; };
+		0EE3765E0CA20F0C00874639 /* MWClientServerBase.h in Headers */ = {isa = PBXBuildFile; fileRef = 0EE3765C0CA20F0C00874639 /* MWClientServerBase.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0EE3765F0CA20F0C00874639 /* MWClientServerBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EE3765D0CA20F0C00874639 /* MWClientServerBase.m */; };
+		5C4D285109DD90B40082BF9F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5C4D284F09DD90B40082BF9F /* Localizable.strings */; };
+		5C4D286209DD942F0082BF9F /* Message.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C4D286109DD942F0082BF9F /* Message.framework */; };
+		5C58924909D0BA2C00F9D2C5 /* errorGlyph.tif in Resources */ = {isa = PBXBuildFile; fileRef = 5C58924709D0BA2C00F9D2C5 /* errorGlyph.tif */; };
+		5C58924A09D0BA2C00F9D2C5 /* warningGlyph.tif in Resources */ = {isa = PBXBuildFile; fileRef = 5C58924809D0BA2C00F9D2C5 /* warningGlyph.tif */; };
+		5C58924C09D0BAF300F9D2C5 /* messageGlyph.tif in Resources */ = {isa = PBXBuildFile; fileRef = 5C58924B09D0BAF300F9D2C5 /* messageGlyph.tif */; };
+		687EAA730CA1B3FA0022EE4F /* MWToolbarItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 687EAA710CA1B3FA0022EE4F /* MWToolbarItem.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		687EAA740CA1B3FA0022EE4F /* MWToolbarItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 687EAA720CA1B3FA0022EE4F /* MWToolbarItem.m */; };
+		68915DBB0CB678A2007DDDAA /* Broom.tif in Resources */ = {isa = PBXBuildFile; fileRef = 68915DB90CB678A2007DDDAA /* Broom.tif */; };
+		68915DBC0CB678A2007DDDAA /* Disk.png in Resources */ = {isa = PBXBuildFile; fileRef = 68915DBA0CB678A2007DDDAA /* Disk.png */; };
+		68B527040CA025F20093D825 /* KBPopUpToolbarItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 68B527020CA025F20093D825 /* KBPopUpToolbarItem.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		68B527050CA025F20093D825 /* KBPopUpToolbarItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 68B527030CA025F20093D825 /* KBPopUpToolbarItem.m */; };
+		68F379010C91C456007F1A6C /* MWCocoaEventFunctor.h in Headers */ = {isa = PBXBuildFile; fileRef = 68F379000C91C456007F1A6C /* MWCocoaEventFunctor.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
+		8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */; };
+		DA2FEE4008B3F87A007E389A /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA36BA9B08AC291C00B5A2B6 /* SystemConfiguration.framework */; };
+		DADADB7A07FAFC9000F8D324 /* MonkeyWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DADADB7907FAFC9000F8D324 /* MonkeyWorksCore.framework */; };
+		DADD2F9208EC4D390009EB52 /* MonkeyWorksCocoa_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 32DBCF5E0370ADEE00C91783 /* MonkeyWorksCocoa_Prefix.pch */; settings = {ATTRIBUTES = (); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		0867D69BFE84028FC02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		0867D6A5FE840307C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
+		089C1667FE841158C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		0E1F31830C5B1E6900EB89EA /* MWNotifications.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MWNotifications.h; path = Source/MWNotifications.h; sourceTree = "<group>"; };
+		0E1F319B0C5B1EB700EB89EA /* MWConsoleController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MWConsoleController.h; sourceTree = "<group>"; };
+		0E1F319C0C5B1EB700EB89EA /* MWConsoleController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = MWConsoleController.m; sourceTree = "<group>"; };
+		0E1F319D0C5B1EB700EB89EA /* MWMessageContainer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MWMessageContainer.h; sourceTree = "<group>"; };
+		0E1F319E0C5B1EB700EB89EA /* MWMessageContainer.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = MWMessageContainer.m; sourceTree = "<group>"; };
+		0E1F32120C5B26BC00EB89EA /* ConsoleWindow.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = ConsoleWindow.nib; sourceTree = "<group>"; };
+		0E36D05D0C7A2F440050471A /* MWWindowController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MWWindowController.h; sourceTree = "<group>"; };
+		0E36D05E0C7A2F440050471A /* MWWindowController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = MWWindowController.m; sourceTree = "<group>"; };
+		0E727A190CB64819000C7B3F /* MWConsoleToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWConsoleToolbar.h; sourceTree = "<group>"; };
+		0E727A1A0CB64819000C7B3F /* MWConsoleToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWConsoleToolbar.m; sourceTree = "<group>"; };
+		0E7EEF200C73529D005C39C0 /* Console.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = Console.tif; path = Images/Console.tif; sourceTree = "<group>"; };
+		0E7EEF380C735403005C39C0 /* greenCheck.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = greenCheck.tif; path = Images/greenCheck.tif; sourceTree = "<group>"; };
+		0E7EEF390C735403005C39C0 /* redX.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = redX.tif; path = Images/redX.tif; sourceTree = "<group>"; };
+		0E7EF0740C73930A005C39C0 /* yellowCheck.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = yellowCheck.tif; path = Images/yellowCheck.tif; sourceTree = "<group>"; };
+		0EDBEBA00C721A8200694CA9 /* MWCocoaEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MWCocoaEvent.h; path = Source/MWCocoaEvent.h; sourceTree = "<group>"; };
+		0EDBEBA10C721A8200694CA9 /* MWCocoaEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MWCocoaEvent.m; path = Source/MWCocoaEvent.m; sourceTree = "<group>"; };
+		0EE3765C0CA20F0C00874639 /* MWClientServerBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWClientServerBase.h; sourceTree = "<group>"; };
+		0EE3765D0CA20F0C00874639 /* MWClientServerBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWClientServerBase.m; sourceTree = "<group>"; };
+		1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		32DBCF5E0370ADEE00C91783 /* MonkeyWorksCocoa_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MonkeyWorksCocoa_Prefix.pch; sourceTree = "<group>"; };
+		5C4D285009DD90B40082BF9F /* English */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
+		5C4D286109DD942F0082BF9F /* Message.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Message.framework; path = /System/Library/Frameworks/Message.framework; sourceTree = "<absolute>"; };
+		5C58924709D0BA2C00F9D2C5 /* errorGlyph.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = errorGlyph.tif; path = Images/errorGlyph.tif; sourceTree = "<group>"; };
+		5C58924809D0BA2C00F9D2C5 /* warningGlyph.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = warningGlyph.tif; path = Images/warningGlyph.tif; sourceTree = "<group>"; };
+		5C58924B09D0BAF300F9D2C5 /* messageGlyph.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = messageGlyph.tif; path = Images/messageGlyph.tif; sourceTree = "<group>"; };
+		687EAA710CA1B3FA0022EE4F /* MWToolbarItem.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MWToolbarItem.h; path = Source/Toolbars/MWToolbarItem.h; sourceTree = "<group>"; };
+		687EAA720CA1B3FA0022EE4F /* MWToolbarItem.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MWToolbarItem.m; path = Source/Toolbars/MWToolbarItem.m; sourceTree = "<group>"; };
+		68915DB90CB678A2007DDDAA /* Broom.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = Broom.tif; path = Images/Broom.tif; sourceTree = "<group>"; };
+		68915DBA0CB678A2007DDDAA /* Disk.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Disk.png; path = Images/Disk.png; sourceTree = "<group>"; };
+		68B527020CA025F20093D825 /* KBPopUpToolbarItem.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = KBPopUpToolbarItem.h; path = Source/Toolbars/KBPopUpToolbarItem.h; sourceTree = "<group>"; };
+		68B527030CA025F20093D825 /* KBPopUpToolbarItem.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = KBPopUpToolbarItem.m; path = Source/Toolbars/KBPopUpToolbarItem.m; sourceTree = "<group>"; };
+		68DAF1B40AC959FA00928168 /* MonkeyWorksCocoa.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MonkeyWorksCocoa.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		68F379000C91C456007F1A6C /* MWCocoaEventFunctor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MWCocoaEventFunctor.h; path = Source/MWCocoaEventFunctor.h; sourceTree = "<group>"; };
+		8DC2EF5A0486A6940098B216 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		DA36BA9B08AC291C00B5A2B6 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = /System/Library/Frameworks/SystemConfiguration.framework; sourceTree = "<absolute>"; };
+		DADADB7907FAFC9000F8D324 /* MonkeyWorksCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MonkeyWorksCore.framework; path = /Library/Frameworks/MonkeyWorksCore.framework; sourceTree = "<absolute>"; };
+		DADADC8607FB62CB00F8D324 /* MWCocoaREADME.txt */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = MWCocoaREADME.txt; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8DC2EF560486A6940098B216 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */,
+				DADADB7A07FAFC9000F8D324 /* MonkeyWorksCore.framework in Frameworks */,
+				DA2FEE4008B3F87A007E389A /* SystemConfiguration.framework in Frameworks */,
+				5C4D286209DD942F0082BF9F /* Message.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		034768DFFF38A50411DB9C8B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				68DAF1B40AC959FA00928168 /* MonkeyWorksCocoa.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		0867D691FE84028FC02AAC07 /* MonkeyWorksCocoa */ = {
+			isa = PBXGroup;
+			children = (
+				DADADC8607FB62CB00F8D324 /* MWCocoaREADME.txt */,
+				DA2FEEE908B3FD9F007E389A /* Source */,
+				0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */,
+				DA808371089013AD001F2060 /* Images */,
+				32C88DFF0371C24200C91783 /* Other Sources */,
+				034768DFFF38A50411DB9C8B /* Products */,
+				089C1665FE841158C02AAC07 /* Resources */,
+			);
+			name = MonkeyWorksCocoa;
+			sourceTree = "<group>";
+		};
+		0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				5C4D286109DD942F0082BF9F /* Message.framework */,
+				DA36BA9B08AC291C00B5A2B6 /* SystemConfiguration.framework */,
+				DADADB7907FAFC9000F8D324 /* MonkeyWorksCore.framework */,
+				1058C7B0FEA5585E11CA2CBB /* Linked Frameworks */,
+				1058C7B2FEA5585E11CA2CBB /* Other Frameworks */,
+			);
+			name = "External Frameworks and Libraries";
+			sourceTree = "<group>";
+		};
+		089C1665FE841158C02AAC07 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				0E1F32110C5B26BC00EB89EA /* NIBs */,
+				8DC2EF5A0486A6940098B216 /* Info.plist */,
+				5C4D284F09DD90B40082BF9F /* Localizable.strings */,
+				089C1666FE841158C02AAC07 /* InfoPlist.strings */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		0E1F319A0C5B1EB700EB89EA /* Console */ = {
+			isa = PBXGroup;
+			children = (
+				0E1F319B0C5B1EB700EB89EA /* MWConsoleController.h */,
+				0E1F319C0C5B1EB700EB89EA /* MWConsoleController.m */,
+				0E1F319D0C5B1EB700EB89EA /* MWMessageContainer.h */,
+				0E1F319E0C5B1EB700EB89EA /* MWMessageContainer.m */,
+				0E727A190CB64819000C7B3F /* MWConsoleToolbar.h */,
+				0E727A1A0CB64819000C7B3F /* MWConsoleToolbar.m */,
+			);
+			name = Console;
+			path = Source/Console;
+			sourceTree = "<group>";
+		};
+		0E1F32110C5B26BC00EB89EA /* NIBs */ = {
+			isa = PBXGroup;
+			children = (
+				0E1F32120C5B26BC00EB89EA /* ConsoleWindow.nib */,
+			);
+			path = NIBs;
+			sourceTree = "<group>";
+		};
+		0E36D05C0C7A2F440050471A /* ClientAddOnWindows */ = {
+			isa = PBXGroup;
+			children = (
+				0E36D05D0C7A2F440050471A /* MWWindowController.h */,
+				0E36D05E0C7A2F440050471A /* MWWindowController.m */,
+			);
+			name = ClientAddOnWindows;
+			path = Source/ClientAddOnWindows;
+			sourceTree = "<group>";
+		};
+		1058C7B0FEA5585E11CA2CBB /* Linked Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */,
+			);
+			name = "Linked Frameworks";
+			sourceTree = "<group>";
+		};
+		1058C7B2FEA5585E11CA2CBB /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0867D69BFE84028FC02AAC07 /* Foundation.framework */,
+				0867D6A5FE840307C02AAC07 /* AppKit.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		32C88DFF0371C24200C91783 /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				32DBCF5E0370ADEE00C91783 /* MonkeyWorksCocoa_Prefix.pch */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		68B527010CA025D70093D825 /* Toolbars */ = {
+			isa = PBXGroup;
+			children = (
+				687EAA710CA1B3FA0022EE4F /* MWToolbarItem.h */,
+				687EAA720CA1B3FA0022EE4F /* MWToolbarItem.m */,
+				68B527020CA025F20093D825 /* KBPopUpToolbarItem.h */,
+				68B527030CA025F20093D825 /* KBPopUpToolbarItem.m */,
+			);
+			name = Toolbars;
+			sourceTree = "<group>";
+		};
+		DA2FEEE908B3FD9F007E389A /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				68B527010CA025D70093D825 /* Toolbars */,
+				0E36D05C0C7A2F440050471A /* ClientAddOnWindows */,
+				0E1F319A0C5B1EB700EB89EA /* Console */,
+				0E1F31830C5B1E6900EB89EA /* MWNotifications.h */,
+				0EDBEBA00C721A8200694CA9 /* MWCocoaEvent.h */,
+				0EDBEBA10C721A8200694CA9 /* MWCocoaEvent.m */,
+				68F379000C91C456007F1A6C /* MWCocoaEventFunctor.h */,
+				0EE3765C0CA20F0C00874639 /* MWClientServerBase.h */,
+				0EE3765D0CA20F0C00874639 /* MWClientServerBase.m */,
+			);
+			name = Source;
+			sourceTree = "<group>";
+		};
+		DA808371089013AD001F2060 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				68915DB90CB678A2007DDDAA /* Broom.tif */,
+				68915DBA0CB678A2007DDDAA /* Disk.png */,
+				0E7EF0740C73930A005C39C0 /* yellowCheck.tif */,
+				0E7EEF380C735403005C39C0 /* greenCheck.tif */,
+				0E7EEF390C735403005C39C0 /* redX.tif */,
+				0E7EEF200C73529D005C39C0 /* Console.tif */,
+				5C58924B09D0BAF300F9D2C5 /* messageGlyph.tif */,
+				5C58924709D0BA2C00F9D2C5 /* errorGlyph.tif */,
+				5C58924809D0BA2C00F9D2C5 /* warningGlyph.tif */,
+			);
+			name = Images;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		8DC2EF500486A6940098B216 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DADD2F9208EC4D390009EB52 /* MonkeyWorksCocoa_Prefix.pch in Headers */,
+				0E1F31840C5B1E6900EB89EA /* MWNotifications.h in Headers */,
+				0E1F319F0C5B1EB700EB89EA /* MWConsoleController.h in Headers */,
+				0E1F31A10C5B1EB700EB89EA /* MWMessageContainer.h in Headers */,
+				0EDBEBA20C721A8200694CA9 /* MWCocoaEvent.h in Headers */,
+				0E36D05F0C7A2F440050471A /* MWWindowController.h in Headers */,
+				68F379010C91C456007F1A6C /* MWCocoaEventFunctor.h in Headers */,
+				68B527040CA025F20093D825 /* KBPopUpToolbarItem.h in Headers */,
+				687EAA730CA1B3FA0022EE4F /* MWToolbarItem.h in Headers */,
+				0EE3765E0CA20F0C00874639 /* MWClientServerBase.h in Headers */,
+				0E727A1B0CB64819000C7B3F /* MWConsoleToolbar.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		8DC2EF4F0486A6940098B216 /* MonkeyWorksCocoa */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DA2A85420871A49C00D99DD8 /* Build configuration list for PBXNativeTarget "MonkeyWorksCocoa" */;
+			buildPhases = (
+				8DC2EF500486A6940098B216 /* Headers */,
+				8DC2EF520486A6940098B216 /* Resources */,
+				8DC2EF540486A6940098B216 /* Sources */,
+				8DC2EF560486A6940098B216 /* Frameworks */,
+				DA57CD5D083A6378006832CF /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MonkeyWorksCocoa;
+			productInstallPath = "$(HOME)/Library/Frameworks";
+			productName = MonkeyWorksCocoa;
+			productReference = 68DAF1B40AC959FA00928168 /* MonkeyWorksCocoa.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		0867D690FE84028FC02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = DA2A85460871A49C00D99DD8 /* Build configuration list for PBXProject "MonkeyWorksCocoa" */;
+			compatibilityVersion = "Xcode 2.4";
+			hasScannedForEncodings = 1;
+			mainGroup = 0867D691FE84028FC02AAC07 /* MonkeyWorksCocoa */;
+			productRefGroup = 034768DFFF38A50411DB9C8B /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8DC2EF4F0486A6940098B216 /* MonkeyWorksCocoa */,
+				0E121BCB0E6B1B4E007B29B8 /* UninstallMWCocoa */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8DC2EF520486A6940098B216 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */,
+				5C58924909D0BA2C00F9D2C5 /* errorGlyph.tif in Resources */,
+				5C58924A09D0BA2C00F9D2C5 /* warningGlyph.tif in Resources */,
+				5C58924C09D0BAF300F9D2C5 /* messageGlyph.tif in Resources */,
+				5C4D285109DD90B40082BF9F /* Localizable.strings in Resources */,
+				0E1F32130C5B26BC00EB89EA /* ConsoleWindow.nib in Resources */,
+				0E7EEF210C73529D005C39C0 /* Console.tif in Resources */,
+				0E7EEF3A0C735403005C39C0 /* greenCheck.tif in Resources */,
+				0E7EEF3B0C735403005C39C0 /* redX.tif in Resources */,
+				0E7EF0750C73930A005C39C0 /* yellowCheck.tif in Resources */,
+				68915DBB0CB678A2007DDDAA /* Broom.tif in Resources */,
+				68915DBC0CB678A2007DDDAA /* Disk.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		0E121BCA0E6B1B4E007B29B8 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# shell script goes here\nrm -rf /Library/Frameworks/MonkeyWorksCocoa.framework\n\nexit 0";
+		};
+		DA57CD5D083A6378006832CF /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/tcsh;
+			shellScript = "# copy the framework to the proper directory\nrm -dfR \"/Library/Frameworks/MonkeyWorksCocoa.framework\"\ncp -Rf \"$BUILT_PRODUCTS_DIR/MonkeyWorksCocoa.framework\" \"/Library/Frameworks\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8DC2EF540486A6940098B216 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0E1F31A00C5B1EB700EB89EA /* MWConsoleController.m in Sources */,
+				0E1F31A20C5B1EB700EB89EA /* MWMessageContainer.m in Sources */,
+				0EDBEBA30C721A8200694CA9 /* MWCocoaEvent.m in Sources */,
+				0E36D0600C7A2F440050471A /* MWWindowController.m in Sources */,
+				68B527050CA025F20093D825 /* KBPopUpToolbarItem.m in Sources */,
+				687EAA740CA1B3FA0022EE4F /* MWToolbarItem.m in Sources */,
+				0EE3765F0CA20F0C00874639 /* MWClientServerBase.m in Sources */,
+				0E727A1C0CB64819000C7B3F /* MWConsoleToolbar.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		089C1666FE841158C02AAC07 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				089C1667FE841158C02AAC07 /* English */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		5C4D284F09DD90B40082BF9F /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5C4D285009DD90B40082BF9F /* English */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		0E121BCC0E6B1B4F007B29B8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = MonkeyWorksCocoa.framework;
+			};
+			name = Debug;
+		};
+		0E121BCD0E6B1B4F007B29B8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Release;
+		};
+		DA2A85430871A49C00D99DD8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = MonkeyWorksCocoa_Prefix.pch;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = /Library/Frameworks;
+				MACH_O_TYPE = mh_dylib;
+				PREBINDING = NO;
+				PRODUCT_NAME = MonkeyWorksCocoa;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Debug;
+		};
+		DA2A85440871A49C00D99DD8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_AUTO_VECTORIZATION = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_GC = YES;
+				GCC_ENABLE_SSE3_EXTENSIONS = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = MonkeyWorksCocoa_Prefix.pch;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Library/Frameworks";
+				LIBRARY_STYLE = DYNAMIC;
+				MACH_O_TYPE = mh_dylib;
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				PRODUCT_NAME = MonkeyWorksCocoa;
+				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
+				WRAPPER_EXTENSION = framework;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		DA2A85470871A49C00D99DD8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DEBUGGING_SYMBOLS = full;
+				GCC_ENABLE_OBJC_GC = YES;
+				GCC_OBJC_CALL_CXX_CDTORS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
+				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
+				GCC_WARN_HIDDEN_VIRTUAL_FUNCTIONS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = /Library/MonkeyWorks/include;
+				LIBRARY_SEARCH_PATHS = /Library/MonkeyWorks/lib;
+				OTHER_CPLUSPLUSFLAGS = "-fobjc-exceptions";
+			};
+			name = Debug;
+		};
+		DA2A85480871A49C00D99DD8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
+				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
+				GCC_WARN_HIDDEN_VIRTUAL_FUNCTIONS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = /Library/MonkeyWorks/include;
+				LIBRARY_SEARCH_PATHS = /Library/MonkeyWorks/lib;
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				OTHER_CPLUSPLUSFLAGS = "-fobjc-exceptions";
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		0E121BCE0E6B1B77007B29B8 /* Build configuration list for PBXAggregateTarget "UninstallMWCocoa" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0E121BCC0E6B1B4F007B29B8 /* Debug */,
+				0E121BCD0E6B1B4F007B29B8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		DA2A85420871A49C00D99DD8 /* Build configuration list for PBXNativeTarget "MonkeyWorksCocoa" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DA2A85430871A49C00D99DD8 /* Debug */,
+				DA2A85440871A49C00D99DD8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		DA2A85460871A49C00D99DD8 /* Build configuration list for PBXProject "MonkeyWorksCocoa" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DA2A85470871A49C00D99DD8 /* Debug */,
+				DA2A85480871A49C00D99DD8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 0867D690FE84028FC02AAC07 /* Project object */;
+}

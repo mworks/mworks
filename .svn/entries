@@ -1,0 +1,103 @@
+8
+
+dir
+3722
+https://svn6.cvsdude.com/dicarlolab/MonkeyWorks/trunk/MonkeyWorksCocoa
+https://svn6.cvsdude.com/dicarlolab/MonkeyWorks
+
+
+
+2009-01-09T09:34:14.244509Z
+3710
+bkennedy
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+15980662-76f2-0310-8555-e334231c6679
+
+MWClientServerBase.m
+file
+
+
+
+
+2008-12-09T20:12:01.000000Z
+104be2c0cb458c7b9f3f176e9b6899c4
+2008-11-26T22:05:05.679309Z
+3258
+bkennedy
+
+Source
+dir
+
+MonkeyWorksCocoa_Prefix.pch
+file
+
+
+
+
+2008-12-09T20:12:01.000000Z
+590c24d935154ad8ba11fc86c664ea9c
+2007-07-28T06:57:37.216165Z
+2076
+bkennedy
+
+MWCocoaREADME.txt
+file
+
+
+
+
+2008-12-09T20:12:01.000000Z
+da0b0801c5cde709358f1c0ebe65d9ae
+2005-09-09T01:38:08.446560Z
+470
+paul
+
+Images
+dir
+
+Info.plist
+file
+
+
+
+
+2008-12-09T20:12:01.000000Z
+2b3679fda3a2cbdeb6fbd6b598c2ada3
+2006-04-02T14:12:41.331735Z
+818
+davidcox
+
+MonkeyWorksCocoa.xcodeproj
+dir
+
+MWClientServerBase.h
+file
+
+
+
+
+2008-12-09T20:12:01.000000Z
+994583d21677503e01c78ad446771069
+2008-11-26T22:05:05.679309Z
+3258
+bkennedy
+
+NIBs
+dir
+
+English.lproj
+dir
+

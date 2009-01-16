@@ -1,0 +1,54 @@
+8
+
+dir
+3722
+https://svn6.cvsdude.com/dicarlolab/MonkeyWorks/trunk/MonkeyWorksCocoa/English.lproj
+https://svn6.cvsdude.com/dicarlolab/MonkeyWorks
+
+
+
+2006-04-02T14:20:45.137305Z
+820
+davidcox
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+15980662-76f2-0310-8555-e334231c6679
+
+InfoPlist.strings
+file
+
+
+
+
+2008-12-09T20:12:01.000000Z
+28409c5e8b1c809ab86467191b64817e
+2006-04-02T14:12:41.331735Z
+818
+davidcox
+has-props
+
+Localizable.strings
+file
+
+
+
+
+2008-12-09T20:12:01.000000Z
+092c9a1c7cea97c899fb8bbbb43584f5
+2006-04-02T14:20:45.137305Z
+820
+davidcox
+has-props
+
