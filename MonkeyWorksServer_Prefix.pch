@@ -1,0 +1,7 @@
+//
+// Prefix header for all source files of the 'MonkeyWorksServer' target in the 'MonkeyWorksServer' project
+//
+
+#ifdef __OBJC__
+    #import <Cocoa/Cocoa.h>
+#endif
