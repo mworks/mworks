@@ -61,7 +61,7 @@ class Client : public EventHandler {
         virtual ~Client();
         
 
-		virtual void handleEvent(shared_ptr<Event> event);
+		virtual void handleEvent(shared_ptr<Event> &event);
 		
 		virtual void startEventListener();
 

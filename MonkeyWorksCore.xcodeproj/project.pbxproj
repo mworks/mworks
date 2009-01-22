@@ -2620,8 +2620,8 @@
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "rm -Rf /Library/MonkeyWorks/tests/MarionetteTest.app \ncp -Rf \"$BUILT_PRODUCTS_DIR/MarionetteTest.app\" /Library/MonkeyWorks/tests\n\n\n";
+			shellPath = /bin/zsh;
+			shellScript = "export FULL_NAME=${PRODUCT_NAME}.${WRAPPER_EXTENSION}\n\nrm -Rf \"${TESTS_DIR}/${FULL_NAME}\"\ncp -Rf \"${BUILT_PRODUCTS_DIR}/${FULL_NAME}\" \"${TESTS_DIR}/\"\n\n\n";
 		};
 		0E121C920E6B1EF7007B29B8 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2646,8 +2646,8 @@
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/tcsh;
-			shellScript = "rm -R -f ${INSTALL_PATH}/LowPrioritySchedulerPlugin.bundle\ncp -R -f \"${BUILT_PRODUCTS_DIR}/LowPrioritySchedulerPlugin.bundle\" ${INSTALL_PATH}\n";
+			shellPath = /bin/zsh;
+			shellScript = "export FULL_NAME=${PRODUCT_NAME}.${WRAPPER_EXTENSION}\n\nrm -R -f \"${INSTALL_PATH}/${FULL_NAME}\"\ncp -R -f \"${BUILT_PRODUCTS_DIR}/${FULL_NAME}\" \"${INSTALL_PATH}/\"\n";
 		};
 		5C4D23A709DC83D20082BF9F /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2659,8 +2659,8 @@
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "mkdir -p /Library/MonkeyWorks/tests\nmkdir -p /Library/MonkeyWorks/tests/XML\nrm -Rf /Library/MonkeyWorks/tests/MonkeyWorksCoreTest.framework\ncp -Rf \"$BUILT_PRODUCTS_DIR/MonkeyWorksCoreTest.framework\" /Library/MonkeyWorks/tests/\nexit 0\n";
+			shellPath = /bin/zsh;
+			shellScript = "export FULL_NAME=${PRODUCT_NAME}.${WRAPPER_EXTENSION}\n\necho making dir ${TESTS_DIR}/XML\nmkdir -p \"${TESTS_DIR}/XML\"\nrm -Rf \"${TESTS_DIR}/${FULL_NAME}\"\necho Copying files from ${BUILT_PRODUCTS_DIR}/${FULL_NAME} to ${TESTS_DIR}/\ncp -Rf \"${BUILT_PRODUCTS_DIR}/${FULL_NAME}\" \"${TESTS_DIR}/\"\nexit 0\n";
 		};
 		5C510AF60CC8335700C771FB /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2711,8 +2711,8 @@
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/tcsh;
-			shellScript = "rm -rf $INSTALL_PATH/MachClockPlugin.bundle\ncp -R \"$BUILT_PRODUCTS_DIR/MachClockPlugin.bundle\" $INSTALL_PATH";
+			shellPath = /bin/zsh;
+			shellScript = "export FULL_NAME=${PRODUCT_NAME}.${WRAPPER_EXTENSION}\n\nrm -rf \"${INSTALL_PATH}/${FULL_NAME}\"\ncp -R \"${BUILT_PRODUCTS_DIR}/${FULL_NAME}\" \"${INSTALL_PATH}/\"";
 		};
 		5C8A4B8C0858C7350016978D /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2750,8 +2750,8 @@
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/tcsh;
-			shellScript = "rm -Rf $INSTALL_PATH/MonkeyWorksCore.framework\ncp -Rf \"$BUILT_PRODUCTS_DIR/MonkeyWorksCore.framework\" $INSTALL_PATH\n\nmkdir -p /Library/MonkeyWorks/ExampleSetupVariables/Macbook\ncp -Rf $BUILT_PRODUCTS_DIR/../../Core/SetupVariables/setup_variables_macbook.xml /Library/MonkeyWorks/ExampleSetupVariables/Macbook/setup_variables.xml\nmkdir -p /Library/MonkeyWorks/ExampleSetupVariables/TwoMonitors\ncp -Rf $BUILT_PRODUCTS_DIR/../../Core/SetupVariables/setup_variables_two_monitors.xml /Library/MonkeyWorks/ExampleSetupVariables/TwoMonitors/setup_variables.xml\n\nexit 0";
+			shellPath = /bin/zsh;
+			shellScript = "export FULL_NAME=${PRODUCT_NAME}.${WRAPPER_EXTENSION}\n\nrm -Rf \"${INSTALL_PATH}/${FULL_NAME}\"\ncp -Rf \"${BUILT_PRODUCTS_DIR}/${FULL_NAME}\"  \"${INSTALL_PATH}\"\n\n#mkdir -p /Library/MonkeyWorks/ExampleSetupVariables/Macbook\n#cp -Rf $BUILT_PRODUCTS_DIR/../../Core/SetupVariables/setup_variables_macbook.xml /Library/#MonkeyWorks/ExampleSetupVariables/Macbook/setup_variables.xml\n#mkdir -p /Library/MonkeyWorks/ExampleSetupVariables/TwoMonitors\n#cp -Rf $BUILT_PRODUCTS_DIR/../../Core/SetupVariables/setup_variables_two_monitors.xml /Library/#MonkeyWorks/ExampleSetupVariables/TwoMonitors/setup_variables.xml\n\nexit 0";
 		};
 		5CEFD61C0D4965F900EA9950 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2776,8 +2776,8 @@
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/tcsh;
-			shellScript = "rm -R -f ${INSTALL_PATH}/ZenSchedulerPlugin.bundle\ncp -R -f \"${BUILT_PRODUCTS_DIR}/ZenSchedulerPlugin.bundle\" ${INSTALL_PATH}\n";
+			shellPath = /bin/zsh;
+			shellScript = "export FULL_NAME=${PRODUCT_NAME}.${WRAPPER_EXTENSION}\n\necho ${INSTALL_PATH}\n\nrm -R -f \"${INSTALL_PATH}/${FULL_NAME}\"\ncp -R -f \"${BUILT_PRODUCTS_DIR}/${FULL_NAME}\" \"${INSTALL_PATH}/\"\n";
 		};
 		5CF73C810862611900F453C3 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2789,8 +2789,8 @@
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/tcsh;
-			shellScript = "rm -R -f ${INSTALL_PATH}/ZenStateSystemPlugin.bundle\ncp -R -f \"${BUILT_PRODUCTS_DIR}/ZenStateSystemPlugin.bundle\" ${INSTALL_PATH}\n";
+			shellPath = /bin/zsh;
+			shellScript = "export FULL_NAME=${PRODUCT_NAME}.${WRAPPER_EXTENSION}\n\nmkdir -p \"${INSTALL_PATH}\"\nrm -R -f \"${INSTALL_PATH}/${FULL_NAME}\"\necho cp -R -f \"${BUILT_PRODUCTS_DIR}/${FULL_NAME}\" \"${INSTALL_PATH}\"\ncp -R -f \"${BUILT_PRODUCTS_DIR}/${FULL_NAME}\" \"${INSTALL_PATH}/\"\n";
 		};
 		68F1AAE40AA7814C0009800E /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2802,8 +2802,8 @@
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "cp -f \"${BUILT_PRODUCTS_DIR}/MonkeyWorksCoreTestRunner\" /Library/MonkeyWorks/tests/MonkeyWorksCoreTestRunner";
+			shellPath = /bin/zsh;
+			shellScript = "mkdir -p \"${INSTALL_DIR}\"\n\ncp -f \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}\"  \"${INSTALL_DIR}\"";
 		};
 		DA394B02088D4CFF001FDBC1 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -3241,10 +3241,11 @@
 				COPY_PHASE_STRIP = NO;
 				HEADER_SEARCH_PATHS = (
 					/usr/include/libxml2,
-					/Library/MonkeyWorks/include,
+					"$(MW_INCLUDE_DIR)",
 				);
 				INFOPLIST_FILE = "MarionetteTest-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
+				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -3294,8 +3295,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
 				GCC_PREPROCESSOR_DEFINITIONS = LOW_PRIORITY_MODE;
+				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
 				INFOPLIST_FILE = "LowPrioritySchedulerPlugin-Info.plist";
-				INSTALL_PATH = /Library/MonkeyWorks/Plugins/;
+				INSTALL_PATH = "$(PLUGINS_DIR)";
+				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
 				LIBRARY_STYLE = BUNDLE;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
@@ -3328,10 +3331,11 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				HEADER_SEARCH_PATHS = (
 					/usr/include/libxml2,
-					/Library/MonkeyWorks/include,
+					"$(MW_INCLUDE_DIR)",
 				);
 				INFOPLIST_FILE = "MonkeyWorksCore-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
 				OTHER_CFLAGS = "-ObjC++";
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -3377,9 +3381,10 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
 				INFOPLIST_FILE = "MachClockPlugin-Info.plist";
-				INSTALL_PATH = /Library/MonkeyWorks/Plugins/;
-				LIBRARY_SEARCH_PATHS = "";
+				INSTALL_PATH = "$(PLUGINS_DIR)";
+				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -3481,8 +3486,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
 				GCC_PREPROCESSOR_DEFINITIONS = REALTIME_SCHEDULER;
+				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
 				INFOPLIST_FILE = "ZenSchedulerPlugin-Info.plist";
-				INSTALL_PATH = /Library/MonkeyWorks/Plugins/;
+				INSTALL_PATH = "$(PLUGINS_DIR)";
+				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
 				LIBRARY_STYLE = BUNDLE;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
@@ -3515,8 +3522,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
 				GCC_PREPROCESSOR_DEFINITIONS = "";
+				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
 				INFOPLIST_FILE = "ZenStateSystemPlugin-Info.plist";
-				INSTALL_PATH = /Library/MonkeyWorks/Plugins/;
+				INSTALL_PATH = "$(PLUGINS_DIR)";
+				LIBRARY_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
 				LIBRARY_STYLE = BUNDLE;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				OTHER_LDFLAGS = (
@@ -3584,12 +3593,17 @@
 		5C0E850F086D85D400B3EE7C /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				APP_SUPPORT_DIR = "/Library/Application Support/Monkeyworks";
 				FRAMEWORK_SEARCH_PATHS = /Library/Frameworks;
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				GCC_OBJC_CALL_CXX_CDTORS = YES;
 				HEADER_SEARCH_PATHS = /Library/MonkeyWorks/include;
 				LIBRARY_SEARCH_PATHS = /Library/MonkeyWorks/lib;
+				MW_INCLUDE_DIR = "\"$(APP_SUPPORT_DIR)/Developer/include\"";
+				MW_LIB_DIR = "\"$(APP_SUPPORT_DIR)/Developer/lib\"";
+				PLUGINS_DIR = "$(APP_SUPPORT_DIR)/Plugins/Core Plugins";
 				STRIP_INSTALLED_PRODUCT = NO;
+				TESTS_DIR = "$(APP_SUPPORT_DIR)/Developer/tests";
 			};
 			name = Development;
 		};
@@ -3597,9 +3611,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
+				DSTROOT = "/tmp/$(PRODUCT_NAME).dst";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(FRAMEWORK_SEARCH_PATHS)",
-					"$(LOCAL_LIBRARY_DIR)/MonkeyWorks/tests",
+					"$(TESTS_DIR)",
 				);
 				GCC_DEBUGGING_SYMBOLS = full;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -3609,6 +3624,9 @@
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
+				INSTALL_PATH = "$(TESTS_DIR)";
+				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
 				OTHER_LDFLAGS = (
 					"-ldl",
 					"-lcppunit",
@@ -3635,8 +3653,10 @@
 				GCC_ENABLE_OBJC_GC = supported;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
+				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
 				INFOPLIST_FILE = "MonkeyWorksCoreTest-Info.plist";
-				INSTALL_PATH = /Library/MonkeyWorks/tests;
+				INSTALL_PATH = "$(TESTS_DIR)";
+				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				OTHER_CFLAGS = "-ObjC++";
 				OTHER_LDFLAGS = (

@@ -19,7 +19,7 @@ namespace mw {
 class EventHandler {
     public:
         virtual ~EventHandler();
-        virtual void handleEvent(shared_ptr<Event> e) = 0;
+        virtual void handleEvent(shared_ptr<Event> &e) = 0;
 };
 }
 #endif

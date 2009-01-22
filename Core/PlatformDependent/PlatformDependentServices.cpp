@@ -18,19 +18,18 @@
 namespace mw {
 	
 #ifdef __APPLE__
-    const char * DATA_FILE_PATH = "/Library/MonkeyWorks/DataFiles/";
-	const char * PLUGIN_PATH = "/Library/MonkeyWorks/Plugins/";
-	const char * SCRIPTING_PATH = "/Library/MonkeyWorks/Scripting/Perl/";
-	const char * LOCAL_PATH = "/Library/MonkeyWorks/local/";
-	const char * EXPERIMENT_INSTALL_PATH = "/Library/MonkeyWorks/Experiments/";
+    const char * DATA_FILE_PATH = "~/Documents/MWData/";
+	const char * PLUGIN_PATH = "/Library/Application Support/MonkeyWorks/Plugins/Core Plugins";
+	const char * SCRIPTING_PATH = "/Library/Application Support/MonkeyWorks/Scripting";
+	const char * LOCAL_PATH = "/Library/Application Support/MonkeyWorks/Configuration";
+	const char * EXPERIMENT_INSTALL_PATH = "/tmp/mw_experiments";
 #else
 	
     const char * DATA_FILE_PATH "/usr/local/MonkeyWorks/plugins/";
 	const char * PLUGIN_PATH = "/usr/local/MonkeyWorks/plugins/";
 	const char * SCRIPTING_PATH = "/usr/local/MonkeyWorks/scripting/";
 	const char * LOCAL_PATH = "/usr/local/MonkeyWorks/local/";
-	const char * EXPERIMENT_INSTALL_PATH = 
-	"/usr/local/MonkeyWorks/Experiments/";
+	const char * EXPERIMENT_INSTALL_PATH = "/tmp/mw_experiments/";
 #endif
 	
 	const char * DATA_FILE_EXT = ".mwk";

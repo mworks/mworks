@@ -1,6 +1,8 @@
-#!/bin/sh
-rm -Rf /Library/MonkeyWorks/tests/MarionetteTest.app 
-cp -Rf "$BUILT_PRODUCTS_DIR/MarionetteTest.app" /Library/MonkeyWorks/tests
+#!/bin/zsh
+export FULL_NAME=${PRODUCT_NAME}.${WRAPPER_EXTENSION}
+
+rm -Rf "${TESTS_DIR}/${FULL_NAME}"
+cp -Rf "${BUILT_PRODUCTS_DIR}/${FULL_NAME}" "${TESTS_DIR}/"
 
 
 

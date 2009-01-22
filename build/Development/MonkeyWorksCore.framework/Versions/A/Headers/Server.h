@@ -145,7 +145,7 @@ protected:
 		shared_ptr<Variable> getVariable(const int code);
 		int getCode(const std::string &tag);
 		std::vector<std::string> getVariableNames();
-		void handleEvent(shared_ptr<Event> event);
+		void handleEvent(shared_ptr<Event> &event);
 		void registerCallback(shared_ptr<GenericEventFunctor> gef);
 		void registerCallback(shared_ptr<GenericEventFunctor> gef, const int code);
 		void unregisterCallbacks(const std::string &key);

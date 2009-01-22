@@ -1,4 +1,8 @@
-#!/bin/tcsh
-rm -R -f ${INSTALL_PATH}/ZenSchedulerPlugin.bundle
-cp -R -f "${BUILT_PRODUCTS_DIR}/ZenSchedulerPlugin.bundle" ${INSTALL_PATH}
+#!/bin/zsh
+export FULL_NAME=${PRODUCT_NAME}.${WRAPPER_EXTENSION}
+
+echo ${INSTALL_PATH}
+
+rm -R -f "${INSTALL_PATH}/${FULL_NAME}"
+cp -R -f "${BUILT_PRODUCTS_DIR}/${FULL_NAME}" "${INSTALL_PATH}/"
 

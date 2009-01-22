@@ -2,7 +2,7 @@
 <monkeyml version="1.1">
 	<!-- this file needs to be named "setup_variables.xml" and be located in the directory /Library/MonkeyWorks/local -->
 	<variable_assignments>
-		<!--variable_assignment variable="#setupName" type="string" value="Setup 1"/-->
+		<variable_assignment variable="#setupName" type="string" value="My MacBook"/>
 		<variable_assignment variable="#mainScreenInfo">
 			<dictionary>
 				<dictionary_element>

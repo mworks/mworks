@@ -20,7 +20,7 @@ class DefaultEventHandler : public EventHandler {
 	
 public:
 	virtual ~DefaultEventHandler() {};
-	virtual void handleEvent(shared_ptr<Event> event);
+	virtual void handleEvent(shared_ptr<Event> &event);
 protected:
         virtual void handleSystemEvent(const Data &sysEvent);
 	

@@ -1,4 +1,6 @@
-#!/bin/tcsh
-rm -R -f ${INSTALL_PATH}/LowPrioritySchedulerPlugin.bundle
-cp -R -f "${BUILT_PRODUCTS_DIR}/LowPrioritySchedulerPlugin.bundle" ${INSTALL_PATH}
+#!/bin/zsh
+export FULL_NAME=${PRODUCT_NAME}.${WRAPPER_EXTENSION}
+
+rm -R -f "${INSTALL_PATH}/${FULL_NAME}"
+cp -R -f "${BUILT_PRODUCTS_DIR}/${FULL_NAME}" "${INSTALL_PATH}/"
 

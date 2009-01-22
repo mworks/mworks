@@ -1,3 +1,5 @@
-#!/bin/tcsh
-rm -rf $INSTALL_PATH/MachClockPlugin.bundle
-cp -R "$BUILT_PRODUCTS_DIR/MachClockPlugin.bundle" $INSTALL_PATH
+#!/bin/zsh
+export FULL_NAME=${PRODUCT_NAME}.${WRAPPER_EXTENSION}
+
+rm -rf "${INSTALL_PATH}/${FULL_NAME}"
+cp -R "${BUILT_PRODUCTS_DIR}/${FULL_NAME}" "${INSTALL_PATH}/"

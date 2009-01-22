@@ -38,10 +38,10 @@
  *
  */
 namespace mw {
-using namespace boost;
-
-
-class Event {
+	using namespace boost;
+	
+	
+	class Event {
     protected:
 		
 		// what is this event's codec code
@@ -57,34 +57,31 @@ class Event {
         /**
          * Constructor.  Defines an Variable member and the event type.
          */
-        Event(int _code, MonkeyWorksTime _time, Data data);
-		Event(int _code, Data data);
+        Event(const int _code, const MonkeyWorksTime _time, const Data &data);
+		Event(const int _code, const Data &data);
 		Event(ScarabDatum *datum);  // create an event from a ScarabDatum
         Event(){ } // for construction during deserialization
         virtual ~Event() {}
-
+		
         /**
          * Returns the event code.  This code is given to an
          * Variable by the parameter registry.
          */
         int getEventCode(){ 
-			boost::mutex::scoped_lock lock(eventLock);
 			return code;
 		}
-
+		
         /**
          * Returns the event time.
          */
         MonkeyWorksTime getTime(){ 
-			boost::mutex::scoped_lock lock(eventLock);
 			return time;
 		}
 		
 		Data getData() {
-			boost::mutex::scoped_lock lock(eventLock);
 			return data;
 		}
-
+		
 		shared_ptr<Event> getNextEvent() {
 			boost::mutex::scoped_lock lock(eventLock);
 			return nextEvent;
@@ -94,12 +91,12 @@ class Event {
 			boost::mutex::scoped_lock lock(eventLock);
 			nextEvent = _nextEvent;
 		}
-    
-    
-    
+		
+		
+		
         // Convert to ScarabDatum for later serialization
         virtual ScarabDatum *toScarabDatum();
-    
+		
         // Boost serialization
         friend class boost::serialization::access;
         template<class Archive>
@@ -108,7 +105,7 @@ class Event {
             ar & time;
             ar & data;
         }
-};
-
+	};
+	
 }
 #endif
