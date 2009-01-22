@@ -1,0 +1,169 @@
+// !$*UTF8*$!
+{
+	29B97313FDCFA39411CA2CEA /* Project object */ = {
+		activeBuildConfigurationName = Debug;
+		activeExecutable = 5C1CCCEB0F29033200282AD9 /* MWClient */;
+		activeTarget = 8D1107260486CEB800E47090 /* MWClient */;
+		codeSenseManager = 5C1CCCF30F2903D400282AD9 /* Code sense */;
+		executables = (
+			5C1CCCEB0F29033200282AD9 /* MWClient */,
+		);
+		perUserDictionary = {
+			PBXConfiguration.PBXFileTableDataSource3.PBXBookmarksDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXBookmarksDataSource_NameID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					200,
+					200,
+					150.58349609375,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXBookmarksDataSource_LocationID,
+					PBXBookmarksDataSource_NameID,
+					PBXBookmarksDataSource_CommentsID,
+				);
+			};
+			PBXConfiguration.PBXFileTableDataSource3.PBXFileTableDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					20,
+					341,
+					20,
+					48,
+					43,
+					43,
+					20,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXFileDataSource_FiletypeID,
+					PBXFileDataSource_Filename_ColumnID,
+					PBXFileDataSource_Built_ColumnID,
+					PBXFileDataSource_ObjectSize_ColumnID,
+					PBXFileDataSource_Errors_ColumnID,
+					PBXFileDataSource_Warnings_ColumnID,
+					PBXFileDataSource_Target_ColumnID,
+				);
+			};
+			PBXConfiguration.PBXTargetDataSource.PBXTargetDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					20,
+					301,
+					60,
+					20,
+					48,
+					43,
+					43,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXFileDataSource_FiletypeID,
+					PBXFileDataSource_Filename_ColumnID,
+					PBXTargetDataSource_PrimaryAttribute,
+					PBXFileDataSource_Built_ColumnID,
+					PBXFileDataSource_ObjectSize_ColumnID,
+					PBXFileDataSource_Errors_ColumnID,
+					PBXFileDataSource_Warnings_ColumnID,
+				);
+			};
+			PBXPerProjectTemplateStateSaveDate = 254346492;
+			PBXWorkspaceStateSaveDate = 254346492;
+		};
+		perUserProjectItems = {
+			5C1CCCF70F29045900282AD9 = 5C1CCCF70F29045900282AD9 /* PBXTextBookmark */;
+			5C1CCD020F2904BC00282AD9 = 5C1CCD020F2904BC00282AD9 /* PBXTextBookmark */;
+			5C1CCD0B0F29050600282AD9 /* PBXTextBookmark */ = 5C1CCD0B0F29050600282AD9 /* PBXTextBookmark */;
+		};
+		sourceControlManager = 5C1CCCF20F2903D400282AD9 /* Source Control */;
+		userBuildSettings = {
+		};
+	};
+	5C1CCCEB0F29033200282AD9 /* MWClient */ = {
+		isa = PBXExecutable;
+		activeArgIndices = (
+		);
+		argumentStrings = (
+		);
+		autoAttachOnCrash = 1;
+		breakpointsEnabled = 1;
+		configStateDict = {
+		};
+		customDataFormattersEnabled = 1;
+		debuggerPlugin = GDBDebugging;
+		disassemblyDisplayState = 0;
+		enableDebugStr = 1;
+		environmentEntries = (
+		);
+		executableSystemSymbolLevel = 0;
+		executableUserSymbolLevel = 0;
+		libgmallocEnabled = 0;
+		name = MWClient;
+		sourceDirectories = (
+		);
+	};
+	5C1CCCF20F2903D400282AD9 /* Source Control */ = {
+		isa = PBXSourceControlManager;
+		fallbackIsa = XCSourceControlManager;
+		isSCMEnabled = 0;
+		scmConfiguration = {
+		};
+	};
+	5C1CCCF30F2903D400282AD9 /* Code sense */ = {
+		isa = PBXCodeSenseManager;
+		indexTemplatePath = "";
+	};
+	5C1CCCF70F29045900282AD9 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		comments = "error: boost/shared_ptr.hpp: No such file or directory";
+		fRef = 5C1CCCF80F29045900282AD9 /* Component.h */;
+		rLen = 1;
+		rLoc = 12;
+		rType = 1;
+	};
+	5C1CCCF80F29045900282AD9 /* Component.h */ = {
+		isa = PBXFileReference;
+		lastKnownFileType = sourcecode.c.h;
+		name = Component.h;
+		path = /Developer/SDKs/MacOSX10.5.sdk/Library/Frameworks/MonkeyWorksCore.framework/Headers/Component.h;
+		sourceTree = "<absolute>";
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {519, 1750}}";
+			sepNavSelRange = "{211, 32}";
+			sepNavVisRange = "{0, 370}";
+		};
+	};
+	5C1CCD020F2904BC00282AD9 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 5C1CCD030F2904BC00282AD9 /* Component.h */;
+		name = "Component.h: 13";
+		rLen = 32;
+		rLoc = 211;
+		rType = 0;
+		vrLen = 370;
+		vrLoc = 0;
+	};
+	5C1CCD030F2904BC00282AD9 /* Component.h */ = {
+		isa = PBXFileReference;
+		lastKnownFileType = sourcecode.c.h;
+		name = Component.h;
+		path = /Developer/SDKs/MacOSX10.5.sdk/Library/Frameworks/MonkeyWorksCore.framework/Headers/Component.h;
+		sourceTree = "<absolute>";
+	};
+	5C1CCD0B0F29050600282AD9 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 5C1CCCF80F29045900282AD9 /* Component.h */;
+		name = "Component.h: 13";
+		rLen = 32;
+		rLoc = 211;
+		rType = 0;
+		vrLen = 370;
+		vrLoc = 0;
+	};
+	8D1107260486CEB800E47090 /* MWClient */ = {
+		activeExec = 0;
+		executables = (
+			5C1CCCEB0F29033200282AD9 /* MWClient */,
+		);
+	};
+}
