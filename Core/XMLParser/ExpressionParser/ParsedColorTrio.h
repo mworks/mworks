@@ -13,7 +13,7 @@
 #include "boost/shared_ptr.hpp"
 #include <string>
 #include "GenericVariable.h"
-#include "ComponentRegistry_new.h"
+#include "ComponentRegistry.h"
 //#include "ComponentFactory.h"
 #include <boost/spirit/core.hpp>
 #include <boost/spirit/utility/confix.hpp>
@@ -27,7 +27,7 @@ namespace mw {
 		boost::shared_ptr<Variable> g;
 		boost::shared_ptr<Variable> b;
 	public:
-		ParsedColorTrio(mwComponentRegistry *reg, 
+		ParsedColorTrio(ComponentRegistry *reg, 
 						const std::string &color_string);
 		boost::shared_ptr<Variable> getR() const;
 		boost::shared_ptr<Variable> getG() const;

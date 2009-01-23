@@ -51,7 +51,7 @@ bool StandardClientCoreBuilder::loadPlugins() {
 
 bool StandardClientCoreBuilder::chooseRealtimeComponents() {
 	
-	shared_ptr<mwComponentRegistry> component_registry = mwComponentRegistry::getSharedRegistry();
+	shared_ptr<ComponentRegistry> component_registry = ComponentRegistry::getSharedRegistry();
 	
 	shared_ptr<mw::Component> clock = component_registry->createNewObject("MachClock", map<string, string>());
 	Clock::registerInstance(clock);

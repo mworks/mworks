@@ -680,7 +680,7 @@ bool IODevice::requestChannel(shared_ptr<IOChannelRequest>  request){
 }
 
 void IODevice::addChild(std::map<std::string, std::string> parameters,
-						 mwComponentRegistry *reg,
+						 ComponentRegistry *reg,
 						 shared_ptr<mw::Component> child){
 	
 	shared_ptr<IOChannelRequest> request = dynamic_pointer_cast<IOChannelRequest, mw::Component>(child);
@@ -708,7 +708,7 @@ bool IODevice::startup(){
 }
 
 void IODevice::finalize(std::map<std::string, std::string> parameters,
-						 mwComponentRegistry *reg){
+						 ComponentRegistry *reg){
 	
 	shared_ptr <IODevice> this_one = shared_from_this();
 	shared_ptr<IODeviceVariableNotification> notification(new IODeviceVariableNotification(this_one));

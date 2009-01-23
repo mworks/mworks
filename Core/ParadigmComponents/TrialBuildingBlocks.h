@@ -26,7 +26,7 @@
 #include "ExpressionVariable.h"
 #include "EyeCalibrators.h"
 #include "Sound.h"
-#include "ComponentRegistry_new.h"
+#include "ComponentRegistry.h"
 namespace mw {
 
 using namespace boost;
@@ -87,7 +87,7 @@ public:
 
 class AssignmentFactory : public ComponentFactory{
 	virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-												mwComponentRegistry *reg);
+												ComponentRegistry *reg);
 	
 };
 
@@ -104,7 +104,7 @@ public:
 
 class ReportStringFactory : public ComponentFactory{
 	virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-												mwComponentRegistry *reg);
+												ComponentRegistry *reg);
 };
 
 
@@ -122,7 +122,7 @@ public:
 
 class AssertionActionFactory : public ComponentFactory{
 	virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-												mwComponentRegistry *reg);
+												ComponentRegistry *reg);
 };
 
 class NextVariableSelection : public Action {
@@ -152,7 +152,7 @@ public:
 
 class NextVariableSelectionFactory : public ComponentFactory{
 	virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-												mwComponentRegistry *reg);
+												ComponentRegistry *reg);
 };
 
 
@@ -170,7 +170,7 @@ public:
 
 class SetTimeBaseFactory : public ComponentFactory{	
 	virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-												mwComponentRegistry *reg);
+												ComponentRegistry *reg);
 };
 
 class StartTimer : public Action {
@@ -190,7 +190,7 @@ public:
 
 class StartTimerFactory : public ComponentFactory{
 	virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-												mwComponentRegistry *reg);
+												ComponentRegistry *reg);
 };
 
 //class StartEggTimer : public Action {
@@ -218,7 +218,7 @@ public:
 
 class WaitFactory : public ComponentFactory{
 	virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-												mwComponentRegistry *reg);
+												ComponentRegistry *reg);
 };
 
 class QueueStimulus : public Action {
@@ -237,7 +237,7 @@ public:
 
 class QueueStimulusFactory : public ComponentFactory{
 	virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-												mwComponentRegistry *reg);
+												ComponentRegistry *reg);
 };
 
 class LiveQueueStimulus : public Action {
@@ -253,7 +253,7 @@ public:
 
 class LiveQueueStimulusFactory : public ComponentFactory{
 	virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-												mwComponentRegistry *reg);
+												ComponentRegistry *reg);
 };
 
 class DequeueStimulus : public Action {
@@ -267,7 +267,7 @@ public:
 
 class DequeueStimulusFactory : public ComponentFactory{
 	virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-												mwComponentRegistry *reg);
+												ComponentRegistry *reg);
 };
 
 
@@ -283,7 +283,7 @@ public:
 
 class BringStimulusToFrontFactory : public ComponentFactory{
 	virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-												mwComponentRegistry *reg);
+												ComponentRegistry *reg);
 };
 
 class SendStimulusToBack : public Action {
@@ -298,7 +298,7 @@ public:
 
 class SendStimulusToBackFactory : public ComponentFactory{
 	virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-												mwComponentRegistry *reg);
+												ComponentRegistry *reg);
 };
 
 class UpdateStimulusDisplay : public Action {
@@ -312,7 +312,7 @@ public:
 
 class UpdateStimulusDisplayFactory : public ComponentFactory{
 	virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-												mwComponentRegistry *reg);
+												ComponentRegistry *reg);
 };
 
 
@@ -343,7 +343,7 @@ public:
 
 class PlaySoundFactory : public ComponentFactory{
 	virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-												mwComponentRegistry *reg);
+												ComponentRegistry *reg);
 };
 
 
@@ -374,7 +374,7 @@ public:
 
 class StopSoundFactory : public ComponentFactory{
 	virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-												mwComponentRegistry *reg);
+												ComponentRegistry *reg);
 };
 
 
@@ -405,7 +405,7 @@ public:
 
 class PauseSoundFactory : public ComponentFactory{	
 	virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-												mwComponentRegistry *reg);
+												ComponentRegistry *reg);
 };
 
 
@@ -420,7 +420,7 @@ public:
 
 class StartDeviceIOFactory : public ComponentFactory{
 	virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-												mwComponentRegistry *reg);
+												ComponentRegistry *reg);
 };
 
 class StopDeviceIO : public Action {
@@ -434,7 +434,7 @@ public:
 
 class StopDeviceIOFactory : public ComponentFactory{
 	virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-												mwComponentRegistry *reg);
+												ComponentRegistry *reg);
 };
 
 
@@ -464,7 +464,7 @@ public:
 
 class ResetSelectionFactory : public ComponentFactory{	
 	virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-												mwComponentRegistry *reg);
+												ComponentRegistry *reg);
 };
 
 class AcceptSelections : public Action {
@@ -493,7 +493,7 @@ public:
 
 class AcceptSelectionsFactory : public ComponentFactory{	
 	virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-												mwComponentRegistry *reg);
+												ComponentRegistry *reg);
 };
 
 
@@ -522,7 +522,7 @@ public:
 
 class RejectSelectionsFactory : public ComponentFactory{
 	virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-												mwComponentRegistry *reg);
+												ComponentRegistry *reg);
 };
 
 
@@ -536,14 +536,14 @@ public:
 	virtual ~If();
 	void addAction(shared_ptr<Action> act);
 	void addChild(std::map<std::string, std::string> parameters,
-					mwComponentRegistry *reg,
+					ComponentRegistry *reg,
 					shared_ptr<mw::Component> child);
 	virtual bool execute();
 };
 
 class IfFactory : public ComponentFactory{
 	virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-												mwComponentRegistry *reg);
+												ComponentRegistry *reg);
 };
 
 class Transition : public mw::Component { };
@@ -551,7 +551,7 @@ class Transition : public mw::Component { };
 class TransitionFactory : public ComponentFactory {
 public:
 	virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-												mwComponentRegistry *reg);
+												ComponentRegistry *reg);
 };
 
 class TransitionCondition : public Transition {
@@ -613,7 +613,7 @@ public:
 	virtual weak_ptr<State> next();
 	
 	virtual void addChild(std::map<std::string, std::string> parameters,
-						  mwComponentRegistry *reg, shared_ptr<mw::Component> comp);
+						  ComponentRegistry *reg, shared_ptr<mw::Component> comp);
 	virtual void addAction(shared_ptr<Action> act);
 	virtual void addTransition(shared_ptr<TransitionCondition> trans);
 	
@@ -628,7 +628,7 @@ public:
 
 class TaskSystemStateFactory : public ComponentFactory{	
 	shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-											mwComponentRegistry *reg){
+											ComponentRegistry *reg){
 		
 		shared_ptr<State> component(new TaskSystemState());
 		component->setParameters(parameters, reg);
@@ -658,7 +658,7 @@ public:
 	void addTaskSystemState(shared_ptr<TaskSystemState> state);
 	
 	virtual void addChild(std::map<std::string, std::string> parameters,
-								mwComponentRegistry *reg,
+								ComponentRegistry *reg,
 								shared_ptr<mw::Component> comp){
 		ContainerState::addChild(parameters, reg, comp);
 		string full_tag = parameters["parent_tag"];
@@ -680,7 +680,7 @@ public:
 
 class TaskSystemFactory : public ComponentFactory{	
 	shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-											mwComponentRegistry *reg){
+											ComponentRegistry *reg){
 		
 		shared_ptr<State> component(new TaskSystem());
 		component->setParameters(parameters, reg);
@@ -706,7 +706,7 @@ public:
 
 class TakeCalibrationSampleNowFactory : public ComponentFactory{
 	virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-												mwComponentRegistry *reg);
+												ComponentRegistry *reg);
 };
 
 
@@ -721,7 +721,7 @@ public:
 
 class StartAverageCalibrationSampleFactory : public ComponentFactory{
 	virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-												mwComponentRegistry *reg);
+												ComponentRegistry *reg);
 };
 
 class EndAverageAndTakeCalibrationSample : public Action {
@@ -737,7 +737,7 @@ public:
 
 class EndAverageAndTakeCalibrationSampleFactory : public ComponentFactory{
 	virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-												mwComponentRegistry *reg);
+												ComponentRegistry *reg);
 };
 
 class EndAverageAndIgnore : public Action {
@@ -751,7 +751,7 @@ public:
 
 class EndAverageAndIgnoreFactory : public ComponentFactory{
 	virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-												mwComponentRegistry *reg);
+												ComponentRegistry *reg);
 };
 
 
@@ -767,7 +767,7 @@ public:
 
 class CalibrateNowFactory : public ComponentFactory{
 	virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-												mwComponentRegistry *reg);
+												ComponentRegistry *reg);
 };
 
 // action to compute the calibration parameters and immediately begin using them
@@ -782,7 +782,7 @@ public:
 
 class ClearCalibrationFactory : public ComponentFactory{
 	virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-												mwComponentRegistry *reg);
+												ComponentRegistry *reg);
 };
 
 
@@ -801,7 +801,7 @@ public:
 
 class StartAveragerFactory : public ComponentFactory{
 	virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-												mwComponentRegistry *reg);
+												ComponentRegistry *reg);
 };
 
 class StopAverager : public Action {
@@ -815,7 +815,7 @@ public:
 
 class StopAveragerFactory : public ComponentFactory{
 	virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-												mwComponentRegistry *reg);
+												ComponentRegistry *reg);
 };
 
 class ClearAverager : public Action {
@@ -829,7 +829,7 @@ public:
 
 class ClearAveragerFactory : public ComponentFactory{
 	virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-												mwComponentRegistry *reg);
+												ComponentRegistry *reg);
 };
 }
 

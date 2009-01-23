@@ -39,7 +39,7 @@ extern const mw::Component *InvalidObject;
 
 using namespace boost;
 
-class mwComponentRegistry;  // forward declaration
+class ComponentRegistry;  // forward declaration
 
 class ComponentFactory {
 protected:
@@ -55,7 +55,7 @@ public:
 	virtual ~ComponentFactory(){ }
 	
 	virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-												mwComponentRegistry *reg){
+												ComponentRegistry *reg){
 		return shared_ptr<mw::Component>();
 	}
 };

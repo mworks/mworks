@@ -10,7 +10,7 @@
 #include "ZenStateSystemPlugin.h"
 #include "ZenStateSystemFactory.h"
 
-void StandardStateSystemPlugin::registerComponents(shared_ptr<mwComponentRegistry> registry) {
+void StandardStateSystemPlugin::registerComponents(shared_ptr<ComponentRegistry> registry) {
 	registry->registerFactory(std::string("ZenStateSystem"),
 							  (ComponentFactory *)(new StandardStateSystemFactory()));
 }	

@@ -37,7 +37,7 @@ bool Pulse::execute(){
 }
 
 shared_ptr<mw::Component> PulseFactory::createObject(std::map<std::string, std::string> parameters,
-												   mwComponentRegistry *reg) {
+												   ComponentRegistry *reg) {
 	REQUIRE_ATTRIBUTES(parameters, "variable", "duration");
 	
 	shared_ptr<Variable> variable = reg->getVariable(parameters.find("variable")->second);

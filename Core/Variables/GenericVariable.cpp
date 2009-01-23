@@ -17,7 +17,7 @@
 #include "Event.h"
 #include "EventBuffer.h"
 #include <boost/algorithm/string/case_conv.hpp>
-#include "ComponentRegistry_new.h"
+#include "ComponentRegistry.h"
 #include "EventBuffer.h"
 #include "TrialBuildingBlocks.h"
 
@@ -61,7 +61,7 @@ Variable *Variable::frozenClone(){
 
 // Factory method
 shared_ptr<mw::Component> VariableFactory::createObject(std::map<std::string, std::string> parameters,
-											   mwComponentRegistry *reg){
+											   ComponentRegistry *reg){
 	REQUIRE_ATTRIBUTES(parameters,
 					   "tag",
 					   "type",
@@ -224,7 +224,7 @@ Variable::~Variable() {
 }
 
 void Variable::addChild(std::map<std::string, std::string> parameters,
-						 mwComponentRegistry *reg,
+						 ComponentRegistry *reg,
 						 shared_ptr<mw::Component> child) {
 	
 	shared_ptr<Action> act = dynamic_pointer_cast<Action,mw::Component>(child);

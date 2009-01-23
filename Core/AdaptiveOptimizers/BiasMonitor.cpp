@@ -9,7 +9,7 @@
 
 #include "BiasMonitor.h"
 
-#include "ComponentRegistry_new.h"
+#include "ComponentRegistry.h"
 #include <boost/lexical_cast.hpp>
 using namespace mw;
 
@@ -118,7 +118,7 @@ void BiasMonitor::reset(){
 }
 
 shared_ptr<mw::Component> BiasMonitorFactory::createObject(std::map<std::string, std::string> parameters,
-															mwComponentRegistry *reg) {
+															ComponentRegistry *reg) {
 	REQUIRE_ATTRIBUTES(parameters,
 					   "success",
 						"response_index",

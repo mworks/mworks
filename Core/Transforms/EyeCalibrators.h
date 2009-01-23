@@ -90,7 +90,7 @@ namespace mw {
 	
 	class FixationPointFactory : public ComponentFactory {
 		virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-													   mwComponentRegistry *reg);
+													   ComponentRegistry *reg);
 	};
 	
 	
@@ -204,7 +204,7 @@ namespace mw {
 		
 		virtual shared_ptr<mw::Component> createObject(std::map<std::string, 
 													   std::string> parameters,
-													   mwComponentRegistry *reg);
+													   ComponentRegistry *reg);
 	};
 	
 	class LinearEyeCalibratorFactory : public ComponentFactory {
@@ -213,7 +213,7 @@ namespace mw {
 		
 		virtual shared_ptr<mw::Component> createObject(std::map<std::string, 
 													   std::string> parameters,
-													   mwComponentRegistry *reg);
+													   ComponentRegistry *reg);
 	};
 	
 }

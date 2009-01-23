@@ -29,7 +29,7 @@ public:
 
 class PulseFactory : public ComponentFactory{
 	virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-												mwComponentRegistry *reg);
+												ComponentRegistry *reg);
 };
 }
 

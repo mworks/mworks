@@ -11,13 +11,13 @@
 #define ZEN_STATE_SYSTEM_FACTORY_H
 
 #include "MonkeyWorksCore/ComponentFactory.h"
-#include "MonkeyWorksCore/ComponentRegistry_new.h"
+#include "MonkeyWorksCore/ComponentRegistry.h"
 #include "ZenStateSystem.h"
 
 class StandardStateSystemFactory : public ComponentFactory {
 public:
 	virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-												mwComponentRegistry *reg);
+												ComponentRegistry *reg);
 };
 
 #endif

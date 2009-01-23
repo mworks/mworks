@@ -159,7 +159,7 @@ class Filter_BoxcarFilter1D : public VarTransformAdaptor{
 class Filter_BoxcarFilter1DFactory :  public ComponentFactory {
 	virtual shared_ptr<mw::Component> createObject(std::map<std::string, 
 												std::string> parameters,
-												mwComponentRegistry *reg);
+												ComponentRegistry *reg);
 };        
           
    
@@ -177,7 +177,7 @@ class Filter_LinearFilter1D : public VarTransformAdaptor {
 
 class Filter_LinearFilter1DFactory : public ComponentFactory {
 	virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-												mwComponentRegistry *reg);
+												ComponentRegistry *reg);
 };        
  
 }

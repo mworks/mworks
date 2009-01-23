@@ -13,7 +13,7 @@
 #include "Sound.h"
 #include "OpenALContextManager.h"
 #include <boost/filesystem/path.hpp>
-#include "ComponentRegistry_new.h"
+#include "ComponentRegistry.h"
 namespace mw {
 class OpenALSound : public Sound {
 
@@ -60,7 +60,7 @@ class WavFileSoundFactory : public ComponentFactory {
 	
 public:
 	virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-												mwComponentRegistry *reg);
+												ComponentRegistry *reg);
 };
 }
 #endif

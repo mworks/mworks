@@ -157,7 +157,7 @@ void AveragerUser::newDataReceived(int inputIndex, const Data& data,
 }
 
 shared_ptr<mw::Component> AveragerUserFactory::createObject(std::map<std::string, std::string> parameters,
-											mwComponentRegistry *reg) {
+											ComponentRegistry *reg) {
 	REQUIRE_ATTRIBUTES(parameters, "in1", "out1");
 	
 	shared_ptr<Variable> in1 = reg->getVariable(parameters.find("in1")->second);

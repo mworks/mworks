@@ -67,7 +67,7 @@ class StandardClock : public Clock, public ComponentFactory {
                 
         virtual shared_ptr<mw::Component> createObject(
 								std::map<std::string, std::string> parameters,
-								mwComponentRegistry *reg){
+								ComponentRegistry *reg){
 			return shared_ptr<mw::Component>(new StandardClock(1000));
 		}	
 };
@@ -75,7 +75,7 @@ class StandardClock : public Clock, public ComponentFactory {
 class StandardClockPlugin : public Plugin {
     public:
 	
-		virtual void registerComponents(shared_ptr<mwComponentRegistry> registry) {
+		virtual void registerComponents(shared_ptr<ComponentRegistry> registry) {
 			registry->registerFactory(std::string("MachClock"),
 									  (ComponentFactory *)(new StandardClock(0)));
 		}

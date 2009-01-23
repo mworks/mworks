@@ -14,7 +14,7 @@
 #include "SequentialSelection.h"
 #include "RandomWORSelection.h"
 #include "RandomWithReplacementSelection.h"
-#include "ComponentRegistry_new.h"
+#include "ComponentRegistry.h"
 #include <vector>
 #include <boost/lexical_cast.hpp>
 #include <boost/tokenizer.hpp>
@@ -91,7 +91,7 @@ Variable *SelectionVariable::clone(){
 }
 
 shared_ptr<mw::Component> SelectionVariableFactory::createObject(std::map<std::string, std::string> parameters,
-														mwComponentRegistry *reg) {
+														ComponentRegistry *reg) {
 	REQUIRE_ATTRIBUTES(parameters,
 					   "tag",
 					   "values",

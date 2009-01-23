@@ -287,8 +287,8 @@
 		DA2B6D3B098AA34900DDE06D /* EventHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2B6D39098AA34900DDE06D /* EventHandler.cpp */; };
 		DA2B6D52098AAAEC00DDE06D /* DefaultEventHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2B6D50098AAAEC00DDE06D /* DefaultEventHandler.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DA2B6D53098AAAEC00DDE06D /* DefaultEventHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2B6D51098AAAEC00DDE06D /* DefaultEventHandler.cpp */; };
-		DA2CE11407E9F85800C68AEF /* ComponentRegistry_new.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2CE10C07E9F85800C68AEF /* ComponentRegistry_new.cpp */; };
-		DA2CE11507E9F85800C68AEF /* ComponentRegistry_new.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2CE10D07E9F85800C68AEF /* ComponentRegistry_new.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DA2CE11407E9F85800C68AEF /* ComponentRegistry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2CE10C07E9F85800C68AEF /* ComponentRegistry.cpp */; };
+		DA2CE11507E9F85800C68AEF /* ComponentRegistry.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2CE10D07E9F85800C68AEF /* ComponentRegistry.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DA2CE11607E9F85800C68AEF /* VariableRegistry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2CE10E07E9F85800C68AEF /* VariableRegistry.cpp */; };
 		DA2CE11707E9F85800C68AEF /* VariableRegistry.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2CE10F07E9F85800C68AEF /* VariableRegistry.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DA2CE11E07E9F86300C68AEF /* DataFileManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2CE11C07E9F86300C68AEF /* DataFileManager.cpp */; };
@@ -835,8 +835,8 @@
 		DA2B6D51098AAAEC00DDE06D /* DefaultEventHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DefaultEventHandler.cpp; path = Core/InterfaceHooks/ServerSide/Products/DefaultEventHandler.cpp; sourceTree = "<group>"; };
 		DA2CE0D407E9F68100C68AEF /* MonkeyWorksCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MonkeyWorksCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA2CE0D607E9F68100C68AEF /* MonkeyWorksCore-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MonkeyWorksCore-Info.plist"; sourceTree = SOURCE_ROOT; };
-		DA2CE10C07E9F85800C68AEF /* ComponentRegistry_new.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ComponentRegistry_new.cpp; path = Core/ComponentRegistries/ComponentRegistry_new.cpp; sourceTree = "<group>"; };
-		DA2CE10D07E9F85800C68AEF /* ComponentRegistry_new.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 30; name = ComponentRegistry_new.h; path = Core/ComponentRegistries/ComponentRegistry_new.h; sourceTree = "<group>"; };
+		DA2CE10C07E9F85800C68AEF /* ComponentRegistry.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ComponentRegistry.cpp; path = Core/ComponentRegistries/ComponentRegistry.cpp; sourceTree = "<group>"; };
+		DA2CE10D07E9F85800C68AEF /* ComponentRegistry.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 30; name = ComponentRegistry.h; path = Core/ComponentRegistries/ComponentRegistry.h; sourceTree = "<group>"; };
 		DA2CE10E07E9F85800C68AEF /* VariableRegistry.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = VariableRegistry.cpp; path = Core/ComponentRegistries/VariableRegistry.cpp; sourceTree = "<group>"; };
 		DA2CE10F07E9F85800C68AEF /* VariableRegistry.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = VariableRegistry.h; path = Core/ComponentRegistries/VariableRegistry.h; sourceTree = "<group>"; };
 		DA2CE11C07E9F86300C68AEF /* DataFileManager.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = DataFileManager.cpp; path = Core/DataFiles/DataFileManager.cpp; sourceTree = SOURCE_ROOT; };
@@ -1753,8 +1753,8 @@
 				5C37489509EC248900F8265F /* tests */,
 				5CE30A4D0CFA49D600BEB3E3 /* Component.h */,
 				5CE30A4E0CFA49D600BEB3E3 /* Component.cpp */,
-				DA2CE10D07E9F85800C68AEF /* ComponentRegistry_new.h */,
-				DA2CE10C07E9F85800C68AEF /* ComponentRegistry_new.cpp */,
+				DA2CE10D07E9F85800C68AEF /* ComponentRegistry.h */,
+				DA2CE10C07E9F85800C68AEF /* ComponentRegistry.cpp */,
 				DA2CE19507E9F94B00C68AEF /* ComponentFactory.h */,
 				DA2CE19407E9F94B00C68AEF /* ComponentFactory.cpp */,
 				DA2CE19707E9F94B00C68AEF /* Plugin.h */,
@@ -2091,7 +2091,7 @@
 				0E1DB69C0B4EB983000C0D68 /* ExperimentUnpackager.h in Headers */,
 				0E86657C0AEFE8D300564B87 /* VariableLoad.h in Headers */,
 				0ED112880A83C48D008C1F48 /* VariableSave.h in Headers */,
-				DA2CE11507E9F85800C68AEF /* ComponentRegistry_new.h in Headers */,
+				DA2CE11507E9F85800C68AEF /* ComponentRegistry.h in Headers */,
 				DA2CE11707E9F85800C68AEF /* VariableRegistry.h in Headers */,
 				DA2CE11F07E9F86300C68AEF /* DataFileManager.h in Headers */,
 				DA2CE12507E9F88900C68AEF /* Buffers.h in Headers */,
@@ -2961,7 +2961,7 @@
 				0E1DB6A20B4EB99E000C0D68 /* ExperimentUnpackager.cpp in Sources */,
 				0E8665790AEFE8C700564B87 /* VariableLoad.cpp in Sources */,
 				0ED112870A83C48D008C1F48 /* VariableSave.cpp in Sources */,
-				DA2CE11407E9F85800C68AEF /* ComponentRegistry_new.cpp in Sources */,
+				DA2CE11407E9F85800C68AEF /* ComponentRegistry.cpp in Sources */,
 				DA2CE11607E9F85800C68AEF /* VariableRegistry.cpp in Sources */,
 				DA2CE11E07E9F86300C68AEF /* DataFileManager.cpp in Sources */,
 				DA2CE12407E9F88900C68AEF /* Buffers.cpp in Sources */,

@@ -14,7 +14,7 @@
 #include "StandardStimuli.h"
 #include "StandardVariables.h"
 #include "ConstantVariable.h"
-#include "ComponentRegistry_new.h"
+#include "ComponentRegistry.h"
 //#include "ComponentFactory.h"
 #include <boost/filesystem/path.hpp>
 #include <boost/filesystem/operations.hpp>
@@ -479,7 +479,7 @@ Data BlankScreen::getCurrentAnnounceDrawData() {
 }
 
 shared_ptr<mw::Component> BlankScreenFactory::createObject(std::map<std::string, std::string> parameters,
-													mwComponentRegistry *reg) {
+													ComponentRegistry *reg) {
 	REQUIRE_ATTRIBUTES(parameters, 
 					   "tag", 
 					   "color");
@@ -1123,7 +1123,7 @@ Data ImageStimulus::getCurrentAnnounceDrawData() {
 
 
 shared_ptr<mw::Component> ImageStimulusFactory::createObject(std::map<std::string, std::string> parameters,
-													mwComponentRegistry *reg) {
+													ComponentRegistry *reg) {
 	namespace bf = boost::filesystem;
 	
 	REQUIRE_ATTRIBUTES(parameters, 

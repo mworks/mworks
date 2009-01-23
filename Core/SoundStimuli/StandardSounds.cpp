@@ -168,7 +168,7 @@ void WavFileSound::announceSoundPlayed(){
 
 
 shared_ptr<mw::Component> WavFileSoundFactory::createObject(std::map<std::string, std::string> parameters,
-																		 mwComponentRegistry *reg) {
+																		 ComponentRegistry *reg) {
 	REQUIRE_ATTRIBUTES(parameters, "path");
 
 	namespace bf = boost::filesystem;

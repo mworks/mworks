@@ -13,7 +13,7 @@
 #include "Experiment.h"
 
 #include <string.h>
-#include "ComponentRegistry_new.h"
+#include "ComponentRegistry.h"
 
 #include "SequentialSelection.h"
 #include "RandomWORSelection.h"
@@ -471,7 +471,7 @@ shared_ptr<mw::Component> ListState::createInstanceObject(){
 
 
 void State::setParameters(std::map<std::string, std::string> parameters,
-											mwComponentRegistry *reg){
+											ComponentRegistry *reg){
 	if(parameters.find("interruptible") != parameters.end()) {
 		try {
 			bool _interruptible = reg->getBoolean(parameters.find("interruptible")->second);
@@ -496,7 +496,7 @@ void State::setParameters(std::map<std::string, std::string> parameters,
 	
 	
 void ListState::finalize(std::map<std::string, std::string> parameters,
-												mwComponentRegistry *reg){
+												ComponentRegistry *reg){
 		
 	std::string selection_string, nsamples_string, sampling_method_string;
 	int nsamples;

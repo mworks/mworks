@@ -18,7 +18,7 @@
 namespace mw {
 	using namespace boost;
 	
-	class mwComponentRegistry;  // forward decl
+	class ComponentRegistry;  // forward decl
 	
 	class Component {
 		
@@ -81,14 +81,14 @@ namespace mw {
 		}
 		
 		virtual void addChild(std::map<std::string, std::string> parameters,
-							  mwComponentRegistry *reg,
+							  ComponentRegistry *reg,
 							  shared_ptr<mw::Component> child){
 			// TODO: throw "can't add child" exception
 			throw  SimpleException("Attempt to use base-class addChild component method");
 		}
 		
 		virtual void finalize(std::map<std::string, std::string> parameters,
-							  mwComponentRegistry *reg){
+							  ComponentRegistry *reg){
 			return;
 		}
 		

@@ -279,7 +279,7 @@ namespace low_priority_scheduler{
 			// factory method
 			virtual shared_ptr<mw::Component> createObject(
 														std::map<std::string, std::string> parameters,
-														mwComponentRegistry *reg){
+														ComponentRegistry *reg){
 				shared_ptr <Clock> a_clock = Clock::instance();
 				return shared_ptr<mw::Component>(new ZenScheduler(a_clock));
 			}
@@ -311,7 +311,7 @@ namespace low_priority_scheduler{
 		
 		class ZenSchedulerPlugin : public Plugin {
 			
-			virtual void registerComponents(shared_ptr<mwComponentRegistry> registry) {
+			virtual void registerComponents(shared_ptr<ComponentRegistry> registry) {
 				cerr << "Registering zen scheduler as: " << ZEN_SCHEDULER_PLUGIN_NAME << endl;
 				registry->registerFactory(std::string(ZEN_SCHEDULER_PLUGIN_NAME),
 										  (ComponentFactory *)(new ZenScheduler(shared_ptr<Clock>())));

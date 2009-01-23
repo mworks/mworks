@@ -7,7 +7,7 @@
 #include "Experiment.h"
 #include "Component.h"
 #include "ComponentFactory.h"
-#include "ComponentRegistry_new.h"
+#include "ComponentRegistry.h"
 #include "boost/algorithm/string.hpp"
 namespace mw {
 	
@@ -168,7 +168,7 @@ namespace mw {
 	class IOChannelRequestFactory : public ComponentFactory {
 		
 		shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-											mwComponentRegistry *reg) {
+											ComponentRegistry *reg) {
 			REQUIRE_ATTRIBUTES(parameters,
 							   "capability",
 							   "data_interval",
@@ -414,7 +414,7 @@ namespace mw {
         bool    registerCapability(IOCapability *  capability);      // add a capability to the list of available capabilities of the specific device           
 		
 		void addChild(std::map<std::string, std::string> parameters,
-					  mwComponentRegistry *reg,
+					  ComponentRegistry *reg,
 					  shared_ptr<mw::Component> child);
 		
 		int     matchCapabilityByName(std::string name);                  // will use this to campare avaialble capability names to a requested capability name
@@ -466,7 +466,7 @@ namespace mw {
         
         
 		void finalize(std::map<std::string, std::string> parameters,
-					  mwComponentRegistry *reg);
+					  ComponentRegistry *reg);
 		
 		// Attempt to match up all requests with capabilities, warn if something is not possible
         // This function should create an IOChannel object for each channel assigned on the device and an IOCahnnelIncompatability object for each unmet requests

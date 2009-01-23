@@ -13,7 +13,7 @@
  */
 
 #include "PluginServices.h"
-#include "ComponentRegistry_new.h"
+#include "ComponentRegistry.h"
 #include "VariableRegistry.h"
 #include "Plugin.h"
 #include "PlatformDependentServices.h"
@@ -39,7 +39,7 @@
 
 namespace mw {
 	bool registries_are_initialized = false;
-	shared_ptr<mwComponentRegistry> mwComponentRegistry__;
+	shared_ptr<ComponentRegistry> ComponentRegistry__;
 	
 	
 	void initializeServiceRegistries(){
@@ -158,8 +158,8 @@ namespace mw {
 			return;
 		}
 		
-		shared_ptr<mwComponentRegistry> component_registry = 
-		mwComponentRegistry::getSharedRegistry();
+		shared_ptr<ComponentRegistry> component_registry = 
+		ComponentRegistry::getSharedRegistry();
 		
 		// Now we've got a hold of the plugin and we can work with it
 		plugin->registerComponents(component_registry);

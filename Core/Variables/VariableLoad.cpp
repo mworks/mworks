@@ -8,7 +8,7 @@
  */
 
 #include "VariableLoad.h"
-#include "ComponentRegistry_new.h"
+#include "ComponentRegistry.h"
 #include "XMLParser.h"
 #include "Experiment.h"
 #include "PlatformDependentServices.h"
@@ -18,7 +18,7 @@ using namespace mw;
 
 bool VariableLoad::loadExperimentwideVariables(const boost::filesystem::path &file) {
 	
-    shared_ptr<mwComponentRegistry> reg = mwComponentRegistry::getSharedRegistry();
+    shared_ptr<ComponentRegistry> reg = ComponentRegistry::getSharedRegistry();
 	XMLParser parser(reg, file.string());
 	
 	parser.validate();

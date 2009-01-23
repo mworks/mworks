@@ -41,7 +41,7 @@ class DummyIODevice : public IODevice {
 		virtual bool startup(){  return true;  }
 
 		virtual void addChild(std::map<std::string, std::string> parameters,
-								mwComponentRegistry *reg, 
+								ComponentRegistry *reg, 
 								shared_ptr<mw::Component> _child){ }
 		
 		virtual bool startDeviceIO(){  return true; }
@@ -60,7 +60,7 @@ class DummyIODevice : public IODevice {
 class DummyIODeviceFactory : public ComponentFactory {
 
 	shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-													 mwComponentRegistry *reg){
+													 ComponentRegistry *reg){
 													 
 			return shared_ptr<mw::Component>(new DummyIODevice());
 	}

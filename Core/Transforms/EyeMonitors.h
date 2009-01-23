@@ -157,7 +157,7 @@ class EyeStatusMonitorVer1 : public EyeStatusMonitor {
 
 class EyeStatusMonitorVer1Factory : public ComponentFactory {
 	virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-												mwComponentRegistry *reg);
+												ComponentRegistry *reg);
 };
 
 
@@ -182,7 +182,7 @@ class EyeStatusMonitorVer2 : public EyeStatusMonitor {
 
 class EyeStatusMonitorVer2Factory : public ComponentFactory {
 	virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-												mwComponentRegistry *reg);
+												ComponentRegistry *reg);
 };
 
 

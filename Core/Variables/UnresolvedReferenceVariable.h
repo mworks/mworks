@@ -12,7 +12,7 @@
 #include "GenericVariable.h"
 #include "ConstantVariable.h"
 #include "ExpressionVariable.h"
-#include "ComponentRegistry_new.h"
+#include "ComponentRegistry.h"
 #include <string>
 #include <sstream>
 namespace mw {
@@ -80,18 +80,18 @@ class UnresolvedReferenceVariable : public Variable {
 
 	protected:
 	
-		weak_ptr<mwComponentRegistry> registry;
+		weak_ptr<ComponentRegistry> registry;
 		string expression;
 		UnresolvedVariableString unresolved_string;
 		
 	
 	public:
 
-		UnresolvedReferenceVariable (string _expression, shared_ptr<mwComponentRegistry> _registry) :
+		UnresolvedReferenceVariable (string _expression, shared_ptr<ComponentRegistry> _registry) :
 										expression(_expression),
 										unresolved_string(_expression){
 										
-			registry = weak_ptr<mwComponentRegistry>(_registry);
+			registry = weak_ptr<ComponentRegistry>(_registry);
 		}
 		
 		
@@ -100,7 +100,7 @@ class UnresolvedReferenceVariable : public Variable {
 			string resolved_string = unresolved_string.resolve();
 			
 			if(!registry.expired()){
-				shared_ptr<mwComponentRegistry> registry_shared(registry);
+				shared_ptr<ComponentRegistry> registry_shared(registry);
 				shared_ptr<Variable> resolved_variable = registry_shared->getVariable(resolved_string);
 				
 				if(resolved_variable != NULL){

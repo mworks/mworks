@@ -15,7 +15,7 @@
 
 #include "OpenGLContextManager.h"
 
-#include "ComponentRegistry_new.h"
+#include "ComponentRegistry.h"
 using namespace mw;
 
 #define VERBOSE_STIMULI 0
@@ -127,7 +127,7 @@ unsigned int StimulusGroup::getNDimensions() const {
 }
 
 void StimulusGroup::addChild(std::map<std::string, std::string> parameters,
-							  mwComponentRegistry *reg,
+							  ComponentRegistry *reg,
 							  shared_ptr<mw::Component> child){
 	shared_ptr<Stimulus> stim = dynamic_pointer_cast<Stimulus, mw::Component>(child);
 	shared_ptr<StimulusGroup> stim_group = dynamic_pointer_cast<StimulusGroup, mw::Component>(child);
@@ -145,7 +145,7 @@ void StimulusGroup::addChild(std::map<std::string, std::string> parameters,
 	} else {
 		addSubGroup(stim_group);
 
-		shared_ptr<mwComponentRegistry> component_registry = mwComponentRegistry::getSharedRegistry();
+		shared_ptr<ComponentRegistry> component_registry = ComponentRegistry::getSharedRegistry();
 		shared_ptr <StimulusGroup> stim_group_parent = component_registry->getObject<StimulusGroup>(tag);
 		stim_group->setParent(stim_group_parent);
 	}
@@ -153,7 +153,7 @@ void StimulusGroup::addChild(std::map<std::string, std::string> parameters,
 
 
 shared_ptr<mw::Component> StimulusGroup::createObject(std::map<std::string, std::string> parameters,
-													mwComponentRegistry *reg) {
+													ComponentRegistry *reg) {
 	REQUIRE_ATTRIBUTES(parameters, "tag");	
 	
 	string tagname(parameters.find("tag")->second);

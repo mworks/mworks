@@ -31,7 +31,7 @@ bool CancelScheduledAction::execute(){
 
 
 shared_ptr<mw::Component> CancelScheduledActionFactory::createObject(std::map<std::string, std::string> parameters,
-																   mwComponentRegistry *reg) {		
+																   ComponentRegistry *reg) {		
 	
 	// TODO is "action" correct?
 	REQUIRE_ATTRIBUTES(parameters, "action");

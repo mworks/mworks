@@ -9,7 +9,7 @@
 
 #include "StandardServerCoreBuilder.h"
 
-#include "ComponentRegistry_new.h"
+#include "ComponentRegistry.h"
 
 #import "Utilities.h"
 #import "Experiment.h"
@@ -62,8 +62,8 @@ bool StandardServerCoreBuilder::initializeGlobalParameters() {
 
 bool StandardServerCoreBuilder::loadPlugins() {
 	
-	shared_ptr<mwComponentRegistry> component_registry = 
-									mwComponentRegistry::getSharedRegistry();
+	shared_ptr<ComponentRegistry> component_registry = 
+									ComponentRegistry::getSharedRegistry();
 	
 	readPlugins(pluginPath());
     return true;
@@ -71,8 +71,8 @@ bool StandardServerCoreBuilder::loadPlugins() {
 
 bool StandardServerCoreBuilder::chooseRealtimeComponents() {
     
-	shared_ptr<mwComponentRegistry> component_registry = 
-									mwComponentRegistry::getSharedRegistry();
+	shared_ptr<ComponentRegistry> component_registry = 
+									ComponentRegistry::getSharedRegistry();
 
 	shared_ptr<mw::Component> clock = component_registry->createNewObject("MachClock", map<string, string>());
 	Clock::registerInstance(clock);	

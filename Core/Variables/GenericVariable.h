@@ -220,7 +220,7 @@ public:
 	virtual ExpressionVariable operator+();	
 	
 	virtual void addChild(std::map<std::string, std::string> parameters,
-						  mwComponentRegistry *reg,
+						  ComponentRegistry *reg,
 						  shared_ptr<mw::Component> child);
 };
 		
@@ -229,7 +229,7 @@ class VariableFactory : public ComponentFactory {
 
 	// Factory method
 	virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-												mwComponentRegistry *reg);
+												ComponentRegistry *reg);
 
 };
 

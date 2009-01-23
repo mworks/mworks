@@ -116,7 +116,7 @@ bool Assignment::execute() {
 }
 
 shared_ptr<mw::Component> AssignmentFactory::createObject(std::map<std::string, std::string> parameters,
-														mwComponentRegistry *reg) {
+														ComponentRegistry *reg) {
 	REQUIRE_ATTRIBUTES(parameters, "variable", "value");
 	
 	
@@ -137,7 +137,7 @@ shared_ptr<mw::Component> AssignmentFactory::createObject(std::map<std::string, 
  *                       NextVariableSelection Methods
  ****************************************************************/
 shared_ptr<mw::Component> NextVariableSelectionFactory::createObject(std::map<std::string, std::string> parameters,
-																   mwComponentRegistry *reg) {
+																   ComponentRegistry *reg) {
 	REQUIRE_ATTRIBUTES(parameters, "selection");
 	
 	shared_ptr<Variable> variable_uncast = reg->getVariable(parameters.find("selection")->second);
@@ -220,7 +220,7 @@ bool ReportString::execute() {
 }
 
 shared_ptr<mw::Component> ReportStringFactory::createObject(std::map<std::string, std::string> parameters,
-														  mwComponentRegistry *reg) {
+														  ComponentRegistry *reg) {
 	
 	REQUIRE_ATTRIBUTES(parameters, "message");
 	
@@ -291,7 +291,7 @@ bool AssertionAction::execute(){
 }
 
 shared_ptr<mw::Component> AssertionActionFactory::createObject(std::map<std::string, std::string> parameters,
-															 mwComponentRegistry *reg) {
+															 ComponentRegistry *reg) {
 	REQUIRE_ATTRIBUTES(parameters, "message", "condition");
 	
 	std::string reportString = parameters.find("message")->second;
@@ -321,7 +321,7 @@ bool SetTimeBase::execute(){
 }
 
 shared_ptr<mw::Component> SetTimeBaseFactory::createObject(std::map<std::string, std::string> parameters,
-														 mwComponentRegistry *reg) {
+														 ComponentRegistry *reg) {
 	REQUIRE_ATTRIBUTES(parameters, "timebase");
 	
 	shared_ptr<TimeBase> timeBase = reg->getObject<TimeBase>(parameters.find("timebase")->second);
@@ -383,7 +383,7 @@ bool StartTimer::execute() {
 }
 
 shared_ptr<mw::Component> StartTimerFactory::createObject(std::map<std::string, std::string> parameters,
-														mwComponentRegistry *reg) {
+														ComponentRegistry *reg) {
 	
 	REQUIRE_ATTRIBUTES(parameters, "duration", "timer");
 	
@@ -521,7 +521,7 @@ shared_ptr<Variable> Wait::getTimeToWait() {
 }
 
 shared_ptr<mw::Component> WaitFactory::createObject(std::map<std::string, std::string> parameters,
-												  mwComponentRegistry *reg) {
+												  ComponentRegistry *reg) {
 	
 	REQUIRE_ATTRIBUTES(parameters, "duration");
 	
@@ -612,7 +612,7 @@ bool QueueStimulus::execute() {
 }	
 
 shared_ptr<mw::Component> QueueStimulusFactory::createObject(std::map<std::string, std::string> parameters,
-														   mwComponentRegistry *reg) {
+														   ComponentRegistry *reg) {
 	
 	REQUIRE_ATTRIBUTES(parameters, "stimulus");
 	
@@ -663,7 +663,7 @@ bool LiveQueueStimulus::execute() {
 }	
 
 shared_ptr<mw::Component> LiveQueueStimulusFactory::createObject(std::map<std::string, std::string> parameters,
-															   mwComponentRegistry *reg) {
+															   ComponentRegistry *reg) {
 	
 	REQUIRE_ATTRIBUTES(parameters, "stimulus");
 	
@@ -705,7 +705,7 @@ bool DequeueStimulus::execute() {
 }
 
 shared_ptr<mw::Component> DequeueStimulusFactory::createObject(std::map<std::string, std::string> parameters,
-															 mwComponentRegistry *reg) {
+															 ComponentRegistry *reg) {
 	REQUIRE_ATTRIBUTES(parameters, "stimulus");
 	
 	shared_ptr<StimulusNode> stimulus = reg->getStimulus(parameters.find("stimulus")->second);
@@ -739,7 +739,7 @@ shared_ptr<StimulusNode> BringStimulusToFront::getStimulusNode() {
 }
 
 shared_ptr<mw::Component> BringStimulusToFrontFactory::createObject(std::map<std::string, std::string> parameters,
-																  mwComponentRegistry *reg) {
+																  ComponentRegistry *reg) {
 	
 	REQUIRE_ATTRIBUTES(parameters, "stimulus");
 	
@@ -774,7 +774,7 @@ shared_ptr<StimulusNode> SendStimulusToBack::getStimulusNode() {
 }
 
 shared_ptr<mw::Component> SendStimulusToBackFactory::createObject(std::map<std::string, std::string> parameters,
-																mwComponentRegistry *reg) {
+																ComponentRegistry *reg) {
 	
 	REQUIRE_ATTRIBUTES(parameters, "stimulus");
 	
@@ -832,7 +832,7 @@ bool UpdateStimulusDisplay::execute() {
 }
 
 shared_ptr<mw::Component> UpdateStimulusDisplayFactory::createObject(std::map<std::string, std::string> parameters,
-																   mwComponentRegistry *reg) {
+																   ComponentRegistry *reg) {
 	shared_ptr <mw::Component> newUpdateStimulusDisplayAction = shared_ptr<mw::Component>(new UpdateStimulusDisplay());
 	return newUpdateStimulusDisplayAction;	
 }
@@ -841,7 +841,7 @@ shared_ptr<mw::Component> UpdateStimulusDisplayFactory::createObject(std::map<st
  *                 PlaySound Methods
  ****************************************************************/
 shared_ptr<mw::Component> PlaySoundFactory::createObject(std::map<std::string, std::string> parameters,
-													   mwComponentRegistry *reg) {
+													   ComponentRegistry *reg) {
 	
 	REQUIRE_ATTRIBUTES(parameters, "sound");
 	
@@ -858,7 +858,7 @@ shared_ptr<mw::Component> PlaySoundFactory::createObject(std::map<std::string, s
  *                 StopSound Methods
  ****************************************************************/
 shared_ptr<mw::Component> StopSoundFactory::createObject(std::map<std::string, std::string> parameters,
-													   mwComponentRegistry *reg) {
+													   ComponentRegistry *reg) {
 	
 	REQUIRE_ATTRIBUTES(parameters, "sound");
 	
@@ -875,7 +875,7 @@ shared_ptr<mw::Component> StopSoundFactory::createObject(std::map<std::string, s
  *                 PauseSound Methods
  ****************************************************************/
 shared_ptr<mw::Component> PauseSoundFactory::createObject(std::map<std::string, std::string> parameters,
-														mwComponentRegistry *reg) {
+														ComponentRegistry *reg) {
 	
 	REQUIRE_ATTRIBUTES(parameters, "sound");
 	
@@ -913,7 +913,7 @@ bool StartDeviceIO::execute(){
 }
 
 shared_ptr<mw::Component> StartDeviceIOFactory::createObject(std::map<std::string, std::string> parameters,
-														   mwComponentRegistry *reg) {
+														   ComponentRegistry *reg) {
 	
 	REQUIRE_ATTRIBUTES(parameters, "device");
 	
@@ -950,7 +950,7 @@ bool StopDeviceIO::execute(){
 }
 
 shared_ptr<mw::Component> StopDeviceIOFactory::createObject(std::map<std::string, std::string> parameters,
-														  mwComponentRegistry *reg) {
+														  ComponentRegistry *reg) {
 	REQUIRE_ATTRIBUTES(parameters, "device");
 	
 	shared_ptr<IODevice> theIODevice = reg->getObject<IODevice>(parameters.find("device")->second);
@@ -967,7 +967,7 @@ shared_ptr<mw::Component> StopDeviceIOFactory::createObject(std::map<std::string
  *                 ResetSelection Methods
  ****************************************************************/
 shared_ptr<mw::Component> ResetSelectionFactory::createObject(std::map<std::string, std::string> parameters,
-															mwComponentRegistry *reg) {
+															ComponentRegistry *reg) {
 	
 	REQUIRE_ATTRIBUTES(parameters, "selection");
 	
@@ -989,7 +989,7 @@ shared_ptr<mw::Component> ResetSelectionFactory::createObject(std::map<std::stri
  *                 AcceptSelections Methods
  ****************************************************************/
 shared_ptr<mw::Component> AcceptSelectionsFactory::createObject(std::map<std::string, std::string> parameters,
-															  mwComponentRegistry *reg) {
+															  ComponentRegistry *reg) {
 	
 	REQUIRE_ATTRIBUTES(parameters, "selection");
 	
@@ -1011,7 +1011,7 @@ shared_ptr<mw::Component> AcceptSelectionsFactory::createObject(std::map<std::st
  *                 RejectSelections Methods
  ****************************************************************/
 shared_ptr<mw::Component> RejectSelectionsFactory::createObject(std::map<std::string, std::string> parameters,
-															  mwComponentRegistry *reg) {
+															  ComponentRegistry *reg) {
 	
 	REQUIRE_ATTRIBUTES(parameters, "selection");
 	
@@ -1046,7 +1046,7 @@ void If::addAction(shared_ptr<Action> act) {
 }
 
 void If::addChild(std::map<std::string, std::string> parameters,
-					mwComponentRegistry *reg,
+					ComponentRegistry *reg,
 					shared_ptr<mw::Component> child){
 	shared_ptr<Action> act = dynamic_pointer_cast<Action,mw::Component>(child);
 	if(act == 0) {
@@ -1070,7 +1070,7 @@ bool If::execute() {
 }
 
 shared_ptr<mw::Component> IfFactory::createObject(std::map<std::string, std::string> parameters,
-												mwComponentRegistry *reg) {
+												ComponentRegistry *reg) {
 	REQUIRE_ATTRIBUTES(parameters, "condition");
 	shared_ptr<Variable> condition = reg->getVariable(parameters.find("condition")->second);
 	
@@ -1158,7 +1158,7 @@ weak_ptr<State>  TransitionCondition::getTransition() {
 }
 
 shared_ptr<mw::Component> TransitionFactory::createObject(std::map<std::string, std::string> parameters,
-														mwComponentRegistry *reg) {
+														ComponentRegistry *reg) {
 	
 	REQUIRE_ATTRIBUTES(parameters, "type");
 	
@@ -1424,7 +1424,7 @@ weak_ptr<State> TaskSystemState::next() {
 
 
 void TaskSystemState::addChild(std::map<std::string, std::string> parameters,
-								mwComponentRegistry *reg,
+								ComponentRegistry *reg,
 								shared_ptr<mw::Component> comp){
 	
 	shared_ptr<Action> as_action = dynamic_pointer_cast<Action, mw::Component>(comp);
@@ -1708,7 +1708,7 @@ bool TakeCalibrationSampleNow::execute() {
 }
 
 shared_ptr<mw::Component> TakeCalibrationSampleNowFactory::createObject(std::map<std::string, std::string> parameters,
-																	  mwComponentRegistry *reg) {
+																	  ComponentRegistry *reg) {
 	REQUIRE_ATTRIBUTES(parameters, "calibrator", "calibratable_object");
 	
 	shared_ptr<Calibrator> cal = reg->getObject<Calibrator>(parameters.find("calibrator")->second);
@@ -1742,7 +1742,7 @@ bool StartAverageCalibrationSample::execute() {
 }
 
 shared_ptr<mw::Component> StartAverageCalibrationSampleFactory::createObject(std::map<std::string, std::string> parameters,
-																		   mwComponentRegistry *reg) {
+																		   ComponentRegistry *reg) {
 	REQUIRE_ATTRIBUTES(parameters, "calibrator");
 	
 	shared_ptr<Calibrator> cal = reg->getObject<Calibrator>(parameters.find("calibrator")->second);
@@ -1770,7 +1770,7 @@ bool EndAverageAndTakeCalibrationSample::execute() {
 }
 
 shared_ptr<mw::Component> EndAverageAndTakeCalibrationSampleFactory::createObject(std::map<std::string, std::string> parameters,
-																				mwComponentRegistry *reg) {
+																				ComponentRegistry *reg) {
 	REQUIRE_ATTRIBUTES(parameters, "calibrator", "calibratable_object");
 	
 	shared_ptr<Calibrator> cal = reg->getObject<Calibrator>(parameters.find("calibrator")->second);
@@ -1804,7 +1804,7 @@ bool EndAverageAndIgnore::execute() {
 }
 
 shared_ptr<mw::Component> EndAverageAndIgnoreFactory::createObject(std::map<std::string, std::string> parameters,
-																 mwComponentRegistry *reg) {
+																 ComponentRegistry *reg) {
 	REQUIRE_ATTRIBUTES(parameters, "calibrator");
 	
 	shared_ptr<Calibrator> cal = reg->getObject<Calibrator>(parameters.find("calibrator")->second);
@@ -1832,7 +1832,7 @@ bool CalibrateNow::execute() {
 }
 
 shared_ptr<mw::Component> CalibrateNowFactory::createObject(std::map<std::string, std::string> parameters,
-														  mwComponentRegistry *reg) {
+														  ComponentRegistry *reg) {
 	REQUIRE_ATTRIBUTES(parameters, "calibrator");
 	
 	shared_ptr<Calibrator> cal = reg->getObject<Calibrator>(parameters.find("calibrator")->second);
@@ -1860,7 +1860,7 @@ bool ClearCalibration::execute() {
 }
 
 shared_ptr<mw::Component> ClearCalibrationFactory::createObject(std::map<std::string, std::string> parameters,
-															  mwComponentRegistry *reg) {
+															  ComponentRegistry *reg) {
 	REQUIRE_ATTRIBUTES(parameters, "calibrator");
 	
 	shared_ptr<Calibrator> cal = reg->getObject<Calibrator>(parameters.find("calibrator")->second);
@@ -1895,7 +1895,7 @@ bool StartAverager::execute() {
 }
 
 shared_ptr<mw::Component> StartAveragerFactory::createObject(std::map<std::string, std::string> parameters,
-														   mwComponentRegistry *reg) {
+														   ComponentRegistry *reg) {
 	REQUIRE_ATTRIBUTES(parameters, "averager");
 	
 	shared_ptr<AveragerUser> avg = reg->getObject<AveragerUser>(parameters.find("averager")->second);
@@ -1921,7 +1921,7 @@ bool StopAverager::execute() {
 }
 
 shared_ptr<mw::Component> StopAveragerFactory::createObject(std::map<std::string, std::string> parameters,
-														  mwComponentRegistry *reg) {
+														  ComponentRegistry *reg) {
 	REQUIRE_ATTRIBUTES(parameters, "averager");
 	
 	shared_ptr<AveragerUser> avg = reg->getObject<AveragerUser>(parameters.find("averager")->second);
@@ -1948,7 +1948,7 @@ bool ClearAverager::execute() {
 }
 
 shared_ptr<mw::Component> ClearAveragerFactory::createObject(std::map<std::string, std::string> parameters,
-														   mwComponentRegistry *reg) {
+														   ComponentRegistry *reg) {
 	REQUIRE_ATTRIBUTES(parameters, "averager");
 	
 	shared_ptr<AveragerUser> avg = reg->getObject<AveragerUser>(parameters.find("averager")->second);

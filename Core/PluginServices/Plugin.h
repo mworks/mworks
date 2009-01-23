@@ -15,7 +15,7 @@
  *  to "Factory" objects that spit out instances of the new, user-defined objects.
  *
  *  When a plugin is read, the getServiceDescription() method is called, and all of the 
- *  ServiceDescriptions are registered into a standard mwComponentRegistry.  The core can then
+ *  ServiceDescriptions are registered into a standard ComponentRegistry.  The core can then
  *  turn to this registry as needed, and use the user-defined ObjectFactories to instantiate the
  *  instances of the user-defined objects.
  *
@@ -23,7 +23,7 @@
  *  example plugins what needs to be done.
  */
 
-#include "ComponentRegistry_new.h"
+#include "ComponentRegistry.h"
 #include "ComponentFactory.h"
 namespace mw {
 	
@@ -31,7 +31,7 @@ namespace mw {
 		
     public:    
         virtual ~Plugin() { }
-		virtual void registerComponents(shared_ptr<mwComponentRegistry> registry) { }
+		virtual void registerComponents(shared_ptr<ComponentRegistry> registry) { }
 		
 	};
 }

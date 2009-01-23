@@ -47,7 +47,7 @@ namespace mw {
 }
 
 
-void XMLParser::setup(shared_ptr<mwComponentRegistry> _reg, std::string _path){
+void XMLParser::setup(shared_ptr<ComponentRegistry> _reg, std::string _path){
 	path = _path;
 	registry = _reg;
 	
@@ -71,13 +71,13 @@ void XMLParser::setup(shared_ptr<mwComponentRegistry> _reg, std::string _path){
 	errors_doc = NULL;
 }
 
-XMLParser::XMLParser(shared_ptr<mwComponentRegistry> _reg, std::string _path){
+XMLParser::XMLParser(shared_ptr<ComponentRegistry> _reg, std::string _path){
 	
 	setup(_reg, _path);
 }
 
 XMLParser::XMLParser(std::string _path){
-	shared_ptr<mwComponentRegistry> dummy(new mwComponentRegistry());
+	shared_ptr<ComponentRegistry> dummy(new ComponentRegistry());
 	
 	setup(dummy, _path);
 }

@@ -17,7 +17,7 @@
 #ifndef _ABSTRACT_CORE_BUILDER_H__
 #define _ABSTRACT_CORE_BUILDER_H__
 
-#include "ComponentRegistry_new.h"
+#include "ComponentRegistry.h"
 
 namespace mw {
 

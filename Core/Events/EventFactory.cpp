@@ -18,7 +18,7 @@
 #include "VariableSave.h"
 #include <boost/filesystem/operations.hpp>
 #include "PlatformDependentServices.h"
-#include "ComponentRegistry_new.h"
+#include "ComponentRegistry.h"
 using namespace mw;
 
 const int AUTOMATIC_RESPONSE_EVENT_PAYLOAD_SIZE     = 1;
@@ -67,7 +67,7 @@ shared_ptr<Event> EventFactory::codecPackage(shared_ptr<VariableRegistry> regist
 
 
 shared_ptr<Event> EventFactory::componentCodecPackage(){
-	shared_ptr<mwComponentRegistry> reg = mwComponentRegistry::getSharedRegistry();
+	shared_ptr<ComponentRegistry> reg = ComponentRegistry::getSharedRegistry();
 	shared_ptr<Event> ret(new Event(RESERVED_COMPONENT_CODEC_CODE, reg->getComponentCodec()));
 	
 	return ret;

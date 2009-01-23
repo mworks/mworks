@@ -25,7 +25,7 @@ void ScheduledActions::addAction(shared_ptr<Action> _action){
 }
 
 void ScheduledActions::addChild(std::map<std::string, std::string> parameters,
-								 mwComponentRegistry *reg,
+								 ComponentRegistry *reg,
 								 shared_ptr<mw::Component> child){
 	
 	shared_ptr<Action> act = dynamic_pointer_cast<Action,mw::Component>(child);
@@ -104,7 +104,7 @@ namespace mw {
 }
 
 shared_ptr<mw::Component> ScheduledActionsFactory::createObject(std::map<std::string, std::string> parameters,
-															  mwComponentRegistry *reg) {
+															  ComponentRegistry *reg) {
 	REQUIRE_ATTRIBUTES(parameters, "delay", "repeats", "duration");
 	
 	shared_ptr<Variable> delay = reg->getVariable(parameters.find("delay")->second);

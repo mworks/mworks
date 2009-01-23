@@ -12,7 +12,7 @@
 
 #include "VariableTransformAdaptors.h"
 #include "ComponentFactory.h"
-#include "ComponentRegistry_new.h"
+#include "ComponentRegistry.h"
 
 // the Averager class takes a single input and is a specific type of the 
 //  standard streaming variable interface (VarTransformAdaptor) 
@@ -70,7 +70,7 @@ public:
 
 class AveragerUserFactory : public ComponentFactory {
 	virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-												mwComponentRegistry *reg);
+												ComponentRegistry *reg);
 };
 }
 #endif

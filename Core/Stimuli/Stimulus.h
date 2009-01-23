@@ -226,10 +226,10 @@ public:
 	void setParent(weak_ptr <StimulusGroup> _parent);
 	
 	virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-												mwComponentRegistry *reg);
+												ComponentRegistry *reg);
 	
 	virtual void addChild(std::map<std::string, std::string> parameters,
-						  mwComponentRegistry *reg,
+						  ComponentRegistry *reg,
 						  shared_ptr<mw::Component> child);
 	
 };

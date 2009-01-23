@@ -243,7 +243,7 @@ class Experiment : public ContainerState {
 //		
 		
 		virtual void finalize(std::map<std::string, std::string> parameters,
-												mwComponentRegistry *reg) {
+												ComponentRegistry *reg) {
 			current_state = getSelfPtr<State>();
 			experiment = getSelfPtr<Experiment>();
 			environment = getSelfPtr<ScopedVariableEnvironment>();
@@ -251,7 +251,7 @@ class Experiment : public ContainerState {
 		}
 		
 		virtual void addChild(std::map<std::string, std::string> parameters,
-								mwComponentRegistry *reg,
+								ComponentRegistry *reg,
 								shared_ptr<mw::Component> child){
 			
 			ContainerState::addChild(parameters, reg, child);
@@ -272,7 +272,7 @@ class ExperimentFactory : public ComponentFactory {
 	public:
 		
 	virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-												mwComponentRegistry *reg) {
+												ComponentRegistry *reg) {
 		GlobalCurrentExperiment = shared_ptr<Experiment>(new Experiment(GlobalVariableRegistry));
 	
 		// TODO

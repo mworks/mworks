@@ -11,7 +11,7 @@
 
 using namespace mw;
 
-ParsedColorTrio::ParsedColorTrio(mwComponentRegistry *reg, 
+ParsedColorTrio::ParsedColorTrio(ComponentRegistry *reg, 
 								 const std::string &color_string) {
 	using namespace boost;
 	// regex for parsing the color string

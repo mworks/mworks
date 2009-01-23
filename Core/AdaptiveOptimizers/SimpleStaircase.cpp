@@ -8,7 +8,7 @@
  */
 
 #include "SimpleStaircase.h"
-#include "ComponentRegistry_new.h"
+#include "ComponentRegistry.h"
 #include <boost/lexical_cast.hpp>
 using namespace mw;
 
@@ -128,7 +128,7 @@ void SimpleStaircaseOptimizer::reset(){
 }
 
 shared_ptr<mw::Component> SimpleStaircaseOptimizerFactory::createObject(std::map<std::string, std::string> parameters,
-															mwComponentRegistry *reg) {
+															ComponentRegistry *reg) {
 	REQUIRE_ATTRIBUTES(parameters,
 					   "watch",
 					   "output",

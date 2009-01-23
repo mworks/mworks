@@ -8,7 +8,7 @@
  */
 
 #include "EyeMonitors.h"
-#include "ComponentRegistry_new.h"
+#include "ComponentRegistry.h"
 #include <boost/lexical_cast.hpp>
 using namespace mw;
 
@@ -221,7 +221,7 @@ EyeStatusMonitorVer2::~EyeStatusMonitorVer2() {
 
  
 shared_ptr<mw::Component> EyeStatusMonitorVer1Factory::createObject(std::map<std::string, std::string> parameters,
-													mwComponentRegistry *reg) {
+													ComponentRegistry *reg) {
 	REQUIRE_ATTRIBUTES(parameters, 
 					   
 					   "saccade_exit_speed", 
@@ -259,7 +259,7 @@ shared_ptr<mw::Component> EyeStatusMonitorVer1Factory::createObject(std::map<std
 }
 
 shared_ptr<mw::Component> EyeStatusMonitorVer2Factory::createObject(std::map<std::string, std::string> parameters,
-													mwComponentRegistry *reg) {
+													ComponentRegistry *reg) {
 	REQUIRE_ATTRIBUTES(parameters, 
 					   
 					   "saccade_exit_speed", 

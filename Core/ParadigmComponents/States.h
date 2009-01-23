@@ -82,7 +82,7 @@ class State : public ScopedVariableEnvironment,
 		virtual void *scopedClone(); // deprecated
 
 		void setParameters(std::map<std::string, std::string> parameters,
-											mwComponentRegistry *reg);
+											ComponentRegistry *reg);
 
         virtual void action();
 
@@ -195,7 +195,7 @@ class ContainerState : public State {
 		
 		// mw::Component methods
 		virtual void addChild(std::map<std::string, std::string> parameters,
-								mwComponentRegistry *reg,
+								ComponentRegistry *reg,
 								shared_ptr<mw::Component> child){
 			
 			std::cerr << "addChild start" << std::endl;
@@ -245,7 +245,7 @@ class ListState : public ContainerState, public Selectable {
 		virtual int getNItems();
 		
 		void finalize(std::map<std::string, std::string> parameters,
-												mwComponentRegistry *reg);
+												ComponentRegistry *reg);
 	
 };
 
@@ -253,7 +253,7 @@ template <class T>
 class ListStateFactory : public ComponentFactory {
 	virtual shared_ptr<mw::Component> 
 		createObject(std::map<std::string, std::string> parameters,
-					mwComponentRegistry *reg){
+					ComponentRegistry *reg){
 					
 		shared_ptr<T> newListState = shared_ptr<T>(new T());
 		newListState->setParameters(parameters, reg);

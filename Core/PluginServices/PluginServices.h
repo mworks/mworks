@@ -15,12 +15,12 @@
  * Copyright (c) 2002 MIT. All rights reserved.
  */
 
-#include "ComponentRegistry_new.h"
+#include "ComponentRegistry.h"
 
 #include <boost/filesystem/path.hpp>
 namespace mw {
 	extern bool registries_are_initialized;
-	extern shared_ptr<mwComponentRegistry> mwComponentRegistry__;
+	extern shared_ptr<ComponentRegistry> ComponentRegistry__;
 	
 	void initializeServiceRegistries();
 	void readPlugins(boost::filesystem::path plugin_directory);

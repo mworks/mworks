@@ -30,7 +30,7 @@ namespace mw {
 						  shared_ptr<Variable> _interval);
 		void addAction(shared_ptr<Action> _action);
 		void addChild(std::map<std::string, std::string> parameters,
-					  mwComponentRegistry *reg,
+					  ComponentRegistry *reg,
 					  shared_ptr<mw::Component> child);
 		virtual bool execute();
 		shared_ptr<ScheduleTask> getNode();
@@ -43,7 +43,7 @@ namespace mw {
 	
 	class ScheduledActionsFactory : public ComponentFactory{
 		virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-													mwComponentRegistry *reg);
+													ComponentRegistry *reg);
 	};
 	
 	extern void *scheduled_action_runner(const shared_ptr<ScheduledActions> &scheduled_actions);

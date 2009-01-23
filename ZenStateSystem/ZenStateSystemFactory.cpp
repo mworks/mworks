@@ -11,7 +11,7 @@
 #include "ZenStateSystem.h"
 
 shared_ptr<mw::Component> StandardStateSystemFactory::createObject(std::map<std::string, std::string> parameters,
-																 mwComponentRegistry *reg){
+																 ComponentRegistry *reg){
 	shared_ptr<Clock> a_clock = Clock::instance();
 	return shared_ptr<mw::Component>(new StandardStateSystem(a_clock));
 }

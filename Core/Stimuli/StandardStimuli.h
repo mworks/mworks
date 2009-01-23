@@ -151,7 +151,7 @@ class ImageStimulus : public BasicTransformStimulus {
 
 class ImageStimulusFactory : public ComponentFactory {
 	virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-												mwComponentRegistry *reg);
+												ComponentRegistry *reg);
 };
 
 // Simple point (e.g. for fixation) - JJD started, but not clear how to implement JJD TODO
@@ -270,7 +270,7 @@ class BlankScreen : public Stimulus{
 
 class BlankScreenFactory : public ComponentFactory {
 	virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-												mwComponentRegistry *reg);
+												ComponentRegistry *reg);
 };
 
 /*class VideoRequest {

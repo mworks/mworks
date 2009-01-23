@@ -8,7 +8,7 @@
  */
 
 #include "FilterTransforms.h"
-#include "ComponentRegistry_new.h"
+#include "ComponentRegistry.h"
 #include <boost/lexical_cast.hpp>
 using namespace mw;
 
@@ -297,7 +297,7 @@ void Filter_BoxcarFilter1D::newDataReceived(int inputIndex, const Data& data, Mo
 }
 
 shared_ptr<mw::Component> Filter_BoxcarFilter1DFactory::createObject(std::map<std::string, std::string> parameters,
-													 mwComponentRegistry *reg) {
+													 ComponentRegistry *reg) {
 	REQUIRE_ATTRIBUTES(parameters,
 					   
 					   "in1", 
@@ -352,7 +352,7 @@ void Filter_LinearFilter1D::newDataReceived(int inputIndex, const Data& data, Mo
 }
 
 shared_ptr<mw::Component> Filter_LinearFilter1DFactory::createObject(std::map<std::string, std::string> parameters,
-															mwComponentRegistry *reg) {
+															ComponentRegistry *reg) {
 	REQUIRE_ATTRIBUTES(parameters,
 					   
 					   "in1", 

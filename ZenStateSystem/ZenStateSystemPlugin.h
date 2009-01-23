@@ -11,7 +11,7 @@
 #define ZEN_STATE_SYSTEM_PLUGIN_H
 
 #include "MonkeyWorksCore/Plugin.h"
-#include "MonkeyWorksCore/ComponentRegistry_new.h"
+#include "MonkeyWorksCore/ComponentRegistry.h"
 using namespace mw;
 
 ///////////////////////////////////////////////////////////////////////////////////////
@@ -28,7 +28,7 @@ extern "C"{
 }
 
 class StandardStateSystemPlugin : public Plugin {
-	virtual void registerComponents(shared_ptr<mwComponentRegistry> registry);
+	virtual void registerComponents(shared_ptr<ComponentRegistry> registry);
 };
 
 #endif

@@ -20,7 +20,7 @@
 #include <libxslt/xsltutils.h>
 
 #include "PlatformDependentServices.h"
-#include "ComponentRegistry_new.h"
+#include "ComponentRegistry.h"
 
 #include <boost/algorithm/string/case_conv.hpp>
 
@@ -47,9 +47,9 @@ class XMLParser {
 		
 		xsltStylesheetPtr simplification_transform;
 	
-		shared_ptr<mwComponentRegistry> registry;
+		shared_ptr<ComponentRegistry> registry;
 	
-		void setup(shared_ptr<mwComponentRegistry> _reg, std::string _path);
+		void setup(shared_ptr<ComponentRegistry> _reg, std::string _path);
 	
 		void _createAndAddReplicatedChildren(xmlNode *node, 
 											 const string &variable, 
@@ -64,7 +64,7 @@ class XMLParser {
 	
 public:
 	
-		XMLParser(shared_ptr<mwComponentRegistry> _reg, std::string _path);
+		XMLParser(shared_ptr<ComponentRegistry> _reg, std::string _path);
 		XMLParser(std::string _path);
 		virtual ~XMLParser();
 		

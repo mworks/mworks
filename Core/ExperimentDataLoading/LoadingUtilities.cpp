@@ -23,7 +23,7 @@
 #include "boost/filesystem/path.hpp"
 #include "boost/filesystem/operations.hpp"
 #include "boost/filesystem/convenience.hpp"
-#include "ComponentRegistry_new.h"
+#include "ComponentRegistry.h"
 #include "XMLParser.h"
 #include "DataFileManager.h"
 using namespace mw;
@@ -50,7 +50,7 @@ namespace mw {
 	bool loadSetupVariables() {
 		
 		
-		shared_ptr<mwComponentRegistry> reg = mwComponentRegistry::getSharedRegistry();
+		shared_ptr<ComponentRegistry> reg = ComponentRegistry::getSharedRegistry();
 		boost::filesystem::path setupPath(prependLocalPath("setup_variables.xml"));
 		XMLParser parser(reg, setupPath.string());
 		
@@ -120,7 +120,7 @@ namespace mw {
 			return false;
 		}
 		
-		shared_ptr<mwComponentRegistry> reg = mwComponentRegistry::getSharedRegistry();
+		shared_ptr<ComponentRegistry> reg = ComponentRegistry::getSharedRegistry();
 		
 		try {
 			XMLParser parser(reg, filepath.string());
@@ -159,7 +159,7 @@ namespace mw {
 		
 		GlobalCurrentExperiment = shared_ptr<Experiment>();
 		
-		shared_ptr<mwComponentRegistry> component_registry = mwComponentRegistry::getSharedRegistry();
+		shared_ptr<ComponentRegistry> component_registry = ComponentRegistry::getSharedRegistry();
 		component_registry->resetInstances();
 		
 		if(GlobalVariableRegistry != NULL) {	// exp. already loaded

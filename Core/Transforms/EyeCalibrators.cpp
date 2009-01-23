@@ -147,7 +147,7 @@ Data FixationPoint::getCurrentAnnounceDrawData() {
 }
 
 shared_ptr<mw::Component> FixationPointFactory::createObject(std::map<std::string, std::string> parameters,
-													mwComponentRegistry *reg) {
+													ComponentRegistry *reg) {
 	REQUIRE_ATTRIBUTES(parameters, 
 					   "tag", 
 					   "x_size", 
@@ -1061,7 +1061,7 @@ void EyeCalibrator::tryToUseDataToSetParameters(Data dictionaryData) {
 }
 
 shared_ptr<mw::Component> EyeCalibratorFactory::createObject(std::map<std::string, std::string> parameters,
-															 mwComponentRegistry *reg) {
+															 ComponentRegistry *reg) {
 	REQUIRE_ATTRIBUTES(parameters, "tag", "eyeh_raw", "eyeh_calibrated", "eyev_raw", "eyev_calibrated");
 	
 	std::string tagname(parameters.find("tag")->second);
@@ -1085,7 +1085,7 @@ shared_ptr<mw::Component> EyeCalibratorFactory::createObject(std::map<std::strin
 }
 
 shared_ptr<mw::Component> LinearEyeCalibratorFactory::createObject(std::map<std::string, std::string> parameters,
-															 mwComponentRegistry *reg) {
+															 ComponentRegistry *reg) {
 	REQUIRE_ATTRIBUTES(parameters, "tag", "eyeh_raw", "eyeh_calibrated", "eyev_raw", "eyev_calibrated");
 	
 	std::string tagname(parameters.find("tag")->second);
