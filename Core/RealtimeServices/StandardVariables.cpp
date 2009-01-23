@@ -33,7 +33,7 @@ namespace mw {
 	
 	shared_ptr<Variable> assertionFailure;
 	
-	shared_ptr<Variable> setupName;
+	shared_ptr<Variable> serverName;
 	
 	shared_ptr<Variable> debuggerActive;
 	shared_ptr<Variable> debuggerRunning;
@@ -204,7 +204,7 @@ namespace mw {
 																				  PRIVATE_SYSTEM_VARIABLES));  
 		
 		
-		setupName = registry->createGlobalVariable(
+		serverName = registry->createGlobalVariable(
 												   new VariableProperties(
 																		   new Data(""),
 																		   SETUP_NAME_TAGNAME,

@@ -29,6 +29,8 @@
 using namespace mw;
 
 namespace mw {
+    
+    // DDC: comment: couldYouHaveThoughtOfASillierName?
 	Data checkLoadedValueAndReturnNewValuesWithLoadedValueOrDefaultIfNotNumber(const Data main_window_values, 
 																			   const Data current_values, 
 																			   const std::string &key, 

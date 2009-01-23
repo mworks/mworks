@@ -1,8 +1,0 @@
-#!/bin/zsh
-export FULL_NAME=${PRODUCT_NAME}.${WRAPPER_EXTENSION}
-
-mkdir -p "${INSTALL_PATH}"
-rm -R -f "${INSTALL_PATH}/${FULL_NAME}"
-echo cp -R -f "${BUILT_PRODUCTS_DIR}/${FULL_NAME}" "${INSTALL_PATH}"
-cp -R -f "${BUILT_PRODUCTS_DIR}/${FULL_NAME}" "${INSTALL_PATH}/"
-
