@@ -590,9 +590,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		8D15AC270486D014006FF6A4 /* NewEditor */ = {
+		8D15AC270486D014006FF6A4 /* MWEditor */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C05733C708A9546B00998B17 /* Build configuration list for PBXNativeTarget "NewEditor" */;
+			buildConfigurationList = C05733C708A9546B00998B17 /* Build configuration list for PBXNativeTarget "MWEditor" */;
 			buildPhases = (
 				8D15AC2B0486D014006FF6A4 /* Resources */,
 				8D15AC300486D014006FF6A4 /* Sources */,
@@ -604,7 +604,7 @@
 			);
 			dependencies = (
 			);
-			name = NewEditor;
+			name = MWEditor;
 			productInstallPath = "$(HOME)/Applications";
 			productName = NewEditor;
 			productReference = 8D15AC370486D014006FF6A4 /* MWEditor.app */;
@@ -615,14 +615,14 @@
 /* Begin PBXProject section */
 		2A37F4A9FDCFA73011CA2CEA /* Project object */ = {
 			isa = PBXProject;
-			buildConfigurationList = C05733CB08A9546B00998B17 /* Build configuration list for PBXProject "NewEditor" */;
+			buildConfigurationList = C05733CB08A9546B00998B17 /* Build configuration list for PBXProject "MWEditor" */;
 			compatibilityVersion = "Xcode 3.0";
 			hasScannedForEncodings = 1;
 			mainGroup = 2A37F4AAFDCFA73011CA2CEA /* NewEditor */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				8D15AC270486D014006FF6A4 /* NewEditor */,
+				8D15AC270486D014006FF6A4 /* MWEditor */,
 			);
 		};
 /* End PBXProject section */
@@ -729,8 +729,8 @@
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "rm -dfR \"/Applications/MWEditor.app\"\ncp -Rf \"$BUILT_PRODUCTS_DIR/MWEditor.app\" \"/Applications/\"\n";
+			shellPath = /bin/zsh;
+			shellScript = "export FULL_NAME=${PRODUCT_NAME}.${WRAPPER_EXTENSION}\nexport FINAL_INSTALL_DIR=/Applications\n\nrm -dfR \"/Applications/${FULL_NAME}\"\ncp -Rf \"${BUILT_PRODUCTS_DIR}/${FULL_NAME}\" \"${FINAL_INSTALL_DIR}\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -813,9 +813,8 @@
 				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "ppc i386 ppc64 x86_64";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
+					"$(SRCROOT)",
 					"$(inherited)",
-					"\"$(SRCROOT)\"",
-					"\"$(SRCROOT)/../../../../../External/sparkle/build/Debug\"",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
@@ -840,6 +839,7 @@
 		C05733CC08A9546B00998B17 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = /Library/Frameworks;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
@@ -850,7 +850,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		C05733C708A9546B00998B17 /* Build configuration list for PBXNativeTarget "NewEditor" */ = {
+		C05733C708A9546B00998B17 /* Build configuration list for PBXNativeTarget "MWEditor" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C05733C808A9546B00998B17 /* Debug */,
@@ -858,7 +858,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		C05733CB08A9546B00998B17 /* Build configuration list for PBXProject "NewEditor" */ = {
+		C05733CB08A9546B00998B17 /* Build configuration list for PBXProject "MWEditor" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C05733CC08A9546B00998B17 /* Debug */,
