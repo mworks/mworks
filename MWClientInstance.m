@@ -187,7 +187,12 @@
 		if(![self serverConnected]){
 			[self disconnect];
 		}
-	}
+	} else if([self serverConnected]){
+        NSString *putative_name = [variables valueForKey:@"_serverName"];
+        if(putative_name != [self serverName] && putative_name != Nil){
+            [self setServerName: putative_name];
+        }
+    }
 	
 //	[self enforceConnectedState];
 //	[self setServerName:[variables valueForKey:@"_serverName"]];
@@ -722,7 +727,7 @@
 	NSFileManager *fm = [NSFileManager defaultManager];
 	
 	NSError *error;
-	NSString *plugin_directory = @"/Library/Application Support/NewClient/Plugins/";
+	NSString *plugin_directory = @"/Library/Application Support/MonkeyWorks/Plugins/Client Plugins/";
 	NSArray *plugins = [fm contentsOfDirectoryAtPath:plugin_directory error:&error];
 	
 	for(int i = 0; i < [plugins count]; i++){
