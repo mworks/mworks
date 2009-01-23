@@ -273,16 +273,16 @@
 		};
 		0ECA4C910D6DFFB100BD00B2 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 8;
 			files = (
 			);
 			inputPaths = (
 			);
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
-			shellScript = "rm -Rf $INSTALL_PATH/lib/libscarab.a\ncp -Rf \"$BUILT_PRODUCTS_DIR/libscarab.a\" $INSTALL_PATH/lib\n\nmkdir -p $INSTALL_PATH/include/Scarab\ncp \"$BUILT_PRODUCTS_DIR/../../Scarab-0.1.00d19/c/scarab.h\" \"$INSTALL_PATH/include/Scarab\"\ncp \"$BUILT_PRODUCTS_DIR/../../Scarab-0.1.00d19/c/scarab_datatypes.h\" \"$INSTALL_PATH/include/Scarab\"\ncp \"$BUILT_PRODUCTS_DIR/../../Scarab-0.1.00d19/c/scarab_dict.h\" \"$INSTALL_PATH/include/Scarab\"\ncp \"$BUILT_PRODUCTS_DIR/../../Scarab-0.1.00d19/c/scarab_list.h\" \"$INSTALL_PATH/include/Scarab\"\ncp \"$BUILT_PRODUCTS_DIR/../../Scarab-0.1.00d19/c/scarab_mem.h\" \"$INSTALL_PATH/include/Scarab\"\ncp \"$BUILT_PRODUCTS_DIR/../../Scarab-0.1.00d19/c/scarab_os.h\" \"$INSTALL_PATH/include/Scarab\"\ncp \"$BUILT_PRODUCTS_DIR/../../Scarab-0.1.00d19/c/scarab_utilities.h\" \"$INSTALL_PATH/include/Scarab\"\ncp \"$BUILT_PRODUCTS_DIR/../../Scarab-0.1.00d19/c/encoding_ldo.h\" \"$INSTALL_PATH/include/Scarab\"\n\n\n\n\n";
+			shellScript = "# Ensure that things are there, even on the first run\nmkdir -p $INSTALL_PATH/lib\ntouch \"$INSTALL_PATH/lib/libscarab.a\"\n\n# Remove the existing library\nrm -Rf \"$INSTALL_PATH/lib/libscarab.a\"\n\n# Copy the newly compiled library to install location\ncp -Rf \"$BUILT_PRODUCTS_DIR/libscarab.a\" \"$INSTALL_PATH/lib\"\n\n# Create a directory for headers\nmkdir -p \"$INSTALL_PATH/include/Scarab\"\n\n# Copy headers into the include directory\ncp \"$BUILT_PRODUCTS_DIR/../../Scarab-0.1.00d19/c/scarab.h\" \"$INSTALL_PATH/include/Scarab\"\ncp \"$BUILT_PRODUCTS_DIR/../../Scarab-0.1.00d19/c/scarab_datatypes.h\" \"$INSTALL_PATH/include/Scarab\"\ncp \"$BUILT_PRODUCTS_DIR/../../Scarab-0.1.00d19/c/scarab_dict.h\" \"$INSTALL_PATH/include/Scarab\"\ncp \"$BUILT_PRODUCTS_DIR/../../Scarab-0.1.00d19/c/scarab_list.h\" \"$INSTALL_PATH/include/Scarab\"\ncp \"$BUILT_PRODUCTS_DIR/../../Scarab-0.1.00d19/c/scarab_mem.h\" \"$INSTALL_PATH/include/Scarab\"\ncp \"$BUILT_PRODUCTS_DIR/../../Scarab-0.1.00d19/c/scarab_os.h\" \"$INSTALL_PATH/include/Scarab\"\ncp \"$BUILT_PRODUCTS_DIR/../../Scarab-0.1.00d19/c/scarab_utilities.h\" \"$INSTALL_PATH/include/Scarab\"\ncp \"$BUILT_PRODUCTS_DIR/../../Scarab-0.1.00d19/c/encoding_ldo.h\" \"$INSTALL_PATH/include/Scarab\"\n\n\n\n\n";
 		};
 		5C4BDDC309E25B98008B8AB7 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -368,8 +368,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
+				DEPLOYMENT_LOCATION = NO;
+				DEPLOYMENT_POSTPROCESSING = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				INSTALL_PATH = /Library/MonkeyWorks;
+				INSTALL_GROUP = "$(GROUP)";
+				INSTALL_OWNER = "$(USER)";
+				INSTALL_PATH = "/Library/Application Support/MonkeyWorks/Developer";
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				PREBINDING = NO;
 				PRODUCT_NAME = scarab;
 			};
