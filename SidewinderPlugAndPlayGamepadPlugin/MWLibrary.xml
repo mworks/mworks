@@ -1,0 +1,36 @@
+<MWElements>
+	<MWElement name="MSSW Gamepad, event driven">
+		<!-- XPath 2.0 expression defining nodes of this type -->
+		<match_signature>iodevice[@type='sidewinder_gamepad', @data_type='event']</match_signature>
+		
+		<!-- Inheritance -->
+		<isa>IODevice</isa>
+		
+		<description>
+			Used for interfacing to a Microsoft sidewinder gamepad, variables are updated on button events
+			</description>
+		<icon>smallIOFolder</icon>
+		
+		<!-- Payload -->
+		<code>
+			<iodevice tag="MSSWGamepad" priority="" data_type="event" type="sidewinder_gamepad" data_interval="50ms" up="" down="" left="" right="" trigger_right="" trigger_left="" a="" b="" x="" y=""/>
+			</code>
+		</MWElement>	
+	<MWElement name="MSSW Gamepad, continuous">
+		<!-- XPath 2.0 expression defining nodes of this type -->
+		<match_signature>iodevice[@type='sidewinder_gamepad', @data_type='continuous']</match_signature>
+		
+		<!-- Inheritance -->
+		<isa>IODevice</isa>
+		
+		<description>
+			Used for interfacing to a Microsoft sidewinder gamepad, variables are updated continuously every 'data_interval' period of time
+			</description>
+		<icon>smallIOFolder</icon>
+		
+		<!-- Payload -->
+		<code>
+			<iodevice tag="MSSWGamepad" priority="" data_type="continuous" type="sidewinder_gamepad" data_interval="50ms" up="" down="" left="" right="" trigger_right="" trigger_left="" a="" b="" x="" y=""/>
+			</code>
+		</MWElement>	
+	</MWElements>

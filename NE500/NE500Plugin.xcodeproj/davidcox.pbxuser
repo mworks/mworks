@@ -1,0 +1,202 @@
+// !$*UTF8*$!
+{
+	089C1669FE841209C02AAC07 /* Project object */ = {
+		activeBuildConfigurationName = Debug;
+		activeTarget = 8D5B49AC048680CD000E48DA /* NE500Plugin */;
+		codeSenseManager = 5CA091CA0F0DA9AC00062E67 /* Code sense */;
+		perUserDictionary = {
+			PBXConfiguration.PBXFileTableDataSource3.PBXFileTableDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					20,
+					698,
+					20,
+					48,
+					43,
+					43,
+					20,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXFileDataSource_FiletypeID,
+					PBXFileDataSource_Filename_ColumnID,
+					PBXFileDataSource_Built_ColumnID,
+					PBXFileDataSource_ObjectSize_ColumnID,
+					PBXFileDataSource_Errors_ColumnID,
+					PBXFileDataSource_Warnings_ColumnID,
+					PBXFileDataSource_Target_ColumnID,
+				);
+			};
+			PBXConfiguration.PBXTargetDataSource.PBXTargetDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					20,
+					658,
+					60,
+					20,
+					48,
+					43,
+					43,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXFileDataSource_FiletypeID,
+					PBXFileDataSource_Filename_ColumnID,
+					PBXTargetDataSource_PrimaryAttribute,
+					PBXFileDataSource_Built_ColumnID,
+					PBXFileDataSource_ObjectSize_ColumnID,
+					PBXFileDataSource_Errors_ColumnID,
+					PBXFileDataSource_Warnings_ColumnID,
+				);
+			};
+			PBXPerProjectTemplateStateSaveDate = 254421305;
+			PBXWorkspaceStateSaveDate = 254421305;
+		};
+		perUserProjectItems = {
+			5C1CD01E0F2A1E5600282AD9 /* PBXTextBookmark */ = 5C1CD01E0F2A1E5600282AD9 /* PBXTextBookmark */;
+			5C1CD01F0F2A1E5600282AD9 /* PBXTextBookmark */ = 5C1CD01F0F2A1E5600282AD9 /* PBXTextBookmark */;
+			5C1CD0200F2A1E5600282AD9 /* PBXTextBookmark */ = 5C1CD0200F2A1E5600282AD9 /* PBXTextBookmark */;
+			5C1CD0220F2A1E5600282AD9 /* PBXTextBookmark */ = 5C1CD0220F2A1E5600282AD9 /* PBXTextBookmark */;
+			5C1CD0230F2A1E5600282AD9 /* PBXTextBookmark */ = 5C1CD0230F2A1E5600282AD9 /* PBXTextBookmark */;
+			5C1CD0240F2A1E5600282AD9 /* PBXTextBookmark */ = 5C1CD0240F2A1E5600282AD9 /* PBXTextBookmark */;
+			5C1CD03A0F2A24B300282AD9 /* PBXTextBookmark */ = 5C1CD03A0F2A24B300282AD9 /* PBXTextBookmark */;
+			5CA091CE0F0DABA800062E67 /* PBXTextBookmark */ = 5CA091CE0F0DABA800062E67 /* PBXTextBookmark */;
+			5CFC67620F2A295A00552431 /* PBXTextBookmark */ = 5CFC67620F2A295A00552431 /* PBXTextBookmark */;
+		};
+		sourceControlManager = 5CA091C90F0DA9AC00062E67 /* Source Control */;
+		userBuildSettings = {
+		};
+	};
+	5C1CD01E0F2A1E5600282AD9 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 5C4B0A5C0DC791D4001BC518 /* NE500.h */;
+		name = "NE500.h: 264";
+		rLen = 0;
+		rLoc = 6387;
+		rType = 0;
+		vrLen = 340;
+		vrLoc = 5983;
+	};
+	5C1CD01F0F2A1E5600282AD9 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 5C4B0A5B0DC791D4001BC518 /* NE500.cpp */;
+		name = "NE500.cpp: 223";
+		rLen = 0;
+		rLoc = 5049;
+		rType = 0;
+		vrLen = 313;
+		vrLoc = 5531;
+	};
+	5C1CD0200F2A1E5600282AD9 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 5C4B0ADD0DC793E2001BC518 /* NE500Plugin.cpp */;
+		name = "NE500Plugin.cpp: 16";
+		rLen = 0;
+		rLoc = 256;
+		rType = 0;
+		vrLen = 486;
+		vrLoc = 0;
+	};
+	5C1CD0220F2A1E5600282AD9 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 5C4B0ADD0DC793E2001BC518 /* NE500Plugin.cpp */;
+		name = "NE500Plugin.cpp: 25";
+		rLen = 0;
+		rLoc = 638;
+		rType = 0;
+		vrLen = 310;
+		vrLoc = 29;
+	};
+	5C1CD0230F2A1E5600282AD9 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 5C4B0A5C0DC791D4001BC518 /* NE500.h */;
+		name = "NE500.h: 29";
+		rLen = 0;
+		rLoc = 515;
+		rType = 0;
+		vrLen = 266;
+		vrLoc = 385;
+	};
+	5C1CD0240F2A1E5600282AD9 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 5C4B0A5B0DC791D4001BC518 /* NE500.cpp */;
+		name = "NE500.cpp: 22";
+		rLen = 0;
+		rLoc = 419;
+		rType = 0;
+		vrLen = 380;
+		vrLoc = 143;
+	};
+	5C1CD03A0F2A24B300282AD9 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 5C4B0ADC0DC793E2001BC518 /* NE500Plugin.h */;
+		name = "NE500Plugin.h: 20";
+		rLen = 0;
+		rLoc = 307;
+		rType = 0;
+		vrLen = 411;
+		vrLoc = 0;
+	};
+	5C4B0A5B0DC791D4001BC518 /* NE500.cpp */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1024, 4004}}";
+			sepNavSelRange = "{5021, 47}";
+			sepNavVisRange = "{4715, 573}";
+		};
+	};
+	5C4B0A5C0DC791D4001BC518 /* NE500.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1024, 3794}}";
+			sepNavSelRange = "{4878, 0}";
+			sepNavVisRange = "{4653, 828}";
+		};
+	};
+	5C4B0ADC0DC793E2001BC518 /* NE500Plugin.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {876, 430}}";
+			sepNavSelRange = "{307, 0}";
+			sepNavVisRange = "{0, 411}";
+		};
+	};
+	5C4B0ADD0DC793E2001BC518 /* NE500Plugin.cpp */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1024, 434}}";
+			sepNavSelRange = "{202, 0}";
+			sepNavVisRange = "{0, 641}";
+		};
+	};
+	5CA091C90F0DA9AC00062E67 /* Source Control */ = {
+		isa = PBXSourceControlManager;
+		fallbackIsa = XCSourceControlManager;
+		isSCMEnabled = 0;
+		scmConfiguration = {
+		};
+	};
+	5CA091CA0F0DA9AC00062E67 /* Code sense */ = {
+		isa = PBXCodeSenseManager;
+		indexTemplatePath = "";
+	};
+	5CA091CE0F0DABA800062E67 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 5C4B0ADC0DC793E2001BC518 /* NE500Plugin.h */;
+		name = "NE500Plugin.h: 18";
+		rLen = 0;
+		rLoc = 287;
+		rType = 0;
+		vrLen = 308;
+		vrLoc = 49;
+	};
+	5CFC67620F2A295A00552431 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 5C4B0ADC0DC793E2001BC518 /* NE500Plugin.h */;
+		name = "NE500Plugin.h: 20";
+		rLen = 0;
+		rLoc = 307;
+		rType = 0;
+		vrLen = 411;
+		vrLoc = 0;
+	};
+	8D5B49AC048680CD000E48DA /* NE500Plugin */ = {
+		activeExec = 0;
+	};
+}
