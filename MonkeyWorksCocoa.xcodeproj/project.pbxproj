@@ -370,8 +370,8 @@
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/tcsh;
-			shellScript = "# copy the framework to the proper directory\nrm -dfR \"/Library/Frameworks/MonkeyWorksCocoa.framework\"\ncp -Rf \"$BUILT_PRODUCTS_DIR/MonkeyWorksCocoa.framework\" \"/Library/Frameworks\"\n";
+			shellPath = /bin/zsh;
+			shellScript = "export FULL_NAME=${PRODUCT_NAME}.${WRAPPER_EXTENSION}\nexport FINAL_INSTALL_DIR=/Library/Frameworks\n\necho Copying files from ${BUILT_PRODUCTS_DIR} to ${FINAL_INSTALL_DIR}\nrm -dfR \"${FINAL_INSTALL_DIR}/${FULL_NAME}\"\ncp -Rf \"${BUILT_PRODUCTS_DIR}/${FULL_NAME}\" \"${FINAL_INSTALL_DIR}/\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -430,14 +430,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
+				DEPLOYMENT_LOCATION = NO;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = MonkeyWorksCocoa_Prefix.pch;
+				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = /Library/Frameworks;
+				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
 				MACH_O_TYPE = mh_dylib;
 				PREBINDING = NO;
 				PRODUCT_NAME = MonkeyWorksCocoa;
@@ -482,6 +485,7 @@
 		DA2A85470871A49C00D99DD8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				APP_SUPPORT_DIR = "/Library/Application Support/MonkeyWorks";
 				COPY_PHASE_STRIP = NO;
 				GCC_DEBUGGING_SYMBOLS = full;
 				GCC_ENABLE_OBJC_GC = YES;
@@ -493,6 +497,8 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = /Library/MonkeyWorks/include;
 				LIBRARY_SEARCH_PATHS = /Library/MonkeyWorks/lib;
+				MW_INCLUDE_DIR = "\"$(APP_SUPPORT_DIR)/Developer/include\"";
+				MW_LIB_DIR = "\"$(APP_SUPPORT_DIR)/Developer/lib\"";
 				OTHER_CPLUSPLUSFLAGS = "-fobjc-exceptions";
 			};
 			name = Debug;
