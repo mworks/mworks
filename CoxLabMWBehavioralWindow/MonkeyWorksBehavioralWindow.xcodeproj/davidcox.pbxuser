@@ -1,0 +1,180 @@
+// !$*UTF8*$!
+{
+	089C1669FE841209C02AAC07 /* Project object */ = {
+		activeBuildConfigurationName = Debug;
+		activeTarget = 8D5B49AC048680CD000E48DA /* MonkeyWorksBehavioralWindow */;
+		addToTargets = (
+			8D5B49AC048680CD000E48DA /* MonkeyWorksBehavioralWindow */,
+		);
+		codeSenseManager = 5C1CCDDB0F290EFB00282AD9 /* Code sense */;
+		perUserDictionary = {
+			PBXConfiguration.PBXFileTableDataSource3.PBXFileTableDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					20,
+					341,
+					20,
+					48,
+					43,
+					43,
+					20,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXFileDataSource_FiletypeID,
+					PBXFileDataSource_Filename_ColumnID,
+					PBXFileDataSource_Built_ColumnID,
+					PBXFileDataSource_ObjectSize_ColumnID,
+					PBXFileDataSource_Errors_ColumnID,
+					PBXFileDataSource_Warnings_ColumnID,
+					PBXFileDataSource_Target_ColumnID,
+				);
+			};
+			PBXConfiguration.PBXFileTableDataSource3.PBXFindDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXFindDataSource_LocationID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					200,
+					355,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXFindDataSource_MessageID,
+					PBXFindDataSource_LocationID,
+				);
+			};
+			PBXConfiguration.PBXTargetDataSource.PBXTargetDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					20,
+					301,
+					60,
+					20,
+					48,
+					43,
+					43,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXFileDataSource_FiletypeID,
+					PBXFileDataSource_Filename_ColumnID,
+					PBXTargetDataSource_PrimaryAttribute,
+					PBXFileDataSource_Built_ColumnID,
+					PBXFileDataSource_ObjectSize_ColumnID,
+					PBXFileDataSource_Errors_ColumnID,
+					PBXFileDataSource_Warnings_ColumnID,
+				);
+			};
+			PBXPerProjectTemplateStateSaveDate = 254416911;
+			PBXWorkspaceStateSaveDate = 254416911;
+		};
+		perUserProjectItems = {
+			5C1CCE240F29113600282AD9 /* PBXTextBookmark */ = 5C1CCE240F29113600282AD9 /* PBXTextBookmark */;
+			5C1CCE260F29113600282AD9 /* PBXTextBookmark */ = 5C1CCE260F29113600282AD9 /* PBXTextBookmark */;
+			5C1CCE570F29118C00282AD9 /* PBXTextBookmark */ = 5C1CCE570F29118C00282AD9 /* PBXTextBookmark */;
+			5C1CCE590F29118C00282AD9 /* PBXTextBookmark */ = 5C1CCE590F29118C00282AD9 /* PBXTextBookmark */;
+			5C1CCE7A0F29131400282AD9 /* PBXTextBookmark */ = 5C1CCE7A0F29131400282AD9 /* PBXTextBookmark */;
+			5C1CD0560F2A25BE00282AD9 /* PBXTextBookmark */ = 5C1CD0560F2A25BE00282AD9 /* PBXTextBookmark */;
+		};
+		sourceControlManager = 5C1CCDDA0F290EFB00282AD9 /* Source Control */;
+		userBuildSettings = {
+		};
+	};
+	0E5504FF0AADB7FE00987B47 /* MonkeyWorksBehavioralWindow.xml */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {519, 253}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 433}";
+		};
+	};
+	0E5505010AADB81800987B47 /* MWBehavioralWindowController.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {708, 1736}}";
+			sepNavSelRange = "{412, 32}";
+			sepNavVisRange = "{0, 445}";
+		};
+	};
+	5C1CCDDA0F290EFB00282AD9 /* Source Control */ = {
+		isa = PBXSourceControlManager;
+		fallbackIsa = XCSourceControlManager;
+		isSCMEnabled = 0;
+		scmConfiguration = {
+		};
+	};
+	5C1CCDDB0F290EFB00282AD9 /* Code sense */ = {
+		isa = PBXCodeSenseManager;
+		indexTemplatePath = "";
+	};
+	5C1CCDF30F290FF800282AD9 /* ScarabServices.h */ = {
+		isa = PBXFileReference;
+		lastKnownFileType = sourcecode.c.h;
+		name = ScarabServices.h;
+		path = /Developer/SDKs/MacOSX10.4u.sdk/Library/Frameworks/MonkeyWorksCore.framework/Headers/ScarabServices.h;
+		sourceTree = "<absolute>";
+	};
+	5C1CCE240F29113600282AD9 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 5C1CCDF30F290FF800282AD9 /* ScarabServices.h */;
+		name = "ScarabServices.h: 16";
+		rLen = 27;
+		rLoc = 288;
+		rType = 0;
+		vrLen = 416;
+		vrLoc = 0;
+	};
+	5C1CCE260F29113600282AD9 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 5C1CCDF30F290FF800282AD9 /* ScarabServices.h */;
+		name = "ScarabServices.h: 16";
+		rLen = 27;
+		rLoc = 288;
+		rType = 0;
+		vrLen = 416;
+		vrLoc = 0;
+	};
+	5C1CCE570F29118C00282AD9 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 0E5504FF0AADB7FE00987B47 /* MonkeyWorksBehavioralWindow.xml */;
+		name = "MonkeyWorksBehavioralWindow.xml: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 433;
+		vrLoc = 0;
+	};
+	5C1CCE590F29118C00282AD9 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 0E5504FF0AADB7FE00987B47 /* MonkeyWorksBehavioralWindow.xml */;
+		name = "MonkeyWorksBehavioralWindow.xml: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 433;
+		vrLoc = 0;
+	};
+	5C1CCE7A0F29131400282AD9 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 0E5505010AADB81800987B47 /* MWBehavioralWindowController.h */;
+		name = "MWBehavioralWindowController.h: 18";
+		rLen = 32;
+		rLoc = 412;
+		rType = 0;
+		vrLen = 445;
+		vrLoc = 0;
+	};
+	5C1CD0560F2A25BE00282AD9 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 0E5505010AADB81800987B47 /* MWBehavioralWindowController.h */;
+		name = "MWBehavioralWindowController.h: 18";
+		rLen = 32;
+		rLoc = 412;
+		rType = 0;
+		vrLen = 445;
+		vrLoc = 0;
+	};
+	5C4D298209DDBC890082BF9F /* Everything */ = {
+		activeExec = 0;
+	};
+	8D5B49AC048680CD000E48DA /* MonkeyWorksBehavioralWindow */ = {
+		activeExec = 0;
+	};
+}

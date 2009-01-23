@@ -1,0 +1,12 @@
+<mwc_addon>
+    <mwc_package_description>
+        <owner name="MWVariablesWindowController" />
+        <nib name="VariablesWindow" />
+    </mwc_package_description>
+    <mwc_display_info>
+        <display_name>Variables Window</display_name>
+        <menu_shortcut>~SHIFT~~CTL~V</menu_shortcut>
+        <menu_selector>popWindow</menu_selector>
+        <menu_parent>Online Display</menu_parent>
+    </mwc_display_info>
+</mwc_addon>
