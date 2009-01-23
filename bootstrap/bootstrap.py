@@ -18,23 +18,18 @@ if(len(sys.argv) < 2):
 
 command = sys.argv[1]
 
-repositories = ("acqboard",
-				"backplane",
-				"cnetevent",
-				"crc-hw",
-				"doctools",
-				"dspboard",
-				"eproc",
-				"hdltools",
-				"libsomanetwork",
-				"logging",
-				"network",
-				"pynet",
-				"serial-deviceio",
-				"software-common",
-				"tspikes")
+repositories = ("mw_build",
+                "mw_client",
+                "mw_cocoa",
+                "mw_core",
+                "mw_datatools",
+                "mw_editor",
+                "mw_examples",
+                "mw_scarab",
+                "mw_server",
+                "mw_supporting")
 				
-github_url = "git://github.com/somaproject"
+github_url = "git://github.com/monkeyworks-project"
 
 home_directory = os.path.expanduser('~')
 repository_path = "%s/Repositories/monkeyworks" % home_directory 
