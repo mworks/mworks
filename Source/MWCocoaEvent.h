@@ -20,7 +20,6 @@ using namespace mw;
 			andCode:(int)code 
 			andTime:(MonkeyWorksTime)time;
 
-- (void) dealloc;
 
 - (MonkeyWorksTime)time;	
 - (Data *)data;

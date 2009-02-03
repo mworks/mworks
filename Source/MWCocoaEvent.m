@@ -23,9 +23,9 @@
 	return self;
 }
 
-- (void) dealloc {
-	delete _data;
-	[super dealloc];
+- (void)finalize {
+    delete _data;
+    [super finalize];
 }
 
 - (MonkeyWorksTime)time {
