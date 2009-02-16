@@ -11,5 +11,6 @@ mkdir -p $MASTER_DIRECTORY
 touch $MASTER_DIRECTORY/twistd.log
 buildbot create-master $MASTER_DIRECTORY
 cp ./master.cfg $MASTER_DIRECTORY
+cp -r ./plugins $MASTER_DIRECTORY/
 
 buildbot start $MASTER_DIRECTORY
