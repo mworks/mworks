@@ -115,4 +115,4 @@ for pkg in packages:
     build_package(install_root + "/" + pkg , mw_version, "/", "%s.pkg" % (pkg))
     os.system("mv %s.pkg %s/" % (pkg, quote(mw_subcomponent_package_path + "/")))
 
-build_metapackage("mw_installer.pmdoc", mw_version, "MonkeyWorksInstaller.pkg")
+build_metapackage("mw_installer.pmdoc", mw_version, install_root + "/MonkeyWorksInstaller.pkg")
