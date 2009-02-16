@@ -32,7 +32,7 @@ def build_package(root, version, target_path, output_path):
 
 def build_metapackage(doc, version, output_path):
     print("Building: %s" % pkg)    
-    cmd = "%s --doc %s/ --id %s --version %s  --out %s" % (package_maker, doc, project_id, version, output_path)
+    cmd = "%s --doc %s --id %s --version %s  --out %s" % (package_maker, doc, project_id, version, output_path)
     print(cmd)
     os.system(cmd)
 
@@ -115,4 +115,4 @@ for pkg in packages:
     build_package(install_root + "/" + pkg , mw_version, "/", "%s.pkg" % (pkg))
     os.system("mv %s.pkg %s/" % (pkg, quote(mw_subcomponent_package_path + "/")))
 
-build_metapackage("mw_installer.pmdoc", mw_version, install_root + "/MonkeyWorksInstaller.pkg")
+build_metapackage(os.path.dirname(__file__) + "/mw_installer.pmdoc", mw_version, install_root + "/MonkeyWorksInstaller.pkg")
