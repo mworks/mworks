@@ -5,8 +5,8 @@
 # MW suite at the command of a buildbot master
 
 SLAVE_DIRECTORY="~/.buildbot_slave"
-HOST="localhost"
-PORT="9990"
+HOST="monkeyworks.coxlab.org"
+PORT="7349"
 ARCHITECTURE="i386-OSX-10.5"
 USER=`whoami`
 ADMIN_INFO="Dave <cox@rowland.harvard.edu>"
