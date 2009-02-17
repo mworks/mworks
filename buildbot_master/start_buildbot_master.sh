@@ -7,7 +7,6 @@
 MASTER_DIRECTORY=~/.buildbot_master
 SCRIPT_DIRECTORY=`dirname $0`
 
-
 if ps -e | grep "\.buildbot_master" | grep -v "grep"; # NB: this signature must match MASTER_DIRECTORY, above
 then
     echo "Buildbot master already started"
@@ -20,6 +19,7 @@ touch $MASTER_DIRECTORY/twistd.log
 buildbot create-master $MASTER_DIRECTORY
 cp $SCRIPT_DIRECTORY/master.cfg $MASTER_DIRECTORY
 cp -r $SCRIPT_DIRECTORY/plugins $MASTER_DIRECTORY/
+mkdir -p $MASTER_DIRECTORY/public_html
 cp $SCRIPT_DIRECTORY/*.css $MASTER_DIRECTORY/public_html/
 cp $SCRIPT_DIRECTORY/*.html $MASTER_DIRECTORY/public_html/
 
