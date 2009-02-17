@@ -9,13 +9,16 @@ HOST="monkeyworks.coxlab.org"
 PORT="7349"
 ARCHITECTURE="i386-OSX-10.5"
 USER=`whoami`
+PASS="buildbot_labuser"
 ADMIN_INFO="Dave <cox@rowland.harvard.edu>"
 MACHINE_DESCRIPTION="MacBook Pro"
 
+mkdir -p $SLAVE_DIRECTORY
 rm -rf $SLAVE_DIRECTORY
 mkdir -p $SLAVE_DIRECTORY
-buildbot create-slave $SLAVE_DIRECTORY $HOST:$PORT $ARCHITECTURE $USER
-echo $ADMIN_INFO > ${1}/info/admin
-echo $HOST" - "$MACHINE_DESCRIPTION" - "$ARCHITECTURE  > ${1}/info/host
+touch $SLAVE_DIRECTORY/twistd.log
+buildbot create-slave $SLAVE_DIRECTORY $HOST:$PORT $ARCHITECTURE labuser
+echo $ADMIN_INFO > $SLAVE_DIRECTORY/info/admin
+echo $HOST" - "$MACHINE_DESCRIPTION" - "$ARCHITECTURE  > $SLAVE_DIRECTORY/info/host
 buildbot start $SLAVE_DIRECTORY
 

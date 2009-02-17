@@ -7,7 +7,7 @@
 MASTER_DIRECTORY=~/.buildbot_master
 SCRIPT_DIRECTORY=`dirname $0`
 
-if ps -e | grep "\.buildbot_master" | grep -v "grep"; # NB: this signature must match MASTER_DIRECTORY, above
+if ps -x | grep "\.buildbot_master" | grep -v "grep"; # NB: this signature must match MASTER_DIRECTORY, above
 then
     echo "Buildbot master already started"
     exit
