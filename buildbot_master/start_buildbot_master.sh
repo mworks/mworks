@@ -6,6 +6,12 @@
 
 MASTER_DIRECTORY=~/.buildbot_master
 
+if ps -e | grep "\.buildbot_master" | grep -v "grep";
+then
+    echo "Buildbot master already started"
+    exit
+fi
+
 rm -rf $MASTER_DIRECTORY
 mkdir -p $MASTER_DIRECTORY
 touch $MASTER_DIRECTORY/twistd.log
