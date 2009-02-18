@@ -122,15 +122,22 @@ class PhidgetDevice : public IODevice {
 	
 		PhidgetDevice(){
 		
+            int err_code = EPHIDGET_OK;
+            
 			active = false;
 		
 			//Declare an InterfaceKit handle
 			ifKit = 0;
 
+            
 			setActive(false);
 			//create the InterfaceKit object
-			CPhidgetInterfaceKit_create(&ifKit);
-
+			err_code = CPhidgetInterfaceKit_create(&ifKit);
+            
+            if(err_code != EPHIDGET_OK){
+                throw SimpleException("Unable to connect to Phidgets device.  Is the Phidgets software installed on this machine? (www.phidgets.com)");
+            }
+            
 			//Set the handlers to be run when the device is plugged in or opened from software, unplugged or closed from software, or generates an error.
 			CPhidget_set_OnAttach_Handler((CPhidgetHandle)ifKit, AttachHandler, NULL);
 			CPhidget_set_OnDetach_Handler((CPhidgetHandle)ifKit, DetachHandler, NULL);
