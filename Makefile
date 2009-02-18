@@ -3,7 +3,7 @@ NE500_PLUGIN=NE500
 PHIDGETS_PLUGIN=Phidgets
 SIDEWINDER_PLUGIN=SidewinderPlugAndPlayGamepadPlugin
 
-all: ne500-plugin phidgets-plugin sidewider-plugin hid-plugin 
+all: ne500-plugin phidgets-plugin sidewinder-plugin hid-plugin 
 
 hid-plugin:
 	cd $(HID_PLUGIN); \
