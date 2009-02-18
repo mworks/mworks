@@ -271,15 +271,13 @@
 								<string>089C166AFE841209C02AAC07</string>
 								<string>08FB77AFFE84173DC02AAC07</string>
 								<string>1C37FBAC04509CD000000102</string>
-								<string>5CFC67700F2A2A9000552431</string>
+								<string>5CFC67BB0F2A84AC00552431</string>
 								<string>1C37FABC05509CD000000102</string>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>15</integer>
-									<integer>11</integer>
-									<integer>10</integer>
+									<integer>0</integer>
 								</array>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateVisibleRectKey</key>
@@ -302,7 +300,7 @@
 							<real>186</real>
 						</array>
 						<key>RubberWindowFrame</key>
-						<string>447 343 788 504 0 0 1440 878 </string>
+						<string>485 345 788 504 0 0 1440 878 </string>
 					</dict>
 					<key>Module</key>
 					<string>PBXSmartGroupTreeModule</string>
@@ -330,24 +328,20 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>5CFC67800F2A2AE100552431</string>
+										<string>5CFC68370F2E0BD800552431</string>
 										<key>history</key>
 										<array>
 											<string>5CFC67710F2A2A9000552431</string>
 											<string>5CFC67720F2A2A9000552431</string>
 											<string>5CFC67730F2A2A9000552431</string>
-											<string>5CFC67740F2A2A9000552431</string>
+											<string>5CFC67800F2A2AE100552431</string>
 										</array>
 										<key>prevStack</key>
 										<array>
 											<string>5CA0920F0F0DAF8700062E67</string>
 											<string>5CA092100F0DAF8700062E67</string>
 											<string>5CA092120F0DAF8700062E67</string>
-											<string>5CFC67750F2A2A9000552431</string>
-											<string>5CFC67760F2A2A9000552431</string>
 											<string>5CFC67770F2A2A9000552431</string>
-											<string>5CFC67780F2A2A9000552431</string>
-											<string>5CFC67790F2A2A9000552431</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -361,7 +355,7 @@
 								<key>Frame</key>
 								<string>{{0, 0}, {580, 285}}</string>
 								<key>RubberWindowFrame</key>
-								<string>447 343 788 504 0 0 1440 878 </string>
+								<string>485 345 788 504 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
@@ -381,7 +375,7 @@
 								<key>Frame</key>
 								<string>{{0, 290}, {580, 173}}</string>
 								<key>RubberWindowFrame</key>
-								<string>447 343 788 504 0 0 1440 878 </string>
+								<string>485 345 788 504 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>XCDetailModule</string>
@@ -405,9 +399,9 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>5CFC677B0F2A2A9000552431</string>
+				<string>5CFC67BD0F2A84AC00552431</string>
 				<string>1CE0B1FE06471DED0097A5F4</string>
-				<string>5CFC677C0F2A2A9000552431</string>
+				<string>5CFC67BE0F2A84AC00552431</string>
 				<string>1CE0B20306471E060097A5F4</string>
 				<string>1CE0B20506471E060097A5F4</string>
 			</array>
@@ -541,11 +535,10 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>5CFC677D0F2A2A9000552431</string>
-		<string>/Users/davidcox/Repositories/monkeyworks/coxlab_mwcore_plugins/Phidgets/PhidgetsPlugin.xcodeproj</string>
+		<string>/Users/davidcox/Repositories/monkeyworks/mw_core_plugins/Phidgets/PhidgetsPlugin.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
-	<string>447 343 788 504 0 0 1440 878 </string>
+	<string>485 345 788 504 0 0 1440 878 </string>
 	<key>WindowToolsV3</key>
 	<array>
 		<dict>

@@ -237,8 +237,8 @@
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "rm -Rf $INSTALL_PATH/MSSWGamepadPlugin.bundle\ncp -R \"$BUILT_PRODUCTS_DIR/MSSWGamepadPlugin.bundle\" $INSTALL_PATH";
+			shellPath = /bin/zsh;
+			shellScript = "export FULL_NAME=${PRODUCT_NAME}.${WRAPPER_EXTENSION}\n\nrm -Rf \"$INSTALL_PATH/${FULL_NAME}\"\ncp -R \"$BUILT_PRODUCTS_DIR/${FULL_NAME}\" \"$INSTALL_PATH\"";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -292,10 +292,10 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = MSSWGamepadPlugin_Prefix.pch;
-				HEADER_SEARCH_PATHS = /Library/MonkeyWorks/include;
+				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
 				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = /Library/MonkeyWorks/Plugins;
-				LIBRARY_SEARCH_PATHS = /Library/MonkeyWorks/lib;
+				INSTALL_PATH = "$(FINAL_INSTALL_DIR)";
+				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
 				PRODUCT_NAME = MSSWGamepadPlugin;
 				WRAPPER_EXTENSION = bundle;
 			};
@@ -324,9 +324,13 @@
 		1DEB913F08733D840010E9CD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				APP_SUPPORT_DIR = "/Library/Application Support/MonkeyWorks";
+				FINAL_INSTALL_DIR = "$(APP_SUPPORT_DIR)/Plugins/Core Plugins";
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				MW_INCLUDE_DIR = "\"$(APP_SUPPORT_DIR)/Developer/include\"";
+				MW_LIB_DIR = "\"$(APP_SUPPORT_DIR)/Developer/lib\"";
 				PREBINDING = NO;
 				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
 			};

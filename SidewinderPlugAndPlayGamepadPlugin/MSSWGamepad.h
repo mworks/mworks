@@ -74,7 +74,7 @@ public:
 	virtual bool startDeviceIO();
 	
 	virtual void addChild(std::map<std::string, std::string> parameters,
-						  mw::mwComponentRegistry *reg,
+						  mw::ComponentRegistry *reg,
 						  shared_ptr<mw::Component> child);
 	
 	shared_ptr<mMSSWGamepad> shared_from_this() { return static_pointer_cast<mMSSWGamepad>(IODevice::shared_from_this()); }

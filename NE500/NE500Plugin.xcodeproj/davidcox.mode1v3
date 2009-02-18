@@ -274,6 +274,7 @@
 								<string>089C1671FE841209C02AAC07</string>
 								<string>1058C7ACFEA557BF11CA2CBB</string>
 								<string>1C37FBAC04509CD000000102</string>
+								<string>5CFC67AA0F2A848D00552431</string>
 								<string>1C37FABC05509CD000000102</string>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
@@ -331,13 +332,13 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>5CFC67620F2A295A00552431</string>
+										<string>5CFC682F0F2D67BB00552431</string>
 										<key>history</key>
 										<array>
 											<string>5C1CD01E0F2A1E5600282AD9</string>
 											<string>5C1CD01F0F2A1E5600282AD9</string>
 											<string>5C1CD0200F2A1E5600282AD9</string>
-											<string>5C1CD03A0F2A24B300282AD9</string>
+											<string>5CFC67620F2A295A00552431</string>
 										</array>
 										<key>prevStack</key>
 										<array>
@@ -402,9 +403,9 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>5CFC67630F2A295A00552431</string>
+				<string>5CFC67AC0F2A848D00552431</string>
 				<string>1CE0B1FE06471DED0097A5F4</string>
-				<string>5CFC67640F2A295A00552431</string>
+				<string>5CFC67AD0F2A848D00552431</string>
 				<string>1CE0B20306471E060097A5F4</string>
 				<string>1CE0B20506471E060097A5F4</string>
 			</array>
@@ -538,7 +539,7 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>/Users/davidcox/Repositories/monkeyworks/coxlab_mwcore_plugins/NE500/NE500Plugin.xcodeproj</string>
+		<string>/Users/davidcox/Repositories/monkeyworks/mw_core_plugins/NE500/NE500Plugin.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
 	<string>166 164 1145 681 0 0 1440 878 </string>

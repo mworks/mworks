@@ -410,7 +410,7 @@ bool mMSSWGamepad::startDeviceIO(){
 }
 
 void mMSSWGamepad::addChild(std::map<std::string, std::string> parameters,
-							mw::mwComponentRegistry *reg,
+							mw::ComponentRegistry *reg,
 							shared_ptr<mw::Component> child){}
 
 

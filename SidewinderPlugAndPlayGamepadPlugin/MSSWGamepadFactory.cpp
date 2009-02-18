@@ -11,7 +11,7 @@
 #include "MSSWGamepad.h"
 
 boost::shared_ptr<mw::Component> mMSSWGamepadFactory::createObject(std::map<std::string, std::string> parameters,
-																	  mw::mwComponentRegistry *reg) {
+																	  mw::ComponentRegistry *reg) {
 	
 	const char *TAG = "tag";
 	const char *BUTTON_A = "a";

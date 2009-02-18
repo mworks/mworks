@@ -14,7 +14,7 @@
 
 class mMSSWGamepadFactory : public mw::ComponentFactory {
 	virtual boost::shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-														  mw::mwComponentRegistry *reg);
+														  mw::ComponentRegistry *reg);
 };
 
 #endif

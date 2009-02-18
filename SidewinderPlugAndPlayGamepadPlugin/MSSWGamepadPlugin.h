@@ -19,7 +19,7 @@ extern "C"{
 
 class mMSSWGamepadPlugin : public Plugin {
     
-	virtual void registerComponents(shared_ptr<mw::mwComponentRegistry> registry);	
+	virtual void registerComponents(shared_ptr<mw::ComponentRegistry> registry);	
 };
 
 #endif

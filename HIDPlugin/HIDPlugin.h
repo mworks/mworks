@@ -19,7 +19,7 @@ extern "C"{
 
 class HIDPlugin : public Plugin {
     
-	virtual void registerComponents(shared_ptr<mwComponentRegistry> registry);	
+	virtual void registerComponents(shared_ptr<ComponentRegistry> registry);	
 };
 
 #endif

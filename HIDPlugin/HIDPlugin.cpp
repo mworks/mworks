@@ -15,7 +15,7 @@ Plugin *getPlugin(){
 }
 
 
-void HIDPlugin::registerComponents(shared_ptr<mwComponentRegistry> registry) {
+void HIDPlugin::registerComponents(shared_ptr<ComponentRegistry> registry) {
 	registry->registerFactory(std::string("iodevice/usbhid"),
 							  (ComponentFactory *)(new mHIDFactory()));
 }

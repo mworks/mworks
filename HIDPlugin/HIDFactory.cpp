@@ -12,7 +12,7 @@
 
 
 boost::shared_ptr<mw::Component> mHIDFactory::createObject(std::map<std::string, std::string> parameters,
-														   mw::mwComponentRegistry *reg) {
+														   mw::ComponentRegistry *reg) {
 	
 	boost::shared_ptr <mw::Component> new_hid = boost::shared_ptr<mw::Component>(new mUSBHID());
 	return new_hid;
