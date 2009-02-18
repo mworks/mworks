@@ -272,8 +272,8 @@
 								<string>08FB77AFFE84173DC02AAC07</string>
 								<string>089C167CFE841241C02AAC07</string>
 								<string>1C37FBAC04509CD000000102</string>
-								<string>5C1CCEC40F29152E00282AD9</string>
-								<string>5C1CCEC50F29152E00282AD9</string>
+								<string>5CFC67960F2A829C00552431</string>
+								<string>5CFC67970F2A829C00552431</string>
 								<string>1C37FAAC04509CD000000102</string>
 								<string>1C37FABC05509CD000000102</string>
 							</array>
@@ -284,7 +284,7 @@
 								</array>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateVisibleRectKey</key>
-							<string>{{0, 0}, {186, 493}}</string>
+							<string>{{0, 14}, {186, 493}}</string>
 						</dict>
 						<key>PBXTopSmartGroupGIDs</key>
 						<array/>
@@ -303,7 +303,7 @@
 							<real>186</real>
 						</array>
 						<key>RubberWindowFrame</key>
-						<string>508 170 951 552 0 0 1440 878 </string>
+						<string>110 273 951 552 0 0 1440 878 </string>
 					</dict>
 					<key>Module</key>
 					<string>PBXSmartGroupTreeModule</string>
@@ -331,7 +331,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>5C1CD04F0F2A25BD00282AD9</string>
+										<string>5CFC68460F2E592400552431</string>
 										<key>history</key>
 										<array>
 											<string>5CB4198E0D956A00005EC038</string>
@@ -341,7 +341,7 @@
 											<string>5C8335140E54B50700086C5C</string>
 											<string>5C8335150E54B50700086C5C</string>
 											<string>5C8335160E54B50700086C5C</string>
-											<string>5C43617C0E54EA8700A4C656</string>
+											<string>5C1CD04F0F2A25BD00282AD9</string>
 										</array>
 										<key>prevStack</key>
 										<array>
@@ -364,14 +364,14 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{0, 0}, {743, 446}}</string>
+								<string>{{0, 0}, {743, 226}}</string>
 								<key>RubberWindowFrame</key>
-								<string>508 170 951 552 0 0 1440 878 </string>
+								<string>110 273 951 552 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
 							<key>Proportion</key>
-							<string>446pt</string>
+							<string>226pt</string>
 						</dict>
 						<dict>
 							<key>ContentConfiguration</key>
@@ -384,14 +384,14 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{0, 451}, {743, 60}}</string>
+								<string>{{0, 231}, {743, 280}}</string>
 								<key>RubberWindowFrame</key>
-								<string>508 170 951 552 0 0 1440 878 </string>
+								<string>110 273 951 552 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>XCDetailModule</string>
 							<key>Proportion</key>
-							<string>60pt</string>
+							<string>280pt</string>
 						</dict>
 					</array>
 					<key>Proportion</key>
@@ -410,9 +410,9 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>5C1CCEC70F29152E00282AD9</string>
+				<string>5CFC679D0F2A82A800552431</string>
 				<string>1CE0B1FE06471DED0097A5F4</string>
-				<string>5C1CCEC80F29152E00282AD9</string>
+				<string>5CFC679E0F2A82A800552431</string>
 				<string>1CE0B20306471E060097A5F4</string>
 				<string>1CE0B20506471E060097A5F4</string>
 			</array>
@@ -546,12 +546,10 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>5C643E1D0D501945004A8BD2</string>
-		<string>1CD10A99069EF8BA00B06720</string>
-		<string>/Users/davidcox/Repositories/monkeyworks/coxlab_mwclient_plugins/CoxLabMWVariablesWindow/MonkeyWorksVariablesWindow.xcodeproj</string>
+		<string>/Users/davidcox/Repositories/monkeyworks/mw_client_plugins/VariablesWindow/MonkeyWorksVariablesWindow.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
-	<string>508 170 951 552 0 0 1440 878 </string>
+	<string>110 273 951 552 0 0 1440 878 </string>
 	<key>WindowToolsV3</key>
 	<array>
 		<dict>
