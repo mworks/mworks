@@ -3,4 +3,19 @@
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
 
-\f0\fs26 \cf0 Welcome to the MonkeyWorks Installation Program.  You will be guided through the steps necessary to install this software.}]]></resource></locale></resources><flags/><item type="pkgref">01applications.xml</item><item type="pkgref">02application.xml</item><item type="pkgref">03frameworks.xml</item><item type="pkgref">04developer.xml</item><mod>properties.title</mod></pkmkdoc>
+\f0\fs26 \cf0 Welcome to the MonkeyWorks Installation Program.  You will be guided through the steps necessary to install this software.\
+\
+If you wish to install the required components to develop, as well as run, MW, then you should press the "Customize" button below, and check the "Developer" option.}]]></resource><resource mime-type="text/rtf" kind="embedded" type="conclusion"><![CDATA[{\rtf1\ansi\ansicpg1252\cocoartf949\cocoasubrtf430
+{\fonttbl\f0\fnil\fcharset0 LucidaGrande;}
+{\colortbl;\red255\green255\blue255;}
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+
+\f0\fs26 \cf0 MonkeyWorks has been installed successfully on this computer.  \
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+\cf0 Please note that if this is the first time that MW has been installed here, you will need to create a "setup variables" file to tell MW details of the physical arrangement of your experimental setup.  Experiments will not run correctly until you complete this step.\
+\
+This file should be called "setup_variables.xml" and belongs in: \
+/Library/Application Support/MonkeyWorks/Configuration\
+\
+Examples can be found in "examples" in this same folder.}]]></resource></locale></resources><flags/><item type="pkgref">01applications.xml</item><item type="pkgref">02application.xml</item><item type="pkgref">03frameworks.xml</item><item type="pkgref">04developer.xml</item><mod>properties.title</mod></pkmkdoc>
