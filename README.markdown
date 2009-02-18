@@ -25,6 +25,22 @@ These directories contain the necessary parts to run the MW buildbot setup.  Bui
 
 The Cox Lab maintains a public build master for MW [here](http://monkeyworks.coxlab.org).  If you'd like to setup a build slave, please contact monkeyworks@coxlab.org.
 
+You need both a build "master" and at least one build "slave" to build the projects.  These are typically meant to run on separate machines, with the "master" being on a publicly available web server, and one or more slaves doing the actual heavy lifting.  To start a build master, you just need to run
+	buildbot_master/start_buildbot_master.sh
+Likewise for the slave, you'd run
+	buildbot_slave/start_buildbot_slave.sh
+	
+If you get complaints about there being no command called "buildbot", you just need to install it by running:
+	sudo easy_install buildbot
+
+To stop any running buildbots on your machine:
+	buildbot_master/stop_all_buildbot.sh
+
+To start a local (e.g. running on localhost) buildbot pair (e.g. for testing), run:
+	buildbot_master/start_all_buildbot_local.sh
+
+The buildbot master server will then be running at [http://localhost:7349](http://localhost:7349).  You can examine build progress, manually kickstart builds, and more.
+
 ### installer ###
 
 The scripts in this directory handle the automatic building of the MW installer. To build an installer, simply run:
