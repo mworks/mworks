@@ -1,5 +1,5 @@
 VARIABLES_PLUGIN=VariablesWindow
-BEHAVIOR_PLUGIN=BehaviorWindow
+BEHAVIOR_PLUGIN=BehavioralWindow
 
 all: variables-window behavior-window
 
