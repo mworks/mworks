@@ -12,7 +12,7 @@ ARCHITECTURE="i386-OSX-10.5"
 # ----------------------------------------------------------------------------------------------
 # TODO: These must be edited to include the username and password assigned to your build slave
 USER=$ARCHITECTURE
-PASSWORD=`whoami`
+PASS=yastapimrb
 echo "-----------------------------------------------------------------------------------"
 echo "You must edit the buildbot slave username and password before you can use this file"
 echo "-----------------------------------------------------------------------------------"

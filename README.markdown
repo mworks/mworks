@@ -42,6 +42,11 @@ To start a local (e.g. running on localhost) buildbot pair (e.g. for testing), r
 
 The buildbot master server will then be running at [http://localhost:7349](http://localhost:7349).  You can examine build progress, manually kickstart builds, and more.
 
+If you want to run your own buildbot server / slave setup, you'll need to edit the following files:
+	buildbot_slave/start_buildbot_slave.sh
+	buildbot_master/master.cfg
+To contain appropriate ports and passwords.
+
 ### installer ###
 
 The scripts in this directory handle the automatic building of the MW installer. To build an installer, simply run:
