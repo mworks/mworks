@@ -29,6 +29,7 @@ You need both a build "master" and at least one build "slave" to build the proje
 	buildbot_master/start_buildbot_master.sh
 Likewise for the slave, you'd run
 	buildbot_slave/start_buildbot_slave.sh
+This file first checks to see if a build master is running, so it is suitable to put in a crontab to keep the build master alive
 	
 If you get complaints about there being no command called "buildbot", you just need to install it by running:
 	sudo easy_install buildbot

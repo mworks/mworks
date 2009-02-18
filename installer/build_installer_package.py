@@ -32,11 +32,13 @@ def build_package(root, version, target_path, output_path):
 
 
 def build_metapackage(doc, version, output_path, output_name):
-    print("Building: %s" % pkg)    
-    full_output_path = output_path + "/" + output_name + "_" + version + ".pkg"
+    print("Building: %s" % pkg)
+    filename =  output_name + "_" + version + ".pkg"
+    full_output_path = output_path + "/" + filename
     cmd = "%s --doc %s --id %s --version %s  --out %s" % (package_maker, doc, project_id, version, full_output_path)
     print(cmd)
     os.system(cmd)
+    os.system("cd %s; zip -r %s %s" % (output_path, filename +".zip", filename))
 
 # directories
 install_root="/tmp/mw_installer"
