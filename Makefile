@@ -13,7 +13,7 @@ hid-plugin:
 sidewinder-plugin:
 	cd $(SIDEWINDER_PLUGIN); \
 	xcodebuild clean -alltargets -configuration Debug; \
-	xcodebuild build -target Everything -configuration Debug
+	xcodebuild build -target MSSWGamepadPlugin -configuration Debug
 
 ne500-plugin:
 	cd $(NE500_PLUGIN); \
