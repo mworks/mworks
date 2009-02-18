@@ -1,4 +1,4 @@
-# mw_build #
+# MW Build Infrastructure #
 
 The mw_build repository contains tools to ease the process of building the full MonkeyWorks application suite, which consists of three applications, two frameworks, a flotilla of third-party supporting libraries, and a gaggle of plugins.  It also contains tools to make it easier to checkout everything, if you want to play with the code yourself.
 
@@ -7,7 +7,7 @@ The repository is organized into the following subsections:
 
 ### bootstrap ###
 
-This directory contains bootstrap.py, which allows you to clone or pull all of the repositories contained in the MW project.
+This directory contains bootstrap.py, which allows you to clone or pull all of the repositories contained in the MW project.  If you download or clone just this repository, you can easily bootstrap everything else with one command.
 
 To clone all projects, type:
 	./bootstrap.py clone
@@ -27,4 +27,4 @@ The Cox Lab maintains a public build master for MW [here](http://monkeyworks.cox
 
 ### installer ###
 
-The scripts in this directory handle the automatic building of the MW installer.
+The scripts in this directory handle the automatic building of the MW installer. To build an installer, simply run
