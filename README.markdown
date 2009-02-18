@@ -27,4 +27,9 @@ The Cox Lab maintains a public build master for MW [here](http://monkeyworks.cox
 
 ### installer ###
 
-The scripts in this directory handle the automatic building of the MW installer. To build an installer, simply run
+The scripts in this directory handle the automatic building of the MW installer. To build an installer, simply run:
+
+	./build_installer_package.py VERSION_STRING
+	
+The resulting installer will be saved to:
+	/tmp/mw_installer/MonkeyWorksInstaller_VERSION_STRING
