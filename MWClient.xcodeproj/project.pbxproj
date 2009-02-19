@@ -6,6 +6,20 @@
 	objectVersion = 44;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		5C488A420F4E289500C5A526 /* Set Version String */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 5C488A490F4E289900C5A526 /* Build configuration list for PBXAggregateTarget "Set Version String" */;
+			buildPhases = (
+				5C488A410F4E289500C5A526 /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = "Set Version String";
+			productName = "Set Version String";
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		5C23D5420D8827670044AC9E /* MWStringTruncateValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C23D5410D8827670044AC9E /* MWStringTruncateValueTransformer.m */; };
 		5C23D5640D882FFA0044AC9E /* MonkeyWorksCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C23D5630D882FFA0044AC9E /* MonkeyWorksCocoa.framework */; };
@@ -49,6 +63,16 @@
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		5C488A4C0F4E28C100C5A526 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5C488A420F4E289500C5A526 /* Set Version String */;
+			remoteInfo = "Set Version String";
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -291,11 +315,11 @@
 				8D11072C0486CEB800E47090 /* Sources */,
 				8D11072E0486CEB800E47090 /* Frameworks */,
 				5C1239440D91A55700B5FA1F /* ShellScript */,
-				5C66166B0F4C9AEE00C8FD71 /* ShellScript */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				5C488A4D0F4E28C100C5A526 /* PBXTargetDependency */,
 			);
 			name = MWClient;
 			productInstallPath = "$(HOME)/Applications";
@@ -316,6 +340,7 @@
 			projectRoot = "";
 			targets = (
 				8D1107260486CEB800E47090 /* MWClient */,
+				5C488A420F4E289500C5A526 /* Set Version String */,
 			);
 		};
 /* End PBXProject section */
@@ -370,7 +395,7 @@
 			shellPath = /bin/sh;
 			shellScript = "export FULL_NAME=${PRODUCT_NAME}.${WRAPPER_EXTENSION}\nexport FINAL_INSTALL_DIR=\"/Applications\"\n\nrm -dfR \"${FINAL_INSTALL_DIR}/${FULL_NAME}\"\ncp -Rf \"${BUILT_PRODUCTS_DIR}/${FULL_NAME}\" \"${FINAL_INSTALL_DIR}\"\n";
 		};
-		5C66166B0F4C9AEE00C8FD71 /* ShellScript */ = {
+		5C488A410F4E289500C5A526 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -407,6 +432,14 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		5C488A4D0F4E28C100C5A526 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5C488A420F4E289500C5A526 /* Set Version String */;
+			targetProxy = 5C488A4C0F4E28C100C5A526 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
 		089C165CFE840E0CC02AAC07 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
@@ -427,6 +460,27 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		5C488A430F4E289600C5A526 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = "Set Version String";
+			};
+			name = Debug;
+		};
+		5C488A440F4E289600C5A526 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				PRODUCT_NAME = "Set Version String";
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
 		C01FCF4B08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -499,6 +553,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		5C488A490F4E289900C5A526 /* Build configuration list for PBXAggregateTarget "Set Version String" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5C488A430F4E289600C5A526 /* Debug */,
+				5C488A440F4E289600C5A526 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "MWClient" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
