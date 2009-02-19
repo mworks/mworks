@@ -689,6 +689,7 @@
 		5C524E870CAA02C60063B1DC /* TimerTest.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TimerTest.h; sourceTree = "<group>"; };
 		5C643E9F0D501E99004A8BD2 /* UnresolvedReferenceVariable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UnresolvedReferenceVariable.h; path = Core/Variables/UnresolvedReferenceVariable.h; sourceTree = "<group>"; };
 		5C643EA00D501E99004A8BD2 /* UnresolvedReferenceVariable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = UnresolvedReferenceVariable.cpp; path = Core/Variables/UnresolvedReferenceVariable.cpp; sourceTree = "<group>"; };
+		5C6616C10F4C9B6900C8FD71 /* MonkeyWorksCore-Info.template.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "MonkeyWorksCore-Info.template.plist"; sourceTree = "<group>"; };
 		5C71CD6809AA507700EAD886 /* GlobalVariable.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = GlobalVariable.cpp; path = Core/Variables/GlobalVariable.cpp; sourceTree = "<group>"; };
 		5C71CD6909AA507700EAD886 /* GlobalVariable.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GlobalVariable.h; path = Core/Variables/GlobalVariable.h; sourceTree = "<group>"; };
 		5C71CD6A09AA507700EAD886 /* ExpressionVariable.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ExpressionVariable.cpp; path = Core/Variables/ExpressionVariable.cpp; sourceTree = SOURCE_ROOT; };
@@ -2007,6 +2008,7 @@
 		DA96B8A009818E5B0007610D /* plists */ = {
 			isa = PBXGroup;
 			children = (
+				5C6616C10F4C9B6900C8FD71 /* MonkeyWorksCore-Info.template.plist */,
 				5C4D239D09DC83930082BF9F /* MonkeyWorksCoreTest-Info.plist */,
 				DA2CE0D607E9F68100C68AEF /* MonkeyWorksCore-Info.plist */,
 				DA2CE1FE07E9FA8000C68AEF /* StandardStateSystemPlugin-Info.plist */,
@@ -2440,6 +2442,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5C0E84DA086D85D400B3EE7C /* Build configuration list for PBXNativeTarget "MonkeyWorksCore" */;
 			buildPhases = (
+				5C6616510F4C9AAD00C8FD71 /* ShellScript */,
 				DA2CE0CF07E9F68100C68AEF /* Headers */,
 				DA2CE0D007E9F68100C68AEF /* Resources */,
 				DA2CE0D107E9F68100C68AEF /* Sources */,
@@ -2701,6 +2704,19 @@
 			shellPath = /bin/sh;
 			shellScript = "# shell script goes here\nperl generate_automake_files.pl .\ntouch INSTALL NEWS README COPYING AUTHORS ChangeLog\naclocal\nautomake --add-missing\nautoconf\nautomake\ncp ./Core/ComponentRegistries/ComponentRegistry.cpp ./\n./configure\nmake dist\nmake\nmake install\nrm -f *.o\nexit 0";
 		};
+		5C6616510F4C9AAD00C8FD71 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/zsh;
+			shellScript = "export SOURCE_DIR=./\n\nexport GIT=`/usr/bin/env which git`\necho $GIT\nexport VERSION_STRING=`$GIT log -n1 --pretty=format:%H`\n\necho $VERSION_STRING\nexport SUBS_STRING=s/_VERSION_STRING_/${VERSION_STRING}/\nsed $SUBS_STRING  ${SOURCE_DIR}/MonkeyWorksCore-Info.template.plist > ${SOURCE_DIR}/MonkeyWorksCore-Info.plist\n";
+		};
 		5C8A4B880858C6E20016978D /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -2751,7 +2767,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/zsh;
-			shellScript = "export FULL_NAME=${PRODUCT_NAME}.${WRAPPER_EXTENSION}\n\nrm -Rf \"${INSTALL_PATH}/${FULL_NAME}\"\ncp -Rf \"${BUILT_PRODUCTS_DIR}/${FULL_NAME}\"  \"${INSTALL_PATH}\"\n\n#mkdir -p /Library/MonkeyWorks/ExampleSetupVariables/Macbook\n#cp -Rf $BUILT_PRODUCTS_DIR/../../Core/SetupVariables/setup_variables_macbook.xml /Library/#MonkeyWorks/ExampleSetupVariables/Macbook/setup_variables.xml\n#mkdir -p /Library/MonkeyWorks/ExampleSetupVariables/TwoMonitors\n#cp -Rf $BUILT_PRODUCTS_DIR/../../Core/SetupVariables/setup_variables_two_monitors.xml /Library/#MonkeyWorks/ExampleSetupVariables/TwoMonitors/setup_variables.xml\n\nexit 0";
+			shellScript = "export FULL_NAME=${PRODUCT_NAME}.${WRAPPER_EXTENSION}\n\nrm -Rf \"${INSTALL_PATH}/${FULL_NAME}\"\ncp -Rf \"${BUILT_PRODUCTS_DIR}/${FULL_NAME}\"  \"${INSTALL_PATH}\"\n\nmkdir -p ${CONFIG_DIR}/examples\ncp -f $BUILT_PRODUCTS_DIR/../../Core/SetupVariables/setup_variables_macbook.xml ${CONFIG_DIR}/examples\ncp -f $BUILT_PRODUCTS_DIR/../../Core/SetupVariables/setup_variables_two_monitors.xml ${CONFIG_DIR}/examples\n\nexit 0";
 		};
 		5CEFD61C0D4965F900EA9950 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -3594,6 +3610,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				APP_SUPPORT_DIR = "/Library/Application Support/Monkeyworks";
+				CONFIG_DIR = "$(APP_SUPPORT_DIR)/Configuration";
 				FRAMEWORK_SEARCH_PATHS = /Library/Frameworks;
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				GCC_OBJC_CALL_CXX_CDTORS = YES;
