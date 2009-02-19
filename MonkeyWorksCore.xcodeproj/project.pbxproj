@@ -18,6 +18,17 @@
 			name = CoreUninstall;
 			productName = UninstallCore;
 		};
+		5C488A160F4E27CD00C5A526 /* Set Version String */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 5C488A2D0F4E281F00C5A526 /* Build configuration list for PBXAggregateTarget "Set Version String" */;
+			buildPhases = (
+				5C488A150F4E27CD00C5A526 /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = "Set Version String";
+			productName = "Set Version String";
+		};
 		5C54F1E4085CD6FC00C3E649 /* Generate for GNU Install Tools */ = {
 			isa = PBXAggregateTarget;
 			buildConfigurationList = 5C0E8506086D85D400B3EE7C /* Build configuration list for PBXAggregateTarget "Generate for GNU Install Tools" */;
@@ -34,7 +45,6 @@
 			isa = PBXAggregateTarget;
 			buildConfigurationList = 5C0E8502086D85D400B3EE7C /* Build configuration list for PBXAggregateTarget "Everything" */;
 			buildPhases = (
-				DAA72F41088C066C0027C554 /* ShellScript */,
 			);
 			dependencies = (
 				5C3853F70AB7457800E52A63 /* PBXTargetDependency */,
@@ -478,6 +488,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 5C4D232409DC59410082BF9F;
 			remoteInfo = MonkeyWorksCoreTestRunner;
+		};
+		5C488A180F4E27D400C5A526 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DA2CE0C907E9070200C68AEF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5C488A160F4E27CD00C5A526 /* Set Version String */;
+			remoteInfo = "Set Version String";
 		};
 		5C4D24C109DC95550082BF9F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -2442,7 +2459,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5C0E84DA086D85D400B3EE7C /* Build configuration list for PBXNativeTarget "MonkeyWorksCore" */;
 			buildPhases = (
-				5C6616510F4C9AAD00C8FD71 /* ShellScript */,
 				DA2CE0CF07E9F68100C68AEF /* Headers */,
 				DA2CE0D007E9F68100C68AEF /* Resources */,
 				DA2CE0D107E9F68100C68AEF /* Sources */,
@@ -2452,6 +2468,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				5C488A190F4E27D400C5A526 /* PBXTargetDependency */,
 			);
 			name = MonkeyWorksCore;
 			productName = MonkeyWorksCore;
@@ -2525,6 +2542,7 @@
 				0E8014110E422E2A00D6DE20 /* MarionetteTest */,
 				0E121C930E6B1EF7007B29B8 /* CoreUninstall */,
 				5CDB8B230E9C4A6300993D99 /* mw_conduit */,
+				5C488A160F4E27CD00C5A526 /* Set Version String */,
 			);
 		};
 /* End PBXProject section */
@@ -2652,6 +2670,19 @@
 			shellPath = /bin/zsh;
 			shellScript = "export FULL_NAME=${PRODUCT_NAME}.${WRAPPER_EXTENSION}\n\nrm -R -f \"${INSTALL_PATH}/${FULL_NAME}\"\ncp -R -f \"${BUILT_PRODUCTS_DIR}/${FULL_NAME}\" \"${INSTALL_PATH}/\"\n";
 		};
+		5C488A150F4E27CD00C5A526 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/zsh;
+			shellScript = "export SOURCE_DIR=${BUILT_PRODUCTS_DIR}/../../\necho $SOURCE_DIR\nexport GIT=`/usr/bin/env which git`\necho $GIT\nexport VERSION_STRING=`$GIT log -n1 --pretty=format:%H`\n\necho $VERSION_STRING\nexport SUBS_STRING=s/_VERSION_STRING_/${VERSION_STRING}/\nsed $SUBS_STRING  ${SOURCE_DIR}/MonkeyWorksCore-Info.template.plist > ${SOURCE_DIR}/MonkeyWorksCore-Info.plist\n";
+		};
 		5C4D23A709DC83D20082BF9F /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -2703,19 +2734,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "# shell script goes here\nperl generate_automake_files.pl .\ntouch INSTALL NEWS README COPYING AUTHORS ChangeLog\naclocal\nautomake --add-missing\nautoconf\nautomake\ncp ./Core/ComponentRegistries/ComponentRegistry.cpp ./\n./configure\nmake dist\nmake\nmake install\nrm -f *.o\nexit 0";
-		};
-		5C6616510F4C9AAD00C8FD71 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/zsh;
-			shellScript = "export SOURCE_DIR=./\n\nexport GIT=`/usr/bin/env which git`\necho $GIT\nexport VERSION_STRING=`$GIT log -n1 --pretty=format:%H`\n\necho $VERSION_STRING\nexport SUBS_STRING=s/_VERSION_STRING_/${VERSION_STRING}/\nsed $SUBS_STRING  ${SOURCE_DIR}/MonkeyWorksCore-Info.template.plist > ${SOURCE_DIR}/MonkeyWorksCore-Info.plist\n";
 		};
 		5C8A4B880858C6E20016978D /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2833,19 +2851,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "echo ${BUILT_PRODUCTS_DIR}\ncp -Rf \"${BUILT_PRODUCTS_DIR}/HeadlessServer\" /Library/MonkeyWorks/bin";
-		};
-		DAA72F41088C066C0027C554 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "set BUILT_PRODUCTS_DIR = build/Development\nrm -rf \"${BUILT_PRODUCTS_DIR}/MonkeyWorksScripting.bundle\"";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -3169,6 +3174,11 @@
 			isa = PBXTargetDependency;
 			target = 5C4D232409DC59410082BF9F /* MonkeyWorksCoreTestRunner */;
 			targetProxy = 5C3853F80AB7458000E52A63 /* PBXContainerItemProxy */;
+		};
+		5C488A190F4E27D400C5A526 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5C488A160F4E27CD00C5A526 /* Set Version String */;
+			targetProxy = 5C488A180F4E27D400C5A526 /* PBXContainerItemProxy */;
 		};
 		5C4D24C209DC95550082BF9F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -3624,6 +3634,16 @@
 			};
 			name = Development;
 		};
+		5C488A170F4E27CD00C5A526 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = "Set Version String";
+			};
+			name = Development;
+		};
 		5C4D232E09DC595B0082BF9F /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -3907,6 +3927,14 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5C0E850F086D85D400B3EE7C /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		5C488A2D0F4E281F00C5A526 /* Build configuration list for PBXAggregateTarget "Set Version String" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5C488A170F4E27CD00C5A526 /* Development */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
