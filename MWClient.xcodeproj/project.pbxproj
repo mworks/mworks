@@ -68,6 +68,7 @@
 		5C23D8F50D8B27E50044AC9E /* MWCodec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWCodec.m; sourceTree = "<group>"; };
 		5C55E10B0D8E00A8000E1CB5 /* NSMenuExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSMenuExtensions.h; sourceTree = "<group>"; };
 		5C55E10C0D8E00A8000E1CB5 /* NSMenuExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSMenuExtensions.m; sourceTree = "<group>"; };
+		5C6616DA0F4C9BF600C8FD71 /* Info.template.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.template.plist; sourceTree = "<group>"; };
 		5C6DA5110DEF2237005E496A /* MWGroupedPluginWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWGroupedPluginWindowController.h; sourceTree = "<group>"; };
 		5C6DA5120DEF2237005E496A /* MWGroupedPluginWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWGroupedPluginWindowController.m; sourceTree = "<group>"; };
 		5C6DA5140DEF22F7005E496A /* GroupedPluginsWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GroupedPluginsWindow.xib; sourceTree = "<group>"; };
@@ -196,9 +197,10 @@
 			isa = PBXGroup;
 			children = (
 				5C6DA5140DEF22F7005E496A /* GroupedPluginsWindow.xib */,
-				5CEDF8180D85D7400044D738 /* Images */,
+				5C6616DA0F4C9BF600C8FD71 /* Info.template.plist */,
 				8D1107310486CEB800E47090 /* Info.plist */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
+				5CEDF8180D85D7400044D738 /* Images */,
 				29B97318FDCFA39411CA2CEA /* MainMenu.nib */,
 			);
 			name = Resources;
@@ -289,6 +291,7 @@
 				8D11072C0486CEB800E47090 /* Sources */,
 				8D11072E0486CEB800E47090 /* Frameworks */,
 				5C1239440D91A55700B5FA1F /* ShellScript */,
+				5C66166B0F4C9AEE00C8FD71 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -366,6 +369,19 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "export FULL_NAME=${PRODUCT_NAME}.${WRAPPER_EXTENSION}\nexport FINAL_INSTALL_DIR=\"/Applications\"\n\nrm -dfR \"${FINAL_INSTALL_DIR}/${FULL_NAME}\"\ncp -Rf \"${BUILT_PRODUCTS_DIR}/${FULL_NAME}\" \"${FINAL_INSTALL_DIR}\"\n";
+		};
+		5C66166B0F4C9AEE00C8FD71 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/zsh;
+			shellScript = "export SOURCE_DIR=./\n\nexport GIT=`/usr/bin/env which git`\necho $GIT\nexport VERSION_STRING=`$GIT log -n1 --pretty=format:%H`\n\necho $VERSION_STRING\nexport SUBS_STRING=s/_VERSION_STRING_/${VERSION_STRING}/\nsed $SUBS_STRING  ${SOURCE_DIR}/Info.template.plist > ${SOURCE_DIR}/Info.plist\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
