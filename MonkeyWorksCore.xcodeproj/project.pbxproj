@@ -2837,7 +2837,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/zsh;
-			shellScript = "mkdir -p \"${INSTALL_DIR}\"\n\ncp -f \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}\"  \"${INSTALL_DIR}\"";
+			shellScript = "export FULL_NAME=${PRODUCT_NAME}\n\necho making dir ${TESTS_DIR}/XML\nmkdir -p \"${TESTS_DIR}/XML\"\nrm -Rf \"${TESTS_DIR}/${FULL_NAME}\"\necho Copying files from ${BUILT_PRODUCTS_DIR}/${FULL_NAME} to ${TESTS_DIR}/\ncp -Rf \"${BUILT_PRODUCTS_DIR}/${FULL_NAME}\" \"${TESTS_DIR}/\"\nexit 0";
 		};
 		DA394B02088D4CFF001FDBC1 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
