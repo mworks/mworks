@@ -49,6 +49,7 @@ mw_application_support_dir = "/Library/Application Support/MonkeyWorks"
 mw_frameworks_dir = "/Library/Frameworks"
 mw_configuration_dir = mw_application_support_dir + "/Configuration"
 mw_developer_dir = mw_application_support_dir + "/Developer"
+mw_documents_dir = "/Documents/MonkeyWorks"
 
 mw_installer_info_file = "mw_installer.info"
 mw_installer_info_path = mw_configuration_dir + "/" + mw_installer_info_file
@@ -60,16 +61,23 @@ applications_package_root = install_root + "/applications"
 application_support_package_root = install_root + "/application_support"
 frameworks_package_root = install_root + "/frameworks"
 developer_package_root = install_root + "/developer"
+documents_package_root = install_root + "/documents"
+
 package_roots = [applications_package_root,
                  application_support_package_root,
                  frameworks_package_root,
-                 developer_package_root]
+                 developer_package_root,
+                 documents_package_root]
+
+for root in package_roots:
+    os.system("chmod -R 777 %s" % root)
 
 # Package names
 packages = ["applications",
             "application_support",
             "frameworks",
-            "developer"]
+            "developer",
+            "documents"]
 
 
 # Applications
@@ -77,6 +85,7 @@ applications = ["MWEditor.app", "MWServer.app", "MWClient.app"]
 
 # Frameworks
 frameworks = ["MonkeyWorksCocoa.framework", "MonkeyWorksCore.framework"]
+
 
 # Remove the current install root
 os.system("rm -rf %s" % quote(install_root))
@@ -108,8 +117,14 @@ for fw in frameworks:
 # developer support
 developer_install_dir = developer_package_root + mw_developer_dir
 os.system("mkdir -p %s" % quote(developer_install_dir))
-os.system("cp -rf %s %s" % (quote(mw_developer_dir), quote(developer_install_dir)))
+print "cp -rf %s %s" % (quote(mw_developer_dir + "/"), quote(developer_install_dir))
+os.system("cp -rf %s %s" % (quote(mw_developer_dir + "/"), quote(developer_install_dir)))
 
+# documents
+documents_install_dir = documents_package_root + mw_documents_dir
+os.system("mkdir -p %s" % quote(documents_install_dir))
+print "cp -rf %s %s" % (quote(mw_documents_dir + "/"), quote(documents_install_dir))
+os.system("cp -rf %s %s" % (quote(mw_documents_dir + "/"), quote(documents_install_dir)))
 
 os.system("mkdir -p %s" % quote(mw_subcomponent_package_path))
 
