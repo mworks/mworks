@@ -6,3 +6,4 @@ cd ../buildbot_master
 cd ../buildbot_slave
 ./start_buildbot_slave_local.sh
 
+open "http://localhost:7349"
