@@ -84,7 +84,7 @@ packages = ["applications",
 applications = ["MWEditor.app", "MWServer.app", "MWClient.app"]
 
 # Frameworks
-frameworks = ["MonkeyWorksCocoa.framework", "MonkeyWorksCore.framework"]
+frameworks = ["MonkeyWorksCocoa.framework", "MonkeyWorksCore.framework", "Scarab.framework"]
 
 
 # Remove the current install root
