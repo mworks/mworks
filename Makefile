@@ -1,9 +1,8 @@
 HID_PLUGIN=HIDPlugin
 NE500_PLUGIN=NE500
-PHIDGETS_PLUGIN=Phidgets
 SIDEWINDER_PLUGIN=SidewinderPlugAndPlayGamepadPlugin
 
-all: ne500-plugin phidgets-plugin sidewinder-plugin hid-plugin 
+all: ne500-plugin  sidewinder-plugin hid-plugin 
 
 hid-plugin:
 	cd $(HID_PLUGIN); \
@@ -20,7 +19,4 @@ ne500-plugin:
 	xcodebuild clean -alltargets -configuration Debug; \
 	xcodebuild build -target Everything -configuration Debug
 
-phidgets-plugin:
-	cd $(PHIDGETS_PLUGIN); \
-	xcodebuild clean -alltargets -configuration Debug; \
-	xcodebuild build -target Everything -configuration Debug
+
