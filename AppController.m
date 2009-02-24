@@ -170,7 +170,7 @@
 - (IBAction) loadExperiment: (id) sender {
 
 	MWClientInstance *client_instance = [self modalClientInstanceInCharge];
-	[client_instance setExperimentPath:[modalExperimentField stringValue]];
+	[client_instance setExperimentPath:[[modalExperimentField URL] relativePath]];
 
 	[client_instance loadExperiment];
 	

@@ -368,14 +368,19 @@
 
 - (void) updateRecentExperiments {
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	NSArray *recentExperiments = [defaults arrayForKey:@"recentExperiments"];
-	if([self experimentPath] != Nil && ![recentExperiments containsObject:[self experimentPath]]){
-		NSMutableArray *recentExperimentsMutable = [[NSMutableArray alloc] init];
-		[recentExperimentsMutable addObjectsFromArray:recentExperiments];
-		[recentExperimentsMutable addObject:[self experimentPath]];
-		[defaults setObject:recentExperimentsMutable forKey:@"recentExperiments"];
-		[defaults synchronize];
-	}
+    
+    if([self experimentPath] != Nil){
+        [defaults setObject:[self experimentPath] forKey:@"lastExperiment"];
+        [defaults synchronize];
+    }
+    //NSArray *recentExperiments = [defaults arrayForKey:@"recentExperiments"];
+	//if([self experimentPath] != Nil && ![recentExperiments containsObject:[self experimentPath]]){
+//		NSMutableArray *recentExperimentsMutable = [[NSMutableArray alloc] init];
+//		[recentExperimentsMutable addObjectsFromArray:recentExperiments];
+//		[recentExperimentsMutable addObject:[self experimentPath]];
+//		[defaults setObject:recentExperimentsMutable forKey:@"recentExperiments"];
+//		[defaults synchronize];
+	//}
 }
 
 

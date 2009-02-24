@@ -37,7 +37,7 @@
 	IBOutlet NSComboBox *modalPortField;
 
 	// Experiment load
-	IBOutlet NSComboBox *modalExperimentField;
+	IBOutlet NSPathControl *modalExperimentField;
 	
 	// Data File open
 	IBOutlet NSComboBox *modalDataFileField;

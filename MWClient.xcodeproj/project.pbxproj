@@ -58,6 +58,7 @@
 		5CEDF93E0D862FC60044D738 /* MonkeyWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CEDF93D0D862FC60044D738 /* MonkeyWorksCore.framework */; };
 		5CEDFA7C0D86C8C90044D738 /* MWServerConnectedIconTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CEDFA7B0D86C8C90044D738 /* MWServerConnectedIconTransformer.m */; };
 		5CF675C00DF58FF5006C80D5 /* candybar.tif in Resources */ = {isa = PBXBuildFile; fileRef = 5CF675BF0DF58FF5006C80D5 /* candybar.tif */; };
+		5CFE56580F54A653000C7F30 /* MWURLStringValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CFE56570F54A653000C7F30 /* MWURLStringValueTransformer.m */; };
 		8D11072A0486CEB800E47090 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 29B97318FDCFA39411CA2CEA /* MainMenu.nib */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
@@ -69,7 +70,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 5C488A420F4E289500C5A526 /* Set Version String */;
+			remoteGlobalIDString = 5C488A420F4E289500C5A526;
 			remoteInfo = "Set Version String";
 		};
 /* End PBXContainerItemProxy section */
@@ -132,6 +133,8 @@
 		5CEDFA7A0D86C8C90044D738 /* MWServerConnectedIconTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWServerConnectedIconTransformer.h; sourceTree = "<group>"; };
 		5CEDFA7B0D86C8C90044D738 /* MWServerConnectedIconTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWServerConnectedIconTransformer.m; sourceTree = "<group>"; };
 		5CF675BF0DF58FF5006C80D5 /* candybar.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = candybar.tif; path = Images/candybar.tif; sourceTree = "<group>"; };
+		5CFE56560F54A653000C7F30 /* MWURLStringValueTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWURLStringValueTransformer.h; sourceTree = "<group>"; };
+		5CFE56570F54A653000C7F30 /* MWURLStringValueTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWURLStringValueTransformer.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* MWClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MWClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -300,6 +303,8 @@
 				5C23D6760D8878810044AC9E /* MWExperimentPlayStopIconTransformer.m */,
 				5CD6D4370D9751580042051C /* MWErrorColorTransformer.h */,
 				5CD6D4380D9751580042051C /* MWErrorColorTransformer.m */,
+				5CFE56560F54A653000C7F30 /* MWURLStringValueTransformer.h */,
+				5CFE56570F54A653000C7F30 /* MWURLStringValueTransformer.m */,
 			);
 			name = ValueTransformers;
 			sourceTree = "<group>";
@@ -427,6 +432,7 @@
 				5CD6D4390D9751580042051C /* MWErrorColorTransformer.m in Sources */,
 				5C6DA5130DEF2237005E496A /* MWGroupedPluginWindowController.m in Sources */,
 				5CDBF29D0DF0FB7700FA9A64 /* MWNotebook.m in Sources */,
+				5CFE56580F54A653000C7F30 /* MWURLStringValueTransformer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
