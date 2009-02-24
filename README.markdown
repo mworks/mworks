@@ -55,3 +55,11 @@ The scripts in this directory handle the automatic building of the MW installer.
 	
 The resulting installer will be saved to:
 	/tmp/mw_installer/MonkeyWorksInstaller_VERSION_STRING
+
+### archiver ###
+
+The archiver directory contains a single script, archive.py, that will backup a currently installed MW installation (including old-style out-of-date directories no longer in use by MW).  The objective here is allow one to safely preserve a working state before trying out a new installation of MW.
+
+### uninstaller ###
+
+The uninstaller script eradicates all traces of MW on the current system. Note, that it only touches directories currently in use by MW.  It will not remove files in unused, deprecated locations.

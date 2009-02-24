@@ -31,3 +31,5 @@ for src in paths_to_archive:
         shutil.copytree(src, dst)
     except:
         print ">> Did not find anything in %s" % src
+
+print("A complete backup of your current MW install has been place in the directory: %s" % archive_target_root)
