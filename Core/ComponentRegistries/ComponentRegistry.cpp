@@ -194,10 +194,13 @@ void ComponentRegistry::registerObject(std::string tag_name, shared_ptr<mw::Comp
 	}    
     
     // If the tag name is already registered
-    if(instances.find(tag_name) != instances.end()){
-        throw SimpleException("Attempt to redefine an existing component.  All names within an experiment must be unique", tag_name);
-    }
-    
+    //if(instances.find(tag_name) != instances.end()){
+//        shared_ptr<Component> preexisting = instances[tag_name];
+//        string preexisting_tag = preexisting->getTag();
+//        // DDC: this is interacting unpleasantly with replicated stimuli
+//        //throw SimpleException("Attempt to redefine an existing component.  All names within an experiment must be unique", tag_name);
+//    }
+//    
 	instances[tag_name] = component;
 	
 	tagnames_by_id[component->getCompactID()] = tag_name;

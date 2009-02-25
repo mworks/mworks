@@ -110,15 +110,15 @@ namespace mw {
 			return false;
 		}
 		
-		
-		try {
+// This is getting double loaded    
+/*		try {
 			loadSetupVariables();
 		} catch(std::exception& e){
 			merror(M_PARSER_MESSAGE_DOMAIN, "Failed to load setup variables.  Specific problems was: \"%s\"", e.what());
 			GlobalCurrentExperiment = shared_ptr<Experiment>();
 			GlobalBufferManager->putEvent(EventFactory::currentExperimentState());
 			return false;
-		}
+		}*/
 		
 		shared_ptr<ComponentRegistry> reg = ComponentRegistry::getSharedRegistry();
 		
