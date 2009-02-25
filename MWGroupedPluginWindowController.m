@@ -8,6 +8,7 @@
 
 #import "MWGroupedPluginWindowController.h"
 
+
 @interface MWGroupedPluginWindowController(PrivateMethods)
 -(void) relinquishCurrentView;
 @end

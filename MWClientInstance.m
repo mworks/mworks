@@ -805,6 +805,15 @@
     [[grouped_plugin_controller window] orderFront:self];
     [grouped_plugin_controller setCurrentPluginIndex: 0];
     
+    NSString *autosavename;
+    if([self serverURL] != Nil){
+        autosavename = [self serverURL];
+    } else if([self serverName] != Nil){
+        autosavename = [self serverName];
+    }
+    
+    [grouped_plugin_controller setWindowFrameAutosaveName:autosavename];
+    
 }
 
 - (void)hideAllPlugins {
