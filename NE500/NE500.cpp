@@ -55,6 +55,10 @@ shared_ptr<mw::Component> NE500DeviceFactory::createObject(std::map<std::string,
 	REQUIRE_ATTRIBUTES(parameters, "address", "port");
 	
 	shared_ptr<Variable> address_variable = reg->getVariable(parameters["address"]);
+    if(address_variable == NULL){
+        throw SimpleException("NE500 Pump requires a valid address to function");
+    }
+    
 	string address = (string)(address_variable->getValue());
 	//string address = parameters["address"];
 	int port = reg->getNumber(parameters["port"]);
