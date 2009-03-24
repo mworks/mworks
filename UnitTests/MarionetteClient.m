@@ -86,10 +86,7 @@ Data _getNumber(const string &expression, const GenericDataType type);
 	if([[[NSProcessInfo processInfo] arguments] count] > 2) {
 		
 		NSString *message_file = [[[NSProcessInfo processInfo] arguments] objectAtIndex:2];
-		
-		
-		
-		
+
 		
 		LIBXML_TEST_VERSION
 		
@@ -104,6 +101,9 @@ Data _getNumber(const string &expression, const GenericDataType type);
 		// parse the file and get the DOM 
 		xmlDoc *xml_doc = xmlCtxtReadFile(context, [message_file cStringUsingEncoding:NSASCIIStringEncoding], NULL, 0);
 		
+        if(xml_doc == NULL){
+            NSLog(@"Invalid xml document: %@", message_file);
+        }
 		
 		// get the xsl doco out of the main bundle
 		NSBundle *main_bundle = [NSBundle mainBundle];
@@ -116,6 +116,10 @@ Data _getNumber(const string &expression, const GenericDataType type);
 		//xmlDocDump(stderr, xml_doc);
 		//xmlDocDump(stderr, simplified);
 		
+        if(root_element == NULL){
+            NSLog(@"Invalid xml root element");
+        }
+        
 		xmlNode *child = root_element->children;
 		while(child != NULL){
 			string name((const char *)(child->name));
