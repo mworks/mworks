@@ -121,7 +121,7 @@ void XMLParser::parse(bool announce_progress){
 	xmlDoc *simplified = xsltApplyStylesheet(simplification_transform, xml_doc, NULL);
 	
 	
-	//xmlDocDump(stderr, simplified);
+	xmlDocDump(stderr, simplified);
 	
 	xmlNode *root_element = xmlDocGetRootElement(simplified);
 	
@@ -330,7 +330,8 @@ void XMLParser::_createAndAddReplicatedChildren(xmlNode *node,
 			
 			xmlNode *child_copy = xmlCopyNode(child, 1);
 			_substituteAttributeStrings(child_copy, variable, *value);
-			
+			_substituteTagStrings(child_copy, variable, *value);
+            
 			string reference_id = _attributeForName(child_copy, "reference_id");
 			
 			string instance_id;
@@ -409,6 +410,32 @@ void XMLParser::_substituteAttributeStrings(xmlNode *node, string token, string 
 	
 }
 
+void XMLParser::_substituteTagStrings(xmlNode *node, string variable, string replacement){
+    
+    if(xmlNodeIsText(node)){
+        return;
+    }
+    
+    string prefix("$");
+    
+    string form1 = prefix + variable;
+    string form2 = prefix + string("{") + variable + string("}");
+    string content = _attributeForName(node, "tag");
+    if(!content.empty()){
+        boost::replace_all(content, form1, replacement);
+        boost::replace_all(content, form2, replacement);
+        _setAttributeForName(node, "tag", content);
+    }
+    
+    xmlNode *child = node->children;
+    
+    while( child != NULL ){
+        
+        _substituteTagStrings(child, variable, replacement);
+        child = child->next;
+    }
+
+}
 
 std::string XMLParser::getWorkingPathString(){
 	
@@ -702,14 +729,17 @@ shared_ptr<mw::Component> XMLParser::_getConnectionChild(xmlNode *child){
 	
 	//mprintf("failed to find child %s", child_instance_tag.c_str());
 	
+    
 	// Second, try to look up the object using its tag
     // DDC removed this  TODO: make sure there are no consequences
-//	child_component = registry->getObject<mw::Component>(child_tag);
-//	
+	// DDC: putting this back – has consequences for replicated stimuli
+    child_component = registry->getObject<mw::Component>(child_tag);
+
+	if(child_component != NULL){
 //	if(child_component != NULL && !(child_component->isAmbiguous())){
 //		//mprintf(M_PARSER_MESSAGE_DOMAIN, "\tretrieving child %s", child_tag.c_str());
-//		return child_component;
-//	}
+		return child_component;
+	}
 	
 	
 	// Finally, try to look up the object using its reference_id
@@ -851,14 +881,16 @@ void XMLParser::_createAndConnectReplicatedChildren(shared_ptr<mw::Component> pa
 			
 			xmlNode *subchild_copy = xmlCopyNode(subchild,1);
 			
+            _substituteTagStrings(subchild_copy, variable, *value);
+            
 			// perform substitution in the variable's tag, if necessary
-			string prefix("$");
-			string form1 = prefix + variable;
-			string form2 = prefix + string("{") + variable + string("}");
-			string content = _attributeForName(subchild, "tag");
-			boost::replace_all(content, form1, *value);
-			boost::replace_all(content, form2, *value);
-			_setAttributeForName(subchild_copy, "tag", content);
+//			string prefix("$");
+//			string form1 = prefix + variable;
+//			string form2 = prefix + string("{") + variable + string("}");
+//			string content = _attributeForName(subchild, "tag");
+//			boost::replace_all(content, form1, *value);
+//			boost::replace_all(content, form2, *value);
+//			_setAttributeForName(subchild_copy, "tag", content);
 			
 			_setAttributeForName(subchild_copy, "instance_id", subchild_instance_id);
 			
@@ -869,6 +901,7 @@ void XMLParser::_createAndConnectReplicatedChildren(shared_ptr<mw::Component> pa
 		}
 	}
 }
+
 
 void XMLParser::_processConnectDirective(xmlNode *node){
 	

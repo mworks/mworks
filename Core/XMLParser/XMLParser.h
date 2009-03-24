@@ -83,7 +83,8 @@ public:
 		virtual void _processListReplicator(xmlNode *node);
 		virtual void _dumpNode(xmlNode *node);
 		virtual void _substituteAttributeStrings(xmlNode *node, string token, string replacement);
-		virtual void _addVariableAssignment(xmlNode *node, const string& variable, const string& value);
+        virtual void _substituteTagStrings(xmlNode *node, string token, string replacement);
+        virtual void _addVariableAssignment(xmlNode *node, const string& variable, const string& value);
 	
 		virtual void _processCreateDirective(xmlNode *node);
 		virtual void _processAnonymousCreateDirective(xmlNode *node);
