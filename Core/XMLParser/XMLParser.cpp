@@ -40,8 +40,10 @@ namespace mw {
 		
 		xmlParserCtxt *context = (xmlParserCtxt *)_parser_context;
 		XMLParser *parser = (XMLParser *)context->_private;
-		string error_string((char *)buffer);
-		parser->addParserError(error_string);
+        if(parser != NULL){
+            string error_string((char *)buffer);
+            parser->addParserError(error_string);
+        }
 		cerr << buffer << endl;
 	}
 }
