@@ -1032,13 +1032,13 @@ void ImageStimulus::drawInUnitSquare(StimulusDisplay *display) {
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 		glEnable (GL_BLEND); 
 		glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-//		glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_ADD);
-		glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
+		glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+//		glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 								
         glBegin(GL_QUADS);
 		
 		float a = alpha_multiplier->getValue().getFloat();
-		glColor4f(0.5, 0.5, 0.5, 1-a);
+		glColor4f(1., 1., 1., 1-a);
 //		glColor4f(0.5, 0.5, 0.5, 0);
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		
@@ -1143,7 +1143,7 @@ shared_ptr<mw::Component> ImageStimulusFactory::createObject(std::map<std::strin
 	shared_ptr<Variable> rotation = reg->getVariable(parameters.find("rotation")->second);	
 	
 	shared_ptr<Variable> alpha_multiplier = 
-			reg->getVariable(parameters["alpha_multiplier"], std::string("1"));	
+			reg->getVariable(parameters["alpha_multiplier"], std::string("0.0"));	
 	
 	bf::path full_path = reg->getPath(parameters["working_path"], parameters["path"]);
 		
