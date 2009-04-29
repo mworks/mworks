@@ -108,6 +108,8 @@ application_support_install_dir = application_support_package_root + mw_applicat
 os.system("mkdir -p %s" % quote(application_support_install_dir))
 os.system("rsync -a --exclude Developer --exclude setup_variables.xml %s %s" % (quote(mw_application_support_dir + "/"), 
                                                    quote(application_support_install_dir)))
+os.system("mkdir -p %s" % quote(application_support_install_dir + "/Experiment Cache"))  # make sure this directory exists
+
 # frameworks
 frameworks_install_dir = frameworks_package_root + mw_frameworks_dir
 os.system("mkdir -p %s" % quote(frameworks_install_dir))

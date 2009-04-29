@@ -51,10 +51,10 @@ To contain appropriate ports and passwords.
 
 The scripts in this directory handle the automatic building of the MW installer. To build an installer, simply run:
 
-	./build_installer_package.py VERSION_STRING
+	./build_installer_package.py <INSTALLER_BASE_NAME> <VERSION_STRING>
 	
 The resulting installer will be saved to:
-	/tmp/mw_installer/MonkeyWorksInstaller_VERSION_STRING
+	/tmp/mw_installer/<INSTALLER_BASE_NAME>_<VERSION_STRING>
 
 ### archiver ###
 
