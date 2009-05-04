@@ -1038,7 +1038,7 @@ void ImageStimulus::drawInUnitSquare(StimulusDisplay *display) {
         glBegin(GL_QUADS);
 		
 		float a = alpha_multiplier->getValue().getFloat();
-		glColor4f(1., 1., 1., 1-a);
+		glColor4f(1., 1., 1., a);
 //		glColor4f(0.5, 0.5, 0.5, 0);
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		
@@ -1143,7 +1143,7 @@ shared_ptr<mw::Component> ImageStimulusFactory::createObject(std::map<std::strin
 	shared_ptr<Variable> rotation = reg->getVariable(parameters.find("rotation")->second);	
 	
 	shared_ptr<Variable> alpha_multiplier = 
-			reg->getVariable(parameters["alpha_multiplier"], std::string("0.0"));	
+			reg->getVariable(parameters["alpha_multiplier"], std::string("1.0"));	
 	
 	bf::path full_path = reg->getPath(parameters["working_path"], parameters["path"]);
 		
