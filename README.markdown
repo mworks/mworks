@@ -1,1 +1,1 @@
-Information about the MW Core Framework will go here.
+Information about the MonkeyWorks Core Framework will go here.

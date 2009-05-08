@@ -169,6 +169,8 @@
 		5C7667540C1BB30A00B1203C /* StimulusDisplay.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C7667530C1BB30A00B1203C /* StimulusDisplay.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5C7720420B6972C7008DC497 /* ScarabFileTest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C37484009EC18A200F8265F /* ScarabFileTest.h */; };
 		5C7720430B6972CA008DC497 /* ScarabFileTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C37484109EC18A200F8265F /* ScarabFileTest.cpp */; };
+		5C7A88270F818A38007B4724 /* SimpleConduitTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C7A88250F818A38007B4724 /* SimpleConduitTest.cpp */; };
+		5C7A88280F818A38007B4724 /* SimpleConduitTest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C7A88260F818A38007B4724 /* SimpleConduitTest.h */; };
 		5C7CEFE30BC5D7AB00434931 /* LegacyBuffers.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C7CEFE10BC5D7AB00434931 /* LegacyBuffers.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5C7CF2FE0BC69E3900434931 /* LegacyBuffers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C7CEFE20BC5D7AB00434931 /* LegacyBuffers.cpp */; };
 		5C7CF4EF0BC6B48D00434931 /* LinkedList.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C7CF4ED0BC6B48D00434931 /* LinkedList.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -714,6 +716,8 @@
 		5C76674D0C1BB28C00B1203C /* StimulusNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StimulusNode.h; path = Core/Stimuli/StimulusNode.h; sourceTree = "<group>"; };
 		5C76674E0C1BB28C00B1203C /* StimulusNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StimulusNode.cpp; path = Core/Stimuli/StimulusNode.cpp; sourceTree = "<group>"; };
 		5C7667530C1BB30A00B1203C /* StimulusDisplay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StimulusDisplay.h; path = Core/Stimuli/StimulusDisplay.h; sourceTree = "<group>"; };
+		5C7A88250F818A38007B4724 /* SimpleConduitTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SimpleConduitTest.cpp; sourceTree = "<group>"; };
+		5C7A88260F818A38007B4724 /* SimpleConduitTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleConduitTest.h; sourceTree = "<group>"; };
 		5C7B90670B0A625200448C9E /* EmbeddedPerlInterpreter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EmbeddedPerlInterpreter.h; path = Core/Interpreters/EmbeddedPerlInterpreter.h; sourceTree = "<group>"; };
 		5C7B90680B0A625200448C9E /* EmbeddedPerlInterpreter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EmbeddedPerlInterpreter.cpp; path = Core/Interpreters/EmbeddedPerlInterpreter.cpp; sourceTree = "<group>"; };
 		5C7CEFE10BC5D7AB00434931 /* LegacyBuffers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LegacyBuffers.h; path = Core/Events/LegacyBuffers.h; sourceTree = "<group>"; };
@@ -1513,6 +1517,8 @@
 		5CCA2CAC0E903B21007BDA56 /* tests */ = {
 			isa = PBXGroup;
 			children = (
+				5C7A88250F818A38007B4724 /* SimpleConduitTest.cpp */,
+				5C7A88260F818A38007B4724 /* SimpleConduitTest.h */,
 			);
 			path = tests;
 			sourceTree = "<group>";
@@ -2100,6 +2106,7 @@
 				0E00418B0EB9F3C30099380C /* ClockTest.h in Headers */,
 				0EF2B6710EBB6ED70088F58F /* RegisteredSingletonTests.h in Headers */,
 				0EBCB90C0EFF42440032F669 /* XMLParserTest.h in Headers */,
+				5C7A88280F818A38007B4724 /* SimpleConduitTest.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2922,6 +2929,7 @@
 				0E00418C0EB9F3C30099380C /* ClockTest.cpp in Sources */,
 				0EF2B6720EBB6ED70088F58F /* RegisteredSingletonTests.cpp in Sources */,
 				0EBCB90D0EFF42440032F669 /* XMLParserTest.cpp in Sources */,
+				5C7A88270F818A38007B4724 /* SimpleConduitTest.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3781,7 +3789,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				HEADER_SEARCH_PATHS = (
 					/usr/include/python2.5,
-					/Library/MonkeyWorks/include,
+					$MW_INCLUDE_DIR,
 				);
 				INSTALL_PATH = /usr/local/lib;
 				LINK_WITH_STANDARD_LIBRARIES = YES;

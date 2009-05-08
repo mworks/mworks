@@ -99,6 +99,7 @@ void SimpleConduit::registerCallback(int event_code, event_callback functor){
 // Send data to the other side.  It is assumed that both sides understand 
 // what the event codes mean.
 void SimpleConduit::sendData(int code, Data data){
+    //fprintf(stderr, "sending event");fflush(stderr);
     shared_ptr<Event> event(new Event(code, data));
     transport->sendEvent(event);
 }

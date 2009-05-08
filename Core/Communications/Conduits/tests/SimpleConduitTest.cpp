@@ -12,6 +12,8 @@
 #include "IPCEventTransport.h"
 #include "SimpleConduit.h"
 
+using namespace mw;
+
 CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( SimpleConduitTestFixture, "Unit Test" );
 
 void SimpleEventCollector::handleEvent(shared_ptr<Event> event){
@@ -49,7 +51,9 @@ void SimpleConduitTestFixture::testInOneThread(){
     client_conduit.initialize();
 
     server_conduit.sendData(0, Data(4.0));
-    GlobalClock->sleepMS(100);
+    
+    shared_ptr<Clock> clock = Clock::instance();
+    clock->sleepMS(100);
     
     shared_ptr<Event> received_event = clientside_collector->getLastEvent();
     

@@ -25,6 +25,8 @@
 
 #include "FullCoreEnvironmentTest.h"
 
+namespace mw {
+    
 class SimpleConduitTestFixture : public FullCoreEnvironmentTestFixture {
 	
 	
@@ -56,6 +58,7 @@ public:
     shared_ptr<Event> getLastEvent(){ return last_event; }
 };
 
+}
 
 #endif
 

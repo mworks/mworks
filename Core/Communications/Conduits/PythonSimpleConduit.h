@@ -12,6 +12,9 @@
 #include "DummyEventTransport.h"
 #include "Exceptions.h"
 
+#include "CoreBuilderForeman.h"
+#include "StandardServerCoreBuilder.h"
+
 #include <boost/python.hpp>
 namespace mw {
 using namespace boost::python;
@@ -50,6 +53,13 @@ protected:
 public:
 
     PythonIPCPseudoConduit(std::string _resource_name, EventTransport::event_transport_type type){
+        
+        // if there's no clock defined, create the core infrastructure
+        if(!Clock::instance(false)){
+            shared_ptr<StandardServerCoreBuilder> core_builder(new StandardServerCoreBuilder());
+            CoreBuilderForeman::constructCoreStandardOrder(core_builder.get());
+        }
+        
         resource_name = _resource_name;
         initialized = false;
         
@@ -109,7 +119,7 @@ public:
         if(conduit != NULL){
             conduit->sendData(code, Data(data));
         }else {
-            fprintf(stderr, "Test"); fflush(stderr);
+            //fprintf(stderr, "Test"); fflush(stderr);
             throw SimpleException("Invalid conduit");
         }
     }
@@ -160,14 +170,14 @@ BOOST_PYTHON_MODULE(mw_conduit)
     ;
 
 
-    class_<Event, boost::noncopyable>("mEvent")
-        .add_property("code", &mEvent::getEventCode)
-        .add_property("data", &mEvent::getData);
+    class_<Event, boost::noncopyable>("mwEvent")
+        .add_property("code", &Event::getEventCode)
+        .add_property("data", &Event::getData);
     ;
     
-    class_<Data, boost::noncopyable>("mData")
-        .add_property("float", &mData::getFloat)
-        .add_property("integer", &mData::getInteger);
+    class_<Data, boost::noncopyable>("mwData")
+        .add_property("float", &Data::getFloat)
+        .add_property("integer", &Data::getInteger);
     ;
 }
 
