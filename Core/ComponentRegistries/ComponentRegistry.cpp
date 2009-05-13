@@ -315,6 +315,10 @@ shared_ptr<mw::StimulusNode>	ComponentRegistry::getStimulus(std::string expressi
 	// stimulus group
 	shared_ptr<StimulusGroup> stimulus_group = getObject<StimulusGroup>(stem);
 	
+    if(stimulus_group == NULL){
+        throw SimpleException("Unknown stimulus group", stem);
+    }
+    
 	shared_ptr<StimulusNodeGroup> stimulus_node_group = getObject<StimulusNodeGroup>(stem + ":node");
 	
 	if(stimulus_node_group == NULL){
