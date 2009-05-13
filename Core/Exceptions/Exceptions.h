@@ -101,6 +101,20 @@ class InvalidXMLException : public SimpleException{
 	
 	string getReferenceID(){  return reference_id;  }
 };
+    
+
+class ComponentFactoryConflictException : public SimpleException{
+  
+    
+public:
+    
+    ComponentFactoryConflictException(string _subject) : 
+        SimpleException(M_PLUGIN_MESSAGE_DOMAIN, "A plugin has attempted to redefine the behavior of an existing XML signature.", _subject){
+        }
+    
+    virtual ~ComponentFactoryConflictException() throw() {}
+};
+    
 }
 
 #endif

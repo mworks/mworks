@@ -45,7 +45,9 @@ bool StandardClientCoreBuilder::initializeGlobalParameters() {
 
 bool StandardClientCoreBuilder::loadPlugins() {
 	
-	readPlugins(pluginPath());
+    readPlugin("MachClockPlugin");
+    readPlugin("LowPrioritySchedulerPlugin");
+	//readPlugins(pluginPath());
 	return true;
 }
 

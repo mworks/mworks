@@ -120,7 +120,12 @@ ComponentRegistry::ComponentRegistry() {
 void ComponentRegistry::registerFactory(std::string type_name, 
 										 ComponentFactory *_factory){
 	shared_ptr<ComponentFactory> factory(_factory);
-	factories[type_name] = factory;
+    
+    if(factories[type_name] != NULL){
+        throw ComponentFactoryConflictException(type_name);
+	}
+    
+    factories[type_name] = factory;
 }
 
 shared_ptr<ComponentFactory> ComponentRegistry::getFactory(std::string type_name){
