@@ -10,6 +10,7 @@
 
 #import "MonkeyWorksCore/StandardClientCoreBuilder.h"
 #import "MonkeyWorksCore/CoreBuilderForeman.h"
+#import "MonkeyWorksCore/Exceptions.h"
 
 int main(int argc, char *argv[])
 {
@@ -17,7 +18,11 @@ int main(int argc, char *argv[])
     // -----------------------------
     // Initialize the core
     // -----------------------------
-    mw::CoreBuilderForeman::constructCoreStandardOrder(new mw::StandardClientCoreBuilder());
-
+    try{
+        mw::CoreBuilderForeman::constructCoreStandardOrder(new mw::StandardClientCoreBuilder());
+    } catch(mw::SimpleException& e){
+        // do nothing
+    }
+    
     return NSApplicationMain(argc,  (const char **) argv);
 }
