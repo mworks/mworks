@@ -25,8 +25,11 @@
 	IBOutlet MWSNetworkPreferencesController *nc;
 	
 	NSString *listeningAddress;
+    
+    NSError *err;
 }
 
+- (void) setError:(NSError *)error;
 
 - (IBAction)openExperiment:(id)sender;
 - (IBAction)closeExperiment:(id)sender;

@@ -70,11 +70,22 @@
 	[cc release];
 	[super dealloc];
 }
+
+
 /****************************************************************
  *              NSApplication Delegate Methods
  ***************************************************************/
+- (void)setError:(NSError *)error{
+    err = error;
+}
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-	// initialize GUI items
+
+	if(err != Nil){
+        NSApplication *app = [aNotification object];
+        [app presentError:err];
+        [app terminate:self];
+    }
+    // initialize GUI items
 	
 	// make a core server
 //	boost::shared_ptr <CocoaEventFunctor> cef = boost::shared_ptr <CocoaEventFunctor>(new CocoaEventFunctor(self,@selector(processEvent:), "MWSServer"));

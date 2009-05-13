@@ -13,6 +13,8 @@
 
 #import "MonkeyWorksCore/StandardServerCoreBuilder.h"
 #import "MonkeyWorksCore/CoreBuilderForeman.h"
+#import "MonkeyWorksCore/Exceptions.h"
+
 
 int main(int argc, char *argv[]) {
 	using namespace mw;
@@ -27,19 +29,38 @@ int main(int argc, char *argv[]) {
         // the user started from the client and we need to process arguments.        
     }
     
+    
     // -----------------------------
     // Initialize the core
     // -----------------------------
-    CoreBuilderForeman::constructCoreStandardOrder(new 
+    
+    NSError *error = Nil;
+    
+    try {
+        CoreBuilderForeman::constructCoreStandardOrder(new 
 													StandardServerCoreBuilder());
-	
+	} catch(ComponentFactoryConflictException& e){
+        
+        NSString *error_description = [NSString stringWithCString:e.getMessage().c_str()];
+        NSString *recovery_suggestion = @"You must review your plugins to ensure that multiple plugins aren't trying to register functionality under the same XML signatures";
+        NSMutableDictionary *error_info = [[NSMutableDictionary alloc] init];
+        [error_info setObject: error_description  forKey: NSLocalizedDescriptionKey];
+        [error_info setObject: recovery_suggestion forKey: NSLocalizedRecoverySuggestionErrorKey];
+        
+        error = [NSError errorWithDomain:@"PluginLoader" 
+                         code: 100 
+                        userInfo: error_info];
+    }
 	    
     // ----------------------------
     // Load Basic Cocoa Resources
     // ----------------------------
     [NSBundle loadNibNamed:@"MainMenu" owner:myapp];
 	
-	
+	if(error != Nil){
+        [[myapp delegate] setError:error];
+    }
+    
     // ---------------------------------------
     // Set UI Running
     // ---------------------------------------    
