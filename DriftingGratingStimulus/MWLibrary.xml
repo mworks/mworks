@@ -1,0 +1,61 @@
+<MWElements>
+	<MWElement name="Drifting Grating Stimulus">
+		<!-- XPath 2.0 expression defining nodes of this type -->
+		<match_signature>stimulus[@type="drifting_grating"]</match_signature>
+		
+		<isa>Stimulus</isa>
+		
+		<description>
+			A drifting grating stimulus
+			</description>
+		
+		<!-- Payload -->
+		<code>
+			<stimulus type="drifting_grating" tag="New Drifting Grating"
+			frames_per_second="10"
+			statistics_reporting="0"
+			error_reporting="0"
+			direction="0"
+			starting_phase="0"
+			spatial_frequency="0"
+			speed="1"
+			grating_type="sinusoid"
+			mask="gaussian"
+			x_size="1"
+			y_size="1"
+			x_position="0"
+			y_position="0"
+			rotation="0"
+			alpha_multiplier="1"/>
+			</code>
+		</MWElement>
+	
+	<MWElement name="Play Dynamic Stimulus">
+		<match_signature>action[@type='play_dynamic_stimulus']</match_signature>
+		<isa>Action</isa>
+		
+		
+		<description>
+			Start playing a dynamic stimulus
+			</description>
+		
+		<code>
+			<action tag="Play dynamic stimulus" stimulus="" type="play_dynamic_stimulus"/>
+			</code>
+		</MWElement>
+	
+	<MWElement name="Stop Dynamic Stimulus">
+		<match_signature>action[@type='stop_dynamic_stimulus']</match_signature>
+		<isa>Action</isa>
+		
+		
+		<description>
+			Stop a dynamic stimulus
+			</description>
+		
+		<code>
+			<action tag="Stop dynamic stimulus" stimulus="" type="stop_dynamic_stimulus"/>
+			</code>
+		</MWElement>
+	
+	</MWElements>
