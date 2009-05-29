@@ -17,13 +17,13 @@
 #include "SawtoothGratingData.h"
 #include "SquareGratingData.h"
 #include <boost/regex.hpp>
-#include "MonkeyWorksCore/ComponentRegistry_new.h"
+#include "MonkeyWorksCore/ComponentRegistry.h"
 using namespace mw;
 
 
 
 shared_ptr<mw::Component> mDriftingGratingStimulusFactory::createObject(std::map<std::string, std::string> parameters,
-																	 mwComponentRegistry *reg) {
+                                                                        mw::ComponentRegistry *reg) {
 	
 	const char *TAG = "tag";
 	const char *FRAMES_PER_SECOND = "frames_per_second";

@@ -12,7 +12,7 @@
 using namespace mw;
 
 shared_ptr<mw::Component> mPlayDynamicStimulusFactory::createObject(std::map<std::string, std::string> parameters,
-													   mwComponentRegistry *reg) {
+                                                                    mw::ComponentRegistry *reg) {
 	
 	const char *DYNAMIC_STIMULUS = "stimulus";
 	

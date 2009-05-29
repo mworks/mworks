@@ -19,7 +19,7 @@ Plugin *getPlugin(){
 }
 
 
-void mDriftingGratingStimulusPlugin::registerComponents(shared_ptr<mwComponentRegistry> registry) {
+void mDriftingGratingStimulusPlugin::registerComponents(shared_ptr<mw::ComponentRegistry> registry) {
 	registry->registerFactory(std::string("action/play_dynamic_stimulus"),
 							  (ComponentFactory *)(new mPlayDynamicStimulusFactory()));
 	

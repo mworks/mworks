@@ -16,7 +16,7 @@ using namespace mw;
 
 class mStopDynamicStimulusFactory : public ComponentFactory {
 	virtual boost::shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-													   mwComponentRegistry *reg);
+                                                          mw::ComponentRegistry *reg);
 };
 
 #endif

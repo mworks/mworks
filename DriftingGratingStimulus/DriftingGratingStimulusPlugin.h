@@ -16,5 +16,5 @@ extern "C"{
 
 class mDriftingGratingStimulusPlugin : public Plugin {
     
-	virtual void registerComponents(shared_ptr<mwComponentRegistry> registry);	
+	virtual void registerComponents(shared_ptr<mw::ComponentRegistry> registry);	
 };
