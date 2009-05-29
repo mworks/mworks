@@ -95,6 +95,11 @@ class BasicTransformStimulus : public Stimulus {
         virtual void draw(StimulusDisplay * display,float x, float y,
                                                     float sizex, float sizey);
         virtual Data getCurrentAnnounceDrawData();    
+	
+				virtual shared_ptr<Variable> getXScale(){ return xscale; }
+				virtual shared_ptr<Variable> getYScale(){ return yscale; }
+				virtual shared_ptr<Variable> getXOffset(){ return xoffset; }
+				virtual shared_ptr<Variable> getYOffset(){ return yoffset; }
 };
 
 class OpenGLImageLoader {
