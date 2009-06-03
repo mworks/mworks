@@ -1,0 +1,548 @@
+// !$*UTF8*$!
+{
+	089C1669FE841209C02AAC07 /* Project object */ = {
+		activeBuildConfigurationName = Debug;
+		activeTarget = 8D5B49AC048680CD000E48DA /* «PROJECTNAME» */;
+		addToTargets = (
+			8D5B49AC048680CD000E48DA /* «PROJECTNAME» */,
+		);
+		codeSenseManager = 5CFE59060F5701FA000C7F30 /* Code sense */;
+		perUserDictionary = {
+			PBXConfiguration.PBXFileTableDataSource3.PBXFileTableDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					20,
+					343,
+					20,
+					48,
+					43,
+					43,
+					20,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXFileDataSource_FiletypeID,
+					PBXFileDataSource_Filename_ColumnID,
+					PBXFileDataSource_Built_ColumnID,
+					PBXFileDataSource_ObjectSize_ColumnID,
+					PBXFileDataSource_Errors_ColumnID,
+					PBXFileDataSource_Warnings_ColumnID,
+					PBXFileDataSource_Target_ColumnID,
+				);
+			};
+			PBXPerProjectTemplateStateSaveDate = 265655148;
+			PBXWorkspaceStateSaveDate = 265655148;
+		};
+		perUserProjectItems = {
+			5C2245070F571D5F00BECC34 /* PBXTextBookmark */ = 5C2245070F571D5F00BECC34 /* PBXTextBookmark */;
+			5C2245090F571D5F00BECC34 /* PBXTextBookmark */ = 5C2245090F571D5F00BECC34 /* PBXTextBookmark */;
+			5C22450B0F571D5F00BECC34 /* PBXTextBookmark */ = 5C22450B0F571D5F00BECC34 /* PBXTextBookmark */;
+			5C22450D0F571D5F00BECC34 /* PBXTextBookmark */ = 5C22450D0F571D5F00BECC34 /* PBXTextBookmark */;
+			5C22450F0F571D5F00BECC34 /* PBXTextBookmark */ = 5C22450F0F571D5F00BECC34 /* PBXTextBookmark */;
+			5C2245110F571D5F00BECC34 /* PBXTextBookmark */ = 5C2245110F571D5F00BECC34 /* PBXTextBookmark */;
+			5C2245480F571ED100BECC34 /* PBXTextBookmark */ = 5C2245480F571ED100BECC34 /* PBXTextBookmark */;
+			5C22454A0F571ED100BECC34 /* PBXTextBookmark */ = 5C22454A0F571ED100BECC34 /* PBXTextBookmark */;
+			5C22454C0F571ED100BECC34 /* PBXTextBookmark */ = 5C22454C0F571ED100BECC34 /* PBXTextBookmark */;
+			5C2245500F571ED100BECC34 /* PBXTextBookmark */ = 5C2245500F571ED100BECC34 /* PBXTextBookmark */;
+			5C2245550F571ED100BECC34 /* PBXTextBookmark */ = 5C2245550F571ED100BECC34 /* PBXTextBookmark */;
+			5C2245570F571ED100BECC34 /* PBXTextBookmark */ = 5C2245570F571ED100BECC34 /* PBXTextBookmark */;
+			5C2245590F571ED100BECC34 /* PBXTextBookmark */ = 5C2245590F571ED100BECC34 /* PBXTextBookmark */;
+			5C22455F0F571ED100BECC34 /* PBXTextBookmark */ = 5C22455F0F571ED100BECC34 /* PBXTextBookmark */;
+			5C238C4F0FD5921100C42216 /* PBXTextBookmark */ = 5C238C4F0FD5921100C42216 /* PBXTextBookmark */;
+			5C238C500FD5921100C42216 /* PBXTextBookmark */ = 5C238C500FD5921100C42216 /* PBXTextBookmark */;
+			5C79386F0FD57BD100EE9CA6 /* PBXTextBookmark */ = 5C79386F0FD57BD100EE9CA6 /* PBXTextBookmark */;
+			5CF9AEF80FD579CC00F405F6 /* PBXTextBookmark */ = 5CF9AEF80FD579CC00F405F6 /* PBXTextBookmark */;
+			5CFA69790FD593BA006E8B25 /* PBXTextBookmark */ = 5CFA69790FD593BA006E8B25 /* PBXTextBookmark */;
+			5CFA697A0FD593BA006E8B25 /* PBXTextBookmark */ = 5CFA697A0FD593BA006E8B25 /* PBXTextBookmark */;
+			5CFA697B0FD593BA006E8B25 /* PBXTextBookmark */ = 5CFA697B0FD593BA006E8B25 /* PBXTextBookmark */;
+			5CFA697C0FD593BA006E8B25 /* PBXTextBookmark */ = 5CFA697C0FD593BA006E8B25 /* PBXTextBookmark */;
+			5CFA697D0FD593BA006E8B25 /* PBXTextBookmark */ = 5CFA697D0FD593BA006E8B25 /* PBXTextBookmark */;
+			5CFA697F0FD593BA006E8B25 /* PBXTextBookmark */ = 5CFA697F0FD593BA006E8B25 /* PBXTextBookmark */;
+			5CFA69800FD593BA006E8B25 /* PBXTextBookmark */ = 5CFA69800FD593BA006E8B25 /* PBXTextBookmark */;
+			5CFA69820FD593BA006E8B25 /* PBXTextBookmark */ = 5CFA69820FD593BA006E8B25 /* PBXTextBookmark */;
+			5CFA69830FD593BA006E8B25 /* PBXTextBookmark */ = 5CFA69830FD593BA006E8B25 /* PBXTextBookmark */;
+			5CFA69840FD593BA006E8B25 /* PBXTextBookmark */ = 5CFA69840FD593BA006E8B25 /* PBXTextBookmark */;
+			5CFA69890FD593BA006E8B25 /* PBXTextBookmark */ = 5CFA69890FD593BA006E8B25 /* PBXTextBookmark */;
+			5CFA698A0FD593BA006E8B25 /* PBXTextBookmark */ = 5CFA698A0FD593BA006E8B25 /* PBXTextBookmark */;
+			5CFA698B0FD593BA006E8B25 /* PBXTextBookmark */ = 5CFA698B0FD593BA006E8B25 /* PBXTextBookmark */;
+			5CFA69950FD593C9006E8B25 /* PBXTextBookmark */ = 5CFA69950FD593C9006E8B25 /* PBXTextBookmark */;
+		};
+		sourceControlManager = 5CFE59050F5701FA000C7F30 /* Source Control */;
+		userBuildSettings = {
+		};
+	};
+	5C2245070F571D5F00BECC34 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 5C2245080F571D5F00BECC34 /* «PROJECTNAME».cpp */;
+		name = "«PROJECTNAME».cpp: 2";
+		rLen = 13;
+		rLoc = 7;
+		rType = 0;
+		vrLen = 756;
+		vrLoc = 0;
+	};
+	5C2245080F571D5F00BECC34 /* «PROJECTNAME».cpp */ = {
+		isa = PBXFileReference;
+		lastKnownFileType = sourcecode.cpp.cpp;
+		name = "«PROJECTNAME».cpp";
+		path = "/Developer/Library/Xcode/Project Templates/Bundle/MonkeyWorks Plugin/«PROJECTNAME».cpp";
+		sourceTree = "<absolute>";
+	};
+	5C2245090F571D5F00BECC34 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 5C22450A0F571D5F00BECC34 /* «PROJECTNAME».h */;
+		name = "«PROJECTNAME».h: 25";
+		rLen = 0;
+		rLoc = 438;
+		rType = 0;
+		vrLen = 438;
+		vrLoc = 0;
+	};
+	5C22450A0F571D5F00BECC34 /* «PROJECTNAME».h */ = {
+		isa = PBXFileReference;
+		lastKnownFileType = sourcecode.c.h;
+		name = "«PROJECTNAME».h";
+		path = "/Developer/Library/Xcode/Project Templates/Bundle/MonkeyWorks Plugin/«PROJECTNAME».h";
+		sourceTree = "<absolute>";
+	};
+	5C22450B0F571D5F00BECC34 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 5C22450C0F571D5F00BECC34 /* «PROJECTNAME»Factory.h */;
+		name = "«PROJECTNAME»Factory.h: 18";
+		rLen = 0;
+		rLoc = 372;
+		rType = 0;
+		vrLen = 525;
+		vrLoc = 0;
+	};
+	5C22450C0F571D5F00BECC34 /* «PROJECTNAME»Factory.h */ = {
+		isa = PBXFileReference;
+		lastKnownFileType = sourcecode.c.h;
+		name = "«PROJECTNAME»Factory.h";
+		path = "/Developer/Library/Xcode/Project Templates/Bundle/MonkeyWorks Plugin/«PROJECTNAME»Factory.h";
+		sourceTree = "<absolute>";
+	};
+	5C22450D0F571D5F00BECC34 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 5C22450E0F571D5F00BECC34 /* «PROJECTNAME».cpp */;
+		name = "«PROJECTNAME».cpp: 2";
+		rLen = 13;
+		rLoc = 7;
+		rType = 0;
+		vrLen = 756;
+		vrLoc = 0;
+	};
+	5C22450E0F571D5F00BECC34 /* «PROJECTNAME».cpp */ = {
+		isa = PBXFileReference;
+		lastKnownFileType = sourcecode.cpp.cpp;
+		name = "«PROJECTNAME».cpp";
+		path = "/Developer/Library/Xcode/Project Templates/Bundle/MonkeyWorks Plugin/«PROJECTNAME».cpp";
+		sourceTree = "<absolute>";
+	};
+	5C22450F0F571D5F00BECC34 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 5C2245100F571D5F00BECC34 /* «PROJECTNAME».h */;
+		name = "«PROJECTNAME».h: 25";
+		rLen = 0;
+		rLoc = 438;
+		rType = 0;
+		vrLen = 438;
+		vrLoc = 0;
+	};
+	5C2245100F571D5F00BECC34 /* «PROJECTNAME».h */ = {
+		isa = PBXFileReference;
+		lastKnownFileType = sourcecode.c.h;
+		name = "«PROJECTNAME».h";
+		path = "/Developer/Library/Xcode/Project Templates/Bundle/MonkeyWorks Plugin/«PROJECTNAME».h";
+		sourceTree = "<absolute>";
+	};
+	5C2245110F571D5F00BECC34 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 5C2245120F571D5F00BECC34 /* «PROJECTNAME»Factory.h */;
+		name = "«PROJECTNAME»Factory.h: 18";
+		rLen = 0;
+		rLoc = 372;
+		rType = 0;
+		vrLen = 525;
+		vrLoc = 0;
+	};
+	5C2245120F571D5F00BECC34 /* «PROJECTNAME»Factory.h */ = {
+		isa = PBXFileReference;
+		lastKnownFileType = sourcecode.c.h;
+		name = "«PROJECTNAME»Factory.h";
+		path = "/Developer/Library/Xcode/Project Templates/Bundle/MonkeyWorks Plugin/«PROJECTNAME»Factory.h";
+		sourceTree = "<absolute>";
+	};
+	5C2245480F571ED100BECC34 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 5C2245490F571ED100BECC34 /* «PROJECTNAME»Factory.cpp */;
+		name = "«PROJECTNAME»Factory.cpp: 10";
+		rLen = 14;
+		rLoc = 162;
+		rType = 0;
+		vrLen = 844;
+		vrLoc = 48;
+	};
+	5C2245490F571ED100BECC34 /* «PROJECTNAME»Factory.cpp */ = {
+		isa = PBXFileReference;
+		lastKnownFileType = sourcecode.cpp.cpp;
+		name = "«PROJECTNAME»Factory.cpp";
+		path = "/Developer/Library/Xcode/Project Templates/Bundle/MonkeyWorks Plugin/«PROJECTNAME»Factory.cpp";
+		sourceTree = "<absolute>";
+	};
+	5C22454A0F571ED100BECC34 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 5C22454B0F571ED100BECC34 /* "«PROJECTNAME».h */;
+		name = "\"«PROJECTNAME».h: 25";
+		rLen = 0;
+		rLoc = 418;
+		rType = 0;
+		vrLen = 407;
+		vrLoc = 24;
+	};
+	5C22454B0F571ED100BECC34 /* "«PROJECTNAME».h */ = {
+		isa = PBXFileReference;
+		lastKnownFileType = sourcecode.c.h;
+		name = "\"«PROJECTNAME».h";
+		path = "/Developer/Library/Xcode/Project Templates/Bundle/MonkeyWorks Plugin/\"«PROJECTNAME».h";
+		sourceTree = "<absolute>";
+	};
+	5C22454C0F571ED100BECC34 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 5C22454D0F571ED100BECC34 /* "«PROJECTNAME».cpp */;
+		name = "\"«PROJECTNAME».cpp: 7";
+		rLen = 0;
+		rLoc = 141;
+		rType = 0;
+		vrLen = 176;
+		vrLoc = 0;
+	};
+	5C22454D0F571ED100BECC34 /* "«PROJECTNAME».cpp */ = {
+		isa = PBXFileReference;
+		lastKnownFileType = sourcecode.cpp.cpp;
+		name = "\"«PROJECTNAME».cpp";
+		path = "/Developer/Library/Xcode/Project Templates/Bundle/MonkeyWorks Plugin/\"«PROJECTNAME».cpp";
+		sourceTree = "<absolute>";
+	};
+	5C2245500F571ED100BECC34 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 5C2245510F571ED100BECC34 /* IOKitDriver.h */;
+		name = "IOKitDriver.h: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 25;
+		vrLoc = 0;
+	};
+	5C2245510F571ED100BECC34 /* IOKitDriver.h */ = {
+		isa = PBXFileReference;
+		lastKnownFileType = sourcecode.c.h;
+		name = IOKitDriver.h;
+		path = "/Developer/Library/Xcode/Project Templates/Kernel Extension/IOKit Driver/IOKitDriver.h";
+		sourceTree = "<absolute>";
+	};
+	5C2245550F571ED100BECC34 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 5C2245560F571ED100BECC34 /* «PROJECTNAME»Factory.cpp */;
+		name = "«PROJECTNAME»Factory.cpp: 10";
+		rLen = 14;
+		rLoc = 162;
+		rType = 0;
+		vrLen = 844;
+		vrLoc = 48;
+	};
+	5C2245560F571ED100BECC34 /* «PROJECTNAME»Factory.cpp */ = {
+		isa = PBXFileReference;
+		lastKnownFileType = sourcecode.cpp.cpp;
+		name = "«PROJECTNAME»Factory.cpp";
+		path = "/Developer/Library/Xcode/Project Templates/Bundle/MonkeyWorks Plugin/«PROJECTNAME»Factory.cpp";
+		sourceTree = "<absolute>";
+	};
+	5C2245570F571ED100BECC34 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 5C2245580F571ED100BECC34 /* "«PROJECTNAME».h */;
+		name = "\"«PROJECTNAME».h: 25";
+		rLen = 0;
+		rLoc = 418;
+		rType = 0;
+		vrLen = 407;
+		vrLoc = 24;
+	};
+	5C2245580F571ED100BECC34 /* "«PROJECTNAME».h */ = {
+		isa = PBXFileReference;
+		lastKnownFileType = sourcecode.c.h;
+		name = "\"«PROJECTNAME».h";
+		path = "/Developer/Library/Xcode/Project Templates/Bundle/MonkeyWorks Plugin/\"«PROJECTNAME».h";
+		sourceTree = "<absolute>";
+	};
+	5C2245590F571ED100BECC34 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 5C22455A0F571ED100BECC34 /* "«PROJECTNAME».cpp */;
+		name = "\"«PROJECTNAME».cpp: 7";
+		rLen = 0;
+		rLoc = 141;
+		rType = 0;
+		vrLen = 176;
+		vrLoc = 0;
+	};
+	5C22455A0F571ED100BECC34 /* "«PROJECTNAME».cpp */ = {
+		isa = PBXFileReference;
+		lastKnownFileType = sourcecode.cpp.cpp;
+		name = "\"«PROJECTNAME».cpp";
+		path = "/Developer/Library/Xcode/Project Templates/Bundle/MonkeyWorks Plugin/\"«PROJECTNAME».cpp";
+		sourceTree = "<absolute>";
+	};
+	5C22455F0F571ED100BECC34 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 5C2245600F571ED100BECC34 /* IOKitDriver.h */;
+		name = "IOKitDriver.h: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 25;
+		vrLoc = 0;
+	};
+	5C2245600F571ED100BECC34 /* IOKitDriver.h */ = {
+		isa = PBXFileReference;
+		lastKnownFileType = sourcecode.c.h;
+		name = IOKitDriver.h;
+		path = "/Developer/Library/Xcode/Project Templates/Kernel Extension/IOKit Driver/IOKitDriver.h";
+		sourceTree = "<absolute>";
+	};
+	5C238C4F0FD5921100C42216 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 5CF9AEB70FD5795C00F405F6 /* «PROJECTNAMEASIDENTIFIER»Factory.cpp */;
+		name = "MWPluginFactory.cpp: 10";
+		rLen = 0;
+		rLoc = 180;
+		rType = 0;
+		vrLen = 754;
+		vrLoc = 44;
+	};
+	5C238C500FD5921100C42216 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 5CF9AEB80FD5795C00F405F6 /* «PROJECTNAMEASIDENTIFIER»Factory.h */;
+		name = "MWPluginFactory.h: 12";
+		rLen = 0;
+		rLoc = 222;
+		rType = 0;
+		vrLen = 573;
+		vrLoc = 0;
+	};
+	5C79386F0FD57BD100EE9CA6 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 5CFE59190F571B15000C7F30 /* «PROJECTNAMEASIDENTIFIER».cpp */;
+		name = "MWPlugin.cpp: 16";
+		rLen = 0;
+		rLoc = 471;
+		rType = 0;
+		vrLen = 363;
+		vrLoc = 0;
+	};
+	5CF9AEB70FD5795C00F405F6 /* «PROJECTNAMEASIDENTIFIER»Factory.cpp */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {845, 525}}";
+			sepNavSelRange = "{39, 4}";
+			sepNavVisRange = "{0, 669}";
+		};
+	};
+	5CF9AEB80FD5795C00F405F6 /* «PROJECTNAMEASIDENTIFIER»Factory.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {677, 362}}";
+			sepNavSelRange = "{222, 0}";
+			sepNavVisRange = "{0, 573}";
+		};
+	};
+	5CF9AEB90FD5795C00F405F6 /* «PROJECTNAMEASIDENTIFIER»Plugin.cpp */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {726, 420}}";
+			sepNavSelRange = "{168, 25}";
+			sepNavVisRange = "{0, 838}";
+		};
+	};
+	5CF9AEBA0FD5795C00F405F6 /* «PROJECTNAMEASIDENTIFIER»Plugin.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {572, 375}}";
+			sepNavSelRange = "{170, 0}";
+			sepNavVisRange = "{0, 486}";
+		};
+	};
+	5CF9AEF80FD579CC00F405F6 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 5CFE59180F571B15000C7F30 /* «PROJECTNAMEASIDENTIFIER».h */;
+		name = "MWPlugin.h: 22";
+		rLen = 4;
+		rLoc = 510;
+		rType = 0;
+		vrLen = 419;
+		vrLoc = 3;
+	};
+	5CFA69790FD593BA006E8B25 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 5CFE59180F571B15000C7F30 /* «PROJECTNAMEASIDENTIFIER».h */;
+		name = "MWPlugin.h: 8";
+		rLen = 0;
+		rLoc = 155;
+		rType = 0;
+		vrLen = 515;
+		vrLoc = 0;
+	};
+	5CFA697A0FD593BA006E8B25 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 5CFE59190F571B15000C7F30 /* «PROJECTNAMEASIDENTIFIER».cpp */;
+		name = "MWPlugin.cpp: 8";
+		rLen = 0;
+		rLoc = 157;
+		rType = 0;
+		vrLen = 471;
+		vrLoc = 0;
+	};
+	5CFA697B0FD593BA006E8B25 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 5CF9AEB80FD5795C00F405F6 /* «PROJECTNAMEASIDENTIFIER»Factory.h */;
+		name = "MWPluginFactory.h: 12";
+		rLen = 0;
+		rLoc = 222;
+		rType = 0;
+		vrLen = 573;
+		vrLoc = 0;
+	};
+	5CFA697C0FD593BA006E8B25 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 5CF9AEB70FD5795C00F405F6 /* «PROJECTNAMEASIDENTIFIER»Factory.cpp */;
+		name = "MWPluginFactory.cpp: 2";
+		rLen = 4;
+		rLoc = 39;
+		rType = 0;
+		vrLen = 669;
+		vrLoc = 0;
+	};
+	5CFA697D0FD593BA006E8B25 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 5CF9AEB80FD5795C00F405F6 /* «PROJECTNAMEASIDENTIFIER»Factory.h */;
+		name = "MWPluginFactory.h: 12";
+		rLen = 0;
+		rLoc = 222;
+		rType = 0;
+		vrLen = 573;
+		vrLoc = 0;
+	};
+	5CFA697F0FD593BA006E8B25 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 5CF9AEB70FD5795C00F405F6 /* «PROJECTNAMEASIDENTIFIER»Factory.cpp */;
+		name = "MWPluginFactory.cpp: 2";
+		rLen = 4;
+		rLoc = 39;
+		rType = 0;
+		vrLen = 669;
+		vrLoc = 0;
+	};
+	5CFA69800FD593BA006E8B25 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 5CF9AEB80FD5795C00F405F6 /* «PROJECTNAMEASIDENTIFIER»Factory.h */;
+		name = "MWPluginFactory.h: 12";
+		rLen = 0;
+		rLoc = 222;
+		rType = 0;
+		vrLen = 573;
+		vrLoc = 0;
+	};
+	5CFA69820FD593BA006E8B25 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 5CFE59180F571B15000C7F30 /* «PROJECTNAMEASIDENTIFIER».h */;
+		name = "MWPlugin.h: 8";
+		rLen = 0;
+		rLoc = 155;
+		rType = 0;
+		vrLen = 515;
+		vrLoc = 0;
+	};
+	5CFA69830FD593BA006E8B25 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 5CFE59190F571B15000C7F30 /* «PROJECTNAMEASIDENTIFIER».cpp */;
+		name = "MWPlugin.cpp: 8";
+		rLen = 0;
+		rLoc = 157;
+		rType = 0;
+		vrLen = 471;
+		vrLoc = 0;
+	};
+	5CFA69840FD593BA006E8B25 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 5CF9AEB80FD5795C00F405F6 /* «PROJECTNAMEASIDENTIFIER»Factory.h */;
+		name = "MWPluginFactory.h: 12";
+		rLen = 0;
+		rLoc = 222;
+		rType = 0;
+		vrLen = 573;
+		vrLoc = 0;
+	};
+	5CFA69890FD593BA006E8B25 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 5CFE59180F571B15000C7F30 /* «PROJECTNAMEASIDENTIFIER».h */;
+		name = "MWPlugin.h: 8";
+		rLen = 0;
+		rLoc = 155;
+		rType = 0;
+		vrLen = 515;
+		vrLoc = 0;
+	};
+	5CFA698A0FD593BA006E8B25 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 5CFE59190F571B15000C7F30 /* «PROJECTNAMEASIDENTIFIER».cpp */;
+		name = "MWPlugin.cpp: 8";
+		rLen = 0;
+		rLoc = 157;
+		rType = 0;
+		vrLen = 471;
+		vrLoc = 0;
+	};
+	5CFA698B0FD593BA006E8B25 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 5CF9AEB80FD5795C00F405F6 /* «PROJECTNAMEASIDENTIFIER»Factory.h */;
+		name = "MWPluginFactory.h: 12";
+		rLen = 0;
+		rLoc = 222;
+		rType = 0;
+		vrLen = 573;
+		vrLoc = 0;
+	};
+	5CFA69950FD593C9006E8B25 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 5CF9AEB70FD5795C00F405F6 /* «PROJECTNAMEASIDENTIFIER»Factory.cpp */;
+		name = "MWPluginFactory.cpp: 2";
+		rLen = 4;
+		rLoc = 39;
+		rType = 0;
+		vrLen = 669;
+		vrLoc = 0;
+	};
+	5CFE59050F5701FA000C7F30 /* Source Control */ = {
+		isa = PBXSourceControlManager;
+		fallbackIsa = XCSourceControlManager;
+		isSCMEnabled = 0;
+		scmConfiguration = {
+		};
+	};
+	5CFE59060F5701FA000C7F30 /* Code sense */ = {
+		isa = PBXCodeSenseManager;
+		indexTemplatePath = "";
+	};
+	5CFE59180F571B15000C7F30 /* «PROJECTNAMEASIDENTIFIER».h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {614, 435}}";
+			sepNavSelRange = "{155, 0}";
+			sepNavVisRange = "{0, 515}";
+		};
+	};
+	5CFE59190F571B15000C7F30 /* «PROJECTNAMEASIDENTIFIER».cpp */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {803, 362}}";
+			sepNavSelRange = "{157, 0}";
+			sepNavVisRange = "{0, 471}";
+		};
+	};
+	8D5B49AC048680CD000E48DA /* «PROJECTNAME» */ = {
+		activeExec = 0;
+	};
+}
