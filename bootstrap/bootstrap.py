@@ -31,7 +31,8 @@ repositories = ("mw_build",
                 "mw_server",
                 "mw_supporting",
                 "mw_client_plugins",
-                "mw_core_plugins")
+                "mw_core_plugins",
+                "mw_xcode_templates")
 
 github_url = "git://github.com/monkeyworks-project"
 
