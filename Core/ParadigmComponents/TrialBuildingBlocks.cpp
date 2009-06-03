@@ -579,8 +579,13 @@ QueueStimulus::~QueueStimulus() {
 }
 
 bool QueueStimulus::execute() {
-	// freeze the stimulus
-    stimnode->setFrozen(true);
+	
+  if(!stimnode->isLoaded()){
+    stimnode->load(display);
+  }
+  
+  // freeze the stimulus
+  stimnode->setFrozen(true);
 	stimnode->setVisible(true);
 	
 	// WTF is going on here you ask?
@@ -651,9 +656,16 @@ LiveQueueStimulus::~LiveQueueStimulus() {
 }
 
 bool LiveQueueStimulus::execute() {
-	// don't freeze the stimulus
-    stimnode->setFrozen(false);
-	stimnode->setVisible(true);
+	
+  if(!stimnode->isLoaded()){
+    stimnode->load(display);
+  }
+  
+  // don't freeze the stimulus
+  stimnode->setFrozen(false);
+	
+  stimnode->setVisible(true);
+  
 	
 	// see "WTF is going on here" above
 	stimnode->addToDisplay(stimnode, display);

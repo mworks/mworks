@@ -57,6 +57,15 @@ bool StimulusNode::isVisible() {
     return visible;
 }
 
+void StimulusNode::load(shared_ptr<StimulusDisplay> display){
+  stim->load(display.get());
+}
+
+bool StimulusNode::isLoaded(){
+  return stim->isLoaded();
+}
+
+
 void StimulusNode::draw(StimulusDisplay *stimulus_display) {
 	// TODO: error check
 	if(frozen){

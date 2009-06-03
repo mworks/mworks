@@ -1180,7 +1180,17 @@ shared_ptr<mw::Component> ImageStimulusFactory::createObject(std::map<std::strin
 																						 rotation,
 																						 alpha_multiplier));
 	
-	newImageStimulus->load(defaultDisplay.get());
+	
+  bool deferred = false;
+  if(!parameters["deferred"].empty()){
+    deferred = reg->getBoolean(parameters["deferred"]);
+  }
+  
+  // TODO: deferred load?
+  if(!deferred){
+    newImageStimulus->load(defaultDisplay.get());
+  }
+  
 	shared_ptr <StimulusNode> thisStimNode = shared_ptr<StimulusNode>(new StimulusNode(newImageStimulus));
 	reg->registerStimulusNode(tagname, thisStimNode);
 	

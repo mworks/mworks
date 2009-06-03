@@ -47,13 +47,13 @@ class StimulusNode : public Lockable, public LinkedListNode<StimulusNode>, publi
     public:
         
 		StimulusNode();
-        StimulusNode(shared_ptr<Stimulus> _stim);
+		StimulusNode(shared_ptr<Stimulus> _stim);
 		
 		virtual ~StimulusNode(){}
         
 		// DDC: I'd rather not have these if we don't use them
-	    //virtual void setStimulus(Stimulus *_stim);
-        virtual shared_ptr<Stimulus> getStimulus();
+		//virtual void setStimulus(Stimulus *_stim);
+		virtual shared_ptr<Stimulus> getStimulus();
         
 		virtual void addToDisplay(shared_ptr<StimulusNode> stimnode, shared_ptr<StimulusDisplay> display);
 		
@@ -69,6 +69,11 @@ class StimulusNode : public Lockable, public LinkedListNode<StimulusNode>, publi
                 
 		virtual void announceStimulusDraw(MonkeyWorksTime time);
 		virtual Data getCurrentAnnounceDrawData();
+	
+    virtual void load(shared_ptr<StimulusDisplay> display);
+    
+    virtual bool isLoaded();
+	
     private:
         // this disables copying the object.
         StimulusNode(const StimulusNode&) { }
