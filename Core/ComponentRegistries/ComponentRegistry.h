@@ -38,6 +38,9 @@
 #include "boost/algorithm/string.hpp"
 #include "boost/filesystem/path.hpp"
 #include <map>
+#include <boost/regex.hpp>
+#include <boost/unordered_map.hpp>
+
 
 namespace mw {
 	class ComponentRegistry {
@@ -50,11 +53,17 @@ namespace mw {
 		std::map< std::string, shared_ptr<ComponentFactory> > factories;
 		
 		// a map object instances, indexed by tag name (string)
-		std::map< std::string, shared_ptr<mw::Component> > instances;
+    boost::unordered_map< std::string, shared_ptr<mw::Component> > instances;
 		std::map< std::string, shared_ptr<StimulusNode> > stimulus_nodes;
 		std::map< long, std::string > tagnames_by_id;
 		
+    // these regexes are cached at the object / member level to avoid
+    // memory inefficiency at runtime
+    boost::regex r1, r2, r3, r4, u1, strip_it;
 		
+    boost::unordered_map< std::string, shared_ptr<Variable> > variable_cache;
+    boost::unordered_map< std::string, shared_ptr<Data> > data_cache;
+    
 	public:
 		
 		ComponentRegistry();
@@ -69,7 +78,7 @@ namespace mw {
 		}
 		
 		void resetInstances(){
-			instances = std::map< std::string, shared_ptr<mw::Component> >();
+			instances = boost::unordered_map< std::string, shared_ptr<mw::Component> >();
 			stimulus_nodes = std::map< std::string, shared_ptr<StimulusNode> >();
 		}
 		

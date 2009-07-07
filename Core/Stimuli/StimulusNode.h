@@ -121,6 +121,10 @@ class StimulusGroupReferenceNode : public StimulusNode {
         virtual void announceStimulusDraw(MonkeyWorksTime time);  // JJD add
 		virtual Data getCurrentAnnounceDrawData();
 		
+  
+    virtual void load(shared_ptr<StimulusDisplay> display);
+    
+    virtual bool isLoaded();
 		
 		// LinkedListNode methods
 		virtual void remove();

@@ -474,6 +474,25 @@ bool StimulusGroupReferenceNode::isFrozen(){
 	}
 }
 
+
+void StimulusGroupReferenceNode::load(shared_ptr<StimulusDisplay> display){
+	int index_value = getIndexValue();
+	int nelements = stimulus_nodes->getNElements();
+	if(index_value >=0 && index_value < nelements ){
+		(stimulus_nodes->getElement(index_value))->load(display);
+	}  
+}
+
+bool StimulusGroupReferenceNode::isLoaded(){
+	int index_value = getIndexValue();
+	int nelements = stimulus_nodes->getNElements();
+	if(index_value >=0 && index_value < nelements ){
+		return (stimulus_nodes->getElement(index_value))->isLoaded();
+	}
+  
+  return false;
+}
+
 // Passthrough to the referenced node
 void StimulusGroupReferenceNode::draw(StimulusDisplay * display){
 	int index_value = getIndexValue();

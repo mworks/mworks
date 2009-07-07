@@ -29,6 +29,9 @@
 
 #include <boost/lexical_cast.hpp>
 
+#define INSTANCE_PREFIX "instance:"
+#define INSTANCE_STEM	"_"
+
 namespace mw {
 	using namespace std;
 
@@ -37,6 +40,7 @@ void	error_func(void * _parser_context, const char * error, ...);
 class XMLParser {
 
 	protected:
+    
 		std::string path;
 		xmlParserCtxt *context;
 		xmlDoc *xml_doc;
@@ -49,7 +53,7 @@ class XMLParser {
 	
 		shared_ptr<ComponentRegistry> registry;
 	
-		void setup(shared_ptr<ComponentRegistry> _reg, std::string _path);
+    void setup(shared_ptr<ComponentRegistry> _reg, std::string _path, std::string _simplification_transform);
 	
 		void _createAndAddReplicatedChildren(xmlNode *node, 
 											 const string &variable, 
@@ -64,8 +68,8 @@ class XMLParser {
 	
 public:
 	
-		XMLParser(shared_ptr<ComponentRegistry> _reg, std::string _path);
-		XMLParser(std::string _path);
+		XMLParser(shared_ptr<ComponentRegistry> _reg, std::string _path, std::string _simplification_transform_path="");
+		XMLParser(std::string _path, std::string _simplification_transform_path="");
 		virtual ~XMLParser();
 		
 		virtual void validate();
@@ -83,8 +87,12 @@ public:
 		virtual void _processListReplicator(xmlNode *node);
 		virtual void _dumpNode(xmlNode *node);
 		virtual void _substituteAttributeStrings(xmlNode *node, string token, string replacement);
-        virtual void _substituteTagStrings(xmlNode *node, string token, string replacement);
-        virtual void _addVariableAssignment(xmlNode *node, const string& variable, const string& value);
+    virtual void _substituteAttributeStrings(xmlNode *node, shared_ptr<string> form1, shared_ptr<string> form2, shared_ptr<string> replacement);
+    
+    virtual void _substituteTagStrings(xmlNode *node, string token, string replacement);
+    virtual void _substituteTagStrings(xmlNode *node, shared_ptr<string> form1, shared_ptr<string> form2, shared_ptr<string> replacement);
+  
+    virtual void _addVariableAssignment(xmlNode *node, const string& variable, const string& value);
 	
 		virtual void _processCreateDirective(xmlNode *node);
 		virtual void _processAnonymousCreateDirective(xmlNode *node);
@@ -98,9 +106,13 @@ public:
 									   
 		virtual void _processFinalizeDirective(xmlNode *node);
 		virtual string _attributeForName(xmlNode *node, string name);
+    virtual const char *_cStringAttributeForName(xmlNode *node, string name);
 		virtual void _setAttributeForName(xmlNode *node, string name, string value);
-		
-		virtual string _generateInstanceTag(string tag, string reference_id, string instance_id);
+  
+    inline string _generateInstanceTag(string tag, string reference_id, string instance_id){
+        string instance_tag = string(INSTANCE_PREFIX) + reference_id + string(INSTANCE_STEM) + instance_id; 
+        return instance_tag;
+    }
 		
 		virtual void _processVariableAssignment(xmlNode *node);
 		

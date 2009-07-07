@@ -179,6 +179,7 @@
 		5C8D03C50D56B1AE00454461 /* DummyIODevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C8D03C30D56B1AE00454461 /* DummyIODevice.cpp */; };
 		5C9186130E3548FA00B64213 /* BiasMonitor.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C9186110E3548FA00B64213 /* BiasMonitor.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5C9186140E3548FA00B64213 /* BiasMonitor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C9186120E3548FA00B64213 /* BiasMonitor.cpp */; };
+		5C918D1810027CB3001BE3DF /* MWMediaPackagerTransformation.xsl in Resources */ = {isa = PBXBuildFile; fileRef = 5C918D1710027CB3001BE3DF /* MWMediaPackagerTransformation.xsl */; };
 		5C91B990086CC9DC00C14E1A /* Trigger.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C91B98E086CC9DC00C14E1A /* Trigger.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5C91B991086CC9DC00C14E1A /* Trigger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C91B98F086CC9DC00C14E1A /* Trigger.cpp */; };
 		5CABA02E085E77B100FE4729 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CABA02D085E77B100FE4729 /* main.cpp */; };
@@ -731,6 +732,7 @@
 		5C8D03C30D56B1AE00454461 /* DummyIODevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DummyIODevice.cpp; path = Core/IODevices/DummyIODevice.cpp; sourceTree = "<group>"; };
 		5C9186110E3548FA00B64213 /* BiasMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BiasMonitor.h; path = Core/AdaptiveOptimizers/BiasMonitor.h; sourceTree = "<group>"; };
 		5C9186120E3548FA00B64213 /* BiasMonitor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BiasMonitor.cpp; path = Core/AdaptiveOptimizers/BiasMonitor.cpp; sourceTree = "<group>"; };
+		5C918D1710027CB3001BE3DF /* MWMediaPackagerTransformation.xsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = MWMediaPackagerTransformation.xsl; path = Core/XMLParser/MWMediaPackagerTransformation.xsl; sourceTree = "<group>"; };
 		5C91B98E086CC9DC00C14E1A /* Trigger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Trigger.h; path = Core/Triggers/Trigger.h; sourceTree = SOURCE_ROOT; };
 		5C91B98F086CC9DC00C14E1A /* Trigger.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Trigger.cpp; path = Core/Triggers/Trigger.cpp; sourceTree = SOURCE_ROOT; };
 		5CAB9FE3085E775800FE4729 /* HeadlessServer */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = HeadlessServer; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1304,6 +1306,7 @@
 				5CE30A490CF9FAFA00BEB3E3 /* XMLParser.h */,
 				5CE30A4A0CF9FAFA00BEB3E3 /* XMLParser.cpp */,
 				5CE30A470CF9FAE400BEB3E3 /* MWParserTransformation.xsl */,
+				5C918D1710027CB3001BE3DF /* MWMediaPackagerTransformation.xsl */,
 				5C38FBC20DF045F600FA6A18 /* XMLVariableWriter.h */,
 				5C38FBC30DF045F600FA6A18 /* XMLVariableWriter.cpp */,
 			);
@@ -2617,6 +2620,7 @@
 				5CE30A480CF9FAE400BEB3E3 /* MWParserTransformation.xsl in Resources */,
 				0E1AE9930EF1A9EE00C224F1 /* setup_variables_macbook.xml in Resources */,
 				0E1AE9A80EF1AB5500C224F1 /* setup_variables_two_monitors.xml in Resources */,
+				5C918D1810027CB3001BE3DF /* MWMediaPackagerTransformation.xsl in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

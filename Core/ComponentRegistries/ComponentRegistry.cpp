@@ -27,14 +27,20 @@
 #include "BiasMonitor.h"
 
 
-#include <boost/regex.hpp>
+
 using namespace mw;
 
 shared_ptr<ComponentRegistry> ComponentRegistry::shared_component_registry;
 
-ComponentRegistry::ComponentRegistry() {
-	// register all of the built-ins here?
-	
+ComponentRegistry::ComponentRegistry() :
+        r1(".*?[\\*\\!\\+\\-\\=\\/\\&\\|\\%\\>\\<\\(\\)].*?"),
+        r2(".*?((\\#AND)|(\\#OR)|(\\#GT)|(\\#LT)|(\\#GE)|(\\#LE)|(\\Wms)|([^a-zA-z#]s)|(\\Wus)).*"),
+        r3("^\\s*\\d*\\.?\\d*\\s*(ms|us|s)?\\s*$"),
+        r4("^\\s*\\.?\\d*\\s*(ms|us|s)?\\s*$"),
+        u1("^(.*?\\$.+?)$"),
+        strip_it("^\\s*(.+?)\\s*$"){
+          
+	// register all of the built-ins here
 	registerFactory("experiment", new ExperimentFactory());
 	registerFactory("protocol", new ProtocolFactory());
 	registerFactory("block", new BlockFactory());
@@ -113,6 +119,14 @@ ComponentRegistry::ComponentRegistry() {
 	
 	// sounds
 	registerFactory("sound/wav_file", new WavFileSoundFactory());
+  
+  
+  // cache these as members, since they will otherwise be created and destroyed a bazillion times
+  //boost::regex r1(".*?[\\*\\!\\+\\-\\=\\/\\&\\|\\%\\>\\<\\(\\)].*?");
+//	//boost::regex r1("(\\*|\\!|\\+|\\-|\\=|\\/|\\&|\\||\\%|\\>|\\<|\\(|\\))");
+//	boost::regex r2(".*?((\\#AND)|(\\#OR)|(\\#GT)|(\\#LT)|(\\#GE)|(\\#LE)|(\\Wms)|([^a-zA-z#]s)|(\\Wus)).*");
+//	boost::regex r3("^\\s*\\d*\\.?\\d*\\s*(ms|us|s)?\\s*$");
+//	boost::regex r4("^\\s*\\.?\\d*\\s*(ms|us|s)?\\s*$");
     
 }
 
@@ -234,11 +248,15 @@ void ComponentRegistry::registerStimulusNode(const std::string &tag_name, shared
 // Instance lookups with some extra parsing smarts
 shared_ptr<Variable>	ComponentRegistry::getVariable(std::string expression){
 
-
+  shared_ptr<Variable> test = variable_cache[expression]; 
+  if(test != NULL){
+    return test;
+  }
+  
 	// Check to see if it can be resolved, or if it will need to be resolved
 	// at runtime
 	smatch unresolved_match;
-	boost::regex u1("^(.*?\\$.+?)$");
+
 	bool unresolved = boost::regex_match(expression, unresolved_match, u1);
 	if(unresolved){
 		shared_ptr<ComponentRegistry> registry = ComponentRegistry::getSharedRegistry();
@@ -247,11 +265,7 @@ shared_ptr<Variable>	ComponentRegistry::getVariable(std::string expression){
 	}
 
 	smatch matches1, matches2, matches3;
-	boost::regex r1(".*?[\\*\\!\\+\\-\\=\\/\\&\\|\\%\\>\\<\\(\\)].*?");
-	//boost::regex r1("(\\*|\\!|\\+|\\-|\\=|\\/|\\&|\\||\\%|\\>|\\<|\\(|\\))");
-	boost::regex r2(".*?((\\#AND)|(\\#OR)|(\\#GT)|(\\#LT)|(\\#GE)|(\\#LE)|(\\Wms)|([^a-zA-z#]s)|(\\Wus)).*");
-	boost::regex r3("^\\s*\\d*\\.?\\d*\\s*(ms|us|s)?\\s*$");
-	boost::regex r4("^\\s*\\.?\\d*\\s*(ms|us|s)?\\s*$");
+	
 	bool b1, b2, b3;
 	b1 = boost::regex_match(expression, matches1, r1); 
 	b2 = boost::regex_match(expression, matches2, r2);
@@ -262,10 +276,13 @@ shared_ptr<Variable>	ComponentRegistry::getVariable(std::string expression){
 	} 
 	
 	smatch strip_match;
-	boost::regex strip_it("^\\s*(.+?)\\s*$");
 	boost::regex_match(expression, strip_match, strip_it); 
 	
 	shared_ptr<Variable> var = GlobalVariableRegistry->getVariable(strip_match[1]);
+  
+  // cache/hash the variable for fast access
+  variable_cache[expression] = var;
+  
 	return var;
 }
 
@@ -423,10 +440,43 @@ bool ComponentRegistry::getBoolean(std::string expression){
 
 Data ComponentRegistry::getNumber(std::string expression, GenericDataType type){
 
-	
+	shared_ptr<Data> test = data_cache[expression];
+  if(test != NULL){
+    return *test;
+  }
+  
+  Data value;
+  try {
+    switch(type){
+      case M_FLOAT:
+          value = Data(lexical_cast<double>(expression));
+          break;
+      case M_BOOLEAN:
+          value = Data((bool)lexical_cast<long>(expression));
+          break;
+      case M_INTEGER:
+          value = Data(lexical_cast<long>(expression));
+          break;
+      case M_STRING:
+          value = Data(string(expression));
+          break;
+      default:
+          throw SimpleException("Attempt to cast a number of invalid type");
+    }
+    
+    data_cache[expression] = shared_ptr<Data>(new Data(value));
+    return value;
+  } catch (SimpleException& except){
+      throw except;
+  } catch (std::exception& except){
+    // no biggie, we can do this the hard(er) way
+    std::cerr << "Bad cast: " << except.what() << std::endl;
+  }
+  
+  
 	ParsedExpressionVariable e(expression);
 	
-	Data value = e.getValue();
+	value = e.getValue();
 	
 	switch (type){
 	

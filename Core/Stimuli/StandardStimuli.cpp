@@ -1004,6 +1004,9 @@ void ImageStimulus::load(StimulusDisplay *display) {
 		}
 	}
 	
+  
+  loaded = true;
+  
 	// TODO: update to work with lists
 	// TODO: this is wrong, because texture_map is unsigned...
 	/*if(texture_map > 0) {

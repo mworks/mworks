@@ -53,8 +53,8 @@ class IncludedFilesParser : public XMLParser {
 	public:
 	
 		IncludedFilesParser(std::string _path):
-									XMLParser(_path){
-		
+									XMLParser(_path, "MWMediaPackagerTransformation.xsl"){
+                    
 			manifest = Data(M_LIST, 1);
 		}
 		
@@ -71,7 +71,7 @@ class IncludedFilesParser : public XMLParser {
 				string name((const char *)child->name);
 					
 				if(name == "path"){
-					string the_path((const char *)xmlNodeGetContent(child));
+          string the_path((const char *)xmlNodeGetContent(child));
 					manifest.addElement(the_path);
 				}
 				

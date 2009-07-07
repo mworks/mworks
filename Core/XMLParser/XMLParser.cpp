@@ -14,8 +14,7 @@
 #include <stdarg.h>
 #include <stdio.h>
 
-#define INSTANCE_PREFIX "instance:"
-#define INSTANCE_STEM	"_"
+
 
 #include <boost/spirit/core.hpp>
 #include <boost/spirit/utility/confix.hpp>
@@ -49,7 +48,7 @@ namespace mw {
 }
 
 
-void XMLParser::setup(shared_ptr<ComponentRegistry> _reg, std::string _path){
+void XMLParser::setup(shared_ptr<ComponentRegistry> _reg, std::string _path, std::string _simplification_transform_path){
 	path = _path;
 	registry = _reg;
 	
@@ -64,8 +63,7 @@ void XMLParser::setup(shared_ptr<ComponentRegistry> _reg, std::string _path){
 	xmlSetGenericErrorFunc(context, &error_func);
 	
 	// parse the XSLT simplification transform
-	std::string simplification_path = (prependResourcePath(std::string("MWParserTransformation.xsl"))).string();
-	simplification_transform = xsltParseStylesheetFile((const xmlChar *)(simplification_path.c_str()));
+	simplification_transform = xsltParseStylesheetFile((const xmlChar *)(_simplification_transform_path.c_str()));
 	
 	// parse the file and get the DOM 
 	xml_doc = xmlCtxtReadFile(context, path.c_str(), NULL, 0);
@@ -73,15 +71,30 @@ void XMLParser::setup(shared_ptr<ComponentRegistry> _reg, std::string _path){
 	errors_doc = NULL;
 }
 
-XMLParser::XMLParser(shared_ptr<ComponentRegistry> _reg, std::string _path){
-	
-	setup(_reg, _path);
+XMLParser::XMLParser(shared_ptr<ComponentRegistry> _reg, std::string _path, std::string _simplification_transform_path){
+  std::string simplification_path;
+  
+  if(_simplification_transform_path.empty()){
+    simplification_path = (prependResourcePath(std::string("MWParserTransformation.xsl"))).string();
+  } else {
+    simplification_path = (prependResourcePath(std::string(_simplification_transform_path))).string();
+  }
+  
+	setup(_reg, _path, simplification_path);
 }
 
-XMLParser::XMLParser(std::string _path){
+XMLParser::XMLParser(std::string _path, std::string _simplification_transform_path){
 	shared_ptr<ComponentRegistry> dummy(new ComponentRegistry());
-	
-	setup(dummy, _path);
+
+  std::string simplification_path;
+  
+  if(_simplification_transform_path.empty()){
+    simplification_path = (prependResourcePath(std::string("MWParserTransformation.xsl"))).string();
+  } else {
+    simplification_path = (prependResourcePath(std::string(_simplification_transform_path))).string();
+  }
+  
+	setup(dummy, _path, simplification_path);
 }
 
 
@@ -122,9 +135,7 @@ void XMLParser::parse(bool announce_progress){
 	
 	xmlDoc *simplified = xsltApplyStylesheet(simplification_transform, xml_doc, NULL);
 	
-	
-	xmlDocDump(stderr, simplified);
-	
+	//xmlDocDump(stderr, simplified);
 	xmlNode *root_element = xmlDocGetRootElement(simplified);
 	
 	// TODO: check the root node to make sure it is okay
@@ -150,6 +161,7 @@ void XMLParser::parse(bool announce_progress){
 		counter++;
 		child = child->next;
 	}
+  
 	
 }
 
@@ -183,7 +195,7 @@ void XMLParser::_processNode(xmlNode *child){
 	} else if(name == "variable_assignment"){
 		_processVariableAssignment(child);
 	} else if(name == "mw_passthrough"){
-		
+		// do nothing
 	} else if(name == "text"){
 		// do nothing
 	}
@@ -388,15 +400,25 @@ void XMLParser::_dumpNode(xmlNode *node){
 }
 
 void XMLParser::_substituteAttributeStrings(xmlNode *node, string token, string replacement){
-	
-	string prefix("$");
-	
+	static string prefix1("$");
+	static string prefix2("${");
+  static string suffix2("}");
+  
+  shared_ptr<string> form1_ptr(new string(prefix1 + token));
+  shared_ptr<string> form2_ptr(new string(prefix2 + token + suffix2));
+  shared_ptr<string> replacement_ptr(new string(replacement));
+  
+  _substituteAttributeStrings(node, form1_ptr, form2_ptr, replacement_ptr);
+}
+  	
+                          
+void XMLParser::_substituteAttributeStrings(xmlNode *node, shared_ptr<string> form1, shared_ptr<string> form2, shared_ptr<string> replacement){
+  
+  
 	if(xmlNodeIsText(node)){
-		string form1 = prefix + token;
-		string form2 = prefix + string("{") + token + string("}");
 		string content((const char *)xmlNodeGetContent(node));
-		boost::replace_all(content, form1, replacement);
-		boost::replace_all(content, form2, replacement);
+		boost::replace_all(content, *form1, *replacement);
+		boost::replace_all(content, *form2, *replacement);
 		xmlNodeSetContent(node, (const xmlChar *)(content.c_str()));
 		return;
 	} else {
@@ -405,38 +427,44 @@ void XMLParser::_substituteAttributeStrings(xmlNode *node, string token, string 
 		
 		while( child != NULL ){
 			
-			_substituteAttributeStrings(child, token, replacement);
+			_substituteAttributeStrings(child, form1, form2, replacement);
 			child = child->next;
 		}
 	}
 	
 }
 
-void XMLParser::_substituteTagStrings(xmlNode *node, string variable, string replacement){
+void XMLParser::_substituteTagStrings(xmlNode *node, string token, string replacement){
+	static string prefix1("$");
+	static string prefix2("${");
+  static string suffix2("}");
+  
+  shared_ptr<string> form1_ptr(new string(prefix1 + token));
+  shared_ptr<string> form2_ptr(new string(prefix2 + token + suffix2));
+  shared_ptr<string> replacement_ptr(new string(replacement));
+  
+  _substituteTagStrings(node, form1_ptr, form2_ptr, replacement_ptr);
+}
+
+void XMLParser::_substituteTagStrings(xmlNode *node, shared_ptr<string> form1, shared_ptr<string> form2, shared_ptr<string> replacement){
     
     if(xmlNodeIsText(node)){
         return;
     }
     
-    string prefix("$");
-    
-    string form1 = prefix + variable;
-    string form2 = prefix + string("{") + variable + string("}");
     string content = _attributeForName(node, "tag");
     if(!content.empty()){
-        boost::replace_all(content, form1, replacement);
-        boost::replace_all(content, form2, replacement);
+        boost::replace_all(content, *form1, *replacement);
+        boost::replace_all(content, *form2, *replacement);
         _setAttributeForName(node, "tag", content);
     }
     
     xmlNode *child = node->children;
     
     while( child != NULL ){
-        
-        _substituteTagStrings(child, variable, replacement);
+        _substituteTagStrings(child, form1, form2, replacement);
         child = child->next;
     }
-
 }
 
 std::string XMLParser::getWorkingPathString(){
@@ -521,9 +549,9 @@ void XMLParser::_processCreateDirective(xmlNode *node){
 }
 
 void XMLParser::_processGenericCreateDirective(xmlNode *node, bool anon){
-	string object_type(_attributeForName(node, "object"));
-	string reference_id(_attributeForName(node, "reference_id"));
-    string parent_scope(_attributeForName(node, "parent_scope"));
+  string object_type(_attributeForName(node, "object"));
+  string reference_id(_attributeForName(node, "reference_id"));
+  string parent_scope(_attributeForName(node, "parent_scope"));
 	
 	// Create an STL map containing all properties contained under this
 	// node
@@ -599,20 +627,12 @@ void XMLParser::_processGenericCreateDirective(xmlNode *node, bool anon){
 	}
 }
 
-
-
-string XMLParser::_generateInstanceTag(string tag, string reference_id, string instance_id){
-	string instance_tag = string(INSTANCE_PREFIX) + reference_id + string(INSTANCE_STEM) + instance_id; 
-	return instance_tag;
-}
-
-
 void XMLParser::_processInstanceDirective(xmlNode *node){
-	string tag(_attributeForName(node, "object"));
-	string reference_id(_attributeForName(node, "reference_id"));
+	string tag(_cStringAttributeForName(node, "object"));
+	string reference_id(_cStringAttributeForName(node, "reference_id"));
 	
 	// "Instances" have an id associated with them. When a replicator
-	string instance_id(_attributeForName(node, "instance_id"));
+	string instance_id(_cStringAttributeForName(node, "instance_id"));
 	if(instance_id.empty()){
 		instance_id = "0";
 	}
@@ -951,22 +971,29 @@ void XMLParser::_processConnectDirective(xmlNode *node){
 }
 
 
-
-
-
 string XMLParser::_attributeForName(xmlNode *node, string name){
-	// Parse the attributes
+  const char *result = _cStringAttributeForName(node, name);
+  if(result == NULL){
+    return string();
+  } else {
+    return string(result);
+  }
+}
+
+const char * XMLParser::_cStringAttributeForName(xmlNode *node, string name){
+
+  // Parse the attributes
 	_xmlAttr *att = node->properties;
 	
 	while( att != NULL){
 		
 		if(name == (const char *)(att->name)){
-			return string((const char *)(att->children->content));
+			return (const char *)(att->children->content);
 		}			
 		att = att->next;
 	}
 	
-	return string();
+	return NULL;
 }
 
 void XMLParser::_setAttributeForName(xmlNode *node, string name, string value){
