@@ -51,6 +51,11 @@ mMSSWGamepad::mMSSWGamepad(const boost::shared_ptr <Scheduler> &a_scheduler,
 	
 	printf("\n\n--- Finding GamePads ---\n");
 	hidObjectIterator = MyFindHIDDevices (masterPort, kHIDPage_GenericDesktop, kHIDUsage_GD_GamePad);
+  
+  if(hidObjectIterator == 0){
+      hidObjectIterator = MyFindHIDDevices (masterPort, kHIDPage_GenericDesktop, kHIDUsage_GD_Joystick);
+  }
+  
 	if (hidObjectIterator != 0){
 		hidDevice = NULL;
 		pphidDeviceInterface = NULL;

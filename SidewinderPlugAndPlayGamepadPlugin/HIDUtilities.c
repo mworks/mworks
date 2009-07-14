@@ -5,7 +5,7 @@
     
 	DRI: George Warner
 
-	Copyright:	Copyright © 2002 Apple Computer, Inc., All Rights Reserved
+	Copyright:	Copyright ¬© 2002 Apple Computer, Inc., All Rights Reserved
 
 	Disclaimer:	IMPORTANT:  This Apple software is supplied to you by Apple Computer, Inc.
 				("Apple") in consideration of your agreement to the following terms, and your
@@ -14,7 +14,7 @@
 				please do not use, install, modify or redistribute this Apple software.
 
 				In consideration of your agreement to abide by the following terms, and subject
-				to these terms, Apple grants you a personal, non-exclusive license, under Apple’s
+				to these terms, Apple grants you a personal, non-exclusive license, under Apple‚Äôs
 				copyrights in this original Apple software (the "Apple Software"), to use,
 				reproduce, modify and redistribute the Apple Software, with or without
 				modifications, in source and/or binary forms; provided that if you redistribute
@@ -85,7 +85,7 @@ void PrintErrMsg (char * msg)
 {
 	fprintf (stderr, "%s\n", msg);
 	fflush (stderr);
-    DebugStr ("\pExecution Halted");
+    //DebugStr ("\pExecution Halted");
 }
 
 // --------------------------------------------------------------------------
@@ -121,13 +121,13 @@ void PrintErrMsg (char * msg)
     // Set up matching dictionary to search the I/O Registry for HID devices we are interested in. Dictionary reference is NULL if error.
     hidMatchDictionary = MySetUpHIDMatchingDictionary (usagePage, usage);
     if (NULL == hidMatchDictionary)
-        PrintErrMsg ("Couldn’t create a matching dictionary.");
+        PrintErrMsg ("Couldn‚Äôt create a matching dictionary.");
 
     // Now search I/O Registry for matching devices.
     ioReturnValue = IOServiceGetMatchingServices (masterPort, hidMatchDictionary, &hidObjectIterator);
 	// If error, print message and hang (for debugging purposes).
-	if ((ioReturnValue != kIOReturnSuccess) | (hidObjectIterator == 0))
-        PrintErrMsg ("Couldn’t create a HID object iterator.");
+	if ((ioReturnValue != kIOReturnSuccess) || (hidObjectIterator == 0))
+        PrintErrMsg ("Couldn‚Äôt create a HID object iterator.");
 
     // IOServiceGetMatchingServices consumes a reference to the dictionary, so we don't need to release the dictionary ref.
     hidMatchDictionary = NULL;
@@ -633,7 +633,7 @@ void PrintErrMsg (char * msg)
     if (result == KERN_SUCCESS)
         printf("IO Registry Path: [ %s ]\n", path);
 
-	//Create a CF dictionary representation of the I/O Registry entry’s properties
+	//Create a CF dictionary representation of the I/O Registry entry‚Äôs properties
     result = IORegistryEntryCreateCFProperties (hidDevice, &properties, kCFAllocatorDefault, kNilOptions);
     if ((result == KERN_SUCCESS) && properties)
     {
@@ -691,7 +691,7 @@ void PrintErrMsg (char * msg)
         plugInResult = (*plugInInterface)->QueryInterface (plugInInterface,
                                                            CFUUIDGetUUIDBytes (kIOHIDDeviceInterfaceID), (void **) &pphidDeviceInterface);
         if (plugInResult != S_OK)
-            PrintErrMsg ("Couldn’t query HID class device interface from plugInInterface");
+            PrintErrMsg ("Couldn‚Äôt query HID class device interface from plugInInterface");
         (*plugInInterface)->Release (plugInInterface);
     }
     else
@@ -761,12 +761,12 @@ static UInt32 gCallback_count = 0;
 			if (kIOReturnSuccess != result)
 				printf ("Failed to createAsyncEventSource, error: %ld.\n", result);
 
-			// if we have one now…
+			// if we have one now‚Ä¶
 			if (NULL != tCFRunLoopSourceRef)
 			{
 				CFRunLoopRef tCFRunLoopRef = (CFRunLoopRef) GetCFRunLoopFromEventLoop(GetMainEventLoop());
 
-				// and it's not already attached to our runloop…
+				// and it's not already attached to our runloop‚Ä¶
 				if (!CFRunLoopContainsSource(tCFRunLoopRef, tCFRunLoopSourceRef, kCFRunLoopDefaultMode))
 					// then attach it now.
 					CFRunLoopAddSource(tCFRunLoopRef, tCFRunLoopSourceRef, kCFRunLoopDefaultMode);
@@ -809,13 +809,13 @@ static UInt32 gCallback_count = 0;
 			printf ("queue stop result: %lx\n", result);
 
 #if TEST_EVENT_CALLBACK
-			// see if we have an Async event source for this queue…
+			// see if we have an Async event source for this queue‚Ä¶
 			tCFRunLoopSourceRef = (*queue)->getAsyncEventSource(queue);
-			if (NULL != tCFRunLoopSourceRef)	// if so then…
+			if (NULL != tCFRunLoopSourceRef)	// if so then‚Ä¶
 			{
 				CFRunLoopRef tCFRunLoopRef = (CFRunLoopRef) GetCFRunLoopFromEventLoop(GetMainEventLoop());
 
-				// if it's attached to our runloop…
+				// if it's attached to our runloop‚Ä¶
 				if (CFRunLoopContainsSource(tCFRunLoopRef, tCFRunLoopSourceRef, kCFRunLoopDefaultMode))
 					// then remove it
 					CFRunLoopRemoveSource(tCFRunLoopRef, tCFRunLoopSourceRef, kCFRunLoopDefaultMode);
@@ -893,7 +893,7 @@ void MyStartHIDDeviceInterfaceTest (void)
 
     // Get a Mach port to initiate communication with I/O Kit.
     ioReturnValue = IOMasterPort (bootstrap_port, &masterPort);
-    PrintErrMsgIfIOErr (ioReturnValue, "Couldn’t create a master I/O Kit Port.");
+    PrintErrMsgIfIOErr (ioReturnValue, "Couldn‚Äôt create a master I/O Kit Port.");
 
     printf("\n\n--- Finding GamePads ---\n");
     hidObjectIterator = MyFindHIDDevices (masterPort, kHIDPage_GenericDesktop, kHIDUsage_GD_GamePad);
