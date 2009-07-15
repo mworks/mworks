@@ -9,6 +9,9 @@
 #import <Cocoa/Cocoa.h>
 #import <MonkeyWorksCocoa/MWToolbarItem.h>
 
+// Not quite right, but something, for now
+#define HELP_URL @"http://monkeyworks-project.github.com"
+
 @class MWClientInstance;
 
 @interface AppController : NSWindowController {
@@ -110,6 +113,8 @@
 
 - (IBAction)closeErrorSheet:(id)sender;
 
+
+- (IBAction)launchHelp:(id)sender;
 
 - (NSColor *)uniqueColor;
 

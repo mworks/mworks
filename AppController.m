@@ -436,4 +436,10 @@ MWClientInstance *client_instance = [self modalClientInstanceInCharge];
 	return YES;
 }
 
+
+- (IBAction) launchHelp: (id) sender {
+  NSLog(@"Launching Help...");
+  [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:HELP_URL]];
+}
+
 @end
