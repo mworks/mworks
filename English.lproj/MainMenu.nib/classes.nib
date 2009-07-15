@@ -39,6 +39,8 @@
 				<string>id</string>
 				<key>closeExperiment</key>
 				<string>id</string>
+				<key>launchHelp</key>
+				<string>id</string>
 				<key>loadVariables</key>
 				<string>id</string>
 				<key>openDataFile</key>

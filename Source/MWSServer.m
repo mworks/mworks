@@ -16,6 +16,8 @@
 #define DEFAULT_HOST_IP @"127.0.0.1"
 #define LISTENING_ADDRESS_KEY @"listeningAddressKey"
 
+#define HELP_URL @"http://monkeyworks-project.github.com"
+
 @interface MWSServer(PrivateMethods)
 - (void)processEvent:(id)cocoaEvent;
 @end
@@ -124,6 +126,11 @@
 /****************************************************************
 *              IBAction methods
 ***************************************************************/
+- (IBAction) launchHelp: (id) sender {
+  NSLog(@"Launching Help...");
+  [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:HELP_URL]];
+}
+
 - (IBAction)toggleConsole:(id)sender {
 	if([[cc window] isVisible]) {
 		[cc close];
@@ -346,6 +353,7 @@
 	
 	return varNames;	
 }
+
 
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -40,6 +40,7 @@
 - (IBAction)closeDataFile:(id)sender;
 - (IBAction)stopExperiment:(id)sender;
 - (IBAction)startExperiment:(id)sender;
+- (IBAction) launchHelp: (id) sender;
 
 @end
 
@@ -67,4 +68,5 @@
 - (NSString *)defaultNetworkAddress:(id)sender;
 - (void)setListeningAddress:(NSString *)address;
 - (NSArray *)variableNames;
+
 @end
