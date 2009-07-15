@@ -695,8 +695,7 @@
 		<icon>actionIcon</icon>
 		<inspector>AssignmentInspectorView</inspector>
 		<description>
-			Print a message to the console. You can place variables in the 
-			message by placing a '$' in front of them (e.g. "x = $x")
+			Assign a value to a global variable object at runtime. 
 		</description>
 		
 		<!-- Payload -->
