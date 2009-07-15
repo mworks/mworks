@@ -67,7 +67,7 @@
 		// Get all of the plugins' library files
 		/////////////////////////////////////////////////////////////////////
 		NSLog(@"Loading Library XML...");
-		NSString *pluginPath = @"/Library/Application Support/MonkeyWorks/Plugins/Editor Plugins";
+		NSString *pluginPath = @"/Library/Application Support/MonkeyWorks/Plugins/Core Plugins";
 		NSArray *plugins = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:pluginPath error:&outError];
 		NSEnumerator *pluginEnumerator = [plugins objectEnumerator];
 		NSString *pluginName = nil;
@@ -83,7 +83,8 @@
 									   ofType:@"xml"];
 			
 			if(xmlPluginPath != nil) {
-				NSXMLNode *library_url_node = [NSXMLNode elementWithName:@"url" stringValue:xmlPluginPath];
+                NSLog(@"Loading %@", pluginName);
+				NSXMLNode *library_url_node = [NSXMLNode elementWithName:@"url" stringValue:[xmlPluginPath stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
 				[root addChild:library_url_node];
 			}
 		}
@@ -91,12 +92,15 @@
 		NSXMLDocument *xmlContentsDoco = [[[NSXMLDocument alloc] initWithRootElement:root] autorelease];
 		//NSLog([xmlContentsDoco XMLString]);
 		
+        
 		// combine all the libraries now
 		NSXMLDocument *libraries_untransformed = [xmlContentsDoco 
 												  objectByApplyingXSLTAtURL:[NSURL fileURLWithPath:xslLibraryCombiner]
 												  arguments:nil
 												  error:&outError];
 		
+        //NSLog([libraries_untransformed XMLString]);
+        
 		// I need to write and re-read the file.  There's some bug here but I don't see where it is
 		// write it to a temp file:
 		CFUUIDRef uuid = CFUUIDCreate(NULL);

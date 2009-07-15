@@ -50,13 +50,13 @@
 				</xsl:call-template>
 			</xsl:variable>
 			
-			<xsl:message>
+			<!--<xsl:message>
 				<xsl:value-of select="./@name"/>
 				<xsl:text> belongs(</xsl:text>
 				<xsl:value-of select="$does_it_belong"/>
 				<xsl:text> ) to </xsl:text>
 				<xsl:value-of select="$thisname"/>
-			</xsl:message>
+			</xsl:message>-->
 		
 			<xsl:if	test="$does_it_belong = $thisname and not(./display_as_group) and not(./@hidden)">
 				<xsl:call-template name="copy_element"/>
@@ -80,10 +80,10 @@
 		<xsl:variable name="is_a" select="./isa"/>
 		<xsl:for-each select="/MWElements/MWElement">
 			<xsl:if test="./@name = $is_a">
-				<xsl:message>Recursing...
+				<!--<xsl:message>Recursing...
 					(<xsl:value-of select="./@name"/> =
 					 <xsl:value-of select="$is_a"/> )
-				</xsl:message>
+				</xsl:message>-->
 				<xsl:call-template name="recursive_belongs">
 					<xsl:with-param name="group" select="$group"/>
 				</xsl:call-template>

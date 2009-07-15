@@ -3,10 +3,10 @@
 		<MWElements>
 			<xsl:for-each select="url">
 				<xsl:copy-of select="document(.)/MWElements/MWElementGroup"/>
-				</xsl:for-each>
+			</xsl:for-each>
 			<xsl:for-each select="url">
 				<xsl:copy-of select="document(.)/MWElements/MWElement"/>
-				</xsl:for-each>
+			</xsl:for-each>
 			</MWElements>
 		</xsl:template>
 	</xsl:transform>

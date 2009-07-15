@@ -597,8 +597,8 @@
 				8D15AC2B0486D014006FF6A4 /* Resources */,
 				8D15AC300486D014006FF6A4 /* Sources */,
 				8D15AC330486D014006FF6A4 /* Frameworks */,
-				5C00B9310DF4736500198261 /* ShellScript */,
 				5C298EE10E37C2A900FDC36C /* CopyFiles */,
+				5C00B9310DF4736500198261 /* ShellScript */,
 			);
 			buildRules = (
 			);
