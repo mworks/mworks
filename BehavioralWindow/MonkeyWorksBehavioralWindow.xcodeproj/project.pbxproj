@@ -27,6 +27,7 @@
 		5C07403C0B25D5DD00B39336 /* Main.nib in Resources */ = {isa = PBXBuildFile; fileRef = 5C07403B0B25D5DD00B39336 /* Main.nib */; };
 		5C1CCE2C0F29117E00282AD9 /* Narrative.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C1CCE2B0F29117E00282AD9 /* Narrative.framework */; };
 		5C1CCE5D0F2911C500282AD9 /* Narrative.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5C1CCE2B0F29117E00282AD9 /* Narrative.framework */; };
+		5C56F533100EBC4C007E03A9 /* Narrative.framework in Resources */ = {isa = PBXBuildFile; fileRef = 5C1CCE2B0F29117E00282AD9 /* Narrative.framework */; };
 		5CF287520994124E000C55A3 /* MonkeyWorksCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CF287500994124E000C55A3 /* MonkeyWorksCocoa.framework */; };
 		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
@@ -215,6 +216,7 @@
 				8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */,
 				0E5505000AADB7FE00987B47 /* MonkeyWorksBehavioralWindow.xml in Resources */,
 				5C07403C0B25D5DD00B39336 /* Main.nib in Resources */,
+				5C56F533100EBC4C007E03A9 /* Narrative.framework in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -232,7 +234,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/zsh;
-			shellScript = "export FULL_NAME=${PRODUCT_NAME}.${WRAPPER_EXTENSION}\n\n# make the directory if it isnt there\nmkdir -p ${FINAL_INSTALL_DIR}\n\n# copy the framework to the proper directory\nrm -dfR \"${FINAL_INSTALL_DIR}/${FULL_NAME}\"\n\ncp -Rf \"${BUILT_PRODUCTS_DIR}/${FULL_NAME}\" \"${FINAL_INSTALL_DIR}/\"\n";
+			shellScript = "export FULL_NAME=${PRODUCT_NAME}.${WRAPPER_EXTENSION}\n\n# make the directory if it isnt there\nmkdir -p ${FINAL_INSTALL_DIR}\n\n# copy the framework to the proper directory\nrm -dfR \"${FINAL_INSTALL_DIR}/${FULL_NAME}\"\n\ncp -Rf \"${BUILT_PRODUCTS_DIR}/${FULL_NAME}\" \"${FINAL_INSTALL_DIR}/\"\n\necho install_name_tool -change @executable_path/../Frameworks/Narrative.framework/Versions/A/Narrative ${FINAL_INSTALL_DIR}/${PRODUCT_NAME}.${WRAPPER_EXTENSION}/Contents/Frameworks ${FINAL_INSTALL_DIR}/${PRODUCT_NAME}.${WRAPPER_EXTENSION}\n\ninstall_name_tool -change @executable_path/../Frameworks/Narrative.framework/Versions/A/Narrative ${FINAL_INSTALL_DIR}/${PRODUCT_NAME}.${WRAPPER_EXTENSION}/Contents/Frameworks/Narrative.framework/Versions/A/Narrative ${FINAL_INSTALL_DIR}/${PRODUCT_NAME}.${WRAPPER_EXTENSION}/Contents/MacOS/${PRODUCT_NAME}";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -277,13 +279,17 @@
 					"$(inherited)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
 				);
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)\"";
-				GCC_ENABLE_OBJC_GC = YES;
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(FINAL_INSTALL_DIR)/$(TARGET_NAME).$(WRAPPER_EXTENSION)/Contents/Frameworks\"";
+				GCC_ENABLE_OBJC_GC = required;
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				GCC_PREFIX_HEADER = MonkeyWorksBehavioralWindow_Prefix.pch;
 				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
 				INFOPLIST_FILE = Info.plist;
 				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Narrative,
+				);
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = NO;
 				PRODUCT_NAME = MonkeyWorksBehavioralWindow;
 				WRAPPER_EXTENSION = bundle;
