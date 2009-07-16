@@ -15,6 +15,7 @@
 #include "StandardVariables.h"
 #include "Experiment.h"
 #include "StandardVariables.h"
+#include "ComponentRegistry.h"
 
 #include "boost/bind.hpp"
 
@@ -212,7 +213,10 @@ void *checkFence(void *arg){
 }
 
 void StimulusDisplay::setDisplayBounds(){
-	Data display_info = *mainDisplayInfo; // from standard variables
+  shared_ptr<mw::ComponentRegistry> reg = mw::ComponentRegistry::getSharedRegistry();
+  shared_ptr<Variable> main_screen_info = reg->getVariable(MAIN_SCREEN_INFO_TAGNAME);
+  
+	Data display_info = *main_screen_info; // from standard variables
 	if(display_info.getDataType() == M_DICTIONARY &&
 	   display_info.hasKey(M_DISPLAY_WIDTH_KEY) &&
 	   display_info.hasKey(M_DISPLAY_HEIGHT_KEY) &&

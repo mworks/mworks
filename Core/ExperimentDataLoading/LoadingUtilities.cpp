@@ -63,9 +63,9 @@ namespace mw {
 		Data loaded_values = main_screen_info->getValue();
 		Data new_values(M_DICTIONARY, 7);
 		
-		new_values = checkLoadedValueAndReturnNewValuesWithLoadedValueOrDefaultIfNotNumber(loaded_values, new_values, M_DISPLAY_WIDTH_KEY, 19.0);
-		new_values = checkLoadedValueAndReturnNewValuesWithLoadedValueOrDefaultIfNotNumber(loaded_values, new_values, M_DISPLAY_HEIGHT_KEY, 11.875);
-		new_values = checkLoadedValueAndReturnNewValuesWithLoadedValueOrDefaultIfNotNumber(loaded_values, new_values, M_DISPLAY_DISTANCE_KEY, 20.0);
+		new_values = checkLoadedValueAndReturnNewValuesWithLoadedValueOrDefaultIfNotNumber(loaded_values, new_values, M_DISPLAY_WIDTH_KEY, 14.75);
+		new_values = checkLoadedValueAndReturnNewValuesWithLoadedValueOrDefaultIfNotNumber(loaded_values, new_values, M_DISPLAY_HEIGHT_KEY, 11.09);
+		new_values = checkLoadedValueAndReturnNewValuesWithLoadedValueOrDefaultIfNotNumber(loaded_values, new_values, M_DISPLAY_DISTANCE_KEY, 10.0);
 		new_values = checkLoadedValueAndReturnNewValuesWithLoadedValueOrDefaultIfNotNumber(loaded_values, new_values, M_REFRESH_RATE_KEY, 60L);
 		
 		if(!(loaded_values.getElement(M_ALWAYS_DISPLAY_MIRROR_WINDOW_KEY).isNumber())) {
@@ -249,11 +249,14 @@ namespace mw {
 		
 		GlobalOpenGLContextManager->releaseDisplays();
 		
+    shared_ptr<ComponentRegistry> reg = ComponentRegistry::getSharedRegistry();
+    shared_ptr<Variable> main_screen_info = reg->getVariable(MAIN_SCREEN_INFO_TAGNAME);
+    
 		bool always_display_mirror_window = 0;
-		int display_to_use = 1;
-		if(mainDisplayInfo != NULL){
+		int display_to_use = 0;
+		if(main_screen_info != NULL){
 			
-			Data val = *(mainDisplayInfo);
+			Data val = *(main_screen_info);
 			if(val.hasKey(M_DISPLAY_TO_USE_KEY)){
 				display_to_use = (int)val.getElement(M_DISPLAY_TO_USE_KEY);
 			}

@@ -10,6 +10,7 @@
 #include "Experiment.h"
 #include "Utilities.h"
 #include "Event.h"
+#include "ComponentRegistry.h"
 
 using namespace mw;
 
@@ -409,8 +410,11 @@ int OpenGLContextManager::newMirrorContext(int pixelDepth) {
 	width = 960;
 	height = 600;
 	
-	if(mainDisplayInfo != NULL){
-		Data info = *mainDisplayInfo;
+  shared_ptr<ComponentRegistry> reg = ComponentRegistry::getSharedRegistry();
+  shared_ptr<Variable> main_screen_info = reg->getVariable(MAIN_SCREEN_INFO_TAGNAME);
+  
+	if(main_screen_info != NULL){
+		Data info = *main_screen_info;
 		
 		if(info.hasKey(M_DISPLAY_WIDTH_KEY) 
 		   && info.hasKey(M_DISPLAY_HEIGHT_KEY)
@@ -493,8 +497,10 @@ int OpenGLContextManager::newFullScreenContext(int pixelDepth, int index) {
 	
 	int refresh_rate_hz = 60;
 	
-	
-	Data val(mainDisplayInfo->getValue());
+	shared_ptr<ComponentRegistry> reg = ComponentRegistry::getSharedRegistry();
+  shared_ptr<Variable> main_screen_info = reg->getVariable(MAIN_SCREEN_INFO_TAGNAME);
+
+	Data val(main_screen_info->getValue());
 	if(val.hasKey(M_REFRESH_RATE_KEY)){
 		refresh_rate_hz = (int)(val.getElement(M_REFRESH_RATE_KEY));
 	}
