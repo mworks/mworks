@@ -14,7 +14,8 @@
 #include "StimulusDisplay.h"
 #include "ExpressionVariable.h"
 
-
+#include <boost/regex.hpp>
+#include <boost/tokenizer.hpp>
 
 #include <iostream>
 #include <sstream>
@@ -163,20 +164,65 @@ ReportString::ReportString(const std::string &reportStr) : Action() {
 	
 	setName("Report");
 	std::string outStr(reportStr);	
+  
+  error = false;
+  
+  typedef boost::tokenizer<boost::char_separator<char> > tokenizer;
+  boost::char_separator<char> sep("", "().,;:|\/\\+-*&^!@=<>?$ \t", boost::drop_empty_tokens);
+  tokenizer tokens(outStr, sep);
+  for (tokenizer::iterator tok_iter = tokens.begin(); tok_iter != tokens.end(); ++tok_iter){
+    std::string token = *tok_iter;
+    if(token == "$"){
+      // peek ahead to the next token. if it starts with a word char, this is a variable
+      ++tok_iter;
+      if(tok_iter != tokens.end()){
+        std::string next_token = *tok_iter;
+        boost::regex re("^\\w");
+        if(boost::regex_search(next_token, re)){  // if it's a word
+           shared_ptr<Variable> var = GlobalVariableRegistry->getVariable(next_token);
+           if(!var) {
+             error = true;
+              var = shared_ptr<ConstantVariable>(new ConstantVariable(Data(std::string("UNKNOWNVAR"))));			
+           }
+           
+           stringFragments.push_back(var);
+         
+        } else { // if it's not a word (an isolated $, apparently)
+           
+           shared_ptr<ConstantVariable> c(new ConstantVariable(Data("$" + next_token)));
+           stringFragments.push_back(c);
+        }
+           
+      } else {
+        break; // at the end of the token stream
+      }
+    } else {
+       shared_ptr<ConstantVariable> c(new ConstantVariable(Data(token)));
+       stringFragments.push_back(c);
+    }
+ }         
+    
+    
+  /*
 	error = false;
 	
 	stringFragments.clear();
 	
 	while(outStr.find_first_of("$") != std::string::npos) {
-		std::string stringSegment;
+		
+    // TODO: This section is the source of bug #8.
+    // Need to come up with something smarter that tokenizes using more than just whitespace
+    
+    std::string stringSegment;
 		std::string varName;
 		istringstream parser(outStr);
-		
+  
 		getline(parser, stringSegment, '$');
 		shared_ptr<ConstantVariable> c(new ConstantVariable(Data(stringSegment)));
 		stringFragments.push_back(c);
 		
 		getline(parser, varName, ' ');
+    
 		shared_ptr<Variable> var = GlobalVariableRegistry->getVariable(varName);
 		if(!var) {
 			error = true;
@@ -190,7 +236,7 @@ ReportString::ReportString(const std::string &reportStr) : Action() {
 	
 	// add any remainder
 	shared_ptr<ConstantVariable> remainder(new ConstantVariable(Data(outStr)));
-	stringFragments.push_back(remainder);
+	stringFragments.push_back(remainder);*/
 }
 
 ReportString::~ReportString() { }
