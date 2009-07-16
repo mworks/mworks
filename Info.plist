@@ -40,7 +40,9 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>r587</string>
+	<string>0.43rc7</string>
+	<key>CFBundleShortVersionString</key>
+	<string>commit id: 4aece1b</string>
 	<key>NSMainNibFile</key>
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>

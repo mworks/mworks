@@ -6,12 +6,27 @@
 	objectVersion = 44;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		5C56F437100EB6A2007E03A9 /* Set Version String */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 5C56F439100EB6DE007E03A9 /* Build configuration list for PBXAggregateTarget "Set Version String" */;
+			buildPhases = (
+				5C56F436100EB6A2007E03A9 /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = "Set Version String";
+			productName = "Set Version String";
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		0EC2F5150EE9B248008BD196 /* MWLibraryCombiner.xsl in Resources */ = {isa = PBXBuildFile; fileRef = 0EC2F5140EE9B248008BD196 /* MWLibraryCombiner.xsl */; };
 		5C23DAE10D997B1C0044AC9E /* errorGlyphSmaller.tif in Resources */ = {isa = PBXBuildFile; fileRef = 5C23DAE00D997B1C0044AC9E /* errorGlyphSmaller.tif */; };
 		5C23DB4F0D99BBFF0044AC9E /* MWBreadcrumbController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C23DB4E0D99BBFF0044AC9E /* MWBreadcrumbController.m */; };
 		5C42B3250E58A425000BD45F /* MWExperimentGraphController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C42B3240E58A425000BD45F /* MWExperimentGraphController.m */; };
 		5C42B3830E58A61E000BD45F /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C42B3820E58A61E000BD45F /* Quartz.framework */; };
+		5C56F442100EB76E007E03A9 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5C56F441100EB76E007E03A9 /* Info.plist */; };
 		5C58B0F40E7B023A00561EED /* MWPreferencePanelController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C58B0F30E7B023A00561EED /* MWPreferencePanelController.m */; };
 		5C9186B90E3636B600B64213 /* BiasMonitorInspectorView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5C9186B80E3636B600B64213 /* BiasMonitorInspectorView.xib */; };
 		5C9186DF0E368F0B00B64213 /* ImageStimulusInspectorView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5C9186DE0E368F0B00B64213 /* ImageStimulusInspectorView.xib */; };
@@ -121,6 +136,16 @@
 		8D15AC340486D014006FF6A4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		5C56F44E100EB7F4007E03A9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5C56F437100EB6A2007E03A9 /* Set Version String */;
+			remoteInfo = "Set Version String";
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXCopyFilesBuildPhase section */
 		5C298EE10E37C2A900FDC36C /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -154,6 +179,7 @@
 		5C42B3230E58A425000BD45F /* MWExperimentGraphController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWExperimentGraphController.h; sourceTree = "<group>"; };
 		5C42B3240E58A425000BD45F /* MWExperimentGraphController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWExperimentGraphController.m; sourceTree = "<group>"; };
 		5C42B3820E58A61E000BD45F /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = /System/Library/Frameworks/Quartz.framework; sourceTree = "<absolute>"; };
+		5C56F441100EB76E007E03A9 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5C58B0F20E7B023A00561EED /* MWPreferencePanelController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWPreferencePanelController.h; sourceTree = "<group>"; };
 		5C58B0F30E7B023A00561EED /* MWPreferencePanelController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWPreferencePanelController.m; sourceTree = "<group>"; };
 		5C9186B80E3636B600B64213 /* BiasMonitorInspectorView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = BiasMonitorInspectorView.xib; path = InspectorViews/BiasMonitorInspectorView.xib; sourceTree = "<group>"; };
@@ -275,7 +301,7 @@
 		5CF72A0A0E59213A00F427AC /* no_graphviz.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = no_graphviz.pdf; sourceTree = "<group>"; };
 		5CF8C3AB0E7975DD00AAA250 /* MWSimpleSoundPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWSimpleSoundPlayer.h; sourceTree = "<group>"; };
 		5CF8C3AC0E7975DD00AAA250 /* MWSimpleSoundPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWSimpleSoundPlayer.m; sourceTree = "<group>"; };
-		8D15AC360486D014006FF6A4 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8D15AC360486D014006FF6A4 /* Info.template.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.template.plist; sourceTree = "<group>"; };
 		8D15AC370486D014006FF6A4 /* MWEditor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MWEditor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -378,6 +404,7 @@
 		2A37F4B8FDCFA73011CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				5C56F441100EB76E007E03A9 /* Info.plist */,
 				0EC2F5140EE9B248008BD196 /* MWLibraryCombiner.xsl */,
 				5CDC06AD0CE022DD008B67D0 /* XML */,
 				5CCBABC70CDE627000B42E7B /* Images */,
@@ -385,7 +412,7 @@
 				2A37F4B9FDCFA73011CA2CEA /* Credits.rtf */,
 				2A37F4B6FDCFA73011CA2CEA /* MainMenu.nib */,
 				2A37F4B4FDCFA73011CA2CEA /* MyDocument.nib */,
-				8D15AC360486D014006FF6A4 /* Info.plist */,
+				8D15AC360486D014006FF6A4 /* Info.template.plist */,
 				089C165FFE840EACC02AAC07 /* InfoPlist.strings */,
 			);
 			name = Resources;
@@ -603,6 +630,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				5C56F44F100EB7F4007E03A9 /* PBXTargetDependency */,
 			);
 			name = MWEditor;
 			productInstallPath = "$(HOME)/Applications";
@@ -623,6 +651,7 @@
 			projectRoot = "";
 			targets = (
 				8D15AC270486D014006FF6A4 /* MWEditor */,
+				5C56F437100EB6A2007E03A9 /* Set Version String */,
 			);
 		};
 /* End PBXProject section */
@@ -713,6 +742,7 @@
 				5C992CE20E78A9950093A8FF /* WaitInspectorView.xib in Resources */,
 				5C992DB60E78BFB20093A8FF /* greenmonkey.icns in Resources */,
 				0EC2F5150EE9B248008BD196 /* MWLibraryCombiner.xsl in Resources */,
+				5C56F442100EB76E007E03A9 /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -731,6 +761,19 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/zsh;
 			shellScript = "export FULL_NAME=${PRODUCT_NAME}.${WRAPPER_EXTENSION}\nexport FINAL_INSTALL_DIR=/Applications\n\nrm -dfR \"/Applications/${FULL_NAME}\"\ncp -Rf \"${BUILT_PRODUCTS_DIR}/${FULL_NAME}\" \"${FINAL_INSTALL_DIR}\"\n";
+		};
+		5C56F436100EB6A2007E03A9 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/zsh;
+			shellScript = "export SOURCE_DIR=./\n\nexport GIT=`/usr/bin/env which git`\necho $GIT\nexport VERSION_STRING=\"commit id: `$GIT log -n1  --pretty=format:%h`\"\n\n\necho $VERSION_STRING\nexport SUBS_STRING=s/_VERSION_STRING_/${VERSION_STRING}/\nsed $SUBS_STRING  ${SOURCE_DIR}/Info.template.plist > ${SOURCE_DIR}/Info.plist\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -770,6 +813,14 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		5C56F44F100EB7F4007E03A9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5C56F437100EB6A2007E03A9 /* Set Version String */;
+			targetProxy = 5C56F44E100EB7F4007E03A9 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
 		089C165FFE840EACC02AAC07 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
@@ -806,6 +857,16 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		5C56F438100EB6A3007E03A9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = "Set Version String";
+			};
+			name = Debug;
+		};
 		C05733C808A9546B00998B17 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -850,6 +911,14 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		5C56F439100EB6DE007E03A9 /* Build configuration list for PBXAggregateTarget "Set Version String" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5C56F438100EB6A3007E03A9 /* Debug */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
 		C05733C708A9546B00998B17 /* Build configuration list for PBXNativeTarget "MWEditor" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
