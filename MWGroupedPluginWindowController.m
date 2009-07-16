@@ -67,6 +67,9 @@
 - (void) relinquishCurrentView {
     if([[holdFlags objectAtIndex:currentPluginIndex] boolValue]){
         NSWindow *current_content_window = [plugins objectAtIndex:currentPluginIndex];
+        
+        // Make sure that we end all editing in this window, or we could get in trouble
+        [current_content_window endEditingFor:Nil];
         [current_content_window setContentView:[content_box contentView]];
         [holdFlags replaceObjectAtIndex:currentPluginIndex withObject:[NSNumber numberWithBool:NO]];
     }
