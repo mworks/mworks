@@ -3,7 +3,7 @@
 //  New Client
 //
 //  Created by David Cox on 5/29/08.
-//  Copyright 2008 __MyCompanyName__. All rights reserved.
+//  Copyright 2008 Harvard University. All rights reserved.
 //
 
 #import "MWGroupedPluginWindowController.h"
