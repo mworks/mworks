@@ -307,7 +307,8 @@
 										x_position="0.0"
 										y_position="0.0"
 										rotation="0.0"
-										alpha_multiplier="1.0"/>
+										alpha_multiplier="1.0"
+                    deferred="NO"/>
 		</code>
 	</MWElement>
 
@@ -672,7 +673,8 @@
 		<isa>Action</isa>
 		
 		<!-- Information for display in the GUI -->
-		<icon>reportAction</icon>
+		<inspector>ReportInspectorView</inspector>
+    <icon>reportAction</icon>
 		<description>
 			Print a message to the console. You can place variables in the 
 			message by placing a '$' in front of them (e.g. "x = $x")
@@ -1006,7 +1008,7 @@
 	</MWElement>
 
 	<MWElement name="Start IO Device">
-		<match_signature>action[@type='start_device_io']</match_signature>
+		<match_signature>action[@type='start_device_IO']</match_signature>
 		<isa>Action</isa>
 		
 		<inspector>StartIOInspectorView</inspector>
@@ -1023,7 +1025,7 @@
 	</MWElement>
 
 	<MWElement name="Stop IO Device">
-		<match_signature>action[@type='stop_device_io']</match_signature>
+		<match_signature>action[@type='stop_device_IO']</match_signature>
 		<isa>Action</isa>
 		
 		<inspector>StopIOInspectorView</inspector>

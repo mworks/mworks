@@ -42,7 +42,7 @@
 	<key>CFBundleVersion</key>
 	<string>0.43rc7</string>
 	<key>CFBundleShortVersionString</key>
-	<string>commit id: 4aece1b</string>
+	<string>commit id: c087670</string>
 	<key>NSMainNibFile</key>
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>
