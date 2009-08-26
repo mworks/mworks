@@ -1,9 +1,9 @@
 /*
- *  ÇPROJECTNAMEÈ.h
+ *  ÇPROJECTNAMEÈPlugin.h
  *  MWPlugin
  *
- *  Created by David Cox on 2/26/09.
- *  Copyright 2009 Harvard University. All rights reserved.
+ *  Created by ÇFULLUSERNAMEÈ on ÇDATEÈ.
+ *  Copyright ÇYEARÈ ÇORGANIZATIONNAMEÈ. All rights reserved.
  *
  */
 #ifndef ÇPROJECTNAMEÈ_PLUGIN_H_
@@ -16,7 +16,7 @@ extern "C"{
     Plugin *getPlugin();
 }
 
-class ÇPROJECTNAMEÈ : public Plugin {
+class ÇPROJECTNAMEÈPlugin : public Plugin {
     
 	virtual void registerComponents(shared_ptr<mw::ComponentRegistry> registry);	
 };

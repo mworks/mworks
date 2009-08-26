@@ -1,27 +1,27 @@
 /*
- *  ÇPROJECTNAMEÈ.cpp
+ *  «PROJECTNAME»Plugin.cpp
  *  MWPlugin
  *
- *  Created by David Cox on 2/26/09.
- *  Copyright 2009 Harvard University. All rights reserved.
+ *  Created by «FULLUSERNAME» on «DATE».
+ *  Copyright «YEAR» «ORGANIZATIONNAME». All rights reserved.
  *
  */
 
-#include "ÇPROJECTNAMEÈPlugin.h"
-#include "ÇPROJECTNAMEÈFactory.h"
+#include "«PROJECTNAME»Plugin.h"
+#include "«PROJECTNAME»Factory.h"
 #include "MonkeyWorksCore/ComponentFactory.h"
 using namespace mw;
 
 Plugin *getPlugin(){
-    return new ÇPROJECTNAMEÈPlugin();
+    return new «PROJECTNAME»Plugin();
 }
 
 
-void ÇPROJECTNAMEÈPlugin::registerComponents(shared_ptr<mw::ComponentRegistry> registry) {
+void «PROJECTNAME»Plugin::registerComponents(shared_ptr<mw::ComponentRegistry> registry) {
 	
     // TODO: you need to customize the "signature" of the object your plugin will create
     //       The signature is of the form component/type –(e.g. stimulus/circle, or iodevice/NIDAQ)
-    registry->registerFactory(std::string("stimulus/ÇPROJECTNAMEÈ"),
-							  (ComponentFactory *)(new ÇPROJECTNAMEÈFactory()));
+    registry->registerFactory(std::string("stimulus/«PROJECTNAME»"),
+							  (ComponentFactory *)(new «PROJECTNAME»Factory()));
 }
 

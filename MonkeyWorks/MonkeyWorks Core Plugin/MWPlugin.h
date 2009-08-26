@@ -3,14 +3,15 @@
  * ÇPROJECTNAMEÈ
  *  MWPlugin
  *
- *  Created by David Cox on 2/26/09.
- *  Copyright 2009 Harvard University. All rights reserved.
+ *  Created by ÇFULLUSERNAMEÈ on ÇDATEÈ.
+ *  Copyright ÇYEARÈ ÇORGANIZATIONNAMEÈ. All rights reserved.
  *
  */
 
 #ifndef ÇPROJECTNAMEÈ_H_
 #define ÇPROJECTNAMEÈ_H_
 
+#include <MonkeyWorksCore/Plugin.h>
 
 using namespace mw;
 
