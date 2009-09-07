@@ -21,8 +21,8 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		0E587B3F0D6B63B20053BE5C /* ScarabDatumWrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = 0E587B3D0D6B63B20053BE5C /* ScarabDatumWrapper.h */; };
-		0E587B400D6B63B20053BE5C /* ScarabDatumWrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E587B3E0D6B63B20053BE5C /* ScarabDatumWrapper.cpp */; };
+		0E587B3F0D6B63B20053BE5C /* EventWrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = 0E587B3D0D6B63B20053BE5C /* EventWrapper.h */; };
+		0E587B400D6B63B20053BE5C /* EventWrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E587B3E0D6B63B20053BE5C /* EventWrapper.cpp */; };
 		0E7788180D6B44FB00AF41F2 /* DataFileUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = 0E7788160D6B44FB00AF41F2 /* DataFileUtilities.h */; };
 		0E7788190D6B44FB00AF41F2 /* DataFileUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E7788170D6B44FB00AF41F2 /* DataFileUtilities.cpp */; };
 		0EA2B4C50D6BB349002396FC /* EventBlock.h in Headers */ = {isa = PBXBuildFile; fileRef = 0EA2B4C30D6BB349002396FC /* EventBlock.h */; };
@@ -33,6 +33,19 @@
 		0EAEC7110D6D01F80091E5F9 /* MonkeyWorksCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 0EAEC7100D6D01F80091E5F9 /* MonkeyWorksCore.h */; };
 		0EE378AA0D6CA7B30065846A /* dfindex.h in Headers */ = {isa = PBXBuildFile; fileRef = 0EE378A80D6CA7B30065846A /* dfindex.h */; };
 		0EE378AB0D6CA7B30065846A /* dfindex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EE378A90D6CA7B30065846A /* dfindex.cpp */; };
+		5C2A62051039DDDB00A62CBA /* DataFile.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C2A62031039DDDB00A62CBA /* DataFile.h */; };
+		5C2A62061039DDDB00A62CBA /* DataFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C2A62041039DDDB00A62CBA /* DataFile.cpp */; };
+		5C2A62F0103A2DB600A62CBA /* DataFileIndexer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5073E0C409E734A800EC74B6 /* DataFileIndexer.cpp */; };
+		5C2A62F1103A2DB700A62CBA /* DataFileIndexer.h in Headers */ = {isa = PBXBuildFile; fileRef = 50149BD909E781A5002DEE6A /* DataFileIndexer.h */; };
+		5C2A62F3103A2DBD00A62CBA /* DataFileUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E7788170D6B44FB00AF41F2 /* DataFileUtilities.cpp */; };
+		5C2A62F4103A2DBE00A62CBA /* DataFileUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = 0E7788160D6B44FB00AF41F2 /* DataFileUtilities.h */; };
+		5C2A62F5103A2DBE00A62CBA /* dfindex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EE378A90D6CA7B30065846A /* dfindex.cpp */; };
+		5C2A62F6103A2DC100A62CBA /* dfindex.h in Headers */ = {isa = PBXBuildFile; fileRef = 0EE378A80D6CA7B30065846A /* dfindex.h */; };
+		5C2A62F7103A2DC200A62CBA /* EventBlock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EA2B4C40D6BB349002396FC /* EventBlock.cpp */; };
+		5C2A62F8103A2DC300A62CBA /* EventBlock.h in Headers */ = {isa = PBXBuildFile; fileRef = 0EA2B4C30D6BB349002396FC /* EventBlock.h */; };
+		5C2A62F9103A2DC400A62CBA /* EventWrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E587B3E0D6B63B20053BE5C /* EventWrapper.cpp */; };
+		5C2A62FA103A2DC500A62CBA /* EventWrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = 0E587B3D0D6B63B20053BE5C /* EventWrapper.h */; };
+		5C2A62FB103A2DC700A62CBA /* MonkeyWorksCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 0EAEC7100D6D01F80091E5F9 /* MonkeyWorksCore.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,8 +60,8 @@
 
 /* Begin PBXFileReference section */
 		08FB77AAFE841565C02AAC07 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
-		0E587B3D0D6B63B20053BE5C /* ScarabDatumWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScarabDatumWrapper.h; sourceTree = "<group>"; };
-		0E587B3E0D6B63B20053BE5C /* ScarabDatumWrapper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ScarabDatumWrapper.cpp; sourceTree = "<group>"; };
+		0E587B3D0D6B63B20053BE5C /* EventWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventWrapper.h; sourceTree = "<group>"; };
+		0E587B3E0D6B63B20053BE5C /* EventWrapper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventWrapper.cpp; sourceTree = "<group>"; };
 		0E7788160D6B44FB00AF41F2 /* DataFileUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataFileUtilities.h; sourceTree = "<group>"; };
 		0E7788170D6B44FB00AF41F2 /* DataFileUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DataFileUtilities.cpp; sourceTree = "<group>"; };
 		0EA2B4C30D6BB349002396FC /* EventBlock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventBlock.h; sourceTree = "<group>"; };
@@ -66,6 +79,10 @@
 		5073E0C409E734A800EC74B6 /* DataFileIndexer.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = DataFileIndexer.cpp; sourceTree = "<group>"; };
 		5073E0C609E734A800EC74B6 /* DataFileIndexerProj.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = DataFileIndexerProj.xcconfig; sourceTree = "<group>"; };
 		5073E0C709E734A800EC74B6 /* DataFileIndexerTarget.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = DataFileIndexerTarget.xcconfig; sourceTree = "<group>"; };
+		5C2A61FE1039DD7B00A62CBA /* DataFile.so */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = DataFile.so; sourceTree = BUILT_PRODUCTS_DIR; };
+		5C2A62031039DDDB00A62CBA /* DataFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataFile.h; sourceTree = "<group>"; };
+		5C2A62041039DDDB00A62CBA /* DataFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DataFile.cpp; sourceTree = "<group>"; };
+		5C2A62461039E7A800A62CBA /* data.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = data.py; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +100,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		5C2A61FC1039DD7B00A62CBA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -91,6 +115,7 @@
 			children = (
 				0EA58F0B0D6B20120027A3AC /* Test.app */,
 				0EA58F9A0D6B24FF0027A3AC /* libdfindex.a */,
+				5C2A61FE1039DD7B00A62CBA /* DataFile.so */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -120,13 +145,14 @@
 		08FB77ACFE841707C02AAC07 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				5C2A62021039DDBD00A62CBA /* Python Bindings */,
 				32BAE0B70371A74B00C91783 /* DataFileIndexer_Prefix.pch */,
 				50149BD909E781A5002DEE6A /* DataFileIndexer.h */,
 				5073E0C409E734A800EC74B6 /* DataFileIndexer.cpp */,
 				0E7788160D6B44FB00AF41F2 /* DataFileUtilities.h */,
 				0E7788170D6B44FB00AF41F2 /* DataFileUtilities.cpp */,
-				0E587B3D0D6B63B20053BE5C /* ScarabDatumWrapper.h */,
-				0E587B3E0D6B63B20053BE5C /* ScarabDatumWrapper.cpp */,
+				0E587B3D0D6B63B20053BE5C /* EventWrapper.h */,
+				0E587B3E0D6B63B20053BE5C /* EventWrapper.cpp */,
 				0EA2B4C30D6BB349002396FC /* EventBlock.h */,
 				0EA2B4C40D6BB349002396FC /* EventBlock.cpp */,
 				0EE378A80D6CA7B30065846A /* dfindex.h */,
@@ -153,6 +179,16 @@
 			name = "Configuration Files";
 			sourceTree = "<group>";
 		};
+		5C2A62021039DDBD00A62CBA /* Python Bindings */ = {
+			isa = PBXGroup;
+			children = (
+				5C2A62031039DDDB00A62CBA /* DataFile.h */,
+				5C2A62041039DDDB00A62CBA /* DataFile.cpp */,
+				5C2A62461039E7A800A62CBA /* data.py */,
+			);
+			name = "Python Bindings";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -162,10 +198,24 @@
 			files = (
 				0EA58F9F0D6B25500027A3AC /* DataFileIndexer.h in Headers */,
 				0E7788180D6B44FB00AF41F2 /* DataFileUtilities.h in Headers */,
-				0E587B3F0D6B63B20053BE5C /* ScarabDatumWrapper.h in Headers */,
+				0E587B3F0D6B63B20053BE5C /* EventWrapper.h in Headers */,
 				0EA2B4C50D6BB349002396FC /* EventBlock.h in Headers */,
 				0EE378AA0D6CA7B30065846A /* dfindex.h in Headers */,
 				0EAEC7110D6D01F80091E5F9 /* MonkeyWorksCore.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5C2A61FA1039DD7B00A62CBA /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5C2A62051039DDDB00A62CBA /* DataFile.h in Headers */,
+				5C2A62F1103A2DB700A62CBA /* DataFileIndexer.h in Headers */,
+				5C2A62F4103A2DBE00A62CBA /* DataFileUtilities.h in Headers */,
+				5C2A62F6103A2DC100A62CBA /* dfindex.h in Headers */,
+				5C2A62F8103A2DC300A62CBA /* EventBlock.h in Headers */,
+				5C2A62FA103A2DC500A62CBA /* EventWrapper.h in Headers */,
+				5C2A62FB103A2DC700A62CBA /* MonkeyWorksCore.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -208,6 +258,23 @@
 			productReference = 0EA58F9A0D6B24FF0027A3AC /* libdfindex.a */;
 			productType = "com.apple.product-type.library.static";
 		};
+		5C2A61FD1039DD7B00A62CBA /* DataFile (Python bindings) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5C2A62011039DDAA00A62CBA /* Build configuration list for PBXNativeTarget "DataFile (Python bindings)" */;
+			buildPhases = (
+				5C2A61FA1039DD7B00A62CBA /* Headers */,
+				5C2A61FB1039DD7B00A62CBA /* Sources */,
+				5C2A61FC1039DD7B00A62CBA /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "DataFile (Python bindings)";
+			productName = DataFile;
+			productReference = 5C2A61FE1039DD7B00A62CBA /* DataFile.so */;
+			productType = "com.apple.product-type.library.dynamic";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -224,6 +291,7 @@
 				0EA58F0A0D6B20120027A3AC /* Test */,
 				0EA58F990D6B24FF0027A3AC /* dfindex */,
 				0E60D6030E6D89E500B82521 /* dfindexerUninstall */,
+				5C2A61FD1039DD7B00A62CBA /* DataFile (Python bindings) */,
 			);
 		};
 /* End PBXProject section */
@@ -263,7 +331,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "rm -Rf \"$INSTALL_PATH/lib/libdfindex.a\"\ncp -Rf \"$BUILT_PRODUCTS_DIR/libdfindex.a\" \"$INSTALL_PATH/lib\"\n\nmkdir -p $INSTALL_PATH/include/dfindex\ncp -Rf \"$BUILT_PRODUCTS_DIR/../../DataFileIndexer.h\" \"$INSTALL_PATH/include/dfindex/\"\ncp -Rf \"$BUILT_PRODUCTS_DIR/../../ScarabDatumWrapper.h\"\t\"$INSTALL_PATH/include/dfindex/\"\ncp -Rf \"$BUILT_PRODUCTS_DIR/../../EventBlock.h\" \"$INSTALL_PATH/include/dfindex/\"\ncp -Rf \"$BUILT_PRODUCTS_DIR/../../DataFileUtilities.h\" \"$INSTALL_PATH/include/dfindex/\"\ncp -Rf \"$BUILT_PRODUCTS_DIR/../../MonkeyWorksCore.h\" \"$INSTALL_PATH/include/dfindex/\"\ncp -Rf \"$BUILT_PRODUCTS_DIR/../../dfindex.h\" \"$INSTALL_PATH/include/dfindex/\"\n\n";
+			shellScript = "mkdir -p \"$INSTALL_PATH/lib\"\nmkdir -p \"$INSTALL_PATH/include/dfindex\"\n\nrm -Rf \"$INSTALL_PATH/lib/libdfindex.a\"\ncp -Rf \"$BUILT_PRODUCTS_DIR/libdfindex.a\" \"$INSTALL_PATH/lib\"\n\nmkdir -p $INSTALL_PATH/include/dfindex\ncp -Rf \"$BUILT_PRODUCTS_DIR/../../DataFileIndexer.h\" \"$INSTALL_PATH/include/dfindex/\"\ncp -Rf \"$BUILT_PRODUCTS_DIR/../../ScarabDatumWrapper.h\"\t\"$INSTALL_PATH/include/dfindex/\"\ncp -Rf \"$BUILT_PRODUCTS_DIR/../../EventBlock.h\" \"$INSTALL_PATH/include/dfindex/\"\ncp -Rf \"$BUILT_PRODUCTS_DIR/../../DataFileUtilities.h\" \"$INSTALL_PATH/include/dfindex/\"\ncp -Rf \"$BUILT_PRODUCTS_DIR/../../MonkeyWorksCore.h\" \"$INSTALL_PATH/include/dfindex/\"\ncp -Rf \"$BUILT_PRODUCTS_DIR/../../dfindex.h\" \"$INSTALL_PATH/include/dfindex/\"\n\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -283,9 +351,22 @@
 			files = (
 				0EA58FA00D6B25580027A3AC /* DataFileIndexer.cpp in Sources */,
 				0E7788190D6B44FB00AF41F2 /* DataFileUtilities.cpp in Sources */,
-				0E587B400D6B63B20053BE5C /* ScarabDatumWrapper.cpp in Sources */,
+				0E587B400D6B63B20053BE5C /* EventWrapper.cpp in Sources */,
 				0EA2B4C60D6BB349002396FC /* EventBlock.cpp in Sources */,
 				0EE378AB0D6CA7B30065846A /* dfindex.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5C2A61FB1039DD7B00A62CBA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5C2A62061039DDDB00A62CBA /* DataFile.cpp in Sources */,
+				5C2A62F0103A2DB600A62CBA /* DataFileIndexer.cpp in Sources */,
+				5C2A62F3103A2DBD00A62CBA /* DataFileUtilities.cpp in Sources */,
+				5C2A62F5103A2DBE00A62CBA /* dfindex.cpp in Sources */,
+				5C2A62F7103A2DC200A62CBA /* EventBlock.cpp in Sources */,
+				5C2A62F9103A2DC400A62CBA /* EventWrapper.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -329,7 +410,9 @@
 				GCC_OBJC_CALL_CXX_CDTORS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
+				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
 				INFOPLIST_FILE = "Test-Info.plist";
+				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
 				OTHER_LDFLAGS = (
 					"-lboost_system-mt",
 					"-lboost_filesystem-mt",
@@ -372,7 +455,9 @@
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				INSTALL_PATH = /Library/MonkeyWorks;
+				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
+				INSTALL_PATH = "$(APP_SUPPORT_DIR)/Tools";
+				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
 				PRODUCT_NAME = dfindex;
 			};
 			name = Debug;
@@ -395,11 +480,17 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5073E0C609E734A800EC74B6 /* DataFileIndexerProj.xcconfig */;
 			buildSettings = {
+				APP_SUPPORT_DIR = "/Library/Application Support/Monkeyworks";
+				CONFIG_DIR = "$(APP_SUPPORT_DIR)/Configuration";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				HEADER_SEARCH_PATHS = /Library/MonkeyWorks/include;
 				LIBRARY_SEARCH_PATHS = /Library/MonkeyWorks/lib;
+				MW_INCLUDE_DIR = "\"$(APP_SUPPORT_DIR)/Developer/include\"";
+				MW_LIB_DIR = "\"$(APP_SUPPORT_DIR)/Developer/lib\"";
+				PLUGINS_DIR = "$(APP_SUPPORT_DIR)/Plugins/Core Plugins";
 				PREBINDING = NO;
 				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
+				TESTS_DIR = "$(APP_SUPPORT_DIR)/Developer/tests";
 			};
 			name = Debug;
 		};
@@ -415,6 +506,55 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
 				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
+			};
+			name = Release;
+		};
+		5C2A61FF1039DD7F00A62CBA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				EXECUTABLE_EXTENSION = so;
+				EXECUTABLE_PREFIX = "";
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				HEADER_SEARCH_PATHS = (
+					/usr/include/python2.5,
+					$MW_INCLUDE_DIR,
+				);
+				INSTALL_PATH = /usr/local/lib;
+				LIBRARY_SEARCH_PATHS = (
+					/usr/lib,
+					$MW_LIB_DIR,
+				);
+				OTHER_LDFLAGS = (
+					"-lboost_system-mt",
+					"-lboost_filesystem-mt",
+					"-lscarab",
+					"-lboost_python-mt",
+					"-lboost_serialization-mt",
+					"-lpython",
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = DataFile;
+			};
+			name = Debug;
+		};
+		5C2A62001039DD7F00A62CBA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				EXECUTABLE_PREFIX = lib;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_MODEL_TUNING = G5;
+				INSTALL_PATH = /usr/local/lib;
+				PREBINDING = NO;
+				PRODUCT_NAME = DataFile;
+				ZERO_LINK = NO;
 			};
 			name = Release;
 		};
@@ -453,6 +593,15 @@
 			buildConfigurations = (
 				1DEB916508733D950010E9CD /* Debug */,
 				1DEB916608733D950010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		5C2A62011039DDAA00A62CBA /* Build configuration list for PBXNativeTarget "DataFile (Python bindings)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5C2A61FF1039DD7F00A62CBA /* Debug */,
+				5C2A62001039DD7F00A62CBA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

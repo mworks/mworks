@@ -1,3 +1,4 @@
+INSTALL_DIR = "/Library/Application Support/Matlab"
 MEXSUFFIX  = mexmaci
 MATLABHOME = /Applications/MATLAB74
 MW_HOME = /Library/MonkeyWorks
@@ -9,9 +10,9 @@ INCLUDE   = -I$(MATLABHOME)/extern/include -I$(MW_HOME)/include
 MEXFLAGS  = -cxx CC='$(CXX)' CXX='$(CXX)' LD='$(CXX)'
 
 all: getEvents.$(MEXSUFFIX) getCodecs.$(MEXSUFFIX)
-	mkdir -p /Library/MonkeyWorks/Matlab;
-	cp getEvents.$(MEXSUFFIX) /Library/MonkeyWorks/Matlab/getEvents.$(MEXSUFFIX);
-	cp getCodecs.$(MEXSUFFIX) /Library/MonkeyWorks/Matlab/getCodecs.$(MEXSUFFIX);
+	mkdir -p $INSTALL_DIR;
+	cp getEvents.$(MEXSUFFIX) $INSTALL_DIR/getEvents.$(MEXSUFFIX);
+	cp getCodecs.$(MEXSUFFIX) $INSTALL_DIR/Matlab/getCodecs.$(MEXSUFFIX);
 
 clean:
 	rm -f *.o \

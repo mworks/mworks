@@ -118,10 +118,10 @@ DataFileIndexer::~DataFileIndexer() {
 	}
 }
 
-std::vector<ScarabDatumWrapper> DataFileIndexer::events(const std::vector<unsigned int> &event_codes_to_match,
+std::vector<EventWrapper> DataFileIndexer::events(const std::vector<unsigned int> &event_codes_to_match,
 														const MonkeyWorksTime lower_bound, 
 														const MonkeyWorksTime upper_bound) const {
-	std::vector<ScarabDatumWrapper> return_vector;
+	std::vector<EventWrapper> return_vector;
 
 	std::vector<boost::shared_ptr<EventBlock> > event_blocks_with_time = root->children(event_codes_to_match, lower_bound, upper_bound);
 	
@@ -142,7 +142,7 @@ std::vector<ScarabDatumWrapper> DataFileIndexer::events(const std::vector<unsign
 					j != event_codes_to_match.end();
 					++j) {
 					if(event_code == *j) {
-						return_vector.push_back(ScarabDatumWrapper(current_datum));	
+						return_vector.push_back(EventWrapper(current_datum));	
 					}
 				}
 			}
@@ -157,5 +157,13 @@ std::vector<ScarabDatumWrapper> DataFileIndexer::events(const std::vector<unsign
 
 unsigned int DataFileIndexer::getNEvents() const {
 	return number_of_events;
+}
+
+MonkeyWorksTime DataFileIndexer::getMinimumTime() const{
+    return root->minimumTime();
+}
+
+MonkeyWorksTime DataFileIndexer::getMaximumTime() const{
+    return root->maximumTime();
 }
 

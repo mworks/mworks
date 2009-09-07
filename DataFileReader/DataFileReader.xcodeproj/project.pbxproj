@@ -141,7 +141,14 @@
 		0E40C38A0D732B8200472673 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				APP_SUPPORT_DIR = "/Library/Application Support/Monkeyworks";
+				CONFIG_DIR = "$(APP_SUPPORT_DIR)/Configuration";
 				COPY_PHASE_STRIP = NO;
+				INSTALL_PATH = "$(APP_SUPPORT_DIR)/Tools";
+				MW_INCLUDE_DIR = "\"$(APP_SUPPORT_DIR)/Developer/include\"";
+				MW_LIB_DIR = "\"$(APP_SUPPORT_DIR)/Developer/lib\"";
+				PLUGINS_DIR = "$(APP_SUPPORT_DIR)/Plugins/Core Plugins";
+				TESTS_DIR = "$(APP_SUPPORT_DIR)/Developer/tests";
 			};
 			name = Debug;
 		};
@@ -159,9 +166,9 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				HEADER_SEARCH_PATHS = /Library/MonkeyWorks/include;
-				INSTALL_PATH = /Library/MonkeyWorks/tools;
-				LIBRARY_SEARCH_PATHS = /Library/MonkeyWorks/lib;
+				HEADER_SEARCH_PATHS = $MW_INCLUDE_DIR;
+				INSTALL_PATH = "$(APP_SUPPORT_DIR)/Tools";
+				LIBRARY_SEARCH_PATHS = $MW_LIB_DIR;
 				OTHER_LDFLAGS = "-lscarab";
 				PREBINDING = NO;
 				PRODUCT_NAME = mwdfr;

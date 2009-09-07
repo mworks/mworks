@@ -19,11 +19,12 @@
 #include "boost/shared_ptr.hpp"
 //#include "Scarab/scarab.h"
 #include "MonkeyWorksCore.h"
-#include "ScarabDatumWrapper.h"
+#include "EventWrapper.h"
 #include "EventBlock.h"
 #include "boost/archive/text_oarchive.hpp"
 #include "boost/archive/text_iarchive.hpp"
 #include "boost/serialization/split_member.hpp"
+
 
 class DataFileIndexer
 	{
@@ -65,11 +66,13 @@ class DataFileIndexer
 						const unsigned int multiplication_factor_per_level = 2,
 						const int number_of_indexing_threads = 1);
 		virtual ~DataFileIndexer();
-		std::vector<ScarabDatumWrapper> events(const std::vector<unsigned int> &event_codes,
+		std::vector<EventWrapper> events(const std::vector<unsigned int> &event_codes,
 											   const MonkeyWorksTime lower_bound = MIN_MONKEY_WORKS_TIME(), 
 											   const MonkeyWorksTime upper_bound = MAX_MONKEY_WORKS_TIME()) const;
 		unsigned int getNEvents() const;
-		
+		MonkeyWorksTime getMinimumTime() const;
+        MonkeyWorksTime getMaximumTime() const;
+        
 	};
 
 #pragma GCC visibility pop

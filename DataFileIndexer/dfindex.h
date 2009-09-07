@@ -14,7 +14,7 @@
 #include "boost/filesystem/path.hpp"
 #include "boost/archive/text_oarchive.hpp"
 #include "boost/archive/text_iarchive.hpp"
-#include "ScarabDatumWrapper.h"
+#include "EventWrapper.h"
 #include "MonkeyWorksCore.h"
 
 class dfindex
@@ -29,7 +29,15 @@ class dfindex
 	public:
 		dfindex(const boost::filesystem::path &data_file);
 
-		std::vector<ScarabDatumWrapper> events(const std::vector<unsigned int> &event_codes,
+        MonkeyWorksTime getMinimumTime() const {
+            return dfi.getMinimumTime();
+        }
+        
+        MonkeyWorksTime getMaximumTime() const {
+            return dfi.getMaximumTime();
+        }
+        
+		std::vector<EventWrapper> events(const std::vector<unsigned int> &event_codes,
 											   const MonkeyWorksTime lower_bound = MIN_MONKEY_WORKS_TIME(), 
 											   const MonkeyWorksTime upper_bound = MAX_MONKEY_WORKS_TIME()) const;
 	};

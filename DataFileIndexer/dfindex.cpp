@@ -67,10 +67,10 @@ boost::filesystem::path dfindex::indexFile() const {
 	return mwk_data_file / (mwk_data_file.leaf() + ".idx");
 }
 
-std::vector<ScarabDatumWrapper> dfindex::events(const std::vector<unsigned int> &event_codes_to_match,
+std::vector<EventWrapper> dfindex::events(const std::vector<unsigned int> &event_codes_to_match,
 												const MonkeyWorksTime lower_bound, 
 												const MonkeyWorksTime upper_bound) const {
-	std::vector<ScarabDatumWrapper> events = dfi.events(event_codes_to_match, lower_bound, upper_bound);
+	std::vector<EventWrapper> events = dfi.events(event_codes_to_match, lower_bound, upper_bound);
 	return events;
 }
 

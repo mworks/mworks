@@ -3,14 +3,14 @@ DEBUG_FLAG=-g
 
 LD_FLAGS_ML=-lmx -lmat -L/Applications/MATLAB74/bin/maci 
 LD_FLAGS=-lscarab -L/Library/MonkeyWorks/lib
-CC_FLAGS=-F/Library/Frameworks -framework MonkeyWorksCore -I/Library/MonkeyWorks/include
+CC_FLAGS=-F/Library/Frameworks -framework MonkeyWorksCore -I"/Library/Application Support/MonkeyWorks/Developer/include"
 CC_FLAGS_ML=-I/Applications/MATLAB74/extern/include
 
 
 all: mwdfr mw2ml
-	mkdir -p /Library/MonkeyWorks/tools;
-	cp mwdfr /Library/MonkeyWorks/tools/mwdfr;
-	cp mw2ml /Library/MonkeyWorks/tools/mw2ml;
+	mkdir -p "/Library/Application Support/MonkeyWorks/Tools";
+	cp mwdfr "/Library/Application Support/MonkeyWorks/Tools/mwdfr";
+	cp mw2ml "/Library/Application Support/MonkeyWorks/Tools/mw2ml";
 
 
 mw2ml:	mw2ml.cpp monkeyWorksStreamUtilities.o

@@ -10,7 +10,7 @@
 #include "dfindex.h"
 #include "boost/filesystem/path.hpp"
 #include <iostream>
-#include "ScarabDatumWrapper.h"
+#include "EventWrapper.h"
 #include <sys/time.h>
 #include <unistd.h>
 
@@ -44,7 +44,7 @@ int main( int argc, char *argv[])
 //	event_codes.push_back(10);
 	gettimeofday(&tv, &tz);
 //	MonkeyWorksTime spike_time = 3598592801LL;
-	vector<ScarabDatumWrapper> events = dfi.events(event_codes);
+	vector<EventWrapper> events = dfi.events(event_codes);
 	gettimeofday(&tv2, &tz2);
 	
 	cout << "number of events: " << events.size() << " ... took " << tv2.tv_sec-tv.tv_sec << " s" << endl;
