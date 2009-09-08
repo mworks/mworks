@@ -127,6 +127,10 @@ PyObject *convert_scarab_to_python(ScarabDatum *datum){
     
     int n_items;
     
+    PyObject *dict;
+    ScarabDatum **keys, **values;
+    PyObject *thelist, *key_py_obj, *value_py_obj;
+    
     switch (datum->type){
         case(SCARAB_NULL):
             return Py_None;
@@ -141,15 +145,15 @@ PyObject *convert_scarab_to_python(ScarabDatum *datum){
         case(SCARAB_FLOAT_OPAQUE):
             return PyFloat_FromDouble(scarab_extract_float(datum));
         case(SCARAB_DICT):
-            PyObject *dict = PyDict_New();
+            dict = PyDict_New();
             n_items = scarab_dict_number_of_elements(datum);
-            ScarabDatum **keys = scarab_dict_keys(datum);
-            ScarabDatum **values = scarab_dict_values(datum);
+            keys = scarab_dict_keys(datum);
+            values = scarab_dict_values(datum);
             
             for(int i = 0; i < n_items; i++){
                 // convert the key
-                PyObject *key_py_obj = convert_scarab_to_python(keys[i]);
-                PyObject *value_py_obj = convert_scarab_to_python(values[i]);
+                key_py_obj = convert_scarab_to_python(keys[i]);
+                value_py_obj = convert_scarab_to_python(values[i]);
                 
                 PyDict_SetItem(dict, key_py_obj, value_py_obj);
             }
@@ -158,7 +162,7 @@ PyObject *convert_scarab_to_python(ScarabDatum *datum){
         
         case(SCARAB_LIST):
             n_items = datum->data.list->size;
-            PyObject *thelist = PyList_New(n_items);
+            thelist = PyList_New(n_items);
             
             for(int i=0; i < n_items; i++){
                 PyList_SetItem(thelist, i, convert_scarab_to_python(datum->data.list->values[i]));

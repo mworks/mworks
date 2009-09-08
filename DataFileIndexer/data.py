@@ -28,15 +28,24 @@ def get_events(self, **kwargs):
     event_codes = []
     time_range = []
 
+    reverse_codec = self.reverse_codec
+
     if "codes" in kwargs:
         event_codes = kwargs["codes"]
+        
+        for i in range(0, len(event_codes)):
+            code = event_codes[i]
+            if(type(code) == str):
+                if(code in reverse_codec):
+                    event_codes[i] = reverse_codec[code]
+        
     else:
-        event_codes = []
+        event_codes = self.codec.keys()  # all events
     
     if "time_range" in kwargs:
         time_range = kwargs["time_range"]
     else:
-        time_range = [-numpy.inf, numpy.inf]
+        time_range = [self.minimum_time, self.maximum_time]
 
     # TODO: convert possible string-based event codes
 
@@ -44,4 +53,36 @@ def get_events(self, **kwargs):
     
     return events
 
-MWKFile.events = property(get_events)
+MWKFile.get_events = get_events
+
+def get_codec(self):
+
+    e = self.__fetch_events([0])
+    if(len(e) == 0):
+        return None
+    
+    raw_codec = e[0].value
+    
+    codec = {}
+    for key in raw_codec.keys():
+        codec[key] = raw_codec[key]["tagname"]
+    return codec
+    
+MWKFile.codec = property(get_codec)
+
+
+def get_reverse_codec(self):
+    c = self.codec
+    keys = c.keys()
+    values = c.values()
+    rc = {}
+    for i in range(0, len(keys)):
+        k = keys[i]
+        v = values[i]
+        print("key: %d, value %s" % (k,v))
+        rc[v] = k
+    return rc
+
+MWKFile.reverse_codec = property(get_reverse_codec)
+    
+    

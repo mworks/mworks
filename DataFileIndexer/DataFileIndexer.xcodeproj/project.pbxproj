@@ -79,10 +79,12 @@
 		5073E0C409E734A800EC74B6 /* DataFileIndexer.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = DataFileIndexer.cpp; sourceTree = "<group>"; };
 		5073E0C609E734A800EC74B6 /* DataFileIndexerProj.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = DataFileIndexerProj.xcconfig; sourceTree = "<group>"; };
 		5073E0C709E734A800EC74B6 /* DataFileIndexerTarget.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = DataFileIndexerTarget.xcconfig; sourceTree = "<group>"; };
-		5C2A61FE1039DD7B00A62CBA /* DataFile.so */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = DataFile.so; sourceTree = BUILT_PRODUCTS_DIR; };
+		5C2A61FE1039DD7B00A62CBA /* _data.so */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = _data.so; sourceTree = BUILT_PRODUCTS_DIR; };
 		5C2A62031039DDDB00A62CBA /* DataFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataFile.h; sourceTree = "<group>"; };
 		5C2A62041039DDDB00A62CBA /* DataFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DataFile.cpp; sourceTree = "<group>"; };
 		5C2A62461039E7A800A62CBA /* data.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = data.py; sourceTree = "<group>"; };
+		5CBBA1801055D5C5004C69DF /* __init__.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = __init__.py; sourceTree = "<group>"; };
+		5CBBA1B01055E5C3004C69DF /* example.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = example.py; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,7 +117,7 @@
 			children = (
 				0EA58F0B0D6B20120027A3AC /* Test.app */,
 				0EA58F9A0D6B24FF0027A3AC /* libdfindex.a */,
-				5C2A61FE1039DD7B00A62CBA /* DataFile.so */,
+				5C2A61FE1039DD7B00A62CBA /* _data.so */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -185,6 +187,8 @@
 				5C2A62031039DDDB00A62CBA /* DataFile.h */,
 				5C2A62041039DDDB00A62CBA /* DataFile.cpp */,
 				5C2A62461039E7A800A62CBA /* data.py */,
+				5CBBA1801055D5C5004C69DF /* __init__.py */,
+				5CBBA1B01055E5C3004C69DF /* example.py */,
 			);
 			name = "Python Bindings";
 			sourceTree = "<group>";
@@ -272,7 +276,7 @@
 			);
 			name = "DataFile (Python bindings)";
 			productName = DataFile;
-			productReference = 5C2A61FE1039DD7B00A62CBA /* DataFile.so */;
+			productReference = 5C2A61FE1039DD7B00A62CBA /* _data.so */;
 			productType = "com.apple.product-type.library.dynamic";
 		};
 /* End PBXNativeTarget section */
@@ -331,7 +335,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "mkdir -p \"$INSTALL_PATH/lib\"\nmkdir -p \"$INSTALL_PATH/include/dfindex\"\n\nrm -Rf \"$INSTALL_PATH/lib/libdfindex.a\"\ncp -Rf \"$BUILT_PRODUCTS_DIR/libdfindex.a\" \"$INSTALL_PATH/lib\"\n\nmkdir -p $INSTALL_PATH/include/dfindex\ncp -Rf \"$BUILT_PRODUCTS_DIR/../../DataFileIndexer.h\" \"$INSTALL_PATH/include/dfindex/\"\ncp -Rf \"$BUILT_PRODUCTS_DIR/../../ScarabDatumWrapper.h\"\t\"$INSTALL_PATH/include/dfindex/\"\ncp -Rf \"$BUILT_PRODUCTS_DIR/../../EventBlock.h\" \"$INSTALL_PATH/include/dfindex/\"\ncp -Rf \"$BUILT_PRODUCTS_DIR/../../DataFileUtilities.h\" \"$INSTALL_PATH/include/dfindex/\"\ncp -Rf \"$BUILT_PRODUCTS_DIR/../../MonkeyWorksCore.h\" \"$INSTALL_PATH/include/dfindex/\"\ncp -Rf \"$BUILT_PRODUCTS_DIR/../../dfindex.h\" \"$INSTALL_PATH/include/dfindex/\"\n\n";
+			shellScript = "mkdir -p \"$INSTALL_PATH/lib\"\nmkdir -p \"$INSTALL_PATH/include/dfindex\"\n\nrm -Rf \"$INSTALL_PATH/lib/libdfindex.a\"\ncp -Rf \"$BUILT_PRODUCTS_DIR/libdfindex.a\" \"$INSTALL_PATH/lib\"\n\nmkdir -p $INSTALL_PATH/include/dfindex\ncp -Rf \"$BUILT_PRODUCTS_DIR/../../DataFileIndexer.h\" \"$INSTALL_PATH/include/dfindex/\"\ncp -Rf \"$BUILT_PRODUCTS_DIR/../../ScarabDatumWrapper.h\"\t\"$INSTALL_PATH/include/dfindex/\"\ncp -Rf \"$BUILT_PRODUCTS_DIR/../../EventBlock.h\" \"$INSTALL_PATH/include/dfindex/\"\ncp -Rf \"$BUILT_PRODUCTS_DIR/../../DataFileUtilities.h\" \"$INSTALL_PATH/include/dfindex/\"\ncp -Rf \"$BUILT_PRODUCTS_DIR/../../MonkeyWorksCore.h\" \"$INSTALL_PATH/include/dfindex/\"\ncp -Rf \"$BUILT_PRODUCTS_DIR/../../dfindex.h\" \"$INSTALL_PATH/include/dfindex/\"\n\n\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -513,6 +517,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = i386;
 				COPY_PHASE_STRIP = NO;
 				EXECUTABLE_EXTENSION = so;
 				EXECUTABLE_PREFIX = "";
@@ -538,7 +543,7 @@
 					"-lpython",
 				);
 				PREBINDING = NO;
-				PRODUCT_NAME = DataFile;
+				PRODUCT_NAME = _data;
 			};
 			name = Debug;
 		};
