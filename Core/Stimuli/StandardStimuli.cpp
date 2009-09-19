@@ -21,6 +21,7 @@
 #include <boost/spirit/core.hpp>
 #include <boost/spirit/utility/confix.hpp>
 #include <boost/spirit/utility/lists.hpp>
+#include <boost/algorithm/string/case_conv.hpp>
 #include "ParsedColorTrio.h"
 
 #include <boost/regex.hpp>
@@ -1184,13 +1185,21 @@ shared_ptr<mw::Component> ImageStimulusFactory::createObject(std::map<std::strin
 																						 alpha_multiplier));
 	
 	
-  bool deferred = false;
+  Stimulus::load_style deferred = Stimulus::nondeferred_load;
   if(!parameters["deferred"].empty()){
-    deferred = reg->getBoolean(parameters["deferred"]);
+    string deferred_value = parameters["deferred"];
+    boost::algorithm::to_lower(deferred_value);
+    if(deferred_value == "yes" || deferred_value == "1" || deferred_value == "true"){
+      deferred = Stimulus::deferred_load;
+    } else if(deferred_value == "explicit"){
+      deferred = Stimulus::explicit_load;
+    }
   }
+
+  newImageStimulus->setDeferred(deferred);
   
   // TODO: deferred load?
-  if(!deferred){
+  if(deferred != Stimulus::deferred_load && deferred != Stimulus::explicit_load){
     newImageStimulus->load(defaultDisplay.get());
   }
   

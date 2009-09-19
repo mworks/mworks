@@ -73,6 +73,7 @@ class StimulusNode : public Lockable, public LinkedListNode<StimulusNode>, publi
     virtual void load(shared_ptr<StimulusDisplay> display);
     
     virtual bool isLoaded();
+    virtual int getDeferred();
 	
     private:
         // this disables copying the object.

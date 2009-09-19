@@ -221,13 +221,29 @@ class WaitFactory : public ComponentFactory{
 												ComponentRegistry *reg);
 };
 
+    
+class LoadStimulus : public Action {
+protected:
+    shared_ptr<StimulusNode> stimnode;
+    shared_ptr<StimulusDisplay> display;
+    
+public:
+    LoadStimulus(shared_ptr<StimulusNode> _stimnode, 
+                  shared_ptr<StimulusDisplay> _display);
+    virtual ~LoadStimulus();
+    virtual bool execute();
+};
+    
+class LoadStimulusFactory : public ComponentFactory{
+    virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
+                                                   ComponentRegistry *reg);
+};    
+
 class QueueStimulus : public Action {
 protected:
 	shared_ptr<StimulusNode> stimnode;
 	shared_ptr<StimulusDisplay> display;
     
-    // TODO: might be nice to add an optional set of "forcing"
-    // parameters, e.g. to force the object to queued at a particular location
 public:
 	QueueStimulus(shared_ptr<StimulusNode> _stimnode, 
 				   shared_ptr<StimulusDisplay> _display);

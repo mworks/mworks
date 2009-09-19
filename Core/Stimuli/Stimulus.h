@@ -71,21 +71,28 @@ class StimulusDisplay; // later in this file...
 
 
 class Stimulus : public Announcable, public mw::Component {
-    private:
+
+public:
+  
+  enum load_style { deferred_load, nondeferred_load, explicit_load  };
+  
+private:
         // prevent the use of the = operator.
         //mStimulus& operator=(const Stimulus& lval) { }
 
-	protected:
-        bool loaded, visible, cached, has_thumbnail;
-        Stimulus *thumbnail;
-
+protected:
+    bool loaded, visible, cached, has_thumbnail;
+    Stimulus *thumbnail;
+    load_style deferred;
         
 		
 		bool frozen;
 		
 		/*CollectionPoint *collection_point;*/
         
-    public:
+public:
+  
+  
         /**
          * Default Constructor.  Sets all members to false.
          */
@@ -182,7 +189,9 @@ class Stimulus : public Announcable, public mw::Component {
         bool hasThumbnail();
         Stimulus * getThumbnail();
         std::string gettag();
-        
+  int getDeferred(){ return deferred; }
+  void setDeferred(load_style _deferred){ deferred = _deferred; }
+  
         /** 
          *  announcement methods // JJD
          *  two methods are used to do different behavior for draw vs. erase

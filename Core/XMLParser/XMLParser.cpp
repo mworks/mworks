@@ -1014,7 +1014,9 @@ map<string, string> XMLParser::_createPropertiesMap(xmlNode *node){
 	while(child != NULL){
 		string name((const char *)child->name);
 		if(!xmlNodeIsText(child)){
-			returnmap[name] = (const char *)(child->children->content);
+      if(child->children != NULL && child->children->content != NULL){
+        returnmap[name] = (const char *)(child->children->content);
+      }
 		}
 		child = child->next;
 	}

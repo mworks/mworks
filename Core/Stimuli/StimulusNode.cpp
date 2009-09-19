@@ -65,6 +65,9 @@ bool StimulusNode::isLoaded(){
   return stim->isLoaded();
 }
 
+int StimulusNode::getDeferred(){  
+  return stim->getDeferred(); 
+}
 
 void StimulusNode::draw(StimulusDisplay *stimulus_display) {
 	// TODO: error check

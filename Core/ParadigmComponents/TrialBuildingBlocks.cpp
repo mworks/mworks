@@ -609,6 +609,49 @@ shared_ptr<mw::Component> WaitFactory::createObject(std::map<std::string, std::s
 	return newWaitAction;	
 }
 
+
+/****************************************************************
+ *                       LoadStimulus Methods
+ ****************************************************************/
+LoadStimulus::LoadStimulus(shared_ptr<StimulusNode> _stimnode,
+                             shared_ptr<StimulusDisplay> _display) : 
+Action() {
+	stimnode = _stimnode;
+	display = _display;
+	setName("LoadStimulus");
+}
+
+LoadStimulus::~LoadStimulus() { }
+
+bool LoadStimulus::execute() {	
+    stimnode->load(display);
+}
+    
+shared_ptr<mw::Component> LoadStimulusFactory::createObject(std::map<std::string, std::string> parameters,
+                                                             ComponentRegistry *reg) {
+	
+	REQUIRE_ATTRIBUTES(parameters, "stimulus");
+	
+	if(GlobalCurrentExperiment == 0) {
+		throw SimpleException("GlobalCurrentExperiment is not defined");
+	}
+	
+	shared_ptr<StimulusNode> stimulus = reg->getStimulus(parameters.find("stimulus")->second);
+	shared_ptr<StimulusDisplay> stimDisplay = GlobalCurrentExperiment->getStimulusDisplay();
+	
+	checkAttribute(stimulus, parameters.find("reference_id")->second, "stimulus", parameters.find("stimulus")->second);		
+	
+	
+	if(stimDisplay == 0) {
+		throw SimpleException("GlobalCurrentExperiment->getStimulusDisplay() is not defined");
+	}
+	
+	shared_ptr <mw::Component> newLoadStimulusAction = shared_ptr<mw::Component>(new LoadStimulus(stimulus, stimDisplay));
+	return newLoadStimulusAction;	
+}
+
+
+
 /****************************************************************
  *                       QueueStimulus Methods
  ****************************************************************/
@@ -620,13 +663,13 @@ Action() {
 	setName("QueueStimulus");
 }
 
-QueueStimulus::~QueueStimulus() {
-	
-}
+QueueStimulus::~QueueStimulus() { }
 
 bool QueueStimulus::execute() {
 	
-  if(!stimnode->isLoaded()){
+  bool loaded = stimnode->isLoaded();
+  Stimulus::load_style deferred = (Stimulus::load_style)stimnode->getDeferred();
+  if(deferred == Stimulus::deferred_load && !loaded){
     stimnode->load(display);
   }
   
