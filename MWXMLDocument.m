@@ -23,7 +23,7 @@
 	
         // If an error occurs here, send a [self release] message and return nil.
 		
-		NSError *outError;
+		NSError *outError = Nil;
 		
 		// The XML of an empty experiment
 		NSString *xmlEmptyExperimentPath = [[NSBundle mainBundle]  
@@ -73,37 +73,46 @@
 		NSString *pluginName = nil;
 		
 		// create an xml document that contains a list of all the files that need to be parsed
-		NSXMLElement *root = [[[NSXMLElement alloc] initWithName:@"contents"] autorelease];
+		NSXMLElement *root = (NSXMLElement *)[NSXMLNode elementWithName:@"contents"];
+    NSXMLDocument *xmlContentsDoc = [[NSXMLDocument alloc] initWithRootElement:root];
+    [xmlContentsDoc setVersion:@"1.0"];
+    [xmlContentsDoc setCharacterEncoding:@"UTF-8"];
+    
 		NSXMLNode *main_library_url_node = [NSXMLNode elementWithName:@"url" stringValue:xmlLibraryPath];
 		[root addChild:main_library_url_node];
 		
 		while(pluginName = [pluginEnumerator nextObject]) {
-			NSString *xmlPluginPath = [[NSBundle bundleWithPath:[pluginPath stringByAppendingPathComponent:pluginName]] 
+			NSString *xmlPluginPath = [[NSBundle bundleWithPath:[pluginPath stringByAppendingPathComponent:[NSString stringWithString:pluginName]]] 
 									   pathForResource:@"MWLibrary" 
 									   ofType:@"xml"];
 			
 			if(xmlPluginPath != nil) {
                 NSLog(@"Loading %@", pluginName);
-				NSXMLNode *library_url_node = [NSXMLNode elementWithName:@"url" stringValue:[xmlPluginPath stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
+				NSXMLNode *library_url_node = [NSXMLNode elementWithName:@"url" stringValue:[NSString stringWithString:[xmlPluginPath stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]]];
 				[root addChild:library_url_node];
 			}
 		}
-		
-		NSXMLDocument *xmlContentsDoco = [[[NSXMLDocument alloc] initWithRootElement:root] autorelease];
-		//NSLog([xmlContentsDoco XMLString]);
-		
-        
+	
+    NSLog(@"%@", [xmlContentsDoc XMLString]);
+      
+  
 		// combine all the libraries now
-		NSXMLDocument *libraries_untransformed = [xmlContentsDoco 
+		NSXMLDocument *libraries_untransformed = [xmlContentsDoc 
 												  objectByApplyingXSLTAtURL:[NSURL fileURLWithPath:xslLibraryCombiner]
 												  arguments:nil
 												  error:&outError];
 		
-        //NSLog([libraries_untransformed XMLString]);
+    if(outError != Nil){
+      NSRunAlertPanel(@"Error Combining Plugin Libraries", [outError localizedDescription], @"OK", Nil, Nil, Nil);
+			return self;
+    }
+      
+    NSLog(@"%@", [libraries_untransformed XMLString]);
         
+    //DDC: remove stupid shit from Ben
 		// I need to write and re-read the file.  There's some bug here but I don't see where it is
 		// write it to a temp file:
-		CFUUIDRef uuid = CFUUIDCreate(NULL);
+/*		CFUUIDRef uuid = CFUUIDCreate(NULL);
 		NSString *uString = [(NSString *)CFUUIDCreateString(NULL, uuid) autorelease];
 		CFRelease(uuid);
 		NSString *temp_file = [NSTemporaryDirectory() stringByAppendingPathComponent:uString];
@@ -113,22 +122,23 @@
 		libraries_untransformed = [[NSXMLDocument alloc] initWithContentsOfURL:[NSURL fileURLWithPath:temp_file]
 																	   options: NSXMLDocumentTidyXML
 																		 error:&outError];
-		
+		*/
 		
 		NSLog(@"Transforming Library XML...");
+    NSURL *library_transformation_url = [NSURL fileURLWithPath:xmlLibraryTransformationPath];
 		library = [libraries_untransformed 
-						objectByApplyingXSLTAtURL:[NSURL fileURLWithPath:xmlLibraryTransformationPath]
+             objectByApplyingXSLTAtURL:library_transformation_url
 														arguments:nil
 														error:&outError];
 		
 			   
 		if ( outError != Nil ) {
-			NSRunAlertPanel(@"Error", @"Error transforming library", @"OK", Nil, Nil, Nil);
+			NSRunAlertPanel(@"Error Transforming Library", [outError localizedDescription], @"OK", Nil, Nil, Nil);
 			return self;
 		}
 		
-		[[NSFileManager defaultManager] removeItemAtPath:temp_file error:nil];
-		//NSLog([library XMLString]);
+//		[[NSFileManager defaultManager] removeItemAtPath:temp_file error:nil];
+    NSLog(@"%@", [library XMLString]);
 		
 		
 		// --------------------------------------------------------------------
@@ -146,7 +156,7 @@
 			NSRunAlertPanel(@"Error", @"Error generating library transformation", @"OK", Nil, Nil, Nil);
 			return self;
 		}
-		NSLog([display_hint_transformation XMLString]);														
+		NSLog(@"%@", [display_hint_transformation XMLString]);														
 		
 		// --------------------------------------------------------------------
 		// Load an empty xml document
@@ -177,7 +187,7 @@
 													error:&outError];
 													
 			
-		NSLog([document XMLString]);
+		NSLog(@"%@", [document XMLString]);
 		
 		if ( outError != Nil ) {
 			NSRunAlertPanel(@"Error", @"Error transforming xml document", @"OK", Nil, Nil, Nil);
@@ -250,7 +260,7 @@
 			return self;
 		}
 			
-		NSLog([schematronTransform XMLString]);
+		NSLog(@"%@", [schematronTransform XMLString]);
 				
 		
 		//NSLog([library XMLString]);
@@ -430,11 +440,12 @@
 													error:&error];
 	}
 	
-    if ( document == Nil ) {
-		
-		NSRunAlertPanel(@"Error creating XML document", @"blah", @"OK", Nil, Nil, Nil);
-		//NSLog(@"Oh shit: %@", [error localizedDescription]);
-		
+  if ( document == Nil ) {
+		if(error != Nil){
+      NSRunAlertPanel(@"Error creating XML document", [error localizedDescription], @"OK", Nil, Nil, Nil);
+    } else {
+      NSRunAlertPanel(@"Error creating XML document", @"blah", @"OK", Nil, Nil, Nil);
+		}
 	}
 	
 	
@@ -514,7 +525,7 @@
 		
 		NSEnumerator *matching_node_enumerator = [matching_nodes objectEnumerator];
 		NSXMLElement *matching_node;
-		while(matching_node = [matching_node_enumerator nextObject]){
+		while(matching_node = (NSXMLElement *)[matching_node_enumerator nextObject]){
 			NSXMLNode *new_att = [NSXMLNode attributeWithName:@"_error"
 											stringValue:error_message];
 			[matching_node addAttribute:new_att];

@@ -407,7 +407,6 @@
 			isa = PBXGroup;
 			children = (
 				5C56F441100EB76E007E03A9 /* Info.plist */,
-				0EC2F5140EE9B248008BD196 /* MWLibraryCombiner.xsl */,
 				5CDC06AD0CE022DD008B67D0 /* XML */,
 				5CCBABC70CDE627000B42E7B /* Images */,
 				5CDC03EF0CDFA8F2008B67D0 /* InspectorViews */,
@@ -599,6 +598,7 @@
 			isa = PBXGroup;
 			children = (
 				5CC65FD00CEA87180037BB6D /* Validation */,
+				0EC2F5140EE9B248008BD196 /* MWLibraryCombiner.xsl */,
 				5CDC06AE0CE022F1008B67D0 /* MWStripHintsTransformation.xml */,
 				5CDC02D50CDF41B4008B67D0 /* MWLibraryToXSLTransform.xml */,
 				5CCBA9B60CDD245200B42E7B /* MWLibrary.xml */,
@@ -904,7 +904,10 @@
 		C05733CC08A9546B00998B17 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "x86_64 i386 ppc";
 				FRAMEWORK_SEARCH_PATHS = /Library/Frameworks;
+				GCC_ENABLE_OBJC_GC = required;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;

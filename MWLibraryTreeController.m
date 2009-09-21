@@ -90,14 +90,22 @@
 		// Tag the to-be-dragged code element with an _element_key hint before
 		// we write it to the pasteboard.  This will aid in determining
 		// what can be drag-n-dropped where.
-		NSXMLElement *code_element_child = [code_element_children objectAtIndex:0];
-		[code_element_child addAttribute:[NSXMLNode attributeWithName:@"_element_key"
+    
+    // First, have to find the appropriate child element to deal with
+    NSEnumerator *code_element_child_enumerator = [code_element_children objectEnumerator];
+    NSXMLNode *code_element_child = Nil;
+    while(code_element_child = [code_element_child_enumerator nextObject]){
+      if([code_element_child kind] == NSXMLElementKind){
+        [code_element_child addAttribute:[NSXMLNode attributeWithName:@"_element_key"
 											  stringValue:name_string]];
-											  
+        NSString *new_id = [document newInternalID];
+        [code_element_child addAttribute:[NSXMLNode attributeWithName:@"_id"
+                                                          stringValue:new_id]];
+        break;
+      }
+    }
 
-		NSString *new_id = [document newInternalID];
-		[code_element_child addAttribute:[NSXMLNode attributeWithName:@"_id"
-											  stringValue:new_id]];
+		
 											  
 		// TODO: add display hints
 		
