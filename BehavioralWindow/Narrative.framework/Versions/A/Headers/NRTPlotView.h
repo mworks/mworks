@@ -31,14 +31,6 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class NRTPlotView;
-
-// Delegate methods
-@interface NSObject (NRTPlotViewDelegateMethods)
--(void)plotViewWillDraw:(NRTPlotView *)view;
--(void)plotViewDidDraw:(NRTPlotView *)view;
-@end
-
 @protocol NRTPlotViewComponent;
 
 @interface NRTPlotView : NSView 
@@ -48,17 +40,11 @@
     NSColor 		*_backgroundColor;
     NSImage		*_cachedImage;
     BOOL		_useImageCache;
-    BOOL		_imageCacheIsUpToDate;
     BOOL		_needsLayout;
-    IBOutlet id		_delegate;
 }
 
 -(id)initWithFrame:(NSRect)frame;
 -(void)dealloc;
-
-// Delegate
--(void)setDelegate:(id)delegate;
--(id)delegate;
 
 // Accessors
 -(void)setComponentArray:(NSMutableArray *)array;

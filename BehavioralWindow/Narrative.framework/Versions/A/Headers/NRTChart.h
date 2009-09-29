@@ -64,10 +64,14 @@
     NRTPlotArea 	*_plotArea;
     NSMutableDictionary *_attributesDictionary;
     NSMutableArray	*_plots;
+    IBOutlet id		_delegate;
 }
 
 -(id)initWithFrame:(NSRect)frame;
 -(void)dealloc;
+
+-(void)setDelegate:(id)delegate;
+-(id)delegate;
 
 // Attribute methods
 +(NSDictionary *)defaultAttributesDictionary;
@@ -98,8 +102,5 @@
 // Abstract factories
 -(NSArray *)createPlotViewAxes;
 -(NSArray *)createPlotAreaAxes;
-
-// Layout
--(void)layout;
 
 @end

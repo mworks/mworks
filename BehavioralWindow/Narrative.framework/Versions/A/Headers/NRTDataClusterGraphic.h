@@ -37,7 +37,6 @@
 #import <Foundation/Foundation.h>
 #import "NRTPlotAreaComponent.h"
 #import "NRTPlotObject.h"
-#import "NRTFloatRange.h"
 
 @class NRTTransform;
 
@@ -49,11 +48,7 @@
 
 -(void)dealloc;
 
-// Most important plot point in cluster. Abstract
--(NSDictionary *)principalCoordinates; 
-
-// The range covered by the cluster for a particular coordinate. Abstract.
--(NRTFloatRange)rangeForCoordinateWithIdentifier:(id)coordIdentifier; 
+-(NSDictionary *)principalCoordinates; // Most important plot point in cluster. Abstract
 
 -(void)setCoordinatesToViewTransform:(NRTTransform *)transform;
 -(NRTTransform *)coordinatesToViewTransform;

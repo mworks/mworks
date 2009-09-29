@@ -17,7 +17,7 @@
 }
 
 - (int)numberOfChildren;// Returns -1 for leaf nodes
-- (MWVariableDisplayItem *)childAtIndex:(int)n;// Invalid to call on leaf nodes
+- (MWVariableDisplayItem *)childAtIndex:(NSUInteger)n;// Invalid to call on leaf nodes
 - (NSString *)displayName;
 - (MWVariableDisplayItem *)parent;
 

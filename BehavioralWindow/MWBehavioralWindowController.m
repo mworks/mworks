@@ -12,7 +12,7 @@ Copy right 2006 MIT. All rights reserved.
 #import "MonkeyWorksCocoa/MWClientServerBase.h"
 #import "MWBehavioralWindowController.h"
 
-#define BEHAVIORIAL_CALLBACK_KEY @"MonkeyWorksBehaviorialWindow callback key"
+#define BEHAVIORIAL_CALLBACK_KEY "MonkeyWorksBehaviorialWindowCallbackKey"
 
 NSString *percentCorrectPlotIdentifier = @"PercentCorrectLinePlot";
 
@@ -55,6 +55,9 @@ NSString *percentCorrectPlotIdentifier = @"PercentCorrectLinePlot";
     NSRect b = [chart bounds];
     [chart setAttributesFromDictionary:
         [NSDictionary dictionaryWithObjectsAndKeys:
+            @"",
+            NRTTitleCA,
+         
             [NSArray arrayWithObjects:
                 [NSNumber numberWithFloat:b.origin.x + 0], 
                 [NSNumber numberWithFloat:b.origin.x + b.size.width], nil],
@@ -267,12 +270,12 @@ NSString *percentCorrectPlotIdentifier = @"PercentCorrectLinePlot";
 
 - (void)setDelegate:(id)new_delegate {
 	if(![new_delegate respondsToSelector:@selector(registerEventCallbackWithReceiver:
-												   andSelector:
-												   andKey:)] ||
+												   selector:
+												   callbackKey:)] ||
 	   ![new_delegate respondsToSelector:@selector(unregisterCallbacksWithKey:)] ||
 	   ![new_delegate respondsToSelector:@selector(registerEventCallbackWithReceiver:
-												   andSelector:
-												   andKey:
+												   selector:
+												   callbackKey:
 												   forVariableCode:)] ||
 	   ![new_delegate respondsToSelector:@selector(codeForTag:)]) {
 		[NSException raise:NSInternalInconsistencyException
@@ -281,8 +284,8 @@ NSString *percentCorrectPlotIdentifier = @"PercentCorrectLinePlot";
 	
 	delegate = new_delegate;
 	[delegate registerEventCallbackWithReceiver:self 
-									andSelector:@selector(serviceEvent:)
-										 andKey:BEHAVIORIAL_CALLBACK_KEY];
+									selector:@selector(serviceEvent:)
+               callbackKey:BEHAVIORIAL_CALLBACK_KEY];
 }
 
 /*******************************************************************
@@ -542,36 +545,36 @@ NSString *percentCorrectPlotIdentifier = @"PercentCorrectLinePlot";
 	
 	// if variables entered by the user was not found in the experiment, issue a warning in the console.
 	if (CorrectCodecCode == -1) {
-		mwarning(M_NETWORK_MESSAGE_DOMAIN, "Variable for success trials: %s was not found.",[[CorrectVariableField stringValue] cString]);
+		mwarning(M_NETWORK_MESSAGE_DOMAIN, "Variable for success trials: %s was not found.",[[CorrectVariableField stringValue] cStringUsingEncoding:NSASCIIStringEncoding]);
 	} else {
 		[delegate registerEventCallbackWithReceiver:self 
-										andSelector:@selector(serviceEvent:)
-											 andKey:BEHAVIORIAL_CALLBACK_KEY
-									forVariableCode:[NSNumber numberWithInt:CorrectCodecCode]];		
+                                       selector:@selector(serviceEvent:)
+                                    callbackKey:BEHAVIORIAL_CALLBACK_KEY
+                                forVariableCode:CorrectCodecCode];		
 	}
 	
 	if (FailureCodecCode == -1) {
-		mwarning(M_NETWORK_MESSAGE_DOMAIN, "Variable for failure trials: %s was not found.",[[FailureVariableField stringValue] cString]);
+		mwarning(M_NETWORK_MESSAGE_DOMAIN, "Variable for failure trials: %s was not found.",[[FailureVariableField stringValue] cStringUsingEncoding:NSASCIIStringEncoding]);
 	} else {
 		[delegate registerEventCallbackWithReceiver:self 
-										andSelector:@selector(serviceEvent:)
-											 andKey:BEHAVIORIAL_CALLBACK_KEY
-									forVariableCode:[NSNumber numberWithInt:FailureCodecCode]];				
+                                       selector:@selector(serviceEvent:)
+                                    callbackKey:BEHAVIORIAL_CALLBACK_KEY
+                                forVariableCode:FailureCodecCode];				
 	}
 	
 	if (IgnoredCodecCode == -1) {
-		mwarning(M_NETWORK_MESSAGE_DOMAIN, "Variable for ignored trials: %s was not found.",[[IgnoredVariableField stringValue] cString]);
+		mwarning(M_NETWORK_MESSAGE_DOMAIN, "Variable for ignored trials: %s was not found.",[[IgnoredVariableField stringValue] cStringUsingEncoding:NSASCIIStringEncoding]);
 	} else {
 		[delegate registerEventCallbackWithReceiver:self 
-										andSelector:@selector(serviceEvent:)
-											 andKey:BEHAVIORIAL_CALLBACK_KEY
-									forVariableCode:[NSNumber numberWithInt:IgnoredCodecCode]];				
+                                       selector:@selector(serviceEvent:)
+                                    callbackKey:BEHAVIORIAL_CALLBACK_KEY
+                                forVariableCode:IgnoredCodecCode];				
 	}
 	
 	[delegate registerEventCallbackWithReceiver:self 
-									andSelector:@selector(serviceEvent:)
-										 andKey:BEHAVIORIAL_CALLBACK_KEY
-								forVariableCode:[NSNumber numberWithInt:RESERVED_CODEC_CODE]];
+                                     selector:@selector(serviceEvent:)
+                                  callbackKey:BEHAVIORIAL_CALLBACK_KEY
+                              forVariableCode:RESERVED_CODEC_CODE];
 	
 	
 }

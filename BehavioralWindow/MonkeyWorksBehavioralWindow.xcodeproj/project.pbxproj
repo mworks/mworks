@@ -280,7 +280,7 @@
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
 				);
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(FINAL_INSTALL_DIR)/$(TARGET_NAME).$(WRAPPER_EXTENSION)/Contents/Frameworks\"";
-				GCC_ENABLE_OBJC_GC = required;
+				GCC_ENABLE_OBJC_GC = NO;
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				GCC_PREFIX_HEADER = MonkeyWorksBehavioralWindow_Prefix.pch;
 				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
@@ -300,6 +300,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				APP_SUPPORT_DIR = "/Library/Application Support/MonkeyWorks";
+				ARCHS = (
+					x86_64,
+					i386,
+				);
 				FINAL_INSTALL_DIR = "$(APP_SUPPORT_DIR)/Plugins/Client Plugins";
 				FRAMEWORK_SEARCH_PATHS = /Library/Frameworks/;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
@@ -308,7 +312,7 @@
 				MW_INCLUDE_DIR = "\"$(APP_SUPPORT_DIR)/Developer/include\"";
 				MW_LIB_DIR = "\"$(APP_SUPPORT_DIR)/Developer/lib\"";
 				PREBINDING = NO;
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
 			};
 			name = Debug;
 		};

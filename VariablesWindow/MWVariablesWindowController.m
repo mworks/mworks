@@ -5,7 +5,7 @@
 #import "MonkeyWorksCore/GenericData.h"
 #import "MonkeyWorksCore/VariableProperties.h"
 
-#define VARIABLES_WINDOW_CALLBACK_KEY @"MonkeyWorksVariableWindow callback key"
+#define VARIABLES_WINDOW_CALLBACK_KEY "MonkeyWorksVariableWindowCallbackKey"
 
 @interface MWVariablesWindowController(PrivateMethods)
 - (void)cacheCodes;
@@ -32,9 +32,9 @@
 									repeats:YES];
 									
 	[delegate registerEventCallbackWithReceiver:self 
-									andSelector:@selector(serviceEvent:)
-										 andKey:VARIABLES_WINDOW_CALLBACK_KEY
-		forVariableCode:[NSNumber numberWithInt:RESERVED_CODEC_CODE]];
+                                     selector:@selector(serviceEvent:)
+                                  callbackKey:VARIABLES_WINDOW_CALLBACK_KEY
+                              forVariableCode:RESERVED_CODEC_CODE];
 }
 
 //- (void)setDelegate:(id)new_delegate {
@@ -86,9 +86,9 @@
 	if(delegate != nil) {
 		[delegate unregisterCallbacksWithKey:VARIABLES_WINDOW_CALLBACK_KEY];
 		[delegate registerEventCallbackWithReceiver:self 
-										andSelector:@selector(serviceEvent:)
-											 andKey:VARIABLES_WINDOW_CALLBACK_KEY
-									forVariableCode:[NSNumber numberWithInt:RESERVED_CODEC_CODE]];
+                                       selector:@selector(serviceEvent:)
+                                    callbackKey:VARIABLES_WINDOW_CALLBACK_KEY
+                                forVariableCode:RESERVED_CODEC_CODE];
 		
 	}
 }	

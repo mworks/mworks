@@ -49,7 +49,7 @@
 }
 
 
-- (MWVariableDisplayItem *)childAtIndex:(int)n
+- (MWVariableDisplayItem *)childAtIndex:(NSUInteger)n
 {
 	if(children) {
 		return [children objectAtIndex:n];

@@ -48,8 +48,6 @@
 
 -(NSDictionary *)principalCoordinates; 
 
--(NRTFloatRange)rangeForCoordinateWithIdentifier:(id)coordIdentifier;
-
 -(void)drawInPlotView:(NRTPlotView *)plotView;
 
 @end

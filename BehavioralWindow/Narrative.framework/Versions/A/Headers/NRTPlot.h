@@ -28,7 +28,6 @@
 #import <Foundation/Foundation.h>
 #import "NRTPlotAreaComponent.h"
 #import "NRTPlotObject.h"
-#import "NRTFloatRange.h"
 
 @class NRTDataClusterGraphic;
 @class NRTTransform;
@@ -60,9 +59,5 @@
 
 -(void)setCoordinatesToViewTransform:(NRTTransform *)transform;
 -(NRTTransform *)coordinatesToViewTransform;
-
--(NRTFloatRange)rangeForCoordinateWithIdentifier:(id)coordIdentifier;
-
--(NSDictionary *)clusterCoordinatesForClusterIndex:(unsigned)index;
 
 @end
