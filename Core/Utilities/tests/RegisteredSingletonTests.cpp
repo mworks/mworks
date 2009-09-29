@@ -12,7 +12,8 @@
 using namespace mw;
 
 
-template <> boost::shared_ptr<Dummy> RegisteredSingleton<Dummy>::singleton_instance = boost::shared_ptr<Dummy>();
+//template <> boost::shared_ptr<Dummy> RegisteredSingleton<Dummy>::singleton_instance = boost::shared_ptr<Dummy>();
+SINGLETON_INSTANCE_STATIC_DECLARATION(Dummy)
 
 #define NUMBER_OF_SINGLETON_TEST_LOOPS 10
 
@@ -20,7 +21,7 @@ CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( RegisteredSingletonTestFixture, "Unit Tes
 
 void RegisteredSingletonTestFixture::setUp() {
 	boost::shared_ptr <Dummy> dummy_instance = Dummy::instance(false);
-	CPPUNIT_ASSERT(dummy_instance == 0);	
+	CPPUNIT_ASSERT(dummy_instance == NULL);	
 }
 
 void RegisteredSingletonTestFixture::tearDown() {

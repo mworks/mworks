@@ -54,7 +54,7 @@ Client::~Client() {
 
 
 
-void Client::handleEvent(shared_ptr<Event> &evt) { 
+void Client::handleEvent(shared_ptr<Event> evt) { 
 	int code = evt->getEventCode();
 	
 	if(code == RESERVED_CODEC_CODE) {

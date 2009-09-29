@@ -41,7 +41,8 @@ void FullCoreEnvironmentTestFixture::tearDown(){
 		delete GlobalVariableRegistry;
 		GlobalVariableRegistry = 0;
 	}*/
-	
+
+  ComponentRegistry::detachSharedRegistryPtr();
 
 	if(GlobalDataFileManager) {
 	  delete GlobalDataFileManager;

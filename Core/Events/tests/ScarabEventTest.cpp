@@ -14,18 +14,19 @@ using namespace mw;
 CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( ScarabEventTestFixture, "Unit Test" );
 
 void ScarabEventTestFixture::setUp(){
+  
+  reg = NULL;
 	shared_ptr <Clock> shared_clock = Clock::instance(false);
-	CPPUNIT_ASSERT(shared_clock == 0);
-	if(shared_clock == 0) {
+	
+	if(shared_clock == NULL) {
 		shared_ptr <Clock> new_clock = shared_ptr<Clock>(new Clock(0));
 		Clock::registerInstance(new_clock);
 	}
 	shared_clock = Clock::instance(false);
-	CPPUNIT_ASSERT(shared_clock != 0);
+	CPPUNIT_ASSERT(shared_clock != NULL);
 	
-	
-	reg = new VariableRegistry(GlobalBufferManager);
-	
+  reg = new VariableRegistry(GlobalBufferManager);
+  
 	Data defaultBool((bool)false);
 	VariableProperties props(&defaultBool, 
 						"test",
@@ -42,12 +43,15 @@ void ScarabEventTestFixture::setUp(){
 }
 
 void ScarabEventTestFixture::tearDown(){
-	delete reg;
 	
+  if(reg != NULL){
+    delete reg;
+	}
+  
 	Clock::destroy();
 	
 	shared_ptr<Clock>shared_clock = Clock::instance(false);
-	CPPUNIT_ASSERT(shared_clock == 0);
+	CPPUNIT_ASSERT(shared_clock == NULL);
 }
 
 void ScarabEventTestFixture::testToFromScarabDatum(){

@@ -50,9 +50,11 @@ namespace boost {
             } else if(d.type == SCARAB_OPAQUE){
                 ar << d.data.opaque;
             } else if(d.type == SCARAB_INTEGER){
-                ar << (long long)(d.data.integer);
+                long long value = d.data.integer;
+                ar <<  value;
             } else if(d.type == SCARAB_FLOAT){
-                ar << (double)d.data.floatp;
+                double double_value = (double)d.data.floatp; 
+                ar << double_value;
             }
         }
 

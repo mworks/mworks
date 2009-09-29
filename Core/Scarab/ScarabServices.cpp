@@ -85,10 +85,12 @@ namespace mw {
 	void logDescriptiveScarabMessage(ScarabSession * s) {
 		int scCode = getScarabError(s); // scarab error code
 		int oserr = getScarabOSError(s);
+    const char *scarab_error_string = scarab_strerror(scCode);
 		mnetwork("ERROR: SCR-%5.5i: %s: %s", scCode, scarab_moderror(scCode),
-				 scarab_strerror(scCode));
+				 scarab_error_string);
 		if(oserr) {
-			mnetwork("OSERR: %i: %s", oserr, scarab_os_strerror(oserr));
+      const char *scarab_os_error_string = scarab_os_strerror(oserr);
+			mnetwork("OSERR: %i: %s", oserr, scarab_os_error_string);
 		} 
 	}
 	

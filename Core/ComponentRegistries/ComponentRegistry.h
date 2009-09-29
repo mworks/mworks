@@ -76,6 +76,10 @@ namespace mw {
 			
 			return shared_component_registry;
 		}
+    
+    static void detachSharedRegistryPtr(){
+      shared_component_registry = shared_ptr<ComponentRegistry>();
+    }
 		
 		void resetInstances(){
 			instances = boost::unordered_map< std::string, shared_ptr<mw::Component> >();

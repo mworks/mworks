@@ -134,8 +134,9 @@ ComponentRegistry::ComponentRegistry() :
 void ComponentRegistry::registerFactory(std::string type_name, 
 										 ComponentFactory *_factory){
 	shared_ptr<ComponentFactory> factory(_factory);
-    
-    if(factories[type_name] != NULL){
+  
+  shared_ptr<ComponentFactory> existing_factory = factories[type_name];
+  if(existing_factory != NULL){
         throw ComponentFactoryConflictException(type_name);
 	}
     

@@ -116,7 +116,7 @@ public:
 		
 		virtual void _processVariableAssignment(xmlNode *node);
 		
-		shared_ptr<mw::Component> XMLParser::_getConnectionChild(xmlNode *child);
+		shared_ptr<mw::Component> _getConnectionChild(xmlNode *child);
 		
 		virtual map<string, string> _createPropertiesMap(xmlNode *node);
 		

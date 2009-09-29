@@ -127,6 +127,8 @@ class StimulusGroupReferenceNode : public StimulusNode {
     
     virtual bool isLoaded();
 		
+    virtual int getDeferred();
+  
 		// LinkedListNode methods
 		virtual void remove();
 		virtual void bringToFront();

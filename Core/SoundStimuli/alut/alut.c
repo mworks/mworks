@@ -14,7 +14,9 @@
 //#include <memory.h>
 //#include "OpenAL32/Include/alMain.h"
 #include "OpenAL/al.h"
-#include "OpenAL/alc.h"
+
+//#include "OpenAL/alc.h"
+#include "alc.h"  // use customized alc
 #include "alut.h"
 
 #if defined _MSC_VER

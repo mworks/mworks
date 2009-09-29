@@ -168,7 +168,7 @@ ReportString::ReportString(const std::string &reportStr) : Action() {
   error = false;
   
   typedef boost::tokenizer<boost::char_separator<char> > tokenizer;
-  boost::char_separator<char> sep("", "().,;:|\/\\+-*&^!@=<>?$ \t", boost::drop_empty_tokens);
+  boost::char_separator<char> sep("", "().,;:|/\\+-*&^!@=<>?$ \t", boost::drop_empty_tokens);
   tokenizer tokens(outStr, sep);
   for (tokenizer::iterator tok_iter = tokens.begin(); tok_iter != tokens.end(); ++tok_iter){
     std::string token = *tok_iter;

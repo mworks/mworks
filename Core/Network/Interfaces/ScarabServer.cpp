@@ -423,9 +423,9 @@ int ScarabServer::service() {
         // connection clients to connect to them.
         tempClient = new ScarabServerConnection(buffer_manager, clientThreadInterval);
         shared_ptr<NetworkReturn> acceptRet;
-		// mnetwork("Waiting for connections on %s:%d", listenAddress, listenPort);
+        
         acceptRet = tempClient->accept(listeningSocket);
-		mprintf("Accepting remote client");
+        mprintf("Accepting remote client");
         if(!acceptRet->wasSuccessful()) {
             // the accept failed but it may have just timed out
             delete tempClient;

@@ -16,8 +16,13 @@
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
 
+
 namespace mw {
-class Dummy : public mw::Component, public RegisteredSingleton<Dummy> {
+class Dummy : public mw::Component {//, public RegisteredSingleton<Dummy> {
+  
+public:
+  REGISTERED_SINGLETON_CODE_INJECTION(Dummy)
+  
 };
 
 class RegisteredSingletonTestFixture : public CppUnit::TestFixture {

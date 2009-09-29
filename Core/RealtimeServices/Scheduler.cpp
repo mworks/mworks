@@ -12,7 +12,8 @@
 #include "Utilities.h"
 using namespace mw;
 
-template <> shared_ptr<Scheduler> RegisteredSingleton<Scheduler>::singleton_instance = shared_ptr<Scheduler>();
+//template <> shared_ptr<Scheduler> RegisteredSingleton<Scheduler>::singleton_instance = shared_ptr<Scheduler>();
+SINGLETON_INSTANCE_STATIC_DECLARATION(Scheduler)
 
 Scheduler::Scheduler(const boost::shared_ptr <Clock> &a_clock) {
 	the_clock = a_clock;

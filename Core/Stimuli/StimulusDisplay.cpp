@@ -497,6 +497,15 @@ bool StimulusGroupReferenceNode::isLoaded(){
   return false;
 }
 
+int StimulusGroupReferenceNode::getDeferred(){
+  int index_value = getIndexValue();
+	int nelements = stimulus_nodes->getNElements();
+	if(index_value >=0 && index_value < nelements ){
+		return (stimulus_nodes->getElement(index_value))->getDeferred();
+	}
+  return Stimulus::nondeferred_load;
+}
+
 // Passthrough to the referenced node
 void StimulusGroupReferenceNode::draw(StimulusDisplay * display){
 	int index_value = getIndexValue();

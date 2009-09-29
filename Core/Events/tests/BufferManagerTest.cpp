@@ -47,13 +47,13 @@ CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( BufferManagerTestFixture, "Unit Test" );
 
 void BufferManagerTestFixture::setUp() {
 	shared_ptr <Clock> shared_clock = Clock::instance(false);
-	CPPUNIT_ASSERT(shared_clock == 0);
-	if(shared_clock == 0) {
+	CPPUNIT_ASSERT(shared_clock == NULL);
+	if(shared_clock == NULL) {
 		shared_ptr <Clock> new_clock = shared_ptr<Clock>(new Clock(0));
 		Clock::registerInstance(new_clock);
 	}
 	shared_clock = Clock::instance(false);
-	CPPUNIT_ASSERT(shared_clock != 0);
+	CPPUNIT_ASSERT(shared_clock != NULL);
 	
 	
 	static int testNumber = 0;
@@ -83,7 +83,7 @@ void BufferManagerTestFixture::tearDown() {
 	Clock::destroy();
 
 	shared_clock = Clock::instance(false);
-	CPPUNIT_ASSERT(shared_clock == 0);
+	CPPUNIT_ASSERT(shared_clock == NULL);
 }
 
 void BufferManagerTestFixture::testSimpleBufferManager() {	
@@ -225,11 +225,12 @@ void BufferManagerTestFixture::testForLeaking3() {
 		
 		pthread_attr_init(&pthread_custom_attr);
 		
-		for (int i=0; i<bmt_NUM_THREADS; ++i)
-		{
+    int to_send[bmt_NUM_THREADS];
+		for (int i=0; i<bmt_NUM_THREADS; ++i){
+      to_send[i] = i;
 			CPPUNIT_ASSERT(pthread_create(&threads[i], 
 										  &pthread_custom_attr, 
-										  &bmtMassEventWrite, (void *)i) == 0);
+										  &bmtMassEventWrite, (void *)(&to_send[i])) == 0);
 		}
 		
 		int numEventsRead = 0;
@@ -712,11 +713,13 @@ void BufferManagerTestFixture::multiThreadInsertTest() {
 	
 	pthread_attr_init(&pthread_custom_attr);
 	
+  int to_send[bmt_NUM_THREADS];
 	for (int i=0; i<bmt_NUM_THREADS; ++i)
 	{
+    to_send[i] = i;
 		CPPUNIT_ASSERT(pthread_create(&threads[i], 
 									  &pthread_custom_attr, 
-									  &bmtMassEventWrite, (void *)i) == 0);
+									  &bmtMassEventWrite, (void *)(&to_send[i])) == 0);
 	}
 	
 	int numEventsRead = 0;
@@ -773,6 +776,11 @@ void BufferManagerTestFixture::multiThreadReadTest() {
 		}
 	}
 	
+  int int_data[bmt_NUM_THREADS];
+  
+  for(int i = 0; i < bmt_NUM_THREADS; i++){
+    int_data[i] = i;
+  }
 	pthread_t threads[bmt_NUM_THREADS];
 	pthread_attr_t pthread_custom_attr;
 	
@@ -782,7 +790,7 @@ void BufferManagerTestFixture::multiThreadReadTest() {
 	{
 		CPPUNIT_ASSERT(pthread_create(&threads[i], 
 									  &pthread_custom_attr, 
-									  &bmtMassEventRead, (void *)i) == 0);
+									  &bmtMassEventRead, (void *)(&int_data[i])) == 0);
 	}
 	
 	for (int i=0; i<bmt_NUM_THREADS; i++)
@@ -818,15 +826,18 @@ void BufferManagerTestFixture::multiMultiTest() {
 	
 	pthread_attr_init(&pthread_custom_attr);
 	
+  int to_send[bmt_NUM_THREADS];
+  
 	// start the readers and writers
 	for (int i=0; i<bmt_NUM_THREADS; ++i)
 	{
+    to_send[i] = i;
 		CPPUNIT_ASSERT(pthread_create(&readThreads[i], 
 									  &pthread_custom_attr, 
-									  &bmtMassEventRead, (void *)i) == 0);
+									  &bmtMassEventRead, (void *)(&to_send[i])) == 0);
 		CPPUNIT_ASSERT(pthread_create(&writeThreads[i], 
 									  &pthread_custom_attr, 
-									  &bmtMassEventWrite, (void *)i) == 0);
+									  &bmtMassEventWrite, (void *)(&to_send[i])) == 0);
 	}
 	
 	int numEventsRead = 0;
@@ -869,13 +880,17 @@ void BufferManagerTestFixture::multiMultiTest() {
 }
 
 void *bmtMassEventWrite(void *args) {
+  int *int_arg = (int *)args;
+  
 	for (int i =0; i<bmt_NUM_EVENTS_PER_THREAD; ++i) {
 		//fprintf(stderr, "Thread %d adding %d\n", (int)args, i);
 		
 		Data _i(M_INTEGER, i);
 		
-		shared_ptr<Event> newevent(new Event((int)args, _i));
-		bmtTestGlobalBufferManager->putEvent(newevent);
+		//shared_ptr<Event> newevent(new Event((int)args, _i));
+		shared_ptr<Event> newevent(new Event(*int_arg, _i));
+    
+    bmtTestGlobalBufferManager->putEvent(newevent);
 	}
 	
 	return NULL;
@@ -905,8 +920,9 @@ void *bmtTimeoutThread(void *args) {
 
 void *bmtMassEventRead(void *args) {
 	int numEventsRead = 0;
-	
-	shared_ptr<EventBufferReader> mbr = eventReaders[(int)args];
+	int *int_arg = (int *)args;
+  
+	shared_ptr<EventBufferReader> mbr = eventReaders[*int_arg];
 	
 	std::vector<int> eventCodeReceived[bmt_NUM_THREADS];
 	while(numEventsRead < bmt_NUM_EVENTS_PER_THREAD*bmt_NUM_THREADS) {

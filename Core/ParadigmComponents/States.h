@@ -111,7 +111,7 @@ class State : public ScopedVariableEnvironment,
         virtual weak_ptr<Experiment> getExperiment();
         virtual void setExperiment(weak_ptr<Experiment> _experiment);
 		
-		virtual weak_ptr<ScopedVariableEnvironment> State::getScopedVariableEnvironment();
+		virtual weak_ptr<ScopedVariableEnvironment> getScopedVariableEnvironment();
         virtual void setScopedVariableEnvironment(weak_ptr<ScopedVariableEnvironment> _env);
 
 		virtual void updateCurrentScopedVariableContext();

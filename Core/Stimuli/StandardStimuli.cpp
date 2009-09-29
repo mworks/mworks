@@ -30,8 +30,7 @@
 #include <iostream>
 
 //	#define USE_COCOA_IMAGE_LOADER	1
-
-	#undef USE_COCOA_IMAGE_LOADER
+#undef USE_COCOA_IMAGE_LOADER
 
 
 

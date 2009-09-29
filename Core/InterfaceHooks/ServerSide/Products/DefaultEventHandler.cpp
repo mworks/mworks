@@ -26,7 +26,7 @@
 using namespace mw;
 
 
-void DefaultEventHandler::handleEvent(shared_ptr <Event> &evt) {
+void DefaultEventHandler::handleEvent(shared_ptr <Event> evt) {
 	shared_ptr<Variable> var(GlobalVariableRegistry->getVariable(evt->getEventCode()));
 	
 	if(var != 0) {		

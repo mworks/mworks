@@ -11,7 +11,8 @@
  */
 
 #include <OpenAL/al.h>
-#include <OpenAL/alc.h>
+//#include <OpenAL/alc.h>
+#include "alc.h" //customized header for gcc4.2
 
 // shifting sands
 //#include <OpenAL/alut.h>

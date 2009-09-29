@@ -61,7 +61,7 @@ class Client : public EventHandler {
         virtual ~Client();
         
 
-		virtual void handleEvent(shared_ptr<Event> &event);
+		virtual void handleEvent(shared_ptr<Event> event);
 		
 		virtual void startEventListener();
 
@@ -174,7 +174,7 @@ class Client : public EventHandler {
 		
 		void registerCallback(shared_ptr<GenericEventFunctor> gef);
 		void registerCallback(shared_ptr<GenericEventFunctor> gef, int code);
-		void Client::registerCallback(shared_ptr<GenericEventFunctor> gef,
+		void registerCallback(shared_ptr<GenericEventFunctor> gef,
 							   string tagname);
 		void registerCallback(shared_ptr<GenericEventFunctor> gef, std::vector <int> vars);
 		

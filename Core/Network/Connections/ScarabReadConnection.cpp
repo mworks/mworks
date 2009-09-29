@@ -118,6 +118,7 @@ int ScarabReadConnection::service() {
 		// the connection stats is total shit
         // connectionStats->eventReceived((EventCode)datum->type, sizeof(datum));
         
+    ScarabDatum *code;
 		switch(datum->type) {
             case 0://SCARAB_NULL
             case 1://SCARAB_INTEGER
@@ -129,7 +130,7 @@ int ScarabReadConnection::service() {
                 break;
             case 6://SCARAB_LIST
 				
-				ScarabDatum *code = scarab_list_get(datum, 
+				code = scarab_list_get(datum, 
 								SCARAB_EVENT_CODEC_CODE_INDEX);
 				if(code->type == SCARAB_INTEGER && code->data.integer ==
 									M_TERMINATION_EVENT_CODE) { 

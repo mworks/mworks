@@ -76,16 +76,18 @@ void *announce_beam_position(void *arg){
 }
 
 
-@interface NSOpenGLContext(CGLContextAccess)
-- (CGLContextObj)cglContext;
-@end
 
-@implementation NSOpenGLContext(CGLContextAccess)
-- (CGLContextObj)cglContext; // this works?
-{
-    return _contextAuxiliary;
-}
-@end
+//  DDC: removed for 10.6 compatibility; appears to have not been in use
+//@interface NSOpenGLContext(CGLContextAccess)
+//- (CGLContextObj)cglContext;
+//@end
+//
+//@implementation NSOpenGLContext(CGLContextAccess)
+//- (CGLContextObj)cglContext; // this works?
+//{
+//    return _contextAuxiliary;
+//}
+//@end
 
 #define ADD_ATTR(attr) \
 do { \
@@ -699,7 +701,7 @@ void OpenGLContextManager::setCurrent(int context_id) {
 	 }*/
 }
 
-static int _compareModes(id arg1, id arg2, void *context) {
+static NSInteger _compareModes(id arg1, id arg2, void *context) {
     NSDictionary *mode1 = (NSDictionary *)arg1;
     NSDictionary *mode2 = (NSDictionary *)arg2;
     int size1, size2;
@@ -713,7 +715,7 @@ static int _compareModes(id arg1, id arg2, void *context) {
         return size1 - size2;
 	
     // Then on bit depth
-    return (int)[[mode1 objectForKey:
+    return (NSInteger)[[mode1 objectForKey:
 				  (NSString *)kCGDisplayBitsPerPixel] intValue] -
 	(int)[[mode2 objectForKey:
 		   (NSString *)kCGDisplayBitsPerPixel] intValue];

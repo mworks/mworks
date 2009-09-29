@@ -156,7 +156,7 @@ Data::Data(const Data& that) {
 	lock();
   #endif;
   
-  data = 0;
+  data = NULL;
 
   if(that.getDataType() == M_UNDEFINED) {
 	setDataType(M_UNDEFINED);      
@@ -221,7 +221,10 @@ Data::Data(ScarabDatum * datum) {
     setDataType(M_UNDEFINED);
     return;
   }
-
+  
+  double d;
+  char *double_bytes;
+  
   switch(datum->type) {
   case SCARAB_INTEGER:
 	// TODO do we want a separate class for bools?
@@ -241,15 +244,15 @@ Data::Data(ScarabDatum * datum) {
 	// DDC: meta-kludge to compensate for the platform-dependence of this
 	//		most loathesome of hacks 
 	#if __LITTLE_ENDIAN__
-		double d = *((double *)(datum->data.opaque.data));
+		d = *((double *)(datum->data.opaque.data));
 	#else
 		char swap_bytes[sizeof(double)];
-		char *double_bytes = (char *)(datum->data.opaque.data);
+		double_bytes = (char *)(datum->data.opaque.data);
 		for(unsigned int i = 0; i < sizeof(double); i++){
 			swap_bytes[i] = double_bytes[sizeof(double) - i - 1];
 		}
 		
-		double d = *((double *)swap_bytes);
+		d = *((double *)swap_bytes);
 	#endif
 	
     setDataType(M_FLOAT);
@@ -723,9 +726,10 @@ bool Data::operator==(long newdata)  const {
 
 
 bool Data::operator==(const char * newdata)  const {
+  int eq;
   switch(datatype) {
   case M_STRING:
-    int eq = strncmp(newdata, getString(), getStringLength()); 
+    eq = strncmp(newdata, getString(), getStringLength()); 
     return (eq == 0);
     break;
   default:
@@ -735,9 +739,10 @@ bool Data::operator==(const char * newdata)  const {
 }
 
 bool Data::operator!=(const char * newdata) const {
+  int eq;
   switch(datatype) {
   case M_STRING:
-    int eq = strncmp(newdata, getString(), getStringLength()); 
+    eq = strncmp(newdata, getString(), getStringLength()); 
     return (eq != 0);
     break;
   default:

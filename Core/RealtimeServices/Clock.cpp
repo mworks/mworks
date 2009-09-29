@@ -10,10 +10,10 @@
 #include "Clock.h"
 using namespace mw;
 
-//mRegisteredSingleton<Clock>::singleton_instance = shared_ptr<Clock>();
+//Clock::singleton_instance = shared_ptr<Clock>();
 
-template <> shared_ptr<Clock> RegisteredSingleton<Clock>::singleton_instance = shared_ptr<Clock>();
-
+//template <> shared_ptr<Clock> RegisteredSingleton<Clock>::singleton_instance = shared_ptr<Clock>();
+SINGLETON_INSTANCE_STATIC_DECLARATION(Clock)
 
 Clock::Clock(long interval_microseconds){ }
 Clock::~Clock() { }

@@ -183,7 +183,7 @@ std::vector<std::string> Server::getVariableNames() {
 	return GlobalVariableRegistry->getVariableTagnames();
 }
 
-void Server::handleEvent(shared_ptr<Event> &evt) {
+void Server::handleEvent(shared_ptr<Event> evt) {
 	int code = evt->getEventCode();
 	
 	unsigned int vars = GlobalVariableRegistry->getNVariables();

@@ -16,6 +16,7 @@
 #include "Component.h"
 #include "Utilities.h"
 #include "boost/shared_ptr.hpp"
+#include "boost/function.hpp"
 
 #include "boost/enable_shared_from_this.hpp"
 namespace mw {
@@ -90,7 +91,7 @@ public:
 };
 
 
-class Scheduler : public mw::Component, public enable_shared_from_this<Scheduler>, public RegisteredSingleton<Scheduler> {
+  class Scheduler : public mw::Component, public enable_shared_from_this<Scheduler>{ //, public RegisteredSingleton<Scheduler> {
 	
 protected:
 	pthread_cond_t direct_tick_condition;
@@ -130,6 +131,9 @@ public:
 	boost::shared_ptr<Clock> getClock() const;
 	
 	virtual void launchWatchdogThread(){   return;  }
+    
+    
+  REGISTERED_SINGLETON_CODE_INJECTION(Scheduler)
 };
 
 }

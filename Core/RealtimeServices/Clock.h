@@ -18,7 +18,7 @@
 namespace mw {
 // TODO: config.h 
 
-class Clock : public mw::Component, public RegisteredSingleton<Clock> {
+class Clock : public mw::Component {//, public RegisteredSingleton<Clock> {
 	
 protected:
 	long current_time, interval;
@@ -51,6 +51,9 @@ public:
 	 * and the UNIX reference time Jan 1 1970. 
 	 */
 	virtual MonkeyWorksTime getSystemReferenceTime();
+  
+  REGISTERED_SINGLETON_CODE_INJECTION(Clock)
+  
 };
 
 }

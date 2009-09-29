@@ -6,7 +6,8 @@
 #include "EventFactory.h" 
 using namespace mw;
  
-template <> shared_ptr<StateSystem> RegisteredSingleton<StateSystem>::singleton_instance = shared_ptr<StateSystem>();
+//template <> shared_ptr<StateSystem> RegisteredSingleton<StateSystem>::singleton_instance = shared_ptr<StateSystem>();
+SINGLETON_INSTANCE_STATIC_DECLARATION(StateSystem)
 
 StateSystem::StateSystem(const shared_ptr <Clock> &a_clock) {
 	the_clock = a_clock;
