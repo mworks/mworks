@@ -167,6 +167,53 @@
 	}
 }
 
+- (IBAction) chooseExperiment: (id) sender {
+  
+  MWClientInstance *client_instance = [self modalClientInstanceInCharge];
+	
+  // Create the File Open Dialog class.
+  NSOpenPanel* openDlg = [NSOpenPanel openPanel];
+  
+  // Enable the selection of files in the dialog.
+  [openDlg setCanChooseFiles:YES];
+  
+  // Enable the selection of directories in the dialog.
+  [openDlg setCanChooseDirectories:NO];
+
+  [openDlg setAllowsMultipleSelection:NO];
+  
+  
+  // Display the dialog.  If the OK button was pressed,
+  // process the files.
+  if ( [openDlg runModalForDirectory:nil file:nil] == NSOKButton )
+  {
+    // Get an array containing the full filenames of all
+    // files and directories selected.
+    NSArray* files = [openDlg filenames];
+    
+    if([files count] != 1){
+      // TODO: raise hell
+      return;
+    }
+    
+    // Loop through all the files and process them.
+    for(int i = 0; i < [files count]; i++ )
+    {
+      NSString* file_name = [files objectAtIndex:i];
+      
+      if(file_name == Nil){
+        return;
+      }
+      
+      [client_instance setExperimentPath:file_name];
+      [client_instance loadExperiment];
+      [self closeExperimentLoadSheet:self];
+      
+    }
+  }
+
+}
+
 - (IBAction) loadExperiment: (id) sender {
 
 	MWClientInstance *client_instance = [self modalClientInstanceInCharge];
@@ -175,6 +222,16 @@
 	[client_instance loadExperiment];
 	
 	[self closeExperimentLoadSheet:self];
+}
+
+- (IBAction) loadRecentExperiment: (id) sender {
+	MWClientInstance *client_instance = [self modalClientInstanceInCharge];
+  NSString *selected_path = [modalRecentExperimentPopUp titleOfSelectedItem];
+	[client_instance setExperimentPath:selected_path];
+  
+	[client_instance loadExperiment];
+	
+	[self closeExperimentLoadSheet:self];  
 }
 
 - (IBAction) closeExperiment: (id) sender {

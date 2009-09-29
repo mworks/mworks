@@ -65,6 +65,9 @@
 }
 
 - (void) relinquishCurrentView {
+    if(currentPluginIndex > [holdFlags count]){
+      return;
+    }
     if([[holdFlags objectAtIndex:currentPluginIndex] boolValue]){
         NSWindow *current_content_window = [plugins objectAtIndex:currentPluginIndex];
         

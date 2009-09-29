@@ -24,5 +24,7 @@ int main(int argc, char *argv[])
         // do nothing
     }
     
+    
     return NSApplicationMain(argc,  (const char **) argv);
+    
 }

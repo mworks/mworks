@@ -15,7 +15,9 @@
 @class MWClientInstance;
 
 @interface AppController : NSWindowController {
-	IBOutlet NSArrayController *clientInstances;
+	
+  
+  IBOutlet NSArrayController *clientInstances;
 	
 	IBOutlet NSWindow *urlSheet;
 	IBOutlet NSWindow *disconnectSheet;
@@ -41,14 +43,15 @@
 
 	// Experiment load
 	IBOutlet NSPathControl *modalExperimentField;
+  IBOutlet NSPopUpButton *modalRecentExperimentPopUp;
 	
 	// Data File open
 	IBOutlet NSComboBox *modalDataFileField;
 	IBOutlet NSButton *modalDataFileOverwriteCheckBox;
 	
-    // Variable Set Fields
-    IBOutlet NSTextField *modalNewVariableSetField;
-    IBOutlet NSPopUpButton *modalServerSideVariableField;
+  // Variable Set Fields
+  IBOutlet NSTextField *modalNewVariableSetField;
+  IBOutlet NSPopUpButton *modalServerSideVariableField;
     
 	int preferredWindowHeight;
 	
@@ -79,7 +82,9 @@
 - (IBAction) closeExperimentCloseSheet: (id)sender;
 - (IBAction) openExperimentChooserOpenPanel: (id)sender;
 - (IBAction) loadExperiment: (id) sender;
+- (IBAction) chooseExperiment: (id) sender;
 - (IBAction) closeExperiment: (id) sender;
+- (IBAction) loadRecentExperiment: (id) sender;
 
 
 // Variable sets

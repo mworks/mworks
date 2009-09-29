@@ -12,8 +12,8 @@
 #import "MonkeyWorksCocoa/MWCocoaEventFunctor.h"
 #import <MonkeyWorksCocoa/MWWindowController.h>
 
-#define ERROR_MESSAGE_CALLBACK_KEY	@"ClientErrorMessageCallbackKey"
-#define	LOAD_MESSAGE_CALLBACK_KEY	@"LoadMessageCallbackKey"
+#define ERROR_MESSAGE_CALLBACK_KEY	"ClientErrorMessageCallbackKey"
+#define	LOAD_MESSAGE_CALLBACK_KEY	"LoadMessageCallbackKey"
 
 @implementation MWClientInstance
 
@@ -29,9 +29,7 @@
     [headerBox setFillColor:headerColor];
 
 
-	#if HOLLOW_OUT_FOR_ADC
-		// no core object
-	#else
+	#ifndef HOLLOW_OUT_FOR_ADC
 		core = shared_ptr <mw::Client>(new mw::Client());
 		variables = [[MWCodec alloc] initWithClientInstance:self];
 	#endif
@@ -41,15 +39,15 @@
     serversideVariableSetNames = [[NSMutableArray alloc] init];
 	
 	serverURL = @"127.0.0.1";
-	serverPort = [NSNumber numberWithInteger:19989];
+	serverPort = [[NSNumber numberWithInteger:19989] retain];
 	
     variableSetName = Nil;
 	self.variableSetName = Nil;
     self.variableSetLoaded = NO;
     
 	[self registerEventCallbackWithReceiver:self 
-								andSelector:@selector(processEvent:)
-									 andKey:STATE_SYSTEM_CALLBACK_KEY];
+								selector:@selector(processEvent:)
+									 callbackKey:STATE_SYSTEM_CALLBACK_KEY];
 									 
 	[self setDataFileOpen:false];
 	[self setExperimentLoaded:false];
@@ -63,15 +61,13 @@
 	pluginWindows = [[NSMutableArray alloc] init];
 	[self loadPlugins];
 	
-	#if !HOLLOW_OUT_FOR_ADC
+	#ifndef HOLLOW_OUT_FOR_ADC
 		core->startEventListener();
 	#endif
 	
-	
-    
-	// start updateChangedValues timer
-	#define CONNECTION_CHECK_INTERVAL	0.25
-	connection_check_timer = [NSTimer scheduledTimerWithTimeInterval:(NSTimeInterval)CONNECTION_CHECK_INTERVAL 
+  
+	#define CONNECTION_CHECK_INTERVAL	1.0
+  connection_check_timer = [NSTimer scheduledTimerWithTimeInterval:(NSTimeInterval)CONNECTION_CHECK_INTERVAL 
 						target:self selector:@selector(checkConnection) userInfo:Nil repeats:YES];
 	
     
@@ -137,19 +133,31 @@
 // Cosmetics
 @synthesize headerColor;
 
+#ifndef HOLLOW_OUT_FOR_ADC
 - (shared_ptr<mw::Client>)coreClient {
-	return core;
+	
+  return core;
 }
+#endif
 
 - (NSArray *)variableNames {
 	return [variables variableNames];
 }
 
 - (NSDictionary *)varGroups {
+  
+#ifndef HOLLOW_OUT_FOR_ADC
 	unsigned int nVars = core->numberOfVariablesInRegistry();
+#else
+  unsigned int nVars = 0;
+#endif
 	
 	NSMutableDictionary *allGroups = [[NSMutableDictionary alloc] init];
 	
+#ifdef HOLLOW_OUT_FOR_ADC
+  return allGroups;
+#else
+  
 	for(int i=M_MAX_RESERVED_EVENT_CODE; i<nVars; ++i) {
 		shared_ptr <mw::Variable> var = core->getVariable(i);
 		
@@ -175,12 +183,20 @@
 	}
 	
 	return allGroups;
+#endif
 }
 
 
 - (void)checkConnection {
-	BOOL actually_connected = core->isConnected();
-	
+  
+  @synchronized(self){
+  
+#ifndef HOLLOW_OUT_FOR_ADC
+    BOOL actually_connected = core->isConnected();
+#else
+    BOOL actually_connected = false;
+#endif
+    
 	if(actually_connected != [self serverConnected]){
 		[self setServerConnected:actually_connected];
 		
@@ -194,6 +210,7 @@
         }
     }
 	
+  }
 //	[self enforceConnectedState];
 //	[self setServerName:[variables valueForKey:@"_serverName"]];
 }
@@ -266,8 +283,10 @@
 	string url = [serverURL cStringUsingEncoding:NSASCIIStringEncoding];
 	[self setServerConnecting:YES];
 	
-	BOOL success = core->connectToServer(url, [serverPort intValue]);
-	
+#ifdef HOLLOW_OUT_FOR_ADC
+  return;
+#else  
+	BOOL success = core->connectToServer(url, [serverPort intValue]);  
 	// If that didn't work, try launching the server remotely
 	if((!success || !core->isConnected()) && [self launchIfNeeded]){
 		NSLog(@"Attempting to remotely launch server");
@@ -320,10 +339,12 @@
 		[self enforceDisconnectedState];
 	}
 	
+#endif
 }
 
 - (void)disconnect{
 	
+#ifndef HOLLOW_OUT_FOR_ADC
 	[self setServerConnecting:YES];
 	
 	//[self willChangeValueForKey:@"serverConnected"];
@@ -339,6 +360,7 @@
 	} else {
 		[self setServerConnecting:NO];
 	}
+#endif
 }
 
 - (void) loadExperiment {
@@ -351,19 +373,21 @@
 	[self updateRecentExperiments];
 	
 	[self registerEventCallbackWithReceiver:self 
-								andSelector:@selector(handleLoadMessageEvent:)
-									 andKey:LOAD_MESSAGE_CALLBACK_KEY
+								selector:@selector(handleLoadMessageEvent:)
+									 callbackKey:LOAD_MESSAGE_CALLBACK_KEY
 							forVariable:@"#announceMessage"];
 	
 	// Bind the messages variable temporarily to the loadingMessages key
 //	[self registerBindingsBridgeWithReceiver:self 
-//							andBindingsKey:@"experimentLoadMessage"
-//								andKey:LOAD_MESSAGE_CALLBACK_KEY
+//							bindingsKey:@"experimentLoadMessage"
+//								callbackKey:LOAD_MESSAGE_CALLBACK_KEY
 //								forVariable:@"#announceMessage"];
 	
 	[self startAccumulatingErrors];
+  
+#ifndef HOLLOW_OUT_FOR_ADC
 	core->sendExperiment(path);
-	
+#endif
 }
 
 - (void) updateRecentExperiments {
@@ -373,14 +397,14 @@
         [defaults setObject:[self experimentPath] forKey:@"lastExperiment"];
         [defaults synchronize];
     }
-    //NSArray *recentExperiments = [defaults arrayForKey:@"recentExperiments"];
-	//if([self experimentPath] != Nil && ![recentExperiments containsObject:[self experimentPath]]){
-//		NSMutableArray *recentExperimentsMutable = [[NSMutableArray alloc] init];
-//		[recentExperimentsMutable addObjectsFromArray:recentExperiments];
-//		[recentExperimentsMutable addObject:[self experimentPath]];
-//		[defaults setObject:recentExperimentsMutable forKey:@"recentExperiments"];
-//		[defaults synchronize];
-	//}
+    NSArray *recentExperiments = [defaults arrayForKey:@"recentExperiments"];
+    if([self experimentPath] != Nil && ![recentExperiments containsObject:[self experimentPath]]){
+      NSMutableArray *recentExperimentsMutable = [[NSMutableArray alloc] init];
+      [recentExperimentsMutable addObjectsFromArray:recentExperiments];
+      [recentExperimentsMutable addObject:[self experimentPath]];
+      [defaults setObject:recentExperimentsMutable forKey:@"recentExperiments"];
+      [defaults synchronize];
+    }
 }
 
 
@@ -394,8 +418,10 @@
 
 	string path = [experiment_path cStringUsingEncoding:NSASCIIStringEncoding];
 	
+#ifndef HOLLOW_OUT_FOR_ADC
 	core->sendCloseExperimentEvent(path);
-	
+#endif
+  
 	[self setExperimentLoading:NO];
 	[self setExperimentPath:Nil];
 	[self setExperimentName:Nil];
@@ -405,6 +431,7 @@
 
 - (void) saveVariableSet {
 
+#ifndef HOLLOW_OUT_FOR_ADC
     NSString *variable_save_name = [self variableSetName];
     if(variable_save_name != Nil){
         core->sendSaveVariablesEvent([variable_save_name cStringUsingEncoding:NSASCIIStringEncoding], 1);
@@ -412,9 +439,11 @@
     } else {
         // TODO
     }
+#endif
 }
 
 - (void) loadVariableSet {
+#ifndef HOLLOW_OUT_FOR_ADC
     NSString *variable_load_name = [self variableSetName];
     if(variable_load_name != Nil){
         core->sendLoadVariablesEvent([variable_load_name cStringUsingEncoding:NSASCIIStringEncoding]);
@@ -423,10 +452,12 @@
     } else {
         //TODO
     }
+#endif
 }
 
 - (void) openDataFile {
 
+#ifndef HOLLOW_OUT_FOR_ADC
 	NSString *filename = [self dataFileName];
 	BOOL overwrite = [self dataFileOverwrite];
 	
@@ -434,16 +465,18 @@
 								[[NSNumber numberWithBool:overwrite] intValue]);
 
     [notebook addEntry:[NSString stringWithFormat:@"Streaming to data file %@", filename, Nil]];
+#endif
 }
 
 
 - (void) closeDataFile {
-
+#ifndef HOLLOW_OUT_FOR_ADC
 	NSString *filename = [self dataFileName];
 	
 	core->sendCloseDataFileEvent([filename cStringUsingEncoding:NSASCIIStringEncoding]);
     
     [notebook addEntry:[NSString stringWithFormat:@"Closing data file %@", filename, Nil]];
+#endif
 }
 
 
@@ -452,6 +485,7 @@
 	
 	BOOL isit = [running boolValue];
 
+#ifndef HOLLOW_OUT_FOR_ADC
 	if(isit){
 		//stop
 		core->sendStopEvent();
@@ -464,6 +498,7 @@
 		core->sendRunEvent();
         [notebook addEntry:@"Experiment started"];
 	}
+#endif
 }
 
 
@@ -471,12 +506,18 @@
 
 - (NSNumber *)codeForTag:(NSString *)tag {
 	
+#ifdef HOLLOW_OUT_FOR_ADC
+  NSNumber *code = [[NSNumber alloc] initWithInt:0];
+#else
 	NSNumber *code = [[NSNumber alloc] initWithInt:core->getCode([tag cStringUsingEncoding:NSASCIIStringEncoding])];
-	return code;
+#endif
+  return code;
 }
 
 - (void)updateVariableWithCode:(int)code withData:(mw::Data *)data {
+#ifndef HOLLOW_OUT_FOR_ADC
 	core->updateValue(code, *data);
+#endif
 }
 
 - (void)updateVariableWithTag:(NSString *)tag withData:(mw::Data *)data {
@@ -484,66 +525,83 @@
 }
 
 
-- (void)unregisterCallbacksWithKey:(NSString *)key {
-	core->unregisterCallbacks([key cStringUsingEncoding:NSASCIIStringEncoding]);
+- (void)unregisterCallbacksWithKey:(const char *)key {
+#ifndef HOLLOW_OUT_FOR_ADC
+	core->unregisterCallbacks(key);
+#endif
 }
 
 
 - (void)registerEventCallbackWithReceiver:(id)receiver 
-							  andSelector:(SEL)selector
-								   andKey:(NSString *)key{
+                                          selector:(SEL)selector
+                                          callbackKey:(const char *)key{
 
 	boost::shared_ptr <mw::CocoaEventFunctor> cef;
 	cef = boost::shared_ptr <mw::CocoaEventFunctor>(new mw::CocoaEventFunctor(receiver,
-							selector,
-							[key cStringUsingEncoding:NSASCIIStringEncoding]));
-	core->registerCallback(cef);
+                                                                            selector,
+                                                                            key, 
+                                                                            self));
+#ifndef HOLLOW_OUT_FOR_ADC
+  core->registerCallback(cef);
+#endif
 }
 
 - (void)registerEventCallbackWithReceiver:(id)receiver 
-							  andSelector:(SEL)selector
-								   andKey:(NSString *)key
-						  forVariableCode:(NSNumber *)_code {
+                                 selector:(SEL)selector
+                              callbackKey:(const char *)key
+                          forVariableCode:(int)code {
 						  
-	int code = [_code intValue];
 	if(code >= 0) {
 		boost::shared_ptr <mw::CocoaEventFunctor> cef;
 		cef = boost::shared_ptr <mw::CocoaEventFunctor>(new mw::CocoaEventFunctor(receiver,
-																			selector,
-																			[key cStringUsingEncoding:NSASCIIStringEncoding]));
+                                                                              selector,
+                                                                              key,
+                                                                              self));
+#ifndef HOLLOW_OUT_FOR_ADC
 		core->registerCallback(cef, code);
+#endif
 	}
 }
 
+// Call receiver with a given selector (and the relevant event as an argument) if the mw variable 
+// identified by the specified "tag" name changes
 - (void)registerEventCallbackWithReceiver:(id)receiver 
-							  andSelector:(SEL)selector
-								   andKey:(NSString *)key
+							  selector:(SEL)selector
+								   callbackKey:(const char *)key
 						  forVariable:(NSString *)tag {
 	
 	
 	boost::shared_ptr <mw::CocoaEventFunctor> cef;
 	cef = boost::shared_ptr <mw::CocoaEventFunctor>(new mw::CocoaEventFunctor(receiver,
-																		selector,
-																		[key cStringUsingEncoding:NSASCIIStringEncoding]));
+                                                                            selector,
+                                                                            key,
+                                                                            self));
 	string tag_str([tag cStringUsingEncoding:NSASCIIStringEncoding]);
-	core->registerCallback(cef, tag_str);
+#ifndef HOLLOW_OUT_FOR_ADC
+  core->registerCallback(cef, tag_str);
+#endif
 	
 }
 
 
+// receiver: the object that will receive the KVC messages
+// bindingsKey: the key (in the bindings sense of the word) in question
+// callbackKey: a unique string to identify this particular callback
+// forVariable: the tag name of the monkeyworks variable in question
 - (void)registerBindingsBridgeWithReceiver:(id)receiver 
-							  andBindingsKey:(NSString *)bindings_key
-								   andKey:(NSString *)key
+							  bindingsKey:(NSString *)bindings_key
+								   callbackKey:(const char *)key
 							  forVariable:(NSString *)tag {
 	
 	
 	boost::shared_ptr <mw::CocoaBindingsBridgeFunctor> cef;
 	cef = boost::shared_ptr <mw::CocoaBindingsBridgeFunctor>(new mw::CocoaBindingsBridgeFunctor(receiver,
-																		bindings_key,
-																		[key cStringUsingEncoding:NSASCIIStringEncoding]));
+                                                                                              bindings_key,
+                                                                                              key));
 	string tag_str([tag cStringUsingEncoding:NSASCIIStringEncoding]);
-	core->registerCallback(cef, tag_str);
-	
+#ifndef HOLLOW_OUT_FOR_ADC
+  core->registerCallback(cef, tag_str);
+#endif
 }
 
 
@@ -559,19 +617,21 @@
 																   encoding:NSASCIIStringEncoding]] intValue];
 		
 		[self unregisterCallbacksWithKey:STATE_SYSTEM_CALLBACK_KEY];
+		//[self registerEventCallbackWithReceiver:self 
+//										selector:@selector(processEvent:)
+//											 callbackKey:STATE_SYSTEM_CALLBACK_KEY
+//									forVariableCode:[NSNumber numberWithInt:RESERVED_CODEC_CODE]];
+//		
 		[self registerEventCallbackWithReceiver:self 
-										andSelector:@selector(processEvent:)
-											 andKey:STATE_SYSTEM_CALLBACK_KEY
-									forVariableCode:[NSNumber numberWithInt:RESERVED_CODEC_CODE]];
+										selector:@selector(processEvent:)
+											 callbackKey:STATE_SYSTEM_CALLBACK_KEY
+									forVariableCode:systemCodecCode];
+		#define EXPERIMENT_LOAD_PROGRESS_KEY "experiment_load_progress_callback_key"
 		
-		[self registerEventCallbackWithReceiver:self 
-										andSelector:@selector(processEvent:)
-											 andKey:STATE_SYSTEM_CALLBACK_KEY
-									forVariableCode:[NSNumber numberWithInt:systemCodecCode]];
-		#define EXPERIMENT_LOAD_PROGRESS_KEY @"experiment_load_progress_callback_key"
-		[self registerBindingsBridgeWithReceiver:self
-										andBindingsKey:@"experimentLoadProgress"
-												andKey:EXPERIMENT_LOAD_PROGRESS_KEY
+    
+    [self registerBindingsBridgeWithReceiver:self
+										bindingsKey:@"experimentLoadProgress"
+												callbackKey:EXPERIMENT_LOAD_PROGRESS_KEY
 									forVariable:@"#experimentLoadProgress"]; // TODO: use EXPERIMENT_LOAD_PROGRESS_TAGNAME instead
 		
 	} else {
@@ -633,7 +693,7 @@
                             break;
                         }
                         
-						[self setDataFileName:[NSString stringWithCString:file.getString()]];
+						[self setDataFileName:[NSString stringWithCString:file.getString() encoding:NSASCIIStringEncoding]];
 						if([self dataFileName] != Nil){
 							[self setDataFileOpen: YES];
 						}
@@ -660,7 +720,10 @@
 						[self setExperimentLoaded:state.getElement(M_LOADED).getBool()];
 						if([self experimentLoaded]) {
 							[self setExperimentLoading:NO];
-							core->unregisterCallbacks("LoadMessageCallbackKey"); // TODO: kludgey
+							
+#ifndef HOLLOW_OUT_FOR_ADC
+              core->unregisterCallbacks("LoadMessageCallbackKey"); // TODO: kludgey
+#endif
 							[self setExperimentPaused:state.getElement(M_PAUSED).getBool()];
 							[self setExperimentRunning: state.getElement(M_RUNNING).getBool()];
 							[self setExperimentName:[[NSString alloc] initWithCString:state.getElement(M_EXPERIMENT_NAME).getString()
@@ -729,7 +792,9 @@
     [grouped_plugin_controller loadWindow];
     [[grouped_plugin_controller window] orderOut:self];
     [grouped_plugin_controller setCustomColor:self.headerColor];
-	NSFileManager *fm = [NSFileManager defaultManager];
+	
+  
+  NSFileManager *fm = [NSFileManager defaultManager];
 	
 	NSError *error;
 	NSString *plugin_directory = @"/Library/Application Support/MonkeyWorks/Plugins/Client Plugins/";
@@ -737,18 +802,35 @@
 	
 	for(int i = 0; i < [plugins count]; i++){
 		NSString *plugin_file = [plugins objectAtIndex:i];
-		NSLog(plugin_file);
+		NSLog(@"%@", plugin_file);
 		
 		NSString *fullpath = [plugin_directory stringByAppendingString:plugin_file];
 		NSBundle *plugin_bundle = [[NSBundle alloc] initWithPath:fullpath];
-		if([plugin_bundle load]){
-			NSNib *nib = [[NSNib alloc] initWithNibNamed:@"Main" bundle:plugin_bundle];
-			NSArray *toplevel;
-			if(![nib instantiateNibWithOwner:self topLevelObjects:&toplevel]){
-				NSLog(@"Couldn't instantiate Nib");
-				continue;
-			}
+		
+    BOOL loaded = false;
+    loaded = [plugin_bundle load];
+    if(loaded){
+      
+      NSArray *toplevel;
+      NSNib *nib;
+      
+      BOOL nib_loaded_correctly = true;
+      @try{
+        nib = [[NSNib alloc] initWithNibNamed:@"Main" bundle:plugin_bundle];
+        
+        if(![nib instantiateNibWithOwner:self topLevelObjects:&toplevel]){
+          NSLog(@"Couldn't instantiate Nib");
+          nib_loaded_correctly = false;
+        }
+      } @catch(NSException *e){
+        NSLog(@"%@", [e reason]);  
+        nib_loaded_correctly = false;
+      }
 			
+      if(!nib_loaded_correctly){
+        continue;
+      }
+      
 			NSWindowController *controller = Nil;
 			
 			for(int j=0; j < [toplevel count]; j++){
@@ -836,8 +918,8 @@
 	NSString *messageTag = [NSString stringWithCString:ANNOUNCE_MESSAGE_VAR_TAGNAME
 									 encoding:NSASCIIStringEncoding];
 	[self registerEventCallbackWithReceiver:self 
-						andSelector:@selector(handleErrorMessageEvent:)
-						andKey:ERROR_MESSAGE_CALLBACK_KEY
+						selector:@selector(handleErrorMessageEvent:)
+						callbackKey:ERROR_MESSAGE_CALLBACK_KEY
 						forVariable:messageTag];
 
 }

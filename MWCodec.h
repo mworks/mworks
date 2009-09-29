@@ -15,7 +15,9 @@
 
 @interface MWCodec : NSObject {
 
-	shared_ptr<mw::Client> core;
+#ifndef HOLLOW_OUT_FOR_ADC
+  shared_ptr<mw::Client> core;
+#endif
 	id clientInstance;
 	
 	NSMutableArray *variable_names;
@@ -42,9 +44,6 @@
 - (void) setValue: (id)val forKey: (NSString *)key;
 - (id) valueForUndefinedKey: (NSString *)key;
 
-// Handle events coming from the core client object and issue
-// KVC compliant notifications of changing values
-- (void)handleCallbackEvent:(MWCocoaEvent *)event;
 - (void)updateChangedValues;
 
 

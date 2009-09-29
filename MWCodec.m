@@ -17,23 +17,27 @@
 
 - (id) initWithClientInstance: (id) _client{
 	clientInstance = (MWClientInstance *)_client;
-	core = [clientInstance coreClient];
 	
+#ifndef HOLLOW_OUT_FOR_ADC
+  core = [clientInstance coreClient];
+#endif
+  
 	variable_names = [[NSMutableArray alloc] init];
 	variable_codes = [[NSMutableArray alloc] init];
 	variable_changed = [[NSMutableArray alloc] init];
 	
 	// register for codec callback
-	boost::shared_ptr <mw::CocoaEventFunctor> cef;
-	cef = boost::shared_ptr <mw::CocoaEventFunctor>(
-						new mw::CocoaEventFunctor(self, @selector(receiveCodec:),
-						MW_CODEC_CALLBACK_KEY));	
-	core->registerCallback(cef, RESERVED_CODEC_CODE);
-	
-	
+	[clientInstance registerEventCallbackWithReceiver:self 
+                                           selector:@selector(receiveCodec:)
+                                        callbackKey:MW_CODEC_CALLBACK_KEY
+                                    forVariableCode:RESERVED_CODEC_CODE];
+  
 	// start updateChangedValues timer
 	update_timer = [NSTimer scheduledTimerWithTimeInterval:(NSTimeInterval)UPDATE_INTERVAL 
-						target:self selector:@selector(updateChangedValues) userInfo:Nil repeats:YES];
+                                                  target:self 
+                                                selector:@selector(updateChangedValues) 
+                                                userInfo:Nil 
+                                                 repeats:YES];
 	
 	return self;
 }
@@ -51,56 +55,78 @@
 	return variable_names;
 }
 
+
 // Update internally stored information given the arrival of a 
 // new codec.
 - (void)receiveCodec:(MWCocoaEvent *)event{
 	
-	@synchronized(self){
-        
-        [variable_names removeAllObjects];
-        [variable_changed removeAllObjects];
-        
-        // get variable names
-        vector<string> variable_names_stl = core->getVariableNames();
-        vector<string>::iterator i;
-        for(i = variable_names_stl.begin(); i != variable_names_stl.end(); i++){
-            string variable_name_stl = *i;
-            if(variable_name_stl.empty()){
-                continue;
-            }
-            NSString *variable_name = [NSString stringWithCString:variable_name_stl.c_str()];
-            [variable_names addObject:variable_name];
-            [variable_codes addObject:[NSNumber numberWithInteger:core->getCode(variable_name_stl)]];
-            [self willChangeValueForKey:variable_name];
-            [self didChangeValueForKey:variable_name];
-            
-            [variable_changed addObject:[NSNumber numberWithBool:NO]];
+	@synchronized(clientInstance){
+  
+    //NSLog(@"Entered receivedCodec:");
+    [variable_names removeAllObjects];
+    [variable_changed removeAllObjects];
+    
+    // get variable names
+#ifndef HOLLOW_OUT_FOR_ADC
+    vector<string> variable_names_vector = core->getVariableNames();
+#else
+    vector<string> variable_names_vector;
+    string a("a");
+    string b("b");
+    string c("c");
+    variable_names_vector.push_back(a);
+    variable_names_vector.push_back(b);
+    variable_names_vector.push_back(b);
+#endif
+    
+    vector<string>::iterator i;
+    for(i = variable_names_vector.begin(); i != variable_names_vector.end(); i++){
+        string variable_name_string = *i;
+        if(variable_name_string.empty()){
+            continue;
         }
+        NSString *variable_name = [NSString stringWithCString:variable_name_string.c_str() encoding:NSASCIIStringEncoding];
         
-        [clientInstance willChangeValueForKey:@"variables"];
-        [clientInstance didChangeValueForKey:@"variables"];
-        [self willChangeValueForKey:@"variableNames"];
-        [self didChangeValueForKey:@"variableNames"];
+#ifndef HOLLOW_OUT_FOR_ADC
+        int code = core->getCode(variable_name_string);
+#else
+        int code = 0;
+#endif
+      
+        [variable_names addObject:variable_name];
+        [variable_codes addObject:[NSNumber numberWithInteger:code]];
+    
+        [self willChangeValueForKey:variable_name];
+        [self didChangeValueForKey:variable_name];
+        
+        [variable_changed addObject:[NSNumber numberWithBool:NO]];
     }
+    
+    //[clientInstance willChangeValueForKey:@"variables"];
+    //[clientInstance didChangeValueForKey:@"variables"];
+    [self willChangeValueForKey:@"variableNames"];
+    [self didChangeValueForKey:@"variableNames"];
+  }
+  //NSLog(@"Leaving receivedCodec:");
 }
 
 
 - (NSMutableArray *)mutableArrayValueForKey:(NSString *)key {
-	@synchronized(self){
+	@synchronized(clientInstance){
         return [self variableNames];
     }	
 	return 0;
 }
 
 - (int)countOfVariableNames {
-	@synchronized(self){
+	@synchronized(clientInstance){
         return [variable_names count];
     }
 	return 0;
 }
 
 - (id) objectInVariableNamesAtIndex: (int)i {
-	@synchronized(self){
+	@synchronized(clientInstance){
         return [variable_names objectAtIndex:i];
     }
 	return 0;
@@ -109,16 +135,19 @@
 // KVC compliance (keys are variable names)
 - (id) valueForKey: (NSString *)_key{
 	
-    @synchronized(self){
+    @synchronized(clientInstance){
+        //NSLog(@"Entered valueForKey:");
         try {
             if([_key isEqualToString:@"variableNames"]){
                 NSLog(@"doing it...");
+                //NSLog(@"Leaving valueForKey: (variableNames)");
                 return [self variableNames];
             }
             
             NSString *key = [NSString stringWithString:_key];
             
             if([key length] == 0){
+                //NSLog(@"Leaving valueForKey: (zero length key)");
                 return Nil;
             }
             
@@ -131,30 +160,40 @@
             string skey(ckey);
             if(skey[0] == '_'){
                 skey[0] = '#';
-                key = [NSString stringWithCString:skey.c_str()];
+                key = [NSString stringWithCString:skey.c_str() encoding:NSASCIIStringEncoding];
             }
             
+#ifndef HOLLOW_OUT_FOR_ADC
             // ask core client for value
             shared_ptr<mw::Variable> variable = core->getVariable([key cStringUsingEncoding:NSASCIIStringEncoding]);
             
             if(variable == NULL){
+                //NSLog(@"Leaving valueForKey: (NULL variable)");
                 return [self valueForUndefinedKey:key];
             }
             
             mw::Data value = variable->getValue();
             
             string value_string = value.toString();
-            
+#else
+          string value_string("blah");
+#endif
+          
             if(value_string.empty()){
-                return Nil;
+              //NSLog(@"Leaving valueForKey: (empty string)");  
+              return Nil;
             } else {
                 // format value?
-                return [NSString stringWithCString:value_string.c_str()];
+                //NSLog(@"Leaving valueForKey:");
+                return [NSString stringWithCString:value_string.c_str() encoding:NSASCIIStringEncoding];
             }
         } catch (std::exception& e){
+            //NSLog(@"Leaving valueForKey: (with c++ exception)");
             return Nil;
         }
     }
+  
+  //NSLog(@"Leaving valueForKey: (fall through)");
 	
 	return Nil;
 }
@@ -166,9 +205,16 @@
 
 - (void) setValue: (id)val forKey: (NSString *)key{
 	
+  //NSLog(@"Entered setValue:");
     // lookup code
-	int code = core->getCode([key cStringUsingEncoding:NSASCIIStringEncoding]);
-	
+  int code = -1;
+  
+#ifndef HOLLOW_OUT_FOR_ADC
+  @synchronized(clientInstance){
+    code = core->getCode([key cStringUsingEncoding:NSASCIIStringEncoding]);
+	}
+#endif
+  
 	// format value appropriately
 	mw::Data setval;
 	if(1 || [val isKindOfClass:[NSNumber class]]){
@@ -192,65 +238,41 @@
 	// tell core client to set it	
 	NSLog(@"Set %@ (code = %d) to %@", key, code, val);
 	
-    @synchronized(self){
-        [self willChangeValueForKey:key];
-        core->updateValue(code, setval);
-        [self didChangeValueForKey:key];
-    }
+  @synchronized(clientInstance){
+    [self willChangeValueForKey:key];
+#ifndef HOLLOW_OUT_FOR_ADC
+    core->updateValue(code, setval);
+#endif
+    [self didChangeValueForKey:key];
+  }
 	
 	NSLog(@"%@ now equals %@", key, [self valueForKey:key]);
 }
 
 
-
-// DDC, 8/20/2008:  DEPRECATED:  KVC events are driven by a timer
-//					Keeping this around for now in case we decide to use 
-//					a hybrid strategy later (e.g. throttled callbacks)
--(void)handleCallbackEventInMainThread:(MWCocoaEvent *)event {
-
-    [self performSelectorOnMainThread:
-			@selector(handleCallbackEvent:) 
-							   withObject: event waitUntilDone: NO];
-}
-
-// DDC, 8/20/2008:  DEPRECATED:  KVC events are driven by a timer
-- (void)handleCallbackEvent:(MWCocoaEvent *)event{
-	// set changed flag for value
-	
-	int code = [event code];
-	NSNumber *code_number = [NSNumber numberWithInteger:code];
-	
-    @synchronized(self){
-        int index = [variable_codes indexOfObject:code_number];
-        [variable_changed replaceObjectAtIndex:index withObject:[NSNumber numberWithBool:YES]];
-    }
-}
-
 - (void)updateChangedValues{
-	BOOL any = NO;
+  BOOL any = NO;
 
-	@synchronized(self){
-        [clientInstance willChangeValueForKey:@"variables"];
-        [clientInstance didChangeValueForKey:@"variables"];
+  @synchronized(clientInstance){
+    //NSLog(@"Entered updateChangedValues:");
+    //[clientInstance willChangeValueForKey:@"variables"];
+    //[clientInstance didChangeValueForKey:@"variables"];
 
-        // find changed values, and send will/did change, then unset flag
-        for(int i = 0; i < [variable_changed count]; i++){
-            if([[variable_changed objectAtIndex:i] boolValue]){
-                NSString *variable_name = [variable_names objectAtIndex:i];
-                
-                [self willChangeValueForKey:variable_name];
-                [self didChangeValueForKey:variable_name];
-                
-                
-                NSString *keypath = [NSString stringWithString:@"variables."];
-                keypath = [keypath stringByAppendingString:variable_name];
-                
-                
-                
-                any = YES;
-            }
-        }
+    // send will/did change
+    for(int i = 0; i < [variable_changed count]; i++){
+        
+      NSString *variable_name = [variable_names objectAtIndex:i];
+      
+      [self willChangeValueForKey:variable_name];
+      [self didChangeValueForKey:variable_name];
+      
+      NSString *keypath = [NSString stringWithString:@"variables."];
+      keypath = [keypath stringByAppendingString:variable_name];
+      
+      any = YES;
     }
+  }
+  //NSLog(@"Leaving updateChangedValues");
 }
 
 @end

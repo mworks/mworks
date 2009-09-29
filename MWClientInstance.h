@@ -14,15 +14,15 @@
 #import "MWNotebook.h"
 #import "AppController.h"
 
-#define HOLLOW_OUT_FOR_ADC	0
+//#define HOLLOW_OUT_FOR_ADC	0
 
 
-#define STATE_SYSTEM_CALLBACK_KEY @"MonkeyWorksClient::StateSystem callback key"
+#define STATE_SYSTEM_CALLBACK_KEY "MonkeyWorksClient::StateSystemCallbackKey"
 
 @interface MWClientInstance : NSObject {	
 
 	// The core object that actually does all of the work
-	#if !HOLLOW_OUT_FOR_ADC
+	#ifndef HOLLOW_OUT_FOR_ADC
 		shared_ptr<mw::Client> core;
 	#endif
 	
@@ -54,9 +54,9 @@
 	NSString *experimentPath;
 	NSString *experimentName;
 	
-    BOOL variableSetLoaded;
-    NSString *variableSetName;
-    NSMutableArray *serversideVariableSetNames;
+  BOOL variableSetLoaded;
+  NSString *variableSetName;
+  NSMutableArray *serversideVariableSetNames;
     
 	BOOL dataFileOpen;
 	NSString *dataFileName;
@@ -93,7 +93,7 @@
 - (shared_ptr<mw::Client>) coreClient;
 @property(retain) MWCodec *variables;
 - (NSArray *)variableNames;
-@property(assign)	NSArray *errors;
+@property(assign)	NSMutableArray *errors;
 
 @property(copy, readwrite) NSString *errorString;
 
@@ -121,7 +121,7 @@
 // Variable set state
 @property BOOL variableSetLoaded;
 @property(assign, readwrite) NSString *variableSetName;
-@property(assign) NSArray *serversideVariableSetNames;
+@property(assign) NSMutableArray *serversideVariableSetNames;
 
 // Data File state
 @property BOOL dataFileOpen;
@@ -129,7 +129,7 @@
 @property BOOL dataFileOverwrite;
 
 // Protocol state
-@property(assign)	NSArray *protocolNames;
+@property(assign)	NSMutableArray *protocolNames;
 @property(copy, readwrite) NSString *currentProtocolName;
 @property(copy, readwrite) NSString *summaryString;
 
@@ -151,20 +151,19 @@
 
 // Methods for registering to be notified of events from the core object
 - (void)registerEventCallbackWithReceiver:(id)receiver 
-							  andSelector:(SEL)selector
-								   andKey:(NSString *)key;
+							  selector:(SEL)selector
+								   callbackKey:(const char *)key;
 - (void)registerEventCallbackWithReceiver:(id)receiver 
-							  andSelector:(SEL)selector
-								   andKey:(NSString *)key
-						  forVariableCode:(NSNumber *)_code;
+							  selector:(SEL)selector
+								   callbackKey:(const char *)key
+						  forVariableCode:(int)code;
 - (void)registerEventCallbackWithReceiver:(id)receiver 
-							  andSelector:(SEL)selector
-								   andKey:(NSString *)key
+							  selector:(SEL)selector
+								   callbackKey:(const char *)key
 							  forVariable:(NSString *)tag;
-
 - (void)registerBindingsBridgeWithReceiver:(id)receiver 
-							andBindingsKey:(NSString *)bindings_key
-									andKey:(NSString *)key
+							bindingsKey:(NSString *)bindings_key
+									callbackKey:(const char *)key
 							   forVariable:(NSString *)tag;
 
 // The client object's own method for dealing with events from the core object
