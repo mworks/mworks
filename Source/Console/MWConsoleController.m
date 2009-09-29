@@ -13,7 +13,7 @@
 #import "MonkeyWorksCore/StandardVariables.h"
 #import "MWClientServerBase.h"
 
-#define MW_CONSOLE_CONTROLLER_CALLBACK_KEY @"MonkeyWorksCocoa console controller callback key"
+#define MW_CONSOLE_CONTROLLER_CALLBACK_KEY "MonkeyWorksCocoa console controller callback key"
 #define MW_CONSOLE_MAX_CHAR_LENGTH_DEFAULT 10000
 
 
@@ -92,31 +92,29 @@
 
 - (void)setDelegate:(id)new_delegate {
 	if (![new_delegate respondsToSelector:@selector(codeForTag:)] ||
-		![new_delegate respondsToSelector:@selector(maxConsoleLength)] ||
-		![new_delegate respondsToSelector:@selector(isLocalMessage:)] ||
-		![new_delegate respondsToSelector:@selector(registerEventCallbackWithRecevier:
-													andSelector:
-													andKey:)]) {
+		//![new_delegate respondsToSelector:@selector(maxConsoleLength)] ||
+		//w![new_delegate respondsToSelector:@selector(isLocalMessage:)] ||
+      ![new_delegate respondsToSelector:@selector(registerEventCallbackWithReceiver:selector:callbackKey:forVariableCode:)]) {
         [NSException raise:NSInternalInconsistencyException
 					format:@"Delegate doesn't respond to methods required in MWConsoleController"];
     }
 	
 	delegate = new_delegate;
 	
-	[delegate registerEventCallbackWithRecevier:self 
-									andSelector:@selector(incomingEvent:)
-										 andKey:MW_CONSOLE_CONTROLLER_CALLBACK_KEY
-								forVariableCode:[NSNumber numberWithInt:RESERVED_CODEC_CODE]];
+	[delegate registerEventCallbackWithReceiver:self 
+                                     selector:@selector(incomingEvent:)
+                                  callbackKey:MW_CONSOLE_CONTROLLER_CALLBACK_KEY
+                              forVariableCode:RESERVED_CODEC_CODE];
 	
 	messageCodecCode = [[delegate codeForTag:[NSString stringWithCString:ANNOUNCE_MESSAGE_VAR_TAGNAME
 																encoding:NSASCIIStringEncoding]] intValue];
 	
 	if(messageCodecCode > 0) {
 		
-		[delegate registerEventCallbackWithRecevier:self 
-										andSelector:@selector(incomingEvent:)
-											 andKey:MW_CONSOLE_CONTROLLER_CALLBACK_KEY
-									forVariableCode:[NSNumber numberWithInt:messageCodecCode]];
+		[delegate registerEventCallbackWithReceiver:self 
+                                       selector:@selector(incomingEvent:)
+                                    callbackKey:MW_CONSOLE_CONTROLLER_CALLBACK_KEY
+                                forVariableCode:messageCodecCode];
 	}
 	
 	maxConsoleLength = [[delegate maxConsoleLength] intValue];
@@ -304,14 +302,15 @@
 			if(message_str.empty()){
 				return;
 			}
-			NSString *message = [[[NSString alloc] initWithCString:message_str.c_str() 
-														encoding:NSASCIIStringEncoding] autorelease];
-			
+			//NSString *message = [[[NSString alloc] initWithCString:message_str.c_str() 
+//														encoding:NSASCIIStringEncoding] autorelease];
+			NSString *message = [NSString stringWithCString:message_str.c_str() encoding:NSASCIIStringEncoding];
+      
 			int msgType = payload.getElement(M_MESSAGE_TYPE).getInteger();
 			
 			MonkeyWorksTime eventTime = [event time];
 			
-			NSNumber *time = [[[NSNumber alloc] initWithLongLong:eventTime/1000] autorelease];
+			NSNumber *time = [[[NSNumber alloc] initWithLongLong:eventTime/1e6] autorelease];
 			
 			NSNumber *localConsole = [delegate isLocalMessage:[NSNumber numberWithInt:payload.getElement(M_MESSAGE_ORIGIN).getInteger()]];
 			if(!showGenericMessages && msgType == M_GENERIC_MESSAGE){
@@ -364,20 +363,20 @@
 	if(delegate != nil) {
 		[delegate unregisterCallbacksWithKey:MW_CONSOLE_CONTROLLER_CALLBACK_KEY];
 		
-		[delegate registerEventCallbackWithRecevier:self 
-										andSelector:@selector(incomingEvent:)
-											 andKey:MW_CONSOLE_CONTROLLER_CALLBACK_KEY
-									forVariableCode:[NSNumber numberWithInt:RESERVED_CODEC_CODE]];
+		[delegate registerEventCallbackWithReceiver:self 
+                                       selector:@selector(incomingEvent:)
+                                    callbackKey:MW_CONSOLE_CONTROLLER_CALLBACK_KEY
+                                forVariableCode:RESERVED_CODEC_CODE];
 		
 		messageCodecCode = [[delegate codeForTag:[NSString stringWithCString:ANNOUNCE_MESSAGE_VAR_TAGNAME
 																	encoding:NSASCIIStringEncoding]] intValue];
 		
 		if(messageCodecCode > 0) {
 			
-			[delegate registerEventCallbackWithRecevier:self 
-											andSelector:@selector(incomingEvent:)
-												 andKey:MW_CONSOLE_CONTROLLER_CALLBACK_KEY
-										forVariableCode:[NSNumber numberWithInt:messageCodecCode]];
+			[delegate registerEventCallbackWithReceiver:self 
+                                         selector:@selector(incomingEvent:)
+                                      callbackKey:MW_CONSOLE_CONTROLLER_CALLBACK_KEY
+                                  forVariableCode:messageCodecCode];
 		}
 	}
 }

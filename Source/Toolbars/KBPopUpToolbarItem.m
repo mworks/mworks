@@ -127,8 +127,9 @@
 		if (![[self cell] isKindOfClass:[KBDelayedPopUpButtonCell class]]) {
 			NSString *title = [self title];
 			if (title == nil) title = @"";			
-			[self setCell:[[[KBDelayedPopUpButtonCell alloc] initTextCell:title] autorelease]];
-			[[self cell] setControlSize:NSRegularControlSize];
+			//[self setCell:[[[KBDelayedPopUpButtonCell alloc] initTextCell:title] autorelease]];
+			[self setCell:[[KBDelayedPopUpButtonCell alloc] initTextCell:title]];
+      [[self cell] setControlSize:NSRegularControlSize];
 		}
 	}
 	return self;

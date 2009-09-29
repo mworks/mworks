@@ -13,16 +13,16 @@ using namespace mw;
 @interface MWClientServerBase : NSObject {
 }
 
-- (void)registerEventCallbackWithRecevier:(id)receiver 
-							  andSelector:(SEL)selector
-								   andKey:(NSString *)key;
+- (void)registerEventCallbackWithReceiver:(id)receiver 
+                                 selector:(SEL)selector
+                              callbackKey:(const char *)key;
 
-- (void)registerEventCallbackWithRecevier:(id)receiver 
-							  andSelector:(SEL)selector
-								   andKey:(NSString *)key
-						  forVariableCode:(NSNumber *)code;
+- (void)registerEventCallbackWithReceiver:(id)receiver 
+                                 selector:(SEL)selector
+                              callbackKey:(const char *)key
+                          forVariableCode:(int)code;
 
-- (void)unregisterCallbacksWithKey:(NSString *)key;
+- (void)unregisterCallbacksWithKey:(const char *)key;
 - (NSNumber *)codeForTag:(NSString *)tag;
 - (void)set:(int)code to:(Data *)data;
 - (NSNumber *)isLocalMessage:(NSNumber *)messageOrigin;

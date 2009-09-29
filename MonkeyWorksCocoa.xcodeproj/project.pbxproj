@@ -40,7 +40,6 @@
 		0EE3765E0CA20F0C00874639 /* MWClientServerBase.h in Headers */ = {isa = PBXBuildFile; fileRef = 0EE3765C0CA20F0C00874639 /* MWClientServerBase.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0EE3765F0CA20F0C00874639 /* MWClientServerBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EE3765D0CA20F0C00874639 /* MWClientServerBase.m */; };
 		5C4D285109DD90B40082BF9F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5C4D284F09DD90B40082BF9F /* Localizable.strings */; };
-		5C4D286209DD942F0082BF9F /* Message.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C4D286109DD942F0082BF9F /* Message.framework */; };
 		5C58924909D0BA2C00F9D2C5 /* errorGlyph.tif in Resources */ = {isa = PBXBuildFile; fileRef = 5C58924709D0BA2C00F9D2C5 /* errorGlyph.tif */; };
 		5C58924A09D0BA2C00F9D2C5 /* warningGlyph.tif in Resources */ = {isa = PBXBuildFile; fileRef = 5C58924809D0BA2C00F9D2C5 /* warningGlyph.tif */; };
 		5C58924C09D0BAF300F9D2C5 /* messageGlyph.tif in Resources */ = {isa = PBXBuildFile; fileRef = 5C58924B09D0BAF300F9D2C5 /* messageGlyph.tif */; };
@@ -83,7 +82,6 @@
 		1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		32DBCF5E0370ADEE00C91783 /* MonkeyWorksCocoa_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MonkeyWorksCocoa_Prefix.pch; sourceTree = "<group>"; };
 		5C4D285009DD90B40082BF9F /* English */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
-		5C4D286109DD942F0082BF9F /* Message.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Message.framework; path = /System/Library/Frameworks/Message.framework; sourceTree = "<absolute>"; };
 		5C58924709D0BA2C00F9D2C5 /* errorGlyph.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = errorGlyph.tif; path = Images/errorGlyph.tif; sourceTree = "<group>"; };
 		5C58924809D0BA2C00F9D2C5 /* warningGlyph.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = warningGlyph.tif; path = Images/warningGlyph.tif; sourceTree = "<group>"; };
 		5C58924B09D0BAF300F9D2C5 /* messageGlyph.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = messageGlyph.tif; path = Images/messageGlyph.tif; sourceTree = "<group>"; };
@@ -109,7 +107,6 @@
 				8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */,
 				DADADB7A07FAFC9000F8D324 /* MonkeyWorksCore.framework in Frameworks */,
 				DA2FEE4008B3F87A007E389A /* SystemConfiguration.framework in Frameworks */,
-				5C4D286209DD942F0082BF9F /* Message.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -141,7 +138,6 @@
 		0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				5C4D286109DD942F0082BF9F /* Message.framework */,
 				DA36BA9B08AC291C00B5A2B6 /* SystemConfiguration.framework */,
 				DADADB7907FAFC9000F8D324 /* MonkeyWorksCore.framework */,
 				1058C7B0FEA5585E11CA2CBB /* Linked Frameworks */,
@@ -486,20 +482,27 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				APP_SUPPORT_DIR = "/Library/Application Support/MonkeyWorks";
+				ARCHS = (
+					x86_64,
+					i386,
+				);
 				COPY_PHASE_STRIP = NO;
 				GCC_DEBUGGING_SYMBOLS = full;
-				GCC_ENABLE_OBJC_GC = YES;
+				GCC_ENABLE_OBJC_GC = NO;
 				GCC_OBJC_CALL_CXX_CDTORS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_VERSION = 4.2;
 				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
 				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
 				GCC_WARN_HIDDEN_VIRTUAL_FUNCTIONS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = /Library/MonkeyWorks/include;
 				LIBRARY_SEARCH_PATHS = /Library/MonkeyWorks/lib;
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				MW_INCLUDE_DIR = "\"$(APP_SUPPORT_DIR)/Developer/include\"";
 				MW_LIB_DIR = "\"$(APP_SUPPORT_DIR)/Developer/lib\"";
 				OTHER_CPLUSPLUSFLAGS = "-fobjc-exceptions";
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
 			};
 			name = Debug;
 		};

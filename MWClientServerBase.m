@@ -12,18 +12,18 @@
 
 @implementation MWClientServerBase
 
-- (void)registerEventCallbackWithRecevier:(id)receiver 
-							  andSelector:(SEL)selector
-								   andKey:(NSString *)key {
+- (void)registerEventCallbackWithReceiver:(id)receiver 
+                                 selector:(SEL)selector
+                              callbackKey:(const char *)key {
 	[NSException raise:NSInternalInconsistencyException
 				format:@"registerEventCallbackWithRecevier:andSelector:andKey needs to be overridden"];
 	
 }
 
-- (void)registerEventCallbackWithRecevier:(id)receiver 
-							  andSelector:(SEL)selector
-								   andKey:(NSString *)key
-						  forVariableCode:(NSNumber *)code {
+- (void)registerEventCallbackWithReceiver:(id)receiver 
+                                 selector:(SEL)selector
+                              callbackKey:(const char *)key
+                          forVariableCode:(int)code {
 	[NSException raise:NSInternalInconsistencyException
 				format:@"registerEventCallbackWithRecevier:andSelector:andKey:forVariable needs to be overridden"];	
 }
@@ -40,7 +40,7 @@
 				format:@"set:to: needs to be overridden"];	
 }
 
-- (void)unregisterCallbacksWithKey:(NSString *)key {
+- (void)unregisterCallbacksWithKey:(const char *)key {
 	[NSException raise:NSInternalInconsistencyException
 				format:@"unregisterCallbacksWithKey: needs to be overridden"];	
 }

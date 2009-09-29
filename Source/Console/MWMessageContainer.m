@@ -136,6 +136,7 @@ consoleMsg = [consoleMsg stringByAppendingString:[NSString
 			
 								attributes: messageAttributes];
 	
+  //[consoleMsg appendAttributedString:appendstring];
 	[consoleMsg appendAttributedString:[appendstring autorelease]];
 	[consoleMsg autorelease];
 	

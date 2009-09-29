@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 
 
-@interface MWConsoleToolbar : NSObject {
+@interface MWConsoleToolbar : NSObject <NSToolbarDelegate> {
 	IBOutlet NSWindow *window;
 	IBOutlet id delegate;
 	NSToolbar *toolbar;

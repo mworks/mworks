@@ -24,15 +24,18 @@ namespace mw {
 		private:
 			id receiver;
 			SEL selector;
-			
+			id syncobject;
 		public:
 			
 			// constructor - takes pointer to an object and pointer to a member and stores
 			// them in two private variables
-			CocoaEventFunctor(id _receiver, SEL _selector, const std::string &key) : GenericEventFunctor (key)
+			CocoaEventFunctor(id _receiver, SEL _selector, const std::string &key, id _syncobject=Nil) : GenericEventFunctor (key)
 			{
+        
 				receiver = _receiver;
 				selector = _selector;
+        syncobject = _syncobject;
+        
 			};
 			
 			
@@ -40,22 +43,24 @@ namespace mw {
 			virtual void operator()(const shared_ptr<Event> &event)
 			{ 
 				NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-				
+				//objc_registerThreadWithCollector();
 				Data data(event->getData());
 				id cocoaEvent = [[[MWCocoaEvent alloc] initWithData:&data 
 															andCode:event->getEventCode() 
 															andTime:event->getTime()] autorelease];
 				
-				if([receiver respondsToSelector:selector]) {
-					// DDC: 5/08 changed to "OnMainThread"
-					[receiver performSelectorOnMainThread:selector withObject:cocoaEvent waitUntilDone:YES];
-					//[receiver performSelector:selector withObject:cocoaEvent];
-				} else {
-					NSString *sn = NSStringFromSelector(selector);
-					NSString *errorMessage = @"Cannot call selector from specified receiver: ";
-					merror(M_CLIENT_MESSAGE_DOMAIN, [[errorMessage stringByAppendingString:sn] cStringUsingEncoding:NSASCIIStringEncoding]);
-				}
-				
+        //@synchronized(syncobject){
+          if([receiver respondsToSelector:selector]) {
+            // DDC: 5/08 changed to "OnMainThread"
+            // this is to ease development of plugins so that Cocoa drawing calls can be made here
+            [receiver performSelectorOnMainThread:selector withObject:cocoaEvent waitUntilDone:YES];
+            //[receiver performSelector:selector withObject:cocoaEvent];
+          } else {
+            NSString *sn = NSStringFromSelector(selector);
+            NSString *errorMessage = @"Cannot call selector from specified receiver: ";
+            merror(M_CLIENT_MESSAGE_DOMAIN, [[errorMessage stringByAppendingString:sn] cStringUsingEncoding:NSASCIIStringEncoding]);
+          }
+        //}
 				[pool release];
 			};         
 		};
@@ -82,28 +87,11 @@ namespace mw {
 			// override operator "()"
 			virtual void operator()(const shared_ptr<Event> &event)
 			{ 
-//				NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 				
 				Data data(event->getData());
-//				id cocoaEvent = [[[MWCocoaEvent alloc] initWithData:&data 
-//															andCode:event->getEventCode() 
-//															andTime:event->getTime()] autorelease];
-				
-				
 				
 				NSNumber *data_number = [NSNumber numberWithDouble:(double)data];
 				[receiver setValue:data_number forKey:bindings_key];
-				//if([receiver respondsToSelector:selector]) {
-				// DDC: 5/08 changed to "OnMainThread"
-				
-				//[receiver performSelectorOnMainThread:selector withObject:cocoaEvent waitUntilDone:YES];
-				/*} else {
-				 NSString *sn = NSStringFromSelector(selector);
-				 NSString *errorMessage = @"Cannot call selector from specified receiver: ";
-				 merror(M_CLIENT_MESSAGE_DOMAIN, [[errorMessage stringByAppendingString:sn] cStringUsingEncoding:NSASCIIStringEncoding]);
-				 }*/
-				
-				//	[pool release];
 			};         
 		};
 	

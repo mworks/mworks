@@ -8,6 +8,7 @@
 
 #import "MWConsoleToolbar.h"
 #import "MWConsoleController.h"
+#import <Appkit/Appkit.h>
 
 #define SAVE_BUTTON @"MonkeyWorksCocoa console save button"
 #define CLEAR_BUTTON @"MonkeyWorksCocoa console clear button"
@@ -30,6 +31,7 @@
 	[toolbar setAutosavesConfiguration:NO];
 	[toolbar setDelegate:self];	
 	[window setToolbar:[toolbar autorelease]];
+  
 }
 
 ////////////////////////////////////////
@@ -45,22 +47,26 @@
 		
 		[item setLabel:@"Save"];
 		[item setPaletteLabel:[item label]];
-		[item setImage:[[[NSImage alloc] initByReferencingFile:[resourcePath stringByAppendingPathComponent:@"Disk.png"]] autorelease]];
+		//[item setImage:[[[NSImage alloc] initByReferencingFile:[resourcePath stringByAppendingPathComponent:@"Disk.png"]] autorelease]]
+    [item setImage:[[NSImage alloc] initByReferencingFile:[resourcePath stringByAppendingPathComponent:@"Disk.png"]]];
 		[item setTarget:delegate];
 		[item setAction:@selector(saveLog:)];
 		
-		return [item autorelease];
+		//return [item autorelease];
+    return item;
 	}  else if([itemIdentifier isEqualToString:CLEAR_BUTTON]) {
 		NSString *resourcePath = [[NSBundle bundleWithPath:@"/Library/Frameworks/MonkeyWorksCocoa.framework"] resourcePath];
 		NSToolbarItem *item = [[NSToolbarItem alloc] initWithItemIdentifier:itemIdentifier];
 		
 		[item setLabel:@"Clear"];
 		[item setPaletteLabel:[item label]];
-		[item setImage:[[[NSImage alloc] initByReferencingFile:[resourcePath stringByAppendingPathComponent:@"Broom.tif"]] autorelease]];
+		//[item setImage:[[[NSImage alloc] initByReferencingFile:[resourcePath stringByAppendingPathComponent:@"Broom.tif"]] autorelease]];
+    [item setImage:[[NSImage alloc] initByReferencingFile:[resourcePath stringByAppendingPathComponent:@"Broom.tif"]] ];
 		[item setTarget:delegate];
 		[item setAction:@selector(clearLog:)];
 		
-		return [item autorelease];
+		//return [item autorelease];
+    return item;
 	} 
 	return nil;
 }
