@@ -53,12 +53,20 @@ mDriftingGratingStimulus::mDriftingGratingStimulus(const std::string &_tag,
 	mask = _mask;
 	grating = _grating;
 	
-	mask_textures = new GLuint[display->getNContexts()];
-	grating_textures = new GLuint[display->getNContexts()];
+	GLuint *mask_textures_tmp = new GLuint[display->getNContexts()];
+	GLuint *grating_textures_tmp = new GLuint[display->getNContexts()];
 	
-	glGenTextures(display->getNContexts(), mask_textures);
-	glGenTextures(display->getNContexts(), grating_textures);
+	glGenTextures(display->getNContexts(), mask_textures_tmp);
+	glGenTextures(display->getNContexts(), grating_textures_tmp);
 	
+    for(int i = 0; i < display->getNContexts(); i++){
+        mask_textures.push_back(mask_textures_tmp[i]);
+        grating_textures.push_back(grating_textures_tmp[i]);
+    }
+    
+    delete [] mask_textures_tmp;
+    delete [] grating_textures_tmp;
+    
 	
 	for(int i = 0; i < display->getNContexts(); ++i) {
 		display->setCurrent(i);
@@ -133,12 +141,84 @@ mDriftingGratingStimulus::mDriftingGratingStimulus(const std::string &_tag,
 	}
 }   
 
-mDriftingGratingStimulus::~mDriftingGratingStimulus(){
-	glDeleteTextures(display->getNContexts(), mask_textures);
-	glDeleteTextures(display->getNContexts(), grating_textures);
+// for frozenClone-ing
+mDriftingGratingStimulus::mDriftingGratingStimulus(const std::string &_tag, 
+												   const shared_ptr<Scheduler> &a_scheduler,
+												   const shared_ptr<StimulusDisplay> &a_display,
+												   const shared_ptr<Variable> &_frames_per_second,
+												   const shared_ptr<Variable> &_statistics_reporting,
+												   const shared_ptr<Variable> &_error_reporting,
+												   const shared_ptr<Variable> &_xoffset, 
+												   const shared_ptr<Variable> &_yoffset, 
+												   const shared_ptr<Variable> &_width,
+												   const shared_ptr<Variable> &_height,
+												   const shared_ptr<Variable> &_rot,
+												   const shared_ptr<Variable> &_alpha,
+												   const shared_ptr<Variable> &_direction,
+												   const shared_ptr<Variable> &_frequency,
+												   const shared_ptr<Variable> &_speed,
+												   const shared_ptr<Variable> &_starting_phase,
+												   const shared_ptr<mMask> &_mask,
+                                                   const shared_ptr<mGratingData> &_grating,
+                                                   const vector<GLuint> _mask_textures,
+                                                   const vector<GLuint> _grating_textures) : mDynamicStimulus (_tag,
+																												 a_scheduler,
+																												 a_display,
+																												 _frames_per_second,
+																												 _statistics_reporting,
+																												 _error_reporting) {
 	
-	delete [] mask_textures;
-	delete [] grating_textures;
+	
+	
+	xoffset = _xoffset;
+	yoffset = _yoffset;
+	width = _width;
+	height = _height;
+	
+	rotation = _rot;
+	alpha_multiplier = _alpha;
+	
+	spatial_frequency = _frequency;
+	speed = _speed;
+	starting_phase = _starting_phase;
+	direction_in_degrees = _direction;
+	
+	
+    mask_textures = _mask_textures;
+    grating_textures = _grating_textures;
+    
+    mask = _mask;
+	grating = _grating;
+	
+	//mask_textures = new GLuint[display->getNContexts()];
+	//grating_textures = new GLuint[display->getNContexts()];
+	
+	//glGenTextures(display->getNContexts(), mask_textures);
+	//glGenTextures(display->getNContexts(), grating_textures);
+	
+
+}   
+
+mDriftingGratingStimulus::~mDriftingGratingStimulus(){
+    stop();
+    
+    GLuint *mask_textures_tmp = new GLuint[mask_textures.size()];
+    GLuint *grating_textures_tmp = new GLuint[grating_textures.size()];
+    
+    for(int i = 0; i < mask_textures.size(); i++){
+        mask_textures_tmp[i] = mask_textures[i];
+    }
+
+    for(int i = 0; i < grating_textures.size(); i++){
+        grating_textures_tmp[i] = grating_textures[i];
+    }
+    
+	glDeleteTextures(display->getNContexts(), mask_textures_tmp);
+	glDeleteTextures(display->getNContexts(), grating_textures_tmp);
+	
+	
+    delete [] mask_textures_tmp;
+    delete [] grating_textures_tmp;
 }
 
 
@@ -171,14 +251,18 @@ Stimulus * mDriftingGratingStimulus::frozenClone() {
 															  frequency_clone,
 															  speed_clone,
 															  starting_phase_clone,
-															  mask,
-															  grating);
+                                                              mask,
+                                                              grating,
+															  mask_textures,
+                                                              grating_textures);
+                                                             //mask,
+															  //grating);
 	
 	return cloned_stimulus;
 }
 
-void mDriftingGratingStimulus::stop() {
-}
+//void mDriftingGratingStimulus::stop() {
+//}
 
 void mDriftingGratingStimulus::draw(StimulusDisplay * display) {
 	glPushMatrix();	

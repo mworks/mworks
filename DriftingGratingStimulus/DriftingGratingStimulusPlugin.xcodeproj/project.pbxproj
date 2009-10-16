@@ -437,12 +437,14 @@
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(FINAL_INSTALL_DIR)";
 				LIBRARY_SEARCH_PATHS = $MW_LIB_DIR;
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				OTHER_LDFLAGS = (
 					"-framework",
 					OpenGL,
-					"-lboost_regex-mt",
+					"-lboost_regex-mw",
 				);
 				PRODUCT_NAME = DriftingGratingStimulusPlugin;
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
 				WRAPPER_EXTENSION = bundle;
 			};
 			name = Debug;
@@ -461,7 +463,7 @@
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Bundles";
 				LIBRARY_SEARCH_PATHS = /Library/MonkeyWorks/lib;
-				OTHER_LDFLAGS = "-lboost";
+				OTHER_LDFLAGS = "-lboost_regex-mw";
 				PRODUCT_NAME = DriftingGratingStimulusPlugin;
 				WRAPPER_EXTENSION = bundle;
 			};
@@ -471,27 +473,93 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				APP_SUPPORT_DIR = "/Library/Application Support/MonkeyWorks";
+				ARCHS = (
+					x86_64,
+					i386,
+				);
 				FINAL_INSTALL_DIR = "$(APP_SUPPORT_DIR)/Plugins/Core Plugins";
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
+				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				MW_INCLUDE_DIR = "\"$(APP_SUPPORT_DIR)/Developer/include\"";
 				MW_LIB_DIR = "\"$(APP_SUPPORT_DIR)/Developer/lib\"";
 				PREBINDING = NO;
-				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
 			};
 			name = Debug;
 		};
 		1DEB914008733D840010E9CD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					x86_64,
+					i386,
+				);
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
+				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				PREBINDING = NO;
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
+			};
+			name = Release;
+		};
+		5C51D22A1088B2DD0004DBC0 /* Debug (10.5 Compatible) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APP_SUPPORT_DIR = "/Library/Application Support/MonkeyWorks";
+				ARCHS = i386;
+				FINAL_INSTALL_DIR = "$(APP_SUPPORT_DIR)/Plugins/Core Plugins";
+				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_VERSION = 4.0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				MW_INCLUDE_DIR = "\"$(APP_SUPPORT_DIR)/Developer/gcc40/include\"";
+				MW_LIB_DIR = "\"$(APP_SUPPORT_DIR)/Developer/gcc40/lib\"";
 				PREBINDING = NO;
 				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
 			};
-			name = Release;
+			name = "Debug (10.5 Compatible)";
+		};
+		5C51D22B1088B2DD0004DBC0 /* Debug (10.5 Compatible) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = /Library/Frameworks;
+				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = DriftingGratingStimulusPlugin_Prefix.pch;
+				HEADER_SEARCH_PATHS = (
+					$MW_INCLUDE_DIR,
+					/usr/include/libxml2,
+				);
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(FINAL_INSTALL_DIR)";
+				LIBRARY_SEARCH_PATHS = $MW_LIB_DIR;
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				OTHER_LDFLAGS = (
+					"-framework",
+					OpenGL,
+					"-lboost_regex-mw",
+				);
+				PRODUCT_NAME = DriftingGratingStimulusPlugin;
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = "Debug (10.5 Compatible)";
+		};
+		5C51D22C1088B2DD0004DBC0 /* Debug (10.5 Compatible) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = DriftingGratingStimulusPlugin.bundle;
+			};
+			name = "Debug (10.5 Compatible)";
 		};
 /* End XCBuildConfiguration section */
 
@@ -500,6 +568,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				0E121C0E0E6B1CD6007B29B8 /* Debug */,
+				5C51D22C1088B2DD0004DBC0 /* Debug (10.5 Compatible) */,
 				0E121C0F0E6B1CD6007B29B8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -509,6 +578,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1DEB913B08733D840010E9CD /* Debug */,
+				5C51D22B1088B2DD0004DBC0 /* Debug (10.5 Compatible) */,
 				1DEB913C08733D840010E9CD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -518,6 +588,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1DEB913F08733D840010E9CD /* Debug */,
+				5C51D22A1088B2DD0004DBC0 /* Debug (10.5 Compatible) */,
 				1DEB914008733D840010E9CD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
