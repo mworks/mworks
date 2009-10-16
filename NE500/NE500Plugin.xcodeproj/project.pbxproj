@@ -242,7 +242,7 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		1DEB913B08733D840010E9CD /* Debug */ = {
+		1DEB913B08733D840010E9CD /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
@@ -265,7 +265,7 @@
 				WRAPPER_EXTENSION = bundle;
 				ZERO_LINK = YES;
 			};
-			name = Debug;
+			name = Development;
 		};
 		1DEB913C08733D840010E9CD /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -287,7 +287,7 @@
 			};
 			name = Release;
 		};
-		1DEB913F08733D840010E9CD /* Debug */ = {
+		1DEB913F08733D840010E9CD /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				APP_SUPPORT_DIR = "/Library/Application Support/MonkeyWorks";
@@ -299,23 +299,65 @@
 				PREBINDING = NO;
 				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
 			};
-			name = Debug;
+			name = Development;
 		};
 		1DEB914008733D840010E9CD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = (
-					ppc,
+					x86_64,
 					i386,
 				);
+				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				PREBINDING = NO;
-				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
 			};
 			name = Release;
 		};
-		5CFC67A60F2A848100552431 /* Debug */ = {
+		5C518CB210866DEF0004DBC0 /* Development (10.5 Compatible) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APP_SUPPORT_DIR = "/Library/Application Support/MonkeyWorks";
+				ARCHS = i386;
+				FINAL_INSTALL_DIR = "$(APP_SUPPORT_DIR)/Plugins/Core Plugins";
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MW_INCLUDE_DIR = "\"$(APP_SUPPORT_DIR)/Developer/gcc40/include\"";
+				MW_LIB_DIR = "\"$(APP_SUPPORT_DIR)/Developer/gcc40/lib\"";
+				PREBINDING = NO;
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
+			};
+			name = "Development (10.5 Compatible)";
+		};
+		5C518CB310866DEF0004DBC0 /* Development (10.5 Compatible) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = NE500Plugin_Prefix.pch;
+				HEADER_SEARCH_PATHS = (
+					"$(MW_INCLUDE_DIR)",
+					/usr/include/libxml2,
+				);
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = /Library/MonkeyWorks/Plugins;
+				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = NE500Plugin;
+				WRAPPER_EXTENSION = bundle;
+				ZERO_LINK = YES;
+			};
+			name = "Development (10.5 Compatible)";
+		};
+		5C518CB410866DEF0004DBC0 /* Development (10.5 Compatible) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
@@ -323,7 +365,17 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				PRODUCT_NAME = Everything;
 			};
-			name = Debug;
+			name = "Development (10.5 Compatible)";
+		};
+		5CFC67A60F2A848100552431 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = Everything;
+			};
+			name = Development;
 		};
 		5CFC67A70F2A848100552431 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -342,7 +394,8 @@
 		1DEB913A08733D840010E9CD /* Build configuration list for PBXNativeTarget "NE500Plugin" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				1DEB913B08733D840010E9CD /* Debug */,
+				1DEB913B08733D840010E9CD /* Development */,
+				5C518CB310866DEF0004DBC0 /* Development (10.5 Compatible) */,
 				1DEB913C08733D840010E9CD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -351,7 +404,8 @@
 		1DEB913E08733D840010E9CD /* Build configuration list for PBXProject "NE500Plugin" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				1DEB913F08733D840010E9CD /* Debug */,
+				1DEB913F08733D840010E9CD /* Development */,
+				5C518CB210866DEF0004DBC0 /* Development (10.5 Compatible) */,
 				1DEB914008733D840010E9CD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -360,7 +414,8 @@
 		5CFC67AE0F2A848D00552431 /* Build configuration list for PBXAggregateTarget "Everything" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				5CFC67A60F2A848100552431 /* Debug */,
+				5CFC67A60F2A848100552431 /* Development */,
+				5C518CB410866DEF0004DBC0 /* Development (10.5 Compatible) */,
 				5CFC67A70F2A848100552431 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;

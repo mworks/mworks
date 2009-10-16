@@ -233,7 +233,7 @@ bool mMSSWGamepad::updateButtonsDiscrete() {
 		i != button_ids.end();
 		++i) {
 		IOHIDEventStruct hidEvent;
-		(*pphidDeviceInterface)->getElementValue(pphidDeviceInterface, (void *)i->getCapabilityID(), &hidEvent);
+		(*pphidDeviceInterface)->getElementValue(pphidDeviceInterface, (IOHIDElementCookie)i->getCapabilityID(), &hidEvent);
 		
 		long value = (long)hidEvent.value;
 		
@@ -327,7 +327,7 @@ bool mMSSWGamepad::updateButtonsContinuous() {
 		i != button_ids.end();
 		++i) {
 		IOHIDEventStruct hidEvent;
-		(*pphidDeviceInterface)->getElementValue(pphidDeviceInterface, (void *)i->getCapabilityID(), &hidEvent);
+		(*pphidDeviceInterface)->getElementValue(pphidDeviceInterface, (IOHIDElementCookie)i->getCapabilityID(), &hidEvent);
 		
 		long value = (long)hidEvent.value;
 		

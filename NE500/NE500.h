@@ -139,14 +139,17 @@ class NE500PumpNetworkDevice : public IODevice {
 			
 			if(getActive()){
 				//initializePump(pump_id, 750.0, 20.0);
-			
-				if((double)data == 0.0){
+                double amount = (double)data;
+                
+				if(amount == 0.0){
 					return;
 				}
 
-                if(data.getFloat() >= 0){
+                
+                if(amount >= 0){
                     sendMessage("DIR INF"); // infuse
                 } else {
+                    amount *= -1.0;
                     sendMessage("DIR WDR"); // withdraw
                 }
 
@@ -156,7 +159,7 @@ class NE500PumpNetworkDevice : public IODevice {
 				sendMessage(rate_message);
 						
 				boost::format message_format("%s VOL %.3f"); 
-				string message = (message_format % pump_id % data.getFloat()).str();
+				string message = (message_format % pump_id % amount).str();
 				
 				sendMessage(message);
 				

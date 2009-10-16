@@ -325,14 +325,20 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				APP_SUPPORT_DIR = "/Library/Application Support/MonkeyWorks";
+				ARCHS = (
+					x86_64,
+					i386,
+				);
 				FINAL_INSTALL_DIR = "$(APP_SUPPORT_DIR)/Plugins/Core Plugins";
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
+				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				MW_INCLUDE_DIR = "\"$(APP_SUPPORT_DIR)/Developer/include\"";
 				MW_LIB_DIR = "\"$(APP_SUPPORT_DIR)/Developer/lib\"";
 				PREBINDING = NO;
-				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
 			};
 			name = Debug;
 		};

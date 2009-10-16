@@ -199,7 +199,7 @@ bool mUSBHID::updateChannel(int channel_number){
 	boost::shared_ptr <IOChannel> this_channel(channels->getElement(channel_number)); 		
 	
 	IOHIDEventStruct hidEvent;
-	(*pphidDeviceInterface)->getElementValue(pphidDeviceInterface, (void *)this_channel->getCapabilityIdentifier(), &hidEvent);
+	(*pphidDeviceInterface)->getElementValue(pphidDeviceInterface, (IOHIDElementCookie)this_channel->getCapabilityIdentifier(), &hidEvent);
 	
 	boost::shared_ptr <Variable> the_variable(this_channel->getVariable());
 	
