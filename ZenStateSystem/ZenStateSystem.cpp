@@ -64,7 +64,7 @@ void StandardStateSystem::start(){
 
     //E->setInt(taskMode_edit, RUNNING);
 
-//	(*task_mode) = RUNNING;
+//	(*state_system_mode) = RUNNING;
   
 	mprintf("Called start on state system");
 	
@@ -97,9 +97,9 @@ void StandardStateSystem::start(){
 void StandardStateSystem::stop(){
     // stop this thing somehow....
 
-	if(task_mode != NULL){
+	if(state_system_mode != NULL){
 		// is_running = false;
-		(*task_mode) = IDLE;
+		(*state_system_mode) = IDLE;
 	}
 	
 	
@@ -185,7 +185,7 @@ void *checkStateSystem(void *void_state_system){
 		return NULL;
 	}
     //mprintf("----------setting task  mode to running------------");
-	(*task_mode) = (long) RUNNING;
+	(*state_system_mode) = (long) RUNNING;
 	current_state = GlobalCurrentExperiment->getCurrentState();
     
 	//mExperiment *testexp = GlobalCurrentExperiment;
@@ -194,7 +194,7 @@ void *checkStateSystem(void *void_state_system){
 		merror(M_STATE_SYSTEM_MESSAGE_DOMAIN,
 				"current state is NULL. Shutting down state system...");
 				
-		(*task_mode) = (long)IDLE;
+		(*state_system_mode) = (long)IDLE;
 	}
         
         //while(1){
@@ -207,8 +207,8 @@ void *checkStateSystem(void *void_state_system){
 	shared_ptr<State> current_state_shared(current_state);
 	
 	while((current_state_shared != NULL			  &&		// broken system
-	      (long)(*task_mode) != IDLE      &&			// hard stop
-		  (long)(*task_mode) != STOPPING)  ||		// stop requested
+	      (long)(*state_system_mode) != IDLE      &&			// hard stop
+		  (long)(*state_system_mode) != STOPPING)  ||		// stop requested
 								!(current_state_shared->isInterruptible())){ // might not be
 																			   // an okay place to stop
 		
@@ -231,7 +231,7 @@ void *checkStateSystem(void *void_state_system){
 			} catch(std::exception& e){
 				merror(M_PARADIGM_MESSAGE_DOMAIN,
 					   "Stopping state system: %s", e.what());
-				task_mode->setValue((long)STOPPING);
+				state_system_mode->setValue((long)STOPPING);
 				break;
 			}
 		
@@ -248,15 +248,15 @@ void *checkStateSystem(void *void_state_system){
 			} catch (std::exception& e){
 				merror(M_PARADIGM_MESSAGE_DOMAIN,
 					  "Stopping state system: %s", e.what());
-				task_mode->setValue((long)STOPPING);
+				state_system_mode->setValue((long)STOPPING);
 				break;
 			}
 			
 			while(next_state.expired()){// && E->getInt(taskMode_edit) == RUNNING){
 				
 				if(current_state_shared->isInterruptible() &&
-					((long)(*task_mode) == IDLE  ||			// hard stop
-					 (long)(*task_mode) == STOPPING)){
+					((long)(*state_system_mode) == IDLE  ||			// hard stop
+					 (long)(*state_system_mode) == STOPPING)){
 					 next_state = GlobalCurrentExperiment;
 					 break;
 				}
@@ -285,7 +285,7 @@ void *checkStateSystem(void *void_state_system){
 			if(current_state_shared.get() == GlobalCurrentExperiment.get() && 
 					next_state_shared.get() == GlobalCurrentExperiment.get()){
 					mprintf("Returned to Experiment node, halting state system...");
-					(*task_mode) = IDLE;
+					(*state_system_mode) = IDLE;
 					current_state = weak_ptr<State>();
 					next_state = weak_ptr<State>();
 					continue;
@@ -307,7 +307,7 @@ void *checkStateSystem(void *void_state_system){
 	in_action = false;
 	in_transition = false;
 	is_running = false;
-    (*task_mode) = IDLE;    
+    (*state_system_mode) = IDLE;    
 	mprintf("State system ending");
 	
 	

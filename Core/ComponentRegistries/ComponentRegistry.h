@@ -84,6 +84,9 @@ namespace mw {
 		void resetInstances(){
 			instances = boost::unordered_map< std::string, shared_ptr<mw::Component> >();
 			stimulus_nodes = std::map< std::string, shared_ptr<StimulusNode> >();
+            variable_cache = boost::unordered_map< std::string, shared_ptr<Variable> >();
+            
+            data_cache = boost::unordered_map< std::string, shared_ptr<Data> >();
 		}
 		
 		// Factory-oriented methods

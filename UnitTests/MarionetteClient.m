@@ -285,7 +285,7 @@ Data _getNumber(const string &expression, const GenericDataType type);
 	int message_codec_code = client->getCode(ANNOUNCE_MESSAGE_VAR_TAGNAME);
 	int system_codec_code = client->getCode(SYSTEM_VAR_TAGNAME);
 	int assert_codec_code = client->getCode(ANNOUNCE_ASSERTION_TAGNAME);
-	int taskMode_codec_code = client->getCode(TASK_MODE_TAGNAME);
+	int taskMode_codec_code = client->getCode(STATE_SYSTEM_MODE_TAGNAME);
 	
 	if (code == RESERVED_CODEC_CODE) {
 		client->unregisterCallbacks(MARIONETTE_KEY);
@@ -437,7 +437,7 @@ Data _getNumber(const string &expression, const GenericDataType type);
 	} else if(code == taskMode_codec_code && taskMode_codec_code > RESERVED_CODEC_CODE) {
 		Data event_data(*[event data]);
 		[self marionetteAssert: event_data.isInteger()
-				   withMessage:@"task_mode is not an int"]; 
+				   withMessage:@"state_system_mode is not an int"]; 
 		switch(event_data.getInteger()) {
 			case STOPPING:
 				[self marionetteAssert:self.stateSystemRunning
@@ -461,7 +461,7 @@ Data _getNumber(const string &expression, const GenericDataType type);
 				self.stateSystemRunning = YES;								
 				break;
 			default:
-				[self marionetteAssert:@"illegal task_mode value"]; 
+				[self marionetteAssert:@"illegal state_system_mode value"]; 
 				break;
 		}
 	} else if(code == message_codec_code && message_codec_code > RESERVED_CODEC_CODE) {

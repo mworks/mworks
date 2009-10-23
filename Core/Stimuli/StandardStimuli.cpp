@@ -1354,7 +1354,7 @@ FreeRunningMovieStimulus::FreeRunningMovieStimulus(char *_tag, long _nframes,
 void FreeRunningMovieStimulus::setCurrentFrame() { };
         
 void FreeRunningMovieStimulus::draw(StimulusDisplay *display) {
-    if(!running && GlobalCurrentExperiment->getInt(task_mode) != IDLE) {
+    if(!running && GlobalCurrentExperiment->getInt(state_system_mode) != IDLE) {
         if(display) {
             if(0 && nframes) {
                 schedule_node = GlobalScheduler->schedule(0, frame_interval_ms,
@@ -1375,7 +1375,7 @@ void FreeRunningMovieStimulus::draw(StimulusDisplay *display) {
         }
         running = true;
     }
-    if(GlobalCurrentExperiment->getInt(task_mode) == IDLE && running) {
+    if(GlobalCurrentExperiment->getInt(state_system_mode) == IDLE && running) {
         if(schedule_node) {
             running = false;
             schedule_node->cancel();

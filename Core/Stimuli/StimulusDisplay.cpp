@@ -266,6 +266,10 @@ void *performAsynchronousUpdateDisplay(const shared_ptr<StimulusDisplay> &sd){
 	return 0;
 }
 
+
+// DDC: WTF? Really?
+// This appears to have been added to support dynamic stimuli, but this implies that we are spawning something
+// like 60 threads per second.  Which is bad.
 void StimulusDisplay::asynchronousUpdateDisplay() {
 	boost::mutex::scoped_lock d_lock(display_lock);
 	if(!update_stim_chain_next_refresh) {
@@ -309,10 +313,15 @@ void StimulusDisplay::updateDisplay() {
 		glMatrixMode(GL_MODELVIEW);
 		
 		stimulus_chain->execute();
-		
+
+#define USE_GL_FENCE
+#define ERROR_ON_LATE_FRAMES
+
+#ifdef USE_GL_FENCE
 		if(i == 0){ // only for the main display
 			glSetFenceAPPLE(GlobalOpenGLContextManager->getFence());
 		}
+#endif
 		GlobalOpenGLContextManager->flush(current_context);
 		
 		/*	GLuint *fence_copy = new GLuint[1];
@@ -321,11 +330,12 @@ void StimulusDisplay::updateDisplay() {
 		 (void *)(fence_copy),				// leaks
 		 60);*/
 		
-		
+#ifdef USE_GL_FENCE
 		if(i == 0){  // only for the first (main) display
 			glFinishFenceAPPLE(GlobalOpenGLContextManager->getFence());
 			
-			MonkeyWorksTime now = clock->getCurrentTimeUS();
+    #ifdef ERROR_ON_LATE_FRAMES
+            MonkeyWorksTime now = clock->getCurrentTimeUS();
 			
 			
 			stimDisplayUpdate->setValue(stimulus_chain->getAnnounceData(), now);
@@ -337,7 +347,10 @@ void StimulusDisplay::updateDisplay() {
 					   now-before_draw, 
 					   slop);		
 			}
+    #endif
 		}
+#endif
+        
 	}	
 }
 

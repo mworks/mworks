@@ -456,16 +456,16 @@ int OpenGLContextManager::newMirrorContext(int pixelDepth) {
     
     // Set the refresh sync on the context
     {
-        long param;
+        const GLint param = 1;
         
-        CGLGetParameter(cglContext, kCGLCPSwapInterval, (GLint *)&param);
+        //CGLGetParameter(cglContext, kCGLCPSwapInterval, (GLint *)&param);
 		//        NSLog(@"original kCGLCPSwapInterval = %d", param);
         
         //param = [refreshLockButton state] ? 1 : 0;
-        param = 1;
-        //CGLSetParameter(cglContext, kCGLCPSwapInterval, &param);
         
-        CGLGetParameter(cglContext, kCGLCPSwapInterval, (GLint*)&param);
+        CGLSetParameter(cglContext, kCGLCPSwapInterval, &param);
+        
+        //CGLGetParameter(cglContext, kCGLCPSwapInterval, (GLint*)&param);
         //NSLog(@"new kCGLCPSwapInterval = %d", param);
     }
     [contexts addObject: context];
@@ -523,7 +523,7 @@ int OpenGLContextManager::newFullScreenContext(int pixelDepth, int index) {
 	
     CFDictionaryRef displayModeValues = 
 	CGDisplayBestModeForParametersAndRefreshRate(display_ids[index], 
-												 24, dRect.size.width, dRect.size.height, refresh_rate_hz, nil);
+												 32, dRect.size.width, dRect.size.height, refresh_rate_hz, nil);
     CGDisplaySwitchToMode(display_ids[index], displayModeValues);
 	
 	// check to see if desired refresh rate is the same as actual refresh rate

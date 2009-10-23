@@ -20,7 +20,7 @@
 using namespace mw;
 
 namespace mw {
-	shared_ptr<Variable> task_mode; 
+	shared_ptr<Variable> state_system_mode; 
 	shared_ptr<Variable> GlobalMessageVariable; 
 	shared_ptr<Variable> GlobalSystemEventVariable; 
 	shared_ptr<Variable> stimDisplayUpdate;   // JJD added June 2006
@@ -44,9 +44,9 @@ namespace mw {
 	
 	void initializeStandardVariables(shared_ptr<VariableRegistry> registry) {
 		
-		task_mode = registry->createGlobalVariable( new VariableProperties(
+		state_system_mode = registry->createGlobalVariable( new VariableProperties(
 																			new Data((long)IDLE), 
-																			TASK_MODE_TAGNAME, 
+																			STATE_SYSTEM_MODE_TAGNAME, 
 																			"Task Mode", 
 																			"Current Task Mode", 
 																			M_WHEN_CHANGED,

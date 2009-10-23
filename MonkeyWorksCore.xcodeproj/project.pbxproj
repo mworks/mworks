@@ -29,18 +29,6 @@
 			name = "Set Version String";
 			productName = "Set Version String";
 		};
-		5C54F1E4085CD6FC00C3E649 /* Generate for GNU Install Tools */ = {
-			isa = PBXAggregateTarget;
-			buildConfigurationList = 5C0E8506086D85D400B3EE7C /* Build configuration list for PBXAggregateTarget "Generate for GNU Install Tools" */;
-			buildPhases = (
-				5C54F1E3085CD6FC00C3E649 /* ShellScript */,
-				5CAB9ECE085DE18100FE4729 /* ShellScript */,
-			);
-			dependencies = (
-			);
-			name = "Generate for GNU Install Tools";
-			productName = "Generate for GNU Install Tools";
-		};
 		DA1368DC07EA27C7001BA98B /* Everything */ = {
 			isa = PBXAggregateTarget;
 			buildConfigurationList = 5C0E8502086D85D400B3EE7C /* Build configuration list for PBXAggregateTarget "Everything" */;
@@ -183,7 +171,6 @@
 		5C918D1810027CB3001BE3DF /* MWMediaPackagerTransformation.xsl in Resources */ = {isa = PBXBuildFile; fileRef = 5C918D1710027CB3001BE3DF /* MWMediaPackagerTransformation.xsl */; };
 		5C91B990086CC9DC00C14E1A /* Trigger.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C91B98E086CC9DC00C14E1A /* Trigger.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5C91B991086CC9DC00C14E1A /* Trigger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C91B98F086CC9DC00C14E1A /* Trigger.cpp */; };
-		5CABA02E085E77B100FE4729 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CABA02D085E77B100FE4729 /* main.cpp */; };
 		5CAE8BF70AE4049E0013DB19 /* alut.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CAE8BF50AE4049E0013DB19 /* alut.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5CAE8BF80AE4049E0013DB19 /* alut.c in Sources */ = {isa = PBXBuildFile; fileRef = 5CAE8BF60AE4049E0013DB19 /* alut.c */; };
 		5CB6C46E0E9A92B1006923EC /* ASIOEventTransport.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CB6C46A0E9A92B1006923EC /* ASIOEventTransport.cpp */; };
@@ -652,8 +639,6 @@
 		0EDB6FB00B2F1B9F00C60ED8 /* DataFileTest.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = DataFileTest.h; sourceTree = "<group>"; };
 		0EE137C10E429B23009B47B5 /* MWCocoaEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWCocoaEvent.h; sourceTree = "<group>"; };
 		0EE137C20E429B23009B47B5 /* MWCocoaEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWCocoaEvent.m; sourceTree = "<group>"; };
-		0EEC62AD0EDDACD800FE88B7 /* MonkeyWorksTestbed */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = MonkeyWorksTestbed; sourceTree = BUILT_PRODUCTS_DIR; };
-		0EEC62AF0EDDACD900FE88B7 /* NIDaqPlugin.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NIDaqPlugin.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		0EF2B5C30EBB49F20088F58F /* RegisteredSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RegisteredSingleton.h; path = Core/Utilities/RegisteredSingleton.h; sourceTree = "<group>"; };
 		0EF2B66F0EBB6ED70088F58F /* RegisteredSingletonTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RegisteredSingletonTests.h; path = Core/Utilities/tests/RegisteredSingletonTests.h; sourceTree = "<group>"; };
 		0EF2B6700EBB6ED70088F58F /* RegisteredSingletonTests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RegisteredSingletonTests.cpp; path = Core/Utilities/tests/RegisteredSingletonTests.cpp; sourceTree = "<group>"; };
@@ -737,7 +722,6 @@
 		5C918D1710027CB3001BE3DF /* MWMediaPackagerTransformation.xsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = MWMediaPackagerTransformation.xsl; path = Core/XMLParser/MWMediaPackagerTransformation.xsl; sourceTree = "<group>"; };
 		5C91B98E086CC9DC00C14E1A /* Trigger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Trigger.h; path = Core/Triggers/Trigger.h; sourceTree = SOURCE_ROOT; };
 		5C91B98F086CC9DC00C14E1A /* Trigger.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Trigger.cpp; path = Core/Triggers/Trigger.cpp; sourceTree = SOURCE_ROOT; };
-		5CAB9FE3085E775800FE4729 /* HeadlessServer */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = HeadlessServer; sourceTree = BUILT_PRODUCTS_DIR; };
 		5CABA02D085E77B100FE4729 /* main.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = main.cpp; path = HeadlessServer/main.cpp; sourceTree = SOURCE_ROOT; };
 		5CAE8BF50AE4049E0013DB19 /* alut.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alut.h; sourceTree = "<group>"; };
 		5CAE8BF60AE4049E0013DB19 /* alut.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alut.c; sourceTree = "<group>"; };
@@ -960,7 +944,6 @@
 		DA2CE39707EA040D00C68AEF /* MachClock.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MachClock.h; path = MachClock/MachClock.h; sourceTree = SOURCE_ROOT; };
 		DA2CE3A407EA046800C68AEF /* MonkeyWorksScripting-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MonkeyWorksScripting-Info.plist"; sourceTree = SOURCE_ROOT; };
 		DA2CE3AC07EA04FF00C68AEF /* MonkeyScript.i */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c.preprocessed; name = MonkeyScript.i; path = MonkeyWorksScripting/MonkeyScript.i; sourceTree = SOURCE_ROOT; };
-		DA2CE3BC07EA057500C68AEF /* ZenClockPlugin.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ZenClockPlugin.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA2CE3BD07EA057500C68AEF /* ZenClockPlugin-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ZenClockPlugin-Info.plist"; sourceTree = SOURCE_ROOT; };
 		DA2E379C08B0FE5800BD22C4 /* EventBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = EventBuffer.cpp; path = Core/Events/EventBuffer.cpp; sourceTree = SOURCE_ROOT; };
 		DA2E379D08B0FE5800BD22C4 /* EventBuffer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = EventBuffer.h; path = Core/Events/EventBuffer.h; sourceTree = SOURCE_ROOT; };
@@ -980,13 +963,6 @@
 
 /* Begin PBXFrameworksBuildPhase section */
 		0E8014100E422E2A00D6DE20 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		5C08415809D5995800E4D2F4 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1021,25 +997,11 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		5CAB9FE1085E775800FE4729 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		5CDB8B220E9C4A6300993D99 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				5CDB8BB90E9C4B0700993D99 /* MonkeyWorksCore.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		5CEFD5AA0D48518200EA9950 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1065,13 +1027,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		DA2CE38E07EA035F00C68AEF /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		DA2CE3BA07EA057500C68AEF /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1687,8 +1642,6 @@
 			children = (
 				DA2CE0D407E9F68100C68AEF /* MonkeyWorksCore.framework */,
 				DA2CE39007EA035F00C68AEF /* MachClockPlugin.bundle */,
-				DA2CE3BC07EA057500C68AEF /* ZenClockPlugin.bundle */,
-				5CAB9FE3085E775800FE4729 /* HeadlessServer */,
 				5CF73C6108625E1800F453C3 /* ZenSchedulerPlugin.bundle */,
 				5CF73C7F086260E900F453C3 /* ZenStateSystemPlugin.bundle */,
 				5C0E757A09D1A886002295FB /* LowPrioritySchedulerPlugin.bundle */,
@@ -1697,8 +1650,6 @@
 				5C510B1A0CC8335700C771FB /* PyMonkeyWorks.bundle */,
 				0E39EB030E4BD33D006F38A0 /* MarionetteTest.app */,
 				5CDB8B240E9C4A6300993D99 /* mw_conduit.so */,
-				0EEC62AD0EDDACD800FE88B7 /* MonkeyWorksTestbed */,
-				0EEC62AF0EDDACD900FE88B7 /* NIDaqPlugin.bundle */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2283,22 +2234,6 @@
 			productReference = 0E39EB030E4BD33D006F38A0 /* MarionetteTest.app */;
 			productType = "com.apple.product-type.application";
 		};
-		5C08415909D5995800E4D2F4 /* MonkeyWorksTestbed */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 5C08416109D5998700E4D2F4 /* Build configuration list for PBXNativeTarget "MonkeyWorksTestbed" */;
-			buildPhases = (
-				5C08415709D5995800E4D2F4 /* Sources */,
-				5C08415809D5995800E4D2F4 /* Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = MonkeyWorksTestbed;
-			productName = MonkeyWorksTestbed;
-			productReference = 0EEC62AD0EDDACD800FE88B7 /* MonkeyWorksTestbed */;
-			productType = "com.apple.product-type.tool";
-		};
 		5C0E756F09D1A886002295FB /* LowPrioritySchedulerPlugin */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5C0E757609D1A886002295FB /* Build configuration list for PBXNativeTarget "LowPrioritySchedulerPlugin" */;
@@ -2380,23 +2315,6 @@
 			productReference = 5C510B1A0CC8335700C771FB /* PyMonkeyWorks.bundle */;
 			productType = "com.apple.product-type.bundle";
 		};
-		5CAB9FE2085E775800FE4729 /* HeadlessServer */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 5C0E84F6086D85D400B3EE7C /* Build configuration list for PBXNativeTarget "HeadlessServer" */;
-			buildPhases = (
-				5CAB9FE0085E775800FE4729 /* Sources */,
-				5CAB9FE1085E775800FE4729 /* Frameworks */,
-				DA394B02088D4CFF001FDBC1 /* ShellScript */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = HeadlessServer;
-			productName = HeadlessServer;
-			productReference = 5CAB9FE3085E775800FE4729 /* HeadlessServer */;
-			productType = "com.apple.product-type.tool";
-		};
 		5CDB8B230E9C4A6300993D99 /* mw_conduit */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5CDB8B260E9C4A8100993D99 /* Build configuration list for PBXNativeTarget "mw_conduit" */;
@@ -2412,24 +2330,6 @@
 			productName = mw_conduit2;
 			productReference = 5CDB8B240E9C4A6300993D99 /* mw_conduit.so */;
 			productType = "com.apple.product-type.objfile";
-		};
-		5CEFD5AB0D48518200EA9950 /* NIDaqPlugin */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 5CEFD5B00D48518300EA9950 /* Build configuration list for PBXNativeTarget "NIDaqPlugin" */;
-			buildPhases = (
-				5CEFD5A80D48518200EA9950 /* Resources */,
-				5CEFD5A90D48518200EA9950 /* Sources */,
-				5CEFD5AA0D48518200EA9950 /* Frameworks */,
-				5CEFD61C0D4965F900EA9950 /* ShellScript */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = NIDaqPlugin;
-			productName = NIDaqPlugin;
-			productReference = 0EEC62AF0EDDACD900FE88B7 /* NIDaqPlugin.bundle */;
-			productType = "com.apple.product-type.bundle";
 		};
 		5CF73C6008625E1800F453C3 /* ZenSchedulerPlugin */ = {
 			isa = PBXNativeTarget;
@@ -2508,24 +2408,6 @@
 			productReference = DA2CE39007EA035F00C68AEF /* MachClockPlugin.bundle */;
 			productType = "com.apple.product-type.bundle";
 		};
-		DA2CE3BB07EA057500C68AEF /* ZenClockPlugin */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 5C0E84F2086D85D400B3EE7C /* Build configuration list for PBXNativeTarget "ZenClockPlugin" */;
-			buildPhases = (
-				DA2CE3B807EA057500C68AEF /* Resources */,
-				DA2CE3B907EA057500C68AEF /* Sources */,
-				DA2CE3BA07EA057500C68AEF /* Frameworks */,
-				5C8A4B8C0858C7350016978D /* ShellScript */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = ZenClockPlugin;
-			productName = ZenClockPlugin;
-			productReference = DA2CE3BC07EA057500C68AEF /* ZenClockPlugin.bundle */;
-			productType = "com.apple.product-type.bundle";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -2539,20 +2421,15 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
+				DA1368DC07EA27C7001BA98B /* Everything */,
 				DA2CE0D307E9F68100C68AEF /* MonkeyWorksCore */,
 				DA2CE38F07EA035F00C68AEF /* MachClockPlugin */,
-				DA2CE3BB07EA057500C68AEF /* ZenClockPlugin */,
-				DA1368DC07EA27C7001BA98B /* Everything */,
-				5C54F1E4085CD6FC00C3E649 /* Generate for GNU Install Tools */,
-				5CAB9FE2085E775800FE4729 /* HeadlessServer */,
 				5CF73C6008625E1800F453C3 /* ZenSchedulerPlugin */,
 				5CF73C7E086260E900F453C3 /* ZenStateSystemPlugin */,
 				5C0E756F09D1A886002295FB /* LowPrioritySchedulerPlugin */,
-				5C08415909D5995800E4D2F4 /* MonkeyWorksTestbed */,
 				5C4D239B09DC83930082BF9F /* MonkeyWorksCoreTest */,
 				5C4D232409DC59410082BF9F /* MonkeyWorksCoreTestRunner */,
 				5C510AF50CC8335700C771FB /* PyMonkeyWorks */,
-				5CEFD5AB0D48518200EA9950 /* NIDaqPlugin */,
 				0E8014110E422E2A00D6DE20 /* MarionetteTest */,
 				0E121C930E6B1EF7007B29B8 /* CoreUninstall */,
 				5CDB8B230E9C4A6300993D99 /* mw_conduit */,
@@ -2596,13 +2473,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		5CEFD5A80D48518200EA9950 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		5CF73C5D08625E1800F453C3 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -2633,13 +2503,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				DA2CE39907EA040D00C68AEF /* MachClock.h in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		DA2CE3B807EA057500C68AEF /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2696,7 +2559,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/zsh;
-			shellScript = "export SOURCE_DIR=${BUILT_PRODUCTS_DIR}/../../\necho $SOURCE_DIR\nexport GIT=`/usr/bin/env which git`\necho $GIT\nexport VERSION_STRING=`$GIT log -n1 --pretty=format:%H`\n\necho $VERSION_STRING\nexport SUBS_STRING=s/_VERSION_STRING_/${VERSION_STRING}/\nsed $SUBS_STRING  ${SOURCE_DIR}/MonkeyWorksCore-Info.template.plist > ${SOURCE_DIR}/MonkeyWorksCore-Info.plist\n";
+			shellScript = "export SOURCE_DIR=${BUILT_PRODUCTS_DIR}/../../\necho $SOURCE_DIR\nexport GIT=`/usr/bin/env which git`\necho $GIT\nexport VERSION_STRING=`$GIT log -n1 --pretty=format:%H`\n\necho $VERSION_STRING\nexport SUBS_STRING=s/_VERSION_STRING_/${VERSION_STRING}/\nmkdir -p ${SOURCE_DIR}\nsed $SUBS_STRING  ${SOURCE_DIR}/MonkeyWorksCore-Info.template.plist > ${SOURCE_DIR}/MonkeyWorksCore-Info.plist\n";
 		};
 		5C4D23A709DC83D20082BF9F /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2737,19 +2600,6 @@
 			shellPath = /bin/tcsh;
 			shellScript = "echo Moving and renaming python loadable module\necho See dev notes for details.\n\n#set BUILT_PRODUCTS_DIR = build/Development\nsetenv MONKEYWORKS_SCRIPTING_DIR  \"${BUILT_PRODUCTS_DIR}/../../MonkeyWorksPython\"\nsetenv MONKEYWORKS_CORE_DIR  \"${BUILT_PRODUCTS_DIR}/../../Core\"\nsetenv SYSTEM_SCRIPTS_DIR  /Library/MonkeyWorks/Scripting\n\necho current working directory\npwd\n\necho copy that executable to where i need it\ncp -f \"${BUILT_PRODUCTS_DIR}/PyMonkeyWorks.bundle/Contents/MacOS/PyMonkeyWorks\" \"${SYSTEM_SCRIPTS_DIR}/Python/_MonkeyScript.so\"\n\necho copy the perl module to the scripts directory\ncp -f \"${MONKEYWORKS_SCRIPTING_DIR}/MonkeyScript.py\" \"${SYSTEM_SCRIPTS_DIR}/Python/MonkeyScript.py\"\n\n";
 		};
-		5C54F1E3085CD6FC00C3E649 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# shell script goes here\nperl generate_automake_files.pl .\ntouch INSTALL NEWS README COPYING AUTHORS ChangeLog\naclocal\nautomake --add-missing\nautoconf\nautomake\ncp ./Core/ComponentRegistries/ComponentRegistry.cpp ./\n./configure\nmake dist\nmake\nmake install\nrm -f *.o\nexit 0";
-		};
 		5C8A4B880858C6E20016978D /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -2763,32 +2613,6 @@
 			shellPath = /bin/zsh;
 			shellScript = "export FULL_NAME=${PRODUCT_NAME}.${WRAPPER_EXTENSION}\n\nrm -rf \"${INSTALL_PATH}/${FULL_NAME}\"\ncp -R \"${BUILT_PRODUCTS_DIR}/${FULL_NAME}\" \"${INSTALL_PATH}/\"";
 		};
-		5C8A4B8C0858C7350016978D /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "#rm -R $INSTALL_PATH/ZenClockPlugin.bundle\ncp -R \"$BUILT_PRODUCTS_DIR/ZenClockPlugin.bundle\" $INSTALL_PATH";
-		};
-		5CAB9ECE085DE18100FE4729 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "echo running swig to generate monkeyscript perl module\n./bin/swig -w401 -w503 -w509 -w510 -c++ -perl5 -shadow -exportall -I${BUILT_PRODUCTS_DIR}/../bin/swig1.3/ -I${BUILT_PRODUCTS_DIR}/../bin/swig1.3/perl5/  -I./Core/ComponentRegistries -I./Core/SwigWrappers -I./Core/Stimuli -I./Core/ExperimentDataLoading -I./Core/GenericStructures -I./Core/ParadigmComponents -I./Core/RealtimeServices -I./Core/Variables -I./Core/XMLParser ./MonkeyWorksScripting/MonkeyScript.i;\necho swig success";
-		};
 		5CEE864C081D53A700F366DE /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -2801,19 +2625,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/zsh;
 			shellScript = "export FULL_NAME=${PRODUCT_NAME}.${WRAPPER_EXTENSION}\n\nrm -Rf \"${INSTALL_PATH}/${FULL_NAME}\"\ncp -Rf \"${BUILT_PRODUCTS_DIR}/${FULL_NAME}\"  \"${INSTALL_PATH}\"\n\nmkdir -p ${CONFIG_DIR}/examples\ncp -f $BUILT_PRODUCTS_DIR/../../Core/SetupVariables/setup_variables_macbook.xml ${CONFIG_DIR}/examples\ncp -f $BUILT_PRODUCTS_DIR/../../Core/SetupVariables/setup_variables_two_monitors.xml ${CONFIG_DIR}/examples\n\nexit 0";
-		};
-		5CEFD61C0D4965F900EA9950 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "rm -R -f ${INSTALL_PATH}/NIDaqPlugin.bundle\ncp -R -f \"${BUILT_PRODUCTS_DIR}/NIDaqPlugin.bundle\" ${INSTALL_PATH}\n";
 		};
 		5CF73C6208625E3E00F453C3 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2854,19 +2665,6 @@
 			shellPath = /bin/zsh;
 			shellScript = "export FULL_NAME=${PRODUCT_NAME}\n\necho making dir ${TESTS_DIR}/XML\nmkdir -p \"${TESTS_DIR}/XML\"\nrm -Rf \"${TESTS_DIR}/${FULL_NAME}\"\necho Copying files from ${BUILT_PRODUCTS_DIR}/${FULL_NAME} to ${TESTS_DIR}/\ncp -Rf \"${BUILT_PRODUCTS_DIR}/${FULL_NAME}\" \"${TESTS_DIR}/\"\nexit 0";
 		};
-		DA394B02088D4CFF001FDBC1 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "echo ${BUILT_PRODUCTS_DIR}\ncp -Rf \"${BUILT_PRODUCTS_DIR}/HeadlessServer\" /Library/MonkeyWorks/bin";
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -2880,13 +2678,6 @@
 				0EE137C30E429B23009B47B5 /* MWCocoaEvent.m in Sources */,
 				0E4ED23A0E46208200F06F40 /* MarionetteServer.m in Sources */,
 				0E209D0A0E632EBD00F00BAD /* MarionetteEvent.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		5C08415709D5995800E4D2F4 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2950,26 +2741,11 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		5CAB9FE0085E775800FE4729 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				5CABA02E085E77B100FE4729 /* main.cpp in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		5CDB8B210E9C4A6300993D99 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				5CDB8B270E9C4AFC00993D99 /* PythonSimpleConduit.cpp in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		5CEFD5A90D48518200EA9950 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3123,13 +2899,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				DA2CE39807EA040D00C68AEF /* MachClock.cpp in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		DA2CE3B907EA057500C68AEF /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3304,26 +3073,6 @@
 			};
 			name = Development;
 		};
-		5C08416209D5998700E4D2F4 /* Development */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = (
-					ppc,
-					i386,
-				);
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_MODEL_TUNING = G5;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				INSTALL_PATH = "$(HOME)/bin";
-				PREBINDING = NO;
-				PRODUCT_NAME = MonkeyWorksTestbed;
-				ZERO_LINK = NO;
-			};
-			name = Development;
-		};
 		5C0E757709D1A886002295FB /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -3470,72 +3219,6 @@
 			};
 			name = Development;
 		};
-		5C0E84F3086D85D400B3EE7C /* Development */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = (
-					ppc,
-					i386,
-				);
-				COPY_PHASE_STRIP = NO;
-				GCC_DEBUGGING_SYMBOLS = full;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
-				INFOPLIST_FILE = "ZenClockPlugin-Info.plist";
-				INSTALL_PATH = /Library/MonkeyWorks/Plugins/;
-				LIBRARY_SEARCH_PATHS = "";
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-					"-framework",
-					Carbon,
-					"-framework",
-					MonkeyWorksCore,
-				);
-				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = ZenClockPlugin;
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-				ZERO_LINK = NO;
-			};
-			name = Development;
-		};
-		5C0E84F7086D85D400B3EE7C /* Development */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DEBUGGING_SYMBOLS = full;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
-				GCC_MODEL_TUNING = G5;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				INSTALL_PATH = "$(HOME)/bin";
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
-				OTHER_REZFLAGS = "";
-				PREBINDING = NO;
-				PRODUCT_NAME = HeadlessServer;
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-				ZERO_LINK = NO;
-			};
-			name = Development;
-		};
 		5C0E84FB086D85D400B3EE7C /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -3631,28 +3314,6 @@
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = Everything;
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-				ZERO_LINK = NO;
-			};
-			name = Development;
-		};
-		5C0E8507086D85D400B3EE7C /* Development */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DEBUGGING_SYMBOLS = full;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
-				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = "Generate for GNU Install Tools";
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = (
 					"-Wmost",
@@ -3970,46 +3631,6 @@
 			};
 			name = Release;
 		};
-		5C9EBDA6107244C00051414D /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = (
-					ppc,
-					i386,
-				);
-				COPY_PHASE_STRIP = NO;
-				GCC_DEBUGGING_SYMBOLS = full;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
-				INFOPLIST_FILE = "ZenClockPlugin-Info.plist";
-				INSTALL_PATH = /Library/MonkeyWorks/Plugins/;
-				LIBRARY_SEARCH_PATHS = "";
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-					"-framework",
-					Carbon,
-					"-framework",
-					MonkeyWorksCore,
-				);
-				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = ZenClockPlugin;
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-				ZERO_LINK = NO;
-			};
-			name = Release;
-		};
 		5C9EBDA7107244C00051414D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -4022,54 +3643,6 @@
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = Everything;
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-				ZERO_LINK = NO;
-			};
-			name = Release;
-		};
-		5C9EBDA8107244C00051414D /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DEBUGGING_SYMBOLS = full;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
-				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = "Generate for GNU Install Tools";
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-				ZERO_LINK = NO;
-			};
-			name = Release;
-		};
-		5C9EBDA9107244C00051414D /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DEBUGGING_SYMBOLS = full;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
-				GCC_MODEL_TUNING = G5;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				INSTALL_PATH = "$(HOME)/bin";
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
-				OTHER_REZFLAGS = "";
-				PREBINDING = NO;
-				PRODUCT_NAME = HeadlessServer;
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = (
 					"-Wmost",
@@ -4202,26 +3775,6 @@
 					"-Wno-four-char-constants",
 					"-Wno-unknown-pragmas",
 				);
-			};
-			name = Release;
-		};
-		5C9EBDAD107244C00051414D /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = (
-					ppc,
-					i386,
-				);
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_MODEL_TUNING = G5;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				INSTALL_PATH = "$(HOME)/bin";
-				PREBINDING = NO;
-				PRODUCT_NAME = MonkeyWorksTestbed;
-				ZERO_LINK = NO;
 			};
 			name = Release;
 		};
@@ -4368,35 +3921,6 @@
 			};
 			name = Release;
 		};
-		5C9EBDB1107244C00051414D /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_MODEL_TUNING = G5;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
-				INFOPLIST_FILE = "NIDaqPlugin-Info.plist";
-				INSTALL_PATH = /Library/MonkeyWorks/Plugins/;
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-					"-framework",
-					MonkeyWorksCore,
-					"-framework",
-					nidaqmxbase,
-				);
-				PREBINDING = NO;
-				PRODUCT_NAME = NIDaqPlugin;
-				WRAPPER_EXTENSION = bundle;
-				ZERO_LINK = YES;
-			};
-			name = Release;
-		};
 		5C9EBDB2107244C00051414D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -4469,7 +3993,423 @@
 			};
 			name = Release;
 		};
-		5CDB8B250E9C4A6300993D99 /* Development */ = {
+		5C9EE41E107303900051414D /* Development (10.5 Compatible) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APP_SUPPORT_DIR = "/Library/Application Support/Monkeyworks";
+				ARCHS = i386;
+				CONFIG_DIR = "$(APP_SUPPORT_DIR)/Configuration";
+				FRAMEWORK_SEARCH_PATHS = /Library/Frameworks;
+				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
+				GCC_OBJC_CALL_CXX_CDTORS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_VERSION = 4.0;
+				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
+				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
+				MW_INCLUDE_DIR = "\"$(APP_SUPPORT_DIR)/Developer/gcc40/include\"";
+				MW_LIB_DIR = "\"$(APP_SUPPORT_DIR)/Developer/gcc40/lib\"";
+				PLUGINS_DIR = "$(APP_SUPPORT_DIR)/Plugins/Core Plugins";
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
+				STRIP_INSTALLED_PRODUCT = NO;
+				TESTS_DIR = "$(APP_SUPPORT_DIR)/Developer/tests";
+			};
+			name = "Development (10.5 Compatible)";
+		};
+		5C9EE41F107303900051414D /* Development (10.5 Compatible) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_DEBUGGING_SYMBOLS = full;
+				GCC_ENABLE_OBJC_GC = supported;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (
+					/usr/include/libxml2,
+					"$(MW_INCLUDE_DIR)",
+				);
+				INFOPLIST_FILE = "MonkeyWorksCore-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
+				OTHER_CFLAGS = "-ObjC++";
+				OTHER_LDFLAGS = (
+					"-lz",
+					"-llcms",
+					"-lmng",
+					"-ljpeg",
+					"-ltiff",
+					"-lpng",
+					"-framework",
+					OpenAL,
+					"-lILU",
+					"-lIL",
+					"-lILUT",
+					"-framework",
+					AppKit,
+					"-framework",
+					Carbon,
+					"-lscarab",
+					"-framework",
+					OpenGL,
+					"-framework",
+					GLUT,
+					"-framework",
+					IOKit,
+					"-L/Library/Application\\ Support/MonkeyWorks/Developer/lib",
+					"-lboost_regex-mw",
+					"-lboost_thread-mw",
+					"-lboost_system-mw",
+					"-lboost_serialization-mw",
+					"-lboost_filesystem-mw",
+					"-lxml2",
+					"-lxslt",
+				);
+				PRODUCT_NAME = MonkeyWorksCore;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+			};
+			name = "Development (10.5 Compatible)";
+		};
+		5C9EE420107303900051414D /* Development (10.5 Compatible) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DEBUGGING_SYMBOLS = full;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_ENABLE_OBJC_GC = supported;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
+				INFOPLIST_FILE = "MachClockPlugin-Info.plist";
+				INSTALL_PATH = "$(PLUGINS_DIR)";
+				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+					"-framework",
+					MonkeyWorksCore,
+				);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = MachClockPlugin;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				ZERO_LINK = NO;
+			};
+			name = "Development (10.5 Compatible)";
+		};
+		5C9EE422107303900051414D /* Development (10.5 Compatible) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DEBUGGING_SYMBOLS = full;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = Everything;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				ZERO_LINK = NO;
+			};
+			name = "Development (10.5 Compatible)";
+		};
+		5C9EE425107303900051414D /* Development (10.5 Compatible) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DEBUGGING_SYMBOLS = full;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_ENABLE_OBJC_GC = supported;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				GCC_PREPROCESSOR_DEFINITIONS = REALTIME_SCHEDULER;
+				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
+				INFOPLIST_FILE = "ZenSchedulerPlugin-Info.plist";
+				INSTALL_PATH = "$(PLUGINS_DIR)";
+				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
+				LIBRARY_STYLE = BUNDLE;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+					"-framework",
+					MonkeyWorksCore,
+				);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ZenSchedulerPlugin;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+			};
+			name = "Development (10.5 Compatible)";
+		};
+		5C9EE426107303900051414D /* Development (10.5 Compatible) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DEBUGGING_SYMBOLS = full;
+				GCC_ENABLE_OBJC_GC = supported;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				GCC_PREPROCESSOR_DEFINITIONS = "";
+				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
+				INFOPLIST_FILE = "ZenStateSystemPlugin-Info.plist";
+				INSTALL_PATH = "$(PLUGINS_DIR)";
+				LIBRARY_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
+				LIBRARY_STYLE = BUNDLE;
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+					"-framework",
+					MonkeyWorksCore,
+				);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ZenStateSystemPlugin;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+			};
+			name = "Development (10.5 Compatible)";
+		};
+		5C9EE427107303900051414D /* Development (10.5 Compatible) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DEBUGGING_SYMBOLS = full;
+				GCC_ENABLE_OBJC_GC = supported;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				GCC_PREPROCESSOR_DEFINITIONS = LOW_PRIORITY_MODE;
+				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
+				INFOPLIST_FILE = "LowPrioritySchedulerPlugin-Info.plist";
+				INSTALL_PATH = "$(PLUGINS_DIR)";
+				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
+				LIBRARY_STYLE = BUNDLE;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+					"-framework",
+					MonkeyWorksCore,
+				);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = LowPrioritySchedulerPlugin;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+			};
+			name = "Development (10.5 Compatible)";
+		};
+		5C9EE429107303900051414D /* Development (10.5 Compatible) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_DEBUGGING_SYMBOLS = full;
+				GCC_ENABLE_OBJC_GC = unsupported;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
+				INFOPLIST_FILE = "MonkeyWorksCoreTest-Info.plist";
+				INSTALL_PATH = "$(TESTS_DIR)";
+				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = (
+					"-framework",
+					AppKit,
+					"-framework",
+					Cocoa,
+					"-framework",
+					MonkeyWorksCore,
+					"-lcppunit",
+					"-lboost_serialization-mw",
+				);
+				PRODUCT_NAME = MonkeyWorksCoreTest;
+				STANDARD_C_PLUS_PLUS_LIBRARY_TYPE = static;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+			};
+			name = "Development (10.5 Compatible)";
+		};
+		5C9EE42A107303900051414D /* Development (10.5 Compatible) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				DSTROOT = "/tmp/$(PRODUCT_NAME).dst";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(FRAMEWORK_SEARCH_PATHS)",
+					"$(TESTS_DIR)",
+				);
+				GCC_DEBUGGING_SYMBOLS = full;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_GC = supported;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
+				INSTALL_PATH = "$(TESTS_DIR)";
+				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
+				OTHER_LDFLAGS = (
+					"-ldl",
+					"-lcppunit",
+					"-framework",
+					MonkeyWorksCore,
+					"-framework",
+					MonkeyWorksCoreTest,
+					"-lILUT",
+					"-lscarab",
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = MonkeyWorksCoreTestRunner;
+				ZERO_LINK = NO;
+			};
+			name = "Development (10.5 Compatible)";
+		};
+		5C9EE42B107303900051414D /* Development (10.5 Compatible) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					x86_64,
+					i386,
+				);
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					/System/Library/Frameworks,
+					/Library/Frameworks,
+				);
+				GCC_DEBUGGING_SYMBOLS = full;
+				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Library/MonkeyWorks,
+					/Library/Frameworks/Python.framework/Headers/,
+				);
+				INFOPLIST_FILE = "/Users/davidcox/Development/MonkeyWorks/MW0.3/MonkeyWorksCore/MonkeyWorksScripting-Info copy.plist";
+				INSTALL_PATH = "";
+				LIBRARY_SEARCH_PATHS = "";
+				MACH_O_TYPE = mh_bundle;
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				OTHER_CFLAGS = (
+					"-dynamic",
+					"-fPIC",
+					"-flat_namespace",
+				);
+				OTHER_LDFLAGS = (
+					"-framework",
+					Carbon,
+					"-framework",
+					MonkeyWorksCore,
+					"-framework",
+					Python,
+					"-framework",
+					OpenAL,
+					"-bundle",
+					"-flat_namespace",
+					"-undefined",
+					suppress,
+				);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = PyMonkeyWorks;
+				SKIP_INSTALL = YES;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				WRAPPER_EXTENSION = bundle;
+				ZERO_LINK = NO;
+			};
+			name = "Development (10.5 Compatible)";
+		};
+		5C9EE42D107303900051414D /* Development (10.5 Compatible) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				HEADER_SEARCH_PATHS = (
+					/usr/include/libxml2,
+					"$(MW_INCLUDE_DIR)",
+				);
+				INFOPLIST_FILE = "MarionetteTest-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+					"-framework",
+					MonkeyWorksCore,
+					"-lxml2",
+					"-lxslt",
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = MarionetteTest;
+				WRAPPER_EXTENSION = app;
+			};
+			name = "Development (10.5 Compatible)";
+		};
+		5C9EE42E107303900051414D /* Development (10.5 Compatible) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = CoreUninstall;
+			};
+			name = "Development (10.5 Compatible)";
+		};
+		5C9EE42F107303900051414D /* Development (10.5 Compatible) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -4495,34 +4435,43 @@
 				PREBINDING = NO;
 				PRODUCT_NAME = mw_conduit;
 			};
-			name = Development;
+			name = "Development (10.5 Compatible)";
 		};
-		5CEFD5AE0D48518300EA9950 /* Development */ = {
+		5C9EE430107303900051414D /* Development (10.5 Compatible) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
-				INFOPLIST_FILE = "NIDaqPlugin-Info.plist";
-				INSTALL_PATH = /Library/MonkeyWorks/Plugins/;
+				PRODUCT_NAME = "Set Version String";
+			};
+			name = "Development (10.5 Compatible)";
+		};
+		5CDB8B250E9C4A6300993D99 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = (
+					x86_64,
+					i386,
+				);
+				COPY_PHASE_STRIP = NO;
+				EXECUTABLE_EXTENSION = so;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				HEADER_SEARCH_PATHS = (
+					/usr/include/python2.5,
+					$MW_INCLUDE_DIR,
+				);
+				INSTALL_PATH = /usr/local/lib;
+				LINK_WITH_STANDARD_LIBRARIES = YES;
+				MACH_O_TYPE = mh_bundle;
 				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-					"-framework",
-					MonkeyWorksCore,
-					"-framework",
-					nidaqmxbase,
+					"-lboost_python-mw",
+					"-lpython2.5",
 				);
 				PREBINDING = NO;
-				PRODUCT_NAME = NIDaqPlugin;
-				WRAPPER_EXTENSION = bundle;
-				ZERO_LINK = YES;
+				PRODUCT_NAME = mw_conduit;
 			};
 			name = Development;
 		};
@@ -4533,6 +4482,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				0E121C940E6B1EF8007B29B8 /* Development */,
+				5C9EE42E107303900051414D /* Development (10.5 Compatible) */,
 				5C9EBDB3107244C00051414D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -4542,16 +4492,8 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				0E8014150E422E2B00D6DE20 /* Development */,
+				5C9EE42D107303900051414D /* Development (10.5 Compatible) */,
 				5C9EBDB2107244C00051414D /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
-		};
-		5C08416109D5998700E4D2F4 /* Build configuration list for PBXNativeTarget "MonkeyWorksTestbed" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				5C08416209D5998700E4D2F4 /* Development */,
-				5C9EBDAD107244C00051414D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
@@ -4560,6 +4502,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5C0E757709D1A886002295FB /* Development */,
+				5C9EE427107303900051414D /* Development (10.5 Compatible) */,
 				5C9EBDAC107244C00051414D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -4569,6 +4512,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5C0E84DB086D85D400B3EE7C /* Development */,
+				5C9EE41F107303900051414D /* Development (10.5 Compatible) */,
 				5C9EBDA4107244C00051414D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -4578,25 +4522,8 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5C0E84EB086D85D400B3EE7C /* Development */,
+				5C9EE420107303900051414D /* Development (10.5 Compatible) */,
 				5C9EBDA5107244C00051414D /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
-		};
-		5C0E84F2086D85D400B3EE7C /* Build configuration list for PBXNativeTarget "ZenClockPlugin" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				5C0E84F3086D85D400B3EE7C /* Development */,
-				5C9EBDA6107244C00051414D /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
-		};
-		5C0E84F6086D85D400B3EE7C /* Build configuration list for PBXNativeTarget "HeadlessServer" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				5C0E84F7086D85D400B3EE7C /* Development */,
-				5C9EBDA9107244C00051414D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
@@ -4605,6 +4532,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5C0E84FB086D85D400B3EE7C /* Development */,
+				5C9EE425107303900051414D /* Development (10.5 Compatible) */,
 				5C9EBDAA107244C00051414D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -4614,6 +4542,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5C0E84FF086D85D400B3EE7C /* Development */,
+				5C9EE426107303900051414D /* Development (10.5 Compatible) */,
 				5C9EBDAB107244C00051414D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -4623,16 +4552,8 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5C0E8503086D85D400B3EE7C /* Development */,
+				5C9EE422107303900051414D /* Development (10.5 Compatible) */,
 				5C9EBDA7107244C00051414D /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
-		};
-		5C0E8506086D85D400B3EE7C /* Build configuration list for PBXAggregateTarget "Generate for GNU Install Tools" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				5C0E8507086D85D400B3EE7C /* Development */,
-				5C9EBDA8107244C00051414D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
@@ -4641,6 +4562,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5C0E850F086D85D400B3EE7C /* Development */,
+				5C9EE41E107303900051414D /* Development (10.5 Compatible) */,
 				5C9EBDA3107244C00051414D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -4650,6 +4572,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5C488A170F4E27CD00C5A526 /* Development */,
+				5C9EE430107303900051414D /* Development (10.5 Compatible) */,
 				5C9EBDB5107244C00051414D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -4659,6 +4582,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5C4D232E09DC595B0082BF9F /* Development */,
+				5C9EE42A107303900051414D /* Development (10.5 Compatible) */,
 				5C9EBDAF107244C00051414D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -4668,6 +4592,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5C4D239F09DC83950082BF9F /* Development */,
+				5C9EE429107303900051414D /* Development (10.5 Compatible) */,
 				5C9EBDAE107244C00051414D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -4677,6 +4602,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5C510B180CC8335700C771FB /* Development */,
+				5C9EE42B107303900051414D /* Development (10.5 Compatible) */,
 				5C9EBDB0107244C00051414D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -4686,16 +4612,8 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5CDB8B250E9C4A6300993D99 /* Development */,
+				5C9EE42F107303900051414D /* Development (10.5 Compatible) */,
 				5C9EBDB4107244C00051414D /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
-		};
-		5CEFD5B00D48518300EA9950 /* Build configuration list for PBXNativeTarget "NIDaqPlugin" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				5CEFD5AE0D48518300EA9950 /* Development */,
-				5C9EBDB1107244C00051414D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;

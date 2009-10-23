@@ -113,9 +113,9 @@ enum {IDLE, STOPPING, RUNNING, TASKMODES};
 #define PRIVATE_SYSTEM_VARIABLES "# SYSTEM VARIABLES"
 
 
-extern shared_ptr<Variable> task_mode;
+extern shared_ptr<Variable> state_system_mode;
 
-#define TASK_MODE_TAGNAME "#task_mode"
+#define STATE_SYSTEM_MODE_TAGNAME "#state_system_mode"
 
 #define STIMULUS_DISPLAY_UPDATE_TAGNAME "#stimDisplayUpdate"
 extern shared_ptr<Variable> stimDisplayUpdate;

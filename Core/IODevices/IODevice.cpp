@@ -712,7 +712,7 @@ void IODevice::finalize(std::map<std::string, std::string> parameters,
 	
 	shared_ptr <IODevice> this_one = shared_from_this();
 	shared_ptr<IODeviceVariableNotification> notification(new IODeviceVariableNotification(this_one));
-	task_mode->addNotification(notification);			
+	state_system_mode->addNotification(notification);			
 	
 	if(!attachPhysicalDevice()) {
 		// if we can't attach to it, map the tag to the alt device

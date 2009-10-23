@@ -208,7 +208,9 @@ shared_ptr<mw::Component> VariableFactory::createObject(std::map<std::string, st
 	if(scope_string == "global") {
 		newVar = GlobalVariableRegistry->createGlobalVariable(&props);
 	} else if(scope_string == "local") {
-		newVar = GlobalVariableRegistry->createScopedVariable(GlobalCurrentExperiment, &props);		
+        shared_ptr<ScopedVariableEnvironment> env = dynamic_pointer_cast<ScopedVariableEnvironment, Experiment>(GlobalCurrentExperiment);
+        weak_ptr<ScopedVariableEnvironment> env_weak(env);
+		newVar = GlobalVariableRegistry->createScopedVariable(env_weak, &props);		
 	} else {
 		throw InvalidAttributeException(parameters.find("reference_id")->second, "scope", parameters.find("scope")->second);
 	}
