@@ -9,32 +9,53 @@
 
 #include "DynamicStimulus.h"
 #include "boost/bind.hpp"
+#include "MonkeyWorksCore/StandardVariables.h"
 
 mDynamicStimulus::mDynamicStimulus(const std::string &new_tag,
 								   const boost::shared_ptr<Scheduler> &a_scheduler,
 								   const boost::shared_ptr<StimulusDisplay> &a_display,
 								   const boost::shared_ptr<Variable> &_frames_per_second,
 								   const boost::shared_ptr<Variable> &_statistics_reporting,
-								   const boost::shared_ptr<Variable> &_error_reporting) : Stimulus(new_tag) {
-	scheduler = a_scheduler;
+								   const boost::shared_ptr<Variable> &_error_reporting) : Stimulus(new_tag){
+    scheduler = a_scheduler;
 	display = a_display;
 	frames_per_second = _frames_per_second;
 	statistics_reporting = _statistics_reporting;
 	error_reporting = _error_reporting;
 	
+    schedule_node == shared_ptr<ScheduleTask>();
 	started = FALSE;
+    
+                                                                                              
+    state_system_callback = shared_ptr<VariableCallbackNotification>(
+                                new VariableCallbackNotification(boost::bind(&mDynamicStimulus::stateSystemCallback, this, _1,_2))
+                            );
+    state_system_mode->addNotification(state_system_callback);
 }
 
 mDynamicStimulus::mDynamicStimulus(const mDynamicStimulus &tocopy) : Stimulus((const Stimulus&)tocopy){}
+
+void mDynamicStimulus::stateSystemCallback(const Data& data, MonkeyWorksTime time){
+    if(data.getInteger() == IDLE){
+        stop();
+    }
+}
+
+mDynamicStimulus::~mDynamicStimulus(){
+ 
+    state_system_callback->remove();
+}
 
 void mDynamicStimulus::play() {
 	boost::mutex::scoped_lock locker(stim_lock);
 	
 	if (!started) {
-		const float frames_per_us = frames_per_second->getValue().getFloat()/1000000;
-		
+		//const float frames_per_us = frames_per_second->getValue().getFloat()/1000000;
+		MonkeyWorksTime interval = (MonkeyWorksTime)((double)1000000 / frames_per_second->getValue().getFloat());
+        
 		started = true;
-		start_time = scheduler->getClock()->getCurrentTimeUS();
+        shared_ptr<Clock> clock = Clock::instance(false);
+		start_time = clock->getCurrentTimeUS();
 		
 		shared_ptr<mDynamicStimulus> this_one = shared_from_this();
 		
@@ -43,13 +64,13 @@ void mDynamicStimulus::play() {
 		}
 		schedule_node = scheduler->scheduleUS(FILELINE,
 											  0,
-											  (MonkeyWorksTime)(1/frames_per_us), 
+											  interval, 
 											  M_REPEAT_INDEFINITELY, 
 											  boost::bind(nextUpdate, this_one),
 											  M_DEFAULT_PRIORITY,
-											  M_DEFAULT_WARN_SLOP_US,
-											  M_DEFAULT_FAIL_SLOP_US,
-											  M_MISSED_EXECUTION_CATCH_UP);	
+											  10000000*M_DEFAULT_WARN_SLOP_US,
+											  10000000*M_DEFAULT_FAIL_SLOP_US,
+											  M_MISSED_EXECUTION_DROP);	
 	}	
 }
 
@@ -60,11 +81,18 @@ void mDynamicStimulus::stop() {
 	started = false;
 	
 	// cancel any existing updates
-	schedule_node->cancel();	
+	if(schedule_node != NULL){
+        schedule_node->cancel();	
+    }
 }
 
 inline void mDynamicStimulus::callUpdateDisplay() {
-	display->asynchronousUpdateDisplay();
+	// DDC: this is crazy bad
+    //display->asynchronousUpdateDisplay();
+    
+    // this is thread-safe already (and doesn't spawn a new
+    // thread every time!)
+    display->updateDisplay();
 }
 
 inline Data mDynamicStimulus::getCurrentAnnounceDrawData() {

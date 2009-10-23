@@ -12,9 +12,10 @@
 
 #include "MonkeyWorksCore/StandardStimuli.h"
 #include "boost/enable_shared_from_this.hpp"
+#include "MonkeyWorksCore/VariableNotification.h"
 using namespace mw;
 
-class mDynamicStimulus : public Stimulus, public boost::enable_shared_from_this<mDynamicStimulus> {
+class mDynamicStimulus : public Stimulus, public boost::enable_shared_from_this<mDynamicStimulus>, public VariableNotification {
 	
 protected: 
 	boost::shared_ptr<Scheduler> scheduler;
@@ -26,6 +27,8 @@ protected:
 	boost::shared_ptr<Variable> statistics_reporting;
 	boost::shared_ptr<Variable> error_reporting;
 	
+    shared_ptr<VariableCallbackNotification> state_system_callback;
+    
 	std::vector<boost::shared_ptr<std::vector<MonkeyWorksTime> > > times_shown;
 	
 	bool started;
@@ -43,6 +46,8 @@ public:
 					 const boost::shared_ptr<Variable> &error_reporting_var);
 	
 	mDynamicStimulus(const mDynamicStimulus &tocopy);
+    
+    virtual ~mDynamicStimulus();
 	virtual Stimulus *frozenClone() = 0;
 	void draw(StimulusDisplay *display) = 0;
 	
@@ -51,6 +56,8 @@ public:
 	
 	virtual void callUpdateDisplay();
 	virtual Data getCurrentAnnounceDrawData();
+    
+    void stateSystemCallback(const Data& data, MonkeyWorksTime time);
 };
 
 void *nextUpdate(const shared_ptr<mDynamicStimulus> &ds);
