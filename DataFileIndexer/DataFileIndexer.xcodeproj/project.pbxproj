@@ -385,16 +385,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		0E60D6040E6D89E600B82521 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				PRODUCT_NAME = diindexerInstall;
-			};
-			name = Debug;
-		};
 		0E60D6050E6D89E600B82521 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -405,31 +395,6 @@
 				ZERO_LINK = NO;
 			};
 			name = Release;
-		};
-		0EA58F0E0D6B20120027A3AC /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_OBJC_CALL_CXX_CDTORS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
-				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
-				INFOPLIST_FILE = "Test-Info.plist";
-				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
-				OTHER_LDFLAGS = (
-					"-lboost_system-mt",
-					"-lboost_filesystem-mt",
-					"-lboost_serialization-mt",
-					"-framework",
-					Carbon,
-					"-ldfindex",
-					"-lscarab",
-				);
-				PRODUCT_NAME = Test;
-				WRAPPER_EXTENSION = app;
-			};
-			name = Debug;
 		};
 		0EA58F0F0D6B20120027A3AC /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -453,19 +418,6 @@
 			};
 			name = Release;
 		};
-		0EA58F9B0D6B25000027A3AC /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
-				INSTALL_PATH = "$(APP_SUPPORT_DIR)/Tools";
-				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
-				PRODUCT_NAME = dfindex;
-			};
-			name = Debug;
-		};
 		0EA58F9C0D6B25000027A3AC /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -479,24 +431,6 @@
 				ZERO_LINK = NO;
 			};
 			name = Release;
-		};
-		1DEB916508733D950010E9CD /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5073E0C609E734A800EC74B6 /* DataFileIndexerProj.xcconfig */;
-			buildSettings = {
-				APP_SUPPORT_DIR = "/Library/Application Support/Monkeyworks";
-				CONFIG_DIR = "$(APP_SUPPORT_DIR)/Configuration";
-				GCC_C_LANGUAGE_STANDARD = c99;
-				HEADER_SEARCH_PATHS = /Library/MonkeyWorks/include;
-				LIBRARY_SEARCH_PATHS = /Library/MonkeyWorks/lib;
-				MW_INCLUDE_DIR = "\"$(APP_SUPPORT_DIR)/Developer/include\"";
-				MW_LIB_DIR = "\"$(APP_SUPPORT_DIR)/Developer/lib\"";
-				PLUGINS_DIR = "$(APP_SUPPORT_DIR)/Plugins/Core Plugins";
-				PREBINDING = NO;
-				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
-				TESTS_DIR = "$(APP_SUPPORT_DIR)/Developer/tests";
-			};
-			name = Debug;
 		};
 		1DEB916608733D950010E9CD /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -513,7 +447,103 @@
 			};
 			name = Release;
 		};
-		5C2A61FF1039DD7F00A62CBA /* Debug */ = {
+		5C2A62001039DD7F00A62CBA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				EXECUTABLE_PREFIX = lib;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_MODEL_TUNING = G5;
+				INSTALL_PATH = /usr/local/lib;
+				OTHER_LDFLAGS = (
+					"-lboost_filesystem-mw",
+					"-lscarab",
+					"-lboost_system-mw",
+					"-lpython2.6",
+					"-lboost_serialization-mw",
+					"-lboost_python-mw",
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = DataFile;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		5C7242DE1097E97B004887A5 /* Development (10.5 Compatible) */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5073E0C609E734A800EC74B6 /* DataFileIndexerProj.xcconfig */;
+			buildSettings = {
+				APP_SUPPORT_DIR = "/Library/Application Support/Monkeyworks";
+				ARCHS = (
+					x86_64,
+					i386,
+				);
+				CONFIG_DIR = "$(APP_SUPPORT_DIR)/Configuration";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_VERSION = 4.0;
+				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
+				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
+				MW_INCLUDE_DIR = "\"$(APP_SUPPORT_DIR)/Developer/gcc40/include\"";
+				MW_LIB_DIR = "\"$(APP_SUPPORT_DIR)/Developer/gcc40/lib\"";
+				PLUGINS_DIR = "$(APP_SUPPORT_DIR)/Plugins/Core Plugins";
+				PREBINDING = NO;
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
+				TESTS_DIR = "$(APP_SUPPORT_DIR)/Developer/tests";
+			};
+			name = "Development (10.5 Compatible)";
+		};
+		5C7242DF1097E97B004887A5 /* Development (10.5 Compatible) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OBJC_CALL_CXX_CDTORS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
+				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
+				INFOPLIST_FILE = "Test-Info.plist";
+				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
+				OTHER_LDFLAGS = (
+					"-lboost_system-mt",
+					"-lboost_filesystem-mt",
+					"-lboost_serialization-mt",
+					"-framework",
+					Carbon,
+					"-ldfindex",
+					"-lscarab",
+				);
+				PRODUCT_NAME = Test;
+				WRAPPER_EXTENSION = app;
+			};
+			name = "Development (10.5 Compatible)";
+		};
+		5C7242E01097E97B004887A5 /* Development (10.5 Compatible) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
+				INSTALL_PATH = "$(APP_SUPPORT_DIR)/Tools";
+				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
+				PRODUCT_NAME = dfindex;
+			};
+			name = "Development (10.5 Compatible)";
+		};
+		5C7242E11097E97B004887A5 /* Development (10.5 Compatible) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = diindexerInstall;
+			};
+			name = "Development (10.5 Compatible)";
+		};
+		5C7242E21097E97B004887A5 /* Development (10.5 Compatible) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -535,33 +565,126 @@
 					$MW_LIB_DIR,
 				);
 				OTHER_LDFLAGS = (
-					"-lboost_system-mt",
-					"-lboost_filesystem-mt",
+					"-lboost_filesystem-mw",
 					"-lscarab",
-					"-lboost_python-mt",
-					"-lboost_serialization-mt",
-					"-lpython",
+					"-lboost_system-mw",
+					"-lpython2.6",
+					"-lboost_serialization-mw",
+					"-lboost_python-mw",
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = _data;
 			};
-			name = Debug;
+			name = "Development (10.5 Compatible)";
 		};
-		5C2A62001039DD7F00A62CBA /* Release */ = {
+		5C7242FF1097F3ED004887A5 /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5073E0C609E734A800EC74B6 /* DataFileIndexerProj.xcconfig */;
+			buildSettings = {
+				APP_SUPPORT_DIR = "/Library/Application Support/Monkeyworks";
+				ARCHS = (
+					x86_64,
+					i386,
+				);
+				CONFIG_DIR = "$(APP_SUPPORT_DIR)/Configuration";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_VERSION = 4.0;
+				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
+				LIBRARY_SEARCH_PATHS = (
+					/usr/lib,
+					/usr/local/lib,
+					"$(MW_LIB_DIR)",
+				);
+				MW_INCLUDE_DIR = "\"$(APP_SUPPORT_DIR)/Developer/gcc40/include\"";
+				MW_LIB_DIR = "\"$(APP_SUPPORT_DIR)/Developer/gcc40/lib\"";
+				PLUGINS_DIR = "$(APP_SUPPORT_DIR)/Plugins/Core Plugins";
+				PREBINDING = NO;
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
+				TESTS_DIR = "$(APP_SUPPORT_DIR)/Developer/tests";
+			};
+			name = Development;
+		};
+		5C7243001097F3ED004887A5 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OBJC_CALL_CXX_CDTORS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
+				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
+				INFOPLIST_FILE = "Test-Info.plist";
+				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
+				OTHER_LDFLAGS = (
+					"-lboost_system-mt",
+					"-lboost_filesystem-mt",
+					"-lboost_serialization-mt",
+					"-framework",
+					Carbon,
+					"-ldfindex",
+					"-lscarab",
+				);
+				PRODUCT_NAME = Test;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Development;
+		};
+		5C7243011097F3ED004887A5 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
+				INSTALL_PATH = "$(APP_SUPPORT_DIR)/Tools";
+				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
+				PRODUCT_NAME = dfindex;
+			};
+			name = Development;
+		};
+		5C7243021097F3ED004887A5 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = diindexerInstall;
+			};
+			name = Development;
+		};
+		5C7243031097F3ED004887A5 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				EXECUTABLE_PREFIX = lib;
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				COPY_PHASE_STRIP = NO;
+				EXECUTABLE_EXTENSION = so;
+				EXECUTABLE_PREFIX = "";
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				HEADER_SEARCH_PATHS = (
+					/usr/include/python2.5,
+					$MW_INCLUDE_DIR,
+				);
 				INSTALL_PATH = /usr/local/lib;
+				LIBRARY_SEARCH_PATHS = (
+					/usr/lib,
+					$MW_LIB_DIR,
+				);
+				OTHER_LDFLAGS = (
+					"-lboost_filesystem-mw",
+					"-lscarab",
+					"-lboost_system-mw",
+					"-lpython2.6",
+					"-lboost_serialization-mw",
+					"-lboost_python-mw",
+				);
 				PREBINDING = NO;
-				PRODUCT_NAME = DataFile;
-				ZERO_LINK = NO;
+				PRODUCT_NAME = _data;
 			};
-			name = Release;
+			name = Development;
 		};
 /* End XCBuildConfiguration section */
 
@@ -569,7 +692,8 @@
 		0E60D6060E6D8A1700B82521 /* Build configuration list for PBXAggregateTarget "dfindexerUninstall" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				0E60D6040E6D89E600B82521 /* Debug */,
+				5C7242E11097E97B004887A5 /* Development (10.5 Compatible) */,
+				5C7243021097F3ED004887A5 /* Development */,
 				0E60D6050E6D89E600B82521 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -578,7 +702,8 @@
 		0EA58F100D6B20120027A3AC /* Build configuration list for PBXNativeTarget "Test" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				0EA58F0E0D6B20120027A3AC /* Debug */,
+				5C7242DF1097E97B004887A5 /* Development (10.5 Compatible) */,
+				5C7243001097F3ED004887A5 /* Development */,
 				0EA58F0F0D6B20120027A3AC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -587,7 +712,8 @@
 		0EA58FB10D6B25870027A3AC /* Build configuration list for PBXNativeTarget "dfindex" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				0EA58F9B0D6B25000027A3AC /* Debug */,
+				5C7242E01097E97B004887A5 /* Development (10.5 Compatible) */,
+				5C7243011097F3ED004887A5 /* Development */,
 				0EA58F9C0D6B25000027A3AC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -596,7 +722,8 @@
 		1DEB916408733D950010E9CD /* Build configuration list for PBXProject "DataFileIndexer" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				1DEB916508733D950010E9CD /* Debug */,
+				5C7242DE1097E97B004887A5 /* Development (10.5 Compatible) */,
+				5C7242FF1097F3ED004887A5 /* Development */,
 				1DEB916608733D950010E9CD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -605,7 +732,8 @@
 		5C2A62011039DDAA00A62CBA /* Build configuration list for PBXNativeTarget "DataFile (Python bindings)" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				5C2A61FF1039DD7F00A62CBA /* Debug */,
+				5C7242E21097E97B004887A5 /* Development (10.5 Compatible) */,
+				5C7243031097F3ED004887A5 /* Development */,
 				5C2A62001039DD7F00A62CBA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
