@@ -152,23 +152,23 @@ shared_ptr<mw::Component> SimpleStaircaseOptimizerFactory::createObject(std::map
 	try {
 		grace_period = boost::lexical_cast< unsigned int >(parameters.find("grace_period")->second);
 	} catch(bad_lexical_cast &) {
-		throw InvalidReferenceException(parameters.find("reference_id")->second, "grace_period", parameters.find("grace_period")->second);
+		throw InvalidReferenceException(parameters["reference_id"], "grace_period", parameters.find("grace_period")->second);
 	}
 	
 	unsigned int history = 0;
 	try {
 		history = boost::lexical_cast< unsigned int >(parameters.find("history")->second);
 	} catch(bad_lexical_cast &) {
-		throw InvalidReferenceException(parameters.find("reference_id")->second, "history", parameters.find("history")->second);
+		throw InvalidReferenceException(parameters["reference_id"], "history", parameters.find("history")->second);
 	}
 	
-	checkAttribute(watch, parameters.find("reference_id")->second, "watch", parameters.find("watch")->second);                                                        
-	checkAttribute(output, parameters.find("reference_id")->second, "output", parameters.find("output")->second);                                                        
-	checkAttribute(lower_limit, parameters.find("reference_id")->second, "lower_limit", parameters.find("lower_limit")->second);                                         
-	checkAttribute(upper_limit, parameters.find("reference_id")->second, "upper_limit", parameters.find("upper_limit")->second);                                         
-	checkAttribute(up_criterion, parameters.find("reference_id")->second, "up_criterion", parameters.find("up_criterion")->second);                                      
-	checkAttribute(down_criterion, parameters.find("reference_id")->second, "down_criterion", parameters.find("down_criterion")->second);                                
-	checkAttribute(step_size, parameters.find("reference_id")->second, "step_size", parameters.find("step_size")->second);                                               
+	checkAttribute(watch, parameters["reference_id"], "watch", parameters.find("watch")->second);                                                        
+	checkAttribute(output, parameters["reference_id"], "output", parameters.find("output")->second);                                                        
+	checkAttribute(lower_limit, parameters["reference_id"], "lower_limit", parameters.find("lower_limit")->second);                                         
+	checkAttribute(upper_limit, parameters["reference_id"], "upper_limit", parameters.find("upper_limit")->second);                                         
+	checkAttribute(up_criterion, parameters["reference_id"], "up_criterion", parameters.find("up_criterion")->second);                                      
+	checkAttribute(down_criterion, parameters["reference_id"], "down_criterion", parameters.find("down_criterion")->second);                                
+	checkAttribute(step_size, parameters["reference_id"], "step_size", parameters.find("step_size")->second);                                               
 	
 	shared_ptr <mw::Component> newSimpleStaircaseOptimizer = shared_ptr<mw::Component>(new SimpleStaircaseOptimizer(watch, 
 																											   output,

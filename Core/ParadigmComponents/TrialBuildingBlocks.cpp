@@ -125,8 +125,8 @@ shared_ptr<mw::Component> AssignmentFactory::createObject(std::map<std::string, 
 	shared_ptr<Variable> val = reg->getVariable(parameters.find("value")->second);
 	
 	
-	checkAttribute(val, parameters.find("reference_id")->second, "value", parameters.find("value")->second);
-	checkAttribute(variable, parameters.find("reference_id")->second, "variable", parameters.find("variable")->second);
+	checkAttribute(val, parameters["reference_id"], "value", parameters.find("value")->second);
+	checkAttribute(variable, parameters["reference_id"], "variable", parameters.find("variable")->second);
 	
 	
 	shared_ptr <mw::Component> newAssignmentAction = shared_ptr<mw::Component>(new Assignment(variable, val));
@@ -343,7 +343,7 @@ shared_ptr<mw::Component> AssertionActionFactory::createObject(std::map<std::str
 	std::string reportString = parameters.find("message")->second;
 	shared_ptr<Variable> condition = reg->getVariable(parameters.find("condition")->second);
 	
-	checkAttribute(condition, parameters.find("reference_id")->second, "condition", parameters.find("condition")->second);
+	checkAttribute(condition, parameters["reference_id"], "condition", parameters.find("condition")->second);
 	
 	
 	shared_ptr <mw::Component> newReportStringAction = shared_ptr<mw::Component>(new AssertionAction(condition, reportString));
@@ -436,7 +436,7 @@ shared_ptr<mw::Component> StartTimerFactory::createObject(std::map<std::string, 
     shared_ptr<Variable> _timeToWait;
     
 	shared_ptr<Variable> duration = reg->getVariable(parameters.find("duration")->second);
-	checkAttribute(duration, parameters.find("reference_id")->second, "duration", parameters.find("duration")->second);		
+	checkAttribute(duration, parameters["reference_id"], "duration", parameters.find("duration")->second);		
     
     string duration_units = parameters["duration_units"];
    
@@ -482,8 +482,8 @@ shared_ptr<mw::Component> StartTimerFactory::createObject(std::map<std::string, 
 	if(!timebaseString.empty()){
 		// for when there's a timebase
 		shared_ptr<TimeBase> _timeBase = reg->getObject<TimeBase>(timebaseString);
-		//checkAttribute(_timeBase, parameters.find("reference_id")->second, "_timeBase", parameters.find("_timeBase")->second);
-		checkAttribute(_timeBase, parameters.find("reference_id")->second, "timebase", parameters.find("timebase")->second);
+		//checkAttribute(_timeBase, parameters["reference_id"], "_timeBase", parameters.find("_timeBase")->second);
+		checkAttribute(_timeBase, parameters["reference_id"], "timebase", parameters.find("timebase")->second);
 		
 		newStartTimerAction = shared_ptr<mw::Component>(new StartTimer(_timer, _timeBase, _timeToWait));
 	} else {
@@ -574,7 +574,7 @@ shared_ptr<mw::Component> WaitFactory::createObject(std::map<std::string, std::s
     shared_ptr<Variable> _timeToWait;
     
 	shared_ptr<Variable> duration = reg->getVariable(parameters.find("duration")->second);
-	checkAttribute(duration, parameters.find("reference_id")->second, "_timeToWait", parameters.find("_timeToWait")->second);		
+	checkAttribute(duration, parameters["reference_id"], "_timeToWait", parameters.find("_timeToWait")->second);		
 	
     string duration_units = parameters["duration_units"];
    
@@ -599,7 +599,7 @@ shared_ptr<mw::Component> WaitFactory::createObject(std::map<std::string, std::s
 	std::map<std::string, std::string>::const_iterator timeBaseElement = parameters.find("timebase");
 	if(timeBaseElement != parameters.end()) {
 		shared_ptr<TimeBase> _timeBase = reg->getObject<TimeBase>(timeBaseElement->second);
-		checkAttribute(_timeBase, parameters.find("reference_id")->second, "_timeBase", parameters.find("_timeBase")->second);		
+		checkAttribute(_timeBase, parameters["reference_id"], "_timeBase", parameters.find("_timeBase")->second);		
 		
 		newWaitAction = shared_ptr<mw::Component>(new Wait(_timeBase, _timeToWait));
 	} else {
@@ -639,7 +639,7 @@ shared_ptr<mw::Component> LoadStimulusFactory::createObject(std::map<std::string
 	shared_ptr<StimulusNode> stimulus = reg->getStimulus(parameters.find("stimulus")->second);
 	shared_ptr<StimulusDisplay> stimDisplay = GlobalCurrentExperiment->getStimulusDisplay();
 	
-	checkAttribute(stimulus, parameters.find("reference_id")->second, "stimulus", parameters.find("stimulus")->second);		
+	checkAttribute(stimulus, parameters["reference_id"], "stimulus", parameters.find("stimulus")->second);		
 	
 	
 	if(stimDisplay == 0) {
@@ -717,7 +717,7 @@ shared_ptr<mw::Component> QueueStimulusFactory::createObject(std::map<std::strin
 	shared_ptr<StimulusNode> stimulus = reg->getStimulus(parameters.find("stimulus")->second);
 	shared_ptr<StimulusDisplay> stimDisplay = GlobalCurrentExperiment->getStimulusDisplay();
 	
-	checkAttribute(stimulus, parameters.find("reference_id")->second, "stimulus", parameters.find("stimulus")->second);		
+	checkAttribute(stimulus, parameters["reference_id"], "stimulus", parameters.find("stimulus")->second);		
 	
 	
 	if(stimDisplay == 0) {
@@ -775,7 +775,7 @@ shared_ptr<mw::Component> LiveQueueStimulusFactory::createObject(std::map<std::s
 	shared_ptr<StimulusNode> stimulus = reg->getStimulus(parameters.find("stimulus")->second);
 	shared_ptr<StimulusDisplay> stimDisplay = GlobalCurrentExperiment->getStimulusDisplay();
 	
-	checkAttribute(stimulus, parameters.find("reference_id")->second, "stimulus", parameters.find("stimulus")->second);		
+	checkAttribute(stimulus, parameters["reference_id"], "stimulus", parameters.find("stimulus")->second);		
 	
 	
 	if(stimDisplay == 0) {
@@ -811,7 +811,7 @@ shared_ptr<mw::Component> DequeueStimulusFactory::createObject(std::map<std::str
 	
 	shared_ptr<StimulusNode> stimulus = reg->getStimulus(parameters.find("stimulus")->second);
 	
-	checkAttribute(stimulus, parameters.find("reference_id")->second, "stimulus", parameters.find("stimulus")->second);		
+	checkAttribute(stimulus, parameters["reference_id"], "stimulus", parameters.find("stimulus")->second);		
 	
 	
 	shared_ptr <mw::Component> newDequeueStimulusAction = shared_ptr<mw::Component>(new DequeueStimulus(stimulus));
@@ -846,7 +846,7 @@ shared_ptr<mw::Component> BringStimulusToFrontFactory::createObject(std::map<std
 	
 	shared_ptr<StimulusNode> stimulus = reg->getStimulus(parameters.find("stimulus")->second);
 	
-	checkAttribute(stimulus, parameters.find("reference_id")->second, "stimulus", parameters.find("stimulus")->second);		
+	checkAttribute(stimulus, parameters["reference_id"], "stimulus", parameters.find("stimulus")->second);		
 	
 	
 	shared_ptr <mw::Component> newBringStimulusToFrontAction = shared_ptr<mw::Component>(new BringStimulusToFront(stimulus));
@@ -881,7 +881,7 @@ shared_ptr<mw::Component> SendStimulusToBackFactory::createObject(std::map<std::
 	
 	shared_ptr<StimulusNode> stimulus = reg->getStimulus(parameters.find("stimulus")->second);
 	
-	checkAttribute(stimulus, parameters.find("reference_id")->second, "stimulus", parameters.find("stimulus")->second);		
+	checkAttribute(stimulus, parameters["reference_id"], "stimulus", parameters.find("stimulus")->second);		
 	
 	
 	shared_ptr <mw::Component> newSendStimulusToBackAction = shared_ptr<mw::Component>(new BringStimulusToFront(stimulus));
@@ -948,7 +948,7 @@ shared_ptr<mw::Component> PlaySoundFactory::createObject(std::map<std::string, s
 	
 	shared_ptr<Sound> theSound = reg->getObject<Sound>(parameters.find("sound")->second);
 	
-	checkAttribute(theSound, parameters.find("reference_id")->second, "sound", parameters.find("sound")->second);		
+	checkAttribute(theSound, parameters["reference_id"], "sound", parameters.find("sound")->second);		
 	
 	
 	shared_ptr <mw::Component> newPlaySoundAction = shared_ptr<mw::Component>(new PlaySound(theSound));
@@ -965,7 +965,7 @@ shared_ptr<mw::Component> StopSoundFactory::createObject(std::map<std::string, s
 	
 	shared_ptr<Sound> theSound = reg->getObject<Sound>(parameters.find("sound")->second);
 	
-	checkAttribute(theSound, parameters.find("reference_id")->second, "sound", parameters.find("sound")->second);		
+	checkAttribute(theSound, parameters["reference_id"], "sound", parameters.find("sound")->second);		
 	
 	
 	shared_ptr <mw::Component> newStopSoundAction = shared_ptr<mw::Component>(new StopSound(theSound));
@@ -982,7 +982,7 @@ shared_ptr<mw::Component> PauseSoundFactory::createObject(std::map<std::string, 
 	
 	shared_ptr<Sound> theSound = reg->getObject<Sound>(parameters.find("sound")->second);
 	
-	checkAttribute(theSound, parameters.find("reference_id")->second, "sound", parameters.find("sound")->second);		
+	checkAttribute(theSound, parameters["reference_id"], "sound", parameters.find("sound")->second);		
 	
 	
 	shared_ptr <mw::Component> newPauseSoundAction = shared_ptr<mw::Component>(new PauseSound(theSound));
@@ -1020,7 +1020,7 @@ shared_ptr<mw::Component> StartDeviceIOFactory::createObject(std::map<std::strin
 	
 	shared_ptr<IODevice> theIODevice = reg->getObject<IODevice>(parameters.find("device")->second);
 	
-	checkAttribute(theIODevice, parameters.find("reference_id")->second, "device", parameters.find("device")->second);		
+	checkAttribute(theIODevice, parameters["reference_id"], "device", parameters.find("device")->second);		
 	
 	
 	shared_ptr <mw::Component> newStartDeviceIOAction = shared_ptr<mw::Component>(new StartDeviceIO(theIODevice));
@@ -1056,7 +1056,7 @@ shared_ptr<mw::Component> StopDeviceIOFactory::createObject(std::map<std::string
 	
 	shared_ptr<IODevice> theIODevice = reg->getObject<IODevice>(parameters.find("device")->second);
 	
-	checkAttribute(theIODevice, parameters.find("reference_id")->second, "device", parameters.find("device")->second);		
+	checkAttribute(theIODevice, parameters["reference_id"], "device", parameters.find("device")->second);		
 	
 	
 	shared_ptr <mw::Component> newStopDeviceIOAction = shared_ptr<mw::Component>(new StopDeviceIO(theIODevice));
@@ -1078,7 +1078,7 @@ shared_ptr<mw::Component> ResetSelectionFactory::createObject(std::map<std::stri
     
 	// TODO something funny happens with Selectable's
 	if(sel == NULL) {
-		throw MissingReferenceException(parameters.find("reference_id")->second, "selection", parameters.find("selection")->second);		
+		throw MissingReferenceException(parameters["reference_id"], "selection", parameters.find("selection")->second);		
 	}
 	
 	
@@ -1098,9 +1098,9 @@ shared_ptr<mw::Component> AcceptSelectionsFactory::createObject(std::map<std::st
     //shared_ptr<Selectable> sel = reg->getObject<Selectable>(parameters.find("selection")->second);
 	
 	// TODO something funny happens with Selectable's
-	//	checkAttribute(sel, parameters.find("reference_id")->second, "selection", parameters.find("selection")->second);		
+	//	checkAttribute(sel, parameters["reference_id"], "selection", parameters.find("selection")->second);		
 	if(sel == 0) {
-		throw MissingReferenceException(parameters.find("reference_id")->second, "selection", parameters.find("selection")->second);		
+		throw MissingReferenceException(parameters["reference_id"], "selection", parameters.find("selection")->second);		
 	}
 	
 	
@@ -1121,9 +1121,9 @@ shared_ptr<mw::Component> RejectSelectionsFactory::createObject(std::map<std::st
 
     
 	// TODO something funny happens with Selectable's
-	//	checkAttribute(sel, parameters.find("reference_id")->second, "selection", parameters.find("selection")->second);		
+	//	checkAttribute(sel, parameters["reference_id"], "selection", parameters.find("selection")->second);		
 	if(sel == 0) {
-		throw MissingReferenceException(parameters.find("reference_id")->second, "selection", parameters.find("selection")->second);		
+		throw MissingReferenceException(parameters["reference_id"], "selection", parameters.find("selection")->second);		
 	}
 	
 	
@@ -1175,7 +1175,7 @@ shared_ptr<mw::Component> IfFactory::createObject(std::map<std::string, std::str
 	REQUIRE_ATTRIBUTES(parameters, "condition");
 	shared_ptr<Variable> condition = reg->getVariable(parameters.find("condition")->second);
 	
-	checkAttribute(condition, parameters.find("reference_id")->second, "condition", parameters.find("condition")->second);		
+	checkAttribute(condition, parameters["reference_id"], "condition", parameters.find("condition")->second);		
 	
 	
 	// TODO ... needs more work here, possibly done in connection phase
@@ -1272,16 +1272,16 @@ shared_ptr<mw::Component> TransitionFactory::createObject(std::map<std::string, 
 		REQUIRE_ATTRIBUTES(parameters, "type", "target");
 		shared_ptr<State> target = reg->getObject<State>(parameters.find("target")->second, parameters["parent_scope"]);
 		
-		checkAttribute(target, parameters.find("reference_id")->second, "target", parameters.find("target")->second);		
+		checkAttribute(target, parameters["reference_id"], "target", parameters.find("target")->second);		
 		
 		string type = to_lower_copy(parameters.find("type")->second);
 		if(type == "conditional") {
 			REQUIRE_ATTRIBUTES(parameters, "type", "target", "condition");
 			shared_ptr<Variable> condition = reg->getVariable(parameters.find("condition")->second);			
 			
-			checkAttribute(condition, parameters.find("reference_id")->second, "condition", parameters.find("condition")->second);		
+			checkAttribute(condition, parameters["reference_id"], "condition", parameters.find("condition")->second);		
 			
-			checkAttribute(target, parameters.find("reference_id")->second, "target", parameters.find("target")->second);		
+			checkAttribute(target, parameters["reference_id"], "target", parameters.find("target")->second);		
 			
 			
 			newTransition = shared_ptr<mw::Component>(new TransitionCondition(condition, target));
@@ -1289,15 +1289,15 @@ shared_ptr<mw::Component> TransitionFactory::createObject(std::map<std::string, 
 			REQUIRE_ATTRIBUTES(parameters, "type", "target", "timer");
 			shared_ptr<Timer> timer = reg->getObject<Timer>(parameters.find("timer")->second);
 			
-			checkAttribute(timer, parameters.find("reference_id")->second, "timer", parameters.find("timer")->second);		
+			checkAttribute(timer, parameters["reference_id"], "timer", parameters.find("timer")->second);		
 			
-			checkAttribute(target, parameters.find("reference_id")->second, "target", parameters.find("target")->second);		
+			checkAttribute(target, parameters["reference_id"], "target", parameters.find("target")->second);		
 			
 			
 			newTransition = shared_ptr<mw::Component>(new TransitionIfTimerExpired(timer, target));
 		} else if(type == "direct" || type == "") {
 			REQUIRE_ATTRIBUTES(parameters, "type", "target");
-			checkAttribute(target, parameters.find("reference_id")->second, "target", parameters.find("target")->second);		
+			checkAttribute(target, parameters["reference_id"], "target", parameters.find("target")->second);		
 			
 			newTransition = shared_ptr<mw::Component>(new TransitionCondition(target));
 		} else {
@@ -1815,12 +1815,12 @@ shared_ptr<mw::Component> TakeCalibrationSampleNowFactory::createObject(std::map
 	shared_ptr<Calibrator> cal = reg->getObject<Calibrator>(parameters.find("calibrator")->second);
 	shared_ptr<GoldStandard> gs = reg->getObject<GoldStandard>(parameters.find("calibratable_object")->second);
 	
-	checkAttribute(cal, parameters.find("reference_id")->second, "calibrator", parameters.find("calibrator")->second);		
+	checkAttribute(cal, parameters["reference_id"], "calibrator", parameters.find("calibrator")->second);		
 	
 	// TODO something funny happens with GoldStandard's
-	//	checkAttribute(gs, parameters.find("reference_id")->second, "calibratable_object", parameters.find("calibratable_object")->second);		
+	//	checkAttribute(gs, parameters["reference_id"], "calibratable_object", parameters.find("calibratable_object")->second);		
 	if(gs == 0) {
-		throw MissingReferenceException(parameters.find("reference_id")->second, "calibratable_object", parameters.find("calibratable_object")->second);		
+		throw MissingReferenceException(parameters["reference_id"], "calibratable_object", parameters.find("calibratable_object")->second);		
 	}
 	
 	shared_ptr <mw::Component> newTakeCalibrationSampleNowAction = shared_ptr<mw::Component>(new TakeCalibrationSampleNow(cal, gs));
@@ -1848,7 +1848,7 @@ shared_ptr<mw::Component> StartAverageCalibrationSampleFactory::createObject(std
 	
 	shared_ptr<Calibrator> cal = reg->getObject<Calibrator>(parameters.find("calibrator")->second);
 	
-	checkAttribute(cal, parameters.find("reference_id")->second, "calibrator", parameters.find("calibrator")->second);		
+	checkAttribute(cal, parameters["reference_id"], "calibrator", parameters.find("calibrator")->second);		
 	
 	
 	shared_ptr <mw::Component> newStartAverageCalibrationSampleAction = shared_ptr<mw::Component>(new StartAverageCalibrationSample(cal));
@@ -1877,12 +1877,12 @@ shared_ptr<mw::Component> EndAverageAndTakeCalibrationSampleFactory::createObjec
 	shared_ptr<Calibrator> cal = reg->getObject<Calibrator>(parameters.find("calibrator")->second);
 	shared_ptr<GoldStandard> gs = reg->getObject<GoldStandard>(parameters.find("calibratable_object")->second);
 	
-	checkAttribute(cal, parameters.find("reference_id")->second, "calibrator", parameters.find("calibrator")->second);		
+	checkAttribute(cal, parameters["reference_id"], "calibrator", parameters.find("calibrator")->second);		
 	
 	// TODO something funny happens with GoldStandard's
-	//	checkAttribute(gs, parameters.find("reference_id")->second, "calibratable_object", parameters.find("calibratable_object")->second);		
+	//	checkAttribute(gs, parameters["reference_id"], "calibratable_object", parameters.find("calibratable_object")->second);		
 	if(gs == 0) {
-		throw MissingReferenceException(parameters.find("reference_id")->second, "calibratable_object", parameters.find("calibratable_object")->second);		
+		throw MissingReferenceException(parameters["reference_id"], "calibratable_object", parameters.find("calibratable_object")->second);		
 	}
 	
 	
@@ -1910,7 +1910,7 @@ shared_ptr<mw::Component> EndAverageAndIgnoreFactory::createObject(std::map<std:
 	
 	shared_ptr<Calibrator> cal = reg->getObject<Calibrator>(parameters.find("calibrator")->second);
 	
-	checkAttribute(cal, parameters.find("reference_id")->second, "calibrator", parameters.find("calibrator")->second);		
+	checkAttribute(cal, parameters["reference_id"], "calibrator", parameters.find("calibrator")->second);		
 	
 	
 	
@@ -1938,7 +1938,7 @@ shared_ptr<mw::Component> CalibrateNowFactory::createObject(std::map<std::string
 	
 	shared_ptr<Calibrator> cal = reg->getObject<Calibrator>(parameters.find("calibrator")->second);
 	
-	checkAttribute(cal, parameters.find("reference_id")->second, "calibrator", parameters.find("calibrator")->second);		
+	checkAttribute(cal, parameters["reference_id"], "calibrator", parameters.find("calibrator")->second);		
 	
 	
 	shared_ptr <mw::Component> newCalibrateNowAction = shared_ptr<mw::Component>(new CalibrateNow(cal));
@@ -1966,7 +1966,7 @@ shared_ptr<mw::Component> ClearCalibrationFactory::createObject(std::map<std::st
 	
 	shared_ptr<Calibrator> cal = reg->getObject<Calibrator>(parameters.find("calibrator")->second);
 	
-	checkAttribute(cal, parameters.find("reference_id")->second, "calibrator", parameters.find("calibrator")->second);		
+	checkAttribute(cal, parameters["reference_id"], "calibrator", parameters.find("calibrator")->second);		
 	
 	
 	shared_ptr <mw::Component> newClearCalibrationAction = shared_ptr<mw::Component>(new ClearCalibration(cal));
@@ -2001,7 +2001,7 @@ shared_ptr<mw::Component> StartAveragerFactory::createObject(std::map<std::strin
 	
 	shared_ptr<AveragerUser> avg = reg->getObject<AveragerUser>(parameters.find("averager")->second);
 	
-	checkAttribute(avg, parameters.find("reference_id")->second, "averager", parameters.find("averager")->second);		
+	checkAttribute(avg, parameters["reference_id"], "averager", parameters.find("averager")->second);		
 	
 	
 	shared_ptr <mw::Component> newStartAveragerAction = shared_ptr<mw::Component>(new StartAverager(avg));
@@ -2027,7 +2027,7 @@ shared_ptr<mw::Component> StopAveragerFactory::createObject(std::map<std::string
 	
 	shared_ptr<AveragerUser> avg = reg->getObject<AveragerUser>(parameters.find("averager")->second);
 	
-	checkAttribute(avg, parameters.find("reference_id")->second, "averager", parameters.find("averager")->second);		
+	checkAttribute(avg, parameters["reference_id"], "averager", parameters.find("averager")->second);		
 	
 	
 	shared_ptr <mw::Component> newStopAveragerAction = shared_ptr<mw::Component>(new StopAverager(avg));
@@ -2054,7 +2054,7 @@ shared_ptr<mw::Component> ClearAveragerFactory::createObject(std::map<std::strin
 	
 	shared_ptr<AveragerUser> avg = reg->getObject<AveragerUser>(parameters.find("averager")->second);
 	
-	checkAttribute(avg, parameters.find("reference_id")->second, "averager", parameters.find("averager")->second);		
+	checkAttribute(avg, parameters["reference_id"], "averager", parameters.find("averager")->second);		
 	
 	
 	shared_ptr <mw::Component> newClearAveragerAction = shared_ptr<mw::Component>(new ClearAverager(avg));

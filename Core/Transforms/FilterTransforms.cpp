@@ -310,11 +310,11 @@ shared_ptr<mw::Component> Filter_BoxcarFilter1DFactory::createObject(std::map<st
 	try {
 		width_samples = boost::lexical_cast< unsigned int >(parameters.find("width_samples")->second);
 	} catch(bad_lexical_cast &) {
-		throw InvalidReferenceException(parameters.find("reference_id")->second, "width_samples", parameters.find("width_samples")->second);
+		throw InvalidReferenceException(parameters["reference_id"], "width_samples", parameters.find("width_samples")->second);
 	}
 	
-	checkAttribute(in1, parameters.find("reference_id")->second, "in1", parameters.find("in1")->second);
-	checkAttribute(out1, parameters.find("reference_id")->second, "out1", parameters.find("out1")->second);
+	checkAttribute(in1, parameters["reference_id"], "in1", parameters.find("in1")->second);
+	checkAttribute(out1, parameters["reference_id"], "out1", parameters.find("out1")->second);
 	
 	shared_ptr <mw::Component> newFilter_BoxcarFilter1D = shared_ptr<mw::Component>(new Filter_BoxcarFilter1D(in1, out1, width_samples));
 	return newFilter_BoxcarFilter1D;
@@ -367,25 +367,25 @@ shared_ptr<mw::Component> Filter_LinearFilter1DFactory::createObject(std::map<st
 	try {
 		gain = boost::lexical_cast<double>(parameters.find("gain")->second);
 	} catch(bad_lexical_cast &) {
-		throw InvalidReferenceException(parameters.find("reference_id")->second, "gain", parameters.find("gain")->second);
+		throw InvalidReferenceException(parameters["reference_id"], "gain", parameters.find("gain")->second);
 	}
 	
 	double offset = 0;
 	try {
 		offset = boost::lexical_cast<double>(parameters.find("offset")->second);
 	} catch(bad_lexical_cast &) {
-		throw InvalidReferenceException(parameters.find("reference_id")->second, "offset", parameters.find("offset")->second);
+		throw InvalidReferenceException(parameters["reference_id"], "offset", parameters.find("offset")->second);
 	}
 	
 	double noise_sd = 0;
 	try {
 		noise_sd = boost::lexical_cast<double>(parameters.find("noise_sd")->second);
 	} catch(bad_lexical_cast &) {
-		throw InvalidReferenceException(parameters.find("reference_id")->second, "noise_sd", parameters.find("noise_sd")->second);
+		throw InvalidReferenceException(parameters["reference_id"], "noise_sd", parameters.find("noise_sd")->second);
 	}
 	
-	checkAttribute(in1, parameters.find("reference_id")->second, "in1", parameters.find("in1")->second);
-	checkAttribute(out1, parameters.find("reference_id")->second, "out1", parameters.find("out1")->second);
+	checkAttribute(in1, parameters["reference_id"], "in1", parameters.find("in1")->second);
+	checkAttribute(out1, parameters["reference_id"], "out1", parameters.find("out1")->second);
 	
 	shared_ptr <mw::Component> newFilter_LinearFilter1D = shared_ptr<mw::Component>(new Filter_LinearFilter1D(in1, out1, gain, offset, noise_sd));
 	return newFilter_LinearFilter1D;

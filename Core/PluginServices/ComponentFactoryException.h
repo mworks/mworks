@@ -16,7 +16,11 @@ protected:
 	std::string _referenceID;
 public:
 	ComponentFactoryException(const std::string &refID) {
-		_referenceID = refID;
+        if(refID.empty()){
+            _referenceID = refID;
+        } else {
+            _referenceID = "<unknown>";
+        }
 	}
 	
 	virtual ~ComponentFactoryException() throw() {}

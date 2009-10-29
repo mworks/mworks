@@ -164,10 +164,10 @@ shared_ptr<mw::Component> AveragerUserFactory::createObject(std::map<std::string
 	shared_ptr<Variable> out1 = reg->getVariable(parameters.find("out1")->second);
 	
 	
-	checkAttribute(in1, parameters.find("reference_id")->second, "in1", parameters.find("in1")->second);
+	checkAttribute(in1, parameters["reference_id"], "in1", parameters.find("in1")->second);
 	
 	
-	checkAttribute(out1, parameters.find("reference_id")->second, "out1", parameters.find("out1")->second);
+	checkAttribute(out1, parameters["reference_id"], "out1", parameters.find("out1")->second);
 	
 	
 	shared_ptr <mw::Component> newAveragerUser = shared_ptr<mw::Component>(new AveragerUser(in1, out1));

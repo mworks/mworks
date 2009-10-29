@@ -24,7 +24,7 @@
 namespace mw {
 using namespace std;
 
-#define MAX_MESSAGE_SIZE    1024
+#define MAX_MESSAGE_SIZE    128
 #define DEFAULT_QUEUE_SIZE 2000
 #define QUEUE_PRIORITY 100
 #define OUTGOING_SUFFIX "_out"

@@ -43,8 +43,8 @@ class ComponentRegistry;  // forward declaration
 
 class ComponentFactory {
 protected:
-	virtual void requireAttributes(const std::map<std::string, std::string> &parameters,
-								   const std::vector<std::string> &attributes);
+	virtual void requireAttributes(std::map<std::string, std::string> parameters,
+								   std::vector<std::string> attributes);
 	virtual void checkAttribute(const shared_ptr<mw::Component> &component,
 								const std::string &refID,
 								const std::string &name,

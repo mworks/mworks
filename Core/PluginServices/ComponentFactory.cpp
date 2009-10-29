@@ -14,8 +14,8 @@ namespace mw {
 	const mw::Component *InvalidObject = new mw::Component();
 }
 
-void ComponentFactory::requireAttributes(const std::map<std::string, std::string> &parameters,
-										  const std::vector<std::string> &requiredAttributes) {
+void ComponentFactory::requireAttributes(std::map<std::string, std::string> parameters,
+                                         std::vector<std::string> requiredAttributes) {
 	
 	for(std::vector<std::string>::const_iterator i = requiredAttributes.begin();
 		i != requiredAttributes.end();
@@ -24,7 +24,7 @@ void ComponentFactory::requireAttributes(const std::map<std::string, std::string
 		if(attribute == parameters.end()) {
 			string reference_id("<unknown object>");
             if(parameters.find("reference_id") != parameters.end()){
-                reference_id = parameters.find("reference_id")->second;
+                reference_id = parameters["reference_id"];
             }
             
 			throw MissingAttributeException(reference_id, 

@@ -138,7 +138,7 @@ shared_ptr<mw::Component> SelectionVariableFactory::createObject(std::map<std::s
 		type = M_UNDEFINED;
 		defaultValue = 0L;
 	} else {
-		throw InvalidAttributeException(parameters.find("reference_id")->second, "type", parameters.find("type")->second);
+		throw InvalidAttributeException(parameters["reference_id"], "type", parameters.find("type")->second);
 	}
 	
 	
@@ -159,7 +159,7 @@ shared_ptr<mw::Component> SelectionVariableFactory::createObject(std::map<std::s
 		} else if(editable_lower == "when_changed") {
 			editable = M_WHEN_CHANGED;
 		} else {
-			throw InvalidAttributeException(parameters.find("reference_id")->second, "editable", parameters.find("editable")->second);
+			throw InvalidAttributeException(parameters["reference_id"], "editable", parameters.find("editable")->second);
 		}
 	} else {
 		editable = M_NEVER;
@@ -169,7 +169,7 @@ shared_ptr<mw::Component> SelectionVariableFactory::createObject(std::map<std::s
 		try {
 			viewable = reg->getBoolean(parameters.find("viewable")->second);
 		} catch (boost::bad_lexical_cast &) {
-			throw InvalidAttributeException(parameters.find("reference_id")->second, "viewable", parameters.find("viewable")->second);
+			throw InvalidAttributeException(parameters["reference_id"], "viewable", parameters.find("viewable")->second);
 		}
 	} else {
 		viewable = true;
@@ -180,7 +180,7 @@ shared_ptr<mw::Component> SelectionVariableFactory::createObject(std::map<std::s
 		try {
 			persistant = boost::lexical_cast<bool>(parameters.find("persistant")->second);
 		} catch (boost::bad_lexical_cast &) {
-			throw InvalidAttributeException(parameters.find("reference_id")->second, "persistant", parameters.find("persistant")->second);
+			throw InvalidAttributeException(parameters["reference_id"], "persistant", parameters.find("persistant")->second);
 		}
 	} else {
 		persistant = false;
@@ -202,7 +202,7 @@ shared_ptr<mw::Component> SelectionVariableFactory::createObject(std::map<std::s
 		} else if(logging_lower == "when_changed") {
 			logging = M_WHEN_CHANGED;
 		} else {
-			throw InvalidAttributeException(parameters.find("reference_id")->second, "logging", parameters.find("logging")->second);
+			throw InvalidAttributeException(parameters["reference_id"], "logging", parameters.find("logging")->second);
 		}
 	} else {
 		logging = M_ALWAYS;
@@ -265,7 +265,7 @@ shared_ptr<mw::Component> SelectionVariableFactory::createObject(std::map<std::s
 	try {
 		numSamples = boost::lexical_cast< unsigned int >( parameters.find("nsamples")->second );
 	} catch (bad_lexical_cast &) {
-		throw InvalidAttributeException(parameters.find("reference_id")->second, "nsamples", parameters.find("nsamples")->second);			
+		throw InvalidAttributeException(parameters["reference_id"], "nsamples", parameters.find("nsamples")->second);			
 	}
 	
 	// if it's cycles, multiply by the number of elements in the possible values
@@ -274,7 +274,7 @@ shared_ptr<mw::Component> SelectionVariableFactory::createObject(std::map<std::s
 	} else if(to_lower_copy(parameters.find("sampling_method")->second) == "samples") {
 		// do nothing
 	} else {
-		throw InvalidAttributeException(parameters.find("reference_id")->second, "sampling_method", parameters.find("sampling_method")->second);
+		throw InvalidAttributeException(parameters["reference_id"], "sampling_method", parameters.find("sampling_method")->second);
 	}
 	
 	// get the selection type
@@ -288,7 +288,7 @@ shared_ptr<mw::Component> SelectionVariableFactory::createObject(std::map<std::s
 	} else if(to_lower_copy(parameters.find("selection")->second) == "random_with_replacement") {
 		selection = shared_ptr<RandomWithReplacementSelection>(new RandomWithReplacementSelection(numSamples));			
 	} else {
-		throw InvalidAttributeException(parameters.find("reference_id")->second, "selection", parameters.find("selection")->second);
+		throw InvalidAttributeException(parameters["reference_id"], "selection", parameters.find("selection")->second);
 	}
 	
 	selectionVar->attachSelection(selection);

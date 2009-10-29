@@ -79,6 +79,8 @@ public:
         if(conduit == NULL){
             throw SimpleException("Failed to build valid conduit");
         }
+        
+        cerr << "Created bidirectional conduit: " << resource_name << endl;
     }
     
     virtual bool isInitialized(){

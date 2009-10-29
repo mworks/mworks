@@ -176,11 +176,11 @@ shared_ptr<mw::Component> WavFileSoundFactory::createObject(std::map<std::string
 	bf::path full_path = reg->getPath(parameters["working_path"], parameters["path"]);
 	
 	if(!bf::exists(full_path)) {
-		throw InvalidReferenceException(parameters.find("reference_id")->second, "path", full_path.string());
+		throw InvalidReferenceException(parameters["reference_id"], "path", full_path.string());
 	}
 	
 	if(bf::is_directory(full_path)) {
-		throw InvalidReferenceException(parameters.find("reference_id")->second, "path", full_path.string());
+		throw InvalidReferenceException(parameters["reference_id"], "path", full_path.string());
 	}
 	
 	

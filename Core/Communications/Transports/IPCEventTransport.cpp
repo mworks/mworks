@@ -61,6 +61,11 @@ void IPCEventTransport::sendEvent(shared_ptr<Event> event){
     
     boost::archive::binary_oarchive serialized_archive(output_stream_);
     
+    if(outgoing_queue == NULL){
+        cerr << "Error sending on outgoing queue: nonexistent queue" << endl;
+        return;
+    }
+    
     serialized_archive << event;
     
     string data = output_stream_.str();
@@ -90,6 +95,10 @@ shared_ptr<Event> IPCEventTransport::receiveEvent(){
     unsigned int priority = QUEUE_PRIORITY;
     char *receive_buffer[MAX_MESSAGE_SIZE];
     
+    if(incoming_queue == NULL){
+        return shared_ptr<Event>();
+    }
+    
     try{
         incoming_queue->receive((void *)receive_buffer, MAX_MESSAGE_SIZE, (size_t&) received_size, (unsigned int&)priority);
     } catch(std::exception& e){
@@ -107,6 +116,10 @@ shared_ptr<Event> IPCEventTransport::receiveEventAsynchronous(){
     size_t received_size = 0;
     unsigned int priority = QUEUE_PRIORITY;
     char *receive_buffer[MAX_MESSAGE_SIZE];
+    
+    if(incoming_queue == NULL){
+        return shared_ptr<Event>();
+    }
     
     bool okayp = true;
     try{

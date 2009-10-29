@@ -38,7 +38,7 @@ shared_ptr<mw::Component> CancelScheduledActionFactory::createObject(std::map<st
 	
 	shared_ptr<ScheduledActions> sa = reg->getObject<ScheduledActions>(parameters.find("action")->second);
 	
-	checkAttribute(sa, parameters.find("reference_id")->second, "action", parameters.find("action")->second);
+	checkAttribute(sa, parameters["reference_id"], "action", parameters.find("action")->second);
 	
 	
 	shared_ptr <mw::Component> newCancelScheduledAction = shared_ptr<mw::Component>(new CancelScheduledAction(sa));

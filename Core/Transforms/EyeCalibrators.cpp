@@ -178,9 +178,9 @@ shared_ptr<mw::Component> FixationPointFactory::createObject(std::map<std::strin
 	shared_ptr<Variable> g = pct.getG();	
 	shared_ptr<Variable> b = pct.getB();	
 	
-//	checkAttribute(r, parameters.find("reference_id")->second, "color (r)", colorParams[1]);
-//	checkAttribute(g, parameters.find("reference_id")->second, "color (g)", colorParams[2]);
-//	checkAttribute(b, parameters.find("reference_id")->second, "color (b)", colorParams[3]);
+//	checkAttribute(r, parameters["reference_id"], "color (r)", colorParams[1]);
+//	checkAttribute(g, parameters["reference_id"], "color (g)", colorParams[2]);
+//	checkAttribute(b, parameters["reference_id"], "color (b)", colorParams[3]);
 
 
 	
@@ -190,16 +190,16 @@ shared_ptr<mw::Component> FixationPointFactory::createObject(std::map<std::strin
 	shared_ptr<Variable> trigger_watch_y = reg->getVariable(parameters.find("trigger_watch_y")->second);	
 	shared_ptr<Variable> trigger_flag = reg->getVariable(parameters.find("trigger_flag")->second);	
 	
-	checkAttribute(x_size, parameters.find("reference_id")->second, "x_size", parameters.find("x_size")->second);                                                  
-	checkAttribute(y_size, parameters.find("reference_id")->second, "y_size", parameters.find("y_size")->second);                                                  
-	checkAttribute(x_position, parameters.find("reference_id")->second, "x_position", parameters.find("x_position")->second);                                      
-	checkAttribute(y_position, parameters.find("reference_id")->second, "y_position", parameters.find("y_position")->second);                                      
-	checkAttribute(rotation, parameters.find("reference_id")->second, "rotation", parameters.find("rotation")->second);                                            
-	checkAttribute(alpha_multiplier, parameters.find("reference_id")->second, "alpha_multiplier", parameters.find("alpha_multiplier")->second);                    
-	checkAttribute(trigger_width, parameters.find("reference_id")->second, "trigger_width", parameters.find("trigger_width")->second);                             
-	checkAttribute(trigger_watch_x, parameters.find("reference_id")->second, "trigger_watch_x", parameters.find("trigger_watch_x")->second);                       
-	checkAttribute(trigger_watch_y, parameters.find("reference_id")->second, "trigger_watch_y", parameters.find("trigger_watch_y")->second);                       
-	checkAttribute(trigger_flag, parameters.find("reference_id")->second, "trigger_flag", parameters.find("trigger_flag")->second);       
+	checkAttribute(x_size, parameters["reference_id"], "x_size", parameters.find("x_size")->second);                                                  
+	checkAttribute(y_size, parameters["reference_id"], "y_size", parameters.find("y_size")->second);                                                  
+	checkAttribute(x_position, parameters["reference_id"], "x_position", parameters.find("x_position")->second);                                      
+	checkAttribute(y_position, parameters["reference_id"], "y_position", parameters.find("y_position")->second);                                      
+	checkAttribute(rotation, parameters["reference_id"], "rotation", parameters.find("rotation")->second);                                            
+	checkAttribute(alpha_multiplier, parameters["reference_id"], "alpha_multiplier", parameters.find("alpha_multiplier")->second);                    
+	checkAttribute(trigger_width, parameters["reference_id"], "trigger_width", parameters.find("trigger_width")->second);                             
+	checkAttribute(trigger_watch_x, parameters["reference_id"], "trigger_watch_x", parameters.find("trigger_watch_x")->second);                       
+	checkAttribute(trigger_watch_y, parameters["reference_id"], "trigger_watch_y", parameters.find("trigger_watch_y")->second);                       
+	checkAttribute(trigger_flag, parameters["reference_id"], "trigger_flag", parameters.find("trigger_flag")->second);       
 
 	if(GlobalCurrentExperiment == 0) {
 		throw SimpleException("no experiment currently defined");		
@@ -1070,10 +1070,10 @@ shared_ptr<mw::Component> EyeCalibratorFactory::createObject(std::map<std::strin
 	shared_ptr<Variable> eyeh_calibrated = reg->getVariable(parameters.find("eyeh_calibrated")->second);	
 	shared_ptr<Variable> eyev_calibrated = reg->getVariable(parameters.find("eyev_calibrated")->second);	
 	
-	checkAttribute(eyeh_raw, parameters.find("reference_id")->second, "eyeh_raw", parameters.find("eyeh_raw")->second);
-	checkAttribute(eyev_raw, parameters.find("reference_id")->second, "eyev_raw", parameters.find("eyev_raw")->second);
-	checkAttribute(eyeh_calibrated, parameters.find("reference_id")->second, "eyeh_calibrated", parameters.find("eyeh_calibrated")->second);
-	checkAttribute(eyev_calibrated, parameters.find("reference_id")->second, "eyev_calibrated", parameters.find("eyev_calibrated")->second);
+	checkAttribute(eyeh_raw, parameters["reference_id"], "eyeh_raw", parameters.find("eyeh_raw")->second);
+	checkAttribute(eyev_raw, parameters["reference_id"], "eyev_raw", parameters.find("eyev_raw")->second);
+	checkAttribute(eyeh_calibrated, parameters["reference_id"], "eyeh_calibrated", parameters.find("eyeh_calibrated")->second);
+	checkAttribute(eyev_calibrated, parameters["reference_id"], "eyev_calibrated", parameters.find("eyev_calibrated")->second);
 	
 	shared_ptr <mw::Component> newEyeCalibrator = shared_ptr<mw::Component>(new EyeCalibrator(tagname, 
 																							  eyeh_raw, 
@@ -1094,10 +1094,10 @@ shared_ptr<mw::Component> LinearEyeCalibratorFactory::createObject(std::map<std:
 	shared_ptr<Variable> eyeh_calibrated = reg->getVariable(parameters.find("eyeh_calibrated")->second);	
 	shared_ptr<Variable> eyev_calibrated = reg->getVariable(parameters.find("eyev_calibrated")->second);	
 	
-	checkAttribute(eyeh_raw, parameters.find("reference_id")->second, "eyeh_raw", parameters.find("eyeh_raw")->second);
-	checkAttribute(eyev_raw, parameters.find("reference_id")->second, "eyev_raw", parameters.find("eyev_raw")->second);
-	checkAttribute(eyeh_calibrated, parameters.find("reference_id")->second, "eyeh_calibrated", parameters.find("eyeh_calibrated")->second);
-	checkAttribute(eyev_calibrated, parameters.find("reference_id")->second, "eyev_calibrated", parameters.find("eyev_calibrated")->second);
+	checkAttribute(eyeh_raw, parameters["reference_id"], "eyeh_raw", parameters.find("eyeh_raw")->second);
+	checkAttribute(eyev_raw, parameters["reference_id"], "eyev_raw", parameters.find("eyev_raw")->second);
+	checkAttribute(eyeh_calibrated, parameters["reference_id"], "eyeh_calibrated", parameters.find("eyeh_calibrated")->second);
+	checkAttribute(eyev_calibrated, parameters["reference_id"], "eyev_calibrated", parameters.find("eyev_calibrated")->second);
 	
 	shared_ptr <mw::Component> newEyeCalibrator = shared_ptr<mw::Component>(new EyeCalibrator(tagname, 
 																							  eyeh_raw, 

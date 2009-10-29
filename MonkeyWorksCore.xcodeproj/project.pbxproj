@@ -43,6 +43,7 @@
 				5C0E758309D1AE53002295FB /* PBXTargetDependency */,
 				5C3853F90AB7458000E52A63 /* PBXTargetDependency */,
 				0E5884A90E479E2D00FC5A8F /* PBXTargetDependency */,
+				5C24578A1092550300338AA9 /* PBXTargetDependency */,
 			);
 			name = Everything;
 			productName = Everything;
@@ -466,6 +467,13 @@
 			remoteGlobalIDString = 5CF73C7E086260E900F453C3;
 			remoteInfo = ZenStateSystemPlugin;
 		};
+		5C2457891092550300338AA9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DA2CE0C907E9070200C68AEF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5CDB8B230E9C4A6300993D99;
+			remoteInfo = mw_conduit;
+		};
 		5C3853F60AB7457800E52A63 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = DA2CE0C907E9070200C68AEF /* Project object */;
@@ -486,6 +494,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 5C488A160F4E27CD00C5A526;
 			remoteInfo = "Set Version String";
+		};
+		5C4952AA1094AAF7002047A3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DA2CE0C907E9070200C68AEF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DA2CE0D307E9F68100C68AEF;
+			remoteInfo = MonkeyWorksCore;
 		};
 		5C4D24C109DC95550082BF9F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -2325,6 +2340,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				5C4952AB1094AAF7002047A3 /* PBXTargetDependency */,
 			);
 			name = mw_conduit;
 			productName = mw_conduit2;
@@ -2950,6 +2966,11 @@
 			target = 5CF73C7E086260E900F453C3 /* ZenStateSystemPlugin */;
 			targetProxy = 5C14D9F608646D2000375FF1 /* PBXContainerItemProxy */;
 		};
+		5C24578A1092550300338AA9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5CDB8B230E9C4A6300993D99 /* mw_conduit */;
+			targetProxy = 5C2457891092550300338AA9 /* PBXContainerItemProxy */;
+		};
 		5C3853F70AB7457800E52A63 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 5C4D239B09DC83930082BF9F /* MonkeyWorksCoreTest */;
@@ -2964,6 +2985,11 @@
 			isa = PBXTargetDependency;
 			target = 5C488A160F4E27CD00C5A526 /* Set Version String */;
 			targetProxy = 5C488A180F4E27D400C5A526 /* PBXContainerItemProxy */;
+		};
+		5C4952AB1094AAF7002047A3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DA2CE0D307E9F68100C68AEF /* MonkeyWorksCore */;
+			targetProxy = 5C4952AA1094AAF7002047A3 /* PBXContainerItemProxy */;
 		};
 		5C4D24C209DC95550082BF9F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -3997,7 +4023,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				APP_SUPPORT_DIR = "/Library/Application Support/Monkeyworks";
-				ARCHS = i386;
+				ARCHS = (
+					x86_64,
+					i386,
+				);
 				CONFIG_DIR = "$(APP_SUPPORT_DIR)/Configuration";
 				FRAMEWORK_SEARCH_PATHS = /Library/Frameworks;
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
@@ -4422,18 +4451,23 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				HEADER_SEARCH_PATHS = (
-					/usr/include/python2.5,
+					/usr/include/python2.6,
 					$MW_INCLUDE_DIR,
 				);
 				INSTALL_PATH = /usr/local/lib;
+				LIBRARY_SEARCH_PATHS = (
+					/usr/lib,
+					"$(MW_LIB_DIR)",
+				);
 				LINK_WITH_STANDARD_LIBRARIES = YES;
 				MACH_O_TYPE = mh_bundle;
 				OTHER_LDFLAGS = (
-					"-lboost_python-mt",
-					"-lpython2.5",
+					"-lboost_python-mw",
+					"-lpython2.6",
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = mw_conduit;
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
 			};
 			name = "Development (10.5 Compatible)";
 		};
@@ -4468,7 +4502,7 @@
 				MACH_O_TYPE = mh_bundle;
 				OTHER_LDFLAGS = (
 					"-lboost_python-mw",
-					"-lpython2.5",
+					"-lpython2.6",
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = mw_conduit;

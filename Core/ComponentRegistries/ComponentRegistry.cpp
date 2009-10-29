@@ -68,7 +68,8 @@ ComponentRegistry::ComponentRegistry() :
 	registerFactory("action/set_timebase", new SetTimeBaseFactory());
 	registerFactory("action/start_timer", new StartTimerFactory());
 	registerFactory("action/wait", new WaitFactory());
-	registerFactory("action/queue_stimulus", new QueueStimulusFactory());
+	registerFactory("action/load_stimulus", new LoadStimulusFactory());
+    registerFactory("action/queue_stimulus", new QueueStimulusFactory());
 	registerFactory("action/show_stimulus", new QueueStimulusFactory());
 	registerFactory("action/live_queue_stimulus", new LiveQueueStimulusFactory());
 	registerFactory("action/dequeue_stimulus", new DequeueStimulusFactory());

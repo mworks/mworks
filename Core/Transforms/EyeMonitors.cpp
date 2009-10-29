@@ -240,14 +240,14 @@ shared_ptr<mw::Component> EyeStatusMonitorVer1Factory::createObject(std::map<std
 	try {
 		width_samples = boost::lexical_cast< unsigned int >(parameters.find("width_samples")->second);
 	} catch(bad_lexical_cast &) {
-		throw InvalidReferenceException(parameters.find("reference_id")->second, "width_samples", parameters.find("width_samples")->second);
+		throw InvalidReferenceException(parameters["reference_id"], "width_samples", parameters.find("width_samples")->second);
 	}
 	
-	checkAttribute(saccade_exit_speed, parameters.find("reference_id")->second, "saccade_exit_speed", parameters.find("saccade_exit_speed")->second);
-	checkAttribute(saccade_entry_speed, parameters.find("reference_id")->second, "saccade_entry_speed", parameters.find("saccade_entry_speed")->second);
-	checkAttribute(eye_state, parameters.find("reference_id")->second, "eye_state", parameters.find("eye_state")->second);
-	checkAttribute(eyeh_calibrated, parameters.find("reference_id")->second, "eyeh_calibrated", parameters.find("eyeh_calibrated")->second);
-	checkAttribute(eyev_calibrated, parameters.find("reference_id")->second, "eyev_calibrated", parameters.find("eyev_calibrated")->second);
+	checkAttribute(saccade_exit_speed, parameters["reference_id"], "saccade_exit_speed", parameters.find("saccade_exit_speed")->second);
+	checkAttribute(saccade_entry_speed, parameters["reference_id"], "saccade_entry_speed", parameters.find("saccade_entry_speed")->second);
+	checkAttribute(eye_state, parameters["reference_id"], "eye_state", parameters.find("eye_state")->second);
+	checkAttribute(eyeh_calibrated, parameters["reference_id"], "eyeh_calibrated", parameters.find("eyeh_calibrated")->second);
+	checkAttribute(eyev_calibrated, parameters["reference_id"], "eyev_calibrated", parameters.find("eyev_calibrated")->second);
 	
 	shared_ptr <mw::Component> newEyeStatusMonitorVer1 = shared_ptr<mw::Component>(new EyeStatusMonitorVer1(eyeh_calibrated,
 																									   eyev_calibrated,
@@ -284,17 +284,17 @@ shared_ptr<mw::Component> EyeStatusMonitorVer2Factory::createObject(std::map<std
 	try {
 		width_samples = boost::lexical_cast< unsigned int >(parameters.find("width_samples")->second);
 	} catch(bad_lexical_cast &) {
-		throw InvalidReferenceException(parameters.find("reference_id")->second, "width_samples", parameters.find("width_samples")->second);
+		throw InvalidReferenceException(parameters["reference_id"], "width_samples", parameters.find("width_samples")->second);
 	}
 
-	checkAttribute(saccade_exit_speed, parameters.find("reference_id")->second, "saccade_exit_speed", parameters.find("saccade_exit_speed")->second);
-	checkAttribute(saccade_entry_speed, parameters.find("reference_id")->second, "saccade_entry_speed", parameters.find("saccade_entry_speed")->second);
-	checkAttribute(eye_state, parameters.find("reference_id")->second, "eye_state", parameters.find("eye_state")->second);
-	checkAttribute(eyeh_calibrated, parameters.find("reference_id")->second, "eyeh_calibrated", parameters.find("eyeh_calibrated")->second);
-	checkAttribute(eyev_calibrated, parameters.find("reference_id")->second, "eyev_calibrated", parameters.find("eyev_calibrated")->second);
-	checkAttribute(saccade_entry_direction_change, parameters.find("reference_id")->second, "saccade_entry_direction_change", parameters.find("saccade_entry_direction_change")->second);
-	checkAttribute(saccade_min_amplitude, parameters.find("reference_id")->second, "saccade_min_amplitude", parameters.find("saccade_min_amplitude")->second);
-	checkAttribute(saccade_min_duration, parameters.find("reference_id")->second, "saccade_min_duration", parameters.find("saccade_min_duration")->second);
+	checkAttribute(saccade_exit_speed, parameters["reference_id"], "saccade_exit_speed", parameters.find("saccade_exit_speed")->second);
+	checkAttribute(saccade_entry_speed, parameters["reference_id"], "saccade_entry_speed", parameters.find("saccade_entry_speed")->second);
+	checkAttribute(eye_state, parameters["reference_id"], "eye_state", parameters.find("eye_state")->second);
+	checkAttribute(eyeh_calibrated, parameters["reference_id"], "eyeh_calibrated", parameters.find("eyeh_calibrated")->second);
+	checkAttribute(eyev_calibrated, parameters["reference_id"], "eyev_calibrated", parameters.find("eyev_calibrated")->second);
+	checkAttribute(saccade_entry_direction_change, parameters["reference_id"], "saccade_entry_direction_change", parameters.find("saccade_entry_direction_change")->second);
+	checkAttribute(saccade_min_amplitude, parameters["reference_id"], "saccade_min_amplitude", parameters.find("saccade_min_amplitude")->second);
+	checkAttribute(saccade_min_duration, parameters["reference_id"], "saccade_min_duration", parameters.find("saccade_min_duration")->second);
 	
 	shared_ptr <mw::Component> newEyeStatusMonitorVer2 = shared_ptr<mw::Component>(new EyeStatusMonitorVer2(eyeh_calibrated,
 																									   eyev_calibrated,

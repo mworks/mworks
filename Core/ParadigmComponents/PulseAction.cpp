@@ -44,10 +44,10 @@ shared_ptr<mw::Component> PulseFactory::createObject(std::map<std::string, std::
 	shared_ptr<Variable> duration = reg->getVariable(parameters.find("duration")->second);
 	
 	
-	checkAttribute(duration, parameters.find("reference_id")->second, "duration", parameters.find("duration")->second);
+	checkAttribute(duration, parameters["reference_id"], "duration", parameters.find("duration")->second);
 	
 	
-	checkAttribute(variable, parameters.find("reference_id")->second, "variable", parameters.find("variable")->second);
+	checkAttribute(variable, parameters["reference_id"], "variable", parameters.find("variable")->second);
 	
 	
 	shared_ptr <mw::Component> newPulseAction = shared_ptr<mw::Component>(new Pulse(variable, duration));

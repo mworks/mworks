@@ -504,9 +504,9 @@ shared_ptr<mw::Component> BlankScreenFactory::createObject(std::map<std::string,
 	shared_ptr<Variable> g = pct.getG();	
 	shared_ptr<Variable> b = pct.getB();	
 	
-	//checkAttribute(r, parameters.find("reference_id")->second, "color (r)", colorParams[1]);
-//	checkAttribute(g, parameters.find("reference_id")->second, "color (g)", colorParams[2]);
-//	checkAttribute(b, parameters.find("reference_id")->second, "color (b)", colorParams[3]);
+	//checkAttribute(r, parameters["reference_id"], "color (r)", colorParams[1]);
+//	checkAttribute(g, parameters["reference_id"], "color (g)", colorParams[2]);
+//	checkAttribute(b, parameters["reference_id"], "color (b)", colorParams[3]);
 
 	
 	if(GlobalCurrentExperiment == 0) {
@@ -1150,18 +1150,18 @@ shared_ptr<mw::Component> ImageStimulusFactory::createObject(std::map<std::strin
 	
 	bf::path full_path = reg->getPath(parameters["working_path"], parameters["path"]);
 		
-	checkAttribute(x_size, parameters.find("reference_id")->second, "x_size", parameters["x_size"]);
-	checkAttribute(y_size, parameters.find("reference_id")->second, "y_size", parameters.find("y_size")->second);
-	checkAttribute(x_position, parameters.find("reference_id")->second, "x_position", parameters.find("x_position")->second);
-	checkAttribute(y_position, parameters.find("reference_id")->second, "y_position", parameters.find("y_position")->second);
-	checkAttribute(rotation, parameters.find("reference_id")->second, "rotation", parameters.find("rotation")->second);
-	checkAttribute(alpha_multiplier,parameters.find("reference_id")->second, "alpha_multiplier", parameters.find("alpha_multiplier")->second);
+	checkAttribute(x_size, parameters["reference_id"], "x_size", parameters["x_size"]);
+	checkAttribute(y_size, parameters["reference_id"], "y_size", parameters.find("y_size")->second);
+	checkAttribute(x_position, parameters["reference_id"], "x_position", parameters.find("x_position")->second);
+	checkAttribute(y_position, parameters["reference_id"], "y_position", parameters.find("y_position")->second);
+	checkAttribute(rotation, parameters["reference_id"], "rotation", parameters.find("rotation")->second);
+	checkAttribute(alpha_multiplier,parameters["reference_id"], "alpha_multiplier", parameters.find("alpha_multiplier")->second);
 	if(!bf::exists(full_path)) {
-		throw InvalidReferenceException(parameters.find("reference_id")->second, "path", parameters.find("path")->second);
+		throw InvalidReferenceException(parameters["reference_id"], "path", parameters.find("path")->second);
 	}
 	
 	if(bf::is_directory(full_path)) {
-		throw InvalidReferenceException(parameters.find("reference_id")->second, "path", parameters.find("path")->second);
+		throw InvalidReferenceException(parameters["reference_id"], "path", parameters.find("path")->second);
 	}
 	
 	if(GlobalCurrentExperiment == NULL) {

@@ -111,11 +111,11 @@ shared_ptr<mw::Component> ScheduledActionsFactory::createObject(std::map<std::st
 	shared_ptr<Variable> duration = reg->getVariable(parameters.find("duration")->second);
 	shared_ptr<Variable> repeats = reg->getVariable(parameters.find("repeats")->second);
 	
-	checkAttribute(duration, parameters.find("reference_id")->second, "duration", parameters.find("duration")->second);
+	checkAttribute(duration, parameters["reference_id"], "duration", parameters.find("duration")->second);
 	
-	checkAttribute(delay, parameters.find("reference_id")->second, "delay", parameters.find("delay")->second);
+	checkAttribute(delay, parameters["reference_id"], "delay", parameters.find("delay")->second);
 	
-	checkAttribute(repeats, parameters.find("reference_id")->second, "repeats", parameters.find("repeats")->second);
+	checkAttribute(repeats, parameters["reference_id"], "repeats", parameters.find("repeats")->second);
 	
 	
 	// TODO .. needs more work, the actual actions aren't included here

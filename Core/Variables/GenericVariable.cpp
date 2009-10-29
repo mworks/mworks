@@ -112,7 +112,7 @@ shared_ptr<mw::Component> VariableFactory::createObject(std::map<std::string, st
 		type = M_BOOLEAN;
 		defaultValue = false;
 	} else {
-		throw InvalidAttributeException(parameters.find("reference_id")->second, "type", parameters.find("type")->second);
+		throw InvalidAttributeException(parameters["reference_id"], "type", parameters.find("type")->second);
 	}
 	
 	
@@ -132,20 +132,20 @@ shared_ptr<mw::Component> VariableFactory::createObject(std::map<std::string, st
 	} else if(editable_string == "when_changed") {
 		editable = M_WHEN_CHANGED;
 	} else {
-		throw InvalidAttributeException(parameters.find("reference_id")->second, "editable", parameters.find("editable")->second);
+		throw InvalidAttributeException(parameters["reference_id"], "editable", parameters.find("editable")->second);
 	}
 
 
 	try {
 		viewable = reg->getBoolean(viewable_string);
 	} catch (boost::bad_lexical_cast &) {
-		throw InvalidAttributeException(parameters.find("reference_id")->second, "viewable", parameters.find("viewable")->second);
+		throw InvalidAttributeException(parameters["reference_id"], "viewable", parameters.find("viewable")->second);
 	}
 	
 	try {
 		persistant = reg->getBoolean(persistant_string);
 	} catch (boost::bad_lexical_cast &) {
-		throw InvalidAttributeException(parameters.find("reference_id")->second, "persistant", parameters.find("persistant")->second);
+		throw InvalidAttributeException(parameters["reference_id"], "persistant", parameters.find("persistant")->second);
 	}
 	
 	
@@ -162,7 +162,7 @@ shared_ptr<mw::Component> VariableFactory::createObject(std::map<std::string, st
 	} else if(to_lower_copy(logging_string) == "when_changed") {
 		logging = M_WHEN_CHANGED;
 	} else {
-		throw InvalidAttributeException(parameters.find("reference_id")->second, "logging", logging_string);
+		throw InvalidAttributeException(parameters["reference_id"], "logging", logging_string);
 	}
 	
 	
@@ -175,14 +175,14 @@ shared_ptr<mw::Component> VariableFactory::createObject(std::map<std::string, st
 				defaultValue = reg->getNumber(parameters.find("default_value")->second);
 				//mData(type, boost::lexical_cast<double>(parameters.find("default_value")->second));					
 			} catch (bad_lexical_cast &) {					
-				throw InvalidAttributeException(parameters.find("reference_id")->second, "default_value", parameters.find("default_value")->second);
+				throw InvalidAttributeException(parameters["reference_id"], "default_value", parameters.find("default_value")->second);
 			}
 			break;
 		case M_STRING:
 			defaultValue = Data(parameters.find("default_value")->second);
 			break;
 		default:
-			throw InvalidAttributeException(parameters.find("reference_id")->second, "default_value", parameters.find("default_value")->second);
+			throw InvalidAttributeException(parameters["reference_id"], "default_value", parameters.find("default_value")->second);
 			break;
 	}
 	
@@ -212,7 +212,7 @@ shared_ptr<mw::Component> VariableFactory::createObject(std::map<std::string, st
         weak_ptr<ScopedVariableEnvironment> env_weak(env);
 		newVar = GlobalVariableRegistry->createScopedVariable(env_weak, &props);		
 	} else {
-		throw InvalidAttributeException(parameters.find("reference_id")->second, "scope", parameters.find("scope")->second);
+		throw InvalidAttributeException(parameters["reference_id"], "scope", parameters.find("scope")->second);
 	}
 	
 	return newVar;

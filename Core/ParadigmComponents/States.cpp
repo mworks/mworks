@@ -477,7 +477,7 @@ void State::setParameters(std::map<std::string, std::string> parameters,
 			bool _interruptible = reg->getBoolean(parameters.find("interruptible")->second);
 			this->setInterruptible(_interruptible);
 		} catch(bad_lexical_cast &) {
-			throw InvalidReferenceException(parameters.find("reference_id")->second, "interruptible", parameters.find("interruptible")->second);
+			throw InvalidReferenceException(parameters["reference_id"], "interruptible", parameters.find("interruptible")->second);
 		}
 	} else {
 		this->setInterruptible(true);

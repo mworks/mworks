@@ -251,7 +251,7 @@ namespace mw {
 			}
 			
 			
-			//checkAttribute(capability, parameters.find("reference_id")->second,	"watch", parameters.find("capability")->second);                                                        
+			//checkAttribute(capability, parameters["reference_id"],	"watch", parameters.find("capability")->second);                                                        
 			
 			shared_ptr<mw::Component> newIOChannel(new IOChannelRequest(tag,
 																	  variable,

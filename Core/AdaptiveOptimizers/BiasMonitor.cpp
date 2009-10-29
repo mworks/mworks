@@ -138,21 +138,21 @@ shared_ptr<mw::Component> BiasMonitorFactory::createObject(std::map<std::string,
 	try {
 		grace_period = boost::lexical_cast< unsigned int >(parameters.find("grace_period")->second);
 	} catch(bad_lexical_cast &) {
-		throw InvalidReferenceException(parameters.find("reference_id")->second, "grace_period", parameters.find("grace_period")->second);
+		throw InvalidReferenceException(parameters["reference_id"], "grace_period", parameters.find("grace_period")->second);
 	}
 	
 	unsigned int history = 0;
 	try {
 		history = boost::lexical_cast< unsigned int >(parameters.find("history")->second);
 	} catch(bad_lexical_cast &) {
-		throw InvalidReferenceException(parameters.find("reference_id")->second, "history", parameters.find("history")->second);
+		throw InvalidReferenceException(parameters["reference_id"], "history", parameters.find("history")->second);
 	}
 	
-	checkAttribute(success, parameters.find("reference_id")->second, "success", parameters.find("success")->second);
-    checkAttribute(response_index, parameters.find("reference_id")->second, "response_index", parameters.find("response_index")->second);
-    checkAttribute(task_correlation, parameters.find("reference_id")->second, "task_correlation", parameters.find("task_correlation")->second);
-    checkAttribute(response_bias_correlation, parameters.find("reference_id")->second, "response_bias_correlation", parameters.find("response_bias_correlation")->second);
-    checkAttribute(alternation_correlation, parameters.find("reference_id")->second, "alternation_correlation", parameters.find("alternation_correlation")->second);
+	checkAttribute(success, parameters["reference_id"], "success", parameters.find("success")->second);
+    checkAttribute(response_index, parameters["reference_id"], "response_index", parameters.find("response_index")->second);
+    checkAttribute(task_correlation, parameters["reference_id"], "task_correlation", parameters.find("task_correlation")->second);
+    checkAttribute(response_bias_correlation, parameters["reference_id"], "response_bias_correlation", parameters.find("response_bias_correlation")->second);
+    checkAttribute(alternation_correlation, parameters["reference_id"], "alternation_correlation", parameters.find("alternation_correlation")->second);
     
 
 	shared_ptr <mw::Component> newBiasMonitor = 
