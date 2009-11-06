@@ -15,7 +15,7 @@
 using namespace mw;
 
 
-RandomWORSelection::RandomWORSelection(int _n_draws) : Selection(_n_draws){
+RandomWORSelection::RandomWORSelection(int _n_draws, bool _autoreset) : Selection(_n_draws, _autoreset){
 	shared_ptr <Clock> clock = Clock::instance();
 	rng.seed((int)clock->getSystemTimeNS());
 	reset();
@@ -48,8 +48,13 @@ shared_ptr <Selection> RandomWORSelection::clone(){
 int RandomWORSelection::draw() {
 	
 	if(done_so_far >= n_draws){
-		SelectionOffEdgeException e;
-		throw e;
+        if(autoreset){
+            mwarning(M_PARADIGM_MESSAGE_DOMAIN, "Autoreseting selection object");
+            reset();
+        } else {
+            SelectionOffEdgeException e;
+            throw e;
+        }
 	}
 
 	if(draw_list.size() <= 0){

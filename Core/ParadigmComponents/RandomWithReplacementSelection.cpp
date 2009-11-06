@@ -12,8 +12,8 @@
 using namespace mw;
 
 
-RandomWithReplacementSelection::RandomWithReplacementSelection(int _n_draws) 
-: Selection(_n_draws) {
+RandomWithReplacementSelection::RandomWithReplacementSelection(int _n_draws, bool _autoreset) 
+: Selection(_n_draws, _autoreset) {
 	shared_ptr <Clock> clock = Clock::instance();
 	rng.seed((int)clock->getSystemTimeNS());
 }
@@ -28,8 +28,13 @@ shared_ptr <Selection> RandomWithReplacementSelection::clone(){
 int RandomWithReplacementSelection::draw() {
 
 	if(done_so_far >= n_draws){
-		SelectionOffEdgeException e;
-		throw e;
+        if(autoreset){
+            mwarning(M_PARADIGM_MESSAGE_DOMAIN, "Autoreseting selection object");
+            reset();
+        } else {
+            SelectionOffEdgeException e;
+            throw e;
+        }
 	}
 	
 	// Make a random selection

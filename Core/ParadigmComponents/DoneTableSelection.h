@@ -23,7 +23,7 @@ protected:
 	int done_table_samples; 
 	
 public:
-	DoneTableSelection(Selectable *_selectable);
+	DoneTableSelection(Selectable *_selectable, bool autoreset = _false);
 	DoneTableSelection();
 	DoneTableSelection(const DoneTableSelection& tocopy);
 	

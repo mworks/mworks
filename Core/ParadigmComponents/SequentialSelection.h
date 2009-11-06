@@ -18,7 +18,7 @@ protected:
 	bool ascending;
 	
 public:
-	SequentialSelection(int _n_draws, bool ascendingp = 1);
+	SequentialSelection(int _n_draws, bool ascendingp = 1, bool autoreset = false);
 	SequentialSelection(SequentialSelection& topcopy);	
 	virtual ~SequentialSelection() { }
 

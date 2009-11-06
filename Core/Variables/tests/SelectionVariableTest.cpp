@@ -300,9 +300,6 @@ void SelectionVariableTestFixture::testMultipleCycles(){
 	
 	shared_ptr<Selection> sel( new SequentialSelection(8) );
 	var.attachSelection(sel);
-//	var.setSelectionType(M_SEQUENTIAL_ASCENDING);
-//	var.setSamplingMethod(M_CYCLES);
-//	var.setN(2);
 	
 	var.addValue(a);
 	var.addValue(b);
@@ -337,6 +334,34 @@ void SelectionVariableTestFixture::testMultipleCycles(){
 
 }
 
+
+
+void SelectionVariableTestFixture::testAutoReset(){
+    fprintf(stderr, "Running SelectionVariableTestFixture::testCycles()\n");
+	
+	SelectionVariable var(NULL);
+	shared_ptr<Selection> sel( new SequentialSelection(4, true, true) );
+	var.attachSelection(sel);	
+    
+	var.addValue(a);
+	var.addValue(b);
+	var.addValue(c);
+	var.addValue(d);
+	
+	CPPUNIT_ASSERT( (long)(var) == (long)(*a) );
+	var.nextValue();
+	
+	CPPUNIT_ASSERT( (long)(var) == (long)(*b) );
+	var.nextValue();
+	
+	CPPUNIT_ASSERT( (long)(var) == (long)(*c) );
+	var.nextValue();
+	
+	CPPUNIT_ASSERT( (long)(var) == (long)(*d) );
+	var.nextValue();
+	
+	CPPUNIT_ASSERT( (long)(var) == (long)(*a) );	
+}
 
 void SelectionVariableTestFixture::testAcceptSelections(){
 		  fprintf(stderr, "Running SelectionVariableTestFixture::testAcceptSelections()\n");

@@ -29,7 +29,7 @@ protected:
 	random_generator rng;
 
 public:
-	RandomWithReplacementSelection(int _n_draws);
+	RandomWithReplacementSelection(int _n_draws, bool _autoreset = false);
 	
 	virtual ~RandomWithReplacementSelection();
 	virtual shared_ptr<Selection> clone();

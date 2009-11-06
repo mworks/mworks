@@ -277,16 +277,26 @@ shared_ptr<mw::Component> SelectionVariableFactory::createObject(std::map<std::s
 		throw InvalidAttributeException(parameters["reference_id"], "sampling_method", parameters.find("sampling_method")->second);
 	}
 	
+    bool autoreset_behavior = false;
+    string autoreset_value = parameters["autoreset"];
+    
+    if(!autoreset_value.empty()){ 
+        boost::algorithm::to_lower(autoreset_value);
+        if(autoreset_value == "yes" || autoreset_value == "1" || autoreset_value == "true"){
+            autoreset_behavior = true;
+        }
+    }
+    
 	// get the selection type
 	shared_ptr<Selection> selection;
 	if(to_lower_copy(parameters.find("selection")->second) == "sequential_ascending") {
-		selection = shared_ptr<SequentialSelection>(new SequentialSelection(numSamples, true));
+		selection = shared_ptr<SequentialSelection>(new SequentialSelection(numSamples, true, autoreset_behavior));
 	} else if(to_lower_copy(parameters.find("selection")->second) == "sequential_descending") {
-		selection = shared_ptr<SequentialSelection>(new SequentialSelection(numSamples, false));			
+		selection = shared_ptr<SequentialSelection>(new SequentialSelection(numSamples, false, autoreset_behavior));			
 	} else if(to_lower_copy(parameters.find("selection")->second) == "random_without_replacement") {
-		selection = shared_ptr<RandomWORSelection>(new RandomWORSelection(numSamples));			
+		selection = shared_ptr<RandomWORSelection>(new RandomWORSelection(numSamples, autoreset_behavior));			
 	} else if(to_lower_copy(parameters.find("selection")->second) == "random_with_replacement") {
-		selection = shared_ptr<RandomWithReplacementSelection>(new RandomWithReplacementSelection(numSamples));			
+		selection = shared_ptr<RandomWithReplacementSelection>(new RandomWithReplacementSelection(numSamples, autoreset_behavior));			
 	} else {
 		throw InvalidAttributeException(parameters["reference_id"], "selection", parameters.find("selection")->second);
 	}

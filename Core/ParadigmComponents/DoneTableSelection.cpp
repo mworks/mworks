@@ -10,7 +10,7 @@
 #include "DoneTableSelection.h"
 using namespace mw;
 
-DoneTableSelection::DoneTableSelection(Selectable *_selectable) : Selection(_selectable){
+DoneTableSelection::DoneTableSelection(Selectable *_selectable, bool _autoreset) : Selection(_selectable, _autoreset){
 	done_table_samples = 0;
 	done_table = new ExpandableList<int>(getNItems());
 	nelements = getNItems();

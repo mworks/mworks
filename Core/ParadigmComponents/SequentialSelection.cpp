@@ -10,8 +10,8 @@
 #include "SequentialSelection.h"
 using namespace mw;
 
-SequentialSelection::SequentialSelection(int _n_draws, bool ascendingp) : 
-													Selection(_n_draws) {
+SequentialSelection::SequentialSelection(int _n_draws, bool ascendingp, bool _autoreset) : 
+													Selection(_n_draws, _autoreset) {
 	ascending = ascendingp;
 	reset();
 }
@@ -28,8 +28,13 @@ int SequentialSelection::draw() {
 
 	// Throw an exception if we are already done
 	if(done_so_far >= n_draws){
-		SelectionOffEdgeException e;
-		throw e;
+        if(autoreset){
+            mwarning(M_PARADIGM_MESSAGE_DOMAIN, "Autoreseting selection object");
+            reset();
+        } else {
+            SelectionOffEdgeException e;
+            throw e;
+        }
 	}
 
 	// Advance the counter

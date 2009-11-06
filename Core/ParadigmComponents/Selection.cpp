@@ -20,9 +20,10 @@ using namespace mw;
 // for random seeds
 
 
-Selection::Selection(int _n_draws) {
+Selection::Selection(int _n_draws, bool _autoreset) {
 	selectable = NULL;
 	n_draws = _n_draws;
+    autoreset = _autoreset;
 }
 
 

@@ -54,12 +54,14 @@ class Selection {
 		
 		int n_draws;
 		int done_so_far;
-
+        
+        bool autoreset; // do we automatically reset when we've completed our selections?
+    
 		std::vector<int> tentative_selections; // to allow "undo" feature
 		        
 	public:
 	
-        Selection(int _n_draws);
+        Selection(int _n_draws, bool autoreset=false);
         virtual ~Selection() { }
         
 		// Delegation of things-to-be-selected
