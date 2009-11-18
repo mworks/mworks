@@ -350,20 +350,6 @@
 			};
 			name = Development;
 		};
-		0E121BA40E6B1A87007B29B8 /* Deployment */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = ScarabUninstall;
-			};
-			name = Deployment;
-		};
-		0E121BA50E6B1A87007B29B8 /* Default */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = ScarabUninstall;
-			};
-			name = Default;
-		};
 		0ECA4C750D6DFF4400BD00B2 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -379,32 +365,6 @@
 				PRODUCT_NAME = scarab;
 			};
 			name = Development;
-		};
-		0ECA4C760D6DFF4400BD00B2 /* Deployment */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_MODEL_TUNING = G5;
-				INSTALL_PATH = /usr/local/lib;
-				PREBINDING = NO;
-				PRODUCT_NAME = libscarab.a;
-				ZERO_LINK = NO;
-			};
-			name = Deployment;
-		};
-		0ECA4C770D6DFF4400BD00B2 /* Default */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_MODEL_TUNING = G5;
-				INSTALL_PATH = /usr/local/lib;
-				PREBINDING = NO;
-				PRODUCT_NAME = libscarab.a;
-				ZERO_LINK = YES;
-			};
-			name = Default;
 		};
 		5C4BDD8A09E258B5008B8AB7 /* Development */ = {
 			isa = XCBuildConfiguration;
@@ -442,7 +402,46 @@
 			};
 			name = Development;
 		};
-		5C4BDD8B09E258B5008B8AB7 /* Deployment */ = {
+		5C518C2910865CB70004DBC0 /* Development (10.5 Compatible) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APP_SUPPORT_DIR = "/Library/Application Support/Monkeyworks";
+				ARCHS = (
+					x86_64,
+					i386,
+				);
+				BUILD_VARIANTS = normal;
+				CONFIG_DIR = "$(APP_SUPPORT_DIR)/Configuration";
+				DEVELOPER_DIR = "$(APP_SUPPORT_DIR)/Developer";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_VERSION = 4.2;
+				MW_INCLUDE_DIR = "\"$(MW_INCLUDE_DIR_UNQUOTED)\"";
+				MW_INCLUDE_DIR_UNQUOTED = "$(DEVELOPER_DIR)/gcc40/include";
+				MW_LIB_DIR = "\"$(MW_LIB_DIR_UNQUOTED)\"";
+				MW_LIB_DIR_UNQUOTED = "$(DEVELOPER_DIR)/gcc40/lib";
+				PLUGINS_DIR = "$(APP_SUPPORT_DIR)/Plugins/Core Plugins";
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
+				TESTS_DIR = "$(APP_SUPPORT_DIR)/Developer/tests";
+			};
+			name = "Development (10.5 Compatible)";
+		};
+		5C518C2A10865CB70004DBC0 /* Development (10.5 Compatible) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				DEPLOYMENT_LOCATION = NO;
+				DEPLOYMENT_POSTPROCESSING = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				INSTALL_GROUP = "$(GROUP)";
+				INSTALL_OWNER = "$(USER)";
+				INSTALL_PATH = "/Library/Application Support/MonkeyWorks/Developer";
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				PREBINDING = NO;
+				PRODUCT_NAME = scarab;
+			};
+			name = "Development (10.5 Compatible)";
+		};
+		5C518C2B10865CB70004DBC0 /* Development (10.5 Compatible) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = (
@@ -453,16 +452,18 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_INPUT_FILETYPE = sourcecode.c.objc;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				GENERATE_PROFILING_CODE = YES;
 				INFOPLIST_FILE = "Scarab-Info.plist";
-				INSTALL_PATH = "$(HOME)/Library/Frameworks";
-				OTHER_CFLAGS = "";
+				INSTALL_PATH = /Library/Frameworks;
+				OTHER_CFLAGS = "-DBUILD_SCARAB_FRAMEWORK";
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -474,45 +475,23 @@
 				STRIP_INSTALLED_PRODUCT = NO;
 				ZERO_LINK = NO;
 			};
-			name = Deployment;
+			name = "Development (10.5 Compatible)";
 		};
-		5C4BDD8C09E258B5008B8AB7 /* Default */ = {
+		5C518C2C10865CB70004DBC0 /* Development (10.5 Compatible) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					ppc,
-					i386,
-				);
-				COPY_PHASE_STRIP = NO;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				FRAMEWORK_VERSION = A;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_INPUT_FILETYPE = sourcecode.c.objc;
-				GCC_MODEL_TUNING = G5;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
-				INFOPLIST_FILE = "Scarab-Info.plist";
-				INSTALL_PATH = "$(HOME)/Library/Frameworks";
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-				);
-				PREBINDING = NO;
-				PRODUCT_NAME = Scarab;
-				STRIP_INSTALLED_PRODUCT = NO;
-				ZERO_LINK = YES;
+				PRODUCT_NAME = ScarabUninstall;
 			};
-			name = Default;
+			name = "Development (10.5 Compatible)";
 		};
 		DA2B5971089814BA0071B527 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				APP_SUPPORT_DIR = "/Library/Application Support/Monkeyworks";
+				ARCHS = (
+					x86_64,
+					i386,
+				);
 				BUILD_VARIANTS = normal;
 				CONFIG_DIR = "$(APP_SUPPORT_DIR)/Configuration";
 				DEVELOPER_DIR = "$(APP_SUPPORT_DIR)/Developer";
@@ -522,21 +501,10 @@
 				MW_LIB_DIR = "\"$(MW_LIB_DIR_UNQUOTED)\"";
 				MW_LIB_DIR_UNQUOTED = "$(DEVELOPER_DIR)/lib";
 				PLUGINS_DIR = "$(APP_SUPPORT_DIR)/Plugins/Core Plugins";
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
 				TESTS_DIR = "$(APP_SUPPORT_DIR)/Developer/tests";
 			};
 			name = Development;
-		};
-		DA2B5972089814BA0071B527 /* Deployment */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-			};
-			name = Deployment;
-		};
-		DA2B5973089814BA0071B527 /* Default */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-			};
-			name = Default;
 		};
 /* End XCBuildConfiguration section */
 
@@ -545,41 +513,37 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				0E121BA30E6B1A87007B29B8 /* Development */,
-				0E121BA40E6B1A87007B29B8 /* Deployment */,
-				0E121BA50E6B1A87007B29B8 /* Default */,
+				5C518C2C10865CB70004DBC0 /* Development (10.5 Compatible) */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Default;
+			defaultConfigurationName = Development;
 		};
 		0ECA4C980D6DFFB500BD00B2 /* Build configuration list for PBXNativeTarget "libscarab.a" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				0ECA4C750D6DFF4400BD00B2 /* Development */,
-				0ECA4C760D6DFF4400BD00B2 /* Deployment */,
-				0ECA4C770D6DFF4400BD00B2 /* Default */,
+				5C518C2A10865CB70004DBC0 /* Development (10.5 Compatible) */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Default;
+			defaultConfigurationName = Development;
 		};
 		5C4BDD8909E258B5008B8AB7 /* Build configuration list for PBXNativeTarget "Scarab" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5C4BDD8A09E258B5008B8AB7 /* Development */,
-				5C4BDD8B09E258B5008B8AB7 /* Deployment */,
-				5C4BDD8C09E258B5008B8AB7 /* Default */,
+				5C518C2B10865CB70004DBC0 /* Development (10.5 Compatible) */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Default;
+			defaultConfigurationName = Development;
 		};
 		DA2B5970089814BA0071B527 /* Build configuration list for PBXProject "Scarab" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DA2B5971089814BA0071B527 /* Development */,
-				DA2B5972089814BA0071B527 /* Deployment */,
-				DA2B5973089814BA0071B527 /* Default */,
+				5C518C2910865CB70004DBC0 /* Development (10.5 Compatible) */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Default;
+			defaultConfigurationName = Development;
 		};
 /* End XCConfigurationList section */
 	};

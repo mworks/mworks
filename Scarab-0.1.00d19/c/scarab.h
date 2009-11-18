@@ -161,7 +161,7 @@ DEF(struct, ScarabStream)
 #define scarab_stream_tell(stream)				((stream)->engine->tell((stream)))
 
 #define SEND_BUFFER_SIZE	100000000
-#define READ_BUFFER_SIZE	10000000
+#define READ_BUFFER_SIZE	100000000
 
 DEF(struct, ScarabSession)
 {

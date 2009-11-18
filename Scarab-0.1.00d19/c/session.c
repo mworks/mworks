@@ -634,7 +634,7 @@ scarab_session_flush(ScarabSession * session)
  * More Mabbit Functions
  */
 int scarab_session_local_port(ScarabSession * session) {
-    if(session == NULL) { return (int)""; }
+    if(session == NULL) { return 0; }
     return (session->stream_head)->engine->local_port(session->stream_head);
 }
 

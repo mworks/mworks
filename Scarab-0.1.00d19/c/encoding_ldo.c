@@ -86,7 +86,7 @@ ldo_session_connect(ScarabSession * session)
 	int magic_size = 0;
 	if ((magic_size = scarab_session_read(session, expected_magic, sizeof(MAGIC)))
                                                         != sizeof(MAGIC)) {
-		fprintf(stderr,"Wrong size magic (is %d, should be %d)\n",
+		fprintf(stderr,"Wrong size magic (is %d, should be %lu)\n",
 						magic_size, sizeof(MAGIC));fflush(stderr);
 		return scarab_session_seterr(session, LDO_ERR_BAD_HEADER);
 	}
