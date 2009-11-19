@@ -93,7 +93,7 @@ ActionVariableNotification::ActionVariableNotification(shared_ptr<Action> _actio
 	action = _action;
 }
 
-void ActionVariableNotification::notify(const Data& data, MonkeyWorksTime time){
+void ActionVariableNotification::notify(const Datum& data, MonkeyWorksTime time){
 	action->execute();
 }
 
@@ -179,17 +179,17 @@ ReportString::ReportString(const std::string &reportStr) : Action() {
         std::string next_token = *tok_iter;
         boost::regex re("^\\w");
         if(boost::regex_search(next_token, re)){  // if it's a word
-           shared_ptr<Variable> var = GlobalVariableRegistry->getVariable(next_token);
+           shared_ptr<Variable> var = global_variable_registry->getVariable(next_token);
            if(!var) {
              error = true;
-              var = shared_ptr<ConstantVariable>(new ConstantVariable(Data(std::string("UNKNOWNVAR"))));			
+              var = shared_ptr<ConstantVariable>(new ConstantVariable(Datum(std::string("UNKNOWNVAR"))));			
            }
            
            stringFragments.push_back(var);
          
         } else { // if it's not a word (an isolated $, apparently)
            
-           shared_ptr<ConstantVariable> c(new ConstantVariable(Data("$" + next_token)));
+           shared_ptr<ConstantVariable> c(new ConstantVariable(Datum("$" + next_token)));
            stringFragments.push_back(c);
         }
            
@@ -197,7 +197,7 @@ ReportString::ReportString(const std::string &reportStr) : Action() {
         break; // at the end of the token stream
       }
     } else {
-       shared_ptr<ConstantVariable> c(new ConstantVariable(Data(token)));
+       shared_ptr<ConstantVariable> c(new ConstantVariable(Datum(token)));
        stringFragments.push_back(c);
     }
  }         
@@ -218,15 +218,15 @@ ReportString::ReportString(const std::string &reportStr) : Action() {
 		istringstream parser(outStr);
   
 		getline(parser, stringSegment, '$');
-		shared_ptr<ConstantVariable> c(new ConstantVariable(Data(stringSegment)));
+		shared_ptr<ConstantVariable> c(new ConstantVariable(Datum(stringSegment)));
 		stringFragments.push_back(c);
 		
 		getline(parser, varName, ' ');
     
-		shared_ptr<Variable> var = GlobalVariableRegistry->getVariable(varName);
+		shared_ptr<Variable> var = global_variable_registry->getVariable(varName);
 		if(!var) {
 			error = true;
-			var = shared_ptr<ConstantVariable>(new ConstantVariable(Data(std::string("UNKNOWNVAR"))));			
+			var = shared_ptr<ConstantVariable>(new ConstantVariable(Datum(std::string("UNKNOWNVAR"))));			
 		}
 		
 		stringFragments.push_back(var);
@@ -235,7 +235,7 @@ ReportString::ReportString(const std::string &reportStr) : Action() {
 	}
 	
 	// add any remainder
-	shared_ptr<ConstantVariable> remainder(new ConstantVariable(Data(outStr)));
+	shared_ptr<ConstantVariable> remainder(new ConstantVariable(Datum(outStr)));
 	stringFragments.push_back(remainder);*/
 }
 
@@ -296,13 +296,13 @@ AssertionAction::AssertionAction(shared_ptr<Variable> _condition,
 		istringstream parser(outStr);
 		
 		getline(parser, stringSegment, '$');			
-		shared_ptr<ConstantVariable> c(new ConstantVariable(Data(stringSegment)));
+		shared_ptr<ConstantVariable> c(new ConstantVariable(Datum(stringSegment)));
 		stringFragments.push_back(c);
 		
 		getline(parser, varName, ' ');
-		shared_ptr<Variable> var = GlobalVariableRegistry->getVariable(varName);
+		shared_ptr<Variable> var = global_variable_registry->getVariable(varName);
 		if(!var) {
-			var = shared_ptr<ConstantVariable>(new ConstantVariable(Data(std::string("UNKNOWNVAR"))));			
+			var = shared_ptr<ConstantVariable>(new ConstantVariable(Datum(std::string("UNKNOWNVAR"))));			
 		}
 		
 		stringFragments.push_back(var);
@@ -311,14 +311,14 @@ AssertionAction::AssertionAction(shared_ptr<Variable> _condition,
 	}
 	
 	// add any remainder
-	shared_ptr<ConstantVariable> remainder(new ConstantVariable(Data(outStr)));
+	shared_ptr<ConstantVariable> remainder(new ConstantVariable(Datum(outStr)));
 	stringFragments.push_back(remainder);
 }
 
 AssertionAction::~AssertionAction(){}
 
 bool AssertionAction::execute(){
-	Data result = condition->getValue();
+ Datum result = condition->getValue();
 	if(!(result.getBool())){
 		std::string outStr("");
 		
@@ -458,7 +458,7 @@ shared_ptr<mw::Component> StartTimerFactory::createObject(std::map<std::string, 
 	
 	shared_ptr<Timer> _timer = reg->getObject<Timer>(parameters.find("timer")->second);
 	if(_timer == NULL) { // create a new timer
-		Data zero((long)0);
+	 Datum zero((long)0);
 		VariableProperties props(&zero, 
 								  parameters.find("timer")->second,
 								  parameters.find("timer")->second,
@@ -470,7 +470,7 @@ shared_ptr<mw::Component> StartTimerFactory::createObject(std::map<std::string, 
 								  M_DISCRETE_BOOLEAN,
 								  "");
                                   
-		_timer = GlobalVariableRegistry->createTimer(&props);
+		_timer = global_variable_registry->createTimer(&props);
 		reg->registerObject(parameters.find("timer")->second, _timer);
 	}
 	
@@ -504,8 +504,8 @@ shared_ptr<mw::Component> StartTimerFactory::createObject(std::map<std::string, 
 //
 ///*
 //mStartEggTimer::StartEggTimer(long _time_to_wait_us) : Action() {
-//    Data the_time_data(_time_to_wait_us);
-//	time_to_wait_us = (Variable *)(new ConstantVariable(new Data(the_time_data))); // TODO leaks
+//    Datum the_time_data(_time_to_wait_us);
+//	time_to_wait_us = (Variable *)(new ConstantVariable(new Datum(the_time_data))); // TODO leaks
 //}*/
 //
 //mStartEggTimer::~StartEggTimer() {
@@ -1490,7 +1490,7 @@ void TaskSystemState::action() {
 /*void TaskSystemState::announceIdentity(){
  std::string announcement("Task System State: " + name);	
  announceState(announcement.c_str());
- Data announceString;
+ Datum announceString;
  announceString.setString(announcement);
  currentState->setValue(announceString);
  }*/
@@ -1661,7 +1661,7 @@ void TaskSystem::action() {
 /*void TaskSystem::announceIdentity(){
  std::string announcement("Task System: " + name);	
  announceState(announcement.c_str());
- Data announceString;
+ Datum announceString;
  announceString.setString(announcement);
  currentState->setValue(announceString);
  }*/

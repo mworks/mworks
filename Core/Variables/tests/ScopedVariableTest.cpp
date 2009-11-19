@@ -19,7 +19,7 @@ using namespace mw;
 void ScopedVariableTestFixture::setUp(){
 	FullCoreEnvironmentTestFixture::setUp();
 	// Create a variable registry
-	reg = shared_ptr<VariableRegistry>(new VariableRegistry(GlobalBufferManager));
+	reg = shared_ptr<VariableRegistry>(new VariableRegistry(global_outgoing_event_buffer));
 	
 	// create an experiment (the "environment")
 	GlobalCurrentExperiment = shared_ptr<Experiment>(new Experiment(reg));
@@ -34,7 +34,7 @@ void ScopedVariableTestFixture::setUp(){
 	
 	v1 =  reg->createScopedVariable( env,
 										new VariableProperties(
-											new Data(0L), "test1",
+											new Datum(0L), "test1",
 											"Test",
 											"Test",
 											M_NEVER, M_WHEN_CHANGED,
@@ -43,7 +43,7 @@ void ScopedVariableTestFixture::setUp(){
 	
 	v2 =  reg->createScopedVariable( env,
 										new VariableProperties(
-											new Data(0L), "test2",
+											new Datum(0L), "test2",
 											"Test",
 											"Test",
 											M_NEVER, M_WHEN_CHANGED,

@@ -6,7 +6,7 @@
  *  Copyright 2006 MIT. All rights reserved.
  *
  */
-
+/*
 #include "BufferManagerTest.h"
 #include "MonkeyWorksCore/EventBuffer.h"
 #include "MonkeyWorksCore/Event.h"
@@ -31,7 +31,7 @@ boost::mutex bmt_cppunit_lock;
 struct bmtTestArgs *bmt_ptrTestArgs;
 bool bmt_Asserted;
 std::string bmt_AssertMessage;
-shared_ptr<BufferManager> bmtTestGlobalBufferManager;
+shared_ptr<BufferManager> bmtTestglobal_outgoing_event_buffer;
 std::vector<shared_ptr<EventBufferReader> >eventReaders;
 int totalEventsRead;
 boost::mutex terLock;
@@ -63,7 +63,7 @@ void BufferManagerTestFixture::setUp() {
 	testNumber++;
 	bmt_AssertMessage = "";
 	bmt_Asserted = false;
-	bmtTestGlobalBufferManager = shared_ptr<BufferManager>(new BufferManager());
+	bmtTestglobal_outgoing_event_buffer = shared_ptr<BufferManager>(new BufferManager());
 	
 	
 	
@@ -98,7 +98,7 @@ void BufferManagerTestFixture::testSimpleBufferManager() {
 	for (int i=0; i<NUM_EVENTS; ++i) {
 		CPPUNIT_ASSERT(mbr->hasAtLeastNEvents(i));
 		CPPUNIT_ASSERT(!mbr->hasAtLeastNEvents(i+1));
-		shared_ptr<Event> evt=shared_ptr<Event>(new Event(EVENT_CODE, Data(M_INTEGER, i)));
+		shared_ptr<Event> evt=shared_ptr<Event>(new Event(EVENT_CODE, Datum(M_INTEGER, i)));
 		bm->putEvent(evt);
 		
 		CPPUNIT_ASSERT(mbr->nextEventExists());
@@ -130,7 +130,7 @@ void BufferManagerTestFixture::testForLeaking() {
 	shared_ptr<EventBufferReader> mbr = bm->getNewMainBufferReader();
 	
 	{
-		shared_ptr<Event> evt=shared_ptr<Event>(new Event(EVENT_CODE, Data(M_INTEGER, 1)));
+		shared_ptr<Event> evt=shared_ptr<Event>(new Event(EVENT_CODE, Datum(M_INTEGER, 1)));
 		bm->putEvent(evt);
 	}
 	CPPUNIT_ASSERT(mbr->nextEventExists());
@@ -149,7 +149,7 @@ void BufferManagerTestFixture::testForLeaking() {
 	
 	// add another event
 	{
-		shared_ptr<Event> evt=shared_ptr<Event>(new Event(EVENT_CODE, Data(M_INTEGER, 1)));
+		shared_ptr<Event> evt=shared_ptr<Event>(new Event(EVENT_CODE, Datum(M_INTEGER, 1)));
 		bm->putEvent(evt);
 	}
 	CPPUNIT_ASSERT(mbr->nextEventExists());
@@ -171,7 +171,7 @@ void BufferManagerTestFixture::testForLeaking2() {
 	shared_ptr<BufferManager> bm = shared_ptr<BufferManager>(new BufferManager());
 	shared_ptr<EventBufferReader> mbr = bm->getNewMainBufferReader();
 	
-	shared_ptr<Event> evt=shared_ptr<Event>(new Event(EVENT_CODE, Data(M_INTEGER, 1)));
+	shared_ptr<Event> evt=shared_ptr<Event>(new Event(EVENT_CODE, Datum(M_INTEGER, 1)));
 	weak_ptr<Event>weakEvt(evt);
 	CPPUNIT_ASSERT(weakEvt.use_count() == 1);
 
@@ -180,7 +180,7 @@ void BufferManagerTestFixture::testForLeaking2() {
 	CPPUNIT_ASSERT(weakEvt.use_count() == 3);
 	
 	// DDC added
-	evt = shared_ptr<Event>(new Event(EVENT_CODE, Data(M_INTEGER, 1)));
+	evt = shared_ptr<Event>(new Event(EVENT_CODE, Datum(M_INTEGER, 1)));
 	
 	// the original evt should have fallen out of this scope
 	CPPUNIT_ASSERT(weakEvt.use_count() == 2);
@@ -195,7 +195,7 @@ void BufferManagerTestFixture::testForLeaking2() {
 	
 	
 	// add another event
-	shared_ptr <Event> newevent(new Event(EVENT_CODE, Data(M_INTEGER, 1)));
+	shared_ptr <Event> newevent(new Event(EVENT_CODE, Datum(M_INTEGER, 1)));
 	bm->putEvent(newevent);
 	// 1 for the currentEvent in the buffer reader, 
 	// 1 for evt
@@ -211,12 +211,12 @@ void BufferManagerTestFixture::testForLeaking2() {
 void BufferManagerTestFixture::testForLeaking3() {
 	fprintf(stderr, "Running BufferManagerTestFixture::testForLeaking3()\n"); 
 	
-	shared_ptr<EventBufferReader> mbr2 = bmtTestGlobalBufferManager->getNewMainBufferReader();
+	shared_ptr<EventBufferReader> mbr2 = bmtTestglobal_outgoing_event_buffer->getNewMainBufferReader();
 	const int totalEvents = bmt_NUM_EVENTS_PER_THREAD*bmt_NUM_THREADS;
 	
 	
 	{
-		shared_ptr<EventBufferReader> mbr1 = bmtTestGlobalBufferManager->getNewMainBufferReader();
+		shared_ptr<EventBufferReader> mbr1 = bmtTestglobal_outgoing_event_buffer->getNewMainBufferReader();
 		CPPUNIT_ASSERT(!mbr1->nextEventExists());
 		CPPUNIT_ASSERT(!mbr2->nextEventExists());
 		
@@ -294,7 +294,7 @@ void BufferManagerTestFixture::testMultipleReaders() {
 		CPPUNIT_ASSERT(!mbr4->hasAtLeastNEvents(1));
 		CPPUNIT_ASSERT(mbr->hasAtLeastNEvents(i));
 		CPPUNIT_ASSERT(!mbr->hasAtLeastNEvents(i+1));
-		shared_ptr<Event> evt=shared_ptr<Event>(new Event(EVENT_CODE, Data(M_INTEGER, i)));
+		shared_ptr<Event> evt=shared_ptr<Event>(new Event(EVENT_CODE, Datum(M_INTEGER, i)));
 		CPPUNIT_ASSERT(evt);
 		CPPUNIT_ASSERT(evt->getEventCode() == EVENT_CODE);
 		CPPUNIT_ASSERT(evt->getData().isInteger());				
@@ -426,7 +426,7 @@ void BufferManagerTestFixture::testMultipleReadersWithAddtionalPuts() {
 		CPPUNIT_ASSERT(!mbr4->hasAtLeastNEvents(1));
 		CPPUNIT_ASSERT(mbr->hasAtLeastNEvents(i));
 		CPPUNIT_ASSERT(!mbr->hasAtLeastNEvents(i+1));
-		shared_ptr<Event> evt=shared_ptr<Event>(new Event(EVENT_CODE, Data(M_INTEGER, i)));
+		shared_ptr<Event> evt=shared_ptr<Event>(new Event(EVENT_CODE, Datum(M_INTEGER, i)));
 		CPPUNIT_ASSERT(evt);
 		CPPUNIT_ASSERT(evt->getEventCode() == EVENT_CODE);
 		CPPUNIT_ASSERT(evt->getData().isInteger());				
@@ -543,7 +543,7 @@ void BufferManagerTestFixture::testMultipleReadersWithAddtionalPuts() {
 		CPPUNIT_ASSERT(!mbr4->hasAtLeastNEvents(1));
 		CPPUNIT_ASSERT(mbr->hasAtLeastNEvents(i));
 		CPPUNIT_ASSERT(!mbr->hasAtLeastNEvents(i+1));
-		shared_ptr<Event> evt=shared_ptr<Event>(new Event(EVENT_CODE, Data(M_INTEGER, i)));
+		shared_ptr<Event> evt=shared_ptr<Event>(new Event(EVENT_CODE, Datum(M_INTEGER, i)));
 		CPPUNIT_ASSERT(evt);
 		CPPUNIT_ASSERT(evt->getEventCode() == EVENT_CODE);
 		CPPUNIT_ASSERT(evt->getData().isInteger());				
@@ -670,7 +670,7 @@ void BufferManagerTestFixture::testBufferManagerDeletion() {
 		for (int i=0; i<NUM_EVENTS; ++i) {
 			CPPUNIT_ASSERT(mbr->hasAtLeastNEvents(i));
 			CPPUNIT_ASSERT(!mbr->hasAtLeastNEvents(i+1));
-			shared_ptr<Event> evt=shared_ptr<Event>(new Event(EVENT_CODE, Data(M_INTEGER, i)));
+			shared_ptr<Event> evt=shared_ptr<Event>(new Event(EVENT_CODE, Datum(M_INTEGER, i)));
 			bm->putEvent(evt);
 			
 			CPPUNIT_ASSERT(mbr->nextEventExists());
@@ -705,7 +705,7 @@ void BufferManagerTestFixture::multiThreadInsertTest() {
 	fprintf(stderr, "Running BufferManagerTestFixture::multiThreadInsertTest()\n"); 
 	const int totalEvents = bmt_NUM_EVENTS_PER_THREAD*bmt_NUM_THREADS;
 	
-	shared_ptr<EventBufferReader> mbr = bmtTestGlobalBufferManager->getNewMainBufferReader();
+	shared_ptr<EventBufferReader> mbr = bmtTestglobal_outgoing_event_buffer->getNewMainBufferReader();
 	CPPUNIT_ASSERT(!mbr->nextEventExists());
 	
 	pthread_t threads[bmt_NUM_THREADS];
@@ -762,7 +762,7 @@ void BufferManagerTestFixture::multiThreadReadTest() {
 	
 	for (int i =0; i<bmt_NUM_THREADS; ++i) {
 		// prepare all of the readers
-		eventReaders.push_back(bmtTestGlobalBufferManager->getNewMainBufferReader());
+		eventReaders.push_back(bmtTestglobal_outgoing_event_buffer->getNewMainBufferReader());
 		CPPUNIT_ASSERT(!eventReaders[i]->nextEventExists());
 	}
 	
@@ -770,9 +770,9 @@ void BufferManagerTestFixture::multiThreadReadTest() {
 	for(int i = 0; i<bmt_NUM_THREADS; i++) {
 		for(int j = 0; j<bmt_NUM_EVENTS_PER_THREAD; j++) {
 			
-			Data _j(M_INTEGER, j );	
+		 Datum _j(M_INTEGER, j );	
 			shared_ptr<Event> newevent(new Event(i, _j));
-			bmtTestGlobalBufferManager->putEvent(newevent);
+			bmtTestglobal_outgoing_event_buffer->putEvent(newevent);
 		}
 	}
 	
@@ -813,12 +813,12 @@ void BufferManagerTestFixture::multiMultiTest() {
 	
 	for (int i =0; i<bmt_NUM_THREADS; ++i) {
 		// prepare all of the readers
-		eventReaders.push_back(bmtTestGlobalBufferManager->getNewMainBufferReader());
+		eventReaders.push_back(bmtTestglobal_outgoing_event_buffer->getNewMainBufferReader());
 		CPPUNIT_ASSERT(!eventReaders[i]->nextEventExists());
 	}
 	
 	// plus one bonus reader
-	shared_ptr<EventBufferReader> mbr = bmtTestGlobalBufferManager->getNewMainBufferReader();
+	shared_ptr<EventBufferReader> mbr = bmtTestglobal_outgoing_event_buffer->getNewMainBufferReader();
 	
 	pthread_t readThreads[bmt_NUM_THREADS];
 	pthread_t writeThreads[bmt_NUM_THREADS];
@@ -885,12 +885,12 @@ void *bmtMassEventWrite(void *args) {
 	for (int i =0; i<bmt_NUM_EVENTS_PER_THREAD; ++i) {
 		//fprintf(stderr, "Thread %d adding %d\n", (int)args, i);
 		
-		Data _i(M_INTEGER, i);
+	 Datum _i(M_INTEGER, i);
 		
 		//shared_ptr<Event> newevent(new Event((int)args, _i));
 		shared_ptr<Event> newevent(new Event(*int_arg, _i));
     
-    bmtTestGlobalBufferManager->putEvent(newevent);
+    bmtTestglobal_outgoing_event_buffer->putEvent(newevent);
 	}
 	
 	return NULL;
@@ -955,5 +955,5 @@ void *bmtMassEventRead(void *args) {
 	return 0;
 }
 
-
+*/
 

@@ -13,14 +13,15 @@ using namespace mw;
 
 #define THREAD_INTERVAL_US 200000 
 
-ScarabServerConnection::ScarabServerConnection(shared_ptr<BufferManager> _buffer_manager, int interval) {
+ScarabServerConnection::ScarabServerConnection(shared_ptr<EventBuffer> _incoming_event_buffer, shared_ptr<EventBuffer> _outgoing_event_buffer,  int interval) {
     
-	buffer_manager = _buffer_manager;
-	
+	incoming_event_buffer = _incoming_event_buffer;
+	outgoing_event_buffer = _outgoing_event_buffer;
+    
 	// server connections dont need a uri because they wait for
     // connections using accept
-    reader = shared_ptr<ScarabReadConnection>(new ScarabReadConnection(buffer_manager, "empty"));
-    writer = shared_ptr<ScarabWriteConnection>(new ScarabWriteConnection(buffer_manager, "empty"));
+    reader = shared_ptr<ScarabReadConnection>(new ScarabReadConnection(incoming_event_buffer, "empty"));
+    writer = shared_ptr<ScarabWriteConnection>(new ScarabWriteConnection(outgoing_event_buffer, "empty"));
     reader->setSibling(writer);
     writer->setSibling(reader);
     

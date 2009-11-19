@@ -81,7 +81,7 @@ void EyeStatusMonitor::reset() {
 //    as long as they are the same units used to instatiate the monitor
 //    (e.g. saccade speed start, etc...)
 
-void EyeStatusMonitor::newDataReceived(int inputIndex, const Data& data, MonkeyWorksTime timeUS) {
+void EyeStatusMonitor::newDataReceived(int inputIndex, const Datum& data, MonkeyWorksTime timeUS) {
 
 	// DDC: be careful
     //lock();
@@ -147,7 +147,7 @@ void EyeStatusMonitorVer1::processAndPostEyeData(double _eyeHdeg, double _eyeVde
         // base class method to post the new eye status to the variable 
         //      --> this will trigger any notifications for these vars
         //mprintf("  *** posting results from eyeStatus computer:  eyeStatus = %d", eyeStatus);
-        postResults(eyeStatusIndex, (Data)((long)eyeStatus), eyeStatusTimeUS);	
+        postResults(eyeStatusIndex, (Datum)((long)eyeStatus), eyeStatusTimeUS);	
     }
 
 }
@@ -164,7 +164,7 @@ void EyeStatusMonitorVer2::processAndPostEyeData(double _eyeHdeg, double _eyeVde
         // base class method to post the new eye status to the variable 
         //      --> this will trigger any notifications for these vars
         //mprintf("  *** posting results from ADVANCED eyeStatus computer:  eyeStatus = %d", eyeStatus);
-        postResults(eyeStatusIndex, (Data)((long)eyeStatus), eyeStatusTimeUS);	
+        postResults(eyeStatusIndex, (Datum)((long)eyeStatus), eyeStatusTimeUS);	
     }
     
     // if a saccade has been fully computed, post all its details here

@@ -18,8 +18,8 @@ using namespace mw;
 //<disabled>CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( ActionTestFixture, "Unit Test" );
 
 void ActionTestFixture::testSimpleAssignment1() {
-	shared_ptr<ConstantVariable>c1 = shared_ptr<ConstantVariable>(new ConstantVariable(Data(M_FLOAT, 7.62)));
-	shared_ptr<GlobalVariable>v1 =  GlobalVariableRegistry->createGlobalVariable( new VariableProperties(new Data(0L), "test1",
+	shared_ptr<ConstantVariable>c1 = shared_ptr<ConstantVariable>(new ConstantVariable(Datum(M_FLOAT, 7.62)));
+	shared_ptr<GlobalVariable>v1 =  global_variable_registry->createGlobalVariable( new VariableProperties(new Datum(0L), "test1",
 																										   "Test",
 																										   "Test",
 																										   M_NEVER, M_WHEN_CHANGED,
@@ -37,8 +37,8 @@ void ActionTestFixture::testSimpleAssignment1() {
 }
 
 void ActionTestFixture::testSimpleAssignment2() {
-	shared_ptr<GlobalVariable>v1 =  GlobalVariableRegistry->createGlobalVariable( new VariableProperties(
-																										   new Data(0L), "test1",
+	shared_ptr<GlobalVariable>v1 =  global_variable_registry->createGlobalVariable( new VariableProperties(
+																										   new Datum(0L), "test1",
 																										   "Test",
 																										   "Test",
 																										   M_NEVER, M_WHEN_CHANGED,
@@ -47,7 +47,7 @@ void ActionTestFixture::testSimpleAssignment2() {
 	
 	
 	for (int i=0; i<5000; ++i) {
-		shared_ptr<ConstantVariable>c1 = shared_ptr<ConstantVariable>(new ConstantVariable(Data(M_INTEGER,i)));
+		shared_ptr<ConstantVariable>c1 = shared_ptr<ConstantVariable>(new ConstantVariable(Datum(M_INTEGER,i)));
 		Assignment a(v1,c1);
 		a.execute();
 		CPPUNIT_ASSERT(v1->getValue().getInteger() == c1->getValue().getInteger());
@@ -60,8 +60,8 @@ void ActionTestFixture::testIncrementCounterWithAssignment(){
 	
 	
 	shared_ptr<GlobalVariable>v1_ptr =  
-	GlobalVariableRegistry->createGlobalVariable( new VariableProperties(
-																		  new Data(0L), "test1",
+	global_variable_registry->createGlobalVariable( new VariableProperties(
+																		  new Datum(0L), "test1",
 																		  "Test",
 																		  "Test",
 																		  M_NEVER, M_WHEN_CHANGED,
@@ -87,8 +87,8 @@ void ActionTestFixture::testIncrementCounterWithAssignmentManyThreads(){
 	
 	
 	shared_ptr<GlobalVariable>v1_ptr =  
-	GlobalVariableRegistry->createGlobalVariable( new VariableProperties(
-																		  new Data(0L), "test1",
+	global_variable_registry->createGlobalVariable( new VariableProperties(
+																		  new Datum(0L), "test1",
 																		  "Test",
 																		  "Test",
 																		  M_NEVER, M_WHEN_CHANGED,
@@ -114,7 +114,7 @@ void ActionTestFixture::testConstantReport() {
 	
 	std::string testStringSeed("This is my test string!!!!");	
 	
-	shared_ptr <Variable> messageVar = GlobalVariableRegistry->getVariable(ANNOUNCE_MESSAGE_VAR_TAGNAME);
+	shared_ptr <Variable> messageVar = global_variable_registry->getVariable(ANNOUNCE_MESSAGE_VAR_TAGNAME);
 	
 	
 	for(int i = 0; i<75; ++i) {
@@ -126,12 +126,12 @@ void ActionTestFixture::testConstantReport() {
 		
 		ReportString r(testString);
 		r.execute();
-		Data messagePackage(messageVar->getValue());
+	 Datum messagePackage(messageVar->getValue());
 		CPPUNIT_ASSERT(messagePackage.isDictionary());
 		CPPUNIT_ASSERT(messagePackage.getElement(M_MESSAGE).isString());
 		
 		
-		Data msgType(messagePackage.getElement(M_MESSAGE_TYPE));
+	 Datum msgType(messagePackage.getElement(M_MESSAGE_TYPE));
 		CPPUNIT_ASSERT(msgType.isInteger());
 		MessageType type = (MessageType)msgType.getInteger();
 		
@@ -156,8 +156,8 @@ void ActionTestFixture::testReportWithVariableAtEnd() {
 	std::string testVar("$" + testVarName);
 	std::string testVarValueString("testVarValueString");
 	
-	GlobalVariableRegistry->createGlobalVariable( new VariableProperties(
-																		  new Data(testVarValueString), 
+	global_variable_registry->createGlobalVariable( new VariableProperties(
+																		  new Datum(testVarValueString), 
 																		  testVarName,
 																		  "Test",
 																		  "Test",
@@ -167,7 +167,7 @@ void ActionTestFixture::testReportWithVariableAtEnd() {
 	
 	
 	
-	shared_ptr <Variable> messageVar = GlobalVariableRegistry->getVariable(ANNOUNCE_MESSAGE_VAR_TAGNAME);
+	shared_ptr <Variable> messageVar = global_variable_registry->getVariable(ANNOUNCE_MESSAGE_VAR_TAGNAME);
 	
 	
 	for(int i = 0; i<75; ++i) {
@@ -181,12 +181,12 @@ void ActionTestFixture::testReportWithVariableAtEnd() {
 		
 		ReportString r(testString);
 		r.execute();
-		Data messagePackage(messageVar->getValue());
+	 Datum messagePackage(messageVar->getValue());
 		CPPUNIT_ASSERT(messagePackage.isDictionary());
 		CPPUNIT_ASSERT(messagePackage.getElement(M_MESSAGE).isString());
 		
 		
-		Data msgType(messagePackage.getElement(M_MESSAGE_TYPE));
+	 Datum msgType(messagePackage.getElement(M_MESSAGE_TYPE));
 		CPPUNIT_ASSERT(msgType.isInteger());
 		MessageType type = (MessageType)msgType.getInteger();
 		
@@ -211,8 +211,8 @@ void ActionTestFixture::testReportWithVariableAtBeginning() {
 	std::string testVar("$" + testVarName);
 	std::string testVarValueString("testVarValueString");
 	
-	GlobalVariableRegistry->createGlobalVariable( new VariableProperties(
-																		  new Data(testVarValueString), 
+	global_variable_registry->createGlobalVariable( new VariableProperties(
+																		  new Datum(testVarValueString), 
 																		  testVarName,
 																		  "Test",
 																		  "Test",
@@ -222,7 +222,7 @@ void ActionTestFixture::testReportWithVariableAtBeginning() {
 	
 	
 	
-	shared_ptr <Variable> messageVar = GlobalVariableRegistry->getVariable(ANNOUNCE_MESSAGE_VAR_TAGNAME);
+	shared_ptr <Variable> messageVar = global_variable_registry->getVariable(ANNOUNCE_MESSAGE_VAR_TAGNAME);
 	
 	
 	for(int i = 0; i<75; ++i) {
@@ -236,12 +236,12 @@ void ActionTestFixture::testReportWithVariableAtBeginning() {
 		
 		ReportString r(testString);
 		r.execute();
-		Data messagePackage(messageVar->getValue());
+	 Datum messagePackage(messageVar->getValue());
 		CPPUNIT_ASSERT(messagePackage.isDictionary());
 		CPPUNIT_ASSERT(messagePackage.getElement(M_MESSAGE).isString());
 		
 		
-		Data msgType(messagePackage.getElement(M_MESSAGE_TYPE));
+	 Datum msgType(messagePackage.getElement(M_MESSAGE_TYPE));
 		CPPUNIT_ASSERT(msgType.isInteger());
 		MessageType type = (MessageType)msgType.getInteger();
 		
@@ -267,8 +267,8 @@ void ActionTestFixture::testReportWithVariableInMiddle() {
 	std::string testVar("$" + testVarName);
 	std::string testVarValueString("testVarValueString");
 	
-	GlobalVariableRegistry->createGlobalVariable( new VariableProperties(
-																		  new Data(testVarValueString), 
+	global_variable_registry->createGlobalVariable( new VariableProperties(
+																		  new Datum(testVarValueString), 
 																		  testVarName,
 																		  "Test",
 																		  "Test",
@@ -278,7 +278,7 @@ void ActionTestFixture::testReportWithVariableInMiddle() {
 	
 	
 	
-	shared_ptr <Variable> messageVar = GlobalVariableRegistry->getVariable(ANNOUNCE_MESSAGE_VAR_TAGNAME);
+	shared_ptr <Variable> messageVar = global_variable_registry->getVariable(ANNOUNCE_MESSAGE_VAR_TAGNAME);
 	
 	
 	for(int i = 0; i<75; ++i) {
@@ -292,12 +292,12 @@ void ActionTestFixture::testReportWithVariableInMiddle() {
 		
 		ReportString r(testString);
 		r.execute();
-		Data messagePackage(messageVar->getValue());
+	 Datum messagePackage(messageVar->getValue());
 		CPPUNIT_ASSERT(messagePackage.isDictionary());
 		CPPUNIT_ASSERT(messagePackage.getElement(M_MESSAGE).isString());
 		
 		
-		Data msgType(messagePackage.getElement(M_MESSAGE_TYPE));
+	 Datum msgType(messagePackage.getElement(M_MESSAGE_TYPE));
 		CPPUNIT_ASSERT(msgType.isInteger());
 		MessageType type = (MessageType)msgType.getInteger();
 		
@@ -325,8 +325,8 @@ void ActionTestFixture::testReportWith2Variables() {
 	std::string testVarValueString("testVarValueString");
 	std::string testVarValueString2("testVarValueString2");
 	
-	GlobalVariableRegistry->createGlobalVariable( new VariableProperties(
-																		  new Data(testVarValueString), 
+	global_variable_registry->createGlobalVariable( new VariableProperties(
+																		  new Datum(testVarValueString), 
 																		  testVarName,
 																		  "Test",
 																		  "Test",
@@ -334,8 +334,8 @@ void ActionTestFixture::testReportWith2Variables() {
 																		  true, false,
 																		  M_CONTINUOUS_INFINITE,""));	
 	
-	GlobalVariableRegistry->createGlobalVariable( new VariableProperties(
-																		  new Data(testVarValueString2), 
+	global_variable_registry->createGlobalVariable( new VariableProperties(
+																		  new Datum(testVarValueString2), 
 																		  testVarName2,
 																		  "Test",
 																		  "Test",
@@ -345,7 +345,7 @@ void ActionTestFixture::testReportWith2Variables() {
 	
 	
 	
-	shared_ptr <Variable> messageVar = GlobalVariableRegistry->getVariable(ANNOUNCE_MESSAGE_VAR_TAGNAME);
+	shared_ptr <Variable> messageVar = global_variable_registry->getVariable(ANNOUNCE_MESSAGE_VAR_TAGNAME);
 	
 	
 	for(int i = 0; i<75; ++i) {
@@ -359,12 +359,12 @@ void ActionTestFixture::testReportWith2Variables() {
 		
 		ReportString r(testString);
 		r.execute();
-		Data messagePackage(messageVar->getValue());
+	 Datum messagePackage(messageVar->getValue());
 		CPPUNIT_ASSERT(messagePackage.isDictionary());
 		CPPUNIT_ASSERT(messagePackage.getElement(M_MESSAGE).isString());
 		
 		
-		Data msgType(messagePackage.getElement(M_MESSAGE_TYPE));
+	 Datum msgType(messagePackage.getElement(M_MESSAGE_TYPE));
 		CPPUNIT_ASSERT(msgType.isInteger());
 		MessageType type = (MessageType)msgType.getInteger();
 		
@@ -391,8 +391,8 @@ void ActionTestFixture::testReportWithBadVariable() {
 	std::string testVarValueString("testVarValueString");
 	std::string unknownVar("UNKNOWNVAR");
 	
-	GlobalVariableRegistry->createGlobalVariable( new VariableProperties(
-																		  new Data(testVarValueString), 
+	global_variable_registry->createGlobalVariable( new VariableProperties(
+																		  new Datum(testVarValueString), 
 																		  testVarName + "Extra",
 																		  "Test",
 																		  "Test",
@@ -402,7 +402,7 @@ void ActionTestFixture::testReportWithBadVariable() {
 	
 	
 	
-	shared_ptr <Variable> messageVar = GlobalVariableRegistry->getVariable(ANNOUNCE_MESSAGE_VAR_TAGNAME);
+	shared_ptr <Variable> messageVar = global_variable_registry->getVariable(ANNOUNCE_MESSAGE_VAR_TAGNAME);
 	
 	
 	for(int i = 0; i<75; ++i) {
@@ -416,12 +416,12 @@ void ActionTestFixture::testReportWithBadVariable() {
 		
 		ReportString r(testString);
 		r.execute();
-		Data messagePackage(messageVar->getValue());
+	 Datum messagePackage(messageVar->getValue());
 		CPPUNIT_ASSERT(messagePackage.isDictionary());
 		CPPUNIT_ASSERT(messagePackage.getElement(M_MESSAGE).isString());
 		
 		
-		Data msgType(messagePackage.getElement(M_MESSAGE_TYPE));
+	 Datum msgType(messagePackage.getElement(M_MESSAGE_TYPE));
 		CPPUNIT_ASSERT(msgType.isInteger());
 		MessageType type = (MessageType)msgType.getInteger();
 		
@@ -456,8 +456,8 @@ void ActionTestFixture::testReportWithOneGoodVariableAndOneBadVariable() {
 	std::string testVarValueString2("testVarValueString2");
 	std::string unknownVar("UNKNOWNVAR");
 	
-	GlobalVariableRegistry->createGlobalVariable( new VariableProperties(
-																		  new Data(testVarValueString), 
+	global_variable_registry->createGlobalVariable( new VariableProperties(
+																		  new Datum(testVarValueString), 
 																		  testVarName + "Extra",
 																		  "Test",
 																		  "Test",
@@ -465,8 +465,8 @@ void ActionTestFixture::testReportWithOneGoodVariableAndOneBadVariable() {
 																		  true, false,
 																		  M_CONTINUOUS_INFINITE,""));	
 	
-	GlobalVariableRegistry->createGlobalVariable( new VariableProperties(
-																		  new Data(testVarValueString2), 
+	global_variable_registry->createGlobalVariable( new VariableProperties(
+																		  new Datum(testVarValueString2), 
 																		  testVarName2,
 																		  "Test",
 																		  "Test",
@@ -476,7 +476,7 @@ void ActionTestFixture::testReportWithOneGoodVariableAndOneBadVariable() {
 	
 	
 	
-	shared_ptr <Variable> messageVar = GlobalVariableRegistry->getVariable(ANNOUNCE_MESSAGE_VAR_TAGNAME);
+	shared_ptr <Variable> messageVar = global_variable_registry->getVariable(ANNOUNCE_MESSAGE_VAR_TAGNAME);
 	
 	
 	for(int i = 0; i<75; ++i) {
@@ -490,12 +490,12 @@ void ActionTestFixture::testReportWithOneGoodVariableAndOneBadVariable() {
 		
 		ReportString r(testString);
 		r.execute();
-		Data messagePackage(messageVar->getValue());
+	 Datum messagePackage(messageVar->getValue());
 		CPPUNIT_ASSERT(messagePackage.isDictionary());
 		CPPUNIT_ASSERT(messagePackage.getElement(M_MESSAGE).isString());
 		
 		
-		Data msgType(messagePackage.getElement(M_MESSAGE_TYPE));
+	 Datum msgType(messagePackage.getElement(M_MESSAGE_TYPE));
 		CPPUNIT_ASSERT(msgType.isInteger());
 		MessageType type = (MessageType)msgType.getInteger();
 		
@@ -522,7 +522,7 @@ void ActionTestFixture::testAssert() {
 	
 	std::string testStringSeed("This is my test string!!!!");	
 	
-	shared_ptr <Variable> messageVar = GlobalVariableRegistry->getVariable(ANNOUNCE_MESSAGE_VAR_TAGNAME);
+	shared_ptr <Variable> messageVar = global_variable_registry->getVariable(ANNOUNCE_MESSAGE_VAR_TAGNAME);
 	shared_ptr <ConstantVariable> conditionFail = shared_ptr<ConstantVariable>(new ConstantVariable(0L));
 	shared_ptr <ConstantVariable> conditionPass = shared_ptr<ConstantVariable>(new ConstantVariable(1L));
 	
@@ -549,12 +549,12 @@ void ActionTestFixture::testAssert() {
 		AssertionAction aa(conditionFail, testString);
 		aa.execute();
 		
-		Data messagePackage(messageVar->getValue());
+	 Datum messagePackage(messageVar->getValue());
 		CPPUNIT_ASSERT(messagePackage.isDictionary());
 		CPPUNIT_ASSERT(messagePackage.getElement(M_MESSAGE).isString());
 		
 		
-		Data msgType(messagePackage.getElement(M_MESSAGE_TYPE));
+	 Datum msgType(messagePackage.getElement(M_MESSAGE_TYPE));
 		CPPUNIT_ASSERT(msgType.isInteger());
 		MessageType type = (MessageType)msgType.getInteger();
 		
@@ -580,8 +580,8 @@ void ActionTestFixture::testAssertWithVariableAtEnd() {
 	std::string testVar("$" + testVarName);
 	std::string testVarValueString("testVarValueString");
 	
-	GlobalVariableRegistry->createGlobalVariable( new VariableProperties(
-																		  new Data(testVarValueString), 
+	global_variable_registry->createGlobalVariable( new VariableProperties(
+																		  new Datum(testVarValueString), 
 																		  testVarName,
 																		  "Test",
 																		  "Test",
@@ -591,7 +591,7 @@ void ActionTestFixture::testAssertWithVariableAtEnd() {
 	
 	
 	
-	shared_ptr <Variable> messageVar = GlobalVariableRegistry->getVariable(ANNOUNCE_MESSAGE_VAR_TAGNAME);
+	shared_ptr <Variable> messageVar = global_variable_registry->getVariable(ANNOUNCE_MESSAGE_VAR_TAGNAME);
 	shared_ptr <ConstantVariable> conditionFail = shared_ptr<ConstantVariable>(new ConstantVariable(0L));
 	shared_ptr <ConstantVariable> conditionPass = shared_ptr<ConstantVariable>(new ConstantVariable(1L));
 	
@@ -621,12 +621,12 @@ void ActionTestFixture::testAssertWithVariableAtEnd() {
 		
 		AssertionAction aa(conditionFail, testString);
 		aa.execute();
-		Data messagePackage(messageVar->getValue());
+	 Datum messagePackage(messageVar->getValue());
 		CPPUNIT_ASSERT(messagePackage.isDictionary());
 		CPPUNIT_ASSERT(messagePackage.getElement(M_MESSAGE).isString());
 		
 		
-		Data msgType(messagePackage.getElement(M_MESSAGE_TYPE));
+	 Datum msgType(messagePackage.getElement(M_MESSAGE_TYPE));
 		CPPUNIT_ASSERT(msgType.isInteger());
 		MessageType type = (MessageType)msgType.getInteger();
 		
@@ -650,7 +650,7 @@ void ActionTestFixture::testScheduledAssignment() {
 	const MonkeyWorksTime DELAY_US = 4000000;
 	
 	shared_ptr<ConstantVariable>c1 = shared_ptr<ConstantVariable>(new ConstantVariable(1L));
-	shared_ptr<GlobalVariable>v1 =  GlobalVariableRegistry->createGlobalVariable( new VariableProperties(new Data(0L), "test1",
+	shared_ptr<GlobalVariable>v1 =  global_variable_registry->createGlobalVariable( new VariableProperties(new Datum(0L), "test1",
 																										   "Test",
 																										   "Test",
 																										   M_NEVER, M_WHEN_CHANGED,
@@ -690,7 +690,7 @@ void ActionTestFixture::testScheduledAssignmentWithCancel() {
 	const MonkeyWorksTime CANCEL_TIME_US = DELAY_US/10;
 	
 	shared_ptr<ConstantVariable>c1 = shared_ptr<ConstantVariable>(new ConstantVariable(1L));
-	shared_ptr<GlobalVariable>v1 =  GlobalVariableRegistry->createGlobalVariable( new VariableProperties(new Data(0L), "test1",
+	shared_ptr<GlobalVariable>v1 =  global_variable_registry->createGlobalVariable( new VariableProperties(new Datum(0L), "test1",
 																										   "Test",
 																										   "Test",
 																										   M_NEVER, M_WHEN_CHANGED,
@@ -737,7 +737,7 @@ void ActionTestFixture::testScheduledAssignmentWithCancelThatsTooLate() {
 	const MonkeyWorksTime CANCEL_TIME_US = 2*DELAY_US;
 	
 	shared_ptr<ConstantVariable>c1 = shared_ptr<ConstantVariable>(new ConstantVariable(1L));
-	shared_ptr<GlobalVariable>v1 =  GlobalVariableRegistry->createGlobalVariable( new VariableProperties(new Data(0L), "test1",
+	shared_ptr<GlobalVariable>v1 =  global_variable_registry->createGlobalVariable( new VariableProperties(new Datum(0L), "test1",
 																										   "Test",
 																										   "Test",
 																										   M_NEVER, M_WHEN_CHANGED,

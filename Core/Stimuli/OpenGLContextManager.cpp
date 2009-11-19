@@ -68,7 +68,7 @@ void *announce_beam_position(void *arg){
 		shared_ptr <StateSystem> state_system = StateSystem::instance();
 		
 		if(state_system->isRunning()){
-			beamPosition->setValue(Data((double)beam_percent));
+			beamPosition->setValue(Datum((double)beam_percent));
 		}
 	}
 	
@@ -416,7 +416,7 @@ int OpenGLContextManager::newMirrorContext(int pixelDepth) {
   shared_ptr<Variable> main_screen_info = reg->getVariable(MAIN_SCREEN_INFO_TAGNAME);
   
 	if(main_screen_info != NULL){
-		Data info = *main_screen_info;
+	 Datum info = *main_screen_info;
 		
 		if(info.hasKey(M_DISPLAY_WIDTH_KEY) 
 		   && info.hasKey(M_DISPLAY_HEIGHT_KEY)
@@ -502,7 +502,7 @@ int OpenGLContextManager::newFullScreenContext(int pixelDepth, int index) {
 	shared_ptr<ComponentRegistry> reg = ComponentRegistry::getSharedRegistry();
   shared_ptr<Variable> main_screen_info = reg->getVariable(MAIN_SCREEN_INFO_TAGNAME);
 
-	Data val(main_screen_info->getValue());
+ Datum val(main_screen_info->getValue());
 	if(val.hasKey(M_REFRESH_RATE_KEY)){
 		refresh_rate_hz = (int)(val.getElement(M_REFRESH_RATE_KEY));
 	}

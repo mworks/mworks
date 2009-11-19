@@ -232,8 +232,8 @@ OffsetStimulusContainer::OffsetStimulusContainer(std::string _tag,
 											shared_ptr<Stimulus> _stim):Stimulus(_tag) { 
     stim = _stim;
 
-    xoffset = shared_ptr<Variable>(new ConstantVariable(Data(0.0)));
-    yoffset = shared_ptr<Variable>(new ConstantVariable(Data(0.0)));
+    xoffset = shared_ptr<Variable>(new ConstantVariable(Datum(0.0)));
+    yoffset = shared_ptr<Variable>(new ConstantVariable(Datum(0.0)));
 }
                 
 OffsetStimulusContainer::OffsetStimulusContainer(std::string _tag, 
@@ -390,9 +390,9 @@ void BasicTransformStimulus::draw(StimulusDisplay * display,float x, float y,
 
 
 // override of basde class to provide more info
-Data BasicTransformStimulus::getCurrentAnnounceDrawData() {
+Datum BasicTransformStimulus::getCurrentAnnounceDrawData() {
     
-    Data announceData(M_DICTIONARY, 8);
+    Datum announceData(M_DICTIONARY, 8);
     announceData.addElement(STIM_NAME,tag);        // char
     announceData.addElement(STIM_ACTION,STIM_ACTION_DRAW);
     announceData.addElement(STIM_TYPE,STIM_TYPE_BASICTRANSFORM);  
@@ -418,9 +418,9 @@ BlankScreen::BlankScreen(std::string _tag,
     g = _g;
     b = _b;
     
-	Data rval = *r;
-	Data gval = *g;
-	Data bval = *b;
+ Datum rval = *r;
+ Datum gval = *g;
+ Datum bval = *b;
 	
     last_r = (float)rval;
     last_g = (float)gval;
@@ -465,9 +465,9 @@ void BlankScreen::drawInUnitSquare(StimulusDisplay *display) {
 
 
 // override of basde class to provide more info
-Data BlankScreen::getCurrentAnnounceDrawData() {
+Datum BlankScreen::getCurrentAnnounceDrawData() {
     
-    Data announceData(M_DICTIONARY, 6);
+    Datum announceData(M_DICTIONARY, 6);
     announceData.addElement(STIM_NAME,tag);        // char
     announceData.addElement(STIM_ACTION,STIM_ACTION_DRAW);
     announceData.addElement(STIM_TYPE,STIM_TYPE_BLANK);  
@@ -1105,11 +1105,11 @@ void ImageStimulus::drawInUnitSquare(StimulusDisplay *display) {
 }
 
 // override of basde class to provide more info
-Data ImageStimulus::getCurrentAnnounceDrawData() {
+Datum ImageStimulus::getCurrentAnnounceDrawData() {
     
     //mprintf("getting announce DRAW data for image stimulus %s",tag );
     
-    Data announceData(M_DICTIONARY, 9);
+    Datum announceData(M_DICTIONARY, 9);
     announceData.addElement(STIM_NAME,tag);        // char
     announceData.addElement(STIM_ACTION,STIM_ACTION_DRAW);
     announceData.addElement(STIM_TYPE,STIM_TYPE_IMAGE);
@@ -1303,11 +1303,11 @@ void PointStimulus::drawInUnitSquare(StimulusDisplay *display) {
 }
 
 // override of base class to provide more info
-Data PointStimulus::getCurrentAnnounceDrawData() {
+Datum PointStimulus::getCurrentAnnounceDrawData() {
     
     //mprintf("getting announce DRAW data for point stimulus %s",tag );
     
-    Data announceData(M_DICTIONARY, 11);
+    Datum announceData(M_DICTIONARY, 11);
     announceData.addElement(STIM_NAME,tag);        // char
     announceData.addElement(STIM_ACTION,STIM_ACTION_DRAW);
     announceData.addElement(STIM_TYPE,STIM_TYPE_POINT);

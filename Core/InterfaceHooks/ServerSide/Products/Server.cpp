@@ -9,8 +9,8 @@
 
 #include "Server.h"
 #include "Experiment.h"
-#include "EventFactory.h"
-#include "DefaultEventHandler.h"
+#include "ControlEventFactory.h"
+#include "DefaultEventStreamInterface.h"
 #include "ExperimentPackager.h"
 #include "DataFileManager.h"
 #include "VariableSave.h"
@@ -20,18 +20,18 @@
 using namespace mw;
 
 
-Server::Server() : EventHandler(M_SERVER_MESSAGE_DOMAIN, true){
+Server::Server() : EventStreamInterface(M_SERVER_MESSAGE_DOMAIN, true){
 	
-    registry = GlobalVariableRegistry;
+    registry = global_variable_registry;
     
-    server = shared_ptr<ScarabServer>(new ScarabServer(GlobalBufferManager));
+    server = shared_ptr<ScarabServer>(new ScarabServer(global_outgoing_event_buffer));
 
 		
 	
-	shared_ptr<DefaultEventHandler> _handler(new DefaultEventHandler());
+	shared_ptr<DefaultEventStreamInterface> _handler(new DefaultEventStreamInterface());
 	// TODO: prevents there from being more than one server instance
-    incomingListener = shared_ptr<IncomingEventListener>(new IncomingEventListener(GlobalBufferManager, _handler));
-    outgoingListener = shared_ptr<OutgoingEventListener>(new OutgoingEventListener(GlobalBufferManager, shared_ptr<EventHandler>(this)));
+    incomingListener = shared_ptr<IncomingEventListener>(new IncomingEventListener(global_outgoing_event_buffer, _handler));
+    outgoingListener = shared_ptr<OutgoingEventListener>(new OutgoingEventListener(global_outgoing_event_buffer, shared_ptr<EventStreamInterface>(this)));
     // dont know where else this would be handled?
     if(GlobalDataFileManager == NULL) {
         GlobalDataFileManager = new DataFileManager();
@@ -87,7 +87,7 @@ void Server::stopServer() {
 
 
 void Server::putEvent(shared_ptr<Event> event){
-    GlobalBufferManager->putIncomingNetworkEvent(event);
+    global_outgoing_event_buffer->putIncomingNetworkEvent(event);
 }
 
 void Server::saveVariables(const boost::filesystem::path &file) {
@@ -103,7 +103,7 @@ bool Server::openExperiment(const std::string &expPath) {
 	
     ExperimentPackager packer;
 	
-	Data experiment(packer.packageExperiment(bf::path(expPath, bf::native)));
+ Datum experiment(packer.packageExperiment(bf::path(expPath, bf::native)));
 	if(experiment.isUndefined()) {
 		merror(M_SERVER_MESSAGE_DOMAIN, 
 			   "Failed to create a valid packaged experiment.");
@@ -123,7 +123,7 @@ bool Server::closeExperiment(){
 	
 	string expName(GlobalCurrentExperiment->getExperimentName());
 
-	putEvent(EventFactory::closeExperimentControl(expName));
+	putEvent(ControlEventFactory::closeExperimentControl(expName));
 	return true;
 }
 
@@ -134,7 +134,7 @@ void Server::startDataFileManager() {
 }
 
 bool Server::openDataFile(const char * path, int options) {
-    putEvent(EventFactory::dataFileOpenControl(path, M_OVERWRITE));
+    putEvent(ControlEventFactory::dataFileOpenControl(path, M_OVERWRITE));
     return true;
 }
 
@@ -142,7 +142,7 @@ void Server::closeFile() {
     // TODO this could cause some problems.... but since the data file manager
     // is a global this and the event handler doesnt care about the name
     // this will be file for now.
-    putEvent(EventFactory::closeDataFileControl(""));
+    putEvent(ControlEventFactory::closeDataFileControl(""));
 }
 
 bool Server::isDataFileOpen() {
@@ -155,11 +155,11 @@ bool Server::isExperimentRunning() {
 }
 
 void Server::startExperiment() {
-	putEvent(EventFactory::startExperimentControl());        
+	putEvent(ControlEventFactory::startExperimentControl());        
 }
 
 void Server::stopExperiment() {
-	putEvent(EventFactory::stopExperimentControl());        
+	putEvent(ControlEventFactory::stopExperimentControl());        
 }
 
 MonkeyWorksTime Server::getReferenceTime() {
@@ -168,11 +168,11 @@ MonkeyWorksTime Server::getReferenceTime() {
 }
 
 //shared_ptr<Variable> Server::getVariable(const std::string &tag) {
-//	return GlobalVariableRegistry->getVariable(tag);
+//	return global_variable_registry->getVariable(tag);
 //}
 //
 //shared_ptr<Variable> Server::getVariable(const int code) {
-//	return GlobalVariableRegistry->getVariable(code);
+//	return global_variable_registry->getVariable(code);
 //}
 //
 //int Server::getCode(const std::string &tag) {
@@ -185,7 +185,7 @@ MonkeyWorksTime Server::getReferenceTime() {
 //}
 //
 //std::vector<std::string> Server::getVariableNames() {
-//	return GlobalVariableRegistry->getVariableTagnames();
+//	return global_variable_registry->getVariableTagnames();
 //}
 
 void Server::handleEvent(shared_ptr<Event> evt) {

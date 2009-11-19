@@ -19,7 +19,7 @@ using namespace mw;
 #define VERBOSE_EYE_CALIBRATORS 0
 
 GoldStandard::GoldStandard() {
-    goldStandardValues = new ExpandableList<Data>();
+    goldStandardValues = new ExpandableList<Datum>();
 }
 
 GoldStandard::~GoldStandard() {
@@ -27,7 +27,7 @@ GoldStandard::~GoldStandard() {
     delete goldStandardValues;
 }
 
-ExpandableList<Data> *GoldStandard::getGoldStandardValues() {
+ExpandableList<Datum> *GoldStandard::getGoldStandardValues() {
     return goldStandardValues;
 }
 
@@ -74,15 +74,15 @@ FixationPoint::~FixationPoint(){
 //	}
 }                                 
 
-ExpandableList<Data> *FixationPoint::getGoldStandardValues() {
+ExpandableList<Datum> *FixationPoint::getGoldStandardValues() {
 
     // return the center location of the fixation point
     goldStandardValues->clear();
     
-    Data h_loc = xoffset->getValue();    // unitless screen units    
+    Datum h_loc = xoffset->getValue();    // unitless screen units    
     goldStandardValues->addElement(h_loc);      // copy
     
-    Data v_loc = yoffset->getValue();      // unitless screen units 
+    Datum v_loc = yoffset->getValue();      // unitless screen units 
     goldStandardValues->addElement(v_loc);
 	
     return goldStandardValues;
@@ -121,11 +121,11 @@ Stimulus *FixationPoint::frozenClone(){
 }
 
 // override of PointStimulus announce method -- allows trigger info to also be announced
-Data FixationPoint::getCurrentAnnounceDrawData() {
+Datum FixationPoint::getCurrentAnnounceDrawData() {
     
     //if (VERBOSE_EYE_CALIBRATORS> 1) mprintf("getting announce DRAW data for fixation point stimulus %s",tag );
     
-    Data announceData(M_DICTIONARY, 14);
+    Datum announceData(M_DICTIONARY, 14);
     announceData.addElement(STIM_NAME,tag);        // char
     announceData.addElement(STIM_ACTION,STIM_ACTION_DRAW);
     announceData.addElement(STIM_TYPE,STIM_TYPE_POINT);
@@ -254,10 +254,10 @@ Calibrator::~Calibrator() {}
 
 void Calibrator::initialize() {
 
-    pUncalibratedData = new Data(M_LIST, this->getNumInputs() );
-    pSampledData = new Data(M_LIST, this->getNumInputs() );
+    pUncalibratedData = new Datum(M_LIST, this->getNumInputs() );
+    pSampledData = new Datum(M_LIST, this->getNumInputs() );
     
-    pCalibratedData = new Data(M_LIST, this->getNumOutputs() );
+    pCalibratedData = new Datum(M_LIST, this->getNumOutputs() );
     fitableFunctions = new ExpandableList<FitableFunction>( this->getNumOutputs() );
     
     // set vectors to 0 as defaults
@@ -280,7 +280,7 @@ void Calibrator::initialize() {
     }
     
     // announce the presence of the calibrator
-    Data announceData(M_DICTIONARY, 2);
+    Datum announceData(M_DICTIONARY, 2);
     announceData.addElement(CALIBRATOR_NAME,uniqueCalibratorName);    // char
     announceData.addElement(CALIBRATOR_ACTION,CALIBRATOR_ACTION_IDENTIFY_SELF);    
     announce(announceData);    // announce things here using method from Announcable
@@ -319,7 +319,7 @@ bool Calibrator::setParametersToDefaults() {
 // the main jobs of this method are to:
 //    1) locally "save" the data the is brought in on the input variable.
 //    2) apply the current calibration function (operates over "saved" values of potentially ALL input variables) 
-void Calibrator::newDataReceived(int inputIndex, const Data& data, 
+void Calibrator::newDataReceived(int inputIndex, const Datum& data, 
                                                 MonkeyWorksTime timeUS) {
     
 	lock(); // DDC added
@@ -347,7 +347,7 @@ void Calibrator::newDataReceived(int inputIndex, const Data& data,
     // I think this is the right behavior, and it can easily be overriden if desired.
     
     bool noErr = true;
-    Data calibData;
+    Datum calibData;
     for (int outputIndex=0;outputIndex<this->getNumOutputs();outputIndex++) {
         noErr = (fitableFunctions->getElement(outputIndex))->
                         //applyTheFunction(pUncalibratedData, &calibData);  // DDC fix
@@ -369,7 +369,7 @@ bool Calibrator::takeSample(shared_ptr<GoldStandard> goldStandardObject) {
      
         // go get the true calibration values from the gold standard object
         // mprintf("Calibrator is calling goldStandard object to get gold standard values.");
-        ExpandableList<Data> *gold_standard_values = goldStandardObject->getGoldStandardValues();
+        ExpandableList<Datum> *gold_standard_values = goldStandardObject->getGoldStandardValues();
         
         if (gold_standard_values->getNElements() !=  this->getNumOutputs()) {
             merror(M_SYSTEM_MESSAGE_DOMAIN, 
@@ -386,20 +386,20 @@ bool Calibrator::takeSample(shared_ptr<GoldStandard> goldStandardObject) {
         // send the input and desired output data to each of the fitable functions
         for (int outputIndex = 0; outputIndex<this->getNumOutputs(); outputIndex++) {
         
-             shared_ptr<Data> pDesiredOutputData = gold_standard_values->getElement(outputIndex);
+             shared_ptr<Datum> pDesiredOutputData = gold_standard_values->getElement(outputIndex);
              
             // prompt fit funciton with most recent set of uncalibrated data and desired output data
             //if (VERBOSE_EYE_CALIBRATORS) mprintf("mCalibrator::taking sample now.  outputIndex: %d.",outputIndex);
             shared_ptr<FitableFunction> fitFunction = (fitableFunctions->getElement(outputIndex));
             fitFunction->acceptDataForFit(
                             pSampledData,
-                            *pDesiredOutputData,        // pass Data by value
+                            *pDesiredOutputData,        // pass Datum by value
                             timeOfMostRecentUncalibratedDataUS);
                             
                             
             // announce sample that was taken
             //if (VERBOSE_EYE_CALIBRATORS) mprintf("mCalibrator::announcing take sample.  outputIndex: %d.",outputIndex);
-            Data CalibratedOutputData; 
+            Datum CalibratedOutputData; 
             //noErr = fitFunction->applyTheFunction(pSampledData, &CalibratedOutputData); // DDC fix
 			noErr = fitFunction->applyTheFunction(*pSampledData, &CalibratedOutputData);
             announceCalibrationSample(outputIndex,*pSampledData,*pDesiredOutputData, CalibratedOutputData, timeOfMostRecentUncalibratedDataUS);
@@ -423,7 +423,7 @@ bool Calibrator::sampleNow(shared_ptr<GoldStandard> goldStandardObject) {
         
         // set the sample values to the last input values
         for (int inputIndex = 0; inputIndex<this->getNumInputs(); inputIndex++) {
-            Data data = pUncalibratedData->getElement(inputIndex);
+            Datum data = pUncalibratedData->getElement(inputIndex);
             pSampledData->setElement(inputIndex,data); 
         }
         if (VERBOSE_EYE_CALIBRATORS) mprintf("mCalibrator::sampleNow method ran successfully.");
@@ -466,7 +466,7 @@ bool Calibrator::endAverageAndSample(shared_ptr<GoldStandard> goldStandardObject
         for (int inputIndex = 0; inputIndex<this->getNumInputs(); inputIndex++) {
             shared_ptr<Averager> averager = averagers->getElement(inputIndex);
             averager->stop();
-            Data data = averager->getAverage();
+            Datum data = averager->getAverage();
             pSampledData->setElement(inputIndex,data); 
             averager->reset();
         }
@@ -529,10 +529,10 @@ void Calibrator::reportParameterUpdate() {
 
 
 // method to announce details about each sample that is acquired for calibration  
-void Calibrator::announceCalibrationSample(int outputIndex, Data SampledData, 
-                     Data DesiredOutputData, Data CalibratedOutputData, MonkeyWorksTime timeOfSampleUS) {
+void Calibrator::announceCalibrationSample(int outputIndex, Datum SampledData, 
+                     Datum DesiredOutputData, Datum CalibratedOutputData, MonkeyWorksTime timeOfSampleUS) {
     
-    Data announceData(M_DICTIONARY, 3);
+    Datum announceData(M_DICTIONARY, 3);
     announceData.addElement(CALIBRATOR_NAME,uniqueCalibratorName);    // char
     announceData.addElement(CALIBRATOR_ACTION,CALIBRATOR_ACTION_SAMPLE);
     announceData.addElement("outputIndex",(long)outputIndex);
@@ -543,7 +543,7 @@ void Calibrator::announceCalibrationSample(int outputIndex, Data SampledData,
   
 
 void Calibrator::announceCalibrationUpdate() {
-    Data announceData(M_DICTIONARY, 2);
+    Datum announceData(M_DICTIONARY, 2);
     announceData.addElement(CALIBRATOR_NAME,uniqueCalibratorName);        // char
     announceData.addElement(CALIBRATOR_ACTION,CALIBRATOR_ACTION_UPDATE_PARAMS);
     // TODO announce parameters in base class ?? too messy.
@@ -600,10 +600,10 @@ bool Calibrator::clearCalibrationData(MonkeyWorksTime ageAllowedUS){
    
    
 // this routine checks that the request is a dictionary and that it contains a name that matches the calibrator
-bool Calibrator::checkRequest(Data dictionaryData) {
+bool Calibrator::checkRequest(Datum dictionaryData) {
       
     
-    Data data; // to hold field data for checking
+    Datum data; // to hold field data for checking
 
     // check if this is a dictionary
     if (!(dictionaryData.getDataType() == M_DICTIONARY)) {
@@ -618,7 +618,7 @@ bool Calibrator::checkRequest(Data dictionaryData) {
 			"Request sent to calibrator %s that did not contain name field was ignored.", uniqueCalibratorName.c_str());
          return(false);
     }
-    Data nameData = dictionaryData.getElement(R_CALIBRATOR_NAME);
+    Datum nameData = dictionaryData.getElement(R_CALIBRATOR_NAME);
 
     if  (!(nameData.getDataType() == M_STRING)) {       // check if name field is a string
         mwarning(M_SYSTEM_MESSAGE_DOMAIN,
@@ -640,7 +640,7 @@ bool Calibrator::checkRequest(Data dictionaryData) {
 
 // overridable base class method
 // assumes data have already been checked for proper dictionary, name. 
-CalibratorRequestedAction Calibrator::getRequestedAction(Data dictionaryData) {  
+CalibratorRequestedAction Calibrator::getRequestedAction(Datum dictionaryData) {  
           
     // check what action is requested (e.g. update parameters)
     if (!(dictionaryData.hasKey(R_CALIBRATOR_ACTION))) {
@@ -648,7 +648,7 @@ CalibratorRequestedAction Calibrator::getRequestedAction(Data dictionaryData) {
 			"Request sent to calibrator %s that did not contain an action field was ignored.", uniqueCalibratorName.c_str());
          return(CALIBRATOR_NO_ACTION);
     }
-    Data actionData = dictionaryData.getElement(R_CALIBRATOR_ACTION);
+    Datum actionData = dictionaryData.getElement(R_CALIBRATOR_ACTION);
 
     if  (!(actionData.getDataType() == M_STRING)) {       // check if name field is a string
         mwarning(M_SYSTEM_MESSAGE_DOMAIN,
@@ -676,7 +676,7 @@ CalibratorRequestedAction Calibrator::getRequestedAction(Data dictionaryData) {
     
 
 // PUBLIC METHOD   
-void Calibrator::notifyRequest(const Data& original_data, MonkeyWorksTime timeUS) {
+void Calibrator::notifyRequest(const Datum& original_data, MonkeyWorksTime timeUS) {
     
     // base class -- not clear what to do.
     lock();
@@ -687,7 +687,7 @@ void Calibrator::notifyRequest(const Data& original_data, MonkeyWorksTime timeUS
 
 
 // PUBLIC METHOD
-void Calibrator::notifyPrivate(const Data& original_data, MonkeyWorksTime timeUS) {
+void Calibrator::notifyPrivate(const Datum& original_data, MonkeyWorksTime timeUS) {
 
     // base class -- not clear what to do.
     lock();
@@ -783,7 +783,7 @@ EyeCalibrator::~EyeCalibrator() {
 
 // JJD overrode the base class function on Nov 2, 2006, so that the eye calibrator 
 // will wait for paired input from BOTH channels before posting
-void EyeCalibrator::newDataReceived(int inputIndex, const Data& data, 
+void EyeCalibrator::newDataReceived(int inputIndex, const Datum& data, 
                                                 MonkeyWorksTime timeUS) {
     
 	lock(); 
@@ -823,13 +823,13 @@ void EyeCalibrator::newDataReceived(int inputIndex, const Data& data,
     MonkeyWorksTime eyeTimeUS;
     double eyeH, eyeV;
     bool noErr = true;
-    Data calibData;
+    Datum calibData;
     
     while (pairedEyeData->getAvailable(&eyeH, &eyeV, &eyeTimeUS)) {
     
         // put the paired values in the input vector for the calibration function
-        pUncalibratedData->setElement(inputIndexH,(Data)eyeH);
-        pUncalibratedData->setElement(inputIndexV,(Data)eyeV);
+        pUncalibratedData->setElement(inputIndexH,(Datum)eyeH);
+        pUncalibratedData->setElement(inputIndexV,(Datum)eyeV);
         
         
         for (int outputIndex=0;outputIndex<this->getNumOutputs();outputIndex++) {
@@ -849,8 +849,8 @@ void EyeCalibrator::newDataReceived(int inputIndex, const Data& data,
 
 
 // method to announce details about each sample that is acquired for calibration  
-void EyeCalibrator::announceCalibrationSample(int outputIndex, Data SampledData, 
-                    Data DesiredOutputData, Data CalibratedOutputData, MonkeyWorksTime timeOfSampleUS) {
+void EyeCalibrator::announceCalibrationSample(int outputIndex, Datum SampledData, 
+                    Datum DesiredOutputData, Datum CalibratedOutputData, MonkeyWorksTime timeOfSampleUS) {
     
     // this method expects the H sample to arrive first and then the V sample
     if (outputIndex == outputIndexH) {  // store data and wait for v (announce as pair)
@@ -871,11 +871,11 @@ void EyeCalibrator::announceCalibrationSample(int outputIndex, Data SampledData,
     }
     
     
-    Data announceData(M_DICTIONARY, 5);
+    Datum announceData(M_DICTIONARY, 5);
     announceData.addElement(CALIBRATOR_NAME,uniqueCalibratorName);    // char
     announceData.addElement(CALIBRATOR_ACTION,CALIBRATOR_ACTION_SAMPLE);
     
-    Data temp(M_LIST, 2);
+    Datum temp(M_LIST, 2);
     temp.setElement(0,sampledH);
     temp.setElement(1,sampledV);
     announceData.addElement(CALIBRATOR_SAMPLE_SAMPLED_HV,temp);    // input values
@@ -898,14 +898,14 @@ void EyeCalibrator::announceCalibrationSample(int outputIndex, Data SampledData,
     
 void EyeCalibrator::announceCalibrationUpdate() {
 
-    Data announceData(M_DICTIONARY, 4);
+    Datum announceData(M_DICTIONARY, 4);
     announceData.addElement(CALIBRATOR_NAME,uniqueCalibratorName);
     announceData.addElement(CALIBRATOR_ACTION,CALIBRATOR_ACTION_UPDATE_PARAMS);
     
-    Data paramsH = (fitableFunctions->getElement(HfunctionIndex))->getParameters();
+    Datum paramsH = (fitableFunctions->getElement(HfunctionIndex))->getParameters();
     announceData.addElement(CALIBRATOR_PARAMS_H,paramsH);   // M_LIST
     
-    Data paramsV = (fitableFunctions->getElement(VfunctionIndex))->getParameters();
+    Datum paramsV = (fitableFunctions->getElement(VfunctionIndex))->getParameters();
     announceData.addElement(CALIBRATOR_PARAMS_V,paramsV);   // M_LIST
     
     announce(announceData);    // announce things here using method from Announcable (will set values in announce variable)
@@ -914,12 +914,12 @@ void EyeCalibrator::announceCalibrationUpdate() {
   
 void EyeCalibrator::setPrivateParameters() { 
   
-    Data privateData(M_DICTIONARY, 2);
+    Datum privateData(M_DICTIONARY, 2);
     
-    Data paramsH = (fitableFunctions->getElement(HfunctionIndex))->getParameters();
+    Datum paramsH = (fitableFunctions->getElement(HfunctionIndex))->getParameters();
     privateData.addElement(R_CALIBRATOR_PARAMS_H,paramsH);   // M_LIST
     
-    Data paramsV = (fitableFunctions->getElement(VfunctionIndex))->getParameters();
+    Datum paramsV = (fitableFunctions->getElement(VfunctionIndex))->getParameters();
     privateData.addElement(R_CALIBRATOR_PARAMS_V,paramsV);   // M_LIST
     
     storePrivateData(privateData);   // base class method 
@@ -937,7 +937,7 @@ void EyeCalibrator::setPrivateParameters() {
 
 // PUBLIC METHOD
 // triggered by any change to the calibrator request variable  
-void EyeCalibrator::notifyRequest(const Data& dictionaryData, MonkeyWorksTime timeUS) {
+void EyeCalibrator::notifyRequest(const Datum& dictionaryData, MonkeyWorksTime timeUS) {
     
 	lock(); // DDC added
 	
@@ -980,7 +980,7 @@ void EyeCalibrator::notifyRequest(const Data& dictionaryData, MonkeyWorksTime ti
 }
 
 // PUBLIC METHOD -- this means the private variable is locked -- DO NOT UPDATE IT!
-void EyeCalibrator::notifyPrivate(const Data& dictionaryData, MonkeyWorksTime timeUS) {
+void EyeCalibrator::notifyPrivate(const Datum& dictionaryData, MonkeyWorksTime timeUS) {
     lock();
     tryToUseDataToSetParameters(dictionaryData); 
     unlock();
@@ -991,7 +991,7 @@ void EyeCalibrator::notifyPrivate(const Data& dictionaryData, MonkeyWorksTime ti
 // this routine handles both "requests" and loading of private data (stored params)
 // if a request, then priuvate values are probably in need of update
 // if a load of private, then private values are OK, but I can check this.
-void EyeCalibrator::tryToUseDataToSetParameters(Data dictionaryData) {
+void EyeCalibrator::tryToUseDataToSetParameters(Datum dictionaryData) {
 
     // check if this is a dictionary
     if (!(dictionaryData.getDataType() == M_DICTIONARY)) {
@@ -1002,7 +1002,7 @@ void EyeCalibrator::tryToUseDataToSetParameters(Data dictionaryData) {
 
     // try to perform the requested action
     bool paramsChanged = false; 
-    Data paramData;
+    Datum paramData;
 
     // if appropriate param fields are present and have expected length, then use the data 
     //     to try to update the parameters
@@ -1021,7 +1021,7 @@ void EyeCalibrator::tryToUseDataToSetParameters(Data dictionaryData) {
             "Data processed to update params of calibrator %s that did not contain vector in params field was ignored.", uniqueCalibratorName.c_str());
         return;
     }
-    Data paramsH = paramData;
+    Datum paramsH = paramData;
     if (paramsH.getNElements() != (fitableFunctions->getElement(HfunctionIndex))->getNumParameters() ) {
         mwarning(M_SYSTEM_MESSAGE_DOMAIN,
             "Data processed to update params of calibrator %s that did not contain expected number of params was ignored.", uniqueCalibratorName.c_str());
@@ -1045,7 +1045,7 @@ void EyeCalibrator::tryToUseDataToSetParameters(Data dictionaryData) {
             "Data processed to update params of calibrator %s that did not contain vector in params field was ignored.", uniqueCalibratorName.c_str());
         return;
     }
-    Data paramsV = paramData;
+    Datum paramsV = paramData;
     if (paramsV.getNElements() != (fitableFunctions->getElement(VfunctionIndex))->getNumParameters() ) {
         mwarning(M_SYSTEM_MESSAGE_DOMAIN,
             "Data processed to update params of calibrator %s that did not contain expected number of params was ignored.", uniqueCalibratorName.c_str());

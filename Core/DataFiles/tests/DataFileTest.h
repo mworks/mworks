@@ -2,7 +2,7 @@
 #define DATA_FILE_TEST_H_
 
 /*
- *  DataFileTest.h
+ *  DatumFileTest.h
  *  MonkeyWorksCore
  *
  *  Created by Ben Kennedy 12032006
@@ -21,10 +21,10 @@
 
 
 namespace mw {
-class DataFileTestFixture : public CppUnit::TestFixture {
+class DatumFileTestFixture : public CppUnit::TestFixture {
   
   
-	CPPUNIT_TEST_SUITE( DataFileTestFixture );
+	CPPUNIT_TEST_SUITE( DatumFileTestFixture );
 	CPPUNIT_TEST( initializationTest );	
 	CPPUNIT_TEST( dataFileWriterTest );
 	CPPUNIT_TEST( multiDataFileWriterTest );
@@ -33,7 +33,7 @@ class DataFileTestFixture : public CppUnit::TestFixture {
 	
 	
  private:
-	DataFileManager *dfm;
+ DataFileManager *dfm;
  public:
 		
 	void setUp();

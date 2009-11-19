@@ -107,10 +107,10 @@ void StimulusNode::announceStimulusDraw(MonkeyWorksTime now) {
 	}
 }
 
-Data StimulusNode::getCurrentAnnounceDrawData() {
+Datum StimulusNode::getCurrentAnnounceDrawData() {
 	if((!frozen && stim == NULL) || (frozen && frozen_stim == NULL)) {
 		// TODO: warn
-		Data undef;
+	 Datum undef;
 		return undef;
 	}
 	if(frozen) {

@@ -29,7 +29,7 @@ void SerializationTestFixture::tearDown(){
 
 void SerializationTestFixture::testEventSerialization(){
 
-    Data the_data((double)4.0);
+    Datum the_data((double)4.0);
     Event event(1, the_data);
     
     ostringstream output_stream_;
@@ -48,7 +48,7 @@ void SerializationTestFixture::testEventSerialization(){
     
     
     CPPUNIT_ASSERT(event.getEventCode() == event.getEventCode());
-    Data the_regurgitated_data = event.getData();
+    Datum the_regurgitated_data = event.getData();
     
     CPPUNIT_ASSERT(the_data.getDataType() == the_regurgitated_data.getDataType());
     CPPUNIT_ASSERT(the_data.getFloat() == the_regurgitated_data.getFloat());
@@ -57,7 +57,7 @@ void SerializationTestFixture::testEventSerialization(){
 
 void SerializationTestFixture::testScarabSerialization(){
 
-    Data the_data((double)4.0);
+    Datum the_data((double)4.0);
     ScarabDatum *datum = the_data.getScarabDatum();
 
     ostringstream output_stream_;
@@ -79,7 +79,7 @@ void SerializationTestFixture::testScarabSerialization(){
 }
 
 void SerializationTestFixture::testStringDatumSerialization(){
-    Data the_data("blah");
+    Datum the_data("blah");
     
     Event evt(0, the_data);
     
@@ -97,7 +97,7 @@ void SerializationTestFixture::testStringDatumSerialization(){
     serialized_archive2 >> evt2;
     
     CPPUNIT_ASSERT(evt.getEventCode() == evt2.getEventCode());
-    Data the_regurgitated_data = evt2.getData();
+    Datum the_regurgitated_data = evt2.getData();
     
     CPPUNIT_ASSERT(the_data.getDataType() == the_regurgitated_data.getDataType());
     
@@ -109,9 +109,9 @@ void SerializationTestFixture::testStringDatumSerialization(){
 
 void SerializationTestFixture::testDictSerialization(){
     
-    Data the_data(M_DICTIONARY,2);
-    Data four(4L);
-    Data five(5L);
+    Datum the_data(M_DICTIONARY,2);
+    Datum four(4L);
+    Datum five(5L);
     //the_data.addElement("blah1", four);
     //the_data.addElement("blah2", five);
     the_data.addElement(four, four);
@@ -134,7 +134,7 @@ void SerializationTestFixture::testDictSerialization(){
     serialized_archive2 >> evt2;
     
     CPPUNIT_ASSERT(evt.getEventCode() == evt2.getEventCode());
-    Data the_regurgitated_data = evt2.getData();
+    Datum the_regurgitated_data = evt2.getData();
     
     CPPUNIT_ASSERT(the_data.getDataType() == the_regurgitated_data.getDataType());
     

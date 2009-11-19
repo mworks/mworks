@@ -11,7 +11,7 @@
 
 using namespace mw;
 
-IncomingEventListener::IncomingEventListener(shared_ptr<BufferManager> manager, shared_ptr<EventHandler> hand) :
+IncomingEventListener::IncomingEventListener(shared_ptr<BufferManager> manager, shared_ptr<EventStreamInterface> hand) :
 								EventListener(manager){
     reader = buffer_manager->getNewIncomingNetworkBufferReader();
     //thread = NULL;

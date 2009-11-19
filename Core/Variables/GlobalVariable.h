@@ -7,7 +7,7 @@
  *
  *
  *	The constant variable is a subclass of the Variable object
- *  that carries it's own Data internal to itself.  This is in contrast
+ *  that carries it's own Datum internal to itself.  This is in contrast
  *  to "normal" Variable objects which are merely symbolic tokens whose
  *  meaning may depend upon what context they reside in.
  *
@@ -18,7 +18,7 @@
  *
  *  The "constant"-ness of constant variables is not absolute, however, and
  *  they can be changed as any other variable would be.  Such changes
- *  actually change the internal Data of the object, where a "regular" 
+ *  actually change the internal Datum of the object, where a "regular" 
  *  variable does not change when the value it symbolically references is 
  *  changed.  Thus, the GlobalVariable primarily provides a different
  *  (and variously useful) means of interacting with the larger variable
@@ -33,14 +33,14 @@
 namespace mw {
 class GlobalVariable : public Variable{
     protected:
-		shared_ptr<Data> value;
+		shared_ptr<Datum> value;
 		shared_ptr<Lockable> valueLock;
 
 	public:
         /**
          * Sets the data value to '_value'
          */
-        GlobalVariable(Data _value, VariableProperties *interface=NULL);
+        GlobalVariable(Datum _value, VariableProperties *interface=NULL);
 		        
 		/**
          * Constructs a value object from an interface setting object
@@ -65,16 +65,16 @@ class GlobalVariable : public Variable{
          * Returns the value data or returns a new data object initialized
          * to zero if the old data object type was M_UNDEFINED.
          */
-        virtual Data getValue();
+        virtual Datum getValue();
         
 		
         /**
          * Sets the data value of this parameter
          */
-		void setValue(Data newval);
-		void setValue(Data newval, MonkeyWorksTime time);
-		void setSilentValue(Data newval);
-		void setSilentValue(Data newval, MonkeyWorksTime time);
+		void setValue(Datum newval);
+		void setValue(Datum newval, MonkeyWorksTime time);
+		void setSilentValue(Datum newval);
+		void setSilentValue(Datum newval, MonkeyWorksTime time);
         
         /**
          * Returns true, always

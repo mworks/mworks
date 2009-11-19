@@ -36,8 +36,8 @@ VariableProperties *createNewVariableProperties(long defaultval, char *_tagname,
 												 char *_longname, int _editable, bool _viewable, int _domain, int _logging, char *_groups);
 							
 							
-Data createNewDataObject(long data);
-Data createNewDataObject(double data);
+Datum createNewDataObject(long data);
+Datum createNewDataObject(double data);
 
 std::string new_string(const char *the_string){
 	if(the_string == NULL){
@@ -99,7 +99,7 @@ DEF_CAST_SHARED_PTR(ScopedVariable, ScopedVariable, castAsScopedVariablePtr);
 
 
 shared_ptr<Variable> get_variable(char *tag){
-	return GlobalVariableRegistry->getVariable(tag);
+	return global_variable_registry->getVariable(tag);
 }
 
 

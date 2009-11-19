@@ -68,13 +68,13 @@ void StimulusDisplayChain::announce(MonkeyWorksTime time) {
 	
 }
 
-Data StimulusDisplayChain::getAnnounceData() {
+Datum StimulusDisplayChain::getAnnounceData() {
     shared_ptr<StimulusNode> node = getBackmost(); //tail;
 	
-	Data stimAnnounce(M_LIST, 1);
+ Datum stimAnnounce(M_LIST, 1);
     while(node != shared_ptr< LinkedListNode<StimulusNode> >()) {
 		if(node->isVisible()) {
-			Data individualAnnounce(node->getCurrentAnnounceDrawData());
+		 Datum individualAnnounce(node->getCurrentAnnounceDrawData());
 			if(!individualAnnounce.isUndefined()) {
 				stimAnnounce.addElement(individualAnnounce);
 			}
@@ -216,7 +216,7 @@ void StimulusDisplay::setDisplayBounds(){
   shared_ptr<mw::ComponentRegistry> reg = mw::ComponentRegistry::getSharedRegistry();
   shared_ptr<Variable> main_screen_info = reg->getVariable(MAIN_SCREEN_INFO_TAGNAME);
   
-	Data display_info = *main_screen_info; // from standard variables
+ Datum display_info = *main_screen_info; // from standard variables
 	if(display_info.getDataType() == M_DICTIONARY &&
 	   display_info.hasKey(M_DISPLAY_WIDTH_KEY) &&
 	   display_info.hasKey(M_DISPLAY_HEIGHT_KEY) &&
@@ -563,13 +563,13 @@ void StimulusGroupReferenceNode::announceStimulusDraw(MonkeyWorksTime time){
 	}
 }
 
-Data StimulusGroupReferenceNode::getCurrentAnnounceDrawData(){
+Datum StimulusGroupReferenceNode::getCurrentAnnounceDrawData(){
 	int index_value = getIndexValue();
 	int nelements = stimulus_nodes->getNElements();
 	if(index_value >=0 && index_value < nelements ){
 		return (stimulus_nodes->getElement(index_value))->getCurrentAnnounceDrawData();
 	} else {
-		Data undef;
+	 Datum undef;
 		return undef;
 	}
 }

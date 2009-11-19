@@ -49,8 +49,8 @@ class ScopedVariableEnvironment {
 		}
 	
 		// ScopedVariable delegate methods
-		Data getValue(int index);
-		void setValue(int index, Data value);
+	 Datum getValue(int index);
+		void setValue(int index, Datum value);
 		
 		
 		

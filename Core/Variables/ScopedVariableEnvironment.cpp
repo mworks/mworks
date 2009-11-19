@@ -55,17 +55,17 @@ void ScopedVariableEnvironment::setCurrentContext(shared_ptr<ScopedVariableConte
 }
 
 // ScopedVariable delegate methods
-Data ScopedVariableEnvironment::getValue(int index){
+Datum ScopedVariableEnvironment::getValue(int index){
 	if(current_context != NULL){
 		return current_context->get(index);
 	}
 	
 	// TODO: warn
-	return Data();
+	return Datum();
 }
 
 
-void ScopedVariableEnvironment::setValue(int index, Data value){
+void ScopedVariableEnvironment::setValue(int index, Datum value){
 	if(current_context != NULL){
 		current_context->set(index, value);
 	} else {

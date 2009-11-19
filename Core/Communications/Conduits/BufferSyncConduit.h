@@ -19,7 +19,7 @@
 
 #include "Conduit.h"
 #include "VariableRegistry.h"
-#include "EventFactory.h"
+#include "ControlEventFactory.h"
 namespace mw {
 class BufferSyncConduit : public Conduit {
     
@@ -34,7 +34,7 @@ public:
         buffer_manager = registry->getBufferManager();
         
         // send the variable codec, as a matter of course
-        transport->sendEvent(EventFactory::codecPackage());
+        transport->sendEvent(ControlEventFactory::codecPackage());
     }
     
     virtual ~BufferSyncConduit(){ }

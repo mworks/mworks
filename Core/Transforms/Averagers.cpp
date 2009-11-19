@@ -50,7 +50,7 @@ void Averager::reset() {
     sum = 0;
     sum2 = 0;
     
-    Data zed = (Data)((double)0);
+    Datum zed = (Datum)((double)0);
     ave = zed;
     var = zed;
     stdDev = zed;
@@ -61,20 +61,20 @@ void Averager::reset() {
     unlock();
 }
 
-Data Averager::getAverage() {
+Datum Averager::getAverage() {
     return ave;
 }  
 
-Data Averager::getStdDeviation() {
+Datum Averager::getStdDeviation() {
     return stdDev;
 }  
 
-Data Averager::getSEM() {
+Datum Averager::getSEM() {
     return SEM;
 }  
   
 
-void Averager::computeAllValues(Data data, MonkeyWorksTime timeUS) {
+void Averager::computeAllValues(Datum data, MonkeyWorksTime timeUS) {
 
     double dat = (double)data;    
                                         
@@ -83,14 +83,14 @@ void Averager::computeAllValues(Data data, MonkeyWorksTime timeUS) {
     n++;
     
     double nd = (double)n;
-    ave = (Data)(sum/nd);    
+    ave = (Datum)(sum/nd);    
     if (n>=2) {
         double v = (sum2 - ((sum*sum)/nd)) / (nd-1.0);
         double sd = (sqrt(v));
         double sm = sd / (sqrt(nd));
-        var = (Data)v;
-        stdDev = (Data)sd;
-        SEM = (Data)sm;
+        var = (Datum)v;
+        stdDev = (Datum)sd;
+        SEM = (Datum)sm;
     };
     
     
@@ -102,7 +102,7 @@ void Averager::computeAllValues(Data data, MonkeyWorksTime timeUS) {
 }
 
 
-void Averager::newDataReceived(int inputIndex, const Data& data, 
+void Averager::newDataReceived(int inputIndex, const Datum& data, 
                                                 MonkeyWorksTime timeUS) {
     lock();                                            
     if (!running) {
@@ -132,7 +132,7 @@ AveragerUser::AveragerUser(shared_ptr<Variable> _inputVar, shared_ptr<Variable> 
 AveragerUser::~AveragerUser() {};
 
 
-void AveragerUser::newDataReceived(int inputIndex, const Data& data, 
+void AveragerUser::newDataReceived(int inputIndex, const Datum& data, 
                                                 MonkeyWorksTime timeUS) {
     
                                                 
@@ -150,7 +150,7 @@ void AveragerUser::newDataReceived(int inputIndex, const Data& data,
     this->computeAllValues(data, timeUS);           // Averager base class method
     
     //if (VERBOSE_AVERAGER) mprintf(" ****   AveragerUser posting results");
-    this->postResults(0, (Data)ave, aveTimeUS);    // VarTransformAdaptor class method
+    this->postResults(0, (Datum)ave, aveTimeUS);    // VarTransformAdaptor class method
 
     unlock();
 

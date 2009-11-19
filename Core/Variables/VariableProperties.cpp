@@ -18,7 +18,7 @@ using namespace mw;
 
 
 
-VariableProperties::VariableProperties(Data * def, 
+VariableProperties::VariableProperties(Datum * def, 
 										 std::string tag, 
 										 std::string full,
 										 std::string desc, 
@@ -41,7 +41,7 @@ VariableProperties::VariableProperties(Data * def,
     logging = log;
     viewable = view;
     domain = dType;
-    defaultvalue = Data(*def);
+    defaultvalue = Datum(*def);
     
 	
     //package = NULL;
@@ -52,7 +52,7 @@ VariableProperties::VariableProperties(Data * def,
 	groups = parseGroupList(_groups);
 }
 
-VariableProperties::VariableProperties(Data * def, 
+VariableProperties::VariableProperties(Datum * def, 
 										 std::string tag, 
 										 std::string full,
 										 std::string desc, 
@@ -61,7 +61,7 @@ VariableProperties::VariableProperties(Data * def,
 										 bool view,  
 										 bool persist, 
 										 DomainType dType, 
-										 Data * rg,
+										 Datum * rg,
 										 std::string _groups) {
     if(dType != M_INTEGER_FINITE && dType != M_CONTINUOUS_FINITE) {
         merror(M_SYSTEM_MESSAGE_DOMAIN,
@@ -75,21 +75,21 @@ VariableProperties::VariableProperties(Data * def,
     logging = log;
     viewable = view;
     domain = dType;
-    defaultvalue = Data(*def);
+    defaultvalue = Datum(*def);
     
     //package = NULL;
-    range = new Data[2];
+    range = new Datum[2];
     nvals = 2;
     parameter = NULL;    
     if(rg != NULL) {
-        range[0] = Data(rg[0]);
-        range[1] = Data(rg[1]) ;
+        range[0] = Datum(rg[0]);
+        range[1] = Datum(rg[1]) ;
     }
 	
 	groups = parseGroupList(_groups);
 }
 
-VariableProperties::VariableProperties(Data * def, 
+VariableProperties::VariableProperties(Datum * def, 
 										 std::string tag, 
 										 std::string full, 
 										 std::string desc, 
@@ -98,7 +98,7 @@ VariableProperties::VariableProperties(Data * def,
 										 bool view, 
 										 bool persist, 
 										 DomainType dType, 
-										 Data * rg, 
+										 Datum * rg, 
 										 int numvals, 
 										 std::string _groups) {
     if(dType != M_DISCRETE) {
@@ -112,16 +112,16 @@ VariableProperties::VariableProperties(Data * def,
 	persistant = persist;
     viewable = view;
     domain = dType;
-    range = new Data[numvals];
+    range = new Datum[numvals];
     nvals = numvals;
     for(int i = 0; i < nvals; i++) {
         if(rg == NULL) {
             continue;
         }
-        range[i] = Data(rg[i]);
+        range[i] = Datum(rg[i]);
     }
     logging = log;	
-    defaultvalue = Data(*def);
+    defaultvalue = Datum(*def);
     
     //package = NULL;
     parameter = NULL;
@@ -248,12 +248,12 @@ VariableProperties::VariableProperties(ScarabDatum * datum) {
     if(nvals == 0) {
         range = NULL;
     } else {
-        range = new Data[nvals];
+        range = new Datum[nvals];
     }
     for(int i = 0; i < nvals; i++) {
         runner = scarab_dict_get(datum, scarab_new_integer(i));
 		// TODO: check this
-		range[i] = Data(runner);
+		range[i] = Datum(runner);
     }
     
     //logging
@@ -278,9 +278,9 @@ VariableProperties::VariableProperties(ScarabDatum * datum) {
 		mwarning(M_NETWORK_MESSAGE_DOMAIN,
 				 "Invalid default value on variable (%s) received in event stream.",
 				 tagname.c_str());
-		defaultvalue = Data(0L);
+		defaultvalue = Datum(0L);
 	} else {
-		defaultvalue = Data(runner);
+		defaultvalue = Datum(runner);
 	}
 	
     // default value
@@ -341,8 +341,8 @@ VariableProperties::VariableProperties(VariableProperties&  copy) {
     if(nvals == 0) { 
         range = NULL;
     } else {
-        range = new Data[nvals];
-        Data * cprange = copy.getRange();
+        range = new Datum[nvals];
+        Datum * cprange = copy.getRange();
         for(int i = 0; i < nvals; i++) {
             range[i] = cprange[i];
         }
@@ -355,7 +355,7 @@ VariableProperties::VariableProperties(VariableProperties&  copy) {
     parameter = copy.getVariable();  // don't need a deep copy here!
     
     // defaultvalue
-    defaultvalue = Data(copy.getDefaultValue());
+    defaultvalue = Datum(copy.getDefaultValue());
 	
 	groups = copy.getGroups();
 	
@@ -372,7 +372,7 @@ VariableProperties::~VariableProperties() {
     
 }
 
-Data * VariableProperties::getRange() {
+Datum * VariableProperties::getRange() {
     return range;
 }
 
@@ -380,7 +380,7 @@ void VariableProperties::setVariable(Variable *newparam) {
     parameter = newparam;
 }
 
-Data VariableProperties::getDefaultValue() {
+Datum VariableProperties::getDefaultValue() {
     return defaultvalue;
 }
 
@@ -424,30 +424,30 @@ bool VariableProperties::getPersistant() {
     return persistant;
 }
 
-void VariableProperties::addRange(Data * val, int idx) {
+void VariableProperties::addRange(Datum * val, int idx) {
     if(idx < 0 || idx >= nvals) {
         return;
     }
-    range[idx] = Data(*val);
+    range[idx] = Datum(*val);
 }
 
 std::vector <std::string> VariableProperties::getGroups() {
 	return groups;
 }
 
-VariableProperties::operator Data(){
+VariableProperties::operator Datum(){
 	
-	Data dict(M_DICTIONARY, 11);
+ Datum dict(M_DICTIONARY, 11);
 	
 	dict.addElement("tagname", tagname.c_str());
 	dict.addElement("shortname", shortname.c_str());
 	dict.addElement("longname", longname.c_str());
-	dict.addElement("editable", Data((long)editable));
-	dict.addElement("domain", Data((long)domain));
-	dict.addElement("viewable", Data((long)viewable));
-	dict.addElement("persistant", Data((long)persistant));
+	dict.addElement("editable", Datum((long)editable));
+	dict.addElement("domain", Datum((long)domain));
+	dict.addElement("viewable", Datum((long)viewable));
+	dict.addElement("persistant", Datum((long)persistant));
 	dict.addElement("nvals", (long)nvals);
-	dict.addElement("logging", Data((long)logging));
+	dict.addElement("logging", Datum((long)logging));
 	
 	if(!defaultvalue.isUndefined()) {
 		dict.addElement("defaultvalue", defaultvalue);
@@ -456,10 +456,10 @@ VariableProperties::operator Data(){
 	}		
 	
 	if(groups.size() > 0) {
-		Data gps(M_LIST, (int)groups.size());
+	 Datum gps(M_LIST, (int)groups.size());
 		std::vector<std::string>::iterator iter = groups.begin();
 		while (iter != groups.end()) {
-			Data group(*iter);
+		 Datum group(*iter);
 			gps.addElement(group);
 			++iter;
 		}
@@ -472,7 +472,7 @@ VariableProperties::operator Data(){
 ScarabDatum * VariableProperties::toScarabDatum() {
     
 	// for now
-	Data dict = this->operator Data();
+ Datum dict = this->operator Datum();
 	return dict.getScarabDatumCopy();
 	
 	

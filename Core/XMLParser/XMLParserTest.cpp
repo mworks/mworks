@@ -21,8 +21,8 @@
 void mw::XMLParserTestFixture::setUp() {
 	mw::FullCoreEnvironmentTestFixture::setUp();
 	
-	mw::Data default_value(0L);
-	testVar = mw::GlobalVariableRegistry->createGlobalVariable( new mw::VariableProperties(&default_value, 
+	mw::Datum default_value(0L);
+	testVar = mw::global_variable_registry->createGlobalVariable( new mw::VariableProperties(&default_value, 
 																						   "testVar",
 																						   "testVar",
 																						   "testVar",
@@ -47,7 +47,7 @@ void mw::XMLParserTestFixture::tearDown() {
 }
 
 void mw::XMLParserTestFixture::testLoadBool_1() {
-	testVar->setValue(mw::Data(M_BOOLEAN, false));
+	testVar->setValue(mw::Datum(M_BOOLEAN, false));
 	CPPUNIT_ASSERT(testVar->getValue().getBool() == false);		
 	
 	
@@ -60,7 +60,7 @@ void mw::XMLParserTestFixture::testLoadBool_1() {
 }
 
 void mw::XMLParserTestFixture::testLoadBool_0() {
-	testVar->setValue(mw::Data(M_BOOLEAN, true));
+	testVar->setValue(mw::Datum(M_BOOLEAN, true));
 	CPPUNIT_ASSERT(testVar->getValue().getBool() == true);		
 	
 	
@@ -73,7 +73,7 @@ void mw::XMLParserTestFixture::testLoadBool_0() {
 }
 
 void mw::XMLParserTestFixture::testLoadBool_true() {
-	testVar->setValue(mw::Data(M_BOOLEAN, false));
+	testVar->setValue(mw::Datum(M_BOOLEAN, false));
 	CPPUNIT_ASSERT(testVar->getValue().getBool() == false);		
 	
 	
@@ -86,7 +86,7 @@ void mw::XMLParserTestFixture::testLoadBool_true() {
 }
 
 void mw::XMLParserTestFixture::testLoadBool_false() {
-	testVar->setValue(mw::Data(M_BOOLEAN, true));
+	testVar->setValue(mw::Datum(M_BOOLEAN, true));
 	CPPUNIT_ASSERT(testVar->getValue().getBool() == true);		
 	
 	
@@ -99,7 +99,7 @@ void mw::XMLParserTestFixture::testLoadBool_false() {
 }
 
 void mw::XMLParserTestFixture::testLoadBool_TRUE() {
-	testVar->setValue(mw::Data(M_BOOLEAN, false));
+	testVar->setValue(mw::Datum(M_BOOLEAN, false));
 	CPPUNIT_ASSERT(testVar->getValue().getBool() == false);		
 	
 	
@@ -112,7 +112,7 @@ void mw::XMLParserTestFixture::testLoadBool_TRUE() {
 }
 
 void mw::XMLParserTestFixture::testLoadBool_FALSE() {
-	testVar->setValue(mw::Data(M_BOOLEAN, true));
+	testVar->setValue(mw::Datum(M_BOOLEAN, true));
 	CPPUNIT_ASSERT(testVar->getValue().getBool() == true);		
 	
 	
@@ -125,7 +125,7 @@ void mw::XMLParserTestFixture::testLoadBool_FALSE() {
 }
 
 void mw::XMLParserTestFixture::testLoadBool_YES() {
-	testVar->setValue(mw::Data(M_BOOLEAN, false));
+	testVar->setValue(mw::Datum(M_BOOLEAN, false));
 	CPPUNIT_ASSERT(testVar->getValue().getBool() == false);		
 	
 	
@@ -138,7 +138,7 @@ void mw::XMLParserTestFixture::testLoadBool_YES() {
 }
 
 void mw::XMLParserTestFixture::testLoadBool_NO() {
-	testVar->setValue(mw::Data(M_BOOLEAN, true));
+	testVar->setValue(mw::Datum(M_BOOLEAN, true));
 	CPPUNIT_ASSERT(testVar->getValue().getBool() == true);		
 	
 	
@@ -151,7 +151,7 @@ void mw::XMLParserTestFixture::testLoadBool_NO() {
 }
 
 void mw::XMLParserTestFixture::testLoadBool_yes() {
-	testVar->setValue(mw::Data(M_BOOLEAN, false));
+	testVar->setValue(mw::Datum(M_BOOLEAN, false));
 	CPPUNIT_ASSERT(testVar->getValue().getBool() == false);		
 	
 	
@@ -164,7 +164,7 @@ void mw::XMLParserTestFixture::testLoadBool_yes() {
 }
 
 void mw::XMLParserTestFixture::testLoadBool_no() {
-	testVar->setValue(mw::Data(M_BOOLEAN, true));
+	testVar->setValue(mw::Datum(M_BOOLEAN, true));
 	CPPUNIT_ASSERT(testVar->getValue().getBool() == true);		
 	
 	
@@ -178,7 +178,7 @@ void mw::XMLParserTestFixture::testLoadBool_no() {
 
 void mw::XMLParserTestFixture::testLoadInt() {
 	CPPUNIT_ASSERT(testVar->getValue().getInteger() == 0);		
-	testVar->setValue(mw::Data(1L));
+	testVar->setValue(mw::Datum(1L));
 	CPPUNIT_ASSERT(testVar->getValue().getInteger() == 1);		
 	
 	
@@ -192,7 +192,7 @@ void mw::XMLParserTestFixture::testLoadInt() {
 
 void mw::XMLParserTestFixture::testLoadIntNegative() {
 	CPPUNIT_ASSERT(testVar->getValue().getInteger() == 0);		
-	testVar->setValue(mw::Data(1L));
+	testVar->setValue(mw::Datum(1L));
 	CPPUNIT_ASSERT(testVar->getValue().getInteger() == 1);		
 	
 	
@@ -206,7 +206,7 @@ void mw::XMLParserTestFixture::testLoadIntNegative() {
 
 void mw::XMLParserTestFixture::testLoadIntExpression() {
 	CPPUNIT_ASSERT(testVar->getValue().getInteger() == 0);		
-	testVar->setValue(mw::Data(1L));
+	testVar->setValue(mw::Datum(1L));
 	CPPUNIT_ASSERT(testVar->getValue().getInteger() == 1);		
 	
 	
@@ -220,7 +220,7 @@ void mw::XMLParserTestFixture::testLoadIntExpression() {
 
 void mw::XMLParserTestFixture::testLoadIntSpaces() {
 	CPPUNIT_ASSERT(testVar->getValue().getInteger() == 0);		
-	testVar->setValue(mw::Data(1L));
+	testVar->setValue(mw::Datum(1L));
 	CPPUNIT_ASSERT(testVar->getValue().getInteger() == 1);		
 	
 	
@@ -234,7 +234,7 @@ void mw::XMLParserTestFixture::testLoadIntSpaces() {
 
 void mw::XMLParserTestFixture::testLoadIntAttribute() {
 	CPPUNIT_ASSERT(testVar->getValue().getInteger() == 0);		
-	testVar->setValue(mw::Data(1L));
+	testVar->setValue(mw::Datum(1L));
 	CPPUNIT_ASSERT(testVar->getValue().getInteger() == 1);		
 	
 	
@@ -248,7 +248,7 @@ void mw::XMLParserTestFixture::testLoadIntAttribute() {
 
 void mw::XMLParserTestFixture::testLoadIntAttributeClosingTag() {
 	CPPUNIT_ASSERT(testVar->getValue().getInteger() == 0);		
-	testVar->setValue(mw::Data(1L));
+	testVar->setValue(mw::Datum(1L));
 	CPPUNIT_ASSERT(testVar->getValue().getInteger() == 1);		
 	
 	
@@ -262,7 +262,7 @@ void mw::XMLParserTestFixture::testLoadIntAttributeClosingTag() {
 
 void mw::XMLParserTestFixture::testLoadFloat() {
 	CPPUNIT_ASSERT(testVar->getValue().getFloat() == 0.0);		
-	testVar->setValue(mw::Data(1.5));
+	testVar->setValue(mw::Datum(1.5));
 	CPPUNIT_ASSERT(testVar->getValue().getFloat() == 1.5);		
 	
 	
@@ -276,7 +276,7 @@ void mw::XMLParserTestFixture::testLoadFloat() {
 
 void mw::XMLParserTestFixture::testLoadString() {
 	CPPUNIT_ASSERT(testVar->getValue().getFloat() == 0.0);		
-	mw::Data test_string = "test string";
+	mw::Datum test_string = "test string";
 	testVar->setValue(test_string);
 	CPPUNIT_ASSERT(testVar->getValue() == test_string);		
 	CPPUNIT_ASSERT(testVar->getValue().getString() == std::string("test string"));		
@@ -292,7 +292,7 @@ void mw::XMLParserTestFixture::testLoadString() {
 
 void mw::XMLParserTestFixture::testLoadStringSpaces() {
 	CPPUNIT_ASSERT(testVar->getValue().getFloat() == 0.0);		
-	mw::Data test_string = "test string";
+	mw::Datum test_string = "test string";
 	testVar->setValue(test_string);
 	CPPUNIT_ASSERT(testVar->getValue() == test_string);		
 	CPPUNIT_ASSERT(testVar->getValue().getString() == std::string("test string"));		
@@ -308,7 +308,7 @@ void mw::XMLParserTestFixture::testLoadStringSpaces() {
 
 void mw::XMLParserTestFixture::testLoadStringAttribute() {
 	CPPUNIT_ASSERT(testVar->getValue().getFloat() == 0.0);		
-	mw::Data test_string = "test string";
+	mw::Datum test_string = "test string";
 	testVar->setValue(test_string);
 	CPPUNIT_ASSERT(testVar->getValue() == test_string);		
 	CPPUNIT_ASSERT(testVar->getValue().getString() == std::string("test string"));		
@@ -347,21 +347,21 @@ void mw::XMLParserTestFixture::testLoadDictionary() {
 	
 	mw::VariableLoad::loadExperimentwideVariables(temp_xml_file_path);
 	
-	mw::Data test_dict(M_DICTIONARY, 2);
-	test_dict.addElement("four", mw::Data(4L));
-	test_dict.addElement("six", mw::Data(6L));
+	mw::Datum test_dict(M_DICTIONARY, 2);
+	test_dict.addElement("four", mw::Datum(4L));
+	test_dict.addElement("six", mw::Datum(6L));
 	
 	CPPUNIT_ASSERT(testVar->getValue() == test_dict);		
 	
-	mw::Data test_dict2(M_DICTIONARY, 2);
-	test_dict2.addElement("six", mw::Data(6L));
-	test_dict2.addElement("four", mw::Data(4L));
+	mw::Datum test_dict2(M_DICTIONARY, 2);
+	test_dict2.addElement("six", mw::Datum(6L));
+	test_dict2.addElement("four", mw::Datum(4L));
 	
 	CPPUNIT_ASSERT(testVar->getValue() == test_dict2);		
 	
-	mw::Data test_dict3(M_DICTIONARY, 3);
-	test_dict2.addElement("six", mw::Data(6L));
-	test_dict2.addElement("four", mw::Data(4L));
+	mw::Datum test_dict3(M_DICTIONARY, 3);
+	test_dict2.addElement("six", mw::Datum(6L));
+	test_dict2.addElement("four", mw::Datum(4L));
 	
 	CPPUNIT_ASSERT(testVar->getValue() == test_dict2);		
 }
@@ -413,15 +413,15 @@ void mw::XMLParserTestFixture::testLoadDictionaryInDictionary() {
 	
 	mw::VariableLoad::loadExperimentwideVariables(temp_xml_file_path);
 	
-	mw::Data sub_dict1(M_DICTIONARY, 2);
-	sub_dict1.addElement("four", mw::Data(14L));
-	sub_dict1.addElement("six", mw::Data(16L));
+	mw::Datum sub_dict1(M_DICTIONARY, 2);
+	sub_dict1.addElement("four", mw::Datum(14L));
+	sub_dict1.addElement("six", mw::Datum(16L));
 	
-	mw::Data sub_dict2(M_DICTIONARY, 2);
-	sub_dict2.addElement("four", mw::Data(24L));
-	sub_dict2.addElement("six", mw::Data(26L));
+	mw::Datum sub_dict2(M_DICTIONARY, 2);
+	sub_dict2.addElement("four", mw::Datum(24L));
+	sub_dict2.addElement("six", mw::Datum(26L));
 	
-	mw::Data main_dict(M_DICTIONARY, 2);
+	mw::Datum main_dict(M_DICTIONARY, 2);
 	main_dict.addElement("one", sub_dict1);
 	main_dict.addElement("two", sub_dict2);
 	
@@ -451,9 +451,9 @@ void mw::XMLParserTestFixture::testLoadList() {
 	
 	mw::VariableLoad::loadExperimentwideVariables(temp_xml_file_path);
 	
-	mw::Data test_list(M_LIST, 2);
-	test_list.setElement(0, mw::Data(4L));
-	test_list.setElement(1, mw::Data(6L));
+	mw::Datum test_list(M_LIST, 2);
+	test_list.setElement(0, mw::Datum(4L));
+	test_list.setElement(1, mw::Datum(6L));
 	
 	CPPUNIT_ASSERT(testVar->getValue() == test_list);			
 }
@@ -500,15 +500,15 @@ void mw::XMLParserTestFixture::testLoadListWithinList() {
 	
 	mw::VariableLoad::loadExperimentwideVariables(temp_xml_file_path);
 	
-	mw::Data sublist1(M_LIST, 2);
-	sublist1.setElement(0, mw::Data(1L));
-	sublist1.setElement(1, mw::Data(2L));
+	mw::Datum sublist1(M_LIST, 2);
+	sublist1.setElement(0, mw::Datum(1L));
+	sublist1.setElement(1, mw::Datum(2L));
 	
-	mw::Data sublist2(M_LIST, 2);
-	sublist2.setElement(0, mw::Data(3L));
-	sublist2.setElement(1, mw::Data(4L));
+	mw::Datum sublist2(M_LIST, 2);
+	sublist2.setElement(0, mw::Datum(3L));
+	sublist2.setElement(1, mw::Datum(4L));
 	
-	mw::Data test_list(M_LIST, 2);
+	mw::Datum test_list(M_LIST, 2);
 	test_list.setElement(0, sublist1);
 	test_list.setElement(1, sublist2);
 	
@@ -562,15 +562,15 @@ void mw::XMLParserTestFixture::testLoadDictionaryInList() {
 	
 	mw::VariableLoad::loadExperimentwideVariables(temp_xml_file_path);
 	
-	mw::Data subdict1(M_DICTIONARY, 2);
-	subdict1.addElement("one", mw::Data(11L));
-	subdict1.addElement("two", mw::Data(12L));
+	mw::Datum subdict1(M_DICTIONARY, 2);
+	subdict1.addElement("one", mw::Datum(11L));
+	subdict1.addElement("two", mw::Datum(12L));
 	
-	mw::Data subdict2(M_DICTIONARY, 2);
-	subdict2.addElement("one", mw::Data(21L));
-	subdict2.addElement("two", mw::Data(22L));
+	mw::Datum subdict2(M_DICTIONARY, 2);
+	subdict2.addElement("one", mw::Datum(21L));
+	subdict2.addElement("two", mw::Datum(22L));
 	
-	mw::Data test_list(M_LIST, 2);
+	mw::Datum test_list(M_LIST, 2);
 	test_list.setElement(0, subdict1);
 	test_list.setElement(1, subdict2);
 	
@@ -621,15 +621,15 @@ void mw::XMLParserTestFixture::testLoadListInDictionary() {
 	
 	mw::VariableLoad::loadExperimentwideVariables(temp_xml_file_path);
 	
-	mw::Data sublist1(M_LIST, 2);
-	sublist1.setElement(0, mw::Data(11L));
-	sublist1.setElement(1, mw::Data(12L));
+	mw::Datum sublist1(M_LIST, 2);
+	sublist1.setElement(0, mw::Datum(11L));
+	sublist1.setElement(1, mw::Datum(12L));
 	
-	mw::Data sublist2(M_LIST, 2);
-	sublist2.setElement(0, mw::Data(21L));
-	sublist2.setElement(1, mw::Data(22L));
+	mw::Datum sublist2(M_LIST, 2);
+	sublist2.setElement(0, mw::Datum(21L));
+	sublist2.setElement(1, mw::Datum(22L));
 	
-	mw::Data test_dict(M_DICTIONARY, 2);
+	mw::Datum test_dict(M_DICTIONARY, 2);
 	test_dict.addElement("one", sublist1);
 	test_dict.addElement("two", sublist2);
 	
@@ -638,10 +638,10 @@ void mw::XMLParserTestFixture::testLoadListInDictionary() {
 }
 
 void mw::XMLParserTestFixture::testSaveThenLoadBool() {
-	testVar->setValue(mw::Data(M_BOOLEAN, true));
+	testVar->setValue(mw::Datum(M_BOOLEAN, true));
 	mw::VariableSave::saveExperimentwideVariables(temp_xml_file_path);
 	
-	testVar->setValue(mw::Data(M_BOOLEAN, false));
+	testVar->setValue(mw::Datum(M_BOOLEAN, false));
 	CPPUNIT_ASSERT(testVar->getValue().getBool() == false);
 	
 	mw::VariableLoad::loadExperimentwideVariables(temp_xml_file_path);
@@ -671,11 +671,11 @@ void mw::XMLParserTestFixture::testSaveThenLoadFloat() {
 }
 
 void mw::XMLParserTestFixture::testSaveThenLoadString() {
-	mw::Data first_string = "first string";
+	mw::Datum first_string = "first string";
 	testVar->setValue(first_string);
 	mw::VariableSave::saveExperimentwideVariables(temp_xml_file_path);
 	
-	mw::Data second_string = "second string";
+	mw::Datum second_string = "second string";
 	testVar->setValue(second_string);
 	CPPUNIT_ASSERT(testVar->getValue() == "second string");
 	
@@ -684,16 +684,16 @@ void mw::XMLParserTestFixture::testSaveThenLoadString() {
 }
 
 void mw::XMLParserTestFixture::testSaveThenLoadDict() {
-	mw::Data test_dict1(M_DICTIONARY, 2);
-	test_dict1.addElement("four", mw::Data(14L));
-	test_dict1.addElement("six", mw::Data(16L));
+	mw::Datum test_dict1(M_DICTIONARY, 2);
+	test_dict1.addElement("four", mw::Datum(14L));
+	test_dict1.addElement("six", mw::Datum(16L));
 	
 	testVar->setValue(test_dict1);
 	mw::VariableSave::saveExperimentwideVariables(temp_xml_file_path);
 	
-	mw::Data test_dict2(M_DICTIONARY, 2);
-	test_dict2.addElement("four", mw::Data(24L));
-	test_dict2.addElement("six", mw::Data(26L));
+	mw::Datum test_dict2(M_DICTIONARY, 2);
+	test_dict2.addElement("four", mw::Datum(24L));
+	test_dict2.addElement("six", mw::Datum(26L));
 	testVar->setValue(test_dict2);
 	CPPUNIT_ASSERT(testVar->getValue() == test_dict2);
 	
@@ -702,16 +702,16 @@ void mw::XMLParserTestFixture::testSaveThenLoadDict() {
 }
 
 void mw::XMLParserTestFixture::testSaveThenLoadList() {
-	mw::Data test_list1(M_LIST, 2);
-	test_list1.setElement(0, mw::Data(14L));
-	test_list1.setElement(1, mw::Data(16L));
+	mw::Datum test_list1(M_LIST, 2);
+	test_list1.setElement(0, mw::Datum(14L));
+	test_list1.setElement(1, mw::Datum(16L));
 	
 	testVar->setValue(test_list1);
 	mw::VariableSave::saveExperimentwideVariables(temp_xml_file_path);
 	
-	mw::Data test_list2(M_LIST, 2);
-	test_list2.setElement(0, mw::Data(24L));
-	test_list2.setElement(1, mw::Data(16L));
+	mw::Datum test_list2(M_LIST, 2);
+	test_list2.setElement(0, mw::Datum(24L));
+	test_list2.setElement(1, mw::Datum(16L));
 	testVar->setValue(test_list2);
 	CPPUNIT_ASSERT(testVar->getValue() == test_list2);
 	
@@ -720,22 +720,22 @@ void mw::XMLParserTestFixture::testSaveThenLoadList() {
 }
 
 void mw::XMLParserTestFixture::testSaveThenLoadListInList() {
-	mw::Data sublist1(M_LIST, 2);
-	sublist1.setElement(0, mw::Data(1L));
-	sublist1.setElement(1, mw::Data(2L));
+	mw::Datum sublist1(M_LIST, 2);
+	sublist1.setElement(0, mw::Datum(1L));
+	sublist1.setElement(1, mw::Datum(2L));
 	
-	mw::Data sublist2(M_LIST, 2);
-	sublist2.setElement(0, mw::Data(3L));
-	sublist2.setElement(1, mw::Data(4L));
+	mw::Datum sublist2(M_LIST, 2);
+	sublist2.setElement(0, mw::Datum(3L));
+	sublist2.setElement(1, mw::Datum(4L));
 	
-	mw::Data test_list(M_LIST, 2);
+	mw::Datum test_list(M_LIST, 2);
 	test_list.setElement(0, sublist1);
 	test_list.setElement(1, sublist2);
 	
 	testVar->setValue(test_list);
 	mw::VariableSave::saveExperimentwideVariables(temp_xml_file_path);
 	
-	mw::Data test_data(5L);
+	mw::Datum test_data(5L);
 	testVar->setValue(test_data);
 	CPPUNIT_ASSERT(testVar->getValue().getInteger() == 5);
 	
@@ -744,22 +744,22 @@ void mw::XMLParserTestFixture::testSaveThenLoadListInList() {
 }
 
 void mw::XMLParserTestFixture::testSaveThenLoadDictInDict() {
-	mw::Data sub_dict1(M_DICTIONARY, 2);
-	sub_dict1.addElement("four", mw::Data(14L));
-	sub_dict1.addElement("six", mw::Data(16L));
+	mw::Datum sub_dict1(M_DICTIONARY, 2);
+	sub_dict1.addElement("four", mw::Datum(14L));
+	sub_dict1.addElement("six", mw::Datum(16L));
 	
-	mw::Data sub_dict2(M_DICTIONARY, 2);
-	sub_dict2.addElement("four", mw::Data(24L));
-	sub_dict2.addElement("six", mw::Data(26L));
+	mw::Datum sub_dict2(M_DICTIONARY, 2);
+	sub_dict2.addElement("four", mw::Datum(24L));
+	sub_dict2.addElement("six", mw::Datum(26L));
 	
-	mw::Data main_dict(M_DICTIONARY, 2);
+	mw::Datum main_dict(M_DICTIONARY, 2);
 	main_dict.addElement("one", sub_dict1);
 	main_dict.addElement("two", sub_dict2);
 	
 	testVar->setValue(main_dict);
 	mw::VariableSave::saveExperimentwideVariables(temp_xml_file_path);
 	
-	mw::Data test_data(5L);
+	mw::Datum test_data(5L);
 	testVar->setValue(test_data);
 	CPPUNIT_ASSERT(testVar->getValue().getInteger() == 5);
 	
@@ -768,22 +768,22 @@ void mw::XMLParserTestFixture::testSaveThenLoadDictInDict() {
 }
 
 void mw::XMLParserTestFixture::testSaveThenLoadDictInList() {
-	mw::Data sub_dict1(M_DICTIONARY, 2);
-	sub_dict1.addElement("four", mw::Data(14L));
-	sub_dict1.addElement("six", mw::Data(16L));
+	mw::Datum sub_dict1(M_DICTIONARY, 2);
+	sub_dict1.addElement("four", mw::Datum(14L));
+	sub_dict1.addElement("six", mw::Datum(16L));
 	
-	mw::Data sub_dict2(M_DICTIONARY, 2);
-	sub_dict2.addElement("four", mw::Data(24L));
-	sub_dict2.addElement("six", mw::Data(26L));
+	mw::Datum sub_dict2(M_DICTIONARY, 2);
+	sub_dict2.addElement("four", mw::Datum(24L));
+	sub_dict2.addElement("six", mw::Datum(26L));
 		
-	mw::Data test_list(M_LIST, 2);
+	mw::Datum test_list(M_LIST, 2);
 	test_list.setElement(0, sub_dict1);
 	test_list.setElement(1, sub_dict2);
 	
 	testVar->setValue(test_list);
 	mw::VariableSave::saveExperimentwideVariables(temp_xml_file_path);
 	
-	mw::Data test_data(5L);
+	mw::Datum test_data(5L);
 	testVar->setValue(test_data);
 	CPPUNIT_ASSERT(testVar->getValue().getInteger() == 5);
 	
@@ -792,22 +792,22 @@ void mw::XMLParserTestFixture::testSaveThenLoadDictInList() {
 }
 
 void mw::XMLParserTestFixture::testSaveThenLoadListInDict() {
-	mw::Data sublist1(M_LIST, 2);
-	sublist1.setElement(0, mw::Data(1L));
-	sublist1.setElement(1, mw::Data(2L));
+	mw::Datum sublist1(M_LIST, 2);
+	sublist1.setElement(0, mw::Datum(1L));
+	sublist1.setElement(1, mw::Datum(2L));
 	
-	mw::Data sublist2(M_LIST, 2);
-	sublist2.setElement(0, mw::Data(3L));
-	sublist2.setElement(1, mw::Data(4L));
+	mw::Datum sublist2(M_LIST, 2);
+	sublist2.setElement(0, mw::Datum(3L));
+	sublist2.setElement(1, mw::Datum(4L));
 	
-	mw::Data main_dict(M_DICTIONARY, 2);
+	mw::Datum main_dict(M_DICTIONARY, 2);
 	main_dict.addElement("one", sublist1);
 	main_dict.addElement("two", sublist2);
 	
 	testVar->setValue(main_dict);
 	mw::VariableSave::saveExperimentwideVariables(temp_xml_file_path);
 	
-	mw::Data test_data(5L);
+	mw::Datum test_data(5L);
 	testVar->setValue(test_data);
 	CPPUNIT_ASSERT(testVar->getValue().getInteger() == 5);
 	

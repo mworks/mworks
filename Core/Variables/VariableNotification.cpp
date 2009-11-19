@@ -21,4 +21,4 @@ VariableNotification::~VariableNotification() {
 	//remove(); // remove it from the notification chain 
 }
 // called when a new value is set
-void VariableNotification::notify(const Data& data, MonkeyWorksTime time){ } 
+void VariableNotification::notify(const Datum& data, MonkeyWorksTime time){ } 

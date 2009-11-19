@@ -24,18 +24,22 @@ class ScarabClient {
         int serverPort; // the listening port of the server
         int threadInterval; // tweak this for performance
 		
-		shared_ptr<BufferManager> buffer_manager;
+		shared_ptr<EventBuffer> incoming_event_buffer;
+        shared_ptr<EventBuffer> outgoing_event_buffer;
 	
     private:
         // prepares the client so that it can call connect
         int prepareForConnecting();
         
     public:
-        ScarabClient(shared_ptr<BufferManager> _buffer_manager);
+        ScarabClient(shared_ptr<EventBuffer> _incoming_event_buffer, 
+                     shared_ptr<EventBuffer> _outgoing_event_buffer);
         /**
          * Constructs a client.
          */
-        ScarabClient(shared_ptr<BufferManager> _buffer_manager, std::string server, int port);
+    ScarabClient(shared_ptr<EventBuffer> _incoming_event_buffer, 
+                 shared_ptr<EventBuffer> _outgoing_event_buffer, 
+                 std::string server, int port);
 
         /**
          * Destroys a client.

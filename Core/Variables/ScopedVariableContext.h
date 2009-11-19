@@ -56,7 +56,7 @@ class ScopedVariableContext : public Lockable{
 	protected:
 
 		ScopedVariableEnvironment *environment;
-		std::map< int, shared_ptr<Data> > data; // a list of pointers to data
+		std::map< int, shared_ptr<Datum> > data; // a list of pointers to data
 		std::map<int, Transparency> transparency; // a list of flags whether the object
                                                               // is actually defined here or is inherited
                                                               
@@ -77,12 +77,12 @@ class ScopedVariableContext : public Lockable{
 		ScopedVariableEnvironment *getEnvironment(){ return environment; }
 		
 		
-		Data get(int index);
+	 Datum get(int index);
                 
-		void set(int index, shared_ptr<Data> newdata);
-		void set(int index, const Data& newdata);
-		void setWithTransparency(int index, shared_ptr<Data> newdata);
-		void setWithTransparency(int index, const Data& newdata);
+		void set(int index, shared_ptr<Datum> newdata);
+		void set(int index, const Datum& newdata);
+		void setWithTransparency(int index, shared_ptr<Datum> newdata);
+		void setWithTransparency(int index, const Datum& newdata);
                 
 };
 }

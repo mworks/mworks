@@ -19,7 +19,7 @@ using namespace mw;
 // -----------------------------------------------------------------	  
 Event::Event(const int _code, 
 			 const MonkeyWorksTime _time, 
-			 const Data &_data) {
+			 const Datum &_data) {
 	code = _code;
 	data = _data; 
 	time = _time;
@@ -27,7 +27,7 @@ Event::Event(const int _code,
 }
 
 Event::Event(const int _code, 
-			 const Data &_data) {
+			 const Datum &_data) {
 	code = _code;
 	data = _data; 
 	shared_ptr <Clock> clock = Clock::instance();
@@ -44,7 +44,7 @@ Event::Event(ScarabDatum *datum) {  // create an event from a ScarabDatum
 				 "Attempt to create an event object from an invalid ScarabDatum");
 		time = 0L;
 		code = -1;
-		data = Data();
+		data = Datum();
 		return;
 	}
 	
@@ -56,7 +56,7 @@ Event::Event(ScarabDatum *datum) {  // create an event from a ScarabDatum
 				 code_datum->type);
 		time = 0L;
 		code = -1;
-		data = Data();
+		data = Datum();
 		return;
 	}
 	code = code_datum->data.integer;
@@ -78,7 +78,7 @@ Event::Event(ScarabDatum *datum) {  // create an event from a ScarabDatum
 	
 	ScarabDatum *payload = scarab_list_get(datum, SCARAB_EVENT_PAYLOAD_INDEX);
 	
-	data = Data(payload);	
+	data = Datum(payload);	
 	nextEvent = shared_ptr<Event>();
 }
 

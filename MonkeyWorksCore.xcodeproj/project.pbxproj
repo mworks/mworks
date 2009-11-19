@@ -293,18 +293,18 @@
 		DA08704408A3D22A00D20FFB /* NetworkConnectionStats.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA08704208A3D22A00D20FFB /* NetworkConnectionStats.cpp */; };
 		DA0873F808A9367E00D20FFB /* ScarabServerConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = DA0873F608A9367E00D20FFB /* ScarabServerConnection.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DA0873F908A9367E00D20FFB /* ScarabServerConnection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA0873F708A9367E00D20FFB /* ScarabServerConnection.cpp */; };
-		DA0C98800827E80400BC1EF1 /* EventFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = DA0C987E0827E80400BC1EF1 /* EventFactory.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		DA0C98810827E80400BC1EF1 /* EventFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA0C987F0827E80400BC1EF1 /* EventFactory.cpp */; };
+		DA0C98800827E80400BC1EF1 /* ControlEventFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = DA0C987E0827E80400BC1EF1 /* ControlEventFactory.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DA0C98810827E80400BC1EF1 /* ControlEventFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA0C987F0827E80400BC1EF1 /* ControlEventFactory.cpp */; };
 		DA2B6A890989855C00DDE06D /* Client.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2B6A870989855C00DDE06D /* Client.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DA2B6A8A0989855C00DDE06D /* Client.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2B6A880989855C00DDE06D /* Client.cpp */; };
 		DA2B6B170989915900DDE06D /* Server.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2B6B150989915900DDE06D /* Server.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DA2B6B180989915900DDE06D /* Server.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2B6B160989915900DDE06D /* Server.cpp */; };
 		DA2B6C6F0989B98B00DDE06D /* IncomingEventListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2B6C6D0989B98B00DDE06D /* IncomingEventListener.cpp */; };
 		DA2B6C700989B98B00DDE06D /* IncomingEventListener.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2B6C6E0989B98B00DDE06D /* IncomingEventListener.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		DA2B6D3A098AA34900DDE06D /* EventHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2B6D38098AA34900DDE06D /* EventHandler.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		DA2B6D3B098AA34900DDE06D /* EventHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2B6D39098AA34900DDE06D /* EventHandler.cpp */; };
-		DA2B6D52098AAAEC00DDE06D /* DefaultEventHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2B6D50098AAAEC00DDE06D /* DefaultEventHandler.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		DA2B6D53098AAAEC00DDE06D /* DefaultEventHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2B6D51098AAAEC00DDE06D /* DefaultEventHandler.cpp */; };
+		DA2B6D3A098AA34900DDE06D /* EventStreamInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2B6D38098AA34900DDE06D /* EventStreamInterface.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DA2B6D3B098AA34900DDE06D /* EventStreamInterface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2B6D39098AA34900DDE06D /* EventStreamInterface.cpp */; };
+		DA2B6D52098AAAEC00DDE06D /* DefaultEventStreamInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2B6D50098AAAEC00DDE06D /* DefaultEventStreamInterface.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DA2B6D53098AAAEC00DDE06D /* DefaultEventStreamInterface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2B6D51098AAAEC00DDE06D /* DefaultEventStreamInterface.cpp */; };
 		DA2CE11407E9F85800C68AEF /* ComponentRegistry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2CE10C07E9F85800C68AEF /* ComponentRegistry.cpp */; };
 		DA2CE11507E9F85800C68AEF /* ComponentRegistry.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2CE10D07E9F85800C68AEF /* ComponentRegistry.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DA2CE11607E9F85800C68AEF /* VariableRegistry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2CE10E07E9F85800C68AEF /* VariableRegistry.cpp */; };
@@ -875,18 +875,18 @@
 		DA08704208A3D22A00D20FFB /* NetworkConnectionStats.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NetworkConnectionStats.cpp; path = Core/Network/NetworkConnectionStats.cpp; sourceTree = SOURCE_ROOT; };
 		DA0873F608A9367E00D20FFB /* ScarabServerConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ScarabServerConnection.h; path = Core/Network/Connections/ScarabServerConnection.h; sourceTree = SOURCE_ROOT; };
 		DA0873F708A9367E00D20FFB /* ScarabServerConnection.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ScarabServerConnection.cpp; path = Core/Network/Connections/ScarabServerConnection.cpp; sourceTree = SOURCE_ROOT; };
-		DA0C987E0827E80400BC1EF1 /* EventFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EventFactory.h; path = Core/Events/EventFactory.h; sourceTree = SOURCE_ROOT; };
-		DA0C987F0827E80400BC1EF1 /* EventFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EventFactory.cpp; path = Core/Events/EventFactory.cpp; sourceTree = SOURCE_ROOT; };
+		DA0C987E0827E80400BC1EF1 /* ControlEventFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ControlEventFactory.h; path = Core/Events/ControlEventFactory.h; sourceTree = "<group>"; };
+		DA0C987F0827E80400BC1EF1 /* ControlEventFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ControlEventFactory.cpp; path = Core/Events/ControlEventFactory.cpp; sourceTree = "<group>"; };
 		DA2B6A870989855C00DDE06D /* Client.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Client.h; path = Core/InterfaceHooks/ClientSide/Products/Client.h; sourceTree = "<group>"; };
 		DA2B6A880989855C00DDE06D /* Client.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Client.cpp; path = Core/InterfaceHooks/ClientSide/Products/Client.cpp; sourceTree = "<group>"; };
 		DA2B6B150989915900DDE06D /* Server.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Server.h; path = Core/InterfaceHooks/ServerSide/Products/Server.h; sourceTree = "<group>"; };
 		DA2B6B160989915900DDE06D /* Server.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Server.cpp; path = Core/InterfaceHooks/ServerSide/Products/Server.cpp; sourceTree = "<group>"; };
 		DA2B6C6D0989B98B00DDE06D /* IncomingEventListener.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = IncomingEventListener.cpp; path = Core/Events/IncomingEventListener.cpp; sourceTree = SOURCE_ROOT; };
 		DA2B6C6E0989B98B00DDE06D /* IncomingEventListener.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IncomingEventListener.h; path = Core/Events/IncomingEventListener.h; sourceTree = "<group>"; };
-		DA2B6D38098AA34900DDE06D /* EventHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EventHandler.h; path = Core/Events/EventHandler.h; sourceTree = SOURCE_ROOT; };
-		DA2B6D39098AA34900DDE06D /* EventHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EventHandler.cpp; path = Core/Events/EventHandler.cpp; sourceTree = SOURCE_ROOT; };
-		DA2B6D50098AAAEC00DDE06D /* DefaultEventHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DefaultEventHandler.h; path = Core/InterfaceHooks/ServerSide/Products/DefaultEventHandler.h; sourceTree = "<group>"; };
-		DA2B6D51098AAAEC00DDE06D /* DefaultEventHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DefaultEventHandler.cpp; path = Core/InterfaceHooks/ServerSide/Products/DefaultEventHandler.cpp; sourceTree = "<group>"; };
+		DA2B6D38098AA34900DDE06D /* EventStreamInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EventStreamInterface.h; path = Core/Events/EventStreamInterface.h; sourceTree = "<group>"; };
+		DA2B6D39098AA34900DDE06D /* EventStreamInterface.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EventStreamInterface.cpp; path = Core/Events/EventStreamInterface.cpp; sourceTree = "<group>"; };
+		DA2B6D50098AAAEC00DDE06D /* DefaultEventStreamInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DefaultEventStreamInterface.h; path = Core/InterfaceHooks/ServerSide/Products/DefaultEventStreamInterface.h; sourceTree = "<group>"; };
+		DA2B6D51098AAAEC00DDE06D /* DefaultEventStreamInterface.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DefaultEventStreamInterface.cpp; path = Core/InterfaceHooks/ServerSide/Products/DefaultEventStreamInterface.cpp; sourceTree = "<group>"; };
 		DA2CE0D407E9F68100C68AEF /* MonkeyWorksCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MonkeyWorksCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA2CE0D607E9F68100C68AEF /* MonkeyWorksCore-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MonkeyWorksCore-Info.plist"; sourceTree = SOURCE_ROOT; };
 		DA2CE10C07E9F85800C68AEF /* ComponentRegistry.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ComponentRegistry.cpp; path = Core/ComponentRegistries/ComponentRegistry.cpp; sourceTree = "<group>"; };
@@ -1662,8 +1662,8 @@
 			children = (
 				DA2B6B150989915900DDE06D /* Server.h */,
 				DA2B6B160989915900DDE06D /* Server.cpp */,
-				DA2B6D50098AAAEC00DDE06D /* DefaultEventHandler.h */,
-				DA2B6D51098AAAEC00DDE06D /* DefaultEventHandler.cpp */,
+				DA2B6D50098AAAEC00DDE06D /* DefaultEventStreamInterface.h */,
+				DA2B6D51098AAAEC00DDE06D /* DefaultEventStreamInterface.cpp */,
 			);
 			name = Server;
 			sourceTree = SOURCE_ROOT;
@@ -1958,14 +1958,14 @@
 				5C4D254409DCBAF70082BF9F /* tests */,
 				DA2E379D08B0FE5800BD22C4 /* EventBuffer.h */,
 				DA2E379C08B0FE5800BD22C4 /* EventBuffer.cpp */,
-				DA0C987E0827E80400BC1EF1 /* EventFactory.h */,
-				DA0C987F0827E80400BC1EF1 /* EventFactory.cpp */,
+				DA0C987E0827E80400BC1EF1 /* ControlEventFactory.h */,
+				DA0C987F0827E80400BC1EF1 /* ControlEventFactory.cpp */,
 				DA2CE12107E9F88900C68AEF /* Buffers.h */,
 				DA2CE12007E9F88900C68AEF /* Buffers.cpp */,
 				DA2CE12307E9F88900C68AEF /* Event.h */,
 				DA2CE12207E9F88900C68AEF /* Event.cpp */,
-				DA2B6D38098AA34900DDE06D /* EventHandler.h */,
-				DA2B6D39098AA34900DDE06D /* EventHandler.cpp */,
+				DA2B6D38098AA34900DDE06D /* EventStreamInterface.h */,
+				DA2B6D39098AA34900DDE06D /* EventStreamInterface.cpp */,
 				5C7CEFE10BC5D7AB00434931 /* LegacyBuffers.h */,
 				5C7CEFE20BC5D7AB00434931 /* LegacyBuffers.cpp */,
 				DA2B6C6E0989B98B00DDE06D /* IncomingEventListener.h */,
@@ -2170,7 +2170,7 @@
 				DA2CE1EB07E9F97F00C68AEF /* GenericVariable.h in Headers */,
 				DA2CE1ED07E9F97F00C68AEF /* VariableProperties.h in Headers */,
 				DA2CE1EF07E9F97F00C68AEF /* ScopedVariableContext.h in Headers */,
-				DA0C98800827E80400BC1EF1 /* EventFactory.h in Headers */,
+				DA0C98800827E80400BC1EF1 /* ControlEventFactory.h in Headers */,
 				5C28909F0850DD9A002CC31A /* IODevice.h in Headers */,
 				5C91B990086CC9DC00C14E1A /* Trigger.h in Headers */,
 				5C866A99086E1E43006CBE6F /* MonkeyWorksTypes.h in Headers */,
@@ -2196,8 +2196,8 @@
 				DA2B6A890989855C00DDE06D /* Client.h in Headers */,
 				DA2B6B170989915900DDE06D /* Server.h in Headers */,
 				DA2B6C700989B98B00DDE06D /* IncomingEventListener.h in Headers */,
-				DA2B6D3A098AA34900DDE06D /* EventHandler.h in Headers */,
-				DA2B6D52098AAAEC00DDE06D /* DefaultEventHandler.h in Headers */,
+				DA2B6D3A098AA34900DDE06D /* EventStreamInterface.h in Headers */,
+				DA2B6D52098AAAEC00DDE06D /* DefaultEventStreamInterface.h in Headers */,
 				DA871F2609995B180084304E /* StandardClientCoreBuilder.h in Headers */,
 				5C71CD6D09AA507700EAD886 /* GlobalVariable.h in Headers */,
 				5C71CD6F09AA507700EAD886 /* ExpressionVariable.h in Headers */,
@@ -2898,7 +2898,7 @@
 				DA2CE1EA07E9F97F00C68AEF /* GenericVariable.cpp in Sources */,
 				DA2CE1EC07E9F97F00C68AEF /* VariableProperties.cpp in Sources */,
 				DA2CE1EE07E9F97F00C68AEF /* ScopedVariableContext.cpp in Sources */,
-				DA0C98810827E80400BC1EF1 /* EventFactory.cpp in Sources */,
+				DA0C98810827E80400BC1EF1 /* ControlEventFactory.cpp in Sources */,
 				5C28909E0850DD96002CC31A /* IODevice.cpp in Sources */,
 				5C91B991086CC9DC00C14E1A /* Trigger.cpp in Sources */,
 				DA08704408A3D22A00D20FFB /* NetworkConnectionStats.cpp in Sources */,
@@ -2923,8 +2923,8 @@
 				DA2B6A8A0989855C00DDE06D /* Client.cpp in Sources */,
 				DA2B6B180989915900DDE06D /* Server.cpp in Sources */,
 				DA2B6C6F0989B98B00DDE06D /* IncomingEventListener.cpp in Sources */,
-				DA2B6D3B098AA34900DDE06D /* EventHandler.cpp in Sources */,
-				DA2B6D53098AAAEC00DDE06D /* DefaultEventHandler.cpp in Sources */,
+				DA2B6D3B098AA34900DDE06D /* EventStreamInterface.cpp in Sources */,
+				DA2B6D53098AAAEC00DDE06D /* DefaultEventStreamInterface.cpp in Sources */,
 				DA871F2709995B180084304E /* StandardClientCoreBuilder.cpp in Sources */,
 				5C71CD6C09AA507700EAD886 /* GlobalVariable.cpp in Sources */,
 				5C71CD6E09AA507700EAD886 /* ExpressionVariable.cpp in Sources */,
@@ -4107,6 +4107,7 @@
 				GCC_OBJC_CALL_CXX_CDTORS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_VERSION = 4.0;
+				GCC_WARN_ABOUT_POINTER_SIGNEDNESS = NO;
 				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
 				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
 				MW_INCLUDE_DIR = "\"$(APP_SUPPORT_DIR)/Developer/gcc40/include\"";
@@ -4115,6 +4116,7 @@
 				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
 				STRIP_INSTALLED_PRODUCT = NO;
 				TESTS_DIR = "$(APP_SUPPORT_DIR)/Developer/tests";
+				WARNING_CFLAGS = "-Wno-sign-compare";
 			};
 			name = "Development (10.5 Compatible)";
 		};
@@ -4127,6 +4129,7 @@
 				GCC_DEBUGGING_SYMBOLS = full;
 				GCC_ENABLE_OBJC_GC = supported;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_WARN_SIGN_COMPARE = NO;
 				HEADER_SEARCH_PATHS = (
 					/usr/include/libxml2,
 					"$(MW_INCLUDE_DIR)",

@@ -64,6 +64,7 @@
  */
 
 #include "Event.h"
+#include "EventBuffer.h"
 #include "GenericVariable.h"
 #include "ScopedVariable.h"
 #include "ConstantVariable.h"
@@ -75,16 +76,18 @@
 #include "Scarab/scarab.h"
 
 #include <boost/thread/mutex.hpp>
-
 #include <vector>
-//#include <hash_map.h>
 
 #include "AnyScalar.h"
 #include "ExpressionParser.h"
+
+
 namespace mw {
 #define CODEC_RESERVED_TAGNAME "#codec"
 #define COMPONENT_CODEC_RESERVED_TAGNAME "#componentCodec"
 
+using namespace std;
+    
 class VariableRegistry : public stx::BasicSymbolTable {
 
 private:	
@@ -93,31 +96,29 @@ private:
 	
 	boost::mutex lock;
 	
-	shared_ptr<BufferManager> buffer_manager; // a given variable registry is
+	shared_ptr<EventBuffer> event_buffer; // a given variable registry is
 											   // intimately tied to a given
-											   // event buffer set, since this is
+											   // event buffer, since this is
 											   // where all of the events related
 											   // to its variables will be posted
 
 	
 protected:
     
-    // TODO: Migrate to STL containers...
-    
 	// all variables, in codec order
-	ExpandableList<Variable> master_variable_list;
+	vector< shared_ptr<Variable> > master_variable_list;
 	
     // for faster lookups by tag name
     map< string, shared_ptr<Variable> > master_variable_dictionary;
     
 	// just the local variables
-	ExpandableList<ScopedVariable> local_variable_list;
+	vector< shared_ptr<Variable> > local_variable_list;
 	
 	// just the global variables
-	ExpandableList<GlobalVariable> global_variable_list;
+	vector< shared_ptr<Variable> > global_variable_list;
 	
 	// just the selection variables
-	ExpandableList<SelectionVariable> selection_variable_list;
+	vector< shared_ptr<Variable> > selection_variable_list;
 
 	// ********************************************************
 	// Factory methods
@@ -129,13 +130,13 @@ protected:
 	shared_ptr<GlobalVariable> addGlobalVariable(VariableProperties *p = NULL);
 	shared_ptr<SelectionVariable> addSelectionVariable(VariableProperties *p = NULL);
 	
-	shared_ptr<ConstantVariable> addConstantVariable(Data value);
+	shared_ptr<ConstantVariable> addConstantVariable(Datum value);
 	shared_ptr<EmptyVariable> addPlaceholderVariable(VariableProperties *p = NULL);
 	
 
 public:
 		
-	VariableRegistry(shared_ptr<BufferManager> _buffer_manager);        
+	VariableRegistry(shared_ptr<EventBuffer> _event_buffer);        
 	~VariableRegistry();
 	
     void reset();
@@ -147,24 +148,21 @@ public:
 	// ********************************************************	
 	
     // Get this registry's buffer manager object
-    shared_ptr<BufferManager> getBufferManager(){  return buffer_manager; }
+    shared_ptr<EventBuffer> getEventBuffer(){  return event_buffer; }
     
 	// Get individual variables
-	
-	//shared_ptr<Variable> getVariable(const char *tagname);
 	shared_ptr<Variable> getVariable(const std::string& tagname) const;
 	shared_ptr<Variable> getVariable(int codecCode);
+	vector<string> getVariableTagNames();
 	
-	std::vector<std::string> getVariableTagnames();
-	
+    vector< shared_ptr<Variable> > getGlobalVariables(){ return global_variable_list; }
 	
 	bool hasVariable(const char *tagname) const;
 	bool hasVariable(std::string &tagname) const;	
 	
 	int getNVariables();	
-	
-	ExpandableList<ScopedVariable> *getLocalVariables();
-	ExpandableList<GlobalVariable> *getGlobalVariables();	
+	    
+    
 	// ********************************************************
 	// Announcement methods
 	// ********************************************************
@@ -174,7 +172,9 @@ public:
 	void announceSelectionVariables();
 	void announceAll();
 	
-	
+	// ********************************************************
+	// Creation methods
+	// ********************************************************
 	
 	shared_ptr<ScopedVariable> createScopedVariable(weak_ptr<ScopedVariableEnvironment> env,
 													 VariableProperties *p = NULL); 
@@ -182,7 +182,7 @@ public:
 	shared_ptr<GlobalVariable> createGlobalVariable(VariableProperties *p = NULL);
 	shared_ptr<SelectionVariable> createSelectionVariable(VariableProperties *p = NULL);
 	
-	shared_ptr<ConstantVariable> createConstantVariable(Data value);
+	shared_ptr<ConstantVariable> createConstantVariable(Datum value);
 	shared_ptr<Timer> createTimer(VariableProperties *p = NULL);
 	shared_ptr<EmptyVariable> createPlaceholderVariable(VariableProperties *p = NULL);
 	
@@ -197,8 +197,13 @@ public:
 	 * objects hold all the essential information about a variable.
 	 * This includes its default value, name, logging among others.
 	 */
-	Data getCodec(); 
-	void update(const Data &codec);
+ Datum generateCodecDatum();
+    Datum generateReverseCodecDatum();
+    map<int, string> generateCodecMap();
+    map<string, int> generateReverseCodecMap();
+    
+    
+	void updateFromCodecDatum(const Datum &codec);
 	
 	
 	// ********************************************************
@@ -211,7 +216,7 @@ public:
 	
 };
 
-extern shared_ptr<VariableRegistry> GlobalVariableRegistry;
+extern shared_ptr<VariableRegistry> global_variable_registry;
 //void initializeVariableRegistry(); // create a new global registry
 }
 

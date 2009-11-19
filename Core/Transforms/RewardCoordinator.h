@@ -26,7 +26,7 @@
 //    public:
 //        RewardCoordinator(shared_ptr<Variable> _rewardVariable, Sound *_sound);
 //        virtual ~RewardCoordinator();
-//        virtual void newDataReceived(int inputIndex, const Data& data, MonkeyWorksTime timeUS);
+//        virtual void newDataReceived(int inputIndex, const Datum& data, MonkeyWorksTime timeUS);
 //    
 //};
 

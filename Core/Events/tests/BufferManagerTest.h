@@ -9,7 +9,7 @@
  *  Copyright 2006 MIT. All rights reserved.
  *
  */
-
+/*
 #include <cppunit/TestCase.h>
 #include <cppunit/TestSuite.h>
 #include <cppunit/TestFixture.h>
@@ -54,6 +54,6 @@ class BufferManagerTestFixture : public CppUnit::TestFixture {
 	void multiThreadReadTest();
 	void multiMultiTest();
 };
-}
+}*/
 #endif
 

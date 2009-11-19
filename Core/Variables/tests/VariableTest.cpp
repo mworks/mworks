@@ -15,7 +15,7 @@ using namespace mw;
 //<disabled>CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( VariableTestFixture, "Unit Test" );
 
 void VariableTestFixture::testSimpleConstant() {
-	Data seven_point_six_two(M_FLOAT, 7.62);
+ Datum seven_point_six_two(M_FLOAT, 7.62);
 	ConstantVariable c(seven_point_six_two);
 	
 	CPPUNIT_ASSERT(seven_point_six_two == c.getValue());	
@@ -23,22 +23,22 @@ void VariableTestFixture::testSimpleConstant() {
 
 
 void VariableTestFixture::testSimpleGlobal() {
-	shared_ptr<GlobalVariable>v =  GlobalVariableRegistry->createGlobalVariable( new VariableProperties(
-																										   new Data(42L), "test1",
+	shared_ptr<GlobalVariable>v =  global_variable_registry->createGlobalVariable( new VariableProperties(
+																										   new Datum(42L), "test1",
 																										   "Test",
 																										   "Test",
 																										   M_NEVER, M_WHEN_CHANGED,
 																										   true, false,
 																										   M_CONTINUOUS_INFINITE,""));	
 	CPPUNIT_ASSERT((long)*v == 42);
-	CPPUNIT_ASSERT(v->getValue() == Data(M_INTEGER, 42));
+	CPPUNIT_ASSERT(v->getValue() == Datum(M_INTEGER, 42));
 	CPPUNIT_ASSERT(v->getVariableName() == "test1");
 	CPPUNIT_ASSERT(v->getLogging() == M_WHEN_CHANGED);
 	
 	v->setLogging(M_NEVER);
 	CPPUNIT_ASSERT(v->getLogging() == M_NEVER);
 	
-	v->setValue(Data(M_INTEGER, 666));
+	v->setValue(Datum(M_INTEGER, 666));
 	CPPUNIT_ASSERT((long)*v == 666);
 	
 	v->setValue(2112L);
@@ -47,9 +47,9 @@ void VariableTestFixture::testSimpleGlobal() {
 }
 
 void VariableTestFixture::testSimpleExpression() {
-	Data six(M_INTEGER, 6);
+ Datum six(M_INTEGER, 6);
 	ConstantVariable c1(six);
-	Data five(M_INTEGER, 5);
+ Datum five(M_INTEGER, 5);
 	ConstantVariable c2(five);
 	
 	// boolean expressions
@@ -119,20 +119,20 @@ void VariableTestFixture::testSimpleExpression() {
 	CPPUNIT_ASSERT(e->getValue().getInteger() == (long)(six % five));
 	
 	e = shared_ptr<ExpressionVariable>(new ExpressionVariable(&c1, &c2, M_INCREMENT));
-	CPPUNIT_ASSERT(e->getValue().getInteger() == (long)(six + Data(M_FLOAT,1)));
+	CPPUNIT_ASSERT(e->getValue().getInteger() == (long)(six + Datum(M_FLOAT,1)));
 	
 	e = shared_ptr<ExpressionVariable>(new ExpressionVariable(&c1, &c2, M_DECREMENT));
-	CPPUNIT_ASSERT(e->getValue().getInteger() == (long)(six - Data(M_FLOAT,1)));
+	CPPUNIT_ASSERT(e->getValue().getInteger() == (long)(six - Datum(M_FLOAT,1)));
 	
 	e = shared_ptr<ExpressionVariable>(new ExpressionVariable(&c1, NULL, M_INCREMENT));
-	CPPUNIT_ASSERT(e->getValue().getInteger() == (long)(six + Data(M_FLOAT,1)));
+	CPPUNIT_ASSERT(e->getValue().getInteger() == (long)(six + Datum(M_FLOAT,1)));
 	
 	e = shared_ptr<ExpressionVariable>(new ExpressionVariable(&c1, NULL, M_DECREMENT));
-	CPPUNIT_ASSERT(e->getValue().getInteger() == (long)(six - Data(M_FLOAT,1)));
+	CPPUNIT_ASSERT(e->getValue().getInteger() == (long)(six - Datum(M_FLOAT,1)));
 	
-	Data seven(M_INTEGER, 0x7);
+ Datum seven(M_INTEGER, 0x7);
 	ConstantVariable c3(seven);
-	Data eight(M_INTEGER, 0x8);
+ Datum eight(M_INTEGER, 0x8);
 	ConstantVariable c4(eight);
 	
 	e = shared_ptr<ExpressionVariable>(new ExpressionVariable(&c3, &c4, M_AND));
@@ -163,7 +163,7 @@ void VariableTestFixture::testSimpleExpression() {
 void VariableTestFixture::testSimpleClone() {
 	
 	// constant clone
-	Data seven_point_six_two(M_FLOAT, 7.62);
+ Datum seven_point_six_two(M_FLOAT, 7.62);
 	ConstantVariable c(seven_point_six_two);
 	
 	shared_ptr<Variable> cClone(c.clone());
@@ -172,7 +172,7 @@ void VariableTestFixture::testSimpleClone() {
 	CPPUNIT_ASSERT(cFrozenClone->getValue() == c.getValue());
 
 	// global variable clone
-	shared_ptr<GlobalVariable>v =  GlobalVariableRegistry->createGlobalVariable( new VariableProperties(new Data(42L), "test1",
+	shared_ptr<GlobalVariable>v =  global_variable_registry->createGlobalVariable( new VariableProperties(new Datum(42L), "test1",
 																										  "Test",
 																										  "Test",
 																										  M_NEVER, M_WHEN_CHANGED,
@@ -186,7 +186,7 @@ void VariableTestFixture::testSimpleClone() {
 	CPPUNIT_ASSERT(vFrozenClone->getValue() == v->getValue());
 	
 	
-	shared_ptr<GlobalVariable>v2 =  GlobalVariableRegistry->createGlobalVariable( new VariableProperties(new Data(42L), "test2",
+	shared_ptr<GlobalVariable>v2 =  global_variable_registry->createGlobalVariable( new VariableProperties(new Datum(42L), "test2",
 																										  "Test",
 																										  "Test",
 																										  M_NEVER, M_WHEN_CHANGED,
@@ -204,7 +204,7 @@ void VariableTestFixture::testSimpleClone() {
 }
 
 void VariableTestFixture::testExpressionClone() {
-	shared_ptr<GlobalVariable>v =  GlobalVariableRegistry->createGlobalVariable( new VariableProperties(new Data(42L), "test1",
+	shared_ptr<GlobalVariable>v =  global_variable_registry->createGlobalVariable( new VariableProperties(new Datum(42L), "test1",
 																										  "Test",
 																										  "Test",
 																										  M_NEVER, M_WHEN_CHANGED,

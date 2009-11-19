@@ -24,16 +24,16 @@ class Announcable {
 
 	private:
 	shared_ptr<Variable> announceVariable;
-        Data       lastAnnouncedData;
+        Datum       lastAnnouncedData;
         bool        validAnnounceData;
         
     public:
         Announcable(std::string _announceVariableTagname);
         virtual ~Announcable();
         
-		void announce(Data _announceData, MonkeyWorksTime time);  // will announce this data
+		void announce(Datum _announceData, MonkeyWorksTime time);  // will announce this data
 		
-		void announce(Data _announceData);  // will announce this data
+		void announce(Datum _announceData);  // will announce this data
         void announce();                       // will announce last data
         
 };
@@ -49,12 +49,12 @@ private:
 	shared_ptr<RequestNotification> requestNotificationObject;
 
 protected:
-	void requestSelf(Data data);
+	void requestSelf(Datum data);
 	
 public:
 	Requestable(std::string _requestVariableTagname);
 	virtual ~Requestable();
-	virtual void notifyRequest(const Data& data, MonkeyWorksTime timeUS) = 0;        // abstract class
+	virtual void notifyRequest(const Datum& data, MonkeyWorksTime timeUS) = 0;        // abstract class
                 
 };
 
@@ -65,7 +65,7 @@ protected:
 	
 public:
 	RequestNotification(Requestable *_requestable);
-	virtual void notify(const Data& data, MonkeyWorksTime timeUS);
+	virtual void notify(const Datum& data, MonkeyWorksTime timeUS);
 
 };
 
@@ -80,13 +80,13 @@ protected:
 	shared_ptr<Variable> privateVariable;
 	std::string privateVariableTagname;
 	shared_ptr<PrivateDataNotification> privateDataNotificationObject;
-	void storePrivateData(Data data);    // called by object to update data
+	void storePrivateData(Datum data);    // called by object to update data
 	
 public:
 	PrivateDataStorable(std::string _privateVariableBaseName, 
 						 std::string _privateVariableSubName);
 	virtual ~PrivateDataStorable();
-	virtual void notifyPrivate(const Data& data, MonkeyWorksTime timeUS)=0;        
+	virtual void notifyPrivate(const Datum& data, MonkeyWorksTime timeUS)=0;        
                 
 };
 
@@ -94,14 +94,14 @@ class PrivateDataNotification : public VariableNotification{
 
 protected:
 	PrivateDataStorable * privateDataStorableObject;  
-	Data lastPrivateData;
+ Datum lastPrivateData;
 	bool respondingToPrivateVarNotification;
 	Lockable *privateDataLock;
 	
 public:
 	PrivateDataNotification(PrivateDataStorable *_privateDataStorableObject);
-	virtual void notify(const Data& data, MonkeyWorksTime timeUS);
-	void setLastPrivateData(Data data);
+	virtual void notify(const Datum& data, MonkeyWorksTime timeUS);
+	void setLastPrivateData(Datum data);
 	bool isRespondingToPrivateVarNotification();
 
 };

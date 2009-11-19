@@ -36,11 +36,11 @@ namespace mw {
 
 class ExperimentPackager {
 public:
-	Data packageExperiment(const boost::filesystem::path 
+ Datum packageExperiment(const boost::filesystem::path 
 							fileWithFullPath);
 	
 private:
-	Data packageSingleFile(const boost::filesystem::path filepath, 
+ Datum packageSingleFile(const boost::filesystem::path filepath, 
 							const std::string filename);
 };
 
@@ -48,14 +48,14 @@ class IncludedFilesParser : public XMLParser {
 
 	protected:
 	
-		Data manifest;
+	 Datum manifest;
 
 	public:
 	
 		IncludedFilesParser(std::string _path):
 									XMLParser(_path, "MWMediaPackagerTransformation.xsl"){
                     
-			manifest = Data(M_LIST, 1);
+			manifest = Datum(M_LIST, 1);
 		}
 		
 		virtual ~IncludedFilesParser(){ }
@@ -87,7 +87,7 @@ class IncludedFilesParser : public XMLParser {
 		
 		// let _processRangeReplicator() do its thing
 		
-		virtual Data getIncludedFilesManifest(){  return manifest; }
+		virtual Datum getIncludedFilesManifest(){  return manifest; }
 		
 };
 }

@@ -12,7 +12,7 @@
  * It relies on the core mecahnisms for dealing with variables.
  * Particularly, the idea of notifications (to activate the transform
  * when any one of the input variables is updated) and the idea 
- * of variables that automatically update when their Data is changed.
+ * of variables that automatically update when their Datum is changed.
  *
  * The base class will support registering of input and output variables
  * and the activation/deactivation of the transform.
@@ -58,10 +58,10 @@ class VarTransformAdaptor : public Lockable, public mw::Component {
 		// outputs:
         // (methods to modify data values in one or more of the registered variables)
 		//  the derived class should use one of these calls if it wants to post output variables
-		//bool postResults(Data dataVector[]);		
-        bool postResults(const Data& dataVector, MonkeyWorksTime timeUS);	
-        bool postResults(int outputIndex, const Data& data);
-        bool postResults(int outputIndex, const Data& data, MonkeyWorksTime timeUS);
+		//bool postResults(Datum dataVector[]);		
+        bool postResults(const Datum& dataVector, MonkeyWorksTime timeUS);	
+        bool postResults(int outputIndex, const Datum& data);
+        bool postResults(int outputIndex, const Datum& data, MonkeyWorksTime timeUS);
         
         int  getNumInputs() {return nInputs;};
         int  getNumOutputs() {return nOutputs;};
@@ -89,7 +89,7 @@ class VarTransformAdaptor : public Lockable, public mw::Component {
 		// the inputIndex will tell the object which of its input changed, 
         //   and the data argument has the new value
 		// this is the thing that the derived classes should override
-		virtual void newDataReceived(int inputIndex, const Data& data, 
+		virtual void newDataReceived(int inputIndex, const Datum& data, 
                                                 MonkeyWorksTime timeUS);
         virtual void reset() {};  // method to allow reseting of object
         
@@ -108,7 +108,7 @@ class VarTransformNotification : public VariableNotification{
 		VarTransformNotification(VarTransformAdaptor *_varTransformAdaptor, 
                                                                 int inputIndex);
 		~VarTransformNotification();		
-		virtual void notify(const Data& data, MonkeyWorksTime timeUS);
+		virtual void notify(const Datum& data, MonkeyWorksTime timeUS);
 
 };
 }

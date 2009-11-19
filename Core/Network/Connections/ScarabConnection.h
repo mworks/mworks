@@ -41,7 +41,7 @@ class ScarabConnection : public enable_shared_from_this<ScarabConnection> {
 	long cid; // connection ID
 	shared_ptr<NetworkConnectionStats> connectionStats;
 
-	shared_ptr<BufferManager> buffer_manager;
+	shared_ptr<EventBuffer> event_buffer;
 
 	// disable copying and assignment and default constructor
 	ScarabConnection(ScarabConnection& ref) { }
@@ -53,7 +53,7 @@ class ScarabConnection : public enable_shared_from_this<ScarabConnection> {
         /**
          * Copies the uri and preps the object for connection.
          */
-        ScarabConnection(shared_ptr<BufferManager> _buffer_manager, std::string uri);
+        ScarabConnection(shared_ptr<EventBuffer> _event_buffer, std::string uri);
               
         /**
          * Cleans up the memory for a connection.

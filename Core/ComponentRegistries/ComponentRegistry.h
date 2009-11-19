@@ -62,7 +62,7 @@ namespace mw {
     boost::regex r1, r2, r3, r4, u1, strip_it;
 		
     boost::unordered_map< std::string, shared_ptr<Variable> > variable_cache;
-    boost::unordered_map< std::string, shared_ptr<Data> > data_cache;
+    boost::unordered_map< std::string, shared_ptr<Datum> > data_cache;
     
 	public:
 		
@@ -86,7 +86,7 @@ namespace mw {
 			stimulus_nodes = std::map< std::string, shared_ptr<StimulusNode> >();
             variable_cache = boost::unordered_map< std::string, shared_ptr<Variable> >();
             
-            data_cache = boost::unordered_map< std::string, shared_ptr<Data> >();
+            data_cache = boost::unordered_map< std::string, shared_ptr<Datum> >();
 		}
 		
 		// Factory-oriented methods
@@ -177,15 +177,15 @@ namespace mw {
 		
 		// Utility look-ups to centralize commonly used parsing
 		bool getBoolean(std::string expression);
-		Data getNumber(std::string expression, GenericDataType type = M_FLOAT);
+	 Datum getNumber(std::string expression, GenericDataType type = M_FLOAT);
 		boost::filesystem::path getPath(std::string working, 
 										std::string expression);
 		
-		Data getComponentCodec(){
+	 Datum getComponentCodec(){
 			
 			int dict_size = tagnames_by_id.empty() ? 1 : tagnames_by_id.size();
 			
-			Data codec(M_DICTIONARY, dict_size);
+		 Datum codec(M_DICTIONARY, dict_size);
 			std::map< long, std::string>::const_iterator it;
 			
 			for(it = tagnames_by_id.begin(); it != tagnames_by_id.end(); it++){

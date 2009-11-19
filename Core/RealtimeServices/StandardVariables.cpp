@@ -45,7 +45,7 @@ namespace mw {
 	void initializeStandardVariables(shared_ptr<VariableRegistry> registry) {
 		
 		state_system_mode = registry->createGlobalVariable( new VariableProperties(
-																			new Data((long)IDLE), 
+																			new Datum((long)IDLE), 
 																			STATE_SYSTEM_MODE_TAGNAME, 
 																			"Task Mode", 
 																			"Current Task Mode", 
@@ -60,7 +60,7 @@ namespace mw {
 		
 		GlobalSystemEventVariable = registry->createGlobalVariable(
 																   new VariableProperties(
-																						   new Data((long)0),
+																						   new Datum((long)0),
 																						   SYSTEM_VAR_TAGNAME,
 																						   "system", 
 																						   "system event channel",
@@ -71,7 +71,7 @@ namespace mw {
 																						   M_STRUCTURED,
 																						   PRIVATE_SYSTEM_VARIABLES));  // view                                       
 		
-		GlobalMessageVariable = registry->createGlobalVariable(new VariableProperties(new Data((long)0),
+		GlobalMessageVariable = registry->createGlobalVariable(new VariableProperties(new Datum((long)0),
 																					   ANNOUNCE_MESSAGE_VAR_TAGNAME,
 																					   "message", 
 																					   "message event channel",
@@ -85,7 +85,7 @@ namespace mw {
 		
 		stimDisplayUpdate = registry->createGlobalVariable(
 														   new VariableProperties(
-																				   new Data(M_LIST, 1),
+																				   new Datum(M_LIST, 1),
 																				   STIMULUS_DISPLAY_UPDATE_TAGNAME, 
 																				   "Stimulus Display Update",
 																				   "Stimulus Display about to be Updated", 
@@ -98,7 +98,7 @@ namespace mw {
 		
 		beamPosition = registry->createGlobalVariable(
 													  new VariableProperties(
-																			  new Data((long)0),
+																			  new Datum((long)0),
 																			  "#beamPosition", 
 																			  "Main stimulus display beam position",
 																			  "Main stimulus display beam position", 
@@ -109,7 +109,7 @@ namespace mw {
 		
 		experimentLoadProgress = registry->createGlobalVariable(
 																new VariableProperties(
-																						new Data((double)0),
+																						new Datum((double)0),
 																						EXPERIMENT_LOAD_PROGRESS_TAGNAME, 
 																						"Progress while loading an experiment",
 																						"Progress while loading an experiment", 
@@ -123,7 +123,7 @@ namespace mw {
 		//    values by changing this variable
 		registry->createGlobalVariable(
 									   new VariableProperties(
-															   new Data((long)0),       // constructor to create default
+															   new Datum((long)0),       // constructor to create default
 															   ANNOUNCE_STIMULUS_TAGNAME, "Announce stimulus",
 															   "A stimulus change has occured", 
 															   M_NEVER,M_WHEN_CHANGED,     // never useer edit, log when changed
@@ -133,7 +133,7 @@ namespace mw {
 		
 		registry->createGlobalVariable(
 									   new VariableProperties(
-															   new Data((long)0),       // constructor to create default
+															   new Datum((long)0),       // constructor to create default
 															   ANNOUNCE_SOUND_TAGNAME, "Announce Sound",
 															   "Indicates that a sound was played", 
 															   M_NEVER,M_WHEN_CHANGED,     // never useer edit, log when changed
@@ -143,7 +143,7 @@ namespace mw {
 		
 		registry->createGlobalVariable(
 									   new VariableProperties(
-															   new Data(M_DICTIONARY, (int)1),       // constructor to create default
+															   new Datum(M_DICTIONARY, (int)1),       // constructor to create default
 															   ANNOUNCE_CALIBRATOR_TAGNAME, "Announce calibration",
 															   "A calibration event has occured", 
 															   M_NEVER,M_WHEN_CHANGED,     // never useer edit, log when changed
@@ -152,7 +152,7 @@ namespace mw {
 		
 		registry->createGlobalVariable(
 									   new VariableProperties(
-															   new Data(M_DICTIONARY, (int)1),
+															   new Datum(M_DICTIONARY, (int)1),
 															   REQUEST_CALIBRATOR_TAGNAME, "Request calibrator",
 															   "used to request calibrator actions",       // e.g. update parameters
 															   M_WHEN_CHANGED,M_WHEN_CHANGED, true, false, M_DISCRETE,
@@ -160,7 +160,7 @@ namespace mw {
 		
 		
 		
-		currentState = registry->createGlobalVariable(new VariableProperties(new Data(std::string("<empty>")),
+		currentState = registry->createGlobalVariable(new VariableProperties(new Datum(std::string("<empty>")),
 																			  ANNOUNCE_CURRENT_STATE_TAGNAME,
 																			  "Current State",
 																			  "reports the current state",   
@@ -180,7 +180,7 @@ namespace mw {
 		
 		trialAnnounce = registry->createGlobalVariable(
 													   new VariableProperties(
-																			   new Data(0L),
+																			   new Datum(0L),
 																			   ANNOUNCE_TRIAL_TAGNAME, 
 																			   "Trial Announce",
 																			   "reports the entry or exit of a trial paradigm component",       // e.g. update parameters
@@ -188,7 +188,7 @@ namespace mw {
 																			   PRIVATE_SYSTEM_VARIABLES));                           
 		
 		blockAnnounce = registry->createGlobalVariable(new VariableProperties(
-																			   new Data(0L),
+																			   new Datum(0L),
 																			   ANNOUNCE_BLOCK_TAGNAME, "Block Announce",
 																			   "reports the entry or exit of a block paradigm component",       // e.g. update parameters
 																			   M_WHEN_CHANGED,M_WHEN_CHANGED, true, false, M_DISCRETE,
@@ -197,7 +197,7 @@ namespace mw {
 		
 		assertionFailure = registry->createGlobalVariable(
 														  new VariableProperties(
-																				  new Data(0L),
+																				  new Datum(0L),
 																				  ANNOUNCE_ASSERTION_TAGNAME, "Assertion Failure",
 																				  "Reports when a debugging assertion fails",
 																				  M_WHEN_CHANGED,M_WHEN_CHANGED, true, false, M_DISCRETE,
@@ -206,7 +206,7 @@ namespace mw {
 		
 		serverName = registry->createGlobalVariable(
 												   new VariableProperties(
-																		   new Data(""),
+																		   new Datum(""),
 																		   SETUP_NAME_TAGNAME,
 																		   "The name of this server",
 																		   "A unique name to distinguish this server machine (\"setup\") from others",
@@ -214,7 +214,7 @@ namespace mw {
 																		   true, false, M_STRUCTURED, PRIVATE_SYSTEM_VARIABLES));
 		
 		
-		Data default_screen_info;
+	 Datum default_screen_info;
 		mainDisplayInfo = registry->createGlobalVariable(new VariableProperties(&default_screen_info,
 																				MAIN_SCREEN_INFO_TAGNAME, 
 																				"Main Screen Geometry Information",
@@ -223,7 +223,7 @@ namespace mw {
 																				PRIVATE_SYSTEM_VARIABLES));
 		
 		
-		debuggerActive = registry->createGlobalVariable(new VariableProperties(new Data(0L),
+		debuggerActive = registry->createGlobalVariable(new VariableProperties(new Datum(0L),
 																				DEBUGGER_ACTIVE_TAGNAME, 
 																				"Debugger Active",
 																				"When true, engages state system debugger",
@@ -236,7 +236,7 @@ namespace mw {
 		
 		debuggerRunning = registry->createGlobalVariable(
 														 new VariableProperties(
-																				 new Data(1L),
+																				 new Datum(1L),
 																				 DEBUGGER_RUNNING_TAGNAME, 
 																				 "Debugger Running",
 																				 "When true, allows the state system to move freely",
@@ -245,7 +245,7 @@ namespace mw {
 		
 		debuggerStep = registry->createGlobalVariable(
 													  new VariableProperties(
-																			  new Data(0L),
+																			  new Datum(0L),
 																			  DEBUGGER_STEP_TAGNAME, 
 																			  "Debugger Step",
 																			  "When non-zero, allows state system to move.  Each state "

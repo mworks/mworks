@@ -15,16 +15,16 @@
 #import "MarionetteGlobals.h"
 #import "MarionetteMessage.h"
 #import "MarionetteEvent.h"
-#import "MonkeyWorksCore/EventFactory.h"
+#import "MonkeyWorksCore/ControlEventFactory.h"
 #import "MonkeyWorksCore/XMLParser.h"
 #import "MonkeyWorksCore/ExpressionVariable.h"
 
-Data _parseDataValue(xmlNode *node);
+Datum _parseDataValue(xmlNode *node);
 string _attributeForName(xmlNode *node, string name);
 vector<xmlNode *> _getChildren(xmlNode *node);
 vector<xmlNode *> _getChildren(xmlNode *node, string tag);
 string _getContent(xmlNode *node);
-Data _getNumber(const string &expression, const GenericDataType type);
+Datum _getNumber(const string &expression, const GenericDataType type);
 
 
 #define MARIONETTE_KEY "marionette key"
@@ -34,7 +34,7 @@ Data _getNumber(const string &expression, const GenericDataType type);
 - (void)runExperiment:(NSString *)experiement_path;
 - (void)marionetteAssert:(BOOL)test withMessage:(NSString *)assert_message;
 - (void)marionetteAssert:(NSString *)assert_message;
-- (void) checkMessageStructure:(Data *)event_data;
+- (void) checkMessageStructure:(Datum *)event_data;
 - (BOOL) checkErrorMessageForKnownErrors:(NSString *)message;
 @end
 
@@ -156,7 +156,7 @@ Data _getNumber(const string &expression, const GenericDataType type);
 					subchild = subchild->next;
 				}
 				
-				Data data(_parseDataValue(subchild));
+			 Datum data(_parseDataValue(subchild));
 				
 				MarionetteEvent *me = [MarionetteEvent eventWithVariableName:[NSString stringWithCString:variable.c_str() 
 																								encoding:NSASCIIStringEncoding] 
@@ -295,7 +295,7 @@ Data _getNumber(const string &expression, const GenericDataType type);
 																												   MARIONETTE_KEY));
 		client->registerCallback(cef);
 	} else if (code == system_codec_code && system_codec_code > RESERVED_CODEC_CODE) {
-		Data event_data(*[event data]);
+	 Datum event_data(*[event data]);
 		
 		
 		
@@ -308,7 +308,7 @@ Data _getNumber(const string &expression, const GenericDataType type);
 			//			[self marionetteAssert:!event_data.getElement(M_PROTOCOLS).isUndefined()
 			//					   withMessage:@"crappy part is even crappier"]; 
 		} else {		
-			Data sys_event_type(event_data.getElement(M_SYSTEM_PAYLOAD_TYPE));
+		 Datum sys_event_type(event_data.getElement(M_SYSTEM_PAYLOAD_TYPE));
 			if(!sys_event_type.isUndefined()) {
 				[self marionetteAssert:sys_event_type.isInteger()
 						   withMessage:@"system event type isn't an integer"]; 
@@ -316,7 +316,7 @@ Data _getNumber(const string &expression, const GenericDataType type);
 				switch((SystemPayloadType)sys_event_type.getInteger()) {
 					case M_EXPERIMENT_STATE:
 					{
-						Data state(event_data.getElement(M_SYSTEM_PAYLOAD));
+					 Datum state(event_data.getElement(M_SYSTEM_PAYLOAD));
 						[self marionetteAssert:state.isDictionary()
 								   withMessage:@"system state event is not a dictionary"]; 
 						
@@ -420,7 +420,7 @@ Data _getNumber(const string &expression, const GenericDataType type);
 			}
 		}
 	} else if (code == assert_codec_code && assert_codec_code > RESERVED_CODEC_CODE) {
-		Data event_data(*[event data]);
+	 Datum event_data(*[event data]);
 		if(event_data.isString()) {
 			NSString *assert_message = [NSString stringWithCString:event_data.getString() 
 														  encoding:NSASCIIStringEncoding];
@@ -435,7 +435,7 @@ Data _getNumber(const string &expression, const GenericDataType type);
 					   withMessage:@"init assert is not equal to 0"]; 
 		}
 	} else if(code == taskMode_codec_code && taskMode_codec_code > RESERVED_CODEC_CODE) {
-		Data event_data(*[event data]);
+	 Datum event_data(*[event data]);
 		[self marionetteAssert: event_data.isInteger()
 				   withMessage:@"state_system_mode is not an int"]; 
 		switch(event_data.getInteger()) {
@@ -465,7 +465,7 @@ Data _getNumber(const string &expression, const GenericDataType type);
 				break;
 		}
 	} else if(code == message_codec_code && message_codec_code > RESERVED_CODEC_CODE) {
-		Data event_data(*[event data]);
+	 Datum event_data(*[event data]);
 		if(event_data.isInteger()) {
 			// the message variable defaults to an integer equal to zero
 			[self marionetteAssert:event_data.getInteger() == 0
@@ -477,7 +477,7 @@ Data _getNumber(const string &expression, const GenericDataType type);
 												   encoding:NSASCIIStringEncoding];
 			
 			//NSLog(message);
-			const Data msgType(event_data.getElement(M_MESSAGE_TYPE));
+			const Datum msgType(event_data.getElement(M_MESSAGE_TYPE));
 			const MessageType type = (MessageType)msgType.getInteger();
 			[self marionetteAssert:type >= M_GENERIC_MESSAGE && type < M_MAX_MESSAGE_TYPE
 					   withMessage:@"mesasge type is not valid"]; 
@@ -519,8 +519,8 @@ Data _getNumber(const string &expression, const GenericDataType type);
 }
 
 
-- (void) checkMessageStructure:(Data *)event_data {
-	Data payload(*event_data);
+- (void) checkMessageStructure:(Datum *)event_data {
+ Datum payload(*event_data);
 	
 	[self marionetteAssert:payload.isDictionary()
 			   withMessage:@"messagePayload is not a dictionary"];                             
@@ -528,7 +528,7 @@ Data _getNumber(const string &expression, const GenericDataType type);
 			   withMessage:@"message is not a string"];                                        
 	
 	
-	const Data msgType(payload.getElement(M_MESSAGE_TYPE));                        
+	const Datum msgType(payload.getElement(M_MESSAGE_TYPE));                        
 	[self marionetteAssert:msgType.isInteger()
 			   withMessage:@"mesasge type is not an int"];                                     
 	const MessageType type = (MessageType)msgType.getInteger();                   
@@ -558,9 +558,9 @@ Data _getNumber(const string &expression, const GenericDataType type);
 @end
 
 
-Data _parseDataValue(xmlNode *node){	
+Datum _parseDataValue(xmlNode *node){	
 	if(node == 0) {
-		return Data();
+		return Datum();
 	}	
 	
 	
@@ -585,12 +585,12 @@ Data _parseDataValue(xmlNode *node){
 	if(value_field_contents.empty() == false){
 		
 		if(type == M_STRING){
-			return Data(value_field_contents);
+			return Datum(value_field_contents);
 		} else if(type != M_UNDEFINED){
-			return Data(value_field_contents);
+			return Datum(value_field_contents);
 			//return registry->getNumber(value_field_contents, type);
 		} else {
-			return Data(value_field_contents);
+			return Datum(value_field_contents);
 		}
 	}
 	
@@ -601,7 +601,7 @@ Data _parseDataValue(xmlNode *node){
 		if(type != M_UNDEFINED){
 			return _getNumber(_getContent(node), type);
 		} else {
-			return Data(_getContent(node));
+			return Datum(_getContent(node));
 		}
 	}
 	
@@ -620,8 +620,8 @@ Data _parseDataValue(xmlNode *node){
 		vector<xmlNode *> elements = _getChildren(child, "dictionary_element");
 		vector<xmlNode *>::iterator el = elements.begin();
 		
-		vector<Data> keys;
-		vector<Data> values;
+		vector<Datum> keys;
+		vector<Datum> values;
 		
 		for ( el = elements.begin(); el != elements.end(); el++ ){
 			vector<xmlNode *> key_nodes = _getChildren(*el, "key");
@@ -640,17 +640,17 @@ Data _parseDataValue(xmlNode *node){
 			
 			xmlNode *value_node = value_nodes[0];
 			
-			Data key_data = _parseDataValue(key_node);
+		 Datum key_data = _parseDataValue(key_node);
 			keys.push_back(key_data);
 			
-			Data value_data = _parseDataValue(value_node);
+		 Datum value_data = _parseDataValue(value_node);
 			values.push_back(value_data);
 		}
 		
-		Data dictionary(M_DICTIONARY, (int)keys.size());
+	 Datum dictionary(M_DICTIONARY, (int)keys.size());
 		
-		vector<Data>::iterator k = keys.begin();
-		vector<Data>::iterator v = values.begin();
+		vector<Datum>::iterator k = keys.begin();
+		vector<Datum>::iterator v = values.begin();
 		while(k != keys.end() && v != values.end()){
 			dictionary.addElement(*k, *v);
 			k++; v++;
@@ -663,19 +663,19 @@ Data _parseDataValue(xmlNode *node){
 		
 		vector<xmlNode *> elements = _getChildren(child, "list_element");
 		
-		vector<Data> values;
+		vector<Datum> values;
 		vector<xmlNode *>::iterator el = elements.begin();
 		
 		while(el != elements.end()){
 			
-			Data value_data = _parseDataValue(*el);
+		 Datum value_data = _parseDataValue(*el);
 			values.push_back(value_data);
 			el++;
 		}
 		
-		Data list(M_LIST, (int)values.size());
+	 Datum list(M_LIST, (int)values.size());
 		
-		vector<Data>::iterator v = values.begin();
+		vector<Datum>::iterator v = values.begin();
 		while(v != values.end()){
 			list.addElement(*v);
 			v++;
@@ -733,20 +733,20 @@ string _getContent(xmlNode *node){
 }
 
 
-Data _getNumber(const string &expression, 
+Datum _getNumber(const string &expression, 
 				 const GenericDataType type) {
 	switch (type){
 			
 		case M_FLOAT:
-			return Data(boost::lexical_cast<double>(expression));
+			return Datum(boost::lexical_cast<double>(expression));
 		case M_INTEGER:
-			return Data(boost::lexical_cast<long>(expression));
+			return Datum(boost::lexical_cast<long>(expression));
 		case M_STRING:
-			return Data(expression);
+			return Datum(expression);
 		case M_BOOLEAN:
-			return Data(boost::lexical_cast<bool>(expression));
+			return Datum(boost::lexical_cast<bool>(expression));
 	}
 	
-	return Data(expression);
+	return Datum(expression);
 }	
 

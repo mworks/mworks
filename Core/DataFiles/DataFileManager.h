@@ -2,7 +2,7 @@
  * DataFileManager.h
  *
  * Discussion: This file contains rough, beginning sketches of what the
- * basic Data File support should look like. "Data File" in this context 
+ * basic Datum File support should look like. "Data File" in this context 
  * refers to the files to which realtime events (Event objects) are streamed.
  * Currently, each DataFileManager manages just one file, so if you wanted 
  * to stream to multiple files at once (e.g. if all of the eye samples were 
@@ -23,7 +23,7 @@
 #include "ScarabServices.h"
 #include "ScarabWriteConnection.h"
 #include "Event.h"
-#include "EventFactory.h"
+#include "ControlEventFactory.h"
 
 #define DATA_FILE_FILENAME	"file"
 #define DATA_FILE_OPTIONS	"options"
@@ -45,15 +45,15 @@ namespace mw {
 		
 	public:
 		
-		DataFileManager();
+        DataFileManager();
         ~DataFileManager();
         
         /*!
          * @function openFile
          * @discussion TODO.... issues a M_DATA_FILE_OPENED event
          */
-		int openFile(const Data &openFileDatum);
-		int openFile(std::string filename, DataFileOptions opt);
+		int openFile(const Datum &openFileDatum);
+		int openFile(std::string filename, DatumFileOptions opt);
 		
         /*!
          * @function closeFile

@@ -13,7 +13,7 @@
 #include "Scarab/scarab.h"
 #include "Utilities.h"
 #include "LoadingUtilities.h"
-#include "EventFactory.h"
+#include "ControlEventFactory.h"
 #include <iostream>
 #include <fstream>
 #include "PlatformDependentServices.h"
@@ -52,7 +52,7 @@ ExperimentUnpackager::prependExperimentInstallPath(
 }
 
 
-bool ExperimentUnpackager::unpackageExperiment(Data payload) {
+bool ExperimentUnpackager::unpackageExperiment(Datum payload) {
 	
 	namespace bf = boost::filesystem;
 	
@@ -62,7 +62,7 @@ bool ExperimentUnpackager::unpackageExperiment(Data payload) {
         return false;
     }
 	
-	Data experimentFilePackage = 
+ Datum experimentFilePackage = 
 							payload.getElement(M_PACKAGER_EXPERIMENT_STRING);
 
 	if(experimentFilePackage.getNElements() != 
@@ -70,7 +70,7 @@ bool ExperimentUnpackager::unpackageExperiment(Data payload) {
 	   experimentFilePackage.getDataType() != M_DICTIONARY) 
 		return false;
 	
-	Data experimentFileName = 
+ Datum experimentFileName = 
 				experimentFilePackage.getElement(M_PACKAGER_FILENAME_STRING);
 	if(experimentFileName.getDataType() != M_STRING || 
 	   experimentFileName.getStringLength() <= 0) 
@@ -87,14 +87,14 @@ bool ExperimentUnpackager::unpackageExperiment(Data payload) {
 	
 	
 	// create the XML file
-	Data experimentFileBuffer = 
+ Datum experimentFileBuffer = 
 		experimentFilePackage.getElement(M_PACKAGER_CONTENTS_STRING);
 	
 	if(experimentFileBuffer.getDataType() != M_STRING ||
 	   experimentFileBuffer.getStringLength() <= 0) 
 		return false;
 	
-	if(!(createFile(Data(loadedExperimentFilename.string().c_str()), 
+	if(!(createFile(Datum(loadedExperimentFilename.string().c_str()), 
 					experimentFileBuffer))) {
         // failed to create experiment file
         merror(M_FILE_MESSAGE_DOMAIN,
@@ -104,12 +104,12 @@ bool ExperimentUnpackager::unpackageExperiment(Data payload) {
     }
 	
 	// create all of the other media files
-	Data mediaFileList = payload.getElement(M_PACKAGER_MEDIA_BUFFERS_STRING);
+ Datum mediaFileList = payload.getElement(M_PACKAGER_MEDIA_BUFFERS_STRING);
 	
 	if(mediaFileList.isList()) {
 	
 		for(int i=0; i<mediaFileList.getNElements(); ++i) {
-			Data mediaFilePackage = mediaFileList.getElement(i);
+		 Datum mediaFilePackage = mediaFileList.getElement(i);
 		
 			if(mediaFilePackage.getDataType() != M_DICTIONARY |
 			   mediaFilePackage.getNElements() != 2) {
@@ -118,9 +118,9 @@ bool ExperimentUnpackager::unpackageExperiment(Data payload) {
 				return false;
 			}
 		
-			Data mediaFileName = 
+		 Datum mediaFileName = 
 						mediaFilePackage.getElement(M_PACKAGER_FILENAME_STRING);
-			Data mediaFileBuffer = 
+		 Datum mediaFileBuffer = 
 						mediaFilePackage.getElement(M_PACKAGER_CONTENTS_STRING);
 		
 			if(mediaFileName.getDataType() != M_STRING ||
@@ -130,7 +130,7 @@ bool ExperimentUnpackager::unpackageExperiment(Data payload) {
 			std::string filename(mediaFileName.getString());
 			std::string filenameWPath = experimentPath.string() + "/" + filename;
 		
-			if(!(createFile(Data(filenameWPath.c_str()), 
+			if(!(createFile(Datum(filenameWPath.c_str()), 
 							mediaFileBuffer))) {
 				// failed to create experiment file
 				merror(M_FILE_MESSAGE_DOMAIN,
@@ -154,7 +154,7 @@ ExperimentUnpackager::getUnpackagedExperimentPath() {
 }
 
 
-bool ExperimentUnpackager::createFile(Data filename, Data buffer) {	
+bool ExperimentUnpackager::createFile(Datum filename, Datum buffer) {	
 	if(buffer.getDataType() != M_STRING ||
 	   filename.getDataType() != M_STRING) return false;
 	

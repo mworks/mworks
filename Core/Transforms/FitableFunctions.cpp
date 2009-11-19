@@ -67,7 +67,7 @@ double SecondOrderBasisFunction::applyBasis(double *inputVector) {
 
 
 
-FitableSample::FitableSample(Data *_pDataInputVector, Data _desiredOutputData, MonkeyWorksTime _timeUS) {
+FitableSample::FitableSample(Datum *_pDataInputVector, Datum _desiredOutputData, MonkeyWorksTime _timeUS) {
     pDataInputVector = _pDataInputVector;
     desiredOutputData = _desiredOutputData;
     timeUS = _timeUS;
@@ -77,11 +77,11 @@ FitableSample::~FitableSample() {
     delete pDataInputVector;        // will clear this memory
 }
 
-Data *FitableSample::getInputVector() {
+Datum *FitableSample::getInputVector() {
     return pDataInputVector;
 }
 
-Data FitableSample::getOutputData() {
+Datum FitableSample::getOutputData() {
     return desiredOutputData;
 }
 
@@ -109,18 +109,18 @@ FitableFunction::~FitableFunction() {
     
 }
 
-void FitableFunction::acceptDataForFit(Data *pInputData, 
-                            Data desiredOutputData, MonkeyWorksTime timeUS) {
+void FitableFunction::acceptDataForFit(Datum *pInputData, 
+                            Datum desiredOutputData, MonkeyWorksTime timeUS) {
       
     lock();      
     
     // package all the data up into an object (this is a data "sample") ========
     
     // put a copy of the data pointed at by the expandable list into an M_LIST
-    Data data;
-    Data *pDataInputVector = new Data(M_LIST, numInputs);  
+    Datum data;
+    Datum *pDataInputVector = new Datum(M_LIST, numInputs);  
     for (int i = 0;i<numInputs; i++ ) {
-        Data ddd = pInputData->getElement(i);
+        Datum ddd = pInputData->getElement(i);
         pDataInputVector->setElement(i,ddd); 
     }
     shared_ptr<FitableSample> sampleToFit(new FitableSample(pDataInputVector, 
@@ -179,13 +179,13 @@ void FitableFunction::flushOldData(MonkeyWorksTime flushDataOlderThanThisTimeUS)
 }
 
 // TODO -- this does not seem right?
-Data FitableFunction::getParameters() {
+Datum FitableFunction::getParameters() {
     
     lock();
     merror(M_SYSTEM_MESSAGE_DOMAIN, 
                         "Calling for params from fitable function base class is not appropriate.");
 
-	Data undefined;
+ Datum undefined;
     unlock();
     return undefined;
 }
@@ -200,7 +200,7 @@ int FitableFunction::getNumParameters() {
 }
 
 
-bool FitableFunction::setParameters(Data _params) {
+bool FitableFunction::setParameters(Datum _params) {
 
     lock();
     bool success = setParametersProtected(_params);      // non-locking method
@@ -236,9 +236,9 @@ LinearFitableFunction::~LinearFitableFunction() {
 }   
 
 
-bool LinearFitableFunction::setParametersProtected(Data _params) {
+bool LinearFitableFunction::setParametersProtected(Datum _params) {
 
-    Data *_parameters = &_params;
+    Datum *_parameters = &_params;
     
     if ( (_parameters->getMaxElements()) != (basisSet->getNElements())) {
         merror(M_SYSTEM_MESSAGE_DOMAIN, "Linear calibrator error:  number of parameters not as expected.");
@@ -260,9 +260,9 @@ bool LinearFitableFunction::setParametersProtected(Data _params) {
 
 
 
-Data LinearFitableFunction::getParameters() {
+Datum LinearFitableFunction::getParameters() {
 
-    Data _parameters(M_LIST, (basisSet->getNElements()));
+    Datum _parameters(M_LIST, (basisSet->getNElements()));
     for (int p=0; p< (basisSet->getNElements()); p++) {
         (&_parameters)->addElement(Parameters[p]);
     }
@@ -323,7 +323,7 @@ bool LinearFitableFunction::fitTheFunction() {
     
     for (int n=0; n<numData;n++) {
         
-        Data *inputVector = sampleToFit->getInputVector();
+        Datum *inputVector = sampleToFit->getInputVector();
         
         if (VERBOSE_FITABLE_FUNCTION>1) {
             MonkeyWorksTime timeUS = sampleToFit->getTime();        // testing only
@@ -380,8 +380,8 @@ bool LinearFitableFunction::fitTheFunction() {
 }
 
 // compute the function value(s) with the current parameters
-//bool LinearFitableFunction::applyTheFunction(Data *pInputData, Data *outputData){ // DDC fix
-bool LinearFitableFunction::applyTheFunction(const Data& pInputData, Data *outputData){ 
+//bool LinearFitableFunction::applyTheFunction(Datum *pInputData, Datum *outputData){ // DDC fix
+bool LinearFitableFunction::applyTheFunction(const Datum& pInputData, Datum *outputData){ 
 
     lock();
     
@@ -422,8 +422,8 @@ bool LinearFitableFunction::applyTheFunction(const Data& pInputData, Data *outpu
         temp = temp + ((Parameters[p])*((basisSet->getElement(p))->applyBasis(inputDataDouble)));
         //ppp = Parameters[p];    //TODO -- remove
     }
-    *outputData = Data(temp);//DDC edit
-	//*outputData = (Data)temp;
+    *outputData = Datum(temp);//DDC edit
+	//*outputData = (Datum)temp;
     
 	delete [] inputDataDouble; // DDC added
 	
@@ -446,7 +446,7 @@ bool LinearFitableFunction::setParametersToDefaultsProtected() {
         unlock();
         return false;    
     } 
-    Data _parameters(M_LIST, defaultParameters->getNElements());
+    Datum _parameters(M_LIST, defaultParameters->getNElements());
     for (int i = 0; i<basisSet->getNElements(); i++) {
         if (VERBOSE_FITABLE_FUNCTION) {
             double temp = *(defaultParameters->getElement(i));

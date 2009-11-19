@@ -38,7 +38,7 @@ bool StandardClientCoreBuilder::initializeRegistries() {
 }
 
 bool StandardClientCoreBuilder::initializeGlobalParameters() {
-    initializeStandardVariables(GlobalVariableRegistry);
+    initializeStandardVariables(global_variable_registry);
 	GlobalMessageOrigin = M_CLIENT_MESSAGE_ORIGIN;
 	return true;
 }

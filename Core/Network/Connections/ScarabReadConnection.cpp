@@ -25,8 +25,8 @@ using namespace mw;
 // see it.
 static void * read(const shared_ptr<ScarabConnection> &sc);
 
-ScarabReadConnection::ScarabReadConnection(shared_ptr<BufferManager> _buffer_manager, std::string uri) :
-                                                    ScarabConnection(_buffer_manager, uri) { }
+ScarabReadConnection::ScarabReadConnection(shared_ptr<EventBuffer> _incoming_event_buffer, std::string uri) :
+                                                    ScarabConnection(_incoming_event_buffer, uri) { }
 
 void ScarabReadConnection::startThread(int interval) {
     if(thread) { return; } // already running
@@ -170,7 +170,8 @@ int ScarabReadConnection::service() {
 							//break;
 						}
 						
-						buffer_manager->putIncomingNetworkEvent(event);
+                        // put event to INCOMING buffer
+						event_buffer->putEvent(event);
 					}
 				
 				} else {
@@ -187,7 +188,8 @@ int ScarabReadConnection::service() {
 						//break;
 					}
 					
-					buffer_manager->putIncomingNetworkEvent(event);
+                    // put event to INCOMING buffer
+					event_buffer->putEvent(event);
 					
 				}
 				
@@ -202,7 +204,7 @@ int ScarabReadConnection::service() {
                 break;
             default:
                 mwarning(M_NETWORK_MESSAGE_DOMAIN,
-					"Bad Data Type Received From Scarab Stream!");
+					"Bad Datum Type Received From Scarab Stream!");
                 break;
         }
 		

@@ -50,7 +50,7 @@ void SimpleConduitTestFixture::testInOneThread(){
     server_conduit.initialize();
     client_conduit.initialize();
 
-    server_conduit.sendData(0, Data(4.0));
+    server_conduit.sendData(0, Datum(4.0));
     
     shared_ptr<Clock> clock = Clock::instance();
     clock->sleepMS(100);

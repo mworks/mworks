@@ -89,7 +89,7 @@ namespace mw {
 		
         void execute();
 		void announce(MonkeyWorksTime time);
-		Data getAnnounceData();
+	 Datum getAnnounceData();
 		
     private:
         StimulusDisplayChain(const StimulusDisplayChain& s) { }

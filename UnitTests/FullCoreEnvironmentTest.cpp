@@ -37,9 +37,9 @@ void FullCoreEnvironmentTestFixture::tearDown(){
 		GlobalCurrentExperiment = 0;
 	}*/
 	
-	/*if(GlobalVariableRegistry){
-		delete GlobalVariableRegistry;
-		GlobalVariableRegistry = 0;
+	/*if(global_variable_registry){
+		delete global_variable_registry;
+		global_variable_registry = 0;
 	}*/
 
   ComponentRegistry::detachSharedRegistryPtr();

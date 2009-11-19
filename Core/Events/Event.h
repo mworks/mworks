@@ -50,15 +50,15 @@ namespace mw {
 		// when did this event occur
 		MonkeyWorksTime time;
 		
-		Data data;
+	 Datum data;
 		shared_ptr<Event> nextEvent;
 		boost::mutex eventLock;
     public:       
         /**
          * Constructor.  Defines an Variable member and the event type.
          */
-        Event(const int _code, const MonkeyWorksTime _time, const Data &data);
-		Event(const int _code, const Data &data);
+        Event(const int _code, const MonkeyWorksTime _time, const Datum &data);
+		Event(const int _code, const Datum &data);
 		Event(ScarabDatum *datum);  // create an event from a ScarabDatum
         Event(){ } // for construction during deserialization
         virtual ~Event() {}
@@ -78,7 +78,7 @@ namespace mw {
 			return time;
 		}
 		
-		Data getData() {
+        Datum getData() {
 			return data;
 		}
 		
@@ -106,6 +106,14 @@ namespace mw {
             ar & data;
         }
 	};
+    
+    
+    // An abstract protocol for objects that can receive events
+    class EventReceiver {
+        public:
+            virtual ~EventReceiver(){ }
+            virtual void putEvent(shared_ptr<Event> evt) = 0;
+    };
 	
 }
 #endif

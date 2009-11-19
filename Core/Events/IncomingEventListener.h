@@ -19,7 +19,7 @@
 namespace mw {
 class IncomingEventListener : public EventListener {
     public:
-        IncomingEventListener(shared_ptr<BufferManager> manager, shared_ptr<EventHandler>);
+        IncomingEventListener(shared_ptr<BufferManager> manager, shared_ptr<EventStreamInterface>);
         ~IncomingEventListener();
 
     protected:

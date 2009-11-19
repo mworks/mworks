@@ -18,12 +18,12 @@ class ConstantVariable : public GlobalVariable {
 
 public:
 
-	ConstantVariable(Data _value) : GlobalVariable(_value, NULL){ }
+	ConstantVariable(Datum _value) : GlobalVariable(_value, NULL){ }
 
 	// TODO: warn?
-	virtual void setValue(Data _value){ *value = _value;}
-	virtual void setValue(Data _value, MonkeyWorksTime time){  *value = _value;}
-	virtual void setSilentValue(Data _value){ return; }
+	virtual void setValue(Datum _value){ *value = _value;}
+	virtual void setValue(Datum _value, MonkeyWorksTime time){  *value = _value;}
+	virtual void setSilentValue(Datum _value){ return; }
 
 
 };

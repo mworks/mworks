@@ -292,14 +292,14 @@ std::string Stimulus::gettag() {
 */
 void Stimulus::announceStimulusDraw(MonkeyWorksTime now) {
     if (VERBOSE_STIMULI>0)  mprintf("Stim draw announce just triggered...");
-    Data announceData = getCurrentAnnounceDrawData();  // will override this
+    Datum announceData = getCurrentAnnounceDrawData();  // will override this
     announce(announceData, now);    // announce things here using method from Announcable
     
 }
 
 /*void Stimulus::announceStimulusDraw(char *groupName, int idx) {
     if (VERBOSE_STIMULI>0) mprintf("Stim draw announce just triggered from group...");
-    Data announceData = getCurrentAnnounceDrawData();  // will override this
+    Datum announceData = getCurrentAnnounceDrawData();  // will override this
     announceData.addElement(STIM_GROUP_NAME,groupName);
     announceData.addElement(STIM_GROUP_INDEX,(long)idx);
     announce(announceData);    // announce things here using method from Announcable
@@ -308,14 +308,14 @@ void Stimulus::announceStimulusDraw(MonkeyWorksTime now) {
 
 void Stimulus::announceStimulusErase() { 
     if (VERBOSE_STIMULI>0)  mprintf("Stim erase announce just triggered...");
-    Data announceData = getCurrentAnnounceEraseData();  // will override this
+    Datum announceData = getCurrentAnnounceEraseData();  // will override this
     announce(announceData);    // announce things here using method from Announcable
    
 }
 
 void Stimulus::announceStimulusErase(char *groupName, int idx) { 
     if (VERBOSE_STIMULI>0) mprintf("Stim erase announce just triggered from group...");
-    Data announceData = getCurrentAnnounceEraseData();  // will override this
+    Datum announceData = getCurrentAnnounceEraseData();  // will override this
     announceData.addElement(STIM_GROUP_NAME,groupName);
     announceData.addElement(STIM_GROUP_INDEX,(long)idx);
     announce(announceData);    // announce things here using method from Announcable
@@ -332,9 +332,9 @@ void Stimulus::announceStimulusErase(char *groupName, int idx) {
  *  with things that may change every presentation (position, scale, etc.)
 */
     
-Data Stimulus::getCurrentAnnounceDrawData() {
+Datum Stimulus::getCurrentAnnounceDrawData() {
     
-    Data announceData(M_DICTIONARY, 3);
+    Datum announceData(M_DICTIONARY, 3);
     announceData.addElement(STIM_NAME,tag);        // char
     announceData.addElement(STIM_ACTION,STIM_ACTION_DRAW);
     announceData.addElement(STIM_TYPE,STIM_TYPE_GENERIC);  
@@ -345,7 +345,7 @@ Data Stimulus::getCurrentAnnounceDrawData() {
 
 /*Data Stimulus::getCurrentAnnounceEraseData() {
 
-    Data announceData(M_DICTIONARY, 2);
+    Datum announceData(M_DICTIONARY, 2);
     announceData.addElement(STIM_NAME,tag);       // char
     announceData.addElement(STIM_ACTION,STIM_ACTION_ERASE);
     

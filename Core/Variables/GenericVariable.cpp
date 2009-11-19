@@ -36,7 +36,7 @@ Variable::Variable(VariableProperties *_properties) : mw::Component() {
 	}
 	
 	
-	buffer_manager = GlobalBufferManager;
+	event_target = global_outgoing_event_buffer;
 	
 }
 
@@ -82,7 +82,7 @@ shared_ptr<mw::Component> VariableFactory::createObject(std::map<std::string, st
 	bool viewable = true; // can the user see this variable
 	bool persistant = false; // save the variable from run to run
 	WhenType logging = M_WHEN_CHANGED; // when does this variable get logged
-	Data defaultValue(0L); // the default value Data object.	
+ Datum defaultValue(0L); // the default value Datum object.	
 	std::string groups("");
 	
 	GET_ATTRIBUTE(parameters, tag, "tag", "NO_TAG");
@@ -179,7 +179,7 @@ shared_ptr<mw::Component> VariableFactory::createObject(std::map<std::string, st
 			}
 			break;
 		case M_STRING:
-			defaultValue = Data(parameters.find("default_value")->second);
+			defaultValue = Datum(parameters.find("default_value")->second);
 			break;
 		default:
 			throw InvalidAttributeException(parameters["reference_id"], "default_value", parameters.find("default_value")->second);
@@ -206,11 +206,11 @@ shared_ptr<mw::Component> VariableFactory::createObject(std::map<std::string, st
 	
 	scope_string = to_lower_copy(scope_string);
 	if(scope_string == "global") {
-		newVar = GlobalVariableRegistry->createGlobalVariable(&props);
+		newVar = global_variable_registry->createGlobalVariable(&props);
 	} else if(scope_string == "local") {
         shared_ptr<ScopedVariableEnvironment> env = dynamic_pointer_cast<ScopedVariableEnvironment, Experiment>(GlobalCurrentExperiment);
         weak_ptr<ScopedVariableEnvironment> env_weak(env);
-		newVar = GlobalVariableRegistry->createScopedVariable(env_weak, &props);		
+		newVar = global_variable_registry->createScopedVariable(env_weak, &props);		
 	} else {
 		throw InvalidAttributeException(parameters["reference_id"], "scope", parameters.find("scope")->second);
 	}
@@ -249,7 +249,7 @@ void Variable::addNotification(shared_ptr<VariableNotification> _notif) {
 	notifications.addToBack(_notif);
 }
 
-void Variable::performNotifications(Data data) {
+void Variable::performNotifications(Datum data) {
 	shared_ptr <Clock> clock = Clock::instance(false);
 	if(clock != 0) {
 		performNotifications(data, clock->getCurrentTimeUS());
@@ -258,7 +258,7 @@ void Variable::performNotifications(Data data) {
 	}		
 }
 
-void Variable::performNotifications(Data data, MonkeyWorksTime timeUS) {
+void Variable::performNotifications(Datum data, MonkeyWorksTime timeUS) {
 	notifications.lock();
 	
 	shared_ptr<VariableNotification> node = getFirstNotification(); 
@@ -288,9 +288,9 @@ void Variable::announce(){
 void Variable::announce(MonkeyWorksTime timeUS){
 
 	if(properties){
-		if(properties->getLogging() == M_WHEN_CHANGED && buffer_manager != 0) {
+		if(properties->getLogging() == M_WHEN_CHANGED && event_target != 0) {
 			shared_ptr<Event> new_event(new Event(codec_code, timeUS, getValue()));
-			buffer_manager->putEvent(new_event);
+			event_target->putEvent(new_event);
 		}
 	}
 }
@@ -346,10 +346,10 @@ void Variable::operator=(MonkeyWorksTime a) {
 }
 
 void Variable::operator=(std::string a){
-	setValue(Data(a));
+	setValue(Datum(a));
 }
 
-void Variable::operator=(Data a) {
+void Variable::operator=(Datum a) {
     setValue(a);
 }
 
@@ -382,7 +382,7 @@ Variable::operator bool() {
 	return (bool)getValue();
 }
 
-Variable::operator Data(){
+Variable::operator Datum(){
 	return getValue();
 }
 

@@ -54,10 +54,10 @@ public:
 	
 	virtual void nextValue();
 	
-	virtual Data getValue();
-	virtual void setValue(Data data){  return; }
-	virtual void setValue(Data data, MonkeyWorksTime time){ return; }
-	virtual void setSilentValue(Data data){  return; }
+	virtual Datum getValue();
+	virtual void setValue(Datum data){  return; }
+	virtual void setValue(Datum data, MonkeyWorksTime time){ return; }
+	virtual void setSilentValue(Datum data){  return; }
 	
 	virtual int getNChildren(){ return values.getNElements();  }
 	

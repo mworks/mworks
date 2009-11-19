@@ -337,7 +337,7 @@ void IOChannel::setName(std::string _name){
 // Any changes to the running of code should be initiated by "listeners" of 
 // particular parameters (in the core)
 
-void IOChannel::update(Data data){
+void IOChannel::update(Datum data){
 	lock();		// JJD dropped this.  This is NOT a public method.
 	// DDC added this back in.  This is NOT the issue
 	bool _active = active;
@@ -346,7 +346,7 @@ void IOChannel::update(Data data){
 	if (_active) variable->setValue(data);
 } 
 
-void IOChannel::update(Data data, MonkeyWorksTime timeUS){ 
+void IOChannel::update(Datum data, MonkeyWorksTime timeUS){ 
 	lock();		// JJD dropped this.  This is NOT a public method. 
 	// DDC added this back in.  This is NOT the issue
 	bool _active = active;
@@ -362,7 +362,7 @@ void IOChannel::update(MonkeyWorksTime timeUS){
 	unlock();
 	
     
-	if (_active) variable->setValue((Data)((long)M_NO_DATA), timeUS); 
+	if (_active) variable->setValue((Datum)((long)M_NO_DATA), timeUS); 
 } 
 
 IOChannelRequest *  IOChannel::getRequest(){ 
@@ -1109,7 +1109,7 @@ bool IODevice::stopDeviceIO(){
 // Thus, the updateChannel method must decide how to handle the 'active' and 'inactive' channel states
 bool IODevice::updateChannel(int channel_index){ return false;}     
 
-bool IODevice::updateChannel(int channel_index, Data data){ 
+bool IODevice::updateChannel(int channel_index, Datum data){ 
 	return updateChannel(channel_index);
 }
 
@@ -1214,7 +1214,7 @@ VariableNotification(){
 	channel_index = _channel_index;
 }
 
-void AsynchronousOutputNotification::notify(const Data& data, MonkeyWorksTime timeUS){
+void AsynchronousOutputNotification::notify(const Datum& data, MonkeyWorksTime timeUS){
 	device->updateChannel(channel_index, data);
 }
 

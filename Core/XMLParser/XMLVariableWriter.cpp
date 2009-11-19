@@ -62,7 +62,7 @@ xmlNodePtr XMLVariableWriter::variableToXML(shared_ptr<Variable> var){
     xmlNodePtr new_node = xmlNewNode(NULL, (const xmlChar *)"variable_assignment");
     xmlNewProp(new_node, (const xmlChar *)"variable", (const xmlChar *)((var->getVariableName()).c_str()));
     
-	Data value = var->getValue();
+ Datum value = var->getValue();
 	
     GenericDataType type = value.getDataType();
     if(type == M_INTEGER){
@@ -89,13 +89,13 @@ xmlNodePtr XMLVariableWriter::variableToXML(shared_ptr<Variable> var){
     return new_node;
 }
 
-xmlNodePtr XMLVariableWriter::recursiveValueToXML(const Data &value) {
+xmlNodePtr XMLVariableWriter::recursiveValueToXML(const Datum &value) {
     xmlNodePtr value_node;
 	
 	if(value.getDataType() == M_DICTIONARY) {
 		value_node = xmlNewNode(NULL, (const xmlChar *)"dictionary");
-		std::vector<Data> keys = value.getKeys();
-		for(std::vector<Data>::const_iterator i = keys.begin();
+		std::vector<Datum> keys = value.getKeys();
+		for(std::vector<Datum>::const_iterator i = keys.begin();
 			i != keys.end();
 			++i) {
 			if(value.hasKey(*i)) {
@@ -105,7 +105,7 @@ xmlNodePtr XMLVariableWriter::recursiveValueToXML(const Data &value) {
 				xmlNodePtr subvalue_node = xmlNewNode(NULL, (const xmlChar *)"value");
 				
 				
-				Data subvalue = value.getElement(*i);
+			 Datum subvalue = value.getElement(*i);
 				if(subvalue.getDataType() == M_DICTIONARY || subvalue.getDataType() == M_LIST) {
 					xmlAddChild(subvalue_node, recursiveValueToXML(subvalue));	
 				} else {
@@ -134,14 +134,14 @@ xmlNodePtr XMLVariableWriter::recursiveValueToXML(const Data &value) {
 		}
 	} else if(value.getDataType() == M_LIST) {
 		value_node = xmlNewNode(NULL, (const xmlChar *)"list_data");
-		std::vector<Data> elements = value.getElements();
-		for(std::vector<Data>::const_iterator i = elements.begin();
+		std::vector<Datum> elements = value.getElements();
+		for(std::vector<Datum>::const_iterator i = elements.begin();
 			i != elements.end();
 			++i) {
 			xmlNodePtr list_element_node = xmlNewNode(NULL, (const xmlChar *)"list_element");
 			xmlNodePtr subvalue_node = xmlNewNode(NULL, (const xmlChar *)"value");
 			
-			Data subvalue(*i);
+		 Datum subvalue(*i);
 			if(subvalue.getDataType() == M_DICTIONARY || subvalue.getDataType() == M_LIST) {
 				xmlAddChild(subvalue_node, recursiveValueToXML(subvalue));	
 			} else {

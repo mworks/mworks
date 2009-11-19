@@ -25,7 +25,7 @@ namespace mw {
 		
 		IODeviceVariableNotification(const shared_ptr<IODevice> &_io_device);
 		~IODeviceVariableNotification();		
-		virtual void notify(const Data& data, MonkeyWorksTime timeUS);
+		virtual void notify(const Datum& data, MonkeyWorksTime timeUS);
 		
 	};
 }

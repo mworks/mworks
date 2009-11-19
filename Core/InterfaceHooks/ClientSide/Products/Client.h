@@ -16,7 +16,7 @@
 #define __CLIENT_H__
 
 
-#include "EventHandler.h"
+#include "EventStreamInterface.h"
 #include "IncomingEventListener.h"
 #include "ScarabClient.h"
 #include "VariableRegistry.h"
@@ -25,7 +25,7 @@
 
 namespace mw {
 
-class Client : public EventHandler, public enable_shared_from_this<Client> {
+class Client : public EventStreamInterface, public enable_shared_from_this<Client> {
     protected:
 	shared_ptr<BufferManager> buffer_manager;
 	shared_ptr<IncomingEventListener> incomingListener;
@@ -159,8 +159,8 @@ class Client : public EventHandler, public enable_shared_from_this<Client> {
         virtual void sendLoadVariablesEvent(const std::string &saveVarName);
 		
 
-		virtual void updateValue(const int code, const Data &data);
-		virtual void updateRegistry(const Data &codec);
+		virtual void updateValue(const int code, const Datum &data);
+		virtual void updateRegistry(const Datum &codec);
 		
 		virtual unsigned int numberOfVariablesInRegistry() {
 			return registry->getNVariables();

@@ -385,9 +385,9 @@ bool EmbeddedPerlInterpreter::restart(){
 	return true;
 }
 
-Data *GlobalPerlReturn;
+Datum *GlobalPerlReturn;
 
-void setPerlReturn(Data *pr) {
+void setPerlReturn(Datum *pr) {
 	if(pr) {
 		GlobalPerlReturn = pr;
 	} else {

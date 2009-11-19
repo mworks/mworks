@@ -3,7 +3,7 @@
  *
  * You need to be careful when copying dictionaries and lists.  The under-
  * lying objects are NOT copied, so modifying a dictionary if you are not the
- * only one using use scarabDeepCopy instead to create a new Data object.
+ * only one using use scarabDeepCopy instead to create a new Datum object.
  *
  *
  * Copyright (c) 2005 MIT. All rights reserved.
@@ -37,9 +37,9 @@ namespace mw {
 	
 	
 #if INTERNALLY_LOCKED_MDATA
-	class Data : public Lockable{
+	class Datum : public Lockable{
 #else
-		class Data{
+    class Datum{
 #endif	
 			
 		protected:   
@@ -61,37 +61,37 @@ namespace mw {
 			 * Constructors:  All constructors create a scarab object that can
 			 * be sent over the network.  
 			 */
-			Data();
-			Data(GenericDataType type, const int arg);
-			Data(GenericDataType type, const double arg);
-			Data(const long value);
-			Data(const MonkeyWorksTime value);
-			Data(const double value);
-			Data(const float value);
-			Data(const bool value);
-			Data(const char * string);   
-			Data(const std::string &string); 
-			Data(const stx::AnyScalar);
+		 Datum();
+		 Datum(GenericDataType type, const int arg);
+		 Datum(GenericDataType type, const double arg);
+		 Datum(const long value);
+		 Datum(const MonkeyWorksTime value);
+		 Datum(const double value);
+		 Datum(const float value);
+		 Datum(const bool value);
+		 Datum(const char * string);   
+		 Datum(const std::string &string); 
+		 Datum(const stx::AnyScalar);
 			
 			/**
 			 * Overrides the default copy constructor to deeply copy
 			 * the scarab datum.
 			 */
-			Data(const Data& that);
+		 Datum(const Datum& that);
 			
 			/**
 			 * Copies the scarabdatum, deeply, used for receiving data events
 			 * on the network.
 			 */
-			Data(ScarabDatum * datum);
+		 Datum(ScarabDatum * datum);
 			
 			/**
 			 * Default Destructor.
 			 */
-			virtual ~Data();
+			virtual ~Datum();
 			
 			/**
-			 * Returns the data type of the Data object.
+			 * Returns the data type of the Datum object.
 			 */
 			GenericDataType getDataType() const;
 			void setDataType(const GenericDataType _type);
@@ -111,7 +111,7 @@ namespace mw {
 			long getInteger() const;
 			
 			/**
-			 * Returns a string if Data is of type M_STRING, otherwise returns 0
+			 * Returns a string if Datum is of type M_STRING, otherwise returns 0
 			 * lenght of string is null terminated length or -1 otherwise
 			 */
 			const char *getString() const;
@@ -137,7 +137,7 @@ namespace mw {
 			bool isNumber() const;
 			
 			// this will overwrite the default asssignment operator.
-			Data& operator=(const Data& that);
+		 Datum& operator=(const Datum& that);
 			
 			virtual operator long() const;		
 			virtual operator int() const;
@@ -172,45 +172,45 @@ namespace mw {
 			virtual bool operator!=(const char * newdata) const;
 			
 			
-			virtual Data operator+(const Data&) const;
-			virtual Data operator-(const Data&) const;
-			virtual Data operator*(const Data&) const;
-			virtual Data operator/(const Data&) const;
-			virtual Data operator%(const Data&) const;
-			virtual Data operator==(const Data&) const;
-			virtual Data operator!=(const Data&) const;
-			virtual Data operator>(const Data&) const;
-			virtual Data operator>=(const Data&) const;
-			virtual Data operator<(const Data&) const;
-			virtual Data operator<=(const Data&) const;
+			virtual Datum operator+(const Datum&) const;
+			virtual Datum operator-(const Datum&) const;
+			virtual Datum operator*(const Datum&) const;
+			virtual Datum operator/(const Datum&) const;
+			virtual Datum operator%(const Datum&) const;
+			virtual Datum operator==(const Datum&) const;
+			virtual Datum operator!=(const Datum&) const;
+			virtual Datum operator>(const Datum&) const;
+			virtual Datum operator>=(const Datum&) const;
+			virtual Datum operator<(const Datum&) const;
+			virtual Datum operator<=(const Datum&) const;
 			
 			
 			
 			int getNElements() const;
 			int getMaxElements() const;
 			
-			bool hasKey(const Data &key) const;
-			Data getKey(const int n)  const;
-			std::vector<Data> getKeys() const;
+			bool hasKey(const Datum &key) const;
+		 Datum getKey(const int n)  const;
+			std::vector<Datum> getKeys() const;
 			
 			
-			virtual void addElement(const Data &key, const Data &value);
-			virtual void addElement(const Data &value);
-			virtual void setElement(const int index, const Data &value);
-			std::vector<Data> getElements() const;
+			virtual void addElement(const Datum &key, const Datum &value);
+			virtual void addElement(const Datum &value);
+			virtual void setElement(const int index, const Datum &value);
+			std::vector<Datum> getElements() const;
 			
-			Data getElement(const Data &key) const;
-			Data getElement(const int i) const;
+		 Datum getElement(const Datum &key) const;
+		 Datum getElement(const int i) const;
 			
-			//  virtual Data removeElement(const char * key);
+			//  virtual Datum removeElement(const char * key);
 			
 			// TODO: MUST IMPLEMENT THESE
-			// virtual Data removeElement(const Data key);
+			// virtual Datum removeElement(const Datum key);
 			// TODO
 			//  void removeElement(int index);
 			
 			
-			virtual Data operator [](const int i);
+			virtual Datum operator [](const int i);
 			
 			virtual std::string toString() const;
 			
@@ -262,7 +262,7 @@ namespace mw {
                         nelements = getNElements();
                         ar << nelements;
                         for(int i = 0; i < nelements; i++){
-                            Data val = getElement(i);
+                            Datum val = getElement(i);
                             ar << val;
                         }
                         break;
@@ -270,9 +270,9 @@ namespace mw {
                         nelements = getNElements();
                         ar << nelements;
                         for(int i = 0; i < nelements; i++){
-                            Data key = getKey(i);
+                            Datum key = getKey(i);
                             ar << key;
-                            Data val = getElement(key);
+                            Datum val = getElement(key);
                             ar << val;
                         }
                         break;
@@ -290,7 +290,7 @@ namespace mw {
 				bool bval;
 				std::string sval;
 				int nelements;
-                Data datum, key;
+                Datum datum, key;
                 int string_length;
                 char c;
                 
@@ -348,11 +348,11 @@ namespace mw {
 		};
 		
 		
-		class ImmutableData : public Data {
+		class ImmutableData : public Datum {
 			
 		public:
 			
-			ImmutableData(const Data& d){
+			ImmutableData(const Datum& d){
 				setDataType(d.getDataType());
 				data = d.getScarabDatumCopy();
 			}
@@ -365,11 +365,11 @@ namespace mw {
 			virtual void setString(std::string string, int size) { }
 			
 			
-			virtual void addElement(const char * key,Data value) { }
-			virtual void addElement(Data value) { }
-			virtual void setElement(int index, Data value) { }	
+			virtual void addElement(const char * key, Datum value) { }
+			virtual void addElement(Datum value) { }
+			virtual void setElement(int index, Datum value) { }	
 			
-			Data removeElement(const char * key) { return Data(); }
+		 Datum removeElement(const char * key) { return Datum(); }
 			
 		};
 		

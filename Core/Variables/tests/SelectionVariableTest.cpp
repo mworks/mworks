@@ -23,10 +23,10 @@ void SelectionVariableTestFixture::setUp(){
 	shared_ptr <Clock> new_clock = shared_ptr<Clock>(new Clock(0));
 	Clock::registerInstance(new_clock);
 	
-	a = shared_ptr<ConstantVariable>(new ConstantVariable(Data(10L)));
-	b = shared_ptr<ConstantVariable>(new ConstantVariable(Data(20L)));
-	c = shared_ptr<ConstantVariable>(new ConstantVariable(Data(12.34)));
-	d = shared_ptr<ConstantVariable>(new ConstantVariable(Data(45.67)));
+	a = shared_ptr<ConstantVariable>(new ConstantVariable(Datum(10L)));
+	b = shared_ptr<ConstantVariable>(new ConstantVariable(Datum(20L)));
+	c = shared_ptr<ConstantVariable>(new ConstantVariable(Datum(12.34)));
+	d = shared_ptr<ConstantVariable>(new ConstantVariable(Datum(45.67)));
 }
 
 void SelectionVariableTestFixture::tearDown(){

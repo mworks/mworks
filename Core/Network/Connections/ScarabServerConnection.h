@@ -29,7 +29,8 @@ class ScarabServerConnection {
         std::string foreignHost;
         int scheduleInterval;
 		
-		shared_ptr<BufferManager> buffer_manager;
+		shared_ptr<EventBuffer> incoming_event_buffer;
+        shared_ptr<EventBuffer> outgoing_event_buffer;
 
     public:
         
@@ -38,7 +39,9 @@ class ScarabServerConnection {
          * is the interval that the read and write threads are scheduled at.
          * A negative value will result in the default value of 200ms 
          */
-        ScarabServerConnection(shared_ptr<BufferManager> _buffer_manager, int interval);
+        ScarabServerConnection(shared_ptr<EventBuffer> _incoming_event_buffer, 
+                               shared_ptr<EventBuffer> _outgoing_event_buffer,
+                               int interval);
         
         /**
          * Frees memory.

@@ -49,11 +49,11 @@ SimpleStaircaseOptimizer::SimpleStaircaseOptimizer(shared_ptr<Variable> _watch,
     
     // Enforce the limits to start 
     if((double)(*output) > (double)(*upper_limit)){
-        postResults(0, (Data)((double)*upper_limit));
+        postResults(0, (Datum)((double)*upper_limit));
     }
 
     if((double)(*output) < (double)(*lower_limit)){
-        postResults(0, (Data)((double)*lower_limit));
+        postResults(0, (Datum)((double)*lower_limit));
     }
     	
 }
@@ -62,12 +62,12 @@ SimpleStaircaseOptimizer::SimpleStaircaseOptimizer(shared_ptr<Variable> _watch,
 void SimpleStaircaseOptimizer::stepUp(){
 	double stepped_up = (double)(*output) + (double)(*step_size);
 	if((double)(*upper_limit) >= stepped_up && (double)(*lower_limit) <= stepped_up){
-		postResults(0, (Data)stepped_up);
+		postResults(0, (Datum)stepped_up);
 	} else {
 		if((double)(*upper_limit) < stepped_up) {
-			postResults(0, (Data)((double)*upper_limit));
+			postResults(0, (Datum)((double)*upper_limit));
 		} else if((double)(*lower_limit) > stepped_up) {
-			postResults(0, (Data)((double)*lower_limit));
+			postResults(0, (Datum)((double)*lower_limit));
 		}
 	}
 	
@@ -81,12 +81,12 @@ void SimpleStaircaseOptimizer::stepUp(){
 void SimpleStaircaseOptimizer::stepDown(){
 	double stepped_down = (double)(*output) - (double)(*step_size);
 	if((double)(*upper_limit) >= stepped_down && (double)(*lower_limit) <= stepped_down){
-		postResults(0, (Data)stepped_down);
+		postResults(0, (Datum)stepped_down);
 	} else {
 		if((double)(*upper_limit) < stepped_down) {
-			postResults(0, (Data)((double)*upper_limit));
+			postResults(0, (Datum)((double)*upper_limit));
 		} else if((double)(*lower_limit) > stepped_down) {
-			postResults(0, (Data)((double)*lower_limit));
+			postResults(0, (Datum)((double)*lower_limit));
 		}
 	}
 	
@@ -96,7 +96,7 @@ void SimpleStaircaseOptimizer::stepDown(){
 	}
 }
 
-void SimpleStaircaseOptimizer::newDataReceived(int inputIndex, const Data& data, 
+void SimpleStaircaseOptimizer::newDataReceived(int inputIndex, const Datum& data, 
                                                 MonkeyWorksTime timeUS){
 	
 	if(inputIndex != 0){

@@ -33,16 +33,16 @@ class VectorTestFixture : public CppUnit::TestFixture {
 
 	private:
 	
-		Data *a,*b,*c,*d;
+	 Datum *a,*b,*c,*d;
 
 	public:
 	
 		void setUp(){
 				
-			a = new Data(10L);
-			b = new Data(20L);
-			c = new Data(12.34);
-			d = new Data(45.67);
+			a = new Datum(10L);
+			b = new Datum(20L);
+			c = new Datum(12.34);
+			d = new Datum(45.67);
 		}
 
 		void tearDown(){
@@ -55,7 +55,7 @@ class VectorTestFixture : public CppUnit::TestFixture {
 					
 		void testGetNElements(){
 			fprintf(stderr, "Running VectorTestFixture::testGetNElements()\n");
-			Data vec(M_LIST, 4);
+		 Datum vec(M_LIST, 4);
 			CPPUNIT_ASSERT( vec.getMaxElements() == 4 );
 			
 			CPPUNIT_ASSERT( vec.getNElements() == 0 );
@@ -73,15 +73,15 @@ class VectorTestFixture : public CppUnit::TestFixture {
 		void testSetGetElement(){
 			fprintf(stderr, "Running VectorTestFixture::testSetGetElement()\n");
 		
-			Data vec(M_LIST, 10);
+		 Datum vec(M_LIST, 10);
 			
 			for(int i = 0; i < 10; i++){
-				Data test((long)(2*i+1));
+			 Datum test((long)(2*i+1));
 				vec.setElement(i,test);
 			}
 
 			for (int i = 0; i < 10; i++){
-				Data test2 = vec.getElement(i);
+			 Datum test2 = vec.getElement(i);
 				
 				CPPUNIT_ASSERT( (int) test2 ==  2*i+1 );
 			}
@@ -90,7 +90,7 @@ class VectorTestFixture : public CppUnit::TestFixture {
 		void testBracketOperator(){
 			fprintf(stderr, "Running VectorTestFixture::testBracketOperator()\n");
 		
-			Data vec(M_LIST, 1);
+		 Datum vec(M_LIST, 1);
 			vec.setElement(0, *a);
 			
 			CPPUNIT_ASSERT( (long)(vec[0]) == (long)(vec.getElement(0)) );

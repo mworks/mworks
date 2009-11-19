@@ -10,7 +10,7 @@
 #include "ScarabServer.h"
 #include "ScarabServices.h"
 #include "EventBuffer.h"
-#include "EventFactory.h"
+#include "ControlEventFactory.h"
 
 #include "Event.h"
 #include <string>
@@ -61,13 +61,15 @@ namespace mw {
 	static void * acceptClients(const shared_ptr<ScarabServer> &ss);
 }
 
-ScarabServer::ScarabServer(shared_ptr<BufferManager> _buffer_manager, 
+ScarabServer::ScarabServer(shared_ptr<EventBuffer> _incoming_event_buffer, 
+                           shared_ptr<EventBuffer> _outgoing_event_buffer, 
                              std::string host, 
                              int startPort, 
                              int lowPort, 
                              int highPort){
     init();
-    buffer_manager = _buffer_manager;
+    incoming_event_buffer = _incoming_event_buffer;
+    outgoing_event_buffer = _outgoing_event_buffer;
     listenPort = startPort;
     lowServerPort = lowPort;
     highServerPort = highPort;
@@ -295,7 +297,7 @@ void ScarabServer::disconnectClient(int cliNum) {
     if(numberOfConnectedClients == 0) { return; }
     clients[cliNum]->disconnect();
     M_HASUNLOCK(connectionLock);
-    buffer_manager->putEvent(EventFactory::serverDisconnectClientResponse());
+    outgoing_event_buffer->putEvent(ControlEventFactory::serverDisconnectClientResponse());
 }
 
 
@@ -421,7 +423,7 @@ int ScarabServer::service() {
         }
         // the clients here are accept clients who wait for
         // connection clients to connect to them.
-        tempClient = new ScarabServerConnection(buffer_manager, clientThreadInterval);
+        tempClient = new ScarabServerConnection(incoming_event_buffer, outgoing_event_buffer, clientThreadInterval);
         shared_ptr<NetworkReturn> acceptRet;
         
         acceptRet = tempClient->accept(listeningSocket);
@@ -454,7 +456,7 @@ int ScarabServer::service() {
         clients[numberOfConnectedClients] = tempClient;
         numberOfConnectedClients++;
         M_HASUNLOCK(connectionLock);
-        buffer_manager->putEvent(EventFactory::serverConnectedClientResponse());
+        outgoing_event_buffer->putEvent(ControlEventFactory::serverConnectedClientResponse());
         
 	}
 	
@@ -470,21 +472,21 @@ int ScarabServer::service() {
 	
 	// we also should send a fresh codec so that this new client knows what is
 	// up if it is joining the party late
-	//buffer_manager->putEvent(EventFactory::codecPackageEvent());
+	//buffer_manager->putEvent(ControlEventFactory::codecPackageEvent());
 	
-	buffer_manager->putEvent(EventFactory::componentCodecPackage());
-    buffer_manager->putEvent(EventFactory::codecPackage());
+	outgoing_event_buffer->putEvent(ControlEventFactory::componentCodecPackage());
+    outgoing_event_buffer->putEvent(ControlEventFactory::codecPackage());
     
     // TODO: move this out into some sort of "announceSystemState" call?
     if(GlobalDataFileManager != NULL && GlobalDataFileManager->isFileOpen()){
         std::string fname = GlobalDataFileManager->getFilename();
-        buffer_manager->putEvent(EventFactory::dataFileOpenedResponse(fname,
+        outgoing_event_buffer->putEvent(ControlEventFactory::dataFileOpenedResponse(fname,
 																	   M_COMMAND_SUCCESS));
     }
     
-	buffer_manager->putEvent(EventFactory::currentExperimentState());
-	buffer_manager->putEvent(EventFactory::protocolPackage());
-	GlobalVariableRegistry->announceAll();
+	outgoing_event_buffer->putEvent(ControlEventFactory::currentExperimentState());
+	outgoing_event_buffer->putEvent(ControlEventFactory::protocolPackage());
+	global_variable_registry->announceAll();
 	
 	
 	return 0;

@@ -28,6 +28,6 @@ namespace mw {
 		static void writeVariablesToFile(vector< shared_ptr<Variable> > variables, filesystem::path file);
 		
 		static xmlNodePtr variableToXML(shared_ptr<Variable> var);
-		static xmlNodePtr recursiveValueToXML(const Data &value);    
+		static xmlNodePtr recursiveValueToXML(const Datum &value);    
 	};
 }

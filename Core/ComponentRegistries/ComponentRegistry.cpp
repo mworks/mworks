@@ -280,7 +280,7 @@ shared_ptr<Variable>	ComponentRegistry::getVariable(std::string expression){
 	smatch strip_match;
 	boost::regex_match(expression, strip_match, strip_it); 
 	
-	shared_ptr<Variable> var = GlobalVariableRegistry->getVariable(strip_match[1]);
+	shared_ptr<Variable> var = global_variable_registry->getVariable(strip_match[1]);
   
   // cache/hash the variable for fast access
   variable_cache[expression] = var;
@@ -440,33 +440,33 @@ bool ComponentRegistry::getBoolean(std::string expression){
 }
 
 
-Data ComponentRegistry::getNumber(std::string expression, GenericDataType type){
+Datum ComponentRegistry::getNumber(std::string expression, GenericDataType type){
 
-	shared_ptr<Data> test = data_cache[expression];
+  shared_ptr<Datum> test = data_cache[expression];
   if(test != NULL){
     return *test;
   }
   
-  Data value;
+  Datum value;
   try {
     switch(type){
       case M_FLOAT:
-          value = Data(lexical_cast<double>(expression));
+          value = Datum(lexical_cast<double>(expression));
           break;
       case M_BOOLEAN:
-          value = Data((bool)lexical_cast<long>(expression));
+          value = Datum((bool)lexical_cast<long>(expression));
           break;
       case M_INTEGER:
-          value = Data(lexical_cast<long>(expression));
+          value = Datum(lexical_cast<long>(expression));
           break;
       case M_STRING:
-          value = Data(string(expression));
+          value = Datum(string(expression));
           break;
       default:
           throw SimpleException("Attempt to cast a number of invalid type");
     }
     
-    data_cache[expression] = shared_ptr<Data>(new Data(value));
+    data_cache[expression] = shared_ptr<Datum>(new Datum(value));
     return value;
   } catch (SimpleException& except){
       throw except;
@@ -483,18 +483,18 @@ Data ComponentRegistry::getNumber(std::string expression, GenericDataType type){
 	switch (type){
 	
 		case M_FLOAT:
-			return Data(value.getFloat());
+			return Datum(value.getFloat());
 		case M_INTEGER:
-			return Data(value.getInteger());
+			return Datum(value.getInteger());
 		case M_STRING:
-			return Data(value.getString());
+			return Datum(value.getString());
 		case M_BOOLEAN:
-			return Data(value.getBool());
+			return Datum(value.getBool());
 		default:
-			return Data(value);			
+			return Datum(value);			
 	}
 	
-	return Data(value);
+	return Datum(value);
 		
 /*	
 	
@@ -523,7 +523,7 @@ Data ComponentRegistry::getNumber(std::string expression, GenericDataType type){
 	double result = boost::lexical_cast<double>(final_expression);
 	result *= modifier;
 	
-	return Data(result);*/
+	return Datum(result);*/
 }
 
 

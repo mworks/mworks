@@ -48,8 +48,8 @@ protected:
 	
 	unsigned int count;
 	
-    deque<Data> success_buffer;
-    deque<Data> response_index_buffer;
+    deque<Datum> success_buffer;
+    deque<Datum> response_index_buffer;
 	
 public:
 	
@@ -64,7 +64,7 @@ public:
 	virtual ~BiasMonitor(){ }
 	
     
-    virtual void newDataReceived(int inputIndex, const Data& data, 
+    virtual void newDataReceived(int inputIndex, const Datum& data, 
 								 MonkeyWorksTime timeUS);		
 	virtual void reset();
 	

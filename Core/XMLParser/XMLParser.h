@@ -121,8 +121,8 @@ public:
 		virtual map<string, string> _createPropertiesMap(xmlNode *node);
 		
 		// Parse a node which contains a numeric, or structured (e.g. list, 
-		// dictionary) datum and return an Data object
-		virtual Data _parseDataValue(xmlNode *node);
+		// dictionary) datum and return an Datum object
+		virtual Datum _parseDataValue(xmlNode *node);
 		
 		vector<xmlNode *> _getChildren(xmlNode *node);
 		vector<xmlNode *> _getChildren(xmlNode *node, string tag);

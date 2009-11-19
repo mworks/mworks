@@ -60,7 +60,7 @@ class Transform :  public Lockable {
 class TransformWithMemory : public Transform {
 	
 	private:
-		//memory arrays -- buffers and buffer readers to hold Data
+		//memory arrays -- buffers and buffer readers to hold Datum
 		int numInputs;
 		int numMemoryElementsPerInput;
 		int numMemoryElementsInBuffer;
@@ -78,7 +78,7 @@ class TransformWithMemory : public Transform {
         int getAllElements(int inputIndex, double *dataVector);
         int getAllElements(int inputIndex, double *dataVector, MonkeyWorksTime *timeVectorUS);
     
-		//virtual void addElementToMemory(int inputIndex, Data data);
+		//virtual void addElementToMemory(int inputIndex, Datum data);
         // TODO PAJ the timeUS argument is not a pointer so it cannot be NULL
         // TODO PAJ it should either be 0 or the argument should be a pointer type.	
         virtual void addElementToMemory(int inputIndex, double data, MonkeyWorksTime timeUS = NULL);  

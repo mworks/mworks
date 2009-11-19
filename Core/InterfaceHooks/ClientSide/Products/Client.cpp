@@ -9,7 +9,7 @@
 
 #include "Client.h"
 #include "ExperimentPackager.h"
-#include "EventFactory.h"
+#include "ControlEventFactory.h"
 #include "LoadingUtilities.h"
 #include "boost/filesystem/path.hpp"
 using namespace mw;
@@ -18,7 +18,7 @@ using namespace mw;
 
 typedef std::vector <shared_ptr<GenericEventFunctor> > CallbacksForVar;
 
-Client::Client() : EventHandler(M_CLIENT_MESSAGE_DOMAIN, false){
+Client::Client() : EventStreamInterface(M_CLIENT_MESSAGE_DOMAIN, false){
 	buffer_manager = shared_ptr<BufferManager>(new BufferManager());
 
 	registry = shared_ptr<VariableRegistry>(new VariableRegistry(buffer_manager));
@@ -73,7 +73,7 @@ void Client::handleEvent(shared_ptr<Event> evt) {
 void Client::startEventListener(){
     
     shared_ptr<Client> this_ptr = shared_from_this();
-    shared_ptr<EventHandler> this_as_evt_handler = dynamic_pointer_cast<EventHandler>(this_ptr);
+    shared_ptr<EventStreamInterface> this_as_evt_handler = dynamic_pointer_cast<EventStreamInterface>(this_ptr);
     incomingListener = shared_ptr<IncomingEventListener>(new IncomingEventListener(buffer_manager, this_as_evt_handler));
     
 	incomingListener->startListener();
@@ -127,13 +127,13 @@ bool Client::sendExperiment(const std::string &expPath) {
     if(!remoteConnection->isConnected()) { return false; }
     ExperimentPackager packer;
 	
-	Data experiment(packer.packageExperiment(bf::path(expPath, bf::native)));
+ Datum experiment(packer.packageExperiment(bf::path(expPath, bf::native)));
 	if(experiment.isUndefined()) {
 		merror(M_CLIENT_MESSAGE_DOMAIN, 
 			   "Failed to create a valid packaged experiment.");
 		
 		// send an update that the experiment load failed
-		shared_ptr<Event> experimentStateEvent = EventFactory::currentExperimentState();
+		shared_ptr<Event> experimentStateEvent = ControlEventFactory::currentExperimentState();
 		putEvent(experimentStateEvent);
 			
 		return false; 		
@@ -145,56 +145,56 @@ bool Client::sendExperiment(const std::string &expPath) {
 
 void  Client::sendProtocolSelectedEvent(const std::string &protocolname) {
     if(protocolname.size() == 0) { return; }
-    putEvent(EventFactory::protocolSelectionControl(protocolname));
+    putEvent(ControlEventFactory::protocolSelectionControl(protocolname));
 }
 
 void  Client::sendRunEvent() {
-    putEvent(EventFactory::startExperimentControl());
+    putEvent(ControlEventFactory::startExperimentControl());
 }
 
 void  Client::sendStopEvent() {
-    putEvent(EventFactory::stopExperimentControl());
+    putEvent(ControlEventFactory::stopExperimentControl());
 }
 
 void  Client::sendPauseEvent() {
-    putEvent(EventFactory::pauseExperimentControl());
+    putEvent(ControlEventFactory::pauseExperimentControl());
 }
 
 void  Client::sendUnpauseEvent() {
-    putEvent(EventFactory::pauseExperimentControl());
+    putEvent(ControlEventFactory::pauseExperimentControl());
 }
 
 void  Client::sendOpenDataFileEvent(const std::string &filename, 
 									 const int options) {
     if(filename.size() == 0) { return; }
-	DataFileOptions overwrite = options ? M_OVERWRITE : M_NO_OVERWRITE;
-    putEvent(EventFactory::dataFileOpenControl(filename, 
+ DatumFileOptions overwrite = options ? M_OVERWRITE : M_NO_OVERWRITE;
+    putEvent(ControlEventFactory::dataFileOpenControl(filename, 
 																	 overwrite));
 }
 
 void  Client::sendCloseDataFileEvent(const std::string &filename) {
-    putEvent(EventFactory::closeDataFileControl(filename));
+    putEvent(ControlEventFactory::closeDataFileControl(filename));
 }
 
 void  Client::sendCloseExperimentEvent(const std::string &expName) {
     if(expName.size() == 0) { return; }
-    putEvent(EventFactory::closeExperimentControl(expName));
+    putEvent(ControlEventFactory::closeExperimentControl(expName));
 }
 
 void  Client::sendSaveVariablesEvent(const std::string &file, const bool overwrite) {
-    putEvent(EventFactory::saveVariablesControl(file, overwrite, false));
+    putEvent(ControlEventFactory::saveVariablesControl(file, overwrite, false));
 }
 
 void  Client::sendLoadVariablesEvent(const std::string &file) {
-    putEvent(EventFactory::loadVariablesControl(file, false));
+    putEvent(ControlEventFactory::loadVariablesControl(file, false));
 }
 
-void Client::updateRegistry(const Data &codec) {
+void Client::updateRegistry(const Datum &codec) {
 	registry->update(codec);
 }
 
 
-void Client::updateValue(const int code, const Data &data) {
+void Client::updateValue(const int code, const Datum &data) {
 	//shared_ptr<Variable> var = registry->getVariable(code);
 	//var->setValue(data);
 	shared_ptr<Event> event(new Event(code, data));

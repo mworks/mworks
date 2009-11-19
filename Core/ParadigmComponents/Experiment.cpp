@@ -1,7 +1,7 @@
 #include "Experiment.h"
 #include "EventBuffer.h"
 #include "Event.h"
-#include "EventFactory.h"
+#include "ControlEventFactory.h"
 #include "ConstantVariable.h"
 #include "ExpressionVariable.h"
 //#include "UserData.h"
@@ -73,7 +73,7 @@ void Experiment::setCurrentProtocol(unsigned int protocol_number) {
 	// TODO: is this implicit cast kosher?
 	current_state = weak_ptr<State>(current_protocol);
 	if(current_protocol != 0) {
-		GlobalBufferManager->putEvent(EventFactory::protocolPackage());
+		global_outgoing_event_buffer->putEvent(ControlEventFactory::protocolPackage());
 	}
 }
 
@@ -174,12 +174,12 @@ void Experiment::reset(){
 	//	delete variable_registry;
 	//	variable_registry = new VariableRegistry();
 	//	initializeStandardVariables(variable_registry);
-	//	GlobalVariableRegistry = variable_registry;
+	//	global_variable_registry = variable_registry;
 	
 	
 	
 	// issue an event that the experiment has stopped
-	GlobalBufferManager->putEvent(EventFactory::currentExperimentState());
+	global_outgoing_event_buffer->putEvent(ControlEventFactory::currentExperimentState());
 }
 
 

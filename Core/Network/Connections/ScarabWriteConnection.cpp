@@ -23,16 +23,14 @@ using namespace mw;
 // see it.
 static void * write(const shared_ptr<ScarabConnection> &sc);
 
-ScarabWriteConnection::ScarabWriteConnection(shared_ptr<BufferManager> _buffer_manager, std::string uri) :
-                                                    ScarabConnection(_buffer_manager, uri) {
-    //buffer_reader = buffer_manager->getNewDisplayBufferReader();
-}
+ScarabWriteConnection::ScarabWriteConnection(shared_ptr<EventBuffer> _event_buffer, std::string uri) :
+                                                    ScarabConnection(_event_buffer, uri) { }
                     
 void ScarabWriteConnection::startThread(int interval) {
     if(thread) { return; } // already running
 	
-	// DDC: moved here.  Don't create buffer reader until it is ready to move
-	buffer_reader = buffer_manager->getNewDisplayBufferReader();
+
+	buffer_reader = shared_ptr<EventBufferReader>( new EventBufferReader(event_buffer) );
 	
 	shared_ptr<ScarabConnection> this_one = shared_from_this();
 	

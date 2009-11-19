@@ -3,7 +3,7 @@
  *
  * History:
  * Dave Cox on ??/??/?? - Created.
- * Paul Jankunas on 01/28/05 - Added constructor to create Data objects from
+ * Paul Jankunas on 01/28/05 - Added constructor to create Datum objects from
  *                      ScarabDatums used in network transfers. Fixed spacing
  *
  * Paul Jankunas on 4/06/05 - Changing the way scarab objects are generated.
@@ -21,29 +21,29 @@
 #include "ScarabServices.h"
 #include <string>
 #include <sstream>
-using namespace mw;
 
+using namespace mw;
 using namespace std;
 
 #include "ExpressionParser.h"
 
-void Data::initScarabDatum(){
+void Datum::initScarabDatum(){
   // TODO, this could cause a shitload of memory leaks
-  // when setting a new Data it null's the ScarabDatum pointer and then writes a new one
+  // when setting a new Datum it null's the ScarabDatum pointer and then writes a new one
   //  it never deletes the old one
   //  DDC: not really... doesn't get called except in constructors
   //       we should phase it out nonetheless
   data = NULL;
 }
 
-Data::Data() {
+Datum::Datum() {
   initScarabDatum();
   //setInteger(-1);
   setDataType(M_UNDEFINED);
 }
 
 
-Data::Data(GenericDataType type, const int arg) {
+Datum::Datum(GenericDataType type, const int arg) {
   
   initScarabDatum();
 
@@ -74,7 +74,7 @@ Data::Data(GenericDataType type, const int arg) {
   }
 }
 
-Data::Data(GenericDataType type, const double arg) {
+Datum::Datum(GenericDataType type, const double arg) {
   
   
   initScarabDatum();
@@ -106,51 +106,51 @@ Data::Data(GenericDataType type, const double arg) {
   }
 }
 
-Data::Data(const double newdata) {
+Datum::Datum(const double newdata) {
   initScarabDatum();
   setDataType(M_FLOAT);
   setFloat(newdata);
 }
 
 
-Data::Data(const float newdata) {
+Datum::Datum(const float newdata) {
   initScarabDatum();
   setDataType(M_FLOAT);
   setFloat(newdata);
 }
 
 
-Data::Data(const long newdata){
+Datum::Datum(const long newdata){
   initScarabDatum();
   setDataType(M_INTEGER);
   setInteger(newdata);
 }
 
-Data::Data(const MonkeyWorksTime newdata){
+Datum::Datum(const MonkeyWorksTime newdata){
   initScarabDatum();
   setDataType(M_INTEGER);
   setInteger(newdata);
 }
 
-Data::Data(const char * string) {
+Datum::Datum(const char * string) {
   initScarabDatum();
   datatype = M_STRING;
   setString(string, strlen(string)+1);
 }
 
-Data::Data(const std::string &string){
+Datum::Datum(const std::string &string){
   initScarabDatum();
   datatype = M_STRING;
   setString(string.c_str(), string.size()+1);
 }
 
-Data::Data(bool newdata) {
+Datum::Datum(bool newdata) {
   initScarabDatum();
   setDataType(M_BOOLEAN);
   setBool(newdata);
 }
 
-Data::Data(const Data& that) {
+Datum::Datum(const Datum& that) {
   
   #if INTERNALLY_LOCKED_MDATA
 	lock();
@@ -215,13 +215,13 @@ Data::Data(const Data& that) {
   #endif
 }
 
-Data::Data(ScarabDatum * datum) {  
+Datum::Datum(ScarabDatum * datum) {  
   
   data = 0;
   
   if(datum == NULL){
     //mwarning( M_SYSTEM_MESSAGE_DOMAIN,
-	//      "Attempt to create an Data object from a NULL ScarabDatum");
+	//      "Attempt to create an Datum object from a NULL ScarabDatum");
     //setInteger(-1);
     setDataType(M_UNDEFINED);
     return;
@@ -285,7 +285,7 @@ Data::Data(ScarabDatum * datum) {
   data = scarab_copy_datum(datum);
 }
 
-Data::Data(stx::AnyScalar newdata){
+Datum::Datum(stx::AnyScalar newdata){
 	initScarabDatum();
 	
 	operator=(newdata);	
@@ -293,45 +293,45 @@ Data::Data(stx::AnyScalar newdata){
 
 
 
-Data::~Data() {
+Datum::~Datum() {
   scarab_free_datum(data);
   data = NULL;
 }
 
 
-void Data::lockDatum()  const{
+void Datum::lockDatum()  const{
 	ScarabDatum *theDatum = getScarabDatum();
 	scarab_lock_datum(theDatum);
 }
 
-void Data::unlockDatum()  const{
+void Datum::unlockDatum()  const{
 	ScarabDatum *theDatum = getScarabDatum();
 	scarab_unlock_datum(theDatum);
 }
 
-GenericDataType Data::getDataType() const {
+GenericDataType Datum::getDataType() const {
   return datatype;
 }
 
-void Data::setDataType(const GenericDataType type){
+void Datum::setDataType(const GenericDataType type){
   datatype = type;
 }
 
-ScarabDatum * Data::getScarabDatum() const{ 
+ScarabDatum * Datum::getScarabDatum() const{ 
   return data;
 }
 
-ScarabDatum *Data::getScarabDatumCopy() const{
+ScarabDatum * Datum::getScarabDatumCopy() const{
   ScarabDatum *new_datum = scarab_copy_datum(data);
   
   return new_datum;
 }
 
-long Data::getBool() const{
+long Datum::getBool() const{
 	
 	if(data == NULL){
 		mwarning(M_SYSTEM_MESSAGE_DOMAIN,
-				 "Attempt to access a broken Data object");
+				 "Attempt to access a broken Datum object");
 		return false;
 	}
 
@@ -352,7 +352,7 @@ long Data::getBool() const{
 	return result;      
 }
 
-double Data::getFloat() const {
+double Datum::getFloat() const {
 	
 	#if INTERNALLY_LOCKED_MDATA
 		lock();
@@ -360,7 +360,7 @@ double Data::getFloat() const {
 
 	if(data == NULL){
 		mwarning(M_SYSTEM_MESSAGE_DOMAIN,
-				 "Attempt to access a broken Data object");
+				 "Attempt to access a broken Datum object");
 		#if INTERNALLY_LOCKED_MDATA
 			unlock();
 		#endif
@@ -388,14 +388,14 @@ double Data::getFloat() const {
 	return result;
 }
 
-long Data::getInteger() const{
+long Datum::getInteger() const{
   #if INTERNALLY_LOCKED_MDATA
 	lock();
   #endif;
   
   if(data == NULL){
     mwarning(M_SYSTEM_MESSAGE_DOMAIN,
-	     "Attempt to access a broken Data object");
+	     "Attempt to access a broken Datum object");
     #if INTERNALLY_LOCKED_MDATA
 		unlock();
 	#endif
@@ -423,7 +423,7 @@ long Data::getInteger() const{
   return result;
 }
 
-const char * Data::getString() const{
+const char * Datum::getString() const{
   
   #if INTERNALLY_LOCKED_MDATA
 	lock();
@@ -446,7 +446,7 @@ const char * Data::getString() const{
   return result;
 }
 
-int Data::getStringLength()  const{
+int Datum::getStringLength()  const{
   
   #if INTERNALLY_LOCKED_MDATA
 	lock();
@@ -469,7 +469,7 @@ int Data::getStringLength()  const{
   return result;
 }
 
-void Data::setBool(bool newdata) {
+void Datum::setBool(bool newdata) {
   
   #if INTERNALLY_LOCKED_MDATA
 	lock();
@@ -486,7 +486,7 @@ void Data::setBool(bool newdata) {
   #endif
 }
 
-void Data::setInteger(long long newdata) {
+void Datum::setInteger(long long newdata) {
   #if INTERNALLY_LOCKED_MDATA
 	lock();
   #endif;
@@ -500,7 +500,7 @@ void Data::setInteger(long long newdata) {
   #endif
 }
 
-void Data::setFloat(double newdata) {
+void Datum::setFloat(double newdata) {
   #if INTERNALLY_LOCKED_MDATA
 	lock();
   #endif;
@@ -516,7 +516,7 @@ void Data::setFloat(double newdata) {
 }
 
 
-void Data::setString(const char * newdata, int size) {
+void Datum::setString(const char * newdata, int size) {
   #if INTERNALLY_LOCKED_MDATA
 	lock();
   #endif;
@@ -542,7 +542,7 @@ void Data::setString(const char * newdata, int size) {
 }
 
 
-void Data::setString(std::string newdata) {
+void Datum::setString(std::string newdata) {
   #if INTERNALLY_LOCKED_MDATA
 	lock();
   #endif;
@@ -562,25 +562,25 @@ void Data::setString(std::string newdata) {
 }
 
 
-bool Data::isInteger()  const{ return (datatype == M_INTEGER); }
+bool Datum::isInteger()  const{ return (datatype == M_INTEGER); }
 
-bool Data::isBool()  const{ return (datatype == M_BOOLEAN); }
+bool Datum::isBool()  const{ return (datatype == M_BOOLEAN); }
     
-bool Data::isFloat()  const{ return (datatype == M_FLOAT); }
+bool Datum::isFloat()  const{ return (datatype == M_FLOAT); }
 	
-bool Data::isString()  const{ return (datatype == M_STRING); }
+bool Datum::isString()  const{ return (datatype == M_STRING); }
 
-bool Data::isDictionary()  const{ return (datatype == M_DICTIONARY); }
+bool Datum::isDictionary()  const{ return (datatype == M_DICTIONARY); }
 
-bool Data::isList() const { return (datatype == M_LIST); }
+bool Datum::isList() const { return (datatype == M_LIST); }
 
-bool Data::isUndefined() const { return (datatype == M_UNDEFINED || data == NULL); }
+bool Datum::isUndefined() const { return (datatype == M_UNDEFINED || data == NULL); }
 
-bool Data::isNumber() const {
+bool Datum::isNumber() const {
 	return (!isUndefined() && (isFloat() || isInteger() || isBool()));
 }
 
-Data& Data::operator=(const Data& that) {
+Datum& Datum::operator=(const Datum& that) {
 
   #if INTERNALLY_LOCKED_MDATA
 	lock();
@@ -607,39 +607,39 @@ Data& Data::operator=(const Data& that) {
   return *this;
 }
 
-void Data::operator=(long newdata) {
+void Datum::operator=(long newdata) {
   setInteger(newdata);
 }
 
-void Data::operator=(int newdata) {
+void Datum::operator=(int newdata) {
   setInteger(newdata);
 }
 
-void Data::operator=(short newdata) {
+void Datum::operator=(short newdata) {
   setInteger(newdata);
 }
 
-void Data::operator=(bool newdata) {
+void Datum::operator=(bool newdata) {
   setBool(newdata);
 }
 
-void Data::operator=(double newdata) {
+void Datum::operator=(double newdata) {
   setFloat(newdata);
 }
 
-void Data::operator=(float newdata) {
+void Datum::operator=(float newdata) {
   setFloat(newdata);
 }
 
-void Data::operator=(const char * newdata) {
+void Datum::operator=(const char * newdata) {
   setString(std::string(newdata));
 }
 
-void Data::operator=(std::string newdata){
+void Datum::operator=(std::string newdata){
   setString(newdata);
 }
 
-void Data::operator=(stx::AnyScalar newdata){
+void Datum::operator=(stx::AnyScalar newdata){
 	stx::AnyScalar::attrtype_t type = newdata.getType();
 	switch(type){
 		case stx::AnyScalar::ATTRTYPE_BOOL:
@@ -670,7 +670,7 @@ void Data::operator=(stx::AnyScalar newdata){
 }
 
 
-void Data::operator++() {
+void Datum::operator++() {
   switch(datatype) {
   case M_INTEGER:
     setInteger(getInteger() + 1);
@@ -691,7 +691,7 @@ void Data::operator++() {
   }
 }
 
-void Data::operator--() {
+void Datum::operator--() {
   switch(datatype) {
   case M_INTEGER:
     setInteger(getInteger() - 1);
@@ -712,7 +712,7 @@ void Data::operator--() {
   }
 }
 
-bool Data::operator==(long newdata)  const {
+bool Datum::operator==(long newdata)  const {
   switch(datatype) {
   case M_INTEGER:
     return (getInteger() == newdata);
@@ -730,7 +730,7 @@ bool Data::operator==(long newdata)  const {
 }
 
 
-bool Data::operator==(const char * newdata)  const {
+bool Datum::operator==(const char * newdata)  const {
   int eq;
   switch(datatype) {
   case M_STRING:
@@ -743,7 +743,7 @@ bool Data::operator==(const char * newdata)  const {
   } 
 }
 
-bool Data::operator!=(const char * newdata) const {
+bool Datum::operator!=(const char * newdata) const {
   int eq;
   switch(datatype) {
   case M_STRING:
@@ -756,7 +756,7 @@ bool Data::operator!=(const char * newdata) const {
   } 
 }
 
-bool Data::operator==(double newdata) const {
+bool Datum::operator==(double newdata) const {
   switch(datatype) {
   case M_INTEGER:
     return (getInteger() == newdata);
@@ -773,7 +773,7 @@ bool Data::operator==(double newdata) const {
   } 
 }
 
-bool Data::operator==(bool newdata) const {
+bool Datum::operator==(bool newdata) const {
   switch(datatype) {
   case M_INTEGER:
     return (getInteger() == newdata);
@@ -791,40 +791,40 @@ bool Data::operator==(bool newdata) const {
 } 
 
 
-Data::operator long() const{
+Datum::operator long() const{
   return getInteger();
 }
 
-Data::operator long long() const{
+Datum::operator long long() const{
   return getInteger();
 }
 
-Data::operator int() const{
+Datum::operator int() const{
   return getInteger();
 }
 
-Data::operator short() const{
+Datum::operator short() const{
   return getInteger();
 }
 
-Data::operator double() const{
+Datum::operator double() const{
   return getFloat();
 }
 
-Data::operator float() const{
+Datum::operator float() const{
   return getFloat();
 }
 
-Data::operator bool() const{
+Datum::operator bool() const{
   return getBool();
 }
 
-Data::operator std::string() const {
+Datum::operator std::string() const {
   std::string returnval = getString();
   return returnval;
 }
 
-Data::operator stx::AnyScalar() const {
+Datum::operator stx::AnyScalar() const {
 	if(isInteger()){
 		return stx::AnyScalar(getInteger());
 	} else if(isFloat()){
@@ -840,8 +840,8 @@ Data::operator stx::AnyScalar() const {
 
 
 
-Data Data::operator+(const Data& other)  const{
-  Data returnval;
+Datum Datum::operator+(const Datum& other)  const{
+  Datum returnval;
   if(isInteger() || isBool()) {
     if(other.isInteger() || other.isBool()) {
       returnval = getInteger() + (long)other;
@@ -860,8 +860,8 @@ Data Data::operator+(const Data& other)  const{
   return returnval;
 }
 
-Data Data::operator-(const Data& other)  const{
-  Data returnval;
+Datum Datum::operator-(const Datum& other)  const{
+  Datum returnval;
   if(isInteger() || isBool()) {
     if(other.isInteger() || other.isBool()) {
       returnval = getInteger() - (long)other;
@@ -880,8 +880,8 @@ Data Data::operator-(const Data& other)  const{
   return returnval;
 }
 
-Data Data::operator*(const Data& other)  const{
-  Data returnval;
+Datum Datum::operator*(const Datum& other)  const{
+  Datum returnval;
   if(isInteger() || isBool()) {
     if(other.isInteger() || other.isBool()) {
       returnval = getInteger() * (long)other;
@@ -900,8 +900,8 @@ Data Data::operator*(const Data& other)  const{
   return returnval;
 }
 
-Data Data::operator/(const Data& other)  const{
-  Data returnval;
+Datum Datum::operator/(const Datum& other)  const{
+  Datum returnval;
   if(isInteger() || isBool()) {
     if(other.isInteger() || other.isBool()) {
       returnval = getInteger() / (long)other;
@@ -920,8 +920,8 @@ Data Data::operator/(const Data& other)  const{
   return returnval;
 }
 
-Data Data::operator%(const Data& other)  const{ 
-  Data returnval;
+Datum Datum::operator%(const Datum& other)  const{ 
+  Datum returnval;
   if(isInteger() || isBool()) {
     if(other.isInteger() || other.isBool()) {
       returnval = getInteger() % (long)other;
@@ -940,87 +940,87 @@ Data Data::operator%(const Data& other)  const{
   return returnval;
 }
 
-Data Data::operator==(const Data& other)  const{
+Datum Datum::operator==(const Datum& other)  const{
 	if(isInteger() || isBool()) {
 		if(other.isInteger() || other.isBool()) {
-			return Data(M_BOOLEAN, (getInteger() == (long)other));
+			return Datum(M_BOOLEAN, (getInteger() == (long)other));
 		} else if(other.isFloat()) {
-			return Data(M_BOOLEAN, (getInteger() == (double)other));
+			return Datum(M_BOOLEAN, (getInteger() == (double)other));
 		} else {
-			return Data(M_BOOLEAN, false);
+			return Datum(M_BOOLEAN, false);
 		}
 	} else if(isFloat()) {
 		if(other.isInteger() || other.isBool()) {
-			return Data(M_BOOLEAN, ( getFloat() == (long)other));
+			return Datum(M_BOOLEAN, ( getFloat() == (long)other));
 		} else if(other.isFloat()) {
-			return Data(M_BOOLEAN, ( getFloat() == (double)other));
+			return Datum(M_BOOLEAN, ( getFloat() == (double)other));
 		} else {
-			return Data(M_BOOLEAN, false);
+			return Datum(M_BOOLEAN, false);
 		}
 	} else if(isString()) {
 		if(other.isString())
-			return Data(M_BOOLEAN, (other == getString()));
+			return Datum(M_BOOLEAN, (other == getString()));
 		else
-			return Data(M_BOOLEAN, false);
+			return Datum(M_BOOLEAN, false);
 	} else if(isDictionary()) {
 		if(other.isDictionary() && (getNElements() == other.getNElements())) {
 			for(int i=0; i<getMaxElements(); i++) {
-				Data key(getKey(i));
+			 Datum key(getKey(i));
 				
 				if(!key.isUndefined()) {
-					Data val1, val2;
+				 Datum val1, val2;
 					val1 = getElement(key);
 					val2 = other.getElement(key);
 
 					if(val1 != val2) {
-						return Data(M_BOOLEAN, false);
+						return Datum(M_BOOLEAN, false);
 					}
 				}
 			}
-			return Data(M_BOOLEAN, true);
+			return Datum(M_BOOLEAN, true);
 		} else {
-			return Data(M_BOOLEAN, false);
+			return Datum(M_BOOLEAN, false);
 		}
 	} else if(isList()) {
 		if(other.isList() && (getMaxElements() == other.getMaxElements())) {
 			for(int i=0; i<getMaxElements(); i++) {
-				Data val1, val2;
+			 Datum val1, val2;
 				val1 = getElement(i);
 				val2 = other.getElement(i);
 
 				if(val1 != val2) {
-					return Data(M_BOOLEAN, false);
+					return Datum(M_BOOLEAN, false);
 				}		
 			}
-			return Data(M_BOOLEAN, true);      
+			return Datum(M_BOOLEAN, true);      
 		} else {
-			return Data(M_BOOLEAN, false);
+			return Datum(M_BOOLEAN, false);
 		}
 	} else if(isUndefined() && other.isUndefined()) {
-		return Data(M_BOOLEAN, true);
+		return Datum(M_BOOLEAN, true);
 	} else {
-		return Data(M_BOOLEAN, false);
+		return Datum(M_BOOLEAN, false);
 	}
 }
 
-Data Data::operator!=(const Data& d1)  const{
+Datum Datum::operator!=(const Datum& d1)  const{
 	if(isUndefined()) {
 		if(d1.isUndefined())
-			return Data(M_BOOLEAN, false);
+			return Datum(M_BOOLEAN, false);
 		else 
-			return Data(M_BOOLEAN, true);
+			return Datum(M_BOOLEAN, true);
 	} else {
-		Data d2(getScarabDatum()); // DDC: was leaking
+	 Datum d2(getScarabDatum()); // DDC: was leaking
 
 		if(d1 == d2)
-			return Data(M_BOOLEAN, false);
+			return Datum(M_BOOLEAN, false);
 		else
-			return Data(M_BOOLEAN, true);
+			return Datum(M_BOOLEAN, true);
 	}
 }
 
-Data Data::operator>(const Data& other)  const{
-  Data returnval;
+Datum Datum::operator>(const Datum& other)  const{
+  Datum returnval;
   if(isInteger() || isBool()) {
     if(other.isInteger() || other.isBool()) {
       returnval = getInteger() > (long)other;
@@ -1039,8 +1039,8 @@ Data Data::operator>(const Data& other)  const{
   return returnval;
 }
 
-Data Data::operator>=(const Data& other)  const{
-  Data returnval;
+Datum Datum::operator>=(const Datum& other)  const{
+  Datum returnval;
   if(isInteger() || isBool()) {
     if(other.isInteger() || other.isBool()) {
       returnval = getInteger() >= (long)other;
@@ -1059,8 +1059,8 @@ Data Data::operator>=(const Data& other)  const{
   return returnval;
 }
 
-Data Data::operator<(const Data& other)  const{
-  Data returnval;
+Datum Datum::operator<(const Datum& other)  const{
+  Datum returnval;
   if(isInteger() || isBool()) {
     if(other.isInteger() || other.isBool()) {
       returnval = getInteger() < (long)other;
@@ -1079,8 +1079,8 @@ Data Data::operator<(const Data& other)  const{
   return returnval;
 }
 
-Data Data::operator<=(const Data& other)  const{
-  Data returnval;
+Datum Datum::operator<=(const Datum& other)  const{
+  Datum returnval;
   if(isInteger() || isBool()) {
     if(other.isInteger() || other.isBool()) {
       returnval = getInteger() <= (long)other;
@@ -1099,18 +1099,18 @@ Data Data::operator<=(const Data& other)  const{
   return returnval;
 }
 
-Data Data::operator[](int i) {
+Datum Datum::operator[](int i) {
   if(getDataType() != M_LIST) {
     fprintf(stderr, "mData is not of type M_LIST -- Type => %d\n", getDataType());
 
-	Data undefined;
+ Datum undefined;
     return undefined;
   }
 	
   return getElement(i);
 }
 
-void Data::printToSTDERR() {
+void Datum::printToSTDERR() {
 	fprintf(stderr, "Datatype => %d\n", datatype);
 	switch (datatype) {
 		case M_INTEGER:
@@ -1137,7 +1137,7 @@ void Data::printToSTDERR() {
 }
 
 
-void Data::addElement(const Data &key,  const Data &value) {  
+void Datum::addElement(const Datum &key,  const Datum &value) {  
 	if(getDataType() != M_DICTIONARY) {
 		fprintf(stderr, "mData is not of type M_DICTIONARY -- Type => %d\n", 
 				getDataType());
@@ -1159,7 +1159,7 @@ void Data::addElement(const Data &key,  const Data &value) {
 }
 
 
-bool Data::hasKey(const Data &key)  const{
+bool Datum::hasKey(const Datum &key)  const{
   if(getDataType() != M_DICTIONARY) {
     fprintf(stderr, 
 			"Can't search for keys in something other than M_DICTIONARY -- Type => %d\n", 
@@ -1174,20 +1174,20 @@ bool Data::hasKey(const Data &key)  const{
   return doesit;
 }
 
-Data Data::getElement(const Data &key)  const{
+Datum Datum::getElement(const Datum &key)  const{
 
   
   if(getDataType() != M_DICTIONARY) {
     fprintf(stderr, "Can't search for elements with keys in something other than M_DICTIONARY -- Type => %d\n", getDataType());
-    Data undefined;
+    Datum undefined;
     return undefined;
   }
 
   ScarabDatum *datum = scarab_dict_get(data, key.getScarabDatum());
-  return Data(datum);
+  return Datum(datum);
 }
 
-int Data::getNElements() const {
+int Datum::getNElements() const {
 	int returnval = -1;
 	
 	switch(getDataType()) {
@@ -1222,7 +1222,7 @@ int Data::getNElements() const {
 	return returnval;
 }	
 
-int Data::getMaxElements()  const{
+int Datum::getMaxElements()  const{
 	int returnval = -1;
 	
 	switch(getDataType()) {
@@ -1247,11 +1247,11 @@ int Data::getMaxElements()  const{
 	return returnval;
 }
 
-Data Data::getKey(const int n)  const {
+Datum Datum::getKey(const int n)  const {
 
 	if(getDataType() != M_DICTIONARY) {
 		fprintf(stderr, "Can't get keys in something other than M_DICTIONARY -- Type => %d\n", getDataType());
-		Data undef;
+	 Datum undef;
 		return undef;
 	}
   
@@ -1259,7 +1259,7 @@ Data Data::getKey(const int n)  const {
 		mwarning(M_SYSTEM_MESSAGE_DOMAIN,
 				 "Mismatched internal data type while setting a dictionary element; should be %d, is %d",
 				 data->type, SCARAB_DICT);
-		Data undef;
+	 Datum undef;
 		return undef;
 	}
   
@@ -1270,21 +1270,21 @@ Data Data::getKey(const int n)  const {
   
 	if(n < 0 || n >= n_keys){
 		fprintf(stderr, "Key index (%d) is larger than number of keys (%d)\n", n, n_keys);
-		Data undef;
+	 Datum undef;
 		unlockDatum();
 		return undef;
 	}
   
 	ScarabDatum *key = sd[n];
 	
-	Data returnval(key);
+ Datum returnval(key);
 	unlockDatum();
 
 	return returnval; 
 }
 
-std::vector<Data> Data::getKeys() const {
-	std::vector<Data> keys;
+std::vector<Datum> Datum::getKeys() const {
+	std::vector<Datum> keys;
 	
 	if(getDataType() != M_DICTIONARY) {
 		merror(M_SYSTEM_MESSAGE_DOMAIN, "attempting to get keys in something that's not a dictionary");
@@ -1305,12 +1305,12 @@ std::vector<Data> Data::getKeys() const {
 	return keys;
 }
 
-//mData Data::removeElement(const char * key) {
+//mData Datum::removeElement(const char * key) {
 //	if(getDataType() != M_DICTIONARY) {
 //		fprintf(stderr, "mData::removeElement(const char *)\n"
 //				"Can't remove element using  keys in something other than M_DICTIONARY -- Type => %d\n",
 //				getDataType());
-//		Data undef;
+//	 Datum undef;
 //		return undef;
 //	}
 //  
@@ -1319,16 +1319,16 @@ std::vector<Data> Data::getKeys() const {
 //	ScarabDatum *removedVal = scarab_dict_remove(data, scarab_key);
 //
 //	scarab_free_datum(scarab_key);  
-//	Data newData(removedVal);
+// Datum newData(removedVal);
 //	scarab_free_datum(removedVal);
 //  
 //	return newData;
 //}
 
 
-void Data::addElement(const Data &value) {
+void Datum::addElement(const Datum &value) {
   if(getDataType() != M_LIST) {
-    fprintf(stderr, "mData::addElement(Data value)\n"
+    fprintf(stderr, "mData::addElement(Datum value)\n"
 	    "Can't add element in order in something other than M_LIST -- Type => %d\n",getDataType());
     return;
   }
@@ -1352,7 +1352,7 @@ void Data::addElement(const Data &value) {
   setElement(index, value);
 }
 		
-void Data::setElement(const int index, const Data &value) {
+void Datum::setElement(const int index, const Datum &value) {
  
   #if INTERNALLY_LOCKED_MDATA
 	lock();
@@ -1360,7 +1360,7 @@ void Data::setElement(const int index, const Data &value) {
   
   // TODO: we could do something clever for M_DICTIONARY here
   if(getDataType() != M_LIST) {
-    fprintf(stderr, "mData::setElement(int index, Data value)\n"
+    fprintf(stderr, "mData::setElement(int index, Datum value)\n"
 	    "Can't set element in order in something other than M_LIST -- Type => %d\n",getDataType());
     #if INTERNALLY_LOCKED_MDATA
 		unlock();
@@ -1392,7 +1392,7 @@ void Data::setElement(const int index, const Data &value) {
 	  data = newList;
 	  
 //    mwarning(M_SYSTEM_MESSAGE_DOMAIN,
-//	     "Attempt to set an element of an Data M_LIST beyond its edge");
+//	     "Attempt to set an element of an Datum M_LIST beyond its edge");
 //    // TODO expand list
 //    #if INTERNALLY_LOCKED_MDATA
 //	  unlock();
@@ -1415,7 +1415,7 @@ void Data::setElement(const int index, const Data &value) {
   
 }
 
-Data Data::getElement(const int index)  const{
+Datum Datum::getElement(const int index)  const{
   
   #if INTERNALLY_LOCKED_MDATA
 	lock();
@@ -1428,7 +1428,7 @@ Data Data::getElement(const int index)  const{
 		//fprintf(stderr, "mData::getElement(int index)\n"
 		//	"Can't get element by index in something other than M_LIST -- Type => %d\n",getDataType());
     
-		Data undefined;
+	 Datum undefined;
 		#if INTERNALLY_LOCKED_MDATA
 			unlock();
 		#endif
@@ -1441,7 +1441,7 @@ Data Data::getElement(const int index)  const{
 		mwarning(M_SYSTEM_MESSAGE_DOMAIN,
 			"Mismatched internal data type: attempting to access as list, but has type: %d",
 			data->type);
-		Data undefined;
+	 Datum undefined;
 		#if INTERNALLY_LOCKED_MDATA
 			unlock();
 		#endif
@@ -1454,7 +1454,7 @@ Data Data::getElement(const int index)  const{
 			index, getNElements());
 		//fprintf(stderr, "Requested index (%d) is larger than number of elements (%d)\n", index, getNElements());
     
-		Data undefined;
+	 Datum undefined;
 		#if INTERNALLY_LOCKED_MDATA
 			unlock();
 		#endif
@@ -1466,7 +1466,7 @@ Data Data::getElement(const int index)  const{
 			"Attempted to access a list with a NULL internal datum");
 		//fprintf(stderr, "Requested index (%d) is larger than number of elements (%d)\n", index, getNElements());
     
-		Data undefined;
+	 Datum undefined;
 		#if INTERNALLY_LOCKED_MDATA
 			unlock();
 		#endif
@@ -1476,15 +1476,15 @@ Data Data::getElement(const int index)  const{
 	ScarabDatum *datum = scarab_list_get(data, index);
 	
 	
-	Data newdata(datum);
+ Datum newdata(datum);
 	#if INTERNALLY_LOCKED_MDATA
 		unlock();
 	#endif
 	return newdata;
 }
 
-vector<Data> Data::getElements() const {
-	vector<Data> elements;
+vector<Datum> Datum::getElements() const {
+	vector<Datum> elements;
 	
 	if(getDataType() != M_LIST) {
 		merror(M_SYSTEM_MESSAGE_DOMAIN, "mData::getElements()\n"
@@ -1499,7 +1499,7 @@ vector<Data> Data::getElements() const {
 
 
 // Private methods
-void Data::createDictionary(const int is) {
+void Datum::createDictionary(const int is) {
 	int initialsize = is;
 	if(initialsize < 1) {
 		mwarning(M_SYSTEM_MESSAGE_DOMAIN,
@@ -1514,7 +1514,7 @@ void Data::createDictionary(const int is) {
 	datatype = M_DICTIONARY;
 }
 
-void Data::createList(const int ls) {
+void Datum::createList(const int ls) {
 	int size = ls;
 	
 	if(size < 1) {
@@ -1532,7 +1532,7 @@ void Data::createList(const int ls) {
 	datatype = M_LIST;
 }
 
-std::string Data::toString() const {
+std::string Datum::toString() const {
 	std::ostringstream buf;
 	
 	switch (datatype) {

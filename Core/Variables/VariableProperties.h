@@ -16,9 +16,9 @@
  * objects into the interface lists in the Parameter Registry.
  *
  * NOTE: VariableProperties() for objects of INFINITE and DISCRETE_BOOLEN
- * types that accept a pointer to an Data object have an extra parameter 
+ * types that accept a pointer to an Datum object have an extra parameter 
  * called nothing in the argument list.  This is because the constructor has
- * the same method signature as the constructor that takes an Data object.
+ * the same method signature as the constructor that takes an Datum object.
  * Perl was unable to distinguish between the two objects and was calling
  * the wrong constructor.
  *
@@ -29,7 +29,7 @@
  * Paul Jankunas on 02/14/05 - Added copy constructor (broken).
  * Paul Jankunas on 4/5/05 - Fixing copy constructor.
  * Paul Jankunas on 06/03/05 - Added destructor, added constructors that take
- *      pointer objects of type Data so that they can be called from perl.
+ *      pointer objects of type Datum so that they can be called from perl.
  *
  * Copyright (c) 2002 MIT. All rights reserved.
  */
@@ -70,11 +70,11 @@ class VariableProperties {
 		DomainType domain; // what kind of range of values
 		bool viewable; // can the user see this variable
 		bool persistant; // save the variable from run to run
-        Data * range; // an array of values in a range
+        Datum * range; // an array of values in a range
 		int nvals; // number of values in the range.
 		WhenType logging; // when does this variable get logged
 		Variable *parameter; // the parameter object that this setting represents
-		Data defaultvalue; // the default value Data object.
+	 Datum defaultvalue; // the default value Datum object.
 		std::vector <std::string> groups; // the groups that the variable belongs to
         
         
@@ -93,12 +93,12 @@ class VariableProperties {
 		
 	
         /**
-         * Constructors that use Data pointers instead of value arguments
+         * Constructors that use Datum pointers instead of value arguments
          * so that they can be called from perl.  Call this constructor
          * to create DISCRETE_BOOLEAN and CONTINUOUS or INTEGRAL INFINITE
          * types of variables.
          */
-        VariableProperties(Data * def, 
+        VariableProperties(Datum * def, 
 							std::string tag, 
 							std::string full, 
 							std::string desc,
@@ -110,11 +110,11 @@ class VariableProperties {
 							std::string groups);
 
         /**
-         * Constructors that use Data pointers instead of value arguments
+         * Constructors that use Datum pointers instead of value arguments
          * so that they can be called from perl.  Call this constructor
          * to create CONTINUOUS or INTEGRAL FINITE types of variables.
          */
-		VariableProperties(Data * def, 
+		VariableProperties(Datum * def, 
 							std::string tag, 
 							std::string full, 
 							std::string desc, 
@@ -123,15 +123,15 @@ class VariableProperties {
 							bool view, 
 							bool persist,
 							DomainType dType, 
-							Data * rg, 
+						 Datum * rg, 
 							std::string groups);
 
         /**
-         * Constructors that use Data pointers instead of value arguments
+         * Constructors that use Datum pointers instead of value arguments
          * so that they can be called from perl.  Call this constructor
          * to create M_DISRETE types of variables.
          */
-		VariableProperties(Data * def, 
+		VariableProperties(Datum * def, 
 							std::string tag, 
 							std::string full, 
 							std::string desc,
@@ -140,7 +140,7 @@ class VariableProperties {
 							bool view, 
 							bool persist,
 							DomainType dType, 
-							Data * rg, 
+						 Datum * rg, 
 							int numvals,
 							std::string groups);
 
@@ -156,20 +156,20 @@ class VariableProperties {
          */
         virtual ~VariableProperties();
         
-        Data getDefaultValue();
+        Datum getDefaultValue();
         Variable * getVariable();
 		WhenType getLogging();
 		WhenType getEditable();
         DomainType getDomainType();
         int getNumberValuesInRange();
-        Data * getRange();
+        Datum * getRange();
         std::string getTagName();
         std::string getShortName();
 		std::string getLongName();
 		bool getViewable();
 		bool getPersistant();
         void setVariable(Variable *theparam);
-        void addRange(Data *, int);
+        void addRange(Datum *, int);
 		std::vector <std::string> getGroups();
         
 		/**
@@ -177,7 +177,7 @@ class VariableProperties {
          */
         virtual ScarabDatum *toScarabDatum();
         
-		operator Data();
+		operator Datum();
 		
         /**
          * Prints its data members to stderr

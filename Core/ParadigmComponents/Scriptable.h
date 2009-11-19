@@ -7,8 +7,8 @@
 namespace mw {
 class Scriptable{
 
-    void set(char *variable_name, Data value);
-    Data get(char *variable_name);
+    void set(char *variable_name, Datum value);
+    Datum get(char *variable_name);
 
 
 }

@@ -12,15 +12,15 @@
 @implementation MarionetteEvent
 
 - (id)initWithVariableName:(NSString *)var_name 
-				   andData:(Data *)_data 
+				   andData:(Datum *)_data 
    andProcessDataAfterward:(BOOL)_continue_processing {
 	self = [super init];
 	if(self != nil) {
 		variable = [var_name copy];
 		if(_data != 0) {
-			data = new Data(*_data);
+			data = new Datum(*_data);
 		} else {
-			data = new Data();
+			data = new Datum();
 		}
 		
 		continue_processing = _continue_processing;
@@ -29,7 +29,7 @@
 }
 
 + (id)eventWithVariableName:(NSString *)var_name 
-					andData:(Data *)_data 
+					andData:(Datum *)_data 
 	andProcessDataAfterward:(BOOL)_continue_processing {
  	return [[[self alloc] initWithVariableName:var_name
 									   andData:_data 
@@ -45,14 +45,14 @@
 
 - (BOOL)continueProcessing {return continue_processing;}
 - (NSString *)variable {return variable;}
-- (Data *)data { return data; }
+- (Datum *)data { return data; }
 
-- (BOOL)matches:(Data *)data_to_match {
+- (BOOL)matches:(Datum *)data_to_match {
 	// if the data is undefined, then match any data that comes in
 	if(data->isUndefined()) {
 		return YES;
 	} else {
-		Data result(*data == *data_to_match);
+	 Datum result(*data == *data_to_match);
 		return result.getBool();
 	}
 }

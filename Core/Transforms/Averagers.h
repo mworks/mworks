@@ -27,20 +27,20 @@ private:
     
 protected:
 	bool   running;
-	Data  ave;
-	Data  var;
-	Data  stdDev;
-	Data  SEM;
+ Datum  ave;
+ Datum  var;
+ Datum  stdDev;
+ Datum  SEM;
 	MonkeyWorksTime aveTimeUS;
-	void    computeAllValues(Data data, MonkeyWorksTime timeUS);
+	void    computeAllValues(Datum data, MonkeyWorksTime timeUS);
 	
 public:
 	Averager(shared_ptr<Variable> _inputVar);
 	virtual ~Averager();
 	bool    isRunning();
-	Data   getAverage();
-	Data   getStdDeviation();
-	Data   getSEM();
+ Datum   getAverage();
+ Datum   getStdDeviation();
+ Datum   getSEM();
 	
 	void    reset();
 	void    start();
@@ -48,7 +48,7 @@ public:
 	
 	
 	// method overriden from base class
-	virtual void newDataReceived(int inputIndex, const Data& data, 
+	virtual void newDataReceived(int inputIndex, const Datum& data, 
 								 MonkeyWorksTime timeUS);
 };
 
@@ -64,7 +64,7 @@ private:
 public:
 	AveragerUser(shared_ptr<Variable> _inputVar, shared_ptr<Variable> _outputVar);
 	virtual ~AveragerUser();
-	virtual void newDataReceived(int inputIndex, const Data& data, 
+	virtual void newDataReceived(int inputIndex, const Datum& data, 
 								 MonkeyWorksTime timeUS);
 };
 

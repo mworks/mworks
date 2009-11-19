@@ -172,8 +172,8 @@ class Experiment : public ContainerState {
 		std::string experimentPath;
 		
 		// Private methods to log changes in variable values
-		void logChange(Variable *variable, const Data& data);
-		void logChange(Variable *variable, const Data& data, MonkeyWorksTime timeUS);
+		void logChange(Variable *variable, const Datum& data);
+		void logChange(Variable *variable, const Datum& data, MonkeyWorksTime timeUS);
         			
     public:
 		Experiment(shared_ptr<VariableRegistry> variable_reg);
@@ -273,7 +273,7 @@ class ExperimentFactory : public ComponentFactory {
 		
 	virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
 												ComponentRegistry *reg) {
-		GlobalCurrentExperiment = shared_ptr<Experiment>(new Experiment(GlobalVariableRegistry));
+		GlobalCurrentExperiment = shared_ptr<Experiment>(new Experiment(global_variable_registry));
 	
 		// TODO
 		// Not sure if this is okay order-wise...

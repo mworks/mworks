@@ -17,18 +17,18 @@
 namespace mw {
 class ExperimentUnpackager {
 public:
-	bool unpackageExperiment(Data payload);
+	bool unpackageExperiment(Datum payload);
 	boost::filesystem::path getUnpackagedExperimentPath();
 	
 private:
 	boost::filesystem::path loadedExperimentFilename;
-	Data payload;
+ Datum payload;
 	
 	boost::filesystem::path 
 		prependExperimentInstallPath(const std::string expname, 
 									 const std::string experimentFilename);
 	
-	bool createFile(Data filename, Data buffer);
+	bool createFile(Datum filename, Datum buffer);
 };
 }
 #endif

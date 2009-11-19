@@ -13,7 +13,7 @@
 #include "Scarab/scarab.h"
 #include "Utilities.h"
 #include "LoadingUtilities.h"
-#include "EventFactory.h"
+#include "ControlEventFactory.h"
 #include <iostream>
 #include <fstream>
 
@@ -22,16 +22,16 @@
 #include "boost/algorithm/string/replace.hpp"
 using namespace mw;
 
-Data
+Datum
 ExperimentPackager::packageSingleFile(const boost::filesystem::path filepath, const std::string filename) {
 	namespace bf = boost::filesystem;
 	
-	Data unit(M_DICTIONARY, M_EXPERIMENT_PACKAGE_NUMBER_ELEMENTS_PER_UNIT);
+ Datum unit(M_DICTIONARY, M_EXPERIMENT_PACKAGE_NUMBER_ELEMENTS_PER_UNIT);
 
 
 	std::string squashedName = XMLParser::squashFileName(filename);
 
-	Data name;
+ Datum name;
 	name.setString(squashedName.c_str(), squashedName.length()+1);
 	
 
@@ -44,7 +44,7 @@ ExperimentPackager::packageSingleFile(const boost::filesystem::path filepath, co
 	// if the file was never opened
 	if(length <= 0) { 
 		mediaFile.close();
-		Data undef;
+	 Datum undef;
 		return undef; 
 	}
 	
@@ -54,7 +54,7 @@ ExperimentPackager::packageSingleFile(const boost::filesystem::path filepath, co
 	mediaFile.read(buffer, length);
 	mediaFile.close();
 	
-	Data bufferData;
+ Datum bufferData;
 	bufferData.setString(buffer, length);
 	
 	delete [] buffer;
@@ -66,11 +66,11 @@ ExperimentPackager::packageSingleFile(const boost::filesystem::path filepath, co
 	return unit;
 }
 
-Data ExperimentPackager::packageExperiment(const boost::filesystem::path filename) {
+Datum ExperimentPackager::packageExperiment(const boost::filesystem::path filename) {
 	namespace bf = boost::filesystem;
 	IncludedFilesParser parser(filename.string());
 	std::string working_path_string;
-	Data include_files;
+ Datum include_files;
 	
 	try{
 		parser.parse(false);
@@ -79,15 +79,15 @@ Data ExperimentPackager::packageExperiment(const boost::filesystem::path filenam
 	} catch(std::exception& e){
 		merror(M_PARSER_MESSAGE_DOMAIN, "Experiment packaging failed: %s",
 										e.what());
-		return Data();
+		return Datum();
 	}
 	
-	Data eventPayload(M_DICTIONARY, M_EXPERIMENT_PACKAGE_NUMBER_ELEMENTS);
+ Datum eventPayload(M_DICTIONARY, M_EXPERIMENT_PACKAGE_NUMBER_ELEMENTS);
 	eventPayload.addElement(M_PACKAGER_EXPERIMENT_STRING, 
 							packageSingleFile(filename, filename.string()));
 	
 	if(include_files.getNElements() >= 1) {
-		Data mediaFilesPayload(M_LIST, include_files.getNElements());
+	 Datum mediaFilesPayload(M_LIST, include_files.getNElements());
 		
 		
 		for(int i=0; i< include_files.getNElements();  ++i) {
@@ -101,14 +101,14 @@ Data ExperimentPackager::packageExperiment(const boost::filesystem::path filenam
 			
 			//bf::path mediaPath(include_files.getElement(i).getElement(M_PACKAGER_FULL_NAME).getString(), bf::native);
 			//std::string mediaName(include_files.getElement(i).getElement(M_PACKAGER_RELATIVE_NAME).getString());
-			Data mediaElement = packageSingleFile(mediaPath, mediaName);
+		 Datum mediaElement = packageSingleFile(mediaPath, mediaName);
 			
 			if(!mediaElement.isUndefined()) {
 				mediaFilesPayload.addElement(mediaElement);
 			} else {
 				merror(M_FILE_MESSAGE_DOMAIN, 
 					   "Can't find file: %s", mediaPath.string().c_str());
-				Data undef;
+			 Datum undef;
 				return undef;
 			}
 		}
@@ -117,7 +117,7 @@ Data ExperimentPackager::packageExperiment(const boost::filesystem::path filenam
 								mediaFilesPayload);
     }
 	
-	return EventFactory::systemEventPackage(M_SYSTEM_DATA_PACKAGE, 
+	return ControlEventFactory::systemEventPackage(M_SYSTEM_DATA_PACKAGE, 
 											 M_EXPERIMENT_PACKAGE, 
 											 eventPayload);
 }

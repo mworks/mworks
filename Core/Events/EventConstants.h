@@ -36,7 +36,7 @@ typedef enum {
     M_SYSTEM_RESPONSE_PACKAGE       = 1002,
 } SystemEventType;
 
-// the EventFactory should be used to code and decode all of these messages.
+// the ControlEventFactory should be used to code and decode all of these messages.
 typedef enum {
 	// data package types whose payloads are data
     M_EXPERIMENT_PACKAGE                = 2000,

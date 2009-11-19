@@ -12,7 +12,7 @@
 #include "Experiment.h"
 #include "EmbeddedPerlInterpreter.h"
 #include "PlatformDependentServices.h"
-#include "EventFactory.h"
+#include "ControlEventFactory.h"
 #include "EventBuffer.h"
 #include "StandardVariables.h"
 #include "StandardStimuli.h"
@@ -31,11 +31,11 @@ using namespace mw;
 namespace mw {
     
     // DDC: comment: couldYouHaveThoughtOfASillierName?
-	Data checkLoadedValueAndReturnNewValuesWithLoadedValueOrDefaultIfNotNumber(const Data main_window_values, 
-																			   const Data current_values, 
+ Datum checkLoadedValueAndReturnNewValuesWithLoadedValueOrDefaultIfNotNumber(const Datum main_window_values, 
+																			   const Datum current_values, 
 																			   const std::string &key, 
-																			   const Data default_values) {
-		Data new_values(current_values);
+																			   const Datum default_values) {
+	 Datum new_values(current_values);
 		if(!(main_window_values.getElement(key).isNumber())) {
 			merror(M_PARSER_MESSAGE_DOMAIN, "'%s' is either empty or has an illegal value, setting default to %f", key.c_str(), default_values.getFloat());
 			new_values.addElement(key.c_str(), default_values);
@@ -60,8 +60,8 @@ namespace mw {
 		// check setup variables for validity
 		shared_ptr<Variable> main_screen_info = reg->getVariable(MAIN_SCREEN_INFO_TAGNAME);
 		
-		Data loaded_values = main_screen_info->getValue();
-		Data new_values(M_DICTIONARY, 7);
+	 Datum loaded_values = main_screen_info->getValue();
+	 Datum new_values(M_DICTIONARY, 7);
 		
 		new_values = checkLoadedValueAndReturnNewValuesWithLoadedValueOrDefaultIfNotNumber(loaded_values, new_values, M_DISPLAY_WIDTH_KEY, 14.75);
 		new_values = checkLoadedValueAndReturnNewValuesWithLoadedValueOrDefaultIfNotNumber(loaded_values, new_values, M_DISPLAY_HEIGHT_KEY, 11.09);
@@ -106,7 +106,7 @@ namespace mw {
 		} catch(std::exception& e){
 			merror(M_PARSER_MESSAGE_DOMAIN, e.what());
 			GlobalCurrentExperiment = shared_ptr<Experiment>();
-			GlobalBufferManager->putEvent(EventFactory::currentExperimentState());
+			global_outgoing_event_buffer->putEvent(ControlEventFactory::currentExperimentState());
 			return false;
 		}
 		
@@ -116,7 +116,7 @@ namespace mw {
 		} catch(std::exception& e){
 			merror(M_PARSER_MESSAGE_DOMAIN, "Failed to load setup variables.  Specific problems was: \"%s\"", e.what());
 			GlobalCurrentExperiment = shared_ptr<Experiment>();
-			GlobalBufferManager->putEvent(EventFactory::currentExperimentState());
+			global_outgoing_event_buffer->putEvent(ControlEventFactory::currentExperimentState());
 			return false;
 		}*/
 		
@@ -131,21 +131,21 @@ namespace mw {
 		} catch(std::exception& e){
 			merror(M_PARSER_MESSAGE_DOMAIN, e.what());
 			GlobalCurrentExperiment = shared_ptr<Experiment>();
-			GlobalBufferManager->putEvent(EventFactory::currentExperimentState());
+			global_outgoing_event_buffer->putEvent(ControlEventFactory::currentExperimentState());
 			return false;
 		}
 		
 		if(GlobalCurrentExperiment == NULL) {
 			merror(M_PARSER_MESSAGE_DOMAIN, "Experiment load failed");
-			GlobalBufferManager->putEvent(EventFactory::currentExperimentState());
+			global_outgoing_event_buffer->putEvent(ControlEventFactory::currentExperimentState());
 			return false;
 		}
 		
-		GlobalBufferManager->putEvent(EventFactory::componentCodecPackage());
-		GlobalBufferManager->putEvent(EventFactory::codecPackage());
-		GlobalBufferManager->putEvent(EventFactory::currentExperimentState());
-		GlobalBufferManager->putEvent(EventFactory::protocolPackage());
-		GlobalVariableRegistry->announceAll();
+		global_outgoing_event_buffer->putEvent(ControlEventFactory::componentCodecPackage());
+		global_outgoing_event_buffer->putEvent(ControlEventFactory::codecPackage());
+		global_outgoing_event_buffer->putEvent(ControlEventFactory::currentExperimentState());
+		global_outgoing_event_buffer->putEvent(ControlEventFactory::protocolPackage());
+		global_variable_registry->announceAll();
 		
 		return true;
 	}
@@ -162,10 +162,10 @@ namespace mw {
 		shared_ptr<ComponentRegistry> component_registry = ComponentRegistry::getSharedRegistry();
 		component_registry->resetInstances();
 		
-		if(GlobalVariableRegistry != NULL) {	// exp. already loaded
-			GlobalVariableRegistry->reset();
-            //GlobalVariableRegistry = shared_ptr<VariableRegistry>(new VariableRegistry(GlobalBufferManager));
-			initializeStandardVariables(GlobalVariableRegistry);
+		if(global_variable_registry != NULL) {	// exp. already loaded
+			global_variable_registry->reset();
+            //global_variable_registry = shared_ptr<VariableRegistry>(new VariableRegistry(global_outgoing_event_buffer));
+			initializeStandardVariables(global_variable_registry);
 			loadSetupVariables();
 		}
 		
@@ -204,12 +204,12 @@ namespace mw {
 		
 		if(announce){
 			
-			GlobalBufferManager->putEvent(EventFactory::componentCodecPackage());
-			GlobalBufferManager->putEvent(EventFactory::codecPackage());
+			global_outgoing_event_buffer->putEvent(ControlEventFactory::componentCodecPackage());
+			global_outgoing_event_buffer->putEvent(ControlEventFactory::codecPackage());
 			
-			GlobalBufferManager->putEvent(EventFactory::currentExperimentState());
-			//GlobalBufferManager->putEvent(EventFactory::protocolPackage());
-			GlobalVariableRegistry->announceAll();
+			global_outgoing_event_buffer->putEvent(ControlEventFactory::currentExperimentState());
+			//global_outgoing_event_buffer->putEvent(ControlEventFactory::protocolPackage());
+			global_variable_registry->announceAll();
 		}
 	}
 	
@@ -257,7 +257,7 @@ namespace mw {
 		int display_to_use = 0;
 		if(main_screen_info != NULL){
 			
-			Data val = *(main_screen_info);
+		 Datum val = *(main_screen_info);
 			if(val.hasKey(M_DISPLAY_TO_USE_KEY)){
 				display_to_use = (int)val.getElement(M_DISPLAY_TO_USE_KEY);
 			}

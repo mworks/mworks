@@ -38,13 +38,13 @@ class UnresolvedVariableString {
 				istringstream parser(outStr);
 				
 				getline(parser, stringSegment, '$');
-				shared_ptr<ConstantVariable> c(new ConstantVariable(Data(stringSegment)));
+				shared_ptr<ConstantVariable> c(new ConstantVariable(Datum(stringSegment)));
 				stringFragments.push_back(c);
 				
 				getline(parser, varName, ' ');
-				shared_ptr<Variable> var = GlobalVariableRegistry->getVariable(varName);
+				shared_ptr<Variable> var = global_variable_registry->getVariable(varName);
 				if(!var) {
-					var = shared_ptr<ConstantVariable>(new ConstantVariable(Data(std::string("UNKNOWNVAR"))));			
+					var = shared_ptr<ConstantVariable>(new ConstantVariable(Datum(std::string("UNKNOWNVAR"))));			
 				}
 				
 				stringFragments.push_back(var);
@@ -53,7 +53,7 @@ class UnresolvedVariableString {
 			}
 			
 			// add any remainder
-			shared_ptr<ConstantVariable> remainder(new ConstantVariable(Data(outStr)));
+			shared_ptr<ConstantVariable> remainder(new ConstantVariable(Datum(outStr)));
 			stringFragments.push_back(remainder);
 		}
 
@@ -95,7 +95,7 @@ class UnresolvedReferenceVariable : public Variable {
 		}
 		
 		
-		virtual Data getValue(){
+		virtual Datum getValue(){
 			
 			string resolved_string = unresolved_string.resolve();
 			
@@ -108,13 +108,13 @@ class UnresolvedReferenceVariable : public Variable {
 				}
 			}
 			
-			return Data();
+			return Datum();
 		}
 		
 		
-		virtual void setValue(Data val){ return; }
-		virtual void setValue(Data val, MonkeyWorksTime time){ return; }
-		virtual void setSilentValue(Data _value){ return; }
+		virtual void setValue(Datum val){ return; }
+		virtual void setValue(Datum val, MonkeyWorksTime time){ return; }
+		virtual void setSilentValue(Datum _value){ return; }
 		
 		/**
 		 *  A polymorphic copy constructor (inherited from Clonable)

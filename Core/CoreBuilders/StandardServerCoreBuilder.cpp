@@ -36,7 +36,7 @@ StandardServerCoreBuilder::~StandardServerCoreBuilder() { }
 bool StandardServerCoreBuilder::buildProcessWillStart() { return true; }
 
 bool StandardServerCoreBuilder::initializeEventBuffers() {
-    initBuffers();
+    initEventBuffers();
     return true;
 }
 
@@ -49,7 +49,7 @@ bool StandardServerCoreBuilder::initializeRegistries() {
 }
 
 bool StandardServerCoreBuilder::initializeGlobalParameters() {
-    initializeStandardVariables(GlobalVariableRegistry);
+    initializeStandardVariables(global_variable_registry);
 	try {
 		loadSetupVariables();
 	} catch (std::exception& e){

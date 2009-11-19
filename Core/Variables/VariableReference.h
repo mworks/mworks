@@ -24,19 +24,19 @@ public:
 		return (Variable *)(new VariableReference(variable));
 	}
 	
-	virtual Data getValue(){
+	virtual Datum getValue(){
 		return variable->getValue();
 	}
 	
-	virtual void setValue(Data data){
+	virtual void setValue(Datum data){
 		variable->setValue(data);
 	}
 	
-	virtual void setValue(Data data, MonkeyWorksTime time){
+	virtual void setValue(Datum data, MonkeyWorksTime time){
 		variable->setValue(data, time);
 	}
 
-	virtual void setSilentValue(Data data){
+	virtual void setSilentValue(Datum data){
 		variable->setSilentValue(data);
 	}
 	

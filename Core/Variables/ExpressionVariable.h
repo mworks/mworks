@@ -46,16 +46,16 @@ class	ExpressionVariable : public Variable {
 		
 		Operator getOperator() { return op; };
 
-		virtual Data getValue(){
+		virtual Datum getValue(){
 			return getExpressionValue();
 		}
 		
-		virtual void setValue(Data val){ return; }
-		virtual void setValue(Data val, MonkeyWorksTime time){ return; }
-		virtual void setSilentValue(Data _value){ return; }
+		virtual void setValue(Datum val){ return; }
+		virtual void setValue(Datum val, MonkeyWorksTime time){ return; }
+		virtual void setSilentValue(Datum _value){ return; }
 		
 		// TODO: remove
-		Data getExpressionValue();
+	 Datum getExpressionValue();
 		
 		Variable *getFirstOperand(){ return v1; }
 		Variable *getSecondOperand(){ return v2; }
@@ -83,7 +83,7 @@ class	ParsedExpressionVariable : public Variable {
 	public:
 	
 		ParsedExpressionVariable(string _expression_string);		
-		virtual Data getValue(){
+		virtual Datum getValue(){
 			
 			stx::AnyScalar val;
 			
@@ -94,7 +94,7 @@ class	ParsedExpressionVariable : public Variable {
 			
 			
 			try{
-				val = expression_tree.evaluate((stx::SymbolTable&)(*(GlobalVariableRegistry.get())));
+				val = expression_tree.evaluate((stx::SymbolTable&)(*(global_variable_registry.get())));
 
 				//std::cout << "evaluated: [" << original_expression << "] = " << val << "\n";
 			
@@ -102,25 +102,25 @@ class	ParsedExpressionVariable : public Variable {
 				
 				merror(M_PARADIGM_MESSAGE_DOMAIN, "unknown symbol exception");
 				//std::cout << "UnknownSymbolException: " << e.what() << "\n";
-				//return Data(0L);
+				//return Datum(0L);
                 throw(e);
 			} catch (stx::ExpressionParserException &e){
 				merror(M_PARADIGM_MESSAGE_DOMAIN, "expression parser exception");
 				//std::cout << "ExpressionParserException: " << e.what() << "\n";
-				//return Data(0L);
+				//return Datum(0L);
                 throw(e);
 			}
 		
-			Data returnval = val;
+		 Datum returnval = val;
 			
 			return returnval;
 		
 		}
 		
 		
-		virtual void setValue(Data val){ return; }
-		virtual void setValue(Data val, MonkeyWorksTime time){ return; }
-		virtual void setSilentValue(Data _value){ return; }
+		virtual void setValue(Datum val){ return; }
+		virtual void setValue(Datum val, MonkeyWorksTime time){ return; }
+		virtual void setSilentValue(Datum _value){ return; }
 		
 		/**
 		 *  A polymorphic copy constructor (inherited from Clonable)

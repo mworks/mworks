@@ -46,16 +46,16 @@ public:
 		
 		void setUp(){
 			
-			GlobalBufferManager = shared_ptr<BufferManager>(new BufferManager());
-			reg = shared_ptr<VariableRegistry>(new VariableRegistry(GlobalBufferManager));
+			global_outgoing_event_buffer = shared_ptr<BufferManager>(new BufferManager());
+			reg = shared_ptr<VariableRegistry>(new VariableRegistry(global_outgoing_event_buffer));
 			
 			
 			
-			centerX = shared_ptr<Variable>(new ConstantVariable(Data(5L)));
-			centerY = shared_ptr<Variable>(new ConstantVariable(Data(5L)));
-			width = shared_ptr<Variable>(new ConstantVariable(Data(2L)));
+			centerX = shared_ptr<Variable>(new ConstantVariable(Datum(5L)));
+			centerY = shared_ptr<Variable>(new ConstantVariable(Datum(5L)));
+			width = shared_ptr<Variable>(new ConstantVariable(Datum(2L)));
 			
-			Data defaultValue(0.0);
+		 Datum defaultValue(0.0);
 			
 			VariableProperties props1(&defaultValue, "test1",
 									   "Test test",
@@ -74,7 +74,7 @@ public:
 									   M_CONTINUOUS_INFINITE,"");
 			watchVar2 = reg->createGlobalVariable(&props2);
 			
-			Data defaultBool((bool)false);
+		 Datum defaultBool((bool)false);
 			
 			VariableProperties triggerProps(&defaultBool, "triggerVar",
 											 "Test test",

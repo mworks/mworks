@@ -40,13 +40,13 @@ namespace mw {
 	class GoldStandard {
 		
 	protected:
-		ExpandableList<Data> *goldStandardValues;
+		ExpandableList<Datum> *goldStandardValues;
 		
 	public:
 		GoldStandard();
 		virtual ~GoldStandard();
 		// this is the standard intervace method:
-		virtual ExpandableList<Data> *getGoldStandardValues(); 
+		virtual ExpandableList<Datum> *getGoldStandardValues(); 
 	};
 	
 	
@@ -82,8 +82,8 @@ namespace mw {
 		virtual ~FixationPoint();
 		
 		
-		virtual ExpandableList<Data> *getGoldStandardValues();
-		virtual Data getCurrentAnnounceDrawData();     // override of PointStimulus method to announce when drawn
+		virtual ExpandableList<Datum> *getGoldStandardValues();
+		virtual Datum getCurrentAnnounceDrawData();     // override of PointStimulus method to announce when drawn
 		
 		virtual Stimulus *frozenClone();
 	};
@@ -111,9 +111,9 @@ namespace mw {
 	protected:
 		ExpandableList<FitableFunction> *fitableFunctions;
 		ExpandableList<Averager> *averagers;
-		Data *pUncalibratedData;
-		Data *pSampledData;
-		Data *pCalibratedData; 
+	 Datum *pUncalibratedData;
+	 Datum *pSampledData;
+	 Datum *pCalibratedData; 
 		MonkeyWorksTime timeOfMostRecentUncalibratedDataUS;  
 		shared_ptr<Variable> parameterVariable;
 		bool initialized;  
@@ -122,10 +122,10 @@ namespace mw {
 		void reportParameterUpdate();
 		virtual void announceCalibrationUpdate();
 		virtual void setPrivateParameters();  
-		virtual void announceCalibrationSample(int outputIndex, Data SampledData, 
-											   Data DesiredOutputData, Data CalibratedOutputData, MonkeyWorksTime timeOfSampleUS);
-		virtual bool checkRequest(Data original_data);
-		virtual CalibratorRequestedAction getRequestedAction(Data dictionaryData);
+		virtual void announceCalibrationSample(int outputIndex, Datum SampledData, 
+											   Datum DesiredOutputData, Datum CalibratedOutputData, MonkeyWorksTime timeOfSampleUS);
+		virtual bool checkRequest(Datum original_data);
+		virtual CalibratorRequestedAction getRequestedAction(Datum dictionaryData);
 		virtual bool setParametersToDefaults();
 		virtual bool takeSample(shared_ptr<GoldStandard> goldStandardObject);
 		
@@ -134,7 +134,7 @@ namespace mw {
 		virtual ~Calibrator();
 		
 		// this is the main "workhorse" method (called through notifications)
-		virtual void newDataReceived(int inputIndex, const Data& data, 
+		virtual void newDataReceived(int inputIndex, const Datum& data, 
 									 MonkeyWorksTime timeUS);
 		
 		// these are methods that give the user experimental control of the calibrator (Actions)                                        
@@ -149,8 +149,8 @@ namespace mw {
 		// these are methods by which variables interact with the calibrator
 		//  e.g. client sets request variable to set defaults, etc.
 		// private is the way that saved variables find their way in (parameters)
-		virtual void notifyRequest(const Data& original_data, MonkeyWorksTime timeUS);
-		virtual void notifyPrivate(const Data& original_data, MonkeyWorksTime timeUS);
+		virtual void notifyRequest(const Datum& original_data, MonkeyWorksTime timeUS);
+		virtual void notifyPrivate(const Datum& original_data, MonkeyWorksTime timeUS);
 		
 	};
 	
@@ -172,25 +172,25 @@ namespace mw {
 		MonkeyWorksTime nextTimeToWarnUS;
 		PairedEyeData *pairedEyeData;
 		
-		Data desiredH, desiredV;
-		Data sampledH, sampledV;
-		Data calibratedH, calibratedV;
+	 Datum desiredH, desiredV;
+	 Datum sampledH, sampledV;
+	 Datum calibratedH, calibratedV;
 		virtual void announceCalibrationUpdate();
 		virtual void setPrivateParameters(); 
-		virtual void announceCalibrationSample(int outputIndex, Data SampledData, 
-											   Data DesiredOutputData, Data CalibratedOutputData, MonkeyWorksTime timeOfSampleUS);
-		virtual void tryToUseDataToSetParameters(Data original_data);
+		virtual void announceCalibrationSample(int outputIndex, Datum SampledData, 
+											   Datum DesiredOutputData, Datum CalibratedOutputData, MonkeyWorksTime timeOfSampleUS);
+		virtual void tryToUseDataToSetParameters(Datum original_data);
 		
 		
 	public:
         EyeCalibrator(std::string _tag, shared_ptr<Variable> _eyeHraw, shared_ptr<Variable> _eyeVraw,
 					  shared_ptr<Variable> _eyeHcalibrated, shared_ptr<Variable> _eyeVcalibrated, const int order=2);
 		virtual ~EyeCalibrator();
-		virtual void notifyRequest(const Data& original_data, MonkeyWorksTime timeUS);
-		virtual void notifyPrivate(const Data& original_data, MonkeyWorksTime timeUS);
+		virtual void notifyRequest(const Datum& original_data, MonkeyWorksTime timeUS);
+		virtual void notifyPrivate(const Datum& original_data, MonkeyWorksTime timeUS);
 		
 		// override base class so that we can wait for paired samples
-		virtual void newDataReceived(int inputIndex, const Data& data, 
+		virtual void newDataReceived(int inputIndex, const Datum& data, 
 									 MonkeyWorksTime timeUS);
 		
 		

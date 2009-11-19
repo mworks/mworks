@@ -81,15 +81,15 @@ namespace mw {
 	class FitableSample : public LinkedListNode<FitableSample> {
 		
     protected:
-        Data           *pDataInputVector;
-        Data           desiredOutputData;
+        Datum           *pDataInputVector;
+        Datum           desiredOutputData;
         MonkeyWorksTime timeUS;
         
     public:
-        FitableSample(Data *_pDataInputVector, Data _desiredOutputData, MonkeyWorksTime _timeUS);
+        FitableSample(Datum *_pDataInputVector, Datum _desiredOutputData, MonkeyWorksTime _timeUS);
         virtual ~FitableSample();
-        Data           *getInputVector();
-        Data           getOutputData();
+        Datum           *getInputVector();
+        Datum           getOutputData();
         MonkeyWorksTime getTime();
 	};
 	
@@ -102,19 +102,19 @@ namespace mw {
         int         numInputs;    
         float       *Parameters;        // pointer to a parameter set of some type (e.g. just an real vector for linear basis)
         LinkedList<FitableSample> *allSamplesToFit;   // all the data "samples" (input, output, and time in each)
-        virtual bool setParametersProtected(Data _parameters) {return false;}
+        virtual bool setParametersProtected(Datum _parameters) {return false;}
         virtual bool setParametersToDefaultsProtected() {return false;} 
         
     public:
         FitableFunction(int _numInputs);
         virtual ~FitableFunction();
-        virtual void acceptDataForFit(Data *pInputData, Data desiredOutputData, MonkeyWorksTime timeUS);
+        virtual void acceptDataForFit(Datum *pInputData, Datum desiredOutputData, MonkeyWorksTime timeUS);
         virtual bool fitTheFunction() {return false;}
-        //virtual bool applyTheFunction(Data *pInputData, Data *outputData) {return false;} // DDC fix
-		virtual bool applyTheFunction(const Data& pInputData, Data *outputData) {return false;}
+        //virtual bool applyTheFunction(Datum *pInputData, Datum *outputData) {return false;} // DDC fix
+		virtual bool applyTheFunction(const Datum& pInputData, Datum *outputData) {return false;}
         virtual bool setParametersToDefaults();
-        virtual bool setParameters(Data _parameters); 
-        virtual Data getParameters(); 
+        virtual bool setParameters(Datum _parameters); 
+        virtual Datum getParameters(); 
         virtual int getNumParameters();
         virtual void flushOldData(); // flush all
         virtual void flushOldData(MonkeyWorksTime _flushDataOlderThanThisTimeUS); 
@@ -131,7 +131,7 @@ namespace mw {
     protected:
         ExpandableList<BasisFunction> *basisSet;
 		ExpandableList<double> *defaultParameters;
-        virtual bool setParametersProtected(Data _parameters);
+        virtual bool setParametersProtected(Datum _parameters);
 		virtual bool setParametersToDefaultsProtected();
 		
 		
@@ -139,9 +139,9 @@ namespace mw {
         LinearFitableFunction(int _numInputs);
         ~LinearFitableFunction();
         virtual bool fitTheFunction();
-        //virtual bool applyTheFunction(Data *pInputData, Data *outputData); // DDC fix
-		virtual bool applyTheFunction(const Data& pInputData, Data *outputData);
-        virtual Data getParameters();
+        //virtual bool applyTheFunction(Datum *pInputData, Datum *outputData); // DDC fix
+		virtual bool applyTheFunction(const Datum& pInputData, Datum *outputData);
+        virtual Datum getParameters();
         virtual int getNumParameters();
         
 	};

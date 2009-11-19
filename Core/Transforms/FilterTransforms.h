@@ -131,7 +131,7 @@ class LinearFilter2D : public TransformWithMemory {
 		~LinearFilter2D();
 		
 		// override of base class
-		virtual newData(int inputIndex, Data *data);
+		virtual newData(int inputIndex, Datum *data);
 		virtual transform();
 		virtual setToDefaults();
 
@@ -152,7 +152,7 @@ class Filter_BoxcarFilter1D : public VarTransformAdaptor{
     public:
         Filter_BoxcarFilter1D(shared_ptr<Variable> _inputVar, shared_ptr<Variable> _outputVar, int _filterWidthSamples);
         virtual ~Filter_BoxcarFilter1D();
-        void  newDataReceived(int inputIndex, const Data& data, MonkeyWorksTime timeUS);
+        void  newDataReceived(int inputIndex, const Datum& data, MonkeyWorksTime timeUS);
 	
 };
 	
@@ -172,7 +172,7 @@ class Filter_LinearFilter1D : public VarTransformAdaptor {
     public:
         Filter_LinearFilter1D(shared_ptr<Variable> _inputVar, shared_ptr<Variable> _outputVar, double _gain, double _offset, double _noiseSD);
         virtual ~Filter_LinearFilter1D();
-        void  newDataReceived(int inputIndex, const Data& data, MonkeyWorksTime timeUS);
+        void  newDataReceived(int inputIndex, const Datum& data, MonkeyWorksTime timeUS);
 };	
 
 class Filter_LinearFilter1DFactory : public ComponentFactory {

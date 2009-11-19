@@ -55,7 +55,7 @@ public:
 	void stepUp();
 	
 	void stepDown();		
-	virtual void newDataReceived(int inputIndex, const Data& data, 
+	virtual void newDataReceived(int inputIndex, const Datum& data, 
 								 MonkeyWorksTime timeUS);		
 	virtual void reset();
 	

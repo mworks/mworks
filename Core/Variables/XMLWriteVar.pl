@@ -32,7 +32,7 @@ unless (-e $xmlfile){
 }
 
 
-my $curr_variable = get_raw_pointer($MonkeyScript::GlobalVariableRegistry)->getVariable(new_string($var_name));
+my $curr_variable = get_raw_pointer($MonkeyScript::global_variable_registry)->getVariable(new_string($var_name));
 my $data = get_raw_pointer($curr_variable)->getValue();
 
 my $var_elt = XML::Twig::Elt->new($VARIABLE_ASSIGNMENT_STRING);

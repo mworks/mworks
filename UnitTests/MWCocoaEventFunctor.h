@@ -36,7 +36,7 @@ public:
 	{ 
 		NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 		
-		Data data(event->getData());
+	 Datum data(event->getData());
 		id cocoaEvent = [[[MWCocoaEvent alloc] initWithData:&data 
 													andCode:event->getEventCode() 
 													andTime:event->getTime()] autorelease];

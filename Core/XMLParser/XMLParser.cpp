@@ -674,7 +674,7 @@ void XMLParser::_processInstanceDirective(xmlNode *node){
 				string variable_name = _attributeForName(alias_child, "variable");
 				shared_ptr<Variable> var = registry->getVariable(variable_name);
 				string content((const char *)xmlNodeGetContent(alias_child));
-				Data value = registry->getNumber(content);
+			 Datum value = registry->getNumber(content);
 				
 				if(var == NULL){
 					// TODO: better throw
@@ -1056,7 +1056,7 @@ string XMLParser::_getContent(xmlNode *node){
 }
 
 
-Data XMLParser::_parseDataValue(xmlNode *node){
+Datum XMLParser::_parseDataValue(xmlNode *node){
 	
 	// if node has "value" field, just use that
 	// call getValue() to convert the string into a datum
@@ -1083,11 +1083,11 @@ Data XMLParser::_parseDataValue(xmlNode *node){
 	if(value_field_contents.empty() == false){
 		
 		if(type == M_STRING){
-			return Data(value_field_contents);
+			return Datum(value_field_contents);
 		} else if(type != M_UNDEFINED){
 			return registry->getNumber(value_field_contents, type);
 		} else {
-			return Data(value_field_contents);
+			return Datum(value_field_contents);
 		}
 	}
 	
@@ -1098,7 +1098,7 @@ Data XMLParser::_parseDataValue(xmlNode *node){
 		if(type != M_UNDEFINED && type != M_STRING){
 			return registry->getNumber(_getContent(node), type);
 		} else {
-			return Data(_getContent(node));
+			return Datum(_getContent(node));
 		}
 	}
 	
@@ -1117,8 +1117,8 @@ Data XMLParser::_parseDataValue(xmlNode *node){
 		vector<xmlNode *> elements = _getChildren(child, "dictionary_element");
 		
 		
-		vector<Data> keys;
-		vector<Data> values;
+		vector<Datum> keys;
+		vector<Datum> values;
 		
 		for(vector<xmlNode *>::iterator el = elements.begin();
 			el != elements.end(); 
@@ -1139,16 +1139,16 @@ Data XMLParser::_parseDataValue(xmlNode *node){
 			}
 			
 			xmlNode *value_node = value_nodes[0];
-			Data value_data = _parseDataValue(value_node);
+		 Datum value_data = _parseDataValue(value_node);
 			values.push_back(value_data);
-			Data key_data = _parseDataValue(key_node);
+		 Datum key_data = _parseDataValue(key_node);
 			keys.push_back(key_data);
 		}
 		
-		Data dictionary(M_DICTIONARY, (int)keys.size());
+	 Datum dictionary(M_DICTIONARY, (int)keys.size());
 		
-		vector<Data>::iterator k = keys.begin();
-		vector<Data>::iterator v = values.begin();
+		vector<Datum>::iterator k = keys.begin();
+		vector<Datum>::iterator v = values.begin();
 		while(k != keys.end() && v != values.end()){
 			dictionary.addElement(*k, *v);
 			k++; v++;
@@ -1161,7 +1161,7 @@ Data XMLParser::_parseDataValue(xmlNode *node){
 		
 		vector<xmlNode *> elements = _getChildren(child, "list_element");
 		
-		vector<Data> values;
+		vector<Datum> values;
 		
 		
 		for(vector<xmlNode *>::iterator el = elements.begin(); 
@@ -1174,13 +1174,13 @@ Data XMLParser::_parseDataValue(xmlNode *node){
 			}
 			
 			xmlNode *value_node = value_nodes[0];
-			Data value_data = _parseDataValue(value_node);
+		 Datum value_data = _parseDataValue(value_node);
 			values.push_back(value_data);
 		}
 		
-		Data list(M_LIST, (int)values.size());
+	 Datum list(M_LIST, (int)values.size());
 		
-		vector<Data>::iterator v = values.begin();
+		vector<Datum>::iterator v = values.begin();
 		while(v != values.end()){
 			list.addElement(*v);
 			v++;
@@ -1190,17 +1190,17 @@ Data XMLParser::_parseDataValue(xmlNode *node){
 		
 		// if there is an <integer> node inside
 	} else if(child_name == "integer"){
-		Data value = registry->getNumber(_getContent(node));
+	 Datum value = registry->getNumber(_getContent(node));
 		
-		Data transformed(value.getInteger());
+	 Datum transformed(value.getInteger());
 		
 		return transformed;
 		
 	} else if(child_name == "float"){
 		
-		Data value = registry->getNumber(_getContent(node));
+	 Datum value = registry->getNumber(_getContent(node));
 		
-		Data transformed(value.getFloat());
+	 Datum transformed(value.getFloat());
 		
 		return transformed;
 		
@@ -1226,7 +1226,7 @@ void XMLParser::_processVariableAssignment(xmlNode *node){
 		}
 	}
 	
-	Data value = _parseDataValue(node);
+ Datum value = _parseDataValue(node);
 	
 	variable->setValue(value);
 }

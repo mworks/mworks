@@ -16,8 +16,8 @@
 #include <string>
 #include "boost/filesystem/path.hpp"
 namespace mw {
-extern void setPerlReturn(Data *pr);
-extern Data *GlobalPerlReturn;
+extern void setPerlReturn(Datum *pr);
+extern Datum *GlobalPerlReturn;
 
 class EmbeddedPerlInterpreter : public Interpreter, public Lockable {
     protected:

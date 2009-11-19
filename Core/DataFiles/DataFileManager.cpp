@@ -15,13 +15,13 @@
 #include "Utilities.h"
 #include "ScarabServices.h"
 #include <string>
-#include "EventFactory.h"
+#include "ControlEventFactory.h"
 #include "EventBuffer.h"
 #include "PlatformDependentServices.h"
 using namespace mw;
 
 namespace mw {
-	DataFileManager *GlobalDataFileManager;
+ DataFileManager *GlobalDataFileManager;
 }
 
 DataFileManager::DataFileManager() {
@@ -35,9 +35,9 @@ DataFileManager::DataFileManager() {
 
 DataFileManager::~DataFileManager() { }
 
-int DataFileManager::openFile(const Data &oeDatum) {
+int DataFileManager::openFile(const Datum &oeDatum) {
 	std::string dFile(oeDatum.getElement(DATA_FILE_FILENAME).getString());
-	DataFileOptions opt = (DataFileOptions)oeDatum.getElement(DATA_FILE_OPTIONS).getInteger();
+ DatumFileOptions opt = (DatumFileOptions)oeDatum.getElement(DATA_FILE_OPTIONS).getInteger();
 	
 	if(dFile.size() == 0) {
 		merror(M_FILE_MESSAGE_DOMAIN, 
@@ -54,7 +54,7 @@ int DataFileManager::openFile(const Data &oeDatum) {
 	return openFile(dFile, opt);
 }
 
-int DataFileManager::openFile(std::string _filename, DataFileOptions opt) {
+int DataFileManager::openFile(std::string _filename, DatumFileOptions opt) {
     // first we need to format the file name with the correct path and
     // extension
 	std::string _ext_(appendDataFileExtension(
@@ -73,8 +73,8 @@ int DataFileManager::openFile(std::string _filename, DataFileOptions opt) {
 			
 			merror(M_FILE_MESSAGE_DOMAIN,
 				   "Can't overwrite existing file: %s", filename.c_str());
-			//GlobalSystemEventVariable->setValue(EventFactory::dataFileOpenedResponse(filename.c_str(), M_COMMAND_FAILURE));
-			GlobalBufferManager->putEvent(EventFactory::dataFileOpenedResponse(filename.c_str(), 
+			//GlobalSystemEventVariable->setValue(ControlEventFactory::dataFileOpenedResponse(filename.c_str(), M_COMMAND_FAILURE));
+			global_outgoing_event_buffer->putEvent(ControlEventFactory::dataFileOpenedResponse(filename.c_str(), 
 																				M_COMMAND_FAILURE));
 			return -1;
 		}
@@ -85,7 +85,7 @@ int DataFileManager::openFile(std::string _filename, DataFileOptions opt) {
 			   "Could not create file: %s", filename.c_str());
 		return -1;
 	}
-    scarab_connection = shared_ptr<ScarabWriteConnection>(new ScarabWriteConnection(GlobalBufferManager, uri));
+    scarab_connection = shared_ptr<ScarabWriteConnection>(new ScarabWriteConnection(global_outgoing_event_buffer, uri));
     scarab_connection->connect();
 	
     if(scarab_connection->isConnected()) {
@@ -95,14 +95,14 @@ int DataFileManager::openFile(std::string _filename, DataFileOptions opt) {
         // write out the event-code to name/description mapping
         // this is an essential part of the self-describing nature of the
         // MonkeyWorks/Scarab format
-		GlobalBufferManager->putEvent(EventFactory::componentCodecPackage());
-		GlobalBufferManager->putEvent(EventFactory::codecPackage());
-		GlobalBufferManager->putEvent(EventFactory::currentExperimentState());
-		GlobalVariableRegistry->announceAll();
+		global_outgoing_event_buffer->putEvent(ControlEventFactory::componentCodecPackage());
+		global_outgoing_event_buffer->putEvent(ControlEventFactory::codecPackage());
+		global_outgoing_event_buffer->putEvent(ControlEventFactory::currentExperimentState());
+		global_variable_registry->announceAll();
     } else {
         merror(M_FILE_MESSAGE_DOMAIN,
 			   "Failed to open file: %s", uri.c_str());
-        GlobalBufferManager->putEvent(EventFactory::dataFileOpenedResponse(filename.c_str(), 
+        global_outgoing_event_buffer->putEvent(ControlEventFactory::dataFileOpenedResponse(filename.c_str(), 
 																			M_COMMAND_FAILURE));
         return -1;
     }
@@ -110,7 +110,7 @@ int DataFileManager::openFile(std::string _filename, DataFileOptions opt) {
 	mprintf(M_FILE_MESSAGE_DOMAIN, "Opening data file: %s", filename.c_str());
 	
     // everything went ok so issue the success event
-    GlobalBufferManager->putEvent(EventFactory::dataFileOpenedResponse(filename.c_str(), 
+    global_outgoing_event_buffer->putEvent(ControlEventFactory::dataFileOpenedResponse(filename.c_str(), 
 																		M_COMMAND_SUCCESS)); 
     return 0;
 }
@@ -122,7 +122,7 @@ int DataFileManager::closeFile() {
         file_open = false;
 		
 		mprintf(M_FILE_MESSAGE_DOMAIN, "Closing data file: %s", filename.c_str());
-        GlobalBufferManager->putEvent(EventFactory::dataFileClosedResponse(filename.c_str(), 
+        global_outgoing_event_buffer->putEvent(ControlEventFactory::dataFileClosedResponse(filename.c_str(), 
 																			M_COMMAND_SUCCESS)); 
     } else {
 		merror(M_FILE_MESSAGE_DOMAIN,

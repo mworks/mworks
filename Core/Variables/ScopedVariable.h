@@ -51,12 +51,12 @@ class ScopedVariable : public Variable {
 
 
 	// The scoped variable delegates its get and set methods
-	virtual Data getValue();
+	virtual Datum getValue();
 	
-	virtual void setValue(Data _data);	
-	virtual void setValue(Data _data, MonkeyWorksTime _when);
-	virtual void setSilentValue(Data _value);
-	virtual void setSilentValue(Data _value,  MonkeyWorksTime _when);
+	virtual void setValue(Datum _data);	
+	virtual void setValue(Datum _data, MonkeyWorksTime _when);
+	virtual void setSilentValue(Datum _value);
+	virtual void setSilentValue(Datum _value,  MonkeyWorksTime _when);
 	
 };
 }

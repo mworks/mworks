@@ -19,7 +19,7 @@ class ScarabReadConnection : public ScarabConnection {
         /** 
          * Constructor delegates all responsibilities to the parent clas
          */
-        ScarabReadConnection(shared_ptr<BufferManager> _buffer_manager, std::string uri);
+        ScarabReadConnection(shared_ptr<EventBuffer> _event_buffer, std::string uri);
         
         /**
          * Services the connection, in this case reading data from it.

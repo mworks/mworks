@@ -18,10 +18,10 @@ using namespace mw;
 
 void ParsedExpressionVariableTestFixture::testSimpleExpression() {
 	
-	shared_ptr<VariableRegistry> r(new VariableRegistry(GlobalBufferManager));
-	GlobalVariableRegistry = r;
+	shared_ptr<VariableRegistry> r(new VariableRegistry(global_outgoing_event_buffer));
+	global_variable_registry = r;
 	
-	Data testInt((float)1);
+ Datum testInt((float)1);
 	VariableProperties props(&testInt, 
 							 "test",
 							 "Test test",
@@ -38,7 +38,7 @@ void ParsedExpressionVariableTestFixture::testSimpleExpression() {
 	
 	
 	shared_ptr<ParsedExpressionVariable> e(new ParsedExpressionVariable("1 + 1"));
-	Data data = e->getValue();
+ Datum data = e->getValue();
 	
 	CPPUNIT_ASSERT( (long)data == 2 );
 

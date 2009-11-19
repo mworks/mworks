@@ -23,7 +23,7 @@ void IPCEventTransportTestFixture::testOneThread(){
                               EventTransport::read_only_event_transport,
                               "TestTransport");
                 
-    Data data((long)4);
+    Datum data((long)4);
     shared_ptr<Event> event(new Event(1, data));
     
     server.sendEvent(event);

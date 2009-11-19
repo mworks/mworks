@@ -91,12 +91,12 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
 
 //	void testMemoryManagement(){
 //	
-//		fprintf(stderr, "Testing Data memory management...\n");
+//		fprintf(stderr, "Testing Datum memory management...\n");
 //		fflush(stderr);
 //		
-//		Data test(M_LIST, 5);
+//	 Datum test(M_LIST, 5);
 //		
-//		Data *data = new Data[5];
+//	 Datum *data = new Datum[5];
 //		for(int i = 0; i < 5; i++){
 //			data[i] = (long)i;
 //		}
@@ -119,9 +119,9 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
 //		
 //		
 //		
-//		fprintf(stderr, "Hammering an Data object across two threads...");
+//		fprintf(stderr, "Hammering an Datum object across two threads...");
 //		fflush(stderr);
-//		Data datum(0L);
+//	 Datum datum(0L);
 //		
 //		pthread_t thread;
 //		pthread_create(&thread, NULL, hammerit, (void *)(&datum));
@@ -139,9 +139,9 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
 //		CPPUNIT_ASSERT(scarabdatum->type == SCARAB_INTEGER);
 //	
 //	
-//		fprintf(stderr, "Hammering an M_LIST Data object across two threads...");
+//		fprintf(stderr, "Hammering an M_LIST Datum object across two threads...");
 //		fflush(stderr);
-//		Data list_datum(M_LIST, 1);
+//	 Datum list_datum(M_LIST, 1);
 //		
 //		pthread_t thread2;
 //		pthread_create(&thread2, NULL, hammerlist, (void *)(&list_datum));
@@ -150,7 +150,7 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
 //			if(i % (LOTS / 100) == 0){
 //				fprintf(stderr, "."); fflush(stderr);
 //			}
-//			list_datum.setElement(0, Data((long)i));
+//			list_datum.setElement(0, Datum((long)i));
 //		}
 //		fprintf(stderr, "\n"); fflush(stderr);
 //		
@@ -158,9 +158,9 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
 //		CPPUNIT_ASSERT(scarabdatum != NULL);
 //		CPPUNIT_ASSERT(scarabdatum->type == SCARAB_LIST);
 //	
-//		fprintf(stderr, "Hammering an M_DICT Data object across two threads...");
+//		fprintf(stderr, "Hammering an M_DICT Datum object across two threads...");
 //		fflush(stderr);
-//		Data dict_datum(M_DICTIONARY, 1);
+//	 Datum dict_datum(M_DICTIONARY, 1);
 //		
 //		pthread_t thread3;
 //		pthread_create(&thread3, NULL, hammerdict, (void *)(&dict_datum));
@@ -169,7 +169,7 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
 //			if(i % (LOTS / 100) == 0){
 //				fprintf(stderr, "."); fflush(stderr);
 //			}
-//			dict_datum.addElement("test", Data((long)i));
+//			dict_datum.addElement("test", Datum((long)i));
 //		}
 //		fprintf(stderr, "\n"); fflush(stderr);
 //		
@@ -183,7 +183,7 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
 
 	void testString() {
 		fprintf(stderr, "Running GenericDataTestFixture::testString()\n");
-		Data data("Test string");
+	 Datum data("Test string");
 		char * test = "Test string";
 		
 		for(unsigned int i = 0; i<strlen(test); i++)
@@ -192,13 +192,13 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
 			CPPUNIT_ASSERT(result[i] == test[i]);
 		}
 		
-		Data data2;
+	 Datum data2;
 		char * test2 = "Test second string";
 		char * test2a = "Test second string";
 		
 		CPPUNIT_ASSERT(strcmp(test2, test2a) == 0);
 		
-		data2 = Data(test2);
+		data2 = Datum(test2);
 		
 		CPPUNIT_ASSERT(data2 == test2a);
 		CPPUNIT_ASSERT(!(data2 != test2a));
@@ -218,10 +218,10 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
 		CPPUNIT_ASSERT(data2 != test3b);
 		
 		
-		Data data4a = "Test 4th string";
-		Data data4b = "Test fourth string";
+	 Datum data4a = "Test 4th string";
+	 Datum data4b = "Test fourth string";
 		
-		Data boolean = (data4a != data4b);
+	 Datum boolean = (data4a != data4b);
 		CPPUNIT_ASSERT(boolean.getBool() == true);
 		
 		boolean = (data4b != data4a);
@@ -251,11 +251,11 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
 
 	void testList() {
 		fprintf(stderr, "Running GenericDataTestFixture::testList()\n");
-		Data undefined;
-		Data list1(M_LIST, 1);
-		Data testInt1(M_INTEGER, 1);		
-		Data testInt2(M_INTEGER, 2);
-		Data testInt3(M_INTEGER, 3);
+	 Datum undefined;
+	 Datum list1(M_LIST, 1);
+	 Datum testInt1(M_INTEGER, 1);		
+	 Datum testInt2(M_INTEGER, 2);
+	 Datum testInt3(M_INTEGER, 3);
 		
 		CPPUNIT_ASSERT(undefined != list1);
 		CPPUNIT_ASSERT(undefined == list1.getElement(0));
@@ -264,7 +264,7 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
 		CPPUNIT_ASSERT(list1.getNElements() == 0);
 		CPPUNIT_ASSERT(list1.getMaxElements() == 1);
 		
-		Data list2(M_LIST, 1);
+	 Datum list2(M_LIST, 1);
 		
 		CPPUNIT_ASSERT(list1 == list2);
 		
@@ -295,7 +295,7 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
 		CPPUNIT_ASSERT(list2.getElement(0) != testInt2);
 		
 		
-		Data list3(M_LIST, 1);
+	 Datum list3(M_LIST, 1);
 		list3.setElement(0, testInt1);
 		list3.setElement(1, testInt2);
 		
@@ -307,7 +307,7 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
 		CPPUNIT_ASSERT(list3.getElement(1) != testInt1);
 		CPPUNIT_ASSERT(list3.getElement(0) != testInt2);
 
-		Data list4(M_LIST, 2);
+	 Datum list4(M_LIST, 2);
 		list4.setElement(0, testInt1);
 		list4.setElement(1, testInt2);
 		list4.addElement(testInt3);
@@ -318,7 +318,7 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
 		CPPUNIT_ASSERT(list4.getElement(1) == testInt2);
 		CPPUNIT_ASSERT(list4.getElement(2) == testInt3);
 
-		Data list5(M_LIST, 1);
+	 Datum list5(M_LIST, 1);
 		list5.setElement(0, testInt1);
 		list5.setElement(10, testInt2);
 		
@@ -331,13 +331,13 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
 			CPPUNIT_ASSERT(list5.getElement(i) == undefined);
 		}
 
-		Data list6(M_LIST, 2);
+	 Datum list6(M_LIST, 2);
 		list6.setElement(0, testInt1);
 		list6.setElement(10, testInt2);		
 		
 		CPPUNIT_ASSERT(list6 == list5);
 		
-		Data list7(M_LIST, 2);
+	 Datum list7(M_LIST, 2);
 		list7.setElement(1, testInt1);
 		list7.addElement(testInt2);
 		CPPUNIT_ASSERT(list7.getNElements() == 2);
@@ -346,7 +346,7 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
 		CPPUNIT_ASSERT(list7.getElement(1) == testInt1);
 		CPPUNIT_ASSERT(list7.getElement(2) == testInt2);
 		
-		Data list8(M_LIST, 3);
+	 Datum list8(M_LIST, 3);
 		list8.setElement(1, testInt1);
 		list8.addElement(testInt2);
 		CPPUNIT_ASSERT(list8.getNElements() == 2);
@@ -355,7 +355,7 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
 		CPPUNIT_ASSERT(list8.getElement(1) == testInt1);
 		CPPUNIT_ASSERT(list8.getElement(2) == testInt2);
 		
-		Data list9(M_LIST, 12);
+	 Datum list9(M_LIST, 12);
 		list9.setElement(1, testInt1);
 		list9.addElement(testInt2);
 		CPPUNIT_ASSERT(list9.getNElements() == 2);
@@ -364,13 +364,13 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
 		CPPUNIT_ASSERT(list9.getElement(1) == testInt1);
 		CPPUNIT_ASSERT(list9.getElement(2) == testInt2);
 		
-		Data list10(M_LIST, 1);
+	 Datum list10(M_LIST, 1);
 		list10.addElement(testInt1);
 		CPPUNIT_ASSERT(list10.getNElements() == 1);
 		CPPUNIT_ASSERT(list10.getMaxElements() == 1);
 		CPPUNIT_ASSERT(list10.getElement(0) == testInt1);
 
-		Data list11(M_LIST, 1);
+	 Datum list11(M_LIST, 1);
 		list11.setElement(0, testInt1);
 		list11.addElement(testInt2);
 		CPPUNIT_ASSERT(list11.getNElements() == 2);
@@ -384,11 +384,11 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
 
 		// testing leakyness for simple lists
 		const int num_elem = 8;
-		Data list1(M_LIST, num_elem);
+	 Datum list1(M_LIST, num_elem);
 		ScarabDatum *list1Datum = list1.getScarabDatum();
 		
 		for(int i = 0; i<num_elem; i++) {
-			Data data((long)i);
+		 Datum data((long)i);
 			ScarabDatum *dataDatum = data.getScarabDatum();
 			CPPUNIT_ASSERT(dataDatum->ref_count == 1);
 			
@@ -400,10 +400,10 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
 		
 		CPPUNIT_ASSERT(list1Datum->ref_count == 1);			
 		
-		Data list2(M_LIST, 1);
+	 Datum list2(M_LIST, 1);
 		
 		for(int i = 0; i<num_elem; i++) {
-			Data data((long)i);
+		 Datum data((long)i);
 			ScarabDatum *dataDatum = data.getScarabDatum();
 			CPPUNIT_ASSERT(dataDatum->ref_count == 1);
 			
@@ -419,14 +419,14 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
 	void testListOverwriteLeakyness() {
 		fprintf(stderr, "Running GenericDataTestFixture::testListOverwriteLeakyness()\n");
 
-		Data list1(M_LIST, 2);
+	 Datum list1(M_LIST, 2);
 		ScarabDatum *list1Datum = list1.getScarabDatum();
 		
 		ScarabDatum *long1Datum;
 		ScarabDatum *long2Datum;
 		{
-			Data long1((long)1);
-			Data long2((long)2);
+		 Datum long1((long)1);
+		 Datum long2((long)2);
 			
 			long1Datum = long1.getScarabDatum();
 			long2Datum = long2.getScarabDatum();
@@ -444,14 +444,14 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
 		
 		ScarabDatum *long3Datum;
 		{
-			Data long3((long)3);
+		 Datum long3((long)3);
 			long3Datum = long3.getScarabDatum();
 			
 			CPPUNIT_ASSERT(long1Datum->ref_count == 1);
 			CPPUNIT_ASSERT(long2Datum->ref_count == 1);
 			CPPUNIT_ASSERT(long3Datum->ref_count == 1);
 			
-			Data long1Copy(long1Datum);
+		 Datum long1Copy(long1Datum);
 			CPPUNIT_ASSERT(long1Datum->ref_count == 2);
 			
 			list1.setElement(0, long3);
@@ -470,14 +470,14 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
 	void testDictOverwriteLeakyness() {
 		fprintf(stderr, "Running GenericDataTestFixture::testDictOverwriteLeakyness()\n");
 
-		Data dic1(M_DICTIONARY, 2);
+	 Datum dic1(M_DICTIONARY, 2);
 		ScarabDatum *dic1Datum = dic1.getScarabDatum();
 		
 		ScarabDatum *long1Datum;
 		ScarabDatum *long2Datum;
 		{
-			Data long1((long)1);
-			Data long2((long)2);
+		 Datum long1((long)1);
+		 Datum long2((long)2);
 			
 			long1Datum = long1.getScarabDatum();
 			long2Datum = long2.getScarabDatum();
@@ -495,14 +495,14 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
 		
 		ScarabDatum *long3Datum;
 		{
-			Data long3((long)3);
+		 Datum long3((long)3);
 			long3Datum = long3.getScarabDatum();
 			
 			CPPUNIT_ASSERT(long1Datum->ref_count == 1);
 			CPPUNIT_ASSERT(long2Datum->ref_count == 1);
 			CPPUNIT_ASSERT(long3Datum->ref_count == 1);
 			
-			Data long1Copy(long1Datum);
+		 Datum long1Copy(long1Datum);
 			CPPUNIT_ASSERT(long1Datum->ref_count == 2);
 			
 			dic1.addElement("long1", long3);
@@ -524,7 +524,7 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
 
 		ScarabDatum *dic1Datum;
 		{
-			Data dic1(M_DICTIONARY, 2);
+		 Datum dic1(M_DICTIONARY, 2);
 			dic1Datum = dic1.getScarabDatum();
 			CPPUNIT_ASSERT(dic1Datum->ref_count == 1);
 		
@@ -536,8 +536,8 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
 			ScarabDatum *int4Datum;
 
 			{
-				Data list1(M_LIST, 2);
-				Data list2(M_LIST, 2);
+			 Datum list1(M_LIST, 2);
+			 Datum list2(M_LIST, 2);
 				list1Datum = list1.getScarabDatum();
 				list2Datum = list2.getScarabDatum();
 				CPPUNIT_ASSERT(list1Datum->ref_count == 1);
@@ -545,10 +545,10 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
 				CPPUNIT_ASSERT(dic1Datum->ref_count == 1);
 			
 		
-				Data int1((long)1);
-				Data int2((long)2);
-				Data int3((long)3);
-				Data int4((long)4);
+			 Datum int1((long)1);
+			 Datum int2((long)2);
+			 Datum int3((long)3);
+			 Datum int4((long)4);
 		
 				int1Datum = int1.getScarabDatum();
 				int2Datum = int2.getScarabDatum();
@@ -595,12 +595,12 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
 	
 		// OK that worked, lets reproduce what Jim had:
 		ScarabDatum *dic2Datum;
-		Data dic2a;
+	 Datum dic2a;
 		const int BIG_NUMBER=20000;
 		ScarabDatum *listElementArray[BIG_NUMBER];	
 			{	
-			Data dic2;
-			dic2 = Data(M_DICTIONARY, 5);
+		 Datum dic2;
+			dic2 = Datum(M_DICTIONARY, 5);
 			dic2Datum = dic2.getScarabDatum();
 			CPPUNIT_ASSERT(dic2Datum->ref_count == 1);
 		
@@ -613,7 +613,7 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
 		
 			// look here
 			dic2.addElement("six",(long)6);    
-			dic2.addElement("MWT",(Data)time);  
+			dic2.addElement("MWT",(Datum)time);  
 
 			
 			ScarabDatum *key;
@@ -634,7 +634,7 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
 			CPPUNIT_ASSERT(dic2Datum->ref_count == 1);
 			
 			ScarabDatum *list3Datum;
-			Data list3(M_LIST, BIG_NUMBER);
+		 Datum list3(M_LIST, BIG_NUMBER);
 			list3Datum = list3.getScarabDatum();
 			CPPUNIT_ASSERT(list3Datum->ref_count == 1);
 			
@@ -705,7 +705,7 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
 
 		// testing leakyness for simple dictionaries
 		const int num_elem = 1000;
-		Data *dic1 = new Data(M_DICTIONARY,num_elem);
+	 Datum *dic1 = new Datum(M_DICTIONARY,num_elem);
 		ScarabDatum *dic1Datum = dic1->getScarabDatum();
 		CPPUNIT_ASSERT(dic1Datum->ref_count == 1);
 		
@@ -715,7 +715,7 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
 			oss << i;
 			
 			string key = "key" + oss.str();
-			Data data((long)i);
+		 Datum data((long)i);
 			ScarabDatum *dataDatum = data.getScarabDatum();
 			CPPUNIT_ASSERT(dataDatum->ref_count == 1);
 			
@@ -742,7 +742,7 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
 		delete dic1;		
 		
 		// testing leakyness for more complicated dictionaries
-		Data dic2(M_DICTIONARY,1);
+	 Datum dic2(M_DICTIONARY,1);
 		ScarabDatum *dic2Datum = dic2.getScarabDatum();
 		CPPUNIT_ASSERT(dic2Datum->ref_count == 1);
 		
@@ -752,7 +752,7 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
 			oss << i;
 			
 			string key = "key" + oss.str();
-			Data data((long)i);
+		 Datum data((long)i);
 			ScarabDatum *dataDatum = data.getScarabDatum();
 			CPPUNIT_ASSERT(dataDatum->ref_count == 1);
 			
@@ -785,7 +785,7 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
 			
 			string key = "key" + oss.str();
 			
-			Data data(dic2.getElement(key.c_str()));
+		 Datum data(dic2.getElement(key.c_str()));
 			CPPUNIT_ASSERT(data == (long)i);
 			ScarabDatum *dataDatum = data.getScarabDatum();
 			
@@ -794,7 +794,7 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
 			CPPUNIT_ASSERT(dataDatum->ref_count == 2);
 		}
 		
-		Data data2 = dic2.getElement("This can't be a key");
+	 Datum data2 = dic2.getElement("This can't be a key");
 		CPPUNIT_ASSERT(data2.getScarabDatum() == 0);
 		CPPUNIT_ASSERT(dic2Datum->ref_count == 1);
 		
@@ -813,21 +813,21 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
 		
 		
 		// testing leakyness of sub dictionaries
-		Data dicts[num_elem];
-		Data master_dict(M_DICTIONARY, 1);
+	 Datum dicts[num_elem];
+	 Datum master_dict(M_DICTIONARY, 1);
 		ScarabDatum *masterDictDatum = master_dict.getScarabDatum();
 		CPPUNIT_ASSERT(masterDictDatum->ref_count == 1);
 		
 		for (int i=0; i<num_elem; ++i) {
 			CPPUNIT_ASSERT(masterDictDatum->ref_count == 1);
-			Data newDict(M_DICTIONARY, 2);
+		 Datum newDict(M_DICTIONARY, 2);
 			ScarabDatum *newDictDatum = newDict.getScarabDatum();
 			CPPUNIT_ASSERT(newDictDatum->ref_count == 1);
 			
-			Data int1((long)i);
+		 Datum int1((long)i);
 			ScarabDatum *int1Datum = int1.getScarabDatum();
 			CPPUNIT_ASSERT(int1Datum->ref_count == 1);
-			Data int2((long)2*i);
+		 Datum int2((long)2*i);
 			ScarabDatum *int2Datum = int2.getScarabDatum();
 			CPPUNIT_ASSERT(int2Datum->ref_count == 1);
 			CPPUNIT_ASSERT(masterDictDatum->ref_count == 1);
@@ -873,7 +873,7 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
 		CPPUNIT_ASSERT(masterDictDatum->ref_count == 1);
 		for(int i=0; i<num_elem; ++i) {
 			CPPUNIT_ASSERT(dictsDatumArray[i]->ref_count == 2);			
-			dicts[i] = Data((long)i);
+			dicts[i] = Datum((long)i);
 			CPPUNIT_ASSERT(dictsDatumArray[i]->ref_count == 1);			
 		}
 		CPPUNIT_ASSERT(masterDictDatum->ref_count == 1);
@@ -883,7 +883,7 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
 	void testEmptyDictionary() {
 		fprintf(stderr, "Running GenericDataTestFixture::testEmptyDictionary()\n");
 
-		Data dic(M_DICTIONARY,1);
+	 Datum dic(M_DICTIONARY,1);
 
 		CPPUNIT_ASSERT(!dic.hasKey("anything"));
 		CPPUNIT_ASSERT(dic.getElement("something").isUndefined());
@@ -896,7 +896,7 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
 		fprintf(stderr, "Running GenericDataTestFixture::testDictionary()\n");
 			const int num_elem = 2000;
 			
-		Data *dic1 = new Data(M_DICTIONARY,1);
+	 Datum *dic1 = new Datum(M_DICTIONARY,1);
 		
 		for(int i = 0; i<num_elem; i++)
 		{	
@@ -905,14 +905,14 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
 			
 			
 			string key = "key" + oss.str();
-			Data data((long)i);
+		 Datum data((long)i);
 			
 			dic1->addElement(key.c_str(), data);
 		}
 		ScarabDatum * sd = dic1->getScarabDatumCopy();
 		delete dic1;
 
-		Data *dic2 = new Data(sd);
+	 Datum *dic2 = new Datum(sd);
 		scarab_free_datum(sd);
 
 		CPPUNIT_ASSERT(dic2->getNElements() == num_elem);
@@ -924,14 +924,14 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
 			
 			string key = "key" + oss.str();
 
-			Data data = dic2->getElement(key.c_str());
+		 Datum data = dic2->getElement(key.c_str());
 
 			int result = data.getInteger();
 			
 			CPPUNIT_ASSERT(result == i);
 		}
 		
-		Data *dic3 = new Data(*dic2);
+	 Datum *dic3 = new Datum(*dic2);
 		
 		delete dic2;
 		
@@ -944,14 +944,14 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
 			
 			string key = "key" + oss.str();
 
-			Data data = dic3->getElement(key.c_str());
+		 Datum data = dic3->getElement(key.c_str());
 
 			int result = data.getInteger();
 			
 			CPPUNIT_ASSERT(result == i);
 		}
 	
-		Data dic4 = *dic3;	
+	 Datum dic4 = *dic3;	
 		delete dic3;
 
 		CPPUNIT_ASSERT(dic4.getNElements() == num_elem);
@@ -963,17 +963,17 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
 		
 			string key = "key" + oss.str();
 
-			Data data = dic4.getElement(key.c_str());
+		 Datum data = dic4.getElement(key.c_str());
 
 			int result = data.getInteger();
 			
 			CPPUNIT_ASSERT(result == i);
 		}
 		
-		Data dic5(M_DICTIONARY, 1.0);
+	 Datum dic5(M_DICTIONARY, 1.0);
 		
 		for(int i = 0; i<num_elem; ++i) {
-			Data _i((long)i);
+		 Datum _i((long)i);
 			
 			dic5.addElement(_i, _i);
 			CPPUNIT_ASSERT(dic5.getNElements() == i+1);
@@ -981,9 +981,9 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
 		CPPUNIT_ASSERT(dic5.getNElements() == num_elem);
 
 		for(int i = 0; i<num_elem; ++i) {
-			Data _i((long)i);
+		 Datum _i((long)i);
 
-			Data result(dic5.getElement(_i));
+		 Datum result(dic5.getElement(_i));
 			CPPUNIT_ASSERT(result == _i);
 		}
 	}
@@ -992,7 +992,7 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
 		fprintf(stderr, "Running GenericDataTestFixture::testDictionaryStrings()\n");
 		const int num_elem = 1000;
 		fprintf(stderr, "next statement about dictionary sized 0 is OK\n");
-		Data dic_c(M_DICTIONARY, 0);
+	 Datum dic_c(M_DICTIONARY, 0);
 		char * test = new char[20];
 		char * key = new char[20];
 		
@@ -1000,7 +1000,7 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
 		{	
 			sprintf(test, "string%d", i);
 			sprintf(key, "key%d", i);
-			Data data(test);
+		 Datum data(test);
 			
 			dic_c.addElement(key, data);
 		}
@@ -1012,7 +1012,7 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
 			sprintf(test, "string%d", i);
 			sprintf(key, "key%d", i);
 
-			Data data = dic_c.getElement(key);
+		 Datum data = dic_c.getElement(key);
 
 			string result = data.getString();
 
@@ -1029,8 +1029,8 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
 		fprintf(stderr, "Running GenericDataTestFixture::testDictionaryAddGetElements()\n");
 		const int MAX_I=26;
 		const int MAX_J=10;
-		Data *dic_b;
-		dic_b = new Data(M_DICTIONARY, 1);
+	 Datum *dic_b;
+		dic_b = new Datum(M_DICTIONARY, 1);
 
 		char key[3];
 
@@ -1040,7 +1040,7 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
 				key[0]=(char)('a' + i);
 				key[1]=(char)('a' + j);
 				key[2]='\0';
-				Data test((long)(2*i+1+j));
+			 Datum test((long)(2*i+1+j));
 				dic_b->addElement(key,test);
 				CPPUNIT_ASSERT(dic_b->getNElements() == (MAX_J*i+j+1));
 			}
@@ -1051,7 +1051,7 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
 				key[0]=(char)('a' + i);
 				key[1]=(char)('a' + j);
 				key[2]='\0';
-				Data test2 = dic_b->getElement(key);
+			 Datum test2 = dic_b->getElement(key);
 			
 				CPPUNIT_ASSERT( (int) test2 ==  2*i+1+j );
 			}
@@ -1063,7 +1063,7 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
 				key[0]=(char)('a' + i);
 				key[1]=(char)('a' + j);
 				key[2]='\0';
-				Data test((long)(3*i+1+j));
+			 Datum test((long)(3*i+1+j));
 				dic_b->addElement(key,test);
 				CPPUNIT_ASSERT(dic_b->getNElements() == MAX_I*MAX_J);
 			}
@@ -1074,7 +1074,7 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
 				key[0]=(char)('a' + i);
 				key[1]=(char)('a' + j);
 				key[2]='\0';
-				Data test2 = dic_b->getElement(key);
+			 Datum test2 = dic_b->getElement(key);
 			
 				CPPUNIT_ASSERT( (int) test2 ==  3*i+1+j );
 			}
@@ -1086,7 +1086,7 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
 				key[0]=(char)('a' + i);
 				key[1]=(char)('a' + j);
 				key[2]='\0';
-				Data test((long)(4*i+1+j));
+			 Datum test((long)(4*i+1+j));
 				dic_b->addElement(key,test);
 				CPPUNIT_ASSERT(dic_b->getNElements() == MAX_J*MAX_I);
 			}
@@ -1097,7 +1097,7 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
 				key[0]=(char)('a' + i);
 				key[1]=(char)('a' + j);
 				key[2]='\0';
-				Data test2 = dic_b->getElement(key);
+			 Datum test2 = dic_b->getElement(key);
 			
 				CPPUNIT_ASSERT( (int) test2 ==  4*i+1+j );
 			}
@@ -1109,8 +1109,8 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
 	void testDictionaryKey() {
 		fprintf(stderr, "Running GenericDataTestFixture::testDictionaryKey()\n");
 		const int num_elem = 26;
-		Data dic_d(M_DICTIONARY,1);
-		Data val("Test string");
+	 Datum dic_d(M_DICTIONARY,1);
+	 Datum val("Test string");
 	
 		char key[3];
 
@@ -1143,13 +1143,13 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
 	void testDoubleTeamOnADictionary() {
 		fprintf(stderr, "Running GenericDataTestFixture::testDoubleTeamOnADictionary()\n");
 
-		Data list1(M_LIST, 2);
-		Data list2(M_LIST, 2);
+	 Datum list1(M_LIST, 2);
+	 Datum list2(M_LIST, 2);
 
 		{
-			Data subdic(M_DICTIONARY, 2);
+		 Datum subdic(M_DICTIONARY, 2);
 			ScarabDatum *dicDatum = subdic.getScarabDatum();
-			Data int1((long)1);		
+		 Datum int1((long)1);		
 		
 			subdic.addElement("Key 1", int1);
 
@@ -1166,12 +1166,12 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
 		CPPUNIT_ASSERT(list1.getNElements() == 1);
 		CPPUNIT_ASSERT(list2.getNElements() == 1);
 
-		Data dic1(list1.getElement(1));
-		Data dic2(list2.getElement(1));
+	 Datum dic1(list1.getElement(1));
+	 Datum dic2(list2.getElement(1));
 		
 		CPPUNIT_ASSERT(dic1 == dic2);
 		
-		Data int2((long)2);
+	 Datum int2((long)2);
 		dic1.addElement("Key 2", int2);
 	
 		
@@ -1182,27 +1182,27 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
 
 	void testDataEqual() {
 		fprintf(stderr, "Running GenericDataTestFixture::testDataEqual()\n");
-		Data undef1;
-		Data undef2;		
+	 Datum undef1;
+	 Datum undef2;		
 	
-		Data dic1(M_DICTIONARY, 2);
-		Data dic2(M_DICTIONARY, 2);
+	 Datum dic1(M_DICTIONARY, 2);
+	 Datum dic2(M_DICTIONARY, 2);
 		
-		Data list1(M_LIST, 2);
-		Data list2(M_LIST, 2);
+	 Datum list1(M_LIST, 2);
+	 Datum list2(M_LIST, 2);
 		
-		Data int10(M_INTEGER, 10);
-		Data int20(M_INTEGER, 20);
+	 Datum int10(M_INTEGER, 10);
+	 Datum int20(M_INTEGER, 20);
 
-		Data float11(M_FLOAT, 1.1);
-		Data float22(M_FLOAT, 2.2);
+	 Datum float11(M_FLOAT, 1.1);
+	 Datum float22(M_FLOAT, 2.2);
 
-		Data string1("string1");
-		Data string2("string2");
+	 Datum string1("string1");
+	 Datum string2("string2");
 
-		Data temp;
+	 Datum temp;
 
-		// various combinations of Data comparisons
+		// various combinations of Datum comparisons
 		CPPUNIT_ASSERT(undef1 == undef2);
 		CPPUNIT_ASSERT(undef2 == undef1);
 			
@@ -1408,8 +1408,8 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
 		CPPUNIT_ASSERT(!(dic1 == list1));
 		CPPUNIT_ASSERT(!(list1 == dic1));
 
-		Data dic3(M_DICTIONARY, 6);
-		Data dic4(M_DICTIONARY, 2);
+	 Datum dic3(M_DICTIONARY, 6);
+	 Datum dic4(M_DICTIONARY, 2);
 		dic4.addElement(key1.c_str(), int10);
 		dic4.addElement(key2.c_str(), int20);
 		

@@ -55,7 +55,9 @@ class ScarabServer : public enable_shared_from_this<ScarabServer> {
         Lockable * boolLock;
         int clientThreadInterval; 
         int maxConnections;
-        shared_ptr<BufferManager> buffer_manager;
+    
+        shared_ptr<EventBuffer> incoming_event_buffer;
+        shared_ptr<EventBuffer> outgoing_event_buffer;
         
     private:
         ScarabServerConnection * tempClient; // created for accepting
@@ -76,7 +78,8 @@ class ScarabServer : public enable_shared_from_this<ScarabServer> {
          * sets the listener address to host and listen port number to
          * portNumber.
          */
-        ScarabServer(shared_ptr<BufferManager> _buffer_manager, 
+        ScarabServer(shared_ptr<EventBuffer> _incoming_event_buffer, 
+                             shared_ptr<EventBuffer> _outgoing_event_buffer, 
                              std::string host = DEFAULT_HOST_NAME, 
                              int startPort = DEFAULT_PORT_NUMBER_LOW, 
                              int lowPort = DEFAULT_PORT_NUMBER_LOW, 

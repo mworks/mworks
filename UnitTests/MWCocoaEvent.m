@@ -11,12 +11,12 @@
 
 @implementation MWCocoaEvent
 
-- (id) initWithData:(Data *)data 
+- (id) initWithData:(Datum *)data 
 			andCode:(int)code 
 			andTime:(MonkeyWorksTime)time {
 	self = [super init];
 	if (self != nil) {
-		_data = new Data(*data);
+		_data = new Datum(*data);
 		_code = code;
 		_time = time;
 	}
@@ -32,7 +32,7 @@
 	return _time;
 }
 
-- (Data *)data {
+- (Datum *)data {
 	return _data;
 }
 

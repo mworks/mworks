@@ -17,13 +17,13 @@
 namespace mw {
 class ScarabWriteConnection : public ScarabConnection {
     private:
-	shared_ptr<EventBufferReader> buffer_reader;
+        shared_ptr<EventBufferReader> buffer_reader;
         
     public:
         /** 
          * Constructor delegates all responsibilities to the parent clas
          */
-        ScarabWriteConnection(shared_ptr<BufferManager> _buffer_manager, std::string uri);
+        ScarabWriteConnection(shared_ptr<EventBuffer> _event_buffer, std::string uri);
                 
         /**
          * Services the connection, in this case writing data to it.

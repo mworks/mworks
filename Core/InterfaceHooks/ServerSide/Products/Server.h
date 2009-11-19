@@ -22,7 +22,7 @@
 #include "GenericEventFunctor.h"
 #include "ScarabServer.h"
 namespace mw {
-class Server : public EventHandler {
+class Server : public EventStreamInterface {
     
     protected:
     

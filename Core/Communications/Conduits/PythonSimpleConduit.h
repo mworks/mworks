@@ -125,7 +125,7 @@ public:
 //        }
 //        
         if(conduit != NULL){
-            conduit->sendData(code, Data(data));
+            conduit->sendData(code, Datum(data));
         }else {
             //fprintf(stderr, "Test"); fflush(stderr);
             throw SimpleException("Invalid conduit");
@@ -134,7 +134,7 @@ public:
 
     virtual void sendInteger(int code, long data){
         if(conduit != NULL){
-            conduit->sendData(code, Data(data));
+            conduit->sendData(code, Datum(data));
         } else {
             throw SimpleException("Invalid conduit");
         }

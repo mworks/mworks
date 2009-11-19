@@ -38,7 +38,7 @@ void BoxcarFilter1D::input(double inputValue, MonkeyWorksTime inputTimeUS) {
     //lock();
     //int i = 1;
 	// protected method of the TransformsWithMemoryClass 
-	this->addElementToMemory(THE_INPUT_INDEX, (Data)inputValue, inputTimeUS);	
+	this->addElementToMemory(THE_INPUT_INDEX, (Datum)inputValue, inputTimeUS);	
     //unlock();
     
 }
@@ -48,7 +48,7 @@ void BoxcarFilter1D::input(double inputValue) {
     //lock();
     //int i = 1;
 	// protected method of the TransformsWithMemoryClass 
-	this->addElementToMemory(THE_INPUT_INDEX, (Data)inputValue);	
+	this->addElementToMemory(THE_INPUT_INDEX, (Datum)inputValue);	
 	//unlock();
 }
 
@@ -150,7 +150,7 @@ LinearFilter1D::~LinearFilter1D() {
 void LinearFilter1D::input(double inputValue, MonkeyWorksTime inputTimeUS) {
 	
     //lock();
-    this->addElementToMemory(THE_INPUT_INDEX, (Data)inputValue, inputTimeUS);		
+    this->addElementToMemory(THE_INPUT_INDEX, (Datum)inputValue, inputTimeUS);		
     //unlock();
 }
 
@@ -207,7 +207,7 @@ VelocityComputer1D::~VelocityComputer1D() {
 void VelocityComputer1D::input(double eyeLoc, MonkeyWorksTime timeUS) {
     
     //lock();
-    this->addElementToMemory(THE_INPUT_INDEX, (Data)eyeLoc, timeUS);
+    this->addElementToMemory(THE_INPUT_INDEX, (Datum)eyeLoc, timeUS);
     //unlock();
     
 }
@@ -270,7 +270,7 @@ Filter_BoxcarFilter1D::Filter_BoxcarFilter1D(shared_ptr<Variable> _inputVar, sha
 Filter_BoxcarFilter1D::~Filter_BoxcarFilter1D() {
     delete filter;
 }
-void Filter_BoxcarFilter1D::newDataReceived(int inputIndex, const Data& data, MonkeyWorksTime timeUS) {
+void Filter_BoxcarFilter1D::newDataReceived(int inputIndex, const Datum& data, MonkeyWorksTime timeUS) {
  
 	// DDC: be careful
     //lock();
@@ -288,10 +288,10 @@ void Filter_BoxcarFilter1D::newDataReceived(int inputIndex, const Data& data, Mo
     
     // updaate the only output variable using base class functionality    
     //mVector *output = new Vector();
-    //mVector->?? = (Data)outputValue;
+    //mVector->?? = (Datum)outputValue;
     //postResults(output, outputTimeUS);
 
-    postResults(0,(Data)outputValue, outputTimeUS);
+    postResults(0,(Datum)outputValue, outputTimeUS);
     //unlock();
     
 }
@@ -330,7 +330,7 @@ Filter_LinearFilter1D::Filter_LinearFilter1D(shared_ptr<Variable> _inputVar, sha
 Filter_LinearFilter1D::~Filter_LinearFilter1D() {
     delete filter;
 }
-void Filter_LinearFilter1D::newDataReceived(int inputIndex, const Data& data, MonkeyWorksTime timeUS) {
+void Filter_LinearFilter1D::newDataReceived(int inputIndex, const Datum& data, MonkeyWorksTime timeUS) {
 	
 	// DDC: be careful
     //lock();
@@ -346,7 +346,7 @@ void Filter_LinearFilter1D::newDataReceived(int inputIndex, const Data& data, Mo
     if (VERBOSE_FILTERS) mprintf(" ****  Filter_mLinearFilter1D newDataReceived:  output = %f output time = %d us",
                                 (double)outputValue, (long)outputTimeUS);
 
-    postResults(0,(Data)outputValue, outputTimeUS);
+    postResults(0,(Datum)outputValue, outputTimeUS);
     //unlock();
     
 }

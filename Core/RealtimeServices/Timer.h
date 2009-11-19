@@ -55,10 +55,10 @@ public:
 	bool hasExpired();
 	void forceExpired();
 	void cleanUp();
-	Data getValue();
-	void setValue(Data v){ }
-	void setValue(Data v, MonkeyWorksTime t){ }
-	void setSilentValue(Data _value){ }
+ Datum getValue();
+	void setValue(Datum v){ }
+	void setValue(Datum v, MonkeyWorksTime t){ }
+	void setSilentValue(Datum _value){ }
 	Variable *clone();
 	
 	

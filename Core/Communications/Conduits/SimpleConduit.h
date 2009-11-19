@@ -68,7 +68,7 @@ public:
 
     // Send data to the other side.  It is assumed that both sides understand 
     // what the event codes mean.
-    virtual void sendData(int code, Data data);
+    virtual void sendData(int code, Datum data);
     virtual void sendData(shared_ptr<Event> evt);
     
 };

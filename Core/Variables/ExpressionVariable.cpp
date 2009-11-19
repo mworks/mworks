@@ -37,54 +37,54 @@ ExpressionVariable::ExpressionVariable(Variable *_v1,
 
 
 
-Data ExpressionVariable::getExpressionValue(){
+Datum ExpressionVariable::getExpressionValue(){
 
 	switch(op){
 	
 		case M_PLUS:
-			return v1->operator Data() + v2->operator Data();
+			return v1->operator Datum() + v2->operator Datum();
 		case M_MINUS:
-			return v1->operator Data() - v2->operator Data();
+			return v1->operator Datum() - v2->operator Datum();
 		case M_TIMES:
-			return v1->operator Data() * v2->operator Data();
+			return v1->operator Datum() * v2->operator Datum();
 		case M_DIVIDE:
-			return v1->operator Data() / v2->operator Data();
+			return v1->operator Datum() / v2->operator Datum();
 		case M_MOD:
-			return v1->operator Data() % v2->operator Data();
+			return v1->operator Datum() % v2->operator Datum();
 		
 		case M_INCREMENT:
 			// TODO: side effect?
-			return v1->operator Data() + Data((long)1);
+			return v1->operator Datum() + Datum((long)1);
 		case M_DECREMENT:
 			// TODO: side effect?
-			return v1->operator Data() - Data((long)1);
+			return v1->operator Datum() - Datum((long)1);
 
 		case M_IS_EQUAL:
-			return v1->operator Data() == v2->operator Data();					
+			return v1->operator Datum() == v2->operator Datum();					
 		case M_IS_NOT_EQUAL:
-			return (v1->operator Data() != v2->operator Data());						
+			return (v1->operator Datum() != v2->operator Datum());						
 		case M_IS_GREATER_THAN:
-			return v1->operator Data() > v2->operator Data();
+			return v1->operator Datum() > v2->operator Datum();
 		case M_IS_LESS_THAN:
-			return v1->operator Data() < v2->operator Data();	
+			return v1->operator Datum() < v2->operator Datum();	
 		case M_IS_GREATER_THAN_OR_EQUAL:
-			return v1->operator Data() >= v2->operator Data();
+			return v1->operator Datum() >= v2->operator Datum();
 		case M_IS_LESS_THAN_OR_EQUAL:
-			return v1->operator Data() <= v2->operator Data();
+			return v1->operator Datum() <= v2->operator Datum();
 			
 		case M_AND:
-			return v1->operator Data() && v2->operator Data();
+			return v1->operator Datum() && v2->operator Datum();
 		case M_OR:
-			return v1->operator Data() || v2->operator Data();
+			return v1->operator Datum() || v2->operator Datum();
 		case M_NOT:
-			return !(v1->operator Data());	
+			return !(v1->operator Datum());	
 		case M_UNARY_MINUS:
-			return (v1->operator Data()) * Data(-1L);	
+			return (v1->operator Datum()) * Datum(-1L);	
 		case M_UNARY_PLUS:
-			return (v1->operator Data());	
+			return (v1->operator Datum());	
 		// TODO: casts? (will require parser magic)
 		default:
-			return Data();
+			return Datum();
 	}
 }
 

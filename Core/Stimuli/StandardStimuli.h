@@ -94,7 +94,7 @@ class BasicTransformStimulus : public Stimulus {
         virtual void draw(StimulusDisplay * display);
         virtual void draw(StimulusDisplay * display,float x, float y,
                                                     float sizex, float sizey);
-        virtual Data getCurrentAnnounceDrawData();    
+        virtual Datum getCurrentAnnounceDrawData();    
 	
 				virtual shared_ptr<Variable> getXScale(){ return xscale; }
 				virtual shared_ptr<Variable> getYScale(){ return yscale; }
@@ -151,7 +151,7 @@ class ImageStimulus : public BasicTransformStimulus {
         std::string getFilename();
         virtual void drawInUnitSquare(StimulusDisplay *display);
         virtual void load(StimulusDisplay *display);
-        virtual Data getCurrentAnnounceDrawData();
+        virtual Datum getCurrentAnnounceDrawData();
 };
 
 class ImageStimulusFactory : public ComponentFactory {
@@ -184,7 +184,7 @@ class PointStimulus : public BasicTransformStimulus {
 		virtual Stimulus * frozenClone();
 		
         virtual void drawInUnitSquare(StimulusDisplay *display);
-        virtual Data getCurrentAnnounceDrawData();
+        virtual Datum getCurrentAnnounceDrawData();
 
 };
 
@@ -270,7 +270,7 @@ class BlankScreen : public Stimulus{
 		virtual Stimulus * frozenClone();
 		
         virtual void drawInUnitSquare(StimulusDisplay *display);
-        virtual Data getCurrentAnnounceDrawData();
+        virtual Datum getCurrentAnnounceDrawData();
 };
 
 class BlankScreenFactory : public ComponentFactory {
@@ -281,11 +281,11 @@ class BlankScreenFactory : public ComponentFactory {
 /*class VideoRequest {
 	protected:
 		StimID stimtodraw;
-		Data xloc;
-		Data yloc;
+	 Datum xloc;
+	 Datum yloc;
 		
 	public:
-		VideoRequest(StimID _stim, Data _x, Data _y) {
+		VideoRequest(StimID _stim, Datum _x, Datum _y) {
 			stimtodraw = _stim;
 			xloc = _x;
 			yloc = _y;

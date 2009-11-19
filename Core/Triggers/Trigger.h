@@ -65,14 +65,14 @@ public:
 	AsynchronousTriggerNotification(AsynchronousTrigger *_target);
 	virtual ~AsynchronousTriggerNotification(){};
 	
-	virtual void notify(const Data& data){
+	virtual void notify(const Datum& data){
         //mprintf("notifying asych trigger of a variable change ...");
 		target->evaluate();
 	}
     
     // TODO -- Dave, I had to add this method to make the trigger actaully be called when the
     // variable logged a change.  I am not sure how to avoid such an error.
-    virtual void notify(const Data& data, MonkeyWorksTime timeUS){
+    virtual void notify(const Datum& data, MonkeyWorksTime timeUS){
         //mprintf("notifying asych trigger of a variable change ver 2...");
 		target->evaluate();
 	}
@@ -97,8 +97,8 @@ public:
 	
 		bool result = false;
 		
-		Data watchval = *watchvar;
-		Data threshval = *threshold;
+	 Datum watchval = *watchvar;
+	 Datum threshval = *threshold;
 	
 		if(watchval.getDataType() == M_FLOAT || threshval.getDataType() == M_FLOAT){
 			result = (double)watchval > (double)threshval;
@@ -132,8 +132,8 @@ public:
 		
 		bool result = false;
 		
-		Data watchval = *watchvar;
-		Data threshval = *threshold;
+	 Datum watchval = *watchvar;
+	 Datum threshval = *threshold;
 	
 		if(watchval.getDataType() == M_FLOAT || 
 			threshval.getDataType() == M_FLOAT){

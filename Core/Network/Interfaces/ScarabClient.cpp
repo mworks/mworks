@@ -10,7 +10,7 @@
  
 #include "ScarabClient.h"
 #include "EventBuffer.h"
-#include "EventFactory.h"
+#include "ControlEventFactory.h"
 #include <string.h>
 #include <boost/format.hpp>
 using namespace mw;
@@ -34,22 +34,25 @@ using namespace mw;
 
 const int DEFAULT_THREAD_INTERVAL_US = 20000;
 
-ScarabClient::ScarabClient(shared_ptr<BufferManager> _buffer_manager) {
+ScarabClient::ScarabClient(shared_ptr<EventBuffer> _incoming_event_buffer,
+                           shared_ptr<EventBuffer> _outgoing_event_buffer) {
     serverPort = 0;
     threadInterval = DEFAULT_THREAD_INTERVAL_US;
-	buffer_manager = _buffer_manager;
+	incoming_event_buffer = _incoming_event_buffer;
+    outgoing_event_buffer = _outgoing_event_buffer;
 }
 
-ScarabClient::ScarabClient(shared_ptr<BufferManager> _buffer_manager, std::string  server, int port) {
+ScarabClient::ScarabClient(shared_ptr<EventBuffer> _incoming_event_buffer, shared_ptr<EventBuffer> _outgoing_event_buffer, std::string  server, int port) {
     
-	buffer_manager = _buffer_manager;
-	
+	incoming_event_buffer = _incoming_event_buffer;
+	outgoing_event_buffer = _outgoing_event_buffer;
+    
 	// five is max port length + 1 for colon + 1 for NULL
     std::string tmp = SCARAB_URI + server + ":" + 
 										(boost::format("%d")%port).str();
 
-    reader = shared_ptr<ScarabReadConnection>(new ScarabReadConnection(buffer_manager, tmp));
-    writer = shared_ptr<ScarabWriteConnection>(new ScarabWriteConnection(buffer_manager, tmp));
+    reader = shared_ptr<ScarabReadConnection>(new ScarabReadConnection(incoming_event_buffer, tmp));
+    writer = shared_ptr<ScarabWriteConnection>(new ScarabWriteConnection(outgoing_event_buffer, tmp));
 
 	host = server;
 
@@ -71,10 +74,10 @@ int ScarabClient::prepareForConnecting() {
     
     // create the read and write connections
 	if(reader == shared_ptr<ScarabReadConnection>()){
-		reader = shared_ptr<ScarabReadConnection>(new ScarabReadConnection(buffer_manager, tmp));
+		reader = shared_ptr<ScarabReadConnection>(new ScarabReadConnection(incoming_event_buffer, tmp));
     }
     if(writer == shared_ptr<ScarabWriteConnection>()){
-        writer = shared_ptr<ScarabWriteConnection>(new ScarabWriteConnection(buffer_manager, tmp));     
+        writer = shared_ptr<ScarabWriteConnection>(new ScarabWriteConnection(outgoing_event_buffer, tmp));     
     }
 	
     reader->setSibling(writer);
@@ -106,7 +109,7 @@ shared_ptr<NetworkReturn> ScarabClient::connect() {
             return rc;
     }
     mnetwork("Incoming network session connected");
-    buffer_manager->putEvent(EventFactory::clientConnectedToServerResponse());
+    outgoing_event_buffer->putEvent(ControlEventFactory::clientConnectedToServerResponse());
     return rc;
 }
 
@@ -123,7 +126,7 @@ void ScarabClient::disconnect() {
         // the service is interrupted
         writer->setInterrupt(true);
     }
-    buffer_manager->putEvent(EventFactory::clientDisconnectedFromServerResponse());
+    outgoing_event_buffer->putEvent(ControlEventFactory::clientDisconnectedFromServerResponse());
 }
 
 void ScarabClient::start() {

@@ -43,11 +43,11 @@ namespace mw {
 		vsnprintf(buffer, MSG_BUFFER_SIZE-1, format.c_str(), ap);
 		
 		
-		Data messageDatum=Data(M_DICTIONARY, 4);
-		messageDatum.addElement(M_MESSAGE_DOMAIN, Data(M_INTEGER, domain));
-		messageDatum.addElement(M_MESSAGE, Data(std::string(buffer)));
-		messageDatum.addElement(M_MESSAGE_TYPE, Data(M_INTEGER, type));
-		messageDatum.addElement(M_MESSAGE_ORIGIN, Data(M_INTEGER, GlobalMessageOrigin));
+	 Datum messageDatum=Datum(M_DICTIONARY, 4);
+		messageDatum.addElement(M_MESSAGE_DOMAIN, Datum(M_INTEGER, domain));
+		messageDatum.addElement(M_MESSAGE, Datum(std::string(buffer)));
+		messageDatum.addElement(M_MESSAGE_TYPE, Datum(M_INTEGER, type));
+		messageDatum.addElement(M_MESSAGE_ORIGIN, Datum(M_INTEGER, GlobalMessageOrigin));
 		if(GlobalMessageVariable != 0) {
 			if(type == M_GENERIC_MESSAGE){
 				GlobalMessageVariable->setValue(messageDatum);

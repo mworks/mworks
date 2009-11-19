@@ -13,7 +13,7 @@ using namespace mw;
 
 static void *terminate(const shared_ptr<ScarabConnection> &sc);
 
-ScarabConnection::ScarabConnection(shared_ptr<BufferManager> _buffer_manager, std::string _uri) {
+ScarabConnection::ScarabConnection(shared_ptr<EventBuffer> _event_buffer, std::string _uri) {
     pipe = NULL;
     
 	uri = _uri;
@@ -26,7 +26,7 @@ ScarabConnection::ScarabConnection(shared_ptr<BufferManager> _buffer_manager, st
     
     connectionStats = shared_ptr<NetworkConnectionStats>(new NetworkConnectionStats());
 	
-	buffer_manager = _buffer_manager;
+	event_buffer = _event_buffer;
 }
 
 ScarabConnection::~ScarabConnection() {

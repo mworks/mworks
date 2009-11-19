@@ -20,8 +20,8 @@
 #include "EventBuffer.h"
 using namespace mw;
 
-VariableRegistry::VariableRegistry(shared_ptr<BufferManager> _buffer_manager) {
-	buffer_manager = _buffer_manager;
+VariableRegistry::VariableRegistry(shared_ptr<EventBuffer> _buffer) {
+	event_buffer = _buffer;
 	
 	addPlaceholders();
 }
@@ -47,7 +47,7 @@ void VariableRegistry::reset(){
 
 
 void VariableRegistry::addPlaceholders(){
-	Data defaultInt(0L);
+    Datum defaultInt(0L);
 	VariableProperties componentCodecProps(&defaultInt,       // constructor to create default
 											COMPONENT_CODEC_RESERVED_TAGNAME, 
 											"component codec",
@@ -79,14 +79,9 @@ void VariableRegistry::addPlaceholders(){
 	addPlaceholderVariable(&terminationProps);  // view  
 }
 	
-VariableRegistry::~VariableRegistry() {
-	
-	// assumes that all stored variables are in one of the other lists
-	// and will get deleted from there.
-	master_variable_list.releaseElements();
-}
+VariableRegistry::~VariableRegistry() { }
 
-void VariableRegistry::update(const Data &codec) {
+void VariableRegistry::updateFromCodecDatum(const Datum &codec) {
 	mprintf(M_SYSTEM_MESSAGE_DOMAIN,
 			"Received new codec, updating variable registry.");
 	
@@ -147,10 +142,10 @@ void VariableRegistry::update(const Data &codec) {
 				continue;
 			}
 			
-			shared_ptr<GlobalVariable> newvar(new GlobalVariable(props));
+			shared_ptr<Variable> newvar(new GlobalVariable(props));
 			newvar->setCodecCode(i); //necessary? .. Yup
 			
-			master_variable_list.addReference(newvar);
+			master_variable_list.push_back(newvar);
             
             std::string tag = newvar->getVariableName();
             if(!tag.empty()){
@@ -164,32 +159,37 @@ void VariableRegistry::update(const Data &codec) {
 void VariableRegistry::announceLocalVariables(){
 	boost::mutex::scoped_lock s_lock(lock);
 	
-	for(int i = 0; i < local_variable_list.getNElements(); i++){
-		local_variable_list[i]->announce();
+    vector< shared_ptr<Variable> >::iterator i;
+	for(i = local_variable_list.begin(); i != local_variable_list.end(); i++){
+		(*i)->announce();
 	}
 }
 
 void VariableRegistry::announceGlobalVariables(){
 	boost::mutex::scoped_lock s_lock(lock);
-		
-	for(int i = 0; i < global_variable_list.getNElements(); i++){
-		global_variable_list[i]->announce();
+	
+	vector< shared_ptr<Variable> >::iterator i;
+	for(i = global_variable_list.begin(); i != global_variable_list.end(); i++){
+		(*i)->announce();
 	}
 	
 }
 
 void VariableRegistry::announceSelectionVariables(){
 	boost::mutex::scoped_lock s_lock(lock);
-		
-	for(int i = 0; i < selection_variable_list.getNElements(); i++){
-		selection_variable_list[i]->announce();
+	
+	vector< shared_ptr<Variable> >::iterator i;
+	for(i = selection_variable_list.begin(); i != selection_variable_list.end(); i++){
+		(*i)->announce();
 	}
 }
 
 void VariableRegistry::announceAll() {
 	boost::mutex::scoped_lock s_lock(lock);
-	for(int i = 0; i < master_variable_list.getNElements(); i++){
-		master_variable_list[i]->announce();
+	
+    vector< shared_ptr<Variable> >::iterator i;
+    for(i = master_variable_list.begin(); i != master_variable_list.end(); i++){
+		(*i)->announce();
 	}	
 }
 
@@ -222,7 +222,7 @@ shared_ptr<Variable> VariableRegistry::getVariable(int codec_code) {
     // DDC: removed what was this for?
 	//mExpandableList<Variable> list(master_variable_list);
 	
-	if(codec_code < 0 || codec_code > master_variable_list.getNElements()){
+	if(codec_code < 0 || codec_code > master_variable_list.size()){
 		merror(M_SYSTEM_MESSAGE_DOMAIN,
 			   "Attempt to get an invalid variable (code: %d)",
 			   codec_code);
@@ -231,19 +231,20 @@ shared_ptr<Variable> VariableRegistry::getVariable(int codec_code) {
 	} else {
         // DDC: removed copying.  What was that for?
 		//var = list[codec_code];
-        var = master_variable_list.getElement(codec_code);
+        var = master_variable_list[codec_code];
 	}
 	
 	return var;
 }
 
-std::vector<std::string> VariableRegistry::getVariableTagnames() {
+std::vector<std::string> VariableRegistry::getVariableTagNames() {
 	boost::mutex::scoped_lock s_lock(lock);
 	
 	std::vector<std::string> tagnames;
 	
-	for(int i = 0; i < master_variable_list.getNElements(); i++){		
-		shared_ptr<Variable> var = master_variable_list[i];		
+    vector< shared_ptr<Variable> >::iterator i;
+	for(i = master_variable_list.begin(); i != master_variable_list.end(); i++){		
+		shared_ptr<Variable> var = (*i);		
 		if(var) {
 			tagnames.push_back(var->getVariableName());
 		}
@@ -261,18 +262,8 @@ bool VariableRegistry::hasVariable(std::string &tagname) const {
 
 
 int VariableRegistry::getNVariables() { 
-	return master_variable_list.getNElements();
+	return master_variable_list.size();
 }
-
-
-ExpandableList<ScopedVariable> *VariableRegistry::getLocalVariables() { 
-	return &local_variable_list;
-}
-
-ExpandableList<GlobalVariable> *VariableRegistry::getGlobalVariables() { 
-	return &global_variable_list;
-}
-
 
 
 shared_ptr<ScopedVariable> VariableRegistry::addScopedVariable(weak_ptr<ScopedVariableEnvironment> env,
@@ -291,19 +282,21 @@ shared_ptr<ScopedVariable> VariableRegistry::addScopedVariable(weak_ptr<ScopedVa
     shared_ptr<ScopedVariable> new_variable(new ScopedVariable(props_copy));
 	//GlobalCurrentExperiment->addVariable(new_variable);
     
-	codec_code = master_variable_list.addReference(new_variable);
+    master_variable_list.push_back(new_variable);
+	codec_code = master_variable_list.size() - 1;
     
     std::string tag = new_variable->getVariableName();
     if(!tag.empty()){
         master_variable_dictionary[tag] = new_variable;
 	}
     
-	variable_context_index = local_variable_list.addReference(new_variable);	
+    local_variable_list.push_back(new_variable);
+	variable_context_index = local_variable_list.size() - 1;
 	
 	new_variable->setContextIndex(variable_context_index);
 	new_variable->setLogging(M_WHEN_CHANGED);
 	new_variable->setCodecCode(codec_code);
-	new_variable->setBufferManager(buffer_manager);
+	new_variable->setEventTarget(static_pointer_cast<EventReceiver>(event_buffer));
 	
 	if(!env.expired()){
 		shared_ptr<ScopedVariableEnvironment> env_shared(env);
@@ -324,27 +317,29 @@ shared_ptr<GlobalVariable> VariableRegistry::addGlobalVariable(VariablePropertie
 	VariableProperties *copy = new VariableProperties(*props);
 	shared_ptr<GlobalVariable> returnref(new GlobalVariable(copy));
 	
-	int codec_code = master_variable_list.addReference(returnref);
+    master_variable_list.push_back(returnref);
+	int codec_code = master_variable_list.size() - 1;
 	
     std::string tag = returnref->getVariableName();
     if(!tag.empty()){
         master_variable_dictionary[tag] = returnref;
 	}
     
-    global_variable_list.addReference(returnref);
+    
+    global_variable_list.push_back(returnref);
 	
 	returnref->setCodecCode(codec_code);
-	returnref->setBufferManager(buffer_manager);
+	returnref->setEventTarget(static_pointer_cast<EventReceiver>(event_buffer));
 	
 	return returnref;
 }
 
-shared_ptr<ConstantVariable> VariableRegistry::addConstantVariable(Data value){
+shared_ptr<ConstantVariable> VariableRegistry::addConstantVariable(Datum value){
 	
 	
 	shared_ptr<ConstantVariable> returnref(new ConstantVariable(value));
 	returnref->setCodecCode(-1);
-	returnref->setBufferManager(buffer_manager);
+	returnref->setEventTarget(static_pointer_cast<EventReceiver>(event_buffer));
 	
 	return returnref;
 }
@@ -368,7 +363,7 @@ shared_ptr<Timer> VariableRegistry::createTimer(VariableProperties *props) {
 	}
 	
 	new_timer->setCodecCode(-1);
-	new_timer->setBufferManager(buffer_manager);	
+	new_timer->setEventTarget(static_pointer_cast<EventReceiver>(event_buffer));	
 	
 	return new_timer;
 }
@@ -385,11 +380,12 @@ shared_ptr<EmptyVariable> VariableRegistry::addPlaceholderVariable(VariablePrope
 	
 	
 	shared_ptr<EmptyVariable> returnref(new EmptyVariable(props_copy));
-	
-	int codec_code = master_variable_list.addReference(returnref);
+    
+    master_variable_list.push_back(returnref);
+	int codec_code = master_variable_list.size();
 	
 	returnref->setCodecCode(codec_code);
-	returnref->setBufferManager(buffer_manager);
+	returnref->setEventTarget(static_pointer_cast<EventReceiver>(event_buffer));
 	
 	return returnref;
 }
@@ -408,16 +404,18 @@ shared_ptr<SelectionVariable> VariableRegistry::addSelectionVariable(VariablePro
 	
 	shared_ptr<SelectionVariable> returnref(new SelectionVariable(props_copy));
 	
-	int codec_code = master_variable_list.addReference(returnref);
+    master_variable_list.push_back(returnref);
+	int codec_code = master_variable_list.size();
+    
 	std::string tag = returnref->getVariableName();
     if(!tag.empty()){
         master_variable_dictionary[tag] = returnref;
 	}
     
-    selection_variable_list.addReference(returnref);
+    selection_variable_list.push_back(returnref);
 	
 	returnref->setCodecCode(codec_code);
-	returnref->setBufferManager(buffer_manager);
+	returnref->setEventTarget(static_pointer_cast<EventReceiver>(event_buffer));
 	return returnref;
 }
 
@@ -439,7 +437,7 @@ shared_ptr<GlobalVariable> VariableRegistry::createGlobalVariable(VariableProper
 	return var;
 }
 
-shared_ptr<ConstantVariable> VariableRegistry::createConstantVariable(Data value){	
+shared_ptr<ConstantVariable> VariableRegistry::createConstantVariable(Datum value){	
 	return addConstantVariable(value);
 }
 
@@ -461,7 +459,7 @@ shared_ptr<SelectionVariable> VariableRegistry::createSelectionVariable(Variable
 }
 
 
-Data VariableRegistry::getCodec() {
+Datum VariableRegistry::generateCodecDatum() {
 	
 	ScarabDatum *codec = NULL;
     shared_ptr<Variable> var;
@@ -469,7 +467,7 @@ Data VariableRegistry::getCodec() {
 	
 	boost::mutex::scoped_lock s_lock(lock);
 
-    int dictSize = master_variable_list.getNElements();
+    int dictSize = master_variable_list.size();
 	
 	codec = scarab_dict_new(dictSize, &scarab_dict_times2);
 	
@@ -486,8 +484,10 @@ Data VariableRegistry::getCodec() {
 		}
         
 		VariableProperties *props = var->getProperties();
-		if(props == NULL){ continue; }
-		Data serialized_var(props->operator Data());
+		
+        if(props == NULL){ continue; }
+        
+        Datum serialized_var(props->operator Datum());
 		
         if(serialized_var.isUndefined()) {
             mdebug("local parameter null value at param (%d)", i);
@@ -498,7 +498,7 @@ Data VariableRegistry::getCodec() {
     }
 	
 	
-	Data returnCodec(codec);
+    Datum returnCodec(codec);
 	scarab_free_datum(codec);
     return returnCodec;  
 }
@@ -513,19 +513,19 @@ stx::AnyScalar	VariableRegistry::lookupVariable(const std::string &varname) cons
 		throw  SimpleException("Failed to find variable during expression evaluation", varname);
 	}
 	
-	Data value = *(var);
+ Datum value = *(var);
 	stx::AnyScalar retval = value;
 	return retval;
 	
 }
 
 namespace mw {
-shared_ptr<VariableRegistry> GlobalVariableRegistry;
+shared_ptr<VariableRegistry> global_variable_registry;
 static bool registry_initialized = false;
 }
 
 //void initializeVariableRegistry() {
-//	GlobalVariableRegistry = shared_ptr<VariableRegistry>(new VariableRegistry(GlobalBufferManager));
+//	global_variable_registry = shared_ptr<VariableRegistry>(new VariableRegistry(global_outgoing_event_buffer));
 //    registry_initialized = true;
 //	
 //}

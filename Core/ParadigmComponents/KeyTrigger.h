@@ -28,7 +28,7 @@ class KeyTrigger{
 		
 		bool setadditionalvalue;
 		Variable *radiovar;
-		Data value; 			// not implemented as a template for now to reduce complexity
+	 Datum value; 			// not implemented as a template for now to reduce complexity
 		
 	/*	char getMask(int index){
 		
@@ -69,7 +69,7 @@ class KeyTrigger{
 			setadditionalvalue = false;
 		}
 		
-		KeyTrigger(char _code, Variable *_toggle, Variable *_radiovar, Data _val, Variable *_active){
+		KeyTrigger(char _code, Variable *_toggle, Variable *_radiovar, Datum _val, Variable *_active){
 		
 			key = _code;
 			modifier = NO_MODIFIER;
@@ -82,7 +82,7 @@ class KeyTrigger{
 			setadditionalvalue = true;
 		}
 		
-		KeyTrigger(KeyModifier _modifier, char _key, Variable *_toggle, Variable *_radiovar, Data _val, Variable *_active){
+		KeyTrigger(KeyModifier _modifier, char _key, Variable *_toggle, Variable *_radiovar, Datum _val, Variable *_active){
 		
 			key = _key;
 			modifier = _modifier;
@@ -104,7 +104,7 @@ class KeyTrigger{
         Variable * getToggleVar() { return togglevar; }
         //additional data items
         Variable * getRadioVar() { return radiovar; }
-        Data * getValue() { return &value; }
+        Datum * getValue() { return &value; }
 
 
 /*

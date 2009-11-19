@@ -25,9 +25,9 @@ void ScarabEventTestFixture::setUp(){
 	shared_clock = Clock::instance(false);
 	CPPUNIT_ASSERT(shared_clock != NULL);
 	
-  reg = new VariableRegistry(GlobalBufferManager);
+    reg = new VariableRegistry(global_outgoing_event_buffer);
   
-	Data defaultBool((bool)false);
+ Datum defaultBool((bool)false);
 	VariableProperties props(&defaultBool, 
 						"test",
 						"Test test",
@@ -57,7 +57,7 @@ void ScarabEventTestFixture::tearDown(){
 void ScarabEventTestFixture::testToFromScarabDatum(){
 	fprintf(stderr, "Running ScarabEventTestFixture::testToFromScarabDatum()\n");
 	
-	Data codec(reg->getCodec());
+ Datum codec(reg->getCodec());
 	Event test_event(RESERVED_CODEC_CODE, codec.getScarabDatum());
 	
 	ScarabDatum *serialized = test_event.toScarabDatum();

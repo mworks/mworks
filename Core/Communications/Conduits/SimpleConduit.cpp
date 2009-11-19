@@ -8,7 +8,7 @@
  */
 
 #include "SimpleConduit.h"
-#include "EventFactory.h"
+#include "ControlEventFactory.h"
 #include "StandardVariables.h"
 
 using namespace mw;
@@ -128,13 +128,13 @@ void SimpleConduit::registerCallback(string event_name, event_callback functor){
     
     registerCallback(event_code, functor);
     
-    sendData(EventFactory::setEventForwardingControl(event_name, true));
+    sendData(ControlEventFactory::setEventForwardingControl(event_name, true));
 }
 
 
 // Send data to the other side.  It is assumed that both sides understand 
 // what the event codes mean.
-void SimpleConduit::sendData(int code, Data data){
+void SimpleConduit::sendData(int code, Datum data){
     //fprintf(stderr, "sending event");fflush(stderr);
     shared_ptr<Event> event(new Event(code, data));
     transport->sendEvent(event);

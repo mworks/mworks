@@ -12,7 +12,7 @@
 
 #include "EventBuffer.h"
 #include "Event.h"
-#include "EventHandler.h"
+#include "EventStreamInterface.h"
 #include "Scheduler.h"
 
 #include "boost/enable_shared_from_this.hpp"
@@ -27,8 +27,8 @@ protected:
 	shared_ptr<EventBufferReader> reader;
 	// the thread node
 	shared_ptr<ScheduleTask> thread;
-	// handle to an eventhandler object
-	shared_ptr<EventHandler> handler;
+	// handle to an EventStreamInterface object
+	shared_ptr<EventStreamInterface> handler;
 	// are we in the middle of servicing
 	bool servicing;
 public:

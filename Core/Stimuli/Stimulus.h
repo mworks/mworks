@@ -200,7 +200,7 @@ public:
 
         
         // these method should be overriden to provide more announcement detail       
-        virtual Data getCurrentAnnounceDrawData();  
+        virtual Datum getCurrentAnnounceDrawData();  
         
 		
 		void setIsFrozen(bool _isit){  frozen = _isit; }

@@ -48,7 +48,7 @@ BiasMonitor::BiasMonitor(shared_ptr<Variable> _success,
         
 }
 
-void BiasMonitor::newDataReceived(int inputIndex, const Data& data, 
+void BiasMonitor::newDataReceived(int inputIndex, const Datum& data, 
                                                 MonkeyWorksTime timeUS){
 	
 	if(inputIndex != 0){
@@ -75,8 +75,8 @@ void BiasMonitor::newDataReceived(int inputIndex, const Data& data,
     // compute task correlation (e.g. normalized cross correlation of responses 
     // with correct answers
     
-    deque<Data>::iterator success_iterator;
-    deque<Data>::iterator response_iterator;
+    deque<Datum>::iterator success_iterator;
+    deque<Datum>::iterator response_iterator;
     
     double task_corr = 0.;
     double resp_corr = 0.;
@@ -105,9 +105,9 @@ void BiasMonitor::newDataReceived(int inputIndex, const Data& data,
     
     double divisor = history;
     
-    postResults(task_corr_index, Data(task_corr / divisor));
-    postResults(response_corr_index, Data(resp_corr / divisor));
-    postResults(alternation_corr_index, Data(alt_corr / divisor));
+    postResults(task_corr_index, Datum(task_corr / divisor));
+    postResults(response_corr_index, Datum(resp_corr / divisor));
+    postResults(alternation_corr_index, Datum(alt_corr / divisor));
 }
 
 void BiasMonitor::reset(){

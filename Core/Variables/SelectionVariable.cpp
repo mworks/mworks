@@ -70,7 +70,7 @@ void SelectionVariable::nextValue(){
 }
 
 
-Data SelectionVariable::getValue(){
+Datum SelectionVariable::getValue(){
 	if(selected_value == NULL){
 		nextValue();
 	}
@@ -78,7 +78,7 @@ Data SelectionVariable::getValue(){
 	if(selected_value == NULL){
 		merror(M_PARADIGM_MESSAGE_DOMAIN,
 			   "Attempt to select a value from a selection variable with no values defined");
-		return Data(0L);
+		return Datum(0L);
 	}
 	
 	
@@ -106,7 +106,7 @@ shared_ptr<mw::Component> SelectionVariableFactory::createObject(std::map<std::s
 	bool viewable = true; // can the user see this variable
 	bool persistant = false; // save the variable from run to run
 	WhenType logging = M_WHEN_CHANGED; // when does this variable get logged
-	Data defaultValue(0L); // the default value Data object.	
+ Datum defaultValue(0L); // the default value Datum object.	
 	std::string groups("");
 	
 	string tag(parameters.find("tag")->second);
@@ -213,13 +213,13 @@ shared_ptr<mw::Component> SelectionVariableFactory::createObject(std::map<std::s
 		case M_FLOAT:
 		case M_BOOLEAN:
 			try {
-				defaultValue = Data(type, boost::lexical_cast<float>(parameters.find("default_value")->second));					
+				defaultValue = Datum(type, boost::lexical_cast<float>(parameters.find("default_value")->second));					
 			} catch (bad_lexical_cast &) {					
 				throw InvalidAttributeException("default_value", parameters.find("default_value")->second);
 			}
 			break;
 		case M_STRING:
-			defaultValue = Data(parameters.find("default_value")->second);
+			defaultValue = Datum(parameters.find("default_value")->second);
 			break;
 		default:
 			throw InvalidAttributeException("default_value", parameters.find("default_value")->second);
@@ -243,7 +243,7 @@ shared_ptr<mw::Component> SelectionVariableFactory::createObject(std::map<std::s
 							  std::string(""));
 	
 	boost::shared_ptr<SelectionVariable>selectionVar;
-	selectionVar = GlobalVariableRegistry->createSelectionVariable(&props);
+	selectionVar = global_variable_registry->createSelectionVariable(&props);
 	
 	// get the values
 	std::vector<std::string> values;

@@ -106,9 +106,9 @@ bool Timer::hasExpired(){
 
 void Timer::cleanUp(){}
 
-Data Timer::getValue() {
+Datum Timer::getValue() {
 	boost::mutex::scoped_lock lock(*internalLock);
-	return Data(M_BOOLEAN, *has_expired);
+	return Datum(M_BOOLEAN, *has_expired);
 }
 
 ////////////////////////////////////////////////////////////////////////////

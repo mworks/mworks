@@ -217,7 +217,7 @@ void State::updateCurrentScopedVariableContext() {
 void State::reset() { }
 
 //void  State::announceIdentity() {
-//	Data nameString(name);
+// Datum nameString(name);
 //	announce(nameString);
 //}
 //

@@ -7,15 +7,15 @@ void KeyTrigger::trigger(){  // called from somewhere else when the key is press
 	if(*active){
 	
 		if(*togglevar){
-			togglevar->setValue(Data(false));
+			togglevar->setValue(Datum(false));
 			//GlobalCurrentExperiment->setBool(togglevar, false);
 		}else{
-			togglevar->setValue(Data(true));
+			togglevar->setValue(Datum(true));
 			//GlobalCurrentExperiment->setBool(togglevar, true);
 		}
 		
 		if(setadditionalvalue){
-			radiovar->setValue(Data(value));
+			radiovar->setValue(Datum(value));
 			//GlobalCurrentExperiment->setInt(radiovar, value);
 		}
 	}

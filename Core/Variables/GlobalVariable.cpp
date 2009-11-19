@@ -17,10 +17,10 @@ using namespace mw;
 *                   GlobalVariable memeber fucntions
 *******************************************************************/
 
-GlobalVariable::GlobalVariable(Data _value, 
+GlobalVariable::GlobalVariable(Datum _value, 
 									 VariableProperties *_props) :
 									 Variable(_props) {
-	value = shared_ptr<Data>(new Data(_value));
+	value = shared_ptr<Datum>(new Datum(_value));
 	valueLock = shared_ptr<Lockable>(new Lockable());
 }
 
@@ -28,9 +28,9 @@ GlobalVariable::GlobalVariable(Data _value,
 GlobalVariable::GlobalVariable(VariableProperties *_props) :
 									 Variable(_props){
     if(properties != NULL){
-		value = shared_ptr<Data>(new Data(properties->getDefaultValue()));
+		value = shared_ptr<Datum>(new Datum(properties->getDefaultValue()));
 	} else {
-		value = shared_ptr<Data>(new Data());
+		value = shared_ptr<Datum>(new Datum());
 	}
 	
 	valueLock = shared_ptr<Lockable>(new Lockable());
@@ -53,7 +53,7 @@ Variable *GlobalVariable::clone(){
     if(datum->type == SCARAB_DICT) {
         ScarabDatum * val;
         val = scarab_dict_get(datum, scarab_new_string("value"));
-        value = Data(val);
+        value = Datum(val);
     }        
 	
 	type = M_CONSTANT_VARIABLE;
@@ -61,37 +61,37 @@ Variable *GlobalVariable::clone(){
 
 GlobalVariable::~GlobalVariable() { }
 
-Data GlobalVariable::getValue() {
+Datum GlobalVariable::getValue() {
 	valueLock->lock();
     if(value->getDataType() == M_UNDEFINED) {
-        Data undef;
+        Datum undef;
 		valueLock->unlock();
         return undef;
     }
-	Data retval = *value;
+ Datum retval = *value;
 	valueLock->unlock();
 	
     return retval;
 }
     
-void GlobalVariable::setValue(Data newval) {
+void GlobalVariable::setValue(Datum newval) {
 	setSilentValue(newval);
 	announce();
 }
 
-void GlobalVariable::setValue(Data newval, MonkeyWorksTime time) {
+void GlobalVariable::setValue(Datum newval, MonkeyWorksTime time) {
 	setSilentValue(newval, time);
 	announce(time);
 }
 
-void GlobalVariable::setSilentValue(Data newval) {
+void GlobalVariable::setSilentValue(Datum newval) {
 	valueLock->lock();
 	*value=newval;
 	valueLock->unlock();
 	performNotifications(newval);
 }
 
-void GlobalVariable::setSilentValue(Data newval, MonkeyWorksTime timeUS) {
+void GlobalVariable::setSilentValue(Datum newval, MonkeyWorksTime timeUS) {
 	valueLock->lock();
 	*value=newval;
 	valueLock->unlock();

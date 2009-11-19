@@ -189,8 +189,8 @@ namespace mw {
 			
 			string capability = parameters.find("capability")->second;                                                 
 			
-			Data data_interval(reg->getNumber(parameters.find("data_interval")->second));
-			Data update_interval(reg->getNumber(parameters.find("update_interval")->second));
+		 Datum data_interval(reg->getNumber(parameters.find("data_interval")->second));
+		 Datum update_interval(reg->getNumber(parameters.find("update_interval")->second));
 			
 			string direction_string = parameters.find("direction")->second;
 			direction_string = to_lower_copy(direction_string);                                       
@@ -218,9 +218,9 @@ namespace mw {
 				throw SimpleException("Unknown IO Channel synchrony type", synchrony_string);			
 			}
 			
-			Data range_min(reg->getNumber(parameters.find("range_min")->second));
-			Data range_max(reg->getNumber(parameters.find("range_max")->second)); 
-			Data resolution(reg->getNumber(parameters.find("resolution")->second));  
+		 Datum range_min(reg->getNumber(parameters.find("range_min")->second));
+		 Datum range_max(reg->getNumber(parameters.find("range_max")->second)); 
+		 Datum resolution(reg->getNumber(parameters.find("resolution")->second));  
 			
 			shared_ptr<Variable> variable = reg->getVariable(parameters.find("variable")->second);
 			
@@ -294,8 +294,8 @@ namespace mw {
         std::string			name;
 		
 		// update the channel (put data into the parameter value)     
-        virtual void		update(Data data);             
-		virtual void		update(Data, MonkeyWorksTime timeUS);
+        virtual void		update(Datum data);             
+		virtual void		update(Datum, MonkeyWorksTime timeUS);
 		virtual void		update(MonkeyWorksTime timeUS);	  
 		
     public:
@@ -491,7 +491,7 @@ namespace mw {
         virtual bool updateChannel(int channel_index);
 		// optionally update an output channel with immediate data
 		// should default to updateChannel(int) on input channels
-        virtual bool updateChannel(int channel_index, Data data);
+        virtual bool updateChannel(int channel_index, Datum data);
 		// update everything
 		virtual bool updateAllChannels();
         
@@ -539,7 +539,7 @@ namespace mw {
 		
 		AsynchronousOutputNotification( shared_ptr<IODevice> _device, int _channel_index);
 		
-		virtual void notify(const Data& data, MonkeyWorksTime timeUS);
+		virtual void notify(const Datum& data, MonkeyWorksTime timeUS);
 		
 	};
 	

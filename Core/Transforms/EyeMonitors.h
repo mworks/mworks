@@ -56,7 +56,7 @@ typedef struct {
     bool    valid;
 	double  value;
 	MonkeyWorksTime timeUS;
-} DataWithTime;
+} DatumWithTime;
 
 
 // saccade data 
@@ -135,7 +135,7 @@ class EyeStatusMonitor : public VarTransformAdaptor {
 		virtual ~EyeStatusMonitor();
 		
 		// override of VarTransformAdaptor class
-		virtual void newDataReceived(int inputIndex, const Data& data, MonkeyWorksTime timeUS);
+		virtual void newDataReceived(int inputIndex, const Datum& data, MonkeyWorksTime timeUS);
         virtual void reset();
         
 };
@@ -205,7 +205,7 @@ class EyeStatusComputer : public Transform {
         
         // these all reflect the latest computed values
         // the time used is the one associated with the speed
-        DataWithTime        eyeSpeedDegPerSec; 
+        DatumWithTime        eyeSpeedDegPerSec; 
         DOUBLE_POINT        eyeVelocityDegPerSec;
         DOUBLE_POINT        eyeLocDeg;
         
@@ -249,7 +249,7 @@ class EyeStatusComputerWithSaccades : public EyeStatusComputer {
         bool                engageSaccadeDetection;
         bool                checkForSaccadeStart;
         bool                computeSacTrueEnd, inSaccade, checkForSaccadeEnd;
-        DataWithTime        eyeSpeedDegPerSecLast; 
+        DatumWithTime        eyeSpeedDegPerSecLast; 
         DOUBLE_POINT        eyeVelocityDegPerSecLast;
         DOUBLE_POINT        eyeLocDegLast;
         double              eyeDirectionAngle;

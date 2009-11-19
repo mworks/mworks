@@ -125,7 +125,7 @@ class GenericRingBuffer : public RingBuffer {
 
 
 
-#define GenericDataRingBuffer GenericRingBuffer<Data>
+#define GenericDataRingBuffer GenericRingBuffer<Datum>
 #define BoolDataRingBuffer GenericRingBuffer<bool>;
 #define ShortDataRingBuffer GenericRingBuffer<short>;
 #define IntDataRingBuffer GenericRingBuffer<int>;
@@ -159,7 +159,7 @@ class GenericBufferReader : public RingBufferReader{
 };
 
 
-#define GenericDataBufferReader GenericBufferReader<Data>
+#define GenericDataBufferReader GenericBufferReader<Datum>
 #define BoolDataBufferReader GenericBufferReader<bool>
 #define ShortDataBufferReader GenericBufferReader<short>
 #define IntDataBufferReader GenericBufferReader<int>
@@ -215,7 +215,7 @@ class GenericTimeStampedRingBuffer : public TimeStampedRingBuffer {
 		}
 };
 
-#define GenericDataTimeStampedRingBuffer GenericTimeStampedRingBuffer<Data>
+#define GenericDataTimeStampedRingBuffer GenericTimeStampedRingBuffer<Datum>
 #define BoolDataTimeStampedRingBuffer    GenericTimeStampedRingBuffer<bool> 
 #define ShortDataTimeStampedRingBuffer   GenericTimeStampedRingBuffer<short>
 #define IntDataTimeStampedRingBuffer     GenericTimeStampedRingBuffer<int>
@@ -252,7 +252,7 @@ class GenericTimeStampedBufferReader : public TimeStampedBufferReader{
 };
 
 
-#define GenericDataTimeStampedBufferReader GenericTimeStampedBufferReader<Data>
+#define GenericDataTimeStampedBufferReader GenericTimeStampedBufferReader<Datum>
 #define BoolDataTimeStampedBufferReader GenericTimeStampedBufferReader<bool>
 #define ShortDataTimeStampedBufferReader GenericTimeStampedBufferReader<short>
 #define IntDataTimeStampedBufferReader GenericTimeStampedBufferReader<int> 

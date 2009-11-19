@@ -33,14 +33,14 @@ Announcable::Announcable(std::string _announceVariableTagname) {
 Announcable::~Announcable() {};
 
 
-void Announcable::announce(Data _announceData, MonkeyWorksTime now) {    
+void Announcable::announce(Datum _announceData, MonkeyWorksTime now) {    
     lastAnnouncedData = _announceData;
     validAnnounceData = true;
     announceVariable->setValue(lastAnnouncedData, now);
     if (VERBOSE_ANNOUNCERS > 1) mprintf("*** Announcing data now");
 }
 
-void Announcable::announce(Data _announceData) {
+void Announcable::announce(Datum _announceData) {
 	shared_ptr <Clock> clock = Clock::instance();
     announce(_announceData, clock->getCurrentTimeUS());
 }
@@ -90,7 +90,7 @@ RequestNotification::RequestNotification(Requestable *_requestedObject) {
     requestedObject = _requestedObject;
 }
 
-void RequestNotification::notify(const Data& data, MonkeyWorksTime timeUS) {
+void RequestNotification::notify(const Datum& data, MonkeyWorksTime timeUS) {
     if (VERBOSE_ANNOUNCERS > 1) 
 		mprintf("Request just received via update of request variable");
     
@@ -117,7 +117,7 @@ PrivateDataStorable::PrivateDataStorable(std::string _privateVariableBaseName,
         // TODO -- make sure interface says not edittable
     } else {       //  if not, register a new variable.
 		
-        privateVariable = registry->createGlobalVariable(new VariableProperties(new Data(M_DICTIONARY, 
+        privateVariable = registry->createGlobalVariable(new VariableProperties(new Datum(M_DICTIONARY, 
 																						   (int)1),
 																				 privateVariableTagname.c_str(), 
 																				 "Private data",
@@ -150,7 +150,7 @@ PrivateDataStorable::~PrivateDataStorable() {
 
 // used by the object to effectively save parameters in a request varaible
 // only trick is that we must avoid infinite looping
-void PrivateDataStorable::storePrivateData(Data data) {
+void PrivateDataStorable::storePrivateData(Datum data) {
 	
 	// this prevents re-entrant notification when we change the data ourselves
     privateDataNotificationObject->setLastPrivateData(data);    
@@ -174,7 +174,7 @@ PrivateDataNotification::PrivateDataNotification(
     privateDataLock = new Lockable();
 }
 
-void PrivateDataNotification::notify(const Data& data, 
+void PrivateDataNotification::notify(const Datum& data, 
 									  MonkeyWorksTime timeUS) {
     
     respondingToPrivateVarNotification = true;
@@ -207,7 +207,7 @@ void PrivateDataNotification::notify(const Data& data,
     respondingToPrivateVarNotification = false;
 }
 
-void PrivateDataNotification::setLastPrivateData(Data data) {
+void PrivateDataNotification::setLastPrivateData(Datum data) {
     
     // save the data so that I can prevent re-entry on a notification
     privateDataLock->lock();

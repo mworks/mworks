@@ -13,20 +13,20 @@ using namespace mw;
 @interface MarionetteEvent : NSObject {
 	BOOL continue_processing;
 	NSString *variable;
-	Data *data;
+ Datum *data;
 }
 
 - (id)initWithVariableName:(NSString *)var_name 
-				   andData:(Data *)_data 
+				   andData:(Datum *)_data 
    andProcessDataAfterward:(BOOL)_continue_processing;
 
 + (id)eventWithVariableName:(NSString *)var_name 
-					andData:(Data *)_data 
+					andData:(Datum *)_data 
 	andProcessDataAfterward:(BOOL)_continue_processing;
 
 - (BOOL)continueProcessing;
 - (NSString *)variable;
-- (Data *)data;
+- (Datum *)data;
 
-- (BOOL)matches:(Data *)data_to_match;
+- (BOOL)matches:(Datum *)data_to_match;
 @end

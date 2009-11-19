@@ -1,5 +1,5 @@
 /*
- *  DataFileTest.cpp
+ *  DatumFileTest.cpp
  *  MonkeyWorksCore
  *
  *  Created by Ben Kennedy 2006
@@ -24,8 +24,8 @@ using namespace mw;
 #define BUFFER_HIGH_WATER_MARK	1
 #define MAX_EVENTS_TO_BUFFER	10000
 
-//<disabled>CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( DataFileTestFixture, "Unit Test" );
-//CPPUNIT_TEST_SUITE_REGISTRATION( DataFileTestFixture );
+//<disabled>CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( DatumFileTestFixture, "Unit Test" );
+//CPPUNIT_TEST_SUITE_REGISTRATION( DatumFileTestFixture );
 
 #define dft_CPPUNIT_ASSERT_TS(x)	dft_cppunit_lock->lock(); \
 CPPUNIT_ASSERT(x); \
@@ -41,7 +41,7 @@ const int dft_BUFF_SIZE = 50000;
 const int dft_NUM_THREADS = 50;
 const int dft_NUM_EVENTS_PER_THREAD = 999;
 
-BufferManager *dftGlobalBufferManager;
+BufferManager *dftglobal_outgoing_event_buffer;
 Lockable *dft_cppunit_lock;
 struct dftTestArgs *dft_ptrTestArgs;
 
@@ -51,7 +51,7 @@ void *dftTimeoutThread(void *args);
 
 
 
-void DataFileTestFixture::setUp() {
+void DatumFileTestFixture::setUp() {
 	static int testNumber = 0;
 	dft_ptrTestArgs = new struct dftTestArgs;
 	dft_ptrTestArgs->testNumber = testNumber;
@@ -59,9 +59,9 @@ void DataFileTestFixture::setUp() {
 	testNumber++;
 	dft_cppunit_lock = new Lockable();
 	
-	if(dftGlobalBufferManager)
-		delete dftGlobalBufferManager;
-	dftGlobalBufferManager = new BufferManager();
+	if(dftglobal_outgoing_event_buffer)
+		delete dftglobal_outgoing_event_buffer;
+	dftglobal_outgoing_event_buffer = new BufferManager();
 	
 	pthread_t timeout;
 	pthread_create(&timeout, NULL, &dftTimeoutThread, (void *)dft_ptrTestArgs);	
@@ -83,27 +83,27 @@ void *dftTimeoutThread(void *args) {
 	return 0;
 }
 
-void DataFileTestFixture::tearDown() {
+void DatumFileTestFixture::tearDown() {
 	dft_ptrTestArgs->runningFlag = false;
 	delete dft_cppunit_lock;
-	delete dftGlobalBufferManager;
-	dftGlobalBufferManager = 0;
+	delete dftglobal_outgoing_event_buffer;
+	dftglobal_outgoing_event_buffer = 0;
 }
 
 
-void DataFileTestFixture::initializationTest() {
+void DatumFileTestFixture::initializationTest() {
 	fprintf(stderr, "mDataFileTestFixture::initializationTest()\n");
 }
 
-void DataFileTestFixture::dataFileWriterTest() {
+void DatumFileTestFixture::dataFileWriterTest() {
 	fprintf(stderr, "mDataFileTestFixture::dataFileWriterTest()\n");
 //	// fill up an event queue
 //	for (int i =0; i<dft_BUFF_SIZE-1; ++i) {
-//		Data _i(M_INTEGER, i );
-//		dftGlobalBufferManager->putEvent(new DataEvent(i, _i));
+//	 Datum _i(M_INTEGER, i );
+//		dftglobal_outgoing_event_buffer->putEvent(new DatumEvent(i, _i));
 //	}
 //
-//	EventBufferReader *buffer_reader = dftGlobalBufferManager->
+//	EventBufferReader *buffer_reader = dftglobal_outgoing_event_buffer->
 //												getNewDisplayBufferReader();
 //
 //	
@@ -115,6 +115,6 @@ void DataFileTestFixture::dataFileWriterTest() {
 //	delete buffer_reader;
 }
 
-void DataFileTestFixture::multiDataFileWriterTest() {
+void DatumFileTestFixture::multiDataFileWriterTest() {
 	fprintf(stderr, "mDataFileTestFixture::multiDataFileWriterTest()\n");
 }

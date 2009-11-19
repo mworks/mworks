@@ -120,7 +120,7 @@ protected:
 	WhenType logging;  // how often should this variable's value be placed in 
 						// the event stream
 						
-	shared_ptr<BufferManager> buffer_manager;
+	shared_ptr<EventReceiver> event_target;
 
 public:
 
@@ -136,8 +136,8 @@ public:
 
 	// Accessors
 
-	virtual void setBufferManager(shared_ptr<BufferManager> _buffer_manager){
-		buffer_manager = _buffer_manager;
+	virtual void setEventTarget(shared_ptr<EventReceiver> _event_target){
+		event_target = _event_target;
 	}
 
 	virtual VariableProperties *getProperties(){ return properties; }
@@ -161,18 +161,18 @@ public:
 		return notifications.getFrontmost();
 	}
 	
-	virtual void performNotifications(Data data);
-	virtual void performNotifications(Data data, MonkeyWorksTime timeUS);
+	virtual void performNotifications(Datum data);
+	virtual void performNotifications(Datum data, MonkeyWorksTime timeUS);
 	
 	// Announcing a variable's value to the event stream
 	virtual void announce();
 	virtual void announce(MonkeyWorksTime _when);
 	
 	// Basic value get and set (overridden in subclasses)
-	virtual Data getValue() = 0;
-	virtual void setValue(Data _data) = 0;
-	virtual void setValue(Data _data, MonkeyWorksTime _when) = 0;
-	virtual void setSilentValue(Data _value) = 0;
+	virtual Datum getValue() = 0;
+	virtual void setValue(Datum _data) = 0;
+	virtual void setValue(Datum _data, MonkeyWorksTime _when) = 0;
+	virtual void setSilentValue(Datum _value) = 0;
 	
 	
 	// Hopefully to be removed
@@ -187,7 +187,7 @@ public:
 	virtual void operator=(bool a);
 	virtual void operator=(MonkeyWorksTime a);
 	virtual void operator=(std::string a);
-	virtual void operator=(Data a);
+	virtual void operator=(Datum a);
 	
 	// Cast operators
 	virtual operator long();
@@ -197,7 +197,7 @@ public:
 	virtual operator float();
 	virtual operator bool();
 	virtual operator MonkeyWorksTime();
-	virtual operator Data();
+	virtual operator Datum();
 			
 	// Arithmetic operator overloads
 	virtual ExpressionVariable operator+(Variable& v);
@@ -243,10 +243,10 @@ public:
 	virtual void announce(){ }
 	virtual void announce(MonkeyWorksTime t){ }
 	
-	virtual Data getValue(){  return Data(0L); }
-	virtual void setValue(Data v){ }
-	virtual void setValue(Data v, MonkeyWorksTime t){ }
-	virtual void setSilentValue(Data _value){ return; }
+	virtual Datum getValue(){  return Datum(0L); }
+	virtual void setValue(Datum v){ }
+	virtual void setValue(Datum v, MonkeyWorksTime t){ }
+	virtual void setSilentValue(Datum _value){ return; }
 	
 	virtual Variable *clone(){ 
 		return new EmptyVariable((const EmptyVariable&)(*this));

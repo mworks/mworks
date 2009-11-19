@@ -56,7 +56,7 @@ class ScarabFileTestFixture : public CppUnit::TestFixture {
 			VariableRegistry *r = new VariableRegistry();
 			Variable *testvar =
 					r->addExperimentwideVariable(new VariableProperties(
-											new Data((bool)false), "test",
+											new Datum((bool)false), "test",
 											"Test test",
 											"Testy test test test",
 											M_NEVER, M_WHEN_CHANGED,
