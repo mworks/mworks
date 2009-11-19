@@ -19,21 +19,18 @@
 #include "EventHandler.h"
 #include "IncomingEventListener.h"
 #include "ScarabClient.h"
-#include "CoreEventFunctor.h"
 #include "VariableRegistry.h"
-#include <boost/thread/mutex.hpp>
-#include <boost/thread/recursive_mutex.hpp>
 #include <boost/filesystem/path.hpp>
+#include <boost/enable_shared_from_this.hpp>
 
 namespace mw {
 
-class Client : public EventHandler {
+class Client : public EventHandler, public enable_shared_from_this<Client> {
     protected:
 	shared_ptr<BufferManager> buffer_manager;
 	shared_ptr<IncomingEventListener> incomingListener;
 	
-	shared_ptr<VariableRegistry> registry;
-	// a connection with a server
+    // a connection with a server
 	shared_ptr<ScarabClient> remoteConnection;
 	// the return value of the last communication
 	shared_ptr<NetworkReturn> lastNetworkReturn;
@@ -63,6 +60,8 @@ class Client : public EventHandler {
 
 		virtual void handleEvent(shared_ptr<Event> event);
 		
+        virtual void putEvent(shared_ptr<Event> event);
+    
 		virtual void startEventListener();
 
         virtual bool connectToServer(const std::string &host, const int port);
@@ -159,11 +158,6 @@ class Client : public EventHandler {
          */
         virtual void sendLoadVariablesEvent(const std::string &saveVarName);
 		
-		
-		virtual shared_ptr<Variable> getVariable(const std::string &tag);
-		virtual shared_ptr<Variable> getVariable(const int code);
-		virtual int getCode(const std::string &tag);
-		std::vector<std::string>getVariableNames();
 
 		virtual void updateValue(const int code, const Data &data);
 		virtual void updateRegistry(const Data &codec);
@@ -172,13 +166,11 @@ class Client : public EventHandler {
 			return registry->getNVariables();
 		}
 		
-		void registerCallback(shared_ptr<GenericEventFunctor> gef);
-		void registerCallback(shared_ptr<GenericEventFunctor> gef, int code);
-		void registerCallback(shared_ptr<GenericEventFunctor> gef,
-							   string tagname);
-		void registerCallback(shared_ptr<GenericEventFunctor> gef, std::vector <int> vars);
+		//virtual void registerCallback(shared_ptr<GenericEventFunctor> gef);
+		//virtual void registerCallback(shared_ptr<GenericEventFunctor> gef, int code);
+		//virtual void registerCallback(shared_ptr<GenericEventFunctor> gef, std::vector <int> vars);
 		
-		void unregisterCallbacks(const std::string &callback_id);
+		//virtual void unregisterCallbacks(const std::string &callback_id);
 };
 }
 #endif

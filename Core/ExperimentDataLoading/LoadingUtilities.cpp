@@ -163,7 +163,8 @@ namespace mw {
 		component_registry->resetInstances();
 		
 		if(GlobalVariableRegistry != NULL) {	// exp. already loaded
-			GlobalVariableRegistry = shared_ptr<VariableRegistry>(new VariableRegistry(GlobalBufferManager));
+			GlobalVariableRegistry->reset();
+            //GlobalVariableRegistry = shared_ptr<VariableRegistry>(new VariableRegistry(GlobalBufferManager));
 			initializeStandardVariables(GlobalVariableRegistry);
 			loadSetupVariables();
 		}

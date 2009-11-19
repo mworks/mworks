@@ -12,7 +12,7 @@
 using namespace mw;
 
 
-CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( SchedulerTestFixture, "Unit Test" );
+//<disabled>CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( SchedulerTestFixture, "Unit Test" );
 
 void SchedulerTestFixture::setUp() {
 	shared_ptr <Scheduler> shared_scheduler = Scheduler::instance(false);

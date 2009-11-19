@@ -14,7 +14,7 @@
 #include "EventBuffer.h"
 using namespace mw;
 
-CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( ParsedExpressionVariableTestFixture, "Unit Test" );
+//<disabled>CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( ParsedExpressionVariableTestFixture, "Unit Test" );
 
 void ParsedExpressionVariableTestFixture::testSimpleExpression() {
 	
@@ -110,7 +110,7 @@ void ParsedExpressionVariableTestFixture::testSimpleExpression() {
 	bool threw_exception = false;
 	try {
 		e = shared_ptr<ParsedExpressionVariable>(new ParsedExpressionVariable("(0 #GT 1))"));
-	} catch (std::exception &e) {
+	} catch (stx::ExpressionParserException &e) {
 		threw_exception = true;
 	}
 	
@@ -119,7 +119,7 @@ void ParsedExpressionVariableTestFixture::testSimpleExpression() {
 	threw_exception = false;
 	try {
 		e = shared_ptr<ParsedExpressionVariable>(new ParsedExpressionVariable("other_var + 1"));
-	} catch (std::exception &e) {
+	} catch (SimpleException &e) {
 		threw_exception = true;
 	}
 	

@@ -161,8 +161,13 @@ Data::Data(const Data& that) {
   if(that.getDataType() == M_UNDEFINED) {
 	setDataType(M_UNDEFINED);      
   } else {
+      
+    if(that.data == NULL){
+        setDataType(M_UNDEFINED);
+        return;
+    }
     data = scarab_copy_datum(that.data);
-    
+      
 	GenericDataType datatype = that.getDataType();
 	int scarabtype = data->type;
 	

@@ -10,5 +10,5 @@
 #include "VectorTest.h"
 using namespace mw;
 
-CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( VectorTestFixture, "Unit Test" );
+//<disabled>CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( VectorTestFixture, "Unit Test" );
 //CPPUNIT_TEST_SUITE_REGISTRATION( VectorTestFixture );

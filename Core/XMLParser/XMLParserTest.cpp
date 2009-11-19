@@ -16,7 +16,7 @@
 #include "MonkeyWorksCore/VariableSave.h"
 
 
-CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( mw::XMLParserTestFixture, "Unit Test" );
+//<disabled>CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( mw::XMLParserTestFixture, "Unit Test" );
 
 void mw::XMLParserTestFixture::setUp() {
 	mw::FullCoreEnvironmentTestFixture::setUp();

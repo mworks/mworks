@@ -229,7 +229,9 @@ namespace mw {
 				double fval;
 				bool bval;
 				std::string sval;
-				
+				int nelements;
+                int string_length;
+                
 				ar << datatype;
 				switch(datatype){
 					case M_INTEGER:
@@ -246,11 +248,35 @@ namespace mw {
 						break;
 					case M_STRING:
 						sval = getString();
-						ar << sval;
+                        string_length = getStringLength();
+                        ar << string_length;
+                        /*std::cerr << "serializing: ";
+                        for(int i = 0; i < string_length; i++){
+                            std::cerr << " " << sval[i] << " ";
+                            ar << sval[i];
+                        }
+                        std::cerr << std::endl;*/
+                        ar << sval;
+                        break;
 					case M_LIST:
+                        nelements = getNElements();
+                        ar << nelements;
+                        for(int i = 0; i < nelements; i++){
+                            Data val = getElement(i);
+                            ar << val;
+                        }
+                        break;
 					case M_DICTIONARY:
+                        nelements = getNElements();
+                        ar << nelements;
+                        for(int i = 0; i < nelements; i++){
+                            Data key = getKey(i);
+                            ar << key;
+                            Data val = getElement(key);
+                            ar << val;
+                        }
+                        break;
 					default:
-						// TODO: serialize lists and dicts
 						break;
 						
 				} 
@@ -263,7 +289,11 @@ namespace mw {
 				double fval;
 				bool bval;
 				std::string sval;
-				
+				int nelements;
+                Data datum, key;
+                int string_length;
+                char c;
+                
 				ar >> datatype;
 				switch(datatype){
 					case M_INTEGER:
@@ -279,12 +309,38 @@ namespace mw {
 						setBool(bval);
 						break;
 					case M_STRING:
-						ar >> sval;
-						setString(sval);
+                        ar >> string_length;
+                        /*sval = "";
+                        std::cerr << "deserializing: ";
+                        for(int i = 0; i < string_length; i++){
+                            ar >> c;
+                            sval += c;
+                            std::cerr << " " << c << " ";
+                        }
+                         std::cerr << std::endl;*/
+                        
+                        ar >> sval;
+                        setString(sval);
+                        
+                        break;
 					case M_LIST:
+                        ar >> nelements;
+                        for(int i = 0; i < nelements; i++){
+                            ar >> datum;
+                            addElement(datum);
+                        }
+                        break;
 					case M_DICTIONARY:
+                        ar >> nelements;
+                        createDictionary(nelements);
+                        for(int i = 0; i < nelements; i++){
+                            ar >> key;
+                            ar >> datum;
+                            addElement(key, datum);
+                        }
+                        break;
 					default:
-						// TODO: serialize lists and dicts
+						
 						break;
 						
 				} 

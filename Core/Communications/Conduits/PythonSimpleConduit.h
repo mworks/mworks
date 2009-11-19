@@ -99,10 +99,16 @@ public:
         return initialized;
     }
     
-    virtual void registerCallback(int code, boost::python::object function_object){
+    virtual void registerCallbackForCode(int code, boost::python::object function_object){
     
         shared_ptr<PythonEventCallback> callback(new PythonEventCallback(function_object));
         conduit->registerCallback(code, bind(&PythonEventCallback::callback, callback, _1));
+    }
+
+    virtual void registerCallbackForName(string event_name, boost::python::object function_object){
+        
+        shared_ptr<PythonEventCallback> callback(new PythonEventCallback(function_object));
+        conduit->registerCallback(event_name, bind(&PythonEventCallback::callback, callback, _1));
     }
     
     virtual void finalize(){
@@ -148,36 +154,37 @@ public:
 };
 
 
-BOOST_PYTHON_MODULE(mw_conduit)
+BOOST_PYTHON_MODULE(_conduit)
 {
     
     PyEval_InitThreads();
     
-    class_<PythonIPCServerConduit>("mwIPCServerConduit", init<std::string>())
+    class_<PythonIPCServerConduit>("IPCServerConduit", init<std::string>())
         .def("initialize", &PythonIPCServerConduit::initialize)
         .def("finalize", &PythonIPCServerConduit::finalize)
-        .def("sendFloat", &PythonIPCServerConduit::sendFloat)
-        .def("sendInteger", &PythonIPCServerConduit::sendInteger)
-        .def("registerCallback", &PythonIPCServerConduit::registerCallback)
+        .def("send_float", &PythonIPCServerConduit::sendFloat)
+        .def("send_integer", &PythonIPCServerConduit::sendInteger)
+        .def("register_callback_for_code", &PythonIPCServerConduit::registerCallbackForCode)
+        .def("register_callback_for_name", &PythonIPCServerConduit::registerCallbackForName)
         .add_property("initialized", &PythonIPCServerConduit::isInitialized)
     ;
 
-    class_<PythonIPCClientConduit>("mwIPCClientConduit", init<std::string>())
+    class_<PythonIPCClientConduit>("IPCClientConduit", init<std::string>())
         .def("initialize", &PythonIPCClientConduit::initialize)
         .def("finalize", &PythonIPCClientConduit::finalize)
-        .def("sendFloat", &PythonIPCClientConduit::sendFloat)
-        .def("sendInteger", &PythonIPCClientConduit::sendInteger)
-        .def("registerCallback", &PythonIPCClientConduit::registerCallback)
+        .def("send_float", &PythonIPCClientConduit::sendFloat)
+        .def("send_integer", &PythonIPCClientConduit::sendInteger)
+        .def("register_callback_for_code", &PythonIPCClientConduit::registerCallbackForCode)
+        .def("register_callback_for_name", &PythonIPCClientConduit::registerCallbackForName)
         .add_property("initialized", &PythonIPCClientConduit::isInitialized)
     ;
 
-
-    class_<Event, boost::noncopyable>("mwEvent")
+    class_<Event, boost::noncopyable>("Event")
         .add_property("code", &Event::getEventCode)
         .add_property("data", &Event::getData);
     ;
     
-    class_<Data, boost::noncopyable>("mwData")
+    class_<Data, boost::noncopyable>("Data")
         .add_property("float", &Data::getFloat)
         .add_property("integer", &Data::getInteger);
     ;

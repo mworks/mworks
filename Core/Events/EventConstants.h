@@ -54,6 +54,9 @@ typedef enum {
     M_CLOSE_EXPERIMENT                  = 3007,
     M_SAVE_VARIABLES                    = 3008,
     M_LOAD_VARIABLES                    = 3009,
+    M_REQUEST_CODEC                     = 3010,
+    M_SET_EVENT_FORWARDING              = 3011,
+    
 	// response messages
     M_DATA_FILE_OPENED                  = 4007,
     M_DATA_FILE_CLOSED                  = 4008,
@@ -116,9 +119,12 @@ enum MessageDomain { M_GENERIC_MESSAGE_DOMAIN		= 0,
 #define M_CURRENT_PROTOCOL "current protocol"
 #define M_SAVED_VARIABLES "saved variables"
 
+#define M_SET_EVENT_FORWARDING_NAME   "event_name"
+#define M_SET_EVENT_FORWARDING_STATE  "forward"
+    
 #define SAVED_VARIABLES_DIR_NAME "SavedVariables"
 
-
+    
 //enum EventType{	M_UNDEFINED_EVENT = 1000,
 //	M_SYSTEM_EVENT =	1001,
 //	M_DATA_EVENT =		1002 

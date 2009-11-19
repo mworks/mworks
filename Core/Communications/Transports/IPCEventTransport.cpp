@@ -19,11 +19,11 @@ IPCEventTransport::IPCEventTransport(event_transport_type _type, event_transport
     int outgoing_queue_size = 0;
     
     if(directionality != write_only_event_transport){
-        incoming_queue_size = DEFAULT_QUEUE_SIZE;
+        incoming_queue_size = IPCEventTransport::DEFAULT_QUEUE_SIZE;
     }
     
     if(directionality != read_only_event_transport){
-        outgoing_queue_size = DEFAULT_QUEUE_SIZE;
+        outgoing_queue_size = IPCEventTransport::DEFAULT_QUEUE_SIZE;
     }
     
     string resource_name_outgoing = resource_name + OUTGOING_SUFFIX;
@@ -70,6 +70,7 @@ void IPCEventTransport::sendEvent(shared_ptr<Event> event){
     
     string data = output_stream_.str();
     try {
+        cerr << "data.size() = " << data.size() << endl;
         bool okayp = outgoing_queue->timed_send((void *)data.c_str(), data.size(), QUEUE_PRIORITY, boost::posix_time::microsec_clock::local_time() + boost::posix_time::microseconds(10000));
     } catch(std::exception& e){
         cerr << "Error sending on outgoing queue: " << e.what() << endl;
@@ -115,7 +116,7 @@ shared_ptr<Event> IPCEventTransport::receiveEventAsynchronous(){
     
     size_t received_size = 0;
     unsigned int priority = QUEUE_PRIORITY;
-    char *receive_buffer[MAX_MESSAGE_SIZE];
+    char receive_buffer[MAX_MESSAGE_SIZE];
     
     if(incoming_queue == NULL){
         return shared_ptr<Event>();

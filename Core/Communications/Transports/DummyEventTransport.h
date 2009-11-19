@@ -26,8 +26,8 @@
 namespace mw {
 using namespace std;
 
-#define MAX_MESSAGE_SIZE    1024
-#define DEFAULT_QUEUE_SIZE 2000
+
+
 #define QUEUE_PRIORITY 100
 #define OUTGOING_SUFFIX "_out"
 #define INCOMING_SUFFIX "_in"
@@ -37,6 +37,9 @@ class DummyEventTransport : public EventTransport{
 
 
 protected:
+    
+    static const int DEFAULT_QUEUE_SIZE  = 2000;
+    static const int MAX_MESSAGE_SIZE = 64000;
     
     typedef shared_ptr< queue< shared_ptr<Event> > >   event_queue_ptr;
     typedef shared_ptr<boost::mutex> mutex_ptr;

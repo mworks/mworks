@@ -471,8 +471,8 @@ void ZenScheduleTask::resume(){ /* do this later */}
 	nscheduled = 0;
 	
 #ifdef LOW_PRIORITY_MODE
-	fprintf(stderr, "Running low priority scheduler\n");
-	fflush(stderr);
+	//fprintf(stderr, "Running low priority scheduler\n");
+	//fflush(stderr);
 #endif
 	
 	//launchWatchdogThread();

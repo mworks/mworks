@@ -26,6 +26,12 @@ protected:
     
     bool running;
     
+    boost::mutex stopping_mutex;
+    bool stopping;
+    bool stopped;
+    
+    MonkeyWorksTime timeout_ms;
+    
 public:
     
     Conduit(shared_ptr<EventTransport> _transport);

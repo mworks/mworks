@@ -45,6 +45,7 @@ namespace mw {
 	void initializeServiceRegistries(){
 		
 		GlobalVariableRegistry = shared_ptr<VariableRegistry>(new VariableRegistry(GlobalBufferManager));
+        //GlobalVariableRegistry = shared_ptr<VariableRegistry>(new VariableRegistry(GlobalBufferManager));
 		
 		registries_are_initialized = true;
 	}
@@ -63,7 +64,7 @@ namespace mw {
 			string plugin_name = itr->filename();
 			string plugin_name_stripped = 
 			plugin_name.substr(0, plugin_name.find_last_of("."));
-			cerr << "Loading " << plugin_name_stripped.c_str() << endl;
+			//cerr << "Loading " << plugin_name_stripped.c_str() << endl;
 			mprintf("Loading %s", plugin_name_stripped.c_str());
 			readPlugin(plugin_name_stripped);
 		}

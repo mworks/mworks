@@ -11,7 +11,7 @@
 using namespace mw;
 
 
-CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( ExpandableListTestFixture, "Unit Test" );
+//<disabled>CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( ExpandableListTestFixture, "Unit Test" );
 //CPPUNIT_TEST_SUITE_REGISTRATION( ExpandableListTestFixture );
 
 void ExpandableListTestFixture::setUp(){}

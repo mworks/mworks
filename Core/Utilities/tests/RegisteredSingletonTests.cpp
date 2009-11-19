@@ -17,7 +17,7 @@ SINGLETON_INSTANCE_STATIC_DECLARATION(Dummy)
 
 #define NUMBER_OF_SINGLETON_TEST_LOOPS 10
 
-CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( RegisteredSingletonTestFixture, "Unit Test" );
+//<disabled>CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( RegisteredSingletonTestFixture, "Unit Test" );
 
 void RegisteredSingletonTestFixture::setUp() {
 	boost::shared_ptr <Dummy> dummy_instance = Dummy::instance(false);
@@ -81,7 +81,7 @@ void RegisteredSingletonTestFixture::testCreationFromWrongComponent(){
 		bool threw_exception = false;
 		try {
 			Dummy::registerInstance(new_component);
-		} catch (std::exception &e) {
+		} catch (SimpleException &e) {
 			CPPUNIT_ASSERT(e.what() == std::string("attempting to register singleton instance for wrong type of object"));
 			threw_exception = true;
 		}
@@ -99,7 +99,7 @@ void RegisteredSingletonTestFixture::testCreationFromWrongComponent(){
 		bool threw_exception = false;
 		try {
 			Dummy::registerInstance(new_constant_variable);
-		} catch (std::exception &e) {
+		} catch (SimpleException &e) {
 			CPPUNIT_ASSERT(e.what() == std::string("attempting to register singleton instance for wrong type of object"));
 			threw_exception = true;
 		}
@@ -134,7 +134,7 @@ void RegisteredSingletonTestFixture::destroyUnregsiteredTest(){
 		bool threw_exception = false;
 		try {
 			Dummy::destroy();
-		} catch (std::exception &e) {
+		} catch (SimpleException &e) {
 			CPPUNIT_ASSERT(e.what() == std::string("trying to destroy singleton when there isn't one registered"));
 			threw_exception = true;
 		}
@@ -157,7 +157,7 @@ void RegisteredSingletonTestFixture::tryToGetUnregsiteredTest(){
 		bool threw_exception = false;
 		try {
 			dummy_instance = Dummy::instance(false);		
-		} catch (std::exception &e) {
+		} catch (SimpleException &e) {
 			threw_exception = true;
 		}
 
@@ -166,7 +166,7 @@ void RegisteredSingletonTestFixture::tryToGetUnregsiteredTest(){
 		threw_exception = false;
 		try {
 			dummy_instance = Dummy::instance(true);		
-		} catch (std::exception &e) {
+		} catch (SimpleException &e) {
 			threw_exception = true;
 			CPPUNIT_ASSERT(e.what() == std::string("trying to access singleton instance before it is registered"));
 		}
@@ -176,7 +176,7 @@ void RegisteredSingletonTestFixture::tryToGetUnregsiteredTest(){
 		threw_exception = false;
 		try {
 			dummy_instance = Dummy::instance();		
-		} catch (std::exception &e) {
+		} catch (SimpleException &e) {
 			threw_exception = true;
 			CPPUNIT_ASSERT(e.what() == std::string("trying to access singleton instance before it is registered"));
 		}
@@ -200,7 +200,7 @@ void RegisteredSingletonTestFixture::tryToRegisterMultipleSingletons(){
 			try {
 				new_dummy = boost::shared_ptr<Dummy>(new Dummy());
 				Dummy::registerInstance(new_dummy);
-			} catch (std::exception &e) {
+			} catch (SimpleException &e) {
 				threw_exception = true;
 				CPPUNIT_ASSERT(e.what() == std::string("attempting to register singleton instance when there's already an instance"));
 			}
@@ -221,7 +221,7 @@ void RegisteredSingletonTestFixture::tryToRegisterNULLInstance(){
 		try {
 			boost::shared_ptr <Dummy> new_dummy = boost::shared_ptr<Dummy>();
 			Dummy::registerInstance(new_dummy);
-		} catch (std::exception &e) {
+		} catch (SimpleException &e) {
 			threw_exception = true;
 		}
 		

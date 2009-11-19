@@ -24,8 +24,7 @@
 namespace mw {
 using namespace std;
 
-#define MAX_MESSAGE_SIZE    128
-#define DEFAULT_QUEUE_SIZE 2000
+
 #define QUEUE_PRIORITY 100
 #define OUTGOING_SUFFIX "_out"
 #define INCOMING_SUFFIX "_in"
@@ -34,6 +33,9 @@ using namespace std;
 class IPCEventTransport : public EventTransport{
     
 protected:
+    
+    static const int MAX_MESSAGE_SIZE = 64000;
+    static const int DEFAULT_QUEUE_SIZE = 2000;
     
     string resource_name;
     ostringstream output_stream;

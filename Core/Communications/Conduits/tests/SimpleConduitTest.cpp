@@ -14,7 +14,7 @@
 
 using namespace mw;
 
-CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( SimpleConduitTestFixture, "Unit Test" );
+//<disabled>CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( SimpleConduitTestFixture, "Unit Test" );
 
 void SimpleEventCollector::handleEvent(shared_ptr<Event> event){
     last_event = event;
@@ -59,7 +59,7 @@ void SimpleConduitTestFixture::testInOneThread(){
     
     CPPUNIT_ASSERT(received_event != NULL);
     CPPUNIT_ASSERT(received_event->getEventCode() == 0);
-    CPPUNIT_ASSERT((double)received_event->getData() == (double)4.0);
+    CPPUNIT_ASSERT((double)received_event->getData() == 4.0);
     
     
     // Stop the conduits

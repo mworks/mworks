@@ -25,8 +25,10 @@
 #include <boost/thread.hpp>
 #include <boost/bind.hpp>
 #include <boost/function.hpp>
+#include <hash_map.h>
 
 #include "GenericEventFunctor.h"
+
 namespace mw {
 
 typedef boost::function< void (shared_ptr<Event>) >  event_callback;
@@ -35,14 +37,11 @@ class SimpleConduit : public Conduit {
 
 protected:
 
-    map<int, event_callback> callbacks;
+    hash_map<int, event_callback> callbacks;
+    
     boost::thread read_thread;
     
-    boost::mutex stopping_mutex;
-    bool stopping;
-    bool stopped;
-    
-    MonkeyWorksTime timeout_ms;
+
     
 public:
 
@@ -53,6 +52,10 @@ public:
     // Start the conduit working
     virtual bool initialize();
     
+    virtual bool isRunning(){
+        return !(stopping || stopped);
+    }
+    
     virtual void serviceIncomingEvents();
     
     // Stop any unfinished business on the conduit; block until 
@@ -61,11 +64,12 @@ public:
     
     // Register an event callback
     virtual void registerCallback(int event_code, event_callback functor);
+    virtual void registerCallback(string event_name, event_callback functor);
 
     // Send data to the other side.  It is assumed that both sides understand 
     // what the event codes mean.
     virtual void sendData(int code, Data data);
-    
+    virtual void sendData(shared_ptr<Event> evt);
     
 };
 }

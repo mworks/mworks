@@ -8,16 +8,12 @@
  */
 
 #include "SimpleConduit.h"
+#include "EventFactory.h"
+#include "StandardVariables.h"
+
 using namespace mw;
 
-SimpleConduit::SimpleConduit(shared_ptr<EventTransport> _transport) : Conduit(_transport){ 
-    
-    timeout_ms = 1000;
-    stopping = false;
-    stopped = false;
-}
-
-SimpleConduit::~SimpleConduit(){ }
+SimpleConduit::SimpleConduit(shared_ptr<EventTransport> _transport) :  Conduit(_transport){ }
 
 // Start the conduit working
 bool SimpleConduit::initialize(){ 
@@ -32,7 +28,31 @@ bool SimpleConduit::initialize(){
     
     running = true;
     
+    // register to receive codec events
+    
     return true;
+}
+
+SimpleConduit::~SimpleConduit(){
+    
+    while(true){
+        bool is_stopping, is_stopped;
+        {
+            boost::mutex::scoped_lock(stopping_mutex);
+            is_stopping = stopping;
+            is_stopped = stopped;
+        }
+        
+        if(!(is_stopping || stopped)){
+            finalize();
+        }
+        
+        if(stopped){
+            break;
+        }
+        
+        boost::thread::sleep(boost::posix_time::microsec_clock::local_time() + boost::posix_time::milliseconds(1));
+    }
 }
 
 
@@ -47,8 +67,12 @@ void SimpleConduit::serviceIncomingEvents(){
                 break;
             }
         }
-            
-        // TODO: make asynchonous
+        
+        
+        if(transport == NULL){
+            throw SimpleException("Attempt to receive on a NULL event transport");
+        }
+        
         shared_ptr<Event> incoming_event = transport->receiveEventAsynchronous();
         if(incoming_event == NULL){
             boost::thread::yield();
@@ -67,7 +91,7 @@ void SimpleConduit::serviceIncomingEvents(){
 // everything is done and the object can be safely destroyed.
 void SimpleConduit::finalize(){ 
     
-    
+
     {   // tell the system to stop
         boost::mutex::scoped_lock(stopping_mutex);
         stopping = true;
@@ -78,7 +102,7 @@ void SimpleConduit::finalize(){
         
         boost::mutex::scoped_lock(stopping_mutex);
         if(stopped){
-            return;
+            break;
         }
         
         boost::thread::sleep(boost::posix_time::microsec_clock::local_time() + boost::posix_time::milliseconds(100));
@@ -96,6 +120,18 @@ void SimpleConduit::registerCallback(int event_code, event_callback functor){
     callbacks[event_code] = functor;
 }
 
+
+void SimpleConduit::registerCallback(string event_name, event_callback functor){
+    int event_code = -1;
+    
+    // lookup event code
+    
+    registerCallback(event_code, functor);
+    
+    sendData(EventFactory::setEventForwardingControl(event_name, true));
+}
+
+
 // Send data to the other side.  It is assumed that both sides understand 
 // what the event codes mean.
 void SimpleConduit::sendData(int code, Data data){
@@ -103,4 +139,9 @@ void SimpleConduit::sendData(int code, Data data){
     shared_ptr<Event> event(new Event(code, data));
     transport->sendEvent(event);
 }
+
+void SimpleConduit::sendData(shared_ptr<Event> evt){
+    transport->sendEvent(evt);
+}
+
 

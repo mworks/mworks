@@ -15,7 +15,7 @@
 #include <boost/archive/text_oarchive.hpp>
 using namespace mw;
 
-CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( SerializationTestFixture, "Unit Test" );
+//<disabled>CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( SerializationTestFixture, "Unit Test" );
 
 
 void SerializationTestFixture::setUp(){
@@ -77,3 +77,68 @@ void SerializationTestFixture::testScarabSerialization(){
     CPPUNIT_ASSERT(datum->data.floatp == datum2.data.floatp);
 
 }
+
+void SerializationTestFixture::testStringDatumSerialization(){
+    Data the_data("blah");
+    
+    Event evt(0, the_data);
+    
+    stringstream output_stream_(ios_base::binary |  ios_base::out | ios_base::in);
+    
+    boost::archive::text_oarchive serialized_archive(output_stream_);
+    serialized_archive << evt;    
+    string data = output_stream_.str();
+    
+    stringstream input_stream(ios_base::binary |  ios_base::out | ios_base::in);
+    input_stream.str(data);
+    boost::archive::text_iarchive serialized_archive2(input_stream);
+    
+    Event evt2;
+    serialized_archive2 >> evt2;
+    
+    CPPUNIT_ASSERT(evt.getEventCode() == evt2.getEventCode());
+    Data the_regurgitated_data = evt2.getData();
+    
+    CPPUNIT_ASSERT(the_data.getDataType() == the_regurgitated_data.getDataType());
+    
+    string a(the_regurgitated_data.getString());
+    string b(the_data.getString());
+    CPPUNIT_ASSERT(a == b);
+
+}
+
+void SerializationTestFixture::testDictSerialization(){
+    
+    Data the_data(M_DICTIONARY,2);
+    Data four(4L);
+    Data five(5L);
+    //the_data.addElement("blah1", four);
+    //the_data.addElement("blah2", five);
+    the_data.addElement(four, four);
+    the_data.addElement(five, five);
+    
+    
+    Event evt(0, the_data);
+    
+    stringstream output_stream_(ios_base::binary |  ios_base::out | ios_base::in);
+    
+    boost::archive::text_oarchive serialized_archive(output_stream_);
+    serialized_archive << evt;    
+    string data = output_stream_.str();
+    
+    stringstream input_stream(ios_base::binary |  ios_base::out | ios_base::in);
+    input_stream.str(data);
+    boost::archive::text_iarchive serialized_archive2(input_stream);
+    
+    Event evt2;
+    serialized_archive2 >> evt2;
+    
+    CPPUNIT_ASSERT(evt.getEventCode() == evt2.getEventCode());
+    Data the_regurgitated_data = evt2.getData();
+    
+    CPPUNIT_ASSERT(the_data.getDataType() == the_regurgitated_data.getDataType());
+    
+    CPPUNIT_ASSERT(the_regurgitated_data.getElement(four).getInteger() == 4L);
+    CPPUNIT_ASSERT(the_regurgitated_data.getElement(five).getInteger() == 5L);
+}
+

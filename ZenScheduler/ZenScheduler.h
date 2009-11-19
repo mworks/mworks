@@ -312,7 +312,7 @@ namespace low_priority_scheduler{
 		class ZenSchedulerPlugin : public Plugin {
 			
 			virtual void registerComponents(shared_ptr<ComponentRegistry> registry) {
-				cerr << "Registering zen scheduler as: " << ZEN_SCHEDULER_PLUGIN_NAME << endl;
+				//cerr << "Registering zen scheduler as: " << ZEN_SCHEDULER_PLUGIN_NAME << endl;
 				registry->registerFactory(std::string(ZEN_SCHEDULER_PLUGIN_NAME),
 										  (ComponentFactory *)(new ZenScheduler(shared_ptr<Clock>())));
 			}

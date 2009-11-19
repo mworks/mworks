@@ -23,9 +23,26 @@ using namespace mw;
 VariableRegistry::VariableRegistry(shared_ptr<BufferManager> _buffer_manager) {
 	buffer_manager = _buffer_manager;
 	
-
 	addPlaceholders();
+}
+
+void VariableRegistry::reset(){
+
+    master_variable_list.clear();
 	
+    // for faster lookups by tag name
+    master_variable_dictionary = map< string, shared_ptr<Variable> >();
+    
+	// just the local variables
+	local_variable_list.clear();
+	
+	// just the global variables
+    global_variable_list.clear();
+	
+	// just the selection variables
+    selection_variable_list.clear();
+    
+    addPlaceholders();
 }
 
 
@@ -507,8 +524,8 @@ shared_ptr<VariableRegistry> GlobalVariableRegistry;
 static bool registry_initialized = false;
 }
 
-void initializeVariableRegistry() {
-	GlobalVariableRegistry = shared_ptr<VariableRegistry>(new VariableRegistry(GlobalBufferManager));
-    registry_initialized = true;
-	
-}
+//void initializeVariableRegistry() {
+//	GlobalVariableRegistry = shared_ptr<VariableRegistry>(new VariableRegistry(GlobalBufferManager));
+//    registry_initialized = true;
+//	
+//}

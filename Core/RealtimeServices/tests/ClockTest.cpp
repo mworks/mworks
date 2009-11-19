@@ -11,7 +11,7 @@
 #include "Clock.h"
 using namespace mw;
 
-CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( ClockTestFixture, "Unit Test" );
+//<disabled>CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( ClockTestFixture, "Unit Test" );
 
 void ClockTestFixture::setUp() {
 	shared_ptr <Clock> shared_clock = Clock::instance(false);
@@ -33,7 +33,7 @@ void ClockTestFixture::testClock(){
 		bool threw_exception = false;
 		try {
 			shared_clock = Clock::instance(true);		
-		} catch (std::exception &e) {
+		} catch (SimpleException &e) {
 			threw_exception = true;
 		}
 		
@@ -42,7 +42,7 @@ void ClockTestFixture::testClock(){
 		threw_exception = false;
 		try {
 			shared_clock = Clock::instance();		
-		} catch (std::exception &e) {
+		} catch (SimpleException &e) {
 			threw_exception = true;
 		}
 		

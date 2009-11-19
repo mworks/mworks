@@ -29,6 +29,17 @@
 			name = "Set Version String";
 			productName = "Set Version String";
 		};
+		5CCE1CCF10A4692500EF5866 /* PyMW */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 5CCE1CD510A4695B00EF5866 /* Build configuration list for PBXAggregateTarget "PyMW" */;
+			buildPhases = (
+				5CCE1CCE10A4692500EF5866 /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = PyMW;
+			productName = PyMW;
+		};
 		DA1368DC07EA27C7001BA98B /* Everything */ = {
 			isa = PBXAggregateTarget;
 			buildConfigurationList = 5C0E8502086D85D400B3EE7C /* Build configuration list for PBXAggregateTarget "Everything" */;
@@ -126,6 +137,8 @@
 		5C18E25708A167BE00AA734D /* VariableNotification.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C18E25508A167BE00AA734D /* VariableNotification.cpp */; };
 		5C1D35330BBAAFEA00AB6DA3 /* ConstantVariable.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C1D35310BBAAFEA00AB6DA3 /* ConstantVariable.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5C1D35340BBAAFEA00AB6DA3 /* ConstantVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C1D35320BBAAFEA00AB6DA3 /* ConstantVariable.cpp */; };
+		5C25932C10AC95180098558D /* EventHandlerConduitTest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C25932A10AC95170098558D /* EventHandlerConduitTest.h */; };
+		5C25932D10AC95180098558D /* EventHandlerConduitTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C25932B10AC95180098558D /* EventHandlerConduitTest.cpp */; };
 		5C28909E0850DD96002CC31A /* IODevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2CE13A07E9F8D300C68AEF /* IODevice.cpp */; };
 		5C28909F0850DD9A002CC31A /* IODevice.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2CE13B07E9F8D300C68AEF /* IODevice.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5C2B51210BB6838200928E03 /* ScopedVariable.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C2B511F0BB6838200928E03 /* ScopedVariable.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -154,6 +167,8 @@
 		5C71CD6D09AA507700EAD886 /* GlobalVariable.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C71CD6909AA507700EAD886 /* GlobalVariable.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5C71CD6E09AA507700EAD886 /* ExpressionVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C71CD6A09AA507700EAD886 /* ExpressionVariable.cpp */; };
 		5C71CD6F09AA507700EAD886 /* ExpressionVariable.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C71CD6B09AA507700EAD886 /* ExpressionVariable.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5C724443109B2BC0004887A5 /* EventHandlerConduit.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C724441109B2BC0004887A5 /* EventHandlerConduit.h */; };
+		5C724444109B2BC0004887A5 /* EventHandlerConduit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C724442109B2BC0004887A5 /* EventHandlerConduit.cpp */; };
 		5C76674F0C1BB28C00B1203C /* StimulusNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C76674D0C1BB28C00B1203C /* StimulusNode.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5C7667500C1BB28C00B1203C /* StimulusNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C76674E0C1BB28C00B1203C /* StimulusNode.cpp */; };
 		5C7667540C1BB30A00B1203C /* StimulusDisplay.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C7667530C1BB30A00B1203C /* StimulusDisplay.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -203,6 +218,7 @@
 		5CCA2DF50E90676A007BDA56 /* SerializationTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CCA2DF30E90676A007BDA56 /* SerializationTest.cpp */; };
 		5CCDF6AD09F5C5C3008B1D65 /* TriggerTest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CCDF6AB09F5C5C3008B1D65 /* TriggerTest.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5CCDF6AE09F5C5C3008B1D65 /* TriggerTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CCDF6AC09F5C5C3008B1D65 /* TriggerTest.cpp */; };
+		5CCE1CBC10A4687C00EF5866 /* __init__.py in Resources */ = {isa = PBXBuildFile; fileRef = 5CCE1CBB10A4687C00EF5866 /* __init__.py */; };
 		5CD504310D4ED0BA00CD1C1D /* TrialBuildingBlocks.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CD504300D4ED0BA00CD1C1D /* TrialBuildingBlocks.cpp */; };
 		5CDB8B270E9C4AFC00993D99 /* PythonSimpleConduit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CB6C4750E9A92CA006923EC /* PythonSimpleConduit.cpp */; };
 		5CDB8BB90E9C4B0700993D99 /* MonkeyWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA2CE0D407E9F68100C68AEF /* MonkeyWorksCore.framework */; };
@@ -516,6 +532,13 @@
 			remoteGlobalIDString = DA2CE0D307E9F68100C68AEF;
 			remoteInfo = MonkeyWorksCore;
 		};
+		5CCE1CD310A4692B00EF5866 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DA2CE0C907E9070200C68AEF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5CCE1CCF10A4692500EF5866;
+			remoteInfo = PyMW;
+		};
 		68210E850D47965300725790 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = DA2CE0C907E9070200C68AEF /* Project object */;
@@ -686,6 +709,8 @@
 		5C2386BA0E8D18FA00CDC4FC /* IPCEventTransport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IPCEventTransport.h; sourceTree = "<group>"; };
 		5C2386DD0E8D1A4600CDC4FC /* Serialization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Serialization.h; sourceTree = "<group>"; };
 		5C2386DE0E8D1A4600CDC4FC /* Serialization.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Serialization.cpp; sourceTree = "<group>"; };
+		5C25932A10AC95170098558D /* EventHandlerConduitTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventHandlerConduitTest.h; sourceTree = "<group>"; };
+		5C25932B10AC95180098558D /* EventHandlerConduitTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventHandlerConduitTest.cpp; sourceTree = "<group>"; };
 		5C2B511F0BB6838200928E03 /* ScopedVariable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ScopedVariable.h; path = Core/Variables/ScopedVariable.h; sourceTree = "<group>"; };
 		5C2B51200BB6838200928E03 /* ScopedVariable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ScopedVariable.cpp; path = Core/Variables/ScopedVariable.cpp; sourceTree = "<group>"; };
 		5C35363C1064F30900FF0528 /* alc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alc.h; sourceTree = "<group>"; };
@@ -716,6 +741,8 @@
 		5C71CD6909AA507700EAD886 /* GlobalVariable.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GlobalVariable.h; path = Core/Variables/GlobalVariable.h; sourceTree = "<group>"; };
 		5C71CD6A09AA507700EAD886 /* ExpressionVariable.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ExpressionVariable.cpp; path = Core/Variables/ExpressionVariable.cpp; sourceTree = SOURCE_ROOT; };
 		5C71CD6B09AA507700EAD886 /* ExpressionVariable.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ExpressionVariable.h; path = Core/Variables/ExpressionVariable.h; sourceTree = SOURCE_ROOT; };
+		5C724441109B2BC0004887A5 /* EventHandlerConduit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventHandlerConduit.h; sourceTree = "<group>"; };
+		5C724442109B2BC0004887A5 /* EventHandlerConduit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventHandlerConduit.cpp; sourceTree = "<group>"; };
 		5C76674D0C1BB28C00B1203C /* StimulusNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StimulusNode.h; path = Core/Stimuli/StimulusNode.h; sourceTree = "<group>"; };
 		5C76674E0C1BB28C00B1203C /* StimulusNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StimulusNode.cpp; path = Core/Stimuli/StimulusNode.cpp; sourceTree = "<group>"; };
 		5C7667530C1BB30A00B1203C /* StimulusDisplay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StimulusDisplay.h; path = Core/Stimuli/StimulusDisplay.h; sourceTree = "<group>"; };
@@ -764,6 +791,8 @@
 		5CCA2DF30E90676A007BDA56 /* SerializationTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SerializationTest.cpp; sourceTree = "<group>"; };
 		5CCDF6AB09F5C5C3008B1D65 /* TriggerTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TriggerTest.h; path = Core/Triggers/tests/TriggerTest.h; sourceTree = SOURCE_ROOT; };
 		5CCDF6AC09F5C5C3008B1D65 /* TriggerTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TriggerTest.cpp; path = Core/Triggers/tests/TriggerTest.cpp; sourceTree = SOURCE_ROOT; };
+		5CCE1CBB10A4687C00EF5866 /* __init__.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; name = __init__.py; path = Core/Python/__init__.py; sourceTree = "<group>"; };
+		5CCE1D3D10A49C8D00EF5866 /* conduit.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; name = conduit.py; path = Conduits/conduit.py; sourceTree = "<group>"; };
 		5CD504300D4ED0BA00CD1C1D /* TrialBuildingBlocks.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TrialBuildingBlocks.cpp; path = Core/ParadigmComponents/TrialBuildingBlocks.cpp; sourceTree = "<group>"; };
 		5CDB8B240E9C4A6300993D99 /* mw_conduit.so */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.objfile"; includeInIndex = 0; path = mw_conduit.so; sourceTree = BUILT_PRODUCTS_DIR; };
 		5CDCC87F0D2B0E10008E2F19 /* ExpressionParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExpressionParser.h; sourceTree = "<group>"; };
@@ -918,8 +947,8 @@
 		DA2CE1A307E9F95600C68AEF /* Lockable.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Lockable.h; path = Core/RealtimeServices/Lockable.h; sourceTree = SOURCE_ROOT; };
 		DA2CE1A607E9F95600C68AEF /* Scheduler.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = Scheduler.cpp; path = Core/RealtimeServices/Scheduler.cpp; sourceTree = SOURCE_ROOT; };
 		DA2CE1A707E9F95600C68AEF /* Scheduler.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Scheduler.h; path = Core/RealtimeServices/Scheduler.h; sourceTree = SOURCE_ROOT; };
-		DA2CE1A807E9F95600C68AEF /* StandardVariables.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = StandardVariables.cpp; path = Core/RealtimeServices/StandardVariables.cpp; sourceTree = SOURCE_ROOT; };
-		DA2CE1A907E9F95600C68AEF /* StandardVariables.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = StandardVariables.h; path = Core/RealtimeServices/StandardVariables.h; sourceTree = SOURCE_ROOT; };
+		DA2CE1A807E9F95600C68AEF /* StandardVariables.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = StandardVariables.cpp; path = Core/RealtimeServices/StandardVariables.cpp; sourceTree = "<group>"; };
+		DA2CE1A907E9F95600C68AEF /* StandardVariables.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = StandardVariables.h; path = Core/RealtimeServices/StandardVariables.h; sourceTree = "<group>"; };
 		DA2CE1AA07E9F95600C68AEF /* StateSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = StateSystem.cpp; path = Core/RealtimeServices/StateSystem.cpp; sourceTree = SOURCE_ROOT; };
 		DA2CE1AB07E9F95600C68AEF /* StateSystem.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = StateSystem.h; path = Core/RealtimeServices/StateSystem.h; sourceTree = SOURCE_ROOT; };
 		DA2CE1AC07E9F95600C68AEF /* Timer.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = Timer.cpp; path = Core/RealtimeServices/Timer.cpp; sourceTree = SOURCE_ROOT; };
@@ -1209,6 +1238,8 @@
 				5CB6C4770E9A92CA006923EC /* SimpleConduit.cpp */,
 				5C2386B50E8D18FA00CDC4FC /* Conduit.h */,
 				5C2386B40E8D18FA00CDC4FC /* Conduit.cpp */,
+				5C724441109B2BC0004887A5 /* EventHandlerConduit.h */,
+				5C724442109B2BC0004887A5 /* EventHandlerConduit.cpp */,
 			);
 			path = Conduits;
 			sourceTree = "<group>";
@@ -1444,6 +1475,7 @@
 			children = (
 				5CB6C4760E9A92CA006923EC /* PythonSimpleConduit.h */,
 				5CB6C4750E9A92CA006923EC /* PythonSimpleConduit.cpp */,
+				5CCE1D3D10A49C8D00EF5866 /* conduit.py */,
 			);
 			name = "Python Conduit";
 			path = ..;
@@ -1495,6 +1527,8 @@
 			children = (
 				5C7A88250F818A38007B4724 /* SimpleConduitTest.cpp */,
 				5C7A88260F818A38007B4724 /* SimpleConduitTest.h */,
+				5C25932A10AC95170098558D /* EventHandlerConduitTest.h */,
+				5C25932B10AC95180098558D /* EventHandlerConduitTest.cpp */,
 			);
 			path = tests;
 			sourceTree = "<group>";
@@ -1523,12 +1557,12 @@
 			path = Core/XMLParser/ExpressionParser;
 			sourceTree = "<group>";
 		};
-		5CDEE92F0CC83E2F00F0C10C /* MonkeyWorksPython */ = {
+		5CDEE92F0CC83E2F00F0C10C /* Python */ = {
 			isa = PBXGroup;
 			children = (
-				5C08AEC10CC84DC000194E85 /* PyMonkeyWorks.cxx */,
+				5CCE1CBB10A4687C00EF5866 /* __init__.py */,
 			);
-			name = MonkeyWorksPython;
+			name = Python;
 			sourceTree = "<group>";
 		};
 		5CEFD8210D4D1C3B00EA9950 /* Exceptions */ = {
@@ -1571,7 +1605,6 @@
 				DA2CE1AE07E9F95600C68AEF /* Utilities.cpp */,
 				8E1A4BDF08DF5626002E47BD /* MathUtilities.h */,
 				8E1A4BE008DF5626002E47BD /* MathUtilities.cpp */,
-				68FEE2310C9039EE002BCAE9 /* GenericEventFunctor.h */,
 				68FEE2340C903A80002BCAE9 /* CoreEventFunctor.h */,
 				0EF2B5C30EBB49F20088F58F /* RegisteredSingleton.h */,
 			);
@@ -1645,7 +1678,7 @@
 				5C54F0D3085BDA6900C3E649 /* Porting */,
 				DA2CE0D807E9F6A700C68AEF /* Core */,
 				DA2CE3AA07EA04EC00C68AEF /* MonkeyWorksScripting */,
-				5CDEE92F0CC83E2F00F0C10C /* MonkeyWorksPython */,
+				5CDEE92F0CC83E2F00F0C10C /* Python */,
 				5C475B6107EF8BB4004A645E /* Standard Plugins */,
 				DA96B8A009818E5B0007610D /* plists */,
 				DA2CE0D507E9F68100C68AEF /* Products */,
@@ -1739,6 +1772,8 @@
 				5CFC3A810AFD376D00A3C171 /* VariableReference.cpp */,
 				5C643E9F0D501E99004A8BD2 /* UnresolvedReferenceVariable.h */,
 				5C643EA00D501E99004A8BD2 /* UnresolvedReferenceVariable.cpp */,
+				DA2CE1A907E9F95600C68AEF /* StandardVariables.h */,
+				DA2CE1A807E9F95600C68AEF /* StandardVariables.cpp */,
 			);
 			name = Variables;
 			sourceTree = SOURCE_ROOT;
@@ -1809,8 +1844,6 @@
 				DA2CE1A207E9F95600C68AEF /* Lockable.cpp */,
 				DA2CE1A707E9F95600C68AEF /* Scheduler.h */,
 				DA2CE1A607E9F95600C68AEF /* Scheduler.cpp */,
-				DA2CE1A907E9F95600C68AEF /* StandardVariables.h */,
-				DA2CE1A807E9F95600C68AEF /* StandardVariables.cpp */,
 				DA2CE1AB07E9F95600C68AEF /* StateSystem.h */,
 				DA2CE1AA07E9F95600C68AEF /* StateSystem.cpp */,
 				DA2CE1AD07E9F95600C68AEF /* Timer.h */,
@@ -1942,6 +1975,7 @@
 				686059610C91CD5A00CD0D16 /* EventListener.h */,
 				686059620C91CD5A00CD0D16 /* EventListener.cpp */,
 				0E5338E70CB7404E004FF889 /* EventConstants.h */,
+				68FEE2310C9039EE002BCAE9 /* GenericEventFunctor.h */,
 			);
 			name = Events;
 			sourceTree = "<group>";
@@ -1996,6 +2030,7 @@
 			isa = PBXGroup;
 			children = (
 				DA2CE3AC07EA04FF00C68AEF /* MonkeyScript.i */,
+				5C08AEC10CC84DC000194E85 /* PyMonkeyWorks.cxx */,
 			);
 			name = MonkeyWorksScripting;
 			sourceTree = SOURCE_ROOT;
@@ -2079,6 +2114,7 @@
 				0EF2B6710EBB6ED70088F58F /* RegisteredSingletonTests.h in Headers */,
 				0EBCB90C0EFF42440032F669 /* XMLParserTest.h in Headers */,
 				5C7A88280F818A38007B4724 /* SimpleConduitTest.h in Headers */,
+				5C25932C10AC95180098558D /* EventHandlerConduitTest.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2220,6 +2256,7 @@
 				0E2FE5A10EF00CC900CEB818 /* ParsedColorTrio.h in Headers */,
 				0EB1423F0EFB4EFC0056E2A2 /* IODeviceVariableNotification.h in Headers */,
 				5C35363D1064F30900FF0528 /* alc.h in Headers */,
+				5C724443109B2BC0004887A5 /* EventHandlerConduit.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2310,9 +2347,9 @@
 			productReference = 5C4D239C09DC83930082BF9F /* MonkeyWorksCoreTest.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		5C510AF50CC8335700C771FB /* PyMonkeyWorks */ = {
+		5C510AF50CC8335700C771FB /* PyMonkeyWorks (deprecated) */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 5C510B170CC8335700C771FB /* Build configuration list for PBXNativeTarget "PyMonkeyWorks" */;
+			buildConfigurationList = 5C510B170CC8335700C771FB /* Build configuration list for PBXNativeTarget "PyMonkeyWorks (deprecated)" */;
 			buildPhases = (
 				5C510AF60CC8335700C771FB /* ShellScript */,
 				5C510AF70CC8335700C771FB /* Resources */,
@@ -2325,7 +2362,7 @@
 			);
 			dependencies = (
 			);
-			name = PyMonkeyWorks;
+			name = "PyMonkeyWorks (deprecated)";
 			productName = MonkeyWorksScripting;
 			productReference = 5C510B1A0CC8335700C771FB /* PyMonkeyWorks.bundle */;
 			productType = "com.apple.product-type.bundle";
@@ -2336,10 +2373,12 @@
 			buildPhases = (
 				5CDB8B210E9C4A6300993D99 /* Sources */,
 				5CDB8B220E9C4A6300993D99 /* Frameworks */,
+				5CCE1CCB10A468C900EF5866 /* ShellScript */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				5CCE1CD410A4692B00EF5866 /* PBXTargetDependency */,
 				5C4952AB1094AAF7002047A3 /* PBXTargetDependency */,
 			);
 			name = mw_conduit;
@@ -2445,9 +2484,10 @@
 				5C0E756F09D1A886002295FB /* LowPrioritySchedulerPlugin */,
 				5C4D239B09DC83930082BF9F /* MonkeyWorksCoreTest */,
 				5C4D232409DC59410082BF9F /* MonkeyWorksCoreTestRunner */,
-				5C510AF50CC8335700C771FB /* PyMonkeyWorks */,
+				5C510AF50CC8335700C771FB /* PyMonkeyWorks (deprecated) */,
 				0E8014110E422E2A00D6DE20 /* MarionetteTest */,
 				0E121C930E6B1EF7007B29B8 /* CoreUninstall */,
+				5CCE1CCF10A4692500EF5866 /* PyMW */,
 				5CDB8B230E9C4A6300993D99 /* mw_conduit */,
 				5C488A160F4E27CD00C5A526 /* Set Version String */,
 			);
@@ -2511,6 +2551,7 @@
 				0E1AE9930EF1A9EE00C224F1 /* setup_variables_macbook.xml in Resources */,
 				0E1AE9A80EF1AB5500C224F1 /* setup_variables_two_monitors.xml in Resources */,
 				5C918D1810027CB3001BE3DF /* MWMediaPackagerTransformation.xsl in Resources */,
+				5CCE1CBC10A4687C00EF5866 /* __init__.py in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2629,6 +2670,32 @@
 			shellPath = /bin/zsh;
 			shellScript = "export FULL_NAME=${PRODUCT_NAME}.${WRAPPER_EXTENSION}\n\nrm -rf \"${INSTALL_PATH}/${FULL_NAME}\"\ncp -R \"${BUILT_PRODUCTS_DIR}/${FULL_NAME}\" \"${INSTALL_PATH}/\"";
 		};
+		5CCE1CCB10A468C900EF5866 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/zsh;
+			shellScript = "export FULL_NAME=${PRODUCT_NAME}.${EXECUTABLE_EXTENSION}\nexport MW_PYTHON_DIR=${APP_SUPPORT_DIR}/Scripting/Python/monkeyworks\nexport SOURCE_DIR=${BUILT_PRODUCTS_DIR}/../../\n\ncp \"${BUILT_PRODUCTS_DIR}/${FULL_NAME}\" \"${MW_PYTHON_DIR}/\"\ncp \"${SOURCE_DIR}/Core/Communications/Conduits/conduit.py\" \"${MW_PYTHON_DIR}/\"";
+		};
+		5CCE1CCE10A4692500EF5866 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/zsh;
+			shellScript = "export SOURCE_DIR=${BUILT_PRODUCTS_DIR}/../../\nexport MW_PYTHON_DIR=${APP_SUPPORT_DIR}/Scripting/Python/monkeyworks\n\nmkdir -p \"${MW_PYTHON_DIR}\"\n\ncp -r ${SOURCE_DIR}/Core/Python/* \"${MW_PYTHON_DIR}\"\n";
+		};
 		5CEE864C081D53A700F366DE /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -2745,6 +2812,7 @@
 				0EF2B6720EBB6ED70088F58F /* RegisteredSingletonTests.cpp in Sources */,
 				0EBCB90D0EFF42440032F669 /* XMLParserTest.cpp in Sources */,
 				5C7A88270F818A38007B4724 /* SimpleConduitTest.cpp in Sources */,
+				5C25932D10AC95180098558D /* EventHandlerConduitTest.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2907,6 +2975,7 @@
 				0EFC71640EDBB14000FFABA8 /* PulseAction.cpp in Sources */,
 				0E2FE5A20EF00CC900CEB818 /* ParsedColorTrio.cpp in Sources */,
 				0EB142400EFB4EFD0056E2A2 /* IODeviceVariableNotification.cpp in Sources */,
+				5C724444109B2BC0004887A5 /* EventHandlerConduit.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3000,6 +3069,11 @@
 			isa = PBXTargetDependency;
 			target = DA2CE0D307E9F68100C68AEF /* MonkeyWorksCore */;
 			targetProxy = 5C4D25A709DCCD100082BF9F /* PBXContainerItemProxy */;
+		};
+		5CCE1CD410A4692B00EF5866 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5CCE1CCF10A4692500EF5866 /* PyMW */;
+			targetProxy = 5CCE1CD310A4692B00EF5866 /* PBXContainerItemProxy */;
 		};
 		68210E860D47965300725790 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -4321,7 +4395,7 @@
 				GCC_DEBUGGING_SYMBOLS = full;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_ENABLE_OBJC_GC = supported;
+				GCC_ENABLE_OBJC_GC = unsupported;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -4481,6 +4555,34 @@
 			};
 			name = "Development (10.5 Compatible)";
 		};
+		5CCE1CD010A4692500EF5866 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = PyMW;
+			};
+			name = Development;
+		};
+		5CCE1CD110A4692500EF5866 /* Development (10.5 Compatible) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = PyMW;
+			};
+			name = "Development (10.5 Compatible)";
+		};
+		5CCE1CD210A4692500EF5866 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				PRODUCT_NAME = PyMW;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
 		5CDB8B250E9C4A6300993D99 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -4505,7 +4607,7 @@
 					"-lpython2.6",
 				);
 				PREBINDING = NO;
-				PRODUCT_NAME = mw_conduit;
+				PRODUCT_NAME = _conduit;
 			};
 			name = Development;
 		};
@@ -4632,12 +4734,22 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
 		};
-		5C510B170CC8335700C771FB /* Build configuration list for PBXNativeTarget "PyMonkeyWorks" */ = {
+		5C510B170CC8335700C771FB /* Build configuration list for PBXNativeTarget "PyMonkeyWorks (deprecated)" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5C510B180CC8335700C771FB /* Development */,
 				5C9EE42B107303900051414D /* Development (10.5 Compatible) */,
 				5C9EBDB0107244C00051414D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		5CCE1CD510A4695B00EF5866 /* Build configuration list for PBXAggregateTarget "PyMW" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5CCE1CD010A4692500EF5866 /* Development */,
+				5CCE1CD110A4692500EF5866 /* Development (10.5 Compatible) */,
+				5CCE1CD210A4692500EF5866 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;

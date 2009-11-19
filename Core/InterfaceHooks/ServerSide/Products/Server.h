@@ -23,19 +23,16 @@
 #include "ScarabServer.h"
 namespace mw {
 class Server : public EventHandler {
-protected:
-	shared_ptr<ScarabServer> server;
-	shared_ptr<OutgoingEventListener> outgoingListener;
-	shared_ptr<IncomingEventListener> incomingListener;
-	std::vector <std::vector<shared_ptr<GenericEventFunctor> > > callbacks;
-	
-	//boost::mutex event_lock;
-	boost::recursive_mutex callbacksLock;
-	
-	void updateCallbacks(const unsigned int vars);
-    public:
+    
+    protected:
+    
+        shared_ptr<ScarabServer> server;
+        shared_ptr<OutgoingEventListener> outgoingListener;
+        shared_ptr<IncomingEventListener> incomingListener;
+        
+	public:
         Server();
-	virtual ~Server();
+        virtual ~Server();
         
         /*!
          * @function startServer
@@ -141,14 +138,14 @@ protected:
 		void stopExperiment();
 		
 		MonkeyWorksTime getReferenceTime();
-		shared_ptr<Variable> getVariable(const std::string &tag);
-		shared_ptr<Variable> getVariable(const int code);
-		int getCode(const std::string &tag);
-		std::vector<std::string> getVariableNames();
-		void handleEvent(shared_ptr<Event> event);
-		void registerCallback(shared_ptr<GenericEventFunctor> gef);
-		void registerCallback(shared_ptr<GenericEventFunctor> gef, const int code);
-		void unregisterCallbacks(const std::string &key);
+		
+        virtual void handleEvent(shared_ptr<Event> event);
+        virtual void putEvent(shared_ptr<Event> event);
+    
+    
+        //virtual void registerCallback(shared_ptr<GenericEventFunctor> gef);
+//		virtual void registerCallback(shared_ptr<GenericEventFunctor> gef, const int code);
+//		virtual void unregisterCallbacks(const std::string &key);
 		
 		void setListenLowPort(const int port);
 		void setListenHighPort(const int port);

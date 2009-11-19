@@ -1,7 +1,7 @@
 /*!
  * @header IncomingEventListener.h
  *
- * @discussion Sets up a thread to listen to incoming events.  Users register
+ * @discussion Sets up a thread to listen to incoming events on a buffer.  Users register
  * an event handler with this object to deal with the events as they come.
  *
  * History:<BR/>

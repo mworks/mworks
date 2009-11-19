@@ -19,10 +19,13 @@ namespace mw {
 class DefaultEventHandler : public EventHandler {
 	
 public:
+    DefaultEventHandler();
 	virtual ~DefaultEventHandler() {};
 	virtual void handleEvent(shared_ptr<Event> event);
+    virtual void putEvent(shared_ptr<Event> event){ }
 protected:
         virtual void handleSystemEvent(const Data &sysEvent);
+    
 	
 };
 }

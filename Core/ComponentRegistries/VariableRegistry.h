@@ -138,6 +138,8 @@ public:
 	VariableRegistry(shared_ptr<BufferManager> _buffer_manager);        
 	~VariableRegistry();
 	
+    void reset();
+    
 	void addPlaceholders();
 	
 	// ********************************************************
@@ -210,7 +212,7 @@ public:
 };
 
 extern shared_ptr<VariableRegistry> GlobalVariableRegistry;
-void initializeVariableRegistry(); // create a new global registry
+//void initializeVariableRegistry(); // create a new global registry
 }
 
 #endif

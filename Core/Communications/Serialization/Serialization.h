@@ -24,7 +24,7 @@
 
 namespace boost {
     namespace serialization {
-        
+        using namespace std;
         // These are some "shim" functions for serializing ScarabDatum structs
         // Ultimately, ScarabDatum's only exist for serialization, so if we 
         // move to an alternative serialization scheme (e.g. boost.serialization),
@@ -44,10 +44,13 @@ namespace boost {
         {
             ar << d.type;
             if(d.type == SCARAB_DICT){
+                cerr << "save < datum, dict" << endl;
                 ar << *(d.data.dict);
             } else if(d.type == SCARAB_LIST){
+                cerr << "save < datum, list" << endl;
                 ar << *(d.data.list);
             } else if(d.type == SCARAB_OPAQUE){
+                cerr << "save < datum, opaque" << endl;
                 ar << d.data.opaque;
             } else if(d.type == SCARAB_INTEGER){
                 long long value = d.data.integer;
@@ -55,6 +58,8 @@ namespace boost {
             } else if(d.type == SCARAB_FLOAT){
                 double double_value = (double)d.data.floatp; 
                 ar << double_value;
+            } else {
+                cerr << "Unknown type during serialization" << endl;
             }
         }
 
@@ -63,10 +68,13 @@ namespace boost {
         {
             ar >> d.type;
             if(d.type == SCARAB_DICT){
+                cerr << "load > datum, dict" << endl;
                 ar >> *(d.data.dict);
             } else if(d.type == SCARAB_LIST){
+                cerr << "load > datum, list" << endl;
                 ar >> *(d.data.list);
             } else if(d.type == SCARAB_OPAQUE){
+                cerr << "load > datum, opaque" << endl;
                 ar >> d.data.opaque;
             } else if(d.type == SCARAB_INTEGER){
                 long long val;
@@ -76,6 +84,8 @@ namespace boost {
                 double val;
                 ar >> val;
                 d.data.floatp = val;
+            } else {
+                cerr << "Unknown type during deserialization" << endl;
             }
         }
         
@@ -90,6 +100,7 @@ namespace boost {
         template<class Archive>
         void save(Archive & ar, const ScarabDict& d, const unsigned int version)
         {
+            cerr << "Saving dictionary" << endl;
             ar << d.size;
             ar << d.tablesize;
             
@@ -102,6 +113,7 @@ namespace boost {
         template<class Archive>
         void load(Archive & ar, ScarabDict& d, const unsigned int version)
         {
+            cerr << "Loading dictionary" << endl;
             int dict_size, tablesize;
             shared_ptr< array<ScarabDatum *> > keys_array, values_array;
             ScarabDatum **keys, **values;

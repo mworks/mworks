@@ -475,7 +475,7 @@ std::string XMLParser::getWorkingPathString(){
 		boost::filesystem::path the_path(escaped_path_string, boost::filesystem::native);
 		boost::filesystem::path the_branch = the_path.branch_path();
 		std::string branch_string = the_branch.string();
-		std::cerr << "The working path: " << branch_string << endl; 
+		//std::cerr << "The working path: " << branch_string << endl; 
 		
 		return branch_string;
 		

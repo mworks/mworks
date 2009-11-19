@@ -51,6 +51,10 @@ const int DATA_FILE_OPEN_RESPONSE_FILE_INDEX    = 1;
 const int DATA_FILE_CLOSED_RESPONSE_PAYLOAD_SIZE    = 2;
 const int DATA_FILE_CLOSED_RESPONSE_FILE_INDEX      = 1;
 
+//const int SET_EVENT_FORWARDING_PAYLOAD_SIZE = 3;
+//const int SET_EVENT_FORWARDING_CODE         = 1;
+//const int SET_EVENT_FORWARDING_STATE        = 2;
+
 
 /*********************************************************
 *          Data Package Events
@@ -170,6 +174,33 @@ shared_ptr<Event> EventFactory::pauseExperimentControl() {
 									 M_PAUSE_EXPERIMENT));
 	shared_ptr<Event> ret(new Event(GlobalSystemEventVariable->getCodecCode(), 
 									  payload));
+	
+	return ret;
+}
+
+shared_ptr<Event> EventFactory::requestCodecControl() {
+    Data payload(systemEventPackage(M_SYSTEM_CONTROL_PACKAGE, 
+                                    M_REQUEST_CODEC));
+	shared_ptr<Event> ret(new Event(GlobalSystemEventVariable->getCodecCode(), 
+                                    payload));
+	
+	return ret;
+}
+
+shared_ptr<Event> EventFactory::setEventForwardingControl(string name, bool state) {
+    Data control_datum(M_DICTIONARY, 2);
+	
+	control_datum.addElement(M_SET_EVENT_FORWARDING_NAME, name);
+	control_datum.addElement(M_SET_EVENT_FORWARDING_STATE, state);
+    
+    Data payload(systemEventPackage(M_SYSTEM_CONTROL_PACKAGE, 
+                                    M_SET_EVENT_FORWARDING,
+                                    control_datum));
+    
+    
+    shared_ptr<Event> ret(new Event(GlobalSystemEventVariable->getCodecCode(), 
+                                    payload));
+    
 	
 	return ret;
 }

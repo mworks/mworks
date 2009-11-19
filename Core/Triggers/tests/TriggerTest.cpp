@@ -10,5 +10,5 @@
 #include "TriggerTest.h"
 using namespace mw;
 
-CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( TriggerTestFixture, "Unit Test" );
+//<disabled>CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( TriggerTestFixture, "Unit Test" );
 //CPPUNIT_TEST_SUITE_REGISTRATION( TriggerTestFixture );

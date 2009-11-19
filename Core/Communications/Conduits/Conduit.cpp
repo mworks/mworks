@@ -14,4 +14,11 @@ using namespace mw;
 Conduit::Conduit(shared_ptr<EventTransport> _transport){
     transport = _transport;
     running = false;
+    timeout_ms = 1000;
+    stopping = false;
+    stopped = false;
 }
+
+
+
+

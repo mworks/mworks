@@ -26,6 +26,9 @@
 using namespace mw;
 
 
+
+DefaultEventHandler::DefaultEventHandler() : EventHandler(M_SERVER_MESSAGE_DOMAIN, true){ }
+
 void DefaultEventHandler::handleEvent(shared_ptr <Event> evt) {
 	shared_ptr<Variable> var(GlobalVariableRegistry->getVariable(evt->getEventCode()));
 	
@@ -106,7 +109,12 @@ void DefaultEventHandler::handleSystemEvent(const Data &sysEvent) {
 			
             GlobalCurrentExperiment->setCurrentProtocol(newProtocol);
 			break;
-		}            
+		}
+        case M_REQUEST_CODEC:
+        {
+            GlobalBufferManager->putEvent(EventFactory::codecPackage());
+            break;
+        }
         case M_CLOSE_EXPERIMENT:
 		{
 			Data payload(sysEvent.getElement(M_SYSTEM_PAYLOAD));

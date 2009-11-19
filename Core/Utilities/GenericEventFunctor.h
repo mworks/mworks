@@ -39,5 +39,24 @@ namespace mw {
 				return _callback_id;
 			}
 		};
+    
+    class BoostEventFunctor : public GenericEventFunctor {
+    protected:
+        boost::function<void(shared_ptr<Event>)> functor; 
+        
+    public:
+        BoostEventFunctor(const std::string &callbackID, boost::function< void(shared_ptr<Event>) > _functor):
+                        GenericEventFunctor(callbackID){
+            functor = _functor;
+        }
+        
+        virtual void operator()(const shared_ptr<Event> &evt){
+            functor(evt);
+        }
+        
+        virtual void operator()(shared_ptr<Event> evt){
+            functor(evt);
+        }
+    };
 }
 #endif

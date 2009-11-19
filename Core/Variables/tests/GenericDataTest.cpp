@@ -10,7 +10,7 @@
 #include "GenericDataTest.h"
 using namespace mw;
 
-CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( GenericDataTestFixture, "Unit Test" );
+//<disabled>CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( GenericDataTestFixture, "Unit Test" );
 //CPPUNIT_TEST_SUITE_REGISTRATION( GenericDataTestFixture );
 
 

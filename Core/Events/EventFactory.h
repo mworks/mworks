@@ -54,6 +54,7 @@ class EventFactory {
 	static shared_ptr<Event> startExperimentControl();
 	static shared_ptr<Event> stopExperimentControl();
 	static shared_ptr<Event> pauseExperimentControl();
+    static shared_ptr<Event> requestCodecControl();
 	static shared_ptr<Event> dataFileOpenControl(std::string  filename, 
 												   DataFileOptions opt);
 	static shared_ptr<Event> closeDataFileControl(std::string filename);
@@ -64,6 +65,8 @@ class EventFactory {
 	static shared_ptr<Event> loadVariablesControl(const std::string &file,
 												   const bool fullPath);
 	
+    static shared_ptr<Event> setEventForwardingControl(std::string, bool);
+    
     /*********************************************************
 		*          Response Package Events
 		********************************************************/ 
