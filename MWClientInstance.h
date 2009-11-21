@@ -146,8 +146,8 @@
 
 // Interacting with the internal core object
 - (NSNumber *)codeForTag:(NSString *)tag;
-- (void)updateVariableWithCode:(int)code withData:(mw::Data *)data;
-- (void)updateVariableWithTag:(NSString *)tag withData:(mw::Data *)data;
+- (void)updateVariableWithCode:(int)code withData:(mw::Datum *)data;
+- (void)updateVariableWithTag:(NSString *)tag withData:(mw::Datum *)data;
 
 // Methods for registering to be notified of events from the core object
 - (void)registerEventCallbackWithReceiver:(id)receiver 

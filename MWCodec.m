@@ -68,7 +68,7 @@
     
     // get variable names
 #ifndef HOLLOW_OUT_FOR_ADC
-    vector<string> variable_names_vector = core->getVariableNames();
+    vector<string> variable_names_vector = core->getVariableTagNames();
 #else
     vector<string> variable_names_vector;
     string a("a");
@@ -88,7 +88,7 @@
         NSString *variable_name = [NSString stringWithCString:variable_name_string.c_str() encoding:NSASCIIStringEncoding];
         
 #ifndef HOLLOW_OUT_FOR_ADC
-        int code = core->getCode(variable_name_string);
+        int code = core->lookupCodeForTag(variable_name_string);
 #else
         int code = 0;
 #endif
@@ -172,7 +172,7 @@
                 return [self valueForUndefinedKey:key];
             }
             
-            mw::Data value = variable->getValue();
+            mw::Datum value = variable->getValue();
             
             string value_string = value.toString();
 #else
@@ -211,12 +211,12 @@
   
 #ifndef HOLLOW_OUT_FOR_ADC
   @synchronized(clientInstance){
-    code = core->getCode([key cStringUsingEncoding:NSASCIIStringEncoding]);
+    code = core->lookupCodeForTag([key cStringUsingEncoding:NSASCIIStringEncoding]);
 	}
 #endif
   
 	// format value appropriately
-	mw::Data setval;
+	mw::Datum setval;
 	if(1 || [val isKindOfClass:[NSNumber class]]){
 		setval.setFloat([val floatValue]);
 		

@@ -7,9 +7,10 @@
 //
 
 #import "MWClientInstance.h"
-#import "MonkeyWorksCore/StandardVariables.h"
-#import "MonkeyWorksCocoa/MWCocoaEvent.h"
-#import "MonkeyWorksCocoa/MWCocoaEventFunctor.h"
+#import <MonkeyWorksCore/StandardVariables.h>
+#import <MonkeyWorksCore/Client.h>
+#import <MonkeyWorksCocoa/MWCocoaEvent.h>
+#import <MonkeyWorksCocoa/MWCocoaEventFunctor.h>
 #import <MonkeyWorksCocoa/MWWindowController.h>
 
 #define ERROR_MESSAGE_CALLBACK_KEY	"ClientErrorMessageCallbackKey"
@@ -509,18 +510,18 @@
 #ifdef HOLLOW_OUT_FOR_ADC
   NSNumber *code = [[NSNumber alloc] initWithInt:0];
 #else
-	NSNumber *code = [[NSNumber alloc] initWithInt:core->getCode([tag cStringUsingEncoding:NSASCIIStringEncoding])];
+	NSNumber *code = [[NSNumber alloc] initWithInt:core->lookupCodeForTag([tag cStringUsingEncoding:NSASCIIStringEncoding])];
 #endif
   return code;
 }
 
-- (void)updateVariableWithCode:(int)code withData:(mw::Data *)data {
+- (void)updateVariableWithCode:(int)code withData:(mw::Datum *)data {
 #ifndef HOLLOW_OUT_FOR_ADC
 	core->updateValue(code, *data);
 #endif
 }
 
-- (void)updateVariableWithTag:(NSString *)tag withData:(mw::Data *)data {
+- (void)updateVariableWithTag:(NSString *)tag withData:(mw::Datum *)data {
 	[self updateVariableWithCode:[[self codeForTag:tag] intValue] withData:data];
 }
 
@@ -536,14 +537,8 @@
                                           selector:(SEL)selector
                                           callbackKey:(const char *)key{
 
-	boost::shared_ptr <mw::CocoaEventFunctor> cef;
-	cef = boost::shared_ptr <mw::CocoaEventFunctor>(new mw::CocoaEventFunctor(receiver,
-                                                                            selector,
-                                                                            key, 
-                                                                            self));
-#ifndef HOLLOW_OUT_FOR_ADC
-  core->registerCallback(cef);
-#endif
+	
+    core->registerCallback(create_cocoa_event_callback(receiver, selector), string(key));
 }
 
 - (void)registerEventCallbackWithReceiver:(id)receiver 
@@ -552,14 +547,7 @@
                           forVariableCode:(int)code {
 						  
 	if(code >= 0) {
-		boost::shared_ptr <mw::CocoaEventFunctor> cef;
-		cef = boost::shared_ptr <mw::CocoaEventFunctor>(new mw::CocoaEventFunctor(receiver,
-                                                                              selector,
-                                                                              key,
-                                                                              self));
-#ifndef HOLLOW_OUT_FOR_ADC
-		core->registerCallback(cef, code);
-#endif
+        core->registerCallback(code, create_cocoa_event_callback(receiver, selector, self), key);
 	}
 }
 
@@ -570,17 +558,9 @@
 								   callbackKey:(const char *)key
 						  forVariable:(NSString *)tag {
 	
-	
-	boost::shared_ptr <mw::CocoaEventFunctor> cef;
-	cef = boost::shared_ptr <mw::CocoaEventFunctor>(new mw::CocoaEventFunctor(receiver,
-                                                                            selector,
-                                                                            key,
-                                                                            self));
-	string tag_str([tag cStringUsingEncoding:NSASCIIStringEncoding]);
-#ifndef HOLLOW_OUT_FOR_ADC
-  core->registerCallback(cef, tag_str);
-#endif
-	
+    core->registerCallback([tag  cStringUsingEncoding:NSASCIIStringEncoding], 
+                           create_cocoa_event_callback(receiver, selector, self), 
+                           key);
 }
 
 
@@ -593,15 +573,9 @@
 								   callbackKey:(const char *)key
 							  forVariable:(NSString *)tag {
 	
-	
-	boost::shared_ptr <mw::CocoaBindingsBridgeFunctor> cef;
-	cef = boost::shared_ptr <mw::CocoaBindingsBridgeFunctor>(new mw::CocoaBindingsBridgeFunctor(receiver,
-                                                                                              bindings_key,
-                                                                                              key));
-	string tag_str([tag cStringUsingEncoding:NSASCIIStringEncoding]);
-#ifndef HOLLOW_OUT_FOR_ADC
-  core->registerCallback(cef, tag_str);
-#endif
+	core->registerCallback([tag  cStringUsingEncoding:NSASCIIStringEncoding], 
+                            create_bindings_bridge_event_callback(receiver, bindings_key), 
+                            key);
 }
 
 
@@ -642,22 +616,22 @@
 		
 		
 		if (code == systemCodecCode && systemCodecCode > RESERVED_CODEC_CODE) {
-			mw::Data payload(*[event data]);
-			mw::Data sysEventType(payload.getElement(M_SYSTEM_PAYLOAD_TYPE));
+			mw::Datum payload(*[event data]);
+			mw::Datum sysEventType(payload.getElement(M_SYSTEM_PAYLOAD_TYPE));
 			
 			if(!sysEventType.isUndefined()) {
 				// The F swich statement ... it's gotta be somewhere
 				switch((mw::SystemPayloadType)sysEventType.getInteger()) {
 					case M_PROTOCOL_PACKAGE:
 					{
-						mw::Data pp(payload.getElement(M_SYSTEM_PAYLOAD));
+						mw::Datum pp(payload.getElement(M_SYSTEM_PAYLOAD));
 						
 						[protocolNames removeAllObjects];
 						
-						mw::Data protocols(pp.getElement(M_PROTOCOLS));
+						mw::Datum protocols(pp.getElement(M_PROTOCOLS));
 						
 						for(int i=0; i<protocols.getNElements(); ++i) {
-							mw::Data protocol(protocols[i]);
+							mw::Datum protocol(protocols[i]);
 							
 							NSString *protocolName = [[NSString alloc] initWithCString:protocol.getElement(M_PROTOCOL_NAME).getString()
 																			  encoding:NSASCIIStringEncoding];
@@ -681,11 +655,11 @@
 					
 					case M_DATA_FILE_OPENED:
 					{
-						mw::Data event(payload.getElement(M_SYSTEM_PAYLOAD));
+						mw::Datum event(payload.getElement(M_SYSTEM_PAYLOAD));
 						
 						// TODO: kludge MUST be fixed
-						mw::Data file(event.getElement(1));
-                        mw::Data success(event.getElement(0));
+						mw::Datum file(event.getElement(1));
+                        mw::Datum success(event.getElement(0));
 						
                         if((int)success != M_COMMAND_SUCCESS){
                             [self setDataFileName:Nil];
@@ -702,10 +676,10 @@
 					
 					case M_DATA_FILE_CLOSED:
 					{
-						mw::Data event(payload.getElement(M_SYSTEM_PAYLOAD));
+						mw::Datum event(payload.getElement(M_SYSTEM_PAYLOAD));
 						
 						// TODO: kludge MUST be fixed
-						mw::Data file(event.getElement(1));
+						mw::Datum file(event.getElement(1));
 						
 						[self setDataFileName:Nil];
 						[self setDataFileOpen: NO];
@@ -715,7 +689,7 @@
 					
 					case M_EXPERIMENT_STATE:
 					{
-						mw::Data state(payload.getElement(M_SYSTEM_PAYLOAD));
+						mw::Datum state(payload.getElement(M_SYSTEM_PAYLOAD));
 						
 						[self setExperimentLoaded:state.getElement(M_LOADED).getBool()];
 						if([self experimentLoaded]) {
@@ -740,11 +714,11 @@
                             [self willChangeValueForKey:@"serversideVariableSetNames"];
 
 							[serversideVariableSetNames removeAllObjects];
-							mw::Data svs(state.getElement(M_SAVED_VARIABLES));
+							mw::Datum svs(state.getElement(M_SAVED_VARIABLES));
 							
 							if(svs.isList()) {
 								for(int i=0; i<svs.getNElements(); ++i) {
-									mw::Data set(svs.getElement(i));
+									mw::Datum set(svs.getElement(i));
 									
 									[serversideVariableSetNames addObject:[NSString stringWithCString:set.getString()
 																					encoding:NSASCIIStringEncoding]];
@@ -940,7 +914,7 @@
 
 
 - (void)handleLoadMessageEvent:(MWCocoaEvent *)event{
-	mw::Data payload(*[event data]);
+	mw::Datum payload(*[event data]);
 	
 	if(payload.getDataType() != M_DICTIONARY){
 		return;
@@ -962,8 +936,8 @@
 - (void)handleErrorMessageEvent:(MWCocoaEvent *)event{
 
 
-	//mw::Data *pl = [event data];
-	mw::Data payload(*[event data]);
+	//mw::Datum *pl = [event data];
+	mw::Datum payload(*[event data]);
 	
 	if(payload.getDataType() != M_DICTIONARY){
 		return;
