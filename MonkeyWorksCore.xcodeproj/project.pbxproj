@@ -137,8 +137,6 @@
 		5C18E25708A167BE00AA734D /* VariableNotification.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C18E25508A167BE00AA734D /* VariableNotification.cpp */; };
 		5C1D35330BBAAFEA00AB6DA3 /* ConstantVariable.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C1D35310BBAAFEA00AB6DA3 /* ConstantVariable.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5C1D35340BBAAFEA00AB6DA3 /* ConstantVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C1D35320BBAAFEA00AB6DA3 /* ConstantVariable.cpp */; };
-		5C25932C10AC95180098558D /* EventHandlerConduitTest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C25932A10AC95170098558D /* EventHandlerConduitTest.h */; };
-		5C25932D10AC95180098558D /* EventHandlerConduitTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C25932B10AC95180098558D /* EventHandlerConduitTest.cpp */; };
 		5C28909E0850DD96002CC31A /* IODevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2CE13A07E9F8D300C68AEF /* IODevice.cpp */; };
 		5C28909F0850DD9A002CC31A /* IODevice.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2CE13B07E9F8D300C68AEF /* IODevice.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5C2B51210BB6838200928E03 /* ScopedVariable.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C2B511F0BB6838200928E03 /* ScopedVariable.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -167,8 +165,6 @@
 		5C71CD6D09AA507700EAD886 /* GlobalVariable.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C71CD6909AA507700EAD886 /* GlobalVariable.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5C71CD6E09AA507700EAD886 /* ExpressionVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C71CD6A09AA507700EAD886 /* ExpressionVariable.cpp */; };
 		5C71CD6F09AA507700EAD886 /* ExpressionVariable.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C71CD6B09AA507700EAD886 /* ExpressionVariable.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5C724443109B2BC0004887A5 /* EventHandlerConduit.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C724441109B2BC0004887A5 /* EventHandlerConduit.h */; };
-		5C724444109B2BC0004887A5 /* EventHandlerConduit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C724442109B2BC0004887A5 /* EventHandlerConduit.cpp */; };
 		5C76674F0C1BB28C00B1203C /* StimulusNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C76674D0C1BB28C00B1203C /* StimulusNode.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5C7667500C1BB28C00B1203C /* StimulusNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C76674E0C1BB28C00B1203C /* StimulusNode.cpp */; };
 		5C7667540C1BB30A00B1203C /* StimulusDisplay.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C7667530C1BB30A00B1203C /* StimulusDisplay.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -709,8 +705,6 @@
 		5C2386BA0E8D18FA00CDC4FC /* IPCEventTransport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IPCEventTransport.h; sourceTree = "<group>"; };
 		5C2386DD0E8D1A4600CDC4FC /* Serialization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Serialization.h; sourceTree = "<group>"; };
 		5C2386DE0E8D1A4600CDC4FC /* Serialization.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Serialization.cpp; sourceTree = "<group>"; };
-		5C25932A10AC95170098558D /* EventHandlerConduitTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventHandlerConduitTest.h; sourceTree = "<group>"; };
-		5C25932B10AC95180098558D /* EventHandlerConduitTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventHandlerConduitTest.cpp; sourceTree = "<group>"; };
 		5C2B511F0BB6838200928E03 /* ScopedVariable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ScopedVariable.h; path = Core/Variables/ScopedVariable.h; sourceTree = "<group>"; };
 		5C2B51200BB6838200928E03 /* ScopedVariable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ScopedVariable.cpp; path = Core/Variables/ScopedVariable.cpp; sourceTree = "<group>"; };
 		5C35363C1064F30900FF0528 /* alc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alc.h; sourceTree = "<group>"; };
@@ -741,8 +735,6 @@
 		5C71CD6909AA507700EAD886 /* GlobalVariable.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GlobalVariable.h; path = Core/Variables/GlobalVariable.h; sourceTree = "<group>"; };
 		5C71CD6A09AA507700EAD886 /* ExpressionVariable.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ExpressionVariable.cpp; path = Core/Variables/ExpressionVariable.cpp; sourceTree = SOURCE_ROOT; };
 		5C71CD6B09AA507700EAD886 /* ExpressionVariable.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ExpressionVariable.h; path = Core/Variables/ExpressionVariable.h; sourceTree = SOURCE_ROOT; };
-		5C724441109B2BC0004887A5 /* EventHandlerConduit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventHandlerConduit.h; sourceTree = "<group>"; };
-		5C724442109B2BC0004887A5 /* EventHandlerConduit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventHandlerConduit.cpp; sourceTree = "<group>"; };
 		5C76674D0C1BB28C00B1203C /* StimulusNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StimulusNode.h; path = Core/Stimuli/StimulusNode.h; sourceTree = "<group>"; };
 		5C76674E0C1BB28C00B1203C /* StimulusNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StimulusNode.cpp; path = Core/Stimuli/StimulusNode.cpp; sourceTree = "<group>"; };
 		5C7667530C1BB30A00B1203C /* StimulusDisplay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StimulusDisplay.h; path = Core/Stimuli/StimulusDisplay.h; sourceTree = "<group>"; };
@@ -1238,8 +1230,6 @@
 				5CB6C4770E9A92CA006923EC /* SimpleConduit.cpp */,
 				5C2386B50E8D18FA00CDC4FC /* Conduit.h */,
 				5C2386B40E8D18FA00CDC4FC /* Conduit.cpp */,
-				5C724441109B2BC0004887A5 /* EventHandlerConduit.h */,
-				5C724442109B2BC0004887A5 /* EventHandlerConduit.cpp */,
 			);
 			path = Conduits;
 			sourceTree = "<group>";
@@ -1527,8 +1517,6 @@
 			children = (
 				5C7A88250F818A38007B4724 /* SimpleConduitTest.cpp */,
 				5C7A88260F818A38007B4724 /* SimpleConduitTest.h */,
-				5C25932A10AC95170098558D /* EventHandlerConduitTest.h */,
-				5C25932B10AC95180098558D /* EventHandlerConduitTest.cpp */,
 			);
 			path = tests;
 			sourceTree = "<group>";
@@ -2114,7 +2102,6 @@
 				0EF2B6710EBB6ED70088F58F /* RegisteredSingletonTests.h in Headers */,
 				0EBCB90C0EFF42440032F669 /* XMLParserTest.h in Headers */,
 				5C7A88280F818A38007B4724 /* SimpleConduitTest.h in Headers */,
-				5C25932C10AC95180098558D /* EventHandlerConduitTest.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2256,7 +2243,6 @@
 				0E2FE5A10EF00CC900CEB818 /* ParsedColorTrio.h in Headers */,
 				0EB1423F0EFB4EFC0056E2A2 /* IODeviceVariableNotification.h in Headers */,
 				5C35363D1064F30900FF0528 /* alc.h in Headers */,
-				5C724443109B2BC0004887A5 /* EventHandlerConduit.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2812,7 +2798,6 @@
 				0EF2B6720EBB6ED70088F58F /* RegisteredSingletonTests.cpp in Sources */,
 				0EBCB90D0EFF42440032F669 /* XMLParserTest.cpp in Sources */,
 				5C7A88270F818A38007B4724 /* SimpleConduitTest.cpp in Sources */,
-				5C25932D10AC95180098558D /* EventHandlerConduitTest.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2975,7 +2960,6 @@
 				0EFC71640EDBB14000FFABA8 /* PulseAction.cpp in Sources */,
 				0E2FE5A20EF00CC900CEB818 /* ParsedColorTrio.cpp in Sources */,
 				0EB142400EFB4EFD0056E2A2 /* IODeviceVariableNotification.cpp in Sources */,
-				5C724444109B2BC0004887A5 /* EventHandlerConduit.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
