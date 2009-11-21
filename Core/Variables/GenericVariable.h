@@ -61,7 +61,7 @@
 #include <boost/weak_ptr.hpp>
 #include <list>
 namespace mw {
-class BufferManager;
+class EventBuffer;
 
 using namespace boost;
 

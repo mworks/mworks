@@ -21,8 +21,13 @@
 #include <boost/filesystem/path.hpp>
 #include "GenericEventFunctor.h"
 #include "ScarabServer.h"
+#include "EventStreamInterface.h"
+#include "VariableRegistryInterface.h"
+
+
 namespace mw {
-class Server : public EventStreamInterface {
+
+class Server : public RegistryAwareEventStreamInterface {
     
     protected:
     

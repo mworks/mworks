@@ -28,7 +28,7 @@ StandardClientCoreBuilder::~StandardClientCoreBuilder() { }
 bool StandardClientCoreBuilder::buildProcessWillStart() { return true; }
 
 bool StandardClientCoreBuilder::initializeEventBuffers() {
-    initBuffers();
+    initEventBuffers();
     return true;
 }
 

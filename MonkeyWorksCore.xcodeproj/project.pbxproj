@@ -138,7 +138,6 @@
 		5C1D35330BBAAFEA00AB6DA3 /* ConstantVariable.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C1D35310BBAAFEA00AB6DA3 /* ConstantVariable.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5C1D35340BBAAFEA00AB6DA3 /* ConstantVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C1D35320BBAAFEA00AB6DA3 /* ConstantVariable.cpp */; };
 		5C25932C10AC95180098558D /* EventHandlerConduitTest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C25932A10AC95170098558D /* EventHandlerConduitTest.h */; };
-		5C25932D10AC95180098558D /* EventHandlerConduitTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C25932B10AC95180098558D /* EventHandlerConduitTest.cpp */; };
 		5C28909E0850DD96002CC31A /* IODevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2CE13A07E9F8D300C68AEF /* IODevice.cpp */; };
 		5C28909F0850DD9A002CC31A /* IODevice.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2CE13B07E9F8D300C68AEF /* IODevice.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5C2B51210BB6838200928E03 /* ScopedVariable.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C2B511F0BB6838200928E03 /* ScopedVariable.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -167,8 +166,7 @@
 		5C71CD6D09AA507700EAD886 /* GlobalVariable.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C71CD6909AA507700EAD886 /* GlobalVariable.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5C71CD6E09AA507700EAD886 /* ExpressionVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C71CD6A09AA507700EAD886 /* ExpressionVariable.cpp */; };
 		5C71CD6F09AA507700EAD886 /* ExpressionVariable.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C71CD6B09AA507700EAD886 /* ExpressionVariable.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5C724443109B2BC0004887A5 /* EventHandlerConduit.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C724441109B2BC0004887A5 /* EventHandlerConduit.h */; };
-		5C724444109B2BC0004887A5 /* EventHandlerConduit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C724442109B2BC0004887A5 /* EventHandlerConduit.cpp */; };
+		5C724443109B2BC0004887A5 /* EventStreamConduit.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C724441109B2BC0004887A5 /* EventStreamConduit.h */; };
 		5C76674F0C1BB28C00B1203C /* StimulusNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C76674D0C1BB28C00B1203C /* StimulusNode.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5C7667500C1BB28C00B1203C /* StimulusNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C76674E0C1BB28C00B1203C /* StimulusNode.cpp */; };
 		5C7667540C1BB30A00B1203C /* StimulusDisplay.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C7667530C1BB30A00B1203C /* StimulusDisplay.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -187,6 +185,9 @@
 		5C918D1810027CB3001BE3DF /* MWMediaPackagerTransformation.xsl in Resources */ = {isa = PBXBuildFile; fileRef = 5C918D1710027CB3001BE3DF /* MWMediaPackagerTransformation.xsl */; };
 		5C91B990086CC9DC00C14E1A /* Trigger.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C91B98E086CC9DC00C14E1A /* Trigger.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5C91B991086CC9DC00C14E1A /* Trigger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C91B98F086CC9DC00C14E1A /* Trigger.cpp */; };
+		5CA9AD3310B5F9B500A04B67 /* VariableRegistryInterface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CA9AD3110B5F9B500A04B67 /* VariableRegistryInterface.cpp */; };
+		5CA9ADA510B63E1700A04B67 /* VariableRegistryInterface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CA9AD3110B5F9B500A04B67 /* VariableRegistryInterface.cpp */; };
+		5CA9AE3310B64F2700A04B67 /* VariableRegistryInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CA9AD3010B5F9B500A04B67 /* VariableRegistryInterface.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5CAE8BF70AE4049E0013DB19 /* alut.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CAE8BF50AE4049E0013DB19 /* alut.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5CAE8BF80AE4049E0013DB19 /* alut.c in Sources */ = {isa = PBXBuildFile; fileRef = 5CAE8BF60AE4049E0013DB19 /* alut.c */; };
 		5CB6C46E0E9A92B1006923EC /* ASIOEventTransport.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CB6C46A0E9A92B1006923EC /* ASIOEventTransport.cpp */; };
@@ -741,8 +742,8 @@
 		5C71CD6909AA507700EAD886 /* GlobalVariable.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GlobalVariable.h; path = Core/Variables/GlobalVariable.h; sourceTree = "<group>"; };
 		5C71CD6A09AA507700EAD886 /* ExpressionVariable.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ExpressionVariable.cpp; path = Core/Variables/ExpressionVariable.cpp; sourceTree = SOURCE_ROOT; };
 		5C71CD6B09AA507700EAD886 /* ExpressionVariable.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ExpressionVariable.h; path = Core/Variables/ExpressionVariable.h; sourceTree = SOURCE_ROOT; };
-		5C724441109B2BC0004887A5 /* EventHandlerConduit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventHandlerConduit.h; sourceTree = "<group>"; };
-		5C724442109B2BC0004887A5 /* EventHandlerConduit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventHandlerConduit.cpp; sourceTree = "<group>"; };
+		5C724441109B2BC0004887A5 /* EventStreamConduit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventStreamConduit.h; sourceTree = "<group>"; };
+		5C724442109B2BC0004887A5 /* EventStreamConduit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventStreamConduit.cpp; sourceTree = "<group>"; };
 		5C76674D0C1BB28C00B1203C /* StimulusNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StimulusNode.h; path = Core/Stimuli/StimulusNode.h; sourceTree = "<group>"; };
 		5C76674E0C1BB28C00B1203C /* StimulusNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StimulusNode.cpp; path = Core/Stimuli/StimulusNode.cpp; sourceTree = "<group>"; };
 		5C7667530C1BB30A00B1203C /* StimulusDisplay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StimulusDisplay.h; path = Core/Stimuli/StimulusDisplay.h; sourceTree = "<group>"; };
@@ -764,6 +765,8 @@
 		5C918D1710027CB3001BE3DF /* MWMediaPackagerTransformation.xsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = MWMediaPackagerTransformation.xsl; path = Core/XMLParser/MWMediaPackagerTransformation.xsl; sourceTree = "<group>"; };
 		5C91B98E086CC9DC00C14E1A /* Trigger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Trigger.h; path = Core/Triggers/Trigger.h; sourceTree = SOURCE_ROOT; };
 		5C91B98F086CC9DC00C14E1A /* Trigger.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Trigger.cpp; path = Core/Triggers/Trigger.cpp; sourceTree = SOURCE_ROOT; };
+		5CA9AD3010B5F9B500A04B67 /* VariableRegistryInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VariableRegistryInterface.h; sourceTree = "<group>"; };
+		5CA9AD3110B5F9B500A04B67 /* VariableRegistryInterface.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VariableRegistryInterface.cpp; sourceTree = "<group>"; };
 		5CABA02D085E77B100FE4729 /* main.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = main.cpp; path = HeadlessServer/main.cpp; sourceTree = SOURCE_ROOT; };
 		5CAE8BF50AE4049E0013DB19 /* alut.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alut.h; sourceTree = "<group>"; };
 		5CAE8BF60AE4049E0013DB19 /* alut.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alut.c; sourceTree = "<group>"; };
@@ -1238,8 +1241,8 @@
 				5CB6C4770E9A92CA006923EC /* SimpleConduit.cpp */,
 				5C2386B50E8D18FA00CDC4FC /* Conduit.h */,
 				5C2386B40E8D18FA00CDC4FC /* Conduit.cpp */,
-				5C724441109B2BC0004887A5 /* EventHandlerConduit.h */,
-				5C724442109B2BC0004887A5 /* EventHandlerConduit.cpp */,
+				5C724441109B2BC0004887A5 /* EventStreamConduit.h */,
+				5C724442109B2BC0004887A5 /* EventStreamConduit.cpp */,
 			);
 			path = Conduits;
 			sourceTree = "<group>";
@@ -1644,6 +1647,8 @@
 			children = (
 				DA2B6A5D09897AF500DDE06D /* Client */,
 				DA2B6AEC09898FAC00DDE06D /* Server */,
+				5CA9AD3010B5F9B500A04B67 /* VariableRegistryInterface.h */,
+				5CA9AD3110B5F9B500A04B67 /* VariableRegistryInterface.cpp */,
 			);
 			name = InterfaceHooks;
 			sourceTree = "<group>";
@@ -2256,7 +2261,8 @@
 				0E2FE5A10EF00CC900CEB818 /* ParsedColorTrio.h in Headers */,
 				0EB1423F0EFB4EFC0056E2A2 /* IODeviceVariableNotification.h in Headers */,
 				5C35363D1064F30900FF0528 /* alc.h in Headers */,
-				5C724443109B2BC0004887A5 /* EventHandlerConduit.h in Headers */,
+				5C724443109B2BC0004887A5 /* EventStreamConduit.h in Headers */,
+				5CA9AE3310B64F2700A04B67 /* VariableRegistryInterface.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2812,7 +2818,7 @@
 				0EF2B6720EBB6ED70088F58F /* RegisteredSingletonTests.cpp in Sources */,
 				0EBCB90D0EFF42440032F669 /* XMLParserTest.cpp in Sources */,
 				5C7A88270F818A38007B4724 /* SimpleConduitTest.cpp in Sources */,
-				5C25932D10AC95180098558D /* EventHandlerConduitTest.cpp in Sources */,
+				5CA9AD3310B5F9B500A04B67 /* VariableRegistryInterface.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2975,7 +2981,7 @@
 				0EFC71640EDBB14000FFABA8 /* PulseAction.cpp in Sources */,
 				0E2FE5A20EF00CC900CEB818 /* ParsedColorTrio.cpp in Sources */,
 				0EB142400EFB4EFD0056E2A2 /* IODeviceVariableNotification.cpp in Sources */,
-				5C724444109B2BC0004887A5 /* EventHandlerConduit.cpp in Sources */,
+				5CA9ADA510B63E1700A04B67 /* VariableRegistryInterface.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4175,6 +4181,7 @@
 					"-Wmost",
 					"-Wno-four-char-constants",
 					"-Wno-unknown-pragmas",
+					"-Wno-sign-compare",
 				);
 			};
 			name = "Development (10.5 Compatible)";

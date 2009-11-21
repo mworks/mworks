@@ -11,7 +11,7 @@
 #include "EventBuffer.h"
 using namespace mw;
 
-//<disabled>CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( ScarabEventTestFixture, "Unit Test" );
+CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( ScarabEventTestFixture, "Unit Test" );
 
 void ScarabEventTestFixture::setUp(){
   
@@ -57,7 +57,7 @@ void ScarabEventTestFixture::tearDown(){
 void ScarabEventTestFixture::testToFromScarabDatum(){
 	fprintf(stderr, "Running ScarabEventTestFixture::testToFromScarabDatum()\n");
 	
- Datum codec(reg->getCodec());
+ Datum codec(reg->generateCodecDatum());
 	Event test_event(RESERVED_CODEC_CODE, codec.getScarabDatum());
 	
 	ScarabDatum *serialized = test_event.toScarabDatum();

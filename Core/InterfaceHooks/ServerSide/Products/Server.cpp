@@ -20,17 +20,17 @@
 using namespace mw;
 
 
-Server::Server() : EventStreamInterface(M_SERVER_MESSAGE_DOMAIN, true){
+Server::Server() : RegistryAwareEventStreamInterface(M_SERVER_MESSAGE_DOMAIN, true){
 	
     registry = global_variable_registry;
     
-    server = shared_ptr<ScarabServer>(new ScarabServer(global_outgoing_event_buffer));
+    server = shared_ptr<ScarabServer>(new ScarabServer(global_incoming_event_buffer, global_outgoing_event_buffer));
 
 		
 	
 	shared_ptr<DefaultEventStreamInterface> _handler(new DefaultEventStreamInterface());
 	// TODO: prevents there from being more than one server instance
-    incomingListener = shared_ptr<IncomingEventListener>(new IncomingEventListener(global_outgoing_event_buffer, _handler));
+    incomingListener = shared_ptr<IncomingEventListener>(new IncomingEventListener(global_incoming_event_buffer, _handler));
     outgoingListener = shared_ptr<OutgoingEventListener>(new OutgoingEventListener(global_outgoing_event_buffer, shared_ptr<EventStreamInterface>(this)));
     // dont know where else this would be handled?
     if(GlobalDataFileManager == NULL) {
@@ -87,7 +87,7 @@ void Server::stopServer() {
 
 
 void Server::putEvent(shared_ptr<Event> event){
-    global_outgoing_event_buffer->putIncomingNetworkEvent(event);
+    global_incoming_event_buffer->putEvent(event);
 }
 
 void Server::saveVariables(const boost::filesystem::path &file) {

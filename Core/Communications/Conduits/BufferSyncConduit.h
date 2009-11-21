@@ -24,14 +24,14 @@ namespace mw {
 class BufferSyncConduit : public Conduit {
     
 protected:
-    shared_ptr<BufferManager> buffer_manager;
+    shared_ptr<EventBuffer> event_buffer;
     shared_ptr<VariableRegistry> registry;
 
 public:
     BufferSyncConduit(shared_ptr<EventTransport> _transport,
                        shared_ptr<VariableRegistry> _registry) : Conduit(_transport){
         registry = _registry;
-        buffer_manager = registry->getBufferManager();
+        event_buffer = registry->getEventBuffer();
         
         // send the variable codec, as a matter of course
         transport->sendEvent(ControlEventFactory::codecPackage());
@@ -39,8 +39,8 @@ public:
     
     virtual ~BufferSyncConduit(){ }
     
-    virtual shared_ptr<BufferManager> getBufferManager(){
-        return buffer_manager;
+    virtual shared_ptr<EventBuffer> getEventBuffer(){
+        return event_buffer;
     }
     
     virtual shared_ptr<VariableRegistry> getVariableRegistry(){

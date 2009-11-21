@@ -15,9 +15,9 @@
 #include "GenericVariable.h"
 #include "ComponentRegistry.h"
 //#include "ComponentFactory.h"
-#include <boost/spirit/core.hpp>
-#include <boost/spirit/utility/confix.hpp>
-#include <boost/spirit/utility/lists.hpp>
+#include <boost/spirit/include/classic_core.hpp>
+#include <boost/spirit/include/classic_confix.hpp>
+#include <boost/spirit/include/classic_lists.hpp>
 #include <boost/regex.hpp>
 
 namespace mw {

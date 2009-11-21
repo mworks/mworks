@@ -15,7 +15,7 @@
 #include <boost/archive/text_oarchive.hpp>
 using namespace mw;
 
-//<disabled>CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( SerializationTestFixture, "Unit Test" );
+CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( SerializationTestFixture, "Unit Test" );
 
 
 void SerializationTestFixture::setUp(){

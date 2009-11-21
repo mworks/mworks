@@ -10,7 +10,7 @@
 #include "EmbeddedPerlInterpreter.h"
 
 #include "EXTERN.h"
-#include <string.h>
+#include <string>
 #include <perl.h>
 #include "PlatformDependentServices.h"
 #include "Utilities.h"

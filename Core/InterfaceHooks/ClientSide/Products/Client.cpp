@@ -18,10 +18,11 @@ using namespace mw;
 
 typedef std::vector <shared_ptr<GenericEventFunctor> > CallbacksForVar;
 
-Client::Client() : EventStreamInterface(M_CLIENT_MESSAGE_DOMAIN, false){
-	buffer_manager = shared_ptr<BufferManager>(new BufferManager());
-
-	registry = shared_ptr<VariableRegistry>(new VariableRegistry(buffer_manager));
+Client::Client() : RegistryAwareEventStreamInterface(M_CLIENT_MESSAGE_DOMAIN, false){
+	incoming_event_buffer = shared_ptr<EventBuffer>(new EventBuffer());
+    outgoing_event_buffer = shared_ptr<EventBuffer>(new EventBuffer());
+    
+	registry = shared_ptr<VariableRegistry>(new VariableRegistry(outgoing_event_buffer));
 	
 	initializeStandardVariables(registry);
 	system_event_variable = registry->getVariable(SYSTEM_VAR_TAGNAME);
@@ -43,8 +44,8 @@ Client::~Client() {
         disconnectClient();
     }
 	
-    if(incomingListener) {
-        incomingListener->killListener();
+    if(incoming_listener) {
+        incoming_listener->killListener();
     }
 }
 
@@ -54,7 +55,7 @@ void Client::handleEvent(shared_ptr<Event> evt) {
 	int code = evt->getEventCode();
 	
 	if(code == RESERVED_CODEC_CODE) {
-		registry->update(evt->getData());
+		registry->updateFromCodecDatum(evt->getData());
     }
     
     
@@ -74,13 +75,13 @@ void Client::startEventListener(){
     
     shared_ptr<Client> this_ptr = shared_from_this();
     shared_ptr<EventStreamInterface> this_as_evt_handler = dynamic_pointer_cast<EventStreamInterface>(this_ptr);
-    incomingListener = shared_ptr<IncomingEventListener>(new IncomingEventListener(buffer_manager, this_as_evt_handler));
+    incoming_listener = shared_ptr<IncomingEventListener>(new IncomingEventListener(incoming_event_buffer, this_as_evt_handler));
     
-	incomingListener->startListener();
+	incoming_listener->startListener();
 }
 
 bool Client::connectToServer(const std::string &host, const int port) {
-    remoteConnection = shared_ptr<ScarabClient>(new ScarabClient(buffer_manager, host, port));
+    remoteConnection = shared_ptr<ScarabClient>(new ScarabClient(incoming_event_buffer, outgoing_event_buffer, host, port));
     if(remoteConnection == NULL) { return false; }
     
 	lastNetworkReturn = remoteConnection->connect();
@@ -105,11 +106,13 @@ bool Client::disconnectClient() {
 
 void  Client::reset(){
 	
-	incomingListener->killListener(); 
+	incoming_listener->killListener(); 
 	// put the buffers back in a neutral state
-	buffer_manager->reset();
-	incomingListener->reset();
-	incomingListener->startListener();
+	incoming_event_buffer->reset();
+    outgoing_event_buffer->reset();
+    
+	incoming_listener->reset();
+	incoming_listener->startListener();
 }
 
 bool Client::isConnected() {
@@ -119,7 +122,7 @@ bool Client::isConnected() {
 
 
 void Client::putEvent(shared_ptr<Event> event) {
-    buffer_manager->putEvent(event);
+    outgoing_event_buffer->putEvent(event);
 }
 
 bool Client::sendExperiment(const std::string &expPath) {
@@ -190,7 +193,7 @@ void  Client::sendLoadVariablesEvent(const std::string &file) {
 }
 
 void Client::updateRegistry(const Datum &codec) {
-	registry->update(codec);
+	registry->updateFromCodecDatum(codec);
 }
 
 

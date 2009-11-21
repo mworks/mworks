@@ -14,7 +14,7 @@
 
 using namespace mw;
 
-//<disabled>CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( SimpleConduitTestFixture, "Unit Test" );
+CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( SimpleConduitTestFixture, "Unit Test" );
 
 void SimpleEventCollector::handleEvent(shared_ptr<Event> event){
     last_event = event;

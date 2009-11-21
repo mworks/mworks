@@ -19,12 +19,12 @@
 namespace mw {
 class IncomingEventListener : public EventListener {
     public:
-        IncomingEventListener(shared_ptr<BufferManager> manager, shared_ptr<EventStreamInterface>);
+        IncomingEventListener(shared_ptr<EventBuffer> _event_buffer, shared_ptr<EventStreamInterface>);
         ~IncomingEventListener();
 
     protected:
         // disallow copying
-		IncomingEventListener(shared_ptr<BufferManager> manager);
+		IncomingEventListener(shared_ptr<EventBuffer> _event_buffer);
         IncomingEventListener(const IncomingEventListener&);
         IncomingEventListener& operator=(const IncomingEventListener&);
 };

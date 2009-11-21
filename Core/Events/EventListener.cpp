@@ -67,8 +67,8 @@ bool EventListener::service() {
 /***************************************************************
 *                      Protected Methods
 **************************************************************/
-EventListener::EventListener(shared_ptr<BufferManager> manager) {
-	buffer_manager = manager;
+EventListener::EventListener(shared_ptr<EventBuffer> _event_buffer) {
+	event_buffer = _event_buffer;
 }
 
 EventListener::EventListener(const EventListener&) {

@@ -46,7 +46,7 @@ public:
 		
 		void setUp(){
 			
-			global_outgoing_event_buffer = shared_ptr<BufferManager>(new BufferManager());
+			global_outgoing_event_buffer = shared_ptr<EventBuffer>(new EventBuffer());
 			reg = shared_ptr<VariableRegistry>(new VariableRegistry(global_outgoing_event_buffer));
 			
 			

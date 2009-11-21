@@ -8,7 +8,7 @@
  */
 
 #include "ScarabServerConnection.h"
-#include <string.h>
+#include <string>
 using namespace mw;
 
 #define THREAD_INTERVAL_US 200000 

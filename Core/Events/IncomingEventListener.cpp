@@ -11,9 +11,9 @@
 
 using namespace mw;
 
-IncomingEventListener::IncomingEventListener(shared_ptr<BufferManager> manager, shared_ptr<EventStreamInterface> hand) :
-								EventListener(manager){
-    reader = buffer_manager->getNewIncomingNetworkBufferReader();
+IncomingEventListener::IncomingEventListener(shared_ptr<EventBuffer> _event_buffer, shared_ptr<EventStreamInterface> hand) :
+								EventListener(_event_buffer){
+    reader = shared_ptr<EventBufferReader>( new EventBufferReader(_event_buffer) );
     //thread = NULL;
     handler = hand;
     servicing = false;
@@ -29,8 +29,8 @@ IncomingEventListener::~IncomingEventListener() {
 /***************************************************************
  *                      Protected Methods
  **************************************************************/
-IncomingEventListener::IncomingEventListener(shared_ptr<BufferManager> manager) :
-							EventListener(manager){}
+IncomingEventListener::IncomingEventListener(shared_ptr<EventBuffer> event_buffer) :
+							EventListener(event_buffer){}
 							
 IncomingEventListener::IncomingEventListener(const IncomingEventListener&) {
 

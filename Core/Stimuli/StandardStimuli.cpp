@@ -18,9 +18,9 @@
 //#include "ComponentFactory.h"
 #include <boost/filesystem/path.hpp>
 #include <boost/filesystem/operations.hpp>
-#include <boost/spirit/core.hpp>
-#include <boost/spirit/utility/confix.hpp>
-#include <boost/spirit/utility/lists.hpp>
+#include <boost/spirit/include/classic_core.hpp>
+#include <boost/spirit/include/classic_confix.hpp>
+#include <boost/spirit/include/classic_lists.hpp>
 #include <boost/algorithm/string/case_conv.hpp>
 #include "ParsedColorTrio.h"
 

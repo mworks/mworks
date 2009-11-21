@@ -32,10 +32,10 @@
 #include <boost/spirit/tree/ast.hpp>
 #include <boost/spirit/tree/tree_to_xml.hpp>
 
-#include <boost/spirit/utility/lists.hpp>
-#include <boost/spirit/utility/distinct.hpp>
-#include <boost/spirit/utility/escape_char.hpp>
-#include <boost/spirit/utility/grammar_def.hpp> 
+#include <boost/spirit/include/classic_lists.hpp>
+#include <boost/spirit/include/classic_distinct.hpp>
+#include <boost/spirit/include/classic_escape_char.hpp>
+#include <boost/spirit/include/classic_grammar_def.hpp> 
 
 #ifdef seed
 #undef seed

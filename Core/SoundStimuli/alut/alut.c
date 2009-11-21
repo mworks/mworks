@@ -10,7 +10,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
+#include <string>
 //#include <memory.h>
 //#include "OpenAL32/Include/alMain.h"
 #include "OpenAL/al.h"

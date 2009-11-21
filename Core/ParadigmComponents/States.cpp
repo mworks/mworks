@@ -12,7 +12,7 @@
 #include "States.h"
 #include "Experiment.h"
 
-#include <string.h>
+#include <string>
 #include "ComponentRegistry.h"
 
 #include "SequentialSelection.h"

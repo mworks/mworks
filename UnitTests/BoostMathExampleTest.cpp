@@ -21,7 +21,7 @@
 
 using namespace mw;
 
-//<disabled>CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( BoostMathExampleTestFixture, "Unit Test" );
+CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( BoostMathExampleTestFixture, "Unit Test" );
 //CPPUNIT_TEST_SUITE_REGISTRATION( BoostMathExampleTestFixture );
 
 

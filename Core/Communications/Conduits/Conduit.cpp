@@ -21,4 +21,15 @@ Conduit::Conduit(shared_ptr<EventTransport> _transport){
 
 
 
+// Send data to the other side.  It is assumed that both sides understand 
+// what the event codes mean.
+void Conduit::sendData(int code, Datum data){
+    //fprintf(stderr, "sending event");fflush(stderr);
+    shared_ptr<Event> event(new Event(code, data));
+    transport->sendEvent(event);
+}
+
+void Conduit::sendData(shared_ptr<Event> evt){
+    transport->sendEvent(evt);
+}
 

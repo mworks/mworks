@@ -24,7 +24,7 @@ using namespace mw;
 #define BUFFER_HIGH_WATER_MARK	1
 #define MAX_EVENTS_TO_BUFFER	10000
 
-//<disabled>CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( DatumFileTestFixture, "Unit Test" );
+CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( DatumFileTestFixture, "Unit Test" );
 //CPPUNIT_TEST_SUITE_REGISTRATION( DatumFileTestFixture );
 
 #define dft_CPPUNIT_ASSERT_TS(x)	dft_cppunit_lock->lock(); \
@@ -41,7 +41,7 @@ const int dft_BUFF_SIZE = 50000;
 const int dft_NUM_THREADS = 50;
 const int dft_NUM_EVENTS_PER_THREAD = 999;
 
-BufferManager *dftglobal_outgoing_event_buffer;
+EventBuffer *dftglobal_outgoing_event_buffer;
 Lockable *dft_cppunit_lock;
 struct dftTestArgs *dft_ptrTestArgs;
 
@@ -61,7 +61,7 @@ void DatumFileTestFixture::setUp() {
 	
 	if(dftglobal_outgoing_event_buffer)
 		delete dftglobal_outgoing_event_buffer;
-	dftglobal_outgoing_event_buffer = new BufferManager();
+	dftglobal_outgoing_event_buffer = new EventBuffer();
 	
 	pthread_t timeout;
 	pthread_create(&timeout, NULL, &dftTimeoutThread, (void *)dft_ptrTestArgs);	

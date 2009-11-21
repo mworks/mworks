@@ -21,7 +21,7 @@ class EventListener : public enable_shared_from_this<EventListener>  {
 protected:
 	boost::mutex listenerLock;
 	
-	shared_ptr<BufferManager> buffer_manager;
+	shared_ptr<EventBuffer> event_buffer;
 	
 	// listener for  events
 	shared_ptr<EventBufferReader> reader;
@@ -43,7 +43,7 @@ public:
 	
 protected:
         // disallow copying
-		EventListener(shared_ptr<BufferManager> manager);
+		EventListener(shared_ptr<EventBuffer> _event_buffer);
 		EventListener(){ }
         EventListener(const EventListener&);
 	virtual EventListener& operator=(const EventListener&);

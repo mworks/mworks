@@ -15,7 +15,7 @@ namespace mw {
 class OutgoingEventListener : public EventListener {
 	
 public:
-	OutgoingEventListener(shared_ptr<BufferManager> manager, shared_ptr<EventStreamInterface>);
+	OutgoingEventListener(shared_ptr<EventBuffer> _event_buffer, shared_ptr<EventStreamInterface>);
 	~OutgoingEventListener();
 protected:
         // disallow copying

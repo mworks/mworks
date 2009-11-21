@@ -10,9 +10,9 @@
 #include "OutgoingEventListener.h"
 using namespace mw;
 
-OutgoingEventListener::OutgoingEventListener(shared_ptr<BufferManager> manager, shared_ptr<EventStreamInterface> hand) :
-								EventListener(manager){
-    reader = buffer_manager->getNewDisplayBufferReader();
+OutgoingEventListener::OutgoingEventListener(shared_ptr<EventBuffer> _event_buffer, shared_ptr<EventStreamInterface> hand) :
+								EventListener(_event_buffer){
+    reader = shared_ptr<EventBufferReader>( new EventBufferReader(_event_buffer) );
     //thread = NULL;
     handler = hand;
     servicing = false;

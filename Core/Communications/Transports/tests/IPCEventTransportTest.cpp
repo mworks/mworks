@@ -11,7 +11,7 @@
 #include "IPCEventTransport.h"
 using namespace mw;
 
-//<disabled>CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( IPCEventTransportTestFixture, "Unit Test" );
+CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( IPCEventTransportTestFixture, "Unit Test" );
 
 
 void IPCEventTransportTestFixture::testOneThread(){

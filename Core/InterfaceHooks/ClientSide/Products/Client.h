@@ -17,6 +17,7 @@
 
 
 #include "EventStreamInterface.h"
+#include "VariableREgistryInterface.h"
 #include "IncomingEventListener.h"
 #include "ScarabClient.h"
 #include "VariableRegistry.h"
@@ -25,10 +26,10 @@
 
 namespace mw {
 
-class Client : public EventStreamInterface, public enable_shared_from_this<Client> {
+class Client : public RegistryAwareEventStreamInterface,  public enable_shared_from_this<Client> {
     protected:
-	shared_ptr<BufferManager> buffer_manager;
-	shared_ptr<IncomingEventListener> incomingListener;
+	shared_ptr<EventBuffer> incoming_event_buffer, outgoing_event_buffer;
+	shared_ptr<IncomingEventListener> incoming_listener;
 	
     // a connection with a server
 	shared_ptr<ScarabClient> remoteConnection;
@@ -43,6 +44,7 @@ class Client : public EventStreamInterface, public enable_shared_from_this<Clien
 	//boost::mutex event_lock;
 	boost::recursive_mutex callbacksLock;
 	
+    
     public:
         /*!
          * @function Client
@@ -166,11 +168,7 @@ class Client : public EventStreamInterface, public enable_shared_from_this<Clien
 			return registry->getNVariables();
 		}
 		
-		//virtual void registerCallback(shared_ptr<GenericEventFunctor> gef);
-		//virtual void registerCallback(shared_ptr<GenericEventFunctor> gef, int code);
-		//virtual void registerCallback(shared_ptr<GenericEventFunctor> gef, std::vector <int> vars);
-		
-		//virtual void unregisterCallbacks(const std::string &callback_id);
+            
 };
 }
 #endif
