@@ -30,7 +30,7 @@
 		int i = getifaddrs(&addrs);
 		NSMutableArray *netAddresses = [[NSMutableArray alloc] init];
 		while(addrs != NULL){
-			[netAddresses insertObject:[NSString stringWithCString:addrs->ifa_name] atIndex:0];
+			[netAddresses insertObject:[NSString stringWithCString:addrs->ifa_name encoding:NSASCIIStringEncoding] atIndex:0];
 			addrs = addrs->ifa_next;
 		}
 	#else	

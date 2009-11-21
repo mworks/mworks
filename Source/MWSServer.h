@@ -16,7 +16,7 @@
 #import "MonkeyWorksCore/Server.h"
 
 @interface MWSServer : MWClientServerBase {
-//@interface MWSServer : NSObject {
+
 	boost::shared_ptr<Server> core;
 	MWConsoleController *cc;
 	
@@ -56,13 +56,14 @@
 - (NSNumber *)experimentLoaded;
 - (void)toggleConsole:(id)arg;
 - (void)updateGUI:(id)arg;
-- (void)registerEventCallbackWithRecevier:(id)receiver 
-							  andSelector:(SEL)selector
-								   andKey:(NSString *)key;
-- (void)registerEventCallbackWithRecevier:(id)receiver 
-							  andSelector:(SEL)selector
-								   andKey:(NSString *)key
-						  forVariableCode:(NSNumber *)code;
+- (NSNumber *)codeForTag:(NSString *)tag;
+- (void)registerEventCallbackWithReceiver:(id)receiver 
+                                 selector:(SEL)selector
+                              callbackKey:(const char *)key;
+- (void)registerEventCallbackWithReceiver:(id)receiver 
+                                 selector:(SEL)selector
+                              callbackKey:(const char *)key
+                          forVariableCode:(int)code;
 - (void)openNetworkPreferences:(id)sender;
 - (NSString *)currentNetworkAddress:(id)sender;
 - (NSString *)defaultNetworkAddress:(id)sender;

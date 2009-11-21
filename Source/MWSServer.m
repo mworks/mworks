@@ -87,12 +87,6 @@
         [app presentError:err];
         [app terminate:self];
     }
-    // initialize GUI items
-	
-	// make a core server
-//	boost::shared_ptr <CocoaEventFunctor> cef = boost::shared_ptr <CocoaEventFunctor>(new CocoaEventFunctor(self,@selector(processEvent:), "MWSServer"));
-//	core->registerCallback(cef);
-
 	
 	core->setListenLowPort(19989);
     core->setListenHighPort(19999);
@@ -233,7 +227,7 @@
 // Delegate Methods
 ////////////////////////////////////////////////////////////////////////////////
 - (NSNumber *)codeForTag:(NSString *)tag {
-	return [NSNumber numberWithInt:core->getCode([tag cStringUsingEncoding:NSASCIIStringEncoding])];
+	return [NSNumber numberWithInt:core->lookupCodeForTag([tag cStringUsingEncoding:NSASCIIStringEncoding])];
 }
 
 - (void)startServer {
@@ -278,30 +272,19 @@
 	[tc updateDisplay];
 }
 
-- (void)unregisterCallbacksWithKey:(NSString *)key {
-	core->unregisterCallbacks([key cStringUsingEncoding:NSASCIIStringEncoding]);
+- (void)unregisterCallbacksWithKey:(const char *)key {
+	core->unregisterCallbacks(key);
 }
 
-- (void)registerEventCallbackWithRecevier:(id)receiver 
-							  andSelector:(SEL)selector
-								   andKey:(NSString *)key { 
-	boost::shared_ptr <CocoaEventFunctor> cef = boost::shared_ptr <CocoaEventFunctor>(new CocoaEventFunctor(receiver,
-																											   selector, 
-																											   [key cStringUsingEncoding:NSASCIIStringEncoding]));
-	core->registerCallback(cef);
-}
 
-- (void)registerEventCallbackWithRecevier:(id)receiver 
-							  andSelector:(SEL)selector
-								   andKey:(NSString *)key
-						  forVariableCode:(NSNumber *)_code {
-	int code = [_code intValue];
+- (void)registerEventCallbackWithReceiver:(id)receiver 
+                                 selector:(SEL)selector
+                              callbackKey:(const char *)key
+                          forVariableCode:(int)code {
+	
 	if(code >= 0) {
-		boost::shared_ptr <CocoaEventFunctor> cef = boost::shared_ptr <CocoaEventFunctor>(new CocoaEventFunctor(receiver,
-																												   selector, 
-																												   [key cStringUsingEncoding:NSASCIIStringEncoding]));
 		
-		core->registerCallback(cef, code);
+		core->registerCallback(code, create_cocoa_event_callback(receiver, selector), key);
 	}
 	
 }
@@ -341,7 +324,7 @@
 }
 
 - (NSArray *)variableNames {
-	std::vector<std::string> varTagNames(core->getVariableNames());
+	std::vector<std::string> varTagNames(core->getVariableTagNames());
 	NSMutableArray *varNames = [[[NSMutableArray alloc] init] autorelease];
 	
 	for(std::vector<std::string>::iterator iter = varTagNames.begin();

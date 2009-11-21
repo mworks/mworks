@@ -391,6 +391,66 @@
 			};
 			name = Release;
 		};
+		5C9EE5061073A81F0051414D /* Debug (10.5 Compatible) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APP_SUPPORT_DIR = "/Library/Application Support/MonkeyWorks";
+				ARCHS = (
+					x86_64,
+					i386,
+				);
+				FRAMEWORK_SEARCH_PATHS = /Library/Frameworks;
+				GCC_ENABLE_OBJC_GC = NO;
+				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
+				GCC_OBJC_CALL_CXX_CDTORS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_VERSION = 4.0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
+				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				MW_INCLUDE_DIR = "\"$(APP_SUPPORT_DIR)/Developer/gcc40/include\"";
+				MW_LIB_DIR = "\"$(APP_SUPPORT_DIR)/Developer/gcc40/lib\"";
+				PREBINDING = NO;
+				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
+				VERSION_STRING = NO_VERSION_SPECIFIED;
+			};
+			name = "Debug (10.5 Compatible)";
+		};
+		5C9EE5071073A81F0051414D /* Debug (10.5 Compatible) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CONFIG_DIR = "$(APP_SUPPORT_DIR)/Configuration";
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_ENABLE_OBJC_GC = NO;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = /Applications;
+				PRODUCT_NAME = MWServer;
+				VERSIONS_DIR = "$(CONFIG_DIR)/Versions";
+				WRAPPER_EXTENSION = app;
+			};
+			name = "Debug (10.5 Compatible)";
+		};
+		5C9EE5081073A81F0051414D /* Debug (10.5 Compatible) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = UninstallServer;
+			};
+			name = "Debug (10.5 Compatible)";
+		};
+		5C9EE5091073A81F0051414D /* Debug (10.5 Compatible) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = "Set Version String";
+			};
+			name = "Debug (10.5 Compatible)";
+		};
 		C01FCF4B08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -399,10 +459,10 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_ENABLE_OBJC_GC = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = /Applications;
 				PRODUCT_NAME = MWServer;
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
 				VERSIONS_DIR = "$(CONFIG_DIR)/Versions";
 				WRAPPER_EXTENSION = app;
 			};
@@ -423,18 +483,25 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				APP_SUPPORT_DIR = "/Library/Application Support/MonkeyWorks";
+				ARCHS = (
+					i386,
+					x86_64,
+				);
 				FRAMEWORK_SEARCH_PATHS = /Library/Frameworks;
+				GCC_ENABLE_OBJC_GC = NO;
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				GCC_OBJC_CALL_CXX_CDTORS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_VERSION = 4.2;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
 				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				MW_INCLUDE_DIR = "\"$(APP_SUPPORT_DIR)/Developer/include\"";
 				MW_LIB_DIR = "\"$(APP_SUPPORT_DIR)/Developer/lib\"";
 				PREBINDING = NO;
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
 				VERSION_STRING = NO_VERSION_SPECIFIED;
 			};
 			name = Debug;
@@ -461,6 +528,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				0E121BE40E6B1BA0007B29B8 /* Debug */,
+				5C9EE5081073A81F0051414D /* Debug (10.5 Compatible) */,
 				0E121BE50E6B1BA0007B29B8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -470,6 +538,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5C488A700F4E291200C5A526 /* Debug */,
+				5C9EE5091073A81F0051414D /* Debug (10.5 Compatible) */,
 				5C488A710F4E291200C5A526 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -479,6 +548,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C01FCF4B08A954540054247B /* Debug */,
+				5C9EE5071073A81F0051414D /* Debug (10.5 Compatible) */,
 				C01FCF4C08A954540054247B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -488,6 +558,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C01FCF4F08A954540054247B /* Debug */,
+				5C9EE5061073A81F0051414D /* Debug (10.5 Compatible) */,
 				C01FCF5008A954540054247B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;

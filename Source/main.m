@@ -41,7 +41,7 @@ int main(int argc, char *argv[]) {
 													StandardServerCoreBuilder());
 	} catch(ComponentFactoryConflictException& e){
         
-        NSString *error_description = [NSString stringWithCString:e.getMessage().c_str()];
+        NSString *error_description = [NSString stringWithCString:e.getMessage().c_str() encoding:NSASCIIStringEncoding];
         NSString *recovery_suggestion = @"You must review your plugins to ensure that multiple plugins aren't trying to register functionality under the same XML signatures";
         NSMutableDictionary *error_info = [[NSMutableDictionary alloc] init];
         [error_info setObject: error_description  forKey: NSLocalizedDescriptionKey];
