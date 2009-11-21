@@ -24,7 +24,7 @@ using namespace mw;
 
 - (void)unregisterCallbacksWithKey:(const char *)key;
 - (NSNumber *)codeForTag:(NSString *)tag;
-- (void)set:(int)code to:(Data *)data;
+- (void)set:(int)code to:(Datum *)data;
 - (NSNumber *)isLocalMessage:(NSNumber *)messageOrigin;
 - (NSNumber *)maxConsoleLength;
 - (NSArray *)variableNames;

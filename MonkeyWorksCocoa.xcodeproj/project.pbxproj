@@ -43,6 +43,8 @@
 		5C58924909D0BA2C00F9D2C5 /* errorGlyph.tif in Resources */ = {isa = PBXBuildFile; fileRef = 5C58924709D0BA2C00F9D2C5 /* errorGlyph.tif */; };
 		5C58924A09D0BA2C00F9D2C5 /* warningGlyph.tif in Resources */ = {isa = PBXBuildFile; fileRef = 5C58924809D0BA2C00F9D2C5 /* warningGlyph.tif */; };
 		5C58924C09D0BAF300F9D2C5 /* messageGlyph.tif in Resources */ = {isa = PBXBuildFile; fileRef = 5C58924B09D0BAF300F9D2C5 /* messageGlyph.tif */; };
+		5C9EE4EB1073A5FC0051414D /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0867D6A5FE840307C02AAC07 /* AppKit.framework */; };
+		5CF10C69109F3B7000FFE11A /* MWCocoaEventFunctor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CF10C68109F3B7000FFE11A /* MWCocoaEventFunctor.cpp */; };
 		687EAA730CA1B3FA0022EE4F /* MWToolbarItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 687EAA710CA1B3FA0022EE4F /* MWToolbarItem.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		687EAA740CA1B3FA0022EE4F /* MWToolbarItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 687EAA720CA1B3FA0022EE4F /* MWToolbarItem.m */; };
 		68915DBB0CB678A2007DDDAA /* Broom.tif in Resources */ = {isa = PBXBuildFile; fileRef = 68915DB90CB678A2007DDDAA /* Broom.tif */; };
@@ -85,6 +87,7 @@
 		5C58924709D0BA2C00F9D2C5 /* errorGlyph.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = errorGlyph.tif; path = Images/errorGlyph.tif; sourceTree = "<group>"; };
 		5C58924809D0BA2C00F9D2C5 /* warningGlyph.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = warningGlyph.tif; path = Images/warningGlyph.tif; sourceTree = "<group>"; };
 		5C58924B09D0BAF300F9D2C5 /* messageGlyph.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = messageGlyph.tif; path = Images/messageGlyph.tif; sourceTree = "<group>"; };
+		5CF10C68109F3B7000FFE11A /* MWCocoaEventFunctor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MWCocoaEventFunctor.cpp; sourceTree = "<group>"; };
 		687EAA710CA1B3FA0022EE4F /* MWToolbarItem.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MWToolbarItem.h; path = Source/Toolbars/MWToolbarItem.h; sourceTree = "<group>"; };
 		687EAA720CA1B3FA0022EE4F /* MWToolbarItem.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MWToolbarItem.m; path = Source/Toolbars/MWToolbarItem.m; sourceTree = "<group>"; };
 		68915DB90CB678A2007DDDAA /* Broom.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = Broom.tif; path = Images/Broom.tif; sourceTree = "<group>"; };
@@ -107,6 +110,7 @@
 				8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */,
 				DADADB7A07FAFC9000F8D324 /* MonkeyWorksCore.framework in Frameworks */,
 				DA2FEE4008B3F87A007E389A /* SystemConfiguration.framework in Frameworks */,
+				5C9EE4EB1073A5FC0051414D /* AppKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -235,6 +239,7 @@
 				0EDBEBA00C721A8200694CA9 /* MWCocoaEvent.h */,
 				0EDBEBA10C721A8200694CA9 /* MWCocoaEvent.m */,
 				68F379000C91C456007F1A6C /* MWCocoaEventFunctor.h */,
+				5CF10C68109F3B7000FFE11A /* MWCocoaEventFunctor.cpp */,
 				0EE3765C0CA20F0C00874639 /* MWClientServerBase.h */,
 				0EE3765D0CA20F0C00874639 /* MWClientServerBase.m */,
 			);
@@ -384,6 +389,7 @@
 				687EAA740CA1B3FA0022EE4F /* MWToolbarItem.m in Sources */,
 				0EE3765F0CA20F0C00874639 /* MWClientServerBase.m in Sources */,
 				0E727A1C0CB64819000C7B3F /* MWConsoleToolbar.m in Sources */,
+				5CF10C69109F3B7000FFE11A /* MWCocoaEventFunctor.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -421,6 +427,69 @@
 			buildSettings = {
 			};
 			name = Release;
+		};
+		5C9EE46F107307800051414D /* Debug (10.5 Compatible) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APP_SUPPORT_DIR = "/Library/Application Support/MonkeyWorks";
+				ARCHS = (
+					x86_64,
+					i386,
+				);
+				COPY_PHASE_STRIP = NO;
+				GCC_DEBUGGING_SYMBOLS = full;
+				GCC_ENABLE_OBJC_GC = NO;
+				GCC_OBJC_CALL_CXX_CDTORS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_VERSION = 4.0;
+				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
+				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
+				GCC_WARN_HIDDEN_VIRTUAL_FUNCTIONS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = /Library/MonkeyWorks/include;
+				LIBRARY_SEARCH_PATHS = /Library/MonkeyWorks/lib;
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				MW_INCLUDE_DIR = "\"$(APP_SUPPORT_DIR)/Developer/gcc40/include\"";
+				MW_LIB_DIR = "\"$(APP_SUPPORT_DIR)/Developer/gcc40/lib\"";
+				OTHER_CPLUSPLUSFLAGS = "-fobjc-exceptions";
+				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
+			};
+			name = "Debug (10.5 Compatible)";
+		};
+		5C9EE470107307800051414D /* Debug (10.5 Compatible) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				DEPLOYMENT_LOCATION = NO;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = MonkeyWorksCocoa_Prefix.pch;
+				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = /Library/Frameworks;
+				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
+				MACH_O_TYPE = mh_dylib;
+				PREBINDING = NO;
+				PRODUCT_NAME = MonkeyWorksCocoa;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+					"-Wno-sign-compare",
+				);
+				WRAPPER_EXTENSION = framework;
+			};
+			name = "Debug (10.5 Compatible)";
+		};
+		5C9EE471107307800051414D /* Debug (10.5 Compatible) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = MonkeyWorksCocoa.framework;
+			};
+			name = "Debug (10.5 Compatible)";
 		};
 		DA2A85430871A49C00D99DD8 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -529,6 +598,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				0E121BCC0E6B1B4F007B29B8 /* Debug */,
+				5C9EE471107307800051414D /* Debug (10.5 Compatible) */,
 				0E121BCD0E6B1B4F007B29B8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -538,6 +608,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DA2A85430871A49C00D99DD8 /* Debug */,
+				5C9EE470107307800051414D /* Debug (10.5 Compatible) */,
 				DA2A85440871A49C00D99DD8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -547,6 +618,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DA2A85470871A49C00D99DD8 /* Debug */,
+				5C9EE46F107307800051414D /* Debug (10.5 Compatible) */,
 				DA2A85480871A49C00D99DD8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;

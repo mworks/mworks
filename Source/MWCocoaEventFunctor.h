@@ -10,16 +10,24 @@
 #ifndef __COCOA_EVENT_FUNCTOR_H_
 #define __COCOA_EVENT_FUNCTOR_H_
 
-#include "MonkeyWorksCore/GenericEventFunctor.h"
+//#include "MonkeyWorksCore/GenericEventFunctor.h"
 #include "MWCocoaEvent.h"
+#include "MonkeyWorksCore/EventStreamInterface.h"
 #include <boost/shared_ptr.hpp>
 using namespace std;
 using namespace boost;
 
 
 namespace mw {
+    
+    
+    EventCallback create_cocoa_event_callback(id _receiver, SEL _selector, id _syncobject=Nil);
+    EventCallback create_bindings_bridge_event_callback(id _receiver, NSString *_bindings_key);
+    
+    
+    
 	// derived template class
-	class CocoaEventFunctor : public GenericEventFunctor
+	class CocoaEventFunctor
 		{
 		private:
 			id receiver;
@@ -29,12 +37,12 @@ namespace mw {
 			
 			// constructor - takes pointer to an object and pointer to a member and stores
 			// them in two private variables
-			CocoaEventFunctor(id _receiver, SEL _selector, const std::string &key, id _syncobject=Nil) : GenericEventFunctor (key)
+			CocoaEventFunctor(id _receiver, SEL _selector, id _syncobject=Nil)
 			{
         
 				receiver = _receiver;
 				selector = _selector;
-        syncobject = _syncobject;
+                syncobject = _syncobject;
         
 			};
 			
@@ -44,7 +52,7 @@ namespace mw {
 			{ 
 				NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 				//objc_registerThreadWithCollector();
-				Data data(event->getData());
+				Datum data(event->getData());
 				id cocoaEvent = [[[MWCocoaEvent alloc] initWithData:&data 
 															andCode:event->getEventCode() 
 															andTime:event->getTime()] autorelease];
@@ -67,7 +75,7 @@ namespace mw {
 	
 	
 	// derived template class
-	class CocoaBindingsBridgeFunctor : public GenericEventFunctor
+	class CocoaBindingsBridgeFunctor
 		{
 		private:
 			id receiver;
@@ -77,7 +85,7 @@ namespace mw {
 			
 			// constructor - takes pointer to an object and pointer to a member and stores
 			// them in two private variables
-			CocoaBindingsBridgeFunctor(id _receiver, NSString *_bindings_key, const std::string &key) : GenericEventFunctor (key)
+			CocoaBindingsBridgeFunctor(id _receiver, NSString *_bindings_key)
 			{
 				receiver = _receiver;
 				bindings_key = _bindings_key;
@@ -88,7 +96,7 @@ namespace mw {
 			virtual void operator()(const shared_ptr<Event> &event)
 			{ 
 				
-				Data data(event->getData());
+				Datum data(event->getData());
 				
 				NSNumber *data_number = [NSNumber numberWithDouble:(double)data];
 				[receiver setValue:data_number forKey:bindings_key];

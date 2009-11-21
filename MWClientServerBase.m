@@ -35,7 +35,7 @@
 	return nil;
 }
 
-- (void)set:(int)code to:(Data *)data {
+- (void)set:(int)code to:(Datum *)data {
 	[NSException raise:NSInternalInconsistencyException
 				format:@"set:to: needs to be overridden"];	
 }

@@ -11,18 +11,18 @@
 using namespace mw;
 
 @interface MWCocoaEvent : NSObject {
-	Data *_data;
+	Datum *_data;
 	int _code;
 	MonkeyWorksTime _time;
 }
 
-- (id) initWithData:(Data *)data 
+- (id) initWithData:(Datum *)data 
 			andCode:(int)code 
 			andTime:(MonkeyWorksTime)time;
 
 
 - (MonkeyWorksTime)time;	
-- (Data *)data;
+- (Datum *)data;
 - (int)code;
 
 

@@ -288,7 +288,7 @@
 		
 		if (code == messageCodecCode) {
 			//mData *pl = [event data];
-			Data payload(*[event data]);
+			Datum payload(*[event data]);
 			
 			if(payload.getDataType() != M_DICTIONARY){
 				return;
