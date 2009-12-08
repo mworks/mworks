@@ -43,7 +43,7 @@ namespace mw {
 		vsnprintf(buffer, MSG_BUFFER_SIZE-1, format.c_str(), ap);
 		
 		
-	 Datum messageDatum=Datum(M_DICTIONARY, 4);
+        Datum messageDatum=Datum(M_DICTIONARY, 4);
 		messageDatum.addElement(M_MESSAGE_DOMAIN, Datum(M_INTEGER, domain));
 		messageDatum.addElement(M_MESSAGE, Datum(std::string(buffer)));
 		messageDatum.addElement(M_MESSAGE_TYPE, Datum(M_INTEGER, type));

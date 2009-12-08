@@ -28,6 +28,7 @@
 #include "CoreEventFunctor.h"
 #include <boost/thread/mutex.hpp>
 #include <boost/thread/recursive_mutex.hpp>
+#include <boost/enable_shared_from_this.hpp>
 #include <multimap.h>
 #include <hash_map.h>
 
@@ -45,9 +46,16 @@ public:
     EventCallback callback;
     string key;
     
+    KeyedEventCallbackPair(){ }
+    
     KeyedEventCallbackPair(string _key, EventCallback _callback){
-        key = key;
+        key = _key;
         callback = _callback;
+    }
+    
+    void operator=(const KeyedEventCallbackPair& cb_pair){
+        key = cb_pair.key;
+        callback = cb_pair.callback;
     }
     
 };
@@ -60,8 +68,7 @@ typedef multimap<string, int>      EventCallbackKeyCodeMap;
 
     
     
-    
-class EventStreamInterface {
+class EventStreamInterface : public enable_shared_from_this<EventStreamInterface> {
     
 protected:
     

@@ -167,4 +167,14 @@ shared_ptr<Event> IPCEventTransport::receiveEventNoLock(){
 
 }
 
+void IPCEventTransport::flush(){
+    int num_msg = incoming_queue->get_num_msg();
+    
+    for(int i = 0; i < num_msg - 1; i++){
+        receiveEvent();
+    }
+}
+
+
+
 

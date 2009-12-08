@@ -33,6 +33,7 @@ class SerializationTestFixture : public CppUnit::TestFixture {
 	CPPUNIT_TEST( testScarabSerialization );
     CPPUNIT_TEST( testDictSerialization );
     CPPUNIT_TEST( testStringDatumSerialization );
+    CPPUNIT_TEST( testListSerialization );
     CPPUNIT_TEST_SUITE_END();
 	
 	
@@ -46,6 +47,7 @@ public:
     void testEventSerialization();
 	void testDictSerialization();
     void testStringDatumSerialization();
+    void testListSerialization();
 	
 };
 }

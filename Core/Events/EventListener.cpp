@@ -14,6 +14,15 @@ using namespace mw;
 // the service function for the thread
 static void * readReader(const shared_ptr<EventListener> &el);
 
+
+EventListener::EventListener(shared_ptr<EventBuffer> _event_buffer, shared_ptr<EventStreamInterface> hand){
+    reader = shared_ptr<EventBufferReader>( new EventBufferReader(_event_buffer) );
+    //thread = NULL;
+    handler = hand;
+    servicing = false;
+}
+
+
 EventListener::~EventListener() {
     // TODO should i lock here
     if(thread) {

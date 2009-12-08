@@ -73,9 +73,9 @@ void Client::handleEvent(shared_ptr<Event> evt) {
 
 void Client::startEventListener(){
     
-    shared_ptr<Client> this_ptr = shared_from_this();
-    shared_ptr<EventStreamInterface> this_as_evt_handler = dynamic_pointer_cast<EventStreamInterface>(this_ptr);
-    incoming_listener = shared_ptr<IncomingEventListener>(new IncomingEventListener(incoming_event_buffer, this_as_evt_handler));
+    //shared_ptr<Client> this_ptr = Client::shared_from_this();
+    shared_ptr<EventStreamInterface> this_as_evt_handler = shared_from_this();
+    incoming_listener = shared_ptr<EventListener>(new EventListener(incoming_event_buffer, this_as_evt_handler));
     
 	incoming_listener->startListener();
 }

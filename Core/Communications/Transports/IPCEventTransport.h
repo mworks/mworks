@@ -62,6 +62,9 @@ public:
     virtual shared_ptr<Event> receiveEventNoLock();
   
     virtual shared_ptr<Event> deserializeEvent(const char *receive_buffer, size_t& received_size);  
+    
+    
+    virtual void flush();
 };
 }
 

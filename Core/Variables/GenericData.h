@@ -325,6 +325,7 @@ namespace mw {
                         break;
 					case M_LIST:
                         ar >> nelements;
+                        createList(nelements);
                         for(int i = 0; i < nelements; i++){
                             ar >> datum;
                             addElement(datum);

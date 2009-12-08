@@ -14,8 +14,8 @@
 #ifndef _SERVER_H__
 #define _SERVER_H__
 
-#include "IncomingEventListener.h"
-#include "OutgoingEventListener.h"
+#include "EventListener.h"
+
 #include "GenericVariable.h"
 #include <boost/thread/recursive_mutex.hpp>
 #include <boost/filesystem/path.hpp>
@@ -32,9 +32,9 @@ class Server : public RegistryAwareEventStreamInterface {
     protected:
     
         shared_ptr<ScarabServer> server;
-        shared_ptr<OutgoingEventListener> outgoingListener;
-        shared_ptr<IncomingEventListener> incomingListener;
-        
+        shared_ptr<EventListener> outgoingListener;
+        shared_ptr<EventListener> incomingListener;
+    
 	public:
         Server();
         virtual ~Server();

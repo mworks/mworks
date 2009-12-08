@@ -10,7 +10,7 @@
 #include "Server.h"
 #include "Experiment.h"
 #include "ControlEventFactory.h"
-#include "DefaultEventStreamInterface.h"
+#include "ControlEventHandler.h"
 #include "ExperimentPackager.h"
 #include "DataFileManager.h"
 #include "VariableSave.h"
@@ -26,18 +26,11 @@ Server::Server() : RegistryAwareEventStreamInterface(M_SERVER_MESSAGE_DOMAIN, tr
     
     server = shared_ptr<ScarabServer>(new ScarabServer(global_incoming_event_buffer, global_outgoing_event_buffer));
 
-		
-	
-	shared_ptr<DefaultEventStreamInterface> _handler(new DefaultEventStreamInterface());
-	// TODO: prevents there from being more than one server instance
-    incomingListener = shared_ptr<IncomingEventListener>(new IncomingEventListener(global_incoming_event_buffer, _handler));
-    outgoingListener = shared_ptr<OutgoingEventListener>(new OutgoingEventListener(global_outgoing_event_buffer, shared_ptr<EventStreamInterface>(this)));
-    // dont know where else this would be handled?
+	// dont know where else this would be handled?
     if(GlobalDataFileManager == NULL) {
         GlobalDataFileManager = new DataFileManager();
     }
-	
-	
+		
 	server->setServerListenLowPort(19989);
     server->setServerListenHighPort(19999);
 	server->setServerHostname("127.0.0.1");
@@ -57,6 +50,13 @@ Server::~Server() {
 
 
 bool Server::startServer() {
+    
+    shared_ptr<EventStreamInterface> _handler(new ControlEventHandler());
+	// TODO: prevents there from being more than one server instance
+    incomingListener = shared_ptr<EventListener>(new EventListener(global_incoming_event_buffer, _handler));
+    outgoingListener = shared_ptr<EventListener>(new EventListener(global_outgoing_event_buffer, shared_from_this()));
+    
+    
 	outgoingListener->startListener();
     NetworkReturn *lastNetworkReturn = server->startListening();
     if(lastNetworkReturn->wasSuccessful()) {

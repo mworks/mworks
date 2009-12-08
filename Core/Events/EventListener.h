@@ -32,7 +32,8 @@ protected:
 	// are we in the middle of servicing
 	bool servicing;
 public:
-        
+       
+    EventListener(shared_ptr<EventBuffer> _buffer, shared_ptr<EventStreamInterface> _stream_interface);
 	virtual ~EventListener();
 	virtual void startListener();
 	virtual bool service();
@@ -46,7 +47,7 @@ protected:
 		EventListener(shared_ptr<EventBuffer> _event_buffer);
 		EventListener(){ }
         EventListener(const EventListener&);
-	virtual EventListener& operator=(const EventListener&);
+        virtual EventListener& operator=(const EventListener&);
 };
 }
 #endif

@@ -17,7 +17,7 @@
 
 
 #include "EventStreamInterface.h"
-#include "VariableREgistryInterface.h"
+#include "VariableRegistryInterface.h"
 #include "IncomingEventListener.h"
 #include "ScarabClient.h"
 #include "VariableRegistry.h"
@@ -26,10 +26,10 @@
 
 namespace mw {
 
-class Client : public RegistryAwareEventStreamInterface,  public enable_shared_from_this<Client> {
+class Client : public RegistryAwareEventStreamInterface {
     protected:
 	shared_ptr<EventBuffer> incoming_event_buffer, outgoing_event_buffer;
-	shared_ptr<IncomingEventListener> incoming_listener;
+	shared_ptr<EventListener> incoming_listener;
 	
     // a connection with a server
 	shared_ptr<ScarabClient> remoteConnection;

@@ -27,6 +27,7 @@ class ScarabFileTestFixture : public CppUnit::TestFixture {
 	CPPUNIT_TEST( testIntegerPutGet );
 	CPPUNIT_TEST( testBigIntegerPutGet );
 	CPPUNIT_TEST( testDictPutGet );
+    //CPPUNIT_TEST( testListPutGet );
 	CPPUNIT_TEST( testNestedDictPutGet );
 	CPPUNIT_TEST( testFloatPutGet );
 	CPPUNIT_TEST( test128IntegerPutGet );

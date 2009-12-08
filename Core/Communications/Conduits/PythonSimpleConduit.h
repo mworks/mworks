@@ -119,6 +119,63 @@ public:
         }
     }
     
+    
+    virtual mw::Datum packagePyObject(PyObject *pyobj){
+    
+        if(PyFloat_Check(pyobj)){
+            return mw::Datum(PyFloat_AsDouble(pyobj));
+        } else if(PyInt_Check(pyobj)){
+            return mw::Datum(PyInt_AsLong(pyobj));
+        } else if(PyString_Check(pyobj)){
+            return mw::Datum(PyString_AsString(pyobj));
+        } else if(PyMapping_Check(pyobj)){
+            return packagePyMapping(pyobj);
+        } else if(PySequence_Check(pyobj)){
+            return packagePySequence(pyobj);
+        }
+
+        return mw::Datum();
+    }
+           
+    virtual mw::Datum packagePySequence(PyObject *pyobj){
+        
+        int size = PySequence_Size(pyobj);
+        mw::Datum list_datum(M_LIST, size);
+        
+        for(int i = 0; i < size; i++){
+            list_datum.addElement(packagePyObject(PySequence_GetItem(pyobj, i)));
+        }
+        
+        return list_datum;
+    }
+     
+    virtual mw::Datum packagePyMapping(PyObject *pyobj){
+        
+        int size = PyMapping_Size(pyobj);
+        
+        mw::Datum dict_datum(M_DICTIONARY, size);
+        
+        PyObject *keys = PyMapping_Keys(pyobj);
+        PyObject *items = PyMapping_Items(pyobj);
+        
+        for(int i = 0; i < size; i++){
+            PyObject *key = PySequence_GetItem(keys,i);
+            PyObject *item = PySequence_GetItem(items, i);
+            
+            dict_datum.setElement(packagePyObject(key), packagePyObject(item));
+        }
+        
+        return dict_datum;
+    }
+    
+    virtual void sendPyObject(int code, PyObject *pyobj){
+        if(conduit != NULL){
+            conduit->sendData(code, packagePyObject(pyobj));
+        } else {
+            throw SimpleException("Invalid conduit");
+        }
+    }
+    
     virtual void sendFloat(int code, double data){
         //if(!isInitialized()){
 //            throw SimpleException("Not initialized");
@@ -164,6 +221,7 @@ BOOST_PYTHON_MODULE(_conduit)
         .def("finalize", &PythonIPCServerConduit::finalize)
         .def("send_float", &PythonIPCServerConduit::sendFloat)
         .def("send_integer", &PythonIPCServerConduit::sendInteger)
+        .def("send_object", &PythonIPCServerConduit::sendPyObject)
         .def("register_callback_for_code", &PythonIPCServerConduit::registerCallbackForCode)
         .def("register_callback_for_name", &PythonIPCServerConduit::registerCallbackForName)
         .add_property("initialized", &PythonIPCServerConduit::isInitialized)
@@ -174,6 +232,7 @@ BOOST_PYTHON_MODULE(_conduit)
         .def("finalize", &PythonIPCClientConduit::finalize)
         .def("send_float", &PythonIPCClientConduit::sendFloat)
         .def("send_integer", &PythonIPCClientConduit::sendInteger)
+        .def("send_object", &PythonIPCClientConduit::sendPyObject)
         .def("register_callback_for_code", &PythonIPCClientConduit::registerCallbackForCode)
         .def("register_callback_for_name", &PythonIPCClientConduit::registerCallbackForName)
         .add_property("initialized", &PythonIPCClientConduit::isInitialized)
@@ -184,9 +243,9 @@ BOOST_PYTHON_MODULE(_conduit)
         .add_property("data", &Event::getData);
     ;
     
-    class_<Data, boost::noncopyable>("Data")
-        .add_property("float", &Data::getFloat)
-        .add_property("integer", &Data::getInteger);
+    class_<Datum, boost::noncopyable>("Datum")
+        .add_property("float", &Datum::getFloat)
+        .add_property("integer", &Datum::getInteger);
     ;
 }
 
