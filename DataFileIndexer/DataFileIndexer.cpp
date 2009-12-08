@@ -23,7 +23,8 @@ DataFileIndexer::DataFileIndexer(const boost::filesystem::path &data_file,
 								 const int number_of_indexing_threads) : events_per_block(_events_per_block) {
 	uri = "ldobinary:file://" + data_file.string();
 	
-	// I hate myself for this
+	// TODO: verify it is safe to remove Ben's kludge here
+    // Ben says: I hate myself for this
 	char *uri_temp = new char[uri.length() + 1];
 	strncpy(uri_temp, uri.c_str(), uri.length() + 1);
 	session = scarab_session_connect(uri_temp);
@@ -107,8 +108,14 @@ DataFileIndexer::DataFileIndexer(const boost::filesystem::path &data_file,
 				std::cerr << "something went wrong...please abort and try again" << std::endl;
 				throw new std::exception;
 			}
-			root = blocks_at_next_level.at(0);
-		}
+            
+            // DDC added a patch to fix failure to index small numbers of events
+            // force a mandatory level below root
+            boost::shared_ptr<EventBlock> subroot = blocks_at_next_level.at(0);
+            std::vector< boost::shared_ptr<EventBlock> > root_children;
+            root_children.push_back(subroot);
+			root = boost::shared_ptr<EventBlock>(new EventBlock(root_children));
+        }
 	}
 }
 
@@ -123,28 +130,42 @@ std::vector<EventWrapper> DataFileIndexer::events(const std::vector<unsigned int
 														const MonkeyWorksTime upper_bound) const {
 	std::vector<EventWrapper> return_vector;
 
-	std::vector<boost::shared_ptr<EventBlock> > event_blocks_with_time = root->children(event_codes_to_match, lower_bound, upper_bound);
+    // Recursively find event blocks that meet our search criteria
+	std::vector<boost::shared_ptr<EventBlock> > matching_event_blocks = root->children(event_codes_to_match, lower_bound, upper_bound);
 	
-	for(std::vector<boost::shared_ptr<EventBlock> >::const_iterator i = event_blocks_with_time.begin();
-		i != event_blocks_with_time.end();
+    // Read the blocks found by the search
+	for(std::vector<boost::shared_ptr<EventBlock> >::const_iterator i = matching_event_blocks.begin();
+		i != matching_event_blocks.end();
 		++i) {
+        
+        // Seek to the offset in the file to start reading from
 		long int block_offset = (*i)->blockOffset();
 		scarab_seek(session, block_offset, SEEK_SET);
 		
 		ScarabDatum *current_datum = NULL;
 		unsigned int current_relative_event = 0;
 		
+        // Read through the event block
 		while((current_datum = scarab_read(session)) && current_relative_event < events_per_block) {
 			MonkeyWorksTime event_time = DataFileUtilities::getScarabEventTime(current_datum);
-			if(event_time >= lower_bound && event_time <= upper_bound) {
+			
+            // Check the time criterion
+            if(event_time >= lower_bound && event_time <= upper_bound) {
 				unsigned int event_code = DataFileUtilities::getScarabEventCode(current_datum);
-				for(std::vector<unsigned int>::const_iterator j = event_codes_to_match.begin();
-					j != event_codes_to_match.end();
-					++j) {
-					if(event_code == *j) {
-						return_vector.push_back(EventWrapper(current_datum));	
-					}
-				}
+				
+                if(event_codes_to_match.size() == 0){
+                    // if event_codes_to_match is empty, match anything
+                    return_vector.push_back(EventWrapper(current_datum));
+                } else {
+                    // otherwise, actually search if the event code is one we're interested in
+                    for(std::vector<unsigned int>::const_iterator j = event_codes_to_match.begin();
+                        j != event_codes_to_match.end();
+                        ++j) {
+                        if(event_code == *j) {
+                            return_vector.push_back(EventWrapper(current_datum));	
+                        }
+                    }
+                }
 			}
 			
 			scarab_free_datum(current_datum);

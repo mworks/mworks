@@ -52,7 +52,15 @@ bool EventBlock::hasEventCode(const unsigned int event_code) const {
 }
 
 bool EventBlock::hasEventCodes(const std::vector<unsigned int> &event_codes_to_match) const {
-	for(std::vector<unsigned int>::const_iterator j = event_codes_to_match.begin();
+	
+    // if no codes are passed in, assume that any code is okay
+    if(event_codes_to_match.size() == 0){
+        return true;
+    }
+    
+    
+    // otherwise, go through the codes contained in this block to determine acceptance
+    for(std::vector<unsigned int>::const_iterator j = event_codes_to_match.begin();
 		j != event_codes_to_match.end();
 		++j) {
 		if(hasEventCode(*j)) {
@@ -104,7 +112,7 @@ std::vector<unsigned int> EventBlock::eventCodes() const {
 std::vector<boost::shared_ptr<EventBlock> > EventBlock::children(const std::vector<unsigned int> &event_codes_to_match,
 																 const MonkeyWorksTime lower_bound,
 																 const MonkeyWorksTime upper_bound) const {
-	std::vector<boost::shared_ptr<EventBlock> > children_with_time;
+	std::vector<boost::shared_ptr<EventBlock> > matching_child_blocks;
 	
 	for(std::vector<boost::shared_ptr<EventBlock> >::const_iterator i = _children.begin();
 		i != _children.end();
@@ -112,14 +120,14 @@ std::vector<boost::shared_ptr<EventBlock> > EventBlock::children(const std::vect
 		
 		if((*i)->hasTime(lower_bound, upper_bound) && (*i)->hasEventCodes(event_codes_to_match)) {
 			if((*i)->isLeaf()) {
-				children_with_time.push_back(*i);
+				matching_child_blocks.push_back(*i);
 			} else {
-				std::vector<boost::shared_ptr<EventBlock> > lower_children_with_time = (*i)->children(event_codes_to_match, lower_bound, upper_bound);
-				for(std::vector<boost::shared_ptr<EventBlock> >::const_iterator j = lower_children_with_time.begin();
-					j != lower_children_with_time.end();
+				std::vector<boost::shared_ptr<EventBlock> > lower_matching_child_blocks = (*i)->children(event_codes_to_match, lower_bound, upper_bound);
+				for(std::vector<boost::shared_ptr<EventBlock> >::const_iterator j = lower_matching_child_blocks.begin();
+					j != lower_matching_child_blocks.end();
 					++j) {
 					if((*j)->isLeaf()) {
-						children_with_time.push_back(*j);
+						matching_child_blocks.push_back(*j);
 					} else {
 						std::cerr << "shouldn't be here" << std::endl;
 					}
@@ -128,6 +136,6 @@ std::vector<boost::shared_ptr<EventBlock> > EventBlock::children(const std::vect
 		}
 	}
 	
-	return children_with_time;
+	return matching_child_blocks;
 }
 

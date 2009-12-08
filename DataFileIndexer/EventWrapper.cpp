@@ -19,7 +19,9 @@ EventWrapper::EventWrapper(const EventWrapper &sdw) {
 
 
 EventWrapper::~EventWrapper() {
-	scarab_free_datum(datum);
+    if(!empty()){
+        scarab_free_datum(datum);
+    }
 }
 
 ScarabDatum *EventWrapper::getDatum() const {

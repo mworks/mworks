@@ -19,7 +19,12 @@ import numpy
 
 #Event.value = property(get_value)
 
-
+class FileNotLoadedException(Exception):
+    pass
+    
+class NoValidCodecException(Exception):
+    pass
+    
 
 # MWKFile add-ons
 
@@ -28,7 +33,19 @@ def get_events(self, **kwargs):
     event_codes = []
     time_range = []
 
+    # shortcut to argument-free version
+    if "codes" not in kwargs and "time_range" not in kwargs:
+        return self.__fetch_all_events()
+
+    codec = self.codec
+    
+    if codec is None:
+        raise NoValidCodecException
+        
     reverse_codec = self.reverse_codec
+     
+    if reverse_codec is None:
+        raise NoValidCodecException
 
     if "codes" in kwargs:
         event_codes = kwargs["codes"]
@@ -40,7 +57,7 @@ def get_events(self, **kwargs):
                     event_codes[i] = reverse_codec[code]
         
     else:
-        event_codes = self.codec.keys()  # all events
+        event_codes = codec.keys()  # all events
     
     if "time_range" in kwargs:
         time_range = kwargs["time_range"]
@@ -57,6 +74,9 @@ MWKFile.get_events = get_events
 
 def get_codec(self):
 
+    if not self.loaded:
+        raise FileNotLoadedException
+
     e = self.__fetch_events([0])
     if(len(e) == 0):
         return None
@@ -72,6 +92,10 @@ MWKFile.codec = property(get_codec)
 
 
 def get_reverse_codec(self):
+
+    if not self.loaded:
+        raise FileNotLoadedException
+
     c = self.codec
     keys = c.keys()
     values = c.values()
@@ -84,5 +108,13 @@ def get_reverse_codec(self):
     return rc
 
 MWKFile.reverse_codec = property(get_reverse_codec)
+   
     
+def read_event(self):
+    result = self.__read_event()
+    if(result.empty):
+        result = None
+    return result
+    
+MWKStream.read_event = read_event
     
