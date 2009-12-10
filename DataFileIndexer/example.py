@@ -2,8 +2,10 @@ import sys; sys.path.append("/Library/Application Support/MonkeyWorks/Scripting/
 import monkeyworks.data as d
 
 #test = d.MWKFile("/Documents/MonkeyWorks/Data/wftest1.mwk")
-test = d.MWKFile("/Documents/MonkeyWorks/Data/ettest2.mwk")
+test = d.MWKFile("/Documents/MonkeyWorks/Data/ettest1.mwk")
 test.open()
+
+test.reindex()
 
 print("Min time: %d, Max time: %d" % (test.minimum_time, test.maximum_time))
 

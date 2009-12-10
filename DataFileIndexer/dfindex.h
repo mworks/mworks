@@ -29,6 +29,10 @@ class dfindex
 	public:
 		dfindex(const boost::filesystem::path &data_file);
 
+        std::string getFilePath(){
+            return mwk_data_file.string();
+        }
+        
         MonkeyWorksTime getMinimumTime() const {
             return dfi.getMinimumTime();
         }

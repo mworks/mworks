@@ -2,7 +2,7 @@ import sys; sys.path.append("/Library/Application Support/MonkeyWorks/Scripting/
 import monkeyworks.data as d
 
 #filename = "Documents/MonkeyWorks/Data/ettest1.mwk/ettest1.mwk"
-filename = "/Documents/MonkeyWorks/Data/wftest1.mwk/wftest1.mwk"
+filename = "/Documents/MonkeyWorks/Data/wftest1.mwk/ettest1.mwk"
 
 stream = d.MWKStream("ldobinary:file://" + filename)
 stream.open()

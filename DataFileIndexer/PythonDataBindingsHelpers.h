@@ -41,6 +41,9 @@ public:
     bool loaded();    
     bool valid();
     
+    std::string file();
+    std::string true_mwk_file();
+    
     MonkeyWorksTime minimum_time();
     MonkeyWorksTime maximum_time();
     

@@ -207,6 +207,7 @@
 		5C2A62021039DDBD00A62CBA /* Python Bindings */ = {
 			isa = PBXGroup;
 			children = (
+				5CA078E710CED3A200000A95 /* examples */,
 				5CA0779410CE9E8C00000A95 /* test */,
 				5C2A62031039DDDB00A62CBA /* PythonDataBindings.h */,
 				5C2A62041039DDDB00A62CBA /* PythonDataBindings.cpp */,
@@ -214,8 +215,6 @@
 				5CA077D710CEA49500000A95 /* PythonDataBindingsHelpers.cpp */,
 				5C2A62461039E7A800A62CBA /* data.py */,
 				5CBBA1801055D5C5004C69DF /* __init__.py */,
-				5CBBA1B01055E5C3004C69DF /* example.py */,
-				5CA0764B10CE6B4C00000A95 /* stream_example.py */,
 			);
 			name = "Python Bindings";
 			sourceTree = "<group>";
@@ -227,6 +226,15 @@
 				5CA0779610CE9E9C00000A95 /* PythonBindingsTest.cpp */,
 			);
 			name = test;
+			sourceTree = "<group>";
+		};
+		5CA078E710CED3A200000A95 /* examples */ = {
+			isa = PBXGroup;
+			children = (
+				5CBBA1B01055E5C3004C69DF /* example.py */,
+				5CA0764B10CE6B4C00000A95 /* stream_example.py */,
+			);
+			name = examples;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -404,7 +412,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/zsh;
-			shellScript = "export TARGET_DIR=${SCRIPTS_DIR}/Python/monkeyworks\nmkdir -p \"${TARGET_DIR}\"\n\ncp $BUILT_PRODUCTS_DIR/_data.so \"${TARGET_DIR}\"\n\ncp $BUILT_PRODUCTS_DIR/../../data.py \"${TARGET_DIR}\"\n";
+			shellScript = "export TARGET_DIR=${SCRIPTS_DIR}/Python/monkeyworks\nmkdir -p \"${TARGET_DIR}\"\n\nrm -f \"${TARGET_DIR}\"/_data.so\nrm -f \"${TARGET_DIR}\"/data.py\n\ncp $BUILT_PRODUCTS_DIR/_data.so \"${TARGET_DIR}\"\n\ncp $BUILT_PRODUCTS_DIR/../../data.py \"${TARGET_DIR}\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 

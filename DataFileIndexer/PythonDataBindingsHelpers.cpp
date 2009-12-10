@@ -13,6 +13,18 @@ PythonDataFile::PythonDataFile(std::string _file_name){
     file_name = _file_name;
 }
 
+std::string PythonDataFile::file(){
+    return file_name;
+}
+
+std::string PythonDataFile::true_mwk_file(){
+    if(indexer != NULL){
+        return indexer->getFilePath();
+    } else {
+        return "";
+    }
+}
+
 void PythonDataFile::open(){
     
     // convert the filename string to a boost::filesystem path

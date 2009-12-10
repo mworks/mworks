@@ -44,6 +44,8 @@ dfindex::dfindex(const boost::filesystem::path &data_file) : mwk_data_file(data_
 		} 
 		this->load();
 	}
+    
+    mwk_data_file = actual_mwk_file;
 }
 
 void dfindex::save() const {

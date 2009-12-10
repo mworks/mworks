@@ -61,6 +61,8 @@ BOOST_PYTHON_MODULE(_data)
         .add_property("valid", &PythonDataFile::valid)
         .add_property("minimum_time", &PythonDataFile::minimum_time)
         .add_property("maximum_time", &PythonDataFile::maximum_time)
+        .add_property("file", &PythonDataFile::file)
+        .add_property("true_mwk_file", &PythonDataFile::true_mwk_file)
         ;
     
     

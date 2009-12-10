@@ -8,6 +8,7 @@
 
 from _data import *
 import numpy
+import os
 
 # Event add-ons
 
@@ -23,6 +24,9 @@ class FileNotLoadedException(Exception):
     pass
     
 class NoValidCodecException(Exception):
+    pass
+    
+class IndexingException(Exception):
     pass
     
 
@@ -109,7 +113,44 @@ def get_reverse_codec(self):
 
 MWKFile.reverse_codec = property(get_reverse_codec)
    
+
+def reindex(self):
+    self.close()
+    self.unindex()
+    self.open()
+
+def unindex(self):
     
+    if(os.path.isdir(self.file)):
+        split_file_name = os.path.split(self.file)
+        file_name = split_file_name[-1:][0]
+        parent_path = os.pathsep.join(split_file_name[0:-1])
+        
+        true_mwk_file = os.path.join(self.file,file_name)
+            
+        print "parent_path: ", parent_path
+        print "file_name: ", file_name
+        print "true_mwk_file; ", true_mwk_file
+        
+        aside_path =  os.path.join(parent_path, file_name + ".aside")
+        
+        os.rename( self.file, aside_path)
+        #print "rename %s to %s" % ( self.file, aside_path)
+        
+        os.rename( os.path.join(aside_path, file_name), os.path.join(parent_path,file_name) )
+        #print "rename %s to %s" % ( os.path.join(aside_path, file_name), os.path.join(parent_path,file_name) )
+        
+        os.system("rm -rf %s" % aside_path)
+        #print "remove %s" % aside_path
+        
+    else:
+        raise IndexingException("Attempt to re-index a file that has not yet been indexed")
+
+    
+MWKFile.unindex = unindex
+MWKFile.reindex = reindex            
+
+
 def read_event(self):
     result = self.__read_event()
     if(result.empty):
