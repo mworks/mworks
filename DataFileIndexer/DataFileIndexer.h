@@ -43,11 +43,17 @@ class DataFileIndexer
 			ar >> events_per_block;
 			ar >> root;		
 			
-			// I hate myself for this
-			char *uri_temp = new char[uri.length() + 1];
-			strncpy(uri_temp, uri.c_str(), uri.length() + 1);
-			session = scarab_session_connect(uri_temp);
-			delete [] uri_temp;
+            // Ben is a fucker.
+			// Ben says: I hate myself for this
+            // Dave says: you should, because you are a total fucker
+            //char *uri_temp = new char[uri.length() + 1];
+//			strncpy(uri_temp, uri.c_str(), uri.length() + 1);
+//			session = scarab_session_connect(uri_temp);
+//			delete [] uri_temp;
+            
+            // OK, so the above code is obviously insanely stupid and lazy
+            // so, instead we need to contruct a meaningful uri from the 
+            // readily available data_file field in the constructor 
 		}
 		
 		BOOST_SERIALIZATION_SPLIT_MEMBER();
@@ -66,6 +72,18 @@ class DataFileIndexer
 						const unsigned int multiplication_factor_per_level = 2,
 						const int number_of_indexing_threads = 1);
 		virtual ~DataFileIndexer();
+        
+        // DDC added to patch Ben's incompetance
+        void reconstituteScarabSession(const boost::filesystem::path &data_file){
+            boost::filesystem::path true_mwk_path = data_file / data_file.leaf();
+            uri = std::string("ldobinary:file://") + true_mwk_path.string();
+            
+            char *uri_temp = new char[uri.length() + 1];
+            strncpy(uri_temp, uri.c_str(), uri.length() + 1);
+            session = scarab_session_connect(uri_temp);
+            delete [] uri_temp;
+        }
+        
 		std::vector<EventWrapper> events(const std::vector<unsigned int> &event_codes,
 											   const MonkeyWorksTime lower_bound = MIN_MONKEY_WORKS_TIME(), 
 											   const MonkeyWorksTime upper_bound = MAX_MONKEY_WORKS_TIME()) const;

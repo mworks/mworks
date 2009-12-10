@@ -17,7 +17,7 @@
 
 BOOST_AUTO_TEST_CASE( basic_indexer_test )
 {
-    PythonDataFile test_object( "/Documents/MonkeyWorks/Data/ettest1.mwk" );
+    PythonDataFile test_object( "/Users/davidcox/Desktop/test.mwk" );
     test_object.open();
     
     std::vector<EventWrapper> events = test_object.fetch_all_events();

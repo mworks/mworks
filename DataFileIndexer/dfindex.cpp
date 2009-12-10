@@ -45,7 +45,7 @@ dfindex::dfindex(const boost::filesystem::path &data_file) : mwk_data_file(data_
 		this->load();
 	}
     
-    mwk_data_file = actual_mwk_file;
+    //mwk_data_file = actual_mwk_file;
 }
 
 void dfindex::save() const {
@@ -63,6 +63,8 @@ void dfindex::load() {
 	std::ifstream ifs(index_file.string().c_str(), std::ios::binary);
 	boost::archive::text_iarchive ia(ifs);
 	ia >> dfi;
+    
+    dfi.reconstituteScarabSession(mwk_data_file);
 }
 
 boost::filesystem::path dfindex::indexFile() const {
