@@ -186,6 +186,22 @@
 		5C918D1810027CB3001BE3DF /* MWMediaPackagerTransformation.xsl in Resources */ = {isa = PBXBuildFile; fileRef = 5C918D1710027CB3001BE3DF /* MWMediaPackagerTransformation.xsl */; };
 		5C91B990086CC9DC00C14E1A /* Trigger.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C91B98E086CC9DC00C14E1A /* Trigger.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5C91B991086CC9DC00C14E1A /* Trigger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C91B98F086CC9DC00C14E1A /* Trigger.cpp */; };
+		5CA078E610CED38F00000A95 /* PythonConduitTest.py in Resources */ = {isa = PBXBuildFile; fileRef = 5CA078E510CED38F00000A95 /* PythonConduitTest.py */; };
+		5CA078EA10CED4FD00000A95 /* PythonConduitServerTest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CA078E810CED4FD00000A95 /* PythonConduitServerTest.h */; };
+		5CA078EB10CED4FD00000A95 /* PythonConduitServerTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CA078E910CED4FD00000A95 /* PythonConduitServerTest.cpp */; };
+		5CA0792110CEDD1300000A95 /* EventHandlerConduitTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C25932B10AC95180098558D /* EventHandlerConduitTest.cpp */; };
+		5CA0794F10CEDFBB00000A95 /* EventStreamConduit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C724442109B2BC0004887A5 /* EventStreamConduit.cpp */; };
+		5CA07B4B10D055F600000A95 /* EventCallbackHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CA07B2810D052DB00000A95 /* EventCallbackHandler.cpp */; };
+		5CA07B4C10D055FD00000A95 /* SimpleCodecUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CA07B0E10D04E9100000A95 /* SimpleCodecUtilities.cpp */; };
+		5CA07B4D10D0560300000A95 /* SimpleCodecUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CA07B0D10D04E9100000A95 /* SimpleCodecUtilities.h */; };
+		5CA07B4E10D0560C00000A95 /* EventCallbackHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CA07B2710D052DB00000A95 /* EventCallbackHandler.h */; };
+		5CA07B9010D0B23B00000A95 /* EventCallbackHandlerTest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CA07B8E10D0B23B00000A95 /* EventCallbackHandlerTest.h */; };
+		5CA07B9110D0B23B00000A95 /* EventCallbackHandlerTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CA07B8F10D0B23B00000A95 /* EventCallbackHandlerTest.cpp */; };
+		5CA07BB310D0B4D200000A95 /* CodecAwareConduitTest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CA07BB110D0B4D200000A95 /* CodecAwareConduitTest.h */; };
+		5CA07BB410D0B4D200000A95 /* CodecAwareConduitTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CA07BB210D0B4D200000A95 /* CodecAwareConduitTest.cpp */; };
+		5CA07C5510D13A4700000A95 /* CodecAwareConduit.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CA07BE710D1187200000A95 /* CodecAwareConduit.h */; };
+		5CA07C5610D13A4B00000A95 /* CodecAwareConduit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CA07BE810D1187200000A95 /* CodecAwareConduit.cpp */; };
+		5CA07E5810D1A88100000A95 /* python_conduit_test.py in Resources */ = {isa = PBXBuildFile; fileRef = 5CA07E5710D1A88100000A95 /* python_conduit_test.py */; };
 		5CA9AD3310B5F9B500A04B67 /* VariableRegistryInterface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CA9AD3110B5F9B500A04B67 /* VariableRegistryInterface.cpp */; };
 		5CA9ADA510B63E1700A04B67 /* VariableRegistryInterface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CA9AD3110B5F9B500A04B67 /* VariableRegistryInterface.cpp */; };
 		5CAE8BF70AE4049E0013DB19 /* alut.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CAE8BF50AE4049E0013DB19 /* alut.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -765,6 +781,20 @@
 		5C918D1710027CB3001BE3DF /* MWMediaPackagerTransformation.xsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = MWMediaPackagerTransformation.xsl; path = Core/XMLParser/MWMediaPackagerTransformation.xsl; sourceTree = "<group>"; };
 		5C91B98E086CC9DC00C14E1A /* Trigger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Trigger.h; path = Core/Triggers/Trigger.h; sourceTree = SOURCE_ROOT; };
 		5C91B98F086CC9DC00C14E1A /* Trigger.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Trigger.cpp; path = Core/Triggers/Trigger.cpp; sourceTree = SOURCE_ROOT; };
+		5CA078E510CED38F00000A95 /* PythonConduitTest.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = PythonConduitTest.py; sourceTree = "<group>"; };
+		5CA078E810CED4FD00000A95 /* PythonConduitServerTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PythonConduitServerTest.h; sourceTree = "<group>"; };
+		5CA078E910CED4FD00000A95 /* PythonConduitServerTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PythonConduitServerTest.cpp; sourceTree = "<group>"; };
+		5CA07B0D10D04E9100000A95 /* SimpleCodecUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleCodecUtilities.h; sourceTree = "<group>"; };
+		5CA07B0E10D04E9100000A95 /* SimpleCodecUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SimpleCodecUtilities.cpp; sourceTree = "<group>"; };
+		5CA07B2710D052DB00000A95 /* EventCallbackHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventCallbackHandler.h; sourceTree = "<group>"; };
+		5CA07B2810D052DB00000A95 /* EventCallbackHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventCallbackHandler.cpp; sourceTree = "<group>"; };
+		5CA07B8E10D0B23B00000A95 /* EventCallbackHandlerTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventCallbackHandlerTest.h; sourceTree = "<group>"; };
+		5CA07B8F10D0B23B00000A95 /* EventCallbackHandlerTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventCallbackHandlerTest.cpp; sourceTree = "<group>"; };
+		5CA07BB110D0B4D200000A95 /* CodecAwareConduitTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CodecAwareConduitTest.h; sourceTree = "<group>"; };
+		5CA07BB210D0B4D200000A95 /* CodecAwareConduitTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CodecAwareConduitTest.cpp; sourceTree = "<group>"; };
+		5CA07BE710D1187200000A95 /* CodecAwareConduit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CodecAwareConduit.h; sourceTree = "<group>"; };
+		5CA07BE810D1187200000A95 /* CodecAwareConduit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CodecAwareConduit.cpp; sourceTree = "<group>"; };
+		5CA07E5710D1A88100000A95 /* python_conduit_test.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = python_conduit_test.py; sourceTree = "<group>"; };
 		5CA9AD3010B5F9B500A04B67 /* VariableRegistryInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VariableRegistryInterface.h; path = Core/InterfaceHooks/VariableRegistryInterface.h; sourceTree = "<group>"; };
 		5CA9AD3110B5F9B500A04B67 /* VariableRegistryInterface.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = VariableRegistryInterface.cpp; path = Core/InterfaceHooks/VariableRegistryInterface.cpp; sourceTree = "<group>"; };
 		5CABA02D085E77B100FE4729 /* main.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = main.cpp; path = HeadlessServer/main.cpp; sourceTree = SOURCE_ROOT; };
@@ -1243,6 +1273,10 @@
 				5C2386B40E8D18FA00CDC4FC /* Conduit.cpp */,
 				5C724441109B2BC0004887A5 /* EventStreamConduit.h */,
 				5C724442109B2BC0004887A5 /* EventStreamConduit.cpp */,
+				5CA07B0D10D04E9100000A95 /* SimpleCodecUtilities.h */,
+				5CA07B0E10D04E9100000A95 /* SimpleCodecUtilities.cpp */,
+				5CA07BE710D1187200000A95 /* CodecAwareConduit.h */,
+				5CA07BE810D1187200000A95 /* CodecAwareConduit.cpp */,
 			);
 			path = Conduits;
 			sourceTree = "<group>";
@@ -1392,6 +1426,8 @@
 				0E0E76500B2DEEF0005964D1 /* BufferManagerTest.h */,
 				5C4238A009EE97820023EB90 /* ScarabEventTest.h */,
 				5C4238A109EE97820023EB90 /* ScarabEventTest.cpp */,
+				5CA07B8E10D0B23B00000A95 /* EventCallbackHandlerTest.h */,
+				5CA07B8F10D0B23B00000A95 /* EventCallbackHandlerTest.cpp */,
 			);
 			name = tests;
 			path = Core/Events/tests;
@@ -1455,6 +1491,24 @@
 			name = Triggers;
 			sourceTree = SOURCE_ROOT;
 		};
+		5CA078E410CED36F00000A95 /* tests */ = {
+			isa = PBXGroup;
+			children = (
+				5CA078E510CED38F00000A95 /* PythonConduitTest.py */,
+				5CA078E810CED4FD00000A95 /* PythonConduitServerTest.h */,
+				5CA078E910CED4FD00000A95 /* PythonConduitServerTest.cpp */,
+			);
+			name = tests;
+			sourceTree = "<group>";
+		};
+		5CA07E5610D1A86800000A95 /* examples */ = {
+			isa = PBXGroup;
+			children = (
+				5CA07E5710D1A88100000A95 /* python_conduit_test.py */,
+			);
+			name = examples;
+			sourceTree = "<group>";
+		};
 		5CAB9FCB085E770400FE4729 /* Headless Server */ = {
 			isa = PBXGroup;
 			children = (
@@ -1476,6 +1530,8 @@
 		5CB6C47F0E9A92DE006923EC /* Python Conduit */ = {
 			isa = PBXGroup;
 			children = (
+				5CA07E5610D1A86800000A95 /* examples */,
+				5CA078E410CED36F00000A95 /* tests */,
 				5CB6C4760E9A92CA006923EC /* PythonSimpleConduit.h */,
 				5CB6C4750E9A92CA006923EC /* PythonSimpleConduit.cpp */,
 				5CCE1D3D10A49C8D00EF5866 /* conduit.py */,
@@ -1532,6 +1588,8 @@
 				5C7A88260F818A38007B4724 /* SimpleConduitTest.h */,
 				5C25932A10AC95170098558D /* EventHandlerConduitTest.h */,
 				5C25932B10AC95180098558D /* EventHandlerConduitTest.cpp */,
+				5CA07BB110D0B4D200000A95 /* CodecAwareConduitTest.h */,
+				5CA07BB210D0B4D200000A95 /* CodecAwareConduitTest.cpp */,
 			);
 			path = tests;
 			sourceTree = "<group>";
@@ -1981,6 +2039,8 @@
 				686059620C91CD5A00CD0D16 /* EventListener.cpp */,
 				0E5338E70CB7404E004FF889 /* EventConstants.h */,
 				68FEE2310C9039EE002BCAE9 /* GenericEventFunctor.h */,
+				5CA07B2710D052DB00000A95 /* EventCallbackHandler.h */,
+				5CA07B2810D052DB00000A95 /* EventCallbackHandler.cpp */,
 			);
 			name = Events;
 			sourceTree = "<group>";
@@ -2120,6 +2180,9 @@
 				0EBCB90C0EFF42440032F669 /* XMLParserTest.h in Headers */,
 				5C7A88280F818A38007B4724 /* SimpleConduitTest.h in Headers */,
 				5C25932C10AC95180098558D /* EventHandlerConduitTest.h in Headers */,
+				5CA078EA10CED4FD00000A95 /* PythonConduitServerTest.h in Headers */,
+				5CA07B9010D0B23B00000A95 /* EventCallbackHandlerTest.h in Headers */,
+				5CA07BB310D0B4D200000A95 /* CodecAwareConduitTest.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2263,6 +2326,9 @@
 				5C35363D1064F30900FF0528 /* alc.h in Headers */,
 				5C724443109B2BC0004887A5 /* EventStreamConduit.h in Headers */,
 				5C76B41710BB226400F6D029 /* VariableRegistryInterface.h in Headers */,
+				5CA07B4D10D0560300000A95 /* SimpleCodecUtilities.h in Headers */,
+				5CA07B4E10D0560C00000A95 /* EventCallbackHandler.h in Headers */,
+				5CA07C5510D13A4700000A95 /* CodecAwareConduit.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2373,9 +2439,9 @@
 			productReference = 5C510B1A0CC8335700C771FB /* PyMonkeyWorks.bundle */;
 			productType = "com.apple.product-type.bundle";
 		};
-		5CDB8B230E9C4A6300993D99 /* mw_conduit */ = {
+		5CDB8B230E9C4A6300993D99 /* Python MW Conduit */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 5CDB8B260E9C4A8100993D99 /* Build configuration list for PBXNativeTarget "mw_conduit" */;
+			buildConfigurationList = 5CDB8B260E9C4A8100993D99 /* Build configuration list for PBXNativeTarget "Python MW Conduit" */;
 			buildPhases = (
 				5CDB8B210E9C4A6300993D99 /* Sources */,
 				5CDB8B220E9C4A6300993D99 /* Frameworks */,
@@ -2387,7 +2453,7 @@
 				5CCE1CD410A4692B00EF5866 /* PBXTargetDependency */,
 				5C4952AB1094AAF7002047A3 /* PBXTargetDependency */,
 			);
-			name = mw_conduit;
+			name = "Python MW Conduit";
 			productName = mw_conduit2;
 			productReference = 5CDB8B240E9C4A6300993D99 /* _conduit.so */;
 			productType = "com.apple.product-type.objfile";
@@ -2494,7 +2560,7 @@
 				0E8014110E422E2A00D6DE20 /* MarionetteTest */,
 				0E121C930E6B1EF7007B29B8 /* CoreUninstall */,
 				5CCE1CCF10A4692500EF5866 /* PyMW */,
-				5CDB8B230E9C4A6300993D99 /* mw_conduit */,
+				5CDB8B230E9C4A6300993D99 /* Python MW Conduit */,
 				5C488A160F4E27CD00C5A526 /* Set Version String */,
 			);
 		};
@@ -2523,6 +2589,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5CA078E610CED38F00000A95 /* PythonConduitTest.py in Resources */,
+				5CA07E5810D1A88100000A95 /* python_conduit_test.py in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2819,6 +2887,10 @@
 				0EBCB90D0EFF42440032F669 /* XMLParserTest.cpp in Sources */,
 				5C7A88270F818A38007B4724 /* SimpleConduitTest.cpp in Sources */,
 				5CA9AD3310B5F9B500A04B67 /* VariableRegistryInterface.cpp in Sources */,
+				5CA078EB10CED4FD00000A95 /* PythonConduitServerTest.cpp in Sources */,
+				5CA0792110CEDD1300000A95 /* EventHandlerConduitTest.cpp in Sources */,
+				5CA07B9110D0B23B00000A95 /* EventCallbackHandlerTest.cpp in Sources */,
+				5CA07BB410D0B4D200000A95 /* CodecAwareConduitTest.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2982,6 +3054,10 @@
 				0E2FE5A20EF00CC900CEB818 /* ParsedColorTrio.cpp in Sources */,
 				0EB142400EFB4EFD0056E2A2 /* IODeviceVariableNotification.cpp in Sources */,
 				5CA9ADA510B63E1700A04B67 /* VariableRegistryInterface.cpp in Sources */,
+				5CA0794F10CEDFBB00000A95 /* EventStreamConduit.cpp in Sources */,
+				5CA07B4B10D055F600000A95 /* EventCallbackHandler.cpp in Sources */,
+				5CA07B4C10D055FD00000A95 /* SimpleCodecUtilities.cpp in Sources */,
+				5CA07C5610D13A4B00000A95 /* CodecAwareConduit.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3043,7 +3119,7 @@
 		};
 		5C24578A1092550300338AA9 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 5CDB8B230E9C4A6300993D99 /* mw_conduit */;
+			target = 5CDB8B230E9C4A6300993D99 /* Python MW Conduit */;
 			targetProxy = 5C2457891092550300338AA9 /* PBXContainerItemProxy */;
 		};
 		5C3853F70AB7457800E52A63 /* PBXTargetDependency */ = {
@@ -4764,7 +4840,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
 		};
-		5CDB8B260E9C4A8100993D99 /* Build configuration list for PBXNativeTarget "mw_conduit" */ = {
+		5CDB8B260E9C4A8100993D99 /* Build configuration list for PBXNativeTarget "Python MW Conduit" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5CDB8B250E9C4A6300993D99 /* Development */,

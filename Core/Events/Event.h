@@ -50,7 +50,7 @@ namespace mw {
 		// when did this event occur
 		MonkeyWorksTime time;
 		
-	 Datum data;
+        Datum data;
 		shared_ptr<Event> nextEvent;
 		boost::mutex eventLock;
     public:       
@@ -61,6 +61,12 @@ namespace mw {
 		Event(const int _code, const Datum &data);
 		Event(ScarabDatum *datum);  // create an event from a ScarabDatum
         Event(){ } // for construction during deserialization
+        Event(const Event &e){
+            code = e.code;
+            time = e.time;
+            data = e.data;
+        }    
+        
         virtual ~Event() {}
 		
         /**
@@ -71,6 +77,10 @@ namespace mw {
 			return code;
 		}
 		
+        void setEventCode(int new_code){
+            code = new_code;
+        }
+        
         /**
          * Returns the event time.
          */

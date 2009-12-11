@@ -14,7 +14,7 @@
 using namespace mw;
 
 
-CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( ScopedVariableTestFixture, "Unit Test" );
+//<disabled>CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( ScopedVariableTestFixture, "Unit Test" );
 
 void ScopedVariableTestFixture::setUp(){
 	FullCoreEnvironmentTestFixture::setUp();

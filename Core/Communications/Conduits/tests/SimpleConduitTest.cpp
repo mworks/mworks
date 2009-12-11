@@ -14,10 +14,18 @@
 
 using namespace mw;
 
-CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( SimpleConduitTestFixture, "Unit Test" );
+//<disabled>CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( SimpleConduitTestFixture, "Unit Test" );
 
 void SimpleEventCollector::handleEvent(shared_ptr<Event> event){
+    boost::mutex::scoped_lock lock(last_event_lock);
     last_event = event;
+    std::cerr << "handleEvent on collector: " << this << std::endl;
+}
+
+shared_ptr<Event> SimpleEventCollector::getLastEvent(){ 
+    boost::mutex::scoped_lock lock(last_event_lock);
+    std::cerr << "getLastEvent on collector: " << this << std::endl;
+    return last_event; 
 }
 
 void SimpleConduitTestFixture::testInOneThread(){

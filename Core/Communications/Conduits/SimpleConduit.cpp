@@ -13,7 +13,7 @@
 
 using namespace mw;
 
-SimpleConduit::SimpleConduit(shared_ptr<EventTransport> _transport) :  Conduit(_transport){ }
+SimpleConduit::SimpleConduit(shared_ptr<EventTransport> _transport) :  Conduit(_transport), EventCallbackHandler(false){ }
 
 // Start the conduit working
 bool SimpleConduit::initialize(){ 
@@ -35,7 +35,10 @@ bool SimpleConduit::initialize(){
 
 SimpleConduit::~SimpleConduit(){
     
-    while(true){
+    int n_wait_attempts = 10;
+    int wait_count = 0;
+    while(wait_count < n_wait_attempts){
+        wait_count++;
         bool is_stopping, is_stopped;
         {
             boost::mutex::scoped_lock(stopping_mutex);
@@ -51,21 +54,36 @@ SimpleConduit::~SimpleConduit(){
             break;
         }
         
-        boost::thread::sleep(boost::posix_time::microsec_clock::local_time() + boost::posix_time::milliseconds(1));
+        boost::thread::sleep(boost::posix_time::microsec_clock::local_time() + boost::posix_time::milliseconds(100));
+    }
+    
+    if(wait_count >= n_wait_attempts){
+        std::cerr << "Simple conduit destruction timed out" << std::endl;
     }
 }
 
 
 void SimpleConduit::serviceIncomingEvents(){
     
-    while(1){
+    bool finished = false;
+    while(!finished){
+        
+        bool _stopping = false;
         
         {
             boost::mutex::scoped_lock(stopping_mutex);
-            if(stopping){
+            _stopping = stopping;
+        }
+        
+        
+        if(_stopping){
+            
+            {
+                boost::mutex::scoped_lock(stopping_mutex);
                 stopped = true;
-                break;
             }
+            finished = true;
+            break;
         }
         
         
@@ -78,11 +96,8 @@ void SimpleConduit::serviceIncomingEvents(){
             boost::thread::yield();
             continue;
         }
-        int event_code = incoming_event->getEventCode();
-        if(callbacks.find(event_code) != callbacks.end()){
-            callbacks[event_code](incoming_event);
-        }
         
+        handleCallbacks(incoming_event);
         
     }
 }
@@ -97,11 +112,19 @@ void SimpleConduit::finalize(){
         stopping = true;
     }   // release the lock
     
-    
-    while(true){  // wait for the all clear that the conduit has finished
+    int n_wait_attempts = 5;
+    int wait_count = 0;
+    while(wait_count < n_wait_attempts){  // wait for the all clear that the conduit has finished
         
-        boost::mutex::scoped_lock(stopping_mutex);
-        if(stopped){
+        wait_count++;
+        
+        bool _stopped = false;
+        {
+            boost::mutex::scoped_lock(stopping_mutex);
+            _stopped = stopped;
+        }
+        
+        if(_stopped){
             break;
         }
         
@@ -109,27 +132,22 @@ void SimpleConduit::finalize(){
     }
     
     
-}
-
-// Register an event callback
-void SimpleConduit::registerCallback(int event_code, event_callback functor){
-    if(running){
-        throw SimpleException("Cannot register a callback on an already-running conduit");
+    if(wait_count >= n_wait_attempts){
+        std::cerr << "Simple conduit finalization timed out" << std::endl;
     }
     
-    callbacks[event_code] = functor;
 }
 
 
-void SimpleConduit::registerCallback(string event_name, event_callback functor){
-    int event_code = -1;
-    
-    // lookup event code
-    
-    registerCallback(event_code, functor);
-    
-    sendData(ControlEventFactory::setEventForwardingControl(event_name, true));
-}
+//void SimpleConduit::registerCallback(string event_name, EventCallback functor){
+//    int event_code = -1;
+//    
+//    // lookup event code
+//    
+//    registerCallback(event_code, functor);
+//    
+//    sendData(ControlEventFactory::setEventForwardingControl(event_name, true));
+//}
 
 
 // Send data to the other side.  It is assumed that both sides understand 

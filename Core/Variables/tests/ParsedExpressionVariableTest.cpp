@@ -14,7 +14,7 @@
 #include "EventBuffer.h"
 using namespace mw;
 
-CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( ParsedExpressionVariableTestFixture, "Unit Test" );
+//<disabled>CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( ParsedExpressionVariableTestFixture, "Unit Test" );
 
 void ParsedExpressionVariableTestFixture::testSimpleExpression() {
 	

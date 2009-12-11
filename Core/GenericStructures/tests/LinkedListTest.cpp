@@ -10,7 +10,7 @@
 #include "LinkedListTest.h"
 using namespace mw;
 
-CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( LinkedListTestFixture, "Unit Test" );
+//<disabled>CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( LinkedListTestFixture, "Unit Test" );
 
 void LinkedListTestFixture::setUp(){
 	a = shared_ptr<StimulusNode>(new StimulusNode());

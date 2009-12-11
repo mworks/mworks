@@ -1,5 +1,5 @@
 /*
- *  EventStreamInterfaceConduitTest.cpp
+ *  EventStreamConduitTest.cpp
  *  MonkeyWorksCore
  *
  *  Created by David Cox on 11/12/09.
@@ -7,28 +7,28 @@
  *
  */
 
-#include "EventStreamInterfaceConduitTest.h"
+#include "EventHandlerConduitTest.h"
 
 #include "DummyEventTransport.h"
 #include "IPCEventTransport.h"
 #include "SimpleConduit.h"
-#include "DefaultEventStreamInterface.h"
+#include "ControlEventHandler.h"
 #include "StandardVariables.h"
 
 using namespace mw;
 
-CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( EventStreamInterfaceConduitTestFixture, "Unit Test" );
+////<disabled>CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( EventStreamConduitTestFixture, "Unit Test" );
 
 
-void EventStreamInterfaceConduitTestFixture::setUp(){
+void EventStreamConduitTestFixture::setUp(){
     FullCoreEnvironmentTestFixture::setUp();
     
-    event_handler = shared_ptr<EventStreamInterface>(new DefaultEventStreamInterface());
+    event_handler = shared_ptr<EventStreamInterface>(new ControlEventHandler());
 }
 
 
 
-void EventStreamInterfaceConduitTestFixture::testInOneThread(){
+void EventStreamConduitTestFixture::testInOneThread(){
     
     
     // Create Interprocess event transports. In principle, these could be
@@ -43,34 +43,35 @@ void EventStreamInterfaceConduitTestFixture::testInOneThread(){
     
     
     // Create the conduits to test
-    shared_ptr<EventStreamInterfaceConduit> server_conduit(new EventStreamInterfaceConduit(serverside_transport, event_handler));
+    shared_ptr<EventStreamConduit> server_conduit(new EventStreamConduit(serverside_transport, event_handler));
     server_conduit->initialize();
     
     shared_ptr<SimpleConduit> client_conduit(new SimpleConduit(clientside_transport));
     
     string var_to_use = ANNOUNCE_BLOCK_TAGNAME;
+    shared_ptr<Variable> a_standard_variable = global_variable_registry->getVariable(var_to_use);
     
     // Create some dummy event handlers.  The collector objects just catch
     // events and save them for inspection
     shared_ptr<SimpleEventCollector> serverside_collector(new SimpleEventCollector());
     shared_ptr<SimpleEventCollector> clientside_collector(new SimpleEventCollector());
+    
     //server_conduit.registerCallback(0, bind(&SimpleEventCollector::handleEvent, serverside_collector, _1));
-    client_conduit->registerCallback(var_to_use, bind(&SimpleEventCollector::handleEvent, clientside_collector, _1));
+    client_conduit->registerCallback(a_standard_variable->getCodecCode(), bind(&SimpleEventCollector::handleEvent, clientside_collector, _1));
     
     // Start the conduits runnings
-    
     client_conduit->initialize();
     
     shared_ptr<Clock> clock = Clock::instance();
     
-    clock->sleepMS(10000);
+    clock->sleepMS(100);
     
-    shared_ptr<Variable> a_standard_variable = global_variable_registry->getVariable(var_to_use);
+    
     
     a_standard_variable->setValue(4.0);
     //server_conduit.sendData(, Datum(4.0));
     
-    clock->sleepMS(10000);
+    clock->sleepMS(100);
     
     shared_ptr<Event> received_event = clientside_collector->getLastEvent();
     

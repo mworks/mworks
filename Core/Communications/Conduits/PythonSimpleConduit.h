@@ -7,7 +7,7 @@
  *
  */
 
-#include "SimpleConduit.h"
+#include "CodecAwareConduit.h"
 #include "IPCEventTransport.h"
 #include "DummyEventTransport.h"
 #include "Exceptions.h"
@@ -16,6 +16,7 @@
 #include "StandardServerCoreBuilder.h"
 
 #include <boost/python.hpp>
+
 namespace mw {
 using namespace boost::python;
 
@@ -31,9 +32,16 @@ public:
         function_object = _function_object;
     }
     
-    void callback(shared_ptr<Event> event){
+    void callback(shared_ptr<Event> evt){
         PyGILState_STATE gstate = PyGILState_Ensure();
-        function_object(boost::reference_wrapper<Event>(*(event.get())));
+        Event evt_copy(*evt);
+        
+        try {
+            function_object(evt_copy);
+        } catch (error_already_set &) {
+            PyErr_Print();
+        }
+        
         PyGILState_Release(gstate);
     }
 
@@ -47,7 +55,7 @@ class PythonIPCPseudoConduit {
 protected:
 
     std::string resource_name;
-    shared_ptr<SimpleConduit> conduit;
+    shared_ptr<CodecAwareConduit> conduit;
     bool initialized;
     
 public:
@@ -70,7 +78,7 @@ public:
             if(_transport == NULL){
                 throw SimpleException("Failed to create valid transport");
             }
-            conduit = shared_ptr<SimpleConduit>(new SimpleConduit(_transport));
+            conduit = shared_ptr<CodecAwareConduit>(new CodecAwareConduit(_transport));
         } catch(std::exception& e){
             initialized = false;
             throw SimpleException("Failed to build conduit: ", e.what());
@@ -107,8 +115,13 @@ public:
 
     virtual void registerCallbackForName(string event_name, boost::python::object function_object){
         
-        shared_ptr<PythonEventCallback> callback(new PythonEventCallback(function_object));
-        conduit->registerCallback(event_name, bind(&PythonEventCallback::callback, callback, _1));
+        shared_ptr<PythonEventCallback> cb(new PythonEventCallback(function_object));
+        conduit->registerCallbackByName(event_name, bind(&PythonEventCallback::callback, cb, _1));
+    }
+    
+    
+    virtual void registerLocalEventCode(int code, string event_name){
+        conduit->registerLocalEventCode(code, event_name);
     }
     
     virtual void finalize(){
@@ -217,33 +230,35 @@ BOOST_PYTHON_MODULE(_conduit)
     PyEval_InitThreads();
     
     class_<PythonIPCServerConduit>("IPCServerConduit", init<std::string>())
-        .def("initialize", &PythonIPCServerConduit::initialize)
+        .def("__initialize", &PythonIPCServerConduit::initialize)
         .def("finalize", &PythonIPCServerConduit::finalize)
         .def("send_float", &PythonIPCServerConduit::sendFloat)
         .def("send_integer", &PythonIPCServerConduit::sendInteger)
         .def("send_object", &PythonIPCServerConduit::sendPyObject)
         .def("register_callback_for_code", &PythonIPCServerConduit::registerCallbackForCode)
         .def("register_callback_for_name", &PythonIPCServerConduit::registerCallbackForName)
+        .def("register_local_event_code", &PythonIPCServerConduit::registerLocalEventCode)
         .add_property("initialized", &PythonIPCServerConduit::isInitialized)
     ;
 
     class_<PythonIPCClientConduit>("IPCClientConduit", init<std::string>())
-        .def("initialize", &PythonIPCClientConduit::initialize)
+        .def("__initialize", &PythonIPCClientConduit::initialize)
         .def("finalize", &PythonIPCClientConduit::finalize)
         .def("send_float", &PythonIPCClientConduit::sendFloat)
         .def("send_integer", &PythonIPCClientConduit::sendInteger)
         .def("send_object", &PythonIPCClientConduit::sendPyObject)
         .def("register_callback_for_code", &PythonIPCClientConduit::registerCallbackForCode)
         .def("register_callback_for_name", &PythonIPCClientConduit::registerCallbackForName)
+        .def("register_local_event_code", &PythonIPCClientConduit::registerLocalEventCode)
         .add_property("initialized", &PythonIPCClientConduit::isInitialized)
     ;
 
-    class_<Event, boost::noncopyable>("Event")
+    class_<Event>("Event")
         .add_property("code", &Event::getEventCode)
         .add_property("data", &Event::getData);
     ;
     
-    class_<Datum, boost::noncopyable>("Datum")
+    class_<Datum>("Datum")
         .add_property("float", &Datum::getFloat)
         .add_property("integer", &Datum::getInteger);
     ;

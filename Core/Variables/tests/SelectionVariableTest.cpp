@@ -15,7 +15,7 @@
 #include "Clock.h"
 using namespace mw;
 
-CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( SelectionVariableTestFixture, "Unit Test" );
+//<disabled>CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( SelectionVariableTestFixture, "Unit Test" );
 //CPPUNIT_TEST_SUITE_REGISTRATION( SelectionVariableTestFixture );
 
 

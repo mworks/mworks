@@ -17,7 +17,7 @@ SINGLETON_INSTANCE_STATIC_DECLARATION(Dummy)
 
 #define NUMBER_OF_SINGLETON_TEST_LOOPS 10
 
-CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( RegisteredSingletonTestFixture, "Unit Test" );
+//<disabled>CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( RegisteredSingletonTestFixture, "Unit Test" );
 
 void RegisteredSingletonTestFixture::setUp() {
 	boost::shared_ptr <Dummy> dummy_instance = Dummy::instance(false);

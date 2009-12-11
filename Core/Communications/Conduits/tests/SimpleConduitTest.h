@@ -49,13 +49,14 @@ class SimpleEventCollector {
 
 protected:
 
+    boost::mutex    last_event_lock;
     shared_ptr<Event> last_event;
     
 public:
 
     void handleEvent(shared_ptr<Event> event);
     
-    shared_ptr<Event> getLastEvent(){ return last_event; }
+    shared_ptr<Event> getLastEvent();
 };
 
 }

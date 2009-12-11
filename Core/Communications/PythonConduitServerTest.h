@@ -1,15 +1,14 @@
 /*
- *  EventStreamConduitTest.h
+ *  ConduitServerTest.h
  *  MonkeyWorksCore
  *
- *  Created by David Cox on 11/12/09.
+ *  Created by David Cox on 12/8/09.
  *  Copyright 2009 Harvard University. All rights reserved.
  *
  */
 
-
-#ifndef _EVENT_HANDLER_CONDUIT_TEST_H_
-#define _EVENT_HANDLER_CONDUIT_TEST_H_
+#ifndef _PYTHON_CONDUIT_SERVER_TEST_H_
+#define _PYTHON_CONDUIT_SERVER_TEST_H_
 
 #include <cppunit/TestCase.h>
 #include <cppunit/TestSuite.h>
@@ -24,10 +23,10 @@
 
 namespace mw {
     
-    class EventStreamConduitTestFixture : public FullCoreEnvironmentTestFixture {
+    class PythonConduitServerTestFixture : public FullCoreEnvironmentTestFixture {
         
         
-        CPPUNIT_TEST_SUITE( EventStreamConduitTestFixture );
+        CPPUNIT_TEST_SUITE( PythonConduitServerTestFixture );
         CPPUNIT_TEST( testInOneThread );
         CPPUNIT_TEST_SUITE_END();
         
@@ -41,8 +40,7 @@ namespace mw {
         void testInOneThread();
     };
     
-
+    
 }
 
 #endif
-

@@ -1,11 +1,11 @@
 /*
- *  EventStreamInterfaceConduit.cpp
+ *  EventStreamConduit.cpp
  *  MonkeyWorksCore
  *
  *  Created by David Cox on 10/30/09.
  *  Copyright 2009 Harvard University. All rights reserved.
  *
- *  @discussion  The EventStreamInterfaceConduit bridges from an interprocess transport
+ *  @discussion  The EventStreamConduit bridges from an interprocess transport
  *  to an existing EventStreamInterface object (prominent examples are the Server and
  *  Client objects which the GUI apps use to access core functionality)
  *
@@ -65,44 +65,110 @@
 
 using namespace mw;
 
-EventStreamInterfaceConduit::EventStreamInterfaceConduit(shared_ptr<EventTransport> _transport, shared_ptr<EventStreamInterface> _handler) : Conduit(_transport){
-    event_handler = _handler;
+
+int EventStreamConduit::count = 0;
+
+EventStreamConduit::EventStreamConduit(shared_ptr<EventTransport> _transport, shared_ptr<EventStreamInterface> _stream) : Conduit(_transport){
+    event_stream = _stream;
+    EventStreamConduit::count++;
+    callback_key = (boost::format("event_stream_interface_%1%") % EventStreamConduit::count).str();
 }
 
 
-bool EventStreamInterfaceConduit::initialize(){
+bool EventStreamConduit::initialize(){
     
     
-    // register a callback on the *event_handler* for the codec
-    event_handler->registerCallback(RESERVED_CODEC_CODE, boost::bind(&EventStreamInterfaceConduit::handleCodec, shared_from_this(), _1));
+    // register a callback on
+    event_stream->registerCallback(RESERVED_CODEC_CODE, boost::bind(&EventStreamConduit::handleCodecFromStream, shared_from_this(), _1));
+        
+    // request a codec from the stream side
+    event_stream->putEvent(ControlEventFactory::requestCodecControl());
     
-    // register a callback on *this conduit* for control events from the other side
-//    this->registerCallback(GlobalSystemEventVariable->getCodecCode(), boost::bind(&EventStreamInterfaceConduit::handleControlEvent, shared_from_this(), _1)); 
     
+    EventTransport::event_transport_directionality directionality = transport->getDirectionality();
+    if(directionality == EventTransport::read_only_event_transport ||
+       directionality == EventTransport::bidirectional_event_transport){
+        
+        // start a read thread to receive events and dispatch callbacks
+        read_thread = boost::thread(boost::bind(&EventStreamConduit::serviceIncomingEventsFromConduit, this));
+    }
     
-    // request a codec from the event_handler (a proxy to the rest of MW)
-    event_handler->putEvent(ControlEventFactory::requestCodecControl());
+    running = true;
     
-    return Conduit::initialize();
+    return true;
   
 }
 
 
-void EventStreamInterfaceConduit::rebuildCodesToForward(){
+void EventStreamConduit::finalize(){
+    
+    {   // tell the system to stop
+        boost::mutex::scoped_lock(stopping_mutex);
+        stopping = true;
+    }   // release the lock
+    
+    
+    while(true){  // wait for the all clear that the conduit has finished
+        
+        boost::mutex::scoped_lock(stopping_mutex);
+        if(stopped){
+            break;
+        }
+        
+        boost::thread::sleep(boost::posix_time::microsec_clock::local_time() + boost::posix_time::milliseconds(100));
+    }
+}
+
+void EventStreamConduit::rebuildStreamToConduitForwarding(){
     list<string>::iterator i;
     
-    codes_to_forward.clear();
+    // unregister any callbacks previously registered by this object
+    event_stream->unregisterCallbacks(callback_key);
     
-    // for each event named in events_to_forward (strings)
+    
+    // for each event named in events_to_forward (strings) register a callback
+    // using the event stream interface
     for(i = events_to_forward.begin(); i != events_to_forward.end(); i++){
         // that tag that we need to forward
         string tag_to_forward = *i;
         if(!tag_to_forward.empty()){
             // if the tag is listed
-            if(reverse_codec_map.find(tag_to_forward) != reverse_codec_map.end()){
-                int code = reverse_codec_map[tag_to_forward];
-                codes_to_forward.push_back(code);
+            if(stream_side_reverse_codec.find(tag_to_forward) != stream_side_reverse_codec.end()){
+                int code = stream_side_reverse_codec[tag_to_forward];
+                event_stream->registerCallback(code, boost::bind(&EventStreamConduit::sendData, shared_from_this(), _1), callback_key);
             }
         }
+    }
+
+}
+
+
+void EventStreamConduit::serviceIncomingEventsFromConduit(){
+    
+    while(1){
+        
+        {
+            boost::mutex::scoped_lock(stopping_mutex);
+            if(stopping){
+                stopped = true;
+                break;
+            }
+        }
+        
+        
+        if(transport == NULL){
+            throw SimpleException("Attempt to receive on a NULL event transport");
+        }
+        
+        shared_ptr<Event> incoming_event = transport->receiveEventAsynchronous();
+        if(incoming_event == NULL){
+            boost::thread::yield();
+            continue;
+        }
+        int event_code = incoming_event->getEventCode();
+        if(internal_callbacks.find(event_code) != internal_callbacks.end()){
+            internal_callbacks[event_code](incoming_event);
+        }
+        
     }
 }

@@ -16,6 +16,7 @@
 #include "Lockable.h"
 #include <string>
 #include <vector>
+#include <map>
 #include "AnyScalar.h"
 
 #include <boost/serialization/list.hpp>
@@ -28,6 +29,8 @@
 #include "Serialization.h"
 namespace mw {
 	
+    using namespace std;
+    
 #define M_NO_DATA   0      // JJD added Aug 16, 2005
 	
 #define INTERNALLY_LOCKED_MDATA 0
@@ -61,29 +64,67 @@ namespace mw {
 			 * Constructors:  All constructors create a scarab object that can
 			 * be sent over the network.  
 			 */
-		 Datum();
-		 Datum(GenericDataType type, const int arg);
-		 Datum(GenericDataType type, const double arg);
-		 Datum(const long value);
-		 Datum(const MonkeyWorksTime value);
-		 Datum(const double value);
-		 Datum(const float value);
-		 Datum(const bool value);
-		 Datum(const char * string);   
-		 Datum(const std::string &string); 
-		 Datum(const stx::AnyScalar);
+            Datum();
+            Datum(GenericDataType type, const int arg);
+            Datum(GenericDataType type, const double arg);
+            Datum(const long value);
+            Datum(const MonkeyWorksTime value);
+            Datum(const double value);
+            Datum(const float value);
+            Datum(const bool value);
+            Datum(const char * string);   
+            Datum(const std::string &string); 
+            Datum(const stx::AnyScalar);
 			
-			/**
+        
+        Datum( map<int, string> dict){
+                
+                int size = dict.size();
+                createDictionary(size);
+                
+                map<int,string>::iterator i;
+                for(i = dict.begin(); i != dict.end(); ++i){
+                    
+                    pair<int, string> key_val = *i;
+                    Datum key((long)key_val.first);
+                    Datum val((string)key_val.second);
+                    
+                    this->addElement(key, val);
+                }
+            }
+        
+
+            Datum(map<string, int> dict){
+                
+                int size = dict.size();
+                createDictionary(size);
+                
+                map<string,int>::iterator i;
+                for(i = dict.begin(); i != dict.end(); ++i){
+                    
+                    pair<string, int> key_val = *i;
+                    Datum key(key_val.first);
+                    Datum val((long)key_val.second);
+                    
+                    this->addElement(key, val);
+                }
+            }
+        
+        
+            /**
 			 * Overrides the default copy constructor to deeply copy
 			 * the scarab datum.
 			 */
-		 Datum(const Datum& that);
+             Datum(const Datum& that);
 			
 			/**
 			 * Copies the scarabdatum, deeply, used for receiving data events
 			 * on the network.
 			 */
-		 Datum(ScarabDatum * datum);
+            Datum(ScarabDatum * datum);
+        
+        
+        
 			
 			/**
 			 * Default Destructor.
@@ -137,7 +178,7 @@ namespace mw {
 			bool isNumber() const;
 			
 			// this will overwrite the default asssignment operator.
-		 Datum& operator=(const Datum& that);
+            Datum& operator=(const Datum& that);
 			
 			virtual operator long() const;		
 			virtual operator int() const;
@@ -190,7 +231,7 @@ namespace mw {
 			int getMaxElements() const;
 			
 			bool hasKey(const Datum &key) const;
-		 Datum getKey(const int n)  const;
+            Datum getKey(const int n)  const;
 			std::vector<Datum> getKeys() const;
 			
 			
@@ -199,8 +240,8 @@ namespace mw {
 			virtual void setElement(const int index, const Datum &value);
 			std::vector<Datum> getElements() const;
 			
-		 Datum getElement(const Datum &key) const;
-		 Datum getElement(const int i) const;
+            Datum getElement(const Datum &key) const;
+            Datum getElement(const int i) const;
 			
 			//  virtual Datum removeElement(const char * key);
 			

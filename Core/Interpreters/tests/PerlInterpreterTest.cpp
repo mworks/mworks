@@ -10,5 +10,5 @@
 #include "PerlInterpreterTest.h"
 using namespace mw;
 
-CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( PerlInterpreterTestFixture, "Unit Test" );
+//<disabled>CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( PerlInterpreterTestFixture, "Unit Test" );
 //CPPUNIT_TEST_SUITE_REGISTRATION( PerlInterpreterTestFixture );

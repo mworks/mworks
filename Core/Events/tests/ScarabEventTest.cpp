@@ -11,7 +11,7 @@
 #include "EventBuffer.h"
 using namespace mw;
 
-CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( ScarabEventTestFixture, "Unit Test" );
+//<disabled>CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( ScarabEventTestFixture, "Unit Test" );
 
 void ScarabEventTestFixture::setUp(){
   

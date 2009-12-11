@@ -43,7 +43,7 @@ void bmt_assert(const std::string &message,
 				const bool assertCondition);
 
 
-CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( BufferManagerTestFixture, "Unit Test" );
+//<disabled>CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( BufferManagerTestFixture, "Unit Test" );
 
 void BufferManagerTestFixture::setUp() {
 	shared_ptr <Clock> shared_clock = Clock::instance(false);

@@ -28,21 +28,19 @@
 #include <hash_map.h>
 
 #include "GenericEventFunctor.h"
+#include "SimpleCodecUtilities.h"
+
+#include "EventCallbackHandler.h"
 
 namespace mw {
 
-typedef boost::function< void (shared_ptr<Event>) >  event_callback;
 
-class SimpleConduit : public Conduit {
+class SimpleConduit : public Conduit, public EventCallbackHandler {
 
 protected:
-
-    hash_map<int, event_callback> callbacks;
     
     boost::thread read_thread;
-    
-
-    
+        
 public:
 
     SimpleConduit(shared_ptr<EventTransport> _transport);
@@ -62,16 +60,19 @@ public:
     // everything is done and the object can be safely destroyed.
     virtual void finalize();
     
-    // Register an event callback
-    virtual void registerCallback(int event_code, event_callback functor);
-    virtual void registerCallback(string event_name, event_callback functor);
-
     // Send data to the other side.  It is assumed that both sides understand 
     // what the event codes mean.
     virtual void sendData(int code, Datum data);
     virtual void sendData(shared_ptr<Event> evt);
     
+    
+
 };
+
+    
+
+
 }
+
 
 #endif

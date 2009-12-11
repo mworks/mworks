@@ -11,7 +11,7 @@
 #include "MonkeyWorksCore/TrialBuildingBlocks.h"
 #include "MonkeyWorksCore/GlobalVariable.h"
 
-//CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( TimerTestFixture, "Unit Test" );
+////<disabled>CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( TimerTestFixture, "Unit Test" );
 
 
 #include <mach/mach_types.h>
