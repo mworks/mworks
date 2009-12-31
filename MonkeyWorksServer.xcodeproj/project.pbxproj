@@ -29,6 +29,17 @@
 			name = "Set Version String";
 			productName = "Set Version String";
 		};
+		5C77F4B110E969C600919719 /* Everything */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 5C77F4C510E969E600919719 /* Build configuration list for PBXAggregateTarget "Everything" */;
+			buildPhases = (
+			);
+			dependencies = (
+				5C77F4B610E969CB00919719 /* PBXTargetDependency */,
+			);
+			name = Everything;
+			productName = Everything;
+		};
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
@@ -53,6 +64,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 5C488A6F0F4E291200C5A526;
 			remoteInfo = "Set Version String";
+		};
+		5C77F4B510E969CB00919719 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8D1107260486CEB800E47090;
+			remoteInfo = MonkeyWorksServer;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -254,6 +272,7 @@
 				8D1107260486CEB800E47090 /* MonkeyWorksServer */,
 				0E121BE30E6B1BA0007B29B8 /* UninstallServer */,
 				5C488A6F0F4E291200C5A526 /* Set Version String */,
+				5C77F4B110E969C600919719 /* Everything */,
 			);
 		};
 /* End PBXProject section */
@@ -335,6 +354,11 @@
 			target = 5C488A6F0F4E291200C5A526 /* Set Version String */;
 			targetProxy = 5C488A720F4E293300C5A526 /* PBXContainerItemProxy */;
 		};
+		5C77F4B610E969CB00919719 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8D1107260486CEB800E47090 /* MonkeyWorksServer */;
+			targetProxy = 5C77F4B510E969CB00919719 /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
@@ -357,12 +381,12 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		0E121BE40E6B1BA0007B29B8 /* Debug */ = {
+		0E121BE40E6B1BA0007B29B8 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = UninstallServer;
 			};
-			name = Debug;
+			name = Development;
 		};
 		0E121BE50E6B1BA0007B29B8 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -370,7 +394,7 @@
 			};
 			name = Release;
 		};
-		5C488A700F4E291200C5A526 /* Debug */ = {
+		5C488A700F4E291200C5A526 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
@@ -378,7 +402,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				PRODUCT_NAME = "Set Version String";
 			};
-			name = Debug;
+			name = Development;
 		};
 		5C488A710F4E291200C5A526 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -391,7 +415,35 @@
 			};
 			name = Release;
 		};
-		5C9EE5061073A81F0051414D /* Debug (10.5 Compatible) */ = {
+		5C77F4B210E969C600919719 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = Everything;
+			};
+			name = Development;
+		};
+		5C77F4B310E969C600919719 /* Development (10.5 Compatible) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = Everything;
+			};
+			name = "Development (10.5 Compatible)";
+		};
+		5C77F4B410E969C600919719 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				PRODUCT_NAME = Everything;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		5C9EE5061073A81F0051414D /* Development (10.5 Compatible) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				APP_SUPPORT_DIR = "/Library/Application Support/MonkeyWorks";
@@ -416,9 +468,9 @@
 				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
 				VERSION_STRING = NO_VERSION_SPECIFIED;
 			};
-			name = "Debug (10.5 Compatible)";
+			name = "Development (10.5 Compatible)";
 		};
-		5C9EE5071073A81F0051414D /* Debug (10.5 Compatible) */ = {
+		5C9EE5071073A81F0051414D /* Development (10.5 Compatible) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CONFIG_DIR = "$(APP_SUPPORT_DIR)/Configuration";
@@ -432,16 +484,16 @@
 				VERSIONS_DIR = "$(CONFIG_DIR)/Versions";
 				WRAPPER_EXTENSION = app;
 			};
-			name = "Debug (10.5 Compatible)";
+			name = "Development (10.5 Compatible)";
 		};
-		5C9EE5081073A81F0051414D /* Debug (10.5 Compatible) */ = {
+		5C9EE5081073A81F0051414D /* Development (10.5 Compatible) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = UninstallServer;
 			};
-			name = "Debug (10.5 Compatible)";
+			name = "Development (10.5 Compatible)";
 		};
-		5C9EE5091073A81F0051414D /* Debug (10.5 Compatible) */ = {
+		5C9EE5091073A81F0051414D /* Development (10.5 Compatible) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
@@ -449,9 +501,9 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				PRODUCT_NAME = "Set Version String";
 			};
-			name = "Debug (10.5 Compatible)";
+			name = "Development (10.5 Compatible)";
 		};
-		C01FCF4B08A954540054247B /* Debug */ = {
+		C01FCF4B08A954540054247B /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CONFIG_DIR = "$(APP_SUPPORT_DIR)/Configuration";
@@ -466,7 +518,7 @@
 				VERSIONS_DIR = "$(CONFIG_DIR)/Versions";
 				WRAPPER_EXTENSION = app;
 			};
-			name = Debug;
+			name = Development;
 		};
 		C01FCF4C08A954540054247B /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -479,7 +531,7 @@
 			};
 			name = Release;
 		};
-		C01FCF4F08A954540054247B /* Debug */ = {
+		C01FCF4F08A954540054247B /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				APP_SUPPORT_DIR = "/Library/Application Support/MonkeyWorks";
@@ -504,7 +556,7 @@
 				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
 				VERSION_STRING = NO_VERSION_SPECIFIED;
 			};
-			name = Debug;
+			name = Development;
 		};
 		C01FCF5008A954540054247B /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -527,42 +579,52 @@
 		0E121BE90E6B1BC1007B29B8 /* Build configuration list for PBXAggregateTarget "UninstallServer" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				0E121BE40E6B1BA0007B29B8 /* Debug */,
-				5C9EE5081073A81F0051414D /* Debug (10.5 Compatible) */,
+				0E121BE40E6B1BA0007B29B8 /* Development */,
+				5C9EE5081073A81F0051414D /* Development (10.5 Compatible) */,
 				0E121BE50E6B1BA0007B29B8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
+			defaultConfigurationName = Development;
 		};
 		5C488A7F0F4E293D00C5A526 /* Build configuration list for PBXAggregateTarget "Set Version String" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				5C488A700F4E291200C5A526 /* Debug */,
-				5C9EE5091073A81F0051414D /* Debug (10.5 Compatible) */,
+				5C488A700F4E291200C5A526 /* Development */,
+				5C9EE5091073A81F0051414D /* Development (10.5 Compatible) */,
 				5C488A710F4E291200C5A526 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
+			defaultConfigurationName = Development;
+		};
+		5C77F4C510E969E600919719 /* Build configuration list for PBXAggregateTarget "Everything" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5C77F4B210E969C600919719 /* Development */,
+				5C77F4B310E969C600919719 /* Development (10.5 Compatible) */,
+				5C77F4B410E969C600919719 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
 		};
 		C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "MonkeyWorksServer" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				C01FCF4B08A954540054247B /* Debug */,
-				5C9EE5071073A81F0051414D /* Debug (10.5 Compatible) */,
+				C01FCF4B08A954540054247B /* Development */,
+				5C9EE5071073A81F0051414D /* Development (10.5 Compatible) */,
 				C01FCF4C08A954540054247B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
+			defaultConfigurationName = Development;
 		};
 		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "MonkeyWorksServer" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				C01FCF4F08A954540054247B /* Debug */,
-				5C9EE5061073A81F0051414D /* Debug (10.5 Compatible) */,
+				C01FCF4F08A954540054247B /* Development */,
+				5C9EE5061073A81F0051414D /* Development (10.5 Compatible) */,
 				C01FCF5008A954540054247B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
+			defaultConfigurationName = Development;
 		};
 /* End XCConfigurationList section */
 	};

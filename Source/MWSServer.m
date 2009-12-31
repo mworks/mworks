@@ -29,7 +29,8 @@
 	self = [super init];
 	if (self != nil) {
 		core = boost::shared_ptr <Server>(new Server());
-		
+		core_as_esi = static_pointer_cast<EventStreamInterface>(core);
+        
 		NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 		listeningAddress = [defaults objectForKey:LISTENING_ADDRESS_KEY];
 

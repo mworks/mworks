@@ -18,6 +18,7 @@
 @interface MWSServer : MWClientServerBase {
 
 	boost::shared_ptr<Server> core;
+    boost::shared_ptr<EventStreamInterface> core_as_esi; // technical reasons for needing this handle
 	MWConsoleController *cc;
 	
 	IBOutlet MWSToolbarControl *tc;
