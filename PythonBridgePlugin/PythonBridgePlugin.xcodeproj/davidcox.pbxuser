@@ -1,0 +1,314 @@
+// !$*UTF8*$!
+{
+	089C1669FE841209C02AAC07 /* Project object */ = {
+		activeBuildConfigurationName = "Development (10.5 Compatible)";
+		activeExecutable = 5C28617110E0A519004DA219 /* Client */;
+		activeTarget = 8D57630D048677EA00EA77CD /* PythonBridgePlugin */;
+		addToTargets = (
+			8D57630D048677EA00EA77CD /* PythonBridgePlugin */,
+		);
+		breakpoints = (
+			5C85E07E10EC05BF003CD8B3 /* PythonBridgeController.m:112 */,
+		);
+		codeSenseManager = 5CA07FD510E04EE400000A95 /* Code sense */;
+		executables = (
+			5C28617110E0A519004DA219 /* Client */,
+		);
+		perUserDictionary = {
+			PBXConfiguration.PBXFileTableDataSource3.PBXExecutablesDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXExecutablesDataSource_NameID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					22,
+					300,
+					556,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXExecutablesDataSource_ActiveFlagID,
+					PBXExecutablesDataSource_NameID,
+					PBXExecutablesDataSource_CommentsID,
+				);
+			};
+			PBXConfiguration.PBXFileTableDataSource3.PBXFileTableDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					20,
+					668,
+					20,
+					48,
+					43,
+					43,
+					20,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXFileDataSource_FiletypeID,
+					PBXFileDataSource_Filename_ColumnID,
+					PBXFileDataSource_Built_ColumnID,
+					PBXFileDataSource_ObjectSize_ColumnID,
+					PBXFileDataSource_Errors_ColumnID,
+					PBXFileDataSource_Warnings_ColumnID,
+					PBXFileDataSource_Target_ColumnID,
+				);
+			};
+			PBXConfiguration.PBXFileTableDataSource3.PBXFindDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXFindDataSource_LocationID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					200,
+					682,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXFindDataSource_MessageID,
+					PBXFindDataSource_LocationID,
+				);
+			};
+			PBXConfiguration.PBXTargetDataSource.PBXTargetDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					20,
+					628,
+					60,
+					20,
+					48,
+					43,
+					43,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXFileDataSource_FiletypeID,
+					PBXFileDataSource_Filename_ColumnID,
+					PBXTargetDataSource_PrimaryAttribute,
+					PBXFileDataSource_Built_ColumnID,
+					PBXFileDataSource_ObjectSize_ColumnID,
+					PBXFileDataSource_Errors_ColumnID,
+					PBXFileDataSource_Warnings_ColumnID,
+				);
+			};
+			PBXPerProjectTemplateStateSaveDate = 283902110;
+			PBXWorkspaceStateSaveDate = 283902110;
+		};
+		perUserProjectItems = {
+			5C28617710E0A525004DA219 /* PBXTextBookmark */ = 5C28617710E0A525004DA219 /* PBXTextBookmark */;
+			5C77F01B10E422A700919719 /* PBXTextBookmark */ = 5C77F01B10E422A700919719 /* PBXTextBookmark */;
+			5C77F65110EA688400919719 /* PBXTextBookmark */ = 5C77F65110EA688400919719 /* PBXTextBookmark */;
+			5C85E08210EC05C4003CD8B3 /* PBXTextBookmark */ = 5C85E08210EC05C4003CD8B3 /* PBXTextBookmark */;
+			5C85E0E310EC55FC003CD8B3 /* PBXTextBookmark */ = 5C85E0E310EC55FC003CD8B3 /* PBXTextBookmark */;
+			5C85E0E410EC55FC003CD8B3 /* PBXTextBookmark */ = 5C85E0E410EC55FC003CD8B3 /* PBXTextBookmark */;
+			5C85E0EB10EC574E003CD8B3 /* PBXTextBookmark */ = 5C85E0EB10EC574E003CD8B3 /* PBXTextBookmark */;
+		};
+		sourceControlManager = 5CA07FD410E04EE400000A95 /* Source Control */;
+		userBuildSettings = {
+		};
+	};
+	5C28608710E08559004DA219 /* ScarabServices.h */ = {
+		isa = PBXFileReference;
+		lastKnownFileType = sourcecode.c.h;
+		name = ScarabServices.h;
+		path = /Developer/SDKs/MacOSX10.6.sdk/Library/Frameworks/MonkeyWorksCore.framework/Headers/ScarabServices.h;
+		sourceTree = "<absolute>";
+	};
+	5C28617110E0A519004DA219 /* Client */ = {
+		isa = PBXExecutable;
+		activeArgIndices = (
+		);
+		argumentStrings = (
+		);
+		autoAttachOnCrash = 1;
+		breakpointsEnabled = 0;
+		configStateDict = {
+			"PBXLSLaunchAction-0" = {
+				PBXLSLaunchAction = 0;
+				PBXLSLaunchStartAction = 1;
+				PBXLSLaunchStdioStyle = 2;
+				PBXLSLaunchStyle = 0;
+				class = PBXLSRunLaunchConfig;
+				commandLineArgs = (
+				);
+				displayName = "Executable Runner";
+				environment = {
+				};
+				identifier = com.apple.Xcode.launch.runConfig;
+				remoteHostInfo = "";
+				startActionInfo = "";
+			};
+		};
+		customDataFormattersEnabled = 1;
+		dataTipCustomDataFormattersEnabled = 1;
+		dataTipShowTypeColumn = 1;
+		dataTipSortType = 0;
+		debuggerPlugin = GDBDebugging;
+		disassemblyDisplayState = 0;
+		dylibVariantSuffix = "";
+		enableDebugStr = 1;
+		environmentEntries = (
+		);
+		executableSystemSymbolLevel = 0;
+		executableUserSymbolLevel = 0;
+		launchableReference = 5C28617210E0A51A004DA219 /* MWClient.app */;
+		libgmallocEnabled = 0;
+		name = Client;
+		savedGlobals = {
+		};
+		showTypeColumn = 0;
+		sourceDirectories = (
+		);
+		variableFormatDictionary = {
+		};
+	};
+	5C28617210E0A51A004DA219 /* MWClient.app */ = {
+		isa = PBXFileReference;
+		lastKnownFileType = wrapper.application;
+		name = MWClient.app;
+		path = /Applications/MWClient.app;
+		sourceTree = "<absolute>";
+	};
+	5C28617710E0A525004DA219 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 5C28617810E0A525004DA219 /* SimpleConduit.h */;
+		name = "SimpleConduit.h: 79";
+		rLen = 0;
+		rLoc = 1857;
+		rType = 0;
+		vrLen = 676;
+		vrLoc = 936;
+	};
+	5C28617810E0A525004DA219 /* SimpleConduit.h */ = {
+		isa = PBXFileReference;
+		lastKnownFileType = sourcecode.c.h;
+		name = SimpleConduit.h;
+		path = /Developer/SDKs/MacOSX10.6.sdk/Library/Frameworks/MonkeyWorksCore.framework/Headers/SimpleConduit.h;
+		sourceTree = "<absolute>";
+	};
+	5C77F01B10E422A700919719 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 5C28608710E08559004DA219 /* ScarabServices.h */;
+		name = "ScarabServices.h: 22";
+		rLen = 0;
+		rLoc = 454;
+		rType = 0;
+		vrLen = 865;
+		vrLoc = 551;
+	};
+	5C77F4FD10E96A4E00919719 /* Everything */ = {
+		activeExec = 0;
+	};
+	5C77F50510E96A5600919719 /* function_template.hpp */ = {
+		isa = PBXFileReference;
+		lastKnownFileType = sourcecode.cpp.h;
+		name = function_template.hpp;
+		path = "/Library/Application Support/MonkeyWorks/Developer/gcc40/include/boost/function/function_template.hpp";
+		sourceTree = "<absolute>";
+	};
+	5C77F65110EA688400919719 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 5C77F50510E96A5600919719 /* function_template.hpp */;
+		name = "function_template.hpp: 888";
+		rLen = 0;
+		rLoc = 29655;
+		rType = 0;
+		vrLen = 740;
+		vrLoc = 29185;
+	};
+	5C77F93A10EBF13C00919719 /* backward_warning.h */ = {
+		isa = PBXFileReference;
+		lastKnownFileType = sourcecode.c.h;
+		name = backward_warning.h;
+		path = "/Developer/SDKs/MacOSX10.5.sdk/usr/include/c++/4.0.0/backward/backward_warning.h";
+		sourceTree = "<absolute>";
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {700, 600}}";
+			sepNavSelRange = "{1475, 0}";
+			sepNavVisRange = "{1198, 648}";
+		};
+	};
+	5C85E07E10EC05BF003CD8B3 /* PythonBridgeController.m:112 */ = {
+		isa = PBXFileBreakpoint;
+		actions = (
+		);
+		breakpointStyle = 0;
+		continueAfterActions = 0;
+		countType = 0;
+		delayBeforeContinue = 0;
+		fileReference = 5CA0800810E04F1E00000A95 /* PythonBridgeController.m */;
+		functionName = "-launchScriptChooserSheet";
+		hitCount = 1;
+		ignoreCount = 0;
+		lineNumber = 112;
+		location = PythonBridgePlugin;
+		modificationTime = 283922162.603596;
+		originalNumberOfMultipleMatches = 1;
+		state = 1;
+	};
+	5C85E08210EC05C4003CD8B3 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 5C77F93A10EBF13C00919719 /* backward_warning.h */;
+		name = "backward_warning.h: 12";
+		rLen = 0;
+		rLoc = 552;
+		rType = 0;
+		vrLen = 1442;
+		vrLoc = 411;
+	};
+	5C85E0E310EC55FC003CD8B3 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 5CA0800710E04F1E00000A95 /* PythonBridgeController.h */;
+		name = "PythonBridgeController.h: 46";
+		rLen = 0;
+		rLoc = 1273;
+		rType = 0;
+		vrLen = 702;
+		vrLoc = 792;
+	};
+	5C85E0E410EC55FC003CD8B3 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 5CA0800810E04F1E00000A95 /* PythonBridgeController.m */;
+		name = "PythonBridgeController.m: 48";
+		rLen = 0;
+		rLoc = 1573;
+		rType = 0;
+		vrLen = 919;
+		vrLoc = 931;
+	};
+	5C85E0EB10EC574E003CD8B3 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 5CA0800810E04F1E00000A95 /* PythonBridgeController.m */;
+		name = "PythonBridgeController.m: 55";
+		rLen = 0;
+		rLoc = 1669;
+		rType = 0;
+		vrLen = 839;
+		vrLoc = 1358;
+	};
+	5CA07FD410E04EE400000A95 /* Source Control */ = {
+		isa = PBXSourceControlManager;
+		fallbackIsa = XCSourceControlManager;
+		isSCMEnabled = 0;
+		scmConfiguration = {
+			repositoryNamesForRoots = {
+				"" = "";
+			};
+		};
+	};
+	5CA07FD510E04EE400000A95 /* Code sense */ = {
+		isa = PBXCodeSenseManager;
+		indexTemplatePath = "";
+	};
+	5CA0800710E04F1E00000A95 /* PythonBridgeController.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {846, 1080}}";
+			sepNavSelRange = "{1273, 0}";
+			sepNavVisRange = "{792, 702}";
+		};
+	};
+	5CA0800810E04F1E00000A95 /* PythonBridgeController.m */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1202, 4185}}";
+			sepNavSelRange = "{3781, 0}";
+			sepNavVisRange = "{3381, 429}";
+		};
+	};
+	8D57630D048677EA00EA77CD /* PythonBridgePlugin */ = {
+		activeExec = 0;
+	};
+}
