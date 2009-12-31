@@ -1,7 +1,7 @@
 <MWElements>
 	<MWElement name="MSSW Gamepad, event driven">
 		<!-- XPath 2.0 expression defining nodes of this type -->
-		<match_signature>iodevice[@type='sidewinder_gamepad', @data_type='event']</match_signature>
+		<match_signature>iodevice[@type='sidewinder_gamepad' and @data_type='event']</match_signature>
 		
 		<!-- Inheritance -->
 		<isa>IODevice</isa>
@@ -16,9 +16,12 @@
 			<iodevice tag="MSSWGamepad" priority="" data_type="event" type="sidewinder_gamepad" data_interval="50ms" up="" down="" left="" right="" trigger_right="" trigger_left="" a="" b="" x="" y=""/>
 			</code>
 		</MWElement>	
-	<MWElement name="MSSW Gamepad, continuous">
+	
+    
+    
+    <MWElement name="MSSW Gamepad, continuous">
 		<!-- XPath 2.0 expression defining nodes of this type -->
-		<match_signature>iodevice[@type='sidewinder_gamepad', @data_type='continuous']</match_signature>
+		<match_signature>iodevice[@type='sidewinder_gamepad' and @data_type='continuous']</match_signature>
 		
 		<!-- Inheritance -->
 		<isa>IODevice</isa>

@@ -61,11 +61,14 @@ shared_ptr<mw::Component> NE500DeviceFactory::createObject(std::map<std::string,
     
 	string address = (string)(address_variable->getValue());
 	//string address = parameters["address"];
-	int port = reg->getNumber(parameters["port"]);
+	shared_ptr<Variable> port = reg->getVariable(parameters["port"]);
     shared_ptr <Component> newDevice;
     
-
-    newDevice = shared_ptr<Component>(new NE500PumpNetworkDevice(address, port));
+    int port_number = -1;
+    if(port != NULL){
+        port_number = port->getValue();
+    }
+    newDevice = shared_ptr<Component>(new NE500PumpNetworkDevice(address, port_number));
 	
     return newDevice;
 }
