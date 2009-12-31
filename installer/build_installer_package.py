@@ -132,8 +132,10 @@ os.system("mkdir -p %s" % quote(mw_subcomponent_package_path))
 
 mw_version = version_string
 
-for pkg in packages:
-    build_package(install_root + "/" + pkg , mw_version, "/", "%s.pkg" % (pkg))
-    os.system("mv %s.pkg %s/" % (pkg, quote(mw_subcomponent_package_path + "/")))
-
-build_metapackage(os.path.dirname(__file__) + "/mw_installer.pmdoc", mw_version, install_root, installer_name)
+print "Automatic package building is currently disabled.  Please use the PackageMaker GUI to build the full installer"
+os.system("open /Developer/Applications/Utilities/PackageMaker.app")
+# for pkg in packages:
+#     build_package(install_root + "/" + pkg , mw_version, "/", "%s.pkg" % (pkg))
+#     os.system("mv %s.pkg %s/" % (pkg, quote(mw_subcomponent_package_path + "/")))
+# 
+# build_metapackage(os.path.dirname(__file__) + "/mw_installer.pmdoc", mw_version, install_root, installer_name)

@@ -75,7 +75,7 @@ for repo in repositories:
         
         tag_id = sys.argv[2]
         os.chdir("%s/%s" % (repository_path, repo))
-        command_string = "git tag %s" % tag_id
+        command_string = "git tag %s; git push --tags" % tag_id
         print("%s (%s): \n>>> %s" % (repo, os.getcwd(), command_string))
         os.system(command_string)
         print("\n")
