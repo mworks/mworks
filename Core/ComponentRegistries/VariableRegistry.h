@@ -92,7 +92,7 @@ class VariableRegistry : public stx::BasicSymbolTable {
 
 private:	
 	
-	int currentUnique; // the next unique number to be added to codec.
+	int current_unique_code; // the next unique number to be added to codec.
 	
 	boost::mutex lock;
 	
@@ -131,7 +131,6 @@ protected:
 	shared_ptr<SelectionVariable> addSelectionVariable(VariableProperties *p = NULL);
 	
 	shared_ptr<ConstantVariable> addConstantVariable(Datum value);
-	shared_ptr<EmptyVariable> addPlaceholderVariable(VariableProperties *p = NULL);
 	
 
 public:
@@ -141,7 +140,6 @@ public:
 	
     void reset();
     
-	void addPlaceholders();
 	
 	// ********************************************************
 	// Accessor methods
@@ -197,7 +195,7 @@ public:
 	 * objects hold all the essential information about a variable.
 	 * This includes its default value, name, logging among others.
 	 */
- Datum generateCodecDatum();
+    Datum generateCodecDatum();
     Datum generateReverseCodecDatum();
     map<int, string> generateCodecMap();
     map<string, int> generateReverseCodecMap();

@@ -70,7 +70,7 @@ protected:
 public:
 	
 	ActionVariableNotification(shared_ptr<Action> _action);
-	virtual void notify(const Datum&, MonkeyWorksTime time);
+	virtual void notify(const Datum&, MWTime time);
 	
 };
 

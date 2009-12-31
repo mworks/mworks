@@ -59,9 +59,9 @@ class VarTransformAdaptor : public Lockable, public mw::Component {
         // (methods to modify data values in one or more of the registered variables)
 		//  the derived class should use one of these calls if it wants to post output variables
 		//bool postResults(Datum dataVector[]);		
-        bool postResults(const Datum& dataVector, MonkeyWorksTime timeUS);	
+        bool postResults(const Datum& dataVector, MWTime timeUS);	
         bool postResults(int outputIndex, const Datum& data);
-        bool postResults(int outputIndex, const Datum& data, MonkeyWorksTime timeUS);
+        bool postResults(int outputIndex, const Datum& data, MWTime timeUS);
         
         int  getNumInputs() {return nInputs;};
         int  getNumOutputs() {return nOutputs;};
@@ -90,7 +90,7 @@ class VarTransformAdaptor : public Lockable, public mw::Component {
         //   and the data argument has the new value
 		// this is the thing that the derived classes should override
 		virtual void newDataReceived(int inputIndex, const Datum& data, 
-                                                MonkeyWorksTime timeUS);
+                                                MWTime timeUS);
         virtual void reset() {};  // method to allow reseting of object
         
 };
@@ -108,7 +108,7 @@ class VarTransformNotification : public VariableNotification{
 		VarTransformNotification(VarTransformAdaptor *_varTransformAdaptor, 
                                                                 int inputIndex);
 		~VarTransformNotification();		
-		virtual void notify(const Datum& data, MonkeyWorksTime timeUS);
+		virtual void notify(const Datum& data, MWTime timeUS);
 
 };
 }

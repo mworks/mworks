@@ -54,17 +54,17 @@ void mgeneric_printf(int type, const char *format, ...);
  */
 void mdebug(const char* format, ...);
 
-static inline MonkeyWorksTime MIN_MONKEY_WORKS_TIME() {
-	MonkeyWorksTime min = 1;
-	for(unsigned int i=0; i<(sizeof(MonkeyWorksTime)*8)-1; ++i) {
+static inline MWTime MIN_MONKEY_WORKS_TIME() {
+	MWTime min = 1;
+	for(unsigned int i=0; i<(sizeof(MWTime)*8)-1; ++i) {
 		min = min << 1;
 	}
 	return min;
 }
 
-static inline MonkeyWorksTime MAX_MONKEY_WORKS_TIME() {
-	MonkeyWorksTime max = 0;
-	MonkeyWorksTime min = MIN_MONKEY_WORKS_TIME();
+static inline MWTime MAX_MONKEY_WORKS_TIME() {
+	MWTime max = 0;
+	MWTime min = MIN_MONKEY_WORKS_TIME();
 	max = ~max;
 	max = max ^ min;
 	return max;

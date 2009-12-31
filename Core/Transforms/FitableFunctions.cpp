@@ -67,7 +67,7 @@ double SecondOrderBasisFunction::applyBasis(double *inputVector) {
 
 
 
-FitableSample::FitableSample(Datum *_pDataInputVector, Datum _desiredOutputData, MonkeyWorksTime _timeUS) {
+FitableSample::FitableSample(Datum *_pDataInputVector, Datum _desiredOutputData, MWTime _timeUS) {
     pDataInputVector = _pDataInputVector;
     desiredOutputData = _desiredOutputData;
     timeUS = _timeUS;
@@ -85,7 +85,7 @@ Datum FitableSample::getOutputData() {
     return desiredOutputData;
 }
 
-MonkeyWorksTime FitableSample::getTime() {
+MWTime FitableSample::getTime() {
     return timeUS;
 }
 
@@ -110,7 +110,7 @@ FitableFunction::~FitableFunction() {
 }
 
 void FitableFunction::acceptDataForFit(Datum *pInputData, 
-                            Datum desiredOutputData, MonkeyWorksTime timeUS) {
+                            Datum desiredOutputData, MWTime timeUS) {
       
     lock();      
     
@@ -147,7 +147,7 @@ void FitableFunction::flushOldData() {
     unlock();    
 }
 
-void FitableFunction::flushOldData(MonkeyWorksTime flushDataOlderThanThisTimeUS) {
+void FitableFunction::flushOldData(MWTime flushDataOlderThanThisTimeUS) {
 
 
     lock();    
@@ -326,7 +326,7 @@ bool LinearFitableFunction::fitTheFunction() {
         Datum *inputVector = sampleToFit->getInputVector();
         
         if (VERBOSE_FITABLE_FUNCTION>1) {
-            MonkeyWorksTime timeUS = sampleToFit->getTime();        // testing only
+            MWTime timeUS = sampleToFit->getTime();        // testing only
             mprintf("Fitable function: datum %d timeUS = %d",n, (long)timeUS);
         }
 

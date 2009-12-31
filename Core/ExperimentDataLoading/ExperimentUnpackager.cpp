@@ -13,7 +13,7 @@
 #include "Scarab/scarab.h"
 #include "Utilities.h"
 #include "LoadingUtilities.h"
-#include "ControlEventFactory.h"
+#include "SystemEventFactory.h"
 #include <iostream>
 #include <fstream>
 #include "PlatformDependentServices.h"

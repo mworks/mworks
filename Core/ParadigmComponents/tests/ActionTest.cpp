@@ -647,7 +647,7 @@ void ActionTestFixture::testAssertWithVariableAtEnd() {
 void ActionTestFixture::testScheduledAssignment() {
 	std::cerr << "Running  ActionTestFixture::testScheduledAssignment()" << std::endl; 
 	
-	const MonkeyWorksTime DELAY_US = 4000000;
+	const MWTime DELAY_US = 4000000;
 	
 	shared_ptr<ConstantVariable>c1 = shared_ptr<ConstantVariable>(new ConstantVariable(1L));
 	shared_ptr<GlobalVariable>v1 =  global_variable_registry->createGlobalVariable( new VariableProperties(new Datum(0L), "test1",
@@ -673,7 +673,7 @@ void ActionTestFixture::testScheduledAssignment() {
 	sa->execute();
 	CPPUNIT_ASSERT((long)*v1 == 0L);
 	shared_ptr <Clock> clock = Clock::instance();
-	MonkeyWorksTime start_time_us = clock->getCurrentTimeUS();
+	MWTime start_time_us = clock->getCurrentTimeUS();
 	
 	while((long)*v1 == 0 && clock->getCurrentTimeUS() < start_time_us+2*DELAY_US) {
 	}
@@ -686,8 +686,8 @@ void ActionTestFixture::testScheduledAssignment() {
 void ActionTestFixture::testScheduledAssignmentWithCancel() {
 	std::cerr << "Running  ActionTestFixture::testScheduledAssignmentWithCancel()" << std::endl; 
 	
-	const MonkeyWorksTime DELAY_US = 4000000;
-	const MonkeyWorksTime CANCEL_TIME_US = DELAY_US/10;
+	const MWTime DELAY_US = 4000000;
+	const MWTime CANCEL_TIME_US = DELAY_US/10;
 	
 	shared_ptr<ConstantVariable>c1 = shared_ptr<ConstantVariable>(new ConstantVariable(1L));
 	shared_ptr<GlobalVariable>v1 =  global_variable_registry->createGlobalVariable( new VariableProperties(new Datum(0L), "test1",
@@ -712,7 +712,7 @@ void ActionTestFixture::testScheduledAssignmentWithCancel() {
 	CancelScheduledAction csa(sa);
 	
 	shared_ptr <Clock> clock = Clock::instance();
-	MonkeyWorksTime start_time_us = clock->getCurrentTimeUS();
+	MWTime start_time_us = clock->getCurrentTimeUS();
 	sa->execute();
 	CPPUNIT_ASSERT((long)*v1 == 0L);	
 	
@@ -733,8 +733,8 @@ void ActionTestFixture::testScheduledAssignmentWithCancel() {
 void ActionTestFixture::testScheduledAssignmentWithCancelThatsTooLate() {
 	std::cerr << "Running  ActionTestFixture::testScheduledAssignmentWithCancelThatsTooLate()" << std::endl; 
 	
-	const MonkeyWorksTime DELAY_US = 1000000;
-	const MonkeyWorksTime CANCEL_TIME_US = 2*DELAY_US;
+	const MWTime DELAY_US = 1000000;
+	const MWTime CANCEL_TIME_US = 2*DELAY_US;
 	
 	shared_ptr<ConstantVariable>c1 = shared_ptr<ConstantVariable>(new ConstantVariable(1L));
 	shared_ptr<GlobalVariable>v1 =  global_variable_registry->createGlobalVariable( new VariableProperties(new Datum(0L), "test1",

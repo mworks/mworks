@@ -142,7 +142,7 @@ class Server : public RegistryAwareEventStreamInterface {
 		
 		void stopExperiment();
 		
-		MonkeyWorksTime getReferenceTime();
+		MWTime getReferenceTime();
 		
         virtual void handleEvent(shared_ptr<Event> event);
         virtual void putEvent(shared_ptr<Event> event);

@@ -57,34 +57,34 @@ StandardClock::StandardClock(long interval_microseconds)
 	baseTime = mach_absolute_time();
 }
 
-MonkeyWorksTime StandardClock::getSystemTimeMS() {
+MWTime StandardClock::getSystemTimeMS() {
     uint64_t nano = mach_absolute_time();
-	return (MonkeyWorksTime)(nano * tTBI.numer / tTBI.denom) / 1000000LL;
+	return (MWTime)(nano * tTBI.numer / tTBI.denom) / 1000000LL;
 }
 
-MonkeyWorksTime StandardClock::getSystemTimeUS() {
+MWTime StandardClock::getSystemTimeUS() {
     uint64_t nano = mach_absolute_time();
-	return (MonkeyWorksTime)(nano * tTBI.numer / tTBI.denom) / 1000LL;
+	return (MWTime)(nano * tTBI.numer / tTBI.denom) / 1000LL;
 }
 
-MonkeyWorksTime StandardClock::getSystemTimeNS() {
+MWTime StandardClock::getSystemTimeNS() {
     uint64_t nano = mach_absolute_time();
-	return (MonkeyWorksTime)(nano * tTBI.numer / tTBI.denom);
+	return (MWTime)(nano * tTBI.numer / tTBI.denom);
 }
     
-MonkeyWorksTime StandardClock::getCurrentTimeMS() {
+MWTime StandardClock::getCurrentTimeMS() {
     uint64_t nano = mach_absolute_time() - baseTime;
-	return (MonkeyWorksTime)(nano * tTBI.numer / tTBI.denom) / 1000000LL;
+	return (MWTime)(nano * tTBI.numer / tTBI.denom) / 1000000LL;
 }
 
-MonkeyWorksTime StandardClock::getCurrentTimeUS() {
+MWTime StandardClock::getCurrentTimeUS() {
 	uint64_t nano = mach_absolute_time() - baseTime;
-	return (MonkeyWorksTime)(nano *  tTBI.numer / tTBI.denom) / 1000LL;
+	return (MWTime)(nano *  tTBI.numer / tTBI.denom) / 1000LL;
 }
-MonkeyWorksTime StandardClock::getCurrentTimeNS() {
+MWTime StandardClock::getCurrentTimeNS() {
 	// first things first
 	/*uint64_t now = mach_absolute_time();
-	return (MonkeyWorksTime)(now * tTBI.numer / tTBI.denom);*/
+	return (MWTime)(now * tTBI.numer / tTBI.denom);*/
 	
 	AbsoluteTime uptime;
     Nanoseconds nano;
@@ -92,18 +92,18 @@ MonkeyWorksTime StandardClock::getCurrentTimeNS() {
     uptime = UpTime();
     nano = AbsoluteToNanoseconds(uptime);
     
-    return (MonkeyWorksTime)(UnsignedWideToUInt64( nano ) - baseTime);
+    return (MWTime)(UnsignedWideToUInt64( nano ) - baseTime);
 }
 
-void StandardClock::sleepMS(MonkeyWorksTime time){ 
-	sleepNS((MonkeyWorksTime)time * (MonkeyWorksTime)1000000);
+void StandardClock::sleepMS(MWTime time){ 
+	sleepNS((MWTime)time * (MWTime)1000000);
 }
-void StandardClock::sleepUS(MonkeyWorksTime time){ 
+void StandardClock::sleepUS(MWTime time){ 
 	//mprintf("sleepUS for %lld usec", time);
-	sleepNS((MonkeyWorksTime)time * (MonkeyWorksTime)1000);
+	sleepNS((MWTime)time * (MWTime)1000);
 }
 
-void StandardClock::sleepNS(MonkeyWorksTime time){ 
+void StandardClock::sleepNS(MWTime time){ 
 	
 
 #ifdef USE_MACH_MOJO
@@ -120,12 +120,12 @@ void StandardClock::sleepNS(MonkeyWorksTime time){
 	long nano = 0;
 	
 	
-	if((time - (MonkeyWorksTime)1000000000)){
-		lldiv_t div = lldiv(time, (MonkeyWorksTime)1000000000);
+	if((time - (MWTime)1000000000)){
+		lldiv_t div = lldiv(time, (MWTime)1000000000);
 		seconds = (long)(div.quot);
 		nano = (long)(div.rem);
 	} else {
-//		mprintf("not bigger %lld", time - (MonkeyWorksTime)1000000000);
+//		mprintf("not bigger %lld", time - (MWTime)1000000000);
 		nano = (long)time;
 	}
 	

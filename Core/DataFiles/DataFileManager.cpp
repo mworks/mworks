@@ -15,7 +15,7 @@
 #include "Utilities.h"
 #include "ScarabServices.h"
 #include <string>
-#include "ControlEventFactory.h"
+#include "SystemEventFactory.h"
 #include "EventBuffer.h"
 #include "PlatformDependentServices.h"
 using namespace mw;
@@ -73,8 +73,8 @@ int DataFileManager::openFile(std::string _filename, DatumFileOptions opt) {
 			
 			merror(M_FILE_MESSAGE_DOMAIN,
 				   "Can't overwrite existing file: %s", filename.c_str());
-			//GlobalSystemEventVariable->setValue(ControlEventFactory::dataFileOpenedResponse(filename.c_str(), M_COMMAND_FAILURE));
-			global_outgoing_event_buffer->putEvent(ControlEventFactory::dataFileOpenedResponse(filename.c_str(), 
+			
+            global_outgoing_event_buffer->putEvent(SystemEventFactory::dataFileOpenedResponse(filename.c_str(), 
 																				M_COMMAND_FAILURE));
 			return -1;
 		}
@@ -95,14 +95,14 @@ int DataFileManager::openFile(std::string _filename, DatumFileOptions opt) {
         // write out the event-code to name/description mapping
         // this is an essential part of the self-describing nature of the
         // MonkeyWorks/Scarab format
-		global_outgoing_event_buffer->putEvent(ControlEventFactory::componentCodecPackage());
-		global_outgoing_event_buffer->putEvent(ControlEventFactory::codecPackage());
-		global_outgoing_event_buffer->putEvent(ControlEventFactory::currentExperimentState());
+		global_outgoing_event_buffer->putEvent(SystemEventFactory::componentCodecPackage());
+		global_outgoing_event_buffer->putEvent(SystemEventFactory::codecPackage());
+		global_outgoing_event_buffer->putEvent(SystemEventFactory::currentExperimentState());
 		global_variable_registry->announceAll();
     } else {
         merror(M_FILE_MESSAGE_DOMAIN,
 			   "Failed to open file: %s", uri.c_str());
-        global_outgoing_event_buffer->putEvent(ControlEventFactory::dataFileOpenedResponse(filename.c_str(), 
+        global_outgoing_event_buffer->putEvent(SystemEventFactory::dataFileOpenedResponse(filename.c_str(), 
 																			M_COMMAND_FAILURE));
         return -1;
     }
@@ -110,7 +110,7 @@ int DataFileManager::openFile(std::string _filename, DatumFileOptions opt) {
 	mprintf(M_FILE_MESSAGE_DOMAIN, "Opening data file: %s", filename.c_str());
 	
     // everything went ok so issue the success event
-    global_outgoing_event_buffer->putEvent(ControlEventFactory::dataFileOpenedResponse(filename.c_str(), 
+    global_outgoing_event_buffer->putEvent(SystemEventFactory::dataFileOpenedResponse(filename.c_str(), 
 																		M_COMMAND_SUCCESS)); 
     return 0;
 }
@@ -122,7 +122,7 @@ int DataFileManager::closeFile() {
         file_open = false;
 		
 		mprintf(M_FILE_MESSAGE_DOMAIN, "Closing data file: %s", filename.c_str());
-        global_outgoing_event_buffer->putEvent(ControlEventFactory::dataFileClosedResponse(filename.c_str(), 
+        global_outgoing_event_buffer->putEvent(SystemEventFactory::dataFileClosedResponse(filename.c_str(), 
 																			M_COMMAND_SUCCESS)); 
     } else {
 		merror(M_FILE_MESSAGE_DOMAIN,

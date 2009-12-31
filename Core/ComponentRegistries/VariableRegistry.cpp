@@ -18,12 +18,13 @@
 #include "Utilities.h"
 #include "Experiment.h"
 #include "EventBuffer.h"
+#include "EventConstants.h"
 using namespace mw;
 
 VariableRegistry::VariableRegistry(shared_ptr<EventBuffer> _buffer) {
 	event_buffer = _buffer;
 	
-	addPlaceholders();
+    current_unique_code = N_RESERVED_CODEC_CODES;
 }
 
 void VariableRegistry::reset(){
@@ -42,41 +43,7 @@ void VariableRegistry::reset(){
 	// just the selection variables
     selection_variable_list.clear();
     
-    addPlaceholders();
-}
-
-
-void VariableRegistry::addPlaceholders(){
-    Datum defaultInt(0L);
-	VariableProperties componentCodecProps(&defaultInt,       // constructor to create default
-											COMPONENT_CODEC_RESERVED_TAGNAME, 
-											"component codec",
-											"Reserved for the mw::Component Codec", 
-											M_NEVER,M_WHEN_CHANGED,	// never user edit, log when changed
-											true, 
-											false, 
-											M_STRUCTURED, "");
-	addPlaceholderVariable(&componentCodecProps);  // view   
-	
-	VariableProperties codecProps(&defaultInt,       // constructor to create default
-								   CODEC_RESERVED_TAGNAME, 
-								   "codec",
-								   "Reserved for the Codec", 
-								   M_NEVER,M_WHEN_CHANGED,	// never user edit, log when changed
-								   true, 
-								   false, 
-								   M_STRUCTURED, "");
-	addPlaceholderVariable(&codecProps);  // view   
-	
-	VariableProperties terminationProps(&defaultInt,       // constructor to create default
-										 "#termination", 
-										 "termination",
-										 "Deprecated", 
-										 M_NEVER,M_WHEN_CHANGED,	// never user edit, log when changed
-										 true, 
-										 false, 
-										 M_STRUCTURED, "");
-	addPlaceholderVariable(&terminationProps);  // view  
+    //addPlaceholders();
 }
 	
 VariableRegistry::~VariableRegistry() { }
@@ -96,7 +63,7 @@ void VariableRegistry::updateFromCodecDatum(const Datum &codec) {
 	master_variable_list.clear();
 	
 	// add the placeholders
-	addPlaceholders();
+	//addPlaceholders();
 	
 	
 	//////////////////////////////////////////////////////////////////
@@ -119,7 +86,7 @@ void VariableRegistry::updateFromCodecDatum(const Datum &codec) {
 	}
 		
 	// add each variable in order to the registry
-	for(int i = M_MAX_RESERVED_EVENT_CODE; i<=maxCodecCode; ++i) {
+	for(int i = N_RESERVED_CODEC_CODES; i<=maxCodecCode; ++i) {
 		ScarabDatum *key = scarab_new_integer(i);
 		ScarabDatum *serializedVariable = scarab_dict_get(datum, key);
 		scarab_free_datum(key);
@@ -222,7 +189,7 @@ shared_ptr<Variable> VariableRegistry::getVariable(int codec_code) {
     // DDC: removed what was this for?
 	//mExpandableList<Variable> list(master_variable_list);
 	
-	if(codec_code < 0 || codec_code > master_variable_list.size()){
+	if(codec_code < 0 || codec_code > master_variable_list.size() + N_RESERVED_CODEC_CODES){
 		merror(M_SYSTEM_MESSAGE_DOMAIN,
 			   "Attempt to get an invalid variable (code: %d)",
 			   codec_code);
@@ -231,7 +198,7 @@ shared_ptr<Variable> VariableRegistry::getVariable(int codec_code) {
 	} else {
         // DDC: removed copying.  What was that for?
 		//var = list[codec_code];
-        var = master_variable_list[codec_code];
+        var = master_variable_list[codec_code - N_RESERVED_CODEC_CODES];
 	}
 	
 	return var;
@@ -283,7 +250,7 @@ shared_ptr<ScopedVariable> VariableRegistry::addScopedVariable(weak_ptr<ScopedVa
 	//GlobalCurrentExperiment->addVariable(new_variable);
     
     master_variable_list.push_back(new_variable);
-	codec_code = master_variable_list.size() - 1;
+	codec_code = master_variable_list.size() + N_RESERVED_CODEC_CODES - 1;
     
     std::string tag = new_variable->getVariableName();
     if(!tag.empty()){
@@ -318,7 +285,7 @@ shared_ptr<GlobalVariable> VariableRegistry::addGlobalVariable(VariablePropertie
 	shared_ptr<GlobalVariable> returnref(new GlobalVariable(copy));
 	
     master_variable_list.push_back(returnref);
-	int codec_code = master_variable_list.size() - 1;
+	int codec_code = master_variable_list.size() + N_RESERVED_CODEC_CODES - 1;
 	
     std::string tag = returnref->getVariableName();
     if(!tag.empty()){
@@ -368,27 +335,27 @@ shared_ptr<Timer> VariableRegistry::createTimer(VariableProperties *props) {
 	return new_timer;
 }
 
-shared_ptr<EmptyVariable> VariableRegistry::addPlaceholderVariable(VariableProperties *props){
-	
-	VariableProperties *props_copy;
-	
-	if(props != NULL){
-		props_copy = new VariableProperties(*props);	
-	} else {
-		props_copy = NULL;
-	}
-	
-	
-	shared_ptr<EmptyVariable> returnref(new EmptyVariable(props_copy));
-    
-    master_variable_list.push_back(returnref);
-	int codec_code = master_variable_list.size();
-	
-	returnref->setCodecCode(codec_code);
-	returnref->setEventTarget(static_pointer_cast<EventReceiver>(event_buffer));
-	
-	return returnref;
-}
+//shared_ptr<EmptyVariable> VariableRegistry::addPlaceholderVariable(VariableProperties *props){
+//	
+//	VariableProperties *props_copy;
+//	
+//	if(props != NULL){
+//		props_copy = new VariableProperties(*props);	
+//	} else {
+//		props_copy = NULL;
+//	}
+//	
+//	
+//	shared_ptr<EmptyVariable> returnref(new EmptyVariable(props_copy));
+//    
+//    master_variable_list.push_back(returnref);
+//	int codec_code = master_variable_list.size();
+//	
+//	returnref->setCodecCode(codec_code);
+//	returnref->setEventTarget(static_pointer_cast<EventReceiver>(event_buffer));
+//	
+//	return returnref;
+//}
 
 
 shared_ptr<SelectionVariable> VariableRegistry::addSelectionVariable(VariableProperties *props){
@@ -441,13 +408,13 @@ shared_ptr<ConstantVariable> VariableRegistry::createConstantVariable(Datum valu
 	return addConstantVariable(value);
 }
 
-shared_ptr<EmptyVariable> VariableRegistry::createPlaceholderVariable(VariableProperties *props){
-    boost::mutex::scoped_lock s_lock(lock);
-
-	shared_ptr<EmptyVariable> var = addPlaceholderVariable(props);
-	
-	return var;
-}
+//shared_ptr<EmptyVariable> VariableRegistry::createPlaceholderVariable(VariableProperties *props){
+//    boost::mutex::scoped_lock s_lock(lock);
+//
+//	shared_ptr<EmptyVariable> var = addPlaceholderVariable(props);
+//	
+//	return var;
+//}
 
 
 shared_ptr<SelectionVariable> VariableRegistry::createSelectionVariable(VariableProperties *props){
@@ -475,7 +442,9 @@ Datum VariableRegistry::generateCodecDatum() {
     for(int i = 0; i < dictSize; i++) {
         var = master_variable_list[i];
 		
-		if(var == NULL) { continue; }
+		if(var == NULL) { 
+            continue; 
+        }
         
 		int codec_code = var->getCodecCode();
 		
@@ -485,7 +454,9 @@ Datum VariableRegistry::generateCodecDatum() {
         
 		VariableProperties *props = var->getProperties();
 		
-        if(props == NULL){ continue; }
+        if(props == NULL){ 
+            continue; 
+        }
         
         Datum serialized_var(props->operator Datum());
 		

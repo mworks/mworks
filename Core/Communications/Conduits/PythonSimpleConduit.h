@@ -224,11 +224,17 @@ public:
 };
 
 
+    
+extern double scarab_extract_float(ScarabDatum *datum);
+extern PyObject *convert_scarab_to_python(ScarabDatum *datum);
+extern PyObject *convert_datum_to_python(Datum datum);
+    
+    
 BOOST_PYTHON_MODULE(_conduit)
 {
     
     PyEval_InitThreads();
-    
+        
     class_<PythonIPCServerConduit>("IPCServerConduit", init<std::string>())
         .def("__initialize", &PythonIPCServerConduit::initialize)
         .def("finalize", &PythonIPCServerConduit::finalize)
@@ -254,8 +260,10 @@ BOOST_PYTHON_MODULE(_conduit)
     ;
 
     class_<Event>("Event")
+        .def("__convert_mw_datum_to_python", &convert_datum_to_python)
+        .staticmethod("__convert_mw_datum_to_python")
         .add_property("code", &Event::getEventCode)
-        .add_property("data", &Event::getData);
+        .add_property("mw_datum", &Event::getData);
     ;
     
     class_<Datum>("Datum")

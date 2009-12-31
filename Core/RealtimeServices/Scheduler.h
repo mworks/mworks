@@ -102,23 +102,23 @@ public:
 	virtual ~Scheduler() {}
 	
 	virtual shared_ptr<ScheduleTask> scheduleMS(const std::string &description,
-												 MonkeyWorksTime initial_delay_ms, 
-												 MonkeyWorksTime repeat_interval_ms, 
+												 MWTime initial_delay_ms, 
+												 MWTime repeat_interval_ms, 
 												 int ntimes, 
 												 boost::function<void *()> _functor,
 												 int priority, 
-												 MonkeyWorksTime warn_slop, 
-												 MonkeyWorksTime fail_slop,
+												 MWTime warn_slop, 
+												 MWTime fail_slop,
 												 MissedExecutionBehavior behav);
 	
 	virtual shared_ptr<ScheduleTask> scheduleUS(const std::string &description,
-												 MonkeyWorksTime initial_delay_us, 
-												 MonkeyWorksTime repeat_interval_us,
+												 MWTime initial_delay_us, 
+												 MWTime repeat_interval_us,
 												 int ntimes, 
 												 boost::function<void *()> _functor,
 												 int priority, 
-												 MonkeyWorksTime warn_slop, 
-												 MonkeyWorksTime fail_slop,
+												 MWTime warn_slop, 
+												 MWTime fail_slop,
 												 MissedExecutionBehavior behav) = 0;
 	
 	

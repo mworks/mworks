@@ -9,7 +9,7 @@
 
 #include "Client.h"
 #include "ExperimentPackager.h"
-#include "ControlEventFactory.h"
+#include "SystemEventFactory.h"
 #include "LoadingUtilities.h"
 #include "boost/filesystem/path.hpp"
 using namespace mw;
@@ -18,14 +18,13 @@ using namespace mw;
 
 typedef std::vector <shared_ptr<GenericEventFunctor> > CallbacksForVar;
 
-Client::Client() : RegistryAwareEventStreamInterface(M_CLIENT_MESSAGE_DOMAIN, false){
+Client::Client() : RegistryAwareEventStreamInterface(M_CLIENT_MESSAGE_DOMAIN, true){
 	incoming_event_buffer = shared_ptr<EventBuffer>(new EventBuffer());
     outgoing_event_buffer = shared_ptr<EventBuffer>(new EventBuffer());
     
 	registry = shared_ptr<VariableRegistry>(new VariableRegistry(outgoing_event_buffer));
 	
 	initializeStandardVariables(registry);
-	system_event_variable = registry->getVariable(SYSTEM_VAR_TAGNAME);
 	message_variable = registry->getVariable(ANNOUNCE_MESSAGE_VAR_TAGNAME);
 	
 	
@@ -61,7 +60,7 @@ void Client::handleEvent(shared_ptr<Event> evt) {
     
     handleCallbacks(evt);
 
-    if(code > 0 && code < registry->getNVariables() && code < (int)callbacks.size()) {
+    if(code >= N_RESERVED_CODEC_CODES && code < registry->getNVariables() + N_RESERVED_CODEC_CODES) {
         shared_ptr <Variable> var = registry->getVariable(code);
         if(var) {
             var->setSilentValue(evt->getData());
@@ -130,66 +129,68 @@ bool Client::sendExperiment(const std::string &expPath) {
     if(!remoteConnection->isConnected()) { return false; }
     ExperimentPackager packer;
 	
- Datum experiment(packer.packageExperiment(bf::path(expPath, bf::native)));
-	if(experiment.isUndefined()) {
+    Datum packaged_experiment(packer.packageExperiment(bf::path(expPath, bf::native)));
+	if(packaged_experiment.isUndefined()) {
 		merror(M_CLIENT_MESSAGE_DOMAIN, 
 			   "Failed to create a valid packaged experiment.");
 		
 		// send an update that the experiment load failed
-		shared_ptr<Event> experimentStateEvent = ControlEventFactory::currentExperimentState();
+		shared_ptr<Event> experimentStateEvent = SystemEventFactory::currentExperimentState();
 		putEvent(experimentStateEvent);
 			
 		return false; 		
 	}
-	system_event_variable->setValue(experiment);
+    
+    shared_ptr<Event> experiment_event(new Event(RESERVED_SYSTEM_EVENT_CODE, packaged_experiment));
+    putEvent(experiment_event);
 	
     return true;
 }
 
 void  Client::sendProtocolSelectedEvent(const std::string &protocolname) {
     if(protocolname.size() == 0) { return; }
-    putEvent(ControlEventFactory::protocolSelectionControl(protocolname));
+    putEvent(SystemEventFactory::protocolSelectionControl(protocolname));
 }
 
 void  Client::sendRunEvent() {
-    putEvent(ControlEventFactory::startExperimentControl());
+    putEvent(SystemEventFactory::startExperimentControl());
 }
 
 void  Client::sendStopEvent() {
-    putEvent(ControlEventFactory::stopExperimentControl());
+    putEvent(SystemEventFactory::stopExperimentControl());
 }
 
 void  Client::sendPauseEvent() {
-    putEvent(ControlEventFactory::pauseExperimentControl());
+    putEvent(SystemEventFactory::pauseExperimentControl());
 }
 
 void  Client::sendUnpauseEvent() {
-    putEvent(ControlEventFactory::pauseExperimentControl());
+    putEvent(SystemEventFactory::pauseExperimentControl());
 }
 
 void  Client::sendOpenDataFileEvent(const std::string &filename, 
 									 const int options) {
     if(filename.size() == 0) { return; }
  DatumFileOptions overwrite = options ? M_OVERWRITE : M_NO_OVERWRITE;
-    putEvent(ControlEventFactory::dataFileOpenControl(filename, 
+    putEvent(SystemEventFactory::dataFileOpenControl(filename, 
 																	 overwrite));
 }
 
 void  Client::sendCloseDataFileEvent(const std::string &filename) {
-    putEvent(ControlEventFactory::closeDataFileControl(filename));
+    putEvent(SystemEventFactory::closeDataFileControl(filename));
 }
 
 void  Client::sendCloseExperimentEvent(const std::string &expName) {
     if(expName.size() == 0) { return; }
-    putEvent(ControlEventFactory::closeExperimentControl(expName));
+    putEvent(SystemEventFactory::closeExperimentControl(expName));
 }
 
 void  Client::sendSaveVariablesEvent(const std::string &file, const bool overwrite) {
-    putEvent(ControlEventFactory::saveVariablesControl(file, overwrite, false));
+    putEvent(SystemEventFactory::saveVariablesControl(file, overwrite, false));
 }
 
 void  Client::sendLoadVariablesEvent(const std::string &file) {
-    putEvent(ControlEventFactory::loadVariablesControl(file, false));
+    putEvent(SystemEventFactory::loadVariablesControl(file, false));
 }
 
 void Client::updateRegistry(const Datum &codec) {

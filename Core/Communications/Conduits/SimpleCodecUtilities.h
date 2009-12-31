@@ -22,5 +22,7 @@ using namespace std;
 extern map<int, string> extract_simple_codec_map(Datum datum);
 extern map<int, string> extract_simple_codec_map(shared_ptr<Event> evt);
 extern map<string, int> reverse_simple_codec_map(map<int, string> input);
+extern Datum construct_simple_codec_datum_from_map(map<int, string> input);
+
 
 #endif

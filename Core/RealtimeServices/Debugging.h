@@ -18,7 +18,7 @@ namespace mw {
 	
 	class DebuggerActiveNotification : public VariableNotification {
 		
-		virtual void notify(const Datum& data, MonkeyWorksTime timeUS){
+		virtual void notify(const Datum& data, MWTime timeUS){
 			
 			debugger_enabled = (bool)data;
 		}

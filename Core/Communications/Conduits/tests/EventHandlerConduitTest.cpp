@@ -12,7 +12,7 @@
 #include "DummyEventTransport.h"
 #include "IPCEventTransport.h"
 #include "SimpleConduit.h"
-#include "ControlEventHandler.h"
+#include "StandardSystemEventHandler.h"
 #include "StandardVariables.h"
 
 using namespace mw;
@@ -23,7 +23,7 @@ using namespace mw;
 void EventStreamConduitTestFixture::setUp(){
     FullCoreEnvironmentTestFixture::setUp();
     
-    event_handler = shared_ptr<EventStreamInterface>(new ControlEventHandler());
+    event_handler = shared_ptr<EventStreamInterface>(new StandardSystemEventHandler());
 }
 
 

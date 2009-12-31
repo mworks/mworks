@@ -82,11 +82,11 @@ namespace low_priority_scheduler{
 			// who owns this task?
 			shared_ptr<Scheduler> scheduler;
 			// when was this task first scheduled
-			MonkeyWorksTime start_time_us;
+			MWTime start_time_us;
 			// how long before first execution
-			MonkeyWorksTime initial_delay_us;
+			MWTime initial_delay_us;
 			// how long between subsequent repeats
-			MonkeyWorksTime repeat_interval_us;
+			MWTime repeat_interval_us;
 			// how many times to repeat
 			int ntimes;
 			// what to do about missed execution
@@ -113,10 +113,10 @@ namespace low_priority_scheduler{
 			
 			
 			// When was the last heartbeat?
-			MonkeyWorksTime last_beat;
+			MWTime last_beat;
 			
 			// Real(er)time add-on.  Experimental
-			MonkeyWorksTime computation_time_us;
+			MWTime computation_time_us;
 			
 			
 			
@@ -126,15 +126,15 @@ namespace low_priority_scheduler{
 							 long id,
 							 const shared_ptr<Scheduler> &_scheduler, 
 							 boost::function<void *()> _functor,
-							 MonkeyWorksTime _start_time,
-							 MonkeyWorksTime _initial_delay, 
-							 MonkeyWorksTime _repeat_interval, 
+							 MWTime _start_time,
+							 MWTime _initial_delay, 
+							 MWTime _repeat_interval, 
 							 int _ntimes, 
 							 int priority, 
 							 MissedExecutionBehavior _behave,
-							 MonkeyWorksTime _warn_slop, 
-							 MonkeyWorksTime _fail_slop,
-							 MonkeyWorksTime _computation_time_us);
+							 MWTime _warn_slop, 
+							 MWTime _fail_slop,
+							 MWTime _computation_time_us);
 			
 			virtual ~ZenScheduleTask() {}
 			
@@ -158,8 +158,8 @@ namespace low_priority_scheduler{
 				SAFE_SET(last_beat, scheduler->getClock()->getCurrentTimeUS());
 			}
 			
-			virtual MonkeyWorksTime getLastHeartbeat(){
-				SAFE_GET(MonkeyWorksTime, last_beat);
+			virtual MWTime getLastHeartbeat(){
+				SAFE_GET(MWTime, last_beat);
 			}
 			
 			bool isExecuting(){
@@ -199,16 +199,16 @@ namespace low_priority_scheduler{
 			}
 			
 			
-			MonkeyWorksTime getStartTimeUS(){
-				SAFE_GET(MonkeyWorksTime, start_time_us);
+			MWTime getStartTimeUS(){
+				SAFE_GET(MWTime, start_time_us);
 			}
 			
-			MonkeyWorksTime getInitialDelayUS(){
-				SAFE_GET(MonkeyWorksTime, initial_delay_us);
+			MWTime getInitialDelayUS(){
+				SAFE_GET(MWTime, initial_delay_us);
 			}
 			
-			MonkeyWorksTime getRepeatIntervalUS(){
-				SAFE_GET(MonkeyWorksTime, repeat_interval_us);
+			MWTime getRepeatIntervalUS(){
+				SAFE_GET(MWTime, repeat_interval_us);
 			}
 			
 			int getNTimes(){
@@ -224,16 +224,16 @@ namespace low_priority_scheduler{
 				SAFE_GET(int, priority);
 			}
 			
-			MonkeyWorksTime getWarningSlopUS(){
-				SAFE_GET(MonkeyWorksTime, warning_slop_us);
+			MWTime getWarningSlopUS(){
+				SAFE_GET(MWTime, warning_slop_us);
 			}
 			
-			MonkeyWorksTime getFailureSlopUS(){
-				SAFE_GET(MonkeyWorksTime, fail_slop_us);
+			MWTime getFailureSlopUS(){
+				SAFE_GET(MWTime, fail_slop_us);
 			}
 			
-			MonkeyWorksTime getComputationTimeUS(){
-				SAFE_GET(MonkeyWorksTime, computation_time_us);
+			MWTime getComputationTimeUS(){
+				SAFE_GET(MWTime, computation_time_us);
 			}
 			
 			
@@ -286,13 +286,13 @@ namespace low_priority_scheduler{
 			
 			
 			virtual shared_ptr<ScheduleTask> scheduleUS(const std::string &description,
-														 MonkeyWorksTime initial_delay, 
-														 MonkeyWorksTime repeat_interval, 
+														 MWTime initial_delay, 
+														 MWTime repeat_interval, 
 														 int ntimes, 
 														 boost::function<void *()> _functor,
 														 int _priority,
-														 MonkeyWorksTime _warn_slop_us,
-														 MonkeyWorksTime _fail_slop_us,
+														 MWTime _warn_slop_us,
+														 MWTime _fail_slop_us,
 														 MissedExecutionBehavior behav);
 			
 			

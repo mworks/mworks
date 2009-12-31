@@ -44,8 +44,8 @@ bool ScheduledActions::execute(){
 	shared_ptr<Scheduler> scheduler = Scheduler::instance();	
 	shared_ptr<ScheduledActions> this_one = shared_from_this();
 	node = scheduler->scheduleUS(FILELINE, 
-								 (MonkeyWorksTime)(*delay),
-								 (MonkeyWorksTime)(*interval),
+								 (MWTime)(*delay),
+								 (MWTime)(*interval),
 								 (long)(*n_repeats),
 								 boost::bind(scheduled_action_runner, this_one),
 								 M_DEFAULT_PRIORITY,
@@ -59,15 +59,15 @@ shared_ptr<ScheduleTask> ScheduledActions::getNode(){
 	return node; 
 }
 
-MonkeyWorksTime ScheduledActions::getDelay() const {
-	return (MonkeyWorksTime)(*delay);
+MWTime ScheduledActions::getDelay() const {
+	return (MWTime)(*delay);
 }
 
-MonkeyWorksTime ScheduledActions::getInterval() const {
-	return (MonkeyWorksTime)(*interval);
+MWTime ScheduledActions::getInterval() const {
+	return (MWTime)(*interval);
 }
 
-MonkeyWorksTime ScheduledActions::getTimeScheduled() const {
+MWTime ScheduledActions::getTimeScheduled() const {
 	return timeScheduled;
 }
 
@@ -90,7 +90,7 @@ void ScheduledActions::executeActions() {
 namespace mw {
 	void *scheduled_action_runner(const shared_ptr<ScheduledActions> &sa){
 		shared_ptr <Clock> clock = Clock::instance();
-		MonkeyWorksTime delta = clock->getCurrentTimeUS() - ((sa->getTimeScheduled() + sa->getDelay()) + sa->getNRepeated()*sa->getInterval());
+		MWTime delta = clock->getCurrentTimeUS() - ((sa->getTimeScheduled() + sa->getDelay()) + sa->getNRepeated()*sa->getInterval());
 		
 		if(delta > 2000) {
 			merror(M_SCHEDULER_MESSAGE_DOMAIN, "Scheduled action is starting %lldus behind intended schedule", delta); 

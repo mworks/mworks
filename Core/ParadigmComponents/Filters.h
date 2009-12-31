@@ -41,8 +41,8 @@ class BoxCarFilter : public Filter {
 			if(timewindow){ 		// if it's a time window, we'll scroll back through samples on the basis of their times
 			
 				int time_sofar = 0;
-				MonkeyWorksTime *time = bufferobj->getTime();
-				MonkeyWorksTime current_time = time[index];
+				MWTime *time = bufferobj->getTime();
+				MWTime current_time = time[index];
 				
 				while(time_sofar < width){
 					running_sum += subbuffer[index];

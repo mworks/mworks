@@ -37,3 +37,9 @@ IPCServerConduit.initialize = initialize_
 
 #IPCClientConduit.handle_codec = handle_codec_
 #IPCServerConduit.handle_codec = handle_codec_
+
+def __get_converted_datum(self):
+    return self.__convert_mw_datum_to_python(self.mw_datum)
+
+Event.data = property(__get_converted_datum)
+

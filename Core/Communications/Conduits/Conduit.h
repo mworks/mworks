@@ -30,7 +30,7 @@ protected:
     bool stopping;
     bool stopped;
     
-    MonkeyWorksTime timeout_ms;
+    MWTime timeout_ms;
     
 public:
     

@@ -123,9 +123,6 @@ extern shared_ptr<Variable> stimDisplayUpdate;
 extern shared_ptr<Variable> GlobalMessageVariable;
 #define ANNOUNCE_MESSAGE_VAR_TAGNAME "#announceMessage"
 
-extern shared_ptr<Variable> GlobalSystemEventVariable;
-#define SYSTEM_VAR_TAGNAME "#system"
-
 
 #define ANNOUNCE_CURRENT_STATE_TAGNAME	"#announceCurrentState"
 extern shared_ptr<Variable> currentState;

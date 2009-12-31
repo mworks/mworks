@@ -58,7 +58,7 @@ void ScopedVariable::setValue(Datum _data){
 	announce();
 }
 
-void ScopedVariable::setValue(Datum _data, MonkeyWorksTime _when){
+void ScopedVariable::setValue(Datum _data, MWTime _when){
 	setSilentValue(_data, _when);
 	announce(_when);
 }
@@ -74,7 +74,7 @@ void ScopedVariable::setSilentValue(Datum _data){
 	performNotifications(_data);
 }
 
-void ScopedVariable::setSilentValue(Datum _data, MonkeyWorksTime timeUS){ 
+void ScopedVariable::setSilentValue(Datum _data, MWTime timeUS){ 
 	if(environment == NULL){
 		mwarning(M_SYSTEM_MESSAGE_DOMAIN,
 				 "Scoped variable belongs to invalid (NULL) environmnet");

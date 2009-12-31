@@ -48,7 +48,7 @@ namespace mw {
 		int code;
 		
 		// when did this event occur
-		MonkeyWorksTime time;
+		MWTime time;
 		
         Datum data;
 		shared_ptr<Event> nextEvent;
@@ -57,7 +57,7 @@ namespace mw {
         /**
          * Constructor.  Defines an Variable member and the event type.
          */
-        Event(const int _code, const MonkeyWorksTime _time, const Datum &data);
+        Event(const int _code, const MWTime _time, const Datum &data);
 		Event(const int _code, const Datum &data);
 		Event(ScarabDatum *datum);  // create an event from a ScarabDatum
         Event(){ } // for construction during deserialization
@@ -84,7 +84,7 @@ namespace mw {
         /**
          * Returns the event time.
          */
-        MonkeyWorksTime getTime(){ 
+        MWTime getTime(){ 
 			return time;
 		}
 		

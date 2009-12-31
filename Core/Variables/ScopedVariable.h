@@ -54,9 +54,9 @@ class ScopedVariable : public Variable {
 	virtual Datum getValue();
 	
 	virtual void setValue(Datum _data);	
-	virtual void setValue(Datum _data, MonkeyWorksTime _when);
+	virtual void setValue(Datum _data, MWTime _when);
 	virtual void setSilentValue(Datum _value);
-	virtual void setSilentValue(Datum _value,  MonkeyWorksTime _when);
+	virtual void setSilentValue(Datum _value,  MWTime _when);
 	
 };
 }

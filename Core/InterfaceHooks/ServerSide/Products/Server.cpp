@@ -9,8 +9,8 @@
 
 #include "Server.h"
 #include "Experiment.h"
-#include "ControlEventFactory.h"
-#include "ControlEventHandler.h"
+#include "SystemEventFactory.h"
+#include "StandardSystemEventHandler.h"
 #include "ExperimentPackager.h"
 #include "DataFileManager.h"
 #include "VariableSave.h"
@@ -51,7 +51,7 @@ Server::~Server() {
 
 bool Server::startServer() {
     
-    shared_ptr<EventStreamInterface> _handler(new ControlEventHandler());
+    shared_ptr<EventStreamInterface> _handler(new StandardSystemEventHandler());
 	// TODO: prevents there from being more than one server instance
     incomingListener = shared_ptr<EventListener>(new EventListener(global_incoming_event_buffer, _handler));
     outgoingListener = shared_ptr<EventListener>(new EventListener(global_outgoing_event_buffer, shared_from_this()));
@@ -109,7 +109,7 @@ bool Server::openExperiment(const std::string &expPath) {
 			   "Failed to create a valid packaged experiment.");
 		return false; 		
 	}
-	shared_ptr<Event> new_experiment(new Event(GlobalSystemEventVariable->getCodecCode(), 
+	shared_ptr<Event> new_experiment(new Event(RESERVED_SYSTEM_EVENT_CODE, 
 												 experiment));
 	putEvent(new_experiment);
 	
@@ -123,7 +123,7 @@ bool Server::closeExperiment(){
 	
 	string expName(GlobalCurrentExperiment->getExperimentName());
 
-	putEvent(ControlEventFactory::closeExperimentControl(expName));
+	putEvent(SystemEventFactory::closeExperimentControl(expName));
 	return true;
 }
 
@@ -134,7 +134,7 @@ void Server::startDataFileManager() {
 }
 
 bool Server::openDataFile(const char * path, int options) {
-    putEvent(ControlEventFactory::dataFileOpenControl(path, M_OVERWRITE));
+    putEvent(SystemEventFactory::dataFileOpenControl(path, M_OVERWRITE));
     return true;
 }
 
@@ -142,7 +142,7 @@ void Server::closeFile() {
     // TODO this could cause some problems.... but since the data file manager
     // is a global this and the event handler doesnt care about the name
     // this will be file for now.
-    putEvent(ControlEventFactory::closeDataFileControl(""));
+    putEvent(SystemEventFactory::closeDataFileControl(""));
 }
 
 bool Server::isDataFileOpen() {
@@ -155,14 +155,14 @@ bool Server::isExperimentRunning() {
 }
 
 void Server::startExperiment() {
-	putEvent(ControlEventFactory::startExperimentControl());        
+	putEvent(SystemEventFactory::startExperimentControl());        
 }
 
 void Server::stopExperiment() {
-	putEvent(ControlEventFactory::stopExperimentControl());        
+	putEvent(SystemEventFactory::stopExperimentControl());        
 }
 
-MonkeyWorksTime Server::getReferenceTime() {
+MWTime Server::getReferenceTime() {
 	shared_ptr <Clock> clock = Clock::instance();
 	return clock->getSystemReferenceTime();
 }

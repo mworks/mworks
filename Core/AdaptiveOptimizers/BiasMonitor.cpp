@@ -49,7 +49,7 @@ BiasMonitor::BiasMonitor(shared_ptr<Variable> _success,
 }
 
 void BiasMonitor::newDataReceived(int inputIndex, const Datum& data, 
-                                                MonkeyWorksTime timeUS){
+                                                MWTime timeUS){
 	
 	if(inputIndex != 0){
 		// error

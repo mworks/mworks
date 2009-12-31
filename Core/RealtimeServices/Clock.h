@@ -28,14 +28,14 @@ public:
 	Clock(long interval_microseconds);
 	virtual ~Clock();
 	
-	virtual MonkeyWorksTime getCurrentTime();	
-	virtual MonkeyWorksTime getCurrentTimeMS();
-	virtual MonkeyWorksTime getCurrentTimeUS();
-	virtual MonkeyWorksTime getCurrentTimeNS();
+	virtual MWTime getCurrentTime();	
+	virtual MWTime getCurrentTimeMS();
+	virtual MWTime getCurrentTimeUS();
+	virtual MWTime getCurrentTimeNS();
 	
-	virtual void sleepMS(MonkeyWorksTime time);
-	virtual void sleepUS(MonkeyWorksTime time);
-	virtual void sleepNS(MonkeyWorksTime time);
+	virtual void sleepMS(MWTime time);
+	virtual void sleepUS(MWTime time);
+	virtual void sleepNS(MWTime time);
 	
 	virtual long getInterval();
 	virtual void setInterval(long micro);
@@ -43,14 +43,14 @@ public:
 	virtual void startClock();
 	virtual void stopClock();
 	
-	virtual MonkeyWorksTime getSystemTimeMS();
-	virtual MonkeyWorksTime getSystemTimeUS();
-	virtual MonkeyWorksTime getSystemTimeNS();
+	virtual MWTime getSystemTimeMS();
+	virtual MWTime getSystemTimeUS();
+	virtual MWTime getSystemTimeNS();
 	/**
 	 * Returns the difference between the system start time
 	 * and the UNIX reference time Jan 1 1970. 
 	 */
-	virtual MonkeyWorksTime getSystemReferenceTime();
+	virtual MWTime getSystemReferenceTime();
   
   REGISTERED_SINGLETON_CODE_INJECTION(Clock)
   

@@ -126,7 +126,7 @@ Datum::Datum(const long newdata){
   setInteger(newdata);
 }
 
-Datum::Datum(const MonkeyWorksTime newdata){
+Datum::Datum(const MWTime newdata){
   initScarabDatum();
   setDataType(M_INTEGER);
   setInteger(newdata);
@@ -1294,8 +1294,10 @@ std::vector<Datum> Datum::getKeys() const {
 	lockDatum();
 	ScarabDatum ** sd = scarab_dict_keys(data);
 	
-	int n_keys = data->data.dict->tablesize;
-	
+    // DDC: 12/09: I think this should be size, not tablesize
+	//int n_keys = data->data.dict->tablesize;
+	int n_keys = data->data.dict->size;
+    
 	for(int i = 0; i<n_keys; ++i) {
 		keys.push_back(sd[i]);
 	}

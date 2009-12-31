@@ -157,20 +157,20 @@ void *zenScheduledExecutionThread(void *arglist){
 	// Unpack the task description
 	boost::function<void *()> functor = task->getFunctor();
 	int ntimes = task->getNTimes();
-	MonkeyWorksTime initial_delay_us = task->getInitialDelayUS();
-	MonkeyWorksTime repeat_interval_us = task->getRepeatIntervalUS();
+	MWTime initial_delay_us = task->getInitialDelayUS();
+	MWTime repeat_interval_us = task->getRepeatIntervalUS();
 	if(VERBOSE_SCHEDULER) mprintf(" ****** repeat_interval_us = %u   %u", (unsigned long)repeat_interval_us, task.get());
 	
-	MonkeyWorksTime start_time_us = task->getStartTimeUS();
+	MWTime start_time_us = task->getStartTimeUS();
 	MissedExecutionBehavior behavior = task->getMissedExecutionBehavior();
 	int priority = task->getPriority();
-	MonkeyWorksTime warning_slop_us = task->getWarningSlopUS();
+	MWTime warning_slop_us = task->getWarningSlopUS();
 	int fail_slop_us = task->getFailureSlopUS();
-	MonkeyWorksTime computation_time_us = task->getComputationTimeUS();
+	MWTime computation_time_us = task->getComputationTimeUS();
 	
 	
 	
-	MonkeyWorksTime next_us;
+	MWTime next_us;
 	long ndone = 0;
 	
 	// Go realtime, if requested
@@ -202,11 +202,11 @@ void *zenScheduledExecutionThread(void *arglist){
 	}
 	
 	
-	MonkeyWorksTime now_us = task->getScheduler()->getClock()->getCurrentTimeUS();
+	MWTime now_us = task->getScheduler()->getClock()->getCurrentTimeUS();
 	
 	//cerr << "Startup latency: " << now_us - start_time_us << endl;
 	
-	MonkeyWorksTime time_to_first_shot = (start_time_us + initial_delay_us) - now_us;
+	MWTime time_to_first_shot = (start_time_us + initial_delay_us) - now_us;
 	// Sleep if there is an initial delay
 	if(time_to_first_shot > 0){		
 		task->getScheduler()->getClock()->sleepUS(time_to_first_shot);
@@ -249,7 +249,7 @@ void *zenScheduledExecutionThread(void *arglist){
 		
 		
 		
-		if(fail_slop_us > (MonkeyWorksTime)0 &&
+		if(fail_slop_us > (MWTime)0 &&
 		   now_us - next_us > fail_slop_us){
 			if(!SILENCE_SCHEDULE_WARNINGS){
 				merror(M_SCHEDULER_MESSAGE_DOMAIN,
@@ -260,7 +260,7 @@ void *zenScheduledExecutionThread(void *arglist){
 					   task->getPriority());
 			}
 			
-		} else if(warning_slop_us > (MonkeyWorksTime)0 &&
+		} else if(warning_slop_us > (MWTime)0 &&
 				  now_us - next_us > warning_slop_us){
 			if (!SILENCE_SCHEDULE_WARNINGS) {
 				mwarning(M_SCHEDULER_MESSAGE_DOMAIN,
@@ -333,7 +333,7 @@ void *zenScheduledExecutionThread(void *arglist){
 							(int)((now_us - next_us) / repeat_interval_us);
 						//mprintf("((now_us - next_us) / repeat_interval_us) = %lld", ((now_us - next_us) / repeat_interval_us));	
 						// move on
-						if(warning_slop_us > (MonkeyWorksTime)0){
+						if(warning_slop_us > (MWTime)0){
 							if (!SILENCE_SCHEDULE_WARNINGS){
 								mwarning(M_SCHEDULER_MESSAGE_DOMAIN,
 										 "Scheduled task (%s) falling behind, dropping %d "
@@ -371,7 +371,7 @@ void *zenScheduledExecutionThread(void *arglist){
 		
 		
 		next_us = start_time_us + initial_delay_us + 
-			((MonkeyWorksTime)(ndone))*repeat_interval_us;
+			((MWTime)(ndone))*repeat_interval_us;
 		
 		if((next_us - now_us) > 0){
 			if(VERBOSE_SCHEDULER) 
@@ -396,14 +396,14 @@ ZenScheduleTask::ZenScheduleTask(const std::string &_description,
 								   long _id,
 								   const shared_ptr<Scheduler> &_scheduler, 
 								   boost::function<void *()> _functor,
-								   MonkeyWorksTime _start_time,
-								   MonkeyWorksTime _initial_delay, 
-								   MonkeyWorksTime _repeat_interval, 
+								   MWTime _start_time,
+								   MWTime _initial_delay, 
+								   MWTime _repeat_interval, 
 								   int _ntimes, int  _priority,
 								   MissedExecutionBehavior _behavior,
-								   MonkeyWorksTime _warn_slop, 
-								   MonkeyWorksTime _fail_slop,
-								   MonkeyWorksTime _computation_time_us){
+								   MWTime _warn_slop, 
+								   MWTime _fail_slop,
+								   MWTime _computation_time_us){
 	
 	description = _description;
 	node_id = _id;	
@@ -437,9 +437,9 @@ lock();
 pthread_cancel(thread);
 
 ZenScheduler *scheduler = description->getScheduler();
-MonkeyWorksTime repeat_interval_us = description->getRepeatIntervalUS();
-MonkeyWorksTime warning_slop_us = description->getWarningSlopUS();
-MonkeyWorksTime fail_slop_us = description->getFailureSlopUS();
+MWTime repeat_interval_us = description->getRepeatIntervalUS();
+MWTime warning_slop_us = description->getWarningSlopUS();
+MWTime fail_slop_us = description->getFailureSlopUS();
 long ntimes = description->getNTimes();
 long ndone = description->getNDone();
 long priority = description->getPriority();
@@ -498,16 +498,16 @@ void ZenScheduler::launchWatchdogThread(){
 ZenScheduler::~ZenScheduler() {}
 
 shared_ptr<ScheduleTask> ZenScheduler::scheduleUS(const std::string &description,
-													MonkeyWorksTime initial_delay, 
-													MonkeyWorksTime repeat_interval, 
+													MWTime initial_delay, 
+													MWTime repeat_interval, 
 													int ntimes,
 													boost::function<void *()> _functor,
 													int _priority,
-													MonkeyWorksTime _warn_slop_us, 
-													MonkeyWorksTime _fail_slop_us, 
+													MWTime _warn_slop_us, 
+													MWTime _fail_slop_us, 
 													MissedExecutionBehavior _behav){
 	
-	MonkeyWorksTime start_time = the_clock->getCurrentTimeUS();
+	MWTime start_time = the_clock->getCurrentTimeUS();
 	
 	boost::mutex::scoped_lock lock(scheduler_lock);
 	nscheduled++;
@@ -626,12 +626,12 @@ shared_ptr<ScheduleTask> ZenScheduler::scheduleUS(const std::string &description
 
 
 
-/*shared_ptr<ScheduleTask> ZenScheduler::scheduleConstrainedUS(MonkeyWorksTime initial_delay, 
-MonkeyWorksTime repeat_interval, int ntimes, void *(*funptr)(void *), 
+/*shared_ptr<ScheduleTask> ZenScheduler::scheduleConstrainedUS(MWTime initial_delay, 
+MWTime repeat_interval, int ntimes, void *(*funptr)(void *), 
 void *arg,int nbytes,
-MonkeyWorksTime _computation_time_us, 
-MonkeyWorksTime _warn_slop_us, 
-MonkeyWorksTime _fail_slop_us,
+MWTime _computation_time_us, 
+MWTime _warn_slop_us, 
+MWTime _fail_slop_us,
 MissedExecutionBehavior _behav = M_MISSED_EXECUTION_DROP){
 		  
 	void *argument = (void *)malloc(nbytes);
@@ -643,11 +643,11 @@ MissedExecutionBehavior _behav = M_MISSED_EXECUTION_DROP){
 }*/
 
 
-/*shared_ptr<ScheduleTask> ZenScheduler::scheduleConstrainedUS(MonkeyWorksTime initial_delay, 
-MonkeyWorksTime repeat_interval, int ntimes, void *(*funptr)(void *), 
-void *arg, MonkeyWorksTime _computation_time_us, 
-MonkeyWorksTime _warn_slop_us, 
-MonkeyWorksTime _fail_slop_us,
+/*shared_ptr<ScheduleTask> ZenScheduler::scheduleConstrainedUS(MWTime initial_delay, 
+MWTime repeat_interval, int ntimes, void *(*funptr)(void *), 
+void *arg, MWTime _computation_time_us, 
+MWTime _warn_slop_us, 
+MWTime _fail_slop_us,
 MissedExecutionBehavior _behav = M_MISSED_EXECUTION_DROP){
 	
 	nscheduled++;
@@ -686,12 +686,12 @@ void ZenScheduler::checkTasks(){
 		 
 		 shared_ptr<ZenScheduleTaskDescription> description = current->getDescription();
 		 
-		 MonkeyWorksTime now = the_clock->getCurrentTimeUS();
-		 MonkeyWorksTime last = description->getLastHeartbeat();
+		 MWTime now = the_clock->getCurrentTimeUS();
+		 MWTime last = description->getLastHeartbeat();
 		 
 		 // do something more elegant / configurable
 		 
-		 MonkeyWorksTime interval = description->getRepeatIntervalUS();
+		 MWTime interval = description->getRepeatIntervalUS();
 		 
 		 if(interval >= 0){
 			 continue;
@@ -700,7 +700,7 @@ void ZenScheduler::checkTasks(){
 #define M_ZEN_SCHEDULER_WATCHDOG_WARNING_MULTIPLE	4
 #define M_ZEN_SCHEDULER_WATCHDOG_ERROR_MULTIPLE		10
 #define M_ZEN_SCHEDULER_WATCHDOG_CANCEL_MULTIPLE	20
-		 MonkeyWorksTime lag = now - last;
+		 MWTime lag = now - last;
 		 if(lag > M_ZEN_SCHEDULER_WATCHDOG_CANCEL_MULTIPLE * interval){
 			 merror(M_SCHEDULER_MESSAGE_DOMAIN,
 					"RESTARTING TASK: Task %d failed to check in for %ul ms", lag);

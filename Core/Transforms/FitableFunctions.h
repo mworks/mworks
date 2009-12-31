@@ -83,14 +83,14 @@ namespace mw {
     protected:
         Datum           *pDataInputVector;
         Datum           desiredOutputData;
-        MonkeyWorksTime timeUS;
+        MWTime timeUS;
         
     public:
-        FitableSample(Datum *_pDataInputVector, Datum _desiredOutputData, MonkeyWorksTime _timeUS);
+        FitableSample(Datum *_pDataInputVector, Datum _desiredOutputData, MWTime _timeUS);
         virtual ~FitableSample();
         Datum           *getInputVector();
         Datum           getOutputData();
-        MonkeyWorksTime getTime();
+        MWTime getTime();
 	};
 	
 	
@@ -108,7 +108,7 @@ namespace mw {
     public:
         FitableFunction(int _numInputs);
         virtual ~FitableFunction();
-        virtual void acceptDataForFit(Datum *pInputData, Datum desiredOutputData, MonkeyWorksTime timeUS);
+        virtual void acceptDataForFit(Datum *pInputData, Datum desiredOutputData, MWTime timeUS);
         virtual bool fitTheFunction() {return false;}
         //virtual bool applyTheFunction(Datum *pInputData, Datum *outputData) {return false;} // DDC fix
 		virtual bool applyTheFunction(const Datum& pInputData, Datum *outputData) {return false;}
@@ -117,7 +117,7 @@ namespace mw {
         virtual Datum getParameters(); 
         virtual int getNumParameters();
         virtual void flushOldData(); // flush all
-        virtual void flushOldData(MonkeyWorksTime _flushDataOlderThanThisTimeUS); 
+        virtual void flushOldData(MWTime _flushDataOlderThanThisTimeUS); 
 		
 	};
 	

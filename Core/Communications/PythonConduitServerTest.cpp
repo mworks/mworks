@@ -22,7 +22,7 @@
 #include "DummyEventTransport.h"
 #include "IPCEventTransport.h"
 #include "CodecAwareConduit.h"
-#include "ControlEventHandler.h"
+#include "StandardSystemEventHandler.h"
 #include "StandardVariables.h"
 #include "EventStreamConduit.h"
 
@@ -34,7 +34,7 @@ using namespace mw;
 void PythonConduitServerTestFixture::setUp(){
     FullCoreEnvironmentTestFixture::setUp();
     
-    event_handler = shared_ptr<EventStreamInterface>(new ControlEventHandler());
+    event_handler = shared_ptr<EventStreamInterface>(new StandardSystemEventHandler());
 }
 
 

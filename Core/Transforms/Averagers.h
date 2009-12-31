@@ -31,8 +31,8 @@ protected:
  Datum  var;
  Datum  stdDev;
  Datum  SEM;
-	MonkeyWorksTime aveTimeUS;
-	void    computeAllValues(Datum data, MonkeyWorksTime timeUS);
+	MWTime aveTimeUS;
+	void    computeAllValues(Datum data, MWTime timeUS);
 	
 public:
 	Averager(shared_ptr<Variable> _inputVar);
@@ -49,7 +49,7 @@ public:
 	
 	// method overriden from base class
 	virtual void newDataReceived(int inputIndex, const Datum& data, 
-								 MonkeyWorksTime timeUS);
+								 MWTime timeUS);
 };
 
 
@@ -65,7 +65,7 @@ public:
 	AveragerUser(shared_ptr<Variable> _inputVar, shared_ptr<Variable> _outputVar);
 	virtual ~AveragerUser();
 	virtual void newDataReceived(int inputIndex, const Datum& data, 
-								 MonkeyWorksTime timeUS);
+								 MWTime timeUS);
 };
 
 class AveragerUserFactory : public ComponentFactory {

@@ -67,7 +67,7 @@ class StimulusNode : public Lockable, public LinkedListNode<StimulusNode>, publi
 		
 		virtual void draw(StimulusDisplay* display);
                 
-		virtual void announceStimulusDraw(MonkeyWorksTime time);
+		virtual void announceStimulusDraw(MWTime time);
 		virtual Datum getCurrentAnnounceDrawData();
 	
     virtual void load(shared_ptr<StimulusDisplay> display);
@@ -119,7 +119,7 @@ class StimulusGroupReferenceNode : public StimulusNode {
 		virtual bool isFrozen();
 		
         virtual void draw(StimulusDisplay * display);
-        virtual void announceStimulusDraw(MonkeyWorksTime time);  // JJD add
+        virtual void announceStimulusDraw(MWTime time);  // JJD add
 		virtual Datum getCurrentAnnounceDrawData();
 		
   

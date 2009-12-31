@@ -18,25 +18,25 @@ SINGLETON_INSTANCE_STATIC_DECLARATION(Clock)
 Clock::Clock(long interval_microseconds){ }
 Clock::~Clock() { }
 
-MonkeyWorksTime Clock::getCurrentTime(){
+MWTime Clock::getCurrentTime(){
     return getCurrentTimeMS();
 }
 
-MonkeyWorksTime Clock::getCurrentTimeMS(){
+MWTime Clock::getCurrentTimeMS(){
     return 0;
 }
-MonkeyWorksTime Clock::getCurrentTimeUS(){
+MWTime Clock::getCurrentTimeUS(){
     return 0;
 }
-MonkeyWorksTime Clock::getCurrentTimeNS(){
+MWTime Clock::getCurrentTimeNS(){
     return 0;
 }
 
 
 
-void Clock::sleepMS(MonkeyWorksTime time){ return; }
-void Clock::sleepUS(MonkeyWorksTime time){ return; }
-void Clock::sleepNS(MonkeyWorksTime time){ return; }
+void Clock::sleepMS(MWTime time){ return; }
+void Clock::sleepUS(MWTime time){ return; }
+void Clock::sleepNS(MWTime time){ return; }
 
 long Clock::getInterval(){
     return 0;
@@ -47,19 +47,19 @@ void Clock::setInterval(long micro){ }
 void Clock::startClock(){ }
 void Clock::stopClock(){ }
 
-MonkeyWorksTime Clock::getSystemTimeMS(){
+MWTime Clock::getSystemTimeMS(){
     return 0;
 }
 
-MonkeyWorksTime Clock::getSystemTimeUS(){
+MWTime Clock::getSystemTimeUS(){
     return 0;
 }
 
-MonkeyWorksTime Clock::getSystemTimeNS(){
+MWTime Clock::getSystemTimeNS(){
     return 0;
 }
 
 
-MonkeyWorksTime Clock::getSystemReferenceTime() {
+MWTime Clock::getSystemReferenceTime() {
     return 0;
 }

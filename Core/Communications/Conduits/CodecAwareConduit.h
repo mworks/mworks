@@ -12,6 +12,9 @@
 
 #include "SimpleConduit.h"
 
+#define name_defined_callback_key   "CodeAwareConduit::name_defined_callback_key"
+
+
 // A conduit that maintains a local codec (code -> name mappings)
 // that it transmits to the other side of the conduit so that it
 // can understand event codes without needing a pre-agreed mapping
@@ -27,14 +30,13 @@ protected:
     boost::mutex local_codec_lock;
     map<int, string> local_codec;
     map<string, int> local_reverse_codec;
+    int local_codec_code_counter;
     
     boost::mutex remote_codec_lock;
     map<int, string> remote_codec;
     map<string, int> remote_reverse_codec;
     
     map<string, EventCallback> callbacks_by_name;
-    
-#define name_defined_callback_key   "name_defined_callback_key"
     
     void transmitCodecEvent();
     void rebuildEventCallbacks();
@@ -53,7 +55,9 @@ public:
     virtual bool initialize();
     virtual void registerCallbackByName(string name, EventCallback cb);    
     virtual void registerLocalEventCode(int code, string name);
+    
     void receiveCodecEvent(shared_ptr<Event> evt);   
+    void receiveControlEvent(shared_ptr<Event> evt);
     
     void codeTranslatedCallback(shared_ptr<Event> evt, EventCallback cb, int new_code);
     

@@ -198,7 +198,6 @@ class ContainerState : public State {
 								ComponentRegistry *reg,
 								shared_ptr<mw::Component> child){
 			
-			std::cerr << "addChild start" << std::endl;
 			shared_ptr<State> state = dynamic_pointer_cast<State, mw::Component>(child);
 
 			if(state == NULL){
@@ -210,7 +209,6 @@ class ContainerState : public State {
 			state->setParent(getSelfPtr<State>());
 			state->updateHierarchy();
 			
-			std::cerr << "addChild end" << std::endl;
 		}
 
 };

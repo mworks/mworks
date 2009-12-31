@@ -100,14 +100,14 @@ void RingBuffer::reset(){
 }
 
 TimeStampedRingBuffer::TimeStampedRingBuffer(int bufsize) : RingBuffer(bufsize){
-	time = (MonkeyWorksTime *)calloc(buffer_size, sizeof(MonkeyWorksTime));
+	time = (MWTime *)calloc(buffer_size, sizeof(MWTime));
 	for(int i = 0; i < buffer_size; i++){
 		time[i] = 0;
 	}
 }
 
 
-MonkeyWorksTime *TimeStampedRingBuffer::getTime(){
+MWTime *TimeStampedRingBuffer::getTime(){
 #ifdef AGGRESSIVE_LOCKING
 	boost::mutex::scoped_lock locker(buffer_lock); 
 #endif 
@@ -115,7 +115,7 @@ MonkeyWorksTime *TimeStampedRingBuffer::getTime(){
 	return time;			
 }
 
-MonkeyWorksTime TimeStampedRingBuffer::getTime(int index){
+MWTime TimeStampedRingBuffer::getTime(int index){
 	if(index < 0 || index > buffer_size){
 		merror(M_SYSTEM_MESSAGE_DOMAIN,"Buffer read out of bounds");
 	}
@@ -295,7 +295,7 @@ double RingBufferReader::getFillRatio(){
 }
 
 
-MonkeyWorksTime TimeStampedBufferReader::getTime(){
+MWTime TimeStampedBufferReader::getTime(){
 #ifdef AGGRESSIVE_LOCKING
 	boost::mutex::scoped_lock locker(buffer_reader_lock); 
 #endif 

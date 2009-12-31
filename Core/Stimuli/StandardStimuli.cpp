@@ -195,7 +195,7 @@ void CompoundStimulus::addStimulus(shared_ptr<Stimulus> stim, shared_ptr<Variabl
 
 
 // override of methods in base stimulus class -- announce each sub-element (using the standard base method)
-void CompoundStimulus::announceStimulusDraw(MonkeyWorksTime now)  {
+void CompoundStimulus::announceStimulusDraw(MWTime now)  {
     for(int i = 0; i < stimList->getNElements(); i++) {
         (stimList->getElement(i))->announceStimulusDraw(now);
     }

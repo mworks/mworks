@@ -16,7 +16,7 @@ TimeBase::TimeBase() {
 	setNow();
 }
 
-void TimeBase::setTime(MonkeyWorksTime _time){
+void TimeBase::setTime(MWTime _time){
 	time_us = _time;
 }
 void TimeBase::setNow(){
@@ -24,7 +24,7 @@ void TimeBase::setNow(){
 	time_us = clock->getCurrentTimeUS();
 }
 
-MonkeyWorksTime TimeBase::getTime(){
+MWTime TimeBase::getTime(){
 	return time_us;
 }
 
@@ -38,11 +38,11 @@ Timer::Timer(VariableProperties *props) : Variable(props) {
 
 Timer::~Timer(){ }
 
-void Timer::start(MonkeyWorksTime howlongms){
+void Timer::start(MWTime howlongms){
 	startMS(howlongms);
 }
 
-void Timer::startMS(MonkeyWorksTime howlongms){
+void Timer::startMS(MWTime howlongms){
 	
 	startUS(howlongms * 1000);
 }
@@ -59,7 +59,7 @@ void Timer::forceExpired(){
 	*has_expired = true;
 }
 
-void Timer::startUS(MonkeyWorksTime howlongus){
+void Timer::startUS(MWTime howlongus){
 	boost::mutex::scoped_lock lock(*internalLock);
 	
 	//boost::mutex::scoped_lock lock2(*schedule_node_lock);

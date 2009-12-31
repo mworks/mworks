@@ -22,7 +22,7 @@ public:
 
 	// TODO: warn?
 	virtual void setValue(Datum _value){ *value = _value;}
-	virtual void setValue(Datum _value, MonkeyWorksTime time){  *value = _value;}
+	virtual void setValue(Datum _value, MWTime time){  *value = _value;}
 	virtual void setSilentValue(Datum _value){ return; }
 
 

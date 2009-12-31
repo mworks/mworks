@@ -252,15 +252,15 @@ void TimerTestFixture::testTimerUnderAttack(){
 	set_realtime(94);
 	
 	for(int i = 0; i < 1000; i++){
-		MonkeyWorksTime delay = 10000;
+		MWTime delay = 10000;
 		
 		shared_ptr <Clock> clock = Clock::instance();
-		MonkeyWorksTime then = clock->getCurrentTimeUS();
+		MWTime then = clock->getCurrentTimeUS();
 		t.startUS(delay);
 		
 		while(!t.hasExpired()) clock->sleepUS(50);
 		
-		MonkeyWorksTime now = clock->getCurrentTimeUS();
+		MWTime now = clock->getCurrentTimeUS();
 		
 		cerr << "Timer fell at expiration-relative time of: " 
 			 << (now - then) - delay << endl;
@@ -397,22 +397,22 @@ void TimerTestFixture::textTimerWithTimebase(){
 	shared_ptr<TimeBase> tb(new TimeBase());
 	shared_ptr<Timer> t(new Timer());
 	
-	MonkeyWorksTime time_amount = 1000;
+	MWTime time_amount = 1000;
 	shared_ptr<Variable> time_to_wait(new ConstantVariable(time_amount));
 	StartTimer a(t,tb, time_to_wait);
 
 	shared_ptr <Clock> clock = Clock::instance();
-	MonkeyWorksTime then = clock->getCurrentTimeUS();
+	MWTime then = clock->getCurrentTimeUS();
 	tb->setNow();
 
 	for(int i = 1; i < 5000; i++){
 		a.execute();
 		
 		while(!t->hasExpired())  clock->sleepUS(10);
-		MonkeyWorksTime now = clock->getCurrentTimeUS();
+		MWTime now = clock->getCurrentTimeUS();
 		//cerr << "Now: " << now << endl;
 		
-		MonkeyWorksTime error = (now - then) - (MonkeyWorksTime)(*time_to_wait);
+		MWTime error = (now - then) - (MWTime)(*time_to_wait);
 		cerr << "Error: " << (long long) error << endl;
 		CPPUNIT_ASSERT( abs(error) < 2000 );
 		CPPUNIT_ASSERT( error > 0 );

@@ -36,7 +36,6 @@ class Client : public RegistryAwareEventStreamInterface {
 	// the return value of the last communication
 	shared_ptr<NetworkReturn> lastNetworkReturn;
 	
-	shared_ptr<Variable> system_event_variable;
 	shared_ptr<Variable> message_variable;
 	
 	std::vector <std::vector<shared_ptr<GenericEventFunctor> > > callbacks;

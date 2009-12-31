@@ -58,10 +58,6 @@ public:
 };
     
 
-// An event stream interface that maintains its own outgoing codec
-class SelfContainedEventStreamInterface : public EventStreamInterface {
-    
-};
     
 }
 #endif

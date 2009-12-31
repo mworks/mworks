@@ -162,16 +162,16 @@ public:
 	}
 	
 	virtual void performNotifications(Datum data);
-	virtual void performNotifications(Datum data, MonkeyWorksTime timeUS);
+	virtual void performNotifications(Datum data, MWTime timeUS);
 	
 	// Announcing a variable's value to the event stream
 	virtual void announce();
-	virtual void announce(MonkeyWorksTime _when);
+	virtual void announce(MWTime _when);
 	
 	// Basic value get and set (overridden in subclasses)
 	virtual Datum getValue() = 0;
 	virtual void setValue(Datum _data) = 0;
-	virtual void setValue(Datum _data, MonkeyWorksTime _when) = 0;
+	virtual void setValue(Datum _data, MWTime _when) = 0;
 	virtual void setSilentValue(Datum _value) = 0;
 	
 	
@@ -185,7 +185,7 @@ public:
 	virtual void operator=(double a);
 	virtual void operator=(float a);
 	virtual void operator=(bool a);
-	virtual void operator=(MonkeyWorksTime a);
+	virtual void operator=(MWTime a);
 	virtual void operator=(std::string a);
 	virtual void operator=(Datum a);
 	
@@ -196,7 +196,7 @@ public:
 	virtual operator double();
 	virtual operator float();
 	virtual operator bool();
-	virtual operator MonkeyWorksTime();
+	virtual operator MWTime();
 	virtual operator Datum();
 			
 	// Arithmetic operator overloads
@@ -241,11 +241,11 @@ public:
 	EmptyVariable(VariableProperties *p = NULL) : Variable(p){ };
 	
 	virtual void announce(){ }
-	virtual void announce(MonkeyWorksTime t){ }
+	virtual void announce(MWTime t){ }
 	
 	virtual Datum getValue(){  return Datum(0L); }
 	virtual void setValue(Datum v){ }
-	virtual void setValue(Datum v, MonkeyWorksTime t){ }
+	virtual void setValue(Datum v, MWTime t){ }
 	virtual void setSilentValue(Datum _value){ return; }
 	
 	virtual Variable *clone(){ 

@@ -272,8 +272,16 @@ void *checkStateSystem(void *void_state_system){
 				
 			}
 			
-			shared_ptr<State> next_state_shared(next_state);
-			
+            shared_ptr<State> next_state_shared;
+            
+            try{
+                shared_ptr<State> attempt(next_state); // cast weak_ptr into shared_ptr
+                next_state_shared = attempt; // machination required because of weak to shared conversion semantics
+			} catch (std::exception& e){
+                mwarning(M_STATE_SYSTEM_MESSAGE_DOMAIN, "Failed to acquire shared_ptr from next_state; coming to an abrupt halt");
+                (*state_system_mode) = IDLE;
+                continue;
+            }
 			
 			//mprintf("State system moving on... %d", next_state);
 			

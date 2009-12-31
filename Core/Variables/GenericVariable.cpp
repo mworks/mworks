@@ -258,7 +258,7 @@ void Variable::performNotifications(Datum data) {
 	}		
 }
 
-void Variable::performNotifications(Datum data, MonkeyWorksTime timeUS) {
+void Variable::performNotifications(Datum data, MWTime timeUS) {
 	notifications.lock();
 	
 	shared_ptr<VariableNotification> node = getFirstNotification(); 
@@ -285,7 +285,7 @@ void Variable::announce(){
 }
 
 
-void Variable::announce(MonkeyWorksTime timeUS){
+void Variable::announce(MWTime timeUS){
 
 	if(properties){
 		if(properties->getLogging() == M_WHEN_CHANGED && event_target != 0) {
@@ -341,7 +341,7 @@ void Variable::operator=(bool a) {
     setValue(a);
 }
 
-void Variable::operator=(MonkeyWorksTime a) {
+void Variable::operator=(MWTime a) {
     setValue((long)a);
 }
 
@@ -353,8 +353,8 @@ void Variable::operator=(Datum a) {
     setValue(a);
 }
 
-Variable::operator MonkeyWorksTime() {
-	return (MonkeyWorksTime)getValue(); 
+Variable::operator MWTime() {
+	return (MWTime)getValue(); 
 }
 
     

@@ -10,8 +10,6 @@
 #ifndef _EVENT_CONSTANTS_H
 #define _EVENT_CONSTANTS_H
 
-#define RESERVED_CODEC_CODE 0
-#define RESERVED_COMPONENT_CODEC_CODE 1 
 
 #define SCARAB_PAYLOAD_EVENT_N_TOPLEVEL_ELEMENTS	3
 #define SCARAB_EVENT_N_TOPLEVEL_ELEMENTS			2
@@ -36,7 +34,7 @@ typedef enum {
     M_SYSTEM_RESPONSE_PACKAGE       = 1002,
 } SystemEventType;
 
-// the ControlEventFactory should be used to code and decode all of these messages.
+// the SystemEventFactory should be used to code and decode all of these messages.
 typedef enum {
 	// data package types whose payloads are data
     M_EXPERIMENT_PACKAGE                = 2000,
@@ -124,17 +122,13 @@ enum MessageDomain { M_GENERIC_MESSAGE_DOMAIN		= 0,
     
 #define SAVED_VARIABLES_DIR_NAME "SavedVariables"
 
-    
-//enum EventType{	M_UNDEFINED_EVENT = 1000,
-//	M_SYSTEM_EVENT =	1001,
-//	M_DATA_EVENT =		1002 
-//};
 
-
-// TODO: this is clumsy
-enum EventCode {	M_UNDEFINED_EVENT_CODE =		-999,
-	M_TERMINATION_EVENT_CODE =		2,
-	M_MAX_RESERVED_EVENT_CODE = 3
+enum ReservedEventCode {	M_UNDEFINED_EVENT_CODE =		-999,
+	RESERVED_CODEC_CODE = 0,
+    RESERVED_SYSTEM_EVENT_CODE = 1,
+    RESERVED_COMPONENT_CODEC_CODE = 2,
+    RESERVED_TERMINATION_CODE = 3,
+    N_RESERVED_CODEC_CODES = 4
 };
 
 enum MessageOrigin {
@@ -143,9 +137,6 @@ enum MessageOrigin {
 	M_CLIENT_MESSAGE_ORIGIN = 2,	
 };
 
-
-// TODO: clean this up														 			 
-#define M_DATA_EVENT_MIN_CODE	M_MAX_RESERVED_EVENT_CODE
 }
 #endif
 

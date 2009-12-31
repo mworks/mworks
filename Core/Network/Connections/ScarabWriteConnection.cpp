@@ -76,7 +76,7 @@ int ScarabWriteConnection::service() {
 	static int n_written = 0;
 	
 	shared_ptr <Clock> clock = Clock::instance();
-	static MonkeyWorksTime start_time = clock->getCurrentTimeUS();
+	static MWTime start_time = clock->getCurrentTimeUS();
 //    static int functionCount = 0;
 //    mdebug("entering write service");
 //    struct timespec time_to_sleep;
@@ -120,7 +120,7 @@ int ScarabWriteConnection::service() {
             // and sends the package
             termEvent = scarab_list_new(2);
 			
-			ScarabDatum *termCode = scarab_new_integer(M_TERMINATION_EVENT_CODE);
+			ScarabDatum *termCode = scarab_new_integer(RESERVED_TERMINATION_CODE);
             scarab_list_put(termEvent, 0, termCode);
 			scarab_free_datum(termCode);
 			
@@ -154,7 +154,7 @@ int ScarabWriteConnection::service() {
         
 		while(buffer_reader->nextEventExists() && !interrupt) {
             
-            //MonkeyWorksTime event_time = newevent->getTime();
+            //MWTime event_time = newevent->getTime();
             //mEventType type = newevent->getEventType();
             //mVariable *var = newevent->getParam();
             ScarabDatum * scarab_event;
@@ -230,7 +230,7 @@ int ScarabWriteConnection::service() {
 			if(n_written - last_nwritten >= N){
 				last_nwritten = n_written;
 				
-				MonkeyWorksTime now = clock->getCurrentTimeUS();
+				MWTime now = clock->getCurrentTimeUS();
 				
 				/*fprintf(stderr, "last: %lld, now: %lld\n",
 							start_time,

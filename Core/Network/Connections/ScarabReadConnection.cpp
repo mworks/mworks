@@ -132,8 +132,7 @@ int ScarabReadConnection::service() {
 				
 				code = scarab_list_get(datum, 
 								SCARAB_EVENT_CODEC_CODE_INDEX);
-				if(code->type == SCARAB_INTEGER && code->data.integer ==
-									M_TERMINATION_EVENT_CODE) { 
+				if(code->type == SCARAB_INTEGER && code->data.integer == RESERVED_TERMINATION_CODE) { 
 					//termination event
                     mwarning(M_NETWORK_MESSAGE_DOMAIN, 
 							"Received Termination code on id %d", cid);

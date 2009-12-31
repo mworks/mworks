@@ -55,7 +55,7 @@ void StimulusDisplayChain::execute() {
     }
 }
 
-void StimulusDisplayChain::announce(MonkeyWorksTime time) {
+void StimulusDisplayChain::announce(MWTime time) {
     shared_ptr<StimulusNode> node = getBackmost(); //tail;
 	
     while(node != shared_ptr< LinkedListNode<StimulusNode> >()) {
@@ -289,7 +289,7 @@ void StimulusDisplay::updateDisplay() {
 	boost::mutex::scoped_lock lock(display_lock);
 	
 	shared_ptr <Clock> clock = Clock::instance();
-	MonkeyWorksTime before_draw = clock->getCurrentTimeUS();
+	MWTime before_draw = clock->getCurrentTimeUS();
 	update_stim_chain_next_refresh = false;
 	
 	for(unsigned int i = 0; i < context_ids.size(); i++){
@@ -335,12 +335,12 @@ void StimulusDisplay::updateDisplay() {
 			glFinishFenceAPPLE(GlobalOpenGLContextManager->getFence());
 			
     #ifdef ERROR_ON_LATE_FRAMES
-            MonkeyWorksTime now = clock->getCurrentTimeUS();
+            MWTime now = clock->getCurrentTimeUS();
 			
 			
 			stimDisplayUpdate->setValue(stimulus_chain->getAnnounceData(), now);
 			stimulus_chain->announce(now);
-			MonkeyWorksTime slop = 2*(1000000/GlobalOpenGLContextManager->getDisplayRefreshRate(GlobalOpenGLContextManager->getMainDisplayIndex()));
+			MWTime slop = 2*(1000000/GlobalOpenGLContextManager->getDisplayRefreshRate(GlobalOpenGLContextManager->getMainDisplayIndex()));
 			if(now-before_draw > slop) {
 				merror(M_DISPLAY_MESSAGE_DOMAIN,
 					   "updating main window display is taking longer than two frames (%lld > %lld) to update", 
@@ -555,7 +555,7 @@ bool StimulusGroupReferenceNode::wasVisibleOnLastUpdate(){          // JJD add
 	return (stimulus_nodes->getElement((int)(*index)))->wasVisibleOnLastUpdate();
 }*/
 
-void StimulusGroupReferenceNode::announceStimulusDraw(MonkeyWorksTime time){
+void StimulusGroupReferenceNode::announceStimulusDraw(MWTime time){
 	int index_value = getIndexValue();
 	int nelements = stimulus_nodes->getNElements();
 	if(index_value >=0 && index_value < nelements ){

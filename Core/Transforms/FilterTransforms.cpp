@@ -25,7 +25,7 @@ BoxcarFilter1D::BoxcarFilter1D(int boxcarWidthInElements, bool _lagCompensate): 
 
     lagCompensate = _lagCompensate;
     dataVector = new double [boxcarWidthInElements]; // DDC changed: this is more efficient
-    timeVectorUS = new MonkeyWorksTime [boxcarWidthInElements];
+    timeVectorUS = new MWTime [boxcarWidthInElements];
 }
 
 BoxcarFilter1D::~BoxcarFilter1D() {
@@ -33,7 +33,7 @@ BoxcarFilter1D::~BoxcarFilter1D() {
     delete timeVectorUS;
 } 
 
-void BoxcarFilter1D::input(double inputValue, MonkeyWorksTime inputTimeUS) {
+void BoxcarFilter1D::input(double inputValue, MWTime inputTimeUS) {
     
     //lock();
     //int i = 1;
@@ -53,13 +53,13 @@ void BoxcarFilter1D::input(double inputValue) {
 }
 
 
-bool BoxcarFilter1D::output(double *output, MonkeyWorksTime *outputTimeUS) {
+bool BoxcarFilter1D::output(double *output, MWTime *outputTimeUS) {
 
     lock();
     // cause pull of latest values from buffer into a vector for processing
     // (this keeps the buffers free to do their thing and simplifies the writing 
     //  of these filters)
-    //MonkeyWorksTime compTimeUS;
+    //MWTime compTimeUS;
 	int numData = getAllElements(THE_INPUT_INDEX, dataVector, timeVectorUS);
 	
     if (numData == 0) {
@@ -81,13 +81,13 @@ bool BoxcarFilter1D::output(double *output, MonkeyWorksTime *outputTimeUS) {
     *output = temp;
     
     if (lagCompensate) {
-        MonkeyWorksTime base = timeVectorUS[0];
+        MWTime base = timeVectorUS[0];
         long temp = 0;
         for (int i=0;i<numData;i++) {
             temp = temp + (long)(timeVectorUS[i]-base);
         }
         temp = temp/numData;
-        *outputTimeUS = base + (MonkeyWorksTime)temp; 
+        *outputTimeUS = base + (MWTime)temp; 
     }
     else {
         *outputTimeUS = timeVectorUS[numData-1];      // latest time
@@ -135,7 +135,7 @@ bool BoxcarFilter1D::output(double *output) {
 LinearFilter1D::LinearFilter1D(double _gain, double _offset, double _noiseSD): TransformWithMemory(NUM_INPUTS, NUM_ITEMS_IN_MEMORY) {
     
     dataVector = new double [NUM_ITEMS_IN_MEMORY];
-    timeVectorUS = new MonkeyWorksTime [NUM_ITEMS_IN_MEMORY];
+    timeVectorUS = new MWTime [NUM_ITEMS_IN_MEMORY];
     offset = _offset;
     gain = _gain;
     noiseSD = _noiseSD;
@@ -147,14 +147,14 @@ LinearFilter1D::~LinearFilter1D() {
     delete timeVectorUS;
 } 
 
-void LinearFilter1D::input(double inputValue, MonkeyWorksTime inputTimeUS) {
+void LinearFilter1D::input(double inputValue, MWTime inputTimeUS) {
 	
     //lock();
     this->addElementToMemory(THE_INPUT_INDEX, (Datum)inputValue, inputTimeUS);		
     //unlock();
 }
 
-bool LinearFilter1D::output(double *output, MonkeyWorksTime *outputTimeUS) {
+bool LinearFilter1D::output(double *output, MWTime *outputTimeUS) {
 
     lock();
     // cause pull of latest values from buffer into a vector for processing
@@ -195,7 +195,7 @@ VelocityComputer1D::VelocityComputer1D(bool _lagCompensate): TransformWithMemory
     
     lagCompensate = _lagCompensate;
     dataVector = new double [NUM_FILTER_ELEMENTS];
-    timeVectorUS = new MonkeyWorksTime [NUM_FILTER_ELEMENTS];
+    timeVectorUS = new MWTime [NUM_FILTER_ELEMENTS];
 }
 
 VelocityComputer1D::~VelocityComputer1D() {
@@ -204,7 +204,7 @@ VelocityComputer1D::~VelocityComputer1D() {
 } 
 
 
-void VelocityComputer1D::input(double eyeLoc, MonkeyWorksTime timeUS) {
+void VelocityComputer1D::input(double eyeLoc, MWTime timeUS) {
     
     //lock();
     this->addElementToMemory(THE_INPUT_INDEX, (Datum)eyeLoc, timeUS);
@@ -215,7 +215,7 @@ void VelocityComputer1D::input(double eyeLoc, MonkeyWorksTime timeUS) {
   
     
 // this routine assume 2 values!!!    
-bool VelocityComputer1D::output(double *output, MonkeyWorksTime *outputTimeUS) {
+bool VelocityComputer1D::output(double *output, MWTime *outputTimeUS) {
             
 	int numData = getAllElements(THE_INPUT_INDEX, dataVector, timeVectorUS);
 	
@@ -270,13 +270,13 @@ Filter_BoxcarFilter1D::Filter_BoxcarFilter1D(shared_ptr<Variable> _inputVar, sha
 Filter_BoxcarFilter1D::~Filter_BoxcarFilter1D() {
     delete filter;
 }
-void Filter_BoxcarFilter1D::newDataReceived(int inputIndex, const Datum& data, MonkeyWorksTime timeUS) {
+void Filter_BoxcarFilter1D::newDataReceived(int inputIndex, const Datum& data, MWTime timeUS) {
  
 	// DDC: be careful
     //lock();
     
     // pop the value into the filter and pull a value out of the filter
-    MonkeyWorksTime outputTimeUS;
+    MWTime outputTimeUS;
     double outputValue;
     filter->input((double)data, timeUS);
     filter->output(&outputValue, &outputTimeUS);   
@@ -330,13 +330,13 @@ Filter_LinearFilter1D::Filter_LinearFilter1D(shared_ptr<Variable> _inputVar, sha
 Filter_LinearFilter1D::~Filter_LinearFilter1D() {
     delete filter;
 }
-void Filter_LinearFilter1D::newDataReceived(int inputIndex, const Datum& data, MonkeyWorksTime timeUS) {
+void Filter_LinearFilter1D::newDataReceived(int inputIndex, const Datum& data, MWTime timeUS) {
 	
 	// DDC: be careful
     //lock();
     
 	// pop the value into the filter and pull a value out of the filter
-    MonkeyWorksTime outputTimeUS;
+    MWTime outputTimeUS;
     double outputValue;
     filter->input((double)data, timeUS);
     filter->output(&outputValue, &outputTimeUS);   

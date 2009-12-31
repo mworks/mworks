@@ -11,12 +11,15 @@
 #define EVENT_CALLBACK_HANDLER_H_
 
 #include <boost/function.hpp>
+#include <boost/bind.hpp>
+#include <boost/enable_shared_from_this.hpp>
 #include <string>
 #include <map>
 #include <hash_map.h>
 #include <multimap.h>
 #include <boost/thread/mutex.hpp>
 #include <boost/thread/recursive_mutex.hpp>
+#include "Utilities.h"
 
 #include "Event.h"
 
@@ -27,23 +30,23 @@ using namespace mw;
 typedef boost::function<void(shared_ptr<Event>)>  EventCallback;
 
 // simple convenience class
-class KeyedEventCallbackPair{
-public:
-    EventCallback callback;
+class KeyedEventCallbackPair : public enable_shared_from_this<KeyedEventCallbackPair>{
+
+protected:
+    
+    shared_ptr<EventCallback> callback;
     string key;
     
-    KeyedEventCallbackPair(){ }
+public:
     
-    KeyedEventCallbackPair(string _key, EventCallback _callback){
-        key = _key;
-        callback = _callback;
-    }
+    KeyedEventCallbackPair();
     
-    void operator=(const KeyedEventCallbackPair& cb_pair){
-        key = cb_pair.key;
-        callback = cb_pair.callback;
-    }
+    KeyedEventCallbackPair(string _key, EventCallback _callback);    
+    void operator=(const KeyedEventCallbackPair& cb_pair);    
+    EventCallback getCallback();    
+    string getKey();    
     
+    void dummyCallback(shared_ptr<Event> evt);    
 };
 
 
@@ -67,9 +70,12 @@ protected:
     EventCallbackKeyCodeMap         codes_by_key;
     
     // Thread safety measures
-    boost::recursive_mutex callbacks_lock;
+    boost::mutex callbacks_lock;
+    boost::recursive_mutex recursive_callbacks_lock;
     bool recursively_lock_callbacks;
     
+    void lock_callbacks();
+    void unlock_callbacks();
     
 public:
     
@@ -78,16 +84,20 @@ public:
     }
     
     virtual ~EventCallbackHandler(){ 
-        // grab this lock to ensure that anyone else who needs it
+        // grab these locks to ensure that anyone else who needs them
         // is done
-        boost::recursive_mutex::scoped_lock lock(callbacks_lock);
+        boost::recursive_mutex::scoped_lock recursive_lock(recursive_callbacks_lock);
+        boost::mutex::scoped_lock lock(callbacks_lock);
+        
     }
-    
+        
     virtual void registerCallback(EventCallback cb, string callback_key = DEFAULT_CALLBACK_KEY);
     virtual void registerCallback(int code, EventCallback cb, string callback_key = DEFAULT_CALLBACK_KEY);
     //virtual void registerCallback(string tagname, EventCallback cb, string callback_key = DEFAULT_CALLBACK_KEY);
     
-    virtual void unregisterCallbacks(const string &callback_key = DEFAULT_CALLBACK_KEY);
+    
+    virtual void unregisterCallbacksNoLocking(const std::string &key);
+    virtual void unregisterCallbacks(const string &callback_key = DEFAULT_CALLBACK_KEY, bool locked = true);
     
     // callback dispatch
     virtual void handleCallbacks(shared_ptr<Event> evt);

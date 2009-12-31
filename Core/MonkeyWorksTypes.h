@@ -14,7 +14,10 @@
 #define MONKEYWORKS_TYPES_H_
 namespace mw {
 // event time
-typedef	long long MonkeyWorksTime;
+typedef	long long MWTime;
+typedef MWTime  MonkeyWorksTime;  // crutch for compatibility, for now
+    
+    
 // value of network statistics
 typedef unsigned long long NetworkStats;
 }

@@ -33,7 +33,7 @@ Announcable::Announcable(std::string _announceVariableTagname) {
 Announcable::~Announcable() {};
 
 
-void Announcable::announce(Datum _announceData, MonkeyWorksTime now) {    
+void Announcable::announce(Datum _announceData, MWTime now) {    
     lastAnnouncedData = _announceData;
     validAnnounceData = true;
     announceVariable->setValue(lastAnnouncedData, now);
@@ -90,7 +90,7 @@ RequestNotification::RequestNotification(Requestable *_requestedObject) {
     requestedObject = _requestedObject;
 }
 
-void RequestNotification::notify(const Datum& data, MonkeyWorksTime timeUS) {
+void RequestNotification::notify(const Datum& data, MWTime timeUS) {
     if (VERBOSE_ANNOUNCERS > 1) 
 		mprintf("Request just received via update of request variable");
     
@@ -175,7 +175,7 @@ PrivateDataNotification::PrivateDataNotification(
 }
 
 void PrivateDataNotification::notify(const Datum& data, 
-									  MonkeyWorksTime timeUS) {
+									  MWTime timeUS) {
     
     respondingToPrivateVarNotification = true;
     

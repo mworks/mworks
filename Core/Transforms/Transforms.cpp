@@ -84,7 +84,7 @@ void TransformWithMemory::resetProtected(int inputIndex) {
 
 
 
-void TransformWithMemory::addElementToMemory(int inputIndex, double data, MonkeyWorksTime timeUS) {
+void TransformWithMemory::addElementToMemory(int inputIndex, double data, MWTime timeUS) {
 	
 	shared_ptr<FloatDataTimeStampedRingBuffer> memoryBuffer = (memoryBuffers->getElement(inputIndex));
 	memoryBuffer->putData(data,timeUS); 
@@ -126,7 +126,7 @@ int TransformWithMemory::getAllElements(int inputIndex, double *dataVector) {
 // get all useful data out of the buffer (usually the entire buffer)
 // the last element in the vector is the most recent
 // this routine will try to return a compTime
-int TransformWithMemory::getAllElements(int inputIndex, double *dataVector, MonkeyWorksTime *timeVectorUS) {
+int TransformWithMemory::getAllElements(int inputIndex, double *dataVector, MWTime *timeVectorUS) {
 	
 
 	shared_ptr<FloatDataTimeStampedBufferReader> memoryBufferReader = 

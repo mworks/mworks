@@ -88,7 +88,7 @@ namespace mw {
         virtual ~StimulusDisplayChain();
 		
         void execute();
-		void announce(MonkeyWorksTime time);
+		void announce(MWTime time);
 	 Datum getAnnounceData();
 		
     private:

@@ -36,6 +36,7 @@
 				5CCE1CCE10A4692500EF5866 /* ShellScript */,
 			);
 			dependencies = (
+				5C77F6D910EA9B3900919719 /* PBXTargetDependency */,
 			);
 			name = PyMW;
 			productName = PyMW;
@@ -53,7 +54,6 @@
 				5C14D9F708646D2000375FF1 /* PBXTargetDependency */,
 				5C0E758309D1AE53002295FB /* PBXTargetDependency */,
 				5C3853F90AB7458000E52A63 /* PBXTargetDependency */,
-				0E5884A90E479E2D00FC5A8F /* PBXTargetDependency */,
 				5C24578A1092550300338AA9 /* PBXTargetDependency */,
 			);
 			name = Everything;
@@ -166,11 +166,11 @@
 		5C71CD6D09AA507700EAD886 /* GlobalVariable.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C71CD6909AA507700EAD886 /* GlobalVariable.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5C71CD6E09AA507700EAD886 /* ExpressionVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C71CD6A09AA507700EAD886 /* ExpressionVariable.cpp */; };
 		5C71CD6F09AA507700EAD886 /* ExpressionVariable.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C71CD6B09AA507700EAD886 /* ExpressionVariable.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5C724443109B2BC0004887A5 /* EventStreamConduit.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C724441109B2BC0004887A5 /* EventStreamConduit.h */; };
+		5C724443109B2BC0004887A5 /* EventStreamConduit.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C724441109B2BC0004887A5 /* EventStreamConduit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5C76674F0C1BB28C00B1203C /* StimulusNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C76674D0C1BB28C00B1203C /* StimulusNode.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5C7667500C1BB28C00B1203C /* StimulusNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C76674E0C1BB28C00B1203C /* StimulusNode.cpp */; };
 		5C7667540C1BB30A00B1203C /* StimulusDisplay.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C7667530C1BB30A00B1203C /* StimulusDisplay.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5C76B41710BB226400F6D029 /* VariableRegistryInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CA9AD3010B5F9B500A04B67 /* VariableRegistryInterface.h */; };
+		5C76B41710BB226400F6D029 /* VariableRegistryInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CA9AD3010B5F9B500A04B67 /* VariableRegistryInterface.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5C7720420B6972C7008DC497 /* ScarabFileTest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C37484009EC18A200F8265F /* ScarabFileTest.h */; };
 		5C7720430B6972CA008DC497 /* ScarabFileTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C37484109EC18A200F8265F /* ScarabFileTest.cpp */; };
 		5C7A88270F818A38007B4724 /* SimpleConduitTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C7A88250F818A38007B4724 /* SimpleConduitTest.cpp */; };
@@ -193,13 +193,13 @@
 		5CA0794F10CEDFBB00000A95 /* EventStreamConduit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C724442109B2BC0004887A5 /* EventStreamConduit.cpp */; };
 		5CA07B4B10D055F600000A95 /* EventCallbackHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CA07B2810D052DB00000A95 /* EventCallbackHandler.cpp */; };
 		5CA07B4C10D055FD00000A95 /* SimpleCodecUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CA07B0E10D04E9100000A95 /* SimpleCodecUtilities.cpp */; };
-		5CA07B4D10D0560300000A95 /* SimpleCodecUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CA07B0D10D04E9100000A95 /* SimpleCodecUtilities.h */; };
-		5CA07B4E10D0560C00000A95 /* EventCallbackHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CA07B2710D052DB00000A95 /* EventCallbackHandler.h */; };
+		5CA07B4D10D0560300000A95 /* SimpleCodecUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CA07B0D10D04E9100000A95 /* SimpleCodecUtilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5CA07B4E10D0560C00000A95 /* EventCallbackHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CA07B2710D052DB00000A95 /* EventCallbackHandler.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5CA07B9010D0B23B00000A95 /* EventCallbackHandlerTest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CA07B8E10D0B23B00000A95 /* EventCallbackHandlerTest.h */; };
 		5CA07B9110D0B23B00000A95 /* EventCallbackHandlerTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CA07B8F10D0B23B00000A95 /* EventCallbackHandlerTest.cpp */; };
 		5CA07BB310D0B4D200000A95 /* CodecAwareConduitTest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CA07BB110D0B4D200000A95 /* CodecAwareConduitTest.h */; };
 		5CA07BB410D0B4D200000A95 /* CodecAwareConduitTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CA07BB210D0B4D200000A95 /* CodecAwareConduitTest.cpp */; };
-		5CA07C5510D13A4700000A95 /* CodecAwareConduit.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CA07BE710D1187200000A95 /* CodecAwareConduit.h */; };
+		5CA07C5510D13A4700000A95 /* CodecAwareConduit.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CA07BE710D1187200000A95 /* CodecAwareConduit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5CA07C5610D13A4B00000A95 /* CodecAwareConduit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CA07BE810D1187200000A95 /* CodecAwareConduit.cpp */; };
 		5CA07E5810D1A88100000A95 /* python_conduit_test.py in Resources */ = {isa = PBXBuildFile; fileRef = 5CA07E5710D1A88100000A95 /* python_conduit_test.py */; };
 		5CA9AD3310B5F9B500A04B67 /* VariableRegistryInterface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CA9AD3110B5F9B500A04B67 /* VariableRegistryInterface.cpp */; };
@@ -310,8 +310,8 @@
 		DA08704408A3D22A00D20FFB /* NetworkConnectionStats.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA08704208A3D22A00D20FFB /* NetworkConnectionStats.cpp */; };
 		DA0873F808A9367E00D20FFB /* ScarabServerConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = DA0873F608A9367E00D20FFB /* ScarabServerConnection.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DA0873F908A9367E00D20FFB /* ScarabServerConnection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA0873F708A9367E00D20FFB /* ScarabServerConnection.cpp */; };
-		DA0C98800827E80400BC1EF1 /* ControlEventFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = DA0C987E0827E80400BC1EF1 /* ControlEventFactory.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		DA0C98810827E80400BC1EF1 /* ControlEventFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA0C987F0827E80400BC1EF1 /* ControlEventFactory.cpp */; };
+		DA0C98800827E80400BC1EF1 /* SystemEventFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = DA0C987E0827E80400BC1EF1 /* SystemEventFactory.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DA0C98810827E80400BC1EF1 /* SystemEventFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA0C987F0827E80400BC1EF1 /* SystemEventFactory.cpp */; };
 		DA2B6A890989855C00DDE06D /* Client.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2B6A870989855C00DDE06D /* Client.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DA2B6A8A0989855C00DDE06D /* Client.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2B6A880989855C00DDE06D /* Client.cpp */; };
 		DA2B6B170989915900DDE06D /* Server.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2B6B150989915900DDE06D /* Server.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -320,8 +320,8 @@
 		DA2B6C700989B98B00DDE06D /* IncomingEventListener.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2B6C6E0989B98B00DDE06D /* IncomingEventListener.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DA2B6D3A098AA34900DDE06D /* EventStreamInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2B6D38098AA34900DDE06D /* EventStreamInterface.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DA2B6D3B098AA34900DDE06D /* EventStreamInterface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2B6D39098AA34900DDE06D /* EventStreamInterface.cpp */; };
-		DA2B6D52098AAAEC00DDE06D /* ControlEventHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2B6D50098AAAEC00DDE06D /* ControlEventHandler.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		DA2B6D53098AAAEC00DDE06D /* ControlEventHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2B6D51098AAAEC00DDE06D /* ControlEventHandler.cpp */; };
+		DA2B6D52098AAAEC00DDE06D /* StandardSystemEventHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2B6D50098AAAEC00DDE06D /* StandardSystemEventHandler.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DA2B6D53098AAAEC00DDE06D /* StandardSystemEventHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2B6D51098AAAEC00DDE06D /* StandardSystemEventHandler.cpp */; };
 		DA2CE11407E9F85800C68AEF /* ComponentRegistry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2CE10C07E9F85800C68AEF /* ComponentRegistry.cpp */; };
 		DA2CE11507E9F85800C68AEF /* ComponentRegistry.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2CE10D07E9F85800C68AEF /* ComponentRegistry.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DA2CE11607E9F85800C68AEF /* VariableRegistry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2CE10E07E9F85800C68AEF /* VariableRegistry.cpp */; };
@@ -465,13 +465,6 @@
 			remoteGlobalIDString = 5C0E756F09D1A886002295FB;
 			remoteInfo = LowPrioritySchedulerPlugin;
 		};
-		0E5884A80E479E2D00FC5A8F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = DA2CE0C907E9070200C68AEF /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 0E8014110E422E2A00D6DE20;
-			remoteInfo = MarionetteTest;
-		};
 		0E80145A0E42320000D6DE20 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = DA2CE0C907E9070200C68AEF /* Project object */;
@@ -543,6 +536,13 @@
 			remoteInfo = MonkeyWorksCoreTest;
 		};
 		5C4D25A709DCCD100082BF9F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DA2CE0C907E9070200C68AEF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DA2CE0D307E9F68100C68AEF;
+			remoteInfo = MonkeyWorksCore;
+		};
+		5C77F6D810EA9B3900919719 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = DA2CE0C907E9070200C68AEF /* Project object */;
 			proxyType = 1;
@@ -908,8 +908,8 @@
 		DA08704208A3D22A00D20FFB /* NetworkConnectionStats.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NetworkConnectionStats.cpp; path = Core/Network/NetworkConnectionStats.cpp; sourceTree = SOURCE_ROOT; };
 		DA0873F608A9367E00D20FFB /* ScarabServerConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ScarabServerConnection.h; path = Core/Network/Connections/ScarabServerConnection.h; sourceTree = SOURCE_ROOT; };
 		DA0873F708A9367E00D20FFB /* ScarabServerConnection.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ScarabServerConnection.cpp; path = Core/Network/Connections/ScarabServerConnection.cpp; sourceTree = SOURCE_ROOT; };
-		DA0C987E0827E80400BC1EF1 /* ControlEventFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ControlEventFactory.h; path = Core/Events/ControlEventFactory.h; sourceTree = "<group>"; };
-		DA0C987F0827E80400BC1EF1 /* ControlEventFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ControlEventFactory.cpp; path = Core/Events/ControlEventFactory.cpp; sourceTree = "<group>"; };
+		DA0C987E0827E80400BC1EF1 /* SystemEventFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SystemEventFactory.h; path = Core/Events/SystemEventFactory.h; sourceTree = "<group>"; };
+		DA0C987F0827E80400BC1EF1 /* SystemEventFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SystemEventFactory.cpp; path = Core/Events/SystemEventFactory.cpp; sourceTree = "<group>"; };
 		DA2B6A870989855C00DDE06D /* Client.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Client.h; path = Core/InterfaceHooks/ClientSide/Products/Client.h; sourceTree = "<group>"; };
 		DA2B6A880989855C00DDE06D /* Client.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Client.cpp; path = Core/InterfaceHooks/ClientSide/Products/Client.cpp; sourceTree = "<group>"; };
 		DA2B6B150989915900DDE06D /* Server.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Server.h; path = Core/InterfaceHooks/ServerSide/Products/Server.h; sourceTree = "<group>"; };
@@ -918,8 +918,8 @@
 		DA2B6C6E0989B98B00DDE06D /* IncomingEventListener.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IncomingEventListener.h; path = Core/Events/IncomingEventListener.h; sourceTree = "<group>"; };
 		DA2B6D38098AA34900DDE06D /* EventStreamInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EventStreamInterface.h; path = Core/Events/EventStreamInterface.h; sourceTree = "<group>"; };
 		DA2B6D39098AA34900DDE06D /* EventStreamInterface.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EventStreamInterface.cpp; path = Core/Events/EventStreamInterface.cpp; sourceTree = "<group>"; };
-		DA2B6D50098AAAEC00DDE06D /* ControlEventHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ControlEventHandler.h; path = Core/InterfaceHooks/ServerSide/Products/ControlEventHandler.h; sourceTree = "<group>"; };
-		DA2B6D51098AAAEC00DDE06D /* ControlEventHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ControlEventHandler.cpp; path = Core/InterfaceHooks/ServerSide/Products/ControlEventHandler.cpp; sourceTree = "<group>"; };
+		DA2B6D50098AAAEC00DDE06D /* StandardSystemEventHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StandardSystemEventHandler.h; path = Core/InterfaceHooks/ServerSide/Products/StandardSystemEventHandler.h; sourceTree = "<group>"; };
+		DA2B6D51098AAAEC00DDE06D /* StandardSystemEventHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StandardSystemEventHandler.cpp; path = Core/InterfaceHooks/ServerSide/Products/StandardSystemEventHandler.cpp; sourceTree = "<group>"; };
 		DA2CE0D407E9F68100C68AEF /* MonkeyWorksCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MonkeyWorksCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA2CE0D607E9F68100C68AEF /* MonkeyWorksCore-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MonkeyWorksCore-Info.plist"; sourceTree = SOURCE_ROOT; };
 		DA2CE10C07E9F85800C68AEF /* ComponentRegistry.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ComponentRegistry.cpp; path = Core/ComponentRegistries/ComponentRegistry.cpp; sourceTree = "<group>"; };
@@ -1700,7 +1700,7 @@
 			name = Transforms;
 			sourceTree = "<group>";
 		};
-		DA2B6A5C09897AD900DDE06D /* InterfaceHooks */ = {
+		DA2B6A5C09897AD900DDE06D /* ClientAndServer */ = {
 			isa = PBXGroup;
 			children = (
 				DA2B6A5D09897AF500DDE06D /* Client */,
@@ -1708,7 +1708,7 @@
 				5CA9AD3010B5F9B500A04B67 /* VariableRegistryInterface.h */,
 				5CA9AD3110B5F9B500A04B67 /* VariableRegistryInterface.cpp */,
 			);
-			name = InterfaceHooks;
+			name = ClientAndServer;
 			sourceTree = "<group>";
 		};
 		DA2B6A5D09897AF500DDE06D /* Client */ = {
@@ -1725,8 +1725,8 @@
 			children = (
 				DA2B6B150989915900DDE06D /* Server.h */,
 				DA2B6B160989915900DDE06D /* Server.cpp */,
-				DA2B6D50098AAAEC00DDE06D /* ControlEventHandler.h */,
-				DA2B6D51098AAAEC00DDE06D /* ControlEventHandler.cpp */,
+				DA2B6D50098AAAEC00DDE06D /* StandardSystemEventHandler.h */,
+				DA2B6D51098AAAEC00DDE06D /* StandardSystemEventHandler.cpp */,
 			);
 			name = Server;
 			sourceTree = SOURCE_ROOT;
@@ -1773,7 +1773,7 @@
 				DA2CE0F707E9F70600C68AEF /* Network */,
 				0EAA0DE30B98FBE700331AA5 /* AdaptiveOptimizers */,
 				DA96B8A409818EF30007610D /* CoreBuilders */,
-				DA2B6A5C09897AD900DDE06D /* InterfaceHooks */,
+				DA2B6A5C09897AD900DDE06D /* ClientAndServer */,
 				DA2CE0F107E9F70500C68AEF /* PlatformDependent */,
 				DA2CE0E807E9F70400C68AEF /* Scarab */,
 				DA2CE0E207E9F70300C68AEF /* Components and Plugins */,
@@ -2021,8 +2021,8 @@
 				5C4D254409DCBAF70082BF9F /* tests */,
 				DA2E379D08B0FE5800BD22C4 /* EventBuffer.h */,
 				DA2E379C08B0FE5800BD22C4 /* EventBuffer.cpp */,
-				DA0C987E0827E80400BC1EF1 /* ControlEventFactory.h */,
-				DA0C987F0827E80400BC1EF1 /* ControlEventFactory.cpp */,
+				DA0C987E0827E80400BC1EF1 /* SystemEventFactory.h */,
+				DA0C987F0827E80400BC1EF1 /* SystemEventFactory.cpp */,
 				DA2CE12107E9F88900C68AEF /* Buffers.h */,
 				DA2CE12007E9F88900C68AEF /* Buffers.cpp */,
 				DA2CE12307E9F88900C68AEF /* Event.h */,
@@ -2238,7 +2238,7 @@
 				DA2CE1EB07E9F97F00C68AEF /* GenericVariable.h in Headers */,
 				DA2CE1ED07E9F97F00C68AEF /* VariableProperties.h in Headers */,
 				DA2CE1EF07E9F97F00C68AEF /* ScopedVariableContext.h in Headers */,
-				DA0C98800827E80400BC1EF1 /* ControlEventFactory.h in Headers */,
+				DA0C98800827E80400BC1EF1 /* SystemEventFactory.h in Headers */,
 				5C28909F0850DD9A002CC31A /* IODevice.h in Headers */,
 				5C91B990086CC9DC00C14E1A /* Trigger.h in Headers */,
 				5C866A99086E1E43006CBE6F /* MonkeyWorksTypes.h in Headers */,
@@ -2265,7 +2265,7 @@
 				DA2B6B170989915900DDE06D /* Server.h in Headers */,
 				DA2B6C700989B98B00DDE06D /* IncomingEventListener.h in Headers */,
 				DA2B6D3A098AA34900DDE06D /* EventStreamInterface.h in Headers */,
-				DA2B6D52098AAAEC00DDE06D /* ControlEventHandler.h in Headers */,
+				DA2B6D52098AAAEC00DDE06D /* StandardSystemEventHandler.h in Headers */,
 				DA871F2609995B180084304E /* StandardClientCoreBuilder.h in Headers */,
 				5C71CD6D09AA507700EAD886 /* GlobalVariable.h in Headers */,
 				5C71CD6F09AA507700EAD886 /* ExpressionVariable.h in Headers */,
@@ -2976,7 +2976,7 @@
 				DA2CE1EA07E9F97F00C68AEF /* GenericVariable.cpp in Sources */,
 				DA2CE1EC07E9F97F00C68AEF /* VariableProperties.cpp in Sources */,
 				DA2CE1EE07E9F97F00C68AEF /* ScopedVariableContext.cpp in Sources */,
-				DA0C98810827E80400BC1EF1 /* ControlEventFactory.cpp in Sources */,
+				DA0C98810827E80400BC1EF1 /* SystemEventFactory.cpp in Sources */,
 				5C28909E0850DD96002CC31A /* IODevice.cpp in Sources */,
 				5C91B991086CC9DC00C14E1A /* Trigger.cpp in Sources */,
 				DA08704408A3D22A00D20FFB /* NetworkConnectionStats.cpp in Sources */,
@@ -3002,7 +3002,7 @@
 				DA2B6B180989915900DDE06D /* Server.cpp in Sources */,
 				DA2B6C6F0989B98B00DDE06D /* IncomingEventListener.cpp in Sources */,
 				DA2B6D3B098AA34900DDE06D /* EventStreamInterface.cpp in Sources */,
-				DA2B6D53098AAAEC00DDE06D /* ControlEventHandler.cpp in Sources */,
+				DA2B6D53098AAAEC00DDE06D /* StandardSystemEventHandler.cpp in Sources */,
 				DA871F2709995B180084304E /* StandardClientCoreBuilder.cpp in Sources */,
 				5C71CD6C09AA507700EAD886 /* GlobalVariable.cpp in Sources */,
 				5C71CD6E09AA507700EAD886 /* ExpressionVariable.cpp in Sources */,
@@ -3092,11 +3092,6 @@
 			target = 5C0E756F09D1A886002295FB /* LowPrioritySchedulerPlugin */;
 			targetProxy = 0E01FB940E44E84F00C9A769 /* PBXContainerItemProxy */;
 		};
-		0E5884A90E479E2D00FC5A8F /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 0E8014110E422E2A00D6DE20 /* MarionetteTest */;
-			targetProxy = 0E5884A80E479E2D00FC5A8F /* PBXContainerItemProxy */;
-		};
 		0E80145B0E42320000D6DE20 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = DA2CE0D307E9F68100C68AEF /* MonkeyWorksCore */;
@@ -3151,6 +3146,11 @@
 			isa = PBXTargetDependency;
 			target = DA2CE0D307E9F68100C68AEF /* MonkeyWorksCore */;
 			targetProxy = 5C4D25A709DCCD100082BF9F /* PBXContainerItemProxy */;
+		};
+		5C77F6D910EA9B3900919719 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DA2CE0D307E9F68100C68AEF /* MonkeyWorksCore */;
+			targetProxy = 5C77F6D810EA9B3900919719 /* PBXContainerItemProxy */;
 		};
 		5CCE1CD410A4692B00EF5866 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

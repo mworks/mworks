@@ -25,7 +25,7 @@ class VariableNotification : public LinkedListNode<VariableNotification> {
         VariableNotification();
 		
         virtual ~VariableNotification();
-        virtual void notify(const Datum& data, MonkeyWorksTime time); // called when a new value is set
+        virtual void notify(const Datum& data, MWTime time); // called when a new value is set
 };
 
     
@@ -34,15 +34,15 @@ class VariableCallbackNotification : public VariableNotification {
  
 protected:
     
-    boost::function<void (const Datum& data, MonkeyWorksTime time)> functor;
+    boost::function<void (const Datum& data, MWTime time)> functor;
     
 public:
     
-    VariableCallbackNotification(boost::function<void (const Datum& data, MonkeyWorksTime time)> _functor){
+    VariableCallbackNotification(boost::function<void (const Datum& data, MWTime time)> _functor){
         functor = _functor;
     }
     
-    virtual void notify(const Datum& data, MonkeyWorksTime time){ // called when a new value is set
+    virtual void notify(const Datum& data, MWTime time){ // called when a new value is set
         functor(data, time);
     }
     

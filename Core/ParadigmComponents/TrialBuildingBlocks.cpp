@@ -93,7 +93,7 @@ ActionVariableNotification::ActionVariableNotification(shared_ptr<Action> _actio
 	action = _action;
 }
 
-void ActionVariableNotification::notify(const Datum& data, MonkeyWorksTime time){
+void ActionVariableNotification::notify(const Datum& data, MWTime time){
 	action->execute();
 }
 
@@ -403,7 +403,7 @@ StartTimer::StartTimer(shared_ptr<Timer> _timer,
 
 bool StartTimer::execute() {
 	
-	MonkeyWorksTime offset;
+	MWTime offset;
 	shared_ptr <Clock> clock = Clock::instance();
 	
 	if(timebase){
@@ -413,15 +413,15 @@ bool StartTimer::execute() {
 		offset = clock->getCurrentTimeUS();
 	}
 	
-	//MonkeyWorksTime test = ((MonkeyWorksTime)(*time_to_wait_us));
+	//MWTime test = ((MWTime)(*time_to_wait_us));
 	//long test2 = ((long)(*time_to_wait_us));
 	//long test3 = (static_cast<ConstantVariable *>(time_to_wait_us))->getValue();
 	
 	
 	
-	// mprintf("## time_to_wait_us = %lld", ((MonkeyWorksTime)(*time_to_wait_us)));
-	MonkeyWorksTime time_to_wait_value = (MonkeyWorksTime)time_to_wait_us->getValue();
-    MonkeyWorksTime thetime = (time_to_wait_value + offset) -  (clock->getCurrentTimeUS());
+	// mprintf("## time_to_wait_us = %lld", ((MWTime)(*time_to_wait_us)));
+	MWTime time_to_wait_value = (MWTime)time_to_wait_us->getValue();
+    MWTime thetime = (time_to_wait_value + offset) -  (clock->getCurrentTimeUS());
 	
 	//mprintf("the time to wait = %u", (unsigned long)thetime);
 	timer->startUS(thetime);
@@ -515,7 +515,7 @@ shared_ptr<mw::Component> StartTimerFactory::createObject(std::map<std::string, 
 //bool StartEggTimer::execute() {
 //    //long thetime = (long)(*time_to_wait_us);
 //	//mprintf("fucker");
-//	startEggTimer((MonkeyWorksTime)(*time_to_wait_us));
+//	startEggTimer((MWTime)(*time_to_wait_us));
 //    return true;
 //}
 //
@@ -545,14 +545,14 @@ Wait::~Wait() {
 
 bool Wait::execute() {
 	
-	MonkeyWorksTime timeToWait_us;
+	MWTime timeToWait_us;
 	
 	shared_ptr <Clock> clock = Clock::instance();
 
 	if(timeBase != 0){
-		timeToWait_us = (timeBase->getTime() + (MonkeyWorksTime)(*waitTime)) - clock->getCurrentTimeUS();
+		timeToWait_us = (timeBase->getTime() + (MWTime)(*waitTime)) - clock->getCurrentTimeUS();
 	} else {
-		timeToWait_us = ((MonkeyWorksTime)(*waitTime));
+		timeToWait_us = ((MWTime)(*waitTime));
 	}
 	
 	if(timeToWait_us > 0) {

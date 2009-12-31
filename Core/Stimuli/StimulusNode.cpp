@@ -94,7 +94,7 @@ bool StimulusNode::isFrozen(){
 }
 
 
-void StimulusNode::announceStimulusDraw(MonkeyWorksTime now) {
+void StimulusNode::announceStimulusDraw(MWTime now) {
 	if((!frozen && stim == NULL) || (frozen && frozen_stim == NULL)) {
 		// TODO: warn
 		return;

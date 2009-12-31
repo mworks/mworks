@@ -65,7 +65,7 @@ public:
 	
     
     virtual void newDataReceived(int inputIndex, const Datum& data, 
-								 MonkeyWorksTime timeUS);		
+								 MWTime timeUS);		
 	virtual void reset();
 	
 };

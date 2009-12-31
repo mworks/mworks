@@ -74,7 +74,7 @@ Datum Averager::getSEM() {
 }  
   
 
-void Averager::computeAllValues(Datum data, MonkeyWorksTime timeUS) {
+void Averager::computeAllValues(Datum data, MWTime timeUS) {
 
     double dat = (double)data;    
                                         
@@ -103,7 +103,7 @@ void Averager::computeAllValues(Datum data, MonkeyWorksTime timeUS) {
 
 
 void Averager::newDataReceived(int inputIndex, const Datum& data, 
-                                                MonkeyWorksTime timeUS) {
+                                                MWTime timeUS) {
     lock();                                            
     if (!running) {
         unlock();
@@ -133,7 +133,7 @@ AveragerUser::~AveragerUser() {};
 
 
 void AveragerUser::newDataReceived(int inputIndex, const Datum& data, 
-                                                MonkeyWorksTime timeUS) {
+                                                MWTime timeUS) {
     
                                                 
     lock();  

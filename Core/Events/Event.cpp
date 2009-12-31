@@ -18,7 +18,7 @@ using namespace mw;
 //  Event Methods
 // -----------------------------------------------------------------	  
 Event::Event(const int _code, 
-			 const MonkeyWorksTime _time, 
+			 const MWTime _time, 
 			 const Datum &_data) {
 	code = _code;
 	data = _data; 

@@ -81,14 +81,14 @@ void EyeStatusMonitor::reset() {
 //    as long as they are the same units used to instatiate the monitor
 //    (e.g. saccade speed start, etc...)
 
-void EyeStatusMonitor::newDataReceived(int inputIndex, const Datum& data, MonkeyWorksTime timeUS) {
+void EyeStatusMonitor::newDataReceived(int inputIndex, const Datum& data, MWTime timeUS) {
 
 	// DDC: be careful
     //lock();
     
 	double eyeDataIn = (double)data;        
 	double eyeDataOut;
-	MonkeyWorksTime postFilterTimeUS;
+	MWTime postFilterTimeUS;
     
     //mprintf("  **** EyeStatusMonitor::newDataReceived.  inputIndex = %d, data = %f, time = %d us", 
     //            inputIndex, (double)data, (long)timeUS);
@@ -124,7 +124,7 @@ void EyeStatusMonitor::newDataReceived(int inputIndex, const Datum& data, Monkey
     //  to get through the filters and/or propogate all the way back to a variable change. 
     
     // if a pair is ready, pull it out and process it
-    MonkeyWorksTime eyeTimeUS;
+    MWTime eyeTimeUS;
     double eyeH, eyeV;
     while (pairedEyeData->getAvailable(&eyeH, &eyeV, &eyeTimeUS)) {
         processAndPostEyeData(eyeH,eyeV,eyeTimeUS); 
@@ -135,9 +135,9 @@ void EyeStatusMonitor::newDataReceived(int inputIndex, const Datum& data, Monkey
 }
 
 
-void EyeStatusMonitor::processAndPostEyeData(double _eyeHdeg, double _eyeVdeg, MonkeyWorksTime _eyeTimeUS) { };
+void EyeStatusMonitor::processAndPostEyeData(double _eyeHdeg, double _eyeVdeg, MWTime _eyeTimeUS) { };
 
-void EyeStatusMonitorVer1::processAndPostEyeData(double _eyeHdeg, double _eyeVdeg, MonkeyWorksTime _eyeTimeUS) {
+void EyeStatusMonitorVer1::processAndPostEyeData(double _eyeHdeg, double _eyeVdeg, MWTime _eyeTimeUS) {
        
     // call a transform object to do the computation of eye status right away 
     //mprintf("  *** calling eyeStatus computer...");
@@ -153,7 +153,7 @@ void EyeStatusMonitorVer1::processAndPostEyeData(double _eyeHdeg, double _eyeVde
 }
     
 
-void EyeStatusMonitorVer2::processAndPostEyeData(double _eyeHdeg, double _eyeVdeg, MonkeyWorksTime _eyeTimeUS) {
+void EyeStatusMonitorVer2::processAndPostEyeData(double _eyeHdeg, double _eyeVdeg, MWTime _eyeTimeUS) {
        
     // call a transform object to do the computation of eye status right away 
     EyeStatusComputerWithSaccades *eyeComputer =  (EyeStatusComputerWithSaccades *)eyeStatusComputer;
@@ -358,7 +358,7 @@ void EyeStatusComputer::reset() {
 
 
 // take new eye data and perform storage and calculations
-void EyeStatusComputer::input(float _eyeHdeg, float _eyeVdeg, MonkeyWorksTime _eyeTimeUS) {
+void EyeStatusComputer::input(float _eyeHdeg, float _eyeVdeg, MWTime _eyeTimeUS) {
 
     // not that only one time is passed in, and it is carried with the H channel
     //  (it is assumed that the H and V values passed in have the same time)
@@ -368,7 +368,7 @@ void EyeStatusComputer::input(float _eyeHdeg, float _eyeVdeg, MonkeyWorksTime _e
 
    
     eyeSpeedDegPerSec.valid = false;
-    MonkeyWorksTime timeUS, timeUS_2, dummyTime;
+    MWTime timeUS, timeUS_2, dummyTime;
         	
 
 	// compute VELOCITY ------------------------------------------
@@ -417,7 +417,7 @@ void EyeStatusComputer::input(float _eyeHdeg, float _eyeVdeg, MonkeyWorksTime _e
 }
 	
 
-bool EyeStatusComputer::output(EyeStatusEnum *eyeState, MonkeyWorksTime *eyeStatusTimeUS) {
+bool EyeStatusComputer::output(EyeStatusEnum *eyeState, MWTime *eyeStatusTimeUS) {
 
     if (eyeInformationComputedSuccessfully) {
         *eyeState = computedEyeStatus;
@@ -1136,10 +1136,10 @@ static void eyeCompute(float JJD_sampleTimeMS, float sampleIntervalMS, DOUBLE_PO
     }
     
     
-    void PairedEyeData::putDataH(double eyeH, MonkeyWorksTime timeUS) {
+    void PairedEyeData::putDataH(double eyeH, MWTime timeUS) {
                 eyeH_buffer->putData(eyeH, timeUS);
     }
-    void PairedEyeData::putDataV(double eyeV, MonkeyWorksTime timeUS) {
+    void PairedEyeData::putDataV(double eyeV, MWTime timeUS) {
                 eyeV_buffer->putData(eyeV, timeUS);
     }
  
@@ -1147,7 +1147,7 @@ static void eyeCompute(float JJD_sampleTimeMS, float sampleIntervalMS, DOUBLE_PO
     // ideally, all data should be paired (ITC does this)
     // here, we just insure that the pairs that are sent for processing have stamped times within M_WARN_EYE_PAIR_SEPARATION_US of each other.
  
-    bool PairedEyeData::getAvailable(double *pEyeH, double *pEyeV, MonkeyWorksTime *pEyeTimeUS) {
+    bool PairedEyeData::getAvailable(double *pEyeH, double *pEyeV, MWTime *pEyeTimeUS) {
     
     if ( (eyeH_buffer_reader->getNItemsUnserviced()==0) || 
                 (eyeV_buffer_reader->getNItemsUnserviced()==0) ) {
@@ -1158,7 +1158,7 @@ static void eyeCompute(float JJD_sampleTimeMS, float sampleIntervalMS, DOUBLE_PO
     
     // keep trying to find paired data
     long diff;
-    MonkeyWorksTime eyeVtimeUS, eyeHtimeUS;
+    MWTime eyeVtimeUS, eyeHtimeUS;
     while ( (eyeH_buffer_reader->getNItemsUnserviced()>0) && 
                 (eyeV_buffer_reader->getNItemsUnserviced()>0) ) {
                 

@@ -196,7 +196,7 @@ public:
          *  announcement methods // JJD
          *  two methods are used to do different behavior for draw vs. erase
         */
-        virtual void announceStimulusDraw(MonkeyWorksTime now); 
+        virtual void announceStimulusDraw(MWTime now); 
 
         
         // these method should be overriden to provide more announcement detail       

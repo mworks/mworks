@@ -18,7 +18,7 @@
 //
 //mRewardCoordinator::~RewardCoordinator() { }
 //
-//void RewardCoordinator::newDataReceived(int inputIndex, const Datum& data, MonkeyWorksTime timeUS) {
+//void RewardCoordinator::newDataReceived(int inputIndex, const Datum& data, MWTime timeUS) {
 //
 //    // reward variable has just been updated.  Reward duration is in "data".
 //    // future versions may do something fancier (e.g. different duration sounds.)

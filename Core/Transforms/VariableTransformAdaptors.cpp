@@ -83,7 +83,7 @@ bool VarTransformAdaptor::getInputVariable(int inputIndex, shared_ptr<Variable> 
 
 // this method should be overridden by inherited classes -- warn if not done so
 void VarTransformAdaptor::newDataReceived(int inputIndex, const Datum& data, 
-                                                MonkeyWorksTime timeUS) {
+                                                MWTime timeUS) {
     mwarning(M_SYSTEM_MESSAGE_DOMAIN,
 			"Notification of variable change without override to do anything.");
 }
@@ -107,7 +107,7 @@ bool VarTransformAdaptor::postResults(int outputIndex, const Datum& data) {
 
 // will update this specific Var with this data 
 bool VarTransformAdaptor::postResults(int outputIndex, const Datum& data, 
-                                                        MonkeyWorksTime timeUS) {
+                                                        MWTime timeUS) {
 
 	//lock();	// DDC edit
 	bool _active = active;
@@ -139,7 +139,7 @@ VarTransformNotification::VarTransformNotification
 
 VarTransformNotification::~VarTransformNotification() {}
 
-void VarTransformNotification::notify(const Datum& data, MonkeyWorksTime timeUS) {
+void VarTransformNotification::notify(const Datum& data, MWTime timeUS) {
 	
 	varTransformAdaptor->newDataReceived(inputIndex, data, timeUS);
 }

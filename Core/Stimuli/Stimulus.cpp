@@ -290,7 +290,7 @@ std::string Stimulus::gettag() {
  *  We use the term "draw" rather than "on" because the latter implies a physical stimulus apperance.
  *   JJD TODO:  This must be corrected for with an openGL fence and monitoring of the vert refresh.
 */
-void Stimulus::announceStimulusDraw(MonkeyWorksTime now) {
+void Stimulus::announceStimulusDraw(MWTime now) {
     if (VERBOSE_STIMULI>0)  mprintf("Stim draw announce just triggered...");
     Datum announceData = getCurrentAnnounceDrawData();  // will override this
     announce(announceData, now);    // announce things here using method from Announcable

@@ -68,7 +68,7 @@ namespace mw {
             Datum(GenericDataType type, const int arg);
             Datum(GenericDataType type, const double arg);
             Datum(const long value);
-            Datum(const MonkeyWorksTime value);
+            Datum(const MWTime value);
             Datum(const double value);
             Datum(const float value);
             Datum(const bool value);
@@ -190,7 +190,7 @@ namespace mw {
 			virtual operator std::string() const;
 			virtual operator stx::AnyScalar() const;
 			
-			//virtual void operator=(MonkeyWorksTime newdata);
+			//virtual void operator=(MWTime newdata);
 			virtual void operator=(long newdata);
 			virtual void operator=(int newdata);
 			virtual void operator=(short newdata);

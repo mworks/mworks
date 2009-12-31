@@ -58,18 +58,6 @@ namespace mw {
 		
 		
 		
-		GlobalSystemEventVariable = registry->createGlobalVariable(
-																   new VariableProperties(
-																						   new Datum((long)0),
-																						   SYSTEM_VAR_TAGNAME,
-																						   "system", 
-																						   "system event channel",
-																						   M_NEVER,			// never user edit
-																						   M_WHEN_CHANGED,		// log when changed
-																						   true, 
-																						   false, 
-																						   M_STRUCTURED,
-																						   PRIVATE_SYSTEM_VARIABLES));  // view                                       
 		
 		GlobalMessageVariable = registry->createGlobalVariable(new VariableProperties(new Datum((long)0),
 																					   ANNOUNCE_MESSAGE_VAR_TAGNAME,

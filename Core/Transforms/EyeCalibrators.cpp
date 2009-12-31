@@ -320,7 +320,7 @@ bool Calibrator::setParametersToDefaults() {
 //    1) locally "save" the data the is brought in on the input variable.
 //    2) apply the current calibration function (operates over "saved" values of potentially ALL input variables) 
 void Calibrator::newDataReceived(int inputIndex, const Datum& data, 
-                                                MonkeyWorksTime timeUS) {
+                                                MWTime timeUS) {
     
 	lock(); // DDC added
     if (!initialized){
@@ -530,7 +530,7 @@ void Calibrator::reportParameterUpdate() {
 
 // method to announce details about each sample that is acquired for calibration  
 void Calibrator::announceCalibrationSample(int outputIndex, Datum SampledData, 
-                     Datum DesiredOutputData, Datum CalibratedOutputData, MonkeyWorksTime timeOfSampleUS) {
+                     Datum DesiredOutputData, Datum CalibratedOutputData, MWTime timeOfSampleUS) {
     
     Datum announceData(M_DICTIONARY, 3);
     announceData.addElement(CALIBRATOR_NAME,uniqueCalibratorName);    // char
@@ -576,7 +576,7 @@ bool Calibrator::clearCalibrationData(){
 // here -- we only clear things that are more mature than the specified age
 // TODO the method in the fitable funciton is not yet correct -- need to understand how to pull elements out of the linked list
 // also need to understand how to interface this with the editor (Variable?)
-bool Calibrator::clearCalibrationData(MonkeyWorksTime ageAllowedUS){
+bool Calibrator::clearCalibrationData(MWTime ageAllowedUS){
     
 	lock(); // DDC added
     if (!initialized) {
@@ -585,7 +585,7 @@ bool Calibrator::clearCalibrationData(MonkeyWorksTime ageAllowedUS){
 	}
     
 	shared_ptr <Clock> clock = Clock::instance();
-    MonkeyWorksTime oldestTimeAllowedToStayInSampleListUS = 
+    MWTime oldestTimeAllowedToStayInSampleListUS = 
                         clock->getCurrentTimeUS()-ageAllowedUS;
     
     //mprintf("OldestTimeAllowedToStayInSampleListUS = %d", (long)oldestTimeAllowedToStayInSampleListUS);
@@ -676,7 +676,7 @@ CalibratorRequestedAction Calibrator::getRequestedAction(Datum dictionaryData) {
     
 
 // PUBLIC METHOD   
-void Calibrator::notifyRequest(const Datum& original_data, MonkeyWorksTime timeUS) {
+void Calibrator::notifyRequest(const Datum& original_data, MWTime timeUS) {
     
     // base class -- not clear what to do.
     lock();
@@ -687,7 +687,7 @@ void Calibrator::notifyRequest(const Datum& original_data, MonkeyWorksTime timeU
 
 
 // PUBLIC METHOD
-void Calibrator::notifyPrivate(const Datum& original_data, MonkeyWorksTime timeUS) {
+void Calibrator::notifyPrivate(const Datum& original_data, MWTime timeUS) {
 
     // base class -- not clear what to do.
     lock();
@@ -784,7 +784,7 @@ EyeCalibrator::~EyeCalibrator() {
 // JJD overrode the base class function on Nov 2, 2006, so that the eye calibrator 
 // will wait for paired input from BOTH channels before posting
 void EyeCalibrator::newDataReceived(int inputIndex, const Datum& data, 
-                                                MonkeyWorksTime timeUS) {
+                                                MWTime timeUS) {
     
 	lock(); 
     if (!initialized){
@@ -820,7 +820,7 @@ void EyeCalibrator::newDataReceived(int inputIndex, const Datum& data,
      
 
     // if a pair is ready, pull it out and process it
-    MonkeyWorksTime eyeTimeUS;
+    MWTime eyeTimeUS;
     double eyeH, eyeV;
     bool noErr = true;
     Datum calibData;
@@ -850,7 +850,7 @@ void EyeCalibrator::newDataReceived(int inputIndex, const Datum& data,
 
 // method to announce details about each sample that is acquired for calibration  
 void EyeCalibrator::announceCalibrationSample(int outputIndex, Datum SampledData, 
-                    Datum DesiredOutputData, Datum CalibratedOutputData, MonkeyWorksTime timeOfSampleUS) {
+                    Datum DesiredOutputData, Datum CalibratedOutputData, MWTime timeOfSampleUS) {
     
     // this method expects the H sample to arrive first and then the V sample
     if (outputIndex == outputIndexH) {  // store data and wait for v (announce as pair)
@@ -937,7 +937,7 @@ void EyeCalibrator::setPrivateParameters() {
 
 // PUBLIC METHOD
 // triggered by any change to the calibrator request variable  
-void EyeCalibrator::notifyRequest(const Datum& dictionaryData, MonkeyWorksTime timeUS) {
+void EyeCalibrator::notifyRequest(const Datum& dictionaryData, MWTime timeUS) {
     
 	lock(); // DDC added
 	
@@ -980,7 +980,7 @@ void EyeCalibrator::notifyRequest(const Datum& dictionaryData, MonkeyWorksTime t
 }
 
 // PUBLIC METHOD -- this means the private variable is locked -- DO NOT UPDATE IT!
-void EyeCalibrator::notifyPrivate(const Datum& dictionaryData, MonkeyWorksTime timeUS) {
+void EyeCalibrator::notifyPrivate(const Datum& dictionaryData, MWTime timeUS) {
     lock();
     tryToUseDataToSetParameters(dictionaryData); 
     unlock();

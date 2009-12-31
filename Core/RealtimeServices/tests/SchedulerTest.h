@@ -18,10 +18,10 @@ namespace mw {
 #define SLACK_MARGIN	5
 #define ACCEPTABLE_ERROR_US	10000  // 10 ms
 
-void *chaff_1(const MonkeyWorksTime interval);
+void *chaff_1(const MWTime interval);
 
-void *counter_no_payload(const boost::shared_ptr<std::vector<MonkeyWorksTime> > &times_array);
-void *counter_small_payload(const boost::shared_ptr<std::vector<MonkeyWorksTime> > &times_array);
+void *counter_no_payload(const boost::shared_ptr<std::vector<MWTime> > &times_array);
+void *counter_small_payload(const boost::shared_ptr<std::vector<MWTime> > &times_array);
 void *test_for_leaks();
 void st_assert(const std::string &message,
 				const bool assertCondition);
@@ -64,15 +64,15 @@ class SchedulerTestFixture : public FullCoreEnvironmentTestFixture {
 	
 protected:
 	
-	std::vector<MonkeyWorksTime> timeTrial(MonkeyWorksTime interval, 
+	std::vector<MWTime> timeTrial(MWTime interval, 
 										   int n_executions,
 										   int n_chaff_threads);
-	std::vector<MonkeyWorksTime> timeTrialSmallPayload(MonkeyWorksTime interval, 
+	std::vector<MWTime> timeTrialSmallPayload(MWTime interval, 
 										   int n_executions,
 													   int n_chaff_threads);
-	std::vector<MonkeyWorksTime> diff(std::vector<MonkeyWorksTime> times);
-	void reportLatencies(std::vector<MonkeyWorksTime> times_array, 
-						 MonkeyWorksTime expected);
+	std::vector<MWTime> diff(std::vector<MWTime> times);
+	void reportLatencies(std::vector<MWTime> times_array, 
+						 MWTime expected);
 
 };
 }

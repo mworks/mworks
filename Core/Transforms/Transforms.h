@@ -76,12 +76,12 @@ class TransformWithMemory : public Transform {
 		        
         // request last numMemoryElementsPerInput elements (if less then numMemoryElementsPerInput exist, max avaialble returned)
         int getAllElements(int inputIndex, double *dataVector);
-        int getAllElements(int inputIndex, double *dataVector, MonkeyWorksTime *timeVectorUS);
+        int getAllElements(int inputIndex, double *dataVector, MWTime *timeVectorUS);
     
 		//virtual void addElementToMemory(int inputIndex, Datum data);
         // TODO PAJ the timeUS argument is not a pointer so it cannot be NULL
         // TODO PAJ it should either be 0 or the argument should be a pointer type.	
-        virtual void addElementToMemory(int inputIndex, double data, MonkeyWorksTime timeUS = NULL);  
+        virtual void addElementToMemory(int inputIndex, double data, MWTime timeUS = NULL);  
         virtual void resetProtected(int inputIndex);
 
 

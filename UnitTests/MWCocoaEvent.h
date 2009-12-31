@@ -13,16 +13,16 @@ using namespace mw;
 @interface MWCocoaEvent : NSObject {
  Datum *_data;
 	int _code;
-	MonkeyWorksTime _time;
+	MWTime _time;
 }
 
 - (id) initWithData:(Datum *)data 
 			andCode:(int)code 
-			andTime:(MonkeyWorksTime)time;
+			andTime:(MWTime)time;
 
 - (void) dealloc;
 
-- (MonkeyWorksTime)time;	
+- (MWTime)time;	
 - (Datum *)data;
 - (int)code;
 

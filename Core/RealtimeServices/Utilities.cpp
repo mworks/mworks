@@ -50,6 +50,7 @@ namespace mw {
 		messageDatum.addElement(M_MESSAGE_ORIGIN, Datum(M_INTEGER, GlobalMessageOrigin));
 		if(GlobalMessageVariable != 0) {
 			if(type == M_GENERIC_MESSAGE){
+            
 				GlobalMessageVariable->setValue(messageDatum);
 			} else {
 #ifndef	SILENCE_WARNINGS_MODE
@@ -158,7 +159,7 @@ namespace mw {
 		return 0L;
 	}
 	
-	void startEggTimer(MonkeyWorksTime howlongus) {
+	void startEggTimer(MWTime howlongus) {
 		if(!egg_timer_initialized){
 			egg_timer = new Timer();
 			egg_timer_initialized = true;

@@ -13,7 +13,7 @@
 
 - (id) initWithData:(Datum *)data 
 			andCode:(int)code 
-			andTime:(MonkeyWorksTime)time {
+			andTime:(MWTime)time {
 	self = [super init];
 	if (self != nil) {
 		_data = new Datum(*data);
@@ -28,7 +28,7 @@
 	[super dealloc];
 }
 
-- (MonkeyWorksTime)time {
+- (MWTime)time {
 	return _time;
 }
 

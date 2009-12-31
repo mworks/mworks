@@ -36,9 +36,9 @@ void SchedulerTestFixture::testPeriod10HzNoPayload(){
 	
 	fflush(stderr);
 	
-	MonkeyWorksTime interval = 100000;
+	MWTime interval = 100000;
 	
-	std::vector<MonkeyWorksTime> times = timeTrial(interval, 400, 0);
+	std::vector<MWTime> times = timeTrial(interval, 400, 0);
 	
 	reportLatencies(diff(times), interval);
 	
@@ -55,9 +55,9 @@ void SchedulerTestFixture::testPeriod10HzSmallPayload(){
 	
 	fflush(stderr);
 	
-	MonkeyWorksTime interval = 100000;
+	MWTime interval = 100000;
 	
-	std::vector<MonkeyWorksTime> times = timeTrialSmallPayload(interval, 400, 0);
+	std::vector<MWTime> times = timeTrialSmallPayload(interval, 400, 0);
 	
 	reportLatencies(diff(times), interval);
 	
@@ -73,9 +73,9 @@ void SchedulerTestFixture::testPeriod100HzNoPayload(){
 	
 	fflush(stderr);
 	
-	MonkeyWorksTime interval = 10000; // 100Hz
+	MWTime interval = 10000; // 100Hz
 	
-	std::vector<MonkeyWorksTime> times = timeTrial(interval, 400, 0);
+	std::vector<MWTime> times = timeTrial(interval, 400, 0);
 	
 	reportLatencies(diff(times), interval);
 	
@@ -90,9 +90,9 @@ void SchedulerTestFixture::testPeriod10HzNoPayloadChaffX4(){
 	
 	fflush(stderr);
 	
-	MonkeyWorksTime interval = 100000; // 10Hz
+	MWTime interval = 100000; // 10Hz
 	
-	std::vector<MonkeyWorksTime> times = timeTrial(interval, 400, 4);
+	std::vector<MWTime> times = timeTrial(interval, 400, 4);
 	
 	reportLatencies(diff(times), interval);
 	
@@ -109,7 +109,7 @@ void SchedulerTestFixture::testOneOffFiringSmallPayload(){
 	
 	fflush(stderr);
 	
-	MonkeyWorksTime interval = 100000;
+	MWTime interval = 100000;
 	
 	shared_ptr<Scheduler> scheduler = Scheduler::instance();
 	shared_ptr <Clock> clock = Clock::instance();
@@ -117,15 +117,15 @@ void SchedulerTestFixture::testOneOffFiringSmallPayload(){
 	CPPUNIT_ASSERT(clock != NULL);
 	CPPUNIT_ASSERT(scheduler != NULL);
 	
-	std::vector<MonkeyWorksTime> times;
+	std::vector<MWTime> times;
 	
 	
 	
 	for(int i = 0; i < 400; i++){
 		
-		MonkeyWorksTime now = clock->getCurrentTimeUS();
+		MWTime now = clock->getCurrentTimeUS();
 		
-		shared_ptr<std::vector<MonkeyWorksTime> > times_array = shared_ptr<std::vector<MonkeyWorksTime> >(new std::vector<MonkeyWorksTime> ());
+		shared_ptr<std::vector<MWTime> > times_array = shared_ptr<std::vector<MWTime> >(new std::vector<MWTime> ());
 		// schedule n executions
 		shared_ptr<ScheduleTask> node = scheduler->scheduleUS(FILELINE,
 															   interval,				// some delay
@@ -155,7 +155,7 @@ void SchedulerTestFixture::testOneOffFiringSmallPayload(){
 void SchedulerTestFixture::testSchedulerLeaks() {
 	fprintf(stderr, "Running SchedulerTestFixture::testSchedulerLeaks()\n");
 	
-	MonkeyWorksTime howlongus = 1000;
+	MWTime howlongus = 1000;
 	
 	shared_ptr<ScheduleTask> node;
 	st_assert("node is not initialized correctly", node == 0);
@@ -181,7 +181,7 @@ void SchedulerTestFixture::testSchedulerLeaks() {
 
 // protected:
 
-std::vector<MonkeyWorksTime> SchedulerTestFixture::timeTrial(MonkeyWorksTime interval, 
+std::vector<MWTime> SchedulerTestFixture::timeTrial(MWTime interval, 
 															  int n_executions,
 															  int n_chaff_threads){
 	
@@ -192,7 +192,7 @@ std::vector<MonkeyWorksTime> SchedulerTestFixture::timeTrial(MonkeyWorksTime int
 	CPPUNIT_ASSERT(scheduler != NULL);
 	
 	
-	shared_ptr<std::vector<MonkeyWorksTime> > times_array = shared_ptr<std::vector<MonkeyWorksTime> >(new std::vector<MonkeyWorksTime>());
+	shared_ptr<std::vector<MWTime> > times_array = shared_ptr<std::vector<MWTime> >(new std::vector<MWTime>());
 	
 	std::vector<shared_ptr<ScheduleTask> > chaff;
 	
@@ -243,7 +243,7 @@ std::vector<MonkeyWorksTime> SchedulerTestFixture::timeTrial(MonkeyWorksTime int
 
 
 // sloppiness
-std::vector<MonkeyWorksTime> SchedulerTestFixture::timeTrialSmallPayload(MonkeyWorksTime interval, 
+std::vector<MWTime> SchedulerTestFixture::timeTrialSmallPayload(MWTime interval, 
 																		  int n_executions,
 																		  int n_chaff_threads){
 	
@@ -271,7 +271,7 @@ std::vector<MonkeyWorksTime> SchedulerTestFixture::timeTrialSmallPayload(MonkeyW
 	}
 	
 	
-	shared_ptr<std::vector<MonkeyWorksTime> > times_array = shared_ptr<std::vector<MonkeyWorksTime> >(new std::vector<MonkeyWorksTime>());
+	shared_ptr<std::vector<MWTime> > times_array = shared_ptr<std::vector<MWTime> >(new std::vector<MWTime>());
 	
 	// schedule n executions
 	shared_ptr<ScheduleTask> node = scheduler->scheduleUS(FILELINE,
@@ -302,17 +302,17 @@ std::vector<MonkeyWorksTime> SchedulerTestFixture::timeTrialSmallPayload(MonkeyW
 }
 
 
-std::vector<MonkeyWorksTime> SchedulerTestFixture::diff(std::vector<MonkeyWorksTime> times){
-	std::vector<MonkeyWorksTime> returnval;
+std::vector<MWTime> SchedulerTestFixture::diff(std::vector<MWTime> times){
+	std::vector<MWTime> returnval;
 	for(unsigned int i = 1 ; i < times.size(); i++){
-		MonkeyWorksTime diff = abs(times[i] - times[i-1]);
+		MWTime diff = abs(times[i] - times[i-1]);
 		returnval.push_back(diff);
 	}
 	return returnval;
 }
 
-void SchedulerTestFixture::reportLatencies(std::vector<MonkeyWorksTime> times_array, 
-											MonkeyWorksTime expected){
+void SchedulerTestFixture::reportLatencies(std::vector<MWTime> times_array, 
+											MWTime expected){
 	
 	int less_than_5us = 0;
 	int less_than_10us = 0;
@@ -327,7 +327,7 @@ void SchedulerTestFixture::reportLatencies(std::vector<MonkeyWorksTime> times_ar
 	int n = 0;
 	
 	for(unsigned int i = 0 ; i < times_array.size(); i++){
-		MonkeyWorksTime diff = times_array[i] - expected;
+		MWTime diff = times_array[i] - expected;
 		
 		if(diff < 5){
 			less_than_5us++;
@@ -380,9 +380,9 @@ void SchedulerTestFixture::reportLatencies(std::vector<MonkeyWorksTime> times_ar
 
 
 namespace mw {
-	void *counter_no_payload(const boost::shared_ptr<std::vector<MonkeyWorksTime> > &times_array){
+	void *counter_no_payload(const boost::shared_ptr<std::vector<MWTime> > &times_array){
 		shared_ptr <Clock> clock = Clock::instance();
-		MonkeyWorksTime now = clock->getCurrentTimeUS();
+		MWTime now = clock->getCurrentTimeUS();
 		
 		times_array->push_back(clock->getCurrentTimeUS());
 		fprintf(stderr, "tac %lld\n", now); fflush(stderr);
@@ -390,7 +390,7 @@ namespace mw {
 		return 0;
 	}
 	
-	void *counter_small_payload(const boost::shared_ptr<std::vector<MonkeyWorksTime> > &times_array){
+	void *counter_small_payload(const boost::shared_ptr<std::vector<MWTime> > &times_array){
 		shared_ptr <Clock> clock = Clock::instance();	
 		
 		for(int i = 0; i < 1000; i++){
@@ -404,12 +404,12 @@ namespace mw {
 		return 0;
 	}
 	
-	void *chaff_1(const MonkeyWorksTime interval){
-		MonkeyWorksTime how_long = interval - 100;
+	void *chaff_1(const MWTime interval){
+		MWTime how_long = interval - 100;
 		
 		shared_ptr <Clock> clock = Clock::instance();	
-		MonkeyWorksTime then = clock->getCurrentTimeUS(); 
-		MonkeyWorksTime now = then;
+		MWTime then = clock->getCurrentTimeUS(); 
+		MWTime now = then;
 		
 		double blah = 0.5;
 		

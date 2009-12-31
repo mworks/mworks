@@ -97,7 +97,7 @@ void SimpleStaircaseOptimizer::stepDown(){
 }
 
 void SimpleStaircaseOptimizer::newDataReceived(int inputIndex, const Datum& data, 
-                                                MonkeyWorksTime timeUS){
+                                                MWTime timeUS){
 	
 	if(inputIndex != 0){
 		// error

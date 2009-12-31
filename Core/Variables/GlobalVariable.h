@@ -72,9 +72,9 @@ class GlobalVariable : public Variable{
          * Sets the data value of this parameter
          */
 		void setValue(Datum newval);
-		void setValue(Datum newval, MonkeyWorksTime time);
+		void setValue(Datum newval, MWTime time);
 		void setSilentValue(Datum newval);
-		void setSilentValue(Datum newval, MonkeyWorksTime time);
+		void setSilentValue(Datum newval, MWTime time);
         
         /**
          * Returns true, always

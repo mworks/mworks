@@ -21,7 +21,7 @@ namespace mw {
 		shared_ptr<Variable> interval;
 		
 		shared_ptr<ScheduleTask> node;
-		MonkeyWorksTime timeScheduled;
+		MWTime timeScheduled;
 		unsigned int nRepeated;
 		
 	public:
@@ -34,9 +34,9 @@ namespace mw {
 					  shared_ptr<mw::Component> child);
 		virtual bool execute();
 		shared_ptr<ScheduleTask> getNode();
-		MonkeyWorksTime getDelay() const;
-		MonkeyWorksTime getInterval() const;
-		MonkeyWorksTime getTimeScheduled() const;
+		MWTime getDelay() const;
+		MWTime getInterval() const;
+		MWTime getTimeScheduled() const;
 		unsigned int getNRepeated() const;
 		void executeActions();
 	};

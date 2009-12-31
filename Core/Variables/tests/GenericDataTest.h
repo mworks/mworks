@@ -609,7 +609,7 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
 				doubleVector[i] = (double)i/10;
 			}
 			
-			MonkeyWorksTime time = 42;
+			MWTime time = 42;
 		
 			// look here
 			dic2.addElement("six",(long)6);    

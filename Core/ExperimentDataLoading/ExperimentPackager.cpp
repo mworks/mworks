@@ -13,7 +13,7 @@
 #include "Scarab/scarab.h"
 #include "Utilities.h"
 #include "LoadingUtilities.h"
-#include "ControlEventFactory.h"
+#include "SystemEventFactory.h"
 #include <iostream>
 #include <fstream>
 
@@ -117,7 +117,7 @@ Datum ExperimentPackager::packageExperiment(const boost::filesystem::path filena
 								mediaFilesPayload);
     }
 	
-	return ControlEventFactory::systemEventPackage(M_SYSTEM_DATA_PACKAGE, 
+	return SystemEventFactory::systemEventPackage(M_SYSTEM_DATA_PACKAGE, 
 											 M_EXPERIMENT_PACKAGE, 
 											 eventPayload);
 }

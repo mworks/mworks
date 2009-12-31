@@ -145,7 +145,7 @@ void ScarabConnection::disconnect() {
 						  1, 
 						  boost::bind(terminate, this_one),
 						  M_DEFAULT_NETWORK_PRIORITY, 
-						  (MonkeyWorksTime)0, // No warnings 
+						  (MWTime)0, // No warnings 
 						  M_DEFAULT_NETWORK_FAIL_SLOP_MS,
 						  M_MISSED_EXECUTION_CATCH_UP);
 }

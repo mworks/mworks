@@ -55,16 +55,16 @@ typedef struct {
 typedef struct {
     bool    valid;
 	double  value;
-	MonkeyWorksTime timeUS;
+	MWTime timeUS;
 } DatumWithTime;
 
 
 // saccade data 
 typedef struct  {
 	DOUBLE_POINT	sacStartLocDeg;
-    MonkeyWorksTime sacStartTimeMS;
+    MWTime sacStartTimeMS;
 	DOUBLE_POINT    sacEndLocDeg;               // point at which changed to fixated
-	MonkeyWorksTime sacEndTimeMS;
+	MWTime sacEndTimeMS;
     DOUBLE_POINT	sacTrueEndLocDeg;           // averaging post-saccade (more accurate estimate of end point)
 	double          distanceDeg;                // "TRUE" vector distance
 	double          distanceDegPiecewise;       // "TRUE" piecewise distance
@@ -90,9 +90,9 @@ class PairedEyeData {
 	public:
         PairedEyeData(int buffer_size);
         virtual ~PairedEyeData();
-        virtual void putDataH(double eyeH, MonkeyWorksTime timeUS);
-        virtual void putDataV(double eyeV, MonkeyWorksTime timeUS);
-        virtual bool getAvailable(double *pEyeH, double *pEyeV, MonkeyWorksTime *pEyeTimeUS);
+        virtual void putDataH(double eyeH, MWTime timeUS);
+        virtual void putDataV(double eyeV, MWTime timeUS);
+        virtual bool getAvailable(double *pEyeH, double *pEyeV, MWTime *pEyeTimeUS);
         virtual void reset();
         
 };
@@ -123,11 +123,11 @@ class EyeStatusMonitor : public VarTransformAdaptor {
         
         // main monitor vars (output)
 		EyeStatusEnum   eyeStatus;
-        MonkeyWorksTime  eyeStatusTimeUS;
+        MWTime  eyeStatusTimeUS;
         
         // computer (transform derived object to do the work)
         EyeStatusComputer  *eyeStatusComputer;
-        virtual void processAndPostEyeData(double _eyeHdeg, double _eyeVdeg, MonkeyWorksTime _eyeTimeUS);
+        virtual void processAndPostEyeData(double _eyeHdeg, double _eyeVdeg, MWTime _eyeTimeUS);
         
 	public:
         EyeStatusMonitor(shared_ptr<Variable> _eyeHCalibratedVar, shared_ptr<Variable> _eyeVCalibratedVar, 
@@ -135,7 +135,7 @@ class EyeStatusMonitor : public VarTransformAdaptor {
 		virtual ~EyeStatusMonitor();
 		
 		// override of VarTransformAdaptor class
-		virtual void newDataReceived(int inputIndex, const Datum& data, MonkeyWorksTime timeUS);
+		virtual void newDataReceived(int inputIndex, const Datum& data, MWTime timeUS);
         virtual void reset();
         
 };
@@ -143,7 +143,7 @@ class EyeStatusMonitor : public VarTransformAdaptor {
 class EyeStatusMonitorVer1 : public EyeStatusMonitor {
       
     protected:
-        virtual void processAndPostEyeData(double _eyeHdeg, double _eyeVdeg, MonkeyWorksTime _eyeTimeUS);
+        virtual void processAndPostEyeData(double _eyeHdeg, double _eyeVdeg, MWTime _eyeTimeUS);
     
     public:                                    
         EyeStatusMonitorVer1(shared_ptr<Variable> _eyeHCalibratedVar, 
@@ -165,7 +165,7 @@ class EyeStatusMonitorVer2 : public EyeStatusMonitor {
    
          
     protected:
-        virtual void processAndPostEyeData(double _eyeHdeg, double _eyeVdeg, MonkeyWorksTime _eyeTimeUS);
+        virtual void processAndPostEyeData(double _eyeHdeg, double _eyeVdeg, MWTime _eyeTimeUS);
     
     public:    
         EyeStatusMonitorVer2(shared_ptr<Variable> _eyeHCalibratedVar, 
@@ -194,7 +194,7 @@ class EyeStatusComputer : public Transform {
         // outputs returned
         bool                eyeInformationComputedSuccessfully;
         EyeStatusEnum      computedEyeStatus;
-        MonkeyWorksTime     computedEyeStatusTimeUS;
+        MWTime     computedEyeStatusTimeUS;
         
         // parameters
         shared_ptr<Variable> sacStartSpeedDegPerSec;
@@ -224,8 +224,8 @@ class EyeStatusComputer : public Transform {
         EyeStatusComputer(int _filterWidthSamples,
                             shared_ptr<Variable> _sacStartSpeedDegPerSec, shared_ptr<Variable> _sacEndSpeedDegPerSec);
         virtual ~EyeStatusComputer();        
-        virtual void input(float _eyeH, float _eyeV, MonkeyWorksTime _eyeTimeUS);
-        virtual bool output(EyeStatusEnum *eyeStatus, MonkeyWorksTime *eyeStatusTimeUS);
+        virtual void input(float _eyeH, float _eyeV, MWTime _eyeTimeUS);
+        virtual bool output(EyeStatusEnum *eyeStatus, MWTime *eyeStatusTimeUS);
         virtual void reset();
        
 };
@@ -245,7 +245,7 @@ class EyeStatusComputerWithSaccades : public EyeStatusComputer {
         shared_ptr<Variable> minSacDurationMS;  
         
         // saccade detection stuff
-        MonkeyWorksTime     timeofLastReset;
+        MWTime     timeofLastReset;
         bool                engageSaccadeDetection;
         bool                checkForSaccadeStart;
         bool                computeSacTrueEnd, inSaccade, checkForSaccadeEnd;
@@ -267,7 +267,7 @@ class EyeStatusComputerWithSaccades : public EyeStatusComputer {
         bool            sacBeyondVelocityPeak;
         short           nSamplesAveraged;
         SaccadeData    sacData;
-        MonkeyWorksTime timeSinceSacDetectedEnd;
+        MWTime timeSinceSacDetectedEnd;
         DOUBLE_POINT    xx;  
         
         // override its base class method             

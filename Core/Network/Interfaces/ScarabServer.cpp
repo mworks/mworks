@@ -10,7 +10,7 @@
 #include "ScarabServer.h"
 #include "ScarabServices.h"
 #include "EventBuffer.h"
-#include "ControlEventFactory.h"
+#include "SystemEventFactory.h"
 
 #include "Event.h"
 #include <string>
@@ -19,8 +19,8 @@
 using namespace mw;
 
 namespace mw {
-	const MonkeyWorksTime INITIAL_THREAD_DELAY = 0;
-	const MonkeyWorksTime REPEAT_INTERVAL = 20;
+	const MWTime INITIAL_THREAD_DELAY = 0;
+	const MWTime REPEAT_INTERVAL = 20;
 	const int TIMES_TO_RUN = 1;
 	
 	
@@ -168,7 +168,7 @@ void ScarabServer::scheduleAccept() {
 										 TIMES_TO_RUN, 
 										 boost::bind(acceptClients, this_one),
 										 M_DEFAULT_NETWORK_PRIORITY, 
-										 (MonkeyWorksTime)0, // no warnings 
+										 (MWTime)0, // no warnings 
 										 M_DEFAULT_NETWORK_FAIL_SLOP_MS,
 										 M_MISSED_EXECUTION_DROP);
 }
@@ -297,7 +297,7 @@ void ScarabServer::disconnectClient(int cliNum) {
     if(numberOfConnectedClients == 0) { return; }
     clients[cliNum]->disconnect();
     M_HASUNLOCK(connectionLock);
-    outgoing_event_buffer->putEvent(ControlEventFactory::serverDisconnectClientResponse());
+    outgoing_event_buffer->putEvent(SystemEventFactory::serverDisconnectClientResponse());
 }
 
 
@@ -456,7 +456,7 @@ int ScarabServer::service() {
         clients[numberOfConnectedClients] = tempClient;
         numberOfConnectedClients++;
         M_HASUNLOCK(connectionLock);
-        outgoing_event_buffer->putEvent(ControlEventFactory::serverConnectedClientResponse());
+        outgoing_event_buffer->putEvent(SystemEventFactory::serverConnectedClientResponse());
         
 	}
 	
@@ -472,20 +472,20 @@ int ScarabServer::service() {
 	
 	// we also should send a fresh codec so that this new client knows what is
 	// up if it is joining the party late
-	//buffer_manager->putEvent(ControlEventFactory::codecPackageEvent());
+	//buffer_manager->putEvent(SystemEventFactory::codecPackageEvent());
 	
-	outgoing_event_buffer->putEvent(ControlEventFactory::componentCodecPackage());
-    outgoing_event_buffer->putEvent(ControlEventFactory::codecPackage());
+	outgoing_event_buffer->putEvent(SystemEventFactory::componentCodecPackage());
+    outgoing_event_buffer->putEvent(SystemEventFactory::codecPackage());
     
     // TODO: move this out into some sort of "announceSystemState" call?
     if(GlobalDataFileManager != NULL && GlobalDataFileManager->isFileOpen()){
         std::string fname = GlobalDataFileManager->getFilename();
-        outgoing_event_buffer->putEvent(ControlEventFactory::dataFileOpenedResponse(fname,
+        outgoing_event_buffer->putEvent(SystemEventFactory::dataFileOpenedResponse(fname,
 																	   M_COMMAND_SUCCESS));
     }
     
-	outgoing_event_buffer->putEvent(ControlEventFactory::currentExperimentState());
-	outgoing_event_buffer->putEvent(ControlEventFactory::protocolPackage());
+	outgoing_event_buffer->putEvent(SystemEventFactory::currentExperimentState());
+	outgoing_event_buffer->putEvent(SystemEventFactory::protocolPackage());
 	global_variable_registry->announceAll();
 	
 	

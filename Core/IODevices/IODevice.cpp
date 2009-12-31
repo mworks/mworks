@@ -346,7 +346,7 @@ void IOChannel::update(Datum data){
 	if (_active) variable->setValue(data);
 } 
 
-void IOChannel::update(Datum data, MonkeyWorksTime timeUS){ 
+void IOChannel::update(Datum data, MWTime timeUS){ 
 	lock();		// JJD dropped this.  This is NOT a public method. 
 	// DDC added this back in.  This is NOT the issue
 	bool _active = active;
@@ -356,7 +356,7 @@ void IOChannel::update(Datum data, MonkeyWorksTime timeUS){
 } 
 
 // JJD commented out on Aug 15, 2005 -- all variables have data?
-void IOChannel::update(MonkeyWorksTime timeUS){ 
+void IOChannel::update(MWTime timeUS){ 
 	lock();		// JJD dropped this.  This is NOT a public method. 
 	bool _active = active;
 	unlock();
@@ -1214,7 +1214,7 @@ VariableNotification(){
 	channel_index = _channel_index;
 }
 
-void AsynchronousOutputNotification::notify(const Datum& data, MonkeyWorksTime timeUS){
+void AsynchronousOutputNotification::notify(const Datum& data, MWTime timeUS){
 	device->updateChannel(channel_index, data);
 }
 

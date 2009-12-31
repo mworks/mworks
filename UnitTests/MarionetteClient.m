@@ -15,7 +15,7 @@
 #import "MarionetteGlobals.h"
 #import "MarionetteMessage.h"
 #import "MarionetteEvent.h"
-#import "MonkeyWorksCore/ControlEventFactory.h"
+#import "MonkeyWorksCore/SystemEventFactory.h"
 #import "MonkeyWorksCore/XMLParser.h"
 #import "MonkeyWorksCore/ExpressionVariable.h"
 

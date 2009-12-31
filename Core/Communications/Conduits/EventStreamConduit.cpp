@@ -60,7 +60,7 @@
  */
 
 #include "EventStreamConduit.h"
-#include "ControlEventFactory.h"
+#include "SystemEventFactory.h"
 #include "StandardVariables.h"
 
 using namespace mw;
@@ -68,10 +68,11 @@ using namespace mw;
 
 int EventStreamConduit::count = 0;
 
-EventStreamConduit::EventStreamConduit(shared_ptr<EventTransport> _transport, shared_ptr<EventStreamInterface> _stream) : Conduit(_transport){
+EventStreamConduit::EventStreamConduit(shared_ptr<EventTransport> _transport, shared_ptr<EventStreamInterface> _stream, MWTime _conduit_idle_quantum_us) : Conduit(_transport){
     event_stream = _stream;
     EventStreamConduit::count++;
-    callback_key = (boost::format("event_stream_interface_%1%") % EventStreamConduit::count).str();
+    callback_key = (boost::format("MWEventStreamInterface::event_stream_interface_%1%") % EventStreamConduit::count).str();
+    conduit_idle_quantum_us = _conduit_idle_quantum_us;
 }
 
 
@@ -82,7 +83,9 @@ bool EventStreamConduit::initialize(){
     event_stream->registerCallback(RESERVED_CODEC_CODE, boost::bind(&EventStreamConduit::handleCodecFromStream, shared_from_this(), _1));
         
     // request a codec from the stream side
-    event_stream->putEvent(ControlEventFactory::requestCodecControl());
+    event_stream->putEvent(SystemEventFactory::requestCodecControl());
+    
+    this->registerInternalCallback(RESERVED_SYSTEM_EVENT_CODE, boost::bind(&EventStreamConduit::handleControlEventFromConduit, shared_from_this(), _1));
     
     
     EventTransport::event_transport_directionality directionality = transport->getDirectionality();
@@ -119,8 +122,68 @@ void EventStreamConduit::finalize(){
     }
 }
 
+
+void EventStreamConduit::handleControlEventFromConduit(shared_ptr<Event> evt){
+    
+    // mainly interested in M_SET_EVENT_FORWARDING events
+    // since these tell us that the other end of this conduit
+    // wants us to send or not send it those events
+    // Also interested in M_REQUEST_CODEC events since these require
+    // action on our part
+    
+    Datum payload_type = evt->getData().getElement(M_SYSTEM_PAYLOAD_TYPE);
+    
+    
+    if((int)payload_type == M_REQUEST_CODEC){
+        //std::cerr << "Sending codec over conduit, as requested" << std::endl;
+        //shared_ptr<Event> codec_event = SystemEventFactory::codecPackage();
+        //sendData(codec_event);
+        event_stream->putEvent(evt);
+    }
+    
+    // if not event forwarding, pass
+    if((int)payload_type != M_SET_EVENT_FORWARDING){
+        return;
+    }
+    
+    Datum payload(evt->getData().getElement(M_SYSTEM_PAYLOAD));
+    
+    Datum event_id_datum(payload.getElement(M_SET_EVENT_FORWARDING_NAME));
+    Datum state_datum(payload.getElement(M_SET_EVENT_FORWARDING_STATE));
+    
+    //std::cerr << "Responding to event forwarding request (id: " << event_id_datum.getString() << ", state: " << (bool)state_datum << ")" << std::endl;
+    
+    string event_name;
+    if(event_id_datum.isString()){
+        event_name = event_id_datum.getString();
+    } else {
+        throw SimpleException("Unknown data type for event forwarding request");
+    }
+    
+    
+    boost::mutex::scoped_lock lock(events_to_forward_lock);
+    list<string>::iterator event_iterator = find_if(events_to_forward.begin(), events_to_forward.end(), bind2nd(equal_to<string>(),event_name));
+    
+    if(state_datum.getBool()){
+        if(event_iterator == events_to_forward.end()){
+            //std::cerr << "Now forwarding " << event_name << std::endl;
+            events_to_forward.push_back(event_name);
+        }
+    } else {
+        
+        if(event_iterator != events_to_forward.end()){
+            events_to_forward.erase(event_iterator);
+        }
+    }
+    
+    rebuildStreamToConduitForwarding();
+}
+
+
 void EventStreamConduit::rebuildStreamToConduitForwarding(){
     list<string>::iterator i;
+    
+    //std::cerr << "rebuilding stream to conduit forwarding" << std::endl;
     
     // unregister any callbacks previously registered by this object
     event_stream->unregisterCallbacks(callback_key);
@@ -135,6 +198,7 @@ void EventStreamConduit::rebuildStreamToConduitForwarding(){
             // if the tag is listed
             if(stream_side_reverse_codec.find(tag_to_forward) != stream_side_reverse_codec.end()){
                 int code = stream_side_reverse_codec[tag_to_forward];
+                //std::cerr << "Registering forwarding callback for " << code << " on event stream" << std::endl;
                 event_stream->registerCallback(code, boost::bind(&EventStreamConduit::sendData, shared_from_this(), _1), callback_key);
             }
         }
@@ -144,6 +208,8 @@ void EventStreamConduit::rebuildStreamToConduitForwarding(){
 
 
 void EventStreamConduit::serviceIncomingEventsFromConduit(){
+    
+    shared_ptr<Clock> clock = Clock::instance(false);
     
     while(1){
         
@@ -162,12 +228,18 @@ void EventStreamConduit::serviceIncomingEventsFromConduit(){
         
         shared_ptr<Event> incoming_event = transport->receiveEventAsynchronous();
         if(incoming_event == NULL){
-            boost::thread::yield();
+            //boost::thread::yield();
+            clock->sleepUS(conduit_idle_quantum_us);
+            //boost::thread::sleep(boost::posix_time::microsec_clock::local_time() + boost::posix_time::microseconds(500));
             continue;
         }
         int event_code = incoming_event->getEventCode();
-        if(internal_callbacks.find(event_code) != internal_callbacks.end()){
-            internal_callbacks[event_code](incoming_event);
+        
+        {   // scope for locking
+            boost::mutex::scoped_lock(internal_callback_lock);
+            if(internal_callbacks.find(event_code) != internal_callbacks.end()){
+                internal_callbacks[event_code](incoming_event);
+            }
         }
         
     }

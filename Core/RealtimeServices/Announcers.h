@@ -31,7 +31,7 @@ class Announcable {
         Announcable(std::string _announceVariableTagname);
         virtual ~Announcable();
         
-		void announce(Datum _announceData, MonkeyWorksTime time);  // will announce this data
+		void announce(Datum _announceData, MWTime time);  // will announce this data
 		
 		void announce(Datum _announceData);  // will announce this data
         void announce();                       // will announce last data
@@ -54,7 +54,7 @@ protected:
 public:
 	Requestable(std::string _requestVariableTagname);
 	virtual ~Requestable();
-	virtual void notifyRequest(const Datum& data, MonkeyWorksTime timeUS) = 0;        // abstract class
+	virtual void notifyRequest(const Datum& data, MWTime timeUS) = 0;        // abstract class
                 
 };
 
@@ -65,7 +65,7 @@ protected:
 	
 public:
 	RequestNotification(Requestable *_requestable);
-	virtual void notify(const Datum& data, MonkeyWorksTime timeUS);
+	virtual void notify(const Datum& data, MWTime timeUS);
 
 };
 
@@ -86,7 +86,7 @@ public:
 	PrivateDataStorable(std::string _privateVariableBaseName, 
 						 std::string _privateVariableSubName);
 	virtual ~PrivateDataStorable();
-	virtual void notifyPrivate(const Datum& data, MonkeyWorksTime timeUS)=0;        
+	virtual void notifyPrivate(const Datum& data, MWTime timeUS)=0;        
                 
 };
 
@@ -100,7 +100,7 @@ protected:
 	
 public:
 	PrivateDataNotification(PrivateDataStorable *_privateDataStorableObject);
-	virtual void notify(const Datum& data, MonkeyWorksTime timeUS);
+	virtual void notify(const Datum& data, MWTime timeUS);
 	void setLastPrivateData(Datum data);
 	bool isRespondingToPrivateVarNotification();
 

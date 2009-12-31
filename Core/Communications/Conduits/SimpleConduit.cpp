@@ -8,12 +8,14 @@
  */
 
 #include "SimpleConduit.h"
-#include "ControlEventFactory.h"
+#include "SystemEventFactory.h"
 #include "StandardVariables.h"
 
 using namespace mw;
 
-SimpleConduit::SimpleConduit(shared_ptr<EventTransport> _transport) :  Conduit(_transport), EventCallbackHandler(false){ }
+SimpleConduit::SimpleConduit(shared_ptr<EventTransport> _transport, long _conduit_idle_quantum) :  Conduit(_transport), EventCallbackHandler(true){ 
+    conduit_idle_quantum_us = _conduit_idle_quantum;
+}
 
 // Start the conduit working
 bool SimpleConduit::initialize(){ 
@@ -37,6 +39,8 @@ SimpleConduit::~SimpleConduit(){
     
     int n_wait_attempts = 10;
     int wait_count = 0;
+    shared_ptr<Clock> clock = Clock::instance(false);
+    
     while(wait_count < n_wait_attempts){
         wait_count++;
         bool is_stopping, is_stopped;
@@ -54,7 +58,7 @@ SimpleConduit::~SimpleConduit(){
             break;
         }
         
-        boost::thread::sleep(boost::posix_time::microsec_clock::local_time() + boost::posix_time::milliseconds(100));
+        clock->sleepMS(100);
     }
     
     if(wait_count >= n_wait_attempts){
@@ -65,7 +69,10 @@ SimpleConduit::~SimpleConduit(){
 
 void SimpleConduit::serviceIncomingEvents(){
     
+    shared_ptr<Clock> clock = Clock::instance(false);
+    
     bool finished = false;
+    
     while(!finished){
         
         bool _stopping = false;
@@ -93,7 +100,9 @@ void SimpleConduit::serviceIncomingEvents(){
         
         shared_ptr<Event> incoming_event = transport->receiveEventAsynchronous();
         if(incoming_event == NULL){
-            boost::thread::yield();
+            //boost::thread::yield();
+            //boost::thread::sleep(boost::posix_time::microsec_clock::local_time() + boost::posix_time::microseconds(conduit_idle_quantum));
+            clock->sleepUS(conduit_idle_quantum_us);
             continue;
         }
         
@@ -106,7 +115,8 @@ void SimpleConduit::serviceIncomingEvents(){
 // everything is done and the object can be safely destroyed.
 void SimpleConduit::finalize(){ 
     
-
+    shared_ptr<Clock> clock = Clock::instance(false);
+    
     {   // tell the system to stop
         boost::mutex::scoped_lock(stopping_mutex);
         stopping = true;
@@ -128,7 +138,7 @@ void SimpleConduit::finalize(){
             break;
         }
         
-        boost::thread::sleep(boost::posix_time::microsec_clock::local_time() + boost::posix_time::milliseconds(100));
+        clock->sleepMS(100);
     }
     
     
@@ -146,7 +156,7 @@ void SimpleConduit::finalize(){
 //    
 //    registerCallback(event_code, functor);
 //    
-//    sendData(ControlEventFactory::setEventForwardingControl(event_name, true));
+//    sendData(SystemEventFactory::setEventForwardingControl(event_name, true));
 //}
 
 

@@ -173,7 +173,7 @@ class Experiment : public ContainerState {
 		
 		// Private methods to log changes in variable values
 		void logChange(Variable *variable, const Datum& data);
-		void logChange(Variable *variable, const Datum& data, MonkeyWorksTime timeUS);
+		void logChange(Variable *variable, const Datum& data, MWTime timeUS);
         			
     public:
 		Experiment(shared_ptr<VariableRegistry> variable_reg);

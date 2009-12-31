@@ -59,13 +59,13 @@ class RingBuffer {
 
 class TimeStampedRingBuffer : public RingBuffer {
 	protected:
-		MonkeyWorksTime *time;
+		MWTime *time;
 		
 	public:
         TimeStampedRingBuffer() : RingBuffer() {}
 		TimeStampedRingBuffer(int buffersize);
-		MonkeyWorksTime *getTime();
-        MonkeyWorksTime getTime(int index);
+		MWTime *getTime();
+        MWTime getTime(int index);
 };
 
 // A simple interface class for reading from a buffer.  This allows the program 
@@ -95,7 +95,7 @@ class RingBufferReader {
 class TimeStampedBufferReader : public RingBufferReader {
 	public:
         TimeStampedBufferReader() : RingBufferReader() {}
-		MonkeyWorksTime getTime();
+		MWTime getTime();
 };
 
 
@@ -195,7 +195,7 @@ class GenericTimeStampedRingBuffer : public TimeStampedRingBuffer {
 		}
 		
 
-		void putData(Class newdata, MonkeyWorksTime thetime){
+		void putData(Class newdata, MWTime thetime){
 			boost::mutex::scoped_lock locker(buffer_lock); 
 
             data[current_index] = newdata;

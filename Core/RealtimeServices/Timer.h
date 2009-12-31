@@ -22,15 +22,15 @@ class TimeBase : public mw::Component {
 
 protected:
 
-	MonkeyWorksTime time_us;
+	MWTime time_us;
 
 public:
 
 	TimeBase();
 	
-	void setTime(MonkeyWorksTime _time);
+	void setTime(MWTime _time);
 	void setNow();
-	MonkeyWorksTime getTime();
+	MWTime getTime();
 };
 
 
@@ -48,16 +48,16 @@ public:
 	Timer(VariableProperties *props = 0);
 	~Timer();
 
-	void start(MonkeyWorksTime howlongms);
-	void startMS(MonkeyWorksTime howlongms);
-	void startUS(MonkeyWorksTime howlongus);
+	void start(MWTime howlongms);
+	void startMS(MWTime howlongms);
+	void startUS(MWTime howlongus);
 	void setExpired(bool has_it);
 	bool hasExpired();
 	void forceExpired();
 	void cleanUp();
  Datum getValue();
 	void setValue(Datum v){ }
-	void setValue(Datum v, MonkeyWorksTime t){ }
+	void setValue(Datum v, MWTime t){ }
 	void setSilentValue(Datum _value){ }
 	Variable *clone();
 	

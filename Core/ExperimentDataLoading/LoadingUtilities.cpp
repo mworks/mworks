@@ -12,7 +12,7 @@
 #include "Experiment.h"
 #include "EmbeddedPerlInterpreter.h"
 #include "PlatformDependentServices.h"
-#include "ControlEventFactory.h"
+#include "SystemEventFactory.h"
 #include "EventBuffer.h"
 #include "StandardVariables.h"
 #include "StandardStimuli.h"
@@ -106,7 +106,7 @@ namespace mw {
 		} catch(std::exception& e){
 			merror(M_PARSER_MESSAGE_DOMAIN, e.what());
 			GlobalCurrentExperiment = shared_ptr<Experiment>();
-			global_outgoing_event_buffer->putEvent(ControlEventFactory::currentExperimentState());
+			global_outgoing_event_buffer->putEvent(SystemEventFactory::currentExperimentState());
 			return false;
 		}
 		
@@ -116,7 +116,7 @@ namespace mw {
 		} catch(std::exception& e){
 			merror(M_PARSER_MESSAGE_DOMAIN, "Failed to load setup variables.  Specific problems was: \"%s\"", e.what());
 			GlobalCurrentExperiment = shared_ptr<Experiment>();
-			global_outgoing_event_buffer->putEvent(ControlEventFactory::currentExperimentState());
+			global_outgoing_event_buffer->putEvent(SystemEventFactory::currentExperimentState());
 			return false;
 		}*/
 		
@@ -131,20 +131,20 @@ namespace mw {
 		} catch(std::exception& e){
 			merror(M_PARSER_MESSAGE_DOMAIN, e.what());
 			GlobalCurrentExperiment = shared_ptr<Experiment>();
-			global_outgoing_event_buffer->putEvent(ControlEventFactory::currentExperimentState());
+			global_outgoing_event_buffer->putEvent(SystemEventFactory::currentExperimentState());
 			return false;
 		}
 		
 		if(GlobalCurrentExperiment == NULL) {
 			merror(M_PARSER_MESSAGE_DOMAIN, "Experiment load failed");
-			global_outgoing_event_buffer->putEvent(ControlEventFactory::currentExperimentState());
+			global_outgoing_event_buffer->putEvent(SystemEventFactory::currentExperimentState());
 			return false;
 		}
 		
-		global_outgoing_event_buffer->putEvent(ControlEventFactory::componentCodecPackage());
-		global_outgoing_event_buffer->putEvent(ControlEventFactory::codecPackage());
-		global_outgoing_event_buffer->putEvent(ControlEventFactory::currentExperimentState());
-		global_outgoing_event_buffer->putEvent(ControlEventFactory::protocolPackage());
+		global_outgoing_event_buffer->putEvent(SystemEventFactory::componentCodecPackage());
+		global_outgoing_event_buffer->putEvent(SystemEventFactory::codecPackage());
+		global_outgoing_event_buffer->putEvent(SystemEventFactory::currentExperimentState());
+		global_outgoing_event_buffer->putEvent(SystemEventFactory::protocolPackage());
 		global_variable_registry->announceAll();
 		
 		return true;
@@ -204,11 +204,11 @@ namespace mw {
 		
 		if(announce){
 			
-			global_outgoing_event_buffer->putEvent(ControlEventFactory::componentCodecPackage());
-			global_outgoing_event_buffer->putEvent(ControlEventFactory::codecPackage());
+			global_outgoing_event_buffer->putEvent(SystemEventFactory::componentCodecPackage());
+			global_outgoing_event_buffer->putEvent(SystemEventFactory::codecPackage());
 			
-			global_outgoing_event_buffer->putEvent(ControlEventFactory::currentExperimentState());
-			//global_outgoing_event_buffer->putEvent(ControlEventFactory::protocolPackage());
+			global_outgoing_event_buffer->putEvent(SystemEventFactory::currentExperimentState());
+			//global_outgoing_event_buffer->putEvent(SystemEventFactory::protocolPackage());
 			global_variable_registry->announceAll();
 		}
 	}

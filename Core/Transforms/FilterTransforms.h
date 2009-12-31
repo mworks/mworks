@@ -29,7 +29,7 @@ class BoxcarFilter1D : public TransformWithMemory {
 		static const int NUM_OUTPUTS = 1;
 		static const int THE_INPUT_INDEX = 0;
 		double *dataVector;
-        MonkeyWorksTime *timeVectorUS;
+        MWTime *timeVectorUS;
         bool lagCompensate;
         
 	public:
@@ -37,8 +37,8 @@ class BoxcarFilter1D : public TransformWithMemory {
 		~BoxcarFilter1D();
 		
 		// override of base class
-		virtual void input(double inputValue, MonkeyWorksTime inputTimeUS);
-		virtual bool output(double *outputValue, MonkeyWorksTime *outputTimeUS);
+		virtual void input(double inputValue, MWTime inputTimeUS);
+		virtual bool output(double *outputValue, MWTime *outputTimeUS);
         
          // these versions do not worry about time
         virtual void input(double inputValue);
@@ -60,7 +60,7 @@ class LinearFilter1D : public TransformWithMemory {
 		static const int THE_INPUT_INDEX = 0;
         static const int NUM_ITEMS_IN_MEMORY = 1;
 		double *dataVector;
-        MonkeyWorksTime *timeVectorUS;
+        MWTime *timeVectorUS;
         double offset;
         double gain;
         double noiseSD;
@@ -70,8 +70,8 @@ class LinearFilter1D : public TransformWithMemory {
 		~LinearFilter1D();
 		
 		// override of base class
-		virtual void input(double inputValue, MonkeyWorksTime inputTimeUS);
-		virtual bool output(double *outputValue, MonkeyWorksTime *outputTimeUS);
+		virtual void input(double inputValue, MWTime inputTimeUS);
+		virtual bool output(double *outputValue, MWTime *outputTimeUS);
         
 
 };
@@ -95,7 +95,7 @@ class VelocityComputer1D : public TransformWithMemory {
 		static const int THE_INPUT_INDEX = 0;
         static const int NUM_FILTER_ELEMENTS = 2;    // two point velocity computation
 		double *dataVector;
-        MonkeyWorksTime *timeVectorUS;
+        MWTime *timeVectorUS;
         bool lagCompensate;
 
 	public:
@@ -103,8 +103,8 @@ class VelocityComputer1D : public TransformWithMemory {
 		~VelocityComputer1D();
 		
 		// override of base class
-		virtual void input(double inputValue, MonkeyWorksTime inputTimeUS);
-		virtual bool output(double *outputValue, MonkeyWorksTime *outputTimeUS);
+		virtual void input(double inputValue, MWTime inputTimeUS);
+		virtual bool output(double *outputValue, MWTime *outputTimeUS);
 
 };
 
@@ -152,7 +152,7 @@ class Filter_BoxcarFilter1D : public VarTransformAdaptor{
     public:
         Filter_BoxcarFilter1D(shared_ptr<Variable> _inputVar, shared_ptr<Variable> _outputVar, int _filterWidthSamples);
         virtual ~Filter_BoxcarFilter1D();
-        void  newDataReceived(int inputIndex, const Datum& data, MonkeyWorksTime timeUS);
+        void  newDataReceived(int inputIndex, const Datum& data, MWTime timeUS);
 	
 };
 	
@@ -172,7 +172,7 @@ class Filter_LinearFilter1D : public VarTransformAdaptor {
     public:
         Filter_LinearFilter1D(shared_ptr<Variable> _inputVar, shared_ptr<Variable> _outputVar, double _gain, double _offset, double _noiseSD);
         virtual ~Filter_LinearFilter1D();
-        void  newDataReceived(int inputIndex, const Datum& data, MonkeyWorksTime timeUS);
+        void  newDataReceived(int inputIndex, const Datum& data, MWTime timeUS);
 };	
 
 class Filter_LinearFilter1DFactory : public ComponentFactory {

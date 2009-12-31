@@ -46,22 +46,22 @@ class StandardClock : public Clock, public ComponentFactory {
     public:
         StandardClock(long interval_microseconds);
     
-		virtual MonkeyWorksTime getCurrentTimeMS();
-        virtual MonkeyWorksTime getCurrentTimeUS();
-		virtual MonkeyWorksTime getCurrentTimeNS();
+		virtual MWTime getCurrentTimeMS();
+        virtual MWTime getCurrentTimeUS();
+		virtual MWTime getCurrentTimeNS();
         
-		virtual void sleepMS(MonkeyWorksTime time);
-		virtual void sleepUS(MonkeyWorksTime time);
-		virtual void sleepNS(MonkeyWorksTime time);
+		virtual void sleepMS(MWTime time);
+		virtual void sleepUS(MWTime time);
+		virtual void sleepNS(MWTime time);
 		
         virtual long getInterval();
         virtual void setInterval(long microseconds);
 
-        virtual MonkeyWorksTime getSystemTimeMS();
-		virtual MonkeyWorksTime getSystemTimeUS();
-		virtual MonkeyWorksTime getSystemTimeNS();
+        virtual MWTime getSystemTimeMS();
+		virtual MWTime getSystemTimeUS();
+		virtual MWTime getSystemTimeNS();
 		
-        //virtual MonkeyWorksTime getSystemReferenceTime();
+        //virtual MWTime getSystemReferenceTime();
         virtual void startClock();
         virtual void stopClock();
                 

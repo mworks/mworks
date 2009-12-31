@@ -18,7 +18,7 @@ IODeviceVariableNotification::IODeviceVariableNotification
 
 IODeviceVariableNotification::~IODeviceVariableNotification() {}
 
-void IODeviceVariableNotification::notify(const Datum& data, MonkeyWorksTime timeUS) {
+void IODeviceVariableNotification::notify(const Datum& data, MWTime timeUS) {
 	if(data.getInteger() == STOPPING || data.getInteger() == IDLE) {
 		io_device->stopDeviceIO();
 	}

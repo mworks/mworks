@@ -248,7 +248,7 @@ class CompoundStimulus : public Stimulus {
         virtual void draw(StimulusDisplay * display, 
 						  float xdeg, float ydeg);
         void makeSubTag();
-        virtual void announceStimulusDraw(MonkeyWorksTime now);  // override of base class method
+        virtual void announceStimulusDraw(MWTime now);  // override of base class method
         
 };
 

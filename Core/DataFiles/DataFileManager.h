@@ -23,7 +23,7 @@
 #include "ScarabServices.h"
 #include "ScarabWriteConnection.h"
 #include "Event.h"
-#include "ControlEventFactory.h"
+#include "SystemEventFactory.h"
 
 #define DATA_FILE_FILENAME	"file"
 #define DATA_FILE_OPTIONS	"options"

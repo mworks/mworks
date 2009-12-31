@@ -79,7 +79,7 @@ void GlobalVariable::setValue(Datum newval) {
 	announce();
 }
 
-void GlobalVariable::setValue(Datum newval, MonkeyWorksTime time) {
+void GlobalVariable::setValue(Datum newval, MWTime time) {
 	setSilentValue(newval, time);
 	announce(time);
 }
@@ -91,7 +91,7 @@ void GlobalVariable::setSilentValue(Datum newval) {
 	performNotifications(newval);
 }
 
-void GlobalVariable::setSilentValue(Datum newval, MonkeyWorksTime timeUS) {
+void GlobalVariable::setSilentValue(Datum newval, MWTime timeUS) {
 	valueLock->lock();
 	*value=newval;
 	valueLock->unlock();

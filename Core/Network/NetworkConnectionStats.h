@@ -2,10 +2,7 @@
  * NetworkConnectionStats.h
  *
  * Description: A container for statistics about a network connection.
- *
- * History:
- * Paul Jankunas on 8/5/05 - Created.
- * Paul Jankunas on 8/8/05 - Made subclass of Lockable
+ * UPDATE 12/2009: this class does not appear to be in any significant use in 2009
  *
  * Copyright 2005 MIT. All rights reserved.
  */
@@ -33,7 +30,7 @@ class NetworkConnectionStats : Lockable {
         NetworkStats * eventsRxByType;
         // when the connection was started. in usec
         // (connected to for accept connections)
-        MonkeyWorksTime connectionBorn;
+        MWTime connectionBorn;
         
         // disable copy constructor
         NetworkConnectionStats(const NetworkConnectionStats& ) { }
@@ -62,14 +59,14 @@ class NetworkConnectionStats : Lockable {
          NetworkStats getTotalEventsTransmitted();
          NetworkStats getNumberOfBytesTransmitted();
          NetworkStats getNumberOfBytesReceived();
-         NetworkStats getEventsReceivedOfType(EventCode type);
-         NetworkStats getEventsTransmittedOfType(EventCode type);
-         MonkeyWorksTime getConnectionLifeInUS();
+         NetworkStats getEventsReceivedOfType(int code);
+         NetworkStats getEventsTransmittedOfType(int code);
+         MWTime getConnectionLifeInUS();
          double getConnectionLifeInS();
-         MonkeyWorksTime getConnectionSpawnTime();
-         void setConnectionSpawnTime(MonkeyWorksTime bt);
-         void eventReceived(EventCode type, unsigned int numBytes);
-         void eventTransmitted(EventCode type, unsigned int numBytes);
+         MWTime getConnectionSpawnTime();
+         void setConnectionSpawnTime(MWTime bt);
+         void eventReceived(int code, unsigned int numBytes);
+         void eventTransmitted(int code, unsigned int numBytes);
 };
 }
 #endif

@@ -32,6 +32,8 @@
 
 #include "EventCallbackHandler.h"
 
+#define DEFAULT_CONDUIT_IDLE_QUANTUM    5000
+
 namespace mw {
 
 
@@ -40,10 +42,11 @@ class SimpleConduit : public Conduit, public EventCallbackHandler {
 protected:
     
     boost::thread read_thread;
+    MWTime conduit_idle_quantum_us;
         
 public:
 
-    SimpleConduit(shared_ptr<EventTransport> _transport);
+    SimpleConduit(shared_ptr<EventTransport> _transport, long _conduit_idle_quantum_us = DEFAULT_CONDUIT_IDLE_QUANTUM);
     
     virtual ~SimpleConduit();
 

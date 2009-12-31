@@ -10,7 +10,7 @@
  
 #include "ScarabClient.h"
 #include "EventBuffer.h"
-#include "ControlEventFactory.h"
+#include "SystemEventFactory.h"
 #include <string.h>
 #include <boost/format.hpp>
 using namespace mw;
@@ -109,7 +109,7 @@ shared_ptr<NetworkReturn> ScarabClient::connect() {
             return rc;
     }
     mnetwork("Incoming network session connected");
-    outgoing_event_buffer->putEvent(ControlEventFactory::clientConnectedToServerResponse());
+    outgoing_event_buffer->putEvent(SystemEventFactory::clientConnectedToServerResponse());
     return rc;
 }
 
@@ -126,7 +126,7 @@ void ScarabClient::disconnect() {
         // the service is interrupted
         writer->setInterrupt(true);
     }
-    outgoing_event_buffer->putEvent(ControlEventFactory::clientDisconnectedFromServerResponse());
+    outgoing_event_buffer->putEvent(SystemEventFactory::clientDisconnectedFromServerResponse());
 }
 
 void ScarabClient::start() {

@@ -72,7 +72,7 @@ public:
     
     // TODO -- Dave, I had to add this method to make the trigger actaully be called when the
     // variable logged a change.  I am not sure how to avoid such an error.
-    virtual void notify(const Datum& data, MonkeyWorksTime timeUS){
+    virtual void notify(const Datum& data, MWTime timeUS){
         //mprintf("notifying asych trigger of a variable change ver 2...");
 		target->evaluate();
 	}

@@ -24,6 +24,7 @@
 #include "SimpleConduit.h"
 #include "EventTransport.h"
 #include "EventStreamInterface.h"
+#include "SystemEventFactory.h"
 #include "boost/enable_shared_from_this.hpp"
 
 
@@ -31,6 +32,7 @@ namespace mw {
 using namespace boost;
 using namespace std;
 
+#define EVENT_STREAM_CONDUIT_DEFAULT_IDLE_QUANTUM   500
     
 class EventStreamConduit : public Conduit, public enable_shared_from_this<EventStreamConduit> {
 
@@ -63,17 +65,24 @@ protected:
     
     // Internal callbacks, to respond to incoming events on the conduit
     map<int, EventCallback> internal_callbacks;
+    boost::mutex internal_callback_lock;
+    
+    MWTime conduit_idle_quantum_us;
+    
+    // these will be called from callbacks, so it is not necessary to lock them
     void registerInternalCallback(int event_code, EventCallback functor){
+        //boost::mutex::scoped_lock(internal_callback_lock);
         internal_callbacks[event_code] = functor;
     }
     
     void unregisterInternalCallbacks(){
+        //boost::mutex::scoped_lock(internal_callback_lock);
         internal_callbacks.clear();
     }
     
 public:
     
-    EventStreamConduit(shared_ptr<EventTransport> _transport, shared_ptr<EventStreamInterface> _handler);
+    EventStreamConduit(shared_ptr<EventTransport> _transport, shared_ptr<EventStreamInterface> _handler, MWTime _conduit_idle_quantum_us = EVENT_STREAM_CONDUIT_DEFAULT_IDLE_QUANTUM);
     virtual ~EventStreamConduit(){  }
     
     // Necessary methods for all conduits
@@ -99,17 +108,37 @@ public:
         
         // build a map to aid in accessing the codec
         for(int i=0; i < keys.size(); i++){
-            if(from_conduit_side){
-                conduit_side_codec[keys[i]] = string(codec.getElement(keys[i]));
-                conduit_side_reverse_codec[codec.getElement(keys[i])] = keys[i];
+            
+            Datum key = keys[i];
+            Datum value = codec.getElement(keys[i]);
+            string tagname;
+            if(value.getDataType() == M_STRING){
+                tagname = value.getString();
+            } else if(value.getDataType() == M_DICTIONARY){
+                tagname = string(value.getElement("tagname"));
             } else {
-                stream_side_codec[keys[i]] = string(codec.getElement(keys[i]));
-                stream_side_reverse_codec[codec.getElement(keys[i])] = keys[i];
+                mwarning(M_SYSTEM_MESSAGE_DOMAIN, "Invalid values in codec received by EventStreamConduit");
+                continue;
             }
+            
+            if(from_conduit_side){
+                conduit_side_codec[(int)key] = tagname;
+                conduit_side_reverse_codec[tagname] = (int)key;
+            } else {
+                stream_side_codec[(int)key] = tagname;
+                stream_side_reverse_codec[tagname] = (int)key;
+            }
+        }
+        
+        if(!from_conduit_side){
+            // forward the codec over the conduit
+            std::cerr << "Forwarding codec over conduit" << std::endl;
+            sendData(event);
         }
         
         // Rebuild codes_to_forward according to the new codec
         rebuildStreamToConduitForwarding();
+        
     }
     
     void handleCodecFromConduit(shared_ptr<Event> event){
@@ -128,49 +157,7 @@ public:
 
     // Handle incoming requests for change in event forwarding (e.g. if the
     // other side wants to receive a particular kind of event)
-    void handleControlEventFromConduit(shared_ptr<Event> evt){
-    
-        // mainly interested in M_SET_EVENT_FORWARDING events
-        // since these tell us that the other end of this conduit
-        // wants us to send or not send it those events
-        
-        Datum payload_type = evt->getData().getElement(M_SYSTEM_PAYLOAD_TYPE);
-        
-        
-        // if not event forwarding, pass
-        if((int)payload_type != M_SET_EVENT_FORWARDING){
-            return;
-        }
-        
-        Datum payload(evt->getData().getElement(M_SYSTEM_PAYLOAD));
-        
-        Datum event_id_datum(payload.getElement(M_SET_EVENT_FORWARDING_NAME));
-        Datum state_datum(payload.getElement(M_SET_EVENT_FORWARDING_STATE));
-        
-        string event_name;
-        if(event_id_datum.isString()){
-            event_name = event_id_datum.getString();
-        } else {
-            throw SimpleException("Unknown data type for event forwarding request");
-        }
-        
-        
-        boost::mutex::scoped_lock lock(events_to_forward_lock);
-        list<string>::iterator event_iterator = find_if(events_to_forward.begin(), events_to_forward.end(), bind2nd(equal_to<string>(),event_name));
-        
-        if(state_datum.getBool()){
-            if(event_iterator == events_to_forward.end()){
-                events_to_forward.push_back(event_name);
-            }
-        } else {
-            
-            if(event_iterator != events_to_forward.end()){
-                events_to_forward.erase(event_iterator);
-            }
-        }
-        
-        rebuildStreamToConduitForwarding();
-    }
+    void handleControlEventFromConduit(shared_ptr<Event> evt);
     
     
 };

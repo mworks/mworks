@@ -295,8 +295,8 @@ namespace mw {
 		
 		// update the channel (put data into the parameter value)     
         virtual void		update(Datum data);             
-		virtual void		update(Datum, MonkeyWorksTime timeUS);
-		virtual void		update(MonkeyWorksTime timeUS);	  
+		virtual void		update(Datum, MWTime timeUS);
+		virtual void		update(MWTime timeUS);	  
 		
     public:
         IOChannel(IOChannelRequest *  _request, 
@@ -539,7 +539,7 @@ namespace mw {
 		
 		AsynchronousOutputNotification( shared_ptr<IODevice> _device, int _channel_index);
 		
-		virtual void notify(const Datum& data, MonkeyWorksTime timeUS);
+		virtual void notify(const Datum& data, MWTime timeUS);
 		
 	};
 	

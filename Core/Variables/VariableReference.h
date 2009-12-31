@@ -32,7 +32,7 @@ public:
 		variable->setValue(data);
 	}
 	
-	virtual void setValue(Datum data, MonkeyWorksTime time){
+	virtual void setValue(Datum data, MWTime time){
 		variable->setValue(data, time);
 	}
 

@@ -3,7 +3,7 @@
 #include "Experiment.h"
 #include "StateSystem.h"
 #include "EventBuffer.h"
-#include "ControlEventFactory.h" 
+#include "SystemEventFactory.h" 
 using namespace mw;
  
 //template <> shared_ptr<StateSystem> RegisteredSingleton<StateSystem>::singleton_instance = shared_ptr<StateSystem>();
@@ -35,7 +35,7 @@ void StateSystem::setInTransition(bool isit){}
 
 void StateSystem::sendSystemStateEvent() {
     if(global_outgoing_event_buffer) {
-		global_outgoing_event_buffer->putEvent(ControlEventFactory::currentExperimentState());
+		global_outgoing_event_buffer->putEvent(SystemEventFactory::currentExperimentState());
     }
 }
         
