@@ -18,6 +18,17 @@
 			name = "Set Version String";
 			productName = "Set Version String";
 		};
+		5C77F49910E969AC00919719 /* Everything */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 5C77F4A410E969B400919719 /* Build configuration list for PBXAggregateTarget "Everything" */;
+			buildPhases = (
+			);
+			dependencies = (
+				5C77F49F10E969AF00919719 /* PBXTargetDependency */,
+			);
+			name = Everything;
+			productName = Everything;
+		};
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
@@ -71,6 +82,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 5C488A420F4E289500C5A526;
 			remoteInfo = "Set Version String";
+		};
+		5C77F49E10E969AF00919719 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8D1107260486CEB800E47090;
+			remoteInfo = MWClient;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -341,6 +359,7 @@
 			targets = (
 				8D1107260486CEB800E47090 /* MWClient */,
 				5C488A420F4E289500C5A526 /* Set Version String */,
+				5C77F49910E969AC00919719 /* Everything */,
 			);
 		};
 /* End PBXProject section */
@@ -438,6 +457,11 @@
 			target = 5C488A420F4E289500C5A526 /* Set Version String */;
 			targetProxy = 5C488A4C0F4E28C100C5A526 /* PBXContainerItemProxy */;
 		};
+		5C77F49F10E969AF00919719 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8D1107260486CEB800E47090 /* MWClient */;
+			targetProxy = 5C77F49E10E969AF00919719 /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
@@ -477,6 +501,41 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				PRODUCT_NAME = "Set Version String";
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		5C77F49A10E969AC00919719 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = Everything;
+			};
+			name = Debug;
+		};
+		5C77F49B10E969AC00919719 /* Debug (10.5 Compatible) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = Everything;
+			};
+			name = "Debug (10.5 Compatible)";
+		};
+		5C77F49C10E969AC00919719 /* HollowedOut */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = Everything;
+			};
+			name = HollowedOut;
+		};
+		5C77F49D10E969AC00919719 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				PRODUCT_NAME = Everything;
 				ZERO_LINK = NO;
 			};
 			name = Release;
@@ -676,6 +735,17 @@
 				5C9EE490107307E50051414D /* Debug (10.5 Compatible) */,
 				5CAA5050106B1F4500ABE746 /* HollowedOut */,
 				5C488A440F4E289600C5A526 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		5C77F4A410E969B400919719 /* Build configuration list for PBXAggregateTarget "Everything" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5C77F49A10E969AC00919719 /* Debug */,
+				5C77F49B10E969AC00919719 /* Debug (10.5 Compatible) */,
+				5C77F49C10E969AC00919719 /* HollowedOut */,
+				5C77F49D10E969AC00919719 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

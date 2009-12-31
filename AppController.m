@@ -226,7 +226,7 @@
 
 - (IBAction) loadRecentExperiment: (id) sender {
 	MWClientInstance *client_instance = [self modalClientInstanceInCharge];
-  NSString *selected_path = [modalRecentExperimentPopUp titleOfSelectedItem];
+    NSString *selected_path = [modalRecentExperimentPopUp titleOfSelectedItem];
 	[client_instance setExperimentPath:selected_path];
   
 	[client_instance loadExperiment];
@@ -352,7 +352,7 @@
 }
 
 - (IBAction) closeDataFile: (id) sender{
-MWClientInstance *client_instance = [self modalClientInstanceInCharge];
+    MWClientInstance *client_instance = [self modalClientInstanceInCharge];
 	[client_instance setDataFileName:[modalDataFileField stringValue]];
 	
 	[client_instance closeDataFile];
@@ -420,6 +420,7 @@ MWClientInstance *client_instance = [self modalClientInstanceInCharge];
 
 - (IBAction) showPlugin:(id)sender {
 	int tag = [sender tag];
+    
 	MWClientInstance *instance = [self modalClientInstanceInCharge];
 	[instance showPlugin:tag];
 }

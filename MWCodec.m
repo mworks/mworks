@@ -28,9 +28,10 @@
 	
 	// register for codec callback
 	[clientInstance registerEventCallbackWithReceiver:self 
-                                           selector:@selector(receiveCodec:)
-                                        callbackKey:MW_CODEC_CALLBACK_KEY
-                                    forVariableCode:RESERVED_CODEC_CODE];
+                                             selector:@selector(receiveCodec:)
+                                          callbackKey:MW_CODEC_CALLBACK_KEY
+                                      forVariableCode:RESERVED_CODEC_CODE
+                                         onMainThread:NO];
   
 	// start updateChangedValues timer
 	update_timer = [NSTimer scheduledTimerWithTimeInterval:(NSTimeInterval)UPDATE_INTERVAL 

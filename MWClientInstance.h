@@ -9,17 +9,19 @@
 #import <Cocoa/Cocoa.h>
 #import <MonkeyWorksCore/Client.h>
 #import <MonkeyWorksCocoa/MWCocoaEvent.h>
+#import <MonkeyWorksCocoa/MWCoreContainer.h>
 #import "MWCodec.h"
 #import "MWGroupedPluginWindowController.h"
 #import "MWNotebook.h"
 #import "AppController.h"
+
 
 //#define HOLLOW_OUT_FOR_ADC	0
 
 
 #define STATE_SYSTEM_CALLBACK_KEY "MonkeyWorksClient::StateSystemCallbackKey"
 
-@interface MWClientInstance : NSObject {	
+@interface MWClientInstance : NSObject <MWCoreContainer> {	
 
 	// The core object that actually does all of the work
 	#ifndef HOLLOW_OUT_FOR_ADC
@@ -54,9 +56,9 @@
 	NSString *experimentPath;
 	NSString *experimentName;
 	
-  BOOL variableSetLoaded;
-  NSString *variableSetName;
-  NSMutableArray *serversideVariableSetNames;
+    BOOL variableSetLoaded;
+    NSString *variableSetName;
+    NSMutableArray *serversideVariableSetNames;
     
 	BOOL dataFileOpen;
 	NSString *dataFileName;
@@ -91,6 +93,7 @@
 
 // Accessors
 - (shared_ptr<mw::Client>) coreClient;
+- (shared_ptr<mw::EventStreamInterface>) eventStreamInterface;
 @property(retain) MWCodec *variables;
 - (NSArray *)variableNames;
 @property(assign)	NSMutableArray *errors;
@@ -151,16 +154,22 @@
 
 // Methods for registering to be notified of events from the core object
 - (void)registerEventCallbackWithReceiver:(id)receiver 
-							  selector:(SEL)selector
-								   callbackKey:(const char *)key;
+                                 selector:(SEL)selector
+                              callbackKey:(const char *)key
+                                   onMainThread:(BOOL)on_main;
+
 - (void)registerEventCallbackWithReceiver:(id)receiver 
-							  selector:(SEL)selector
-								   callbackKey:(const char *)key
-						  forVariableCode:(int)code;
+                                 selector:(SEL)selector
+                              callbackKey:(const char *)key
+						  forVariableCode:(int)code
+                             onMainThread:(BOOL)on_main;
+
 - (void)registerEventCallbackWithReceiver:(id)receiver 
-							  selector:(SEL)selector
-								   callbackKey:(const char *)key
-							  forVariable:(NSString *)tag;
+                                 selector:(SEL)selector
+                              callbackKey:(const char *)key
+							  forVariable:(NSString *)tag
+                             onMainThread:(BOOL)on_main;
+
 - (void)registerBindingsBridgeWithReceiver:(id)receiver 
 							bindingsKey:(NSString *)bindings_key
 									callbackKey:(const char *)key
@@ -168,7 +177,7 @@
 
 // The client object's own method for dealing with events from the core object
 // (delivered via callback)
-- (void)processEvent:(MWCocoaEvent *)event;
+//- (void)processEvent:(MWCocoaEvent *)event;
 
 
 // Actions
@@ -191,6 +200,7 @@
 - (void)showAllPlugins;
 - (void)showPlugin:(int)i;
 - (void)showGroupedPlugins;
+- (NSWindow *)groupedPluginWindow;
 - (void)hideAllPlugins;
 - (NSArray *)pluginWindows;
 

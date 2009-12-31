@@ -51,7 +51,7 @@
     [self didChangeValueForKey:@"content"];
     
     [logFile writeData:[full_entry dataUsingEncoding: NSASCIIStringEncoding]];
-    [full_entry finalize];
+    [full_entry release];
 }
 
 

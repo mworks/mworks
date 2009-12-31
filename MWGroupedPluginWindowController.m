@@ -86,11 +86,19 @@
         
         NSWindow *content_window = [plugins objectAtIndex:i];
         [content_window orderOut:self];
+        
+        if([[content_window windowController] respondsToSelector:@selector(setInGroupedWindow:)]){
+            [[content_window windowController] setInGroupedWindow:YES];
+        }
+        
         NSView *current_view = [content_window contentView];
         [holdFlags replaceObjectAtIndex:i withObject:[NSNumber numberWithBool:YES]];
         
         [content_box setContentView:current_view];
-        // TODO: resize too
+        
+        currentPluginIndex = i;
+        
+        // TODO: resizing needs to be fixed
     } else {
         NSLog(@"Attempt to select plugin out of bounds");
     }

@@ -13,8 +13,12 @@
 #import <MonkeyWorksCocoa/MWCocoaEventFunctor.h>
 #import <MonkeyWorksCocoa/MWWindowController.h>
 
-#define ERROR_MESSAGE_CALLBACK_KEY	"ClientErrorMessageCallbackKey"
-#define	LOAD_MESSAGE_CALLBACK_KEY	"LoadMessageCallbackKey"
+#define ERROR_MESSAGE_CALLBACK_KEY	"MWClientInstance::client_error_message_callback"
+#define CLIENT_SYSTEM_EVENT_CALLBACK_KEY  "MWClientInstance::system_event_callback"
+#define EXPERIMENT_LOAD_PROGRESS_KEY "MWClientInstance::experiment_load_progress_callback"
+#define CLIENT_LOAD_MESSAGE_CALLBACK_KEY    "MWClientInstance::load_message_callback"
+#define CLIENT_CODEC_EVENT_CALLBACK_KEY "MWClientInstance::codec_callback"
+
 
 @implementation MWClientInstance
 
@@ -30,10 +34,10 @@
     [headerBox setFillColor:headerColor];
 
 
-	#ifndef HOLLOW_OUT_FOR_ADC
-		core = shared_ptr <mw::Client>(new mw::Client());
-		variables = [[MWCodec alloc] initWithClientInstance:self];
-	#endif
+	
+    core = shared_ptr <mw::Client>(new mw::Client());
+    variables = [[MWCodec alloc] initWithClientInstance:self];
+	
 	
 	protocolNames = [[NSMutableArray alloc] init];
 	errors = [[NSMutableArray alloc] init];
@@ -46,9 +50,18 @@
 	self.variableSetName = Nil;
     self.variableSetLoaded = NO;
     
+    // Register a callback to receive codec events
 	[self registerEventCallbackWithReceiver:self 
-								selector:@selector(processEvent:)
-									 callbackKey:STATE_SYSTEM_CALLBACK_KEY];
+                                   selector:@selector(receiveCodec:)
+                                callbackKey:CLIENT_CODEC_EVENT_CALLBACK_KEY
+                            forVariableCode:RESERVED_CODEC_CODE
+                               onMainThread:NO];
+    
+    [self registerEventCallbackWithReceiver:self 
+                                   selector:@selector(handleSystemEvent:)
+                                callbackKey:CLIENT_SYSTEM_EVENT_CALLBACK_KEY
+                            forVariableCode:RESERVED_SYSTEM_EVENT_CODE
+                               onMainThread:YES];
 									 
 	[self setDataFileOpen:false];
 	[self setExperimentLoaded:false];
@@ -62,14 +75,16 @@
 	pluginWindows = [[NSMutableArray alloc] init];
 	[self loadPlugins];
 	
-	#ifndef HOLLOW_OUT_FOR_ADC
-		core->startEventListener();
-	#endif
+
+    core->startEventListener();
 	
   
 	#define CONNECTION_CHECK_INTERVAL	1.0
-  connection_check_timer = [NSTimer scheduledTimerWithTimeInterval:(NSTimeInterval)CONNECTION_CHECK_INTERVAL 
-						target:self selector:@selector(checkConnection) userInfo:Nil repeats:YES];
+    connection_check_timer = [NSTimer scheduledTimerWithTimeInterval:(NSTimeInterval)CONNECTION_CHECK_INTERVAL 
+                                                              target:self 
+                                                            selector:@selector(checkConnection) 
+                                                            userInfo:Nil 
+                                                             repeats:YES];
 	
     
 	return self;
@@ -134,12 +149,13 @@
 // Cosmetics
 @synthesize headerColor;
 
-#ifndef HOLLOW_OUT_FOR_ADC
 - (shared_ptr<mw::Client>)coreClient {
-	
   return core;
 }
-#endif
+
+- (shared_ptr<mw::EventStreamInterface>) eventStreamInterface{
+    return static_pointer_cast<EventStreamInterface>(core);
+}
 
 - (NSArray *)variableNames {
 	return [variables variableNames];
@@ -147,21 +163,19 @@
 
 - (NSDictionary *)varGroups {
   
-#ifndef HOLLOW_OUT_FOR_ADC
 	unsigned int nVars = core->numberOfVariablesInRegistry();
-#else
-  unsigned int nVars = 0;
-#endif
 	
 	NSMutableDictionary *allGroups = [[NSMutableDictionary alloc] init];
 	
-#ifdef HOLLOW_OUT_FOR_ADC
-  return allGroups;
-#else
+
   
-	for(int i=M_MAX_RESERVED_EVENT_CODE; i<nVars; ++i) {
+	for(int i=N_RESERVED_CODEC_CODES; i < nVars + N_RESERVED_CODEC_CODES; ++i) {
 		shared_ptr <mw::Variable> var = core->getVariable(i);
 		
+        if(var == NULL){
+            continue;
+        }
+        
 		std::vector <std::string> groups(var->getProperties()->getGroups());
 		std::vector<std::string>::iterator iter = groups.begin();
 		while (iter != groups.end()) {
@@ -184,7 +198,6 @@
 	}
 	
 	return allGroups;
-#endif
 }
 
 
@@ -192,12 +205,8 @@
   
   @synchronized(self){
   
-#ifndef HOLLOW_OUT_FOR_ADC
     BOOL actually_connected = core->isConnected();
-#else
-    BOOL actually_connected = false;
-#endif
-    
+
 	if(actually_connected != [self serverConnected]){
 		[self setServerConnected:actually_connected];
 		
@@ -284,9 +293,6 @@
 	string url = [serverURL cStringUsingEncoding:NSASCIIStringEncoding];
 	[self setServerConnecting:YES];
 	
-#ifdef HOLLOW_OUT_FOR_ADC
-  return;
-#else  
 	BOOL success = core->connectToServer(url, [serverPort intValue]);  
 	// If that didn't work, try launching the server remotely
 	if((!success || !core->isConnected()) && [self launchIfNeeded]){
@@ -340,12 +346,11 @@
 		[self enforceDisconnectedState];
 	}
 	
-#endif
 }
 
 - (void)disconnect{
 	
-#ifndef HOLLOW_OUT_FOR_ADC
+
 	[self setServerConnecting:YES];
 	
 	//[self willChangeValueForKey:@"serverConnected"];
@@ -361,7 +366,7 @@
 	} else {
 		[self setServerConnecting:NO];
 	}
-#endif
+
 }
 
 - (void) loadExperiment {
@@ -374,9 +379,10 @@
 	[self updateRecentExperiments];
 	
 	[self registerEventCallbackWithReceiver:self 
-								selector:@selector(handleLoadMessageEvent:)
-									 callbackKey:LOAD_MESSAGE_CALLBACK_KEY
-							forVariable:@"#announceMessage"];
+                                   selector:@selector(handleLoadMessageEvent:)
+                                callbackKey:CLIENT_LOAD_MESSAGE_CALLBACK_KEY
+                                forVariable:@"#announceMessage"
+                               onMainThread:YES];
 	
 	// Bind the messages variable temporarily to the loadingMessages key
 //	[self registerBindingsBridgeWithReceiver:self 
@@ -386,9 +392,8 @@
 	
 	[self startAccumulatingErrors];
   
-#ifndef HOLLOW_OUT_FOR_ADC
 	core->sendExperiment(path);
-#endif
+
 }
 
 - (void) updateRecentExperiments {
@@ -507,18 +512,12 @@
 
 - (NSNumber *)codeForTag:(NSString *)tag {
 	
-#ifdef HOLLOW_OUT_FOR_ADC
-  NSNumber *code = [[NSNumber alloc] initWithInt:0];
-#else
-	NSNumber *code = [[NSNumber alloc] initWithInt:core->lookupCodeForTag([tag cStringUsingEncoding:NSASCIIStringEncoding])];
-#endif
+  NSNumber *code = [[NSNumber alloc] initWithInt:core->lookupCodeForTag([tag cStringUsingEncoding:NSASCIIStringEncoding])];
   return code;
 }
 
 - (void)updateVariableWithCode:(int)code withData:(mw::Datum *)data {
-#ifndef HOLLOW_OUT_FOR_ADC
 	core->updateValue(code, *data);
-#endif
 }
 
 - (void)updateVariableWithTag:(NSString *)tag withData:(mw::Datum *)data {
@@ -527,15 +526,18 @@
 
 
 - (void)unregisterCallbacksWithKey:(const char *)key {
-#ifndef HOLLOW_OUT_FOR_ADC
-	core->unregisterCallbacks(key);
-#endif
+	core->unregisterCallbacks(key, true); // short-circuit
+}
+
+- (void)unregisterCallbacksWithKey:(const char *)key locking:(BOOL)locking {
+	core->unregisterCallbacks(key, true); // short-circuit
 }
 
 
 - (void)registerEventCallbackWithReceiver:(id)receiver 
-                                          selector:(SEL)selector
-                                          callbackKey:(const char *)key{
+                                 selector:(SEL)selector
+                              callbackKey:(const char *)key
+                             onMainThread:(BOOL)on_main{
 
 	
     core->registerCallback(create_cocoa_event_callback(receiver, selector), string(key));
@@ -544,22 +546,25 @@
 - (void)registerEventCallbackWithReceiver:(id)receiver 
                                  selector:(SEL)selector
                               callbackKey:(const char *)key
-                          forVariableCode:(int)code {
+                          forVariableCode:(int)code
+                             onMainThread:(BOOL)on_main{
 						  
 	if(code >= 0) {
-        core->registerCallback(code, create_cocoa_event_callback(receiver, selector, self), key);
+        core->registerCallback(code, create_cocoa_event_callback(receiver, selector, on_main, self), key);
 	}
 }
 
 // Call receiver with a given selector (and the relevant event as an argument) if the mw variable 
 // identified by the specified "tag" name changes
 - (void)registerEventCallbackWithReceiver:(id)receiver 
-							  selector:(SEL)selector
-								   callbackKey:(const char *)key
-						  forVariable:(NSString *)tag {
+                                 selector:(SEL)selector
+                              callbackKey:(const char *)key
+                              forVariable:(NSString *)tag 
+                             onMainThread:(BOOL)on_main
+{
 	
     core->registerCallback([tag  cStringUsingEncoding:NSASCIIStringEncoding], 
-                           create_cocoa_event_callback(receiver, selector, self), 
+                           create_cocoa_event_callback(receiver, selector, on_main, self), 
                            key);
 }
 
@@ -569,9 +574,9 @@
 // callbackKey: a unique string to identify this particular callback
 // forVariable: the tag name of the monkeyworks variable in question
 - (void)registerBindingsBridgeWithReceiver:(id)receiver 
-							  bindingsKey:(NSString *)bindings_key
-								   callbackKey:(const char *)key
-							  forVariable:(NSString *)tag {
+                               bindingsKey:(NSString *)bindings_key
+                               callbackKey:(const char *)key
+                               forVariable:(NSString *)tag {
 	
 	core->registerCallback([tag  cStringUsingEncoding:NSASCIIStringEncoding], 
                             create_bindings_bridge_event_callback(receiver, bindings_key), 
@@ -579,184 +584,336 @@
 }
 
 
-
-
-- (void)processEvent:(MWCocoaEvent *)event {
-	
-	int code = [event code];
-	
-	if(code == RESERVED_CODEC_CODE) {
-		
-		systemCodecCode = [[self codeForTag:[NSString stringWithCString:SYSTEM_VAR_TAGNAME
-																   encoding:NSASCIIStringEncoding]] intValue];
-		
-		[self unregisterCallbacksWithKey:STATE_SYSTEM_CALLBACK_KEY];
-		//[self registerEventCallbackWithReceiver:self 
-//										selector:@selector(processEvent:)
-//											 callbackKey:STATE_SYSTEM_CALLBACK_KEY
-//									forVariableCode:[NSNumber numberWithInt:RESERVED_CODEC_CODE]];
-//		
-		[self registerEventCallbackWithReceiver:self 
-										selector:@selector(processEvent:)
-											 callbackKey:STATE_SYSTEM_CALLBACK_KEY
-									forVariableCode:systemCodecCode];
-		#define EXPERIMENT_LOAD_PROGRESS_KEY "experiment_load_progress_callback_key"
-		
+- (void)receiveCodec:(MWCocoaEvent *)event {
     
+    // If we've received a new codec, it is possible that some key variables have changed codes
+    // As a result, we must find out what they are, and re-register callbacks
+
+    [self unregisterCallbacksWithKey:EXPERIMENT_LOAD_PROGRESS_KEY locking:NO]; // locked from outside callback
     [self registerBindingsBridgeWithReceiver:self
-										bindingsKey:@"experimentLoadProgress"
-												callbackKey:EXPERIMENT_LOAD_PROGRESS_KEY
-									forVariable:@"#experimentLoadProgress"]; // TODO: use EXPERIMENT_LOAD_PROGRESS_TAGNAME instead
-		
-	} else {
-		if(systemCodecCode < RESERVED_CODEC_CODE) {
-			systemCodecCode = [[self codeForTag:[NSString stringWithCString:SYSTEM_VAR_TAGNAME
-																	   encoding:NSASCIIStringEncoding]] intValue];
-		}
-		
-		
-		if (code == systemCodecCode && systemCodecCode > RESERVED_CODEC_CODE) {
-			mw::Datum payload(*[event data]);
-			mw::Datum sysEventType(payload.getElement(M_SYSTEM_PAYLOAD_TYPE));
-			
-			if(!sysEventType.isUndefined()) {
-				// The F swich statement ... it's gotta be somewhere
-				switch((mw::SystemPayloadType)sysEventType.getInteger()) {
-					case M_PROTOCOL_PACKAGE:
-					{
-						mw::Datum pp(payload.getElement(M_SYSTEM_PAYLOAD));
-						
-						[protocolNames removeAllObjects];
-						
-						mw::Datum protocols(pp.getElement(M_PROTOCOLS));
-						
-						for(int i=0; i<protocols.getNElements(); ++i) {
-							mw::Datum protocol(protocols[i]);
-							
-							NSString *protocolName = [[NSString alloc] initWithCString:protocol.getElement(M_PROTOCOL_NAME).getString()
-																			  encoding:NSASCIIStringEncoding];
-							
-							[protocolNames addObject:protocolName];
-						}
-						
-						[self willChangeValueForKey:@"protocolNames"];
-						[self didChangeValueForKey:@"protocolNames"];
-												
-						string current_protocol_string = pp.getElement(M_CURRENT_PROTOCOL).getString();
-		
-						[self setCurrentProtocolName:[[NSString alloc] initWithCString:current_protocol_string.c_str()
-																	   encoding:NSASCIIStringEncoding]];
-																	   
-						if(currentProtocolName == Nil || ([protocolNames indexOfObject:currentProtocolName] == NSNotFound)){
-							[self setCurrentProtocolName:[protocolNames objectAtIndex:0]];
-						}
-					}
-						break;
-					
-					case M_DATA_FILE_OPENED:
-					{
-						mw::Datum event(payload.getElement(M_SYSTEM_PAYLOAD));
-						
-						// TODO: kludge MUST be fixed
-						mw::Datum file(event.getElement(1));
-                        mw::Datum success(event.getElement(0));
-						
-                        if((int)success != M_COMMAND_SUCCESS){
-                            [self setDataFileName:Nil];
-                            [self setDataFileOpen:NO];
-                            break;
-                        }
-                        
-						[self setDataFileName:[NSString stringWithCString:file.getString() encoding:NSASCIIStringEncoding]];
-						if([self dataFileName] != Nil){
-							[self setDataFileOpen: YES];
-						}
-					}
-						break;
-					
-					case M_DATA_FILE_CLOSED:
-					{
-						mw::Datum event(payload.getElement(M_SYSTEM_PAYLOAD));
-						
-						// TODO: kludge MUST be fixed
-						mw::Datum file(event.getElement(1));
-						
-						[self setDataFileName:Nil];
-						[self setDataFileOpen: NO];
-						
-					}
-						break;
-					
-					case M_EXPERIMENT_STATE:
-					{
-						mw::Datum state(payload.getElement(M_SYSTEM_PAYLOAD));
-						
-						[self setExperimentLoaded:state.getElement(M_LOADED).getBool()];
-						if([self experimentLoaded]) {
-							[self setExperimentLoading:NO];
-							
-#ifndef HOLLOW_OUT_FOR_ADC
-              core->unregisterCallbacks("LoadMessageCallbackKey"); // TODO: kludgey
-#endif
-							[self setExperimentPaused:state.getElement(M_PAUSED).getBool()];
-							[self setExperimentRunning: state.getElement(M_RUNNING).getBool()];
-							[self setExperimentName:[[NSString alloc] initWithCString:state.getElement(M_EXPERIMENT_NAME).getString()
-																	  encoding:NSASCIIStringEncoding]];
-							
-							if([self experimentName] == Nil){
-								[self setExperimentName:@"Unnamed Experiment"];
-							}
-							
-							[self setExperimentPath:[[NSString alloc] initWithCString:state.getElement(M_EXPERIMENT_PATH).getString()
-																	  encoding:NSASCIIStringEncoding]];
-							
-							
-                            [self willChangeValueForKey:@"serversideVariableSetNames"];
-
-							[serversideVariableSetNames removeAllObjects];
-							mw::Datum svs(state.getElement(M_SAVED_VARIABLES));
-							
-							if(svs.isList()) {
-								for(int i=0; i<svs.getNElements(); ++i) {
-									mw::Datum set(svs.getElement(i));
-									
-									[serversideVariableSetNames addObject:[NSString stringWithCString:set.getString()
-																					encoding:NSASCIIStringEncoding]];
-								}
-							}
-                            
-                            [self didChangeValueForKey:@"serversideVariableSetNames"];
-							
-							if(accumulatingErrors){
-								[self stopAccumulatingErrors];
-							}
-						
-						} else {
-							// Not loaded
-							if(accumulatingErrors){
-								[self stopAccumulatingErrors];
-							}
-								
-							[self setExperimentLoading:NO];
-							[self setExperimentRunning:NO];
-							
-							if([self hasExperimentLoadErrors]){
-								[self enforceLoadFailedState];
-							} else {
-								[self enforceConnectedState];
-							}
-						}
-					}
-						break;
-					default:
-						break;
-				}
-				
-			} 
-		}
-	}
-
+                                 bindingsKey:@"experimentLoadProgress"
+                                 callbackKey:EXPERIMENT_LOAD_PROGRESS_KEY
+                                 forVariable:@"#experimentLoadProgress"]; // TODO: use EXPERIMENT_LOAD_PROGRESS_TAGNAME instead
+    
 }
+
+
+- (void)handleSystemEvent:(MWCocoaEvent *)event {
+    
+    mw::Datum payload(*[event data]);
+    mw::Datum sysEventType(payload.getElement(M_SYSTEM_PAYLOAD_TYPE));
+    
+    if(!sysEventType.isUndefined()) {
+        // The F swich statement ... it's gotta be somewhere
+        switch((mw::SystemPayloadType)sysEventType.getInteger()) {
+            case M_PROTOCOL_PACKAGE:
+            {
+                mw::Datum pp(payload.getElement(M_SYSTEM_PAYLOAD));
+                
+                [protocolNames removeAllObjects];
+                
+                mw::Datum protocols(pp.getElement(M_PROTOCOLS));
+                
+                for(int i=0; i<protocols.getNElements(); ++i) {
+                    mw::Datum protocol(protocols[i]);
+                    
+                    NSString *protocolName = [[NSString alloc] initWithCString:protocol.getElement(M_PROTOCOL_NAME).getString()
+                                                                      encoding:NSASCIIStringEncoding];
+                    
+                    [protocolNames addObject:protocolName];
+                }
+                
+                [self willChangeValueForKey:@"protocolNames"];
+                [self didChangeValueForKey:@"protocolNames"];
+                
+                string current_protocol_string = pp.getElement(M_CURRENT_PROTOCOL).getString();
+                
+                [self setCurrentProtocolName:[[NSString alloc] initWithCString:current_protocol_string.c_str()
+                                                                      encoding:NSASCIIStringEncoding]];
+                
+                if(currentProtocolName == Nil || ([protocolNames indexOfObject:currentProtocolName] == NSNotFound)){
+                    [self setCurrentProtocolName:[protocolNames objectAtIndex:0]];
+                }
+            }
+                break;
+                
+            case M_DATA_FILE_OPENED:
+            {
+                mw::Datum event(payload.getElement(M_SYSTEM_PAYLOAD));
+                
+                // TODO: kludge MUST be fixed
+                mw::Datum file(event.getElement(1));
+                mw::Datum success(event.getElement(0));
+                
+                if((int)success != M_COMMAND_SUCCESS){
+                    [self setDataFileName:Nil];
+                    [self setDataFileOpen:NO];
+                    break;
+                }
+                
+                [self setDataFileName:[NSString stringWithCString:file.getString() encoding:NSASCIIStringEncoding]];
+                if([self dataFileName] != Nil){
+                    [self setDataFileOpen: YES];
+                }
+            }
+                break;
+                
+            case M_DATA_FILE_CLOSED:
+            {
+                mw::Datum event(payload.getElement(M_SYSTEM_PAYLOAD));
+                
+                // TODO: kludge MUST be fixed
+                mw::Datum file(event.getElement(1));
+                
+                [self setDataFileName:Nil];
+                [self setDataFileOpen: NO];
+                
+            }
+                break;
+                
+            case M_EXPERIMENT_STATE:
+            {
+                mw::Datum state(payload.getElement(M_SYSTEM_PAYLOAD));
+                
+                [self setExperimentLoaded:state.getElement(M_LOADED).getBool()];
+                if([self experimentLoaded]) {
+                    [self setExperimentLoading:NO];
+                    [self unregisterCallbacksWithKey:CLIENT_LOAD_MESSAGE_CALLBACK_KEY locking:NO]; // locked from outside callback
+                    [self setExperimentPaused:state.getElement(M_PAUSED).getBool()];
+                    [self setExperimentRunning: state.getElement(M_RUNNING).getBool()];
+                    [self setExperimentName:[[NSString alloc] initWithCString:state.getElement(M_EXPERIMENT_NAME).getString()
+                                                                     encoding:NSASCIIStringEncoding]];
+                    
+                    if([self experimentName] == Nil){
+                        [self setExperimentName:@"Unnamed Experiment"];
+                    }
+                    
+                    [self setExperimentPath:[[NSString alloc] initWithCString:state.getElement(M_EXPERIMENT_PATH).getString()
+                                                                     encoding:NSASCIIStringEncoding]];
+                    
+                    
+                    [self willChangeValueForKey:@"serversideVariableSetNames"];
+                    
+                    [serversideVariableSetNames removeAllObjects];
+                    mw::Datum svs(state.getElement(M_SAVED_VARIABLES));
+                    
+                    if(svs.isList()) {
+                        for(int i=0; i<svs.getNElements(); ++i) {
+                            mw::Datum set(svs.getElement(i));
+                            
+                            [serversideVariableSetNames addObject:[NSString stringWithCString:set.getString()
+                                                                                     encoding:NSASCIIStringEncoding]];
+                        }
+                    }
+                    
+                    [self didChangeValueForKey:@"serversideVariableSetNames"];
+                    
+                    if(accumulatingErrors){
+                        [self stopAccumulatingErrors];
+                    }
+                    
+                } else {
+                    // Not loaded
+                    if(accumulatingErrors){
+                        [self stopAccumulatingErrors];
+                    }
+                    
+                    [self setExperimentLoading:NO];
+                    [self setExperimentRunning:NO];
+                    
+                    if([self hasExperimentLoadErrors]){
+                        [self enforceLoadFailedState];
+                    } else {
+                        [self enforceConnectedState];
+                    }
+                }
+            }
+                break;
+            default:
+                break;
+        }
+        
+    }
+    
+}
+
+
+// IN THE PROCESS OF BEING DEPRECATED
+//- (void)processEvent:(MWCocoaEvent *)event {
+//	
+//    return;
+//    
+//	int code = [event code];
+//	
+//	if(code == RESERVED_CODEC_CODE) {
+//		
+//		
+//		[self unregisterCallbacksWithKey:STATE_SYSTEM_CALLBACK_KEY locking:NO];
+//		//[self registerEventCallbackWithReceiver:self 
+////										selector:@selector(processEvent:)
+////											 callbackKey:STATE_SYSTEM_CALLBACK_KEY
+////									forVariableCode:[NSNumber numberWithInt:RESERVED_CODEC_CODE]];
+////		
+//		
+//        
+//        // 12/09 DDC: deprecated
+//        //[self registerEventCallbackWithReceiver:self 
+////										selector:@selector(processEvent:)
+////											 callbackKey:STATE_SYSTEM_CALLBACK_KEY
+////									forVariableCode:systemCodecCode];
+////		
+//		
+//    
+//    [self registerBindingsBridgeWithReceiver:self
+//										bindingsKey:@"experimentLoadProgress"
+//												callbackKey:EXPERIMENT_LOAD_PROGRESS_KEY
+//									forVariable:@"#experimentLoadProgress"]; // TODO: use EXPERIMENT_LOAD_PROGRESS_TAGNAME instead
+//		
+//	} else {
+//		if(systemCodecCode < RESERVED_CODEC_CODE) {
+//			systemCodecCode = RESERVED_SYSTEM_EVENT_CODE; // TODO: cleanup
+//		}
+//		
+//		
+//		if (code == systemCodecCode && systemCodecCode > RESERVED_CODEC_CODE) {
+//			mw::Datum payload(*[event data]);
+//			mw::Datum sysEventType(payload.getElement(M_SYSTEM_PAYLOAD_TYPE));
+//			
+//			if(!sysEventType.isUndefined()) {
+//				// The F swich statement ... it's gotta be somewhere
+//				switch((mw::SystemPayloadType)sysEventType.getInteger()) {
+//					case M_PROTOCOL_PACKAGE:
+//					{
+//						mw::Datum pp(payload.getElement(M_SYSTEM_PAYLOAD));
+//						
+//						[protocolNames removeAllObjects];
+//						
+//						mw::Datum protocols(pp.getElement(M_PROTOCOLS));
+//						
+//						for(int i=0; i<protocols.getNElements(); ++i) {
+//							mw::Datum protocol(protocols[i]);
+//							
+//							NSString *protocolName = [[NSString alloc] initWithCString:protocol.getElement(M_PROTOCOL_NAME).getString()
+//																			  encoding:NSASCIIStringEncoding];
+//							
+//							[protocolNames addObject:protocolName];
+//						}
+//						
+//						[self willChangeValueForKey:@"protocolNames"];
+//						[self didChangeValueForKey:@"protocolNames"];
+//												
+//						string current_protocol_string = pp.getElement(M_CURRENT_PROTOCOL).getString();
+//		
+//						[self setCurrentProtocolName:[[NSString alloc] initWithCString:current_protocol_string.c_str()
+//																	   encoding:NSASCIIStringEncoding]];
+//																	   
+//						if(currentProtocolName == Nil || ([protocolNames indexOfObject:currentProtocolName] == NSNotFound)){
+//							[self setCurrentProtocolName:[protocolNames objectAtIndex:0]];
+//						}
+//					}
+//						break;
+//					
+//					case M_DATA_FILE_OPENED:
+//					{
+//						mw::Datum event(payload.getElement(M_SYSTEM_PAYLOAD));
+//						
+//						// TODO: kludge MUST be fixed
+//						mw::Datum file(event.getElement(1));
+//                        mw::Datum success(event.getElement(0));
+//						
+//                        if((int)success != M_COMMAND_SUCCESS){
+//                            [self setDataFileName:Nil];
+//                            [self setDataFileOpen:NO];
+//                            break;
+//                        }
+//                        
+//						[self setDataFileName:[NSString stringWithCString:file.getString() encoding:NSASCIIStringEncoding]];
+//						if([self dataFileName] != Nil){
+//							[self setDataFileOpen: YES];
+//						}
+//					}
+//						break;
+//					
+//					case M_DATA_FILE_CLOSED:
+//					{
+//						mw::Datum event(payload.getElement(M_SYSTEM_PAYLOAD));
+//						
+//						// TODO: kludge MUST be fixed
+//						mw::Datum file(event.getElement(1));
+//						
+//						[self setDataFileName:Nil];
+//						[self setDataFileOpen: NO];
+//						
+//					}
+//						break;
+//					
+//					case M_EXPERIMENT_STATE:
+//					{
+//						mw::Datum state(payload.getElement(M_SYSTEM_PAYLOAD));
+//						
+//						[self setExperimentLoaded:state.getElement(M_LOADED).getBool()];
+//						if([self experimentLoaded]) {
+//							[self setExperimentLoading:NO];						
+//                            core->unregisterCallbacks(CLIENT_LOAD_MESSAGE_CALLBACK_KEY, false);
+//							[self setExperimentPaused:state.getElement(M_PAUSED).getBool()];
+//							[self setExperimentRunning: state.getElement(M_RUNNING).getBool()];
+//							[self setExperimentName:[[NSString alloc] initWithCString:state.getElement(M_EXPERIMENT_NAME).getString()
+//																	  encoding:NSASCIIStringEncoding]];
+//							
+//							if([self experimentName] == Nil){
+//								[self setExperimentName:@"Unnamed Experiment"];
+//							}
+//							
+//							[self setExperimentPath:[[NSString alloc] initWithCString:state.getElement(M_EXPERIMENT_PATH).getString()
+//																	  encoding:NSASCIIStringEncoding]];
+//							
+//							
+//                            [self willChangeValueForKey:@"serversideVariableSetNames"];
+//
+//							[serversideVariableSetNames removeAllObjects];
+//							mw::Datum svs(state.getElement(M_SAVED_VARIABLES));
+//							
+//							if(svs.isList()) {
+//								for(int i=0; i<svs.getNElements(); ++i) {
+//									mw::Datum set(svs.getElement(i));
+//									
+//									[serversideVariableSetNames addObject:[NSString stringWithCString:set.getString()
+//																					encoding:NSASCIIStringEncoding]];
+//								}
+//							}
+//                            
+//                            [self didChangeValueForKey:@"serversideVariableSetNames"];
+//							
+//							if(accumulatingErrors){
+//								[self stopAccumulatingErrors];
+//							}
+//						
+//						} else {
+//							// Not loaded
+//							if(accumulatingErrors){
+//								[self stopAccumulatingErrors];
+//							}
+//								
+//							[self setExperimentLoading:NO];
+//							[self setExperimentRunning:NO];
+//							
+//							if([self hasExperimentLoadErrors]){
+//								[self enforceLoadFailedState];
+//							} else {
+//								[self enforceConnectedState];
+//							}
+//						}
+//					}
+//						break;
+//					default:
+//						break;
+//				}
+//				
+//			} 
+//		}
+//	}
+//
+//}
 
 - (void) loadPlugins {
 
@@ -768,7 +925,7 @@
     [grouped_plugin_controller setCustomColor:self.headerColor];
 	
   
-  NSFileManager *fm = [NSFileManager defaultManager];
+    NSFileManager *fm = [NSFileManager defaultManager];
 	
 	NSError *error;
 	NSString *plugin_directory = @"/Library/Application Support/MonkeyWorks/Plugins/Client Plugins/";
@@ -839,8 +996,17 @@
 }
 
 - (void)showPlugin:(int)i {
-		NSWindowController *controller = [pluginWindows objectAtIndex:i];
-		[[controller window] orderFront:self];
+    if(i == [grouped_plugin_controller currentPluginIndex]){
+        [grouped_plugin_controller hideWindow];
+        //[grouped_plugin_controller incrementPlugin:self];
+    }
+	
+    NSWindowController *controller = [pluginWindows objectAtIndex:i];
+    if([controller respondsToSelector:@selector(setInGroupedWindow:)]){
+        [controller setInGroupedWindow:NO];
+    }
+    
+    [[controller window] orderFront:self];
 }
 
 - (void)showAllPlugins {
@@ -853,6 +1019,10 @@
 	}
 
 	NSLog(@"showing all (%d) from instance %d", [pluginWindows count], self);
+}
+
+- (NSWindow *)groupedPluginWindow {
+    return [grouped_plugin_controller window];
 }
 
 - (void)showGroupedPlugins {
@@ -894,12 +1064,13 @@
 	[self registerEventCallbackWithReceiver:self 
 						selector:@selector(handleErrorMessageEvent:)
 						callbackKey:ERROR_MESSAGE_CALLBACK_KEY
-						forVariable:messageTag];
+						forVariable:messageTag
+                        onMainThread:YES];
 
 }
 
 - (void)stopAccumulatingErrors{
-	[self unregisterCallbacksWithKey:ERROR_MESSAGE_CALLBACK_KEY];
+	[self unregisterCallbacksWithKey:ERROR_MESSAGE_CALLBACK_KEY locking:YES];
 	
 	[appController willChangeValueForKey:@"modalClientInstanceInCharge"];
 	[appController didChangeValueForKey:@"modalClientInstanceInCharge"];
