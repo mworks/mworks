@@ -12,6 +12,7 @@
 
 //#include "MonkeyWorksCore/GenericEventFunctor.h"
 #include "MWCocoaEvent.h"
+#import "CocoaBindingsSetter.h"
 #include "MonkeyWorksCore/EventStreamInterface.h"
 #include <boost/shared_ptr.hpp>
 using namespace std;
@@ -21,37 +22,40 @@ using namespace boost;
 namespace mw {
     
     
-    EventCallback create_cocoa_event_callback(id _receiver, SEL _selector, id _syncobject=Nil);
+    EventCallback create_cocoa_event_callback(id _receiver, SEL _selector, bool on_main=true, id _syncobject=Nil);
     EventCallback create_bindings_bridge_event_callback(id _receiver, NSString *_bindings_key);
     
     
     
 	// derived template class
-	class CocoaEventFunctor
-		{
+	class CocoaEventFunctor {
 		private:
 			id receiver;
 			SEL selector;
 			id syncobject;
+        bool on_main_thread;
 		public:
 			
 			// constructor - takes pointer to an object and pointer to a member and stores
 			// them in two private variables
-			CocoaEventFunctor(id _receiver, SEL _selector, id _syncobject=Nil)
+			CocoaEventFunctor(id _receiver, SEL _selector, bool _on_main_thread = true, id _syncobject=Nil)
 			{
         
+                on_main_thread = _on_main_thread;
 				receiver = _receiver;
 				selector = _selector;
                 syncobject = _syncobject;
         
 			};
 			
+        
+            virtual ~CocoaEventFunctor() { }
 			
 			// override operator "()"
 			virtual void operator()(const shared_ptr<Event> &event)
 			{ 
 				NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-				//objc_registerThreadWithCollector();
+				
 				Datum data(event->getData());
 				id cocoaEvent = [[[MWCocoaEvent alloc] initWithData:&data 
 															andCode:event->getEventCode() 
@@ -61,7 +65,13 @@ namespace mw {
           if([receiver respondsToSelector:selector]) {
             // DDC: 5/08 changed to "OnMainThread"
             // this is to ease development of plugins so that Cocoa drawing calls can be made here
-            [receiver performSelectorOnMainThread:selector withObject:cocoaEvent waitUntilDone:YES];
+              // Event handling refactor: changed wailUntilDone to NO
+            
+              if(on_main_thread){
+                  [receiver performSelectorOnMainThread:selector withObject:cocoaEvent waitUntilDone:NO];
+              } else {
+                  [receiver performSelector:selector withObject:cocoaEvent];
+              }
             //[receiver performSelector:selector withObject:cocoaEvent];
           } else {
             NSString *sn = NSStringFromSelector(selector);
@@ -78,8 +88,7 @@ namespace mw {
 	class CocoaBindingsBridgeFunctor
 		{
 		private:
-			id receiver;
-			NSString *bindings_key;
+            CocoaBindingsSetter *setter;
 			
 		public:
 			
@@ -87,20 +96,19 @@ namespace mw {
 			// them in two private variables
 			CocoaBindingsBridgeFunctor(id _receiver, NSString *_bindings_key)
 			{
-				receiver = _receiver;
-				bindings_key = _bindings_key;
-			};
+                setter = [[CocoaBindingsSetter alloc] initWithReceiver:_receiver bindingsKey:_bindings_key];                
+			}
 			
-			
+			virtual ~CocoaBindingsBridgeFunctor(){ }
+            
 			// override operator "()"
 			virtual void operator()(const shared_ptr<Event> &event)
 			{ 
-				
-				Datum data(event->getData());
-				
+                Datum data(event->getData());
 				NSNumber *data_number = [NSNumber numberWithDouble:(double)data];
-				[receiver setValue:data_number forKey:bindings_key];
-			};         
+                
+				[setter performSelectorOnMainThread:@selector(setValue:) withObject:data_number waitUntilDone:NO];
+			}         
 		};
 	
 }

@@ -283,7 +283,8 @@
 	int code = [event code];
 	
 	if(code == RESERVED_CODEC_CODE) {
-		[self cacheCodes];
+		[self performSelectorOnMainThread:@selector(cacheCodes) withObject:Nil waitUntilDone:NO];
+        //[self cacheCodes];
 	} else {
 		
 		if (code == messageCodecCode) {
