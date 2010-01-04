@@ -43,7 +43,7 @@ boost::shared_ptr<mw::Component> mMSSWGamepadFactory::createObject(std::map<std:
 		throw SimpleException("Trying to create MSSWGamepad with illegal \"data_type\"");
 	}
 	
-	boost::shared_ptr<mw::Variable> button_a = boost::shared_ptr<mw::Variable>(new mw::ConstantVariable(Data(M_INTEGER, 0)));	
+	boost::shared_ptr<mw::Variable> button_a = boost::shared_ptr<mw::Variable>(new mw::ConstantVariable(Datum(M_INTEGER, 0)));	
 	if(!parameters[BUTTON_A].empty()) {
 		button_a = reg->getVariable(parameters.find(BUTTON_A)->second);	
 		checkAttribute(button_a, 
@@ -52,7 +52,7 @@ boost::shared_ptr<mw::Component> mMSSWGamepadFactory::createObject(std::map<std:
 					   parameters.find(BUTTON_A)->second);
 	}
 	
-	boost::shared_ptr<mw::Variable> button_b = boost::shared_ptr<mw::Variable>(new mw::ConstantVariable(Data(M_INTEGER, 0)));	
+	boost::shared_ptr<mw::Variable> button_b = boost::shared_ptr<mw::Variable>(new mw::ConstantVariable(Datum(M_INTEGER, 0)));	
 	if(!parameters[BUTTON_B].empty()) {
 		button_b = reg->getVariable(parameters.find(BUTTON_B)->second);	
 		checkAttribute(button_b, 
@@ -61,7 +61,7 @@ boost::shared_ptr<mw::Component> mMSSWGamepadFactory::createObject(std::map<std:
 					   parameters.find(BUTTON_B)->second);
 	}
 	
-	boost::shared_ptr<mw::Variable> button_x = boost::shared_ptr<mw::Variable>(new mw::ConstantVariable(Data(M_INTEGER, 0)));	
+	boost::shared_ptr<mw::Variable> button_x = boost::shared_ptr<mw::Variable>(new mw::ConstantVariable(Datum(M_INTEGER, 0)));	
 	if(!parameters[BUTTON_X].empty()) {
 		button_x = reg->getVariable(parameters.find(BUTTON_X)->second);	
 		checkAttribute(button_x, 
@@ -70,7 +70,7 @@ boost::shared_ptr<mw::Component> mMSSWGamepadFactory::createObject(std::map<std:
 					   parameters.find(BUTTON_X)->second);
 	}
 	
-	boost::shared_ptr<mw::Variable> button_y = boost::shared_ptr<mw::Variable>(new mw::ConstantVariable(Data(M_INTEGER, 0)));	
+	boost::shared_ptr<mw::Variable> button_y = boost::shared_ptr<mw::Variable>(new mw::ConstantVariable(Datum(M_INTEGER, 0)));	
 	if(!parameters[BUTTON_Y].empty()) {
 		button_y = reg->getVariable(parameters.find(BUTTON_Y)->second);	
 		checkAttribute(button_y, 
@@ -79,7 +79,7 @@ boost::shared_ptr<mw::Component> mMSSWGamepadFactory::createObject(std::map<std:
 					   parameters.find(BUTTON_Y)->second);
 	}
 	
-	boost::shared_ptr<mw::Variable> trigger_left = boost::shared_ptr<mw::Variable>(new mw::ConstantVariable(Data(M_INTEGER, 0)));	
+	boost::shared_ptr<mw::Variable> trigger_left = boost::shared_ptr<mw::Variable>(new mw::ConstantVariable(Datum(M_INTEGER, 0)));	
 	if(!parameters[TRIGGER_LEFT].empty()) {
 		trigger_left = reg->getVariable(parameters.find(TRIGGER_LEFT)->second);	
 		checkAttribute(trigger_left, 
@@ -88,7 +88,7 @@ boost::shared_ptr<mw::Component> mMSSWGamepadFactory::createObject(std::map<std:
 					   parameters.find(TRIGGER_LEFT)->second);
 	}
 		
-	boost::shared_ptr<mw::Variable> trigger_right = boost::shared_ptr<mw::Variable>(new mw::ConstantVariable(Data(M_INTEGER, 0)));	
+	boost::shared_ptr<mw::Variable> trigger_right = boost::shared_ptr<mw::Variable>(new mw::ConstantVariable(Datum(M_INTEGER, 0)));	
 	if(!parameters[TRIGGER_RIGHT].empty()) {
 		trigger_right = reg->getVariable(parameters.find(TRIGGER_RIGHT)->second);	
 		checkAttribute(trigger_right, 
@@ -97,7 +97,7 @@ boost::shared_ptr<mw::Component> mMSSWGamepadFactory::createObject(std::map<std:
 					   parameters.find(TRIGGER_RIGHT)->second);
 	}
 		
-	boost::shared_ptr<mw::Variable> up = boost::shared_ptr<mw::Variable>(new mw::ConstantVariable(Data(M_INTEGER, 0)));	
+	boost::shared_ptr<mw::Variable> up = boost::shared_ptr<mw::Variable>(new mw::ConstantVariable(Datum(M_INTEGER, 0)));	
 	if(!parameters[UP].empty()) {
 		up = reg->getVariable(parameters.find(UP)->second);	
 		checkAttribute(up, 
@@ -106,7 +106,7 @@ boost::shared_ptr<mw::Component> mMSSWGamepadFactory::createObject(std::map<std:
 					   parameters.find(UP)->second);
 	}
 	
-	boost::shared_ptr<mw::Variable> down = boost::shared_ptr<mw::Variable>(new mw::ConstantVariable(Data(M_INTEGER, 0)));	
+	boost::shared_ptr<mw::Variable> down = boost::shared_ptr<mw::Variable>(new mw::ConstantVariable(Datum(M_INTEGER, 0)));	
 	if(!parameters[DOWN].empty()) {
 		down = reg->getVariable(parameters.find(DOWN)->second);	
 		checkAttribute(down, 
@@ -115,7 +115,7 @@ boost::shared_ptr<mw::Component> mMSSWGamepadFactory::createObject(std::map<std:
 					   parameters.find(DOWN)->second);
 	}
 	
-	boost::shared_ptr<mw::Variable> right = boost::shared_ptr<mw::Variable>(new mw::ConstantVariable(Data(M_INTEGER, 0)));	
+	boost::shared_ptr<mw::Variable> right = boost::shared_ptr<mw::Variable>(new mw::ConstantVariable(Datum(M_INTEGER, 0)));	
 	if(!parameters[RIGHT].empty()) {
 		right = reg->getVariable(parameters.find(RIGHT)->second);	
 		checkAttribute(right, 
@@ -124,7 +124,7 @@ boost::shared_ptr<mw::Component> mMSSWGamepadFactory::createObject(std::map<std:
 					   parameters.find(RIGHT)->second);
 	}
 	
-	boost::shared_ptr<mw::Variable> left = boost::shared_ptr<mw::Variable>(new mw::ConstantVariable(Data(M_INTEGER, 0)));	
+	boost::shared_ptr<mw::Variable> left = boost::shared_ptr<mw::Variable>(new mw::ConstantVariable(Datum(M_INTEGER, 0)));	
 	if(!parameters[LEFT].empty()) {
 		left = reg->getVariable(parameters.find(LEFT)->second);	
 		checkAttribute(left, 

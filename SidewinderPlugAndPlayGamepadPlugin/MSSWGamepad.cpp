@@ -241,80 +241,80 @@ bool mMSSWGamepad::updateButtonsDiscrete() {
 		if(i->getName() == "X-Axis") {
 			if(value == 63) {
 				if(L->getValue().getInteger() != 0) {
-					L->setValue(Data(0L));
+					L->setValue(Datum(0L));
 				}				
 				if(R->getValue().getInteger() != 0) {
-					R->setValue(Data(0L));
+					R->setValue(Datum(0L));
 				}				
 			}
 			
 			if(value < 63) {
 				if(L->getValue().getInteger() != 1) {
-					L->setValue(Data(1L));
+					L->setValue(Datum(1L));
 				}				
 				if(R->getValue().getInteger() != 0) {
-					R->setValue(Data(0L));
+					R->setValue(Datum(0L));
 				}				
 			}
 			
 			if(value > 63) {
 				if(L->getValue().getInteger() != 0) {
-					L->setValue(Data(0L));
+					L->setValue(Datum(0L));
 				}				
 				if(R->getValue().getInteger() != 1) {
-					R->setValue(Data(1L));
+					R->setValue(Datum(1L));
 				}				
 			}
 		} else if (i->getName() == "Y-Axis") {			
 			if(value == 63) {
 				if(D->getValue().getInteger() != 0) {
-					D->setValue(Data(0L));
+					D->setValue(Datum(0L));
 				}				
 				if(U->getValue().getInteger() != 0) {
-					U->setValue(Data(0L));
+					U->setValue(Datum(0L));
 				}				
 			}
 			
 			if(value < 63) {
 				if(D->getValue().getInteger() != 1) {
-					D->setValue(Data(1L));
+					D->setValue(Datum(1L));
 				}				
 				if(U->getValue().getInteger() != 0) {
-					U->setValue(Data(0L));
+					U->setValue(Datum(0L));
 				}				
 			}
 			
 			if(value > 63) {
 				if(D->getValue().getInteger() != 0) {
-					D->setValue(Data(0L));
+					D->setValue(Datum(0L));
 				}				
 				if(U->getValue().getInteger() != 1) {
-					U->setValue(Data(1L));
+					U->setValue(Datum(1L));
 				}				
 			}
 		} else if (i->getName() == "Button_1") {
 			if(A->getValue().getInteger() != hidEvent.value) {
-				A->setValue(Data((long)hidEvent.value));
+				A->setValue(Datum((long)hidEvent.value));
 			}			
 		} else if (i->getName() == "Button_2") {
 			if(B->getValue().getInteger() != hidEvent.value) {
-				B->setValue(Data((long)hidEvent.value));
+				B->setValue(Datum((long)hidEvent.value));
 			}			
 		} else if (i->getName() == "Button_3") {
 			if(X->getValue().getInteger() != hidEvent.value) {
-				X->setValue(Data((long)hidEvent.value));
+				X->setValue(Datum((long)hidEvent.value));
 			}			
 		} else if (i->getName() == "Button_4") {
 			if(Y->getValue().getInteger() != hidEvent.value) {
-				Y->setValue(Data((long)hidEvent.value));
+				Y->setValue(Datum((long)hidEvent.value));
 			}			
 		} else if (i->getName() == "Button_5") {
 			if(TR->getValue().getInteger() != hidEvent.value) {
-				TR->setValue(Data((long)hidEvent.value));
+				TR->setValue(Datum((long)hidEvent.value));
 			}			
 		} else if (i->getName() == "Button_6") {
 			if(TL->getValue().getInteger() != hidEvent.value) {
-				TL->setValue(Data((long)hidEvent.value));
+				TL->setValue(Datum((long)hidEvent.value));
 			}			
 		}
 	}
@@ -334,46 +334,46 @@ bool mMSSWGamepad::updateButtonsContinuous() {
 		
 		if(i->getName() == "X-Axis") {
 			if(value == 63) {
-				L->setValue(Data(0L));
-				R->setValue(Data(0L));
+				L->setValue(Datum(0L));
+				R->setValue(Datum(0L));
 			}
 			
 			if(value < 63) {
-				L->setValue(Data(1L));
-				R->setValue(Data(0L));
+				L->setValue(Datum(1L));
+				R->setValue(Datum(0L));
 			}
 			
 			if(value > 63) {
-				L->setValue(Data(0L));
-				R->setValue(Data(1L));
+				L->setValue(Datum(0L));
+				R->setValue(Datum(1L));
 			}
 		} else if (i->getName() == "Y-Axis") {			
 			if(value == 63) {
-				D->setValue(Data(0L));
-				U->setValue(Data(0L));
+				D->setValue(Datum(0L));
+				U->setValue(Datum(0L));
 			}
 			
 			if(value < 63) {
-				D->setValue(Data(1L));
-				U->setValue(Data(0L));
+				D->setValue(Datum(1L));
+				U->setValue(Datum(0L));
 			}
 			
 			if(value > 63) {
-				D->setValue(Data(0L));
-				U->setValue(Data(1L));
+				D->setValue(Datum(0L));
+				U->setValue(Datum(1L));
 			}
 		} else if (i->getName() == "Button_1") {
-			A->setValue(Data((long)hidEvent.value));
+			A->setValue(Datum((long)hidEvent.value));
 		} else if (i->getName() == "Button_2") {
-			B->setValue(Data((long)hidEvent.value));
+			B->setValue(Datum((long)hidEvent.value));
 		} else if (i->getName() == "Button_3") {
-			X->setValue(Data((long)hidEvent.value));
+			X->setValue(Datum((long)hidEvent.value));
 		} else if (i->getName() == "Button_4") {
-			Y->setValue(Data((long)hidEvent.value));
+			Y->setValue(Datum((long)hidEvent.value));
 		} else if (i->getName() == "Button_5") {
-			TR->setValue(Data((long)hidEvent.value));
+			TR->setValue(Datum((long)hidEvent.value));
 		} else if (i->getName() == "Button_6") {
-			TL->setValue(Data((long)hidEvent.value));
+			TL->setValue(Datum((long)hidEvent.value));
 		}
 	}
 	
