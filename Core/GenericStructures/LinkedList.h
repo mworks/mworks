@@ -3,9 +3,12 @@
  *
  * Description: A simple linked list.
  *
- * History:
- * David Cox on 10/20/04 - Created.
- * Paul Jankunas on 1/24/06 - Adding virtual destructor.
+ *  NOTE: this object comes from our checkered pre-STL days.  This class works fine,
+ *        though it does replicate the functionality of std::list.  Attempts to exorcise
+ *        this met with some resistance, since a number of places in the code require
+ *        objects to be able to remove themselves from the list, which is a little awkward
+ *        with std::list.  Maybe we just weren't trying hard enough.  Anyhow, it's on the list
+ *        ugliness to remove
  *
  * Copyright 2004 MIT. All rights reserved.
  */

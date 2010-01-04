@@ -11,13 +11,12 @@
  * object and the object has a defined destructor but not a defined copy
  * constructor.
  *
- * History:
- * David Cox on ??/??/?? - Created.
- * Paul Jankunas on 05/18/05 - Added this header.  Changed implicit call to
- *                      copy constructor to be explicit to make it clearer as
- *                      to what is happening.  Wrote a destructor and copy
- *                      constructor.  Made the expand functions private.
- *                      added private init() function.
+ * NOTE: this class is being phased out.  It works fine, but it is
+ *       tacky reimplementation of functionality in the STL.  There were some
+ *       worries about STL back when we started on OS 9, but those days are long,
+ *       long (long!) gone.  Please use a std::vector instead.  There is no good
+ *       reason to use this object
+ *
  *
  * Copyright 2005 MIT.  All rights reserved.
  */

@@ -127,7 +127,6 @@
 		5C05099B0A0ED95900F02584 /* Selectable.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C0509990A0ED95900F02584 /* Selectable.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5C08412409D596F800E4D2F4 /* TestBedCoreBuilder.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C08412209D596F800E4D2F4 /* TestBedCoreBuilder.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5C08412509D596F800E4D2F4 /* TestBedCoreBuilder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C08412309D596F800E4D2F4 /* TestBedCoreBuilder.cpp */; };
-		5C08AEC30CC84DC000194E85 /* PyMonkeyWorks.cxx in Sources */ = {isa = PBXBuildFile; fileRef = 5C08AEC10CC84DC000194E85 /* PyMonkeyWorks.cxx */; };
 		5C0B04AC0BB8A46500FD57B9 /* ScopedVariableEnvironment.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C0B04AA0BB8A46500FD57B9 /* ScopedVariableEnvironment.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5C0B04AD0BB8A46500FD57B9 /* ScopedVariableEnvironment.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C0B04AB0BB8A46500FD57B9 /* ScopedVariableEnvironment.cpp */; };
 		5C0C4A8609B64DAD0021D3CC /* SelectionVariable.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C0C4A8409B64DAD0021D3CC /* SelectionVariable.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -153,9 +152,6 @@
 		5C4238A309EE97820023EB90 /* ScarabEventTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C4238A109EE97820023EB90 /* ScarabEventTest.cpp */; };
 		5C4D23AC09DC84160082BF9F /* VectorTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C4D233B09DC6F0C0082BF9F /* VectorTest.cpp */; };
 		5C4D23AD09DC84160082BF9F /* VectorTest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C4D233A09DC6F0C0082BF9F /* VectorTest.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5C510AF80CC8335700C771FB /* StandardInterpreters.h in Resources */ = {isa = PBXBuildFile; fileRef = DA2CE13507E9F8C900C68AEF /* StandardInterpreters.h */; };
-		5C510AF90CC8335700C771FB /* MonkeyScript.i in Resources */ = {isa = PBXBuildFile; fileRef = DA2CE3AC07EA04FF00C68AEF /* MonkeyScript.i */; };
-		5C510B110CC8335700C771FB /* VariableSave.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0ED111EE0A838723008C1F48 /* VariableSave.cpp */; };
 		5C524E880CAA02C60063B1DC /* TimerTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C524E860CAA02C60063B1DC /* TimerTest.cpp */; };
 		5C524E890CAA02C60063B1DC /* TimerTest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C524E870CAA02C60063B1DC /* TimerTest.h */; };
 		5C643EA10D501E99004A8BD2 /* UnresolvedReferenceVariable.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C643E9F0D501E99004A8BD2 /* UnresolvedReferenceVariable.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -425,17 +421,6 @@
 		DA96C0E70988546D0007610D /* ExperimentPackager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA96C0E50988546D0007610D /* ExperimentPackager.cpp */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXBuildRule section */
-		5C510B160CC8335700C771FB /* PBXBuildRule */ = {
-			isa = PBXBuildRule;
-			compilerSpec = com.apple.compilers.gcc;
-			fileType = sourcecode.cpp;
-			isEditable = 1;
-			outputFiles = (
-			);
-		};
-/* End PBXBuildRule section */
-
 /* Begin PBXContainerItemProxy section */
 		0E01FB8E0E44E81E00C9A769 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -668,8 +653,8 @@
 		0E88D1710D04708A00D7D273 /* ComponentFactoryException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ComponentFactoryException.h; path = Core/PluginServices/ComponentFactoryException.h; sourceTree = "<group>"; };
 		0E9AD3090AD94214009C0B0B /* Clonable.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = Clonable.cpp; sourceTree = "<group>"; };
 		0E9AD30A0AD94214009C0B0B /* Clonable.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = Clonable.h; sourceTree = "<group>"; };
-		0E9AD30B0AD94214009C0B0B /* ExpandableList.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = ExpandableList.cpp; sourceTree = "<group>"; };
-		0E9AD30C0AD94214009C0B0B /* ExpandableList.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ExpandableList.h; sourceTree = "<group>"; };
+		0E9AD30B0AD94214009C0B0B /* ExpandableList.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ExpandableList.cpp; path = Core/GenericStructures/ExpandableList.cpp; sourceTree = "<group>"; };
+		0E9AD30C0AD94214009C0B0B /* ExpandableList.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ExpandableList.h; path = Core/GenericStructures/ExpandableList.h; sourceTree = "<group>"; };
 		0E9AD3120AD94214009C0B0B /* ExpandableListTest.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = ExpandableListTest.cpp; sourceTree = "<group>"; };
 		0E9AD3130AD94214009C0B0B /* ExpandableListTest.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ExpandableListTest.h; sourceTree = "<group>"; };
 		0EAA0DE40B98FC1500331AA5 /* SimpleStaircase.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = SimpleStaircase.cpp; path = Core/AdaptiveOptimizers/SimpleStaircase.cpp; sourceTree = "<group>"; };
@@ -718,7 +703,7 @@
 		5C18E25508A167BE00AA734D /* VariableNotification.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = VariableNotification.cpp; path = Core/Variables/VariableNotification.cpp; sourceTree = SOURCE_ROOT; };
 		5C1D35310BBAAFEA00AB6DA3 /* ConstantVariable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConstantVariable.h; path = Core/Variables/ConstantVariable.h; sourceTree = "<group>"; };
 		5C1D35320BBAAFEA00AB6DA3 /* ConstantVariable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ConstantVariable.cpp; path = Core/Variables/ConstantVariable.cpp; sourceTree = "<group>"; };
-		5C2386B20E8D18FA00CDC4FC /* CommunicationsRefactoring.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CommunicationsRefactoring.txt; sourceTree = "<group>"; };
+		5C2386B20E8D18FA00CDC4FC /* CommunicationsRefactoring.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CommunicationsRefactoring.txt; sourceTree = "<group>"; wrapsLines = 1; };
 		5C2386B40E8D18FA00CDC4FC /* Conduit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Conduit.cpp; sourceTree = "<group>"; };
 		5C2386B50E8D18FA00CDC4FC /* Conduit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Conduit.h; sourceTree = "<group>"; };
 		5C2386B80E8D18FA00CDC4FC /* EventTransport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventTransport.h; sourceTree = "<group>"; };
@@ -748,7 +733,6 @@
 		5C4D239D09DC83930082BF9F /* MonkeyWorksCoreTest-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MonkeyWorksCoreTest-Info.plist"; sourceTree = "<group>"; };
 		5C4D26C809DD58AD0082BF9F /* PerlInterpreterTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PerlInterpreterTest.h; path = Core/Interpreters/tests/PerlInterpreterTest.h; sourceTree = SOURCE_ROOT; };
 		5C4D26C909DD58AD0082BF9F /* PerlInterpreterTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PerlInterpreterTest.cpp; path = Core/Interpreters/tests/PerlInterpreterTest.cpp; sourceTree = SOURCE_ROOT; };
-		5C510B1A0CC8335700C771FB /* PyMonkeyWorks.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PyMonkeyWorks.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		5C524E860CAA02C60063B1DC /* TimerTest.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = TimerTest.cpp; sourceTree = "<group>"; };
 		5C524E870CAA02C60063B1DC /* TimerTest.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TimerTest.h; sourceTree = "<group>"; };
 		5C643E9F0D501E99004A8BD2 /* UnresolvedReferenceVariable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UnresolvedReferenceVariable.h; path = Core/Variables/UnresolvedReferenceVariable.h; sourceTree = "<group>"; };
@@ -771,7 +755,7 @@
 		5C7CEFE20BC5D7AB00434931 /* LegacyBuffers.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = LegacyBuffers.cpp; path = Core/Events/LegacyBuffers.cpp; sourceTree = "<group>"; };
 		5C7CF4ED0BC6B48D00434931 /* LinkedList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LinkedList.h; sourceTree = "<group>"; };
 		5C7CF4EE0BC6B48D00434931 /* LinkedList.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LinkedList.cpp; sourceTree = "<group>"; };
-		5C866A98086E1E43006CBE6F /* MonkeyWorksTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MonkeyWorksTypes.h; path = Core/MonkeyWorksTypes.h; sourceTree = SOURCE_ROOT; };
+		5C866A98086E1E43006CBE6F /* MonkeyWorksTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MonkeyWorksTypes.h; path = Core/MonkeyWorksTypes.h; sourceTree = "<group>"; };
 		5C8A6A2D09EC4E57007FECBA /* ScarabNetworkTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ScarabNetworkTest.h; path = Core/Scarab/tests/ScarabNetworkTest.h; sourceTree = SOURCE_ROOT; };
 		5C8A6A2E09EC4E57007FECBA /* ScarabNetworkTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ScarabNetworkTest.cpp; path = Core/Scarab/tests/ScarabNetworkTest.cpp; sourceTree = SOURCE_ROOT; };
 		5C8D03C20D56B1AE00454461 /* DummyIODevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DummyIODevice.h; path = Core/IODevices/DummyIODevice.h; sourceTree = "<group>"; };
@@ -1067,13 +1051,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		5C510B140CC8335700C771FB /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		5CDB8B220E9C4A6300993D99 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -1166,11 +1143,9 @@
 		0E9AD3080AD94214009C0B0B /* GenericStructures */ = {
 			isa = PBXGroup;
 			children = (
+				0E9AD3110AD94214009C0B0B /* tests */,
 				0E9AD30A0AD94214009C0B0B /* Clonable.h */,
 				0E9AD3090AD94214009C0B0B /* Clonable.cpp */,
-				0E9AD30C0AD94214009C0B0B /* ExpandableList.h */,
-				0E9AD30B0AD94214009C0B0B /* ExpandableList.cpp */,
-				0E9AD3110AD94214009C0B0B /* tests */,
 				5C7CF4ED0BC6B48D00434931 /* LinkedList.h */,
 				5C7CF4EE0BC6B48D00434931 /* LinkedList.cpp */,
 			);
@@ -1241,13 +1216,6 @@
 			name = "Sandbox-Experimental";
 			sourceTree = "<group>";
 		};
-		5C08414F09D598AE00E4D2F4 /* TestBed */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = TestBed;
-			sourceTree = SOURCE_ROOT;
-		};
 		5C2386B10E8D18FA00CDC4FC /* Communications */ = {
 			isa = PBXGroup;
 			children = (
@@ -1263,8 +1231,8 @@
 		5C2386B30E8D18FA00CDC4FC /* Conduits */ = {
 			isa = PBXGroup;
 			children = (
-				5CB6C47F0E9A92DE006923EC /* Python Conduit */,
 				5CCA2CAC0E903B21007BDA56 /* tests */,
+				5CB6C47F0E9A92DE006923EC /* Python Conduit */,
 				5CB6C4740E9A92CA006923EC /* BufferSyncConduit.h */,
 				5CB6C4730E9A92CA006923EC /* BufferSyncConduit.cpp */,
 				5CB6C4780E9A92CA006923EC /* SimpleConduit.h */,
@@ -1353,7 +1321,7 @@
 			name = "XML Parser";
 			sourceTree = "<group>";
 		};
-		5C4D231C09DC3D0E0082BF9F /* UnitTests */ = {
+		5C4D231C09DC3D0E0082BF9F /* Unit Testing */ = {
 			isa = PBXGroup;
 			children = (
 				0E39EB4A0E4BD609006F38A0 /* closeServers */,
@@ -1364,6 +1332,7 @@
 				5CBFD75E0AC04587007AB1A9 /* FullCoreEnvironmentTest.h */,
 				5CBFD75F0AC04587007AB1A9 /* FullCoreEnvironmentTest.cpp */,
 			);
+			name = "Unit Testing";
 			path = UnitTests;
 			sourceTree = SOURCE_ROOT;
 		};
@@ -1465,11 +1434,31 @@
 			path = Core/Stimuli/tests;
 			sourceTree = "<group>";
 		};
-		5C54F0D3085BDA6900C3E649 /* Porting */ = {
+		5C85E19B10F28EB2003CD8B3 /* Deprecated */ = {
 			isa = PBXGroup;
 			children = (
+				0E9AD30C0AD94214009C0B0B /* ExpandableList.h */,
+				0E9AD30B0AD94214009C0B0B /* ExpandableList.cpp */,
+				DA2CE0FD07E9F70700C68AEF /* Interpreters */,
 			);
-			name = Porting;
+			name = Deprecated;
+			sourceTree = "<group>";
+		};
+		5C85E19C10F28F27003CD8B3 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				0E1AE9910EF1A9EE00C224F1 /* SetupVariables */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		5C85E1AC10F28FBD003CD8B3 /* Outdated */ = {
+			isa = PBXGroup;
+			children = (
+				DA2CE3AA07EA04EC00C68AEF /* MonkeyWorksScripting */,
+				5CAB9FCB085E770400FE4729 /* Headless Server */,
+			);
+			name = Outdated;
 			sourceTree = "<group>";
 		};
 		5C8D03C10D56B18600454461 /* Dummy */ = {
@@ -1515,7 +1504,7 @@
 				5CABA02D085E77B100FE4729 /* main.cpp */,
 			);
 			name = "Headless Server";
-			sourceTree = SOURCE_ROOT;
+			sourceTree = "<group>";
 		};
 		5CAE8BE20AE402250013DB19 /* alut */ = {
 			isa = PBXGroup;
@@ -1618,12 +1607,12 @@
 			path = Core/XMLParser/ExpressionParser;
 			sourceTree = "<group>";
 		};
-		5CDEE92F0CC83E2F00F0C10C /* Python */ = {
+		5CDEE92F0CC83E2F00F0C10C /* MW Python */ = {
 			isa = PBXGroup;
 			children = (
 				5CCE1CBB10A4687C00EF5866 /* __init__.py */,
 			);
-			name = Python;
+			name = "MW Python";
 			sourceTree = "<group>";
 		};
 		5CEFD8210D4D1C3B00EA9950 /* Exceptions */ = {
@@ -1662,6 +1651,7 @@
 			isa = PBXGroup;
 			children = (
 				0EF2B66E0EBB6EB30088F58F /* tests */,
+				5C866A98086E1E43006CBE6F /* MonkeyWorksTypes.h */,
 				DA2CE1AF07E9F95600C68AEF /* Utilities.h */,
 				DA2CE1AE07E9F95600C68AEF /* Utilities.cpp */,
 				8E1A4BDF08DF5626002E47BD /* MathUtilities.h */,
@@ -1734,15 +1724,12 @@
 		DA2CE0C507E9070200C68AEF = {
 			isa = PBXGroup;
 			children = (
-				5C08414F09D598AE00E4D2F4 /* TestBed */,
-				5C4D231C09DC3D0E0082BF9F /* UnitTests */,
-				5CAB9FCB085E770400FE4729 /* Headless Server */,
-				DADAD3E107F2267E00F8D324 /* Docs */,
-				5C54F0D3085BDA6900C3E649 /* Porting */,
 				DA2CE0D807E9F6A700C68AEF /* Core */,
-				DA2CE3AA07EA04EC00C68AEF /* MonkeyWorksScripting */,
-				5CDEE92F0CC83E2F00F0C10C /* Python */,
+				5C4D231C09DC3D0E0082BF9F /* Unit Testing */,
 				5C475B6107EF8BB4004A645E /* Standard Plugins */,
+				5CDEE92F0CC83E2F00F0C10C /* MW Python */,
+				DADAD3E107F2267E00F8D324 /* Docs (woefully incomplete) */,
+				5C85E1AC10F28FBD003CD8B3 /* Outdated */,
 				DA96B8A009818E5B0007610D /* plists */,
 				DA2CE0D507E9F68100C68AEF /* Products */,
 			);
@@ -1758,7 +1745,6 @@
 				5C0E757A09D1A886002295FB /* LowPrioritySchedulerPlugin.bundle */,
 				5C4D232509DC59420082BF9F /* MonkeyWorksCoreTestRunner */,
 				5C4D239C09DC83930082BF9F /* MonkeyWorksCoreTest.framework */,
-				5C510B1A0CC8335700C771FB /* PyMonkeyWorks.bundle */,
 				0E39EB030E4BD33D006F38A0 /* MarionetteTest.app */,
 				5CDB8B240E9C4A6300993D99 /* _conduit.so */,
 			);
@@ -1768,32 +1754,31 @@
 		DA2CE0D807E9F6A700C68AEF /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				5C85E19B10F28EB2003CD8B3 /* Deprecated */,
 				5C07C30A0E8E94AE0030D17B /* Sandbox-Experimental */,
-				5CEFD8210D4D1C3B00EA9950 /* Exceptions */,
 				DA2CE0F707E9F70600C68AEF /* Network */,
-				0EAA0DE30B98FBE700331AA5 /* AdaptiveOptimizers */,
-				DA96B8A409818EF30007610D /* CoreBuilders */,
-				DA2B6A5C09897AD900DDE06D /* ClientAndServer */,
-				DA2CE0F107E9F70500C68AEF /* PlatformDependent */,
 				DA2CE0E807E9F70400C68AEF /* Scarab */,
-				DA2CE0E207E9F70300C68AEF /* Components and Plugins */,
-				DA2CE10307E9F70800C68AEF /* ExperimentLoading */,
-				5C475B7907EF8DCF004A645E /* XML Parser */,
-				DA2CE0FD07E9F70700C68AEF /* Interpreters */,
-				DA2CE0EB07E9F70500C68AEF /* RealtimeServices */,
-				0E9AD3080AD94214009C0B0B /* GenericStructures */,
 				DA2CE0DC07E9F70100C68AEF /* Variables */,
 				DA2CE10607E9F70800C68AEF /* Events */,
+				DA2B6A5C09897AD900DDE06D /* ClientAndServer */,
+				DA96B8A409818EF30007610D /* CoreBuilders */,
+				DA2CE0F107E9F70500C68AEF /* PlatformDependent */,
+				5C475B7907EF8DCF004A645E /* XML Parser */,
+				DA2CE0E207E9F70300C68AEF /* Components and Plugins */,
+				DA2CE10307E9F70800C68AEF /* ExperimentLoading */,
+				DA2CE0F407E9F70600C68AEF /* ParadigmComponents */,
+				DA2CE0EB07E9F70500C68AEF /* RealtimeServices */,
+				0E9AD3080AD94214009C0B0B /* GenericStructures */,
 				8E1A4BDC08DF55CB002E47BD /* Utilities */,
+				5CEFD8210D4D1C3B00EA9950 /* Exceptions */,
 				8E9B9D8708A7E7A40003AFA3 /* Transforms */,
+				0EAA0DE30B98FBE700331AA5 /* AdaptiveOptimizers */,
+				5C91B992086CC9E300C14E1A /* Triggers */,
 				DA2CE0FA07E9F70700C68AEF /* IODevices */,
 				DA2CE10907E9F70900C68AEF /* DataFiles */,
-				DA2CE0F407E9F70600C68AEF /* ParadigmComponents */,
 				DA2CE0E507E9F70400C68AEF /* VisualStimuli */,
 				5CBA76D00AE0697500D6F4A6 /* SoundStimuli */,
-				0E1AE9910EF1A9EE00C224F1 /* SetupVariables */,
-				5C91B992086CC9E300C14E1A /* Triggers */,
-				5C866A98086E1E43006CBE6F /* MonkeyWorksTypes.h */,
+				5C85E19C10F28F27003CD8B3 /* Resources */,
 			);
 			name = Core;
 			sourceTree = "<group>";
@@ -1928,8 +1913,8 @@
 		DA2CE0F407E9F70600C68AEF /* ParadigmComponents */ = {
 			isa = PBXGroup;
 			children = (
-				0EFC713D0EDBAF4200FFABA8 /* Actions */,
 				5C4D254B09DCBB560082BF9F /* tests */,
+				0EFC713D0EDBAF4200FFABA8 /* Actions */,
 				DA2CE16D07E9F93900C68AEF /* BlockAndProtocol.h */,
 				DA2CE16C07E9F93900C68AEF /* BlockAndProtocol.cpp */,
 				DA2CE16E07E9F93900C68AEF /* CommonUIDefinitions.h */,
@@ -2098,7 +2083,7 @@
 				5C08AEC10CC84DC000194E85 /* PyMonkeyWorks.cxx */,
 			);
 			name = MonkeyWorksScripting;
-			sourceTree = SOURCE_ROOT;
+			sourceTree = "<group>";
 		};
 		DA96B8A009818E5B0007610D /* plists */ = {
 			isa = PBXGroup;
@@ -2135,12 +2120,12 @@
 			name = CoreBuilders;
 			sourceTree = "<group>";
 		};
-		DADAD3E107F2267E00F8D324 /* Docs */ = {
+		DADAD3E107F2267E00F8D324 /* Docs (woefully incomplete) */ = {
 			isa = PBXGroup;
 			children = (
 				8E2A2C7C09509D6800A7E004 /* MonkeyWorksXMLSpec.rtf */,
 			);
-			name = Docs;
+			name = "Docs (woefully incomplete)";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -2419,26 +2404,6 @@
 			productReference = 5C4D239C09DC83930082BF9F /* MonkeyWorksCoreTest.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		5C510AF50CC8335700C771FB /* PyMonkeyWorks (deprecated) */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 5C510B170CC8335700C771FB /* Build configuration list for PBXNativeTarget "PyMonkeyWorks (deprecated)" */;
-			buildPhases = (
-				5C510AF60CC8335700C771FB /* ShellScript */,
-				5C510AF70CC8335700C771FB /* Resources */,
-				5C510B0F0CC8335700C771FB /* Sources */,
-				5C510B140CC8335700C771FB /* Frameworks */,
-				5C510B150CC8335700C771FB /* ShellScript */,
-			);
-			buildRules = (
-				5C510B160CC8335700C771FB /* PBXBuildRule */,
-			);
-			dependencies = (
-			);
-			name = "PyMonkeyWorks (deprecated)";
-			productName = MonkeyWorksScripting;
-			productReference = 5C510B1A0CC8335700C771FB /* PyMonkeyWorks.bundle */;
-			productType = "com.apple.product-type.bundle";
-		};
 		5CDB8B230E9C4A6300993D99 /* Python MW Conduit */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5CDB8B260E9C4A8100993D99 /* Build configuration list for PBXNativeTarget "Python MW Conduit" */;
@@ -2556,7 +2521,6 @@
 				5C0E756F09D1A886002295FB /* LowPrioritySchedulerPlugin */,
 				5C4D239B09DC83930082BF9F /* MonkeyWorksCoreTest */,
 				5C4D232409DC59410082BF9F /* MonkeyWorksCoreTestRunner */,
-				5C510AF50CC8335700C771FB /* PyMonkeyWorks (deprecated) */,
 				0E8014110E422E2A00D6DE20 /* MarionetteTest */,
 				0E121C930E6B1EF7007B29B8 /* CoreUninstall */,
 				5CCE1CCF10A4692500EF5866 /* PyMW */,
@@ -2591,15 +2555,6 @@
 			files = (
 				5CA078E610CED38F00000A95 /* PythonConduitTest.py in Resources */,
 				5CA07E5810D1A88100000A95 /* python_conduit_test.py in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		5C510AF70CC8335700C771FB /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				5C510AF80CC8335700C771FB /* StandardInterpreters.h in Resources */,
-				5C510AF90CC8335700C771FB /* MonkeyScript.i in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2704,32 +2659,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/zsh;
 			shellScript = "export FULL_NAME=${PRODUCT_NAME}.${WRAPPER_EXTENSION}\n\necho making dir ${TESTS_DIR}/XML\nmkdir -p \"${TESTS_DIR}/XML\"\nrm -Rf \"${TESTS_DIR}/${FULL_NAME}\"\necho Copying files from ${BUILT_PRODUCTS_DIR}/${FULL_NAME} to ${TESTS_DIR}/\ncp -Rf \"${BUILT_PRODUCTS_DIR}/${FULL_NAME}\" \"${TESTS_DIR}/\"\nexit 0\n";
-		};
-		5C510AF60CC8335700C771FB /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/csh;
-			shellScript = "\nset MONKEYWORKS_SCRIPTING_DIR = build/Development\nset MONKEYWORKS_SWIG_DIR =  /Library/MonkeyWorks/swig-1.3.31\nrm -rf \"${MONKEYWORKS_SCRIPTING_DIR}/PyMonkeyWorks.bundle\"\n\necho running swig to generate monkeyscript perl module in directory\npwd\n$MONKEYWORKS_SWIG_DIR/bin/swig -swiglib\n$MONKEYWORKS_SWIG_DIR/bin/swig  -w401 -w503 -w509 -w510 -w362 -w314 -w381 -w382 -w389 -w454 -c++ -python -shadow -I\"$MONKEYWORKS_SWIG_DIR/share/swig/1.3.31/\" -I\"$MONKEYWORKS_SWIG_DIR/share/swig/1.3.31/python/\"  -I./Core/AdaptiveOptimizers -I./Core/ComponentRegistries -I./Core/SwigWrappers -I./Core/Stimuli -I./Core/ExperimentDataLoading -I./Core/GenericStructures -I./Core/ParadigmComponents -I./Core/RealtimeServices -I./Core/Variables -I./Core/XMLParser -I./Core/IODevices -I./Core/IODevices/NIDAQ -I./Core/IODevices/Synthetic -I./Core/Triggers -I./Core/Transforms -I./Core/PlatformDependent -I./Core/Events -I./Core/IODevices/ITC18 -I./Core/Interpreters/ -I./Core/SoundStimuli/ -I/Library/MonkeyWorks/include/ -outdir ./MonkeyWorksPython  -o ./MonkeyWorksPython/PyMonkeyWorks.cxx ./MonkeyWorksScripting/MonkeyScript.i;\necho swig success";
-		};
-		5C510B150CC8335700C771FB /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 12;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/tcsh;
-			shellScript = "echo Moving and renaming python loadable module\necho See dev notes for details.\n\n#set BUILT_PRODUCTS_DIR = build/Development\nsetenv MONKEYWORKS_SCRIPTING_DIR  \"${BUILT_PRODUCTS_DIR}/../../MonkeyWorksPython\"\nsetenv MONKEYWORKS_CORE_DIR  \"${BUILT_PRODUCTS_DIR}/../../Core\"\nsetenv SYSTEM_SCRIPTS_DIR  /Library/MonkeyWorks/Scripting\n\necho current working directory\npwd\n\necho copy that executable to where i need it\ncp -f \"${BUILT_PRODUCTS_DIR}/PyMonkeyWorks.bundle/Contents/MacOS/PyMonkeyWorks\" \"${SYSTEM_SCRIPTS_DIR}/Python/_MonkeyScript.so\"\n\necho copy the perl module to the scripts directory\ncp -f \"${MONKEYWORKS_SCRIPTING_DIR}/MonkeyScript.py\" \"${SYSTEM_SCRIPTS_DIR}/Python/MonkeyScript.py\"\n\n";
 		};
 		5C8A4B880858C6E20016978D /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2891,15 +2820,6 @@
 				5CA0792110CEDD1300000A95 /* EventHandlerConduitTest.cpp in Sources */,
 				5CA07B9110D0B23B00000A95 /* EventCallbackHandlerTest.cpp in Sources */,
 				5CA07BB410D0B4D200000A95 /* CodecAwareConduitTest.cpp in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		5C510B0F0CC8335700C771FB /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				5C510B110CC8335700C771FB /* VariableSave.cpp in Sources */,
-				5C08AEC30CC84DC000194E85 /* PyMonkeyWorks.cxx in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3625,65 +3545,6 @@
 			};
 			name = Development;
 		};
-		5C510B180CC8335700C771FB /* Development */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = (
-					x86_64,
-					i386,
-				);
-				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					/System/Library/Frameworks,
-					/Library/Frameworks,
-				);
-				GCC_DEBUGGING_SYMBOLS = full;
-				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = NO;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					/Library/MonkeyWorks,
-					/Library/Frameworks/Python.framework/Headers/,
-				);
-				INFOPLIST_FILE = "/Users/davidcox/Development/MonkeyWorks/MW0.3/MonkeyWorksCore/MonkeyWorksScripting-Info copy.plist";
-				INSTALL_PATH = "";
-				LIBRARY_SEARCH_PATHS = "";
-				MACH_O_TYPE = mh_bundle;
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				OTHER_CFLAGS = (
-					"-dynamic",
-					"-fPIC",
-					"-flat_namespace",
-				);
-				OTHER_LDFLAGS = (
-					"-framework",
-					Carbon,
-					"-framework",
-					MonkeyWorksCore,
-					"-framework",
-					Python,
-					"-framework",
-					OpenAL,
-					"-bundle",
-					"-flat_namespace",
-					"-undefined",
-					suppress,
-				);
-				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = PyMonkeyWorks;
-				SKIP_INSTALL = YES;
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-				WRAPPER_EXTENSION = bundle;
-				ZERO_LINK = NO;
-			};
-			name = Development;
-		};
 		5C9EBDA3107244C00051414D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -4040,65 +3901,6 @@
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = MonkeyWorksCoreTestRunner;
-				ZERO_LINK = NO;
-			};
-			name = Release;
-		};
-		5C9EBDB0107244C00051414D /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = (
-					x86_64,
-					i386,
-				);
-				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					/System/Library/Frameworks,
-					/Library/Frameworks,
-				);
-				GCC_DEBUGGING_SYMBOLS = full;
-				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = NO;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					/Library/MonkeyWorks,
-					/Library/Frameworks/Python.framework/Headers/,
-				);
-				INFOPLIST_FILE = "/Users/davidcox/Development/MonkeyWorks/MW0.3/MonkeyWorksCore/MonkeyWorksScripting-Info copy.plist";
-				INSTALL_PATH = "";
-				LIBRARY_SEARCH_PATHS = "";
-				MACH_O_TYPE = mh_bundle;
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				OTHER_CFLAGS = (
-					"-dynamic",
-					"-fPIC",
-					"-flat_namespace",
-				);
-				OTHER_LDFLAGS = (
-					"-framework",
-					Carbon,
-					"-framework",
-					MonkeyWorksCore,
-					"-framework",
-					Python,
-					"-framework",
-					OpenAL,
-					"-bundle",
-					"-flat_namespace",
-					"-undefined",
-					suppress,
-				);
-				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = PyMonkeyWorks;
-				SKIP_INSTALL = YES;
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-				WRAPPER_EXTENSION = bundle;
 				ZERO_LINK = NO;
 			};
 			name = Release;
@@ -4505,65 +4307,6 @@
 			};
 			name = "Development (10.5 Compatible)";
 		};
-		5C9EE42B107303900051414D /* Development (10.5 Compatible) */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = (
-					x86_64,
-					i386,
-				);
-				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					/System/Library/Frameworks,
-					/Library/Frameworks,
-				);
-				GCC_DEBUGGING_SYMBOLS = full;
-				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = NO;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					/Library/MonkeyWorks,
-					/Library/Frameworks/Python.framework/Headers/,
-				);
-				INFOPLIST_FILE = "/Users/davidcox/Development/MonkeyWorks/MW0.3/MonkeyWorksCore/MonkeyWorksScripting-Info copy.plist";
-				INSTALL_PATH = "";
-				LIBRARY_SEARCH_PATHS = "";
-				MACH_O_TYPE = mh_bundle;
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				OTHER_CFLAGS = (
-					"-dynamic",
-					"-fPIC",
-					"-flat_namespace",
-				);
-				OTHER_LDFLAGS = (
-					"-framework",
-					Carbon,
-					"-framework",
-					MonkeyWorksCore,
-					"-framework",
-					Python,
-					"-framework",
-					OpenAL,
-					"-bundle",
-					"-flat_namespace",
-					"-undefined",
-					suppress,
-				);
-				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = PyMonkeyWorks;
-				SKIP_INSTALL = YES;
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-				WRAPPER_EXTENSION = bundle;
-				ZERO_LINK = NO;
-			};
-			name = "Development (10.5 Compatible)";
-		};
 		5C9EE42D107303900051414D /* Development (10.5 Compatible) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -4816,16 +4559,6 @@
 				5C4D239F09DC83950082BF9F /* Development */,
 				5C9EE429107303900051414D /* Development (10.5 Compatible) */,
 				5C9EBDAE107244C00051414D /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
-		};
-		5C510B170CC8335700C771FB /* Build configuration list for PBXNativeTarget "PyMonkeyWorks (deprecated)" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				5C510B180CC8335700C771FB /* Development */,
-				5C9EE42B107303900051414D /* Development (10.5 Compatible) */,
-				5C9EBDB0107244C00051414D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;

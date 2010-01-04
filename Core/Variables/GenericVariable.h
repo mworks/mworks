@@ -20,11 +20,10 @@
  * point variable should revert back to its original value when we exit that 
  * particular trial and return to a higher (block) level in the paradigm.  
  *
- * Params can also be added, subtracted, multiplied, etc. etc. to yield a new 
- * Variableobject. This new object represents the appropriate operation on the
- * composite Params, and the operation is evaluated any time the Variableis 
+ * Variable can also be added, subtracted, multiplied, etc. etc. to yield a new 
+ * Variable object, and the operation is evaluated any time the Variable is 
  * accessed. From a usage standpoint, these composite values look just like
- * ordinary Params.
+ * ordinary Variables.
  *
  * History:
  * David Cox on Tue Dec 10 2002 - Created.

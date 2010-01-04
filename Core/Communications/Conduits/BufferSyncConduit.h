@@ -12,6 +12,9 @@
 // Conduit could be used, for instance, to synchronize the state of two
 // "full" systems, by ensure that all events happening on one side
 // appear on the other side, as if they had happened locally.
+// 
+// NOT FINISHED!
+//
 
 #ifndef _BUFFER_SYNC_CONDUIT_H_
 #define _BUFFER_SYNC_CONDUIT_H_

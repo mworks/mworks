@@ -28,8 +28,6 @@ using namespace boost;
 // of what they might mean
 
 
-
-
 class EventTransport {
    
 public:
