@@ -405,7 +405,7 @@
 		5C518C2910865CB70004DBC0 /* Development (10.5 Compatible) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				APP_SUPPORT_DIR = "/Library/Application Support/Monkeyworks";
+				APP_SUPPORT_DIR = "/Library/Application Support/MonkeyWorks";
 				ARCHS = (
 					x86_64,
 					i386,
@@ -420,7 +420,7 @@
 				MW_LIB_DIR = "\"$(MW_LIB_DIR_UNQUOTED)\"";
 				MW_LIB_DIR_UNQUOTED = "$(DEVELOPER_DIR)/gcc40/lib";
 				PLUGINS_DIR = "$(APP_SUPPORT_DIR)/Plugins/Core Plugins";
-				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
+				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
 				TESTS_DIR = "$(APP_SUPPORT_DIR)/Developer/tests";
 			};
 			name = "Development (10.5 Compatible)";
@@ -487,7 +487,7 @@
 		DA2B5971089814BA0071B527 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				APP_SUPPORT_DIR = "/Library/Application Support/Monkeyworks";
+				APP_SUPPORT_DIR = "/Library/Application Support/MonkeyWorks";
 				ARCHS = (
 					x86_64,
 					i386,
