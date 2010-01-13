@@ -3429,7 +3429,7 @@
 		5C0E850F086D85D400B3EE7C /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				APP_SUPPORT_DIR = "/Library/Application Support/Monkeyworks";
+				APP_SUPPORT_DIR = "/Library/Application Support/MonkeyWorks";
 				ARCHS = (
 					x86_64,
 					i386,
@@ -3548,7 +3548,7 @@
 		5C9EBDA3107244C00051414D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				APP_SUPPORT_DIR = "/Library/Application Support/Monkeyworks";
+				APP_SUPPORT_DIR = "/Library/Application Support/MonkeyWorks";
 				ARCHS = (
 					x86_64,
 					i386,
@@ -3980,7 +3980,7 @@
 		5C9EE41E107303900051414D /* Development (10.5 Compatible) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				APP_SUPPORT_DIR = "/Library/Application Support/Monkeyworks";
+				APP_SUPPORT_DIR = "/Library/Application Support/MonkeyWorks";
 				ARCHS = (
 					x86_64,
 					i386,
