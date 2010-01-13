@@ -1,0 +1,4 @@
+MonkeyWorksCore-Info.plist
+MonkeyWorksCore.xcodeproj/*.pbxuser
+MonkeyWorksCore.xcodeproj/*.perspectivev3
+build/
