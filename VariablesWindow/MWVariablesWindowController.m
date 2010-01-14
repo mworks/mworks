@@ -34,7 +34,7 @@
 	[delegate registerEventCallbackWithReceiver:self 
                                        selector:@selector(serviceEvent:)
                                     callbackKey:VARIABLES_WINDOW_CALLBACK_KEY
-                                mwforVariableCode:RESERVED_CODEC_CODE
+                                forVariableCode:RESERVED_CODEC_CODE
                                    onMainThread:YES];
 }
 
@@ -87,9 +87,10 @@
 	if(delegate != nil) {
 		[delegate unregisterCallbacksWithKey:VARIABLES_WINDOW_CALLBACK_KEY];
 		[delegate registerEventCallbackWithReceiver:self 
-                                       selector:@selector(serviceEvent:)
-                                    callbackKey:VARIABLES_WINDOW_CALLBACK_KEY
-                                forVariableCode:RESERVED_CODEC_CODE];
+                                           selector:@selector(serviceEvent:)
+                                        callbackKey:VARIABLES_WINDOW_CALLBACK_KEY
+                                    forVariableCode:RESERVED_CODEC_CODE
+                                       onMainThread:YES];
 		
 	}
 }	
