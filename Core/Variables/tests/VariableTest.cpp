@@ -12,7 +12,7 @@
 #include "TrialBuildingBlocks.h"
 using namespace mw;
 
-//<disabled>CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( VariableTestFixture, "Unit Test" );
+CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( VariableTestFixture, "Unit Test" );
 
 void VariableTestFixture::testSimpleConstant() {
  Datum seven_point_six_two(M_FLOAT, 7.62);

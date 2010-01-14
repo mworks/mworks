@@ -24,7 +24,7 @@ using namespace mw;
 #define BUFFER_HIGH_WATER_MARK	1
 #define MAX_EVENTS_TO_BUFFER	10000
 
-//<disabled>CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( DatumFileTestFixture, "Unit Test" );
+CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( DatumFileTestFixture, "Unit Test" );
 //CPPUNIT_TEST_SUITE_REGISTRATION( DatumFileTestFixture );
 
 #define dft_CPPUNIT_ASSERT_TS(x)	dft_cppunit_lock->lock(); \

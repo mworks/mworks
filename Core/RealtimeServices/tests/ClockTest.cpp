@@ -11,7 +11,7 @@
 #include "Clock.h"
 using namespace mw;
 
-//<disabled>CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( ClockTestFixture, "Unit Test" );
+CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( ClockTestFixture, "Unit Test" );
 
 void ClockTestFixture::setUp() {
 	shared_ptr <Clock> shared_clock = Clock::instance(false);

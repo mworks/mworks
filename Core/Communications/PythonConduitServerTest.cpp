@@ -28,7 +28,7 @@
 
 using namespace mw;
 
-////<disabled>CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( PythonConduitServerTestFixture, "Unit Test" );
+//CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( PythonConduitServerTestFixture, "Unit Test" );
 
 
 void PythonConduitServerTestFixture::setUp(){

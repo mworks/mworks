@@ -16,7 +16,7 @@
 namespace mw {
 #define N_SCHEDULED_EXECUTIONS	100
 #define SLACK_MARGIN	5
-#define ACCEPTABLE_ERROR_US	10000  // 10 ms
+#define ACCEPTABLE_ERROR_US	1000 // 100 us
 
 void *chaff_1(const MWTime interval);
 
@@ -37,12 +37,12 @@ class SchedulerTestFixture : public FullCoreEnvironmentTestFixture {
 
 	CPPUNIT_TEST_SUITE( SchedulerTestFixture );
 	
-//	CPPUNIT_TEST( testPeriod10HzNoPayload );
-//	CPPUNIT_TEST( testPeriod100HzNoPayload );
-//	CPPUNIT_TEST( testPeriod10HzNoPayloadChaffX4 );
+	CPPUNIT_TEST( testPeriod10HzNoPayload );
+	CPPUNIT_TEST( testPeriod100HzNoPayload );
+	CPPUNIT_TEST( testPeriod10HzNoPayloadChaffX4 );
 	//CPPUNIT_TEST( testPeriod10HzNoPayloadChaffX20 );
-//	CPPUNIT_TEST( testPeriod10HzSmallPayload );
-//	CPPUNIT_TEST( testOneOffFiringSmallPayload );	
+	CPPUNIT_TEST( testPeriod10HzSmallPayload );
+	CPPUNIT_TEST( testOneOffFiringSmallPayload );	
 
 	CPPUNIT_TEST (testSchedulerLeaks);
 																																																																
