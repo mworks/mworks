@@ -375,6 +375,10 @@
 		5C2456D01092091A00338AA9 /* Development (10.5 Compatible) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					x86_64,
+					i386,
+				);
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = /Library/Frameworks;
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;

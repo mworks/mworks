@@ -55,9 +55,9 @@ public:
 	virtual void stop();
 	
 	virtual void callUpdateDisplay();
-	virtual Data getCurrentAnnounceDrawData();
+	virtual Datum getCurrentAnnounceDrawData();
     
-    void stateSystemCallback(const Data& data, MonkeyWorksTime time);
+    void stateSystemCallback(const Datum& data, MonkeyWorksTime time);
 };
 
 void *nextUpdate(const shared_ptr<mDynamicStimulus> &ds);

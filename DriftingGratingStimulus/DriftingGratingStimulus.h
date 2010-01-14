@@ -85,7 +85,7 @@ public:
 	//virtual void stop();
 	
 	virtual void draw(StimulusDisplay *display);
-	virtual Data getCurrentAnnounceDrawData();
+	virtual Datum getCurrentAnnounceDrawData();
 };
 
 #endif 

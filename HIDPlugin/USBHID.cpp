@@ -204,7 +204,7 @@ bool mUSBHID::updateChannel(int channel_number){
 	boost::shared_ptr <Variable> the_variable(this_channel->getVariable());
 	
 	if(the_variable->getValue().getInteger() != hidEvent.value) {
-		the_variable->setValue(Data((long)hidEvent.value));
+		the_variable->setValue(Datum((long)hidEvent.value));
 	}
 	
 	return true;
