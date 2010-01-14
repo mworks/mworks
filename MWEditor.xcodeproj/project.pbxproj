@@ -125,6 +125,7 @@
 		5CE0672C0E02EFA40097F17F /* MWXMLElementAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CAC10E20CDA353A0064AA4A /* MWXMLElementAdditions.m */; };
 		5CE520410E01F3F3001604AE /* MWFindController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CE520400E01F3F3001604AE /* MWFindController.m */; };
 		5CEC89040D99E50200D719BE /* MWExperimentWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CEC89030D99E50200D719BE /* MWExperimentWindowController.m */; };
+		5CF17BB310FFA9A800B7EF53 /* LoadStimulusInspectorView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5CF17BB210FFA9A800B7EF53 /* LoadStimulusInspectorView.xib */; };
 		5CF729BD0E58F18900F427AC /* nodes.tif in Resources */ = {isa = PBXBuildFile; fileRef = 5CF729BC0E58F18900F427AC /* nodes.tif */; };
 		5CF72A0B0E59213A00F427AC /* no_graphviz.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 5CF72A0A0E59213A00F427AC /* no_graphviz.pdf */; };
 		5CF8C3AD0E7975DD00AAA250 /* MWSimpleSoundPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CF8C3AC0E7975DD00AAA250 /* MWSimpleSoundPlayer.m */; };
@@ -299,6 +300,7 @@
 		5CE520400E01F3F3001604AE /* MWFindController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWFindController.m; sourceTree = "<group>"; };
 		5CEC89020D99E50200D719BE /* MWExperimentWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWExperimentWindowController.h; sourceTree = "<group>"; };
 		5CEC89030D99E50200D719BE /* MWExperimentWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWExperimentWindowController.m; sourceTree = "<group>"; };
+		5CF17BB210FFA9A800B7EF53 /* LoadStimulusInspectorView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = LoadStimulusInspectorView.xib; path = InspectorViews/LoadStimulusInspectorView.xib; sourceTree = "<group>"; };
 		5CF729BC0E58F18900F427AC /* nodes.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = nodes.tif; sourceTree = "<group>"; };
 		5CF72A0A0E59213A00F427AC /* no_graphviz.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = no_graphviz.pdf; sourceTree = "<group>"; };
 		5CF8C3AB0E7975DD00AAA250 /* MWSimpleSoundPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWSimpleSoundPlayer.h; sourceTree = "<group>"; };
@@ -545,6 +547,7 @@
 		5CDC03EF0CDFA8F2008B67D0 /* InspectorViews */ = {
 			isa = PBXGroup;
 			children = (
+				5CF17BB210FFA9A800B7EF53 /* LoadStimulusInspectorView.xib */,
 				5C56F6F21010BDA0007E03A9 /* ReportInspectorView.xib */,
 				5C992CDF0E78A9950093A8FF /* SoundStimulusInspectorView.xib */,
 				5C992CE00E78A9950093A8FF /* WaitInspectorView.xib */,
@@ -747,6 +750,7 @@
 				0EC2F5150EE9B248008BD196 /* MWLibraryCombiner.xsl in Resources */,
 				5C56F442100EB76E007E03A9 /* Info.plist in Resources */,
 				5C56F6F31010BDA0007E03A9 /* ReportInspectorView.xib in Resources */,
+				5CF17BB310FFA9A800B7EF53 /* LoadStimulusInspectorView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -861,17 +865,22 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		5C56F438100EB6A3007E03A9 /* Debug */ = {
+		5C518D4A108673050004DBC0 /* Development (10.5 Compatible) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				PRODUCT_NAME = "Set Version String";
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "x86_64 i386 ppc";
+				FRAMEWORK_SEARCH_PATHS = /Library/Frameworks;
+				GCC_ENABLE_OBJC_GC = required;
+				GCC_VERSION = 4.0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				PREBINDING = NO;
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
 			};
-			name = Debug;
+			name = "Development (10.5 Compatible)";
 		};
-		C05733C808A9546B00998B17 /* Debug */ = {
+		5C518D4B108673050004DBC0 /* Development (10.5 Compatible) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
@@ -899,21 +908,72 @@
 				WRAPPER_EXTENSION = app;
 				ZERO_LINK = YES;
 			};
-			name = Debug;
+			name = "Development (10.5 Compatible)";
 		};
-		C05733CC08A9546B00998B17 /* Debug */ = {
+		5C518D4C108673050004DBC0 /* Development (10.5 Compatible) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = "Set Version String";
+			};
+			name = "Development (10.5 Compatible)";
+		};
+		5C56F438100EB6A3007E03A9 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = "Set Version String";
+			};
+			name = Development;
+		};
+		C05733C808A9546B00998B17 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "ppc i386 ppc64 x86_64";
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SRCROOT)",
+					"$(inherited)",
+				);
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_ENABLE_OBJC_GC = required;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = NewEditor_Prefix.pch;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Applications";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/graphviz\"",
+				);
+				ONLY_ACTIVE_ARCH = NO;
+				PRODUCT_NAME = MWEditor;
+				WRAPPER_EXTENSION = app;
+				ZERO_LINK = YES;
+			};
+			name = Development;
+		};
+		C05733CC08A9546B00998B17 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
 				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "x86_64 i386 ppc";
 				FRAMEWORK_SEARCH_PATHS = /Library/Frameworks;
 				GCC_ENABLE_OBJC_GC = required;
+				GCC_VERSION = 4.2;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
-				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
 			};
-			name = Debug;
+			name = Development;
 		};
 /* End XCBuildConfiguration section */
 
@@ -921,26 +981,29 @@
 		5C56F439100EB6DE007E03A9 /* Build configuration list for PBXAggregateTarget "Set Version String" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				5C56F438100EB6A3007E03A9 /* Debug */,
+				5C56F438100EB6A3007E03A9 /* Development */,
+				5C518D4C108673050004DBC0 /* Development (10.5 Compatible) */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
+			defaultConfigurationName = Development;
 		};
 		C05733C708A9546B00998B17 /* Build configuration list for PBXNativeTarget "MWEditor" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				C05733C808A9546B00998B17 /* Debug */,
+				C05733C808A9546B00998B17 /* Development */,
+				5C518D4B108673050004DBC0 /* Development (10.5 Compatible) */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
+			defaultConfigurationName = Development;
 		};
 		C05733CB08A9546B00998B17 /* Build configuration list for PBXProject "MWEditor" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				C05733CC08A9546B00998B17 /* Debug */,
+				C05733CC08A9546B00998B17 /* Development */,
+				5C518D4A108673050004DBC0 /* Development (10.5 Compatible) */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
+			defaultConfigurationName = Development;
 		};
 /* End XCConfigurationList section */
 	};

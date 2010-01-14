@@ -863,7 +863,7 @@
       generated stimulus, etc.).  This is useful when the
       "deferred" option on a stimulus is set to "true" or "explicit".
 		</description>
-		<inspector>QueueStimulusInspectorView</inspector>
+		<inspector>LoadStimulusInspectorView</inspector>
 		
 		<!-- Payload -->
 		<code>
@@ -894,6 +894,30 @@
 		</code>
 	</MWElement>
 
+
+<MWElement name="Live Queue Stimulus">
+		<!-- XPath 2.0 expression defining nodes of this type -->
+		<match_signature>action[@type='live_queue_stimulus']</match_signature>
+		
+		<!-- Inheritance -->
+		<isa>Action</isa>
+		
+		<belongs_to_group>Stimulus-Related Actions</belongs_to_group>
+		
+		<description>
+			Places a stimulus into the display queue, ready to be displayed
+			when the next Update Display action is issued.  In contrast to the "regular"
+            Queue action, values for variables controlling the appearance of the
+            stimulus will remain malleable right up until the moment that
+            the display is updated.
+		</description>
+		<inspector>QueueStimulusInspectorView</inspector>
+		
+		<!-- Payload -->
+		<code>
+			<action tag="Live Queue Stimulus" type="live_queue_stimulus" stimulus=""/>
+		</code>
+	</MWElement>
 
 	<MWElement name="Dequeue Stimulus">
 		<match_signature>action[@type='dequeue_stimulus']</match_signature>
