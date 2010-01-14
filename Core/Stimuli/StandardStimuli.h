@@ -110,7 +110,8 @@ class OpenGLImageLoader {
 		static bool initialized;
 		static Lockable *lock;
 		
-		static GLuint load(std::string filename, StimulusDisplay *display,
+        static void initialize();
+        static GLuint load(std::string filename, StimulusDisplay *display,
                                                    int *width, int *height);
 };
 

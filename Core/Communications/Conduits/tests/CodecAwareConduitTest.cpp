@@ -13,7 +13,7 @@
 #include "DummyEventTransport.h"
 #include "IPCEventTransport.h"
 
-//<disabled>CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( CodecAwareConduitTestFixture, "Unit Test" );
+CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( CodecAwareConduitTestFixture, "Unit Test" );
 
 using namespace mw;
 

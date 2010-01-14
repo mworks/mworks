@@ -534,6 +534,20 @@ shared_ptr<mw::Component> BlankScreenFactory::createObject(std::map<std::string,
 bool OpenGLImageLoader::initialized = false;
 Lockable *OpenGLImageLoader::lock = NULL;
 
+void OpenGLImageLoader::initialize(){
+    mprintf("initializing image loader facility");
+    OpenGLImageLoader::lock = new Lockable();
+    lock = OpenGLImageLoader::lock;
+    
+    //lock->lock();
+    ilInit();
+    ilutInit();
+    ilutRenderer(ILUT_OPENGL);
+    ilutEnable(ILUT_OPENGL_CONV);
+    //lock->unlock();
+    OpenGLImageLoader::initialized = true;   
+}
+
 GLuint OpenGLImageLoader::load(std::string filename, StimulusDisplay *display,
                                                     int *width, int *height) {
     
@@ -785,17 +799,7 @@ GLuint OpenGLImageLoader::load(std::string filename, StimulusDisplay *display,
 	fclose(test);
 	
     if(1 || !OpenGLImageLoader::initialized) {
-		mprintf("initializing image loader facility");
-		OpenGLImageLoader::lock = new Lockable();
-        lock = OpenGLImageLoader::lock;
-		
-		//lock->lock();
-		ilInit();
-        ilutInit();
-        ilutRenderer(ILUT_OPENGL);
-		ilutEnable(ILUT_OPENGL_CONV);
-        //lock->unlock();
-		OpenGLImageLoader::initialized = true;
+        OpenGLImageLoader::initialize();
     }
 	
 	

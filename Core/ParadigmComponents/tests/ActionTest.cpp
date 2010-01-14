@@ -15,7 +15,7 @@
 #include "CancelScheduledActionsAction.h"
 using namespace mw;
 
-//<disabled>CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( ActionTestFixture, "Unit Test" );
+CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( ActionTestFixture, "Unit Test" );
 
 void ActionTestFixture::testSimpleAssignment1() {
 	shared_ptr<ConstantVariable>c1 = shared_ptr<ConstantVariable>(new ConstantVariable(Datum(M_FLOAT, 7.62)));

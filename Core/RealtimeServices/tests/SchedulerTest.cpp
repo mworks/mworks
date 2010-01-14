@@ -12,7 +12,7 @@
 using namespace mw;
 
 
-//<disabled>CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( SchedulerTestFixture, "Unit Test" );
+CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( SchedulerTestFixture, "Unit Test" );
 
 void SchedulerTestFixture::setUp() {
 	shared_ptr <Scheduler> shared_scheduler = Scheduler::instance(false);
@@ -352,7 +352,19 @@ void SchedulerTestFixture::reportLatencies(std::vector<MWTime> times_array,
 		}
 		n++;
 	}
-	
+    
+#define DO_CUMULATIVE 1
+    if(DO_CUMULATIVE){
+        less_than_10us += less_than_5us;
+        less_than_50us += less_than_10us;
+        less_than_100us += less_than_50us;
+        less_than_500us += less_than_100us;
+        less_than_1000us += less_than_500us;
+        less_than_5000us += less_than_1000us;
+        less_than_10000us += less_than_5000us;
+        less_than_15000us += less_than_10000us;
+    }
+    
 	fprintf(stderr, "Latency Statistics...\n"
 			"\t< 5us:  %.4g\n"
 			"\t< 10us:  %.4g\n"

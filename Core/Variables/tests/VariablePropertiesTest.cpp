@@ -11,7 +11,7 @@
 #include "EventBuffer.h"
 using namespace mw;
 
-//<disabled>CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( VariablePropertiesTestFixture, "Unit Test" );
+CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( VariablePropertiesTestFixture, "Unit Test" );
 
 void VariablePropertiesTestFixture::setUp(){
 	// Create a variable registry
