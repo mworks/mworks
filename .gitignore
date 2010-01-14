@@ -1,0 +1,4 @@
+Info.plist
+MWClient.xcodeproj/*.pbxuser
+MWClient.xcodeproj/*.perspectivev3
+build/
