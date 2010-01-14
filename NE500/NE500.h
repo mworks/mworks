@@ -135,7 +135,7 @@ class NE500PumpNetworkDevice : public IODevice {
 		
 		string sendMessage(string message);
 		
-		virtual void dispense(string pump_id, double rate, Data data){
+		virtual void dispense(string pump_id, double rate, Datum data){
 			
 			if(getActive()){
 				//initializePump(pump_id, 750.0, 20.0);
@@ -255,7 +255,7 @@ class NE500DeviceOutputNotification : public VariableNotification {
 
 		}
 	
-		virtual void notify(const Data& data, MonkeyWorksTime timeUS){
+		virtual void notify(const Datum& data, MonkeyWorksTime timeUS){
 
 			shared_ptr<NE500PumpNetworkDevice> shared_pump_network(pump_network);
 			shared_ptr<NE500DeviceChannel> shared_channel(channel);

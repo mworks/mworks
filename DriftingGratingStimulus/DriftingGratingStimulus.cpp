@@ -392,9 +392,9 @@ void mDriftingGratingStimulus::draw(StimulusDisplay * display) {
 	last_phase = phase*(180/M_DG_PI);
 }
 
-inline Data mDriftingGratingStimulus::getCurrentAnnounceDrawData() {
+inline Datum mDriftingGratingStimulus::getCurrentAnnounceDrawData() {
 	boost::mutex::scoped_lock locker(stim_lock);
-	Data announce_data = mDynamicStimulus::getCurrentAnnounceDrawData();
+	Datum announce_data = mDynamicStimulus::getCurrentAnnounceDrawData();
 	announce_data.addElement("rotation", rotation->getValue());
 	announce_data.addElement("xoffset", xoffset->getValue());
 	announce_data.addElement("yoffset", yoffset->getValue());

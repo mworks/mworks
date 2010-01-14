@@ -35,7 +35,7 @@ mDynamicStimulus::mDynamicStimulus(const std::string &new_tag,
 
 mDynamicStimulus::mDynamicStimulus(const mDynamicStimulus &tocopy) : Stimulus((const Stimulus&)tocopy){}
 
-void mDynamicStimulus::stateSystemCallback(const Data& data, MonkeyWorksTime time){
+void mDynamicStimulus::stateSystemCallback(const Datum& data, MonkeyWorksTime time){
     if(data.getInteger() == IDLE){
         stop();
     }
@@ -95,8 +95,8 @@ inline void mDynamicStimulus::callUpdateDisplay() {
     display->updateDisplay();
 }
 
-inline Data mDynamicStimulus::getCurrentAnnounceDrawData() {
-	Data announce_data(M_DICTIONARY, 4);
+inline Datum mDynamicStimulus::getCurrentAnnounceDrawData() {
+	Datum announce_data(M_DICTIONARY, 4);
 	announce_data.addElement(STIM_NAME,tag);        // char
 	announce_data.addElement(STIM_ACTION,STIM_ACTION_DRAW);
 	announce_data.addElement(STIM_TYPE,"dynamic_stimulus");  
