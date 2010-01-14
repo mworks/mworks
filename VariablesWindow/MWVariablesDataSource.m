@@ -115,7 +115,7 @@ objectValueForTableColumn:(NSTableColumn *)tableColumn
 			 byItem:(id)item {
 	if(delegate != nil) {
 		if(tableColumn == valueCol) {
-			mw::Data setval;
+			mw::Datum setval;
 			NSScanner *scanner = [[NSScanner alloc] initWithString:object];
 			
 			double possibleDoubleValue;

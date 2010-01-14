@@ -32,9 +32,10 @@
 									repeats:YES];
 									
 	[delegate registerEventCallbackWithReceiver:self 
-                                     selector:@selector(serviceEvent:)
-                                  callbackKey:VARIABLES_WINDOW_CALLBACK_KEY
-                              forVariableCode:RESERVED_CODEC_CODE];
+                                       selector:@selector(serviceEvent:)
+                                    callbackKey:VARIABLES_WINDOW_CALLBACK_KEY
+                                forVariableCode:RESERVED_CODEC_CODE
+                                   onMainThread:YES];
 }
 
 //- (void)setDelegate:(id)new_delegate {
@@ -86,9 +87,10 @@
 	if(delegate != nil) {
 		[delegate unregisterCallbacksWithKey:VARIABLES_WINDOW_CALLBACK_KEY];
 		[delegate registerEventCallbackWithReceiver:self 
-                                       selector:@selector(serviceEvent:)
-                                    callbackKey:VARIABLES_WINDOW_CALLBACK_KEY
-                                forVariableCode:RESERVED_CODEC_CODE];
+                                           selector:@selector(serviceEvent:)
+                                        callbackKey:VARIABLES_WINDOW_CALLBACK_KEY
+                                    forVariableCode:RESERVED_CODEC_CODE
+                                       onMainThread:YES];
 		
 	}
 }	
@@ -125,7 +127,7 @@
 	}
 }
 
-- (void)set:(NSString *)tag toValue:(mw::Data *)val {
+- (void)set:(NSString *)tag toValue:(mw::Datum *)val {
 	if(variables != nil) {	
 		string string_val = val->toString();
 		NSString *the_string = [NSString stringWithCString:string_val.c_str() encoding:NSASCIIStringEncoding];
