@@ -175,6 +175,7 @@ Stimulus::Stimulus(std::string _tag):Announcable(ANNOUNCE_STIMULUS_TAGNAME),
     has_thumbnail = false;
     thumbnail = NULL;
     	
+    deferred = Stimulus::nondeferred_load;
 	frozen = false;
 }
 
@@ -187,6 +188,7 @@ Stimulus::Stimulus(const Stimulus& copy):
     visible = copy.visible;
     cached = copy.cached;
     has_thumbnail = copy.has_thumbnail;
+    deferred = copy.deferred;
     if(has_thumbnail) {
         // this should prevent a loop if someone set the thumbnail to
         // be itself

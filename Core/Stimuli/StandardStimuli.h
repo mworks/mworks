@@ -118,7 +118,7 @@ class OpenGLImageLoader {
 class ImageStimulus : public BasicTransformStimulus {
     protected:
         std::string filename;
-        ExpandableList<GLuint> *texture_maps;
+        vector<GLuint> texture_maps;
 		int width, height;
 		
 		// for debugging
@@ -134,14 +134,14 @@ class ImageStimulus : public BasicTransformStimulus {
 									shared_ptr<Variable> _alpha);
 		// constructor for cloning an existing image stimulus
 		ImageStimulus(std::string _tag, std::string _filename,
-								ExpandableList<GLuint> *_texture_maps, 
+								const vector<GLuint>& _texture_maps, 
 								int _width,
 								int _height,
 								shared_ptr<Variable> _xoffset, 
                                 shared_ptr<Variable> _yoffset, 
 								shared_ptr<Variable> _xscale, 
                                 shared_ptr<Variable> _yscale, 
-					   shared_ptr<Variable> _rot,
+                                shared_ptr<Variable> _rot,
 								shared_ptr<Variable> _alpha);
 								
         ImageStimulus(ImageStimulus& copy);

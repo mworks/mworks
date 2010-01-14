@@ -885,25 +885,18 @@ ImageStimulus::ImageStimulus(std::string _tag, std::string _filename,
 							   shared_ptr<Variable> _alpha) 
                                 : BasicTransformStimulus(_tag, _xoffset, _yoffset,
                                                      _xscale ,_yscale, _rot, _alpha) {
-//    fprintf(stderr,"Creating image stimulus (filename = %s)\n",_filename.c_str());
-//	fflush(stderr);
-	
+
 	filename = _filename;
 	
-	texture_maps = new ExpandableList<GLuint>();
-	//image_loaded = false;
-	//il_image_name = 0; 
 	width = 0; 
 	height = 0;
 
-    //	filename = _filename;
-    //image_loader = new OpenGLImageLoader();
 }
 
 // for cloning
 ImageStimulus::ImageStimulus( std::string _tag, 
 								std::string _filename,
-								ExpandableList<GLuint> *_texture_maps, 
+								const vector<GLuint>& _texture_maps, 
 								int _width, int _height,
 								shared_ptr<Variable> _xoffset, 
                                 shared_ptr<Variable> _yoffset, shared_ptr<Variable> _xscale, 
@@ -917,8 +910,12 @@ ImageStimulus::ImageStimulus( std::string _tag,
 	// actually copy the string...
 	filename = _filename;
 	
-	texture_maps = _texture_maps;
-	//image_loaded = false;
+    vector<GLuint>::const_iterator i;
+    for(i = _texture_maps.begin(); i != _texture_maps.end(); ++i){
+        texture_maps.push_back(*i);
+    }
+
+    //image_loaded = false;
 	//il_image_name = 0; 
 	width = _width; 
 	height = _height;
@@ -947,7 +944,6 @@ ImageStimulus::~ImageStimulus() {
 		
 	}
 	
-	delete texture_maps;
 }
 
 
@@ -963,15 +959,15 @@ Stimulus * ImageStimulus::frozenClone(){
 	ImageStimulus *clone = 
 					new ImageStimulus(tag, 
 									filename,
-									new ExpandableList<GLuint>(*texture_maps),
+									texture_maps,
 									width,
 									height,
 									x_clone,
 									y_clone,
 									xs_clone,
 									ys_clone,
-									   r_clone,
-	a_clone);
+                                    r_clone,
+                                    a_clone);
 									
 	
 	clone->setIsFrozen(true);
@@ -994,10 +990,13 @@ void ImageStimulus::load(StimulusDisplay *display) {
 	// TODO: this needs clean up.  We are counting on all of the contexts
 	// in the stimulus display to have the exact same history.  Ideally, this
 	// should be true, but we should eventually be robust in case it isn't
-	for(int i = 0; i < display->getNContexts(); i++){
+	texture_maps.clear();
+    
+    for(int i = 0; i < display->getNContexts(); i++){
 		display->setCurrent(i);
 		GLuint texture_map = OpenGLImageLoader::load(filename, display, &width, &height);
-		texture_maps->addElement(i, texture_map);
+		
+        texture_maps.push_back(texture_map);
 //		fprintf(stderr, "Loaded texture map %u into context %d\n", (unsigned int)texture_map, i);fflush(stderr);
 		if(texture_map){
 			mprintf("Image loaded into texture_map %d", texture_map);
@@ -1026,11 +1025,7 @@ void ImageStimulus::drawInUnitSquare(StimulusDisplay *display) {
 		
 		//glActiveTexture(GL_TEXTURE0);
 
-//		fprintf(stderr, "Binding texture %lu on context index %u (context %u)",
-//						*(texture_maps->getElement(display->getCurrentContextIndex())),
-//						display->getCurrentContextIndex(),
-//						(unsigned int)display->getCurrentContext());fflush(stderr);
-		glBindTexture(GL_TEXTURE_2D, *(texture_maps->getElement(display->getCurrentContextIndex())));
+		glBindTexture(GL_TEXTURE_2D, texture_maps[display->getCurrentContextIndex()]);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR_MIPMAP_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 		glEnable (GL_BLEND); 
