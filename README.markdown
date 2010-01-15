@@ -19,7 +19,14 @@ The script, by default, puts everything in the following directory:
 	~/Repositories/monkeyworks/*
 If you'd like to put stuff somewhere else, the script is easily edited.
 
+
+### simple_build ###
+
+Simple build contains a python script for building MW that is, well, simple.  This isn't intended as a formal automated build mechanism; rather, it is an easy, low-investment way to do a one-off build of a collection of projects in MW.  You may need to edit the project list to suit your needs.
+
 ### buildbot_master & buildbot_slave ###
+
+*NOTE:* if you are a casual user of MW, you do not need to concern yourself with buildbots.  You do not need a buildbot to look at the code, or even to build isolated portions of the project (e.g. building a plugin, or editing one of the GUI apps); as long as you have access to an installer, you can install (with the "Developer" option checked in the "Customize" screen) and then build whatever sub-portions you like.  You can also use the "simple" build script (below) as a template for doing a basic automated build.
 
 These directories contain the necessary parts to run the MW buildbot setup.  Buildbot is an automated build system that coordinates the building of complicated projects like MW.  When installed properly, it automatically builds and tests MW every night, and will also build after new commits are made, to ensure that things haven't been broken by an error in a given commit.  For more info on BuildBot, see [this site](http://buildbot.net).
 
