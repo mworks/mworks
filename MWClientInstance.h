@@ -10,6 +10,7 @@
 #import <MonkeyWorksCore/Client.h>
 #import <MonkeyWorksCocoa/MWCocoaEvent.h>
 #import <MonkeyWorksCocoa/MWCoreContainer.h>
+#import <MonkeyWorksCocoa/MWClientProtocol.h>
 #import "MWCodec.h"
 #import "MWGroupedPluginWindowController.h"
 #import "MWNotebook.h"
@@ -21,7 +22,7 @@
 
 #define STATE_SYSTEM_CALLBACK_KEY "MonkeyWorksClient::StateSystemCallbackKey"
 
-@interface MWClientInstance : NSObject <MWCoreContainer> {	
+@interface MWClientInstance : NSObject <MWCoreContainer, MWClientProtocol> {	
 
 	// The core object that actually does all of the work
 	#ifndef HOLLOW_OUT_FOR_ADC
@@ -174,6 +175,10 @@
 							bindingsKey:(NSString *)bindings_key
 									callbackKey:(const char *)key
 							   forVariable:(NSString *)tag;
+
+
+- (void)unregisterCallbacksWithKey:(const char *)key;
+- (void)unregisterCallbacksWithKey:(const char *)key locking:(BOOL)locking;
 
 // The client object's own method for dealing with events from the core object
 // (delivered via callback)
