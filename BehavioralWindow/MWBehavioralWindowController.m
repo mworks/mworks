@@ -17,8 +17,8 @@ Copy right 2006 MIT. All rights reserved.
 NSString *percentCorrectPlotIdentifier = @"PercentCorrectLinePlot";
 
 @interface MWBehavioralWindowController(PrivateMethods)
-- (void)_cacheCodes;
-- (void)serviceEvent:(MWCocoaEvent *)event;
+//- (void)_cacheCodes;
+//- (void)serviceEvent:(MWCocoaEvent *)event;
 @end
 
 @implementation MWBehavioralWindowController
@@ -271,12 +271,14 @@ NSString *percentCorrectPlotIdentifier = @"PercentCorrectLinePlot";
 - (void)setDelegate:(id)new_delegate {
 	if(![new_delegate respondsToSelector:@selector(registerEventCallbackWithReceiver:
 												   selector:
-												   callbackKey:)] ||
+												   callbackKey:
+                                                   onMainThread:)] ||
 	   ![new_delegate respondsToSelector:@selector(unregisterCallbacksWithKey:)] ||
 	   ![new_delegate respondsToSelector:@selector(registerEventCallbackWithReceiver:
 												   selector:
 												   callbackKey:
-												   forVariableCode:)] ||
+												   forVariableCode:
+                                                   onMainThread:)] ||
 	   ![new_delegate respondsToSelector:@selector(codeForTag:)]) {
 		[NSException raise:NSInternalInconsistencyException
 					format:@"Delegate doesn't respond to required methods for MWBehavioralWindowController"];		
@@ -284,99 +286,88 @@ NSString *percentCorrectPlotIdentifier = @"PercentCorrectLinePlot";
 	
 	delegate = new_delegate;
 	[delegate registerEventCallbackWithReceiver:self 
-									selector:@selector(serviceEvent:)
-               callbackKey:BEHAVIORIAL_CALLBACK_KEY];
+                                       selector:@selector(receiveCodec:)
+                                    callbackKey:BEHAVIORIAL_CALLBACK_KEY
+                                forVariableCode:RESERVED_CODEC_CODE
+                                   onMainThread:YES];
 }
 
-/*******************************************************************
-*                 MWDataEventListenerProtocol Methods
-*******************************************************************/
-- (void)serviceEvent:(MWCocoaEvent *)event {
-	BOOL updated = NO;
+
+// if a correct trial variable is received
+- (void)serviceCorrectEvent:(MWCocoaEvent *)event {		
+		
+    self.numberOfCorrectTrials += 1;
+    self.numberOfCorrectTrialsInSession += 1;
+    self.numberOfTrials += 1;
+    self.numberOfTrialsInSession += 1;
+                            
+    [PercentCorrectField setDrawsBackground:YES];
+    [PercentFailureField setDrawsBackground:NO];
+    [PercentIgnoredField setDrawsBackground:NO];
+    
+    [self updatePercentages];
+}
+
+- (void)serviceFailureEvent:(MWCocoaEvent *)event {
+		
+    self.numberOfFailureTrials += 1;
+    self.numberOfFailureTrialsInSession += 1;
+    self.numberOfTrials += 1;
+    self.numberOfTrialsInSession += 1;
+    
+    [PercentCorrectField setDrawsBackground:NO];
+    [PercentFailureField setDrawsBackground:YES];
+    [PercentIgnoredField setDrawsBackground:NO];
+    //[PercentFailureField setBackgroundColor:[NSColor redColor]];
+
+    [self updatePercentages];
+}
+
+
+- (void)serviceIgnoredEvent:(MWCocoaEvent *)event {
+		
+    self.numberOfIgnoredTrials += 1;
+    self.numberOfIgnoredTrialsInSession += 1;
+    self.numberOfTrials += 1;
+    self.numberOfTrialsInSession += 1;
+    
+    [PercentCorrectField setDrawsBackground:NO];
+    [PercentFailureField setDrawsBackground:NO];
+    [PercentIgnoredField setDrawsBackground:YES];
+    //[PercentIgnoredField setBackgroundColor:[NSColor redColor]];
+    
+    [self updatePercentages];
+}
 	
-	int code = [event code];
-	
-	if(code == RESERVED_CODEC_CODE) {
-		[self _cacheCodes];
-	}
-	
-	if(code == CorrectCodecCode){					// if a correct trial variable is received
-		
-		updated = YES;
-		self.numberOfCorrectTrials += 1;
-		self.numberOfCorrectTrialsInSession += 1;
-		self.numberOfTrials += 1;
-		self.numberOfTrialsInSession += 1;
-		
-						
-		[PercentCorrectField setDrawsBackground:YES];
-		[PercentFailureField setDrawsBackground:NO];
-		[PercentIgnoredField setDrawsBackground:NO];
-		
-	} else if(code == FailureCodecCode){			// if a failure trial variable is received
-		
-		updated = YES;
-		self.numberOfFailureTrials += 1;
-		self.numberOfFailureTrialsInSession += 1;
-		self.numberOfTrials += 1;
-		self.numberOfTrialsInSession += 1;
-		
-		
-		
-		[PercentCorrectField setDrawsBackground:NO];
-		[PercentFailureField setDrawsBackground:YES];
-		[PercentIgnoredField setDrawsBackground:NO];
-		//[PercentFailureField setBackgroundColor:[NSColor redColor]];
-		
-	} else if(code == IgnoredCodecCode){			// if a ignored trial variable is received
-		
-		updated = YES;
-		
-		self.numberOfIgnoredTrials += 1;
-		self.numberOfIgnoredTrialsInSession += 1;
-		self.numberOfTrials += 1;
-		self.numberOfTrialsInSession += 1;
-		
-		
-		
-		[PercentCorrectField setDrawsBackground:NO];
-		[PercentFailureField setDrawsBackground:NO];
-		[PercentIgnoredField setDrawsBackground:YES];
-		//[PercentIgnoredField setBackgroundColor:[NSColor redColor]];
-		
-	}
-	
-	if(updated){
-		
-		self.percentCorrect = (int)((double)numberOfCorrectTrials/(double)numberOfTrials*100);
-		self.percentCorrectInSession = (int)((double)numberOfCorrectTrialsInSession/(double)numberOfTrialsInSession*100);
-		
-		self.percentFailure = (int)((double)numberOfFailureTrials/(double)numberOfTrials*100);
-		self.percentFailureInSession = (int)((double)numberOfFailureTrialsInSession/(double)numberOfTrialsInSession*100);
-		
-		self.percentIgnored = (int)((double)numberOfIgnoredTrials/(double)numberOfTrials*100);
-		self.percentIgnoredInSession = (int)((double)numberOfIgnoredTrialsInSession/(double)numberOfTrialsInSession*100);
-		
-		[percentCorrectHistory addObject:[NSNumber numberWithDouble:percentCorrect]];
-		[percentFailureHistory addObject:[NSNumber numberWithDouble:percentFailure]];
-		[percentIgnoredHistory addObject:[NSNumber numberWithDouble:percentIgnored]];
-		[totalHistory addObject:[NSNumber numberWithInt:numberOfTrials]];
-		
-		
-		if([totalHistory count] > maxHistory){
-			[percentCorrectHistory removeObjectAtIndex:0];
-			[percentFailureHistory removeObjectAtIndex:0];
-			[percentIgnoredHistory removeObjectAtIndex:0];
-			[totalHistory removeObjectAtIndex:0];
-		}
-		
-		[self updatePlot];
-		
-		[self performSelectorOnMainThread:
-			@selector(setNeedsDisplayOnMainThread:) 
-							   withObject: chart waitUntilDone: NO];	
-		
-	}
+- (void) updatePercentages {		
+    self.percentCorrect = (int)((double)numberOfCorrectTrials/(double)numberOfTrials*100);
+    self.percentCorrectInSession = (int)((double)numberOfCorrectTrialsInSession/(double)numberOfTrialsInSession*100);
+    
+    self.percentFailure = (int)((double)numberOfFailureTrials/(double)numberOfTrials*100);
+    self.percentFailureInSession = (int)((double)numberOfFailureTrialsInSession/(double)numberOfTrialsInSession*100);
+    
+    self.percentIgnored = (int)((double)numberOfIgnoredTrials/(double)numberOfTrials*100);
+    self.percentIgnoredInSession = (int)((double)numberOfIgnoredTrialsInSession/(double)numberOfTrialsInSession*100);
+    
+    [percentCorrectHistory addObject:[NSNumber numberWithDouble:percentCorrect]];
+    [percentFailureHistory addObject:[NSNumber numberWithDouble:percentFailure]];
+    [percentIgnoredHistory addObject:[NSNumber numberWithDouble:percentIgnored]];
+    [totalHistory addObject:[NSNumber numberWithInt:numberOfTrials]];
+    
+    
+    if([totalHistory count] > maxHistory){
+        [percentCorrectHistory removeObjectAtIndex:0];
+        [percentFailureHistory removeObjectAtIndex:0];
+        [percentIgnoredHistory removeObjectAtIndex:0];
+        [totalHistory removeObjectAtIndex:0];
+    }
+    
+    [self updatePlot];
+    
+    [self performSelectorOnMainThread: @selector(setNeedsDisplayOnMainThread:) 
+                           withObject: chart waitUntilDone: NO];	
+    
+
 	
 	
 }
@@ -423,7 +414,7 @@ NSString *percentCorrectPlotIdentifier = @"PercentCorrectLinePlot";
 - (IBAction)resetPerformance:(id)sender {
 	
         [self addBehaviorSummaryEntry:self];
-	[self addEntryString:@"<reset>"];
+	[self addNotebookEntryString:@"<reset>"];
     
 	//@synchronized(self){
 		// reset button clears the past performance and start over the counting
@@ -457,7 +448,7 @@ NSString *percentCorrectPlotIdentifier = @"PercentCorrectLinePlot";
 		[self updatePlot];
 		
 		// re-check the codec number (in case the variable names have changed)
-		[self _cacheCodes];
+		//[self _cacheCodes];
 		
 	//}
     
@@ -468,7 +459,7 @@ NSString *percentCorrectPlotIdentifier = @"PercentCorrectLinePlot";
 - (IBAction)resetPerformanceInSession:(id)sender {
 	
     [self addBehaviorSummaryEntry:self];
-	[self addEntryString:@"<reset session>"];
+	[self addNotebookEntryString:@"<reset session>"];
     
 	//@synchronized(self){
 		// reset button clears the past performance and start over the counting
@@ -531,7 +522,8 @@ NSString *percentCorrectPlotIdentifier = @"PercentCorrectLinePlot";
 *******************************************************************/
 // This methods find the codec number for the variables that keep track of good trials
 //versus bad trials, it does so by matching the tag names to the variables in the experiment.
-- (void)_cacheCodes {
+- (void)receiveCodec: (MWCocoaEvent *)event {
+    
 	[delegate unregisterCallbacksWithKey:BEHAVIORIAL_CALLBACK_KEY];
 	
 	if(delegate != nil) {
@@ -548,35 +540,39 @@ NSString *percentCorrectPlotIdentifier = @"PercentCorrectLinePlot";
 		mwarning(M_NETWORK_MESSAGE_DOMAIN, "Variable for success trials: %s was not found.",[[CorrectVariableField stringValue] cStringUsingEncoding:NSASCIIStringEncoding]);
 	} else {
 		[delegate registerEventCallbackWithReceiver:self 
-                                       selector:@selector(serviceEvent:)
-                                    callbackKey:BEHAVIORIAL_CALLBACK_KEY
-                                forVariableCode:CorrectCodecCode];		
+                                           selector:@selector(serviceCorrectEvent:)
+                                        callbackKey:BEHAVIORIAL_CALLBACK_KEY
+                                    forVariableCode:CorrectCodecCode
+                                       onMainThread:YES];		
 	}
 	
 	if (FailureCodecCode == -1) {
 		mwarning(M_NETWORK_MESSAGE_DOMAIN, "Variable for failure trials: %s was not found.",[[FailureVariableField stringValue] cStringUsingEncoding:NSASCIIStringEncoding]);
 	} else {
 		[delegate registerEventCallbackWithReceiver:self 
-                                       selector:@selector(serviceEvent:)
-                                    callbackKey:BEHAVIORIAL_CALLBACK_KEY
-                                forVariableCode:FailureCodecCode];				
+                                           selector:@selector(serviceFailureEvent:)
+                                        callbackKey:BEHAVIORIAL_CALLBACK_KEY
+                                    forVariableCode:FailureCodecCode
+                                       onMainThread:YES];				
 	}
 	
 	if (IgnoredCodecCode == -1) {
 		mwarning(M_NETWORK_MESSAGE_DOMAIN, "Variable for ignored trials: %s was not found.",[[IgnoredVariableField stringValue] cStringUsingEncoding:NSASCIIStringEncoding]);
 	} else {
 		[delegate registerEventCallbackWithReceiver:self 
-                                       selector:@selector(serviceEvent:)
-                                    callbackKey:BEHAVIORIAL_CALLBACK_KEY
-                                forVariableCode:IgnoredCodecCode];				
+                                           selector:@selector(serviceIgnoredEvent:)
+                                        callbackKey:BEHAVIORIAL_CALLBACK_KEY
+                                    forVariableCode:IgnoredCodecCode
+                                       onMainThread:YES];				
 	}
 	
+    // re-register for the codec
 	[delegate registerEventCallbackWithReceiver:self 
-                                     selector:@selector(serviceEvent:)
-                                  callbackKey:BEHAVIORIAL_CALLBACK_KEY
-                              forVariableCode:RESERVED_CODEC_CODE];
-	
-	
+                                       selector:@selector(receiveCodec:)
+                                    callbackKey:BEHAVIORIAL_CALLBACK_KEY
+                                forVariableCode:RESERVED_CODEC_CODE
+                                   onMainThread:YES];
+
 }
 
 
@@ -614,14 +610,14 @@ NSString *percentCorrectPlotIdentifier = @"PercentCorrectLinePlot";
 	
 }
 
--(void) addEntryString:(NSString *)str {
-    [[delegate notebook] addEntry:str];
+-(void) addNotebookEntryString:(NSString *)str {
+    [[delegate notebook] addNotebookEntry:str];
     [notebookField setString:[[delegate notebook] content]];
     [notebookField scrollRangeToVisible:NSMakeRange([[notebookField textStorage] length],0)];
 }
 
--(IBAction) addEntry:(id)sender {
-    [self addEntryString:[addEntryField stringValue]];
+-(IBAction) addNotebookEntry:(id)sender {
+    [self addNotebookEntryString:[addNotebookEntryField stringValue]];
 }
 
 -(IBAction) addBehaviorSummaryEntry:(id)sender{
@@ -633,12 +629,12 @@ NSString *percentCorrectPlotIdentifier = @"PercentCorrectLinePlot";
                                                         percentCorrect, 
                                                         percentFailure, 
                                                         percentIgnored, Nil];
-    [self addEntryString:summary_string];
+    [self addNotebookEntryString:summary_string];
 }
 
 - (void)controlTextDidEndEditing:(NSNotification *)aNotification {
-    [self addEntry:self];
-    [addEntryField setStringValue:@""];
+    [self addNotebookEntry:self];
+    [addNotebookEntryField setStringValue:@""];
 }
 
 
