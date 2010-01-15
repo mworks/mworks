@@ -14,6 +14,7 @@ Copy right 2006 MIT. All rights reserved.
 
 
 #import "MonkeyWorksCocoa/MWWindowController.h"
+#import "MonkeyWorksCocoa/MWClientProtocol.h"
 #import "MonkeyWorksCore/GenericData.h"
 #import "Narrative/Narrative.h"
 
@@ -76,8 +77,8 @@ Copy right 2006 MIT. All rights reserved.
 		
 		BOOL VariableCheck;
 		
-		IBOutlet id delegate;
-        IBOutlet NSTextField *addEntryField;
+		IBOutlet id<MWClientProtocol> delegate;
+        IBOutlet NSTextField *addNotebookEntryField;
         IBOutlet NSTextView *notebookField;
 }
 
@@ -110,7 +111,7 @@ Copy right 2006 MIT. All rights reserved.
 - (IBAction)cancelOptionsSheet:(id)sender;
 
 
-
+- (void) updatePercentages;
 - (void)updatePlot;
 
 // Plot data source methods
@@ -119,8 +120,8 @@ Copy right 2006 MIT. All rights reserved.
 
 
 // Notebook methods
--(IBAction) addEntry:(id)sender;
--(void) addEntryString:(NSString *)str;
+-(IBAction) addNotebookEntry:(id)sender;
+-(void) addNotebookEntryString:(NSString *)str;
 -(IBAction) addBehaviorSummaryEntry:(id)sender;
 
 @end
