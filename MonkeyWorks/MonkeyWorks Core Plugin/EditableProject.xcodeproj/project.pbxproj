@@ -6,13 +6,41 @@
 	objectVersion = 45;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		5CFCAB1E11060985007CE55F /* Everything */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 5CFCAB24110609AA007CE55F /* Build configuration list for PBXAggregateTarget "Everything" */;
+			buildPhases = (
+			);
+			dependencies = (
+				5CFCAB231106098C007CE55F /* PBXTargetDependency */,
+			);
+			name = Everything;
+			productName = Everything;
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		5CF9AEBB0FD5795C00F405F6 /* MWPROJECTNAMEASIDENTIFIERFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CF9AEB70FD5795C00F405F6 /* MWPROJECTNAMEASIDENTIFIERFactory.cpp */; };
 		5CF9AEBC0FD5795C00F405F6 /* MWPROJECTNAMEASIDENTIFIERPlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CF9AEB90FD5795C00F405F6 /* MWPROJECTNAMEASIDENTIFIERPlugin.cpp */; };
+		5CFCAB0A1105FB4C007CE55F /* MWLibrary.xml in Resources */ = {isa = PBXBuildFile; fileRef = 5CFCAB091105FB4C007CE55F /* MWLibrary.xml */; };
+		5CFCAB0D1105FCF2007CE55F /* Development Notes.txt in Resources */ = {isa = PBXBuildFile; fileRef = 5CFCAB0C1105FCF2007CE55F /* Development Notes.txt */; };
+		5CFCAB1011060747007CE55F /* INSTRUCTIONS.txt in Resources */ = {isa = PBXBuildFile; fileRef = 5CFCAB0F11060747007CE55F /* INSTRUCTIONS.txt */; };
+		5CFCAB26110609D2007CE55F /* UserDocumentation.markdown in Resources */ = {isa = PBXBuildFile; fileRef = 5CFCAB25110609D2007CE55F /* UserDocumentation.markdown */; };
 		5CFE591A0F571B15000C7F30 /* MWPROJECTNAMEASIDENTIFIER.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CFE59190F571B15000C7F30 /* MWPROJECTNAMEASIDENTIFIER.cpp */; };
 		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
 		BFBFB0D610446C180019216B /* MonkeyWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFBFB0D510446C180019216B /* MonkeyWorksCore.framework */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		5CFCAB221106098C007CE55F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8D5B49AC048680CD000E48DA /* MWPROJECTNAME */;
+			remoteInfo = MWPROJECTNAME;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		089C1672FE841209C02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
@@ -23,6 +51,10 @@
 		5CF9AEB80FD5795C00F405F6 /* MWPROJECTNAMEASIDENTIFIERFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWPROJECTNAMEASIDENTIFIERFactory.h; sourceTree = SOURCE_ROOT; };
 		5CF9AEB90FD5795C00F405F6 /* MWPROJECTNAMEASIDENTIFIERPlugin.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MWPROJECTNAMEASIDENTIFIERPlugin.cpp; sourceTree = SOURCE_ROOT; };
 		5CF9AEBA0FD5795C00F405F6 /* MWPROJECTNAMEASIDENTIFIERPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWPROJECTNAMEASIDENTIFIERPlugin.h; sourceTree = SOURCE_ROOT; };
+		5CFCAB091105FB4C007CE55F /* MWLibrary.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MWLibrary.xml; sourceTree = "<group>"; };
+		5CFCAB0C1105FCF2007CE55F /* Development Notes.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Development Notes.txt"; sourceTree = "<group>"; };
+		5CFCAB0F11060747007CE55F /* INSTRUCTIONS.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = INSTRUCTIONS.txt; sourceTree = "<group>"; wrapsLines = 1; };
+		5CFCAB25110609D2007CE55F /* UserDocumentation.markdown */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = UserDocumentation.markdown; sourceTree = "<group>"; };
 		5CFE59180F571B15000C7F30 /* MWPROJECTNAMEASIDENTIFIER.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWPROJECTNAMEASIDENTIFIER.h; sourceTree = SOURCE_ROOT; };
 		5CFE59190F571B15000C7F30 /* MWPROJECTNAMEASIDENTIFIER.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MWPROJECTNAMEASIDENTIFIER.cpp; sourceTree = SOURCE_ROOT; };
 		8D5B49B6048680CD000E48DA /* MWPROJECTNAME.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MWPROJECTNAME.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -46,6 +78,7 @@
 		089C166AFE841209C02AAC07 /* MWPROJECTNAME */ = {
 			isa = PBXGroup;
 			children = (
+				5CFCAB0F11060747007CE55F /* INSTRUCTIONS.txt */,
 				08FB77AFFE84173DC02AAC07 /* Classes */,
 				5CFE591D0F571BF6000C7F30 /* Documentation */,
 				5CFE591C0F571BEB000C7F30 /* Editor Definitions */,
@@ -125,6 +158,7 @@
 		5CFE591C0F571BEB000C7F30 /* Editor Definitions */ = {
 			isa = PBXGroup;
 			children = (
+				5CFCAB091105FB4C007CE55F /* MWLibrary.xml */,
 			);
 			name = "Editor Definitions";
 			sourceTree = "<group>";
@@ -132,6 +166,8 @@
 		5CFE591D0F571BF6000C7F30 /* Documentation */ = {
 			isa = PBXGroup;
 			children = (
+				5CFCAB0C1105FCF2007CE55F /* Development Notes.txt */,
+				5CFCAB25110609D2007CE55F /* UserDocumentation.markdown */,
 			);
 			name = Documentation;
 			sourceTree = "<group>";
@@ -146,6 +182,7 @@
 				8D5B49AF048680CD000E48DA /* Resources */,
 				8D5B49B1048680CD000E48DA /* Sources */,
 				8D5B49B3048680CD000E48DA /* Frameworks */,
+				5CFCAB1D11060975007CE55F /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -170,6 +207,7 @@
 			projectRoot = "";
 			targets = (
 				8D5B49AC048680CD000E48DA /* MWPROJECTNAME */,
+				5CFCAB1E11060985007CE55F /* Everything */,
 			);
 		};
 /* End PBXProject section */
@@ -180,10 +218,30 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */,
+				5CFCAB0A1105FB4C007CE55F /* MWLibrary.xml in Resources */,
+				5CFCAB0D1105FCF2007CE55F /* Development Notes.txt in Resources */,
+				5CFCAB1011060747007CE55F /* INSTRUCTIONS.txt in Resources */,
+				5CFCAB26110609D2007CE55F /* UserDocumentation.markdown in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		5CFCAB1D11060975007CE55F /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/zsh;
+			shellScript = "export FULL_NAME=${PRODUCT_NAME}.${WRAPPER_EXTENSION}\n\nmkdir -p \"${FINAL_INSTALL_DIR}/${FULL_NAME}\"\nrm -R \"${FINAL_INSTALL_DIR}/${FULL_NAME}\"\ncp -R \"${BUILT_PRODUCTS_DIR}/${FULL_NAME}\" ${FINAL_INSTALL_DIR}/\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		8D5B49B1048680CD000E48DA /* Sources */ = {
@@ -198,6 +256,14 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		5CFCAB231106098C007CE55F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8D5B49AC048680CD000E48DA /* MWPROJECTNAME */;
+			targetProxy = 5CFCAB221106098C007CE55F /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
 		089C167DFE841241C02AAC07 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
@@ -210,7 +276,7 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		1DEB913B08733D840010E9CD /* Debug */ = {
+		1DEB913B08733D840010E9CD /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -232,7 +298,7 @@
 				PRODUCT_NAME = MWPROJECTNAME;
 				WRAPPER_EXTENSION = bundle;
 			};
-			name = Debug;
+			name = Development;
 		};
 		1DEB913C08733D840010E9CD /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -255,15 +321,18 @@
 			};
 			name = Release;
 		};
-		1DEB913F08733D840010E9CD /* Debug */ = {
+		1DEB913F08733D840010E9CD /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				APP_SUPPORT_DIR = "/Library/Application Support/MonkeyWorks";
 				ARCHS = (
 					i386,
 					x86_64,
 				);
+				FINAL_INSTALL_DIR = "$(APP_SUPPORT_DIR)/Plugins/Core Plugins";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_VERSION = 4.0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
@@ -272,11 +341,13 @@
 				LIBRARY_SEARCH_PATHS = (
 					"/Library/Application\\ Support/MonkeyWorks/Developer/lib/**",
 				);
+				MW_INCLUDE_DIR = "\"$(APP_SUPPORT_DIR)/Developer/include\"";
+				MW_LIB_DIR = "\"$(APP_SUPPORT_DIR)/Developer/lib\"";
 				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
 				SDKROOT = macosx10.5;
 			};
-			name = Debug;
+			name = Development;
 		};
 		1DEB914008733D840010E9CD /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -300,13 +371,93 @@
 			};
 			name = Release;
 		};
+		5CFCAB1A11060926007CE55F /* Development (10.5 Compatible) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APP_SUPPORT_DIR = "/Library/Application Support/MonkeyWorks";
+				ARCHS = (
+					i386,
+					x86_64,
+				);
+				FINAL_INSTALL_DIR = "$(APP_SUPPORT_DIR)/Plugins/Core Plugins";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"/Library/Application\\ Support/MonkeyWorks/Developer/include",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"/Library/Application\\ Support/MonkeyWorks/Developer/lib/**",
+				);
+				MW_INCLUDE_DIR = "\"$(APP_SUPPORT_DIR)/Developer/gcc40/include\"";
+				MW_LIB_DIR = "\"$(APP_SUPPORT_DIR)/Developer/gcc40/lib\"";
+				ONLY_ACTIVE_ARCH = YES;
+				PREBINDING = NO;
+				SDKROOT = macosx10.6;
+			};
+			name = "Development (10.5 Compatible)";
+		};
+		5CFCAB1B11060926007CE55F /* Development (10.5 Compatible) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = MWPROJECTNAME_Prefix.pch;
+				HEADER_SEARCH_PATHS = (
+					"/Library/Application\\ Support/MonkeyWorks/Developer/include",
+				);
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Library/Bundles";
+				LIBRARY_SEARCH_PATHS = (
+					"/Library/Application\\ Support/MonkeyWorks/Developer/lib/**",
+				);
+				PRODUCT_NAME = MWPROJECTNAME;
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = "Development (10.5 Compatible)";
+		};
+		5CFCAB1F11060986007CE55F /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = Everything;
+			};
+			name = Development;
+		};
+		5CFCAB2011060986007CE55F /* Development (10.5 Compatible) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = Everything;
+			};
+			name = "Development (10.5 Compatible)";
+		};
+		5CFCAB2111060986007CE55F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				PRODUCT_NAME = Everything;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
 		1DEB913A08733D840010E9CD /* Build configuration list for PBXNativeTarget "MWPROJECTNAME" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				1DEB913B08733D840010E9CD /* Debug */,
+				1DEB913B08733D840010E9CD /* Development */,
+				5CFCAB1B11060926007CE55F /* Development (10.5 Compatible) */,
 				1DEB913C08733D840010E9CD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -315,8 +466,19 @@
 		1DEB913E08733D840010E9CD /* Build configuration list for PBXProject "EditableProject" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				1DEB913F08733D840010E9CD /* Debug */,
+				1DEB913F08733D840010E9CD /* Development */,
+				5CFCAB1A11060926007CE55F /* Development (10.5 Compatible) */,
 				1DEB914008733D840010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		5CFCAB24110609AA007CE55F /* Build configuration list for PBXAggregateTarget "Everything" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5CFCAB1F11060986007CE55F /* Development */,
+				5CFCAB2011060986007CE55F /* Development (10.5 Compatible) */,
+				5CFCAB2111060986007CE55F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
