@@ -935,6 +935,34 @@
 		</code>
 	</MWElement>
 
+	<MWElement name="Bring Stimulus to Front">
+		<match_signature>action[@type='bring_stimulus_to_front']</match_signature>
+		<isa>Action</isa>
+		
+		<belongs_to_group>Stimulus-Related Actions</belongs_to_group>
+		
+		<description>
+			Move a stimulus to the top of the display queue.
+		</description>
+		<code>
+			<action tag="Bring stimulus to front" type="bring_stimulus_to_front" stimulus=""/>
+		</code>
+	</MWElement>
+
+	<MWElement name="Send Stimulus to Back">
+		<match_signature>action[@type='send_stimulus_to_back']</match_signature>
+		<isa>Action</isa>
+		
+		<belongs_to_group>Stimulus-Related Actions</belongs_to_group>
+		
+		<description>
+			Move a stimulus to the bottom of the display queue.
+		</description>
+		<code>
+			<action tag="Send stimulus to back" type="send_stimulus_to_back" stimulus=""/>
+		</code>
+	</MWElement>
+
 	<MWElement name="Update Stimulus Display">
 		<match_signature>action[@type='update_stimulus_display']</match_signature>
 		<isa>Action</isa>
