@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5CF9AEBB0FD5795C00F405F6 /* «PROJECTNAMEASIDENTIFIER»Factory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CF9AEB70FD5795C00F405F6 /* «PROJECTNAMEASIDENTIFIER»Factory.cpp */; };
-		5CF9AEBC0FD5795C00F405F6 /* «PROJECTNAMEASIDENTIFIER»Plugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CF9AEB90FD5795C00F405F6 /* «PROJECTNAMEASIDENTIFIER»Plugin.cpp */; };
-		5CFE591A0F571B15000C7F30 /* «PROJECTNAMEASIDENTIFIER».cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CFE59190F571B15000C7F30 /* «PROJECTNAMEASIDENTIFIER».cpp */; };
+		5CF9AEBB0FD5795C00F405F6 /* MWPROJECTNAMEASIDENTIFIERFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CF9AEB70FD5795C00F405F6 /* MWPROJECTNAMEASIDENTIFIERFactory.cpp */; };
+		5CF9AEBC0FD5795C00F405F6 /* MWPROJECTNAMEASIDENTIFIERPlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CF9AEB90FD5795C00F405F6 /* MWPROJECTNAMEASIDENTIFIERPlugin.cpp */; };
+		5CFE591A0F571B15000C7F30 /* MWPROJECTNAMEASIDENTIFIER.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CFE59190F571B15000C7F30 /* MWPROJECTNAMEASIDENTIFIER.cpp */; };
 		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
 		BFBFB0D610446C180019216B /* MonkeyWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFBFB0D510446C180019216B /* MonkeyWorksCore.framework */; };
 /* End PBXBuildFile section */
@@ -18,14 +18,14 @@
 		089C1672FE841209C02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		089C167EFE841241C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
-		32DBCF630370AF2F00C91783 /* «PROJECTNAME»_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = «PROJECTNAME»_Prefix.pch; sourceTree = "<group>"; };
-		5CF9AEB70FD5795C00F405F6 /* «PROJECTNAMEASIDENTIFIER»Factory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = «PROJECTNAMEASIDENTIFIER»Factory.cpp; sourceTree = SOURCE_ROOT; };
-		5CF9AEB80FD5795C00F405F6 /* «PROJECTNAMEASIDENTIFIER»Factory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = «PROJECTNAMEASIDENTIFIER»Factory.h; sourceTree = SOURCE_ROOT; };
-		5CF9AEB90FD5795C00F405F6 /* «PROJECTNAMEASIDENTIFIER»Plugin.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = «PROJECTNAMEASIDENTIFIER»Plugin.cpp; sourceTree = SOURCE_ROOT; };
-		5CF9AEBA0FD5795C00F405F6 /* «PROJECTNAMEASIDENTIFIER»Plugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = «PROJECTNAMEASIDENTIFIER»Plugin.h; sourceTree = SOURCE_ROOT; };
-		5CFE59180F571B15000C7F30 /* «PROJECTNAMEASIDENTIFIER».h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = «PROJECTNAMEASIDENTIFIER».h; sourceTree = SOURCE_ROOT; };
-		5CFE59190F571B15000C7F30 /* «PROJECTNAMEASIDENTIFIER».cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = «PROJECTNAMEASIDENTIFIER».cpp; sourceTree = SOURCE_ROOT; };
-		8D5B49B6048680CD000E48DA /* «PROJECTNAME».bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = «PROJECTNAME».bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		32DBCF630370AF2F00C91783 /* MWPROJECTNAME_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWPROJECTNAME_Prefix.pch; sourceTree = "<group>"; };
+		5CF9AEB70FD5795C00F405F6 /* MWPROJECTNAMEASIDENTIFIERFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MWPROJECTNAMEASIDENTIFIERFactory.cpp; sourceTree = SOURCE_ROOT; };
+		5CF9AEB80FD5795C00F405F6 /* MWPROJECTNAMEASIDENTIFIERFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWPROJECTNAMEASIDENTIFIERFactory.h; sourceTree = SOURCE_ROOT; };
+		5CF9AEB90FD5795C00F405F6 /* MWPROJECTNAMEASIDENTIFIERPlugin.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MWPROJECTNAMEASIDENTIFIERPlugin.cpp; sourceTree = SOURCE_ROOT; };
+		5CF9AEBA0FD5795C00F405F6 /* MWPROJECTNAMEASIDENTIFIERPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWPROJECTNAMEASIDENTIFIERPlugin.h; sourceTree = SOURCE_ROOT; };
+		5CFE59180F571B15000C7F30 /* MWPROJECTNAMEASIDENTIFIER.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWPROJECTNAMEASIDENTIFIER.h; sourceTree = SOURCE_ROOT; };
+		5CFE59190F571B15000C7F30 /* MWPROJECTNAMEASIDENTIFIER.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MWPROJECTNAMEASIDENTIFIER.cpp; sourceTree = SOURCE_ROOT; };
+		8D5B49B6048680CD000E48DA /* MWPROJECTNAME.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MWPROJECTNAME.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BFBFB0D510446C180019216B /* MonkeyWorksCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MonkeyWorksCore.framework; path = /Library/Frameworks/MonkeyWorksCore.framework; sourceTree = "<absolute>"; };
 		D2F7E65807B2D6F200F64583 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
@@ -43,7 +43,7 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		089C166AFE841209C02AAC07 /* «PROJECTNAME» */ = {
+		089C166AFE841209C02AAC07 /* MWPROJECTNAME */ = {
 			isa = PBXGroup;
 			children = (
 				08FB77AFFE84173DC02AAC07 /* Classes */,
@@ -54,7 +54,7 @@
 				089C1671FE841209C02AAC07 /* Frameworks and Libraries */,
 				19C28FB8FE9D52D311CA2CBB /* Products */,
 			);
-			name = «PROJECTNAME»;
+			name = MWPROJECTNAME;
 			sourceTree = "<group>";
 		};
 		089C1671FE841209C02AAC07 /* Frameworks and Libraries */ = {
@@ -78,12 +78,12 @@
 		08FB77AFFE84173DC02AAC07 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				5CF9AEB70FD5795C00F405F6 /* «PROJECTNAMEASIDENTIFIER»Factory.cpp */,
-				5CF9AEB80FD5795C00F405F6 /* «PROJECTNAMEASIDENTIFIER»Factory.h */,
-				5CF9AEB90FD5795C00F405F6 /* «PROJECTNAMEASIDENTIFIER»Plugin.cpp */,
-				5CF9AEBA0FD5795C00F405F6 /* «PROJECTNAMEASIDENTIFIER»Plugin.h */,
-				5CFE59180F571B15000C7F30 /* «PROJECTNAMEASIDENTIFIER».h */,
-				5CFE59190F571B15000C7F30 /* «PROJECTNAMEASIDENTIFIER».cpp */,
+				5CF9AEB70FD5795C00F405F6 /* MWPROJECTNAMEASIDENTIFIERFactory.cpp */,
+				5CF9AEB80FD5795C00F405F6 /* MWPROJECTNAMEASIDENTIFIERFactory.h */,
+				5CF9AEB90FD5795C00F405F6 /* MWPROJECTNAMEASIDENTIFIERPlugin.cpp */,
+				5CF9AEBA0FD5795C00F405F6 /* MWPROJECTNAMEASIDENTIFIERPlugin.h */,
+				5CFE59180F571B15000C7F30 /* MWPROJECTNAMEASIDENTIFIER.h */,
+				5CFE59190F571B15000C7F30 /* MWPROJECTNAMEASIDENTIFIER.cpp */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -109,7 +109,7 @@
 		19C28FB8FE9D52D311CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				8D5B49B6048680CD000E48DA /* «PROJECTNAME».bundle */,
+				8D5B49B6048680CD000E48DA /* MWPROJECTNAME.bundle */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -117,7 +117,7 @@
 		32C88E010371C26100C91783 /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
-				32DBCF630370AF2F00C91783 /* «PROJECTNAME»_Prefix.pch */,
+				32DBCF630370AF2F00C91783 /* MWPROJECTNAME_Prefix.pch */,
 			);
 			name = "Other Sources";
 			sourceTree = "<group>";
@@ -139,9 +139,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		8D5B49AC048680CD000E48DA /* «PROJECTNAME» */ = {
+		8D5B49AC048680CD000E48DA /* MWPROJECTNAME */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1DEB913A08733D840010E9CD /* Build configuration list for PBXNativeTarget "«PROJECTNAME»" */;
+			buildConfigurationList = 1DEB913A08733D840010E9CD /* Build configuration list for PBXNativeTarget "MWPROJECTNAME" */;
 			buildPhases = (
 				8D5B49AF048680CD000E48DA /* Resources */,
 				8D5B49B1048680CD000E48DA /* Sources */,
@@ -151,10 +151,10 @@
 			);
 			dependencies = (
 			);
-			name = «PROJECTNAME»;
+			name = MWPROJECTNAME;
 			productInstallPath = "$(HOME)/Library/Bundles";
-			productName = «PROJECTNAME»;
-			productReference = 8D5B49B6048680CD000E48DA /* «PROJECTNAME».bundle */;
+			productName = MWPROJECTNAME;
+			productReference = 8D5B49B6048680CD000E48DA /* MWPROJECTNAME.bundle */;
 			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */
@@ -165,11 +165,11 @@
 			buildConfigurationList = 1DEB913E08733D840010E9CD /* Build configuration list for PBXProject "EditableProject" */;
 			compatibilityVersion = "Xcode 3.1";
 			hasScannedForEncodings = 1;
-			mainGroup = 089C166AFE841209C02AAC07 /* «PROJECTNAME» */;
+			mainGroup = 089C166AFE841209C02AAC07 /* MWPROJECTNAME */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				8D5B49AC048680CD000E48DA /* «PROJECTNAME» */,
+				8D5B49AC048680CD000E48DA /* MWPROJECTNAME */,
 			);
 		};
 /* End PBXProject section */
@@ -190,9 +190,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5CFE591A0F571B15000C7F30 /* «PROJECTNAMEASIDENTIFIER».cpp in Sources */,
-				5CF9AEBB0FD5795C00F405F6 /* «PROJECTNAMEASIDENTIFIER»Factory.cpp in Sources */,
-				5CF9AEBC0FD5795C00F405F6 /* «PROJECTNAMEASIDENTIFIER»Plugin.cpp in Sources */,
+				5CFE591A0F571B15000C7F30 /* MWPROJECTNAMEASIDENTIFIER.cpp in Sources */,
+				5CF9AEBB0FD5795C00F405F6 /* MWPROJECTNAMEASIDENTIFIERFactory.cpp in Sources */,
+				5CF9AEBC0FD5795C00F405F6 /* MWPROJECTNAMEASIDENTIFIERPlugin.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -220,7 +220,7 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = «PROJECTNAME»_Prefix.pch;
+				GCC_PREFIX_HEADER = MWPROJECTNAME_Prefix.pch;
 				HEADER_SEARCH_PATHS = (
 					"/Library/Application\\ Support/MonkeyWorks/Developer/include",
 				);
@@ -229,7 +229,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"/Library/Application\\ Support/MonkeyWorks/Developer/lib/**",
 				);
-				PRODUCT_NAME = «PROJECTNAME»;
+				PRODUCT_NAME = MWPROJECTNAME;
 				WRAPPER_EXTENSION = bundle;
 			};
 			name = Debug;
@@ -241,7 +241,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = «PROJECTNAME»_Prefix.pch;
+				GCC_PREFIX_HEADER = MWPROJECTNAME_Prefix.pch;
 				HEADER_SEARCH_PATHS = (
 					"/Library/Application\\ Support/MonkeyWorks/Developer/include",
 				);
@@ -250,7 +250,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"/Library/Application\\ Support/MonkeyWorks/Developer/lib/**",
 				);
-				PRODUCT_NAME = «PROJECTNAME»;
+				PRODUCT_NAME = MWPROJECTNAME;
 				WRAPPER_EXTENSION = bundle;
 			};
 			name = Release;
@@ -303,7 +303,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		1DEB913A08733D840010E9CD /* Build configuration list for PBXNativeTarget "«PROJECTNAME»" */ = {
+		1DEB913A08733D840010E9CD /* Build configuration list for PBXNativeTarget "MWPROJECTNAME" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1DEB913B08733D840010E9CD /* Debug */,
