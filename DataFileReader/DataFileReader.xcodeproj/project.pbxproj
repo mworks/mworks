@@ -141,7 +141,7 @@
 		0E40C38A0D732B8200472673 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				APP_SUPPORT_DIR = "/Library/Application Support/Monkeyworks";
+				APP_SUPPORT_DIR = "/Library/Application Support/MonkeyWorks";
 				CONFIG_DIR = "$(APP_SUPPORT_DIR)/Configuration";
 				COPY_PHASE_STRIP = NO;
 				INSTALL_PATH = "$(APP_SUPPORT_DIR)/Tools";
