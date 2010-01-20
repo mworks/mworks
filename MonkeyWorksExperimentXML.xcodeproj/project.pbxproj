@@ -5390,7 +5390,7 @@
 		0EF63D6F0BB1AC90009DDB39 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				APP_SUPPORT_DIR = "/Library/Application Support/Monkeyworks";
+				APP_SUPPORT_DIR = "/Library/Application Support/MonkeyWorks";
 				CONFIG_DIR = "$(APP_SUPPORT_DIR)/Configuration";
 				DOCUMENTS_DIR = /Documents/MonkeyWorks;
 				EXAMPLES_DIR = "$(DOCUMENTS_DIR)/Examples";
