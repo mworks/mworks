@@ -5394,8 +5394,8 @@
 				CONFIG_DIR = "$(APP_SUPPORT_DIR)/Configuration";
 				DOCUMENTS_DIR = /Documents/MonkeyWorks;
 				EXAMPLES_DIR = "$(DOCUMENTS_DIR)/Examples";
-				MW_INCLUDE_DIR = "\"$(APP_SUPPORT_DIR)/Developer/include\"";
-				MW_LIB_DIR = "\"$(APP_SUPPORT_DIR)/Developer/lib\"";
+				MW_INCLUDE_DIR = "\"$(APP_SUPPORT_DIR)/Developer/gcc40/include\"";
+				MW_LIB_DIR = "\"$(APP_SUPPORT_DIR)/Developer/gcc40/lib\"";
 				PLUGINS_DIR = "$(APP_SUPPORT_DIR)/Plugins/Core Plugins";
 				TESTS_DIR = "$(APP_SUPPORT_DIR)/Developer/tests";
 			};
