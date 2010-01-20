@@ -12,7 +12,7 @@
 using namespace mw;
 
 @interface MarionetteServer : NSObject {
-	Server *core;
+	shared_ptr<Server> core;
 }
 
 @end

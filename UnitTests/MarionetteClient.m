@@ -43,11 +43,9 @@ Datum _getNumber(const string &expression, const GenericDataType type);
 - (id) init {
 	self = [super init];
 	if (self != nil) {
-		client = new Client();
+		client = shared_ptr<Client>(new Client());
 		
-		boost::shared_ptr <CocoaEventFunctor> cef = boost::shared_ptr <CocoaEventFunctor>(new CocoaEventFunctor(self,
-																												   @selector(eventReceived:), 
-																												   MARIONETTE_KEY));
+		CocoaEventFunctor cef(self, @selector(eventReceived:), MARIONETTE_KEY);
 		client->registerCallback(cef);
 		client->startEventListener();
 		
@@ -77,7 +75,6 @@ Datum _getNumber(const string &expression, const GenericDataType type);
 	[expected_messages release];
 	[expected_events release];
 	[permitted_error_messages release];
-	delete client;
 	[super dealloc];
 }
 
@@ -289,9 +286,7 @@ Datum _getNumber(const string &expression, const GenericDataType type);
 	if (code == RESERVED_CODEC_CODE) {
 		client->unregisterCallbacks(MARIONETTE_KEY);
 		
-		boost::shared_ptr <CocoaEventFunctor> cef = boost::shared_ptr <CocoaEventFunctor>(new CocoaEventFunctor(self,
-																												   @selector(eventReceived:), 
-																												   MARIONETTE_KEY));
+		CocoaEventFunctor cef(self, @selector(eventReceived:), MARIONETTE_KEY);
 		client->registerCallback(cef);
 	} else if (code == RESERVED_SYSTEM_EVENT_CODE && RESERVED_SYSTEM_EVENT_CODE > RESERVED_CODEC_CODE) {
 	 Datum event_data(*[event data]);
