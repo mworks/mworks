@@ -27,6 +27,7 @@
 }
 
 - (void)dealloc {
+    core.reset();
 	[super dealloc];
 }
 

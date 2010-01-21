@@ -75,6 +75,7 @@ Datum _getNumber(const string &expression, const GenericDataType type);
 	[expected_messages release];
 	[expected_events release];
 	[permitted_error_messages release];
+    client.reset();
 	[super dealloc];
 }
 
