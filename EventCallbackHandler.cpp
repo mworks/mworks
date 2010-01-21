@@ -73,11 +73,12 @@ void EventCallbackHandler::handleCallbacks(shared_ptr<Event> evt){
     
     // issue any "always" callbacks
     // TODO: this can be made more efficient (e.g. search doesn't always need to be done)
-    /*itp = callbacks_by_code.equal_range(ALWAYS_CALLBACK);
+    itp = callbacks_by_code.equal_range(ALWAYS_CALLBACK);
     for(callback_iterator = itp.first; callback_iterator != itp.second; ++callback_iterator){
-        EventCallback callback = (*callback_iterator).second.callback;
+        KeyedEventCallbackPair callback_pair = (*callback_iterator).second;
+        EventCallback callback = (*callback_iterator).second.getCallback();
         callback(evt);
-    }*/
+    }
     
     lock_callbacks();
     
