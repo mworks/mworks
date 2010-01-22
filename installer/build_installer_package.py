@@ -32,7 +32,7 @@ def build_package(root, version, target_path, output_path):
 
 
 def build_metapackage(doc, version, output_path, output_name):
-    print("Building: %s" % pkg)
+    print("Building metapackage")
     filename =  output_name + "_" + version + ".pkg"
     full_output_path = output_path + "/" + filename
     cmd = "%s --doc %s --id %s --version %s  --out %s" % (package_maker, doc, project_id, version, full_output_path)
@@ -69,9 +69,6 @@ package_roots = [applications_package_root,
                  developer_package_root,
                  documents_package_root]
 
-for root in package_roots:
-    os.system("chmod -R 777 %s" % root)
-
 # Package names
 packages = ["applications",
             "application_support",
@@ -84,7 +81,7 @@ packages = ["applications",
 applications = ["MWEditor.app", "MWServer.app", "MWClient.app"]
 
 # Frameworks
-frameworks = ["MonkeyWorksCocoa.framework", "MonkeyWorksCore.framework", "Scarab.framework"]
+frameworks = ["MonkeyWorksCocoa.framework", "MonkeyWorksCore.framework"]
 
 
 # Remove the current install root
@@ -93,6 +90,7 @@ os.system("rm -rf %s" % quote(install_root))
 # Create the package root directories
 for pkg_root in package_roots:
     os.system("mkdir -p %s" % quote(pkg_root))
+    os.system("chmod -R 777 %s" % pkg_root)
 
 
 # Copy stuff into the appropriate directories
@@ -106,7 +104,7 @@ for app in applications:
 # application support
 application_support_install_dir = application_support_package_root + mw_application_support_dir
 os.system("mkdir -p %s" % quote(application_support_install_dir))
-os.system("rsync -a --exclude Developer --exclude setup_variables.xml %s %s" % (quote(mw_application_support_dir + "/"), 
+os.system("rsync -a --exclude Developer --exclude setup_variables.xml --exclude MATLAB --exclude 'Experiment Cache' %s %s" % (quote(mw_application_support_dir + "/"), 
                                                    quote(application_support_install_dir)))
 os.system("mkdir -p %s" % quote(application_support_install_dir + "/Experiment Cache"))  # make sure this directory exists
 
@@ -132,10 +130,11 @@ os.system("mkdir -p %s" % quote(mw_subcomponent_package_path))
 
 mw_version = version_string
 
-print "Automatic package building is currently disabled.  Please use the PackageMaker GUI to build the full installer"
-os.system("open /Developer/Applications/Utilities/PackageMaker.app")
-# for pkg in packages:
-#     build_package(install_root + "/" + pkg , mw_version, "/", "%s.pkg" % (pkg))
-#     os.system("mv %s.pkg %s/" % (pkg, quote(mw_subcomponent_package_path + "/")))
-# 
-# build_metapackage(os.path.dirname(__file__) + "/mw_installer.pmdoc", mw_version, install_root, installer_name)
+for pkg in packages:
+    build_package(install_root + "/" + pkg , mw_version, "/", "%s.pkg" % (pkg))
+    os.system("mv %s.pkg %s/" % (pkg, quote(mw_subcomponent_package_path + "/")))
+
+input_dir = os.path.dirname(__file__)
+os.system('cp %s %s' % (os.path.join(input_dir, 'Welcome.txt'), install_root))
+
+build_metapackage(os.path.join(input_dir, 'mw_installer.pmdoc'), mw_version, install_root, installer_name)
