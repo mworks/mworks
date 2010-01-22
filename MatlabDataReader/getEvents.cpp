@@ -4,7 +4,7 @@
 #include <sys/time.h>
 #include <unistd.h>
 #include "boost/filesystem/path.hpp"
-#include "MonkeyWorksStreamUtilities/monkeyWorksStreamUtilities.h"
+#include "monkeyWorksStreamUtilities.h"
 #include <iostream>
 
 using namespace std;
@@ -47,7 +47,7 @@ void mexFunction (int nlhs, mxArray *plhs[],
     upper_bound = getMonkeyWorksTime(prhs[3]);
   }
 
-  vector<ScarabDatumWrapper> events;
+  vector<EventWrapper> events;
   
   dfindex dfi(mwk_file);
   events = dfi.events(event_codes, lower_bound,  upper_bound);
@@ -55,7 +55,7 @@ void mexFunction (int nlhs, mxArray *plhs[],
   mxArray *events_struct = createTopLevelEventStruct(events.size());
   
   int event_number = 0;
-  for(std::vector<ScarabDatumWrapper>::const_iterator i = events.begin();
+  for(std::vector<EventWrapper>::const_iterator i = events.begin();
       i != events.end();
       ++i) {
     ScarabDatum *datum = i->getDatum();
