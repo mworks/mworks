@@ -939,7 +939,7 @@
 		NSBundle *plugin_bundle = [[NSBundle alloc] initWithPath:fullpath];
 		
     BOOL loaded = false;
-    loaded = [plugin_bundle load];
+    loaded = [plugin_bundle loadAndReturnError:&error];
     if(loaded){
       
       NSArray *toplevel;
@@ -954,7 +954,7 @@
           nib_loaded_correctly = false;
         }
       } @catch(NSException *e){
-        NSLog(@"%@", [e reason]);  
+        NSLog(@"exception while loading nib: %@", [e reason]);  
         nib_loaded_correctly = false;
       }
 			
@@ -983,7 +983,7 @@
 			
 			
 		} else {
-			NSLog(@"Couldn't load bundle");
+			NSLog(@"Couldn't load bundle: %@: %@", [error localizedDescription], [error userInfo]);
 		}
 	}
 	
