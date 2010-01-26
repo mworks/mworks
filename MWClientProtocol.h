@@ -8,6 +8,8 @@
 
 #import <Cocoa/Cocoa.h>
 
+#import "MonkeyWorksCore/GenericData.h"
+
 
 @protocol MWClientProtocol
 
@@ -38,6 +40,8 @@
 - (void)unregisterCallbacksWithKey:(const char *)key locking:(BOOL)locking;
 
 - (NSNumber *)codeForTag:(NSString *)tag;
+- (void)updateVariableWithCode:(int)code withData:(mw::Datum *)data;
+- (void)updateVariableWithTag:(NSString *)tag withData:(mw::Datum *)data;
 
 - (id) notebook;
 
