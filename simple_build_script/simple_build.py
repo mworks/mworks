@@ -1,5 +1,18 @@
 #!/usr/bin/env python
+# This is a simple script that builds some or all of the MW projects.  
+# It is not meant to be a proper build system, just a quicky for building
+# all or a subset of the MW suite.  For a proper build system, see the buildbot
+# build system one directory up.
+
 import os
+import sys
+
+
+print("Warning: this is not a proper build system, just a quicky script for doing a few automated builds")
+print("You will need to customize it for your purposes if you intend to use it.")
+
+if len(sys.argv) != 2:
+    raise Exception("This script takes one argument, specifying the base directory where all of the MW repositories can be found")
 
 def build_xcode_project(base_path, relative_path, configuration, target):
     path = os.path.join(base_path, relative_path)
@@ -10,8 +23,8 @@ def build_xcode_project(base_path, relative_path, configuration, target):
     os.system("xcodebuild build -target %s -configuration %s" % (target, configuration))
 
 
-# expects to be called from a path containing all of the other repositories
-base_path = os.path.abspath(os.curdir)
+
+base_path = sys.argv[1]
 standard_config = "\"Development (10.5 Compatible)\""
 standard_target = "Everything"
 
@@ -34,7 +47,8 @@ projects = [
             "mw_editor",
             "coxlab/coxlab_mwclient_plugins/CoxLabRatBehaviorControlPanel",
             "coxlab/coxlab_mwcore_plugins/CobraTracker",
-            "coxlab/coxlab_mwcore_plugins/Phidgets"
+            "coxlab/coxlab_mwcore_plugins/Phidgets",
+            "coxlab/mwMaskStimulus"
             ]
              
 for p in projects:
