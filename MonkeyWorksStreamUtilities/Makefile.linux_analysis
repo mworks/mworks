@@ -1,0 +1,25 @@
+INSTALL_DIR=/groups/dicarlo/bkennedy_working/WORK
+MATLAB_VERSION=matlab2008a
+MATLAB_MACH_ARCH=glnxa64
+MATLAB_INC_DIR=/software/$(MATLAB_VERSION)/extern/include
+
+CC=g++
+CFLAGS=-fPIC -g -I. -I$(INSTALL_DIR)/include -I$(MATLAB_INC_DIR)
+
+all: monkeyWorksStreamUtilities.o
+
+monkeyWorksStreamUtilities.o: monkeyWorksStreamUtilities.cpp monkeyWorksStreamUtilities.h
+	$(CC) $(CFLAGS) -c monkeyWorksStreamUtilities.cpp
+
+install: all
+	mkdir -p $(INSTALL_DIR)/include/MonkeyWorksStreamUtilities
+	mkdir -p $(INSTALL_DIR)/lib
+	cp monkeyWorksStreamUtilities.h $(INSTALL_DIR)/include/MonkeyWorksStreamUtilities
+
+
+clean:
+	rm -rf $(INSTALL_DIR)/include/MonkeyWorksStreamUtilities
+	rm -f *~
+	rm -f *.o
+
+

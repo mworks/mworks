@@ -1,0 +1,426 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 42;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		0E60D61E0E6D8D9E00B82521 /* UninstallMonkeyWorksStreamUtilities */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 0E60D6210E6D8DBC00B82521 /* Build configuration list for PBXAggregateTarget "UninstallMonkeyWorksStreamUtilities" */;
+			buildPhases = (
+				0E60D61D0E6D8D9E00B82521 /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = UninstallMonkeyWorksStreamUtilities;
+			productName = UninstallMonkeyWorksStreamUtilities;
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		0E454E420D71EF930040E668 /* monkeyWorksStreamUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E454E350D71EED80040E668 /* monkeyWorksStreamUtilities.cpp */; };
+		0E454E430D71EF960040E668 /* monkeyWorksStreamUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = 0E454E360D71EED80040E668 /* monkeyWorksStreamUtilities.h */; };
+		0E454EA90D71F8090040E668 /* Test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E454E5C0D71F12C0040E668 /* Test.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		0E454EAA0D71F8120040E668 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0E2D77240D71EDDE005AFCC2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0E454E3C0D71EF000040E668;
+			remoteInfo = libMonkeyWorksStreamUtilities;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		0E454E350D71EED80040E668 /* monkeyWorksStreamUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = monkeyWorksStreamUtilities.cpp; sourceTree = "<group>"; };
+		0E454E360D71EED80040E668 /* monkeyWorksStreamUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = monkeyWorksStreamUtilities.h; sourceTree = "<group>"; };
+		0E454E3D0D71EF000040E668 /* libMonkeyWorksStreamUtilities.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMonkeyWorksStreamUtilities.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		0E454E5C0D71F12C0040E668 /* Test.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Test.cpp; sourceTree = "<group>"; };
+		0E454EA30D71F7FE0040E668 /* MWSUtest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MWSUtest.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		0E454EA50D71F7FE0040E668 /* MWSUtest-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MWSUtest-Info.plist"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		0E454E3B0D71EF000040E668 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0E454EA10D71F7FE0040E668 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0E2D77220D71EDDE005AFCC2 = {
+			isa = PBXGroup;
+			children = (
+				0E454E5B0D71F1160040E668 /* Test */,
+				0E2D772D0D71EDE2005AFCC2 /* Source */,
+				0E454E3E0D71EF000040E668 /* Products */,
+				0E454EA50D71F7FE0040E668 /* MWSUtest-Info.plist */,
+			);
+			sourceTree = "<group>";
+		};
+		0E2D772D0D71EDE2005AFCC2 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				0E454E350D71EED80040E668 /* monkeyWorksStreamUtilities.cpp */,
+				0E454E360D71EED80040E668 /* monkeyWorksStreamUtilities.h */,
+			);
+			name = Source;
+			sourceTree = "<group>";
+		};
+		0E454E3E0D71EF000040E668 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0E454E3D0D71EF000040E668 /* libMonkeyWorksStreamUtilities.a */,
+				0E454EA30D71F7FE0040E668 /* MWSUtest.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		0E454E5B0D71F1160040E668 /* Test */ = {
+			isa = PBXGroup;
+			children = (
+				0E454E5C0D71F12C0040E668 /* Test.cpp */,
+			);
+			name = Test;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		0E454E390D71EF000040E668 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0E454E430D71EF960040E668 /* monkeyWorksStreamUtilities.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		0E454E3C0D71EF000040E668 /* libMonkeyWorksStreamUtilities */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0E454E410D71EF000040E668 /* Build configuration list for PBXNativeTarget "libMonkeyWorksStreamUtilities" */;
+			buildPhases = (
+				0E454E390D71EF000040E668 /* Headers */,
+				0E454E3A0D71EF000040E668 /* Sources */,
+				0E454E3B0D71EF000040E668 /* Frameworks */,
+				0E454E450D71EFA60040E668 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = libMonkeyWorksStreamUtilities;
+			productName = libMonkeyWorksStreamUtilities;
+			productReference = 0E454E3D0D71EF000040E668 /* libMonkeyWorksStreamUtilities.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		0E454EA20D71F7FE0040E668 /* MWSUtest */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0E454EA80D71F7FF0040E668 /* Build configuration list for PBXNativeTarget "MWSUtest" */;
+			buildPhases = (
+				0E454E9F0D71F7FE0040E668 /* Resources */,
+				0E454EA00D71F7FE0040E668 /* Sources */,
+				0E454EA10D71F7FE0040E668 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				0E454EAB0D71F8120040E668 /* PBXTargetDependency */,
+			);
+			name = MWSUtest;
+			productName = MWSUtest;
+			productReference = 0E454EA30D71F7FE0040E668 /* MWSUtest.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		0E2D77240D71EDDE005AFCC2 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 0E2D77270D71EDDE005AFCC2 /* Build configuration list for PBXProject "MonkeyWorksStreamUtilities" */;
+			compatibilityVersion = "Xcode 2.4";
+			hasScannedForEncodings = 0;
+			mainGroup = 0E2D77220D71EDDE005AFCC2;
+			productRefGroup = 0E454E3E0D71EF000040E668 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				0E454E3C0D71EF000040E668 /* libMonkeyWorksStreamUtilities */,
+				0E454EA20D71F7FE0040E668 /* MWSUtest */,
+				0E60D61E0E6D8D9E00B82521 /* UninstallMonkeyWorksStreamUtilities */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		0E454E9F0D71F7FE0040E668 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		0E454E450D71EFA60040E668 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/zsh;
+			shellScript = "mkdir -p \"${FINAL_INSTALL_DIR}/lib\"\nrm -f \"${FINAL_INSTALL_DIR}/lib/libMonkeyWorksStreamUtilities.a\"\ncp -f \"${BUILT_PRODUCTS_DIR}/libMonkeyWorksStreamUtilities.a\" \"${FINAL_INSTALL_DIR}/lib\"\n\nmkdir -p \"${FINAL_INSTALL_DIR}/include\"\nrm -f \"${FINAL_INSTALL_DIR}/include/monkeyWorksStreamUtilities.h\"\ncp -f \"${BUILT_PRODUCTS_DIR}/../../monkeyWorksStreamUtilities.h\" \"${FINAL_INSTALL_DIR}/include\"\n\n";
+		};
+		0E60D61D0E6D8D9E00B82521 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/zsh;
+			shellScript = "rm -f \"${FINAL_INSTALL_DIR}/lib/libMonkeyWorksStreamUtilities.a\"\nrm -f \"${FINAL_INSTALL_DIR}/include/monkeyWorksStreamUtilities.h\"\n\nexit 0";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		0E454E3A0D71EF000040E668 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0E454E420D71EF930040E668 /* monkeyWorksStreamUtilities.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0E454EA00D71F7FE0040E668 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0E454EA90D71F8090040E668 /* Test.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		0E454EAB0D71F8120040E668 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0E454E3C0D71EF000040E668 /* libMonkeyWorksStreamUtilities */;
+			targetProxy = 0E454EAA0D71F8120040E668 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		0E2D77250D71EDDE005AFCC2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APP_SUPPORT_DIR = "/Library/Application Support/MonkeyWorks";
+				ARCHS = i386;
+				COPY_PHASE_STRIP = NO;
+				FINAL_INSTALL_DIR = "$(APP_SUPPORT_DIR)/Tools";
+				HEADER_SEARCH_PATHS = (
+					"$(HEADER_SEARCH_PATHS_QUOTED_FOR_PROJECT_1)",
+					"$(MATLAB_DIR)/extern/include",
+					"$(MW_INCLUDE_DIR)",
+				);
+				HEADER_SEARCH_PATHS_QUOTED_FOR_PROJECT_1 = "\"$(FINAL_INSTALL_DIR)/include\"";
+				LIBRARY_SEARCH_PATHS = (
+					"$(MATLAB_DIR)/bin/maci",
+					"$(MW_LIB_DIR)",
+				);
+				MATLAB_DIR = "\"$(APP_SUPPORT_DIR)/Scripting/Matlab/MATLAB\"";
+				MW_INCLUDE_DIR = "\"$(APP_SUPPORT_DIR)/Developer/gcc40/include\"";
+				MW_LIB_DIR = "\"$(APP_SUPPORT_DIR)/Developer/gcc40/lib\"";
+				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
+			};
+			name = Debug;
+		};
+		0E2D77260D71EDDE005AFCC2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APP_SUPPORT_DIR = "/Library/Application Support/MonkeyWorks";
+				ARCHS = i386;
+				COPY_PHASE_STRIP = YES;
+				FINAL_INSTALL_DIR = "$(APP_SUPPORT_DIR)/Tools";
+				HEADER_SEARCH_PATHS = (
+					"$(HEADER_SEARCH_PATHS_QUOTED_FOR_PROJECT_1)",
+					"$(MATLAB_DIR)/extern/include",
+					"$(MW_INCLUDE_DIR)",
+				);
+				HEADER_SEARCH_PATHS_QUOTED_FOR_PROJECT_1 = "\"$(FINAL_INSTALL_DIR)/include\"";
+				LIBRARY_SEARCH_PATHS = (
+					"$(MATLAB_DIR)/bin/maci",
+					"$(MW_LIB_DIR)",
+				);
+				MATLAB_DIR = "\"$(APP_SUPPORT_DIR)/Scripting/Matlab/MATLAB\"";
+				MW_INCLUDE_DIR = "\"$(APP_SUPPORT_DIR)/Developer/gcc40/include\"";
+				MW_LIB_DIR = "\"$(APP_SUPPORT_DIR)/Developer/gcc40/lib\"";
+				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
+			};
+			name = Release;
+		};
+		0E454E3F0D71EF000040E668 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				INSTALL_PATH = /Library/MonkeyWorks;
+				PREBINDING = NO;
+				PRODUCT_NAME = MonkeyWorksStreamUtilities;
+			};
+			name = Debug;
+		};
+		0E454E400D71EF000040E668 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_MODEL_TUNING = G5;
+				INSTALL_PATH = /Library/MonkeyWorks;
+				PREBINDING = NO;
+				PRODUCT_NAME = MonkeyWorksStreamUtilities;
+			};
+			name = Release;
+		};
+		0E454EA60D71F7FF0040E668 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
+				INFOPLIST_FILE = "MWSUtest-Info.plist";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Carbon,
+					"-lscarab",
+					"-lMonkeyWorksStreamUtilities",
+					"-lmat",
+					"-lmx",
+				);
+				PRODUCT_NAME = MWSUtest;
+				SKIP_INSTALL = YES;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		0E454EA70D71F7FF0040E668 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
+				INFOPLIST_FILE = "MWSUtest-Info.plist";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Carbon,
+					"-lscarab",
+					"-lMonkeyWorksStreamUtilities",
+					"-lmat",
+					"-lmx",
+				);
+				PRODUCT_NAME = MWSUtest;
+				SKIP_INSTALL = YES;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		0E60D61F0E6D8D9E00B82521 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = UninstallMonkeyWorksStreamUtilities;
+			};
+			name = Debug;
+		};
+		0E60D6200E6D8D9E00B82521 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				PRODUCT_NAME = UninstallMonkeyWorksStreamUtilities;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		0E2D77270D71EDDE005AFCC2 /* Build configuration list for PBXProject "MonkeyWorksStreamUtilities" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0E2D77250D71EDDE005AFCC2 /* Debug */,
+				0E2D77260D71EDDE005AFCC2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0E454E410D71EF000040E668 /* Build configuration list for PBXNativeTarget "libMonkeyWorksStreamUtilities" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0E454E3F0D71EF000040E668 /* Debug */,
+				0E454E400D71EF000040E668 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0E454EA80D71F7FF0040E668 /* Build configuration list for PBXNativeTarget "MWSUtest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0E454EA60D71F7FF0040E668 /* Debug */,
+				0E454EA70D71F7FF0040E668 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0E60D6210E6D8DBC00B82521 /* Build configuration list for PBXAggregateTarget "UninstallMonkeyWorksStreamUtilities" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0E60D61F0E6D8D9E00B82521 /* Debug */,
+				0E60D6200E6D8D9E00B82521 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 0E2D77240D71EDDE005AFCC2 /* Project object */;
+}
