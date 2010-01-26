@@ -253,7 +253,7 @@
 					"$(MATLAB_DIR)/bin/maci",
 					"$(MW_LIB_DIR)",
 				);
-				MATLAB_DIR = "\"$(APP_SUPPORT_DIR)/Scripting/Matlab/MATLAB\"";
+				MATLAB_DIR = /Applications/MATLAB;
 				MW_INCLUDE_DIR = "\"$(APP_SUPPORT_DIR)/Developer/gcc40/include\"";
 				MW_LIB_DIR = "\"$(APP_SUPPORT_DIR)/Developer/gcc40/lib\"";
 				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
