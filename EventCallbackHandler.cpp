@@ -71,6 +71,8 @@ void EventCallbackHandler::handleCallbacks(shared_ptr<Event> evt){
     pair<EventCallbackMap::iterator, EventCallbackMap::iterator> itp;
     EventCallbackMap::iterator callback_iterator;
     
+    lock_callbacks();
+    
     // issue any "always" callbacks
     // TODO: this can be made more efficient (e.g. search doesn't always need to be done)
     itp = callbacks_by_code.equal_range(ALWAYS_CALLBACK);
@@ -79,8 +81,6 @@ void EventCallbackHandler::handleCallbacks(shared_ptr<Event> evt){
         EventCallback callback = (*callback_iterator).second.getCallback();
         callback(evt);
     }
-    
-    lock_callbacks();
     
     // Issue callbacks registered for particular codes
     itp = callbacks_by_code.equal_range(code);
