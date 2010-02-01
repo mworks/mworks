@@ -43,7 +43,6 @@
 		5CD6D2E50D96C20A0042051C /* FileServer_On.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5CD6D2E30D96C20A0042051C /* FileServer_On.tiff */; };
 		5CD6D3130D96C57E0042051C /* NotConnected.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5CD6D3120D96C57E0042051C /* NotConnected.tiff */; };
 		5CD6D4390D9751580042051C /* MWErrorColorTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CD6D4380D9751580042051C /* MWErrorColorTransformer.m */; };
-		5CDBF29D0DF0FB7700FA9A64 /* MWNotebook.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CDBF29C0DF0FB7700FA9A64 /* MWNotebook.m */; };
 		5CEDF82C0D85D7550044D738 /* Clear.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5CEDF8190D85D7550044D738 /* Clear.tiff */; };
 		5CEDF82D0D85D7550044D738 /* ClientConnected.tif in Resources */ = {isa = PBXBuildFile; fileRef = 5CEDF81A0D85D7550044D738 /* ClientConnected.tif */; };
 		5CEDF82E0D85D7550044D738 /* ClientNotConnected.tif in Resources */ = {isa = PBXBuildFile; fileRef = 5CEDF81B0D85D7550044D738 /* ClientNotConnected.tif */; };
@@ -119,8 +118,6 @@
 		5CD6D3120D96C57E0042051C /* NotConnected.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = NotConnected.tiff; path = Images/NotConnected.tiff; sourceTree = "<group>"; };
 		5CD6D4370D9751580042051C /* MWErrorColorTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWErrorColorTransformer.h; sourceTree = "<group>"; };
 		5CD6D4380D9751580042051C /* MWErrorColorTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWErrorColorTransformer.m; sourceTree = "<group>"; };
-		5CDBF29B0DF0FB7700FA9A64 /* MWNotebook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWNotebook.h; sourceTree = "<group>"; };
-		5CDBF29C0DF0FB7700FA9A64 /* MWNotebook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWNotebook.m; sourceTree = "<group>"; };
 		5CEDF8190D85D7550044D738 /* Clear.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = Clear.tiff; path = Images/Clear.tiff; sourceTree = "<group>"; };
 		5CEDF81A0D85D7550044D738 /* ClientConnected.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = ClientConnected.tif; path = Images/ClientConnected.tif; sourceTree = "<group>"; };
 		5CEDF81B0D85D7550044D738 /* ClientNotConnected.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = ClientNotConnected.tif; path = Images/ClientNotConnected.tif; sourceTree = "<group>"; };
@@ -182,8 +179,6 @@
 				5C23D8F50D8B27E50044AC9E /* MWCodec.m */,
 				5C6DA5110DEF2237005E496A /* MWGroupedPluginWindowController.h */,
 				5C6DA5120DEF2237005E496A /* MWGroupedPluginWindowController.m */,
-				5CDBF29B0DF0FB7700FA9A64 /* MWNotebook.h */,
-				5CDBF29C0DF0FB7700FA9A64 /* MWNotebook.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -444,7 +439,6 @@
 				5C55E10D0D8E00A8000E1CB5 /* NSMenuExtensions.m in Sources */,
 				5CD6D4390D9751580042051C /* MWErrorColorTransformer.m in Sources */,
 				5C6DA5130DEF2237005E496A /* MWGroupedPluginWindowController.m in Sources */,
-				5CDBF29D0DF0FB7700FA9A64 /* MWNotebook.m in Sources */,
 				5CFE56580F54A653000C7F30 /* MWURLStringValueTransformer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
