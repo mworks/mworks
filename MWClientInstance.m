@@ -12,6 +12,7 @@
 #import <MonkeyWorksCocoa/MWCocoaEvent.h>
 #import <MonkeyWorksCocoa/MWCocoaEventFunctor.h>
 #import <MonkeyWorksCocoa/MWWindowController.h>
+#import <MonkeyWorksCocoa/MWNotebook.h>
 
 #define ERROR_MESSAGE_CALLBACK_KEY	"MWClientInstance::client_error_message_callback"
 #define CLIENT_SYSTEM_EVENT_CALLBACK_KEY  "MWClientInstance::system_event_callback"
@@ -107,7 +108,7 @@
 	NSLog([NSString stringWithFormat:@"Connecting beyotch (%@, %@)", URL, port]);
 }*/
 
-@synthesize notebook;
+
 
 @synthesize variables;
 
@@ -151,6 +152,10 @@
 
 - (shared_ptr<mw::Client>)coreClient {
   return core;
+}
+
+- (MWNotebook *)notebook {
+    return notebook;
 }
 
 - (shared_ptr<mw::EventStreamInterface>) eventStreamInterface{

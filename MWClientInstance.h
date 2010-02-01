@@ -13,7 +13,7 @@
 #import <MonkeyWorksCocoa/MWClientProtocol.h>
 #import "MWCodec.h"
 #import "MWGroupedPluginWindowController.h"
-#import "MWNotebook.h"
+//#import "MWNotebook.h"
 #import "AppController.h"
 
 
@@ -101,7 +101,9 @@
 
 @property(copy, readwrite) NSString *errorString;
 
-@property(readonly) MWNotebook *notebook;
+//@property(readonly) MWNotebook *notebook;
+- (MWNotebook *)notebook;
+
 
 // Connect / disconnect
 @property BOOL serverConnected;
