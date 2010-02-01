@@ -414,7 +414,7 @@ NSString *percentCorrectPlotIdentifier = @"PercentCorrectLinePlot";
 - (IBAction)resetPerformance:(id)sender {
 	
         [self addBehaviorSummaryEntry:self];
-	[self addNotebookEntryString:@"<reset>"];
+        [self addNotebookEntryString:@"<reset>"];
     
 	//@synchronized(self){
 		// reset button clears the past performance and start over the counting
@@ -502,7 +502,7 @@ NSString *percentCorrectPlotIdentifier = @"PercentCorrectLinePlot";
 		[self updatePlot];
 		
 		// re-check the codec number (in case the variable names have changed)
-		[self _cacheCodes];
+		//[self _cacheCodes];
 		
 	//}
 
@@ -611,7 +611,7 @@ NSString *percentCorrectPlotIdentifier = @"PercentCorrectLinePlot";
 }
 
 -(void) addNotebookEntryString:(NSString *)str {
-    [[delegate notebook] addNotebookEntry:str];
+    [[delegate notebook] addEntry:str];
     [notebookField setString:[[delegate notebook] content]];
     [notebookField scrollRangeToVisible:NSMakeRange([[notebookField textStorage] length],0)];
 }
