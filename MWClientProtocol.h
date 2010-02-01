@@ -9,6 +9,7 @@
 #import <Cocoa/Cocoa.h>
 
 #import "MonkeyWorksCore/GenericData.h"
+#import "MWNotebook.h"
 
 
 @protocol MWClientProtocol
@@ -43,6 +44,6 @@
 - (void)updateVariableWithCode:(int)code withData:(mw::Datum *)data;
 - (void)updateVariableWithTag:(NSString *)tag withData:(mw::Datum *)data;
 
-- (id) notebook;
+- (MWNotebook *) notebook;
 
 @end
