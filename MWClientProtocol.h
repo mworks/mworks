@@ -8,6 +8,8 @@
 
 #import <Cocoa/Cocoa.h>
 
+#import "MWNotebook.h"
+
 
 @protocol MWClientProtocol
 
@@ -39,6 +41,6 @@
 
 - (NSNumber *)codeForTag:(NSString *)tag;
 
-- (id) notebook;
+- (MWNotebook *) notebook;
 
 @end

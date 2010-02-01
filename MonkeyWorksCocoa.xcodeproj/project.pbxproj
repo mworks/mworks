@@ -59,6 +59,8 @@
 		5C77F7FD10EBADEF00919719 /* CocoaBindingsSetter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C77F7FB10EBADEF00919719 /* CocoaBindingsSetter.m */; };
 		5C8B85011100225400E6D6CD /* MWClientProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C8B85001100225400E6D6CD /* MWClientProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5C9EE4EB1073A5FC0051414D /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0867D6A5FE840307C02AAC07 /* AppKit.framework */; };
+		5CC88AD2111769DF007914F8 /* MWNotebook.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CC88AD0111769DF007914F8 /* MWNotebook.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5CC88AD3111769DF007914F8 /* MWNotebook.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CC88AD1111769DF007914F8 /* MWNotebook.m */; };
 		5CF10C69109F3B7000FFE11A /* MWCocoaEventFunctor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CF10C68109F3B7000FFE11A /* MWCocoaEventFunctor.cpp */; };
 		687EAA730CA1B3FA0022EE4F /* MWToolbarItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 687EAA710CA1B3FA0022EE4F /* MWToolbarItem.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		687EAA740CA1B3FA0022EE4F /* MWToolbarItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 687EAA720CA1B3FA0022EE4F /* MWToolbarItem.m */; };
@@ -116,6 +118,8 @@
 		5C77F7FA10EBADEF00919719 /* CocoaBindingsSetter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CocoaBindingsSetter.h; sourceTree = "<group>"; };
 		5C77F7FB10EBADEF00919719 /* CocoaBindingsSetter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CocoaBindingsSetter.m; sourceTree = "<group>"; };
 		5C8B85001100225400E6D6CD /* MWClientProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWClientProtocol.h; sourceTree = "<group>"; };
+		5CC88AD0111769DF007914F8 /* MWNotebook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MWNotebook.h; path = Source/MWNotebook.h; sourceTree = "<group>"; };
+		5CC88AD1111769DF007914F8 /* MWNotebook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MWNotebook.m; path = Source/MWNotebook.m; sourceTree = "<group>"; };
 		5CF10C68109F3B7000FFE11A /* MWCocoaEventFunctor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MWCocoaEventFunctor.cpp; sourceTree = "<group>"; };
 		687EAA710CA1B3FA0022EE4F /* MWToolbarItem.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MWToolbarItem.h; path = Source/Toolbars/MWToolbarItem.h; sourceTree = "<group>"; };
 		687EAA720CA1B3FA0022EE4F /* MWToolbarItem.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MWToolbarItem.m; path = Source/Toolbars/MWToolbarItem.m; sourceTree = "<group>"; };
@@ -274,6 +278,8 @@
 				5C28610A10E0976D004DA219 /* MWCoreContainer.h */,
 				5C77F7FA10EBADEF00919719 /* CocoaBindingsSetter.h */,
 				5C77F7FB10EBADEF00919719 /* CocoaBindingsSetter.m */,
+				5CC88AD0111769DF007914F8 /* MWNotebook.h */,
+				5CC88AD1111769DF007914F8 /* MWNotebook.m */,
 				5C8B85001100225400E6D6CD /* MWClientProtocol.h */,
 			);
 			name = Source;
@@ -316,6 +322,7 @@
 				5C28610B10E0976D004DA219 /* MWCoreContainer.h in Headers */,
 				5C77F7FC10EBADEF00919719 /* CocoaBindingsSetter.h in Headers */,
 				5C8B85011100225400E6D6CD /* MWClientProtocol.h in Headers */,
+				5CC88AD2111769DF007914F8 /* MWNotebook.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -428,6 +435,7 @@
 				0E727A1C0CB64819000C7B3F /* MWConsoleToolbar.m in Sources */,
 				5CF10C69109F3B7000FFE11A /* MWCocoaEventFunctor.cpp in Sources */,
 				5C77F7FD10EBADEF00919719 /* CocoaBindingsSetter.m in Sources */,
+				5CC88AD3111769DF007914F8 /* MWNotebook.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
