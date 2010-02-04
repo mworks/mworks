@@ -1,4 +1,5 @@
 from _conduit import *
+import numpy
 
 def send_data(self, code, data):
     dtype = data.__class__
