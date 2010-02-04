@@ -14,7 +14,7 @@
 - (id) init {
 	self = [super init];
 	if (self != nil) {		
-		core = new Server();
+		core = shared_ptr<Server>(new Server());
 		
 		core->setListenLowPort(DEFAULT_LOW_PORT);
 		core->setListenHighPort(DEFAULT_HIGH_PORT);
@@ -27,7 +27,7 @@
 }
 
 - (void)dealloc {
-	delete core;
+    core.reset();
 	[super dealloc];
 }
 

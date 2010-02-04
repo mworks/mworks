@@ -54,6 +54,7 @@
 				5C14D9F708646D2000375FF1 /* PBXTargetDependency */,
 				5C0E758309D1AE53002295FB /* PBXTargetDependency */,
 				5C3853F90AB7458000E52A63 /* PBXTargetDependency */,
+				E17FB425110788AB00CA0FDC /* PBXTargetDependency */,
 				5C24578A1092550300338AA9 /* PBXTargetDependency */,
 			);
 			name = Everything;
@@ -610,6 +611,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = DA2CE38F07EA035F00C68AEF;
 			remoteInfo = MachClockPlugin;
+		};
+		E17FB424110788AB00CA0FDC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DA2CE0C907E9070200C68AEF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0E8014110E422E2A00D6DE20;
+			remoteInfo = MarionetteTest;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -3127,6 +3135,11 @@
 			target = DA2CE38F07EA035F00C68AEF /* MachClockPlugin */;
 			targetProxy = DA1368E507EA27E0001BA98B /* PBXContainerItemProxy */;
 		};
+		E17FB425110788AB00CA0FDC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0E8014110E422E2A00D6DE20 /* MarionetteTest */;
+			targetProxy = E17FB424110788AB00CA0FDC /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
@@ -3429,7 +3442,7 @@
 		5C0E850F086D85D400B3EE7C /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				APP_SUPPORT_DIR = "/Library/Application Support/Monkeyworks";
+				APP_SUPPORT_DIR = "/Library/Application Support/MonkeyWorks";
 				ARCHS = (
 					x86_64,
 					i386,
@@ -3548,7 +3561,7 @@
 		5C9EBDA3107244C00051414D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				APP_SUPPORT_DIR = "/Library/Application Support/Monkeyworks";
+				APP_SUPPORT_DIR = "/Library/Application Support/MonkeyWorks";
 				ARCHS = (
 					x86_64,
 					i386,
@@ -3980,7 +3993,7 @@
 		5C9EE41E107303900051414D /* Development (10.5 Compatible) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				APP_SUPPORT_DIR = "/Library/Application Support/Monkeyworks";
+				APP_SUPPORT_DIR = "/Library/Application Support/MonkeyWorks";
 				ARCHS = (
 					x86_64,
 					i386,

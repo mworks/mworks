@@ -43,11 +43,9 @@ Datum _getNumber(const string &expression, const GenericDataType type);
 - (id) init {
 	self = [super init];
 	if (self != nil) {
-		client = new Client();
+		client = shared_ptr<Client>(new Client());
 		
-		boost::shared_ptr <CocoaEventFunctor> cef = boost::shared_ptr <CocoaEventFunctor>(new CocoaEventFunctor(self,
-																												   @selector(eventReceived:), 
-																												   MARIONETTE_KEY));
+		CocoaEventFunctor cef(self, @selector(eventReceived:), MARIONETTE_KEY);
 		client->registerCallback(cef);
 		client->startEventListener();
 		
@@ -77,7 +75,7 @@ Datum _getNumber(const string &expression, const GenericDataType type);
 	[expected_messages release];
 	[expected_events release];
 	[permitted_error_messages release];
-	delete client;
+    client.reset();
 	[super dealloc];
 }
 
@@ -271,7 +269,7 @@ Datum _getNumber(const string &expression, const GenericDataType type);
 		
 		// 'retain' then 'autorelease' because the event's reference count reaches zero when removeObjectAtIndex:0 is called later
 		MarionetteEvent *next_expected_event = [[[self.expectedEvents objectAtIndex:0] retain] autorelease];
-		int next_expected_event_code = client->getCode([[next_expected_event variable] cStringUsingEncoding:NSASCIIStringEncoding]);
+		int next_expected_event_code = client->lookupCodeForTag([[next_expected_event variable] cStringUsingEncoding:NSASCIIStringEncoding]);
 		if(code == next_expected_event_code && code != -1) {
 			if([next_expected_event matches:[event data]]) {
 				[self.expectedEvents removeObjectAtIndex:0];
@@ -282,19 +280,16 @@ Datum _getNumber(const string &expression, const GenericDataType type);
 		}
 	}	
 	
-	int message_codec_code = client->getCode(ANNOUNCE_MESSAGE_VAR_TAGNAME);
-	int system_codec_code = client->getCode(SYSTEM_VAR_TAGNAME);
-	int assert_codec_code = client->getCode(ANNOUNCE_ASSERTION_TAGNAME);
-	int taskMode_codec_code = client->getCode(STATE_SYSTEM_MODE_TAGNAME);
+	int message_codec_code = client->lookupCodeForTag(ANNOUNCE_MESSAGE_VAR_TAGNAME);
+	int assert_codec_code = client->lookupCodeForTag(ANNOUNCE_ASSERTION_TAGNAME);
+	int taskMode_codec_code = client->lookupCodeForTag(STATE_SYSTEM_MODE_TAGNAME);
 	
 	if (code == RESERVED_CODEC_CODE) {
 		client->unregisterCallbacks(MARIONETTE_KEY);
 		
-		boost::shared_ptr <CocoaEventFunctor> cef = boost::shared_ptr <CocoaEventFunctor>(new CocoaEventFunctor(self,
-																												   @selector(eventReceived:), 
-																												   MARIONETTE_KEY));
+		CocoaEventFunctor cef(self, @selector(eventReceived:), MARIONETTE_KEY);
 		client->registerCallback(cef);
-	} else if (code == system_codec_code && system_codec_code > RESERVED_CODEC_CODE) {
+	} else if (code == RESERVED_SYSTEM_EVENT_CODE && RESERVED_SYSTEM_EVENT_CODE > RESERVED_CODEC_CODE) {
 	 Datum event_data(*[event data]);
 		
 		

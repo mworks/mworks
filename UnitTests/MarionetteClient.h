@@ -9,7 +9,7 @@
 using namespace mw;
 
 @interface MarionetteClient : NSObject {
-	Client *client;
+    shared_ptr<Client> client;
 	
 	BOOL sent_run_event;
 	BOOL sent_experiment;
