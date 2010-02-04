@@ -19,6 +19,7 @@
 #include "Experiment.h"
 #include "EventBuffer.h"
 #include "EventConstants.h"
+#include "GenericVariable.h"
 using namespace mw;
 
 VariableRegistry::VariableRegistry(shared_ptr<EventBuffer> _buffer) {
@@ -97,7 +98,10 @@ void VariableRegistry::updateFromCodecDatum(const Datum &codec) {
 				// that we should ignore.
 				mwarning(M_SYSTEM_MESSAGE_DOMAIN,
 						 "Bad variable received from network stream");
-				continue;
+				
+                shared_ptr<EmptyVariable> empty_var(new EmptyVariable);
+                master_variable_list.push_back(empty_var);
+                continue;
 			}
 						
 			VariableProperties *props = 
@@ -106,7 +110,10 @@ void VariableRegistry::updateFromCodecDatum(const Datum &codec) {
 			if(props == NULL){
 				mwarning(M_SYSTEM_MESSAGE_DOMAIN,
 						 "Bad variable received from network stream");
-				continue;
+				
+                shared_ptr<EmptyVariable> empty_var(new EmptyVariable);
+                master_variable_list.push_back(empty_var);
+                continue;
 			}
 			
 			shared_ptr<Variable> newvar(new GlobalVariable(props));
