@@ -19,6 +19,7 @@
 #include "Experiment.h"
 #include "EventBuffer.h"
 #include "EventConstants.h"
+#include "GenericVariable.h"
 using namespace mw;
 
 VariableRegistry::VariableRegistry(shared_ptr<EventBuffer> _buffer) {
@@ -91,13 +92,20 @@ void VariableRegistry::updateFromCodecDatum(const Datum &codec) {
 		ScarabDatum *serializedVariable = scarab_dict_get(datum, key);
 		scarab_free_datum(key);
 		
-		if(serializedVariable) {
+		if(!serializedVariable) {
+            shared_ptr<EmptyVariable> empty_var(new EmptyVariable);
+            master_variable_list.push_back(empty_var);
+            continue;
+        } else {
 			if(serializedVariable->type != SCARAB_DICT) {
 				// these must be  placeholder datums in the package
 				// that we should ignore.
 				mwarning(M_SYSTEM_MESSAGE_DOMAIN,
 						 "Bad variable received from network stream");
-				continue;
+				
+                shared_ptr<EmptyVariable> empty_var(new EmptyVariable);
+                master_variable_list.push_back(empty_var);
+                continue;
 			}
 						
 			VariableProperties *props = 
@@ -106,7 +114,10 @@ void VariableRegistry::updateFromCodecDatum(const Datum &codec) {
 			if(props == NULL){
 				mwarning(M_SYSTEM_MESSAGE_DOMAIN,
 						 "Bad variable received from network stream");
-				continue;
+				
+                shared_ptr<EmptyVariable> empty_var(new EmptyVariable);
+                master_variable_list.push_back(empty_var);
+                continue;
 			}
 			
 			shared_ptr<Variable> newvar(new GlobalVariable(props));
