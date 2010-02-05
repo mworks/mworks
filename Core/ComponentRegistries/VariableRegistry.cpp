@@ -349,7 +349,7 @@ shared_ptr<Timer> VariableRegistry::createTimer(VariableProperties *props) {
 //	shared_ptr<EmptyVariable> returnref(new EmptyVariable(props_copy));
 //    
 //    master_variable_list.push_back(returnref);
-//	int codec_code = master_variable_list.size();
+//	int codec_code = master_variable_list.size() + N_RESERVED_CODEC_CODES - 1;
 //	
 //	returnref->setCodecCode(codec_code);
 //	returnref->setEventTarget(static_pointer_cast<EventReceiver>(event_buffer));
@@ -372,7 +372,7 @@ shared_ptr<SelectionVariable> VariableRegistry::addSelectionVariable(VariablePro
 	shared_ptr<SelectionVariable> returnref(new SelectionVariable(props_copy));
 	
     master_variable_list.push_back(returnref);
-	int codec_code = master_variable_list.size();
+	int codec_code = master_variable_list.size() + N_RESERVED_CODEC_CODES - 1;
     
 	std::string tag = returnref->getVariableName();
     if(!tag.empty()){
