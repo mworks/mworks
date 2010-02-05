@@ -177,7 +177,7 @@
 	for(int i=N_RESERVED_CODEC_CODES; i < nVars + N_RESERVED_CODEC_CODES; ++i) {
 		shared_ptr <mw::Variable> var = core->getVariable(i);
 		
-        if(var == NULL){
+        if((var == NULL) || (var->getProperties() == NULL)){
             continue;
         }
         
