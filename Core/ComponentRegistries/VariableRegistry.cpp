@@ -92,7 +92,11 @@ void VariableRegistry::updateFromCodecDatum(const Datum &codec) {
 		ScarabDatum *serializedVariable = scarab_dict_get(datum, key);
 		scarab_free_datum(key);
 		
-		if(serializedVariable) {
+		if(!serializedVariable) {
+            shared_ptr<EmptyVariable> empty_var(new EmptyVariable);
+            master_variable_list.push_back(empty_var);
+            continue;
+        } else {
 			if(serializedVariable->type != SCARAB_DICT) {
 				// these must be  placeholder datums in the package
 				// that we should ignore.
