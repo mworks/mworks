@@ -32,7 +32,12 @@ int main(int argc, char *argv[]) {
   
   runner.addTest( registry.makeTest() );
   //runner.addTest( GenericDataTestFixture::suite() ); //include this commected out 
-  bool returnval = runner.run( "", false );    // Run all tests
+
+    bool returnval;
+    if (argc > 1)
+        returnval = runner.run( argv[1], false );  // Run specified test
+    else
+        returnval = runner.run( "", false );       // Run all tests
   
   // return !returnval because it is 1 on success
   return !returnval;
