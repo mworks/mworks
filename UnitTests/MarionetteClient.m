@@ -285,10 +285,12 @@ Datum _getNumber(const string &expression, const GenericDataType type);
 	int taskMode_codec_code = client->lookupCodeForTag(STATE_SYSTEM_MODE_TAGNAME);
 	
 	if (code == RESERVED_CODEC_CODE) {
-		client->unregisterCallbacks(MARIONETTE_KEY);
-		
-		CocoaEventFunctor cef(self, @selector(eventReceived:), MARIONETTE_KEY);
-		client->registerCallback(cef);
+        // Event callbacks are locked during callback handling, so if we try to (un)register here,
+        // we'll deadlock.  But why would we even want to do this, i.e. unregister and then immediately
+        // re-register?
+		//client->unregisterCallbacks(MARIONETTE_KEY);
+		//CocoaEventFunctor cef(self, @selector(eventReceived:), MARIONETTE_KEY);
+		//client->registerCallback(cef);
 	} else if (code == RESERVED_SYSTEM_EVENT_CODE && RESERVED_SYSTEM_EVENT_CODE > RESERVED_CODEC_CODE) {
 	 Datum event_data(*[event data]);
 		
