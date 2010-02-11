@@ -353,7 +353,10 @@ Datum _getNumber(const string &expression, const GenericDataType type);
 										   withMessage:@"received trying to send an experiment more than once"]; 
 								client->sendExperiment([[[[NSProcessInfo processInfo] arguments] objectAtIndex:1] cStringUsingEncoding:NSASCIIStringEncoding]);
 								self.sentExperiment = YES;
-							}
+							} else if (self.sentCloseExperiment) {
+                                self.experimentEnded = YES;
+                                client->disconnectClient();
+                            }
 							
 						}
 					}
@@ -373,13 +376,6 @@ Datum _getNumber(const string &expression, const GenericDataType type);
 							self.sentRunEvent = YES;
 						}
 						
-						break;
-					case M_CLOSE_EXPERIMENT:
-						[self marionetteAssert:self.sentCloseExperiment
-								   withMessage:@"received M_CLOSE_EXPERIMENT without attempting to close"]; 
-						self.experimentEnded = YES;
-						
-						client->disconnectClient();
 						break;
 					case M_DATA_FILE_CLOSED:
 						//					[self marionetteAssert:self.sentCloseDataFile && self.dataFileOpen
