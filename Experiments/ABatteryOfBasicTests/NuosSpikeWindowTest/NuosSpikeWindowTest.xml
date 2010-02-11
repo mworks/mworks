@@ -38,7 +38,7 @@
                                 <transition tag="TimerExpired_22" full_name="fullname_22" target="yield" type="timer_expired" timer="timer"/>
                             </task_system_state>
                             <task_system_state tag="yield" full_name="fullname_19" description="" interruptible="YES">
-                                <action tag="Report_20" full_name="fullname_20" type="report" message=""/>
+                                <action tag="Report_20" full_name="fullname_20" type="report" message="whatever"/>
                                 <transition type="yield" tag="Yield_21" full_name="fullname_21"/>
                             </task_system_state>
                         </task_system>
