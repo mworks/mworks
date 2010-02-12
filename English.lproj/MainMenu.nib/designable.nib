@@ -3,23 +3,24 @@
 	<data>
 		<int key="IBDocument.SystemTarget">1050</int>
 		<string key="IBDocument.SystemVersion">10C540</string>
-		<string key="IBDocument.InterfaceBuilderVersion">732</string>
+		<string key="IBDocument.InterfaceBuilderVersion">740</string>
 		<string key="IBDocument.AppKitVersion">1038.25</string>
 		<string key="IBDocument.HIToolboxVersion">458.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">732</string>
+			<string key="NS.object.0">740</string>
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="1011"/>
-			<integer value="681"/>
-			<integer value="111"/>
-			<integer value="380"/>
+			<integer value="769"/>
 			<integer value="378"/>
 			<integer value="628"/>
-			<integer value="769"/>
+			<integer value="111"/>
+			<integer value="380"/>
+			<integer value="681"/>
+			<integer value="799"/>
 			<integer value="699"/>
+			<integer value="1011"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -2760,13 +2761,13 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<object class="NSTextField" id="600629040">
 							<reference key="NSNextResponder" ref="551462384"/>
 							<int key="NSvFlags">268</int>
-							<string key="NSFrame">{{39, 48}, {210, 30}}</string>
+							<string key="NSFrame">{{39, 40}, {210, 38}}</string>
 							<reference key="NSSuperview" ref="551462384"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="142981349">
 								<int key="NSCellFlags">67239424</int>
 								<int key="NSCellFlags2">272891904</int>
-								<string key="NSContents">This file is located in the directory /Library/MonkeyWorks/DataFiles on the remote server</string>
+								<string key="NSContents">This file is located in the directory /Documents/MonkeyWorks/Data on the remote server</string>
 								<reference key="NSSupport" ref="22"/>
 								<reference key="NSControlView" ref="600629040"/>
 								<reference key="NSBackgroundColor" ref="667273391"/>
@@ -2776,7 +2777,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<object class="NSTextField" id="990723850">
 							<reference key="NSNextResponder" ref="551462384"/>
 							<int key="NSvFlags">268</int>
-							<string key="NSFrame">{{17, 91}, {100, 17}}</string>
+							<string key="NSFrame">{{17, 91}, {263, 17}}</string>
 							<reference key="NSSuperview" ref="551462384"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="247703133">
@@ -2815,7 +2816,6 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<int key="NSvFlags">268</int>
 							<string key="NSFrame">{{17, 131}, {183, 17}}</string>
 							<reference key="NSSuperview" ref="873959013"/>
-							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="415226925">
 								<int key="NSCellFlags">67239488</int>
@@ -2835,7 +2835,6 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<int key="NSvFlags">268</int>
 							<string key="NSFrame">{{76, 18}, {67, 19}}</string>
 							<reference key="NSSuperview" ref="873959013"/>
-							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="463019183">
 								<int key="NSCellFlags">-2080244224</int>
@@ -2875,7 +2874,6 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<int key="NSvFlags">268</int>
 							<string key="NSFrame">{{147, 18}, {63, 19}}</string>
 							<reference key="NSSuperview" ref="873959013"/>
-							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="621805907">
 								<int key="NSCellFlags">-2080244224</int>
@@ -2896,7 +2894,6 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<int key="NSvFlags">268</int>
 							<string key="NSFrame">{{20, 99}, {260, 26}}</string>
 							<reference key="NSSuperview" ref="873959013"/>
-							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSComboBoxCell" key="NSCell" id="947134672">
 								<int key="NSCellFlags">341966400</int>
@@ -2972,7 +2969,6 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<int key="NSvFlags">268</int>
 							<string key="NSFrame">{{17, 82}, {149, 18}}</string>
 							<reference key="NSSuperview" ref="873959013"/>
-							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="405355021">
 								<int key="NSCellFlags">-2080244224</int>
@@ -3007,7 +3003,6 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							</object>
 							<string key="NSFrame">{{15, 53}, {21, 20}}</string>
 							<reference key="NSSuperview" ref="873959013"/>
-							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSImageCell" key="NSCell" id="194799195">
 								<int key="NSCellFlags">130560</int>
@@ -3023,14 +3018,13 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<object class="NSTextField" id="216403143">
 							<reference key="NSNextResponder" ref="873959013"/>
 							<int key="NSvFlags">268</int>
-							<string key="NSFrame">{{39, 43}, {210, 30}}</string>
+							<string key="NSFrame">{{39, 40}, {210, 33}}</string>
 							<reference key="NSSuperview" ref="873959013"/>
-							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="1043150940">
 								<int key="NSCellFlags">67239424</int>
 								<int key="NSCellFlags2">272891904</int>
-								<string key="NSContents">Data will be saved in the directory /Library/MonkeyWorks/DataFiles on the remote server</string>
+								<string key="NSContents">Data will be saved in the directory /Documents/MonkeyWorks/Data on the remote server</string>
 								<reference key="NSSupport" ref="22"/>
 								<reference key="NSControlView" ref="216403143"/>
 								<reference key="NSBackgroundColor" ref="667273391"/>
@@ -3040,7 +3034,6 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 					</object>
 					<string key="NSFrameSize">{297, 163}</string>
 					<reference key="NSSuperview"/>
-					<reference key="NSWindow"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1440, 878}}</string>
 				<string key="NSMaxSize">{1.79769e+308, 1.79769e+308}</string>
@@ -6209,15 +6202,15 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: modalClientInstanceInCharge.dataFileName</string>
+						<string key="label">value: modalClientInstanceInCharge.dataFileName.lastPathComponent</string>
 						<reference key="source" ref="990723850"/>
 						<reference key="destination" ref="933857508"/>
 						<object class="NSNibBindingConnector" key="connector">
 							<reference key="NSSource" ref="990723850"/>
 							<reference key="NSDestination" ref="933857508"/>
-							<string key="NSLabel">value: modalClientInstanceInCharge.dataFileName</string>
+							<string key="NSLabel">value: modalClientInstanceInCharge.dataFileName.lastPathComponent</string>
 							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">modalClientInstanceInCharge.dataFileName</string>
+							<string key="NSKeyPath">modalClientInstanceInCharge.dataFileName.lastPathComponent</string>
 							<object class="NSDictionary" key="NSOptions">
 								<bool key="EncodedWithXMLCoder">YES</bool>
 								<object class="NSArray" key="dict.sortedKeys">
@@ -6236,7 +6229,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">1301</int>
+					<int key="connectionID">1302</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -9219,9 +9212,9 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{411, 85}, {388, 304}}</string>
+					<string>{{617, 148}, {388, 304}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{411, 85}, {388, 304}}</string>
+					<string>{{617, 148}, {388, 304}}</string>
 					<integer value="0"/>
 					<string>{{353, -160}, {388, 304}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -9255,7 +9248,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{361, 258}, {201, 23}}</string>
+					<string>{{365, 258}, {201, 23}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<integer value="1"/>
 					<string>{{286, 812}, {216, 23}}</string>
@@ -9401,7 +9394,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<integer value="1"/>
 					<string>{{235, 743}, {197, 73}}</string>
-					<string>{{56, 281}, {366, 20}}</string>
+					<string>{{60, 281}, {366, 20}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<integer value="1"/>
 					<string>{74, 862}</string>
@@ -9616,9 +9609,9 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 					<integer value="1"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<integer value="1"/>
-					<string>{{238, 136}, {297, 148}}</string>
+					<string>{{279, 393}, {297, 148}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{238, 136}, {297, 148}}</string>
+					<string>{{279, 393}, {297, 148}}</string>
 					<integer value="0"/>
 					<string>{{359, 441}, {297, 148}}</string>
 					<integer value="0"/>
@@ -9720,7 +9713,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">1301</int>
+			<int key="maxID">1302</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
