@@ -7,7 +7,7 @@
 SLAVE_DIRECTORY=~/.buildbot_slave
 HOST="localhost"
 PORT="7355"
-ARCHITECTURE="i386-OSX-10.5"
+ARCHITECTURE="x86_64-OSX-10.6"
 USER=`whoami`
 ADMIN_INFO="Dave <cox@rowland.harvard.edu>"
 MACHINE_DESCRIPTION="MacBook Pro"
