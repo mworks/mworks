@@ -1,14 +1,18 @@
-VARIABLES_PLUGIN=VariablesWindow
-BEHAVIOR_PLUGIN=BehavioralWindow
+DEFAULT_CONFIG = "Development (10.5 Compatible)"
 
-all: variables-window behavior-window
+all: variables-window behavior-window python-bridge
 
 variables-window:
-	cd $(VARIABLES_PLUGIN); \
-	xcodebuild clean -alltargets -configuration Debug; \
-	xcodebuild build -target Everything -configuration Debug
+	cd VariablesWindow; \
+	xcodebuild clean -alltargets -configuration $(DEFAULT_CONFIG); \
+	xcodebuild build -target Everything -configuration $(DEFAULT_CONFIG)
 
 behavior-window:
-	cd $(BEHAVIOR_PLUGIN); \
-	xcodebuild clean -alltargets -configuration Debug; \
-	xcodebuild build -target Everything -configuration Debug
+	cd BehavioralWindow; \
+	xcodebuild clean -alltargets -configuration $(DEFAULT_CONFIG); \
+	xcodebuild build -target Everything -configuration $(DEFAULT_CONFIG)
+
+python-bridge:
+	cd PythonBridgePlugin; \
+	xcodebuild clean -alltargets -configuration $(DEFAULT_CONFIG); \
+	xcodebuild build -target Everything -configuration $(DEFAULT_CONFIG)
