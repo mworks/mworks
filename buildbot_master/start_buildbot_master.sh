@@ -13,11 +13,17 @@ then
     exit
 fi
 
+if ! [ -f $SCRIPT_DIRECTORY/local_config.py ]; then
+    echo "ERROR: local_config.py not found"
+    exit 1
+fi
+
 rm -rf $MASTER_DIRECTORY
 mkdir -p $MASTER_DIRECTORY
 touch $MASTER_DIRECTORY/twistd.log
 buildbot create-master $MASTER_DIRECTORY
 cp $SCRIPT_DIRECTORY/master.cfg $MASTER_DIRECTORY
+cp $SCRIPT_DIRECTORY/local_config.py $MASTER_DIRECTORY
 cp -r $SCRIPT_DIRECTORY/plugins $MASTER_DIRECTORY/
 mkdir -p $MASTER_DIRECTORY/public_html
 cp $SCRIPT_DIRECTORY/*.css $MASTER_DIRECTORY/public_html/
