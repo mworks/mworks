@@ -9,8 +9,12 @@ HOST="localhost"
 PORT="7355"
 ARCHITECTURE="x86_64-OSX-10.6"
 USER=`whoami`
-ADMIN_INFO="Dave <cox@rowland.harvard.edu>"
-MACHINE_DESCRIPTION="MacBook Pro"
+
+if ! [ -f local_config.sh ]; then
+    echo "ERROR: local_config.sh not found"
+    exit 1
+fi
+. local_config.sh
 
 mkdir -p $SLAVE_DIRECTORY
 rm -rf $SLAVE_DIRECTORY
