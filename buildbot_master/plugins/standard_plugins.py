@@ -9,7 +9,7 @@ from buildbot.steps import source, shell
 from buildbot.steps.trigger import Trigger
 from buildbot.steps.python_twisted import Trial
 
-repository_base_url = "git://github.com/monkeyworks-project/" 
+from local_config import repository_base_url
 
 def get_plugins(**kwargs):
     
