@@ -469,12 +469,12 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		0E121BCC0E6B1B4F007B29B8 /* Debug */ = {
+		0E121BCC0E6B1B4F007B29B8 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = MonkeyWorksCocoa.framework;
 			};
-			name = Debug;
+			name = Development;
 		};
 		0E121BCD0E6B1B4F007B29B8 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -482,7 +482,7 @@
 			};
 			name = Release;
 		};
-		5C77F48610E9698F00919719 /* Debug */ = {
+		5C77F48610E9698F00919719 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
@@ -490,14 +490,14 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				PRODUCT_NAME = Everything;
 			};
-			name = Debug;
+			name = Development;
 		};
-		5C77F48710E9698F00919719 /* Debug (10.5 Compatible) */ = {
+		5C77F48710E9698F00919719 /* Development (10.5 Compatible) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = Everything;
 			};
-			name = "Debug (10.5 Compatible)";
+			name = "Development (10.5 Compatible)";
 		};
 		5C77F48810E9698F00919719 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -510,7 +510,7 @@
 			};
 			name = Release;
 		};
-		5C9EE46F107307800051414D /* Debug (10.5 Compatible) */ = {
+		5C9EE46F107307800051414D /* Development (10.5 Compatible) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				APP_SUPPORT_DIR = "/Library/Application Support/MonkeyWorks";
@@ -536,9 +536,9 @@
 				OTHER_CPLUSPLUSFLAGS = "-fobjc-exceptions";
 				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
 			};
-			name = "Debug (10.5 Compatible)";
+			name = "Development (10.5 Compatible)";
 		};
-		5C9EE470107307800051414D /* Debug (10.5 Compatible) */ = {
+		5C9EE470107307800051414D /* Development (10.5 Compatible) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
@@ -564,16 +564,16 @@
 				);
 				WRAPPER_EXTENSION = framework;
 			};
-			name = "Debug (10.5 Compatible)";
+			name = "Development (10.5 Compatible)";
 		};
-		5C9EE471107307800051414D /* Debug (10.5 Compatible) */ = {
+		5C9EE471107307800051414D /* Development (10.5 Compatible) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = MonkeyWorksCocoa.framework;
 			};
-			name = "Debug (10.5 Compatible)";
+			name = "Development (10.5 Compatible)";
 		};
-		DA2A85430871A49C00D99DD8 /* Debug */ = {
+		DA2A85430871A49C00D99DD8 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
@@ -598,7 +598,7 @@
 				);
 				WRAPPER_EXTENSION = framework;
 			};
-			name = Debug;
+			name = Development;
 		};
 		DA2A85440871A49C00D99DD8 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -629,7 +629,7 @@
 			};
 			name = Release;
 		};
-		DA2A85470871A49C00D99DD8 /* Debug */ = {
+		DA2A85470871A49C00D99DD8 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				APP_SUPPORT_DIR = "/Library/Application Support/MonkeyWorks";
@@ -655,7 +655,7 @@
 				OTHER_CPLUSPLUSFLAGS = "-fobjc-exceptions";
 				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
 			};
-			name = Debug;
+			name = Development;
 		};
 		DA2A85480871A49C00D99DD8 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -679,42 +679,42 @@
 		0E121BCE0E6B1B77007B29B8 /* Build configuration list for PBXAggregateTarget "UninstallMWCocoa" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				0E121BCC0E6B1B4F007B29B8 /* Debug */,
-				5C9EE471107307800051414D /* Debug (10.5 Compatible) */,
+				0E121BCC0E6B1B4F007B29B8 /* Development */,
+				5C9EE471107307800051414D /* Development (10.5 Compatible) */,
 				0E121BCD0E6B1B4F007B29B8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
+			defaultConfigurationName = Development;
 		};
 		5C77F48D10E9699A00919719 /* Build configuration list for PBXAggregateTarget "Everything" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				5C77F48610E9698F00919719 /* Debug */,
-				5C77F48710E9698F00919719 /* Debug (10.5 Compatible) */,
+				5C77F48610E9698F00919719 /* Development */,
+				5C77F48710E9698F00919719 /* Development (10.5 Compatible) */,
 				5C77F48810E9698F00919719 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
+			defaultConfigurationName = Development;
 		};
 		DA2A85420871A49C00D99DD8 /* Build configuration list for PBXNativeTarget "MonkeyWorksCocoa" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				DA2A85430871A49C00D99DD8 /* Debug */,
-				5C9EE470107307800051414D /* Debug (10.5 Compatible) */,
+				DA2A85430871A49C00D99DD8 /* Development */,
+				5C9EE470107307800051414D /* Development (10.5 Compatible) */,
 				DA2A85440871A49C00D99DD8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
+			defaultConfigurationName = Development;
 		};
 		DA2A85460871A49C00D99DD8 /* Build configuration list for PBXProject "MonkeyWorksCocoa" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				DA2A85470871A49C00D99DD8 /* Debug */,
-				5C9EE46F107307800051414D /* Debug (10.5 Compatible) */,
+				DA2A85470871A49C00D99DD8 /* Development */,
+				5C9EE46F107307800051414D /* Development (10.5 Compatible) */,
 				DA2A85480871A49C00D99DD8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
+			defaultConfigurationName = Development;
 		};
 /* End XCConfigurationList section */
 	};
