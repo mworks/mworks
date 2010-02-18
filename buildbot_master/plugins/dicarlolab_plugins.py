@@ -86,6 +86,31 @@ def get_plugins(**kwargs):
           }
 
     builders.append(client_plugins_builder)
+    
+    
+    # ========================
+    # Data Tools
+    # ========================
+    
+    builder_name = "datatools"    
+    datatools_scheduler = Triggerable(name=builder_name, builderNames=[builder_name])
+    
+    schedulers.append(datatools_scheduler)
+    
+    datatools_factory = factory.BuildFactory();
+    datatools_factory.addStep(source.Git(repository_base_url + "mw_datatools.git", current_branch, mode=checkout_type))
+    datatools_factory.addStep(shell.ShellCommand(command=["make", "all"],
+                                                        descriptionDone=["built"],
+                                                        description=["building"]))
+
+
+    datatools_builder = {'name': builder_name,
+          'slavename': standard_mac_arch,
+          'builddir': builder_name,
+          'factory': datatools_factory,
+          }
+
+    builders.append(datatools_builder)
 
     
     return (schedulers, builders)
