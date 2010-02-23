@@ -302,20 +302,25 @@
 	// If that didn't work, try launching the server remotely
 	if((!success || !core->isConnected()) && [self launchIfNeeded]){
 		NSLog(@"Attempting to remotely launch server");
-		NSString *username = @"labuser@";  //TODO
-		NSString *combined_url = [username stringByAppendingString:serverURL];
-		NSString *command = @"/Applications/MWServer.app/Contents/MacOS/MWServer";
-		NSArray *arguments = [NSArray arrayWithObjects:combined_url, 
-								command,
-								Nil]; 
 	
-		NSTask *task;
 		if([[self serverURL] isEqualToString:@"127.0.0.1"] || [[self serverURL] isEqualToString:@"localhost"]){
-			NSMutableArray *local_launch_arguments = [[NSMutableArray alloc] init];
-			task = [NSTask launchedTaskWithLaunchPath:command arguments:local_launch_arguments];
+
+			[NSTask launchedTaskWithLaunchPath:@"/usr/bin/open"
+                                     arguments:[NSArray arrayWithObjects:@"-a", @"MWServer", nil]];
+
 		} else {
-			[NSTask launchedTaskWithLaunchPath:@"/usr/bin/ssh"  arguments:arguments];
+
+			[NSTask launchedTaskWithLaunchPath:@"/usr/bin/ssh" arguments:[NSArray arrayWithObjects:
+                                                                          @"-l",
+                                                                          NSUserName(),
+                                                                          [self serverURL],
+                                                                          @"/usr/bin/open",
+                                                                          @"-a",
+                                                                          @"MWServer",
+                                                                          nil]];
+
 		}
+
 		[NSThread sleepForTimeInterval:4];
 		success = core->connectToServer(url, [serverPort intValue]);
 	}
