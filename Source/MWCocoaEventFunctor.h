@@ -105,9 +105,10 @@ namespace mw {
 			virtual void operator()(const shared_ptr<Event> &event)
 			{ 
                 Datum data(event->getData());
-				NSNumber *data_number = [NSNumber numberWithDouble:(double)data];
-                
+                // We can't use numberWithDouble: here, because there may not be an autorelease pool in place
+				NSNumber *data_number = [[NSNumber alloc] initWithDouble:(double)data];
 				[setter performSelectorOnMainThread:@selector(setValue:) withObject:data_number waitUntilDone:NO];
+                [data_number release];
 			}         
 		};
 	
