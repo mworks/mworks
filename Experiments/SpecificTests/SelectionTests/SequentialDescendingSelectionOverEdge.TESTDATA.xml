@@ -19,10 +19,9 @@
     <message type="starts_with">After get next selection reportVar = 0</message>
   </expected_messages>
   <expected_events>
-    <event variable="#task_mode">
+    <event variable="#state_system_mode">
       <value type="integer">0</value>
     </event>
-    <event variable="#system"/>
     <event variable="#announceMessage"/>
     <event variable="#stimDisplayUpdate"/>
     <event variable="#beamPosition"/>
@@ -38,7 +37,7 @@
     <event variable="index"/>
     <event variable="reportVar"/>
     <event variable="selectionVar"/>
-    <event variable="#task_mode">
+    <event variable="#state_system_mode">
       <value type="integer">2</value>
     </event>
     <event variable="reportVar">
@@ -83,7 +82,7 @@
     <event variable="reportVar">
       <value type="integer">0</value>
     </event>
-    <event variable="#task_mode">
+    <event variable="#state_system_mode">
       <value type="integer">0</value>
     </event>
   </expected_events>

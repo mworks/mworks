@@ -12,12 +12,13 @@
     <message type="whole_message">ERROR: Attempt to access illegal index (2) in stimulus group (nelements = 2)</message>
     <message type="whole_message">ERROR: Attempt to access illegal index (2) in stimulus group (nelements = 2)</message>
     <message type="whole_message">ERROR: Attempt to access illegal index (2) in stimulus group (nelements = 2)</message>
+    <message type="whole_message">ERROR: Attempt to access illegal index (2) in stimulus group (nelements = 2)</message>
+    <message type="whole_message">ERROR: Attempt to access illegal index (2) in stimulus group (nelements = 2)</message>
   </expected_messages>
   <expected_events>
-    <event variable="#task_mode">
+    <event variable="#state_system_mode">
       <value type="integer">0</value>
     </event>
-    <event variable="#system"/>
     <event variable="#announceMessage"/>
     <event variable="#stimDisplayUpdate"/>
     <event variable="#beamPosition"/>
@@ -30,7 +31,7 @@
     <event variable="#announceAssertion"/>
     <event variable="#serverName"/>
     <event variable="#mainScreenInfo"/>
-    <event variable="#task_mode">
+    <event variable="#state_system_mode">
       <value type="integer">2</value>
     </event>
 
@@ -145,7 +146,7 @@
     </event>
 	<event variable="#stimDisplayUpdate"/>
 
-    <event variable="#task_mode">
+    <event variable="#state_system_mode">
       <value type="integer">0</value>
     </event>
   </expected_events>

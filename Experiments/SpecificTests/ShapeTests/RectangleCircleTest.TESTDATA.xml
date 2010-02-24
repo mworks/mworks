@@ -7,10 +7,9 @@
   </permitted_error_messages>
   <expected_messages/>
   <expected_events>
-    <event variable="#task_mode">
+    <event variable="#state_system_mode">
       <value type="integer">0</value>
     </event>
-    <event variable="#system"/>
     <event variable="#announceMessage"/>
     <event variable="#stimDisplayUpdate"/>
     <event variable="#beamPosition"/>
@@ -23,7 +22,7 @@
     <event variable="#announceAssertion"/>
     <event variable="#serverName"/>
     <event variable="#mainScreenInfo"/>
-    <event variable="#task_mode">
+    <event variable="#state_system_mode">
       <value type="integer">2</value>
     </event>
 
@@ -239,7 +238,7 @@
     </event>
 	<event variable="#stimDisplayUpdate"/>
 
-    <event variable="#task_mode">
+    <event variable="#state_system_mode">
       <value type="integer">0</value>
     </event>
   </expected_events>
