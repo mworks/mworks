@@ -246,7 +246,10 @@ Datum _getNumber(const string &expression, const GenericDataType type);
 			}
 			
 			if([self.expectedEvents count] > 0) {
-				[self marionetteAssert:@"not all required events were received"]; 
+                MarionetteEvent *expected_event = [self.expectedEvents objectAtIndex:0];
+				[self marionetteAssert:[NSString stringWithFormat:
+                                        @"did not receive event for variable %@",
+                                        [expected_event variable]]]; 
 			}
 		}
 		
