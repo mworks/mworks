@@ -421,7 +421,7 @@ Datum _getNumber(const string &expression, const GenericDataType type);
 			NSString *assert_message = [NSString stringWithCString:event_data.getString() 
 														  encoding:NSASCIIStringEncoding];
 			if([assert_message length] > 0) {
-				[self marionetteAssert:[@"Recieved assert: " stringByAppendingString:assert_message]];
+				[self marionetteAssert:[@"Received assert: " stringByAppendingString:assert_message]];
 			}
 		} else {
 			// if it's not a string it shoud be equal to zero
