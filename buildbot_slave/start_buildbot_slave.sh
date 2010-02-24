@@ -26,7 +26,7 @@ mkdir -p $SLAVE_DIRECTORY
 rm -rf $SLAVE_DIRECTORY
 mkdir -p $SLAVE_DIRECTORY
 touch $SLAVE_DIRECTORY/twistd.log
-buildbot create-slave $SLAVE_DIRECTORY $HOST:$PORT $USER $PASS
+buildbot create-slave --umask=022 $SLAVE_DIRECTORY $HOST:$PORT $USER $PASS
 echo $ADMIN_INFO > $SLAVE_DIRECTORY/info/admin
 echo $HOST" - "$MACHINE_DESCRIPTION" - "$ARCHITECTURE  > $SLAVE_DIRECTORY/info/host
 buildbot start $SLAVE_DIRECTORY
