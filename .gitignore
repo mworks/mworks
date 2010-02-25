@@ -1,3 +1,4 @@
+Info.plist
 MWEditor.xcodeproj/*.pbxuser
 MWEditor.xcodeproj/*.perspectivev3
 build/
