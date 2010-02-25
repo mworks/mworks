@@ -34,10 +34,10 @@ mw_files = (
 
 def backup_files(filelist, backupdir):
     if os.path.exists(backupdir):
-        ctime = os.stat(backupdir)[-1]
+        timestamp = time.ctime(os.stat(backupdir)[-1]).replace(':', '.')
         check_call(['mv',
                     backupdir,
-                    '%s (%s)' % (backupdir, time.ctime(ctime))])
+                    '%s (%s)' % (backupdir, timestamp)])
 
     for filename in filelist:
         if os.path.exists(filename):
@@ -68,12 +68,12 @@ def main():
                       help="don't restore, but back up old installation")
     (options, args) = parser.parse_args()
 
-    backupdir = get_backupdir('Old MonkeyWorks')
+    backupdir = get_backupdir('Old MWorks')
 
     if options.backup:
         backup_files(mw_files, backupdir)
     else:
-        backup_files(mw_files, get_backupdir('Uninstalled MonkeyWorks'))
+        backup_files(mw_files, get_backupdir('Uninstalled MWorks'))
         restore_files(mw_files, backupdir)
 
 
