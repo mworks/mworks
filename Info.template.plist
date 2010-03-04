@@ -30,7 +30,7 @@
 	<key>CFBundleIconFile</key>
 	<string>greenmonkey</string>
 	<key>CFBundleIdentifier</key>
-	<string>org.coxlab.MWEditor</string>
+	<string>org.mworks-project.MWEditor</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
