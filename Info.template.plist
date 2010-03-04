@@ -9,7 +9,7 @@
 	<key>CFBundleIconFile</key>
 	<string>YellowMonkey</string>
 	<key>CFBundleIdentifier</key>
-	<string>edu.mit.MonkeyWorksServer</string>
+	<string>org.mworks-project.MWServer</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
