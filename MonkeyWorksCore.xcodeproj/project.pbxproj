@@ -4367,7 +4367,7 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				HEADER_SEARCH_PATHS = (
-					/usr/include/python2.6,
+					/usr/include/python2.5,
 					$MW_INCLUDE_DIR,
 				);
 				INSTALL_PATH = /usr/local/lib;
@@ -4379,11 +4379,11 @@
 				MACH_O_TYPE = mh_bundle;
 				OTHER_LDFLAGS = (
 					"-lboost_python-mw",
-					"-lpython2.6",
+					"-lpython2.5",
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = _conduit;
-				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
 			};
 			name = "Development (10.5 Compatible)";
 		};
