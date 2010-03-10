@@ -652,7 +652,7 @@
 		0E776BCB0E43590300E7B55C /* MarionetteGlobals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MarionetteGlobals.h; sourceTree = "<group>"; };
 		0E7E9FB90A754FCD00E20898 /* GenericDataTest.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = GenericDataTest.cpp; sourceTree = "<group>"; };
 		0E7E9FBA0A754FCD00E20898 /* GenericDataTest.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GenericDataTest.h; sourceTree = "<group>"; };
-		0E8014140E422E2A00D6DE20 /* MarionetteTest-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MarionetteTest-Info.plist"; sourceTree = "<group>"; };
+		0E8014140E422E2A00D6DE20 /* MarionetteTest-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "MarionetteTest-Info.plist"; path = "../MarionetteTest-Info.plist"; sourceTree = "<group>"; };
 		0E8014360E422F2800D6DE20 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		0E8014370E422F2800D6DE20 /* MarionetteClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MarionetteClient.h; sourceTree = "<group>"; };
 		0E8014380E422F2800D6DE20 /* MarionetteClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MarionetteClient.m; sourceTree = "<group>"; };
@@ -4367,7 +4367,7 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				HEADER_SEARCH_PATHS = (
-					/usr/include/python2.6,
+					/usr/include/python2.5,
 					$MW_INCLUDE_DIR,
 				);
 				INSTALL_PATH = /usr/local/lib;
@@ -4379,11 +4379,11 @@
 				MACH_O_TYPE = mh_bundle;
 				OTHER_LDFLAGS = (
 					"-lboost_python-mw",
-					"-lpython2.6",
+					"-lpython2.5",
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = _conduit;
-				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
 			};
 			name = "Development (10.5 Compatible)";
 		};

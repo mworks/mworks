@@ -16,7 +16,6 @@
     <event variable="#state_system_mode">
       <value type="integer">0</value>
     </event>
-    <event variable="#system"/>
     <event variable="#announceMessage"/>
     <event variable="#stimDisplayUpdate"/>
     <event variable="#beamPosition"/>

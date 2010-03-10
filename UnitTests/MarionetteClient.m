@@ -246,7 +246,10 @@ Datum _getNumber(const string &expression, const GenericDataType type);
 			}
 			
 			if([self.expectedEvents count] > 0) {
-				[self marionetteAssert:@"not all required events were received"]; 
+                MarionetteEvent *expected_event = [self.expectedEvents objectAtIndex:0];
+				[self marionetteAssert:[NSString stringWithFormat:
+                                        @"did not receive event for variable %@",
+                                        [expected_event variable]]]; 
 			}
 		}
 		
@@ -285,10 +288,12 @@ Datum _getNumber(const string &expression, const GenericDataType type);
 	int taskMode_codec_code = client->lookupCodeForTag(STATE_SYSTEM_MODE_TAGNAME);
 	
 	if (code == RESERVED_CODEC_CODE) {
-		client->unregisterCallbacks(MARIONETTE_KEY);
-		
-		CocoaEventFunctor cef(self, @selector(eventReceived:), MARIONETTE_KEY);
-		client->registerCallback(cef);
+        // Event callbacks are locked during callback handling, so if we try to (un)register here,
+        // we'll deadlock.  But why would we even want to do this, i.e. unregister and then immediately
+        // re-register?
+		//client->unregisterCallbacks(MARIONETTE_KEY);
+		//CocoaEventFunctor cef(self, @selector(eventReceived:), MARIONETTE_KEY);
+		//client->registerCallback(cef);
 	} else if (code == RESERVED_SYSTEM_EVENT_CODE && RESERVED_SYSTEM_EVENT_CODE > RESERVED_CODEC_CODE) {
 	 Datum event_data(*[event data]);
 		
@@ -351,7 +356,10 @@ Datum _getNumber(const string &expression, const GenericDataType type);
 										   withMessage:@"received trying to send an experiment more than once"]; 
 								client->sendExperiment([[[[NSProcessInfo processInfo] arguments] objectAtIndex:1] cStringUsingEncoding:NSASCIIStringEncoding]);
 								self.sentExperiment = YES;
-							}
+							} else if (self.sentCloseExperiment) {
+                                self.experimentEnded = YES;
+                                client->disconnectClient();
+                            }
 							
 						}
 					}
@@ -371,13 +379,6 @@ Datum _getNumber(const string &expression, const GenericDataType type);
 							self.sentRunEvent = YES;
 						}
 						
-						break;
-					case M_CLOSE_EXPERIMENT:
-						[self marionetteAssert:self.sentCloseExperiment
-								   withMessage:@"received M_CLOSE_EXPERIMENT without attempting to close"]; 
-						self.experimentEnded = YES;
-						
-						client->disconnectClient();
 						break;
 					case M_DATA_FILE_CLOSED:
 						//					[self marionetteAssert:self.sentCloseDataFile && self.dataFileOpen
@@ -420,7 +421,7 @@ Datum _getNumber(const string &expression, const GenericDataType type);
 			NSString *assert_message = [NSString stringWithCString:event_data.getString() 
 														  encoding:NSASCIIStringEncoding];
 			if([assert_message length] > 0) {
-				[self marionetteAssert:[@"Recieved assert: " stringByAppendingString:assert_message]];
+				[self marionetteAssert:[@"Received assert: " stringByAppendingString:assert_message]];
 			}
 		} else {
 			// if it's not a string it shoud be equal to zero
