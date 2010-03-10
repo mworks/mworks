@@ -1,22 +1,20 @@
-HID_PLUGIN=HIDPlugin
-NE500_PLUGIN=NE500
-SIDEWINDER_PLUGIN=SidewinderPlugAndPlayGamepadPlugin
+BUILD_PLUGIN = \
+	cd $(1) && \
+	xcodebuild clean -alltargets -configuration $(3) && \
+	xcodebuild build -target $(2) -configuration $(3) 
 
-all: ne500-plugin  sidewinder-plugin hid-plugin 
+DEFAULT_CONFIG = "Development (10.5 Compatible)"
+
+all: ne500-plugin sidewinder-plugin hid-plugin drifting-grating-stimulus-plugin
 
 hid-plugin:
-	cd $(HID_PLUGIN); \
-	xcodebuild clean -alltargets -configuration "Development (10.5 Compatible)"; \
-	xcodebuild build -target Everything -configuration "Development (10.5 Compatible)"
+	$(call BUILD_PLUGIN,HIDPlugin,HIDPlugin,$(DEFAULT_CONFIG))
 
 sidewinder-plugin:
-	cd $(SIDEWINDER_PLUGIN); \
-	xcodebuild clean -alltargets -configuration "Development (10.5 Compatible)"; \
-	xcodebuild build -target MSSWGamepadPlugin -configuration "Development (10.5 Compatible)"
+	$(call BUILD_PLUGIN,SidewinderPlugAndPlayGamepadPlugin,MSSWGamepadPlugin,$(DEFAULT_CONFIG))
 
 ne500-plugin:
-	cd $(NE500_PLUGIN); \
-	xcodebuild clean -alltargets -configuration "Development (10.5 Compatible)"; \
-	xcodebuild build -target Everything -configuration "Development (10.5 Compatible)"
+	$(call BUILD_PLUGIN,NE500,Everything,$(DEFAULT_CONFIG))
 
-
+drifting-grating-stimulus-plugin:
+	$(call BUILD_PLUGIN,DriftingGratingStimulus,DriftingGratingStimulusPlugin,"Debug (10.5 Compatible)")
