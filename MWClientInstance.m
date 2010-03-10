@@ -35,10 +35,10 @@
     [headerBox setFillColor:headerColor];
 
 
-	
+	// TODO: this can theoretically throw; display an error without bringing down the whole show
     core = shared_ptr <mw::Client>(new mw::Client());
+    
     variables = [[MWCodec alloc] initWithClientInstance:self];
-	
 	
 	protocolNames = [[NSMutableArray alloc] init];
 	errors = [[NSMutableArray alloc] init];
@@ -76,7 +76,8 @@
 	pluginWindows = [[NSMutableArray alloc] init];
 	[self loadPlugins];
 	
-
+    
+    // TODO: this can throw; display an error without bringing down the whole show
     core->startEventListener();
 	
   
