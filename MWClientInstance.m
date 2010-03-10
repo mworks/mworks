@@ -178,7 +178,7 @@
 	for(int i=N_RESERVED_CODEC_CODES; i < nVars + N_RESERVED_CODEC_CODES; ++i) {
 		shared_ptr <mw::Variable> var = core->getVariable(i);
 		
-        if(var == NULL){
+        if((var == NULL) || (var->getProperties() == NULL)){
             continue;
         }
         
@@ -303,20 +303,25 @@
 	// If that didn't work, try launching the server remotely
 	if((!success || !core->isConnected()) && [self launchIfNeeded]){
 		NSLog(@"Attempting to remotely launch server");
-		NSString *username = @"labuser@";  //TODO
-		NSString *combined_url = [username stringByAppendingString:serverURL];
-		NSString *command = @"/Applications/MWServer.app/Contents/MacOS/MWServer";
-		NSArray *arguments = [NSArray arrayWithObjects:combined_url, 
-								command,
-								Nil]; 
 	
-		NSTask *task;
 		if([[self serverURL] isEqualToString:@"127.0.0.1"] || [[self serverURL] isEqualToString:@"localhost"]){
-			NSMutableArray *local_launch_arguments = [[NSMutableArray alloc] init];
-			task = [NSTask launchedTaskWithLaunchPath:command arguments:local_launch_arguments];
+
+			[NSTask launchedTaskWithLaunchPath:@"/usr/bin/open"
+                                     arguments:[NSArray arrayWithObjects:@"-a", @"MWServer", nil]];
+
 		} else {
-			[NSTask launchedTaskWithLaunchPath:@"/usr/bin/ssh"  arguments:arguments];
+
+			[NSTask launchedTaskWithLaunchPath:@"/usr/bin/ssh" arguments:[NSArray arrayWithObjects:
+                                                                          @"-l",
+                                                                          NSUserName(),
+                                                                          [self serverURL],
+                                                                          @"/usr/bin/open",
+                                                                          @"-a",
+                                                                          @"MWServer",
+                                                                          nil]];
+
 		}
+
 		[NSThread sleepForTimeInterval:4];
 		success = core->connectToServer(url, [serverPort intValue]);
 	}
@@ -945,7 +950,7 @@
 		NSBundle *plugin_bundle = [[NSBundle alloc] initWithPath:fullpath];
 		
     BOOL loaded = false;
-    loaded = [plugin_bundle load];
+    loaded = [plugin_bundle loadAndReturnError:&error];
     if(loaded){
       
       NSArray *toplevel;
@@ -960,7 +965,7 @@
           nib_loaded_correctly = false;
         }
       } @catch(NSException *e){
-        NSLog(@"%@", [e reason]);  
+        NSLog(@"exception while loading nib: %@", [e reason]);  
         nib_loaded_correctly = false;
       }
 			
@@ -989,7 +994,7 @@
 			
 			
 		} else {
-			NSLog(@"Couldn't load bundle");
+			NSLog(@"Couldn't load bundle: %@: %@", [error localizedDescription], [error userInfo]);
 		}
 	}
 	

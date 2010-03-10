@@ -9,7 +9,7 @@
 	<key>CFBundleIconFile</key>
 	<string>ClientProgramIcon</string>
 	<key>CFBundleIdentifier</key>
-	<string>org.coxlab.MWClient</string>
+	<string>org.mworks-project.MWClient</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
