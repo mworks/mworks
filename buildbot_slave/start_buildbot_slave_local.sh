@@ -7,7 +7,8 @@
 SLAVE_DIRECTORY=~/.buildbot_slave
 HOST="localhost"
 PORT="7355"
-ARCHITECTURE="x86_64-OSX-10.6"
+MAC_OSX_VERSION=$(sw_vers -productVersion | grep -Eo '^[0-9]+(\.[0-9]+)?')
+ARCHITECTURE="x86_64-OSX-${MAC_OSX_VERSION}"
 USER=`whoami`
 
 if ! [ -f local_config.sh ]; then
