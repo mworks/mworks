@@ -18,6 +18,17 @@
 			name = ScarabUninstall;
 			productName = CleanScarab;
 		};
+		5C0CD7E9114A87D400B1C674 /* Everything */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 5C0CD7F5114A87E000B1C674 /* Build configuration list for PBXAggregateTarget "Everything" */;
+			buildPhases = (
+			);
+			dependencies = (
+				5C0CD7ED114A87DB00B1C674 /* PBXTargetDependency */,
+			);
+			name = Everything;
+			productName = Everything;
+		};
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
@@ -66,8 +77,21 @@
 		5C50306F0A67ED5700EB7EE2 /* stream_tcpip_buffered.c in Sources */ = {isa = PBXBuildFile; fileRef = 5C50306E0A67ED5700EB7EE2 /* stream_tcpip_buffered.c */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		5C0CD7EC114A87DB00B1C674 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5CF4DE9705911D6D002A02B7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0ECA4C730D6DFF4400BD00B2 /* libscarab.a */;
+			remoteInfo = libscarab.a;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		0ECA4C740D6DFF4400BD00B2 /* libscarab.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libscarab.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		5C0CD7D7114A877B00B1C674 /* Development_10.5_compatible.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Development_10.5_compatible.xcconfig; path = "/Library/Application Support/MWorks/Developer/Xcode/Development_10.5_compatible.xcconfig"; sourceTree = "<absolute>"; };
+		5C0CD7D8114A877B00B1C674 /* Development.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Development.xcconfig; path = "/Library/Application Support/MWorks/Developer/Xcode/Development.xcconfig"; sourceTree = "<absolute>"; };
+		5C0CD7D9114A877B00B1C674 /* WARNING.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = WARNING.txt; path = "/Library/Application Support/MWorks/Developer/Xcode/WARNING.txt"; sourceTree = "<absolute>"; };
 		5C4BDD8809E258B4008B8AB7 /* Scarab-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Scarab-Info.plist"; sourceTree = "<group>"; };
 		5C4FDA2A059D199E00BC36A7 /* scarab_utilities.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = scarab_utilities.c; path = "Scarab-0.1.00d19/c/scarab_utilities.c"; sourceTree = SOURCE_ROOT; };
 		5C4FDA2C059D1B1000BC36A7 /* scarab_utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = scarab_utilities.h; path = "Scarab-0.1.00d19/c/scarab_utilities.h"; sourceTree = SOURCE_ROOT; };
@@ -113,9 +137,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5C0CD7D6114A875200B1C674 /* External Config */ = {
+			isa = PBXGroup;
+			children = (
+				5C0CD7D9114A877B00B1C674 /* WARNING.txt */,
+				5C0CD7D7114A877B00B1C674 /* Development_10.5_compatible.xcconfig */,
+				5C0CD7D8114A877B00B1C674 /* Development.xcconfig */,
+			);
+			name = "External Config";
+			sourceTree = "<group>";
+		};
 		5CF4DE9305911D6D002A02B7 = {
 			isa = PBXGroup;
 			children = (
+				5C0CD7D6114A875200B1C674 /* External Config */,
 				5CF4DEB40591EA4B002A02B7 /* Products */,
 				5CF4DEC90591EAD9002A02B7 /* comp.c */,
 				5CF4DECA0591EAD9002A02B7 /* data.c */,
@@ -242,6 +277,7 @@
 				0ECA4C730D6DFF4400BD00B2 /* libscarab.a */,
 				5C4BDD8609E258B4008B8AB7 /* Scarab */,
 				0E121BA20E6B1A86007B29B8 /* ScarabUninstall */,
+				5C0CD7E9114A87D400B1C674 /* Everything */,
 			);
 		};
 /* End PBXProject section */
@@ -342,6 +378,14 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		5C0CD7ED114A87DB00B1C674 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0ECA4C730D6DFF4400BD00B2 /* libscarab.a */;
+			targetProxy = 5C0CD7EC114A87DB00B1C674 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
 		0E121BA30E6B1A87007B29B8 /* Development */ = {
 			isa = XCBuildConfiguration;
@@ -365,6 +409,23 @@
 				PRODUCT_NAME = scarab;
 			};
 			name = Development;
+		};
+		5C0CD7EA114A87D400B1C674 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = Everything;
+			};
+			name = Development;
+		};
+		5C0CD7EB114A87D400B1C674 /* Development (10.5 Compatible) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = Everything;
+			};
+			name = "Development (10.5 Compatible)";
 		};
 		5C4BDD8A09E258B5008B8AB7 /* Development */ = {
 			isa = XCBuildConfiguration;
@@ -404,24 +465,8 @@
 		};
 		5C518C2910865CB70004DBC0 /* Development (10.5 Compatible) */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5C0CD7D7114A877B00B1C674 /* Development_10.5_compatible.xcconfig */;
 			buildSettings = {
-				APP_SUPPORT_DIR = "/Library/Application Support/MonkeyWorks";
-				ARCHS = (
-					x86_64,
-					i386,
-				);
-				BUILD_VARIANTS = normal;
-				CONFIG_DIR = "$(APP_SUPPORT_DIR)/Configuration";
-				DEVELOPER_DIR = "$(APP_SUPPORT_DIR)/Developer";
-				GCC_C_LANGUAGE_STANDARD = c99;
-				GCC_VERSION = 4.0;
-				MW_INCLUDE_DIR = "\"$(MW_INCLUDE_DIR_UNQUOTED)\"";
-				MW_INCLUDE_DIR_UNQUOTED = "$(DEVELOPER_DIR)/gcc40/include";
-				MW_LIB_DIR = "\"$(MW_LIB_DIR_UNQUOTED)\"";
-				MW_LIB_DIR_UNQUOTED = "$(DEVELOPER_DIR)/gcc40/lib";
-				PLUGINS_DIR = "$(APP_SUPPORT_DIR)/Plugins/Core Plugins";
-				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
-				TESTS_DIR = "$(APP_SUPPORT_DIR)/Developer/tests";
 			};
 			name = "Development (10.5 Compatible)";
 		};
@@ -486,23 +531,8 @@
 		};
 		DA2B5971089814BA0071B527 /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5C0CD7D8114A877B00B1C674 /* Development.xcconfig */;
 			buildSettings = {
-				APP_SUPPORT_DIR = "/Library/Application Support/MonkeyWorks";
-				ARCHS = (
-					x86_64,
-					i386,
-				);
-				BUILD_VARIANTS = normal;
-				CONFIG_DIR = "$(APP_SUPPORT_DIR)/Configuration";
-				DEVELOPER_DIR = "$(APP_SUPPORT_DIR)/Developer";
-				GCC_C_LANGUAGE_STANDARD = c99;
-				MW_INCLUDE_DIR = "\"$(MW_INCLUDE_DIR_UNQUOTED)\"";
-				MW_INCLUDE_DIR_UNQUOTED = "$(DEVELOPER_DIR)/include";
-				MW_LIB_DIR = "\"$(MW_LIB_DIR_UNQUOTED)\"";
-				MW_LIB_DIR_UNQUOTED = "$(DEVELOPER_DIR)/lib";
-				PLUGINS_DIR = "$(APP_SUPPORT_DIR)/Plugins/Core Plugins";
-				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
-				TESTS_DIR = "$(APP_SUPPORT_DIR)/Developer/tests";
 			};
 			name = Development;
 		};
@@ -523,6 +553,15 @@
 			buildConfigurations = (
 				0ECA4C750D6DFF4400BD00B2 /* Development */,
 				5C518C2A10865CB70004DBC0 /* Development (10.5 Compatible) */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		5C0CD7F5114A87E000B1C674 /* Build configuration list for PBXAggregateTarget "Everything" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5C0CD7EA114A87D400B1C674 /* Development */,
+				5C0CD7EB114A87D400B1C674 /* Development (10.5 Compatible) */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
