@@ -1,0 +1,23 @@
+//
+//  Development_10.5_compatible.xcconfig
+//  Scarab
+//
+//  Created by David Cox on 3/11/10.
+//  Copyright 2010 Harvard University. All rights reserved.
+//
+
+ARCHS = x86_64 i386
+SDKROOT = macosx10.5
+BUILD_VARIANTS = normal
+GCC_VERSION = 4.0
+GCC_C_LANGUAGE_STANDARD = c99
+
+APP_SUPPORT_DIR = /Library/Application Support/MWorks
+CONFIG_DIR = $(APP_SUPPORT_DIR)/Configuration
+DEVELOPER_DIR = $(APP_SUPPORT_DIR)/Developer
+MW_INCLUDE_DIR = "$(MW_INCLUDE_DIR_UNQUOTED)"
+MW_INCLUDE_DIR_UNQUOTED = $(DEVELOPER_DIR)/gcc40/include
+MW_LIB_DIR = "$(MW_LIB_DIR_UNQUOTED)"
+MW_LIB_DIR_UNQUOTED = $(DEVELOPER_DIR)/gcc40/lib
+PLUGINS_DIR = $(APP_SUPPORT_DIR)/Plugins/Core Plugins
+TESTS_DIR = $(APP_SUPPORT_DIR)/Developer/tests
