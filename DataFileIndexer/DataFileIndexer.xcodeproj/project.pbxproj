@@ -18,6 +18,18 @@
 			name = dfindexerUninstall;
 			productName = diindexerInstall;
 		};
+		E16EB57C114EDDB500F23DB5 /* Everything */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = E16EB58A114EDE1100F23DB5 /* Build configuration list for PBXAggregateTarget "Everything" */;
+			buildPhases = (
+			);
+			dependencies = (
+				E16EB581114EDDC700F23DB5 /* PBXTargetDependency */,
+				E16EB583114EDDC700F23DB5 /* PBXTargetDependency */,
+			);
+			name = Everything;
+			productName = Everything;
+		};
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
@@ -64,6 +76,20 @@
 			proxyType = 1;
 			remoteGlobalIDString = 0EA58F990D6B24FF0027A3AC;
 			remoteInfo = dfindex;
+		};
+		E16EB580114EDDC700F23DB5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0EA58F990D6B24FF0027A3AC /* dfindex */;
+			remoteInfo = dfindex;
+		};
+		E16EB582114EDDC700F23DB5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5C2A61FD1039DD7B00A62CBA /* Python Bindings */;
+			remoteInfo = "Python Bindings";
 		};
 /* End PBXContainerItemProxy section */
 
@@ -354,6 +380,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
+				E16EB57C114EDDB500F23DB5 /* Everything */,
 				0EA58F0A0D6B20120027A3AC /* Test */,
 				0EA58F990D6B24FF0027A3AC /* dfindex */,
 				0E60D6030E6D89E500B82521 /* dfindexerUninstall */,
@@ -472,6 +499,16 @@
 			isa = PBXTargetDependency;
 			target = 0EA58F990D6B24FF0027A3AC /* dfindex */;
 			targetProxy = 0EA58F9D0D6B254C0027A3AC /* PBXContainerItemProxy */;
+		};
+		E16EB581114EDDC700F23DB5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0EA58F990D6B24FF0027A3AC /* dfindex */;
+			targetProxy = E16EB580114EDDC700F23DB5 /* PBXContainerItemProxy */;
+		};
+		E16EB583114EDDC700F23DB5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5C2A61FD1039DD7B00A62CBA /* Python Bindings */;
+			targetProxy = E16EB582114EDDC700F23DB5 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -838,6 +875,34 @@
 			};
 			name = Release;
 		};
+		E16EB57D114EDDB500F23DB5 /* Development (10.5 Compatible) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = Everything;
+			};
+			name = "Development (10.5 Compatible)";
+		};
+		E16EB57E114EDDB500F23DB5 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = Everything;
+			};
+			name = Development;
+		};
+		E16EB57F114EDDB500F23DB5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				PRODUCT_NAME = Everything;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -897,6 +962,16 @@
 				5CA0779E10CE9F6C00000A95 /* Development (10.5 Compatible) */,
 				5CA0779F10CE9F6C00000A95 /* Development */,
 				5CA077A010CE9F6C00000A95 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E16EB58A114EDE1100F23DB5 /* Build configuration list for PBXAggregateTarget "Everything" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E16EB57D114EDDB500F23DB5 /* Development (10.5 Compatible) */,
+				E16EB57E114EDDB500F23DB5 /* Development */,
+				E16EB57F114EDDB500F23DB5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
