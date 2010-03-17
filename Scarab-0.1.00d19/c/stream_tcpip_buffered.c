@@ -647,12 +647,13 @@ static int buffered_stream_read(ScarabStream * stream, void *buffer, int size) {
 
 	// fill up the read buffer with whatever we can get
 	if(stream->session->read_buffer_read_position + size >= READ_BUFFER_SIZE){
-		// copy the remaining data back to the head of the buffer
-		memcpy(stream->session->read_buffer, 
-			   (unsigned char *)(stream->session->read_buffer) + 
-			   stream->session->read_buffer_read_position,
-			   stream->session->read_buffer_fill_position - 
-			   stream->session->read_buffer_read_position);
+		// copy the remaining data back to the head of the buffer; use memmove so
+        // that the copying is non-destructive
+		memmove(stream->session->read_buffer, 
+                (unsigned char *)(stream->session->read_buffer) + 
+                stream->session->read_buffer_read_position,
+                stream->session->read_buffer_fill_position - 
+                stream->session->read_buffer_read_position);
 		
 		// reset positions
 		stream->session->read_buffer_fill_position = 
@@ -712,6 +713,15 @@ static int buffered_stream_read(ScarabStream * stream, void *buffer, int size) {
 	memcpy(c, (unsigned char *)(stream->session->read_buffer) + 
 						stream->session->read_buffer_read_position, tot);
 	stream->session->read_buffer_read_position += tot;
+    
+    // If we've read all the buffered data, reset positions back to the
+    // start of the read buffer.  (If we don't, we'll steadily creep further
+    // into the buffer, which will cause more and more of it to page in
+    // from virtual memory.)
+    if (stream->session->read_buffer_read_position == stream->session->read_buffer_fill_position) {
+        stream->session->read_buffer_fill_position = 0;
+        stream->session->read_buffer_read_position = 0;
+    }
 
 	return tot;
 }
