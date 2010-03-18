@@ -35,9 +35,9 @@ int main(int argc, char *argv[]) {
 
     bool returnval;
     if (argc > 1)
-        returnval = runner.run( argv[1], false );  // Run specified test
+        returnval = runner.run( argv[1], false, true, false );  // Run specified test
     else
-        returnval = runner.run( "", false );       // Run all tests
+        returnval = runner.run( "", false, true, false );       // Run all tests
   
   // return !returnval because it is 1 on success
   return !returnval;

@@ -69,7 +69,7 @@ class ScarabNetworkTestFixture : public ScarabFileTestFixture {
 		void testBurst(){
 			fprintf(stderr, "Running ScarabNetworkTestFixture::testBurst()\n");
 
-			printf("Testing network burst...\n");
+			fprintf(stderr, "Testing network burst...\n");
 			pthread_t thread;
 			
 			// Connect as server (separate thread)...
@@ -84,7 +84,7 @@ class ScarabNetworkTestFixture : public ScarabFileTestFixture {
 			if (!session) {
 				printErr(0,"SCARAB", "Session could not be allocated.", 0, "");
 			} else {
-				//printf("[CLIENT CONNECTED]\n");
+				//fprintf(stderr, "[CLIENT CONNECTED]\n");
 			}
 			CPPUNIT_ASSERT( session != NULL );
 
@@ -100,7 +100,7 @@ class ScarabNetworkTestFixture : public ScarabFileTestFixture {
 				
 				CPPUNIT_ASSERT( outdatum != NULL );
 				CPPUNIT_ASSERT( outdatum->type == SCARAB_INTEGER );
-				//printf("%d ", outdatum->data.integer);
+				//fprintf(stderr, "%d ", outdatum->data.integer);
 				CPPUNIT_ASSERT( outdatum->data.integer == i );
 			}
 			
@@ -110,7 +110,7 @@ class ScarabNetworkTestFixture : public ScarabFileTestFixture {
 			CPPUNIT_ASSERT( scarab_session_geterr(session) == 0 );
 			
 			scarab_session_close(session);	
-			//printf("[CLIENT DISCONNECTED]\n");
+			//fprintf(stderr, "[CLIENT DISCONNECTED]\n");
 			
 		
 		}
@@ -119,7 +119,7 @@ class ScarabNetworkTestFixture : public ScarabFileTestFixture {
 		void testFloatBurst(){		
 			fprintf(stderr, "Running ScarabNetworkTestFixture::testFloatBurst()\n");
 
-			printf("Testing network burst (floats)...\n");
+			fprintf(stderr, "Testing network burst (floats)...\n");
 			pthread_t thread;
 			
 			// Connect as server (separate thread)...
@@ -134,7 +134,7 @@ class ScarabNetworkTestFixture : public ScarabFileTestFixture {
 			if (!session) {
 				printErr(0,"SCARAB", "Session could not be allocated.", 0, "");
 			} else {
-				//printf("[CLIENT CONNECTED]\n");
+				//fprintf(stderr, "[CLIENT CONNECTED]\n");
 			}
 			CPPUNIT_ASSERT( session != NULL );
 
@@ -146,9 +146,9 @@ class ScarabNetworkTestFixture : public ScarabFileTestFixture {
 			
 			ScarabDatum *outdatum;
 			int n = 0;
-			printf("stress testing...");
+			fprintf(stderr, "stress testing...");
 			for(double i = -N_BURST_WRITES; i < N_BURST_WRITES; i+=0.1){
-				if(n++ % 1000 == 0){ printf("."); }
+				if(n++ % 1000 == 0){ fprintf(stderr, "."); }
 				outdatum = scarab_read(session);
 				
 				CPPUNIT_ASSERT( outdatum != NULL );
@@ -167,10 +167,10 @@ class ScarabNetworkTestFixture : public ScarabFileTestFixture {
 					double float_hack = *((double *)swap_bytes);
 				#endif
 			
-				//printf("%g ", float_hack);
+				//fprintf(stderr, "%g ", float_hack);
 				CPPUNIT_ASSERT( (float_hack -  i) < 1e-7 );
 			}
-			printf("\n");
+			fprintf(stderr, "\n");
 			
 			if (scarab_session_geterr(session)) {
 				serr(session);
@@ -178,7 +178,7 @@ class ScarabNetworkTestFixture : public ScarabFileTestFixture {
 			CPPUNIT_ASSERT( scarab_session_geterr(session) == 0 );
 			
 			scarab_session_close(session);	
-			//printf("[CLIENT DISCONNECTED]\n");
+			//fprintf(stderr, "[CLIENT DISCONNECTED]\n");
 			
 		
 		}
@@ -208,7 +208,7 @@ class ScarabNetworkTestFixture : public ScarabFileTestFixture {
 			if (!session) {
 				printErr(0,"SCARAB", "Session could not be allocated.", 0, "");
 			} else {
-				//printf("[CLIENT CONNECTED]\n");
+				//fprintf(stderr, "[CLIENT CONNECTED]\n");
 			}
 			CPPUNIT_ASSERT( session != NULL );
 
@@ -227,7 +227,7 @@ class ScarabNetworkTestFixture : public ScarabFileTestFixture {
 			CPPUNIT_ASSERT( scarab_session_geterr(session) == 0 );
 			
 			scarab_session_close(session);	
-			//printf("[CLIENT DISCONNECTED]\n");
+			//fprintf(stderr, "[CLIENT DISCONNECTED]\n");
 			
 		
 			return outdatum;
@@ -243,7 +243,7 @@ void *test_server(void *args) {
 	int i;
 
 
-	//printf("Server binding to %s...\n", TEST_URI);
+	//fprintf(stderr, "Server binding to %s...\n", TEST_URI);
 	srv = scarab_session_listen(TEST_URI);
 	if (!srv) {
 		printErr(0,"SCARAB", "Session could not be allocated.", 0, "");
@@ -266,14 +266,14 @@ void *test_server(void *args) {
 		return NULL;
 	}
 	
-	//printf("[SERVER ACCEPT]\n");
+	//fprintf(stderr, "[SERVER ACCEPT]\n");
 	scarab_write(client, the_datum);
 	
 	scarab_session_close(client);
-	//printf("[SERVER DISCONNECT]\n");
+	//fprintf(stderr, "[SERVER DISCONNECT]\n");
 	
 	scarab_session_close(srv);
-	//printf("[SERVER STOP ACCEPTING]\n");
+	//fprintf(stderr, "[SERVER STOP ACCEPTING]\n");
 
 	return 0;
 }
@@ -286,7 +286,7 @@ void *test_server_burst(void *args) {
 	int i;
 
 
-	//printf("Server binding to %s...\n", TEST_URI);
+	//fprintf(stderr, "Server binding to %s...\n", TEST_URI);
 	srv = scarab_session_listen(TEST_URI);
 	if (!srv) {
 		printErr(0,"SCARAB", "Session could not be allocated.", 0, "");
@@ -310,7 +310,7 @@ void *test_server_burst(void *args) {
 		return NULL;
 	}
 	
-	//printf("[SERVER ACCEPT]\n");
+	//fprintf(stderr, "[SERVER ACCEPT]\n");
 	
 	for(int i = 0; i < N_BURST_WRITES; i++){
 		scarab_write(client, scarab_new_integer(i));
@@ -318,10 +318,10 @@ void *test_server_burst(void *args) {
 	
 	
 	scarab_session_close(client);
-	//printf("[SERVER DISCONNECT]\n");
+	//fprintf(stderr, "[SERVER DISCONNECT]\n");
 	
 	scarab_session_close(srv);
-	//printf("[SERVER STOP ACCEPTING]\n");
+	//fprintf(stderr, "[SERVER STOP ACCEPTING]\n");
 
 	return 0;
 }
@@ -335,7 +335,7 @@ void *test_server_float_burst(void *args) {
 
 
 
-	//printf("Server binding to %s...\n", TEST_URI);
+	//fprintf(stderr, "Server binding to %s...\n", TEST_URI);
 	srv = scarab_session_listen(TEST_URI);
 	if (!srv) {
 		printErr(0,"SCARAB", "Session could not be allocated.", 0, "");
@@ -359,7 +359,7 @@ void *test_server_float_burst(void *args) {
 		return NULL;
 	}
 	
-	//printf("[SERVER ACCEPT]\n");
+	//fprintf(stderr, "[SERVER ACCEPT]\n");
 	
 	for(double i = -N_BURST_WRITES; i < N_BURST_WRITES; i += 0.1){
 		scarab_write(client, scarab_new_float(i));
@@ -367,10 +367,10 @@ void *test_server_float_burst(void *args) {
 	
 	
 	scarab_session_close(client);
-	//printf("[SERVER DISCONNECT]\n");
+	//fprintf(stderr, "[SERVER DISCONNECT]\n");
 	
 	scarab_session_close(srv);
-	//printf("[SERVER STOP ACCEPTING]\n");
+	//fprintf(stderr, "[SERVER STOP ACCEPTING]\n");
 
 	return 0;
 }
