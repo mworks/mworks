@@ -246,6 +246,7 @@
 				);
 				COPY_PHASE_STRIP = NO;
 				FINAL_INSTALL_DIR = "$(APP_SUPPORT_DIR)/Tools";
+				GCC_VERSION = 4.0;
 				HEADER_SEARCH_PATHS = (
 					"$(HEADER_SEARCH_PATHS_QUOTED_FOR_PROJECT_1)",
 					"$(MATLAB_DIR)/extern/include",
