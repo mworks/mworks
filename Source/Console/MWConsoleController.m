@@ -1,6 +1,6 @@
 //
 //  MWConsoleController.m
-//  MonkeyWorksGUIComponents
+//  MWorksGUIComponents
 //
 //  Created by Ben Kennedy on 7/23/07.
 //  Copyright 2007 MIT. All rights reserved.
@@ -10,10 +10,10 @@
 #import "MWConsoleController.h"
 #import "MWNotifications.h"
 #import "MWCocoaEvent.h"
-#import "MonkeyWorksCore/StandardVariables.h"
+#import "MWorksCore/StandardVariables.h"
 #import "MWClientServerBase.h"
 
-#define MW_CONSOLE_CONTROLLER_CALLBACK_KEY "MonkeyWorksCocoa console controller callback key"
+#define MW_CONSOLE_CONTROLLER_CALLBACK_KEY "MWorksCocoa console controller callback key"
 #define MW_CONSOLE_MAX_CHAR_LENGTH_DEFAULT 10000
 
 
@@ -260,8 +260,8 @@
 		
 		
 //		/*#define MW_CONSOLE_UPDATE_INTERVAL	10
-//		static MonkeyWorksTime last_time = 0; 
-//		MonkeyWorksTime	current_time = GlobalClock->getCurrentTimeMS();
+//		static MWorksTime last_time = 0; 
+//		MWorksTime	current_time = GlobalClock->getCurrentTimeMS();
 //		if(current_time - last_time > MW_CONSOLE_UPDATE_INTERVAL){*/
 //		/*[[NSNotificationCenter defaultCenter] 
 //postNotificationName:MWConsoleUpdatedNotification 
@@ -309,7 +309,7 @@
       
 			int msgType = payload.getElement(M_MESSAGE_TYPE).getInteger();
 			
-			MonkeyWorksTime eventTime = [event time];
+			MWorksTime eventTime = [event time];
 			
 			NSNumber *time = [[[NSNumber alloc] initWithLongLong:eventTime/1e6] autorelease];
 			

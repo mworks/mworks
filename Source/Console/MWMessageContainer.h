@@ -17,7 +17,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-#import "MonkeyWorksCore/Event.h"
+#import "MWorksCore/Event.h"
 using namespace mw;
 
 // Message type constants.

@@ -1,13 +1,13 @@
 //
 //  MWClientServerBase.m
-//  MonkeyWorksCocoa
+//  MWorksCocoa
 //
 //  Created by Ben Kennedy on 9/19/07.
 //  Copyright 2007 MIT. All rights reserved.
 //
 
 #import "MWClientServerBase.h"
-#import "MonkeyWorksCore/Utilities.h"
+#import "MWorksCore/Utilities.h"
 
 
 @implementation MWClientServerBase

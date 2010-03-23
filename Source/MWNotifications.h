@@ -1,6 +1,6 @@
 /*
  *  MWNotifications.h
- *  MonkeyWorksGUIComponents
+ *  MWorksGUIComponents
  *
  *  Created by Ben Kennedy on 7/26/07.
  *  Copyright 2007 __MyCompanyName__. All rights reserved.

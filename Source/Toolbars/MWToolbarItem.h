@@ -1,6 +1,6 @@
 //
 //  MWCToolbarItem.h
-//  MonkeyWorksClient
+//  MWorksClient
 //
 //  Created by bkennedy on 9/19/07. <-- National "Talk like a pirate day"
 //  Copyright 2007 MIT. All rights reserved.  Arrrrr!

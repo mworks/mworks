@@ -1,6 +1,6 @@
 //
 //  MWConsoleToolbar.h
-//  MonkeyWorksCocoa
+//  MWorksCocoa
 //
 //  Created by Ben Kennedy on 10/5/07.
 //  Copyright 2007 __MyCompanyName__. All rights reserved.

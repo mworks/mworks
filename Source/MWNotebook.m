@@ -19,7 +19,7 @@
 
     logFilePath = [[NSMutableString alloc] init];
     
-    [logFilePath appendString:@"/Library/MonkeyWorks/DataFiles/"];
+    [logFilePath appendString:@"/Library/MWorks/DataFiles/"];
 
     [logFilePath appendString:[[NSDate date] descriptionWithCalendarFormat:@"%Y%m%d_%H%M%S%F.log"
                                            timeZone:Nil

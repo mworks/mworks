@@ -1,13 +1,13 @@
 //
 //  MWClientServerBase.h
-//  MonkeyWorksCocoa
+//  MWorksCocoa
 //
 //  Created by Ben Kennedy on 9/19/07.
 //  Copyright 2007 MIT. All rights reserved.
 //
 
 #import <Cocoa/Cocoa.h>
-#import "MonkeyWorksCore/GenericData.h"
+#import "MWorksCore/GenericData.h"
 using namespace mw;
 
 @interface MWClientServerBase : NSObject {

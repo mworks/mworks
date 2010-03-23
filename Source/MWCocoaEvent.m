@@ -1,6 +1,6 @@
 //
 //  MWCocoaEvent.m
-//  MonkeyWorksCocoa
+//  MWorksCocoa
 //
 //  Created by Ben Kennedy on 8/14/07.
 //  Copyright 2007 __MyCompanyName__. All rights reserved.
@@ -13,7 +13,7 @@
 
 - (id) initWithData:(Datum *)data 
 			andCode:(int)code 
-			andTime:(MonkeyWorksTime)time {
+			andTime:(MWorksTime)time {
 	self = [super init];
 	if (self != nil) {
 		_data = new Datum(*data);
@@ -28,7 +28,7 @@
     [super finalize];
 }
 
-- (MonkeyWorksTime)time {
+- (MWorksTime)time {
 	return _time;
 }
 

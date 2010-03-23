@@ -1,6 +1,6 @@
 //
 //  MWConsoleToolbar.m
-//  MonkeyWorksCocoa
+//  MWorksCocoa
 //
 //  Created by Ben Kennedy on 10/5/07.
 //  Copyright 2007 __MyCompanyName__. All rights reserved.
@@ -10,8 +10,8 @@
 #import "MWConsoleController.h"
 #import <Appkit/Appkit.h>
 
-#define SAVE_BUTTON @"MonkeyWorksCocoa console save button"
-#define CLEAR_BUTTON @"MonkeyWorksCocoa console clear button"
+#define SAVE_BUTTON @"MWorksCocoa console save button"
+#define CLEAR_BUTTON @"MWorksCocoa console clear button"
 
 @implementation MWConsoleToolbar
 - (id)delegate {
@@ -42,7 +42,7 @@
 	willBeInsertedIntoToolbar:(bool)flag {
 	
 	if([itemIdentifier isEqualToString:SAVE_BUTTON]) {
-		NSString *resourcePath = [[NSBundle bundleWithPath:@"/Library/Frameworks/MonkeyWorksCocoa.framework"] resourcePath];
+		NSString *resourcePath = [[NSBundle bundleWithPath:@"/Library/Frameworks/MWorksCocoa.framework"] resourcePath];
 		NSToolbarItem *item = [[NSToolbarItem alloc] initWithItemIdentifier:itemIdentifier];
 		
 		[item setLabel:@"Save"];
@@ -55,7 +55,7 @@
 		//return [item autorelease];
     return item;
 	}  else if([itemIdentifier isEqualToString:CLEAR_BUTTON]) {
-		NSString *resourcePath = [[NSBundle bundleWithPath:@"/Library/Frameworks/MonkeyWorksCocoa.framework"] resourcePath];
+		NSString *resourcePath = [[NSBundle bundleWithPath:@"/Library/Frameworks/MWorksCocoa.framework"] resourcePath];
 		NSToolbarItem *item = [[NSToolbarItem alloc] initWithItemIdentifier:itemIdentifier];
 		
 		[item setLabel:@"Clear"];

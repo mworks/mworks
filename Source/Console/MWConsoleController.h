@@ -1,6 +1,6 @@
 //
 //  MWConsoleController.h
-//  MonkeyWorksGUIComponents
+//  MWorksGUIComponents
 //
 //  Created by Ben Kennedy on 7/23/07.
 //  Copyright 2007 MIT. All rights reserved.

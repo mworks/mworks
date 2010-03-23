@@ -1,6 +1,6 @@
 /*
  *  MWCocoaEventFunctor.cpp
- *  MonkeyWorksCocoa
+ *  MWorksCocoa
  *
  *  Created by David Cox on 11/2/09.
  *  Copyright 2009 Harvard University. All rights reserved.

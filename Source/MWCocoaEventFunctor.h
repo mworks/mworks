@@ -1,6 +1,6 @@
 /*
  *  MWCocoaEventFunctor.h
- *  MonkeyWorksCocoa
+ *  MWorksCocoa
  *
  *  Created by bkennedy on 9/6/07.
  *  Copyright 2007 MIT. All rights reserved.
@@ -10,10 +10,10 @@
 #ifndef __COCOA_EVENT_FUNCTOR_H_
 #define __COCOA_EVENT_FUNCTOR_H_
 
-//#include "MonkeyWorksCore/GenericEventFunctor.h"
+//#include "MWorksCore/GenericEventFunctor.h"
 #include "MWCocoaEvent.h"
 #import "CocoaBindingsSetter.h"
-#include "MonkeyWorksCore/EventStreamInterface.h"
+#include "MWorksCore/EventStreamInterface.h"
 #include <boost/shared_ptr.hpp>
 using namespace std;
 using namespace boost;
