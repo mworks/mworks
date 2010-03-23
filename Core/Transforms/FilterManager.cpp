@@ -1,6 +1,6 @@
 /*
  *  .cpp
- *  MonkeyWorksCore
+ *  MWorksCore
  *
  *  Created by JJD on 8/25/05.
  *  Copyright 2005 MIT. All rights reserved.

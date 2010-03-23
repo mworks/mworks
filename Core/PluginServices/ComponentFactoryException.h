@@ -1,6 +1,6 @@
 /*
  *  ComponentFactoryException.h
- *  MonkeyWorksCore
+ *  MWorksCore
  *
  *  Created by bkennedy on 12/3/07.
  *  Copyright 2007 MIT. All rights reserved.

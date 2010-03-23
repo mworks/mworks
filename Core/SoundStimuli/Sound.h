@@ -3,7 +3,7 @@
 
 /*
  *  Sound.h
- *  MonkeyWorksCore
+ *  MWorksCore
  *
  *  Created by David Cox on 10/13/06.
  *  Copyright 2006 __MyCompanyName__. All rights reserved.

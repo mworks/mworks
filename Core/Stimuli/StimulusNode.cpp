@@ -1,6 +1,6 @@
 /*
  *  StimulusNode.cpp
- *  MonkeyWorksCore
+ *  MWorksCore
  *
  *  Created by David Cox on 6/10/07.
  *  Copyright 2007 __MyCompanyName__. All rights reserved.

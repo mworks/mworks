@@ -1,6 +1,6 @@
 /*
  *  XMLVariableWriter.h
- *  MonkeyWorksCore
+ *  MWorksCore
  *
  *  Created by David Cox on 5/30/08.
  *  Copyright 2008 __MyCompanyName__. All rights reserved.

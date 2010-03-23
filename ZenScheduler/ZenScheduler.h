@@ -1,6 +1,6 @@
 /*
  *  ZenScheduler.h
- *  MonkeyWorksCore
+ *  MWorksCore
  *
  *  Created by David Cox on 6/16/05.
  *  Copyright 2005 MIT. All rights reserved.
@@ -10,10 +10,10 @@
 #ifndef ZEN_SCHEDULER_H
 #define ZEN_SCHEDULER_H
 
-#include "MonkeyWorksCore/Scheduler.h"
-#include "MonkeyWorksCore/ExpandableList.h"
-#include "MonkeyWorksCore/LinkedList.h"
-#include "MonkeyWorksCore/Plugin.h"
+#include "MWorksCore/Scheduler.h"
+#include "MWorksCore/ExpandableList.h"
+#include "MWorksCore/LinkedList.h"
+#include "MWorksCore/Plugin.h"
 #include "boost/thread/mutex.hpp"
 #include "boost/shared_ptr.hpp"
 

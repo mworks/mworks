@@ -1,6 +1,6 @@
 /*
  *  RewardCoordinator.h
- *  MonkeyWorksCore
+ *  MWorksCore
  *
  *  Created by dicarlo on 11/14/06.
  *  Copyright 2006 MIT All rights reserved.

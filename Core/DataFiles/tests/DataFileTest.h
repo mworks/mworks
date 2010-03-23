@@ -3,7 +3,7 @@
 
 /*
  *  DatumFileTest.h
- *  MonkeyWorksCore
+ *  MWorksCore
  *
  *  Created by Ben Kennedy 12032006
  *  Copyright 2006 __MyCompanyName__. All rights reserved.
@@ -15,9 +15,9 @@
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
 
-#include "MonkeyWorksCore/EventBuffer.h"
-#include "MonkeyWorksCore/Lockable.h"
-#include "MonkeyWorksCore/DataFileManager.h"
+#include "MWorksCore/EventBuffer.h"
+#include "MWorksCore/Lockable.h"
+#include "MWorksCore/DataFileManager.h"
 
 
 namespace mw {

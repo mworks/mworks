@@ -1,6 +1,6 @@
 /*
  *  Exceptions.h
- *  MonkeyWorksCore
+ *  MWorksCore
  *
  *  Created by David Cox on 1/27/08.
  *  Copyright 2008 __MyCompanyName__. All rights reserved.

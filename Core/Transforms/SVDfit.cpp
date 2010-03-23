@@ -1,6 +1,6 @@
 /*
  *  SVDfit.cpp
- *  MonkeyWorksCore
+ *  MWorksCore
  *
  *  Created by dicarlo on 9/16/05.
  *  Copyright 2005 __MyCompanyName__. All rights reserved.

@@ -1,6 +1,6 @@
 /*
  *  EyeCalibrators.cpp
- *  MonkeyWorksCore
+ *  MWorksCore
  *
  *  Created by dicarlo on 8/30/05.
  *  Copyright 2005 __MyCompanyName__. All rights reserved.

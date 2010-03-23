@@ -1,6 +1,6 @@
 /*
  *  MathUtilities.h
- *  MonkeyWorksCore
+ *  MWorksCore
  *
  *  Created by dicarlo on 9/19/05.
  *  Copyright 2005 MIT.. All rights reserved.

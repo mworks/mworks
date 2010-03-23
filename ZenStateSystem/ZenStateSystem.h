@@ -1,6 +1,6 @@
 /*
  *  ZenStateSystem.h
- *  MonkeyWorksCore
+ *  MWorksCore
  *
  *  Created by David Cox on 6/16/05.
  *  Copyright 2005 __MyCompanyName__. All rights reserved.
@@ -21,7 +21,7 @@
  */
 
 
-#include "MonkeyWorksCore/StateSystem.h"
+#include "MWorksCore/StateSystem.h"
 using namespace mw;
 
 class StandardStateSystem : public StateSystem {

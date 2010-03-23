@@ -1,6 +1,6 @@
 /*
  *  TimerTest.h
- *  MonkeyWorksCore
+ *  MWorksCore
  *
  *  Created by David Cox on 9/25/07.
  *  Copyright 2007 MIT. All rights reserved.
@@ -10,7 +10,7 @@
 #include "FullCoreEnvironmentTest.h"
 #include <vector>
 
-#include "MonkeyWorksCore/Timer.h"
+#include "MWorksCore/Timer.h"
 namespace mw {
 class TimerTestFixture : public FullCoreEnvironmentTestFixture {
 

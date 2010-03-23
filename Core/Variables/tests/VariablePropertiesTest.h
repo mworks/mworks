@@ -3,7 +3,7 @@
 
 /*
  *  VariablePropertiesTest.h
- *  MonkeyWorksCore
+ *  MWorksCore
  *
  *  Created by Ben Kennedy on 8/28/07.
  *  Copyright 2007 MIT. All rights reserved.
@@ -15,7 +15,7 @@
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
 
-#include "MonkeyWorksCore/VariableRegistry.h"
+#include "MWorksCore/VariableRegistry.h"
 namespace mw {
 class VariablePropertiesTestFixture : public CppUnit::TestFixture {
 	

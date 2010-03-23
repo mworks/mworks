@@ -18,17 +18,17 @@
 namespace mw {
 	
 #ifdef __APPLE__
-    const char * DATA_FILE_PATH = "/Documents/MonkeyWorks/Data/";
-	const char * PLUGIN_PATH = "/Library/Application Support/MonkeyWorks/Plugins/Core Plugins";
-	const char * SCRIPTING_PATH = "/Library/Application Support/MonkeyWorks/Scripting";
-	const char * LOCAL_PATH = "/Library/Application Support/MonkeyWorks/Configuration";
-	const char * EXPERIMENT_INSTALL_PATH = "/Library/Application Support/MonkeyWorks/Experiment Cache";
+    const char * DATA_FILE_PATH = "/Documents/MWorks/Data/";
+	const char * PLUGIN_PATH = "/Library/Application Support/MWorks/Plugins/Core";
+	const char * SCRIPTING_PATH = "/Library/Application Support/MWorks/Scripting";
+	const char * LOCAL_PATH = "/Library/Application Support/MWorks/Configuration";
+	const char * EXPERIMENT_INSTALL_PATH = "/Library/Application Support/MWorks/Experiment Cache";
 #else
 	
-    const char * DATA_FILE_PATH "/usr/local/MonkeyWorks/plugins/";
-	const char * PLUGIN_PATH = "/usr/local/MonkeyWorks/plugins/";
-	const char * SCRIPTING_PATH = "/usr/local/MonkeyWorks/scripting/";
-	const char * LOCAL_PATH = "/usr/local/MonkeyWorks/local/";
+    const char * DATA_FILE_PATH "/usr/local/MWorks/plugins/";
+	const char * PLUGIN_PATH = "/usr/local/MWorks/plugins/";
+	const char * SCRIPTING_PATH = "/usr/local/MWorks/scripting/";
+	const char * LOCAL_PATH = "/usr/local/MWorks/local/";
 	const char * EXPERIMENT_INSTALL_PATH = "/tmp/mw_experiments/";
 #endif
 	
@@ -53,7 +53,7 @@ namespace mw {
 		
 		NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 		for(NSBundle *framework in [NSBundle allFrameworks]) {
-			if([[[[framework bundlePath] lastPathComponent] stringByDeletingPathExtension] isEqualToString:@"MonkeyWorksCore"]) {
+			if([[[[framework bundlePath] lastPathComponent] stringByDeletingPathExtension] isEqualToString:@"MWorksCore"]) {
 				resource_path = [[framework resourcePath] cStringUsingEncoding:NSASCIIStringEncoding];
 			}
 		}

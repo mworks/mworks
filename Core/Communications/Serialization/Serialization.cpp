@@ -1,6 +1,6 @@
 /*
  *  Serialization.cpp
- *  MonkeyWorksCore
+ *  MWorksCore
  *
  *  Created by David Cox on 9/26/08.
  *  Copyright 2008 Harvard University. All rights reserved.

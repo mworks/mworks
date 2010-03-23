@@ -3,7 +3,7 @@
 
 /*
  *  VectorTest.h
- *  MonkeyWorksCore
+ *  MWorksCore
  *
  *  Created by David Cox on 3/30/06.
  *  Copyright 2006 __MyCompanyName__. All rights reserved.
@@ -16,7 +16,7 @@
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
 
-#include "MonkeyWorksCore/GenericData.h"
+#include "MWorksCore/GenericData.h"
 
 namespace mw {
 class VectorTestFixture : public CppUnit::TestFixture {

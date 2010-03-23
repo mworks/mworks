@@ -1,6 +1,6 @@
 /*
  *  XMLParser.cpp
- *  MonkeyWorksCore
+ *  MWorksCore
  *
  *  Created by David Cox on 11/25/07.
  *  Copyright 2007 __MyCompanyName__. All rights reserved.

@@ -1,10 +1,10 @@
 #ifndef COMMON_UI_DEFS_H
 #define COMMON_UI_DEFS_H
 
-#import "MonkeyWorksCore/MessagesController.h"
-#import "MonkeyWorksCore/StimMirrorController.h"
-#import "MonkeyWorksCore/ParadigmVariablesController.h"
-#import "MonkeyWorksCore/NetworkLogDataSource.h"
+#import "MWorksCore/MessagesController.h"
+#import "MWorksCore/StimMirrorController.h"
+#import "MWorksCore/ParadigmVariablesController.h"
+#import "MWorksCore/NetworkLogDataSource.h"
 
 //const CFStringRef kMainNibFileName = CFSTR("ExperimentalControl");
 //const CFStringRef kStatAndMessWindowName = CFSTR("StatusAndMessages");

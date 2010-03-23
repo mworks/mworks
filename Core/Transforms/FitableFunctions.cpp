@@ -1,6 +1,6 @@
 /*
  *  FitableFunctions.cpp
- *  MonkeyWorksCore
+ *  MWorksCore
  *
  *  Created by dicarlo on 9/2/05.
  *  Copyright 2005 MIT. All rights reserved.

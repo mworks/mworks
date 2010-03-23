@@ -1,6 +1,6 @@
 /*
  *  FullCoreEnvironmentTest.cpp
- *  MonkeyWorksCore
+ *  MWorksCore
  *
  *  Created by David Cox on 9/19/06.
  *  Copyright 2006 __MyCompanyName__. All rights reserved.
@@ -9,20 +9,20 @@
 
 #include "FullCoreEnvironmentTest.h"
 #include <sstream>
-#include "MonkeyWorksCore/CorebuilderForeman.h"
-#include "MonkeyWorksCore/TestBedCoreBuilder.h"
-#include "MonkeyWorksCore/Experiment.h"
-#include "MonkeyWorksCore/EventBuffer.h"
-#include "MonkeyWorksCore/PluginServices.h"
-#include "MonkeyWorksCore/StandardVariables.h"
-#include "MonkeyWorksCore/DataFileManager.h"
-#include "MonkeyWorksCore/OpenALContextManager.h"
-#include "MonkeyWorksCore/FilterManager.h"
-#include "MonkeyWorksCore/IODeviceManager.h"
+#include "MWorksCore/CorebuilderForeman.h"
+#include "MWorksCore/TestBedCoreBuilder.h"
+#include "MWorksCore/Experiment.h"
+#include "MWorksCore/EventBuffer.h"
+#include "MWorksCore/PluginServices.h"
+#include "MWorksCore/StandardVariables.h"
+#include "MWorksCore/DataFileManager.h"
+#include "MWorksCore/OpenALContextManager.h"
+#include "MWorksCore/FilterManager.h"
+#include "MWorksCore/IODeviceManager.h"
 using namespace mw;
 
 // Can't open OpenGL from here?
-//#include "MonkeyWorksCore/OpenGLContextManager.h"
+//#include "MWorksCore/OpenGLContextManager.h"
 
 void FullCoreEnvironmentTestFixture::setUp(){
 	builder = new TestBedCoreBuilder();

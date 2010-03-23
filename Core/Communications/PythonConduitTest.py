@@ -1,6 +1,6 @@
-import sys; sys.path.append("/Library/Application Support/MonkeyWorks/Scripting/Python")
+import sys; sys.path.append("/Library/Application Support/MWorks/Scripting/Python")
 
-from monkeyworks.conduit import *
+from mworks.conduit import *
 
 # connect as a client to a remote IPC conduit (assumed to be attached to the "live" MW server)
 conduit = IPCClientConduit("python_test_conduit")

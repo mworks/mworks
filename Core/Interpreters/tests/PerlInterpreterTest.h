@@ -4,7 +4,7 @@
 
 /*
  *  PerlInterpreterTest.h
- *  MonkeyWorksCore
+ *  MWorksCore
  *
  *  Created by David Cox on 3/30/06.
  *  Copyright 2006 __MyCompanyName__. All rights reserved.
@@ -17,9 +17,9 @@
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
 
-#include "MonkeyWorksCore/EmbeddedPerlInterpreter.h"
-#include "MonkeyWorksCore/Experiment.h"
-#include "MonkeyWorksCore/IODeviceManager.h"
+#include "MWorksCore/EmbeddedPerlInterpreter.h"
+#include "MWorksCore/Experiment.h"
+#include "MWorksCore/IODeviceManager.h"
 namespace mw {
 class PerlInterpreterTestFixture : public CppUnit::TestFixture {
 

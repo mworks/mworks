@@ -15,8 +15,8 @@
 // if defined, use low-level mach voodoo wherever possible
 #define USE_MACH_MOJO
 
-#include "MonkeyWorksCore/Clock.h"
-#include "MonkeyWorksCore/Plugin.h"
+#include "MWorksCore/Clock.h"
+#include "MWorksCore/Plugin.h"
 #include "mach/mach_time.h"
 using namespace mw;
 //////////////////////////////////////////////////////////////////////////

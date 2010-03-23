@@ -4,7 +4,7 @@
 
 /*
  *  BiasMonitor.h
- *  MonkeyWorksCore
+ *  MWorksCore
  *
  *  Evaluates the extent to which a "biased" strategy fits available data
  *  better than either random guessing or correct responses

@@ -3,7 +3,7 @@
 
 /*
  *  BoostMathExampleTest.h
- *  MonkeyWorksCore
+ *  MWorksCore
  *
  *  Created by Ben Kennedy 12022006
  *  Copyright 2006 __MyCompanyName__. All rights reserved.

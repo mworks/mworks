@@ -1,6 +1,6 @@
 /*
  *  CodecAwareConduit.h
- *  MonkeyWorksCore
+ *  MWorksCore
  *
  *  Created by David Cox on 12/10/09.
  *  Copyright 2009 Harvard University. All rights reserved.

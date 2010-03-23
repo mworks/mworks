@@ -1,13 +1,13 @@
 //
 //  MarionetteEvent.h
-//  MonkeyWorksCore
+//  MWorksCore
 //
 //  Created by bkennedy on 8/25/08.
 //  Copyright 2008 __MyCompanyName__. All rights reserved.
 //
 
 #import <Cocoa/Cocoa.h>
-#import "MonkeyWorksCore/GenericData.h"
+#import "MWorksCore/GenericData.h"
 using namespace mw;
 
 @interface MarionetteEvent : NSObject {

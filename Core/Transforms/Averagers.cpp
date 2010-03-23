@@ -1,6 +1,6 @@
 /*
  *  Averagers.cpp
- *  MonkeyWorksCore
+ *  MWorksCore
  *
  *  Created by dicarlo on 5/3/06.
  *  Copyright 2006 __MyCompanyName__. All rights reserved.

@@ -12,7 +12,7 @@
  */
 
 #include "Clock.h"
-#include "MonkeyWorksTypes.h"
+#include "MWorksTypes.h"
 #include "Component.h"
 #include "Utilities.h"
 #include "boost/shared_ptr.hpp"

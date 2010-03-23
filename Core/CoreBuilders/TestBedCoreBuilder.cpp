@@ -1,6 +1,6 @@
 /*
  *  TestBedCoreBuilder.cpp
- *  MonkeyWorksCore
+ *  MWorksCore
  *
  *  Created by David Cox on 3/25/06.
  *  Copyright 2006 __MyCompanyName__. All rights reserved.

@@ -1,6 +1,6 @@
 /*
  *  BiasMonitor.cpp
- *  MonkeyWorksCore
+ *  MWorksCore
  *
  *  Created by David Cox on 7/21/08.
  *  Copyright 2008 The Rowland Institute at Harvard. All rights reserved.

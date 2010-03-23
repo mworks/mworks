@@ -9,29 +9,29 @@
  * Copyright 2005 MIT. All rights reserved.
  */
 
-#include "MonkeyWorksCore/TestBedCoreBuilder.h"
+#include "MWorksCore/TestBedCoreBuilder.h"
 
-#include "MonkeyWorksCore/Utilities.h"
-#include "MonkeyWorksCore/Experiment.h"
+#include "MWorksCore/Utilities.h"
+#include "MWorksCore/Experiment.h"
 
-#include "MonkeyWorksCore/Scheduler.h"
-#include "MonkeyWorksCore/StateSystem.h"
-#include "MonkeyWorksCore/Event.h"
-#include "MonkeyWorksCore/PluginServices.h"
-#include "MonkeyWorksCore/OpenGLContextManager.h"
-#include "MonkeyWorksCore/StandardInterpreters.h"
-#include "MonkeyWorksCore/FakeMonkey.h"
-#include "MonkeyWorksCore/LoadingUtilities.h"
-#include "MonkeyWorksCore/ITC18_IODevice.h"
-#include "MonkeyWorksCore/StandardVariables.h"
-#include "MonkeyWorksCore/Timer.h"
-#include "MonkeyWorksCore/ScarabServer.h"
+#include "MWorksCore/Scheduler.h"
+#include "MWorksCore/StateSystem.h"
+#include "MWorksCore/Event.h"
+#include "MWorksCore/PluginServices.h"
+#include "MWorksCore/OpenGLContextManager.h"
+#include "MWorksCore/StandardInterpreters.h"
+#include "MWorksCore/FakeMonkey.h"
+#include "MWorksCore/LoadingUtilities.h"
+#include "MWorksCore/ITC18_IODevice.h"
+#include "MWorksCore/StandardVariables.h"
+#include "MWorksCore/Timer.h"
+#include "MWorksCore/ScarabServer.h"
 
-#include "MonkeyWorksCore/FilterTransforms.h"
+#include "MWorksCore/FilterTransforms.h"
 
-#include "MonkeyWorksCore/CoreBuilderForeman.h"
-#include "MonkeyWorksCore/StandardServerCoreBuilder.h"
-#include "MonkeyWorksCore/DefaultServer.h"
+#include "MWorksCore/CoreBuilderForeman.h"
+#include "MWorksCore/StandardServerCoreBuilder.h"
+#include "MWorksCore/DefaultServer.h"
 
 #include <iostream>
 #include <pthread.h>

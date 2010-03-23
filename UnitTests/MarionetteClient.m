@@ -15,9 +15,9 @@
 #import "MarionetteGlobals.h"
 #import "MarionetteMessage.h"
 #import "MarionetteEvent.h"
-#import "MonkeyWorksCore/SystemEventFactory.h"
-#import "MonkeyWorksCore/XMLParser.h"
-#import "MonkeyWorksCore/ExpressionVariable.h"
+#import "MWorksCore/SystemEventFactory.h"
+#import "MWorksCore/XMLParser.h"
+#import "MWorksCore/ExpressionVariable.h"
 
 Datum _parseDataValue(xmlNode *node);
 string _attributeForName(xmlNode *node, string name);

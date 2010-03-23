@@ -73,9 +73,9 @@ class NetworkReturn {
          */
         int getOSErro() { return osCode; };
         int getPackageCode() { return packageCode; }
-        int getMonkeyWorksCode()  { return rvCode; }
+        int getMWorksCode()  { return rvCode; }
         
-        void setMonkeyWorksCode(int code) { rvCode = code; }
+        void setMWorksCode(int code) { rvCode = code; }
         void setOSErrorCode(int code) { osCode = code; }
         void setPackageCode(int code) { packageCode = code; }
         // overwrites any old information in there

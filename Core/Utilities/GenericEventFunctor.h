@@ -1,6 +1,6 @@
 /*
  *  GenericEventFunctor.h
- *  MonkeyWorksCore
+ *  MWorksCore
  *
  *  Created by bkennedy on 9/6/07.
  *  Copyright 2007 MIT. All rights reserved.

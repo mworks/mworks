@@ -1,4 +1,4 @@
-#!/Library/MonkeyWorks/bin/perl
+#!/Library/MWorks/bin/perl
 
 # XMLWriteVar.pl
 #

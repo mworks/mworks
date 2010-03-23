@@ -2,7 +2,7 @@
 #define IODEVICE_MANAGER_H_
 /*
  *  IODeviceManager.h
- *  MonkeyWorksCore
+ *  MWorksCore
  *
  *  Created by David Cox on 8/25/05.
  *  Copyright 2005 MIT. All rights reserved.

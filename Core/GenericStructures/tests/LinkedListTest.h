@@ -3,7 +3,7 @@
 
 /*
  *  LinkedListTest.h
- *  MonkeyWorksCore
+ *  MWorksCore
  *
  *  Created by David Cox on 1/19/07.
  *  Copyright 2007 MIT. All rights reserved.
@@ -15,7 +15,7 @@
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
 
-#include "MonkeyWorksCore/Stimulus.h"
+#include "MWorksCore/Stimulus.h"
 namespace mw {
 
 class LinkedListTestFixture : public CppUnit::TestFixture {

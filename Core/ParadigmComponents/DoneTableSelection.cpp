@@ -1,6 +1,6 @@
 /*
  *  DoneTableSelection.cpp
- *  MonkeyWorksCore
+ *  MWorksCore
  *
  *  Created by labuser on 9/25/07.
  *  Copyright 2007 __MyCompanyName__. All rights reserved.

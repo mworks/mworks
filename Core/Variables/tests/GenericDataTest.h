@@ -3,7 +3,7 @@
 
 /*
  *  GenericDataTest.h
- *  MonkeyWorksCore
+ *  MWorksCore
  *
  *  Created by Ben Kennedy 07142006
  *  Copyright 2006 __MyCompanyName__. All rights reserved.
@@ -16,7 +16,7 @@
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
 #include <sstream>
-#include "MonkeyWorksCore/GenericData.h"
+#include "MWorksCore/GenericData.h"
 
 namespace mw {
 using namespace std;

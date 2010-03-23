@@ -1,6 +1,6 @@
 //
 //  MarionetteEvent.m
-//  MonkeyWorksCore
+//  MWorksCore
 //
 //  Created by bkennedy on 8/25/08.
 //  Copyright 2008 __MyCompanyName__. All rights reserved.

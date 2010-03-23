@@ -1,6 +1,6 @@
 /*
  *  IPCEventTransport.h
- *  MonkeyWorksCore
+ *  MWorksCore
  *
  *  Created by David Cox on 9/25/08.
  *  Copyright 2008 Harvard University. All rights reserved.

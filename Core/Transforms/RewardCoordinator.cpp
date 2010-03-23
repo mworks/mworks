@@ -1,6 +1,6 @@
 /*
  *  RewardCoordinator.cpp
- *  MonkeyWorksCore
+ *  MWorksCore
  *
  *  Created by dicarlo on 11/14/06.
  *  Copyright 2006 __MyCompanyName__. All rights reserved.

@@ -1,5 +1,5 @@
 /**
- * MonkeyWorksTypes.h
+ * MWorksTypes.h
  *
  * Description: Core typedefs
  *
@@ -15,7 +15,7 @@
 namespace mw {
 // event time
 typedef	long long MWTime;
-typedef MWTime  MonkeyWorksTime;  // crutch for compatibility, for now
+typedef MWTime  MWorksTime;  // crutch for compatibility, for now
     
     
 // value of network statistics

@@ -1,6 +1,6 @@
 /*
  *  VariableSave.cpp
- *  MonkeyWorksCore
+ *  MWorksCore
  *
  *  Created by bkennedy on 8/4/06.
  *  Copyright 2006 __MyCompanyName__. All rights reserved.

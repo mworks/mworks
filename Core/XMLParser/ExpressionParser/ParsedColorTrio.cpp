@@ -1,6 +1,6 @@
 /*
  *  ColorTrio.cpp
- *  MonkeyWorksCore
+ *  MWorksCore
  *
  *  Created by bkennedy on 12/10/08.
  *  Copyright 2008 mit. All rights reserved.

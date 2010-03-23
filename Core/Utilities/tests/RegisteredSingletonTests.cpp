@@ -1,6 +1,6 @@
 /*
  *  RegisteredSingletonTests.cpp
- *  MonkeyWorksCore
+ *  MWorksCore
  *
  *  Created by bkennedy on 10/31/08.
  *  Copyright 2008 mit. All rights reserved.
@@ -8,7 +8,7 @@
  */
 
 #include "RegisteredSingletonTests.h"
-#include "MonkeyWorksCore/ConstantVariable.h"
+#include "MWorksCore/ConstantVariable.h"
 using namespace mw;
 
 

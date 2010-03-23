@@ -1,6 +1,6 @@
 /*
  *  GlobalVariable.cpp
- *  MonkeyWorksCore
+ *  MWorksCore
  *
  *  Created by David Cox on 2/20/06.
  *  Copyright 2006 __MyCompanyName__. All rights reserved.

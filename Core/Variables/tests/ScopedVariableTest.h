@@ -3,7 +3,7 @@
 
 /*
  *  ScopedVariableTest.h
- *  MonkeyWorksCore
+ *  MWorksCore
  *
  *  Created by Ben Kennedy on 6/11/07.
  *  Copyright 2007 __MyCompanyName__. All rights reserved.
@@ -15,11 +15,11 @@
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
 
-#include "MonkeyWorksCore/ScarabServices.h"
-#include "MonkeyWorksCore/VariableRegistry.h"
+#include "MWorksCore/ScarabServices.h"
+#include "MWorksCore/VariableRegistry.h"
 
-#include "MonkeyWorksCore/ScopedVariableEnvironment.h"
-#include "MonkeyWorksCore/Experiment.h"
+#include "MWorksCore/ScopedVariableEnvironment.h"
+#include "MWorksCore/Experiment.h"
 #include "FullCoreEnvironmentTest.h"
 namespace mw {
 class ScopedVariableTestFixture : public FullCoreEnvironmentTestFixture {

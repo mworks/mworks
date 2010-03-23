@@ -11,7 +11,7 @@
 #ifndef _GENERIC_DATA_H
 #define _GENERIC_DATA_H
 
-#include "MonkeyWorksTypes.h"
+#include "MWorksTypes.h"
 #include "ScarabServices.h"
 #include "Lockable.h"
 #include <string>

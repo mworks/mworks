@@ -1,6 +1,6 @@
 /*
  *  Announcers.cpp
- *  MonkeyWorksCore
+ *  MWorksCore
  *
  *  Created by dicarlo on 7/17/06.
  *  Copyright 2006 __MyCompanyName__. All rights reserved.

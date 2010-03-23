@@ -1,6 +1,6 @@
 /*
  *  FullCoreEnvironmentTest.h
- *  MonkeyWorksCore
+ *  MWorksCore
  *
  *  Created by David Cox on 9/19/06.
  *  Copyright 2006 __MyCompanyName__. All rights reserved.
@@ -15,7 +15,7 @@
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
 
-#include "MonkeyWorksCore/TestBedCoreBuilder.h"
+#include "MWorksCore/TestBedCoreBuilder.h"
 namespace mw {
 class FullCoreEnvironmentTestFixture : public CppUnit::TestFixture {
 	
