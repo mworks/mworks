@@ -1,11 +1,11 @@
 #import "MWVariablesWindowController.h"
 
-#import "MonkeyWorksCocoa/MWClientServerBase.h"
-#import "MonkeyWorksCocoa/MWCocoaEvent.h"
-#import "MonkeyWorksCore/GenericData.h"
-#import "MonkeyWorksCore/VariableProperties.h"
+#import "MWorksCocoa/MWClientServerBase.h"
+#import "MWorksCocoa/MWCocoaEvent.h"
+#import "MWorksCore/GenericData.h"
+#import "MWorksCore/VariableProperties.h"
 
-#define VARIABLES_WINDOW_CALLBACK_KEY "MonkeyWorksVariableWindowCallbackKey"
+#define VARIABLES_WINDOW_CALLBACK_KEY "MWorksVariableWindowCallbackKey"
 
 @interface MWVariablesWindowController(PrivateMethods)
 - (void)cacheCodes;
@@ -77,7 +77,7 @@
 *                MWWindowController Methods
 *******************************************************************/
 - (NSString *)monkeyWorksFrameAutosaveName {
-    return @"MonkeyWorksVariablesWindow";
+    return @"MWorksVariablesWindow";
 }
 
 /*******************************************************************

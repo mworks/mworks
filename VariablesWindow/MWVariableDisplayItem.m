@@ -1,6 +1,6 @@
 //
 //  MWVariableDisplayItem.m
-//  MonkeyWorksVariablesWindow
+//  MWorksVariablesWindow
 //
 //  Created by Ben Kennedy on 8/28/07.
 //  Copyright 2007 __MyCompanyName__. All rights reserved.

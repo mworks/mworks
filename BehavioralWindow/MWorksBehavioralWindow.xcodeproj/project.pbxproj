@@ -21,13 +21,13 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		0E5505000AADB7FE00987B47 /* MonkeyWorksBehavioralWindow.xml in Resources */ = {isa = PBXBuildFile; fileRef = 0E5504FF0AADB7FE00987B47 /* MonkeyWorksBehavioralWindow.xml */; };
+		0E5505000AADB7FE00987B47 /* MWorksBehavioralWindow.xml in Resources */ = {isa = PBXBuildFile; fileRef = 0E5504FF0AADB7FE00987B47 /* MWorksBehavioralWindow.xml */; };
 		0E5505030AADB81800987B47 /* MWBehavioralWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E5505020AADB81800987B47 /* MWBehavioralWindowController.m */; };
-		0EB67A120AAE11E00034D377 /* MonkeyWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CF2875F099412A7000C55A3 /* MonkeyWorksCore.framework */; };
+		0EB67A120AAE11E00034D377 /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CF2875F099412A7000C55A3 /* MWorksCore.framework */; };
 		5C07403C0B25D5DD00B39336 /* Main.nib in Resources */ = {isa = PBXBuildFile; fileRef = 5C07403B0B25D5DD00B39336 /* Main.nib */; };
 		5CF17CD011000D0700B7EF53 /* Narrative.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CF17CCF11000D0700B7EF53 /* Narrative.framework */; };
 		5CF17CD511000D1000B7EF53 /* Narrative.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5CF17CCF11000D0700B7EF53 /* Narrative.framework */; };
-		5CF287520994124E000C55A3 /* MonkeyWorksCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CF287500994124E000C55A3 /* MonkeyWorksCocoa.framework */; };
+		5CF287520994124E000C55A3 /* MWorksCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CF287500994124E000C55A3 /* MWorksCocoa.framework */; };
 		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
 /* End PBXBuildFile section */
@@ -59,16 +59,19 @@
 		089C1672FE841209C02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		089C167EFE841241C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
-		0E5504FC0AADB7EC00987B47 /* MonkeyWorksBehavioralWindow_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MonkeyWorksBehavioralWindow_Prefix.pch; sourceTree = "<group>"; };
-		0E5504FF0AADB7FE00987B47 /* MonkeyWorksBehavioralWindow.xml */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; path = MonkeyWorksBehavioralWindow.xml; sourceTree = "<group>"; };
+		0E5504FC0AADB7EC00987B47 /* MWorksBehavioralWindow_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MWorksBehavioralWindow_Prefix.pch; sourceTree = "<group>"; };
+		0E5504FF0AADB7FE00987B47 /* MWorksBehavioralWindow.xml */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; path = MWorksBehavioralWindow.xml; sourceTree = "<group>"; };
 		0E5505010AADB81800987B47 /* MWBehavioralWindowController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MWBehavioralWindowController.h; sourceTree = "<group>"; };
 		0E5505020AADB81800987B47 /* MWBehavioralWindowController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = MWBehavioralWindowController.m; sourceTree = "<group>"; };
 		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		5C07403B0B25D5DD00B39336 /* Main.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = Main.nib; sourceTree = "<group>"; };
+		5CE62AAC1158589000C757F1 /* Development_10.5_compatible.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Development_10.5_compatible.xcconfig; path = "/Library/Application Support/MWorks/Developer/Xcode/Development_10.5_compatible.xcconfig"; sourceTree = "<absolute>"; };
+		5CE62AAD1158589000C757F1 /* Development.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Development.xcconfig; path = "/Library/Application Support/MWorks/Developer/Xcode/Development.xcconfig"; sourceTree = "<absolute>"; };
+		5CE62AAE1158589000C757F1 /* WARNING.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = WARNING.txt; path = "/Library/Application Support/MWorks/Developer/Xcode/WARNING.txt"; sourceTree = "<absolute>"; };
 		5CF17CCF11000D0700B7EF53 /* Narrative.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Narrative.framework; sourceTree = "<group>"; };
-		5CF287500994124E000C55A3 /* MonkeyWorksCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MonkeyWorksCocoa.framework; path = /Library/Frameworks/MonkeyWorksCocoa.framework; sourceTree = "<absolute>"; };
-		5CF2875F099412A7000C55A3 /* MonkeyWorksCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MonkeyWorksCore.framework; path = /Library/Frameworks/MonkeyWorksCore.framework; sourceTree = "<absolute>"; };
-		686E22E50AC84B66003EFDDA /* MonkeyWorksBehavioralWindow.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MonkeyWorksBehavioralWindow.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		5CF287500994124E000C55A3 /* MWorksCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MWorksCocoa.framework; path = /Library/Frameworks/MWorksCocoa.framework; sourceTree = "<absolute>"; };
+		5CF2875F099412A7000C55A3 /* MWorksCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MWorksCore.framework; path = /Library/Frameworks/MWorksCore.framework; sourceTree = "<absolute>"; };
+		686E22E50AC84B66003EFDDA /* MWorksBehavioralWindow.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MWorksBehavioralWindow.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D2F7E65807B2D6F200F64583 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
@@ -79,8 +82,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */,
-				5CF287520994124E000C55A3 /* MonkeyWorksCocoa.framework in Frameworks */,
-				0EB67A120AAE11E00034D377 /* MonkeyWorksCore.framework in Frameworks */,
+				5CF287520994124E000C55A3 /* MWorksCocoa.framework in Frameworks */,
+				0EB67A120AAE11E00034D377 /* MWorksCore.framework in Frameworks */,
 				5CF17CD011000D0700B7EF53 /* Narrative.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -91,7 +94,8 @@
 		089C166AFE841209C02AAC07 /* MonkeyWorksRewardWindow */ = {
 			isa = PBXGroup;
 			children = (
-				0E5504FF0AADB7FE00987B47 /* MonkeyWorksBehavioralWindow.xml */,
+				5CE62AA11158585A00C757F1 /* External Config */,
+				0E5504FF0AADB7FE00987B47 /* MWorksBehavioralWindow.xml */,
 				08FB77AFFE84173DC02AAC07 /* Classes */,
 				32C88E010371C26100C91783 /* Other Sources */,
 				089C167CFE841241C02AAC07 /* Resources */,
@@ -141,8 +145,8 @@
 		1058C7AEFEA557BF11CA2CBB /* Other Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				5CF2875F099412A7000C55A3 /* MonkeyWorksCore.framework */,
-				5CF287500994124E000C55A3 /* MonkeyWorksCocoa.framework */,
+				5CF2875F099412A7000C55A3 /* MWorksCore.framework */,
+				5CF287500994124E000C55A3 /* MWorksCocoa.framework */,
 				089C167FFE841241C02AAC07 /* AppKit.framework */,
 				D2F7E65807B2D6F200F64583 /* CoreData.framework */,
 				089C1672FE841209C02AAC07 /* Foundation.framework */,
@@ -153,7 +157,7 @@
 		19C28FB8FE9D52D311CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				686E22E50AC84B66003EFDDA /* MonkeyWorksBehavioralWindow.bundle */,
+				686E22E50AC84B66003EFDDA /* MWorksBehavioralWindow.bundle */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -161,9 +165,19 @@
 		32C88E010371C26100C91783 /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
-				0E5504FC0AADB7EC00987B47 /* MonkeyWorksBehavioralWindow_Prefix.pch */,
+				0E5504FC0AADB7EC00987B47 /* MWorksBehavioralWindow_Prefix.pch */,
 			);
 			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		5CE62AA11158585A00C757F1 /* External Config */ = {
+			isa = PBXGroup;
+			children = (
+				5CE62AAC1158589000C757F1 /* Development_10.5_compatible.xcconfig */,
+				5CE62AAD1158589000C757F1 /* Development.xcconfig */,
+				5CE62AAE1158589000C757F1 /* WARNING.txt */,
+			);
+			name = "External Config";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -186,7 +200,7 @@
 			name = MonkeyWorksBehavioralWindow;
 			productInstallPath = "$(HOME)/Library/Bundles";
 			productName = MonkeyWorksRewardWindow;
-			productReference = 686E22E50AC84B66003EFDDA /* MonkeyWorksBehavioralWindow.bundle */;
+			productReference = 686E22E50AC84B66003EFDDA /* MWorksBehavioralWindow.bundle */;
 			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */
@@ -194,7 +208,7 @@
 /* Begin PBXProject section */
 		089C1669FE841209C02AAC07 /* Project object */ = {
 			isa = PBXProject;
-			buildConfigurationList = 1DEB913E08733D840010E9CD /* Build configuration list for PBXProject "MonkeyWorksBehavioralWindow" */;
+			buildConfigurationList = 1DEB913E08733D840010E9CD /* Build configuration list for PBXProject "MWorksBehavioralWindow" */;
 			compatibilityVersion = "Xcode 2.4";
 			hasScannedForEncodings = 1;
 			mainGroup = 089C166AFE841209C02AAC07 /* MonkeyWorksRewardWindow */;
@@ -213,7 +227,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */,
-				0E5505000AADB7FE00987B47 /* MonkeyWorksBehavioralWindow.xml in Resources */,
+				0E5505000AADB7FE00987B47 /* MWorksBehavioralWindow.xml in Resources */,
 				5C07403C0B25D5DD00B39336 /* Main.nib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -232,7 +246,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/zsh;
-			shellScript = "export FULL_NAME=${PRODUCT_NAME}.${WRAPPER_EXTENSION}\n\n# make the directory if it isnt there\nmkdir -p ${FINAL_INSTALL_DIR}\n\n# copy the framework to the proper directory\nrm -dfR \"${FINAL_INSTALL_DIR}/${FULL_NAME}\"\n\ncp -Rf \"${BUILT_PRODUCTS_DIR}/${FULL_NAME}\" \"${FINAL_INSTALL_DIR}/\"\n\n#echo install_name_tool -change @executable_path/../Frameworks/Narrative.framework/Versions/A/Narrative ${FINAL_INSTALL_DIR}/${PRODUCT_NAME}.${WRAPPER_EXTENSION}/Contents/Frameworks ${FINAL_INSTALL_DIR}/${PRODUCT_NAME}.${WRAPPER_EXTENSION}\n\n#install_name_tool -change @executable_path/../Frameworks/Narrative.framework/Versions/A/Narrative ${FINAL_INSTALL_DIR}/${PRODUCT_NAME}.${WRAPPER_EXTENSION}/Contents/Frameworks/Narrative.framework/Versions/A/Narrative ${FINAL_INSTALL_DIR}/${PRODUCT_NAME}.${WRAPPER_EXTENSION}/Contents/MacOS/${PRODUCT_NAME}";
+			shellScript = "export FULL_NAME=${PRODUCT_NAME}.${WRAPPER_EXTENSION}\nexport FINAL_INSTALL_DIR=${CLIENT_PLUGINS_DIR}\n\n# make the directory if it isnt there\nmkdir -p ${FINAL_INSTALL_DIR}\n\n# copy the framework to the proper directory\nrm -dfR \"${FINAL_INSTALL_DIR}/${FULL_NAME}\"\n\ncp -Rf \"${BUILT_PRODUCTS_DIR}/${FULL_NAME}\" \"${FINAL_INSTALL_DIR}/\"\n\n#echo install_name_tool -change @executable_path/../Frameworks/Narrative.framework/Versions/A/Narrative ${FINAL_INSTALL_DIR}/${PRODUCT_NAME}.${WRAPPER_EXTENSION}/Contents/Frameworks ${FINAL_INSTALL_DIR}/${PRODUCT_NAME}.${WRAPPER_EXTENSION}\n\n#install_name_tool -change @executable_path/../Frameworks/Narrative.framework/Versions/A/Narrative ${FINAL_INSTALL_DIR}/${PRODUCT_NAME}.${WRAPPER_EXTENSION}/Contents/Frameworks/Narrative.framework/Versions/A/Narrative ${FINAL_INSTALL_DIR}/${PRODUCT_NAME}.${WRAPPER_EXTENSION}/Contents/MacOS/${PRODUCT_NAME}";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -270,9 +284,23 @@
 		1DEB913B08733D840010E9CD /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				APP_SUPPORT_DIR = "/Library/Application Support/MonkeyWorks";
-				COPY_PHASE_STRIP = NO;
-				FINAL_INSTALL_DIR = "$(APP_SUPPORT_DIR)/Plugins/Client Plugins";
+				GCC_ENABLE_OBJC_GC = NO;
+				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
+				GCC_PREFIX_HEADER = MWorksBehavioralWindow_Prefix.pch;
+				INFOPLIST_FILE = Info.plist;
+				OTHER_LDFLAGS = (
+					"-framework",
+					Narrative,
+				);
+				PRODUCT_NAME = MWorksBehavioralWindow;
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Development;
+		};
+		1DEB913F08733D840010E9CD /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5CE62AAD1158589000C757F1 /* Development.xcconfig */;
+			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
@@ -280,39 +308,10 @@
 				);
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(FINAL_INSTALL_DIR)/$(TARGET_NAME).$(WRAPPER_EXTENSION)/Contents/Frameworks\"";
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SRCROOT)\"";
-				GCC_ENABLE_OBJC_GC = NO;
-				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
-				GCC_PREFIX_HEADER = MonkeyWorksBehavioralWindow_Prefix.pch;
-				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
-				INFOPLIST_FILE = Info.plist;
-				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Narrative,
-				);
-				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = NO;
-				PRODUCT_NAME = MonkeyWorksBehavioralWindow;
-				WRAPPER_EXTENSION = bundle;
-			};
-			name = Development;
-		};
-		1DEB913F08733D840010E9CD /* Development */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				APP_SUPPORT_DIR = "/Library/Application Support/MonkeyWorks";
-				ARCHS = (
-					x86_64,
-					i386,
-				);
-				FINAL_INSTALL_DIR = "$(APP_SUPPORT_DIR)/Plugins/Client Plugins";
-				FRAMEWORK_SEARCH_PATHS = /Library/Frameworks/;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				HEADER_SEARCH_PATHS = /Library/MonkeyWorks/include;
+				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
 				MACH_O_TYPE = mh_bundle;
-				MW_INCLUDE_DIR = "\"$(APP_SUPPORT_DIR)/Developer/include\"";
-				MW_LIB_DIR = "\"$(APP_SUPPORT_DIR)/Developer/lib\"";
 				PREBINDING = NO;
-				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
 			};
 			name = Development;
 		};
@@ -329,31 +328,8 @@
 		};
 		5C518CFC108671850004DBC0 /* Development (10.5 Compatible) */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5CE62AAC1158589000C757F1 /* Development_10.5_compatible.xcconfig */;
 			buildSettings = {
-				APP_SUPPORT_DIR = "/Library/Application Support/MonkeyWorks";
-				ARCHS = (
-					x86_64,
-					i386,
-				);
-				FINAL_INSTALL_DIR = "$(APP_SUPPORT_DIR)/Plugins/Client Plugins";
-				FRAMEWORK_SEARCH_PATHS = /Library/Frameworks/;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_VERSION = 4.0;
-				HEADER_SEARCH_PATHS = /Library/MonkeyWorks/include;
-				MACH_O_TYPE = mh_bundle;
-				MW_INCLUDE_DIR = "\"$(APP_SUPPORT_DIR)/Developer/gcc40/include\"";
-				MW_LIB_DIR = "\"$(APP_SUPPORT_DIR)/Developer/gcc40/lib\"";
-				PREBINDING = NO;
-				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
-			};
-			name = "Development (10.5 Compatible)";
-		};
-		5C518CFD108671850004DBC0 /* Development (10.5 Compatible) */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				APP_SUPPORT_DIR = "/Library/Application Support/MonkeyWorks";
-				COPY_PHASE_STRIP = NO;
-				FINAL_INSTALL_DIR = "$(APP_SUPPORT_DIR)/Plugins/Client Plugins";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
@@ -361,9 +337,20 @@
 				);
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(FINAL_INSTALL_DIR)/$(TARGET_NAME).$(WRAPPER_EXTENSION)/Contents/Frameworks\"";
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SRCROOT)\"";
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
+				MACH_O_TYPE = mh_bundle;
+				PREBINDING = NO;
+			};
+			name = "Development (10.5 Compatible)";
+		};
+		5C518CFD108671850004DBC0 /* Development (10.5 Compatible) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
 				GCC_ENABLE_OBJC_GC = NO;
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
-				GCC_PREFIX_HEADER = MonkeyWorksBehavioralWindow_Prefix.pch;
+				GCC_PREFIX_HEADER = MWorksBehavioralWindow_Prefix.pch;
 				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
 				INFOPLIST_FILE = Info.plist;
 				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
@@ -372,7 +359,7 @@
 					Narrative,
 				);
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = NO;
-				PRODUCT_NAME = MonkeyWorksBehavioralWindow;
+				PRODUCT_NAME = MWorksBehavioralWindow;
 				WRAPPER_EXTENSION = bundle;
 			};
 			name = "Development (10.5 Compatible)";
@@ -400,7 +387,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
 		};
-		1DEB913E08733D840010E9CD /* Build configuration list for PBXProject "MonkeyWorksBehavioralWindow" */ = {
+		1DEB913E08733D840010E9CD /* Build configuration list for PBXProject "MWorksBehavioralWindow" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1DEB913F08733D840010E9CD /* Development */,

@@ -26,11 +26,11 @@
 		0E7D46430C874F0A00E5AEEA /* MWVariableOutlineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E7D46420C874F0A00E5AEEA /* MWVariableOutlineView.m */; };
 		5C8E4A69098FA2A600EB44CA /* Main.nib in Resources */ = {isa = PBXBuildFile; fileRef = 5C8E4A68098FA2A600EB44CA /* Main.nib */; };
 		5C8E4A7B098FB02400EB44CA /* MWVariablesWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C8E4A7A098FB02400EB44CA /* MWVariablesWindowController.m */; };
-		5CF287520994124E000C55A3 /* MonkeyWorksCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CF287500994124E000C55A3 /* MonkeyWorksCocoa.framework */; };
+		5CF287520994124E000C55A3 /* MWorksCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CF287500994124E000C55A3 /* MWorksCocoa.framework */; };
 		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
-		B2F32F320A9BA48700D8EE53 /* MonkeyWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CF2875F099412A7000C55A3 /* MonkeyWorksCore.framework */; };
-		DA1E8F1C099C393000CDAD82 /* MonkeyWorksVariablesWindow.xml in Resources */ = {isa = PBXBuildFile; fileRef = DA1E8F1B099C393000CDAD82 /* MonkeyWorksVariablesWindow.xml */; };
+		B2F32F320A9BA48700D8EE53 /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CF2875F099412A7000C55A3 /* MWorksCore.framework */; };
+		DA1E8F1C099C393000CDAD82 /* MWorksVariablesWindow.xml in Resources */ = {isa = PBXBuildFile; fileRef = DA1E8F1B099C393000CDAD82 /* MWorksVariablesWindow.xml */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,16 +54,19 @@
 		0E7D46410C874F0A00E5AEEA /* MWVariableOutlineView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWVariableOutlineView.h; sourceTree = "<group>"; };
 		0E7D46420C874F0A00E5AEEA /* MWVariableOutlineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWVariableOutlineView.m; sourceTree = "<group>"; };
 		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
-		32DBCF630370AF2F00C91783 /* MonkeyWorksVariablesWindow_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MonkeyWorksVariablesWindow_Prefix.pch; sourceTree = "<group>"; };
+		32DBCF630370AF2F00C91783 /* MWorksVariablesWindow_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWorksVariablesWindow_Prefix.pch; sourceTree = "<group>"; };
 		5C8E4A68098FA2A600EB44CA /* Main.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = Main.nib; sourceTree = SOURCE_ROOT; };
 		5C8E4A79098FB02400EB44CA /* MWVariablesWindowController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MWVariablesWindowController.h; sourceTree = "<group>"; };
 		5C8E4A7A098FB02400EB44CA /* MWVariablesWindowController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = MWVariablesWindowController.m; sourceTree = "<group>"; };
-		5CF287500994124E000C55A3 /* MonkeyWorksCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MonkeyWorksCocoa.framework; path = /Library/Frameworks/MonkeyWorksCocoa.framework; sourceTree = "<absolute>"; };
-		5CF2875F099412A7000C55A3 /* MonkeyWorksCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MonkeyWorksCore.framework; path = /Library/Frameworks/MonkeyWorksCore.framework; sourceTree = "<absolute>"; };
-		686E22AF0AC84B19003EFDDA /* MonkeyWorksVariablesWindow.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MonkeyWorksVariablesWindow.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		5CE62B0E11585B3600C757F1 /* Development_10.5_compatible.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Development_10.5_compatible.xcconfig; path = "/Library/Application Support/MWorks/Developer/Xcode/Development_10.5_compatible.xcconfig"; sourceTree = "<absolute>"; };
+		5CE62B0F11585B3600C757F1 /* Development.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Development.xcconfig; path = "/Library/Application Support/MWorks/Developer/Xcode/Development.xcconfig"; sourceTree = "<absolute>"; };
+		5CE62B1011585B3600C757F1 /* WARNING.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = WARNING.txt; path = "/Library/Application Support/MWorks/Developer/Xcode/WARNING.txt"; sourceTree = "<absolute>"; };
+		5CF287500994124E000C55A3 /* MWorksCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MWorksCocoa.framework; path = /Library/Frameworks/MWorksCocoa.framework; sourceTree = "<absolute>"; };
+		5CF2875F099412A7000C55A3 /* MWorksCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MWorksCore.framework; path = /Library/Frameworks/MWorksCore.framework; sourceTree = "<absolute>"; };
+		686E22AF0AC84B19003EFDDA /* MWorksVariablesWindow.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MWorksVariablesWindow.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D2F7E65807B2D6F200F64583 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
-		DA1E8F1B099C393000CDAD82 /* MonkeyWorksVariablesWindow.xml */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; path = MonkeyWorksVariablesWindow.xml; sourceTree = "<group>"; };
+		DA1E8F1B099C393000CDAD82 /* MWorksVariablesWindow.xml */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; path = MWorksVariablesWindow.xml; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,8 +75,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */,
-				5CF287520994124E000C55A3 /* MonkeyWorksCocoa.framework in Frameworks */,
-				B2F32F320A9BA48700D8EE53 /* MonkeyWorksCore.framework in Frameworks */,
+				5CF287520994124E000C55A3 /* MWorksCocoa.framework in Frameworks */,
+				B2F32F320A9BA48700D8EE53 /* MWorksCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -83,12 +86,13 @@
 		089C166AFE841209C02AAC07 /* MonkeyWorksVariablesWindow */ = {
 			isa = PBXGroup;
 			children = (
+				5CE62B0A11585B1F00C757F1 /* External Config */,
 				08FB77AFFE84173DC02AAC07 /* Classes */,
 				32C88E010371C26100C91783 /* Other Sources */,
 				089C167CFE841241C02AAC07 /* Resources */,
 				089C1671FE841209C02AAC07 /* Frameworks and Libraries */,
 				19C28FB8FE9D52D311CA2CBB /* Products */,
-				DA1E8F1B099C393000CDAD82 /* MonkeyWorksVariablesWindow.xml */,
+				DA1E8F1B099C393000CDAD82 /* MWorksVariablesWindow.xml */,
 			);
 			name = MonkeyWorksVariablesWindow;
 			sourceTree = "<group>";
@@ -138,8 +142,8 @@
 		1058C7AEFEA557BF11CA2CBB /* Other Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				5CF2875F099412A7000C55A3 /* MonkeyWorksCore.framework */,
-				5CF287500994124E000C55A3 /* MonkeyWorksCocoa.framework */,
+				5CF2875F099412A7000C55A3 /* MWorksCore.framework */,
+				5CF287500994124E000C55A3 /* MWorksCocoa.framework */,
 				089C167FFE841241C02AAC07 /* AppKit.framework */,
 				D2F7E65807B2D6F200F64583 /* CoreData.framework */,
 				089C1672FE841209C02AAC07 /* Foundation.framework */,
@@ -150,7 +154,7 @@
 		19C28FB8FE9D52D311CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				686E22AF0AC84B19003EFDDA /* MonkeyWorksVariablesWindow.bundle */,
+				686E22AF0AC84B19003EFDDA /* MWorksVariablesWindow.bundle */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -158,9 +162,19 @@
 		32C88E010371C26100C91783 /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
-				32DBCF630370AF2F00C91783 /* MonkeyWorksVariablesWindow_Prefix.pch */,
+				32DBCF630370AF2F00C91783 /* MWorksVariablesWindow_Prefix.pch */,
 			);
 			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		5CE62B0A11585B1F00C757F1 /* External Config */ = {
+			isa = PBXGroup;
+			children = (
+				5CE62B0E11585B3600C757F1 /* Development_10.5_compatible.xcconfig */,
+				5CE62B0F11585B3600C757F1 /* Development.xcconfig */,
+				5CE62B1011585B3600C757F1 /* WARNING.txt */,
+			);
+			name = "External Config";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -182,7 +196,7 @@
 			name = MonkeyWorksVariablesWindow;
 			productInstallPath = "$(HOME)/Library/Bundles";
 			productName = MonkeyWorksVariablesWindow;
-			productReference = 686E22AF0AC84B19003EFDDA /* MonkeyWorksVariablesWindow.bundle */;
+			productReference = 686E22AF0AC84B19003EFDDA /* MWorksVariablesWindow.bundle */;
 			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */
@@ -190,7 +204,7 @@
 /* Begin PBXProject section */
 		089C1669FE841209C02AAC07 /* Project object */ = {
 			isa = PBXProject;
-			buildConfigurationList = 1DEB913E08733D840010E9CD /* Build configuration list for PBXProject "MonkeyWorksVariablesWindow" */;
+			buildConfigurationList = 1DEB913E08733D840010E9CD /* Build configuration list for PBXProject "MWorksVariablesWindow" */;
 			compatibilityVersion = "Xcode 2.4";
 			hasScannedForEncodings = 1;
 			mainGroup = 089C166AFE841209C02AAC07 /* MonkeyWorksVariablesWindow */;
@@ -210,7 +224,7 @@
 			files = (
 				8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */,
 				5C8E4A69098FA2A600EB44CA /* Main.nib in Resources */,
-				DA1E8F1C099C393000CDAD82 /* MonkeyWorksVariablesWindow.xml in Resources */,
+				DA1E8F1C099C393000CDAD82 /* MWorksVariablesWindow.xml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -228,7 +242,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/zsh;
-			shellScript = "export FULL_NAME=${PRODUCT_NAME}.${WRAPPER_EXTENSION}\n\n# make the directory if it isnt there\nmkdir -p ${FINAL_INSTALL_DIR}\n\n# copy the framework to the proper directory\nrm -dfR \"${FINAL_INSTALL_DIR}/${FULL_NAME}\"\n\ncp -Rf \"${BUILT_PRODUCTS_DIR}/${FULL_NAME}\" \"${FINAL_INSTALL_DIR}/\"\n";
+			shellScript = "export FULL_NAME=${PRODUCT_NAME}.${WRAPPER_EXTENSION}\nexport FINAL_INSTALL_DIR=${CLIENT_PLUGINS_DIR}\n\n# make the directory if it isnt there\nmkdir -p ${FINAL_INSTALL_DIR}\n\n# copy the framework to the proper directory\nrm -dfR \"${FINAL_INSTALL_DIR}/${FULL_NAME}\"\n\ncp -Rf \"${BUILT_PRODUCTS_DIR}/${FULL_NAME}\" \"${FINAL_INSTALL_DIR}/\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -269,39 +283,24 @@
 		1DEB913B08733D840010E9CD /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_DEBUGGING_SYMBOLS = full;
-				GCC_ENABLE_OBJC_GC = NO;
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
-				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = MonkeyWorksVariablesWindow_Prefix.pch;
+				GCC_PREFIX_HEADER = MWorksVariablesWindow_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
-				ONLY_ACTIVE_ARCH = NO;
-				PRODUCT_NAME = MonkeyWorksVariablesWindow;
-				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
+				PRODUCT_NAME = MWorksVariablesWindow;
 				WRAPPER_EXTENSION = bundle;
 			};
 			name = Development;
 		};
 		1DEB913F08733D840010E9CD /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5CE62B0F11585B3600C757F1 /* Development.xcconfig */;
 			buildSettings = {
-				APP_SUPPORT_DIR = "/Library/Application Support/MonkeyWorks";
-				ARCHS = (
-					x86_64,
-					i386,
-				);
-				FINAL_INSTALL_DIR = "$(APP_SUPPORT_DIR)/Plugins/Client Plugins";
 				FRAMEWORK_SEARCH_PATHS = /Library/Frameworks/;
-				GCC_VERSION = 4.2;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
 				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
-				MW_INCLUDE_DIR = "\"$(APP_SUPPORT_DIR)/Developer/include\"";
-				MW_LIB_DIR = "\"$(APP_SUPPORT_DIR)/Developer/lib\"";
-				PREBINDING = NO;
-				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
 			};
 			name = Development;
 		};
@@ -318,39 +317,25 @@
 		};
 		5C518CE3108671210004DBC0 /* Development (10.5 Compatible) */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5CE62B0E11585B3600C757F1 /* Development_10.5_compatible.xcconfig */;
 			buildSettings = {
-				APP_SUPPORT_DIR = "/Library/Application Support/MonkeyWorks";
-				ARCHS = (
-					x86_64,
-					i386,
-				);
-				FINAL_INSTALL_DIR = "$(APP_SUPPORT_DIR)/Plugins/Client Plugins";
-				FRAMEWORK_SEARCH_PATHS = /Library/Frameworks/;
-				GCC_VERSION = 4.0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
 				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
-				MW_INCLUDE_DIR = "\"$(APP_SUPPORT_DIR)/Developer/gcc40/include\"";
-				MW_LIB_DIR = "\"$(APP_SUPPORT_DIR)/Developer/gcc40/lib\"";
 				PREBINDING = NO;
-				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
 			};
 			name = "Development (10.5 Compatible)";
 		};
 		5C518CE4108671210004DBC0 /* Development (10.5 Compatible) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_DEBUGGING_SYMBOLS = full;
-				GCC_ENABLE_OBJC_GC = NO;
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
-				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = MonkeyWorksVariablesWindow_Prefix.pch;
+				GCC_PREFIX_HEADER = MWorksVariablesWindow_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
 				ONLY_ACTIVE_ARCH = NO;
-				PRODUCT_NAME = MonkeyWorksVariablesWindow;
-				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
+				PRODUCT_NAME = MWorksVariablesWindow;
 				WRAPPER_EXTENSION = bundle;
 			};
 			name = "Development (10.5 Compatible)";
@@ -378,7 +363,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
 		};
-		1DEB913E08733D840010E9CD /* Build configuration list for PBXProject "MonkeyWorksVariablesWindow" */ = {
+		1DEB913E08733D840010E9CD /* Build configuration list for PBXProject "MWorksVariablesWindow" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1DEB913F08733D840010E9CD /* Development */,

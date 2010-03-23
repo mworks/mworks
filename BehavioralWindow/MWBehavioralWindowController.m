@@ -7,12 +7,12 @@ Copy right 2006 MIT. All rights reserved.
 */
 
 
-#import "MonkeyWorksCore/Utilities.h"
-#import "MonkeyWorksCocoa/MWCocoaEvent.h"
-#import "MonkeyWorksCocoa/MWClientServerBase.h"
+#import "MWorksCore/Utilities.h"
+#import "MWorksCocoa/MWCocoaEvent.h"
+#import "MWorksCocoa/MWClientServerBase.h"
 #import "MWBehavioralWindowController.h"
 
-#define BEHAVIORIAL_CALLBACK_KEY "MonkeyWorksBehaviorialWindowCallbackKey"
+#define BEHAVIORIAL_CALLBACK_KEY "MWorksBehaviorialWindowCallbackKey"
 
 NSString *percentCorrectPlotIdentifier = @"PercentCorrectLinePlot";
 
@@ -514,7 +514,7 @@ NSString *percentCorrectPlotIdentifier = @"PercentCorrectLinePlot";
 *                MWWindowController Methods
 *******************************************************************/
 - (NSString *)monkeyWorksFrameAutosaveName {
-    return @"MonkeyWorksBehavioralWindow";
+    return @"MWorksBehavioralWindow";
 }
 
 /*******************************************************************

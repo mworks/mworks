@@ -2,8 +2,8 @@
  *Copyright 2007 MIT. All rights reserved.
  */
 
-#import "MonkeyWorksCocoa/MWWindowController.h"
-#import "MonkeyWorksCore/GenericData.h"
+#import "MWorksCocoa/MWWindowController.h"
+#import "MWorksCore/GenericData.h"
 #import "MWVariablesDataSource.h"
 
 

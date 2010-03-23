@@ -13,9 +13,9 @@ Copy right 2006 MIT. All rights reserved.
 
 
 
-#import "MonkeyWorksCocoa/MWWindowController.h"
-#import "MonkeyWorksCocoa/MWClientProtocol.h"
-#import "MonkeyWorksCore/GenericData.h"
+#import "MWorksCocoa/MWWindowController.h"
+#import "MWorksCocoa/MWClientProtocol.h"
+#import "MWorksCore/GenericData.h"
 #import "Narrative/Narrative.h"
 
 
