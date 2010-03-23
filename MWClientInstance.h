@@ -7,10 +7,10 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import <MonkeyWorksCore/Client.h>
-#import <MonkeyWorksCocoa/MWCocoaEvent.h>
-#import <MonkeyWorksCocoa/MWCoreContainer.h>
-#import <MonkeyWorksCocoa/MWClientProtocol.h>
+#import <MWorksCore/Client.h>
+#import <MWorksCocoa/MWCocoaEvent.h>
+#import <MWorksCocoa/MWCoreContainer.h>
+#import <MWorksCocoa/MWClientProtocol.h>
 #import "MWCodec.h"
 #import "MWGroupedPluginWindowController.h"
 //#import "MWNotebook.h"
@@ -20,7 +20,7 @@
 //#define HOLLOW_OUT_FOR_ADC	0
 
 
-#define STATE_SYSTEM_CALLBACK_KEY "MonkeyWorksClient::StateSystemCallbackKey"
+#define STATE_SYSTEM_CALLBACK_KEY "MWorksClient::StateSystemCallbackKey"
 
 @interface MWClientInstance : NSObject <MWCoreContainer, MWClientProtocol> {	
 

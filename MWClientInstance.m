@@ -7,12 +7,12 @@
 //
 
 #import "MWClientInstance.h"
-#import <MonkeyWorksCore/StandardVariables.h>
-#import <MonkeyWorksCore/Client.h>
-#import <MonkeyWorksCocoa/MWCocoaEvent.h>
-#import <MonkeyWorksCocoa/MWCocoaEventFunctor.h>
-#import <MonkeyWorksCocoa/MWWindowController.h>
-#import <MonkeyWorksCocoa/MWNotebook.h>
+#import <MWorksCore/StandardVariables.h>
+#import <MWorksCore/Client.h>
+#import <MWorksCocoa/MWCocoaEvent.h>
+#import <MWorksCocoa/MWCocoaEventFunctor.h>
+#import <MWorksCocoa/MWWindowController.h>
+#import <MWorksCocoa/MWNotebook.h>
 
 #define ERROR_MESSAGE_CALLBACK_KEY	"MWClientInstance::client_error_message_callback"
 #define CLIENT_SYSTEM_EVENT_CALLBACK_KEY  "MWClientInstance::system_event_callback"
@@ -938,8 +938,8 @@
   
     NSFileManager *fm = [NSFileManager defaultManager];
 	
-	NSError *error;
-	NSString *plugin_directory = @"/Library/Application Support/MonkeyWorks/Plugins/Client Plugins/";
+	NSError *error = NULL;
+	NSString *plugin_directory = @"/Library/Application Support/MWorks/Plugins/Client/";
 	NSArray *plugins = [fm contentsOfDirectoryAtPath:plugin_directory error:&error];
 	
 	for(int i = 0; i < [plugins count]; i++){
@@ -949,29 +949,30 @@
 		NSString *fullpath = [plugin_directory stringByAppendingString:plugin_file];
 		NSBundle *plugin_bundle = [[NSBundle alloc] initWithPath:fullpath];
 		
-    BOOL loaded = false;
-    loaded = [plugin_bundle loadAndReturnError:&error];
-    if(loaded){
-      
-      NSArray *toplevel;
-      NSNib *nib;
-      
-      BOOL nib_loaded_correctly = true;
-      @try{
-        nib = [[NSNib alloc] initWithNibNamed:@"Main" bundle:plugin_bundle];
+        BOOL loaded = false;
+        loaded = [plugin_bundle loadAndReturnError:&error];
         
-        if(![nib instantiateNibWithOwner:self topLevelObjects:&toplevel]){
-          NSLog(@"Couldn't instantiate Nib");
-          nib_loaded_correctly = false;
-        }
-      } @catch(NSException *e){
-        NSLog(@"exception while loading nib: %@", [e reason]);  
-        nib_loaded_correctly = false;
-      }
+        if(loaded){
+      
+            NSArray *toplevel;
+            NSNib *nib;
+      
+            BOOL nib_loaded_correctly = true;
+            @try{
+                nib = [[NSNib alloc] initWithNibNamed:@"Main" bundle:plugin_bundle];
+        
+                if(![nib instantiateNibWithOwner:self topLevelObjects:&toplevel]){
+                    NSLog(@"Couldn't instantiate Nib");
+                    nib_loaded_correctly = false;
+                }
+            } @catch(NSException *e){
+                NSLog(@"exception while loading nib: %@", [e reason]);  
+                nib_loaded_correctly = false;
+            }
 			
-      if(!nib_loaded_correctly){
-        continue;
-      }
+            if(!nib_loaded_correctly){
+                continue;
+            }
       
 			NSWindowController *controller = Nil;
 			
@@ -993,8 +994,12 @@
 			}
 			
 			
-		} else {
-			NSLog(@"Couldn't load bundle: %@: %@", [error localizedDescription], [error userInfo]);
+        } else {
+            if(error){
+                NSLog(@"Couldn't load bundle: %@: %@", [error localizedDescription], [error userInfo]);
+            } else {
+                NSLog(@"Couldn't load bundle: %@", fullpath);
+            }
 		}
 	}
 	
@@ -1138,7 +1143,7 @@
 	
 	int msgType = payload.getElement(M_MESSAGE_TYPE).getInteger();
 	
-//	MonkeyWorksTime eventTime = [event time];
+//	MWorksTime eventTime = [event time];
 	
 //	NSNumber *time = [[[NSNumber alloc] initWithLongLong:eventTime/1000] autorelease];
 	

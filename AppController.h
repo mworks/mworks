@@ -7,7 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import <MonkeyWorksCocoa/MWToolbarItem.h>
+#import <MWorksCocoa/MWToolbarItem.h>
 
 // Not quite right, but something, for now
 #define HELP_URL @"http://monkeyworks-project.github.com"
