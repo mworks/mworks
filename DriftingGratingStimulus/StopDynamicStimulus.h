@@ -10,7 +10,7 @@
 #ifndef STOP_DYNAMIC_STIMULUS_ACTION_H_
 #define STOP_DYNAMIC_STIMULUS_ACTION_H_
 
-#include "MonkeyWorksCore/TrialBuildingBlocks.h"
+#include "MWorksCore/TrialBuildingBlocks.h"
 #include "DynamicStimulus.h"
 
 class mStopDynamicStimulus : public Action {	

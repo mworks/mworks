@@ -10,9 +10,9 @@
 #ifndef DYNAMIC_STIMULUS_H
 #define DYNAMIC_STIMULUS_H
 
-#include "MonkeyWorksCore/StandardStimuli.h"
+#include "MWorksCore/StandardStimuli.h"
 #include "boost/enable_shared_from_this.hpp"
-#include "MonkeyWorksCore/VariableNotification.h"
+#include "MWorksCore/VariableNotification.h"
 using namespace mw;
 
 class mDynamicStimulus : public Stimulus, public boost::enable_shared_from_this<mDynamicStimulus>, public VariableNotification {
@@ -29,10 +29,10 @@ protected:
 	
     shared_ptr<VariableCallbackNotification> state_system_callback;
     
-	std::vector<boost::shared_ptr<std::vector<MonkeyWorksTime> > > times_shown;
+	std::vector<boost::shared_ptr<std::vector<MWorksTime> > > times_shown;
 	
 	bool started;
-	MonkeyWorksTime start_time;
+	MWorksTime start_time;
 	
 	boost::mutex stim_lock;
 	
@@ -57,7 +57,7 @@ public:
 	virtual void callUpdateDisplay();
 	virtual Datum getCurrentAnnounceDrawData();
     
-    void stateSystemCallback(const Datum& data, MonkeyWorksTime time);
+    void stateSystemCallback(const Datum& data, MWorksTime time);
 };
 
 void *nextUpdate(const shared_ptr<mDynamicStimulus> &ds);

@@ -10,8 +10,8 @@
 #ifndef HID_IO_DEVICE_FACTORY_H
 #define HID_IO_DEVICE_FACTORY_H
 
-#include "MonkeyWorksCore/ComponentFactory.h"
-#include "MonkeyWorksCore/ComponentRegistry.h"
+#include "MWorksCore/ComponentFactory.h"
+#include "MWorksCore/ComponentRegistry.h"
 
 class mHIDFactory : public mw::ComponentFactory {
 	virtual boost::shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,

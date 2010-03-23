@@ -10,7 +10,7 @@
 #ifndef PLAY_DYNAMIC_STIMULUS_FACTORY_H
 #define PLAY_DYNAMIC_STIMULUS_FACTORY_H
 
-#include "MonkeyWorksCore/ComponentFactory.h"
+#include "MWorksCore/ComponentFactory.h"
 using namespace mw;
 
 class mPlayDynamicStimulusFactory : public ComponentFactory {

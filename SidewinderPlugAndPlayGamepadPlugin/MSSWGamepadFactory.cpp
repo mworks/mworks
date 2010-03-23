@@ -32,7 +32,7 @@ boost::shared_ptr<mw::Component> mMSSWGamepadFactory::createObject(std::map<std:
 					   UPDATE_PERIOD, 
 					   DATA_TYPE);
 		
-	MonkeyWorksTime update_period = reg->getNumber(parameters.find(UPDATE_PERIOD)->second);	
+	MWorksTime update_period = reg->getNumber(parameters.find(UPDATE_PERIOD)->second);	
 	
 	mMSSWGamepadDataType data_type = M_UNKNOWN_DATA_TYPE;
 	if(parameters.find(DATA_TYPE)->second == "event") {

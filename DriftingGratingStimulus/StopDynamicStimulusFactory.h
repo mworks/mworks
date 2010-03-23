@@ -11,7 +11,7 @@
 #ifndef STOP_DYNAMIC_STIMULUS_FACTORY_H
 #define STOP_DYNAMIC_STIMULUS_FACTORY_H
 
-#include "MonkeyWorksCore/ComponentFactory.h"
+#include "MWorksCore/ComponentFactory.h"
 using namespace mw;
 
 class mStopDynamicStimulusFactory : public ComponentFactory {

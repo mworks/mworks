@@ -1,6 +1,6 @@
 /*
  *  DriftingGratingStimulus.cpp
- *  MonkeyWorksCore
+ *  MWorksCore
  *
  *  Created by bkennedy on 8/26/08.
  *  Copyright 2008 MIT. All rights reserved.
@@ -330,7 +330,7 @@ void mDriftingGratingStimulus::draw(StimulusDisplay * display) {
 	glBegin(GL_QUADS);
 
 		
-		const MonkeyWorksTime elapsed_time = (scheduler->getClock()->getCurrentTimeUS() - start_time);
+		const MWorksTime elapsed_time = (scheduler->getClock()->getCurrentTimeUS() - start_time);
 		
 		// here's the description of this equation
 		// starting_phase is in degrees ->  degrees*pi/180 = radians

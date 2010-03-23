@@ -40,7 +40,7 @@
 		0EE4686D0ECCB6DC00C4CDE7 /* DriftingGratingUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EE4686C0ECCB6DC00C4CDE7 /* DriftingGratingUtilities.cpp */; };
 		0EE4691D0ECCBB4D00C4CDE7 /* GaussianMask.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EE4691C0ECCBB4D00C4CDE7 /* GaussianMask.cpp */; };
 		0EF49B6F0ECD2A6700A82BC8 /* SawtoothGratingData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EF49B6E0ECD2A6700A82BC8 /* SawtoothGratingData.cpp */; };
-		5C4B0A650DC79212001BC518 /* MonkeyWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C4B0A630DC79212001BC518 /* MonkeyWorksCore.framework */; };
+		5C4B0A650DC79212001BC518 /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C4B0A630DC79212001BC518 /* MWorksCore.framework */; };
 		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
 /* End PBXBuildFile section */
 
@@ -87,7 +87,10 @@
 		0EF49B6D0ECD2A6700A82BC8 /* SawtoothGratingData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SawtoothGratingData.h; sourceTree = "<group>"; };
 		0EF49B6E0ECD2A6700A82BC8 /* SawtoothGratingData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SawtoothGratingData.cpp; sourceTree = "<group>"; };
 		32DBCF630370AF2F00C91783 /* DriftingGratingStimulusPlugin_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DriftingGratingStimulusPlugin_Prefix.pch; sourceTree = "<group>"; };
-		5C4B0A630DC79212001BC518 /* MonkeyWorksCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MonkeyWorksCore.framework; path = /Library/Frameworks/MonkeyWorksCore.framework; sourceTree = "<absolute>"; };
+		5C4B0A630DC79212001BC518 /* MWorksCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MWorksCore.framework; path = /Library/Frameworks/MWorksCore.framework; sourceTree = "<absolute>"; };
+		5CC9877A1159366900B65B91 /* Development_10.5_compatible.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Development_10.5_compatible.xcconfig; path = "/Library/Application Support/MWorks/Developer/Xcode/Development_10.5_compatible.xcconfig"; sourceTree = "<absolute>"; };
+		5CC9877B1159366900B65B91 /* Development.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Development.xcconfig; path = "/Library/Application Support/MWorks/Developer/Xcode/Development.xcconfig"; sourceTree = "<absolute>"; };
+		5CC9877C1159366900B65B91 /* WARNING.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = WARNING.txt; path = "/Library/Application Support/MWorks/Developer/Xcode/WARNING.txt"; sourceTree = "<absolute>"; };
 		8D5B49B6048680CD000E48DA /* DriftingGratingStimulusPlugin.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DriftingGratingStimulusPlugin.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D2F7E65807B2D6F200F64583 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
@@ -98,7 +101,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5C4B0A650DC79212001BC518 /* MonkeyWorksCore.framework in Frameworks */,
+				5C4B0A650DC79212001BC518 /* MWorksCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -108,6 +111,7 @@
 		089C166AFE841209C02AAC07 /* DriftingGratingStimulusPlugin */ = {
 			isa = PBXGroup;
 			children = (
+				5CC987761159362800B65B91 /* External Config */,
 				08FB77AFFE84173DC02AAC07 /* Classes */,
 				32C88E010371C26100C91783 /* Other Sources */,
 				089C167CFE841241C02AAC07 /* Resources */,
@@ -255,7 +259,7 @@
 		1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				5C4B0A630DC79212001BC518 /* MonkeyWorksCore.framework */,
+				5C4B0A630DC79212001BC518 /* MWorksCore.framework */,
 			);
 			name = "Linked Frameworks";
 			sourceTree = "<group>";
@@ -284,6 +288,16 @@
 				32DBCF630370AF2F00C91783 /* DriftingGratingStimulusPlugin_Prefix.pch */,
 			);
 			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		5CC987761159362800B65B91 /* External Config */ = {
+			isa = PBXGroup;
+			children = (
+				5CC9877A1159366900B65B91 /* Development_10.5_compatible.xcconfig */,
+				5CC9877B1159366900B65B91 /* Development.xcconfig */,
+				5CC9877C1159366900B65B91 /* WARNING.txt */,
+			);
+			name = "External Config";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -363,7 +377,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export FULL_NAME=${PRODUCT_NAME}.${WRAPPER_EXTENSION}\n\nrm -Rf \"$INSTALL_PATH/${FULL_NAME}\"\ncp -R \"$BUILT_PRODUCTS_DIR/${FULL_NAME}\" \"$INSTALL_PATH\"";
+			shellScript = "export FULL_NAME=${PRODUCT_NAME}.${WRAPPER_EXTENSION}\n\nrm -Rf \"$PLUGINS_DIR/${FULL_NAME}\"\ncp -R \"$BUILT_PRODUCTS_DIR/${FULL_NAME}\" \"$PLUGINS_DIR\"";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -407,12 +421,12 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		0E121C0E0E6B1CD6007B29B8 /* Debug */ = {
+		0E121C0E0E6B1CD6007B29B8 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = DriftingGratingStimulusPlugin.bundle;
 			};
-			name = Debug;
+			name = Development;
 		};
 		0E121C0F0E6B1CD6007B29B8 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -421,13 +435,11 @@
 			};
 			name = Release;
 		};
-		1DEB913B08733D840010E9CD /* Debug */ = {
+		1DEB913B08733D840010E9CD /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = /Library/Frameworks;
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
-				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = DriftingGratingStimulusPlugin_Prefix.pch;
 				HEADER_SEARCH_PATHS = (
@@ -435,19 +447,16 @@
 					/usr/include/libxml2,
 				);
 				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = "$(FINAL_INSTALL_DIR)";
 				LIBRARY_SEARCH_PATHS = $MW_LIB_DIR;
-				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				OTHER_LDFLAGS = (
 					"-framework",
 					OpenGL,
 					"-lboost_regex-mw",
 				);
 				PRODUCT_NAME = DriftingGratingStimulusPlugin;
-				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
 				WRAPPER_EXTENSION = bundle;
 			};
-			name = Debug;
+			name = Development;
 		};
 		1DEB913C08733D840010E9CD /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -469,26 +478,15 @@
 			};
 			name = Release;
 		};
-		1DEB913F08733D840010E9CD /* Debug */ = {
+		1DEB913F08733D840010E9CD /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5CC9877B1159366900B65B91 /* Development.xcconfig */;
 			buildSettings = {
-				APP_SUPPORT_DIR = "/Library/Application Support/MonkeyWorks";
-				ARCHS = (
-					x86_64,
-					i386,
-				);
-				FINAL_INSTALL_DIR = "$(APP_SUPPORT_DIR)/Plugins/Core Plugins";
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
-				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.5;
-				MW_INCLUDE_DIR = "\"$(APP_SUPPORT_DIR)/Developer/include\"";
-				MW_LIB_DIR = "\"$(APP_SUPPORT_DIR)/Developer/lib\"";
-				PREBINDING = NO;
-				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
 			};
-			name = Debug;
+			name = Development;
 		};
 		1DEB914008733D840010E9CD /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -507,35 +505,18 @@
 			};
 			name = Release;
 		};
-		5C51D22A1088B2DD0004DBC0 /* Debug (10.5 Compatible) */ = {
+		5C51D22A1088B2DD0004DBC0 /* Development (10.5 Compatible) */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5CC9877A1159366900B65B91 /* Development_10.5_compatible.xcconfig */;
 			buildSettings = {
-				APP_SUPPORT_DIR = "/Library/Application Support/MonkeyWorks";
-				ARCHS = (
-					x86_64,
-					i386,
-				);
-				FINAL_INSTALL_DIR = "$(APP_SUPPORT_DIR)/Plugins/Core Plugins";
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_VERSION = 4.0;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.5;
-				MW_INCLUDE_DIR = "\"$(APP_SUPPORT_DIR)/Developer/gcc40/include\"";
-				MW_LIB_DIR = "\"$(APP_SUPPORT_DIR)/Developer/gcc40/lib\"";
-				PREBINDING = NO;
-				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
 			};
-			name = "Debug (10.5 Compatible)";
+			name = "Development (10.5 Compatible)";
 		};
-		5C51D22B1088B2DD0004DBC0 /* Debug (10.5 Compatible) */ = {
+		5C51D22B1088B2DD0004DBC0 /* Development (10.5 Compatible) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = /Library/Frameworks;
-				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
-				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = DriftingGratingStimulusPlugin_Prefix.pch;
 				HEADER_SEARCH_PATHS = (
@@ -543,26 +524,23 @@
 					/usr/include/libxml2,
 				);
 				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = "$(FINAL_INSTALL_DIR)";
 				LIBRARY_SEARCH_PATHS = $MW_LIB_DIR;
-				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				OTHER_LDFLAGS = (
 					"-framework",
 					OpenGL,
 					"-lboost_regex-mw",
 				);
 				PRODUCT_NAME = DriftingGratingStimulusPlugin;
-				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
 				WRAPPER_EXTENSION = bundle;
 			};
-			name = "Debug (10.5 Compatible)";
+			name = "Development (10.5 Compatible)";
 		};
-		5C51D22C1088B2DD0004DBC0 /* Debug (10.5 Compatible) */ = {
+		5C51D22C1088B2DD0004DBC0 /* Development (10.5 Compatible) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = DriftingGratingStimulusPlugin.bundle;
 			};
-			name = "Debug (10.5 Compatible)";
+			name = "Development (10.5 Compatible)";
 		};
 /* End XCBuildConfiguration section */
 
@@ -570,8 +548,8 @@
 		0E121C190E6B1CF6007B29B8 /* Build configuration list for PBXAggregateTarget "UninstallDriftingGratingStimulusPlugin" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				0E121C0E0E6B1CD6007B29B8 /* Debug */,
-				5C51D22C1088B2DD0004DBC0 /* Debug (10.5 Compatible) */,
+				0E121C0E0E6B1CD6007B29B8 /* Development */,
+				5C51D22C1088B2DD0004DBC0 /* Development (10.5 Compatible) */,
 				0E121C0F0E6B1CD6007B29B8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -580,8 +558,8 @@
 		1DEB913A08733D840010E9CD /* Build configuration list for PBXNativeTarget "DriftingGratingStimulusPlugin" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				1DEB913B08733D840010E9CD /* Debug */,
-				5C51D22B1088B2DD0004DBC0 /* Debug (10.5 Compatible) */,
+				1DEB913B08733D840010E9CD /* Development */,
+				5C51D22B1088B2DD0004DBC0 /* Development (10.5 Compatible) */,
 				1DEB913C08733D840010E9CD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -590,8 +568,8 @@
 		1DEB913E08733D840010E9CD /* Build configuration list for PBXProject "DriftingGratingStimulusPlugin" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				1DEB913F08733D840010E9CD /* Debug */,
-				5C51D22A1088B2DD0004DBC0 /* Debug (10.5 Compatible) */,
+				1DEB913F08733D840010E9CD /* Development */,
+				5C51D22A1088B2DD0004DBC0 /* Development (10.5 Compatible) */,
 				1DEB914008733D840010E9CD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;

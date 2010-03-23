@@ -10,7 +10,7 @@
 #ifndef BUTTON_MAP_H
 #define BUTTON_MAP_H
 
-#include "MonkeyWorksCore/GenericVariable.h"
+#include "MWorksCore/GenericVariable.h"
 using namespace mw;
 
 

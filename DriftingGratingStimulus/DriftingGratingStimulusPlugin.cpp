@@ -11,7 +11,7 @@
 #include "DriftingGratingStimulusFactory.h"
 #include "PlayDynamicStimulusFactory.h"
 #include "StopDynamicStimulusFactory.h"
-#include "MonkeyWorksCore/ComponentFactory.h"
+#include "MWorksCore/ComponentFactory.h"
 using namespace mw;
 
 Plugin *getPlugin(){

@@ -9,7 +9,7 @@
 
 #include "DynamicStimulus.h"
 #include "boost/bind.hpp"
-#include "MonkeyWorksCore/StandardVariables.h"
+#include "MWorksCore/StandardVariables.h"
 
 mDynamicStimulus::mDynamicStimulus(const std::string &new_tag,
 								   const boost::shared_ptr<Scheduler> &a_scheduler,
@@ -35,7 +35,7 @@ mDynamicStimulus::mDynamicStimulus(const std::string &new_tag,
 
 mDynamicStimulus::mDynamicStimulus(const mDynamicStimulus &tocopy) : Stimulus((const Stimulus&)tocopy){}
 
-void mDynamicStimulus::stateSystemCallback(const Datum& data, MonkeyWorksTime time){
+void mDynamicStimulus::stateSystemCallback(const Datum& data, MWorksTime time){
     if(data.getInteger() == IDLE){
         stop();
     }
@@ -51,7 +51,7 @@ void mDynamicStimulus::play() {
 	
 	if (!started) {
 		//const float frames_per_us = frames_per_second->getValue().getFloat()/1000000;
-		MonkeyWorksTime interval = (MonkeyWorksTime)((double)1000000 / frames_per_second->getValue().getFloat());
+		MWorksTime interval = (MWorksTime)((double)1000000 / frames_per_second->getValue().getFloat());
         
 		started = true;
         shared_ptr<Clock> clock = Clock::instance(false);

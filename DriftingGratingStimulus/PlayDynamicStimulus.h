@@ -10,7 +10,7 @@
 #ifndef PLAY_DYNAMIC_STIMULUS_ACTION_H_
 #define PLAY_DYNAMIC_STIMULUS_ACTION_H_
 
-#include "MonkeyWorksCore/TrialBuildingBlocks.h"
+#include "MWorksCore/TrialBuildingBlocks.h"
 #include "DynamicStimulus.h"
 
 

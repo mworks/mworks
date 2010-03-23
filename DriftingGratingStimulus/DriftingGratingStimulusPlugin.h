@@ -7,7 +7,7 @@
  *
  */
 
-#include <MonkeyWorksCore/Plugin.h>
+#include <MWorksCore/Plugin.h>
 using namespace mw;
 
 extern "C"{

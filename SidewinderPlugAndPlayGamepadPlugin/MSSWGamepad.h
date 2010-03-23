@@ -2,7 +2,7 @@
 #ifndef MSSW_GAMEPAD_DEVICE_H
 #define MSSW_GAMEPAD_DEVICE_H
 
-#include "MonkeyWorksCore/IODevice.h"
+#include "MWorksCore/IODevice.h"
 
 #include "HIDUtilities.h"
 #include "ButtonMap.h"
@@ -30,7 +30,7 @@ protected:
 	boost::shared_ptr <Variable> D;
 	boost::shared_ptr <Variable> L;
 	boost::shared_ptr <Variable> R;
-	MonkeyWorksTime update_period;
+	MWorksTime update_period;
 	mMSSWGamepadDataType data_type;
 	
 	std::vector<mButtonMap> button_ids;
@@ -63,7 +63,7 @@ public:
 				 const boost::shared_ptr <Variable> pad_D,
 				 const boost::shared_ptr <Variable> pad_L,
 				 const boost::shared_ptr <Variable> pad_R,
-				 const MonkeyWorksTime update_time);						// initialize with the first available HID device	
+				 const MWorksTime update_time);						// initialize with the first available HID device	
 	~mMSSWGamepad();
 	
 	// start acquiring
