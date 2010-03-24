@@ -150,12 +150,12 @@ ParsedExpressionVariable::ParsedExpressionVariable(string _expression_string) : 
 	expression_string = boost::algorithm::trim_copy(dest_string); 
 	dest_string = "";
 	
-	cerr << "expression: " << expression_string << endl;
+	//cerr << "expression: " << expression_string << endl;
 	//cerr << "dest string: " << dest_string << endl;
 	
 	try {
 		expression_tree = stx::parseExpression(expression_string);
-		std::cerr << "parsed: " << expression_tree.toString() << "\n";
+		//std::cerr << "parsed: " << expression_tree.toString() << "\n";
 	} catch (stx::ExpressionParserException &e){
 		std::cerr << "ExpressionParserException: " << e.what() << "\n";
 		throw e;
