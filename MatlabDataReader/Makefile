@@ -5,7 +5,7 @@ MW_HOME = MonkeyWorks
 MW_DEVELOPER = $(MW_HOME)/Developer/gcc40
 MW_TOOLS = $(MW_HOME)/Tools
 INSTALL_DIR = $(MW_HOME)/Scripting/Matlab
-MATLABHOME := $(shell /usr/bin/matlab -e | grep MATLAB= | cut -d= -f2)
+MATLABHOME = /Applications/MATLAB
 MEX        = $(MATLABHOME)/bin/mex
 CXX        = g++
 CFLAGS     = -arch i386 -arch x86_64 -fno-common -no-cpp-precomp -fexceptions

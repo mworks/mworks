@@ -254,7 +254,7 @@
 				);
 				HEADER_SEARCH_PATHS_QUOTED_FOR_PROJECT_1 = "\"$(FINAL_INSTALL_DIR)/include\"";
 				LIBRARY_SEARCH_PATHS = "";
-				MATLAB_DIR = /usr/bin/matlab/../..;
+				MATLAB_DIR = /Applications/MATLAB;
 				MW_INCLUDE_DIR = "\"$(APP_SUPPORT_DIR)/Developer/gcc40/include\"";
 				MW_LIB_DIR = "\"$(APP_SUPPORT_DIR)/Developer/gcc40/lib\"";
 				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
