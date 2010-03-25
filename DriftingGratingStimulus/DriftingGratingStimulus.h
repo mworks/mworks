@@ -37,6 +37,8 @@ protected:
 	vector<GLuint> mask_textures;
 	vector<GLuint> grating_textures;
 	
+    bool cloned;
+    
 	float last_phase;
 public:
 	mDriftingGratingStimulus(const std::string &_tag, 
@@ -77,7 +79,9 @@ public:
                              const shared_ptr<mMask> &_mask,
 							 const shared_ptr<mGratingData> &_grating,
 							 const vector<GLuint> mask_textures,
-                             const vector<GLuint> grating_textures );
+                             const vector<GLuint> grating_textures,
+                             const MWTime start_time,
+                             const bool cloned=true);
     
 	mDriftingGratingStimulus(const mDriftingGratingStimulus &tocopy);
 	~mDriftingGratingStimulus();

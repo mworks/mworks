@@ -17,6 +17,7 @@ mDynamicStimulus::mDynamicStimulus(const std::string &new_tag,
 								   const boost::shared_ptr<Variable> &_frames_per_second,
 								   const boost::shared_ptr<Variable> &_statistics_reporting,
 								   const boost::shared_ptr<Variable> &_error_reporting) : Stimulus(new_tag){
+    start_time = -1;
     scheduler = a_scheduler;
 	display = a_display;
 	frames_per_second = _frames_per_second;
@@ -49,13 +50,16 @@ mDynamicStimulus::~mDynamicStimulus(){
 void mDynamicStimulus::play() {
 	boost::mutex::scoped_lock locker(stim_lock);
 	
+    mprintf("CALLED PLAY!");
+    shared_ptr<Clock> clock = Clock::instance(false);
+    start_time = clock->getCurrentTimeUS();
+    
 	if (!started) {
 		//const float frames_per_us = frames_per_second->getValue().getFloat()/1000000;
 		MWorksTime interval = (MWorksTime)((double)1000000 / frames_per_second->getValue().getFloat());
         
 		started = true;
-        shared_ptr<Clock> clock = Clock::instance(false);
-		start_time = clock->getCurrentTimeUS();
+        
 		
 		shared_ptr<mDynamicStimulus> this_one = shared_from_this();
 		
@@ -77,6 +81,7 @@ void mDynamicStimulus::play() {
 void mDynamicStimulus::stop() {
 	boost::mutex::scoped_lock locker(stim_lock);
 	
+    mprintf("CALLED STOP!");
 	// just drew the final frame
 	started = false;
 	
@@ -90,9 +95,18 @@ inline void mDynamicStimulus::callUpdateDisplay() {
 	// DDC: this is crazy bad
     //display->asynchronousUpdateDisplay();
     
-    // this is thread-safe already (and doesn't spawn a new
-    // thread every time!)
-    display->updateDisplay();
+    bool still_going = false;
+    
+    {
+        boost::mutex::scoped_lock locker(stim_lock);
+        still_going = started;
+    }
+    
+    if(still_going){
+        // this is thread-safe already (and doesn't spawn a new
+        // thread every time!)
+        display->updateDisplay(false);
+    }
 }
 
 inline Datum mDynamicStimulus::getCurrentAnnounceDrawData() {

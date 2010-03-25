@@ -32,7 +32,7 @@ protected:
 	std::vector<boost::shared_ptr<std::vector<MWorksTime> > > times_shown;
 	
 	bool started;
-	MWorksTime start_time;
+	MWTime start_time;
 	
 	boost::mutex stim_lock;
 	
