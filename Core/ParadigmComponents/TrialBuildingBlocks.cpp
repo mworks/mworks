@@ -699,8 +699,10 @@ bool QueueStimulus::execute() {
 	// that caused problems with the StimulusGroupReferenceNode.
 	// the conclusion is that this piece of code has been gone over so many times, that
 	// it has positioned itself to be a prime candidate for the next refactor...just not now
-	stimnode->addToDisplay(stimnode, display);
-	//	display->addStimulusNode(stimnode);
+	
+    stimnode->addToDisplay(stimnode, display);
+	
+    //	display->addStimulusNode(stimnode);
     return true;
 }	
 
@@ -798,11 +800,10 @@ DequeueStimulus::~DequeueStimulus() { }
 bool DequeueStimulus::execute() {
     
     stimnode->setPendingVisible(false);
-	stimnode->thaw();
-	
+		
     // set a flag that this node should be removed on the 
     // next "explicit" update
-	stimnode->setPendingRemoval();
+	//stimnode->setPendingRemoval();
 	return true;
 }
 

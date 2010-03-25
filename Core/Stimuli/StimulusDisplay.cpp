@@ -46,7 +46,8 @@ StimulusDisplayChain::~StimulusDisplayChain() { }
 void StimulusDisplayChain::execute(bool explicit_update) {
     
     shared_ptr<StimulusNode> node = getBackmost(); //tail;
-            
+    
+    
     while(node != shared_ptr<StimulusNode>()) {
         
         if(explicit_update && node->isPending()){
@@ -54,7 +55,7 @@ void StimulusDisplayChain::execute(bool explicit_update) {
             // we're taking care of the pending state, so
             // clear this flag
             node->clearPending();
-   
+            
             // on "explicit" updates, we'll convert "pending
             // visible" stimuli to "visible" ones
             node->setVisible(node->isPendingVisible());

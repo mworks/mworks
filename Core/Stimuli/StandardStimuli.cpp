@@ -1028,20 +1028,20 @@ void ImageStimulus::drawInUnitSquare(StimulusDisplay *display) {
 		
 		
 		//glActiveTexture(GL_TEXTURE0);
-
+        glActiveTextureARB(GL_TEXTURE0_ARB); 
+        glEnable(GL_TEXTURE_2D);
 		glBindTexture(GL_TEXTURE_2D, texture_maps[display->getCurrentContextIndex()]);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR_MIPMAP_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 		glEnable (GL_BLEND); 
 		glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-//		glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 								
         glBegin(GL_QUADS);
 		
 		float a = alpha_multiplier->getValue().getFloat();
 		glColor4f(1., 1., 1., a);
-//		glColor4f(0.5, 0.5, 0.5, 0);
+
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		
 	

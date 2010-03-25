@@ -104,12 +104,12 @@ bool StimulusNode::isFrozen(){
 
 void StimulusNode::freeze(){
     lock();
-	if(!frozen){
-        // set the "live" version of the stimulus to the
-        // a frozen (variable values fixed) version of stim
-		live_stim = shared_ptr<Stimulus>(stim->frozenClone());
-        frozen = true;
-	}
+	
+    // set the "live" version of the stimulus to the
+    // a frozen (variable values fixed) version of stim
+    live_stim = shared_ptr<Stimulus>(stim->frozenClone());
+    frozen = true;
+
 	unlock();
 }
 
@@ -165,7 +165,7 @@ Datum StimulusNode::getCurrentAnnounceDrawData() {
 		return undef;
 	}
 
-    live_stim->getCurrentAnnounceDrawData();
+    return live_stim->getCurrentAnnounceDrawData();
 	
 }
 
