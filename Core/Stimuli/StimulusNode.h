@@ -77,6 +77,7 @@ class StimulusNode : public Lockable, public LinkedListNode<StimulusNode>, publi
         
         
         // Set a flag to determine whether to draw this stimulus on an update
+        virtual void setPending(){ pending = true; }
         virtual void clearPending();
         virtual bool isPending();
     
@@ -144,16 +145,16 @@ class StimulusGroupReferenceNode : public StimulusNode {
         virtual bool isVisible();
 
         // Set a flag to determine whether to draw this stimulus on an update
-        virtual void clearPending();
-        virtual bool isPending();
+        //virtual void clearPending();
+//        virtual bool isPending();
         
         virtual void setPendingVisible(bool _vis);
         virtual bool isPendingVisible();
         
-        virtual void setPendingRemoval();
-        virtual void clearPendingRemoval();
-        virtual bool isPendingRemoval();
-        
+        //virtual void setPendingRemoval();
+//        virtual void clearPendingRemoval();
+//        virtual bool isPendingRemoval();
+      
     
 		// set the "frozen" state of the node
         virtual void freeze();

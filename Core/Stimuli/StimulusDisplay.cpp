@@ -567,7 +567,7 @@ void StimulusGroupReferenceNode::draw(StimulusDisplay * display){
 }
 
 
-void StimulusGroupReferenceNode::setVisible(bool _vis){ // JJD add
+void StimulusGroupReferenceNode::setVisible(bool _vis){ 
 	int index_value = getIndexValue();
 	int nelements = stimulus_nodes->getNElements();
 	if(index_value >=0 && index_value < nelements ){
@@ -575,7 +575,7 @@ void StimulusGroupReferenceNode::setVisible(bool _vis){ // JJD add
 	}
 }
 
-bool StimulusGroupReferenceNode::isVisible(){          // JJD add
+bool StimulusGroupReferenceNode::isVisible(){          
 	int index_value = getIndexValue();
 	int nelements = stimulus_nodes->getNElements();
 	if(index_value >=0 && index_value < nelements ){
@@ -587,28 +587,29 @@ bool StimulusGroupReferenceNode::isVisible(){          // JJD add
 
 
 
-void StimulusGroupReferenceNode::clearPending(){
-    int index_value = getIndexValue();
-	int nelements = stimulus_nodes->getNElements();
-	if(index_value >=0 && index_value < nelements ){
-		(stimulus_nodes->getElement(index_value))->clearPending();
-	}
-}
-
-bool StimulusGroupReferenceNode::isPending(){
-    int index_value = getIndexValue();
-	int nelements = stimulus_nodes->getNElements();
-	if(index_value >=0 && index_value < nelements ){
-		return (stimulus_nodes->getElement(index_value))->isPending();
-	} else {
-		return false;
-	}
-}
+//void StimulusGroupReferenceNode::clearPending(){
+//    int index_value = getIndexValue();
+//	int nelements = stimulus_nodes->getNElements();
+//	if(index_value >=0 && index_value < nelements ){
+//		(stimulus_nodes->getElement(index_value))->clearPending();
+//	}
+//}
+//
+//bool StimulusGroupReferenceNode::isPending(){
+//    int index_value = getIndexValue();
+//	int nelements = stimulus_nodes->getNElements();
+//	if(index_value >=0 && index_value < nelements ){
+//		return (stimulus_nodes->getElement(index_value))->isPending();
+//	} else {
+//		return false;
+//	}
+//}
 
 void StimulusGroupReferenceNode::setPendingVisible(bool _vis){
     int index_value = getIndexValue();
 	int nelements = stimulus_nodes->getNElements();
 	if(index_value >=0 && index_value < nelements ){
+        (stimulus_nodes->getElement(index_value))->setPending();
 		(stimulus_nodes->getElement(index_value))->setPendingVisible(_vis);
 	}
 }
@@ -623,10 +624,11 @@ bool StimulusGroupReferenceNode::isPendingVisible(){
 	}
 }
 
-void StimulusGroupReferenceNode::setPendingRemoval(){
+/*void StimulusGroupReferenceNode::setPendingRemoval(){
     int index_value = getIndexValue();
 	int nelements = stimulus_nodes->getNElements();
 	if(index_value >=0 && index_value < nelements ){
+        (stimulus_nodes->getElement(index_value))->setPending();
 		(stimulus_nodes->getElement(index_value))->setPendingRemoval();
 	}
 }
@@ -635,7 +637,7 @@ void StimulusGroupReferenceNode::clearPendingRemoval(){
     int index_value = getIndexValue();
 	int nelements = stimulus_nodes->getNElements();
 	if(index_value >=0 && index_value < nelements ){
-		(stimulus_nodes->getElement(index_value))->setPendingRemoval();
+		(stimulus_nodes->getElement(index_value))->clearPendingRemoval();
 	}
 }
 
@@ -647,7 +649,7 @@ bool StimulusGroupReferenceNode::isPendingRemoval(){
 	} else {
 		return false;
 	}
-}
+}*/
 
 	
 /*void StimulusGroupReferenceNode::setVisibleOnLastUpdate(bool _vis){ // JJD add
