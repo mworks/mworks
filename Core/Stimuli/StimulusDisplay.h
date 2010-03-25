@@ -26,9 +26,6 @@
 namespace mw {
 	using namespace boost;
 	
-
-	
-	
 	
 	class Stimulus;
 	class StimulusNode;
@@ -87,7 +84,7 @@ namespace mw {
 		StimulusDisplayChain(StimulusDisplay *display);
         virtual ~StimulusDisplayChain();
 		
-        void execute();
+        void execute(bool explicit_update);
 		void announce(MWTime time);
 	 Datum getAnnounceData();
 		
@@ -131,7 +128,7 @@ namespace mw {
 		void addStimulusNode(shared_ptr<StimulusNode> stimnode);
 		
 		void asynchronousUpdateDisplay(); // should not be called externally
-		void updateDisplay();
+		void updateDisplay(bool explicit_update=true);
 		void clearDisplay();
 		void setDisplayBounds();
 		

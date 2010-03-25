@@ -250,8 +250,8 @@ namespace mw {
 		
 		GlobalOpenGLContextManager->releaseDisplays();
 		
-    shared_ptr<ComponentRegistry> reg = ComponentRegistry::getSharedRegistry();
-    shared_ptr<Variable> main_screen_info = reg->getVariable(MAIN_SCREEN_INFO_TAGNAME);
+        shared_ptr<ComponentRegistry> reg = ComponentRegistry::getSharedRegistry();
+        shared_ptr<Variable> main_screen_info = reg->getVariable(MAIN_SCREEN_INFO_TAGNAME);
     
 		bool always_display_mirror_window = 0;
 		int display_to_use = 0;

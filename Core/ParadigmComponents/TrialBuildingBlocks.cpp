@@ -666,15 +666,15 @@ QueueStimulus::~QueueStimulus() { }
 
 bool QueueStimulus::execute() {
 	
-  bool loaded = stimnode->isLoaded();
-  Stimulus::load_style deferred = (Stimulus::load_style)stimnode->getDeferred();
-  if(deferred == Stimulus::deferred_load && !loaded){
-    stimnode->load(display);
-  }
+    bool loaded = stimnode->isLoaded();
+    Stimulus::load_style deferred = (Stimulus::load_style)stimnode->getDeferred();
+    if(deferred == Stimulus::deferred_load && !loaded){
+      stimnode->load(display);
+    }
   
-  // freeze the stimulus
-  stimnode->setFrozen(true);
-	stimnode->setVisible(true);
+    // freeze the stimulus
+    stimnode->freeze();
+    stimnode->setPendingVisible(true);
 	
 	// WTF is going on here you ask?
 	//
@@ -750,9 +750,8 @@ bool LiveQueueStimulus::execute() {
   }
   
   // don't freeze the stimulus
-  stimnode->setFrozen(false);
-	
-  stimnode->setVisible(true);
+  stimnode->thaw();
+  stimnode->setPendingVisible(true);
   
 	
 	// see "WTF is going on here" above
@@ -797,10 +796,13 @@ Action() {
 DequeueStimulus::~DequeueStimulus() { }
 
 bool DequeueStimulus::execute() {
-    stimnode->setVisible(false);
-	stimnode->setFrozen(false);
+    
+    stimnode->setPendingVisible(false);
+	stimnode->thaw();
 	
-	stimnode->remove();
+    // set a flag that this node should be removed on the 
+    // next "explicit" update
+	stimnode->setPendingRemoval();
 	return true;
 }
 
@@ -1319,15 +1321,15 @@ TransitionIfTimerExpired::TransitionIfTimerExpired(shared_ptr<Timer> _timer,
 
 
 weak_ptr<State> TransitionIfTimerExpired::execute() {
-    currentState->setValue(getCompactID());
-	
+    
 	if(timer->hasExpired()) {
 		//fprintf(stderr, "===> Going because timer expired\n");
 		//fflush(stderr);
 		if(!transition.expired()){
 			shared_ptr<State> transition_shared(transition);
 			//currentState->setValue(name + " to " + transition_shared->getName());
-			return transition;
+			currentState->setValue(getCompactID());
+            return transition;
 		} else {
 			// TODO: better throw
 			throw SimpleException("Attempt to advance to an invalid transition state");

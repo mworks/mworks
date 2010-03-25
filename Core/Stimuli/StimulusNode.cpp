@@ -20,6 +20,11 @@ StimulusNode::StimulusNode() : Lockable() {
  //   next = NULL;
     visible = false;
     visible_on_last_update = false;
+    
+    pending = false;
+    pending_visible = false;
+    pending_removal = false;
+    
 	frozen = false;
 }
 
@@ -29,7 +34,12 @@ StimulusNode::StimulusNode(shared_ptr<Stimulus> _stim) :
 
     visible = false;
     visible_on_last_update = false;
-	frozen = false;
+	
+    pending = false;
+    pending_visible = false;
+    pending_removal = false;
+    
+    frozen = false;
 }
     
 /*void StimulusNode::setStimulus(Stimulus *_stim) {
@@ -40,6 +50,18 @@ shared_ptr<Stimulus> StimulusNode::getStimulus() {
     return stim;
 }
  
+void StimulusNode::setPendingVisible(bool _vis){
+    lock();
+    pending = true;
+    pending_visible = _vis;
+
+    unlock();
+}
+
+bool StimulusNode::isPendingVisible(){
+    return pending_visible;
+}
+
 
 
 void StimulusNode::setVisible(bool _vis) {
@@ -71,53 +93,80 @@ int StimulusNode::getDeferred(){
 
 void StimulusNode::draw(StimulusDisplay *stimulus_display) {
 	// TODO: error check
-	if(frozen){
-		frozen_stim->draw(stimulus_display);
-	} else {
-		stim->draw(stimulus_display);
-	}
+	live_stim->draw(stimulus_display);
 }
 
 // Freeze the stimulus as needed, and set the frozen flag
-void StimulusNode::setFrozen(bool _frozen){
-	lock();
-	frozen = _frozen;
-	if(frozen){
-		
-		frozen_stim = shared_ptr<Stimulus>(stim->frozenClone());
-	}
-	unlock();
-}
-
 bool StimulusNode::isFrozen(){
 	return frozen;
 }
 
 
+void StimulusNode::freeze(){
+    lock();
+	if(!frozen){
+        // set the "live" version of the stimulus to the
+        // a frozen (variable values fixed) version of stim
+		live_stim = shared_ptr<Stimulus>(stim->frozenClone());
+        frozen = true;
+	}
+	unlock();
+}
+
+void StimulusNode::thaw(){
+    lock();
+    live_stim = stim;  // replace the "live" version of the
+                       // stimulus with the raw stim
+    frozen = false;
+	unlock();
+}
+
+void StimulusNode::clearPending(){
+    lock();
+    pending = false;
+    unlock();
+}
+
+bool StimulusNode::isPending(){
+    return pending;
+}
+
+void StimulusNode::setPendingRemoval(){
+    lock();
+    pending = true;
+    pending_removal = true;
+    unlock();
+}
+
+void StimulusNode::clearPendingRemoval(){
+    lock();
+    pending_removal = false;
+    unlock();
+}
+
+bool StimulusNode::isPendingRemoval(){
+    return pending_removal;
+}
+
 void StimulusNode::announceStimulusDraw(MWTime now) {
-	if((!frozen && stim == NULL) || (frozen && frozen_stim == NULL)) {
+	if(live_stim == NULL) {
 		// TODO: warn
 		return;
 	}
 	
-	if(frozen) {
-		frozen_stim->announceStimulusDraw(now);
-	} else {
-		stim->announceStimulusDraw(now);		
-	}
+	live_stim->announceStimulusDraw(now);
+	
 }
 
 Datum StimulusNode::getCurrentAnnounceDrawData() {
-	if((!frozen && stim == NULL) || (frozen && frozen_stim == NULL)) {
+	if(live_stim == NULL) {
 		// TODO: warn
-	 Datum undef;
+        Datum undef;
 		return undef;
 	}
-	if(frozen) {
-		return frozen_stim->getCurrentAnnounceDrawData();
-	} else {
-		return stim->getCurrentAnnounceDrawData();			
-	}
+
+    live_stim->getCurrentAnnounceDrawData();
+	
 }
 
 void StimulusNode::addToDisplay(shared_ptr<StimulusNode> stimnode, 

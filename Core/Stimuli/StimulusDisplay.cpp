@@ -43,15 +43,37 @@ StimulusDisplayChain::~StimulusDisplayChain() { }
 		
         
         
-void StimulusDisplayChain::execute() {
+void StimulusDisplayChain::execute(bool explicit_update) {
+    
     shared_ptr<StimulusNode> node = getBackmost(); //tail;
             
     while(node != shared_ptr<StimulusNode>()) {
+        
+        if(explicit_update && node->isPending()){
+            
+            // we're taking care of the pending state, so
+            // clear this flag
+            node->clearPending();
+   
+            // on "explicit" updates, we'll convert "pending
+            // visible" stimuli to "visible" ones
+            node->setVisible(node->isPendingVisible());
+            
+            if(node->isPendingRemoval()){
+                node->clearPendingRemoval();
+                node->remove();
+                continue;
+            }
+            
+            
+        }
+                
         if(node->isVisible()) {
             node->draw(stimulus_display);
-		}
-		
-		node = node->getPrevious();
+        }
+        
+        node = node->getPrevious();
+        
     }
 }
 
@@ -71,10 +93,10 @@ void StimulusDisplayChain::announce(MWTime time) {
 Datum StimulusDisplayChain::getAnnounceData() {
     shared_ptr<StimulusNode> node = getBackmost(); //tail;
 	
- Datum stimAnnounce(M_LIST, 1);
+    Datum stimAnnounce(M_LIST, 1);
     while(node != shared_ptr< LinkedListNode<StimulusNode> >()) {
 		if(node->isVisible()) {
-		 Datum individualAnnounce(node->getCurrentAnnounceDrawData());
+            Datum individualAnnounce(node->getCurrentAnnounceDrawData());
 			if(!individualAnnounce.isUndefined()) {
 				stimAnnounce.addElement(individualAnnounce);
 			}
@@ -267,7 +289,7 @@ void *performAsynchronousUpdateDisplay(const shared_ptr<StimulusDisplay> &sd){
 }
 
 
-// DDC: WTF? Really?
+// DDC: this needs to be handled very carefully, if at all 
 // This appears to have been added to support dynamic stimuli, but this implies that we are spawning something
 // like 60 threads per second.  Which is bad.
 void StimulusDisplay::asynchronousUpdateDisplay() {
@@ -285,7 +307,8 @@ void StimulusDisplay::asynchronousUpdateDisplay() {
 }
 
 
-void StimulusDisplay::updateDisplay() {
+void StimulusDisplay::updateDisplay(bool explicit_update) {
+    
 	boost::mutex::scoped_lock lock(display_lock);
 	
 	shared_ptr <Clock> clock = Clock::instance();
@@ -293,10 +316,10 @@ void StimulusDisplay::updateDisplay() {
 	update_stim_chain_next_refresh = false;
 	
 	for(unsigned int i = 0; i < context_ids.size(); i++){
-		setCurrent(i);
-		//int context_id = *(context_ids->getElement(i));
-		//GlobalOpenGLContextManager->setCurrent(context_id);
+        
+        setCurrent(i); // Set the current OpenGL context
 		
+        // OpenGL setup
 		glShadeModel(GL_FLAT);
 		glDisable(GL_BLEND);
 		glDisable(GL_DITHER);
@@ -312,7 +335,9 @@ void StimulusDisplay::updateDisplay() {
 		gluOrtho2D(left, right, bottom, top);
 		glMatrixMode(GL_MODELVIEW);
 		
-		stimulus_chain->execute();
+        
+        // Actually draw all of the stimuli in the chain
+		stimulus_chain->execute(explicit_update);
 
 #define USE_GL_FENCE
 #define ERROR_ON_LATE_FRAMES
@@ -470,13 +495,26 @@ void StimulusGroupReferenceNode::addToDisplay(shared_ptr<StimulusNode> stimnode,
 		display->addStimulusNode(stimulus_nodes->getElement(index_value));
 	}
 }
+
+void StimulusGroupReferenceNode::freeze(){
+    setFrozen(true);
+}
+
+void StimulusGroupReferenceNode::thaw(){
+    setFrozen(false);
+}
 							
 // set the "frozen" state of the node
 void StimulusGroupReferenceNode::setFrozen(bool _frozen){
 	int index_value = getIndexValue();
 	int nelements = stimulus_nodes->getNElements();
 	if(index_value >=0 && index_value < nelements ){
-		(stimulus_nodes->getElement(index_value))->setFrozen(_frozen);
+        shared_ptr<StimulusNode> node = stimulus_nodes->getElement(index_value);
+        if(_frozen){
+            node->freeze();
+        } else {
+            node->thaw();
+        }
 	}
 }
 	
@@ -546,6 +584,71 @@ bool StimulusGroupReferenceNode::isVisible(){          // JJD add
 		return false;
 	}
 }	
+
+
+
+void StimulusGroupReferenceNode::clearPending(){
+    int index_value = getIndexValue();
+	int nelements = stimulus_nodes->getNElements();
+	if(index_value >=0 && index_value < nelements ){
+		(stimulus_nodes->getElement(index_value))->clearPending();
+	}
+}
+
+bool StimulusGroupReferenceNode::isPending(){
+    int index_value = getIndexValue();
+	int nelements = stimulus_nodes->getNElements();
+	if(index_value >=0 && index_value < nelements ){
+		return (stimulus_nodes->getElement(index_value))->isPending();
+	} else {
+		return false;
+	}
+}
+
+void StimulusGroupReferenceNode::setPendingVisible(bool _vis){
+    int index_value = getIndexValue();
+	int nelements = stimulus_nodes->getNElements();
+	if(index_value >=0 && index_value < nelements ){
+		(stimulus_nodes->getElement(index_value))->setPendingVisible(_vis);
+	}
+}
+
+bool StimulusGroupReferenceNode::isPendingVisible(){
+    int index_value = getIndexValue();
+	int nelements = stimulus_nodes->getNElements();
+	if(index_value >=0 && index_value < nelements ){
+		return (stimulus_nodes->getElement(index_value))->isPendingVisible();
+	} else {
+		return false;
+	}
+}
+
+void StimulusGroupReferenceNode::setPendingRemoval(){
+    int index_value = getIndexValue();
+	int nelements = stimulus_nodes->getNElements();
+	if(index_value >=0 && index_value < nelements ){
+		(stimulus_nodes->getElement(index_value))->setPendingRemoval();
+	}
+}
+
+void StimulusGroupReferenceNode::clearPendingRemoval(){
+    int index_value = getIndexValue();
+	int nelements = stimulus_nodes->getNElements();
+	if(index_value >=0 && index_value < nelements ){
+		(stimulus_nodes->getElement(index_value))->setPendingRemoval();
+	}
+}
+
+bool StimulusGroupReferenceNode::isPendingRemoval(){
+    int index_value = getIndexValue();
+	int nelements = stimulus_nodes->getNElements();
+	if(index_value >=0 && index_value < nelements ){
+		return (stimulus_nodes->getElement(index_value))->isPendingRemoval();
+	} else {
+		return false;
+	}
+}
+
 	
 /*void StimulusGroupReferenceNode::setVisibleOnLastUpdate(bool _vis){ // JJD add
 	(stimulus_nodes->getElement((int)(*index)))->setVisibleOnLastUpdate(_vis);
