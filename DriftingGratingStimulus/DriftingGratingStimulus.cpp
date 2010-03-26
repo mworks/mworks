@@ -13,28 +13,31 @@
 using namespace mw;
 
 DriftingGratingStimulus::DriftingGratingStimulus(const std::string &_tag, 
-												   const shared_ptr<Scheduler> &a_scheduler,
-												   const shared_ptr<StimulusDisplay> &a_display,
-												   const shared_ptr<Variable> &_frames_per_second,
-												   const shared_ptr<Variable> &_statistics_reporting,
-												   const shared_ptr<Variable> &_error_reporting,
-												   const shared_ptr<Variable> &_xoffset, 
-												   const shared_ptr<Variable> &_yoffset, 
-												   const shared_ptr<Variable> &_width,
-												   const shared_ptr<Variable> &_height,
-												   const shared_ptr<Variable> &_rot,
-												   const shared_ptr<Variable> &_alpha,
-												   const shared_ptr<Variable> &_direction,
-												   const shared_ptr<Variable> &_frequency,
-												   const shared_ptr<Variable> &_speed,
-												   const shared_ptr<Variable> &_starting_phase,
-												   const shared_ptr<mMask> &_mask,
-												   const shared_ptr<mGratingData> &_grating) : DynamicStimulus (_tag,
-																												 a_scheduler,
-																												 a_display,
-																												 _frames_per_second,
-																												 _statistics_reporting,
-																												 _error_reporting) {
+                       const shared_ptr<Scheduler> &a_scheduler,
+                       const shared_ptr<StimulusDisplay> &a_display,
+                       const shared_ptr<Variable> &_frames_per_second,
+                       const shared_ptr<Variable> &_statistics_reporting,
+                       const shared_ptr<Variable> &_error_reporting,
+                       const shared_ptr<Variable> &_xoffset, 
+                       const shared_ptr<Variable> &_yoffset, 
+                       const shared_ptr<Variable> &_width,
+                       const shared_ptr<Variable> &_height,
+                       const shared_ptr<Variable> &_rot,
+                       const shared_ptr<Variable> &_alpha,
+                       const shared_ptr<Variable> &_direction,
+                       const shared_ptr<Variable> &_frequency,
+                       const shared_ptr<Variable> &_speed,
+                       const shared_ptr<Variable> &_starting_phase,
+                       const shared_ptr<mMask> &_mask,
+                       const shared_ptr<mGratingData> &_grating) : 
+
+                        DynamicStimulusDriver (a_scheduler,
+                                             a_display,
+                                             _frames_per_second,
+                                             _statistics_reporting,
+                                             _error_reporting),
+                        Stimulus(_tag)
+{
 	cloned = false;
 	
 	
@@ -199,12 +202,16 @@ DriftingGratingStimulus::DriftingGratingStimulus(const std::string &_tag,
                                                    const vector<GLuint> _mask_textures,
                                                    const vector<GLuint> _grating_textures,
                                                    const MWTime _start_time,
-                                                   bool _cloned) : DynamicStimulus (_tag,
-																												 a_scheduler,
-																												 a_display,
-																												 _frames_per_second,
-																												 _statistics_reporting,
-    																										 _error_reporting) {
+                                                   bool _cloned) : 
+
+                                    DynamicStimulusDriver (a_scheduler,
+                                                           a_display,
+                                                           _frames_per_second,
+                                                           _statistics_reporting,
+                                                           _error_reporting),
+
+                                    Stimulus(_tag)
+{
 	
 	start_time = _start_time;	
     cloned = _cloned;
@@ -466,7 +473,7 @@ void DriftingGratingStimulus::draw(StimulusDisplay * display) {
 
 inline Datum DriftingGratingStimulus::getCurrentAnnounceDrawData() {
 	boost::mutex::scoped_lock locker(stim_lock);
-	Datum announce_data = DynamicStimulus::getCurrentAnnounceDrawData();
+	Datum announce_data = DynamicStimulusDriver::getCurrentAnnounceDrawData();
 	announce_data.addElement("rotation", rotation->getValue());
 	announce_data.addElement("xoffset", xoffset->getValue());
 	announce_data.addElement("yoffset", yoffset->getValue());

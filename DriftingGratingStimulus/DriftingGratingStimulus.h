@@ -10,12 +10,12 @@
 #ifndef DRIFTING_GRATNG_STIMULUS_H
 #define DRIFTING_GRATNG_STIMULUS_H
 
-#include <MWorksCore/DynamicStimulus.h>
+#include <MWorksCore/DynamicStimulusDriver.h>
 #include "Mask.h"
 #include "GratingData.h"
 using namespace mw;
 
-class DriftingGratingStimulus : public DynamicStimulus {
+class DriftingGratingStimulus : public DynamicStimulusDriver, public Stimulus {
 protected:
 	shared_ptr<Variable> xoffset;
 	shared_ptr<Variable> yoffset;
