@@ -12,7 +12,7 @@
 #include <MWorksCore/Clock.h>
 using namespace mw;
 
-mDriftingGratingStimulus::mDriftingGratingStimulus(const std::string &_tag, 
+DriftingGratingStimulus::DriftingGratingStimulus(const std::string &_tag, 
 												   const shared_ptr<Scheduler> &a_scheduler,
 												   const shared_ptr<StimulusDisplay> &a_display,
 												   const shared_ptr<Variable> &_frames_per_second,
@@ -29,7 +29,7 @@ mDriftingGratingStimulus::mDriftingGratingStimulus(const std::string &_tag,
 												   const shared_ptr<Variable> &_speed,
 												   const shared_ptr<Variable> &_starting_phase,
 												   const shared_ptr<mMask> &_mask,
-												   const shared_ptr<mGratingData> &_grating) : mDynamicStimulus (_tag,
+												   const shared_ptr<mGratingData> &_grating) : DynamicStimulus (_tag,
 																												 a_scheduler,
 																												 a_display,
 																												 _frames_per_second,
@@ -178,7 +178,7 @@ mDriftingGratingStimulus::mDriftingGratingStimulus(const std::string &_tag,
 }   
 
 // for frozenClone-ing
-mDriftingGratingStimulus::mDriftingGratingStimulus(const std::string &_tag, 
+DriftingGratingStimulus::DriftingGratingStimulus(const std::string &_tag, 
 												   const shared_ptr<Scheduler> &a_scheduler,
 												   const shared_ptr<StimulusDisplay> &a_display,
 												   const shared_ptr<Variable> &_frames_per_second,
@@ -199,7 +199,7 @@ mDriftingGratingStimulus::mDriftingGratingStimulus(const std::string &_tag,
                                                    const vector<GLuint> _mask_textures,
                                                    const vector<GLuint> _grating_textures,
                                                    const MWTime _start_time,
-                                                   bool _cloned) : mDynamicStimulus (_tag,
+                                                   bool _cloned) : DynamicStimulus (_tag,
 																												 a_scheduler,
 																												 a_display,
 																												 _frames_per_second,
@@ -238,7 +238,7 @@ mDriftingGratingStimulus::mDriftingGratingStimulus(const std::string &_tag,
 
 }   
 
-mDriftingGratingStimulus::~mDriftingGratingStimulus(){
+DriftingGratingStimulus::~DriftingGratingStimulus(){
     stop();
     
     
@@ -264,7 +264,7 @@ mDriftingGratingStimulus::~mDriftingGratingStimulus(){
     }
 }
 
-Stimulus * mDriftingGratingStimulus::frozenClone() {
+Stimulus * DriftingGratingStimulus::frozenClone() {
 	shared_ptr<Variable> frames_per_second_clone(frames_per_second->frozenClone());
 	shared_ptr<Variable> x_offset_clone(xoffset->frozenClone());
 	shared_ptr<Variable> y_offset_clone(yoffset->frozenClone());
@@ -277,7 +277,7 @@ Stimulus * mDriftingGratingStimulus::frozenClone() {
 	shared_ptr<Variable> speed_clone(speed->frozenClone());
 	shared_ptr<Variable> starting_phase_clone(starting_phase->frozenClone());
 	
-	Stimulus *cloned_stimulus = new mDriftingGratingStimulus(tag,
+	Stimulus *cloned_stimulus = new DriftingGratingStimulus(tag,
 															  scheduler,
 															  display,
 															  frames_per_second_clone,
@@ -307,7 +307,7 @@ Stimulus * mDriftingGratingStimulus::frozenClone() {
 
 
 
-void mDriftingGratingStimulus::draw(StimulusDisplay * display) {
+void DriftingGratingStimulus::draw(StimulusDisplay * display) {
     
 	glPushMatrix();	
 	glTranslatef(xoffset->getValue().getFloat(), yoffset->getValue().getFloat(), 0);
@@ -464,9 +464,9 @@ void mDriftingGratingStimulus::draw(StimulusDisplay * display) {
 	last_phase = phase*(180/M_DG_PI);
 }
 
-inline Datum mDriftingGratingStimulus::getCurrentAnnounceDrawData() {
+inline Datum DriftingGratingStimulus::getCurrentAnnounceDrawData() {
 	boost::mutex::scoped_lock locker(stim_lock);
-	Datum announce_data = mDynamicStimulus::getCurrentAnnounceDrawData();
+	Datum announce_data = DynamicStimulus::getCurrentAnnounceDrawData();
 	announce_data.addElement("rotation", rotation->getValue());
 	announce_data.addElement("xoffset", xoffset->getValue());
 	announce_data.addElement("yoffset", yoffset->getValue());

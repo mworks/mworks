@@ -10,12 +10,12 @@
 #ifndef DRIFTING_GRATNG_STIMULUS_H
 #define DRIFTING_GRATNG_STIMULUS_H
 
-#include "DynamicStimulus.h"
+#include <MWorksCore/DynamicStimulus.h>
 #include "Mask.h"
 #include "GratingData.h"
 using namespace mw;
 
-class mDriftingGratingStimulus : public mDynamicStimulus {
+class DriftingGratingStimulus : public DynamicStimulus {
 protected:
 	shared_ptr<Variable> xoffset;
 	shared_ptr<Variable> yoffset;
@@ -41,7 +41,7 @@ protected:
     
 	float last_phase;
 public:
-	mDriftingGratingStimulus(const std::string &_tag, 
+	DriftingGratingStimulus(const std::string &_tag, 
 							 const shared_ptr<Scheduler> &a_scheduler,
 							 const shared_ptr<StimulusDisplay> &a_display,
 							 const shared_ptr<Variable> &_frames_per_second,
@@ -60,7 +60,7 @@ public:
 							 const shared_ptr<mMask> &_mask,
 							 const shared_ptr<mGratingData> &_grating);
     
-    mDriftingGratingStimulus(const std::string &_tag, 
+    DriftingGratingStimulus(const std::string &_tag, 
 							 const shared_ptr<Scheduler> &a_scheduler,
 							 const shared_ptr<StimulusDisplay> &a_display,
 							 const shared_ptr<Variable> &_frames_per_second,
@@ -83,8 +83,8 @@ public:
                              const MWTime start_time,
                              const bool cloned=true);
     
-	mDriftingGratingStimulus(const mDriftingGratingStimulus &tocopy);
-	~mDriftingGratingStimulus();
+	DriftingGratingStimulus(const DriftingGratingStimulus &tocopy);
+	~DriftingGratingStimulus();
 	virtual Stimulus * frozenClone() ;
 	//virtual void stop();
 	
