@@ -19,5 +19,5 @@
 		"English.lproj/InfoPlist.strings",
 		"ÇPROJECTNAMEÈ_Prefix.pch",
 	);
-	Description = "This project builds a MonkeyWorks Core Plugin";
+	Description = "This project builds a MWorks Core Plugin";
 }

@@ -26,7 +26,7 @@
 		5CFCAB0A1105FB4C007CE55F /* MWLibrary.xml in Resources */ = {isa = PBXBuildFile; fileRef = 5CFCAB091105FB4C007CE55F /* MWLibrary.xml */; };
 		5CFCAB0D1105FCF2007CE55F /* Development Notes.txt in Resources */ = {isa = PBXBuildFile; fileRef = 5CFCAB0C1105FCF2007CE55F /* Development Notes.txt */; };
 		5CFCAB1011060747007CE55F /* INSTRUCTIONS.txt in Resources */ = {isa = PBXBuildFile; fileRef = 5CFCAB0F11060747007CE55F /* INSTRUCTIONS.txt */; };
-		5CFCAB26110609D2007CE55F /* UserDocumentation.markdown in Resources */ = {isa = PBXBuildFile; fileRef = 5CFCAB25110609D2007CE55F /* UserDocumentation.markdown */; };
+		5CFCAB26110609D2007CE55F /* UserDocumentation.rst in Resources */ = {isa = PBXBuildFile; fileRef = 5CFCAB25110609D2007CE55F /* UserDocumentation.rst */; };
 		5CFE591A0F571B15000C7F30 /* MWPROJECTNAMEASIDENTIFIER.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CFE59190F571B15000C7F30 /* MWPROJECTNAMEASIDENTIFIER.cpp */; };
 		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
 		BFBFB0D610446C180019216B /* MonkeyWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFBFB0D510446C180019216B /* MonkeyWorksCore.framework */; };
@@ -57,7 +57,7 @@
 		5CFCAB091105FB4C007CE55F /* MWLibrary.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MWLibrary.xml; sourceTree = "<group>"; };
 		5CFCAB0C1105FCF2007CE55F /* Development Notes.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Development Notes.txt"; sourceTree = "<group>"; };
 		5CFCAB0F11060747007CE55F /* INSTRUCTIONS.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = INSTRUCTIONS.txt; sourceTree = "<group>"; wrapsLines = 1; };
-		5CFCAB25110609D2007CE55F /* UserDocumentation.markdown */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = UserDocumentation.markdown; sourceTree = "<group>"; };
+		5CFCAB25110609D2007CE55F /* UserDocumentation.rst */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = UserDocumentation.rst; sourceTree = "<group>"; };
 		5CFE59180F571B15000C7F30 /* MWPROJECTNAMEASIDENTIFIER.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWPROJECTNAMEASIDENTIFIER.h; sourceTree = SOURCE_ROOT; };
 		5CFE59190F571B15000C7F30 /* MWPROJECTNAMEASIDENTIFIER.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MWPROJECTNAMEASIDENTIFIER.cpp; sourceTree = SOURCE_ROOT; };
 		8D5B49B6048680CD000E48DA /* MWPROJECTNAME.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MWPROJECTNAME.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -181,7 +181,7 @@
 			isa = PBXGroup;
 			children = (
 				5CFCAB0C1105FCF2007CE55F /* Development Notes.txt */,
-				5CFCAB25110609D2007CE55F /* UserDocumentation.markdown */,
+				5CFCAB25110609D2007CE55F /* UserDocumentation.rst */,
 			);
 			name = Documentation;
 			sourceTree = "<group>";
@@ -235,7 +235,7 @@
 				5CFCAB0A1105FB4C007CE55F /* MWLibrary.xml in Resources */,
 				5CFCAB0D1105FCF2007CE55F /* Development Notes.txt in Resources */,
 				5CFCAB1011060747007CE55F /* INSTRUCTIONS.txt in Resources */,
-				5CFCAB26110609D2007CE55F /* UserDocumentation.markdown in Resources */,
+				5CFCAB26110609D2007CE55F /* UserDocumentation.rst in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
