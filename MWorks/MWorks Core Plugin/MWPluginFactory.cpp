@@ -10,7 +10,7 @@
 #include "ÇPROJECTNAMEÈFactory.h"
 
 #include <boost/regex.hpp>
-#include "MonkeyWorksCore/ComponentRegistry.h"
+#include "MWorksCore/ComponentRegistry.h"
 
 using namespace mw;
 

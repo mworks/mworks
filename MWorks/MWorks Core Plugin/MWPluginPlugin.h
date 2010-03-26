@@ -9,7 +9,7 @@
 #ifndef ÇPROJECTNAMEÈ_PLUGIN_H_
 #define ÇPROJECTNAMEÈ_PLUGIN_H_
 
-#include <MonkeyWorksCore/Plugin.h>
+#include <MWorksCore/Plugin.h>
 using namespace mw;
 
 extern "C"{

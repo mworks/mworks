@@ -13,7 +13,7 @@
 
 #include "ÇPROJECTNAMEÈ.h"
 
-#include "MonkeyWorksCore/ComponentFactory.h"
+#include "MWorksCore/ComponentFactory.h"
 using namespace mw;
 
 class ÇPROJECTNAMEÈFactory : public ComponentFactory {

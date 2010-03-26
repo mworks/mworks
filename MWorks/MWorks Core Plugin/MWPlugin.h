@@ -11,7 +11,7 @@
 #ifndef ÇPROJECTNAMEÈ_H_
 #define ÇPROJECTNAMEÈ_H_
 
-#include <MonkeyWorksCore/Plugin.h>
+#include <MWorksCore/Plugin.h>
 
 using namespace mw;
 

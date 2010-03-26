@@ -37,7 +37,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 8D5B49AC048680CD000E48DA /* MWPROJECTNAME */;
+			remoteGlobalIDString = 8D5B49AC048680CD000E48DA;
 			remoteInfo = MWPROJECTNAME;
 		};
 /* End PBXContainerItemProxy section */
@@ -47,6 +47,9 @@
 		089C167EFE841241C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		32DBCF630370AF2F00C91783 /* MWPROJECTNAME_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWPROJECTNAME_Prefix.pch; sourceTree = "<group>"; };
+		5C78EE6A115D02EE00151A76 /* Development_10.5_compatible.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Development_10.5_compatible.xcconfig; path = "/Library/Application Support/MWorks/Developer/Xcode/Development_10.5_compatible.xcconfig"; sourceTree = "<absolute>"; };
+		5C78EE6B115D02EE00151A76 /* Development.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Development.xcconfig; path = "/Library/Application Support/MWorks/Developer/Xcode/Development.xcconfig"; sourceTree = "<absolute>"; };
+		5C78EE6C115D02EE00151A76 /* WARNING.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = WARNING.txt; path = "/Library/Application Support/MWorks/Developer/Xcode/WARNING.txt"; sourceTree = "<absolute>"; };
 		5CF9AEB70FD5795C00F405F6 /* MWPROJECTNAMEASIDENTIFIERFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MWPROJECTNAMEASIDENTIFIERFactory.cpp; sourceTree = SOURCE_ROOT; };
 		5CF9AEB80FD5795C00F405F6 /* MWPROJECTNAMEASIDENTIFIERFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWPROJECTNAMEASIDENTIFIERFactory.h; sourceTree = SOURCE_ROOT; };
 		5CF9AEB90FD5795C00F405F6 /* MWPROJECTNAMEASIDENTIFIERPlugin.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MWPROJECTNAMEASIDENTIFIERPlugin.cpp; sourceTree = SOURCE_ROOT; };
@@ -79,6 +82,7 @@
 			isa = PBXGroup;
 			children = (
 				5CFCAB0F11060747007CE55F /* INSTRUCTIONS.txt */,
+				5C78EE69115D02C700151A76 /* External Config */,
 				08FB77AFFE84173DC02AAC07 /* Classes */,
 				5CFE591D0F571BF6000C7F30 /* Documentation */,
 				5CFE591C0F571BEB000C7F30 /* Editor Definitions */,
@@ -153,6 +157,16 @@
 				32DBCF630370AF2F00C91783 /* MWPROJECTNAME_Prefix.pch */,
 			);
 			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		5C78EE69115D02C700151A76 /* External Config */ = {
+			isa = PBXGroup;
+			children = (
+				5C78EE6A115D02EE00151A76 /* Development_10.5_compatible.xcconfig */,
+				5C78EE6B115D02EE00151A76 /* Development.xcconfig */,
+				5C78EE6C115D02EE00151A76 /* WARNING.txt */,
+			);
+			name = "External Config";
 			sourceTree = "<group>";
 		};
 		5CFE591C0F571BEB000C7F30 /* Editor Definitions */ = {
@@ -239,7 +253,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/zsh;
-			shellScript = "export FULL_NAME=${PRODUCT_NAME}.${WRAPPER_EXTENSION}\n\nmkdir -p \"${FINAL_INSTALL_DIR}/${FULL_NAME}\"\nrm -R \"${FINAL_INSTALL_DIR}/${FULL_NAME}\"\ncp -R \"${BUILT_PRODUCTS_DIR}/${FULL_NAME}\" ${FINAL_INSTALL_DIR}/\n";
+			shellScript = "export FULL_NAME=${PRODUCT_NAME}.${WRAPPER_EXTENSION}\nexport FINAL_INSTALL_DIR=${PLUGINS_DIR}\n\nmkdir -p \"${FINAL_INSTALL_DIR}/${FULL_NAME}\"\nrm -R \"${FINAL_INSTALL_DIR}/${FULL_NAME}\"\ncp -R \"${BUILT_PRODUCTS_DIR}/${FULL_NAME}\" ${FINAL_INSTALL_DIR}/\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -323,29 +337,15 @@
 		};
 		1DEB913F08733D840010E9CD /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5C78EE6B115D02EE00151A76 /* Development.xcconfig */;
 			buildSettings = {
-				APP_SUPPORT_DIR = "/Library/Application Support/MonkeyWorks";
-				ARCHS = (
-					i386,
-					x86_64,
-				);
-				FINAL_INSTALL_DIR = "$(APP_SUPPORT_DIR)/Plugins/Core Plugins";
-				GCC_C_LANGUAGE_STANDARD = c99;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_VERSION = 4.0;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
 					"/Library/Application\\ Support/MonkeyWorks/Developer/include",
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"/Library/Application\\ Support/MonkeyWorks/Developer/lib/**",
 				);
-				MW_INCLUDE_DIR = "\"$(APP_SUPPORT_DIR)/Developer/include\"";
-				MW_LIB_DIR = "\"$(APP_SUPPORT_DIR)/Developer/lib\"";
-				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
-				SDKROOT = macosx10.5;
 			};
 			name = Development;
 		};
@@ -373,28 +373,14 @@
 		};
 		5CFCAB1A11060926007CE55F /* Development (10.5 Compatible) */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5C78EE6A115D02EE00151A76 /* Development_10.5_compatible.xcconfig */;
 			buildSettings = {
-				APP_SUPPORT_DIR = "/Library/Application Support/MonkeyWorks";
-				ARCHS = (
-					i386,
-					x86_64,
-				);
-				FINAL_INSTALL_DIR = "$(APP_SUPPORT_DIR)/Plugins/Core Plugins";
-				GCC_C_LANGUAGE_STANDARD = c99;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
 					"/Library/Application\\ Support/MonkeyWorks/Developer/include",
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"/Library/Application\\ Support/MonkeyWorks/Developer/lib/**",
 				);
-				MW_INCLUDE_DIR = "\"$(APP_SUPPORT_DIR)/Developer/gcc40/include\"";
-				MW_LIB_DIR = "\"$(APP_SUPPORT_DIR)/Developer/gcc40/lib\"";
-				ONLY_ACTIVE_ARCH = YES;
-				PREBINDING = NO;
-				SDKROOT = macosx10.6;
 			};
 			name = "Development (10.5 Compatible)";
 		};

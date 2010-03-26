@@ -9,7 +9,7 @@
 
 #include "ÇPROJECTNAMEÈPlugin.h"
 #include "ÇPROJECTNAMEÈFactory.h"
-#include "MonkeyWorksCore/ComponentFactory.h"
+#include "MWorksCore/ComponentFactory.h"
 using namespace mw;
 
 Plugin *getPlugin(){
