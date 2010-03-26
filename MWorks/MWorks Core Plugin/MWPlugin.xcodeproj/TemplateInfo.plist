@@ -9,6 +9,7 @@
 		"MWPluginPlugin.cpp" = "ÇPROJECTNAMEÈPlugin.cpp";
 	};
 	FilesToMacroExpand = (
+	  "INSTRUCTIONS.txt",
 		"ÇPROJECTNAMEÈFactory.cpp",
 		"ÇPROJECTNAMEÈFactory.h",
 		"ÇPROJECTNAMEÈ.h",
