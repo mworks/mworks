@@ -21,22 +21,20 @@ class StimulusGroup;
 class StimulusNode : public Lockable, public LinkedListNode<StimulusNode>, public mw::Component {
     protected:
         
-		// A reference for the stimulus that this node refers to
-        shared_ptr<Stimulus> stim;
+		
+        shared_ptr<Stimulus> stim;      // the raw, original version of the stimulus
 
-        shared_ptr<Stimulus> live_stim; // the (potentially frozen) stimulus
-                                           // to show the next time an explicit
-                                           // update display is called (not an
-                                           // internally-driven update call, as 
-                                           // in dynamic stimulus
+        shared_ptr<Stimulus> live_stim; // the current version of the stimulus to be shown
+                                        // this could be a "frozen" version of stim
+                                        // (e.g. one where the live variables are replaced
+                                        // with constant versions)
     
 		
 		// Is the stimulus set to be shown on the next update?
-        
+    
         bool visible;         // show whenever an update display (or any kind) is issued
     
-        bool visible_on_last_update;    // JJD added July 2006
-                                        // internal knowledge of whether this stimulus
+        bool visible_on_last_update;    // internal knowledge of whether this stimulus
                                         // was shown previously (to enable "stim off"
                                         // events
 
@@ -44,6 +42,9 @@ class StimulusNode : public Lockable, public LinkedListNode<StimulusNode>, publi
         bool pending;       // a flag indicating that some element of this 
                             // is pending a change to occur on the next
                             // "explicit" display update
+                            // Explicit updates happen when the user issues an 
+                            // updateDisplay; display updates can also be driven
+                            // internally, e.g. by dynamic stimuli
     
         bool pending_visible; // queued, but not yet visible; set to visible
                                 // when performing an explicit updateDisplay
@@ -55,7 +56,7 @@ class StimulusNode : public Lockable, public LinkedListNode<StimulusNode>, publi
                                 // display update
     
         // Is the stimulus in a "frozen" state (e.g. do we want to the
-		//  to use frozen_stim instead of stim -- frozen_stim is a variable
+		//  to use frozen_stim instead of stim -- frozen_stim is a variable-
 		//  locked version of stim, created using the frozenClone() method 
 		//  on the stimulus
 		bool frozen;
@@ -76,7 +77,8 @@ class StimulusNode : public Lockable, public LinkedListNode<StimulusNode>, publi
         virtual bool isVisible();
         
         
-        // Set a flag to determine whether to draw this stimulus on an update
+        // Set a flag to determine whether to draw this stimulus on the
+        // next update
         virtual void setPending(){ pending = true; }
         virtual void clearPending();
         virtual bool isPending();
@@ -143,18 +145,10 @@ class StimulusGroupReferenceNode : public StimulusNode {
 		// set the "visible" state of the node
 		virtual void setVisible(bool _vis);
         virtual bool isVisible();
-
-        // Set a flag to determine whether to draw this stimulus on an update
-        //virtual void clearPending();
-//        virtual bool isPending();
         
         virtual void setPendingVisible(bool _vis);
         virtual bool isPendingVisible();
         
-        //virtual void setPendingRemoval();
-//        virtual void clearPendingRemoval();
-//        virtual bool isPendingRemoval();
-      
     
 		// set the "frozen" state of the node
         virtual void freeze();

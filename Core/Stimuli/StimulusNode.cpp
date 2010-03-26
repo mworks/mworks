@@ -14,10 +14,7 @@ using namespace mw;
  *                  StimulusNode Methods
  **********************************************************************/
 StimulusNode::StimulusNode() : Lockable() {
-    //stim = NULL;
-	//frozen_stim = NULL;
-//    previous = NULL;
- //   next = NULL;
+
     visible = false;
     visible_on_last_update = false;
     
@@ -42,10 +39,7 @@ StimulusNode::StimulusNode(shared_ptr<Stimulus> _stim) :
     frozen = false;
 }
     
-/*void StimulusNode::setStimulus(Stimulus *_stim) {
-    stim = _stim;
-}*/
-        
+
 shared_ptr<Stimulus> StimulusNode::getStimulus() {
     return stim;
 }
@@ -172,5 +166,273 @@ Datum StimulusNode::getCurrentAnnounceDrawData() {
 void StimulusNode::addToDisplay(shared_ptr<StimulusNode> stimnode, 
 								 shared_ptr<StimulusDisplay> display){
 	display->addStimulusNode(stimnode);
+}
+
+
+
+StimulusNodeGroup::StimulusNodeGroup(shared_ptr<StimulusGroup> group){
+	for(int i = 0; i < group->getNElements(); i++){
+		shared_ptr<StimulusNode> p(new StimulusNode(group->getElement(i)));
+		addReference(p);
+	} // TODO leaks
+}
+
+StimulusGroupReferenceNode::StimulusGroupReferenceNode(
+                                                       shared_ptr<StimulusNodeGroup> _group,
+                                                       shared_ptr<Variable> _index) : StimulusNode(){
+    
+	stimulus_nodes = _group;
+	index = _index;
+}
+
+
+int StimulusGroupReferenceNode::getIndexValue(){
+	int the_index = (*index);
+	int nelements = stimulus_nodes->getNElements();
+	if(the_index >= nelements ||
+	   the_index < 0){
+		merror(M_DISPLAY_MESSAGE_DOMAIN, 
+			   "Attempt to access illegal index (%d) in stimulus group (nelements = %d)", 
+			   the_index, 
+			   nelements);
+		return -1;
+	}
+	
+	return the_index;
+	
+}
+
+void StimulusGroupReferenceNode::addToDisplay(shared_ptr<StimulusNode> stimnode, shared_ptr<StimulusDisplay> display){
+	int index_value = getIndexValue();
+	int nelements = stimulus_nodes->getNElements();
+	if(index_value >=0 && index_value < nelements ){
+		display->addStimulusNode(stimulus_nodes->getElement(index_value));
+	}
+}
+
+void StimulusGroupReferenceNode::freeze(){
+    setFrozen(true);
+}
+
+void StimulusGroupReferenceNode::thaw(){
+    setFrozen(false);
+}
+
+// set the "frozen" state of the node
+void StimulusGroupReferenceNode::setFrozen(bool _frozen){
+	int index_value = getIndexValue();
+	int nelements = stimulus_nodes->getNElements();
+	if(index_value >=0 && index_value < nelements ){
+        shared_ptr<StimulusNode> node = stimulus_nodes->getElement(index_value);
+        if(_frozen){
+            node->freeze();
+        } else {
+            node->thaw();
+        }
+	}
+}
+
+bool StimulusGroupReferenceNode::isFrozen(){
+    
+	int index_value = getIndexValue();
+	int nelements = stimulus_nodes->getNElements();
+	if(index_value >=0 && index_value < nelements ){
+		return (stimulus_nodes->getElement(index_value))->isFrozen();
+	} else {
+		return false;
+	}
+}
+
+
+void StimulusGroupReferenceNode::load(shared_ptr<StimulusDisplay> display){
+	int index_value = getIndexValue();
+	int nelements = stimulus_nodes->getNElements();
+	if(index_value >=0 && index_value < nelements ){
+		(stimulus_nodes->getElement(index_value))->load(display);
+	}  
+}
+
+bool StimulusGroupReferenceNode::isLoaded(){
+	int index_value = getIndexValue();
+	int nelements = stimulus_nodes->getNElements();
+	if(index_value >=0 && index_value < nelements ){
+		return (stimulus_nodes->getElement(index_value))->isLoaded();
+	}
+    
+    return false;
+}
+
+int StimulusGroupReferenceNode::getDeferred(){
+    int index_value = getIndexValue();
+	int nelements = stimulus_nodes->getNElements();
+	if(index_value >=0 && index_value < nelements ){
+		return (stimulus_nodes->getElement(index_value))->getDeferred();
+	}
+    return Stimulus::nondeferred_load;
+}
+
+// Passthrough to the referenced node
+void StimulusGroupReferenceNode::draw(StimulusDisplay * display){
+	int index_value = getIndexValue();
+	int nelements = stimulus_nodes->getNElements();
+	if(index_value >=0 && index_value < nelements ){
+		(stimulus_nodes->getElement(index_value))->draw(display);
+	}
+}
+
+
+void StimulusGroupReferenceNode::setVisible(bool _vis){ 
+	int index_value = getIndexValue();
+	int nelements = stimulus_nodes->getNElements();
+	if(index_value >=0 && index_value < nelements ){
+		(stimulus_nodes->getElement(index_value))->setVisible(_vis);
+	}
+}
+
+bool StimulusGroupReferenceNode::isVisible(){          
+	int index_value = getIndexValue();
+	int nelements = stimulus_nodes->getNElements();
+	if(index_value >=0 && index_value < nelements ){
+		return (stimulus_nodes->getElement(index_value))->isVisible();
+	} else {
+		return false;
+	}
+}	
+
+
+
+//void StimulusGroupReferenceNode::clearPending(){
+//    int index_value = getIndexValue();
+//	int nelements = stimulus_nodes->getNElements();
+//	if(index_value >=0 && index_value < nelements ){
+//		(stimulus_nodes->getElement(index_value))->clearPending();
+//	}
+//}
+//
+//bool StimulusGroupReferenceNode::isPending(){
+//    int index_value = getIndexValue();
+//	int nelements = stimulus_nodes->getNElements();
+//	if(index_value >=0 && index_value < nelements ){
+//		return (stimulus_nodes->getElement(index_value))->isPending();
+//	} else {
+//		return false;
+//	}
+//}
+
+void StimulusGroupReferenceNode::setPendingVisible(bool _vis){
+    int index_value = getIndexValue();
+	int nelements = stimulus_nodes->getNElements();
+	if(index_value >=0 && index_value < nelements ){
+        (stimulus_nodes->getElement(index_value))->setPending();
+		(stimulus_nodes->getElement(index_value))->setPendingVisible(_vis);
+	}
+}
+
+bool StimulusGroupReferenceNode::isPendingVisible(){
+    int index_value = getIndexValue();
+	int nelements = stimulus_nodes->getNElements();
+	if(index_value >=0 && index_value < nelements ){
+		return (stimulus_nodes->getElement(index_value))->isPendingVisible();
+	} else {
+		return false;
+	}
+}
+
+/*void StimulusGroupReferenceNode::setPendingRemoval(){
+ int index_value = getIndexValue();
+ int nelements = stimulus_nodes->getNElements();
+ if(index_value >=0 && index_value < nelements ){
+ (stimulus_nodes->getElement(index_value))->setPending();
+ (stimulus_nodes->getElement(index_value))->setPendingRemoval();
+ }
+ }
+ 
+ void StimulusGroupReferenceNode::clearPendingRemoval(){
+ int index_value = getIndexValue();
+ int nelements = stimulus_nodes->getNElements();
+ if(index_value >=0 && index_value < nelements ){
+ (stimulus_nodes->getElement(index_value))->clearPendingRemoval();
+ }
+ }
+ 
+ bool StimulusGroupReferenceNode::isPendingRemoval(){
+ int index_value = getIndexValue();
+ int nelements = stimulus_nodes->getNElements();
+ if(index_value >=0 && index_value < nelements ){
+ return (stimulus_nodes->getElement(index_value))->isPendingRemoval();
+ } else {
+ return false;
+ }
+ }*/
+
+
+/*void StimulusGroupReferenceNode::setVisibleOnLastUpdate(bool _vis){ // JJD add
+ (stimulus_nodes->getElement((int)(*index)))->setVisibleOnLastUpdate(_vis);
+ }
+ 
+ bool StimulusGroupReferenceNode::wasVisibleOnLastUpdate(){          // JJD add
+ return (stimulus_nodes->getElement((int)(*index)))->wasVisibleOnLastUpdate();
+ }*/
+
+void StimulusGroupReferenceNode::announceStimulusDraw(MWTime time){
+	int index_value = getIndexValue();
+	int nelements = stimulus_nodes->getNElements();
+	if(index_value >=0 && index_value < nelements ){
+		(stimulus_nodes->getElement(index_value))->announceStimulusDraw(time);
+	}
+}
+
+Datum StimulusGroupReferenceNode::getCurrentAnnounceDrawData(){
+	int index_value = getIndexValue();
+	int nelements = stimulus_nodes->getNElements();
+	if(index_value >=0 && index_value < nelements ){
+		return (stimulus_nodes->getElement(index_value))->getCurrentAnnounceDrawData();
+	} else {
+        Datum undef;
+		return undef;
+	}
+}
+
+
+void StimulusGroupReferenceNode::remove(){
+	int index_value = getIndexValue();
+	int nelements = stimulus_nodes->getNElements();
+	if(index_value >=0 && index_value < nelements ){
+		(stimulus_nodes->getElement(index_value))->remove();
+	}
+}
+
+void StimulusGroupReferenceNode::bringToFront(){
+	int index_value = getIndexValue();
+	int nelements = stimulus_nodes->getNElements();
+	if(index_value >=0 && index_value < nelements ){
+		(stimulus_nodes->getElement(index_value))->bringToFront();
+	}
+}
+
+void StimulusGroupReferenceNode::sendToBack(){
+	int index_value = getIndexValue();
+	int nelements = stimulus_nodes->getNElements();
+	if(index_value >=0 && index_value < nelements ){
+		(stimulus_nodes->getElement(index_value))->sendToBack();
+	}
+}
+
+
+void StimulusGroupReferenceNode::bringForward(){
+	
+	int index_value = getIndexValue();
+	int nelements = stimulus_nodes->getNElements();
+	if(index_value >=0 && index_value < nelements ){
+		(stimulus_nodes->getElement(index_value))->moveForward();
+	}
+}
+
+void StimulusGroupReferenceNode::sendBackward(){
+	int index_value = getIndexValue();
+	int nelements = stimulus_nodes->getNElements();
+	if(index_value >=0 && index_value < nelements ){
+		(stimulus_nodes->getElement(index_value))->moveBackward();
+	}
 }
 

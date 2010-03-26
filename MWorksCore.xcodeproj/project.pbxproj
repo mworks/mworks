@@ -170,8 +170,8 @@
 		5C76B41710BB226400F6D029 /* VariableRegistryInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CA9AD3010B5F9B500A04B67 /* VariableRegistryInterface.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5C7720420B6972C7008DC497 /* ScarabFileTest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C37484009EC18A200F8265F /* ScarabFileTest.h */; };
 		5C7720430B6972CA008DC497 /* ScarabFileTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C37484109EC18A200F8265F /* ScarabFileTest.cpp */; };
-		5C78EDEC115C00EC00151A76 /* DynamicStimulus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C78EDE2115C00EC00151A76 /* DynamicStimulus.cpp */; };
-		5C78EDED115C00EC00151A76 /* DynamicStimulus.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C78EDE3115C00EC00151A76 /* DynamicStimulus.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5C78EDEC115C00EC00151A76 /* DynamicStimulusDriver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C78EDE2115C00EC00151A76 /* DynamicStimulusDriver.cpp */; };
+		5C78EDED115C00EC00151A76 /* DynamicStimulusDriver.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C78EDE3115C00EC00151A76 /* DynamicStimulusDriver.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5C78EDEE115C00EC00151A76 /* PlayDynamicStimulus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C78EDE4115C00EC00151A76 /* PlayDynamicStimulus.cpp */; };
 		5C78EDEF115C00EC00151A76 /* PlayDynamicStimulus.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C78EDE5115C00EC00151A76 /* PlayDynamicStimulus.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5C78EDF0115C00EC00151A76 /* DynamicStimulusActionFactories.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C78EDE6115C00EC00151A76 /* DynamicStimulusActionFactories.cpp */; };
@@ -766,8 +766,8 @@
 		5C76674D0C1BB28C00B1203C /* StimulusNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StimulusNode.h; path = Core/Stimuli/StimulusNode.h; sourceTree = "<group>"; };
 		5C76674E0C1BB28C00B1203C /* StimulusNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StimulusNode.cpp; path = Core/Stimuli/StimulusNode.cpp; sourceTree = "<group>"; };
 		5C7667530C1BB30A00B1203C /* StimulusDisplay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StimulusDisplay.h; path = Core/Stimuli/StimulusDisplay.h; sourceTree = "<group>"; };
-		5C78EDE2115C00EC00151A76 /* DynamicStimulus.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DynamicStimulus.cpp; sourceTree = "<group>"; };
-		5C78EDE3115C00EC00151A76 /* DynamicStimulus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DynamicStimulus.h; sourceTree = "<group>"; };
+		5C78EDE2115C00EC00151A76 /* DynamicStimulusDriver.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DynamicStimulusDriver.cpp; sourceTree = "<group>"; };
+		5C78EDE3115C00EC00151A76 /* DynamicStimulusDriver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DynamicStimulusDriver.h; sourceTree = "<group>"; };
 		5C78EDE4115C00EC00151A76 /* PlayDynamicStimulus.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PlayDynamicStimulus.cpp; sourceTree = "<group>"; };
 		5C78EDE5115C00EC00151A76 /* PlayDynamicStimulus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayDynamicStimulus.h; sourceTree = "<group>"; };
 		5C78EDE6115C00EC00151A76 /* DynamicStimulusActionFactories.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DynamicStimulusActionFactories.cpp; sourceTree = "<group>"; };
@@ -1474,8 +1474,8 @@
 		5C78EDE1115C00EC00151A76 /* DynamicStimuli */ = {
 			isa = PBXGroup;
 			children = (
-				5C78EDE2115C00EC00151A76 /* DynamicStimulus.cpp */,
-				5C78EDE3115C00EC00151A76 /* DynamicStimulus.h */,
+				5C78EDE2115C00EC00151A76 /* DynamicStimulusDriver.cpp */,
+				5C78EDE3115C00EC00151A76 /* DynamicStimulusDriver.h */,
 				5C78EDE4115C00EC00151A76 /* PlayDynamicStimulus.cpp */,
 				5C78EDE5115C00EC00151A76 /* PlayDynamicStimulus.h */,
 				5C78EDE6115C00EC00151A76 /* DynamicStimulusActionFactories.cpp */,
@@ -2369,7 +2369,7 @@
 				5CA07B4D10D0560300000A95 /* SimpleCodecUtilities.h in Headers */,
 				5CA07B4E10D0560C00000A95 /* EventCallbackHandler.h in Headers */,
 				5CA07C5510D13A4700000A95 /* CodecAwareConduit.h in Headers */,
-				5C78EDED115C00EC00151A76 /* DynamicStimulus.h in Headers */,
+				5C78EDED115C00EC00151A76 /* DynamicStimulusDriver.h in Headers */,
 				5C78EDEF115C00EC00151A76 /* PlayDynamicStimulus.h in Headers */,
 				5C78EDF1115C00EC00151A76 /* DynamicStimulusActionFactories.h in Headers */,
 				5C78EDF3115C00EC00151A76 /* StopDynamicStimulus.h in Headers */,
@@ -3037,7 +3037,7 @@
 				5CA07B4B10D055F600000A95 /* EventCallbackHandler.cpp in Sources */,
 				5CA07B4C10D055FD00000A95 /* SimpleCodecUtilities.cpp in Sources */,
 				5CA07C5610D13A4B00000A95 /* CodecAwareConduit.cpp in Sources */,
-				5C78EDEC115C00EC00151A76 /* DynamicStimulus.cpp in Sources */,
+				5C78EDEC115C00EC00151A76 /* DynamicStimulusDriver.cpp in Sources */,
 				5C78EDEE115C00EC00151A76 /* PlayDynamicStimulus.cpp in Sources */,
 				5C78EDF0115C00EC00151A76 /* DynamicStimulusActionFactories.cpp in Sources */,
 				5C78EDF2115C00EC00151A76 /* StopDynamicStimulus.cpp in Sources */,
