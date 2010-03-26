@@ -2011,14 +2011,14 @@ shared_ptr<mw::Component> StartAveragerFactory::createObject(std::map<std::strin
 }	
 
 StopAverager::StopAverager(shared_ptr<AveragerUser> _averager) : Action()  {
-    if (VERBOSE_ACTION_METHODS) mprintf("mStopAverager constructor has been called.");
+    if (VERBOSE_ACTION_METHODS) mprintf("StopAverager constructor has been called.");
     averager = _averager;
 	setName("StopAverager");
 }
 
 StopAverager::~StopAverager() {};
 bool StopAverager::execute() {
-    if (VERBOSE_ACTION_METHODS) mprintf("mStopAverager is executing...");
+    if (VERBOSE_ACTION_METHODS) mprintf("StopAverager is executing...");
     averager->stop();
     return true;
 }

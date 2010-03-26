@@ -15,6 +15,7 @@
 #include "BlockAndProtocol.h"
 #include "States.h"
 #include "TrialBuildingBlocks.h"
+#include "DynamicStimulusActionFactories.h"
 #include "ScheduledActions.h"
 #include "PulseAction.h"
 #include "CancelScheduledActionsAction.h"
@@ -92,6 +93,10 @@ ComponentRegistry::ComponentRegistry() :
 	registerFactory("action/update_calibration", new CalibrateNowFactory());
 	registerFactory("action/clear_calibration", new ClearCalibrationFactory());
 
+    registerFactory(std::string("action/play_dynamic_stimulus"), new PlayDynamicStimulusFactory());
+    registerFactory(std::string("action/stop_dynamic_stimulus"), new StopDynamicStimulusFactory());
+            
+            
 	// transitions
 	registerFactory("transition", new TransitionFactory());
 	
