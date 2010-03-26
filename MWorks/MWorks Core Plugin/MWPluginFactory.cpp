@@ -20,10 +20,10 @@ shared_ptr<mw::Component> ÇPROJECTNAMEÈFactory::createObject(std::map<std::strin
 					   "tag",
                        "another_attribute");
 	
-	std::string tagname(parameters.find("tag")->second);
+	std::string tagname(parameters["tag"]);
 
     
-	shared_ptr<Variable> another_attribute = reg->getVariable(parameters.find("another_attribute")->second);	
+	shared_ptr<Variable> another_attribute = reg->getVariable(parameters["another_attribute"]);	
 	
 	shared_ptr <ÇPROJECTNAMEÈ> new_component = shared_ptr<ÇPROJECTNAMEÈ>(new ÇPROJECTNAMEÈ(tagname, another_attribute));
 	
