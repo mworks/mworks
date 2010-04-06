@@ -185,6 +185,9 @@
 		5C56F6F21010BDA0007E03A9 /* ReportInspectorView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ReportInspectorView.xib; path = InspectorViews/ReportInspectorView.xib; sourceTree = "<group>"; };
 		5C58B0F20E7B023A00561EED /* MWPreferencePanelController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWPreferencePanelController.h; sourceTree = "<group>"; };
 		5C58B0F30E7B023A00561EED /* MWPreferencePanelController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWPreferencePanelController.m; sourceTree = "<group>"; };
+		5C78EAAB1159515A00151A76 /* Development_10.5_compatible.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Development_10.5_compatible.xcconfig; path = "/Library/Application Support/MWorks/Developer/Xcode/Development_10.5_compatible.xcconfig"; sourceTree = "<absolute>"; };
+		5C78EAAC1159515A00151A76 /* Development.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Development.xcconfig; path = "/Library/Application Support/MWorks/Developer/Xcode/Development.xcconfig"; sourceTree = "<absolute>"; };
+		5C78EAAD1159515A00151A76 /* WARNING.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = WARNING.txt; path = "/Library/Application Support/MWorks/Developer/Xcode/WARNING.txt"; sourceTree = "<absolute>"; };
 		5C9186B80E3636B600B64213 /* BiasMonitorInspectorView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = BiasMonitorInspectorView.xib; path = InspectorViews/BiasMonitorInspectorView.xib; sourceTree = "<group>"; };
 		5C9186DE0E368F0B00B64213 /* ImageStimulusInspectorView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ImageStimulusInspectorView.xib; path = InspectorViews/ImageStimulusInspectorView.xib; sourceTree = "<group>"; };
 		5C9186F40E3697C400B64213 /* URLPathValueTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = URLPathValueTransformer.h; sourceTree = "<group>"; };
@@ -353,6 +356,7 @@
 		2A37F4AAFDCFA73011CA2CEA /* NewEditor */ = {
 			isa = PBXGroup;
 			children = (
+				5C78EAA61159513100151A76 /* External Config */,
 				5CC662AA0CECBA560037BB6D /* Not Used */,
 				5CCBAAF70CDE4D6600B42E7B /* Borrowed Classes */,
 				5CCBAA950CDE22DE00B42E7B /* Cocoa Extensions */,
@@ -431,6 +435,16 @@
 				1058C7A8FEA54F5311CA2CBB /* Other Frameworks */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		5C78EAA61159513100151A76 /* External Config */ = {
+			isa = PBXGroup;
+			children = (
+				5C78EAAB1159515A00151A76 /* Development_10.5_compatible.xcconfig */,
+				5C78EAAC1159515A00151A76 /* Development.xcconfig */,
+				5C78EAAD1159515A00151A76 /* WARNING.txt */,
+			);
+			name = "External Config";
 			sourceTree = "<group>";
 		};
 		5CC156F90CEBBE7D00488075 /* Minor Subclasses */ = {
@@ -867,16 +881,12 @@
 /* Begin XCBuildConfiguration section */
 		5C518D4A108673050004DBC0 /* Development (10.5 Compatible) */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5C78EAAB1159515A00151A76 /* Development_10.5_compatible.xcconfig */;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
-				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "x86_64 i386 ppc";
 				FRAMEWORK_SEARCH_PATHS = /Library/Frameworks;
 				GCC_ENABLE_OBJC_GC = required;
-				GCC_VERSION = 4.0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				PREBINDING = NO;
-				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
 			};
 			name = "Development (10.5 Compatible)";
 		};
@@ -962,16 +972,12 @@
 		};
 		C05733CC08A9546B00998B17 /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5C78EAAC1159515A00151A76 /* Development.xcconfig */;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
-				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "x86_64 i386 ppc";
 				FRAMEWORK_SEARCH_PATHS = /Library/Frameworks;
 				GCC_ENABLE_OBJC_GC = required;
-				GCC_VERSION = 4.2;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				PREBINDING = NO;
-				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
 			};
 			name = Development;
 		};

@@ -67,7 +67,7 @@
 		// Get all of the plugins' library files
 		/////////////////////////////////////////////////////////////////////
 		NSLog(@"Loading Library XML...");
-		NSString *pluginPath = @"/Library/Application Support/MonkeyWorks/Plugins/Core Plugins";
+		NSString *pluginPath = @"/Library/Application Support/MWorks/Plugins/Core";
 		NSArray *plugins = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:pluginPath error:&outError];
 		NSEnumerator *pluginEnumerator = [plugins objectEnumerator];
 		NSString *pluginName = nil;
