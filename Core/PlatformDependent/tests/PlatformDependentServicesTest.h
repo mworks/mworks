@@ -3,7 +3,7 @@
 
 /*
  *  PlatformDependentServicesTest.h
- *  MonkeyWorksCore
+ *  MWorksCore
  *
  *  Created by Ben Kennedy 07142006
  *  Copyright 2006 __MyCompanyName__. All rights reserved.

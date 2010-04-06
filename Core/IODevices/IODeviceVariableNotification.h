@@ -1,6 +1,6 @@
 /*
  *  IODeviceVariableNotification.h
- *  MonkeyWorksCore
+ *  MWorksCore
  *
  *  Created by bkennedy on 12/18/08.
  *  Copyright 2008 mit. All rights reserved.

@@ -1,6 +1,6 @@
 /*
  *  DoneTableSelection.h
- *  MonkeyWorksCore
+ *  MWorksCore
  *
  *  Created by labuser on 9/25/07.
  *  Copyright 2007 MIT. All rights reserved.

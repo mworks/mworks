@@ -46,7 +46,7 @@ shared_ptr<NetworkReturn>  ScarabServerConnection::accept(ScarabSession * listen
 	
 	if(writer == NULL || reader == NULL) {
         shared_ptr<NetworkReturn>  rc(new NetworkReturn());
-        rc->setMonkeyWorksCode(NR_ERROR);
+        rc->setMWorksCode(NR_ERROR);
         rc->setInformation("Read or Write connection is not valid");
         rc->appendInformationWithFormat("Read -(%x)- Write -(%x)-", 
                                                             reader.get(), writer.get());

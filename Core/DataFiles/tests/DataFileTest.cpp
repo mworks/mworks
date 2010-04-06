@@ -1,6 +1,6 @@
 /*
  *  DatumFileTest.cpp
- *  MonkeyWorksCore
+ *  MWorksCore
  *
  *  Created by Ben Kennedy 2006
  *  Copyright 2006 MIT. All rights reserved.
@@ -8,11 +8,11 @@
  */
 
 #include "DataFileTest.h"
-#include "MonkeyWorksCore/EventBuffer.h"
-#include "MonkeyWorksCore/Event.h"
-#include "MonkeyWorksCore/GenericData.h"
-#include "MonkeyWorksCore/DataFileManager.h"
-#include "MonkeyWorksCore/ScarabServices.h"
+#include "MWorksCore/EventBuffer.h"
+#include "MWorksCore/Event.h"
+#include "MWorksCore/GenericData.h"
+#include "MWorksCore/DataFileManager.h"
+#include "MWorksCore/ScarabServices.h"
 #include <pthread.h>
 using namespace mw;
 
@@ -107,7 +107,7 @@ void DatumFileTestFixture::dataFileWriterTest() {
 //												getNewDisplayBufferReader();
 //
 //	
-//	char *uri = "ldobinary:file:///Library/MonkeyWorks/DataFiles/dft_test.mwk";
+//	char *uri = "ldobinary:file:///Library/MWorks/DataFiles/dft_test.mwk";
 //    ScarabSession *pipe = scarab_session_connect(uri);
 //	CPPUNIT_ASSERT(getScarabError(pipe) == 0);
 //

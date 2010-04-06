@@ -1,6 +1,6 @@
 /*
  *  ZenScheduler.cpp
- *  MonkeyWorksCore
+ *  MWorksCore
  *
  *  Created by David Cox on 6/16/05.
  *  Copyright 2005 MIT. All rights reserved.

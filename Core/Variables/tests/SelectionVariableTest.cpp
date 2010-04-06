@@ -1,6 +1,6 @@
 /*
  *  SelectionVariableTest.cpp
- *  MonkeyWorksCore
+ *  MWorksCore
  *
  *  Created by David Cox on 3/30/06.
  *  Copyright 2006 MIT. All rights reserved.

@@ -4,7 +4,7 @@
 
 /*
  *  SelectionVariableTest.h
- *  MonkeyWorksCore
+ *  MWorksCore
  *
  *  Created by David Cox on 3/30/06.
  *  Copyright 2006 MIT. All rights reserved.
@@ -17,8 +17,8 @@
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
 
-#include "MonkeyWorksCore/SelectionVariable.h"
-#include "MonkeyWorksCore/ConstantVariable.h"
+#include "MWorksCore/SelectionVariable.h"
+#include "MWorksCore/ConstantVariable.h"
 namespace mw {
 class SelectionVariableTestFixture : public CppUnit::TestFixture  {
 

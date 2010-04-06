@@ -175,7 +175,7 @@
 		5C7CEFE30BC5D7AB00434931 /* LegacyBuffers.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C7CEFE10BC5D7AB00434931 /* LegacyBuffers.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5C7CF2FE0BC69E3900434931 /* LegacyBuffers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C7CEFE20BC5D7AB00434931 /* LegacyBuffers.cpp */; };
 		5C7CF4EF0BC6B48D00434931 /* LinkedList.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C7CF4ED0BC6B48D00434931 /* LinkedList.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5C866A99086E1E43006CBE6F /* MonkeyWorksTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C866A98086E1E43006CBE6F /* MonkeyWorksTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5C866A99086E1E43006CBE6F /* MWorksTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C866A98086E1E43006CBE6F /* MWorksTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5C8D03C40D56B1AE00454461 /* DummyIODevice.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C8D03C20D56B1AE00454461 /* DummyIODevice.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5C8D03C50D56B1AE00454461 /* DummyIODevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C8D03C30D56B1AE00454461 /* DummyIODevice.cpp */; };
 		5C9186130E3548FA00B64213 /* BiasMonitor.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C9186110E3548FA00B64213 /* BiasMonitor.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -235,7 +235,7 @@
 		5CCE1CBC10A4687C00EF5866 /* __init__.py in Resources */ = {isa = PBXBuildFile; fileRef = 5CCE1CBB10A4687C00EF5866 /* __init__.py */; };
 		5CD504310D4ED0BA00CD1C1D /* TrialBuildingBlocks.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CD504300D4ED0BA00CD1C1D /* TrialBuildingBlocks.cpp */; };
 		5CDB8B270E9C4AFC00993D99 /* PythonSimpleConduit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CB6C4750E9A92CA006923EC /* PythonSimpleConduit.cpp */; };
-		5CDB8BB90E9C4B0700993D99 /* MonkeyWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA2CE0D407E9F68100C68AEF /* MonkeyWorksCore.framework */; };
+		5CDB8BB90E9C4B0700993D99 /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA2CE0D407E9F68100C68AEF /* MWorksCore.framework */; };
 		5CDCC8830D2B0E10008E2F19 /* ExpressionParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CDCC87F0D2B0E10008E2F19 /* ExpressionParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5CDCC8840D2B0E10008E2F19 /* ExpressionParser.cc in Sources */ = {isa = PBXBuildFile; fileRef = 5CDCC8800D2B0E10008E2F19 /* ExpressionParser.cc */; };
 		5CDCC8850D2B0E10008E2F19 /* AnyScalar.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CDCC8810D2B0E10008E2F19 /* AnyScalar.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -705,6 +705,9 @@
 		5C0B04AB0BB8A46500FD57B9 /* ScopedVariableEnvironment.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ScopedVariableEnvironment.cpp; path = Core/Variables/ScopedVariableEnvironment.cpp; sourceTree = "<group>"; };
 		5C0C4A8409B64DAD0021D3CC /* SelectionVariable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SelectionVariable.h; path = Core/Variables/SelectionVariable.h; sourceTree = SOURCE_ROOT; };
 		5C0C4A8509B64DAD0021D3CC /* SelectionVariable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SelectionVariable.cpp; path = Core/Variables/SelectionVariable.cpp; sourceTree = SOURCE_ROOT; };
+		5C0CD7A31149E75F00B1C674 /* Development_10.5_compatible.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Development_10.5_compatible.xcconfig; path = "/Library/Application Support/MWorks/Developer/Xcode/Development_10.5_compatible.xcconfig"; sourceTree = "<absolute>"; };
+		5C0CD7A41149E75F00B1C674 /* Development.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Development.xcconfig; path = "/Library/Application Support/MWorks/Developer/Xcode/Development.xcconfig"; sourceTree = "<absolute>"; };
+		5C0CD7A51149E75F00B1C674 /* WARNING.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = WARNING.txt; path = "/Library/Application Support/MWorks/Developer/Xcode/WARNING.txt"; sourceTree = "<absolute>"; };
 		5C0E74F609D1A7E9002295FB /* LowPrioritySchedulerPlugin-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "LowPrioritySchedulerPlugin-Info.plist"; sourceTree = "<group>"; };
 		5C0E757A09D1A886002295FB /* LowPrioritySchedulerPlugin.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LowPrioritySchedulerPlugin.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		5C18E25408A167BE00AA734D /* VariableNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VariableNotification.h; path = Core/Variables/VariableNotification.h; sourceTree = SOURCE_ROOT; };
@@ -734,18 +737,18 @@
 		5C38FBC30DF045F600FA6A18 /* XMLVariableWriter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = XMLVariableWriter.cpp; path = Core/XMLParser/XMLVariableWriter.cpp; sourceTree = "<group>"; };
 		5C4238A009EE97820023EB90 /* ScarabEventTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ScarabEventTest.h; path = Core/Events/tests/ScarabEventTest.h; sourceTree = SOURCE_ROOT; };
 		5C4238A109EE97820023EB90 /* ScarabEventTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ScarabEventTest.cpp; path = Core/Events/tests/ScarabEventTest.cpp; sourceTree = SOURCE_ROOT; };
-		5C4D232509DC59420082BF9F /* MonkeyWorksCoreTestRunner */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = MonkeyWorksCoreTestRunner; sourceTree = BUILT_PRODUCTS_DIR; };
+		5C4D232509DC59420082BF9F /* MWorksCoreTestRunner */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = MWorksCoreTestRunner; sourceTree = BUILT_PRODUCTS_DIR; };
 		5C4D233A09DC6F0C0082BF9F /* VectorTest.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; name = VectorTest.h; path = Core/Variables/tests/VectorTest.h; sourceTree = SOURCE_ROOT; };
 		5C4D233B09DC6F0C0082BF9F /* VectorTest.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = VectorTest.cpp; path = Core/Variables/tests/VectorTest.cpp; sourceTree = SOURCE_ROOT; };
-		5C4D239C09DC83930082BF9F /* MonkeyWorksCoreTest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MonkeyWorksCoreTest.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		5C4D239D09DC83930082BF9F /* MonkeyWorksCoreTest-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MonkeyWorksCoreTest-Info.plist"; sourceTree = "<group>"; };
+		5C4D239C09DC83930082BF9F /* MWorksCoreTest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MWorksCoreTest.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5C4D239D09DC83930082BF9F /* MWorksCoreTest-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MWorksCoreTest-Info.plist"; sourceTree = "<group>"; };
 		5C4D26C809DD58AD0082BF9F /* PerlInterpreterTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PerlInterpreterTest.h; path = Core/Interpreters/tests/PerlInterpreterTest.h; sourceTree = SOURCE_ROOT; };
 		5C4D26C909DD58AD0082BF9F /* PerlInterpreterTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PerlInterpreterTest.cpp; path = Core/Interpreters/tests/PerlInterpreterTest.cpp; sourceTree = SOURCE_ROOT; };
 		5C524E860CAA02C60063B1DC /* TimerTest.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = TimerTest.cpp; sourceTree = "<group>"; };
 		5C524E870CAA02C60063B1DC /* TimerTest.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TimerTest.h; sourceTree = "<group>"; };
 		5C643E9F0D501E99004A8BD2 /* UnresolvedReferenceVariable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UnresolvedReferenceVariable.h; path = Core/Variables/UnresolvedReferenceVariable.h; sourceTree = "<group>"; };
 		5C643EA00D501E99004A8BD2 /* UnresolvedReferenceVariable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = UnresolvedReferenceVariable.cpp; path = Core/Variables/UnresolvedReferenceVariable.cpp; sourceTree = "<group>"; };
-		5C6616C10F4C9B6900C8FD71 /* MonkeyWorksCore-Info.template.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "MonkeyWorksCore-Info.template.plist"; sourceTree = "<group>"; };
+		5C6616C10F4C9B6900C8FD71 /* MWorksCore-Info.template.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "MWorksCore-Info.template.plist"; sourceTree = "<group>"; };
 		5C71CD6809AA507700EAD886 /* GlobalVariable.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = GlobalVariable.cpp; path = Core/Variables/GlobalVariable.cpp; sourceTree = "<group>"; };
 		5C71CD6909AA507700EAD886 /* GlobalVariable.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GlobalVariable.h; path = Core/Variables/GlobalVariable.h; sourceTree = "<group>"; };
 		5C71CD6A09AA507700EAD886 /* ExpressionVariable.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ExpressionVariable.cpp; path = Core/Variables/ExpressionVariable.cpp; sourceTree = SOURCE_ROOT; };
@@ -763,7 +766,7 @@
 		5C7CEFE20BC5D7AB00434931 /* LegacyBuffers.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = LegacyBuffers.cpp; path = Core/Events/LegacyBuffers.cpp; sourceTree = "<group>"; };
 		5C7CF4ED0BC6B48D00434931 /* LinkedList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LinkedList.h; sourceTree = "<group>"; };
 		5C7CF4EE0BC6B48D00434931 /* LinkedList.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LinkedList.cpp; sourceTree = "<group>"; };
-		5C866A98086E1E43006CBE6F /* MonkeyWorksTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MonkeyWorksTypes.h; path = Core/MonkeyWorksTypes.h; sourceTree = "<group>"; };
+		5C866A98086E1E43006CBE6F /* MWorksTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MWorksTypes.h; path = Core/MWorksTypes.h; sourceTree = "<group>"; };
 		5C8A6A2D09EC4E57007FECBA /* ScarabNetworkTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ScarabNetworkTest.h; path = Core/Scarab/tests/ScarabNetworkTest.h; sourceTree = SOURCE_ROOT; };
 		5C8A6A2E09EC4E57007FECBA /* ScarabNetworkTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ScarabNetworkTest.cpp; path = Core/Scarab/tests/ScarabNetworkTest.cpp; sourceTree = SOURCE_ROOT; };
 		5C8D03C20D56B1AE00454461 /* DummyIODevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DummyIODevice.h; path = Core/IODevices/DummyIODevice.h; sourceTree = "<group>"; };
@@ -877,7 +880,7 @@
 		8E1A4BE008DF5626002E47BD /* MathUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MathUtilities.cpp; path = Core/Utilities/MathUtilities.cpp; sourceTree = SOURCE_ROOT; };
 		8E28B5FA0A6C317E00DA6287 /* Announcers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Announcers.h; path = Core/RealtimeServices/Announcers.h; sourceTree = "<group>"; };
 		8E28B5FB0A6C317E00DA6287 /* Announcers.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Announcers.cpp; path = Core/RealtimeServices/Announcers.cpp; sourceTree = "<group>"; };
-		8E2A2C7C09509D6800A7E004 /* MonkeyWorksXMLSpec.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = MonkeyWorksXMLSpec.rtf; path = Docs/MonkeyWorksXMLSpec.rtf; sourceTree = "<group>"; };
+		8E2A2C7C09509D6800A7E004 /* MWorksXMLSpec.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = MWorksXMLSpec.rtf; path = Docs/MWorksXMLSpec.rtf; sourceTree = "<group>"; };
 		8E4054260B098BF000B64D84 /* RewardCoordinator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RewardCoordinator.h; path = Core/Transforms/RewardCoordinator.h; sourceTree = "<group>"; };
 		8E4054270B098BF000B64D84 /* RewardCoordinator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RewardCoordinator.cpp; path = Core/Transforms/RewardCoordinator.cpp; sourceTree = "<group>"; };
 		8ED4517F08BF596A003880D5 /* IODeviceManager.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IODeviceManager.h; path = Core/IODevices/IODeviceManager.h; sourceTree = SOURCE_ROOT; };
@@ -912,8 +915,8 @@
 		DA2B6D39098AA34900DDE06D /* EventStreamInterface.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EventStreamInterface.cpp; path = Core/Events/EventStreamInterface.cpp; sourceTree = "<group>"; };
 		DA2B6D50098AAAEC00DDE06D /* StandardSystemEventHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StandardSystemEventHandler.h; path = Core/InterfaceHooks/ServerSide/Products/StandardSystemEventHandler.h; sourceTree = "<group>"; };
 		DA2B6D51098AAAEC00DDE06D /* StandardSystemEventHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StandardSystemEventHandler.cpp; path = Core/InterfaceHooks/ServerSide/Products/StandardSystemEventHandler.cpp; sourceTree = "<group>"; };
-		DA2CE0D407E9F68100C68AEF /* MonkeyWorksCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MonkeyWorksCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		DA2CE0D607E9F68100C68AEF /* MonkeyWorksCore-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MonkeyWorksCore-Info.plist"; sourceTree = SOURCE_ROOT; };
+		DA2CE0D407E9F68100C68AEF /* MWorksCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MWorksCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DA2CE0D607E9F68100C68AEF /* MWorksCore-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MWorksCore-Info.plist"; sourceTree = "<group>"; };
 		DA2CE10C07E9F85800C68AEF /* ComponentRegistry.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ComponentRegistry.cpp; path = Core/ComponentRegistries/ComponentRegistry.cpp; sourceTree = "<group>"; };
 		DA2CE10D07E9F85800C68AEF /* ComponentRegistry.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 30; name = ComponentRegistry.h; path = Core/ComponentRegistries/ComponentRegistry.h; sourceTree = "<group>"; };
 		DA2CE10E07E9F85800C68AEF /* VariableRegistry.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = VariableRegistry.cpp; path = Core/ComponentRegistries/VariableRegistry.cpp; sourceTree = "<group>"; };
@@ -1011,7 +1014,7 @@
 		DA2CE39107EA035F00C68AEF /* MachClockPlugin-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MachClockPlugin-Info.plist"; sourceTree = SOURCE_ROOT; };
 		DA2CE39607EA040D00C68AEF /* MachClock.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = MachClock.cpp; path = MachClock/MachClock.cpp; sourceTree = SOURCE_ROOT; };
 		DA2CE39707EA040D00C68AEF /* MachClock.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MachClock.h; path = MachClock/MachClock.h; sourceTree = SOURCE_ROOT; };
-		DA2CE3A407EA046800C68AEF /* MonkeyWorksScripting-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MonkeyWorksScripting-Info.plist"; sourceTree = SOURCE_ROOT; };
+		DA2CE3A407EA046800C68AEF /* MWorksScripting-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "MWorksScripting-Info.plist"; path = "MonkeyWorksScripting-Info.plist"; sourceTree = SOURCE_ROOT; };
 		DA2CE3AC07EA04FF00C68AEF /* MonkeyScript.i */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c.preprocessed; name = MonkeyScript.i; path = MonkeyWorksScripting/MonkeyScript.i; sourceTree = SOURCE_ROOT; };
 		DA2CE3BD07EA057500C68AEF /* ZenClockPlugin-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ZenClockPlugin-Info.plist"; sourceTree = SOURCE_ROOT; };
 		DA2E379C08B0FE5800BD22C4 /* EventBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = EventBuffer.cpp; path = Core/Events/EventBuffer.cpp; sourceTree = SOURCE_ROOT; };
@@ -1063,7 +1066,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5CDB8BB90E9C4B0700993D99 /* MonkeyWorksCore.framework in Frameworks */,
+				5CDB8BB90E9C4B0700993D99 /* MWorksCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1222,6 +1225,16 @@
 				5C2386B10E8D18FA00CDC4FC /* Communications */,
 			);
 			name = "Sandbox-Experimental";
+			sourceTree = "<group>";
+		};
+		5C0CD79E1149E69A00B1C674 /* External Configuration */ = {
+			isa = PBXGroup;
+			children = (
+				5C0CD7A31149E75F00B1C674 /* Development_10.5_compatible.xcconfig */,
+				5C0CD7A41149E75F00B1C674 /* Development.xcconfig */,
+				5C0CD7A51149E75F00B1C674 /* WARNING.txt */,
+			);
+			name = "External Configuration";
 			sourceTree = "<group>";
 		};
 		5C2386B10E8D18FA00CDC4FC /* Communications */ = {
@@ -1659,7 +1672,7 @@
 			isa = PBXGroup;
 			children = (
 				0EF2B66E0EBB6EB30088F58F /* tests */,
-				5C866A98086E1E43006CBE6F /* MonkeyWorksTypes.h */,
+				5C866A98086E1E43006CBE6F /* MWorksTypes.h */,
 				DA2CE1AF07E9F95600C68AEF /* Utilities.h */,
 				DA2CE1AE07E9F95600C68AEF /* Utilities.cpp */,
 				8E1A4BDF08DF5626002E47BD /* MathUtilities.h */,
@@ -1732,6 +1745,7 @@
 		DA2CE0C507E9070200C68AEF = {
 			isa = PBXGroup;
 			children = (
+				5C0CD79E1149E69A00B1C674 /* External Configuration */,
 				DA2CE0D807E9F6A700C68AEF /* Core */,
 				5C4D231C09DC3D0E0082BF9F /* Unit Testing */,
 				5C475B6107EF8BB4004A645E /* Standard Plugins */,
@@ -1746,13 +1760,13 @@
 		DA2CE0D507E9F68100C68AEF /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				DA2CE0D407E9F68100C68AEF /* MonkeyWorksCore.framework */,
+				DA2CE0D407E9F68100C68AEF /* MWorksCore.framework */,
 				DA2CE39007EA035F00C68AEF /* MachClockPlugin.bundle */,
 				5CF73C6108625E1800F453C3 /* ZenSchedulerPlugin.bundle */,
 				5CF73C7F086260E900F453C3 /* ZenStateSystemPlugin.bundle */,
 				5C0E757A09D1A886002295FB /* LowPrioritySchedulerPlugin.bundle */,
-				5C4D232509DC59420082BF9F /* MonkeyWorksCoreTestRunner */,
-				5C4D239C09DC83930082BF9F /* MonkeyWorksCoreTest.framework */,
+				5C4D232509DC59420082BF9F /* MWorksCoreTestRunner */,
+				5C4D239C09DC83930082BF9F /* MWorksCoreTest.framework */,
 				0E39EB030E4BD33D006F38A0 /* MarionetteTest.app */,
 				5CDB8B240E9C4A6300993D99 /* _conduit.so */,
 			);
@@ -2096,14 +2110,14 @@
 		DA96B8A009818E5B0007610D /* plists */ = {
 			isa = PBXGroup;
 			children = (
-				5C6616C10F4C9B6900C8FD71 /* MonkeyWorksCore-Info.template.plist */,
-				5C4D239D09DC83930082BF9F /* MonkeyWorksCoreTest-Info.plist */,
-				DA2CE0D607E9F68100C68AEF /* MonkeyWorksCore-Info.plist */,
+				5C6616C10F4C9B6900C8FD71 /* MWorksCore-Info.template.plist */,
+				5C4D239D09DC83930082BF9F /* MWorksCoreTest-Info.plist */,
+				DA2CE0D607E9F68100C68AEF /* MWorksCore-Info.plist */,
 				DA2CE1FE07E9FA8000C68AEF /* StandardStateSystemPlugin-Info.plist */,
 				DA2CE36E07E9FF5500C68AEF /* StandardClockPlugin-Info.plist */,
 				DA2CE38007EA028100C68AEF /* StandardSchedulerPlugin-Info.plist */,
 				DA2CE39107EA035F00C68AEF /* MachClockPlugin-Info.plist */,
-				DA2CE3A407EA046800C68AEF /* MonkeyWorksScripting-Info.plist */,
+				DA2CE3A407EA046800C68AEF /* MWorksScripting-Info.plist */,
 				DA2CE3BD07EA057500C68AEF /* ZenClockPlugin-Info.plist */,
 				5CF73BCC0862535B00F453C3 /* ZenSchedulerPlugin-Info.plist */,
 				5CF73C80086260E900F453C3 /* ZenStateSystemPlugin-Info.plist */,
@@ -2131,7 +2145,7 @@
 		DADAD3E107F2267E00F8D324 /* Docs (woefully incomplete) */ = {
 			isa = PBXGroup;
 			children = (
-				8E2A2C7C09509D6800A7E004 /* MonkeyWorksXMLSpec.rtf */,
+				8E2A2C7C09509D6800A7E004 /* MWorksXMLSpec.rtf */,
 			);
 			name = "Docs (woefully incomplete)";
 			sourceTree = "<group>";
@@ -2234,7 +2248,7 @@
 				DA0C98800827E80400BC1EF1 /* SystemEventFactory.h in Headers */,
 				5C28909F0850DD9A002CC31A /* IODevice.h in Headers */,
 				5C91B990086CC9DC00C14E1A /* Trigger.h in Headers */,
-				5C866A99086E1E43006CBE6F /* MonkeyWorksTypes.h in Headers */,
+				5C866A99086E1E43006CBE6F /* MWorksTypes.h in Headers */,
 				DA08704308A3D22A00D20FFB /* NetworkConnectionStats.h in Headers */,
 				DA0873F808A9367E00D20FFB /* ScarabServerConnection.h in Headers */,
 				5C18E25608A167BE00AA734D /* VariableNotification.h in Headers */,
@@ -2370,9 +2384,9 @@
 			productReference = 5C0E757A09D1A886002295FB /* LowPrioritySchedulerPlugin.bundle */;
 			productType = "com.apple.product-type.bundle";
 		};
-		5C4D232409DC59410082BF9F /* MonkeyWorksCoreTestRunner */ = {
+		5C4D232409DC59410082BF9F /* MWorksCoreTestRunner */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 5C4D232D09DC595B0082BF9F /* Build configuration list for PBXNativeTarget "MonkeyWorksCoreTestRunner" */;
+			buildConfigurationList = 5C4D232D09DC595B0082BF9F /* Build configuration list for PBXNativeTarget "MWorksCoreTestRunner" */;
 			buildPhases = (
 				5C4D232209DC59410082BF9F /* Sources */,
 				5C4D232309DC59410082BF9F /* Frameworks */,
@@ -2383,14 +2397,14 @@
 			dependencies = (
 				5C4D24C209DC95550082BF9F /* PBXTargetDependency */,
 			);
-			name = MonkeyWorksCoreTestRunner;
+			name = MWorksCoreTestRunner;
 			productName = MonkeyWorksCoreTestRunner;
-			productReference = 5C4D232509DC59420082BF9F /* MonkeyWorksCoreTestRunner */;
+			productReference = 5C4D232509DC59420082BF9F /* MWorksCoreTestRunner */;
 			productType = "com.apple.product-type.tool";
 		};
-		5C4D239B09DC83930082BF9F /* MonkeyWorksCoreTest */ = {
+		5C4D239B09DC83930082BF9F /* MWorksCoreTest */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 5C4D239E09DC83950082BF9F /* Build configuration list for PBXNativeTarget "MonkeyWorksCoreTest" */;
+			buildConfigurationList = 5C4D239E09DC83950082BF9F /* Build configuration list for PBXNativeTarget "MWorksCoreTest" */;
 			buildPhases = (
 				5C4D239709DC83930082BF9F /* Headers */,
 				5C4D239809DC83930082BF9F /* Resources */,
@@ -2407,9 +2421,9 @@
 				68EC081F0CB2C1BF00FCD612 /* PBXTargetDependency */,
 				5C4D25A809DCCD100082BF9F /* PBXTargetDependency */,
 			);
-			name = MonkeyWorksCoreTest;
+			name = MWorksCoreTest;
 			productName = MonkeyWorksCoreTest;
-			productReference = 5C4D239C09DC83930082BF9F /* MonkeyWorksCoreTest.framework */;
+			productReference = 5C4D239C09DC83930082BF9F /* MWorksCoreTest.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		5CDB8B230E9C4A6300993D99 /* Python MW Conduit */ = {
@@ -2469,9 +2483,9 @@
 			productReference = 5CF73C7F086260E900F453C3 /* ZenStateSystemPlugin.bundle */;
 			productType = "com.apple.product-type.bundle";
 		};
-		DA2CE0D307E9F68100C68AEF /* MonkeyWorksCore */ = {
+		DA2CE0D307E9F68100C68AEF /* MWorksCore */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 5C0E84DA086D85D400B3EE7C /* Build configuration list for PBXNativeTarget "MonkeyWorksCore" */;
+			buildConfigurationList = 5C0E84DA086D85D400B3EE7C /* Build configuration list for PBXNativeTarget "MWorksCore" */;
 			buildPhases = (
 				DA2CE0CF07E9F68100C68AEF /* Headers */,
 				DA2CE0D007E9F68100C68AEF /* Resources */,
@@ -2484,9 +2498,9 @@
 			dependencies = (
 				5C488A190F4E27D400C5A526 /* PBXTargetDependency */,
 			);
-			name = MonkeyWorksCore;
+			name = MWorksCore;
 			productName = MonkeyWorksCore;
-			productReference = DA2CE0D407E9F68100C68AEF /* MonkeyWorksCore.framework */;
+			productReference = DA2CE0D407E9F68100C68AEF /* MWorksCore.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		DA2CE38F07EA035F00C68AEF /* MachClockPlugin */ = {
@@ -2513,7 +2527,7 @@
 /* Begin PBXProject section */
 		DA2CE0C907E9070200C68AEF /* Project object */ = {
 			isa = PBXProject;
-			buildConfigurationList = 5C0E850E086D85D400B3EE7C /* Build configuration list for PBXProject "MonkeyWorksCore" */;
+			buildConfigurationList = 5C0E850E086D85D400B3EE7C /* Build configuration list for PBXProject "MWorksCore" */;
 			compatibilityVersion = "Xcode 3.0";
 			hasScannedForEncodings = 0;
 			mainGroup = DA2CE0C507E9070200C68AEF;
@@ -2522,13 +2536,13 @@
 			projectRoot = "";
 			targets = (
 				DA1368DC07EA27C7001BA98B /* Everything */,
-				DA2CE0D307E9F68100C68AEF /* MonkeyWorksCore */,
+				DA2CE0D307E9F68100C68AEF /* MWorksCore */,
 				DA2CE38F07EA035F00C68AEF /* MachClockPlugin */,
 				5CF73C6008625E1800F453C3 /* ZenSchedulerPlugin */,
 				5CF73C7E086260E900F453C3 /* ZenStateSystemPlugin */,
 				5C0E756F09D1A886002295FB /* LowPrioritySchedulerPlugin */,
-				5C4D239B09DC83930082BF9F /* MonkeyWorksCoreTest */,
-				5C4D232409DC59410082BF9F /* MonkeyWorksCoreTestRunner */,
+				5C4D239B09DC83930082BF9F /* MWorksCoreTest */,
+				5C4D232409DC59410082BF9F /* MWorksCoreTestRunner */,
 				0E8014110E422E2A00D6DE20 /* MarionetteTest */,
 				0E121C930E6B1EF7007B29B8 /* CoreUninstall */,
 				5CCE1CCF10A4692500EF5866 /* PyMW */,
@@ -2640,7 +2654,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/zsh;
-			shellScript = "export FULL_NAME=${PRODUCT_NAME}.${WRAPPER_EXTENSION}\n\nrm -R -f \"${INSTALL_PATH}/${FULL_NAME}\"\ncp -R -f \"${BUILT_PRODUCTS_DIR}/${FULL_NAME}\" \"${INSTALL_PATH}/\"\n";
+			shellScript = "export FULL_NAME=${PRODUCT_NAME}.${WRAPPER_EXTENSION}\n\nrm -rf \"${PLUGIN_DIR}/${FULL_NAME}\"\ncp -R \"${BUILT_PRODUCTS_DIR}/${FULL_NAME}\" \"${PLUGINS_DIR}/\"";
 		};
 		5C488A150F4E27CD00C5A526 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2653,7 +2667,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/zsh;
-			shellScript = "export SOURCE_DIR=${BUILT_PRODUCTS_DIR}/../../\necho $SOURCE_DIR\nexport GIT=`/usr/bin/env which git`\necho $GIT\nexport VERSION_STRING=`$GIT log -n1 --pretty=format:%H`\n\necho $VERSION_STRING\nexport SUBS_STRING=s/_VERSION_STRING_/${VERSION_STRING}/\nmkdir -p ${SOURCE_DIR}\nsed $SUBS_STRING  ${SOURCE_DIR}/MonkeyWorksCore-Info.template.plist > ${SOURCE_DIR}/MonkeyWorksCore-Info.plist\n";
+			shellScript = "export SOURCE_DIR=${BUILT_PRODUCTS_DIR}/../../\necho $SOURCE_DIR\nexport GIT=`/usr/bin/env which git`\necho $GIT\nexport VERSION_STRING=`$GIT log -n1 --pretty=format:%H`\n\necho $VERSION_STRING\nexport SUBS_STRING=s/_VERSION_STRING_/${VERSION_STRING}/\nmkdir -p ${SOURCE_DIR}\nsed $SUBS_STRING  ${SOURCE_DIR}/MWorksCore-Info.template.plist > ${SOURCE_DIR}/MWorksCore-Info.plist\n";
 		};
 		5C4D23A709DC83D20082BF9F /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2679,7 +2693,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/zsh;
-			shellScript = "export FULL_NAME=${PRODUCT_NAME}.${WRAPPER_EXTENSION}\n\nrm -rf \"${INSTALL_PATH}/${FULL_NAME}\"\ncp -R \"${BUILT_PRODUCTS_DIR}/${FULL_NAME}\" \"${INSTALL_PATH}/\"";
+			shellScript = "export FULL_NAME=${PRODUCT_NAME}.${WRAPPER_EXTENSION}\n\nrm -rf \"${PLUGIN_DIR}/${FULL_NAME}\"\ncp -R \"${BUILT_PRODUCTS_DIR}/${FULL_NAME}\" \"${PLUGINS_DIR}/\"";
 		};
 		5CCE1CCB10A468C900EF5866 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2731,7 +2745,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/zsh;
-			shellScript = "export FULL_NAME=${PRODUCT_NAME}.${WRAPPER_EXTENSION}\n\necho ${INSTALL_PATH}\n\nrm -R -f \"${INSTALL_PATH}/${FULL_NAME}\"\ncp -R -f \"${BUILT_PRODUCTS_DIR}/${FULL_NAME}\" \"${INSTALL_PATH}/\"\n";
+			shellScript = "export FULL_NAME=${PRODUCT_NAME}.${WRAPPER_EXTENSION}\n\nrm -rf \"${PLUGIN_DIR}/${FULL_NAME}\"\ncp -R \"${BUILT_PRODUCTS_DIR}/${FULL_NAME}\" \"${PLUGINS_DIR}/\"";
 		};
 		5CF73C810862611900F453C3 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2744,7 +2758,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/zsh;
-			shellScript = "export FULL_NAME=${PRODUCT_NAME}.${WRAPPER_EXTENSION}\n\nmkdir -p \"${INSTALL_PATH}\"\nrm -R -f \"${INSTALL_PATH}/${FULL_NAME}\"\necho cp -R -f \"${BUILT_PRODUCTS_DIR}/${FULL_NAME}\" \"${INSTALL_PATH}\"\ncp -R -f \"${BUILT_PRODUCTS_DIR}/${FULL_NAME}\" \"${INSTALL_PATH}/\"\n";
+			shellScript = "export FULL_NAME=${PRODUCT_NAME}.${WRAPPER_EXTENSION}\n\nrm -rf \"${PLUGIN_DIR}/${FULL_NAME}\"\ncp -R \"${BUILT_PRODUCTS_DIR}/${FULL_NAME}\" \"${PLUGINS_DIR}/\"";
 		};
 		68F1AAE40AA7814C0009800E /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -3022,7 +3036,7 @@
 		};
 		0E80145B0E42320000D6DE20 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = DA2CE0D307E9F68100C68AEF /* MonkeyWorksCore */;
+			target = DA2CE0D307E9F68100C68AEF /* MWorksCore */;
 			targetProxy = 0E80145A0E42320000D6DE20 /* PBXContainerItemProxy */;
 		};
 		5C0E758309D1AE53002295FB /* PBXTargetDependency */ = {
@@ -3047,12 +3061,12 @@
 		};
 		5C3853F70AB7457800E52A63 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 5C4D239B09DC83930082BF9F /* MonkeyWorksCoreTest */;
+			target = 5C4D239B09DC83930082BF9F /* MWorksCoreTest */;
 			targetProxy = 5C3853F60AB7457800E52A63 /* PBXContainerItemProxy */;
 		};
 		5C3853F90AB7458000E52A63 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 5C4D232409DC59410082BF9F /* MonkeyWorksCoreTestRunner */;
+			target = 5C4D232409DC59410082BF9F /* MWorksCoreTestRunner */;
 			targetProxy = 5C3853F80AB7458000E52A63 /* PBXContainerItemProxy */;
 		};
 		5C488A190F4E27D400C5A526 /* PBXTargetDependency */ = {
@@ -3062,22 +3076,22 @@
 		};
 		5C4952AB1094AAF7002047A3 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = DA2CE0D307E9F68100C68AEF /* MonkeyWorksCore */;
+			target = DA2CE0D307E9F68100C68AEF /* MWorksCore */;
 			targetProxy = 5C4952AA1094AAF7002047A3 /* PBXContainerItemProxy */;
 		};
 		5C4D24C209DC95550082BF9F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 5C4D239B09DC83930082BF9F /* MonkeyWorksCoreTest */;
+			target = 5C4D239B09DC83930082BF9F /* MWorksCoreTest */;
 			targetProxy = 5C4D24C109DC95550082BF9F /* PBXContainerItemProxy */;
 		};
 		5C4D25A809DCCD100082BF9F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = DA2CE0D307E9F68100C68AEF /* MonkeyWorksCore */;
+			target = DA2CE0D307E9F68100C68AEF /* MWorksCore */;
 			targetProxy = 5C4D25A709DCCD100082BF9F /* PBXContainerItemProxy */;
 		};
 		5C77F6D910EA9B3900919719 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = DA2CE0D307E9F68100C68AEF /* MonkeyWorksCore */;
+			target = DA2CE0D307E9F68100C68AEF /* MWorksCore */;
 			targetProxy = 5C77F6D810EA9B3900919719 /* PBXContainerItemProxy */;
 		};
 		5CCE1CD410A4692B00EF5866 /* PBXTargetDependency */ = {
@@ -3087,22 +3101,22 @@
 		};
 		68210E860D47965300725790 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = DA2CE0D307E9F68100C68AEF /* MonkeyWorksCore */;
+			target = DA2CE0D307E9F68100C68AEF /* MWorksCore */;
 			targetProxy = 68210E850D47965300725790 /* PBXContainerItemProxy */;
 		};
 		68210E980D4796D600725790 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = DA2CE0D307E9F68100C68AEF /* MonkeyWorksCore */;
+			target = DA2CE0D307E9F68100C68AEF /* MWorksCore */;
 			targetProxy = 68210E970D4796D600725790 /* PBXContainerItemProxy */;
 		};
 		68210EA10D47970300725790 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = DA2CE0D307E9F68100C68AEF /* MonkeyWorksCore */;
+			target = DA2CE0D307E9F68100C68AEF /* MWorksCore */;
 			targetProxy = 68210EA00D47970300725790 /* PBXContainerItemProxy */;
 		};
 		68210EA40D47971D00725790 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = DA2CE0D307E9F68100C68AEF /* MonkeyWorksCore */;
+			target = DA2CE0D307E9F68100C68AEF /* MWorksCore */;
 			targetProxy = 68210EA30D47971D00725790 /* PBXContainerItemProxy */;
 		};
 		68EC081F0CB2C1BF00FCD612 /* PBXTargetDependency */ = {
@@ -3127,7 +3141,7 @@
 		};
 		DA1368DE07EA27D1001BA98B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = DA2CE0D307E9F68100C68AEF /* MonkeyWorksCore */;
+			target = DA2CE0D307E9F68100C68AEF /* MWorksCore */;
 			targetProxy = DA1368DD07EA27D1001BA98B /* PBXContainerItemProxy */;
 		};
 		DA1368E607EA27E0001BA98B /* PBXTargetDependency */ = {
@@ -3178,7 +3192,7 @@
 					"-framework",
 					AppKit,
 					"-framework",
-					MonkeyWorksCore,
+					MWorksCore,
 					"-lxml2",
 					"-lxslt",
 				);
@@ -3191,17 +3205,7 @@
 		5C0E757709D1A886002295FB /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					x86_64,
-					i386,
-				);
-				COPY_PHASE_STRIP = NO;
-				GCC_DEBUGGING_SYMBOLS = full;
-				GCC_ENABLE_OBJC_GC = supported;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
-				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
 				GCC_PREPROCESSOR_DEFINITIONS = LOW_PRIORITY_MODE;
@@ -3217,7 +3221,7 @@
 					"-framework",
 					AppKit,
 					"-framework",
-					MonkeyWorksCore,
+					MWorksCore,
 				);
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = LowPrioritySchedulerPlugin;
@@ -3233,21 +3237,14 @@
 		5C0E84DB086D85D400B3EE7C /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					x86_64,
-					i386,
-				);
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
-				GCC_DEBUGGING_SYMBOLS = full;
-				GCC_ENABLE_OBJC_GC = supported;
-				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				HEADER_SEARCH_PATHS = (
 					/usr/include/libxml2,
 					"$(MW_INCLUDE_DIR)",
 				);
-				INFOPLIST_FILE = "MonkeyWorksCore-Info.plist";
+				INFOPLIST_FILE = "MWorksCore-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
 				OTHER_CFLAGS = "-ObjC++";
@@ -3283,8 +3280,7 @@
 					"-lxml2",
 					"-lxslt",
 				);
-				PRODUCT_NAME = MonkeyWorksCore;
-				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
+				PRODUCT_NAME = MWorksCore;
 				WARNING_CFLAGS = (
 					"-Wmost",
 					"-Wno-four-char-constants",
@@ -3296,15 +3292,7 @@
 		5C0E84EB086D85D400B3EE7C /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					x86_64,
-					i386,
-				);
 				COPY_PHASE_STRIP = NO;
-				GCC_DEBUGGING_SYMBOLS = full;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_ENABLE_OBJC_GC = supported;
-				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
@@ -3319,11 +3307,10 @@
 					"-framework",
 					AppKit,
 					"-framework",
-					MonkeyWorksCore,
+					MWorksCore,
 				);
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = MachClockPlugin;
-				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = (
 					"-Wmost",
@@ -3336,19 +3323,10 @@
 		};
 		5C0E84FB086D85D400B3EE7C /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5C0CD7A41149E75F00B1C674 /* Development.xcconfig */;
 			buildSettings = {
-				ARCHS = (
-					x86_64,
-					i386,
-				);
 				COPY_PHASE_STRIP = NO;
-				GCC_DEBUGGING_SYMBOLS = full;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_ENABLE_OBJC_GC = supported;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
-				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
 				GCC_PREPROCESSOR_DEFINITIONS = REALTIME_SCHEDULER;
@@ -3364,11 +3342,10 @@
 					"-framework",
 					AppKit,
 					"-framework",
-					MonkeyWorksCore,
+					MWorksCore,
 				);
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = ZenSchedulerPlugin;
-				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
 				WARNING_CFLAGS = (
 					"-Wmost",
 					"-Wno-four-char-constants",
@@ -3380,13 +3357,8 @@
 		5C0E84FF086D85D400B3EE7C /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					i386,
-					x86_64,
-				);
 				COPY_PHASE_STRIP = NO;
 				GCC_DEBUGGING_SYMBOLS = full;
-				GCC_ENABLE_OBJC_GC = supported;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
@@ -3395,17 +3367,15 @@
 				GCC_PREPROCESSOR_DEFINITIONS = "";
 				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
 				INFOPLIST_FILE = "ZenStateSystemPlugin-Info.plist";
-				INSTALL_PATH = "$(PLUGINS_DIR)";
 				LIBRARY_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
 				LIBRARY_STYLE = BUNDLE;
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
 					"-framework",
 					AppKit,
 					"-framework",
-					MonkeyWorksCore,
+					MWorksCore,
 				);
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = ZenStateSystemPlugin;
@@ -3441,26 +3411,14 @@
 		};
 		5C0E850F086D85D400B3EE7C /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5C0CD7A41149E75F00B1C674 /* Development.xcconfig */;
 			buildSettings = {
-				APP_SUPPORT_DIR = "/Library/Application Support/MonkeyWorks";
-				ARCHS = (
-					x86_64,
-					i386,
-				);
-				CONFIG_DIR = "$(APP_SUPPORT_DIR)/Configuration";
 				FRAMEWORK_SEARCH_PATHS = /Library/Frameworks;
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				GCC_OBJC_CALL_CXX_CDTORS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_VERSION = 4.2;
 				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
 				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
-				MW_INCLUDE_DIR = "\"$(APP_SUPPORT_DIR)/Developer/include\"";
-				MW_LIB_DIR = "\"$(APP_SUPPORT_DIR)/Developer/lib\"";
-				PLUGINS_DIR = "$(APP_SUPPORT_DIR)/Plugins/Core Plugins";
-				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
 				STRIP_INSTALLED_PRODUCT = NO;
-				TESTS_DIR = "$(APP_SUPPORT_DIR)/Developer/tests";
 			};
 			name = Development;
 		};
@@ -3490,7 +3448,6 @@
 				GCC_DEBUGGING_SYMBOLS = full;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_ENABLE_OBJC_GC = supported;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -3502,14 +3459,14 @@
 					"-ldl",
 					"-lcppunit",
 					"-framework",
-					MonkeyWorksCore,
+					MWorksCore,
 					"-framework",
-					MonkeyWorksCoreTest,
+					MWorksCoreTest,
 					"-lILUT",
 					"-lscarab",
 				);
 				PREBINDING = NO;
-				PRODUCT_NAME = MonkeyWorksCoreTestRunner;
+				PRODUCT_NAME = MWorksCoreTestRunner;
 				ZERO_LINK = NO;
 			};
 			name = Development;
@@ -3517,24 +3474,18 @@
 		5C4D239F09DC83950082BF9F /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					x86_64,
-					i386,
-				);
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
 				GCC_DEBUGGING_SYMBOLS = full;
-				GCC_ENABLE_OBJC_GC = supported;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_INPUT_FILETYPE = sourcecode.cpp.cpp;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
-				INFOPLIST_FILE = "MonkeyWorksCoreTest-Info.plist";
+				INFOPLIST_FILE = "MWorksCoreTest-Info.plist";
 				INSTALL_PATH = "$(TESTS_DIR)";
 				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
-				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
 					"-lstdc++",
@@ -3543,12 +3494,12 @@
 					"-framework",
 					Cocoa,
 					"-framework",
-					MonkeyWorksCore,
+					MWorksCore,
 					"-lcppunit",
 					"-lscarab",
 					"-lboost_serialization-mw",
 				);
-				PRODUCT_NAME = MonkeyWorksCoreTest;
+				PRODUCT_NAME = MWorksCoreTest;
 				STANDARD_C_PLUS_PLUS_LIBRARY_TYPE = dynamic;
 				WARNING_CFLAGS = (
 					"-Wmost",
@@ -3600,7 +3551,7 @@
 					/usr/include/libxml2,
 					"$(MW_INCLUDE_DIR)",
 				);
-				INFOPLIST_FILE = "MonkeyWorksCore-Info.plist";
+				INFOPLIST_FILE = "MWorksCore-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
 				OTHER_CFLAGS = "-ObjC++";
@@ -3851,7 +3802,7 @@
 				GCC_INPUT_FILETYPE = sourcecode.cpp.cpp;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
-				INFOPLIST_FILE = "MonkeyWorksCoreTest-Info.plist";
+				INFOPLIST_FILE = "MWorksCoreTest-Info.plist";
 				INSTALL_PATH = "$(TESTS_DIR)";
 				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
@@ -3992,28 +3943,15 @@
 		};
 		5C9EE41E107303900051414D /* Development (10.5 Compatible) */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5C0CD7A31149E75F00B1C674 /* Development_10.5_compatible.xcconfig */;
 			buildSettings = {
-				APP_SUPPORT_DIR = "/Library/Application Support/MonkeyWorks";
-				ARCHS = (
-					x86_64,
-					i386,
-				);
-				CONFIG_DIR = "$(APP_SUPPORT_DIR)/Configuration";
 				FRAMEWORK_SEARCH_PATHS = /Library/Frameworks;
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				GCC_OBJC_CALL_CXX_CDTORS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_VERSION = 4.0;
-				GCC_WARN_ABOUT_POINTER_SIGNEDNESS = NO;
 				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
 				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
-				MW_INCLUDE_DIR = "\"$(APP_SUPPORT_DIR)/Developer/gcc40/include\"";
-				MW_LIB_DIR = "\"$(APP_SUPPORT_DIR)/Developer/gcc40/lib\"";
-				PLUGINS_DIR = "$(APP_SUPPORT_DIR)/Plugins/Core Plugins";
-				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
 				STRIP_INSTALLED_PRODUCT = NO;
-				TESTS_DIR = "$(APP_SUPPORT_DIR)/Developer/tests";
-				WARNING_CFLAGS = "-Wno-sign-compare";
 			};
 			name = "Development (10.5 Compatible)";
 		};
@@ -4031,7 +3969,7 @@
 					/usr/include/libxml2,
 					"$(MW_INCLUDE_DIR)",
 				);
-				INFOPLIST_FILE = "MonkeyWorksCore-Info.plist";
+				INFOPLIST_FILE = "MWorksCore-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
 				OTHER_CFLAGS = "-ObjC++";
@@ -4067,7 +4005,7 @@
 					"-lxml2",
 					"-lxslt",
 				);
-				PRODUCT_NAME = MonkeyWorksCore;
+				PRODUCT_NAME = MWorksCore;
 				WARNING_CFLAGS = (
 					"-Wmost",
 					"-Wno-four-char-constants",
@@ -4260,7 +4198,7 @@
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
-				INFOPLIST_FILE = "MonkeyWorksCoreTest-Info.plist";
+				INFOPLIST_FILE = "MWorksCoreTest-Info.plist";
 				INSTALL_PATH = "$(TESTS_DIR)";
 				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
 				OTHER_CFLAGS = "";
@@ -4486,7 +4424,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
 		};
-		5C0E84DA086D85D400B3EE7C /* Build configuration list for PBXNativeTarget "MonkeyWorksCore" */ = {
+		5C0E84DA086D85D400B3EE7C /* Build configuration list for PBXNativeTarget "MWorksCore" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5C0E84DB086D85D400B3EE7C /* Development */,
@@ -4536,7 +4474,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
 		};
-		5C0E850E086D85D400B3EE7C /* Build configuration list for PBXProject "MonkeyWorksCore" */ = {
+		5C0E850E086D85D400B3EE7C /* Build configuration list for PBXProject "MWorksCore" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5C0E850F086D85D400B3EE7C /* Development */,
@@ -4556,7 +4494,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
 		};
-		5C4D232D09DC595B0082BF9F /* Build configuration list for PBXNativeTarget "MonkeyWorksCoreTestRunner" */ = {
+		5C4D232D09DC595B0082BF9F /* Build configuration list for PBXNativeTarget "MWorksCoreTestRunner" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5C4D232E09DC595B0082BF9F /* Development */,
@@ -4566,7 +4504,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
 		};
-		5C4D239E09DC83950082BF9F /* Build configuration list for PBXNativeTarget "MonkeyWorksCoreTest" */ = {
+		5C4D239E09DC83950082BF9F /* Build configuration list for PBXNativeTarget "MWorksCoreTest" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5C4D239F09DC83950082BF9F /* Development */,

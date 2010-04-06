@@ -1,6 +1,6 @@
 //
 //  MarionetteMessage.m
-//  MonkeyWorksCore
+//  MWorksCore
 //
 //  Created by bkennedy on 8/24/08.
 //  Copyright 2008 __MyCompanyName__. All rights reserved.

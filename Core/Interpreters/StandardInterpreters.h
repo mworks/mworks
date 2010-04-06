@@ -1,7 +1,7 @@
 /**
  * StandardInterpreters.h
  *
- * Description: The standard MonkeyWorks interpreters.
+ * Description: The standard MWorks interpreters.
  * PerlInterpreter: Evaluates commands or scripts written in Perl.  Scripts
  * rely on the MonkeyScript perl module that was created using SWIG.  Someone
  * should really document what is in the MonkeyScript module.  Variables 

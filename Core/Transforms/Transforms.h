@@ -1,6 +1,6 @@
 /*
  *  Transforms.h
- *  MonkeyWorksCore
+ *  MWorksCore
  *
  *  Created by James DiCarlo on 8/8/05.
  *  Copyright 2005 MIT. All rights reserved.
@@ -13,10 +13,10 @@
 #ifndef _TRANSFORMS
 #define _TRANSFORMS
 
-#include "MonkeyWorksCore/GenericVariable.h"
-#include "MonkeyWorksCore/ExpandableList.h"
-#include "MonkeyWorksCore/Experiment.h"
-#include "MonkeyWorksCore/Buffers.h"
+#include "MWorksCore/GenericVariable.h"
+#include "MWorksCore/ExpandableList.h"
+#include "MWorksCore/Experiment.h"
+#include "MWorksCore/Buffers.h"
 namespace mw {
 #define VERBOSE_TRANSFORMS 0
 

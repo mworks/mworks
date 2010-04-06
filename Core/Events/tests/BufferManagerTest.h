@@ -3,7 +3,7 @@
 
 /*
  *  BufferManagerTest.h
- *  MonkeyWorksCore
+ *  MWorksCore
  *
  *  Created by Ben Kennedy 12032006
  *  Copyright 2006 MIT. All rights reserved.
@@ -15,8 +15,8 @@
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
 
-#include "MonkeyWorksCore/EventBuffer.h"
-#include "MonkeyWorksCore/Lockable.h"
+#include "MWorksCore/EventBuffer.h"
+#include "MWorksCore/Lockable.h"
 
 namespace mw {
 

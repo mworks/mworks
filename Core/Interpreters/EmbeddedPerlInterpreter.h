@@ -1,6 +1,6 @@
 /*
  *  EmbeddedPerlInterpreter.h
- *  MonkeyWorksCore
+ *  MWorksCore
  *
  *  Created by David Cox on 11/14/06.
  *  Copyright 2006 __MyCompanyName__. All rights reserved.

@@ -1,6 +1,6 @@
 /*
  *  BufferManagerTest.cpp
- *  MonkeyWorksCore
+ *  MWorksCore
  *
  *  Created by Ben Kennedy 2006
  *  Copyright 2006 MIT. All rights reserved.
@@ -8,9 +8,9 @@
  */
 /*
 #include "BufferManagerTest.h"
-#include "MonkeyWorksCore/EventBuffer.h"
-#include "MonkeyWorksCore/Event.h"
-#include "MonkeyWorksCore/GenericData.h"
+#include "MWorksCore/EventBuffer.h"
+#include "MWorksCore/Event.h"
+#include "MWorksCore/GenericData.h"
 #include <pthread.h>
 
 #define NUM_EVENTS 1500

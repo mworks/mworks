@@ -94,7 +94,7 @@ int DataFileManager::openFile(std::string _filename, DatumFileOptions opt) {
 		
         // write out the event-code to name/description mapping
         // this is an essential part of the self-describing nature of the
-        // MonkeyWorks/Scarab format
+        // MWorks/Scarab format
 		global_outgoing_event_buffer->putEvent(SystemEventFactory::componentCodecPackage());
 		global_outgoing_event_buffer->putEvent(SystemEventFactory::codecPackage());
 		global_outgoing_event_buffer->putEvent(SystemEventFactory::currentExperimentState());

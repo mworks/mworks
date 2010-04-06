@@ -1,6 +1,6 @@
 //
 //  MWCocoaEvent.m
-//  MonkeyWorksCocoa
+//  MWorksCocoa
 //
 //  Created by Ben Kennedy on 8/14/07.
 //  Copyright 2007 __MyCompanyName__. All rights reserved.

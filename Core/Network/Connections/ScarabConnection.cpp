@@ -41,7 +41,7 @@ ScarabConnection::~ScarabConnection() {
 shared_ptr<NetworkReturn>  ScarabConnection::accept(ScarabSession * listener) {
     shared_ptr<NetworkReturn>  rc(new NetworkReturn());
     if(connected) {
-        rc->setMonkeyWorksCode(NR_FAILED);
+        rc->setMWorksCode(NR_FAILED);
         rc->setInformation("Connection already connected.");
         return rc;
     }
@@ -49,7 +49,7 @@ shared_ptr<NetworkReturn>  ScarabConnection::accept(ScarabSession * listener) {
     pipe = scarab_session_accept(listener);
     
     if(pipe == NULL){
-        rc->setMonkeyWorksCode(NR_ERROR);
+        rc->setMWorksCode(NR_ERROR);
         rc->setOSErrorCode(-1);
         rc->setPackageCode(-1);
         rc->setInformation("Unable to accept session (returned NULL)");
@@ -60,7 +60,7 @@ shared_ptr<NetworkReturn>  ScarabConnection::accept(ScarabSession * listener) {
     
     if(getScarabError(pipe)) {
         //logDescriptiveScarabMessage(pipe);
-        rc->setMonkeyWorksCode(NR_ERROR);
+        rc->setMWorksCode(NR_ERROR);
         int os = getScarabOSError(pipe);
         int sc = getScarabError(pipe);
         rc->setOSErrorCode(os);
@@ -83,7 +83,7 @@ shared_ptr<NetworkReturn>  ScarabConnection::accept(ScarabSession * listener) {
 shared_ptr<NetworkReturn>  ScarabConnection::connect() {
     shared_ptr<NetworkReturn>  rc(new NetworkReturn());
     if(connected) {
-        rc->setMonkeyWorksCode(NR_FAILED);
+        rc->setMWorksCode(NR_FAILED);
         rc->setInformation("Connection already connected.");
         return rc;
     }
@@ -92,14 +92,14 @@ shared_ptr<NetworkReturn>  ScarabConnection::connect() {
     //mdebug("Trying to connect to %s", uri);
 
     if(!(pipe = scarab_session_connect(uri.c_str()))) {
-        rc->setMonkeyWorksCode(NR_FAILED);
+        rc->setMWorksCode(NR_FAILED);
 		return rc;
 	}
 
     if(getScarabError(pipe)) {
         connecting = false;
         logDescriptiveScarabMessage(pipe);
-        rc->setMonkeyWorksCode(NR_ERROR);
+        rc->setMWorksCode(NR_ERROR);
         int os = getScarabOSError(pipe);
         int sc = getScarabError(pipe);
         rc->setOSErrorCode(os);

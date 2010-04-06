@@ -31,7 +31,7 @@
 #include <Cocoa/Cocoa.h>
 //#import "Lablib/LLDisplayCalibration.h"
 
-#import "MonkeyWorksCore/StimMirrorController.h"
+#import "MWorksCore/StimMirrorController.h"
 #import "Scheduler.h"
 #endif 
 // USE_COCOA_OPENGL

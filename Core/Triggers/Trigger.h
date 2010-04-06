@@ -1,6 +1,6 @@
 /*
  *  Trigger.h
- *  MonkeyWorksCore
+ *  MWorksCore
  *
  *  Created by David Cox on 6/24/05.
  *  Copyright 2005 MIT. All rights reserved.

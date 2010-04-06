@@ -1,6 +1,6 @@
 /*
  *  BoostMathExampleTest.cpp
- *  MonkeyWorksCore
+ *  MWorksCore
  *
  *  Created by Ben Kennedy 2006
  *  Copyright 2006 __MyCompanyName__. All rights reserved.

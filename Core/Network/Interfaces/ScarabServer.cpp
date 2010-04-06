@@ -177,20 +177,20 @@ NetworkReturn * ScarabServer::startListening() {
     NetworkReturn * rc = new NetworkReturn();
     mdebug("startListening()");
     if(listening) {
-        rc->setMonkeyWorksCode(NR_SUCCESS_NETWORK_MESSAGE);
+        rc->setMWorksCode(NR_SUCCESS_NETWORK_MESSAGE);
         rc->setInformation("Server is already running.");
         return rc;
     }
     
 	if(listenUri.size() == 0) {
-        rc->setMonkeyWorksCode(NR_FAILED);
+        rc->setMWorksCode(NR_FAILED);
         rc->setInformation("URI not specified for server");
         return rc;
     }
     
 	std::string fullUri = createScarabURI();
     if(fullUri.size() == 0) {
-        rc->setMonkeyWorksCode(NR_FAILED);
+        rc->setMWorksCode(NR_FAILED);
         rc->setInformation("Could not create a valid URI");
         return rc;
     }
@@ -209,7 +209,7 @@ NetworkReturn * ScarabServer::startListening() {
 		//mdebug("Maybe print out why here??");
         // if there is another available port we will try again
         if(!chooseNewPort()) {
-            rc->setMonkeyWorksCode(NR_FATAL_ERROR);
+            rc->setMWorksCode(NR_FATAL_ERROR);
             rc->setPackageCode(error);
             rc->setOSErrorCode(getScarabOSError(listeningSocket));
             rc->setInformation("Ran out of ports to listen on. Networking impossible");
@@ -238,9 +238,9 @@ NetworkReturn * ScarabServer::startAccepting() {
     if(listening) {
         scheduleAccept();
         accepting = true;
-        rc->setMonkeyWorksCode(NR_SUCCESS);
+        rc->setMWorksCode(NR_SUCCESS);
     } else {
-        rc->setMonkeyWorksCode(NR_FAILED);
+        rc->setMWorksCode(NR_FAILED);
         rc->setInformation("No server listening socket started.");
     }
     boolLock->unlock();

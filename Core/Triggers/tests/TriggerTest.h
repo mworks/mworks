@@ -3,7 +3,7 @@
 
 /*
  *  TriggerTest.h
- *  MonkeyWorksCore
+ *  MWorksCore
  *
  *  Created by David Cox on 3/30/06.
  *  Copyright 2006 __MyCompanyName__. All rights reserved.
@@ -16,11 +16,11 @@
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
 
-#include "MonkeyWorksCore/Trigger.h"
-#include "MonkeyWorksCore/Experiment.h"
-#include "MonkeyWorksCore/VariableRegistry.h"
-#include "MonkeyWorksCore/ConstantVariable.h"
-#include "MonkeyWorksCore/EventBuffer.h"
+#include "MWorksCore/Trigger.h"
+#include "MWorksCore/Experiment.h"
+#include "MWorksCore/VariableRegistry.h"
+#include "MWorksCore/ConstantVariable.h"
+#include "MWorksCore/EventBuffer.h"
 namespace mw {
 class TriggerTestFixture : public CppUnit::TestFixture {
 	

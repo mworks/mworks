@@ -1,6 +1,6 @@
 /*
  *  ScheduledActions.cpp
- *  MonkeyWorksCore
+ *  MWorksCore
  *
  *  Created by bkennedy on 11/24/08.
  *  Copyright 2008 mit. All rights reserved.

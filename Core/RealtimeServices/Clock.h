@@ -12,7 +12,7 @@
  *
  */
 
-#include "MonkeyWorksTypes.h"
+#include "MWorksTypes.h"
 #include "Component.h"
 #include "RegisteredSingleton.h"
 namespace mw {

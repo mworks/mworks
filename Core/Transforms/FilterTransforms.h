@@ -1,6 +1,6 @@
 /*
  *  FilterTransforms.h
- *  MonkeyWorksCore
+ *  MWorksCore
  *
  *  Created by dicarlo on 8/9/05.
  *  Copyright 2005 MIT. All rights reserved.

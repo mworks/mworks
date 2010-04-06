@@ -90,7 +90,7 @@ shared_ptr<NetworkReturn> ScarabClient::connect() {
     shared_ptr<NetworkReturn> rc;
     if(prepareForConnecting() < 0) {
         rc = shared_ptr<NetworkReturn>(new NetworkReturn());
-        rc->setMonkeyWorksCode(NR_FAILED);
+        rc->setMWorksCode(NR_FAILED);
         rc->setInformation("Host or Reader or Writer is NULL");
         return rc;
     }

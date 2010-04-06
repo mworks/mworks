@@ -3,7 +3,7 @@
 
 /*
  *  VariableLoad.h
- *  MonkeyWorksCore
+ *  MWorksCore
  *
  *  Created by bkennedy on 10/27/06.
  *  Copyright 2006 __MyCompanyName__. All rights reserved.

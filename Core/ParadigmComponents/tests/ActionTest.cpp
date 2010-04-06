@@ -1,6 +1,6 @@
 /*
  *  ActionTest.cpp
- *  MonkeyWorksCore
+ *  MWorksCore
  *
  *  Created by labuser on 10/2/07.
  *  Copyright 2007 MIT. All rights reserved.

@@ -1,4 +1,4 @@
-from monkeyworks.conduit import *
+from mworks.conduit import *
 import time
 
 server = IPCServerConduit("test_resource")

@@ -3,7 +3,7 @@
 
 /*
  *  ScarabTest.h
- *  MonkeyWorksCore
+ *  MWorksCore
  *
  *  Created by David Cox on 3/30/06.
  *  Copyright 2006 __MyCompanyName__. All rights reserved.
@@ -16,7 +16,7 @@
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
 
-#include "MonkeyWorksCore/ScarabServices.h"
+#include "MWorksCore/ScarabServices.h"
 namespace mw {
 class ScarabDataTestFixture : public CppUnit::TestFixture {
 

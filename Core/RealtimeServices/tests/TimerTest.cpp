@@ -1,6 +1,6 @@
 /*
  *  TimerTest.cpp
- *  MonkeyWorksCore
+ *  MWorksCore
  *
  *  Created by David Cox on 9/25/07.
  *  Copyright 2007 __MyCompanyName__. All rights reserved.
@@ -8,8 +8,8 @@
  */
 
 #include "TimerTest.h"
-#include "MonkeyWorksCore/TrialBuildingBlocks.h"
-#include "MonkeyWorksCore/GlobalVariable.h"
+#include "MWorksCore/TrialBuildingBlocks.h"
+#include "MWorksCore/GlobalVariable.h"
 
 //CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( TimerTestFixture, "Unit Test" );
 

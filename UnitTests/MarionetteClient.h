@@ -4,7 +4,7 @@
  */
 
 #import <Cocoa/Cocoa.h>
-#import "MonkeyWorksCore/Client.h"
+#import "MWorksCore/Client.h"
 
 using namespace mw;
 

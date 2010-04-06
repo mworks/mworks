@@ -50,12 +50,11 @@ void Action::action(){
 }
 
 void Action::announceEntry() {
-	//currentState->setValue("Begin: " + name);	
 	currentState->setValue(getCompactID());
 }
 
 void Action::announceExit() {
-	//currentState->setValue("End: " + name);	
+    // no need to do this
 }
 
 
@@ -1216,14 +1215,14 @@ TransitionCondition::~TransitionCondition() {
 }
 
 weak_ptr<State> TransitionCondition::execute() {
-    currentState->setValue(getCompactID());
+    
 	
 	if(always_go){
 		
 		if(!transition.expired()){
 			shared_ptr<State> transition_shared(transition);
-			//currentState->setValue(name + " to " + transition_shared->getName());
-			return transition;
+			currentState->setValue(getCompactID());
+            return transition;
 		} else {
 			// TODO: better throw
 			throw SimpleException("Attempt to advance to an invalid transition state");
@@ -1235,7 +1234,7 @@ weak_ptr<State> TransitionCondition::execute() {
 		if(!transition.expired()){
 			shared_ptr<State> transition_shared(transition);
 			//currentState->setValue(name + " to " + transition_shared->getName());
-			
+			currentState->setValue(getCompactID());
 			return transition;
 		} else {
 			// TODO: better throw

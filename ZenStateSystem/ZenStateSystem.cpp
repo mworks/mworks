@@ -1,6 +1,6 @@
 /*
  *  ZenStateSystem.cpp
- *  MonkeyWorksCore
+ *  MWorksCore
  *
  *  Created by David Cox on 6/16/05.
  *  Copyright 2005 __MyCompanyName__. All rights reserved.
@@ -20,13 +20,13 @@
 
 #include "StateSystem.h"
 
-#include "MonkeyWorksCore/Utilities.h"
-#include "MonkeyWorksCore/Scheduler.h"
-#include "MonkeyWorksCore/StateSystem.h"
-#include "MonkeyWorksCore/StandardVariables.h"
-#include "MonkeyWorksCore/Experiment.h"
-#include "MonkeyWorksCore/IODeviceManager.h"
-#include "MonkeyWorksCore/Debugging.h"
+#include "MWorksCore/Utilities.h"
+#include "MWorksCore/Scheduler.h"
+#include "MWorksCore/StateSystem.h"
+#include "MWorksCore/StandardVariables.h"
+#include "MWorksCore/Experiment.h"
+#include "MWorksCore/IODeviceManager.h"
+#include "MWorksCore/Debugging.h"
 
 
 #include <mach/mach_types.h>

@@ -13,7 +13,7 @@
  * ScopedVariableContext.h
  *
  * Description: 
- * An ScopedVariableContext object is a context for variables.  Within the larger MonkeyWorks 
+ * An ScopedVariableContext object is a context for variables.  Within the larger MWorks 
  * framework, variables are made up of two parts, a lexical element (analogous to the
  * name of a C variable, e.g. "i"), and an actual value (e.g. "4").  A given lexical
  * token can have the value that it is associated with change (e.g. "i = 4; i = 5"),

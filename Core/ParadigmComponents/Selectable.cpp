@@ -1,6 +1,6 @@
 /*
  *  Selectable.cpp
- *  MonkeyWorksCore
+ *  MWorksCore
  *
  *  Created by David Cox on 5/1/06.
  *  Copyright 2006 MIT. All rights reserved.

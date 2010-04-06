@@ -10,7 +10,7 @@
 #ifndef _NETWORK_CONNECTION_STATS_H__
 #define _NETWORK_CONNECTION_STATS_H__
 
-#include "MonkeyWorksTypes.h"
+#include "MWorksTypes.h"
 #include "EventBuffer.h"
 #include "Lockable.h"
 namespace mw {

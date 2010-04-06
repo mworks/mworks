@@ -1,6 +1,6 @@
 /*
  *  XMLParserTest.h
- *  MonkeyWorksCore
+ *  MWorksCore
  *
  *  Created by bkennedy on 12/21/08.
  *  Copyright 2008 mit. All rights reserved.

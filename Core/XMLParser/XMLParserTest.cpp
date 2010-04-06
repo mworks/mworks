@@ -1,6 +1,6 @@
 /*
  *  XMLParserTest.cpp
- *  MonkeyWorksCore
+ *  MWorksCore
  *
  *  Created by bkennedy on 12/21/08.
  *  Copyright 2008 mit. All rights reserved.
@@ -8,12 +8,12 @@
  */
 
 #include "XMLParserTest.h"
-#include "MonkeyWorksCore/Clock.h"
+#include "MWorksCore/Clock.h"
 #include <sstream>
 #include "boost/filesystem/operations.hpp" 
 #include "boost/filesystem/fstream.hpp"   
-#include "MonkeyWorksCore/VariableLoad.h"
-#include "MonkeyWorksCore/VariableSave.h"
+#include "MWorksCore/VariableLoad.h"
+#include "MWorksCore/VariableSave.h"
 
 
 CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( mw::XMLParserTestFixture, "Unit Test" );

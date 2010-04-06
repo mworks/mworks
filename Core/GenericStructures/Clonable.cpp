@@ -1,6 +1,6 @@
 /*
  *  Clonable.cpp
- *  MonkeyWorksCore
+ *  MWorksCore
  *
  *  Created by David Cox on 1/17/06.
  *  Copyright 2006 __MyCompanyName__. All rights reserved.

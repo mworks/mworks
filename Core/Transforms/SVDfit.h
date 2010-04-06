@@ -1,6 +1,6 @@
 /*
  *  SVDfit.h
- *  MonkeyWorksCore
+ *  MWorksCore
  *
  *  Created by dicarlo on 9/16/05.
  *  Copyright 2005 __MyCompanyName__. All rights reserved.
@@ -14,7 +14,7 @@
 //#include <stdlib.h>
 //#include <math.h>
 #include "MathUtilities.h"
-#include "MonkeyWorksCore/Experiment.h"   // to get merror function
+#include "MWorksCore/Experiment.h"   // to get merror function
 namespace mw {
 
 #define TOL 1.0e-5

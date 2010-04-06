@@ -1,6 +1,6 @@
 /*
  *  main.cpp
- *  MonkeyWorksCore
+ *  MWorksCore
  *
  *  Created by David Cox on 3/30/06.
  *  Copyright 2006 __MyCompanyName__. All rights reserved.
@@ -8,9 +8,9 @@
  */
 
 
-//#include "MonkeyWorksCoreTest/GenericDataTest.h"
-//#include "MonkeyWorksCoreTest/SchedulerTest.h"
-//#include "MonkeyWorksCoreTest/ClockTest.h"
+//#include "MWorksCoreTest/GenericDataTest.h"
+//#include "MWorksCoreTest/SchedulerTest.h"
+//#include "MWorksCoreTest/ClockTest.h"
 
 #include "cppunit/ui/text/TestRunner.h"
 #include <cppunit/TestCase.h>
@@ -27,7 +27,7 @@ int main(int argc, char *argv[]) {
   
   CppUnit::TextUi::TestRunner runner;
   CppUnit::XmlOutputter* outputter =
-    new CppUnit::XmlOutputter(&runner.result(), std::cout, std::string("MonkeyWorksTestRunner Output"));
+    new CppUnit::XmlOutputter(&runner.result(), std::cout, std::string("MWorksTestRunner Output"));
   runner.setOutputter(outputter);
   
   runner.addTest( registry.makeTest() );

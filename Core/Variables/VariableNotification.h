@@ -1,6 +1,6 @@
 /*
  *  VariableNotification.h
- *  MonkeyWorksCore
+ *  MWorksCore
  *
  *  Created by David Cox on 8/3/05.
  * Paul Jankunas on 1/24/06 - Adding virtual destructor.

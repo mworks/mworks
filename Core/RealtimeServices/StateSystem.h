@@ -4,7 +4,7 @@
 #ifndef STATE_SYSTEM_H
 #define STATE_SYSTEM_H
 
-#include "MonkeyWorksTypes.h"
+#include "MWorksTypes.h"
 #include "States.h"
 #include "Clock.h"
 #include "boost/enable_shared_from_this.hpp"

@@ -1,6 +1,6 @@
 /*
  *  EyeStatus.cpp
- *  MonkeyWorksCore
+ *  MWorksCore
  *
  *  Created by dicarlo on 8/9/05.
  *  Copyright 2005 __MyCompanyName__. All rights reserved.

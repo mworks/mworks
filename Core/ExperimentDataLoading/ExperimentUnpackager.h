@@ -1,6 +1,6 @@
 /*
  *  ExperimentUnpackager.h
- *  MonkeyWorksCore
+ *  MWorksCore
  *
  *  Created by Ben Kennedy on 1/5/07.
  *  Copyright 2007 __MyCompanyName__. All rights reserved.

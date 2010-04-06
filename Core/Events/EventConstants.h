@@ -1,6 +1,6 @@
 /*
  *  EventConstants.h
- *  MonkeyWorksCore
+ *  MWorksCore
  *
  *  Created by Ben Kennedy on 10/6/07.
  *  Copyright 2007 __MyCompanyName__. All rights reserved.

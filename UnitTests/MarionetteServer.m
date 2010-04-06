@@ -1,6 +1,6 @@
 //
 //  MarionetteServer.m
-//  MonkeyWorksCore
+//  MWorksCore
 //
 //  Created by bkennedy on 8/3/08.
 //  Copyright 2008 MIT. All rights reserved.

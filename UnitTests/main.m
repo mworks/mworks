@@ -10,8 +10,8 @@
  */
 
 #import <Cocoa/Cocoa.h>
-#import "MonkeyWorksCore/StandardServerCoreBuilder.h"
-#import "MonkeyWorksCore/CoreBuilderForeman.h"
+#import "MWorksCore/StandardServerCoreBuilder.h"
+#import "MWorksCore/CoreBuilderForeman.h"
 
 
 int main(int argc, const char *argv[]) {

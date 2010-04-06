@@ -4,7 +4,7 @@
  * Description:
  * An Interpreter object is a simple wrapper around an interpreter for
  * a scripting language.  Through the use of Interpreter objects, one can 
- * interact with the MonkeyWorks Core via various non-compiled scripting 
+ * interact with the MWorks Core via various non-compiled scripting 
  * languages.
  *
  * In principle, any scripting language supported by SWIG 
