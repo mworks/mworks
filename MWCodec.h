@@ -7,8 +7,8 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import <MonkeyWorksCore/Client.h>
-#import <MonkeyWorksCocoa/MWCocoaEvent.h>
+#import <MWorksCore/Client.h>
+#import <MWorksCocoa/MWCocoaEvent.h>
 
 #define MW_CODEC_CALLBACK_KEY	"mw_codec_callback_key"
 #define MW_CODEC_VALUE_CHANGE_CALLBACK_KEY	"mw_codec_value_change_callback_key"

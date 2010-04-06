@@ -7,7 +7,7 @@
 //
 
 #import "MWCodec.h"
-#import "MonkeyWorksCocoa/MWCocoaEventFunctor.h"
+#import "MWorksCocoa/MWCocoaEventFunctor.h"
 #import "MWClientInstance.h"
 
 #define UPDATE_INTERVAL	0.1

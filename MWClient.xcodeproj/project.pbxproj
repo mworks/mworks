@@ -33,7 +33,7 @@
 
 /* Begin PBXBuildFile section */
 		5C23D5420D8827670044AC9E /* MWStringTruncateValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C23D5410D8827670044AC9E /* MWStringTruncateValueTransformer.m */; };
-		5C23D5640D882FFA0044AC9E /* MonkeyWorksCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C23D5630D882FFA0044AC9E /* MonkeyWorksCocoa.framework */; };
+		5C23D5640D882FFA0044AC9E /* MWorksCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C23D5630D882FFA0044AC9E /* MWorksCocoa.framework */; };
 		5C23D6770D8878810044AC9E /* MWExperimentPlayStopIconTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C23D6760D8878810044AC9E /* MWExperimentPlayStopIconTransformer.m */; };
 		5C23D8F60D8B27E50044AC9E /* MWCodec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C23D8F50D8B27E50044AC9E /* MWCodec.m */; };
 		5C55E10D0D8E00A8000E1CB5 /* NSMenuExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C55E10C0D8E00A8000E1CB5 /* NSMenuExtensions.m */; };
@@ -64,7 +64,7 @@
 		5CEDF83E0D85D7550044D738 /* warningGlyph.tif in Resources */ = {isa = PBXBuildFile; fileRef = 5CEDF82B0D85D7550044D738 /* warningGlyph.tif */; };
 		5CEDF85D0D85E49D0044D738 /* MWClientInstance.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CEDF85C0D85E49D0044D738 /* MWClientInstance.m */; };
 		5CEDF8F10D86247F0044D738 /* AppController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CEDF8F00D86247F0044D738 /* AppController.m */; };
-		5CEDF93E0D862FC60044D738 /* MonkeyWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CEDF93D0D862FC60044D738 /* MonkeyWorksCore.framework */; };
+		5CEDF93E0D862FC60044D738 /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CEDF93D0D862FC60044D738 /* MWorksCore.framework */; };
 		5CEDFA7C0D86C8C90044D738 /* MWServerConnectedIconTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CEDFA7B0D86C8C90044D738 /* MWServerConnectedIconTransformer.m */; };
 		5CF675C00DF58FF5006C80D5 /* candybar.tif in Resources */ = {isa = PBXBuildFile; fileRef = 5CF675BF0DF58FF5006C80D5 /* candybar.tif */; };
 		5CFE56580F54A653000C7F30 /* MWURLStringValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CFE56570F54A653000C7F30 /* MWURLStringValueTransformer.m */; };
@@ -102,7 +102,7 @@
 		32CA4F630368D1EE00C91783 /* New Client_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "New Client_Prefix.pch"; sourceTree = "<group>"; };
 		5C23D5400D8827670044AC9E /* MWStringTruncateValueTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWStringTruncateValueTransformer.h; sourceTree = "<group>"; };
 		5C23D5410D8827670044AC9E /* MWStringTruncateValueTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWStringTruncateValueTransformer.m; sourceTree = "<group>"; };
-		5C23D5630D882FFA0044AC9E /* MonkeyWorksCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MonkeyWorksCocoa.framework; path = /Library/Frameworks/MonkeyWorksCocoa.framework; sourceTree = "<absolute>"; };
+		5C23D5630D882FFA0044AC9E /* MWorksCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MWorksCocoa.framework; path = /Library/Frameworks/MWorksCocoa.framework; sourceTree = "<absolute>"; };
 		5C23D6750D8878810044AC9E /* MWExperimentPlayStopIconTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWExperimentPlayStopIconTransformer.h; sourceTree = "<group>"; };
 		5C23D6760D8878810044AC9E /* MWExperimentPlayStopIconTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWExperimentPlayStopIconTransformer.m; sourceTree = "<group>"; };
 		5C23D8F40D8B27E50044AC9E /* MWCodec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWCodec.h; sourceTree = "<group>"; };
@@ -118,6 +118,9 @@
 		5CD6D3120D96C57E0042051C /* NotConnected.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = NotConnected.tiff; path = Images/NotConnected.tiff; sourceTree = "<group>"; };
 		5CD6D4370D9751580042051C /* MWErrorColorTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWErrorColorTransformer.h; sourceTree = "<group>"; };
 		5CD6D4380D9751580042051C /* MWErrorColorTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWErrorColorTransformer.m; sourceTree = "<group>"; };
+		5CE62A5F115855F700C757F1 /* Development_10.5_compatible.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Development_10.5_compatible.xcconfig; path = "/Library/Application Support/MWorks/Developer/Xcode/Development_10.5_compatible.xcconfig"; sourceTree = "<absolute>"; };
+		5CE62A60115855F700C757F1 /* Development.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Development.xcconfig; path = "/Library/Application Support/MWorks/Developer/Xcode/Development.xcconfig"; sourceTree = "<absolute>"; };
+		5CE62A61115855F700C757F1 /* WARNING.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = WARNING.txt; path = "/Library/Application Support/MWorks/Developer/Xcode/WARNING.txt"; sourceTree = "<absolute>"; };
 		5CEDF8190D85D7550044D738 /* Clear.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = Clear.tiff; path = Images/Clear.tiff; sourceTree = "<group>"; };
 		5CEDF81A0D85D7550044D738 /* ClientConnected.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = ClientConnected.tif; path = Images/ClientConnected.tif; sourceTree = "<group>"; };
 		5CEDF81B0D85D7550044D738 /* ClientNotConnected.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = ClientNotConnected.tif; path = Images/ClientNotConnected.tif; sourceTree = "<group>"; };
@@ -141,7 +144,7 @@
 		5CEDF85C0D85E49D0044D738 /* MWClientInstance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWClientInstance.m; sourceTree = "<group>"; };
 		5CEDF8EF0D86247F0044D738 /* AppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppController.h; sourceTree = "<group>"; };
 		5CEDF8F00D86247F0044D738 /* AppController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppController.m; sourceTree = "<group>"; };
-		5CEDF93D0D862FC60044D738 /* MonkeyWorksCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MonkeyWorksCore.framework; path = /Library/Frameworks/MonkeyWorksCore.framework; sourceTree = "<absolute>"; };
+		5CEDF93D0D862FC60044D738 /* MWorksCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MWorksCore.framework; path = /Library/Frameworks/MWorksCore.framework; sourceTree = "<absolute>"; };
 		5CEDFA7A0D86C8C90044D738 /* MWServerConnectedIconTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWServerConnectedIconTransformer.h; sourceTree = "<group>"; };
 		5CEDFA7B0D86C8C90044D738 /* MWServerConnectedIconTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWServerConnectedIconTransformer.m; sourceTree = "<group>"; };
 		5CF675BF0DF58FF5006C80D5 /* candybar.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = candybar.tif; path = Images/candybar.tif; sourceTree = "<group>"; };
@@ -157,8 +160,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
-				5CEDF93E0D862FC60044D738 /* MonkeyWorksCore.framework in Frameworks */,
-				5C23D5640D882FFA0044AC9E /* MonkeyWorksCocoa.framework in Frameworks */,
+				5CEDF93E0D862FC60044D738 /* MWorksCore.framework in Frameworks */,
+				5C23D5640D882FFA0044AC9E /* MWorksCocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -212,6 +215,7 @@
 		29B97314FDCFA39411CA2CEA /* New Client */ = {
 			isa = PBXGroup;
 			children = (
+				5CE62A5E115855DB00C757F1 /* External Config */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
@@ -246,8 +250,8 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				5C23D5630D882FFA0044AC9E /* MonkeyWorksCocoa.framework */,
-				5CEDF93D0D862FC60044D738 /* MonkeyWorksCore.framework */,
+				5C23D5630D882FFA0044AC9E /* MWorksCocoa.framework */,
+				5CEDF93D0D862FC60044D738 /* MWorksCore.framework */,
 				1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */,
 				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
 			);
@@ -268,6 +272,16 @@
 			children = (
 			);
 			name = BorrowedClasses;
+			sourceTree = "<group>";
+		};
+		5CE62A5E115855DB00C757F1 /* External Config */ = {
+			isa = PBXGroup;
+			children = (
+				5CE62A5F115855F700C757F1 /* Development_10.5_compatible.xcconfig */,
+				5CE62A60115855F700C757F1 /* Development.xcconfig */,
+				5CE62A61115855F700C757F1 /* WARNING.txt */,
+			);
+			name = "External Config";
 			sourceTree = "<group>";
 		};
 		5CEDF8180D85D7400044D738 /* Images */ = {
@@ -536,24 +550,14 @@
 		};
 		5C9EE48E107307E50051414D /* Development (10.5 Compatible) */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5CE62A5F115855F700C757F1 /* Development_10.5_compatible.xcconfig */;
 			buildSettings = {
-				APP_SUPPORT_DIR = "/Library/Application Support/MonkeyWorks";
-				ARCHS = (
-					x86_64,
-					i386,
-				);
 				GCC_ENABLE_OBJC_GC = unsupported;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_VERSION = 4.0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
 				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
-				MACOSX_DEPLOYMENT_TARGET = 10.5;
-				MW_INCLUDE_DIR = "\"$(APP_SUPPORT_DIR)/Developer/gcc40/include\"";
-				MW_LIB_DIR = "\"$(APP_SUPPORT_DIR)/Developer/gcc40/lib\"";
 				PREBINDING = NO;
-				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
 			};
 			name = "Development (10.5 Compatible)";
 		};
@@ -684,24 +688,14 @@
 		};
 		C01FCF4F08A954540054247B /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5CE62A60115855F700C757F1 /* Development.xcconfig */;
 			buildSettings = {
-				APP_SUPPORT_DIR = "/Library/Application Support/MonkeyWorks";
-				ARCHS = (
-					x86_64,
-					i386,
-				);
 				GCC_ENABLE_OBJC_GC = unsupported;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_VERSION = 4.2;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
 				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
-				MACOSX_DEPLOYMENT_TARGET = 10.5;
-				MW_INCLUDE_DIR = "\"$(APP_SUPPORT_DIR)/Developer/include\"";
-				MW_LIB_DIR = "\"$(APP_SUPPORT_DIR)/Developer/lib\"";
 				PREBINDING = NO;
-				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
 			};
 			name = Development;
 		};

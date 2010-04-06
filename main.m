@@ -8,9 +8,9 @@
 
 #import <Cocoa/Cocoa.h>
 
-#import "MonkeyWorksCore/StandardClientCoreBuilder.h"
-#import "MonkeyWorksCore/CoreBuilderForeman.h"
-#import "MonkeyWorksCore/Exceptions.h"
+#import "MWorksCore/StandardClientCoreBuilder.h"
+#import "MWorksCore/CoreBuilderForeman.h"
+#import "MWorksCore/Exceptions.h"
 
 int main(int argc, char *argv[])
 {
