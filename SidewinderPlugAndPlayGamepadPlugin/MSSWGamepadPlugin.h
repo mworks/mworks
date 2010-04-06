@@ -10,7 +10,7 @@
 #ifndef MSSW_GAMEPAD_PLUGIN_H
 #define MSSW_GAMEPAD_PLUGIN_H
 
-#include <MonkeyWorksCore/Plugin.h>
+#include <MWorksCore/Plugin.h>
 using namespace mw;
 
 extern "C"{

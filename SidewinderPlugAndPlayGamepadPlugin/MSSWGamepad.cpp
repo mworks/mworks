@@ -22,7 +22,7 @@ mMSSWGamepad::mMSSWGamepad(const boost::shared_ptr <Scheduler> &a_scheduler,
 						   const boost::shared_ptr <Variable> pad_D,
 						   const boost::shared_ptr <Variable> pad_L,
 						   const boost::shared_ptr <Variable> pad_R,
-						   const MonkeyWorksTime update_time) {
+						   const MWorksTime update_time) {
 	scheduler = a_scheduler;
 	
 	A = button_A;
@@ -399,7 +399,7 @@ bool mMSSWGamepad::startDeviceIO(){
 	
 	shared_ptr<mMSSWGamepad> this_one = shared_from_this();
 	shared_ptr<ScheduleTask> node = scheduler->scheduleUS(std::string(FILELINE ": ") + tag,
-														   (MonkeyWorksTime)0, 
+														   (MWorksTime)0, 
 														   update_period, 
 														   M_REPEAT_INDEFINITELY, 
 														   boost::bind(update_buttons, 

@@ -243,8 +243,8 @@ bool mUSBHID::startDeviceIO(){
 		
 		shared_ptr<Scheduler> scheduler = Scheduler::instance();
 		shared_ptr<ScheduleTask> node = scheduler->scheduleUS(std::string(FILELINE ": ") + (the_channel->getCapability())->getName(),
-															   (MonkeyWorksTime)0, 
-															   (MonkeyWorksTime)(the_channel->getRequest())->getRequestedUpdateIntervalUsec(), 
+															   (MWorksTime)0, 
+															   (MWorksTime)(the_channel->getRequest())->getRequestedUpdateIntervalUsec(), 
 															   M_REPEAT_INDEFINITELY, 
 															   boost::bind(update_io_channel, 
 															   args), 

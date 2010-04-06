@@ -9,23 +9,16 @@
 
 #include "DriftingGratingStimulusPlugin.h"
 #include "DriftingGratingStimulusFactory.h"
-#include "PlayDynamicStimulusFactory.h"
-#include "StopDynamicStimulusFactory.h"
-#include "MonkeyWorksCore/ComponentFactory.h"
+#include "MWorksCore/ComponentFactory.h"
 using namespace mw;
 
 Plugin *getPlugin(){
-    return new mDriftingGratingStimulusPlugin();
+    return new DriftingGratingStimulusPlugin();
 }
 
 
-void mDriftingGratingStimulusPlugin::registerComponents(shared_ptr<mw::ComponentRegistry> registry) {
-	registry->registerFactory(std::string("action/play_dynamic_stimulus"),
-							  (ComponentFactory *)(new mPlayDynamicStimulusFactory()));
-	
-	registry->registerFactory(std::string("action/stop_dynamic_stimulus"),
-							  (ComponentFactory *)(new mStopDynamicStimulusFactory()));
+void DriftingGratingStimulusPlugin::registerComponents(shared_ptr<mw::ComponentRegistry> registry) {
 	
 	registry->registerFactory(std::string("stimulus/drifting_grating"),
-							  (ComponentFactory *)(new mDriftingGratingStimulusFactory()));
+							  (ComponentFactory *)(new DriftingGratingStimulusFactory()));
 }

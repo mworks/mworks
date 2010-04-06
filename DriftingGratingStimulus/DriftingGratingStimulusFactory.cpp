@@ -1,6 +1,6 @@
 /*
  *  DriftingGratingStimulusFactory.cpp
- *  MonkeyWorksCore
+ *  MWorksCore
  *
  *  Created by bkennedy on 8/26/08.
  *  Copyright 2008 MIT. All rights reserved.
@@ -17,12 +17,12 @@
 #include "SawtoothGratingData.h"
 #include "SquareGratingData.h"
 #include <boost/regex.hpp>
-#include "MonkeyWorksCore/ComponentRegistry.h"
+#include "MWorksCore/ComponentRegistry.h"
 using namespace mw;
 
 
 
-shared_ptr<mw::Component> mDriftingGratingStimulusFactory::createObject(std::map<std::string, std::string> parameters,
+shared_ptr<mw::Component> DriftingGratingStimulusFactory::createObject(std::map<std::string, std::string> parameters,
                                                                         mw::ComponentRegistry *reg) {
 	
 	const char *TAG = "tag";
@@ -202,7 +202,7 @@ shared_ptr<mw::Component> mDriftingGratingStimulusFactory::createObject(std::map
 		throw SimpleException("illegal mask: " + parameters.find(MASK)->second);				
 	}
 	
-	shared_ptr<mDriftingGratingStimulus> new_drifting_grating=shared_ptr<mDriftingGratingStimulus>(new mDriftingGratingStimulus(tagname, 
+	shared_ptr<DriftingGratingStimulus> new_drifting_grating=shared_ptr<DriftingGratingStimulus>(new DriftingGratingStimulus(tagname, 
 																																scheduler,
 																																default_display,
 																																frames_per_second,

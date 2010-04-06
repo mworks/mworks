@@ -7,14 +7,14 @@
  *
  */
 
-#include <MonkeyWorksCore/Plugin.h>
+#include <MWorksCore/Plugin.h>
 using namespace mw;
 
 extern "C"{
     Plugin *getPlugin();
 }
 
-class mDriftingGratingStimulusPlugin : public Plugin {
+class DriftingGratingStimulusPlugin : public Plugin {
     
 	virtual void registerComponents(shared_ptr<mw::ComponentRegistry> registry);	
 };

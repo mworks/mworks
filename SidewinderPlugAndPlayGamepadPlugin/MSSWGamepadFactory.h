@@ -10,7 +10,7 @@
 #ifndef MSSW_GAMEPAD_FACTORY_H
 #define MSSW_GAMEPAD_FACTORY_H
 
-#include "MonkeyWorksCore/ComponentFactory.h"
+#include "MWorksCore/ComponentFactory.h"
 
 class mMSSWGamepadFactory : public mw::ComponentFactory {
 	virtual boost::shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,

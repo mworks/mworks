@@ -2,7 +2,7 @@
 #ifndef USB_HID_DEVICE_H
 #define USB_HID_DEVICE_H
 
-#include "MonkeyWorksCore/IODevice.h"
+#include "MWorksCore/IODevice.h"
 
 #include "HIDUtilities.h"
 using namespace mw;
