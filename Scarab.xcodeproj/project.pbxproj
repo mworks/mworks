@@ -82,7 +82,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 5CF4DE9705911D6D002A02B7 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 0ECA4C730D6DFF4400BD00B2 /* libscarab.a */;
+			remoteGlobalIDString = 0ECA4C730D6DFF4400BD00B2;
 			remoteInfo = libscarab.a;
 		};
 /* End PBXContainerItemProxy section */
@@ -305,7 +305,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# shell script goes here\nrm -rf /Library/Frameworks/Scarab.framework\nrm -rf /Library/MonkeyWorks/include/Scarab\nrm -f /Library/MonkeyWorks/lib/libscarab.a\n\nexit 0";
+			shellScript = "# shell script goes here\nrm -rf /Library/Frameworks/Scarab.framework\nrm -rf /Library/MWorks/include/Scarab\nrm -f /Library/MWorks/lib/libscarab.a\n\nexit 0";
 		};
 		0ECA4C910D6DFFB100BD00B2 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -403,7 +403,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				INSTALL_GROUP = "$(GROUP)";
 				INSTALL_OWNER = "$(USER)";
-				INSTALL_PATH = "/Library/Application Support/MonkeyWorks/Developer";
+				INSTALL_PATH = "/Library/Application Support/MWorks/Developer";
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				PREBINDING = NO;
 				PRODUCT_NAME = scarab;
@@ -479,7 +479,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				INSTALL_GROUP = "$(GROUP)";
 				INSTALL_OWNER = "$(USER)";
-				INSTALL_PATH = "/Library/Application Support/MonkeyWorks/Developer";
+				INSTALL_PATH = "/Library/Application Support/MWorks/Developer";
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				PREBINDING = NO;
 				PRODUCT_NAME = scarab;
