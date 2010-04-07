@@ -624,6 +624,7 @@ LoadStimulus::~LoadStimulus() { }
 
 bool LoadStimulus::execute() {	
     stimnode->load(display);
+    return true;
 }
     
 shared_ptr<mw::Component> LoadStimulusFactory::createObject(std::map<std::string, std::string> parameters,

@@ -490,9 +490,9 @@ shared_ptr<mw::Component> BlankScreenFactory::createObject(std::map<std::string,
 	// get the values
 //	std::vector<std::string> colorParams;
 	
-	/*boost::spirit::rule<> parsedItems;
-	parsedItems = boost::spirit::list_p[boost::spirit::push_back_a(colorParams)];
-	boost::spirit::parse_info<> result = boost::spirit::parse(parameters.find("color")->second.c_str(), parsedItems);
+	/*boost::spirit::classic::rule<> parsedItems;
+	parsedItems = boost::spirit::classic::list_p[boost::spirit::classic::push_back_a(colorParams)];
+	boost::spirit::classic::parse_info<> result = boost::spirit::classic::parse(parameters.find("color")->second.c_str(), parsedItems);
 	if(!result.hit || colorParams.size() != 3) {
 		throw InvalidAttributeException("color", parameters.find("color")->second);
 	}*/

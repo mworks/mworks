@@ -3271,7 +3271,6 @@
 					GLUT,
 					"-framework",
 					IOKit,
-					"-L/Library/Application\\ Support/MWorks/Developer/lib",
 					"-lboost_regex-mw",
 					"-lboost_thread-mw",
 					"-lboost_system-mw",
@@ -3525,9 +3524,6 @@
 				GCC_VERSION = 4.2;
 				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
 				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
-				MW_INCLUDE_DIR = "\"$(APP_SUPPORT_DIR)/Developer/include\"";
-				MW_LIB_DIR = "\"$(APP_SUPPORT_DIR)/Developer/lib\"";
-				PLUGINS_DIR = "$(APP_SUPPORT_DIR)/Plugins/Core Plugins";
 				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
 				STRIP_INSTALLED_PRODUCT = NO;
 				TESTS_DIR = "$(APP_SUPPORT_DIR)/Developer/tests";
@@ -3578,7 +3574,6 @@
 					GLUT,
 					"-framework",
 					IOKit,
-					"-L/Library/Application\\ Support/MWorks/Developer/lib",
 					"-lboost_regex-mw",
 					"-lboost_thread-mw",
 					"-lboost_system-mw",
@@ -3724,7 +3719,7 @@
 				INSTALL_PATH = "$(PLUGINS_DIR)";
 				LIBRARY_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
 				LIBRARY_STYLE = BUNDLE;
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -3914,6 +3909,7 @@
 				COPY_PHASE_STRIP = NO;
 				EXECUTABLE_EXTENSION = so;
 				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				HEADER_SEARCH_PATHS = (
 					/usr/include/python2.5,
@@ -3996,7 +3992,6 @@
 					GLUT,
 					"-framework",
 					IOKit,
-					"-L/Library/Application\\ Support/MWorks/Developer/lib",
 					"-lboost_regex-mw",
 					"-lboost_thread-mw",
 					"-lboost_system-mw",
@@ -4046,6 +4041,7 @@
 					"-Wmost",
 					"-Wno-four-char-constants",
 					"-Wno-unknown-pragmas",
+					"-Wno-sign-compare",
 				);
 				ZERO_LINK = NO;
 			};
@@ -4107,6 +4103,7 @@
 					"-Wmost",
 					"-Wno-four-char-constants",
 					"-Wno-unknown-pragmas",
+					"-Wno-sign-compare",
 				);
 			};
 			name = "Development (10.5 Compatible)";
@@ -4128,7 +4125,7 @@
 				INSTALL_PATH = "$(PLUGINS_DIR)";
 				LIBRARY_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
 				LIBRARY_STYLE = BUNDLE;
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -4143,6 +4140,7 @@
 					"-Wmost",
 					"-Wno-four-char-constants",
 					"-Wno-unknown-pragmas",
+					"-Wno-sign-compare",
 				);
 			};
 			name = "Development (10.5 Compatible)";
@@ -4181,6 +4179,7 @@
 					"-Wmost",
 					"-Wno-four-char-constants",
 					"-Wno-unknown-pragmas",
+					"-Wno-sign-compare",
 				);
 			};
 			name = "Development (10.5 Compatible)";
@@ -4213,11 +4212,12 @@
 					"-lboost_serialization-mw",
 				);
 				PRODUCT_NAME = MWorksCoreTest;
-				STANDARD_C_PLUS_PLUS_LIBRARY_TYPE = static;
+				STANDARD_C_PLUS_PLUS_LIBRARY_TYPE = dynamic;
 				WARNING_CFLAGS = (
 					"-Wmost",
 					"-Wno-four-char-constants",
 					"-Wno-unknown-pragmas",
+					"-Wno-sign-compare",
 				);
 			};
 			name = "Development (10.5 Compatible)";
@@ -4229,7 +4229,7 @@
 				DSTROOT = "/tmp/$(PRODUCT_NAME).dst";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(FRAMEWORK_SEARCH_PATHS)",
-					"$(TESTS_DIR)",
+					"\"$(TESTS_DIR)\"",
 				);
 				GCC_DEBUGGING_SYMBOLS = full;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -4303,6 +4303,7 @@
 				COPY_PHASE_STRIP = NO;
 				EXECUTABLE_EXTENSION = so;
 				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				HEADER_SEARCH_PATHS = (
 					/usr/include/python2.5,
@@ -4374,6 +4375,7 @@
 				COPY_PHASE_STRIP = NO;
 				EXECUTABLE_EXTENSION = so;
 				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				HEADER_SEARCH_PATHS = (
 					/usr/include/python2.5,

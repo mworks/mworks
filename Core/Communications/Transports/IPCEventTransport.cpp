@@ -71,7 +71,7 @@ void IPCEventTransport::sendEvent(shared_ptr<Event> event){
     string data = output_stream_.str();
     try {
         //cerr << "data.size() = " << data.size() << endl;
-        bool okayp = outgoing_queue->timed_send((void *)data.c_str(), data.size(), QUEUE_PRIORITY, boost::posix_time::microsec_clock::local_time() + boost::posix_time::microseconds(10000));
+        outgoing_queue->timed_send((void *)data.c_str(), data.size(), QUEUE_PRIORITY, boost::posix_time::microsec_clock::local_time() + boost::posix_time::microseconds(10000));
     } catch(std::exception& e){
         cerr << "Error sending on outgoing queue: " << e.what() << endl;
     }

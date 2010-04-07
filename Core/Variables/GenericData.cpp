@@ -228,7 +228,6 @@ Datum::Datum(ScarabDatum * datum) {
   }
   
   double d;
-  char *double_bytes;
   
   switch(datum->type) {
   case SCARAB_INTEGER:
@@ -252,7 +251,7 @@ Datum::Datum(ScarabDatum * datum) {
 		d = *((double *)(datum->data.opaque.data));
 	#else
 		char swap_bytes[sizeof(double)];
-		double_bytes = (char *)(datum->data.opaque.data);
+		char *double_bytes = (char *)(datum->data.opaque.data);
 		for(unsigned int i = 0; i < sizeof(double); i++){
 			swap_bytes[i] = double_bytes[sizeof(double) - i - 1];
 		}
