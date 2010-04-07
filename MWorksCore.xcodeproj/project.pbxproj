@@ -456,7 +456,7 @@
 			containerPortal = DA2CE0C907E9070200C68AEF /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = DA2CE0D307E9F68100C68AEF;
-			remoteInfo = MonkeyWorksCore;
+			remoteInfo = MWorksCore;
 		};
 		5C0E758209D1AE53002295FB /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -491,14 +491,14 @@
 			containerPortal = DA2CE0C907E9070200C68AEF /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 5C4D239B09DC83930082BF9F;
-			remoteInfo = MonkeyWorksCoreTest;
+			remoteInfo = MWorksCoreTest;
 		};
 		5C3853F80AB7458000E52A63 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = DA2CE0C907E9070200C68AEF /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 5C4D232409DC59410082BF9F;
-			remoteInfo = MonkeyWorksCoreTestRunner;
+			remoteInfo = MWorksCoreTestRunner;
 		};
 		5C488A180F4E27D400C5A526 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -512,28 +512,28 @@
 			containerPortal = DA2CE0C907E9070200C68AEF /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = DA2CE0D307E9F68100C68AEF;
-			remoteInfo = MonkeyWorksCore;
+			remoteInfo = MWorksCore;
 		};
 		5C4D24C109DC95550082BF9F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = DA2CE0C907E9070200C68AEF /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 5C4D239B09DC83930082BF9F;
-			remoteInfo = MonkeyWorksCoreTest;
+			remoteInfo = MWorksCoreTest;
 		};
 		5C4D25A709DCCD100082BF9F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = DA2CE0C907E9070200C68AEF /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = DA2CE0D307E9F68100C68AEF;
-			remoteInfo = MonkeyWorksCore;
+			remoteInfo = MWorksCore;
 		};
 		5C77F6D810EA9B3900919719 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = DA2CE0C907E9070200C68AEF /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = DA2CE0D307E9F68100C68AEF;
-			remoteInfo = MonkeyWorksCore;
+			remoteInfo = MWorksCore;
 		};
 		5CCE1CD310A4692B00EF5866 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -547,28 +547,28 @@
 			containerPortal = DA2CE0C907E9070200C68AEF /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = DA2CE0D307E9F68100C68AEF;
-			remoteInfo = MonkeyWorksCore;
+			remoteInfo = MWorksCore;
 		};
 		68210E970D4796D600725790 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = DA2CE0C907E9070200C68AEF /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = DA2CE0D307E9F68100C68AEF;
-			remoteInfo = MonkeyWorksCore;
+			remoteInfo = MWorksCore;
 		};
 		68210EA00D47970300725790 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = DA2CE0C907E9070200C68AEF /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = DA2CE0D307E9F68100C68AEF;
-			remoteInfo = MonkeyWorksCore;
+			remoteInfo = MWorksCore;
 		};
 		68210EA30D47971D00725790 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = DA2CE0C907E9070200C68AEF /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = DA2CE0D307E9F68100C68AEF;
-			remoteInfo = MonkeyWorksCore;
+			remoteInfo = MWorksCore;
 		};
 		68EC081E0CB2C1BF00FCD612 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -603,7 +603,7 @@
 			containerPortal = DA2CE0C907E9070200C68AEF /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = DA2CE0D307E9F68100C68AEF;
-			remoteInfo = MonkeyWorksCore;
+			remoteInfo = MWorksCore;
 		};
 		DA1368E507EA27E0001BA98B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -1014,7 +1014,7 @@
 		DA2CE39107EA035F00C68AEF /* MachClockPlugin-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MachClockPlugin-Info.plist"; sourceTree = SOURCE_ROOT; };
 		DA2CE39607EA040D00C68AEF /* MachClock.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = MachClock.cpp; path = MachClock/MachClock.cpp; sourceTree = SOURCE_ROOT; };
 		DA2CE39707EA040D00C68AEF /* MachClock.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MachClock.h; path = MachClock/MachClock.h; sourceTree = SOURCE_ROOT; };
-		DA2CE3A407EA046800C68AEF /* MWorksScripting-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "MWorksScripting-Info.plist"; path = "MonkeyWorksScripting-Info.plist"; sourceTree = SOURCE_ROOT; };
+		DA2CE3A407EA046800C68AEF /* MWorksScripting-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MWorksScripting-Info.plist"; sourceTree = SOURCE_ROOT; };
 		DA2CE3AC07EA04FF00C68AEF /* MonkeyScript.i */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c.preprocessed; name = MonkeyScript.i; path = MonkeyWorksScripting/MonkeyScript.i; sourceTree = SOURCE_ROOT; };
 		DA2CE3BD07EA057500C68AEF /* ZenClockPlugin-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ZenClockPlugin-Info.plist"; sourceTree = SOURCE_ROOT; };
 		DA2E379C08B0FE5800BD22C4 /* EventBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = EventBuffer.cpp; path = Core/Events/EventBuffer.cpp; sourceTree = SOURCE_ROOT; };
@@ -2398,7 +2398,7 @@
 				5C4D24C209DC95550082BF9F /* PBXTargetDependency */,
 			);
 			name = MWorksCoreTestRunner;
-			productName = MonkeyWorksCoreTestRunner;
+			productName = MWorksCoreTestRunner;
 			productReference = 5C4D232509DC59420082BF9F /* MWorksCoreTestRunner */;
 			productType = "com.apple.product-type.tool";
 		};
@@ -2422,7 +2422,7 @@
 				5C4D25A809DCCD100082BF9F /* PBXTargetDependency */,
 			);
 			name = MWorksCoreTest;
-			productName = MonkeyWorksCoreTest;
+			productName = MWorksCoreTest;
 			productReference = 5C4D239C09DC83930082BF9F /* MWorksCoreTest.framework */;
 			productType = "com.apple.product-type.framework";
 		};
@@ -2499,7 +2499,7 @@
 				5C488A190F4E27D400C5A526 /* PBXTargetDependency */,
 			);
 			name = MWorksCore;
-			productName = MonkeyWorksCore;
+			productName = MWorksCore;
 			productReference = DA2CE0D407E9F68100C68AEF /* MWorksCore.framework */;
 			productType = "com.apple.product-type.framework";
 		};
@@ -2641,7 +2641,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# shell script goes here\nMW_INSTALL_DIR=/Library/MonkeyWorks\nrm -rf \"/Library/Frameworks/MonkeyWorksCore.framework\"\nrm -rf \"${MW_INSTALL_DIR}/tests/MarionetteTest.app\"\nrm -rf \"${MW_INSTALL_DIR}/tests/MonkeyWorksCoreTest.framework\"\nrm -rf \"${MW_INSTALL_DIR}/tests/MonkeyWorksCoreTestRunner\"\nrm -rf \"${MW_INSTALL_DIR}/Plugins/LowPrioritySchedulerPlugin.bundle\"\nrm -rf \"${MW_INSTALL_DIR}/Plugins/MachClockPlugin.bundle\"\nrm -rf \"${MW_INSTALL_DIR}/Plugins/ZenSchedulerPlugin.bundle\"\nrm -rf \"${MW_INSTALL_DIR}/Plugins/ZenStateSystemPlugin.bundle\"\n\n\nexit 0";
+			shellScript = "# shell script goes here\nMW_INSTALL_DIR=/Library/MWorks\nrm -rf \"/Library/Frameworks/MWorksCore.framework\"\nrm -rf \"${MW_INSTALL_DIR}/tests/MarionetteTest.app\"\nrm -rf \"${MW_INSTALL_DIR}/tests/MWorksCoreTest.framework\"\nrm -rf \"${MW_INSTALL_DIR}/tests/MWorksCoreTestRunner\"\nrm -rf \"${MW_INSTALL_DIR}/Plugins/LowPrioritySchedulerPlugin.bundle\"\nrm -rf \"${MW_INSTALL_DIR}/Plugins/MachClockPlugin.bundle\"\nrm -rf \"${MW_INSTALL_DIR}/Plugins/ZenSchedulerPlugin.bundle\"\nrm -rf \"${MW_INSTALL_DIR}/Plugins/ZenStateSystemPlugin.bundle\"\n\n\nexit 0";
 		};
 		5C0E757509D1A886002295FB /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2654,7 +2654,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/zsh;
-			shellScript = "export FULL_NAME=${PRODUCT_NAME}.${WRAPPER_EXTENSION}\n\nrm -rf \"${PLUGIN_DIR}/${FULL_NAME}\"\ncp -R \"${BUILT_PRODUCTS_DIR}/${FULL_NAME}\" \"${PLUGINS_DIR}/\"";
+			shellScript = "export FULL_NAME=${PRODUCT_NAME}.${WRAPPER_EXTENSION}\n\nrm -rf \"${PLUGINS_DIR}/${FULL_NAME}\"\ncp -R \"${BUILT_PRODUCTS_DIR}/${FULL_NAME}\" \"${PLUGINS_DIR}/\"";
 		};
 		5C488A150F4E27CD00C5A526 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2693,7 +2693,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/zsh;
-			shellScript = "export FULL_NAME=${PRODUCT_NAME}.${WRAPPER_EXTENSION}\n\nrm -rf \"${PLUGIN_DIR}/${FULL_NAME}\"\ncp -R \"${BUILT_PRODUCTS_DIR}/${FULL_NAME}\" \"${PLUGINS_DIR}/\"";
+			shellScript = "export FULL_NAME=${PRODUCT_NAME}.${WRAPPER_EXTENSION}\n\nrm -rf \"${PLUGINS_DIR}/${FULL_NAME}\"\ncp -R \"${BUILT_PRODUCTS_DIR}/${FULL_NAME}\" \"${PLUGINS_DIR}/\"";
 		};
 		5CCE1CCB10A468C900EF5866 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2706,7 +2706,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/zsh;
-			shellScript = "export FULL_NAME=${PRODUCT_NAME}.${EXECUTABLE_EXTENSION}\nexport MW_PYTHON_DIR=${APP_SUPPORT_DIR}/Scripting/Python/monkeyworks\nexport SOURCE_DIR=${BUILT_PRODUCTS_DIR}/../../\n\ncp \"${BUILT_PRODUCTS_DIR}/${FULL_NAME}\" \"${MW_PYTHON_DIR}/\"\ncp \"${SOURCE_DIR}/Core/Communications/Conduits/conduit.py\" \"${MW_PYTHON_DIR}/\"";
+			shellScript = "export FULL_NAME=${PRODUCT_NAME}.${EXECUTABLE_EXTENSION}\nexport MW_PYTHON_DIR=${APP_SUPPORT_DIR}/Scripting/Python/mworks\nexport SOURCE_DIR=${BUILT_PRODUCTS_DIR}/../../\n\ncp \"${BUILT_PRODUCTS_DIR}/${FULL_NAME}\" \"${MW_PYTHON_DIR}/\"\ncp \"${SOURCE_DIR}/Core/Communications/Conduits/conduit.py\" \"${MW_PYTHON_DIR}/\"";
 		};
 		5CCE1CCE10A4692500EF5866 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2719,7 +2719,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/zsh;
-			shellScript = "export SOURCE_DIR=${BUILT_PRODUCTS_DIR}/../../\nexport MW_PYTHON_DIR=${APP_SUPPORT_DIR}/Scripting/Python/monkeyworks\n\nmkdir -p \"${MW_PYTHON_DIR}\"\n\ncp -r ${SOURCE_DIR}/Core/Python/* \"${MW_PYTHON_DIR}\"\n";
+			shellScript = "export SOURCE_DIR=${BUILT_PRODUCTS_DIR}/../../\nexport MW_PYTHON_DIR=${APP_SUPPORT_DIR}/Scripting/Python/mworks\n\nmkdir -p \"${MW_PYTHON_DIR}\"\n\ncp -r ${SOURCE_DIR}/Core/Python/* \"${MW_PYTHON_DIR}\"\n";
 		};
 		5CEE864C081D53A700F366DE /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2732,7 +2732,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/zsh;
-			shellScript = "export FULL_NAME=${PRODUCT_NAME}.${WRAPPER_EXTENSION}\n\nrm -Rf \"${INSTALL_PATH}/${FULL_NAME}\"\ncp -Rf \"${BUILT_PRODUCTS_DIR}/${FULL_NAME}\"  \"${INSTALL_PATH}\"\n\nmkdir -p ${CONFIG_DIR}/examples\ncp -f $BUILT_PRODUCTS_DIR/../../Core/SetupVariables/setup_variables_macbook.xml ${CONFIG_DIR}/examples\ncp -f $BUILT_PRODUCTS_DIR/../../Core/SetupVariables/setup_variables_two_monitors.xml ${CONFIG_DIR}/examples\n\nexit 0";
+			shellScript = "export FULL_NAME=${PRODUCT_NAME}.${WRAPPER_EXTENSION}\n\nrm -Rf \"${INSTALL_PATH}/${FULL_NAME}\"\ncp -Rf \"${BUILT_PRODUCTS_DIR}/${FULL_NAME}\"  \"${INSTALL_PATH}\"\n\nmkdir -p ${CONFIG_DIR}/examples\ncp -f $BUILT_PRODUCTS_DIR/../../Core/SetupVariables/setup_variables_macbook.xml ${CONFIG_DIR}/examples\ncp -f $BUILT_PRODUCTS_DIR/../../Core/SetupVariables/setup_variables_two_monitors.xml ${CONFIG_DIR}/examples\n\nmkdir -p \"${PLUGINS_DIR}\"\n\nexit 0";
 		};
 		5CF73C6208625E3E00F453C3 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2745,7 +2745,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/zsh;
-			shellScript = "export FULL_NAME=${PRODUCT_NAME}.${WRAPPER_EXTENSION}\n\nrm -rf \"${PLUGIN_DIR}/${FULL_NAME}\"\ncp -R \"${BUILT_PRODUCTS_DIR}/${FULL_NAME}\" \"${PLUGINS_DIR}/\"";
+			shellScript = "export FULL_NAME=${PRODUCT_NAME}.${WRAPPER_EXTENSION}\n\nrm -rf \"${PLUGINS_DIR}/${FULL_NAME}\"\ncp -R \"${BUILT_PRODUCTS_DIR}/${FULL_NAME}\" \"${PLUGINS_DIR}/\"";
 		};
 		5CF73C810862611900F453C3 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2758,7 +2758,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/zsh;
-			shellScript = "export FULL_NAME=${PRODUCT_NAME}.${WRAPPER_EXTENSION}\n\nrm -rf \"${PLUGIN_DIR}/${FULL_NAME}\"\ncp -R \"${BUILT_PRODUCTS_DIR}/${FULL_NAME}\" \"${PLUGINS_DIR}/\"";
+			shellScript = "export FULL_NAME=${PRODUCT_NAME}.${WRAPPER_EXTENSION}\n\nrm -rf \"${PLUGINS_DIR}/${FULL_NAME}\"\ncp -R \"${BUILT_PRODUCTS_DIR}/${FULL_NAME}\" \"${PLUGINS_DIR}/\"";
 		};
 		68F1AAE40AA7814C0009800E /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -3271,7 +3271,7 @@
 					GLUT,
 					"-framework",
 					IOKit,
-					"-L/Library/Application\\ Support/MonkeyWorks/Developer/lib",
+					"-L/Library/Application\\ Support/MWorks/Developer/lib",
 					"-lboost_regex-mw",
 					"-lboost_thread-mw",
 					"-lboost_system-mw",
@@ -3512,7 +3512,7 @@
 		5C9EBDA3107244C00051414D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				APP_SUPPORT_DIR = "/Library/Application Support/MonkeyWorks";
+				APP_SUPPORT_DIR = "/Library/Application Support/MWorks";
 				ARCHS = (
 					x86_64,
 					i386,
@@ -3578,7 +3578,7 @@
 					GLUT,
 					"-framework",
 					IOKit,
-					"-L/Library/Application\\ Support/MonkeyWorks/Developer/lib",
+					"-L/Library/Application\\ Support/MWorks/Developer/lib",
 					"-lboost_regex-mw",
 					"-lboost_thread-mw",
 					"-lboost_system-mw",
@@ -3587,7 +3587,7 @@
 					"-lxml2",
 					"-lxslt",
 				);
-				PRODUCT_NAME = MonkeyWorksCore;
+				PRODUCT_NAME = MWorksCore;
 				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
 				WARNING_CFLAGS = (
 					"-Wmost",
@@ -3623,7 +3623,7 @@
 					"-framework",
 					AppKit,
 					"-framework",
-					MonkeyWorksCore,
+					MWorksCore,
 				);
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = MachClockPlugin;
@@ -3690,7 +3690,7 @@
 					"-framework",
 					AppKit,
 					"-framework",
-					MonkeyWorksCore,
+					MWorksCore,
 				);
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = ZenSchedulerPlugin;
@@ -3731,7 +3731,7 @@
 					"-framework",
 					AppKit,
 					"-framework",
-					MonkeyWorksCore,
+					MWorksCore,
 				);
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = ZenStateSystemPlugin;
@@ -3772,7 +3772,7 @@
 					"-framework",
 					AppKit,
 					"-framework",
-					MonkeyWorksCore,
+					MWorksCore,
 				);
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = LowPrioritySchedulerPlugin;
@@ -3814,12 +3814,12 @@
 					"-framework",
 					Cocoa,
 					"-framework",
-					MonkeyWorksCore,
+					MWorksCore,
 					"-lcppunit",
 					"-lscarab",
 					"-lboost_serialization-mw",
 				);
-				PRODUCT_NAME = MonkeyWorksCoreTest;
+				PRODUCT_NAME = MWorksCoreTest;
 				STANDARD_C_PLUS_PLUS_LIBRARY_TYPE = dynamic;
 				WARNING_CFLAGS = (
 					"-Wmost",
@@ -3857,14 +3857,14 @@
 					"-ldl",
 					"-lcppunit",
 					"-framework",
-					MonkeyWorksCore,
+					MWorksCore,
 					"-framework",
-					MonkeyWorksCoreTest,
+					MWorksCoreTest,
 					"-lILUT",
 					"-lscarab",
 				);
 				PREBINDING = NO;
-				PRODUCT_NAME = MonkeyWorksCoreTestRunner;
+				PRODUCT_NAME = MWorksCoreTestRunner;
 				ZERO_LINK = NO;
 			};
 			name = Release;
@@ -3886,7 +3886,7 @@
 					"-framework",
 					AppKit,
 					"-framework",
-					MonkeyWorksCore,
+					MWorksCore,
 					"-lxml2",
 					"-lxslt",
 				);
@@ -3996,7 +3996,7 @@
 					GLUT,
 					"-framework",
 					IOKit,
-					"-L/Library/Application\\ Support/MonkeyWorks/Developer/lib",
+					"-L/Library/Application\\ Support/MWorks/Developer/lib",
 					"-lboost_regex-mw",
 					"-lboost_thread-mw",
 					"-lboost_system-mw",
@@ -4037,7 +4037,7 @@
 					"-framework",
 					AppKit,
 					"-framework",
-					MonkeyWorksCore,
+					MWorksCore,
 				);
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = MachClockPlugin;
@@ -4099,7 +4099,7 @@
 					"-framework",
 					AppKit,
 					"-framework",
-					MonkeyWorksCore,
+					MWorksCore,
 				);
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = ZenSchedulerPlugin;
@@ -4135,7 +4135,7 @@
 					"-framework",
 					AppKit,
 					"-framework",
-					MonkeyWorksCore,
+					MWorksCore,
 				);
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = ZenStateSystemPlugin;
@@ -4172,7 +4172,7 @@
 					"-framework",
 					AppKit,
 					"-framework",
-					MonkeyWorksCore,
+					MWorksCore,
 				);
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = LowPrioritySchedulerPlugin;
@@ -4208,11 +4208,11 @@
 					"-framework",
 					Cocoa,
 					"-framework",
-					MonkeyWorksCore,
+					MWorksCore,
 					"-lcppunit",
 					"-lboost_serialization-mw",
 				);
-				PRODUCT_NAME = MonkeyWorksCoreTest;
+				PRODUCT_NAME = MWorksCoreTest;
 				STANDARD_C_PLUS_PLUS_LIBRARY_TYPE = static;
 				WARNING_CFLAGS = (
 					"-Wmost",
@@ -4246,14 +4246,14 @@
 					"-ldl",
 					"-lcppunit",
 					"-framework",
-					MonkeyWorksCore,
+					MWorksCore,
 					"-framework",
-					MonkeyWorksCoreTest,
+					MWorksCoreTest,
 					"-lILUT",
 					"-lscarab",
 				);
 				PREBINDING = NO;
-				PRODUCT_NAME = MonkeyWorksCoreTestRunner;
+				PRODUCT_NAME = MWorksCoreTestRunner;
 				ZERO_LINK = NO;
 			};
 			name = "Development (10.5 Compatible)";
@@ -4275,7 +4275,7 @@
 					"-framework",
 					AppKit,
 					"-framework",
-					MonkeyWorksCore,
+					MWorksCore,
 					"-lxml2",
 					"-lxslt",
 				);
