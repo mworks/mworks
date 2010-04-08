@@ -583,7 +583,7 @@
 // receiver: the object that will receive the KVC messages
 // bindingsKey: the key (in the bindings sense of the word) in question
 // callbackKey: a unique string to identify this particular callback
-// forVariable: the tag name of the monkeyworks variable in question
+// forVariable: the tag name of the MWorks variable in question
 - (void)registerBindingsBridgeWithReceiver:(id)receiver 
                                bindingsKey:(NSString *)bindings_key
                                callbackKey:(const char *)key
