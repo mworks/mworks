@@ -283,13 +283,9 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = CoxlabCorePlugins_Prefix.pch;
-				HEADER_SEARCH_PATHS = (
-					/Library/MonkeyWorks/include,
-					/usr/include/libxml2,
-				);
+				HEADER_SEARCH_PATHS = /usr/include/libxml2;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Bundles";
-				LIBRARY_SEARCH_PATHS = /Library/MonkeyWorks/lib;
 				OTHER_LDFLAGS = "-lboost_system-mt";
 				PRODUCT_NAME = CoxlabCorePlugins;
 				WRAPPER_EXTENSION = bundle;

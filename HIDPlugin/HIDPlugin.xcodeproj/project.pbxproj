@@ -256,7 +256,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# shell script goes here\nrm -rf \"/Library/MonkeyWorks/Plugins/HIDPlugin.bundle\"\n\nexit 0";
+			shellScript = "# shell script goes here\nrm -Rf \"$PLUGINS_DIR/HIDPlugin.bundle\"\n\nexit 0";
 		};
 		5C4B0B5D0DC7CAB9001BC518 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;

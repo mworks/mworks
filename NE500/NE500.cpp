@@ -1,6 +1,6 @@
 /*
  *  NE500.cpp
- *  MonkeyWorksCore
+ *  MWorksCore
  *
  *  Created by David Cox on 2/1/08.
  *  Copyright 2008 __MyCompanyName__. All rights reserved.
@@ -19,7 +19,7 @@
 #include <pthread.h>
 #include <fcntl.h>
 
-#include <MonkeyWorksCore/Component.h>
+#include <MWorksCore/Component.h>
 	
 using namespace mw;
 	
@@ -182,7 +182,6 @@ void NE500PumpNetworkDevice::connectToDevice() {
 			fd_set fd_w;
 			FD_ZERO(&fd_w);
 			FD_SET(s,&fd_w);
-			int select_errno;
 			int select_err=select(FD_SETSIZE,NULL,&fd_w,NULL,&timeout);
 			
 			/* 0 means it timed out out & no fds changed */

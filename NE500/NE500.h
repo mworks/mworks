@@ -1,6 +1,6 @@
 /*
  *  NE500.h
- *  MonkeyWorksCore
+ *  MWorksCore
  *
  *  Created by David Cox on 2/1/08.
  *  Copyright 2008 __MyCompanyName__. All rights reserved.
@@ -12,11 +12,11 @@
 
 #include <string>
 #include <boost/format.hpp>
-#include "MonkeyWorksCore/Utilities.h"
-#include "MonkeyWorksCore/Plugin.h"
-#include "MonkeyWorksCore/IODevice.h"
-#include "MonkeyWorksCore/ComponentFactory.h"
-#include "MonkeyWorksCore/ComponentRegistry.h"
+#include "MWorksCore/Utilities.h"
+#include "MWorksCore/Plugin.h"
+#include "MWorksCore/IODevice.h"
+#include "MWorksCore/ComponentFactory.h"
+#include "MWorksCore/ComponentRegistry.h"
 
 
 
@@ -255,7 +255,7 @@ class NE500DeviceOutputNotification : public VariableNotification {
 
 		}
 	
-		virtual void notify(const Datum& data, MonkeyWorksTime timeUS){
+		virtual void notify(const Datum& data, MWorksTime timeUS){
 
 			shared_ptr<NE500PumpNetworkDevice> shared_pump_network(pump_network);
 			shared_ptr<NE500DeviceChannel> shared_channel(channel);

@@ -307,7 +307,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# shell script goes here\nrm -rf \"/Library/MonkeyWorks/Plugins/DriftingGratingStimulusPlugin.bundle\"\nexit 0";
+			shellScript = "# shell script goes here\nrm -Rf \"$PLUGINS_DIR/DriftingGratingStimulusPlugin.bundle\"\nexit 0";
 		};
 		5C4B0B5D0DC7CAB9001BC518 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -403,13 +403,9 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = DriftingGratingStimulusPlugin_Prefix.pch;
-				HEADER_SEARCH_PATHS = (
-					/Library/MonkeyWorks/include,
-					/usr/include/libxml2,
-				);
+				HEADER_SEARCH_PATHS = /usr/include/libxml2;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Bundles";
-				LIBRARY_SEARCH_PATHS = /Library/MonkeyWorks/lib;
 				OTHER_LDFLAGS = "-lboost_regex-mw";
 				PRODUCT_NAME = DriftingGratingStimulusPlugin;
 				WRAPPER_EXTENSION = bundle;

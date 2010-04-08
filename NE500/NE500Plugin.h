@@ -7,7 +7,7 @@
  *
  */
 
-#include <MonkeyWorksCore/Plugin.h>
+#include <MWorksCore/Plugin.h>
 #include <boost/shared_ptr.hpp>
     
 
