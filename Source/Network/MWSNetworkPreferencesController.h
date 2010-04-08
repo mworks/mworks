@@ -1,6 +1,6 @@
 //
 //  MWSNetworkPreferencesController.h
-//  MonkeyWorksServer
+//  MWorksServer
 //
 //  Created by Ben Kennedy on 9/30/07.
 //  Copyright 2007 MIT. All rights reserved.

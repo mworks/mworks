@@ -1,6 +1,6 @@
 //
 //  MWNetworkPreferencesController.m
-//  MonkeyWorksServer
+//  MWorksServer
 //
 //  Created by Ben Kennedy on 9/30/07.
 //  Copyright 2007 MIT. All rights reserved.
@@ -90,8 +90,8 @@
 	NSAlert *alert = [[[NSAlert alloc] init] autorelease];
 	[alert addButtonWithTitle:@"Restart"];
 	[alert addButtonWithTitle:@"Don't Restart"];
-	[alert setMessageText:@"Restart MonkeyWorksServer?"];
-	[alert setInformativeText:@"MonkeyWorksServer must be restarted for changes to take effect."];
+	[alert setMessageText:@"Restart MWorksServer?"];
+	[alert setInformativeText:@"MWorksServer must be restarted for changes to take effect."];
 	[alert setAlertStyle:NSWarningAlertStyle];
 	
 	[alert beginSheetModalForWindow:nwpWindow modalDelegate:self didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:) contextInfo:nil];	

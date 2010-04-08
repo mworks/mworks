@@ -11,9 +11,9 @@
 
 #import <Cocoa/Cocoa.h>
 
-#import "MonkeyWorksCore/StandardServerCoreBuilder.h"
-#import "MonkeyWorksCore/CoreBuilderForeman.h"
-#import "MonkeyWorksCore/Exceptions.h"
+#import "MWorksCore/StandardServerCoreBuilder.h"
+#import "MWorksCore/CoreBuilderForeman.h"
+#import "MWorksCore/Exceptions.h"
 
 
 int main(int argc, char *argv[]) {

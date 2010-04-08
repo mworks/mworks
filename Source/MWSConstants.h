@@ -1,6 +1,6 @@
 /*
  *  MWSConstants.h
- *  MonkeyWorksServer
+ *  MWorksServer
  *
  *  Created by labuser on 9/18/07.
  *  Copyright 2007 MIT. All rights reserved.
