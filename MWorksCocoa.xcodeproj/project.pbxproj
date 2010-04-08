@@ -343,9 +343,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		8DC2EF4F0486A6940098B216 /* MonkeyWorksCocoa */ = {
+		8DC2EF4F0486A6940098B216 /* MWorksCocoa */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = DA2A85420871A49C00D99DD8 /* Build configuration list for PBXNativeTarget "MonkeyWorksCocoa" */;
+			buildConfigurationList = DA2A85420871A49C00D99DD8 /* Build configuration list for PBXNativeTarget "MWorksCocoa" */;
 			buildPhases = (
 				8DC2EF500486A6940098B216 /* Headers */,
 				8DC2EF520486A6940098B216 /* Resources */,
@@ -357,7 +357,7 @@
 			);
 			dependencies = (
 			);
-			name = MonkeyWorksCocoa;
+			name = MWorksCocoa;
 			productInstallPath = "$(HOME)/Library/Frameworks";
 			productName = MonkeyWorksCocoa;
 			productReference = 68DAF1B40AC959FA00928168 /* MWorksCocoa.framework */;
@@ -376,7 +376,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				8DC2EF4F0486A6940098B216 /* MonkeyWorksCocoa */,
+				8DC2EF4F0486A6940098B216 /* MWorksCocoa */,
 				0E121BCB0E6B1B4E007B29B8 /* UninstallMWCocoa */,
 				5C77F48510E9698E00919719 /* Everything */,
 			);
@@ -458,7 +458,7 @@
 /* Begin PBXTargetDependency section */
 		5C77F48A10E9699500919719 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 8DC2EF4F0486A6940098B216 /* MonkeyWorksCocoa */;
+			target = 8DC2EF4F0486A6940098B216 /* MWorksCocoa */;
 			targetProxy = 5C77F48910E9699500919719 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -685,7 +685,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
 		};
-		DA2A85420871A49C00D99DD8 /* Build configuration list for PBXNativeTarget "MonkeyWorksCocoa" */ = {
+		DA2A85420871A49C00D99DD8 /* Build configuration list for PBXNativeTarget "MWorksCocoa" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DA2A85430871A49C00D99DD8 /* Development */,

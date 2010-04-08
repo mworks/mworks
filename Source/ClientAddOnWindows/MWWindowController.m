@@ -24,7 +24,7 @@ NSString * PreferenceGroupWindowPositions = @"WindowPositions";
 /**********************************************************************
  *                  NSWindowController Added Methods
  *********************************************************************/
-- (NSString *)monkeyWorksFrameAutosaveName {
+- (NSString *)mWorksFrameAutosaveName {
     return nil;
 }
 

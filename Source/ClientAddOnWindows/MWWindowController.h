@@ -28,12 +28,12 @@
 
 
 /*!
- * @function monkeyWorksFrameAutosaveName
+ * @function mWorksFrameAutosaveName
  * @discussion Returns a unique name for a window frame.  The base class
  * version returns nil.
  * @result A NSString that is the name put in the preferences for the window
  */
-- (NSString *)monkeyWorksFrameAutosaveName;
+- (NSString *)mWorksFrameAutosaveName;
 
 /*!
  * @function popWindow
