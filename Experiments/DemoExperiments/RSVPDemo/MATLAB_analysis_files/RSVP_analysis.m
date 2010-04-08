@@ -1,10 +1,10 @@
 
-% This is a saple script to show some of the methods for analyzing data
+% This is a sample script to show some of the methods for analyzing data
 
 clear all
 close all
-addpath /Library/MonkeyWorks/Matlab/
-filename = '/Library/MonkeyWorks/DataFiles/rsvp_demo.mwk';
+addpath('/Library/Application Support/MWorks/Scripting/Matlab')
+filename = '/Documents/MWorks/Data/rsvp_demo.mwk';
 
 % get the variable codec map.  This structure maps the codec code to a
 % variable name.

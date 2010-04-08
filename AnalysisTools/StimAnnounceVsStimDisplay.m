@@ -1,6 +1,6 @@
 function StimAnnounceVsStimDisplay(mwk_file_path, baselinePhotodiodeValue)
 
-addpath /Library/MonkeyWorks/Matlab
+addpath('/Library/Application Support/MWorks/Scripting/Matlab')
 % this analysis tool is intended to be used with the experiment named
 % StmTimingTest.xml in the folder "ABatteryOfBasicTests"
 

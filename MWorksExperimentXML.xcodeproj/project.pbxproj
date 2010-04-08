@@ -5326,7 +5326,7 @@
 /* Begin PBXProject section */
 		0EF63D6C0BB1AC90009DDB39 /* Project object */ = {
 			isa = PBXProject;
-			buildConfigurationList = 0EF63D6D0BB1AC90009DDB39 /* Build configuration list for PBXProject "MonkeyWorksExperimentXML" */;
+			buildConfigurationList = 0EF63D6D0BB1AC90009DDB39 /* Build configuration list for PBXProject "MWorksExperimentXML" */;
 			compatibilityVersion = "Xcode 3.1";
 			hasScannedForEncodings = 0;
 			mainGroup = 0EF63D6A0BB1AC90009DDB39;
@@ -5390,13 +5390,10 @@
 		0EF63D6F0BB1AC90009DDB39 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				APP_SUPPORT_DIR = "/Library/Application Support/MonkeyWorks";
+				APP_SUPPORT_DIR = "/Library/Application Support/MWorks";
 				CONFIG_DIR = "$(APP_SUPPORT_DIR)/Configuration";
-				DOCUMENTS_DIR = /Documents/MonkeyWorks;
+				DOCUMENTS_DIR = /Documents/MWorks;
 				EXAMPLES_DIR = "$(DOCUMENTS_DIR)/Examples";
-				MW_INCLUDE_DIR = "\"$(APP_SUPPORT_DIR)/Developer/gcc40/include\"";
-				MW_LIB_DIR = "\"$(APP_SUPPORT_DIR)/Developer/gcc40/lib\"";
-				PLUGINS_DIR = "$(APP_SUPPORT_DIR)/Plugins/Core Plugins";
 				TESTS_DIR = "$(APP_SUPPORT_DIR)/Developer/tests";
 			};
 			name = Release;
@@ -5420,7 +5417,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		0EF63D6D0BB1AC90009DDB39 /* Build configuration list for PBXProject "MonkeyWorksExperimentXML" */ = {
+		0EF63D6D0BB1AC90009DDB39 /* Build configuration list for PBXProject "MWorksExperimentXML" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				0EF63D6F0BB1AC90009DDB39 /* Release */,
