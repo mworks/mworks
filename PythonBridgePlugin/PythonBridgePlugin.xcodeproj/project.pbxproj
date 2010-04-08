@@ -238,9 +238,9 @@
 				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
 				OTHER_LDFLAGS = (
 					"-framework",
-					MonkeyWorksCocoa,
+					MWorksCocoa,
 					"-framework",
-					MonkeyWorksCore,
+					MWorksCore,
 				);
 				PRODUCT_NAME = PythonBridgePlugin;
 				WRAPPER_EXTENSION = bundle;
@@ -309,9 +309,9 @@
 				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
 				OTHER_LDFLAGS = (
 					"-framework",
-					MonkeyWorksCocoa,
+					MWorksCocoa,
 					"-framework",
-					MonkeyWorksCore,
+					MWorksCore,
 				);
 				PRODUCT_NAME = PythonBridgePlugin;
 				WRAPPER_EXTENSION = bundle;

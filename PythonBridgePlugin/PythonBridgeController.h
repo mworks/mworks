@@ -6,11 +6,11 @@
 //  Copyright 2009 Harvard University. All rights reserved.
 //
 
-#import "MonkeyWorksCocoa/MWWindowController.h"
+#import "MWorksCocoa/MWWindowController.h"
 
-#import <MonkeyWorksCore/Client.h>
-#import <MonkeyWorksCore/EventStreamConduit.h>
-#import <MonkeyWorksCocoa/MWCoreContainer.h>
+#import <MWorksCore/Client.h>
+#import <MWorksCore/EventStreamConduit.h>
+#import <MWorksCocoa/MWCoreContainer.h>
 
 @interface PythonBridgeController : NSWindowController {
 

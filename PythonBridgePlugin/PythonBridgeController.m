@@ -16,7 +16,7 @@
 #define STATUS_ACTIVE   @"Active"
 #define STATUS_TERMINATING  @"Terminating..."
 
-#import <MonkeyWorksCore/IPCEventTransport.h>
+#import <MWorksCore/IPCEventTransport.h>
 
 @implementation PythonBridgeController
 

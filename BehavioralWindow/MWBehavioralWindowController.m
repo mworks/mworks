@@ -513,7 +513,7 @@ NSString *percentCorrectPlotIdentifier = @"PercentCorrectLinePlot";
 /*******************************************************************
 *                MWWindowController Methods
 *******************************************************************/
-- (NSString *)monkeyWorksFrameAutosaveName {
+- (NSString *)mWorksFrameAutosaveName {
     return @"MWorksBehavioralWindow";
 }
 

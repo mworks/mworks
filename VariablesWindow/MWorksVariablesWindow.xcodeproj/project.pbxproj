@@ -180,9 +180,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		8D5B49AC048680CD000E48DA /* MonkeyWorksVariablesWindow */ = {
+		8D5B49AC048680CD000E48DA /* MWorksVariablesWindow */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1DEB913A08733D840010E9CD /* Build configuration list for PBXNativeTarget "MonkeyWorksVariablesWindow" */;
+			buildConfigurationList = 1DEB913A08733D840010E9CD /* Build configuration list for PBXNativeTarget "MWorksVariablesWindow" */;
 			buildPhases = (
 				8D5B49AF048680CD000E48DA /* Resources */,
 				8D5B49B1048680CD000E48DA /* Sources */,
@@ -193,7 +193,7 @@
 			);
 			dependencies = (
 			);
-			name = MonkeyWorksVariablesWindow;
+			name = MWorksVariablesWindow;
 			productInstallPath = "$(HOME)/Library/Bundles";
 			productName = MonkeyWorksVariablesWindow;
 			productReference = 686E22AF0AC84B19003EFDDA /* MWorksVariablesWindow.bundle */;
@@ -211,7 +211,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				8D5B49AC048680CD000E48DA /* MonkeyWorksVariablesWindow */,
+				8D5B49AC048680CD000E48DA /* MWorksVariablesWindow */,
 				5C4D298209DDBC890082BF9F /* Everything */,
 			);
 		};
@@ -263,7 +263,7 @@
 /* Begin PBXTargetDependency section */
 		5C4D298409DDBC8D0082BF9F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 8D5B49AC048680CD000E48DA /* MonkeyWorksVariablesWindow */;
+			target = 8D5B49AC048680CD000E48DA /* MWorksVariablesWindow */;
 			targetProxy = 5C4D298309DDBC8D0082BF9F /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -354,7 +354,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		1DEB913A08733D840010E9CD /* Build configuration list for PBXNativeTarget "MonkeyWorksVariablesWindow" */ = {
+		1DEB913A08733D840010E9CD /* Build configuration list for PBXNativeTarget "MWorksVariablesWindow" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1DEB913B08733D840010E9CD /* Development */,

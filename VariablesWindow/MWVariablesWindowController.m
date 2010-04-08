@@ -76,7 +76,7 @@
 /*******************************************************************
 *                MWWindowController Methods
 *******************************************************************/
-- (NSString *)monkeyWorksFrameAutosaveName {
+- (NSString *)mWorksFrameAutosaveName {
     return @"MWorksVariablesWindow";
 }
 
