@@ -8,7 +8,7 @@
  */
 
 #import "MWSServer.h"
-#import "MonkeyWorksCocoa/MWCocoaEventFunctor.h"
+#import "MWorksCocoa/MWCocoaEventFunctor.h"
 #import <sys/types.h>
 #import <sys/socket.h>
 #import <ifaddrs.h>

@@ -11,9 +11,9 @@
 #import "MWSToolbarControl.h"
 #import "MWSMenuControl.h"
 #import "MWSNetworkPreferencesController.h"
-#import "MonkeyWorksCocoa/MWConsoleController.h"
-#import "MonkeyWorksCocoa/MWClientServerBase.h"
-#import "MonkeyWorksCore/Server.h"
+#import "MWorksCocoa/MWConsoleController.h"
+#import "MWorksCocoa/MWClientServerBase.h"
+#import "MWorksCore/Server.h"
 
 @interface MWSServer : MWClientServerBase {
 

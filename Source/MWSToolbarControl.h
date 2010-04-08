@@ -1,6 +1,6 @@
 //
 //  MWSToolbarControl.h
-//  MonkeyWorksServer
+//  MWorksServer
 //
 //  Created by labuser on 9/17/07.
 //  Copyright 2007 MIT. All rights reserved.

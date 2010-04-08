@@ -1,6 +1,6 @@
 //
 //  MWSToolbarControl.m
-//  MonkeyWorksServer
+//  MWorksServer
 //
 //  Created by labuser on 9/17/07.
 //  Copyright 2007 MIT. All rights reserved.
@@ -68,7 +68,7 @@
 		[item setDelegate:self];
 		return [item autorelease];
 	} else if([itemIdentifier isEqualToString:CONSOLE_BUTTON]) {
-		NSString *resourcePath = [[NSBundle bundleWithPath:@"/Library/Frameworks/MonkeyWorksCocoa.framework"] resourcePath];
+		NSString *resourcePath = [[NSBundle bundleWithPath:@"/Library/Frameworks/MWorksCocoa.framework"] resourcePath];
 		NSToolbarItem *item = [[NSToolbarItem alloc] initWithItemIdentifier:itemIdentifier];
 		
 		[item setLabel:@"Console"];

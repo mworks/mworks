@@ -1,13 +1,13 @@
 //
 //  MWSNetworkToolbarItem.h
-//  MonkeyWorksServer
+//  MWorksServer
 //
 //  Created by labuser on 9/17/07.
 //  Copyright 2007 MIT. All rights reserved.
 //
 
 #import <Cocoa/Cocoa.h>
-#import "MonkeyWorksCocoa/KBPopUpToolbarItem.h"
+#import "MWorksCocoa/KBPopUpToolbarItem.h"
 
 
 @interface MWSNetworkToolbarItem : KBPopUpToolbarItem {

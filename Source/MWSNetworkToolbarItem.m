@@ -1,6 +1,6 @@
 //
 //  MWSNetworkToolbarItem.m
-//  MonkeyWorksServer
+//  MWorksServer
 //
 //  Created by labuser on 9/17/07.
 //  Copyright 2007 MIT. All rights reserved.
@@ -29,7 +29,7 @@
 		[self setPaletteLabel:[self label]];
 		[self setToolTip:@"Access the network controls"];
 		[self setTarget:self];
-		NSString *resourcePath = [[NSBundle bundleWithPath:@"/Library/Frameworks/MonkeyWorksCocoa.framework"] resourcePath];
+		NSString *resourcePath = [[NSBundle bundleWithPath:@"/Library/Frameworks/MWorksCocoa.framework"] resourcePath];
 		[self setImage:[[[NSImage alloc] initByReferencingFile:[resourcePath stringByAppendingPathComponent:@"greenCheck.tif"]] autorelease]];
 		submenu=[[[NSMenu alloc] init] autorelease];
 		serverControl=[[[NSMenuItem alloc] initWithTitle:STOP_SERVER
@@ -83,7 +83,7 @@
 }
 
 - (void)updateDisplay:(id)arg {
-	NSString *resourcePath = [[NSBundle bundleWithPath:@"/Library/Frameworks/MonkeyWorksCocoa.framework"] resourcePath];
+	NSString *resourcePath = [[NSBundle bundleWithPath:@"/Library/Frameworks/MWorksCocoa.framework"] resourcePath];
 	
 	[acceptControl setTarget:self];
 	[acceptControl setEnabled:YES];
