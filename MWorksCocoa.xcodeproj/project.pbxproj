@@ -73,7 +73,7 @@
 		8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */; };
 		DA2FEE4008B3F87A007E389A /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA36BA9B08AC291C00B5A2B6 /* SystemConfiguration.framework */; };
 		DADADB7A07FAFC9000F8D324 /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DADADB7907FAFC9000F8D324 /* MWorksCore.framework */; };
-		DADD2F9208EC4D390009EB52 /* MonkeyWorksCocoa_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 32DBCF5E0370ADEE00C91783 /* MonkeyWorksCocoa_Prefix.pch */; settings = {ATTRIBUTES = (Public, ); }; };
+		DADD2F9208EC4D390009EB52 /* MWorksCocoa_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 32DBCF5E0370ADEE00C91783 /* MWorksCocoa_Prefix.pch */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -109,7 +109,7 @@
 		0EE3765C0CA20F0C00874639 /* MWClientServerBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWClientServerBase.h; sourceTree = "<group>"; };
 		0EE3765D0CA20F0C00874639 /* MWClientServerBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWClientServerBase.m; sourceTree = "<group>"; };
 		1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
-		32DBCF5E0370ADEE00C91783 /* MonkeyWorksCocoa_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MonkeyWorksCocoa_Prefix.pch; sourceTree = "<group>"; };
+		32DBCF5E0370ADEE00C91783 /* MWorksCocoa_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWorksCocoa_Prefix.pch; sourceTree = "<group>"; };
 		5C28610A10E0976D004DA219 /* MWCoreContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWCoreContainer.h; sourceTree = "<group>"; };
 		5C4D285009DD90B40082BF9F /* English */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
 		5C58924709D0BA2C00F9D2C5 /* errorGlyph.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = errorGlyph.tif; path = Images/errorGlyph.tif; sourceTree = "<group>"; };
@@ -250,7 +250,7 @@
 		32C88DFF0371C24200C91783 /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
-				32DBCF5E0370ADEE00C91783 /* MonkeyWorksCocoa_Prefix.pch */,
+				32DBCF5E0370ADEE00C91783 /* MWorksCocoa_Prefix.pch */,
 			);
 			name = "Other Sources";
 			sourceTree = "<group>";
@@ -322,7 +322,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DADD2F9208EC4D390009EB52 /* MonkeyWorksCocoa_Prefix.pch in Headers */,
+				DADD2F9208EC4D390009EB52 /* MWorksCocoa_Prefix.pch in Headers */,
 				0E1F31840C5B1E6900EB89EA /* MWNotifications.h in Headers */,
 				0E1F319F0C5B1EB700EB89EA /* MWConsoleController.h in Headers */,
 				0E1F31A10C5B1EB700EB89EA /* MWMessageContainer.h in Headers */,
@@ -549,7 +549,7 @@
 				FRAMEWORK_VERSION = A;
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = MonkeyWorksCocoa_Prefix.pch;
+				GCC_PREFIX_HEADER = MWorksCocoa_Prefix.pch;
 				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = /Library/Frameworks;
