@@ -70,7 +70,7 @@
 			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 8D1107260486CEB800E47090;
-			remoteInfo = MonkeyWorksServer;
+			remoteInfo = MWorksServer;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -194,7 +194,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		29B97314FDCFA39411CA2CEA /* MonkeyWorksServer */ = {
+		29B97314FDCFA39411CA2CEA /* MWorksServer */ = {
 			isa = PBXGroup;
 			children = (
 				5CE62A2E115854AB00C757F1 /* External Config */,
@@ -205,7 +205,7 @@
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 			);
-			name = MonkeyWorksServer;
+			name = MWorksServer;
 			sourceTree = "<group>";
 		};
 		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
@@ -267,7 +267,7 @@
 			);
 			name = MWorksServer;
 			productInstallPath = "$(HOME)/Applications";
-			productName = MonkeyWorksServer;
+			productName = MWorksServer;
 			productReference = 8D1107320486CEB800E47090 /* MWServer.app */;
 			productType = "com.apple.product-type.application";
 		};
@@ -279,7 +279,7 @@
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "MWServer" */;
 			compatibilityVersion = "Xcode 2.4";
 			hasScannedForEncodings = 1;
-			mainGroup = 29B97314FDCFA39411CA2CEA /* MonkeyWorksServer */;
+			mainGroup = 29B97314FDCFA39411CA2CEA /* MWorksServer */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -527,7 +527,7 @@
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = /Applications;
-				PRODUCT_NAME = MonkeyWorksServer;
+				PRODUCT_NAME = MWorksServer;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
