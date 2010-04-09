@@ -1,6 +1,6 @@
 /*
- *  monkeyWorksStreamUtilities.cpp
- *  MonkeyWorksMatlab
+ *  mWorksStreamUtilities.cpp
+ *  MWorksMatlab
  *
  *  Created by David Cox on 12/20/06.
  *  Copyright 2006 MIT. All rights reserved.
@@ -8,7 +8,7 @@
  */
 
 #include <string>
-#include "monkeyWorksStreamUtilities.h"
+#include "mWorksStreamUtilities.h"
 
 double scarab_extract_float(ScarabDatum *datum){
 #if	__LITTLE_ENDIAN__
@@ -266,12 +266,12 @@ mxArray *recursiveGetScarabDict(ScarabDatum *datum){
 	return struct_array;
 }
 
-MonkeyWorksTime getMonkeyWorksTime(const mxArray *time) {
+MWorksTime getMWorksTime(const mxArray *time) {
 	if(!mxIsNumeric(time)) {
 		return -1;
 	}
 	
-	return (MonkeyWorksTime)mxGetScalar(time);
+	return (MWorksTime)mxGetScalar(time);
 }
 
 mxArray *getScarabEventData(ScarabDatum *datum){

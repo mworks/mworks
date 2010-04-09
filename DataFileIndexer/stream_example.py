@@ -1,8 +1,8 @@
-import sys; sys.path.append("/Library/Application Support/MonkeyWorks/Scripting/Python")
-import monkeyworks.data as d
+import sys; sys.path.append("/Library/Application Support/MWorks/Scripting/Python")
+import mworks.data as d
 
-#filename = "Documents/MonkeyWorks/Data/ettest1.mwk/ettest1.mwk"
-filename = "/Documents/MonkeyWorks/Data/wftest1.mwk/ettest1.mwk"
+#filename = "Documents/MWorks/Data/ettest1.mwk/ettest1.mwk"
+filename = "/Documents/MWorks/Data/wftest1.mwk/ettest1.mwk"
 
 stream = d.MWKStream("ldobinary:file://" + filename)
 stream.open()

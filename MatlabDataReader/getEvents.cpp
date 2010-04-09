@@ -4,7 +4,7 @@
 #include <sys/time.h>
 #include <unistd.h>
 #include "boost/filesystem/path.hpp"
-#include "monkeyWorksStreamUtilities.h"
+#include "mWorksStreamUtilities.h"
 #include <iostream>
 
 using namespace std;
@@ -36,15 +36,15 @@ void mexFunction (int nlhs, mxArray *plhs[],
   boost::filesystem::path mwk_file(getString(prhs[0]), boost::filesystem::native);
   std::vector<unsigned int> event_codes(arrayToVector(prhs[1]));
 
-  MonkeyWorksTime lower_bound = MIN_MONKEY_WORKS_TIME();
-  MonkeyWorksTime upper_bound = MAX_MONKEY_WORKS_TIME();
+  MWorksTime lower_bound = MIN_MONKEY_WORKS_TIME();
+  MWorksTime upper_bound = MAX_MONKEY_WORKS_TIME();
 
   if(nrhs >= 3) {
-    lower_bound = getMonkeyWorksTime(prhs[2]);
+    lower_bound = getMWorksTime(prhs[2]);
   }
 
   if(nrhs >= 4) {
-    upper_bound = getMonkeyWorksTime(prhs[3]);
+    upper_bound = getMWorksTime(prhs[3]);
   }
 
   vector<EventWrapper> events;

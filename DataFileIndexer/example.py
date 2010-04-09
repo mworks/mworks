@@ -1,8 +1,8 @@
-import sys; sys.path.append("/Library/Application Support/MonkeyWorks/Scripting/Python")
-import monkeyworks.data as d
+import sys; sys.path.append("/Library/Application Support/MWorks/Scripting/Python")
+import mworks.data as d
 
-#test = d.MWKFile("/Documents/MonkeyWorks/Data/wftest1.mwk")
-test = d.MWKFile("/Documents/MonkeyWorks/Data/ettest1.mwk")
+#test = d.MWKFile("/Documents/MWorks/Data/wftest1.mwk")
+test = d.MWKFile("/Documents/MWorks/Data/ettest1.mwk")
 test.open()
 
 test.reindex()

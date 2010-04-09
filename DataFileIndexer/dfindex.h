@@ -15,7 +15,7 @@
 #include "boost/archive/text_oarchive.hpp"
 #include "boost/archive/text_iarchive.hpp"
 #include "EventWrapper.h"
-#include "MonkeyWorksCore.h"
+#include "MWorksCore.h"
 
 class dfindex
 	{
@@ -33,17 +33,17 @@ class dfindex
             return mwk_data_file.string();
         }
         
-        MonkeyWorksTime getMinimumTime() const {
+        MWorksTime getMinimumTime() const {
             return dfi.getMinimumTime();
         }
         
-        MonkeyWorksTime getMaximumTime() const {
+        MWorksTime getMaximumTime() const {
             return dfi.getMaximumTime();
         }
         
 		std::vector<EventWrapper> events(const std::vector<unsigned int> &event_codes,
-											   const MonkeyWorksTime lower_bound = MIN_MONKEY_WORKS_TIME(), 
-											   const MonkeyWorksTime upper_bound = MAX_MONKEY_WORKS_TIME()) const;
+											   const MWorksTime lower_bound = MIN_MONKEY_WORKS_TIME(), 
+											   const MWorksTime upper_bound = MAX_MONKEY_WORKS_TIME()) const;
 	};
 
 

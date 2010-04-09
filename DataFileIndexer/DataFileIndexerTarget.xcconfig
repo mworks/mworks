@@ -1,5 +1,5 @@
 	PRODUCT_NAME = 	libDataFileIndexer;
-	INSTALL_PATH = /Library/MonkeyWorks/lib
+	INSTALL_PATH = /Library/MWorks/lib
 	MACH_O_TYPE = mh_dylib;
 	DYLIB_COMPATIBILITY_VERSION = 1;
 	DYLIB_CURRENT_VERSION = 1;

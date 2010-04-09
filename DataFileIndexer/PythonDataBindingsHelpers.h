@@ -44,19 +44,19 @@ public:
     std::string file();
     std::string true_mwk_file();
     
-    MonkeyWorksTime minimum_time();
-    MonkeyWorksTime maximum_time();
+    MWorksTime minimum_time();
+    MWorksTime maximum_time();
     
     std::vector<EventWrapper> test_function(int number);    
     
     std::vector<EventWrapper> fetch_all_events();
     
     std::vector<EventWrapper> fetch_events1(bp::list codes);    
-    std::vector<EventWrapper> fetch_events2(bp::list codes, const MonkeyWorksTime lower_bound);    
+    std::vector<EventWrapper> fetch_events2(bp::list codes, const MWorksTime lower_bound);    
     
     std::vector<EventWrapper> fetch_events3(bp::list codes,
-                                            const MonkeyWorksTime lower_bound, 
-                                            const MonkeyWorksTime upper_bound);
+                                            const MWorksTime lower_bound, 
+                                            const MWorksTime upper_bound);
 };
 
 

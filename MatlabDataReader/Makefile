@@ -1,7 +1,7 @@
 SHELL = /bin/bash
 
-REAL_MW_HOME = "/Library/Application Support/MonkeyWorks"
-MW_HOME = MonkeyWorks
+REAL_MW_HOME = "/Library/Application Support/MWorks"
+MW_HOME = MWorks
 MW_DEVELOPER = $(MW_HOME)/Developer/gcc40
 MW_TOOLS = $(MW_HOME)/Tools
 INSTALL_DIR = $(MW_HOME)/Scripting/Matlab
@@ -9,7 +9,7 @@ MATLABHOME = /Applications/MATLAB
 MEX        = $(MATLABHOME)/bin/mex
 CXX        = g++
 CFLAGS     = -arch i386 -arch x86_64 -fno-common -no-cpp-precomp -fexceptions
-LIBS      = -L$(MW_DEVELOPER)/lib -L$(MW_TOOLS)/lib -lscarab -ldfindex -lMonkeyWorksStreamUtilities -lboost_serialization-mw -lboost_system-mw -lboost_filesystem-mw
+LIBS      = -L$(MW_DEVELOPER)/lib -L$(MW_TOOLS)/lib -lscarab -ldfindex -lMWorksStreamUtilities -lboost_serialization-mw -lboost_system-mw -lboost_filesystem-mw
 INCLUDE   = -I$(MATLABHOME)/extern/include -I$(MW_DEVELOPER)/include -I$(MW_TOOLS)/include
 MEXFLAGS  = -cxx CC='$(CXX)' CXX='$(CXX)' LD='$(CXX)'
 

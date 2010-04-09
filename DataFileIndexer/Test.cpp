@@ -24,8 +24,8 @@ int main( int argc, char *argv[])
 	struct timezone tz2;	
 	cout << "start indexing" << endl;
 	gettimeofday(&tv, &tz);
-//	dfindex dfi("/Library/MonkeyWorks/DataFiles/trainingD1.mwk");
-	dfindex dfi("/Users/bkennedy/Documents/sandbox/MonkeyWorks_trunk/MonkeyWorksTools/MatlabDataReader/simple4.mwk");
+//	dfindex dfi("/Documents/MWorks/Data/trainingD1.mwk");
+	dfindex dfi("/Users/bkennedy/Documents/sandbox/MWorks_trunk/MWorksTools/MatlabDataReader/simple4.mwk");
 	gettimeofday(&tv2, &tz2);
 	cout << "indexing ... took " << tv2.tv_sec-tv.tv_sec << " s" << endl;
 	cout << "indexing ... took " << tv2.tv_usec-tv.tv_usec << " us" << endl;
@@ -43,7 +43,7 @@ int main( int argc, char *argv[])
 //	event_codes.push_back(9);
 //	event_codes.push_back(10);
 	gettimeofday(&tv, &tz);
-//	MonkeyWorksTime spike_time = 3598592801LL;
+//	MWorksTime spike_time = 3598592801LL;
 	vector<EventWrapper> events = dfi.events(event_codes);
 	gettimeofday(&tv2, &tz2);
 	

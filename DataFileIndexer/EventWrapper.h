@@ -11,7 +11,7 @@
 #define SCARAB_DATUM_WRAPPER_H
 
 #include "Scarab/scarab.h"
-#include "MonkeyWorksCore.h"
+#include "MWorksCore.h"
 
 class EventWrapper
 	{
@@ -35,7 +35,7 @@ class EventWrapper
             return code_datum->data.integer;
         }
         
-        MonkeyWorksTime getTime(){
+        MWorksTime getTime(){
             if(empty()){
                 return 0LL;
             }

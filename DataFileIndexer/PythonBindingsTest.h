@@ -32,7 +32,7 @@ BOOST_AUTO_TEST_CASE( basic_indexer_test )
 
 BOOST_AUTO_TEST_CASE( basic_stream_test )
 {
-    PythonDataStream test_object( "ldobinary:file:///Documents/MonkeyWorks/Data/ettest1.mwk/ettest1.mwk" );
+    PythonDataStream test_object( "ldobinary:file:///Documents/MWorks/Data/ettest1.mwk/ettest1.mwk" );
     test_object.open();
     
     shared_ptr<EventWrapper> event;

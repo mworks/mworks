@@ -20,6 +20,6 @@ matlab-reader: mw-stream-utils
 	make install
 
 mw-stream-utils:
-	cd MonkeyWorksStreamUtilities && \
+	cd MWorksStreamUtilities && \
 	$(call XCODE_CLEAN,Debug) && \
-	$(call XCODE_BUILD,libMonkeyWorksStreamUtilities,Debug)
+	$(call XCODE_BUILD,libMWorksStreamUtilities,Debug)

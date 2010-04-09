@@ -8,10 +8,10 @@
  */
 
 #include "Scarab/scarab.h"
-#include "MonkeyWorksCore.h"
+#include "MWorksCore.h"
 
 class DataFileUtilities {
 public:  
 	static unsigned int getScarabEventCode(ScarabDatum *datum);
-	static MonkeyWorksTime getScarabEventTime(ScarabDatum *datum);
+	static MWorksTime getScarabEventTime(ScarabDatum *datum);
 };

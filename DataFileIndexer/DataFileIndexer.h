@@ -18,7 +18,7 @@
 #include "boost/filesystem/path.hpp"
 #include "boost/shared_ptr.hpp"
 //#include "Scarab/scarab.h"
-#include "MonkeyWorksCore.h"
+#include "MWorksCore.h"
 #include "EventWrapper.h"
 #include "EventBlock.h"
 #include "boost/archive/text_oarchive.hpp"
@@ -85,11 +85,11 @@ class DataFileIndexer
         }
         
 		std::vector<EventWrapper> events(const std::vector<unsigned int> &event_codes,
-											   const MonkeyWorksTime lower_bound = MIN_MONKEY_WORKS_TIME(), 
-											   const MonkeyWorksTime upper_bound = MAX_MONKEY_WORKS_TIME()) const;
+											   const MWorksTime lower_bound = MIN_MONKEY_WORKS_TIME(), 
+											   const MWorksTime upper_bound = MAX_MONKEY_WORKS_TIME()) const;
 		unsigned int getNEvents() const;
-		MonkeyWorksTime getMinimumTime() const;
-        MonkeyWorksTime getMaximumTime() const;
+		MWorksTime getMinimumTime() const;
+        MWorksTime getMaximumTime() const;
         
 	};
 

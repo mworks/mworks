@@ -9,7 +9,7 @@
 
 #include "DataFileIndexer.h"
 #include "DataFileUtilities.h"
-#include "MonkeyWorksCore.h"
+#include "MWorksCore.h"
 #include "boost/shared_ptr.hpp"
 #include <iostream>
 
@@ -37,15 +37,15 @@ DataFileIndexer::DataFileIndexer(const boost::filesystem::path &data_file,
 			number_of_events = 0;
 			
 			std::vector<unsigned int> event_codes_in_block;
-			MonkeyWorksTime max_time = MIN_MONKEY_WORKS_TIME();
-			MonkeyWorksTime min_time = MAX_MONKEY_WORKS_TIME();
+			MWorksTime max_time = MIN_MONKEY_WORKS_TIME();
+			MWorksTime min_time = MAX_MONKEY_WORKS_TIME();
 			long int previous_datum_location = scarab_tell(session);
 			
 			ScarabDatum *datum = NULL;
 			while(datum = scarab_read(session)) {
 				event_codes_in_block.push_back(DataFileUtilities::getScarabEventCode(datum));
 				
-				const MonkeyWorksTime event_time = DataFileUtilities::getScarabEventTime(datum);
+				const MWorksTime event_time = DataFileUtilities::getScarabEventTime(datum);
 				max_time = max_time > event_time ? max_time : event_time;
 				min_time = min_time < event_time ? min_time : event_time;
 				
@@ -126,8 +126,8 @@ DataFileIndexer::~DataFileIndexer() {
 }
 
 std::vector<EventWrapper> DataFileIndexer::events(const std::vector<unsigned int> &event_codes_to_match,
-														const MonkeyWorksTime lower_bound, 
-														const MonkeyWorksTime upper_bound) const {
+														const MWorksTime lower_bound, 
+														const MWorksTime upper_bound) const {
 	std::vector<EventWrapper> return_vector;
 
     // Recursively find event blocks that meet our search criteria
@@ -147,7 +147,7 @@ std::vector<EventWrapper> DataFileIndexer::events(const std::vector<unsigned int
 		
         // Read through the event block
 		while((current_datum = scarab_read(session)) && current_relative_event < events_per_block) {
-			MonkeyWorksTime event_time = DataFileUtilities::getScarabEventTime(current_datum);
+			MWorksTime event_time = DataFileUtilities::getScarabEventTime(current_datum);
 			
             // Check the time criterion
             if(event_time >= lower_bound && event_time <= upper_bound) {
@@ -180,11 +180,11 @@ unsigned int DataFileIndexer::getNEvents() const {
 	return number_of_events;
 }
 
-MonkeyWorksTime DataFileIndexer::getMinimumTime() const{
+MWorksTime DataFileIndexer::getMinimumTime() const{
     return root->minimumTime();
 }
 
-MonkeyWorksTime DataFileIndexer::getMaximumTime() const{
+MWorksTime DataFileIndexer::getMaximumTime() const{
     return root->maximumTime();
 }
 
