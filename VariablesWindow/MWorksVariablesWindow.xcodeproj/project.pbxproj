@@ -39,7 +39,7 @@
 			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 8D5B49AC048680CD000E48DA;
-			remoteInfo = MonkeyWorksVariablesWindow;
+			remoteInfo = MWorksVariablesWindow;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -83,7 +83,7 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		089C166AFE841209C02AAC07 /* MonkeyWorksVariablesWindow */ = {
+		089C166AFE841209C02AAC07 /* MWorksVariablesWindow */ = {
 			isa = PBXGroup;
 			children = (
 				5CE62B0A11585B1F00C757F1 /* External Config */,
@@ -94,7 +94,7 @@
 				19C28FB8FE9D52D311CA2CBB /* Products */,
 				DA1E8F1B099C393000CDAD82 /* MWorksVariablesWindow.xml */,
 			);
-			name = MonkeyWorksVariablesWindow;
+			name = MWorksVariablesWindow;
 			sourceTree = "<group>";
 		};
 		089C1671FE841209C02AAC07 /* Frameworks and Libraries */ = {
@@ -195,7 +195,7 @@
 			);
 			name = MWorksVariablesWindow;
 			productInstallPath = "$(HOME)/Library/Bundles";
-			productName = MonkeyWorksVariablesWindow;
+			productName = MWorksVariablesWindow;
 			productReference = 686E22AF0AC84B19003EFDDA /* MWorksVariablesWindow.bundle */;
 			productType = "com.apple.product-type.bundle";
 		};
@@ -207,7 +207,7 @@
 			buildConfigurationList = 1DEB913E08733D840010E9CD /* Build configuration list for PBXProject "MWorksVariablesWindow" */;
 			compatibilityVersion = "Xcode 2.4";
 			hasScannedForEncodings = 1;
-			mainGroup = 089C166AFE841209C02AAC07 /* MonkeyWorksVariablesWindow */;
+			mainGroup = 089C166AFE841209C02AAC07 /* MWorksVariablesWindow */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
