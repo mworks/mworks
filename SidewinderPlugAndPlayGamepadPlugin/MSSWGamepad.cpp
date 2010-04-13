@@ -309,12 +309,12 @@ bool mMSSWGamepad::updateButtonsDiscrete() {
 				Y->setValue(Datum((long)hidEvent.value));
 			}			
 		} else if (i->getName() == "Button_5") {
-			if(TR->getValue().getInteger() != hidEvent.value) {
-				TR->setValue(Datum((long)hidEvent.value));
-			}			
-		} else if (i->getName() == "Button_6") {
 			if(TL->getValue().getInteger() != hidEvent.value) {
 				TL->setValue(Datum((long)hidEvent.value));
+			}			
+		} else if (i->getName() == "Button_6") {
+			if(TR->getValue().getInteger() != hidEvent.value) {
+				TR->setValue(Datum((long)hidEvent.value));
 			}			
 		}
 	}
@@ -371,9 +371,9 @@ bool mMSSWGamepad::updateButtonsContinuous() {
 		} else if (i->getName() == "Button_4") {
 			Y->setValue(Datum((long)hidEvent.value));
 		} else if (i->getName() == "Button_5") {
-			TR->setValue(Datum((long)hidEvent.value));
-		} else if (i->getName() == "Button_6") {
 			TL->setValue(Datum((long)hidEvent.value));
+		} else if (i->getName() == "Button_6") {
+			TR->setValue(Datum((long)hidEvent.value));
 		}
 	}
 	
