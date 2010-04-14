@@ -296,14 +296,8 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = «PROJECTNAME»_Prefix.pch;
-				HEADER_SEARCH_PATHS = (
-					"/Library/Application\\ Support/MonkeyWorks/Developer/include",
-				);
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(PLUGINS_DIR)";
-				LIBRARY_SEARCH_PATHS = (
-					"/Library/Application\\ Support/MonkeyWorks/Developer/lib/**",
-				);
 				PRODUCT_NAME = «PROJECTNAME»;
 				WRAPPER_EXTENSION = bundle;
 			};
@@ -317,14 +311,8 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = «PROJECTNAME»_Prefix.pch;
-				HEADER_SEARCH_PATHS = (
-					"/Library/Application\\ Support/MonkeyWorks/Developer/include",
-				);
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Bundles";
-				LIBRARY_SEARCH_PATHS = (
-					"/Library/Application\\ Support/MonkeyWorks/Developer/lib/**",
-				);
 				PRODUCT_NAME = «PROJECTNAME»;
 				WRAPPER_EXTENSION = bundle;
 			};
@@ -334,12 +322,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5C78EE6B115D02EE00151A76 /* Development.xcconfig */;
 			buildSettings = {
-				HEADER_SEARCH_PATHS = (
-					"/Library/Application\\ Support/MonkeyWorks/Developer/include",
-				);
-				LIBRARY_SEARCH_PATHS = (
-					"/Library/Application\\ Support/MonkeyWorks/Developer/lib/**",
-				);
+				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
+				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
 				PREBINDING = NO;
 			};
 			name = Development;
@@ -354,12 +338,8 @@
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					"/Library/Application\\ Support/MonkeyWorks/Developer/include",
-				);
-				LIBRARY_SEARCH_PATHS = (
-					"/Library/Application\\ Support/MonkeyWorks/Developer/lib/**",
-				);
+				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
+				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
 				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
 				SDKROOT = macosx10.5;
@@ -370,12 +350,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5C78EE6A115D02EE00151A76 /* Development_10.5_compatible.xcconfig */;
 			buildSettings = {
-				HEADER_SEARCH_PATHS = (
-					"/Library/Application\\ Support/MonkeyWorks/Developer/include",
-				);
-				LIBRARY_SEARCH_PATHS = (
-					"/Library/Application\\ Support/MonkeyWorks/Developer/lib/**",
-				);
+				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
+				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
 			};
 			name = "Development (10.5 Compatible)";
 		};
@@ -385,14 +361,8 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = «PROJECTNAME»_Prefix.pch;
-				HEADER_SEARCH_PATHS = (
-					"/Library/Application\\ Support/MonkeyWorks/Developer/include",
-				);
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(PLUGINS_DIR)";
-				LIBRARY_SEARCH_PATHS = (
-					"/Library/Application\\ Support/MonkeyWorks/Developer/lib/**",
-				);
 				PRODUCT_NAME = «PROJECTNAME»;
 				WRAPPER_EXTENSION = bundle;
 			};
