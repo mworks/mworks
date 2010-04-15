@@ -1,5 +1,5 @@
 //
-// Prefix header for all source files of the 'ÇPROJECTNAMEÈ' target in the 'ÇPROJECTNAMEÈ' project.
+// Prefix header for all source files of the '___PROJECTNAME___' target in the '___PROJECTNAME___' project.
 //
 
 #ifdef __OBJC__

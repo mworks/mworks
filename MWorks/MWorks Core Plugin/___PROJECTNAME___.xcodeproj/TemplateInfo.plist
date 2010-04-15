@@ -1,24 +1,24 @@
 {
 	FilesToRename = {
-		"MWPlugin_Prefix.pch" = "ÇPROJECTNAMEÈ_Prefix.pch";
-		"MWPluginFactory.cpp" = "ÇPROJECTNAMEÈFactory.cpp";
-		"MWPluginFactory.h" = "ÇPROJECTNAMEÈFactory.h";
-		"MWPlugin.h" = "ÇPROJECTNAMEÈ.h";
-		"MWPlugin.cpp" = "ÇPROJECTNAMEÈ.cpp";
-		"MWPluginPlugin.h" = "ÇPROJECTNAMEÈPlugin.h";
-		"MWPluginPlugin.cpp" = "ÇPROJECTNAMEÈPlugin.cpp";
+		"MWPlugin_Prefix.pch" = "___PROJECTNAME____Prefix.pch";
+		"MWPluginFactory.cpp" = "___PROJECTNAME___Factory.cpp";
+		"MWPluginFactory.h" = "___PROJECTNAME___Factory.h";
+		"MWPlugin.h" = "___PROJECTNAME___.h";
+		"MWPlugin.cpp" = "___PROJECTNAME___.cpp";
+		"MWPluginPlugin.h" = "___PROJECTNAME___Plugin.h";
+		"MWPluginPlugin.cpp" = "___PROJECTNAME___Plugin.cpp";
 	};
 	FilesToMacroExpand = (
 	  "INSTRUCTIONS.txt",
-		"ÇPROJECTNAMEÈFactory.cpp",
-		"ÇPROJECTNAMEÈFactory.h",
-		"ÇPROJECTNAMEÈ.h",
-		"ÇPROJECTNAMEÈ.cpp",
-		"ÇPROJECTNAMEÈPlugin.cpp",
-		"ÇPROJECTNAMEÈPlugin.h",
+		"___PROJECTNAME___Factory.cpp",
+		"___PROJECTNAME___Factory.h",
+		"___PROJECTNAME___.h",
+		"___PROJECTNAME___.cpp",
+		"___PROJECTNAME___Plugin.cpp",
+		"___PROJECTNAME___Plugin.h",
 		"Info.plist",
 		"English.lproj/InfoPlist.strings",
-		"ÇPROJECTNAMEÈ_Prefix.pch",
+		"___PROJECTNAME____Prefix.pch",
 	);
 	Description = "This project builds a MWorks Core Plugin";
 }

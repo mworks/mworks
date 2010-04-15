@@ -1,13 +1,13 @@
 /*
- *  ÇPROJECTNAMEÈPlugin.h
+ *  ___PROJECTNAME___Plugin.h
  *  MWPlugin
  *
- *  Created by ÇFULLUSERNAMEÈ on ÇDATEÈ.
- *  Copyright ÇYEARÈ ÇORGANIZATIONNAMEÈ. All rights reserved.
+ *  Created by ___FULLUSERNAME___ on ___DATE___.
+ *  Copyright ___YEAR___ ___ORGANIZATIONNAME___. All rights reserved.
  *
  */
-#ifndef ÇPROJECTNAMEÈ_PLUGIN_H_
-#define ÇPROJECTNAMEÈ_PLUGIN_H_
+#ifndef ___PROJECTNAME____PLUGIN_H_
+#define ___PROJECTNAME____PLUGIN_H_
 
 #include <MWorksCore/Plugin.h>
 using namespace mw;
@@ -16,7 +16,7 @@ extern "C"{
     Plugin *getPlugin();
 }
 
-class ÇPROJECTNAMEÈPlugin : public Plugin {
+class ___PROJECTNAME___Plugin : public Plugin {
     
 	virtual void registerComponents(shared_ptr<mw::ComponentRegistry> registry);	
 };

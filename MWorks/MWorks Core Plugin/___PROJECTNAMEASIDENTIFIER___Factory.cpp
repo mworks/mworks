@@ -1,20 +1,20 @@
 /*
- *  ÇPROJECTNAMEÈFactory.cpp
- *  ÇPROJECTNAMEÈ
+ *  ___PROJECTNAME___Factory.cpp
+ *  ___PROJECTNAME___
  *
- *  Created by ÇFULLUSERNAMEÈ on ÇDATEÈ.
- *  Copyright ÇYEARÈ ÇORGANIZATIONNAMEÈ. All rights reserved.
+ *  Created by ___FULLUSERNAME___ on ___DATE___.
+ *  Copyright ___YEAR___ ___ORGANIZATIONNAME___. All rights reserved.
  *
  */
 
-#include "ÇPROJECTNAMEÈFactory.h"
+#include "___PROJECTNAME___Factory.h"
 
 #include <boost/regex.hpp>
 #include "MWorksCore/ComponentRegistry.h"
 
 using namespace mw;
 
-shared_ptr<mw::Component> ÇPROJECTNAMEÈFactory::createObject(std::map<std::string, std::string> parameters,
+shared_ptr<mw::Component> ___PROJECTNAME___Factory::createObject(std::map<std::string, std::string> parameters,
                                                                mw::ComponentRegistry *reg) {
 	REQUIRE_ATTRIBUTES(parameters, 
 					   "tag",
@@ -25,7 +25,7 @@ shared_ptr<mw::Component> ÇPROJECTNAMEÈFactory::createObject(std::map<std::strin
     
 	shared_ptr<Variable> another_attribute = reg->getVariable(parameters["another_attribute"]);	
 	
-	shared_ptr <ÇPROJECTNAMEÈ> new_component = shared_ptr<ÇPROJECTNAMEÈ>(new ÇPROJECTNAMEÈ(tagname, another_attribute));
+	shared_ptr <___PROJECTNAME___> new_component = shared_ptr<___PROJECTNAME___>(new ___PROJECTNAME___(tagname, another_attribute));
 	
 	return new_component;
 }
