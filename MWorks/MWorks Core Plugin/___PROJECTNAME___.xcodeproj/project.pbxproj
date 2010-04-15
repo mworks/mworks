@@ -25,7 +25,6 @@
 		5CF9AEBC0FD5795C00F405F6 /* ___PROJECTNAMEASIDENTIFIER___Plugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CF9AEB90FD5795C00F405F6 /* ___PROJECTNAMEASIDENTIFIER___Plugin.cpp */; };
 		5CFCAB0A1105FB4C007CE55F /* MWLibrary.xml in Resources */ = {isa = PBXBuildFile; fileRef = 5CFCAB091105FB4C007CE55F /* MWLibrary.xml */; };
 		5CFCAB0D1105FCF2007CE55F /* Development Notes.txt in Resources */ = {isa = PBXBuildFile; fileRef = 5CFCAB0C1105FCF2007CE55F /* Development Notes.txt */; };
-		5CFCAB1011060747007CE55F /* INSTRUCTIONS.txt in Resources */ = {isa = PBXBuildFile; fileRef = 5CFCAB0F11060747007CE55F /* INSTRUCTIONS.txt */; };
 		5CFCAB26110609D2007CE55F /* UserDocumentation.rst in Resources */ = {isa = PBXBuildFile; fileRef = 5CFCAB25110609D2007CE55F /* UserDocumentation.rst */; };
 		5CFE591A0F571B15000C7F30 /* ___PROJECTNAMEASIDENTIFIER___.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CFE59190F571B15000C7F30 /* ___PROJECTNAMEASIDENTIFIER___.cpp */; };
 		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
@@ -112,10 +111,10 @@
 		08FB77AFFE84173DC02AAC07 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				5CF9AEB70FD5795C00F405F6 /* ___PROJECTNAMEASIDENTIFIER___Factory.cpp */,
 				5CF9AEB80FD5795C00F405F6 /* ___PROJECTNAMEASIDENTIFIER___Factory.h */,
-				5CF9AEB90FD5795C00F405F6 /* ___PROJECTNAMEASIDENTIFIER___Plugin.cpp */,
+				5CF9AEB70FD5795C00F405F6 /* ___PROJECTNAMEASIDENTIFIER___Factory.cpp */,
 				5CF9AEBA0FD5795C00F405F6 /* ___PROJECTNAMEASIDENTIFIER___Plugin.h */,
+				5CF9AEB90FD5795C00F405F6 /* ___PROJECTNAMEASIDENTIFIER___Plugin.cpp */,
 				5CFE59180F571B15000C7F30 /* ___PROJECTNAMEASIDENTIFIER___.h */,
 				5CFE59190F571B15000C7F30 /* ___PROJECTNAMEASIDENTIFIER___.cpp */,
 			);
@@ -228,7 +227,6 @@
 				8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */,
 				5CFCAB0A1105FB4C007CE55F /* MWLibrary.xml in Resources */,
 				5CFCAB0D1105FCF2007CE55F /* Development Notes.txt in Resources */,
-				5CFCAB1011060747007CE55F /* INSTRUCTIONS.txt in Resources */,
 				5CFCAB26110609D2007CE55F /* UserDocumentation.rst in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
