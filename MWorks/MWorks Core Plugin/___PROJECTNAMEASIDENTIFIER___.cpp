@@ -1,15 +1,15 @@
 /*
- *  ___PROJECTNAME___.cpp
- *  MWPlugin
+ *  ___PROJECTNAMEASIDENTIFIER___.cpp
+ *  ___PROJECTNAME___
  *
  *  Created by ___FULLUSERNAME___ on ___DATE___.
  *  Copyright ___YEAR___ ___ORGANIZATIONNAME___. All rights reserved.
  *
  */
 
-#include "___PROJECTNAME___.h"
+#include "___PROJECTNAMEASIDENTIFIER___.h"
 
 
-___PROJECTNAME___::___PROJECTNAME___(std::string _tag, shared_ptr<Variable> another_attribute){ }
-___PROJECTNAME___::___PROJECTNAME___(const ___PROJECTNAME___ &tocopy){ }
-___PROJECTNAME___::~___PROJECTNAME___(){ }
+___PROJECTNAMEASIDENTIFIER___::___PROJECTNAMEASIDENTIFIER___(std::string _tag, shared_ptr<Variable> another_attribute){ }
+___PROJECTNAMEASIDENTIFIER___::___PROJECTNAMEASIDENTIFIER___(const ___PROJECTNAMEASIDENTIFIER___ &tocopy){ }
+___PROJECTNAMEASIDENTIFIER___::~___PROJECTNAMEASIDENTIFIER___(){ }

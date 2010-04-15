@@ -1,5 +1,5 @@
 /*
- *  ___PROJECTNAME___Factory.cpp
+ *  ___PROJECTNAMEASIDENTIFIER___Factory.cpp
  *  ___PROJECTNAME___
  *
  *  Created by ___FULLUSERNAME___ on ___DATE___.
@@ -7,14 +7,14 @@
  *
  */
 
-#include "___PROJECTNAME___Factory.h"
+#include "___PROJECTNAMEASIDENTIFIER___Factory.h"
 
 #include <boost/regex.hpp>
 #include "MWorksCore/ComponentRegistry.h"
 
 using namespace mw;
 
-shared_ptr<mw::Component> ___PROJECTNAME___Factory::createObject(std::map<std::string, std::string> parameters,
+shared_ptr<mw::Component> ___PROJECTNAMEASIDENTIFIER___Factory::createObject(std::map<std::string, std::string> parameters,
                                                                mw::ComponentRegistry *reg) {
 	REQUIRE_ATTRIBUTES(parameters, 
 					   "tag",
@@ -25,7 +25,7 @@ shared_ptr<mw::Component> ___PROJECTNAME___Factory::createObject(std::map<std::s
     
 	shared_ptr<Variable> another_attribute = reg->getVariable(parameters["another_attribute"]);	
 	
-	shared_ptr <___PROJECTNAME___> new_component = shared_ptr<___PROJECTNAME___>(new ___PROJECTNAME___(tagname, another_attribute));
+	shared_ptr <___PROJECTNAMEASIDENTIFIER___> new_component = shared_ptr<___PROJECTNAMEASIDENTIFIER___>(new ___PROJECTNAMEASIDENTIFIER___(tagname, another_attribute));
 	
 	return new_component;
 }

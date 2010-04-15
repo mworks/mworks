@@ -1,29 +1,28 @@
 /*
- *  ___PROJECTNAME___.h
- * ___PROJECTNAME___
- *  MWPlugin
+ *  ___PROJECTNAMEASIDENTIFIER___.h
+ *  ___PROJECTNAME___
  *
  *  Created by ___FULLUSERNAME___ on ___DATE___.
  *  Copyright ___YEAR___ ___ORGANIZATIONNAME___. All rights reserved.
  *
  */
 
-#ifndef ___PROJECTNAME____H_
-#define ___PROJECTNAME____H_
+#ifndef ___PROJECTNAMEASIDENTIFIER____H_
+#define ___PROJECTNAMEASIDENTIFIER____H_
 
 #include <MWorksCore/Plugin.h>
 
 using namespace mw;
 
-class ___PROJECTNAME___ : public Component{
+class ___PROJECTNAMEASIDENTIFIER___ : public Component{
 
 protected:
 
 
 public:
-	___PROJECTNAME___(std::string _tag, shared_ptr<Variable> another_attribute);
-	___PROJECTNAME___(const ___PROJECTNAME___ &tocopy);
-	~___PROJECTNAME___();
+	___PROJECTNAMEASIDENTIFIER___(std::string _tag, shared_ptr<Variable> another_attribute);
+	___PROJECTNAMEASIDENTIFIER___(const ___PROJECTNAMEASIDENTIFIER___ &tocopy);
+	~___PROJECTNAMEASIDENTIFIER___();
 
 };
 
