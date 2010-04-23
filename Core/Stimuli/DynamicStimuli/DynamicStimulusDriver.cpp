@@ -11,14 +11,14 @@
 #include "boost/bind.hpp"
 #include "MWorksCore/StandardVariables.h"
 
-DynamicStimulusDriver::DynamicStimulusDriver(
-								   const boost::shared_ptr<Scheduler> &a_scheduler,
+DynamicStimulusDriver::DynamicStimulusDriver(const boost::shared_ptr<Scheduler> &a_scheduler,
 								   const boost::shared_ptr<StimulusDisplay> &a_display,
 								   const boost::shared_ptr<Variable> &_frames_per_second,
 								   const boost::shared_ptr<Variable> &_statistics_reporting,
 								   const boost::shared_ptr<Variable> &_error_reporting){
     start_time = -1;
     scheduler = a_scheduler;
+    clock = scheduler->getClock();
 	display = a_display;
 	frames_per_second = _frames_per_second;
 	statistics_reporting = _statistics_reporting;
@@ -56,7 +56,7 @@ void DynamicStimulusDriver::play() {
     
 	if (!started) {
 		//const float frames_per_us = frames_per_second->getValue().getFloat()/1000000;
-		MWorksTime interval = (MWorksTime)((double)1000000 / frames_per_second->getValue().getFloat());
+		interval_us = (MWorksTime)((double)1000000 / frames_per_second->getValue().getFloat());
         
 		started = true;
         
@@ -68,7 +68,7 @@ void DynamicStimulusDriver::play() {
 		}
 		schedule_node = scheduler->scheduleUS(FILELINE,
 											  0,
-											  interval, 
+											  interval_us, 
 											  M_REPEAT_INDEFINITELY, 
 											  boost::bind(nextUpdate, this_one),
 											  M_DEFAULT_PRIORITY,
@@ -122,6 +122,23 @@ Datum DynamicStimulusDriver::getCurrentAnnounceDrawData() {
 void *nextUpdate(const shared_ptr<DynamicStimulusDriver> &ds){
 	ds->callUpdateDisplay();	
     return NULL;
+}
+
+
+MWTime DynamicStimulusDriver::getElapsedTime(){
+    
+    if(!started){
+        return -1;
+    }
+    
+    MWTime now = clock->getCurrentTimeUS();
+    return now - start_time;
+}
+
+int DynamicStimulusDriver::getFrameNumber(){
+    
+    MWTime elapsed = getElapsedTime();
+    return (elapsed * (long)(frames_per_second->getValue())) / 1e6;
 }
 
 

@@ -16,8 +16,7 @@ namespace mw {
 // event time
 typedef	long long MWTime;
 typedef MWTime  MWorksTime;  // crutch for compatibility, for now
-    
-    
+        
 // value of network statistics
 typedef unsigned long long NetworkStats;
 }

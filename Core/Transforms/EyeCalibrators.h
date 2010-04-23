@@ -85,7 +85,7 @@ namespace mw {
 		virtual ExpandableList<Datum> *getGoldStandardValues();
 		virtual Datum getCurrentAnnounceDrawData();     // override of PointStimulus method to announce when drawn
 		
-		virtual Stimulus *frozenClone();
+		//virtual Stimulus *frozenClone();
 	};
 	
 	class FixationPointFactory : public ComponentFactory {

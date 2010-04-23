@@ -44,17 +44,8 @@ FixationPoint::FixationPoint(std::string _tag, shared_ptr<Variable> _xoffset, sh
                                 shared_ptr<Variable> _triggerWatchy,
                                 shared_ptr<Variable> _triggerVariable):
         PointStimulus(_tag, _xoffset,  _yoffset, _xscale,  _yscale, _rot, _alpha, _r, _g, _b),
-        SquareRegionTrigger(_xoffset, _yoffset, _triggerWidth, 
-							_triggerWatchx, _triggerWatchy, _triggerVariable) {
+        SquareRegionTrigger(_xoffset, _yoffset, _triggerWidth, _triggerWatchx,_triggerWatchy, _triggerVariable) {
             
-    //xoffset = _xoffset;      // keep track of location of the point
-    //yoffset = _yoffset;
-    
-    // the trigger frame and the stimulus frame are in arbitrary units.
-    //mprintf("Creating a new fixation point object.");
-
-    // call method:  FixationPoint->evaluate()
-    // if you want to check if you are in the trigger region 
 }
 
 
@@ -89,36 +80,36 @@ ExpandableList<Datum> *FixationPoint::getGoldStandardValues() {
 }    
 
 
-Stimulus *FixationPoint::frozenClone(){
-
-	shared_ptr<Variable> _x(xoffset->frozenClone());
-	shared_ptr<Variable> _y(yoffset->frozenClone());
-	shared_ptr<Variable> _xs(xscale->frozenClone());
-	shared_ptr<Variable> _ys(yscale->frozenClone());
-	shared_ptr<Variable> _rot(rotation->frozenClone());
-	shared_ptr<Variable> _alpha(alpha_multiplier->frozenClone());
-	shared_ptr<Variable> _r(r->frozenClone());
-	shared_ptr<Variable> _g(g->frozenClone());
-	shared_ptr<Variable> _b(b->frozenClone());
-	
-	Stimulus *clone = (Stimulus *)(new FixationPoint(tag, 
-							  _x,
-							  _y,
-							  _xs,
-							  _ys,
-							  _rot,
-								_alpha,
-							  _r,
-							  _g,
-							  _b,
-                              width, 
-                              watchx, 
-                              watchy,
-                              trigger_variable));
-	clone->setIsFrozen(true);
-	
-	return clone;
-}
+//Stimulus *FixationPoint::frozenClone(){
+//
+//	shared_ptr<Variable> _x(xoffset->frozenClone());
+//	shared_ptr<Variable> _y(yoffset->frozenClone());
+//	shared_ptr<Variable> _xs(xscale->frozenClone());
+//	shared_ptr<Variable> _ys(yscale->frozenClone());
+//	shared_ptr<Variable> _rot(rotation->frozenClone());
+//	shared_ptr<Variable> _alpha(alpha_multiplier->frozenClone());
+//	shared_ptr<Variable> _r(r->frozenClone());
+//	shared_ptr<Variable> _g(g->frozenClone());
+//	shared_ptr<Variable> _b(b->frozenClone());
+//	
+//	Stimulus *clone = (Stimulus *)(new FixationPoint(tag, 
+//							  _x,
+//							  _y,
+//							  _xs,
+//							  _ys,
+//							  _rot,
+//								_alpha,
+//							  _r,
+//							  _g,
+//							  _b,
+//                              width, 
+//                              watchx, 
+//                              watchy,
+//                              trigger_variable));
+//	clone->setIsFrozen(true);
+//	
+//	return clone;
+//}
 
 // override of PointStimulus announce method -- allows trigger info to also be announced
 Datum FixationPoint::getCurrentAnnounceDrawData() {

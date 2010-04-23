@@ -24,7 +24,7 @@ class StimulusNode : public Lockable, public LinkedListNode<StimulusNode>, publi
 		
         shared_ptr<Stimulus> stim;      // the raw, original version of the stimulus
 
-        shared_ptr<Stimulus> live_stim; // the current version of the stimulus to be shown
+        //shared_ptr<Stimulus> live_stim; // the current version of the stimulus to be shown
                                         // this could be a "frozen" version of stim
                                         // (e.g. one where the live variables are replaced
                                         // with constant versions)

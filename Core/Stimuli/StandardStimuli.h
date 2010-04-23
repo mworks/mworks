@@ -43,7 +43,8 @@ class OffsetStimulusContainer : public Stimulus {
 								 
         OffsetStimulusContainer(OffsetStimulusContainer& copy);
 		~OffsetStimulusContainer();
-        virtual Stimulus * frozenClone();
+        //virtual Stimulus * frozenClone();
+        void freeze(bool should_freeze = true);
 		
 		virtual void draw(StimulusDisplay * display, float x, float y);
 		virtual void draw(StimulusDisplay * display, float x, float y, 
@@ -83,7 +84,7 @@ class BasicTransformStimulus : public Stimulus {
 		BasicTransformStimulus(const BasicTransformStimulus& tocopy);
 		~BasicTransformStimulus();
 		
-        virtual Stimulus * frozenClone();
+        //virtual Stimulus * frozenClone() = 0;
 		
 		virtual void setTranslation(shared_ptr<Variable> _x, 
 									shared_ptr<Variable> _y);
@@ -94,12 +95,15 @@ class BasicTransformStimulus : public Stimulus {
         virtual void draw(StimulusDisplay * display);
         virtual void draw(StimulusDisplay * display,float x, float y,
                                                     float sizex, float sizey);
+    
+        virtual void drawInUnitSquare(StimulusDisplay *display) = 0;
+    
         virtual Datum getCurrentAnnounceDrawData();    
 	
-				virtual shared_ptr<Variable> getXScale(){ return xscale; }
-				virtual shared_ptr<Variable> getYScale(){ return yscale; }
-				virtual shared_ptr<Variable> getXOffset(){ return xoffset; }
-				virtual shared_ptr<Variable> getYOffset(){ return yoffset; }
+        virtual shared_ptr<Variable> getXScale(){ return xscale; }
+        virtual shared_ptr<Variable> getYScale(){ return yscale; }
+        virtual shared_ptr<Variable> getXOffset(){ return xoffset; }
+        virtual shared_ptr<Variable> getYOffset(){ return yoffset; }
 };
 
 class OpenGLImageLoader {
@@ -147,7 +151,7 @@ class ImageStimulus : public BasicTransformStimulus {
 								
         ImageStimulus(ImageStimulus& copy);
         virtual ~ImageStimulus();
-		virtual Stimulus * frozenClone();
+		//virtual Stimulus * frozenClone();
 		
         std::string getFilename();
         virtual void drawInUnitSquare(StimulusDisplay *display);
@@ -182,7 +186,7 @@ class PointStimulus : public BasicTransformStimulus {
                                         shared_ptr<Variable> _b);
 		PointStimulus(const PointStimulus &tocopy);
 		~PointStimulus();
-		virtual Stimulus * frozenClone();
+		//virtual Stimulus * frozenClone();
 		
         virtual void drawInUnitSquare(StimulusDisplay *display);
         virtual Datum getCurrentAnnounceDrawData();
@@ -239,7 +243,8 @@ class CompoundStimulus : public Stimulus {
         CompoundStimulus(std::string _tag);
         ~CompoundStimulus();
 		
-		virtual Stimulus * frozenClone();
+		//virtual Stimulus * frozenClone();
+        void freeze(bool should_freeze = true);
 		
         void addStimulus(shared_ptr<Stimulus> stim);
         void addStimulus(shared_ptr<Stimulus> stim, 
@@ -268,7 +273,7 @@ class BlankScreen : public Stimulus{
 					 shared_ptr<Variable> g, 
 					 shared_ptr<Variable> b);
 		virtual ~BlankScreen();
-		virtual Stimulus * frozenClone();
+		//virtual Stimulus * frozenClone();
 		
         virtual void drawInUnitSquare(StimulusDisplay *display);
         virtual Datum getCurrentAnnounceDrawData();

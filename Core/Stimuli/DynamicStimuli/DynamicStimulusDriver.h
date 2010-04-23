@@ -19,7 +19,8 @@ class DynamicStimulusDriver : public boost::enable_shared_from_this<DynamicStimu
 	
 protected: 
 	boost::shared_ptr<Scheduler> scheduler;
-	boost::shared_ptr<StimulusDisplay> display;
+	boost::shared_ptr<Clock> clock;
+    boost::shared_ptr<StimulusDisplay> display;
 	
 	boost::shared_ptr<ScheduleTask> schedule_node;
 	
@@ -33,7 +34,8 @@ protected:
 	
 	bool started;
 	MWTime start_time;
-	
+	MWTime interval_us;
+    
 	boost::mutex stim_lock;
 	
 public:
@@ -48,12 +50,12 @@ public:
     
     virtual ~DynamicStimulusDriver();
 	
-    //virtual Stimulus *frozenClone() = 0;
-	//void draw(StimulusDisplay *display) = 0;
-	
 	virtual void play();
 	virtual void stop();
-	
+
+	virtual MWTime getElapsedTime();
+    virtual int getFrameNumber();
+    
 	virtual void callUpdateDisplay();
 	virtual Datum getCurrentAnnounceDrawData();
     

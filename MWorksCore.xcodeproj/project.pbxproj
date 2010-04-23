@@ -99,7 +99,7 @@
 		0E9AD3170AD94214009C0B0B /* ExpandableList.h in Headers */ = {isa = PBXBuildFile; fileRef = 0E9AD30C0AD94214009C0B0B /* ExpandableList.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0EAA0DE60B98FC1500331AA5 /* SimpleStaircase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EAA0DE40B98FC1500331AA5 /* SimpleStaircase.cpp */; };
 		0EAA0DE70B98FC1500331AA5 /* SimpleStaircase.h in Headers */ = {isa = PBXBuildFile; fileRef = 0EAA0DE50B98FC1500331AA5 /* SimpleStaircase.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		0EB1423F0EFB4EFC0056E2A2 /* IODeviceVariableNotification.h in Headers */ = {isa = PBXBuildFile; fileRef = 0EB1423D0EFB4EFC0056E2A2 /* IODeviceVariableNotification.h */; };
+		0EB1423F0EFB4EFC0056E2A2 /* IODeviceVariableNotification.h in Headers */ = {isa = PBXBuildFile; fileRef = 0EB1423D0EFB4EFC0056E2A2 /* IODeviceVariableNotification.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0EB142400EFB4EFD0056E2A2 /* IODeviceVariableNotification.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EB1423E0EFB4EFC0056E2A2 /* IODeviceVariableNotification.cpp */; };
 		0EB975980E624D2F00632F05 /* default_test_data.xml in Resources */ = {isa = PBXBuildFile; fileRef = 0EB975970E624D2F00632F05 /* default_test_data.xml */; };
 		0EBCB90C0EFF42440032F669 /* XMLParserTest.h in Headers */ = {isa = PBXBuildFile; fileRef = 0EBCB90A0EFF42440032F669 /* XMLParserTest.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -118,9 +118,9 @@
 		0EF2B5C40EBB49F20088F58F /* RegisteredSingleton.h in Headers */ = {isa = PBXBuildFile; fileRef = 0EF2B5C30EBB49F20088F58F /* RegisteredSingleton.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0EF2B6710EBB6ED70088F58F /* RegisteredSingletonTests.h in Headers */ = {isa = PBXBuildFile; fileRef = 0EF2B66F0EBB6ED70088F58F /* RegisteredSingletonTests.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0EF2B6720EBB6ED70088F58F /* RegisteredSingletonTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EF2B6700EBB6ED70088F58F /* RegisteredSingletonTests.cpp */; };
-		0EFC71400EDBAF6800FFABA8 /* ScheduledActions.h in Headers */ = {isa = PBXBuildFile; fileRef = 0EFC713E0EDBAF6800FFABA8 /* ScheduledActions.h */; };
+		0EFC71400EDBAF6800FFABA8 /* ScheduledActions.h in Headers */ = {isa = PBXBuildFile; fileRef = 0EFC713E0EDBAF6800FFABA8 /* ScheduledActions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0EFC71410EDBAF6800FFABA8 /* ScheduledActions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EFC713F0EDBAF6800FFABA8 /* ScheduledActions.cpp */; };
-		0EFC71460EDBB04D00FFABA8 /* CancelScheduledActionsAction.h in Headers */ = {isa = PBXBuildFile; fileRef = 0EFC71440EDBB04D00FFABA8 /* CancelScheduledActionsAction.h */; };
+		0EFC71460EDBB04D00FFABA8 /* CancelScheduledActionsAction.h in Headers */ = {isa = PBXBuildFile; fileRef = 0EFC71440EDBB04D00FFABA8 /* CancelScheduledActionsAction.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0EFC71470EDBB04D00FFABA8 /* CancelScheduledActionsAction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EFC71450EDBB04D00FFABA8 /* CancelScheduledActionsAction.cpp */; };
 		0EFC71630EDBB14000FFABA8 /* PulseAction.h in Headers */ = {isa = PBXBuildFile; fileRef = 0EFC71610EDBB14000FFABA8 /* PulseAction.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0EFC71640EDBB14000FFABA8 /* PulseAction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EFC71620EDBB14000FFABA8 /* PulseAction.cpp */; };
@@ -242,6 +242,8 @@
 		5CCDF6AE09F5C5C3008B1D65 /* TriggerTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CCDF6AC09F5C5C3008B1D65 /* TriggerTest.cpp */; };
 		5CCE1CBC10A4687C00EF5866 /* __init__.py in Resources */ = {isa = PBXBuildFile; fileRef = 5CCE1CBB10A4687C00EF5866 /* __init__.py */; };
 		5CD504310D4ED0BA00CD1C1D /* TrialBuildingBlocks.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CD504300D4ED0BA00CD1C1D /* TrialBuildingBlocks.cpp */; };
+		5CD621591174FF3D007339B7 /* FreezableVariableContainer.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CD621571174FF3D007339B7 /* FreezableVariableContainer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5CD6215A1174FF3D007339B7 /* FreezableVariableContainer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CD621581174FF3D007339B7 /* FreezableVariableContainer.cpp */; };
 		5CDB8B270E9C4AFC00993D99 /* PythonSimpleConduit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CB6C4750E9A92CA006923EC /* PythonSimpleConduit.cpp */; };
 		5CDB8BB90E9C4B0700993D99 /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA2CE0D407E9F68100C68AEF /* MWorksCore.framework */; };
 		5CDCC8830D2B0E10008E2F19 /* ExpressionParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CDCC87F0D2B0E10008E2F19 /* ExpressionParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -838,6 +840,8 @@
 		5CCE1CBB10A4687C00EF5866 /* __init__.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; name = __init__.py; path = Core/Python/__init__.py; sourceTree = "<group>"; };
 		5CCE1D3D10A49C8D00EF5866 /* conduit.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; name = conduit.py; path = Conduits/conduit.py; sourceTree = "<group>"; };
 		5CD504300D4ED0BA00CD1C1D /* TrialBuildingBlocks.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TrialBuildingBlocks.cpp; path = Core/ParadigmComponents/TrialBuildingBlocks.cpp; sourceTree = "<group>"; };
+		5CD621571174FF3D007339B7 /* FreezableVariableContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FreezableVariableContainer.h; sourceTree = "<group>"; };
+		5CD621581174FF3D007339B7 /* FreezableVariableContainer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FreezableVariableContainer.cpp; sourceTree = "<group>"; };
 		5CDB8B240E9C4A6300993D99 /* _conduit.so */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.objfile"; includeInIndex = 0; path = _conduit.so; sourceTree = BUILT_PRODUCTS_DIR; };
 		5CDCC87F0D2B0E10008E2F19 /* ExpressionParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExpressionParser.h; sourceTree = "<group>"; };
 		5CDCC8800D2B0E10008E2F19 /* ExpressionParser.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ExpressionParser.cc; sourceTree = "<group>"; };
@@ -1876,6 +1880,8 @@
 				5C643EA00D501E99004A8BD2 /* UnresolvedReferenceVariable.cpp */,
 				DA2CE1A907E9F95600C68AEF /* StandardVariables.h */,
 				DA2CE1A807E9F95600C68AEF /* StandardVariables.cpp */,
+				5CD621571174FF3D007339B7 /* FreezableVariableContainer.h */,
+				5CD621581174FF3D007339B7 /* FreezableVariableContainer.cpp */,
 			);
 			name = Variables;
 			sourceTree = SOURCE_ROOT;
@@ -2373,6 +2379,7 @@
 				5C78EDEF115C00EC00151A76 /* PlayDynamicStimulus.h in Headers */,
 				5C78EDF1115C00EC00151A76 /* DynamicStimulusActionFactories.h in Headers */,
 				5C78EDF3115C00EC00151A76 /* StopDynamicStimulus.h in Headers */,
+				5CD621591174FF3D007339B7 /* FreezableVariableContainer.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3041,6 +3048,7 @@
 				5C78EDEE115C00EC00151A76 /* PlayDynamicStimulus.cpp in Sources */,
 				5C78EDF0115C00EC00151A76 /* DynamicStimulusActionFactories.cpp in Sources */,
 				5C78EDF2115C00EC00151A76 /* StopDynamicStimulus.cpp in Sources */,
+				5CD6215A1174FF3D007339B7 /* FreezableVariableContainer.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

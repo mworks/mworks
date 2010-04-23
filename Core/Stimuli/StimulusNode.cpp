@@ -23,6 +23,8 @@ StimulusNode::StimulusNode() : Lockable() {
     pending_removal = false;
     
 	frozen = false;
+    
+//    thaw();
 }
 
 StimulusNode::StimulusNode(shared_ptr<Stimulus> _stim) : 
@@ -87,7 +89,8 @@ int StimulusNode::getDeferred(){
 
 void StimulusNode::draw(StimulusDisplay *stimulus_display) {
 	// TODO: error check
-	live_stim->draw(stimulus_display);
+	stim->draw(stimulus_display);
+    //live_stim->draw(stimulus_display);
 }
 
 // Freeze the stimulus as needed, and set the frozen flag
@@ -101,7 +104,8 @@ void StimulusNode::freeze(){
 	
     // set the "live" version of the stimulus to the
     // a frozen (variable values fixed) version of stim
-    live_stim = shared_ptr<Stimulus>(stim->frozenClone());
+    //live_stim = shared_ptr<Stimulus>(stim->frozenClone());
+    stim->freeze();
     frozen = true;
 
 	unlock();
@@ -109,7 +113,8 @@ void StimulusNode::freeze(){
 
 void StimulusNode::thaw(){
     lock();
-    live_stim = stim;  // replace the "live" version of the
+    stim->thaw();
+    //live_stim = stim;  // replace the "live" version of the
                        // stimulus with the raw stim
     frozen = false;
 	unlock();
@@ -143,23 +148,27 @@ bool StimulusNode::isPendingRemoval(){
 }
 
 void StimulusNode::announceStimulusDraw(MWTime now) {
-	if(live_stim == NULL) {
+	if(stim == NULL) {
+    //if(live_stim == NULL) {
 		// TODO: warn
 		return;
 	}
 	
-	live_stim->announceStimulusDraw(now);
+    stim->announceStimulusDraw(now);
+	//live_stim->announceStimulusDraw(now);
 	
 }
 
 Datum StimulusNode::getCurrentAnnounceDrawData() {
-	if(live_stim == NULL) {
+	if(stim == NULL) {
+    //if(live_stim == NULL) {
 		// TODO: warn
         Datum undef;
 		return undef;
 	}
 
-    return live_stim->getCurrentAnnounceDrawData();
+    return stim->getCurrentAnnounceDrawData();
+    //return live_stim->getCurrentAnnounceDrawData();
 	
 }
 

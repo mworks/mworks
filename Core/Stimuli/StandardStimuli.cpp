@@ -170,16 +170,28 @@ CompoundStimulus::~CompoundStimulus() {
     delete stimList;
 }
 
-Stimulus * CompoundStimulus::frozenClone(){
-	CompoundStimulus *clone = new CompoundStimulus(tag);
-	for(int i = 0; i < stimList->getNElements(); i++){
-		shared_ptr<Stimulus> p((*stimList)[i]->frozenClone());
-		clone->addStimulus(p);
-	}
-	
-	clone->setIsFrozen(true);
-	return clone;
+
+// TODO: need to take into account case where stimulus in compound is
+// somehow shared with other objects... (a strange, possibly impossible
+// case currently, but needs to be considered down the road).
+
+void CompoundStimulus::freeze(bool should_freeze){
+    for(int i = 0; i < stimList->getNElements(); i++){
+        (*stimList)[i]->freeze(should_freeze);
+    }
+    Stimulus::freeze(should_freeze);
 }
+
+//Stimulus * CompoundStimulus::frozenClone(){
+//	CompoundStimulus *clone = new CompoundStimulus(tag);
+//	for(int i = 0; i < stimList->getNElements(); i++){
+//		shared_ptr<Stimulus> p((*stimList)[i]->frozenClone());
+//		clone->addStimulus(p);
+//	}
+//	
+//	clone->setIsFrozen(true);
+//	return clone;
+//}
 
 void CompoundStimulus::addStimulus(shared_ptr<Stimulus> stim) {
     makeSubTag();
@@ -243,8 +255,8 @@ OffsetStimulusContainer::OffsetStimulusContainer(std::string _tag,
 															Stimulus(_tag) {
     stim = _stim;
 
-    xoffset = _xdeg;
-    yoffset = _ydeg;
+    xoffset = registerVariable(_xdeg);
+    yoffset = registerVariable(_ydeg);
 }
 
 OffsetStimulusContainer::OffsetStimulusContainer(OffsetStimulusContainer& copy):Stimulus((Stimulus&) copy) {
@@ -260,19 +272,26 @@ OffsetStimulusContainer::OffsetStimulusContainer(OffsetStimulusContainer& copy):
 
 OffsetStimulusContainer::~OffsetStimulusContainer() { }
 
+// TODO: need to write better custom "freeze" handling for the
+// contained stimulus
+void OffsetStimulusContainer::freeze(bool should_freeze){
 
-Stimulus * OffsetStimulusContainer::frozenClone(){
-	shared_ptr<Stimulus> stim_clone(stim->frozenClone());
-	shared_ptr<Variable> x_clone(xoffset->frozenClone());
-	shared_ptr<Variable> y_clone(yoffset->frozenClone());
-	
-	OffsetStimulusContainer *clone = new OffsetStimulusContainer(tag, 
-												stim_clone,
-												x_clone,
-												y_clone);
-	clone->setIsFrozen(true);
-	return clone;
+    stim->freeze(should_freeze);
+    Stimulus::freeze(should_freeze);
 }
+
+//Stimulus * OffsetStimulusContainer::frozenClone(){
+//	shared_ptr<Stimulus> stim_clone(stim->frozenClone());
+//	shared_ptr<Variable> x_clone(xoffset->frozenClone());
+//	shared_ptr<Variable> y_clone(yoffset->frozenClone());
+//	
+//	OffsetStimulusContainer *clone = new OffsetStimulusContainer(tag, 
+//												stim_clone,
+//												x_clone,
+//												y_clone);
+//	clone->setIsFrozen(true);
+//	return clone;
+//}
 
 void OffsetStimulusContainer::draw(StimulusDisplay * display,
                                                         float x, float y){ }
@@ -294,12 +313,12 @@ BasicTransformStimulus::BasicTransformStimulus(std::string _tag,
 										shared_ptr<Variable> _yscale, shared_ptr<Variable> _rot,
 												 shared_ptr<Variable> _alpha)
 															: Stimulus(_tag) {
-    xoffset = _xoffset;
-    yoffset = _yoffset;
-    xscale = _xscale;
-    yscale = _yscale;
-    rotation = _rot;
-	alpha_multiplier = _alpha;
+    xoffset = registerVariable(_xoffset);
+    yoffset = registerVariable(_yoffset);
+    xscale = registerVariable(_xscale);
+    yscale = registerVariable(_yscale);
+    rotation = registerVariable(_rot);
+	alpha_multiplier = registerVariable(_alpha);
 }
 
 
@@ -317,27 +336,27 @@ BasicTransformStimulus::BasicTransformStimulus(
 
 BasicTransformStimulus::~BasicTransformStimulus(){ }
 
-Stimulus *BasicTransformStimulus::frozenClone(){
-	
-	shared_ptr<Variable> x_clone(xoffset->frozenClone());
-	shared_ptr<Variable> y_clone(yoffset->frozenClone());
-	shared_ptr<Variable> xs_clone(xscale->frozenClone());
-	shared_ptr<Variable> ys_clone(yscale->frozenClone());
-	shared_ptr<Variable> r_clone(rotation->frozenClone());
-	shared_ptr<Variable> a_clone(alpha_multiplier->frozenClone());
-	
-	BasicTransformStimulus *clone = 
-					new BasicTransformStimulus(tag, 
-												x_clone,
-												y_clone,
-												xs_clone,
-												ys_clone,
-												r_clone,
-												a_clone);
-	clone->setIsFrozen(true);
-												
-	return clone;
-}
+//Stimulus *BasicTransformStimulus::frozenClone(){
+//	
+//	shared_ptr<Variable> x_clone(xoffset->frozenClone());
+//	shared_ptr<Variable> y_clone(yoffset->frozenClone());
+//	shared_ptr<Variable> xs_clone(xscale->frozenClone());
+//	shared_ptr<Variable> ys_clone(yscale->frozenClone());
+//	shared_ptr<Variable> r_clone(rotation->frozenClone());
+//	shared_ptr<Variable> a_clone(alpha_multiplier->frozenClone());
+//	
+//	BasicTransformStimulus *clone = 
+//					new BasicTransformStimulus(tag, 
+//												x_clone,
+//												y_clone,
+//												xs_clone,
+//												ys_clone,
+//												r_clone,
+//												a_clone);
+//	clone->setIsFrozen(true);*/
+//												
+//	return clone;
+//}
 
 							            
 void BasicTransformStimulus::setTranslation(shared_ptr<Variable> _x, shared_ptr<Variable> _y) {
@@ -414,13 +433,13 @@ BlankScreen::BlankScreen(std::string _tag,
 						   shared_ptr<Variable> _b) : 
 						   
 						   Stimulus(_tag) {
-    r = _r;
-    g = _g;
-    b = _b;
+    r = registerVariable(_r);
+    g = registerVariable(_g);
+    b = registerVariable(_b);
     
- Datum rval = *r;
- Datum gval = *g;
- Datum bval = *b;
+    Datum rval = *r;
+    Datum gval = *g;
+    Datum bval = *b;
 	
     last_r = (float)rval;
     last_g = (float)gval;
@@ -430,21 +449,21 @@ BlankScreen::BlankScreen(std::string _tag,
 
 BlankScreen::~BlankScreen(){ }
 
-Stimulus * BlankScreen::frozenClone(){
-	
-	shared_ptr<Variable> r_clone(r->frozenClone());
-	shared_ptr<Variable> g_clone(g->frozenClone());
-	shared_ptr<Variable> b_clone(b->frozenClone());
-	
-	BlankScreen *clone = 
-					new BlankScreen(tag, 
-									r_clone,
-									g_clone,
-									b_clone);
-	clone->setIsFrozen(true);
-												
-	return clone;
-}
+//Stimulus * BlankScreen::frozenClone(){
+//	
+//	shared_ptr<Variable> r_clone(r->frozenClone());
+//	shared_ptr<Variable> g_clone(g->frozenClone());
+//	shared_ptr<Variable> b_clone(b->frozenClone());
+//	
+//	BlankScreen *clone = 
+//					new BlankScreen(tag, 
+//									r_clone,
+//									g_clone,
+//									b_clone);
+//	clone->setIsFrozen(true);
+//												
+//	return clone;
+//}
 
 
     
@@ -951,33 +970,33 @@ ImageStimulus::~ImageStimulus() {
 }
 
 
-Stimulus * ImageStimulus::frozenClone(){
-
-	shared_ptr<Variable> x_clone(xoffset->frozenClone());
-	shared_ptr<Variable> y_clone(yoffset->frozenClone());
-	shared_ptr<Variable> xs_clone(xscale->frozenClone());
-	shared_ptr<Variable> ys_clone(yscale->frozenClone());
-	shared_ptr<Variable> r_clone(rotation->frozenClone());
-	shared_ptr<Variable> a_clone(alpha_multiplier->frozenClone());
-
-	ImageStimulus *clone = 
-					new ImageStimulus(tag, 
-									filename,
-									texture_maps,
-									width,
-									height,
-									x_clone,
-									y_clone,
-									xs_clone,
-									ys_clone,
-                                    r_clone,
-                                    a_clone);
-									
-	
-	clone->setIsFrozen(true);
-									
-	return clone;
-}
+//Stimulus * ImageStimulus::frozenClone(){
+//
+//	shared_ptr<Variable> x_clone(xoffset->frozenClone());
+//	shared_ptr<Variable> y_clone(yoffset->frozenClone());
+//	shared_ptr<Variable> xs_clone(xscale->frozenClone());
+//	shared_ptr<Variable> ys_clone(yscale->frozenClone());
+//	shared_ptr<Variable> r_clone(rotation->frozenClone());
+//	shared_ptr<Variable> a_clone(alpha_multiplier->frozenClone());
+//
+//	ImageStimulus *clone = 
+//					new ImageStimulus(tag, 
+//									filename,
+//									texture_maps,
+//									width,
+//									height,
+//									x_clone,
+//									y_clone,
+//									xs_clone,
+//									ys_clone,
+//                                    r_clone,
+//                                    a_clone);
+//									
+//	
+//	clone->setIsFrozen(true);
+//									
+//	return clone;
+//}
 
 
 
@@ -1022,12 +1041,7 @@ void ImageStimulus::load(StimulusDisplay *display) {
 void ImageStimulus::drawInUnitSquare(StimulusDisplay *display) {
     double aspect = (double)width / (double)height;
     if(1 || loaded) {
-        //glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-        //glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
         
-		
-		
-		//glActiveTexture(GL_TEXTURE0);
         glActiveTextureARB(GL_TEXTURE0_ARB); 
         glEnable(GL_TEXTURE_2D);
 		glBindTexture(GL_TEXTURE_2D, texture_maps[display->getCurrentContextIndex()]);
@@ -1048,43 +1062,29 @@ void ImageStimulus::drawInUnitSquare(StimulusDisplay *display) {
         if(aspect > 1) {
 			
             glTexCoord2f(0.0,0.0); 
-            //glMultiTexCoord2f(GL_TEXTURE0,0.0,0.0);
-			glVertex3f(0.0,(0.5-0.5/aspect),0.0);
+            glVertex3f(0.0,(0.5-0.5/aspect),0.0);
             
-			
             glTexCoord2f(1.0,0.0); 
-			//glMultiTexCoord2f(GL_TEXTURE0,1.0,0.0); 
-            glVertex3f(1.0,(0.5-0.5/aspect),0.0);
+			glVertex3f(1.0,(0.5-0.5/aspect),0.0);
             
-			
             glTexCoord2f(1.0,1.0); 
-            //glMultiTexCoord2f(GL_TEXTURE0, 1.0,1.0);
-			glVertex3f(1.0,(0.5-0.5/aspect) + 1.0/aspect,0.0);
-            
+            glVertex3f(1.0,(0.5-0.5/aspect) + 1.0/aspect,0.0);
 			
             glTexCoord2f(0.0,1.0); 
-            //glMultiTexCoord2f(GL_TEXTURE0, 0.0,1.0);
-			glVertex3f(0.0,(0.5-0.5/aspect) + 1.0/aspect,0.0);
+            glVertex3f(0.0,(0.5-0.5/aspect) + 1.0/aspect,0.0);
         } else {
 			
             glTexCoord2f(0.0,0.0); 
-            //glMultiTexCoord2f(GL_TEXTURE0, 0.0,0.0);
-			glVertex3f((1.0 - aspect)/2.0,0.0,0.0);
+            glVertex3f((1.0 - aspect)/2.0,0.0,0.0);
             
-			
             glTexCoord2f(1.0,0.0);
-			//glMultiTexCoord2f(GL_TEXTURE0, 1.0,0.0); 
-            glVertex3f((1.0 - aspect)/2.0 + aspect,0.0,0.0);
+			glVertex3f((1.0 - aspect)/2.0 + aspect,0.0,0.0);
             
-			
             glTexCoord2f(1.0,1.0); 
-            //glMultiTexCoord2f(GL_TEXTURE0, 1.0,1.0);
-			glVertex3f((1.0 - aspect)/2.0 + aspect,1.0,0.0);
+            glVertex3f((1.0 - aspect)/2.0 + aspect,1.0,0.0);
             
-			
             glTexCoord2f(0.0,1.0); 
-            //glMultiTexCoord2f(GL_TEXTURE0, 0.0,1.0);
-			glVertex3f((1.0 - aspect)/2.0,1.0,0.0);
+            glVertex3f((1.0 - aspect)/2.0,1.0,0.0);
         }
 		
         glEnd();
@@ -1215,9 +1215,9 @@ PointStimulus::PointStimulus(std::string _tag, shared_ptr<Variable> _xoffset, sh
 							   ) :
 							BasicTransformStimulus
 							(_tag, _xoffset, _yoffset,_xscale ,_yscale, _rot, _alpha) {    
-    r = _r;     // should be 0-1    (1 is full saturation)
-    g = _g; 
-    b = _b;                                    
+    r = registerVariable(_r);     // should be 0-1    (1 is full saturation)
+    g = registerVariable(_g); 
+    b = registerVariable(_b);                                    
                          
 }
 
@@ -1230,32 +1230,32 @@ PointStimulus::PointStimulus(const PointStimulus &tocopy) :
 
 PointStimulus::~PointStimulus(){ }
 
-Stimulus * PointStimulus::frozenClone(){
-	shared_ptr<Variable> x_clone(xoffset->frozenClone());
-	shared_ptr<Variable> y_clone(yoffset->frozenClone());
-	shared_ptr<Variable> xs_clone(xscale->frozenClone());
-	shared_ptr<Variable> ys_clone(yscale->frozenClone());
-	shared_ptr<Variable> rot_clone(rotation->frozenClone());
-	shared_ptr<Variable> alpha_clone(alpha_multiplier->frozenClone());	
-	shared_ptr<Variable> r_clone(r->frozenClone());
-	shared_ptr<Variable> g_clone(g->frozenClone());
-	shared_ptr<Variable> b_clone(b->frozenClone());
-
-	PointStimulus *clone = new PointStimulus(tag,
-											   x_clone,
-											   y_clone,
-											   xs_clone,
-											   ys_clone,
-											   rot_clone,
-											   alpha_clone,
-											   r_clone,
-											   g_clone,
-											   b_clone
-											   );
-	clone->setIsFrozen(true);
-		
-	return clone;
-}
+//Stimulus * PointStimulus::frozenClone(){
+//	shared_ptr<Variable> x_clone(xoffset->frozenClone());
+//	shared_ptr<Variable> y_clone(yoffset->frozenClone());
+//	shared_ptr<Variable> xs_clone(xscale->frozenClone());
+//	shared_ptr<Variable> ys_clone(yscale->frozenClone());
+//	shared_ptr<Variable> rot_clone(rotation->frozenClone());
+//	shared_ptr<Variable> alpha_clone(alpha_multiplier->frozenClone());	
+//	shared_ptr<Variable> r_clone(r->frozenClone());
+//	shared_ptr<Variable> g_clone(g->frozenClone());
+//	shared_ptr<Variable> b_clone(b->frozenClone());
+//
+//	PointStimulus *clone = new PointStimulus(tag,
+//											   x_clone,
+//											   y_clone,
+//											   xs_clone,
+//											   ys_clone,
+//											   rot_clone,
+//											   alpha_clone,
+//											   r_clone,
+//											   g_clone,
+//											   b_clone
+//											   );
+//	clone->setIsFrozen(true);
+//		
+//	return clone;
+//}
 
 
 void PointStimulus::drawInUnitSquare(StimulusDisplay *display) {

@@ -206,9 +206,9 @@ Stimulus::Stimulus(const Stimulus& copy):
 	frozen = false;
 }
 
-Stimulus * Stimulus::frozenClone(){
-	return new Stimulus(*this);
-}
+//Stimulus * Stimulus::frozenClone(){
+//    return new Stimulus(*this);
+//}
 
 
 Stimulus::~Stimulus() {
@@ -225,7 +225,10 @@ void Stimulus::setVisible(bool newvis) {
     visible = newvis;
 }
 
-void Stimulus::drawInUnitSquare(StimulusDisplay *display) { }
+void Stimulus::drawInUnitSquare(StimulusDisplay *display) { 
+    merror(M_DISPLAY_MESSAGE_DOMAIN, "Attempt to draw an undefined stimulus");
+
+}
             
 void Stimulus::draw(StimulusDisplay *display) {
     draw(display, 0,0,1.0, 1.0);

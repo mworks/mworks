@@ -47,6 +47,7 @@
 #include "Utilities.h"
 #include "Announcers.h"
 #include <vector>
+#include "FreezableVariableContainer.h"
 
 #ifdef	__APPLE__
 	#include <OpenGL/gl.h>
@@ -70,7 +71,7 @@ typedef int StimID;
 class StimulusDisplay; // later in this file...
 
 
-class Stimulus : public Announcable, public mw::Component {
+class Stimulus : public Announcable, public mw::Component, public FreezableCollection {
 
 public:
   
@@ -81,10 +82,10 @@ private:
         //mStimulus& operator=(const Stimulus& lval) { }
 
 protected:
-    bool loaded, visible, cached, has_thumbnail;
-    Stimulus *thumbnail;
-    load_style deferred;
-        
+        bool loaded, visible, cached, has_thumbnail;
+        Stimulus *thumbnail;
+        load_style deferred;
+            
 		
 		bool frozen;
 		
@@ -110,7 +111,7 @@ public:
 		 *  Make a new stimulus object with all of the variables converted
 		 *  into constants (effectively "freezing" it in time)
 		 */
-		 virtual Stimulus *frozenClone(); 
+		 //virtual Stimulus *frozenClone(); 
 		
         /**
          * Destructor.
@@ -131,7 +132,7 @@ public:
         /**
          * This is the method that most will want to override
          * this specifies how to draw the stimulus in the 
-         * interval [(0,1), (0,1)].  This default version does nothing.
+         * interval [(0,1), (0,1)]. 
          */
         virtual void drawInUnitSquare(StimulusDisplay *display);
 
