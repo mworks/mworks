@@ -45,11 +45,11 @@ install_root="/tmp/mw_installer"
 
 # Important directories in the live system
 mw_applications_dir = "/Applications"
-mw_application_support_dir = "/Library/Application Support/MonkeyWorks"
+mw_application_support_dir = "/Library/Application Support/MWorks"
 mw_frameworks_dir = "/Library/Frameworks"
 mw_configuration_dir = mw_application_support_dir + "/Configuration"
 mw_developer_dir = mw_application_support_dir + "/Developer"
-mw_documents_dir = "/Documents/MonkeyWorks"
+mw_documents_dir = "/Documents/MWorks"
 
 mw_installer_info_file = "mw_installer.info"
 mw_installer_info_path = mw_configuration_dir + "/" + mw_installer_info_file
@@ -81,7 +81,7 @@ packages = ["applications",
 applications = ["MWEditor.app", "MWServer.app", "MWClient.app"]
 
 # Frameworks
-frameworks = ["MonkeyWorksCocoa.framework", "MonkeyWorksCore.framework"]
+frameworks = ["MWorksCocoa.framework", "MWorksCore.framework"]
 
 
 # Remove the current install root
