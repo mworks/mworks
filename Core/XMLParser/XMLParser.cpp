@@ -16,13 +16,13 @@
 
 
 
-#include <boost/spirit/core.hpp>
+#include <boost/spirit/include/classic_core.hpp>
 #include <boost/spirit/include/classic_confix.hpp>
 #include <boost/spirit/include/classic_lists.hpp>
 #include <boost/spirit/include/classic_escape_char.hpp>
 using namespace mw;
 
-using namespace boost::spirit;
+using namespace boost::spirit::classic;
 
 namespace mw {
 	void	error_func(void * _parser_context, const char * error, ...){
@@ -317,7 +317,7 @@ void XMLParser::_processListReplicator(xmlNode *node){
 	// END from boost.org
     
 	// modified to contain the correct namespace
-	result = boost::spirit::parse (plist_csv, list_csv);	
+	result = boost::spirit::classic::parse (plist_csv, list_csv);	
 	
 	_createAndAddReplicatedChildren(node, variable, vec_item);
 }
@@ -843,7 +843,7 @@ void XMLParser::_connectChildToParent(shared_ptr<mw::Component> parent,
 			// END from boost.org
 			
 			// modified to contain the correct namespace
-			result = boost::spirit::parse (plist_csv, list_csv);	
+			result = boost::spirit::classic::parse (plist_csv, list_csv);	
 			
 			_createAndConnectReplicatedChildren(parent, 
 												properties,

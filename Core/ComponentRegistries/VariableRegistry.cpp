@@ -503,7 +503,7 @@ stx::AnyScalar	VariableRegistry::lookupVariable(const std::string &varname) cons
 
 namespace mw {
 shared_ptr<VariableRegistry> global_variable_registry;
-static bool registry_initialized = false;
+//static bool registry_initialized = false;
 }
 
 //void initializeVariableRegistry() {
