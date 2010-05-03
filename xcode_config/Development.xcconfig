@@ -13,6 +13,7 @@ GCC_VERSION = 4.2
 GCC_C_LANGUAGE_STANDARD = c99
 GCC_OPTIMIZATION_LEVEL = 0
 
+WARNING_CFLAGS = -Wno-sign-compare
 
 APP_SUPPORT_DIR = /Library/Application Support/MWorks
 CONFIG_DIR = $(APP_SUPPORT_DIR)/Configuration
