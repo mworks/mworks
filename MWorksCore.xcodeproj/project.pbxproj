@@ -3246,20 +3246,23 @@
 				);
 				INFOPLIST_FILE = "MWorksCore-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(MW_LIB_DIR)",
+					"\"$(LOCAL_LIBRARY_DIR)/Application Support/MWorks/Developer/gcc42/lib\"",
+				);
 				OTHER_CFLAGS = "-ObjC++";
 				OTHER_LDFLAGS = (
-					"-lz",
-					"-llcms",
-					"-lmng",
-					"-ljpeg",
-					"-ltiff",
-					"-lpng",
+					"$(MW_LIB_DIR)/libpng.a",
+					"$(MW_LIB_DIR)/libtiff.a",
+					"$(MW_LIB_DIR)/libjpeg.a",
+					"$(MW_LIB_DIR)/libmng.a",
+					"$(MW_LIB_DIR)/liblcms.a",
+					"$(MW_LIB_DIR)/libz.a",
 					"-framework",
 					OpenAL,
-					"-lILU",
-					"-lIL",
-					"-lILUT",
+					"$(MW_LIB_DIR)/libILU.a",
+					"$(MW_LIB_DIR)/libIL.a",
+					"$(MW_LIB_DIR)/libILUT.a",
 					"-framework",
 					AppKit,
 					"-framework",
@@ -3271,11 +3274,11 @@
 					GLUT,
 					"-framework",
 					IOKit,
-					"-lboost_regex-mw",
-					"-lboost_thread-mw",
-					"-lboost_system-mw",
-					"-lboost_serialization-mw",
-					"-lboost_filesystem-mw",
+					"$(MW_LIB_DIR)/libboost_regex-mw.a",
+					"$(MW_LIB_DIR)/libboost_thread-mw.a",
+					"$(MW_LIB_DIR)/libboost_system-mw.a",
+					"$(MW_LIB_DIR)/libboost_serialization-mw.a",
+					"$(MW_LIB_DIR)/libboost_filesystem-mw.a",
 					"-lxml2",
 					"-lxslt",
 				);
@@ -3549,7 +3552,10 @@
 				);
 				INFOPLIST_FILE = "MWorksCore-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(MW_LIB_DIR)",
+					"\"$(LOCAL_LIBRARY_DIR)/Application Support/MWorks/Developer/gcc42/lib\"",
+				);
 				OTHER_CFLAGS = "-ObjC++";
 				OTHER_LDFLAGS = (
 					"-lz",
@@ -3967,20 +3973,23 @@
 				);
 				INFOPLIST_FILE = "MWorksCore-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(MW_LIB_DIR)",
+					"\"$(LOCAL_LIBRARY_DIR)/Application Support/MWorks/Developer/gcc42/lib\"",
+				);
 				OTHER_CFLAGS = "-ObjC++";
 				OTHER_LDFLAGS = (
-					"-lz",
-					"-llcms",
-					"-lmng",
-					"-ljpeg",
-					"-ltiff",
-					"-lpng",
+					"$(MW_LIB_DIR)/libz.a",
+					"$(MW_LIB_DIR)/liblcms.a",
+					"$(MW_LIB_DIR)/libmng.a",
+					"$(MW_LIB_DIR)/libjpeg.a",
+					"$(MW_LIB_DIR)/libtiff.a",
+					"$(MW_LIB_DIR)/libpng.a",
 					"-framework",
 					OpenAL,
-					"-lILU",
-					"-lIL",
-					"-lILUT",
+					"$(MW_LIB_DIR)/libILU.a",
+					"$(MW_LIB_DIR)/libIL.a",
+					"$(MW_LIB_DIR)/libILUT.a",
 					"-framework",
 					AppKit,
 					"-framework",
@@ -3992,11 +4001,11 @@
 					GLUT,
 					"-framework",
 					IOKit,
-					"-lboost_regex-mw",
-					"-lboost_thread-mw",
-					"-lboost_system-mw",
-					"-lboost_serialization-mw",
-					"-lboost_filesystem-mw",
+					"$(MW_LIB_DIR)/libboost_regex-mw.a",
+					"$(MW_LIB_DIR)/libboost_thread-mw.a",
+					"$(MW_LIB_DIR)/libboost_system-mw.a",
+					"$(MW_LIB_DIR)/libboost_serialization-mw.a",
+					"$(MW_LIB_DIR)/libboost_filesystem-mw.a",
 					"-lxml2",
 					"-lxslt",
 				);
