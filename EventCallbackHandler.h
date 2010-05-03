@@ -15,8 +15,8 @@
 #include <boost/enable_shared_from_this.hpp>
 #include <string>
 #include <map>
-#include <hash_map.h>
-#include <multimap.h>
+#include <ext/hash_map>
+#include <map>
 #include <boost/thread/mutex.hpp>
 #include <boost/thread/recursive_mutex.hpp>
 #include "Utilities.h"
@@ -25,6 +25,7 @@
 
 using namespace boost;
 using namespace std;
+using namespace __gnu_cxx;
 using namespace mw;
 
 typedef boost::function<void(shared_ptr<Event>)>  EventCallback;

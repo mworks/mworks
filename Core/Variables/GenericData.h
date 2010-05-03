@@ -333,7 +333,7 @@ namespace mw {
 				int nelements;
                 Datum datum, key;
                 int string_length;
-                char c;
+                //char c;
                 
 				ar >> datatype;
 				switch(datatype){

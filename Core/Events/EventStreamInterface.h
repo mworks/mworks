@@ -29,8 +29,8 @@
 #include <boost/thread/mutex.hpp>
 #include <boost/thread/recursive_mutex.hpp>
 #include <boost/enable_shared_from_this.hpp>
-#include <multimap.h>
-#include <hash_map.h>
+#include <map>
+#include <ext/hash_map>
 
 #include "EventCallbackHandler.h"
 

@@ -57,7 +57,7 @@ void PythonConduitServerTestFixture::testInOneThread(){
     
     // Launch the python process
     // need to figure out what to do with the paths
-    execl("/usr/bin/python", "../../PythonConduitTest.py");
+    execl("/usr/bin/python", "../../PythonConduitTest.py", NULL);
 
     // the following values must agree with those in PythonConduitTest.py
     int code_to_use = 4;

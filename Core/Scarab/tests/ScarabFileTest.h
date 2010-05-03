@@ -52,7 +52,7 @@ class ScarabFileTestFixture : public CppUnit::TestFixture {
 		void testPutGetCodec(){
 			fprintf(stderr, "Running ScarabFileTestFixture::testPutGetCodec()\n");
 
-			/*printf("Testing put/get codec...\n");
+			/*fprintf(stderr, "Testing put/get codec...\n");
 			
 			VariableRegistry *r = new VariableRegistry();
 			Variable *testvar =
@@ -82,7 +82,7 @@ class ScarabFileTestFixture : public CppUnit::TestFixture {
 				CPPUNIT_ASSERT( gkeys[i] != NULL );
 				CPPUNIT_ASSERT( gvalues[i] != NULL );
 				
-				//printf("gkeys[i]->type = %d\n", gkeys[i]->type);
+				//fprintf(stderr, "gkeys[i]->type = %d\n", gkeys[i]->type);
 				CPPUNIT_ASSERT( gkeys[i]->type == SCARAB_INTEGER );
 				CPPUNIT_ASSERT( gvalues[i]->type == SCARAB_DICT );
 			}
@@ -109,7 +109,7 @@ class ScarabFileTestFixture : public CppUnit::TestFixture {
 				CPPUNIT_ASSERT( keys[i] != NULL );
 				CPPUNIT_ASSERT( values[i] != NULL );
 				
-				//printf("key[i]->type = %d\n", keys[i]->type);
+				//fprintf(stderr, "key[i]->type = %d\n", keys[i]->type);
 				CPPUNIT_ASSERT( keys[i]->type == SCARAB_INTEGER );
 				CPPUNIT_ASSERT( values[i]->type == SCARAB_DICT );
 			}
@@ -148,7 +148,7 @@ class ScarabFileTestFixture : public CppUnit::TestFixture {
 		void testBigIntegerPutGet(){
 		  fprintf(stderr, "Running ScarabFileTestFixture::testBigIntegerPutGet()\n");
 
-			printf("Testing put/get large integer...\n");
+			fprintf(stderr, "Testing put/get large integer...\n");
 			ScarabDatum *theint = scarab_new_integer(100000);
 			
 			// put and get to a file
@@ -163,7 +163,7 @@ class ScarabFileTestFixture : public CppUnit::TestFixture {
 		void test64BitIntegerPutGet(){
 		  fprintf(stderr, "Running ScarabFileTestFixture::test64BitIntegerPutGet()\n");
 			
-			printf("Testing put/get 64 bit integer...\n");
+			fprintf(stderr, "Testing put/get 64 bit integer...\n");
 			ScarabDatum *theint = scarab_new_integer(((long long)0x01 << 31));
 			
 			CPPUNIT_ASSERT( theint->data.integer == ((long long)0x01 << 31) );
@@ -182,7 +182,7 @@ class ScarabFileTestFixture : public CppUnit::TestFixture {
 		void testFloatPutGet(){
 		  fprintf(stderr, "Running ScarabFileTestFixture::testFloatPutGet()\n");
 			
-			printf("Testing put/get float...\n");
+			fprintf(stderr, "Testing put/get float...\n");
 			
 			// TODO: There is a long-standing hack that needs correcting here...
 			// (sorry that this unit test just grandfathers it in...)
@@ -217,7 +217,7 @@ class ScarabFileTestFixture : public CppUnit::TestFixture {
 		void testDictPutGet(){
 		  fprintf(stderr, "Running ScarabFileTestFixture::testDictPutGet()\n");
 			
-			printf("Testing put/get dictionary...\n");
+			fprintf(stderr, "Testing put/get dictionary...\n");
 			
 			ScarabDatum *dict = scarab_dict_new(10,&scarab_dict_times2);
 			for(int i = 0; i < 10; i++){
@@ -245,7 +245,7 @@ class ScarabFileTestFixture : public CppUnit::TestFixture {
 		void testNestedDictPutGet(){
 		  fprintf(stderr, "Running ScarabFileTestFixture::testNestedDictPutGet()\n");
 			
-			printf("Testing put/get nested dictionaries...\n");
+			fprintf(stderr, "Testing put/get nested dictionaries...\n");
 			
 			ScarabDatum *dict = scarab_dict_new(10,&scarab_dict_times2);
 			for(int i = 0; i < 10; i++){

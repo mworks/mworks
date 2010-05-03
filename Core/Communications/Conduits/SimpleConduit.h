@@ -25,7 +25,7 @@
 #include <boost/thread.hpp>
 #include <boost/bind.hpp>
 #include <boost/function.hpp>
-#include <hash_map.h>
+#include <ext/hash_map>
 
 #include "GenericEventFunctor.h"
 #include "SimpleCodecUtilities.h"

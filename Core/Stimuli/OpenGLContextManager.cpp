@@ -627,7 +627,7 @@ int OpenGLContextManager::newFullScreenContext(int pixelDepth, int index) {
         NSOpenGLPFADepthSize, (NSOpenGLPixelFormatAttribute) 0,
         NSOpenGLPFAStencilSize, (NSOpenGLPixelFormatAttribute) 0,
         NSOpenGLPFAAccumSize, (NSOpenGLPixelFormatAttribute) 0,
-		// NSOpenGLPFABackingStore,(NSOpenGLPixelFormatAttribute) 1,
+		NSOpenGLPFABackingStore, (NSOpenGLPixelFormatAttribute) 1,
         NSOpenGLPFAFullScreen,						// display to full screen
         NSOpenGLPFAScreenMask, (NSOpenGLPixelFormatAttribute)
 		CGDisplayIDToOpenGLDisplayMask(display_ids[index]),
