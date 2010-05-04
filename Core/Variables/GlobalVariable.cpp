@@ -68,7 +68,7 @@ Datum GlobalVariable::getValue() {
 		valueLock->unlock();
         return undef;
     }
- Datum retval = *value;
+    Datum retval = *value;
 	valueLock->unlock();
 	
     return retval;

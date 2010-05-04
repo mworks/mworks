@@ -3332,11 +3332,6 @@
 					"-lxslt",
 				);
 				PRODUCT_NAME = MWorksCore;
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
 			};
 			name = Development;
 		};
