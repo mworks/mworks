@@ -27,7 +27,7 @@ using namespace mw;
 #pragma mark  COCOA
 #ifdef USE_COCOA_OPENGL
 
-#include "GLWindow.h"
+//#include "GLWindow.h"
 #import <OpenGL/OpenGL.h>
 #import <OpenGL/gl.h>
 #import <OpenGL/glu.h>

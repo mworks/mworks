@@ -392,9 +392,6 @@
 		DA2CE1BF07E9F95600C68AEF /* Utilities.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2CE1AF07E9F95600C68AEF /* Utilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DA2CE1C207E9F96500C68AEF /* ScarabServices.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2CE1C007E9F96500C68AEF /* ScarabServices.cpp */; };
 		DA2CE1C307E9F96500C68AEF /* ScarabServices.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2CE1C107E9F96500C68AEF /* ScarabServices.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		DA2CE1D007E9F96E00C68AEF /* DirectDisplay.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2CE1C407E9F96E00C68AEF /* DirectDisplay.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		DA2CE1D107E9F96E00C68AEF /* GLWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2CE1C507E9F96E00C68AEF /* GLWindow.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		DA2CE1D207E9F96E00C68AEF /* GLWindow.mm in Sources */ = {isa = PBXBuildFile; fileRef = DA2CE1C607E9F96E00C68AEF /* GLWindow.mm */; };
 		DA2CE1D307E9F96E00C68AEF /* OpenGLContextManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2CE1C707E9F96E00C68AEF /* OpenGLContextManager.cpp */; };
 		DA2CE1D407E9F96E00C68AEF /* OpenGLContextManager.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2CE1C807E9F96E00C68AEF /* OpenGLContextManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DA2CE1D507E9F96E00C68AEF /* StandardStimuli.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2CE1C907E9F96E00C68AEF /* StandardStimuli.cpp */; };
@@ -1005,9 +1002,6 @@
 		DA2CE1AF07E9F95600C68AEF /* Utilities.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Utilities.h; path = Core/RealtimeServices/Utilities.h; sourceTree = SOURCE_ROOT; };
 		DA2CE1C007E9F96500C68AEF /* ScarabServices.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ScarabServices.cpp; path = Core/Scarab/ScarabServices.cpp; sourceTree = SOURCE_ROOT; };
 		DA2CE1C107E9F96500C68AEF /* ScarabServices.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ScarabServices.h; path = Core/Scarab/ScarabServices.h; sourceTree = SOURCE_ROOT; };
-		DA2CE1C407E9F96E00C68AEF /* DirectDisplay.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = DirectDisplay.h; path = Core/Stimuli/DirectDisplay.h; sourceTree = SOURCE_ROOT; };
-		DA2CE1C507E9F96E00C68AEF /* GLWindow.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GLWindow.h; path = Core/Stimuli/GLWindow.h; sourceTree = SOURCE_ROOT; };
-		DA2CE1C607E9F96E00C68AEF /* GLWindow.mm */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.objcpp; name = GLWindow.mm; path = Core/Stimuli/GLWindow.mm; sourceTree = SOURCE_ROOT; };
 		DA2CE1C707E9F96E00C68AEF /* OpenGLContextManager.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = OpenGLContextManager.cpp; path = Core/Stimuli/OpenGLContextManager.cpp; sourceTree = SOURCE_ROOT; };
 		DA2CE1C807E9F96E00C68AEF /* OpenGLContextManager.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = OpenGLContextManager.h; path = Core/Stimuli/OpenGLContextManager.h; sourceTree = SOURCE_ROOT; };
 		DA2CE1C907E9F96E00C68AEF /* StandardStimuli.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = StandardStimuli.cpp; path = Core/Stimuli/StandardStimuli.cpp; sourceTree = SOURCE_ROOT; };
@@ -1910,9 +1904,6 @@
 			children = (
 				5C78EDE1115C00EC00151A76 /* DynamicStimuli */,
 				5C4D254E09DCBB9A0082BF9F /* tests */,
-				DA2CE1C407E9F96E00C68AEF /* DirectDisplay.h */,
-				DA2CE1C607E9F96E00C68AEF /* GLWindow.mm */,
-				DA2CE1C507E9F96E00C68AEF /* GLWindow.h */,
 				DA2CE1C707E9F96E00C68AEF /* OpenGLContextManager.cpp */,
 				DA2CE1C807E9F96E00C68AEF /* OpenGLContextManager.h */,
 				DA2CE1C907E9F96E00C68AEF /* StandardStimuli.cpp */,
@@ -2273,8 +2264,6 @@
 				DA2CE1BD07E9F95600C68AEF /* Timer.h in Headers */,
 				DA2CE1BF07E9F95600C68AEF /* Utilities.h in Headers */,
 				DA2CE1C307E9F96500C68AEF /* ScarabServices.h in Headers */,
-				DA2CE1D007E9F96E00C68AEF /* DirectDisplay.h in Headers */,
-				DA2CE1D107E9F96E00C68AEF /* GLWindow.h in Headers */,
 				DA2CE1D407E9F96E00C68AEF /* OpenGLContextManager.h in Headers */,
 				DA2CE1D607E9F96E00C68AEF /* StandardStimuli.h in Headers */,
 				DA2CE1D707E9F96E00C68AEF /* StimMirrorController.h in Headers */,
@@ -2951,7 +2940,6 @@
 				DA2CE1BC07E9F95600C68AEF /* Timer.cpp in Sources */,
 				DA2CE1BE07E9F95600C68AEF /* Utilities.cpp in Sources */,
 				DA2CE1C207E9F96500C68AEF /* ScarabServices.cpp in Sources */,
-				DA2CE1D207E9F96E00C68AEF /* GLWindow.mm in Sources */,
 				DA2CE1D307E9F96E00C68AEF /* OpenGLContextManager.cpp in Sources */,
 				DA2CE1D507E9F96E00C68AEF /* StandardStimuli.cpp in Sources */,
 				DA2CE1D807E9F96E00C68AEF /* StimMirrorController.m in Sources */,
