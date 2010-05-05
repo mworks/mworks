@@ -196,11 +196,7 @@ class NE500PumpNetworkDevice : public IODevice {
 		}
 		
 		// specify what this device can do
-		virtual ExpandableList<IOCapability> *getCapabilities(){ return NULL; }
-		virtual bool mapRequestsToChannels(){  return true;  }
-		virtual bool initializeChannels(){  return true;  }
-		virtual bool startup(){  return true;  }
-		virtual bool attachPhysicalDevice(){ return connected; }
+		virtual bool initialize(){  return connected;  }
 
 		virtual void addChild(std::map<std::string, std::string> parameters,
 								ComponentRegistry *reg,
@@ -221,10 +217,6 @@ class NE500PumpNetworkDevice : public IODevice {
 
 		virtual bool startDeviceIO(){  setActive(true); return true; }
 		virtual bool stopDeviceIO(){  setActive(false); return true; }
-		
-		
-		// this will stop anyIO behavior on a device and put the device in a shutdown state (if the device has one) -- e.g. turn off x-ray
-		virtual bool shutdown(){ return true; }
 
 
 };

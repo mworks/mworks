@@ -206,13 +206,6 @@ void mMSSWGamepad::registerHID_CFArrayApplier (const void * value, void * parame
 }
 
 
-// initialize the device (pre- channel creation/initialization
-bool mMSSWGamepad::startup(){
-	// no special action required  
-	return true;
-}
-
-
 // this could all be a bit more efficient, but it's much clearer what is happening here
 bool mMSSWGamepad::updateButtons() {	
 	switch(data_type) {
@@ -380,25 +373,11 @@ bool mMSSWGamepad::updateButtonsContinuous() {
 	return true;
 }
 
-bool mMSSWGamepad::attachPhysicalDevice(){                                      // attach next avaialble device to this object
-	
-	// bypass all of this bullshit for now--
-	attached_device = new IOPhysicalDeviceReference(0, "gamepad");
-	
-	return true;
-}
-
-
-bool mMSSWGamepad::shutdown(){
-	// no special action required
-	return true;
-}
 
 bool mMSSWGamepad::startDeviceIO(){
-	schedule_nodes_lock.lock();
 	
 	shared_ptr<mMSSWGamepad> this_one = shared_from_this();
-	shared_ptr<ScheduleTask> node = scheduler->scheduleUS(std::string(FILELINE ": ") + tag,
+	schedule_node = scheduler->scheduleUS(std::string(FILELINE ": ") + tag,
 														   (MWorksTime)0, 
 														   update_period, 
 														   M_REPEAT_INDEFINITELY, 
@@ -408,8 +387,6 @@ bool mMSSWGamepad::startDeviceIO(){
 														   M_DEFAULT_IODEVICE_WARN_SLOP_US,
 														   M_DEFAULT_IODEVICE_FAIL_SLOP_US,
 														   M_MISSED_EXECUTION_DROP);
-	schedule_nodes.push_back(node);       
-	schedule_nodes_lock.unlock();
 	
 	return true;
 }

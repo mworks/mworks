@@ -2,12 +2,12 @@
 #ifndef USB_HID_DEVICE_H
 #define USB_HID_DEVICE_H
 
-#include "MWorksCore/IODevice.h"
+#include "MWorksCore/LegacyIODevice.h"
 
 #include "HIDUtilities.h"
 using namespace mw;
 
-class mUSBHID : public IODevice {
+class mUSBHID : public LegacyIODevice {
 	
 protected:
 	
@@ -28,13 +28,11 @@ public:
 	~mUSBHID();
 	
 	// start acquiring
-	virtual bool startup();
 	virtual bool updateChannel(int channel_number);
-	virtual bool shutdown();	
 	virtual bool attachPhysicalDevice();
 	virtual bool startDeviceIO();
 	
-	shared_ptr<mUSBHID> shared_from_this() { return static_pointer_cast<mUSBHID>(IODevice::shared_from_this()); }
+	shared_ptr<mUSBHID> shared_from_this() { return dynamic_pointer_cast<mUSBHID>(IODevice::shared_from_this()); }
 };
 
 

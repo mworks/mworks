@@ -175,13 +175,6 @@ void mUSBHID::registerHID_CFArrayApplier (const void * value, void * parameter)
 }
 
 
-// initialize the device (pre- channel creation/initialization
-bool mUSBHID::startup(){
-	// no special action required  
-	return true;
-}
-
-
 
 // mUSBHID can use the base methods for starting and stopping acquisition
 /*bool mUSBHID::startAcquisition(){}
@@ -215,12 +208,6 @@ bool mUSBHID::attachPhysicalDevice(){                                      // at
 	// bypass all of this bullshit for now--
 	attached_device = new IOPhysicalDeviceReference(0, "gamepad");
 	
-	return true;
-}
-
-
-bool mUSBHID::shutdown(){
-	// no special action required
 	return true;
 }
 

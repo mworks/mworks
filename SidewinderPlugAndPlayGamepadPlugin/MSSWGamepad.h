@@ -19,6 +19,7 @@ class mMSSWGamepad : public IODevice {
 	
 protected:
 	boost::shared_ptr <Scheduler> scheduler;
+    boost::shared_ptr <ScheduleTask> schedule_node;
 	
 	boost::shared_ptr <Variable> A;
 	boost::shared_ptr <Variable> B;
@@ -67,17 +68,14 @@ public:
 	~mMSSWGamepad();
 	
 	// start acquiring
-	virtual bool startup();
 	virtual bool updateButtons();
-	virtual bool shutdown();	
-	virtual bool attachPhysicalDevice();
 	virtual bool startDeviceIO();
 	
 	virtual void addChild(std::map<std::string, std::string> parameters,
 						  mw::ComponentRegistry *reg,
 						  shared_ptr<mw::Component> child);
 	
-	shared_ptr<mMSSWGamepad> shared_from_this() { return static_pointer_cast<mMSSWGamepad>(IODevice::shared_from_this()); }
+	shared_ptr<mMSSWGamepad> shared_from_this() { return dynamic_pointer_cast<mMSSWGamepad>(IODevice::shared_from_this()); }
 };
 
 
