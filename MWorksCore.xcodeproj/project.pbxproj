@@ -3226,11 +3226,6 @@
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = LowPrioritySchedulerPlugin;
 				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
 			};
 			name = Development;
 		};
@@ -3283,11 +3278,6 @@
 					"-lxslt",
 				);
 				PRODUCT_NAME = MWorksCore;
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
 			};
 			name = Development;
 		};
@@ -3314,11 +3304,6 @@
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = MachClockPlugin;
 				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
 				ZERO_LINK = NO;
 			};
 			name = Development;
@@ -3348,11 +3333,6 @@
 				);
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = ZenSchedulerPlugin;
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
 			};
 			name = Development;
 		};
@@ -3381,11 +3361,6 @@
 				);
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = ZenStateSystemPlugin;
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
 			};
 			name = Development;
 		};
@@ -4010,12 +3985,6 @@
 					"-lxslt",
 				);
 				PRODUCT_NAME = MWorksCore;
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-					"-Wno-sign-compare",
-				);
 			};
 			name = "Development (10.5 Compatible)";
 		};
@@ -4046,12 +4015,6 @@
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = MachClockPlugin;
 				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-					"-Wno-sign-compare",
-				);
 				ZERO_LINK = NO;
 			};
 			name = "Development (10.5 Compatible)";
@@ -4108,12 +4071,6 @@
 				);
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = ZenSchedulerPlugin;
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-					"-Wno-sign-compare",
-				);
 			};
 			name = "Development (10.5 Compatible)";
 		};
@@ -4145,12 +4102,6 @@
 				);
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = ZenStateSystemPlugin;
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-					"-Wno-sign-compare",
-				);
 			};
 			name = "Development (10.5 Compatible)";
 		};
@@ -4184,12 +4135,6 @@
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = LowPrioritySchedulerPlugin;
 				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-					"-Wno-sign-compare",
-				);
 			};
 			name = "Development (10.5 Compatible)";
 		};
