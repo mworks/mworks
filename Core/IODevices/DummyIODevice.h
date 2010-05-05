@@ -34,11 +34,7 @@ class DummyIODevice : public IODevice {
 		
 		
 		
-		// specify what this device can do
-		virtual ExpandableList<IOCapability> *getCapabilities(){ return NULL; }
-		virtual bool mapRequestsToChannels(){  return true;  }
-		virtual bool initializeChannels(){  return true;  }
-		virtual bool startup(){  return true;  }
+		virtual bool initialize(){  return true;  }
 
 		virtual void addChild(std::map<std::string, std::string> parameters,
 								ComponentRegistry *reg, 
@@ -46,12 +42,6 @@ class DummyIODevice : public IODevice {
 		
 		virtual bool startDeviceIO(){  return true; }
 		virtual bool stopDeviceIO(){  return true; }
-		
-        virtual bool attachPhysicalDevice(){ return true; }
-        
-		
-		// this will stop anyIO behavior on a device and put the device in a shutdown state (if the device has one) -- e.g. turn off x-ray
-		virtual bool shutdown(){ return true; }
 
 
 };

@@ -22,6 +22,7 @@
 #include "Averagers.h"
 #include "SimpleStaircase.h"
 #include "DummyIODevice.h"
+#include "LegacyIODevice.h"
 #include "StandardSounds.h"
 #include "XMLParser.h"
 #include "BiasMonitor.h"

@@ -138,8 +138,8 @@
 		5C1D35330BBAAFEA00AB6DA3 /* ConstantVariable.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C1D35310BBAAFEA00AB6DA3 /* ConstantVariable.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5C1D35340BBAAFEA00AB6DA3 /* ConstantVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C1D35320BBAAFEA00AB6DA3 /* ConstantVariable.cpp */; };
 		5C25932C10AC95180098558D /* EventHandlerConduitTest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C25932A10AC95170098558D /* EventHandlerConduitTest.h */; };
-		5C28909E0850DD96002CC31A /* IODevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2CE13A07E9F8D300C68AEF /* IODevice.cpp */; };
-		5C28909F0850DD9A002CC31A /* IODevice.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2CE13B07E9F8D300C68AEF /* IODevice.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5C28909E0850DD96002CC31A /* LegacyIODevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2CE13A07E9F8D300C68AEF /* LegacyIODevice.cpp */; };
+		5C28909F0850DD9A002CC31A /* LegacyIODevice.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2CE13B07E9F8D300C68AEF /* LegacyIODevice.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5C2B51210BB6838200928E03 /* ScopedVariable.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C2B511F0BB6838200928E03 /* ScopedVariable.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5C2B51220BB6838200928E03 /* ScopedVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C2B51200BB6838200928E03 /* ScopedVariable.cpp */; };
 		5C35363D1064F30900FF0528 /* alc.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C35363C1064F30900FF0528 /* alc.h */; };
@@ -420,6 +420,8 @@
 		DA96B90909819B4E0007610D /* CoreBuilderForeman.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA96B90709819B4E0007610D /* CoreBuilderForeman.cpp */; };
 		DA96C0E60988546D0007610D /* ExperimentPackager.h in Headers */ = {isa = PBXBuildFile; fileRef = DA96C0E40988546D0007610D /* ExperimentPackager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DA96C0E70988546D0007610D /* ExperimentPackager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA96C0E50988546D0007610D /* ExperimentPackager.cpp */; };
+		E11AFFBD118F865C0034CC04 /* IODevice.h in Headers */ = {isa = PBXBuildFile; fileRef = E11AFFBC118F865C0034CC04 /* IODevice.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E1F65DF9119086A100F9A3A3 /* IODevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1F65DF8119086A100F9A3A3 /* IODevice.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -933,8 +935,8 @@
 		DA2CE13307E9F8C900C68AEF /* Interpreter.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Interpreter.h; path = Core/Interpreters/Interpreter.h; sourceTree = SOURCE_ROOT; };
 		DA2CE13407E9F8C900C68AEF /* StandardInterpreters.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = StandardInterpreters.cpp; path = Core/Interpreters/StandardInterpreters.cpp; sourceTree = SOURCE_ROOT; };
 		DA2CE13507E9F8C900C68AEF /* StandardInterpreters.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = StandardInterpreters.h; path = Core/Interpreters/StandardInterpreters.h; sourceTree = SOURCE_ROOT; };
-		DA2CE13A07E9F8D300C68AEF /* IODevice.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = IODevice.cpp; path = Core/IODevices/IODevice.cpp; sourceTree = SOURCE_ROOT; };
-		DA2CE13B07E9F8D300C68AEF /* IODevice.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IODevice.h; path = Core/IODevices/IODevice.h; sourceTree = SOURCE_ROOT; };
+		DA2CE13A07E9F8D300C68AEF /* LegacyIODevice.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = LegacyIODevice.cpp; path = Core/IODevices/LegacyIODevice.cpp; sourceTree = "<group>"; };
+		DA2CE13B07E9F8D300C68AEF /* LegacyIODevice.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = LegacyIODevice.h; path = Core/IODevices/LegacyIODevice.h; sourceTree = "<group>"; };
 		DA2CE15207E9F92500C68AEF /* NetworkWatcher.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = NetworkWatcher.h; path = Core/Network/Interfaces/NetworkWatcher.h; sourceTree = SOURCE_ROOT; };
 		DA2CE15307E9F92500C68AEF /* ScarabClient.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ScarabClient.cpp; path = Core/Network/Interfaces/ScarabClient.cpp; sourceTree = SOURCE_ROOT; };
 		DA2CE15407E9F92500C68AEF /* ScarabClient.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ScarabClient.h; path = Core/Network/Interfaces/ScarabClient.h; sourceTree = SOURCE_ROOT; };
@@ -1031,6 +1033,8 @@
 		DA96B90709819B4E0007610D /* CoreBuilderForeman.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CoreBuilderForeman.cpp; path = Core/CoreBuilders/CoreBuilderForeman.cpp; sourceTree = SOURCE_ROOT; };
 		DA96C0E40988546D0007610D /* ExperimentPackager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ExperimentPackager.h; path = Core/ExperimentDataLoading/ExperimentPackager.h; sourceTree = SOURCE_ROOT; };
 		DA96C0E50988546D0007610D /* ExperimentPackager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ExperimentPackager.cpp; path = Core/ExperimentDataLoading/ExperimentPackager.cpp; sourceTree = SOURCE_ROOT; };
+		E11AFFBC118F865C0034CC04 /* IODevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IODevice.h; path = Core/IODevices/IODevice.h; sourceTree = "<group>"; };
+		E1F65DF8119086A100F9A3A3 /* IODevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IODevice.cpp; path = Core/IODevices/IODevice.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1983,8 +1987,10 @@
 			children = (
 				8ED4517F08BF596A003880D5 /* IODeviceManager.h */,
 				8ED4518008BF596A003880D5 /* IODeviceManager.cpp */,
-				DA2CE13A07E9F8D300C68AEF /* IODevice.cpp */,
-				DA2CE13B07E9F8D300C68AEF /* IODevice.h */,
+				E11AFFBC118F865C0034CC04 /* IODevice.h */,
+				E1F65DF8119086A100F9A3A3 /* IODevice.cpp */,
+				DA2CE13B07E9F8D300C68AEF /* LegacyIODevice.h */,
+				DA2CE13A07E9F8D300C68AEF /* LegacyIODevice.cpp */,
 				5C8D03C10D56B18600454461 /* Dummy */,
 				0EB1423D0EFB4EFC0056E2A2 /* IODeviceVariableNotification.h */,
 				0EB1423E0EFB4EFC0056E2A2 /* IODeviceVariableNotification.cpp */,
@@ -2246,7 +2252,7 @@
 				DA2CE1ED07E9F97F00C68AEF /* VariableProperties.h in Headers */,
 				DA2CE1EF07E9F97F00C68AEF /* ScopedVariableContext.h in Headers */,
 				DA0C98800827E80400BC1EF1 /* SystemEventFactory.h in Headers */,
-				5C28909F0850DD9A002CC31A /* IODevice.h in Headers */,
+				5C28909F0850DD9A002CC31A /* LegacyIODevice.h in Headers */,
 				5C91B990086CC9DC00C14E1A /* Trigger.h in Headers */,
 				5C866A99086E1E43006CBE6F /* MWorksTypes.h in Headers */,
 				DA08704308A3D22A00D20FFB /* NetworkConnectionStats.h in Headers */,
@@ -2336,6 +2342,7 @@
 				5CA07B4D10D0560300000A95 /* SimpleCodecUtilities.h in Headers */,
 				5CA07B4E10D0560C00000A95 /* EventCallbackHandler.h in Headers */,
 				5CA07C5510D13A4700000A95 /* CodecAwareConduit.h in Headers */,
+				E11AFFBD118F865C0034CC04 /* IODevice.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2919,7 +2926,7 @@
 				DA2CE1EC07E9F97F00C68AEF /* VariableProperties.cpp in Sources */,
 				DA2CE1EE07E9F97F00C68AEF /* ScopedVariableContext.cpp in Sources */,
 				DA0C98810827E80400BC1EF1 /* SystemEventFactory.cpp in Sources */,
-				5C28909E0850DD96002CC31A /* IODevice.cpp in Sources */,
+				5C28909E0850DD96002CC31A /* LegacyIODevice.cpp in Sources */,
 				5C91B991086CC9DC00C14E1A /* Trigger.cpp in Sources */,
 				DA08704408A3D22A00D20FFB /* NetworkConnectionStats.cpp in Sources */,
 				DA0873F908A9367E00D20FFB /* ScarabServerConnection.cpp in Sources */,
@@ -3000,6 +3007,7 @@
 				5CA07B4B10D055F600000A95 /* EventCallbackHandler.cpp in Sources */,
 				5CA07B4C10D055FD00000A95 /* SimpleCodecUtilities.cpp in Sources */,
 				5CA07C5610D13A4B00000A95 /* CodecAwareConduit.cpp in Sources */,
+				E1F65DF9119086A100F9A3A3 /* IODevice.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3241,10 +3249,7 @@
 				);
 				INFOPLIST_FILE = "MWorksCore-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(MW_LIB_DIR)",
-					"\"$(LOCAL_LIBRARY_DIR)/Application Support/MWorks/Developer/gcc42/lib\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
 				OTHER_CFLAGS = "-ObjC++";
 				OTHER_LDFLAGS = (
 					"$(MW_LIB_DIR)/libpng.a",
@@ -3527,10 +3532,7 @@
 				);
 				INFOPLIST_FILE = "MWorksCore-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(MW_LIB_DIR)",
-					"\"$(LOCAL_LIBRARY_DIR)/Application Support/MWorks/Developer/gcc42/lib\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
 				OTHER_CFLAGS = "-ObjC++";
 				OTHER_LDFLAGS = (
 					"-lz",
@@ -3948,10 +3950,7 @@
 				);
 				INFOPLIST_FILE = "MWorksCore-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(MW_LIB_DIR)",
-					"\"$(LOCAL_LIBRARY_DIR)/Application Support/MWorks/Developer/gcc42/lib\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
 				OTHER_CFLAGS = "-ObjC++";
 				OTHER_LDFLAGS = (
 					"$(MW_LIB_DIR)/libz.a",

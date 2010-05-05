@@ -8,6 +8,7 @@
  */
 
 #include "IODeviceVariableNotification.h"
+#include "StandardVariables.h"
 // ===================================
 
 using namespace mw;
