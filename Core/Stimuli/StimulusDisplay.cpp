@@ -142,40 +142,7 @@ int StimulusDisplay::getNContexts(){
 	return context_ids.size(); 
 }
 
-/*StimulusDisplay::StimulusDisplay(StimulusDisplayChain *chain){
-    StimulusDisplay(-1, chain);
-}*/
-   
-/*StimulusDisplay::StimulusDisplay(int _context_id,
-                            StimulusDisplayChain *chain) : Lockable() {
-    stimulus_chain = chain;
-    context_id = _context_id;
-}*/
 
-/*void StimulusDisplay::drawGLTest() {
-
-    glClearColor(1.0, 1.0, 1.0, 0.0);
-    glClear(GL_COLOR_BUFFER_BIT);
-		    
-		    
-    glBegin(GL_TRIANGLES);
-		    
-    glColor3f(0.0, 0.0, 0.0);
-    glVertex2f(-1.0, -1.0);
-    glVertex2f(0.0, 1);
-    glVertex2f(1.0, -1);
-		    
-    glEnd();
-    glFinish();
-}*/
-
-/*void StimulusDisplay::setContextID(int _context_id) {
-    context_id = _context_id;
-}*/
-
-/*void StimulusDisplay::setStimulusChain(StimulusDisplayChain *chain) {
-    stimulus_chain = chain;
-}*/
 
 shared_ptr<StimulusNode> StimulusDisplay::addStimulus(shared_ptr<Stimulus> stim) {
     if(!stim) {

@@ -282,97 +282,83 @@ int StimulusGroupReferenceNode::getDeferred(){
 
 // Passthrough to the referenced node
 void StimulusGroupReferenceNode::draw(StimulusDisplay * display){
-	int index_value = getIndexValue();
-	int nelements = stimulus_nodes->getNElements();
-	if(index_value >=0 && index_value < nelements ){
-		(stimulus_nodes->getElement(index_value))->draw(display);
-	}
+    
+    throw SimpleException("Illegal attempt to draw a StimulusGroupReference Stimulus Node.");
+    
+//	int index_value = getIndexValue();
+//	int nelements = stimulus_nodes->getNElements();
+//	if(index_value >=0 && index_value < nelements ){
+//		(stimulus_nodes->getElement(index_value))->draw(display);
+//	}
 }
+
+
+#define STIM_GROUP_REFERENCE_NODE_PASSTHROUGH_BOOL_RETURN(FUNC)             \
+    int index_value = getIndexValue();                                      \
+    int nelements = stimulus_nodes->getNElements();                         \
+    if(index_value >=0 && index_value < nelements ){                        \
+        return (stimulus_nodes->getElement(index_value))->FUNC();           \
+    } else {                                                                \
+        return false;                                                       \
+    }
+
+#define STIM_GROUP_REFERENCE_NODE_PASSTHROUGH_VOID_RETURN(FUNC)             \
+    int index_value = getIndexValue();                                      \
+    int nelements = stimulus_nodes->getNElements();                         \
+    if(index_value >=0 && index_value < nelements ){                        \
+        (stimulus_nodes->getElement(index_value))->FUNC();                  \
+    } 
+
+#define STIM_GROUP_REFERENCE_NODE_PASSTHROUGH_SET_BOOL(FUNC, ARG)           \
+    int index_value = getIndexValue();                                      \
+    int nelements = stimulus_nodes->getNElements();                         \
+    if(index_value >=0 && index_value < nelements ){                        \
+        (stimulus_nodes->getElement(index_value))->FUNC(ARG);               \
+    }
 
 
 void StimulusGroupReferenceNode::setVisible(bool _vis){ 
-	int index_value = getIndexValue();
-	int nelements = stimulus_nodes->getNElements();
-	if(index_value >=0 && index_value < nelements ){
-		(stimulus_nodes->getElement(index_value))->setVisible(_vis);
-	}
+	STIM_GROUP_REFERENCE_NODE_PASSTHROUGH_SET_BOOL(setVisible, _vis)
 }
 
 bool StimulusGroupReferenceNode::isVisible(){          
-	int index_value = getIndexValue();
-	int nelements = stimulus_nodes->getNElements();
-	if(index_value >=0 && index_value < nelements ){
-		return (stimulus_nodes->getElement(index_value))->isVisible();
-	} else {
-		return false;
-	}
+	STIM_GROUP_REFERENCE_NODE_PASSTHROUGH_BOOL_RETURN(isVisible)
 }	
 
 
+// Set a flag to determine whether to draw this stimulus on the
+// next update
+void StimulusGroupReferenceNode::setPending(){
+    STIM_GROUP_REFERENCE_NODE_PASSTHROUGH_VOID_RETURN(setPending)
+}
 
-//void StimulusGroupReferenceNode::clearPending(){
-//    int index_value = getIndexValue();
-//	int nelements = stimulus_nodes->getNElements();
-//	if(index_value >=0 && index_value < nelements ){
-//		(stimulus_nodes->getElement(index_value))->clearPending();
-//	}
-//}
-//
-//bool StimulusGroupReferenceNode::isPending(){
-//    int index_value = getIndexValue();
-//	int nelements = stimulus_nodes->getNElements();
-//	if(index_value >=0 && index_value < nelements ){
-//		return (stimulus_nodes->getElement(index_value))->isPending();
-//	} else {
-//		return false;
-//	}
-//}
+void StimulusGroupReferenceNode::clearPending(){
+    STIM_GROUP_REFERENCE_NODE_PASSTHROUGH_VOID_RETURN(clearPending)
+}
+
+bool StimulusGroupReferenceNode::isPending(){
+    STIM_GROUP_REFERENCE_NODE_PASSTHROUGH_BOOL_RETURN(isPending)
+}
+
+void StimulusGroupReferenceNode::setPendingRemoval(){
+    STIM_GROUP_REFERENCE_NODE_PASSTHROUGH_VOID_RETURN(setPendingRemoval)
+}
+
+void StimulusGroupReferenceNode::clearPendingRemoval(){
+    STIM_GROUP_REFERENCE_NODE_PASSTHROUGH_VOID_RETURN(clearPendingRemoval)
+}
+
+bool StimulusGroupReferenceNode::isPendingRemoval(){
+    STIM_GROUP_REFERENCE_NODE_PASSTHROUGH_BOOL_RETURN(isPendingRemoval)
+}    
 
 void StimulusGroupReferenceNode::setPendingVisible(bool _vis){
-    int index_value = getIndexValue();
-	int nelements = stimulus_nodes->getNElements();
-	if(index_value >=0 && index_value < nelements ){
-        (stimulus_nodes->getElement(index_value))->setPending();
-		(stimulus_nodes->getElement(index_value))->setPendingVisible(_vis);
-	}
+    STIM_GROUP_REFERENCE_NODE_PASSTHROUGH_SET_BOOL(setPendingVisible, _vis)
 }
 
 bool StimulusGroupReferenceNode::isPendingVisible(){
-    int index_value = getIndexValue();
-	int nelements = stimulus_nodes->getNElements();
-	if(index_value >=0 && index_value < nelements ){
-		return (stimulus_nodes->getElement(index_value))->isPendingVisible();
-	} else {
-		return false;
-	}
+    STIM_GROUP_REFERENCE_NODE_PASSTHROUGH_BOOL_RETURN(isPendingVisible)
 }
-
-/*void StimulusGroupReferenceNode::setPendingRemoval(){
- int index_value = getIndexValue();
- int nelements = stimulus_nodes->getNElements();
- if(index_value >=0 && index_value < nelements ){
- (stimulus_nodes->getElement(index_value))->setPending();
- (stimulus_nodes->getElement(index_value))->setPendingRemoval();
- }
- }
- 
- void StimulusGroupReferenceNode::clearPendingRemoval(){
- int index_value = getIndexValue();
- int nelements = stimulus_nodes->getNElements();
- if(index_value >=0 && index_value < nelements ){
- (stimulus_nodes->getElement(index_value))->clearPendingRemoval();
- }
- }
- 
- bool StimulusGroupReferenceNode::isPendingRemoval(){
- int index_value = getIndexValue();
- int nelements = stimulus_nodes->getNElements();
- if(index_value >=0 && index_value < nelements ){
- return (stimulus_nodes->getElement(index_value))->isPendingRemoval();
- } else {
- return false;
- }
- }*/
 
 
 /*void StimulusGroupReferenceNode::setVisibleOnLastUpdate(bool _vis){ // JJD add
@@ -403,45 +389,45 @@ Datum StimulusGroupReferenceNode::getCurrentAnnounceDrawData(){
 }
 
 
-void StimulusGroupReferenceNode::remove(){
-	int index_value = getIndexValue();
-	int nelements = stimulus_nodes->getNElements();
-	if(index_value >=0 && index_value < nelements ){
-		(stimulus_nodes->getElement(index_value))->remove();
-	}
-}
-
-void StimulusGroupReferenceNode::bringToFront(){
-	int index_value = getIndexValue();
-	int nelements = stimulus_nodes->getNElements();
-	if(index_value >=0 && index_value < nelements ){
-		(stimulus_nodes->getElement(index_value))->bringToFront();
-	}
-}
-
-void StimulusGroupReferenceNode::sendToBack(){
-	int index_value = getIndexValue();
-	int nelements = stimulus_nodes->getNElements();
-	if(index_value >=0 && index_value < nelements ){
-		(stimulus_nodes->getElement(index_value))->sendToBack();
-	}
-}
-
-
-void StimulusGroupReferenceNode::bringForward(){
-	
-	int index_value = getIndexValue();
-	int nelements = stimulus_nodes->getNElements();
-	if(index_value >=0 && index_value < nelements ){
-		(stimulus_nodes->getElement(index_value))->moveForward();
-	}
-}
-
-void StimulusGroupReferenceNode::sendBackward(){
-	int index_value = getIndexValue();
-	int nelements = stimulus_nodes->getNElements();
-	if(index_value >=0 && index_value < nelements ){
-		(stimulus_nodes->getElement(index_value))->moveBackward();
-	}
-}
-
+//void StimulusGroupReferenceNode::remove(){
+//	int index_value = getIndexValue();
+//	int nelements = stimulus_nodes->getNElements();
+//	if(index_value >=0 && index_value < nelements ){
+//		(stimulus_nodes->getElement(index_value))->remove();
+//	}
+//}
+//
+//void StimulusGroupReferenceNode::bringToFront(){
+//	int index_value = getIndexValue();
+//	int nelements = stimulus_nodes->getNElements();
+//	if(index_value >=0 && index_value < nelements ){
+//		(stimulus_nodes->getElement(index_value))->bringToFront();
+//	}
+//}
+//
+//void StimulusGroupReferenceNode::sendToBack(){
+//	int index_value = getIndexValue();
+//	int nelements = stimulus_nodes->getNElements();
+//	if(index_value >=0 && index_value < nelements ){
+//		(stimulus_nodes->getElement(index_value))->sendToBack();
+//	}
+//}
+//
+//
+//void StimulusGroupReferenceNode::bringForward(){
+//	
+//	int index_value = getIndexValue();
+//	int nelements = stimulus_nodes->getNElements();
+//	if(index_value >=0 && index_value < nelements ){
+//		(stimulus_nodes->getElement(index_value))->moveForward();
+//	}
+//}
+//
+//void StimulusGroupReferenceNode::sendBackward(){
+//	int index_value = getIndexValue();
+//	int nelements = stimulus_nodes->getNElements();
+//	if(index_value >=0 && index_value < nelements ){
+//		(stimulus_nodes->getElement(index_value))->moveBackward();
+//	}
+//}
+//

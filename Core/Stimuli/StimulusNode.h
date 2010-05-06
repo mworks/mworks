@@ -125,6 +125,17 @@ class StimulusNodeGroup : public ExpandableList<StimulusNode>, public mw::Compon
 	StimulusNodeGroup(shared_ptr<StimulusGroup> _group);
 };
 
+    
+// The StimulusGroupReferenceNode is a stimulus node that refers to another
+// stimulus node (in a group) by an index
+//
+// Because the index is a variable, this single stimulus node can
+// refer a variety of different other ones, so its primary job is to forward
+// calls to the node it refers to (at any given moment)
+// A consequence of this is that this node should never actually get added
+// to the display chain, nor should it ever get drawn.  It is only held and
+// manipulated by objects such as QueueStimulus and DeQueueStimulus actions
+    
 class StimulusGroupReferenceNode : public StimulusNode {
     protected:
         shared_ptr<Variable> index;
@@ -145,11 +156,20 @@ class StimulusGroupReferenceNode : public StimulusNode {
 		// set the "visible" state of the node
 		virtual void setVisible(bool _vis);
         virtual bool isVisible();
-        
+
+        // Set a flag to determine whether to draw this stimulus on the
+        // next update
+        virtual void setPending();
+        virtual void clearPending();
+        virtual bool isPending();
+            
+        virtual void setPendingRemoval();
+        virtual void clearPendingRemoval();
+        virtual bool isPendingRemoval();
+    
         virtual void setPendingVisible(bool _vis);
         virtual bool isPendingVisible();
         
-    
 		// set the "frozen" state of the node
         virtual void freeze();
         virtual void thaw();
@@ -167,11 +187,11 @@ class StimulusGroupReferenceNode : public StimulusNode {
         virtual int getDeferred();
   
 		// LinkedListNode methods
-		virtual void remove();
-		virtual void bringToFront();
-		virtual void sendToBack();
-		virtual void bringForward();
-		virtual void sendBackward();
+		//virtual void remove();
+//		virtual void bringToFront();
+//		virtual void sendToBack();
+//		virtual void bringForward();
+//		virtual void sendBackward();
 
 };
  }
