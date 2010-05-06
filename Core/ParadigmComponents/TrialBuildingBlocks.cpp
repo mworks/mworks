@@ -677,31 +677,7 @@ bool QueueStimulus::execute() {
     stimnode->freeze();
     stimnode->setPendingVisible(true);
 	
-	// WTF is going on here you ask?
-	//
-	// Well, Dave put it best:
-	//	I think that the reason this change was made is because an object can't get a
-	//		useful shared pointer to itself, and this is what it would need to work
-	//		properly. However, the way it is now circumvents the inherited versions of
-	//		methods that the stim group refs need to work correctly.
-	//		
-	//		We could fudge this for now by having the stimnode->addToDisplay(display)
-	//			method also take a shared_ptr<StimNode> argument:
-	//				stimnode->addToDisplay(stimnode, display).  That way, the addToDisplay method
-	//				would have the appropriate shared_ptr to add to the display, AND inherited
-	//				classes can override this functionality as needed.
-	//				
-	//				Strange looking? Yes. Aesthetically displeasing? You bet.  But I think it could
-	//				work, at least in the interim.
-	
-	// basically, two things inheirit from StimulusNode, and when doing the old style:
-	// stimnode->addToDisplay(display), a StimulusNode that points to a stimulus can't add 
-	// itself to the stack properly...this was fixed by using display->addStimulusNode()
-	// that caused problems with the StimulusGroupReferenceNode.
-	// the conclusion is that this piece of code has been gone over so many times, that
-	// it has positioned itself to be a prime candidate for the next refactor...just not now
-	
-    stimnode->addToDisplay(stimnode, display);
+    stimnode->addToDisplay(display);
 	
     //	display->addStimulusNode(stimnode);
     return true;
@@ -758,7 +734,7 @@ bool LiveQueueStimulus::execute() {
   
 	
 	// see "WTF is going on here" above
-	stimnode->addToDisplay(stimnode, display);
+	stimnode->addToDisplay(display);
 	//	display->addStimulusNode(stimnode);
 	
     return true;

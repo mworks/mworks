@@ -172,9 +172,9 @@ Datum StimulusNode::getCurrentAnnounceDrawData() {
 	
 }
 
-void StimulusNode::addToDisplay(shared_ptr<StimulusNode> stimnode, 
-								 shared_ptr<StimulusDisplay> display){
-	display->addStimulusNode(stimnode);
+void StimulusNode::addToDisplay(shared_ptr<StimulusDisplay> display){
+    shared_ptr<StimulusNode> this_stimnode = shared_from_this();
+	display->addStimulusNode(this_stimnode);
 }
 
 
@@ -211,7 +211,7 @@ int StimulusGroupReferenceNode::getIndexValue(){
 	
 }
 
-void StimulusGroupReferenceNode::addToDisplay(shared_ptr<StimulusNode> stimnode, shared_ptr<StimulusDisplay> display){
+void StimulusGroupReferenceNode::addToDisplay(shared_ptr<StimulusDisplay> display){
 	int index_value = getIndexValue();
 	int nelements = stimulus_nodes->getNElements();
 	if(index_value >=0 && index_value < nelements ){

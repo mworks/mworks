@@ -11,14 +11,21 @@
 #define STIMULUS_NODE_H_
  
 #include <boost/shared_ptr.hpp>
+#include <boost/enable_shared_from_this.hpp>
 #include "StimulusDisplay.h"
 #include "Stimulus.h"
 #include "GenericVariable.h"
 #include "Component.h"
-namespace mw {
-class StimulusGroup;
 
-class StimulusNode : public Lockable, public LinkedListNode<StimulusNode>, public mw::Component {
+namespace mw {
+    
+    using namespace boost;
+    
+    class StimulusGroup;
+    
+    
+
+    class StimulusNode : public Lockable, public LinkedListNode<StimulusNode>, public mw::Component, public enable_shared_from_this<StimulusNode> {
     protected:
         
 		
@@ -70,7 +77,7 @@ class StimulusNode : public Lockable, public LinkedListNode<StimulusNode>, publi
         
 		virtual shared_ptr<Stimulus> getStimulus();
         
-		virtual void addToDisplay(shared_ptr<StimulusNode> stimnode, shared_ptr<StimulusDisplay> display);
+		virtual void addToDisplay(shared_ptr<StimulusDisplay> display);
 		
 		
         virtual void setVisible(bool _vis);
@@ -151,7 +158,7 @@ class StimulusGroupReferenceNode : public StimulusNode {
 										shared_ptr<Variable> _index);
 		virtual ~StimulusGroupReferenceNode(){}							
 
-		virtual void addToDisplay(shared_ptr<StimulusNode> stimnode, shared_ptr<StimulusDisplay> display);
+		virtual void addToDisplay(shared_ptr<StimulusDisplay> display);
 	
 		// set the "visible" state of the node
 		virtual void setVisible(bool _vis);
