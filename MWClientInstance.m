@@ -415,10 +415,10 @@
         [defaults synchronize];
     }
     NSArray *recentExperiments = [defaults arrayForKey:@"recentExperiments"];
-    if([self experimentPath] != Nil && ![recentExperiments containsObject:[self experimentPath]]){
-      NSMutableArray *recentExperimentsMutable = [[NSMutableArray alloc] init];
-      [recentExperimentsMutable addObjectsFromArray:recentExperiments];
-      [recentExperimentsMutable addObject:[self experimentPath]];
+    if([self experimentPath] != Nil){
+      NSMutableArray *recentExperimentsMutable = [NSMutableArray arrayWithArray:recentExperiments];
+      [recentExperimentsMutable removeObject:[self experimentPath]];  // In case it's already in the list
+      [recentExperimentsMutable insertObject:[self experimentPath] atIndex:0];
       [defaults setObject:recentExperimentsMutable forKey:@"recentExperiments"];
       [defaults synchronize];
     }
