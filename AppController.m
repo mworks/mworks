@@ -225,12 +225,13 @@
 }
 
 - (IBAction) loadRecentExperiment: (id) sender {
-	MWClientInstance *client_instance = [self modalClientInstanceInCharge];
     NSString *selected_path = [modalRecentExperimentPopUp titleOfSelectedItem];
+    if (selected_path == nil)
+        return;
+
+	MWClientInstance *client_instance = [self modalClientInstanceInCharge];
 	[client_instance setExperimentPath:selected_path];
-  
 	[client_instance loadExperiment];
-	
 	[self closeExperimentLoadSheet:self];  
 }
 
