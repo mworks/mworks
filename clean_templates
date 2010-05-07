@@ -1,0 +1,9 @@
+#!/bin/bash
+
+#
+# Removes files created by Xcode during editing and testing of the
+# templates, which shouldn't be copied into new projects
+#
+
+rm -f */*/*.xcodeproj/*.pbxuser */*/*.xcodeproj/*.perspectivev3
+rm -Rf */*/build
