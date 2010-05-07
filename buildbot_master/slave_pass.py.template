@@ -1,3 +1,0 @@
-# Copy this file to slave_pass.py and replace "password" with the
-# actual slave password
-slave_pass = 'password'

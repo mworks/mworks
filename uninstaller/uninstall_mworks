@@ -2,15 +2,29 @@
 
 from optparse import OptionParser
 import os
+import pwd
 from subprocess import check_call
 import sys
 import time
 
 
 mw_files = (
+    # Common
     '/Applications/MWClient.app',
     '/Applications/MWEditor.app',
     '/Applications/MWServer.app',
+
+    # MWorks
+    '/Documents/MWorks/Examples',
+    '/Library/Application Support/MWorks/Configuration/examples',
+    '/Library/Application Support/MWorks/Developer/',
+    '/Library/Application Support/MWorks/Plugins',
+    '/Library/Application Support/MWorks/Scripting',
+    '/Library/Application Support/MWorks/Tools',
+    '/Library/Frameworks/MWorksCocoa.framework',
+    '/Library/Frameworks/MWorksCore.framework',
+
+    # MonkeyWorks
     '/Documents/MonkeyWorks',
     '/Library/Application Support/MonkeyWorks',
     '/Library/Application Support/NewClient',
@@ -42,16 +56,23 @@ def backup_files(filelist, backupdir):
     for filename in filelist:
         if os.path.exists(filename):
             destdir = os.path.join(backupdir, os.path.dirname(filename[1:]))
-            sys.stderr.write('Moving "%s" to "%s"\n' % (filename, backupdir))
+            sys.stdout.write('Moving "%s" to "%s"\n' % (filename, backupdir))
             check_call(['mkdir', '-p', destdir])
             check_call(['mv', filename, destdir])
+
+    # Make sure the backup directory has the same owner as its parent
+    if os.path.exists(backupdir):
+        expected_uid = os.stat(os.path.dirname(backupdir))[4]
+        if os.geteuid() != expected_uid:
+            username = pwd.getpwuid(expected_uid)[0]
+            check_call(['chown', '-R', username, backupdir])
 
 
 def restore_files(filelist, backupdir):
     for filename in filelist:
         srcfile = os.path.join(backupdir, filename[1:])
         if os.path.exists(srcfile):
-            sys.stderr.write('Restoring "%s" from "%s"\n' %
+            sys.stdout.write('Restoring "%s" from "%s"\n' %
                              (filename, backupdir))
             check_call(['mv', srcfile, os.path.dirname(filename)])
 

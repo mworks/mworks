@@ -1,0 +1,13 @@
+#!/bin/bash
+
+set -u
+
+
+./check_config_files || exit
+
+MASTERDIR=~/.buildbot_master
+
+rm -Rf $MASTERDIR
+buildbot create-master $MASTERDIR
+cp master.cfg local_config.py slave_pass.py $MASTERDIR
+buildbot start $MASTERDIR

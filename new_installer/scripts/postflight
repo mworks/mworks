@@ -1,0 +1,65 @@
+#!/usr/bin/python
+
+#
+# Migrate preferences from old to new application IDs
+#
+
+
+from subprocess import check_call, Popen, PIPE, STDOUT
+
+
+defaults = '/usr/bin/defaults'
+
+
+id_map = {
+
+    'org.mworks-project.MWClient':
+        (
+        'org.coxlab.MWClient',
+        'org.coxlab.New Client',
+        ),
+
+    'org.mworks-project.MWEditor':
+        (
+        'org.coxlab.MWEditor',
+        'org.coxlab.NewEditor',
+        ),
+
+    'org.mworks-project.MWServer':
+        (
+        'edu.mit.MonkeyWorksServer',
+        ),
+
+    }
+
+
+def get_prefs(id):
+    p = Popen(
+        args = (defaults, 'read', id),
+        stdout = PIPE,
+        stderr = STDOUT,
+        )
+
+    if p.wait() != 0:
+        return ''
+
+    return p.stdout.read()
+
+
+def migrate_prefs(old_id, new_id):
+    if get_prefs(new_id):
+        return
+
+    old_prefs = get_prefs(old_id)
+    if old_prefs:
+        check_call([defaults, 'write', new_id, old_prefs])
+
+
+def main():
+    for new_id, old_id_list in id_map.iteritems():
+        for old_id in old_id_list:
+            migrate_prefs(old_id, new_id)
+
+
+if __name__ == '__main__':
+    main()

@@ -1,3 +1,0 @@
-# Copy this file to slave_pass.sh and replace "password" with the
-# actual slave password
-SLAVE_PASS='password'

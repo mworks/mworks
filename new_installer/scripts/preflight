@@ -1,0 +1,5 @@
+#!/bin/bash
+set -u
+echo "Moving aside existing MWorks components"
+installer_path="${1%/*}"
+"${installer_path}/Uninstall MWorks" --backup

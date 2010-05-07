@@ -1,0 +1,5 @@
+# To set the slave password, create a copy of this file named
+# "slave_pass.py" and edit it, replacing "PASSWORD" with the desired
+# slave password
+
+slave_pass = 'PASSWORD'

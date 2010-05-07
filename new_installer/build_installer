@@ -1,0 +1,107 @@
+#!/usr/bin/python
+
+import os
+from subprocess import check_call
+import sys
+
+
+packagemaker = ('/Developer/Applications/Utilities/PackageMaker.app/Contents/'
+                'MacOS/PackageMaker')
+installer_root = '/tmp/mw_installer'
+
+
+package_contents = {
+
+    'Core':
+        {
+        'copy':
+            (
+            '/Applications/MWClient.app',
+            '/Applications/MWEditor.app',
+            '/Applications/MWServer.app',
+            '/Library/Application Support/MWorks/Configuration/examples',
+            '/Library/Application Support/MWorks/Plugins',
+            '/Library/Frameworks/MWorksCocoa.framework',
+            '/Library/Frameworks/MWorksCore.framework',
+            ),
+        'create':
+            (
+            '/Documents/MWorks/Data',
+            '/Library/Application Support/MWorks/Experiment Cache',
+            ),
+        },
+
+    'Developer':
+        (
+        '/Library/Application Support/MWorks/Developer',
+        ),
+
+    'Examples':
+        (
+        '/Documents/MWorks/Examples',
+        ),
+
+    'Scripting':
+        (
+        '/Library/Application Support/MWorks/Scripting',
+        ),
+
+    'Tools':
+        (
+        '/Library/Application Support/MWorks/Tools',
+        ),
+
+    }
+
+
+def make_destdir(package, path):
+    destdir = os.path.join(installer_root, package, path[1:])
+    check_call(['mkdir', '-p', destdir])
+    return destdir
+
+
+def copy_path(package, path):
+    destdir = make_destdir(package, path)
+    check_call(['cp', '-R', path + '/', destdir])
+
+
+def main():
+    package_name = 'MWorks'
+    package_version = sys.argv[1]
+
+    check_call(['rm', '-Rf', installer_root])
+
+    for contents in package_contents.itervalues():
+        if isinstance(contents, dict):
+            for path in contents['create']:
+                make_destdir(package_name, path)
+            contents = contents['copy']
+
+        for path in contents:
+            copy_path(package_name, path)
+
+    dmg_contents_dir = os.path.join(installer_root,
+                                    '%s %s' % (package_name, package_version))
+    check_call(['mkdir', dmg_contents_dir])
+
+    check_call([packagemaker,
+                '--root', os.path.join(installer_root, package_name),
+                '--id', 'org.mworks-project.pkg.' + package_name,
+                '--out', os.path.join(dmg_contents_dir, package_name + '.pkg'),
+                '--title', package_name,
+                '--scripts', 'scripts',
+                '--target', '10.4',
+                '--root-volume-only',
+                ])
+
+    check_call(['cp', '../uninstaller/uninstall_mworks',
+                os.path.join(dmg_contents_dir, 'Uninstall MWorks')])
+
+    output_file = os.path.join(installer_root,
+                               '%s-%s.dmg' % (package_name, package_version))
+    check_call(['hdiutil', 'create', '-quiet', '-srcfolder', dmg_contents_dir,
+                output_file])
+
+
+if __name__ == '__main__':
+    main()
