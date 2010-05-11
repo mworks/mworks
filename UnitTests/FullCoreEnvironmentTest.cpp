@@ -66,16 +66,6 @@ void FullCoreEnvironmentTestFixture::tearDown(){
 	}
 
 	
-//  // Can't open/close OpenGL from here?
-//	if(GlobalStimMirrorController) {
-//	  delete GlobalStimMirrorController;
-//	  GlobalStimMirrorController = 0;
-//	}
-//
-//	if(GlobalOpenGLContextManager) {
-//	  delete GlobalOpenGLContextManager;
-//	  GlobalOpenGLContextManager = 0;
-//	}
 
 	
 	if(registries_are_initialized) {

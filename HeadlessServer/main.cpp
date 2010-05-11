@@ -80,7 +80,8 @@ int main(int argc, char *argv[]) {
 		// we need to make sure that the OpenGL contexts are finalized
 		// (initialized) in this thread due to thread safety issues with
 		// both GLUT and SDL (and OpenGL in general on Linux)
-		GlobalOpenGLContextManager->finalizeContexts();
+		shared_ptr<OpenGLContextManager> opengl_context_manager = OpenGLContextManager::instance();
+        opengl_context_manager->finalizeContexts();
 				
 		shared_ptr <StateSystem> state_system = StateSystem::instance();
 		state_system->start();

@@ -5,58 +5,29 @@
  *  Copyright (c) 2002 MIT. All rights reserved.
  */
 
-
-/**
- *  NOTE: THIS IS A COMPLETE MESS AND NEEDS TO BE COMPLETELY CLEANED
- *  (AND POSSIBILY REDONE).  TREAD CAREFULLY
- */
-
 #ifndef OPENGL_CONTEXT_MANAGER__
 #define OPENGL_CONTEXT_MANAGER__
 
-// THIS IS AN OS X SPECIFIC IMPLEMENTATION
-#ifdef	__APPLE__	
-#define		USE_COCOA_OPENGL	 1
-#else
-#undef		USE_COCOA_OPENGL	
-#endif
-
-// FOR NOW, IF !USE_COCOA_OPENGL, USE_GLUT_OPENGL
-//#define USE_GLUT_OPENGL	1
-//#define USE_SDL_OPENGL  1
+#include "RegisteredSingleton.h"
 
 #include "Stimulus.h"
 
-#ifdef  USE_COCOA_OPENGL
 #include <Cocoa/Cocoa.h>
-//#import "Lablib/LLDisplayCalibration.h"
 
 #import "MWorksCore/StimMirrorController.h"
 #import "Scheduler.h"
-#endif 
-// USE_COCOA_OPENGL
-
-#ifdef	USE_GLUT_OPENGL
-#ifdef	__APPLE__
-#include <GLUT/glut.h>
-#elif	linux
-#include <GL/glut.h>
-#endif
-#endif
 
 #define M_FULLSCREEN_OPENGL_MODE 0
 #define M_MIRRORED_OPENGL_MODE 1
 
-#ifdef  USE_COCOA_OPENGL
-//extern StimMirrorController *GlobalStimMirrorController;
-#endif  
+
+
 // USE_COCOA_OPENGL
 namespace mw {
 	// A bastard class to manage Cocoa OpenGL contexts
-	class OpenGLContextManager {
+	class OpenGLContextManager : public Component{
 		
     protected:
-#ifdef	USE_COCOA_OPENGL
 		NSMutableArray			*displayModes;
 		NSDictionary			*currentDisplayMode;
 		NSDictionary			*originalDisplayMode;
@@ -81,8 +52,6 @@ namespace mw {
 		
 		int						main_display_index;
 		
-#endif		// ifdef USE_COCOA_OPENGL
-		
     public:
 		
         OpenGLContextManager();
@@ -105,11 +74,9 @@ namespace mw {
         bool systemHasSecondMonitor();
 		int getNMonitors();
         void initializeGlobalContext();
-        
-#ifdef	USE_COCOA_OPENGL
+   
 		NSOpenGLContext *getGlobalContext();
-#endif
-		
+ 		
         void setGlobalContextCurrent();
         void setCurrent(int context_id);
         void setContextToMirror(int context_id);
@@ -119,8 +86,11 @@ namespace mw {
 		GLuint getFence(){  return synchronization_fence; }
 		GLuint *getFencePointer(){ return &synchronization_fence; }
 		
+        REGISTERED_SINGLETON_CODE_INJECTION(OpenGLContextManager)
+        
 	};
 	
 	extern OpenGLContextManager *GlobalOpenGLContextManager;
 }
+
 #endif  

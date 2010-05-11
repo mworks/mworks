@@ -1005,7 +1005,6 @@ std::string ImageStimulus::getFilename() {
 }
        
 void ImageStimulus::load(StimulusDisplay *display) {
-    //GlobalOpenGLContextManager->setGlobalContextCurrent();
     if(loaded){
 		return;
 	}

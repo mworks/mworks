@@ -20,9 +20,10 @@
 #include "FilterManager.h"
 #include "OpenALContextManager.h"
 #include <string>
-#include "boost/filesystem/path.hpp"
-#include "boost/filesystem/operations.hpp"
-#include "boost/filesystem/convenience.hpp"
+#include <boost/filesystem/path.hpp>
+#include <boost/filesystem/operations.hpp>
+#include <boost/filesystem/convenience.hpp>
+#include <boost/pointer_cast.hpp>
 #include "ComponentRegistry.h"
 #include "XMLParser.h"
 #include "DataFileManager.h"
@@ -169,10 +170,14 @@ namespace mw {
 			loadSetupVariables();
 		}
 		
-		if(GlobalOpenGLContextManager != NULL){
-			GlobalOpenGLContextManager->releaseDisplays();
-		}
-		OpenGLImageLoader::initialized = false;
+        
+        shared_ptr<OpenGLContextManager> opengl_context_manager = OpenGLContextManager::instance(false);
+        if(opengl_context_manager != NULL){
+            opengl_context_manager->releaseDisplays();
+            opengl_context_manager->destroy();
+        }
+        
+        OpenGLImageLoader::initialized = false;
 		
 		
 		
@@ -244,11 +249,10 @@ namespace mw {
 	void prepareStimulusDisplay() {
 		NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 		//	mprintf("Preparing stimulus display");
-		if(GlobalOpenGLContextManager == NULL) {
-			GlobalOpenGLContextManager = new OpenGLContextManager();
-		}
-		
-		GlobalOpenGLContextManager->releaseDisplays();
+        
+        shared_ptr<OpenGLContextManager> opengl_context_manager(new OpenGLContextManager()); 
+        OpenGLContextManager::registerInstance(dynamic_pointer_cast<OpenGLContextManager, Component>(opengl_context_manager));
+		opengl_context_manager->releaseDisplays();
 		
         shared_ptr<ComponentRegistry> reg = ComponentRegistry::getSharedRegistry();
         shared_ptr<Variable> main_screen_info = reg->getVariable(MAIN_SCREEN_INFO_TAGNAME);
@@ -269,48 +273,35 @@ namespace mw {
 		
 		shared_ptr<StimulusDisplay> stimdisplay(new StimulusDisplay());
 		int new_context = -1;
-		if(GlobalOpenGLContextManager->systemHasSecondMonitor() || display_to_use == 0) {
+        
+        
+		if(opengl_context_manager->systemHasSecondMonitor() || display_to_use == 0) {
 			
-			if(display_to_use >= GlobalOpenGLContextManager->getNMonitors()) {
+			if(display_to_use >= opengl_context_manager->getNMonitors()) {
 				merror(M_SERVER_MESSAGE_DOMAIN,
 					   "Requested display index (%d) is greater than the number of displays (%d)", 
 					   display_to_use, 
-					   GlobalOpenGLContextManager->getNMonitors());
+					   opengl_context_manager->getNMonitors());
 				merror(M_SERVER_MESSAGE_DOMAIN, "Using default display");
 				display_to_use = 1;						   			
 			}
 			
-			new_context = GlobalOpenGLContextManager->newFullScreenContext(32,display_to_use);
+			new_context = opengl_context_manager->newFullScreenContext(32,display_to_use);
 			stimdisplay->addContext(new_context);
 			
 			if(always_display_mirror_window){
-				int auxilliary_context = GlobalOpenGLContextManager->newMirrorContext(32); 
+				int auxilliary_context = opengl_context_manager->newMirrorContext(32); 
 				stimdisplay->addContext(auxilliary_context);
 			}
 			
-			GlobalOpenGLContextManager->setMainDisplayIndex(display_to_use);
+			opengl_context_manager->setMainDisplayIndex(display_to_use);
 		} else {
-			GlobalOpenGLContextManager->setMainDisplayIndex(0);
-			new_context = GlobalOpenGLContextManager->newMirrorContext(32);
+			opengl_context_manager->setMainDisplayIndex(0);
+			new_context = opengl_context_manager->newMirrorContext(32);
 			stimdisplay->addContext(new_context);		
 		}
 		
 		
-#ifdef USE_COCOA_OPENGL
-		//[GlobalStimMirrorController hide];
-#endif
-		
-		
-		/*    if(!stimdisplay) {
-		 mwarning(M_DISPLAY_MESSAGE_DOMAIN, "Failed to create a valid stimulus display.");
-		 mwarning(M_DISPLAY_MESSAGE_DOMAIN, "Attempting to switch to mirror");
-		 stimdisplay->addContext(GlobalOpenGLContextManager->newMirrorContext(28));
-		 if(!stimdisplay){ // if still no good...
-		 merror(M_DISPLAY_MESSAGE_DOMAIN, "Failed to create stimulus display!");
-		 merror(M_DISPLAY_MESSAGE_DOMAIN, "Unable to continue");
-		 return;
-		 }
-		 }*/
 		GlobalCurrentExperiment->setStimulusDisplay(stimdisplay);
 		stimdisplay->updateDisplay();
 		[pool release];

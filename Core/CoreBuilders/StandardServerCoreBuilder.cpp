@@ -44,7 +44,7 @@ bool StandardServerCoreBuilder::initializeRegistries() {
 	initializeServiceRegistries();
 	
 	GlobalOpenALContextManager = NULL;
-	GlobalOpenGLContextManager = NULL;
+	
 	return true;
 }
 

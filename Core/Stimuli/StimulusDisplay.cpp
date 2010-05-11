@@ -133,7 +133,9 @@ StimulusDisplay::~StimulusDisplay(){
 void StimulusDisplay::setCurrent(int i){ 
 	current_context = context_ids[i];
 	current_context_index = i;
-	GlobalOpenGLContextManager->setCurrent(current_context); 
+    
+    shared_ptr<OpenGLContextManager> opengl_context_manager = OpenGLContextManager::instance();
+	opengl_context_manager->setCurrent(current_context); 
 	
 }
 
@@ -150,15 +152,7 @@ shared_ptr<StimulusNode> StimulusDisplay::addStimulus(shared_ptr<Stimulus> stim)
         return shared_ptr<StimulusNode>();
     }
 
-    //stim->setStimulusDisplay(this); // tag it on the way by...
     
-    //setCurrent();
-	/*for(int i = 0; i < context_ids->getNElements(); i++){
-		int context_id = *(context_ids->getElement(i));
-		GlobalOpenGLContextManager->setCurrent(context_id);
-		stim->load(this);
-	}*/
-	
 	shared_ptr<StimulusNode> stimnode(new StimulusNode(stim));
 	
     stimulus_chain->addToFront(stimnode);
@@ -239,7 +233,8 @@ void StimulusDisplay::addContext(int _context_id){
 	context_ids.push_back(_context_id);
 	current_context_index = context_ids.size();
 	current_context = _context_id;
-	GlobalOpenGLContextManager->setCurrent(_context_id);
+    shared_ptr<OpenGLContextManager> opengl_context_manager = OpenGLContextManager::instance();
+	opengl_context_manager->setCurrent(_context_id);
 	glInit();
 }
 
@@ -310,22 +305,19 @@ void StimulusDisplay::updateDisplay(bool explicit_update) {
 #define USE_GL_FENCE
 #define ERROR_ON_LATE_FRAMES
 
+        shared_ptr<OpenGLContextManager> opengl_context_manager = OpenGLContextManager::instance();
+        
 #ifdef USE_GL_FENCE
 		if(i == 0){ // only for the main display
-			glSetFenceAPPLE(GlobalOpenGLContextManager->getFence());
+			glSetFenceAPPLE(opengl_context_manager->getFence());
 		}
 #endif
-		GlobalOpenGLContextManager->flush(current_context);
+		opengl_context_manager->flush(current_context);
 		
-		/*	GLuint *fence_copy = new GLuint[1];
-		 fence_copy[0] = GlobalOpenGLContextManager->getFence();
-		 GlobalScheduler->fork(&checkFence,
-		 (void *)(fence_copy),				// leaks
-		 60);*/
 		
 #ifdef USE_GL_FENCE
 		if(i == 0){  // only for the first (main) display
-			glFinishFenceAPPLE(GlobalOpenGLContextManager->getFence());
+			glFinishFenceAPPLE(opengl_context_manager->getFence());
 			
     #ifdef ERROR_ON_LATE_FRAMES
             MWTime now = clock->getCurrentTimeUS();
@@ -333,7 +325,7 @@ void StimulusDisplay::updateDisplay(bool explicit_update) {
 			
 			stimDisplayUpdate->setValue(stimulus_chain->getAnnounceData(), now);
 			stimulus_chain->announce(now);
-			MWTime slop = 2*(1000000/GlobalOpenGLContextManager->getDisplayRefreshRate(GlobalOpenGLContextManager->getMainDisplayIndex()));
+			MWTime slop = 2*(1000000/opengl_context_manager->getDisplayRefreshRate(opengl_context_manager->getMainDisplayIndex()));
 			if(now-before_draw > slop) {
 				merror(M_DISPLAY_MESSAGE_DOMAIN,
 					   "updating main window display is taking longer than two frames (%lld > %lld) to update", 
