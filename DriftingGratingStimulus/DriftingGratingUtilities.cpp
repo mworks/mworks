@@ -9,7 +9,7 @@
 
 #include "DriftingGratingUtilities.h"
 
-unsigned int DriftingGratingUtilities::getNextPowerOfTwo(unsigned int number) {
+unsigned int mDriftingGratingUtilities::getNextPowerOfTwo(unsigned int number) {
 	number--;
 	for (int i=1; i<sizeof(unsigned int)*8; i=i*2) {
 		number = number | number >> i;

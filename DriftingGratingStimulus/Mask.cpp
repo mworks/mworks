@@ -13,7 +13,7 @@
 mMask::mMask(const shared_ptr<Variable> &_size) {
 	size=_size;
 	
-	current_size = MAX(4,DriftingGratingUtilities::getNextPowerOfTwo(size->getValue().getInteger()));	
+	current_size = MAX(4,mDriftingGratingUtilities::getNextPowerOfTwo(size->getValue().getInteger()));	
 	data = new GLfloat[current_size*current_size*M_MASK_CHANNELS];
 	
 	for(unsigned int channel=0; channel<M_MASK_CHANNELS; ++channel) {

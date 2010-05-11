@@ -14,7 +14,7 @@ extern "C"{
     Plugin *getPlugin();
 }
 
-class DriftingGratingStimulusPlugin : public Plugin {
+class mDriftingGratingStimulusPlugin : public Plugin {
     
 	virtual void registerComponents(shared_ptr<mw::ComponentRegistry> registry);	
 };

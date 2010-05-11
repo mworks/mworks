@@ -10,7 +10,7 @@
 #ifndef DRIFTING_GRATING_UTILITIES_H
 #define DRIFTING_GRATING_UTILITIES_H
 
-class DriftingGratingUtilities {
+class mDriftingGratingUtilities {
 public:
 	static unsigned int getNextPowerOfTwo(unsigned int number);
 };

@@ -22,7 +22,7 @@ using namespace mw;
 
 
 
-shared_ptr<mw::Component> DriftingGratingStimulusFactory::createObject(std::map<std::string, std::string> parameters,
+shared_ptr<mw::Component> mDriftingGratingStimulusFactory::createObject(std::map<std::string, std::string> parameters,
                                                                         mw::ComponentRegistry *reg) {
 	
 	const char *TAG = "tag";
@@ -202,7 +202,7 @@ shared_ptr<mw::Component> DriftingGratingStimulusFactory::createObject(std::map<
 		throw SimpleException("illegal mask: " + parameters.find(MASK)->second);				
 	}
 	
-	shared_ptr<DriftingGratingStimulus> new_drifting_grating=shared_ptr<DriftingGratingStimulus>(new DriftingGratingStimulus(tagname, 
+	shared_ptr<mDriftingGratingStimulus> new_drifting_grating=shared_ptr<mDriftingGratingStimulus>(new mDriftingGratingStimulus(tagname, 
 																																scheduler,
 																																default_display,
 																																frames_per_second,

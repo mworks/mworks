@@ -10,12 +10,12 @@
 #ifndef DRIFTING_GRATNG_STIMULUS_H
 #define DRIFTING_GRATNG_STIMULUS_H
 
-#include <MWorksCore/DynamicStimulusDriver.h>
+#include "DynamicStimulus.h"
 #include "Mask.h"
 #include "GratingData.h"
 using namespace mw;
 
-class DriftingGratingStimulus : public DynamicStimulusDriver, public Stimulus {
+class mDriftingGratingStimulus : public mDynamicStimulus {
 protected:
 	shared_ptr<Variable> xoffset;
 	shared_ptr<Variable> yoffset;
@@ -37,11 +37,9 @@ protected:
 	vector<GLuint> mask_textures;
 	vector<GLuint> grating_textures;
 	
-    bool cloned;
-    
 	float last_phase;
 public:
-	DriftingGratingStimulus(const std::string &_tag, 
+	mDriftingGratingStimulus(const std::string &_tag, 
 							 const shared_ptr<Scheduler> &a_scheduler,
 							 const shared_ptr<StimulusDisplay> &a_display,
 							 const shared_ptr<Variable> &_frames_per_second,
@@ -60,7 +58,7 @@ public:
 							 const shared_ptr<mMask> &_mask,
 							 const shared_ptr<mGratingData> &_grating);
     
-    DriftingGratingStimulus(const std::string &_tag, 
+    mDriftingGratingStimulus(const std::string &_tag, 
 							 const shared_ptr<Scheduler> &a_scheduler,
 							 const shared_ptr<StimulusDisplay> &a_display,
 							 const shared_ptr<Variable> &_frames_per_second,
@@ -79,12 +77,10 @@ public:
                              const shared_ptr<mMask> &_mask,
 							 const shared_ptr<mGratingData> &_grating,
 							 const vector<GLuint> mask_textures,
-                             const vector<GLuint> grating_textures,
-                             const MWTime start_time,
-                             const bool cloned=true);
+                             const vector<GLuint> grating_textures );
     
-	DriftingGratingStimulus(const DriftingGratingStimulus &tocopy);
-	~DriftingGratingStimulus();
+	mDriftingGratingStimulus(const mDriftingGratingStimulus &tocopy);
+	~mDriftingGratingStimulus();
 	virtual Stimulus * frozenClone() ;
 	//virtual void stop();
 	

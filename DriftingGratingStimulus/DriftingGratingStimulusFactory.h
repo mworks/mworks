@@ -14,7 +14,7 @@
 #include "MWorksCore/ComponentFactory.h"
 using namespace mw;
 
-class DriftingGratingStimulusFactory : public ComponentFactory {
+class mDriftingGratingStimulusFactory : public ComponentFactory {
 	virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
                                                    mw::ComponentRegistry *reg);
 };
