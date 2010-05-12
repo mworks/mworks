@@ -325,7 +325,11 @@ void StimulusDisplay::updateDisplay(bool explicit_update) {
 			
 			stimDisplayUpdate->setValue(stimulus_chain->getAnnounceData(), now);
 			stimulus_chain->announce(now);
-			MWTime slop = 2*(1000000/opengl_context_manager->getDisplayRefreshRate(opengl_context_manager->getMainDisplayIndex()));
+            int refresh_rate = opengl_context_manager->getDisplayRefreshRate(opengl_context_manager->getMainDisplayIndex());
+            if(refresh_rate <= 0){
+                refresh_rate = 60;
+            }
+			MWTime slop = 2*(1000000/refresh_rate);
 			if(now-before_draw > slop) {
 				merror(M_DISPLAY_MESSAGE_DOMAIN,
 					   "updating main window display is taking longer than two frames (%lld > %lld) to update", 

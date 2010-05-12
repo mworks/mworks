@@ -28,58 +28,57 @@ namespace mw {
 	class OpenGLContextManager : public Component{
 		
     protected:
-		NSMutableArray			*displayModes;
-		NSDictionary			*currentDisplayMode;
-		NSDictionary			*originalDisplayMode;
 		
 		NSMutableArray			*contexts;
-		NSMutableArray			*screen_modes;
-		NSMutableArray			*windows;
-		NSMutableArray			*original_display_modes;
-		NSMutableArray			*current_display_modes;
 		
-		NSWindow				*mirrorWindow;
-		BOOL					mirrorWindowActive;
+		NSWindow				*mirror_window;
+        NSOpenGLView            *mirror_view;
+		BOOL					mirror_window_active;
+        
+        NSWindow                *fullscreen_window;
+        NSOpenGLView            *fullscreen_view;
+        BOOL                    fullscreen_window_active;
 		
-#define kMaxDisplays 100
-		//LLDisplayCalibration	*displays;
-		CGDirectDisplayID		display_ids[kMaxDisplays];
-		int						n_monitors_available;
-		NSOpenGLContext			*global_context;
 		
 		GLuint					synchronization_fence;
 		shared_ptr<ScheduleTask>			beamNode;
 		
 		int						main_display_index;
 		
+        NSScreen                *_getScreen(const int screen_number);
+        
     public:
 		
         OpenGLContextManager();
-        void queryDisplayModes();
-        int createNewContext(int screen_mode);
-        int newContext(int pixelDepth);
+        
+        
+        // Create a "mirror" window (smaller, movable window that displays whatever
+        // is on the "main" display) and return its context index
         int newMirrorContext(int pixelDepth);
-        int newFullScreenContext(int pixelDepth);
-		int newFullScreenContext(int pixelDepth, int index);
+                
+        // Create a fullscreen context on a particular display
+		int newFullscreenContext(int pixelDepth, int index);
+        
+        // "Let go" of captured fullscreen contexts
 		void releaseDisplays();
 		
+        // Choose which display is going to have the "main" stimulus display
 		void setMainDisplayIndex(const int index);
 		int getMainDisplayIndex() const;
-		int getDisplayRefreshRate(int index);
+        
+        // Get information about a given monitor
+		NSRect getDisplayFrame(const int index);
+        int getDisplayRefreshRate(int index);
 		int getDisplayWidth(const int index);
 		int getDisplayHeight(const int index);
 		
-		
-		
-        bool systemHasSecondMonitor();
-		int getNMonitors();
-        void initializeGlobalContext();
-   
-		NSOpenGLContext *getGlobalContext();
- 		
-        void setGlobalContextCurrent();
+        
+		// Get information about the monitors attached to the system
+        int getNMonitors();
+        
+        
         void setCurrent(int context_id);
-        void setContextToMirror(int context_id);
+                
         void flush(int context_id);
         void flushCurrent();
 		

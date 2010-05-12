@@ -30,24 +30,25 @@
 using namespace mw;
 
 namespace mw {
+
+// DDC: HOLY CRAP: WHY WAS HE QUIETLY REPLACING MISSING VALUES WITH DEFAULTS?!?
+// Datum checkLoadedValueAndReturnNewValuesWithLoadedValueOrDefaultIfNotNumber(const Datum main_window_values, 
+//																			   const Datum current_values, 
+//																			   const std::string &key, 
+//																			   const Datum default_values) {
+//	 Datum new_values(current_values);
+//		if(!(main_window_values.getElement(key).isNumber())) {
+//			merror(M_PARSER_MESSAGE_DOMAIN, "'%s' is either empty or has an illegal value, setting default to %f", key.c_str(), default_values.getFloat());
+//			new_values.addElement(key.c_str(), default_values);
+//		} else {
+//			new_values.addElement(key.c_str(), main_window_values.getElement(key));
+//		}
+//		
+//		return new_values;
+//	}
+	
+#define CHECK_DICT_VALUE_IS_NUMBER(dict, key) dict.getElement(key).isNumber() 
     
-    // DDC: comment: couldYouHaveThoughtOfASillierName?
- Datum checkLoadedValueAndReturnNewValuesWithLoadedValueOrDefaultIfNotNumber(const Datum main_window_values, 
-																			   const Datum current_values, 
-																			   const std::string &key, 
-																			   const Datum default_values) {
-	 Datum new_values(current_values);
-		if(!(main_window_values.getElement(key).isNumber())) {
-			merror(M_PARSER_MESSAGE_DOMAIN, "'%s' is either empty or has an illegal value, setting default to %f", key.c_str(), default_values.getFloat());
-			new_values.addElement(key.c_str(), default_values);
-		} else {
-			new_values.addElement(key.c_str(), main_window_values.getElement(key));
-		}
-		
-		return new_values;
-	}
-	
-	
 	bool loadSetupVariables() {
 		
 		
@@ -59,42 +60,59 @@ namespace mw {
 		parser.parse();
 		
 		// check setup variables for validity
-		shared_ptr<Variable> main_screen_info = reg->getVariable(MAIN_SCREEN_INFO_TAGNAME);
-		
-	 Datum loaded_values = main_screen_info->getValue();
-	 Datum new_values(M_DICTIONARY, 7);
-		
-		new_values = checkLoadedValueAndReturnNewValuesWithLoadedValueOrDefaultIfNotNumber(loaded_values, new_values, M_DISPLAY_WIDTH_KEY, 14.75);
-		new_values = checkLoadedValueAndReturnNewValuesWithLoadedValueOrDefaultIfNotNumber(loaded_values, new_values, M_DISPLAY_HEIGHT_KEY, 11.09);
-		new_values = checkLoadedValueAndReturnNewValuesWithLoadedValueOrDefaultIfNotNumber(loaded_values, new_values, M_DISPLAY_DISTANCE_KEY, 10.0);
-		new_values = checkLoadedValueAndReturnNewValuesWithLoadedValueOrDefaultIfNotNumber(loaded_values, new_values, M_REFRESH_RATE_KEY, 60L);
-		
-		if(!(loaded_values.getElement(M_ALWAYS_DISPLAY_MIRROR_WINDOW_KEY).isNumber())) {
-			merror(M_PARSER_MESSAGE_DOMAIN, "'always_display_mirror_window' is either empty or has an illegal value, setting default to 0");
-			new_values.addElement(M_ALWAYS_DISPLAY_MIRROR_WINDOW_KEY, 0L);
-		} else {
-			long always_display_mirror_window = loaded_values.getElement(M_ALWAYS_DISPLAY_MIRROR_WINDOW_KEY).getInteger();
-			if(!(always_display_mirror_window != 0 || always_display_mirror_window != 1)) {
-				merror(M_PARSER_MESSAGE_DOMAIN, "'always_display_mirror_window' has an illegal value (%d), setting default to 0", always_display_mirror_window);
-				new_values.addElement(M_ALWAYS_DISPLAY_MIRROR_WINDOW_KEY, 0L);				
-			} else {
-				new_values.addElement(M_ALWAYS_DISPLAY_MIRROR_WINDOW_KEY, always_display_mirror_window);								
-				
-				if(always_display_mirror_window == 1) {
-					// now check the base height
-					new_values = checkLoadedValueAndReturnNewValuesWithLoadedValueOrDefaultIfNotNumber(loaded_values, new_values, M_MIRROR_WINDOW_BASE_HEIGHT_KEY, 400L);
-				}
-			}
-		}		
-		
-		if(!(loaded_values.getElement(M_DISPLAY_TO_USE_KEY).isInteger())) {
-			merror(M_PARSER_MESSAGE_DOMAIN, "'%s' is either empty or has an illegal value, setting default to 0", M_DISPLAY_TO_USE_KEY);
-			new_values.addElement(M_DISPLAY_TO_USE_KEY, 0L);
-		} else {
-			new_values.addElement(M_DISPLAY_TO_USE_KEY, loaded_values.getElement(M_DISPLAY_TO_USE_KEY));								
-		}
-		
-		main_screen_info->setValue(new_values);
+		shared_ptr<Variable> main_screen_info_variable = reg->getVariable(MAIN_SCREEN_INFO_TAGNAME);
+		Datum main_screen_dict = main_screen_info_variable->getValue();
+           
+
+        if(!CHECK_DICT_VALUE_IS_NUMBER(main_screen_dict, M_DISPLAY_WIDTH_KEY) || 
+           !CHECK_DICT_VALUE_IS_NUMBER(main_screen_dict, M_DISPLAY_HEIGHT_KEY) ||
+           !CHECK_DICT_VALUE_IS_NUMBER(main_screen_dict, M_DISPLAY_DISTANCE_KEY) ||
+           !CHECK_DICT_VALUE_IS_NUMBER(main_screen_dict, M_REFRESH_RATE_KEY)){
+            
+            throw SimpleException("Invalid display info defined in setup_variables.xml");
+        }
+        
+        // TODO: more error checking.  THESE SHOULD ALL THROW IF SOMETHING IS WRONG!!!
+        
+        
+        
+        // DDC: HOLY CRAP!  Why was he quietly replacing missing values with defaults?  This is a recipe for 
+        //      serious errors quietly creeping in!
+        
+        //Datum loaded_values = main_screen_info->getValue();
+//        Datum new_values(M_DICTIONARY, 7);
+//		
+//		new_values = checkLoadedValueAndReturnNewValuesWithLoadedValueOrDefaultIfNotNumber(loaded_values, new_values, M_DISPLAY_WIDTH_KEY, 14.75);
+//		new_values = checkLoadedValueAndReturnNewValuesWithLoadedValueOrDefaultIfNotNumber(loaded_values, new_values, M_DISPLAY_HEIGHT_KEY, 11.09);
+//		new_values = checkLoadedValueAndReturnNewValuesWithLoadedValueOrDefaultIfNotNumber(loaded_values, new_values, M_DISPLAY_DISTANCE_KEY, 10.0);
+//		new_values = checkLoadedValueAndReturnNewValuesWithLoadedValueOrDefaultIfNotNumber(loaded_values, new_values, M_REFRESH_RATE_KEY, 60L);
+//		
+//		if(!(loaded_values.getElement(M_ALWAYS_DISPLAY_MIRROR_WINDOW_KEY).isNumber())) {
+//			merror(M_PARSER_MESSAGE_DOMAIN, "'always_display_mirror_window' is either empty or has an illegal value, setting default to 0");
+//			new_values.addElement(M_ALWAYS_DISPLAY_MIRROR_WINDOW_KEY, 0L);
+//		} else {
+//			long always_display_mirror_window = loaded_values.getElement(M_ALWAYS_DISPLAY_MIRROR_WINDOW_KEY).getInteger();
+//			if(!(always_display_mirror_window != 0 || always_display_mirror_window != 1)) {
+//				merror(M_PARSER_MESSAGE_DOMAIN, "'always_display_mirror_window' has an illegal value (%d), setting default to 0", always_display_mirror_window);
+//				new_values.addElement(M_ALWAYS_DISPLAY_MIRROR_WINDOW_KEY, 0L);				
+//			} else {
+//				new_values.addElement(M_ALWAYS_DISPLAY_MIRROR_WINDOW_KEY, always_display_mirror_window);								
+//				
+//				if(always_display_mirror_window == 1) {
+//					// now check the base height
+//					new_values = checkLoadedValueAndReturnNewValuesWithLoadedValueOrDefaultIfNotNumber(loaded_values, new_values, M_MIRROR_WINDOW_BASE_HEIGHT_KEY, 400L);
+//				}
+//			}
+//		}		
+//		
+//		if(!(loaded_values.getElement(M_DISPLAY_TO_USE_KEY).isInteger())) {
+//			merror(M_PARSER_MESSAGE_DOMAIN, "'%s' is either empty or has an illegal value, setting default to 0", M_DISPLAY_TO_USE_KEY);
+//			new_values.addElement(M_DISPLAY_TO_USE_KEY, 0L);
+//		} else {
+//			new_values.addElement(M_DISPLAY_TO_USE_KEY, loaded_values.getElement(M_DISPLAY_TO_USE_KEY));								
+//		}
+//		
+//		main_screen_info->setValue(new_values);
 		return true;
 	}
 	
@@ -174,7 +192,7 @@ namespace mw {
         shared_ptr<OpenGLContextManager> opengl_context_manager = OpenGLContextManager::instance(false);
         if(opengl_context_manager != NULL){
             opengl_context_manager->releaseDisplays();
-            opengl_context_manager->destroy();
+            //opengl_context_manager->destroy();
         }
         
         OpenGLImageLoader::initialized = false;
@@ -250,9 +268,12 @@ namespace mw {
 		NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 		//	mprintf("Preparing stimulus display");
         
-        shared_ptr<OpenGLContextManager> opengl_context_manager(new OpenGLContextManager()); 
-        OpenGLContextManager::registerInstance(dynamic_pointer_cast<OpenGLContextManager, Component>(opengl_context_manager));
-		opengl_context_manager->releaseDisplays();
+        shared_ptr<OpenGLContextManager> opengl_context_manager = OpenGLContextManager::instance(false);
+        if(opengl_context_manager == NULL){
+            opengl_context_manager = shared_ptr<OpenGLContextManager>(new OpenGLContextManager()); 
+            OpenGLContextManager::registerInstance(dynamic_pointer_cast<OpenGLContextManager, Component>(opengl_context_manager));
+		}
+        //opengl_context_manager->releaseDisplays();
 		
         shared_ptr<ComponentRegistry> reg = ComponentRegistry::getSharedRegistry();
         shared_ptr<Variable> main_screen_info = reg->getVariable(MAIN_SCREEN_INFO_TAGNAME);
@@ -275,7 +296,7 @@ namespace mw {
 		int new_context = -1;
         
         
-		if(opengl_context_manager->systemHasSecondMonitor() || display_to_use == 0) {
+		if(opengl_context_manager->getNMonitors() > 1 || display_to_use == 0) {
 			
 			if(display_to_use >= opengl_context_manager->getNMonitors()) {
 				merror(M_SERVER_MESSAGE_DOMAIN,
@@ -286,7 +307,7 @@ namespace mw {
 				display_to_use = 1;						   			
 			}
 			
-			new_context = opengl_context_manager->newFullScreenContext(32,display_to_use);
+			new_context = opengl_context_manager->newFullscreenContext(32,display_to_use);
 			stimdisplay->addContext(new_context);
 			
 			if(always_display_mirror_window){

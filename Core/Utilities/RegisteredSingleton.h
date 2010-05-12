@@ -7,6 +7,9 @@
  *
  */
 
+#ifndef REGISTER_SINGLETON_H_
+#define REGISTER_SINGLETON_H_
+
 // DDC: 9/09:  Normally, I'd say using macros for this kind of thing is Wrong with a capital "W".
 //      However, the alternative (and original version) uses inherited, templated static members
 //      which results in crazy syntax and unstable behavior across gcc versions.
@@ -104,3 +107,5 @@
 //template <class T> boost::shared_ptr<T> RegisteredSingleton<T> ::singleton_instance;
 //	
 //}
+
+#endif
