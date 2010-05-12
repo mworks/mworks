@@ -132,6 +132,7 @@ OpenGLContextManager::OpenGLContextManager() {
     fullscreen_window = Nil;
     
     contexts = [[NSMutableArray alloc] init];
+    display_refresh_rates = [[NSMutableArray alloc] init];
     	
 }
 
@@ -175,8 +176,14 @@ int OpenGLContextManager::getDisplayHeight(const int index) {
     return frame.size.height;
 }
 
-int OpenGLContextManager::getDisplayRefreshRate(const int index)
+int OpenGLContextManager::getDisplayRefreshRate(const int index){
+    NSNumber *refresh_rate = [display_refresh_rates objectAtIndex:index];
+    return [refresh_rate intValue];
+}
+
+double OpenGLContextManager::_measureDisplayRefreshRate(const int index)
 {
+    NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
     NSScreen *screen = _getScreen(index);
     
 	NSDictionary *device_description = [screen deviceDescription];
@@ -184,6 +191,8 @@ int OpenGLContextManager::getDisplayRefreshRate(const int index)
     NSNumber *display_id_number = [device_description objectForKey:@"NSScreenNumber"];
     CGDirectDisplayID display_id = [display_id_number intValue];
     CGDisplayModeRef mode = CGDisplayCopyDisplayMode(display_id);
+    [pool release];
+    
     return CGDisplayModeGetRefreshRate(mode);
 }
 
@@ -433,6 +442,7 @@ int OpenGLContextManager::newMirrorContext(int pixelDepth){
     [mirror_window makeKeyAndOrderFront:Nil];
     
     [contexts addObject:opengl_context];
+    [display_refresh_rates addObject:[NSNumber numberWithDouble:_measureDisplayRefreshRate(0)]];
     return [contexts count] - 1;
 }
 
@@ -480,6 +490,7 @@ int OpenGLContextManager::newFullscreenContext(int pixelDepth, int screen_number
     [fullscreen_window makeKeyAndOrderFront:Nil];
     
     [contexts addObject:opengl_context];
+    [display_refresh_rates addObject:[NSNumber numberWithDouble:_measureDisplayRefreshRate(screen_number)]];
     return [contexts count] - 1;
 }
 

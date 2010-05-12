@@ -30,6 +30,7 @@ namespace mw {
     protected:
 		
 		NSMutableArray			*contexts;
+        NSMutableArray          *display_refresh_rates;
 		
 		NSWindow				*mirror_window;
         NSOpenGLView            *mirror_view;
@@ -46,6 +47,8 @@ namespace mw {
 		int						main_display_index;
 		
         NSScreen                *_getScreen(const int screen_number);
+        double                  _measureDisplayRefreshRate(int index);
+        
         
     public:
 		

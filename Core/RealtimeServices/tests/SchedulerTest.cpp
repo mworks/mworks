@@ -202,7 +202,7 @@ std::vector<MWTime> SchedulerTestFixture::timeTrial(MWTime interval,
 																	 interval,					// 10Hz
 																	 M_REPEAT_INDEFINITELY,		// how many
 																	 boost::bind(chaff_1, interval),
-																	 M_DEFAULT_PRIORITY,
+																	 M_DEFAULT_PRIORITY - 5,
 																	 M_DEFAULT_WARN_SLOP_US,
 																	 M_DEFAULT_FAIL_SLOP_US,
 																	 M_MISSED_EXECUTION_DROP);

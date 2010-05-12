@@ -1138,13 +1138,13 @@ Datum XMLParser::_parseDataValue(xmlNode *node){
 			}
 			
 			xmlNode *value_node = value_nodes[0];
-		 Datum value_data = _parseDataValue(value_node);
+            Datum value_data = _parseDataValue(value_node);
 			values.push_back(value_data);
-		 Datum key_data = _parseDataValue(key_node);
+            Datum key_data = _parseDataValue(key_node);
 			keys.push_back(key_data);
 		}
 		
-	 Datum dictionary(M_DICTIONARY, (int)keys.size());
+        Datum dictionary(M_DICTIONARY, (int)keys.size());
 		
 		vector<Datum>::iterator k = keys.begin();
 		vector<Datum>::iterator v = values.begin();
@@ -1225,7 +1225,7 @@ void XMLParser::_processVariableAssignment(xmlNode *node){
 		}
 	}
 	
- Datum value = _parseDataValue(node);
+    Datum value = _parseDataValue(node);
 	
 	variable->setValue(value);
 }

@@ -53,16 +53,16 @@ namespace mw {
 		std::map< std::string, shared_ptr<ComponentFactory> > factories;
 		
 		// a map object instances, indexed by tag name (string)
-    boost::unordered_map< std::string, shared_ptr<mw::Component> > instances;
+        boost::unordered_map< std::string, shared_ptr<mw::Component> > instances;
 		std::map< std::string, shared_ptr<StimulusNode> > stimulus_nodes;
 		std::map< long, std::string > tagnames_by_id;
 		
-    // these regexes are cached at the object / member level to avoid
-    // memory inefficiency at runtime
-    boost::regex r1, r2, r3, r4, u1, strip_it;
-		
-    boost::unordered_map< std::string, shared_ptr<Variable> > variable_cache;
-    boost::unordered_map< std::string, shared_ptr<Datum> > data_cache;
+        // these regexes are cached at the object / member level to avoid
+        // memory inefficiency at runtime
+        boost::regex r1, r2, r3, r4, u1, strip_it;
+            
+        boost::unordered_map< std::string, shared_ptr<Variable> > variable_cache;
+        boost::unordered_map< std::string, shared_ptr<Datum> > data_cache;
     
 	public:
 		
@@ -77,9 +77,9 @@ namespace mw {
 			return shared_component_registry;
 		}
     
-    static void detachSharedRegistryPtr(){
-      shared_component_registry = shared_ptr<ComponentRegistry>();
-    }
+        static void detachSharedRegistryPtr(){
+          shared_component_registry = shared_ptr<ComponentRegistry>();
+        }
 		
 		void resetInstances(){
 			instances = boost::unordered_map< std::string, shared_ptr<mw::Component> >();
@@ -87,6 +87,9 @@ namespace mw {
             variable_cache = boost::unordered_map< std::string, shared_ptr<Variable> >();
             
             data_cache = boost::unordered_map< std::string, shared_ptr<Datum> >();
+            variable_cache = boost::unordered_map< std::string, shared_ptr<Variable> >();
+            
+            tagnames_by_id = std::map< long, std::string >();
 		}
 		
 		// Factory-oriented methods
@@ -177,11 +180,11 @@ namespace mw {
 		
 		// Utility look-ups to centralize commonly used parsing
 		bool getBoolean(std::string expression);
-	 Datum getNumber(std::string expression, GenericDataType type = M_FLOAT);
+        Datum getNumber(std::string expression, GenericDataType type = M_FLOAT);
 		boost::filesystem::path getPath(std::string working, 
 										std::string expression);
 		
-	 Datum getComponentCodec(){
+        Datum getComponentCodec(){
 			
 			int dict_size = tagnames_by_id.empty() ? 1 : tagnames_by_id.size();
 			
