@@ -296,7 +296,7 @@ namespace mw {
 		int new_context = -1;
         
         
-		if(opengl_context_manager->getNMonitors() > 1 || display_to_use == 0) {
+		if(display_to_use >= 0 && (opengl_context_manager->getNMonitors() > 1 || display_to_use == 0)) {
 			
 			if(display_to_use >= opengl_context_manager->getNMonitors()) {
 				merror(M_SERVER_MESSAGE_DOMAIN,
