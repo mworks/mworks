@@ -58,7 +58,6 @@
 		5C8E4A68098FA2A600EB44CA /* Main.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = Main.nib; sourceTree = SOURCE_ROOT; };
 		5C8E4A79098FB02400EB44CA /* MWVariablesWindowController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MWVariablesWindowController.h; sourceTree = "<group>"; };
 		5C8E4A7A098FB02400EB44CA /* MWVariablesWindowController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = MWVariablesWindowController.m; sourceTree = "<group>"; };
-		5CE62B0E11585B3600C757F1 /* Development_10.5_compatible.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Development_10.5_compatible.xcconfig; path = "/Library/Application Support/MWorks/Developer/Xcode/Development_10.5_compatible.xcconfig"; sourceTree = "<absolute>"; };
 		5CE62B0F11585B3600C757F1 /* Development.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Development.xcconfig; path = "/Library/Application Support/MWorks/Developer/Xcode/Development.xcconfig"; sourceTree = "<absolute>"; };
 		5CE62B1011585B3600C757F1 /* WARNING.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = WARNING.txt; path = "/Library/Application Support/MWorks/Developer/Xcode/WARNING.txt"; sourceTree = "<absolute>"; };
 		5CF287500994124E000C55A3 /* MWorksCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MWorksCocoa.framework; path = /Library/Frameworks/MWorksCocoa.framework; sourceTree = "<absolute>"; };
@@ -170,7 +169,6 @@
 		5CE62B0A11585B1F00C757F1 /* External Config */ = {
 			isa = PBXGroup;
 			children = (
-				5CE62B0E11585B3600C757F1 /* Development_10.5_compatible.xcconfig */,
 				5CE62B0F11585B3600C757F1 /* Development.xcconfig */,
 				5CE62B1011585B3600C757F1 /* WARNING.txt */,
 			);
@@ -315,42 +313,6 @@
 			};
 			name = Development;
 		};
-		5C518CE3108671210004DBC0 /* Development (10.5 Compatible) */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5CE62B0E11585B3600C757F1 /* Development_10.5_compatible.xcconfig */;
-			buildSettings = {
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
-				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
-				PREBINDING = NO;
-			};
-			name = "Development (10.5 Compatible)";
-		};
-		5C518CE4108671210004DBC0 /* Development (10.5 Compatible) */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = MWorksVariablesWindow_Prefix.pch;
-				INFOPLIST_FILE = Info.plist;
-				ONLY_ACTIVE_ARCH = NO;
-				PRODUCT_NAME = MWorksVariablesWindow;
-				WRAPPER_EXTENSION = bundle;
-			};
-			name = "Development (10.5 Compatible)";
-		};
-		5C518CE5108671210004DBC0 /* Development (10.5 Compatible) */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				PRODUCT_NAME = Everything;
-			};
-			name = "Development (10.5 Compatible)";
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -358,7 +320,6 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1DEB913B08733D840010E9CD /* Development */,
-				5C518CE4108671210004DBC0 /* Development (10.5 Compatible) */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
@@ -367,7 +328,6 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1DEB913F08733D840010E9CD /* Development */,
-				5C518CE3108671210004DBC0 /* Development (10.5 Compatible) */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
@@ -376,7 +336,6 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5C4D298709DDBC920082BF9F /* Development */,
-				5C518CE5108671210004DBC0 /* Development (10.5 Compatible) */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;

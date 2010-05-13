@@ -45,7 +45,6 @@
 		5CA0800710E04F1E00000A95 /* PythonBridgeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PythonBridgeController.h; sourceTree = "<group>"; };
 		5CA0800810E04F1E00000A95 /* PythonBridgeController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PythonBridgeController.m; sourceTree = "<group>"; };
 		5CA0804310E052B500000A95 /* Main.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Main.xib; sourceTree = "<group>"; };
-		5CE62AD411585A4300C757F1 /* Development_10.5_compatible.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Development_10.5_compatible.xcconfig; path = "/Library/Application Support/MWorks/Developer/Xcode/Development_10.5_compatible.xcconfig"; sourceTree = "<absolute>"; };
 		5CE62AD511585A4300C757F1 /* Development.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Development.xcconfig; path = "/Library/Application Support/MWorks/Developer/Xcode/Development.xcconfig"; sourceTree = "<absolute>"; };
 		5CE62AD611585A4300C757F1 /* WARNING.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = WARNING.txt; path = "/Library/Application Support/MWorks/Developer/Xcode/WARNING.txt"; sourceTree = "<absolute>"; };
 		8D576316048677EA00EA77CD /* PythonBridgePlugin.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PythonBridgePlugin.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -116,7 +115,6 @@
 		5CE62AC911585A2E00C757F1 /* External Config */ = {
 			isa = PBXGroup;
 			children = (
-				5CE62AD411585A4300C757F1 /* Development_10.5_compatible.xcconfig */,
 				5CE62AD511585A4300C757F1 /* Development.xcconfig */,
 				5CE62AD611585A4300C757F1 /* WARNING.txt */,
 			);
@@ -284,40 +282,6 @@
 			};
 			name = Release;
 		};
-		5C2860B010E08615004DA219 /* Development (10.5 Compatible) */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5CE62AD411585A4300C757F1 /* Development_10.5_compatible.xcconfig */;
-			buildSettings = {
-				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-			};
-			name = "Development (10.5 Compatible)";
-		};
-		5C2860B110E08615004DA219 /* Development (10.5 Compatible) */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_MODEL_TUNING = G5;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
-				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = "$(HOME)/Library/Bundles";
-				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
-				OTHER_LDFLAGS = (
-					"-framework",
-					MWorksCocoa,
-					"-framework",
-					MWorksCore,
-				);
-				PRODUCT_NAME = PythonBridgePlugin;
-				WRAPPER_EXTENSION = bundle;
-			};
-			name = "Development (10.5 Compatible)";
-		};
 		5C77F4FE10E96A4E00919719 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -327,13 +291,6 @@
 				PRODUCT_NAME = Everything;
 			};
 			name = Development;
-		};
-		5C77F4FF10E96A4E00919719 /* Development (10.5 Compatible) */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = Everything;
-			};
-			name = "Development (10.5 Compatible)";
 		};
 		5C77F50010E96A4E00919719 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -353,7 +310,6 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1DEB911B08733D790010E9CD /* Development */,
-				5C2860B110E08615004DA219 /* Development (10.5 Compatible) */,
 				1DEB911C08733D790010E9CD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -363,7 +319,6 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1DEB911F08733D790010E9CD /* Development */,
-				5C2860B010E08615004DA219 /* Development (10.5 Compatible) */,
 				1DEB912008733D790010E9CD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -373,7 +328,6 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5C77F4FE10E96A4E00919719 /* Development */,
-				5C77F4FF10E96A4E00919719 /* Development (10.5 Compatible) */,
 				5C77F50010E96A4E00919719 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
