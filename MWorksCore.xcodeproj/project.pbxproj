@@ -750,7 +750,6 @@
 		5C0B04AB0BB8A46500FD57B9 /* ScopedVariableEnvironment.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ScopedVariableEnvironment.cpp; path = Core/Variables/ScopedVariableEnvironment.cpp; sourceTree = "<group>"; };
 		5C0C4A8409B64DAD0021D3CC /* SelectionVariable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SelectionVariable.h; path = Core/Variables/SelectionVariable.h; sourceTree = SOURCE_ROOT; };
 		5C0C4A8509B64DAD0021D3CC /* SelectionVariable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SelectionVariable.cpp; path = Core/Variables/SelectionVariable.cpp; sourceTree = SOURCE_ROOT; };
-		5C0CD7A31149E75F00B1C674 /* Development_10.5_compatible.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Development_10.5_compatible.xcconfig; path = "/Library/Application Support/MWorks/Developer/Xcode/Development_10.5_compatible.xcconfig"; sourceTree = "<absolute>"; };
 		5C0CD7A41149E75F00B1C674 /* Development.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Development.xcconfig; path = "/Library/Application Support/MWorks/Developer/Xcode/Development.xcconfig"; sourceTree = "<absolute>"; };
 		5C0CD7A51149E75F00B1C674 /* WARNING.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = WARNING.txt; path = "/Library/Application Support/MWorks/Developer/Xcode/WARNING.txt"; sourceTree = "<absolute>"; };
 		5C0E74F609D1A7E9002295FB /* LowPrioritySchedulerPlugin-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "LowPrioritySchedulerPlugin-Info.plist"; sourceTree = "<group>"; };
@@ -1278,7 +1277,6 @@
 		5C0CD79E1149E69A00B1C674 /* External Configuration */ = {
 			isa = PBXGroup;
 			children = (
-				5C0CD7A31149E75F00B1C674 /* Development_10.5_compatible.xcconfig */,
 				5C0CD7A41149E75F00B1C674 /* Development.xcconfig */,
 				5C0CD7A51149E75F00B1C674 /* WARNING.txt */,
 			);
@@ -3322,6 +3320,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				HEADER_SEARCH_PATHS = (
 					/usr/include/libxml2,
 					"$(MW_INCLUDE_DIR)",
@@ -3504,7 +3503,7 @@
 				DSTROOT = "/tmp/$(PRODUCT_NAME).dst";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(FRAMEWORK_SEARCH_PATHS)",
-					"$(TESTS_DIR)",
+					"\"$(TESTS_DIR)\"",
 				);
 				GCC_DEBUGGING_SYMBOLS = full;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -3566,6 +3565,8 @@
 					"-Wmost",
 					"-Wno-four-char-constants",
 					"-Wno-unknown-pragmas",
+					"-Wno-sign-compare",
+					"-Wno-write-strings",
 				);
 			};
 			name = Development;
@@ -3999,375 +4000,6 @@
 			};
 			name = Release;
 		};
-		5C9EE41E107303900051414D /* Development (10.5 Compatible) */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5C0CD7A31149E75F00B1C674 /* Development_10.5_compatible.xcconfig */;
-			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = /Library/Frameworks;
-				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
-				GCC_OBJC_CALL_CXX_CDTORS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
-				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
-				STRIP_INSTALLED_PRODUCT = NO;
-			};
-			name = "Development (10.5 Compatible)";
-		};
-		5C9EE41F107303900051414D /* Development (10.5 Compatible) */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				FRAMEWORK_VERSION = A;
-				GCC_DEBUGGING_SYMBOLS = full;
-				GCC_ENABLE_OBJC_GC = supported;
-				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
-				GCC_WARN_SIGN_COMPARE = NO;
-				HEADER_SEARCH_PATHS = (
-					/usr/include/libxml2,
-					"$(MW_INCLUDE_DIR)",
-				);
-				INFOPLIST_FILE = "MWorksCore-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
-				OTHER_CFLAGS = "-ObjC++";
-				OTHER_LDFLAGS = (
-					"$(MW_LIB_DIR)/libz.a",
-					"$(MW_LIB_DIR)/liblcms.a",
-					"$(MW_LIB_DIR)/libmng.a",
-					"$(MW_LIB_DIR)/libjpeg.a",
-					"$(MW_LIB_DIR)/libtiff.a",
-					"$(MW_LIB_DIR)/libpng.a",
-					"-framework",
-					OpenAL,
-					"$(MW_LIB_DIR)/libILU.a",
-					"$(MW_LIB_DIR)/libIL.a",
-					"$(MW_LIB_DIR)/libILUT.a",
-					"-framework",
-					AppKit,
-					"-framework",
-					Carbon,
-					"-lscarab",
-					"-framework",
-					OpenGL,
-					"-framework",
-					GLUT,
-					"-framework",
-					IOKit,
-					"$(MW_LIB_DIR)/libboost_regex-mw.a",
-					"$(MW_LIB_DIR)/libboost_thread-mw.a",
-					"$(MW_LIB_DIR)/libboost_system-mw.a",
-					"$(MW_LIB_DIR)/libboost_serialization-mw.a",
-					"$(MW_LIB_DIR)/libboost_filesystem-mw.a",
-					"-lxml2",
-					"-lxslt",
-				);
-				PRODUCT_NAME = MWorksCore;
-			};
-			name = "Development (10.5 Compatible)";
-		};
-		5C9EE420107303900051414D /* Development (10.5 Compatible) */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DEBUGGING_SYMBOLS = full;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_ENABLE_OBJC_GC = supported;
-				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
-				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
-				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
-				INFOPLIST_FILE = "MachClockPlugin-Info.plist";
-				INSTALL_PATH = "$(PLUGINS_DIR)";
-				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-					"-framework",
-					MWorksCore,
-				);
-				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = MachClockPlugin;
-				SECTORDER_FLAGS = "";
-				ZERO_LINK = NO;
-			};
-			name = "Development (10.5 Compatible)";
-		};
-		5C9EE422107303900051414D /* Development (10.5 Compatible) */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DEBUGGING_SYMBOLS = full;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
-				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = Everything;
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-				ZERO_LINK = NO;
-			};
-			name = "Development (10.5 Compatible)";
-		};
-		5C9EE425107303900051414D /* Development (10.5 Compatible) */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DEBUGGING_SYMBOLS = full;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_ENABLE_OBJC_GC = supported;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
-				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
-				GCC_MODEL_TUNING = G5;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
-				GCC_PREPROCESSOR_DEFINITIONS = REALTIME_SCHEDULER;
-				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
-				INFOPLIST_FILE = "ZenSchedulerPlugin-Info.plist";
-				INSTALL_PATH = "$(PLUGINS_DIR)";
-				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
-				LIBRARY_STYLE = BUNDLE;
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-					"-framework",
-					MWorksCore,
-				);
-				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = ZenSchedulerPlugin;
-			};
-			name = "Development (10.5 Compatible)";
-		};
-		5C9EE426107303900051414D /* Development (10.5 Compatible) */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DEBUGGING_SYMBOLS = full;
-				GCC_ENABLE_OBJC_GC = supported;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
-				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
-				GCC_PREPROCESSOR_DEFINITIONS = "";
-				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
-				INFOPLIST_FILE = "ZenStateSystemPlugin-Info.plist";
-				INSTALL_PATH = "$(PLUGINS_DIR)";
-				LIBRARY_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
-				LIBRARY_STYLE = BUNDLE;
-				MACOSX_DEPLOYMENT_TARGET = 10.5;
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-					"-framework",
-					MWorksCore,
-				);
-				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = ZenStateSystemPlugin;
-			};
-			name = "Development (10.5 Compatible)";
-		};
-		5C9EE427107303900051414D /* Development (10.5 Compatible) */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DEBUGGING_SYMBOLS = full;
-				GCC_ENABLE_OBJC_GC = supported;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
-				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
-				GCC_MODEL_TUNING = G5;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
-				GCC_PREPROCESSOR_DEFINITIONS = LOW_PRIORITY_MODE;
-				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
-				INFOPLIST_FILE = "LowPrioritySchedulerPlugin-Info.plist";
-				INSTALL_PATH = "$(PLUGINS_DIR)";
-				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
-				LIBRARY_STYLE = BUNDLE;
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-					"-framework",
-					MWorksCore,
-				);
-				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = LowPrioritySchedulerPlugin;
-				SECTORDER_FLAGS = "";
-			};
-			name = "Development (10.5 Compatible)";
-		};
-		5C9EE429107303900051414D /* Development (10.5 Compatible) */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				FRAMEWORK_VERSION = A;
-				GCC_DEBUGGING_SYMBOLS = full;
-				GCC_ENABLE_OBJC_GC = unsupported;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
-				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
-				INFOPLIST_FILE = "MWorksCoreTest-Info.plist";
-				INSTALL_PATH = "$(TESTS_DIR)";
-				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = (
-					"-framework",
-					AppKit,
-					"-framework",
-					Cocoa,
-					"-framework",
-					MWorksCore,
-					"-lcppunit",
-					"-lboost_serialization-mw",
-				);
-				PRODUCT_NAME = MWorksCoreTest;
-				STANDARD_C_PLUS_PLUS_LIBRARY_TYPE = dynamic;
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-					"-Wno-sign-compare",
-				);
-			};
-			name = "Development (10.5 Compatible)";
-		};
-		5C9EE42A107303900051414D /* Development (10.5 Compatible) */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				DSTROOT = "/tmp/$(PRODUCT_NAME).dst";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(FRAMEWORK_SEARCH_PATHS)",
-					"\"$(TESTS_DIR)\"",
-				);
-				GCC_DEBUGGING_SYMBOLS = full;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_ENABLE_OBJC_GC = unsupported;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
-				INSTALL_PATH = "$(TESTS_DIR)";
-				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
-				OTHER_LDFLAGS = (
-					"-ldl",
-					"-lcppunit",
-					"-framework",
-					MWorksCore,
-					"-framework",
-					MWorksCoreTest,
-					"-lILUT",
-					"-lscarab",
-				);
-				PREBINDING = NO;
-				PRODUCT_NAME = MWorksCoreTestRunner;
-				ZERO_LINK = NO;
-			};
-			name = "Development (10.5 Compatible)";
-		};
-		5C9EE42D107303900051414D /* Development (10.5 Compatible) */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				HEADER_SEARCH_PATHS = (
-					/usr/include/libxml2,
-					"$(MW_INCLUDE_DIR)",
-				);
-				INFOPLIST_FILE = "MarionetteTest-Info.plist";
-				INSTALL_PATH = "$(HOME)/Applications";
-				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-					"-framework",
-					MWorksCore,
-					"-lxml2",
-					"-lxslt",
-				);
-				PREBINDING = NO;
-				PRODUCT_NAME = MarionetteTest;
-				WRAPPER_EXTENSION = app;
-			};
-			name = "Development (10.5 Compatible)";
-		};
-		5C9EE42E107303900051414D /* Development (10.5 Compatible) */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = CoreUninstall;
-			};
-			name = "Development (10.5 Compatible)";
-		};
-		5C9EE42F107303900051414D /* Development (10.5 Compatible) */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = (
-					x86_64,
-					i386,
-				);
-				COPY_PHASE_STRIP = NO;
-				EXECUTABLE_EXTENSION = so;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				HEADER_SEARCH_PATHS = (
-					/usr/include/python2.5,
-					$MW_INCLUDE_DIR,
-				);
-				INSTALL_PATH = /usr/local/lib;
-				LIBRARY_SEARCH_PATHS = (
-					/usr/lib,
-					"$(MW_LIB_DIR)",
-				);
-				LINK_WITH_STANDARD_LIBRARIES = YES;
-				MACH_O_TYPE = mh_bundle;
-				OTHER_LDFLAGS = (
-					"-lboost_python-mw",
-					"-lpython2.5",
-				);
-				PREBINDING = NO;
-				PRODUCT_NAME = _conduit;
-				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
-			};
-			name = "Development (10.5 Compatible)";
-		};
-		5C9EE430107303900051414D /* Development (10.5 Compatible) */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				PRODUCT_NAME = "Set Version String";
-			};
-			name = "Development (10.5 Compatible)";
-		};
 		5CCE1CD010A4692500EF5866 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -4377,13 +4009,6 @@
 				PRODUCT_NAME = PyMW;
 			};
 			name = Development;
-		};
-		5CCE1CD110A4692500EF5866 /* Development (10.5 Compatible) */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = PyMW;
-			};
-			name = "Development (10.5 Compatible)";
 		};
 		5CCE1CD210A4692500EF5866 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -4422,6 +4047,10 @@
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = _conduit;
+				WARNING_CFLAGS = (
+					"-Wno-sign-compare",
+					"-Wno-write-strings",
+				);
 			};
 			name = Development;
 		};
@@ -4434,13 +4063,6 @@
 				PRODUCT_NAME = test_mworks;
 			};
 			name = Development;
-		};
-		E11542061193460300DDE09D /* Development (10.5 Compatible) */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = test_mworks;
-			};
-			name = "Development (10.5 Compatible)";
 		};
 		E11542071193460300DDE09D /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -4460,7 +4082,6 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				0E121C940E6B1EF8007B29B8 /* Development */,
-				5C9EE42E107303900051414D /* Development (10.5 Compatible) */,
 				5C9EBDB3107244C00051414D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -4470,7 +4091,6 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				0E8014150E422E2B00D6DE20 /* Development */,
-				5C9EE42D107303900051414D /* Development (10.5 Compatible) */,
 				5C9EBDB2107244C00051414D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -4480,7 +4100,6 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5C0E757709D1A886002295FB /* Development */,
-				5C9EE427107303900051414D /* Development (10.5 Compatible) */,
 				5C9EBDAC107244C00051414D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -4490,7 +4109,6 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5C0E84DB086D85D400B3EE7C /* Development */,
-				5C9EE41F107303900051414D /* Development (10.5 Compatible) */,
 				5C9EBDA4107244C00051414D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -4500,7 +4118,6 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5C0E84EB086D85D400B3EE7C /* Development */,
-				5C9EE420107303900051414D /* Development (10.5 Compatible) */,
 				5C9EBDA5107244C00051414D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -4510,7 +4127,6 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5C0E84FB086D85D400B3EE7C /* Development */,
-				5C9EE425107303900051414D /* Development (10.5 Compatible) */,
 				5C9EBDAA107244C00051414D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -4520,7 +4136,6 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5C0E84FF086D85D400B3EE7C /* Development */,
-				5C9EE426107303900051414D /* Development (10.5 Compatible) */,
 				5C9EBDAB107244C00051414D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -4530,7 +4145,6 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5C0E8503086D85D400B3EE7C /* Development */,
-				5C9EE422107303900051414D /* Development (10.5 Compatible) */,
 				5C9EBDA7107244C00051414D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -4540,7 +4154,6 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5C0E850F086D85D400B3EE7C /* Development */,
-				5C9EE41E107303900051414D /* Development (10.5 Compatible) */,
 				5C9EBDA3107244C00051414D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -4550,7 +4163,6 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5C488A170F4E27CD00C5A526 /* Development */,
-				5C9EE430107303900051414D /* Development (10.5 Compatible) */,
 				5C9EBDB5107244C00051414D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -4560,7 +4172,6 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5C4D232E09DC595B0082BF9F /* Development */,
-				5C9EE42A107303900051414D /* Development (10.5 Compatible) */,
 				5C9EBDAF107244C00051414D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -4570,7 +4181,6 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5C4D239F09DC83950082BF9F /* Development */,
-				5C9EE429107303900051414D /* Development (10.5 Compatible) */,
 				5C9EBDAE107244C00051414D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -4580,7 +4190,6 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5CCE1CD010A4692500EF5866 /* Development */,
-				5CCE1CD110A4692500EF5866 /* Development (10.5 Compatible) */,
 				5CCE1CD210A4692500EF5866 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -4590,7 +4199,6 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5CDB8B250E9C4A6300993D99 /* Development */,
-				5C9EE42F107303900051414D /* Development (10.5 Compatible) */,
 				5C9EBDB4107244C00051414D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -4600,7 +4208,6 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E11542051193460300DDE09D /* Development */,
-				E11542061193460300DDE09D /* Development (10.5 Compatible) */,
 				E11542071193460300DDE09D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;

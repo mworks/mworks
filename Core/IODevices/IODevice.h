@@ -41,7 +41,7 @@ namespace mw {
         //
         // startDeviceIO()
         //
-		// Called in response to a "Start IO Device" action.  It should start actual device I/O.
+        // Called in response to a "Start IO Device" action.  It should start actual device I/O.
         //
         virtual bool startDeviceIO() {
             return true;
@@ -50,7 +50,7 @@ namespace mw {
         //
         // stopDeviceIO()
         //
-		// Called in response to a "Stop IO Device" action.  It should stop device I/O but should *not* shut down
+        // Called in response to a "Stop IO Device" action.  It should stop device I/O but should *not* shut down
         // the device or undo any setup/initialization performed in initialize().  Any shutdown/cleanup code should
         // go in the destructor.
         //
