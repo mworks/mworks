@@ -644,7 +644,7 @@ char * scarab_session_local_address(ScarabSession * session) {
 }
 
 int scarab_session_foreign_port(ScarabSession * session) {
-    if(session == NULL) { return (int)""; }
+    if(session == NULL) { return 0; }
     return (session->stream_head)->engine->foreign_port(session->stream_head);
 }
 
