@@ -18,6 +18,17 @@
 			name = "Set Version String";
 			productName = "Set Version String";
 		};
+		E17B9EE6119CA89600EEBF5D /* Everything */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = E17B9EEF119CA89F00EEBF5D /* Build configuration list for PBXAggregateTarget "Everything" */;
+			buildPhases = (
+			);
+			dependencies = (
+				E17B9EE9119CA89B00EEBF5D /* PBXTargetDependency */,
+			);
+			name = Everything;
+			productName = Everything;
+		};
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
@@ -146,6 +157,13 @@
 			remoteGlobalIDString = 5C56F437100EB6A2007E03A9;
 			remoteInfo = "Set Version String";
 		};
+		E17B9EE8119CA89B00EEBF5D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8D15AC270486D014006FF6A4;
+			remoteInfo = MWEditor;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -185,7 +203,6 @@
 		5C56F6F21010BDA0007E03A9 /* ReportInspectorView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ReportInspectorView.xib; path = InspectorViews/ReportInspectorView.xib; sourceTree = "<group>"; };
 		5C58B0F20E7B023A00561EED /* MWPreferencePanelController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWPreferencePanelController.h; sourceTree = "<group>"; };
 		5C58B0F30E7B023A00561EED /* MWPreferencePanelController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWPreferencePanelController.m; sourceTree = "<group>"; };
-		5C78EAAB1159515A00151A76 /* Development_10.5_compatible.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Development_10.5_compatible.xcconfig; path = "/Library/Application Support/MWorks/Developer/Xcode/Development_10.5_compatible.xcconfig"; sourceTree = "<absolute>"; };
 		5C78EAAC1159515A00151A76 /* Development.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Development.xcconfig; path = "/Library/Application Support/MWorks/Developer/Xcode/Development.xcconfig"; sourceTree = "<absolute>"; };
 		5C78EAAD1159515A00151A76 /* WARNING.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = WARNING.txt; path = "/Library/Application Support/MWorks/Developer/Xcode/WARNING.txt"; sourceTree = "<absolute>"; };
 		5C9186B80E3636B600B64213 /* BiasMonitorInspectorView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = BiasMonitorInspectorView.xib; path = InspectorViews/BiasMonitorInspectorView.xib; sourceTree = "<group>"; };
@@ -440,7 +457,6 @@
 		5C78EAA61159513100151A76 /* External Config */ = {
 			isa = PBXGroup;
 			children = (
-				5C78EAAB1159515A00151A76 /* Development_10.5_compatible.xcconfig */,
 				5C78EAAC1159515A00151A76 /* Development.xcconfig */,
 				5C78EAAD1159515A00151A76 /* WARNING.txt */,
 			);
@@ -672,6 +688,7 @@
 			targets = (
 				8D15AC270486D014006FF6A4 /* MWEditor */,
 				5C56F437100EB6A2007E03A9 /* Set Version String */,
+				E17B9EE6119CA89600EEBF5D /* Everything */,
 			);
 		};
 /* End PBXProject section */
@@ -841,6 +858,11 @@
 			target = 5C56F437100EB6A2007E03A9 /* Set Version String */;
 			targetProxy = 5C56F44E100EB7F4007E03A9 /* PBXContainerItemProxy */;
 		};
+		E17B9EE9119CA89B00EEBF5D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8D15AC270486D014006FF6A4 /* MWEditor */;
+			targetProxy = E17B9EE8119CA89B00EEBF5D /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
@@ -879,57 +901,6 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		5C518D4A108673050004DBC0 /* Development (10.5 Compatible) */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5C78EAAB1159515A00151A76 /* Development_10.5_compatible.xcconfig */;
-			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = /Library/Frameworks;
-				GCC_ENABLE_OBJC_GC = required;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-			};
-			name = "Development (10.5 Compatible)";
-		};
-		5C518D4B108673050004DBC0 /* Development (10.5 Compatible) */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
-				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "ppc i386 ppc64 x86_64";
-				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SRCROOT)",
-					"$(inherited)",
-				);
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_ENABLE_OBJC_GC = required;
-				GCC_MODEL_TUNING = G5;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = NewEditor_Prefix.pch;
-				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = "$(HOME)/Applications";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/graphviz\"",
-				);
-				ONLY_ACTIVE_ARCH = NO;
-				PRODUCT_NAME = MWEditor;
-				WRAPPER_EXTENSION = app;
-				ZERO_LINK = YES;
-			};
-			name = "Development (10.5 Compatible)";
-		};
-		5C518D4C108673050004DBC0 /* Development (10.5 Compatible) */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				PRODUCT_NAME = "Set Version String";
-			};
-			name = "Development (10.5 Compatible)";
-		};
 		5C56F438100EB6A3007E03A9 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -943,7 +914,6 @@
 		C05733C808A9546B00998B17 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
 				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "ppc i386 ppc64 x86_64";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -963,7 +933,6 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/graphviz\"",
 				);
-				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = MWEditor;
 				WRAPPER_EXTENSION = app;
 				ZERO_LINK = YES;
@@ -981,6 +950,16 @@
 			};
 			name = Development;
 		};
+		E17B9EE7119CA89600EEBF5D /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = Everything;
+			};
+			name = Development;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -988,7 +967,6 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5C56F438100EB6A3007E03A9 /* Development */,
-				5C518D4C108673050004DBC0 /* Development (10.5 Compatible) */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
@@ -997,7 +975,6 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C05733C808A9546B00998B17 /* Development */,
-				5C518D4B108673050004DBC0 /* Development (10.5 Compatible) */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
@@ -1006,7 +983,14 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C05733CC08A9546B00998B17 /* Development */,
-				5C518D4A108673050004DBC0 /* Development (10.5 Compatible) */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		E17B9EEF119CA89F00EEBF5D /* Build configuration list for PBXAggregateTarget "Everything" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E17B9EE7119CA89600EEBF5D /* Development */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
