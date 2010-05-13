@@ -118,7 +118,6 @@
 		5CD6D3120D96C57E0042051C /* NotConnected.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = NotConnected.tiff; path = Images/NotConnected.tiff; sourceTree = "<group>"; };
 		5CD6D4370D9751580042051C /* MWErrorColorTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWErrorColorTransformer.h; sourceTree = "<group>"; };
 		5CD6D4380D9751580042051C /* MWErrorColorTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWErrorColorTransformer.m; sourceTree = "<group>"; };
-		5CE62A5F115855F700C757F1 /* Development_10.5_compatible.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Development_10.5_compatible.xcconfig; path = "/Library/Application Support/MWorks/Developer/Xcode/Development_10.5_compatible.xcconfig"; sourceTree = "<absolute>"; };
 		5CE62A60115855F700C757F1 /* Development.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Development.xcconfig; path = "/Library/Application Support/MWorks/Developer/Xcode/Development.xcconfig"; sourceTree = "<absolute>"; };
 		5CE62A61115855F700C757F1 /* WARNING.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = WARNING.txt; path = "/Library/Application Support/MWorks/Developer/Xcode/WARNING.txt"; sourceTree = "<absolute>"; };
 		5CEDF8190D85D7550044D738 /* Clear.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = Clear.tiff; path = Images/Clear.tiff; sourceTree = "<group>"; };
@@ -277,7 +276,6 @@
 		5CE62A5E115855DB00C757F1 /* External Config */ = {
 			isa = PBXGroup;
 			children = (
-				5CE62A5F115855F700C757F1 /* Development_10.5_compatible.xcconfig */,
 				5CE62A60115855F700C757F1 /* Development.xcconfig */,
 				5CE62A61115855F700C757F1 /* WARNING.txt */,
 			);
@@ -523,13 +521,6 @@
 			};
 			name = Development;
 		};
-		5C77F49B10E969AC00919719 /* Development (10.5 Compatible) */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = Everything;
-			};
-			name = "Development (10.5 Compatible)";
-		};
 		5C77F49C10E969AC00919719 /* HollowedOut */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -547,50 +538,6 @@
 				ZERO_LINK = NO;
 			};
 			name = Release;
-		};
-		5C9EE48E107307E50051414D /* Development (10.5 Compatible) */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5CE62A5F115855F700C757F1 /* Development_10.5_compatible.xcconfig */;
-			buildSettings = {
-				GCC_ENABLE_OBJC_GC = unsupported;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
-				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
-				PREBINDING = NO;
-			};
-			name = "Development (10.5 Compatible)";
-		};
-		5C9EE48F107307E50051414D /* Development (10.5 Compatible) */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = /Library/Frameworks;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_ENABLE_OBJC_GC = unsupported;
-				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
-				GCC_OBJC_CALL_CXX_CDTORS = YES;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "New Client_Prefix.pch";
-				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
-				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = "$(HOME)/Applications";
-				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
-				PRODUCT_NAME = MWClient;
-				WRAPPER_EXTENSION = app;
-			};
-			name = "Development (10.5 Compatible)";
-		};
-		5C9EE490107307E50051414D /* Development (10.5 Compatible) */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				PRODUCT_NAME = "Set Version String";
-			};
-			name = "Development (10.5 Compatible)";
 		};
 		5CAA504E106B1F4500ABE746 /* HollowedOut */ = {
 			isa = XCBuildConfiguration;
@@ -717,7 +664,6 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5C488A430F4E289600C5A526 /* Development */,
-				5C9EE490107307E50051414D /* Development (10.5 Compatible) */,
 				5CAA5050106B1F4500ABE746 /* HollowedOut */,
 				5C488A440F4E289600C5A526 /* Release */,
 			);
@@ -728,7 +674,6 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5C77F49A10E969AC00919719 /* Development */,
-				5C77F49B10E969AC00919719 /* Development (10.5 Compatible) */,
 				5C77F49C10E969AC00919719 /* HollowedOut */,
 				5C77F49D10E969AC00919719 /* Release */,
 			);
@@ -739,7 +684,6 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C01FCF4B08A954540054247B /* Development */,
-				5C9EE48F107307E50051414D /* Development (10.5 Compatible) */,
 				5CAA504F106B1F4500ABE746 /* HollowedOut */,
 				C01FCF4C08A954540054247B /* Release */,
 			);
@@ -750,7 +694,6 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C01FCF4F08A954540054247B /* Development */,
-				5C9EE48E107307E50051414D /* Development (10.5 Compatible) */,
 				5CAA504E106B1F4500ABE746 /* HollowedOut */,
 				C01FCF5008A954540054247B /* Release */,
 			);
