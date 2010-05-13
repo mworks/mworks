@@ -120,7 +120,6 @@
 		5C8B85001100225400E6D6CD /* MWClientProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWClientProtocol.h; sourceTree = "<group>"; };
 		5CC88AD0111769DF007914F8 /* MWNotebook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MWNotebook.h; path = Source/MWNotebook.h; sourceTree = "<group>"; };
 		5CC88AD1111769DF007914F8 /* MWNotebook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MWNotebook.m; path = Source/MWNotebook.m; sourceTree = "<group>"; };
-		5CE62A141158540100C757F1 /* Development_10.5_compatible.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Development_10.5_compatible.xcconfig; path = "/Library/Application Support/MWorks/Developer/Xcode/Development_10.5_compatible.xcconfig"; sourceTree = "<absolute>"; };
 		5CE62A151158540100C757F1 /* Development.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Development.xcconfig; path = "/Library/Application Support/MWorks/Developer/Xcode/Development.xcconfig"; sourceTree = "<absolute>"; };
 		5CE62A161158540100C757F1 /* WARNING.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = WARNING.txt; path = "/Library/Application Support/MWorks/Developer/Xcode/WARNING.txt"; sourceTree = "<absolute>"; };
 		5CF10C68109F3B7000FFE11A /* MWCocoaEventFunctor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MWCocoaEventFunctor.cpp; sourceTree = "<group>"; };
@@ -258,7 +257,6 @@
 		5CE62A0C115853B500C757F1 /* External Config */ = {
 			isa = PBXGroup;
 			children = (
-				5CE62A141158540100C757F1 /* Development_10.5_compatible.xcconfig */,
 				5CE62A151158540100C757F1 /* Development.xcconfig */,
 				5CE62A161158540100C757F1 /* WARNING.txt */,
 			);
@@ -506,13 +504,6 @@
 			};
 			name = Development;
 		};
-		5C77F48710E9698F00919719 /* Development (10.5 Compatible) */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = Everything;
-			};
-			name = "Development (10.5 Compatible)";
-		};
 		5C77F48810E9698F00919719 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -524,56 +515,6 @@
 			};
 			name = Release;
 		};
-		5C9EE46F107307800051414D /* Development (10.5 Compatible) */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5CE62A141158540100C757F1 /* Development_10.5_compatible.xcconfig */;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DEBUGGING_SYMBOLS = full;
-				GCC_ENABLE_OBJC_GC = NO;
-				GCC_OBJC_CALL_CXX_CDTORS = YES;
-				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
-				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
-				GCC_WARN_HIDDEN_VIRTUAL_FUNCTIONS = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-			};
-			name = "Development (10.5 Compatible)";
-		};
-		5C9EE470107307800051414D /* Development (10.5 Compatible) */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				DEPLOYMENT_LOCATION = NO;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				FRAMEWORK_VERSION = A;
-				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = MWorksCocoa_Prefix.pch;
-				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
-				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = /Library/Frameworks;
-				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
-				MACH_O_TYPE = mh_dylib;
-				PREBINDING = NO;
-				PRODUCT_NAME = MWorksCocoa;
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-					"-Wno-sign-compare",
-				);
-				WRAPPER_EXTENSION = framework;
-			};
-			name = "Development (10.5 Compatible)";
-		};
-		5C9EE471107307800051414D /* Development (10.5 Compatible) */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = MonkeyWorksCocoa.framework;
-			};
-			name = "Development (10.5 Compatible)";
-		};
 		DA2A85430871A49C00D99DD8 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -584,7 +525,7 @@
 				FRAMEWORK_VERSION = A;
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = MonkeyWorksCocoa_Prefix.pch;
+				GCC_PREFIX_HEADER = MWorksCocoa_Prefix.pch;
 				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = /Library/Frameworks;
@@ -617,7 +558,7 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 3;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = MonkeyWorksCocoa_Prefix.pch;
+				GCC_PREFIX_HEADER = MWorksCocoa_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Frameworks";
 				LIBRARY_STYLE = DYNAMIC;
@@ -669,7 +610,6 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				0E121BCC0E6B1B4F007B29B8 /* Development */,
-				5C9EE471107307800051414D /* Development (10.5 Compatible) */,
 				0E121BCD0E6B1B4F007B29B8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -679,7 +619,6 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5C77F48610E9698F00919719 /* Development */,
-				5C77F48710E9698F00919719 /* Development (10.5 Compatible) */,
 				5C77F48810E9698F00919719 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -689,7 +628,6 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DA2A85430871A49C00D99DD8 /* Development */,
-				5C9EE470107307800051414D /* Development (10.5 Compatible) */,
 				DA2A85440871A49C00D99DD8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -699,7 +637,6 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DA2A85470871A49C00D99DD8 /* Development */,
-				5C9EE46F107307800051414D /* Development (10.5 Compatible) */,
 				DA2A85480871A49C00D99DD8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
