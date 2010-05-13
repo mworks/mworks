@@ -18,6 +18,17 @@
 			name = UninstallMWorksStreamUtilities;
 			productName = UninstallMWorksStreamUtilities;
 		};
+		E17B9F66119CABD000EEBF5D /* Everything */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = E17B9F6F119CABD900EEBF5D /* Build configuration list for PBXAggregateTarget "Everything" */;
+			buildPhases = (
+			);
+			dependencies = (
+				E17B9F6A119CABD500EEBF5D /* PBXTargetDependency */,
+			);
+			name = Everything;
+			productName = Everything;
+		};
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
@@ -34,6 +45,13 @@
 			remoteGlobalIDString = 0E454E3C0D71EF000040E668;
 			remoteInfo = libMWorksStreamUtilities;
 		};
+		E17B9F69119CABD500EEBF5D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0E2D77240D71EDDE005AFCC2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0E454E3C0D71EF000040E668 /* libMWorksStreamUtilities */;
+			remoteInfo = libMWorksStreamUtilities;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -43,7 +61,6 @@
 		0E454E5C0D71F12C0040E668 /* Test.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Test.cpp; sourceTree = "<group>"; };
 		0E454EA30D71F7FE0040E668 /* MWSUtest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MWSUtest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0E454EA50D71F7FE0040E668 /* MWSUtest-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MWSUtest-Info.plist"; sourceTree = "<group>"; };
-		E1C787CF116FAFDB004928BF /* Development_10.5_compatible.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Development_10.5_compatible.xcconfig; path = "/Library/Application Support/MWorks/Developer/Xcode/Development_10.5_compatible.xcconfig"; sourceTree = "<absolute>"; };
 		E1C787D0116FAFDB004928BF /* Development.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Development.xcconfig; path = "/Library/Application Support/MWorks/Developer/Xcode/Development.xcconfig"; sourceTree = "<absolute>"; };
 		E1C787D1116FAFDB004928BF /* WARNING.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = WARNING.txt; path = "/Library/Application Support/MWorks/Developer/Xcode/WARNING.txt"; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
@@ -106,7 +123,6 @@
 		E1C787CC116FAFBD004928BF /* External Configs */ = {
 			isa = PBXGroup;
 			children = (
-				E1C787CF116FAFDB004928BF /* Development_10.5_compatible.xcconfig */,
 				E1C787D0116FAFDB004928BF /* Development.xcconfig */,
 				E1C787D1116FAFDB004928BF /* WARNING.txt */,
 			);
@@ -179,6 +195,7 @@
 				0E454E3C0D71EF000040E668 /* libMWorksStreamUtilities */,
 				0E454EA20D71F7FE0040E668 /* MWSUtest */,
 				0E60D61E0E6D8D9E00B82521 /* UninstallMWorksStreamUtilities */,
+				E17B9F66119CABD000EEBF5D /* Everything */,
 			);
 		};
 /* End PBXProject section */
@@ -247,27 +264,14 @@
 			target = 0E454E3C0D71EF000040E668 /* libMWorksStreamUtilities */;
 			targetProxy = 0E454EAA0D71F8120040E668 /* PBXContainerItemProxy */;
 		};
+		E17B9F6A119CABD500EEBF5D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0E454E3C0D71EF000040E668 /* libMWorksStreamUtilities */;
+			targetProxy = E17B9F69119CABD500EEBF5D /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		0E2D77250D71EDDE005AFCC2 /* Development (10.5 Compatible) */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = E1C787CF116FAFDB004928BF /* Development_10.5_compatible.xcconfig */;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				FINAL_INSTALL_DIR = "$(APP_SUPPORT_DIR)/Tools";
-				HEADER_SEARCH_PATHS = (
-					"$(HEADER_SEARCH_PATHS_QUOTED_FOR_PROJECT_1)",
-					"$(MATLAB_DIR)/extern/include",
-					"$(MW_INCLUDE_DIR)",
-					"$(HEADER_SEARCH_PATHS_QUOTED_FOR_PROJECT_1)",
-				);
-				HEADER_SEARCH_PATHS_QUOTED_FOR_PROJECT_1 = "\"$(FINAL_INSTALL_DIR)/include\"";
-				LIBRARY_SEARCH_PATHS = "";
-				MATLAB_DIR = /Applications/MATLAB;
-			};
-			name = "Development (10.5 Compatible)";
-		};
 		0E2D77260D71EDDE005AFCC2 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -292,19 +296,6 @@
 			};
 			name = Release;
 		};
-		0E454E3F0D71EF000040E668 /* Development (10.5 Compatible) */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_MODEL_TUNING = G5;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				PREBINDING = NO;
-				PRODUCT_NAME = MWorksStreamUtilities;
-			};
-			name = "Development (10.5 Compatible)";
-		};
 		0E454E400D71EF000040E668 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -316,31 +307,6 @@
 				PRODUCT_NAME = MWorksStreamUtilities;
 			};
 			name = Release;
-		};
-		0E454EA60D71F7FF0040E668 /* Development (10.5 Compatible) */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_MODEL_TUNING = G5;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
-				INFOPLIST_FILE = "MWSUtest-Info.plist";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Carbon,
-					"-lscarab",
-					"-lMWorksStreamUtilities",
-					"-lmat",
-					"-lmx",
-				);
-				PRODUCT_NAME = MWSUtest;
-				SKIP_INSTALL = YES;
-				WRAPPER_EXTENSION = app;
-			};
-			name = "Development (10.5 Compatible)";
 		};
 		0E454EA70D71F7FF0040E668 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -366,16 +332,6 @@
 			};
 			name = Release;
 		};
-		0E60D61F0E6D8D9E00B82521 /* Development (10.5 Compatible) */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				PRODUCT_NAME = UninstallMWorksStreamUtilities;
-			};
-			name = "Development (10.5 Compatible)";
-		};
 		0E60D6200E6D8D9E00B82521 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -383,6 +339,27 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				PRODUCT_NAME = UninstallMWorksStreamUtilities;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		E17B9F67119CABD100EEBF5D /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = Everything;
+			};
+			name = Development;
+		};
+		E17B9F68119CABD100EEBF5D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				PRODUCT_NAME = Everything;
 				ZERO_LINK = NO;
 			};
 			name = Release;
@@ -460,7 +437,6 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E1C787D6116FB042004928BF /* Development */,
-				0E2D77250D71EDDE005AFCC2 /* Development (10.5 Compatible) */,
 				0E2D77260D71EDDE005AFCC2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -470,7 +446,6 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E1C787D7116FB042004928BF /* Development */,
-				0E454E3F0D71EF000040E668 /* Development (10.5 Compatible) */,
 				0E454E400D71EF000040E668 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -480,7 +455,6 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E1C787D8116FB042004928BF /* Development */,
-				0E454EA60D71F7FF0040E668 /* Development (10.5 Compatible) */,
 				0E454EA70D71F7FF0040E668 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -490,8 +464,16 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E1C787D9116FB042004928BF /* Development */,
-				0E60D61F0E6D8D9E00B82521 /* Development (10.5 Compatible) */,
 				0E60D6200E6D8D9E00B82521 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E17B9F6F119CABD900EEBF5D /* Build configuration list for PBXAggregateTarget "Everything" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E17B9F67119CABD100EEBF5D /* Development */,
+				E17B9F68119CABD100EEBF5D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

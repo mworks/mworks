@@ -126,7 +126,6 @@
 		5CA077D710CEA49500000A95 /* PythonDataBindingsHelpers.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PythonDataBindingsHelpers.cpp; sourceTree = "<group>"; };
 		5CBBA1801055D5C5004C69DF /* __init__.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = __init__.py; sourceTree = "<group>"; };
 		5CBBA1B01055E5C3004C69DF /* example.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = example.py; sourceTree = "<group>"; };
-		E1C78766116FA6C1004928BF /* Development_10.5_compatible.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Development_10.5_compatible.xcconfig; path = "/Library/Application Support/MWorks/Developer/Xcode/Development_10.5_compatible.xcconfig"; sourceTree = "<absolute>"; };
 		E1C78767116FA6C1004928BF /* Development.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Development.xcconfig; path = "/Library/Application Support/MWorks/Developer/Xcode/Development.xcconfig"; sourceTree = "<absolute>"; };
 		E1C78768116FA6C1004928BF /* WARNING.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = WARNING.txt; path = "/Library/Application Support/MWorks/Developer/Xcode/WARNING.txt"; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
@@ -270,7 +269,6 @@
 		E1C78763116FA698004928BF /* External Config */ = {
 			isa = PBXGroup;
 			children = (
-				E1C78766116FA6C1004928BF /* Development_10.5_compatible.xcconfig */,
 				E1C78767116FA6C1004928BF /* Development.xcconfig */,
 				E1C78768116FA6C1004928BF /* WARNING.txt */,
 			);
@@ -613,101 +611,6 @@
 			};
 			name = Release;
 		};
-		5C7242DE1097E97B004887A5 /* Development (10.5 Compatible) */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = E1C78766116FA6C1004928BF /* Development_10.5_compatible.xcconfig */;
-			buildSettings = {
-				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
-				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
-				PREBINDING = NO;
-			};
-			name = "Development (10.5 Compatible)";
-		};
-		5C7242DF1097E97B004887A5 /* Development (10.5 Compatible) */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_OBJC_CALL_CXX_CDTORS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
-				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
-				INFOPLIST_FILE = "Test-Info.plist";
-				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
-				OTHER_LDFLAGS = (
-					"-lboost_system-mt",
-					"-lboost_filesystem-mt",
-					"-lboost_serialization-mt",
-					"-framework",
-					Carbon,
-					"-ldfindex",
-					"-lscarab",
-				);
-				PRODUCT_NAME = Test;
-				WRAPPER_EXTENSION = app;
-			};
-			name = "Development (10.5 Compatible)";
-		};
-		5C7242E01097E97B004887A5 /* Development (10.5 Compatible) */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
-				INSTALL_PATH = "$(APP_SUPPORT_DIR)/Tools";
-				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
-				PRODUCT_NAME = dfindex;
-			};
-			name = "Development (10.5 Compatible)";
-		};
-		5C7242E11097E97B004887A5 /* Development (10.5 Compatible) */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				PRODUCT_NAME = diindexerInstall;
-			};
-			name = "Development (10.5 Compatible)";
-		};
-		5C7242E21097E97B004887A5 /* Development (10.5 Compatible) */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = (
-					x86_64,
-					i386,
-				);
-				COPY_PHASE_STRIP = NO;
-				EXECUTABLE_EXTENSION = so;
-				EXECUTABLE_PREFIX = "";
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_MODEL_TUNING = G5;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				HEADER_SEARCH_PATHS = (
-					/usr/include/python2.5,
-					$MW_INCLUDE_DIR,
-				);
-				INSTALL_PATH = /usr/local/lib;
-				LIBRARY_SEARCH_PATHS = (
-					/usr/lib,
-					$MW_LIB_DIR,
-				);
-				OTHER_LDFLAGS = (
-					"-lboost_filesystem-mw",
-					"-lscarab",
-					"-lboost_system-mw",
-					"-lpython2.5",
-					"-lboost_serialization-mw",
-					"-lboost_python-mw",
-				);
-				PREBINDING = NO;
-				PRODUCT_NAME = _data;
-			};
-			name = "Development (10.5 Compatible)";
-		};
 		5C7242FF1097F3ED004887A5 /* Development */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E1C78767116FA6C1004928BF /* Development.xcconfig */;
@@ -804,18 +707,6 @@
 			};
 			name = Development;
 		};
-		5CA0779E10CE9F6C00000A95 /* Development (10.5 Compatible) */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_MODEL_TUNING = G5;
-				INSTALL_PATH = /usr/local/bin;
-				PREBINDING = NO;
-				PRODUCT_NAME = PythonBindingsTest;
-			};
-			name = "Development (10.5 Compatible)";
-		};
 		5CA0779F10CE9F6C00000A95 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -859,13 +750,6 @@
 			};
 			name = Release;
 		};
-		E16EB57D114EDDB500F23DB5 /* Development (10.5 Compatible) */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = Everything;
-			};
-			name = "Development (10.5 Compatible)";
-		};
 		E16EB57E114EDDB500F23DB5 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -893,7 +777,6 @@
 		0E60D6060E6D8A1700B82521 /* Build configuration list for PBXAggregateTarget "dfindexerUninstall" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				5C7242E11097E97B004887A5 /* Development (10.5 Compatible) */,
 				5C7243021097F3ED004887A5 /* Development */,
 				0E60D6050E6D89E600B82521 /* Release */,
 			);
@@ -903,7 +786,6 @@
 		0EA58F100D6B20120027A3AC /* Build configuration list for PBXNativeTarget "Test" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				5C7242DF1097E97B004887A5 /* Development (10.5 Compatible) */,
 				5C7243001097F3ED004887A5 /* Development */,
 				0EA58F0F0D6B20120027A3AC /* Release */,
 			);
@@ -913,7 +795,6 @@
 		0EA58FB10D6B25870027A3AC /* Build configuration list for PBXNativeTarget "dfindex" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				5C7242E01097E97B004887A5 /* Development (10.5 Compatible) */,
 				5C7243011097F3ED004887A5 /* Development */,
 				0EA58F9C0D6B25000027A3AC /* Release */,
 			);
@@ -923,7 +804,6 @@
 		1DEB916408733D950010E9CD /* Build configuration list for PBXProject "DataFileIndexer" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				5C7242DE1097E97B004887A5 /* Development (10.5 Compatible) */,
 				5C7242FF1097F3ED004887A5 /* Development */,
 				1DEB916608733D950010E9CD /* Release */,
 			);
@@ -933,7 +813,6 @@
 		5C2A62011039DDAA00A62CBA /* Build configuration list for PBXNativeTarget "Python Bindings" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				5C7242E21097E97B004887A5 /* Development (10.5 Compatible) */,
 				5C7243031097F3ED004887A5 /* Development */,
 				5C2A62001039DD7F00A62CBA /* Release */,
 			);
@@ -943,7 +822,6 @@
 		5CA077A810CE9F7700000A95 /* Build configuration list for PBXNativeTarget "Python Bindings Test" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				5CA0779E10CE9F6C00000A95 /* Development (10.5 Compatible) */,
 				5CA0779F10CE9F6C00000A95 /* Development */,
 				5CA077A010CE9F6C00000A95 /* Release */,
 			);
@@ -953,7 +831,6 @@
 		E16EB58A114EDE1100F23DB5 /* Build configuration list for PBXAggregateTarget "Everything" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				E16EB57D114EDDB500F23DB5 /* Development (10.5 Compatible) */,
 				E16EB57E114EDDB500F23DB5 /* Development */,
 				E16EB57F114EDDB500F23DB5 /* Release */,
 			);

@@ -18,17 +18,37 @@
 			name = UninstallDataFileReader;
 			productName = UninstallDataFileReader;
 		};
+		E17B9F4F119CAB6A00EEBF5D /* Everything */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = E17B9F58119CAB7200EEBF5D /* Build configuration list for PBXAggregateTarget "Everything" */;
+			buildPhases = (
+			);
+			dependencies = (
+				E17B9F53119CAB6E00EEBF5D /* PBXTargetDependency */,
+			);
+			name = Everything;
+			productName = Everything;
+		};
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
 		0E40C41D0D73384A00472673 /* mwdfr.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E40C3950D732BAB00472673 /* mwdfr.cpp */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		E17B9F52119CAB6E00EEBF5D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0E40C3890D732B8200472673 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0E40C4170D73380100472673 /* mwdfr */;
+			remoteInfo = mwdfr;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		0E40C3950D732BAB00472673 /* mwdfr.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = mwdfr.cpp; sourceTree = "<group>"; };
 		0E40C39E0D732BF900472673 /* mwdfr-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "mwdfr-Info.plist"; sourceTree = "<group>"; };
 		0E40C4180D73380100472673 /* mwdfr */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = mwdfr; sourceTree = BUILT_PRODUCTS_DIR; };
-		E1C787B3116FADCA004928BF /* Development_10.5_compatible.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Development_10.5_compatible.xcconfig; path = "/Library/Application Support/MWorks/Developer/Xcode/Development_10.5_compatible.xcconfig"; sourceTree = "<absolute>"; };
 		E1C787B4116FADCA004928BF /* Development.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Development.xcconfig; path = "/Library/Application Support/MWorks/Developer/Xcode/Development.xcconfig"; sourceTree = "<absolute>"; };
 		E1C787B5116FADCA004928BF /* WARNING.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = WARNING.txt; path = "/Library/Application Support/MWorks/Developer/Xcode/WARNING.txt"; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
@@ -65,7 +85,6 @@
 		E1C787B0116FADB0004928BF /* External Config */ = {
 			isa = PBXGroup;
 			children = (
-				E1C787B3116FADCA004928BF /* Development_10.5_compatible.xcconfig */,
 				E1C787B4116FADCA004928BF /* Development.xcconfig */,
 				E1C787B5116FADCA004928BF /* WARNING.txt */,
 			);
@@ -107,6 +126,7 @@
 			targets = (
 				0E40C4170D73380100472673 /* mwdfr */,
 				0E60D69A0E6DBC4A00B82521 /* UninstallDataFileReader */,
+				E17B9F4F119CAB6A00EEBF5D /* Everything */,
 			);
 		};
 /* End PBXProject section */
@@ -151,38 +171,21 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
-/* Begin XCBuildConfiguration section */
-		0E40C38A0D732B8200472673 /* Development (10.5 Compatible) */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = E1C787B3116FADCA004928BF /* Development_10.5_compatible.xcconfig */;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				INSTALL_PATH = "$(APP_SUPPORT_DIR)/Tools";
-			};
-			name = "Development (10.5 Compatible)";
+/* Begin PBXTargetDependency section */
+		E17B9F53119CAB6E00EEBF5D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0E40C4170D73380100472673 /* mwdfr */;
+			targetProxy = E17B9F52119CAB6E00EEBF5D /* PBXContainerItemProxy */;
 		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
 		0E40C38B0D732B8200472673 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
 			};
 			name = Release;
-		};
-		0E40C41A0D73380100472673 /* Development (10.5 Compatible) */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				HEADER_SEARCH_PATHS = $MW_INCLUDE_DIR;
-				INSTALL_PATH = "$(APP_SUPPORT_DIR)/Tools";
-				LIBRARY_SEARCH_PATHS = $MW_LIB_DIR;
-				OTHER_LDFLAGS = "-lscarab";
-				PREBINDING = NO;
-				PRODUCT_NAME = mwdfr;
-			};
-			name = "Development (10.5 Compatible)";
 		};
 		0E40C41B0D73380100472673 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -199,16 +202,6 @@
 			};
 			name = Release;
 		};
-		0E60D69B0E6DBC4B00B82521 /* Development (10.5 Compatible) */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				PRODUCT_NAME = UninstallDataFileReader;
-			};
-			name = "Development (10.5 Compatible)";
-		};
 		0E60D69C0E6DBC4B00B82521 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -216,6 +209,27 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				PRODUCT_NAME = UninstallDataFileReader;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		E17B9F50119CAB6A00EEBF5D /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = Everything;
+			};
+			name = Development;
+		};
+		E17B9F51119CAB6A00EEBF5D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				PRODUCT_NAME = Everything;
 				ZERO_LINK = NO;
 			};
 			name = Release;
@@ -262,7 +276,6 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E1C787A2116FAD6D004928BF /* Development */,
-				0E40C38A0D732B8200472673 /* Development (10.5 Compatible) */,
 				0E40C38B0D732B8200472673 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -272,7 +285,6 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E1C787A3116FAD6D004928BF /* Development */,
-				0E40C41A0D73380100472673 /* Development (10.5 Compatible) */,
 				0E40C41B0D73380100472673 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -282,8 +294,16 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E1C787A4116FAD6D004928BF /* Development */,
-				0E60D69B0E6DBC4B00B82521 /* Development (10.5 Compatible) */,
 				0E60D69C0E6DBC4B00B82521 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E17B9F58119CAB7200EEBF5D /* Build configuration list for PBXAggregateTarget "Everything" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E17B9F50119CAB6A00EEBF5D /* Development */,
+				E17B9F51119CAB6A00EEBF5D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
