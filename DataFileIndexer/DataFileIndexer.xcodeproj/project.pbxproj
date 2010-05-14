@@ -47,17 +47,6 @@
 		0EE378AB0D6CA7B30065846A /* dfindex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EE378A90D6CA7B30065846A /* dfindex.cpp */; };
 		5C2A62051039DDDB00A62CBA /* PythonDataBindings.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C2A62031039DDDB00A62CBA /* PythonDataBindings.h */; };
 		5C2A62061039DDDB00A62CBA /* PythonDataBindings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C2A62041039DDDB00A62CBA /* PythonDataBindings.cpp */; };
-		5C2A62F0103A2DB600A62CBA /* DataFileIndexer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5073E0C409E734A800EC74B6 /* DataFileIndexer.cpp */; };
-		5C2A62F1103A2DB700A62CBA /* DataFileIndexer.h in Headers */ = {isa = PBXBuildFile; fileRef = 50149BD909E781A5002DEE6A /* DataFileIndexer.h */; };
-		5C2A62F3103A2DBD00A62CBA /* DataFileUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E7788170D6B44FB00AF41F2 /* DataFileUtilities.cpp */; };
-		5C2A62F4103A2DBE00A62CBA /* DataFileUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = 0E7788160D6B44FB00AF41F2 /* DataFileUtilities.h */; };
-		5C2A62F5103A2DBE00A62CBA /* dfindex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EE378A90D6CA7B30065846A /* dfindex.cpp */; };
-		5C2A62F6103A2DC100A62CBA /* dfindex.h in Headers */ = {isa = PBXBuildFile; fileRef = 0EE378A80D6CA7B30065846A /* dfindex.h */; };
-		5C2A62F7103A2DC200A62CBA /* EventBlock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EA2B4C40D6BB349002396FC /* EventBlock.cpp */; };
-		5C2A62F8103A2DC300A62CBA /* EventBlock.h in Headers */ = {isa = PBXBuildFile; fileRef = 0EA2B4C30D6BB349002396FC /* EventBlock.h */; };
-		5C2A62F9103A2DC400A62CBA /* EventWrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E587B3E0D6B63B20053BE5C /* EventWrapper.cpp */; };
-		5C2A62FA103A2DC500A62CBA /* EventWrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = 0E587B3D0D6B63B20053BE5C /* EventWrapper.h */; };
-		5C2A62FB103A2DC700A62CBA /* MWorksCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 0EAEC7100D6D01F80091E5F9 /* MWorksCore.h */; };
 		5CA077A910CE9FDF00000A95 /* PythonBindingsTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CA0779610CE9E9C00000A95 /* PythonBindingsTest.cpp */; };
 		5CA077D810CEA49500000A95 /* PythonDataBindingsHelpers.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CA077D610CEA49500000A95 /* PythonDataBindingsHelpers.h */; };
 		5CA077D910CEA49500000A95 /* PythonDataBindingsHelpers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CA077D710CEA49500000A95 /* PythonDataBindingsHelpers.cpp */; };
@@ -90,6 +79,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 5C2A61FD1039DD7B00A62CBA;
 			remoteInfo = "Python Bindings";
+		};
+		E1701BD6119DDC0800F6DE65 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0EA58F990D6B24FF0027A3AC /* dfindex */;
+			remoteInfo = dfindex;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -296,12 +292,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				5C2A62051039DDDB00A62CBA /* PythonDataBindings.h in Headers */,
-				5C2A62F1103A2DB700A62CBA /* DataFileIndexer.h in Headers */,
-				5C2A62F4103A2DBE00A62CBA /* DataFileUtilities.h in Headers */,
-				5C2A62F6103A2DC100A62CBA /* dfindex.h in Headers */,
-				5C2A62F8103A2DC300A62CBA /* EventBlock.h in Headers */,
-				5C2A62FA103A2DC500A62CBA /* EventWrapper.h in Headers */,
-				5C2A62FB103A2DC700A62CBA /* MWorksCore.h in Headers */,
 				5CA077D810CEA49500000A95 /* PythonDataBindingsHelpers.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -357,6 +347,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				E1701BD7119DDC0800F6DE65 /* PBXTargetDependency */,
 			);
 			name = "Python Bindings";
 			productName = DataFile;
@@ -481,11 +472,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				5C2A62061039DDDB00A62CBA /* PythonDataBindings.cpp in Sources */,
-				5C2A62F0103A2DB600A62CBA /* DataFileIndexer.cpp in Sources */,
-				5C2A62F3103A2DBD00A62CBA /* DataFileUtilities.cpp in Sources */,
-				5C2A62F5103A2DBE00A62CBA /* dfindex.cpp in Sources */,
-				5C2A62F7103A2DC200A62CBA /* EventBlock.cpp in Sources */,
-				5C2A62F9103A2DC400A62CBA /* EventWrapper.cpp in Sources */,
 				5CA077D910CEA49500000A95 /* PythonDataBindingsHelpers.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -521,6 +507,11 @@
 			isa = PBXTargetDependency;
 			target = 5C2A61FD1039DD7B00A62CBA /* Python Bindings */;
 			targetProxy = E16EB582114EDDC700F23DB5 /* PBXContainerItemProxy */;
+		};
+		E1701BD7119DDC0800F6DE65 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0EA58F990D6B24FF0027A3AC /* dfindex */;
+			targetProxy = E1701BD6119DDC0800F6DE65 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -701,6 +692,7 @@
 					"-lpython",
 					"-lboost_serialization-mw",
 					"-lboost_python-mw",
+					"-ldfindex",
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = _data;
