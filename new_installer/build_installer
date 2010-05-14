@@ -46,11 +46,6 @@ package_contents = {
         '/Library/Application Support/MWorks/Scripting',
         ),
 
-    'Tools':
-        (
-        '/Library/Application Support/MWorks/Tools',
-        ),
-
     }
 
 
