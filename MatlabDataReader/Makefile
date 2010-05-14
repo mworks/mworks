@@ -11,7 +11,7 @@ CXX        = /usr/bin/g++-4.2
 CFLAGS     = -arch i386 -arch x86_64 -fno-common -no-cpp-precomp -fexceptions
 LIBS      = -L$(MW_DEVELOPER)/lib -L$(MW_TOOLS)/lib -lscarab -ldfindex -lMWorksStreamUtilities -lboost_serialization-mw -lboost_system-mw -lboost_filesystem-mw
 INCLUDE   = -I$(MATLABHOME)/extern/include -I$(MW_DEVELOPER)/include -I$(MW_TOOLS)/include
-MEXFLAGS  = -cxx CC='$(CXX)' CXX='$(CXX)' LD='$(CXX)'
+MEXFLAGS  = -cxx LD='$(CXX)' LDFLAGS='`echo "$$LDFLAGS" | sed "s/10\.5/10\.6/g"`'
 
 SRCS = getCodecs.cpp getEvents.cpp
 OBJS = $(SRCS:.cpp=.o)
