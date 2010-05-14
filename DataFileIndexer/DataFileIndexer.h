@@ -18,7 +18,8 @@
 #include "boost/filesystem/path.hpp"
 #include "boost/shared_ptr.hpp"
 //#include "Scarab/scarab.h"
-#include "MWorksCore.h"
+#include <MWorksCore/Utilities.h>
+using namespace mw;
 #include "EventWrapper.h"
 #include "EventBlock.h"
 #include "boost/archive/text_oarchive.hpp"

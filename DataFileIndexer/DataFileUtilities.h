@@ -8,7 +8,8 @@
  */
 
 #include "Scarab/scarab.h"
-#include "MWorksCore.h"
+#include <MWorksCore/Utilities.h>
+using namespace mw;
 
 class DataFileUtilities {
 public:  

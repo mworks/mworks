@@ -11,7 +11,8 @@
 #include <mex.h>
 #include "Scarab/scarab.h"
 #include "Scarab/scarab_utilities.h"
-#include "dfindex/MWorksCore.h"
+#include <MWorksCore/Utilities.h>
+using namespace mw;
 
 
 int insertDatumIntoEventList(mxArray *eventlist, const int index, ScarabDatum *datum);

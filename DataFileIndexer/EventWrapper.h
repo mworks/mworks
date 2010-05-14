@@ -11,7 +11,9 @@
 #define SCARAB_DATUM_WRAPPER_H
 
 #include "Scarab/scarab.h"
-#include "MWorksCore.h"
+#include <MWorksCore/EventConstants.h>
+#include <MWorksCore/Utilities.h>
+using namespace mw;
 
 class EventWrapper
 	{

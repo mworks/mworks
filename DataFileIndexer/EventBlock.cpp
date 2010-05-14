@@ -10,7 +10,6 @@
 #include <iostream>
 
 #include "EventBlock.h"
-#include "MWorksCore.h"
 
 EventBlock::EventBlock(const long int offset,
 					   const MWorksTime min_time,

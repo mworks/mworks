@@ -10,7 +10,8 @@
 #ifndef EventBlock_
 #define EventBlock_
 
-#include "MWorksCore.h"
+#include <MWorksCore/Utilities.h>
+using namespace mw;
 #include <vector>
 #include "boost/shared_ptr.hpp"
 #include "boost/archive/text_oarchive.hpp"

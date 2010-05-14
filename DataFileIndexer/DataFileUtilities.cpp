@@ -8,7 +8,6 @@
  */
 
 #include "DataFileUtilities.h"
-#include "MWorksCore.h"
 
 unsigned int DataFileUtilities::getScarabEventCode(ScarabDatum *datum){	
 	ScarabDatum *code_datum = scarab_list_get(datum, SCARAB_EVENT_CODEC_CODE_INDEX);

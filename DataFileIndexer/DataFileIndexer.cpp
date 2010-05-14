@@ -9,7 +9,6 @@
 
 #include "DataFileIndexer.h"
 #include "DataFileUtilities.h"
-#include "MWorksCore.h"
 #include "boost/shared_ptr.hpp"
 #include <iostream>
 

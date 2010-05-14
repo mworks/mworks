@@ -9,6 +9,7 @@
 
 #include <string>
 #include "mWorksStreamUtilities.h"
+#include <MWorksCore/EventConstants.h>
 
 double scarab_extract_float(ScarabDatum *datum){
 #if	__LITTLE_ENDIAN__

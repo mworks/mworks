@@ -15,7 +15,8 @@
 #include "boost/archive/text_oarchive.hpp"
 #include "boost/archive/text_iarchive.hpp"
 #include "EventWrapper.h"
-#include "MWorksCore.h"
+#include <MWorksCore/Utilities.h>
+using namespace mw;
 
 class dfindex
 	{
