@@ -18,8 +18,10 @@
 	<string>APPL</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
-	<key>CFBundleShortVersionString</key>
+	<key>CFBundleVersion</key>
 	<string>_VERSION_STRING_</string>
+	<key>CFBundleShortVersionString</key>
+	<string>${MW_VERSION}</string>
 	<key>NSMainNibFile</key>
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>
