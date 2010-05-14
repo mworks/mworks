@@ -49,7 +49,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 0E2D77240D71EDDE005AFCC2 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 0E454E3C0D71EF000040E668 /* libMWorksStreamUtilities */;
+			remoteGlobalIDString = 0E454E3C0D71EF000040E668;
 			remoteInfo = libMWorksStreamUtilities;
 		};
 /* End PBXContainerItemProxy section */
@@ -369,7 +369,7 @@
 			baseConfigurationReference = E1C787D0116FAFDB004928BF /* Development.xcconfig */;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
-				FINAL_INSTALL_DIR = "$(APP_SUPPORT_DIR)/Tools";
+				FINAL_INSTALL_DIR = "$(DEVELOPER_DIR)";
 				HEADER_SEARCH_PATHS = (
 					"$(HEADER_SEARCH_PATHS_QUOTED_FOR_PROJECT_1)",
 					"$(MATLAB_DIR)/extern/include",
