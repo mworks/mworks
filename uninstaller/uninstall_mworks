@@ -20,7 +20,6 @@ mw_files = (
     '/Library/Application Support/MWorks/Developer/',
     '/Library/Application Support/MWorks/Plugins',
     '/Library/Application Support/MWorks/Scripting',
-    '/Library/Application Support/MWorks/Tools',
     '/Library/Frameworks/MWorksCocoa.framework',
     '/Library/Frameworks/MWorksCore.framework',
 
