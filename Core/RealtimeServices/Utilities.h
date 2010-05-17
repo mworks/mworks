@@ -38,6 +38,8 @@ void mprintf(MessageDomain dom, const char *format, ...);
 void parserwarning(const char *format, ...);
 void mwarning(MessageDomain dom, const char *format, ...);
 void parsererror(const char *format, ...);
+
+void merror(MessageDomain dom, std::string, ...);
 void merror(MessageDomain dom, const char *format, ...);
 void mfatal_error(MessageDomain dom, const char *format, ...);
 void mnetwork(const char * format, ...);

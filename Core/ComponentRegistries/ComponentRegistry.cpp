@@ -199,7 +199,8 @@ shared_ptr<mw::Component> ComponentRegistry::createNewObject(const std::string &
 	try {
 		obj = factory->createObject(parameters, this);
 	} catch (std::exception& e){
-		merror(M_PARSER_MESSAGE_DOMAIN, e.what());
+        std::string what = e.what();
+		merror(M_PARSER_MESSAGE_DOMAIN, what);
 	}
 	
 	return obj;

@@ -107,7 +107,16 @@ namespace mw {
 		_makeString(pre, ap, M_ERROR_MESSAGE, M_PARSER_MESSAGE_DOMAIN);
 		va_end(ap);
 	}
-	
+
+    void merror(MessageDomain dom, std::string format, ...) {
+		va_list ap;
+		va_start(ap, format);
+		std::string pre("ERROR: " + format);
+		_makeString(pre, ap, M_ERROR_MESSAGE, dom);
+		va_end(ap);
+	}
+    
+    
 	void merror(MessageDomain dom, const char *format, ...) {
 		va_list ap;
 		va_start(ap, format);

@@ -15,7 +15,11 @@
 #include <boost/enable_shared_from_this.hpp>
 #include <string>
 #include <map>
+
+#ifdef USE_HASH_MAP_IN_CALLBACK_HANDLER
 #include <ext/hash_map>
+#endif
+
 #include <map>
 #include <boost/thread/mutex.hpp>
 #include <boost/thread/recursive_mutex.hpp>
@@ -50,8 +54,12 @@ public:
     void dummyCallback(shared_ptr<Event> evt);    
 };
 
-
+#ifdef  USE_HASH_MAP_IN_CALLBACK_HANDLER
 typedef hash_multimap<int, KeyedEventCallbackPair>  EventCallbackMap;
+#else
+typedef multimap<int, KeyedEventCallbackPair> EventCallbackMap;
+#endif
+
 typedef multimap<string, int>      EventCallbackKeyCodeMap;
 
 #define DEFAULT_CALLBACK_KEY    "<default>"
