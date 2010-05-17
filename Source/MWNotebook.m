@@ -7,6 +7,7 @@
 //
 
 #import "MWNotebook.h"
+#import "MworksCore/PlatformDependentServices.h"
 
 
 @implementation MWNotebook
@@ -21,9 +22,12 @@
     
     [logFilePath appendString:@"/Library/MWorks/DataFiles/"];
 
-    [logFilePath appendString:[[NSDate date] descriptionWithCalendarFormat:@"%Y%m%d_%H%M%S%F.log"
-                                           timeZone:Nil
-                                           locale:Nil]];
+    NSString *logFileName = [[NSDate date] descriptionWithCalendarFormat:@"%Y%m%d_%H%M%S%F.log"
+                                                                timeZone:Nil
+                                                                  locale:Nil];
+
+    logFilePath = [[NSString alloc]
+                   initWithCString:(mw::prependDataFilePath([logFileName UTF8String]).string().c_str())];
     
     NSLog(@"%@",logFilePath);
 
