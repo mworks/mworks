@@ -1,8 +1,9 @@
+import os
 import sys; sys.path.append("/Library/Application Support/MWorks/Scripting/Python")
 import mworks.data as d
 
-#test = d.MWKFile("/Documents/MWorks/Data/wftest1.mwk")
-test = d.MWKFile("/Documents/MWorks/Data/ettest1.mwk")
+#test = d.MWKFile(os.path.expanduser("~/Documents/MWorks/Data/wftest1.mwk"))
+test = d.MWKFile(os.path.expanduser("~/Documents/MWorks/Data/ettest1.mwk"))
 test.open()
 
 test.reindex()

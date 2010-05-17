@@ -24,7 +24,7 @@ int main( int argc, char *argv[])
 	struct timezone tz2;	
 	cout << "start indexing" << endl;
 	gettimeofday(&tv, &tz);
-//	dfindex dfi("/Documents/MWorks/Data/trainingD1.mwk");
+//	dfindex dfi("/Users/bkennedy/Documents/MWorks/Data/trainingD1.mwk");
 	dfindex dfi("/Users/bkennedy/Documents/sandbox/MWorks_trunk/MWorksTools/MatlabDataReader/simple4.mwk");
 	gettimeofday(&tv2, &tz2);
 	cout << "indexing ... took " << tv2.tv_sec-tv.tv_sec << " s" << endl;

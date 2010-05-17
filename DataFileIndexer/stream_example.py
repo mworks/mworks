@@ -1,8 +1,9 @@
+import os
 import sys; sys.path.append("/Library/Application Support/MWorks/Scripting/Python")
 import mworks.data as d
 
-#filename = "Documents/MWorks/Data/ettest1.mwk/ettest1.mwk"
-filename = "/Documents/MWorks/Data/wftest1.mwk/ettest1.mwk"
+#filename = os.path.expanduser("~/Documents/MWorks/Data/ettest1.mwk/ettest1.mwk")
+filename = os.path.expanduser("~/Documents/MWorks/Data/wftest1.mwk/ettest1.mwk")
 
 stream = d.MWKStream("ldobinary:file://" + filename)
 stream.open()
