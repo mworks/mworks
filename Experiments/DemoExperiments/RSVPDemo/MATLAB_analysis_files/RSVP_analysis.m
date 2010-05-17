@@ -4,7 +4,7 @@
 clear all
 close all
 addpath('/Library/Application Support/MWorks/Scripting/Matlab')
-filename = '/Documents/MWorks/Data/rsvp_demo.mwk';
+filename = strcat(getenv('HOME'), '/Documents/MWorks/Data/rsvp_demo.mwk');
 
 % get the variable codec map.  This structure maps the codec code to a
 % variable name.
