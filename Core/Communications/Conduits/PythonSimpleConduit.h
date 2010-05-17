@@ -100,7 +100,7 @@ public:
         try{
             initialized = conduit->initialize();
         } catch(std::exception& e){
-            fprintf(stderr, e.what()); fflush(stderr);
+            fprintf(stderr, "%s\n", e.what()); fflush(stderr);
             initialized = false;
         }
         
