@@ -44,6 +44,17 @@ namespace mw {
 		return boost::filesystem::path(SCRIPTING_PATH, boost::filesystem::native);
 	}
 	
+	boost::filesystem::path userPath() {
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
+
+        if (!paths || ![paths count])
+            return boost::filesystem::path();
+        
+        NSString *path = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"MWorks/Configuration"];
+
+		return boost::filesystem::path([path UTF8String], boost::filesystem::native);
+	}
+	
 	boost::filesystem::path localPath() {
 		return boost::filesystem::path(LOCAL_PATH, boost::filesystem::native);
 	}
@@ -73,6 +84,10 @@ namespace mw {
 	
 	boost::filesystem::path prependScriptingPath(const std::string scriptFile){
 		return scriptingPath() / boost::filesystem::path(scriptFile, boost::filesystem::native);
+	}
+	
+	boost::filesystem::path prependUserPath(const std::string file){
+		return userPath() / boost::filesystem::path(file, boost::filesystem::native);
 	}
 	
 	boost::filesystem::path prependLocalPath(const std::string file){

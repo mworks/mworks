@@ -19,6 +19,7 @@
 #include <string>
 #include <boost/filesystem/path.hpp>
 namespace mw {
+	boost::filesystem::path userPath();
 	boost::filesystem::path localPath();
 	boost::filesystem::path pluginPath();
 	boost::filesystem::path scriptingPath();
@@ -46,6 +47,7 @@ namespace mw {
 	boost::filesystem::path getLocalExperimentStorageDir(const std::string filename);
 	boost::filesystem::path getLocalExperimentPath(const std::string filename);
 	
+	boost::filesystem::path prependUserPath(const std::string file);
 	boost::filesystem::path prependLocalPath(const std::string file);
 	boost::filesystem::path prependResourcePath(const std::string file);
 	
