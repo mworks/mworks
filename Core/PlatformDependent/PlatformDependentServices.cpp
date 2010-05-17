@@ -18,7 +18,7 @@
 namespace mw {
 	
 #ifdef __APPLE__
-    const char * DATA_FILE_PATH = "/Documents/MWorks/Data/";
+    const char * DATA_FILE_PATH = "MWorks/Data";
 	const char * PLUGIN_PATH = "/Library/Application Support/MWorks/Plugins/Core";
 	const char * SCRIPTING_PATH = "/Library/Application Support/MWorks/Scripting";
 	const char * CONFIG_PATH = "MWorks/Configuration";
@@ -44,12 +44,23 @@ namespace mw {
 		return boost::filesystem::path(SCRIPTING_PATH, boost::filesystem::native);
 	}
 	
+	boost::filesystem::path dataFilePath() {
+		namespace bf = boost::filesystem;
+        
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        if (!paths || ![paths count])
+            return bf::path();
+        
+		return bf::path([[paths objectAtIndex:0] UTF8String], bf::native) / bf::path(DATA_FILE_PATH, bf::native);
+	}
+	
 	boost::filesystem::path userPath() {
+		namespace bf = boost::filesystem;
+
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
         if (!paths || ![paths count])
-            return boost::filesystem::path();
+            return bf::path();
 
-		namespace bf = boost::filesystem;
 		return bf::path([[paths objectAtIndex:0] UTF8String], bf::native) / bf::path(CONFIG_PATH, bf::native);
 	}
 	
@@ -100,9 +111,8 @@ namespace mw {
 	}
 	
 	boost::filesystem::path prependDataFilePath(const std::string filename) {
-		return boost::filesystem::path(DATA_FILE_PATH, boost::filesystem::native) / 
-		boost::filesystem::path(filename, boost::filesystem::native);
-		
+		namespace bf = boost::filesystem;
+		return dataFilePath() / bf::path(filename, bf::native);
 	}
 	
 	std::string appendDataFileExtension(const std::string filename_) {

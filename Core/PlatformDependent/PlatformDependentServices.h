@@ -23,6 +23,7 @@ namespace mw {
 	boost::filesystem::path localPath();
 	boost::filesystem::path pluginPath();
 	boost::filesystem::path scriptingPath();
+	boost::filesystem::path dataFilePath();
 	boost::filesystem::path experimentInstallPath();
 	boost::filesystem::path experimentStorageDirectoryName();
 	

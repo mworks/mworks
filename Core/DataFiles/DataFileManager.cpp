@@ -18,6 +18,7 @@
 #include "SystemEventFactory.h"
 #include "EventBuffer.h"
 #include "PlatformDependentServices.h"
+#include "boost/filesystem/convenience.hpp"
 using namespace mw;
 
 namespace mw {
@@ -80,6 +81,9 @@ int DataFileManager::openFile(std::string _filename, DatumFileOptions opt) {
 		}
 	}			
 	
+    // Ensure that the data file directory exists
+    boost::filesystem::create_directories(dataFilePath());
+    
     if(scarab_create_file(filename.c_str()) != 0){
 		merror(M_FILE_MESSAGE_DOMAIN,
 			   "Could not create file: %s", filename.c_str());
