@@ -7,24 +7,13 @@
  *
  */
 
+#include "MWorksCore/Experiment.h"
 #include "ZenStateSystem.h"
-
-/*
- *  StandardStateSystem.cpp
- *  Experimental Control with Cocoa UI
- *
- *  Created by David Cox on Mon Dec 30 2002.
- *  Copyright (c) 2002 __MyCompanyName__. All rights reserved.
- *
- */
-
 #include "StateSystem.h"
-
 #include "MWorksCore/Utilities.h"
 #include "MWorksCore/Scheduler.h"
 #include "MWorksCore/StateSystem.h"
 #include "MWorksCore/StandardVariables.h"
-#include "MWorksCore/Experiment.h"
 #include "MWorksCore/IODeviceManager.h"
 #include "MWorksCore/Debugging.h"
 

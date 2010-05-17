@@ -12,8 +12,9 @@
  
 #include <boost/shared_ptr.hpp>
 #include <boost/enable_shared_from_this.hpp>
-#include "StimulusDisplay.h"
 #include "Stimulus.h"
+#include "StimulusDisplay.h"
+
 #include "GenericVariable.h"
 #include "Component.h"
 

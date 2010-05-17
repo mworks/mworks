@@ -309,7 +309,9 @@ void StimulusDisplay::updateDisplay(bool explicit_update) {
         
 #ifdef USE_GL_FENCE
 		if(i == 0){ // only for the main display
-			glSetFenceAPPLE(opengl_context_manager->getFence());
+            if(opengl_context_manager->hasFence()){
+                glSetFenceAPPLE(opengl_context_manager->getFence());
+            }
 		}
 #endif
 		opengl_context_manager->flush(current_context);
@@ -317,8 +319,11 @@ void StimulusDisplay::updateDisplay(bool explicit_update) {
 		
 #ifdef USE_GL_FENCE
 		if(i == 0){  // only for the first (main) display
-			glFinishFenceAPPLE(opengl_context_manager->getFence());
 			
+            if(opengl_context_manager->hasFence()){
+                glFinishFenceAPPLE(opengl_context_manager->getFence());
+			}
+            
     #ifdef ERROR_ON_LATE_FRAMES
             MWTime now = clock->getCurrentTimeUS();
 			

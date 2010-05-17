@@ -133,7 +133,9 @@ OpenGLContextManager::OpenGLContextManager() {
     
     contexts = [[NSMutableArray alloc] init];
     display_refresh_rates = [[NSMutableArray alloc] init];
-    	
+    
+    has_fence = false;
+    glew_initialized = false;
 }
 
 
@@ -417,12 +419,7 @@ int OpenGLContextManager::newMirrorContext(int pixelDepth){
 
     
     mirror_window = [[NSWindow alloc] initWithContentRect: mirror_rect styleMask:NSResizableWindowMask | NSMiniaturizableWindowMask backing:NSBackingStoreBuffered defer:YES];
-    
-    //[fullscreen_window setLevel:NSMainMenuWindowLevel+1];
-    
-    //[fullscreen_window setOpaque:YES];
-    //[fullscreen_window setHidesOnDeactivate:YES];
-    
+        
     NSOpenGLPixelFormatAttribute attrs[] =
     {
         NSOpenGLPFADoubleBuffer,
@@ -443,7 +440,14 @@ int OpenGLContextManager::newMirrorContext(int pixelDepth){
     
     [contexts addObject:opengl_context];
     [display_refresh_rates addObject:[NSNumber numberWithDouble:_measureDisplayRefreshRate(0)]];
-    return [contexts count] - 1;
+    
+    int context_id = [contexts count] - 1;
+    
+    setCurrent(context_id);
+    _initGlew();
+    
+    return context_id;
+    
 }
 
 
@@ -491,7 +495,21 @@ int OpenGLContextManager::newFullscreenContext(int pixelDepth, int screen_number
     
     [contexts addObject:opengl_context];
     [display_refresh_rates addObject:[NSNumber numberWithDouble:_measureDisplayRefreshRate(screen_number)]];
-    return [contexts count] - 1;
+    
+    
+    glGenFencesAPPLE(1, &synchronization_fence);
+    if(glIsFenceAPPLE(synchronization_fence)){
+        has_fence = true;
+    } else {
+        has_fence = false;
+    }
+    
+    int context_id = [contexts count] - 1;
+    
+    setCurrent(context_id);
+    _initGlew();
+
+    return context_id;
 }
 
 

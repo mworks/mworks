@@ -267,6 +267,12 @@
 		5CEFD82D0D4D1D6200EA9950 /* Exceptions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CEFD82B0D4D1D6200EA9950 /* Exceptions.cpp */; };
 		5CF73C6408625E4D00F453C3 /* ZenScheduler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CF73BCD0862537E00F453C3 /* ZenScheduler.cpp */; };
 		5CF73C880862616800F453C3 /* ZenStateSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CF73C870862616800F453C3 /* ZenStateSystem.cpp */; };
+		5CF855FD119D8D8F004167A5 /* BicubicFilterShader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CF855FB119D8D8F004167A5 /* BicubicFilterShader.cpp */; };
+		5CF855FE119D8D8F004167A5 /* BicubicFilterShader.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CF855FC119D8D8F004167A5 /* BicubicFilterShader.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5CF85601119D8DCD004167A5 /* Shader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CF855FF119D8DCD004167A5 /* Shader.cpp */; };
+		5CF85602119D8DCD004167A5 /* Shader.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CF85600119D8DCD004167A5 /* Shader.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5CF85611119D8FC3004167A5 /* glew.c in Sources */ = {isa = PBXBuildFile; fileRef = 5CF85610119D8FC3004167A5 /* glew.c */; };
+		5CF85613119D8FD9004167A5 /* glew.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CF85612119D8FD9004167A5 /* glew.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5CFC3A820AFD376D00A3C171 /* VariableReference.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CFC3A800AFD376D00A3C171 /* VariableReference.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5CFC3A830AFD376D00A3C171 /* VariableReference.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CFC3A810AFD376D00A3C171 /* VariableReference.cpp */; };
 		681F79240CA97E3E00F2F133 /* SelectionVariableTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 681F79220CA97E3E00F2F133 /* SelectionVariableTest.cpp */; };
@@ -867,6 +873,12 @@
 		5CF73C80086260E900F453C3 /* ZenStateSystemPlugin-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ZenStateSystemPlugin-Info.plist"; sourceTree = SOURCE_ROOT; };
 		5CF73C860862616800F453C3 /* ZenStateSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZenStateSystem.h; path = ZenStateSystem/ZenStateSystem.h; sourceTree = SOURCE_ROOT; };
 		5CF73C870862616800F453C3 /* ZenStateSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ZenStateSystem.cpp; path = ZenStateSystem/ZenStateSystem.cpp; sourceTree = SOURCE_ROOT; };
+		5CF855FB119D8D8F004167A5 /* BicubicFilterShader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BicubicFilterShader.cpp; sourceTree = "<group>"; };
+		5CF855FC119D8D8F004167A5 /* BicubicFilterShader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BicubicFilterShader.h; sourceTree = "<group>"; };
+		5CF855FF119D8DCD004167A5 /* Shader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Shader.cpp; sourceTree = "<group>"; };
+		5CF85600119D8DCD004167A5 /* Shader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Shader.h; sourceTree = "<group>"; };
+		5CF85610119D8FC3004167A5 /* glew.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = glew.c; sourceTree = "<group>"; };
+		5CF85612119D8FD9004167A5 /* glew.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = glew.h; sourceTree = "<group>"; };
 		5CFC3A800AFD376D00A3C171 /* VariableReference.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VariableReference.h; path = Core/Variables/VariableReference.h; sourceTree = "<group>"; };
 		5CFC3A810AFD376D00A3C171 /* VariableReference.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = VariableReference.cpp; path = Core/Variables/VariableReference.cpp; sourceTree = "<group>"; };
 		681F79220CA97E3E00F2F133 /* SelectionVariableTest.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = SelectionVariableTest.cpp; sourceTree = "<group>"; };
@@ -1698,6 +1710,19 @@
 			name = ZenStateSystem;
 			sourceTree = SOURCE_ROOT;
 		};
+		5CF855E2119D8D2C004167A5 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				5CF85612119D8FD9004167A5 /* glew.h */,
+				5CF85610119D8FC3004167A5 /* glew.c */,
+				5CF855FF119D8DCD004167A5 /* Shader.cpp */,
+				5CF85600119D8DCD004167A5 /* Shader.h */,
+				5CF855FB119D8D8F004167A5 /* BicubicFilterShader.cpp */,
+				5CF855FC119D8D8F004167A5 /* BicubicFilterShader.h */,
+			);
+			name = Utilities;
+			sourceTree = "<group>";
+		};
 		8E1A4BDC08DF55CB002E47BD /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
@@ -1902,6 +1927,7 @@
 		DA2CE0E507E9F70400C68AEF /* VisualStimuli */ = {
 			isa = PBXGroup;
 			children = (
+				5CF855E2119D8D2C004167A5 /* Utilities */,
 				5C78EDE1115C00EC00151A76 /* DynamicStimuli */,
 				5C4D254E09DCBB9A0082BF9F /* tests */,
 				DA2CE1C707E9F96E00C68AEF /* OpenGLContextManager.cpp */,
@@ -2369,6 +2395,9 @@
 				5C78EDF1115C00EC00151A76 /* DynamicStimulusActionFactories.h in Headers */,
 				5C78EDF3115C00EC00151A76 /* StopDynamicStimulus.h in Headers */,
 				5CD621591174FF3D007339B7 /* FreezableVariableContainer.h in Headers */,
+				5CF855FE119D8D8F004167A5 /* BicubicFilterShader.h in Headers */,
+				5CF85602119D8DCD004167A5 /* Shader.h in Headers */,
+				5CF85613119D8FD9004167A5 /* glew.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3037,6 +3066,9 @@
 				5C78EDF0115C00EC00151A76 /* DynamicStimulusActionFactories.cpp in Sources */,
 				5C78EDF2115C00EC00151A76 /* StopDynamicStimulus.cpp in Sources */,
 				5CD6215A1174FF3D007339B7 /* FreezableVariableContainer.cpp in Sources */,
+				5CF855FD119D8D8F004167A5 /* BicubicFilterShader.cpp in Sources */,
+				5CF85601119D8DCD004167A5 /* Shader.cpp in Sources */,
+				5CF85611119D8FC3004167A5 /* glew.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3243,8 +3275,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREFIX_HEADER = "";
 				GCC_PREPROCESSOR_DEFINITIONS = LOW_PRIORITY_MODE;
 				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
 				INFOPLIST_FILE = "LowPrioritySchedulerPlugin-Info.plist";
@@ -3323,8 +3355,8 @@
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREFIX_HEADER = "";
 				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
 				INFOPLIST_FILE = "MachClockPlugin-Info.plist";
 				INSTALL_PATH = "$(PLUGINS_DIR)";
@@ -3351,8 +3383,8 @@
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREFIX_HEADER = "";
 				GCC_PREPROCESSOR_DEFINITIONS = REALTIME_SCHEDULER;
 				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
 				INFOPLIST_FILE = "ZenSchedulerPlugin-Info.plist";
@@ -3381,8 +3413,8 @@
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREFIX_HEADER = "";
 				GCC_PREPROCESSOR_DEFINITIONS = "";
 				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
 				INFOPLIST_FILE = "ZenStateSystemPlugin-Info.plist";

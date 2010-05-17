@@ -7,12 +7,15 @@
 
 #ifndef OPENGL_CONTEXT_MANAGER__
 #define OPENGL_CONTEXT_MANAGER__
+#include "glew.h"
 
 #include "RegisteredSingleton.h"
 
 #include "Stimulus.h"
 
 #include <Cocoa/Cocoa.h>
+
+
 
 #import "MWorksCore/StimMirrorController.h"
 #import "Scheduler.h"
@@ -49,8 +52,20 @@ namespace mw {
         NSScreen                *_getScreen(const int screen_number);
         double                  _measureDisplayRefreshRate(int index);
         
+        bool glew_initialized;
+        bool has_fence;
+        
+        void _initGlew(){
+            
+            if(glewInit() == GLEW_OK){
+                glew_initialized = true;
+            } else {
+                glew_initialized = false;
+            }
+        }
         
     public:
+        
 		
         OpenGLContextManager();
         
@@ -85,6 +100,7 @@ namespace mw {
         void flush(int context_id);
         void flushCurrent();
 		
+        bool hasFence(){   return has_fence; }
 		GLuint getFence(){  return synchronization_fence; }
 		GLuint *getFencePointer(){ return &synchronization_fence; }
 		

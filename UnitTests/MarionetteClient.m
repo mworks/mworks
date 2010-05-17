@@ -8,6 +8,9 @@
  * Copyright MIT 2007.  All rights reserved.
  */
 
+#import "MWorksCore/SystemEventFactory.h"
+#import "MWorksCore/XMLParser.h"
+#import "MWorksCore/ExpressionVariable.h"
 #import "MarionetteClient.h"
 #import "MarionetteMessage.h"
 #import "MarionetteEvent.h"
@@ -15,9 +18,7 @@
 #import "MarionetteGlobals.h"
 #import "MarionetteMessage.h"
 #import "MarionetteEvent.h"
-#import "MWorksCore/SystemEventFactory.h"
-#import "MWorksCore/XMLParser.h"
-#import "MWorksCore/ExpressionVariable.h"
+
 
 Datum _parseDataValue(xmlNode *node);
 string _attributeForName(xmlNode *node, string name);

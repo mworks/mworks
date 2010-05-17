@@ -37,6 +37,8 @@
 #ifndef STIMULUS_H
 #define STIMULUS_H
 
+#include "glew.h"
+
 #include "StimulusDisplay.h"
 #include "StimulusNode.h"
 
@@ -48,6 +50,7 @@
 #include "Announcers.h"
 #include <vector>
 #include "FreezableVariableContainer.h"
+
 
 #ifdef	__APPLE__
 	#include <OpenGL/gl.h>

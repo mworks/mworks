@@ -28,12 +28,12 @@
  *  about the inherited class.
  */
 
+#include "Stimulus.h"
 #include "Clock.h"
 #include "StateSystem.h"
 #include "Utilities.h"
 #include "ComponentFactory.h"
 #include "GenericVariable.h"
-#include "Stimulus.h"
 #include "boost/shared_ptr.hpp"
 #include "boost/algorithm/string.hpp"
 #include "boost/filesystem/path.hpp"
