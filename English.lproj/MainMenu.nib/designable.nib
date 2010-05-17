@@ -12,15 +12,15 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="681"/>
-			<integer value="1011"/>
-			<integer value="106"/>
-			<integer value="378"/>
-			<integer value="799"/>
-			<integer value="699"/>
-			<integer value="380"/>
 			<integer value="769"/>
+			<integer value="681"/>
+			<integer value="799"/>
+			<integer value="380"/>
+			<integer value="378"/>
 			<integer value="628"/>
+			<integer value="1011"/>
+			<integer value="699"/>
+			<integer value="106"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -2767,7 +2767,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<object class="NSTextFieldCell" key="NSCell" id="142981349">
 								<int key="NSCellFlags">67239424</int>
 								<int key="NSCellFlags2">272891904</int>
-								<string key="NSContents">This file is located in the directory /Documents/MWorks/Data on the remote server</string>
+								<string key="NSContents">This file is located in the directory ~/Documents/MWorks/Data on the remote server</string>
 								<reference key="NSSupport" ref="22"/>
 								<reference key="NSControlView" ref="600629040"/>
 								<reference key="NSBackgroundColor" ref="667273391"/>
@@ -3024,7 +3024,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<object class="NSTextFieldCell" key="NSCell" id="1043150940">
 								<int key="NSCellFlags">67239424</int>
 								<int key="NSCellFlags2">272891904</int>
-								<string key="NSContents">Data will be saved in the directory /Documents/MWorks/Data on the remote server</string>
+								<string key="NSContents">Data will be saved in the directory ~/Documents/MWorks/Data on the remote server</string>
 								<reference key="NSSupport" ref="22"/>
 								<reference key="NSControlView" ref="216403143"/>
 								<reference key="NSBackgroundColor" ref="667273391"/>
