@@ -341,12 +341,9 @@ namespace mw {
 		
 		std::string expName(removeFileExtension(expFileName));
 		bf::path temp(experimentInstallPath());
-		bf::path currExpStorageDir = temp / 
-		bf::path(expName, bf::native) / 
-		experimentStorageDirectoryName();
+		bf::path currExpParentDir = temp / bf::path(expName, bf::native);
+		bf::path currExpStorageDir = currExpParentDir / experimentStorageDirectoryName();
 		
-		bf::path currExpParentDir = temp / 
-		bf::path(expName, bf::native);
 		
 		//bf::path expFileNamePath(expFileName);
 		
@@ -354,8 +351,7 @@ namespace mw {
 			remove_all(currExpStorageDir);
 		}
 		
-		bf::create_directory(currExpParentDir);
-		bf::create_directory(currExpStorageDir);
+		bf::create_directories(currExpStorageDir);
 		
 		
 	}

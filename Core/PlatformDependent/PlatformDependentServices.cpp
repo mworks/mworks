@@ -21,14 +21,14 @@ namespace mw {
     const char * DATA_FILE_PATH = "/Documents/MWorks/Data/";
 	const char * PLUGIN_PATH = "/Library/Application Support/MWorks/Plugins/Core";
 	const char * SCRIPTING_PATH = "/Library/Application Support/MWorks/Scripting";
-	const char * LOCAL_PATH = "/Library/Application Support/MWorks/Configuration";
-	const char * EXPERIMENT_INSTALL_PATH = "/Library/Application Support/MWorks/Experiment Cache";
+	const char * CONFIG_PATH = "MWorks/Configuration";
+	const char * EXPERIMENT_INSTALL_PATH = "MWorks/Experiment Cache";
 #else
 	
     const char * DATA_FILE_PATH "/usr/local/MWorks/plugins/";
 	const char * PLUGIN_PATH = "/usr/local/MWorks/plugins/";
 	const char * SCRIPTING_PATH = "/usr/local/MWorks/scripting/";
-	const char * LOCAL_PATH = "/usr/local/MWorks/local/";
+	const char * CONFIG_PATH = "/usr/local/MWorks/local/";
 	const char * EXPERIMENT_INSTALL_PATH = "/tmp/mw_experiments/";
 #endif
 	
@@ -46,17 +46,16 @@ namespace mw {
 	
 	boost::filesystem::path userPath() {
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
-
         if (!paths || ![paths count])
             return boost::filesystem::path();
-        
-        NSString *path = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"MWorks/Configuration"];
 
-		return boost::filesystem::path([path UTF8String], boost::filesystem::native);
+		namespace bf = boost::filesystem;
+		return bf::path([[paths objectAtIndex:0] UTF8String], bf::native) / bf::path(CONFIG_PATH, bf::native);
 	}
 	
 	boost::filesystem::path localPath() {
-		return boost::filesystem::path(LOCAL_PATH, boost::filesystem::native);
+		namespace bf = boost::filesystem;
+		return bf::path("/Library/Application Support", bf::native) / bf::path(CONFIG_PATH, bf::native);
 	}
 	
 	boost::filesystem::path resourcePath() {
@@ -75,7 +74,9 @@ namespace mw {
 	}
 	
 	boost::filesystem::path experimentInstallPath() {
-		return boost::filesystem::path(EXPERIMENT_INSTALL_PATH, boost::filesystem::native);
+		namespace bf = boost::filesystem;
+		return (bf::path([NSTemporaryDirectory() UTF8String], bf::native) /
+                bf::path(EXPERIMENT_INSTALL_PATH, bf::native));
 	}
 	
 	boost::filesystem::path experimentStorageDirectoryName() {
@@ -131,8 +132,7 @@ namespace mw {
 	boost::filesystem::path getLocalExperimentStorageDir(const std::string expName) {
 		namespace bf = boost::filesystem;
 		
-		return bf::path(EXPERIMENT_INSTALL_PATH, bf::native) / 
-		bf::path(expName, bf::native) / 
+		return getLocalExperimentPath(expName) / 
 		bf::path(EXPERIMENT_STORAGE_DIRECTORY_NAME, bf::native);
 		
 	}
@@ -140,7 +140,7 @@ namespace mw {
 	boost::filesystem::path getLocalExperimentPath(const std::string expName) {
 		namespace bf = boost::filesystem;
 		
-		return bf::path(EXPERIMENT_INSTALL_PATH, bf::native) / bf::path(expName, bf::native);
+		return experimentInstallPath() / bf::path(expName, bf::native);
 	}
 	
 	std::string appendVarFileExt(const std::string expName) {

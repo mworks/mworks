@@ -18,6 +18,7 @@
 #include <fstream>
 #include "PlatformDependentServices.h"
 #include "boost/filesystem/path.hpp"
+#include "boost/filesystem/convenience.hpp"
 using namespace mw;
 
 boost::filesystem::path 
@@ -32,21 +33,10 @@ ExperimentUnpackager::prependExperimentInstallPath(
 	bf::path ei(experimentInstallPath());
 	bf::path es(experimentStorageDirectoryName());
 	
-    bf::path exp_parent_path = ei / bf::path(expname, bf::native);
-    bf::path exp_tmp_path = exp_parent_path / es;
+    bf::path exp_tmp_path = ei / bf::path(expname, bf::native) / es;
     bf::path exp_path = exp_tmp_path /  bf::path(experimentFilename, bf::native);
     
-    if(!bf::exists(ei)){
-       bf::create_directory(ei);
-    }
-    
-    if(!bf::exists(exp_parent_path)){
-        bf::create_directory(exp_parent_path);
-    }
-    
-    if(!bf::exists(exp_tmp_path)){
-        bf::create_directory(exp_tmp_path);
-    }
+    bf::create_directories(exp_tmp_path);
     
     return exp_path;
 }
