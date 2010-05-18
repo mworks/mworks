@@ -46,22 +46,35 @@ namespace mw {
 	
 	boost::filesystem::path dataFilePath() {
 		namespace bf = boost::filesystem;
+        bf::path data_file_path;
+        
+        NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
         
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-        if (!paths || ![paths count])
-            return bf::path();
+        if (paths && [paths count]) {
+            data_file_path = (bf::path([[paths objectAtIndex:0] UTF8String], bf::native) /
+                              bf::path(DATA_FILE_PATH, bf::native));
+        }
         
-		return bf::path([[paths objectAtIndex:0] UTF8String], bf::native) / bf::path(DATA_FILE_PATH, bf::native);
+        [pool drain];
+        
+		return data_file_path;
 	}
 	
 	boost::filesystem::path userPath() {
 		namespace bf = boost::filesystem;
+        bf::path user_path;
+        
+        NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
-        if (!paths || ![paths count])
-            return bf::path();
+        if (paths && [paths count]) {
+            user_path = bf::path([[paths objectAtIndex:0] UTF8String], bf::native) / bf::path(CONFIG_PATH, bf::native);
+        }
+        
+        [pool drain];
 
-		return bf::path([[paths objectAtIndex:0] UTF8String], bf::native) / bf::path(CONFIG_PATH, bf::native);
+		return user_path;
 	}
 	
 	boost::filesystem::path localPath() {
@@ -79,15 +92,20 @@ namespace mw {
 			}
 		}
 		
-		[pool release];
+		[pool drain];
 								   
 		return boost::filesystem::path(resource_path, boost::filesystem::native);
 	}
 	
 	boost::filesystem::path experimentInstallPath() {
 		namespace bf = boost::filesystem;
-		return (bf::path([NSTemporaryDirectory() UTF8String], bf::native) /
-                bf::path(EXPERIMENT_INSTALL_PATH, bf::native));
+        
+        NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+		bf::path experiment_install_path(bf::path([NSTemporaryDirectory() UTF8String], bf::native) /
+                                         bf::path(EXPERIMENT_INSTALL_PATH, bf::native));
+        [pool drain];
+        
+        return experiment_install_path;
 	}
 	
 	boost::filesystem::path experimentStorageDirectoryName() {
