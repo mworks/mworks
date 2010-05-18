@@ -13,23 +13,15 @@ installer_root = '/tmp/mw_installer'
 package_contents = {
 
     'Core':
-        {
-        'copy':
-            (
-            '/Applications/MWClient.app',
-            '/Applications/MWEditor.app',
-            '/Applications/MWServer.app',
-            '/Library/Application Support/MWorks/Configuration/examples',
-            '/Library/Application Support/MWorks/Plugins',
-            '/Library/Frameworks/MWorksCocoa.framework',
-            '/Library/Frameworks/MWorksCore.framework',
-            ),
-        'create':
-            (
-            '/Documents/MWorks/Data',
-            '/Library/Application Support/MWorks/Experiment Cache',
-            ),
-        },
+        (
+        '/Applications/MWClient.app',
+        '/Applications/MWEditor.app',
+        '/Applications/MWServer.app',
+        '/Library/Application Support/MWorks/Configuration/examples',
+        '/Library/Application Support/MWorks/Plugins',
+        '/Library/Frameworks/MWorksCocoa.framework',
+        '/Library/Frameworks/MWorksCore.framework',
+        ),
 
     'Developer':
         (
@@ -38,7 +30,7 @@ package_contents = {
 
     'Examples':
         (
-        '/Documents/MWorks/Examples',
+        '/Library/Application Support/MWorks/Examples',
         ),
 
     'Scripting':
@@ -67,11 +59,6 @@ def main():
     check_call(['rm', '-Rf', installer_root])
 
     for contents in package_contents.itervalues():
-        if isinstance(contents, dict):
-            for path in contents['create']:
-                make_destdir(package_name, path)
-            contents = contents['copy']
-
         for path in contents:
             copy_path(package_name, path)
 

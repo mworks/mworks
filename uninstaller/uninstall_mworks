@@ -15,9 +15,11 @@ mw_files = (
     '/Applications/MWServer.app',
 
     # MWorks
-    '/Documents/MWorks/Examples',
+    '/Documents/MWorks',
     '/Library/Application Support/MWorks/Configuration/examples',
     '/Library/Application Support/MWorks/Developer/',
+    '/Library/Application Support/MWorks/Examples',
+    '/Library/Application Support/MWorks/Experiment Cache',
     '/Library/Application Support/MWorks/Plugins',
     '/Library/Application Support/MWorks/Scripting',
     '/Library/Frameworks/MWorksCocoa.framework',
@@ -26,22 +28,16 @@ mw_files = (
     # MonkeyWorks
     '/Documents/MonkeyWorks',
     '/Library/Application Support/MonkeyWorks',
+    '/Library/Application Support/MWClient',
+    '/Library/Application Support/MWEditor',
     '/Library/Application Support/NewClient',
+    '/Library/Application Support/NewEditor',
     '/Library/Frameworks/MonkeyWorksCocoa.framework',
     '/Library/Frameworks/MonkeyWorksCore.framework',
     '/Library/Frameworks/Narrative.framework',
+    '/Library/Frameworks/Scarab.framework',
     '/Library/Frameworks/Sparkle.framework',
     '/Library/MonkeyWorks',
-    '/Library/Receipts/MonkeyWorksAppSupport.pkg',
-    '/Library/Receipts/MonkeyWorksApps.pkg',
-    '/Library/Receipts/MonkeyWorksFrameworks.pkg',
-    '/Library/Receipts/MonkeyWorksResources.pkg',
-    '/Library/Receipts/MonkeyWorksSupport.pkg',
-    '/Library/Receipts/applications.pkg',
-    '/Library/Receipts/applicationsupport.pkg',
-    '/Library/Receipts/developer.pkg',
-    '/Library/Receipts/documents.pkg',
-    '/Library/Receipts/frameworks.pkg',
     )
 
 
