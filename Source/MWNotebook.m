@@ -18,10 +18,6 @@
 - (id)init {
     content = [[NSMutableString alloc] init];
 
-    logFilePath = [[NSMutableString alloc] init];
-    
-    [logFilePath appendString:@"/Library/MWorks/DataFiles/"];
-
     NSString *logFileName = [[NSDate date] descriptionWithCalendarFormat:@"%Y%m%d_%H%M%S%F.log"
                                                                 timeZone:Nil
                                                                   locale:Nil];
@@ -29,16 +25,18 @@
     logFilePath = [[NSString alloc]
                    initWithCString:(mw::prependDataFilePath([logFileName UTF8String]).string().c_str())];
     
-    NSLog(@"%@",logFilePath);
+    NSLog(@"log file path: %@", logFilePath);
 
-    [[NSFileManager defaultManager] createFileAtPath:logFilePath contents:Nil attributes:Nil];
-    logFile = [NSFileHandle fileHandleForWritingAtPath:logFilePath];
+    if (![[NSFileManager defaultManager] createFileAtPath:logFilePath contents:Nil attributes:Nil]) {
+        NSLog(@"log file creation failed");
+    } else {
+        logFile = [[NSFileHandle fileHandleForWritingAtPath:logFilePath] retain];
+    }
+
     return self;
 }
 
 - (void) addEntry:(NSString *)entry{
-    
-    [self willChangeValueForKey:@"content"];
     
     NSMutableString *full_entry = [[NSMutableString alloc] init];
     
@@ -51,6 +49,7 @@
     [full_entry appendString:entry];
     [full_entry appendString:@"\n"];
     
+    [self willChangeValueForKey:@"content"];
     [content appendString:full_entry];
     [self didChangeValueForKey:@"content"];
     
@@ -58,7 +57,12 @@
     [full_entry release];
 }
 
-
+- (void)dealloc {
+    [logFile release];
+    [logFilePath release];
+    [content release];
+    [super dealloc];
+}
 
 
 @end

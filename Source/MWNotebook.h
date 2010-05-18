@@ -14,7 +14,7 @@
     NSMutableString *content;
     
     // log file
-    NSMutableString *logFilePath;
+    NSString *logFilePath;
     NSFileHandle *logFile;
 }
 
