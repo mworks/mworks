@@ -122,13 +122,19 @@ void EventCallbackHandler::unregisterCallbacks(const std::string &key, bool lock
     //std::cerr << "Unregistering callbacks for key: " << key << std::endl;
     // For now, just do a straight linear time search
     EventCallbackMap::iterator callback_iterator;
+    vector<EventCallbackMap::iterator> nodes_to_erase;
+    
     for(callback_iterator = callbacks_by_code.begin(); callback_iterator != callbacks_by_code.end(); ++callback_iterator){
         if((*callback_iterator).second.getKey() == key){
             //std::cerr << "\tunregistering code: " << (*callback_iterator).first << std::endl;
-            callbacks_by_code.erase(callback_iterator);
+            nodes_to_erase.push_back(callback_iterator);
         }
     }
     
+    vector<EventCallbackMap::iterator>::iterator erase_iterator;
+    for(erase_iterator = nodes_to_erase.begin(); erase_iterator != nodes_to_erase.end(); ++erase_iterator){
+        callbacks_by_code.erase(*erase_iterator);
+    }
     if(locked){
         unlock_callbacks();
     }

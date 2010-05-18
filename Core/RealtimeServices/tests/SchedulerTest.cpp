@@ -145,7 +145,7 @@ void SchedulerTestFixture::testOneOffFiringSmallPayload(){
 		
 		CPPUNIT_ASSERT( times_array->size() > 0 );
 		times.push_back(times_array->at(0) - now);
-		fprintf(stderr, "diff = %lld\n", times_array->at(0) - now); fflush(stderr);
+		//fprintf(stderr, "diff = %lld\n", times_array->at(0) - now); fflush(stderr);
 	}
 	
 	reportLatencies(times, interval);
@@ -394,10 +394,10 @@ void SchedulerTestFixture::reportLatencies(std::vector<MWTime> times_array,
 namespace mw {
 	void *counter_no_payload(const boost::shared_ptr<std::vector<MWTime> > &times_array){
 		shared_ptr <Clock> clock = Clock::instance();
-		MWTime now = clock->getCurrentTimeUS();
+		//MWTime now = clock->getCurrentTimeUS();
 		
 		times_array->push_back(clock->getCurrentTimeUS());
-		fprintf(stderr, "tac %lld\n", now); fflush(stderr);
+		//fprintf(stderr, "tac %lld\n", now); fflush(stderr);
 		
 		return 0;
 	}

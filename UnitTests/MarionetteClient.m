@@ -122,7 +122,7 @@ Datum _getNumber(const string &expression, const GenericDataType type);
 		xmlNode *child = root_element->children;
 		while(child != NULL){
 			string name((const char *)(child->name));
-			NSLog(@"child_node: %s", name.c_str());
+			//NSLog(@"child_node: %s", name.c_str());
 			
 			if(name=="event") {
 				// Parse the attributes

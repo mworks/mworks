@@ -1,0 +1,139 @@
+#!/usr/bin/python
+
+from cStringIO import StringIO
+import os
+from subprocess import call, Popen, PIPE
+import sys
+from xml.dom import minidom
+
+
+tests_dir = '/Library/Application Support/MWorks/Developer/tests'
+test_xml_dir = os.path.join(tests_dir, 'XML')
+marionette_test_contents = os.path.join(tests_dir,
+                                        'MarionetteTest.app/Contents')
+
+arch = '/usr/bin/arch'
+valid_arch_names = ('i386', 'x86_64')
+mworks_core_test_runner = os.path.join(tests_dir, 'MWorksCoreTestRunner')
+marionette_test = os.path.join(marionette_test_contents, 'MacOS/MarionetteTest')
+
+default_test_data = os.path.join(marionette_test_contents,
+                                 'Resources',
+                                 'default_test_data.xml')
+
+
+def die(status, msg, *args):
+    sys.stderr.write((msg % args) + '\n')
+    sys.exit(status)
+
+
+def error(status, msg, *args):
+    die(status, 'ERROR: ' + msg, *args)
+
+
+def run_unit_tests(arch_name, test_name=None):
+    args = [arch, '-arch', arch_name, mworks_core_test_runner]
+    if test_name:
+        args.append(test_name)
+
+    cmd = Popen(args=args, stdout=PIPE)
+    output = StringIO(cmd.communicate()[0])
+
+    if cmd.returncode not in (0, 1):
+        error(cmd.returncode, '%s quit unexpectedly',
+              os.path.basename(mworks_core_test_runner))
+
+    # Strip leading lines up to and including the XML prolog, which
+    # minidom refuses to parse
+    while True:
+        line = output.readline()
+        if line.startswith('<?xml '):
+            break
+
+    results = minidom.parse(output)
+    failed_tests = results.getElementsByTagName('FailedTests')[0]
+
+    return [test.firstChild.data for test in
+            failed_tests.getElementsByTagName('Name')]
+
+
+def iter_marionette_tests():
+    for root, dirs, files in os.walk(test_xml_dir):
+        for test_xml in (os.path.join(root, f) for f in files
+                         if f.endswith('.xml') and
+                         (not f.endswith('.TESTDATA.xml'))):
+            yield test_xml
+
+
+def run_marionette_tests(arch_name, test_names=None):
+    if not test_names:
+        test_xml_iter = iter_marionette_tests()
+    else:
+        test_xml_iter = (os.path.join(test_xml_dir, test)
+                         for test in test_names)
+
+    failed_tests = []
+
+    for test_xml in test_xml_iter:
+        if not os.path.isfile(test_xml):
+            error(3, 'no such file: "%s"', test_xml)
+
+        test_data = test_xml[:-4] + '.TESTDATA.xml'
+        if not os.path.isfile(test_data):
+            test_data = default_test_data
+
+        status = call([arch, '-arch', arch_name, marionette_test, test_xml,
+                       test_data])
+        if status != 0:
+            failed_tests.append(test_xml[len(test_xml_dir)+1:])
+
+    return failed_tests
+
+
+def main():
+    if len(sys.argv) < 2:
+        die(2, 'Usage: %s arch_name [test_name ...]',
+            os.path.basename(sys.argv[0]))
+
+    arch_name = sys.argv[1]
+    if arch_name not in valid_arch_names:
+        error(2, 'arch_name must be one of the following: %s',
+              ' '.join(valid_arch_names))
+
+    unit_test_names = []
+    marionette_test_names = []
+
+    for name in sys.argv[2:]:
+        if name.endswith('.xml'):
+            marionette_test_names.append(name)
+        else:
+            unit_test_names.append(name)
+
+    failed_tests = []
+
+    if unit_test_names:
+        for test_name in unit_test_names:
+            failed_tests.extend(run_unit_tests(arch_name, test_name))
+    elif not marionette_test_names:
+        failed_tests.extend(run_unit_tests(arch_name))
+
+    if marionette_test_names:
+        failed_tests.extend(run_marionette_tests(arch_name,
+                                                 marionette_test_names))
+    elif not unit_test_names:
+        failed_tests.extend(run_marionette_tests(arch_name))
+
+    print
+    if not failed_tests:
+        print 'ALL TESTS PASS'
+    else:
+        print 'FAILURES:\n'
+        for test_name in failed_tests:
+            print '    %s' % test_name
+    print
+
+    sys.exit(bool(failed_tests))
+
+
+if __name__ == '__main__':
+    main()

@@ -289,8 +289,8 @@ class ScarabFileTestFixture : public CppUnit::TestFixture {
 
 	
 		virtual ScarabDatum *putGet(ScarabDatum *in){
-			#define TEST_FILE	"scarab_file_test.tst"
-			#define TEST_URI	"ldobinary:file://scarab_file_test.tst"
+			#define TEST_FILE	"/tmp/scarab_file_test.tst"
+			#define TEST_URI	"ldobinary:file:///tmp/scarab_file_test.tst"
 			
 			scarab_create_file(TEST_FILE);
 	
