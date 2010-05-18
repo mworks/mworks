@@ -307,7 +307,7 @@
 		if([[self serverURL] isEqualToString:@"127.0.0.1"] || [[self serverURL] isEqualToString:@"localhost"]){
 
 			[NSTask launchedTaskWithLaunchPath:@"/usr/bin/open"
-                                     arguments:[NSArray arrayWithObjects:@"-a", @"MWServer", nil]];
+                                     arguments:[NSArray arrayWithObject:@"/Applications/MWServer.app"]];
 
 		} else {
 
@@ -316,8 +316,7 @@
                                                                           NSUserName(),
                                                                           [self serverURL],
                                                                           @"/usr/bin/open",
-                                                                          @"-a",
-                                                                          @"MWServer",
+                                                                          @"/Applications/MWServer.app",
                                                                           nil]];
 
 		}
