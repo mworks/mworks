@@ -9,27 +9,21 @@ import time
 
 
 mw_files = (
-    # Common
+    # Current
     '/Applications/MWClient.app',
     '/Applications/MWEditor.app',
     '/Applications/MWServer.app',
-
-    # MWorks
-    '/Documents/MWorks',
-    '/Library/Application Support/MWorks/Configuration/examples',
-    '/Library/Application Support/MWorks/Developer/',
-    '/Library/Application Support/MWorks/Examples',
-    '/Library/Application Support/MWorks/Experiment Cache',
-    '/Library/Application Support/MWorks/Plugins',
-    '/Library/Application Support/MWorks/Scripting',
+    '/Developer/Library/Xcode/Project Templates/MWorks',
+    '/Library/Application Support/MWorks',
     '/Library/Frameworks/MWorksCocoa.framework',
     '/Library/Frameworks/MWorksCore.framework',
 
-    # MonkeyWorks
+    # Legacy
+    '/Documents/MWorks',
     '/Documents/MonkeyWorks',
-    '/Library/Application Support/MonkeyWorks',
     '/Library/Application Support/MWClient',
     '/Library/Application Support/MWEditor',
+    '/Library/Application Support/MonkeyWorks',
     '/Library/Application Support/NewClient',
     '/Library/Application Support/NewEditor',
     '/Library/Frameworks/MonkeyWorksCocoa.framework',

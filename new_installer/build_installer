@@ -25,6 +25,7 @@ package_contents = {
 
     'Developer':
         (
+        '/Developer/Library/Xcode/Project Templates/MWorks',
         '/Library/Application Support/MWorks/Developer',
         ),
 
