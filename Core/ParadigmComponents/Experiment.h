@@ -212,6 +212,7 @@ class Experiment : public ContainerState {
         std::string getExperimentName();
         void setExperimentPath(std::string);
 		std::string getExperimentPath();
+        std::string getExperimentDirectory();
 		
 		
 		// Announce the local variables (typically on the behalf of another

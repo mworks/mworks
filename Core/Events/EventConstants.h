@@ -119,8 +119,6 @@ enum MessageDomain { M_GENERIC_MESSAGE_DOMAIN		= 0,
 
 #define M_SET_EVENT_FORWARDING_NAME   "event_name"
 #define M_SET_EVENT_FORWARDING_STATE  "forward"
-    
-#define SAVED_VARIABLES_DIR_NAME "SavedVariables"
 
 
 enum ReservedEventCode {	M_UNDEFINED_EVENT_CODE =		-999,

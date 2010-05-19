@@ -33,8 +33,10 @@ namespace mw {
 #endif
 	
 	const char * DATA_FILE_EXT = ".mwk";
-	const char * EXPERIMENT_STORAGE_DIRECTORY_NAME = "tmp";
+	const char * EXPERIMENT_TEMPORARY_DIR_NAME = "tmp";
 	const char * VARIABLE_FILE_EXT = "_var.xml";
+	const char * EXPERIMENT_STORAGE_DIR_NAME = "Experiment Storage";
+	const char * SAVED_VARIABLES_DIR_NAME = "Saved Variables";
 	
 	boost::filesystem::path pluginPath() {
 		return boost::filesystem::path(PLUGIN_PATH, boost::filesystem::native);
@@ -109,7 +111,7 @@ namespace mw {
 	}
 	
 	boost::filesystem::path experimentStorageDirectoryName() {
-		return boost::filesystem::path(EXPERIMENT_STORAGE_DIRECTORY_NAME, boost::filesystem::native);
+		return boost::filesystem::path(EXPERIMENT_TEMPORARY_DIR_NAME, boost::filesystem::native);
 	}
 	
 	boost::filesystem::path prependScriptingPath(const std::string scriptFile){
@@ -160,8 +162,7 @@ namespace mw {
 	boost::filesystem::path getLocalExperimentStorageDir(const std::string expName) {
 		namespace bf = boost::filesystem;
 		
-		return getLocalExperimentPath(expName) / 
-		bf::path(EXPERIMENT_STORAGE_DIRECTORY_NAME, bf::native);
+		return getLocalExperimentPath(expName) / experimentStorageDirectoryName();
 		
 	}
 	
@@ -170,6 +171,14 @@ namespace mw {
 		
 		return experimentInstallPath() / bf::path(expName, bf::native);
 	}
+    
+    boost::filesystem::path getExperimentSavedVariablesPath(const std::string expName) {
+		namespace bf = boost::filesystem;
+        return (dataFilePath().parent_path() /
+                bf::path(EXPERIMENT_STORAGE_DIR_NAME, bf::native) /
+                bf::path(expName, bf::native) /
+                bf::path(SAVED_VARIABLES_DIR_NAME, bf::native));
+    }
 	
 	std::string appendVarFileExt(const std::string expName) {
 		return expName + VARIABLE_FILE_EXT;

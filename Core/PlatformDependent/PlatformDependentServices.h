@@ -45,8 +45,9 @@ namespace mw {
 	std::string fileExtension(const std::string &file);
 	
 	
-	boost::filesystem::path getLocalExperimentStorageDir(const std::string filename);
-	boost::filesystem::path getLocalExperimentPath(const std::string filename);
+	boost::filesystem::path getLocalExperimentStorageDir(const std::string expName);
+	boost::filesystem::path getLocalExperimentPath(const std::string expName);
+	boost::filesystem::path getExperimentSavedVariablesPath(const std::string expName);
 	
 	boost::filesystem::path prependUserPath(const std::string file);
 	boost::filesystem::path prependLocalPath(const std::string file);

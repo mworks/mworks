@@ -213,3 +213,8 @@ void Experiment::setExperimentPath(std::string path) {
 std::string Experiment::getExperimentPath() {
 	return experimentPath;
 }
+
+std::string Experiment::getExperimentDirectory() {
+    namespace bf = boost::filesystem;
+    return bf::path(experimentPath, bf::native).filename();
+}

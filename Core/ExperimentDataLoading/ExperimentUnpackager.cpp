@@ -30,10 +30,8 @@ ExperimentUnpackager::prependExperimentInstallPath(
     if(expname.empty() || experimentFilename.empty()) { 
 		return bf::path("", bf::native); 
 	}
-	bf::path ei(experimentInstallPath());
-	bf::path es(experimentStorageDirectoryName());
 	
-    bf::path exp_tmp_path = ei / bf::path(expname, bf::native) / es;
+    bf::path exp_tmp_path = getLocalExperimentStorageDir(expname);
     bf::path exp_path = exp_tmp_path /  bf::path(experimentFilename, bf::native);
     
     bf::create_directories(exp_tmp_path);

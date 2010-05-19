@@ -22,6 +22,7 @@
 #include "GenericData.h"
 #include <boost/filesystem/path.hpp>
 #include <boost/filesystem/operations.hpp>
+#include <boost/filesystem/convenience.hpp>
 #include "StateSystem.h"
 using namespace mw;
 
@@ -208,10 +209,9 @@ void StandardSystemEventHandler::handleSystemEvent(const Datum &sysEvent) {
                 
 				try {
                 
-                    bf::path experimentPath = bf::path(GlobalCurrentExperiment->getExperimentPath(), bf::native);
-                    bf::path variablesDirectory = experimentPath / SAVED_VARIABLES_DIR_NAME;
+                    bf::path variablesDirectory = getExperimentSavedVariablesPath(GlobalCurrentExperiment->getExperimentDirectory());
                     
-                    if(bf::create_directory(variablesDirectory)) {
+                    if(bf::create_directories(variablesDirectory)) {
                         mprintf("Creating saved variables directory");
                     }
                     
@@ -259,9 +259,8 @@ void StandardSystemEventHandler::handleSystemEvent(const Datum &sysEvent) {
 			if(fullPath.getBool()) {
 				filename = bf::path(file.getString(), boost::filesystem::native);				
 			} else {
-				filename = bf::path(GlobalCurrentExperiment->getExperimentPath(), bf::native) / 
-				SAVED_VARIABLES_DIR_NAME /
-				bf::path(appendFileExtension(file.getString(), ".xml"), bf::native);
+				filename = (getExperimentSavedVariablesPath(GlobalCurrentExperiment->getExperimentDirectory()) /
+                            bf::path(appendFileExtension(file.getString(), ".xml"), bf::native));
 			}
 			
 			VariableLoad::loadExperimentwideVariables(filename);

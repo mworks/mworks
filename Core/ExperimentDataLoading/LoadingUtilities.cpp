@@ -340,9 +340,7 @@ namespace mw {
 		const std::string substitutionDescriptor("%s");
 		
 		std::string expName(removeFileExtension(expFileName));
-		bf::path temp(experimentInstallPath());
-		bf::path currExpParentDir = temp / bf::path(expName, bf::native);
-		bf::path currExpStorageDir = currExpParentDir / experimentStorageDirectoryName();
+		bf::path currExpStorageDir = getLocalExperimentStorageDir(expName);
 		
 		
 		//bf::path expFileNamePath(expFileName);
