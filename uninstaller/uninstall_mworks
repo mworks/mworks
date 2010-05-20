@@ -24,13 +24,14 @@ mw_files = (
     '/Library/Application Support/MWClient',
     '/Library/Application Support/MWEditor',
     '/Library/Application Support/MonkeyWorks',
+    '/Library/Application Support/MonkeyWorksClient',
+    '/Library/Application Support/MonkeyWorksEditor',
     '/Library/Application Support/NewClient',
     '/Library/Application Support/NewEditor',
     '/Library/Frameworks/MonkeyWorksCocoa.framework',
     '/Library/Frameworks/MonkeyWorksCore.framework',
     '/Library/Frameworks/Narrative.framework',
     '/Library/Frameworks/Scarab.framework',
-    '/Library/Frameworks/Sparkle.framework',
     '/Library/MonkeyWorks',
     )
 
