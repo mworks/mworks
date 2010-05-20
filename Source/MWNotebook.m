@@ -17,17 +17,24 @@
 
 - (id)init {
     content = [[NSMutableString alloc] init];
-
+    
+    NSString *logFileDir = [[NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES)
+                             objectAtIndex:0] stringByAppendingPathComponent:@"Logs/MWorks"];
+    
     NSString *logFileName = [[NSDate date] descriptionWithCalendarFormat:@"%Y%m%d_%H%M%S%F.log"
-                                                                timeZone:Nil
-                                                                  locale:Nil];
-
-    logFilePath = [[NSString alloc]
-                   initWithCString:(mw::prependDataFilePath([logFileName UTF8String]).string().c_str())];
+                                                                timeZone:nil
+                                                                  locale:nil];
+    
+    logFilePath = [[logFileDir stringByAppendingPathComponent:logFileName] retain];
     
     NSLog(@"log file path: %@", logFilePath);
 
-    if (![[NSFileManager defaultManager] createFileAtPath:logFilePath contents:Nil attributes:Nil]) {
+    if (![[NSFileManager defaultManager] createDirectoryAtPath:logFileDir
+                                   withIntermediateDirectories:YES
+                                                    attributes:nil
+                                                         error:NULL] 
+        || ![[NSFileManager defaultManager] createFileAtPath:logFilePath contents:nil attributes:nil])
+    {
         NSLog(@"log file creation failed");
     } else {
         logFile = [[NSFileHandle fileHandleForWritingAtPath:logFilePath] retain];
@@ -41,8 +48,8 @@
     NSMutableString *full_entry = [[NSMutableString alloc] init];
     
     NSString *time_string = [[NSDate date] descriptionWithCalendarFormat:@"<%H:%M:%S>: "
-                                           timeZone:Nil
-                                           locale:Nil];
+                                           timeZone:nil
+                                           locale:nil];
     
     
     [full_entry appendString:time_string];
