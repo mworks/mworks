@@ -311,7 +311,7 @@
 			
 			MWorksTime eventTime = [event time];
 			
-			NSNumber *time = [[[NSNumber alloc] initWithLongLong:eventTime/1e6] autorelease];
+			NSNumber *time = [[[NSNumber alloc] initWithLongLong:eventTime] autorelease];
 			
 			NSNumber *localConsole = [delegate isLocalMessage:[NSNumber numberWithInt:payload.getElement(M_MESSAGE_ORIGIN).getInteger()]];
 			if(!showGenericMessages && msgType == M_GENERIC_MESSAGE){

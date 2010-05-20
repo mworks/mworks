@@ -7,6 +7,7 @@
  * Copyright 2005 MIT. All rights reserved.
  */
 
+#include "boost/date_time/posix_time/posix_time.hpp"
 #import "MWMessageContainer.h"
 
 @implementation MWMessageContainer
@@ -105,18 +106,14 @@
 			nil];
 		
 	
+    namespace bpt = boost::posix_time;
+    bpt::time_duration eventTime = bpt::microseconds([altTimeValue longValue]);
 	
-	NSMutableAttributedString * consoleMsg = 
-		[ [NSMutableAttributedString alloc] 
-						initWithString:
-			[[NSDate dateWithTimeIntervalSince1970:
-				[altTimeValue doubleValue]]
-							 descriptionWithCalendarFormat:@"%H:%M:%S"
-												  timeZone:nil
-													locale:nil]	
-			
-							attributes:timeAttributes
-			];
+	NSMutableAttributedString *consoleMsg =
+    [[NSMutableAttributedString alloc]
+     initWithString:[NSString stringWithUTF8String:(bpt::to_simple_string(eventTime).c_str())]
+     attributes:timeAttributes];
+
 	/*  NSString * consoleMsg = [NSString stringWithFormat:@"%@",
 								[[NSDate dateWithTimeIntervalSince1970:
 									[altTimeValue doubleValue]]
