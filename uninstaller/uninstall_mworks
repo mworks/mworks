@@ -1,5 +1,6 @@
 #!/usr/bin/python
 
+from collections import deque
 from optparse import OptionParser
 import os
 import pwd
@@ -36,41 +37,56 @@ mw_files = (
     )
 
 
-def backup_files(filelist, backupdir):
+def announce(msg, *args):
+    sys.stdout.write((msg + '\n') % args)
+
+
+def get_userdir(path):
+    return os.path.expanduser(os.path.join('~', path))
+
+
+def create_directory(dirname):
+    dirlist = deque()
+    while not os.path.exists(dirname):
+        dirlist.appendleft(dirname)
+        dirname = os.path.dirname(dirname)
+
+    # Since the backup may be created as root but moved/deleted by a
+    # normal user, we need to ensure that all created subdirectories
+    # have the same owner as the base directory
+    username = pwd.getpwuid(os.stat(dirname).st_uid).pw_name
+
+    for dirname in dirlist:
+        check_call(['mkdir', dirname])
+        check_call(['chown', username, dirname])
+
+
+def backup_files(backupdir):
     if os.path.exists(backupdir):
         timestamp = time.ctime(os.stat(backupdir)[-1]).replace(':', '.')
-        check_call(['mv',
-                    backupdir,
-                    '%s (%s)' % (backupdir, timestamp)])
+        old_backupdir = '%s (%s)' % (backupdir, timestamp)
+        announce('Found existing "%s"; moving to "%s"', backupdir,
+                 old_backupdir)
+        check_call(['mv', backupdir, old_backupdir])
 
-    for filename in filelist:
+    for filename in mw_files:
         if os.path.exists(filename):
+            announce('Moving "%s" to "%s"', filename, backupdir)
             destdir = os.path.join(backupdir, os.path.dirname(filename[1:]))
-            sys.stdout.write('Moving "%s" to "%s"\n' % (filename, backupdir))
-            check_call(['mkdir', '-p', destdir])
+            create_directory(destdir)
             check_call(['mv', filename, destdir])
 
-    # Make sure the backup directory has the same owner as its parent
-    if os.path.exists(backupdir):
-        expected_uid = os.stat(os.path.dirname(backupdir))[4]
-        if os.geteuid() != expected_uid:
-            username = pwd.getpwuid(expected_uid)[0]
-            check_call(['chown', '-R', username, backupdir])
 
-
-def restore_files(filelist, backupdir):
-    for filename in filelist:
+def restore_files(backupdir):
+    for filename in mw_files:
         srcfile = os.path.join(backupdir, filename[1:])
         if os.path.exists(srcfile):
-            sys.stdout.write('Restoring "%s" from "%s"\n' %
-                             (filename, backupdir))
+            announce('Restoring "%s" from "%s"', filename, backupdir)
             check_call(['mv', srcfile, os.path.dirname(filename)])
 
-    check_call(['rm', '-Rf', backupdir])
-
-
-def get_backupdir(path):
-    return os.path.expanduser(os.path.join('~/.Trash', path))
+    trashdir = get_userdir('.Trash')
+    announce('Moving "%s" to "%s"', backupdir, trashdir)
+    check_call(['mv', backupdir, trashdir])
 
 
 def main():
@@ -79,13 +95,13 @@ def main():
                       help="don't restore, but back up old installation")
     (options, args) = parser.parse_args()
 
-    backupdir = get_backupdir('Old MWorks')
+    backupdir = get_userdir('Desktop/MWorks Backup')
 
     if options.backup:
-        backup_files(mw_files, backupdir)
+        backup_files(backupdir)
     else:
-        backup_files(mw_files, get_backupdir('Uninstalled MWorks'))
-        restore_files(mw_files, backupdir)
+        backup_files(get_userdir('.Trash/Uninstalled MWorks'))
+        restore_files(backupdir)
 
 
 if __name__ == '__main__':
