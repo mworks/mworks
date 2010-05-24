@@ -11,6 +11,8 @@
 #include "boost/bind.hpp"
 #include "MWorksCore/StandardVariables.h"
 
+namespace mw{
+
 DynamicStimulusDriver::DynamicStimulusDriver(const boost::shared_ptr<Scheduler> &a_scheduler,
 								   const boost::shared_ptr<StimulusDisplay> &a_display,
 								   const boost::shared_ptr<Variable> &_frames_per_second,
@@ -141,7 +143,7 @@ int DynamicStimulusDriver::getFrameNumber(){
     return (elapsed * (long)(frames_per_second->getValue())) / 1e6;
 }
 
-
+} // end namespace
 
 
 

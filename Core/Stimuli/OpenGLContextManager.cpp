@@ -75,54 +75,6 @@ void *announce_beam_position(void *arg){
 
 
 
-
-#define ADD_ATTR(attr) \
-do { \
-attributeCount++; \
-attributes = (NSOpenGLPixelFormatAttribute *)realloc(attributes, sizeof(*attributes) * attributeCount); \
-attributes[attributeCount - 1] = attr; \
-} while (0)
-
-// may have to pass an autorelease pool into this object?
-static NSOpenGLPixelFormat *_createPixelFormat(bool fullscreen, 
-											   unsigned int colorBits,
-											   unsigned int depthBits) {
-    NSOpenGLPixelFormat *pixelFormat;
-    NSOpenGLPixelFormatAttribute *attributes;
-    unsigned int attributeCount = 0;
-	
-    attributes = (NSOpenGLPixelFormatAttribute *)malloc(sizeof(*attributes));
-	
-    if (fullscreen) {
-        // Note that we want a fullscreen pixel format!
-        ADD_ATTR(NSOpenGLPFAFullScreen);
-    }
-	
-    ADD_ATTR(NSOpenGLPFAColorSize);
-    ADD_ATTR((NSOpenGLPixelFormatAttribute)colorBits);
-    ADD_ATTR(NSOpenGLPFAAlphaSize);
-    ADD_ATTR((NSOpenGLPixelFormatAttribute)8);
-	ADD_ATTR(NSOpenGLPFADepthSize);
-    ADD_ATTR((NSOpenGLPixelFormatAttribute)depthBits);
-    
-    // We want double buffered and hardware accelerated
-    ADD_ATTR(NSOpenGLPFADoubleBuffer);
-    ADD_ATTR(NSOpenGLPFAAccelerated);
-    
-    // Note what display device we want to support
-    ADD_ATTR(NSOpenGLPFAScreenMask);
-    ADD_ATTR((NSOpenGLPixelFormatAttribute)CGDisplayIDToOpenGLDisplayMask(kCGDirectMainDisplay));
-    
-    // Terminate the list
-    ADD_ATTR((NSOpenGLPixelFormatAttribute)0);
-    
-    pixelFormat = [[NSOpenGLPixelFormat alloc] initWithAttributes:attributes];
-    free(attributes);
-    
-    return pixelFormat;
-}
-
-
 OpenGLContextManager::OpenGLContextManager() {
 	
 	mirror_window_active = NO;
@@ -132,10 +84,11 @@ OpenGLContextManager::OpenGLContextManager() {
     fullscreen_window = Nil;
     
     contexts = [[NSMutableArray alloc] init];
-    display_refresh_rates = [[NSMutableArray alloc] init];
     
     has_fence = false;
     glew_initialized = false;
+    
+    main_display_index = 0;
 }
 
 
@@ -151,7 +104,7 @@ int OpenGLContextManager::getNMonitors() {
 NSScreen *OpenGLContextManager::_getScreen(const int index){
     NSArray *screens = [NSScreen screens];
     
-    if(index < 0 || [screens count] <= index){
+    if(index < 0 || index > [screens count]){
         // TODO: better exception
         throw SimpleException("Attempt to query an invalid screen");
     }
@@ -179,8 +132,14 @@ int OpenGLContextManager::getDisplayHeight(const int index) {
 }
 
 int OpenGLContextManager::getDisplayRefreshRate(const int index){
-    NSNumber *refresh_rate = [display_refresh_rates objectAtIndex:index];
-    return [refresh_rate intValue];
+    
+    if(index < 0 || index > display_refresh_rates.size()){
+        return 0;
+    }
+    
+    double refresh_rate = display_refresh_rates[index];
+        
+    return (int)refresh_rate;
 }
 
 double OpenGLContextManager::_measureDisplayRefreshRate(const int index)
@@ -197,194 +156,6 @@ double OpenGLContextManager::_measureDisplayRefreshRate(const int index)
     
     return CGDisplayModeGetRefreshRate(mode);
 }
-
-
-//int OpenGLContextManager::newMirrorContext(int pixelDepth) {
-//	NSOpenGLPixelFormat *pixelFormat;
-//    NSOpenGLContext *context;
-//	
-//    NSRect rect;
-//    NSDictionary *displayMode;
-//    CGDisplayErr err;
-//    CGLContextObj cglContext;
-//    unsigned int colorBits;
-//	bool fullscreen = false;
-//
-//    CGDisplayCount numDisplays;
-//    CGDirectDisplayID targetDisplay;
-//	
-//	double width, height;
-//    
-//    err = CGGetActiveDisplayList(kMaxDisplays,display_ids,&numDisplays);
-//    targetDisplay = display_ids[1];
-//    
-//	displayMode = currentDisplayMode; // currentDisplayMode is an object member
-//    
-//    
-//    unsigned int depthBits = [[displayMode objectForKey:
-//							   (id)kCGDisplayBitsPerPixel] intValue];
-//    /*double width = [[displayMode objectForKey:(id)kCGDisplayWidth]
-//	 intValue];
-//	 double height = [[displayMode objectForKey:(id)kCGDisplayHeight]
-//	 intValue];*/
-//	
-//	//    NSLog(@"modeIndex = %d", modeIndex);
-//	//    NSLog(@"displayMode = %@", displayMode);  
-//	
-//	// We could also use one of the following functions to get a display mode 
-//	// based on the size and color depth.  Note that the CG version has a bug
-//	// currently in that it doesn't prefer unstretched modes on LCD displays.  
-//	// The _gl_best_display_mode() does prefer unstretched modes.
-//	
-//	// displayMode = CGDisplayBestModeForParameters(kCGDirectMainDisplay, 
-//	//                                          colorBits, width, height, NULL);
-//	//    NSLog(@"CGDisplayBestModeForParameters -> %@", displayMode);
-//	//    
-//	//    //displayMode = _gl_best_display_mode(kCGDirectMainDisplay, width, 
-//	//                                                      height, colorBits, NO);
-//	//    if (!displayMode) {
-//	//        mprintf("Unable to find a display mode matching these specifications");
-//	//        //[self _error: @"Unable to find a display mode matching 
-//	//                                                  these specifications."];
-//	//        return;
-//	//    }
-//	//    NSLog(@"_gl_best_display_mode -> %@", displayMode);
-//	
-//    // Remember our original display mode
-//    originalDisplayMode = (NSDictionary *)CGDisplayCurrentMode(
-//															   kCGDirectMainDisplay);
-//	//    NSLog(@"originalDisplayMode = %@", originalDisplayMode);
-//    
-//    // If we are NOT fullscreen, then we MUST have the same color depth
-//    // as the current display mode
-//	colorBits = [[originalDisplayMode objectForKey:
-//				  (id)kCGDisplayBitsPerPixel] intValue];
-//	
-//	
-//    // Figure out what display mode we want and switch to it.  
-//    // Must do this before creating the GL context.  
-//	// Otherwise, the GL context will say 'invalid drawable' if the old 
-//    // display mode and new display mode 
-//	// don't have the same bit depth.
-//	
-//	
-//	
-//	// Schedule beam announces
-//	// Does this system support beam position checks?
-//	bool support_ok = false;
-//	for(int i=0; i < N_BEAM_POSITION_SUPPORT_CHECKS; i++){
-//		if(CGDisplayBeamPosition(targetDisplay)){
-//			support_ok = true;
-//			break;
-//		}
-//	}
-//	
-//	if(!support_ok){
-//		mwarning(M_DISPLAY_MESSAGE_DOMAIN,
-//				 "The stimulus display does not support estimation of the vertical refresh beam position.  This is commonly true on LCD monitors and laptops (even with a CRT attached). Precise measurement of frame timing will not be possible.");
-//	} else {
-//		
-//		/*		struct beam_position_args *beam_args = new struct beam_position_args[1];
-//		 
-//		 beam_args->id = targetDisplay;
-//		 beam_args->display_height = 
-//		 [[originalDisplayMode objectForKey:(id)kCGDisplayHeight] intValue];
-//		 //fprintf(stderr, "(createNewContext) Display index is %d", targetDisplay); fflush(stderr);
-//		 
-//		 beamNode = GlobalScheduler->scheduleUS(0, M_BEAM_POSITION_CHECK_INTERVAL, 
-//		 M_REPEAT_INDEFINITELY, 
-//		 &announce_beam_position, 
-//		 (void *)beam_args,
-//		 M_DEFAULT_PRIORITY,
-//		 M_DEFAULT_WARN_SLOP_MS,
-//		 M_DEFAULT_FAIL_SLOP_MS,
-//		 M_MISSED_EXECUTION_CATCH_UP);*/
-//	}
-//	
-//    // Create a pixel format
-//    pixelFormat = _createPixelFormat(fullscreen, colorBits, depthBits);
-//    if (!pixelFormat) {
-//        //TODO mprintf dependency problem
-//		NSLog(@"Unable to find a pixel format matching these specs");
-//        //[self _error: @"Unable to find a pixel format matching these 
-//        //specifications."];
-//        return NULL;
-//    }
-//    
-//    // Create a GL context
-//    context = [[NSOpenGLContext alloc] initWithFormat:pixelFormat 
-//										 shareContext:nil];
-//    [pixelFormat release];
-//    if (!context) {
-//        //TODO mprintf dependency problem
-//		NSLog(@"Unable to create an OpenGL context");
-//        //[self _error: @"Unable to create an OpenGL context."];
-//        return NULL;
-//    }
-//    
-//	
-//	width = 960;
-//	height = 600;
-//	
-//    shared_ptr<ComponentRegistry> reg = ComponentRegistry::getSharedRegistry();
-//    shared_ptr<Variable> main_screen_info = reg->getVariable(MAIN_SCREEN_INFO_TAGNAME);
-//  
-//	if(main_screen_info != NULL){
-//        Datum info = *main_screen_info;
-//		
-//		if(info.hasKey(M_DISPLAY_WIDTH_KEY) 
-//		   && info.hasKey(M_DISPLAY_HEIGHT_KEY)
-//		   && info.hasKey(M_MIRROR_WINDOW_BASE_HEIGHT_KEY)){
-//			
-//			double display_width, display_height, display_aspect;
-//			display_width = info.getElement(M_DISPLAY_WIDTH_KEY);
-//			display_height = info.getElement(M_DISPLAY_HEIGHT_KEY);
-//			display_aspect = display_width / display_height;
-//			height = (double)info.getElement(M_MIRROR_WINDOW_BASE_HEIGHT_KEY);
-//			width = height * display_aspect;
-//		}
-//	}
-//	
-//	
-//	// If we are not full screen, we'll need a window to 
-//	// attach the GL context to
-//	rect = NSMakeRect(0, 0, width, height);
-//	mirrorWindow = [[NSWindow alloc] initWithContentRect:rect 
-//											   styleMask:NSTitledWindowMask 
-//												 backing:NSBackingStoreRetained 
-//												   defer:NO];
-//	[mirrorWindow orderFront: nil];
-//	mirrorWindowActive = YES;
-//	[windows addObject:mirrorWindow];
-//	
-//	// Attach the GL context to the content of the window
-//	[context setView: [mirrorWindow contentView]];
-//	//[windows addObject:window];
-//    
-//	
-//    // Make the context we created be the current GL context
-//    [context makeCurrentContext];
-//    
-//    // Get the underlying CGL context
-//    cglContext = CGLGetCurrentContext();
-//    
-//    // Set the refresh sync on the context
-//    {
-//        const GLint param = 1;
-//        
-//        //CGLGetParameter(cglContext, kCGLCPSwapInterval, (GLint *)&param);
-//		//        NSLog(@"original kCGLCPSwapInterval = %d", param);
-//        
-//        //param = [refreshLockButton state] ? 1 : 0;
-//        
-//        CGLSetParameter(cglContext, kCGLCPSwapInterval, &param);
-//        
-//        //CGLGetParameter(cglContext, kCGLCPSwapInterval, (GLint*)&param);
-//        //NSLog(@"new kCGLCPSwapInterval = %d", param);
-//    }
-//    [contexts addObject: context];
-//    return [contexts count] - 1;    
-//}
 
 
 
@@ -439,9 +210,11 @@ int OpenGLContextManager::newMirrorContext(int pixelDepth){
     [mirror_window makeKeyAndOrderFront:Nil];
     
     [contexts addObject:opengl_context];
-    [display_refresh_rates addObject:[NSNumber numberWithDouble:_measureDisplayRefreshRate(0)]];
-    
     int context_id = [contexts count] - 1;
+    
+    NSNumber *id_number = [NSNumber numberWithInt:context_id];
+    display_refresh_rates.push_back(_measureDisplayRefreshRate(0));
+    
     
     setCurrent(context_id);
     _initGlew();
@@ -453,6 +226,7 @@ int OpenGLContextManager::newMirrorContext(int pixelDepth){
 
 int OpenGLContextManager::newFullscreenContext(int pixelDepth, int screen_number){
     NSScreen *screen = _getScreen(screen_number);
+    
         
     NSRect screen_rect = [screen frame];
 //    NSLog(@"screen_rect: %g w, %g h, %g x, %g y", screen_rect.size.width,
@@ -481,9 +255,14 @@ int OpenGLContextManager::newFullscreenContext(int pixelDepth, int screen_number
         0
     };
     
+    
     NSOpenGLPixelFormat* pixel_format = [[NSOpenGLPixelFormat alloc] initWithAttributes:attrs];
     NSOpenGLContext *opengl_context = [[NSOpenGLContext alloc] initWithFormat:pixel_format shareContext:Nil];
-        
+    
+    GLint swap_int = 1;
+    [opengl_context setValues: &swap_int forParameter: NSOpenGLCPSwapInterval];
+    
+    
     NSRect view_rect = NSMakeRect(0.0, 0.0, screen_rect.size.width, screen_rect.size.height);
     
     fullscreen_view = [[NSOpenGLView alloc] initWithFrame:view_rect pixelFormat: pixel_format];
@@ -494,8 +273,15 @@ int OpenGLContextManager::newFullscreenContext(int pixelDepth, int screen_number
     [fullscreen_window makeKeyAndOrderFront:Nil];
     
     [contexts addObject:opengl_context];
-    [display_refresh_rates addObject:[NSNumber numberWithDouble:_measureDisplayRefreshRate(screen_number)]];
+    int context_id = [contexts count] - 1;
     
+    setMainDisplayIndex(context_id);
+    NSNumber *id_number = [NSNumber numberWithInt:context_id];
+    
+    display_refresh_rates.push_back(_measureDisplayRefreshRate(screen_number));
+    
+    setCurrent(context_id);
+    _initGlew();
     
     glGenFencesAPPLE(1, &synchronization_fence);
     if(glIsFenceAPPLE(synchronization_fence)){
@@ -504,11 +290,7 @@ int OpenGLContextManager::newFullscreenContext(int pixelDepth, int screen_number
         has_fence = false;
     }
     
-    int context_id = [contexts count] - 1;
     
-    setCurrent(context_id);
-    _initGlew();
-
     return context_id;
 }
 
@@ -718,7 +500,7 @@ int OpenGLContextManager::getMainDisplayIndex() const {
 }
 
 void OpenGLContextManager::setCurrent(int context_id) {
-    if(context_id < 0) {
+    if(context_id < 0 || context_id > [contexts count]) {
 		mprintf("OpenGL Context Manager: no context to set current.");
 		//NSLog(@"OpenGL Context Manager: no context to set current.");
         return;

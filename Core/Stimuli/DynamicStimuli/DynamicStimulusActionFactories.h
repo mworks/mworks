@@ -11,7 +11,7 @@
 #define DYNAMIC_STIMULUS_ACTION_FACTORY_H
 
 #include "ComponentFactory.h"
-using namespace mw;
+namespace mw{
 
 class PlayDynamicStimulusFactory : public ComponentFactory {
 	virtual boost::shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
@@ -22,6 +22,6 @@ class StopDynamicStimulusFactory : public ComponentFactory {
 	virtual boost::shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
                                                           mw::ComponentRegistry *reg);
 };
-
+}
 
 #endif

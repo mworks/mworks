@@ -198,6 +198,10 @@
 		5C7CEFE30BC5D7AB00434931 /* LegacyBuffers.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C7CEFE10BC5D7AB00434931 /* LegacyBuffers.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5C7CF2FE0BC69E3900434931 /* LegacyBuffers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C7CEFE20BC5D7AB00434931 /* LegacyBuffers.cpp */; };
 		5C7CF4EF0BC6B48D00434931 /* LinkedList.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C7CF4ED0BC6B48D00434931 /* LinkedList.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5C8101A511A2DE1600050690 /* ConvolutionKernels.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C8101A111A2DE1600050690 /* ConvolutionKernels.cpp */; };
+		5C8101A611A2DE1600050690 /* ConvolutionKernels.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C8101A211A2DE1600050690 /* ConvolutionKernels.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5C8101A711A2DE1600050690 /* VideoFilterShader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C8101A311A2DE1600050690 /* VideoFilterShader.cpp */; };
+		5C8101A811A2DE1600050690 /* VideoFilterShader.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C8101A411A2DE1600050690 /* VideoFilterShader.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5C866A99086E1E43006CBE6F /* MWorksTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C866A98086E1E43006CBE6F /* MWorksTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5C8D03C40D56B1AE00454461 /* DummyIODevice.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C8D03C20D56B1AE00454461 /* DummyIODevice.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5C8D03C50D56B1AE00454461 /* DummyIODevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C8D03C30D56B1AE00454461 /* DummyIODevice.cpp */; };
@@ -282,8 +286,6 @@
 		5CEFD82D0D4D1D6200EA9950 /* Exceptions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CEFD82B0D4D1D6200EA9950 /* Exceptions.cpp */; };
 		5CF73C6408625E4D00F453C3 /* ZenScheduler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CF73BCD0862537E00F453C3 /* ZenScheduler.cpp */; };
 		5CF73C880862616800F453C3 /* ZenStateSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CF73C870862616800F453C3 /* ZenStateSystem.cpp */; };
-		5CF855FD119D8D8F004167A5 /* BicubicFilterShader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CF855FB119D8D8F004167A5 /* BicubicFilterShader.cpp */; };
-		5CF855FE119D8D8F004167A5 /* BicubicFilterShader.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CF855FC119D8D8F004167A5 /* BicubicFilterShader.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5CF85601119D8DCD004167A5 /* Shader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CF855FF119D8DCD004167A5 /* Shader.cpp */; };
 		5CF85602119D8DCD004167A5 /* Shader.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CF85600119D8DCD004167A5 /* Shader.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5CF85611119D8FC3004167A5 /* glew.c in Sources */ = {isa = PBXBuildFile; fileRef = 5CF85610119D8FC3004167A5 /* glew.c */; };
@@ -831,6 +833,10 @@
 		5C7CEFE20BC5D7AB00434931 /* LegacyBuffers.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = LegacyBuffers.cpp; path = Core/Events/LegacyBuffers.cpp; sourceTree = "<group>"; };
 		5C7CF4ED0BC6B48D00434931 /* LinkedList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LinkedList.h; sourceTree = "<group>"; };
 		5C7CF4EE0BC6B48D00434931 /* LinkedList.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LinkedList.cpp; sourceTree = "<group>"; };
+		5C8101A111A2DE1600050690 /* ConvolutionKernels.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ConvolutionKernels.cpp; sourceTree = "<group>"; };
+		5C8101A211A2DE1600050690 /* ConvolutionKernels.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConvolutionKernels.h; sourceTree = "<group>"; };
+		5C8101A311A2DE1600050690 /* VideoFilterShader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VideoFilterShader.cpp; sourceTree = "<group>"; };
+		5C8101A411A2DE1600050690 /* VideoFilterShader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoFilterShader.h; sourceTree = "<group>"; };
 		5C866A98086E1E43006CBE6F /* MWorksTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MWorksTypes.h; path = Core/MWorksTypes.h; sourceTree = "<group>"; };
 		5C8A6A2D09EC4E57007FECBA /* ScarabNetworkTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ScarabNetworkTest.h; path = Core/Scarab/tests/ScarabNetworkTest.h; sourceTree = SOURCE_ROOT; };
 		5C8A6A2E09EC4E57007FECBA /* ScarabNetworkTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ScarabNetworkTest.cpp; path = Core/Scarab/tests/ScarabNetworkTest.cpp; sourceTree = SOURCE_ROOT; };
@@ -917,8 +923,6 @@
 		5CF73C80086260E900F453C3 /* ZenStateSystemPlugin-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ZenStateSystemPlugin-Info.plist"; sourceTree = SOURCE_ROOT; };
 		5CF73C860862616800F453C3 /* ZenStateSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZenStateSystem.h; path = ZenStateSystem/ZenStateSystem.h; sourceTree = SOURCE_ROOT; };
 		5CF73C870862616800F453C3 /* ZenStateSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ZenStateSystem.cpp; path = ZenStateSystem/ZenStateSystem.cpp; sourceTree = SOURCE_ROOT; };
-		5CF855FB119D8D8F004167A5 /* BicubicFilterShader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BicubicFilterShader.cpp; sourceTree = "<group>"; };
-		5CF855FC119D8D8F004167A5 /* BicubicFilterShader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BicubicFilterShader.h; sourceTree = "<group>"; };
 		5CF855FF119D8DCD004167A5 /* Shader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Shader.cpp; sourceTree = "<group>"; };
 		5CF85600119D8DCD004167A5 /* Shader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Shader.h; sourceTree = "<group>"; };
 		5CF85610119D8FC3004167A5 /* glew.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = glew.c; sourceTree = "<group>"; };
@@ -1760,12 +1764,14 @@
 		5CF855E2119D8D2C004167A5 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				5C8101A111A2DE1600050690 /* ConvolutionKernels.cpp */,
+				5C8101A211A2DE1600050690 /* ConvolutionKernels.h */,
+				5C8101A311A2DE1600050690 /* VideoFilterShader.cpp */,
+				5C8101A411A2DE1600050690 /* VideoFilterShader.h */,
 				5CF85612119D8FD9004167A5 /* glew.h */,
 				5CF85610119D8FC3004167A5 /* glew.c */,
 				5CF855FF119D8DCD004167A5 /* Shader.cpp */,
 				5CF85600119D8DCD004167A5 /* Shader.h */,
-				5CF855FB119D8D8F004167A5 /* BicubicFilterShader.cpp */,
-				5CF855FC119D8D8F004167A5 /* BicubicFilterShader.h */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -2444,10 +2450,11 @@
 				5C78EDF1115C00EC00151A76 /* DynamicStimulusActionFactories.h in Headers */,
 				5C78EDF3115C00EC00151A76 /* StopDynamicStimulus.h in Headers */,
 				5CD621591174FF3D007339B7 /* FreezableVariableContainer.h in Headers */,
-				5CF855FE119D8D8F004167A5 /* BicubicFilterShader.h in Headers */,
 				5CF85602119D8DCD004167A5 /* Shader.h in Headers */,
 				5CF85613119D8FD9004167A5 /* glew.h in Headers */,
 				E11AFFBD118F865C0034CC04 /* IODevice.h in Headers */,
+				5C8101A611A2DE1600050690 /* ConvolutionKernels.h in Headers */,
+				5C8101A811A2DE1600050690 /* VideoFilterShader.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3130,10 +3137,11 @@
 				5C78EDF0115C00EC00151A76 /* DynamicStimulusActionFactories.cpp in Sources */,
 				5C78EDF2115C00EC00151A76 /* StopDynamicStimulus.cpp in Sources */,
 				5CD6215A1174FF3D007339B7 /* FreezableVariableContainer.cpp in Sources */,
-				5CF855FD119D8D8F004167A5 /* BicubicFilterShader.cpp in Sources */,
 				5CF85601119D8DCD004167A5 /* Shader.cpp in Sources */,
 				5CF85611119D8FC3004167A5 /* glew.c in Sources */,
 				E1F65DF9119086A100F9A3A3 /* IODevice.cpp in Sources */,
+				5C8101A511A2DE1600050690 /* ConvolutionKernels.cpp in Sources */,
+				5C8101A711A2DE1600050690 /* VideoFilterShader.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -132,7 +132,8 @@ class ExpandableList : public Lockable {
          */
         ExpandableList(int arraysize) {
             nelements = arraysize;
-			if(elementincrement > 0){
+			elementincrement = DEFAULT_ELEMENT_INCREMENT;
+            if(elementincrement > 0){
 				elementincrement = arraysize;
             } else {
 				elementincrement = 1;

@@ -12,7 +12,7 @@
 
 #include "MWorksCore/Plugin.h"
 #include "MWorksCore/ComponentRegistry.h"
-using namespace mw;
+namespace mw{
 
 ///////////////////////////////////////////////////////////////////////////////////////
 // Plugin entry point
@@ -30,7 +30,7 @@ extern "C"{
 class StandardStateSystemPlugin : public Plugin {
 	virtual void registerComponents(shared_ptr<ComponentRegistry> registry);
 };
-
+}
 #endif
 
 

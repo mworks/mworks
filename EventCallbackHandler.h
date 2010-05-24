@@ -30,7 +30,8 @@
 using namespace boost;
 using namespace std;
 using namespace __gnu_cxx;
-using namespace mw;
+
+namespace mw{
 
 typedef boost::function<void(shared_ptr<Event>)>  EventCallback;
 
@@ -112,5 +113,6 @@ public:
     virtual void handleCallbacks(shared_ptr<Event> evt);
     
 };
+}
 
 #endif

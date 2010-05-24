@@ -9,6 +9,8 @@
 
 #include "EventCallbackHandler.h"
 
+using namespace mw;
+
 KeyedEventCallbackPair::KeyedEventCallbackPair(){ 
     key = "<invalid>";
     callback = shared_ptr<EventCallback>();

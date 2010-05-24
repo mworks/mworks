@@ -22,7 +22,7 @@
 
 
 #include "MWorksCore/StateSystem.h"
-using namespace mw;
+namespace mw{
 
 class StandardStateSystem : public StateSystem {
     public:
@@ -45,5 +45,6 @@ class StandardStateSystem : public StateSystem {
         weak_ptr<State> getCurrentState();
         void setCurrentState(weak_ptr<State> new_current);
 };
+}
 
 #endif

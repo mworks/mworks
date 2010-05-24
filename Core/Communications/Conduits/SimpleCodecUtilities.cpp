@@ -11,7 +11,7 @@
 #include "GenericData.h"
 #include <map>
 
-using namespace mw;
+namespace mw {
 using namespace std;
 
 
@@ -68,4 +68,5 @@ Datum construct_simple_codec_datum_from_map(map<int, string> input){
     }
     
     return codec_datum;
+}
 }

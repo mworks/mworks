@@ -12,11 +12,14 @@
 using namespace mw;
 
 FreezableVariableContainer::FreezableVariableContainer(shared_ptr<Variable> _var){
+    frozen = false;
     variable = _var;
 }
 
 FreezableVariableContainer::FreezableVariableContainer(const FreezableVariableContainer& tocopy){
+    frozen = false;
     variable = tocopy.variable;
+    frozen_value = tocopy.frozen_value;
 }
 
 Variable * FreezableVariableContainer::clone(){

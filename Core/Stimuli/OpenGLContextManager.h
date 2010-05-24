@@ -33,7 +33,8 @@ namespace mw {
     protected:
 		
 		NSMutableArray			*contexts;
-        NSMutableArray          *display_refresh_rates;
+        
+        vector<double>          display_refresh_rates;
 		
 		NSWindow				*mirror_window;
         NSOpenGLView            *mirror_view;

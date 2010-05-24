@@ -18,7 +18,8 @@
 #include "MWorksCore/Clock.h"
 #include "MWorksCore/Plugin.h"
 #include "mach/mach_time.h"
-using namespace mw;
+
+namespace mw{
 //////////////////////////////////////////////////////////////////////////
 // Plugin entry point
 //
@@ -84,6 +85,8 @@ class StandardClockPlugin : public Plugin {
       /*  virtual ExpandableList<ServiceDescription> *
                                                 getServiceDescriptions();*/
 };
+
+}
 
 #endif
     

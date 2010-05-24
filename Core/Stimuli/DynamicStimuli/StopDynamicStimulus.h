@@ -13,6 +13,8 @@
 #include "TrialBuildingBlocks.h"
 #include "DynamicStimulusDriver.h"
 
+using namespace mw;
+
 class StopDynamicStimulus : public Action {	
 protected:
 	shared_ptr<DynamicStimulusDriver> dynamic_stimulus;

@@ -13,7 +13,8 @@
 #include "StandardStimuli.h"
 #include "boost/enable_shared_from_this.hpp"
 #include "VariableNotification.h"
-using namespace mw;
+
+namespace mw{
 
 class DynamicStimulusDriver : public boost::enable_shared_from_this<DynamicStimulusDriver>, public VariableNotification {
 	
@@ -63,7 +64,7 @@ public:
 };
 
 void *nextUpdate(const shared_ptr<DynamicStimulusDriver> &ds);
-
+}
 
 #endif /* DYNAMIC_STIMULUS_H */
 

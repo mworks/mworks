@@ -11,6 +11,7 @@
 #define CODEC_AWARE_CONDUIT_H_
 
 #include "SimpleConduit.h"
+using namespace mw;
 
 #define name_defined_callback_key   "CodeAwareConduit::name_defined_callback_key"
 

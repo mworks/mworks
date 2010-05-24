@@ -18,7 +18,9 @@
 #include "boost/shared_ptr.hpp"
 
 #include <map>
-using namespace mw;
+
+
+namespace mw{
 
 #define SAFE_GET(type, A)   type result; lock(); result = A; unlock(); return result;
 #define SAFE_SET(A, B)	   lock(); A = B; unlock();
@@ -320,4 +322,5 @@ namespace low_priority_scheduler{
 		
 	} // end namespace
 	
+}
 #endif

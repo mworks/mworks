@@ -9,6 +9,7 @@
 
 #include "ZenScheduler.h"
 
+
 #define VERBOSE_SCHEDULER 0
 
 #include <mach/mach_types.h>
@@ -33,6 +34,7 @@
 
 #define CRAZY_SHIT_SCHEDULER	0
 
+namespace mw {
 Plugin *getPlugin() {
 	#ifdef LOW_PRIORITY_MODE
 		return new low_priority_scheduler::ZenSchedulerPlugin();
@@ -725,3 +727,5 @@ void ZenScheduler::checkTasks(){
 }
 
 } // end namespace
+
+} // end namespace mw;

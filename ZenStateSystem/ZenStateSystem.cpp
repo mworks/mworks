@@ -7,6 +7,7 @@
  *
  */
 
+
 #include "MWorksCore/Experiment.h"
 #include "ZenStateSystem.h"
 #include "StateSystem.h"
@@ -17,6 +18,12 @@
 #include "MWorksCore/IODeviceManager.h"
 #include "MWorksCore/Debugging.h"
 
+
+
+#ifdef __APPLE__
+// this must go AFTER the mw includes
+#import <Cocoa/Cocoa.h>
+#endif
 
 #include <mach/mach_types.h>
 #include <mach/mach_init.h>
@@ -30,6 +37,9 @@
 #else
 	#define STATE_SYSTEM_PRIORITY 96
 #endif
+
+using namespace mw;
+using namespace boost;
 
 pthread_mutex_t state_system_mutex;
 pthread_t state_system_thread;
@@ -138,6 +148,10 @@ void StandardStateSystem::setCurrentState(weak_ptr<State> newcurrent){
 //  check state system
 void *checkStateSystem(void *void_state_system){
 
+#ifdef __APPLE__
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+#endif
+    
 	// Hand-off the self state system reference
 	shared_ptr<StateSystem> *ss_ptr = (shared_ptr<StateSystem> *)void_state_system;
 	shared_ptr<StateSystem> ss = *ss_ptr;
@@ -257,6 +271,8 @@ void *checkStateSystem(void *void_state_system){
 				} catch (std::exception& e){
 					merror(M_PARADIGM_MESSAGE_DOMAIN,
 						  "Stopping state system: %s", e.what());
+                    state_system_mode->setValue((long)STOPPING);
+                    break;
 				}
 				
 			}
@@ -317,6 +333,12 @@ void *checkStateSystem(void *void_state_system){
 	if(GlobalIODeviceManager != NULL){
 		GlobalIODeviceManager->stopAllDeviceIO();
 	}
+    
+    
+#ifdef __APPLE__
+    [pool drain];
+#endif
+    
 	
 	pthread_exit(0);
 	return NULL;
