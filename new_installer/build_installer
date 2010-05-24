@@ -114,7 +114,7 @@ def main():
 
     check_call([packagemaker,
                 '--doc', 'MWorks Installer.pmdoc',
-                '--out', os.path.join(dmg_contents_dir, installer_name + '.pkg')])
+                '--out', os.path.join(dmg_contents_dir, installer_name + '.mpkg')])
 
     check_call(['cp', '../uninstaller/uninstall_mworks',
                 os.path.join(dmg_contents_dir, 'Uninstall MWorks')])
