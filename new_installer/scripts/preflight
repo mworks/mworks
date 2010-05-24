@@ -1,5 +1,50 @@
 #!/bin/bash
+
+#
+# Check for and offer to backup an existing MWorks installation
+#
+
 set -u
-echo "Moving aside existing MWorks components"
-installer_path="${1%/*}"
-"${installer_path}/Uninstall MWorks" --backup
+
+uninstall_mworks="${1}/../../../../Uninstall MWorks"
+
+if [[ ! -f "${uninstall_mworks}" ]]; then
+    echo "WARNING: can't find \"Uninstall MWorks\" script"
+    exit 0
+fi
+
+if ! "${uninstall_mworks}" --check; then
+    # No installation detected, nothing to backup
+    exit 0
+fi
+
+if ! /usr/bin/osascript > /dev/null 2>&1 <<EOF
+tell application "System Events"
+    activate
+    display dialog \
+      "Back up existing MWorks installation?" \
+      buttons {"No", "Yes"} \
+      default button "Yes" \
+      cancel button "No" \
+      with title "Previous Installation Detected" \
+      giving up after 30
+end tell
+EOF
+then
+    echo "User declined backup of existing MWorks installation"
+    exit 0
+fi
+
+"${uninstall_mworks}" --backup
+
+/usr/bin/osascript > /dev/null 2>&1 <<EOF
+tell application "System Events"
+    activate
+    display dialog \
+      "Previous installation backed up to \"Desktop/MWorks Backup\"" \
+      buttons {"OK"} \
+      default button "OK" \
+      with title "Backup Complete" \
+      giving up after 10
+end tell
+EOF

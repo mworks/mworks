@@ -7,11 +7,12 @@ import sys
 
 packagemaker = '/Developer/Applications/Utilities/PackageMaker.app/Contents/MacOS/PackageMaker'
 installer_root = '/tmp/mw_installer'
+core_package_name = 'MWorksCoreComponents'
 
 
 package_contents = {
 
-    'MWorksCoreComponents':
+    core_package_name:
         (
         '/Applications/MWClient.app',
         '/Applications/MWEditor.app',
@@ -112,9 +113,15 @@ def main():
                                     '%s %s' % (installer_name, installer_version))
     check_call(['mkdir', dmg_contents_dir])
 
-    check_call([packagemaker,
-                '--doc', 'MWorks Installer.pmdoc',
-                '--out', os.path.join(dmg_contents_dir, installer_name + '.mpkg')])
+    installer_path = os.path.join(dmg_contents_dir, installer_name + '.mpkg')
+    check_call([packagemaker, '--doc', 'MWorks Installer.pmdoc', '--out', installer_path])
+    check_call('rm -Rf ~/.Trash/MWorks*.pkg', shell=True)  # Clean up packagemaker's mess
+
+    check_call(['cp',
+                'scripts/preflight',
+                'scripts/postflight',
+                os.path.join(installer_path, 'Contents/Packages/%s.pkg/Contents/Resources' % core_package_name),
+                ])
 
     check_call(['cp', '../uninstaller/uninstall_mworks',
                 os.path.join(dmg_contents_dir, 'Uninstall MWorks')])

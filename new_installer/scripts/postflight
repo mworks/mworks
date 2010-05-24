@@ -1,64 +1,44 @@
 #!/usr/bin/python
 
 #
-# Migrate preferences from old to new application IDs
+# If setup_variables.xml doesn't exist, create it
 #
 
 
-from subprocess import check_call, Popen, PIPE, STDOUT
+import os
+from subprocess import check_call
+import sys
 
 
-defaults = '/usr/bin/defaults'
+config_dir = '/Library/Application Support/MWorks/Configuration/'
+system_setup_vars = config_dir + 'setup_variables.xml'
+user_setup_vars = os.path.expanduser('~' + system_setup_vars)
+archived_setup_vars = os.path.expanduser('~/Desktop/MWorks Backup' +
+                                         system_setup_vars)
+example_setup_vars = config_dir + 'examples/setup_variables_macbook.xml'
 
 
-id_map = {
-
-    'org.mworks-project.MWClient':
-        (
-        'org.coxlab.MWClient',
-        'org.coxlab.New Client',
-        ),
-
-    'org.mworks-project.MWEditor':
-        (
-        'org.coxlab.MWEditor',
-        'org.coxlab.NewEditor',
-        ),
-
-    'org.mworks-project.MWServer':
-        (
-        'edu.mit.MonkeyWorksServer',
-        ),
-
-    }
+def announce(msg, *args):
+    sys.stdout.write((msg + '\n') % args)
 
 
-def get_prefs(id):
-    p = Popen(
-        args = (defaults, 'read', id),
-        stdout = PIPE,
-        stderr = STDOUT,
-        )
+def create_setup_vars():
+    for setup_vars in (user_setup_vars, system_setup_vars):
+        if os.path.isfile(setup_vars):
+            announce('Found "%s"', setup_vars)
+            return
 
-    if p.wait() != 0:
-        return ''
+    if os.path.isfile(archived_setup_vars):
+        setup_vars = archived_setup_vars
+    else:
+        setup_vars = example_setup_vars
 
-    return p.stdout.read()
-
-
-def migrate_prefs(old_id, new_id):
-    if get_prefs(new_id):
-        return
-
-    old_prefs = get_prefs(old_id)
-    if old_prefs:
-        check_call([defaults, 'write', new_id, old_prefs])
+    announce('Copying "%s" to "%s"', setup_vars, system_setup_vars)
+    check_call(['cp', '-p', setup_vars, system_setup_vars])
 
 
 def main():
-    for new_id, old_id_list in id_map.iteritems():
-        for old_id in old_id_list:
-            migrate_prefs(old_id, new_id)
+    create_setup_vars()
 
 
 if __name__ == '__main__':

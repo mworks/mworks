@@ -45,6 +45,16 @@ def get_userdir(path):
     return os.path.expanduser(os.path.join('~', path))
 
 
+def check_installed_files():
+    for filename in mw_files:
+        if os.path.exists(filename):
+            announce('Found installed MWorks files')
+            return True
+
+    announce('No installed MWorks files found')
+    return False
+
+
 def create_directory(dirname):
     dirlist = deque()
     while not os.path.exists(dirname):
@@ -91,13 +101,17 @@ def restore_files(backupdir):
 
 def main():
     parser = OptionParser()
+    parser.add_option('-c', '--check', action='store_true', dest='check',
+                      help="check for installed MWorks files")
     parser.add_option('-b', '--backup', action='store_true', dest='backup',
                       help="don't restore, but back up old installation")
     (options, args) = parser.parse_args()
 
     backupdir = get_userdir('Desktop/MWorks Backup')
 
-    if options.backup:
+    if options.check:
+        sys.exit(int(not check_installed_files()))
+    elif options.backup:
         backup_files(backupdir)
     else:
         backup_files(get_userdir('.Trash/Uninstalled MWorks'))
