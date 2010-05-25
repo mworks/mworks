@@ -2,7 +2,7 @@ APP_SUPPORT_DIR = "/Library/Application Support/MWorks"
 PLUGINS_DIR = $(APP_SUPPORT_DIR)/Plugins/Core
 XCODE_TEMPLATES_DIR = "/Developer/Library/Xcode/Project Templates"
 
-MW_XCODEBUILD = $(APP_SUPPORT_DIR)/Developer/bin/mw_xcodebuild
+MW_XCODEBUILD = $(APP_SUPPORT_DIR)/Developer/Xcode/mw_xcodebuild
 
 all: install
 
