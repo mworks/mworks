@@ -11,6 +11,7 @@
 # one.
 #
 
+from cStringIO import StringIO
 import os
 from subprocess import check_call, Popen, PIPE
 import sys
@@ -35,17 +36,17 @@ def error(msg):
 
 
 def get_targets_and_configs():
-    xcodebuild_list = Popen(
+    cmd = Popen(
         args = (xcodebuild, '-list'),
         stdout = PIPE,
         )
 
-    status = xcodebuild_list.wait()
-    if status != 0:
+    output = StringIO(cmd.communicate()[0])
+    if cmd.returncode != 0:
         die()
 
     def nextline():
-        return xcodebuild_list.stdout.readline().strip()
+        return output.readline().strip()
 
     def collect_names():
         all_names = []
@@ -73,9 +74,9 @@ def get_targets_and_configs():
 
 
 def main():
-    if len(sys.argv) < 3:
+    if len(sys.argv) not in (3, 4):
         die(status = 2,
-            msg = ('Usage: %s target configuration [setting=value ...]' %
+            msg = ('Usage: %s target configuration [MW_VERSION]' %
                    os.path.basename(sys.argv[0])),
             )
 
@@ -89,12 +90,17 @@ def main():
     if config not in valid_configs:
         error('invalid config: "%s"' % config)
 
-    check_call([xcodebuild,
-                '-target', target,
-                '-configuration', config,
-                'clean',
-                'build',
-                ] + sys.argv[3:])
+    cmd = [xcodebuild,
+           '-target', target,
+           '-configuration', config,
+           'clean',
+           'build',
+           ]
+
+    if (len(sys.argv) == 4) and (sys.argv[3] != 'NIGHTLY'):
+        cmd.append('MW_VERSION=' + sys.argv[3])
+
+    check_call(cmd)
 
 
 if __name__ == '__main__':
