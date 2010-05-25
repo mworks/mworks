@@ -198,10 +198,10 @@
     //[msgTextViewLock lock];
 	
 	//@synchronized(msgTextView){
-		int length = [[[msgTextView textStorage] string] length];
+		int length = [[msgTextView textStorage] length];
 		//[msgTextViewLock unlock];
 		//[msgTextView lockFocusIfCanDraw];
-		[msgTextView scrollRangeToVisible:NSMakeRange(length, 1)];	
+		[msgTextView scrollRangeToVisible:NSMakeRange(length, 0)];	
 		//[msgTextView unlockFocus];
 		//[msgTextView setNeedsDisplay:YES];
 	//}
@@ -247,14 +247,14 @@
 	//	[[msgTextView textStorage] appendAttributedString:[msgData messageForConsole]];
 	[[msgTextView textStorage] performSelectorOnMainThread:@selector(appendAttributedString:)
 												withObject:[msgData messageForConsole]
-											 waitUntilDone:NO];
+											 waitUntilDone:YES];
 	[msgData release];
 	
 	
 	if([[msgTextView textStorage] length] > maxConsoleLength*1.5) {
 		[self performSelectorOnMainThread:@selector(deleteExcessConsoleMessage)
 							   withObject:[NSNumber numberWithInt:[[msgTextView textStorage] length]]
-							waitUntilDone:NO];
+							waitUntilDone:YES];
 		
 		
 		
