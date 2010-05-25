@@ -88,6 +88,9 @@ def backup_files(backupdir):
 
 
 def restore_files(backupdir):
+    if not os.path.isdir(backupdir):
+        return
+
     for filename in mw_files:
         srcfile = os.path.join(backupdir, filename[1:])
         if os.path.exists(srcfile):

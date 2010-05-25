@@ -6,12 +6,7 @@
 
 set -u
 
-uninstall_mworks="${1}/../../../../Uninstall MWorks"
-
-if [[ ! -f "${uninstall_mworks}" ]]; then
-    echo "WARNING: can't find \"Uninstall MWorks\" script"
-    exit 0
-fi
+uninstall_mworks="${1}/Contents/Resources/uninstall_mworks"
 
 if ! "${uninstall_mworks}" --check; then
     # No installation detected, nothing to backup

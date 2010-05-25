@@ -109,27 +109,19 @@ def main():
             copy_path(package_name, path)
             build_component_package(package_name)
 
-    dmg_contents_dir = os.path.join(installer_root,
-                                    '%s %s' % (installer_name, installer_version))
+    dmg_contents_dir = os.path.join(installer_root, '%s %s' % (installer_name, installer_version))
     check_call(['mkdir', dmg_contents_dir])
 
     installer_path = os.path.join(dmg_contents_dir, installer_name + '.mpkg')
     check_call([packagemaker, '--doc', 'MWorks Installer.pmdoc', '--out', installer_path])
     check_call('rm -Rf ~/.Trash/MWorks*.pkg', shell=True)  # Clean up packagemaker's mess
 
-    check_call(['cp',
-                'scripts/preflight',
-                'scripts/postflight',
-                os.path.join(installer_path, 'Contents/Packages/%s.pkg/Contents/Resources' % core_package_name),
-                ])
+    scripts_path = os.path.join(installer_path, 'Contents/Packages/%s.pkg/Contents/Resources' % core_package_name)
+    check_call(['cp', 'uninstall_mworks', 'preflight', 'postflight', scripts_path])
+    check_call(['cp', 'uninstall_mworks', os.path.join(dmg_contents_dir, 'Uninstall MWorks')])
 
-    check_call(['cp', '../uninstaller/uninstall_mworks',
-                os.path.join(dmg_contents_dir, 'Uninstall MWorks')])
-
-    output_file = os.path.join(installer_root,
-                               '%s-%s.dmg' % (installer_name, installer_version))
-    check_call(['hdiutil', 'create', '-quiet', '-srcfolder', dmg_contents_dir,
-                output_file])
+    output_file = os.path.join(installer_root, '%s-%s.dmg' % (installer_name, installer_version))
+    check_call(['hdiutil', 'create', '-quiet', '-srcfolder', dmg_contents_dir, output_file])
 
 
 if __name__ == '__main__':
