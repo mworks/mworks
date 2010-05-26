@@ -6,11 +6,13 @@
 //  Copyright Harvard University 2008. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
 
 #import "MWorksCore/StandardClientCoreBuilder.h"
 #import "MWorksCore/CoreBuilderForeman.h"
 #import "MWorksCore/Exceptions.h"
+
+#import <Cocoa/Cocoa.h>
+
 
 int main(int argc, char *argv[])
 {
