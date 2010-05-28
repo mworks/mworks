@@ -794,6 +794,9 @@ void OpenGLContextManager::queryDisplayModes() {
 void OpenGLContextManager::releaseDisplays() {
     
 	NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
+    
+    [contexts makeObjectsPerformSelector:@selector(clearDrawable)];
+
 	CGReleaseAllDisplays();
 	
 	if(mirrorWindowActive){
@@ -813,6 +816,8 @@ void OpenGLContextManager::releaseDisplays() {
 	//		}
 	//	}
 	
+    [contexts removeAllObjects];
+
     [pool release];
 	
     //CGDisplayShowCursor(targetDisplay);
