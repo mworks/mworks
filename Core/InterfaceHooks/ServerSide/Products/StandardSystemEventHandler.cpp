@@ -98,11 +98,11 @@ void StandardSystemEventHandler::handleSystemEvent(const Datum &sysEvent) {
                 break;
             }
 			
-			cerr << expXMLFile.string() << endl;
+			//cerr << expXMLFile.string() << endl;
             
 			bf::path expPath(expXMLFile.branch_path().branch_path());
 			
-            cerr << expPath.string() << endl;
+            //cerr << expPath.string() << endl;
             
 			GlobalCurrentExperiment->setExperimentPath(expPath.string().c_str());
 			shared_ptr<Event> experimentStateEvent = SystemEventFactory::currentExperimentState();
