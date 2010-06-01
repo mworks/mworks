@@ -14,7 +14,7 @@ GCC_OPTIMIZATION_LEVEL = 0
 
 WARNING_CFLAGS = -Wno-sign-compare
 
-MW_VERSION = 0.4.4-dev
+MW_VERSION = 0.4.5-dev
 
 APP_SUPPORT_DIR = /Library/Application Support/MWorks
 CONFIG_DIR = $(APP_SUPPORT_DIR)/Configuration
