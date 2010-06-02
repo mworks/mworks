@@ -98,7 +98,8 @@ namespace mw {
         
         void setCurrent(int context_id);
                 
-        void flush(int context_id);
+        void updateAndFlush(int context_id){ flush(context_id, true); }
+        void flush(int context_id, bool update=false);
         void flushCurrent();
 		
         bool hasFence(){   return has_fence; }

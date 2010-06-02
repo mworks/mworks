@@ -218,7 +218,7 @@ int OpenGLContextManager::newMirrorContext(int pixelDepth){
     
     setCurrent(context_id);
     _initGlew();
-    
+        
     return context_id;
     
 }
@@ -289,7 +289,6 @@ int OpenGLContextManager::newFullscreenContext(int pixelDepth, int screen_number
     } else {
         has_fence = false;
     }
-    
     
     return context_id;
 }
@@ -510,46 +509,52 @@ void OpenGLContextManager::setCurrent(int context_id) {
 
 
 void OpenGLContextManager::releaseDisplays() {
+  
+    NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
+    
+    [contexts makeObjectsPerformSelector:@selector(clearDrawable)];
+    
+	CGReleaseAllDisplays();
+    
     
     mirror_window_active = NO;
     if(mirror_window != Nil){
         [mirror_window orderOut:Nil];
+        [mirror_window release];
+        mirror_window = Nil;
     }
     
     
     fullscreen_window_active = NO;
     if(fullscreen_window != Nil){
         [fullscreen_window orderOut:Nil];
+        [fullscreen_window release];
+        fullscreen_window = Nil;
     }
     
 
 //=======
-//	NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
-//    
-//    [contexts makeObjectsPerformSelector:@selector(clearDrawable)];
-//
-//	CGReleaseAllDisplays();
-//	
+	
 //	if(mirrorWindowActive){
 //		[mirrorWindow orderOut:Nil];
 //		mirrorWindowActive = NO;
 //	}
-//	
-//	[windows removeAllObjects];
-//	//	for(int i = 0; i < [windows count]; i++){
-//	//
-//	//		
-//	//		NSWindow *wind = (NSWindow *)[windows objectAtIndex:i];
-//	//			if(wind != NULL){
-//	//			//[wind hide];
-//	//			[wind release];
-//	//			[windows
-//	//		}
-//	//	}
-//	
-//    [contexts removeAllObjects];
-//
-//    [pool release];
+	
+	//[windows removeAllObjects];
+	//	for(int i = 0; i < [windows count]; i++){
+	//
+	//		
+	//		NSWindow *wind = (NSWindow *)[windows objectAtIndex:i];
+	//			if(wind != NULL){
+	//			//[wind hide];
+	//			[wind release];
+	//			[windows
+	//		}
+	//	}
+	
+    [contexts removeAllObjects];
+
+    [pool release];
 //	
 //    //CGDisplayShowCursor(targetDisplay);
 //>>>>>>> 9679aa71170d7b5269057d63340507c62afd300d
@@ -560,14 +565,16 @@ void OpenGLContextManager::flushCurrent() {
     [[NSOpenGLContext currentContext] flushBuffer];
 }
 
-void OpenGLContextManager::flush(int context_id) {
+void OpenGLContextManager::flush(int context_id, bool update) {
     if(context_id < 0){
         //TODO mprintf dependency problem
 		NSLog(@"OpenGL Context Manager: no context to flush");
     }
     
 	//glSetFenceAPPLE(synchronization_fence);
-	[[contexts objectAtIndex:context_id] update];
+    if(update){
+        [[contexts objectAtIndex:context_id] update];
+    }
     [[contexts objectAtIndex:context_id] flushBuffer];
     
 }

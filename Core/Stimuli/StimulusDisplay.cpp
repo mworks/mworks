@@ -236,6 +236,8 @@ void StimulusDisplay::addContext(int _context_id){
     shared_ptr<OpenGLContextManager> opengl_context_manager = OpenGLContextManager::instance();
 	opengl_context_manager->setCurrent(_context_id);
 	glInit();
+    glFinish();
+    opengl_context_manager->updateAndFlush(_context_id);
 }
 
 GLuint StimulusDisplay::getCurrentContext(){
@@ -274,7 +276,14 @@ void StimulusDisplay::updateDisplay(bool explicit_update) {
     
 	boost::mutex::scoped_lock lock(display_lock);
 	
+    shared_ptr<OpenGLContextManager> opengl_context_manager = OpenGLContextManager::instance();
 	shared_ptr <Clock> clock = Clock::instance();
+    int refresh_rate = opengl_context_manager->getDisplayRefreshRate(opengl_context_manager->getMainDisplayIndex());
+    if(refresh_rate <= 0){
+        refresh_rate = 60;
+    }
+    
+    
 	MWTime before_draw = clock->getCurrentTimeUS();
 	update_stim_chain_next_refresh = false;
 	
@@ -300,50 +309,60 @@ void StimulusDisplay::updateDisplay(bool explicit_update) {
 		
         
         // Actually draw all of the stimuli in the chain
-		stimulus_chain->execute(explicit_update);
-
+		//MWTime chain_start = clock->getCurrentTimeUS();
+        stimulus_chain->execute(explicit_update);
+        //MWTime chain_end = clock->getCurrentTimeUS();
+        
 #define USE_GL_FENCE
 #define ERROR_ON_LATE_FRAMES
 
-        shared_ptr<OpenGLContextManager> opengl_context_manager = OpenGLContextManager::instance();
         
-#ifdef USE_GL_FENCE
 		if(i == 0){ // only for the main display
+            #ifdef USE_GL_FENCE
             if(opengl_context_manager->hasFence()){
                 glSetFenceAPPLE(opengl_context_manager->getFence());
             }
-		}
-#endif
-		opengl_context_manager->flush(current_context);
+            #endif
+            
+            opengl_context_manager->flush(i);
+		} else {
+            opengl_context_manager->updateAndFlush(i);
+        }
+
+        //MWTime flush_start = clock->getCurrentTimeUS();
+		//MWTime flush_end = clock->getCurrentTimeUS();
 		
-		
-#ifdef USE_GL_FENCE
 		if(i == 0){  // only for the first (main) display
-			
+
+#ifdef USE_GL_FENCE
             if(opengl_context_manager->hasFence()){
                 glFinishFenceAPPLE(opengl_context_manager->getFence());
 			}
+#endif
             
-    #ifdef ERROR_ON_LATE_FRAMES
+#ifdef ERROR_ON_LATE_FRAMES
             MWTime now = clock->getCurrentTimeUS();
 			
 			
 			stimDisplayUpdate->setValue(stimulus_chain->getAnnounceData(), now);
 			stimulus_chain->announce(now);
-            int refresh_rate = opengl_context_manager->getDisplayRefreshRate(opengl_context_manager->getMainDisplayIndex());
-            if(refresh_rate <= 0){
-                refresh_rate = 60;
-            }
+            
 			MWTime slop = 2*(1000000/refresh_rate);
-			if(now-before_draw > slop) {
+            
+//          std::cerr << "now - before_draw: " << now - before_draw << 
+//                       " |  chain end - chain start: " << chain_end - chain_start <<
+//                       " |  flush end - flush start: " << flush_end - flush_start << std::endl;
+			
+            if(now-before_draw > slop) {
 				merror(M_DISPLAY_MESSAGE_DOMAIN,
 					   "updating main window display is taking longer than two frames (%lld > %lld) to update", 
 					   now-before_draw, 
 					   slop);		
 			}
-    #endif
-		}
 #endif
+            
+		}
+
         
 	}	
 }
@@ -364,50 +383,24 @@ void StimulusDisplay::clearDisplay(){
 }
 
 void StimulusDisplay::glInit() {
-    // This Will Clear The Background Color To Black
-    //glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
-    // Enables Clearing Of The Depth Buffer
-    //glClearDepth(1.0);	
-    // The Type Of Depth Test To Do
-    //glDepthFunc(GL_LESS);			
-    // Enables Depth Testing
-    //glEnable(GL_DEPTH_TEST);
 
-    				
-	
-	//glEnable(GL_TEXTURE_2D);
-	//glEnable(GL_TEXTURE_RECTANGLE_EXT);
-	//glShadeModel(GL_SMOOTH);	
-	
-	//for(int i = 0; i < getNContexts(); i++){
+    glShadeModel(GL_FLAT);
+    glDisable(GL_BLEND);
+    glDisable(GL_DITHER);
+    glDisable(GL_FOG);
+    glDisable(GL_LIGHTING);
+    
+    glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL); // DDC added
+    
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity(); // Reset The Projection Matrix
+    
+    gluOrtho2D(-16.0,16.0,-12.0,12.0);
+    glMatrixMode(GL_MODELVIEW);
+    
+    glClearColor(0.25, 0.25, 0.25, 1.0);
+    glClear(GL_COLOR_BUFFER_BIT);
 
-		//setCurrent(i);
-		// Conservatism:
-		glShadeModel(GL_FLAT);
-		glDisable(GL_BLEND);
-		glDisable(GL_DITHER);
-		glDisable(GL_FOG);
-		glDisable(GL_LIGHTING);
-		
-		glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL); // DDC added
-		
-		//glDisable(GL_TEXTURE_2D);
-		
-		//glEnable (GL_BLEND); 
-		//glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		
-		//glPixelStorei(GL_UNPACK_ALIGNMENT,1);
-		//glClearAccum(0.0, 0.0, 0.0, 0.0);
-		glMatrixMode(GL_PROJECTION);
-		glLoadIdentity(); // Reset The Projection Matrix
-		
-		//glOrtho(-10.0,10.0,-10.0,10.0, 10,-10);
-		gluOrtho2D(-16.0,16.0,-12.0,12.0);
-		glMatrixMode(GL_MODELVIEW);
-		
-		glClearColor(0.5, 0.5, 0.5, 1.0);
-		glClear(GL_COLOR_BUFFER_BIT);
-	//}
 }
 
 
