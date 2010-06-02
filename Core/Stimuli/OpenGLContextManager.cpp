@@ -537,6 +537,7 @@ void OpenGLContextManager::releaseDisplays() {
 
     [pool release];
 
+
 }
 
 
