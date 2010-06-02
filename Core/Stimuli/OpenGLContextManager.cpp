@@ -523,6 +523,9 @@ void OpenGLContextManager::releaseDisplays() {
     }
     
 	//NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
+//    
+//    [contexts makeObjectsPerformSelector:@selector(clearDrawable)];
+//
 //	CGReleaseAllDisplays();
 //	
 //	if(mirrorWindowActive){
@@ -532,6 +535,7 @@ void OpenGLContextManager::releaseDisplays() {
 //	
 //	[windows removeAllObjects];
 //
+//    [contexts removeAllObjects];
 //	
 //    [pool release];
 }

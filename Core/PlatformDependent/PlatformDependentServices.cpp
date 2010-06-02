@@ -18,23 +18,25 @@
 namespace mw {
 	
 #ifdef __APPLE__
-    const char * DATA_FILE_PATH = "/Documents/MWorks/Data/";
+    const char * DATA_FILE_PATH = "MWorks/Data";
 	const char * PLUGIN_PATH = "/Library/Application Support/MWorks/Plugins/Core";
 	const char * SCRIPTING_PATH = "/Library/Application Support/MWorks/Scripting";
-	const char * LOCAL_PATH = "/Library/Application Support/MWorks/Configuration";
-	const char * EXPERIMENT_INSTALL_PATH = "/Library/Application Support/MWorks/Experiment Cache";
+	const char * CONFIG_PATH = "MWorks/Configuration";
+	const char * EXPERIMENT_INSTALL_PATH = "MWorks/Experiment Cache";
 #else
 	
     const char * DATA_FILE_PATH "/usr/local/MWorks/plugins/";
 	const char * PLUGIN_PATH = "/usr/local/MWorks/plugins/";
 	const char * SCRIPTING_PATH = "/usr/local/MWorks/scripting/";
-	const char * LOCAL_PATH = "/usr/local/MWorks/local/";
+	const char * CONFIG_PATH = "/usr/local/MWorks/local/";
 	const char * EXPERIMENT_INSTALL_PATH = "/tmp/mw_experiments/";
 #endif
 	
 	const char * DATA_FILE_EXT = ".mwk";
-	const char * EXPERIMENT_STORAGE_DIRECTORY_NAME = "tmp";
+	const char * EXPERIMENT_TEMPORARY_DIR_NAME = "tmp";
 	const char * VARIABLE_FILE_EXT = "_var.xml";
+	const char * EXPERIMENT_STORAGE_DIR_NAME = "Experiment Storage";
+	const char * SAVED_VARIABLES_DIR_NAME = "Saved Variables";
 	
 	boost::filesystem::path pluginPath() {
 		return boost::filesystem::path(PLUGIN_PATH, boost::filesystem::native);
@@ -44,8 +46,42 @@ namespace mw {
 		return boost::filesystem::path(SCRIPTING_PATH, boost::filesystem::native);
 	}
 	
+	boost::filesystem::path dataFilePath() {
+		namespace bf = boost::filesystem;
+        bf::path data_file_path;
+        
+        NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+        
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        if (paths && [paths count]) {
+            data_file_path = (bf::path([[paths objectAtIndex:0] UTF8String], bf::native) /
+                              bf::path(DATA_FILE_PATH, bf::native));
+        }
+        
+        [pool drain];
+        
+		return data_file_path;
+	}
+	
+	boost::filesystem::path userPath() {
+		namespace bf = boost::filesystem;
+        bf::path user_path;
+        
+        NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
+        if (paths && [paths count]) {
+            user_path = bf::path([[paths objectAtIndex:0] UTF8String], bf::native) / bf::path(CONFIG_PATH, bf::native);
+        }
+        
+        [pool drain];
+
+		return user_path;
+	}
+	
 	boost::filesystem::path localPath() {
-		return boost::filesystem::path(LOCAL_PATH, boost::filesystem::native);
+		namespace bf = boost::filesystem;
+		return bf::path("/Library/Application Support", bf::native) / bf::path(CONFIG_PATH, bf::native);
 	}
 	
 	boost::filesystem::path resourcePath() {
@@ -58,21 +94,32 @@ namespace mw {
 			}
 		}
 		
-		[pool release];
+		[pool drain];
 								   
 		return boost::filesystem::path(resource_path, boost::filesystem::native);
 	}
 	
 	boost::filesystem::path experimentInstallPath() {
-		return boost::filesystem::path(EXPERIMENT_INSTALL_PATH, boost::filesystem::native);
+		namespace bf = boost::filesystem;
+        
+        NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+		bf::path experiment_install_path(bf::path([NSTemporaryDirectory() UTF8String], bf::native) /
+                                         bf::path(EXPERIMENT_INSTALL_PATH, bf::native));
+        [pool drain];
+        
+        return experiment_install_path;
 	}
 	
 	boost::filesystem::path experimentStorageDirectoryName() {
-		return boost::filesystem::path(EXPERIMENT_STORAGE_DIRECTORY_NAME, boost::filesystem::native);
+		return boost::filesystem::path(EXPERIMENT_TEMPORARY_DIR_NAME, boost::filesystem::native);
 	}
 	
 	boost::filesystem::path prependScriptingPath(const std::string scriptFile){
 		return scriptingPath() / boost::filesystem::path(scriptFile, boost::filesystem::native);
+	}
+	
+	boost::filesystem::path prependUserPath(const std::string file){
+		return userPath() / boost::filesystem::path(file, boost::filesystem::native);
 	}
 	
 	boost::filesystem::path prependLocalPath(const std::string file){
@@ -84,9 +131,8 @@ namespace mw {
 	}
 	
 	boost::filesystem::path prependDataFilePath(const std::string filename) {
-		return boost::filesystem::path(DATA_FILE_PATH, boost::filesystem::native) / 
-		boost::filesystem::path(filename, boost::filesystem::native);
-		
+		namespace bf = boost::filesystem;
+		return dataFilePath() / bf::path(filename, bf::native);
 	}
 	
 	std::string appendDataFileExtension(const std::string filename_) {
@@ -116,17 +162,23 @@ namespace mw {
 	boost::filesystem::path getLocalExperimentStorageDir(const std::string expName) {
 		namespace bf = boost::filesystem;
 		
-		return bf::path(EXPERIMENT_INSTALL_PATH, bf::native) / 
-		bf::path(expName, bf::native) / 
-		bf::path(EXPERIMENT_STORAGE_DIRECTORY_NAME, bf::native);
+		return getLocalExperimentPath(expName) / experimentStorageDirectoryName();
 		
 	}
 	
 	boost::filesystem::path getLocalExperimentPath(const std::string expName) {
 		namespace bf = boost::filesystem;
 		
-		return bf::path(EXPERIMENT_INSTALL_PATH, bf::native) / bf::path(expName, bf::native);
+		return experimentInstallPath() / bf::path(expName, bf::native);
 	}
+    
+    boost::filesystem::path getExperimentSavedVariablesPath(const std::string expName) {
+		namespace bf = boost::filesystem;
+        return (dataFilePath().parent_path() /
+                bf::path(EXPERIMENT_STORAGE_DIR_NAME, bf::native) /
+                bf::path(expName, bf::native) /
+                bf::path(SAVED_VARIABLES_DIR_NAME, bf::native));
+    }
 	
 	std::string appendVarFileExt(const std::string expName) {
 		return expName + VARIABLE_FILE_EXT;

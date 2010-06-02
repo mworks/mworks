@@ -401,8 +401,7 @@ shared_ptr<Event> SystemEventFactory::currentExperimentState() {
 		namespace bf = boost::filesystem;
 	
 		// make sure the proper directory structure exists
-		bf::path experimentPath = bf::path(GlobalCurrentExperiment->getExperimentPath(), bf::native);
-		bf::path variablesDirectory = experimentPath / SAVED_VARIABLES_DIR_NAME;
+		bf::path variablesDirectory = getExperimentSavedVariablesPath(GlobalCurrentExperiment->getExperimentDirectory());
 		
 		if(bf::exists(variablesDirectory) && bf::is_directory(variablesDirectory)) {
 		 Datum savedVarList(M_LIST,1);
