@@ -29,6 +29,8 @@
 #include "DataFileManager.h"
 using namespace mw;
 
+#define SETUP_VARIABLES_FILENAME "setup_variables.xml"
+
 namespace mw {
 
 // DDC: HOLY CRAP: WHY WAS HE QUIETLY REPLACING MISSING VALUES WITH DEFAULTS?!?
@@ -52,8 +54,12 @@ namespace mw {
 	bool loadSetupVariables() {
 		
 		
+		boost::filesystem::path setupPath(prependUserPath(SETUP_VARIABLES_FILENAME));
+        if (setupPath.empty() || !boost::filesystem::is_regular_file(setupPath)) {
+            setupPath = prependLocalPath(SETUP_VARIABLES_FILENAME);
+        }
+
 		shared_ptr<ComponentRegistry> reg = ComponentRegistry::getSharedRegistry();
-		boost::filesystem::path setupPath(prependLocalPath("setup_variables.xml"));
 		XMLParser parser(reg, setupPath.string());
 		
 		parser.validate();
@@ -346,13 +352,8 @@ namespace mw {
 		const std::string substitutionDescriptor("%s");
 		
 		std::string expName(removeFileExtension(expFileName));
-		bf::path temp(experimentInstallPath());
-		bf::path currExpStorageDir = temp / 
-		bf::path(expName, bf::native) / 
-		experimentStorageDirectoryName();
+		bf::path currExpStorageDir = getLocalExperimentStorageDir(expName);
 		
-		bf::path currExpParentDir = temp / 
-		bf::path(expName, bf::native);
 		
 		//bf::path expFileNamePath(expFileName);
 		
@@ -360,8 +361,7 @@ namespace mw {
 			remove_all(currExpStorageDir);
 		}
 		
-		bf::create_directory(currExpParentDir);
-		bf::create_directory(currExpStorageDir);
+		bf::create_directories(currExpStorageDir);
 		
 		
 	}

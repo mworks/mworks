@@ -22,8 +22,12 @@ default_test_data = os.path.join(marionette_test_contents,
                                  'default_test_data.xml')
 
 
-def die(status, msg, *args):
+def message(msg, *args):
     sys.stderr.write((msg % args) + '\n')
+
+
+def die(status, msg, *args):
+    message(msg, *args)
     sys.exit(status)
 
 
@@ -82,6 +86,7 @@ def run_marionette_tests(arch_name, test_names=None):
         if not os.path.isfile(test_data):
             test_data = default_test_data
 
+        message('Running %s', test_xml[len(test_xml_dir)+1:])
         status = call([arch, '-arch', arch_name, marionette_test, test_xml,
                        test_data])
         if status != 0:

@@ -522,7 +522,12 @@ void OpenGLContextManager::releaseDisplays() {
         [fullscreen_window orderOut:Nil];
     }
     
-	//NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
+
+//=======
+//	NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
+//    
+//    [contexts makeObjectsPerformSelector:@selector(clearDrawable)];
+//
 //	CGReleaseAllDisplays();
 //	
 //	if(mirrorWindowActive){
@@ -531,9 +536,23 @@ void OpenGLContextManager::releaseDisplays() {
 //	}
 //	
 //	[windows removeAllObjects];
-//
+//	//	for(int i = 0; i < [windows count]; i++){
+//	//
+//	//		
+//	//		NSWindow *wind = (NSWindow *)[windows objectAtIndex:i];
+//	//			if(wind != NULL){
+//	//			//[wind hide];
+//	//			[wind release];
+//	//			[windows
+//	//		}
+//	//	}
 //	
+//    [contexts removeAllObjects];
+//
 //    [pool release];
+//	
+//    //CGDisplayShowCursor(targetDisplay);
+//>>>>>>> 9679aa71170d7b5269057d63340507c62afd300d
 }
 
 
