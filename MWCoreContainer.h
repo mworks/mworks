@@ -12,6 +12,6 @@
 @protocol MWCoreContainer
 
 
--(shared_ptr<EventStreamInterface>)eventStreamInterface;
+-(shared_ptr<mw::EventStreamInterface>)eventStreamInterface;
 
 @end
