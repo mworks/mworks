@@ -9,11 +9,11 @@
  * Copyright MIT 2007 . All rights reserved.
  */
 
-#import <Cocoa/Cocoa.h>
-
 #import "MWorksCore/StandardServerCoreBuilder.h"
 #import "MWorksCore/CoreBuilderForeman.h"
 #import "MWorksCore/Exceptions.h"
+
+#import <Cocoa/Cocoa.h>
 
 
 int main(int argc, char *argv[]) {
