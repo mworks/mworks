@@ -31,8 +31,8 @@
     core = [(id<MWCoreContainer>)delegate eventStreamInterface];
     
     // TODO: generate a unique name to avoid name collisions
-    shared_ptr<mw::IPCEventTransport> transport(new mw::IPCEventTransport(EventTransport::server_event_transport, 
-                                                                          EventTransport::bidirectional_event_transport, 
+    shared_ptr<mw::IPCEventTransport> transport(new mw::IPCEventTransport(mw::EventTransport::server_event_transport, 
+                                                                          mw::EventTransport::bidirectional_event_transport, 
                                                                           CONDUIT_RESOURCE_NAME));
     
     // build the conduit, attaching it to the core/client's event stream 
