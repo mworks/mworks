@@ -2,6 +2,8 @@
 // Prefix header for all source files of the 'CoxlabCorePlugins' target in the 'CoxlabCorePlugins' project.
 //
 
+#include <MWorksCore/glew.h>
+
 #ifdef __OBJC__
     #import <Cocoa/Cocoa.h>
 #endif
