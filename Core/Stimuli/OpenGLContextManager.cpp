@@ -201,6 +201,9 @@ int OpenGLContextManager::newMirrorContext(int pixelDepth){
     
     NSOpenGLContext *opengl_context = [[NSOpenGLContext alloc] initWithFormat:pixel_format shareContext:Nil];
     
+    GLint swap_int = 1;
+    [opengl_context setValues: &swap_int forParameter: NSOpenGLCPSwapInterval];
+    
     NSRect view_rect = NSMakeRect(0.0, 0.0, mirror_rect.size.width, mirror_rect.size.height);
     
     mirror_view = [[NSOpenGLView alloc] initWithFrame:view_rect pixelFormat: pixel_format];
