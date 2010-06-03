@@ -1,4 +1,4 @@
 Info.plist
-MonkeyWorksServer.xcodeproj/*.pbxuser
-MonkeyWorksServer.xcodeproj/*.perspectivev3
+MWServer.xcodeproj/*.pbxuser
+MWServer.xcodeproj/*.perspectivev3
 build/
