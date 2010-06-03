@@ -376,7 +376,7 @@ NSString *percentCorrectPlotIdentifier = @"PercentCorrectLinePlot";
 - (void)setNeedsDisplayOnMainThread:(id)obj
 {
 	[obj setNeedsDisplay:YES];
-	NSLog(@"redisplaying");
+	//NSLog(@"redisplaying");
 }
 
 - (void)updatePlot
@@ -583,7 +583,7 @@ NSString *percentCorrectPlotIdentifier = @"PercentCorrectLinePlot";
 	
 	if ( [[plot identifier] isEqual:percentCorrectPlotIdentifier] ) {
 		num =  [percentCorrectHistory count];
-		NSLog(@"N Data Clusters: %d", num);
+		//NSLog(@"N Data Clusters: %d", num);
     }
 	
 	return num;
@@ -601,7 +601,7 @@ NSString *percentCorrectPlotIdentifier = @"PercentCorrectLinePlot";
 		y = [[percentCorrectHistory objectAtIndex:entryIndex] floatValue];
 	}
 	
-    NSLog(@"x,y: %g, %g", x, y);
+    //NSLog(@"x,y: %g, %g", x, y);
 	
     return [NSDictionary dictionaryWithObjectsAndKeys:
         [NSNumber numberWithFloat:x],	NRTXClusterIdentifier,
