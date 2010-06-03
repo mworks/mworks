@@ -88,7 +88,9 @@
         [app presentError:err];
         [app terminate:self];
     }
+}
 	
+- (void)awakeFromNib{
 	core->setListenLowPort(19989);
     core->setListenHighPort(19999);
 
@@ -101,12 +103,14 @@
 	
 	core->setHostname(hostname);
 	
-	[cc setTitle:@"Server Console"];
-	[cc setDelegate:self];
-	
+
 	core->startServer();
-	core->startAccepting();	
-	[self updateGUI:nil];
+    core->startAccepting();	
+	
+    [cc setTitle:@"Server Console"];
+	[cc setDelegate:self];
+    
+    [self updateGUI:nil];
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
