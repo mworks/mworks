@@ -37,7 +37,7 @@ protected:
 	vector<GLuint> mask_textures;
 	vector<GLuint> grating_textures;
 	
-    bool cloned;
+
     
 	float last_phase;
 public:
@@ -60,35 +60,12 @@ public:
 							 const shared_ptr<mMask> &_mask,
 							 const shared_ptr<mGratingData> &_grating);
     
-    DriftingGratingStimulus(const std::string &_tag, 
-							 const shared_ptr<Scheduler> &a_scheduler,
-							 const shared_ptr<StimulusDisplay> &a_display,
-							 const shared_ptr<Variable> &_frames_per_second,
-							 const shared_ptr<Variable> &_statistics_reporting,
-							 const shared_ptr<Variable> &_error_reporting,
-							 const shared_ptr<Variable> &_xoffset, 
-							 const shared_ptr<Variable> &_yoffset, 
-							 const shared_ptr<Variable> &_width,
-							 const shared_ptr<Variable> &_height,
-							 const shared_ptr<Variable> &_rot,
-							 const shared_ptr<Variable> &_alpha,
-							 const shared_ptr<Variable> &_direction,
-							 const shared_ptr<Variable> &_frequency,
-							 const shared_ptr<Variable> &_speed,
-							 const shared_ptr<Variable> &_starting_phase,
-                             const shared_ptr<mMask> &_mask,
-							 const shared_ptr<mGratingData> &_grating,
-							 const vector<GLuint> mask_textures,
-                             const vector<GLuint> grating_textures,
-                             const MWTime start_time,
-                             const bool cloned=true);
-    
+   
 	DriftingGratingStimulus(const DriftingGratingStimulus &tocopy);
 	~DriftingGratingStimulus();
-	virtual Stimulus * frozenClone() ;
-	//virtual void stop();
 	
-	virtual void draw(StimulusDisplay *display);
+	
+	virtual void draw(shared_ptr<StimulusDisplay> display);
 	virtual Datum getCurrentAnnounceDrawData();
 };
 

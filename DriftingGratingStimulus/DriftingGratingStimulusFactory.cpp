@@ -222,7 +222,7 @@ shared_ptr<mw::Component> DriftingGratingStimulusFactory::createObject(std::map<
 																																grating));
 	
 	
-	new_drifting_grating->load(default_display.get());
+	new_drifting_grating->load(default_display);
 	shared_ptr <StimulusNode> thisStimNode = shared_ptr<StimulusNode>(new StimulusNode(new_drifting_grating));
 	reg->registerStimulusNode(tagname, thisStimNode);
 	

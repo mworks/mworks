@@ -38,21 +38,20 @@ DriftingGratingStimulus::DriftingGratingStimulus(const std::string &_tag,
                                              _error_reporting),
                         Stimulus(_tag)
 {
-	cloned = false;
 	
 	
-	xoffset = _xoffset;
-	yoffset = _yoffset;
-	width = _width;
-	height = _height;
+	xoffset = registerVariable(_xoffset);
+	yoffset = registerVariable(_yoffset);
+	width = registerVariable(_width);
+	height = registerVariable(_height);
 	
-	rotation = _rot;
-	alpha_multiplier = _alpha;
+	rotation = registerVariable(_rot);
+	alpha_multiplier = registerVariable(_alpha);
 	
-	spatial_frequency = _frequency;
-	speed = _speed;
-	starting_phase = _starting_phase;
-	direction_in_degrees = _direction;
+	spatial_frequency = registerVariable(_frequency);
+	speed = registerVariable(_speed);
+	starting_phase = registerVariable(_starting_phase);
+	direction_in_degrees = registerVariable(_direction);
 	
 	mask = _mask;
 	grating = _grating;
@@ -180,141 +179,35 @@ DriftingGratingStimulus::DriftingGratingStimulus(const std::string &_tag,
 	}
 }   
 
-// for frozenClone-ing
-DriftingGratingStimulus::DriftingGratingStimulus(const std::string &_tag, 
-												   const shared_ptr<Scheduler> &a_scheduler,
-												   const shared_ptr<StimulusDisplay> &a_display,
-												   const shared_ptr<Variable> &_frames_per_second,
-												   const shared_ptr<Variable> &_statistics_reporting,
-												   const shared_ptr<Variable> &_error_reporting,
-												   const shared_ptr<Variable> &_xoffset, 
-												   const shared_ptr<Variable> &_yoffset, 
-												   const shared_ptr<Variable> &_width,
-												   const shared_ptr<Variable> &_height,
-												   const shared_ptr<Variable> &_rot,
-												   const shared_ptr<Variable> &_alpha,
-												   const shared_ptr<Variable> &_direction,
-												   const shared_ptr<Variable> &_frequency,
-												   const shared_ptr<Variable> &_speed,
-												   const shared_ptr<Variable> &_starting_phase,
-												   const shared_ptr<mMask> &_mask,
-                                                   const shared_ptr<mGratingData> &_grating,
-                                                   const vector<GLuint> _mask_textures,
-                                                   const vector<GLuint> _grating_textures,
-                                                   const MWTime _start_time,
-                                                   bool _cloned) : 
-
-                                    DynamicStimulusDriver (a_scheduler,
-                                                           a_display,
-                                                           _frames_per_second,
-                                                           _statistics_reporting,
-                                                           _error_reporting),
-
-                                    Stimulus(_tag)
-{
-	
-	start_time = _start_time;	
-    cloned = _cloned;
-	
-	xoffset = _xoffset;
-	yoffset = _yoffset;
-	width = _width;
-	height = _height;
-	
-	rotation = _rot;
-	alpha_multiplier = _alpha;
-	
-	spatial_frequency = _frequency;
-	speed = _speed;
-	starting_phase = _starting_phase;
-	direction_in_degrees = _direction;
-	
-	
-    mask_textures = _mask_textures;
-    grating_textures = _grating_textures;
-    
-    mask = _mask;
-	grating = _grating;
-	
-	//mask_textures = new GLuint[display->getNContexts()];
-	//grating_textures = new GLuint[display->getNContexts()];
-	
-	//glGenTextures(display->getNContexts(), mask_textures);
-	//glGenTextures(display->getNContexts(), grating_textures);
-	
-
-}   
 
 DriftingGratingStimulus::~DriftingGratingStimulus(){
     stop();
     
     
-    if(!cloned){
-        GLuint *mask_textures_tmp = new GLuint[mask_textures.size()];
-        GLuint *grating_textures_tmp = new GLuint[grating_textures.size()];
-        
-        for(int i = 0; i < mask_textures.size(); i++){
-            mask_textures_tmp[i] = mask_textures[i];
-        }
-
-        for(int i = 0; i < grating_textures.size(); i++){
-            grating_textures_tmp[i] = grating_textures[i];
-        }
-        
-        glDeleteTextures(display->getNContexts(), mask_textures_tmp);
-        glDeleteTextures(display->getNContexts(), grating_textures_tmp);
     
-	
-        delete [] mask_textures_tmp;
-        delete [] grating_textures_tmp;
-
+    GLuint *mask_textures_tmp = new GLuint[mask_textures.size()];
+    GLuint *grating_textures_tmp = new GLuint[grating_textures.size()];
+    
+    for(int i = 0; i < mask_textures.size(); i++){
+        mask_textures_tmp[i] = mask_textures[i];
     }
-}
 
-Stimulus * DriftingGratingStimulus::frozenClone() {
-	shared_ptr<Variable> frames_per_second_clone(frames_per_second->frozenClone());
-	shared_ptr<Variable> x_offset_clone(xoffset->frozenClone());
-	shared_ptr<Variable> y_offset_clone(yoffset->frozenClone());
-	shared_ptr<Variable> width_clone(width->frozenClone());
-	shared_ptr<Variable> height_clone(height->frozenClone());
-	shared_ptr<Variable> rotation_clone(rotation->frozenClone());
-	shared_ptr<Variable> alpha_clone(alpha_multiplier->frozenClone());
-	shared_ptr<Variable> direction_clone(direction_in_degrees->frozenClone());
-	shared_ptr<Variable> frequency_clone(spatial_frequency->frozenClone());
-	shared_ptr<Variable> speed_clone(speed->frozenClone());
-	shared_ptr<Variable> starting_phase_clone(starting_phase->frozenClone());
-	
-	Stimulus *cloned_stimulus = new DriftingGratingStimulus(tag,
-															  scheduler,
-															  display,
-															  frames_per_second_clone,
-															  statistics_reporting,
-															  error_reporting,
-															  x_offset_clone,
-															  y_offset_clone,
-															  width_clone,
-															  height_clone,
-															  rotation_clone,
-															  alpha_clone,
-															  direction_clone,
-															  frequency_clone,
-															  speed_clone,
-															  starting_phase_clone,
-                                                              mask,
-                                                              grating,
-															  mask_textures,
-                                                              grating_textures,
-                                                              start_time,
-                                                              true);
-                                                             //mask,
-															  //grating);
-	
-    return cloned_stimulus;
+    for(int i = 0; i < grating_textures.size(); i++){
+        grating_textures_tmp[i] = grating_textures[i];
+    }
+    
+    glDeleteTextures(display->getNContexts(), mask_textures_tmp);
+    glDeleteTextures(display->getNContexts(), grating_textures_tmp);
+
+
+    delete [] mask_textures_tmp;
+    delete [] grating_textures_tmp;
+
 }
 
 
 
-void DriftingGratingStimulus::draw(StimulusDisplay * display) {
+void DriftingGratingStimulus::draw(shared_ptr<StimulusDisplay> display) {
     
 	glPushMatrix();	
 	glTranslatef(xoffset->getValue().getFloat(), yoffset->getValue().getFloat(), 0);
