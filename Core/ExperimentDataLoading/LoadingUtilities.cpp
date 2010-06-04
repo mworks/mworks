@@ -4,9 +4,8 @@
  * Copyright (c) 2004 MIT. All rights reserved.
  */
 
-// Platform dependence TODO
-#include "OpenGLContextManager.h"
 
+#include "OpenGLContextManager.h"
 #include "Event.h"
 #include "LoadingUtilities.h"
 #include "Experiment.h"
@@ -313,18 +312,18 @@ namespace mw {
 				display_to_use = 1;						   			
 			}
 			
-			new_context = opengl_context_manager->newFullscreenContext(32,display_to_use);
+			new_context = opengl_context_manager->newFullscreenContext(display_to_use);
 			stimdisplay->addContext(new_context);
 			
 			if(always_display_mirror_window){
-				int auxilliary_context = opengl_context_manager->newMirrorContext(32); 
+				int auxilliary_context = opengl_context_manager->newMirrorContext(false); // don't sync to VBL
 				stimdisplay->addContext(auxilliary_context);
 			}
 			
 			opengl_context_manager->setMainDisplayIndex(display_to_use);
 		} else {
 			opengl_context_manager->setMainDisplayIndex(0);
-			new_context = opengl_context_manager->newMirrorContext(32);
+			new_context = opengl_context_manager->newMirrorContext(true); // sync to VBL to simulate full display
 			stimdisplay->addContext(new_context);		
 		}
 		

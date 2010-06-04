@@ -219,26 +219,26 @@ Stimulus::~Stimulus() {
 	
 }
 
-void Stimulus::load(StimulusDisplay *display) { }
+void Stimulus::load(shared_ptr<StimulusDisplay> display) { }
 
 void Stimulus::setVisible(bool newvis) {
     visible = newvis;
 }
 
-void Stimulus::drawInUnitSquare(StimulusDisplay *display) { 
+void Stimulus::drawInUnitSquare(shared_ptr<StimulusDisplay> display) { 
     merror(M_DISPLAY_MESSAGE_DOMAIN, "Attempt to draw an undefined stimulus");
 
 }
             
-void Stimulus::draw(StimulusDisplay *display) {
+void Stimulus::draw(shared_ptr<StimulusDisplay> display) {
     draw(display, 0,0,1.0, 1.0);
 }
             
-void Stimulus::draw(StimulusDisplay *display, float x, float y) {
+void Stimulus::draw(shared_ptr<StimulusDisplay> display, float x, float y) {
     draw(display, x,y,1.0, 1.0);
 }
             
-void Stimulus::draw(StimulusDisplay *display, float x, float y, 
+void Stimulus::draw(shared_ptr<StimulusDisplay> display, float x, float y, 
                                                 float sizex, float sizey) {
     glPushMatrix();
     glTranslatef(x-.5, y-.5,0);
@@ -251,12 +251,12 @@ void Stimulus::draw(StimulusDisplay *display, float x, float y,
             
 void Stimulus::precache(){ }
 
-void Stimulus::drawThumbnail(StimulusDisplay *display, float x, 
+void Stimulus::drawThumbnail(shared_ptr<StimulusDisplay> display, float x, 
                                         float y, float sizex, float sizey) {
     draw(display, x,y,sizex,sizey);
 }
 
-void Stimulus::drawThumbnail(StimulusDisplay *display, float x, float y) {
+void Stimulus::drawThumbnail(shared_ptr<StimulusDisplay> display, float x, float y) {
     draw(display, x,y,1.0,1.0);
 }
 

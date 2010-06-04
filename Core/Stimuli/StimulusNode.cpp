@@ -76,7 +76,7 @@ bool StimulusNode::isVisible() {
 }
 
 void StimulusNode::load(shared_ptr<StimulusDisplay> display){
-  stim->load(display.get());
+  stim->load(display);
 }
 
 bool StimulusNode::isLoaded(){
@@ -87,7 +87,7 @@ int StimulusNode::getDeferred(){
   return stim->getDeferred(); 
 }
 
-void StimulusNode::draw(StimulusDisplay *stimulus_display) {
+void StimulusNode::draw(shared_ptr<StimulusDisplay> stimulus_display) {
 	// TODO: error check
 	stim->draw(stimulus_display);
     //live_stim->draw(stimulus_display);
@@ -281,7 +281,7 @@ int StimulusGroupReferenceNode::getDeferred(){
 }
 
 // Passthrough to the referenced node
-void StimulusGroupReferenceNode::draw(StimulusDisplay * display){
+void StimulusGroupReferenceNode::draw(shared_ptr<StimulusDisplay>  display){
     
     throw SimpleException("Illegal attempt to draw a StimulusGroupReference Stimulus Node.");
     

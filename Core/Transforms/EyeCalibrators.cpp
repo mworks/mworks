@@ -219,7 +219,7 @@ shared_ptr<mw::Component> FixationPointFactory::createObject(std::map<std::strin
 	
 	
 	
-	newFixationPoint->load(defaultDisplay.get());
+	newFixationPoint->load(defaultDisplay);
 	shared_ptr <StimulusNode> thisStimNode = shared_ptr<StimulusNode>(new StimulusNode(newFixationPoint));
 	reg->registerStimulusNode(tagname, thisStimNode);
 	

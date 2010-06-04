@@ -8,10 +8,10 @@
  * Copyright 2005 MIT.  All rights reserved.
  */
 
+#include "OpenGLContextManager.h"
 #include "Stimulus.h" 
 #include "StimulusNode.h"
 #include "Utilities.h"
-#include "OpenGLContextManager.h"
 #include "StandardVariables.h"
 #include "Experiment.h"
 #include "StandardVariables.h"
@@ -30,103 +30,25 @@
 using namespace mw;
 
 
-/**********************************************************************
- *                  StimulusDisplayChain Methods
- **********************************************************************/
-StimulusDisplayChain::StimulusDisplayChain(
-										StimulusDisplay* _display) : 
-										LinkedList<StimulusNode>(){
-    stimulus_display = _display;
-}
-        
-StimulusDisplayChain::~StimulusDisplayChain() { }
-		
-        
-        
-void StimulusDisplayChain::execute(bool explicit_update) {
-    
-    shared_ptr<StimulusNode> node = getBackmost(); //tail;
-    
-    
-    while(node != shared_ptr<StimulusNode>()) {
-        
-        if(explicit_update && node->isPending()){
-            
-            // we're taking care of the pending state, so
-            // clear this flag
-            node->clearPending();
-            
-            // on "explicit" updates, we'll convert "pending
-            // visible" stimuli to "visible" ones
-            node->setVisible(node->isPendingVisible());
-            
-            if(node->isPendingRemoval()){
-                node->clearPendingRemoval();
-                node->remove();
-                continue;
-            }
-            
-            
-        }
-                
-        if(node->isVisible()) {
-            node->draw(stimulus_display);
-        }
-        
-        node = node->getPrevious();
-        
-    }
-}
-
-void StimulusDisplayChain::announce(MWTime time) {
-    shared_ptr<StimulusNode> node = getBackmost(); //tail;
-	
-    while(node != shared_ptr< LinkedListNode<StimulusNode> >()) {
-		if(node->isVisible()) {
-            node->announceStimulusDraw(time); 
-		}
-		
-		node = node->getPrevious();
-    }
-	
-}
-
-Datum StimulusDisplayChain::getAnnounceData() {
-    shared_ptr<StimulusNode> node = getBackmost(); //tail;
-	
-    Datum stimAnnounce(M_LIST, 1);
-    while(node != shared_ptr< LinkedListNode<StimulusNode> >()) {
-		if(node->isVisible()) {
-            Datum individualAnnounce(node->getCurrentAnnounceDrawData());
-			if(!individualAnnounce.isUndefined()) {
-				stimAnnounce.addElement(individualAnnounce);
-			}
-		}
-		
-		node = node->getPrevious();
-    }	
-	return stimAnnounce;
-}
-
-
 
 /**********************************************************************
  *                  StimulusDisplay Methods
  **********************************************************************/
 StimulusDisplay::StimulusDisplay() {
-    stimulus_chain = 
-		shared_ptr<StimulusDisplayChain>(
-			new StimulusDisplayChain(this)); // TODO    
+
+    // defer creation of the display chain until after the stimulus display has been created
+    display_stack = shared_ptr< LinkedList<StimulusNode> >(new LinkedList<StimulusNode>());
     
 	setDisplayBounds();
 	update_stim_chain_next_refresh = false;
 
-    //glInit();
-    //GlobalOpenGLContextManager->flush(context_id);
+    opengl_context_manager = OpenGLContextManager::instance();
+    clock = Clock::instance();
+    
 }
 
 StimulusDisplay::~StimulusDisplay(){
-	//delete stimulus_chain;
+	// nothing to do
 }
 
 // TODO: error checking
@@ -134,7 +56,7 @@ void StimulusDisplay::setCurrent(int i){
 	current_context = context_ids[i];
 	current_context_index = i;
     
-    shared_ptr<OpenGLContextManager> opengl_context_manager = OpenGLContextManager::instance();
+    
 	opengl_context_manager->setCurrent(current_context); 
 	
 }
@@ -152,10 +74,9 @@ shared_ptr<StimulusNode> StimulusDisplay::addStimulus(shared_ptr<Stimulus> stim)
         return shared_ptr<StimulusNode>();
     }
 
-    
 	shared_ptr<StimulusNode> stimnode(new StimulusNode(stim));
 	
-    stimulus_chain->addToFront(stimnode);
+    display_stack->addToFront(stimnode);
 	
 	return stimnode;
 }
@@ -165,12 +86,11 @@ void StimulusDisplay::addStimulusNode(shared_ptr<StimulusNode> stimnode) {
         mprintf("Attempt to load NULL stimulus");
         return;
     }
-	
-	
+    
 	// remove it, in case it already belongs to a list
 	stimnode->remove();
 	
-	stimulus_chain->addToFront(stimnode);  // TODO
+	display_stack->addToFront(stimnode);  // TODO
 }
 
 
@@ -233,8 +153,7 @@ void StimulusDisplay::addContext(int _context_id){
 	context_ids.push_back(_context_id);
 	current_context_index = context_ids.size();
 	current_context = _context_id;
-    shared_ptr<OpenGLContextManager> opengl_context_manager = OpenGLContextManager::instance();
-	opengl_context_manager->setCurrent(_context_id);
+    opengl_context_manager->setCurrent(_context_id);
 	glInit();
     glFinish();
     opengl_context_manager->updateAndFlush(_context_id);
@@ -276,8 +195,7 @@ void StimulusDisplay::updateDisplay(bool explicit_update) {
     
 	boost::mutex::scoped_lock lock(display_lock);
 	
-    shared_ptr<OpenGLContextManager> opengl_context_manager = OpenGLContextManager::instance();
-	shared_ptr <Clock> clock = Clock::instance();
+
     int refresh_rate = opengl_context_manager->getDisplayRefreshRate(opengl_context_manager->getMainDisplayIndex());
     if(refresh_rate <= 0){
         refresh_rate = 60;
@@ -310,7 +228,7 @@ void StimulusDisplay::updateDisplay(bool explicit_update) {
         
         // Actually draw all of the stimuli in the chain
 		//MWTime chain_start = clock->getCurrentTimeUS();
-        stimulus_chain->execute(explicit_update);
+        drawDisplayStack(explicit_update);
         //MWTime chain_end = clock->getCurrentTimeUS();
         
 #define USE_GL_FENCE
@@ -344,8 +262,8 @@ void StimulusDisplay::updateDisplay(bool explicit_update) {
             MWTime now = clock->getCurrentTimeUS();
 			
 			
-			stimDisplayUpdate->setValue(stimulus_chain->getAnnounceData(), now);
-			stimulus_chain->announce(now);
+			stimDisplayUpdate->setValue(getAnnounceData(), now);
+			announceDisplayStack(now);
             
 			MWTime slop = 2*(1000000/refresh_rate);
             
@@ -369,7 +287,7 @@ void StimulusDisplay::updateDisplay(bool explicit_update) {
 
 void StimulusDisplay::clearDisplay(){
 
-	shared_ptr<StimulusNode> node = stimulus_chain->getFrontmost();
+	shared_ptr<StimulusNode> node = display_stack->getFrontmost();
 	while(node != shared_ptr<StimulusNode>()){
 		
 		node->setVisible(false);
@@ -402,6 +320,74 @@ void StimulusDisplay::glInit() {
     glClear(GL_COLOR_BUFFER_BIT);
 
 }
+
+
+void StimulusDisplay::drawDisplayStack(bool explicit_update) {
+    
+    shared_ptr<StimulusNode> node = display_stack->getBackmost(); //tail;
+    
+    
+    while(node != shared_ptr<StimulusNode>()) {
+        
+        if(explicit_update && node->isPending()){
+            
+            // we're taking care of the pending state, so
+            // clear this flag
+            node->clearPending();
+            
+            // on "explicit" updates, we'll convert "pending
+            // visible" stimuli to "visible" ones
+            node->setVisible(node->isPendingVisible());
+            
+            if(node->isPendingRemoval()){
+                node->clearPendingRemoval();
+                node->remove();
+                continue;
+            }
+            
+            
+        }
+        
+        if(node->isVisible()) {
+            node->draw(shared_from_this());
+        }
+        
+        node = node->getPrevious();
+        
+    }
+}
+
+void StimulusDisplay::announceDisplayStack(MWTime time) {
+    shared_ptr<StimulusNode> node = display_stack->getBackmost(); //tail;
+	
+    while(node != shared_ptr< LinkedListNode<StimulusNode> >()) {
+		if(node->isVisible()) {
+            node->announceStimulusDraw(time); 
+		}
+		
+		node = node->getPrevious();
+    }
+	
+}
+
+Datum StimulusDisplay::getAnnounceData() {
+    shared_ptr<StimulusNode> node = display_stack->getBackmost(); //tail;
+	
+    Datum stimAnnounce(M_LIST, 1);
+    while(node != shared_ptr< LinkedListNode<StimulusNode> >()) {
+		if(node->isVisible()) {
+            Datum individualAnnounce(node->getCurrentAnnounceDrawData());
+			if(!individualAnnounce.isUndefined()) {
+				stimAnnounce.addElement(individualAnnounce);
+			}
+		}
+		
+		node = node->getPrevious();
+    }	
+	return stimAnnounce;
+}
+
+
 
 
 

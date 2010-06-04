@@ -125,7 +125,7 @@ public:
          * Overload this function.  This is a shell that does nothing.  Used
          * to load a stimulus into memory.
          */
-        virtual void load(StimulusDisplay *display);
+        virtual void load(shared_ptr<StimulusDisplay> display);
         
         /**
          * Sets whether this stimulus is visible.
@@ -137,25 +137,25 @@ public:
          * this specifies how to draw the stimulus in the 
          * interval [(0,1), (0,1)]. 
          */
-        virtual void drawInUnitSquare(StimulusDisplay *display);
+        virtual void drawInUnitSquare(shared_ptr<StimulusDisplay> display);
 
         /**
          * Draws a stimulus in display 'display' at 0,0 with size 1,1.
          * Calls drawInUnitSquare() member function
          */
-        virtual void draw(StimulusDisplay *display);
+        virtual void draw(shared_ptr<StimulusDisplay> display);
 
         /**
          * Draws a stimulus in display 'display' at x,y with size 1,1.
          * Calls drawInUnitSquare() member function
          */
-        virtual void draw(StimulusDisplay *display, float x, float y);
+        virtual void draw(shared_ptr<StimulusDisplay> display, float x, float y);
 
         /**
          * Draws a stimulus in display 'display' at x,y with size sizex,sizey.
          * Calls drawInUnitSquare() member function
          */    
-        virtual void draw(StimulusDisplay *display, float x, float y, 
+        virtual void draw(shared_ptr<StimulusDisplay> display, float x, float y, 
                                                     float sizex, float sizey);
 
         /**
@@ -168,14 +168,14 @@ public:
          * Draws a thumbnail version.  This default version calls the
          * draw() function with the same arguments.
          */
-        virtual void drawThumbnail(StimulusDisplay *display, 
+        virtual void drawThumbnail(shared_ptr<StimulusDisplay> display, 
 														float x, float y);
 
         /**
          * Draws a thumbnail version.  This default version calls the
          * draw() function with the same arguments.
          */
-        virtual void drawThumbnail(StimulusDisplay *display, 
+        virtual void drawThumbnail(shared_ptr<StimulusDisplay> display, 
                                                 float x, float y, 
 												float sizex, float sizey);
 

@@ -46,8 +46,8 @@ class OffsetStimulusContainer : public Stimulus {
         //virtual Stimulus * frozenClone();
         void freeze(bool should_freeze = true);
 		
-		virtual void draw(StimulusDisplay * display, float x, float y);
-		virtual void draw(StimulusDisplay * display, float x, float y, 
+		virtual void draw(shared_ptr<StimulusDisplay>  display, float x, float y);
+		virtual void draw(shared_ptr<StimulusDisplay>  display, float x, float y, 
                                                     float sizex, float sizey);
     private:
         // do not use the assignment operator, it does nothing
@@ -92,11 +92,11 @@ class BasicTransformStimulus : public Stimulus {
         virtual void setScale(shared_ptr<Variable> _xscale, 
 							  shared_ptr<Variable> _yscale);
         virtual void setRotation(shared_ptr<Variable> rot);
-        virtual void draw(StimulusDisplay * display);
-        virtual void draw(StimulusDisplay * display,float x, float y,
+        virtual void draw(shared_ptr<StimulusDisplay>  display);
+        virtual void draw(shared_ptr<StimulusDisplay>  display,float x, float y,
                                                     float sizex, float sizey);
     
-        virtual void drawInUnitSquare(StimulusDisplay *display) = 0;
+        virtual void drawInUnitSquare(shared_ptr<StimulusDisplay> display) = 0;
     
         virtual Datum getCurrentAnnounceDrawData();    
 	
@@ -115,7 +115,7 @@ class OpenGLImageLoader {
 		static Lockable *lock;
 		
         static void initialize();
-        static GLuint load(std::string filename, StimulusDisplay *display,
+        static GLuint load(std::string filename, shared_ptr<StimulusDisplay> display,
                                                    int *width, int *height);
 };
 
@@ -154,8 +154,8 @@ class ImageStimulus : public BasicTransformStimulus {
 		//virtual Stimulus * frozenClone();
 		
         std::string getFilename();
-        virtual void drawInUnitSquare(StimulusDisplay *display);
-        virtual void load(StimulusDisplay *display);
+        virtual void drawInUnitSquare(shared_ptr<StimulusDisplay> display);
+        virtual void load(shared_ptr<StimulusDisplay> display);
         virtual Datum getCurrentAnnounceDrawData();
 };
 
@@ -188,7 +188,7 @@ class PointStimulus : public BasicTransformStimulus {
 		~PointStimulus();
 		//virtual Stimulus * frozenClone();
 		
-        virtual void drawInUnitSquare(StimulusDisplay *display);
+        virtual void drawInUnitSquare(shared_ptr<StimulusDisplay> display);
         virtual Datum getCurrentAnnounceDrawData();
 
 };
@@ -220,10 +220,10 @@ class PointStimulus : public BasicTransformStimulus {
                                         float _xscale=1.0, float _yscale = 1.0,
                                         float _rot = 0.0);
         // set the frame and then go on as normal
-        virtual void draw(StimulusDisplay * display);
+        virtual void draw(shared_ptr<StimulusDisplay>  display);
         // overload this to provide teeth
         virtual void drawInUnitSquare(shared_ptr<StimulusDisplay> display);
-        virtual void draw(StimulusDisplay * display,float x, float y, 
+        virtual void draw(shared_ptr<StimulusDisplay>  display,float x, float y, 
                                                     float sizex, float sizey);
         // start/stop rolling when this is called
         virtual void setVisible(bool vis);
@@ -251,7 +251,7 @@ class CompoundStimulus : public Stimulus {
 						 shared_ptr<Variable> _xloc, 
 						 shared_ptr<Variable> _yloc);
 						 
-        virtual void draw(StimulusDisplay * display, 
+        virtual void draw(shared_ptr<StimulusDisplay>  display, 
 						  float xdeg, float ydeg);
         void makeSubTag();
         virtual void announceStimulusDraw(MWTime now);  // override of base class method
@@ -275,7 +275,7 @@ class BlankScreen : public Stimulus{
 		virtual ~BlankScreen();
 		//virtual Stimulus * frozenClone();
 		
-        virtual void drawInUnitSquare(StimulusDisplay *display);
+        virtual void drawInUnitSquare(shared_ptr<StimulusDisplay> display);
         virtual Datum getCurrentAnnounceDrawData();
 };
 

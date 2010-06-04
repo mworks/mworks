@@ -50,7 +50,7 @@ using namespace mw;
 
 
 
-void StimulusGroupReference::load(StimulusDisplay *display){
+void StimulusGroupReference::load(shared_ptr<StimulusDisplay> display){
     
 	//(stimulus_nodes->getElement((int)(*index)))->load();
 	if(index != NULL){
@@ -67,7 +67,7 @@ void StimulusGroupReference::load(StimulusDisplay *display){
 }
 
 
-void StimulusGroupReference::draw(StimulusDisplay *display, float x, float y){
+void StimulusGroupReference::draw(shared_ptr<StimulusDisplay> display, float x, float y){
     
 	//(stimulus_nodes->getElement((int)(*index)))->draw(display, x, y);
 	if(index != NULL){
@@ -84,7 +84,7 @@ void StimulusGroupReference::draw(StimulusDisplay *display, float x, float y){
 }
 
 
-void StimulusGroupReference::draw(StimulusDisplay *display, float x, float y, 
+void StimulusGroupReference::draw(shared_ptr<StimulusDisplay> display, float x, float y, 
                                             float sizex, float sizey){
     
 	//(stimulus_nodes->getElement((int)(*index)))->draw(display,x,y,sizex,sizey);
@@ -102,7 +102,7 @@ void StimulusGroupReference::draw(StimulusDisplay *display, float x, float y,
 }
 
 
-void StimulusGroupReference::draw(StimulusDisplay *display){
+void StimulusGroupReference::draw(shared_ptr<StimulusDisplay> display){
 	
 	//(stimulus_nodes->getElement((int)(*index)))->draw(display);
 	if(index != NULL){
@@ -230,7 +230,7 @@ void CompoundStimulus::makeSubTag() {
     
 }
 
-void CompoundStimulus::draw(StimulusDisplay * display, 
+void CompoundStimulus::draw(shared_ptr<StimulusDisplay>  display, 
 							 float xdeg, float ydeg) {
     for(int i = 0; i < stimList->getNElements(); i++) {
         (stimList->getElement(i))->draw(display, xdeg, ydeg);
@@ -293,10 +293,10 @@ void OffsetStimulusContainer::freeze(bool should_freeze){
 //	return clone;
 //}
 
-void OffsetStimulusContainer::draw(StimulusDisplay * display,
+void OffsetStimulusContainer::draw(shared_ptr<StimulusDisplay>  display,
                                                         float x, float y){ }
 
-void OffsetStimulusContainer::draw(StimulusDisplay * display, float x, 
+void OffsetStimulusContainer::draw(shared_ptr<StimulusDisplay>  display, float x, 
                                         float y, float sizex, float sizey) {
     if(stim == NULL) {
         mwarning(M_DISPLAY_MESSAGE_DOMAIN,
@@ -378,11 +378,11 @@ void BasicTransformStimulus::setRotation(shared_ptr<Variable> rot) {
     rotation = rot;
 }
                 
-void BasicTransformStimulus::draw(StimulusDisplay * display) {
+void BasicTransformStimulus::draw(shared_ptr<StimulusDisplay>  display) {
     draw(display, *xoffset, *yoffset, *xscale, *yscale);
 }
                 
-void BasicTransformStimulus::draw(StimulusDisplay * display,float x, float y, 
+void BasicTransformStimulus::draw(shared_ptr<StimulusDisplay>  display,float x, float y, 
                                                     float sizex, float sizey) {
     
     float rot = (float)(*rotation);
@@ -467,7 +467,7 @@ BlankScreen::~BlankScreen(){ }
 
 
     
-void BlankScreen::drawInUnitSquare(StimulusDisplay *display) {
+void BlankScreen::drawInUnitSquare(shared_ptr<StimulusDisplay> display) {
     
     float _r = (float)*r;
     float _g = (float)*g;
@@ -542,7 +542,7 @@ shared_ptr<mw::Component> BlankScreenFactory::createObject(std::map<std::string,
 	
 	
 	
-	newBlankScreen->load(defaultDisplay.get());
+	newBlankScreen->load(defaultDisplay);
 	shared_ptr <StimulusNode> thisStimNode = shared_ptr<StimulusNode>(new StimulusNode(newBlankScreen));
 	reg->registerStimulusNode(tagname, thisStimNode);
 	
@@ -567,7 +567,7 @@ void OpenGLImageLoader::initialize(){
     OpenGLImageLoader::initialized = true;   
 }
 
-GLuint OpenGLImageLoader::load(std::string filename, StimulusDisplay *display,
+GLuint OpenGLImageLoader::load(std::string filename, shared_ptr<StimulusDisplay> display,
                                                     int *width, int *height) {
     
 	
@@ -1004,7 +1004,7 @@ std::string ImageStimulus::getFilename() {
         return filename;
 }
        
-void ImageStimulus::load(StimulusDisplay *display) {
+void ImageStimulus::load(shared_ptr<StimulusDisplay> display) {
     if(loaded){
 		return;
 	}
@@ -1037,7 +1037,7 @@ void ImageStimulus::load(StimulusDisplay *display) {
     }*/
 }
 
-void ImageStimulus::drawInUnitSquare(StimulusDisplay *display) {
+void ImageStimulus::drawInUnitSquare(shared_ptr<StimulusDisplay> display) {
     double aspect = (double)width / (double)height;
     if(1 || loaded) {
         
@@ -1197,7 +1197,7 @@ shared_ptr<mw::Component> ImageStimulusFactory::createObject(std::map<std::strin
   
   // TODO: deferred load?
   if(deferred != Stimulus::deferred_load && deferred != Stimulus::explicit_load){
-    newImageStimulus->load(defaultDisplay.get());
+    newImageStimulus->load(defaultDisplay);
   }
   
 	shared_ptr <StimulusNode> thisStimNode = shared_ptr<StimulusNode>(new StimulusNode(newImageStimulus));
@@ -1257,7 +1257,7 @@ PointStimulus::~PointStimulus(){ }
 //}
 
 
-void PointStimulus::drawInUnitSquare(StimulusDisplay *display) {
+void PointStimulus::drawInUnitSquare(shared_ptr<StimulusDisplay> display) {
     
      // draw point at desired location with desired color
      // fill a (0,0) (1,1) box with the right color
@@ -1351,7 +1351,7 @@ FreeRunningMovieStimulus::FreeRunningMovieStimulus(char *_tag, long _nframes,
 
 void FreeRunningMovieStimulus::setCurrentFrame() { };
         
-void FreeRunningMovieStimulus::draw(StimulusDisplay *display) {
+void FreeRunningMovieStimulus::draw(shared_ptr<StimulusDisplay> display) {
     if(!running && GlobalCurrentExperiment->getInt(state_system_mode) != IDLE) {
         if(display) {
             if(0 && nframes) {
@@ -1399,12 +1399,12 @@ void FreeRunningMovieStimulus::draw(StimulusDisplay *display) {
     draw(display, *xoffset, *yoffset, *xscale, *yscale);
 }
         
-void FreeRunningMovieStimulus::draw(StimulusDisplay *display,float x, 
+void FreeRunningMovieStimulus::draw(shared_ptr<StimulusDisplay> display,float x, 
                                         float y, float sizex, float sizey) {
     BasicTransformStimulus::draw(display,x,y,sizex,sizey);
 }
         
-void FreeRunningMovieStimulus::drawInUnitSquare(StimulusDisplay *display) { }
+void FreeRunningMovieStimulus::drawInUnitSquare(shared_ptr<StimulusDisplay> display) { }
 
 void FreeRunningMovieStimulus::setVisible(bool vis) {
     BasicTransformStimulus::setVisible(vis);

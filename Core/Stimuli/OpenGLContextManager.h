@@ -7,12 +7,10 @@
 
 #ifndef OPENGL_CONTEXT_MANAGER__
 #define OPENGL_CONTEXT_MANAGER__
+
 #include "glew.h"
-
 #include "RegisteredSingleton.h"
-
 #include "Stimulus.h"
-
 #include <Cocoa/Cocoa.h>
 
 
@@ -27,7 +25,7 @@
 
 // USE_COCOA_OPENGL
 namespace mw {
-	// A bastard class to manage Cocoa OpenGL contexts
+	// A class to manage Cocoa OpenGL contexts
 	class OpenGLContextManager : public Component{
 		
     protected:
@@ -73,10 +71,10 @@ namespace mw {
         
         // Create a "mirror" window (smaller, movable window that displays whatever
         // is on the "main" display) and return its context index
-        int newMirrorContext(int pixelDepth);
+        int newMirrorContext(bool sync_to_vbl);
                 
         // Create a fullscreen context on a particular display
-		int newFullscreenContext(int pixelDepth, int index);
+		int newFullscreenContext(int index);
         
         // "Let go" of captured fullscreen contexts
 		void releaseDisplays();

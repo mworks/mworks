@@ -10,26 +10,26 @@
 #ifndef STIMULUS_DISPLAY_H_
 #define STIMULUS_DISPLAY_H_
 
-#ifdef	__APPLE__
 #include <OpenGL/gl.h>
 #include <OpenGL/glu.h>
-#elif	linux
-// TODO: where are these under linux?
-#endif
 
+
+#include "Clock.h"
 #include "LinkedList.h"
-#include "ExpandableList.h"
 #include <vector>
 #include "boost/enable_shared_from_this.hpp"
 
 #include <boost/shared_ptr.hpp>
+#include <boost/weak_ptr.hpp>
+
 namespace mw {
 	using namespace boost;
 	
-	
+	// forward declarations
 	class Stimulus;
 	class StimulusNode;
 	class StimulusDisplay;
+    class OpenGLContextManager;
 	
 	/**
 	 * StimulusDisplay represents a single abstracted stimulus display.
@@ -51,55 +51,17 @@ namespace mw {
 	 * losing perfect portability, for performance's sake.  Right now, context
 	 * changes and flushes go through the ContextManager, which involves several
 	 * function calls and pointer dereferences.
-	 
-	 * The display chain is a simple mechanisms for allowing OpenGL calls to 
-	 * be bundled up into Stimulus and StimulusTransformation objects while 
-	 * still allowing for some control over what order everything is drawn in.
-	 * This helps when we're drawing stuff into a 2D plane and we don't
-	 * necessarily want to worry about depth and stencil buffers.
-	 *
-	 * Programmatically, the display chain is a linked list.  Items are by 
-	 * default added to the head (draw in front), but send (to) back/front 
-	 * functions are also provided.  Elements can be removed from the list
-	 * or simply inactivated as necessary.  Background optimization of OpenGL 
-	 * calls into display lists can occur with or without the users knowledge.
-	 * Grouped stimuli should be automatically optimized.  Mechanisms for 
-	 * dynamically monitoring groupings of stimuli and determining efficient 
-	 * displaylist optimization is also possible.  In particular, as long as the
-	 * display chain has unchanging membership (but members are turned on
-	 * and off), it is possible to compile all possible combinations of frames
-	 * and then set up a finite state machine to determine which compiled frame 
-	 * to show at any given moment.  Transitions in the FSM are determined by 
-	 * the activate/inactive calls in the chain.
-	 *
-	 * NOTE: StimulusNode objects CANNOT be added to ExpandableList objects
-	 * because the copy constructor is declared private to prevent such  action.
 	 */
-	class StimulusDisplayChain : public LinkedList<StimulusNode> {
-    protected:
 		
-		StimulusDisplay *stimulus_display;
-		
-    public:
-		StimulusDisplayChain(StimulusDisplay *display);
-        virtual ~StimulusDisplayChain();
-		
-        void execute(bool explicit_update);
-		void announce(MWTime time);
-	 Datum getAnnounceData();
-		
-    private:
-        StimulusDisplayChain(const StimulusDisplayChain& s) { }
-        void operator=(const StimulusDisplayChain& l) { }
-	};
-	
-	
+  
 	
 	class StimulusDisplay : public enable_shared_from_this<StimulusDisplay> {
     protected:
         std::vector<int> context_ids;
-		shared_ptr<StimulusDisplayChain> stimulus_chain;
-		
+		shared_ptr< LinkedList<StimulusNode> > display_stack;
+        
+        shared_ptr<Clock> clock;
+        shared_ptr<OpenGLContextManager> opengl_context_manager;
 		GLuint current_context;
 		int current_context_index;
 		
@@ -131,6 +93,11 @@ namespace mw {
 		void updateDisplay(bool explicit_update=true);
 		void clearDisplay();
 		void setDisplayBounds();
+        
+        void drawDisplayStack(bool explicit_update);
+		void announceDisplayStack(MWTime time);
+        Datum getAnnounceData();
+		
 		
 	private:
         StimulusDisplay(const StimulusDisplay& s) { }

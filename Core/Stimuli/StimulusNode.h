@@ -14,6 +14,7 @@
 #include <boost/enable_shared_from_this.hpp>
 #include "Stimulus.h"
 #include "StimulusDisplay.h"
+#include "ExpandableList.h"
 
 #include "GenericVariable.h"
 #include "Component.h"
@@ -103,7 +104,7 @@ namespace mw {
         virtual void thaw();
 		virtual bool isFrozen();
 		
-		virtual void draw(StimulusDisplay* display);
+		virtual void draw(shared_ptr<StimulusDisplay> display);
                 
 		virtual void announceStimulusDraw(MWTime time);
 		virtual Datum getCurrentAnnounceDrawData();
@@ -183,7 +184,7 @@ class StimulusGroupReferenceNode : public StimulusNode {
         virtual void thaw();
 		virtual bool isFrozen();
 		
-        virtual void draw(StimulusDisplay * display);
+        virtual void draw(shared_ptr<StimulusDisplay>  display);
         virtual void announceStimulusDraw(MWTime time);  // JJD add
 		virtual Datum getCurrentAnnounceDrawData();
 		
