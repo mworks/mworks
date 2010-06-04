@@ -12,8 +12,6 @@
     <message type="whole_message">ERROR: Attempt to access illegal index (2) in stimulus group (nelements = 2)</message>
     <message type="whole_message">ERROR: Attempt to access illegal index (2) in stimulus group (nelements = 2)</message>
     <message type="whole_message">ERROR: Attempt to access illegal index (2) in stimulus group (nelements = 2)</message>
-    <message type="whole_message">ERROR: Attempt to access illegal index (2) in stimulus group (nelements = 2)</message>
-    <message type="whole_message">ERROR: Attempt to access illegal index (2) in stimulus group (nelements = 2)</message>
   </expected_messages>
   <expected_events>
     <event variable="#state_system_mode">
