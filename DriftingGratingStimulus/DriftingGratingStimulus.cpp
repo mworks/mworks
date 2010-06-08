@@ -9,7 +9,6 @@
 
 #include "DriftingGratingStimulus.h"
 #include "DriftingGratingConstants.h"
-#include <MWorksCore/Clock.h>
 using namespace mw;
 
 DriftingGratingStimulus::DriftingGratingStimulus(const std::string &_tag, 
@@ -283,9 +282,7 @@ void DriftingGratingStimulus::draw(shared_ptr<StimulusDisplay> display) {
     
 	glBegin(GL_QUADS);
 
-        shared_ptr<Clock> clock = Clock::instance(true);  
-        MWTime now = clock->getCurrentTimeUS();
-		MWTime elapsed_time = (now - start_time);
+		MWTime elapsed_time = getElapsedTime();
 		
 		// here's the description of this equation
 		// starting_phase is in degrees ->  degrees*pi/180 = radians
