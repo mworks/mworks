@@ -21,7 +21,7 @@ protected:
 	
 public:
 	
-	PlayDynamicStimulus(shared_ptr<DynamicStimulusDriver> &the_dynamic_stimulus);
+	PlayDynamicStimulus(shared_ptr<DynamicStimulusDriver> the_dynamic_stimulus);
 	virtual bool execute();
 };
 

@@ -9,7 +9,7 @@
 
 #include "PlayDynamicStimulus.h"
 
-PlayDynamicStimulus::PlayDynamicStimulus(shared_ptr<DynamicStimulusDriver> &the_dynamic_stimulus) : Action() 
+PlayDynamicStimulus::PlayDynamicStimulus(shared_ptr<DynamicStimulusDriver> the_dynamic_stimulus) : Action() 
 {
 	setName("PlayDynamicStimulus");
 	dynamic_stimulus=the_dynamic_stimulus;

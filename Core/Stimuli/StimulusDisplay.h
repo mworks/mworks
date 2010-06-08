@@ -89,7 +89,6 @@ namespace mw {
         shared_ptr<StimulusNode> addStimulus(shared_ptr<Stimulus> stim);
 		void addStimulusNode(shared_ptr<StimulusNode> stimnode);
 		
-		void asynchronousUpdateDisplay(); // should not be called externally
 		void updateDisplay(bool explicit_update=true);
 		void clearDisplay();
 		void setDisplayBounds();

@@ -26,7 +26,6 @@ DynamicStimulusDriver::DynamicStimulusDriver(const boost::shared_ptr<Scheduler> 
 	statistics_reporting = _statistics_reporting;
 	error_reporting = _error_reporting;
 	
-    schedule_node == shared_ptr<ScheduleTask>();
 	started = false;
     
                                                                                               
@@ -52,11 +51,12 @@ DynamicStimulusDriver::~DynamicStimulusDriver(){
 void DynamicStimulusDriver::play() {
 	boost::mutex::scoped_lock locker(stim_lock);
 	
-    mprintf("CALLED PLAY!");
-    shared_ptr<Clock> clock = Clock::instance(false);
-    start_time = clock->getCurrentTimeUS();
+    //mprintf("CALLED PLAY!");
     
 	if (!started) {
+        shared_ptr<Clock> clock = Clock::instance(false);
+        start_time = clock->getCurrentTimeUS();
+
 		//const float frames_per_us = frames_per_second->getValue().getFloat()/1000000;
 		interval_us = (MWorksTime)((double)1000000 / frames_per_second->getValue().getFloat());
         
@@ -74,8 +74,8 @@ void DynamicStimulusDriver::play() {
 											  M_REPEAT_INDEFINITELY, 
 											  boost::bind(nextUpdate, this_one),
 											  M_DEFAULT_PRIORITY,
-											  10000000*M_DEFAULT_WARN_SLOP_US,
-											  10000000*M_DEFAULT_FAIL_SLOP_US,
+											  M_DEFAULT_WARN_SLOP_US,
+											  M_DEFAULT_FAIL_SLOP_US,
 											  M_MISSED_EXECUTION_DROP);	
 	}	
 }
@@ -83,8 +83,8 @@ void DynamicStimulusDriver::play() {
 void DynamicStimulusDriver::stop() {
 	boost::mutex::scoped_lock locker(stim_lock);
 	
-    mprintf("CALLED STOP!");
-	// just drew the final frame
+    //mprintf("CALLED STOP!");
+
 	started = false;
 	
 	// cancel any existing updates
@@ -94,9 +94,6 @@ void DynamicStimulusDriver::stop() {
 }
 
 void DynamicStimulusDriver::callUpdateDisplay() {
-	// DDC: this is crazy bad
-    //display->asynchronousUpdateDisplay();
-    
     bool still_going = false;
     
     {
@@ -105,8 +102,6 @@ void DynamicStimulusDriver::callUpdateDisplay() {
     }
     
     if(still_going){
-        // this is thread-safe already (and doesn't spawn a new
-        // thread every time!)
         display->updateDisplay(false);
     }
 }

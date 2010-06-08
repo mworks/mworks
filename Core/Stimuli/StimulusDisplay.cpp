@@ -167,30 +167,6 @@ int StimulusDisplay::getCurrentContextIndex(){
 	return current_context_index;
 }
 
-void *performAsynchronousUpdateDisplay(const shared_ptr<StimulusDisplay> &sd){
-	sd->updateDisplay();
-	return 0;
-}
-
-
-// DDC: this needs to be handled very carefully, if at all 
-// This appears to have been added to support dynamic stimuli, but this implies that we are spawning something
-// like 60 threads per second.  Which is bad.
-void StimulusDisplay::asynchronousUpdateDisplay() {
-	boost::mutex::scoped_lock d_lock(display_lock);
-	if(!update_stim_chain_next_refresh) {
-		update_stim_chain_next_refresh = true;
-		
-		shared_ptr<Scheduler> scheduler = Scheduler::instance();
-		
-		shared_ptr<StimulusDisplay> this_one = shared_from_this();
-		scheduler->fork(boost::bind(performAsynchronousUpdateDisplay,
-									this_one),
-						M_DEFAULT_STIMULUS_PRIORITY);
-	}
-}
-
-
 void StimulusDisplay::updateDisplay(bool explicit_update) {
     
 	boost::mutex::scoped_lock lock(display_lock);

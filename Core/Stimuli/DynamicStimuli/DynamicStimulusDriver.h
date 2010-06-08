@@ -30,8 +30,6 @@ protected:
 	boost::shared_ptr<Variable> error_reporting;
 	
     shared_ptr<VariableCallbackNotification> state_system_callback;
-    
-	std::vector<boost::shared_ptr<std::vector<MWorksTime> > > times_shown;
 	
 	bool started;
 	MWTime start_time;
