@@ -27,20 +27,28 @@ end tell
 EOF
 then
     echo "User declined backup of existing MWorks installation"
-    exit 0
-fi
-
-"${uninstall_mworks}" --backup || exit
-
-/usr/bin/osascript > /dev/null 2>&1 <<EOF
+else
+    "${uninstall_mworks}" --backup || exit
+    /usr/bin/osascript > /dev/null 2>&1 <<EOF
 tell application "System Events"
     activate
     display dialog \
-      "Previous installation backed up to \"Desktop/MWorks Backup\"" \
+      "Previous installation backed up to Desktop" \
       buttons {"OK"} \
       default button "OK" \
       with title "Backup Complete" \
       giving up after 10
+end tell
+EOF
+fi
+
+/usr/bin/osascript > /dev/null 2>&1 <<EOF
+tell application "System Events"
+    activate
+    set frontmostApp to name of first process whose frontmost is true
+end tell
+tell application frontmostApp
+   activate
 end tell
 EOF
 
