@@ -730,6 +730,25 @@
 		</code>
 	</MWElement>
 
+	<MWElement name="Assert">
+		<!-- XPath 2.0 expression defining nodes of this type -->
+		<match_signature>action[@type='assert']</match_signature>
+		
+		<!-- Inheritance -->
+		<isa>Action</isa>
+		
+		<!-- Information for display in the GUI -->
+		<description>
+			Test a boolean condition.  If it evaluates to false,
+			report an error with the specified message. 
+		</description>
+		
+		<!-- Payload -->
+		<code>
+			<action type="assert" tag="Assert" condition="" message=""/>
+		</code>
+	</MWElement>
+
 	<MWElement name="Schedule Actions">
 		<!-- XPath 2.0 expression defining nodes of this type -->
 		<match_signature>action[@type='schedule']</match_signature>
@@ -1221,6 +1240,32 @@
 										calibrator=""/>
 		</code>
 	</MWElement>	
+
+	<MWElement name="Play Dynamic Stimulus">
+		<match_signature>action[@type='play_dynamic_stimulus']</match_signature>
+		<isa>Action</isa>
+		
+		<description>
+			Start playing a dynamic stimulus
+        </description>
+		
+		<code>
+			<action tag="Play dynamic stimulus" stimulus="" type="play_dynamic_stimulus"/>
+        </code>
+    </MWElement>
+	
+	<MWElement name="Stop Dynamic Stimulus">
+		<match_signature>action[@type='stop_dynamic_stimulus']</match_signature>
+		<isa>Action</isa>
+		
+		<description>
+			Stop a dynamic stimulus
+        </description>
+		
+		<code>
+			<action tag="Stop dynamic stimulus" stimulus="" type="stop_dynamic_stimulus"/>
+        </code>
+    </MWElement>
 
 
 	<!-- ****************** -->

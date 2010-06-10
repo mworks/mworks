@@ -37,7 +37,6 @@
 		5C23DB4F0D99BBFF0044AC9E /* MWBreadcrumbController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C23DB4E0D99BBFF0044AC9E /* MWBreadcrumbController.m */; };
 		5C42B3250E58A425000BD45F /* MWExperimentGraphController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C42B3240E58A425000BD45F /* MWExperimentGraphController.m */; };
 		5C42B3830E58A61E000BD45F /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C42B3820E58A61E000BD45F /* Quartz.framework */; };
-		5C56F442100EB76E007E03A9 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5C56F441100EB76E007E03A9 /* Info.plist */; };
 		5C56F6F31010BDA0007E03A9 /* ReportInspectorView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5C56F6F21010BDA0007E03A9 /* ReportInspectorView.xib */; };
 		5C58B0F40E7B023A00561EED /* MWPreferencePanelController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C58B0F30E7B023A00561EED /* MWPreferencePanelController.m */; };
 		5C9186B90E3636B600B64213 /* BiasMonitorInspectorView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5C9186B80E3636B600B64213 /* BiasMonitorInspectorView.xib */; };
@@ -779,7 +778,6 @@
 				5C992CE20E78A9950093A8FF /* WaitInspectorView.xib in Resources */,
 				5C992DB60E78BFB20093A8FF /* greenmonkey.icns in Resources */,
 				0EC2F5150EE9B248008BD196 /* MWLibraryCombiner.xsl in Resources */,
-				5C56F442100EB76E007E03A9 /* Info.plist in Resources */,
 				5C56F6F31010BDA0007E03A9 /* ReportInspectorView.xib in Resources */,
 				5CF17BB310FFA9A800B7EF53 /* LoadStimulusInspectorView.xib in Resources */,
 			);
