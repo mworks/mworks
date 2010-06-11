@@ -1,12 +1,15 @@
+XCCONFIG_PATH = /Library/Application\ Support/MWorks/Developer/Xcode
+XCCONFIG_NAME = Development
+include $(XCCONFIG_PATH)/$(XCCONFIG_NAME).xcconfig
+
 SHELL = /bin/bash
 
-REAL_MW_HOME = "/Library/Application Support/MWorks"
 MW_HOME = MWorks
 MW_DEVELOPER = $(MW_HOME)/Developer
 INSTALL_DIR = $(MW_HOME)/Scripting/Matlab
 MATLABHOME = /Applications/MATLAB
 MEX        = $(MATLABHOME)/bin/mex
-CXX        = /usr/bin/g++-4.2
+CXX        = /usr/bin/g++-$(GCC_VERSION)
 CFLAGS     = -arch i386 -arch x86_64 -fno-common -no-cpp-precomp -fexceptions
 LIBS      = -L$(MW_DEVELOPER)/lib -lscarab -ldfindex -lMWorksStreamUtilities -lboost_serialization-mw -lboost_system-mw -lboost_filesystem-mw
 INCLUDE   = -I$(MATLABHOME)/extern/include -I$(MW_DEVELOPER)/include
@@ -30,7 +33,7 @@ $(OBJS): %.o: %.cpp $(MW_HOME)
 	$(CXX) $(CFLAGS) $(INCLUDE) -c $<
 
 $(MW_HOME):
-	ln -fs $(REAL_MW_HOME) $(MW_HOME)
+	ln -fs "$(APP_SUPPORT_DIR)" $(MW_HOME)
 
 clean:
 	rm -f $(EXES) $(OBJS) $(MW_HOME)
