@@ -22,7 +22,7 @@ namespace mw {
         // destructor.)  This method is invoked when an experiment is first loaded and, in fact, is responsible
         // for calling the IODevice's initialize() method.
         //
-        void finalize(std::map<std::string, std::string> parameters, ComponentRegistry *reg);
+        virtual void finalize(std::map<std::string, std::string> parameters, ComponentRegistry *reg);
 
         //
         // initialize()
