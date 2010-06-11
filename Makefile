@@ -1,8 +1,9 @@
-APP_SUPPORT_DIR = "/Library/Application Support/MWorks"
-PLUGINS_DIR = $(APP_SUPPORT_DIR)/Plugins/Core
-XCODE_TEMPLATES_DIR = "/Developer/Library/Xcode/Project Templates"
+XCCONFIG_PATH = /Library/Application\ Support/MWorks/Developer/Xcode
+XCCONFIG_NAME = Development
+include $(XCCONFIG_PATH)/$(XCCONFIG_NAME).xcconfig
 
-MW_XCODEBUILD = $(APP_SUPPORT_DIR)/Developer/Xcode/mw_xcodebuild
+XCODE_TEMPLATES_DIR = "/Developer/Library/Xcode/Project Templates"
+MW_XCODEBUILD = "$(DEVELOPER_DIR)"/Xcode/mw_xcodebuild
 
 all: install
 
@@ -13,7 +14,7 @@ install: clean
 clean:
 	rm -f */*/*.xcodeproj/*.pbxuser */*/*.xcodeproj/*.perspectivev3
 	rm -Rf */*/build
-	rm -Rf $(PLUGINS_DIR)/___PROJECTNAME___.bundle
+	rm -Rf "$(PLUGINS_DIR)"/___PROJECTNAME___.bundle
 
 test:
 	cd "MWorks/MWorks Core Plugin" && $(MW_XCODEBUILD) Everything Development
