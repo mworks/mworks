@@ -479,7 +479,7 @@ Datum ComponentRegistry::getNumber(std::string expression, GenericDataType type)
       throw except;
   } catch (std::exception& except){
     // no biggie, we can do this the hard(er) way
-    std::cerr << "Bad cast: " << except.what() << std::endl;
+    //std::cerr << "Bad cast: " << except.what() << std::endl;
   }
   
   
