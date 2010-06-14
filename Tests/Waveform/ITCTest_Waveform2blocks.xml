@@ -9,10 +9,10 @@
             <iochannel variable="TTLchannel1" capability="ITC18_TTL_INPUT1" data_type="edge_any" direction="input" synchrony="hardware_timed_synchronous" range_min="0" range_max="5" resolution="1" update_interval="5ms" data_interval="0.5ms" tag="~ELEMENTNAME~~ELEMENTCOUNT~" TTL_trigger_port="0" pre_trigger_interval="5ms" post_trigger_interval="5ms"/>
             <iochannel variable="TTLchannel2" capability="ITC18_TTL_INPUT2" data_type="edge_any" direction="input" synchrony="hardware_timed_synchronous" range_min="0" range_max="5" resolution="1" update_interval="10ms" data_interval="1ms" tag="~ELEMENTNAME~~ELEMENTCOUNT~" TTL_trigger_port="0" pre_trigger_interval="5ms" post_trigger_interval="5ms"/>
             <iochannel variable="TTLchannel3" capability="ITC18_TTL_INPUT3" data_type="digital" direction="input" synchrony="hardware_timed_synchronous" range_min="0" range_max="5" resolution="1" update_interval="50ms" data_interval="50ms" tag="~ELEMENTNAME~~ELEMENTCOUNT~" TTL_trigger_port="0" pre_trigger_interval="5ms" post_trigger_interval="5ms"/>
-            <iochannel variable="spikeWaveform" capability="ITC18_ADC_INPUT3" data_type="triggeredtriggered_analog_snippet" direction="input" synchrony="hardware_timed_synchronous" range_min="-10" range_max="10" resolution="16" update_interval="3ms" data_interval="70us" tag="Waveform_channel" TTL_trigger_port="1" pre_trigger_interval="4ms" post_trigger_interval="4ms"/>
+            <iochannel variable="spikeWaveform" capability="ITC18_ADC_INPUT3" data_type="triggered_analog_snippet" direction="input" synchrony="hardware_timed_synchronous" range_min="-10" range_max="10" resolution="16" update_interval="3ms" data_interval="70us" tag="Waveform_channel" TTL_trigger_port="1" pre_trigger_interval="4ms" post_trigger_interval="4ms"/>
         </iodevice>
         <iodevice tag="s1_FM" priority="" type="fake_monkey" id="">
-            <iochannel type="eye_movement" eye_v="eye_v_raw" eye_h="eye_h_raw" data_interval="1ms" update_interval="10ms"/>
+            <iochannel type="eye_movement" eye_v="eye_v" eye_h="eye_h" data_interval="1ms" update_interval="10ms"/>
             <iochannel variable="reward" type="juice"/>
         </iodevice>
     </io_devices>
@@ -26,7 +26,7 @@
         <variable tag="TTLchannel2" full_name="fullname9" default_value="0" scope="GLOBAL" type="INTEGER" editable="never" logging="when_changed"/>
         <variable tag="TTLchannel3" full_name="fullname9" default_value="0" scope="GLOBAL" type="INTEGER" editable="never" logging="when_changed"/>
         <variable tag="spike" full_name="fullname9" default_value="0" scope="GLOBAL" type="INTEGER" editable="never" logging="when_changed"/>
-        <variable tag="spikeWaveform" full_name="spikeWaveform" default_value="0" scope="GLOBAL" type="DICTIONARY" editable="never" logging="when_changed"/>
+        <variable tag="spikeWaveform" full_name="spikeWaveform" default_value="0" scope="GLOBAL" type="FLOAT" editable="never" logging="when_changed"/>
     </variables>
     <sounds/>
     <stimuli/>

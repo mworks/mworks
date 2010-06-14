@@ -8,18 +8,18 @@ all: install
 
 install: install-examples install-tests
 
-install-examples: clean-examples
+install-examples: uninstall-examples
 	mkdir -p $(EXAMPLES_DIR)
 	cp -Rp Examples/ Tests/ExampleExperiments/ $(EXAMPLES_DIR)
 
-install-tests: clean-tests
+install-tests: uninstall-tests
 	mkdir -p $(TEST_XML_DIR)
 	cp -Rp Tests/ $(TEST_XML_DIR)
 
-clean: clean-examples clean-tests
+uninstall: uninstall-examples uninstall-tests
 
-clean-examples:
+uninstall-examples:
 	rm -Rf $(EXAMPLES_DIR)
 
-clean-tests:
+uninstall-tests:
 	rm -Rf $(TEST_XML_DIR)
