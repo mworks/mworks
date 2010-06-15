@@ -3412,7 +3412,7 @@
 					"$(MW_LIB_DIR)/libjpeg.a",
 					"$(MW_LIB_DIR)/libmng.a",
 					"$(MW_LIB_DIR)/liblcms.a",
-					"$(MW_LIB_DIR)/libz.a",
+					"-lz",
 					"-framework",
 					OpenAL,
 					"$(MW_LIB_DIR)/libILU.a",
