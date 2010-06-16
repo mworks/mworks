@@ -107,7 +107,7 @@
 		
 	
     namespace bpt = boost::posix_time;
-    bpt::time_duration eventTime = bpt::microseconds([altTimeValue longValue]);
+    bpt::time_duration eventTime = bpt::seconds((long)([altTimeValue longLongValue] / 1000000LL));
 	
 	NSMutableAttributedString *consoleMsg =
     [[NSMutableAttributedString alloc]
