@@ -6,12 +6,6 @@
         <filter tag="eyeMonitor" full_name="eyeMonitor" id="" type="basic_eye_monitor" eyeh_calibrated="eye_h" eyev_calibrated="eye_v" eye_state="saccade" width_samples="5" saccade_entry_speed="20" saccade_exit_speed="15"/>
     </filters>
     <io_devices>
-        <!--iodevice tag="Setup 1 ITC18" priority="" alt="s1_Fake_Monkey" type="ITC18" id="">
-            <iochannel variable="eye_h_raw" capability="ITC18_ADC_INPUT0" data_type="analog" direction="input" synchrony="hardware_timed_synchronous" range_min="-10" range_max="10" resolution="16" update_interval="3ms" data_interval="1ms" tag="Eye_H_channel"/>
-            <iochannel variable="eye_v_raw" capability="ITC18_ADC_INPUT1" data_type="analog" direction="input" synchrony="hardware_timed_synchronous" range_min="-10" range_max="10" resolution="16" update_interval="3ms" data_interval="1ms" tag="Eye_V_channel"/>
-            <iochannel variable="reward" capability="ITC18_TTL_ASYCH_OUT00" data_type="pulseActiveLow" direction="output" synchrony="asynchronous" range_min="0" range_max="5" resolution="1" update_interval="3ms" data_interval="1ms" tag="Reward_channel"/>
-            <iochannel variable="vertical_refresh" capability="ITC18_TTL_INPUT1" data_type="edgeLowToHigh" direction="input" synchrony="hardware_timed_synchronous" range_min="0" range_max="5" resolution="1" update_interval="3ms" data_interval="0.5ms" tag="Vertical_Refresh_channel"/>
-        </iodevice-->
         <iodevice tag="s1_Fake_Monkey" priority="" type="fake_monkey" id="">
             <iochannel type="eye_movement" eye_v="eye_v_raw" eye_h="eye_h_raw" data_interval="1ms" update_interval="10ms"/>
             <iochannel type="juice" variable="reward"/>

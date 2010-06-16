@@ -10,7 +10,7 @@ install: install-examples install-tests
 
 install-examples: uninstall-examples
 	mkdir -p $(EXAMPLES_DIR)
-	cp -Rp Examples/ Tests/ExampleExperiments/ $(EXAMPLES_DIR)
+	cp -Rp Examples/ $(EXAMPLES_DIR)
 
 install-tests: uninstall-tests
 	mkdir -p $(TEST_XML_DIR)
