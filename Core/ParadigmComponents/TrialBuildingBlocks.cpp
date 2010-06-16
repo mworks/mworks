@@ -281,37 +281,9 @@ shared_ptr<mw::Component> ReportStringFactory::createObject(std::map<std::string
  ****************************************************************/
 
 AssertionAction::AssertionAction(shared_ptr<Variable> _condition, 
-								   const std::string &assertionMessage){
+                                 const std::string &assertionMessage) : ReportString(assertionMessage) {
 	setName("Assertion");
 	condition = _condition;
-	
-	std::string outStr(assertionMessage);	
-	
-	stringFragments.clear();
-	
-	while(outStr.find_first_of("$") != std::string::npos) {
-		std::string stringSegment;
-		std::string varName;
-		istringstream parser(outStr);
-		
-		getline(parser, stringSegment, '$');			
-		shared_ptr<ConstantVariable> c(new ConstantVariable(Datum(stringSegment)));
-		stringFragments.push_back(c);
-		
-		getline(parser, varName, ' ');
-		shared_ptr<Variable> var = global_variable_registry->getVariable(varName);
-		if(!var) {
-			var = shared_ptr<ConstantVariable>(new ConstantVariable(Datum(std::string("UNKNOWNVAR"))));			
-		}
-		
-		stringFragments.push_back(var);
-		
-		outStr.erase(0, stringSegment.size() + varName.size() + 1);
-	}
-	
-	// add any remainder
-	shared_ptr<ConstantVariable> remainder(new ConstantVariable(Datum(outStr)));
-	stringFragments.push_back(remainder);
 }
 
 AssertionAction::~AssertionAction(){}

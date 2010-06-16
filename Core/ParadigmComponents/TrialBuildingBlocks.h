@@ -108,9 +108,8 @@ class ReportStringFactory : public ComponentFactory{
 };
 
 
-class AssertionAction : public Action {
+class AssertionAction : public ReportString {
 protected:
-	std::vector <shared_ptr<Variable> >stringFragments;
 	shared_ptr<Variable> condition;
 	
 public:
