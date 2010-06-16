@@ -1,9 +1,6 @@
 <?xml version="1.0"?>
 <monkeyml version="1.0">
     <io_devices _id="id27645" tag="IO Devices">
-        <!--iodevice tag="USBHID" priority="" type="fake_monkey" id="">
-            <iochannel variable="button_A" capability="V_GAZE" data_type="analog" direction="input" synchrony="software_timed_synchronous" range_min="-180" range_max="180" resolution="32" update_interval="1ms" data_interval="1ms" tag="Eye_V_channel2"/>
-        </iodevice-->
         <iodevice tag="USBHID" priority="" type="usbhid" id="">
             <iochannel data_interval="5us" update_interval="50ms" variable="button_A" capability="Button_1" data_type="analog" direction="input" synchrony="asynchronous" range_min="0" range_max="0" resolution="1"></iochannel>
             <iochannel data_interval="5us" update_interval="50ms" variable="button_B" capability="Button_2" data_type="analog" direction="input" synchrony="asynchronous" range_min="0" range_max="0" resolution="1"></iochannel>
