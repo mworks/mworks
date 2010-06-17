@@ -1,11 +1,10 @@
 <?xml version="1.0"?>
 <monkeyml version="1.0">
     <io_devices>
-        <iodevice alt="FM" tag="ITC" priority="" type="ITC18" id="">
-            <iochannel variable="luminence" capability="ITC18_ADC_INPUT0" data_type="analog" direction="input" synchrony="hardware_timed_synchronous" range_min="-10" range_max="10" resolution="16" update_interval="3ms" data_interval="1ms" tag="Eye_H_channel" TTL_trigger_port="0" pre_trigger_interval="5ms" post_trigger_interval="5ms" device="fake_monkey"/>
+        <iodevice tag="ITC" priority="" type="ITC18" id="">
+            <iochannel variable="luminence" capability="ITC18_ADC_INPUT0" data_type="analog" direction="input" synchrony="hardware_timed_synchronous" range_min="-10" range_max="10" resolution="16" update_interval="3ms" data_interval="1ms" tag="Eye_H_channel" TTL_trigger_port="0" pre_trigger_interval="5ms" post_trigger_interval="5ms"/>
             <iochannel variable="vertical_refresh" capability="ITC18_TTL_INPUT0" data_type="edge_low_to_high" direction="input" synchrony="hardware_timed_synchronous" range_min="0" range_max="5" resolution="1" update_interval="3ms" data_interval="0.05ms" tag="Vertical_Refresh_channel"/>
         </iodevice>
-        <iodevice tag="FM" priority="" type="fake_monkey" id="" alt=""/>
     </io_devices>
     <variables>
         <variable tag="sync" full_name="luminence" default_value="0" scope="GLOBAL" type="INTEGER" editable="never" logging="when_changed" persistant="NO"/>

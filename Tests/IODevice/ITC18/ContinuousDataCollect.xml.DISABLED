@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <monkeyml version="1.0">
     <io_devices>
-        <iodevice tag="theITC" priority="" type="itc18" id="" alt="">
+        <iodevice tag="theITC" priority="" type="itc18" id="">
             <iochannel tag="Vx" variable="voltageX" capability="ITC18_ADC_INPUT0" data_type="analog" device="itc18" direction="input" synchrony="hardware_timed_synchronous" range_min="-10" range_max="10" resolution="16" update_interval="10ms" data_interval="3ms" TTL_trigger_port="0" pre_trigger_interval="5ms" post_trigger_interval="5ms"/>
             <iochannel tag="Vy" variable="voltageY" capability="ITC18_ADC_INPUT2" data_type="analog" device="itc18" direction="input" synchrony="hardware_timed_synchronous" range_min="-10" range_max="10" resolution="16" update_interval="10ms" data_interval="3ms" TTL_trigger_port="0" pre_trigger_interval="5ms" post_trigger_interval="5ms"/>
         </iodevice>

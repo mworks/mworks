@@ -1,8 +1,7 @@
 <?xml version="1.0"?>
 <monkeyml version="1.0">
     <io_devices>
-        <iodevice tag="FM" priority="" type="fake_monkey" id=""/>
-        <iodevice tag="ITC" priority="" alt="FM" type="ITC18" id="">
+        <iodevice tag="ITC" priority="" type="ITC18" id="">
             <iochannel device="ITC18" variable="TTLchannel0" capability="ITC18_TTL_INPUT0" data_type="edge_any" direction="input" synchrony="hardware_timed_synchronous" range_min="0" range_max="5" resolution="1" update_interval="5ms" data_interval="0.5ms" tag="ioTTLchannel0" TTL_trigger_port="0" pre_trigger_interval="5ms" post_trigger_interval="5ms"/>
         </iodevice>
     </io_devices>

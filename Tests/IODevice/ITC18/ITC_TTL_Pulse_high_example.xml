@@ -1,10 +1,9 @@
 <?xml version="1.0"?>
 <monkeyml version="1.0">
     <io_devices>
-        <iodevice tag="sITC" priority="" alt="s1_FM" type="ITC18" id="">
+        <iodevice tag="sITC" priority="" type="ITC18" id="">
             <iochannel variable="x" capability="ITC18_TTL_ASYCH_OUT00" data_type="pulse_active_high" direction="output" synchrony="asynchronous" range_min="0" range_max="5" resolution="1" update_interval="3ms" data_interval="1ms" TTL_trigger_port="0" pre_trigger_interval="5ms" post_trigger_interval="5ms"/>
         </iodevice>
-        <iodevice tag="s1_FM" priority="" type="fake_monkey" id=""/>
     </io_devices>
     <variables>
         <variable tag="x" full_name="x" default_value="1" scope="GLOBAL" type="INTEGER" editable="ALWAYS" logging="WHEN_CHANGED"/>

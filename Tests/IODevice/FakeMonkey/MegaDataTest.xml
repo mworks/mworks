@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <monkeyml version="1.0">
     <io_devices>
-        <iodevice tag="FakeMonkey_1" priority="" type="fake_monkey" id="" alt="">
+        <iodevice tag="FakeMonkey_1" priority="" type="fake_monkey" id="">
             <iochannel type="eye_movement" eye_v="eye_v_raw00" eye_h="eye_h_raw00" data_interval="1ms" update_interval="10ms"/>
             <iochannel type="eye_movement" eye_v="eye_v_raw01" eye_h="eye_h_raw01" data_interval="1ms" update_interval="10ms"/>
             <iochannel type="eye_movement" eye_v="eye_v_raw02" eye_h="eye_h_raw02" data_interval="1ms" update_interval="10ms"/>
