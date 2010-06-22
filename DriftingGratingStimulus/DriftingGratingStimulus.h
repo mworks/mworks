@@ -45,8 +45,6 @@ public:
 							 const shared_ptr<Scheduler> &a_scheduler,
 							 const shared_ptr<StimulusDisplay> &a_display,
 							 const shared_ptr<Variable> &_frames_per_second,
-							 const shared_ptr<Variable> &_statistics_reporting,
-							 const shared_ptr<Variable> &_error_reporting,
 							 const shared_ptr<Variable> &_xoffset, 
 							 const shared_ptr<Variable> &_yoffset, 
 							 const shared_ptr<Variable> &_width,

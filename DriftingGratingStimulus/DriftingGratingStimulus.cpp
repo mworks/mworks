@@ -15,8 +15,6 @@ DriftingGratingStimulus::DriftingGratingStimulus(const std::string &_tag,
                        const shared_ptr<Scheduler> &a_scheduler,
                        const shared_ptr<StimulusDisplay> &a_display,
                        const shared_ptr<Variable> &_frames_per_second,
-                       const shared_ptr<Variable> &_statistics_reporting,
-                       const shared_ptr<Variable> &_error_reporting,
                        const shared_ptr<Variable> &_xoffset, 
                        const shared_ptr<Variable> &_yoffset, 
                        const shared_ptr<Variable> &_width,
@@ -32,9 +30,7 @@ DriftingGratingStimulus::DriftingGratingStimulus(const std::string &_tag,
 
                         DynamicStimulusDriver (a_scheduler,
                                              a_display,
-                                             _frames_per_second,
-                                             _statistics_reporting,
-                                             _error_reporting),
+                                             _frames_per_second),
                         Stimulus(_tag)
 {
 	

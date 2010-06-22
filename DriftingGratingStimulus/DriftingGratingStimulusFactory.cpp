@@ -27,8 +27,6 @@ shared_ptr<mw::Component> DriftingGratingStimulusFactory::createObject(std::map<
 	
 	const char *TAG = "tag";
 	const char *FRAMES_PER_SECOND = "frames_per_second";
-	const char *STATISTICS_REPORTING = "statistics_reporting";
-	const char *ERROR_REPORTING = "error_reporting";	
 	const char *X_SIZE = "x_size";
 	const char *Y_SIZE = "y_size";
 	const char *X_POSITION = "x_position";
@@ -46,8 +44,6 @@ shared_ptr<mw::Component> DriftingGratingStimulusFactory::createObject(std::map<
 	REQUIRE_ATTRIBUTES(parameters, 
 					   TAG,
 					   FRAMES_PER_SECOND,
-					   STATISTICS_REPORTING,
-					   ERROR_REPORTING,
 					   X_SIZE,
 					   Y_SIZE,
 					   X_POSITION,
@@ -61,8 +57,6 @@ shared_ptr<mw::Component> DriftingGratingStimulusFactory::createObject(std::map<
 	
 	std::string tagname(parameters.find(TAG)->second);
 	shared_ptr<Variable> frames_per_second = reg->getVariable(parameters.find(FRAMES_PER_SECOND)->second);	
-	shared_ptr<Variable> statistics_reporting = reg->getVariable(parameters.find(STATISTICS_REPORTING)->second);	
-	shared_ptr<Variable> error_reporting = reg->getVariable(parameters.find(ERROR_REPORTING)->second);	
 	shared_ptr<Variable> x_size = reg->getVariable(parameters.find(X_SIZE)->second);	
 	shared_ptr<Variable> y_size = reg->getVariable(parameters.find(Y_SIZE)->second);	
 	shared_ptr<Variable> x_position = reg->getVariable(parameters.find(X_POSITION)->second);	
@@ -80,14 +74,6 @@ shared_ptr<mw::Component> DriftingGratingStimulusFactory::createObject(std::map<
 				   parameters.find("reference_id")->second, 
 				   FRAMES_PER_SECOND, 
 				   parameters[FRAMES_PER_SECOND]);
-	checkAttribute(statistics_reporting, 
-				   parameters.find("reference_id")->second, 
-				   STATISTICS_REPORTING, 
-				   parameters.find(STATISTICS_REPORTING)->second);
-	checkAttribute(error_reporting, 
-				   parameters.find("reference_id")->second, 
-				   ERROR_REPORTING, 
-				   parameters.find(ERROR_REPORTING)->second);
 	checkAttribute(x_size, 
 				   parameters.find("reference_id")->second,	
 				   X_SIZE,	
@@ -206,8 +192,6 @@ shared_ptr<mw::Component> DriftingGratingStimulusFactory::createObject(std::map<
 																																scheduler,
 																																default_display,
 																																frames_per_second,
-																																statistics_reporting,
-																																error_reporting,
 																																x_position,
 																																y_position,
 																																x_size,

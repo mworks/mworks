@@ -13,8 +13,6 @@
 		<code>
 			<stimulus type="drifting_grating" tag="New Drifting Grating"
 			frames_per_second="10"
-			statistics_reporting="0"
-			error_reporting="0"
 			direction="0"
 			starting_phase="0"
 			spatial_frequency="0"
