@@ -26,8 +26,6 @@ protected:
 	boost::shared_ptr<ScheduleTask> schedule_node;
 	
 	boost::shared_ptr<Variable> frames_per_second;
-	boost::shared_ptr<Variable> statistics_reporting;
-	boost::shared_ptr<Variable> error_reporting;
 	
     shared_ptr<VariableCallbackNotification> state_system_callback;
 	
@@ -41,9 +39,7 @@ public:
 	
 	DynamicStimulusDriver(const boost::shared_ptr<Scheduler> &a_scheduler,
 					 const boost::shared_ptr<StimulusDisplay> &a_display,
-					 const boost::shared_ptr<Variable> &frames_per_second_var,
-					 const boost::shared_ptr<Variable> &stats_var,
-					 const boost::shared_ptr<Variable> &error_reporting_var);
+					 const boost::shared_ptr<Variable> &frames_per_second_var);
 	
 	DynamicStimulusDriver(const DynamicStimulusDriver &tocopy);
     

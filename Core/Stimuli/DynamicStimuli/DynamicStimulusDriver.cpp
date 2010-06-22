@@ -15,16 +15,12 @@ namespace mw{
 
 DynamicStimulusDriver::DynamicStimulusDriver(const boost::shared_ptr<Scheduler> &a_scheduler,
 								   const boost::shared_ptr<StimulusDisplay> &a_display,
-								   const boost::shared_ptr<Variable> &_frames_per_second,
-								   const boost::shared_ptr<Variable> &_statistics_reporting,
-								   const boost::shared_ptr<Variable> &_error_reporting){
+								   const boost::shared_ptr<Variable> &_frames_per_second){
     start_time = -1;
     scheduler = a_scheduler;
     clock = scheduler->getClock();
 	display = a_display;
 	frames_per_second = _frames_per_second;
-	statistics_reporting = _statistics_reporting;
-	error_reporting = _error_reporting;
 	
 	started = false;
     
