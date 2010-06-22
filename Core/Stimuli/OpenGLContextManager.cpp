@@ -306,7 +306,7 @@ int OpenGLContextManager::getMainDisplayIndex() const {
 }
 
 void OpenGLContextManager::setCurrent(int context_id) {
-    if(context_id < 0 || context_id > [contexts count]) {
+    if(context_id < 0 || context_id >= [contexts count]) {
 		mprintf("OpenGL Context Manager: no context to set current.");
 		//NSLog(@"OpenGL Context Manager: no context to set current.");
         return;
@@ -353,7 +353,7 @@ void OpenGLContextManager::flushCurrent() {
 }
 
 void OpenGLContextManager::flush(int context_id, bool update) {
-    if(context_id < 0){
+    if(context_id < 0 || context_id >= [contexts count]){
         //TODO mprintf dependency problem
 		NSLog(@"OpenGL Context Manager: no context to flush");
     }

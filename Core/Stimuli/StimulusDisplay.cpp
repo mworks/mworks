@@ -151,7 +151,7 @@ void StimulusDisplay::setDisplayBounds(){
 
 void StimulusDisplay::addContext(int _context_id){
 	context_ids.push_back(_context_id);
-	current_context_index = context_ids.size();
+	current_context_index = context_ids.size() - 1;
 	current_context = _context_id;
     opengl_context_manager->setCurrent(_context_id);
 	glInit();
