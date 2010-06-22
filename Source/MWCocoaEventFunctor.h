@@ -57,9 +57,9 @@ namespace mw {
 				NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 				
 				Datum data(event->getData());
-				id cocoaEvent = [[[MWCocoaEvent alloc] initWithData:&data 
-															andCode:event->getEventCode() 
-															andTime:event->getTime()] autorelease];
+				MWCocoaEvent *cocoaEvent = [[MWCocoaEvent alloc] initWithData:&data 
+                                                                      andCode:event->getEventCode() 
+                                                                      andTime:event->getTime()];
 				
         //@synchronized(syncobject){
           if([receiver respondsToSelector:selector]) {
@@ -79,7 +79,8 @@ namespace mw {
             merror(M_CLIENT_MESSAGE_DOMAIN, [[errorMessage stringByAppendingString:sn] cStringUsingEncoding:NSASCIIStringEncoding]);
           }
         //}
-				[pool release];
+                [cocoaEvent release];
+				[pool drain];
 			};         
 		};
 	

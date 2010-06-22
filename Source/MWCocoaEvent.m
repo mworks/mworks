@@ -23,10 +23,19 @@
 	return self;
 }
 
+- (void)dealloc {
+    delete _data;
+    [super dealloc];
+}
+
+// finalize is called instead of dealloc when garbage collection is enabled.  Since we don't currently
+// support GC, there's no need for this.
+/*
 - (void)finalize {
     delete _data;
     [super finalize];
 }
+*/
 
 - (MWorksTime)time {
 	return _time;
