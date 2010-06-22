@@ -2825,8 +2825,8 @@
   </expected_events>
   <permitted_error_messages>
     <!--type can be "contains", "starts_with", "ends_with" or "whole_message"-->
-    <message type="starts_with">ERROR: Scheduled task (/</message>
-    <message type="starts_with">ERROR: updating main window display is taking longer than two frames</message>
+    <!--message type="starts_with">ERROR: Scheduled task (/</message>
+    <message type="starts_with">ERROR: updating main window display is taking longer than two frames</message-->
   </permitted_error_messages>
   <expected_messages>
     <message type="starts_with">Queue Stim 1 ... x = 0 (</message>
