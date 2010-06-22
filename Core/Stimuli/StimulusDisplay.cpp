@@ -292,7 +292,7 @@ void StimulusDisplay::glInit() {
     gluOrtho2D(-16.0,16.0,-12.0,12.0);
     glMatrixMode(GL_MODELVIEW);
     
-    glClearColor(0.25, 0.25, 0.25, 1.0);
+    glClearColor(0.5, 0.5, 0.5, 1.0);
     glClear(GL_COLOR_BUFFER_BIT);
 
 }
