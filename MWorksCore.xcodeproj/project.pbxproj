@@ -61,18 +61,17 @@
 			name = Everything;
 			productName = Everything;
 		};
-		E11542041193460300DDE09D /* test_mworks */ = {
+		E11542041193460300DDE09D /* mw_test */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = E11542121193464F00DDE09D /* Build configuration list for PBXAggregateTarget "test_mworks" */;
+			buildConfigurationList = E11542121193464F00DDE09D /* Build configuration list for PBXAggregateTarget "mw_test" */;
 			buildPhases = (
 				E11542031193460300DDE09D /* ShellScript */,
 			);
 			dependencies = (
-				E11542091193461300DDE09D /* PBXTargetDependency */,
 				E115420B1193461300DDE09D /* PBXTargetDependency */,
 				E115420D1193461300DDE09D /* PBXTargetDependency */,
 			);
-			name = test_mworks;
+			name = mw_test;
 			productName = test_mworks;
 		};
 /* End PBXAggregateTarget section */
@@ -642,13 +641,6 @@
 			remoteGlobalIDString = DA2CE38F07EA035F00C68AEF;
 			remoteInfo = MachClockPlugin;
 		};
-		E11542081193461300DDE09D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = DA2CE0C907E9070200C68AEF /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 5C4D239B09DC83930082BF9F;
-			remoteInfo = MWorksCoreTest;
-		};
 		E115420A1193461300DDE09D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = DA2CE0C907E9070200C68AEF /* Project object */;
@@ -1101,7 +1093,7 @@
 		DA96B90709819B4E0007610D /* CoreBuilderForeman.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CoreBuilderForeman.cpp; path = Core/CoreBuilders/CoreBuilderForeman.cpp; sourceTree = SOURCE_ROOT; };
 		DA96C0E40988546D0007610D /* ExperimentPackager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ExperimentPackager.h; path = Core/ExperimentDataLoading/ExperimentPackager.h; sourceTree = SOURCE_ROOT; };
 		DA96C0E50988546D0007610D /* ExperimentPackager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ExperimentPackager.cpp; path = Core/ExperimentDataLoading/ExperimentPackager.cpp; sourceTree = SOURCE_ROOT; };
-		E11542181193471F00DDE09D /* test_mworks */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = test_mworks; sourceTree = "<group>"; };
+		E11542181193471F00DDE09D /* mw_test */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = mw_test; sourceTree = "<group>"; };
 		E11AFFBC118F865C0034CC04 /* IODevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IODevice.h; path = Core/IODevices/IODevice.h; sourceTree = "<group>"; };
 		E1F65DF8119086A100F9A3A3 /* IODevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IODevice.cpp; path = Core/IODevices/IODevice.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1424,7 +1416,7 @@
 				0ED517150B217A35001559AD /* BoostMathExampleTest.h */,
 				5CBFD75E0AC04587007AB1A9 /* FullCoreEnvironmentTest.h */,
 				5CBFD75F0AC04587007AB1A9 /* FullCoreEnvironmentTest.cpp */,
-				E11542181193471F00DDE09D /* test_mworks */,
+				E11542181193471F00DDE09D /* mw_test */,
 			);
 			name = "Unit Testing";
 			path = UnitTests;
@@ -2656,7 +2648,7 @@
 				5C4D239B09DC83930082BF9F /* MWorksCoreTest */,
 				5C4D232409DC59410082BF9F /* MWorksCoreTestRunner */,
 				0E8014110E422E2A00D6DE20 /* MarionetteTest */,
-				E11542041193460300DDE09D /* test_mworks */,
+				E11542041193460300DDE09D /* mw_test */,
 				0E121C930E6B1EF7007B29B8 /* CoreUninstall */,
 				5CCE1CCF10A4692500EF5866 /* PyMW */,
 				5CDB8B230E9C4A6300993D99 /* Python MW Conduit */,
@@ -2897,7 +2889,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/zsh;
-			shellScript = "export SOURCE_DIR=${BUILT_PRODUCTS_DIR}/../..\n\ncp \"${SOURCE_DIR}/UnitTests/test_mworks\" \"${TESTS_DIR}\"\n";
+			shellScript = "export SOURCE_DIR=${BUILT_PRODUCTS_DIR}/../..\n\ncp \"${SOURCE_DIR}/UnitTests/mw_test\" \"${MW_BIN_DIR_UNQUOTED}\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -3283,11 +3275,6 @@
 			target = DA2CE38F07EA035F00C68AEF /* MachClockPlugin */;
 			targetProxy = DA1368E507EA27E0001BA98B /* PBXContainerItemProxy */;
 		};
-		E11542091193461300DDE09D /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 5C4D239B09DC83930082BF9F /* MWorksCoreTest */;
-			targetProxy = E11542081193461300DDE09D /* PBXContainerItemProxy */;
-		};
 		E115420B1193461300DDE09D /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 5C4D232409DC59410082BF9F /* MWorksCoreTestRunner */;
@@ -3300,7 +3287,7 @@
 		};
 		E115421C1193475D00DDE09D /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = E11542041193460300DDE09D /* test_mworks */;
+			target = E11542041193460300DDE09D /* mw_test */;
 			targetProxy = E115421B1193475D00DDE09D /* PBXContainerItemProxy */;
 		};
 		E17FB425110788AB00CA0FDC /* PBXTargetDependency */ = {
@@ -4273,7 +4260,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
 		};
-		E11542121193464F00DDE09D /* Build configuration list for PBXAggregateTarget "test_mworks" */ = {
+		E11542121193464F00DDE09D /* Build configuration list for PBXAggregateTarget "mw_test" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E11542051193460300DDE09D /* Development */,
