@@ -1,6 +1,6 @@
-XCCONFIG_PATH = /Library/Application\ Support/MWorks/Developer/Xcode
+XCCONFIG_DIR = /Library/Application\ Support/MWorks/Developer/Xcode
 XCCONFIG_NAME = Development
-include $(XCCONFIG_PATH)/$(XCCONFIG_NAME).xcconfig
+include $(XCCONFIG_DIR)/$(XCCONFIG_NAME).xcconfig
 
 SHELL = /bin/bash
 
