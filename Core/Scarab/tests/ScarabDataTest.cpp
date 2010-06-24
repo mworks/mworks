@@ -11,4 +11,3 @@
 using namespace mw;
 
 CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( ScarabDataTestFixture, "Unit Test" );
-//CPPUNIT_TEST_SUITE_REGISTRATION( ScarabDataTestFixture );

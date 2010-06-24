@@ -110,8 +110,6 @@ void ActionTestFixture::testIncrementCounterWithAssignmentManyThreads(){
 }
 
 void ActionTestFixture::testConstantReport() {
-	fprintf(stderr, "Running  ActionTestFixture::testConstantReport()\n"); 
-	
 	std::string testStringSeed("This is my test string!!!!");	
 	
 	shared_ptr <Variable> messageVar = global_variable_registry->getVariable(ANNOUNCE_MESSAGE_VAR_TAGNAME);
@@ -149,8 +147,6 @@ void ActionTestFixture::testConstantReport() {
 
 
 void ActionTestFixture::testReportWithVariableAtEnd() {
-	fprintf(stderr, "Running  ActionTestFixture::testReportWithVariableAtEnd()\n"); 
-	
 	std::string testVarName("testVar");
 	std::string testStringSeed("This is my test var: ");	
 	std::string testVar("$" + testVarName);
@@ -204,8 +200,6 @@ void ActionTestFixture::testReportWithVariableAtEnd() {
 }	
 
 void ActionTestFixture::testReportWithVariableAtBeginning() {
-	fprintf(stderr, "Running  ActionTestFixture::testReportWithVariableAtBeginning()\n"); 
-	
 	std::string testVarName("testVar");
 	std::string testStringSeed("<= This was my test var");	
 	std::string testVar("$" + testVarName);
@@ -259,8 +253,6 @@ void ActionTestFixture::testReportWithVariableAtBeginning() {
 }
 
 void ActionTestFixture::testReportWithVariableInMiddle() {
-	fprintf(stderr, "Running  ActionTestFixture::testReportWithVariableInMiddle()\n"); 
-	
 	std::string testVarName("testVar");
 	std::string testStringSeed1("This is my test var =>");	
 	std::string testStringSeed2("<= This was my test var");	
@@ -315,8 +307,6 @@ void ActionTestFixture::testReportWithVariableInMiddle() {
 }
 
 void ActionTestFixture::testReportWith2Variables() {
-	fprintf(stderr, "Running  ActionTestFixture::testReportWith2Variables()\n"); 
-	
 	std::string testVarName("testVar");
 	std::string testVarName2("testVar2");
 	std::string testStringSeed("<= This was my test var and this is testVar2 =>");	
@@ -383,8 +373,6 @@ void ActionTestFixture::testReportWith2Variables() {
 
 
 void ActionTestFixture::testReportWithBadVariable() {
-	fprintf(stderr, "Running  ActionTestFixture::testReportWithBadVariable()\n"); 
-	
 	std::string testVarName("testVar");
 	std::string testStringSeed("<= This was my test var");	
 	std::string testVar("$" + testVarName);
@@ -445,8 +433,6 @@ void ActionTestFixture::testReportWithBadVariable() {
 
 
 void ActionTestFixture::testReportWithOneGoodVariableAndOneBadVariable() {
-	fprintf(stderr, "Running  ActionTestFixture::testReportWithBadVariable()\n"); 
-	
 	std::string testVarName("testVar");
 	std::string testVarName2("testVar2");
 	std::string testStringSeed("<= This was my test var and this is testVar2 =>");	
@@ -518,8 +504,6 @@ void ActionTestFixture::testReportWithOneGoodVariableAndOneBadVariable() {
 }
 
 void ActionTestFixture::testAssert() {
-	fprintf(stderr, "Running  ActionTestFixture::testAssert()\n"); 
-	
 	std::string testStringSeed("This is my test string!!!!");	
 	
 	shared_ptr <Variable> messageVar = global_variable_registry->getVariable(ANNOUNCE_MESSAGE_VAR_TAGNAME);
@@ -573,8 +557,6 @@ void ActionTestFixture::testAssert() {
 
 
 void ActionTestFixture::testAssertWithVariableAtEnd() {
-	fprintf(stderr, "Running  ActionTestFixture::testAssertWithVariableAtEnd()\n"); 
-	
 	std::string testVarName("testVar");
 	std::string testStringSeed("This is my test var: ");	
 	std::string testVar("$" + testVarName);
@@ -645,8 +627,6 @@ void ActionTestFixture::testAssertWithVariableAtEnd() {
 
 
 void ActionTestFixture::testScheduledAssignment() {
-	std::cerr << "Running  ActionTestFixture::testScheduledAssignment()" << std::endl; 
-	
 	const MWTime DELAY_US = 4000000;
 	
 	shared_ptr<ConstantVariable>c1 = shared_ptr<ConstantVariable>(new ConstantVariable(1L));
@@ -684,8 +664,6 @@ void ActionTestFixture::testScheduledAssignment() {
 }
 
 void ActionTestFixture::testScheduledAssignmentWithCancel() {
-	std::cerr << "Running  ActionTestFixture::testScheduledAssignmentWithCancel()" << std::endl; 
-	
 	const MWTime DELAY_US = 4000000;
 	const MWTime CANCEL_TIME_US = DELAY_US/10;
 	
@@ -731,8 +709,6 @@ void ActionTestFixture::testScheduledAssignmentWithCancel() {
 }
 
 void ActionTestFixture::testScheduledAssignmentWithCancelThatsTooLate() {
-	std::cerr << "Running  ActionTestFixture::testScheduledAssignmentWithCancelThatsTooLate()" << std::endl; 
-	
 	const MWTime DELAY_US = 1000000;
 	const MWTime CANCEL_TIME_US = 2*DELAY_US;
 	
@@ -771,8 +747,6 @@ void ActionTestFixture::testScheduledAssignmentWithCancelThatsTooLate() {
 }
 
 void ActionTestFixture::testCancelNULLScheduledActions() {
-	std::cerr << "Running  ActionTestFixture::testCancelNULLScheduledActions()" << std::endl; 
-	
 	shared_ptr<ScheduledActions>sa;	
 	
 	CancelScheduledAction csa(sa);

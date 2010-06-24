@@ -26,10 +26,10 @@ class ExpandableListTestFixture : public CppUnit::TestFixture {
 
 	CPPUNIT_TEST_SUITE( ExpandableListTestFixture );
 	
+	CPPUNIT_TEST( testAddSharedPtr );
 	CPPUNIT_TEST( testGetNElements );
 	CPPUNIT_TEST( testSetGetElement );
 	CPPUNIT_TEST( testBracketOperator );
-	CPPUNIT_TEST( testAddSharedPtr );
 	
 	CPPUNIT_TEST_SUITE_END();
 

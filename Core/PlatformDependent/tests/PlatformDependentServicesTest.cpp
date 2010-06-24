@@ -14,7 +14,6 @@ using namespace mw;
 
 
 CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( PlatformDependentServicesTestFixture, "Unit Test" );
-//CPPUNIT_TEST_SUITE_REGISTRATION( PlatformDependentServicesTestFixture );
 
 
 void PlatformDependentServicesTestFixture::setUp(){
@@ -65,7 +64,6 @@ bool PlatformDependentServicesTestFixture::bejesus_beater(
 }
 
 void PlatformDependentServicesTestFixture::testConstStrings() {
-  fprintf(stderr, "Running PlatformDependentServicesTestFixture::testConstStrings()\n");
   using namespace std;
 	
   const int big_ugly_chunk_of_data = 1978;

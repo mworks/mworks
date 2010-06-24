@@ -32,10 +32,6 @@ void SchedulerTestFixture::tearDown() {
 
 
 void SchedulerTestFixture::testPeriod10HzNoPayload(){
-	fprintf(stderr, "Running SchedulerTestFixture::testPeriod10HzNoPayload()\n");
-	
-	fflush(stderr);
-	
 	MWTime interval = 100000;
 	
 	std::vector<MWTime> times = timeTrial(interval, 400, 0);
@@ -51,10 +47,6 @@ void SchedulerTestFixture::testPeriod10HzNoPayload(){
 }
 
 void SchedulerTestFixture::testPeriod10HzSmallPayload(){
-	fprintf(stderr, "Running SchedulerTestFixture::testPeriod10HzSmallPayload()\n");
-	
-	fflush(stderr);
-	
 	MWTime interval = 100000;
 	
 	std::vector<MWTime> times = timeTrialSmallPayload(interval, 400, 0);
@@ -69,10 +61,6 @@ void SchedulerTestFixture::testPeriod10HzSmallPayload(){
 }
 
 void SchedulerTestFixture::testPeriod100HzNoPayload(){
-	fprintf(stderr, "Running SchedulerTestFixture::testPeriod100HzNoPayload()\n");
-	
-	fflush(stderr);
-	
 	MWTime interval = 10000; // 100Hz
 	
 	std::vector<MWTime> times = timeTrial(interval, 400, 0);
@@ -86,10 +74,6 @@ void SchedulerTestFixture::testPeriod100HzNoPayload(){
 }
 
 void SchedulerTestFixture::testPeriod10HzNoPayloadChaffX4(){
-	fprintf(stderr, "Running SchedulerTestFixture::testPeriod10HzNoPayloadChaffX4()\n");
-	
-	fflush(stderr);
-	
 	MWTime interval = 100000; // 10Hz
 	
 	std::vector<MWTime> times = timeTrial(interval, 400, 4);
@@ -105,10 +89,6 @@ void SchedulerTestFixture::testPeriod10HzNoPayloadChaffX4(){
 
 
 void SchedulerTestFixture::testOneOffFiringSmallPayload(){
-	fprintf(stderr, "Running SchedulerTestFixture::testOneOffFiringSmallPayload()\n");
-	
-	fflush(stderr);
-	
 	MWTime interval = 100000;
 	
 	shared_ptr<Scheduler> scheduler = Scheduler::instance();
@@ -153,8 +133,6 @@ void SchedulerTestFixture::testOneOffFiringSmallPayload(){
 }
 
 void SchedulerTestFixture::testSchedulerLeaks() {
-	fprintf(stderr, "Running SchedulerTestFixture::testSchedulerLeaks()\n");
-	
 	MWTime howlongus = 1000;
 	
 	shared_ptr<ScheduleTask> node;
@@ -365,6 +343,7 @@ void SchedulerTestFixture::reportLatencies(std::vector<MWTime> times_array,
         less_than_15000us += less_than_10000us;
     }
     
+    /*
 	fprintf(stderr, "Latency Statistics...\n"
 			"\t< 5us:  %.4g\n"
 			"\t< 10us:  %.4g\n"
@@ -388,6 +367,7 @@ void SchedulerTestFixture::reportLatencies(std::vector<MWTime> times_array,
 			100. * (double)less_than_15000us / (double)n,
 			100. * (double)more_than_15000us / (double)n);
 	fflush(stderr);
+    */
 }	
 
 

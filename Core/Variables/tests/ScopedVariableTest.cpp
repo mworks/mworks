@@ -104,6 +104,10 @@ void ScopedVariableTestFixture::inheritedContextTest(){
 }
 
 void ScopedVariableTestFixture::invitroTest(){
+	// TODO: reinstate test
+    std::cout << " (DISABLED)";
+    return;
+    
 //
 //	// HERE: Experiment is set up in setUp()
 //	// In MW: XMLParser.pl instantiates the experiment

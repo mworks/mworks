@@ -87,9 +87,6 @@ void BufferManagerTestFixture::tearDown() {
 }
 
 void BufferManagerTestFixture::testSimpleBufferManager() {	
-	fprintf(stderr, "Running BufferManagerTestFixture::testSimpleBufferManager()\n"); 
-	
-	
 	shared_ptr<BufferManager> bm = shared_ptr<BufferManager>(new BufferManager());
 	
 	shared_ptr<EventBufferReader> mbr = bm->getNewMainBufferReader();
@@ -124,8 +121,6 @@ void BufferManagerTestFixture::testSimpleBufferManager() {
 }
 
 void BufferManagerTestFixture::testForLeaking() {	
-	fprintf(stderr, "Running BufferManagerTestFixture::testForLeaking()\n"); 
-	
 	shared_ptr<BufferManager> bm = shared_ptr<BufferManager>(new BufferManager());
 	shared_ptr<EventBufferReader> mbr = bm->getNewMainBufferReader();
 	
@@ -166,8 +161,6 @@ void BufferManagerTestFixture::testForLeaking() {
 }
 
 void BufferManagerTestFixture::testForLeaking2() {	
-	fprintf(stderr, "Running BufferManagerTestFixture::testForLeaking2()\n"); 
-	
 	shared_ptr<BufferManager> bm = shared_ptr<BufferManager>(new BufferManager());
 	shared_ptr<EventBufferReader> mbr = bm->getNewMainBufferReader();
 	
@@ -209,8 +202,6 @@ void BufferManagerTestFixture::testForLeaking2() {
 }
 
 void BufferManagerTestFixture::testForLeaking3() {
-	fprintf(stderr, "Running BufferManagerTestFixture::testForLeaking3()\n"); 
-	
 	shared_ptr<EventBufferReader> mbr2 = bmtTestglobal_outgoing_event_buffer->getNewMainBufferReader();
 	const int totalEvents = bmt_NUM_EVENTS_PER_THREAD*bmt_NUM_THREADS;
 	
@@ -252,7 +243,7 @@ void BufferManagerTestFixture::testForLeaking3() {
 //				}
 				
 			} else {
-				fprintf(stderr, "blocking numEventsRead = %d\n", numEventsRead); 
+				//fprintf(stderr, "blocking numEventsRead = %d\n", numEventsRead); 
 			}
 		}
 		
@@ -277,9 +268,6 @@ void BufferManagerTestFixture::testForLeaking3() {
 
 
 void BufferManagerTestFixture::testMultipleReaders() {	
-	fprintf(stderr, "Running BufferManagerTestFixture::testMultipleReaders()\n"); 
-	
-	
 	shared_ptr<BufferManager> bm = shared_ptr<BufferManager>(new BufferManager());
 	
 	shared_ptr<EventBufferReader> mbr = bm->getNewMainBufferReader();
@@ -410,8 +398,6 @@ void BufferManagerTestFixture::testMultipleReaders() {
 }
 
 void BufferManagerTestFixture::testMultipleReadersWithAddtionalPuts() {	
-	fprintf(stderr, "Running BufferManagerTestFixture::testMultipleReadersWithAddtionalPuts()\n"); 
-	
 	shared_ptr<BufferManager> bm = shared_ptr<BufferManager>(new BufferManager());
 	
 	shared_ptr<EventBufferReader> mbr = bm->getNewMainBufferReader();
@@ -657,9 +643,6 @@ void BufferManagerTestFixture::testMultipleReadersWithAddtionalPuts() {
 }
 
 void BufferManagerTestFixture::testBufferManagerDeletion() {	
-	fprintf(stderr, "Running BufferManagerTestFixture::testBufferManagerDeletion()\n"); 
-	
-	
 	shared_ptr<EventBufferReader> mbr;
 	
 	{
@@ -702,7 +685,6 @@ void BufferManagerTestFixture::testBufferManagerDeletion() {
 
 
 void BufferManagerTestFixture::multiThreadInsertTest() {	
-	fprintf(stderr, "Running BufferManagerTestFixture::multiThreadInsertTest()\n"); 
 	const int totalEvents = bmt_NUM_EVENTS_PER_THREAD*bmt_NUM_THREADS;
 	
 	shared_ptr<EventBufferReader> mbr = bmtTestglobal_outgoing_event_buffer->getNewMainBufferReader();
@@ -755,8 +737,6 @@ void BufferManagerTestFixture::multiThreadInsertTest() {
 }
 
 void BufferManagerTestFixture::multiThreadReadTest() {	
-	fprintf(stderr, "Running BufferManagerTestFixture::multiThreadReadTest()\n"); 
-	
 	const int totalEventsToRead = bmt_NUM_EVENTS_PER_THREAD*bmt_NUM_THREADS*bmt_NUM_THREADS;
 	totalEventsRead = 0;
 	
@@ -806,8 +786,6 @@ void BufferManagerTestFixture::multiThreadReadTest() {
 }
 
 void BufferManagerTestFixture::multiMultiTest() {	
-	fprintf(stderr, "Running BufferManagerTestFixture::multiMultiTest()\n"); 
-	
 	const int totalEventsToRead = (bmt_NUM_EVENTS_PER_THREAD*bmt_NUM_THREADS*bmt_NUM_THREADS);
 	totalEventsRead = 0;
 	

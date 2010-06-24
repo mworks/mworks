@@ -99,8 +99,6 @@ public:
 	}
 	
 	void testSquareTrigger(){
-		fprintf(stderr, "Running TriggerTestFixture::testSquareTrigger()\n");
-		
 		trig = new SquareRegionTrigger(centerX,
 										centerY,
 										width,

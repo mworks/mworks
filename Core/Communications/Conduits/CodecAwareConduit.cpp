@@ -57,7 +57,7 @@ void CodecAwareConduit::rebuildEventCallbacks(){
         if(remote_reverse_codec.find(evt_name) != remote_reverse_codec.end()){
             incoming_code = remote_reverse_codec[evt_name];
         } else {
-            std::cerr << "Cannot register callback for unknown name: " << evt_name << " (maybe codec hasn't been received yet?)" << endl;
+            //std::cerr << "Cannot register callback for unknown name: " << evt_name << " (maybe codec hasn't been received yet?)" << endl;
             // send a request, just in case no one else has
             sendData(SystemEventFactory::requestCodecControl());
             continue;

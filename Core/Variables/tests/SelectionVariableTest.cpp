@@ -16,7 +16,6 @@
 using namespace mw;
 
 CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( SelectionVariableTestFixture, "Unit Test" );
-//CPPUNIT_TEST_SUITE_REGISTRATION( SelectionVariableTestFixture );
 
 
 void SelectionVariableTestFixture::setUp(){
@@ -34,8 +33,6 @@ void SelectionVariableTestFixture::tearDown(){
 }
 
 void SelectionVariableTestFixture::testWithConstantVariables(){
-		  fprintf(stderr, "Running SelectionVariableTestFixture::testWithConstantVariables()\n");
-	
 	SelectionVariable var(NULL);
 	
 	
@@ -81,8 +78,6 @@ void SelectionVariableTestFixture::testWithConstantVariables(){
 }
 
 void SelectionVariableTestFixture::testWithConstantVariablesDescending(){
-		  fprintf(stderr, "Running SelectionVariableTestFixture::testWithConstantVariablesDescending()\n");
-	
 	SelectionVariable var(NULL);
 	
 	
@@ -110,8 +105,6 @@ void SelectionVariableTestFixture::testWithConstantVariablesDescending(){
 }
 
 void SelectionVariableTestFixture::testReset(){
-		  fprintf(stderr, "Running SelectionVariableTestFixture::testReset()\n");
-	
 	SelectionVariable var(NULL);
 	
 	var.addValue(a);
@@ -159,8 +152,6 @@ void SelectionVariableTestFixture::testReset(){
 }
 
 void SelectionVariableTestFixture::testResetDescending(){
-		  fprintf(stderr, "Running SelectionVariableTestFixture::testResetDescending()\n");
-	
 	SelectionVariable var(NULL);
 	
 	var.addValue(d);
@@ -207,8 +198,6 @@ void SelectionVariableTestFixture::testResetDescending(){
 
 
 void SelectionVariableTestFixture::testPartialSamples(){
-		  fprintf(stderr, "Running SelectionVariableTestFixture::testPartialSamples()\n");
-	
 	SelectionVariable var(NULL);
 	
 	shared_ptr<Selection> sel( new SequentialSelection(3) );
@@ -235,8 +224,6 @@ void SelectionVariableTestFixture::testPartialSamples(){
 
 
 void SelectionVariableTestFixture::testSurplusSamples(){
-		  fprintf(stderr, "Running SelectionVariableTestFixture::testSurplusSamples()\n");
-	
 	SelectionVariable var(NULL);
 	shared_ptr<Selection> sel( new SequentialSelection(5) );
 	var.attachSelection(sel);	
@@ -267,8 +254,6 @@ void SelectionVariableTestFixture::testSurplusSamples(){
 }
 
 void SelectionVariableTestFixture::testCycles(){
-		  fprintf(stderr, "Running SelectionVariableTestFixture::testCycles()\n");
-	
 	SelectionVariable var(NULL);
 	shared_ptr<Selection> sel( new SequentialSelection(4) );
 	var.attachSelection(sel);	
@@ -294,7 +279,6 @@ void SelectionVariableTestFixture::testCycles(){
 }
 
 void SelectionVariableTestFixture::testMultipleCycles(){
-		  fprintf(stderr, "Running SelectionVariableTestFixture::testMultipleCycles()\n");
 	SelectionVariable var(NULL);
 	
 	
@@ -337,8 +321,6 @@ void SelectionVariableTestFixture::testMultipleCycles(){
 
 
 void SelectionVariableTestFixture::testAutoReset(){
-    fprintf(stderr, "Running SelectionVariableTestFixture::testCycles()\n");
-	
 	SelectionVariable var(NULL);
 	shared_ptr<Selection> sel( new SequentialSelection(4, true, true) );
 	var.attachSelection(sel);	
@@ -364,7 +346,6 @@ void SelectionVariableTestFixture::testAutoReset(){
 }
 
 void SelectionVariableTestFixture::testAcceptSelections(){
-		  fprintf(stderr, "Running SelectionVariableTestFixture::testAcceptSelections()\n");
 	SelectionVariable var(NULL);
 	shared_ptr<Selection> sel( new SequentialSelection(4) );
 	var.attachSelection(sel);	
@@ -396,7 +377,6 @@ void SelectionVariableTestFixture::testAcceptSelections(){
 }
 
 void SelectionVariableTestFixture::testRejectSelections(){
-	fprintf(stderr, "Running SelectionVariableTestFixture::testRejectSelections()\n");
 	SelectionVariable var(NULL);
 	shared_ptr<Selection> sel( new SequentialSelection(4) );
 	var.attachSelection(sel);	
@@ -438,7 +418,6 @@ void SelectionVariableTestFixture::testRejectSelections(){
 }
 
 void SelectionVariableTestFixture::testRejectSelectionsAcrossCyclesUsingSequentialAscending(){
-	fprintf(stderr, "Running SelectionVariableTestFixture::testRejectSelectionsAcrossCyclesUsingSequentialAscending()\n");
 	SelectionVariable var(NULL);
 	
 	shared_ptr<Selection> sel( new SequentialSelection(6) ); // 2 cycles
@@ -484,7 +463,6 @@ void SelectionVariableTestFixture::testRejectSelectionsAcrossCyclesUsingSequenti
 }
 
 void SelectionVariableTestFixture::testRejectSelectionsAcrossCyclesUsingSequentialDescending(){
-	fprintf(stderr, "Running SelectionVariableTestFixture::testRejectSelectionsAcrossCyclesUsingSequentialDescending()\n");
 	SelectionVariable var(NULL);
 	
 	var.addValue(a);
@@ -532,7 +510,6 @@ void SelectionVariableTestFixture::testRejectSelectionsAcrossCyclesUsingSequenti
 }
 
 void SelectionVariableTestFixture::testRejectSelectionsAfterHittingEdge(){
-	fprintf(stderr, "Running SelectionVariableTestFixture::testRejectSelectionAfterHittingEdge()\n");
 	SelectionVariable var(NULL);
 	
 	shared_ptr<Selection> sel( new SequentialSelection(3) );
@@ -590,7 +567,6 @@ void SelectionVariableTestFixture::testRejectSelectionsAfterHittingEdge(){
 }
 
 void SelectionVariableTestFixture::testRejectSelectionsAfterHittingEdgeDescending(){
-	fprintf(stderr, "Running SelectionVariableTestFixture::testRejectSelectionsAfterHittingEdgeDescending()\n");
 	SelectionVariable var(NULL);
 	
 	var.addValue(a);
@@ -640,7 +616,6 @@ void SelectionVariableTestFixture::testRejectSelectionsAfterHittingEdgeDescendin
 
 
 void SelectionVariableTestFixture::testRejectSelectionsWithMutilpleCyclesAfterHittingEdge(){
-	fprintf(stderr, "Running SelectionVariableTestFixture::testRejectSelectionsWithMutilpleCyclesAfterHittingEdge()\n");
 	SelectionVariable var(NULL);
 	
 	shared_ptr<Selection> sel( new SequentialSelection(6) );
@@ -714,7 +689,6 @@ void SelectionVariableTestFixture::testRejectSelectionsWithMutilpleCyclesAfterHi
 }
 
 void SelectionVariableTestFixture::testRejectSelectionsWithMutilpleCyclesAfterHittingEdgeDescending(){
-	fprintf(stderr, "Running SelectionVariableTestFixture::testRejectSelectionsWithMutilpleCyclesAfterHittingEdgeDescending()\n");
 	SelectionVariable var(NULL);
 	
 	var.addValue(a);
@@ -788,8 +762,6 @@ void SelectionVariableTestFixture::testRejectSelectionsWithMutilpleCyclesAfterHi
 
 
 void SelectionVariableTestFixture::testRandomWORSelections(){
-	fprintf(stderr, "Running SelectionVariableTestFixture::testRandomWORSelections()\n");
-	
 	SelectionVariable var(NULL);
 	
 	var.addValue(a);
@@ -882,8 +854,6 @@ void SelectionVariableTestFixture::testRandomWORSelections(){
 
 
 void SelectionVariableTestFixture::testRandomWORCycles(){
-	fprintf(stderr, "Running SelectionVariableTestFixture::testRandomWORCycles()\n");
-	
 	SelectionVariable var(NULL);
 	
 	var.addValue(a);
@@ -919,8 +889,6 @@ void SelectionVariableTestFixture::testRandomWORCycles(){
 }
 
 void SelectionVariableTestFixture::testResetRandomWOR(){
-		  fprintf(stderr, "Running SelectionVariableTestFixture::testResetRandomWOR()\n");
-	
 	SelectionVariable var(NULL);
 	
 	var.addValue(a);
@@ -1116,9 +1084,6 @@ void SelectionVariableTestFixture::testResetRandomWOR(){
 
 
 void SelectionVariableTestFixture::testRandomWORPartialSamples(){
-		  fprintf(stderr, "Running SelectionVariableTestFixture::testRandomWORPartialSamples()\n");
-	
-	
 	SelectionVariable var(NULL);
 	
 	long L10 = 1;
@@ -1211,9 +1176,6 @@ void SelectionVariableTestFixture::testRandomWORPartialSamples(){
 
 
 void SelectionVariableTestFixture::testRandomWORSurplusSamples(){
-		  fprintf(stderr, "Running SelectionVariableTestFixture::testRandomWORPartialSamples()\n");
-	
-	
 	SelectionVariable var(NULL);
 	
 	long L10 = 2;
@@ -1296,8 +1258,6 @@ void SelectionVariableTestFixture::testRandomWORSurplusSamples(){
 }
 
 void SelectionVariableTestFixture::testRandomWORRejects(){
-	fprintf(stderr, "Running SelectionVariableTestFixture::testRandomWORRejects()\n");
-	
 	SelectionVariable var(NULL);
 	
 	var.addValue(a);
@@ -1361,8 +1321,6 @@ void SelectionVariableTestFixture::testRandomWORRejects(){
 }
 
 void SelectionVariableTestFixture::testRandomWORRejectsOverCycleEdge1(){
-	fprintf(stderr, "Running SelectionVariableTestFixture::testRandomWORRejectsOverCycleEdge()\n");
-	
 	// how many times each of them is called
 	long L10 = 2;
 	long L20 = 2;
@@ -1451,8 +1409,6 @@ void SelectionVariableTestFixture::testRandomWORRejectsOverCycleEdge1(){
 
 
 void SelectionVariableTestFixture::testRandomWORRejectsOverCycleEdge2(){
-	fprintf(stderr, "Running SelectionVariableTestFixture::testRandomWORRejectsOverCycleEdge()\n");
-	
 	// how many times each of them is called
 	std::vector<int> table;
 	long L10 = 4;
@@ -1806,8 +1762,6 @@ void SelectionVariableTestFixture::testRandomWORRejectsOverCycleEdge2(){
 
 
 void SelectionVariableTestFixture::testRandomWithReplacementSelections(){
-	fprintf(stderr, "Running SelectionVariableTestFixture::testRandomWithReplacementSelections()\n");
-	
 	SelectionVariable var(NULL);
 	
 	
@@ -1874,8 +1828,6 @@ void SelectionVariableTestFixture::testRandomWithReplacementSelections(){
 
 
 void SelectionVariableTestFixture::testRandomWithReplacementCycles(){
-	fprintf(stderr, "Running SelectionVariableTestFixture::testRandomWithReplacementCycles()\n");
-	
 	SelectionVariable var(NULL);
 	
 	
@@ -1979,8 +1931,6 @@ void SelectionVariableTestFixture::testRandomWithReplacementCycles(){
 }
 
 void SelectionVariableTestFixture::testResetRandomWithReplacement(){
-	fprintf(stderr, "Running SelectionVariableTestFixture::testResetRandomWithReplacement()\n");
-	
 	SelectionVariable var(NULL);
 	
 	
@@ -2105,8 +2055,6 @@ void SelectionVariableTestFixture::testResetRandomWithReplacement(){
 
 
 void SelectionVariableTestFixture::testRandomWithReplacementRejects(){
-	fprintf(stderr, "Running SelectionVariableTestFixture::testRandomWithReplacementRejects()\n");
-	
 	SelectionVariable var(NULL);
 	
 	

@@ -18,32 +18,35 @@
 #include <sstream>
 #include "MWorksCore/GenericData.h"
 
-namespace mw {
-using namespace std;
-
 void *hammerit(void *thedatum);
 void *hammerlist(void *thedatum);
 void *hammerdict(void *thedatum);
+
+namespace mw {
+using namespace std;
 
 class GenericDataTestFixture : public CppUnit::TestFixture {
   
   
 	CPPUNIT_TEST_SUITE( GenericDataTestFixture );
 	
-	CPPUNIT_TEST( testList );
+#if INTERNALLY_LOCKED_MDATA
+	CPPUNIT_TEST( testMemoryManagement );
+#endif
 	CPPUNIT_TEST( testString );
-	CPPUNIT_TEST( testDictionary );
-	CPPUNIT_TEST( testEmptyDictionary );
-	CPPUNIT_TEST( testDictLeakyness );
+	CPPUNIT_TEST( testList );
 	CPPUNIT_TEST( testListLeakyness );
 	CPPUNIT_TEST( testListOverwriteLeakyness );
 	CPPUNIT_TEST( testDictOverwriteLeakyness );
+	CPPUNIT_TEST( testListUnderADictionary );
+	CPPUNIT_TEST( testDictLeakyness );
+	CPPUNIT_TEST( testEmptyDictionary );
+	CPPUNIT_TEST( testDictionary );
 	CPPUNIT_TEST( testDictionaryStrings );
 	CPPUNIT_TEST( testDictionaryAddGetElements );
 	CPPUNIT_TEST( testDictionaryKey );
 	CPPUNIT_TEST( testDoubleTeamOnADictionary );
 	CPPUNIT_TEST( testDataEqual );
-	CPPUNIT_TEST( testListUnderADictionary );
 	CPPUNIT_TEST( testAnyScalarConstructorBool );
 	CPPUNIT_TEST( testAnyScalarConstructorInt );
 	CPPUNIT_TEST( testAnyScalarConstructorLong );
@@ -71,8 +74,6 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
 	CPPUNIT_TEST( testAnyScalarEqualChar );
 	CPPUNIT_TEST( testAnyScalarEqualInvalid );
 	CPPUNIT_TEST( testIs );
-		
-	//	CPPUNIT_TEST( testMemoryManagement );
 	
 	CPPUNIT_TEST_SUITE_END();
 	
@@ -89,100 +90,97 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
 	
 	#define LOTS	1000000
 
-//	void testMemoryManagement(){
-//	
-//		fprintf(stderr, "Testing Datum memory management...\n");
-//		fflush(stderr);
-//		
-//	 Datum test(M_LIST, 5);
-//		
-//	 Datum *data = new Datum[5];
-//		for(int i = 0; i < 5; i++){
-//			data[i] = (long)i;
-//		}
-//		
-//		for(int i = 0; i < 5; i++){
-//			test.setElement(i, data[i]);
-//		}
-//		
-//		for(int i = 0; i < 5; i++){
-//			CPPUNIT_ASSERT(data[i] == test.getElement(i));
-//		}
-//		
-//		
-//		delete [] data;
-//		
-//		
-//		for(int i = 0; i < 5; i++){
-//			CPPUNIT_ASSERT((long)(test.getElement(i)) == i);
-//		}
-//		
-//		
-//		
-//		fprintf(stderr, "Hammering an Datum object across two threads...");
-//		fflush(stderr);
-//	 Datum datum(0L);
-//		
-//		pthread_t thread;
-//		pthread_create(&thread, NULL, hammerit, (void *)(&datum));
-//		
-//		for(int i = 0; i < LOTS; i++){
-//			if(i % (LOTS / 100) == 0){
-//				fprintf(stderr, "."); fflush(stderr);
-//			}
-//			datum = (long)i;
-//		}
-//		fprintf(stderr, "\n"); fflush(stderr);
-//		
-//		ScarabDatum *scarabdatum = datum.getScarabDatum();
-//		CPPUNIT_ASSERT(scarabdatum != NULL);
-//		CPPUNIT_ASSERT(scarabdatum->type == SCARAB_INTEGER);
-//	
-//	
-//		fprintf(stderr, "Hammering an M_LIST Datum object across two threads...");
-//		fflush(stderr);
-//	 Datum list_datum(M_LIST, 1);
-//		
-//		pthread_t thread2;
-//		pthread_create(&thread2, NULL, hammerlist, (void *)(&list_datum));
-//		
-//		for(int i = 0; i < LOTS; i++){
-//			if(i % (LOTS / 100) == 0){
-//				fprintf(stderr, "."); fflush(stderr);
-//			}
-//			list_datum.setElement(0, Datum((long)i));
-//		}
-//		fprintf(stderr, "\n"); fflush(stderr);
-//		
-//		scarabdatum = list_datum.getScarabDatum();
-//		CPPUNIT_ASSERT(scarabdatum != NULL);
-//		CPPUNIT_ASSERT(scarabdatum->type == SCARAB_LIST);
-//	
-//		fprintf(stderr, "Hammering an M_DICT Datum object across two threads...");
-//		fflush(stderr);
-//	 Datum dict_datum(M_DICTIONARY, 1);
-//		
-//		pthread_t thread3;
-//		pthread_create(&thread3, NULL, hammerdict, (void *)(&dict_datum));
-//		
-//		for(int i = 0; i < LOTS; i++){
-//			if(i % (LOTS / 100) == 0){
-//				fprintf(stderr, "."); fflush(stderr);
-//			}
-//			dict_datum.addElement("test", Datum((long)i));
-//		}
-//		fprintf(stderr, "\n"); fflush(stderr);
-//		
-//		scarabdatum = dict_datum.getScarabDatum();
-//		CPPUNIT_ASSERT(scarabdatum != NULL);
-//		CPPUNIT_ASSERT(scarabdatum->type == SCARAB_DICT);
-//	
-//	}
+#if INTERNALLY_LOCKED_MDATA
+	void testMemoryManagement(){
+	 Datum test(M_LIST, 5);
+		
+	 Datum *data = new Datum[5];
+		for(int i = 0; i < 5; i++){
+			data[i] = (long)i;
+		}
+		
+		for(int i = 0; i < 5; i++){
+			test.setElement(i, data[i]);
+		}
+		
+		for(int i = 0; i < 5; i++){
+			CPPUNIT_ASSERT(data[i] == test.getElement(i));
+		}
+		
+		
+		delete [] data;
+		
+		
+		for(int i = 0; i < 5; i++){
+			CPPUNIT_ASSERT((long)(test.getElement(i)) == i);
+		}
+		
+		
+		
+		//fprintf(stderr, "Hammering an Datum object across two threads...");
+		//fflush(stderr);
+	 Datum datum(0L);
+		
+		pthread_t thread;
+		pthread_create(&thread, NULL, hammerit, (void *)(&datum));
+		
+		for(int i = 0; i < LOTS; i++){
+			//if(i % (LOTS / 100) == 0){
+			//	fprintf(stderr, "."); fflush(stderr);
+			//}
+			datum = (long)i;
+		}
+		//fprintf(stderr, "\n"); fflush(stderr);
+		
+		ScarabDatum *scarabdatum = datum.getScarabDatum();
+		CPPUNIT_ASSERT(scarabdatum != NULL);
+		CPPUNIT_ASSERT(scarabdatum->type == SCARAB_INTEGER);
+	
+	
+		//fprintf(stderr, "Hammering an M_LIST Datum object across two threads...");
+		//fflush(stderr);
+	 Datum list_datum(M_LIST, 1);
+		
+		pthread_t thread2;
+		pthread_create(&thread2, NULL, hammerlist, (void *)(&list_datum));
+		
+		for(int i = 0; i < LOTS; i++){
+			//if(i % (LOTS / 100) == 0){
+			//	fprintf(stderr, "."); fflush(stderr);
+			//}
+			list_datum.setElement(0, Datum((long)i));
+		}
+		//fprintf(stderr, "\n"); fflush(stderr);
+		
+		scarabdatum = list_datum.getScarabDatum();
+		CPPUNIT_ASSERT(scarabdatum != NULL);
+		CPPUNIT_ASSERT(scarabdatum->type == SCARAB_LIST);
+	
+		//fprintf(stderr, "Hammering an M_DICT Datum object across two threads...");
+		//fflush(stderr);
+	 Datum dict_datum(M_DICTIONARY, 1);
+		
+		pthread_t thread3;
+		pthread_create(&thread3, NULL, hammerdict, (void *)(&dict_datum));
+		
+		for(int i = 0; i < LOTS; i++){
+			//if(i % (LOTS / 100) == 0){
+			//	fprintf(stderr, "."); fflush(stderr);
+			//}
+			dict_datum.addElement("test", Datum((long)i));
+		}
+		//fprintf(stderr, "\n"); fflush(stderr);
+		
+		scarabdatum = dict_datum.getScarabDatum();
+		CPPUNIT_ASSERT(scarabdatum != NULL);
+		CPPUNIT_ASSERT(scarabdatum->type == SCARAB_DICT);
+	
+	}
+#endif
 
 		
 
 	void testString() {
-		fprintf(stderr, "Running GenericDataTestFixture::testString()\n");
 	 Datum data("Test string");
 		char * test = "Test string";
 		
@@ -250,7 +248,6 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
 	}
 
 	void testList() {
-		fprintf(stderr, "Running GenericDataTestFixture::testList()\n");
 	 Datum undefined;
 	 Datum list1(M_LIST, 1);
 	 Datum testInt1(M_INTEGER, 1);		
@@ -380,8 +377,6 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
 	}
 	
 	void testListLeakyness() {
-		fprintf(stderr, "Running GenericDataTestFixture::testListLeakyness()\n");
-
 		// testing leakyness for simple lists
 		const int num_elem = 8;
 	 Datum list1(M_LIST, num_elem);
@@ -417,8 +412,6 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
 	}
 	
 	void testListOverwriteLeakyness() {
-		fprintf(stderr, "Running GenericDataTestFixture::testListOverwriteLeakyness()\n");
-
 	 Datum list1(M_LIST, 2);
 		ScarabDatum *list1Datum = list1.getScarabDatum();
 		
@@ -468,8 +461,6 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
 	}
 	
 	void testDictOverwriteLeakyness() {
-		fprintf(stderr, "Running GenericDataTestFixture::testDictOverwriteLeakyness()\n");
-
 	 Datum dic1(M_DICTIONARY, 2);
 		ScarabDatum *dic1Datum = dic1.getScarabDatum();
 		
@@ -520,8 +511,6 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
 	
 	
 	void testListUnderADictionary() {
-		fprintf(stderr, "Running GenericDataTestFixture::testListUnderADictionary()\n");
-
 		ScarabDatum *dic1Datum;
 		{
 		 Datum dic1(M_DICTIONARY, 2);
@@ -621,7 +610,7 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
 			key = scarab_new_string("six");
 			ScarabDatum *six = scarab_dict_get(dic2Datum, key);
 			scarab_free_datum(key);
-			fprintf(stderr, "refcount = %d", six->ref_count);fflush(stderr);
+			//fprintf(stderr, "refcount = %d", six->ref_count);fflush(stderr);
 			CPPUNIT_ASSERT(six->ref_count == 1);
 			CPPUNIT_ASSERT(dic2Datum->ref_count == 1);
 
@@ -701,8 +690,6 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
 	}
 	
 	void testDictLeakyness() {
-		fprintf(stderr, "Running GenericDataTestFixture::testDictLeakyness()\n");
-
 		// testing leakyness for simple dictionaries
 		const int num_elem = 1000;
 	 Datum *dic1 = new Datum(M_DICTIONARY,num_elem);
@@ -881,8 +868,6 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
 	}	
 		
 	void testEmptyDictionary() {
-		fprintf(stderr, "Running GenericDataTestFixture::testEmptyDictionary()\n");
-
 	 Datum dic(M_DICTIONARY,1);
 
 		CPPUNIT_ASSERT(!dic.hasKey("anything"));
@@ -893,7 +878,6 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
 	
 	
 	void testDictionary() {
-		fprintf(stderr, "Running GenericDataTestFixture::testDictionary()\n");
 			const int num_elem = 2000;
 			
 	 Datum *dic1 = new Datum(M_DICTIONARY,1);
@@ -989,9 +973,8 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
 	}
 
 	void testDictionaryStrings() {
-		fprintf(stderr, "Running GenericDataTestFixture::testDictionaryStrings()\n");
 		const int num_elem = 1000;
-		fprintf(stderr, "next statement about dictionary sized 0 is OK\n");
+		//fprintf(stderr, "next statement about dictionary sized 0 is OK\n");
 	 Datum dic_c(M_DICTIONARY, 0);
 		char * test = new char[20];
 		char * key = new char[20];
@@ -1026,7 +1009,6 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
 
 
 	void testDictionaryAddGetElements() {
-		fprintf(stderr, "Running GenericDataTestFixture::testDictionaryAddGetElements()\n");
 		const int MAX_I=26;
 		const int MAX_J=10;
 	 Datum *dic_b;
@@ -1107,7 +1089,6 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
 	}
 	
 	void testDictionaryKey() {
-		fprintf(stderr, "Running GenericDataTestFixture::testDictionaryKey()\n");
 		const int num_elem = 26;
 	 Datum dic_d(M_DICTIONARY,1);
 	 Datum val("Test string");
@@ -1141,8 +1122,6 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
 	}
 	
 	void testDoubleTeamOnADictionary() {
-		fprintf(stderr, "Running GenericDataTestFixture::testDoubleTeamOnADictionary()\n");
-
 	 Datum list1(M_LIST, 2);
 	 Datum list2(M_LIST, 2);
 
@@ -1181,7 +1160,6 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
 	}
 
 	void testDataEqual() {
-		fprintf(stderr, "Running GenericDataTestFixture::testDataEqual()\n");
 	 Datum undef1;
 	 Datum undef2;		
 	
@@ -1384,7 +1362,7 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
 		CPPUNIT_ASSERT(!(dic1 != temp));
 		
 		// two inequal sized dics
-		fprintf(stderr, "next statements Re: \"...NULL ScarabDatum...\" and \"No key...\" are OK\n");
+		//fprintf(stderr, "next statements Re: \"...NULL ScarabDatum...\" and \"No key...\" are OK\n");
 		dic2.addElement(key1.c_str(),int10);
 		CPPUNIT_ASSERT(dic2 != dic1);
 		CPPUNIT_ASSERT(dic1 != dic2);

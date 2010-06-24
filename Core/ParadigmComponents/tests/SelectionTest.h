@@ -58,9 +58,6 @@ class SelectionTestFixture : public CppUnit::TestFixture {
 		}
 					
 		void testSequentialAscending(){
-			fprintf(stderr, "Testing sequential ascending selections...\n");
-			fflush(stderr);
-		
 			test = new SequentialSelection(a_selectable,true);
 			test->setN(10);
 			test->setSamplingMethod(M_SAMPLES);
@@ -83,9 +80,6 @@ class SelectionTestFixture : public CppUnit::TestFixture {
 		}
 	
 		void testSequentialAscendingMultipleCycles(){
-			fprintf(stderr, 
-					"Testing sequential ascending selections 2 cycles...\n");
-			fflush(stderr);
 			test = new SequentialSelection(a_selectable,true);
 			test->setN(20);
 			test->setSamplingMethod(M_SAMPLES);

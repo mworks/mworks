@@ -12,7 +12,6 @@ using namespace mw;
 
 
 CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( ExpandableListTestFixture, "Unit Test" );
-//CPPUNIT_TEST_SUITE_REGISTRATION( ExpandableListTestFixture );
 
 void ExpandableListTestFixture::setUp(){}
 
@@ -20,8 +19,6 @@ void ExpandableListTestFixture::tearDown(){}
 
 
 void ExpandableListTestFixture::testAddSharedPtr(){
-	fprintf(stderr, "mExpandableListTestFixture::testAddSharedPtr()\n");
-	
 	ExpandableList<Datum> list;
 	
 	shared_ptr<Datum> shared_data(new Datum(10L));
@@ -33,7 +30,6 @@ void ExpandableListTestFixture::testAddSharedPtr(){
 }
 
 void ExpandableListTestFixture::testGetNElements(){
-	fprintf(stderr, "mExpandableListTestFixture::testGetNElements()\n");
 	ExpandableList<Datum> list;
 	
 	CPPUNIT_ASSERT( list.getNElements() == 0 );
@@ -55,8 +51,6 @@ void ExpandableListTestFixture::testGetNElements(){
 }
 
 void ExpandableListTestFixture::testSetGetElement(){
-	fprintf(stderr, "mExpandableListTestFixture::testSetGetElement()\n");
-	
 	ExpandableList<Datum> *list = new ExpandableList<Datum>();
 	
 	for(int i = 0; i < 10; i++){
@@ -74,8 +68,6 @@ void ExpandableListTestFixture::testSetGetElement(){
 }
 
 void ExpandableListTestFixture::testBracketOperator(){
-	fprintf(stderr, "mExpandableListTestFixture::testBracketOperator()\n");
-	
 	ExpandableList<Datum> list;
 	
 	shared_ptr<Datum> a(new Datum(10L));

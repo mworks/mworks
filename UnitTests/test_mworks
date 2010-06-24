@@ -2,8 +2,9 @@
 
 from cStringIO import StringIO
 import os
-from subprocess import call, Popen, PIPE
+from subprocess import call
 import sys
+from tempfile import NamedTemporaryFile
 from xml.dom import minidom
 
 
@@ -36,28 +37,20 @@ def error(status, msg, *args):
     die(status, 'ERROR: ' + msg, *args)
 
 
-def run_unit_tests(arch_name, test_name=None):
-    args = [arch, '-arch', arch_name, mworks_core_test_runner]
-    if test_name:
-        args.append(test_name)
+def run_unit_tests(arch_name, test_names=None):
+    with NamedTemporaryFile() as output:
+        args = [arch, '-arch', arch_name, mworks_core_test_runner, output.name]
+        if test_names:
+            args.extend(test_names)
 
-    cmd = Popen(args=args, stdout=PIPE)
-    output = StringIO(cmd.communicate()[0])
+        status = call(args)
+        if status not in (0, 1):
+            error(cmd.returncode, '%s quit unexpectedly',
+                  os.path.basename(mworks_core_test_runner))
 
-    if cmd.returncode not in (0, 1):
-        error(cmd.returncode, '%s quit unexpectedly',
-              os.path.basename(mworks_core_test_runner))
+        results = minidom.parse(output)
 
-    # Strip leading lines up to and including the XML prolog, which
-    # minidom refuses to parse
-    while True:
-        line = output.readline()
-        if line.startswith('<?xml '):
-            break
-
-    results = minidom.parse(output)
     failed_tests = results.getElementsByTagName('FailedTests')[0]
-
     return [test.firstChild.data for test in
             failed_tests.getElementsByTagName('Name')]
 
@@ -94,7 +87,7 @@ def run_marionette_tests(arch_name, test_names=None):
         if not os.path.isfile(test_data):
             test_data = default_test_data
 
-        message('Running %s', test_xml[len(test_xml_dir):])
+        message(test_xml[len(test_xml_dir):])
         status = call([arch, '-arch', arch_name, marionette_test, test_xml,
                        test_data])
         if status != 0:
@@ -125,8 +118,7 @@ def main():
     failed_tests = []
 
     if unit_test_names:
-        for test_name in unit_test_names:
-            failed_tests.extend(run_unit_tests(arch_name, test_name))
+        failed_tests.extend(run_unit_tests(arch_name, unit_test_names))
     elif not marionette_test_names:
         failed_tests.extend(run_unit_tests(arch_name))
 

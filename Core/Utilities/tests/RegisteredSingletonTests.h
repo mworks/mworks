@@ -28,10 +28,10 @@ public:
 class RegisteredSingletonTestFixture : public CppUnit::TestFixture {
 	
 	CPPUNIT_TEST_SUITE( RegisteredSingletonTestFixture );	
+
 	CPPUNIT_TEST (simpleCreateTest);
 	CPPUNIT_TEST (simpleCreateTestFromGenericComponent);
 	CPPUNIT_TEST (testCreationFromWrongComponent);
-	
 	CPPUNIT_TEST (destroyTest);
 	CPPUNIT_TEST (destroyUnregsiteredTest);
 	CPPUNIT_TEST (tryToGetUnregsiteredTest);

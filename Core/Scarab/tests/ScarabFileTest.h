@@ -24,15 +24,15 @@ class ScarabFileTestFixture : public CppUnit::TestFixture {
 
 	CPPUNIT_TEST_SUITE( ScarabFileTestFixture );
 	
+	CPPUNIT_TEST( testPutGetCodec );
 	CPPUNIT_TEST( testIntegerPutGet );
-	CPPUNIT_TEST( testBigIntegerPutGet );
-	CPPUNIT_TEST( testDictPutGet );
-    //CPPUNIT_TEST( testListPutGet );
-	CPPUNIT_TEST( testNestedDictPutGet );
-	CPPUNIT_TEST( testFloatPutGet );
 	CPPUNIT_TEST( test128IntegerPutGet );
+	CPPUNIT_TEST( testBigIntegerPutGet );
 	CPPUNIT_TEST( test64BitIntegerPutGet );
-	//CPPUNIT_TEST( testPutGetCodec );
+	CPPUNIT_TEST( testFloatPutGet );
+	CPPUNIT_TEST( testDictPutGet );
+	CPPUNIT_TEST( testNestedDictPutGet );
+    //CPPUNIT_TEST( testListPutGet );
 									
 	CPPUNIT_TEST_SUITE_END();
 
@@ -50,11 +50,11 @@ class ScarabFileTestFixture : public CppUnit::TestFixture {
 		}
 			
 		void testPutGetCodec(){
-			fprintf(stderr, "Running ScarabFileTestFixture::testPutGetCodec()\n");
+            // This test needs to be updated or removed
+            std::cout << " (DISABLED)";
+            return;
 
-			/*fprintf(stderr, "Testing put/get codec...\n");
-			
-			VariableRegistry *r = new VariableRegistry();
+			/*VariableRegistry *r = new VariableRegistry();
 			Variable *testvar =
 					r->addExperimentwideVariable(new VariableProperties(
 											new Datum((bool)false), "test",
@@ -120,8 +120,6 @@ class ScarabFileTestFixture : public CppUnit::TestFixture {
 		
 		
 		void testIntegerPutGet(){
-			fprintf(stderr, "Running ScarabFileTestFixture::testIntegerPutGet()\n");
-			
 			ScarabDatum *theint = scarab_new_integer(42);
 			
 			// put and get to a file
@@ -134,7 +132,6 @@ class ScarabFileTestFixture : public CppUnit::TestFixture {
 		}
 
 		void test128IntegerPutGet(){
-			fprintf(stderr, "Running ScarabFileTestFixture::test128IntegerPutGet()\n");
 			ScarabDatum *theint = scarab_new_integer(128);
 			
 			// put and get to a file
@@ -146,9 +143,6 @@ class ScarabFileTestFixture : public CppUnit::TestFixture {
 		}
 
 		void testBigIntegerPutGet(){
-		  fprintf(stderr, "Running ScarabFileTestFixture::testBigIntegerPutGet()\n");
-
-			fprintf(stderr, "Testing put/get large integer...\n");
 			ScarabDatum *theint = scarab_new_integer(100000);
 			
 			// put and get to a file
@@ -161,9 +155,6 @@ class ScarabFileTestFixture : public CppUnit::TestFixture {
 		}
 
 		void test64BitIntegerPutGet(){
-		  fprintf(stderr, "Running ScarabFileTestFixture::test64BitIntegerPutGet()\n");
-			
-			fprintf(stderr, "Testing put/get 64 bit integer...\n");
 			ScarabDatum *theint = scarab_new_integer(((long long)0x01 << 31));
 			
 			CPPUNIT_ASSERT( theint->data.integer == ((long long)0x01 << 31) );
@@ -173,17 +164,13 @@ class ScarabFileTestFixture : public CppUnit::TestFixture {
 			
 			CPPUNIT_ASSERT( received_int != NULL );
 			CPPUNIT_ASSERT( received_int->type == SCARAB_INTEGER );
-			fprintf(stderr, "Received: %lld", received_int->data.integer);
-			fflush(stderr);
+			//fprintf(stderr, "Received: %lld", received_int->data.integer);
+			//fflush(stderr);
 			CPPUNIT_ASSERT( received_int->data.integer == ((long long)0x01 << 31) );
 			
 		}
 
 		void testFloatPutGet(){
-		  fprintf(stderr, "Running ScarabFileTestFixture::testFloatPutGet()\n");
-			
-			fprintf(stderr, "Testing put/get float...\n");
-			
 			// TODO: There is a long-standing hack that needs correcting here...
 			// (sorry that this unit test just grandfathers it in...)
 			
@@ -215,10 +202,6 @@ class ScarabFileTestFixture : public CppUnit::TestFixture {
 
 
 		void testDictPutGet(){
-		  fprintf(stderr, "Running ScarabFileTestFixture::testDictPutGet()\n");
-			
-			fprintf(stderr, "Testing put/get dictionary...\n");
-			
 			ScarabDatum *dict = scarab_dict_new(10,&scarab_dict_times2);
 			for(int i = 0; i < 10; i++){
 				scarab_dict_put(dict, scarab_new_integer(i),
@@ -243,10 +226,6 @@ class ScarabFileTestFixture : public CppUnit::TestFixture {
 
 
 		void testNestedDictPutGet(){
-		  fprintf(stderr, "Running ScarabFileTestFixture::testNestedDictPutGet()\n");
-			
-			fprintf(stderr, "Testing put/get nested dictionaries...\n");
-			
 			ScarabDatum *dict = scarab_dict_new(10,&scarab_dict_times2);
 			for(int i = 0; i < 10; i++){
 				ScarabDatum *subdict = 

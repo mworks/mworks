@@ -24,8 +24,8 @@ using namespace mw;
 #define BUFFER_HIGH_WATER_MARK	1
 #define MAX_EVENTS_TO_BUFFER	10000
 
-CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( DatumFileTestFixture, "Unit Test" );
-//CPPUNIT_TEST_SUITE_REGISTRATION( DatumFileTestFixture );
+// Currently, all the tests do nothing, so why bother running them?
+//CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( DatumFileTestFixture, "Unit Test" );
 
 #define dft_CPPUNIT_ASSERT_TS(x)	dft_cppunit_lock->lock(); \
 CPPUNIT_ASSERT(x); \
@@ -92,11 +92,9 @@ void DatumFileTestFixture::tearDown() {
 
 
 void DatumFileTestFixture::initializationTest() {
-	fprintf(stderr, "mDataFileTestFixture::initializationTest()\n");
 }
 
 void DatumFileTestFixture::dataFileWriterTest() {
-	fprintf(stderr, "mDataFileTestFixture::dataFileWriterTest()\n");
 //	// fill up an event queue
 //	for (int i =0; i<dft_BUFF_SIZE-1; ++i) {
 //	 Datum _i(M_INTEGER, i );
@@ -116,5 +114,4 @@ void DatumFileTestFixture::dataFileWriterTest() {
 }
 
 void DatumFileTestFixture::multiDataFileWriterTest() {
-	fprintf(stderr, "mDataFileTestFixture::multiDataFileWriterTest()\n");
 }

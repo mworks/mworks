@@ -28,7 +28,7 @@
 
 using namespace mw;
 
-//CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( PythonConduitServerTestFixture, "Unit Test" );
+CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( PythonConduitServerTestFixture, "Unit Test" );
 
 
 void PythonConduitServerTestFixture::setUp(){
@@ -40,7 +40,10 @@ void PythonConduitServerTestFixture::setUp(){
 
 
 void PythonConduitServerTestFixture::testInOneThread(){
-    
+    // As noted below, we need to figure out where to store PythonConduitTest.py
+    std::cout << " (DISABLED)";
+    return;
+   
     
     // Create Interprocess event transports. In principle, these could be
     // in other processes

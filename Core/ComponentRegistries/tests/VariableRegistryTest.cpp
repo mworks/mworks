@@ -21,8 +21,6 @@ void VariableRegistryTestFixture::tearDown(){
 }
 
 void VariableRegistryTestFixture::testCodec(){
-	fprintf(stderr, "mVariableRegistryTestFixture::testCodec()\n");			
-	
 	VariableRegistry *r = new VariableRegistry(global_outgoing_event_buffer);
 
     Datum generated_codec(r->generateCodecDatum());	

@@ -35,9 +35,9 @@ namespace mw {
 		CPPUNIT_TEST( testLoadInt );
 		CPPUNIT_TEST( testLoadIntNegative );
 		CPPUNIT_TEST( testLoadIntExpression );
+		CPPUNIT_TEST( testLoadIntSpaces );
 		CPPUNIT_TEST( testLoadIntAttribute );
 		CPPUNIT_TEST( testLoadIntAttributeClosingTag );
-		CPPUNIT_TEST( testLoadIntSpaces );
 		CPPUNIT_TEST( testLoadFloat );
 		CPPUNIT_TEST( testLoadString );
 		CPPUNIT_TEST( testLoadStringAttribute );

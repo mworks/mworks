@@ -24,8 +24,8 @@ class ScarabDataTestFixture : public CppUnit::TestFixture {
 	CPPUNIT_TEST_SUITE( ScarabDataTestFixture );
 	
 	CPPUNIT_TEST( testDictPutGet );
+	CPPUNIT_TEST( testTooSmallDictPutGet );
 	CPPUNIT_TEST( testDictKeys );
-	//CPPUNIT_TEST( testTooSmallDictPutGet );
 	
 	CPPUNIT_TEST_SUITE_END();
 
@@ -42,9 +42,6 @@ class ScarabDataTestFixture : public CppUnit::TestFixture {
 		}
 					
 		void testDictPutGet(){
-			fprintf(stderr, "Running ScarabDataTestFixture::testDictPutGet()\n");
-
-			//fprintf(stderr, "Testing...\n"); fflush(stderr);
 			#define SCARAB_TEST_DICT_SIZE	10
 			ScarabDatum *dict = scarab_dict_new(
 												SCARAB_TEST_DICT_SIZE, 
@@ -81,9 +78,6 @@ class ScarabDataTestFixture : public CppUnit::TestFixture {
 	
 	
 		void testTooSmallDictPutGet(){
-			fprintf(stderr, "Running ScarabDataTestFixture::testTooSmallDictPutGet()\n");
-			
-			//fprintf(stderr, "Testing...\n"); fflush(stderr);
 			#define SCARAB_TEST_DICT_SIZE	10
 			ScarabDatum *dict = scarab_dict_new(
 												SCARAB_TEST_DICT_SIZE, 
@@ -122,8 +116,6 @@ class ScarabDataTestFixture : public CppUnit::TestFixture {
 	
 	
 		void testDictKeys(){
-			fprintf(stderr, "Running ScarabDataTestFixture::testDictKeys()\n");
-			//fprintf(stderr, "Testing...\n"); fflush(stderr);
 			#define SCARAB_TEST_DICT_SIZE	10
 			ScarabDatum *dict = scarab_dict_new(
 												SCARAB_TEST_DICT_SIZE, 

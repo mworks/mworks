@@ -48,8 +48,6 @@ class PerlInterpreterTestFixture : public CppUnit::TestFixture {
 		}
 					
 		void testInstantiatingObjects(){
-			fprintf(stderr, "Running PerlInterpreterTestFixture::testInstantiatingObjects()\n");
-			
 			// this is a convenient commonly accessible point
 			GlobalIODeviceManager = NULL;
 			

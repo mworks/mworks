@@ -54,7 +54,6 @@ class VectorTestFixture : public CppUnit::TestFixture {
 		}
 					
 		void testGetNElements(){
-			fprintf(stderr, "Running VectorTestFixture::testGetNElements()\n");
 		 Datum vec(M_LIST, 4);
 			CPPUNIT_ASSERT( vec.getMaxElements() == 4 );
 			
@@ -71,8 +70,6 @@ class VectorTestFixture : public CppUnit::TestFixture {
 		}
 	
 		void testSetGetElement(){
-			fprintf(stderr, "Running VectorTestFixture::testSetGetElement()\n");
-		
 		 Datum vec(M_LIST, 10);
 			
 			for(int i = 0; i < 10; i++){
@@ -88,8 +85,6 @@ class VectorTestFixture : public CppUnit::TestFixture {
 		}
 		
 		void testBracketOperator(){
-			fprintf(stderr, "Running VectorTestFixture::testBracketOperator()\n");
-		
 		 Datum vec(M_LIST, 1);
 			vec.setElement(0, *a);
 			

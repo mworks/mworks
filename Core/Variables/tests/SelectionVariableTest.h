@@ -30,10 +30,10 @@ class SelectionVariableTestFixture : public CppUnit::TestFixture  {
 	CPPUNIT_TEST( testReset );
 	CPPUNIT_TEST( testResetDescending );
 	CPPUNIT_TEST( testPartialSamples );
+    CPPUNIT_TEST( testSurplusSamples );
 	CPPUNIT_TEST( testCycles );
 	CPPUNIT_TEST( testMultipleCycles );
 	CPPUNIT_TEST( testAutoReset );
-    CPPUNIT_TEST( testSurplusSamples );
 	CPPUNIT_TEST( testAcceptSelections );
 	CPPUNIT_TEST( testRejectSelections );
 	CPPUNIT_TEST( testRejectSelectionsAcrossCyclesUsingSequentialAscending );

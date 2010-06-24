@@ -17,7 +17,7 @@
 
 using namespace mw;
 
-//CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( EventStreamConduitTestFixture, "Unit Test" );
+CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( EventStreamConduitTestFixture, "Unit Test" );
 
 
 void EventStreamConduitTestFixture::setUp(){
@@ -29,6 +29,10 @@ void EventStreamConduitTestFixture::setUp(){
 
 
 void EventStreamConduitTestFixture::testInOneThread(){
+    // CJS 6/10:  Dave disabled this test for some reason.  Rather than not running it at all, let's add a note
+    // that it's disabled to the test runner output, so we don't forget about it.
+    std::cout << " (DISABLED)";
+    return;
     
     
     // Create Interprocess event transports. In principle, these could be

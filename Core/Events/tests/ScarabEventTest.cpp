@@ -55,9 +55,7 @@ void ScarabEventTestFixture::tearDown(){
 }
 
 void ScarabEventTestFixture::testToFromScarabDatum(){
-	fprintf(stderr, "Running ScarabEventTestFixture::testToFromScarabDatum()\n");
-	
- Datum codec(reg->generateCodecDatum());
+    Datum codec(reg->generateCodecDatum());
 	Event test_event(RESERVED_CODEC_CODE, codec.getScarabDatum());
 	
 	ScarabDatum *serialized = test_event.toScarabDatum();

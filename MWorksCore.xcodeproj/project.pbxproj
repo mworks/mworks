@@ -80,8 +80,6 @@
 /* Begin PBXBuildFile section */
 		0E00418B0EB9F3C30099380C /* ClockTest.h in Headers */ = {isa = PBXBuildFile; fileRef = 0E0041890EB9F3C30099380C /* ClockTest.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0E00418C0EB9F3C30099380C /* ClockTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E00418A0EB9F3C30099380C /* ClockTest.cpp */; };
-		0E0E76510B2DEEF0005964D1 /* BufferManagerTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E0E764F0B2DEEF0005964D1 /* BufferManagerTest.cpp */; };
-		0E0E76520B2DEEF0005964D1 /* BufferManagerTest.h in Headers */ = {isa = PBXBuildFile; fileRef = 0E0E76500B2DEEF0005964D1 /* BufferManagerTest.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0E1AE9930EF1A9EE00C224F1 /* setup_variables_macbook.xml in Resources */ = {isa = PBXBuildFile; fileRef = 0E1AE9920EF1A9EE00C224F1 /* setup_variables_macbook.xml */; };
 		0E1AE9A80EF1AB5500C224F1 /* setup_variables_two_monitors.xml in Resources */ = {isa = PBXBuildFile; fileRef = 0E1AE9A70EF1AB5500C224F1 /* setup_variables_two_monitors.xml */; };
 		0E1DB69C0B4EB983000C0D68 /* ExperimentUnpackager.h in Headers */ = {isa = PBXBuildFile; fileRef = 0E1DB69A0B4EB878000C0D68 /* ExperimentUnpackager.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -684,8 +682,6 @@
 /* Begin PBXFileReference section */
 		0E0041890EB9F3C30099380C /* ClockTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClockTest.h; sourceTree = "<group>"; };
 		0E00418A0EB9F3C30099380C /* ClockTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ClockTest.cpp; sourceTree = "<group>"; };
-		0E0E764F0B2DEEF0005964D1 /* BufferManagerTest.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = BufferManagerTest.cpp; sourceTree = "<group>"; };
-		0E0E76500B2DEEF0005964D1 /* BufferManagerTest.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = BufferManagerTest.h; sourceTree = "<group>"; };
 		0E1AE9920EF1A9EE00C224F1 /* setup_variables_macbook.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = setup_variables_macbook.xml; sourceTree = "<group>"; };
 		0E1AE9A70EF1AB5500C224F1 /* setup_variables_two_monitors.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = setup_variables_two_monitors.xml; sourceTree = "<group>"; };
 		0E1DB69A0B4EB878000C0D68 /* ExperimentUnpackager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ExperimentUnpackager.h; path = Core/ExperimentDataLoading/ExperimentUnpackager.h; sourceTree = "<group>"; };
@@ -1489,8 +1485,6 @@
 		5C4D254409DCBAF70082BF9F /* tests */ = {
 			isa = PBXGroup;
 			children = (
-				0E0E764F0B2DEEF0005964D1 /* BufferManagerTest.cpp */,
-				0E0E76500B2DEEF0005964D1 /* BufferManagerTest.h */,
 				5C4238A009EE97820023EB90 /* ScarabEventTest.h */,
 				5C4238A109EE97820023EB90 /* ScarabEventTest.cpp */,
 				5CA07B8E10D0B23B00000A95 /* EventCallbackHandlerTest.h */,
@@ -2268,7 +2262,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0E0E76520B2DEEF0005964D1 /* BufferManagerTest.h in Headers */,
 				5C4D23AD09DC84160082BF9F /* VectorTest.h in Headers */,
 				5C37479509EC093900F8265F /* ScarabDataTest.h in Headers */,
 				5C37489809EC249C00F8265F /* VariableRegistryTest.h in Headers */,
@@ -2942,7 +2935,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0E0E76510B2DEEF0005964D1 /* BufferManagerTest.cpp in Sources */,
 				5C4D23AC09DC84160082BF9F /* VectorTest.cpp in Sources */,
 				5C37479609EC093900F8265F /* ScarabDataTest.cpp in Sources */,
 				5C37489909EC249C00F8265F /* VariableRegistryTest.cpp in Sources */,

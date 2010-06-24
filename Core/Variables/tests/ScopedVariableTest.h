@@ -26,11 +26,11 @@ class ScopedVariableTestFixture : public FullCoreEnvironmentTestFixture {
 	
 	
 	CPPUNIT_TEST_SUITE( ScopedVariableTestFixture );
+
 	CPPUNIT_TEST( test1 );
 	CPPUNIT_TEST( inheritedContextTest );
+	CPPUNIT_TEST( invitroTest );
 
-	// TODO: reinstate test
-	//CPPUNIT_TEST( invitroTest );
 	CPPUNIT_TEST_SUITE_END();
 	
 	

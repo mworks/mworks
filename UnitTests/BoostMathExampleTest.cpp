@@ -22,7 +22,6 @@
 using namespace mw;
 
 CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( BoostMathExampleTestFixture, "Unit Test" );
-//CPPUNIT_TEST_SUITE_REGISTRATION( BoostMathExampleTestFixture );
 
 
 void BoostMathExampleTestFixture::setUp() {	
@@ -32,8 +31,6 @@ void BoostMathExampleTestFixture::tearDown() {
 }
 
 void BoostMathExampleTestFixture::example1Test() {
-	fprintf(stderr, "Running BoostMathExampleTestFixture::example1Test()\n"); 
-
 	using namespace boost;
 
 	int mean = 0;
@@ -67,7 +64,6 @@ void BoostMathExampleTestFixture::example1Test() {
 // different syntax.  I haven't decided what one I like better.  I think
 // the "using namespace boost" is easier to read.
 void BoostMathExampleTestFixture::example2Test() {	
-	fprintf(stderr, "Running BoostMathExampleTestFixture::example2Test()\n"); 
 	double lambda = 1;
 	
 	boost::mt19937 rng;  // we'll still use mt19937
@@ -87,7 +83,6 @@ void BoostMathExampleTestFixture::example2Test() {
 
 // lin-alg example
 void BoostMathExampleTestFixture::example3Test() {	
-	fprintf(stderr, "Running BoostMathExampleTestFixture::example3Test()\n"); 
 	using namespace boost::numeric::ublas;
 	
 	vector<double> x (2);
@@ -105,15 +100,14 @@ void BoostMathExampleTestFixture::example3Test() {
 
 // trig example
 void BoostMathExampleTestFixture::example4Test() {	
-	fprintf(stderr, "Running BoostMathExampleTestFixture::example4Test()\n"); 
 	// this isn't really Boost but I included it anyway
 
-//	const double pi = 3.141592653589793238462643383279502884197169399375105820;
-//	const double angle = 45;
-//	double angle_in_rad = 45*(pi/180);
-//
-//  // precision errors prevert these tests from passing, but you get the point
-//	CPPUNIT_ASSERT(cos(pi) == 1);
-//	CPPUNIT_ASSERT(sin(angle_in_rad) == sqrt(2));
+	const double pi = 3.141592653589793238462643383279502884197169399375105820;
+	const double angle = 45.0;
+	double angle_in_rad = angle*(pi/180.0);
+    const double tol = 1e-10;
+
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(-1.0, cos(pi), tol);
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0/sqrt(2.0), sin(angle_in_rad), tol);
 }
 

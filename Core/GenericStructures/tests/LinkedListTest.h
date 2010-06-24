@@ -28,6 +28,7 @@ class LinkedListTestFixture : public CppUnit::TestFixture {
 	CPPUNIT_TEST( testMoveForward );
 	CPPUNIT_TEST( testMoveBackward );
 	CPPUNIT_TEST( testBringToFront );
+	CPPUNIT_TEST( testShortList );
 	CPPUNIT_TEST( testSendToBack );
 	CPPUNIT_TEST( testRemove );
 	CPPUNIT_TEST( testEmpty );
@@ -35,8 +36,7 @@ class LinkedListTestFixture : public CppUnit::TestFixture {
 	CPPUNIT_TEST( testGetNElements );
 	CPPUNIT_TEST( testMultipleLists );
 	CPPUNIT_TEST( testRemoveAndReadd );
-	CPPUNIT_TEST( testShortList );
-	CPPUNIT_TEST(testNotificationStyle);
+	CPPUNIT_TEST( testNotificationStyle );
 	
 	CPPUNIT_TEST_SUITE_END();
 

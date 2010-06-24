@@ -24,8 +24,6 @@ void LinkedListTestFixture::tearDown() {}
 
 
 void LinkedListTestFixture::testAddToFront(){
-	fprintf(stderr, "Running LinkedListTestFixture::testAddToFront()\n");
-	
 	list.addToFront(a);
 	list.addToFront(b);
 	list.addToFront(c);
@@ -50,8 +48,6 @@ void LinkedListTestFixture::testAddToFront(){
 }
 
 void LinkedListTestFixture::testAddToBack(){
-	fprintf(stderr, "Running LinkedListTestFixture::testAddToBack()\n");
-	
 	list.addToBack(a);
 	list.addToBack(b);
 	list.addToBack(c);
@@ -77,8 +73,6 @@ void LinkedListTestFixture::testAddToBack(){
 
 
 void LinkedListTestFixture::testMoveForward(){
-	fprintf(stderr, "Running LinkedListTestFixture::testMoveForward()\n");
-	
 	list.addToFront(d);
 	list.addToFront(c);
 	list.addToFront(b);
@@ -122,8 +116,6 @@ void LinkedListTestFixture::testMoveForward(){
 
 
 void LinkedListTestFixture::testMoveBackward(){
-	fprintf(stderr, "Running LinkedListTestFixture::testMoveBackward()\n");
-	
 	list.addToFront(d);
 	list.addToFront(c);
 	list.addToFront(b);
@@ -165,9 +157,6 @@ void LinkedListTestFixture::testMoveBackward(){
 }
 
 void LinkedListTestFixture::testBringToFront(){
-	fprintf(stderr, "Running LinkedListTestFixture::testBringToFront()\n");
-	
-	
 	list.addToFront(d);
 	list.addToFront(c);
 	list.addToFront(b);
@@ -203,8 +192,6 @@ void LinkedListTestFixture::testBringToFront(){
 
 
 void LinkedListTestFixture::testShortList(){
-	fprintf(stderr, "Running LinkedListTestFixture::testShortList()\n");
-	
 	list.addToFront(b);
 	list.addToFront(a);
 	
@@ -222,8 +209,6 @@ void LinkedListTestFixture::testShortList(){
 
 
 void LinkedListTestFixture::testSendToBack(){
-	fprintf(stderr, "Running LinkedListTestFixture::testSendToBack()\n");
-	
 	list.addToFront(d);
 	list.addToFront(c);
 	list.addToFront(b);
@@ -258,8 +243,6 @@ void LinkedListTestFixture::testSendToBack(){
 }
 
 void LinkedListTestFixture::testRemove(){
-	fprintf(stderr, "Running LinkedListTestFixture::testRemove()\n");
-	
 	list.addToFront(d);
 	list.addToFront(c);
 	list.addToFront(b);
@@ -290,8 +273,6 @@ void LinkedListTestFixture::testRemove(){
 }
 
 void LinkedListTestFixture::testEmpty(){
-	fprintf(stderr, "Running LinkedListTestFixture::testEmpty()\n");
-	
 	node = list.getFrontmost();
 	CPPUNIT_ASSERT( node == NULL );
 	
@@ -300,9 +281,6 @@ void LinkedListTestFixture::testEmpty(){
 }
 
 void LinkedListTestFixture::testOneNode(){
-	fprintf(stderr, "Running LinkedListTestFixture::testOneNode()\n");
-	
-	
 	list.addToFront(a);
 	
 	node = list.getFrontmost();
@@ -315,8 +293,6 @@ void LinkedListTestFixture::testOneNode(){
 }
 
 void LinkedListTestFixture::testGetNElements(){
-	fprintf(stderr, "Running LinkedListTestFixture::testGetNElements()\n");
-	
 	CPPUNIT_ASSERT( list.getNElements() == 0 );
 	
 	list.addToFront(a);
@@ -345,9 +321,6 @@ void LinkedListTestFixture::testGetNElements(){
 }
 
 void LinkedListTestFixture::testMultipleLists(){
-	fprintf(stderr, "Running LinkedListTestFixture::testMultipleLists()\n");
-	
-	
 	list.addToFront(a);
 	a->remove();
 	list2.addToFront(a);
@@ -359,10 +332,6 @@ void LinkedListTestFixture::testMultipleLists(){
 
 
 void LinkedListTestFixture::testRemoveAndReadd(){
-	fprintf(stderr, "Running LinkedListTestFixture::testRemoveAndReadd()\n");
-	
-	fflush(stderr);
-	
 	list.addToFront(a);
 	list.addToFront(b);
 	list.addToFront(c);
@@ -409,7 +378,7 @@ void LinkedListTestFixture::testNotificationStyle() {
 	LinkedList<VariableNotification> list3;
 
 {
-	fprintf(stderr, "\nentering scoped section\n"); 
+	//fprintf(stderr, "\nentering scoped section\n"); 
 	shared_ptr<VariableNotification> vn = shared_ptr<VariableNotification>(new VariableNotification());
 	ExpandableList<VariableNotification> *notifications = new ExpandableList<VariableNotification>();
 
@@ -421,9 +390,9 @@ void LinkedListTestFixture::testNotificationStyle() {
 	
 	delete notifications;
 	vn->remove();
-	fprintf(stderr, "exiting scoped section\n"); 
+	//fprintf(stderr, "exiting scoped section\n"); 
 }
-	fprintf(stderr, "everything is out of scope\n"); 
+	//fprintf(stderr, "everything is out of scope\n"); 
 
 	CPPUNIT_ASSERT(list3.getNElements() == 0);
 

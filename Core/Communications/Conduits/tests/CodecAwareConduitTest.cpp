@@ -94,7 +94,7 @@ void CodecAwareConduitTestFixture::testInOneThread(){
     // Interrogate what came out on the other side
     shared_ptr<Event> received_event = clientside_collector->getLastEvent();
     
-    std::cerr << "Attempting ASSERTS" << std::endl;
+    //std::cerr << "Attempting ASSERTS" << std::endl;
     
     CPPUNIT_ASSERT(received_event != NULL);
     //CPPUNIT_ASSERT(received_event->getEventCode() == 0);
