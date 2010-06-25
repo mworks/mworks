@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
 from cStringIO import StringIO
+from optparse import OptionParser
 import os
 from subprocess import call
 import sys
@@ -9,13 +10,12 @@ from xml.dom import minidom
 
 
 tests_dir = '/Library/Application Support/MWorks/Developer/tests'
-test_xml_dir_relative = 'XML/'
-test_xml_dir = os.path.join(tests_dir, test_xml_dir_relative)
+test_xml_dir = os.path.join(tests_dir, 'XML')
 marionette_test_contents = os.path.join(tests_dir,
                                         'MarionetteTest.app/Contents')
 
 arch = '/usr/bin/arch'
-valid_arch_names = ('i386', 'x86_64')
+valid_arch_names = ('x86_64', 'i386')
 mworks_core_test_runner = os.path.join(tests_dir, 'MWorksCoreTestRunner')
 marionette_test = os.path.join(marionette_test_contents, 'MacOS/MarionetteTest')
 
@@ -24,17 +24,9 @@ default_test_data = os.path.join(marionette_test_contents,
                                  'default_test_data.xml')
 
 
-def message(msg, *args):
-    sys.stderr.write((msg % args) + '\n')
-
-
-def die(status, msg, *args):
-    message(msg, *args)
-    sys.exit(status)
-
-
 def error(status, msg, *args):
-    die(status, 'ERROR: ' + msg, *args)
+    sys.stderr.write('ERROR: ' + (msg % args) + '\n')
+    sys.exit(status)
 
 
 def run_unit_tests(arch_name, test_names=None):
@@ -63,18 +55,12 @@ def iter_marionette_tests():
             yield test_xml
 
 
-def clean_marionette_test_name(test_name):
-    if test_name.startswith(test_xml_dir_relative):
-        return test_name[len(test_xml_dir_relative):]
-    return test_name
-
-
 def run_marionette_tests(arch_name, test_names=None):
     if not test_names:
         test_xml_iter = iter_marionette_tests()
     else:
-        test_xml_iter = (os.path.join(test_xml_dir,
-                                      clean_marionette_test_name(test))
+        test_xml_iter = ((test if os.path.isfile(test)
+                          else os.path.join(test_xml_dir, test))
                          for test in test_names)
 
     failed_tests = []
@@ -87,34 +73,28 @@ def run_marionette_tests(arch_name, test_names=None):
         if not os.path.isfile(test_data):
             test_data = default_test_data
 
-        message(test_xml[len(test_xml_dir):])
+        if test_xml.startswith(test_xml_dir):
+            test_name = test_xml[len(test_xml_dir)+1:]
+        else:
+            test_name = test_xml
+
+        print test_name,
+        sys.stdout.flush()
+
         status = call([arch, '-arch', arch_name, marionette_test, test_xml,
                        test_data])
-        if status != 0:
-            failed_tests.append(test_xml[len(test_xml_dir):])
+
+        print ':',
+        if status == 0:
+            print 'OK'
+        else:
+            print 'error'
+            failed_tests.append(test_name)
 
     return failed_tests
 
 
-def main():
-    if len(sys.argv) < 2:
-        die(2, 'Usage: %s arch_name [test_name ...]',
-            os.path.basename(sys.argv[0]))
-
-    arch_name = sys.argv[1]
-    if arch_name not in valid_arch_names:
-        error(2, 'arch_name must be one of the following: %s',
-              ' '.join(valid_arch_names))
-
-    unit_test_names = []
-    marionette_test_names = []
-
-    for name in sys.argv[2:]:
-        if name.endswith('.xml'):
-            marionette_test_names.append(name)
-        else:
-            unit_test_names.append(name)
-
+def run_tests(arch_name, unit_test_names, marionette_test_names):
     failed_tests = []
 
     if unit_test_names:
@@ -136,6 +116,30 @@ def main():
         for test_name in failed_tests:
             print '    %s' % test_name
     print
+
+    return failed_tests
+
+
+def main():
+    op = OptionParser(usage='Usage: %prog [options] [test_name ...]')
+    op.add_option('--arch',
+                  type = 'choice',
+                  choices = valid_arch_names,
+                  default = valid_arch_names[0],
+                  help = 'use specified CPU architecture')
+
+    (opts, args) = op.parse_args()
+
+    unit_test_names = []
+    marionette_test_names = []
+
+    for name in args:
+        if name.endswith('.xml'):
+            marionette_test_names.append(name)
+        else:
+            unit_test_names.append(name)
+
+    failed_tests = run_tests(opts.arch, unit_test_names, marionette_test_names)
 
     sys.exit(bool(failed_tests))
 
