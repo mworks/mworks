@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<monkeyml version="1.0">
+    <io_devices _id="id36107565" tag="IO Devices"></io_devices>
+    <variables _id="id36107841" tag="Variables">
+        <variable _id="id36107842" tag="counter" full_name="fullname_5" default_value="0" scope="GLOBAL" type="INTEGER" editable="ALWAYS" logging="WHEN_CHANGED"></variable>
+        <variable _id="id36107796" tag="stm" full_name="stm" default_value="0" scope="GLOBAL" type="INTEGER" editable="never" logging="when_changed"></variable>
+        <variable _id="id36107292" tag="stm_pos_x" full_name="stm_pos_x" default_value="40" scope="GLOBAL" type="INTEGER" editable="never" logging="when_changed"></variable>
+        <variable _id="id40309011" tag="stm_pos_y" full_name="stm_pos_y" default_value="0" scope="GLOBAL" type="INTEGER" editable="never" logging="when_changed"></variable>
+        <variable _id="_id1" tag="start_time" scope="global" logging="when_changed" default_value="0" type="integer"></variable>
+        <variable _id="_id3" tag="end_time" scope="global" logging="when_changed" default_value="0" type="integer"></variable>
+        <variable _id="_id9" tag="frame_rate" scope="global" logging="when_changed" default_value="0" type="float"></variable>
+        <variable _id="_id1" tag="expected_frame_rate" scope="global" logging="when_changed" default_value="60" type="float"></variable>
+        <variable _id="_id3" tag="frame_rate_tolerance" scope="global" logging="when_changed" default_value="0.5" type="float"></variable>
+    </variables>
+    <sounds _id="id40309027" tag="Sounds"></sounds>
+    <stimuli _id="id40309028" tag="Stimuli">
+        <stimulus _id="_id3" type="rectangle" tag="black rect" color="0,0,0" x_size="5" y_size="5" x_position="0" y_position="0" rotation="0" contrast="1"></stimulus>
+        <stimulus _id="_id1" type="rectangle" tag="white rect" color="1,1,1" x_size="5" y_size="5" x_position="0" y_position="0" rotation="0" contrast="1"></stimulus>
+    </stimuli>
+    <experiment _id="id40309054" tag="simple_refresh_test" full_name="simple_refresh_test">
+        <protocol _id="id40309060" tag="srt" full_name="srt" interruptable="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles" description="" interruptible="YES">
+            <block _id="id40309078" tag="srt_" full_name="srt" interruptable="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles" description="" interruptible="YES">
+                <task_system _id="id40309097" tag="task_system1" full_name="fullname_1" description="" interruptible="YES">
+                    <task_system_state _id="id40309106" tag="initiation" full_name="initiation" interruptable="YES" description="" interruptible="YES">
+                        <action _id="id40309118" tag="report message" full_name="report message" type="report" message="**********STARTING**********"></action>
+                        <action _id="_id1" type="assignment" tag="reset counter" variable="counter" value="0"></action>
+                        <action _id="id40309128" tag="display refresh" full_name="display refresh" type="update_stimulus_display"></action>
+                        <action _id="id40309136" tag="start timer" full_name="start timer" type="start_timer" timer="timer" duration="100ms"></action>
+                        <action _id="_id5" type="assignment" tag="store start time" variable="start_time" value="now()"></action>
+                        <transition _id="id40309148" tag="go to present1" full_name="go present1" target="present1" type="timer_expired" timer="timer"></transition>
+                    </task_system_state>
+                    <task_system_state _id="id40309160" tag="present1" full_name="present1" interruptable="YES" description="" interruptible="YES">
+                        <action _id="id40309182" tag="QueueStimulus_black" full_name="fullname_1" type="queue_stimulus" stimulus="black rect"></action>
+                        <action _id="id40309203" tag="display refresh" full_name="display refresh" type="update_stimulus_display"></action>
+                        <transition _id="id40309211" tag="AlwaysGo_2" full_name="fullname_2" target="present2" type="direct"></transition>
+                    </task_system_state>
+                    <task_system_state _id="id40309221" tag="present2" full_name="present1" interruptable="YES" description="" interruptible="YES">
+                        <action _id="id40309242" tag="QueueStimulus_white" full_name="fullname_1" type="queue_stimulus" stimulus="white rect"></action>
+                        <action _id="id40309264" tag="display refresh" full_name="display refresh" type="update_stimulus_display"></action>
+                        <action _id="id40309272" tag="update_counter" full_name="fullname_1" type="assignment" variable="counter" value="counter+1"></action>
+                        <transition _id="id40309284" tag="ConditionalTransition_4" full_name="fullname_4" target="success" type="conditional" condition="counter==450"></transition>
+                        <transition _id="id40309296" tag="AlwaysGo_2" full_name="fullname_2" target="present1" type="direct"></transition>
+                    </task_system_state>
+                    <task_system_state _id="id40309305" tag="success" full_name="success" interruptable="YES" description="" interruptible="YES">
+                        <action _id="_id7" type="assignment" tag="store end time" variable="end_time" value="now()"></action>
+                        <action _id="_id11" type="assignment" tag="compute frame rate" variable="frame_rate" value="1000000.0 * (2 * counter) / (end_time - start_time)"></action>
+                        <action _id="id40309317" tag="report message" full_name="report message" type="report" message="************TRIAL COMPLETE********** $counter cycles between $start_time and $end_time. Frame rate = $frame_rate"></action>
+                        <action _id="_id5" type="assert" tag="Assert frame rate within tolerance" condition="abs(frame_rate - expected_frame_rate) &lt;= frame_rate_tolerance" message="frame rate not within tolerance: expected $expected_frame_rate, got $frame_rate"></action>
+                        <transition _id="id40309327" type="yield" tag="yield" full_name="yield"></transition>
+                    </task_system_state>
+                </task_system>
+            </block>
+        </protocol>
+    </experiment>
+</monkeyml>
