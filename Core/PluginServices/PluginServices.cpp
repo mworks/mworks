@@ -134,7 +134,9 @@ namespace mw {
 		void *library_handle = dlopen(dynamic_library_path, RTLD_LAZY);
 		
 		if(library_handle == NULL){
-			mprintf("%s", dlerror());
+			mwarning(M_PLUGIN_MESSAGE_DOMAIN, "Plugin module (%s) failed to load: %s", path.c_str(), dlerror());
+			// TODO: throw an error?
+			return;
 		}
 		
 		getplug = (GetPluginFunctionPtr)dlsym(library_handle, "getPlugin");

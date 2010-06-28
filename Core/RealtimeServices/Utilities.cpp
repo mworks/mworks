@@ -95,7 +95,7 @@ namespace mw {
 		
 		std::string pre("WARNING: " + std::string(format));
 		
-		_makeString(pre, ap, M_WARNING_MESSAGE);
+		_makeString(pre, ap, M_WARNING_MESSAGE, dom);
 		va_end(ap);
 	}
 	
