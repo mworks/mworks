@@ -12,6 +12,7 @@
 #include "RegisteredSingleton.h"
 #include "Stimulus.h"
 #include <Cocoa/Cocoa.h>
+#include <IOKit/pwr_mgt/IOPMLib.h>
 
 
 
@@ -41,6 +42,8 @@ namespace mw {
         NSWindow                *fullscreen_window;
         NSOpenGLView            *fullscreen_view;
         BOOL                    fullscreen_window_active;
+        
+        IOPMAssertionID         display_sleep_block;
 		
 		
 		GLuint					synchronization_fence;

@@ -83,6 +83,8 @@ OpenGLContextManager::OpenGLContextManager() {
     mirror_window = Nil;
     fullscreen_window = Nil;
     
+    display_sleep_block = kIOPMNullAssertionID;
+    
     contexts = [[NSMutableArray alloc] init];
     
     has_fence = false;
@@ -295,6 +297,15 @@ int OpenGLContextManager::newFullscreenContext(int screen_number){
         has_fence = false;
     }
     
+    if (kIOPMNullAssertionID == display_sleep_block) {
+        if (kIOReturnSuccess != IOPMAssertionCreateWithName(kIOPMAssertionTypeNoDisplaySleep,
+                                                            kIOPMAssertionLevelOn,
+                                                            (CFStringRef)@"MWorks Prevent Display Sleep",
+                                                            &display_sleep_block)) {
+            mwarning(M_SERVER_MESSAGE_DOMAIN, "Cannot disable display sleep");
+        }
+    }
+    
     return context_id;
 }
 
@@ -338,7 +349,11 @@ void OpenGLContextManager::releaseDisplays() {
         [fullscreen_window release];
         fullscreen_window = Nil;
     }
-    
+
+    if (kIOPMNullAssertionID != display_sleep_block) {
+        (void)IOPMAssertionRelease(display_sleep_block);  // Ignore the return code
+        display_sleep_block = kIOPMNullAssertionID;
+    }
 	
     [contexts removeAllObjects];
 
