@@ -21,6 +21,7 @@
 
 
 #include "Timer.h"
+#include "CoreBuilderForeman.h"
 using namespace mw;
 
 
@@ -57,7 +58,12 @@ namespace mw {
 				GlobalMessageVariable->setValue(messageDatum);
 #endif
 			}
-		}	
+		}
+        if (CoreBuilderForeman::isBuilding()) {
+            // If the core is still being set up, then no one is listening for message events.  Write
+            // the message to stderr so it shows up in the terminal or in a log file.
+            fprintf(stderr, "%s\n", buffer);
+        }
 	}
 	
 	

@@ -17,6 +17,9 @@
 #include "AbstractCoreBuilder.h"
 namespace mw {
 class CoreBuilderForeman {
+    
+    private:
+        static bool building;
 
     public:
         /*!
@@ -40,6 +43,10 @@ class CoreBuilderForeman {
          * @result True if all methods completed successfully false otherwise.
          */
         static bool constructCoreStandardOrder(AbstractCoreBuilder * builder);
+    
+        static bool isBuilding() {
+            return building;
+        }
 };
 }
 #endif
