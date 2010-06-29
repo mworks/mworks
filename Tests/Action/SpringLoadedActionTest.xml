@@ -1,25 +1,25 @@
 <?xml version="1.0"?>
 <monkeyml version="1.0">
-    <variables>
-        <variable tag="X" default_value="1" scope="GLOBAL" type="DOUBLE" editable="ALWAYS" logging="WHEN_CHANGED" persistant="NO">
-			<action type="assignment" variable="Y" value="X"/>
-		</variable>
-        <variable tag="Y" default_value="2" scope="GLOBAL" type="DOUBLE" editable="ALWAYS" logging="WHEN_CHANGED" persistant="NO"/>
+    <variables _id="id39138160" tag="Variables">
+        <variable _id="id39138161" tag="X" default_value="1" scope="global" type="float" editable="ALWAYS" logging="WHEN_CHANGED" persistant="NO">
+            <action _id="id39138200" type="assignment" variable="Y" value="X"></action>
+        </variable>
+        <variable _id="id39138208" tag="Y" default_value="2" scope="global" type="float" editable="ALWAYS" logging="WHEN_CHANGED" persistant="NO"></variable>
     </variables>
-    <stimuli>
-        <stimulus tag="blank screen" full_name="bland screen" type="blank_screen" color="1,0,0"/>
+    <stimuli _id="id39138224" tag="Stimuli">
+        <stimulus _id="id39138225" tag="blank screen" full_name="blank screen" type="blank_screen" color="1,0,0"></stimulus>
     </stimuli>
-    <experiment tag="theExperiment" full_name="the Experiment" description="">
-        <protocol tag="theProtocol" full_name="the Protocol" interruptable="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles" description="" interruptible="YES">
-            <block tag="theBlock" full_name="the Block" interruptable="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles" description="" interruptible="YES">
-                <trial tag="theTrial" full_name="the Trial" description="" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
-                    <task_system tag="theTaskSystem">
-                        <task_system_state tag="theState" full_name="the State" description="" interruptible="YES">
-							<action  type="assert" condition="X!=Y" message="X==Y"/>
-							<action type="assignment" variable="X" value="10"/>
-                            <!--action type="wait" duration="5000 ms"/-->
-							<action  type="assert" condition="X==Y" message="X!=Y"/>
-                            <transition type="yield"/>
+    <experiment _id="id39138235" tag="theExperiment" full_name="the Experiment" description="">
+        <protocol _id="id39138243" tag="theProtocol" full_name="the Protocol" interruptable="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles" description="" interruptible="YES">
+            <block _id="id39138261" tag="theBlock" full_name="the Block" interruptable="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles" description="" interruptible="YES">
+                <trial _id="id39138280" tag="theTrial" full_name="the Trial" description="" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
+                    <task_system _id="id39138296" tag="theTaskSystem">
+                        <task_system_state _id="id39138299" tag="theState" full_name="the State" description="" interruptible="YES">
+                            <action _id="id39138309" type="assert" condition="X!=Y" message="X==Y"></action>
+                            <action _id="_id1" type="assert" tag="Assert" condition="Y != 10" message="Y == 10"></action>
+                            <action _id="id39138317" type="assignment" variable="X" value="10"></action>
+                            <action _id="id39138326" type="assert" condition="X==Y" message="X!=Y"></action>
+                            <transition _id="id39138333" type="yield"></transition>
                         </task_system_state>
                     </task_system>
                 </trial>

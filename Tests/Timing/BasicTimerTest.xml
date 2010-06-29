@@ -4,7 +4,7 @@
         <variable tag="some_Var" full_name="some Var" default_value="0" scope="GLOBAL" type="DOUBLE" editable="ALWAYS" logging="WHEN_CHANGED"/>
     </variables>
     <stimuli>
-        <stimulus tag="blank screen" full_name="bland screen" type="blank_screen" color="1,0,0"/>
+        <stimulus tag="blank screen" full_name="blank screen" type="blank_screen" color="1,0,0"/>
     </stimuli>
     <experiment tag="theExperiment" full_name="the Experiment">
         <protocol tag="theProtocol" full_name="the Protocol" interruptable="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles" description="" interruptible="YES">

@@ -5,7 +5,7 @@
         <variable tag="some_Var" full_name="some_Var" default_value="10" scope="GLOBAL" type="FLOAT" editable="never" logging="when_changed"/>
     </variables>
     <stimuli>
-        <stimulus tag="blank screen" full_name="bland screen" type="blank_screen" color="1,0,0"/>
+        <stimulus tag="blank screen" full_name="blank screen" type="blank_screen" color="1,0,0"/>
     </stimuli>
     <experiment tag="EventStartStop" full_name="EventStartStop">
         <protocol tag="eventStartStop protocol" full_name="eventStartStop protocol" interruptable="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles" description="" interruptible="YES">

@@ -44,7 +44,7 @@
     </variables>
     <stimuli>
         <stimulus tag="fixation_dot" full_name="fixation_dot" type="fixation_point" color="1,1,1" trigger_width="fixation_width" trigger_watch_x="eye_h" trigger_watch_y="eye_v" trigger_flag="eye_in_window" x_size="fixation_size" y_size="fixation_size" x_position="fixation_pos_x" y_position="fixation_pos_y" rotation="0.0" contrast="1.0" affine_transform="0"/>
-        <stimulus tag="blank screen" full_name="bland screen" type="blank_screen" color="0.5,0.5,0.5"/>
+        <stimulus tag="blank screen" full_name="blank screen" type="blank_screen" color="0.5,0.5,0.5"/>
     </stimuli>
     <sounds>
         <sound tag="stm_on_sound" type="wav_file" path="./sounds/stm_on.wav" full_name="stm_on_sound"/>
