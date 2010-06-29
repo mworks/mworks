@@ -14,7 +14,7 @@
 
 using namespace mw;
 
-class ___PROJECTNAMEASIDENTIFIER___ : public Component{
+class ___PROJECTNAMEASIDENTIFIER___ : public mw::Component {
 
 protected:
 

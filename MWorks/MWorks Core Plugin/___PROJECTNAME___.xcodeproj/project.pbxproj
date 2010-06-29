@@ -278,46 +278,16 @@
 			};
 			name = Development;
 		};
-		1DEB913C08733D840010E9CD /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_MODEL_TUNING = G5;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "___PROJECTNAMEASIDENTIFIER____Prefix.pch";
-				INFOPLIST_FILE = "___PROJECTNAMEASIDENTIFIER___-Info.plist";
-				INSTALL_PATH = "$(HOME)/Library/Bundles";
-				PRODUCT_NAME = "___PROJECTNAME___";
-				WRAPPER_EXTENSION = bundle;
-			};
-			name = Release;
-		};
 		1DEB913F08733D840010E9CD /* Development */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5C78EE6B115D02EE00151A76 /* Development.xcconfig */;
 			buildSettings = {
+				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
 				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
 				PREBINDING = NO;
 			};
 			name = Development;
-		};
-		1DEB914008733D840010E9CD /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = (
-					i386,
-					x86_64,
-				);
-				GCC_C_LANGUAGE_STANDARD = c99;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				ONLY_ACTIVE_ARCH = YES;
-				PREBINDING = NO;
-				SDKROOT = macosx10.5;
-			};
-			name = Release;
 		};
 		5CFCAB1F11060986007CE55F /* Development */ = {
 			isa = XCBuildConfiguration;
@@ -329,17 +299,6 @@
 			};
 			name = Development;
 		};
-		5CFCAB2111060986007CE55F /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				PRODUCT_NAME = Everything;
-				ZERO_LINK = NO;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -347,28 +306,25 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1DEB913B08733D840010E9CD /* Development */,
-				1DEB913C08733D840010E9CD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Development;
 		};
 		1DEB913E08733D840010E9CD /* Build configuration list for PBXProject "___PROJECTNAME___" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1DEB913F08733D840010E9CD /* Development */,
-				1DEB914008733D840010E9CD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Development;
 		};
 		5CFCAB24110609AA007CE55F /* Build configuration list for PBXAggregateTarget "Everything" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5CFCAB1F11060986007CE55F /* Development */,
-				5CFCAB2111060986007CE55F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Development;
 		};
 /* End XCConfigurationList section */
 	};
