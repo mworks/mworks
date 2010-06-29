@@ -13,5 +13,6 @@
 <xsl:template match="@_icon"/>
 <xsl:template match="@_element_key"/>
 <xsl:template match="@_inspector"/>
+<xsl:template match="@_id"/>
 
 </xsl:stylesheet>
