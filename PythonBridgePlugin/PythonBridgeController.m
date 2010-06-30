@@ -16,6 +16,12 @@
 #define STATUS_ACTIVE   @"Active"
 #define STATUS_TERMINATING  @"Terminating..."
 
+#ifdef __x86_64__
+#  define PYTHON_ARCH @"x86_64"
+#else
+#  define PYTHON_ARCH @"i386"
+#endif
+
 #import <MWorksCore/IPCEventTransport.h>
 
 @implementation PythonBridgeController
@@ -62,10 +68,14 @@
     [self setPath:script_path];
     
     python_task = [[NSTask alloc] init];
-    [python_task setLaunchPath: @"/usr/bin/python2.6"];
+    [python_task setLaunchPath: @"/usr/bin/arch"];
     
     NSArray *arguments;
-    arguments = [NSArray arrayWithObjects: script_path, [NSString stringWithCString:CONDUIT_RESOURCE_NAME encoding:NSASCIIStringEncoding], nil];
+    arguments = [NSArray arrayWithObjects:@"-arch", PYTHON_ARCH,
+                 @"/usr/bin/python2.6",
+                 script_path,
+                 [NSString stringWithCString:CONDUIT_RESOURCE_NAME encoding:NSASCIIStringEncoding],
+                 nil];
     [python_task setArguments: arguments];
     
     stdout_pipe = [NSPipe pipe];
