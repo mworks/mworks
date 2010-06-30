@@ -10,12 +10,12 @@ counter_b = 0
 
 def increment_a(evt):
     global counter_a
-    counter_a += evt.data.float
+    counter_a += evt.data
     print("counter_a = %f" % counter_a)
     
 def increment_b(evt):
     global counter_b
-    counter_b += evt.data.float
+    counter_b += evt.data
     print("counter_b = %f" % counter_b)
 
 server.initialize()
