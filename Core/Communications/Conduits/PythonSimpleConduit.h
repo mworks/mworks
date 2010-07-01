@@ -88,7 +88,7 @@ public:
             throw SimpleException("Failed to build valid conduit");
         }
         
-        cerr << "Created bidirectional conduit: " << resource_name << endl;
+        //cerr << "Created bidirectional conduit: " << resource_name << endl;
     }
     
     virtual bool isInitialized(){
@@ -235,8 +235,8 @@ BOOST_PYTHON_MODULE(_conduit)
     
     PyEval_InitThreads();
         
-    class_<PythonIPCServerConduit>("IPCServerConduit", init<std::string>())
-        .def("__initialize", &PythonIPCServerConduit::initialize)
+    class_<PythonIPCServerConduit>("_IPCServerConduit", init<std::string>())
+        .def("_initialize", &PythonIPCServerConduit::initialize)
         .def("finalize", &PythonIPCServerConduit::finalize)
         .def("send_float", &PythonIPCServerConduit::sendFloat)
         .def("send_integer", &PythonIPCServerConduit::sendInteger)
@@ -247,8 +247,8 @@ BOOST_PYTHON_MODULE(_conduit)
         .add_property("initialized", &PythonIPCServerConduit::isInitialized)
     ;
 
-    class_<PythonIPCClientConduit>("IPCClientConduit", init<std::string>())
-        .def("__initialize", &PythonIPCClientConduit::initialize)
+    class_<PythonIPCClientConduit>("_IPCClientConduit", init<std::string>())
+        .def("_initialize", &PythonIPCClientConduit::initialize)
         .def("finalize", &PythonIPCClientConduit::finalize)
         .def("send_float", &PythonIPCClientConduit::sendFloat)
         .def("send_integer", &PythonIPCClientConduit::sendInteger)
@@ -260,10 +260,10 @@ BOOST_PYTHON_MODULE(_conduit)
     ;
 
     class_<Event>("Event")
-        .def("__convert_mw_datum_to_python", &convert_datum_to_python)
-        .staticmethod("__convert_mw_datum_to_python")
+        .def("_convert_mw_datum_to_python", &convert_datum_to_python)
+        .staticmethod("_convert_mw_datum_to_python")
         .add_property("code", &Event::getEventCode)
-        .add_property("mw_datum", &Event::getData);
+        .add_property("_mw_datum", &Event::getData);
     ;
     
     class_<Datum>("Datum")

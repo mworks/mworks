@@ -132,7 +132,7 @@ public:
         
         if(!from_conduit_side){
             // forward the codec over the conduit
-            std::cerr << "Forwarding codec over conduit" << std::endl;
+            //std::cerr << "Forwarding codec over conduit" << std::endl;
             sendData(event);
         }
         
