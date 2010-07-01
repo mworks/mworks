@@ -21,7 +21,6 @@
 
 
 #include "Timer.h"
-#include "CoreBuilderForeman.h"
 using namespace mw;
 
 
@@ -59,9 +58,14 @@ namespace mw {
 #endif
 			}
 		}
-        if (CoreBuilderForeman::isBuilding()) {
-            // If the core is still being set up, then no one is listening for message events.  Write
-            // the message to stderr so it shows up in the terminal or in a log file.
+        
+        // For debugging:  If the environment variable MWORKS_WRITE_MESSAGES_TO_STDERR is set,
+        // write the message to standard error
+        static int echo_to_stderr = -1;
+        if (echo_to_stderr < 0) {
+            echo_to_stderr = (NULL != getenv("MWORKS_WRITE_MESSAGES_TO_STDERR"));
+        }
+        if (echo_to_stderr) {
             fprintf(stderr, "%s\n", buffer);
         }
 	}

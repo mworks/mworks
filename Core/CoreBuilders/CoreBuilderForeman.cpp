@@ -7,21 +7,12 @@
  * Copyright 2006 MIT. All rights reserved.
  */
 
-#include <boost/scope_exit.hpp>
 #include "CoreBuilderForeman.h"
 using namespace mw;
 
 #define CHECK(flag) if(!flag) { return false; }
 
-bool CoreBuilderForeman::building = false;
-
 bool CoreBuilderForeman::constructCoreStandardOrder(AbstractCoreBuilder * builder) {
-    building = true;
-    BOOST_SCOPE_EXIT( (&building) )
-    {
-        building = false;
-    } BOOST_SCOPE_EXIT_END
-
     CHECK(builder->buildProcessWillStart());
     CHECK(builder->initializeEventBuffers());
     CHECK(builder->initializeRegistries());
@@ -32,6 +23,5 @@ bool CoreBuilderForeman::constructCoreStandardOrder(AbstractCoreBuilder * builde
     CHECK(builder->startRealtimeServices());
     CHECK(builder->customInitialization());
     CHECK(builder->buildProcessWillEnd());
-
     return true;
 }
