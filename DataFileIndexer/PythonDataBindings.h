@@ -31,7 +31,7 @@ BOOST_PYTHON_MODULE(_data)
     //def("convert_scarab_to_python", convert_scarab_to_python, "Convert a Scarab datum to a corresponding Python object, recursing as needed");
 
     
-    class_<EventWrapper, boost::noncopyable>("Event", init<ScarabDatum *>())
+    class_<EventWrapper, boost::noncopyable>("_Event", init<ScarabDatum *>())
     .add_property("code", &EventWrapper::getEventCode)
     .add_property("time", &EventWrapper::getTime)
     .add_property("value", extract_event_value)
@@ -48,7 +48,7 @@ BOOST_PYTHON_MODULE(_data)
         .def(vector_indexing_suite< std::vector<unsigned int> >())
     ;
     
-    class_<PythonDataFile>("MWKFile", init<std::string>())
+    class_<PythonDataFile>("_MWKFile", init<std::string>())
         .def("open", &PythonDataFile::open)
         .def("close", &PythonDataFile::close)
         .def("__fetch_all_events", &PythonDataFile::fetch_all_events)
@@ -66,7 +66,7 @@ BOOST_PYTHON_MODULE(_data)
         ;
     
     
-    class_<PythonDataStream>("MWKStream", init<std::string>())
+    class_<PythonDataStream>("_MWKStream", init<std::string>())
         .def("open", &PythonDataStream::open)
         .def("close", &PythonDataStream::close)
         .def("__read_event", &PythonDataStream::read_event)
