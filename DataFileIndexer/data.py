@@ -6,7 +6,7 @@
 #  Copyright (c) 2009 Harvard University. All rights reserved.
 #
 
-from _data import _Event, _MWKFile, _MWKStream
+from _data import Event, _MWKFile, _MWKStream
 import os
 
 
@@ -20,8 +20,7 @@ class IndexingException(Exception):
     pass
 
 
-class Event(_Event):
-    pass
+Event.__module__ = __name__  # So help() thinks Event is part of this module
 
 
 class MWKFile(_MWKFile):
@@ -32,7 +31,7 @@ class MWKFile(_MWKFile):
     
         # shortcut to argument-free version
         if "codes" not in kwargs and "time_range" not in kwargs:
-            return self.__fetch_all_events()
+            return self._fetch_all_events()
     
         codec = self.codec
         
@@ -63,7 +62,7 @@ class MWKFile(_MWKFile):
     
         # TODO: convert possible string-based event codes
     
-        events = self.__fetch_events(event_codes, time_range[0], time_range[1])
+        events = self._fetch_events(event_codes, time_range[0], time_range[1])
         
         return events
     
@@ -71,7 +70,7 @@ class MWKFile(_MWKFile):
         if not self.loaded:
             raise FileNotLoadedException
     
-        e = self.__fetch_events([0])
+        e = self._fetch_events([0])
         if(len(e) == 0):
             return None
         
@@ -132,7 +131,7 @@ class MWKFile(_MWKFile):
 class MWKStream(_MWKStream):
 
     def read_event(self):
-        result = self.__read_event()
+        result = self._read_event()
         if(result.empty):
             result = None
         return result
