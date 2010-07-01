@@ -66,7 +66,8 @@ class MWKFile(_MWKFile):
         
         return events
     
-    def get_codec(self):
+    @property
+    def codec(self):
         if not self.loaded:
             raise FileNotLoadedException
     
@@ -81,7 +82,8 @@ class MWKFile(_MWKFile):
             codec[key] = raw_codec[key]["tagname"]
         return codec
     
-    def get_reverse_codec(self):
+    @property
+    def reverse_codec(self):
         if not self.loaded:
             raise FileNotLoadedException
     
@@ -92,7 +94,7 @@ class MWKFile(_MWKFile):
         for i in range(0, len(keys)):
             k = keys[i]
             v = values[i]
-            print("key: %d, value %s" % (k,v))
+            #print("key: %d, value %s" % (k,v))
             rc[v] = k
         return rc
     

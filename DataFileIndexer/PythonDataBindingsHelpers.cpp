@@ -100,7 +100,7 @@ std::vector<EventWrapper> PythonDataFile::fetch_events3(bp::list codes,
         event_codes.push_back(bp::extract<unsigned int>(codes[i]));
     }
     
-    printf("fetching events from %lld to %lld\n", lower_bound, upper_bound); 
+    //printf("fetching events from %lld to %lld\n", lower_bound, upper_bound); 
     
     if(indexer != NULL){
         return indexer->events(event_codes, lower_bound, upper_bound);
