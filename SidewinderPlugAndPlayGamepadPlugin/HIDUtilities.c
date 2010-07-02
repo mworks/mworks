@@ -630,13 +630,14 @@ void PrintErrMsg (char * msg)
     char path[512];
 
     result = IORegistryEntryGetPath (hidDevice, kIOServicePlane, path);
-    if (result == KERN_SUCCESS)
-        printf("IO Registry Path: [ %s ]\n", path);
+    //if (result == KERN_SUCCESS)
+    //    printf("IO Registry Path: [ %s ]\n", path);
 
-	//Create a CF dictionary representation of the I/O Registry entry’s properties
+	//Create a CF dictionary representation of the I/O Registry entry's properties
     result = IORegistryEntryCreateCFProperties (hidDevice, &properties, kCFAllocatorDefault, kNilOptions);
     if ((result == KERN_SUCCESS) && properties)
     {
+        /*
         printf ("- Device Properties -\n");
         MyShowDictionaryElement (properties, CFSTR(kIOHIDTransportKey));
         MyShowDictionaryElement (properties, CFSTR(kIOHIDVendorIDKey));
@@ -658,13 +659,14 @@ void PrintErrMsg (char * msg)
         fflush (stdout);
         printf ("- Device Element Properties -\n");
         MyShowDictionaryElement (properties, CFSTR(kIOHIDElementKey));
+        */
 
         //Release the properties dictionary
         CFRelease (properties);
     }
     else
         PrintErrMsg ("Failed to create properties via IORegistryEntryCreateCFProperties.");
-    printf ("\n\n");
+    //printf ("\n\n");
 }
 
 // --------------------------------------------------------------------------
@@ -681,7 +683,7 @@ void PrintErrMsg (char * msg)
     ioReturnValue = IOObjectGetClass (hidDevice, className);
     PrintErrMsgIfIOErr (ioReturnValue, "Failed to get class name.");
 
-    printf ("Creating interface for device of class %s\n\n", className);
+    //printf ("Creating interface for device of class %s\n\n", className);
 
     ioReturnValue = IOCreatePlugInInterfaceForService (hidDevice, kIOHIDDeviceUserClientTypeID,
                                                        kIOCFPlugInInterfaceID, &plugInInterface, &score);
@@ -1174,7 +1176,7 @@ void hidTypeLookup (CFTypeRef objectType, char **type_string)
     {
         if (CFNumberGetValue ((const __CFNumber*)objectType, kCFNumberLongType, &valueType))
         {
-            MyIndent ();
+            //MyIndent ();
             switch (valueType)
             {
                 case kIOHIDElementTypeInput_Misc:

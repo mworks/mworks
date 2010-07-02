@@ -15,17 +15,17 @@ mUSBHID::mUSBHID(){						// initialize with the first available HID device
 	ioReturnValue = IOMasterPort (bootstrap_port, &masterPort);
 	//PrintErrMsgIfIOErr (ioReturnValue, "Couldn’t create a master I/O Kit Port.");
 	
-	printf("\n\n--- Finding GamePads ---\n");
+	//printf("\n\n--- Finding GamePads ---\n");
 	hidObjectIterator = MyFindHIDDevices (masterPort, kHIDPage_GenericDesktop, kHIDUsage_GD_GamePad);
 	if (hidObjectIterator != 0){
 		hidDevice = NULL;
 		pphidDeviceInterface = NULL;
 		IOReturn ioReturnValue = kIOReturnSuccess;
-		short numDevice = 0;
+		//short numDevice = 0;
 		
 		hidDevice = IOIteratorNext (hidObjectIterator);
 		
-		printf ("\n--- Device %d ---\n", numDevice++);
+		//printf ("\n--- Device %d ---\n", numDevice++);
 		MyShowHIDProperties (hidDevice);
 		pphidDeviceInterface = MyCreateHIDDeviceInterface (hidDevice);
 		
@@ -36,7 +36,7 @@ mUSBHID::mUSBHID(){						// initialize with the first available HID device
 		if (*pphidDeviceInterface != NULL){
 			// open the device
 			ioReturnValue = (*pphidDeviceInterface)->open (pphidDeviceInterface, 0);
-			printf ("Open result = %d\n", ioReturnValue);
+			//printf ("Open result = %d\n", ioReturnValue);
 			
 		} else {
 			mprintf("Error creating HID device interface");
