@@ -19,6 +19,9 @@ enum MessageParseType {
 @interface MarionetteMessage : NSObject {
 	NSString *message;
 	MessageParseType type;
+    NSString *arch;
+    int numMatches;
+    int maxNumMatches;
 }
 
 - (id)initWithXMLNode:(NSXMLElement *)element;
@@ -26,6 +29,7 @@ enum MessageParseType {
 
 - (NSString *)message;
 - (MessageParseType)type;
+- (NSString *)arch;
 
 - (BOOL)matches:(NSString *)string_to_match;
 

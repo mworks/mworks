@@ -19,6 +19,12 @@
 #import "MarionetteMessage.h"
 #import "MarionetteEvent.h"
 
+#ifdef __x86_64__
+#  define CURRENT_ARCH @"x86_64"
+#else
+#  define CURRENT_ARCH @"i386"
+#endif
+
 
 Datum _parseDataValue(xmlNode *node);
 string _attributeForName(xmlNode *node, string name);
@@ -192,7 +198,9 @@ Datum _getNumber(const string &expression, const GenericDataType type);
 					exit(1);
 				}
 				
-				[temp_pe_array addObject:message];
+                if (([message arch] == nil) || [[message arch] isEqualToString:CURRENT_ARCH]) {
+                    [temp_pe_array addObject:message];
+                }
 			}
 			
 			self.permittedErrorMessages = temp_pe_array;
@@ -211,7 +219,9 @@ Datum _getNumber(const string &expression, const GenericDataType type);
 					exit(1);
 				}
 				
-				[self.expectedMessages addObject:message];
+                if (([message arch] == nil) || [[message arch] isEqualToString:CURRENT_ARCH]) {
+                    [self.expectedMessages addObject:message];
+                }
 			}
 		}
 	}
@@ -357,7 +367,7 @@ Datum _getNumber(const string &expression, const GenericDataType type);
 										   withMessage:@"received trying to send an experiment more than once"]; 
 								client->sendExperiment([[[[NSProcessInfo processInfo] arguments] objectAtIndex:1] cStringUsingEncoding:NSASCIIStringEncoding]);
 								self.sentExperiment = YES;
-							} else if (self.sentCloseExperiment) {
+							} else if (self.sentCloseExperiment || !self.experimentLoaded) {
                                 self.experimentEnded = YES;
                                 client->disconnectClient();
                             }
@@ -477,7 +487,7 @@ Datum _getNumber(const string &expression, const GenericDataType type);
 			const Datum msgType(event_data.getElement(M_MESSAGE_TYPE));
 			const MessageType type = (MessageType)msgType.getInteger();
 			[self marionetteAssert:type >= M_GENERIC_MESSAGE && type < M_MAX_MESSAGE_TYPE
-					   withMessage:@"mesasge type is not valid"]; 
+					   withMessage:@"message type is not valid"]; 
 			
 			
 			// the 'check_error_message' is so you can have expected error messages, but you don't
@@ -495,7 +505,7 @@ Datum _getNumber(const string &expression, const GenericDataType type);
 				}
 			}
 			
-			if(type == M_ERROR_MESSAGE && check_error_message) {
+			if(((type == M_ERROR_MESSAGE) || (type == M_WARNING_MESSAGE)) && check_error_message) {
 				[self marionetteAssert:[self checkErrorMessageForKnownErrors:message]
 						   withMessage:message]; 
 			}

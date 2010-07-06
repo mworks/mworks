@@ -37,6 +37,20 @@
 		}
 		
 		message = [[element stringValue] copy];
+
+		NSXMLNode *arch_attribute = [element attributeForName:@"arch"];
+        if (nil != arch_attribute) {
+            arch = [[arch_attribute stringValue] copy];
+        }
+        
+        numMatches = 0;
+        
+		NSXMLNode *max_matches_attribute = [element attributeForName:@"max_matches"];
+        if (nil != max_matches_attribute) {
+            maxNumMatches = [[arch_attribute stringValue] intValue];
+        } else {
+            maxNumMatches = -1;
+        }
 	}
 	return self;
 }
@@ -46,40 +60,52 @@
 }
 
 - (void) dealloc {
+    [arch release];
 	[message release];
 	[super dealloc];
 }
 
 - (NSString *)message { return message; }
 - (MessageParseType)type {return type; }
+- (NSString *)arch { return arch; }
 
 - (BOOL)matches:(NSString *)string_to_match {
+    BOOL result = NO;
+
 	switch(type) {
 		case M_CONTAINS:
 		{
 			NSRange error_range = [string_to_match rangeOfString:message];
-			return error_range.location != NSNotFound;
+			result = (error_range.location != NSNotFound);
 			break;
 		}
 		case M_STARTS_WITH:
 		{
 			NSRange error_range = [string_to_match rangeOfString:message];
-			return error_range.location == 0;
+			result = (error_range.location == 0);
 			break;
 		}
 		case M_ENDS_WITH:
 		{
 			NSRange error_range = [string_to_match rangeOfString:message];
-			return error_range.location == ([string_to_match length] - error_range.length);
+			result = (error_range.location == ([string_to_match length] - error_range.length));
 			break;
 		}
 		case M_WHOLE_MESSAGE:
-			return [string_to_match isEqualToString:message];
+			result = [string_to_match isEqualToString:message];
 			break;
 		default:
-			return NO;
 			break;
 	}
+    
+    if (result) {
+        numMatches++;
+        if ((maxNumMatches >= 0) && (numMatches > maxNumMatches)) {
+            result = NO;
+        }
+    }
+    
+    return result;
 }
 
 @end
