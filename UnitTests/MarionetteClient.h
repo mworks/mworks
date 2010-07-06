@@ -22,18 +22,18 @@ using namespace mw;
 	BOOL experiment_ended;
 	BOOL asserted;
 	
-	NSArray *permitted_error_messages;
+	NSMutableArray *permitted_error_messages;
 	NSMutableArray *expected_messages;
 	NSMutableArray *expected_events;
 	
 }
 
-@property (readwrite, copy) NSArray * permittedErrorMessages;
-@property (readwrite, copy) NSMutableArray * expectedMessages;
-@property (readwrite, copy) NSMutableArray * expectedEvents;
-@property (readwrite, assign) BOOL sentRunEvent, stateSystemRunning;
-@property (readwrite, assign) BOOL asserted, experimentEnded;
-@property (readwrite, assign) BOOL experimentLoaded, sentExperiment, sentCloseExperiment;
-@property (readwrite, assign) BOOL sentOpenDataFile, sentCloseDataFile, dataFileOpen;
+@property (nonatomic, retain) NSMutableArray *permittedErrorMessages;
+@property (nonatomic, retain) NSMutableArray *expectedMessages;
+@property (nonatomic, retain) NSMutableArray *expectedEvents;
+@property (nonatomic, assign) BOOL sentRunEvent, stateSystemRunning;
+@property (nonatomic, assign) BOOL asserted, experimentEnded;
+@property (nonatomic, assign) BOOL experimentLoaded, sentExperiment, sentCloseExperiment;
+@property (nonatomic, assign) BOOL sentOpenDataFile, sentCloseDataFile, dataFileOpen;
 
 @end

@@ -8,6 +8,12 @@
 
 #import "MarionetteMessage.h"
 
+#ifdef __x86_64__
+#  define CURRENT_ARCH @"x86_64"
+#else
+#  define CURRENT_ARCH @"i386"
+#endif
+
 
 @implementation MarionetteMessage
 
@@ -47,7 +53,7 @@
         
 		NSXMLNode *max_matches_attribute = [element attributeForName:@"max_matches"];
         if (nil != max_matches_attribute) {
-            maxNumMatches = [[arch_attribute stringValue] intValue];
+            maxNumMatches = [[max_matches_attribute stringValue] intValue];
         } else {
             maxNumMatches = -1;
         }
@@ -67,7 +73,6 @@
 
 - (NSString *)message { return message; }
 - (MessageParseType)type {return type; }
-- (NSString *)arch { return arch; }
 
 - (BOOL)matches:(NSString *)string_to_match {
     BOOL result = NO;
@@ -106,6 +111,10 @@
     }
     
     return result;
+}
+
+- (BOOL)archMatchesCurrentArch {
+    return ((nil == arch) || [arch isEqualToString:CURRENT_ARCH]);
 }
 
 @end

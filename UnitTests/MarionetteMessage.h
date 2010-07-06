@@ -29,8 +29,8 @@ enum MessageParseType {
 
 - (NSString *)message;
 - (MessageParseType)type;
-- (NSString *)arch;
 
 - (BOOL)matches:(NSString *)string_to_match;
+- (BOOL)archMatchesCurrentArch;
 
 @end

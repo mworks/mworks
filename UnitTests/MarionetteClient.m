@@ -19,12 +19,6 @@
 #import "MarionetteMessage.h"
 #import "MarionetteEvent.h"
 
-#ifdef __x86_64__
-#  define CURRENT_ARCH @"x86_64"
-#else
-#  define CURRENT_ARCH @"i386"
-#endif
-
 
 Datum _parseDataValue(xmlNode *node);
 string _attributeForName(xmlNode *node, string name);
@@ -37,12 +31,13 @@ Datum _getNumber(const string &expression, const GenericDataType type);
 #define MARIONETTE_KEY "marionette key"
 #define MARIONETTE_TEST_DATA_FILE_PREFIX "MARIONETTE."
 
-@interface MarionetteClient (PrivateMethods)
-- (void)runExperiment:(NSString *)experiement_path;
+@interface MarionetteClient ()
+- (void)loadTestData:(NSString *)message_file;
+- (void)addMessageNodes:(NSArray *)messageNodes toArray:(NSMutableArray *)array replaceExisting:(BOOL)replaceExisting;
 - (void)marionetteAssert:(BOOL)test withMessage:(NSString *)assert_message;
 - (void)marionetteAssert:(NSString *)assert_message;
-- (void) checkMessageStructure:(Datum *)event_data;
-- (BOOL) checkErrorMessageForKnownErrors:(NSString *)message;
+- (void)checkMessageStructure:(Datum *)event_data;
+- (BOOL)checkErrorMessageForKnownErrors:(NSString *)message;
 @end
 
 @implementation MarionetteClient
@@ -68,7 +63,7 @@ Datum _getNumber(const string &expression, const GenericDataType type);
 		sent_close_data_file = NO;
 		data_file_open = NO;
 		
-		permitted_error_messages = [[NSArray alloc] init];
+		permitted_error_messages = [[NSMutableArray alloc] init];
 		expected_events = [[NSMutableArray alloc] init];
 		expected_messages = [[NSMutableArray alloc] init];
 		
@@ -87,143 +82,18 @@ Datum _getNumber(const string &expression, const GenericDataType type);
 }
 
 - (void)awakeFromNib {
-	// get the list of permitted error messages (if any) and expected messages
-	if([[[NSProcessInfo processInfo] arguments] count] > 2) {
-		
-		NSString *message_file = [[[NSProcessInfo processInfo] arguments] objectAtIndex:2];
+    // Load default test data
+    NSString *default_message_file = [[NSBundle mainBundle] pathForResource:@"default_test_data" ofType:@"xml"];
+    if (nil == default_message_file) {
+        NSLog(@"couldn't find default test data");
+    } else {
+        [self loadTestData:default_message_file];
+    }
 
-		
-		LIBXML_TEST_VERSION
-		
-		xmlParserCtxt *context = xmlNewParserCtxt();	
-		if(context == NULL){
-			NSLog(@"couldn't create XML context");
-			exit(1);
-		}
-		
-		xmlSetGenericErrorFunc(context, &error_func);
-		
-		// parse the file and get the DOM 
-		xmlDoc *xml_doc = xmlCtxtReadFile(context, [message_file cStringUsingEncoding:NSASCIIStringEncoding], NULL, 0);
-		
-        if(xml_doc == NULL){
-            NSLog(@"Invalid xml document: %@", message_file);
-        }
-		
-		// get the xsl doco out of the main bundle
-		NSBundle *main_bundle = [NSBundle mainBundle];
-		NSString *simplification_path = [main_bundle pathForResource:@"MarionetteParserTransformation" ofType:@"xsl"];
-		xsltStylesheet *simplification_transform = xsltParseStylesheetFile((const xmlChar *)([simplification_path cStringUsingEncoding:NSASCIIStringEncoding]));
-		xmlDoc *simplified = xsltApplyStylesheet(simplification_transform, xml_doc, NULL);
-		
-		xmlNode *root_element = xmlDocGetRootElement(simplified);
-		
-		//xmlDocDump(stderr, xml_doc);
-		//xmlDocDump(stderr, simplified);
-		
-        if(root_element == NULL){
-            NSLog(@"Invalid xml root element");
-        }
-        
-		xmlNode *child = root_element->children;
-		while(child != NULL){
-			string name((const char *)(child->name));
-			//NSLog(@"child_node: %s", name.c_str());
-			
-			if(name=="event") {
-				// Parse the attributes
-				_xmlAttr *att = child->properties;
-				
-				string variable;
-				BOOL continue_processing = YES;
-				while( att != NULL){
-					string attribute_name((const char *)(att->name));
-					if(attribute_name == "variable"){
-						variable = (const char *)(att->children->content);
-					}			
-					
-					if(attribute_name == "continue"){
-						continue_processing = _getNumber((const char *)(att->children->content),
-														 M_BOOLEAN).getBool();
-					}			
-					
-					att = att->next;
-				}
-				
-				
-				xmlNode *subchild = child->children;
-				
-				while(subchild != NULL) {
-					string n((const char *)subchild->name);
-					if(n == "value") {
-						break;
-					}
-					subchild = subchild->next;
-				}
-				
-			 Datum data(_parseDataValue(subchild));
-				
-				MarionetteEvent *me = [MarionetteEvent eventWithVariableName:[NSString stringWithCString:variable.c_str() 
-																								encoding:NSASCIIStringEncoding] 
-																	 andData:&data 
-													 andProcessDataAfterward:continue_processing];
-				
-				[self.expectedEvents addObject:me];
-			}
-			child = child->next;
-		}		
-		
-		NSXMLDocument *info_xml = [[[NSXMLDocument alloc] initWithData:[NSData dataWithContentsOfFile:message_file]
-															   options:0
-																 error:nil] autorelease];
-		
-		if(info_xml == nil) {
-			NSLog(@"xml_file: %@ couldn't be opened", message_file);
-			exit(1);
-		}
-		
-		{
-			// permitted error messages
-			NSMutableArray *temp_pe_array = [NSMutableArray array];
-			NSArray *permitted_error_nodes = [info_xml nodesForXPath:@"./marionette_info/permitted_error_messages/message"
-															   error:nil];
-			
-			NSEnumerator *pe_node_enum = [permitted_error_nodes objectEnumerator];
-			NSXMLElement *pe_node = nil;
-			
-			while(pe_node = [pe_node_enum nextObject]) {
-				MarionetteMessage *message = [MarionetteMessage messageWithXMLNode:pe_node];				
-				if(message == nil) {
-					NSLog(@"MarionetteMessage couldn't be created");
-					exit(1);
-				}
-				
-                if (([message arch] == nil) || [[message arch] isEqualToString:CURRENT_ARCH]) {
-                    [temp_pe_array addObject:message];
-                }
-			}
-			
-			self.permittedErrorMessages = temp_pe_array;
-		}
-		{
-			NSArray *expected_message_nodes = [info_xml nodesForXPath:@"./marionette_info/expected_messages/message"
-																error:nil];
-			
-			NSEnumerator *em_node_enum = [expected_message_nodes objectEnumerator];
-			NSXMLElement *em_node = nil;
-			
-			while(em_node = [em_node_enum nextObject]) {
-				MarionetteMessage *message = [MarionetteMessage messageWithXMLNode:em_node];				
-				if(message == nil) {
-					NSLog(@"MarionetteMessage couldn't be created");
-					exit(1);
-				}
-				
-                if (([message arch] == nil) || [[message arch] isEqualToString:CURRENT_ARCH]) {
-                    [self.expectedMessages addObject:message];
-                }
-			}
-		}
+	// Load test-specific test data
+	if([[[NSProcessInfo processInfo] arguments] count] > 2) {
+		NSString *message_file = [[[NSProcessInfo processInfo] arguments] objectAtIndex:2];
+		[self loadTestData:message_file];
 	}
 	
 	while(!client->isConnected()) {
@@ -233,6 +103,132 @@ Datum _getNumber(const string &expression, const GenericDataType type);
 	}
 	
 	[NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(waitForExperimentToEnd:) userInfo:nil repeats:YES];
+}
+
+- (void)loadTestData:(NSString *)message_file {
+    LIBXML_TEST_VERSION
+    
+    xmlParserCtxt *context = xmlNewParserCtxt();	
+    if(context == NULL){
+        NSLog(@"couldn't create XML context");
+        exit(1);
+    }
+    
+    xmlSetGenericErrorFunc(context, &error_func);
+    
+    // parse the file and get the DOM 
+    xmlDoc *xml_doc = xmlCtxtReadFile(context, [message_file cStringUsingEncoding:NSASCIIStringEncoding], NULL, 0);
+    
+    if(xml_doc == NULL){
+        NSLog(@"Invalid xml document: %@", message_file);
+        exit(1);
+    }
+    
+    // get the xsl doco out of the main bundle
+    NSBundle *main_bundle = [NSBundle mainBundle];
+    NSString *simplification_path = [main_bundle pathForResource:@"MarionetteParserTransformation" ofType:@"xsl"];
+    xsltStylesheet *simplification_transform = xsltParseStylesheetFile((const xmlChar *)([simplification_path cStringUsingEncoding:NSASCIIStringEncoding]));
+    xmlDoc *simplified = xsltApplyStylesheet(simplification_transform, xml_doc, NULL);
+    
+    xmlNode *root_element = xmlDocGetRootElement(simplified);
+    
+    //xmlDocDump(stderr, xml_doc);
+    //xmlDocDump(stderr, simplified);
+    
+    if(root_element != NULL){
+        // Replace existing events with new ones
+        [self.expectedEvents removeAllObjects];
+        
+        xmlNode *child = root_element->children;
+        while(child != NULL){
+            string name((const char *)(child->name));
+            //NSLog(@"child_node: %s", name.c_str());
+            
+            if(name=="event") {
+                // Parse the attributes
+                _xmlAttr *att = child->properties;
+                
+                string variable;
+                BOOL continue_processing = YES;
+                while( att != NULL){
+                    string attribute_name((const char *)(att->name));
+                    if(attribute_name == "variable"){
+                        variable = (const char *)(att->children->content);
+                    }			
+                    
+                    if(attribute_name == "continue"){
+                        continue_processing = _getNumber((const char *)(att->children->content),
+                                                         M_BOOLEAN).getBool();
+                    }			
+                    
+                    att = att->next;
+                }
+                
+                
+                xmlNode *subchild = child->children;
+                
+                while(subchild != NULL) {
+                    string n((const char *)subchild->name);
+                    if(n == "value") {
+                        break;
+                    }
+                    subchild = subchild->next;
+                }
+                
+                Datum data(_parseDataValue(subchild));
+                
+                MarionetteEvent *me = [MarionetteEvent eventWithVariableName:[NSString stringWithCString:variable.c_str() 
+                                                                                                encoding:NSASCIIStringEncoding] 
+                                                                     andData:&data 
+                                                     andProcessDataAfterward:continue_processing];
+                
+                [self.expectedEvents addObject:me];
+            }
+            child = child->next;
+        }		
+    }
+    
+    NSXMLDocument *info_xml = [[[NSXMLDocument alloc] initWithData:[NSData dataWithContentsOfFile:message_file]
+                                                           options:0
+                                                             error:nil] autorelease];
+    
+    if(info_xml == nil) {
+        NSLog(@"xml_file: %@ couldn't be opened", message_file);
+        exit(1);
+    }
+    
+    NSArray *permitted_error_nodes = [info_xml nodesForXPath:@"./marionette_info/permitted_error_messages/message"
+                                                       error:nil];
+    [self addMessageNodes:permitted_error_nodes toArray:self.permittedErrorMessages replaceExisting:NO];
+
+    NSArray *expected_message_nodes = [info_xml nodesForXPath:@"./marionette_info/expected_messages/message"
+                                                        error:nil];
+    [self addMessageNodes:expected_message_nodes toArray:self.expectedMessages replaceExisting:YES];
+}
+
+- (void)addMessageNodes:(NSArray *)messageNodes toArray:(NSMutableArray *)array replaceExisting:(BOOL)replaceExisting {
+    if ([messageNodes count] == 0) {
+        return;
+    }
+
+    if (replaceExisting) {
+        // Replace existing messages with new ones
+        [array removeAllObjects];
+    }
+    
+    NSEnumerator *node_enum = [messageNodes objectEnumerator];
+    NSXMLElement *node = nil;
+    
+    while(node = [node_enum nextObject]) {
+        MarionetteMessage *message = [MarionetteMessage messageWithXMLNode:node];				
+        if(message == nil) {
+            NSLog(@"MarionetteMessage couldn't be created");
+            exit(1);
+        }
+        if ([message archMatchesCurrentArch]) {
+            [array addObject:message];
+        }
+    }
 }
 
 @synthesize permittedErrorMessages=permitted_error_messages;
