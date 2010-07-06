@@ -55,7 +55,7 @@ DataFileIndexer::DataFileIndexer(const boost::filesystem::path &data_file,
 					event_codes_in_block.erase(std::unique(event_codes_in_block.begin(), 
 														   event_codes_in_block.end()), 
 											   event_codes_in_block.end());
-					std::cout << "indexing block " << event_blocks.size() << " .. time : " << min_time << "LL - " << max_time << "LL" << "\r";
+					//std::cout << "indexing block " << event_blocks.size() << " .. time : " << min_time << "LL - " << max_time << "LL" << "\r";
 
 					//				cerr << "new event block : num events : " << event_codes_in_block.size() << endl;
 					boost::shared_ptr<EventBlock> new_event_block = boost::shared_ptr<EventBlock>(new EventBlock(previous_datum_location, min_time, max_time, event_codes_in_block));

@@ -25,7 +25,7 @@ void mexFunction (int nlhs, mxArray *plhs[],
   // Check to see if we have the correct number of input and output
   // arguments.
   if (nrhs != NUM_INPUT_ARGS)
-    mexErrMsgTxt("only one input arguements: codecs(<data file name>");
+    mexErrMsgTxt("only one input argument: codecs(<data file name>)");
   if (nlhs != NUM_OUTPUT_ARGS)
     mexErrMsgTxt("only had one output argument");
 
@@ -70,5 +70,3 @@ mxArray *createTopLevelCodecStruct(const long ncodecs) {
   
   return codecs;
 }
-
-

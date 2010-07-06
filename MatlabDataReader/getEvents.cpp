@@ -11,7 +11,7 @@ using namespace std;
 
 extern void _main();
 
-const int MIN_INPUT_ARGS = 2;
+const int MIN_INPUT_ARGS = 1;
 const int MAX_INPUT_ARGS = 4;
 const int NUM_OUTPUT_ARGS = 1;
 
@@ -28,16 +28,20 @@ void mexFunction (int nlhs, mxArray *plhs[],
   // Check to see if we have the correct number of input and output
   // arguments.
   if (nrhs > MAX_INPUT_ARGS || nrhs < MIN_INPUT_ARGS)
-    mexErrMsgTxt("needs 2-4 arguments events(<data file name>, [event codes], <lower time bound>, <upper time bound>");
+    mexErrMsgTxt("needs 1-4 arguments: events(<data file name>, [event codes], <lower time bound>, <upper time bound>)");
   if (nlhs != NUM_OUTPUT_ARGS)
     mexErrMsgTxt("only had one output argument");
 
   // Get the inputs.
   boost::filesystem::path mwk_file(getString(prhs[0]), boost::filesystem::native);
-  std::vector<unsigned int> event_codes(arrayToVector(prhs[1]));
+  std::vector<unsigned int> event_codes;
 
   MWorksTime lower_bound = MIN_MONKEY_WORKS_TIME();
   MWorksTime upper_bound = MAX_MONKEY_WORKS_TIME();
+
+  if(nrhs >= 2) {
+    event_codes = arrayToVector(prhs[1]);
+  }
 
   if(nrhs >= 3) {
     lower_bound = getMWorksTime(prhs[2]);
@@ -99,5 +103,3 @@ mxArray *createTopLevelEventStruct(const long nevents) {
   
   return events;
 }
-
-
