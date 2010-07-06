@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<marionette_info>
+  <expected_messages>
+    <message type="whole_message">WARNING: "Play Movie" is deprecated.  Please use "Play Dynamic Stimulus" instead.</message>
+    <message type="whole_message">WARNING: "Stop Movie" is deprecated.  Please use "Stop Dynamic Stimulus" instead.</message>
+    <message type="whole_message">WARNING: "Play Movie" is deprecated.  Please use "Play Dynamic Stimulus" instead.</message>
+    <!-- I don't know why the third warning is announced twice, but it is -->
+    <message type="whole_message">WARNING: "Play Movie" is deprecated.  Please use "Play Dynamic Stimulus" instead.</message>
+  </expected_messages>
+</marionette_info>

@@ -28,11 +28,11 @@
                         <action tag="Update Stimulus Display"  type="update_stimulus_display"/>
                         <action tag="Report"  type="report" message="just updated stim display "/>
                         <action tag="Update Stimulus Display"  type="update_stimulus_display"/>
-                        <action tag="movie_player"  type="play_movie" movie="MyMovie1"/>						
+                        <action tag="movie_player"  type="play_dynamic_stimulus" stimulus="MyMovie1"/>						
                         <action tag="Wait"  type="wait" duration="1000000"/>
-                        <action tag="stopper"  type="stop_movie" movie="MyMovie1"/>						
+                        <action tag="stopper"  type="stop_dynamic_stimulus" stimulus="MyMovie1"/>						
                         <action tag="Wait"  type="wait" duration="1000000"/>
-                        <action tag="movie_player"  type="play_movie" movie="MyMovie1"/>						
+                        <action tag="movie_player"  type="play_dynamic_stimulus" stimulus="MyMovie1"/>						
                         <action tag="Wait"  type="wait" duration="1000000"/>
                         <action tag="Queue Stimulus"  type="dequeue_stimulus" stimulus="MyMovie1"/>
                         <action tag="Update Stimulus Display"  type="update_stimulus_display"/>

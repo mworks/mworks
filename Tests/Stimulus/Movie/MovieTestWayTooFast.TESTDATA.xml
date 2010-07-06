@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<marionette_info>
+  <expected_messages>
+    <!-- We expect this test to drop frames -->
+    <message type="contains"> falling behind, dropping </message>
+  </expected_messages>
+</marionette_info>

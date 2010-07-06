@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <monkeyml version="1.0">
     <variables tag="Variables">
-        <variable tag="RR_var" default_value="0" scope="local" type="integer" editable="ALWAYS" logging="WHEN_CHANGED" persistant="NO"></variable>
+        <variable tag="RR_var" default_value="0" scope="LOCAL" type="INTEGER" editable="ALWAYS" logging="WHEN_CHANGED" persistant="NO"></variable>
     </variables>
     <stimuli tag="Stimuli">
         <stimulus_group tag="movie_group">
@@ -10,7 +10,7 @@
             </range_replicator>
         </stimulus_group>
         <stimulus tag="blank screen" full_name="blank screen" type="blank_screen" color="0.5,0.5,0.5"></stimulus>
-        <stimulus type="movie" tag="MyMovie1" stimulus_group="movie_group" frames_per_second="100000" movie_stats="" error_reporting=""></stimulus>
+        <stimulus type="movie" tag="MyMovie1" stimulus_group="movie_group" frames_per_second="10"></stimulus>
     </stimuli>
     <experiment tag="experiment">
         <protocol tag="Protocol" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
@@ -26,8 +26,12 @@
                         <action tag="Update Stimulus Display" type="update_stimulus_display"></action>
                         <action tag="Report" type="report" message="just updated stim display"></action>
                         <action tag="Update Stimulus Display" type="update_stimulus_display"></action>
-                        <action tag="Play dynamic stimulus" stimulus="MyMovie1" type="play_dynamic_stimulus"></action>
-                        <action tag="Wait" type="wait" duration="6000000"></action>
+                        <action tag="movie_player" type="play_movie" movie="MyMovie1"></action>
+                        <action tag="Wait" type="wait" duration="1000000"></action>
+                        <action tag="stopper" type="stop_movie" movie="MyMovie1"></action>
+                        <action tag="Wait" type="wait" duration="1000000"></action>
+                        <action tag="movie_player" type="play_movie" movie="MyMovie1"></action>
+                        <action tag="Wait" type="wait" duration="1000000"></action>
                         <action tag="Queue Stimulus" type="dequeue_stimulus" stimulus="MyMovie1"></action>
                         <action tag="Update Stimulus Display" type="update_stimulus_display"></action>
                         <action tag="Report" type="report" message="finished"></action>

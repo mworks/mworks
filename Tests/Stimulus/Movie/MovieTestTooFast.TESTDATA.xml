@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<marionette_info>
+  <permitted_error_messages>
+    <message type="starts_with">WARNING: Scheduled task </message>
+    <message type="starts_with" max_matches="4">ERROR: Scheduled task </message>
+  </permitted_error_messages>
+  <expected_messages>
+    <!-- We expect at least one scheduling error -->
+    <message type="starts_with">ERROR: Scheduled task </message>
+  </expected_messages>
+</marionette_info>

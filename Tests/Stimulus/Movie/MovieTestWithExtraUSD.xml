@@ -27,7 +27,7 @@
                         <action tag="Report"  type="report" message="just queued movie"/>
                         <action tag="Update Stimulus Display"  type="update_stimulus_display"/>
                         <action tag="Report"  type="report" message="just updated stim display "/>
-                        <action tag="movie_player"  type="play_movie" movie="MyMovie1"/>						
+                        <action tag="movie_player"  type="play_dynamic_stimulus" stimulus="MyMovie1"/>						
                         <action tag="Update Stimulus Display"  type="update_stimulus_display"/>
                         <action tag="Update Stimulus Display"  type="update_stimulus_display"/>
                         <action tag="Update Stimulus Display"  type="update_stimulus_display"/>
