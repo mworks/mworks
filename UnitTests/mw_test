@@ -17,6 +17,7 @@ valid_arch_names = ('x86_64', 'i386')
 mworks_core_test_runner = os.path.join(tests_dir, 'MWorksCoreTestRunner')
 marionette_test = os.path.join(tests_dir, ('MarionetteTest.app/Contents/'
                                            'MacOS/MarionetteTest'))
+test_data_suffix = 'TESTDATA.xml'
 
 
 def error(status, msg, *args):
@@ -46,7 +47,7 @@ def iter_marionette_tests():
     for root, dirs, files in os.walk(test_xml_dir):
         for test_xml in (os.path.join(root, f) for f in files
                          if f.endswith('.xml') and
-                         (not f.endswith('.TESTDATA.xml'))):
+                         (not f.endswith(test_data_suffix))):
             yield test_xml
 
 
@@ -66,9 +67,9 @@ def run_marionette_tests(arch_name, test_names=None):
 
         args = [arch, '-arch', arch_name, marionette_test, test_xml]
 
-        for test_data in (test_xml[:-4] + '.TESTDATA.xml',
+        for test_data in (test_xml[:-4] + '.' + test_data_suffix,
                           os.path.join(os.path.dirname(test_xml),
-                                       'TESTDATA.xml')):
+                                       test_data_suffix)):
             if os.path.isfile(test_data):
                 args.append(test_data)
                 break
