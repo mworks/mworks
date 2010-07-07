@@ -438,7 +438,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/zsh;
-			shellScript = "export TARGET_DIR=${APP_SUPPORT_DIR}/Scripting/Python/mworks\n\nmkdir -p \"${TARGET_DIR}\"\n\nrm -f \"${TARGET_DIR}\"/_data.so\nrm -f \"${TARGET_DIR}\"/data.py\n\ncp $BUILT_PRODUCTS_DIR/_data.so \"${TARGET_DIR}\"\n\ncp $BUILT_PRODUCTS_DIR/../../data.py \"${TARGET_DIR}\"\n";
+			shellScript = "export TARGET_DIR=${APP_SUPPORT_DIR}/Scripting/Python/mworks\n\nmkdir -p \"${TARGET_DIR}\"\n\nrm -f \"${TARGET_DIR}\"/_data.so\nrm -f \"${TARGET_DIR}\"/data.py\n\ncp $BUILT_PRODUCTS_DIR/_data.so \"${TARGET_DIR}\"\n\ncp $BUILT_PRODUCTS_DIR/../../data.py \"${TARGET_DIR}\"\n\n# Byte-compile the .py files\n/usr/bin/python2.6 -m compileall \"${TARGET_DIR}\"";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -685,7 +685,7 @@
 					"-lboost_filesystem-mw",
 					"-lscarab",
 					"-lboost_system-mw",
-					"-lpython",
+					"-lpython2.6",
 					"-lboost_serialization-mw",
 					"-lboost_python-mw",
 					"-ldfindex",
