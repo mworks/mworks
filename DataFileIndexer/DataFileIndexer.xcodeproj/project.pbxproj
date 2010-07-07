@@ -682,10 +682,11 @@
 					$MW_LIB_DIR,
 				);
 				OTHER_LDFLAGS = (
+					"-undefined",
+					dynamic_lookup,
 					"-lboost_filesystem-mw",
 					"-lscarab",
 					"-lboost_system-mw",
-					"-lpython2.6",
 					"-lboost_serialization-mw",
 					"-lboost_python-mw",
 					"-ldfindex",
