@@ -18,6 +18,7 @@ mw_files = (
     '/Library/Application Support/MWorks',
     '/Library/Frameworks/MWorksCocoa.framework',
     '/Library/Frameworks/MWorksCore.framework',
+    '/Library/Python/2.6/site-packages/mworks.pth',
 
     # Legacy
     '/Documents/MWorks',

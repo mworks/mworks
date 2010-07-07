@@ -52,6 +52,7 @@ package_contents = {
         (
         '/Library/Application Support/MWorks/Plugins/Client/PythonBridgePlugin.bundle',
         '/Library/Application Support/MWorks/Scripting/Python',
+        '/Library/Python/2.6/site-packages/mworks.pth',
         ),
 
     'MWorksMATLABTools':
