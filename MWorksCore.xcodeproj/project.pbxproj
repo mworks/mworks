@@ -4098,8 +4098,9 @@
 				LINK_WITH_STANDARD_LIBRARIES = YES;
 				MACH_O_TYPE = mh_bundle;
 				OTHER_LDFLAGS = (
+					"-undefined",
+					dynamic_lookup,
 					"-lboost_python-mw",
-					"-lpython2.6",
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = _conduit;
