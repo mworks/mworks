@@ -2811,7 +2811,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/zsh;
-			shellScript = "export FULL_NAME=${PRODUCT_NAME}.${EXECUTABLE_EXTENSION}\nexport MW_PYTHON_DIR=${APP_SUPPORT_DIR}/Scripting/Python/mworks\nexport SOURCE_DIR=${BUILT_PRODUCTS_DIR}/../../\n\ncp \"${BUILT_PRODUCTS_DIR}/${FULL_NAME}\" \"${MW_PYTHON_DIR}/\"\ncp \"${SOURCE_DIR}/Core/Communications/Conduits/conduit.py\" \"${MW_PYTHON_DIR}/\"";
+			shellScript = "export FULL_NAME=${PRODUCT_NAME}.${EXECUTABLE_EXTENSION}\nexport MW_PYTHON_DIR=${APP_SUPPORT_DIR}/Scripting/Python/mworks\nexport SOURCE_DIR=${BUILT_PRODUCTS_DIR}/../../\n\ncp \"${BUILT_PRODUCTS_DIR}/${FULL_NAME}\" \"${MW_PYTHON_DIR}/\"\ncp \"${SOURCE_DIR}/Core/Communications/Conduits/conduit.py\" \"${MW_PYTHON_DIR}/\"\n\n# Byte-compile the .py files\n/usr/bin/python2.6 -m compileall \"${MW_PYTHON_DIR}\"";
 		};
 		5CCE1CCE10A4692500EF5866 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2824,7 +2824,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/zsh;
-			shellScript = "export SOURCE_DIR=${BUILT_PRODUCTS_DIR}/../../\nexport MW_PYTHON_DIR=${APP_SUPPORT_DIR}/Scripting/Python/mworks\n\nmkdir -p \"${MW_PYTHON_DIR}\"\n\ncp -r ${SOURCE_DIR}/Core/Python/* \"${MW_PYTHON_DIR}\"\n";
+			shellScript = "export SOURCE_DIR=${BUILT_PRODUCTS_DIR}/../../\nexport MW_PYTHON_DIR=${APP_SUPPORT_DIR}/Scripting/Python/mworks\n\nmkdir -p \"${MW_PYTHON_DIR}\"\n\ncp -r ${SOURCE_DIR}/Core/Python/* \"${MW_PYTHON_DIR}\"\n\necho \"${APP_SUPPORT_DIR}/Scripting/Python\" > /Library/Python/2.6/site-packages/mworks.pth\n";
 		};
 		5CEE864C081D53A700F366DE /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -4091,7 +4091,7 @@
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				HEADER_SEARCH_PATHS = (
-					/usr/include/python2.5,
+					/usr/include/python2.6,
 					$MW_INCLUDE_DIR,
 				);
 				INSTALL_PATH = /usr/local/lib;
