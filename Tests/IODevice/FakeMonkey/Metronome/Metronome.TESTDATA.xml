@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<marionette_info>
+  <permitted_error_messages>
+    <message type="starts_with">WARNING: Scheduled task </message>
+    <!-- TODO: Fix the test so it doesn't produce this warning -->
+    <message type="whole_message" max_matches="2">WARNING: Scheduling a timer to fire at a time in the past</message>
+  </permitted_error_messages>
+</marionette_info>
