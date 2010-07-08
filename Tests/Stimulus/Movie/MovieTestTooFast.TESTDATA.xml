@@ -2,7 +2,7 @@
 <marionette_info>
   <permitted_error_messages>
     <message type="starts_with">WARNING: Scheduled task </message>
-    <message type="starts_with" max_matches="4">ERROR: Scheduled task </message>
+    <message type="starts_with" max_matches="10">ERROR: Scheduled task </message>
   </permitted_error_messages>
   <expected_messages>
     <!-- We expect at least one scheduling error -->

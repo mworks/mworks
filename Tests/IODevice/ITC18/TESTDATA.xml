@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <marionette_info>
   <permitted_error_messages>
-    <message type="starts_with" max_matches="2">WARNING: Warning: IODevice: ITC clock differs from system clock by more than </message>
+    <message type="starts_with">WARNING: Warning: IODevice: ITC clock differs from system clock by more than </message>
   </permitted_error_messages>
   <expected_messages>
     <message type="ends_with" arch="x86_64">" of type iodevice/itc18 (error was:"No factory for object type: iodevice/itc18")</message>
