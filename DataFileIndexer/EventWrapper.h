@@ -46,7 +46,7 @@ class EventWrapper
         }
         
         ScarabDatum *getPayload(){
-            if(empty()){
+            if(empty() || (datum->data.list->size < SCARAB_PAYLOAD_EVENT_N_TOPLEVEL_ELEMENTS)){
                 return NULL;
             }
             ScarabDatum *payload_datum = scarab_list_get(datum, SCARAB_EVENT_PAYLOAD_INDEX);
