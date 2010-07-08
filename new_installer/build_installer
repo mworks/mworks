@@ -76,14 +76,14 @@ package_contents = {
 
 
 def make_destdir(package, path):
-    destdir = os.path.join(installer_root, package, path[1:])
+    destdir = os.path.join(installer_root, package, os.path.dirname(path[1:]))
     check_call(['mkdir', '-p', destdir])
     return destdir
 
 
 def copy_path(package, path):
     destdir = make_destdir(package, path)
-    check_call(['cp', '-R', path + '/', destdir])
+    check_call(['cp', '-R', path, destdir])
 
 
 def build_component_package(package_name):
