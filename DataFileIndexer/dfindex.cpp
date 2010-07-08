@@ -23,7 +23,7 @@ dfindex::dfindex(const boost::filesystem::path &data_file) : mwk_data_file(data_
 	}
 	
 	if(!boost::filesystem::is_directory(mwk_data_file)) {
-		std::string temp_location_string(boost::archive::tmpdir() + mwk_data_file.leaf());
+		std::string temp_location_string(mwk_data_file.string() + ".orig");
 		boost::filesystem::path temp_location(temp_location_string, boost::filesystem::native);
 		boost::filesystem::rename(mwk_data_file, temp_location);
 		
