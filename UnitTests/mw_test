@@ -3,7 +3,7 @@
 from cStringIO import StringIO
 from optparse import OptionParser
 import os
-from subprocess import call, check_call
+from subprocess import call, Popen, PIPE
 import sys
 from tempfile import NamedTemporaryFile
 from xml.dom import minidom
@@ -20,6 +20,23 @@ marionette_test = os.path.join(tests_dir, ('MarionetteTest.app/Contents/'
 test_data_suffix = 'TESTDATA.xml'
 
 
+marionette_prep_applescript = '''
+
+-- Ensure that the display is awake by simulating a CTRL key press
+tell application "System Events" to key code 59
+
+-- Ensure that audio isn't muted
+if (output muted of (get volume settings)) then
+    set volume output muted false
+end if
+set minVolume to 10
+if (output volume of (get volume settings)) < minVolume then
+    set volume output volume minVolume
+end if
+
+'''
+
+
 def error(status, msg, *args):
     sys.stderr.write('ERROR: ' + (msg % args) + '\n')
     sys.exit(status)
@@ -33,7 +50,7 @@ def run_unit_tests(arch_name, test_names=None):
 
         status = call(args)
         if status not in (0, 1):
-            error(cmd.returncode, '%s quit unexpectedly',
+            error(status, '%s quit unexpectedly',
                   os.path.basename(mworks_core_test_runner))
 
         results = minidom.parse(output)
@@ -79,10 +96,10 @@ def run_marionette_tests(arch_name, test_names=None):
         else:
             test_name = test_xml
 
-        # Ensure that the display is awake by simulating a CTRL key
-        # press with AppleScript
-        check_call(['/usr/bin/osascript', '-e',
-                    'tell application "System Events" to key code 59'])
+        cmd = Popen(['/usr/bin/osascript'], stdin=PIPE)
+        cmd.communicate(marionette_prep_applescript)
+        if cmd.returncode != 0:
+            error(cmd.returncode, 'osascript command failed')
 
         print test_name,
         sys.stdout.flush()
