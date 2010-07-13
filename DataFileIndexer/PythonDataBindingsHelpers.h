@@ -22,8 +22,6 @@
 using namespace boost;
 namespace bp = boost::python;
 
-extern double scarab_extract_float(ScarabDatum *datum);
-
 class PythonDataFile {
     std::string file_name;
     shared_ptr<dfindex> indexer;

@@ -9,8 +9,6 @@
 
 using namespace std;
 
-extern void _main();
-
 const int MIN_INPUT_ARGS = 1;
 const int MAX_INPUT_ARGS = 4;
 const int NUM_OUTPUT_ARGS = 1;
@@ -18,7 +16,6 @@ const int NUM_OUTPUT_ARGS = 1;
 // Function declarations.
 // -----------------------------------------------------------------
 std::vector<unsigned int> arrayToVector(const mxArray *array);
-mxArray *createTopLevelEventStruct(long nevents);
 
 // Function definitions.
 // -----------------------------------------------------------------
@@ -88,18 +85,4 @@ std::vector<unsigned int> arrayToVector(const mxArray *array) {
   }
     
   return return_vector;
-}
-
-mxArray *createTopLevelEventStruct(const long nevents) {
-  // *****************************************************************
-  // Allocate storage for the number of events we are about to read
-  // *****************************************************************
-  
-  const char *event_field_names[] = {"event_code", "time_us", "data"};
-  int event_nfields = 3;
-  mwSize event_dims = nevents;
-  mxArray *events = mxCreateStructArray(1, &event_dims, 
-					event_nfields, event_field_names);
-  
-  return events;
 }

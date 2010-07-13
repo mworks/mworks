@@ -8,17 +8,9 @@
 
 using namespace std;
 
-extern void _main();
-
 const int NUM_INPUT_ARGS = 1;
 const int NUM_OUTPUT_ARGS = 1;
 
-// Function declarations.
-// -----------------------------------------------------------------
-mxArray *createTopLevelCodecStruct(long nevents);
-
-// Function definitions.
-// -----------------------------------------------------------------
 void mexFunction (int nlhs, mxArray *plhs[],
 		  int nrhs, const mxArray *prhs[]) {
   
@@ -55,18 +47,4 @@ void mexFunction (int nlhs, mxArray *plhs[],
   
   // for now output the codecs
   plhs[0] = codec_struct;
-}
-
-mxArray *createTopLevelCodecStruct(const long ncodecs) {
-  // *****************************************************************
-  // Allocate storage for the number of codecs we are about to read
-  // *****************************************************************
-  
-  const char *codec_field_names[] = {"time_us", "codec"};
-  int codec_nfields = 2;
-  mwSize codec_dims = ncodecs;
-  mxArray *codecs = mxCreateStructArray(1, &codec_dims, 
-					codec_nfields, codec_field_names);
-  
-  return codecs;
 }

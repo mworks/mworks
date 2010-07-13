@@ -24,7 +24,7 @@ long long getScarabEventTime(ScarabDatum *datum);
 ScarabDatum *getScarabEventPayload(ScarabDatum *datum);
 mxArray *getScarabEventData(ScarabDatum *datum);
 mxArray *getCodec(ScarabDatum *system_payload);
-double scarab_extract_float(ScarabDatum *datum);
 mxArray *recursiveGetScarabList(ScarabDatum *datum);
 mxArray *recursiveGetScarabDict(ScarabDatum *datum);
-
+mxArray *createTopLevelCodecStruct(long ncodecs);
+mxArray *createTopLevelEventStruct(long nevents);

@@ -11,21 +11,6 @@
 #include "mWorksStreamUtilities.h"
 #include <MWorksCore/EventConstants.h>
 
-double scarab_extract_float(ScarabDatum *datum){
-#if	__LITTLE_ENDIAN__
-	return *((double *)(datum->data.opaque.data));
-#else
-	int i;
-	unsigned char swap_buffer[sizeof(double)];
-	unsigned char *datum_bytes = (unsigned char *)datum->data.opaque.data;
-	for(i = 0; i < sizeof(double); i++){
-		swap_buffer[i] = datum_bytes[sizeof(double) - i - 1];
-	}
-	
-	return *((double *)swap_buffer);
-#endif
-}
-
 int getScarabEventCode(ScarabDatum *datum){
 	
 	ScarabDatum *code_datum = scarab_list_get(datum, SCARAB_EVENT_CODEC_CODE_INDEX);
@@ -325,10 +310,8 @@ mxArray *getScarabEventData(ScarabDatum *datum){
 }
 
 
-mxArray *getCodec(ScarabDatum *datum){
-	ScarabDatum *codec = getScarabEventPayload(datum);
-	
-	int n_codec_entries = codec->data.dict->tablesize;
+mxArray *getCodec(ScarabDatum *codec){
+	int n_codec_entries = scarab_dict_number_of_elements(codec);
 	
 	ScarabDatum **keys = scarab_dict_keys(codec);
 	const char *codec_field_names[] = {"code", 
@@ -359,7 +342,7 @@ mxArray *getCodec(ScarabDatum *datum){
 			mxSetField(codec_struct, c, "code", mxCreateDoubleScalar(code));
 			
 			if(serializedVar && serializedVar->type == SCARAB_DICT) {      
-				for(int d = 0; d < serializedVar->data.dict->tablesize; ++d) {
+				for(int d = 0; d < scarab_dict_number_of_elements(serializedVar); ++d) {
 					
 					ScarabDatum **varKeys = scarab_dict_keys(serializedVar);
 					
@@ -424,7 +407,7 @@ int insertDatumIntoCodecList(mxArray *eventlist, const int index, ScarabDatum *d
 		
 		mxArray *data;
 		
-		data = getCodec(datum);
+		data = getCodec(getScarabEventPayload(datum));
 		
 		mxArray *old_time = mxGetField(eventlist, index, "time_us");
 		if(old_time != NULL){
@@ -445,19 +428,47 @@ int insertDatumIntoCodecList(mxArray *eventlist, const int index, ScarabDatum *d
 	return code;
 }	
 
+mxArray *createTopLevelCodecStruct(long ncodecs) {
+    // *****************************************************************
+    // Allocate storage for the number of codecs we are about to read
+    // *****************************************************************
+    
+    const char *codec_field_names[] = {"time_us", "codec"};
+    int codec_nfields = 2;
+    mwSize codec_dims = ncodecs;
+    mxArray *codecs = mxCreateStructArray(1, &codec_dims, 
+                                          codec_nfields, codec_field_names);
+    
+    return codecs;
+}
+
+mxArray *createTopLevelEventStruct(long nevents) {
+    // *****************************************************************
+    // Allocate storage for the number of events we are about to read
+    // *****************************************************************
+    
+    const char *event_field_names[] = {"event_code", "time_us", "data"};
+    int event_nfields = 3;
+    mwSize event_dims = nevents;
+    mxArray *events = mxCreateStructArray(1, &event_dims, 
+                                          event_nfields, event_field_names);
+    
+    return events;
+}
+
 std::string getString(const mxArray *string_array_ptr) {
 	// Allocate enough memory to hold the converted string.                     
 	mwSize buflen = mxGetNumberOfElements(string_array_ptr) + 1;
-	char *buf = (char *)mxCalloc(buflen, sizeof(char));
+	char *buf = (char *)calloc(buflen, sizeof(char));
 	
 	// Copy the string data from string_array_ptr and place it into buf.        
 	if (mxGetString(string_array_ptr, buf, buflen) != 0) {
-		mxFree(buf);
+		free(buf);
 		return std::string();
 	}
 	
 	std::string new_string(buf);
-	mxFree(buf);
+	free(buf);
 	
 	return new_string;
 }
