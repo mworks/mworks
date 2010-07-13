@@ -11,6 +11,7 @@
  */
 
 char * scarab_extract_string(ScarabDatum *d);
+double scarab_extract_float(ScarabDatum *datum);
 
 // DDC added 8/2005
 // solve the chicken and egg problem encountered with starting a new
@@ -21,8 +22,8 @@ int scarab_create_file(const char *filename);
 //ScarabDatum * scarab_deep_copy(void *memctx, ScarabDatum *datum);
 
 
-void
-scarab_recursive_free_children(ScarabDatum datum);
+//void
+//scarab_recursive_free_children(ScarabDatum *datum);
 
-void
-scarab_recursive_free(ScarabDatum *d);
+//void
+//scarab_recursive_free(ScarabDatum *d);

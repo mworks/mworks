@@ -62,3 +62,17 @@ char *scarab_extract_string(ScarabDatum *d){
 
 
 
+double scarab_extract_float(ScarabDatum *datum){
+#if __LITTLE_ENDIAN__
+	return *((double *)(datum->data.opaque.data));
+#else
+	int i;
+	unsigned char swap_buffer[sizeof(double)];
+	unsigned char *datum_bytes = (unsigned char *)datum->data.opaque.data;
+	for(i = 0; i < sizeof(double); i++){
+		swap_buffer[i] = datum_bytes[sizeof(double) - i - 1];
+	}
+	
+	return *((double *)swap_buffer);
+#endif
+}
