@@ -13,7 +13,7 @@
 	</variables>
     <sounds/>
     <stimuli>
-        <stimulus frames_per_second="30" statistics_reporting="0" error_reporting="0" tag="dg" inverted="0" mask="rectangle" type="drifting_grating" direction="direction" speed="speed" spatial_frequency="frequency" grating_type="sawtooth" x_size="width" y_size="height" x_position="3" y_position="3" rotation="rotation" contrast="0.0" affine_transform="0"/>
+        <stimulus frames_per_second="30" statistics_reporting="0" error_reporting="0" tag="dg" inverted="0" mask="rectangle" type="drifting_grating" direction="direction" speed="speed" spatial_frequency="frequency" grating_type="sawtooth" x_size="width" y_size="height" x_position="3" y_position="3" rotation="rotation" affine_transform="0"/>
     </stimuli>
     <experiment tag="DriftingGrating">
         <protocol tag="Protocol" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
