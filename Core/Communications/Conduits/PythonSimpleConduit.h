@@ -225,7 +225,6 @@ public:
 
 
     
-extern double scarab_extract_float(ScarabDatum *datum);
 extern PyObject *convert_scarab_to_python(ScarabDatum *datum);
 extern PyObject *convert_datum_to_python(Datum datum);
     
