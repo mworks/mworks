@@ -11,6 +11,18 @@
 
 @implementation MWExperimentOutlineView
 
+- (BOOL)acceptsFirstResponder {
+    return YES;
+}
+
+- (BOOL)acceptsFirstMouse:(NSEvent *)theEvent {
+    return YES;
+}
+
+- (BOOL)needsPanelToBecomeKey {
+    return NO;
+}
+
 - (IBAction)delete:(id)sender{
 
 	[[self delegate] remove:sender];
@@ -42,6 +54,11 @@
 - (IBAction)paste:(id)sender{
 
 	[[self delegate] paste:sender];
+}
+
+- (IBAction)expandAll:(id)sender{
+    
+	[self expandItem:nil expandChildren:YES];
 }
 
 - (BOOL)validateMenuItem:(NSMenuItem *)item {

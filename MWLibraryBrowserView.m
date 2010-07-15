@@ -7,9 +7,17 @@
 //
 
 #import "MWLibraryBrowserView.h"
+#import "MWLibraryBrowserMatrix.h"
 
 
 @implementation MWLibraryBrowserView
+
+- (id)initWithCoder:(NSCoder *)decoder {
+    if ((self = [super initWithCoder:decoder])) {
+        [self setMatrixClass:[MWLibraryBrowserMatrix class]];
+    }
+    return self;
+}
 
 - (IBAction)copy:(id)sender{
 

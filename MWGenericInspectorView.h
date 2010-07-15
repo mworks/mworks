@@ -7,11 +7,11 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "MWExperimentTreeController.h"
+//#import "MWExperimentTreeController.h"
 
 
 @interface MWGenericInspectorView : NSTableView {
-	IBOutlet MWExperimentTreeController *parent_tree_controller;
+	//IBOutlet MWExperimentTreeController *parent_tree_controller;
 }
 
 @end

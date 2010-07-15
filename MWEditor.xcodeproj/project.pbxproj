@@ -146,6 +146,8 @@
 		8D15AC310486D014006FF6A4 /* MWXMLDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4ACFDCFA73011CA2CEA /* MWXMLDocument.m */; settings = {ATTRIBUTES = (); }; };
 		8D15AC320486D014006FF6A4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4B0FDCFA73011CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D15AC340486D014006FF6A4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
+		E12449AA11EB9D7C0012EEEB /* MWLibraryBrowserMatrix.m in Sources */ = {isa = PBXBuildFile; fileRef = E12449A911EB9D7C0012EEEB /* MWLibraryBrowserMatrix.m */; };
+		E12449C811EB9FF20012EEEB /* MWGenericInspectorView.m in Sources */ = {isa = PBXBuildFile; fileRef = E12449C711EB9FF20012EEEB /* MWGenericInspectorView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -326,6 +328,10 @@
 		5CF8C3AC0E7975DD00AAA250 /* MWSimpleSoundPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWSimpleSoundPlayer.m; sourceTree = "<group>"; };
 		8D15AC360486D014006FF6A4 /* Info.template.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.template.plist; sourceTree = "<group>"; };
 		8D15AC370486D014006FF6A4 /* MWEditor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MWEditor.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E12449A811EB9D7C0012EEEB /* MWLibraryBrowserMatrix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWLibraryBrowserMatrix.h; sourceTree = "<group>"; };
+		E12449A911EB9D7C0012EEEB /* MWLibraryBrowserMatrix.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWLibraryBrowserMatrix.m; sourceTree = "<group>"; };
+		E12449C611EB9FF20012EEEB /* MWGenericInspectorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWGenericInspectorView.h; sourceTree = "<group>"; };
+		E12449C711EB9FF20012EEEB /* MWGenericInspectorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWGenericInspectorView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -469,6 +475,8 @@
 				5CCCFC480CEE8D6600963C07 /* MWExperimentOutlineView.m */,
 				5CCCFD150CEEBB7300963C07 /* MWLibraryBrowserView.h */,
 				5CCCFD160CEEBB7300963C07 /* MWLibraryBrowserView.m */,
+				E12449A811EB9D7C0012EEEB /* MWLibraryBrowserMatrix.h */,
+				E12449A911EB9D7C0012EEEB /* MWLibraryBrowserMatrix.m */,
 			);
 			name = "Minor Subclasses";
 			sourceTree = "<group>";
@@ -620,6 +628,8 @@
 				5CDC03460CDF527C008B67D0 /* MWInspectorViewController.m */,
 				5CDC03740CDF7081008B67D0 /* MWCustomInspectorView.h */,
 				5CDC03750CDF7081008B67D0 /* MWCustomInspectorView.m */,
+				E12449C611EB9FF20012EEEB /* MWGenericInspectorView.h */,
+				E12449C711EB9FF20012EEEB /* MWGenericInspectorView.m */,
 				5CCCFE820CF002B500963C07 /* MWAutocompletingTextField.h */,
 				5CCCFE830CF002B500963C07 /* MWAutocompletingTextField.m */,
 			);
@@ -845,6 +855,8 @@
 				5C42B3250E58A425000BD45F /* MWExperimentGraphController.m in Sources */,
 				5CF8C3AD0E7975DD00AAA250 /* MWSimpleSoundPlayer.m in Sources */,
 				5C58B0F40E7B023A00561EED /* MWPreferencePanelController.m in Sources */,
+				E12449AA11EB9D7C0012EEEB /* MWLibraryBrowserMatrix.m in Sources */,
+				E12449C811EB9FF20012EEEB /* MWGenericInspectorView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

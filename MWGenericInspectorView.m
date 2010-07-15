@@ -11,11 +11,20 @@
 
 @implementation MWGenericInspectorView
 
+- (BOOL)acceptsFirstMouse:(NSEvent *)theEvent {
+    return YES;
+}
+
+- (BOOL)needsPanelToBecomeKey {
+    return NO;
+}
 
 // NSTableView delegate notification
+/*
 - (void)textDidEndEditing:(NSNotification *)aNotification{
 	//[parent_tree_controller reloadData:self];
 	[super textDidEndEditing:aNotification];
 }
+*/
 
 @end
