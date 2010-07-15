@@ -1069,7 +1069,7 @@
 	</MWElement>
 
 	<MWElement name="Reset Selections">
-		<match_signature>action[@type='reset_selections']</match_signature>
+		<match_signature>action[@type='reset_selection']</match_signature>
 		<isa>Action</isa>
 		
 		<inspector>ResetSelectionInspectorView</inspector>
@@ -1080,7 +1080,7 @@
 		</description>
 		
 		<code>
-			<action tag="Reset Selections" type="reset_selections" 
+			<action tag="Reset Selections" type="reset_selection" 
 											selection=""/>
 		</code>
 	</MWElement>
