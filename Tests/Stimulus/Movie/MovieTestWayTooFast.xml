@@ -10,7 +10,7 @@
             </range_replicator>
         </stimulus_group>
         <stimulus tag="blank screen" full_name="blank screen" type="blank_screen" color="0.5,0.5,0.5"></stimulus>
-        <stimulus type="movie" tag="MyMovie1" stimulus_group="movie_group" frames_per_second="100000" movie_stats="" error_reporting=""></stimulus>
+        <stimulus type="movie" tag="MyMovie1" stimulus_group="movie_group" frames_per_second="1000" movie_stats="" error_reporting=""></stimulus>
     </stimuli>
     <experiment tag="experiment">
         <protocol tag="Protocol" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
