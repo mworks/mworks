@@ -130,6 +130,10 @@ MWTime DynamicStimulusDriver::getElapsedTime(){
 
 int DynamicStimulusDriver::getFrameNumber(){
     
+    if (!started) {
+        return -1;
+    }
+
     MWTime elapsed = getElapsedTime();
     return (elapsed * (long)(frames_per_second->getValue())) / 1e6;
 }
