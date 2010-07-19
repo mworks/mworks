@@ -34,10 +34,10 @@ repositories = ("mw_build",
                 "mw_core_plugins",
                 "mw_xcode_templates")
 
-github_url = "git://github.com/monkeyworks-project"
+github_url = "git://github.com/mworks-project"
 
 home_directory = os.path.expanduser('~')
-repository_path = "%s/Repositories/monkeyworks" % home_directory
+repository_path = "%s/Repositories/MWorks" % home_directory
 
 if not os.path.exists(repository_path):
     os.system("mkdir -p " + repository_path)
@@ -79,4 +79,3 @@ for repo in repositories:
         print("%s (%s): \n>>> %s" % (repo, os.getcwd(), command_string))
         os.system(command_string)
         print("\n")
-        
