@@ -53,6 +53,7 @@
 
 -(void) awakeFromNib;
 
+-(void)initConduit;
 -(void)launchScriptAtPath:(NSString *)path;
 -(void)launchScriptChooserSheet;
 -(void)terminateScript;

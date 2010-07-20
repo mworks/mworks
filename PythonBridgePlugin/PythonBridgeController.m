@@ -34,17 +34,6 @@
 
 -(void)awakeFromNib {
     
-    core = [(id<MWCoreContainer>)delegate eventStreamInterface];
-    
-    // TODO: generate a unique name to avoid name collisions
-    shared_ptr<mw::IPCEventTransport> transport(new mw::IPCEventTransport(mw::EventTransport::server_event_transport, 
-                                                                          mw::EventTransport::bidirectional_event_transport, 
-                                                                          CONDUIT_RESOURCE_NAME));
-    
-    // build the conduit, attaching it to the core/client's event stream 
-    conduit = shared_ptr<mw::EventStreamConduit>(new mw::EventStreamConduit(transport, core));
-    conduit->initialize();
-    
     [self setLoadButtonTitle:LOAD_BUTTON_TITLE];
     [self setPath:Nil];
     [self setStatus:STATUS_NONE_LOADED];
@@ -63,7 +52,23 @@
     [self closeScriptChooserSheet:self];
 }
 
+-(void)initConduit {
+    core = [(id<MWCoreContainer>)delegate eventStreamInterface];
+    
+    // TODO: generate a unique name to avoid name collisions
+    shared_ptr<mw::IPCEventTransport> transport(new mw::IPCEventTransport(mw::EventTransport::server_event_transport, 
+                                                                          mw::EventTransport::bidirectional_event_transport, 
+                                                                          CONDUIT_RESOURCE_NAME));
+    
+    // build the conduit, attaching it to the core/client's event stream 
+    conduit = shared_ptr<mw::EventStreamConduit>(new mw::EventStreamConduit(transport, core));
+    conduit->initialize();
+}
+
 -(void)launchScriptAtPath:(NSString *)script_path{
+    if (!conduit) {
+        [self initConduit];
+    }
     
     [self setPath:script_path];
     
