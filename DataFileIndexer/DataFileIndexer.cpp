@@ -20,7 +20,7 @@ DataFileIndexer::DataFileIndexer(const boost::filesystem::path &data_file,
 								 const unsigned int _events_per_block,
 								 const unsigned int multiplication_factor_per_level,
 								 const int number_of_indexing_threads) : events_per_block(_events_per_block) {
-	uri = "ldobinary:file://" + data_file.string();
+	uri = "ldobinary:file_readonly://" + data_file.string();
 	
 	// TODO: verify it is safe to remove Ben's kludge here
     // Ben says: I hate myself for this

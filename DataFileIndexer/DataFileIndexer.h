@@ -77,7 +77,7 @@ class DataFileIndexer
         // DDC added to patch Ben's incompetance
         void reconstituteScarabSession(const boost::filesystem::path &data_file){
             boost::filesystem::path true_mwk_path = data_file / data_file.leaf();
-            uri = std::string("ldobinary:file://") + true_mwk_path.string();
+            uri = std::string("ldobinary:file_readonly://") + true_mwk_path.string();
             
             char *uri_temp = new char[uri.length() + 1];
             strncpy(uri_temp, uri.c_str(), uri.length() + 1);
