@@ -18,9 +18,16 @@ DEF(struct, filestr)
 #define	min(x,y)	((x) < (y) ? (x) : (y))
 #endif
 
-#define	STREAM_ERR_NONE			0
-#define	STREAM_ERR_WRITE		1
-#define	STREAM_ERR_READ			2
+extern ScarabStreamEngine scarab_stream_file;
+extern ScarabStreamEngine scarab_stream_file_readonly;
+
+#define	STREAM_FILE				&scarab_stream_file
+#define	STREAM_FILE_READONLY	&scarab_stream_file_readonly
+
+#define	STREAM_ERR_NONE(self)	scarab_errcode((self), 0)
+#define	STREAM_ERR_WRITE(self)	scarab_errcode((self), 1)
+#define	STREAM_ERR_READ(self)	scarab_errcode((self), 2)
+#define	STREAM_ERR_OPEN(self)	scarab_errcode((self), 3)
 #define	STREAM_ERR_MAX			100
 
 static int      lib_init(void);
@@ -72,8 +79,11 @@ filestr_connect(ScarabSession * session, const char *uri)
 		return NULL;
 
 	ts->fd = fopen(uri + skip, "r+");
-	if (!ts->fd)
+	if (!ts->fd) {
+        scarab_session_seterr(session, STREAM_ERR_OPEN(STREAM_FILE));
+        scarab_mem_free(ts);
 		return NULL;
+    }
 		
 	//setvbuf(ts->fd, NULL, _IOFBF, 4096*1000);
 
@@ -97,9 +107,12 @@ filestr_connect_readonly(ScarabSession * session, const char *uri)
 		return NULL;
 
 	ts->fd = fopen(uri + skip, "r");
-	if (!ts->fd)
+	if (!ts->fd) {
+        scarab_session_seterr(session, STREAM_ERR_OPEN(STREAM_FILE_READONLY));
+        scarab_mem_free(ts);
 		return NULL;
-		
+    }
+    
 	//setvbuf(ts->fd, NULL, _IOFBF, 4096*1000);
 
 	return &ts->header;
@@ -172,6 +185,7 @@ static char    *error_text[] = {
 	"No Error",
 	"I/O Write Error",
 	"I/O Read Error",
+	"I/O Open Error",
 	NULL,
 };
 
