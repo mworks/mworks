@@ -126,13 +126,13 @@ void StimulusDisplay::setDisplayBounds(){
 	   display_info.hasKey(M_DISPLAY_HEIGHT_KEY) &&
 	   display_info.hasKey(M_DISPLAY_DISTANCE_KEY)){
 	
-		float width_unknown_units = display_info.getElement(M_DISPLAY_WIDTH_KEY);
-		float height_unknown_units = display_info.getElement(M_DISPLAY_HEIGHT_KEY);
-		float distance_unknown_units = display_info.getElement(M_DISPLAY_DISTANCE_KEY);
+		GLdouble width_unknown_units = display_info.getElement(M_DISPLAY_WIDTH_KEY);
+		GLdouble height_unknown_units = display_info.getElement(M_DISPLAY_HEIGHT_KEY);
+		GLdouble distance_unknown_units = display_info.getElement(M_DISPLAY_DISTANCE_KEY);
 	
-		float half_width_deg = (180. / M_PI) * atan((width_unknown_units/2.)/distance_unknown_units);
-		float half_height_deg = half_width_deg * height_unknown_units / width_unknown_units;
-		//float half_height_deg = (180. / M_PI) * atan((height_unknown_units/2.)/distance_unknown_units);
+		GLdouble half_width_deg = (180. / M_PI) * atan((width_unknown_units/2.)/distance_unknown_units);
+		GLdouble half_height_deg = half_width_deg * height_unknown_units / width_unknown_units;
+		//GLdouble half_height_deg = (180. / M_PI) * atan((height_unknown_units/2.)/distance_unknown_units);
 		
 		left = -half_width_deg;
 		right = half_width_deg;
@@ -147,6 +147,13 @@ void StimulusDisplay::setDisplayBounds(){
 	
 	mprintf("Display bounds set to (%g left, %g right, %g top, %g bottom)",
 			left, right, top, bottom);
+}
+
+void StimulusDisplay::getDisplayBounds(GLdouble &left, GLdouble &right, GLdouble &bottom, GLdouble &top) {
+    left = this->left;
+    right = this->right;
+    bottom = this->bottom;
+    top = this->top;
 }
 
 void StimulusDisplay::addContext(int _context_id){

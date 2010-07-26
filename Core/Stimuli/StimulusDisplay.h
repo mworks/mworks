@@ -67,7 +67,7 @@ namespace mw {
 		
 		boost::mutex display_lock;
 		
-		double left, right, top, bottom; // display bounds
+		GLdouble left, right, top, bottom; // display bounds
 		
 		bool update_stim_chain_next_refresh;
 		
@@ -92,6 +92,7 @@ namespace mw {
 		void updateDisplay(bool explicit_update=true);
 		void clearDisplay();
 		void setDisplayBounds();
+        void getDisplayBounds(GLdouble &left, GLdouble &right, GLdouble &bottom, GLdouble &top);
         
         void drawDisplayStack(bool explicit_update);
 		void announceDisplayStack(MWTime time);
