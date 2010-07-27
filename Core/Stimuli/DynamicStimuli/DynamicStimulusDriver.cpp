@@ -49,37 +49,45 @@ void DynamicStimulusDriver::play() {
 	
     //mprintf("CALLED PLAY!");
     
-	if (!started) {
-        shared_ptr<Clock> clock = Clock::instance(false);
-        start_time = clock->getCurrentTimeUS();
-
-		//const float frames_per_us = frames_per_second->getValue().getFloat()/1000000;
-		interval_us = (MWorksTime)((double)1000000 / frames_per_second->getValue().getFloat());
-        
-		started = true;
-        
-		
-		shared_ptr<DynamicStimulusDriver> this_one = shared_from_this();
-		
-		if(schedule_node != 0) {
-			schedule_node->cancel();	
-		}
-		schedule_node = scheduler->scheduleUS(FILELINE,
-											  0,
-											  interval_us, 
-											  M_REPEAT_INDEFINITELY, 
-											  boost::bind(nextUpdate, this_one),
-											  M_DEFAULT_PRIORITY,
-											  M_DEFAULT_WARN_SLOP_US,
-											  M_DEFAULT_FAIL_SLOP_US,
-											  M_MISSED_EXECUTION_DROP);	
-	}	
+    if (started) {
+        return;
+    }
+    
+    willPlay();
+    
+    shared_ptr<Clock> clock = Clock::instance(false);
+    start_time = clock->getCurrentTimeUS();
+    
+    //const float frames_per_us = frames_per_second->getValue().getFloat()/1000000;
+    interval_us = (MWorksTime)((double)1000000 / frames_per_second->getValue().getFloat());
+    
+    started = true;
+    
+    
+    shared_ptr<DynamicStimulusDriver> this_one = shared_from_this();
+    
+    if(schedule_node != 0) {
+        schedule_node->cancel();	
+    }
+    schedule_node = scheduler->scheduleUS(FILELINE,
+                                          0,
+                                          interval_us, 
+                                          M_REPEAT_INDEFINITELY, 
+                                          boost::bind(nextUpdate, this_one),
+                                          M_DEFAULT_PRIORITY,
+                                          M_DEFAULT_WARN_SLOP_US,
+                                          M_DEFAULT_FAIL_SLOP_US,
+                                          M_MISSED_EXECUTION_DROP);	
 }
 
 void DynamicStimulusDriver::stop() {
 	boost::mutex::scoped_lock locker(stim_lock);
 	
     //mprintf("CALLED STOP!");
+    
+    if (!started) {
+        return;
+    }
 
 	started = false;
 	
@@ -87,6 +95,8 @@ void DynamicStimulusDriver::stop() {
 	if(schedule_node != NULL){
         schedule_node->cancel();	
     }
+    
+    didStop();
 }
 
 void DynamicStimulusDriver::callUpdateDisplay() {

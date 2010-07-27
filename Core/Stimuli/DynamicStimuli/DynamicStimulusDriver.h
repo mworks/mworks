@@ -48,6 +48,9 @@ public:
 	virtual void play();
 	virtual void stop();
 
+	virtual void willPlay() { }
+	virtual void didStop() { }
+
 	virtual MWTime getElapsedTime();
     virtual int getFrameNumber();
     
