@@ -70,6 +70,7 @@ public:
 	// start acquiring
 	virtual bool updateButtons();
 	virtual bool startDeviceIO();
+	virtual bool stopDeviceIO();
 	
 	virtual void addChild(std::map<std::string, std::string> parameters,
 						  mw::ComponentRegistry *reg,

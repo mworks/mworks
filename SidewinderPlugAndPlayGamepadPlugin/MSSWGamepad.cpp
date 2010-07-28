@@ -391,8 +391,37 @@ bool mMSSWGamepad::startDeviceIO(){
 	return true;
 }
 
+
+bool mMSSWGamepad::stopDeviceIO() {
+    if (schedule_node) {
+        schedule_node->cancel();
+        schedule_node.reset();
+    }
+    return true;
+}
+
+
 void mMSSWGamepad::addChild(std::map<std::string, std::string> parameters,
 							mw::ComponentRegistry *reg,
 							shared_ptr<mw::Component> child){}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
