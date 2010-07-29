@@ -200,8 +200,14 @@ int OpenGLContextManager::newMirrorContext(bool sync_to_vbl){
     };
     
     NSOpenGLPixelFormat* pixel_format = [[NSOpenGLPixelFormat alloc] initWithAttributes:attrs];
-    
-    NSOpenGLContext *opengl_context = [[NSOpenGLContext alloc] initWithFormat:pixel_format shareContext:Nil];
+
+    NSOpenGLContext *mainContext = nil;
+#if M_OPENGL_SHARED_STATE == 1
+    if ([contexts count] > 0) {
+        mainContext = [contexts objectAtIndex:0];
+    }
+#endif
+    NSOpenGLContext *opengl_context = [[NSOpenGLContext alloc] initWithFormat:pixel_format shareContext:mainContext];
     
     if(sync_to_vbl){
         GLint swap_int = 1;
