@@ -1322,6 +1322,7 @@ Datum PointStimulus::getCurrentAnnounceDrawData() {
 }
 
 
+/*
 void * forceDisplayUpdate(void *arg) {
     //mprintf("displaying...");
     shared_ptr<StimulusDisplay> display = *((shared_ptr<StimulusDisplay> *)arg);
@@ -1332,7 +1333,7 @@ void * forceDisplayUpdate(void *arg) {
     // just return NULL because noone is probably checking this anyway
     return NULL;
 }
-/*
+
 FreeRunningMovieStimulus::FreeRunningMovieStimulus(char *_tag, long _nframes,
                         long _frame_interval, float _xoffset, float _yoffset,
                         float _xscale, float _yscale, float _rot) 
