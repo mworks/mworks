@@ -9,11 +9,13 @@ all: install
 
 install: clean
 	rm -Rf $(XCODE_TEMPLATES_DIR)/MWorks
-	cp -Rp MWorks $(XCODE_TEMPLATES_DIR)
+	rsync -a \
+	  --exclude='*.pbxuser' \
+	  --exclude='*.perspectivev3' \
+	  --exclude='build' \
+	  MWorks $(XCODE_TEMPLATES_DIR)
 
 clean:
-	rm -f */*/*.xcodeproj/*.pbxuser */*/*.xcodeproj/*.perspectivev3
-	rm -Rf */*/build
 	rm -Rf "$(PLUGINS_DIR)"/___PROJECTNAME___.bundle
 
 test:
