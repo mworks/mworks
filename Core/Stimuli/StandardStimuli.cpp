@@ -861,12 +861,8 @@ GLuint OpenGLImageLoader::load(std::string filename, shared_ptr<StimulusDisplay>
 	
 	//int depth = (int)ilGetInteger(IL_IMAGE_DEPTH);
 	
-    for(int i = 0; i < display->getNContexts(); i++){
-		display->setCurrent(i);        
-		//texture_map = ilutGLBindTexImage();
-		texture_map = ilutGLBindMipmaps();
-	}
-    //texture_map = ilutGLBindMipmaps();
+    //texture_map = ilutGLBindTexImage();
+    texture_map = ilutGLBindMipmaps();
             
     //texture_map = ilutGLLoadImage(filename);
             
