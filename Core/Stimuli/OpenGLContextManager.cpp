@@ -201,13 +201,13 @@ int OpenGLContextManager::newMirrorContext(bool sync_to_vbl){
     
     NSOpenGLPixelFormat* pixel_format = [[NSOpenGLPixelFormat alloc] initWithAttributes:attrs];
 
-    NSOpenGLContext *mainContext = nil;
+    NSOpenGLContext *shareContext = nil;
 #if M_OPENGL_SHARED_STATE == 1
     if ([contexts count] > 0) {
-        mainContext = [contexts objectAtIndex:0];
+        shareContext = [contexts objectAtIndex:0];
     }
 #endif
-    NSOpenGLContext *opengl_context = [[NSOpenGLContext alloc] initWithFormat:pixel_format shareContext:mainContext];
+    NSOpenGLContext *opengl_context = [[NSOpenGLContext alloc] initWithFormat:pixel_format shareContext:shareContext];
     
     if(sync_to_vbl){
         GLint swap_int = 1;
@@ -270,7 +270,14 @@ int OpenGLContextManager::newFullscreenContext(int screen_number){
     
     
     NSOpenGLPixelFormat* pixel_format = [[NSOpenGLPixelFormat alloc] initWithAttributes:attrs];
-    NSOpenGLContext *opengl_context = [[NSOpenGLContext alloc] initWithFormat:pixel_format shareContext:Nil];
+
+    NSOpenGLContext *shareContext = nil;
+#if M_OPENGL_SHARED_STATE == 1
+    if ([contexts count] > 0) {
+        shareContext = [contexts objectAtIndex:0];
+    }
+#endif
+    NSOpenGLContext *opengl_context = [[NSOpenGLContext alloc] initWithFormat:pixel_format shareContext:shareContext];
     
     GLint swap_int = 1;
     [opengl_context setValues: &swap_int forParameter: NSOpenGLCPSwapInterval];
