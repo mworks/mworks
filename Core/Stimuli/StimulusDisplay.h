@@ -85,6 +85,7 @@ namespace mw {
 		void setCurrent(int i);	
 		GLuint getCurrentContext();	
 		int getCurrentContextIndex();
+        void getCurrentViewportSize(GLint &width, GLint &height);
 		
         shared_ptr<StimulusNode> addStimulus(shared_ptr<Stimulus> stim);
 		void addStimulusNode(shared_ptr<StimulusNode> stimnode);
