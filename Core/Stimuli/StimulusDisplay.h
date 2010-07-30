@@ -58,20 +58,22 @@ namespace mw {
 	class StimulusDisplay : public enable_shared_from_this<StimulusDisplay> {
     protected:
         std::vector<int> context_ids;
+		int current_context_index;
 		shared_ptr< LinkedList<StimulusNode> > display_stack;
         
         shared_ptr<Clock> clock;
         shared_ptr<OpenGLContextManager> opengl_context_manager;
-		GLuint current_context;
-		int current_context_index;
 		
 		boost::mutex display_lock;
 		
 		GLdouble left, right, top, bottom; // display bounds
 		
-		bool update_stim_chain_next_refresh;
-		
         void glInit();
+		void setDisplayBounds();
+        void drawDisplayStack(bool explicit_update);
+
+        void announceDisplayStack(MWTime time);
+        Datum getAnnounceData();
 		
     public:
 		
@@ -80,11 +82,9 @@ namespace mw {
 		
 		void addContext(int _context_id);
 		
-		// TODO: error checking on these!
-		int getNContexts();
+		int getNContexts() { return context_ids.size(); }
 		void setCurrent(int i);	
-		GLuint getCurrentContext();	
-		int getCurrentContextIndex();
+		int getCurrentContextIndex() { return current_context_index; }
         void getCurrentViewportSize(GLint &width, GLint &height);
 		
         shared_ptr<StimulusNode> addStimulus(shared_ptr<Stimulus> stim);
@@ -92,12 +92,7 @@ namespace mw {
 		
 		void updateDisplay(bool explicit_update=true);
 		void clearDisplay();
-		void setDisplayBounds();
         void getDisplayBounds(GLdouble &left, GLdouble &right, GLdouble &bottom, GLdouble &top);
-        
-        void drawDisplayStack(bool explicit_update);
-		void announceDisplayStack(MWTime time);
-        Datum getAnnounceData();
 		
 		
 	private:

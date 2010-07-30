@@ -41,12 +41,12 @@ using namespace mw;
  *                  StimulusDisplay Methods
  **********************************************************************/
 StimulusDisplay::StimulusDisplay() {
+    current_context_index = -1;
 
     // defer creation of the display chain until after the stimulus display has been created
     display_stack = shared_ptr< LinkedList<StimulusNode> >(new LinkedList<StimulusNode>());
     
 	setDisplayBounds();
-	update_stim_chain_next_refresh = false;
 
     opengl_context_manager = OpenGLContextManager::instance();
     clock = Clock::instance();
@@ -57,22 +57,15 @@ StimulusDisplay::~StimulusDisplay(){
 	// nothing to do
 }
 
-// TODO: error checking
-void StimulusDisplay::setCurrent(int i){ 
-	current_context = context_ids[i];
+void StimulusDisplay::setCurrent(int i){
+    if ((i >= getNContexts()) || (i < 0)) {
+        merror(M_DISPLAY_MESSAGE_DOMAIN, "invalid context index (%d)", i);
+        return;
+    }
+
 	current_context_index = i;
-    
-    
-	opengl_context_manager->setCurrent(current_context); 
-	
+	opengl_context_manager->setCurrent(context_ids[i]); 
 }
-
-
-int StimulusDisplay::getNContexts(){ 
-	return context_ids.size(); 
-}
-
-
 
 shared_ptr<StimulusNode> StimulusDisplay::addStimulus(shared_ptr<Stimulus> stim) {
     if(!stim) {
@@ -97,29 +90,6 @@ void StimulusDisplay::addStimulusNode(shared_ptr<StimulusNode> stimnode) {
 	stimnode->remove();
 	
 	display_stack->addToFront(stimnode);  // TODO
-}
-
-
-
-/*int StimulusDisplay::getContextID() {
-    return context_id;
-}
-        
-void StimulusDisplay::setCurrent() {
-    GlobalOpenGLContextManager->setCurrent(context_id);
-}*/
-
-
-void *checkFence(void *arg){
-	GLuint fence = *((GLuint *)arg);
-	
-	glFinishFenceAPPLE(fence);
-	
-	// JJD added code for stimulus timing test June 2006
-	//mprintf("mStimulusDisplay::updateDisplay:  Updated display (supposedly).  Setting stimDisplayUpdate variable");
-    stimDisplayUpdate->setValue(true);
-	
-	return 0;
 }
 
 void StimulusDisplay::setDisplayBounds(){
@@ -165,7 +135,6 @@ void StimulusDisplay::getDisplayBounds(GLdouble &left, GLdouble &right, GLdouble
 void StimulusDisplay::addContext(int _context_id){
 	context_ids.push_back(_context_id);
 	current_context_index = context_ids.size() - 1;
-	current_context = _context_id;
     opengl_context_manager->setCurrent(_context_id);
 #ifdef RENDER_ONCE
     if (!(glewIsSupported("GL_EXT_framebuffer_object") && glewIsSupported("GL_EXT_framebuffer_blit"))) {
@@ -175,14 +144,6 @@ void StimulusDisplay::addContext(int _context_id){
 	glInit();
     glFinish();
     opengl_context_manager->updateAndFlush(_context_id);
-}
-
-GLuint StimulusDisplay::getCurrentContext(){
-	return current_context;
-}
-
-int StimulusDisplay::getCurrentContextIndex(){
-	return current_context_index;
 }
 
 void StimulusDisplay::getCurrentViewportSize(GLint &width, GLint &height) {
@@ -204,7 +165,6 @@ void StimulusDisplay::updateDisplay(bool explicit_update) {
     
     
 	MWTime before_draw = clock->getCurrentTimeUS();
-	update_stim_chain_next_refresh = false;
     
 #ifdef RENDER_ONCE
     setCurrent(0);  // Main display context
