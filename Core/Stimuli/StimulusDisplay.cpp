@@ -183,7 +183,7 @@ void StimulusDisplay::stateSystemCallback(const Datum &data, MWorksTime time) {
             merror(M_DISPLAY_MESSAGE_DOMAIN, "Unable to schedule display updates");
         } else {
             mprintf(M_DISPLAY_MESSAGE_DOMAIN,
-                    "Starting display updates (main display = %d, active display = %d)",
+                    "Starting display updates (main = %d, current = %d)",
                     CGMainDisplayID(),
                     CVDisplayLinkGetCurrentCGDisplay(displayLink));
         }
@@ -207,11 +207,14 @@ CVReturn StimulusDisplay::displayLinkCallback(CVDisplayLinkRef _displayLink,
         
         display->refreshDisplay();
         
+//#define ERROR_ON_MISSED_REFRESH
+#ifdef ERROR_ON_MISSED_REFRESH
         uint64_t currentTime = CVGetCurrentHostTime();
         if (currentTime > outputTime->hostTime) {
-            merror(M_DISPLAY_MESSAGE_DOMAIN, "Display refresh did not complete within allotted time");
+            merror(M_DISPLAY_MESSAGE_DOMAIN, "Display refresh did not complete within vertical blanking interval");
             status = kCVReturnError;
         }
+#endif
 
         display->refreshComplete = true;
     }
@@ -281,8 +284,6 @@ void StimulusDisplay::refreshDisplay() {
         }
         
 #define USE_GL_FENCE
-#define ERROR_ON_LATE_FRAMES
-        
 #ifdef USE_GL_FENCE
         if(opengl_context_manager->hasFence()){
             glSetFenceAPPLE(opengl_context_manager->getFence());
@@ -301,6 +302,7 @@ void StimulusDisplay::refreshDisplay() {
         stimDisplayUpdate->setValue(getAnnounceData(), now);
         announceDisplayStack(now);
         
+#define ERROR_ON_LATE_FRAMES
 #ifdef ERROR_ON_LATE_FRAMES
         MWTime slop = 2*(1000000/refresh_rate);
         

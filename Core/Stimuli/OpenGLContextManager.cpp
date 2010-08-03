@@ -197,7 +197,10 @@ int OpenGLContextManager::newMirrorContext(bool sync_to_vbl){
     NSRect mirror_rect = NSMakeRect(50.0, 50.0, width, height);
 
     
-    mirror_window = [[NSWindow alloc] initWithContentRect: mirror_rect styleMask:NSResizableWindowMask | NSMiniaturizableWindowMask backing:NSBackingStoreBuffered defer:YES];
+    mirror_window = [[NSWindow alloc] initWithContentRect:mirror_rect
+                                                styleMask:(NSResizableWindowMask | NSMiniaturizableWindowMask)
+                                                  backing:NSBackingStoreBuffered
+                                                    defer:NO];
         
     NSOpenGLPixelFormatAttribute attrs[] =
     {
