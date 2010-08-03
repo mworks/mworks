@@ -139,17 +139,17 @@ void StimulusDisplay::getDisplayBounds(GLdouble &left, GLdouble &right, GLdouble
 }
 
 void StimulusDisplay::addContext(int _context_id){
+    boost::mutex::scoped_lock lock(display_lock);
+    
 	context_ids.push_back(_context_id);
 	current_context_index = context_ids.size() - 1;
     opengl_context_manager->setCurrent(_context_id);
+
 #ifdef RENDER_ONCE
     if (!(glewIsSupported("GL_EXT_framebuffer_object") && glewIsSupported("GL_EXT_framebuffer_blit"))) {
         throw SimpleException("renderer does not support required OpenGL framebuffer extensions");
     }
 #endif
-	glInit();
-    glFinish();
-    opengl_context_manager->updateAndFlush(_context_id);
     
     if (!displayLink) {
         if (kCVReturnSuccess != CVDisplayLinkCreateWithCGDisplay(opengl_context_manager->getMainDisplayID(),
@@ -334,7 +334,7 @@ void StimulusDisplay::glInit() {
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity(); // Reset The Projection Matrix
     
-    gluOrtho2D(-16.0,16.0,-12.0,12.0);
+    gluOrtho2D(left, right, bottom, top);
     glMatrixMode(GL_MODELVIEW);
     
     glClearColor(0.5, 0.5, 0.5, 1.0);
@@ -346,19 +346,7 @@ void StimulusDisplay::glInit() {
 void StimulusDisplay::drawDisplayStack() {
     // OpenGL setup
 
-    glShadeModel(GL_FLAT);
-    glDisable(GL_BLEND);
-    glDisable(GL_DITHER);
-    glDisable(GL_FOG);
-    glDisable(GL_LIGHTING);
-    
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity(); // Reset The Projection Matrix
-    
-    gluOrtho2D(left, right, bottom, top);
-    glMatrixMode(GL_MODELVIEW);
+    glInit();
     
     // Draw all of the stimuli in the chain, back to front
 
