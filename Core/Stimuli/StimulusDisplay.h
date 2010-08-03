@@ -28,10 +28,12 @@ namespace mw {
 	using namespace boost;
 	
 	// forward declarations
+    class Datum;
 	class Stimulus;
 	class StimulusNode;
 	class StimulusDisplay;
     class OpenGLContextManager;
+    class VariableCallbackNotification;
 	
 	/**
 	 * StimulusDisplay represents a single abstracted stimulus display.
@@ -72,6 +74,7 @@ namespace mw {
 		
 		GLdouble left, right, top, bottom; // display bounds
         
+        shared_ptr<VariableCallbackNotification> stateSystemNotification;
         CVDisplayLinkRef displayLink;
 		
         void glInit();
@@ -82,6 +85,7 @@ namespace mw {
         void announceDisplayStack(MWTime time);
         Datum getAnnounceData();
 
+        void stateSystemCallback(const Datum &data, MWorksTime time);
         static CVReturn displayLinkCallback(CVDisplayLinkRef displayLink,
                                             const CVTimeStamp *now,
                                             const CVTimeStamp *outputTime,

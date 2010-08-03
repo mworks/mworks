@@ -8,8 +8,6 @@
  */
 
 #include "DynamicStimulusDriver.h"
-#include "boost/bind.hpp"
-#include "MWorksCore/StandardVariables.h"
 
 namespace mw{
 
@@ -23,25 +21,12 @@ DynamicStimulusDriver::DynamicStimulusDriver(const boost::shared_ptr<Scheduler> 
 	frames_per_second = _frames_per_second;
 	
 	started = false;
-    
-                                                                                              
-    state_system_callback = shared_ptr<VariableCallbackNotification>(
-                                new VariableCallbackNotification(boost::bind(&DynamicStimulusDriver::stateSystemCallback, this, _1,_2))
-                            );
-    state_system_mode->addNotification(state_system_callback);
 }
 
 DynamicStimulusDriver::DynamicStimulusDriver(const DynamicStimulusDriver &tocopy){}
 
-void DynamicStimulusDriver::stateSystemCallback(const Datum& data, MWorksTime time){
-    if(data.getInteger() == IDLE){
-        stop();
-    }
-}
-
 DynamicStimulusDriver::~DynamicStimulusDriver(){
- 
-    state_system_callback->remove();
+    // Do nothing
 }
 
 void DynamicStimulusDriver::play() {
