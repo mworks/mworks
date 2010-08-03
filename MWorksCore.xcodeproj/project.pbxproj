@@ -3408,6 +3408,8 @@
 					GLUT,
 					"-framework",
 					IOKit,
+					"-framework",
+					CoreVideo,
 					"$(MW_LIB_DIR)/libboost_regex-mw.a",
 					"$(MW_LIB_DIR)/libboost_thread-mw.a",
 					"$(MW_LIB_DIR)/libboost_system-mw.a",

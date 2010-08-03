@@ -24,6 +24,7 @@
 	#include <AGL/agl.h>
 	#include <OpenGL/gl.h>
 	#include <OpenGL/glu.h>
+    #include <CoreVideo/CVHostTime.h>
 #elif	linux
 	// TODO: where are these in linux?
 #endif
@@ -51,10 +52,15 @@ StimulusDisplay::StimulusDisplay() {
     opengl_context_manager = OpenGLContextManager::instance();
     clock = Clock::instance();
     
+    displayLink = NULL;
+    
 }
 
 StimulusDisplay::~StimulusDisplay(){
-	// nothing to do
+	if (displayLink) {
+        CVDisplayLinkStop(displayLink);
+        CVDisplayLinkRelease(displayLink);
+    }
 }
 
 void StimulusDisplay::setCurrent(int i){
@@ -144,6 +150,21 @@ void StimulusDisplay::addContext(int _context_id){
 	glInit();
     glFinish();
     opengl_context_manager->updateAndFlush(_context_id);
+    
+    if (!displayLink) {
+        if (kCVReturnSuccess != CVDisplayLinkCreateWithCGDisplay(opengl_context_manager->getMainDisplayID(),
+                                                                 &displayLink) ||
+            kCVReturnSuccess != CVDisplayLinkSetOutputCallback(displayLink,
+                                                               &StimulusDisplay::displayLinkCallback,
+                                                               this) ||
+            kCVReturnSuccess != CVDisplayLinkStart(displayLink))
+        {
+            throw SimpleException("unable to schedule display updates");
+        }
+
+        fprintf(stderr, "\nMain display = %d\n", CGMainDisplayID());
+        fprintf(stderr, "Active display = %d\n", CVDisplayLinkGetCurrentCGDisplay(displayLink));
+    }
 }
 
 void StimulusDisplay::getCurrentViewportSize(GLint &width, GLint &height) {
@@ -153,123 +174,152 @@ void StimulusDisplay::getCurrentViewportSize(GLint &width, GLint &height) {
     height = viewport[3];
 }
 
-void StimulusDisplay::updateDisplay(bool explicit_update) {
-    
-	boost::mutex::scoped_lock lock(display_lock);
-	
 
-    int refresh_rate = opengl_context_manager->getDisplayRefreshRate(opengl_context_manager->getMainDisplayIndex());
-    if(refresh_rate <= 0){
-        refresh_rate = 60;
+CVReturn StimulusDisplay::displayLinkCallback(CVDisplayLinkRef _displayLink,
+                                              const CVTimeStamp *now,
+                                              const CVTimeStamp *outputTime,
+                                              CVOptionFlags flagsIn,
+                                              CVOptionFlags *flagsOut,
+                                              void *_display)
+{
+    StimulusDisplay *display = static_cast<StimulusDisplay*>(_display);
+
+    if (-1 == display->opengl_context_manager->getMainDisplayIndex()) {
+        return CVDisplayLinkStop(display->displayLink);
     }
     
+    display->refreshDisplay();
     
-	MWTime before_draw = clock->getCurrentTimeUS();
-    
-#ifdef RENDER_ONCE
-    setCurrent(0);  // Main display context
-    GLint srcWidth, srcHeight;
-    getCurrentViewportSize(srcWidth, srcHeight);
-
-    GLuint framebuffer, renderbuffer;
-    glGenFramebuffersEXT(1, &framebuffer);
-    glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, framebuffer);
-    glGenRenderbuffersEXT(1, &renderbuffer);
-    glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, renderbuffer);
-    glRenderbufferStorageEXT(GL_RENDERBUFFER_EXT, GL_RGBA8, srcWidth, srcHeight);
-    glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_RENDERBUFFER_EXT, renderbuffer);
-    
-    GLenum status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);
-    if (GL_FRAMEBUFFER_COMPLETE_EXT != status) {
-        merror(M_DISPLAY_MESSAGE_DOMAIN, "framebuffer setup failed (status = %d)", status);
-        glDeleteRenderbuffersEXT(1, &renderbuffer);
-        glDeleteFramebuffersEXT(1, &framebuffer);
-		return;
+    uint64_t currentTime = CVGetCurrentHostTime();
+    if (currentTime > outputTime->hostTime) {
+        merror(M_DISPLAY_MESSAGE_DOMAIN, "display refresh did not complete within allotted time");
+        return kCVReturnError;
     }
 
-    drawDisplayStack(explicit_update);
-    
-    glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);  // Send subsequent rendering to back buffer
-#endif /*RENDER_ONCE*/
-	
-	for(unsigned int i = 0; i < context_ids.size(); i++){
-        
-        setCurrent(i);
-		
-#ifndef RENDER_ONCE
-        drawDisplayStack(explicit_update);
-#else
-        GLint dstWidth, dstHeight;
-        getCurrentViewportSize(dstWidth, dstHeight);
+    return kCVReturnSuccess;
+}
 
-        glBindFramebufferEXT(GL_READ_FRAMEBUFFER_EXT, framebuffer);
-        glBindFramebufferEXT(GL_DRAW_FRAMEBUFFER_EXT, 0);
-        glBlitFramebufferEXT(0, 0, srcWidth, srcHeight,
-                             0, 0, dstWidth, dstHeight,
-                             GL_COLOR_BUFFER_BIT,
-                             GL_LINEAR);
-#endif /*RENDER_ONCE*/
+
+void StimulusDisplay::refreshDisplay() {
+    {
+        boost::mutex::scoped_lock lock(display_lock);
         
-        if (i != 0) {  // non-main display
-            opengl_context_manager->updateAndFlush(i);
-            continue;
+        int refresh_rate = opengl_context_manager->getDisplayRefreshRate(opengl_context_manager->getMainDisplayIndex());
+        if(refresh_rate <= 0){
+            refresh_rate = 60;
         }
         
+        MWTime before_draw = clock->getCurrentTimeUS();
+        
+#ifdef RENDER_ONCE
+        setCurrent(0);  // Main display context
+        GLint srcWidth, srcHeight;
+        getCurrentViewportSize(srcWidth, srcHeight);
+        
+        GLuint framebuffer, renderbuffer;
+        glGenFramebuffersEXT(1, &framebuffer);
+        glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, framebuffer);
+        glGenRenderbuffersEXT(1, &renderbuffer);
+        glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, renderbuffer);
+        glRenderbufferStorageEXT(GL_RENDERBUFFER_EXT, GL_RGBA8, srcWidth, srcHeight);
+        glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_RENDERBUFFER_EXT, renderbuffer);
+        
+        GLenum status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);
+        if (GL_FRAMEBUFFER_COMPLETE_EXT != status) {
+            merror(M_DISPLAY_MESSAGE_DOMAIN, "framebuffer setup failed (status = %d)", status);
+            glDeleteRenderbuffersEXT(1, &renderbuffer);
+            glDeleteFramebuffersEXT(1, &framebuffer);
+            return;
+        }
+        
+        drawDisplayStack();
+        
+        glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);  // Send subsequent rendering to back buffer
+#endif /*RENDER_ONCE*/
+        
+        for(unsigned int i = 0; i < context_ids.size(); i++){
+            
+            setCurrent(i);
+            
+#ifndef RENDER_ONCE
+            drawDisplayStack();
+#else
+            GLint dstWidth, dstHeight;
+            getCurrentViewportSize(dstWidth, dstHeight);
+            
+            glBindFramebufferEXT(GL_READ_FRAMEBUFFER_EXT, framebuffer);
+            glBindFramebufferEXT(GL_DRAW_FRAMEBUFFER_EXT, 0);
+            glBlitFramebufferEXT(0, 0, srcWidth, srcHeight,
+                                 0, 0, dstWidth, dstHeight,
+                                 GL_COLOR_BUFFER_BIT,
+                                 GL_LINEAR);
+#endif /*RENDER_ONCE*/
+            
+            if (i != 0) {  // non-main display
+                opengl_context_manager->updateAndFlush(i);
+                continue;
+            }
+            
 #define USE_GL_FENCE
 #define ERROR_ON_LATE_FRAMES
-
+            
 #ifdef USE_GL_FENCE
-        if(opengl_context_manager->hasFence()){
-            glSetFenceAPPLE(opengl_context_manager->getFence());
-        }
+            if(opengl_context_manager->hasFence()){
+                glSetFenceAPPLE(opengl_context_manager->getFence());
+            }
 #endif
-        
-        opengl_context_manager->flush(i);
-		
+            
+            opengl_context_manager->flush(i);
+            
 #ifdef USE_GL_FENCE
-        if(opengl_context_manager->hasFence()){
-            glFinishFenceAPPLE(opengl_context_manager->getFence());
-        }
+            if(opengl_context_manager->hasFence()){
+                glFinishFenceAPPLE(opengl_context_manager->getFence());
+            }
 #endif
-        
+            
+            MWTime now = clock->getCurrentTimeUS();
+            stimDisplayUpdate->setValue(getAnnounceData(), now);
+            announceDisplayStack(now);
+            
 #ifdef ERROR_ON_LATE_FRAMES
-        MWTime now = clock->getCurrentTimeUS();
-        
-        stimDisplayUpdate->setValue(getAnnounceData(), now);
-        announceDisplayStack(now);
-        
-        MWTime slop = 2*(1000000/refresh_rate);
-        
-        if(now-before_draw > slop) {
-            merror(M_DISPLAY_MESSAGE_DOMAIN,
-                   "updating main window display is taking longer than two frames (%lld > %lld) to update", 
-                   now-before_draw, 
-                   slop);		
-        }
+            MWTime slop = 2*(1000000/refresh_rate);
+            
+            if(now-before_draw > slop) {
+                merror(M_DISPLAY_MESSAGE_DOMAIN,
+                       "updating main window display is taking longer than two frames (%lld > %lld) to update", 
+                       now-before_draw, 
+                       slop);		
+            }
 #endif
+        }	
         
-	}	
-
 #ifdef RENDER_ONCE
-    glDeleteRenderbuffersEXT(1, &renderbuffer);
-    glDeleteFramebuffersEXT(1, &framebuffer);
+        glDeleteRenderbuffersEXT(1, &renderbuffer);
+        glDeleteFramebuffersEXT(1, &framebuffer);
 #endif
+        
+        refreshComplete = true;
+    }
+    
+    // Signal waiting threads that refresh is complete
+    refreshCond.notify_all();
 }
 
-void StimulusDisplay::clearDisplay(){
 
-	shared_ptr<StimulusNode> node = display_stack->getFrontmost();
-	while(node != shared_ptr<StimulusNode>()){
-		
-		node->setVisible(false);
-		
-		node = node->getNext();
-	}
+void StimulusDisplay::clearDisplay() {
+    {
+        boost::mutex::scoped_lock lock(display_lock);
+
+        shared_ptr<StimulusNode> node = display_stack->getFrontmost();
+        while(node) {
+            node->setVisible(false);
+            node = node->getNext();
+        }
+    }
 	
-	//glInit();
 	updateDisplay();
-
 }
+
 
 void StimulusDisplay::glInit() {
 
@@ -293,8 +343,7 @@ void StimulusDisplay::glInit() {
 }
 
 
-void StimulusDisplay::drawDisplayStack(bool explicit_update) {
-    
+void StimulusDisplay::drawDisplayStack() {
     // OpenGL setup
 
     glShadeModel(GL_FLAT);
@@ -311,40 +360,48 @@ void StimulusDisplay::drawDisplayStack(bool explicit_update) {
     gluOrtho2D(left, right, bottom, top);
     glMatrixMode(GL_MODELVIEW);
     
-    
-    // Draw all of the stimuli in the chain
+    // Draw all of the stimuli in the chain, back to front
 
-    shared_ptr<StimulusNode> node = display_stack->getBackmost(); //tail;
+    shared_ptr<StimulusNode> node = display_stack->getBackmost();
+    while (node) {
+        if (node->isVisible()) {
+            node->draw(shared_from_this());
+        }
+        node = node->getPrevious();
+    }
+}
+
+
+void StimulusDisplay::updateDisplay() {
+	boost::mutex::scoped_lock lock(display_lock);
     
-    while(node != shared_ptr<StimulusNode>()) {
-        
-        if(explicit_update && node->isPending()){
-            
+    shared_ptr<StimulusNode> node = display_stack->getFrontmost();
+    while (node) {
+        if (node->isPending()) {
             // we're taking care of the pending state, so
             // clear this flag
             node->clearPending();
             
-            // on "explicit" updates, we'll convert "pending
-            // visible" stimuli to "visible" ones
+            // convert "pending visible" stimuli to "visible" ones
             node->setVisible(node->isPendingVisible());
             
-            if(node->isPendingRemoval()){
+            if (node->isPendingRemoval()) {
                 node->clearPendingRemoval();
                 node->remove();
                 continue;
             }
-            
-            
         }
         
-        if(node->isVisible()) {
-            node->draw(shared_from_this());
-        }
-        
-        node = node->getPrevious();
-        
+        node = node->getNext();
     }
+
+    // Wait for next display refresh to complete
+    refreshComplete = false;
+    do {
+        refreshCond.wait(lock);
+    } while (!refreshComplete);
 }
+
 
 void StimulusDisplay::announceDisplayStack(MWTime time) {
     shared_ptr<StimulusNode> node = display_stack->getBackmost(); //tail;
@@ -358,6 +415,7 @@ void StimulusDisplay::announceDisplayStack(MWTime time) {
     }
 	
 }
+
 
 Datum StimulusDisplay::getAnnounceData() {
     shared_ptr<StimulusNode> node = display_stack->getBackmost(); //tail;

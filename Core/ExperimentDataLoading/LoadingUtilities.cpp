@@ -312,6 +312,7 @@ namespace mw {
 				display_to_use = 1;						   			
 			}
 			
+			opengl_context_manager->setMainDisplayIndex(display_to_use);
 			new_context = opengl_context_manager->newFullscreenContext(display_to_use);
 			stimdisplay->addContext(new_context);
 			
@@ -320,7 +321,6 @@ namespace mw {
 				stimdisplay->addContext(auxilliary_context);
 			}
 			
-			opengl_context_manager->setMainDisplayIndex(display_to_use);
 		} else {
 			opengl_context_manager->setMainDisplayIndex(0);
 			new_context = opengl_context_manager->newMirrorContext(true); // sync to VBL to simulate full display

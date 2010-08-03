@@ -23,8 +23,6 @@ protected:
 	boost::shared_ptr<Clock> clock;
     boost::shared_ptr<StimulusDisplay> display;
 	
-	boost::shared_ptr<ScheduleTask> schedule_node;
-	
 	boost::shared_ptr<Variable> frames_per_second;
 	
     shared_ptr<VariableCallbackNotification> state_system_callback;
@@ -54,13 +52,11 @@ public:
 	virtual MWTime getElapsedTime();
     virtual int getFrameNumber();
     
-	virtual void callUpdateDisplay();
 	virtual Datum getCurrentAnnounceDrawData();
     
     void stateSystemCallback(const Datum& data, MWorksTime time);
 };
 
-void *nextUpdate(const shared_ptr<DynamicStimulusDriver> &ds);
 }
 
 #endif /* DYNAMIC_STIMULUS_H */

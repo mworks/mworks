@@ -52,6 +52,7 @@ namespace mw {
 		int						main_display_index;
 		
         NSScreen                *_getScreen(const int screen_number);
+        CGDirectDisplayID       _getDisplayID(int screen_number);
         double                  _measureDisplayRefreshRate(int index);
         
         bool glew_initialized;
@@ -83,8 +84,9 @@ namespace mw {
 		void releaseDisplays();
 		
         // Choose which display is going to have the "main" stimulus display
-		void setMainDisplayIndex(const int index);
-		int getMainDisplayIndex() const;
+		void setMainDisplayIndex(int index) { main_display_index = index; }
+		int getMainDisplayIndex() const { return main_display_index; }
+        CGDirectDisplayID getMainDisplayID();
         
         // Get information about a given monitor
 		NSRect getDisplayFrame(const int index);

@@ -12,6 +12,7 @@
 
 #include <OpenGL/gl.h>
 #include <OpenGL/glu.h>
+#include <CoreVideo/CVDisplayLink.h>
 
 
 #include "Clock.h"
@@ -21,6 +22,7 @@
 
 #include <boost/shared_ptr.hpp>
 #include <boost/weak_ptr.hpp>
+#include <boost/thread/condition_variable.hpp>
 
 namespace mw {
 	using namespace boost;
@@ -65,15 +67,27 @@ namespace mw {
         shared_ptr<OpenGLContextManager> opengl_context_manager;
 		
 		boost::mutex display_lock;
+        boost::condition_variable refreshCond;
+        bool refreshComplete;
 		
 		GLdouble left, right, top, bottom; // display bounds
+        
+        CVDisplayLinkRef displayLink;
 		
         void glInit();
 		void setDisplayBounds();
-        void drawDisplayStack(bool explicit_update);
+        void refreshDisplay();
+        void drawDisplayStack();
 
         void announceDisplayStack(MWTime time);
         Datum getAnnounceData();
+
+        static CVReturn displayLinkCallback(CVDisplayLinkRef displayLink,
+                                            const CVTimeStamp *now,
+                                            const CVTimeStamp *outputTime,
+                                            CVOptionFlags flagsIn,
+                                            CVOptionFlags *flagsOut,
+                                            void *_display);
 		
     public:
 		
@@ -90,7 +104,7 @@ namespace mw {
         shared_ptr<StimulusNode> addStimulus(shared_ptr<Stimulus> stim);
 		void addStimulusNode(shared_ptr<StimulusNode> stimnode);
 		
-		void updateDisplay(bool explicit_update=true);
+		void updateDisplay();
 		void clearDisplay();
         void getDisplayBounds(GLdouble &left, GLdouble &right, GLdouble &bottom, GLdouble &top);
 		

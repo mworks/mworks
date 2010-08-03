@@ -90,7 +90,7 @@ OpenGLContextManager::OpenGLContextManager() {
     has_fence = false;
     glew_initialized = false;
     
-    main_display_index = 0;
+    main_display_index = -1;
 }
 
 
@@ -144,21 +144,27 @@ int OpenGLContextManager::getDisplayRefreshRate(const int index){
     return (int)refresh_rate;
 }
 
+CGDirectDisplayID OpenGLContextManager::_getDisplayID(int screen_number) {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+
+	NSDictionary *device_description = [_getScreen(screen_number) deviceDescription];
+    CGDirectDisplayID display_id = [[device_description objectForKey:@"NSScreenNumber"] intValue];
+
+    [pool drain];
+    
+    return display_id;
+}
+
 double OpenGLContextManager::_measureDisplayRefreshRate(const int index)
 {
-    NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
-    NSScreen *screen = _getScreen(index);
-    
-	NSDictionary *device_description = [screen deviceDescription];
-    
-    NSNumber *display_id_number = [device_description objectForKey:@"NSScreenNumber"];
-    CGDirectDisplayID display_id = [display_id_number intValue];
+    CGDirectDisplayID display_id = _getDisplayID(index);
     CGDisplayModeRef mode = CGDisplayCopyDisplayMode(display_id);
-    [pool release];
-    
     return CGDisplayModeGetRefreshRate(mode);
 }
 
+CGDirectDisplayID OpenGLContextManager::getMainDisplayID() {
+    return _getDisplayID(main_display_index);
+}
 
 
 int OpenGLContextManager::newMirrorContext(bool sync_to_vbl){
@@ -225,7 +231,6 @@ int OpenGLContextManager::newMirrorContext(bool sync_to_vbl){
     [contexts addObject:opengl_context];
     int context_id = [contexts count] - 1;
     
-    NSNumber *id_number = [NSNumber numberWithInt:context_id];
     display_refresh_rates.push_back(_measureDisplayRefreshRate(0));
     
     
@@ -295,9 +300,6 @@ int OpenGLContextManager::newFullscreenContext(int screen_number){
     [contexts addObject:opengl_context];
     int context_id = [contexts count] - 1;
     
-    setMainDisplayIndex(context_id);
-    NSNumber *id_number = [NSNumber numberWithInt:context_id];
-    
     display_refresh_rates.push_back(_measureDisplayRefreshRate(screen_number));
     
     setCurrent(context_id);
@@ -323,15 +325,9 @@ int OpenGLContextManager::newFullscreenContext(int screen_number){
 }
 
 
-void OpenGLContextManager::setMainDisplayIndex(const int index) { main_display_index = index; }
-
-int OpenGLContextManager::getMainDisplayIndex() const {
-	return main_display_index;
-}
-
 void OpenGLContextManager::setCurrent(int context_id) {
     if(context_id < 0 || context_id >= [contexts count]) {
-		mprintf("OpenGL Context Manager: no context to set current.");
+		mwarning(M_SERVER_MESSAGE_DOMAIN, "OpenGL Context Manager: no context to set current.");
 		//NSLog(@"OpenGL Context Manager: no context to set current.");
         return;
     }
@@ -372,6 +368,7 @@ void OpenGLContextManager::releaseDisplays() {
 
     [pool release];
 
+    main_display_index = -1;
 
 }
 
@@ -382,8 +379,9 @@ void OpenGLContextManager::flushCurrent() {
 
 void OpenGLContextManager::flush(int context_id, bool update) {
     if(context_id < 0 || context_id >= [contexts count]){
-        //TODO mprintf dependency problem
-		NSLog(@"OpenGL Context Manager: no context to flush");
+		mwarning(M_SERVER_MESSAGE_DOMAIN, "OpenGL Context Manager: no context to flush");
+		//NSLog(@"OpenGL Context Manager: no context to flush");
+        return;
     }
     
 	//glSetFenceAPPLE(synchronization_fence);
