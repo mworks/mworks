@@ -53,17 +53,17 @@ StimulusDisplay::StimulusDisplay() {
     opengl_context_manager = OpenGLContextManager::instance();
     clock = Clock::instance();
     
-    displayLink = NULL;
-
+    if (kCVReturnSuccess != CVDisplayLinkCreateWithActiveCGDisplays(&displayLink)) {
+        throw SimpleException("Unable to create display link");
+    }
+        
     stateSystemNotification = shared_ptr<VariableCallbackNotification>(new VariableCallbackNotification(boost::bind(&StimulusDisplay::stateSystemCallback, this, _1, _2)));
     state_system_mode->addNotification(stateSystemNotification);
 }
 
 StimulusDisplay::~StimulusDisplay(){
     stateSystemNotification->remove();
-	if (displayLink) {
-        CVDisplayLinkRelease(displayLink);
-    }
+    CVDisplayLinkRelease(displayLink);
 }
 
 void StimulusDisplay::setCurrent(int i){
@@ -173,11 +173,10 @@ void StimulusDisplay::stateSystemCallback(const Datum &data, MWorksTime time) {
         
     } else if (RUNNING == newState) {
 
-        if (kCVReturnSuccess != CVDisplayLinkCreateWithCGDisplay(opengl_context_manager->getMainDisplayID(),
-                                                                 &displayLink) ||
-            kCVReturnSuccess != CVDisplayLinkSetOutputCallback(displayLink,
+        if (kCVReturnSuccess != CVDisplayLinkSetOutputCallback(displayLink,
                                                                &StimulusDisplay::displayLinkCallback,
                                                                this) ||
+            kCVReturnSuccess != opengl_context_manager->prepareDisplayLinkForMainDisplay(displayLink) ||
             kCVReturnSuccess != CVDisplayLinkStart(displayLink))
         {
             merror(M_DISPLAY_MESSAGE_DOMAIN, "Unable to schedule display updates");
@@ -399,8 +398,8 @@ void StimulusDisplay::updateDisplay() {
         node = node->getNext();
     }
 
-    if (!displayLink) {
-        // No display link.  Call refreshDisplay directly.
+    if (!CVDisplayLinkIsRunning(displayLink)) {
+        // Need to do the refresh here
         refreshDisplay();
     } else {
         // Wait for next display refresh to complete

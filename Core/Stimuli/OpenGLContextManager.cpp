@@ -80,8 +80,10 @@ OpenGLContextManager::OpenGLContextManager() {
 	mirror_window_active = NO;
     fullscreen_window_active = NO;
     
-    mirror_window = Nil;
-    fullscreen_window = Nil;
+    mirror_window = nil;
+    mirror_view = nil;
+    fullscreen_window = nil;
+    fullscreen_view = nil;
     
     display_sleep_block = kIOPMNullAssertionID;
     
@@ -96,7 +98,7 @@ OpenGLContextManager::OpenGLContextManager() {
 
 int OpenGLContextManager::getNMonitors() {
 	NSArray *screens = [NSScreen screens];
-    if(screens != Nil){
+    if(screens != nil){
         return [screens count];
     } else {
         return 0;
@@ -166,6 +168,19 @@ CGDirectDisplayID OpenGLContextManager::getMainDisplayID() {
     return _getDisplayID(main_display_index);
 }
 
+CVReturn OpenGLContextManager::prepareDisplayLinkForMainDisplay(CVDisplayLinkRef displayLink) {
+    NSOpenGLView *mainView;
+    if (fullscreen_view) {
+        mainView = fullscreen_view;
+    } else {
+        mainView = mirror_view;
+    }
+
+    CGLContextObj cglContext = (CGLContextObj)[[mainView openGLContext] CGLContextObj];
+    CGLPixelFormatObj cglPixelFormat = (CGLPixelFormatObj)[[mainView pixelFormat] CGLPixelFormatObj];
+    return CVDisplayLinkSetCurrentCGDisplayFromOpenGLContext(displayLink, cglContext, cglPixelFormat);
+}
+
 
 int OpenGLContextManager::newMirrorContext(bool sync_to_vbl){
     
@@ -229,7 +244,7 @@ int OpenGLContextManager::newMirrorContext(bool sync_to_vbl){
     [mirror_view setOpenGLContext:opengl_context];
     [mirror_window setContentView: mirror_view];
     
-    [mirror_window makeKeyAndOrderFront:Nil];
+    [mirror_window makeKeyAndOrderFront:nil];
     
     [contexts addObject:opengl_context];
     int context_id = [contexts count] - 1;
@@ -298,7 +313,7 @@ int OpenGLContextManager::newFullscreenContext(int screen_number){
     
     [fullscreen_window setContentView: fullscreen_view];
     
-    [fullscreen_window makeKeyAndOrderFront:Nil];
+    [fullscreen_window makeKeyAndOrderFront:nil];
     
     [contexts addObject:opengl_context];
     int context_id = [contexts count] - 1;
@@ -348,18 +363,20 @@ void OpenGLContextManager::releaseDisplays() {
     
     
     mirror_window_active = NO;
-    if(mirror_window != Nil){
-        [mirror_window orderOut:Nil];
+    if(mirror_window != nil){
+        [mirror_window orderOut:nil];
         [mirror_window release];
-        mirror_window = Nil;
+        mirror_window = nil;
+        mirror_view = nil;
     }
     
     
     fullscreen_window_active = NO;
-    if(fullscreen_window != Nil){
-        [fullscreen_window orderOut:Nil];
+    if(fullscreen_window != nil){
+        [fullscreen_window orderOut:nil];
         [fullscreen_window release];
-        fullscreen_window = Nil;
+        fullscreen_window = nil;
+        fullscreen_view = nil;
     }
 
     if (kIOPMNullAssertionID != display_sleep_block) {

@@ -87,6 +87,7 @@ namespace mw {
 		void setMainDisplayIndex(int index) { main_display_index = index; }
 		int getMainDisplayIndex() const { return main_display_index; }
         CGDirectDisplayID getMainDisplayID();
+        CVReturn prepareDisplayLinkForMainDisplay(CVDisplayLinkRef displayLink);
         
         // Get information about a given monitor
 		NSRect getDisplayFrame(const int index);
