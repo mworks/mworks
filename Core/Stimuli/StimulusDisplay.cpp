@@ -168,23 +168,30 @@ void StimulusDisplay::stateSystemCallback(const Datum &data, MWorksTime time) {
 
     if (IDLE == newState) {
         
-        CVDisplayLinkStop(displayLink);
-        mprintf(M_DISPLAY_MESSAGE_DOMAIN, "Stopping display updates");
+        if (CVDisplayLinkIsRunning(displayLink)) {
+            if (kCVReturnSuccess != CVDisplayLinkStop(displayLink)) {
+                merror(M_DISPLAY_MESSAGE_DOMAIN, "Unable to stop display updates");
+            } else {
+                mprintf(M_DISPLAY_MESSAGE_DOMAIN, "Display updates stopped");
+            }
+        }
         
     } else if (RUNNING == newState) {
 
-        if (kCVReturnSuccess != CVDisplayLinkSetOutputCallback(displayLink,
-                                                               &StimulusDisplay::displayLinkCallback,
-                                                               this) ||
-            kCVReturnSuccess != opengl_context_manager->prepareDisplayLinkForMainDisplay(displayLink) ||
-            kCVReturnSuccess != CVDisplayLinkStart(displayLink))
-        {
-            merror(M_DISPLAY_MESSAGE_DOMAIN, "Unable to schedule display updates");
-        } else {
-            mprintf(M_DISPLAY_MESSAGE_DOMAIN,
-                    "Starting display updates (main = %d, current = %d)",
-                    CGMainDisplayID(),
-                    CVDisplayLinkGetCurrentCGDisplay(displayLink));
+        if (!CVDisplayLinkIsRunning(displayLink)) {
+            if (kCVReturnSuccess != CVDisplayLinkSetOutputCallback(displayLink,
+                                                                   &StimulusDisplay::displayLinkCallback,
+                                                                   this) ||
+                kCVReturnSuccess != opengl_context_manager->prepareDisplayLinkForMainDisplay(displayLink) ||
+                kCVReturnSuccess != CVDisplayLinkStart(displayLink))
+            {
+                merror(M_DISPLAY_MESSAGE_DOMAIN, "Unable to schedule display updates");
+            } else {
+                mprintf(M_DISPLAY_MESSAGE_DOMAIN,
+                        "Display updates started (main = %d, current = %d)",
+                        CGMainDisplayID(),
+                        CVDisplayLinkGetCurrentCGDisplay(displayLink));
+            }
         }
         
     }
