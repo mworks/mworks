@@ -12,10 +12,11 @@
 
 #include "StandardStimuli.h"
 #include "boost/enable_shared_from_this.hpp"
+#include "VariableNotification.h"
 
 namespace mw{
 
-class DynamicStimulusDriver : public boost::enable_shared_from_this<DynamicStimulusDriver> {
+class DynamicStimulusDriver : public boost::enable_shared_from_this<DynamicStimulusDriver>, public VariableNotification {
 	
 protected: 
 	boost::shared_ptr<Scheduler> scheduler;
@@ -23,6 +24,8 @@ protected:
     boost::shared_ptr<StimulusDisplay> display;
 	
 	boost::shared_ptr<Variable> frames_per_second;
+	
+    shared_ptr<VariableCallbackNotification> state_system_callback;
 	
 	bool started;
 	MWTime start_time;
@@ -50,6 +53,8 @@ public:
     virtual int getFrameNumber();
     
 	virtual Datum getCurrentAnnounceDrawData();
+    
+    void stateSystemCallback(const Datum& data, MWorksTime time);
 };
 
 }
