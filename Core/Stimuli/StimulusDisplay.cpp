@@ -284,14 +284,14 @@ void StimulusDisplay::refreshDisplay() {
     // Draw stimuli on mirror display(s)
     //
 
-    if (context_ids.size() > 1) {
 #ifndef RENDER_ONCE
-        for (int i = 1; i < context_ids.size(); i++) {
-            setCurrent(i);
-            drawDisplayStack();
-            opengl_context_manager->updateAndFlush(i);
-        }	
+    for (int i = 1; i < context_ids.size(); i++) {
+        setCurrent(i);
+        drawDisplayStack();
+        opengl_context_manager->updateAndFlush(i);
+    }	
 #else
+    if (context_ids.size() > 1) {
         GLint srcWidth, srcHeight;
         getCurrentViewportSize(srcWidth, srcHeight);
         
@@ -338,8 +338,8 @@ void StimulusDisplay::refreshDisplay() {
 
         glDeleteRenderbuffersEXT(1, &renderbuffer);
         glDeleteFramebuffersEXT(1, &framebuffer);
-#endif /*RENDER_ONCE*/
     }
+#endif /*RENDER_ONCE*/
 }
 
 
