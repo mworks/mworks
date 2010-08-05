@@ -73,6 +73,9 @@ namespace mw {
         bool refreshComplete;
 		
 		GLdouble left, right, top, bottom; // display bounds
+
+        GLuint framebuffer, renderbuffer;
+        GLint mainDisplayWidth, mainDisplayHeight;
         
         shared_ptr<VariableCallbackNotification> stateSystemNotification;
         CVDisplayLinkRef displayLink;

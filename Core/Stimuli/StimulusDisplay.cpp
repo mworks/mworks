@@ -53,6 +53,9 @@ StimulusDisplay::StimulusDisplay() {
     opengl_context_manager = OpenGLContextManager::instance();
     clock = Clock::instance();
     
+    framebuffer = 0;
+    renderbuffer = 0;
+    
     if (kCVReturnSuccess != CVDisplayLinkCreateWithActiveCGDisplays(&displayLink)) {
         throw SimpleException("Unable to create display link");
     }
@@ -64,6 +67,15 @@ StimulusDisplay::StimulusDisplay() {
 StimulusDisplay::~StimulusDisplay(){
     stateSystemNotification->remove();
     CVDisplayLinkRelease(displayLink);
+    
+#ifdef RENDER_ONCE
+    if (renderbuffer) {
+        glDeleteRenderbuffersEXT(1, &renderbuffer);
+    }
+    if (framebuffer) {
+        glDeleteFramebuffersEXT(1, &framebuffer);
+    }
+#endif
 }
 
 void StimulusDisplay::setCurrent(int i){
@@ -149,6 +161,30 @@ void StimulusDisplay::addContext(int _context_id){
 #ifdef RENDER_ONCE
     if (!(glewIsSupported("GL_EXT_framebuffer_object") && glewIsSupported("GL_EXT_framebuffer_blit"))) {
         throw SimpleException("renderer does not support required OpenGL framebuffer extensions");
+    }
+    
+    if (!framebuffer && (current_context_index > 0)) {
+        setCurrent(0);
+
+        getCurrentViewportSize(mainDisplayWidth, mainDisplayHeight);
+        
+        glGenFramebuffersEXT(1, &framebuffer);
+        glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, framebuffer);
+        glGenRenderbuffersEXT(1, &renderbuffer);
+        glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, renderbuffer);
+        glRenderbufferStorageEXT(GL_RENDERBUFFER_EXT, GL_RGBA8, mainDisplayWidth, mainDisplayHeight);
+        glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_RENDERBUFFER_EXT, renderbuffer);
+        
+        GLenum status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);
+        if (GL_FRAMEBUFFER_COMPLETE_EXT != status) {
+            merror(M_DISPLAY_MESSAGE_DOMAIN, "framebuffer setup failed (status = %d)", status);
+            glDeleteRenderbuffersEXT(1, &renderbuffer);
+            glDeleteFramebuffersEXT(1, &framebuffer);
+            renderbuffer = 0;
+            framebuffer = 0;
+        }
+        
+        glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
     }
 #endif
 }
@@ -292,33 +328,14 @@ void StimulusDisplay::refreshDisplay() {
     }	
 #else
     if (context_ids.size() > 1) {
-        GLint srcWidth, srcHeight;
-        getCurrentViewportSize(srcWidth, srcHeight);
-        
-        GLuint framebuffer, renderbuffer;
-        glGenFramebuffersEXT(1, &framebuffer);
-        glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, framebuffer);
-        glGenRenderbuffersEXT(1, &renderbuffer);
-        glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, renderbuffer);
-        glRenderbufferStorageEXT(GL_RENDERBUFFER_EXT, GL_RGBA8, srcWidth, srcHeight);
-        glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_RENDERBUFFER_EXT, renderbuffer);
-        
-        GLenum status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);
-        if (GL_FRAMEBUFFER_COMPLETE_EXT != status) {
-            merror(M_DISPLAY_MESSAGE_DOMAIN, "framebuffer setup failed (status = %d)", status);
-            glDeleteRenderbuffersEXT(1, &renderbuffer);
-            glDeleteFramebuffersEXT(1, &framebuffer);
-            return;
-        }
-
         glBindFramebufferEXT(GL_READ_FRAMEBUFFER_EXT, 0);
         glBindFramebufferEXT(GL_DRAW_FRAMEBUFFER_EXT, framebuffer);
-        glBlitFramebufferEXT(0, 0, srcWidth, srcHeight,
-                             0, 0, srcWidth, srcHeight,
+        glBlitFramebufferEXT(0, 0, mainDisplayWidth, mainDisplayHeight,
+                             0, 0, mainDisplayWidth, mainDisplayHeight,
                              GL_COLOR_BUFFER_BIT,
                              GL_LINEAR);
         
-        glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);  // Send subsequent rendering to back buffer
+        glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
         
         for (int i = 1; i < context_ids.size(); i++) {
             setCurrent(i);
@@ -328,16 +345,13 @@ void StimulusDisplay::refreshDisplay() {
             
             glBindFramebufferEXT(GL_READ_FRAMEBUFFER_EXT, framebuffer);
             glBindFramebufferEXT(GL_DRAW_FRAMEBUFFER_EXT, 0);
-            glBlitFramebufferEXT(0, 0, srcWidth, srcHeight,
+            glBlitFramebufferEXT(0, 0, mainDisplayWidth, mainDisplayHeight,
                                  0, 0, dstWidth, dstHeight,
                                  GL_COLOR_BUFFER_BIT,
                                  GL_LINEAR);
             
             opengl_context_manager->updateAndFlush(i);
         }	
-
-        glDeleteRenderbuffersEXT(1, &renderbuffer);
-        glDeleteFramebuffersEXT(1, &framebuffer);
     }
 #endif /*RENDER_ONCE*/
 }
