@@ -142,8 +142,6 @@ void StimulusDisplay::getDisplayBounds(GLdouble &left, GLdouble &right, GLdouble
 }
 
 void StimulusDisplay::addContext(int _context_id){
-    boost::mutex::scoped_lock lock(display_lock);
-    
 	context_ids.push_back(_context_id);
 	current_context_index = context_ids.size() - 1;
     opengl_context_manager->setCurrent(_context_id);
@@ -164,6 +162,8 @@ void StimulusDisplay::getCurrentViewportSize(GLint &width, GLint &height) {
 
 
 void StimulusDisplay::stateSystemCallback(const Datum &data, MWorksTime time) {
+    boost::mutex::scoped_lock lock(display_lock);
+
     int newState = data.getInteger();
 
     if (IDLE == newState) {
@@ -233,98 +233,113 @@ CVReturn StimulusDisplay::displayLinkCallback(CVDisplayLinkRef _displayLink,
 
 
 void StimulusDisplay::refreshDisplay() {
+
+    //
+    // Draw stimuli on main display
+    //
+
+    MWTime before_draw = clock->getCurrentTimeUS();
+
+    setCurrent(0);
+    drawDisplayStack();
+    
+#define USE_GL_FENCE
+#ifdef USE_GL_FENCE
+    if(opengl_context_manager->hasFence()){
+        glSetFenceAPPLE(opengl_context_manager->getFence());
+    }
+#endif
+    
+    opengl_context_manager->flush(0);
+    
+#ifdef USE_GL_FENCE
+    if(opengl_context_manager->hasFence()){
+        glFinishFenceAPPLE(opengl_context_manager->getFence());
+    }
+#endif
+    
+    MWTime now = clock->getCurrentTimeUS();
+    stimDisplayUpdate->setValue(getAnnounceData(), now);
+    announceDisplayStack(now);
+    
+#define ERROR_ON_LATE_FRAMES
+#ifdef ERROR_ON_LATE_FRAMES
     int refresh_rate = opengl_context_manager->getDisplayRefreshRate(opengl_context_manager->getMainDisplayIndex());
     if(refresh_rate <= 0){
         refresh_rate = 60;
     }
+
+    MWTime slop = 2*(1000000/refresh_rate);
     
-    MWTime before_draw = clock->getCurrentTimeUS();
-    
-#ifdef RENDER_ONCE
-    setCurrent(0);  // Main display context
-    GLint srcWidth, srcHeight;
-    getCurrentViewportSize(srcWidth, srcHeight);
-    
-    GLuint framebuffer, renderbuffer;
-    glGenFramebuffersEXT(1, &framebuffer);
-    glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, framebuffer);
-    glGenRenderbuffersEXT(1, &renderbuffer);
-    glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, renderbuffer);
-    glRenderbufferStorageEXT(GL_RENDERBUFFER_EXT, GL_RGBA8, srcWidth, srcHeight);
-    glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_RENDERBUFFER_EXT, renderbuffer);
-    
-    GLenum status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);
-    if (GL_FRAMEBUFFER_COMPLETE_EXT != status) {
-        merror(M_DISPLAY_MESSAGE_DOMAIN, "framebuffer setup failed (status = %d)", status);
-        glDeleteRenderbuffersEXT(1, &renderbuffer);
-        glDeleteFramebuffersEXT(1, &framebuffer);
-        return;
+    if(now-before_draw > slop) {
+        merror(M_DISPLAY_MESSAGE_DOMAIN,
+               "updating main window display is taking longer than two frames (%lld > %lld) to update", 
+               now-before_draw, 
+               slop);		
     }
+#endif
+
     
-    drawDisplayStack();
-    
-    glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);  // Send subsequent rendering to back buffer
-#endif /*RENDER_ONCE*/
-    
-    for(unsigned int i = 0; i < context_ids.size(); i++){
-        
-        setCurrent(i);
-        
+    //
+    // Draw stimuli on mirror display(s)
+    //
+
+    if (context_ids.size() > 1) {
 #ifndef RENDER_ONCE
-        drawDisplayStack();
+        for (int i = 1; i < context_ids.size(); i++) {
+            setCurrent(i);
+            drawDisplayStack();
+            opengl_context_manager->updateAndFlush(i);
+        }	
 #else
-        GLint dstWidth, dstHeight;
-        getCurrentViewportSize(dstWidth, dstHeight);
+        GLint srcWidth, srcHeight;
+        getCurrentViewportSize(srcWidth, srcHeight);
         
-        glBindFramebufferEXT(GL_READ_FRAMEBUFFER_EXT, framebuffer);
-        glBindFramebufferEXT(GL_DRAW_FRAMEBUFFER_EXT, 0);
+        GLuint framebuffer, renderbuffer;
+        glGenFramebuffersEXT(1, &framebuffer);
+        glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, framebuffer);
+        glGenRenderbuffersEXT(1, &renderbuffer);
+        glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, renderbuffer);
+        glRenderbufferStorageEXT(GL_RENDERBUFFER_EXT, GL_RGBA8, srcWidth, srcHeight);
+        glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_RENDERBUFFER_EXT, renderbuffer);
+        
+        GLenum status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);
+        if (GL_FRAMEBUFFER_COMPLETE_EXT != status) {
+            merror(M_DISPLAY_MESSAGE_DOMAIN, "framebuffer setup failed (status = %d)", status);
+            glDeleteRenderbuffersEXT(1, &renderbuffer);
+            glDeleteFramebuffersEXT(1, &framebuffer);
+            return;
+        }
+
+        glBindFramebufferEXT(GL_READ_FRAMEBUFFER_EXT, 0);
+        glBindFramebufferEXT(GL_DRAW_FRAMEBUFFER_EXT, framebuffer);
         glBlitFramebufferEXT(0, 0, srcWidth, srcHeight,
-                             0, 0, dstWidth, dstHeight,
+                             0, 0, srcWidth, srcHeight,
                              GL_COLOR_BUFFER_BIT,
                              GL_LINEAR);
-#endif /*RENDER_ONCE*/
         
-        if (i != 0) {  // non-main display
+        glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);  // Send subsequent rendering to back buffer
+        
+        for (int i = 1; i < context_ids.size(); i++) {
+            setCurrent(i);
+            
+            GLint dstWidth, dstHeight;
+            getCurrentViewportSize(dstWidth, dstHeight);
+            
+            glBindFramebufferEXT(GL_READ_FRAMEBUFFER_EXT, framebuffer);
+            glBindFramebufferEXT(GL_DRAW_FRAMEBUFFER_EXT, 0);
+            glBlitFramebufferEXT(0, 0, srcWidth, srcHeight,
+                                 0, 0, dstWidth, dstHeight,
+                                 GL_COLOR_BUFFER_BIT,
+                                 GL_LINEAR);
+            
             opengl_context_manager->updateAndFlush(i);
-            continue;
-        }
-        
-#define USE_GL_FENCE
-#ifdef USE_GL_FENCE
-        if(opengl_context_manager->hasFence()){
-            glSetFenceAPPLE(opengl_context_manager->getFence());
-        }
-#endif
-        
-        opengl_context_manager->flush(i);
-        
-#ifdef USE_GL_FENCE
-        if(opengl_context_manager->hasFence()){
-            glFinishFenceAPPLE(opengl_context_manager->getFence());
-        }
-#endif
-        
-        MWTime now = clock->getCurrentTimeUS();
-        stimDisplayUpdate->setValue(getAnnounceData(), now);
-        announceDisplayStack(now);
-        
-#define ERROR_ON_LATE_FRAMES
-#ifdef ERROR_ON_LATE_FRAMES
-        MWTime slop = 2*(1000000/refresh_rate);
-        
-        if(now-before_draw > slop) {
-            merror(M_DISPLAY_MESSAGE_DOMAIN,
-                   "updating main window display is taking longer than two frames (%lld > %lld) to update", 
-                   now-before_draw, 
-                   slop);		
-        }
-#endif
-    }	
-    
-#ifdef RENDER_ONCE
-    glDeleteRenderbuffersEXT(1, &renderbuffer);
-    glDeleteFramebuffersEXT(1, &framebuffer);
-#endif
+        }	
+
+        glDeleteRenderbuffersEXT(1, &renderbuffer);
+        glDeleteFramebuffersEXT(1, &framebuffer);
+#endif /*RENDER_ONCE*/
+    }
 }
 
 
