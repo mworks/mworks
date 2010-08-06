@@ -37,6 +37,10 @@ extern const mw::Component *InvalidObject;
 	}												\
 }
 
+#define CHECK_ATTRIBUTE(variable, parameters, key) \
+    checkAttribute((variable), (parameters)["reference_id"], (key), parameters[(key)])
+    
+
 using namespace boost;
 
 class ComponentRegistry;  // forward declaration
