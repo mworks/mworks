@@ -215,6 +215,9 @@ void StimulusDisplay::stateSystemCallback(const Datum &data, MWorksTime time) {
     } else if (RUNNING == newState) {
 
         if (!CVDisplayLinkIsRunning(displayLink)) {
+
+            lastFrameTime = 0;
+
             if (kCVReturnSuccess != CVDisplayLinkSetOutputCallback(displayLink,
                                                                    &StimulusDisplay::displayLinkCallback,
                                                                    this) ||
@@ -228,6 +231,7 @@ void StimulusDisplay::stateSystemCallback(const Datum &data, MWorksTime time) {
                         CGMainDisplayID(),
                         CVDisplayLinkGetCurrentCGDisplay(displayLink));
             }
+
         }
         
     }
@@ -242,29 +246,31 @@ CVReturn StimulusDisplay::displayLinkCallback(CVDisplayLinkRef _displayLink,
                                               void *_display)
 {
     StimulusDisplay *display = static_cast<StimulusDisplay*>(_display);
-    CVReturn status = kCVReturnSuccess;
     
     {
         boost::mutex::scoped_lock lock(display->display_lock);
         
-        display->refreshDisplay();
-        
-//#define ERROR_ON_MISSED_REFRESH
-#ifdef ERROR_ON_MISSED_REFRESH
-        uint64_t currentTime = CVGetCurrentHostTime();
-        if (currentTime > outputTime->hostTime) {
-            merror(M_DISPLAY_MESSAGE_DOMAIN, "Display refresh did not complete within vertical blanking interval");
-            status = kCVReturnError;
+#define WARN_ON_SKIPPED_REFRESH
+#ifdef WARN_ON_SKIPPED_REFRESH
+        if (display->lastFrameTime) {
+            int64_t delta = (outputTime->videoTime - display->lastFrameTime) - outputTime->videoRefreshPeriod;
+            if (delta) {
+                mwarning(M_DISPLAY_MESSAGE_DOMAIN,
+                         "Skipped %g display refresh cycles",
+                         (double)delta / (double)(outputTime->videoRefreshPeriod));
+            }
         }
 #endif
-
+        display->lastFrameTime = outputTime->videoTime;
+        
+        display->refreshDisplay();
         display->refreshComplete = true;
     }
     
     // Signal waiting threads that refresh is complete
     display->refreshCond.notify_all();
     
-    return status;
+    return kCVReturnSuccess;
 }
 
 

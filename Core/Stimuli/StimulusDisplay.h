@@ -79,6 +79,7 @@ namespace mw {
         
         shared_ptr<VariableCallbackNotification> stateSystemNotification;
         CVDisplayLinkRef displayLink;
+        int64_t lastFrameTime;
 		
         void glInit();
 		void setDisplayBounds();
