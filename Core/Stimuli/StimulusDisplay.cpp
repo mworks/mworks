@@ -31,7 +31,7 @@
 #endif
 
 #if M_OPENGL_SHARED_STATE == 1
-    #define RENDER_ONCE
+    //#define RENDER_ONCE
 #endif
 
 
