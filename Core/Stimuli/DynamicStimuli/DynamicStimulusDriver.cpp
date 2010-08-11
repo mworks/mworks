@@ -55,7 +55,6 @@ void DynamicStimulusDriver::play() {
     
     willPlay();
     
-    shared_ptr<Clock> clock = Clock::instance(false);
     start_time = clock->getCurrentTimeUS();
     
     //const float frames_per_us = frames_per_second->getValue().getFloat()/1000000;

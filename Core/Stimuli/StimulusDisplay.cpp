@@ -262,8 +262,8 @@ CVReturn StimulusDisplay::displayLinkCallback(CVDisplayLinkRef _displayLink,
                          (double)delta / (double)(outputTime->videoRefreshPeriod));
             }
         }
-#endif
         display->lastFrameTime = outputTime->videoTime;
+#endif
         
         display->refreshDisplay();
         display->refreshComplete = true;

@@ -11,12 +11,11 @@
 #define DYNAMIC_STIMULUS_H
 
 #include "StandardStimuli.h"
-#include "boost/enable_shared_from_this.hpp"
 #include "VariableNotification.h"
 
-namespace mw{
+namespace mw {
 
-class DynamicStimulusDriver : public boost::enable_shared_from_this<DynamicStimulusDriver>, public VariableNotification {
+class DynamicStimulusDriver {
 	
 protected: 
 	boost::shared_ptr<Scheduler> scheduler;
@@ -36,8 +35,8 @@ protected:
 public:
 	
 	DynamicStimulusDriver(const boost::shared_ptr<Scheduler> &a_scheduler,
-					 const boost::shared_ptr<StimulusDisplay> &a_display,
-					 const boost::shared_ptr<Variable> &frames_per_second_var);
+                          const boost::shared_ptr<StimulusDisplay> &a_display,
+                          const boost::shared_ptr<Variable> &frames_per_second_var);
 	
 	DynamicStimulusDriver(const DynamicStimulusDriver &tocopy);
     
