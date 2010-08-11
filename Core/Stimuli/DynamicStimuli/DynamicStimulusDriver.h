@@ -18,10 +18,7 @@ namespace mw {
 class DynamicStimulusDriver {
 	
 protected: 
-	boost::shared_ptr<Scheduler> scheduler;
 	boost::shared_ptr<Clock> clock;
-    boost::shared_ptr<StimulusDisplay> display;
-	
 	boost::shared_ptr<Variable> frames_per_second;
 	
     shared_ptr<VariableCallbackNotification> state_system_callback;
@@ -34,9 +31,7 @@ protected:
 	
 public:
 	
-	DynamicStimulusDriver(boost::shared_ptr<Scheduler> scheduler,
-                          boost::shared_ptr<StimulusDisplay> display,
-                          boost::shared_ptr<Variable> frames_per_second);
+	DynamicStimulusDriver(shared_ptr<Scheduler> scheduler, shared_ptr<Variable> frames_per_second);
 	
 	DynamicStimulusDriver(const DynamicStimulusDriver &tocopy);
     

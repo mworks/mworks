@@ -10,7 +10,7 @@
 
 
 StandardDynamicStimulus::StandardDynamicStimulus(const std::string &tag, shared_ptr<Variable> framesPerSecond) :
-    DynamicStimulusDriver(shared_ptr<Scheduler>(), shared_ptr<StimulusDisplay>(), framesPerSecond),
+    DynamicStimulusDriver(shared_ptr<Scheduler>(), framesPerSecond),
     Stimulus(tag),
     lastFrameDrawn(-1)
 {
