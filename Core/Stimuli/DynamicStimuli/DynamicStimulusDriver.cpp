@@ -13,17 +13,34 @@
 
 namespace mw{
 
-DynamicStimulusDriver::DynamicStimulusDriver(const boost::shared_ptr<Scheduler> &a_scheduler,
-								   const boost::shared_ptr<StimulusDisplay> &a_display,
-								   const boost::shared_ptr<Variable> &_frames_per_second){
-    start_time = -1;
-    scheduler = a_scheduler;
-    clock = scheduler->getClock();
-	display = a_display;
-	frames_per_second = _frames_per_second;
-	
-	started = false;
+DynamicStimulusDriver::DynamicStimulusDriver(boost::shared_ptr<Scheduler> _scheduler,
+                                             boost::shared_ptr<StimulusDisplay> _display,
+                                             boost::shared_ptr<Variable> _frames_per_second) :
+    scheduler(_scheduler),
+    display(_display),
+    frames_per_second(_frames_per_second),
+    started(false),
+    start_time(-1)
+{
+    if (!scheduler) {
+        scheduler = Scheduler::instance();
+        if (!scheduler) {
+            throw SimpleException("No scheduler registered");
+        }
+    }
     
+    if (!display) {
+        if (!GlobalCurrentExperiment) {
+            throw SimpleException("No experiment currently defined");
+        }
+        
+        display = GlobalCurrentExperiment->getStimulusDisplay();
+        if (!display) {
+            throw SimpleException("No stimulus display in current experiment");
+        }
+    }
+	
+    clock = scheduler->getClock();
                                                                                               
     state_system_callback = shared_ptr<VariableCallbackNotification>(
                                 new VariableCallbackNotification(boost::bind(&DynamicStimulusDriver::stateSystemCallback, this, _1,_2))

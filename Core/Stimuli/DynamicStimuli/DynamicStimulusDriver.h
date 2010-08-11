@@ -34,9 +34,9 @@ protected:
 	
 public:
 	
-	DynamicStimulusDriver(const boost::shared_ptr<Scheduler> &a_scheduler,
-                          const boost::shared_ptr<StimulusDisplay> &a_display,
-                          const boost::shared_ptr<Variable> &frames_per_second_var);
+	DynamicStimulusDriver(boost::shared_ptr<Scheduler> scheduler,
+                          boost::shared_ptr<StimulusDisplay> display,
+                          boost::shared_ptr<Variable> frames_per_second);
 	
 	DynamicStimulusDriver(const DynamicStimulusDriver &tocopy);
     

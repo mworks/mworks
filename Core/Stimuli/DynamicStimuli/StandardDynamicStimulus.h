@@ -18,10 +18,7 @@ using namespace mw;
 class StandardDynamicStimulus : public DynamicStimulusDriver, public Stimulus {
 
 public:
-    StandardDynamicStimulus(const std::string &tag,
-                            shared_ptr<Scheduler> scheduler,
-                            shared_ptr<StimulusDisplay> display,
-                            shared_ptr<Variable> framesPerSecond);
+    StandardDynamicStimulus(const std::string &tag, shared_ptr<Variable> framesPerSecond);
     
     virtual ~StandardDynamicStimulus() { }
 

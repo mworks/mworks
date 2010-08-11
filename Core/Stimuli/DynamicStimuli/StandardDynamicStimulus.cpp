@@ -9,11 +9,8 @@
 #include "StandardDynamicStimulus.h"
 
 
-StandardDynamicStimulus::StandardDynamicStimulus(const std::string &tag,
-                                                 shared_ptr<Scheduler> scheduler,
-                                                 shared_ptr<StimulusDisplay> display,
-                                                 shared_ptr<Variable> framesPerSecond) :
-    DynamicStimulusDriver(scheduler, display, framesPerSecond),
+StandardDynamicStimulus::StandardDynamicStimulus(const std::string &tag, shared_ptr<Variable> framesPerSecond) :
+    DynamicStimulusDriver(shared_ptr<Scheduler>(), shared_ptr<StimulusDisplay>(), framesPerSecond),
     Stimulus(tag),
     lastFrameDrawn(-1)
 {
