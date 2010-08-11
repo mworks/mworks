@@ -135,6 +135,12 @@ public:
         virtual void setVisible(bool newvis);
 
         /**
+         * Does the stimulus need to be redrawn?  (This is probably useful
+         * only for dynamic stimuli.)
+         */
+        virtual bool needDraw() { return false; }
+    
+        /**
          * This is the method that most will want to override
          * this specifies how to draw the stimulus in the 
          * interval [(0,1), (0,1)]. 

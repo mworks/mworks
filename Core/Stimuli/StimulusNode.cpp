@@ -87,6 +87,10 @@ int StimulusNode::getDeferred(){
   return stim->getDeferred(); 
 }
 
+bool StimulusNode::needDraw() {
+    return stim && stim->needDraw();
+}
+
 void StimulusNode::draw(shared_ptr<StimulusDisplay> stimulus_display) {
 	// TODO: error check
 	stim->draw(stimulus_display);

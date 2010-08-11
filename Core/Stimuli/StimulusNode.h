@@ -104,6 +104,7 @@ namespace mw {
         virtual void thaw();
 		virtual bool isFrozen();
 		
+		virtual bool needDraw();
 		virtual void draw(shared_ptr<StimulusDisplay> display);
                 
 		virtual void announceStimulusDraw(MWTime time);

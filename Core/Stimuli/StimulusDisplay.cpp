@@ -53,6 +53,8 @@ StimulusDisplay::StimulusDisplay() {
     opengl_context_manager = OpenGLContextManager::instance();
     clock = Clock::instance();
     
+    needDraw = false;
+    
     framebuffer = 0;
     renderbuffer = 0;
     
@@ -250,7 +252,7 @@ CVReturn StimulusDisplay::displayLinkCallback(CVDisplayLinkRef _displayLink,
     {
         boost::mutex::scoped_lock lock(display->display_lock);
         
-#define WARN_ON_SKIPPED_REFRESH
+//#define WARN_ON_SKIPPED_REFRESH
 #ifdef WARN_ON_SKIPPED_REFRESH
         if (display->lastFrameTime) {
             int64_t delta = (outputTime->videoTime - display->lastFrameTime) - outputTime->videoRefreshPeriod;
@@ -275,6 +277,28 @@ CVReturn StimulusDisplay::displayLinkCallback(CVDisplayLinkRef _displayLink,
 
 
 void StimulusDisplay::refreshDisplay() {
+    // Just to be safe, make sure we have at least one context
+    if (context_ids.size() == 0) {
+        return;
+    }
+    
+    //
+    // Determine whether we need to draw
+    //
+    
+    if (!needDraw) {
+        shared_ptr<StimulusNode> node = display_stack->getFrontmost();
+        while (node) {
+            needDraw = node->needDraw();
+            if (needDraw)
+                break;
+            node = node->getNext();
+        }
+    }
+    
+    if (!needDraw) {
+        return;
+    }
 
     //
     // Draw stimuli on main display
@@ -360,6 +384,8 @@ void StimulusDisplay::refreshDisplay() {
         }	
     }
 #endif /*RENDER_ONCE*/
+    
+    needDraw = false;
 }
 
 
@@ -419,6 +445,8 @@ void StimulusDisplay::drawDisplayStack() {
 
 void StimulusDisplay::updateDisplay() {
 	boost::mutex::scoped_lock lock(display_lock);
+    
+    needDraw = true;
     
     shared_ptr<StimulusNode> node = display_stack->getFrontmost();
     while (node) {

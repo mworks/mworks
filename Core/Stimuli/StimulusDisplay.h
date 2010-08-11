@@ -71,6 +71,8 @@ namespace mw {
 		boost::mutex display_lock;
         boost::condition_variable refreshCond;
         bool refreshComplete;
+
+        bool needDraw;
 		
 		GLdouble left, right, top, bottom; // display bounds
 
