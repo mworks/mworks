@@ -55,10 +55,8 @@
 #ifdef	__APPLE__
 	#include <OpenGL/gl.h>
 	#include <OpenGL/glu.h>
-    #define M_OPENGL_SHARED_STATE 0
 #elif	linux
 	// TODO: where are these under linux?
-    #define M_OPENGL_SHARED_STATE 0
 #endif
 
 #define ILUT_USE_OPENGL

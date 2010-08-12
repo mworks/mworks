@@ -1010,12 +1010,8 @@ void ImageStimulus::load(shared_ptr<StimulusDisplay> display) {
 	// should be true, but we should eventually be robust in case it isn't
 	texture_maps.clear();
     
-#if M_OPENGL_SHARED_STATE == 0
     for(int i = 0; i < display->getNContexts(); i++){
 		display->setCurrent(i);
-#else
-		display->setCurrent(0);
-#endif
 		GLuint texture_map = OpenGLImageLoader::load(filename, display, &width, &height);
 		
         texture_maps.push_back(texture_map);
@@ -1023,9 +1019,7 @@ void ImageStimulus::load(shared_ptr<StimulusDisplay> display) {
 		if(texture_map){
 			mprintf("Image loaded into texture_map %d", texture_map);
 		}
-#if M_OPENGL_SHARED_STATE == 0
 	}
-#endif
 	
   
   loaded = true;
@@ -1045,11 +1039,7 @@ void ImageStimulus::drawInUnitSquare(shared_ptr<StimulusDisplay> display) {
         
         glActiveTextureARB(GL_TEXTURE0_ARB); 
         glEnable(GL_TEXTURE_2D);
-#if M_OPENGL_SHARED_STATE == 0
 		glBindTexture(GL_TEXTURE_2D, texture_maps[display->getCurrentContextIndex()]);
-#else
-		glBindTexture(GL_TEXTURE_2D, texture_maps[0]);
-#endif
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR_MIPMAP_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 		glEnable (GL_BLEND); 
