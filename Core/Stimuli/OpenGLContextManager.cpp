@@ -213,7 +213,7 @@ int OpenGLContextManager::newMirrorContext(bool sync_to_vbl){
 
     
     mirror_window = [[NSWindow alloc] initWithContentRect:mirror_rect
-                                                styleMask:(NSResizableWindowMask | NSMiniaturizableWindowMask)
+                                                styleMask:(NSTitledWindowMask | NSMiniaturizableWindowMask)
                                                   backing:NSBackingStoreBuffered
                                                     defer:NO];
         
@@ -240,14 +240,18 @@ int OpenGLContextManager::newMirrorContext(bool sync_to_vbl){
     
     NSRect view_rect = NSMakeRect(0.0, 0.0, mirror_rect.size.width, mirror_rect.size.height);
     
-    mirror_view = [[NSOpenGLView alloc] initWithFrame:view_rect pixelFormat: pixel_format];
+    mirror_view = [[NSOpenGLView alloc] initWithFrame:view_rect pixelFormat:pixel_format];
+    [mirror_window setContentView:mirror_view];
     [mirror_view setOpenGLContext:opengl_context];
-    [mirror_window setContentView: mirror_view];
-    
+    [opengl_context setView:mirror_view];
+
     [mirror_window makeKeyAndOrderFront:nil];
     
     [contexts addObject:opengl_context];
     int context_id = [contexts count] - 1;
+    
+    [opengl_context release];
+    [pixel_format release];
     
     display_refresh_rates.push_back(_measureDisplayRefreshRate(0));
     
@@ -308,15 +312,18 @@ int OpenGLContextManager::newFullscreenContext(int screen_number){
     
     NSRect view_rect = NSMakeRect(0.0, 0.0, screen_rect.size.width, screen_rect.size.height);
     
-    fullscreen_view = [[NSOpenGLView alloc] initWithFrame:view_rect pixelFormat: pixel_format];
+    fullscreen_view = [[NSOpenGLView alloc] initWithFrame:view_rect pixelFormat:pixel_format];
+    [fullscreen_window setContentView:fullscreen_view];
     [fullscreen_view setOpenGLContext:opengl_context];
-    
-    [fullscreen_window setContentView: fullscreen_view];
+    [opengl_context setView:fullscreen_view];
     
     [fullscreen_window makeKeyAndOrderFront:nil];
     
     [contexts addObject:opengl_context];
     int context_id = [contexts count] - 1;
+    
+    [opengl_context release];
+    [pixel_format release];
     
     display_refresh_rates.push_back(_measureDisplayRefreshRate(screen_number));
     
@@ -359,22 +366,20 @@ void OpenGLContextManager::releaseDisplays() {
     
     [contexts makeObjectsPerformSelector:@selector(clearDrawable)];
     
-	CGReleaseAllDisplays();
-    
-    
     mirror_window_active = NO;
     if(mirror_window != nil){
         [mirror_window orderOut:nil];
         [mirror_window release];
+        [mirror_view release];
         mirror_window = nil;
         mirror_view = nil;
     }
-    
     
     fullscreen_window_active = NO;
     if(fullscreen_window != nil){
         [fullscreen_window orderOut:nil];
         [fullscreen_window release];
+        [fullscreen_view release];
         fullscreen_window = nil;
         fullscreen_view = nil;
     }
@@ -386,7 +391,7 @@ void OpenGLContextManager::releaseDisplays() {
 	
     [contexts removeAllObjects];
 
-    [pool release];
+    [pool drain];
 
     main_display_index = -1;
 
