@@ -26,7 +26,7 @@ public:
     
     virtual bool needDraw();
     virtual void draw(shared_ptr<StimulusDisplay> display);
-    virtual void drawFrame(shared_ptr<StimulusDisplay> display, int frameNumber) = 0;
+    virtual void drawFrame(shared_ptr<StimulusDisplay> display, int frameNumber) { }
     
 protected:
     int lastFrameDrawn;
