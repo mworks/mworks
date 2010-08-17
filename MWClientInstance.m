@@ -981,6 +981,7 @@
 				if([obj isKindOfClass:[NSWindowController class]]){
 					controller = (NSWindowController *)obj;
 					[controller loadWindow];
+                    [controller setWindowFrameAutosaveName:plugin_file];
 					[pluginWindows addObject:controller];
                     
                     // also, add the window to the grouped_plugin_controller
