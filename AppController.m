@@ -141,30 +141,11 @@
    [NSApp endSheet: experimentCloseSheet];
 }
 
-- (IBAction) openExperimentChooserOpenPanel: (id)sender {
-	// Create the File Open Dialog class.
-	NSOpenPanel* openDlg = [NSOpenPanel openPanel];
-
-	// Enable the selection of files in the dialog.
-	[openDlg setCanChooseFiles:YES];
-
-	// Enable the selection of directories in the dialog.
-	[openDlg setCanChooseDirectories:YES];
-
-	// Display the dialog.  If the OK button was pressed,
-	// process the files.
-	if ( [openDlg runModalForDirectory:nil file:nil] == NSOKButton ){
-		// Get an array containing the full filenames of all
-		// files and directories selected.
-		NSArray* files = [openDlg filenames];
-
-		// Loop through all the files and process them.
-		for(int i = 0; i < [files count]; i++ ){
-			NSString* fileName = [files objectAtIndex:i];
-	
-			[modalExperimentField setStringValue:fileName];
-		}
-	}
+- (NSOpenPanel *)openPanel {
+    if (nil == openPanel) {
+        openPanel = [[NSOpenPanel openPanel] retain];
+    }
+    return openPanel;
 }
 
 - (IBAction) chooseExperiment: (id) sender {
@@ -172,7 +153,7 @@
   MWClientInstance *client_instance = [self modalClientInstanceInCharge];
 	
   // Create the File Open Dialog class.
-  NSOpenPanel* openDlg = [NSOpenPanel openPanel];
+  NSOpenPanel* openDlg = [self openPanel];
   
   // Enable the selection of files in the dialog.
   [openDlg setCanChooseFiles:YES];
@@ -185,7 +166,7 @@
   
   // Display the dialog.  If the OK button was pressed,
   // process the files.
-  if ( [openDlg runModalForDirectory:nil file:nil] == NSOKButton )
+  if ( [openDlg runModal] == NSFileHandlingPanelOKButton )
   {
     // Get an array containing the full filenames of all
     // files and directories selected.

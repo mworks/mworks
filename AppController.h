@@ -44,6 +44,7 @@
 	// Experiment load
 	IBOutlet NSPathControl *modalExperimentField;
     IBOutlet NSPopUpButton *modalRecentExperimentPopUp;
+    NSOpenPanel *openPanel;
 	
 	// Data File open
 	IBOutlet NSComboBox *modalDataFileField;
@@ -80,11 +81,11 @@
 - (IBAction)launchExperimentChooserForItem:(NSCollectionViewItem *)item;
 - (IBAction) closeExperimentLoadSheet: (id)sender;
 - (IBAction) closeExperimentCloseSheet: (id)sender;
-- (IBAction) openExperimentChooserOpenPanel: (id)sender;
 - (IBAction) loadExperiment: (id) sender;
 - (IBAction) chooseExperiment: (id) sender;
 - (IBAction) closeExperiment: (id) sender;
 - (IBAction) loadRecentExperiment: (id) sender;
+- (NSOpenPanel *)openPanel;
 
 
 // Variable sets
