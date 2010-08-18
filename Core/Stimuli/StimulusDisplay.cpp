@@ -430,6 +430,20 @@ Datum StimulusDisplay::getAnnounceData() {
 }
 
 
+shared_ptr<StimulusDisplay> StimulusDisplay::getCurrentStimulusDisplay() {
+    if (!GlobalCurrentExperiment) {
+        throw SimpleException("no experiment currently defined");		
+    }
+    
+    shared_ptr<StimulusDisplay> currentDisplay = GlobalCurrentExperiment->getStimulusDisplay();
+    if (!currentDisplay) {
+        throw SimpleException("no stimulus display in current experiment");
+    }
+    
+    return currentDisplay;
+}
+
+
 
 
 

@@ -114,6 +114,8 @@ namespace mw {
 		void updateDisplay();
 		void clearDisplay();
         void getDisplayBounds(GLdouble &left, GLdouble &right, GLdouble &bottom, GLdouble &top);
+        
+        static shared_ptr<StimulusDisplay> getCurrentStimulusDisplay();
 		
 		
 	private:
