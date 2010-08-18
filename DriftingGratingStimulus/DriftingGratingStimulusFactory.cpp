@@ -142,20 +142,6 @@ shared_ptr<mw::Component> DriftingGratingStimulusFactory::createObject(std::map<
 		throw SimpleException("illegal grating type: " + parameters.find(GRATING_TYPE)->second);		
 	}
 	
-	if(GlobalCurrentExperiment == 0) {
-		throw SimpleException("no experiment currently defined");		
-	}
-	
-	shared_ptr<StimulusDisplay> default_display = GlobalCurrentExperiment->getStimulusDisplay();
-	if(default_display == 0) {
-		throw SimpleException("no stimulusDisplay in current experiment");
-	}
-	
-	shared_ptr <Scheduler> scheduler = Scheduler::instance();
-	if(scheduler == 0) {
-		throw SimpleException("no scheduler registered");		
-	}
-	
 	shared_ptr <mMask> mask;
 	shared_ptr <Variable> mask_size = shared_ptr<Variable>(new ConstantVariable(128L));
 	if(parameters.find(MASK)->second == "rectangle") {
@@ -189,8 +175,6 @@ shared_ptr<mw::Component> DriftingGratingStimulusFactory::createObject(std::map<
 	}
 	
 	shared_ptr<DriftingGratingStimulus> new_drifting_grating=shared_ptr<DriftingGratingStimulus>(new DriftingGratingStimulus(tagname, 
-																																scheduler,
-																																default_display,
 																																frames_per_second,
 																																x_position,
 																																y_position,
@@ -205,8 +189,8 @@ shared_ptr<mw::Component> DriftingGratingStimulusFactory::createObject(std::map<
 																																mask,
 																																grating));
 	
-	
-	new_drifting_grating->load(default_display);
+
+	new_drifting_grating->load(StimulusDisplay::getCurrentStimulusDisplay());
 	shared_ptr <StimulusNode> thisStimNode = shared_ptr<StimulusNode>(new StimulusNode(new_drifting_grating));
 	reg->registerStimulusNode(tagname, thisStimNode);
 	

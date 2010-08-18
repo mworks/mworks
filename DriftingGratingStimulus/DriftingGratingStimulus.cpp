@@ -12,29 +12,21 @@
 using namespace mw;
 
 DriftingGratingStimulus::DriftingGratingStimulus(const std::string &_tag, 
-                       const shared_ptr<Scheduler> &a_scheduler,
-                       const shared_ptr<StimulusDisplay> &a_display,
-                       const shared_ptr<Variable> &_frames_per_second,
-                       const shared_ptr<Variable> &_xoffset, 
-                       const shared_ptr<Variable> &_yoffset, 
-                       const shared_ptr<Variable> &_width,
-                       const shared_ptr<Variable> &_height,
-                       const shared_ptr<Variable> &_rot,
-                       const shared_ptr<Variable> &_alpha,
-                       const shared_ptr<Variable> &_direction,
-                       const shared_ptr<Variable> &_frequency,
-                       const shared_ptr<Variable> &_speed,
-                       const shared_ptr<Variable> &_starting_phase,
-                       const shared_ptr<mMask> &_mask,
-                       const shared_ptr<mGratingData> &_grating) : 
-
-                        DynamicStimulusDriver (a_scheduler,
-                                             a_display,
-                                             _frames_per_second),
-                        Stimulus(_tag)
+                                                 shared_ptr<Variable> _frames_per_second,
+                                                 shared_ptr<Variable> _xoffset, 
+                                                 shared_ptr<Variable> _yoffset, 
+                                                 shared_ptr<Variable> _width,
+                                                 shared_ptr<Variable> _height,
+                                                 shared_ptr<Variable> _rot,
+                                                 shared_ptr<Variable> _alpha,
+                                                 shared_ptr<Variable> _direction,
+                                                 shared_ptr<Variable> _frequency,
+                                                 shared_ptr<Variable> _speed,
+                                                 shared_ptr<Variable> _starting_phase,
+                                                 shared_ptr<mMask> _mask,
+                                                 shared_ptr<mGratingData> _grating) :
+    StandardDynamicStimulus(_tag, _frames_per_second)
 {
-	
-	
 	xoffset = registerVariable(_xoffset);
 	yoffset = registerVariable(_yoffset);
 	width = registerVariable(_width);
@@ -50,7 +42,13 @@ DriftingGratingStimulus::DriftingGratingStimulus(const std::string &_tag,
 	
 	mask = _mask;
 	grating = _grating;
-	
+}
+
+
+void DriftingGratingStimulus::load(shared_ptr<StimulusDisplay> display) {
+    if (loaded)
+        return;
+    
 	GLuint *mask_textures_tmp = new GLuint[display->getNContexts()];
 	GLuint *grating_textures_tmp = new GLuint[display->getNContexts()];
 	
@@ -172,6 +170,8 @@ DriftingGratingStimulus::DriftingGratingStimulus(const std::string &_tag,
         glActiveTextureARB(0);
 
 	}
+    
+    loaded = true;
 }   
 
 
@@ -191,8 +191,8 @@ DriftingGratingStimulus::~DriftingGratingStimulus(){
         grating_textures_tmp[i] = grating_textures[i];
     }
     
-    glDeleteTextures(display->getNContexts(), mask_textures_tmp);
-    glDeleteTextures(display->getNContexts(), grating_textures_tmp);
+    glDeleteTextures(mask_textures.size(), mask_textures_tmp);
+    glDeleteTextures(grating_textures.size(), grating_textures_tmp);
 
 
     delete [] mask_textures_tmp;
@@ -202,7 +202,7 @@ DriftingGratingStimulus::~DriftingGratingStimulus(){
 
 
 
-void DriftingGratingStimulus::draw(shared_ptr<StimulusDisplay> display) {
+void DriftingGratingStimulus::drawFrame(shared_ptr<StimulusDisplay> display, int frameNumber) {
     
 	glPushMatrix();	
 	glTranslatef(xoffset->getValue().getFloat(), yoffset->getValue().getFloat(), 0);
@@ -353,7 +353,6 @@ void DriftingGratingStimulus::draw(shared_ptr<StimulusDisplay> display) {
     
 	glPopMatrix();	
 
-	boost::mutex::scoped_lock locker(stim_lock);
 	last_phase = phase*(180/M_DG_PI);
 }
 

@@ -10,12 +10,12 @@
 #ifndef DRIFTING_GRATNG_STIMULUS_H
 #define DRIFTING_GRATNG_STIMULUS_H
 
-#include <MWorksCore/DynamicStimulusDriver.h>
+#include <MWorksCore/StandardDynamicStimulus.h>
 #include "Mask.h"
 #include "GratingData.h"
 using namespace mw;
 
-class DriftingGratingStimulus : public DynamicStimulusDriver, public Stimulus {
+class DriftingGratingStimulus : public StandardDynamicStimulus {
 protected:
 	shared_ptr<Variable> xoffset;
 	shared_ptr<Variable> yoffset;
@@ -42,28 +42,27 @@ protected:
 	float last_phase;
 public:
 	DriftingGratingStimulus(const std::string &_tag, 
-							 const shared_ptr<Scheduler> &a_scheduler,
-							 const shared_ptr<StimulusDisplay> &a_display,
-							 const shared_ptr<Variable> &_frames_per_second,
-							 const shared_ptr<Variable> &_xoffset, 
-							 const shared_ptr<Variable> &_yoffset, 
-							 const shared_ptr<Variable> &_width,
-							 const shared_ptr<Variable> &_height,
-							 const shared_ptr<Variable> &_rot,
-							 const shared_ptr<Variable> &_alpha,
-							 const shared_ptr<Variable> &_direction,
-							 const shared_ptr<Variable> &_frequency,
-							 const shared_ptr<Variable> &_speed,
-							 const shared_ptr<Variable> &_starting_phase,
-							 const shared_ptr<mMask> &_mask,
-							 const shared_ptr<mGratingData> &_grating);
+                            shared_ptr<Variable> _frames_per_second,
+                            shared_ptr<Variable> _xoffset, 
+                            shared_ptr<Variable> _yoffset, 
+                            shared_ptr<Variable> _width,
+                            shared_ptr<Variable> _height,
+                            shared_ptr<Variable> _rot,
+                            shared_ptr<Variable> _alpha,
+                            shared_ptr<Variable> _direction,
+                            shared_ptr<Variable> _frequency,
+                            shared_ptr<Variable> _speed,
+                            shared_ptr<Variable> _starting_phase,
+                            shared_ptr<mMask> _mask,
+                            shared_ptr<mGratingData> _grating);
     
    
 	DriftingGratingStimulus(const DriftingGratingStimulus &tocopy);
 	~DriftingGratingStimulus();
 	
-	
-	virtual void draw(shared_ptr<StimulusDisplay> display);
+
+	virtual void load(shared_ptr<StimulusDisplay> display);
+    virtual void drawFrame(shared_ptr<StimulusDisplay> display, int frameNumber);
 	virtual Datum getCurrentAnnounceDrawData();
 };
 
