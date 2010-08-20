@@ -1,11 +1,6 @@
 <?xml version="1.0"?>
 <marionette_info>
-  <permitted_error_messages>
-    <message type="starts_with">WARNING: Scheduled task </message>
-    <message type="starts_with">ERROR: Scheduled task </message>
-  </permitted_error_messages>
   <expected_messages>
-    <!-- We expect this test to drop frames -->
-    <message type="contains"> falling behind, dropping </message>
+    <message type="starts_with">ERROR: Requested frame rate (1000) is incompatible with display refresh rate (</message>
   </expected_messages>
 </marionette_info>
