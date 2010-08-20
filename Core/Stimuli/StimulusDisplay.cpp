@@ -139,6 +139,14 @@ void StimulusDisplay::getDisplayBounds(GLdouble &left, GLdouble &right, GLdouble
     top = this->top;
 }
 
+int StimulusDisplay::getMainDisplayRefreshRate() {
+    int refreshRate = opengl_context_manager->getDisplayRefreshRate(opengl_context_manager->getMainDisplayIndex());
+    if (refreshRate <= 0) {
+        refreshRate = 60;
+    }
+    return refreshRate;
+}
+
 void StimulusDisplay::addContext(int _context_id){
 	context_ids.push_back(_context_id);
 }
@@ -286,12 +294,7 @@ void StimulusDisplay::refreshDisplay() {
         
 #define ERROR_ON_LATE_FRAMES
 #ifdef ERROR_ON_LATE_FRAMES
-        int refresh_rate = opengl_context_manager->getDisplayRefreshRate(opengl_context_manager->getMainDisplayIndex());
-        if(refresh_rate <= 0){
-            refresh_rate = 60;
-        }
-        
-        MWTime slop = 2*(1000000/refresh_rate);
+        MWTime slop = 2 * (1000000 / getMainDisplayRefreshRate());
         
         if(now-before_draw > slop) {
             merror(M_DISPLAY_MESSAGE_DOMAIN,
