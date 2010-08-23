@@ -33,7 +33,7 @@ namespace mw {
 		
 		NSMutableArray			*contexts;
         
-        vector<double>          display_refresh_rates;
+        std::map<int, double>   display_refresh_rates;
 		
 		NSWindow				*mirror_window;
         NSOpenGLView            *mirror_view;
@@ -53,7 +53,7 @@ namespace mw {
 		
         NSScreen                *_getScreen(const int screen_number);
         CGDirectDisplayID       _getDisplayID(int screen_number);
-        double                  _measureDisplayRefreshRate(int index);
+        void                    _measureDisplayRefreshRate(int index);
         
         bool glew_initialized;
         bool has_fence;

@@ -136,12 +136,13 @@ int OpenGLContextManager::getDisplayHeight(const int index) {
 }
 
 int OpenGLContextManager::getDisplayRefreshRate(const int index){
+    std::map<int, double>::iterator rate = display_refresh_rates.find(index);
     
-    if(index < 0 || index > display_refresh_rates.size()){
+    if (rate == display_refresh_rates.end()) {
         return 0;
     }
     
-    double refresh_rate = display_refresh_rates[index];
+    double refresh_rate = (*rate).second;
         
     return (int)refresh_rate;
 }
@@ -157,11 +158,11 @@ CGDirectDisplayID OpenGLContextManager::_getDisplayID(int screen_number) {
     return display_id;
 }
 
-double OpenGLContextManager::_measureDisplayRefreshRate(const int index)
+void OpenGLContextManager::_measureDisplayRefreshRate(const int index)
 {
     CGDirectDisplayID display_id = _getDisplayID(index);
     CGDisplayModeRef mode = CGDisplayCopyDisplayMode(display_id);
-    return CGDisplayModeGetRefreshRate(mode);
+    display_refresh_rates[index] = CGDisplayModeGetRefreshRate(mode);
 }
 
 CGDirectDisplayID OpenGLContextManager::getMainDisplayID() {
@@ -247,7 +248,7 @@ int OpenGLContextManager::newMirrorContext(bool sync_to_vbl){
     [opengl_context release];
     [pixel_format release];
     
-    display_refresh_rates.push_back(_measureDisplayRefreshRate(0));
+    _measureDisplayRefreshRate(0);
     
     
     setCurrent(context_id);
@@ -313,7 +314,7 @@ int OpenGLContextManager::newFullscreenContext(int screen_number){
     [opengl_context release];
     [pixel_format release];
     
-    display_refresh_rates.push_back(_measureDisplayRefreshRate(screen_number));
+    _measureDisplayRefreshRate(screen_number);
     
     setCurrent(context_id);
     _initGlew();
