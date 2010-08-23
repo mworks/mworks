@@ -87,16 +87,6 @@ void DynamicStimulusDriver::stop() {
     didStop();
 }
 
-// TODO: must work out what to do here, because this is ugly
-Datum DynamicStimulusDriver::getCurrentAnnounceDrawData() {
-	Datum announce_data(M_DICTIONARY, 4);
-	announce_data.addElement(STIM_NAME,"");        // char
-	announce_data.addElement(STIM_ACTION,STIM_ACTION_DRAW);
-	announce_data.addElement(STIM_TYPE,"dynamic_stimulus");  
-	announce_data.addElement("start_time", start_time);  
-	return announce_data;
-}
-
 MWTime DynamicStimulusDriver::getElapsedTime(){
     
     if(!started){
@@ -114,7 +104,7 @@ int DynamicStimulusDriver::getFrameNumber(){
     }
 
     MWTime elapsed = getElapsedTime();
-    return (elapsed * (long)(frames_per_second->getValue())) / 1e6;
+    return elapsed / interval_us;
 }
 
 } // end namespace

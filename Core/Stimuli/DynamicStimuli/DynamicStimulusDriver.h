@@ -46,8 +46,6 @@ public:
 	virtual MWTime getElapsedTime();
     virtual int getFrameNumber();
     
-	virtual Datum getCurrentAnnounceDrawData();
-    
     void stateSystemCallback(const Datum& data, MWorksTime time);
 };
 
