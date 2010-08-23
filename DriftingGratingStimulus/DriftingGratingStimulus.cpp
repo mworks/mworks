@@ -358,7 +358,9 @@ void DriftingGratingStimulus::drawFrame(shared_ptr<StimulusDisplay> display, int
 
 inline Datum DriftingGratingStimulus::getCurrentAnnounceDrawData() {
 	boost::mutex::scoped_lock locker(stim_lock);
-	Datum announce_data = DynamicStimulusDriver::getCurrentAnnounceDrawData();
+	Datum announce_data = StandardDynamicStimulus::getCurrentAnnounceDrawData();
+
+	announce_data.addElement(STIM_TYPE, "drifting_grating");  
 	announce_data.addElement("rotation", rotation->getValue());
 	announce_data.addElement("xoffset", xoffset->getValue());
 	announce_data.addElement("yoffset", yoffset->getValue());
