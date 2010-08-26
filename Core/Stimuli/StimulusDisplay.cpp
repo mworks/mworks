@@ -48,7 +48,8 @@ StimulusDisplay::StimulusDisplay() {
 
     opengl_context_manager = OpenGLContextManager::instance();
     clock = Clock::instance();
-    
+
+    waitingForRefresh = false;
     needDraw = false;
     
     if (kCVReturnSuccess != CVDisplayLinkCreateWithActiveCGDisplays(&displayLink)) {
@@ -167,6 +168,12 @@ void StimulusDisplay::stateSystemCallback(const Datum &data, MWorksTime time) {
     if (IDLE == newState) {
         
         if (CVDisplayLinkIsRunning(displayLink)) {
+            // If another thread is waiting for a display refresh, allow it to complete before stopping
+            // the display link
+            while (waitingForRefresh) {
+                refreshCond.wait(lock);
+            }
+            
             if (kCVReturnSuccess != CVDisplayLinkStop(displayLink)) {
                 merror(M_DISPLAY_MESSAGE_DOMAIN, "Unable to stop display updates");
             } else {
@@ -226,7 +233,7 @@ CVReturn StimulusDisplay::displayLinkCallback(CVDisplayLinkRef _displayLink,
 #endif
         
         display->refreshDisplay();
-        display->refreshComplete = true;
+        display->waitingForRefresh = false;
     }
     
     // Signal waiting threads that refresh is complete
@@ -310,17 +317,15 @@ void StimulusDisplay::refreshDisplay() {
 
 
 void StimulusDisplay::clearDisplay() {
-    {
-        boost::mutex::scoped_lock lock(display_lock);
-
-        shared_ptr<StimulusNode> node = display_stack->getFrontmost();
-        while(node) {
-            node->setVisible(false);
-            node = node->getNext();
-        }
+    boost::mutex::scoped_lock lock(display_lock);
+    
+    shared_ptr<StimulusNode> node = display_stack->getFrontmost();
+    while(node) {
+        node->setVisible(false);
+        node = node->getNext();
     }
 	
-	updateDisplay();
+    ensureRefresh(lock);
 }
 
 
@@ -366,8 +371,6 @@ void StimulusDisplay::drawDisplayStack() {
 void StimulusDisplay::updateDisplay() {
 	boost::mutex::scoped_lock lock(display_lock);
     
-    needDraw = true;
-    
     shared_ptr<StimulusNode> node = display_stack->getFrontmost();
     while (node) {
         if (node->isPending()) {
@@ -387,16 +390,23 @@ void StimulusDisplay::updateDisplay() {
         
         node = node->getNext();
     }
+    
+    ensureRefresh(lock);
+}
 
+
+void StimulusDisplay::ensureRefresh(boost::mutex::scoped_lock &lock) {
+    needDraw = true;
+    
     if (!CVDisplayLinkIsRunning(displayLink)) {
         // Need to do the refresh here
         refreshDisplay();
     } else {
         // Wait for next display refresh to complete
-        refreshComplete = false;
+        waitingForRefresh = true;
         do {
             refreshCond.wait(lock);
-        } while (!refreshComplete);
+        } while (waitingForRefresh);
     }
 }
 

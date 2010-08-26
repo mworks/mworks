@@ -70,7 +70,7 @@ namespace mw {
 		
 		boost::mutex display_lock;
         boost::condition_variable refreshCond;
-        bool refreshComplete;
+        bool waitingForRefresh;
 
         bool needDraw;
 		
@@ -84,6 +84,7 @@ namespace mw {
 		void setDisplayBounds();
         void refreshDisplay();
         void drawDisplayStack();
+        void ensureRefresh(boost::mutex::scoped_lock &lock);
 
         void announceDisplayStack(MWTime time);
         Datum getAnnounceData();
