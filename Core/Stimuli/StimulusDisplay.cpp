@@ -173,6 +173,11 @@ void StimulusDisplay::stateSystemCallback(const Datum &data, MWorksTime time) {
             while (waitingForRefresh) {
                 refreshCond.wait(lock);
             }
+
+            // We need to release the lock before calling CVDisplayLinkStop, because
+            // StimulusDisplay::displayLinkCallback could be blocked waiting for the lock, and
+            // CVDisplayLinkStop won't return until displayLinkCallback exits, leading to deadlock.
+            lock.unlock();
             
             if (kCVReturnSuccess != CVDisplayLinkStop(displayLink)) {
                 merror(M_DISPLAY_MESSAGE_DOMAIN, "Unable to stop display updates");
