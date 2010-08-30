@@ -359,6 +359,7 @@ void OpenGLContextManager::releaseDisplays() {
     if(mirror_window != nil){
         [mirror_window orderOut:nil];
         [mirror_window release];
+        [mirror_view clearGLContext];
         [mirror_view release];
         mirror_window = nil;
         mirror_view = nil;
@@ -368,6 +369,7 @@ void OpenGLContextManager::releaseDisplays() {
     if(fullscreen_window != nil){
         [fullscreen_window orderOut:nil];
         [fullscreen_window release];
+        [fullscreen_view clearGLContext];
         [fullscreen_view release];
         fullscreen_window = nil;
         fullscreen_view = nil;
