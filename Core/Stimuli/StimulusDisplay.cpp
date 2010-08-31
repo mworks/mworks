@@ -38,7 +38,9 @@ using namespace mw;
 /**********************************************************************
  *                  StimulusDisplay Methods
  **********************************************************************/
-StimulusDisplay::StimulusDisplay() {
+StimulusDisplay::StimulusDisplay() :
+    refreshSync(2)
+{
     current_context_index = -1;
 
     // defer creation of the display chain until after the stimulus display has been created
@@ -273,49 +275,35 @@ void StimulusDisplay::refreshDisplay() {
     //
     // Draw stimuli
     //
-
-    for (int i = 0; i < context_ids.size(); i++) {
-        setCurrent(i);
-        
-        MWTime before_draw = clock->getCurrentTimeUS();
-        drawDisplayStack();
-        
-        if (i != 0) {
-            // Non-main display
-            opengl_context_manager->updateAndFlush(i);
-            continue;
+    
+    if (context_ids.size() > 0) {
+        for (int i = 0; i < context_ids.size(); i++) {
+            setCurrent(i);
+            drawDisplayStack();
+            
+            if (i != 0) {
+                
+                // Non-main display
+                opengl_context_manager->updateAndFlush(i);
+                
+            } else {
+                
+                // Main display
+                
+                opengl_context_manager->flush(i);
+                if (opengl_context_manager->hasFence()) {
+                    glSetFenceAPPLE(opengl_context_manager->getFence());
+                }
+                
+                dispatch_async_f(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0),
+                                 this,
+                                 &StimulusDisplay::announceDisplayUpdate);
+                
+            }
         }
         
-#define USE_GL_FENCE
-#ifdef USE_GL_FENCE
-        if(opengl_context_manager->hasFence()){
-            glSetFenceAPPLE(opengl_context_manager->getFence());
-        }
-#endif
-        
-        opengl_context_manager->flush(i);
-        
-#ifdef USE_GL_FENCE
-        if(opengl_context_manager->hasFence()){
-            glFinishFenceAPPLE(opengl_context_manager->getFence());
-        }
-#endif
-        
-        MWTime now = clock->getCurrentTimeUS();
-        stimDisplayUpdate->setValue(getAnnounceData(), now);
-        announceDisplayStack(now);
-        
-#define ERROR_ON_LATE_FRAMES
-#ifdef ERROR_ON_LATE_FRAMES
-        MWTime slop = 2 * (1000000 / getMainDisplayRefreshRate());
-        
-        if(now-before_draw > slop) {
-            merror(M_DISPLAY_MESSAGE_DOMAIN,
-                   "updating main window display is taking longer than two frames (%lld > %lld) to update", 
-                   now-before_draw, 
-                   slop);		
-        }
-#endif
+        // Wait for StimulusDisplay::announceDisplayUpdate to acquire the lock
+        refreshSync.wait();
     }
     
     needDraw = false;
@@ -402,6 +390,9 @@ void StimulusDisplay::updateDisplay() {
 
 
 void StimulusDisplay::ensureRefresh(unique_lock &lock) {
+    shared_lock sharedLock(lock);
+
+    MWTime before_draw = clock->getCurrentTimeUS();
     needDraw = true;
     
     if (!CVDisplayLinkIsRunning(displayLink)) {
@@ -411,8 +402,42 @@ void StimulusDisplay::ensureRefresh(unique_lock &lock) {
         // Wait for next display refresh to complete
         waitingForRefresh = true;
         do {
-            refreshCond.wait(lock);
+            refreshCond.wait(sharedLock);
         } while (waitingForRefresh);
+    }
+    
+#define ERROR_ON_LATE_FRAMES
+#ifdef ERROR_ON_LATE_FRAMES
+    MWTime now = clock->getCurrentTimeUS();
+    MWTime slop = 2 * (1000000 / getMainDisplayRefreshRate());
+    
+    if(now-before_draw > slop) {
+        merror(M_DISPLAY_MESSAGE_DOMAIN,
+               "updating main window display is taking longer than two frames (%lld > %lld) to update", 
+               now-before_draw, 
+               slop);		
+    }
+#endif
+}
+
+
+void StimulusDisplay::announceDisplayUpdate(void *_display) {
+    StimulusDisplay *display = static_cast<StimulusDisplay*>(_display);
+    
+    {
+        shared_lock sharedLock(display->display_lock);
+        
+        // Wait for StimulusDisplay::refreshDisplay to finish drawing
+        display->refreshSync.wait();
+        
+        display->setCurrent(0);
+        if (display->opengl_context_manager->hasFence()) {
+            glFinishFenceAPPLE(display->opengl_context_manager->getFence());
+        }
+        
+        MWTime now = display->clock->getCurrentTimeUS();
+        stimDisplayUpdate->setValue(display->getAnnounceData(), now);
+        display->announceDisplayStack(now);
     }
 }
 

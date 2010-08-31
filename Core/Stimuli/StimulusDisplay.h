@@ -23,6 +23,7 @@
 #include <boost/shared_ptr.hpp>
 #include <boost/weak_ptr.hpp>
 #include <boost/thread/shared_mutex.hpp>
+#include <boost/thread/barrier.hpp>
 #include <boost/thread/condition_variable.hpp>
 
 namespace mw {
@@ -72,6 +73,7 @@ namespace mw {
 		boost::shared_mutex display_lock;
         typedef boost::unique_lock<boost::shared_mutex> unique_lock;
         typedef boost::shared_lock<boost::shared_mutex> shared_lock;
+        boost::barrier refreshSync;
         boost::condition_variable_any refreshCond;
         bool waitingForRefresh;
 
@@ -89,6 +91,7 @@ namespace mw {
         void drawDisplayStack();
         void ensureRefresh(unique_lock &lock);
 
+        static void announceDisplayUpdate(void *_display);
         void announceDisplayStack(MWTime time);
         Datum getAnnounceData();
 
@@ -124,7 +127,7 @@ namespace mw {
 		
 		
 	private:
-        StimulusDisplay(const StimulusDisplay& s) { }
+        StimulusDisplay(const StimulusDisplay& s) : refreshSync(2) { }
         void operator=(const StimulusDisplay& l) { }
 	};
 }
