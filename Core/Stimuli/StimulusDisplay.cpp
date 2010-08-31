@@ -161,7 +161,7 @@ void StimulusDisplay::getCurrentViewportSize(GLint &width, GLint &height) {
 
 
 void StimulusDisplay::stateSystemCallback(const Datum &data, MWorksTime time) {
-    boost::mutex::scoped_lock lock(display_lock);
+    unique_lock lock(display_lock);
 
     int newState = data.getInteger();
 
@@ -174,10 +174,10 @@ void StimulusDisplay::stateSystemCallback(const Datum &data, MWorksTime time) {
                 refreshCond.wait(lock);
             }
 
-            // We need to release the lock before calling CVDisplayLinkStop, because
-            // StimulusDisplay::displayLinkCallback could be blocked waiting for the lock, and
+            // We need to use a shared_lock here and in StimulusDisplay::displayLinkCallback.
+            // If we don't, displayLinkCallback could be blocked waiting for the lock, and
             // CVDisplayLinkStop won't return until displayLinkCallback exits, leading to deadlock.
-            lock.unlock();
+            shared_lock sharedLock(lock);
             
             if (kCVReturnSuccess != CVDisplayLinkStop(displayLink)) {
                 merror(M_DISPLAY_MESSAGE_DOMAIN, "Unable to stop display updates");
@@ -222,7 +222,8 @@ CVReturn StimulusDisplay::displayLinkCallback(CVDisplayLinkRef _displayLink,
     StimulusDisplay *display = static_cast<StimulusDisplay*>(_display);
     
     {
-        boost::mutex::scoped_lock lock(display->display_lock);
+        // See note on shared_lock in StimulusDisplay::stateSystemCallback
+        shared_lock sharedLock(display->display_lock);
         
 //#define WARN_ON_SKIPPED_REFRESH
 #ifdef WARN_ON_SKIPPED_REFRESH
@@ -234,8 +235,8 @@ CVReturn StimulusDisplay::displayLinkCallback(CVDisplayLinkRef _displayLink,
                          (double)delta / (double)(outputTime->videoRefreshPeriod));
             }
         }
-        display->lastFrameTime = outputTime->videoTime;
 #endif
+        display->lastFrameTime = outputTime->videoTime;
         
         display->refreshDisplay();
         display->waitingForRefresh = false;
@@ -322,7 +323,7 @@ void StimulusDisplay::refreshDisplay() {
 
 
 void StimulusDisplay::clearDisplay() {
-    boost::mutex::scoped_lock lock(display_lock);
+    unique_lock lock(display_lock);
     
     shared_ptr<StimulusNode> node = display_stack->getFrontmost();
     while(node) {
@@ -374,7 +375,7 @@ void StimulusDisplay::drawDisplayStack() {
 
 
 void StimulusDisplay::updateDisplay() {
-	boost::mutex::scoped_lock lock(display_lock);
+	unique_lock lock(display_lock);
     
     shared_ptr<StimulusNode> node = display_stack->getFrontmost();
     while (node) {
@@ -400,7 +401,7 @@ void StimulusDisplay::updateDisplay() {
 }
 
 
-void StimulusDisplay::ensureRefresh(boost::mutex::scoped_lock &lock) {
+void StimulusDisplay::ensureRefresh(unique_lock &lock) {
     needDraw = true;
     
     if (!CVDisplayLinkIsRunning(displayLink)) {

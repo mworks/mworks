@@ -22,6 +22,7 @@
 
 #include <boost/shared_ptr.hpp>
 #include <boost/weak_ptr.hpp>
+#include <boost/thread/shared_mutex.hpp>
 #include <boost/thread/condition_variable.hpp>
 
 namespace mw {
@@ -68,8 +69,10 @@ namespace mw {
         shared_ptr<Clock> clock;
         shared_ptr<OpenGLContextManager> opengl_context_manager;
 		
-		boost::mutex display_lock;
-        boost::condition_variable refreshCond;
+		boost::shared_mutex display_lock;
+        typedef boost::unique_lock<boost::shared_mutex> unique_lock;
+        typedef boost::shared_lock<boost::shared_mutex> shared_lock;
+        boost::condition_variable_any refreshCond;
         bool waitingForRefresh;
 
         bool needDraw;
@@ -84,7 +87,7 @@ namespace mw {
 		void setDisplayBounds();
         void refreshDisplay();
         void drawDisplayStack();
-        void ensureRefresh(boost::mutex::scoped_lock &lock);
+        void ensureRefresh(unique_lock &lock);
 
         void announceDisplayStack(MWTime time);
         Datum getAnnounceData();
