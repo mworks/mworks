@@ -176,10 +176,10 @@ void StimulusDisplay::stateSystemCallback(const Datum &data, MWorksTime time) {
                 refreshCond.wait(lock);
             }
 
-            // We need to use a shared_lock here and in StimulusDisplay::displayLinkCallback.
-            // If we don't, displayLinkCallback could be blocked waiting for the lock, and
+            // We need to release the lock before calling CVDisplayLinkStop, because
+            // StimulusDisplay::displayLinkCallback could be blocked waiting for the lock, and
             // CVDisplayLinkStop won't return until displayLinkCallback exits, leading to deadlock.
-            shared_lock sharedLock(lock);
+            lock.unlock();
             
             if (kCVReturnSuccess != CVDisplayLinkStop(displayLink)) {
                 merror(M_DISPLAY_MESSAGE_DOMAIN, "Unable to stop display updates");
@@ -224,8 +224,7 @@ CVReturn StimulusDisplay::displayLinkCallback(CVDisplayLinkRef _displayLink,
     StimulusDisplay *display = static_cast<StimulusDisplay*>(_display);
     
     {
-        // See note on shared_lock in StimulusDisplay::stateSystemCallback
-        shared_lock sharedLock(display->display_lock);
+        unique_lock lock(display->display_lock);
         
 //#define WARN_ON_SKIPPED_REFRESH
 #ifdef WARN_ON_SKIPPED_REFRESH
@@ -240,6 +239,7 @@ CVReturn StimulusDisplay::displayLinkCallback(CVDisplayLinkRef _displayLink,
 #endif
         display->lastFrameTime = outputTime->videoTime;
         
+        shared_lock sharedLock(lock);  // Downgrade to shared_lock
         display->refreshDisplay();
         display->waitingForRefresh = false;
     }
@@ -390,7 +390,7 @@ void StimulusDisplay::updateDisplay() {
 
 
 void StimulusDisplay::ensureRefresh(unique_lock &lock) {
-    shared_lock sharedLock(lock);
+    shared_lock sharedLock(lock);  // Downgrade to shared_lock
 
     MWTime before_draw = clock->getCurrentTimeUS();
     needDraw = true;
