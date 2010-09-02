@@ -423,22 +423,19 @@ void StimulusDisplay::ensureRefresh(unique_lock &lock) {
 
 void StimulusDisplay::announceDisplayUpdate(void *_display) {
     StimulusDisplay *display = static_cast<StimulusDisplay*>(_display);
+    shared_lock sharedLock(display->display_lock);
     
-    {
-        shared_lock sharedLock(display->display_lock);
-        
-        // Wait for StimulusDisplay::refreshDisplay to finish drawing
-        display->refreshSync.wait();
-        
-        display->setCurrent(0);
-        if (display->opengl_context_manager->hasFence()) {
-            glFinishFenceAPPLE(display->opengl_context_manager->getFence());
-        }
-        
-        MWTime now = display->clock->getCurrentTimeUS();
-        stimDisplayUpdate->setValue(display->getAnnounceData(), now);
-        display->announceDisplayStack(now);
+    // Wait for StimulusDisplay::refreshDisplay to finish drawing
+    display->refreshSync.wait();
+    
+    display->setCurrent(0);
+    if (display->opengl_context_manager->hasFence()) {
+        glFinishFenceAPPLE(display->opengl_context_manager->getFence());
     }
+    
+    MWTime now = display->clock->getCurrentTimeUS();
+    stimDisplayUpdate->setValue(display->getAnnounceData(), now);
+    display->announceDisplayStack(now);
 }
 
 
