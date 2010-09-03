@@ -111,9 +111,9 @@ class MWKFile(_MWKFile):
             
             true_mwk_file = os.path.join(self.file,file_name)
                 
-            print "parent_path: ", parent_path
-            print "file_name: ", file_name
-            print "true_mwk_file; ", true_mwk_file
+            #print "parent_path: ", parent_path
+            #print "file_name: ", file_name
+            #print "true_mwk_file; ", true_mwk_file
             
             aside_path =  os.path.join(parent_path, file_name + ".aside")
             
