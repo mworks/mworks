@@ -156,6 +156,7 @@ class ImageStimulus : public BasicTransformStimulus {
         std::string getFilename();
         virtual void drawInUnitSquare(shared_ptr<StimulusDisplay> display);
         virtual void load(shared_ptr<StimulusDisplay> display);
+        virtual void unload(shared_ptr<StimulusDisplay> display);
         virtual Datum getCurrentAnnounceDrawData();
 };
 

@@ -238,6 +238,23 @@ class LoadStimulusFactory : public ComponentFactory{
                                                    ComponentRegistry *reg);
 };    
 
+class UnloadStimulus : public Action {
+protected:
+    shared_ptr<StimulusNode> stimnode;
+    shared_ptr<StimulusDisplay> display;
+        
+public:
+    UnloadStimulus(shared_ptr<StimulusNode> _stimnode, 
+                   shared_ptr<StimulusDisplay> _display);
+    virtual ~UnloadStimulus();
+    virtual bool execute();
+};
+    
+class UnloadStimulusFactory : public ComponentFactory{
+    virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
+                                                   ComponentRegistry *reg);
+};    
+    
 class QueueStimulus : public Action {
 protected:
 	shared_ptr<StimulusNode> stimnode;

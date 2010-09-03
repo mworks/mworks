@@ -71,6 +71,7 @@ ComponentRegistry::ComponentRegistry() :
 	registerFactory("action/start_timer", new StartTimerFactory());
 	registerFactory("action/wait", new WaitFactory());
 	registerFactory("action/load_stimulus", new LoadStimulusFactory());
+    registerFactory("action/unload_stimulus", new UnloadStimulusFactory());
     registerFactory("action/queue_stimulus", new QueueStimulusFactory());
 	registerFactory("action/show_stimulus", new QueueStimulusFactory());
 	registerFactory("action/live_queue_stimulus", new LiveQueueStimulusFactory());

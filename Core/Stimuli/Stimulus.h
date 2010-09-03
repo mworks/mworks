@@ -126,7 +126,13 @@ public:
          * to load a stimulus into memory.
          */
         virtual void load(shared_ptr<StimulusDisplay> display);
-        
+    
+        /**
+         * Overload this function.  This is a shell that does nothing.  Used
+         * to unload a stimulus from memory.
+         */
+        virtual void unload(shared_ptr<StimulusDisplay> display);
+    
         /**
          * Sets whether this stimulus is visible.
          */

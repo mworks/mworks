@@ -1033,9 +1033,25 @@ void ImageStimulus::load(shared_ptr<StimulusDisplay> display) {
     }*/
 }
 
+void ImageStimulus::unload(shared_ptr<StimulusDisplay> display) {
+    if (!loaded) {
+        return;
+    }
+    
+    for (int i = 0; i < display->getNContexts(); i++) {
+        display->setCurrent(i);
+        glDeleteTextures(1, &(texture_maps[i]));
+        mprintf("Image unloaded from texture_map %d", texture_maps[i]);
+	}
+    
+    texture_maps.clear();
+    
+    loaded = false;
+}
+
 void ImageStimulus::drawInUnitSquare(shared_ptr<StimulusDisplay> display) {
     double aspect = (double)width / (double)height;
-    if(1 || loaded) {
+    if (loaded) {
         
         glActiveTextureARB(GL_TEXTURE0_ARB); 
         glEnable(GL_TEXTURE_2D);
