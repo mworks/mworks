@@ -817,7 +817,7 @@ GLuint OpenGLImageLoader::load(std::string filename, shared_ptr<StimulusDisplay>
 	}
 	fclose(test);
 	
-    if(1 || !OpenGLImageLoader::initialized) {
+    if (!OpenGLImageLoader::initialized) {
         OpenGLImageLoader::initialize();
     }
 	
