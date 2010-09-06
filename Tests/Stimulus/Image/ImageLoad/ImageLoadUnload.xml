@@ -18,20 +18,24 @@
             <action tag="Queue deferred" type="queue_stimulus" stimulus="deferred"></action>
             <action type="report" tag="Report 3" message="Queuing explicit"></action>
             <action tag="Queue explicit" type="queue_stimulus" stimulus="explicit"></action>
+            <action tag="Update stimulus display" type="update_stimulus_display"></action>
+            <action type="wait" tag="Wait" duration="2" duration_units="s"></action>
             <action type="report" tag="Report 4" message="Loading normal"></action>
             <action tag="Load normal" type="load_stimulus" stimulus="normal"></action>
             <action type="report" tag="Report 5" message="Loading deferred"></action>
             <action tag="Load deferred" type="load_stimulus" stimulus="deferred"></action>
             <action type="report" tag="Report 6" message="Loading explicit"></action>
             <action tag="Load explicit" type="load_stimulus" stimulus="explicit"></action>
-            <action tag="Update stimulus display" type="update_stimulus_display"></action>
-            <action type="wait" tag="Wait" duration="2" duration_units="s"></action>
+            <action tag="Update stimulus display 2" type="update_stimulus_display"></action>
+            <action type="wait" tag="Wait 2" duration="2" duration_units="s"></action>
             <action type="report" tag="Report 7" message="Unloading normal"></action>
             <action tag="Unload normal" type="unload_stimulus" stimulus="normal"></action>
             <action type="report" tag="Report 8" message="Unloading deferrred"></action>
             <action tag="Unload deferred" type="unload_stimulus" stimulus="deferred"></action>
             <action type="report" tag="Report 9" message="Unloading explicit"></action>
             <action tag="Unload explicit" type="unload_stimulus" stimulus="explicit"></action>
+            <action tag="Update stimulus display 3" type="update_stimulus_display"></action>
+            <action type="wait" tag="Wait 3" duration="2" duration_units="s"></action>
         </protocol>
     </experiment>
 </monkeyml>
