@@ -562,12 +562,20 @@ static int buffered_stream_close(ScarabStream * stream) {
 //unsigned char	send_buffer[SEND_BUFFER_SIZE];
 
 static int buffered_stream_write(ScarabStream * stream, const void *buffer, int size) {
+    int force_buffering;
+    int r;
 	
 	if(stream->session->send_buffer_position + size > SEND_BUFFER_SIZE){
-		// TODO: error, buffer overflow
-		fprintf(stderr, "TCP USERLAND SEND BUFFER OVERFLOW\n\n\n"); 
-		fflush(stderr);
-		return -1;
+        force_buffering = stream->session->force_buffering;
+        stream->session->force_buffering = 0;
+        r = buffered_stream_send(stream);
+        stream->session->force_buffering = force_buffering;
+
+        if (0 != r) {
+            fprintf(stderr, "TCP USERLAND SEND BUFFER OVERFLOW\n\n\n"); 
+            fflush(stderr);
+            return -1;
+        }
 	}
 	
 	memcpy(stream->session->send_buffer + 
