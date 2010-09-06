@@ -1107,10 +1107,7 @@ void ImageStimulus::drawInUnitSquare(shared_ptr<StimulusDisplay> display) {
 		//glActiveTexture(0);
 		
     } else {
-        mwarning(M_DISPLAY_MESSAGE_DOMAIN,
-					"Stimulus image did not properly load. Showing nothing");
-        mwarning(M_DISPLAY_MESSAGE_DOMAIN,
-					"%s:%d", __FILE__, __LINE__);
+        merror(M_DISPLAY_MESSAGE_DOMAIN, "Stimulus image is not loaded.  Displaying nothing.");
     }
 }
 
