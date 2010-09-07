@@ -205,7 +205,7 @@
 	
 	<MWElement name="Selection Variable">
 		<!-- XPath 2.0 expression defining nodes of this type -->
-		<match_signature>selection_variable</match_signature>
+		<match_signature>variable[@type="selection"]</match_signature>
 
 		<!-- Inheritance -->
 		<!-- none -->
@@ -227,11 +227,12 @@
 		
 		<!-- Payload -->
 		<code>
-			<selection_variable tag="New Selection Variable" 
-								values=""
-								selection=""
-								nsamples=""
-								sampling_method=""/>
+			<variable type="selection"
+                      tag="New Selection Variable" 
+                      values=""
+                      selection=""
+                      nsamples=""
+                      sampling_method=""/>
 		</code>
 	</MWElement>
 	
