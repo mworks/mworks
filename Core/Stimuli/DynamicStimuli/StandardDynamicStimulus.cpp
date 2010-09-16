@@ -42,10 +42,11 @@ void StandardDynamicStimulus::draw(shared_ptr<StimulusDisplay> display) {
 
 
 Datum StandardDynamicStimulus::getCurrentAnnounceDrawData() {
-    Datum announceData(M_DICTIONARY, 4);
+    Datum announceData(M_DICTIONARY, 5);
     announceData.addElement(STIM_NAME, tag);
     announceData.addElement(STIM_ACTION, STIM_ACTION_DRAW);
     announceData.addElement(STIM_TYPE, "standard_dynamic_stimulus");  
+    announceData.addElement("frames_per_second", frames_per_second->getValue().getInteger());  
     announceData.addElement("start_time", start_time);  
     return announceData;
 }
