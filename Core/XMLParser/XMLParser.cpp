@@ -264,8 +264,13 @@ void XMLParser::_processNode(xmlNode *child){
 //}
 
 void XMLParser::_processRangeReplicator(xmlNode *node){
-	
 	string variable(_attributeForName(node, "variable"));
+	vector<string> values;
+    _generateRangeReplicatorValues(node, values);
+	_createAndAddReplicatedChildren(node, variable, values);
+}	
+
+void XMLParser::_generateRangeReplicatorValues(xmlNode *node, vector<string> &values) {
 	string from_string(_attributeForName(node, "from"));
 	string to_string(_attributeForName(node, "to"));
 	string step_string(_attributeForName(node, "step"));
@@ -274,17 +279,19 @@ void XMLParser::_processRangeReplicator(xmlNode *node){
 	double to = boost::lexical_cast<double>(to_string);
 	double step = boost::lexical_cast<double>(step_string);
 	
-	
-	vector<string> values;
 	for(double v = from; v <= to; v += step){
 		values.push_back(boost::lexical_cast<string>(v));
 	}
-	
-	_createAndAddReplicatedChildren(node, variable, values);
-}	
+}
 
 void XMLParser::_processListReplicator(xmlNode *node){
 	string variable(_attributeForName(node, "variable"));
+    std::vector<std::string> vec_item;
+    _generateListReplicatorValues(node, vec_item);
+	_createAndAddReplicatedChildren(node, variable, vec_item);
+}
+
+void XMLParser::_generateListReplicatorValues(xmlNode *node, vector<string> &vec_item) {
 	string values_string(_attributeForName(node, "values"));
 	
 	// following code came from:
@@ -297,7 +304,6 @@ void XMLParser::_processListReplicator(xmlNode *node){
 	
 	// BEGIN from boost.org (I changed nothing)	
     rule<> list_csv, list_csv_item;
-    std::vector<std::string> vec_item;
 	
     vec_list.clear();
 	
@@ -318,8 +324,6 @@ void XMLParser::_processListReplicator(xmlNode *node){
     
 	// modified to contain the correct namespace
 	result = boost::spirit::classic::parse (plist_csv, list_csv);	
-	
-	_createAndAddReplicatedChildren(node, variable, vec_item);
 }
 
 void XMLParser::_createAndAddReplicatedChildren(xmlNode *node, 
@@ -791,19 +795,8 @@ void XMLParser::_connectChildToParent(shared_ptr<mw::Component> parent,
 		string variable(_attributeForName(child_node, "variable"));
 		
 		if(child_name == "mw_range_replicator") {
-			string from_string(_attributeForName(child_node, "from"));
-			string to_string(_attributeForName(child_node, "to"));
-			string step_string(_attributeForName(child_node, "step"));
-			
-			double from = boost::lexical_cast<double>(from_string);
-			double to = boost::lexical_cast<double>(to_string);
-			double step = boost::lexical_cast<double>(step_string);
-			
 			vector<string> values;
-			for(double v = from; v <= to; v += step){
-				values.push_back(boost::lexical_cast<string>(v));
-			}
-			
+            _generateRangeReplicatorValues(child_node, values);
 			_createAndConnectReplicatedChildren(parent, 
 												properties,
 												child_node,
@@ -811,40 +804,8 @@ void XMLParser::_connectChildToParent(shared_ptr<mw::Component> parent,
 												variable,
 												values);
 		} else { // "mw_list_replicator"
-			string values_string(_attributeForName(child_node, "values"));
-			
-			// following code came from:
-			// http://www.boost.org/doc/libs/1_35_0/libs/spirit/example/fundamental/list_parser.cpp
-			
-			// modified from boost.org to use our strings, etc.)
-			std::vector<std::string>    vec_list;
-			char const *plist_csv = values_string.c_str();
-			parse_info<> result;
-			
-			// BEGIN from boost.org (I changed nothing)	
-			rule<> list_csv, list_csv_item;
 			std::vector<std::string> vec_item;
-			
-			vec_list.clear();
-			
-			list_csv_item =
-			!(
-			  confix_p('\"', *c_escape_ch_p, '\"')
-			  |   longest_d[real_p | int_p]
-			  );
-			
-			list_csv =
-			list_p(
-				   list_csv_item[push_back_a(vec_item)],
-				   ','
-				   )[push_back_a(vec_list)]
-			;
-			
-			// END from boost.org
-			
-			// modified to contain the correct namespace
-			result = boost::spirit::classic::parse (plist_csv, list_csv);	
-			
+            _generateListReplicatorValues(child_node, vec_item);
 			_createAndConnectReplicatedChildren(parent, 
 												properties,
 												child_node,
