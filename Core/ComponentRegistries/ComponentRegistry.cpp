@@ -35,7 +35,7 @@ using namespace mw;
 shared_ptr<ComponentRegistry> ComponentRegistry::shared_component_registry;
 
 ComponentRegistry::ComponentRegistry() :
-        r1(".*?[\\*\\!\\+\\-\\=\\/\\&\\|\\%\\>\\<\\(\\)].*?"),
+        r1(".*?[\\*\\!\\+\\-\\=\\/\\&\\|\\%\\>\\<\\(\\)\"].*?"),
         r2(".*?((\\#AND)|(\\#OR)|(\\#GT)|(\\#LT)|(\\#GE)|(\\#LE)|(\\Wms)|([^a-zA-z#]s)|(\\Wus)).*"),
         r3("^\\s*\\d*\\.?\\d*\\s*(ms|us|s)?\\s*$"),
         r4("^\\s*\\.?\\d*\\s*(ms|us|s)?\\s*$"),
