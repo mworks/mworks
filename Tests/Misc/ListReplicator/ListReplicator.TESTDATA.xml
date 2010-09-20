@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<marionette_info>
+  <expected_messages>
+    <message type="starts_with">list_var = 1 (</message>
+    <message type="starts_with">list_var = -2.2 (</message>
+    <message type="starts_with">list_var = abc (</message>
+    <message type="starts_with">list_var = Hello, world! (</message>
+    <message type="starts_with">list_var = 1.234 (</message>
+    <message type="starts_with">list_var = -12 (</message>
+  </expected_messages>
+</marionette_info>
