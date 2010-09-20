@@ -129,9 +129,13 @@
 
 - (void)set:(NSString *)tag toValue:(mw::Datum *)val {
 	if(variables != nil) {	
-		string string_val = val->toString();
-		NSString *the_string = [NSString stringWithCString:string_val.c_str() encoding:NSASCIIStringEncoding];
-		[variables setValue:the_string forKey:tag];
+        NSObject *value;
+        if (val->isString()) {
+            value = [NSString stringWithCString:val->getString() encoding:NSASCIIStringEncoding];
+        } else {
+            value = [NSNumber numberWithDouble:val->getFloat()];
+        }
+        [variables setValue:value forKey:tag];
 	}
 }
 
