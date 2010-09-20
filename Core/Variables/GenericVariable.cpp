@@ -172,7 +172,7 @@ shared_ptr<mw::Component> VariableFactory::createObject(std::map<std::string, st
 		case M_FLOAT:
 		case M_BOOLEAN:
 			try {
-				defaultValue = reg->getNumber(parameters.find("default_value")->second);
+				defaultValue = reg->getNumber(parameters.find("default_value")->second, type);
 				//mData(type, boost::lexical_cast<double>(parameters.find("default_value")->second));					
 			} catch (bad_lexical_cast &) {					
 				throw InvalidAttributeException(parameters["reference_id"], "default_value", parameters.find("default_value")->second);

@@ -450,7 +450,8 @@ bool ComponentRegistry::getBoolean(std::string expression){
 
 Datum ComponentRegistry::getNumber(std::string expression, GenericDataType type){
 
-  shared_ptr<Datum> test = data_cache[expression];
+  std::pair<std::string, GenericDataType> cacheKey(expression, type);
+  shared_ptr<Datum> test = data_cache[cacheKey];
   if(test != NULL){
     return *test;
   }
@@ -474,7 +475,7 @@ Datum ComponentRegistry::getNumber(std::string expression, GenericDataType type)
           throw SimpleException("Attempt to cast a number of invalid type");
     }
     
-    data_cache[expression] = shared_ptr<Datum>(new Datum(value));
+    data_cache[cacheKey] = shared_ptr<Datum>(new Datum(value));
     return value;
   } catch (SimpleException& except){
       throw except;

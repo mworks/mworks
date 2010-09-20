@@ -16,13 +16,14 @@
 
 
 
-#include <boost/spirit/include/classic_core.hpp>
-#include <boost/spirit/include/classic_confix.hpp>
-#include <boost/spirit/include/classic_lists.hpp>
-#include <boost/spirit/include/classic_escape_char.hpp>
+//#include <boost/spirit/include/classic_core.hpp>
+//#include <boost/spirit/include/classic_confix.hpp>
+//#include <boost/spirit/include/classic_lists.hpp>
+//#include <boost/spirit/include/classic_escape_char.hpp>
+#include <boost/tokenizer.hpp>
 using namespace mw;
 
-using namespace boost::spirit::classic;
+//using namespace boost::spirit::classic;
 
 namespace mw {
 	void	error_func(void * _parser_context, const char * error, ...){
@@ -294,15 +295,14 @@ void XMLParser::_processListReplicator(xmlNode *node){
 void XMLParser::_generateListReplicatorValues(xmlNode *node, vector<string> &vec_item) {
 	string values_string(_attributeForName(node, "values"));
 	
-	// following code came from:
+    /*
+	// the following code is based on:
 	// http://www.boost.org/doc/libs/1_35_0/libs/spirit/example/fundamental/list_parser.cpp
 	
-	// modified from boost.org to use our strings, etc.)
 	std::vector<std::string>    vec_list;
 	char const *plist_csv = values_string.c_str();
 	parse_info<> result;
 	
-	// BEGIN from boost.org (I changed nothing)	
     rule<> list_csv, list_csv_item;
 	
     vec_list.clear();
@@ -320,10 +320,22 @@ void XMLParser::_generateListReplicatorValues(xmlNode *node, vector<string> &vec
 		   )[push_back_a(vec_list)]
 	;
 	
-	// END from boost.org
-    
-	// modified to contain the correct namespace
 	result = boost::spirit::classic::parse (plist_csv, list_csv);	
+    if (!(result.full)) {
+        throw InvalidXMLException(_attributeForName(node, "reference_id"),
+                                  "Invalid content in list replicator values",
+                                  result.stop);
+    }
+    */
+
+    // Let's skip the boost::spirit stuff and do this the easy way
+    typedef boost::tokenizer< boost::escaped_list_separator<char> > tokenizer;
+    tokenizer tok(values_string);
+    for (tokenizer::iterator iter = tok.begin(); iter != tok.end(); iter++) {
+        string value(*iter);
+        boost::algorithm::trim(value);
+        vec_item.push_back(value);
+    }
 }
 
 void XMLParser::_createAndAddReplicatedChildren(xmlNode *node, 
@@ -676,14 +688,16 @@ void XMLParser::_processInstanceDirective(xmlNode *node){
 			if(child_name == "variable_assignment"){
 				string variable_name = _attributeForName(alias_child, "variable");
 				shared_ptr<Variable> var = registry->getVariable(variable_name);
-				string content((const char *)xmlNodeGetContent(alias_child));
-			 Datum value = registry->getNumber(content);
 				
 				if(var == NULL){
 					// TODO: better throw
 					throw InvalidXMLException(reference_id,
 											  "Invalid variable", variable_name);
 				}
+
+				string content((const char *)xmlNodeGetContent(alias_child));
+                GenericDataType dataType = var->getProperties()->getDefaultValue().getDataType();
+                Datum value = registry->getNumber(content, dataType);
 				
 				if(value.isUndefined()){
 					// TODO: better throw
