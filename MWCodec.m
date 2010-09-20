@@ -218,22 +218,24 @@
   
 	// format value appropriately
 	mw::Datum setval;
-	if(1 || [val isKindOfClass:[NSNumber class]]){
+	if ([val isKindOfClass:[NSNumber class]]) {
 		setval.setFloat([val floatValue]);
 		
-		NSLog(@"value is %g", val);
+		NSLog(@"value is %g", [val floatValue]);
 		
-	} else if([val isKindOfClass:[NSString class]]){
+	} else if([val isKindOfClass:[NSString class]]) {
 		NSScanner *scanner = [[NSScanner alloc] initWithString:val];
 		double possibleDoubleValue;
 
-		if([scanner scanDouble:&possibleDoubleValue]) {
-			if([scanner isAtEnd]) {
-				setval.setFloat(possibleDoubleValue);
-			}
-		}
-		
-		NSLog(@"value is: %g", possibleDoubleValue);
+		if ([scanner scanDouble:&possibleDoubleValue] && [scanner isAtEnd]) {
+            setval.setFloat(possibleDoubleValue);
+            NSLog(@"value is: %g", possibleDoubleValue);
+        } else {
+            setval.setString([val cStringUsingEncoding:NSASCIIStringEncoding]);				
+            NSLog(@"value is: %@", val);
+        }
+        
+        [scanner release];
 	}
 
 	// tell core client to set it	
@@ -247,7 +249,7 @@
     [self didChangeValueForKey:key];
   }
 	
-	NSLog(@"%@ now equals %@", key, [self valueForKey:key]);
+	NSLog(@"%@ now equals %s", key, setval.toString().c_str());
 }
 
 
