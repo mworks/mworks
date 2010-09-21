@@ -272,15 +272,25 @@ void XMLParser::_processRangeReplicator(xmlNode *node){
 }	
 
 void XMLParser::_generateRangeReplicatorValues(xmlNode *node, vector<string> &values) {
-	string from_string(_attributeForName(node, "from"));
-	string to_string(_attributeForName(node, "to"));
-	string step_string(_attributeForName(node, "step"));
+    const int numParams = 3;
+    
+    vector<string> paramStrings(numParams);
+	paramStrings[0] = _attributeForName(node, "from");
+	paramStrings[1] = _attributeForName(node, "to");
+	paramStrings[2] = _attributeForName(node, "step");
+    
+    vector<double> params(numParams);
+    for (int i = 0; i < numParams; i++) {
+        try {
+            params[i] = boost::lexical_cast<double>(paramStrings[i]);
+        } catch (bad_lexical_cast &) {
+            throw InvalidXMLException(_attributeForName(node, "reference_id"),
+                                      "Non-numeric parameter in range replicator",
+                                      paramStrings[i]);
+        }
+    }
 	
-	double from = boost::lexical_cast<double>(from_string);
-	double to = boost::lexical_cast<double>(to_string);
-	double step = boost::lexical_cast<double>(step_string);
-	
-	for(double v = from; v <= to; v += step){
+	for (double v = params[0]; v <= params[1]; v += params[2]) {
 		values.push_back(boost::lexical_cast<string>(v));
 	}
 }
