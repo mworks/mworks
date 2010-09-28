@@ -357,7 +357,7 @@ void XMLParser::_createAndAddReplicatedChildren(xmlNode *node,
 			}
 			_setAttributeForName(child_copy, "instance_id", instance_id); 
 			
-			
+            
 			if(name == "mw_instance" || name == "mw_range_replicator"){  // or range rep?
 				// add variable assignments
 				_addVariableAssignment(child_copy, variable, *value); 
@@ -673,7 +673,7 @@ void XMLParser::_processInstanceDirective(xmlNode *node){
 				string variable_name = _attributeForName(alias_child, "variable");
 				shared_ptr<Variable> var = registry->getVariable(variable_name);
 				string content((const char *)xmlNodeGetContent(alias_child));
-			 Datum value = registry->getNumber(content);
+                Datum value = registry->getNumber(content);
 				
 				if(var == NULL){
 					// TODO: better throw

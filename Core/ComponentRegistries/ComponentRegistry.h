@@ -157,18 +157,16 @@ namespace mw {
 		shared_ptr<T>	getObject(std::string tag_name){
 			shared_ptr<mw::Component> obj = instances[tag_name];
 			
-			/*if(obj == NULL){
-			 // try splitting
-			 std::vector<std::string> split_vector;
-			 split(split_vector, tag_name, is_any_of("/"));
-			 
-			 obj = instances[split_vector[0]];
-			 }*/
 			
 			if(obj == NULL){
 				// do something
 				return shared_ptr<T>();
 			}
+            
+            if(obj->isAmbiguous()){
+                throw SimpleException("Attempt to access an object reference that is ambiguous"); // TODO: more detail
+            }
+            
 			return dynamic_pointer_cast<T, mw::Component>(obj);
 		}
 		

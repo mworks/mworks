@@ -142,8 +142,8 @@ void ComponentRegistry::registerFactory(std::string type_name,
 										 ComponentFactory *_factory){
 	shared_ptr<ComponentFactory> factory(_factory);
   
-  shared_ptr<ComponentFactory> existing_factory = factories[type_name];
-  if(existing_factory != NULL){
+    shared_ptr<ComponentFactory> existing_factory = factories[type_name];
+    if(existing_factory != NULL){
         throw ComponentFactoryConflictException(type_name);
 	}
     
@@ -222,13 +222,27 @@ void ComponentRegistry::registerObject(std::string tag_name, shared_ptr<mw::Comp
 	}    
     
     // If the tag name is already registered
-    //if(instances.find(tag_name) != instances.end()){
-//        shared_ptr<Component> preexisting = instances[tag_name];
-//        string preexisting_tag = preexisting->getTag();
-//        // DDC: this is interacting unpleasantly with replicated stimuli
-//        //throw SimpleException("Attempt to redefine an existing component.  All names within an experiment must be unique", tag_name);
-//    }
-//    
+    if(instances.find(tag_name) != instances.end() && instances[tag_name] != NULL){
+        shared_ptr<Component> preexisting = instances[tag_name];
+        
+        if(preexisting == NULL){
+            throw SimpleException("Attempt to redefine an existing component.  All names within an experiment must be unique", tag_name);
+        }
+
+        shared_ptr<AmbiguousComponentReference> ambiguous_component;
+        if(preexisting->isAmbiguous()){
+            ambiguous_component = dynamic_pointer_cast<AmbiguousComponentReference>(preexisting);
+        } else {
+            ambiguous_component = shared_ptr<AmbiguousComponentReference>(new AmbiguousComponentReference());
+        }
+        
+        ambiguous_component->addAmbiguousComponent(component);
+        
+        instances[tag_name] = dynamic_pointer_cast<AmbiguousComponentReference, Component>(ambiguous_component);
+        
+        return;
+    }
+    
 	instances[tag_name] = component;
 	
 	tagnames_by_id[component->getCompactID()] = tag_name;
@@ -280,6 +294,7 @@ shared_ptr<Variable>	ComponentRegistry::getVariable(std::string expression){
 	b2 = boost::regex_match(expression, matches2, r2);
 	b3 = boost::regex_match(expression, matches3, r3);
 	if(b1 || b2 || b3){
+        // TODO try
 		shared_ptr<Variable> expression_var(new ParsedExpressionVariable(expression));	
 		return expression_var;
 	} 
