@@ -1,139 +1,139 @@
 <?xml version="1.0"?>
 <monkeyml version="1.0">
-    <filters _id="id9258411" tag="Filters">
-        <filter _id="id9258337" type="boxcar_filter_1D" in1="eye_h_calibrated" out1="eye_h" width_samples="5"></filter>
-        <filter _id="id9258216" type="boxcar_filter_1D" in1="eye_v_calibrated" out1="eye_v" width_samples="5"></filter>
-        <filter _id="id9258001" type="basic_eye_monitor" eyeh_calibrated="eye_h" eyev_calibrated="eye_v" eye_state="saccade" width_samples="5" saccade_entry_speed="60" saccade_exit_speed="20"></filter>
+    <filters tag="Filters">
+        <filter type="boxcar_filter_1D" in1="eye_h_calibrated" out1="eye_h" width_samples="5"></filter>
+        <filter type="boxcar_filter_1D" in1="eye_v_calibrated" out1="eye_v" width_samples="5"></filter>
+        <filter type="basic_eye_monitor" eyeh_calibrated="eye_h" eyev_calibrated="eye_v" eye_state="saccade" width_samples="5" saccade_entry_speed="60" saccade_exit_speed="20"></filter>
     </filters>
-    <io_devices _id="id9257959" tag="IO Devices">
+    <io_devices tag="IO Devices">
         <iodevice tag="FakeMonkey" priority="" type="fake_monkey" id="" alt="" spike_rate="spike_rate">
             <iochannel type="eye_movement" eye_v="eye_v_raw" eye_h="eye_h_raw" data_interval="1ms" update_interval="10ms"></iochannel>
             <iochannel type="spike" variable="spikes"></iochannel>
             <iochannel type="juice" variable="reward"></iochannel>
         </iodevice>
     </io_devices>
-    <calibrators _id="id9259122" tag="Calibrators">
-        <calibrator _id="id9256641" tag="eyeCalibrator" type="standard_eye_calibrator" eyeh_raw="eye_h_raw" eyev_raw="eye_v_raw" eyeh_calibrated="eye_h_calibrated" eyev_calibrated="eye_v_calibrated"></calibrator>
+    <calibrators tag="Calibrators">
+        <calibrator tag="eyeCalibrator" type="standard_eye_calibrator" eyeh_raw="eye_h_raw" eyev_raw="eye_v_raw" eyeh_calibrated="eye_h_calibrated" eyev_calibrated="eye_v_calibrated"></calibrator>
     </calibrators>
-    <variables _id="id9259169" tag="Variables">
-        <folder _id="id9258944" tag="Calibrator variables">
-            <variable _id="id9258578" tag="fixation_point_size" default_value="0.4" scope="GLOBAL" type="FLOAT" editable="never" logging="when_changed" persistant="NO"></variable>
-            <variable _id="id9247929" tag="fixation_pos_y" default_value="0" scope="GLOBAL" type="FLOAT" editable="never" logging="when_changed" persistant="NO"></variable>
-            <variable _id="id383806" tag="fixation_pos_x" default_value="0" scope="GLOBAL" type="FLOAT" editable="never" logging="when_changed" persistant="NO"></variable>
-            <variable _id="id384044" tag="fixation_width" default_value="2" scope="GLOBAL" type="FLOAT" editable="never" logging="when_changed" persistant="NO"></variable>
-            <variable _id="id9258754" tag="stm_selector_y" default_value="0" scope="LOCAL" type="INTEGER" editable="never" logging="never" persistant="NO"></variable>
-            <variable _id="id384114" tag="stm_selector_x" default_value="0" scope="LOCAL" type="INTEGER" editable="never" logging="never" persistant="NO"></variable>
-            <variable _id="id384141" tag="eye_v" default_value="0" scope="GLOBAL" type="FLOAT" editable="never" logging="when_changed" persistant="NO"></variable>
-            <variable _id="id9250183" tag="eye_h" default_value="0" scope="GLOBAL" type="FLOAT" editable="never" logging="when_changed" persistant="NO"></variable>
-            <variable _id="id9250211" tag="eye_v_calibrated" default_value="0" scope="GLOBAL" type="FLOAT" editable="never" logging="never" persistant="NO"></variable>
-            <variable _id="id9256520" tag="eye_h_calibrated" default_value="0" scope="GLOBAL" type="FLOAT" editable="never" logging="never" persistant="NO"></variable>
-            <variable _id="id9256540" tag="eye_v_raw" default_value="0" scope="GLOBAL" type="FLOAT" editable="never" logging="never" persistant="NO"></variable>
-            <variable _id="id9250806" tag="eye_h_raw" default_value="0" scope="GLOBAL" type="FLOAT" editable="never" logging="never" persistant="NO"></variable>
-            <variable _id="id9253394" tag="fixation_duration" default_value="800000" scope="GLOBAL" type="INTEGER" editable="never" logging="when_changed" persistant="NO"></variable>
-            <variable _id="id9248652" tag="ignore" default_value="0" scope="GLOBAL" type="INTEGER" editable="never" logging="when_changed" persistant="NO"></variable>
-            <variable _id="id9251307" tag="failure" default_value="0" scope="GLOBAL" type="INTEGER" editable="never" logging="when_changed" persistant="NO"></variable>
-            <variable _id="id9253104" tag="success" default_value="0" scope="GLOBAL" type="INTEGER" editable="never" logging="when_changed" persistant="NO"></variable>
-            <variable _id="id9255914" tag="reward" default_value="0" scope="GLOBAL" type="INTEGER" editable="never" logging="when_changed" persistant="NO">
-                <action _id="id9255992" type="play_sound" sound="reward_sound"></action>
+    <variables tag="Variables">
+        <folder tag="Calibrator variables">
+            <variable tag="fixation_point_size" default_value="0.4" scope="GLOBAL" type="FLOAT" editable="never" logging="when_changed" persistant="NO"></variable>
+            <variable tag="fixation_pos_y" default_value="0" scope="GLOBAL" type="FLOAT" editable="never" logging="when_changed" persistant="NO"></variable>
+            <variable tag="fixation_pos_x" default_value="0" scope="GLOBAL" type="FLOAT" editable="never" logging="when_changed" persistant="NO"></variable>
+            <variable tag="fixation_width" default_value="2" scope="GLOBAL" type="FLOAT" editable="never" logging="when_changed" persistant="NO"></variable>
+            <variable tag="stm_selector_y" default_value="0" scope="LOCAL" type="INTEGER" editable="never" logging="never" persistant="NO"></variable>
+            <variable tag="stm_selector_x" default_value="0" scope="LOCAL" type="INTEGER" editable="never" logging="never" persistant="NO"></variable>
+            <variable tag="eye_v" default_value="0" scope="GLOBAL" type="FLOAT" editable="never" logging="when_changed" persistant="NO"></variable>
+            <variable tag="eye_h" default_value="0" scope="GLOBAL" type="FLOAT" editable="never" logging="when_changed" persistant="NO"></variable>
+            <variable tag="eye_v_calibrated" default_value="0" scope="GLOBAL" type="FLOAT" editable="never" logging="never" persistant="NO"></variable>
+            <variable tag="eye_h_calibrated" default_value="0" scope="GLOBAL" type="FLOAT" editable="never" logging="never" persistant="NO"></variable>
+            <variable tag="eye_v_raw" default_value="0" scope="GLOBAL" type="FLOAT" editable="never" logging="never" persistant="NO"></variable>
+            <variable tag="eye_h_raw" default_value="0" scope="GLOBAL" type="FLOAT" editable="never" logging="never" persistant="NO"></variable>
+            <variable tag="fixation_duration" default_value="800000" scope="GLOBAL" type="INTEGER" editable="never" logging="when_changed" persistant="NO"></variable>
+            <variable tag="ignore" default_value="0" scope="GLOBAL" type="INTEGER" editable="never" logging="when_changed" persistant="NO"></variable>
+            <variable tag="failure" default_value="0" scope="GLOBAL" type="INTEGER" editable="never" logging="when_changed" persistant="NO"></variable>
+            <variable tag="success" default_value="0" scope="GLOBAL" type="INTEGER" editable="never" logging="when_changed" persistant="NO"></variable>
+            <variable tag="reward" default_value="0" scope="GLOBAL" type="INTEGER" editable="never" logging="when_changed" persistant="NO">
+                <action type="play_sound" sound="reward_sound"></action>
             </variable>
-            <variable _id="id9256000" tag="reward_duration" default_value="100000" scope="GLOBAL" type="INTEGER" editable="never" logging="when_changed" persistant="NO"></variable>
-            <variable _id="id9256028" tag="miss_count" default_value="0" scope="GLOBAL" type="INTEGER" editable="never" logging="when_changed" persistant="NO"></variable>
-            <variable _id="id9251035" tag="number_of_stm_shown" scope="GLOBAL" type="INTEGER" editable="never" logging="when_changed" default_value="0" persistant="NO"></variable>
-            <variable _id="id9255935" tag="eye_in_window" default_value="0" scope="GLOBAL" type="INTEGER" editable="never" logging="when_changed" persistant="NO"></variable>
-            <variable _id="id9255955" tag="vertical_refresh" default_value="0" scope="GLOBAL" type="INTEGER" editable="never" logging="when_changed" persistant="NO"></variable>
-            <variable _id="id9255976" tag="saccade" default_value="0" scope="GLOBAL" type="INTEGER" editable="never" logging="when_changed" persistant="NO"></variable>
-            <variable _id="id9251060" tag="spikeWaveform" default_value="0" scope="GLOBAL" type="FLOAT" editable="ALWAYS" logging="WHEN_CHANGED" persistant="NO"></variable>
-            <variable _id="id9254768" tag="spikes" default_value="0" scope="GLOBAL" type="INTEGER" editable="ALWAYS" logging="WHEN_CHANGED" persistant="NO"></variable>
-            <variable _id="id9254789" tag="spike_rate" default_value="30" scope="GLOBAL" type="INTEGER" editable="ALWAYS" logging="WHEN_CHANGED" persistant="NO"></variable>
-            <variable _id="id9254789" tag="base_spike_rate" default_value="30" scope="GLOBAL" type="INTEGER" editable="ALWAYS" logging="WHEN_CHANGED" persistant="NO"></variable>
-            <variable _id="id382969" tag="vertical_refresh" default_value="0" scope="GLOBAL" type="INTEGER" editable="ALWAYS" logging="WHEN_CHANGED" persistant="NO"></variable>
+            <variable tag="reward_duration" default_value="100000" scope="GLOBAL" type="INTEGER" editable="never" logging="when_changed" persistant="NO"></variable>
+            <variable tag="miss_count" default_value="0" scope="GLOBAL" type="INTEGER" editable="never" logging="when_changed" persistant="NO"></variable>
+            <variable tag="number_of_stm_shown" scope="GLOBAL" type="INTEGER" editable="never" logging="when_changed" default_value="0" persistant="NO"></variable>
+            <variable tag="eye_in_window" default_value="0" scope="GLOBAL" type="INTEGER" editable="never" logging="when_changed" persistant="NO"></variable>
+            <variable tag="vertical_refresh" default_value="0" scope="GLOBAL" type="INTEGER" editable="never" logging="when_changed" persistant="NO"></variable>
+            <variable tag="saccade" default_value="0" scope="GLOBAL" type="INTEGER" editable="never" logging="when_changed" persistant="NO"></variable>
+            <variable tag="spikeWaveform" default_value="0" scope="GLOBAL" type="FLOAT" editable="ALWAYS" logging="WHEN_CHANGED" persistant="NO"></variable>
+            <variable tag="spikes" default_value="0" scope="GLOBAL" type="INTEGER" editable="ALWAYS" logging="WHEN_CHANGED" persistant="NO"></variable>
+            <variable tag="spike_rate" default_value="30" scope="GLOBAL" type="INTEGER" editable="ALWAYS" logging="WHEN_CHANGED" persistant="NO"></variable>
+            <variable tag="base_spike_rate" default_value="30" scope="GLOBAL" type="INTEGER" editable="ALWAYS" logging="WHEN_CHANGED" persistant="NO"></variable>
+            <variable tag="vertical_refresh" default_value="0" scope="GLOBAL" type="INTEGER" editable="ALWAYS" logging="WHEN_CHANGED" persistant="NO"></variable>
         </folder>
-        <variable _id="id9254949" tag="speed" full_name="" default_value="2" scope="GLOBAL" type="float" editable="ALWAYS" persistant="NO" logging="WHEN_CHANGED" groups="gratingVariables"></variable>
-        <variable _id="id9255369" tag="direction" full_name="" default_value="0" scope="local" type="INTEGER" editable="ALWAYS" persistant="NO" logging="WHEN_CHANGED" groups="gratingVariables"></variable>
-        <variable _id="id9254601" tag="rotation" full_name="" default_value="0" scope="GLOBAL" type="INTEGER" editable="ALWAYS" persistant="NO" logging="WHEN_CHANGED" groups="gratingVariables"></variable>
-        <variable _id="id9254513" tag="frequency" full_name="" default_value="0.333333333" scope="GLOBAL" type="INTEGER" editable="ALWAYS" persistant="NO" logging="WHEN_CHANGED" groups="gratingVariables"></variable>
-        <variable _id="id9247430" tag="mean" full_name="" default_value="0" scope="GLOBAL" type="INTEGER" editable="ALWAYS" persistant="NO" logging="WHEN_CHANGED" groups="gratingVariables"></variable>
-        <variable _id="id9248899" tag="std_dev" full_name="" default_value="0.3" scope="GLOBAL" type="INTEGER" editable="ALWAYS" persistant="NO" logging="WHEN_CHANGED" groups="gratingVariables"></variable>
-        <variable _id="id9246891" tag="width" full_name="" default_value="6" scope="GLOBAL" type="INTEGER" editable="ALWAYS" persistant="NO" logging="WHEN_CHANGED" groups="gratingVariables"></variable>
-        <variable _id="id372242" tag="height" full_name="" default_value="6" scope="GLOBAL" type="INTEGER" editable="ALWAYS" persistant="NO" logging="WHEN_CHANGED" groups="gratingVariables"></variable>
-        <variable _id="id9254139" tag="xpos" full_name="" default_value="3" scope="GLOBAL" type="INTEGER" editable="ALWAYS" persistant="NO" logging="WHEN_CHANGED" groups="gratingVariables"></variable>
-        <variable _id="id9256470" tag="ypos" full_name="" default_value="3" scope="GLOBAL" type="INTEGER" editable="ALWAYS" persistant="NO" logging="WHEN_CHANGED" groups="gratingVariables"></variable>
-        <variable _id="id9256470" tag="sync" full_name="" default_value="0" scope="GLOBAL" type="INTEGER" editable="ALWAYS" persistant="NO" logging="WHEN_CHANGED" groups="gratingVariables"></variable>
+        <variable tag="speed" full_name="" default_value="2" scope="GLOBAL" type="float" editable="ALWAYS" persistant="NO" logging="WHEN_CHANGED" groups="gratingVariables"></variable>
+        <variable tag="direction" full_name="" default_value="0" scope="local" type="float" editable="ALWAYS" persistant="NO" logging="WHEN_CHANGED" groups="gratingVariables"></variable>
+        <variable tag="rotation" full_name="" default_value="0" scope="GLOBAL" type="float" editable="ALWAYS" persistant="NO" logging="WHEN_CHANGED" groups="gratingVariables"></variable>
+        <variable tag="frequency" full_name="" default_value="0.333333333" scope="GLOBAL" type="float" editable="ALWAYS" persistant="NO" logging="WHEN_CHANGED" groups="gratingVariables"></variable>
+        <variable tag="mean" full_name="" default_value="0" scope="GLOBAL" type="float" editable="ALWAYS" persistant="NO" logging="WHEN_CHANGED" groups="gratingVariables"></variable>
+        <variable tag="std_dev" full_name="" default_value="0.3" scope="GLOBAL" type="float" editable="ALWAYS" persistant="NO" logging="WHEN_CHANGED" groups="gratingVariables"></variable>
+        <variable tag="width" full_name="" default_value="6" scope="GLOBAL" type="float" editable="ALWAYS" persistant="NO" logging="WHEN_CHANGED" groups="gratingVariables"></variable>
+        <variable tag="height" full_name="" default_value="6" scope="GLOBAL" type="float" editable="ALWAYS" persistant="NO" logging="WHEN_CHANGED" groups="gratingVariables"></variable>
+        <variable tag="xpos" full_name="" default_value="3" scope="GLOBAL" type="float" editable="ALWAYS" persistant="NO" logging="WHEN_CHANGED" groups="gratingVariables"></variable>
+        <variable tag="ypos" full_name="" default_value="3" scope="GLOBAL" type="float" editable="ALWAYS" persistant="NO" logging="WHEN_CHANGED" groups="gratingVariables"></variable>
+        <variable tag="sync" full_name="" default_value="0" scope="GLOBAL" type="INTEGER" editable="ALWAYS" persistant="NO" logging="WHEN_CHANGED" groups="gratingVariables"></variable>
     </variables>
-	<sounds>
-		<sound tag="stm_on_sound" type="wav_file" path="./sounds/stm_on.wav"/>
-		<sound tag="reward_sound" type="wav_file" path="./sounds/reward.wav"/>
-		<sound tag="failure_sound" type="wav_file" path="./sounds/failure.wav"/>
-		<sound tag="complete_sound" type="wav_file" path="./sounds/complete.wav"/>
-		<sound tag="acquire_sound" type="wav_file" path="./sounds/acquire.wav"/>
-		</sounds>
-    <stimuli _id="id9252962" tag="Stimuli">
+    <sounds tag="Sounds">
+        <sound tag="stm_on_sound" type="wav_file" path="./sounds/stm_on.wav"></sound>
+        <sound tag="reward_sound" type="wav_file" path="./sounds/reward.wav"></sound>
+        <sound tag="failure_sound" type="wav_file" path="./sounds/failure.wav"></sound>
+        <sound tag="complete_sound" type="wav_file" path="./sounds/complete.wav"></sound>
+        <sound tag="acquire_sound" type="wav_file" path="./sounds/acquire.wav"></sound>
+    </sounds>
+    <stimuli tag="Stimuli">
         <stimulus frames_per_second="30" statistics_reporting="0" error_reporting="0" tag="dg" inverted="1" mask="gaussian" std_dev="std_dev" mean="mean" type="drifting_grating" direction="direction" speed="speed" spatial_frequency="frequency" grating_type="sinusoid" x_size="width" y_size="height" x_position="xpos" y_position="ypos" rotation="rotation" affine_transform="0"></stimulus>
-		<stimulus tag="blank screen" type="blank_screen" color="0.5,0.5,0.5"/>
-        <stimulus _id="id9255056" type="fixation_point" tag="fix_point" color="1,0,0" trigger_width="2" trigger_watch_x="eye_h" trigger_watch_y="eye_v" trigger_flag="eye_in_window" x_size="0.2" y_size="0.2" x_position="0" y_position="0" rotation="0" contrast="0"></stimulus>
+        <stimulus tag="blank screen" type="blank_screen" color="0.5,0.5,0.5"></stimulus>
+        <stimulus type="fixation_point" tag="fix_point" color="1,0,0" trigger_width="2" trigger_watch_x="eye_h" trigger_watch_y="eye_v" trigger_flag="eye_in_window" x_size="0.2" y_size="0.2" x_position="0" y_position="0" rotation="0" contrast="0"></stimulus>
     </stimuli>
-    <experiment _id="id9253472" tag="Experiment">
-        <protocol _id="id9251237" tag="Protocol" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
-            <block _id="id9251253" tag="Block" interruptible="YES" selection="random_without_replacement" nsamples="1" sampling_method="cycles">
-                <range_replicator _id="id9251269" tag="New Replicator" from="0" to="360" step="30" variable="direction">
-                    <trial _id="id9256432" tag="trial" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
-                        <task_system _id="id9256448" tag="Task System" full_name="TS" interruptible="YES">
-                            <task_system_state _id="id9250902" tag="queue_fixation" interruptible="YES">
-                                <action_marker _id="id9250911" _unmoveable="1" tag="Actions"></action_marker>
-								<action type="report" message="Starting trial"/>
-								<action type="assignment" variable="sync" value="1"/>
-								<action type="assignment" variable="direction" value="direction"/>
-                                <action tag="Start IO Device" type="start_device_IO" device="FakeMonkey" _id="_id1"></action>
-                                <action _id="id9250930" tag="Queue fixation dot" type="queue_stimulus" stimulus="fix_point"></action>
-                                <action _id="id9253949" tag="Update Stimulus Display" type="update_stimulus_display"></action>
-                                <action _id="id9253862" type="start_timer" tag="start prestim timer (500ms)" timer="pre_stim_timer" timebase="" duration="500" duration_units="ms"></action>
+    <experiment tag="Experiment">
+        <protocol tag="Protocol" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
+            <block tag="Block" interruptible="YES" selection="random_without_replacement" nsamples="1" sampling_method="cycles">
+                <range_replicator tag="New Replicator" from="0" to="360" step="30" variable="direction">
+                    <trial tag="trial" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
+                        <task_system tag="Task System" full_name="TS" interruptible="YES">
+                            <task_system_state tag="queue_fixation" interruptible="YES">
+                                <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                                <action type="report" message="Starting trial"></action>
+                                <action type="assignment" variable="sync" value="1"></action>
+                                <action type="assignment" variable="direction" value="direction"></action>
+                                <action tag="Start IO Device" type="start_device_IO" device="FakeMonkey"></action>
+                                <action tag="Queue fixation dot" type="queue_stimulus" stimulus="fix_point"></action>
+                                <action tag="Update Stimulus Display" type="update_stimulus_display"></action>
+                                <action type="start_timer" tag="start prestim timer (500ms)" timer="pre_stim_timer" timebase="" duration="500" duration_units="ms"></action>
                                 <action type="fake_monkey_saccade_and_fixate" duration="500000+500000+1500000+500000+500000" fake_monkey="FakeMonkey" h="0" v="0" tag="Fake Monkey Saccade and Fixate"></action>
-                                <action _id="id382744" type="wait" tag="Wait 500ms" duration="500" duration_units="ms"></action>
-                                <transition_marker _id="id9252510" _unmoveable="1" tag="Transitions"></transition_marker>
-                                <transition _id="id9252519" type="conditional" tag="If Condition is True, Transition to ..." condition="eye_in_window==0" target="failed"></transition>
-                                <transition _id="id9252426" type="timer_expired" tag="If Timer Expired, Transition to ... 3" target="stimON" timer="pre_stim_timer"></transition>
+                                <action type="wait" tag="Wait 500ms" duration="500" duration_units="ms"></action>
+                                <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                                <transition type="conditional" tag="If Condition is True, Transition to ..." condition="eye_in_window==0" target="failed"></transition>
+                                <transition type="timer_expired" tag="If Timer Expired, Transition to ... 3" target="stimON" timer="pre_stim_timer"></transition>
                             </task_system_state>
-                            <task_system_state _id="id9256497" tag="failed" interruptible="YES">
-                                <action_marker _id="id9256506" _unmoveable="1" tag="Actions"></action_marker>
-                                <action tag="Stop IO Device" type="stop_device_IO" device="FakeMonkey" _id="_id3"></action>
-								<action type="report" message="FAILURE"/>
-								<action type="assignment" variable="sync" value="0"/>
-                                <action _id="id9256515" tag="Reject Selections" type="reject_selections" selection="Block"></action>
-                                <transition_marker _id="id9246943" _unmoveable="1" tag="Transitions"></transition_marker>
-                                <transition _id="id9255642" type="yield" tag="Exit Task System... 2"></transition>
+                            <task_system_state tag="failed" interruptible="YES">
+                                <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                                <action tag="Stop IO Device" type="stop_device_IO" device="FakeMonkey"></action>
+                                <action type="report" message="FAILURE"></action>
+                                <action type="assignment" variable="sync" value="0"></action>
+                                <action tag="Reject Selections" type="reject_selections" selection="Block"></action>
+                                <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                                <transition type="yield" tag="Exit Task System... 2"></transition>
                             </task_system_state>
-                            <task_system_state _id="id9255651" tag="stimON" full_name="stimON" interruptible="YES">
+                            <task_system_state tag="stimON" full_name="stimON" interruptible="YES">
                                 <action type="live_queue_stimulus" stimulus="dg" tag="queue drifting grating"></action>
-                                <action _id="id9255672" type="update_stimulus_display" tag="update"></action>
+                                <action type="update_stimulus_display" tag="update"></action>
                                 <action type="play_dynamic_stimulus" stimulus="dg" tag="start grating drifting"></action>
-								<action type="if" condition="direction==120">
-									<action type="assignment" variable="spike_rate" value="250"/>
-									</action>
-                                <action _id="id9250737" type="start_timer" tag="Start Timer" timer="grating_on_timer" timebase="" duration="1500" duration_units="ms"></action>
-                                <transition _id="id9255013" type="conditional" tag="If Condition is True, Transition to ... 2" condition="eye_in_window==0" target="failed"></transition>
-                                <transition _id="id9255826" type="timer_expired" tag="If Timer Expired, Transition to ..." target="stimOFF" timer="grating_on_timer"></transition>
+                                <action type="if" condition="direction==120">
+                                    <action type="assignment" variable="spike_rate" value="250"></action>
+                                </action>
+                                <action type="start_timer" tag="Start Timer" timer="grating_on_timer" timebase="" duration="1500" duration_units="ms"></action>
+                                <transition type="conditional" tag="If Condition is True, Transition to ... 2" condition="eye_in_window==0" target="failed"></transition>
+                                <transition type="timer_expired" tag="If Timer Expired, Transition to ..." target="stimOFF" timer="grating_on_timer"></transition>
                             </task_system_state>
-                            <task_system_state _id="id9255841" tag="stimOFF" interruptible="YES">
-                                <action_marker _id="id9255849" _unmoveable="1" tag="Actions"></action_marker>
-                                <action _id="id9255858" tag="Dequeue Stimulus" type="dequeue_stimulus" stimulus="dg"></action>
-                                <action _id="id9255869" tag="Update Stimulus" type="update_stimulus_display"></action>
+                            <task_system_state tag="stimOFF" interruptible="YES">
+                                <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                                <action tag="Dequeue Stimulus" type="dequeue_stimulus" stimulus="dg"></action>
+                                <action tag="Update Stimulus" type="update_stimulus_display"></action>
                                 <action type="stop_dynamic_stimulus" tag="stop grating" stimulus="dg"></action>
-								<action type="assignment" variable="spike_rate" value="base_spike_rate"/>
-                                <action _id="id9255887" type="start_timer" tag="Start Timer 2" timer="grating_off_timer" timebase="" duration="500" duration_units="ms"></action>
-                                <transition_marker _id="id9246957" _unmoveable="1" tag="Transitions"></transition_marker>
-                                <transition _id="id9247995" type="timer_expired" tag="If Timer Expired, Transition to ... 2" target="trial_end" timer="grating_off_timer"></transition>
-                                <transition _id="id9248009" type="conditional" tag="If Condition is True, Transition to ... 3" condition="eye_in_window==0" target="failed"></transition>
+                                <action type="assignment" variable="spike_rate" value="base_spike_rate"></action>
+                                <action type="start_timer" tag="Start Timer 2" timer="grating_off_timer" timebase="" duration="500" duration_units="ms"></action>
+                                <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                                <transition type="timer_expired" tag="If Timer Expired, Transition to ... 2" target="trial_end" timer="grating_off_timer"></transition>
+                                <transition type="conditional" tag="If Condition is True, Transition to ... 3" condition="eye_in_window==0" target="failed"></transition>
                             </task_system_state>
-                            <task_system_state _id="id9254574" tag="trial_end" interruptible="YES">
-                                <action_marker _id="id9254583" _unmoveable="1" tag="Actions"></action_marker>
-                                <action _id="_id1" type="assignment" tag="give reward" variable="reward" value="100000"></action>
-                                <action _id="id9256408" tag="Dequeue fixation dot" type="dequeue_stimulus" stimulus="fix_point"></action>
-                                <action _id="id372801" tag="Update Stimulus display" type="update_stimulus_display"></action>
-								<action type="assignment" variable="sync" value="0"/>
-                                <action tag="Stop IO Device" type="stop_device_IO" device="FakeMonkey" _id="_id3"></action>
-                                <action _id="id9247978" type="wait" tag="Wait 500ms" duration="500" duration_units="ms"></action>
-                                <transition_marker _id="id9255002" _unmoveable="1" tag="Transitions"></transition_marker>
-                                <transition _id="id9254528" type="yield" tag="Exit Task System..."></transition>
+                            <task_system_state tag="trial_end" interruptible="YES">
+                                <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                                <action type="assignment" tag="give reward" variable="reward" value="100000"></action>
+                                <action tag="Dequeue fixation dot" type="dequeue_stimulus" stimulus="fix_point"></action>
+                                <action tag="Update Stimulus display" type="update_stimulus_display"></action>
+                                <action type="assignment" variable="sync" value="0"></action>
+                                <action tag="Stop IO Device" type="stop_device_IO" device="FakeMonkey"></action>
+                                <action type="wait" tag="Wait 500ms" duration="500" duration_units="ms"></action>
+                                <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                                <transition type="yield" tag="Exit Task System..."></transition>
                             </task_system_state>
                         </task_system>
                     </trial>

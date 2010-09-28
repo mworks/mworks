@@ -2,14 +2,14 @@
 <monkeyml version="1.0">
     <io_devices/>
     <variables>
-        <variable tag="speed" full_name="" default_value="1" scope="GLOBAL" type="INTEGER" editable="ALWAYS" persistant="NO" logging="WHEN_CHANGED" groups="gratingVariables"/>
-        <variable tag="direction" full_name="" default_value="0" scope="GLOBAL" type="INTEGER" editable="ALWAYS" persistant="NO" logging="WHEN_CHANGED" groups="gratingVariables"/>
-        <variable tag="rotation" full_name="" default_value="0" scope="GLOBAL" type="INTEGER" editable="ALWAYS" persistant="NO" logging="WHEN_CHANGED" groups="gratingVariables"/>
-        <variable tag="frequency" full_name="" default_value="0.333333333" scope="GLOBAL" type="INTEGER" editable="ALWAYS" persistant="NO" logging="WHEN_CHANGED" groups="gratingVariables"/>
-        <variable tag="mean" full_name="" default_value="0" scope="GLOBAL" type="INTEGER" editable="ALWAYS" persistant="NO" logging="WHEN_CHANGED" groups="gratingVariables"/>
-        <variable tag="std_dev" full_name="" default_value="0.3" scope="GLOBAL" type="INTEGER" editable="ALWAYS" persistant="NO" logging="WHEN_CHANGED" groups="gratingVariables"/>
-        <variable tag="width" full_name="" default_value="4" scope="GLOBAL" type="INTEGER" editable="ALWAYS" persistant="NO" logging="WHEN_CHANGED" groups="gratingVariables"/>
-        <variable tag="height" full_name="" default_value="4" scope="GLOBAL" type="INTEGER" editable="ALWAYS" persistant="NO" logging="WHEN_CHANGED" groups="gratingVariables"/>
+        <variable tag="speed" full_name="" default_value="1" scope="GLOBAL" type="float" editable="ALWAYS" persistant="NO" logging="WHEN_CHANGED" groups="gratingVariables"/>
+        <variable tag="direction" full_name="" default_value="0" scope="GLOBAL" type="float" editable="ALWAYS" persistant="NO" logging="WHEN_CHANGED" groups="gratingVariables"/>
+        <variable tag="rotation" full_name="" default_value="0" scope="GLOBAL" type="float" editable="ALWAYS" persistant="NO" logging="WHEN_CHANGED" groups="gratingVariables"/>
+        <variable tag="frequency" full_name="" default_value="0.333333333" scope="GLOBAL" type="float" editable="ALWAYS" persistant="NO" logging="WHEN_CHANGED" groups="gratingVariables"/>
+        <variable tag="mean" full_name="" default_value="0" scope="GLOBAL" type="float" editable="ALWAYS" persistant="NO" logging="WHEN_CHANGED" groups="gratingVariables"/>
+        <variable tag="std_dev" full_name="" default_value="0.3" scope="GLOBAL" type="float" editable="ALWAYS" persistant="NO" logging="WHEN_CHANGED" groups="gratingVariables"/>
+        <variable tag="width" full_name="" default_value="4" scope="GLOBAL" type="float" editable="ALWAYS" persistant="NO" logging="WHEN_CHANGED" groups="gratingVariables"/>
+        <variable tag="height" full_name="" default_value="4" scope="GLOBAL" type="float" editable="ALWAYS" persistant="NO" logging="WHEN_CHANGED" groups="gratingVariables"/>
 	</variables>
     <sounds/>
     <stimuli>
