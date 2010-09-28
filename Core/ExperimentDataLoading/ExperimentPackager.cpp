@@ -29,10 +29,8 @@ ExperimentPackager::packageSingleFile(const boost::filesystem::path filepath, co
  Datum unit(M_DICTIONARY, M_EXPERIMENT_PACKAGE_NUMBER_ELEMENTS_PER_UNIT);
 
 
-	std::string squashedName = XMLParser::squashFileName(filename);
-
  Datum name;
-	name.setString(squashedName.c_str(), squashedName.length()+1);
+	name.setString(filename.c_str(), filename.length()+1);
 	
 
 	ifstream mediaFile;
@@ -84,7 +82,7 @@ Datum ExperimentPackager::packageExperiment(const boost::filesystem::path filena
 	
  Datum eventPayload(M_DICTIONARY, M_EXPERIMENT_PACKAGE_NUMBER_ELEMENTS);
 	eventPayload.addElement(M_PACKAGER_EXPERIMENT_STRING, 
-							packageSingleFile(filename, filename.string()));
+							packageSingleFile(filename, XMLParser::squashFileName(filename.string())));
 	
 	if(include_files.getNElements() >= 1) {
 	 Datum mediaFilesPayload(M_LIST, include_files.getNElements());
@@ -97,7 +95,6 @@ Datum ExperimentPackager::packageExperiment(const boost::filesystem::path filena
 			std::string mediaName(include_files.getElement(i).getString());
 			
 			bf::path mediaPath = expandPath(working_path_string, mediaName);
-			mediaName = XMLParser::squashFileName(mediaName);
 			
 			//bf::path mediaPath(include_files.getElement(i).getElement(M_PACKAGER_FULL_NAME).getString(), bf::native);
 			//std::string mediaName(include_files.getElement(i).getElement(M_PACKAGER_RELATIVE_NAME).getString());

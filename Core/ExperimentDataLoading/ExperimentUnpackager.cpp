@@ -145,9 +145,12 @@ ExperimentUnpackager::getUnpackagedExperimentPath() {
 bool ExperimentUnpackager::createFile(Datum filename, Datum buffer) {	
 	if(buffer.getDataType() != M_STRING ||
 	   filename.getDataType() != M_STRING) return false;
+    
+    boost::filesystem::path filePath(filename.getString(), boost::filesystem::native);
+    boost::filesystem::create_directories(filePath.parent_path());
 	
     // create an output file.
-    ofstream outFile(filename.getString()); //, ios::binary);
+    ofstream outFile(filePath.string().c_str()); //, ios::binary);
 											//write the data
     outFile.write(buffer.getString(), buffer.getStringLength());
     // flush buffer

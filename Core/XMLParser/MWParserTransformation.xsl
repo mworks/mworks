@@ -406,6 +406,10 @@
 					<xsl:when test="name() = 'list_replicator'">
 						<xsl:call-template name="paradigm_component_list_replicator_aliaser"/>
 					</xsl:when>
+					<!-- TODO: Need to prevent this from aliasing things that shouldn't be aliased. A more general/robust solution is needed -->
+					<xsl:when test="name() = 'stimulus'"/>
+					<xsl:when test="name() = 'stimulus_group'"/>
+					<!-- TODO -->
 					<xsl:otherwise>
 						<xsl:call-template name="generic_alias"/>
 					</xsl:otherwise>

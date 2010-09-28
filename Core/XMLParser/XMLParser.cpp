@@ -14,16 +14,10 @@
 #include <stdarg.h>
 #include <stdio.h>
 
-
-
-//#include <boost/spirit/include/classic_core.hpp>
-//#include <boost/spirit/include/classic_confix.hpp>
-//#include <boost/spirit/include/classic_lists.hpp>
-//#include <boost/spirit/include/classic_escape_char.hpp>
 #include <boost/tokenizer.hpp>
-using namespace mw;
+#include <boost/regex.hpp>
 
-//using namespace boost::spirit::classic;
+using namespace mw;
 
 namespace mw {
 	void	error_func(void * _parser_context, const char * error, ...){
@@ -297,54 +291,48 @@ void XMLParser::_generateRangeReplicatorValues(xmlNode *node, vector<string> &va
 
 void XMLParser::_processListReplicator(xmlNode *node){
 	string variable(_attributeForName(node, "variable"));
-    std::vector<std::string> vec_item;
-    _generateListReplicatorValues(node, vec_item);
-	_createAndAddReplicatedChildren(node, variable, vec_item);
+    std::vector<std::string> values;
+    _generateListReplicatorValues(node, values);
+	_createAndAddReplicatedChildren(node, variable, values);
 }
 
-void XMLParser::_generateListReplicatorValues(xmlNode *node, vector<string> &vec_item) {
+void XMLParser::_generateListReplicatorValues(xmlNode *node, vector<string> &values) {
+    static const boost::regex dirRegex("^DIR\\((?<path>.+)\\)$", boost::regex::icase);
+
 	string values_string(_attributeForName(node, "values"));
 	
-    /*
-	// the following code is based on:
-	// http://www.boost.org/doc/libs/1_35_0/libs/spirit/example/fundamental/list_parser.cpp
-	
-	std::vector<std::string>    vec_list;
-	char const *plist_csv = values_string.c_str();
-	parse_info<> result;
-	
-    rule<> list_csv, list_csv_item;
-	
-    vec_list.clear();
-	
-    list_csv_item =
-	!(
-	  confix_p('\"', *c_escape_ch_p, '\"')
-	  |   longest_d[real_p | int_p]
-	  );
-	
-    list_csv =
-	list_p(
-		   list_csv_item[push_back_a(vec_item)],
-		   ','
-		   )[push_back_a(vec_list)]
-	;
-	
-	result = boost::spirit::classic::parse (plist_csv, list_csv);	
-    if (!(result.full)) {
-        throw InvalidXMLException(_attributeForName(node, "reference_id"),
-                                  "Invalid content in list replicator values",
-                                  result.stop);
-    }
-    */
-
-    // Let's skip the boost::spirit stuff and do this the easy way
     typedef boost::tokenizer< boost::escaped_list_separator<char> > tokenizer;
     tokenizer tok(values_string);
+
     for (tokenizer::iterator iter = tok.begin(); iter != tok.end(); iter++) {
         string value(*iter);
         boost::algorithm::trim(value);
-        vec_item.push_back(value);
+
+        boost::smatch matchResult;
+        if (!boost::regex_match(value, matchResult, dirRegex)) {
+            values.push_back(value);
+        } else {
+            namespace bf = boost::filesystem;
+            bf::path dirPath(matchResult.str("path"), bf::native);
+            bf::path workingPath(getWorkingPathString(), bf::native);
+            if (!(dirPath.is_complete() || workingPath.empty())) {
+                dirPath = workingPath / dirPath;
+            }
+            if (!(bf::is_directory(dirPath))) {
+                throw InvalidXMLException(_attributeForName(node, "reference_id"),
+                                          "Invalid directory in list replicator DIR() expression",
+                                          dirPath.string());
+            }
+            bf::directory_iterator endIter;
+            for (bf::directory_iterator iter(dirPath); iter != endIter; iter++) {
+                if (bf::is_regular_file(iter->status())) {
+                    string filename(iter->filename());
+                    if (filename[0] != bf::dot<bf::path>::value) {
+                        values.push_back(filename);
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -384,7 +372,7 @@ void XMLParser::_createAndAddReplicatedChildren(xmlNode *node,
 			_setAttributeForName(child_copy, "instance_id", instance_id); 
 			
 			
-			if(name == "mw_instance" || name == "mw_range_replicator"){  // or range rep?
+			if(name == "mw_instance" || name == "mw_range_replicator" || name == "mw_list_replicator"){  // or range rep?
 				// add variable assignments
 				_addVariableAssignment(child_copy, variable, *value); 
 				_processNode(child_copy);
@@ -401,7 +389,7 @@ void XMLParser::_createAndAddReplicatedChildren(xmlNode *node,
 void XMLParser::_addVariableAssignment(xmlNode *node, const string& variable, const string& value){
 	
 	string name((const char *)(node->name));
-	if(name == "mw_range_replicator"){
+	if(name == "mw_range_replicator" || name == "mw_list_replicator"){
 		xmlNode *child = node->children;
 		while(child != NULL){
 			_addVariableAssignment(child, variable, value);
@@ -817,26 +805,20 @@ void XMLParser::_connectChildToParent(shared_ptr<mw::Component> parent,
 	// on each of the replicator's children
 	if(child_name == "mw_range_replicator" || child_name == "mw_list_replicator"){
 		string variable(_attributeForName(child_node, "variable"));
+        vector<string> values;
 		
 		if(child_name == "mw_range_replicator") {
-			vector<string> values;
             _generateRangeReplicatorValues(child_node, values);
-			_createAndConnectReplicatedChildren(parent, 
-												properties,
-												child_node,
-												child_instance_id,
-												variable,
-												values);
 		} else { // "mw_list_replicator"
-			std::vector<std::string> vec_item;
-            _generateListReplicatorValues(child_node, vec_item);
-			_createAndConnectReplicatedChildren(parent, 
-												properties,
-												child_node,
-												child_instance_id,
-												variable,
-												vec_item);
+            _generateListReplicatorValues(child_node, values);
 		}
+
+        _createAndConnectReplicatedChildren(parent, 
+                                            properties,
+                                            child_node,
+                                            child_instance_id,
+                                            variable,
+                                            values);
 		// Otherwise, just connect the child to parent
 	} else {
 		

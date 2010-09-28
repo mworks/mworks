@@ -588,7 +588,6 @@ Datum ComponentRegistry::getNumber(std::string expression, GenericDataType type)
 boost::filesystem::path ComponentRegistry::getPath(std::string working_path,
 													std::string expression){
 
-	std::string squashed = XMLParser::squashFileName(expression);
-	return expandPath(working_path, squashed);
+	return expandPath(working_path, expression);
 }
 
