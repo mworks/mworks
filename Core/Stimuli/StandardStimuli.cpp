@@ -817,7 +817,7 @@ GLuint OpenGLImageLoader::load(std::string filename, shared_ptr<StimulusDisplay>
 	}
 	fclose(test);
 	
-    if(1 || !OpenGLImageLoader::initialized) {
+    if (!OpenGLImageLoader::initialized) {
         OpenGLImageLoader::initialize();
     }
 	
@@ -861,12 +861,8 @@ GLuint OpenGLImageLoader::load(std::string filename, shared_ptr<StimulusDisplay>
 	
 	//int depth = (int)ilGetInteger(IL_IMAGE_DEPTH);
 	
-    for(int i = 0; i < display->getNContexts(); i++){
-		display->setCurrent(i);        
-		//texture_map = ilutGLBindTexImage();
-		texture_map = ilutGLBindMipmaps();
-	}
-    //texture_map = ilutGLBindMipmaps();
+    //texture_map = ilutGLBindTexImage();
+    texture_map = ilutGLBindMipmaps();
             
     //texture_map = ilutGLLoadImage(filename);
             
@@ -1037,9 +1033,25 @@ void ImageStimulus::load(shared_ptr<StimulusDisplay> display) {
     }*/
 }
 
+void ImageStimulus::unload(shared_ptr<StimulusDisplay> display) {
+    if (!loaded) {
+        return;
+    }
+    
+    for (int i = 0; i < display->getNContexts(); i++) {
+        display->setCurrent(i);
+        glDeleteTextures(1, &(texture_maps[i]));
+        mprintf("Image unloaded from texture_map %d", texture_maps[i]);
+	}
+    
+    texture_maps.clear();
+    
+    loaded = false;
+}
+
 void ImageStimulus::drawInUnitSquare(shared_ptr<StimulusDisplay> display) {
     double aspect = (double)width / (double)height;
-    if(1 || loaded) {
+    if (loaded) {
         
         glActiveTextureARB(GL_TEXTURE0_ARB); 
         glEnable(GL_TEXTURE_2D);
@@ -1095,10 +1107,7 @@ void ImageStimulus::drawInUnitSquare(shared_ptr<StimulusDisplay> display) {
 		//glActiveTexture(0);
 		
     } else {
-        mwarning(M_DISPLAY_MESSAGE_DOMAIN,
-					"Stimulus image did not properly load. Showing nothing");
-        mwarning(M_DISPLAY_MESSAGE_DOMAIN,
-					"%s:%d", __FILE__, __LINE__);
+        merror(M_DISPLAY_MESSAGE_DOMAIN, "Stimulus image is not loaded.  Displaying nothing.");
     }
 }
 
@@ -1322,6 +1331,7 @@ Datum PointStimulus::getCurrentAnnounceDrawData() {
 }
 
 
+/*
 void * forceDisplayUpdate(void *arg) {
     //mprintf("displaying...");
     shared_ptr<StimulusDisplay> display = *((shared_ptr<StimulusDisplay> *)arg);
@@ -1332,7 +1342,7 @@ void * forceDisplayUpdate(void *arg) {
     // just return NULL because noone is probably checking this anyway
     return NULL;
 }
-/*
+
 FreeRunningMovieStimulus::FreeRunningMovieStimulus(char *_tag, long _nframes,
                         long _frame_interval, float _xoffset, float _yoffset,
                         float _xscale, float _yscale, float _rot) 

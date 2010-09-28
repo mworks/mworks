@@ -33,7 +33,7 @@ namespace mw {
 		
 		NSMutableArray			*contexts;
         
-        vector<double>          display_refresh_rates;
+        std::map<int, double>   display_refresh_rates;
 		
 		NSWindow				*mirror_window;
         NSOpenGLView            *mirror_view;
@@ -52,7 +52,8 @@ namespace mw {
 		int						main_display_index;
 		
         NSScreen                *_getScreen(const int screen_number);
-        double                  _measureDisplayRefreshRate(int index);
+        CGDirectDisplayID       _getDisplayID(int screen_number);
+        void                    _measureDisplayRefreshRate(int index);
         
         bool glew_initialized;
         bool has_fence;
@@ -83,8 +84,10 @@ namespace mw {
 		void releaseDisplays();
 		
         // Choose which display is going to have the "main" stimulus display
-		void setMainDisplayIndex(const int index);
-		int getMainDisplayIndex() const;
+		void setMainDisplayIndex(int index) { main_display_index = index; }
+		int getMainDisplayIndex() const { return main_display_index; }
+        CGDirectDisplayID getMainDisplayID();
+        CVReturn prepareDisplayLinkForMainDisplay(CVDisplayLinkRef displayLink);
         
         // Get information about a given monitor
 		NSRect getDisplayFrame(const int index);

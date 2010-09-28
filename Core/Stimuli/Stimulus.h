@@ -126,12 +126,24 @@ public:
          * to load a stimulus into memory.
          */
         virtual void load(shared_ptr<StimulusDisplay> display);
-        
+    
+        /**
+         * Overload this function.  This is a shell that does nothing.  Used
+         * to unload a stimulus from memory.
+         */
+        virtual void unload(shared_ptr<StimulusDisplay> display);
+    
         /**
          * Sets whether this stimulus is visible.
          */
         virtual void setVisible(bool newvis);
 
+        /**
+         * Does the stimulus need to be redrawn?  (This is probably useful
+         * only for dynamic stimuli.)
+         */
+        virtual bool needDraw() { return false; }
+    
         /**
          * This is the method that most will want to override
          * this specifies how to draw the stimulus in the 

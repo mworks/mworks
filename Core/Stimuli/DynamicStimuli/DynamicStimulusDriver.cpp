@@ -13,17 +13,20 @@
 
 namespace mw{
 
-DynamicStimulusDriver::DynamicStimulusDriver(const boost::shared_ptr<Scheduler> &a_scheduler,
-								   const boost::shared_ptr<StimulusDisplay> &a_display,
-								   const boost::shared_ptr<Variable> &_frames_per_second){
-    start_time = -1;
-    scheduler = a_scheduler;
-    clock = scheduler->getClock();
-	display = a_display;
-	frames_per_second = _frames_per_second;
+DynamicStimulusDriver::DynamicStimulusDriver(shared_ptr<Scheduler> scheduler,
+                                             shared_ptr<Variable> frames_per_second) :
+    frames_per_second(frames_per_second),
+    started(false),
+    start_time(-1)
+{
+    if (!scheduler) {
+        scheduler = Scheduler::instance();
+        if (!scheduler) {
+            throw SimpleException("No scheduler registered");
+        }
+    }
 	
-	started = false;
-    
+    clock = scheduler->getClock();
                                                                                               
     state_system_callback = shared_ptr<VariableCallbackNotification>(
                                 new VariableCallbackNotification(boost::bind(&DynamicStimulusDriver::stateSystemCallback, this, _1,_2))
@@ -49,74 +52,40 @@ void DynamicStimulusDriver::play() {
 	
     //mprintf("CALLED PLAY!");
     
-	if (!started) {
-        shared_ptr<Clock> clock = Clock::instance(false);
-        start_time = clock->getCurrentTimeUS();
+    if (started) {
+        return;
+    }
+    
+    const int frameRate = frames_per_second->getValue().getInteger();
+    const int refreshRate = StimulusDisplay::getCurrentStimulusDisplay()->getMainDisplayRefreshRate();
 
-		//const float frames_per_us = frames_per_second->getValue().getFloat()/1000000;
-		interval_us = (MWorksTime)((double)1000000 / frames_per_second->getValue().getFloat());
-        
-		started = true;
-        
-		
-		shared_ptr<DynamicStimulusDriver> this_one = shared_from_this();
-		
-		if(schedule_node != 0) {
-			schedule_node->cancel();	
-		}
-		schedule_node = scheduler->scheduleUS(FILELINE,
-											  0,
-											  interval_us, 
-											  M_REPEAT_INDEFINITELY, 
-											  boost::bind(nextUpdate, this_one),
-											  M_DEFAULT_PRIORITY,
-											  M_DEFAULT_WARN_SLOP_US,
-											  M_DEFAULT_FAIL_SLOP_US,
-											  M_MISSED_EXECUTION_DROP);	
-	}	
+    if ((frameRate > refreshRate) || ((refreshRate % frameRate) != 0)) {
+        merror(M_DISPLAY_MESSAGE_DOMAIN,
+               "Requested frame rate (%d) is incompatible with display refresh rate (%d)",
+               frameRate,
+               refreshRate);
+    }
+    
+    willPlay();
+    
+    start_time = clock->getCurrentTimeUS();
+    interval_us = (MWorksTime)((double)1000000 / (double)frameRate);
+    started = true;
 }
 
 void DynamicStimulusDriver::stop() {
 	boost::mutex::scoped_lock locker(stim_lock);
 	
     //mprintf("CALLED STOP!");
+    
+    if (!started) {
+        return;
+    }
 
 	started = false;
-	
-	// cancel any existing updates
-	if(schedule_node != NULL){
-        schedule_node->cancel();	
-    }
-}
-
-void DynamicStimulusDriver::callUpdateDisplay() {
-    bool still_going = false;
     
-    {
-        boost::mutex::scoped_lock locker(stim_lock);
-        still_going = started;
-    }
-    
-    if(still_going){
-        display->updateDisplay(false);
-    }
+    didStop();
 }
-
-// TODO: must work out what to do here, because this is ugly
-Datum DynamicStimulusDriver::getCurrentAnnounceDrawData() {
-	Datum announce_data(M_DICTIONARY, 4);
-	announce_data.addElement(STIM_NAME,"");        // char
-	announce_data.addElement(STIM_ACTION,STIM_ACTION_DRAW);
-	announce_data.addElement(STIM_TYPE,"dynamic_stimulus");  
-	announce_data.addElement("start_time", start_time);  
-	return announce_data;
-}
-
-void *nextUpdate(const shared_ptr<DynamicStimulusDriver> &ds){
-	ds->callUpdateDisplay();	
-    return NULL;
-}
-
 
 MWTime DynamicStimulusDriver::getElapsedTime(){
     
@@ -130,8 +99,12 @@ MWTime DynamicStimulusDriver::getElapsedTime(){
 
 int DynamicStimulusDriver::getFrameNumber(){
     
+    if (!started) {
+        return -1;
+    }
+
     MWTime elapsed = getElapsedTime();
-    return (elapsed * (long)(frames_per_second->getValue())) / 1e6;
+    return elapsed / interval_us;
 }
 
 } // end namespace

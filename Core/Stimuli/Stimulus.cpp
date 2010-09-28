@@ -221,6 +221,8 @@ Stimulus::~Stimulus() {
 
 void Stimulus::load(shared_ptr<StimulusDisplay> display) { }
 
+void Stimulus::unload(shared_ptr<StimulusDisplay> display) { }
+
 void Stimulus::setVisible(bool newvis) {
     visible = newvis;
 }

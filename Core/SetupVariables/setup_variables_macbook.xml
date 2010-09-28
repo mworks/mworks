@@ -27,7 +27,7 @@
 					</dictionary_element>
 				<dictionary_element>
 		            <key>display_to_use</key>
-		            <value type="integer">1</value>
+		            <value type="integer">-1</value>
 					</dictionary_element>
 		        <dictionary_element>
 		            <key>mirror_window_base_height</key>

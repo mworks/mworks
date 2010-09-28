@@ -10,7 +10,7 @@
 #include "PulseAction.h"
 using namespace mw;
 
-Pulse::Pulse(shared_ptr<Variable> _var, shared_ptr<Variable> _duration){
+Pulse::Pulse(shared_ptr<Variable> _var, shared_ptr<Variable> _duration) : var(_var) {
 	setName("Pulse");
 	one_variable = 
 	shared_ptr<ConstantVariable>(new ConstantVariable(1.0));

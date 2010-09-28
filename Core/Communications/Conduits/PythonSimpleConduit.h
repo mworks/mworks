@@ -7,6 +7,8 @@
  *
  */
 
+#include <boost/python.hpp>
+
 #include "CodecAwareConduit.h"
 #include "IPCEventTransport.h"
 #include "DummyEventTransport.h"
@@ -14,8 +16,6 @@
 
 #include "CoreBuilderForeman.h"
 #include "StandardServerCoreBuilder.h"
-
-#include <boost/python.hpp>
 
 namespace mw {
 using namespace boost::python;

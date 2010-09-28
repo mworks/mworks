@@ -16,13 +16,14 @@
 
 
 
-#include <boost/spirit/include/classic_core.hpp>
-#include <boost/spirit/include/classic_confix.hpp>
-#include <boost/spirit/include/classic_lists.hpp>
-#include <boost/spirit/include/classic_escape_char.hpp>
+//#include <boost/spirit/include/classic_core.hpp>
+//#include <boost/spirit/include/classic_confix.hpp>
+//#include <boost/spirit/include/classic_lists.hpp>
+//#include <boost/spirit/include/classic_escape_char.hpp>
+#include <boost/tokenizer.hpp>
 using namespace mw;
 
-using namespace boost::spirit::classic;
+//using namespace boost::spirit::classic;
 
 namespace mw {
 	void	error_func(void * _parser_context, const char * error, ...){
@@ -264,40 +265,55 @@ void XMLParser::_processNode(xmlNode *child){
 //}
 
 void XMLParser::_processRangeReplicator(xmlNode *node){
-	
 	string variable(_attributeForName(node, "variable"));
-	string from_string(_attributeForName(node, "from"));
-	string to_string(_attributeForName(node, "to"));
-	string step_string(_attributeForName(node, "step"));
-	
-	double from = boost::lexical_cast<double>(from_string);
-	double to = boost::lexical_cast<double>(to_string);
-	double step = boost::lexical_cast<double>(step_string);
-	
-	
 	vector<string> values;
-	for(double v = from; v <= to; v += step){
-		values.push_back(boost::lexical_cast<string>(v));
-	}
-	
+    _generateRangeReplicatorValues(node, values);
 	_createAndAddReplicatedChildren(node, variable, values);
 }	
 
+void XMLParser::_generateRangeReplicatorValues(xmlNode *node, vector<string> &values) {
+    const int numParams = 3;
+    
+    vector<string> paramStrings(numParams);
+	paramStrings[0] = _attributeForName(node, "from");
+	paramStrings[1] = _attributeForName(node, "to");
+	paramStrings[2] = _attributeForName(node, "step");
+    
+    vector<double> params(numParams);
+    for (int i = 0; i < numParams; i++) {
+        try {
+            params[i] = boost::lexical_cast<double>(paramStrings[i]);
+        } catch (bad_lexical_cast &) {
+            throw InvalidXMLException(_attributeForName(node, "reference_id"),
+                                      "Non-numeric parameter in range replicator",
+                                      paramStrings[i]);
+        }
+    }
+	
+	for (double v = params[0]; v <= params[1]; v += params[2]) {
+		values.push_back(boost::lexical_cast<string>(v));
+	}
+}
+
 void XMLParser::_processListReplicator(xmlNode *node){
 	string variable(_attributeForName(node, "variable"));
+    std::vector<std::string> vec_item;
+    _generateListReplicatorValues(node, vec_item);
+	_createAndAddReplicatedChildren(node, variable, vec_item);
+}
+
+void XMLParser::_generateListReplicatorValues(xmlNode *node, vector<string> &vec_item) {
 	string values_string(_attributeForName(node, "values"));
 	
-	// following code came from:
+    /*
+	// the following code is based on:
 	// http://www.boost.org/doc/libs/1_35_0/libs/spirit/example/fundamental/list_parser.cpp
 	
-	// modified from boost.org to use our strings, etc.)
 	std::vector<std::string>    vec_list;
 	char const *plist_csv = values_string.c_str();
 	parse_info<> result;
 	
-	// BEGIN from boost.org (I changed nothing)	
     rule<> list_csv, list_csv_item;
-    std::vector<std::string> vec_item;
 	
     vec_list.clear();
 	
@@ -314,12 +330,22 @@ void XMLParser::_processListReplicator(xmlNode *node){
 		   )[push_back_a(vec_list)]
 	;
 	
-	// END from boost.org
-    
-	// modified to contain the correct namespace
 	result = boost::spirit::classic::parse (plist_csv, list_csv);	
-	
-	_createAndAddReplicatedChildren(node, variable, vec_item);
+    if (!(result.full)) {
+        throw InvalidXMLException(_attributeForName(node, "reference_id"),
+                                  "Invalid content in list replicator values",
+                                  result.stop);
+    }
+    */
+
+    // Let's skip the boost::spirit stuff and do this the easy way
+    typedef boost::tokenizer< boost::escaped_list_separator<char> > tokenizer;
+    tokenizer tok(values_string);
+    for (tokenizer::iterator iter = tok.begin(); iter != tok.end(); iter++) {
+        string value(*iter);
+        boost::algorithm::trim(value);
+        vec_item.push_back(value);
+    }
 }
 
 void XMLParser::_createAndAddReplicatedChildren(xmlNode *node, 
@@ -672,14 +698,16 @@ void XMLParser::_processInstanceDirective(xmlNode *node){
 			if(child_name == "variable_assignment"){
 				string variable_name = _attributeForName(alias_child, "variable");
 				shared_ptr<Variable> var = registry->getVariable(variable_name);
-				string content((const char *)xmlNodeGetContent(alias_child));
-                Datum value = registry->getNumber(content);
 				
 				if(var == NULL){
 					// TODO: better throw
 					throw InvalidXMLException(reference_id,
 											  "Invalid variable", variable_name);
 				}
+
+				string content((const char *)xmlNodeGetContent(alias_child));
+                GenericDataType dataType = var->getProperties()->getDefaultValue().getDataType();
+                Datum value = registry->getNumber(content, dataType);
 				
 				if(value.isUndefined()){
 					// TODO: better throw
@@ -791,19 +819,8 @@ void XMLParser::_connectChildToParent(shared_ptr<mw::Component> parent,
 		string variable(_attributeForName(child_node, "variable"));
 		
 		if(child_name == "mw_range_replicator") {
-			string from_string(_attributeForName(child_node, "from"));
-			string to_string(_attributeForName(child_node, "to"));
-			string step_string(_attributeForName(child_node, "step"));
-			
-			double from = boost::lexical_cast<double>(from_string);
-			double to = boost::lexical_cast<double>(to_string);
-			double step = boost::lexical_cast<double>(step_string);
-			
 			vector<string> values;
-			for(double v = from; v <= to; v += step){
-				values.push_back(boost::lexical_cast<string>(v));
-			}
-			
+            _generateRangeReplicatorValues(child_node, values);
 			_createAndConnectReplicatedChildren(parent, 
 												properties,
 												child_node,
@@ -811,40 +828,8 @@ void XMLParser::_connectChildToParent(shared_ptr<mw::Component> parent,
 												variable,
 												values);
 		} else { // "mw_list_replicator"
-			string values_string(_attributeForName(child_node, "values"));
-			
-			// following code came from:
-			// http://www.boost.org/doc/libs/1_35_0/libs/spirit/example/fundamental/list_parser.cpp
-			
-			// modified from boost.org to use our strings, etc.)
-			std::vector<std::string>    vec_list;
-			char const *plist_csv = values_string.c_str();
-			parse_info<> result;
-			
-			// BEGIN from boost.org (I changed nothing)	
-			rule<> list_csv, list_csv_item;
 			std::vector<std::string> vec_item;
-			
-			vec_list.clear();
-			
-			list_csv_item =
-			!(
-			  confix_p('\"', *c_escape_ch_p, '\"')
-			  |   longest_d[real_p | int_p]
-			  );
-			
-			list_csv =
-			list_p(
-				   list_csv_item[push_back_a(vec_item)],
-				   ','
-				   )[push_back_a(vec_list)]
-			;
-			
-			// END from boost.org
-			
-			// modified to contain the correct namespace
-			result = boost::spirit::classic::parse (plist_csv, list_csv);	
-			
+            _generateListReplicatorValues(child_node, vec_item);
 			_createAndConnectReplicatedChildren(parent, 
 												properties,
 												child_node,

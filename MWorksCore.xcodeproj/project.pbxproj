@@ -448,6 +448,8 @@
 		DA96C0E60988546D0007610D /* ExperimentPackager.h in Headers */ = {isa = PBXBuildFile; fileRef = DA96C0E40988546D0007610D /* ExperimentPackager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DA96C0E70988546D0007610D /* ExperimentPackager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA96C0E50988546D0007610D /* ExperimentPackager.cpp */; };
 		E11AFFBD118F865C0034CC04 /* IODevice.h in Headers */ = {isa = PBXBuildFile; fileRef = E11AFFBC118F865C0034CC04 /* IODevice.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E13BD56812130E6800DF5C02 /* StandardDynamicStimulus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E13BD56612130E6800DF5C02 /* StandardDynamicStimulus.cpp */; };
+		E13BD56912130E6800DF5C02 /* StandardDynamicStimulus.h in Headers */ = {isa = PBXBuildFile; fileRef = E13BD56712130E6800DF5C02 /* StandardDynamicStimulus.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1F65DF9119086A100F9A3A3 /* IODevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1F65DF8119086A100F9A3A3 /* IODevice.cpp */; };
 /* End PBXBuildFile section */
 
@@ -1095,6 +1097,8 @@
 		DA96C0E50988546D0007610D /* ExperimentPackager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ExperimentPackager.cpp; path = Core/ExperimentDataLoading/ExperimentPackager.cpp; sourceTree = SOURCE_ROOT; };
 		E11542181193471F00DDE09D /* mw_test */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = mw_test; sourceTree = "<group>"; };
 		E11AFFBC118F865C0034CC04 /* IODevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IODevice.h; path = Core/IODevices/IODevice.h; sourceTree = "<group>"; };
+		E13BD56612130E6800DF5C02 /* StandardDynamicStimulus.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StandardDynamicStimulus.cpp; sourceTree = "<group>"; };
+		E13BD56712130E6800DF5C02 /* StandardDynamicStimulus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StandardDynamicStimulus.h; sourceTree = "<group>"; };
 		E1F65DF8119086A100F9A3A3 /* IODevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IODevice.cpp; path = Core/IODevices/IODevice.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -1529,6 +1533,8 @@
 				5C78EDE7115C00EC00151A76 /* DynamicStimulusActionFactories.h */,
 				5C78EDE8115C00EC00151A76 /* StopDynamicStimulus.cpp */,
 				5C78EDE9115C00EC00151A76 /* StopDynamicStimulus.h */,
+				E13BD56612130E6800DF5C02 /* StandardDynamicStimulus.cpp */,
+				E13BD56712130E6800DF5C02 /* StandardDynamicStimulus.h */,
 			);
 			name = DynamicStimuli;
 			path = Core/Stimuli/DynamicStimuli;
@@ -2440,6 +2446,7 @@
 				E11AFFBD118F865C0034CC04 /* IODevice.h in Headers */,
 				5C8101A611A2DE1600050690 /* ConvolutionKernels.h in Headers */,
 				5C8101A811A2DE1600050690 /* VideoFilterShader.h in Headers */,
+				E13BD56912130E6800DF5C02 /* StandardDynamicStimulus.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3126,6 +3133,7 @@
 				E1F65DF9119086A100F9A3A3 /* IODevice.cpp in Sources */,
 				5C8101A511A2DE1600050690 /* ConvolutionKernels.cpp in Sources */,
 				5C8101A711A2DE1600050690 /* VideoFilterShader.cpp in Sources */,
+				E13BD56812130E6800DF5C02 /* StandardDynamicStimulus.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3408,6 +3416,8 @@
 					GLUT,
 					"-framework",
 					IOKit,
+					"-framework",
+					CoreVideo,
 					"$(MW_LIB_DIR)/libboost_regex-mw.a",
 					"$(MW_LIB_DIR)/libboost_thread-mw.a",
 					"$(MW_LIB_DIR)/libboost_system-mw.a",

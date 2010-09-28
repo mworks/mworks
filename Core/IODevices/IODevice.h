@@ -12,6 +12,8 @@ namespace mw {
 	class IODevice : public Lockable, public mw::Component, public enable_shared_from_this<IODevice> {
 		
     public:
+        virtual ~IODevice() { }
+
         //
         // finalize()
         //

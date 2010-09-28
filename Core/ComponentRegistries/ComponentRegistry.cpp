@@ -35,7 +35,7 @@ using namespace mw;
 shared_ptr<ComponentRegistry> ComponentRegistry::shared_component_registry;
 
 ComponentRegistry::ComponentRegistry() :
-        r1(".*?[\\*\\!\\+\\-\\=\\/\\&\\|\\%\\>\\<\\(\\)].*?"),
+        r1(".*?[\\*\\!\\+\\-\\=\\/\\&\\|\\%\\>\\<\\(\\)\"].*?"),
         r2(".*?((\\#AND)|(\\#OR)|(\\#GT)|(\\#LT)|(\\#GE)|(\\#LE)|(\\Wms)|([^a-zA-z#]s)|(\\Wus)).*"),
         r3("^\\s*\\d*\\.?\\d*\\s*(ms|us|s)?\\s*$"),
         r4("^\\s*\\.?\\d*\\s*(ms|us|s)?\\s*$"),
@@ -71,6 +71,7 @@ ComponentRegistry::ComponentRegistry() :
 	registerFactory("action/start_timer", new StartTimerFactory());
 	registerFactory("action/wait", new WaitFactory());
 	registerFactory("action/load_stimulus", new LoadStimulusFactory());
+    registerFactory("action/unload_stimulus", new UnloadStimulusFactory());
     registerFactory("action/queue_stimulus", new QueueStimulusFactory());
 	registerFactory("action/show_stimulus", new QueueStimulusFactory());
 	registerFactory("action/live_queue_stimulus", new LiveQueueStimulusFactory());
@@ -464,7 +465,8 @@ bool ComponentRegistry::getBoolean(std::string expression){
 
 Datum ComponentRegistry::getNumber(std::string expression, GenericDataType type){
 
-  shared_ptr<Datum> test = data_cache[expression];
+  std::pair<std::string, GenericDataType> cacheKey(expression, type);
+  shared_ptr<Datum> test = data_cache[cacheKey];
   if(test != NULL){
     return *test;
   }
@@ -488,7 +490,7 @@ Datum ComponentRegistry::getNumber(std::string expression, GenericDataType type)
           throw SimpleException("Attempt to cast a number of invalid type");
     }
     
-    data_cache[expression] = shared_ptr<Datum>(new Datum(value));
+    data_cache[cacheKey] = shared_ptr<Datum>(new Datum(value));
     return value;
   } catch (SimpleException& except){
       throw except;

@@ -80,8 +80,10 @@ OpenGLContextManager::OpenGLContextManager() {
 	mirror_window_active = NO;
     fullscreen_window_active = NO;
     
-    mirror_window = Nil;
-    fullscreen_window = Nil;
+    mirror_window = nil;
+    mirror_view = nil;
+    fullscreen_window = nil;
+    fullscreen_view = nil;
     
     display_sleep_block = kIOPMNullAssertionID;
     
@@ -90,13 +92,13 @@ OpenGLContextManager::OpenGLContextManager() {
     has_fence = false;
     glew_initialized = false;
     
-    main_display_index = 0;
+    main_display_index = -1;
 }
 
 
 int OpenGLContextManager::getNMonitors() {
 	NSArray *screens = [NSScreen screens];
-    if(screens != Nil){
+    if(screens != nil){
         return [screens count];
     } else {
         return 0;
@@ -134,31 +136,51 @@ int OpenGLContextManager::getDisplayHeight(const int index) {
 }
 
 int OpenGLContextManager::getDisplayRefreshRate(const int index){
+    std::map<int, double>::iterator rate = display_refresh_rates.find(index);
     
-    if(index < 0 || index > display_refresh_rates.size()){
+    if (rate == display_refresh_rates.end()) {
         return 0;
     }
     
-    double refresh_rate = display_refresh_rates[index];
+    double refresh_rate = (*rate).second;
         
     return (int)refresh_rate;
 }
 
-double OpenGLContextManager::_measureDisplayRefreshRate(const int index)
-{
-    NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
-    NSScreen *screen = _getScreen(index);
+CGDirectDisplayID OpenGLContextManager::_getDisplayID(int screen_number) {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+
+	NSDictionary *device_description = [_getScreen(screen_number) deviceDescription];
+    CGDirectDisplayID display_id = [[device_description objectForKey:@"NSScreenNumber"] intValue];
+
+    [pool drain];
     
-	NSDictionary *device_description = [screen deviceDescription];
-    
-    NSNumber *display_id_number = [device_description objectForKey:@"NSScreenNumber"];
-    CGDirectDisplayID display_id = [display_id_number intValue];
-    CGDisplayModeRef mode = CGDisplayCopyDisplayMode(display_id);
-    [pool release];
-    
-    return CGDisplayModeGetRefreshRate(mode);
+    return display_id;
 }
 
+void OpenGLContextManager::_measureDisplayRefreshRate(const int index)
+{
+    CGDirectDisplayID display_id = _getDisplayID(index);
+    CGDisplayModeRef mode = CGDisplayCopyDisplayMode(display_id);
+    display_refresh_rates[index] = CGDisplayModeGetRefreshRate(mode);
+}
+
+CGDirectDisplayID OpenGLContextManager::getMainDisplayID() {
+    return _getDisplayID(main_display_index);
+}
+
+CVReturn OpenGLContextManager::prepareDisplayLinkForMainDisplay(CVDisplayLinkRef displayLink) {
+    NSOpenGLView *mainView;
+    if (fullscreen_view) {
+        mainView = fullscreen_view;
+    } else {
+        mainView = mirror_view;
+    }
+
+    CGLContextObj cglContext = (CGLContextObj)[[mainView openGLContext] CGLContextObj];
+    CGLPixelFormatObj cglPixelFormat = (CGLPixelFormatObj)[[mainView pixelFormat] CGLPixelFormatObj];
+    return CVDisplayLinkSetCurrentCGDisplayFromOpenGLContext(displayLink, cglContext, cglPixelFormat);
+}
 
 
 int OpenGLContextManager::newMirrorContext(bool sync_to_vbl){
@@ -191,7 +213,10 @@ int OpenGLContextManager::newMirrorContext(bool sync_to_vbl){
     NSRect mirror_rect = NSMakeRect(50.0, 50.0, width, height);
 
     
-    mirror_window = [[NSWindow alloc] initWithContentRect: mirror_rect styleMask:NSResizableWindowMask | NSMiniaturizableWindowMask backing:NSBackingStoreBuffered defer:YES];
+    mirror_window = [[NSWindow alloc] initWithContentRect:mirror_rect
+                                                styleMask:(NSTitledWindowMask | NSMiniaturizableWindowMask)
+                                                  backing:NSBackingStoreBuffered
+                                                    defer:NO];
         
     NSOpenGLPixelFormatAttribute attrs[] =
     {
@@ -200,8 +225,8 @@ int OpenGLContextManager::newMirrorContext(bool sync_to_vbl){
     };
     
     NSOpenGLPixelFormat* pixel_format = [[NSOpenGLPixelFormat alloc] initWithAttributes:attrs];
-    
-    NSOpenGLContext *opengl_context = [[NSOpenGLContext alloc] initWithFormat:pixel_format shareContext:Nil];
+
+    NSOpenGLContext *opengl_context = [[NSOpenGLContext alloc] initWithFormat:pixel_format shareContext:nil];
     
     if(sync_to_vbl){
         GLint swap_int = 1;
@@ -210,17 +235,20 @@ int OpenGLContextManager::newMirrorContext(bool sync_to_vbl){
     
     NSRect view_rect = NSMakeRect(0.0, 0.0, mirror_rect.size.width, mirror_rect.size.height);
     
-    mirror_view = [[NSOpenGLView alloc] initWithFrame:view_rect pixelFormat: pixel_format];
+    mirror_view = [[NSOpenGLView alloc] initWithFrame:view_rect pixelFormat:pixel_format];
+    [mirror_window setContentView:mirror_view];
     [mirror_view setOpenGLContext:opengl_context];
-    [mirror_window setContentView: mirror_view];
-    
-    [mirror_window makeKeyAndOrderFront:Nil];
+    [opengl_context setView:mirror_view];
+
+    [mirror_window makeKeyAndOrderFront:nil];
     
     [contexts addObject:opengl_context];
     int context_id = [contexts count] - 1;
     
-    NSNumber *id_number = [NSNumber numberWithInt:context_id];
-    display_refresh_rates.push_back(_measureDisplayRefreshRate(0));
+    [opengl_context release];
+    [pixel_format release];
+    
+    _measureDisplayRefreshRate(0);
     
     
     setCurrent(context_id);
@@ -264,7 +292,8 @@ int OpenGLContextManager::newFullscreenContext(int screen_number){
     
     
     NSOpenGLPixelFormat* pixel_format = [[NSOpenGLPixelFormat alloc] initWithAttributes:attrs];
-    NSOpenGLContext *opengl_context = [[NSOpenGLContext alloc] initWithFormat:pixel_format shareContext:Nil];
+
+    NSOpenGLContext *opengl_context = [[NSOpenGLContext alloc] initWithFormat:pixel_format shareContext:nil];
     
     GLint swap_int = 1;
     [opengl_context setValues: &swap_int forParameter: NSOpenGLCPSwapInterval];
@@ -272,20 +301,20 @@ int OpenGLContextManager::newFullscreenContext(int screen_number){
     
     NSRect view_rect = NSMakeRect(0.0, 0.0, screen_rect.size.width, screen_rect.size.height);
     
-    fullscreen_view = [[NSOpenGLView alloc] initWithFrame:view_rect pixelFormat: pixel_format];
+    fullscreen_view = [[NSOpenGLView alloc] initWithFrame:view_rect pixelFormat:pixel_format];
+    [fullscreen_window setContentView:fullscreen_view];
     [fullscreen_view setOpenGLContext:opengl_context];
+    [opengl_context setView:fullscreen_view];
     
-    [fullscreen_window setContentView: fullscreen_view];
-    
-    [fullscreen_window makeKeyAndOrderFront:Nil];
+    [fullscreen_window makeKeyAndOrderFront:nil];
     
     [contexts addObject:opengl_context];
     int context_id = [contexts count] - 1;
     
-    setMainDisplayIndex(context_id);
-    NSNumber *id_number = [NSNumber numberWithInt:context_id];
+    [opengl_context release];
+    [pixel_format release];
     
-    display_refresh_rates.push_back(_measureDisplayRefreshRate(screen_number));
+    _measureDisplayRefreshRate(screen_number);
     
     setCurrent(context_id);
     _initGlew();
@@ -310,15 +339,9 @@ int OpenGLContextManager::newFullscreenContext(int screen_number){
 }
 
 
-void OpenGLContextManager::setMainDisplayIndex(const int index) { main_display_index = index; }
-
-int OpenGLContextManager::getMainDisplayIndex() const {
-	return main_display_index;
-}
-
 void OpenGLContextManager::setCurrent(int context_id) {
     if(context_id < 0 || context_id >= [contexts count]) {
-		mprintf("OpenGL Context Manager: no context to set current.");
+		mwarning(M_SERVER_MESSAGE_DOMAIN, "OpenGL Context Manager: no context to set current.");
 		//NSLog(@"OpenGL Context Manager: no context to set current.");
         return;
     }
@@ -332,22 +355,24 @@ void OpenGLContextManager::releaseDisplays() {
     
     [contexts makeObjectsPerformSelector:@selector(clearDrawable)];
     
-	CGReleaseAllDisplays();
-    
-    
     mirror_window_active = NO;
-    if(mirror_window != Nil){
-        [mirror_window orderOut:Nil];
+    if(mirror_window != nil){
+        [mirror_window orderOut:nil];
         [mirror_window release];
-        mirror_window = Nil;
+        [mirror_view clearGLContext];
+        [mirror_view release];
+        mirror_window = nil;
+        mirror_view = nil;
     }
     
-    
     fullscreen_window_active = NO;
-    if(fullscreen_window != Nil){
-        [fullscreen_window orderOut:Nil];
+    if(fullscreen_window != nil){
+        [fullscreen_window orderOut:nil];
         [fullscreen_window release];
-        fullscreen_window = Nil;
+        [fullscreen_view clearGLContext];
+        [fullscreen_view release];
+        fullscreen_window = nil;
+        fullscreen_view = nil;
     }
 
     if (kIOPMNullAssertionID != display_sleep_block) {
@@ -357,8 +382,9 @@ void OpenGLContextManager::releaseDisplays() {
 	
     [contexts removeAllObjects];
 
-    [pool release];
+    [pool drain];
 
+    main_display_index = -1;
 
 }
 
@@ -369,8 +395,9 @@ void OpenGLContextManager::flushCurrent() {
 
 void OpenGLContextManager::flush(int context_id, bool update) {
     if(context_id < 0 || context_id >= [contexts count]){
-        //TODO mprintf dependency problem
-		NSLog(@"OpenGL Context Manager: no context to flush");
+		mwarning(M_SERVER_MESSAGE_DOMAIN, "OpenGL Context Manager: no context to flush");
+		//NSLog(@"OpenGL Context Manager: no context to flush");
+        return;
     }
     
 	//glSetFenceAPPLE(synchronization_fence);

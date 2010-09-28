@@ -104,12 +104,14 @@ namespace mw {
         virtual void thaw();
 		virtual bool isFrozen();
 		
+		virtual bool needDraw();
 		virtual void draw(shared_ptr<StimulusDisplay> display);
                 
 		virtual void announceStimulusDraw(MWTime time);
 		virtual Datum getCurrentAnnounceDrawData();
 	
         virtual void load(shared_ptr<StimulusDisplay> display);
+        virtual void unload(shared_ptr<StimulusDisplay> display);
         
         virtual bool isLoaded();
         virtual int getDeferred();
@@ -190,6 +192,7 @@ class StimulusGroupReferenceNode : public StimulusNode {
 		
   
         virtual void load(shared_ptr<StimulusDisplay> display);
+        virtual void unload(shared_ptr<StimulusDisplay> display);
         
         virtual bool isLoaded();
             

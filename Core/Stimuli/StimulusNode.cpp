@@ -79,12 +79,20 @@ void StimulusNode::load(shared_ptr<StimulusDisplay> display){
   stim->load(display);
 }
 
+void StimulusNode::unload(shared_ptr<StimulusDisplay> display){
+  stim->unload(display);
+}
+
 bool StimulusNode::isLoaded(){
   return stim->isLoaded();
 }
 
 int StimulusNode::getDeferred(){  
   return stim->getDeferred(); 
+}
+
+bool StimulusNode::needDraw() {
+    return stim && stim->needDraw();
 }
 
 void StimulusNode::draw(shared_ptr<StimulusDisplay> stimulus_display) {
@@ -258,6 +266,14 @@ void StimulusGroupReferenceNode::load(shared_ptr<StimulusDisplay> display){
 	int nelements = stimulus_nodes->getNElements();
 	if(index_value >=0 && index_value < nelements ){
 		(stimulus_nodes->getElement(index_value))->load(display);
+	}  
+}
+
+void StimulusGroupReferenceNode::unload(shared_ptr<StimulusDisplay> display){
+	int index_value = getIndexValue();
+	int nelements = stimulus_nodes->getNElements();
+	if(index_value >=0 && index_value < nelements ){
+		(stimulus_nodes->getElement(index_value))->unload(display);
 	}  
 }
 

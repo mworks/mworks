@@ -62,7 +62,7 @@ namespace mw {
         boost::regex r1, r2, r3, r4, u1, strip_it;
             
         boost::unordered_map< std::string, shared_ptr<Variable> > variable_cache;
-        boost::unordered_map< std::string, shared_ptr<Datum> > data_cache;
+        boost::unordered_map< std::pair<std::string, GenericDataType>, shared_ptr<Datum> > data_cache;
     
 	public:
 		
@@ -82,14 +82,11 @@ namespace mw {
         }
 		
 		void resetInstances(){
-			instances = boost::unordered_map< std::string, shared_ptr<mw::Component> >();
-			stimulus_nodes = std::map< std::string, shared_ptr<StimulusNode> >();
-            variable_cache = boost::unordered_map< std::string, shared_ptr<Variable> >();
-            
-            data_cache = boost::unordered_map< std::string, shared_ptr<Datum> >();
-            variable_cache = boost::unordered_map< std::string, shared_ptr<Variable> >();
-            
-            tagnames_by_id = std::map< long, std::string >();
+			instances.clear();
+			stimulus_nodes.clear();
+            variable_cache.clear();
+            data_cache.clear();
+            tagnames_by_id.clear();
 		}
 		
 		// Factory-oriented methods

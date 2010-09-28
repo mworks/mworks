@@ -623,6 +623,48 @@ shared_ptr<mw::Component> LoadStimulusFactory::createObject(std::map<std::string
 }
 
 
+/****************************************************************
+ *                       UnloadStimulus Methods
+ ****************************************************************/
+UnloadStimulus::UnloadStimulus(shared_ptr<StimulusNode> _stimnode,
+                               shared_ptr<StimulusDisplay> _display) : 
+Action() {
+	stimnode = _stimnode;
+	display = _display;
+	setName("UnloadStimulus");
+}
+
+UnloadStimulus::~UnloadStimulus() { }
+
+bool UnloadStimulus::execute() {	
+    stimnode->unload(display);
+    return true;
+}
+
+shared_ptr<mw::Component> UnloadStimulusFactory::createObject(std::map<std::string, std::string> parameters,
+                                                              ComponentRegistry *reg) {
+	
+	REQUIRE_ATTRIBUTES(parameters, "stimulus");
+	
+	if(GlobalCurrentExperiment == 0) {
+		throw SimpleException("GlobalCurrentExperiment is not defined");
+	}
+	
+	shared_ptr<StimulusNode> stimulus = reg->getStimulus(parameters.find("stimulus")->second);
+	shared_ptr<StimulusDisplay> stimDisplay = GlobalCurrentExperiment->getStimulusDisplay();
+	
+	checkAttribute(stimulus, parameters["reference_id"], "stimulus", parameters.find("stimulus")->second);		
+	
+	
+	if(stimDisplay == 0) {
+		throw SimpleException("GlobalCurrentExperiment->getStimulusDisplay() is not defined");
+	}
+	
+	shared_ptr <mw::Component> newUnloadStimulusAction = shared_ptr<mw::Component>(new UnloadStimulus(stimulus, stimDisplay));
+	return newUnloadStimulusAction;	
+}
+
+
 
 /****************************************************************
  *                       QueueStimulus Methods
