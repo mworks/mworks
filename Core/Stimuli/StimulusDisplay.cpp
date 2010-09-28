@@ -25,7 +25,6 @@
 	#include <AGL/agl.h>
 	#include <OpenGL/gl.h>
 	#include <OpenGL/glu.h>
-    #include <CoreVideo/CVHostTime.h>
 #elif	linux
 	// TODO: where are these in linux?
 #endif
@@ -385,14 +384,30 @@ void StimulusDisplay::updateDisplay() {
         node = node->getNext();
     }
     
+#define ERROR_ON_LATE_FRAMES
+#ifdef ERROR_ON_LATE_FRAMES
+    MWTime before_draw = clock->getCurrentTimeUS();
+#endif
+
     ensureRefresh(lock);
+    
+#ifdef ERROR_ON_LATE_FRAMES
+    MWTime now = clock->getCurrentTimeUS();
+    MWTime slop = 2 * (1000000 / getMainDisplayRefreshRate());
+    
+    if(now-before_draw > slop) {
+        merror(M_DISPLAY_MESSAGE_DOMAIN,
+               "updating main window display is taking longer than two frames (%lld > %lld) to update", 
+               now-before_draw, 
+               slop);		
+    }
+#endif
 }
 
 
 void StimulusDisplay::ensureRefresh(unique_lock &lock) {
     shared_lock sharedLock(lock);  // Downgrade to shared_lock
 
-    MWTime before_draw = clock->getCurrentTimeUS();
     needDraw = true;
     
     if (!CVDisplayLinkIsRunning(displayLink)) {
@@ -405,19 +420,6 @@ void StimulusDisplay::ensureRefresh(unique_lock &lock) {
             refreshCond.wait(sharedLock);
         } while (waitingForRefresh);
     }
-    
-#define ERROR_ON_LATE_FRAMES
-#ifdef ERROR_ON_LATE_FRAMES
-    MWTime now = clock->getCurrentTimeUS();
-    MWTime slop = 2 * (1000000 / getMainDisplayRefreshRate());
-    
-    if(now-before_draw > slop) {
-        merror(M_DISPLAY_MESSAGE_DOMAIN,
-               "updating main window display is taking longer than two frames (%lld > %lld) to update", 
-               now-before_draw, 
-               slop);		
-    }
-#endif
 }
 
 
