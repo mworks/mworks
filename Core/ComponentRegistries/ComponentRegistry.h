@@ -161,7 +161,7 @@ namespace mw {
 			}
             
             if(obj->isAmbiguous()){
-                throw SimpleException("Attempt to access an object reference that is ambiguous"); // TODO: more detail
+                throw SimpleException("Attempt to access an object reference that is ambiguous", obj->getStringRepresentation()); // TODO: more detail
             }
             
 			return dynamic_pointer_cast<T, mw::Component>(obj);

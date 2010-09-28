@@ -202,12 +202,12 @@ shared_ptr<mw::Component> ComponentRegistry::createNewObject(const std::string &
 	
 	// create the new object
 	shared_ptr<mw::Component> obj;
-	try {
+	//try {
 		obj = factory->createObject(parameters, this);
-	} catch (std::exception& e){
-        std::string what = e.what();
-		merror(M_PARSER_MESSAGE_DOMAIN, what);
-	}
+	//} catch (std::exception& e){
+//        std::string what = e.what();
+//		merror(M_PARSER_MESSAGE_DOMAIN, what);
+//	}
 	
 	return obj;
 }

@@ -13,8 +13,10 @@
 #include <boost/shared_ptr.hpp>
 #include <boost/weak_ptr.hpp>
 #include <iostream>
+#include <sstream>
 #include <map>
 #include "Utilities.h"
+
 namespace mw {
 	using namespace boost;
 	
@@ -92,6 +94,10 @@ namespace mw {
 			return;
 		}
 		
+        virtual string getStringRepresentation(){
+            return getTag();
+        }
+        
 	};
 	
 	
@@ -114,6 +120,8 @@ namespace mw {
 		virtual vector< shared_ptr<mw::Component> > getAmbiguousComponents(){
 			return ambiguous_components;
 		}
+        
+        virtual string getStringRepresentation();
 		
 	};
 }
