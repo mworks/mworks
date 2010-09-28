@@ -71,8 +71,9 @@ namespace mw {
         shared_ptr<OpenGLContextManager> opengl_context_manager;
 		
 		boost::shared_mutex display_lock;
-        typedef boost::unique_lock<boost::shared_mutex> unique_lock;
         typedef boost::shared_lock<boost::shared_mutex> shared_lock;
+        typedef boost::upgrade_lock<boost::shared_mutex> upgrade_lock;
+        typedef boost::upgrade_to_unique_lock<boost::shared_mutex> upgrade_to_unique_lock;
         boost::barrier refreshSync;
         boost::condition_variable_any refreshCond;
         bool waitingForRefresh;
@@ -89,7 +90,7 @@ namespace mw {
 		void setDisplayBounds();
         void refreshDisplay();
         void drawDisplayStack();
-        void ensureRefresh(unique_lock &lock);
+        void ensureRefresh(upgrade_lock &lock);
 
         static void announceDisplayUpdate(void *_display);
         void announceDisplayStack(MWTime time);
