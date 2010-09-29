@@ -456,18 +456,38 @@ Datum ComponentRegistry::getNumber(std::string expression, GenericDataType type)
     return *test;
   }
   
+    double doubleValue;
+    long longValue;
+    bool boolValue;
   Datum value;
   try {
     switch(type){
       case M_FLOAT:
-          value = Datum(lexical_cast<double>(expression));
-          break;
-      case M_BOOLEAN:
-          value = Datum((bool)lexical_cast<long>(expression));
-          break;
       case M_INTEGER:
-          value = Datum(lexical_cast<long>(expression));
-          break;
+      case M_BOOLEAN:
+            doubleValue = lexical_cast<double>(expression);
+            if (M_FLOAT == type) {
+                value = Datum(doubleValue);
+            } else if (M_INTEGER == type) {
+                longValue = (long)doubleValue;
+                if ((double)longValue != doubleValue) {
+                    mwarning(M_PARSER_MESSAGE_DOMAIN,
+                             "invalid integer literal \"%s\" truncated to %ld",
+                             expression.c_str(),
+                             longValue);
+                }
+                value = Datum(longValue);
+            } else {
+                boolValue = (bool)doubleValue;
+                if ((double)boolValue != doubleValue) {
+                    mwarning(M_PARSER_MESSAGE_DOMAIN,
+                             "invalid boolean literal \"%s\" truncated to %d",
+                             expression.c_str(),
+                             boolValue);
+                }
+                value = Datum(boolValue);
+            }
+            break;
       case M_STRING:
           value = Datum(string(expression));
           break;
