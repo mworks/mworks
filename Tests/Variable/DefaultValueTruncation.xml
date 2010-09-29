@@ -4,9 +4,11 @@
     <variables tag="Variables">
         <variable tag="float_var" scope="global" logging="when_changed" default_value="2.34" type="float"></variable>
         <variable tag="int_var" scope="global" logging="when_changed" default_value="2.34" type="integer"></variable>
-        <variable tag="int_var2" scope="global" logging="when_changed" default_value="2" type="integer"></variable>
+        <variable tag="int_var2" scope="global" logging="when_changed" default_value="2.0" type="integer"></variable>
+        <variable tag="int_var3" scope="global" logging="when_changed" default_value="2" type="integer"></variable>
         <variable tag="bool_var" scope="global" logging="when_changed" default_value="2" type="boolean"></variable>
-        <variable tag="bool_var2" scope="global" logging="when_changed" default_value="1" type="boolean"></variable>
+        <variable tag="bool_var2" scope="global" logging="when_changed" default_value="1.0" type="boolean"></variable>
+        <variable tag="bool_var3" scope="global" logging="when_changed" default_value="1" type="boolean"></variable>
     </variables>
     <sounds tag="Sounds"></sounds>
     <stimuli tag="Stimuli"></stimuli>
@@ -14,7 +16,7 @@
     <optimizers tag="Optimizers"></optimizers>
     <experiment tag="New Experiment" full_name="" description="">
         <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential">
-            <action type="report" tag="Report" message="float_var = $float_var, int_var = $int_var, int_var2 = $int_var2, bool_var = $bool_var, bool_var2 = $bool_var2"></action>
+            <action type="report" tag="Report" message="float_var = $float_var, int_var = $int_var, int_var2 = $int_var2, int_var3 = $int_var3, bool_var = $bool_var, bool_var2 = $bool_var2, bool_var3 = $bool_var3"></action>
         </protocol>
     </experiment>
 </monkeyml>

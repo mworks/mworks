@@ -4,6 +4,6 @@
     <message type="whole_message">WARNING: invalid integer literal "2.34" truncated to 2</message>
     <message type="whole_message">WARNING: invalid boolean literal "2" truncated to 1</message>
     <message type="whole_message">WARNING: invalid boolean literal "2" truncated to 1</message>
-    <message type="starts_with">float_var = 2.34, int_var = 2, int_var2 = 2, bool_var = 1, bool_var2 = 1 </message>
+    <message type="starts_with">float_var = 2.34, int_var = 2, int_var2 = 2, int_var3 = 2, bool_var = 1, bool_var2 = 1, bool_var3 = 1 </message>
   </expected_messages>
 </marionette_info>
