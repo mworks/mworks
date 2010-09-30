@@ -1,6 +1,10 @@
 <?xml version="1.0"?>
 <marionette_info>
   <expected_messages>
+    <message type="whole_message">WARNING: invalid boolean literal "2" truncated to 1</message>
+    <message type="whole_message">WARNING: invalid boolean literal "3.4" truncated to 1</message>
+    <message type="whole_message">WARNING: invalid integer literal "3.4" truncated to 3</message>
+    <message type="whole_message">WARNING: invalid integer literal "3.4" truncated to 3</message>
     <message type="starts_with">bool_var = 0 (</message>
     <message type="starts_with">bool_var = 1 (</message>
     <message type="starts_with">bool_var = 1 (</message>
