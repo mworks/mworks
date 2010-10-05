@@ -2640,7 +2640,14 @@
 			isa = PBXProject;
 			buildConfigurationList = 5C0E850E086D85D400B3EE7C /* Build configuration list for PBXProject "MWorksCore" */;
 			compatibilityVersion = "Xcode 3.0";
+			developmentRegion = English;
 			hasScannedForEncodings = 0;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
 			mainGroup = DA2CE0C507E9070200C68AEF;
 			productRefGroup = DA2CE0D507E9F68100C68AEF /* Products */;
 			projectDirPath = "";

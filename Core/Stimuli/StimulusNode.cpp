@@ -333,6 +333,16 @@ void StimulusGroupReferenceNode::draw(shared_ptr<StimulusDisplay>  display){
     }
 
 
+shared_ptr<Stimulus> StimulusGroupReferenceNode::getStimulus() {
+    int index_value = getIndexValue();
+    int nelements = stimulus_nodes->getNElements();
+    if(index_value >=0 && index_value < nelements ){
+        return (stimulus_nodes->getElement(index_value))->getStimulus();
+    }
+    return shared_ptr<Stimulus>();
+}
+
+
 void StimulusGroupReferenceNode::setVisible(bool _vis){ 
 	STIM_GROUP_REFERENCE_NODE_PASSTHROUGH_SET_BOOL(setVisible, _vis)
 }
