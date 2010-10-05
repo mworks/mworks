@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<monkeyml version="1.0">
+    <io_devices tag="IO Devices"></io_devices>
+    <variables tag="Variables">
+        <variable tag="frames_per_second" scope="global" logging="when_changed" default_value="30" type="float"></variable>
+        <variable tag="speed" full_name="" default_value="1" scope="global" type="float" editable="ALWAYS" persistant="NO" logging="WHEN_CHANGED"></variable>
+        <variable tag="direction" full_name="" default_value="0" scope="global" type="float" editable="ALWAYS" persistant="NO" logging="WHEN_CHANGED"></variable>
+        <variable tag="x_position" scope="global" logging="when_changed" default_value="3" type="float"></variable>
+        <variable tag="y_position" scope="global" logging="when_changed" default_value="3" type="float"></variable>
+        <variable tag="rotation" full_name="" default_value="0" scope="global" type="float" editable="ALWAYS" persistant="NO" logging="WHEN_CHANGED"></variable>
+        <variable tag="frequency" full_name="" default_value="0.333333333" scope="global" type="float" editable="ALWAYS" persistant="NO" logging="WHEN_CHANGED"></variable>
+        <variable tag="mean" full_name="" default_value="0" scope="global" type="float" editable="ALWAYS" persistant="NO" logging="WHEN_CHANGED"></variable>
+        <variable tag="std_dev" full_name="" default_value="0.3" scope="global" type="float" editable="ALWAYS" persistant="NO" logging="WHEN_CHANGED"></variable>
+        <variable tag="width" full_name="" default_value="4" scope="global" type="float" editable="ALWAYS" persistant="NO" logging="WHEN_CHANGED"></variable>
+        <variable tag="height" full_name="" default_value="4" scope="global" type="float" editable="ALWAYS" persistant="NO" logging="WHEN_CHANGED"></variable>
+        <variable tag="index" scope="local" logging="when_changed" default_value="0" type="integer"></variable>
+        <variable tag="count" scope="global" logging="when_changed" default_value="0" type="integer"></variable>
+    </variables>
+    <sounds tag="Sounds"></sounds>
+    <stimuli tag="Stimuli">
+        <stimulus_group tag="dg">
+            <stimulus frames_per_second="frames_per_second" tag="ellipse" inverted="1" mask="ellipse" type="drifting_grating" direction="direction" speed="speed" spatial_frequency="frequency" grating_type="sinusoid" x_size="width" y_size="height" x_position="x_position" y_position="y_position" rotation="rotation" affine_transform="0"></stimulus>
+            <stimulus frames_per_second="frames_per_second" tag="gaussian" inverted="1" mask="gaussian" std_dev="std_dev" mean="mean" type="drifting_grating" direction="direction" speed="speed" spatial_frequency="frequency" grating_type="sinusoid" x_size="width" y_size="height" x_position="x_position" y_position="y_position" rotation="rotation" affine_transform="0"></stimulus>
+            <stimulus frames_per_second="frames_per_second" tag="rectangle" inverted="1" mask="rectangle" type="drifting_grating" direction="direction" speed="speed" spatial_frequency="frequency" grating_type="sinusoid" x_size="width" y_size="height" x_position="x_position" y_position="y_position" rotation="rotation" affine_transform="0"></stimulus>
+            <stimulus frames_per_second="frames_per_second" tag="sawtooth" inverted="0" mask="rectangle" type="drifting_grating" direction="direction" speed="speed" spatial_frequency="frequency" grating_type="sawtooth" x_size="width" y_size="height" x_position="x_position" y_position="y_position" rotation="rotation" affine_transform="0"></stimulus>
+            <stimulus frames_per_second="frames_per_second" tag="sawtooth_inverse" inverted="1" mask="rectangle" type="drifting_grating" direction="direction" speed="speed" spatial_frequency="frequency" grating_type="sawtooth" x_size="width" y_size="height" x_position="x_position" y_position="y_position" rotation="rotation" affine_transform="0"></stimulus>
+            <stimulus frames_per_second="frames_per_second" tag="sinusoid" inverted="1" mask="rectangle" type="drifting_grating" direction="direction" speed="speed" spatial_frequency="frequency" grating_type="sinusoid" x_size="width" y_size="height" x_position="x_position" y_position="y_position" rotation="rotation" affine_transform="0"></stimulus>
+            <stimulus frames_per_second="frames_per_second" tag="square" inverted="1" mask="rectangle" type="drifting_grating" direction="direction" speed="speed" spatial_frequency="frequency" grating_type="square" x_size="width" y_size="height" x_position="x_position" y_position="y_position" rotation="rotation" affine_transform="0"></stimulus>
+            <stimulus frames_per_second="frames_per_second" tag="triangle" inverted="1" mask="rectangle" type="drifting_grating" direction="direction" speed="speed" spatial_frequency="frequency" grating_type="triangle" x_size="width" y_size="height" x_position="x_position" y_position="y_position" rotation="rotation" affine_transform="0"></stimulus>
+        </stimulus_group>
+    </stimuli>
+    <filters tag="Filters"></filters>
+    <optimizers tag="Optimizers"></optimizers>
+    <experiment tag="New Experiment" full_name="" description="">
+        <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential">
+            <action type="assignment" tag="Assign Variable" variable="count" value="0"></action>
+            <range_replicator tag="New Replicator" from="0" to="7" step="1" variable="index">
+                <trial tag="New Trial" nsamples="1" sampling_method="cycles" selection="sequential">
+                    <action tag="Queue Stimulus" type="queue_stimulus" stimulus="dg[count]"></action>
+                    <action tag="Update Stimulus" type="update_stimulus_display"></action>
+                    <action tag="Play dynamic stimulus" stimulus="dg[count]" type="play_dynamic_stimulus"></action>
+                    <action type="wait" tag="Wait" duration="45" duration_units="s"></action>
+                    <action tag="Stop dynamic stimulus" stimulus="dg[count]" type="stop_dynamic_stimulus"></action>
+                    <action tag="Dequeue Stimulus" type="dequeue_stimulus" stimulus="dg[count]"></action>
+                    <action tag="Update Stimulus 2" type="update_stimulus_display"></action>
+                    <action type="assignment" tag="Assign Variable 2" variable="count" value="count + 1"></action>
+                </trial>
+            </range_replicator>
+            <action type="assert" tag="Assert" condition="count == 8" message="Not all stimuli were display"></action>
+        </protocol>
+    </experiment>
+</monkeyml>
