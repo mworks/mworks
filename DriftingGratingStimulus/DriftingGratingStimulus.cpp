@@ -48,26 +48,17 @@ DriftingGratingStimulus::DriftingGratingStimulus(const std::string &_tag,
 void DriftingGratingStimulus::load(shared_ptr<StimulusDisplay> display) {
     if (loaded)
         return;
-    
-	GLuint *mask_textures_tmp = new GLuint[display->getNContexts()];
-	GLuint *grating_textures_tmp = new GLuint[display->getNContexts()];
-	
-	glGenTextures(display->getNContexts(), mask_textures_tmp);
-	glGenTextures(display->getNContexts(), grating_textures_tmp);
-	
-    for(int i = 0; i < display->getNContexts(); i++){
-        mask_textures.push_back(mask_textures_tmp[i]);
-        grating_textures.push_back(grating_textures_tmp[i]);
-    }
-    
-    delete [] mask_textures_tmp;
-    delete [] grating_textures_tmp;
-    
 	
 	for(int i = 0; i < display->getNContexts(); ++i) {
 		
         
         display->setCurrent(i);
+        
+        GLuint textures[2];
+        glGenTextures(2, textures);
+        mask_textures.push_back(textures[0]);
+        grating_textures.push_back(textures[1]);
+        
 		glDisable(GL_TEXTURE_2D);
 		glActiveTextureARB(GL_TEXTURE0_ARB);
 		glEnable(GL_TEXTURE_1D);
@@ -175,29 +166,25 @@ void DriftingGratingStimulus::load(shared_ptr<StimulusDisplay> display) {
 }   
 
 
-DriftingGratingStimulus::~DriftingGratingStimulus(){
+void DriftingGratingStimulus::unload(shared_ptr<StimulusDisplay> display) {
+    if (!loaded)
+        return;
+
+    for (int i = 0; i < display->getNContexts(); i++) {
+        display->setCurrent(i);
+        glDeleteTextures(1, &(mask_textures[i]));
+        glDeleteTextures(1, &(grating_textures[i]));
+    }
+    
+    mask_textures.clear();
+    grating_textures.clear();
+    
+    loaded = false;
+}
+
+
+DriftingGratingStimulus::~DriftingGratingStimulus() {
     stop();
-    
-    
-    
-    GLuint *mask_textures_tmp = new GLuint[mask_textures.size()];
-    GLuint *grating_textures_tmp = new GLuint[grating_textures.size()];
-    
-    for(int i = 0; i < mask_textures.size(); i++){
-        mask_textures_tmp[i] = mask_textures[i];
-    }
-
-    for(int i = 0; i < grating_textures.size(); i++){
-        grating_textures_tmp[i] = grating_textures[i];
-    }
-    
-    glDeleteTextures(mask_textures.size(), mask_textures_tmp);
-    glDeleteTextures(grating_textures.size(), grating_textures_tmp);
-
-
-    delete [] mask_textures_tmp;
-    delete [] grating_textures_tmp;
-
 }
 
 
