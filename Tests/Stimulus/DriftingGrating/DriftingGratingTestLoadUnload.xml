@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<monkeyml version="1.0">
+    <io_devices tag="IO Devices"></io_devices>
+    <variables tag="Variables">
+        <variable tag="frames_per_second" scope="global" logging="when_changed" default_value="30" type="float"></variable>
+        <variable tag="speed" full_name="" default_value="1" scope="global" type="float" editable="ALWAYS" persistant="NO" logging="WHEN_CHANGED"></variable>
+        <variable tag="direction" full_name="" default_value="0" scope="global" type="float" editable="ALWAYS" persistant="NO" logging="WHEN_CHANGED"></variable>
+        <variable tag="x_position" scope="global" logging="when_changed" default_value="3" type="float"></variable>
+        <variable tag="y_position" scope="global" logging="when_changed" default_value="3" type="float"></variable>
+        <variable tag="rotation" full_name="" default_value="0" scope="global" type="float" editable="ALWAYS" persistant="NO" logging="WHEN_CHANGED"></variable>
+        <variable tag="frequency" full_name="" default_value="0.333333333" scope="global" type="float" editable="ALWAYS" persistant="NO" logging="WHEN_CHANGED"></variable>
+        <variable tag="mean" full_name="" default_value="0" scope="global" type="float" editable="ALWAYS" persistant="NO" logging="WHEN_CHANGED"></variable>
+        <variable tag="std_dev" full_name="" default_value="0.3" scope="global" type="float" editable="ALWAYS" persistant="NO" logging="WHEN_CHANGED"></variable>
+        <variable tag="width" full_name="" default_value="4" scope="global" type="float" editable="ALWAYS" persistant="NO" logging="WHEN_CHANGED"></variable>
+        <variable tag="height" full_name="" default_value="4" scope="global" type="float" editable="ALWAYS" persistant="NO" logging="WHEN_CHANGED"></variable>
+    </variables>
+    <sounds tag="Sounds"></sounds>
+    <stimuli tag="Stimuli">
+        <stimulus frames_per_second="frames_per_second" tag="dg" inverted="1" mask="ellipse" type="drifting_grating" direction="direction" speed="speed" spatial_frequency="frequency" grating_type="sinusoid" x_size="width" y_size="height" x_position="x_position" y_position="y_position" rotation="rotation" affine_transform="0"></stimulus>
+    </stimuli>
+    <filters tag="Filters"></filters>
+    <optimizers tag="Optimizers"></optimizers>
+    <experiment tag="New Experiment" full_name="" description="">
+        <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential">
+            <action tag="Load Stimulus" type="load_stimulus" stimulus="dg"></action>
+            <action tag="Queue Stimulus" type="queue_stimulus" stimulus="dg"></action>
+            <action tag="Update display" type="update_stimulus_display"></action>
+            <action tag="Play dynamic stimulus" stimulus="dg" type="play_dynamic_stimulus"></action>
+            <action type="wait" tag="Wait" duration="5" duration_units="s"></action>
+            <action tag="Stop dynamic stimulus" stimulus="dg" type="stop_dynamic_stimulus"></action>
+            <action tag="Dequeue Stimulus" type="dequeue_stimulus" stimulus="dg"></action>
+            <action tag="Update display 2" type="update_stimulus_display"></action>
+            <action tag="Unload Stimulus" type="unload_stimulus" stimulus="dg"></action>
+            <action type="wait" tag="Wait 2" duration="2" duration_units="s"></action>
+        </protocol>
+    </experiment>
+</monkeyml>
