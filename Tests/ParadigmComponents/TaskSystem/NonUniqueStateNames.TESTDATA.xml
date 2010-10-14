@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<marionette_info>
+  <expected_messages>
+    <!-- Test-specific messages replace this list -->
+    <message type="starts_with">ERROR: Failed to create object "New Protocol/Task System/Go to Second" of type transition/direct (error was:"An attempt was made to access an ambiguously referenced component.  Please ensure that all object tag names are unique: </message>
+    <message type="starts_with">ERROR: An attempt was made to access an ambiguously referenced component.  Please ensure that all object tag names are unique: </message>
+    <message type="starts_with">ERROR: Failed to parse experiment </message>
+  </expected_messages>
+  <expected_events>
+    <!-- The experiment shouldn't parse, so we don't expect the normal state-system events -->
+  </expected_events>
+</marionette_info>
