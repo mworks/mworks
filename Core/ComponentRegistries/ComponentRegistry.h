@@ -150,6 +150,7 @@ namespace mw {
 			return candidate;
 		}
 		
+        
 		template <class T>
 		shared_ptr<T>	getObject(std::string tag_name){
 			shared_ptr<mw::Component> obj = instances[tag_name];
@@ -161,7 +162,8 @@ namespace mw {
 			}
             
             if(obj->isAmbiguous()){
-                throw SimpleException("Attempt to access an object reference that is ambiguous", obj->getStringRepresentation()); // TODO: more detail
+                string string_rep = obj->getStringRepresentation();
+                throw AmbiguousComponentReferenceException(string_rep);
             }
             
 			return dynamic_pointer_cast<T, mw::Component>(obj);
@@ -183,7 +185,7 @@ namespace mw {
 			
 			int dict_size = tagnames_by_id.empty() ? 1 : tagnames_by_id.size();
 			
-		 Datum codec(M_DICTIONARY, dict_size);
+            Datum codec(M_DICTIONARY, dict_size);
 			std::map< long, std::string>::const_iterator it;
 			
 			for(it = tagnames_by_id.begin(); it != tagnames_by_id.end(); it++){
@@ -193,9 +195,14 @@ namespace mw {
 			return codec;
 		}
 		
-		
+	
+        // a debugging routine. Dump the names of every registered object
+        void dumpToStdErr();
+            	
 	};
 	
+    
+    
 	
 }
 

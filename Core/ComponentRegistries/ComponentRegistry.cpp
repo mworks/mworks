@@ -221,9 +221,10 @@ void ComponentRegistry::registerObject(std::string tag_name, shared_ptr<mw::Comp
 	if(component == NULL){
 		throw SimpleException("Attempt to register empty component", tag_name);
 	}    
-    
+        
     // If the tag name is already registered
     if(instances.find(tag_name) != instances.end() && instances[tag_name] != NULL){
+        
         shared_ptr<Component> preexisting = instances[tag_name];
         
         if(preexisting == NULL){
@@ -605,5 +606,15 @@ boost::filesystem::path ComponentRegistry::getPath(std::string working_path,
 
 	std::string squashed = XMLParser::squashFileName(expression);
 	return expandPath(working_path, squashed);
+}
+
+void ComponentRegistry::dumpToStdErr(){
+
+    unordered_map< string, shared_ptr<Component> >::iterator i;
+    for(i = instances.begin(); i != instances.end(); ++i){
+        pair< string, shared_ptr<Component> > instance = *i;
+        cerr << instance.first << ": " << instance.second.get() << endl;
+    }
+    
 }
 

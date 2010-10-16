@@ -33,8 +33,13 @@ class SimpleException : public std::exception {
 		SimpleException(string _message, string _subject) : message(_message + ": " + _subject){ 
 			domain = M_GENERIC_MESSAGE_DOMAIN;
 		};
+
+        SimpleException(MessageDomain _domain, string _message):
+                                                            message(_message){
+            domain = _domain;
+        }
 		
-		SimpleException(MessageDomain _domain, string _message, string _subject = ""):
+		SimpleException(MessageDomain _domain, string _message, string _subject):
 															message(_message + ": " + _subject){
 			domain = _domain;
 		}
@@ -94,6 +99,26 @@ class InvalidXMLException : public SimpleException{
 	string getReferenceID(){  return reference_id;  }
 };
     
+
+class AmbiguousComponentReferenceException : public SimpleException {
+
+public:
+    AmbiguousComponentReferenceException(string _subject) :
+        SimpleException(M_PARSER_MESSAGE_DOMAIN, "An attempt was made to access an ambiguously referenced component.\n"
+                                                 "Please ensure that all object tag names are unique", _subject){ }
+    
+    virtual ~AmbiguousComponentReferenceException() throw() {}
+
+};
+
+
+class FatalParserException : public SimpleException {
+
+public:
+    FatalParserException() : SimpleException(M_PARSER_MESSAGE_DOMAIN, "An unrecoverable parser error occurred"){ }
+    
+    virtual ~FatalParserException() throw(){ }
+};
 
 class ComponentFactoryConflictException : public SimpleException{
   
