@@ -19,13 +19,10 @@ shared_ptr<mw::Component> PlayDynamicStimulusFactory::createObject(std::map<std:
 	
 	REQUIRE_ATTRIBUTES(parameters, DYNAMIC_STIMULUS);
 	
-	shared_ptr <DynamicStimulusDriver> the_dynamic_stimulus = reg->getObject<DynamicStimulusDriver>(parameters.find(DYNAMIC_STIMULUS)->second);
+	shared_ptr<StimulusNode> stimNode = reg->getStimulus(parameters.find(DYNAMIC_STIMULUS)->second);
+    CHECK_ATTRIBUTE(stimNode, parameters, DYNAMIC_STIMULUS);
 	
-	if(the_dynamic_stimulus == 0) {
-		throw MissingReferenceException(parameters.find("reference_id")->second, DYNAMIC_STIMULUS, parameters.find(DYNAMIC_STIMULUS)->second);		
-	}
-	
-	shared_ptr <PlayDynamicStimulus> new_play_dynamic_stimulus_action = shared_ptr<PlayDynamicStimulus>(new PlayDynamicStimulus(the_dynamic_stimulus));
+	shared_ptr <PlayDynamicStimulus> new_play_dynamic_stimulus_action = shared_ptr<PlayDynamicStimulus>(new PlayDynamicStimulus(stimNode));
 	return new_play_dynamic_stimulus_action;		
 }
 
@@ -36,13 +33,10 @@ shared_ptr<mw::Component> StopDynamicStimulusFactory::createObject(std::map<std:
 	
 	REQUIRE_ATTRIBUTES(parameters, DYNAMIC_STIMULUS);
 	
-	shared_ptr <DynamicStimulusDriver> the_dynamic_stimulus = reg->getObject<DynamicStimulusDriver>(parameters.find(DYNAMIC_STIMULUS)->second);
+	shared_ptr<StimulusNode> stimNode = reg->getStimulus(parameters.find(DYNAMIC_STIMULUS)->second);
+    CHECK_ATTRIBUTE(stimNode, parameters, DYNAMIC_STIMULUS);
 	
-	if(the_dynamic_stimulus == 0) {
-		throw MissingReferenceException(parameters.find("reference_id")->second, DYNAMIC_STIMULUS, parameters.find(DYNAMIC_STIMULUS)->second);		
-	}
-	
-	shared_ptr <StopDynamicStimulus> new_stop_dynamic_stimulus_action = shared_ptr<StopDynamicStimulus>(new StopDynamicStimulus(the_dynamic_stimulus));
+	shared_ptr <StopDynamicStimulus> new_stop_dynamic_stimulus_action = shared_ptr<StopDynamicStimulus>(new StopDynamicStimulus(stimNode));
 	return new_stop_dynamic_stimulus_action;		
 }
 

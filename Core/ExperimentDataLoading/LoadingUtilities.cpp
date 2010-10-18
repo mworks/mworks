@@ -329,7 +329,7 @@ namespace mw {
 		
 		
 		GlobalCurrentExperiment->setStimulusDisplay(stimdisplay);
-		stimdisplay->updateDisplay();
+		stimdisplay->clearDisplay();
 		[pool drain];
 	}
 	
