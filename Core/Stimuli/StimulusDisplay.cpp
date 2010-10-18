@@ -25,7 +25,6 @@
 	#include <AGL/agl.h>
 	#include <OpenGL/gl.h>
 	#include <OpenGL/glu.h>
-    #include <CoreVideo/CVHostTime.h>
 #elif	linux
 	// TODO: where are these in linux?
 #endif
@@ -163,7 +162,7 @@ void StimulusDisplay::getCurrentViewportSize(GLint &width, GLint &height) {
 
 
 void StimulusDisplay::stateSystemCallback(const Datum &data, MWorksTime time) {
-    unique_lock lock(display_lock);
+    upgrade_lock lock(display_lock);
 
     int newState = data.getInteger();
 
@@ -224,22 +223,26 @@ CVReturn StimulusDisplay::displayLinkCallback(CVDisplayLinkRef _displayLink,
     StimulusDisplay *display = static_cast<StimulusDisplay*>(_display);
     
     {
-        unique_lock lock(display->display_lock);
+        upgrade_lock upgradeLock(display->display_lock);
         
+        {
+            upgrade_to_unique_lock lock(upgradeLock);
+            
 //#define WARN_ON_SKIPPED_REFRESH
 #ifdef WARN_ON_SKIPPED_REFRESH
-        if (display->lastFrameTime) {
-            int64_t delta = (outputTime->videoTime - display->lastFrameTime) - outputTime->videoRefreshPeriod;
-            if (delta) {
-                mwarning(M_DISPLAY_MESSAGE_DOMAIN,
-                         "Skipped %g display refresh cycles",
-                         (double)delta / (double)(outputTime->videoRefreshPeriod));
+            if (display->lastFrameTime) {
+                int64_t delta = (outputTime->videoTime - display->lastFrameTime) - outputTime->videoRefreshPeriod;
+                if (delta) {
+                    mwarning(M_DISPLAY_MESSAGE_DOMAIN,
+                             "Skipped %g display refresh cycles",
+                             (double)delta / (double)(outputTime->videoRefreshPeriod));
+                }
             }
-        }
 #endif
-        display->lastFrameTime = outputTime->videoTime;
+            display->lastFrameTime = outputTime->videoTime;
+        }
         
-        shared_lock sharedLock(lock);  // Downgrade to shared_lock
+        shared_lock sharedLock(upgradeLock);  // Downgrade to shared_lock
         display->refreshDisplay();
         display->waitingForRefresh = false;
     }
@@ -311,15 +314,19 @@ void StimulusDisplay::refreshDisplay() {
 
 
 void StimulusDisplay::clearDisplay() {
-    unique_lock lock(display_lock);
+    upgrade_lock upgradeLock(display_lock);
     
-    shared_ptr<StimulusNode> node = display_stack->getFrontmost();
-    while(node) {
-        node->setVisible(false);
-        node = node->getNext();
+    {
+        upgrade_to_unique_lock lock(upgradeLock);
+        
+        shared_ptr<StimulusNode> node = display_stack->getFrontmost();
+        while(node) {
+            node->setVisible(false);
+            node = node->getNext();
+        }
     }
 	
-    ensureRefresh(lock);
+    ensureRefresh(upgradeLock);
 }
 
 
@@ -363,36 +370,56 @@ void StimulusDisplay::drawDisplayStack() {
 
 
 void StimulusDisplay::updateDisplay() {
-	unique_lock lock(display_lock);
+    upgrade_lock upgradeLock(display_lock);
     
-    shared_ptr<StimulusNode> node = display_stack->getFrontmost();
-    while (node) {
-        if (node->isPending()) {
-            // we're taking care of the pending state, so
-            // clear this flag
-            node->clearPending();
-            
-            // convert "pending visible" stimuli to "visible" ones
-            node->setVisible(node->isPendingVisible());
-            
-            if (node->isPendingRemoval()) {
-                node->clearPendingRemoval();
-                node->remove();
-                continue;
-            }
-        }
+    {
+        upgrade_to_unique_lock lock(upgradeLock);
         
-        node = node->getNext();
+        shared_ptr<StimulusNode> node = display_stack->getFrontmost();
+        while (node) {
+            if (node->isPending()) {
+                // we're taking care of the pending state, so
+                // clear this flag
+                node->clearPending();
+                
+                // convert "pending visible" stimuli to "visible" ones
+                node->setVisible(node->isPendingVisible());
+                
+                if (node->isPendingRemoval()) {
+                    node->clearPendingRemoval();
+                    node->remove();
+                    continue;
+                }
+            }
+            
+            node = node->getNext();
+        }
     }
     
-    ensureRefresh(lock);
+#define ERROR_ON_LATE_FRAMES
+#ifdef ERROR_ON_LATE_FRAMES
+    MWTime before_draw = clock->getCurrentTimeUS();
+#endif
+
+    ensureRefresh(upgradeLock);
+    
+#ifdef ERROR_ON_LATE_FRAMES
+    MWTime now = clock->getCurrentTimeUS();
+    MWTime slop = 2 * (1000000 / getMainDisplayRefreshRate());
+    
+    if(now-before_draw > slop) {
+        merror(M_DISPLAY_MESSAGE_DOMAIN,
+               "updating main window display is taking longer than two frames (%lld > %lld) to update", 
+               now-before_draw, 
+               slop);		
+    }
+#endif
 }
 
 
-void StimulusDisplay::ensureRefresh(unique_lock &lock) {
+void StimulusDisplay::ensureRefresh(upgrade_lock &lock) {
     shared_lock sharedLock(lock);  // Downgrade to shared_lock
 
-    MWTime before_draw = clock->getCurrentTimeUS();
     needDraw = true;
     
     if (!CVDisplayLinkIsRunning(displayLink)) {
@@ -405,19 +432,6 @@ void StimulusDisplay::ensureRefresh(unique_lock &lock) {
             refreshCond.wait(sharedLock);
         } while (waitingForRefresh);
     }
-    
-#define ERROR_ON_LATE_FRAMES
-#ifdef ERROR_ON_LATE_FRAMES
-    MWTime now = clock->getCurrentTimeUS();
-    MWTime slop = 2 * (1000000 / getMainDisplayRefreshRate());
-    
-    if(now-before_draw > slop) {
-        merror(M_DISPLAY_MESSAGE_DOMAIN,
-               "updating main window display is taking longer than two frames (%lld > %lld) to update", 
-               now-before_draw, 
-               slop);		
-    }
-#endif
 }
 
 

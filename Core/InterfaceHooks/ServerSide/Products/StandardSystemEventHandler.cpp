@@ -93,8 +93,7 @@ void StandardSystemEventHandler::handleSystemEvent(const Datum &sysEvent) {
                 merror(M_PARSER_MESSAGE_DOMAIN, 
 					   "Failed to parse experiment %s", 
 					   expXMLFile.string().c_str());
-				// TODO: throw, or at least, issue an event indicating that the
-				// load failed
+				
                 break;
             }
 			

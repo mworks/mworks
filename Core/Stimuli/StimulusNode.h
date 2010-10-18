@@ -162,6 +162,8 @@ class StimulusGroupReferenceNode : public StimulusNode {
 										shared_ptr<Variable> _index);
 		virtual ~StimulusGroupReferenceNode(){}							
 
+        virtual shared_ptr<Stimulus> getStimulus();
+
 		virtual void addToDisplay(shared_ptr<StimulusDisplay> display);
 	
 		// set the "visible" state of the node

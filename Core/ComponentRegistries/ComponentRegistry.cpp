@@ -143,8 +143,8 @@ void ComponentRegistry::registerFactory(std::string type_name,
 										 ComponentFactory *_factory){
 	shared_ptr<ComponentFactory> factory(_factory);
   
-  shared_ptr<ComponentFactory> existing_factory = factories[type_name];
-  if(existing_factory != NULL){
+    shared_ptr<ComponentFactory> existing_factory = factories[type_name];
+    if(existing_factory != NULL){
         throw ComponentFactoryConflictException(type_name);
 	}
     
@@ -202,12 +202,12 @@ shared_ptr<mw::Component> ComponentRegistry::createNewObject(const std::string &
 	
 	// create the new object
 	shared_ptr<mw::Component> obj;
-	try {
+	//try {
 		obj = factory->createObject(parameters, this);
-	} catch (std::exception& e){
-        std::string what = e.what();
-		merror(M_PARSER_MESSAGE_DOMAIN, what);
-	}
+	//} catch (std::exception& e){
+//        std::string what = e.what();
+//		merror(M_PARSER_MESSAGE_DOMAIN, what);
+//	}
 	
 	return obj;
 }
@@ -221,15 +221,30 @@ void ComponentRegistry::registerObject(std::string tag_name, shared_ptr<mw::Comp
 	if(component == NULL){
 		throw SimpleException("Attempt to register empty component", tag_name);
 	}    
-    
+        
     // If the tag name is already registered
-    //if(instances.find(tag_name) != instances.end()){
-//        shared_ptr<Component> preexisting = instances[tag_name];
-//        string preexisting_tag = preexisting->getTag();
-//        // DDC: this is interacting unpleasantly with replicated stimuli
-//        //throw SimpleException("Attempt to redefine an existing component.  All names within an experiment must be unique", tag_name);
-//    }
-//    
+    if(instances.find(tag_name) != instances.end() && instances[tag_name] != NULL){
+        
+        shared_ptr<Component> preexisting = instances[tag_name];
+        
+        if(preexisting == NULL){
+            throw SimpleException("Attempt to redefine an existing component.  All names within an experiment must be unique", tag_name);
+        }
+
+        shared_ptr<AmbiguousComponentReference> ambiguous_component;
+        if(preexisting->isAmbiguous()){
+            ambiguous_component = dynamic_pointer_cast<AmbiguousComponentReference>(preexisting);
+        } else {
+            ambiguous_component = shared_ptr<AmbiguousComponentReference>(new AmbiguousComponentReference());
+        }
+        
+        ambiguous_component->addAmbiguousComponent(component);
+        
+        instances[tag_name] = dynamic_pointer_cast<AmbiguousComponentReference, Component>(ambiguous_component);
+        
+        return;
+    }
+    
 	instances[tag_name] = component;
 	
 	tagnames_by_id[component->getCompactID()] = tag_name;
@@ -281,6 +296,7 @@ shared_ptr<Variable>	ComponentRegistry::getVariable(std::string expression){
 	b2 = boost::regex_match(expression, matches2, r2);
 	b3 = boost::regex_match(expression, matches3, r3);
 	if(b1 || b2 || b3){
+        // TODO try
 		shared_ptr<Variable> expression_var(new ParsedExpressionVariable(expression));	
 		return expression_var;
 	} 
@@ -456,18 +472,38 @@ Datum ComponentRegistry::getNumber(std::string expression, GenericDataType type)
     return *test;
   }
   
+    double doubleValue;
+    long longValue;
+    bool boolValue;
   Datum value;
   try {
     switch(type){
       case M_FLOAT:
-          value = Datum(lexical_cast<double>(expression));
-          break;
-      case M_BOOLEAN:
-          value = Datum((bool)lexical_cast<long>(expression));
-          break;
       case M_INTEGER:
-          value = Datum(lexical_cast<long>(expression));
-          break;
+      case M_BOOLEAN:
+            doubleValue = lexical_cast<double>(expression);
+            if (M_FLOAT == type) {
+                value = Datum(doubleValue);
+            } else if (M_INTEGER == type) {
+                longValue = (long)doubleValue;
+                if ((double)longValue != doubleValue) {
+                    mwarning(M_PARSER_MESSAGE_DOMAIN,
+                             "invalid integer literal \"%s\" truncated to %ld",
+                             expression.c_str(),
+                             longValue);
+                }
+                value = Datum(longValue);
+            } else {
+                boolValue = (bool)doubleValue;
+                if ((double)boolValue != doubleValue) {
+                    mwarning(M_PARSER_MESSAGE_DOMAIN,
+                             "invalid boolean literal \"%s\" truncated to %d",
+                             expression.c_str(),
+                             boolValue);
+                }
+                value = Datum(boolValue);
+            }
+            break;
       case M_STRING:
           value = Datum(string(expression));
           break;
@@ -590,5 +626,15 @@ boost::filesystem::path ComponentRegistry::getPath(std::string working_path,
 
 	std::string squashed = XMLParser::squashFileName(expression);
 	return expandPath(working_path, squashed);
+}
+
+void ComponentRegistry::dumpToStdErr(){
+
+    unordered_map< string, shared_ptr<Component> >::iterator i;
+    for(i = instances.begin(); i != instances.end(); ++i){
+        pair< string, shared_ptr<Component> > instance = *i;
+        cerr << instance.first << ": " << instance.second.get() << endl;
+    }
+    
 }
 

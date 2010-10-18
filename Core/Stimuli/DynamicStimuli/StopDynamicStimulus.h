@@ -17,9 +17,9 @@ using namespace mw;
 
 class StopDynamicStimulus : public Action {	
 protected:
-	shared_ptr<DynamicStimulusDriver> dynamic_stimulus;
+	shared_ptr<StimulusNode> stimNode;
 public:
-	StopDynamicStimulus(shared_ptr<DynamicStimulusDriver> the_dynamic_stimulus);
+	StopDynamicStimulus(shared_ptr<StimulusNode> stimNode);
 	virtual bool execute();
 };
 
