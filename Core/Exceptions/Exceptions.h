@@ -104,7 +104,7 @@ class AmbiguousComponentReferenceException : public SimpleException {
 
 public:
     AmbiguousComponentReferenceException(string _subject) :
-        SimpleException(M_PARSER_MESSAGE_DOMAIN, "An attempt was made to access an ambiguously referenced component.\n"
+        SimpleException(M_PARSER_MESSAGE_DOMAIN, "An attempt was made to access an ambiguously referenced component.  "
                                                  "Please ensure that all object tag names are unique", _subject){ }
     
     virtual ~AmbiguousComponentReferenceException() throw() {}
