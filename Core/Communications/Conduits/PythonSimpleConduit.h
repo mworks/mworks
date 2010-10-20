@@ -55,6 +55,7 @@ class PythonIPCPseudoConduit {
 protected:
 
     std::string resource_name;
+    shared_ptr<EventTransport> transport;
     shared_ptr<CodecAwareConduit> conduit;
     bool initialized;
     
@@ -72,21 +73,17 @@ public:
         initialized = false;
         
         try {
-            shared_ptr<EventTransport> _transport(new IPCEventTransport(type, 
+            transport = shared_ptr<EventTransport>(new IPCEventTransport(type, 
                                                                           EventTransport::bidirectional_event_transport, 
                                                                           resource_name));
-            if(_transport == NULL){
+            if(transport == NULL){
                 throw SimpleException("Failed to create valid transport");
             }
-            conduit = shared_ptr<CodecAwareConduit>(new CodecAwareConduit(_transport));
         } catch(std::exception& e){
             initialized = false;
             throw SimpleException("Failed to build conduit: ", e.what());
         }
         
-        if(conduit == NULL){
-            throw SimpleException("Failed to build valid conduit");
-        }
         
         //cerr << "Created bidirectional conduit: " << resource_name << endl;
     }
@@ -98,9 +95,15 @@ public:
     virtual bool initialize(){
         
         try{
+            conduit = shared_ptr<CodecAwareConduit>(new CodecAwareConduit(transport));
+
             initialized = conduit->initialize();
         } catch(std::exception& e){
             fprintf(stderr, "%s\n", e.what()); fflush(stderr);
+            initialized = false;
+        }
+        
+        if(conduit == NULL){
             initialized = false;
         }
         
