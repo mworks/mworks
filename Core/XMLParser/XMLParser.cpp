@@ -13,6 +13,7 @@
 #include <stdlib.h>
 #include <stdarg.h>
 #include <stdio.h>
+#include <glob.h>
 
 #include <boost/tokenizer.hpp>
 #include <boost/regex.hpp>
@@ -311,7 +312,7 @@ void XMLParser::_processListReplicator(xmlNode *node){
 }
 
 void XMLParser::_generateListReplicatorValues(xmlNode *node, vector<string> &values) {
-    static const boost::regex dirRegex("^DIR\\((?<path>.+)\\)$", boost::regex::icase);
+    static const boost::regex filenamesRegex("^FILENAMES\\((?<pattern>.+)\\)$", boost::regex::icase);
 
 	string values_string(_attributeForName(node, "values"));
 	
@@ -323,30 +324,47 @@ void XMLParser::_generateListReplicatorValues(xmlNode *node, vector<string> &val
         boost::algorithm::trim(value);
 
         boost::smatch matchResult;
-        if (!boost::regex_match(value, matchResult, dirRegex)) {
+        if (!boost::regex_match(value, matchResult, filenamesRegex)) {
             values.push_back(value);
         } else {
-            namespace bf = boost::filesystem;
-            bf::path dirPath(matchResult.str("path"), bf::native);
-            bf::path workingPath(getWorkingPathString(), bf::native);
-            if (!(dirPath.is_complete() || workingPath.empty())) {
-                dirPath = workingPath / dirPath;
-            }
-            if (!(bf::is_directory(dirPath))) {
-                throw InvalidXMLException(_attributeForName(node, "reference_id"),
-                                          "Invalid directory in list replicator DIR() expression",
-                                          dirPath.string());
-            }
-            bf::directory_iterator endIter;
-            for (bf::directory_iterator iter(dirPath); iter != endIter; iter++) {
-                if (bf::is_regular_file(iter->status())) {
-                    string filename(iter->filename());
-                    if (filename[0] != bf::dot<bf::path>::value) {
-                        values.push_back(filename);
-                    }
-                }
-            }
+            _generateListReplicatorFilenames(node, values, matchResult.str("pattern"));
         }
+    }
+}
+
+void XMLParser::_generateListReplicatorFilenames(xmlNode *node, vector<string> &values, const string &pattern) {
+    glob_t globResults;
+    int globStatus = glob(pattern.c_str(), 0, NULL, &globResults);
+    shared_ptr<glob_t> globResultsPtr(&globResults, globfree);  // Ensure that globfree() is called
+    
+    if ((0 != globStatus) && (GLOB_NOMATCH != globStatus)) {
+        throw InvalidXMLException(_attributeForName(node, "reference_id"),
+                                  "Unknown error when processing list replicator FILENAMES() expression",
+                                  pattern);
+    }
+    
+    namespace bf = boost::filesystem;
+    bf::directory_iterator endIter;
+    int numMatches = 0;
+
+    for (int i = 0; i < globResults.gl_pathc; i++) {
+        bf::path filePath(globResults.gl_pathv[i], bf::native);
+
+        bf::path workingPath(getWorkingPathString(), bf::native);
+        if (!(filePath.is_complete() || workingPath.empty())) {
+            filePath = workingPath / filePath;
+        }
+        
+        if (bf::is_regular_file(filePath)) {
+            values.push_back(filePath.string());
+            numMatches++;
+        }
+    }
+    
+    if (0 == numMatches) {
+        throw InvalidXMLException(_attributeForName(node, "reference_id"),
+                                  "No matches for list replicator FILENAMES() expression",
+                                  pattern);
     }
 }
 
