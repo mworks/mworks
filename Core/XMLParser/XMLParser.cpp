@@ -173,27 +173,41 @@ string XMLParser::squashFileName(string name){
 void XMLParser::_processNode(xmlNode *child){
 	string name((const char *)(child->name));
 	
-	if(name == "mw_create"){
-		_processCreateDirective(child);
-	} else if(name == "mw_anonymous_create"){
-		_processAnonymousCreateDirective(child);
-	} else if(name == "mw_instance"){
-		_processInstanceDirective(child);
-	} else if(name == "mw_connect"){
-		_processConnectDirective(child);
-	} else if(name == "mw_range_replicator"){
-		_processRangeReplicator(child);
-	} else if(name == "mw_list_replicator"){
-		_processListReplicator(child);
-	} else if(name == "mw_finalize"){
-		_processFinalizeDirective(child);
-	} else if(name == "variable_assignment"){
-		_processVariableAssignment(child);
-	} else if(name == "mw_passthrough"){
-		// do nothing
-	} else if(name == "text"){
-		// do nothing
-	}
+    
+    try {
+        if(name == "mw_create"){
+            _processCreateDirective(child);
+        } else if(name == "mw_anonymous_create"){
+            _processAnonymousCreateDirective(child);
+        } else if(name == "mw_instance"){
+            _processInstanceDirective(child);
+        } else if(name == "mw_connect"){
+            _processConnectDirective(child);
+        } else if(name == "mw_range_replicator"){
+            _processRangeReplicator(child);
+        } else if(name == "mw_list_replicator"){
+            _processListReplicator(child);
+        } else if(name == "mw_finalize"){
+            _processFinalizeDirective(child);
+        } else if(name == "variable_assignment"){
+            _processVariableAssignment(child);
+        } else if(name == "mw_passthrough"){
+            // do nothing
+        } else if(name == "text"){
+            // do nothing
+        }
+    } catch (SimpleException e){
+        
+        mdebug("Error in %s node", name.c_str());
+        xmlBufferPtr xml_buffer = xmlBufferCreate();
+        int bytes = xmlNodeDump(xml_buffer, xml_doc, child, 1, 1);
+        if(bytes != -1){
+            string content((const char *)xml_buffer->content);
+            mdebug(content.c_str());
+        }
+        
+        throw e; // pass the buck
+    }
 }
 
 
@@ -562,9 +576,9 @@ void XMLParser::_processCreateDirective(xmlNode *node){
 }
 
 void XMLParser::_processGenericCreateDirective(xmlNode *node, bool anon){
-  string object_type(_attributeForName(node, "object"));
-  string reference_id(_attributeForName(node, "reference_id"));
-  string parent_scope(_attributeForName(node, "parent_scope"));
+    string object_type(_attributeForName(node, "object"));
+    string reference_id(_attributeForName(node, "reference_id"));
+    string parent_scope(_attributeForName(node, "parent_scope"));
 	
 	// Create an STL map containing all properties contained under this
 	// node
@@ -756,32 +770,39 @@ shared_ptr<mw::Component> XMLParser::_getConnectionChild(xmlNode *child){
 	string child_instance_tag = _generateInstanceTag(child_tag, child_reference_id, child_instance_id);
 	
 	shared_ptr<mw::Component> child_component;
-	child_component = registry->getObject<mw::Component>(child_instance_tag);
-	
+    
+    try {
+        child_component = registry->getObject<mw::Component>(child_instance_tag);
+	} catch (AmbiguousComponentReferenceException e){
+        // no problem, we're going to check by tag name next
+    }
+    
 	// if it exists, return it
 	if(child_component != NULL){
-		//mprintf(M_PARSER_MESSAGE_DOMAIN, "\tretrieving child %s", child_instance_tag.c_str());
 		return child_component;
 	}
 	
-	//mprintf("failed to find child %s", child_instance_tag.c_str());
-	
-    
-	// Second, try to look up the object using its tag
-    // DDC removed this  TODO: make sure there are no consequences
-	// DDC: putting this back – has consequences for replicated stimuli
-    child_component = registry->getObject<mw::Component>(child_tag);
 
-	if(child_component != NULL){
-//	if(child_component != NULL && !(child_component->isAmbiguous())){
-//		//mprintf(M_PARSER_MESSAGE_DOMAIN, "\tretrieving child %s", child_tag.c_str());
-		return child_component;
-	}
+    try {
+	
+        child_component = registry->getObject<mw::Component>(child_tag);
+        
+
+        if(child_component != NULL){
+            return child_component;
+        }
 	
 	
-	// Finally, try to look up the object using its reference_id
-	child_component = registry->getObject<mw::Component>(child_reference_id);
-	//mprintf(M_PARSER_MESSAGE_DOMAIN, "\tretrieving child %s", child_reference_id.c_str());
+        // Finally, try to look up the object using its reference_id
+        child_component = registry->getObject<mw::Component>(child_reference_id);
+	} catch (AmbiguousComponentReferenceException e){
+        merror(M_PARSER_MESSAGE_DOMAIN, "An ambiguously named object was detected during parsing (connection phase).\n"
+                                        "Please ensure that all object names are unique.\n"
+                                        "Details: tag_name = <%s>, reference_id = <%s>, instance_id = <%s>", 
+                            child_tag.c_str(), child_reference_id.c_str(), child_instance_id.c_str());
+        registry->dumpToStdErr();
+        throw FatalParserException();
+    }
 	
 	if(child_component == NULL){
 		// do nothing
@@ -806,7 +827,7 @@ void XMLParser::_connectChildToParent(shared_ptr<mw::Component> parent,
 	if(child_name == "mw_range_replicator" || child_name == "mw_list_replicator"){
 		string variable(_attributeForName(child_node, "variable"));
         vector<string> values;
-		
+
 		if(child_name == "mw_range_replicator") {
             _generateRangeReplicatorValues(child_node, values);
 		} else { // "mw_list_replicator"
@@ -910,20 +931,23 @@ void XMLParser::_processConnectDirective(xmlNode *node){
 	
 	shared_ptr<mw::Component> parent_component;
 	
-	// Try to look up object with its tag
-    // DDC swapped: try the ref id first
-	//parent_component = registry->getObject<mw::Component>(parent_tag);
-	parent_component = registry->getObject<mw::Component>(reference_id);
+	// Try to look up object with its reference id	
+    try {
+        parent_component = registry->getObject<mw::Component>(reference_id);
+    } catch (AmbiguousComponentReferenceException e){
+        // not necessarily a big deal, move on to a more descriptive name
+    }
     
-	// If that didn't work, try using the reference id
+	// If that didn't work, try using the tag
 	if(parent_component == NULL){
-		//parent_component = registry->getObject<mw::Component>(reference_id);
-        parent_component = registry->getObject<mw::Component>(parent_tag);
+		parent_component = registry->getObject<mw::Component>(parent_tag);
 	}
 	
 	if(parent_component == NULL){
 		// error (should eventually throw)
-		//		throw SimpleException("Unknown object during connection phase",
+        // For now, this doesn't interact well with alt objects (e.g.
+        // iodevices, when the device itself is not present)
+		// throw SimpleException("Unknown object during connection phase",
 		//														parent_tag);
 		return;
 	}

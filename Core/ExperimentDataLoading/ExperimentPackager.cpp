@@ -68,7 +68,7 @@ Datum ExperimentPackager::packageExperiment(const boost::filesystem::path filena
 	namespace bf = boost::filesystem;
 	IncludedFilesParser parser(filename.string());
 	std::string working_path_string;
- Datum include_files;
+    Datum include_files;
 	
 	try{
 		parser.parse(false);
@@ -80,12 +80,12 @@ Datum ExperimentPackager::packageExperiment(const boost::filesystem::path filena
 		return Datum();
 	}
 	
- Datum eventPayload(M_DICTIONARY, M_EXPERIMENT_PACKAGE_NUMBER_ELEMENTS);
+    Datum eventPayload(M_DICTIONARY, M_EXPERIMENT_PACKAGE_NUMBER_ELEMENTS);
 	eventPayload.addElement(M_PACKAGER_EXPERIMENT_STRING, 
 							packageSingleFile(filename, XMLParser::squashFileName(filename.string())));
 	
 	if(include_files.getNElements() >= 1) {
-	 Datum mediaFilesPayload(M_LIST, include_files.getNElements());
+        Datum mediaFilesPayload(M_LIST, include_files.getNElements());
 		
 		
 		for(int i=0; i< include_files.getNElements();  ++i) {
@@ -98,14 +98,14 @@ Datum ExperimentPackager::packageExperiment(const boost::filesystem::path filena
 			
 			//bf::path mediaPath(include_files.getElement(i).getElement(M_PACKAGER_FULL_NAME).getString(), bf::native);
 			//std::string mediaName(include_files.getElement(i).getElement(M_PACKAGER_RELATIVE_NAME).getString());
-		 Datum mediaElement = packageSingleFile(mediaPath, mediaName);
+            Datum mediaElement = packageSingleFile(mediaPath, mediaName);
 			
 			if(!mediaElement.isUndefined()) {
 				mediaFilesPayload.addElement(mediaElement);
 			} else {
 				merror(M_FILE_MESSAGE_DOMAIN, 
 					   "Can't find file: %s", mediaPath.string().c_str());
-			 Datum undef;
+                Datum undef;
 				return undef;
 			}
 		}

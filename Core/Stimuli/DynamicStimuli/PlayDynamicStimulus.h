@@ -17,11 +17,11 @@ using namespace mw;
 
 class PlayDynamicStimulus : public Action {	
 protected:
-	shared_ptr<DynamicStimulusDriver> dynamic_stimulus;
+	shared_ptr<StimulusNode> stimNode;
 	
 public:
 	
-	PlayDynamicStimulus(shared_ptr<DynamicStimulusDriver> the_dynamic_stimulus);
+	PlayDynamicStimulus(shared_ptr<StimulusNode> stimNode);
 	virtual bool execute();
 };
 

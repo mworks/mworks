@@ -9,14 +9,22 @@
 
 #include "PlayDynamicStimulus.h"
 
-PlayDynamicStimulus::PlayDynamicStimulus(shared_ptr<DynamicStimulusDriver> the_dynamic_stimulus) : Action() 
+PlayDynamicStimulus::PlayDynamicStimulus(shared_ptr<StimulusNode> stimNode) :
+    Action(),
+    stimNode(stimNode)
 {
 	setName("PlayDynamicStimulus");
-	dynamic_stimulus=the_dynamic_stimulus;
 }
 
 bool PlayDynamicStimulus::execute() {	
-	dynamic_stimulus->play();
+	shared_ptr<DynamicStimulusDriver> dynamicStim(dynamic_pointer_cast<DynamicStimulusDriver>(stimNode->getStimulus()));
+
+	if (!dynamicStim) {
+        merror(M_PARADIGM_MESSAGE_DOMAIN, "Attempted to play a non-dynamic stimulus.  Doing nothing.");
+        return false;
+	}
+
+	dynamicStim->play();
     return true;
 }
 
