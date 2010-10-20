@@ -8,8 +8,8 @@
     <sounds tag="Sounds"></sounds>
     <stimuli tag="Stimuli">
         <stimulus_group tag="images">
-            <list_replicator tag="New List Replicator" values="DIR(images)" variable="filename">
-                <stimulus type="image_file" tag="${filename}" path="images/${filename}" x_size="10.0" y_size="10.0" x_position="0.0" y_position="0.0" rotation="0.0" alpha_multiplier="1.0" deferred="NO"></stimulus>
+            <list_replicator tag="New List Replicator" values="FILENAMES(images/*)" variable="filename">
+                <stimulus type="image_file" tag="${filename}" path="${filename}" x_size="10.0" y_size="10.0" x_position="0.0" y_position="0.0" rotation="0.0" alpha_multiplier="1.0" deferred="NO"></stimulus>
             </list_replicator>
         </stimulus_group>
     </stimuli>

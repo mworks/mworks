@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<monkeyml version="1.0">
+    <io_devices tag="IO Devices"></io_devices>
+    <variables tag="Variables">
+        <variable tag="current_image" scope="global" logging="when_changed" default_value="0" type="integer"></variable>
+        <variable tag="filename" scope="local" logging="when_changed" default_value="DEFAULT" type="string"></variable>
+    </variables>
+    <sounds tag="Sounds"></sounds>
+    <stimuli tag="Stimuli">
+        <stimulus_group tag="images">
+            <list_replicator tag="New List Replicator" values="FILENAMES(/Library/Application Support/MWorks/Developer/tests/XML/ParadigmComponents/ListReplicator/FilenamesExpression/images/*)" variable="filename">
+                <stimulus type="image_file" tag="${filename}" path="${filename}" x_size="10.0" y_size="10.0" x_position="0.0" y_position="0.0" rotation="0.0" alpha_multiplier="1.0" deferred="NO"></stimulus>
+            </list_replicator>
+        </stimulus_group>
+    </stimuli>
+    <filters tag="Filters"></filters>
+    <optimizers tag="Optimizers"></optimizers>
+    <experiment tag="New Experiment" full_name="" description="">
+        <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential">
+            <action type="assignment" tag="Reset current image" variable="current_image" value="0"></action>
+            <task_system tag="New Task System" interruptible="YES">
+                <task_system_state tag="Display image" interruptible="YES">
+                    <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                    <action tag="Queue image" type="queue_stimulus" stimulus="images[current_image]"></action>
+                    <action tag="Update display" type="update_stimulus_display"></action>
+                    <action type="wait" tag="Wait" duration="1.0" duration_units="s"></action>
+                    <action tag="Dequeue image" type="dequeue_stimulus" stimulus="images[current_image]"></action>
+                    <action type="assignment" tag="Advance image counter" variable="current_image" value="current_image + 1"></action>
+                    <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                    <transition type="conditional" tag="If Condition is True, Transition to ..." condition="current_image &lt; 7" target="Display image"></transition>
+                    <transition tag="Go to Exit" type="direct" target="Exit"></transition>
+                </task_system_state>
+                <task_system_state tag="Exit" interruptible="YES">
+                    <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                    <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                    <transition tag="Return to parent task system" type="yield"></transition>
+                </task_system_state>
+            </task_system>
+        </protocol>
+    </experiment>
+</monkeyml>
