@@ -123,4 +123,5 @@ void CodecAwareConduit::registerLocalEventCode(int code, string event_name){
     
     local_reverse_codec = reverse_simple_codec_map(local_codec);
     transmitCodecEvent();
+    
 }

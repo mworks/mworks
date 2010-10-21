@@ -38,18 +38,25 @@ namespace mw {
         
     public:
         
-        typedef vector<Event> EventList;
+        typedef vector< shared_ptr<Event> > EventList;
         
         PythonEventListCallback(boost::python::object _function_object){
             function_object = _function_object;
         }
         
-        void callback(shared_ptr< vector<Event> > evts){
+        void callback(shared_ptr<EventList> evts){
             PyGILState_STATE gstate = PyGILState_Ensure();
-            EventList evts_copy(*evts);
+            
+            boost::python::list evts_list;
+            
+            EventList::iterator i;
+            for(i = evts->begin(); i != evts->end(); ++i){
+                evts_list.append< shared_ptr<Event> >(*i);
+            }
+            //EventList evts_copy(*evts);
             
             try {
-                function_object(evts_copy);
+                function_object(evts_list);
             } catch (error_already_set &) {
                 PyErr_Print();
             }
@@ -67,25 +74,29 @@ namespace mw {
     protected:
     
         string start_evt, end_evt;
-        shared_ptr< vector<string> > events_to_watch;
+        vector<string> events_to_watch;
         
     public:
         
-        PythonIPCAccumulatingConduit(string _resource_name, EventTransport::event_transport_type type
+        PythonIPCAccumulatingConduit(string _resource_name, EventTransport::event_transport_type event_trans_type,
                                      string _start_evt,
                                      string _end_evt,
-                                     vector<std::string> _events_to_watch) :
-                                     PythonIPCPseudoConduit(_resource_name, event_transport_type){
+                                     boost::python::list _events_to_watch) :
+                                     PythonIPCPseudoConduit(_resource_name, event_trans_type){
             start_evt = _start_evt;
             end_evt = _end_evt;
-            events_to_watch = shared_ptr< vector<string> >(new vector<string>(_events_to_watch));
+            
+            int n = len(_events_to_watch);
+            for(int i = 0; i < n; i++){
+                events_to_watch.push_back(boost::python::extract<string>(_events_to_watch[i]));
+            }
         }
         
         
         virtual bool initialize(){
             
             try{
-                conduit = shared_ptr<CodecAwareConduit>(new AccumulatingConduit(start_evt, end_evt, events_to_watch));
+                conduit = shared_ptr<CodecAwareConduit>(new AccumulatingConduit(transport, start_evt, end_evt, events_to_watch));
                 initialized = conduit->initialize();
             } catch(std::exception& e){
                 fprintf(stderr, "%s\n", e.what()); fflush(stderr);
@@ -98,7 +109,7 @@ namespace mw {
         virtual void registerBundleCallback(boost::python::object function_object){
             
             shared_ptr<PythonEventListCallback> cb(new PythonEventListCallback(function_object));
-            accumulating_conduit = dynamic_pointer_cast<AccumulatingConduit>(conduit);
+            shared_ptr<AccumulatingConduit> accumulating_conduit = dynamic_pointer_cast<AccumulatingConduit>(conduit);
             accumulating_conduit->registerBundleCallback(bind(&PythonEventListCallback::callback, cb, _1));
         }
 
@@ -107,12 +118,26 @@ namespace mw {
     class PythonIPCAccumulatingServerConduit : public PythonIPCAccumulatingConduit {
         
     public:
-        PythonIPCAccumulatingServerConduit(std::string _resource_name) : PythonIPCAccumulatingConduit(_resource_name, EventTransport::server_event_transport){}
+        PythonIPCAccumulatingServerConduit(std::string _resource_name,
+                                           string _start_evt,
+                                           string _end_evt,
+                                           boost::python::list _events_to_watch) : PythonIPCAccumulatingConduit(_resource_name, 
+                                                                                                                EventTransport::server_event_transport,
+                                                                                                                _start_evt,
+                                                                                                                _end_evt,
+                                                                                                                _events_to_watch){}
     };
     
     class PythonIPCAccumulatingClientConduit : public PythonIPCAccumulatingConduit {
     public:
-        PythonIPCAccumulatingClientConduit(std::string _resource_name) : PythonIPCAccumulatingConduit(_resource_name, EventTransport::client_event_transport){}
+            PythonIPCAccumulatingClientConduit(std::string _resource_name,
+                                           string _start_evt,
+                                           string _end_evt,
+                                           boost::python::list _events_to_watch) : PythonIPCAccumulatingConduit(_resource_name, 
+                                                                                                                EventTransport::client_event_transport,
+                                                                                                                _start_evt,
+                                                                                                                _end_evt,
+                                                                                                                _events_to_watch){}    
     };
     
     
@@ -120,38 +145,6 @@ namespace mw {
     extern PyObject *convert_scarab_to_python(ScarabDatum *datum);
     extern PyObject *convert_datum_to_python(Datum datum);
     
-    
-    BOOST_PYTHON_MODULE(_conduit)
-    {
-        
-        PyEval_InitThreads();
-        
-        class_<PythonIPCAccumulatingServerConduit>("_IPCAccumulatingServerConduit", init<std::string>())
-        .def("_initialize", &PythonIPCAccumulatingServerConduit::initialize)
-        .def("finalize", &PythonIPCAccumulatingServerConduit::finalize)
-        .def("send_float", &PythonIPCAccumulatingServerConduit::sendFloat)
-        .def("send_integer", &PythonIPCAccumulatingServerConduit::sendInteger)
-        .def("send_object", &PythonIPCAccumulatingServerConduit::sendPyObject)
-        .def("register_callback_for_code", &PythonIPCAccumulatingServerConduit::registerCallbackForCode)
-        .def("register_callback_for_name", &PythonIPCAccumulatingServerConduit::registerCallbackForName)
-        .def("register_local_event_code", &PythonIPCAccumulatingServerConduit::registerLocalEventCode)
-        .def("register_bundle_callback", &PythonIPCAccumulatingServerConduit::registerBundleCallback)
-        .add_property("initialized", &PythonIPCAccumulatingServerConduit::isInitialized)
-        ;
-        
-        class_<PythonIPCClientConduit>("_IPCAccumulatingClientConduit", init<std::string>())
-        .def("_initialize", &PythonIPCAccumulatingClientConduit::initialize)
-        .def("finalize", &PythonIPCAccumulatingClientConduit::finalize)
-        .def("send_float", &PythonIPCAccumulatingClientConduit::sendFloat)
-        .def("send_integer", &PythonIPCAccumulatingClientConduit::sendInteger)
-        .def("send_object", &PythonIPCAccumulatingClientConduit::sendPyObject)
-        .def("register_callback_for_code", &PythonIPCAccumulatingClientConduit::registerCallbackForCode)
-        .def("register_callback_for_name", &PythonIPCAccumulatingClientConduit::registerCallbackForName)
-        .def("register_local_event_code", &PythonIPCAccumulatingClientConduit::registerLocalEventCode)
-        .def("register_bundle_callback", &PythonIPCAccumulatingClientConduit::registerBundleCallback)
-        .add_property("initialized", &PythonIPCAccumulatingClientConduit::isInitialized)
-        ;
-        
-    }
+
     
 }

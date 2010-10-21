@@ -7,6 +7,9 @@
  *
  */
 
+#ifndef PYTHON_SIMPLE_CONDUIT_H_
+#define PYTHON_SIMPLE_CONDUIT_H_
+
 #include <boost/python.hpp>
 
 #include "CodecAwareConduit.h"
@@ -232,46 +235,7 @@ extern PyObject *convert_scarab_to_python(ScarabDatum *datum);
 extern PyObject *convert_datum_to_python(Datum datum);
     
     
-BOOST_PYTHON_MODULE(_conduit)
-{
-    
-    PyEval_InitThreads();
-        
-    class_<PythonIPCServerConduit>("_IPCServerConduit", init<std::string>())
-        .def("_initialize", &PythonIPCServerConduit::initialize)
-        .def("finalize", &PythonIPCServerConduit::finalize)
-        .def("send_float", &PythonIPCServerConduit::sendFloat)
-        .def("send_integer", &PythonIPCServerConduit::sendInteger)
-        .def("send_object", &PythonIPCServerConduit::sendPyObject)
-        .def("register_callback_for_code", &PythonIPCServerConduit::registerCallbackForCode)
-        .def("register_callback_for_name", &PythonIPCServerConduit::registerCallbackForName)
-        .def("register_local_event_code", &PythonIPCServerConduit::registerLocalEventCode)
-        .add_property("initialized", &PythonIPCServerConduit::isInitialized)
-    ;
-
-    class_<PythonIPCClientConduit>("_IPCClientConduit", init<std::string>())
-        .def("_initialize", &PythonIPCClientConduit::initialize)
-        .def("finalize", &PythonIPCClientConduit::finalize)
-        .def("send_float", &PythonIPCClientConduit::sendFloat)
-        .def("send_integer", &PythonIPCClientConduit::sendInteger)
-        .def("send_object", &PythonIPCClientConduit::sendPyObject)
-        .def("register_callback_for_code", &PythonIPCClientConduit::registerCallbackForCode)
-        .def("register_callback_for_name", &PythonIPCClientConduit::registerCallbackForName)
-        .def("register_local_event_code", &PythonIPCClientConduit::registerLocalEventCode)
-        .add_property("initialized", &PythonIPCClientConduit::isInitialized)
-    ;
-
-    class_<Event>("Event")
-        .def("_convert_mw_datum_to_python", &convert_datum_to_python)
-        .staticmethod("_convert_mw_datum_to_python")
-        .add_property("code", &Event::getEventCode)
-        .add_property("_mw_datum", &Event::getData);
-    ;
-    
-    class_<Datum>("Datum")
-        .add_property("float", &Datum::getFloat)
-        .add_property("integer", &Datum::getInteger);
-    ;
-}
 
 }
+
+#endif

@@ -1,4 +1,4 @@
-from _conduit import _IPCClientConduit, _IPCServerConduit, Event
+from _conduit import _IPCClientConduit, _IPCServerConduit, _IPCAccumulatingClientConduit, Event
 import numpy
 
 
@@ -39,6 +39,9 @@ class IPCClientConduit(_ConduitMixin, _IPCClientConduit):
 class IPCServerConduit(_ConduitMixin, _IPCServerConduit):
     pass
 
+
+class IPCAccumClientConduit(_ConduitMixin, _IPCAccumulatingClientConduit):
+    pass
 
 Event.__module__ = __name__  # So help() thinks Event is part of this module
 Event.data = property(lambda self:

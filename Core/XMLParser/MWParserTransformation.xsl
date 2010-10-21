@@ -546,7 +546,7 @@
 	</xsl:template>
 	<xsl:template match="text()" mode = "list_connect"/>
 
-	<xsl:template match="// block | //trial | //list | //task_system" mode="list_connect">
+	<!--<xsl:template match="// block | //trial | //list | //task_system" mode="list_connect">
 		<xsl:call-template name="generic_connect">
 			<xsl:with-param name="parent_scope">
 				<xsl:value-of select="ancestor::protocol/@tag"/>
@@ -555,7 +555,7 @@
 		<xsl:apply-templates select="node()" mode="list_connect"/>
 	</xsl:template>
 	
-    <xsl:template match="text()" mode = "list_connect"/>
+    <xsl:template match="text()" mode = "list_connect"/>-->
 
 
 	<xsl:template match="//task_system_state" mode="task_system_state_connect">
@@ -675,8 +675,6 @@
 	<!-- ********************* -->
 	<!-- Variable assignments -->
 	<!-- ********************* -->
-	
-
 	
 	<xsl:template match="//variable_assignments/variable_assignment" mode = "variable_assignment">
 			<xsl:copy-of select="."/>

@@ -50,6 +50,8 @@ public:
         start_event_name = _start_event_name;
         end_event_name = _end_event_name;
         event_names_to_accumulate = _event_names;
+        
+        event_buffer = shared_ptr<EventList>(new EventList());
     }
 
     virtual bool initialize(){
@@ -61,7 +63,7 @@ public:
             registerCallbackByName(*i, boost::bind(&AccumulatingConduit::accumulate, this, _1));
         }
         
-        return true;
+        return CodecAwareConduit::initialize();
     }
 
     void startAccumulating(shared_ptr<Event> evt){
