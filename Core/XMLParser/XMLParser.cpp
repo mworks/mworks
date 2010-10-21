@@ -17,6 +17,7 @@
 
 #include <boost/tokenizer.hpp>
 #include <boost/regex.hpp>
+#include <boost/scope_exit.hpp>
 
 using namespace mw;
 
@@ -333,9 +334,29 @@ void XMLParser::_generateListReplicatorValues(xmlNode *node, vector<string> &val
 }
 
 void XMLParser::_generateListReplicatorFilenames(xmlNode *node, vector<string> &values, const string &pattern) {
+    int cwdfd = open(".", O_RDONLY);
+    if (-1 == cwdfd) {
+        throw SimpleException("Unable to open current working directory", strerror(errno));
+    }
+    BOOST_SCOPE_EXIT( (&cwdfd) )
+    {
+        (void)fchdir(cwdfd);
+        (void)close(cwdfd);
+    } BOOST_SCOPE_EXIT_END
+ 
+    string workingPath(getWorkingPathString());
+    if (!(workingPath.empty())) {
+        if (-1 == chdir(workingPath.c_str())) {
+            throw SimpleException("Unable to change directory", strerror(errno));
+        }
+    }
+    
     glob_t globResults;
     int globStatus = glob(pattern.c_str(), 0, NULL, &globResults);
-    shared_ptr<glob_t> globResultsPtr(&globResults, globfree);  // Ensure that globfree() is called
+    BOOST_SCOPE_EXIT( (&globResults) )
+    {
+        globfree(&globResults);
+    } BOOST_SCOPE_EXIT_END
     
     if ((0 != globStatus) && (GLOB_NOMATCH != globStatus)) {
         throw InvalidXMLException(_attributeForName(node, "reference_id"),
@@ -344,17 +365,10 @@ void XMLParser::_generateListReplicatorFilenames(xmlNode *node, vector<string> &
     }
     
     namespace bf = boost::filesystem;
-    bf::directory_iterator endIter;
     int numMatches = 0;
 
     for (int i = 0; i < globResults.gl_pathc; i++) {
         bf::path filePath(globResults.gl_pathv[i], bf::native);
-
-        bf::path workingPath(getWorkingPathString(), bf::native);
-        if (!(filePath.is_complete() || workingPath.empty())) {
-            filePath = workingPath / filePath;
-        }
-        
         if (bf::is_regular_file(filePath)) {
             values.push_back(filePath.string());
             numMatches++;
