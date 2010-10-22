@@ -572,54 +572,68 @@ Datum ComponentRegistry::getNumber(std::string expression, GenericDataType type)
 }
 
 
-/*    my ($string) = @_;
-    my $value = 0;
+string ComponentRegistry::getValueForAttribute(string attribute,
+                                               map<string, string>& parameters){
     
-    if($string =~ m"(\+|\-|\*|\/|%)"){   # it's an expression
-	
-	# TODO: should validate stuff better, maybe use Math::Expression...
-	
-	$string =~ s{(\d+)\s*us}{ ($1 * 1) };
-	$string =~ s{(\d+)\s*ms}{ ($1 * 1000) };
-	$string =~ s{(\d+)\s*s}{ ($1 * 1000000) };
-	$string =~ s{pi}{3.14159265};
-	
-	$string = "\$value = $string + 0;";
-	
-	eval($string);
-	
-	if(!defined($value)){
-	    #pprint("Invalid arithmetic expression for variable definition");
-	    $value = 0;
-	}
-	
-    } elsif($string =~ m"^([\.\d]+)\s*(s|ms|us)"){   # it's a time
-	$value = $1 + 0;
-	if($2 eq "s"){
-	    $value *= 1000000;
-	} elsif($2 eq "ms"){
-	    $value *= 1000;
-	}
-	
-	
-    } elsif($string =~ m"^([\.\d]+)"){   # it's a number
-	$value = $string + 0;
-    } elsif($string =~ m"true"i || $string =~ m"yes"i){
-	$value = 1;
-    } elsif($string =~ m"false"i || $string =~ m"no"i){
-	$value = 0;
-    } elsif($string eq '') {
-	parser_warning(0, "Empty string for variable");
-	undef($value);
-    } else {
-	parser_warning(0, "Don't know how to convert \"$string\" to a variable.");
-	undef($value);
-    }	
+    map<string,string>::iterator attr_iter = parameters.find(attribute);
+    if(attr_iter == parameters.end()){
+        
+        string reference_id("<unknown object>");
+        if(parameters.find("reference_id") != parameters.end()){
+            reference_id = parameters["reference_id"];
+        }
+        
+        throw MissingAttributeException(reference_id, attribute);
+    }
     
-    return $value;
+    return (*attr_iter).second;
+}
 
 
-}*/
+
+shared_ptr<Variable> ComponentRegistry::getVariableForAttribute(string attribute,
+                                                               map<string, string>& parameters,
+                                                               string default_expression){
+    
+    
+    // if there's a default value specified, catch missing attribute exceptions
+    // and use the default expression instead
+    if(!default_expression.empty() && default_expression.size() > 0){
+        try {
+            string val = getValueForAttribute(attribute, parameters);
+            return getVariable(val, default_expression);
+        } catch (MissingAttributeException){
+            return getVariable(default_expression);
+        }
+    }
+    
+    string val = getValueForAttribute(attribute, parameters);
+    return getVariable(val, default_expression);
+    
+}
+
+Datum ComponentRegistry::getNumberForAttribute(string attribute,
+                                              map<string, string>& parameters,
+                                              GenericDataType datatype){
+    
+    string val = getValueForAttribute(attribute, parameters);
+    
+    return getNumber(val, datatype);
+}
+
+Datum ComponentRegistry::getNumberForAttribute(string attribute,
+                                              map<string, string>& parameters,
+                                              Datum default_number,
+                                              GenericDataType datatype){
+    
+    try {
+        return getNumberForAttribute(attribute, parameters, datatype);
+    } catch (MissingAttributeException){
+        return default_number;
+    }
+}
+
+
 
 boost::filesystem::path ComponentRegistry::getPath(std::string working_path,
 													std::string expression){

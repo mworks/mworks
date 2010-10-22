@@ -8,6 +8,9 @@
  */
 
 #include "ComponentFactory.h"
+#include "GenericVariable.h"
+#include "ComponentRegistry.h"
+
 using namespace mw;
 
 namespace mw {
@@ -43,6 +46,4 @@ void ComponentFactory::checkAttribute(const shared_ptr<mw::Component> &component
 		throw InvalidReferenceException(refID, name, value);				
 	}
 }
-
-
 

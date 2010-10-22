@@ -181,6 +181,29 @@ namespace mw {
 		boost::filesystem::path getPath(std::string working, 
 										std::string expression);
 		
+        
+        // helpers for instance look-ups that throw meaningful parsing exceptions
+        // (to simplify bulletproofing plugins)
+        // DDC note: conceptually, the map lookup feels like it ought to go outside
+        // of this class, but given that these are utility calls frequently used in 
+        // plugins, the practicallity of the compactness of the call and the 
+        // centralization of the exception throwing would seem to trump purity of design
+        virtual string getValueForAttribute(string attribute,
+                                            map<string, string>& parameters);
+        
+        virtual shared_ptr<Variable> getVariableForAttribute(string attribute,
+                                                             map<string, string>& parameters,
+                                                             string default_expression="");
+        
+        virtual Datum getNumberForAttribute(string attribute,
+                                            map<string, string>& parameters,
+                                            GenericDataType datatype = M_FLOAT);
+        
+        virtual Datum getNumberForAttribute(string attribute,
+                                            map<string, string>& parameters,
+                                            Datum default_value,
+                                            GenericDataType datatype = M_FLOAT);
+        
         Datum getComponentCodec(){
 			
 			int dict_size = tagnames_by_id.empty() ? 1 : tagnames_by_id.size();

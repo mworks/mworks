@@ -42,24 +42,27 @@ extern const mw::Component *InvalidObject;
     
 
 using namespace boost;
+using namespace std;
 
 class ComponentRegistry;  // forward declaration
+class Variable;
 
 class ComponentFactory {
 protected:
-	virtual void requireAttributes(std::map<std::string, std::string> parameters,
-								   std::vector<std::string> attributes);
+	virtual void requireAttributes(map<string, string> parameters,
+								   vector<string> attributes);
 	virtual void checkAttribute(const shared_ptr<mw::Component> &component,
-								const std::string &refID,
-								const std::string &name,
-								const std::string &value);
+								const string &refID,
+								const string &name,
+								const string &value);
 	
+    
 public:
 	ComponentFactory(){ }
 	virtual ~ComponentFactory(){ }
 	
 	virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-												ComponentRegistry *reg){
+                                                   ComponentRegistry *reg){
 		return shared_ptr<mw::Component>();
 	}
 };
