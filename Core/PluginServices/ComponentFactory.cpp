@@ -30,8 +30,13 @@ void ComponentFactory::requireAttributes(std::map<std::string, std::string> para
                 reference_id = parameters["reference_id"];
             }
             
+            string tag = parameters["tag"];
+            if(tag.empty()){
+                tag = "unknown name";
+            }
+            
 			throw MissingAttributeException(reference_id, 
-											 "object is missing attribute " + *i);
+											 "Object <" + tag + "> is missing attribute '" + *i + "'");
 		}
 	}
 }

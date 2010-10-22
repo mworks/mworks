@@ -583,7 +583,12 @@ string ComponentRegistry::getValueForAttribute(string attribute,
             reference_id = parameters["reference_id"];
         }
         
-        throw MissingAttributeException(reference_id, attribute);
+        string tag = parameters["tag"];
+        if(tag.empty()){
+            tag = "unknown name";
+        }
+        
+        throw MissingAttributeException(reference_id, (boost::format("Object <%s> missing required attribute '%s'")% tag % attribute).str());
     }
     
     return (*attr_iter).second;
