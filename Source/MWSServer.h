@@ -42,6 +42,7 @@
 - (IBAction)stopExperiment:(id)sender;
 - (IBAction)startExperiment:(id)sender;
 - (IBAction) launchHelp: (id) sender;
+- (IBAction) revealSetupVariables: (id)sender;
 
 @end
 

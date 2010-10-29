@@ -17,6 +17,7 @@
 #define LISTENING_ADDRESS_KEY @"listeningAddressKey"
 
 #define HELP_URL @"http://mworks-project.github.com"
+#define SETUP_VARIABLES_URL @"/Library/Application Support/MWorks/Configuration/setup_variables.xml"
 
 @interface MWSServer(PrivateMethods)
 - (void)processEvent:(id)cocoaEvent;
@@ -128,6 +129,11 @@
 - (IBAction) launchHelp: (id) sender {
   NSLog(@"Launching Help...");
   [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:HELP_URL]];
+}
+
+- (IBAction) revealSetupVariables: (id)sender {
+    NSLog(@"Launching setup variables...");
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL fileURLWithPath:SETUP_VARIABLES_URL]];
 }
 
 - (IBAction)toggleConsole:(id)sender {
