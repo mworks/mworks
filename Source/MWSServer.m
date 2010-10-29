@@ -299,6 +299,10 @@
 }
 
 - (NSString *)currentNetworkAddress:(id)sender {
+    if(listeningAddress == Nil){
+        return DEFAULT_HOST_IP;
+    }
+    
 	return listeningAddress;
 }
 
@@ -308,6 +312,7 @@
 	
 	if(defaultAddress == nil) { 
 		defaultAddress = DEFAULT_HOST_IP;
+        [self setListeningAddress:defaultAddress];
 	}
 	
 	return defaultAddress;
