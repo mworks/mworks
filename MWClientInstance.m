@@ -402,8 +402,11 @@
 	
 	[self startAccumulatingErrors];
   
-	core->sendExperiment(path);
+	bool success = core->sendExperiment(path);
 
+    if(!success){
+        [self setExperimentLoading:NO];
+    }
 }
 
 - (void) updateRecentExperiments {
