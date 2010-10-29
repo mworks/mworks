@@ -40,10 +40,24 @@ namespace mw {
 	shared_ptr<Variable> debuggerStep;
 	
 	shared_ptr<Variable> experimentLoadProgress;
-	
+    
+    shared_ptr<Variable> alt_failover;
+
 	
 	void initializeStandardVariables(shared_ptr<VariableRegistry> registry) {
 		
+        
+        alt_failover = registry->createGlobalVariable( new VariableProperties( new Datum((bool)true), 
+                                                                                   ALT_FAILOVER_TAGNAME, 
+                                                                                   "allow_alt_failover", 
+                                                                                   "Allow failover to 'alt' defined objects", 
+                                                                                   M_WHEN_CHANGED,
+                                                                                   M_WHEN_CHANGED, 
+                                                                                   true, 
+                                                                                   false, 
+                                                                                   M_DISCRETE_BOOLEAN,
+                                                                                   PRIVATE_SYSTEM_VARIABLES));
+                                                                                   
 		state_system_mode = registry->createGlobalVariable( new VariableProperties(
 																			new Datum((long)IDLE), 
 																			STATE_SYSTEM_MODE_TAGNAME, 
@@ -202,7 +216,7 @@ namespace mw {
 																		   true, false, M_STRUCTURED, PRIVATE_SYSTEM_VARIABLES));
 		
 		
-	 Datum default_screen_info;
+        Datum default_screen_info;
 		mainDisplayInfo = registry->createGlobalVariable(new VariableProperties(&default_screen_info,
 																				MAIN_SCREEN_INFO_TAGNAME, 
 																				"Main Screen Geometry Information",

@@ -103,7 +103,7 @@ bool Server::openExperiment(const std::string &expPath) {
 	
     ExperimentPackager packer;
 	
- Datum experiment(packer.packageExperiment(bf::path(expPath, bf::native)));
+    Datum experiment(packer.packageExperiment(bf::path(expPath, bf::native)));
 	if(experiment.isUndefined()) {
 		merror(M_SERVER_MESSAGE_DOMAIN, 
 			   "Failed to create a valid packaged experiment.");

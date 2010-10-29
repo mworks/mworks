@@ -664,14 +664,23 @@ void XMLParser::_processGenericCreateDirective(xmlNode *node, bool anon){
 		// will fail to create if the device is not currently connected.
 		// Alt substitution is the responsibility of the object class in question,
 		// and is usually handled in a "finalize" directive
-		if(properties.find("alt") != properties.end()){
+        bool allow_failover = (bool)(alt_failover->getValue());
+		if(properties.find("alt") != properties.end() && allow_failover){
 			mwarning(M_PARSER_MESSAGE_DOMAIN,
 					 "Failed to create object \"%s\" of type %s (but alt object is specified)",
 					 tag.c_str(), object_type.c_str());
 		} else {
-			merror(M_PARSER_MESSAGE_DOMAIN, 
-				   "Failed to create object \"%s\" of type %s (error was:\"%s\")", tag.c_str(), object_type.c_str(), e.what());
-			throw InvalidXMLException(reference_id, (const SimpleException&)e);
+        
+            if(properties.find("alt") != properties.end()){
+                merror(M_PARSER_MESSAGE_DOMAIN, 
+                       "An 'alt' object is specified, but the #allowAltFailover setup variable is set to disallow failover");
+            }
+            
+            //merror(M_PARSER_MESSAGE_DOMAIN, 
+			//	   "Failed to create object \"%s\" of type %s (error was:\"%s\")", tag.c_str(), object_type.c_str(), e.what());
+        
+            
+            throw InvalidXMLException(reference_id, (const SimpleException&)e);
 		}
 	}
 	
@@ -1096,7 +1105,7 @@ Datum XMLParser::_parseDataValue(xmlNode *node){
 		type = M_INTEGER;
 	} else if(type_string == "float"){
 		type = M_FLOAT;
-	} else if(type_string == "boolean"){
+	} else if(type_string == "boolean" || type_string == "bool"){
 		type = M_BOOLEAN;
 	} else if (type_string == "string"){
 		type = M_STRING;

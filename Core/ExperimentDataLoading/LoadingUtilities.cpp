@@ -68,13 +68,19 @@ namespace mw {
 		shared_ptr<Variable> main_screen_info_variable = reg->getVariable(MAIN_SCREEN_INFO_TAGNAME);
 		Datum main_screen_dict = main_screen_info_variable->getValue();
            
+        bool width_ok, height_ok, dist_ok, refresh_ok;
+        if(!(width_ok = CHECK_DICT_VALUE_IS_NUMBER(main_screen_dict, M_DISPLAY_WIDTH_KEY)) || 
+           !(height_ok = CHECK_DICT_VALUE_IS_NUMBER(main_screen_dict, M_DISPLAY_HEIGHT_KEY)) ||
+           !(dist_ok = CHECK_DICT_VALUE_IS_NUMBER(main_screen_dict, M_DISPLAY_DISTANCE_KEY)) ||
+           !(refresh_ok = CHECK_DICT_VALUE_IS_NUMBER(main_screen_dict, M_REFRESH_RATE_KEY))){
 
-        if(!CHECK_DICT_VALUE_IS_NUMBER(main_screen_dict, M_DISPLAY_WIDTH_KEY) || 
-           !CHECK_DICT_VALUE_IS_NUMBER(main_screen_dict, M_DISPLAY_HEIGHT_KEY) ||
-           !CHECK_DICT_VALUE_IS_NUMBER(main_screen_dict, M_DISPLAY_DISTANCE_KEY) ||
-           !CHECK_DICT_VALUE_IS_NUMBER(main_screen_dict, M_REFRESH_RATE_KEY)){
-            
-            throw SimpleException("Invalid display info defined in setup_variables.xml");
+            string stem = "Invalid display info defined in setup_variables.xml (missing/invalid: ";
+            if(!width_ok) stem = stem + M_DISPLAY_WIDTH_KEY + " ";
+            if(!height_ok) stem = stem + M_DISPLAY_HEIGHT_KEY + " ";
+            if(!dist_ok) stem = stem + M_DISPLAY_DISTANCE_KEY + " ";
+            if(!refresh_ok) stem = stem + M_REFRESH_RATE_KEY + " ";
+            stem += ")";
+            throw SimpleException(stem);
         }
         
         // TODO: more error checking.  THESE SHOULD ALL THROW IF SOMETHING IS WRONG!!!

@@ -161,6 +161,7 @@ extern shared_ptr<Variable> beamPosition;		// DDC added as an experiment, Aug 20
         myEyePosRawY;*/
 
 #define	MAIN_SCREEN_INFO_TAGNAME	"#mainScreenInfo"
+#define ALT_FAILOVER_TAGNAME        "#allowAltFailover"
 
 #define M_DISPLAY_WIDTH_KEY					"width"
 #define M_DISPLAY_HEIGHT_KEY				"height"
@@ -170,7 +171,7 @@ extern shared_ptr<Variable> beamPosition;		// DDC added as an experiment, Aug 20
 #define M_MIRROR_WINDOW_BASE_HEIGHT_KEY		"mirror_window_base_height"
 #define M_REFRESH_RATE_KEY					"refresh_rate_hz"
 extern shared_ptr<Variable> mainDisplayInfo;		
-
+extern shared_ptr<Variable> alt_failover;
 
 // Debugger variables
 #define DEBUGGER_ACTIVE_TAGNAME "debuggerActive"
