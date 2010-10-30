@@ -24,7 +24,7 @@
 
     searchString = newstring;
     //NSString *xpath = @"//protocol";
-    NSString *xpath = [NSString stringWithFormat:@"//*[contains(translate(@tag, 'abcdefghijklmnopqrstuvwxyz','ABCDEFGHIJKLMNOPQRSTUVWXYZ'), \"%@\")]", [searchString uppercaseString], Nil]; 
+    NSString *xpath = [NSString stringWithFormat:@"//*[contains(translate(@tag, 'abcdefghijklmnopqrstuvwxyz','ABCDEFGHIJKLMNOPQRSTUVWXYZ'), \"%@\")] | //*[@*[contains(., \"%@\")]]", [searchString uppercaseString], searchString, Nil]; 
     //NSString *xpath = [NSString stringWithFormat:@"//[contains(@*,\"%@\")]", [searchString uppercaseString], Nil]; 
     
     NSLog(@"XPath = %@", xpath);

@@ -3,7 +3,7 @@
 	<data>
 		<int key="IBDocument.SystemTarget">1050</int>
 		<string key="IBDocument.SystemVersion">10F569</string>
-		<string key="IBDocument.InterfaceBuilderVersion">762</string>
+		<string key="IBDocument.InterfaceBuilderVersion">788</string>
 		<string key="IBDocument.AppKitVersion">1038.29</string>
 		<string key="IBDocument.HIToolboxVersion">461.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
@@ -15,17 +15,17 @@
 			</object>
 			<object class="NSMutableArray" key="dict.values">
 				<bool key="EncodedWithXMLCoder">YES</bool>
-				<string>762</string>
+				<string>788</string>
 				<string>1.1.0</string>
 			</object>
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
+			<integer value="101027"/>
 			<integer value="100788"/>
+			<integer value="100613"/>
 			<integer value="100575"/>
 			<integer value="100290"/>
-			<integer value="101027"/>
-			<integer value="100613"/>
 			<integer value="101104"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
@@ -1696,7 +1696,7 @@
 						</object>
 						<object class="NSButton" id="419351166">
 							<reference key="NSNextResponder" ref="577627924"/>
-							<int key="NSvFlags">268</int>
+							<int key="NSvFlags">265</int>
 							<string key="NSFrame">{{360, 579}, {22, 20}}</string>
 							<reference key="NSSuperview" ref="577627924"/>
 							<bool key="NSEnabled">YES</bool>
@@ -1720,7 +1720,7 @@
 						</object>
 						<object class="NSButton" id="276355362">
 							<reference key="NSNextResponder" ref="577627924"/>
-							<int key="NSvFlags">268</int>
+							<int key="NSvFlags">265</int>
 							<string key="NSFrame">{{380, 579}, {22, 20}}</string>
 							<reference key="NSSuperview" ref="577627924"/>
 							<bool key="NSEnabled">YES</bool>
@@ -2158,81 +2158,137 @@
 																	<integer value="0"/>
 																	<object class="NSCachedImageRep">
 																		<object class="NSData" key="NSTIFFRepresentation">
-																			<bytes key="NS.bytes">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
+																			<bytes key="NS.bytes">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
+AAAADgAAAbJydVJVAAAAJAAAAcBzdlNFAAAAEAAAAeR6aFRXAAAADgAAAfRkZURFAAAAEAAAAgJmaUZJ
+AAAAEAAAAhJpdElUAAAAFAAAAiJrb0tSAAAADAAAAjYASwBsAGUAdQByAGUAbgAtAEwAQwBEAEwAQwBE
+AC0AZgBhAHIAdgBlAHMAawDmAHIAbQBLAG8AbABvAHIAIABMAEMARABDAG8AbABvAHIAIABMAEMARABG
+AGEAcgBnAGUALQBMAEMARABMAEMARAAgAGMAbwB1AGwAZQB1AHIATABDAEQAIABDAG8AbABvAHIAaQBk
+AG8ATABDAEQAIABhACAAQwBvAHIAZQBzX2mCcgAgAEwAQwBEAEwAQwBEACAAYwBvAGwAbwByMKsw6TD8
+ACAATABDAEQEJgQyBDUEQgQ9BD4EOQAgBBYEGgAtBDQEOARBBD8EOwQ1BDkARgDkAHIAZwAtAEwAQwBE
+X2mCcm2yZnaYb3k6VmgARgBhAHIAYgAtAEwAQwBEAFYA5AByAGkALQBMAEMARABMAEMARAAgAGMAbwBs
+AG8AcgBpzuy37AAgAEwAQwBEAAB0ZXh0AAAAAENvcHlyaWdodCBBcHBsZSwgSW5jLiwgMjAxMAAAAAAA
 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABYWVogAAAAAAAA89gAAQAAAAEWCFhZWiAAAAAA
-AACAowAARSgAAAGPWFlaIAAAAAAAAFN0AACowAAAFh1YWVogAAAAAAAAIr4AABIZAAC7gWN1cnYAAAAA
-AAAEAAAAAAUACgAPABQAGQAeACMAKAAtADIANgA7AEAARQBKAE8AVABZAF4AYwBoAG0AcgB3AHwAgQCG
-AIsAkACVAJoAnwCjAKgArQCyALcAvADBAMYAywDQANUA2wDgAOUA6wDwAPYA+wEBAQcBDQETARkBHwEl
-ASsBMgE4AT4BRQFMAVIBWQFgAWcBbgF1AXwBgwGLAZIBmgGhAakBsQG5AcEByQHRAdkB4QHpAfIB+gID
-AgwCFAIdAiYCLwI4AkECSwJUAl0CZwJxAnoChAKOApgCogKsArYCwQLLAtUC4ALrAvUDAAMLAxYDIQMt
-AzgDQwNPA1oDZgNyA34DigOWA6IDrgO6A8cD0wPgA+wD+QQGBBMEIAQtBDsESARVBGMEcQR+BIwEmgSo
-BLYExATTBOEE8AT+BQ0FHAUrBToFSQVYBWcFdwWGBZYFpgW1BcUF1QXlBfYGBgYWBicGNwZIBlkGagZ7
-BowGnQavBsAG0QbjBvUHBwcZBysHPQdPB2EHdAeGB5kHrAe/B9IH5Qf4CAsIHwgyCEYIWghuCIIIlgiq
-CL4I0gjnCPsJEAklCToJTwlkCXkJjwmkCboJzwnlCfsKEQonCj0KVApqCoEKmAquCsUK3ArzCwsLIgs5
-C1ELaQuAC5gLsAvIC+EL+QwSDCoMQwxcDHUMjgynDMAM2QzzDQ0NJg1ADVoNdA2ODakNww3eDfgOEw4u
-DkkOZA5/DpsOtg7SDu4PCQ8lD0EPXg96D5YPsw/PD+wQCRAmEEMQYRB+EJsQuRDXEPURExExEU8RbRGM
-EaoRyRHoEgcSJhJFEmQShBKjEsMS4xMDEyMTQxNjE4MTpBPFE+UUBhQnFEkUahSLFK0UzhTwFRIVNBVW
-FXgVmxW9FeAWAxYmFkkWbBaPFrIW1hb6Fx0XQRdlF4kXrhfSF/cYGxhAGGUYihivGNUY+hkgGUUZaxmR
-GbcZ3RoEGioaURp3Gp4axRrsGxQbOxtjG4obshvaHAIcKhxSHHscoxzMHPUdHh1HHXAdmR3DHeweFh5A
-HmoelB6+HukfEx8+H2kflB+/H+ogFSBBIGwgmCDEIPAhHCFIIXUhoSHOIfsiJyJVIoIiryLdIwojOCNm
-I5QjwiPwJB8kTSR8JKsk2iUJJTglaCWXJccl9yYnJlcmhya3JugnGCdJJ3onqyfcKA0oPyhxKKIo1CkG
-KTgpaymdKdAqAio1KmgqmyrPKwIrNitpK50r0SwFLDksbiyiLNctDC1BLXYtqy3hLhYuTC6CLrcu7i8k
-L1ovkS/HL/4wNTBsMKQw2zESMUoxgjG6MfIyKjJjMpsy1DMNM0YzfzO4M/E0KzRlNJ402DUTNU01hzXC
-Nf02NzZyNq426TckN2A3nDfXOBQ4UDiMOMg5BTlCOX85vDn5OjY6dDqyOu87LTtrO6o76DwnPGU8pDzj
-PSI9YT2hPeA+ID5gPqA+4D8hP2E/oj/iQCNAZECmQOdBKUFqQaxB7kIwQnJCtUL3QzpDfUPARANER0SK
-RM5FEkVVRZpF3kYiRmdGq0bwRzVHe0fASAVIS0iRSNdJHUljSalJ8Eo3Sn1KxEsMS1NLmkviTCpMcky6
-TQJNSk2TTdxOJU5uTrdPAE9JT5NP3VAnUHFQu1EGUVBRm1HmUjFSfFLHUxNTX1OqU/ZUQlSPVNtVKFV1
-VcJWD1ZcVqlW91dEV5JX4FgvWH1Yy1kaWWlZuFoHWlZaplr1W0VblVvlXDVchlzWXSddeF3JXhpebF69
-Xw9fYV+zYAVgV2CqYPxhT2GiYfViSWKcYvBjQ2OXY+tkQGSUZOllPWWSZedmPWaSZuhnPWeTZ+loP2iW
-aOxpQ2maafFqSGqfavdrT2una/9sV2yvbQhtYG25bhJua27Ebx5veG/RcCtwhnDgcTpxlXHwcktypnMB
-c11zuHQUdHB0zHUodYV14XY+dpt2+HdWd7N4EXhueMx5KnmJeed6RnqlewR7Y3vCfCF8gXzhfUF9oX4B
-fmJ+wn8jf4R/5YBHgKiBCoFrgc2CMIKSgvSDV4O6hB2EgITjhUeFq4YOhnKG14c7h5+IBIhpiM6JM4mZ
-if6KZIrKizCLlov8jGOMyo0xjZiN/45mjs6PNo+ekAaQbpDWkT+RqJIRknqS45NNk7aUIJSKlPSVX5XJ
-ljSWn5cKl3WX4JhMmLiZJJmQmfyaaJrVm0Kbr5wcnImc951kndKeQJ6unx2fi5/6oGmg2KFHobaiJqKW
-owajdqPmpFakx6U4pammGqaLpv2nbqfgqFKoxKk3qamqHKqPqwKrdavprFys0K1ErbiuLa6hrxavi7AA
-sHWw6rFgsdayS7LCszizrrQltJy1E7WKtgG2ebbwt2i34LhZuNG5SrnCuju6tbsuu6e8IbybvRW9j74K
-voS+/796v/XAcMDswWfB48JfwtvDWMPUxFHEzsVLxcjGRsbDx0HHv8g9yLzJOsm5yjjKt8s2y7bMNcy1
-zTXNtc42zrbPN8+40DnQutE80b7SP9LB00TTxtRJ1MvVTtXR1lXW2Ndc1+DYZNjo2WzZ8dp22vvbgNwF
-3IrdEN2W3hzeot8p36/gNuC94UThzOJT4tvjY+Pr5HPk/OWE5g3mlucf56noMui86Ubp0Opb6uXrcOv7
-7IbtEe2c7ijutO9A78zwWPDl8XLx//KM8xnzp/Q09ML1UPXe9m32+/eK+Bn4qPk4+cf6V/rn+3f8B/yY
-/Sn9uv5L/tz/bf//cGFyYQAAAAAAAwAAAAJmZgAA8qcAAA1ZAAAT0AAACsB2Y2d0AAAAAAAAAAEAAQAA
-AAAAAAABAAAAAQAAAAAAAAABAAAAAQAAAAAAAAABAABuZGluAAAAAAAAADYAAKPAAABZQAAASMAAAJ4A
-AAAkQAAAEUAAAFBAAABUQAACMzMAAjMzAAIzMwAAAAAAAAAAc2YzMgAAAAAAAQu3AAAFlv//81cAAAcp
-AAD91///+7f///2mAAAD2gAAwPZtbW9kAAAAAAAAImQAACRpAAAAAMZDhIAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWFlaIAAAAAAAAPNS
+AAEAAAABFs9YWVogAAAAAAAAZdsAADpGAAAJpFhZWiAAAAAAAABoywAArKsAABqhWFlaIAAAAAAAACgw
+AAAZDwAAruhjdXJ2AAAAAAAABAAAAAAFAAoADwAUABkAHgAjACgALQAyADYAOwBAAEUASgBPAFQAWQBe
+AGMAaABtAHIAdwB8AIEAhgCLAJAAlQCaAJ8AowCoAK0AsgC3ALwAwQDGAMsA0ADVANsA4ADlAOsA8AD2
+APsBAQEHAQ0BEwEZAR8BJQErATIBOAE+AUUBTAFSAVkBYAFnAW4BdQF8AYMBiwGSAZoBoQGpAbEBuQHB
+AckB0QHZAeEB6QHyAfoCAwIMAhQCHQImAi8COAJBAksCVAJdAmcCcQJ6AoQCjgKYAqICrAK2AsECywLV
+AuAC6wL1AwADCwMWAyEDLQM4A0MDTwNaA2YDcgN+A4oDlgOiA64DugPHA9MD4APsA/kEBgQTBCAELQQ7
+BEgEVQRjBHEEfgSMBJoEqAS2BMQE0wThBPAE/gUNBRwFKwU6BUkFWAVnBXcFhgWWBaYFtQXFBdUF5QX2
+BgYGFgYnBjcGSAZZBmoGewaMBp0GrwbABtEG4wb1BwcHGQcrBz0HTwdhB3QHhgeZB6wHvwfSB+UH+AgL
+CB8IMghGCFoIbgiCCJYIqgi+CNII5wj7CRAJJQk6CU8JZAl5CY8JpAm6Cc8J5Qn7ChEKJwo9ClQKagqB
+CpgKrgrFCtwK8wsLCyILOQtRC2kLgAuYC7ALyAvhC/kMEgwqDEMMXAx1DI4MpwzADNkM8w0NDSYNQA1a
+DXQNjg2pDcMN3g34DhMOLg5JDmQOfw6bDrYO0g7uDwkPJQ9BD14Peg+WD7MPzw/sEAkQJhBDEGEQfhCb
+ELkQ1xD1ERMRMRFPEW0RjBGqEckR6BIHEiYSRRJkEoQSoxLDEuMTAxMjE0MTYxODE6QTxRPlFAYUJxRJ
+FGoUixStFM4U8BUSFTQVVhV4FZsVvRXgFgMWJhZJFmwWjxayFtYW+hcdF0EXZReJF64X0hf3GBsYQBhl
+GIoYrxjVGPoZIBlFGWsZkRm3Gd0aBBoqGlEadxqeGsUa7BsUGzsbYxuKG7Ib2hwCHCocUhx7HKMczBz1
+HR4dRx1wHZkdwx3sHhYeQB5qHpQevh7pHxMfPh9pH5Qfvx/qIBUgQSBsIJggxCDwIRwhSCF1IaEhziH7
+IiciVSKCIq8i3SMKIzgjZiOUI8Ij8CQfJE0kfCSrJNolCSU4JWgllyXHJfcmJyZXJocmtyboJxgnSSd6
+J6sn3CgNKD8ocSiiKNQpBik4KWspnSnQKgIqNSpoKpsqzysCKzYraSudK9EsBSw5LG4soizXLQwtQS12
+Last4S4WLkwugi63Lu4vJC9aL5Evxy/+MDUwbDCkMNsxEjFKMYIxujHyMioyYzKbMtQzDTNGM38zuDPx
+NCs0ZTSeNNg1EzVNNYc1wjX9Njc2cjauNuk3JDdgN5w31zgUOFA4jDjIOQU5Qjl/Obw5+To2OnQ6sjrv
+Oy07azuqO+g8JzxlPKQ84z0iPWE9oT3gPiA+YD6gPuA/IT9hP6I/4kAjQGRApkDnQSlBakGsQe5CMEJy
+QrVC90M6Q31DwEQDREdEikTORRJFVUWaRd5GIkZnRqtG8Ec1R3tHwEgFSEtIkUjXSR1JY0mpSfBKN0p9
+SsRLDEtTS5pL4kwqTHJMuk0CTUpNk03cTiVObk63TwBPSU+TT91QJ1BxULtRBlFQUZtR5lIxUnxSx1MT
+U19TqlP2VEJUj1TbVShVdVXCVg9WXFapVvdXRFeSV+BYL1h9WMtZGllpWbhaB1pWWqZa9VtFW5Vb5Vw1
+XIZc1l0nXXhdyV4aXmxevV8PX2Ffs2AFYFdgqmD8YU9homH1YklinGLwY0Njl2PrZEBklGTpZT1lkmXn
+Zj1mkmboZz1nk2fpaD9olmjsaUNpmmnxakhqn2r3a09rp2v/bFdsr20IbWBtuW4SbmtuxG8eb3hv0XAr
+cIZw4HE6cZVx8HJLcqZzAXNdc7h0FHRwdMx1KHWFdeF2Pnabdvh3VnezeBF4bnjMeSp5iXnnekZ6pXsE
+e2N7wnwhfIF84X1BfaF+AX5ifsJ/I3+Ef+WAR4CogQqBa4HNgjCCkoL0g1eDuoQdhICE44VHhauGDoZy
+hteHO4efiASIaYjOiTOJmYn+imSKyoswi5aL/IxjjMqNMY2Yjf+OZo7OjzaPnpAGkG6Q1pE/kaiSEZJ6
+kuOTTZO2lCCUipT0lV+VyZY0lp+XCpd1l+CYTJi4mSSZkJn8mmia1ZtCm6+cHJyJnPedZJ3SnkCerp8d
+n4uf+qBpoNihR6G2oiailqMGo3aj5qRWpMelOKWpphqmi6b9p26n4KhSqMSpN6mpqhyqj6sCq3Wr6axc
+rNCtRK24ri2uoa8Wr4uwALB1sOqxYLHWskuywrM4s660JbSctRO1irYBtnm28Ldot+C4WbjRuUq5wro7
+urW7LrunvCG8m70VvY++Cr6Evv+/er/1wHDA7MFnwePCX8Lbw1jD1MRRxM7FS8XIxkbGw8dBx7/IPci8
+yTrJuco4yrfLNsu2zDXMtc01zbXONs62zzfPuNA50LrRPNG+0j/SwdNE08bUSdTL1U7V0dZV1tjXXNfg
+2GTY6Nls2fHadtr724DcBdyK3RDdlt4c3qLfKd+v4DbgveFE4cziU+Lb42Pj6+Rz5PzlhOYN5pbnH+ep
+6DLovOlG6dDqW+rl63Dr++yG7RHtnO4o7rTvQO/M8Fjw5fFy8f/yjPMZ86f0NPTC9VD13vZt9vv3ivgZ
++Kj5OPnH+lf65/t3/Af8mP0p/br+S/7c/23//3BhcmEAAAAAAAMAAAACZmYAAPKnAAANWQAAE9AAAArA
+dmNndAAAAAAAAAAAAAMBAAACAAAABAAQACgASwB7ALgBAgFTAbECHAKRAxUDsQRgBSIF9AbWB8oI1gn3
+Cx8Mag3CDyQQmhIjE6wVPxb0GJsaUBwNHc0fiiFVIxsk2yajKGQqJSveLYgvHzCxMkcz3zV0Nws4oDo1
+O8A9Rj7QQFNB0ENLRMFGMEebSQNKZkvDTRdOb0+4UQRSTFOPVM9WEldSWIhZwFr1XCFdTF51X5ZgvGHd
+YwFkIWU+ZldnbWiGaZxqr2vBbM9t327ub/hxAnIMcxl0JXUydj53SXhZeWl6a3tGfBt8733GfqJ/fIBa
+gTiCGoMAg+iE0YXAhrGHpoieiZqKl4uajJuNoo6tj7mQx5HVkuWT85T1leqW2pfNmMGZtZqym7CcrZ2u
+nrGftaC8ocKiyaPRpNal3qbmp+mo7anyqvWr9Kzyre+u87APsTCyTrNrtIO1nra2t8u427nruvu8Cb0V
+viC/KcAywT7CSsNYxGbFdsaJx57ItMnLyr/LosyAzVzOOM8Tz+7QxdGa0nHTRdQW1OnVu9aO12LYNNkF
+2dfarNuA3FXdLN4E3tXfe+Af4MDhZOIJ4rDjW+QH5LLlYeYP5rznaugY6MfpdOog6srrd+wj7Mztde4d
+7sLva/AU8LjxXPH/8qTzSvPx9JL1MfXP9l726fdX98L4Gvhg+Kb47Plz+hv7rv4j//8AAAAEABIALABS
+AIYAyAEVAWMBvgInAqEDJwO3BGAFIAXqBsQHtAi4Cc0K6gwgDWgOwxAjEY0TCBSKFh0XuxldGwMcqx5X
+IA4hwSN8JSkm3iiSKjMrqy0PLmsvyTEtMo8z9TVZNr84Ijl/Ot88Pj2aPvZAUUGmQvpESUWYRuJIJ0lv
+SqtL6U0jTltPkVDHUftTKFRUVYBWo1fGWOZaA1siXDtdWV5zX4hgnGGuYsFj02TjZfFm/2gOaRxqKGs0
+bEFtUm5lb3RwiXGacrJzy3TRdbZ2kndreEh5KHoIeup7zXyxfZt+hH9ugFuBSoI6gyyEHoUShgeG/Ify
+iOuJ5Irdi9WMzY3DjrqPqpCbkY6SgZN1lG6VZ5Zgl1yYWJlXmlabVZxVnVWeVJ9VoFWhVKJTo1WkU6VP
+pk2nSahQqXaqpqvOrPquH69IsG+xlLKzs9O09bYVtzO4Urlwuo67srzWvfu/JMBOwXzCrcPgxQzGG8cU
+yAfI+snvyuXL3MzQzcXOvc+z0KfRm9KP04TUeNVp1lfXRNgz2R/aCtr029/cw92S3l3fKN/14MPhkOJc
+4ynj9uTB5YjmTucT59fomulZ6hfq1uuQ7EvtBe297nHvJe/e8I/xQPHw8qTzWPQK9Lb1YvYP9rv3Vffn
++In5OPn/+u38C/1n/rr/M/93/7v//wAAAAIACwAaADEAUAB3AKcA4AEfAWEBrQIBAmACyAM7A7kEQgTY
+BX4GMQbqB7gIjAlsClwLUgxPDVUOYg93EJMRsxLSE/UVFRY7F1oYfRmcGrob0xzrHfsfByAXISkiOiNN
+JF8lbiZ6J4YokCmZKqArpiypLakuqC+kMKAxlTKGM3o0aTVXNkQ3LjgVOQA55zrKO7A8mz2JPnk/aEBS
+QT9CKEMVQ/1E5UXJRq1Hk0h6SV1KP0sjTAZM6U3LTq1PkVB2UV9SRlMvVBdVA1XwVtFXpVh1WUFaEFrg
+W7Fcg11UXiVe+V/MYJ5hc2JHYxtj8GTFZZhmbWdAaBZo62nBapVraWw8bQxt0W6Mbz9v8nCkcVNyBXK3
+c2d0F3TIdXl2K3bed5F4Rnj8ebV6cHsre+l8q31vfjJ++X/CgI2BXYItgv2DzYSbhW2GPocPh+CIsImE
+ileLKov9jNGNpI57j1KQKpEDkdySuZOVlHKVT5YzlxyYCJjzmeGa0JvCnLKdpJ6bn5Ogi6GGooSjhqSL
+pZCmlaecqKeps6q/q82s4K3xrwWwGrEvskmzZLSDtaK2w7fkuQy6MbtZvIK9rb7awAXBL8Jbw4rEs8Xd
+xwrIMslhyqzL+81Dzn/PutDt0iTTZdSk1fLXV9jJ2kzb9N2/37jh5uRR5yPqbO5q83b6Wf//AABuZGlu
+AAAAAAAABjYAAJVGAABWzwAAUqkAAJFOAAAocgAAFwoAAFANAABUOQAC3CgAAqj1AAFzMwADAQAAAgAA
+ABgAMgBNAGYAfgCWAK4AxgDdAPQBDAEiAToBUAFoAX8BlwGuAcYB3wH4AhACKAJCAlwCdgKQAqsCxgLi
+Av8DGwM4A1UDdAOTA7MD0wPzBBUENwRaBH0EowTJBPIFHAVHBXMFnwXMBfkGKAZXBocGuAbpBxwHUAeG
+B70H9AgsCGYIogjeCRwJWwmcCd8KIwppCrAK+QtDC5IL4QwwDIUM2g0wDYkN5A5BDqAO/g9gD8YQLRCU
+EQARcBHhElQSzRNEE78UPBS5FTsVvxZHFtIXXRfrGH0ZERmpGkMa3ht9HCEcxR1sHhIevB9nIBUgxSF0
+IiUi4iPGJLIloSaKJ3koZylXKkQrMCwgLQst9i7hL8owszGcMoMzbTRVNTs2IjcKN/Q43jnLOr47xzzb
+Pe4/AUAZQSlCOUNNRF9FckaFR5hIrknFSt1L+00ZTjVPXlCFUbBS2lQRVUhWhVfEWOZZ/1sgXEFdaF6V
+X8Bg8GImY2RkpGXlZytodmnFaxZsb23FbxpwdHHLcyZ0gHXXdzB4iXnje3J9I37igKWCboQ7hhWH9YnV
+i8aNuI+vkaaToZWnl62ZsZu4ncOfw6HfpJKnW6oYrNOvgLI0tN+3mbpUvRS/38K8xZDIfstwznvRddSR
+17va3d4D4Unkp+iG7Zb1dfk0+tf77fzZ/ab+of//AAAAFgAxAEsAZgB+AJcAsADIAOAA+AERASkBQQFZ
+AXEBigGjAb0B1gHwAgoCJAI+AlkCdAKQAqwCyQLmAwQDIgNAA18DfwOeA8AD4gQEBCcESgRvBJYEwATv
+BR8FUQWEBbcF6wYgBlYGjAbEBvwHNgdxB64H7AgqCGoIqwjuCTEJdgm9CgUKTwqbCugLNguIC9sMLgyG
+DN8NOQ2WDfUOVQ64DxoPgQ/rEFYQwhE0EacSHBKVExATixQMFIsVDhWVFh4Wqxc5F8gYWxjwGYkaIxq+
+G1wb/hyhHUUd6R6OHzcf3iCLITQh3yKLI14kPyUoJg4m9CfeKMcptCqcK4gsdi1jLlEvQDAvMSIyFDMJ
+NAE09zXvNuo36DjpOe469DwFPRg+Kz9AQFhBa0KBQ5pEsUXMRuVIAUkfSj9LYUyITaxO1lAEUTNSYFOX
+VNJWC1dNWHhZhFqTW6tcvl3cXvxgFmE6YmBjjmS9ZepnHGhSaYpqwmwBbT5ud2+zcPByKHNndKF12XcS
+eEt5hXrffGJ993+PgSeCv4RYhfmHm4k7iuGMjo48j+2RoJNXlRmW5Ziumn6cVZ4yoA6h/qQopl+okqrF
+rQGvQrGDs9C2L7iSuwK9ecAHwpTFNsfeypLNX9Ae0vzV5tjE263eueHG5N/oj+vZ7pzw5/LU9HP1+Pe0
+//8AAAAlAE8AeACgAMcA7AESATYBXAGAAaUBywHxAhgCPwJnAo8CuQLkAxADPgNsA50DzgQCBDcEbgSo
+BOMFIgVjBaUF6AYtBnMGuwcFB1IHoQfyCEUImwjzCU0JqwoLCm4K1As8C6wMGwyPDQYNgA3+DoAPAg+K
+EBcQohEtEbkSRxLcE3EUCxSlFUUV6BaRFzsX5hiXGUsaARq6G3YcNxz4HbsefR9EIAsg1iGfImsjTiQ9
+JTQmKiciKB0pHCodKx4sJy0uLjovSTBZMXAyiDOmNMM15DcKODQ5YzqbO/c9aT7gQGRB5UNyRQFGlkgs
+ScZLX0z6To9QKFG8U0tU4FZvV/5ZhVsSXKBeOF/LYWNi/2ShZkBn42mKazNs4m6LcDlx5XOYdUV29Xio
+el18BH2kf0qA7oKShDSF3IeDiSSKxoxrjg2PrZFIkuGUfpYel7uZVZrxnI6eK5/CoWGi+6SVpjan0qln
+qwWsma4zr8uxabL4tJW2LLfEuV269LyLvii/ycFnwwfEpMZPx/nJnstMzQLOndAb0Z7TKtS/1mfYCNm5
+22vdDt6u4Ffh7ONt5OTmU+e56RTqUOuD7K3txu7R79TwxvG18pDzbPQs9Ov1nvZI9vL3iPgc+K/5L/mq
++iT6nvsC+2b7yvwu/If80f0b/WX9r/36/k3+uf8m/5L//wAAc2YzMgAAAAAAAQxCAAAF3v//8yYAAAeS
+AAD9kf//+6L///2jAAAD3AAAwGxtbW9kAAAAAAAABhAAAJyEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 A</bytes>
 																		</object>
 																		<string key="NSCacheWindowColorSpace">NSCalibratedRGBColorSpace</string>
@@ -6936,9 +6992,40 @@ A</bytes>
 							<string>id</string>
 						</object>
 					</object>
+					<object class="NSMutableDictionary" key="actionInfosByName">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>copy:</string>
+							<string>cut:</string>
+							<string>paste:</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBActionInfo">
+								<string key="name">copy:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">cut:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">paste:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+						</object>
+					</object>
 					<object class="NSMutableDictionary" key="outlets">
 						<string key="NS.key.0">delegate</string>
 						<string key="NS.object.0">id</string>
+					</object>
+					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<string key="NS.key.0">delegate</string>
+						<object class="IBToOneOutletInfo" key="NS.object.0">
+							<string key="name">delegate</string>
+							<string key="candidateClassName">id</string>
+						</object>
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
@@ -6952,9 +7039,23 @@ A</bytes>
 						<string key="NS.key.0">gotoNode:</string>
 						<string key="NS.object.0">NSXMLElement</string>
 					</object>
+					<object class="NSMutableDictionary" key="actionInfosByName">
+						<string key="NS.key.0">gotoNode:</string>
+						<object class="IBActionInfo" key="NS.object.0">
+							<string key="name">gotoNode:</string>
+							<string key="candidateClassName">NSXMLElement</string>
+						</object>
+					</object>
 					<object class="NSMutableDictionary" key="outlets">
 						<string key="NS.key.0">experiment_tree_controller</string>
 						<string key="NS.object.0">MWExperimentTreeController</string>
+					</object>
+					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<string key="NS.key.0">experiment_tree_controller</string>
+						<object class="IBToOneOutletInfo" key="NS.object.0">
+							<string key="name">experiment_tree_controller</string>
+							<string key="candidateClassName">MWExperimentTreeController</string>
+						</object>
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
@@ -6991,6 +7092,40 @@ A</bytes>
 							<string>NSWindow</string>
 						</object>
 					</object>
+					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>elementsTableView</string>
+							<string>experimentController</string>
+							<string>libraryController</string>
+							<string>propertiesPanel</string>
+							<string>window</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBToOneOutletInfo">
+								<string key="name">elementsTableView</string>
+								<string key="candidateClassName">NSTableView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">experimentController</string>
+								<string key="candidateClassName">MWExperimentTreeController</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">libraryController</string>
+								<string key="candidateClassName">MWLibraryTreeController</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">propertiesPanel</string>
+								<string key="candidateClassName">NSWindow</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">window</string>
+								<string key="candidateClassName">NSWindow</string>
+							</object>
+						</object>
+					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">MWElementsArrayController.h</string>
@@ -7024,6 +7159,35 @@ A</bytes>
 							<string>id</string>
 						</object>
 					</object>
+					<object class="NSMutableDictionary" key="actionInfosByName">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>hideErrorPanel:</string>
+							<string>showErrorPanel:</string>
+							<string>toggleErrorPanel:</string>
+							<string>triggerGoToError:</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBActionInfo">
+								<string key="name">hideErrorPanel:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">showErrorPanel:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">toggleErrorPanel:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">triggerGoToError:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+						</object>
+					</object>
 					<object class="NSMutableDictionary" key="outlets">
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
@@ -7039,6 +7203,35 @@ A</bytes>
 							<string>NSPanel</string>
 							<string>NSTableView</string>
 							<string>MWExperimentTreeController</string>
+						</object>
+					</object>
+					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>doc</string>
+							<string>errorPanel</string>
+							<string>error_table_view</string>
+							<string>experiment_tree_controller</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBToOneOutletInfo">
+								<string key="name">doc</string>
+								<string key="candidateClassName">MWXMLDocument</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">errorPanel</string>
+								<string key="candidateClassName">NSPanel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">error_table_view</string>
+								<string key="candidateClassName">NSTableView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">experiment_tree_controller</string>
+								<string key="candidateClassName">MWExperimentTreeController</string>
+							</object>
 						</object>
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
@@ -7064,6 +7257,30 @@ A</bytes>
 							<string>PDFView</string>
 						</object>
 					</object>
+					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>experiment_controller</string>
+							<string>experiment_graph_panel</string>
+							<string>pdf_view</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBToOneOutletInfo">
+								<string key="name">experiment_controller</string>
+								<string key="candidateClassName">MWExperimentTreeController</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">experiment_graph_panel</string>
+								<string key="candidateClassName">NSPanel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">pdf_view</string>
+								<string key="candidateClassName">PDFView</string>
+							</object>
+						</object>
+					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">MWExperimentGraphController.h</string>
@@ -7075,6 +7292,13 @@ A</bytes>
 					<object class="NSMutableDictionary" key="actions">
 						<string key="NS.key.0">copy:</string>
 						<string key="NS.object.0">id</string>
+					</object>
+					<object class="NSMutableDictionary" key="actionInfosByName">
+						<string key="NS.key.0">copy:</string>
+						<object class="IBActionInfo" key="NS.object.0">
+							<string key="name">copy:</string>
+							<string key="candidateClassName">id</string>
+						</object>
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
@@ -7097,6 +7321,25 @@ A</bytes>
 							<string>id</string>
 						</object>
 					</object>
+					<object class="NSMutableDictionary" key="actionInfosByName">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>reloadData:</string>
+							<string>updateInspectorView:</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBActionInfo">
+								<string key="name">reloadData:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">updateInspectorView:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+						</object>
+					</object>
 					<object class="NSMutableDictionary" key="outlets">
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
@@ -7114,6 +7357,40 @@ A</bytes>
 							<string>NSOutlineView</string>
 							<string>MWInspectorViewController</string>
 							<string>NSPanel</string>
+						</object>
+					</object>
+					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>context_menu</string>
+							<string>document</string>
+							<string>experiment_tree</string>
+							<string>inspector_view_controller</string>
+							<string>miniInspector</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBToOneOutletInfo">
+								<string key="name">context_menu</string>
+								<string key="candidateClassName">NSMenu</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">document</string>
+								<string key="candidateClassName">MWXMLDocument</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">experiment_tree</string>
+								<string key="candidateClassName">NSOutlineView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">inspector_view_controller</string>
+								<string key="candidateClassName">MWInspectorViewController</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">miniInspector</string>
+								<string key="candidateClassName">NSPanel</string>
+							</object>
 						</object>
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
@@ -7141,6 +7418,35 @@ A</bytes>
 							<string>id</string>
 						</object>
 					</object>
+					<object class="NSMutableDictionary" key="actionInfosByName">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>newElement:</string>
+							<string>toggleExperimentGraphPanelVisible:</string>
+							<string>toggleInspectorVisible:</string>
+							<string>toggleLibraryVisible:</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBActionInfo">
+								<string key="name">newElement:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">toggleExperimentGraphPanelVisible:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">toggleInspectorVisible:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">toggleLibraryVisible:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+						</object>
+					</object>
 					<object class="NSMutableDictionary" key="outlets">
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
@@ -7158,6 +7464,40 @@ A</bytes>
 							<string>NSPanel</string>
 							<string>NSPanel</string>
 							<string>NSPanel</string>
+						</object>
+					</object>
+					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>document</string>
+							<string>experiment_graph_panel</string>
+							<string>inspector_panel</string>
+							<string>library_panel</string>
+							<string>new_panel</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBToOneOutletInfo">
+								<string key="name">document</string>
+								<string key="candidateClassName">NSDocument</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">experiment_graph_panel</string>
+								<string key="candidateClassName">NSPanel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">inspector_panel</string>
+								<string key="candidateClassName">NSPanel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">library_panel</string>
+								<string key="candidateClassName">NSPanel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">new_panel</string>
+								<string key="candidateClassName">NSPanel</string>
+							</object>
 						</object>
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
@@ -7181,6 +7521,25 @@ A</bytes>
 							<string>id</string>
 						</object>
 					</object>
+					<object class="NSMutableDictionary" key="actionInfosByName">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>nextResult:</string>
+							<string>previousResult:</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBActionInfo">
+								<string key="name">nextResult:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">previousResult:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+						</object>
+					</object>
 					<object class="NSMutableDictionary" key="outlets">
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
@@ -7192,6 +7551,25 @@ A</bytes>
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>MWXMLDocument</string>
 							<string>MWExperimentTreeController</string>
+						</object>
+					</object>
+					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>document</string>
+							<string>experimentController</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBToOneOutletInfo">
+								<string key="name">document</string>
+								<string key="candidateClassName">MWXMLDocument</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">experimentController</string>
+								<string key="candidateClassName">MWExperimentTreeController</string>
+							</object>
 						</object>
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
@@ -7225,6 +7603,30 @@ A</bytes>
 							<string>id</string>
 						</object>
 					</object>
+					<object class="NSMutableDictionary" key="actionInfosByName">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>addAttribute:</string>
+							<string>switchView:</string>
+							<string>update:</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBActionInfo">
+								<string key="name">addAttribute:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">switchView:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">update:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+						</object>
+					</object>
 					<object class="NSMutableDictionary" key="outlets">
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
@@ -7248,6 +7650,55 @@ A</bytes>
 							<string>MWCustomInspectorView</string>
 							<string>NSObjectController</string>
 							<string>NSView</string>
+						</object>
+					</object>
+					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>attributesController</string>
+							<string>custom_view</string>
+							<string>experiment_controller</string>
+							<string>generic_view</string>
+							<string>inspector_panel</string>
+							<string>inspector_view</string>
+							<string>selected_object_controller</string>
+							<string>xml_view</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBToOneOutletInfo">
+								<string key="name">attributesController</string>
+								<string key="candidateClassName">NSArrayController</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">custom_view</string>
+								<string key="candidateClassName">NSView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">experiment_controller</string>
+								<string key="candidateClassName">MWExperimentTreeController</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">generic_view</string>
+								<string key="candidateClassName">NSView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">inspector_panel</string>
+								<string key="candidateClassName">NSPanel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">inspector_view</string>
+								<string key="candidateClassName">MWCustomInspectorView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">selected_object_controller</string>
+								<string key="candidateClassName">NSObjectController</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">xml_view</string>
+								<string key="candidateClassName">NSView</string>
+							</object>
 						</object>
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
@@ -7277,6 +7728,25 @@ A</bytes>
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>MWXMLDocument</string>
 							<string>NSBrowser</string>
+						</object>
+					</object>
+					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>document</string>
+							<string>library_tree</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBToOneOutletInfo">
+								<string key="name">document</string>
+								<string key="candidateClassName">MWXMLDocument</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">library_tree</string>
+								<string key="candidateClassName">NSBrowser</string>
+							</object>
 						</object>
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
@@ -7473,6 +7943,45 @@ A</bytes>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
+						</object>
+					</object>
+					<object class="NSMutableDictionary" key="actionInfosByName">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>printDocument:</string>
+							<string>revertDocumentToSaved:</string>
+							<string>runPageLayout:</string>
+							<string>saveDocument:</string>
+							<string>saveDocumentAs:</string>
+							<string>saveDocumentTo:</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBActionInfo">
+								<string key="name">printDocument:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">revertDocumentToSaved:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">runPageLayout:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">saveDocument:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">saveDocumentAs:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">saveDocumentTo:</string>
+								<string key="candidateClassName">id</string>
+							</object>
 						</object>
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
@@ -8081,6 +8590,13 @@ A</bytes>
 						<string key="NS.key.0">view</string>
 						<string key="NS.object.0">NSView</string>
 					</object>
+					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<string key="NS.key.0">view</string>
+						<object class="IBToOneOutletInfo" key="NS.object.0">
+							<string key="name">view</string>
+							<string key="candidateClassName">NSView</string>
+						</object>
+					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBFrameworkSource</string>
 						<string key="minorKey">AppKit.framework/Headers/NSViewController.h</string>
@@ -8114,6 +8630,13 @@ A</bytes>
 					<object class="NSMutableDictionary" key="actions">
 						<string key="NS.key.0">showWindow:</string>
 						<string key="NS.object.0">id</string>
+					</object>
+					<object class="NSMutableDictionary" key="actionInfosByName">
+						<string key="NS.key.0">showWindow:</string>
+						<object class="IBActionInfo" key="NS.object.0">
+							<string key="name">showWindow:</string>
+							<string key="candidateClassName">id</string>
+						</object>
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBFrameworkSource</string>
@@ -8168,6 +8691,65 @@ A</bytes>
 							<string>id</string>
 						</object>
 					</object>
+					<object class="NSMutableDictionary" key="actionInfosByName">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>goBack:</string>
+							<string>goForward:</string>
+							<string>goToFirstPage:</string>
+							<string>goToLastPage:</string>
+							<string>goToNextPage:</string>
+							<string>goToPreviousPage:</string>
+							<string>selectAll:</string>
+							<string>takeBackgroundColorFrom:</string>
+							<string>zoomIn:</string>
+							<string>zoomOut:</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBActionInfo">
+								<string key="name">goBack:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">goForward:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">goToFirstPage:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">goToLastPage:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">goToNextPage:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">goToPreviousPage:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">selectAll:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">takeBackgroundColorFrom:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">zoomIn:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">zoomOut:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+						</object>
+					</object>
 					<reference key="sourceIdentifier" ref="518979412"/>
 				</object>
 				<object class="IBPartialClassDescription">
@@ -8186,6 +8768,30 @@ A</bytes>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
+						</object>
+					</object>
+					<object class="NSMutableDictionary" key="actionInfosByName">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>play:</string>
+							<string>start:</string>
+							<string>stop:</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBActionInfo">
+								<string key="name">play:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">start:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">stop:</string>
+								<string key="candidateClassName">id</string>
+							</object>
 						</object>
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
