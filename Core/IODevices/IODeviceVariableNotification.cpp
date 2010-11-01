@@ -13,15 +13,18 @@
 
 using namespace mw;
 IODeviceVariableNotification::IODeviceVariableNotification
-(const shared_ptr<IODevice> &_io_device) : VariableNotification() {
-	io_device = _io_device;
+        (const shared_ptr<IODevice> &_io_device) : VariableNotification() {
+	io_device = weak_ptr<IODevice>(_io_device);
 }
 
 IODeviceVariableNotification::~IODeviceVariableNotification() {}
 
 void IODeviceVariableNotification::notify(const Datum& data, MWTime timeUS) {
 	if(data.getInteger() == STOPPING || data.getInteger() == IDLE) {
-		io_device->stopDeviceIO();
+		shared_ptr<IODevice> io_dev_shared = io_device.lock();
+        if(io_dev_shared != NULL){ 
+            io_dev_shared->stopDeviceIO();
+        }
 	}
 }
 

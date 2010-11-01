@@ -19,7 +19,7 @@ namespace mw {
 		
 	protected:
 		
-		shared_ptr<IODevice> io_device;
+		weak_ptr<IODevice> io_device;
 		
 	public:
 		
