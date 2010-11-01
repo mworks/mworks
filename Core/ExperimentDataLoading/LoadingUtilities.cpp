@@ -15,7 +15,6 @@
 #include "EventBuffer.h"
 #include "StandardVariables.h"
 #include "StandardStimuli.h"
-#include "IODeviceManager.h"
 #include "FilterManager.h"
 #include "OpenALContextManager.h"
 #include <string>
@@ -209,20 +208,11 @@ namespace mw {
         OpenGLImageLoader::initialized = false;
 		
 		
-		
-		// kill all IODevices
-		if(GlobalIODeviceManager != NULL) {
-			delete GlobalIODeviceManager;  
-		}
-		
-		
 		// kill all filters
 		if(GlobalFilterManager != NULL) {
 			delete GlobalFilterManager;  
 		}
 		
-		// these may not be needed here because they are also in the parser.
-		GlobalIODeviceManager = new IODeviceManager();
 		
 		GlobalFilterManager = new FilterManager();
 		

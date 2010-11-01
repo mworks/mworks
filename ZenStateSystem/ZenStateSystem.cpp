@@ -15,7 +15,6 @@
 #include "MWorksCore/Scheduler.h"
 #include "MWorksCore/StateSystem.h"
 #include "MWorksCore/StandardVariables.h"
-#include "MWorksCore/IODeviceManager.h"
 #include "MWorksCore/Debugging.h"
 
 
@@ -328,10 +327,6 @@ void *checkStateSystem(void *void_state_system){
 	if(GlobalCurrentExperiment != NULL){
 		mprintf("Reseting experiment");
 		GlobalCurrentExperiment->reset();
-	}
-	
-	if(GlobalIODeviceManager != NULL){
-		GlobalIODeviceManager->stopAllDeviceIO();
 	}
     
     

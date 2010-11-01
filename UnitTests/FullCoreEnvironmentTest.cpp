@@ -18,7 +18,7 @@
 #include "MWorksCore/DataFileManager.h"
 #include "MWorksCore/OpenALContextManager.h"
 #include "MWorksCore/FilterManager.h"
-#include "MWorksCore/IODeviceManager.h"
+
 using namespace mw;
 
 // Can't open OpenGL from here?
@@ -58,11 +58,6 @@ void FullCoreEnvironmentTestFixture::tearDown(){
 	if(GlobalFilterManager) {
 	  delete GlobalFilterManager;
 	  GlobalFilterManager = 0;
-	}
-
-	if(GlobalIODeviceManager) {
-	  delete GlobalIODeviceManager;
-	  GlobalIODeviceManager = 0;
 	}
 
 	

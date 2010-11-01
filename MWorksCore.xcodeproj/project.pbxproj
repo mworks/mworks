@@ -326,8 +326,6 @@
 		8E4054280B098BF000B64D84 /* RewardCoordinator.h in Headers */ = {isa = PBXBuildFile; fileRef = 8E4054260B098BF000B64D84 /* RewardCoordinator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8E4054290B098BF100B64D84 /* RewardCoordinator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E4054270B098BF000B64D84 /* RewardCoordinator.cpp */; };
 		8E58149C0920220F0058D767 /* EyeCalibrators.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8ED4542B08C56280003880D5 /* EyeCalibrators.cpp */; };
-		8ED4518108BF596A003880D5 /* IODeviceManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 8ED4517F08BF596A003880D5 /* IODeviceManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		8ED4518208BF596A003880D5 /* IODeviceManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8ED4518008BF596A003880D5 /* IODeviceManager.cpp */; };
 		8ED451E308BF5B90003880D5 /* EyeMonitors.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8ED451E108BF5B90003880D5 /* EyeMonitors.cpp */; };
 		8ED451E408BF5B90003880D5 /* EyeMonitors.h in Headers */ = {isa = PBXBuildFile; fileRef = 8ED451E208BF5B90003880D5 /* EyeMonitors.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8ED451E708BF5BA1003880D5 /* FilterTransforms.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8ED451E508BF5BA1003880D5 /* FilterTransforms.cpp */; };
@@ -963,8 +961,6 @@
 		8E2A2C7C09509D6800A7E004 /* MWorksXMLSpec.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = MWorksXMLSpec.rtf; path = Docs/MWorksXMLSpec.rtf; sourceTree = "<group>"; };
 		8E4054260B098BF000B64D84 /* RewardCoordinator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RewardCoordinator.h; path = Core/Transforms/RewardCoordinator.h; sourceTree = "<group>"; };
 		8E4054270B098BF000B64D84 /* RewardCoordinator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RewardCoordinator.cpp; path = Core/Transforms/RewardCoordinator.cpp; sourceTree = "<group>"; };
-		8ED4517F08BF596A003880D5 /* IODeviceManager.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IODeviceManager.h; path = Core/IODevices/IODeviceManager.h; sourceTree = SOURCE_ROOT; };
-		8ED4518008BF596A003880D5 /* IODeviceManager.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = IODeviceManager.cpp; path = Core/IODevices/IODeviceManager.cpp; sourceTree = SOURCE_ROOT; };
 		8ED451E108BF5B90003880D5 /* EyeMonitors.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = EyeMonitors.cpp; path = Core/Transforms/EyeMonitors.cpp; sourceTree = SOURCE_ROOT; };
 		8ED451E208BF5B90003880D5 /* EyeMonitors.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = EyeMonitors.h; path = Core/Transforms/EyeMonitors.h; sourceTree = SOURCE_ROOT; };
 		8ED451E508BF5BA1003880D5 /* FilterTransforms.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = FilterTransforms.cpp; path = Core/Transforms/FilterTransforms.cpp; sourceTree = SOURCE_ROOT; };
@@ -2102,8 +2098,6 @@
 		DA2CE0FA07E9F70700C68AEF /* IODevices */ = {
 			isa = PBXGroup;
 			children = (
-				8ED4517F08BF596A003880D5 /* IODeviceManager.h */,
-				8ED4518008BF596A003880D5 /* IODeviceManager.cpp */,
 				E11AFFBC118F865C0034CC04 /* IODevice.h */,
 				E1F65DF8119086A100F9A3A3 /* IODevice.cpp */,
 				DA2CE13B07E9F8D300C68AEF /* LegacyIODevice.h */,
@@ -2374,7 +2368,6 @@
 				5C18E25608A167BE00AA734D /* VariableNotification.h in Headers */,
 				DA2E379F08B0FE5800BD22C4 /* EventBuffer.h in Headers */,
 				DA30579D08B6A23700BA4B0E /* NetworkReturn.h in Headers */,
-				8ED4518108BF596A003880D5 /* IODeviceManager.h in Headers */,
 				8ED451E408BF5B90003880D5 /* EyeMonitors.h in Headers */,
 				8ED451E808BF5BA1003880D5 /* FilterTransforms.h in Headers */,
 				8ED452C808BF9870003880D5 /* FilterManager.h in Headers */,
@@ -3081,7 +3074,6 @@
 				5C18E25708A167BE00AA734D /* VariableNotification.cpp in Sources */,
 				DA2E379E08B0FE5800BD22C4 /* EventBuffer.cpp in Sources */,
 				DA30579E08B6A23700BA4B0E /* NetworkReturn.cpp in Sources */,
-				8ED4518208BF596A003880D5 /* IODeviceManager.cpp in Sources */,
 				8ED451E308BF5B90003880D5 /* EyeMonitors.cpp in Sources */,
 				8ED451E708BF5BA1003880D5 /* FilterTransforms.cpp in Sources */,
 				8ED451FF08BF5C0C003880D5 /* Transforms.cpp in Sources */,
