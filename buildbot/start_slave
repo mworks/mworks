@@ -32,4 +32,11 @@ buildbot create-slave --umask=022 $SLAVEDIR \
 get_config buildbot_admin > $SLAVEDIR/info/admin
 system_profiler SPHardwareDataType SPSoftwareDataType > $SLAVEDIR/info/host
 
-buildbot start $SLAVEDIR
+#buildbot start $SLAVEDIR
+
+PLIST=org.mworks-project.buildbot.slave.plist
+PLISTDIR=~/Library/LaunchAgents
+mkdir -p $PLISTDIR
+cp $PLIST $PLISTDIR
+
+launchctl load $PLISTDIR/$PLIST

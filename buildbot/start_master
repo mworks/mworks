@@ -10,4 +10,12 @@ MASTERDIR=~/.buildbot_master
 rm -Rf $MASTERDIR
 buildbot create-master $MASTERDIR
 cp master.cfg local_config.py slave_pass.py $MASTERDIR
-buildbot start $MASTERDIR
+
+#buildbot start $MASTERDIR
+
+PLIST=org.mworks-project.buildbot.master.plist
+PLISTDIR=~/Library/LaunchAgents
+mkdir -p $PLISTDIR
+cp $PLIST $PLISTDIR
+
+launchctl load $PLISTDIR/$PLIST
