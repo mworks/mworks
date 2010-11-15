@@ -49,8 +49,12 @@ using namespace mw;
 namespace mw {
 	// External function for scheduling
 	void *update_io_channel(const shared_ptr<UpdateIOChannelArgs> &update_io_channels){
-		// runs the updateChannel method for a particular IOdevice
-		(update_io_channels->device)->updateChannel(update_io_channels->channel_index);                 
+
+        shared_ptr<LegacyIODevice> theDevice = (update_io_channels->device).lock();
+        if (theDevice) {
+            // runs the updateChannel method for a particular IOdevice
+            theDevice->updateChannel(update_io_channels->channel_index);
+        }
 		
 		// TODO: check this
 		return NULL;
@@ -62,8 +66,11 @@ namespace mw {
 		// cast the null pointer as a pointer to a UpdateIOChannelArgs structure
 		UpdateIOChannelArgs *args = (UpdateIOChannelArgs *)void_args;    
 		
-		// runs the updateChannel method for a particular IOdevice
-		(args->device)->updateAllChannels();                 
+        shared_ptr<LegacyIODevice> theDevice = (args->device).lock();
+        if (theDevice) {
+            // runs the updateChannel method for a particular IOdevice
+            theDevice->updateAllChannels();
+        }
 		
 		// TODO: check this
 		return NULL;
@@ -1183,7 +1190,10 @@ VariableNotification(){
 }
 
 void AsynchronousOutputNotification::notify(const Datum& data, MWTime timeUS){
-	device->updateChannel(channel_index, data);
+    shared_ptr<LegacyIODevice> theDevice = device.lock();
+    if (theDevice) {
+        theDevice->updateChannel(channel_index, data);
+    }
 }
 
 

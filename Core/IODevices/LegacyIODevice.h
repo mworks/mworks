@@ -528,7 +528,7 @@ namespace mw {
 		
 	protected:
 		
-		shared_ptr<LegacyIODevice> device;
+		weak_ptr<LegacyIODevice> device;
 		int channel_index;
 		
 	public:
@@ -543,7 +543,7 @@ namespace mw {
 	// A function and typedef for the purpose of scheduling channel updates
 	class UpdateIOChannelArgs {
 	public:
-		shared_ptr<LegacyIODevice> device;
+		weak_ptr<LegacyIODevice> device;
 		int channel_index;
 	};
 	
