@@ -1,5 +1,6 @@
-# To set the slave password, create a copy of this file named
-# "slave_pass.py" and edit it, replacing "PASSWORD" with the desired
-# slave password
+# To set the slave and webstatus passwords, create a copy of this file
+# named "slave_pass.py" and edit it, replacing "PASSWORD" with the
+# desired passwords
 
 slave_pass = 'PASSWORD'
+webstatus_pass = 'PASSWORD'
