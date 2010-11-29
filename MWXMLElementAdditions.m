@@ -83,9 +83,7 @@
 	[self willChangeValueForKey:@"prettyXMLString"];
 	[self willChangeValueForKey:@"object"];
 	
-	
-	// TODO be sure to convert val to string
-	[att setStringValue:val resolvingEntities:NO];
+	[att setStringValue:[NSString stringWithFormat:@"%@", val] resolvingEntities:NO];
 	
 	[self didChangeValueForKey:key];
 	[att didChangeValueForKey:@"stringValue"];
@@ -101,7 +99,7 @@
 
 	NSLog(@"creating attribute");
 	
-	NSXMLNode *new_att = [NSXMLNode attributeWithName:key stringValue:val];
+	NSXMLNode *new_att = [NSXMLNode attributeWithName:key stringValue:[NSString stringWithFormat:@"%@", val]];
 	
 	[self willChangeValueForKey:key];
 	[new_att willChangeValueForKey:@"displayName"];
