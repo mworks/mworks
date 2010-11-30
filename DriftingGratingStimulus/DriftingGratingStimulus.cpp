@@ -97,8 +97,7 @@ void DriftingGratingStimulus::load(shared_ptr<StimulusDisplay> display) {
 		
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glColor4f(1,1,1,alpha_multiplier->getValue().getFloat()); //R,G,B,A
-		
+		glColor4f(1,1,1,1); 
         
        
         
@@ -226,7 +225,7 @@ void DriftingGratingStimulus::drawFrame(shared_ptr<StimulusDisplay> display, int
 	
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glColor4f(1,1,1,alpha_multiplier->getValue().getFloat()); //R,G,B,A
+	glColor4f(1,1,1,1);
 	
     
     // ----------------------------------------
@@ -320,8 +319,10 @@ void DriftingGratingStimulus::drawFrame(shared_ptr<StimulusDisplay> display, int
 		glVertex3f(-0.5,0.5,0);
 	
 	glEnd(); // GL_QUADS		
+    
+	last_phase = phase*(180/M_DG_PI);
 	
-
+	
     // ----------------------------------------
     //                CLEAN-UP
     // ----------------------------------------
@@ -337,10 +338,29 @@ void DriftingGratingStimulus::drawFrame(shared_ptr<StimulusDisplay> display, int
     glDisable(GL_TEXTURE_2D);
 	
     glActiveTextureARB(0);
-    
-	glPopMatrix();	
+	
+	
+    //
+    // If alpha_multiplier is less than 1, draw another polygon on top to reduce contrast
+    //
 
-	last_phase = phase*(180/M_DG_PI);
+    float tB = alpha_multiplier->getValue().getFloat();
+
+    if ((tB < 1.0f) && (tB >= 0.0f)) {
+        glBegin(GL_QUADS);
+
+            glColor4f(0.5,0.5,0.5,1-tB);   // MH 100730 I believe all grating types have mean 0.5 hardcoded now, fade to 0.5
+        
+            glVertex3f(-0.5,-0.5,0);
+            glVertex3f(0.5,-0.5,0);
+            glVertex3f(0.5,0.5,0);
+            glVertex3f(-0.5,0.5,0);
+
+        glEnd();  // GL_QUADS
+    }
+    
+
+	glPopMatrix();	
 }
 
 inline Datum DriftingGratingStimulus::getCurrentAnnounceDrawData() {
