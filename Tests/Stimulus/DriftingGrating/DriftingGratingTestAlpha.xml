@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<monkeyml version="1.0">
+    <io_devices tag="IO Devices"></io_devices>
+    <variables tag="Variables">
+        <variable tag="frames_per_second" scope="global" logging="when_changed" default_value="30" type="integer"></variable>
+        <variable tag="std_dev" scope="global" logging="when_changed" default_value="0.2" type="float"></variable>
+        <variable tag="mean" scope="global" logging="when_changed" default_value="-0.1" type="float"></variable>
+        <variable tag="size" scope="global" logging="when_changed" default_value="20" type="float"></variable>
+        <variable tag="x_pos" scope="global" logging="when_changed" default_value="10" type="float"></variable>
+        <variable tag="alpha" scope="global" logging="when_changed" default_value="0.2" type="float"></variable>
+    </variables>
+    <sounds tag="Sounds"></sounds>
+    <stimuli tag="Stimuli">
+        <stimulus type="blank_screen" tag="bg" color="0.5,0.5,0.5"></stimulus>
+        <stimulus type="drifting_grating" tag="left_dg" frames_per_second="frames_per_second" direction="0" starting_phase="0" spatial_frequency="1" speed="1" grating_type="sinusoid" mask="gaussian" std_dev="std_dev" mean="mean" x_size="size" y_size="size" x_position="-x_pos" y_position="0" rotation="0" alpha_multiplier="1"></stimulus>
+        <stimulus type="drifting_grating" tag="right_dg" frames_per_second="frames_per_second" direction="0" starting_phase="0" spatial_frequency="1" speed="1" grating_type="sinusoid" mask="gaussian" std_dev="std_dev" mean="mean" x_size="size" y_size="size" x_position="x_pos" y_position="0" rotation="0" alpha_multiplier="alpha"></stimulus>
+    </stimuli>
+    <filters tag="Filters"></filters>
+    <optimizers tag="Optimizers"></optimizers>
+    <experiment tag="New Experiment" full_name="" description="">
+        <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential">
+            <block tag="New Block" nsamples="1" sampling_method="cycles" selection="sequential">
+                <action tag="Queue background" type="queue_stimulus" stimulus="bg"></action>
+                <action tag="Queue left grating" type="queue_stimulus" stimulus="left_dg"></action>
+                <action tag="Queue right grating" type="queue_stimulus" stimulus="right_dg"></action>
+                <action tag="Play left grating" stimulus="left_dg" type="play_dynamic_stimulus"></action>
+                <action tag="Play right grating" stimulus="right_dg" type="play_dynamic_stimulus"></action>
+                <action tag="Update display" type="update_stimulus_display"></action>
+                <action type="wait" tag="Wait" duration="5" duration_units="s"></action>
+                <action tag="Stop left grating" stimulus="left_dg" type="stop_dynamic_stimulus"></action>
+                <action tag="Stop right grating" stimulus="right_dg" type="stop_dynamic_stimulus"></action>
+                <action tag="Dequeue left grating" type="dequeue_stimulus" stimulus="left_dg"></action>
+                <action tag="Dequeue right grating" type="dequeue_stimulus" stimulus="right_dg"></action>
+                <action tag="Dequeue background" type="dequeue_stimulus" stimulus="bg"></action>
+            </block>
+        </protocol>
+    </experiment>
+</monkeyml>
