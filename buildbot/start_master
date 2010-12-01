@@ -8,7 +8,7 @@ set -u
 MASTERDIR=~/.buildbot_master
 
 rm -Rf $MASTERDIR
-buildbot create-master $MASTERDIR
+buildbot create-master --relocatable $MASTERDIR
 cp master.cfg local_config.py slave_pass.py $MASTERDIR
 
 #buildbot start $MASTERDIR
