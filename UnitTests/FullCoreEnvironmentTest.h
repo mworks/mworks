@@ -16,6 +16,7 @@
 #include <cppunit/extensions/HelperMacros.h>
 
 #include "MWorksCore/TestBedCoreBuilder.h"
+#include "MWorksCore/ComponentRegistry.h"
 namespace mw {
 class FullCoreEnvironmentTestFixture : public CppUnit::TestFixture {
 	

@@ -3443,11 +3443,11 @@
 					IOKit,
 					"-framework",
 					CoreVideo,
-					"$(MW_LIB_DIR)/libboost_regex-mw.a",
-					"$(MW_LIB_DIR)/libboost_thread-mw.a",
-					"$(MW_LIB_DIR)/libboost_system-mw.a",
-					"$(MW_LIB_DIR)/libboost_serialization-mw.a",
-					"$(MW_LIB_DIR)/libboost_filesystem-mw.a",
+					"$(MW_LIB_DIR)/libboost_regex.a",
+					"$(MW_LIB_DIR)/libboost_thread.a",
+					"$(MW_LIB_DIR)/libboost_system.a",
+					"$(MW_LIB_DIR)/libboost_serialization.a",
+					"$(MW_LIB_DIR)/libboost_filesystem.a",
 					"-lxml2",
 					"-lxslt",
 				);
@@ -3648,7 +3648,7 @@
 					MWorksCore,
 					"-lcppunit",
 					"-lscarab",
-					"-lboost_serialization-mw",
+					"-lboost_serialization",
 				);
 				PRODUCT_NAME = MWorksCoreTest;
 				STANDARD_C_PLUS_PLUS_LIBRARY_TYPE = dynamic;
@@ -3728,11 +3728,11 @@
 					GLUT,
 					"-framework",
 					IOKit,
-					"-lboost_regex-mw",
-					"-lboost_thread-mw",
-					"-lboost_system-mw",
-					"-lboost_serialization-mw",
-					"-lboost_filesystem-mw",
+					"-lboost_regex",
+					"-lboost_thread",
+					"-lboost_system",
+					"-lboost_serialization",
+					"-lboost_filesystem",
 					"-lxml2",
 					"-lxslt",
 				);
@@ -3966,7 +3966,7 @@
 					MWorksCore,
 					"-lcppunit",
 					"-lscarab",
-					"-lboost_serialization-mw",
+					"-lboost_serialization",
 				);
 				PRODUCT_NAME = MWorksCoreTest;
 				STANDARD_C_PLUS_PLUS_LIBRARY_TYPE = dynamic;
@@ -4073,7 +4073,7 @@
 				LINK_WITH_STANDARD_LIBRARIES = YES;
 				MACH_O_TYPE = mh_bundle;
 				OTHER_LDFLAGS = (
-					"-lboost_python-mt",
+					"-lboost_python",
 					"-lpython2.5",
 				);
 				PREBINDING = NO;
@@ -4124,6 +4124,7 @@
 				EXECUTABLE_EXTENSION = so;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_INPUT_FILETYPE = sourcecode.cpp.cpp;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				HEADER_SEARCH_PATHS = (
 					/usr/include/python2.6,
@@ -4135,7 +4136,7 @@
 				OTHER_LDFLAGS = (
 					"-undefined",
 					dynamic_lookup,
-					"-lboost_python-mw",
+					"-lboost_python",
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = _conduit;

@@ -17,6 +17,7 @@
 #include "DummyEventTransport.h"
 #include "Exceptions.h"
 
+#include "Clock.h"
 #include "CoreBuilderForeman.h"
 #include "StandardServerCoreBuilder.h"
 
