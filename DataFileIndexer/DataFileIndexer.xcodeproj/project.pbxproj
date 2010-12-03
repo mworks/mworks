@@ -373,7 +373,14 @@
 			isa = PBXProject;
 			buildConfigurationList = 1DEB916408733D950010E9CD /* Build configuration list for PBXProject "DataFileIndexer" */;
 			compatibilityVersion = "Xcode 3.0";
+			developmentRegion = English;
 			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
 			mainGroup = 0867D691FE84028FC02AAC07 /* DataFileIndexer */;
 			productRefGroup = 034768DDFF38A45A11DB9C8B /* Products */;
 			projectDirPath = "";
@@ -585,12 +592,12 @@
 				GCC_MODEL_TUNING = G5;
 				INSTALL_PATH = /usr/local/lib;
 				OTHER_LDFLAGS = (
-					"-lboost_filesystem-mw",
+					"-lboost_filesystem",
 					"-lscarab",
-					"-lboost_system-mw",
+					"-lboost_system",
 					"-lpython2.6",
-					"-lboost_serialization-mw",
-					"-lboost_python-mw",
+					"-lboost_serialization",
+					"-lboost_python",
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = DataFile;
@@ -684,11 +691,11 @@
 				OTHER_LDFLAGS = (
 					"-undefined",
 					dynamic_lookup,
-					"-lboost_filesystem-mw",
+					"-lboost_filesystem",
 					"-lscarab",
-					"-lboost_system-mw",
-					"-lboost_serialization-mw",
-					"-lboost_python-mw",
+					"-lboost_system",
+					"-lboost_serialization",
+					"-lboost_python",
 					"-ldfindex",
 				);
 				PREBINDING = NO;
@@ -711,13 +718,13 @@
 				);
 				INSTALL_PATH = /usr/local/bin;
 				OTHER_LDFLAGS = (
-					"-lboost_filesystem-mw",
+					"-lboost_filesystem",
 					"-lpython",
-					"-lboost_system-mw",
+					"-lboost_system",
 					"-lscarab",
-					"-lboost_serialization-mw",
-					"-lboost_unit_test_framework-mw",
-					"-lboost_python-mw",
+					"-lboost_serialization",
+					"-lboost_unit_test_framework",
+					"-lboost_python",
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = PythonBindingsTest;

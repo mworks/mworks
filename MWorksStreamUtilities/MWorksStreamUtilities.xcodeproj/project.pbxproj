@@ -186,7 +186,14 @@
 			isa = PBXProject;
 			buildConfigurationList = 0E2D77270D71EDDE005AFCC2 /* Build configuration list for PBXProject "MWorksStreamUtilities" */;
 			compatibilityVersion = "Xcode 2.4";
+			developmentRegion = English;
 			hasScannedForEncodings = 0;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
 			mainGroup = 0E2D77220D71EDDE005AFCC2;
 			productRefGroup = 0E454E3E0D71EF000040E668 /* Products */;
 			projectDirPath = "";
