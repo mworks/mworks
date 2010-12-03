@@ -424,7 +424,7 @@
 				OTHER_LDFLAGS = (
 					"-framework",
 					OpenGL,
-					"-lboost_regex-mw",
+					"-lboost_regex",
 				);
 				PRODUCT_NAME = DriftingGratingStimulusPlugin;
 				WRAPPER_EXTENSION = bundle;
@@ -441,7 +441,7 @@
 				HEADER_SEARCH_PATHS = /usr/include/libxml2;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Bundles";
-				OTHER_LDFLAGS = "-lboost_regex-mw";
+				OTHER_LDFLAGS = "-lboost_regex";
 				PRODUCT_NAME = DriftingGratingStimulusPlugin;
 				WRAPPER_EXTENSION = bundle;
 			};
