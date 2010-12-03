@@ -266,7 +266,14 @@
 			isa = PBXProject;
 			buildConfigurationList = DA2B5970089814BA0071B527 /* Build configuration list for PBXProject "Scarab" */;
 			compatibilityVersion = "Xcode 2.4";
+			developmentRegion = English;
 			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
 			mainGroup = 5CF4DE9305911D6D002A02B7;
 			productRefGroup = 5CF4DEB40591EA4B002A02B7 /* Products */;
 			projectDirPath = "";
