@@ -487,19 +487,25 @@ Datum ComponentRegistry::getNumber(std::string expression, GenericDataType type)
             } else if (M_INTEGER == type) {
                 longValue = (long)doubleValue;
                 if ((double)longValue != doubleValue) {
+                    /*
                     mwarning(M_PARSER_MESSAGE_DOMAIN,
                              "invalid integer literal \"%s\" truncated to %ld",
                              expression.c_str(),
                              longValue);
+                     */
+                    throw SimpleException("invalid integer literal", expression.c_str());
                 }
                 value = Datum(longValue);
             } else {
                 boolValue = (bool)doubleValue;
                 if ((double)boolValue != doubleValue) {
+                    /*
                     mwarning(M_PARSER_MESSAGE_DOMAIN,
                              "invalid boolean literal \"%s\" truncated to %d",
                              expression.c_str(),
                              boolValue);
+                     */
+                    throw SimpleException("invalid boolean literal", expression.c_str());
                 }
                 value = Datum(boolValue);
             }
