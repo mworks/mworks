@@ -13,17 +13,17 @@
     <optimizers tag="Optimizers"></optimizers>
     <experiment tag="New Experiment" full_name="" description="">
         <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential">
-            <list_replicator tag="Bool Replicator" values="0,1,2,3.4,\&quot;five\&quot;" variable="bool_var">
+            <list_replicator tag="Bool Replicator" values="0,1" variable="bool_var">
                 <trial tag="Bool List" nsamples="1" sampling_method="cycles" selection="sequential">
                     <action type="report" tag="Bool Report" message="bool_var = $bool_var"></action>
                 </trial>
             </list_replicator>
-            <list_replicator tag="Int Replicator" values="0,1,2,3.4,\&quot;five\&quot;" variable="int_var">
+            <list_replicator tag="Int Replicator" values="0,1,2" variable="int_var">
                 <trial tag="Int List" nsamples="1" sampling_method="cycles" selection="sequential">
                     <action type="report" tag="Int Report" message="int_var = $int_var"></action>
                 </trial>
             </list_replicator>
-            <list_replicator tag="Float Replicator" values="0,1,2,3.4,\&quot;five\&quot;" variable="float_var">
+            <list_replicator tag="Float Replicator" values="0,1,2,3.4" variable="float_var">
                 <trial tag="Float List" nsamples="1" sampling_method="cycles" selection="sequential">
                     <action type="report" tag="Float Report" message="float_var = $float_var"></action>
                 </trial>
