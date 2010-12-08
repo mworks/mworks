@@ -9,7 +9,7 @@ MASTERDIR=~/.buildbot_master
 
 rm -Rf $MASTERDIR
 buildbot create-master --relocatable $MASTERDIR
-cp master.cfg local_config.py slave_pass.py $MASTERDIR
+cp master.cfg local_config.py local_passwords.py $MASTERDIR
 
 #buildbot start $MASTERDIR
 
