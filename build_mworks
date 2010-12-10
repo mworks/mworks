@@ -106,9 +106,9 @@ def build_requirements():
     make()
 
 
-@builder
-def mw_supporting():
-    check_call(['/usr/bin/python', 'fresh_build.py', '--rebuild_all'])
+@builder('mw_build/supporting_libs')
+def supporting_libs():
+    check_call(['./build_supporting_libs'])
 
 
 @builder
