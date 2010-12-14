@@ -48,6 +48,8 @@
 #include <sstream>
 #include <cmath>
 
+#include "StimulusDisplay.h"
+
 // ugly/tricky.  I wish the STL guys would get their acts together
 char _to_lower (const char c) { return tolower(c); }
 char _to_upper (const char c) { return toupper(c); }
@@ -1566,6 +1568,12 @@ namespace stx {
 		return AnyScalar( paramlist[0].getLong() );
 	}
 	
+	AnyScalar BasicSymbolTable::funcREFRESH_RATE(const paramlist_type &paramlist)
+	{
+        boost::shared_ptr<mw::StimulusDisplay> display(mw::StimulusDisplay::getCurrentStimulusDisplay());
+		return AnyScalar( display->getMainDisplayRefreshRate() );
+	}
+	
 	AnyScalar BasicSymbolTable::funcUNIFORM_RAND(const paramlist_type &paramlist)
 	{
 		double hi, lo;
@@ -1688,6 +1696,7 @@ namespace stx {
 		
 		setFunction("NOW", 0, funcNOW);
 		setFunction("TIMEREXPIRED", 1, funcTIMER_EXPIRED);
+		setFunction("REFRESHRATE", 0, funcREFRESH_RATE);
 	}
 	
 	AnyScalar BasicSymbolTable::lookupVariable(const std::string &_varname) const
