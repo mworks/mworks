@@ -145,6 +145,7 @@ def boost():
             './bootstrap.sh',
             ('--with-libraries='
              'filesystem,python,regex,serialization,system,test,thread'),
+            '--without-icu',
             '--with-python=' + python,
             '--prefix=' + path_to_stagedir,
             ])
