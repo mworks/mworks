@@ -13,7 +13,7 @@
         </stimulus_group>
         <stimulus tag="blank screen" full_name="blank screen" type="blank_screen" color="0.5,0.5,0.5"/>
         <stimulus tag="fixation_dot" full_name="fixation_dot" type="rectangle" color="1,0,0" x_size="1" y_size="1" x_position="0" y_position="0" rotation="0.0" contrast="1.0" affine_transform="0" alpha_multiplier="1.0"/>
-        <stimulus type="movie" tag="MyMovie1" stimulus_group="movie_group" frames_per_second="10" movie_stats="movie_stats" error_reporting="movie_error"/>
+        <stimulus type="movie" tag="MyMovie1" stimulus_group="movie_group" frames_per_second="10" movie_stats="movie_stats" error_reporting="movie_error" ended=""/>
     </stimuli>
     <experiment tag="experiment">
         <protocol tag="Protocol" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
