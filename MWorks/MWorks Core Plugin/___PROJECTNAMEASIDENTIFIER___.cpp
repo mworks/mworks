@@ -10,6 +10,11 @@
 #include "___PROJECTNAMEASIDENTIFIER___.h"
 
 
-___PROJECTNAMEASIDENTIFIER___::___PROJECTNAMEASIDENTIFIER___(std::string _tag, shared_ptr<Variable> another_attribute){ }
-___PROJECTNAMEASIDENTIFIER___::___PROJECTNAMEASIDENTIFIER___(const ___PROJECTNAMEASIDENTIFIER___ &tocopy){ }
-___PROJECTNAMEASIDENTIFIER___::~___PROJECTNAMEASIDENTIFIER___(){ }
+___PROJECTNAMEASIDENTIFIER___::___PROJECTNAMEASIDENTIFIER___(const std::string &tag,
+                                                             shared_ptr<Variable> anotherAttribute) :
+    mw::Component(tag),
+    anotherAttribute(anotherAttribute)
+{ }
+
+
+___PROJECTNAMEASIDENTIFIER___::~___PROJECTNAMEASIDENTIFIER___() { }

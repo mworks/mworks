@@ -7,21 +7,22 @@
  *
  */
 
+#include <MWorksCore/ComponentFactory.h>
+
 #include "___PROJECTNAMEASIDENTIFIER___Plugin.h"
 #include "___PROJECTNAMEASIDENTIFIER___Factory.h"
-#include "MWorksCore/ComponentFactory.h"
+
 using namespace mw;
 
-Plugin *getPlugin(){
+
+Plugin* getPlugin() {
     return new ___PROJECTNAMEASIDENTIFIER___Plugin();
 }
 
 
-void ___PROJECTNAMEASIDENTIFIER___Plugin::registerComponents(shared_ptr<mw::ComponentRegistry> registry) {
-	
+void ___PROJECTNAMEASIDENTIFIER___Plugin::registerComponents(shared_ptr<ComponentRegistry> registry) {
     // TODO: you need to customize the "signature" of the object your plugin will create
     //       The signature is of the form component/type Ð(e.g. stimulus/circle, or iodevice/NIDAQ)
     registry->registerFactory(std::string("stimulus/___PROJECTNAMEASIDENTIFIER___"),
-							  (ComponentFactory *)(new ___PROJECTNAMEASIDENTIFIER___Factory()));
+                              (ComponentFactory *)(new ___PROJECTNAMEASIDENTIFIER___Factory()));
 }
-

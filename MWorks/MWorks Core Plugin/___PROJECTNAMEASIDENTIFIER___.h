@@ -10,20 +10,25 @@
 #ifndef ___PROJECTNAMEASIDENTIFIER____H_
 #define ___PROJECTNAMEASIDENTIFIER____H_
 
-#include <MWorksCore/Plugin.h>
+#include <MWorksCore/Component.h>
+#include <MWorksCore/GenericVariable.h>
 
 using namespace mw;
 
+
 class ___PROJECTNAMEASIDENTIFIER___ : public mw::Component {
 
-protected:
-
-
 public:
-	___PROJECTNAMEASIDENTIFIER___(std::string _tag, shared_ptr<Variable> another_attribute);
-	___PROJECTNAMEASIDENTIFIER___(const ___PROJECTNAMEASIDENTIFIER___ &tocopy);
-	~___PROJECTNAMEASIDENTIFIER___();
+    ___PROJECTNAMEASIDENTIFIER___(const std::string &tag, shared_ptr<Variable> anotherAttribute);
+
+    virtual ~___PROJECTNAMEASIDENTIFIER___();
+    
+private:
+    ___PROJECTNAMEASIDENTIFIER___(const ___PROJECTNAMEASIDENTIFIER___ &other);
+    
+    shared_ptr<Variable> anotherAttribute;
 
 };
 
-#endif 
+
+#endif

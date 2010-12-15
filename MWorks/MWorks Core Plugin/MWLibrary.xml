@@ -14,7 +14,7 @@
     <!-- Payload -->
     <!-- This XML gets inserted when you drop this object into the project -->
     <code>
-      <stimulus type="my_mw_component" tag="My MW Stimulus"/>
+      <stimulus type="my_mw_component" tag="My MW Stimulus" another_attribute="something"/>
       <!-- <action type="my_mw_component" tag="My MW Action" />
         ... you get the idea ...
         ...
