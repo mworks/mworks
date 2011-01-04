@@ -47,6 +47,7 @@ BOOST_PYTHON_MODULE(_conduit)
     .def("_convert_mw_datum_to_python", &convert_datum_to_python)
     .staticmethod("_convert_mw_datum_to_python")
     .add_property("code", &Event::getEventCode)
+    .add_property("time", &Event::getTime)
     .add_property("_mw_datum", &Event::getData);
     ;
     
