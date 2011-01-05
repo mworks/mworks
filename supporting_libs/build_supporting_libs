@@ -282,7 +282,8 @@ def main():
             sys.exit(1)
 
     remove_directory(stagedir)
-    check_call(['/bin/mkdir', '-p', builddir, stagedir, installdir])
+    check_call(['/bin/mkdir', '-p', downloaddir, builddir, stagedir,
+                installdir])
 
     with workdir(builddir):
         for buildfunc in all_builders:
