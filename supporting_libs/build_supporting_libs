@@ -71,7 +71,7 @@ def download_file(url, filename):
     if os.path.isfile(filepath):
         announce('Already downloaded file %r', filename)
     else:
-        check_call(['/usr/bin/curl', '-#', '-L', '-o', filepath, url])
+        check_call(['/usr/bin/curl', '-#', '-L', '-f', '-o', filepath, url])
 
 
 def download_tarfile(url_path, filename):
@@ -171,7 +171,7 @@ def libpng():
     srcdir = 'libpng-' + version
     tarfile = srcdir + '.tar.bz2'
 
-    download_tarfile_from_sf('libpng/03-libpng-previous', version, tarfile)
+    download_tarfile_from_sf('libpng/libpng12', version, tarfile)
     unpack_tarfile(tarfile, srcdir)
 
     run_configure_and_make(srcdir)
