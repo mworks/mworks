@@ -46,6 +46,7 @@ package_contents = {
         '/Library/Application Support/MWorks/Plugins/Core/ITC18Plugin.bundle',
         '/Library/Application Support/MWorks/Plugins/Core/MovieStimulusPlugin.bundle',
         '/Library/Application Support/MWorks/Plugins/Core/RectangleStimulusPlugin.bundle',
+        '/Library/Application Support/MWorks/Plugins/Core/WhiteNoiseBackground.bundle',
         ),
 
     'MWorksPythonTools':

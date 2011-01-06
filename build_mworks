@@ -147,7 +147,8 @@ def dicarlolab_mwcore_plugins():
                    'FakeMonkeyPlugin',
                    'ITC18Plugin',
                    'MoviePlugin',
-                   'RectangleStimulus'):
+                   'RectangleStimulus',
+                   'WhiteNoiseBackground'):
         with workdir(subdir):
             xcodebuild()
 
