@@ -11,6 +11,7 @@
 
 #include "PlatformDependentServices.h"
 #include <boost/filesystem/path.hpp>
+#include <boost/filesystem/operations.hpp>
 #ifdef	__APPLE__
 #include <Cocoa/Cocoa.h>
 #endif
@@ -37,6 +38,7 @@ namespace mw {
 	const char * VARIABLE_FILE_EXT = "_var.xml";
 	const char * EXPERIMENT_STORAGE_DIR_NAME = "Experiment Storage";
 	const char * SAVED_VARIABLES_DIR_NAME = "Saved Variables";
+	const char * SETUP_VARIABLES_FILENAME = "setup_variables.xml";
 	
 	boost::filesystem::path pluginPath() {
 		return boost::filesystem::path(PLUGIN_PATH, boost::filesystem::native);
@@ -83,6 +85,15 @@ namespace mw {
 		namespace bf = boost::filesystem;
 		return bf::path("/Library/Application Support", bf::native) / bf::path(CONFIG_PATH, bf::native);
 	}
+	
+    boost::filesystem::path setupVariablesFile() {
+        namespace bf = boost::filesystem;
+        bf::path setupPath(prependUserPath(SETUP_VARIABLES_FILENAME));
+        if (setupPath.empty() || !bf::is_regular_file(setupPath)) {
+            setupPath = prependLocalPath(SETUP_VARIABLES_FILENAME);
+        }
+        return setupPath;
+    }
 	
 	boost::filesystem::path resourcePath() {
 		std::string resource_path;

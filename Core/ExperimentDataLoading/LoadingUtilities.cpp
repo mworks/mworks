@@ -27,7 +27,6 @@
 #include "DataFileManager.h"
 using namespace mw;
 
-#define SETUP_VARIABLES_FILENAME "setup_variables.xml"
 
 namespace mw {
 
@@ -52,11 +51,7 @@ namespace mw {
 	bool loadSetupVariables() {
 		
 		
-		boost::filesystem::path setupPath(prependUserPath(SETUP_VARIABLES_FILENAME));
-        if (setupPath.empty() || !boost::filesystem::is_regular_file(setupPath)) {
-            setupPath = prependLocalPath(SETUP_VARIABLES_FILENAME);
-        }
-
+		boost::filesystem::path setupPath(setupVariablesFile());
 		shared_ptr<ComponentRegistry> reg = ComponentRegistry::getSharedRegistry();
 		XMLParser parser(reg, setupPath.string());
 		

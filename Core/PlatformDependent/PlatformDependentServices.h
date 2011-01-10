@@ -21,6 +21,7 @@
 namespace mw {
 	boost::filesystem::path userPath();
 	boost::filesystem::path localPath();
+	boost::filesystem::path setupVariablesFile();
 	boost::filesystem::path pluginPath();
 	boost::filesystem::path scriptingPath();
 	boost::filesystem::path dataFilePath();
