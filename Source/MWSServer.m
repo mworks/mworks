@@ -8,6 +8,7 @@
  */
 
 #import "MWSServer.h"
+#import "MWorksCore/PlatformDependentServices.h"
 #import "MWorksCocoa/MWCocoaEventFunctor.h"
 #import <sys/types.h>
 #import <sys/socket.h>
@@ -17,7 +18,6 @@
 #define LISTENING_ADDRESS_KEY @"listeningAddressKey"
 
 #define HELP_URL @"http://mworks-project.github.com"
-#define SETUP_VARIABLES_URL @"/Library/Application Support/MWorks/Configuration/setup_variables.xml"
 
 @interface MWSServer(PrivateMethods)
 - (void)processEvent:(id)cocoaEvent;
@@ -133,7 +133,8 @@
 
 - (IBAction) revealSetupVariables: (id)sender {
     NSLog(@"Launching setup variables...");
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL fileURLWithPath:SETUP_VARIABLES_URL]];
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL fileURLWithPath:
+                                            [NSString stringWithUTF8String:(setupVariablesFile().string().c_str())]]];
 }
 
 - (IBAction)toggleConsole:(id)sender {
