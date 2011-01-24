@@ -766,6 +766,7 @@ void ImageStimulus::load(shared_ptr<StimulusDisplay> display) {
 	}
     
     DevILImageLoader loader;
+    display->setCurrent(0);  // Need an active OpenGL context when ilutInit() is called
     loader.load(filename, width, height, fileHash);
 	
 	// TODO: this needs clean up.  We are counting on all of the contexts
@@ -773,8 +774,8 @@ void ImageStimulus::load(shared_ptr<StimulusDisplay> display) {
 	// should be true, but we should eventually be robust in case it isn't
 	texture_maps.clear();
     
-    for(int i = 0; i < display->getNContexts(); i++){
-		display->setCurrent(i);
+    int i = 1;
+    while (true) {
 		GLuint texture_map = loader.bindTexture();
 		
         texture_maps.push_back(texture_map);
@@ -782,6 +783,12 @@ void ImageStimulus::load(shared_ptr<StimulusDisplay> display) {
 		if(texture_map){
 			mprintf("Image loaded into texture_map %d", texture_map);
 		}
+        
+        if (i >= display->getNContexts())
+            break;
+        
+        display->setCurrent(i);
+        i++;
 	}
 	
   
