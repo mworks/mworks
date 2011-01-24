@@ -106,23 +106,11 @@ class BasicTransformStimulus : public Stimulus {
         virtual shared_ptr<Variable> getYOffset(){ return yoffset; }
 };
 
-class OpenGLImageLoader {
-	protected:
-		
-
-	public:
-		static bool initialized;
-		static Lockable *lock;
-		
-        static void initialize();
-        static GLuint load(std::string filename, shared_ptr<StimulusDisplay> display,
-                                                   int *width, int *height);
-};
-
 // Image file based stimulus
 class ImageStimulus : public BasicTransformStimulus {
     protected:
         std::string filename;
+        std::string fileHash;
         vector<GLuint> texture_maps;
 		int width, height;
 		

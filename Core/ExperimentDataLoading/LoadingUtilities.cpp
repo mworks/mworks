@@ -199,8 +199,6 @@ namespace mw {
             opengl_context_manager->releaseDisplays();
             //opengl_context_manager->destroy();
         }
-        
-        OpenGLImageLoader::initialized = false;
 		
 		
 		// kill all filters

@@ -27,16 +27,12 @@
 #include <boost/regex.hpp>
 
 #include <stdio.h> // for fopen()
+#include <openssl/sha.h>
 #include <iostream>
+#include <iomanip>
 
-//	#define USE_COCOA_IMAGE_LOADER	1
-#undef USE_COCOA_IMAGE_LOADER
+#import <Foundation/Foundation.h>
 
-
-
-#ifdef USE_COCOA_IMAGE_LOADER
-	#import <Cocoa/Cocoa.h>
-#endif
 using namespace mw;
 
 
@@ -550,352 +546,116 @@ shared_ptr<mw::Component> BlankScreenFactory::createObject(std::map<std::string,
 }
 
 
-bool OpenGLImageLoader::initialized = false;
-Lockable *OpenGLImageLoader::lock = NULL;
+class DevILImageLoader {
 
-void OpenGLImageLoader::initialize(){
-    mprintf("initializing image loader facility");
-    OpenGLImageLoader::lock = new Lockable();
-    lock = OpenGLImageLoader::lock;
+public:
+    DevILImageLoader();
+    ~DevILImageLoader();
+    void load(const std::string &filename, int &width, int &height, std::string &fileHash);
+    GLuint bindTexture();
     
-    //lock->lock();
+private:
+    static void initializeIL();
+
+    static void throwILError(const std::string &message) {
+        throw SimpleException(message, iluErrorString(ilGetError()));
+    }
+
+    static bool ilInitialized;
+    
+    NSAutoreleasePool *pool;
+    ILuint ilImageName;
+
+};
+
+
+DevILImageLoader::DevILImageLoader() :
+    ilImageName(0)
+{
+    pool = [[NSAutoreleasePool alloc] init];
+}
+
+
+DevILImageLoader::~DevILImageLoader() {
+    if (0 != ilImageName) {
+        ilDeleteImage(ilImageName);
+    }
+    [pool drain];
+}
+
+
+void DevILImageLoader::load(const std::string &filename, int &width, int &height, std::string &fileHash) {
+    if (0 != ilImageName) {
+        throw SimpleException("Cannot load image", "Image already loaded");
+    }
+    
+    NSError *errorPtr = nil;
+    NSData *imageData = [NSData dataWithContentsOfFile:[NSString stringWithUTF8String:(filename.c_str())]
+                                               options:0
+                                                 error:&errorPtr];
+    if (nil != errorPtr) {
+		throw SimpleException("Cannot read image file", [[errorPtr localizedDescription] UTF8String]);
+    }
+    
+    if (!ilInitialized) {
+        initializeIL();
+    }
+
+    ilImageName = ilGenImage();
+    ilBindImage(ilImageName);
+    
+    mprintf("Loading image %s", filename.c_str());
+    
+    if (IL_FALSE == ilLoadL(ilTypeFromExt(filename.c_str()), [imageData bytes], [imageData length]) ||
+        IL_FALSE == ilConvertImage(IL_RGBA, IL_FLOAT))
+    {
+        throwILError("Cannot load image");
+    }
+    
+    width = ilGetInteger(IL_IMAGE_WIDTH);
+    height = ilGetInteger(IL_IMAGE_HEIGHT);
+
+    // Compute the SHA-1 message digest of the raw file data, convert it to a hex string, and copy it to fileHash
+    unsigned char *hash = SHA1((unsigned char*)[imageData bytes], [imageData length], NULL);
+    std::ostringstream os;
+    os.fill('0');
+    os << std::hex;
+    for (int i = 0; i < SHA_DIGEST_LENGTH; i++) {
+        os << std::setw(2) << (unsigned int)(hash[i]);
+    }
+    fileHash = os.str();
+}
+
+
+GLuint DevILImageLoader::bindTexture() {
+    if (0 == ilImageName) {
+        throw SimpleException("Cannot bind image texture", "Image not loaded");
+    }
+
+    ilBindImage(ilImageName);
+
+    GLuint texture = ilutGLBindMipmaps();
+    if (0 == texture) {
+        throwILError("Cannot bind image texture");
+    }
+    
+    return texture;
+}
+
+
+void DevILImageLoader::initializeIL() {
+    mprintf("initializing image loader facility");
     ilInit();
+    iluInit();
     ilutInit();
     ilutRenderer(ILUT_OPENGL);
     ilutEnable(ILUT_OPENGL_CONV);
-    //lock->unlock();
-    OpenGLImageLoader::initialized = true;   
+    ilInitialized = true;   
 }
 
-GLuint OpenGLImageLoader::load(std::string filename, shared_ptr<StimulusDisplay> display,
-                                                    int *width, int *height) {
-    
-	
-	#ifdef	USE_COCOA_IMAGE_LOADER
-	
-	NSImage * image;
-	GLuint texName = 0;
-	
-	
-	image = [[NSImage alloc] initWithContentsOfFile:
-								[NSString stringWithCString:filename.c_str() 
-										  encoding:NSASCIIStringEncoding]];
 
-	
-	NSSize orig_size = [image size];
-	double aspect_ratio = (double)orig_size.width / (double)orig_size.height;
-	
-	double resizeWidth, resizeHeight, padWidth, padHeight;
-	
-	if(orig_size.width > orig_size.height){
-		
-		int power = 1;
-		while( power < orig_size.width ) {
-			power <<= 1;
-		}
-	
-		resizeWidth = power;
-		resizeHeight = (1.0 / aspect_ratio) * resizeWidth;
-		padWidth = resizeWidth;
-		padHeight = resizeWidth;
+bool DevILImageLoader::ilInitialized = false;
 
-	} else {
-		int power = 1;
-		while( power < orig_size.width ) {
-			power <<= 1;
-		}
-	
-		resizeHeight = power;
-		resizeWidth = (aspect_ratio) * resizeHeight;
-		padWidth = resizeHeight;
-		padHeight = resizeHeight;
-	}
-
-	double height_diff = padHeight - resizeHeight;
-	double width_diff = padWidth - resizeWidth;
-	
-	NSImage *resizedImage = [[NSImage alloc] 
-								initWithSize: NSMakeSize(padWidth, padHeight)]; // TODO: off center
-
-	[resizedImage lockFocus];
-	[resizedImage setBackgroundColor:[NSColor colorWithDeviceRed:1.0
-											  green:1.0
-											  blue:1.0
-											  alpha:0.0]];
-	 [[NSColor clearColor] set];
-	 NSRectFill(NSMakeRect(0,0,[resizedImage size].width, [resizedImage size].height));
-
-	
-	[image drawInRect: NSMakeRect(width_diff/2, height_diff/2, 
-								  resizeWidth - width_diff/2 , 
-								  resizeHeight - height_diff/2) 
-		   fromRect: NSMakeRect(0, 0, orig_size.width, orig_size.height) 
-		   operation: NSCompositeSourceOver fraction: 1.0];
-//	[image drawInRect: NSMakeRect(0, 0, resizeWidth, resizeHeight) 
-//		   fromRect: NSMakeRect(0, 0, orig_size.width, orig_size.height) 
-//		   operation: NSCompositeSourceOver fraction: 1.0];
-	[resizedImage unlockFocus];
-	
-	
-	NSBitmapImageRep* bitmap;// = [NSBitmapImageRep alloc];
-    int samplesPerPixel = 0;
-    NSSize imgSize = [image size];
-	*width = (int)imgSize.width;
-    *height = (int)imgSize.height;
- 
-    /*[image lockFocus];
-    [bitmap initWithFocusedViewRect:
-                    NSMakeRect(0.0, 0.0, imgSize.width, imgSize.height)]; 
-    [image unlockFocus];*/
-	
-	bitmap = [NSBitmapImageRep imageRepWithData:[resizedImage TIFFRepresentation]];
- 
- 
-	
- 
-	//glActiveTexture(GL_TEXTURE0);
-	glEnable(GL_TEXTURE_2D);
- 
-	 // Generate a new texture name 
-	glGenTextures (1, &texName);
-//	fprintf(stderr, "Loading texName = %u\n", (unsigned int)texName);fflush(stderr);
-	glBindTexture (GL_TEXTURE_2D, texName);
- 
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
- 
-	glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-	glPixelStorei(GL_UNPACK_SKIP_ROWS, 0);
-	glPixelStorei(GL_UNPACK_SKIP_PIXELS, 0);
-	//glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
-	glPixelStorei(GL_UNPACK_SWAP_BYTES, IL_FALSE);
- 
-	//glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, 1);
-	glPixelStorei(GL_UNPACK_ROW_LENGTH, [bitmap bytesPerRow]/([bitmap bitsPerPixel] >> 3)); //imgWidth
-	
-	//glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-	//glPixelStorei(GL_UNPACK_SKIP_ROWS, 0);
-	//glPixelStorei(GL_UNPACK_SKIP_PIXELS, 0);
-	//glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
-	//glPixelStorei(GL_UNPACK_SWAP_BYTES, 0);
- 
-	// Set proper unpacking row length for bitmap.
-	//glPixelStorei(GL_UNPACK_ROW_LENGTH, ([bitmap bytesPerRow]/([bitmap bitsPerPixel]  >> 3)));
- 
-	// Set byte aligned unpacking (needed for 3 byte per pixel bitmaps).
-	//glPixelStorei (GL_UNPACK_ALIGNMENT, 1);
- 
-
- 
-	samplesPerPixel = [bitmap samplesPerPixel];
- 
-	// Nonplanar, RGB 24 bit bitmap, or RGBA 32 bit bitmap.
-	if(![bitmap isPlanar] && 
-		(samplesPerPixel == 3 || samplesPerPixel == 4)) 
-	{ 
-		
-	//	glBindTexture (GL_TEXTURE_2D, texName);
-	//	glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
-		
-		gluBuild2DMipmaps(GL_TEXTURE_2D, 
-						  samplesPerPixel == 4 ? GL_RGBA8 : GL_RGBA8, 
-						  [bitmap pixelsWide], [bitmap pixelsHigh],
-						  samplesPerPixel == 4 ? GL_RGBA : GL_RGB, 
-						  GL_UNSIGNED_BYTE, 
-						  [bitmap bitmapData]);
-		
-		
-		/*glTexImage2D(GL_TEXTURE_2D, 0, 
-			//GL_RGBA,
-			samplesPerPixel == 4 ? GL_RGBA8 : GL_RGB8,
-			[bitmap pixelsWide], 
-			[bitmap pixelsHigh], 
-			0, 
-			samplesPerPixel == 4 ? GL_RGBA : GL_RGB,
-			GL_UNSIGNED_BYTE, 
-			[bitmap bitmapData]);*/
-		
-		glBindTexture(GL_TEXTURE_2D, 0);
-		
-	} else if(samplesPerPixel == 1){
-	//	glBindTexture (GL_TEXTURE_2D, texName);
-//		glEnable(GL_TEXTURE_2D);
-//		glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
-		
-		gluBuild2DMipmaps(GL_TEXTURE_2D, GL_RGBA, [bitmap pixelsWide], [bitmap pixelsHigh],
-                  GL_LUMINANCE, GL_UNSIGNED_BYTE, [bitmap bitmapData]);
-				  
-/*		glTexImage2D(GL_TEXTURE_2D, 0, 
-			GL_RGBA,
-			[bitmap pixelsWide], 
-			[bitmap pixelsHigh], 
-			0, 
-			GL_LUMINANCE,
-			GL_UNSIGNED_BYTE, 
-			[bitmap bitmapData]);*/
-		
-		glBindTexture(GL_TEXTURE_2D, 0);
-		
-	} else {
-		// Handle other bitmap formats.
-		mwarning(M_DISPLAY_MESSAGE_DOMAIN, "Unknown bitmap format");
-	}
-	
-    // Clean up.
-    [bitmap release];
-	[image release];
-	
-	
-	return texName;
-	
-	/*[image lockFocus];
-	bitmap = [[NSBitmapImageRep alloc] initWithFocusedViewRect:NSMakeRect (0.0f, 0.0f, size.width, size.height)];
-	[image unlockFocus];
-	NSSize texSize;
-	texSize.width = [bitmap size].width;
-	texSize.height = [bitmap size].height;
-	
-	*width = (int)texSize.width;
-    *height = (int)texSize.height;
-	
-	display->setCurrent(); // if we successfully retrieve a current context (required)
-	glGenTextures (1, &texName);
-	glBindTexture (GL_TEXTURE_RECTANGLE_EXT, texName);
-	
-	GLuint colorspace;
-	if([bitmap hasAlpha]){
-		colorspace = GL_RGBA;
-	} else {
-		colorspace = GL_RGB;
-	}
-	
-	GLuint data_format;
-	
-	if([bitmap bitsPerPixel] == 16){
-		data_format = GL_UNSIGNED_SHORT;
-	} else if([bitmap bitsPerPixel] == 32){
-		data_format = GL_UNSIGNED_INT;
-	} else {
-		data_format = GL_UNSIGNED_BYTE;
-	}
-	glTexImage2D (GL_TEXTURE_RECTANGLE_EXT, 0, GL_RGBA, texSize.width, texSize.height, 0, colorspace, data_format, [bitmap bitmapData]);
-	
-	glBindTexture (GL_TEXTURE_RECTANGLE_EXT, 0); // unbind
-	
-	[bitmap release];
-	[image release];
-	
-	
-	
-	return texName;*/
-	
-	#else
-	
-	GLuint texture_map;
-    ILuint il_image_name;
-	ILenum il_error;
-	
-	Lockable *lock;
-	
-	//clock->sleepMS(1);
-	
-	if(filename == ""){
-		
-		throw SimpleException("Cannot load image (NULL filename).");
-		return 0;
-	}
-	
-    // TODO:
-    // SHOULD CHECK TO BE SURE THAT THE FILE REALLY EXISTS!
-    // IL WILL CHOKE IF IT DOESN'T!
-	FILE *test = fopen(filename.c_str(),"r");
-	if(!test){
-		throw SimpleException("Image file does not exist", filename);
-	}
-	fclose(test);
-	
-    if (!OpenGLImageLoader::initialized) {
-        OpenGLImageLoader::initialize();
-    }
-	
-	
-	//lock->lock();
-            
-	
-    ilGenImages(1,&il_image_name);
-    ilBindImage(il_image_name);
-    	   
-	// TODO: check validity of the image file
-	// Can't trust DevIL library not to crash here
-	
-	mprintf("Loading image %s", filename.c_str());
-	
-    //this variable is unused as of oct 21 2004 TODO            
-    bool image_loaded = ilLoadImage(filename.c_str());
-    
-	ilConvertImage(IL_RGBA, IL_FLOAT);
-	
-	//ilConvertPal(IL_PAL_RGBA32);
-	
-	if((il_error = ilGetError()) != IL_NO_ERROR) {
-        // TODO HANDLE ERROR
-        merror(M_DISPLAY_MESSAGE_DOMAIN,
-				"IL Image Library Error: %x", 
-				il_error);
-		
-		throw SimpleException("Cannot load image", filename);
-
-		lock->unlock();
-        return -1;
-    }
-            
-    *width = (int)ilGetInteger(IL_IMAGE_WIDTH);
-    *height = (int)ilGetInteger(IL_IMAGE_HEIGHT);
-	
-	
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-	
-	//int depth = (int)ilGetInteger(IL_IMAGE_DEPTH);
-	
-    //texture_map = ilutGLBindTexImage();
-    texture_map = ilutGLBindMipmaps();
-            
-    //texture_map = ilutGLLoadImage(filename);
-            
-    if((il_error = ilGetError()) != IL_NO_ERROR) {
-        throw SimpleException(
-			(boost::format("Cannot bind image texture. IL Image Library Error") % il_error).str());
-        image_loaded = false;
-		lock->unlock();
-        return -1;
-    }
-	
-	ilDeleteImage(il_image_name);
-	if((il_error = ilGetError()) != IL_NO_ERROR) {
-         throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN,
-			(boost::format("Cannot delete image. IL Image Library Error: %s") % il_error).str());
-        image_loaded = false;
-		lock->unlock();
-        return -1;
-    }	
-    /*if(texture_map >= 0){
-        return true;
-    } else {
-        return false;
-    }*/
-	
-	//lock->unlock();
-	
-	 return texture_map;
-	
-	#endif
-	
-   
-}
 
 ImageStimulus::ImageStimulus(std::string _tag, std::string _filename, 
 								shared_ptr<Variable> _xoffset, 
@@ -1004,6 +764,9 @@ void ImageStimulus::load(shared_ptr<StimulusDisplay> display) {
     if(loaded){
 		return;
 	}
+    
+    DevILImageLoader loader;
+    loader.load(filename, width, height, fileHash);
 	
 	// TODO: this needs clean up.  We are counting on all of the contexts
 	// in the stimulus display to have the exact same history.  Ideally, this
@@ -1012,7 +775,7 @@ void ImageStimulus::load(shared_ptr<StimulusDisplay> display) {
     
     for(int i = 0; i < display->getNContexts(); i++){
 		display->setCurrent(i);
-		GLuint texture_map = OpenGLImageLoader::load(filename, display, &width, &height);
+		GLuint texture_map = loader.bindTexture();
 		
         texture_maps.push_back(texture_map);
 //		fprintf(stderr, "Loaded texture map %u into context %d\n", (unsigned int)texture_map, i);fflush(stderr);
@@ -1116,11 +879,12 @@ Datum ImageStimulus::getCurrentAnnounceDrawData() {
     
     //mprintf("getting announce DRAW data for image stimulus %s",tag );
     
-    Datum announceData(M_DICTIONARY, 9);
+    Datum announceData(M_DICTIONARY, 10);
     announceData.addElement(STIM_NAME,tag);        // char
     announceData.addElement(STIM_ACTION,STIM_ACTION_DRAW);
     announceData.addElement(STIM_TYPE,STIM_TYPE_IMAGE);
     announceData.addElement(STIM_FILENAME,filename);  
+    announceData.addElement(STIM_FILE_HASH,fileHash);  
     announceData.addElement(STIM_POSX,last_posx);  
     announceData.addElement(STIM_POSY,last_posy);  
     announceData.addElement(STIM_SIZEX,last_sizex);  

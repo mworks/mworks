@@ -30,6 +30,7 @@ namespace mw {
     #define STIM_COLOR_G    "color_g"
     #define STIM_COLOR_B    "color_b"
     #define STIM_FILENAME   "filename"
+    #define STIM_FILE_HASH  "file_hash"
     #define STIM_GROUP_NAME  "group"
     #define STIM_GROUP_INDEX "groupIndex"
 
