@@ -1,5 +1,8 @@
 <?xml version="1.0"?>
 <marionette_info>
+  <permitted_error_messages>
+    <message type="contains"> is incompatible with display refresh rate </message>
+  </permitted_error_messages>
   <expected_messages>
     <message type="whole_message">WARNING: "Play Movie" is deprecated.  Please use "Play Dynamic Stimulus" instead.</message>
     <message type="whole_message">WARNING: "Stop Movie" is deprecated.  Please use "Stop Dynamic Stimulus" instead.</message>
