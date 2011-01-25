@@ -585,6 +585,8 @@ DevILImageLoader::~DevILImageLoader() {
 
 
 void DevILImageLoader::load(const std::string &filename, int &width, int &height, std::string &fileHash) {
+    mprintf("Loading image %s", filename.c_str());
+    
     if (0 != ilImageName) {
         throw SimpleException("Cannot load image", "Image already loaded");
     }
@@ -603,8 +605,6 @@ void DevILImageLoader::load(const std::string &filename, int &width, int &height
 
     ilImageName = ilGenImage();
     ilBindImage(ilImageName);
-    
-    mprintf("Loading image %s", filename.c_str());
     
     if (IL_FALSE == ilLoadL(ilTypeFromExt(filename.c_str()), [imageData bytes], [imageData length]) ||
         IL_FALSE == ilConvertImage(IL_RGBA, IL_FLOAT))
@@ -826,7 +826,7 @@ void ImageStimulus::drawInUnitSquare(shared_ptr<StimulusDisplay> display) {
         glActiveTextureARB(GL_TEXTURE0_ARB); 
         glEnable(GL_TEXTURE_2D);
 		glBindTexture(GL_TEXTURE_2D, texture_maps[display->getCurrentContextIndex()]);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 		glEnable (GL_BLEND); 
 		glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
