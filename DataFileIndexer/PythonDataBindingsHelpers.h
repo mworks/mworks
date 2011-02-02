@@ -59,7 +59,7 @@ public:
 
 
 
-// A simple, non-indexing stream (e.g. file / socket) reader for 
+// A simple, non-indexing stream (e.g. file / socket) reader/writer for 
 // python wrapping
 class PythonDataStream {
     std::string uri;
@@ -72,14 +72,25 @@ public:
     
     void open();
     
-    void close();    
+    void close();
+	
+	static int _scarab_create_file(std::string _fn);  // creates new scarab file
+    std::string _scarab_session_read(int len);
+    int _scarab_session_write(std::string buf);
+    int _scarab_session_seek(long int offset, int origin = 0);
+    int _scarab_session_flush(void);
+    long int _scarab_session_tell(void);
+    int _scarab_write(PyObject *obj);
     
     shared_ptr<EventWrapper> read_event();
+    int write_event(shared_ptr<EventWrapper> e);
 
 };    
 
 // Convert a ScarabDatum into a corresponding Python object
-extern PyObject *convert_scarab_to_python(ScarabDatum *datum);
+extern PyObject *convert_scarab_to_python(ScarabDatum *datum, int prev_typ = -1);
+// vice versa
+extern ScarabDatum *convert_python_to_scarab(PyObject *pObj);
 
 
 extern PyObject *extract_event_value(EventWrapper e);

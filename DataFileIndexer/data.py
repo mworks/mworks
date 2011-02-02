@@ -8,6 +8,7 @@
 
 from _data import Event, _MWKFile, _MWKStream
 import os
+import shutil
 
 
 class FileNotLoadedException(Exception):
@@ -24,6 +25,16 @@ Event.__module__ = __name__  # So help() thinks Event is part of this module
 
 
 class MWKFile(_MWKFile):
+
+    def __init__(self, file_name):
+        super(MWKFile, self).__init__(file_name)
+        self._codec = None 
+        self._reverse_codec = None 
+
+    def close(self):
+        super(MWKFile, self).close()
+        self._codec = None
+        self._reverse_codec = None 
 
     def get_events(self, **kwargs):
         event_codes = []
@@ -70,22 +81,28 @@ class MWKFile(_MWKFile):
     def codec(self):
         if not self.loaded:
             raise FileNotLoadedException
+        if self._codec is not None:
+            return self._codec
     
         e = self._fetch_events([0])
         if(len(e) == 0):
-            return None
+            self._codec = {}
+            return self._codec
         
         raw_codec = e[0].value
         
         codec = {}
         for key in raw_codec.keys():
             codec[key] = raw_codec[key]["tagname"]
+        self._codec = codec
         return codec
     
     @property
     def reverse_codec(self):
         if not self.loaded:
             raise FileNotLoadedException
+        if self._reverse_codec is not None:
+            return self._reverse_codec
     
         c = self.codec
         keys = c.keys()
@@ -96,6 +113,8 @@ class MWKFile(_MWKFile):
             v = values[i]
             #print("key: %d, value %s" % (k,v))
             rc[v] = k
+
+        self._reverse_codec = rc
         return rc
     
     def reindex(self):
@@ -103,13 +122,14 @@ class MWKFile(_MWKFile):
         self.unindex()
         self.open()
     
-    def unindex(self):
+    # erases all contents in the directory except the original mwk file.
+    def _empty_dir(self):    # original DDC's unindex().
         if(os.path.isdir(self.file)):
             split_file_name = os.path.split(self.file)
             file_name = split_file_name[-1:][0]
             parent_path = os.pathsep.join(split_file_name[0:-1])
             
-            true_mwk_file = os.path.join(self.file,file_name)
+            true_mwk_file = os.path.join(self.file, file_name)
                 
             #print "parent_path: ", parent_path
             #print "file_name: ", file_name
@@ -117,17 +137,32 @@ class MWKFile(_MWKFile):
             
             aside_path =  os.path.join(parent_path, file_name + ".aside")
             
-            os.rename( self.file, aside_path)
+            os.rename(self.file, aside_path)
             #print "rename %s to %s" % ( self.file, aside_path)
             
-            os.rename( os.path.join(aside_path, file_name), os.path.join(parent_path,file_name) )
+            os.rename(os.path.join(aside_path, file_name), os.path.join(parent_path,file_name) )
             #print "rename %s to %s" % ( os.path.join(aside_path, file_name), os.path.join(parent_path,file_name) )
             
-            os.system("rm -rf %s" % aside_path)
+            shutil.rmtree(aside_path, True)        # del tree ignoring errors
             #print "remove %s" % aside_path
             
         else:
             raise IndexingException("Attempt to re-index a file that has not yet been indexed")
+
+    def unindex(self, empty_dir=True):
+        if empty_dir:   # erase all files except .mwk
+            self._empty_dir()
+            return True
+        if not os.path.isdir(self.file): return False
+
+        # only erase the .idx file
+        file_name = os.path.basename(self.file)
+        idx_file = os.path.join(self.file, file_name + '.idx')
+        if os.path.isfile(idx_file):
+            os.remove(idx_file)
+            return True
+        else:
+            return False
 
 
 class MWKStream(_MWKStream):

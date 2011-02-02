@@ -29,6 +29,7 @@ BOOST_PYTHON_MODULE(_data)
     PyEval_InitThreads();
  
     //def("convert_scarab_to_python", convert_scarab_to_python, "Convert a Scarab datum to a corresponding Python object, recursing as needed");
+    //def("convert_python_to_scarab", convert_python_to_scarab);
 
     
     class_<EventWrapper, boost::noncopyable>("Event", init<ScarabDatum *>())
@@ -70,6 +71,15 @@ BOOST_PYTHON_MODULE(_data)
         .def("open", &PythonDataStream::open)
         .def("close", &PythonDataStream::close)
         .def("_read_event", &PythonDataStream::read_event)
+        .def("_write_event", &PythonDataStream::write_event)
+		.def("_scarab_session_read", &PythonDataStream::_scarab_session_read)
+		.def("_scarab_session_write", &PythonDataStream::_scarab_session_write)
+		.def("_scarab_session_seek", &PythonDataStream::_scarab_session_seek)
+		.def("_scarab_session_tell", &PythonDataStream::_scarab_session_tell)
+		.def("_scarab_session_flush", &PythonDataStream::_scarab_session_flush)
+		.def("_scarab_write", &PythonDataStream::_scarab_write)
+		.def("_scarab_create_file", &PythonDataStream::_scarab_create_file)
+		.staticmethod("_scarab_create_file")
         ;
     
 }
