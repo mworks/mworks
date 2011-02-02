@@ -37,6 +37,10 @@ Variable::Variable(VariableProperties *_properties) : mw::Component() {
 	
 	
 	event_target = global_outgoing_event_buffer;
+    
+    if(_properties != NULL){
+        setTag(_properties->getTagName());
+    }
 	
 }
 
