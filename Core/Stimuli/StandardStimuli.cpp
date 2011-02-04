@@ -552,7 +552,7 @@ public:
     DevILImageLoader();
     ~DevILImageLoader();
     void load(const std::string &filename, int &width, int &height, std::string &fileHash);
-    GLuint bindTexture();
+    GLuint buildTexture();
     
 private:
     static void initializeIL();
@@ -627,17 +627,18 @@ void DevILImageLoader::load(const std::string &filename, int &width, int &height
 }
 
 
-GLuint DevILImageLoader::bindTexture() {
+GLuint DevILImageLoader::buildTexture() {
     if (0 == ilImageName) {
-        throw SimpleException("Cannot bind image texture", "Image not loaded");
+        throw SimpleException("Cannot build image texture", "Image not loaded");
     }
 
     ilBindImage(ilImageName);
 
     GLuint texture = ilutGLBindMipmaps();
     if (0 == texture) {
-        throwILError("Cannot bind image texture");
+        throwILError("Cannot build image texture");
     }
+    glBindTexture(GL_TEXTURE_2D, 0);  // Unbind the texture
     
     return texture;
 }
@@ -776,7 +777,7 @@ void ImageStimulus::load(shared_ptr<StimulusDisplay> display) {
     
     int i = 1;
     while (true) {
-		GLuint texture_map = loader.bindTexture();
+		GLuint texture_map = loader.buildTexture();
 		
         texture_maps.push_back(texture_map);
 //		fprintf(stderr, "Loaded texture map %u into context %d\n", (unsigned int)texture_map, i);fflush(stderr);
