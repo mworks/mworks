@@ -69,7 +69,7 @@ package_contents = {
 
     'MWorksDevelopmentFiles':
         (
-        '/Developer/Library/Xcode/Project Templates/MWorks',
+        '/Library/Application Support/Developer/Shared/Xcode/Project Templates/MWorks',
         '/Library/Application Support/MWorks/Developer',
         ),
 

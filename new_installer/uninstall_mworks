@@ -14,13 +14,14 @@ mw_files = (
     '/Applications/MWClient.app',
     '/Applications/MWEditor.app',
     '/Applications/MWServer.app',
-    '/Developer/Library/Xcode/Project Templates/MWorks',
+    '/Library/Application Support/Developer/Shared/Xcode/Project Templates/MWorks',
     '/Library/Application Support/MWorks',
     '/Library/Frameworks/MWorksCocoa.framework',
     '/Library/Frameworks/MWorksCore.framework',
     '/Library/Python/2.6/site-packages/mworks.pth',
 
     # Legacy
+    '/Developer/Library/Xcode/Project Templates/MWorks',
     '/Documents/MWorks',
     '/Documents/MonkeyWorks',
     '/Library/Application Support/MWClient',
