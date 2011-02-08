@@ -2,7 +2,7 @@ XCCONFIG_DIR = /Library/Application\ Support/MWorks/Developer/Xcode
 XCCONFIG_NAME = Development
 include $(XCCONFIG_DIR)/$(XCCONFIG_NAME).xcconfig
 
-XCODE_TEMPLATES_DIR = "/Developer/Library/Xcode/Project Templates"
+XCODE_TEMPLATES_DIR = "/Library/Application Support/Developer/Shared/Xcode/Project Templates"
 MW_XCODEBUILD = $(MW_BIN_DIR_UNQUOTED)/mw_xcodebuild
 
 all: install
