@@ -9,6 +9,7 @@ all: install
 
 install: clean
 	rm -Rf $(XCODE_TEMPLATES_DIR)/MWorks
+	mkdir -p $(XCODE_TEMPLATES_DIR)
 	rsync -a \
 	  --exclude='*.pbxuser' \
 	  --exclude='*.perspectivev3' \
