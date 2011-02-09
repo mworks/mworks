@@ -19,6 +19,7 @@ mw_files = (
     '/Library/Frameworks/MWorksCocoa.framework',
     '/Library/Frameworks/MWorksCore.framework',
     '/Library/Python/2.6/site-packages/mworks.pth',
+    '/Library/Python/2.7/site-packages/mworks.pth',
 
     # Legacy
     '/Developer/Library/Xcode/Project Templates/MWorks',
