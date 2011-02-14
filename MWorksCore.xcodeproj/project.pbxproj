@@ -834,7 +834,6 @@
 		5C7CEFE10BC5D7AB00434931 /* LegacyBuffers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LegacyBuffers.h; path = Core/Events/LegacyBuffers.h; sourceTree = "<group>"; };
 		5C7CEFE20BC5D7AB00434931 /* LegacyBuffers.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = LegacyBuffers.cpp; path = Core/Events/LegacyBuffers.cpp; sourceTree = "<group>"; };
 		5C7CF4ED0BC6B48D00434931 /* LinkedList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LinkedList.h; sourceTree = "<group>"; };
-		5C7CF4EE0BC6B48D00434931 /* LinkedList.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LinkedList.cpp; sourceTree = "<group>"; };
 		5C8101A111A2DE1600050690 /* ConvolutionKernels.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ConvolutionKernels.cpp; sourceTree = "<group>"; };
 		5C8101A211A2DE1600050690 /* ConvolutionKernels.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConvolutionKernels.h; sourceTree = "<group>"; };
 		5C8101A311A2DE1600050690 /* VideoFilterShader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VideoFilterShader.cpp; sourceTree = "<group>"; };
@@ -1239,7 +1238,6 @@
 				0E9AD30A0AD94214009C0B0B /* Clonable.h */,
 				0E9AD3090AD94214009C0B0B /* Clonable.cpp */,
 				5C7CF4ED0BC6B48D00434931 /* LinkedList.h */,
-				5C7CF4EE0BC6B48D00434931 /* LinkedList.cpp */,
 			);
 			name = GenericStructures;
 			path = Core/GenericStructures;

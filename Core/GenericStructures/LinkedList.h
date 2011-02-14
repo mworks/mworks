@@ -231,6 +231,9 @@ void LinkedListNode<T>::moveForward(){
 	
 
 	if(previous == EMPTY_NODE){  // already at head
+        if(list_lock != NULL){
+            list_lock->unlock();
+        }
 		return;
 	}
 
@@ -287,6 +290,9 @@ void LinkedListNode<T>::moveBackward() {
 	shared_ptr<T> self_ref;
 
 	if(next == EMPTY_NODE){  // already at head
+        if(list_lock != NULL){
+            list_lock->unlock();
+        }
 		return;
 	}
 
@@ -301,6 +307,9 @@ void LinkedListNode<T>::moveBackward() {
 
 	
 	if(thenext == EMPTY_NODE){
+        if(list_lock != NULL){
+            list_lock->unlock();
+        }
 		return;
 	}
 	thenextnext = thenext->getNext();
@@ -363,7 +372,7 @@ shared_ptr<T> LinkedList<T>::getBackmost() {
 
 template <class T>
 void LinkedList<T>::addToFront(shared_ptr<T> newnode) {
-	lock();
+    Locker lock(*this);
 	
 	if(head == EMPTY_NODE) {
 		head = newnode;
@@ -378,14 +387,12 @@ void LinkedList<T>::addToFront(shared_ptr<T> newnode) {
 	
 	newnode->setList(this);
 	nelements++;
-	
-	unlock();
 }
 
 template <class T>
 void LinkedList<T>::addToBack(shared_ptr<T> newnode) {
 	
-	lock();
+    Locker lock(*this);
 	
 	shared_ptr<T> empty;
 	
@@ -402,14 +409,12 @@ void LinkedList<T>::addToBack(shared_ptr<T> newnode) {
 		head->setPrevious(empty);
 	}
 	nelements++;
-	
-	unlock();
 }
 
 template <class T>
 shared_ptr<T> LinkedList<T>::popElement(){
 
-	lock();
+    Locker lock(*this);
 	
 	if(head == EMPTY_NODE){
 		mwarning(M_SYSTEM_MESSAGE_DOMAIN, "Attempt to pop an element off of a headless list");
@@ -425,8 +430,6 @@ shared_ptr<T> LinkedList<T>::popElement(){
 	// disconnect the old head
 	node->setNext(EMPTY_NODE);
 	nelements--;
-	
-	unlock();
 	
 	return node;
 }
