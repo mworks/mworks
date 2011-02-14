@@ -9,6 +9,7 @@
         <variable tag="stop_time" scope="global" logging="when_changed" default_value="0" type="float"></variable>
         <variable tag="expected_duration" scope="global" logging="when_changed" default_value="(double)num_frames / (double)frames_per_second" type="float"></variable>
         <variable tag="actual_duration" scope="global" logging="when_changed" default_value="0" type="float"></variable>
+        <variable tag="slop" scope="global" logging="when_changed" default_value="0" type="float"></variable>
         <variable tag="tolerance" scope="global" logging="when_changed" default_value="1.0 / (double)(refreshRate())" type="float"></variable>
         <variable tag="index" scope="local" logging="when_changed" default_value="0" type="integer"></variable>
     </variables>
@@ -40,7 +41,8 @@
                     <action_marker _unmoveable="1" tag="Actions"></action_marker>
                     <action type="assignment" tag="Record stop time" variable="stop_time" value="now()"></action>
                     <action type="assignment" tag="Compute duration" variable="actual_duration" value="(stop_time - start_time) / 1000000.0"></action>
-                    <action type="assert" tag="Assert duration within tolerance" condition="abs(actual_duration - expected_duration) &lt; tolerance" message="Movie duration not within tolerance"></action>
+                    <action type="assignment" tag="Compute slop" variable="slop" value="abs(actual_duration - expected_duration)"></action>
+                    <action type="assert" tag="Assert slop within tolerance" condition="slop &lt;= tolerance" message="Duration slop ($slop) not within tolerance ($tolerance)"></action>
                     <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
                     <transition tag="Return to parent task system" type="yield"></transition>
                 </task_system_state>
