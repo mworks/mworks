@@ -85,11 +85,14 @@ namespace mw {
         shared_ptr<VariableCallbackNotification> stateSystemNotification;
         CVDisplayLinkRef displayLink;
         int64_t lastFrameTime;
+        
+        std::vector< shared_ptr<StimulusNode> > stimsToAnnounce;
+        std::vector<Datum> stimAnnouncements;
 		
         void glInit();
 		void setDisplayBounds();
         void refreshDisplay();
-        void drawDisplayStack();
+        void drawDisplayStack(bool doStimAnnouncements);
         void ensureRefresh(upgrade_lock &lock);
 
         static void announceDisplayUpdate(void *_display);

@@ -157,6 +157,7 @@ void StimulusGroupReference::announceStimulusErase() {
 
 	*/
         	
+/*
 CompoundStimulus::CompoundStimulus(std::string _tag):Stimulus(_tag) {
     stimList = new ExpandableList<OffsetStimulusContainer>();
     makeSubTag();       // setup first tag just to have something
@@ -232,6 +233,7 @@ void CompoundStimulus::draw(shared_ptr<StimulusDisplay>  display,
         (stimList->getElement(i))->draw(display, xdeg, ydeg);
     }
 }
+*/
 
 
 
