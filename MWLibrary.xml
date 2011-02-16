@@ -355,7 +355,7 @@
 											x_position=""
 											y_position=""
 											rotation=""
-											contrast=""/>/>
+											alpha_multiplier=""/>/>
 		</code>
 	</MWElement>
 
@@ -1204,8 +1204,8 @@
 		</description>
 		
 		<code>
-			<action tag="Update Calibration" 
-										type="update_calibration" 
+			<action tag="Clear Calibration" 
+										type="clear_calibration" 
 										calibrator=""/>
 		</code>
 	</MWElement>	
@@ -1226,8 +1226,24 @@
 		</code>
 	</MWElement>	
 
+	<MWElement name="End Averaged Calibration and Ignore">
+		<match_signature>action[@type='end_calibration_average_and_ignore']</match_signature>
+		<isa>Action</isa>
+		
+		<description>
+			Stop averaging calibration the values of a variable to be
+			calibrated, and discard the sample.
+		</description>
+		
+		<code>
+			<action tag="End Averaged Calibration and Ignore" 
+										type="end_calibration_average_and_ignore" 
+										calibrator=""/>
+		</code>
+	</MWElement>	
+
 	<MWElement name="End Averaged Calibration Sample">
-		<match_signature>action[@type='end_calibration_average_and_accept']</match_signature>
+		<match_signature>action[@type='end_calibration_average_and_take_sample']</match_signature>
 		<isa>Action</isa>
 		
 		<description>
@@ -1236,9 +1252,10 @@
 		</description>
 		
 		<code>
-			<action tag="Begin Averaged Calibration Sample" 
-										type="end_calibration_average_and_accept" 
-										calibrator=""/>
+			<action tag="End Averaged Calibration Sample" 
+										type="end_calibration_average_and_take_sample" 
+										calibrator=""
+                                        calibratable_object=""/>
 		</code>
 	</MWElement>	
 
@@ -1518,10 +1535,36 @@
 		
 		<!-- Payload -->
 		<code>
-			<calibrator type="standard_eye_calibrator" eyeh_raw=""
+			<calibrator type="standard_eye_calibrator" tag="New Eye Calibrator"
+													   eyeh_raw=""
 													   eyev_raw=""
 													   eyeh_calibrated=""
 													   eyev_calibrated=""/>
+		</code>
+	</MWElement>
+
+
+	<MWElement name="Linear Eye Calibrator">
+		<!-- XPath 2.0 expression defining nodes of this type -->
+		<match_signature>calibrator[@type='linear_eye_calibrator']</match_signature>
+
+		<!-- Inheritance -->
+		<isa>Calibrator</isa>
+				
+		<!-- Information for display in the GUI -->
+		<icon>fakeMonkey</icon>
+
+		<description>
+			A IO calibrator specially tailored for eye movement signals.
+		</description>
+		
+		<!-- Payload -->
+		<code>
+			<calibrator type="linear_eye_calibrator" tag="New Linear Eye Calibrator"
+                                                     eyeh_raw=""
+                                                     eyev_raw=""
+                                                     eyeh_calibrated=""
+                                                     eyev_calibrated=""/>
 		</code>
 	</MWElement>
 
