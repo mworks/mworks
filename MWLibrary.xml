@@ -250,6 +250,7 @@
 				
 		<!-- Placement Rules -->
 		<allowed_parent>Range Replicator</allowed_parent>
+		<allowed_parent>List Replicator</allowed_parent>
 		<allowed_parent>Stimuli</allowed_parent>
 		<allowed_parent>Stimulus Group</allowed_parent>
         <allowed_parent>Folder</allowed_parent>
@@ -270,6 +271,7 @@
 				
 		<!-- Placement Rules -->
 		<allowed_parent>Range Replicator</allowed_parent>
+		<allowed_parent>List Replicator</allowed_parent>
 		<allowed_parent>Stimuli</allowed_parent>
 		<allowed_parent>Stimulus Group</allowed_parent>
         <allowed_parent>Folder</allowed_parent>
@@ -391,6 +393,7 @@
 		
 		<!-- Inheritance -->
 		<allowed_parent>Range Replicator</allowed_parent>
+		<allowed_parent>List Replicator</allowed_parent>
 						
 		<!-- Information for display in the GUI -->
 		<icon>fakeMonkey</icon>
@@ -411,6 +414,7 @@
 		<allowed_parent>Trial</allowed_parent>
 		<allowed_parent>List</allowed_parent>
 		<allowed_parent>Range Replicator</allowed_parent>
+		<allowed_parent>List Replicator</allowed_parent>
 		<allowed_parent>Stimuli</allowed_parent>
 		<allowed_parent>Stimulus Group</allowed_parent>
 		<allowed_parent>Sounds</allowed_parent>
@@ -425,15 +429,49 @@
 			time, with substitution of a range variable (like a "for" loop).
 		</description>
 		<belongs_to_group>Paradigm Components</belongs_to_group>
-		<belongs_to_group>Stimulus</belongs_to_group>
 		
 		<!-- Payload -->
 		<code>
-			<range_replicator tag="New Replicator"
+			<range_replicator tag="New Range Replicator"
 							  from=""
 							  to=""
 							  step=""
 							  variable=""/>
+		</code>
+	</MWElement>
+
+
+	<MWElement name="List Replicator">
+		<!-- XPath 2.0 expression defining nodes of this type -->
+		<match_signature>//list_replicator</match_signature>
+		
+		<!-- Placement Rules -->
+		<allowed_parent>Experiment</allowed_parent>
+		<allowed_parent>Protocol</allowed_parent>
+		<allowed_parent>Block</allowed_parent>
+		<allowed_parent>Trial</allowed_parent>
+		<allowed_parent>List</allowed_parent>
+		<allowed_parent>Range Replicator</allowed_parent>
+		<allowed_parent>List Replicator</allowed_parent>
+		<allowed_parent>Stimuli</allowed_parent>
+		<allowed_parent>Stimulus Group</allowed_parent>
+		<allowed_parent>Sounds</allowed_parent>
+		<allowed_parent>Variables</allowed_parent>
+		
+		
+		<!-- Information for display in the GUI -->
+		<icon>replicatorIcon</icon>
+		<description>
+			An object that lexically replicates its contents at parse
+			time, with substitution of a list of values into a variable.
+		</description>
+		<belongs_to_group>Paradigm Components</belongs_to_group>
+		
+		<!-- Payload -->
+		<code>
+			<list_replicator tag="New List Replicator"
+                             values=""
+                             variable=""/>
 		</code>
 	</MWElement>
 	
@@ -533,14 +571,14 @@
 		<icon>smallList</icon>
 		<inspector>ListStateInspectorView</inspector>
 		<description>
-			A container paradigm component.  Trials can contain other 
+			A container paradigm component.  Lists can contain other 
 			paradigm components and have a mechanism for selecting the ordering
 			of selection of components contained within them.
 		</description>
 		
 		<!-- Payload -->
 		<code>
-			<trial tag="New List" nsamples="1" sampling_method="cycles" selection="sequential"/>
+			<list tag="New List" nsamples="1" sampling_method="cycles" selection="sequential"/>
 		</code>
 	</MWElement>
 
@@ -869,7 +907,7 @@
 		</code>
 	</MWElement>
 
-	<MWElement name="Pre-Load Stimulus">
+	<MWElement name="Load Stimulus">
 		<!-- XPath 2.0 expression defining nodes of this type -->
 		<match_signature>action[@type='load_stimulus']</match_signature>
 		
@@ -879,15 +917,37 @@
 		<belongs_to_group>Stimulus-Related Actions</belongs_to_group>
 		
 		<description>
-			Explicitly load a stimulus object (e.g. load a file from disk, compute a dynamically
-      generated stimulus, etc.).  This is useful when the
-      "deferred" option on a stimulus is set to "true" or "explicit".
+            Explicitly load a stimulus object (e.g. load a file from disk,
+            compute a dynamically generated stimulus, etc.).  This is useful
+            when the "deferred" option on a stimulus is set to "true" or
+            "explicit".
 		</description>
 		<inspector>LoadStimulusInspectorView</inspector>
 		
 		<!-- Payload -->
 		<code>
 			<action tag="Load Stimulus" type="load_stimulus" stimulus=""/>
+		</code>
+	</MWElement>
+
+	<MWElement name="Unload Stimulus">
+		<!-- XPath 2.0 expression defining nodes of this type -->
+		<match_signature>action[@type='unload_stimulus']</match_signature>
+		
+		<!-- Inheritance -->
+		<isa>Action</isa>
+		
+		<belongs_to_group>Stimulus-Related Actions</belongs_to_group>
+		
+		<description>
+            Explicitly unload a stimulus object, thereby releasing any memory
+            or other resources used by the stimulus.  This is useful when the
+            "deferred" option on a stimulus is set to "true" or "explicit".
+		</description>
+		
+		<!-- Payload -->
+		<code>
+			<action tag="Unload Stimulus" type="unload_stimulus" stimulus=""/>
 		</code>
 	</MWElement>
 
