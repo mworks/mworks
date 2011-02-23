@@ -68,7 +68,7 @@ namespace mw {
             useThisInput[2] = _useThisInput2;
         }
         virtual ~ThirdOrderBasisFunction(){
-            if(useThisInput) { delete useThisInput; useThisInput = NULL; }
+            if(useThisInput) { delete [] useThisInput; useThisInput = NULL; }
         };
         virtual double applyBasis(double *inputVector) {
             double x = (inputVector[useThisInput[0]]) * (inputVector[useThisInput[1]]) *

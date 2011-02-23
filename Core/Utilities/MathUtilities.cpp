@@ -9,17 +9,6 @@
 
 #include "MathUtilities.h"
 namespace mw {
-	double **new2DdoubleArray(int rows, int cols) {
-		
-        double **A;
-        A = new double* [rows];
-        for(int i=0;i<rows;i++) {
-            A[i]=new double [cols];
-        }
-        return (A);
-	};
-	
-	
 	float **new2DfloatArray(int rows, int cols) {
 		
         float **A;
@@ -29,4 +18,12 @@ namespace mw {
         }
         return (A);
 	};
+
+    
+    void delete2DfloatArray(float **arr, int rows) {
+        for (int i = 0; i < rows; i++) {
+            delete [] arr[i];
+        }
+        delete [] arr;
+    }
 }

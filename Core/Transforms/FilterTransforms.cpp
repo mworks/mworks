@@ -29,8 +29,8 @@ BoxcarFilter1D::BoxcarFilter1D(int boxcarWidthInElements, bool _lagCompensate): 
 }
 
 BoxcarFilter1D::~BoxcarFilter1D() {
-    delete dataVector;
-    delete timeVectorUS;
+    delete [] dataVector;
+    delete [] timeVectorUS;
 } 
 
 void BoxcarFilter1D::input(double inputValue, MWTime inputTimeUS) {
@@ -143,8 +143,8 @@ LinearFilter1D::LinearFilter1D(double _gain, double _offset, double _noiseSD): T
 }
 
 LinearFilter1D::~LinearFilter1D() {
-    delete dataVector;
-    delete timeVectorUS;
+    delete [] dataVector;
+    delete [] timeVectorUS;
 } 
 
 void LinearFilter1D::input(double inputValue, MWTime inputTimeUS) {
@@ -199,8 +199,8 @@ VelocityComputer1D::VelocityComputer1D(bool _lagCompensate): TransformWithMemory
 }
 
 VelocityComputer1D::~VelocityComputer1D() {
-    delete dataVector;
-    delete timeVectorUS;
+    delete [] dataVector;
+    delete [] timeVectorUS;
 } 
 
 

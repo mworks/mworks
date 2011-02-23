@@ -56,7 +56,7 @@ SecondOrderBasisFunction::SecondOrderBasisFunction(int _useThisInput0, int _useT
     useThisInput[1] = _useThisInput1;
 }
 SecondOrderBasisFunction::~SecondOrderBasisFunction() {
-    if(useThisInput) { delete useThisInput; useThisInput = NULL; }
+    if(useThisInput) { delete [] useThisInput; useThisInput = NULL; }
 }
 double SecondOrderBasisFunction::applyBasis(double *inputVector) {
     lock();
@@ -232,7 +232,7 @@ LinearFitableFunction::LinearFitableFunction
 LinearFitableFunction::~LinearFitableFunction() {
     basisSet->clear();      // delete the memory for the basis
     delete basisSet;
-    if (Parameters != NULL) delete Parameters;
+    if (Parameters != NULL) delete [] Parameters;
 }   
 
 
@@ -246,7 +246,7 @@ bool LinearFitableFunction::setParametersProtected(Datum _params) {
         return false;
     }
     
-    if (Parameters != NULL) delete Parameters;
+    if (Parameters != NULL) delete [] Parameters;
     Parameters = new float [basisSet->getNElements()];
     for (int p=0; p<basisSet->getNElements(); p++) {
         Parameters[p]= (float)(_parameters->getElement(p));
@@ -308,7 +308,7 @@ bool LinearFitableFunction::fitTheFunction() {
     float **X = new2DfloatArray(numData,numParams);
     
     // create space to hold all Parameters
-    if (Parameters != NULL) delete Parameters;
+    if (Parameters != NULL) delete [] Parameters;
     Parameters = new float [numParams];
 
     // get data back in correct format
@@ -347,8 +347,8 @@ bool LinearFitableFunction::fitTheFunction() {
     // B = inv(XtX) XtY
     int tempNumParams;
     float chisq;
-    SVDfit *svdfitter = new SVDfit(X,Y,NULL,numData,numParams);    // no weighting for now
-    svdfitter->doFit(B, &tempNumParams, &chisq);
+    SVDfit svdfitter(X,Y,NULL,numData,numParams);    // no weighting for now
+    svdfitter.doFit(B, &tempNumParams, &chisq);
     if (tempNumParams != numParams) 
                 merror(M_SYSTEM_MESSAGE_DOMAIN, 
                         "Unexpected number of parameters");
@@ -362,16 +362,12 @@ bool LinearFitableFunction::fitTheFunction() {
         }
     }
     
-    delete B;
+    delete [] B;
 	
-	// DDC: fixed leak
-	for(int i = 0; i < numData; i++){
-		delete [] X[i];
-	}
-    delete [] X;  
-    delete Y;
+    delete2DfloatArray(X, numData);
+    delete [] Y;
     
-    delete temp;
+    delete [] temp;
     
     unlock();
     
