@@ -89,6 +89,7 @@ ComponentRegistry::ComponentRegistry() :
 	registerFactory("action/reset_selection", new ResetSelectionFactory());
 	registerFactory("action/accept_selections", new AcceptSelectionsFactory());
 	registerFactory("action/reject_selections", new RejectSelectionsFactory());
+	registerFactory("action/take_calibration_sample", new TakeCalibrationSampleNowFactory());
 	registerFactory("action/begin_calibration_average", new StartAverageCalibrationSampleFactory());
 	registerFactory("action/end_calibration_average_and_ignore", new EndAverageAndIgnoreFactory());
 	registerFactory("action/end_calibration_average_and_take_sample", new EndAverageAndTakeCalibrationSampleFactory());

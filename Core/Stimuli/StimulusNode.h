@@ -106,7 +106,8 @@ namespace mw {
 		
 		virtual bool needDraw();
 		virtual void draw(shared_ptr<StimulusDisplay> display);
-                
+
+        virtual void announce(Datum announceData, MWTime time);
 		virtual void announceStimulusDraw(MWTime time);
 		virtual Datum getCurrentAnnounceDrawData();
 	
@@ -189,6 +190,8 @@ class StimulusGroupReferenceNode : public StimulusNode {
 		virtual bool isFrozen();
 		
         virtual void draw(shared_ptr<StimulusDisplay>  display);
+
+        virtual void announce(Datum announceData, MWTime time);
         virtual void announceStimulusDraw(MWTime time);  // JJD add
 		virtual Datum getCurrentAnnounceDrawData();
 		

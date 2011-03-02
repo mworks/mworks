@@ -77,12 +77,12 @@ SVDfit::SVDfit(float **X, float *Y, float *SD, int nData, int nParams) {// input
 
 SVDfit::~SVDfit() {
 
-    delete u;       // TODO -- will this actually delete all memory for the 2D array?
-    delete v;
-    delete w;
-    delete a;
-    delete y;
-    delete sig;
+    delete2DfloatArray(u, ndata+1);
+    delete2DfloatArray(v, ma+1);
+    delete [] w;
+    delete [] a;
+    delete [] y;
+    delete [] sig;
     
 }
 
@@ -142,7 +142,7 @@ bool SVDfit::doFit(float *Parameters, int *nParameters, float *chisq) {         
 	}
     */
 
-    delete b;
+    delete [] b;
     
     return (true);
 	
@@ -156,7 +156,7 @@ void SVDfit::svdcmp(int m, int n)
 	int flag,i,its,j,jj,k,l,nm;
 	float anorm,c,f,g,h,s,scale,x,y,z;
 
-    float *rv1 = new float [n];
+    float *rv1 = new float [n+1];
 	
 	g=scale=anorm=0.0;
 	for (i=1;i<=n;i++) {
@@ -328,7 +328,7 @@ void SVDfit::svdcmp(int m, int n)
 			w[k]=x;
 		}
 	}
-	delete rv1;
+	delete [] rv1;
     
 }
 
@@ -340,7 +340,7 @@ void SVDfit::svbksb(int m, int n, float b[], float x[])
 	int jj,j,i;
 	float s;
 	
-    float *tmp = new float [n];
+    float *tmp = new float [n+1];
 	//tmp=vector(1,n);
 	
 	for (j=1;j<=n;j++) {
@@ -357,7 +357,7 @@ void SVDfit::svbksb(int m, int n, float b[], float x[])
 		x[j]=s;
 	}
 	//free_vector(tmp,1,n);
-    delete tmp;
+    delete [] tmp;
 }
 
 

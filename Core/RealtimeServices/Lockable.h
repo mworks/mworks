@@ -11,7 +11,9 @@
 #ifndef _LOCKABLE_H
 #define _LOCKABLE_H
 
-#include <pthread.h>
+#include <boost/thread/mutex.hpp>
+
+
 namespace mw {
 // macros for locking gets and sets
 #define SAFE_GET(type, A)   type result; lock(); result = A; unlock(); return result;
@@ -35,33 +37,75 @@ namespace mw {
 class Lockable {
     private:
         // the mutex to lock on
-        pthread_mutex_t mutex;
+        boost::mutex theMutex;
 
     public:
-        /**
-         * Initializees the mutex.
-         */
-        Lockable();
-        /**
-         * Destroys the mutex.  The destructor is virtual so that this class 
-         * can be safely used as a parent class.
-         */ 
-        ~Lockable();
+        Lockable() { }
+        virtual ~Lockable() { }
+    
+        Lockable(const Lockable &other) {
+            // Don't attempt to copy the mutex
+        }
+    
+        Lockable& operator=(const Lockable &other) {
+            // Don't attempt to copy the mutex
+            return (*this);
+        }
                 
         /**
          * Locks the mutex.
          */
 		inline void lock(){
-			pthread_mutex_lock(&mutex);
+			theMutex.lock();
 		}
         
         /**
          * Unlocks the mutex.
          */
 		inline void unlock(){
-			pthread_mutex_unlock(&mutex);
+			theMutex.unlock();
 		}
+    
+        friend class Locker;
 
 };
+
+
+class Locker {
+    
+public:
+    explicit Locker(Lockable &lockable) : theLock(lockable.theMutex) { }
+    
+private:
+    boost::mutex::scoped_lock theLock;
+    
+};
+
+
 }
+
+
 #endif
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

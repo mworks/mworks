@@ -222,6 +222,7 @@ class PointStimulus : public BasicTransformStimulus {
 // CompoundStimulus: a stimulus made up of several registered sub-stimuli
 // ExpandableList being private means that you cannot call any of the
 // expandable list methods outside of the implementation.
+/*
 class CompoundStimulus : public Stimulus {
  
     protected:
@@ -246,6 +247,7 @@ class CompoundStimulus : public Stimulus {
         virtual void announceStimulusDraw(MWTime now);  // override of base class method
         
 };
+*/
 
 class BlankScreen : public Stimulus{
 // the default copy constructor is ok for this object.

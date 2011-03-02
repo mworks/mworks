@@ -282,17 +282,18 @@ void StimulusDisplay::refreshDisplay() {
     if (context_ids.size() > 0) {
         for (int i = 0; i < context_ids.size(); i++) {
             setCurrent(i);
-            drawDisplayStack();
             
             if (i != 0) {
                 
                 // Non-main display
+                drawDisplayStack(false);
                 opengl_context_manager->updateAndFlush(i);
                 
             } else {
                 
                 // Main display
                 
+                drawDisplayStack(true);
                 opengl_context_manager->flush(i);
                 if (opengl_context_manager->hasFence()) {
                     glSetFenceAPPLE(opengl_context_manager->getFence());
@@ -352,7 +353,7 @@ void StimulusDisplay::glInit() {
 }
 
 
-void StimulusDisplay::drawDisplayStack() {
+void StimulusDisplay::drawDisplayStack(bool doStimAnnouncements) {
     // OpenGL setup
 
     glInit();
@@ -363,6 +364,14 @@ void StimulusDisplay::drawDisplayStack() {
     while (node) {
         if (node->isVisible()) {
             node->draw(shared_from_this());
+            
+            if (doStimAnnouncements) {
+                Datum individualAnnounce(node->getCurrentAnnounceDrawData());
+                if (!individualAnnounce.isUndefined()) {
+                    stimsToAnnounce.push_back(node);
+                    stimAnnouncements.push_back(individualAnnounce);
+                }
+            }
         }
         node = node->getPrevious();
     }
@@ -445,42 +454,31 @@ void StimulusDisplay::announceDisplayUpdate(void *_display) {
     display->setCurrent(0);
     if (display->opengl_context_manager->hasFence()) {
         glFinishFenceAPPLE(display->opengl_context_manager->getFence());
+    } else {
+        glFinish();
     }
     
     MWTime now = display->clock->getCurrentTimeUS();
     stimDisplayUpdate->setValue(display->getAnnounceData(), now);
     display->announceDisplayStack(now);
+
+    display->stimsToAnnounce.clear();
+    display->stimAnnouncements.clear();
 }
 
 
 void StimulusDisplay::announceDisplayStack(MWTime time) {
-    shared_ptr<StimulusNode> node = display_stack->getBackmost(); //tail;
-	
-    while(node != shared_ptr< LinkedListNode<StimulusNode> >()) {
-		if(node->isVisible()) {
-            node->announceStimulusDraw(time); 
-		}
-		
-		node = node->getPrevious();
+    for (size_t i = 0; i < stimsToAnnounce.size(); i++) {
+        stimsToAnnounce[i]->announce(stimAnnouncements[i], time);
     }
-	
 }
 
 
 Datum StimulusDisplay::getAnnounceData() {
-    shared_ptr<StimulusNode> node = display_stack->getBackmost(); //tail;
-	
     Datum stimAnnounce(M_LIST, 1);
-    while(node != shared_ptr< LinkedListNode<StimulusNode> >()) {
-		if(node->isVisible()) {
-            Datum individualAnnounce(node->getCurrentAnnounceDrawData());
-			if(!individualAnnounce.isUndefined()) {
-				stimAnnounce.addElement(individualAnnounce);
-			}
-		}
-		
-		node = node->getPrevious();
-    }	
+    for (size_t i = 0; i < stimAnnouncements.size(); i++) {
+        stimAnnounce.addElement(stimAnnouncements[i]);
+    }
 	return stimAnnounce;
 }
 
