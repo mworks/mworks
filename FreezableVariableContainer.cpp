@@ -14,6 +14,11 @@ using namespace mw;
 FreezableVariableContainer::FreezableVariableContainer(shared_ptr<Variable> _var){
     frozen = false;
     variable = _var;
+    if(variable == NULL){
+        // TODO: make a better exception here; this is only effective for debugging as stands
+        throw FatalParserException("Registering an empty variable within a FreezableVariableContainer "
+                                   "(is there an empty variable passed into a Stimulus object?)");
+    }
 }
 
 FreezableVariableContainer::FreezableVariableContainer(const FreezableVariableContainer& tocopy){

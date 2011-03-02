@@ -34,7 +34,7 @@ public:
 };
 
 
-class Timer : public Variable, public enable_shared_from_this<Timer> {
+class Timer : public Variable {//, public enable_shared_from_this<Timer> {
 
 protected:
 	shared_ptr<bool> has_expired;

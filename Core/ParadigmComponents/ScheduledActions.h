@@ -13,7 +13,7 @@
 #include "TrialBuildingBlocks.h"
 #include "boost/enable_shared_from_this.hpp"
 namespace mw {
-	class ScheduledActions : public Action, public enable_shared_from_this<ScheduledActions> {
+	class ScheduledActions : public Action {//, public enable_shared_from_this<ScheduledActions> {
 	protected:
 		ExpandableList<Action> action_list;
 		shared_ptr<Variable> delay;

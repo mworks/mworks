@@ -6,7 +6,7 @@ using namespace mw;
 
 void IODevice::finalize(std::map<std::string, std::string> parameters, ComponentRegistry *reg)
 {
-	shared_ptr<IODevice> this_one = shared_from_this();
+	shared_ptr<IODevice> this_one = component_shared_from_this<IODevice>();
 	shared_ptr<IODeviceVariableNotification> notification(new IODeviceVariableNotification(this_one));
 	state_system_mode->addNotification(notification);			
 	

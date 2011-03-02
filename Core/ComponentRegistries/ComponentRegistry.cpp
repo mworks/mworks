@@ -202,12 +202,13 @@ shared_ptr<mw::Component> ComponentRegistry::createNewObject(const std::string &
 	
 	// create the new object
 	shared_ptr<mw::Component> obj;
-	//try {
+	try {
 		obj = factory->createObject(parameters, this);
-	//} catch (std::exception& e){
-//        std::string what = e.what();
-//		merror(M_PARSER_MESSAGE_DOMAIN, what);
-//	}
+	} catch (FatalParserException& e){
+        std::string what(e.what());
+        
+		merror(M_PARSER_MESSAGE_DOMAIN, what);
+	}
 	
 	return obj;
 }
@@ -250,8 +251,8 @@ void ComponentRegistry::registerObject(std::string tag_name, shared_ptr<mw::Comp
 	tagnames_by_id[component->getCompactID()] = tag_name;
 	
 	component->setTag(tag_name);
-	weak_ptr<mw::Component> self_reference(component);
-	component->setSelfPtr(self_reference);
+	//weak_ptr<mw::Component> self_reference(component);
+	//component->setSelfPtr(self_reference);
 }
 
 void ComponentRegistry::registerAltObject(const std::string &tag_name, shared_ptr<mw::Component> component){	

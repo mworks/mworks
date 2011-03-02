@@ -27,7 +27,7 @@ namespace mw {
     
     
 
-    class StimulusNode : public Lockable, public LinkedListNode<StimulusNode>, public mw::Component, public enable_shared_from_this<StimulusNode> {
+    class StimulusNode : public Lockable, public LinkedListNode<StimulusNode>, public mw::Component { //, public enable_shared_from_this<StimulusNode> {
     protected:
         
 		

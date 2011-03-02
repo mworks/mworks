@@ -77,7 +77,8 @@ void StandardStateSystem::start(){
 	GlobalCurrentExperiment->setCurrentState(exp_ref);
 	//GlobalCurrentExperiment->setCurrentState(GlobalCurrentExperiment->getCurrentProtocol());
 		
-	shared_ptr <StateSystem> *shared_ptr_to_this_ptr = new shared_ptr<StateSystem>(this->shared_from_this());
+	shared_ptr <StateSystem> *shared_ptr_to_this_ptr = 
+            new shared_ptr<StateSystem>(component_shared_from_this<StateSystem>());
 	pthread_create(&state_system_thread, NULL, checkStateSystem, shared_ptr_to_this_ptr);
     
     struct sched_param sp;

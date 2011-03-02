@@ -656,7 +656,12 @@ void XMLParser::_processGenericCreateDirective(xmlNode *node, bool anon){
 			registry->registerObject(tag, component);
 		}
 		
-	} catch(SimpleException& e){
+	} catch (FatalParserException& e){
+        mprintf("Caught fatal exception");
+        // TODO: add context info
+        throw;
+        
+    } catch(SimpleException& e){
 		
         
 		// Objects are allowed to indicate an alternative object to use if 
@@ -842,6 +847,7 @@ shared_ptr<mw::Component> XMLParser::_getConnectionChild(xmlNode *child){
                                         "Details: tag_name = <%s>, reference_id = <%s>, instance_id = <%s>", 
                             child_tag.c_str(), child_reference_id.c_str(), child_instance_id.c_str());
         registry->dumpToStdErr();
+        
         throw FatalParserException();
     }
 	
@@ -884,21 +890,22 @@ void XMLParser::_connectChildToParent(shared_ptr<mw::Component> parent,
 		// Otherwise, just connect the child to parent
 	} else {
 		
-		shared_ptr<mw::Component> child_component = _getConnectionChild(child_node);
-		
-		if(child_component != NULL){
-			parent->addChild(properties, registry.get(), child_component);
-			//mprintf(M_PARSER_MESSAGE_DOMAIN,
-			//			"Connected child (%s / %s) to parent %s", child_tag.c_str(), 
-			//										child_reference_id.c_str(),
-			//										parent_tag.c_str());
-		} else {
-			string message((boost::format("Could not find child (%s) to connect to parent (%s)") % child_tag % parent_tag).str());
-			//throw InvalidXMLException(child_reference_id, message);
-			
-			// is this warning necessary?
-			// mwarning(M_PARSER_MESSAGE_DOMAIN, message.c_str());
-		}
+		shared_ptr<mw::Component> child_component;
+        
+        try {
+        
+            child_component = _getConnectionChild(child_node);
+            
+            if(child_component != NULL){
+                parent->addChild(properties, registry.get(), child_component);
+            } else {
+                string message((boost::format("Could not find child (%s) to connect to parent (%s)") % child_tag % parent_tag).str());
+            }
+        } catch (FatalParserException &e){
+            
+            // TODO: add context info to exception
+            throw;
+        }
 	}
 }
 

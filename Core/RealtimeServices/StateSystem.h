@@ -12,7 +12,7 @@
 
 
 namespace mw {
-class StateSystem : public mw::Component, public enable_shared_from_this<StateSystem>{ //, public RegisteredSingleton<StateSystem> {
+class StateSystem : public mw::Component {//, public enable_shared_from_this<StateSystem>{ //, public RegisteredSingleton<StateSystem> {
 protected:
 	shared_ptr <Clock> the_clock;
 	

@@ -7,7 +7,6 @@
  * Copyright 2006 MIT. All rights reserved.
  */
 
-#include "Server.h"
 #include "Experiment.h"
 #include "SystemEventFactory.h"
 #include "StandardSystemEventHandler.h"
@@ -15,6 +14,8 @@
 #include "DataFileManager.h"
 #include "VariableSave.h"
 #include "VariableLoad.h"
+
+#include "Server.h"
 
 
 using namespace mw;

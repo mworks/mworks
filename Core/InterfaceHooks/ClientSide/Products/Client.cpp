@@ -7,11 +7,12 @@
  * Copyright 2006 MIT. All rights reserved.
  */
 
-#include "Client.h"
 #include "ExperimentPackager.h"
+#include "Client.h"
 #include "SystemEventFactory.h"
 #include "LoadingUtilities.h"
 #include "boost/filesystem/path.hpp"
+
 using namespace mw;
 
 #define CLIENT_INTERNAL_KEY	"MWClientInternalCallbackKey"

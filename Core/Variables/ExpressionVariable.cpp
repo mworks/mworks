@@ -158,7 +158,7 @@ ParsedExpressionVariable::ParsedExpressionVariable(string _expression_string) : 
 		//std::cerr << "parsed: " << expression_tree.toString() << "\n";
 	} catch (stx::ExpressionParserException &e){
 		//std::cerr << "ExpressionParserException: " << e.what() << "\n";
-		throw e;
+		throw;
 	}
 													
 	getValue();												

@@ -7,6 +7,7 @@
  * Copyright 2006 MIT. All rights reserved.
  */
 
+#include "Experiment.h"
 #include "StandardSystemEventHandler.h"
 #include "SystemEventFactory.h"
 #include "VariableSave.h"
@@ -16,7 +17,6 @@
 #include "LoadingUtilities.h"
 #include "PlatformDependentServices.h"
 #include "EventBuffer.h"
-#include "Experiment.h"
 #include "DataFileManager.h"
 #include "StandardInterpreters.h"
 #include "GenericData.h"

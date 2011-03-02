@@ -181,7 +181,7 @@ Datum StimulusNode::getCurrentAnnounceDrawData() {
 }
 
 void StimulusNode::addToDisplay(shared_ptr<StimulusDisplay> display){
-    shared_ptr<StimulusNode> this_stimnode = shared_from_this();
+    shared_ptr<StimulusNode> this_stimnode = component_shared_from_this<StimulusNode>();
 	display->addStimulusNode(this_stimnode);
 }
 

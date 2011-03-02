@@ -91,7 +91,7 @@ public:
 };
 
 
-  class Scheduler : public mw::Component, public enable_shared_from_this<Scheduler>{ //, public RegisteredSingleton<Scheduler> {
+  class Scheduler : public mw::Component {//, public enable_shared_from_this<Scheduler>{ //, public RegisteredSingleton<Scheduler> {
 	
 protected:
 	pthread_cond_t direct_tick_condition;

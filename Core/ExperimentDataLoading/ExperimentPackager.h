@@ -18,8 +18,9 @@
 
 #include "GenericData.h"
 #include <string>
-#include "boost/filesystem/path.hpp"
 #include "XMLParser.h"
+#include "boost/filesystem/path.hpp"
+
 
 #define M_PACKAGER_FILENAME_STRING "Filename"
 #define M_PACKAGER_CONTENTS_STRING "Contents"

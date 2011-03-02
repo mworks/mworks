@@ -11,6 +11,9 @@
 #include "glew.h"
 #include "RegisteredSingleton.h"
 #include "Stimulus.h"
+
+
+#include <Foundation/Foundation.h>
 #include <Cocoa/Cocoa.h>
 #include <IOKit/pwr_mgt/IOPMLib.h>
 

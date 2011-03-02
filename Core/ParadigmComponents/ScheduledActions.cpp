@@ -42,7 +42,7 @@ bool ScheduledActions::execute(){
 	nRepeated = 0;
 	
 	shared_ptr<Scheduler> scheduler = Scheduler::instance();	
-	shared_ptr<ScheduledActions> this_one = shared_from_this();
+	shared_ptr<ScheduledActions> this_one = component_shared_from_this<ScheduledActions>();
 	node = scheduler->scheduleUS(FILELINE, 
 								 (MWTime)(*delay),
 								 (MWTime)(*interval),

@@ -517,7 +517,7 @@ shared_ptr<ScheduleTask> ZenScheduler::scheduleUS(const std::string &description
 	
 	pthread_t thread;
 	
-	shared_ptr<Scheduler> self_shared_ptr(this->shared_from_this());
+	shared_ptr<Scheduler> self_shared_ptr(component_shared_from_this<Scheduler>());
 	
 	// Build up a description of the task to schedule
 	shared_ptr<ZenScheduleTask> *task_ptr = new shared_ptr<ZenScheduleTask>(new ZenScheduleTask(description, 

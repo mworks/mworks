@@ -3568,10 +3568,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5C0CD7A41149E75F00B1C674 /* Development.xcconfig */;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				FRAMEWORK_SEARCH_PATHS = /Library/Frameworks;
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				GCC_OBJC_CALL_CXX_CDTORS = YES;
-				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
+				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)/**";
 				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
 				STRIP_INSTALLED_PRODUCT = NO;
 			};

@@ -12,6 +12,7 @@
 #include <string>
 #include <boost/shared_ptr.hpp>
 #include <boost/weak_ptr.hpp>
+#include <boost/enable_shared_from_this.hpp>
 #include <iostream>
 #include <sstream>
 #include <map>
@@ -22,7 +23,7 @@ namespace mw {
 	
 	class ComponentRegistry;  // forward decl
 	
-	class Component {
+	class Component : public enable_shared_from_this<Component>{
 		
 	protected:
 		
@@ -33,8 +34,6 @@ namespace mw {
 		// of event-sending.  It needs to be small because it might
 		// be sent over the network many times per second
 		long compact_id;
-		
-		weak_ptr<mw::Component> self_ptr;
 		
 		static long _id_count;
 		
@@ -57,12 +56,18 @@ namespace mw {
 		
 		virtual bool isAmbiguous(){ return false; }
 		
-		virtual void setSelfPtr(weak_ptr<mw::Component> ptr){ self_ptr = ptr; }
+		//virtual void setSelfPtr(weak_ptr<mw::Component> ptr){ self_ptr = ptr; }
 		
+        template <class T>
+        shared_ptr<T> component_shared_from_this(){
+            shared_ptr<mw::Component> shared = shared_from_this();
+			shared_ptr<T> casted = dynamic_pointer_cast<T, mw::Component>(shared);
+            return casted;
+        }
+        
 		template <class T>
 		weak_ptr<T> getSelfPtr(){
-			shared_ptr<mw::Component> shared(self_ptr);
-			shared_ptr<T> casted = dynamic_pointer_cast<T, mw::Component>(shared);
+            shared_ptr<T> casted = component_shared_from_this<T>();
 			weak_ptr<T> weakened(casted);
 			return weakened;
 		}

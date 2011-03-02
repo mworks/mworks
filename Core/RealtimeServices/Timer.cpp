@@ -81,7 +81,7 @@ void Timer::startUS(MWTime howlongus){
 	*has_expired = false;
 	
 	shared_ptr<Scheduler> scheduler = Scheduler::instance();
-	shared_ptr<Timer> this_one = shared_from_this();
+	shared_ptr<Timer> this_one = component_shared_from_this<Timer>();
 	schedule_node = scheduler->scheduleUS(FILELINE,
 										  howlongus,
 										  0, 

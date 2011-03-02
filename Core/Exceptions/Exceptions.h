@@ -13,10 +13,20 @@
 #include <string>
 #include <exception>
 #include "EventConstants.h"
+#include <map>
+#include <sstream>
+#include <boost/shared_ptr.hpp>
+#include <boost/exception/all.hpp>
+
+
 namespace mw {
 using namespace std;
+using namespace boost;
 
-class SimpleException : public std::exception {
+// fwd dec
+class Component;
+
+class SimpleException : public std::exception, public boost::exception {
 
 	protected:
 	
@@ -52,7 +62,7 @@ class SimpleException : public std::exception {
 		
 		virtual ~SimpleException() throw() {}
 		
-		string getMessage(){ return message; }
+		virtual string getMessage(){ return message; }
 		//string getSubject(){ return subject; }
 		MessageDomain getDomain(){ return domain; }
 		
@@ -115,9 +125,13 @@ public:
 class FatalParserException : public SimpleException {
 
 public:
-    FatalParserException() : SimpleException(M_PARSER_MESSAGE_DOMAIN, "An unrecoverable parser error occurred"){ }
+    FatalParserException(string _subject) : SimpleException(M_PARSER_MESSAGE_DOMAIN, _subject){ }
+    
+    FatalParserException() : SimpleException(M_PARSER_MESSAGE_DOMAIN, "A fatal error occurred"){ }
     
     virtual ~FatalParserException() throw(){ }
+    
+    
 };
 
 class ComponentFactoryConflictException : public SimpleException{
