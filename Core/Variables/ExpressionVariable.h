@@ -100,10 +100,9 @@ class	ParsedExpressionVariable : public Variable {
 			
 			} catch (stx::UnknownSymbolException &e){
 				
-				merror(M_PARADIGM_MESSAGE_DOMAIN, "unknown symbol exception");
-				//std::cout << "UnknownSymbolException: " << e.what() << "\n";
-				//return Datum(0L);
-                throw(e);
+				FatalParserException f("Unknown symbol while parsing expression");
+				
+                
 			} catch (stx::ExpressionParserException &e){
 				merror(M_PARADIGM_MESSAGE_DOMAIN, "expression parser exception");
 				//std::cout << "ExpressionParserException: " << e.what() << "\n";

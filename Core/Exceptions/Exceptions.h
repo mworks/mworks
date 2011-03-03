@@ -17,9 +17,21 @@
 #include <sstream>
 #include <boost/shared_ptr.hpp>
 #include <boost/exception/all.hpp>
+#include <boost/variant.hpp>
+#include <boost/shared_ptr.hpp>
+#include <map>
+#include <string>
+
 
 
 namespace mw {
+
+// forward decls
+class Stimulus;
+class Variable;
+class StimulusGroup;
+class Component;
+
 using namespace std;
 using namespace boost;
 
@@ -54,11 +66,10 @@ class SimpleException : public std::exception, public boost::exception {
 			domain = _domain;
 		}
 		
-		SimpleException(const SimpleException& e){
-			domain = e.domain;
-			message = e.message;
-			//subject = e.subject;
-		}
+		//SimpleException(const SimpleException& e){
+//			domain = e.domain;
+//			message = e.message;
+//		}
 		
 		virtual ~SimpleException() throw() {}
 		
@@ -127,6 +138,8 @@ class FatalParserException : public SimpleException {
 public:
     FatalParserException(string _subject) : SimpleException(M_PARSER_MESSAGE_DOMAIN, _subject){ }
     
+    FatalParserException(string _msg, string _subject) : SimpleException(M_PARSER_MESSAGE_DOMAIN, _msg, _subject){ }
+    
     FatalParserException() : SimpleException(M_PARSER_MESSAGE_DOMAIN, "A fatal error occurred"){ }
     
     virtual ~FatalParserException() throw(){ }
@@ -134,18 +147,90 @@ public:
     
 };
 
+
+class UnknownExpressionException : public SimpleException {
+public:
+    UnknownExpressionException(string _subject) : SimpleException(M_PARSER_MESSAGE_DOMAIN, "Invalid expression: ", _subject){ }
+};
+
+class UnknownVariableException : public SimpleException {
+public:
+    UnknownVariableException(string _subject) : SimpleException(M_PARSER_MESSAGE_DOMAIN, "Invalid variable definition: ", _subject){ }
+};
+
+
+
 class ComponentFactoryConflictException : public SimpleException{
   
     
 public:
     
     ComponentFactoryConflictException(string _subject) : 
-        SimpleException(M_PLUGIN_MESSAGE_DOMAIN, "A plugin has attempted to redefine the behavior of an existing XML signature.", _subject){
+        SimpleException(M_PLUGIN_MESSAGE_DOMAIN, "A plugin has attempted to redefine the behavior of an existing component signature.", _subject){
         }
     
     virtual ~ComponentFactoryConflictException() throw() {}
 };
     
+    
+// Common error info payloads (can be added to exception objects
+// above via operator<<
+
+#define ERROR_INFO_TOKEN(TOKEN)         struct TOKEN ## _error_info_token
+#define ERROR_INFO_STRING(TOKEN)        TOKEN ## _error_info_string
+#define ERROR_INFO_OBJECT(TOKEN)        TOKEN ## _error_info
+
+#define ERROR_INFO_DECLARATION(TOKEN, TYPE)                                         \
+ERROR_INFO_TOKEN(TOKEN);                                                            \
+typedef error_info< ERROR_INFO_TOKEN(TOKEN), TYPE >  ERROR_INFO_OBJECT(TOKEN);    
+
+
+namespace error_info_types{
+    typedef  variant<shared_ptr<Component>, string>     ComponentOrString;
+    typedef  variant<shared_ptr<Stimulus>, string>      StimulusOrString;
+    typedef  variant<shared_ptr<StimulusGroup>, string> StimulusGroupOrString;
+    typedef  variant<shared_ptr<Variable>, string>      VariableOrString;
+    typedef  variant< string >                          ErrorString;
+    typedef  variant< map<string, string> , string>     ComponentAttributeMap;
+    typedef  variant< int, double >                     ErrorNumber;
+}
+
+ERROR_INFO_DECLARATION( parent_component,       error_info_types::ComponentOrString );
+ERROR_INFO_DECLARATION( child_component,        error_info_types::ComponentOrString );
+ERROR_INFO_DECLARATION( component,              error_info_types::ComponentOrString );
+ERROR_INFO_DECLARATION( object_type,            error_info_types::ErrorString);
+ERROR_INFO_DECLARATION( parent_scope,           error_info_types::ErrorString);
+ERROR_INFO_DECLARATION( ref_id,                 error_info_types::ErrorString);
+ERROR_INFO_DECLARATION( stimulus,               error_info_types::StimulusOrString );
+ERROR_INFO_DECLARATION( stimulus_group,         error_info_types::StimulusGroupOrString );
+ERROR_INFO_DECLARATION( variable,               error_info_types::VariableOrString);
+ERROR_INFO_DECLARATION( expression,             error_info_types::ErrorString);
+ERROR_INFO_DECLARATION( subexpression,          error_info_types::ErrorString);
+ERROR_INFO_DECLARATION( xml_code,               error_info_types::ErrorString);
+ERROR_INFO_DECLARATION( component_attributes,   error_info_types::ComponentAttributeMap );
+ERROR_INFO_DECLARATION( line_number,            error_info_types::ErrorNumber);
+ERROR_INFO_DECLARATION( col_number,             error_info_types::ErrorNumber);
+ERROR_INFO_DECLARATION( reason,         error_info_types::ErrorString);
+ERROR_INFO_DECLARATION( additional_msg,         error_info_types::ErrorString);
+ERROR_INFO_DECLARATION( parser_context,         error_info_types::ErrorString);
+
+
+extern void display_extended_error_information(SimpleException& e);
+
+// A "visitor" class for dealing with the above boost::variant objects
+class to_string_visitor : public boost::static_visitor<string> {
+public:
+
+    string operator()(shared_ptr<mw::Component> operand) const;
+    string operator()(shared_ptr<mw::Stimulus> operand) const;    
+    string operator()(shared_ptr<mw::StimulusGroup> operand) const;
+    string operator()(shared_ptr<mw::Variable> operand) const;
+    string operator()(string operand) const {
+        string return_string = operand;
+        return return_string;
+    }
+};
+
 }
 
 #endif

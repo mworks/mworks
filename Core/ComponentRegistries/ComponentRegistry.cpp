@@ -275,10 +275,10 @@ void ComponentRegistry::registerStimulusNode(const std::string &tag_name, shared
 // Instance lookups with some extra parsing smarts
 shared_ptr<Variable>	ComponentRegistry::getVariable(std::string expression){
 
-  shared_ptr<Variable> test = variable_cache[expression]; 
-  if(test != NULL){
-    return test;
-  }
+    shared_ptr<Variable> test = variable_cache[expression]; 
+    if(test != NULL){
+        return test;
+    }
   
 	// Check to see if it can be resolved, or if it will need to be resolved
 	// at runtime
@@ -308,8 +308,12 @@ shared_ptr<Variable>	ComponentRegistry::getVariable(std::string expression){
 	
 	shared_ptr<Variable> var = global_variable_registry->getVariable(strip_match[1]);
   
-  // cache/hash the variable for fast access
-  variable_cache[expression] = var;
+    if(var == NULL){
+        throw UnknownVariableException(strip_match[1]);
+    }
+  
+    // cache/hash the variable for fast access
+    variable_cache[expression] = var;
   
 	return var;
 }
@@ -344,13 +348,13 @@ shared_ptr<mw::StimulusNode>	ComponentRegistry::getStimulus(std::string expressi
 		//			  without brackets.
 		
    } catch (regex_error& e) {
-		throw SimpleException("Regex error during stimulus parsing (regex_error exception)", e.what());
+		throw FatalParserException("Regex error during stimulus parsing (regex_error exception)", e.what());
    }
    
    // Something is wrong if there aren't at least two strings in matches
    if(matches.size() == 1){
 		// TODO: throw
-		throw SimpleException("Regex error during stimulus parsing (not enough matches)");
+		throw FatalParserException("Regex error during stimulus parsing (not enough matches)");
 	}
    
 	// This the part before any brackets
@@ -366,7 +370,7 @@ shared_ptr<mw::StimulusNode>	ComponentRegistry::getStimulus(std::string expressi
 	shared_ptr<StimulusGroup> stimulus_group = getObject<StimulusGroup>(stem);
 	
     if(stimulus_group == NULL){
-        throw SimpleException("Unknown stimulus group", stem);
+        throw FatalParserException("Unknown stimulus group", stem);
     }
     
 	shared_ptr<StimulusNodeGroup> stimulus_node_group = getObject<StimulusNodeGroup>(stem + ":node");
@@ -379,8 +383,7 @@ shared_ptr<mw::StimulusNode>	ComponentRegistry::getStimulus(std::string expressi
 	}
 	
 	if(stimulus_group == NULL){
-		// TODO: throw?
-		throw SimpleException("Failed to find stimulus group", stem);
+		throw FatalParserException("Unknown stimulus group", stem);
 	}
 	
 	// This is the stuff inside the outer brackets
@@ -418,7 +421,7 @@ shared_ptr<mw::StimulusNode>	ComponentRegistry::getStimulus(std::string expressi
 		}
 
 		if(indices.size() != stimulus_group->getNDimensions()) {
-			throw SimpleException("Illegal stimulus dimension reference", stem);			
+			throw FatalParserException("Illegal stimulus dimension reference", stem);			
 		}
 		
 		for(unsigned int i = 0; i < indices.size(); i++){
@@ -438,9 +441,27 @@ shared_ptr<mw::StimulusNode>	ComponentRegistry::getStimulus(std::string expressi
 		index_expression = index_pattern;
 	}
 	
-	// Parse the expression
-	shared_ptr<Variable> index = getVariable(index_expression);
+    
+    if(index_expression.empty()){
+        FatalParserException f("Empty expression indexing stimulus group");
+        f << stimulus_group_error_info(stimulus_group);
+        throw f;
+    }
+    
+    shared_ptr<Variable> index_var;
+    
+	// Parse the index expression
+    try {
+        index_var = getVariable(index_expression);
 	
+    } catch(UnknownExpressionException& e){
+        
+        FatalParserException f("Invalid index to stimulus group");
+        f << expression_error_info(index_expression.c_str());
+        
+        throw f;
+    }
+    
 	// Create a "node group" to go with the stimulus group
 	//shared_ptr<StimulusNodeGroup> 
 	//	stimulus_node_group(new StimulusNodeGroup(stimulus_group));
@@ -448,7 +469,7 @@ shared_ptr<mw::StimulusNode>	ComponentRegistry::getStimulus(std::string expressi
 	// Create the relevant reference
 	shared_ptr<StimulusGroupReferenceNode> 
 				refnode(new StimulusGroupReferenceNode(stimulus_node_group, 
-														index));
+														index_var));
 	
 	return refnode;
 }

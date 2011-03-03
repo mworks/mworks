@@ -153,7 +153,6 @@ void XMLParser::parse(bool announce_progress){
 	int counter = 0;
 	while(child != NULL){
 		experimentLoadProgress->setValue((double)counter / (double)n_nodes);
-		//mprintf("progress: %g", (double)(*experimentLoadProgress));
 		_processNode(child);
 		counter++;
 		child = child->next;
@@ -198,8 +197,8 @@ void XMLParser::_processNode(xmlNode *child){
         } else if(name == "text"){
             // do nothing
         }
-    } catch (SimpleException e){
-        
+    } catch (SimpleException& e){
+                
         mdebug("Error in %s node", name.c_str());
         xmlBufferPtr xml_buffer = xmlBufferCreate();
         int bytes = xmlNodeDump(xml_buffer, xml_doc, child, 1, 1);
@@ -207,8 +206,10 @@ void XMLParser::_processNode(xmlNode *child){
             string content((const char *)xml_buffer->content);
             mdebug(content.c_str());
         }
-        
-        throw e; // pass the buck
+
+        e << parser_context_error_info(name);
+
+        throw; // pass the buck
     }
 }
 
@@ -657,46 +658,42 @@ void XMLParser::_processGenericCreateDirective(xmlNode *node, bool anon){
 		}
 		
 	} catch (FatalParserException& e){
-        mprintf("Caught fatal exception");
-        // TODO: add context info
+        // rethrow if it is marked as fatal
+        // (e.g. severe consistency errors)
         throw;
         
-    } catch(SimpleException& e){
-		
+    } catch (SimpleException& e){
         
-		// Objects are allowed to indicate an alternative object to use if 
-		// the create directive fails (this is common with IO Devices, which 
-		// will fail to create if the device is not currently connected.
-		// Alt substitution is the responsibility of the object class in question,
-		// and is usually handled in a "finalize" directive
+        // other exceptions may be recoverable
         bool allow_failover = (bool)(alt_failover->getValue());
 		if(properties.find("alt") != properties.end() && allow_failover){
-			mwarning(M_PARSER_MESSAGE_DOMAIN,
+			// Still in the game
+            mwarning(M_PARSER_MESSAGE_DOMAIN,
 					 "Failed to create object \"%s\" of type %s (but alt object is specified)",
 					 tag.c_str(), object_type.c_str());
 		} else {
+            stringstream error_msg;
         
+            // Fatal error
+            error_msg << "Failed to create object. ";
             if(properties.find("alt") != properties.end()){
-                merror(M_PARSER_MESSAGE_DOMAIN, 
-                       "An 'alt' object is specified, but the #allowAltFailover setup variable is set to disallow failover");
+                error_msg << 
+                       "An 'alt' object is specified, but the #allowAltFailover setup variable is set to disallow failover";
             }
             
-            //merror(M_PARSER_MESSAGE_DOMAIN, 
-			//	   "Failed to create object \"%s\" of type %s (error was:\"%s\")", tag.c_str(), object_type.c_str(), e.what());
-        
+            FatalParserException f(error_msg.str());
             
-            throw InvalidXMLException(reference_id, (const SimpleException&)e);
+            f << reason_error_info(e.what());
+            f << object_type_error_info(object_type);
+            f << parent_scope_error_info(parent_scope);
+            f << ref_id_error_info(reference_id);
+            
+            throw f;
 		}
 	}
 	
-	if(component == NULL){
-		mwarning(M_PARSER_MESSAGE_DOMAIN, 
-				 "Failed to create object \"%s\" of type %s", tag.c_str(), object_type.c_str());
-		// TODO: throw
-	} else {
+	if(component != NULL){
 		component->setReferenceID(reference_id);
-		//mprintf(M_PARSER_MESSAGE_DOMAIN,
-		//				"Created object \"%s\" of type %s", tag.c_str(), object_type.c_str());
 	}
 }
 
@@ -901,9 +898,10 @@ void XMLParser::_connectChildToParent(shared_ptr<mw::Component> parent,
             } else {
                 string message((boost::format("Could not find child (%s) to connect to parent (%s)") % child_tag % parent_tag).str());
             }
-        } catch (FatalParserException &e){
+        } catch (SimpleException &e){
             
-            // TODO: add context info to exception
+            e << parent_component_error_info(parent);
+            e << child_component_error_info(child_component);
             throw;
         }
 	}
@@ -939,16 +937,7 @@ void XMLParser::_createAndConnectReplicatedChildren(shared_ptr<mw::Component> pa
 			xmlNode *subchild_copy = xmlCopyNode(subchild,1);
 			
             _substituteTagStrings(subchild_copy, variable, *value);
-            
-			// perform substitution in the variable's tag, if necessary
-//			string prefix("$");
-//			string form1 = prefix + variable;
-//			string form2 = prefix + string("{") + variable + string("}");
-//			string content = _attributeForName(subchild, "tag");
-//			boost::replace_all(content, form1, *value);
-//			boost::replace_all(content, form2, *value);
-//			_setAttributeForName(subchild_copy, "tag", content);
-			
+            			
 			_setAttributeForName(subchild_copy, "instance_id", subchild_instance_id);
 			
 			_connectChildToParent(parent, properties, subchild_copy);

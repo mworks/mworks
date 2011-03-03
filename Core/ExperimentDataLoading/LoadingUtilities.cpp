@@ -133,17 +133,7 @@ namespace mw {
 			global_outgoing_event_buffer->putEvent(SystemEventFactory::currentExperimentState());
 			return false;
 		}
-		
-// This is getting double loaded    
-/*		try {
-			loadSetupVariables();
-		} catch(std::exception& e){
-			merror(M_PARSER_MESSAGE_DOMAIN, "Failed to load setup variables.  Specific problems was: \"%s\"", e.what());
-			GlobalCurrentExperiment = shared_ptr<Experiment>();
-			global_outgoing_event_buffer->putEvent(SystemEventFactory::currentExperimentState());
-			return false;
-		}*/
-		
+				
 		shared_ptr<ComponentRegistry> reg = ComponentRegistry::getSharedRegistry();
 		
 		try {
@@ -152,12 +142,20 @@ namespace mw {
 			parser.validate();
 			parser.parse(true);
 			
-		} catch(std::exception& e){
-			merror(M_PARSER_MESSAGE_DOMAIN, e.what());
+		} catch(SimpleException& e){
+            // This is the "main" catch block for parsing
+			display_extended_error_information(e);
 			GlobalCurrentExperiment = shared_ptr<Experiment>();
 			global_outgoing_event_buffer->putEvent(SystemEventFactory::currentExperimentState());
 			return false;
-		}
+		} catch(std::exception& e){
+            merror(M_PARSER_MESSAGE_DOMAIN, 
+                  "An unanticipated error occurred.  This is probably a bug.  Error message was: %s",
+                  e.what());
+            GlobalCurrentExperiment = shared_ptr<Experiment>();
+			global_outgoing_event_buffer->putEvent(SystemEventFactory::currentExperimentState());
+            return false;
+        }
 		
 		if(GlobalCurrentExperiment == NULL) {
 			merror(M_PARSER_MESSAGE_DOMAIN, "Experiment load failed");
