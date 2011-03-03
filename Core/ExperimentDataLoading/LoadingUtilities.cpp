@@ -55,7 +55,6 @@ namespace mw {
 		shared_ptr<ComponentRegistry> reg = ComponentRegistry::getSharedRegistry();
 		XMLParser parser(reg, setupPath.string());
 		
-		parser.validate();
 		parser.parse();
 		
 		// check setup variables for validity
@@ -149,7 +148,6 @@ namespace mw {
 		try {
 			XMLParser parser(reg, filepath.string());
 			
-			parser.validate();
 			parser.parse(true);
 			
 		} catch(std::exception& e){

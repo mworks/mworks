@@ -35,8 +35,6 @@
 namespace mw {
 	using namespace std;
 
-void	error_func(void * _parser_context, const char * error, ...);
-
 class XMLParser {
 
 	protected:
@@ -54,33 +52,13 @@ class XMLParser {
 		shared_ptr<ComponentRegistry> registry;
 	
         void setup(shared_ptr<ComponentRegistry> _reg, std::string _path, std::string _simplification_transform);
-	
-		void _createAndAddReplicatedChildren(xmlNode *node, 
-											 const string &variable, 
-											 const vector<string> &values);
-	
-		void _createAndConnectReplicatedChildren(shared_ptr<mw::Component> parent, 
-												 map<string, string> properties,
-												 xmlNode *child_node,
-												 const string &child_instance_id,
-												 const string &variable, 
-												 const vector<string> &values);
-	
-public:
-	
-		XMLParser(shared_ptr<ComponentRegistry> _reg, std::string _path, std::string _simplification_transform_path="");
-		XMLParser(std::string _path, std::string _simplification_transform_path="");
-		virtual ~XMLParser();
-		
 		virtual void validate();
-		virtual void parse(bool announce_progress = false);
-		
+        void loadFile();
+
+        static void error_func(void * _parser_context, const char * error, ...);
 		virtual void addParserError(string error){
 			parser_errors.push_back(error);
 		}
-		
-		static string squashFileName(string name);
-		virtual std::string getWorkingPathString();
 		
 		virtual void _processNode(xmlNode *child);
 		virtual void _processRangeReplicator(xmlNode *node);
@@ -130,6 +108,28 @@ public:
 		vector<xmlNode *> _getChildren(xmlNode *node);
 		vector<xmlNode *> _getChildren(xmlNode *node, string tag);
 		string _getContent(xmlNode *node);
+	
+		void _createAndAddReplicatedChildren(xmlNode *node, 
+											 const string &variable, 
+											 const vector<string> &values);
+	
+		void _createAndConnectReplicatedChildren(shared_ptr<mw::Component> parent, 
+												 map<string, string> properties,
+												 xmlNode *child_node,
+												 const string &child_instance_id,
+												 const string &variable, 
+												 const vector<string> &values);
+	
+public:
+	
+		XMLParser(shared_ptr<ComponentRegistry> _reg, std::string _path, std::string _simplification_transform_path="");
+		XMLParser(std::string _path, std::string _simplification_transform_path="");
+		virtual ~XMLParser();
+		
+		virtual void parse(bool announce_progress = false);
+		
+		static string squashFileName(string name);
+		virtual std::string getWorkingPathString();
 };
 }
 
