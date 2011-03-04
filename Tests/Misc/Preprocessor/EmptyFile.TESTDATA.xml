@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<marionette_info>
+  <expected_messages>
+    <message type="starts_with">ERROR: Experiment packaging failed: The following parser errors were encountered: </message>
+    <message type="whole_message">ERROR: Failed to create a valid packaged experiment.</message>
+  </expected_messages>
+  <expected_events>
+    <!-- The experiment shouldn't load, so we expect no events -->
+  </expected_events>
+</marionette_info>
