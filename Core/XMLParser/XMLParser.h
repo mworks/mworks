@@ -55,7 +55,6 @@ class XMLParser {
 		virtual void validate();
         void loadFile();
 
-        static void error_func(void * _parser_context, const char * error, ...);
 		virtual void addParserError(string error){
 			parser_errors.push_back(error);
 		}
@@ -125,6 +124,8 @@ public:
 		XMLParser(shared_ptr<ComponentRegistry> _reg, std::string _path, std::string _simplification_transform_path="");
 		XMLParser(std::string _path, std::string _simplification_transform_path="");
 		virtual ~XMLParser();
+
+        static void error_func(void * _parser_context, const char * error, ...);
 		
 		virtual void parse(bool announce_progress = false);
 		

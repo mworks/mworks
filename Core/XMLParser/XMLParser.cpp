@@ -42,7 +42,7 @@ namespace mw {
             string error_string((char *)buffer);
             parser->addParserError(error_string);
         }
-		cerr << buffer << endl;
+		//cerr << buffer << endl;
 	}
 }
 
@@ -160,6 +160,7 @@ static NSData* getPreprocessedFileData(NSString *ppPath, NSString *filePath) {
     [task setLaunchPath:ppPath];
     [task setArguments:[NSArray arrayWithObject:filePath]];
     [task setStandardOutput:[NSPipe pipe]];
+    [task setStandardError:[NSPipe pipe]];
     
     @try {
         [task launch];
@@ -172,7 +173,9 @@ static NSData* getPreprocessedFileData(NSString *ppPath, NSString *filePath) {
     
     int status = [task terminationStatus];
     if (0 != status) {
-        throw SimpleException("Preprocessor execution failed");
+        NSData *errorData = [[[task standardError] fileHandleForReading] readDataToEndOfFile];
+        std::string errorText((const char *)[errorData bytes], [errorData length]);
+        throw SimpleException("Preprocessor execution failed", errorText);
     }
     
     return data;
