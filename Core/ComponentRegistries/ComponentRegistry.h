@@ -162,8 +162,10 @@ namespace mw {
 			}
             
             if(obj->isAmbiguous()){
-                string string_rep = obj->getStringRepresentation();
-                throw AmbiguousComponentReferenceException(string_rep);
+                //string string_rep = obj->getStringRepresentation();
+                shared_ptr<AmbiguousComponentReference> amb_ref = 
+                            dynamic_pointer_cast<AmbiguousComponentReference, Component>(obj);
+                throw AmbiguousComponentReferenceException(amb_ref);
             }
             
 			return dynamic_pointer_cast<T, mw::Component>(obj);
@@ -181,6 +183,10 @@ namespace mw {
 		boost::filesystem::path getPath(std::string working, 
 										std::string expression);
 		
+        
+        // NOTE
+        // The following forms of these calls are effectively deprecated by the
+        // better exception context accumulations now available.
         
         // helpers for instance look-ups that throw meaningful parsing exceptions
         // (to simplify bulletproofing plugins)

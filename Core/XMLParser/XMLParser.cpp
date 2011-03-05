@@ -465,21 +465,20 @@ void XMLParser::_substituteAttributeStrings(xmlNode *node, string token, string 
 	static string prefix2("${");
   static string suffix2("}");
   
-  shared_ptr<string> form1_ptr(new string(prefix1 + token));
-  shared_ptr<string> form2_ptr(new string(prefix2 + token + suffix2));
-  shared_ptr<string> replacement_ptr(new string(replacement));
+  string form1 = prefix1 + token;
+  string form2 = prefix2 + token + suffix2;
   
-  _substituteAttributeStrings(node, form1_ptr, form2_ptr, replacement_ptr);
+  _substituteAttributeStrings(node, form1, form2, replacement);
 }
   	
                           
-void XMLParser::_substituteAttributeStrings(xmlNode *node, shared_ptr<string> form1, shared_ptr<string> form2, shared_ptr<string> replacement){
+void XMLParser::_substituteAttributeStrings(xmlNode *node, string& form1, string& form2, string& replacement){
   
   
 	if(xmlNodeIsText(node)){
 		string content((const char *)xmlNodeGetContent(node));
-		boost::replace_all(content, *form1, *replacement);
-		boost::replace_all(content, *form2, *replacement);
+		boost::replace_all(content, form1, replacement);
+		boost::replace_all(content, form2, replacement);
 		xmlNodeSetContent(node, (const xmlChar *)(content.c_str()));
 		return;
 	} else {
@@ -588,12 +587,11 @@ void XMLParser::_processFinalizeDirective(xmlNode *node){
 	
 	if(object != NULL){
 		object->finalize(properties, registry.get());
-		//mprintf(M_PARSER_MESSAGE_DOMAIN,
-		//				"Finalized object \"%s\"", used_tag.c_str());
 	} else {
-		// TODO: throw
-		throw InvalidXMLException(reference_id, 
-								  "Failed to finalize object", tag);
+        FatalParserException f("Failed to finish initializing object");
+        f << component_error_info(tag);
+        f << ref_id_error_info(reference_id);
+        throw f;
 	}
 	
 	
@@ -742,14 +740,10 @@ void XMLParser::_processInstanceDirective(xmlNode *node){
 			
 			if(child_name == "variable_assignment"){
 				string variable_name = _attributeForName(alias_child, "variable");
-				shared_ptr<Variable> var = registry->getVariable(variable_name);
 				
-				if(var == NULL){
-					// TODO: better throw
-					throw InvalidXMLException(reference_id,
-											  "Invalid variable", variable_name);
-				}
-
+                
+                shared_ptr<Variable> var = registry->getVariable(variable_name);
+				
 				string content((const char *)xmlNodeGetContent(alias_child));
                 GenericDataType dataType = var->getProperties()->getDefaultValue().getDataType();
                 Datum value = registry->getNumber(content, dataType);
@@ -785,16 +779,12 @@ void XMLParser::_processInstanceDirective(xmlNode *node){
 	shared_ptr<mw::Component> test = registry->getObject<mw::Component>(instance_tag);
 	
 	if(alias.get() != test.get()){
-		throw  InvalidXMLException(reference_id,
-								   "Failed to register component", instance_tag);
-		return;
+        FatalParserException f("Failed to correctly register an internal object alias (this is probably a bug).");
+        f << ref_id_error_info(reference_id);
+        f << component_error_info(tag);
+        f << additional_msg_error_info(string("instance_tag = ") + instance_tag);
+        throw f;
 	}
-	
-#define VERBOSE_PARSER	1
-#ifdef VERBOSE_PARSER
-	//mprintf(M_PARSER_MESSAGE_DOMAIN,
-	//			"Created an alias (%s) of object %s", instance_tag.c_str(), tag.c_str());
-#endif
 }
 
 
@@ -808,6 +798,8 @@ shared_ptr<mw::Component> XMLParser::_getConnectionChild(xmlNode *child){
 		child_instance_id = "0";
 	}
 	
+    string original_child_tag = child_tag;
+    
 	// First look up if there is an "instanced" version of this object
 	// as these versions always have priority if they exist
 	string child_instance_tag = _generateInstanceTag(child_tag, child_reference_id, child_instance_id);
@@ -838,20 +830,21 @@ shared_ptr<mw::Component> XMLParser::_getConnectionChild(xmlNode *child){
 	
         // Finally, try to look up the object using its reference_id
         child_component = registry->getObject<mw::Component>(child_reference_id);
-	} catch (AmbiguousComponentReferenceException e){
-        merror(M_PARSER_MESSAGE_DOMAIN, "An ambiguously named object was detected during parsing (connection phase).\n"
-                                        "Please ensure that all object names are unique.\n"
-                                        "Details: tag_name = <%s>, reference_id = <%s>, instance_id = <%s>", 
-                            child_tag.c_str(), child_reference_id.c_str(), child_instance_id.c_str());
-        registry->dumpToStdErr();
+	} catch (AmbiguousComponentReferenceException& e){
+        //merror(M_PARSER_MESSAGE_DOMAIN, "An ambiguously named object was detected during parsing (connection phase).\n"
+        //                                       "Please ensure that all object names are unique.\n"
+        //                                        "Details: tag_name = <%s>, reference_id = <%s>, instance_id = <%s>", 
+        //                            child_tag.c_str(), child_reference_id.c_str(), child_instance_id.c_str());
+        //        registry->dumpToStdErr();
+  
+        e << child_component_error_info(original_child_tag);
+        e << ref_id_error_info(child_reference_id);
         
-        throw FatalParserException();
+        throw;
     }
 	
-	if(child_component == NULL){
-		// do nothing
-	}
-	
+	// child component is allowed to be NULL at this stage
+    
 	return child_component;
 }
 
@@ -901,7 +894,9 @@ void XMLParser::_connectChildToParent(shared_ptr<mw::Component> parent,
         } catch (SimpleException &e){
             
             e << parent_component_error_info(parent);
-            e << child_component_error_info(child_component);
+            if(child_component != NULL){
+                e << child_component_error_info(child_component);
+            }
             throw;
         }
 	}
@@ -971,7 +966,7 @@ void XMLParser::_processConnectDirective(xmlNode *node){
 	// Try to look up object with its reference id	
     try {
         parent_component = registry->getObject<mw::Component>(reference_id);
-    } catch (AmbiguousComponentReferenceException e){
+    } catch (AmbiguousComponentReferenceException& e){
         // not necessarily a big deal, move on to a more descriptive name
     }
     
@@ -1241,17 +1236,13 @@ Datum XMLParser::_parseDataValue(xmlNode *node){
 void XMLParser::_processVariableAssignment(xmlNode *node){
 	
 	string variable_name(_attributeForName(node, "variable"));
-	
-	shared_ptr<Variable> variable = registry->getVariable(variable_name);
-	
-	if(variable == NULL){
-		// TODO: better throw
-		if(variable_name.empty()){
-			throw SimpleException("Variable missing tag attribute in variable assignment");
-		} else {
-			throw SimpleException("Unknown variable during variable assignment", variable_name);
-		}
-	}
+	    
+    if(variable_name.empty()){
+        throw FatalParserException("Variable assignment without 'variable' field detected");
+    }
+    
+    
+    shared_ptr<Variable> variable = registry->getVariable(variable_name);
 	
     Datum value = _parseDataValue(node);
 	

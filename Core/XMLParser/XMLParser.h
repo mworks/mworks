@@ -90,7 +90,7 @@ public:
         virtual void _generateListReplicatorFilenames(xmlNode *node, vector<string> &values, const string &pattern);
 		virtual void _dumpNode(xmlNode *node);
 		virtual void _substituteAttributeStrings(xmlNode *node, string token, string replacement);
-        virtual void _substituteAttributeStrings(xmlNode *node, shared_ptr<string> form1, shared_ptr<string> form2, shared_ptr<string> replacement);
+        virtual void _substituteAttributeStrings(xmlNode *node, string& form1, string& form2, string& replacement);
     
         virtual void _substituteTagStrings(xmlNode *node, string token, string replacement);
         virtual void _substituteTagStrings(xmlNode *node, shared_ptr<string> form1, shared_ptr<string> form2, shared_ptr<string> replacement);

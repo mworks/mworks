@@ -24,6 +24,7 @@
 
 
 
+
 namespace mw {
 
 // forward decls
@@ -37,6 +38,7 @@ using namespace boost;
 
 // fwd dec
 class Component;
+class AmbiguousComponentReference;
 
 class SimpleException : public std::exception, public boost::exception {
 
@@ -83,7 +85,13 @@ class SimpleException : public std::exception, public boost::exception {
 
 };
 
-class NonFatalSimpleException : public SimpleException{ };
+class NonFatalParserException : public SimpleException{ 
+
+public:
+        
+    NonFatalParserException(string _subject):SimpleException(M_PARSER_MESSAGE_DOMAIN, _subject){}
+
+};
 
 
 class MalformedXMLException : public SimpleException{ 
@@ -123,13 +131,17 @@ class InvalidXMLException : public SimpleException{
 
 class AmbiguousComponentReferenceException : public SimpleException {
 
+protected:
+
+    shared_ptr<AmbiguousComponentReference> component_reference;
+
 public:
-    AmbiguousComponentReferenceException(string _subject) :
-        SimpleException(M_PARSER_MESSAGE_DOMAIN, "An attempt was made to access an ambiguously referenced component.  "
-                                                 "Please ensure that all object tag names are unique", _subject){ }
-    
+    AmbiguousComponentReferenceException(shared_ptr<AmbiguousComponentReference> ref);
     virtual ~AmbiguousComponentReferenceException() throw() {}
 
+
+    shared_ptr<AmbiguousComponentReference> getAmbiguousComponentReference(){ return component_reference; }
+    
 };
 
 

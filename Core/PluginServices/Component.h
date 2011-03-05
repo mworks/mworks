@@ -29,6 +29,7 @@ namespace mw {
 		
 		std::string tag;
 		std::string reference_id;
+        std::string object_signature;
 		
 		// this is a compact, unique identifier for the purpose
 		// of event-sending.  It needs to be small because it might
@@ -39,11 +40,8 @@ namespace mw {
 		
 	public:
 		
-		Component(){ 
-			compact_id = mw::Component::_id_count++;
-		}
-		Component(std::string _tag){  
-			tag = _tag;  
+		Component(std::string _tag = "", std::string _sig = ""):
+                  tag(_tag), object_signature(_sig){
 			compact_id = mw::Component::_id_count++;
 		}
 		
@@ -78,6 +76,9 @@ namespace mw {
 		void setReferenceID(std::string ref_id){  reference_id = ref_id; }
 		std::string getReferenceID(){  return reference_id;  }
 		
+        void setObjectSignature(std::string _sig){  object_signature = _sig; }
+        std::string getObjectSignature(){ return object_signature; }
+        
 		long getCompactID(){  return compact_id;  }
 		
 		
@@ -91,7 +92,7 @@ namespace mw {
 							  ComponentRegistry *reg,
 							  shared_ptr<mw::Component> child){
 			// TODO: throw "can't add child" exception
-			throw  SimpleException("Attempt to use base-class addChild component method");
+			throw  SimpleException("Invalid attempt to use base-class addChild component method. This is likely a bug.");
 		}
 		
 		virtual void finalize(std::map<std::string, std::string> parameters,
