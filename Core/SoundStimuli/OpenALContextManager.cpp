@@ -11,72 +11,79 @@
 using namespace mw;
 
 namespace mw {
-	OpenALContextManager *GlobalOpenALContextManager;
+    SINGLETON_INSTANCE_STATIC_DECLARATION(OpenALContextManager);
 }
+
+
 
 OpenALContextManager::OpenALContextManager(){
 	
-	
-	
-	devices = new ExpandableList<ALDevice>();
-	default_device = alcOpenDevice(NULL);
-	if ((error = alGetError()) != AL_NO_ERROR) { 
-		merror(M_SYSTEM_MESSAGE_DOMAIN,
-			   "Failed to open OpenAL sound device (error code %d)",
-			   error);
-		return; 
-	}
-	devices->addElement(default_device);
-	
-	contexts = new ExpandableList<ALContext>();
-	default_context = alcCreateContext(default_device, NULL);
-	if ((error = alGetError()) != AL_NO_ERROR) { 
-		merror(M_SYSTEM_MESSAGE_DOMAIN,
-			   "Failed to generate OpenAL context for sound stimulus (error code %d)",
-			   error);
-		return; 
-	}
-	contexts->addElement(default_context);
-	
-	setDefaultContextCurrent();
+	try {
+        
+        default_device = alcOpenDevice(NULL);
+        if ((error = alGetError()) != AL_NO_ERROR) { 
+            merror(M_SYSTEM_MESSAGE_DOMAIN,
+                   "Failed to open OpenAL sound device (error code %d)",
+                   error);
+            return; 
+        }
+        devices.push_back(default_device);
+        
+        default_context = alcCreateContext(default_device, NULL);
+        if ((error = alGetError()) != AL_NO_ERROR) { 
+            merror(M_SYSTEM_MESSAGE_DOMAIN,
+                   "Failed to generate OpenAL context for sound stimulus (error code %d)",
+                   error);
+            return; 
+        }
+        contexts.push_back(default_context);
+        
+        setDefaultContextCurrent();
+    } catch (std::exception& e){
+        return;
+    }
 }
 
 OpenALContextManager::~OpenALContextManager(){
 	// tear down
-	for(int i = 0; i < contexts->getNElements(); i++){
-		alcDestroyContext(((*contexts)[i])->getContext());
-		if ((error = alGetError()) != AL_NO_ERROR) { 
-			merror(M_SYSTEM_MESSAGE_DOMAIN,
+    vector<ALCcontext*>::iterator i;
+	for(i = contexts.begin(); i != contexts.end(); i++){
+		
+        if( *i != NULL ){
+            alcDestroyContext(*i);
+            if ((error = alGetError()) != AL_NO_ERROR) { 
+                merror(M_SYSTEM_MESSAGE_DOMAIN,
 				   "Failed to destroy OpenAL context (error code %d)",
 				   error);
-			return; 
+            } 
 		}
 	}
 	
-	delete contexts;
-	
-	for(int i = 0; i < devices->getNElements(); i++){
-		alcCloseDevice(((*devices)[i])->getDevice());
-		if ((error = alGetError()) != AL_NO_ERROR) { 
-			merror(M_SYSTEM_MESSAGE_DOMAIN,
+    vector<ALCdevice*>::iterator d;
+	for(d = devices.begin(); d != devices.end(); d++){
+		
+        if( *d != NULL ){
+            
+            alcCloseDevice(*d);
+            if ((error = alGetError()) != AL_NO_ERROR) { 
+                merror(M_SYSTEM_MESSAGE_DOMAIN,
 				   "Failed to close OpenAL sound device (error code %d)",
 				   error);
-			return; 
+			} 
 		}
 	}
 	
-	delete devices;
 }
 
-ALCcontext *OpenALContextManager::getDefaultContext(){
+ALCcontext* OpenALContextManager::getDefaultContext(){
 	return default_context;
 }
 
 void OpenALContextManager::setCurrent(int i){
 	
-	ALCcontext *context = (contexts->getElement(i))->getContext();
-	if(contexts->getNElements() > i && context != NULL){
-		
+    try {
+        ALCcontext *context = contexts[i];
+    
 		alcMakeContextCurrent(context);
 		if ((error = alGetError()) != AL_NO_ERROR) { 
 			merror(M_SYSTEM_MESSAGE_DOMAIN,
@@ -84,7 +91,10 @@ void OpenALContextManager::setCurrent(int i){
 				   error);
 			return; 
 		}
-	}
+	} catch (std::exception& e){
+    
+        throw SimpleException("Attempt to set an invalid OpenAL (audio) context.  This is probably a bug.");
+    }
 }
 
 void OpenALContextManager::setDefaultContextCurrent(){

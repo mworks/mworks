@@ -49,11 +49,7 @@ void FullCoreEnvironmentTestFixture::tearDown(){
 	  GlobalDataFileManager = 0;
 	}
 
-	
-	if(GlobalOpenALContextManager) {
-	  delete GlobalOpenALContextManager;
-	  GlobalOpenALContextManager = 0;
-	}
+	OpenALContextManager::registerInstance(shared_ptr<OpenALContextManager>());
 
 	if(GlobalFilterManager) {
 	  delete GlobalFilterManager;

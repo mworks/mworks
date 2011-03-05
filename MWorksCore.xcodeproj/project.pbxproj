@@ -157,7 +157,6 @@
 		5C28909F0850DD9A002CC31A /* LegacyIODevice.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2CE13B07E9F8D300C68AEF /* LegacyIODevice.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5C2B51210BB6838200928E03 /* ScopedVariable.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C2B511F0BB6838200928E03 /* ScopedVariable.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5C2B51220BB6838200928E03 /* ScopedVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C2B51200BB6838200928E03 /* ScopedVariable.cpp */; };
-		5C35363D1064F30900FF0528 /* alc.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C35363C1064F30900FF0528 /* alc.h */; };
 		5C37479509EC093900F8265F /* ScarabDataTest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C37479309EC093900F8265F /* ScarabDataTest.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5C37479609EC093900F8265F /* ScarabDataTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C37479409EC093900F8265F /* ScarabDataTest.cpp */; };
 		5C37489809EC249C00F8265F /* VariableRegistryTest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C37489609EC249C00F8265F /* VariableRegistryTest.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -784,7 +783,6 @@
 		5C25932B10AC95180098558D /* EventHandlerConduitTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventHandlerConduitTest.cpp; sourceTree = "<group>"; };
 		5C2B511F0BB6838200928E03 /* ScopedVariable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ScopedVariable.h; path = Core/Variables/ScopedVariable.h; sourceTree = "<group>"; };
 		5C2B51200BB6838200928E03 /* ScopedVariable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ScopedVariable.cpp; path = Core/Variables/ScopedVariable.cpp; sourceTree = "<group>"; };
-		5C35363C1064F30900FF0528 /* alc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alc.h; sourceTree = "<group>"; };
 		5C37479309EC093900F8265F /* ScarabDataTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ScarabDataTest.h; path = Core/Scarab/tests/ScarabDataTest.h; sourceTree = SOURCE_ROOT; };
 		5C37479409EC093900F8265F /* ScarabDataTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ScarabDataTest.cpp; path = Core/Scarab/tests/ScarabDataTest.cpp; sourceTree = SOURCE_ROOT; };
 		5C37484009EC18A200F8265F /* ScarabFileTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ScarabFileTest.h; path = Core/Scarab/tests/ScarabFileTest.h; sourceTree = SOURCE_ROOT; };
@@ -1628,7 +1626,6 @@
 		5CAE8BE20AE402250013DB19 /* alut */ = {
 			isa = PBXGroup;
 			children = (
-				5C35363C1064F30900FF0528 /* alc.h */,
 				5CAE8BF50AE4049E0013DB19 /* alut.h */,
 				5CAE8BF60AE4049E0013DB19 /* alut.c */,
 			);
@@ -2445,7 +2442,6 @@
 				0EFC71630EDBB14000FFABA8 /* PulseAction.h in Headers */,
 				0E2FE5A10EF00CC900CEB818 /* ParsedColorTrio.h in Headers */,
 				0EB1423F0EFB4EFC0056E2A2 /* IODeviceVariableNotification.h in Headers */,
-				5C35363D1064F30900FF0528 /* alc.h in Headers */,
 				5C724443109B2BC0004887A5 /* EventStreamConduit.h in Headers */,
 				5C76B41710BB226400F6D029 /* VariableRegistryInterface.h in Headers */,
 				5CA07B4D10D0560300000A95 /* SimpleCodecUtilities.h in Headers */,

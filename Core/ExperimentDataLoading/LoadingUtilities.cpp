@@ -207,11 +207,9 @@ namespace mw {
 		
 		GlobalFilterManager = new FilterManager();
 		
-		if(GlobalOpenALContextManager != NULL){
-			delete GlobalOpenALContextManager;
-		}
-		
-		GlobalOpenALContextManager = new OpenALContextManager();
+        shared_ptr<Component> openal_context_manager(new OpenALContextManager());
+        OpenALContextManager::registerInstance(openal_context_manager);
+        
 		
 		if(GlobalDataFileManager != NULL && GlobalDataFileManager->isFileOpen()){
 			GlobalDataFileManager->closeFile();
@@ -223,7 +221,6 @@ namespace mw {
 			global_outgoing_event_buffer->putEvent(SystemEventFactory::codecPackage());
 			
 			global_outgoing_event_buffer->putEvent(SystemEventFactory::currentExperimentState());
-			//global_outgoing_event_buffer->putEvent(SystemEventFactory::protocolPackage());
 			global_variable_registry->announceAll();
 		}
 	}

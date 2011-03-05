@@ -43,8 +43,6 @@ bool StandardServerCoreBuilder::initializeEventBuffers() {
 bool StandardServerCoreBuilder::initializeRegistries() {
 	initializeServiceRegistries();
 	
-	GlobalOpenALContextManager = NULL;
-	
 	return true;
 }
 

@@ -11,8 +11,8 @@
  */
 
 #include <OpenAL/al.h>
-//#include <OpenAL/alc.h>
-#include "alc.h" //customized header for gcc4.2
+#include <OpenAL/alc.h>
+//#include "alc.h" //customized header for gcc4.2
 
 // shifting sands
 //#include <OpenAL/alut.h>
@@ -21,58 +21,61 @@
 #include "ExpandableList.h"
 #include "Utilities.h"
 
+#include "RegisteredSingleton.h"
+
 namespace mw {
-	class ALContext{
-		
-	public:
-		ALCcontext *context;
-		
-		ALContext(ALCcontext *_context){
-			context = _context;
-		}
-		
-		operator ALCcontext *(){
-			return context;
-		}
-		
-		void operator= (ALCcontext *_context){
-			context = _context;
-		}
-		
-		ALCcontext *getContext(){ return context; }
-	};
+	//class ALContext{
+//		
+//	public:
+//		ALCcontext *context;
+//		
+//		ALContext(ALCcontext *_context){
+//			context = _context;
+//		}
+//		
+//		operator ALCcontext *(){
+//			return context;
+//		}
+//		
+//		void operator= (ALCcontext *_context){
+//			context = _context;
+//		}
+//		
+//		ALCcontext *getContext(){ return context; }
+//	};
+//	
+//	class ALDevice{
+//		
+//	public:
+//		
+//		ALCdevice *device;
+//		
+//		ALDevice(ALCdevice *_device){
+//			device = _device;
+//		}
+//		
+//		operator ALCdevice *(){
+//			return device;
+//		}
+//		
+//		void operator= (ALCdevice *_device){
+//			device = _device;
+//		}
+//		
+//		ALCdevice *getDevice(){ return device; }
+//	};
+//	
 	
-	class ALDevice{
-		
-	public:
-		
-		ALCdevice *device;
-		
-		ALDevice(ALCdevice *_device){
-			device = _device;
-		}
-		
-		operator ALCdevice *(){
-			return device;
-		}
-		
-		void operator= (ALCdevice *_device){
-			device = _device;
-		}
-		
-		ALCdevice *getDevice(){ return device; }
-	};
-	
-	
-	class OpenALContextManager {
+	class OpenALContextManager : public Component {
 		
 	protected:
 		
-		ALCdevice *default_device;
-		ExpandableList<ALDevice> *devices;
+        // not using shared_ptr here because these are C ptrs
+		ALCdevice* default_device;
+		vector<ALCdevice*> devices;
 		
-		ALCcontext *default_context;
-		ExpandableList<ALContext> *contexts;
+		ALCcontext* default_context;
+		vector<ALCcontext*> contexts;
 		
 		ALuint error;
 		
@@ -81,12 +84,12 @@ namespace mw {
 		OpenALContextManager();
 		~OpenALContextManager();
 		
-		ALCcontext *getDefaultContext();
+		ALCcontext* getDefaultContext();
 		void setCurrent(int i);
 		void setDefaultContextCurrent();
-		
+	
+        REGISTERED_SINGLETON_CODE_INJECTION(OpenALContextManager);
 	};
 	
-	extern OpenALContextManager *GlobalOpenALContextManager;
 }
 #endif
