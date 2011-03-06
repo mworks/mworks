@@ -472,7 +472,7 @@ void XMLParser::_substituteAttributeStrings(xmlNode *node, string token, string 
 }
   	
                           
-void XMLParser::_substituteAttributeStrings(xmlNode *node, string& form1, string& form2, string& replacement){
+void XMLParser::_substituteAttributeStrings(xmlNode *node, const string& form1, const string& form2, const string& replacement){
   
   
 	if(xmlNodeIsText(node)){
@@ -495,18 +495,17 @@ void XMLParser::_substituteAttributeStrings(xmlNode *node, string& form1, string
 }
 
 void XMLParser::_substituteTagStrings(xmlNode *node, string token, string replacement){
-	static string prefix1("$");
-	static string prefix2("${");
+  static string prefix1("$");
+  static string prefix2("${");
   static string suffix2("}");
   
-  shared_ptr<string> form1_ptr(new string(prefix1 + token));
-  shared_ptr<string> form2_ptr(new string(prefix2 + token + suffix2));
-  shared_ptr<string> replacement_ptr(new string(replacement));
+  string form1(prefix1 + token);
+  string form2(prefix2 + token + suffix2);
   
-  _substituteTagStrings(node, form1_ptr, form2_ptr, replacement_ptr);
+  _substituteTagStrings(node, form1, form2, replacement);
 }
 
-void XMLParser::_substituteTagStrings(xmlNode *node, shared_ptr<string> form1, shared_ptr<string> form2, shared_ptr<string> replacement){
+void XMLParser::_substituteTagStrings(xmlNode *node, const string& form1, const string& form2, const string& replacement){
     
     if(xmlNodeIsText(node)){
         return;
@@ -514,8 +513,8 @@ void XMLParser::_substituteTagStrings(xmlNode *node, shared_ptr<string> form1, s
     
     string content = _attributeForName(node, "tag");
     if(!content.empty()){
-        boost::replace_all(content, *form1, *replacement);
-        boost::replace_all(content, *form2, *replacement);
+        boost::replace_all(content, form1, replacement);
+        boost::replace_all(content, form2, replacement);
         _setAttributeForName(node, "tag", content);
     }
     

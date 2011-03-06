@@ -16,7 +16,9 @@ namespace mw {
 
 
 
-OpenALContextManager::OpenALContextManager(){
+OpenALContextManager::OpenALContextManager() :
+                                default_device(NULL),
+                                default_context(NULL){
 	
 	try {
         
@@ -40,6 +42,7 @@ OpenALContextManager::OpenALContextManager(){
         
         setDefaultContextCurrent();
     } catch (std::exception& e){
+        merror(M_SYSTEM_MESSAGE_DOMAIN, "Failed to initialize the audio engine.  Sounds may not play correctly");
         return;
     }
 }
@@ -50,7 +53,11 @@ OpenALContextManager::~OpenALContextManager(){
 	for(i = contexts.begin(); i != contexts.end(); i++){
 		
         if( *i != NULL ){
-            alcDestroyContext(*i);
+            try{
+                alcDestroyContext(*i);
+            } catch (std::exception& e) {
+                merror(M_SYSTEM_MESSAGE_DOMAIN, "Problem destroying audio context");
+            }
             if ((error = alGetError()) != AL_NO_ERROR) { 
                 merror(M_SYSTEM_MESSAGE_DOMAIN,
 				   "Failed to destroy OpenAL context (error code %d)",
@@ -64,7 +71,11 @@ OpenALContextManager::~OpenALContextManager(){
 		
         if( *d != NULL ){
             
-            alcCloseDevice(*d);
+            try{
+                alcCloseDevice(*d);
+            } catch  (std::exception& e) {
+                merror(M_SYSTEM_MESSAGE_DOMAIN, "Problem closing audio device");
+            }
             if ((error = alGetError()) != AL_NO_ERROR) { 
                 merror(M_SYSTEM_MESSAGE_DOMAIN,
 				   "Failed to close OpenAL sound device (error code %d)",
@@ -98,8 +109,12 @@ void OpenALContextManager::setCurrent(int i){
 }
 
 void OpenALContextManager::setDefaultContextCurrent(){
-	alcMakeContextCurrent(default_context);
-	if ((error = alGetError()) != AL_NO_ERROR) { 
+	try{
+        alcMakeContextCurrent(default_context);
+	} catch  (std::exception& e){
+        merror(M_SYSTEM_MESSAGE_DOMAIN, "Problem switching audio contexts");
+    }
+    if ((error = alGetError()) != AL_NO_ERROR) { 
 		merror(M_SYSTEM_MESSAGE_DOMAIN,
 			   "Failed to set default OpenAL context current (error code %d)",
 			   error);
