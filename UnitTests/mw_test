@@ -62,8 +62,8 @@ def run_unit_tests(arch_name, test_names=None):
             failed_tests.getElementsByTagName('Name')]
 
 
-def iter_marionette_tests():
-    for root, dirs, files in os.walk(test_file_dir):
+def iter_marionette_tests(top_dir=test_file_dir):
+    for root, dirs, files in os.walk(top_dir):
         for f in files:
             if ((os.path.splitext(f)[1] in test_file_extensions) and
                 (not f.endswith(test_data_suffix))):
@@ -72,15 +72,21 @@ def iter_marionette_tests():
 
 def run_marionette_tests(arch_name, test_names=None):
     if not test_names:
-        test_file_iter = iter_marionette_tests()
+        test_file_iter = iter_marionette_tests
     else:
-        test_file_iter = ((test if os.path.isfile(test)
-                           else os.path.join(test_file_dir, test))
-                          for test in test_names)
+        def test_file_iter():
+            for test in test_names:
+                if not os.path.exists(test):
+                    test = os.path.join(test_file_dir, test)
+                if not os.path.isdir(test):
+                    yield test
+                else:
+                    for t in iter_marionette_tests(test):
+                        yield t
 
     failed_tests = []
 
-    for test_file in test_file_iter:
+    for test_file in test_file_iter():
         if not os.path.isfile(test_file):
             error(3, 'no such file: "%s"', test_file)
 
@@ -157,10 +163,10 @@ def main():
     marionette_test_names = []
 
     for name in args:
-        if os.path.splitext(name)[1] in test_file_extensions:
-            marionette_test_names.append(name)
-        else:
+        if name.startswith('mw::'):
             unit_test_names.append(name)
+        else:
+            marionette_test_names.append(name)
 
     failed_tests = run_tests(opts.arch, unit_test_names, marionette_test_names)
 
