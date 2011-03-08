@@ -23,7 +23,7 @@
                         <action tag="Update Stimulus Display"  type="update_stimulus_display"/>
                         <action tag="Report"  type="report" message="about to start movie"/>
                         <action tag="waiter" type="wait" duration="15000" />
-                        <action tag="Queue Stimulus"  type="live_queue_stimulus" stimulus="MyMovie1"/>
+                        <action tag="Queue Stimulus"  type="queue_stimulus" stimulus="MyMovie1"/>
                         <action tag="Report"  type="report" message="just queued movie"/>
                         <action tag="Update Stimulus Display"  type="update_stimulus_display"/>
                         <action tag="Report"  type="report" message="just updated stim display "/>
@@ -33,7 +33,7 @@
                         <action tag="Queue Stimulus"  type="dequeue_stimulus" stimulus="MyMovie1"/>
                         <action tag="Update Stimulus Display"  type="update_stimulus_display"/>
                         <action tag="Wait"  type="wait" duration="2000000"/>
-                        <action tag="Queue Stimulus"  type="live_queue_stimulus" stimulus="MyMovie1"/>
+                        <action tag="Queue Stimulus"  type="queue_stimulus" stimulus="MyMovie1"/>
                         <action tag="Report"  type="report" message="just queued movie"/>
                         <action tag="Wait"  type="wait" duration="4000000"/>
                         <action tag="Report"  type="report" message="finished"/>
