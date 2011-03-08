@@ -40,8 +40,13 @@ void CodecAwareConduitTestFixture::setUp(){
 
 void CodecAwareConduitTestFixture::tearDown(){
 
-    server_conduit->finalize();
-    client_conduit->finalize();
+    if(server_conduit != NULL){
+        server_conduit->finalize();
+    }
+    
+    if(client_conduit != NULL){
+        client_conduit->finalize();
+    }
     
     FullCoreEnvironmentTestFixture::tearDown();
     

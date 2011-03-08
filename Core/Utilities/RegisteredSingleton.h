@@ -52,9 +52,6 @@
 
 #define  SINGLETON_DESTROY_METHOD(TYPE)   static \
     void destroy() {  \
-      if(singleton_instance == NULL) { \
-        throw SimpleException("trying to destroy singleton when there isn't one registered"); \
-      } \
       singleton_instance = boost::shared_ptr<TYPE>(); \
     } 
 
