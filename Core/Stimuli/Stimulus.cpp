@@ -289,6 +289,19 @@ std::string Stimulus::gettag() {
 }
 
 
+void Stimulus::setDeferredFromString(const std::string &deferredString) {
+    std::string ds(boost::algorithm::to_lower_copy(deferredString));
+
+    if ((ds == "yes") || (ds == "1") || (ds == "true")) {
+        setDeferred(deferred_load);
+    } else if (ds == "explicit") {
+        setDeferred(explicit_load);
+    } else {
+        setDeferred(nondeferred_load);
+    }
+}
+
+
 
 /* The announceStimulusDraw method is called during update of the stimulus display chain
  *  for each visible stimulus node object in the chain as its draw method is called.

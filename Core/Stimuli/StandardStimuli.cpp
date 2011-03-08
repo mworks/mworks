@@ -944,16 +944,6 @@ shared_ptr<mw::Component> ImageStimulusFactory::createObject(std::map<std::strin
 	if(bf::is_directory(full_path)) {
 		throw InvalidReferenceException(parameters["reference_id"], "path", parameters.find("path")->second);
 	}
-	
-	if(GlobalCurrentExperiment == NULL) {
-		throw SimpleException("no experiment currently defined");		
-	}
-	
-	shared_ptr<StimulusDisplay> defaultDisplay = GlobalCurrentExperiment->getStimulusDisplay();
-	if(defaultDisplay == 0) {
-		throw SimpleException("no stimulusDisplay in current experiment");
-	}
-	
 
 	shared_ptr <ImageStimulus> newImageStimulus = shared_ptr<ImageStimulus>(new ImageStimulus(tagname, 
 																						 full_path.string(), 
@@ -963,26 +953,12 @@ shared_ptr<mw::Component> ImageStimulusFactory::createObject(std::map<std::strin
 																						 y_size,
 																						 rotation,
 																						 alpha_multiplier));
-	
-	
-  Stimulus::load_style deferred = Stimulus::nondeferred_load;
-  if(!parameters["deferred"].empty()){
-    string deferred_value = parameters["deferred"];
-    boost::algorithm::to_lower(deferred_value);
-    if(deferred_value == "yes" || deferred_value == "1" || deferred_value == "true"){
-      deferred = Stimulus::deferred_load;
-    } else if(deferred_value == "explicit"){
-      deferred = Stimulus::explicit_load;
-    }
-  }
 
-  newImageStimulus->setDeferred(deferred);
-  
-  // TODO: deferred load?
-  if(deferred != Stimulus::deferred_load && deferred != Stimulus::explicit_load){
-    newImageStimulus->load(defaultDisplay);
-  }
-  
+    newImageStimulus->setDeferredFromString(parameters["deferred"]);
+    if (newImageStimulus->getDeferred() == Stimulus::nondeferred_load) {
+        newImageStimulus->load(StimulusDisplay::getCurrentStimulusDisplay());
+    }
+
 	shared_ptr <StimulusNode> thisStimNode = shared_ptr<StimulusNode>(new StimulusNode(newImageStimulus));
 	reg->registerStimulusNode(tagname, thisStimNode);
 	
