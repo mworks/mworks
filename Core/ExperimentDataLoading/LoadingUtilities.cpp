@@ -362,5 +362,65 @@ namespace mw {
 		}
 		return s;
 	}
+    
+    
+    bool getFilePaths(const std::string &workingPath,
+                      const std::string &directoryPath,
+                      std::vector<std::string> &filePaths)
+    {
+        const std::string fullPath(expandPath(workingPath, directoryPath).string());
+        
+        if (!getFilePaths(fullPath, filePaths)) {
+            return false;
+        }
+
+        if (fullPath != directoryPath) {
+            for (std::vector<std::string>::iterator iter = filePaths.begin(); iter != filePaths.end(); iter++) {
+                (*iter).erase(0, workingPath.size() + 1);  // +1 for the trailing forward-slash
+            }
+        }
+        
+        return true;
+    }
+    
+    
+    bool getFilePaths(const std::string &directoryPath, std::vector<std::string> &filePaths) {
+        namespace bf = boost::filesystem;
+        
+        bf::path dirPath(directoryPath);
+        if (!bf::is_directory(dirPath)) {
+            return false;
+        }
+        
+        bf::directory_iterator endIter;
+        for (bf::directory_iterator iter(dirPath); iter != endIter; iter++) {
+            if (bf::is_regular_file(iter->status())) {
+                filePaths.push_back(iter->path().string());
+            }
+        }
+        
+        return true;
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

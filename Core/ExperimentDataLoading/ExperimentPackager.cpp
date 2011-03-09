@@ -119,3 +119,54 @@ Datum ExperimentPackager::packageExperiment(const boost::filesystem::path filena
 											 eventPayload);
 }
 
+
+void IncludedFilesParser::_processCreateDirective(xmlNode *node) {
+    xmlNode *child = node->children;
+    
+    while (child != NULL) {
+        string name((const char *)(child->name));
+        
+        if (name == "path") {
+
+            string filePath((const char *)xmlNodeGetContent(child));
+            manifest.addElement(filePath);
+
+        } else if (name == "directory_path") {
+
+            string directoryPath((const char *)xmlNodeGetContent(child));
+            std::vector<std::string> filePaths;
+
+            if (mw::getFilePaths(getWorkingPathString(), directoryPath, filePaths)) {
+                for (std::vector<std::string>::iterator iter = filePaths.begin(); iter != filePaths.end(); iter++) {
+                    manifest.addElement(*iter);
+                }
+            }
+
+        }
+        
+        child = child->next;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

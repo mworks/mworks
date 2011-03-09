@@ -28,5 +28,10 @@ namespace mw {
 	void createExperimentInstallDirectoryStructure(const std::string expName);
 	
 	std::string removeSpacesFromString(std::string s);
+    
+    bool getFilePaths(const std::string &workingPath,
+                      const std::string &directoryPath,
+                      std::vector<std::string> &filePaths);
+    bool getFilePaths(const std::string &directoryPath, std::vector<std::string> &filePaths);
 }
 #endif
