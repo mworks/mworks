@@ -1,0 +1,93 @@
+## -*- mode: sgml; -*-
+## mwpp="/usr/local/bin/mako-render"
+<?xml version="1.0"?>
+
+<%
+
+param_defaults = (
+   ('x_position', -5),
+   ('y_position', -5),
+   ('x_size', 5),
+   ('y_size', 5),
+   ('rotation', 0),
+   ('alpha', 1),
+)
+
+param_updates = (
+   (None, None),
+   ('x_position', 5),
+   ('y_position', 5),
+   ('x_size', 10),
+   ('y_size', 10),
+   ('rotation', 135),
+   ('alpha', 0.3),
+)
+
+num_changes = len(param_updates)
+
+%>
+
+<monkeyml version="1.0">
+    <io_devices tag="IO Devices"></io_devices>
+    <variables tag="Variables">
+        % for name, value in param_defaults:
+            <variable tag="${name}" scope="global" logging="when_changed" default_value="${value}" type="float"></variable>
+	% endfor
+        <variable tag="movie_ended" scope="global" logging="when_changed" default_value="0" type="boolean"></variable>
+    </variables>
+    <sounds tag="Sounds"></sounds>
+    <stimuli tag="Stimuli">
+        <stimulus type="image_directory_movie" tag="movie" directory_path="images" x_size="x_size" y_size="y_size" x_position="x_position" y_position="y_position" rotation="rotation" alpha_multiplier="alpha" deferred="no" frames_per_second="3" ended="movie_ended" loop="0"></stimulus>
+    </stimuli>
+    <filters tag="Filters"></filters>
+    <optimizers tag="Optimizers"></optimizers>
+    <experiment tag="New Experiment" full_name="" description="">
+        <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential">
+	    % for trial, queue_type in enumerate(('queue_stimulus', 'live_queue_stimulus', 'queue_stimulus')):
+            <trial tag="Trial ${trial}" nsamples="1" sampling_method="cycles" selection="sequential">
+                <task_system tag="Task System ${trial}" interruptible="YES">
+                    <task_system_state tag="Begin State System" interruptible="YES">
+                        <action_marker _unmoveable="1" tag="Actions"></action_marker>
+			% for name, value in param_defaults:
+                           <action type="assignment" tag="Reset ${name}" variable="${name}" value="${value}"></action>
+			% endfor
+                        <action tag="Queue Stimulus" type="${queue_type}" stimulus="movie"></action>
+                        <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                        <transition type="direct" tag="Always Go to ... 2" target="Play movie 0"></transition>
+                    </task_system_state>
+		    % for i, (name, value) in enumerate(param_updates):
+                        <task_system_state tag="Play movie ${i}" interruptible="YES">
+                            <action_marker _unmoveable="1" tag="Actions"></action_marker>
+			    % if name is not None:
+                                <action type="assignment" tag="Update ${name}" variable="${name}" value="${value}"></action>
+			    % endif
+                            <action type="assignment" tag="Reset movie_ended" variable="movie_ended" value="0"></action>
+                            <action tag="Play dynamic stimulus" stimulus="movie" type="play_dynamic_stimulus"></action>
+                            <action tag="Update stimulus display" type="update_stimulus_display"></action>
+                            <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                            <transition type="conditional" tag="If Condition is True, Transition to ..." condition="movie_ended" target="Check for completion ${i}"></transition>
+                        </task_system_state>
+                        <task_system_state tag="Check for completion ${i}" interruptible="YES">
+                            <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                            <action tag="Stop dynamic stimulus" stimulus="movie" type="stop_dynamic_stimulus"></action>
+                            <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+ 		            % if i == (num_changes - 1):
+                                <transition type="direct" tag="Always Go to ..." target="Exit State System"></transition>
+		            % else:
+                                <transition type="direct" tag="Always Go to ..." target="Play movie ${i+1}"></transition>
+		            % endif
+                        </task_system_state>
+		    % endfor
+                    <task_system_state tag="Exit State System" interruptible="YES">
+                        <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                        <action tag="Dequeue Stimulus" type="dequeue_stimulus" stimulus="movie"></action>
+                        <action tag="Update stimulus display 2" type="update_stimulus_display"></action>
+                        <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                        <transition tag="Return to parent task system" type="yield"></transition>
+                    </task_system_state>
+                </task_system>
+            </trial>
+	    % endfor
+        </protocol>
+    </experiment>
+</monkeyml>
