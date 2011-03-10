@@ -29,9 +29,9 @@ namespace mw {
 	
 	std::string removeSpacesFromString(std::string s);
     
-    bool getFilePaths(const std::string &workingPath,
+    void getFilePaths(const std::string &workingPath,
                       const std::string &directoryPath,
                       std::vector<std::string> &filePaths);
-    bool getFilePaths(const std::string &directoryPath, std::vector<std::string> &filePaths);
+    void getFilePaths(const std::string &directoryPath, std::vector<std::string> &filePaths);
 }
 #endif

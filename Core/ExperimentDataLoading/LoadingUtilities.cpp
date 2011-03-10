@@ -364,32 +364,28 @@ namespace mw {
 	}
     
     
-    bool getFilePaths(const std::string &workingPath,
+    void getFilePaths(const std::string &workingPath,
                       const std::string &directoryPath,
                       std::vector<std::string> &filePaths)
     {
         const std::string fullPath(expandPath(workingPath, directoryPath).string());
         
-        if (!getFilePaths(fullPath, filePaths)) {
-            return false;
-        }
+        getFilePaths(fullPath, filePaths);
 
         if (fullPath != directoryPath) {
             for (std::vector<std::string>::iterator iter = filePaths.begin(); iter != filePaths.end(); iter++) {
                 (*iter).erase(0, workingPath.size() + 1);  // +1 for the trailing forward-slash
             }
         }
-        
-        return true;
     }
     
     
-    bool getFilePaths(const std::string &directoryPath, std::vector<std::string> &filePaths) {
+    void getFilePaths(const std::string &directoryPath, std::vector<std::string> &filePaths) {
         namespace bf = boost::filesystem;
         
         bf::path dirPath(directoryPath);
         if (!bf::is_directory(dirPath)) {
-            return false;
+            throw SimpleException("Invalid directory path", directoryPath);
         }
         
         bf::directory_iterator endIter;
@@ -399,7 +395,9 @@ namespace mw {
             }
         }
         
-        return true;
+        if (filePaths.size() == 0) {
+            throw SimpleException("Directory contains no regular files", directoryPath);
+        }
     }
 }
 
