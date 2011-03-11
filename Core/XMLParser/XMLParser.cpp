@@ -19,10 +19,12 @@
 #include <boost/regex.hpp>
 #include <boost/scope_exit.hpp>
 
+#import <Foundation/Foundation.h>
+
 using namespace mw;
 
 namespace mw {
-	void	error_func(void * _parser_context, const char * error, ...){
+	void XMLParser::error_func(void * _parser_context, const char * error, ...){
 		
 		va_list ap;
 		va_start(ap, error);
@@ -40,7 +42,7 @@ namespace mw {
             string error_string((char *)buffer);
             parser->addParserError(error_string);
         }
-		cerr << buffer << endl;
+		//cerr << buffer << endl;
 	}
 }
 
@@ -62,9 +64,7 @@ void XMLParser::setup(shared_ptr<ComponentRegistry> _reg, std::string _path, std
 	// parse the XSLT simplification transform
 	simplification_transform = xsltParseStylesheetFile((const xmlChar *)(_simplification_transform_path.c_str()));
 	
-	// parse the file and get the DOM 
-	xml_doc = xmlCtxtReadFile(context, path.c_str(), NULL, 0);
-	
+	xml_doc = NULL;
 	errors_doc = NULL;
 }
 
@@ -115,7 +115,106 @@ XMLParser::~XMLParser() {
 void XMLParser::validate(){ }
 
 
+static NSString* getFileText(NSString *filePath) {
+    NSStringEncoding enc;
+    NSError *error = nil;
+    NSString *text = [NSString stringWithContentsOfFile:filePath usedEncoding:&enc error:&error];
+    
+    if (error) {
+        throw SimpleException("Cannot load experiment file", [[error localizedDescription] UTF8String]);
+    }
+    
+    return text;
+}
+
+
+static NSString* getFirstTwoLines(NSString *text) {
+    NSUInteger length = 0;
+    NSUInteger linesFound = 0;
+    
+    while ((length < [text length]) && (linesFound < 2)) {
+        NSRange range = [text lineRangeForRange:NSMakeRange(length, 1)];
+        length += range.length;
+        linesFound++;
+    }
+    
+    return [text substringWithRange:NSMakeRange(0, length)];
+}
+
+
+static NSString* extractPreprocessorPath(NSString *text) {
+    static const boost::regex mwppRegex("\\h+mwpp=\"(?<path>.+?)\"");
+    boost::smatch matchResult;
+    
+    if (!boost::regex_search(std::string([text UTF8String]), matchResult, mwppRegex)) {
+        return nil;
+    }
+    
+    return [NSString stringWithUTF8String:(matchResult.str("path").c_str())];
+}
+
+
+static NSData* getPreprocessedFileData(NSString *ppPath, NSString *filePath) {
+    NSTask *task = [[[NSTask alloc] init] autorelease];
+    
+    [task setLaunchPath:ppPath];
+    [task setArguments:[NSArray arrayWithObject:filePath]];
+    [task setStandardOutput:[NSPipe pipe]];
+    [task setStandardError:[NSPipe pipe]];
+    
+    @try {
+        [task launch];
+    } @catch (NSException *exc) {
+        throw SimpleException("Unable to launch preprocessor", [[exc reason] UTF8String]);
+    }
+    
+    NSData *data = [[[task standardOutput] fileHandleForReading] readDataToEndOfFile];
+    [task waitUntilExit];
+    
+    int status = [task terminationStatus];
+    if (0 != status) {
+        NSData *errorData = [[[task standardError] fileHandleForReading] readDataToEndOfFile];
+        std::string errorText((const char *)[errorData bytes], [errorData length]);
+        throw SimpleException("Preprocessor execution failed", errorText);
+    }
+    
+    return data;
+}
+
+
+void XMLParser::loadFile() {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    BOOST_SCOPE_EXIT( (&pool) )
+    {
+        [pool drain];
+    } BOOST_SCOPE_EXIT_END
+    
+    NSString *filePath = [NSString stringWithUTF8String:(path.c_str())];
+    NSString *fileText = getFileText(filePath);
+    NSString *firstTwoLines = getFirstTwoLines(fileText);
+    NSString *ppPath = extractPreprocessorPath(firstTwoLines);
+
+    const char *buffer;
+    NSUInteger size;
+
+    if (!ppPath) {
+        // Didn't find a preprocessor directive, so use the file text as-is
+        buffer = [fileText UTF8String];
+        size = [fileText lengthOfBytesUsingEncoding:NSUTF8StringEncoding];
+    } else {
+        // Found a preprocessor directive, so preprocess the file and use the result
+        NSData *fileData = getPreprocessedFileData(ppPath, filePath);
+        buffer = (const char *)[fileData bytes];
+        size = [fileData length];
+    }
+    
+    xml_doc = xmlCtxtReadMemory(context, buffer, (int)size, path.c_str(), NULL, 0);
+}
+
+
 void XMLParser::parse(bool announce_progress){ 
+    // parse the file and get the DOM 
+    loadFile();
 	
 	if(xml_doc == NULL){
 		string complete_message = "The following parser errors were encountered: \n\n";

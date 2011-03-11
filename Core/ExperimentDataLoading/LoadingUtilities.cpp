@@ -55,7 +55,6 @@ namespace mw {
 		shared_ptr<ComponentRegistry> reg = ComponentRegistry::getSharedRegistry();
 		XMLParser parser(reg, setupPath.string());
 		
-		parser.validate();
 		parser.parse();
 		
 		// check setup variables for validity
@@ -139,7 +138,6 @@ namespace mw {
 		try {
 			XMLParser parser(reg, filepath.string());
 			
-			parser.validate();
 			parser.parse(true);
 			
 		} catch(SimpleException& e){
@@ -359,5 +357,63 @@ namespace mw {
 		}
 		return s;
 	}
+    
+    
+    void getFilePaths(const std::string &workingPath,
+                      const std::string &directoryPath,
+                      std::vector<std::string> &filePaths)
+    {
+        const std::string fullPath(expandPath(workingPath, directoryPath).string());
+        
+        getFilePaths(fullPath, filePaths);
+
+        if (fullPath != directoryPath) {
+            for (std::vector<std::string>::iterator iter = filePaths.begin(); iter != filePaths.end(); iter++) {
+                (*iter).erase(0, workingPath.size() + 1);  // +1 for the trailing forward-slash
+            }
+        }
+    }
+    
+    
+    void getFilePaths(const std::string &directoryPath, std::vector<std::string> &filePaths) {
+        namespace bf = boost::filesystem;
+        
+        bf::path dirPath(directoryPath);
+        if (!bf::is_directory(dirPath)) {
+            throw SimpleException("Invalid directory path", directoryPath);
+        }
+        
+        bf::directory_iterator endIter;
+        for (bf::directory_iterator iter(dirPath); iter != endIter; iter++) {
+            if (bf::is_regular_file(iter->status())) {
+                filePaths.push_back(iter->path().string());
+            }
+        }
+        
+        if (filePaths.size() == 0) {
+            throw SimpleException("Directory contains no regular files", directoryPath);
+        }
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

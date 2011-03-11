@@ -207,6 +207,7 @@ public:
         std::string gettag();
         int getDeferred(){ return deferred; }
         void setDeferred(load_style _deferred){ deferred = _deferred; }
+        void setDeferredFromString(const std::string &deferredString);
   
         /** 
          *  announcement methods // JJD

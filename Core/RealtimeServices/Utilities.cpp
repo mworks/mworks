@@ -27,7 +27,7 @@ using namespace mw;
 namespace mw {
 	// system messages are going to be limited to 1024 characters.
 
-#define MSG_BUFFER_SIZE 1024
+#define MSG_BUFFER_SIZE 2048
 	MessageOrigin GlobalMessageOrigin = M_UNKNOWN_MESSAGE_ORIGIN;
 	
 	bool egg_timer_initialized = false;

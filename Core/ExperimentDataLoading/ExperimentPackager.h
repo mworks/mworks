@@ -49,36 +49,11 @@ class IncludedFilesParser : public XMLParser {
 
 	protected:
 	
-	 Datum manifest;
+        Datum manifest;
 
-	public:
-	
-		IncludedFilesParser(std::string _path):
-									XMLParser(_path, "MWMediaPackagerTransformation.xsl"){
-                    
-			manifest = Datum(M_LIST, 1);
-		}
-		
-		virtual ~IncludedFilesParser(){ }
-	
 		// instead of building experiment, just look for path arguments and save
 		// the results
-		virtual void _processCreateDirective(xmlNode *node){
-		
-			xmlNode *child = node->children;
-			
-			while(child != NULL){
-			
-				string name((const char *)child->name);
-					
-				if(name == "path"){
-          string the_path((const char *)xmlNodeGetContent(child));
-					manifest.addElement(the_path);
-				}
-				
-				child = child->next;
-			}
-		}
+        virtual void _processCreateDirective(xmlNode *node);
 		
 		// don't do anything for these
 		virtual void _processConnectDirective(xmlNode *node){ }
@@ -88,6 +63,16 @@ class IncludedFilesParser : public XMLParser {
 		
 		// let _processRangeReplicator() do its thing
 		
+	public:
+	
+		IncludedFilesParser(std::string _path) :
+            XMLParser(_path, "MWMediaPackagerTransformation.xsl")
+        {
+			manifest = Datum(M_LIST, 1);
+		}
+		
+		virtual ~IncludedFilesParser(){ }
+	
 		virtual Datum getIncludedFilesManifest(){  return manifest; }
 		
 };

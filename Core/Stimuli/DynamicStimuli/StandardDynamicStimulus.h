@@ -15,7 +15,7 @@
 using namespace mw;
 
 
-class StandardDynamicStimulus : public DynamicStimulusDriver, public Stimulus {
+class StandardDynamicStimulus : public Stimulus, public DynamicStimulusDriver {
 
 public:
     StandardDynamicStimulus(const std::string &tag, shared_ptr<Variable> framesPerSecond);

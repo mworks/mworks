@@ -83,7 +83,7 @@ public:
     // Register a given variable for "freezing" (see definition above)
     // Takes any kind of variable as an argument, and then returns a "freezable"
     // version of that variable.
-    shared_ptr<Variable> registerVariable(shared_ptr<Variable> var, bool check_for_duplicates = false){
+    virtual shared_ptr<Variable> registerVariable(shared_ptr<Variable> var, bool check_for_duplicates = false){
         shared_ptr<FreezableVariableContainer> freezable(new FreezableVariableContainer(var));
         variables.push_back(freezable);
         
@@ -91,7 +91,7 @@ public:
     }
     
     // Individually "freeze" 
-    void freeze(bool should_freeze = true){
+    virtual void freeze(bool should_freeze = true){
         
         vector< shared_ptr<FreezableVariableContainer> >::iterator iter;
         for(iter = variables.begin(); iter != variables.end(); ++iter){
@@ -103,7 +103,7 @@ public:
         }
     }
         
-    void thaw(){
+    virtual void thaw(){
         freeze(false);
     }
     

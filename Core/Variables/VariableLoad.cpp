@@ -21,7 +21,6 @@ bool VariableLoad::loadExperimentwideVariables(const boost::filesystem::path &fi
     shared_ptr<ComponentRegistry> reg = ComponentRegistry::getSharedRegistry();
 	XMLParser parser(reg, file.string());
 	
-	parser.validate();
 	parser.parse();
 	
 	return true;
