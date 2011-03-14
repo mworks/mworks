@@ -126,6 +126,7 @@ void RegisteredSingletonTestFixture::destroyTest(){
 	}
 }
 
+/*
 void RegisteredSingletonTestFixture::destroyUnregsiteredTest(){
 	for(int test_loop = 0; test_loop < NUMBER_OF_SINGLETON_TEST_LOOPS; ++test_loop) {
 		boost::shared_ptr <Dummy> dummy_instance = Dummy::instance(false);
@@ -145,6 +146,7 @@ void RegisteredSingletonTestFixture::destroyUnregsiteredTest(){
 		CPPUNIT_ASSERT(dummy_instance == 0);	
 	}
 }
+ */
 
 void RegisteredSingletonTestFixture::tryToGetUnregsiteredTest(){
 	boost::shared_ptr <Dummy> dummy_instance = Dummy::instance(false);

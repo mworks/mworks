@@ -205,6 +205,7 @@ namespace mw {
 		
 		GlobalFilterManager = new FilterManager();
 		
+        OpenALContextManager::destroy();
         shared_ptr<Component> openal_context_manager(new OpenALContextManager());
         OpenALContextManager::registerInstance(openal_context_manager);
         

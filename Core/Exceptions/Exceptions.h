@@ -90,6 +90,7 @@ class NonFatalParserException : public SimpleException{
 public:
         
     NonFatalParserException(string _subject):SimpleException(M_PARSER_MESSAGE_DOMAIN, _subject){}
+    NonFatalParserException(string _message, string _subject):SimpleException(M_PARSER_MESSAGE_DOMAIN, _message, _subject){}
 
 };
 

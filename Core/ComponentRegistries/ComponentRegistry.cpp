@@ -511,14 +511,14 @@ Datum ComponentRegistry::getNumber(std::string expression, GenericDataType type)
                 longValue = (long)doubleValue;
                 if ((double)longValue != doubleValue) {
                     
-                    throw NonFatalParserException("invalid integer literal");
+                    throw NonFatalParserException("invalid integer literal", expression.c_str());
                 }
                 value = Datum(longValue);
             } else {
                 boolValue = (bool)doubleValue;
                 if ((double)boolValue != doubleValue) {
                     
-                    throw NonFatalParserException("invalid boolean literal");
+                    throw NonFatalParserException("invalid boolean literal", expression.c_str());
                 }
                 value = Datum(boolValue);
             }
@@ -533,7 +533,8 @@ Datum ComponentRegistry::getNumber(std::string expression, GenericDataType type)
     data_cache[cacheKey] = shared_ptr<Datum>(new Datum(value));
     return value;
   } catch (NonFatalParserException& e){
-      // ok for now
+      // Until we work out how to effectively flag these issues, treat them as fatal errors
+      throw FatalParserException(e.what());
   } catch (boost::bad_lexical_cast& e){
     // no biggie, we can do this the hard(er) way
   }

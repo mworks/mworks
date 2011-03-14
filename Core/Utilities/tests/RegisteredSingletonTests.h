@@ -33,7 +33,7 @@ class RegisteredSingletonTestFixture : public CppUnit::TestFixture {
 	CPPUNIT_TEST (simpleCreateTestFromGenericComponent);
 	CPPUNIT_TEST (testCreationFromWrongComponent);
 	CPPUNIT_TEST (destroyTest);
-	CPPUNIT_TEST (destroyUnregsiteredTest);
+	//CPPUNIT_TEST (destroyUnregsiteredTest);
 	CPPUNIT_TEST (tryToGetUnregsiteredTest);
 	CPPUNIT_TEST (tryToRegisterMultipleSingletons);
 	CPPUNIT_TEST (tryToRegisterNULLInstance);

@@ -11,8 +11,9 @@ namespace mw{
 
 
 AmbiguousComponentReferenceException::AmbiguousComponentReferenceException(shared_ptr<AmbiguousComponentReference> ref) :
-    SimpleException(M_PARSER_MESSAGE_DOMAIN, "An error has occurred because two objects are referenced by the same name."
-                "Please ensure that all object tag names are unique"),
+    SimpleException(M_PARSER_MESSAGE_DOMAIN,
+                    "An error has occurred because two objects are referenced by the same name.  "
+                    "Please ensure that all object tag names are unique."),
     component_reference(ref){ 
     
     stringstream extended_info;
