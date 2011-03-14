@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <marionette_info>
   <expected_messages>
-    <message type="whole_message">ERROR: Cannot load image: invalid value</message>
+    <message type="contains">Cannot load image: invalid value</message>
     <message type="starts_with">ERROR: Failed to parse experiment </message>
   </expected_messages>
   <expected_events>

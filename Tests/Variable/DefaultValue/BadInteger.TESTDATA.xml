@@ -2,6 +2,8 @@
 <marionette_info>
   <expected_messages>
     <message type="whole_message">ERROR: invalid integer literal: 2.34</message>
+    <message type="whole_message">WARNING: Null object created</message>
+    <message type="contains">Attempt to register empty component: int_var</message>
     <message type="starts_with">ERROR: Failed to parse experiment </message>
   </expected_messages>
   <expected_events>
