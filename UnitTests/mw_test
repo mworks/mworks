@@ -84,6 +84,9 @@ def run_marionette_tests(arch_name, test_names=None):
                     for t in iter_marionette_tests(test):
                         yield t
 
+    env = os.environ.copy()
+    env['MWORKS_WRITE_MESSAGES_TO_STDERR'] = '1'
+
     failed_tests = []
 
     for test_file in test_file_iter():
@@ -112,12 +115,15 @@ def run_marionette_tests(arch_name, test_names=None):
 
         print test_name,
         sys.stdout.flush()
-        status = call(args)
+        cmd = Popen(args, stderr=PIPE, env=env)
+        output = cmd.communicate()[1]
         print ':',
-        if status == 0:
+        if cmd.returncode == 0:
             print 'OK'
         else:
             print 'error'
+            for line in output.strip().split('\n'):
+                print '    >', line
             failed_tests.append(test_name)
 
     return failed_tests
