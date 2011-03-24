@@ -24,7 +24,7 @@ class StandardComponentFactory : public ComponentFactory {
     // ComponentType must implement the following methods:
     //
     // static void describeComponent(ComponentInfo &info);
-    // ComponentType(const ParameterValueMap &parameters);
+    // explicit ComponentType(const ParameterValueMap &parameters);
     //
     
 public:

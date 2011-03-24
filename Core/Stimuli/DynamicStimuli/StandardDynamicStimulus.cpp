@@ -9,9 +9,26 @@
 #include "StandardDynamicStimulus.h"
 
 
+static const std::string FRAMES_PER_SECOND("frames_per_second");
+
+
+void StandardDynamicStimulus::describeComponent(ComponentInfo &info) {
+    Stimulus::describeComponent(info);
+    info.addParameter(FRAMES_PER_SECOND, "refreshRate()");
+}
+
+
 StandardDynamicStimulus::StandardDynamicStimulus(const std::string &tag, shared_ptr<Variable> framesPerSecond) :
     Stimulus(tag),
     DynamicStimulusDriver(shared_ptr<Scheduler>(), registerVariable(framesPerSecond)),
+    lastFrameDrawn(-1)
+{
+}
+
+
+StandardDynamicStimulus::StandardDynamicStimulus(const ParameterValueMap &parameters) :
+    Stimulus(parameters),
+    DynamicStimulusDriver(shared_ptr<Scheduler>(), registerVariable(parameters[FRAMES_PER_SECOND])),
     lastFrameDrawn(-1)
 {
 }

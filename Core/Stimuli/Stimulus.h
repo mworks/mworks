@@ -61,7 +61,7 @@
 
 #define ILUT_USE_OPENGL
 #include <IL/ilut.h>
-namespace mw {
+BEGIN_NAMESPACE(mw)
 typedef int StimID;
 
 // A hack for now
@@ -71,157 +71,164 @@ typedef int StimID;
 #define M_STIMULUS_DISPLAY_TOP_EDGE			17.77
 
 
+class ComponentInfo;
+class ParameterValue;
 class StimulusDisplay; // later in this file...
 
 
 class Stimulus : public Announcable, public mw::Component, public FreezableCollection {
-
+    
 public:
-  
-  enum load_style { deferred_load, nondeferred_load, explicit_load  };
-  
+    
+    enum load_style { deferred_load, nondeferred_load, explicit_load  };
+    
 private:
-        // prevent the use of the = operator.
-        //mStimulus& operator=(const Stimulus& lval) { }
-
+    // prevent the use of the = operator.
+    //mStimulus& operator=(const Stimulus& lval) { }
+    
 protected:
-        bool loaded, visible, cached, has_thumbnail;
-        Stimulus *thumbnail;
-        load_style deferred;
-            
-		
-		bool frozen;
-		
-		/*CollectionPoint *collection_point;*/
-        
+    bool loaded, visible, cached, has_thumbnail;
+    Stimulus *thumbnail;
+    load_style deferred;
+    
+    
+    bool frozen;
+    
+    /*CollectionPoint *collection_point;*/
+    
 public:
-  
-  
-        /**
-         * Default Constructor.  Sets all members to false.
-         */
-        Stimulus(std::string _tag);
-        
-        /**
-         * Copy Constructor.  Deeply copies object
-         */
-        Stimulus(const Stimulus& copy);
-        
-		
-		/**
-		 * "Frozen" clone method:
-		 *
-		 *  Make a new stimulus object with all of the variables converted
-		 *  into constants (effectively "freezing" it in time)
-		 */
-		 //virtual Stimulus *frozenClone(); 
-		
-        /**
-         * Destructor.
-         */
-        virtual ~Stimulus();
-        
-        /**
-         * Overload this function.  This is a shell that does nothing.  Used
-         * to load a stimulus into memory.
-         */
-        virtual void load(shared_ptr<StimulusDisplay> display);
+    static void describeComponent(ComponentInfo &info);
     
-        /**
-         * Overload this function.  This is a shell that does nothing.  Used
-         * to unload a stimulus from memory.
-         */
-        virtual void unload(shared_ptr<StimulusDisplay> display);
+    /**
+     * Default Constructor.  Sets all members to false.
+     */
+    Stimulus(std::string _tag);
     
-        /**
-         * Sets whether this stimulus is visible.
-         */
-        virtual void setVisible(bool newvis);
-
-        /**
-         * Does the stimulus need to be redrawn?  (This is probably useful
-         * only for dynamic stimuli.)
-         */
-        virtual bool needDraw() { return false; }
+    /**
+     * StandardComponentFactory-compatible Constructor.
+     */
+    explicit Stimulus(const Map<ParameterValue> &parameters);
     
-        /**
-         * This is the method that most will want to override
-         * this specifies how to draw the stimulus in the 
-         * interval [(0,1), (0,1)]. 
-         */
-        virtual void drawInUnitSquare(shared_ptr<StimulusDisplay> display);
-
-        /**
-         * Draws a stimulus in display 'display' at 0,0 with size 1,1.
-         * Calls drawInUnitSquare() member function
-         */
-        virtual void draw(shared_ptr<StimulusDisplay> display);
-
-        /**
-         * Draws a stimulus in display 'display' at x,y with size 1,1.
-         * Calls drawInUnitSquare() member function
-         */
-        virtual void draw(shared_ptr<StimulusDisplay> display, float x, float y);
-
-        /**
-         * Draws a stimulus in display 'display' at x,y with size sizex,sizey.
-         * Calls drawInUnitSquare() member function
-         */    
-        virtual void draw(shared_ptr<StimulusDisplay> display, float x, float y, 
-                                                    float sizex, float sizey);
-
-        /**
-         * Option pre-caching optimization. Overload it if you can do it
-         * This version does nothing.
-         */
-        virtual void precache();
-        
-        /**
-         * Draws a thumbnail version.  This default version calls the
-         * draw() function with the same arguments.
-         */
-        virtual void drawThumbnail(shared_ptr<StimulusDisplay> display, 
-														float x, float y);
-
-        /**
-         * Draws a thumbnail version.  This default version calls the
-         * draw() function with the same arguments.
-         */
-        virtual void drawThumbnail(shared_ptr<StimulusDisplay> display, 
-                                                float x, float y, 
-												float sizex, float sizey);
-
-        /**
-         * Returns the bounds of the stimulus.  This version returns NULL.
-         */
-        virtual int* getBounds();
-        
-        /**
-         * Inspection methods.
-         */
-        bool isLoaded();
-        bool isVisible();
-        bool isCached();
-        bool hasThumbnail();
-        Stimulus * getThumbnail();
-        std::string gettag();
-        int getDeferred(){ return deferred; }
-        void setDeferred(load_style _deferred){ deferred = _deferred; }
-        void setDeferredFromString(const std::string &deferredString);
-  
-        /** 
-         *  announcement methods // JJD
-         *  two methods are used to do different behavior for draw vs. erase
-        */
-        virtual void announceStimulusDraw(MWTime now); 
-
-        
-        // these method should be overriden to provide more announcement detail       
-        virtual Datum getCurrentAnnounceDrawData();  
-        
-		
-		void setIsFrozen(bool _isit){  frozen = _isit; }
-        
+    /**
+     * Copy Constructor.  Deeply copies object
+     */
+    Stimulus(const Stimulus& copy);
+    
+    
+    /**
+     * "Frozen" clone method:
+     *
+     *  Make a new stimulus object with all of the variables converted
+     *  into constants (effectively "freezing" it in time)
+     */
+    //virtual Stimulus *frozenClone(); 
+    
+    /**
+     * Destructor.
+     */
+    virtual ~Stimulus();
+    
+    /**
+     * Overload this function.  This is a shell that does nothing.  Used
+     * to load a stimulus into memory.
+     */
+    virtual void load(shared_ptr<StimulusDisplay> display);
+    
+    /**
+     * Overload this function.  This is a shell that does nothing.  Used
+     * to unload a stimulus from memory.
+     */
+    virtual void unload(shared_ptr<StimulusDisplay> display);
+    
+    /**
+     * Sets whether this stimulus is visible.
+     */
+    virtual void setVisible(bool newvis);
+    
+    /**
+     * Does the stimulus need to be redrawn?  (This is probably useful
+     * only for dynamic stimuli.)
+     */
+    virtual bool needDraw() { return false; }
+    
+    /**
+     * This is the method that most will want to override
+     * this specifies how to draw the stimulus in the 
+     * interval [(0,1), (0,1)]. 
+     */
+    virtual void drawInUnitSquare(shared_ptr<StimulusDisplay> display);
+    
+    /**
+     * Draws a stimulus in display 'display' at 0,0 with size 1,1.
+     * Calls drawInUnitSquare() member function
+     */
+    virtual void draw(shared_ptr<StimulusDisplay> display);
+    
+    /**
+     * Draws a stimulus in display 'display' at x,y with size 1,1.
+     * Calls drawInUnitSquare() member function
+     */
+    virtual void draw(shared_ptr<StimulusDisplay> display, float x, float y);
+    
+    /**
+     * Draws a stimulus in display 'display' at x,y with size sizex,sizey.
+     * Calls drawInUnitSquare() member function
+     */    
+    virtual void draw(shared_ptr<StimulusDisplay> display, float x, float y, 
+                      float sizex, float sizey);
+    
+    /**
+     * Option pre-caching optimization. Overload it if you can do it
+     * This version does nothing.
+     */
+    virtual void precache();
+    
+    /**
+     * Draws a thumbnail version.  This default version calls the
+     * draw() function with the same arguments.
+     */
+    virtual void drawThumbnail(shared_ptr<StimulusDisplay> display, 
+                               float x, float y);
+    
+    /**
+     * Draws a thumbnail version.  This default version calls the
+     * draw() function with the same arguments.
+     */
+    virtual void drawThumbnail(shared_ptr<StimulusDisplay> display, 
+                               float x, float y, 
+                               float sizex, float sizey);
+    
+    /**
+     * Returns the bounds of the stimulus.  This version returns NULL.
+     */
+    virtual int* getBounds();
+    
+    /**
+     * Inspection methods.
+     */
+    bool isLoaded();
+    bool isVisible();
+    bool isCached();
+    bool hasThumbnail();
+    Stimulus * getThumbnail();
+    std::string gettag();
+    int getDeferred(){ return deferred; }
+    void setDeferred(load_style _deferred){ deferred = _deferred; }
+    void setDeferredFromString(const std::string &deferredString);
+    
+    /** 
+     *  announcement methods // JJD
+     *  two methods are used to do different behavior for draw vs. erase
+     */
+    virtual void announceStimulusDraw(MWTime now); 
+    
+    
+    // these method should be overriden to provide more announcement detail       
+    virtual Datum getCurrentAnnounceDrawData();  
+    
+    
+    void setIsFrozen(bool _isit){  frozen = _isit; }
+    
 };
 
 
@@ -259,5 +266,5 @@ public:
 						  shared_ptr<mw::Component> child);
 	
 };
-}
+END_NAMESPACE(mw)
 #endif

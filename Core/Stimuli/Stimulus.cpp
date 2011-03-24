@@ -12,6 +12,8 @@
 #include "Stimulus.h"
 #include "StandardVariables.h"
 //#include "Utilities.h"
+#include "ComponentInfo.h"
+#include "ParameterValue.h"
 
 #include "OpenGLContextManager.h"
 
@@ -164,10 +166,15 @@ shared_ptr<mw::Component> StimulusGroup::createObject(std::map<std::string, std:
 }
 
 
+void Stimulus::describeComponent(ComponentInfo &info) {
+    info.addParameter("tag");
+}
 
 
-Stimulus::Stimulus(std::string _tag):Announcable(ANNOUNCE_STIMULUS_TAGNAME),
-									   mw::Component(_tag){
+Stimulus::Stimulus(std::string _tag) :
+    Announcable(ANNOUNCE_STIMULUS_TAGNAME),
+    mw::Component(_tag)
+{
     //mdebug("Stimulus constructor called %x", this);
     loaded = false;
     visible = false;
@@ -178,6 +185,19 @@ Stimulus::Stimulus(std::string _tag):Announcable(ANNOUNCE_STIMULUS_TAGNAME),
     deferred = Stimulus::nondeferred_load;
 	frozen = false;
 }
+
+
+Stimulus::Stimulus(const ParameterValueMap &parameters) :
+    Announcable(ANNOUNCE_STIMULUS_TAGNAME),
+    mw::Component(parameters["tag"].getValue()),
+    loaded(false),
+    visible(false),
+    cached(false),
+    has_thumbnail(false),
+    thumbnail(NULL),
+    deferred(Stimulus::nondeferred_load),
+    frozen(false)
+{ }
 
 
 Stimulus::Stimulus(const Stimulus& copy):

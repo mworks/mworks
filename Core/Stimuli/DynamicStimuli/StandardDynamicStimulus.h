@@ -10,7 +10,9 @@
 #define StandardDynamicStimulus_H_
 
 #include "DynamicStimulusDriver.h"
-#include "MWorksCore/Stimulus.h"
+#include "Stimulus.h"
+#include "ComponentInfo.h"
+#include "ParameterValue.h"
 
 using namespace mw;
 
@@ -18,7 +20,10 @@ using namespace mw;
 class StandardDynamicStimulus : public Stimulus, public DynamicStimulusDriver {
 
 public:
+    static void describeComponent(ComponentInfo &info);
+
     StandardDynamicStimulus(const std::string &tag, shared_ptr<Variable> framesPerSecond);
+    explicit StandardDynamicStimulus(const ParameterValueMap &parameters);
     
     virtual ~StandardDynamicStimulus() { }
 
