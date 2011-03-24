@@ -10,7 +10,10 @@
 #include "DynamicStimulusActionFactories.h"
 #include "PlayDynamicStimulus.h"
 #include "StopDynamicStimulus.h"
-using namespace mw;
+
+
+BEGIN_NAMESPACE(mw)
+
 
 shared_ptr<mw::Component> PlayDynamicStimulusFactory::createObject(std::map<std::string, std::string> parameters,
                                                                     mw::ComponentRegistry *reg) {
@@ -41,3 +44,4 @@ shared_ptr<mw::Component> StopDynamicStimulusFactory::createObject(std::map<std:
 }
 
 
+END_NAMESPACE(mw)

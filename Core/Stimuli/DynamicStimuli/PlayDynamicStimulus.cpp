@@ -9,12 +9,17 @@
 
 #include "PlayDynamicStimulus.h"
 
+
+BEGIN_NAMESPACE(mw)
+
+
 PlayDynamicStimulus::PlayDynamicStimulus(shared_ptr<StimulusNode> stimNode) :
     Action(),
     stimNode(stimNode)
 {
 	setName("PlayDynamicStimulus");
 }
+
 
 bool PlayDynamicStimulus::execute() {	
 	shared_ptr<DynamicStimulusDriver> dynamicStim(dynamic_pointer_cast<DynamicStimulusDriver>(stimNode->getStimulus()));
@@ -28,3 +33,5 @@ bool PlayDynamicStimulus::execute() {
     return true;
 }
 
+
+END_NAMESPACE(mw)

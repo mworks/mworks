@@ -14,7 +14,8 @@
 #include "ComponentInfo.h"
 #include "ParameterValue.h"
 
-using namespace mw;
+
+BEGIN_NAMESPACE(mw)
 
 
 class StandardDynamicStimulus : public Stimulus, public DynamicStimulusDriver {
@@ -39,6 +40,9 @@ protected:
     int lastFrameDrawn;
     
 };
+
+
+END_NAMESPACE(mw)
 
 
 #endif 

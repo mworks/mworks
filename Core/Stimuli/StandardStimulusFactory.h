@@ -23,7 +23,7 @@ class StandardStimulusFactory : public StandardComponentFactory<StimulusType> {
     
 public:
     virtual boost::shared_ptr<mw::Component> createObject(ComponentFactory::StdStringMap parameters,
-                                                          ComponentRegistry *reg)
+                                                          ComponentRegistryPtr reg)
     {
         ParameterValueMap values;
         boost::shared_ptr<StimulusType> stim(StandardComponentFactory<StimulusType>::createObject(parameters,

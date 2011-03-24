@@ -9,6 +9,9 @@
 #include "StandardDynamicStimulus.h"
 
 
+BEGIN_NAMESPACE(mw)
+
+
 static const std::string FRAMES_PER_SECOND("frames_per_second");
 
 
@@ -67,6 +70,9 @@ Datum StandardDynamicStimulus::getCurrentAnnounceDrawData() {
     announceData.addElement("start_time", start_time);  
     return announceData;
 }
+
+
+END_NAMESPACE(mw)
 
 
 

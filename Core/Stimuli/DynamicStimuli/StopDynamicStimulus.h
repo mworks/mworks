@@ -13,7 +13,9 @@
 #include "TrialBuildingBlocks.h"
 #include "DynamicStimulusDriver.h"
 
-using namespace mw;
+
+BEGIN_NAMESPACE(mw)
+
 
 class StopDynamicStimulus : public Action {	
 protected:
@@ -22,6 +24,10 @@ public:
 	StopDynamicStimulus(shared_ptr<StimulusNode> stimNode);
 	virtual bool execute();
 };
+
+
+END_NAMESPACE(mw)
+
 
 #endif 
 // STOP_DYNAMIC_STIMULUS_ACTION_H_

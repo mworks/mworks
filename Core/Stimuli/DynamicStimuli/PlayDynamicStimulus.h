@@ -13,7 +13,9 @@
 #include "TrialBuildingBlocks.h"
 #include "DynamicStimulusDriver.h"
 
-using namespace mw;
+
+BEGIN_NAMESPACE(mw)
+
 
 class PlayDynamicStimulus : public Action {	
 protected:
@@ -26,6 +28,7 @@ public:
 };
 
 
+END_NAMESPACE(mw)
 
 
 #endif 

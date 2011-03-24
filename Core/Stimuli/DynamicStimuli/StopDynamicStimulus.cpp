@@ -9,12 +9,17 @@
 
 #include "StopDynamicStimulus.h"
 
+
+BEGIN_NAMESPACE(mw)
+
+
 StopDynamicStimulus::StopDynamicStimulus(shared_ptr<StimulusNode> stimNode) : 
     Action(),
     stimNode(stimNode)
 {
 	setName("StopDynamicStimulus");
 }
+
 
 bool StopDynamicStimulus::execute() {	
 	shared_ptr<DynamicStimulusDriver> dynamicStim(dynamic_pointer_cast<DynamicStimulusDriver>(stimNode->getStimulus()));
@@ -27,3 +32,6 @@ bool StopDynamicStimulus::execute() {
 	dynamicStim->stop();
     return true;
 }
+
+
+END_NAMESPACE(mw)
