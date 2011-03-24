@@ -10,20 +10,47 @@
 #include "ComponentFactory.h"
 #include "GenericVariable.h"
 #include "ComponentRegistry.h"
+#include "ParameterValue.h"
 
-using namespace mw;
 
-namespace mw {
-	const mw::Component *InvalidObject = new mw::Component();
+BEGIN_NAMESPACE(mw)
+
+
+const mw::Component *InvalidObject = new mw::Component();
+
+
+void ComponentFactory::processParameters(StdStringMap &parameters, ComponentRegistryPtr reg, ParameterValueMap &values)
+{
+    requireAttributes(parameters, info.getRequiredParameters());
+    
+    const ParameterInfoMap &infoMap = info.getParameters();
+    
+    for (StdStringMap::iterator param = parameters.begin(); param != parameters.end(); param++) {
+        const std::string &name = (*param).first;
+        ParameterInfoMap::const_iterator iter = infoMap.find(name);
+        
+        if ((iter == infoMap.end()) && !isInternalParameter(name)) {
+            std::string referenceID("<unknown object>");
+            if (parameters.find("reference_id") != parameters.end()) {
+                referenceID = parameters["reference_id"];
+            }
+            throw UnknownAttributeException(referenceID, name);
+        }
+        
+        const std::string &value = (*param).second;
+        const ParameterInfo &info = (*iter).second;
+        
+        values.insert(std::make_pair(name, ParameterValue(value, reg)));
+    }
 }
 
-void ComponentFactory::requireAttributes(std::map<std::string, std::string> parameters,
-                                         std::vector<std::string> requiredAttributes) {
-	
-	for(std::vector<std::string>::const_iterator i = requiredAttributes.begin();
+
+void ComponentFactory::requireAttributes(StdStringMap parameters, StdStringVector requiredAttributes)
+{
+	for(StdStringVector::const_iterator i = requiredAttributes.begin();
 		i != requiredAttributes.end();
 		++i) {
-		std::map<std::string, std::string>::const_iterator attribute = parameters.find(*i);
+		StdStringMap::const_iterator attribute = parameters.find(*i);
 		if(attribute == parameters.end()) {
 			string reference_id("<unknown object>");
             if(parameters.find("reference_id") != parameters.end()){
@@ -41,14 +68,41 @@ void ComponentFactory::requireAttributes(std::map<std::string, std::string> para
 	}
 }
 
-void ComponentFactory::checkAttribute(const shared_ptr<mw::Component> &component,
-									   const std::string &refID,
-									   const std::string &name,
-									   const std::string &value) {
+
+void ComponentFactory::checkAttribute(shared_ptr<mw::Component> component,
+                                      const std::string &refID,
+                                      const std::string &name,
+                                      const std::string &value)
+{
 	if(component == 0) {
 		throw MissingReferenceException(refID, name, value);		
 	} else if(component.get() == InvalidObject) {
 		throw InvalidReferenceException(refID, name, value);				
 	}
 }
+
+
+END_NAMESPACE(mw)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

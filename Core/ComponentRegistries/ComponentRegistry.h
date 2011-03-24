@@ -94,6 +94,12 @@ namespace mw {
 							 ComponentFactory *factory);
 		
 		shared_ptr<ComponentFactory> getFactory(std::string type_name);
+        
+        template< template<typename> class FactoryTemplate, typename ComponentType >
+        void registerFactory() {
+            FactoryTemplate<ComponentType> *factory = new FactoryTemplate<ComponentType>();
+            registerFactory(factory->getComponentInfo().getSignature(), (ComponentFactory *)factory);
+        }
 		
 		
 		// Instance-oriented methods
@@ -231,6 +237,9 @@ namespace mw {
 	};
 	
     
+    // TODO: Once existing code has been updated to use this typedef,
+    // it should be redefined as boost::shared_ptr<ComponentRegistry>
+    typedef ComponentRegistry* ComponentRegistryPtr;
     
 	
 }

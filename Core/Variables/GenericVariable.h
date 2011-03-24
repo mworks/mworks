@@ -49,6 +49,7 @@
 #ifndef GENERIC_VARIABLE_H
 #define GENERIC_VARIABLE_H
 
+#include "MWorksMacros.h"
 #include "Component.h"
 #include "ComponentFactory.h"
 #include "GenericData.h"
@@ -59,7 +60,7 @@
 #include <boost/shared_ptr.hpp>
 #include <boost/weak_ptr.hpp>
 #include <list>
-namespace mw {
+BEGIN_NAMESPACE(mw)
 class EventBuffer;
 
 using namespace boost;
@@ -222,7 +223,10 @@ public:
 						  ComponentRegistry *reg,
 						  shared_ptr<mw::Component> child);
 };
-		
+
+
+typedef boost::shared_ptr<Variable> VariablePtr;
+
 
 class VariableFactory : public ComponentFactory {
 
@@ -252,7 +256,7 @@ public:
 	}
 
 };
-}
+END_NAMESPACE(mw)
 
 #endif
 

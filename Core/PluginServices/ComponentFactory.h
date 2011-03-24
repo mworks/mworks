@@ -14,11 +14,16 @@
 
 #include "Component.h"
 #include "ComponentFactoryException.h"
+#include "ComponentInfo.h"
 #include <boost/shared_ptr.hpp>
 #include <map>
 #include <string>
 #include <vector>
-namespace mw {
+
+
+BEGIN_NAMESPACE(mw)
+
+
 extern const mw::Component *InvalidObject;
 
 #define REQUIRE_ATTRIBUTES(parameters, attributes...) {\
@@ -45,27 +50,72 @@ using namespace boost;
 using namespace std;
 
 class ComponentRegistry;  // forward declaration
+class ParameterValue;
 class Variable;
 
+
 class ComponentFactory {
+    
+public:
+    typedef std::map<std::string, std::string> StdStringMap;
+    typedef std::vector<std::string> StdStringVector;
+    
+	ComponentFactory() { }
+	virtual ~ComponentFactory() { }
+    
+    const ComponentInfo& getComponentInfo() const {
+        return info;
+    }
+	
+	virtual shared_ptr<mw::Component> createObject(StdStringMap parameters, ComponentRegistry *reg) {
+        return shared_ptr<mw::Component>();
+    }
+    
 protected:
-	virtual void requireAttributes(map<string, string> parameters,
-								   vector<string> attributes);
-	virtual void checkAttribute(const shared_ptr<mw::Component> &component,
+    static bool isInternalParameter(const std::string &name) {
+        // Identify parameters added by the parser
+        return ((name == "reference_id") ||
+                (name == "type") ||
+                (name == "variable_assignment") ||
+                (name == "working_path") ||
+                (name == "xml_document_path"));
+    }
+    
+    void processParameters(StdStringMap &parameters, ComponentRegistry *reg, Map<ParameterValue> &values);
+    virtual void requireAttributes(StdStringMap parameters, StdStringVector attributes);
+    virtual void checkAttribute(shared_ptr<mw::Component> component,
 								const string &refID,
 								const string &name,
 								const string &value);
-	
     
-public:
-	ComponentFactory(){ }
-	virtual ~ComponentFactory(){ }
-	
-	virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-                                                   ComponentRegistry *reg){
-		return shared_ptr<mw::Component>();
-	}
+    ComponentInfo info;
+    
 };
-}
+
+
+END_NAMESPACE(mw)
+
+
 #endif
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

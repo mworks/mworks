@@ -7,9 +7,11 @@
  *
  */
 
+#include "MWorksMacros.h"
+
 #ifndef COMPONENT_FACTORY_EXCEPTION_H_
 #define COMPONENT_FACTORY_EXCEPTION_H_
-namespace mw {
+BEGIN_NAMESPACE(mw)
 class ComponentFactoryException : public std::exception {
 protected:
 	std::string _what;
@@ -43,6 +45,21 @@ public:
 	virtual const char* what() const throw() {
 		return _what.c_str();
 	}
+};
+
+class UnknownAttributeException : public ComponentFactoryException {
+public:
+    UnknownAttributeException(const std::string &referenceID, const std::string &attributeName) :
+        ComponentFactoryException(referenceID)
+    {
+        _what = "Unknown attribute: \"" + attributeName + "\"";
+    }
+    
+    virtual ~UnknownAttributeException() throw() {}
+    
+    virtual const char* what() const throw() {
+        return _what.c_str();
+    }
 };
 
 class InvalidReferenceException : public ComponentFactoryException {
@@ -92,6 +109,6 @@ public:
 		return _what.c_str();
 	}
 };
-}
+END_NAMESPACE(mw)
 
 #endif

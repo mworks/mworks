@@ -452,6 +452,12 @@
 		DA96C0E70988546D0007610D /* ExperimentPackager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA96C0E50988546D0007610D /* ExperimentPackager.cpp */; };
 		E104A8A2133B829F00D36236 /* MapTest.h in Headers */ = {isa = PBXBuildFile; fileRef = E104A8A0133B829F00D36236 /* MapTest.h */; };
 		E104A8A3133B829F00D36236 /* MapTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E104A8A1133B829F00D36236 /* MapTest.cpp */; };
+		E104A8D4133B8D3E00D36236 /* ComponentInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = E104A8D3133B8D3E00D36236 /* ComponentInfo.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E104A8D8133B8D5900D36236 /* ParameterInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = E104A8D7133B8D5900D36236 /* ParameterInfo.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E104A8DD133B8D7200D36236 /* ParameterValue.h in Headers */ = {isa = PBXBuildFile; fileRef = E104A8DB133B8D7200D36236 /* ParameterValue.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E104A8DE133B8D7200D36236 /* ParameterValue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E104A8DC133B8D7200D36236 /* ParameterValue.cpp */; };
+		E104A8F0133B8D9700D36236 /* StandardComponentFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = E104A8EF133B8D9700D36236 /* StandardComponentFactory.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E104A8F4133B8DB400D36236 /* StandardStimulusFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = E104A8F3133B8DB400D36236 /* StandardStimulusFactory.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E11AFFBD118F865C0034CC04 /* IODevice.h in Headers */ = {isa = PBXBuildFile; fileRef = E11AFFBC118F865C0034CC04 /* IODevice.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E127D38C133A5CFC00532496 /* Map.h in Headers */ = {isa = PBXBuildFile; fileRef = E127D38B133A5CFC00532496 /* Map.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E127D3AD133A615C00532496 /* MWorksMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = E127D3AC133A615C00532496 /* MWorksMacros.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1108,6 +1114,12 @@
 		DA96C0E50988546D0007610D /* ExperimentPackager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ExperimentPackager.cpp; path = Core/ExperimentDataLoading/ExperimentPackager.cpp; sourceTree = SOURCE_ROOT; };
 		E104A8A0133B829F00D36236 /* MapTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapTest.h; sourceTree = "<group>"; };
 		E104A8A1133B829F00D36236 /* MapTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MapTest.cpp; sourceTree = "<group>"; };
+		E104A8D3133B8D3E00D36236 /* ComponentInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ComponentInfo.h; path = Core/PluginServices/ComponentInfo.h; sourceTree = "<group>"; };
+		E104A8D7133B8D5900D36236 /* ParameterInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ParameterInfo.h; path = Core/PluginServices/ParameterInfo.h; sourceTree = "<group>"; };
+		E104A8DB133B8D7200D36236 /* ParameterValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ParameterValue.h; path = Core/PluginServices/ParameterValue.h; sourceTree = "<group>"; };
+		E104A8DC133B8D7200D36236 /* ParameterValue.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ParameterValue.cpp; path = Core/PluginServices/ParameterValue.cpp; sourceTree = "<group>"; };
+		E104A8EF133B8D9700D36236 /* StandardComponentFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StandardComponentFactory.h; path = Core/PluginServices/StandardComponentFactory.h; sourceTree = "<group>"; };
+		E104A8F3133B8DB400D36236 /* StandardStimulusFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StandardStimulusFactory.h; path = Core/Stimuli/StandardStimulusFactory.h; sourceTree = "<group>"; };
 		E11542181193471F00DDE09D /* mw_test */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = mw_test; sourceTree = "<group>"; };
 		E11AFFBC118F865C0034CC04 /* IODevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IODevice.h; path = Core/IODevices/IODevice.h; sourceTree = "<group>"; };
 		E127D38B133A5CFC00532496 /* Map.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Map.h; sourceTree = "<group>"; };
@@ -1981,17 +1993,22 @@
 			isa = PBXGroup;
 			children = (
 				5C37489509EC248900F8265F /* tests */,
+				E104A8D7133B8D5900D36236 /* ParameterInfo.h */,
+				E104A8D3133B8D3E00D36236 /* ComponentInfo.h */,
 				5CE30A4D0CFA49D600BEB3E3 /* Component.h */,
 				5CE30A4E0CFA49D600BEB3E3 /* Component.cpp */,
 				DA2CE10D07E9F85800C68AEF /* ComponentRegistry.h */,
 				DA2CE10C07E9F85800C68AEF /* ComponentRegistry.cpp */,
+				E104A8DB133B8D7200D36236 /* ParameterValue.h */,
+				E104A8DC133B8D7200D36236 /* ParameterValue.cpp */,
+				0E88D1710D04708A00D7D273 /* ComponentFactoryException.h */,
 				DA2CE19507E9F94B00C68AEF /* ComponentFactory.h */,
 				DA2CE19407E9F94B00C68AEF /* ComponentFactory.cpp */,
+				E104A8EF133B8D9700D36236 /* StandardComponentFactory.h */,
 				DA2CE19707E9F94B00C68AEF /* Plugin.h */,
 				DA2CE19607E9F94B00C68AEF /* Plugin.cpp */,
 				DA2CE19807E9F94B00C68AEF /* PluginServices.cpp */,
 				DA2CE19907E9F94B00C68AEF /* PluginServices.h */,
-				0E88D1710D04708A00D7D273 /* ComponentFactoryException.h */,
 			);
 			name = "Components and Plugins";
 			sourceTree = "<group>";
@@ -2014,6 +2031,7 @@
 				DA2CE1CF07E9F96E00C68AEF /* StimulusDisplay.cpp */,
 				5C76674D0C1BB28C00B1203C /* StimulusNode.h */,
 				5C76674E0C1BB28C00B1203C /* StimulusNode.cpp */,
+				E104A8F3133B8DB400D36236 /* StandardStimulusFactory.h */,
 			);
 			name = VisualStimuli;
 			sourceTree = SOURCE_ROOT;
@@ -2475,6 +2493,11 @@
 				5C5FA530126FBA0C00468660 /* PythonConduits.h in Headers */,
 				E127D38C133A5CFC00532496 /* Map.h in Headers */,
 				E127D3AD133A615C00532496 /* MWorksMacros.h in Headers */,
+				E104A8D4133B8D3E00D36236 /* ComponentInfo.h in Headers */,
+				E104A8D8133B8D5900D36236 /* ParameterInfo.h in Headers */,
+				E104A8DD133B8D7200D36236 /* ParameterValue.h in Headers */,
+				E104A8F0133B8D9700D36236 /* StandardComponentFactory.h in Headers */,
+				E104A8F4133B8DB400D36236 /* StandardStimulusFactory.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3173,6 +3196,7 @@
 				5C8101A711A2DE1600050690 /* VideoFilterShader.cpp in Sources */,
 				E13BD56812130E6800DF5C02 /* StandardDynamicStimulus.cpp in Sources */,
 				5C0BB1F1126CDA1900387C54 /* AccumulatingConduit.cpp in Sources */,
+				E104A8DE133B8D7200D36236 /* ParameterValue.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
