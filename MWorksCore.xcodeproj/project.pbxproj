@@ -450,7 +450,11 @@
 		DA96B90909819B4E0007610D /* CoreBuilderForeman.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA96B90709819B4E0007610D /* CoreBuilderForeman.cpp */; };
 		DA96C0E60988546D0007610D /* ExperimentPackager.h in Headers */ = {isa = PBXBuildFile; fileRef = DA96C0E40988546D0007610D /* ExperimentPackager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DA96C0E70988546D0007610D /* ExperimentPackager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA96C0E50988546D0007610D /* ExperimentPackager.cpp */; };
+		E104A8A2133B829F00D36236 /* MapTest.h in Headers */ = {isa = PBXBuildFile; fileRef = E104A8A0133B829F00D36236 /* MapTest.h */; };
+		E104A8A3133B829F00D36236 /* MapTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E104A8A1133B829F00D36236 /* MapTest.cpp */; };
 		E11AFFBD118F865C0034CC04 /* IODevice.h in Headers */ = {isa = PBXBuildFile; fileRef = E11AFFBC118F865C0034CC04 /* IODevice.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E127D38C133A5CFC00532496 /* Map.h in Headers */ = {isa = PBXBuildFile; fileRef = E127D38B133A5CFC00532496 /* Map.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E127D3AD133A615C00532496 /* MWorksMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = E127D3AC133A615C00532496 /* MWorksMacros.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E13BD56812130E6800DF5C02 /* StandardDynamicStimulus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E13BD56612130E6800DF5C02 /* StandardDynamicStimulus.cpp */; };
 		E13BD56912130E6800DF5C02 /* StandardDynamicStimulus.h in Headers */ = {isa = PBXBuildFile; fileRef = E13BD56712130E6800DF5C02 /* StandardDynamicStimulus.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1F65DF9119086A100F9A3A3 /* IODevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1F65DF8119086A100F9A3A3 /* IODevice.cpp */; };
@@ -1102,8 +1106,12 @@
 		DA96B90709819B4E0007610D /* CoreBuilderForeman.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CoreBuilderForeman.cpp; path = Core/CoreBuilders/CoreBuilderForeman.cpp; sourceTree = SOURCE_ROOT; };
 		DA96C0E40988546D0007610D /* ExperimentPackager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ExperimentPackager.h; path = Core/ExperimentDataLoading/ExperimentPackager.h; sourceTree = SOURCE_ROOT; };
 		DA96C0E50988546D0007610D /* ExperimentPackager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ExperimentPackager.cpp; path = Core/ExperimentDataLoading/ExperimentPackager.cpp; sourceTree = SOURCE_ROOT; };
+		E104A8A0133B829F00D36236 /* MapTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapTest.h; sourceTree = "<group>"; };
+		E104A8A1133B829F00D36236 /* MapTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MapTest.cpp; sourceTree = "<group>"; };
 		E11542181193471F00DDE09D /* mw_test */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = mw_test; sourceTree = "<group>"; };
 		E11AFFBC118F865C0034CC04 /* IODevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IODevice.h; path = Core/IODevices/IODevice.h; sourceTree = "<group>"; };
+		E127D38B133A5CFC00532496 /* Map.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Map.h; sourceTree = "<group>"; };
+		E127D3AC133A615C00532496 /* MWorksMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MWorksMacros.h; path = Core/MWorksMacros.h; sourceTree = "<group>"; };
 		E13BD56612130E6800DF5C02 /* StandardDynamicStimulus.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StandardDynamicStimulus.cpp; sourceTree = "<group>"; };
 		E13BD56712130E6800DF5C02 /* StandardDynamicStimulus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StandardDynamicStimulus.h; sourceTree = "<group>"; };
 		E1F65DF8119086A100F9A3A3 /* IODevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IODevice.cpp; path = Core/IODevices/IODevice.cpp; sourceTree = "<group>"; };
@@ -1236,6 +1244,7 @@
 				0E9AD30A0AD94214009C0B0B /* Clonable.h */,
 				0E9AD3090AD94214009C0B0B /* Clonable.cpp */,
 				5C7CF4ED0BC6B48D00434931 /* LinkedList.h */,
+				E127D38B133A5CFC00532496 /* Map.h */,
 			);
 			name = GenericStructures;
 			path = Core/GenericStructures;
@@ -1248,6 +1257,8 @@
 				0E9AD3130AD94214009C0B0B /* ExpandableListTest.h */,
 				5CE65B930B619C930060AB37 /* LinkedListTest.h */,
 				5CE65B940B619C930060AB37 /* LinkedListTest.cpp */,
+				E104A8A0133B829F00D36236 /* MapTest.h */,
+				E104A8A1133B829F00D36236 /* MapTest.cpp */,
 			);
 			path = tests;
 			sourceTree = "<group>";
@@ -1786,6 +1797,7 @@
 			isa = PBXGroup;
 			children = (
 				0EF2B66E0EBB6EB30088F58F /* tests */,
+				E127D3AC133A615C00532496 /* MWorksMacros.h */,
 				5C866A98086E1E43006CBE6F /* MWorksTypes.h */,
 				DA2CE1AF07E9F95600C68AEF /* Utilities.h */,
 				DA2CE1AE07E9F95600C68AEF /* Utilities.cpp */,
@@ -2305,6 +2317,7 @@
 				5CA078EA10CED4FD00000A95 /* PythonConduitServerTest.h in Headers */,
 				5CA07B9010D0B23B00000A95 /* EventCallbackHandlerTest.h in Headers */,
 				5CA07BB310D0B4D200000A95 /* CodecAwareConduitTest.h in Headers */,
+				E104A8A2133B829F00D36236 /* MapTest.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2460,6 +2473,8 @@
 				E13BD56912130E6800DF5C02 /* StandardDynamicStimulus.h in Headers */,
 				5C0BB1F2126CDA1900387C54 /* AccumulatingConduit.h in Headers */,
 				5C5FA530126FBA0C00468660 /* PythonConduits.h in Headers */,
+				E127D38C133A5CFC00532496 /* Map.h in Headers */,
+				E127D3AD133A615C00532496 /* MWorksMacros.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2987,6 +3002,7 @@
 				5CA0792110CEDD1300000A95 /* EventHandlerConduitTest.cpp in Sources */,
 				5CA07B9110D0B23B00000A95 /* EventCallbackHandlerTest.cpp in Sources */,
 				5CA07BB410D0B4D200000A95 /* CodecAwareConduitTest.cpp in Sources */,
+				E104A8A3133B829F00D36236 /* MapTest.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
