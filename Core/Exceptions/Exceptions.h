@@ -163,12 +163,12 @@ public:
 
 class UnknownExpressionException : public SimpleException {
 public:
-    UnknownExpressionException(string _subject) : SimpleException(M_PARSER_MESSAGE_DOMAIN, "Invalid expression: ", _subject){ }
+    UnknownExpressionException(string _subject) : SimpleException(M_PARSER_MESSAGE_DOMAIN, "Invalid expression", _subject){ }
 };
 
 class UnknownVariableException : public SimpleException {
 public:
-    UnknownVariableException(string _subject) : SimpleException(M_PARSER_MESSAGE_DOMAIN, "Invalid variable definition: ", _subject){ }
+    UnknownVariableException(string _subject) : SimpleException(M_PARSER_MESSAGE_DOMAIN, "Invalid variable definition", _subject){ }
 };
 
 
@@ -179,7 +179,7 @@ class ComponentFactoryConflictException : public SimpleException{
 public:
     
     ComponentFactoryConflictException(string _subject) : 
-        SimpleException(M_PLUGIN_MESSAGE_DOMAIN, "A plugin has attempted to redefine the behavior of an existing component signature.", _subject){
+        SimpleException(M_PLUGIN_MESSAGE_DOMAIN, "A plugin has attempted to redefine the behavior of an existing component signature", _subject){
         }
     
     virtual ~ComponentFactoryConflictException() throw() {}

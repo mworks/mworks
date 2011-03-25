@@ -22,39 +22,10 @@
 #include "Stimulus.h"
 #include "Experiment.h"
 #include "ComponentFactory.h"
-namespace mw {
-// a stimulus object with a position stored
-// may still be an error here TODO because no destructor and copy 
-// constructor does nothing
-class OffsetStimulusContainer : public Stimulus {
-	protected:
-		shared_ptr<Stimulus> stim;
-		shared_ptr<Variable> xoffset;
-		shared_ptr<Variable> yoffset;
 
-	public:
-        /**
-         * Constructor
-         */
-		OffsetStimulusContainer(std::string _tag, shared_ptr<Stimulus> _stim);
-		OffsetStimulusContainer(std::string _tag, shared_ptr<Stimulus> _stim, 
-								 shared_ptr<Variable> _xdeg, 
-								 shared_ptr<Variable> _ydeg);
-								 
-        OffsetStimulusContainer(OffsetStimulusContainer& copy);
-		~OffsetStimulusContainer();
-        //virtual Stimulus * frozenClone();
-        void freeze(bool should_freeze = true);
-		
-		virtual void draw(shared_ptr<StimulusDisplay>  display, float x, float y);
-		virtual void draw(shared_ptr<StimulusDisplay>  display, float x, float y, 
-                                                    float sizex, float sizey);
-    private:
-        // do not use the assignment operator, it does nothing
-        // useful.  I made it private to hide it from users and to
-        // prevent a default version from being used.
-        void operator=(const OffsetStimulusContainer& l) { }
-};
+
+BEGIN_NAMESPACE_MW
+
 
 // a stimulus object with a position stored
 // this is the base object from which many others should derive
@@ -275,22 +246,31 @@ class BlankScreenFactory : public ComponentFactory {
 												ComponentRegistry *reg);
 };
 
-/*class VideoRequest {
-	protected:
-		StimID stimtodraw;
-	 Datum xloc;
-	 Datum yloc;
-		
-	public:
-		VideoRequest(StimID _stim, Datum _x, Datum _y) {
-			stimtodraw = _stim;
-			xloc = _x;
-			yloc = _y;
-		}
-        virtual ~VideoRequest() { }
-		virtual void service();
-};
 
-void videoInterruptService();*/
-}
+END_NAMESPACE_MW
+
+
 #endif
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
