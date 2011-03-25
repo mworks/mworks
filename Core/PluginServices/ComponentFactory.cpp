@@ -16,22 +16,20 @@
 BEGIN_NAMESPACE_MW
 
 
-void ComponentFactory::processParameters(StdStringMap &parameters, ComponentRegistryPtr reg, ParameterValueMap &values)
+void ComponentFactory::processParameters(const StdStringMap &parameters,
+                                         ComponentRegistryPtr reg,
+                                         ParameterValueMap &values)
 {
     requireAttributes(parameters, info.getRequiredParameters());
     
     const ParameterInfoMap &infoMap = info.getParameters();
     
-    for (StdStringMap::iterator param = parameters.begin(); param != parameters.end(); param++) {
+    for (StdStringMap::const_iterator param = parameters.begin(); param != parameters.end(); param++) {
         const std::string &name = (*param).first;
         ParameterInfoMap::const_iterator iter = infoMap.find(name);
         
         if ((iter == infoMap.end()) && !isInternalParameter(name)) {
-            std::string referenceID("<unknown object>");
-            if (parameters.find("reference_id") != parameters.end()) {
-                referenceID = parameters["reference_id"];
-            }
-            throw UnknownAttributeException(referenceID, name);
+            throw UnknownAttributeException(name);
         }
         
         const std::string &value = (*param).second;
@@ -42,27 +40,14 @@ void ComponentFactory::processParameters(StdStringMap &parameters, ComponentRegi
 }
 
 
-void ComponentFactory::requireAttributes(StdStringMap parameters, StdStringVector requiredAttributes)
+void ComponentFactory::requireAttributes(const StdStringMap &parameters, const StdStringVector &requiredAttributes)
 {
-	for(StdStringVector::const_iterator i = requiredAttributes.begin();
-		i != requiredAttributes.end();
-		++i) {
-		StdStringMap::const_iterator attribute = parameters.find(*i);
-		if(attribute == parameters.end()) {
-			string reference_id("<unknown object>");
-            if(parameters.find("reference_id") != parameters.end()){
-                reference_id = parameters["reference_id"];
-            }
-            
-            string tag = parameters["tag"];
-            if(tag.empty()){
-                tag = "unknown name";
-            }
-            
-			throw MissingAttributeException(reference_id, 
-											 "Object <" + tag + "> is missing attribute '" + *i + "'");
-		}
-	}
+    for (StdStringVector::const_iterator attr = requiredAttributes.begin(); attr != requiredAttributes.end(); attr++)
+    {
+        if (parameters.find(*attr) == parameters.end()) {
+            throw MissingAttributeException(*attr);
+        }
+    }
 }
 
 

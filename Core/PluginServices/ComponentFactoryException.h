@@ -21,6 +21,10 @@ class ComponentFactoryException : public SimpleException {
 
 public:
 	virtual ~ComponentFactoryException() throw() { }
+    
+    ComponentFactoryException(const std::string &message) :
+        SimpleException(M_PARSER_MESSAGE_DOMAIN, message)
+    { }
 
 	ComponentFactoryException(const std::string &refID, const std::string &message) :
         SimpleException(M_PARSER_MESSAGE_DOMAIN, message)
@@ -43,17 +47,23 @@ private:
 
 
 class MissingAttributeException : public ComponentFactoryException {
+
 public:
 	MissingAttributeException(const std::string &referenceID, const std::string &errorMessage) :
         ComponentFactoryException(referenceID, errorMessage)
     { }
+    
+    MissingAttributeException(const std::string &attributeName) :
+        ComponentFactoryException("Object is missing required attribute \"" + attributeName + "\"")
+    { }
+
 };
 
 
 class UnknownAttributeException : public ComponentFactoryException {
 public:
-    UnknownAttributeException(const std::string &referenceID, const std::string &attributeName) :
-        ComponentFactoryException(referenceID, "Unknown attribute: \"" + attributeName + "\"")
+    UnknownAttributeException(const std::string &attributeName) :
+        ComponentFactoryException("Unknown attribute: \"" + attributeName + "\"")
     { }
 };
 
