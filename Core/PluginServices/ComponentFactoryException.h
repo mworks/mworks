@@ -7,108 +7,105 @@
  *
  */
 
-#include "MWorksMacros.h"
-
 #ifndef COMPONENT_FACTORY_EXCEPTION_H_
 #define COMPONENT_FACTORY_EXCEPTION_H_
+
+#include "MWorksMacros.h"
+#include "Exceptions.h"
+
+
 BEGIN_NAMESPACE_MW
-class ComponentFactoryException : public std::exception {
-protected:
-	std::string _what;
-	std::string _referenceID;
+
+
+class ComponentFactoryException : public SimpleException {
+
 public:
-	ComponentFactoryException(const std::string &refID) {
-        if(refID.empty()){
+	virtual ~ComponentFactoryException() throw() { }
+
+	ComponentFactoryException(const std::string &refID, const std::string &message) :
+        SimpleException(M_PARSER_MESSAGE_DOMAIN, message)
+    {
+        if (refID.empty()) {
             _referenceID = refID;
         } else {
             _referenceID = "<unknown>";
         }
 	}
 	
-	virtual ~ComponentFactoryException() throw() {}
-	virtual const char* what() const throw() = 0;	
-	
-	virtual const char* referenceID() const throw() {
-		return _referenceID.c_str();
+	const std::string& referenceID() const {
+		return _referenceID;
 	}
+
+private:
+	std::string _referenceID;
+    
 };
+
 
 class MissingAttributeException : public ComponentFactoryException {
 public:
-	MissingAttributeException(const std::string &referenceID,
-							   const std::string &errorMessage) : ComponentFactoryException(referenceID) {
-		_what = errorMessage;
-	}
-	
-	virtual ~MissingAttributeException() throw() {}
-	
-	virtual const char* what() const throw() {
-		return _what.c_str();
-	}
+	MissingAttributeException(const std::string &referenceID, const std::string &errorMessage) :
+        ComponentFactoryException(referenceID, errorMessage)
+    { }
 };
+
 
 class UnknownAttributeException : public ComponentFactoryException {
 public:
     UnknownAttributeException(const std::string &referenceID, const std::string &attributeName) :
-        ComponentFactoryException(referenceID)
-    {
-        _what = "Unknown attribute: \"" + attributeName + "\"";
-    }
-    
-    virtual ~UnknownAttributeException() throw() {}
-    
-    virtual const char* what() const throw() {
-        return _what.c_str();
-    }
+        ComponentFactoryException(referenceID, "Unknown attribute: \"" + attributeName + "\"")
+    { }
 };
+
 
 class InvalidReferenceException : public ComponentFactoryException {
 public:
-	InvalidReferenceException(const std::string &referenceID,
-							   const std::string &name,
-							   const std::string &value) : ComponentFactoryException(referenceID) {
-		// WTF? This is totally not how this is used
-		//_what = "invalid reference for \"" + value + "\" of type \"" + name + "\"";
-		_what = "invalid value \"" + value + "\" for attribute \"" + name + "\"";
-	}
-	
-	virtual ~InvalidReferenceException() throw() {}
-	
-	virtual const char* what() const throw() {
-		return _what.c_str();
-	}
+	InvalidReferenceException(const std::string &referenceID, const std::string &name, const std::string &value) :
+        ComponentFactoryException(referenceID, "invalid value \"" + value + "\" for attribute \"" + name + "\"")
+    { }
 };
+
 
 class InvalidAttributeException : public ComponentFactoryException {
 public:
-	InvalidAttributeException(const std::string &referenceID,
-							   const std::string &name,
-							   const std::string &value) : ComponentFactoryException(referenceID) {
-		_what = "invalid value (" + value + ") for attribute \"" + name + "\"";
-	}
-	
-	virtual ~InvalidAttributeException() throw() {}
-	
-	virtual const char* what() const throw() {
-		return _what.c_str();
-	}
+	InvalidAttributeException(const std::string &referenceID, const std::string &name, const std::string &value) :
+        ComponentFactoryException(referenceID, "invalid value (" + value + ") for attribute \"" + name + "\"")
+    { }
 };
+
 
 class MissingReferenceException : public ComponentFactoryException {
-protected:
 public:
-	MissingReferenceException(const std::string &referenceID,
-							   const std::string &name,
-							   const std::string &value) : ComponentFactoryException(referenceID) {
-		_what = "can't find a reference for \"" + value + "\" for attribute \"" + name + "\"";
-	}
-	
-	virtual ~MissingReferenceException() throw() {}
-	
-	virtual const char* what() const throw() {
-		return _what.c_str();
-	}
+	MissingReferenceException(const std::string &referenceID, const std::string &name, const std::string &value) :
+        ComponentFactoryException(referenceID,
+                                  "can't find a reference for \"" + value + "\" for attribute \"" + name + "\"")
+    { }
 };
+
+
 END_NAMESPACE_MW
 
+
 #endif
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
