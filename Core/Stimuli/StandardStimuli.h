@@ -55,8 +55,6 @@ class BasicTransformStimulus : public Stimulus {
 		BasicTransformStimulus(const BasicTransformStimulus& tocopy);
 		~BasicTransformStimulus();
 		
-        //virtual Stimulus * frozenClone() = 0;
-		
 		virtual void setTranslation(shared_ptr<Variable> _x, 
 									shared_ptr<Variable> _y);
         virtual void setScale(shared_ptr<Variable> _scale);
@@ -110,7 +108,6 @@ class ImageStimulus : public BasicTransformStimulus {
 								
         ImageStimulus(ImageStimulus& copy);
         virtual ~ImageStimulus();
-		//virtual Stimulus * frozenClone();
 		
         std::string getFilename();
         virtual void drawInUnitSquare(shared_ptr<StimulusDisplay> display);
@@ -146,79 +143,12 @@ class PointStimulus : public BasicTransformStimulus {
                                         shared_ptr<Variable> _b);
 		PointStimulus(const PointStimulus &tocopy);
 		~PointStimulus();
-		//virtual Stimulus * frozenClone();
 		
         virtual void drawInUnitSquare(shared_ptr<StimulusDisplay> display);
         virtual Datum getCurrentAnnounceDrawData();
 
 };
 
-
-
-       
-
-// default copy constructor is ok here even though we are managing 
-// a pointer to an Experiment.  It is not needed to copy the entire
-// experiment because there should only be one copy in memory
-/*class FreeRunningMovieStimulus : public BasicTransformStimulus {
-    protected:
-        // needs to know what experiment it belongs to (kludgey but true!)
-        Experiment *experiment;
-        long nframes;			// how many frames? negative numbers loop
-        long frame_interval_ms;		// how long between frames?
-        int current_frame;		// what frame are we on now?
-        long start_time;
-        // called internally to set the frame number before 
-        // other draw functions are called
-        void setCurrentFrame();
-        bool running;
-        ScheduleTask *schedule_node;
-
-    public:    
-        FreeRunningMovieStimulus(char *_tag, long nframes=1, long frame_interval=16, 
-                                        float _xoffset=0, float _yoffset=0,
-                                        float _xscale=1.0, float _yscale = 1.0,
-                                        float _rot = 0.0);
-        // set the frame and then go on as normal
-        virtual void draw(shared_ptr<StimulusDisplay>  display);
-        // overload this to provide teeth
-        virtual void drawInUnitSquare(shared_ptr<StimulusDisplay> display);
-        virtual void draw(shared_ptr<StimulusDisplay>  display,float x, float y, 
-                                                    float sizex, float sizey);
-        // start/stop rolling when this is called
-        virtual void setVisible(bool vis);
-        
-};*/
-
-// CompoundStimulus: a stimulus made up of several registered sub-stimuli
-// ExpandableList being private means that you cannot call any of the
-// expandable list methods outside of the implementation.
-/*
-class CompoundStimulus : public Stimulus {
- 
-    protected:
-        ExpandableList<OffsetStimulusContainer> *stimList;
-        std::string currentSubTag;
-        
-	public:
-        CompoundStimulus(std::string _tag);
-        ~CompoundStimulus();
-		
-		//virtual Stimulus * frozenClone();
-        void freeze(bool should_freeze = true);
-		
-        void addStimulus(shared_ptr<Stimulus> stim);
-        void addStimulus(shared_ptr<Stimulus> stim, 
-						 shared_ptr<Variable> _xloc, 
-						 shared_ptr<Variable> _yloc);
-						 
-        virtual void draw(shared_ptr<StimulusDisplay>  display, 
-						  float xdeg, float ydeg);
-        void makeSubTag();
-        virtual void announceStimulusDraw(MWTime now);  // override of base class method
-        
-};
-*/
 
 class BlankScreen : public Stimulus{
 // the default copy constructor is ok for this object.
@@ -235,7 +165,6 @@ class BlankScreen : public Stimulus{
 					 shared_ptr<Variable> g, 
 					 shared_ptr<Variable> b);
 		virtual ~BlankScreen();
-		//virtual Stimulus * frozenClone();
 		
         virtual void drawInUnitSquare(shared_ptr<StimulusDisplay> display);
         virtual Datum getCurrentAnnounceDrawData();

@@ -68,28 +68,6 @@ BasicTransformStimulus::BasicTransformStimulus(
 
 BasicTransformStimulus::~BasicTransformStimulus(){ }
 
-//Stimulus *BasicTransformStimulus::frozenClone(){
-//	
-//	shared_ptr<Variable> x_clone(xoffset->frozenClone());
-//	shared_ptr<Variable> y_clone(yoffset->frozenClone());
-//	shared_ptr<Variable> xs_clone(xscale->frozenClone());
-//	shared_ptr<Variable> ys_clone(yscale->frozenClone());
-//	shared_ptr<Variable> r_clone(rotation->frozenClone());
-//	shared_ptr<Variable> a_clone(alpha_multiplier->frozenClone());
-//	
-//	BasicTransformStimulus *clone = 
-//					new BasicTransformStimulus(tag, 
-//												x_clone,
-//												y_clone,
-//												xs_clone,
-//												ys_clone,
-//												r_clone,
-//												a_clone);
-//	clone->setIsFrozen(true);*/
-//												
-//	return clone;
-//}
-
 							            
 void BasicTransformStimulus::setTranslation(shared_ptr<Variable> _x, shared_ptr<Variable> _y) {
     xoffset = _x;
@@ -180,23 +158,6 @@ BlankScreen::BlankScreen(std::string _tag,
 }
 
 BlankScreen::~BlankScreen(){ }
-
-//Stimulus * BlankScreen::frozenClone(){
-//	
-//	shared_ptr<Variable> r_clone(r->frozenClone());
-//	shared_ptr<Variable> g_clone(g->frozenClone());
-//	shared_ptr<Variable> b_clone(b->frozenClone());
-//	
-//	BlankScreen *clone = 
-//					new BlankScreen(tag, 
-//									r_clone,
-//									g_clone,
-//									b_clone);
-//	clone->setIsFrozen(true);
-//												
-//	return clone;
-//}
-
 
     
 void BlankScreen::drawInUnitSquare(shared_ptr<StimulusDisplay> display) {
@@ -463,36 +424,6 @@ ImageStimulus::~ImageStimulus() {
 }
 
 
-//Stimulus * ImageStimulus::frozenClone(){
-//
-//	shared_ptr<Variable> x_clone(xoffset->frozenClone());
-//	shared_ptr<Variable> y_clone(yoffset->frozenClone());
-//	shared_ptr<Variable> xs_clone(xscale->frozenClone());
-//	shared_ptr<Variable> ys_clone(yscale->frozenClone());
-//	shared_ptr<Variable> r_clone(rotation->frozenClone());
-//	shared_ptr<Variable> a_clone(alpha_multiplier->frozenClone());
-//
-//	ImageStimulus *clone = 
-//					new ImageStimulus(tag, 
-//									filename,
-//									texture_maps,
-//									width,
-//									height,
-//									x_clone,
-//									y_clone,
-//									xs_clone,
-//									ys_clone,
-//                                    r_clone,
-//                                    a_clone);
-//									
-//	
-//	clone->setIsFrozen(true);
-//									
-//	return clone;
-//}
-
-
-
 std::string ImageStimulus::getFilename() {
         return filename;
 }
@@ -721,33 +652,6 @@ PointStimulus::PointStimulus(const PointStimulus &tocopy) :
 }
 
 PointStimulus::~PointStimulus(){ }
-
-//Stimulus * PointStimulus::frozenClone(){
-//	shared_ptr<Variable> x_clone(xoffset->frozenClone());
-//	shared_ptr<Variable> y_clone(yoffset->frozenClone());
-//	shared_ptr<Variable> xs_clone(xscale->frozenClone());
-//	shared_ptr<Variable> ys_clone(yscale->frozenClone());
-//	shared_ptr<Variable> rot_clone(rotation->frozenClone());
-//	shared_ptr<Variable> alpha_clone(alpha_multiplier->frozenClone());	
-//	shared_ptr<Variable> r_clone(r->frozenClone());
-//	shared_ptr<Variable> g_clone(g->frozenClone());
-//	shared_ptr<Variable> b_clone(b->frozenClone());
-//
-//	PointStimulus *clone = new PointStimulus(tag,
-//											   x_clone,
-//											   y_clone,
-//											   xs_clone,
-//											   ys_clone,
-//											   rot_clone,
-//											   alpha_clone,
-//											   r_clone,
-//											   g_clone,
-//											   b_clone
-//											   );
-//	clone->setIsFrozen(true);
-//		
-//	return clone;
-//}
 
 
 void PointStimulus::drawInUnitSquare(shared_ptr<StimulusDisplay> display) {

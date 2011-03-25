@@ -110,9 +110,6 @@ bool StimulusNode::isFrozen(){
 void StimulusNode::freeze(){
     lock();
 	
-    // set the "live" version of the stimulus to the
-    // a frozen (variable values fixed) version of stim
-    //live_stim = shared_ptr<Stimulus>(stim->frozenClone());
     stim->freeze();
     frozen = true;
 
@@ -122,8 +119,6 @@ void StimulusNode::freeze(){
 void StimulusNode::thaw(){
     lock();
     stim->thaw();
-    //live_stim = stim;  // replace the "live" version of the
-                       // stimulus with the raw stim
     frozen = false;
 	unlock();
 }

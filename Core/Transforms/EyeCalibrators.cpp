@@ -80,37 +80,6 @@ ExpandableList<Datum> *FixationPoint::getGoldStandardValues() {
 }    
 
 
-//Stimulus *FixationPoint::frozenClone(){
-//
-//	shared_ptr<Variable> _x(xoffset->frozenClone());
-//	shared_ptr<Variable> _y(yoffset->frozenClone());
-//	shared_ptr<Variable> _xs(xscale->frozenClone());
-//	shared_ptr<Variable> _ys(yscale->frozenClone());
-//	shared_ptr<Variable> _rot(rotation->frozenClone());
-//	shared_ptr<Variable> _alpha(alpha_multiplier->frozenClone());
-//	shared_ptr<Variable> _r(r->frozenClone());
-//	shared_ptr<Variable> _g(g->frozenClone());
-//	shared_ptr<Variable> _b(b->frozenClone());
-//	
-//	Stimulus *clone = (Stimulus *)(new FixationPoint(tag, 
-//							  _x,
-//							  _y,
-//							  _xs,
-//							  _ys,
-//							  _rot,
-//								_alpha,
-//							  _r,
-//							  _g,
-//							  _b,
-//                              width, 
-//                              watchx, 
-//                              watchy,
-//                              trigger_variable));
-//	clone->setIsFrozen(true);
-//	
-//	return clone;
-//}
-
 // override of PointStimulus announce method -- allows trigger info to also be announced
 Datum FixationPoint::getCurrentAnnounceDrawData() {
     

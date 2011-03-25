@@ -114,15 +114,6 @@ public:
      */
     Stimulus(const Stimulus& copy);
     
-    
-    /**
-     * "Frozen" clone method:
-     *
-     *  Make a new stimulus object with all of the variables converted
-     *  into constants (effectively "freezing" it in time)
-     */
-    //virtual Stimulus *frozenClone(); 
-    
     /**
      * Destructor.
      */

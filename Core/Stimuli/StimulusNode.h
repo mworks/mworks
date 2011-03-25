@@ -64,10 +64,7 @@ namespace mw {
                                 // removed from the chain on the next "explicit"
                                 // display update
     
-        // Is the stimulus in a "frozen" state (e.g. do we want to the
-		//  to use frozen_stim instead of stim -- frozen_stim is a variable-
-		//  locked version of stim, created using the frozenClone() method 
-		//  on the stimulus
+        // Is the stimulus in a "frozen" state?
 		bool frozen;
 
     public:

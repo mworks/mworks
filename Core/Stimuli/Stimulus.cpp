@@ -226,10 +226,6 @@ Stimulus::Stimulus(const Stimulus& copy):
 	frozen = false;
 }
 
-//Stimulus * Stimulus::frozenClone(){
-//    return new Stimulus(*this);
-//}
-
 
 Stimulus::~Stimulus() {
     if((thumbnail != NULL) && (thumbnail != this)) {
