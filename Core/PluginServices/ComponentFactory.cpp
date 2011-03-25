@@ -16,9 +16,6 @@
 BEGIN_NAMESPACE_MW
 
 
-const mw::Component *InvalidObject = new mw::Component();
-
-
 void ComponentFactory::processParameters(StdStringMap &parameters, ComponentRegistryPtr reg, ParameterValueMap &values)
 {
     requireAttributes(parameters, info.getRequiredParameters());
@@ -76,8 +73,6 @@ void ComponentFactory::checkAttribute(shared_ptr<mw::Component> component,
 {
 	if(component == 0) {
 		throw MissingReferenceException(refID, name, value);		
-	} else if(component.get() == InvalidObject) {
-		throw InvalidReferenceException(refID, name, value);				
 	}
 }
 

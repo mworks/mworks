@@ -24,8 +24,6 @@
 BEGIN_NAMESPACE_MW
 
 
-extern const mw::Component *InvalidObject;
-
 #define REQUIRE_ATTRIBUTES(parameters, attributes...) {\
 													const char *requiredAttributes[] = { attributes }; \
 													requireAttributes(parameters, \
