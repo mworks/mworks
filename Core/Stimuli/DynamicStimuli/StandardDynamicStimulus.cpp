@@ -9,7 +9,7 @@
 #include "StandardDynamicStimulus.h"
 
 
-BEGIN_NAMESPACE(mw)
+BEGIN_NAMESPACE_MW
 
 
 static const std::string FRAMES_PER_SECOND("frames_per_second");
@@ -72,7 +72,7 @@ Datum StandardDynamicStimulus::getCurrentAnnounceDrawData() {
 }
 
 
-END_NAMESPACE(mw)
+END_NAMESPACE_MW
 
 
 

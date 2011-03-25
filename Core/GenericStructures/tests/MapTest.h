@@ -18,7 +18,7 @@
 #include "MWorksCore/Map.h"
 
 
-BEGIN_NAMESPACE(mw)
+BEGIN_NAMESPACE_MW
 
 
 class MapTestFixture : public CppUnit::TestFixture {
@@ -33,7 +33,7 @@ public:
 };
 
 
-END_NAMESPACE(mw)
+END_NAMESPACE_MW
 
 
 #endif

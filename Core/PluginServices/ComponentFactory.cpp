@@ -13,7 +13,7 @@
 #include "ParameterValue.h"
 
 
-BEGIN_NAMESPACE(mw)
+BEGIN_NAMESPACE_MW
 
 
 const mw::Component *InvalidObject = new mw::Component();
@@ -82,7 +82,7 @@ void ComponentFactory::checkAttribute(shared_ptr<mw::Component> component,
 }
 
 
-END_NAMESPACE(mw)
+END_NAMESPACE_MW
 
 
 

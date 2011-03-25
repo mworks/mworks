@@ -14,7 +14,7 @@
 #include "ParameterValue.h"
 
 
-BEGIN_NAMESPACE(mw)
+BEGIN_NAMESPACE_MW
 
 
 template<typename ComponentType>
@@ -49,7 +49,7 @@ protected:
 };
 
 
-END_NAMESPACE(mw)
+END_NAMESPACE_MW
 
 
 #endif

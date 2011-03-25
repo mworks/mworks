@@ -10,7 +10,7 @@
 #include "StopDynamicStimulus.h"
 
 
-BEGIN_NAMESPACE(mw)
+BEGIN_NAMESPACE_MW
 
 
 StopDynamicStimulus::StopDynamicStimulus(shared_ptr<StimulusNode> stimNode) : 
@@ -34,4 +34,4 @@ bool StopDynamicStimulus::execute() {
 }
 
 
-END_NAMESPACE(mw)
+END_NAMESPACE_MW

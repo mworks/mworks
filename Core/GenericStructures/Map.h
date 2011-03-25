@@ -17,7 +17,7 @@
 #include "MWorksMacros.h"
 
 
-BEGIN_NAMESPACE(mw)
+BEGIN_NAMESPACE_MW
 
 
 template<typename ValueType>
@@ -45,7 +45,7 @@ public:
 typedef Map<std::string> StringMap;
 
 
-END_NAMESPACE(mw)
+END_NAMESPACE_MW
 
 
 #endif

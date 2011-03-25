@@ -20,7 +20,7 @@
 #include "Map.h"
 
 
-BEGIN_NAMESPACE(mw)
+BEGIN_NAMESPACE_MW
 
 
 class ParameterValue {
@@ -75,7 +75,7 @@ VariablePtr ParameterValue::convert(const std::string &s, ComponentRegistryPtr r
 typedef Map<ParameterValue> ParameterValueMap;
 
 
-END_NAMESPACE(mw)
+END_NAMESPACE_MW
 
 
 #endif

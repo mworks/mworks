@@ -15,7 +15,7 @@
 #include "ParameterValue.h"
 
 
-BEGIN_NAMESPACE(mw)
+BEGIN_NAMESPACE_MW
 
 
 class StandardDynamicStimulus : public Stimulus, public DynamicStimulusDriver {
@@ -42,7 +42,7 @@ protected:
 };
 
 
-END_NAMESPACE(mw)
+END_NAMESPACE_MW
 
 
 #endif 

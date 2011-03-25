@@ -23,5 +23,13 @@
 #define END_NAMESPACE(name)     }
 #endif
 
+#ifndef BEGIN_NAMESPACE_MW
+#define BEGIN_NAMESPACE_MW      BEGIN_NAMESPACE(mw)
+#endif
+
+#ifndef END_NAMESPACE_MW
+#define END_NAMESPACE_MW        END_NAMESPACE(mw)
+#endif
+
 
 #endif

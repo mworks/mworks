@@ -11,7 +11,7 @@
 
 #ifndef COMPONENT_FACTORY_EXCEPTION_H_
 #define COMPONENT_FACTORY_EXCEPTION_H_
-BEGIN_NAMESPACE(mw)
+BEGIN_NAMESPACE_MW
 class ComponentFactoryException : public std::exception {
 protected:
 	std::string _what;
@@ -109,6 +109,6 @@ public:
 		return _what.c_str();
 	}
 };
-END_NAMESPACE(mw)
+END_NAMESPACE_MW
 
 #endif

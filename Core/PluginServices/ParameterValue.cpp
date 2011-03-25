@@ -10,7 +10,7 @@
 #include "ParameterValue.h"
 
 
-BEGIN_NAMESPACE(mw)
+BEGIN_NAMESPACE_MW
 
 
 template<>
@@ -25,4 +25,4 @@ VariablePtr ParameterValue::convert(const std::string &s, ComponentRegistryPtr r
 }
 
 
-END_NAMESPACE(mw)
+END_NAMESPACE_MW

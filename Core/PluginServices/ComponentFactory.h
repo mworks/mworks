@@ -21,7 +21,7 @@
 #include <vector>
 
 
-BEGIN_NAMESPACE(mw)
+BEGIN_NAMESPACE_MW
 
 
 extern const mw::Component *InvalidObject;
@@ -93,7 +93,7 @@ protected:
 };
 
 
-END_NAMESPACE(mw)
+END_NAMESPACE_MW
 
 
 #endif

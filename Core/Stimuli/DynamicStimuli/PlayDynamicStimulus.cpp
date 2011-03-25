@@ -10,7 +10,7 @@
 #include "PlayDynamicStimulus.h"
 
 
-BEGIN_NAMESPACE(mw)
+BEGIN_NAMESPACE_MW
 
 
 PlayDynamicStimulus::PlayDynamicStimulus(shared_ptr<StimulusNode> stimNode) :
@@ -34,4 +34,4 @@ bool PlayDynamicStimulus::execute() {
 }
 
 
-END_NAMESPACE(mw)
+END_NAMESPACE_MW

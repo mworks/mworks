@@ -60,7 +60,7 @@
 #include <boost/shared_ptr.hpp>
 #include <boost/weak_ptr.hpp>
 #include <list>
-BEGIN_NAMESPACE(mw)
+BEGIN_NAMESPACE_MW
 class EventBuffer;
 
 using namespace boost;
@@ -256,7 +256,7 @@ public:
 	}
 
 };
-END_NAMESPACE(mw)
+END_NAMESPACE_MW
 
 #endif
 

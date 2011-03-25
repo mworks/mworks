@@ -12,7 +12,7 @@
 #include "StopDynamicStimulus.h"
 
 
-BEGIN_NAMESPACE(mw)
+BEGIN_NAMESPACE_MW
 
 
 shared_ptr<mw::Component> PlayDynamicStimulusFactory::createObject(std::map<std::string, std::string> parameters,
@@ -44,4 +44,4 @@ shared_ptr<mw::Component> StopDynamicStimulusFactory::createObject(std::map<std:
 }
 
 
-END_NAMESPACE(mw)
+END_NAMESPACE_MW

@@ -15,7 +15,7 @@
 CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( mw::MapTestFixture, "Unit Test" );
 
 
-BEGIN_NAMESPACE(mw)
+BEGIN_NAMESPACE_MW
 
 
 void MapTestFixture::testOperators() {
@@ -40,7 +40,7 @@ void MapTestFixture::testOperators() {
 }
 
 
-END_NAMESPACE(mw)
+END_NAMESPACE_MW
 
 
 

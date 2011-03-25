@@ -14,7 +14,7 @@
 #include "DynamicStimulusDriver.h"
 
 
-BEGIN_NAMESPACE(mw)
+BEGIN_NAMESPACE_MW
 
 
 class StopDynamicStimulus : public Action {	
@@ -26,7 +26,7 @@ public:
 };
 
 
-END_NAMESPACE(mw)
+END_NAMESPACE_MW
 
 
 #endif 
