@@ -29,9 +29,20 @@ public:
         required(true),
         defaultValue(defaultValue)
     { }
+
+    // Without this constructor, ParameterInfo("foo") becomes ParameterInfo(true),
+    // because char* can be cast to bool
+    explicit ParameterInfo(const char *defaultValue) :
+        required(true),
+        defaultValue(defaultValue)
+    { }
     
     bool isRequired() const {
         return required;
+    }
+    
+    bool hasDefaultValue() const {
+        return !(defaultValue.empty());
     }
     
     const std::string& getDefaultValue() const {

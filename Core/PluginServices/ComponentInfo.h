@@ -28,12 +28,18 @@ public:
         signature = newSignature;
     }
     
+    void addParameter(const std::string &name, bool required = true) {
+        addParameter(name, ParameterInfo(required));
+    }
+    
     void addParameter(const std::string &name, const std::string &defaultValue) {
         addParameter(name, ParameterInfo(defaultValue));
     }
     
-    void addParameter(const std::string &name, bool required = true) {
-        addParameter(name, ParameterInfo(required));
+    // Without this overload, addParameter("foo", "bar") becomes addParameter("foo", true),
+    // because char* can be cast to bool
+    void addParameter(const std::string &name, const char *defaultValue) {
+        addParameter(name, ParameterInfo(defaultValue));
     }
     
     void addParameter(const std::string &name, const ParameterInfo &info) {

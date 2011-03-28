@@ -30,7 +30,10 @@ public:
                                                                                                   reg,
                                                                                                   values));
         
-        stim->load(StimulusDisplay::getCurrentStimulusDisplay());
+        if (stim->getDeferred() == Stimulus::nondeferred_load) {
+            stim->load(StimulusDisplay::getCurrentStimulusDisplay());
+        }
+        
         boost::shared_ptr<StimulusNode> node(new StimulusNode(stim));
         reg->registerStimulusNode(values.at("tag"), node);
         
@@ -44,3 +47,24 @@ END_NAMESPACE_MW
 
 
 #endif
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

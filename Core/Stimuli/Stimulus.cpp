@@ -168,6 +168,7 @@ shared_ptr<mw::Component> StimulusGroup::createObject(std::map<std::string, std:
 
 void Stimulus::describeComponent(ComponentInfo &info) {
     info.addParameter("tag");
+    info.addParameter("deferred", "no");
 }
 
 
@@ -195,9 +196,10 @@ Stimulus::Stimulus(const ParameterValueMap &parameters) :
     cached(false),
     has_thumbnail(false),
     thumbnail(NULL),
-    deferred(Stimulus::nondeferred_load),
     frozen(false)
-{ }
+{
+    setDeferredFromString(parameters["deferred"]);
+}
 
 
 Stimulus::Stimulus(const Stimulus& copy):

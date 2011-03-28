@@ -16,11 +16,9 @@
 BEGIN_NAMESPACE_MW
 
 
-void ComponentFactory::processParameters(const StdStringMap &parameters,
-                                         ComponentRegistryPtr reg,
-                                         ParameterValueMap &values)
+void ComponentFactory::processParameters(StdStringMap &parameters, ComponentRegistryPtr reg, ParameterValueMap &values)
 {
-    requireAttributes(parameters, info.getRequiredParameters());
+    requireAttributes(parameters, info.getRequiredParameters(), true);
     
     const ParameterInfoMap &infoMap = info.getParameters();
     
@@ -40,11 +38,20 @@ void ComponentFactory::processParameters(const StdStringMap &parameters,
 }
 
 
-void ComponentFactory::requireAttributes(const StdStringMap &parameters, const StdStringVector &requiredAttributes)
+void ComponentFactory::requireAttributes(StdStringMap &parameters,
+                                         const StdStringVector &requiredAttributes,
+                                         bool useDefaults)
 {
     for (StdStringVector::const_iterator attr = requiredAttributes.begin(); attr != requiredAttributes.end(); attr++)
     {
         if (parameters.find(*attr) == parameters.end()) {
+            if (useDefaults) {
+                const ParameterInfo &param = info.getParameters()[*attr];
+                if (param.hasDefaultValue()) {
+                    parameters[*attr] = param.getDefaultValue();
+                    continue;
+                }
+            }
             throw MissingAttributeException(*attr);
         }
     }

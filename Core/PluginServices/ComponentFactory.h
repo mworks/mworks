@@ -79,12 +79,12 @@ protected:
                 (name == "xml_document_path"));
     }
     
-    void processParameters(const StdStringMap &parameters, ComponentRegistry *reg, Map<ParameterValue> &values);
-    virtual void requireAttributes(const StdStringMap &parameters, const StdStringVector &attributes);
-    virtual void checkAttribute(shared_ptr<mw::Component> component,
-								const string &refID,
-								const string &name,
-								const string &value);
+    void processParameters(StdStringMap &parameters, ComponentRegistry *reg, Map<ParameterValue> &values);
+    void requireAttributes(StdStringMap &parameters, const StdStringVector &attributes, bool useDefaults = false);
+    void checkAttribute(shared_ptr<mw::Component> component,
+                        const string &refID,
+                        const string &name,
+                        const string &value);
     
     ComponentInfo info;
     
