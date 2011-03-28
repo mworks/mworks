@@ -25,4 +25,38 @@ VariablePtr ParameterValue::convert(const std::string &s, ComponentRegistryPtr r
 }
 
 
+template<>
+ParsedColorTrio ParameterValue::convert(const std::string &s, ComponentRegistryPtr reg) {
+    return ParsedColorTrio(reg, s);
+}
+
+
+template<>
+RGBColor ParameterValue::convert(const std::string &s, mw::ComponentRegistry *reg) {
+    return convert<ParsedColorTrio>(s, reg).getValue();
+}
+
+
 END_NAMESPACE_MW
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

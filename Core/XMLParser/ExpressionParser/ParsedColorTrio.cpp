@@ -9,25 +9,27 @@
 
 #include "ParsedColorTrio.h"
 
-using namespace mw;
+using namespace boost;
 
-ParsedColorTrio::ParsedColorTrio(ComponentRegistry *reg, 
-								 const std::string &color_string) {
-	using namespace boost;
-	// regex for parsing the color string
-	regex color_regex("^\\s*([a-zA-z]\\w*|[\\d]*\\.?[\\d]+)\\s*,\\s*([a-zA-z]\\w*|[\\d]*\\.?[\\d]+)\\s*,\\s*([a-zA-z]\\w*|[\\d]*\\.?[\\d]+)\\s*$"); 
-	
+
+BEGIN_NAMESPACE_MW
+
+
+const regex ParsedColorTrio::color_regex("^\\s*([a-zA-z]\\w*|[\\d]*\\.?[\\d]+)\\s*,\\s*([a-zA-z]\\w*|[\\d]*"
+                                         "\\.?[\\d]+)\\s*,\\s*([a-zA-z]\\w*|[\\d]*\\.?[\\d]+)\\s*$");
+
+
+ParsedColorTrio::ParsedColorTrio(ComponentRegistry *reg, const std::string &color_string)
+{
 	smatch colorParams;
 	try{
 		if(!regex_match(color_string, colorParams, color_regex)){
-			// TODO: throw?
 			throw SimpleException("Invalid color string", color_string);
 		} 
 	} catch (regex_error& e) {
 		// TODO: throw a factory exception of some kind
 		throw SimpleException("Regular expression error during color parsing");
 	}
-	
 	
 	if(colorParams.size() != 4) {
 		throw SimpleException("Invalid color string", color_string);
@@ -39,14 +41,36 @@ ParsedColorTrio::ParsedColorTrio(ComponentRegistry *reg,
 	b=reg->getVariable(colorParams[3]);			
 }
 
-boost::shared_ptr<Variable> ParsedColorTrio::getR() const {
-	return r;
+
+RGBColor ParsedColorTrio::getValue() const {
+    RGBColor color;
+    color.red = r->getValue().getFloat();
+    color.green = g->getValue().getFloat();
+    color.blue = b->getValue().getFloat();
+    return color;
 }
 
-boost::shared_ptr<Variable> ParsedColorTrio::getG() const {
-	return g;
-}
 
-boost::shared_ptr<Variable> ParsedColorTrio::getB() const {
-	return b;
-}
+END_NAMESPACE_MW
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

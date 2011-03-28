@@ -18,6 +18,7 @@
 
 #include "ComponentRegistry.h"
 #include "Map.h"
+#include "ParsedColorTrio.h"
 
 
 BEGIN_NAMESPACE_MW
@@ -50,6 +51,9 @@ private:
 };
 
 
+typedef Map<ParameterValue> ParameterValueMap;
+
+
 template<typename Type>
 Type ParameterValue::convert(const std::string &s, ComponentRegistryPtr reg) {
     Type val;
@@ -72,7 +76,12 @@ template<>
 VariablePtr ParameterValue::convert(const std::string &s, ComponentRegistryPtr reg);
 
 
-typedef Map<ParameterValue> ParameterValueMap;
+template<>
+ParsedColorTrio ParameterValue::convert(const std::string &s, ComponentRegistryPtr reg);
+
+
+template<>
+RGBColor ParameterValue::convert(const std::string &s, ComponentRegistryPtr reg);
 
 
 END_NAMESPACE_MW
