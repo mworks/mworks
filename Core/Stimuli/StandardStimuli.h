@@ -150,29 +150,23 @@ class PointStimulus : public BasicTransformStimulus {
 };
 
 
-class BlankScreen : public Stimulus{
-// the default copy constructor is ok for this object.
-// Variable(const Param& that) : r(that.r), g(that.g), b(that.b) { }
-    protected:
-        shared_ptr<Variable> r;
-		shared_ptr<Variable> g;
-		shared_ptr<Variable> b;
-        float last_r,last_g,last_b;
-        
-    public:
-        BlankScreen(std::string _tag, 
-					 shared_ptr<Variable> r, 
-					 shared_ptr<Variable> g, 
-					 shared_ptr<Variable> b);
-		virtual ~BlankScreen();
-		
-        virtual void drawInUnitSquare(shared_ptr<StimulusDisplay> display);
-        virtual Datum getCurrentAnnounceDrawData();
-};
-
-class BlankScreenFactory : public ComponentFactory {
-	virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-												ComponentRegistry *reg);
+class BlankScreen : public Stimulus {
+    
+public:
+    static void describeComponent(ComponentInfo &info);
+    
+    explicit BlankScreen(const Map<ParameterValue> &parameters);
+    virtual ~BlankScreen() { }
+    
+    virtual void draw(shared_ptr<StimulusDisplay> display);
+    virtual Datum getCurrentAnnounceDrawData();
+    
+protected:
+    shared_ptr<Variable> r;
+    shared_ptr<Variable> g;
+    shared_ptr<Variable> b;
+    float last_r,last_g,last_b;
+    
 };
 
 

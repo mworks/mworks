@@ -23,6 +23,8 @@
 #include <boost/spirit/include/classic_lists.hpp>
 #include <boost/algorithm/string/case_conv.hpp>
 #include "ParsedColorTrio.h"
+#include "ComponentInfo.h"
+#include "ParameterValue.h"
 
 #include <boost/regex.hpp>
 
@@ -136,31 +138,32 @@ Datum BasicTransformStimulus::getCurrentAnnounceDrawData() {
 }
 
 
+void BlankScreen::describeComponent(ComponentInfo &info) {
+    Stimulus::describeComponent(info);
+    info.setSignature("stimulus/blank_screen");
+    info.addParameter("color", "0.5,0.5,0.5");
+}
 
-BlankScreen::BlankScreen(std::string _tag, 
-						   shared_ptr<Variable> _r,
-						   shared_ptr<Variable> _g, 
-						   shared_ptr<Variable> _b) : 
-						   
-						   Stimulus(_tag) {
-    r = registerVariable(_r);
-    g = registerVariable(_g);
-    b = registerVariable(_b);
+
+BlankScreen::BlankScreen(const ParameterValueMap &parameters) :
+    Stimulus(parameters)
+{
+    ParsedColorTrio pct(parameters["color"]);
+    r = registerVariable(pct.getR());
+    g = registerVariable(pct.getG());
+    b = registerVariable(pct.getB());
     
     Datum rval = *r;
     Datum gval = *g;
     Datum bval = *b;
-	
+    
     last_r = (float)rval;
     last_g = (float)gval;
     last_b = (float)bval;
-    
 }
 
-BlankScreen::~BlankScreen(){ }
-
     
-void BlankScreen::drawInUnitSquare(shared_ptr<StimulusDisplay> display) {
+void BlankScreen::draw(shared_ptr<StimulusDisplay> display) {
     
     float _r = (float)*r;
     float _g = (float)*g;
@@ -188,58 +191,6 @@ Datum BlankScreen::getCurrentAnnounceDrawData() {
     announceData.addElement(STIM_COLOR_B,last_b);
         
     return (announceData);
-}
-
-shared_ptr<mw::Component> BlankScreenFactory::createObject(std::map<std::string, std::string> parameters,
-													ComponentRegistry *reg) {
-	REQUIRE_ATTRIBUTES(parameters, 
-					   "tag", 
-					   "color");
-	
-	std::string tagname(parameters.find("tag")->second);
-	
-	// find the RGB values
-	// get the values
-//	std::vector<std::string> colorParams;
-	
-	/*boost::spirit::classic::rule<> parsedItems;
-	parsedItems = boost::spirit::classic::list_p[boost::spirit::classic::push_back_a(colorParams)];
-	boost::spirit::classic::parse_info<> result = boost::spirit::classic::parse(parameters.find("color")->second.c_str(), parsedItems);
-	if(!result.hit || colorParams.size() != 3) {
-		throw InvalidAttributeException("color", parameters.find("color")->second);
-	}*/
-
-	ParsedColorTrio pct(reg, parameters.find("color")->second);
-
-	// first is r then g then b:
-	shared_ptr<Variable> r = pct.getR();	
-	shared_ptr<Variable> g = pct.getG();	
-	shared_ptr<Variable> b = pct.getB();	
-	
-	//checkAttribute(r, parameters["reference_id"], "color (r)", colorParams[1]);
-//	checkAttribute(g, parameters["reference_id"], "color (g)", colorParams[2]);
-//	checkAttribute(b, parameters["reference_id"], "color (b)", colorParams[3]);
-
-	
-	if(GlobalCurrentExperiment == 0) {
-		throw SimpleException("no experiment currently defined");		
-	}
-	
-	shared_ptr<StimulusDisplay> defaultDisplay = GlobalCurrentExperiment->getStimulusDisplay();
-	if(defaultDisplay == 0) {
-		throw SimpleException("no stimulusDisplay in current experiment");
-	}
-	
-	
-	shared_ptr <BlankScreen> newBlankScreen(new BlankScreen(tagname, r, g, b));
-	
-	
-	
-	newBlankScreen->load(defaultDisplay);
-	shared_ptr <StimulusNode> thisStimNode = shared_ptr<StimulusNode>(new StimulusNode(newBlankScreen));
-	reg->registerStimulusNode(tagname, thisStimNode);
-	
-	return newBlankScreen;
 }
 
 

@@ -27,10 +27,12 @@
 #include "StandardSounds.h"
 #include "XMLParser.h"
 #include "BiasMonitor.h"
+#include "StandardComponentFactory.h"
+#include "StandardStimulusFactory.h"
 
 
+BEGIN_NAMESPACE_MW
 
-using namespace mw;
 
 shared_ptr<ComponentRegistry> ComponentRegistry::shared_component_registry;
 
@@ -40,8 +42,9 @@ ComponentRegistry::ComponentRegistry() :
         r3("^\\s*\\d*\\.?\\d*\\s*(ms|us|s)?\\s*$"),
         r4("^\\s*\\.?\\d*\\s*(ms|us|s)?\\s*$"),
         u1("^(.*?\\$.+?)$"),
-        strip_it("^\\s*(.+?)\\s*$"){
-          
+        strip_it("^\\s*(.+?)\\s*$")
+{
+
 	// register all of the built-ins here
 	registerFactory("experiment", new ExperimentFactory());
 	registerFactory("protocol", new ProtocolFactory());
@@ -121,7 +124,7 @@ ComponentRegistry::ComponentRegistry() :
 	registerFactory("iochannel", new IOChannelRequestFactory());
 	
 	// stimuli
-	registerFactory("stimulus/blank_screen", new BlankScreenFactory());
+    registerFactory<StandardStimulusFactory, BlankScreen>();
 	registerFactory("stimulus/image_file", new ImageStimulusFactory());
 	registerFactory("stimulus/fixation_point", new FixationPointFactory());
 	registerFactory("stimulus_group", new StimulusGroup());
@@ -674,4 +677,28 @@ void ComponentRegistry::dumpToStdErr(){
     }
     
 }
+
+
+END_NAMESPACE_MW
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
