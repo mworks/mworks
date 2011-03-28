@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<monkeyml version="1.0">
+    <io_devices tag="IO Devices"></io_devices>
+    <variables tag="Variables"></variables>
+    <sounds tag="Sounds"></sounds>
+    <stimuli tag="Stimuli">
+        <stimulus type="blank_screen" tag="bg1" color="1,0,0"></stimulus>
+        <stimulus type="blank_screen" tag="bg2"></stimulus>
+    </stimuli>
+    <filters tag="Filters"></filters>
+    <optimizers tag="Optimizers"></optimizers>
+    <experiment tag="New Experiment" full_name="" description="">
+        <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential">
+            <action tag="Queue bg1" type="queue_stimulus" stimulus="bg1"></action>
+            <action tag="Queue bg2" type="queue_stimulus" stimulus="bg2"></action>
+            <action tag="Update display" type="update_stimulus_display"></action>
+            <action type="report" tag="Report" message="The screen should be gray"></action>
+            <action type="wait" tag="Wait" duration="1.0" duration_units="s"></action>
+        </protocol>
+    </experiment>
+</monkeyml>
