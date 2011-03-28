@@ -70,14 +70,7 @@ public:
     }
     
 protected:
-    static bool isInternalParameter(const std::string &name) {
-        // Identify parameters added by the parser
-        return ((name == "reference_id") ||
-                (name == "type") ||
-                (name == "variable_assignment") ||
-                (name == "working_path") ||
-                (name == "xml_document_path"));
-    }
+    static bool shouldIgnoreParameter(const std::string &name);
     
     void processParameters(StdStringMap &parameters, ComponentRegistry *reg, Map<ParameterValue> &values);
     void requireAttributes(StdStringMap &parameters, const StdStringVector &attributes, bool useDefaults = false);

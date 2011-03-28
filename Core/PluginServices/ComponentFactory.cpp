@@ -16,6 +16,25 @@
 BEGIN_NAMESPACE_MW
 
 
+bool ComponentFactory::shouldIgnoreParameter(const std::string &name) {
+    return (
+            //
+            // Parameters added by the parser
+            //
+            (name == "reference_id") ||
+            (name == "type") ||
+            (name == "variable_assignment") ||
+            (name == "working_path") ||
+            (name == "xml_document_path") ||
+
+            //
+            // Generic, currently-unused parameters that appear in many old experiments
+            //
+            (name == "full_name")
+            );
+}
+
+
 void ComponentFactory::processParameters(StdStringMap &parameters, ComponentRegistryPtr reg, ParameterValueMap &values)
 {
     requireAttributes(parameters, info.getRequiredParameters(), true);
@@ -26,7 +45,7 @@ void ComponentFactory::processParameters(StdStringMap &parameters, ComponentRegi
         const std::string &name = (*param).first;
         ParameterInfoMap::const_iterator iter = infoMap.find(name);
         
-        if ((iter == infoMap.end()) && !isInternalParameter(name)) {
+        if ((iter == infoMap.end()) && !shouldIgnoreParameter(name)) {
             throw UnknownAttributeException(name);
         }
         

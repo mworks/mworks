@@ -127,7 +127,7 @@ ComponentRegistry::ComponentRegistry() :
     registerFactory<StandardStimulusFactory, BlankScreen>();
 	registerFactory("stimulus/image_file", new ImageStimulusFactory());
 	registerFactory("stimulus/fixation_point", new FixationPointFactory());
-	registerFactory("stimulus_group", new StimulusGroup());
+    registerFactory<StandardComponentFactory, StimulusGroup>();
 	
 	// sounds
 	registerFactory("sound/wav_file", new WavFileSoundFactory());

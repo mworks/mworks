@@ -18,14 +18,24 @@
 #include "OpenGLContextManager.h"
 
 #include "ComponentRegistry.h"
-using namespace mw;
+
+
+BEGIN_NAMESPACE_MW
+
 
 #define VERBOSE_STIMULI 0
 
 
-StimulusGroup::StimulusGroup(){}
-StimulusGroup::StimulusGroup(const std::string &_tag) : mw::Component(_tag) {}
-StimulusGroup::~StimulusGroup(){}
+void StimulusGroup::describeComponent(ComponentInfo &info) {
+    info.setSignature("stimulus_group");
+    info.addParameter("tag");
+}
+
+
+StimulusGroup::StimulusGroup(const ParameterValueMap &parameters) :
+    mw::Component(parameters["tag"].getValue())
+{ }
+
 
 void StimulusGroup::addSubGroup(const shared_ptr <StimulusGroup> stim_group) {
 	sub_groups.push_back(stim_group);
@@ -151,18 +161,6 @@ void StimulusGroup::addChild(std::map<std::string, std::string> parameters,
 		shared_ptr <StimulusGroup> stim_group_parent = component_registry->getObject<StimulusGroup>(tag);
 		stim_group->setParent(stim_group_parent);
 	}
-}
-
-
-shared_ptr<mw::Component> StimulusGroup::createObject(std::map<std::string, std::string> parameters,
-													ComponentRegistry *reg) {
-	REQUIRE_ATTRIBUTES(parameters, "tag");	
-	
-	string tagname(parameters.find("tag")->second);
-	// TODO: this is still not 100% clean
-	shared_ptr<StimulusGroup> newStimulusGroup = shared_ptr<StimulusGroup>(new StimulusGroup(tagname));
-		
-	return newStimulusGroup;
 }
 
 
@@ -391,5 +389,27 @@ Datum Stimulus::getCurrentAnnounceDrawData() {
 }*/
 
 
+END_NAMESPACE_MW
 
- 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

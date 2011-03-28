@@ -227,7 +227,7 @@ public:
  * StimulusGroup provides a simple mechanism for creating groups of stimuli
  * as an organizational convenience.  Its use is not necessary
  */
-class StimulusGroup : public ExpandableList<Stimulus>, public mw::Component, public ComponentFactory {
+class StimulusGroup : public ExpandableList<Stimulus>, public mw::Component {
 private:
 	std::vector <shared_ptr<StimulusGroup> > sub_groups;
 	
@@ -237,9 +237,10 @@ private:
 	void addStimToParents(const shared_ptr <Stimulus> stim);
 	
 public:
-	StimulusGroup();
-	StimulusGroup(const std::string &_tag);     
-	virtual ~StimulusGroup();
+    static void describeComponent(ComponentInfo &info);
+    
+    explicit StimulusGroup(const Map<ParameterValue> &parameters);
+	virtual ~StimulusGroup() { }
 	
 	unsigned int dimensionSize(const unsigned int dimension);
 	unsigned int getNDimensions() const;
@@ -248,9 +249,6 @@ public:
 	shared_ptr<StimulusGroup> getParent() const;
 	
 	void setParent(weak_ptr <StimulusGroup> _parent);
-	
-	virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-												ComponentRegistry *reg);
 	
 	virtual void addChild(std::map<std::string, std::string> parameters,
 						  ComponentRegistry *reg,
