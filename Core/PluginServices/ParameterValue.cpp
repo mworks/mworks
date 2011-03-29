@@ -14,12 +14,6 @@ BEGIN_NAMESPACE_MW
 
 
 template<>
-const std::string& ParameterValue::convert(const std::string &s, ComponentRegistryPtr reg) {
-    return s;
-}
-
-
-template<>
 VariablePtr ParameterValue::convert(const std::string &s, ComponentRegistryPtr reg) {
     return reg->getVariable(s);
 }

@@ -32,12 +32,17 @@ public:
         reg(reg)
     { }
     
-    const std::string& getValue() const {
+    const std::string& str() const {
         return value;
     }
     
     template<typename Type>
     operator Type() const {
+        return as<Type>();
+    }
+    
+    template<typename Type>
+    Type as() const {
         return convert<Type>(value, reg);
     }
     
@@ -66,10 +71,6 @@ Type ParameterValue::convert(const std::string &s, ComponentRegistryPtr reg) {
     
     return val;
 }
-
-
-template<>
-const std::string& ParameterValue::convert(const std::string &s, ComponentRegistryPtr reg);
 
 
 template<>

@@ -27,13 +27,14 @@ BEGIN_NAMESPACE_MW
 
 
 void StimulusGroup::describeComponent(ComponentInfo &info) {
+    Component::describeComponent(info);
     info.setSignature("stimulus_group");
-    info.addParameter("tag");
+    info.getParameter(Component::TAG).setRequired(true);
 }
 
 
 StimulusGroup::StimulusGroup(const ParameterValueMap &parameters) :
-    mw::Component(parameters["tag"].getValue())
+    Component(parameters)
 { }
 
 

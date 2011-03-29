@@ -27,7 +27,7 @@ void Component::describeComponent(ComponentInfo &info) {
 
 
 Component::Component(const ParameterValueMap &parameters) :
-    tag(parameters[TAG].getValue())
+    tag(parameters[TAG].str())
 {
     compact_id = _id_count++;
 }
