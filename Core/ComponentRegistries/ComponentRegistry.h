@@ -90,16 +90,29 @@ namespace mw {
 		}
 		
 		// Factory-oriented methods
-		void registerFactory(std::string type_name,
-							 ComponentFactory *factory);
-		
-		shared_ptr<ComponentFactory> getFactory(std::string type_name);
+        
+		void registerFactory(const std::string &type_name, shared_ptr<ComponentFactory> factory);
+
+		void registerFactory(const std::string &type_name, ComponentFactory *factory) {
+            registerFactory(type_name, shared_ptr<ComponentFactory>(factory));
+        }
         
         template< template<typename> class FactoryTemplate, typename ComponentType >
         void registerFactory() {
-            FactoryTemplate<ComponentType> *factory = new FactoryTemplate<ComponentType>();
-            registerFactory(factory->getComponentInfo().getSignature(), (ComponentFactory *)factory);
+            shared_ptr< FactoryTemplate<ComponentType> > factory(new FactoryTemplate<ComponentType>());
+            registerFactory(factory->getComponentInfo().getSignature(), factory);
         }
+        
+        void registerFactoryAlias(const std::string &type_name, const std::string &alias_name);
+        
+        template<typename ComponentType>
+        void registerFactoryAlias(const std::string &alias_name) {
+            ComponentInfo info;
+            ComponentType::describeComponent(info);
+            registerFactoryAlias(info.getSignature(), alias_name);
+        }
+		
+		shared_ptr<ComponentFactory> getFactory(const std::string &type_name);
 		
 		
 		// Instance-oriented methods

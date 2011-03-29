@@ -76,10 +76,10 @@ ComponentRegistry::ComponentRegistry() :
 	registerFactory("action/load_stimulus", new LoadStimulusFactory());
     registerFactory("action/unload_stimulus", new UnloadStimulusFactory());
     registerFactory("action/queue_stimulus", new QueueStimulusFactory());
-	registerFactory("action/show_stimulus", new QueueStimulusFactory());
+	registerFactoryAlias("action/queue_stimulus", "action/show_stimulus");
 	registerFactory("action/live_queue_stimulus", new LiveQueueStimulusFactory());
 	registerFactory("action/dequeue_stimulus", new DequeueStimulusFactory());
-	registerFactory("action/hide_stimulus", new DequeueStimulusFactory());
+	registerFactoryAlias("action/dequeue_stimulus", "action/hide_stimulus");
 	registerFactory("action/bring_stimulus_to_front", new BringStimulusToFrontFactory());
 	registerFactory("action/send_stimulus_to_back", new SendStimulusToBackFactory());
 	registerFactory("action/update_stimulus_display", new UpdateStimulusDisplayFactory());
@@ -88,7 +88,6 @@ ComponentRegistry::ComponentRegistry() :
 	registerFactory("action/pause_sound", new PauseSoundFactory());
 	registerFactory("action/start_device_io", new StartDeviceIOFactory());
 	registerFactory("action/stop_device_io", new StopDeviceIOFactory());
-//	registerFactory("action/fake_monkey_saccade_to_location", new FakeMonkeySaccadeToLocationFactory());	
 	registerFactory("action/reset_selection", new ResetSelectionFactory());
 	registerFactory("action/accept_selections", new AcceptSelectionsFactory());
 	registerFactory("action/reject_selections", new RejectSelectionsFactory());
@@ -99,8 +98,8 @@ ComponentRegistry::ComponentRegistry() :
 	registerFactory("action/update_calibration", new CalibrateNowFactory());
 	registerFactory("action/clear_calibration", new ClearCalibrationFactory());
 
-    registerFactory(std::string("action/play_dynamic_stimulus"), new PlayDynamicStimulusFactory());
-    registerFactory(std::string("action/stop_dynamic_stimulus"), new StopDynamicStimulusFactory());
+    registerFactory("action/play_dynamic_stimulus", new PlayDynamicStimulusFactory());
+    registerFactory("action/stop_dynamic_stimulus", new StopDynamicStimulusFactory());
             
             
 	// transitions
@@ -119,7 +118,6 @@ ComponentRegistry::ComponentRegistry() :
 	
 	// IO devices
 	registerFactory("iodevice/dummy", new DummyIODeviceFactory());
-	//registerFactory("iodevice/niusb6009", new NIUSB6009Factory());
 	
 	registerFactory("iochannel", new IOChannelRequestFactory());
 	
@@ -142,11 +140,11 @@ ComponentRegistry::ComponentRegistry() :
     
 }
 
+
 // Factory-oriented methods
-void ComponentRegistry::registerFactory(std::string type_name, 
-										 ComponentFactory *_factory){
-	shared_ptr<ComponentFactory> factory(_factory);
-  
+
+
+void ComponentRegistry::registerFactory(const std::string &type_name, shared_ptr<ComponentFactory> factory) {
     shared_ptr<ComponentFactory> existing_factory = factories[type_name];
     if(existing_factory != NULL){
         throw ComponentFactoryConflictException(type_name);
@@ -155,19 +153,25 @@ void ComponentRegistry::registerFactory(std::string type_name,
     factories[type_name] = factory;
 }
 
-shared_ptr<ComponentFactory> ComponentRegistry::getFactory(std::string type_name){
+
+void ComponentRegistry::registerFactoryAlias(const std::string &type_name, const std::string &alias_name) {
+    registerFactory(alias_name, getFactory(type_name));
+}
+
+
+shared_ptr<ComponentFactory> ComponentRegistry::getFactory(const std::string &type_name) {
+	shared_ptr<ComponentFactory> factory(factories[type_name]);
 	
-	shared_ptr<ComponentFactory> factory = factories[type_name];
-	
-	
-	if(factory == NULL){
+	if (!factory) {
 		// try splitting
 		std::vector<std::string> split_vector;
 		split(split_vector, type_name, is_any_of("/"));
-		
 		factory = factories[split_vector[0]];
 	}
 	
+	if (!factory) {
+		throw SimpleException("No factory for object type", type_name);
+	}
 	
 	return factory;
 }
@@ -197,12 +201,6 @@ shared_ptr<mw::Component> ComponentRegistry::createNewObject(const std::string &
 														   const std::map<std::string, std::string> &parameters){
 	// get the factory
 	shared_ptr<ComponentFactory> factory = getFactory(type_name);
-	
-	// make sure it is valid
-	if(factory == NULL){
-		// do something
-		throw SimpleException("No factory for object type", type_name);
-	}
 	
 	// create the new object
 	shared_ptr<mw::Component> obj;
