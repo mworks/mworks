@@ -31,49 +31,61 @@ BEGIN_NAMESPACE_MW
 // this is the base object from which many others should derive
 class BasicTransformStimulus : public Stimulus {
 	
-	protected:
-		shared_ptr<Variable> xoffset;
-		shared_ptr<Variable> yoffset;
-		
-		shared_ptr<Variable> xscale;
-		shared_ptr<Variable> yscale;
-                
-		shared_ptr<Variable> rotation; // planar rotation added in for free
-		shared_ptr<Variable> alpha_multiplier;
-        
-        // JJD added these July 2006 to keep track of what was actually done for announcing things
-        float last_posx, last_posy, last_sizex, last_sizey, last_rot;
-        
-	public:
-        BasicTransformStimulus(std::string _tag, 
-								shared_ptr<Variable> _xoffset, 
-								shared_ptr<Variable> _yoffset,
-								shared_ptr<Variable> _xscale, 
-								shared_ptr<Variable> _yscale, 
-								shared_ptr<Variable> _rot,
-								shared_ptr<Variable> _alpha);
-		BasicTransformStimulus(const BasicTransformStimulus& tocopy);
-		~BasicTransformStimulus();
-		
-		virtual void setTranslation(shared_ptr<Variable> _x, 
-									shared_ptr<Variable> _y);
-        virtual void setScale(shared_ptr<Variable> _scale);
-        virtual void setScale(shared_ptr<Variable> _xscale, 
-							  shared_ptr<Variable> _yscale);
-        virtual void setRotation(shared_ptr<Variable> rot);
-        virtual void draw(shared_ptr<StimulusDisplay>  display);
-        virtual void draw(shared_ptr<StimulusDisplay>  display,float x, float y,
-                                                    float sizex, float sizey);
+protected:
+    shared_ptr<Variable> xoffset;
+    shared_ptr<Variable> yoffset;
     
-        virtual void drawInUnitSquare(shared_ptr<StimulusDisplay> display) = 0;
+    shared_ptr<Variable> xscale;
+    shared_ptr<Variable> yscale;
     
-        virtual Datum getCurrentAnnounceDrawData();    
+    shared_ptr<Variable> rotation; // planar rotation added in for free
+    shared_ptr<Variable> alpha_multiplier;
+    
+    // JJD added these July 2006 to keep track of what was actually done for announcing things
+    float last_posx, last_posy, last_sizex, last_sizey, last_rot;
+    
+public:
+    static const std::string X_SIZE;
+    static const std::string Y_SIZE;
+    static const std::string X_POSITION;
+    static const std::string Y_POSITION;
+    static const std::string ROTATION;
+    static const std::string ALPHA_MULTIPLIER;
+    
+    static void describeComponent(ComponentInfo &info);
+    
+    explicit BasicTransformStimulus(const Map<ParameterValue> &parameters);
+    BasicTransformStimulus(std::string _tag, 
+                           shared_ptr<Variable> _xoffset, 
+                           shared_ptr<Variable> _yoffset,
+                           shared_ptr<Variable> _xscale, 
+                           shared_ptr<Variable> _yscale, 
+                           shared_ptr<Variable> _rot,
+                           shared_ptr<Variable> _alpha);
+    BasicTransformStimulus(const BasicTransformStimulus& tocopy);
+    virtual ~BasicTransformStimulus() { }
+    
+    virtual void setTranslation(shared_ptr<Variable> _x, 
+                                shared_ptr<Variable> _y);
+    virtual void setScale(shared_ptr<Variable> _scale);
+    virtual void setScale(shared_ptr<Variable> _xscale, 
+                          shared_ptr<Variable> _yscale);
+    virtual void setRotation(shared_ptr<Variable> rot);
+    virtual void draw(shared_ptr<StimulusDisplay>  display);
+    virtual void draw(shared_ptr<StimulusDisplay>  display,float x, float y,
+                      float sizex, float sizey);
+    
+    virtual void drawInUnitSquare(shared_ptr<StimulusDisplay> display) = 0;
+    
+    virtual Datum getCurrentAnnounceDrawData();    
 	
-        virtual shared_ptr<Variable> getXScale(){ return xscale; }
-        virtual shared_ptr<Variable> getYScale(){ return yscale; }
-        virtual shared_ptr<Variable> getXOffset(){ return xoffset; }
-        virtual shared_ptr<Variable> getYOffset(){ return yoffset; }
+    virtual shared_ptr<Variable> getXScale(){ return xscale; }
+    virtual shared_ptr<Variable> getYScale(){ return yscale; }
+    virtual shared_ptr<Variable> getXOffset(){ return xoffset; }
+    virtual shared_ptr<Variable> getYOffset(){ return yoffset; }
+
 };
+
 
 // Image file based stimulus
 class ImageStimulus : public BasicTransformStimulus {

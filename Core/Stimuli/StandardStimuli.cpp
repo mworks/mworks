@@ -41,6 +41,37 @@ BEGIN_NAMESPACE_MW
 
 #define VERBOSE_STANDARD_STIMULI 0
 
+
+const std::string BasicTransformStimulus::X_SIZE("x_size");
+const std::string BasicTransformStimulus::Y_SIZE("y_size");
+const std::string BasicTransformStimulus::X_POSITION("x_position");
+const std::string BasicTransformStimulus::Y_POSITION("y_position");
+const std::string BasicTransformStimulus::ROTATION("rotation");
+const std::string BasicTransformStimulus::ALPHA_MULTIPLIER("alpha_multiplier");
+
+
+void BasicTransformStimulus::describeComponent(ComponentInfo &info) {
+    Stimulus::describeComponent(info);
+    info.addParameter(X_SIZE);
+    info.addParameter(Y_SIZE);
+    info.addParameter(X_POSITION, "0.0");
+    info.addParameter(Y_POSITION, "0.0");
+    info.addParameter(ROTATION, "0.0");
+    info.addParameter(ALPHA_MULTIPLIER, "1.0");
+}
+
+
+BasicTransformStimulus::BasicTransformStimulus(const ParameterValueMap &parameters) :
+    Stimulus(parameters),
+    xscale(registerVariable(parameters[X_SIZE])),
+    yscale(registerVariable(parameters[Y_SIZE])),
+    xoffset(registerVariable(parameters[X_POSITION])),
+    yoffset(registerVariable(parameters[Y_POSITION])),
+    rotation(registerVariable(parameters[ROTATION])),
+    alpha_multiplier(registerVariable(parameters[ALPHA_MULTIPLIER]))
+{ }
+
+
 BasicTransformStimulus::BasicTransformStimulus(std::string _tag,
 										shared_ptr<Variable> _xoffset, 
 										shared_ptr<Variable> _yoffset, shared_ptr<Variable> _xscale,
@@ -66,9 +97,6 @@ BasicTransformStimulus::BasicTransformStimulus(
 	rotation = tocopy.rotation;
 	alpha_multiplier = tocopy.alpha_multiplier;
 }
-    
-
-BasicTransformStimulus::~BasicTransformStimulus(){ }
 
 							            
 void BasicTransformStimulus::setTranslation(shared_ptr<Variable> _x, shared_ptr<Variable> _y) {

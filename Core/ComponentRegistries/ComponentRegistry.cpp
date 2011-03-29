@@ -154,11 +154,6 @@ void ComponentRegistry::registerFactory(const std::string &type_name, shared_ptr
 }
 
 
-void ComponentRegistry::registerFactoryAlias(const std::string &type_name, const std::string &alias_name) {
-    registerFactory(alias_name, getFactory(type_name));
-}
-
-
 shared_ptr<ComponentFactory> ComponentRegistry::getFactory(const std::string &type_name) {
 	shared_ptr<ComponentFactory> factory(factories[type_name]);
 	

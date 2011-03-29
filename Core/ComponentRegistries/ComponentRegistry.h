@@ -103,7 +103,9 @@ namespace mw {
             registerFactory(factory->getComponentInfo().getSignature(), factory);
         }
         
-        void registerFactoryAlias(const std::string &type_name, const std::string &alias_name);
+        void registerFactoryAlias(const std::string &type_name, const std::string &alias_name) {
+            registerFactory(alias_name, getFactory(type_name));
+        }
         
         template<typename ComponentType>
         void registerFactoryAlias(const std::string &alias_name) {

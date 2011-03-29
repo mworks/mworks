@@ -97,6 +97,8 @@ protected:
     /*CollectionPoint *collection_point;*/
     
 public:
+    static const std::string DEFERRED;
+    
     static void describeComponent(ComponentInfo &info);
     
     /**

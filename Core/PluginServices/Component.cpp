@@ -8,9 +8,37 @@
  */
 
 #include "Component.h"
-using namespace mw;
+#include "ComponentInfo.h"
+#include "ParameterValue.h"
 
-long mw::Component::_id_count = 0;
+
+BEGIN_NAMESPACE_MW
+
+
+long Component::_id_count = 0;
+
+
+const std::string Component::TAG("tag");
+
+
+void Component::describeComponent(ComponentInfo &info) {
+    info.addParameter(TAG, false);
+}
+
+
+Component::Component(const ParameterValueMap &parameters) :
+    tag(parameters[TAG].getValue())
+{
+    compact_id = _id_count++;
+}
+
+
+Component::Component(std::string _tag, std::string _sig) :
+    tag(_tag),
+    object_signature(_sig)
+{
+    compact_id = _id_count++;
+}
 
 
 string AmbiguousComponentReference::getStringRepresentation(){
@@ -23,3 +51,28 @@ string AmbiguousComponentReference::getStringRepresentation(){
     
     return rep.str();
 }
+
+
+END_NAMESPACE_MW
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

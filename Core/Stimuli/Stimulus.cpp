@@ -164,9 +164,13 @@ void StimulusGroup::addChild(std::map<std::string, std::string> parameters,
 }
 
 
+const std::string Stimulus::DEFERRED("deferred");
+
+
 void Stimulus::describeComponent(ComponentInfo &info) {
-    info.addParameter("tag");
-    info.addParameter("deferred", "no");
+    Component::describeComponent(info);
+    info.getParameter(Component::TAG).setRequired(true);
+    info.addParameter(DEFERRED, "no");
 }
 
 
@@ -188,7 +192,7 @@ Stimulus::Stimulus(std::string _tag) :
 
 Stimulus::Stimulus(const ParameterValueMap &parameters) :
     Announcable(ANNOUNCE_STIMULUS_TAGNAME),
-    mw::Component(parameters["tag"].getValue()),
+    mw::Component(parameters),
     loaded(false),
     visible(false),
     cached(false),
@@ -196,7 +200,7 @@ Stimulus::Stimulus(const ParameterValueMap &parameters) :
     thumbnail(NULL),
     frozen(false)
 {
-    setDeferredFromString(parameters["deferred"]);
+    setDeferredFromString(parameters[DEFERRED]);
 }
 
 

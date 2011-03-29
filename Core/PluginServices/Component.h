@@ -17,11 +17,14 @@
 #include <sstream>
 #include <map>
 #include "Utilities.h"
+#include "Map.h"
 
 namespace mw {
 	using namespace boost;
 	
 	class ComponentRegistry;  // forward decl
+    class ComponentInfo;
+    class ParameterValue;
 	
 	class Component : public enable_shared_from_this<Component>{
 		
@@ -39,11 +42,12 @@ namespace mw {
 		static long _id_count;
 		
 	public:
-		
-		Component(std::string _tag = "", std::string _sig = ""):
-                  tag(_tag), object_signature(_sig){
-			compact_id = mw::Component::_id_count++;
-		}
+        static const std::string TAG;
+        
+        static void describeComponent(ComponentInfo &info);
+        
+        explicit Component(const Map<ParameterValue> &parameters);
+        explicit Component(std::string _tag = "", std::string _sig = "");
 		
 		virtual ~Component(){ }
 		

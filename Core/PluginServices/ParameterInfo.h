@@ -37,6 +37,14 @@ public:
         defaultValue(defaultValue)
     { }
     
+    void setRequired(bool newRequired) {
+        required = newRequired;
+    }
+    
+    void setDefaultValue(const std::string &newDefaultValue) {
+        defaultValue = newDefaultValue;
+    }
+    
     bool isRequired() const {
         return required;
     }

@@ -49,6 +49,10 @@ public:
         }
     }
     
+    ParameterInfo& getParameter(const std::string &name) {
+        return parameters.at(name);
+    }
+    
     const std::string& getSignature() const {
         return signature;
     }
