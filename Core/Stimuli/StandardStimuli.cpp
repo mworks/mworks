@@ -334,20 +334,35 @@ void DevILImageLoader::initializeIL() {
 bool DevILImageLoader::ilInitialized = false;
 
 
-ImageStimulus::ImageStimulus(std::string _tag, std::string _filename, 
-								shared_ptr<Variable> _xoffset, 
-                                shared_ptr<Variable> _yoffset, shared_ptr<Variable> _xscale, 
-                                shared_ptr<Variable> _yscale, shared_ptr<Variable> _rot,
-							   shared_ptr<Variable> _alpha) 
-                                : BasicTransformStimulus(_tag, _xoffset, _yoffset,
-                                                     _xscale ,_yscale, _rot, _alpha) {
+const std::string ImageStimulus::PATH("path");
 
-	filename = _filename;
-	
-	width = 0; 
-	height = 0;
 
+void ImageStimulus::describeComponent(ComponentInfo &info) {
+    BasicTransformStimulus::describeComponent(info);
+    info.setSignature("stimulus/image_file");
+    info.addParameter(PATH);
 }
+
+
+ImageStimulus::ImageStimulus(const ParameterValueMap &parameters) :
+    BasicTransformStimulus(parameters),
+    width(0),
+    height(0)
+{
+    namespace bf = boost::filesystem;
+    bf::path full_path(expandPath(parameters["working_path"], parameters[PATH]));
+
+	if (!bf::exists(full_path)) {
+		throw SimpleException("Path does not exist", full_path.string());
+	}
+	
+	if (bf::is_directory(full_path)) {
+		throw SimpleException("Path is a directory", full_path.string());
+	}
+    
+    filename = full_path.string();
+}
+
 
 // for cloning
 ImageStimulus::ImageStimulus( std::string _tag, 
@@ -388,19 +403,6 @@ ImageStimulus::ImageStimulus(ImageStimulus& copy):
     
 	filename = copy.getFilename();
 }       
-        
-ImageStimulus::~ImageStimulus() {
-	
-	if(frozen){
-		//delete xoffset;
-//		delete yoffset;
-//		delete xscale;
-//		delete yscale;
-//		delete rotation;
-		
-	}
-	
-}
 
 
 std::string ImageStimulus::getFilename() {
@@ -549,65 +551,6 @@ Datum ImageStimulus::getCurrentAnnounceDrawData() {
     return (announceData);
 }
 
-
-shared_ptr<mw::Component> ImageStimulusFactory::createObject(std::map<std::string, std::string> parameters,
-													ComponentRegistry *reg) {
-	namespace bf = boost::filesystem;
-	
-	REQUIRE_ATTRIBUTES(parameters, 
-					   "tag", 
-					   "x_size", 
-					   "y_size", 
-					   "x_position", 
-					   "y_position", 
-					   "rotation", 
-					   "path");
-	
-	std::string tagname(parameters.find("tag")->second);
-	shared_ptr<Variable> x_size = reg->getVariable(parameters.find("x_size")->second);	
-	shared_ptr<Variable> y_size = reg->getVariable(parameters.find("y_size")->second);	
-	shared_ptr<Variable> x_position = reg->getVariable(parameters.find("x_position")->second);	
-	shared_ptr<Variable> y_position = reg->getVariable(parameters.find("y_position")->second);	
-	shared_ptr<Variable> rotation = reg->getVariable(parameters.find("rotation")->second);	
-	
-	shared_ptr<Variable> alpha_multiplier = 
-			reg->getVariable(parameters["alpha_multiplier"], std::string("1.0"));	
-	
-	bf::path full_path = reg->getPath(parameters["working_path"], parameters["path"]);
-		
-	checkAttribute(x_size, parameters["reference_id"], "x_size", parameters["x_size"]);
-	checkAttribute(y_size, parameters["reference_id"], "y_size", parameters.find("y_size")->second);
-	checkAttribute(x_position, parameters["reference_id"], "x_position", parameters.find("x_position")->second);
-	checkAttribute(y_position, parameters["reference_id"], "y_position", parameters.find("y_position")->second);
-	checkAttribute(rotation, parameters["reference_id"], "rotation", parameters.find("rotation")->second);
-	checkAttribute(alpha_multiplier,parameters["reference_id"], "alpha_multiplier", parameters.find("alpha_multiplier")->second);
-	if(!bf::exists(full_path)) {
-		throw InvalidReferenceException(parameters["reference_id"], "path", parameters.find("path")->second);
-	}
-	
-	if(bf::is_directory(full_path)) {
-		throw InvalidReferenceException(parameters["reference_id"], "path", parameters.find("path")->second);
-	}
-
-	shared_ptr <ImageStimulus> newImageStimulus = shared_ptr<ImageStimulus>(new ImageStimulus(tagname, 
-																						 full_path.string(), 
-																						 x_position,
-																						 y_position,
-																						 x_size,
-																						 y_size,
-																						 rotation,
-																						 alpha_multiplier));
-
-    newImageStimulus->setDeferredFromString(parameters["deferred"]);
-    if (newImageStimulus->getDeferred() == Stimulus::nondeferred_load) {
-        newImageStimulus->load(StimulusDisplay::getCurrentStimulusDisplay());
-    }
-
-	shared_ptr <StimulusNode> thisStimNode = shared_ptr<StimulusNode>(new StimulusNode(newImageStimulus));
-	reg->registerStimulusNode(tagname, thisStimNode);
-	
-	return newImageStimulus;
-}
 
 PointStimulus::PointStimulus(std::string _tag, shared_ptr<Variable> _xoffset, shared_ptr<Variable> _yoffset, 
 						shared_ptr<Variable> _xscale, shared_ptr<Variable> _yscale,

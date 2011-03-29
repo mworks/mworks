@@ -89,49 +89,40 @@ public:
 
 // Image file based stimulus
 class ImageStimulus : public BasicTransformStimulus {
-    protected:
-        std::string filename;
-        std::string fileHash;
-        vector<GLuint> texture_maps;
-		int width, height;
-		
-		// for debugging
-		ConstantVariable *const0, *const2;
-		
-    public:
-        ImageStimulus(std::string _tag, std::string filename, 
-								shared_ptr<Variable> _xoffset, 
-								shared_ptr<Variable> _yoffset, 
-								shared_ptr<Variable> _xscale,
-								shared_ptr<Variable> _yscale,
-					   shared_ptr<Variable> _rot,
-									shared_ptr<Variable> _alpha);
-		// constructor for cloning an existing image stimulus
-		ImageStimulus(std::string _tag, std::string _filename,
-								const vector<GLuint>& _texture_maps, 
-								int _width,
-								int _height,
-								shared_ptr<Variable> _xoffset, 
-                                shared_ptr<Variable> _yoffset, 
-								shared_ptr<Variable> _xscale, 
-                                shared_ptr<Variable> _yscale, 
-                                shared_ptr<Variable> _rot,
-								shared_ptr<Variable> _alpha);
-								
-        ImageStimulus(ImageStimulus& copy);
-        virtual ~ImageStimulus();
-		
-        std::string getFilename();
-        virtual void drawInUnitSquare(shared_ptr<StimulusDisplay> display);
-        virtual void load(shared_ptr<StimulusDisplay> display);
-        virtual void unload(shared_ptr<StimulusDisplay> display);
-        virtual Datum getCurrentAnnounceDrawData();
+protected:
+    std::string filename;
+    std::string fileHash;
+    vector<GLuint> texture_maps;
+    int width, height;
+    
+public:
+    static const std::string PATH;
+    
+    static void describeComponent(ComponentInfo &info);
+    
+    explicit ImageStimulus(const Map<ParameterValue> &parameters);
+    // constructor for cloning an existing image stimulus
+    ImageStimulus(std::string _tag, std::string _filename,
+                  const vector<GLuint>& _texture_maps, 
+                  int _width,
+                  int _height,
+                  shared_ptr<Variable> _xoffset, 
+                  shared_ptr<Variable> _yoffset, 
+                  shared_ptr<Variable> _xscale, 
+                  shared_ptr<Variable> _yscale, 
+                  shared_ptr<Variable> _rot,
+                  shared_ptr<Variable> _alpha);
+    
+    ImageStimulus(ImageStimulus& copy);
+    virtual ~ImageStimulus() { }
+    
+    std::string getFilename();
+    virtual void drawInUnitSquare(shared_ptr<StimulusDisplay> display);
+    virtual void load(shared_ptr<StimulusDisplay> display);
+    virtual void unload(shared_ptr<StimulusDisplay> display);
+    virtual Datum getCurrentAnnounceDrawData();
 };
 
-class ImageStimulusFactory : public ComponentFactory {
-	virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-												ComponentRegistry *reg);
-};
 
 // Simple point (e.g. for fixation) - JJD started, but not clear how to implement JJD TODO
 // the x and y units are in the ambient open GL space

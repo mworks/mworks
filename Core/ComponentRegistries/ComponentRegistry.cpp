@@ -123,7 +123,7 @@ ComponentRegistry::ComponentRegistry() :
 	
 	// stimuli
     registerFactory<StandardStimulusFactory, BlankScreen>();
-	registerFactory("stimulus/image_file", new ImageStimulusFactory());
+    registerFactory<StandardStimulusFactory, ImageStimulus>();
 	registerFactory("stimulus/fixation_point", new FixationPointFactory());
     registerFactory<StandardComponentFactory, StimulusGroup>();
 	
