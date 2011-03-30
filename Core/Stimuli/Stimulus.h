@@ -204,7 +204,6 @@ public:
     bool isCached();
     bool hasThumbnail();
     Stimulus * getThumbnail();
-    std::string gettag();
     int getDeferred(){ return deferred; }
     void setDeferred(load_style _deferred){ deferred = _deferred; }
     void setDeferredFromString(const std::string &deferredString);

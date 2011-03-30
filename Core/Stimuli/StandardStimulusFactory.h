@@ -25,17 +25,14 @@ public:
     virtual boost::shared_ptr<mw::Component> createObject(ComponentFactory::StdStringMap parameters,
                                                           ComponentRegistryPtr reg)
     {
-        ParameterValueMap values;
-        boost::shared_ptr<StimulusType> stim(StandardComponentFactory<StimulusType>::createObject(parameters,
-                                                                                                  reg,
-                                                                                                  values));
+        boost::shared_ptr<StimulusType> stim(boost::dynamic_pointer_cast<StimulusType>(StandardComponentFactory<StimulusType>::createObject(parameters, reg)));
         
         if (stim->getDeferred() == Stimulus::nondeferred_load) {
             stim->load(StimulusDisplay::getCurrentStimulusDisplay());
         }
         
         boost::shared_ptr<StimulusNode> node(new StimulusNode(stim));
-        reg->registerStimulusNode(values.at("tag"), node);
+        reg->registerStimulusNode(stim->getTag(), node);
         
         return stim;
     }

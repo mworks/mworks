@@ -305,10 +305,6 @@ Stimulus * Stimulus::getThumbnail() {
     return thumbnail;
 }
 
-std::string Stimulus::gettag() {
-    return tag;
-}
-
 
 void Stimulus::setDeferredFromString(const std::string &deferredString) {
     std::string ds(boost::algorithm::to_lower_copy(deferredString));
