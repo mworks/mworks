@@ -225,6 +225,9 @@ public:
 };
 
 
+typedef boost::shared_ptr<Stimulus> StimulusPtr;
+
+
 /**
  * StimulusGroup provides a simple mechanism for creating groups of stimuli
  * as an organizational convenience.  Its use is not necessary
@@ -257,5 +260,33 @@ public:
 						  shared_ptr<mw::Component> child);
 	
 };
+
+
+typedef boost::shared_ptr<StimulusGroup> StimulusGroupPtr;
+
+
 END_NAMESPACE_MW
+
+
 #endif
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

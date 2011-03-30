@@ -11,7 +11,6 @@
 #define _MW_COMPONENT_INFO_H
 
 #include <string>
-#include <vector>
 
 #include "ParameterInfo.h"
 
@@ -22,8 +21,6 @@ BEGIN_NAMESPACE_MW
 class ComponentInfo {
     
 public:
-    typedef std::vector<std::string> StdStringVector;
-    
     void setSignature(const std::string &newSignature) {
         signature = newSignature;
     }
@@ -44,13 +41,6 @@ public:
     
     void addParameter(const std::string &name, const ParameterInfo &info) {
         parameters[name] = info;
-        if (info.isRequired()) {
-            requiredParameters.push_back(name);
-        }
-    }
-    
-    ParameterInfo& getParameter(const std::string &name) {
-        return parameters.at(name);
     }
     
     const std::string& getSignature() const {
@@ -61,14 +51,9 @@ public:
         return parameters;
     }
     
-    const StdStringVector& getRequiredParameters() const {
-        return requiredParameters;
-    }
-    
 private:
     std::string signature;
     ParameterInfoMap parameters;
-    StdStringVector requiredParameters;
     
 };
 

@@ -31,6 +31,18 @@ RGBColor ParameterValue::convert(const std::string &s, mw::ComponentRegistry *re
 }
 
 
+template<>
+StimulusGroupPtr ParameterValue::convert(const std::string &s, ComponentRegistryPtr reg) {
+    StimulusGroupPtr stimGroup(reg->getObject<StimulusGroup>(s));
+
+    if (!stimGroup) {
+        throw SimpleException("Unknown stimulus group", s);
+    }
+
+    return stimGroup;
+}
+
+
 END_NAMESPACE_MW
 
 

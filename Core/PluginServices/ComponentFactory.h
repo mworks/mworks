@@ -73,7 +73,8 @@ protected:
     static bool shouldIgnoreParameter(const std::string &name);
     
     void processParameters(StdStringMap &parameters, ComponentRegistry *reg, Map<ParameterValue> &values);
-    void requireAttributes(StdStringMap &parameters, const StdStringVector &attributes, bool useDefaults = false);
+    
+    void requireAttributes(StdStringMap &parameters, const StdStringVector &attributes);
     void checkAttribute(shared_ptr<mw::Component> component,
                         const string &refID,
                         const string &name,

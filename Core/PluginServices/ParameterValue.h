@@ -19,6 +19,7 @@
 #include "ComponentRegistry.h"
 #include "Map.h"
 #include "ParsedColorTrio.h"
+#include "Stimulus.h"
 
 
 BEGIN_NAMESPACE_MW
@@ -31,6 +32,14 @@ public:
         value(value),
         reg(reg)
     { }
+    
+    ComponentRegistryPtr getRegistry() const {
+        return reg;
+    }
+    
+    bool empty() const {
+        return value.empty();
+    }
     
     const std::string& str() const {
         return value;
@@ -83,6 +92,10 @@ ParsedColorTrio ParameterValue::convert(const std::string &s, ComponentRegistryP
 
 template<>
 RGBColor ParameterValue::convert(const std::string &s, ComponentRegistryPtr reg);
+
+
+template<>
+StimulusGroupPtr ParameterValue::convert(const std::string &s, ComponentRegistryPtr reg);
 
 
 END_NAMESPACE_MW
