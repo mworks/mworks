@@ -5,12 +5,12 @@
     <sounds/>
     <stimuli>
         <stimulus_group tag="mainGroup" full_name="fullname_3">
-                    <stimulus tag="XIM000" full_name="XIM 000" type="image_file" path="./zero.0.jpg" x_size="25" y_size="25" x_position="0" y_position="24" rotation="0.0" contrast="0.0" affine_transform="0"/>
-                    <stimulus tag="XIM001" full_name="XIM 001" type="image_file" path="./1.png" x_size="25" y_size="25" x_position="0" y_position="20" rotation="0.0" contrast="0.0" affine_transform="0"/>
-                    <stimulus tag="XIM002" full_name="XIM 002" type="image_file" path="./2.png" x_size="25" y_size="25" x_position="0" y_position="16" rotation="0.0" contrast="0.0" affine_transform="0"/>
-                    <stimulus tag="XIM003" full_name="XIM 003" type="image_file" path="./3.png" x_size="25" y_size="25" x_position="0" y_position="12" rotation="0.0" contrast="0.0" affine_transform="0"/>
-                    <stimulus tag="XIM004" full_name="XIM 004" type="image_file" path="./4.png" x_size="25" y_size="25" x_position="0" y_position="8" rotation="0.0" contrast="0.0" affine_transform="0"/>
-                    <stimulus tag="XIM005" full_name="XIM 005" type="image_file" path="./5.png" x_size="25" y_size="25" x_position="0" y_position="4" rotation="0.0" contrast="0.0" affine_transform="0"/>
+                    <stimulus tag="XIM000" full_name="XIM 000" type="image_file" path="./zero.0.jpg" x_size="25" y_size="25" x_position="0" y_position="24" rotation="0.0"/>
+                    <stimulus tag="XIM001" full_name="XIM 001" type="image_file" path="./1.png" x_size="25" y_size="25" x_position="0" y_position="20" rotation="0.0"/>
+                    <stimulus tag="XIM002" full_name="XIM 002" type="image_file" path="./2.png" x_size="25" y_size="25" x_position="0" y_position="16" rotation="0.0"/>
+                    <stimulus tag="XIM003" full_name="XIM 003" type="image_file" path="./3.png" x_size="25" y_size="25" x_position="0" y_position="12" rotation="0.0"/>
+                    <stimulus tag="XIM004" full_name="XIM 004" type="image_file" path="./4.png" x_size="25" y_size="25" x_position="0" y_position="8" rotation="0.0"/>
+                    <stimulus tag="XIM005" full_name="XIM 005" type="image_file" path="./5.png" x_size="25" y_size="25" x_position="0" y_position="4" rotation="0.0"/>
         </stimulus_group>
     </stimuli>
     <experiment tag="StimuliTest">

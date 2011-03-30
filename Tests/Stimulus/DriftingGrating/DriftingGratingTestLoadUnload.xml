@@ -16,7 +16,7 @@
     </variables>
     <sounds tag="Sounds"></sounds>
     <stimuli tag="Stimuli">
-        <stimulus frames_per_second="frames_per_second" tag="dg" inverted="1" mask="ellipse" type="drifting_grating" direction="direction" speed="speed" spatial_frequency="frequency" grating_type="sinusoid" x_size="width" y_size="height" x_position="x_position" y_position="y_position" rotation="rotation" affine_transform="0"></stimulus>
+        <stimulus frames_per_second="frames_per_second" tag="dg" inverted="1" mask="ellipse" type="drifting_grating" direction="direction" speed="speed" spatial_frequency="frequency" grating_type="sinusoid" x_size="width" y_size="height" x_position="x_position" y_position="y_position" rotation="rotation"></stimulus>
     </stimuli>
     <filters tag="Filters"></filters>
     <optimizers tag="Optimizers"></optimizers>

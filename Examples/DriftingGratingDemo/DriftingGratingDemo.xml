@@ -68,9 +68,9 @@
         <sound tag="acquire_sound" type="wav_file" path="./sounds/acquire.wav"></sound>
     </sounds>
     <stimuli tag="Stimuli">
-        <stimulus frames_per_second="30" statistics_reporting="0" error_reporting="0" tag="dg" inverted="1" mask="gaussian" std_dev="std_dev" mean="mean" type="drifting_grating" direction="direction" speed="speed" spatial_frequency="frequency" grating_type="sinusoid" x_size="width" y_size="height" x_position="xpos" y_position="ypos" rotation="rotation" affine_transform="0"></stimulus>
+        <stimulus frames_per_second="30" statistics_reporting="0" error_reporting="0" tag="dg" inverted="1" mask="gaussian" std_dev="std_dev" mean="mean" type="drifting_grating" direction="direction" speed="speed" spatial_frequency="frequency" grating_type="sinusoid" x_size="width" y_size="height" x_position="xpos" y_position="ypos" rotation="rotation"></stimulus>
         <stimulus tag="blank screen" type="blank_screen" color="0.5,0.5,0.5"></stimulus>
-        <stimulus type="fixation_point" tag="fix_point" color="1,0,0" trigger_width="2" trigger_watch_x="eye_h" trigger_watch_y="eye_v" trigger_flag="eye_in_window" x_size="0.2" y_size="0.2" x_position="0" y_position="0" rotation="0" contrast="0"></stimulus>
+        <stimulus type="fixation_point" tag="fix_point" color="1,0,0" trigger_width="2" trigger_watch_x="eye_h" trigger_watch_y="eye_v" trigger_flag="eye_in_window" x_size="0.2" y_size="0.2" x_position="0" y_position="0" rotation="0"></stimulus>
     </stimuli>
     <experiment tag="Experiment">
         <protocol tag="Protocol" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">

@@ -4,7 +4,7 @@
     <variables/>
     <sounds/>
     <stimuli>
-        <stimulus tag="eight" full_name="fullname12" type="image_file" path="eight.jpg" x_size="25" y_size="25" x_position="0" y_position="0" rotation="0.0" contrast="0.0" affine_transform="0"/>
+        <stimulus tag="eight" full_name="fullname12" type="image_file" path="eight.jpg" x_size="25" y_size="25" x_position="0" y_position="0" rotation="0.0"/>
     </stimuli>
     <experiment tag="ShowStimulus" full_name="ShowStimulus">
         <protocol tag="Protocol" full_name="Protocol" description="" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">

@@ -14,8 +14,8 @@
     </variables>
     <sounds tag="Sounds"></sounds>
     <stimuli tag="Stimuli">
-        <stimulus type="rectangle" tag="black rect" color="0,0,0" x_size="5" y_size="5" x_position="0" y_position="0" rotation="0" contrast="1"></stimulus>
-        <stimulus type="rectangle" tag="white rect" color="1,1,1" x_size="5" y_size="5" x_position="0" y_position="0" rotation="0" contrast="1"></stimulus>
+        <stimulus type="rectangle" tag="black rect" color="0,0,0" x_size="5" y_size="5" x_position="0" y_position="0" rotation="0"></stimulus>
+        <stimulus type="rectangle" tag="white rect" color="1,1,1" x_size="5" y_size="5" x_position="0" y_position="0" rotation="0"></stimulus>
     </stimuli>
     <experiment tag="simple_refresh_test" full_name="simple_refresh_test">
         <protocol tag="srt" full_name="srt" interruptable="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles" description="" interruptible="YES">

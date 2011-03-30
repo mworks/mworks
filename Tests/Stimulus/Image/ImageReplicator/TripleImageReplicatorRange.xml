@@ -11,7 +11,7 @@
         <range_replicator tag="Range Replicator_1" full_name="fullname_1" from="0" to="1" step="1" variable="x">
             <range_replicator tag="Range Replicator_2" full_name="fullname_1" from="0" to="2" step="1" variable="y">
                 <range_replicator tag="Range Replicator_3" full_name="fullname_1" from="0" to="9" step="1" variable="z">
-                    <stimulus tag="Distractor${x}${y}${z}" full_name="Distractor${x}${y}${z}" type="image_file" path="./Distractor${x}${y}${z}.png" x_size="6" y_size="6" x_position="0" y_position="0" rotation="0.0" contrast="0.0" affine_transform="0"/>
+                    <stimulus tag="Distractor${x}${y}${z}" full_name="Distractor${x}${y}${z}" type="image_file" path="./Distractor${x}${y}${z}.png" x_size="6" y_size="6" x_position="0" y_position="0" rotation="0.0"/>
                 </range_replicator>
             </range_replicator>
         </range_replicator>

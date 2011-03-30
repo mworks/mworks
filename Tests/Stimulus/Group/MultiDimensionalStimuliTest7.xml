@@ -7,24 +7,24 @@
         <stimulus_group tag="mainGroup">
             <stimulus_group tag="subGroup1A">
                 <stimulus_group tag="subGroup1A-2A">
-                    <stimulus tag="XIM000" type="image_file" path="./zero.0.jpg" x_size="25" y_size="25" x_position="0" y_position="0" rotation="0" contrast="0.0" affine_transform="0"/>
+                    <stimulus tag="XIM000" type="image_file" path="./zero.0.jpg" x_size="25" y_size="25" x_position="0" y_position="0" rotation="0"/>
                 </stimulus_group>
                 <stimulus_group tag="subGroup1A-2B">
-                    <stimulus tag="XIM001" type="image_file" path="./1.png" x_size="25" y_size="25" x_position="0" y_position="0" rotation="90/11" contrast="0.0" affine_transform="0"/>
-                    <stimulus tag="XIM002" type="image_file" path="./2.png" x_size="25" y_size="25" x_position="0" y_position="0" rotation="2*90/11" contrast="0.0" affine_transform="0"/>
+                    <stimulus tag="XIM001" type="image_file" path="./1.png" x_size="25" y_size="25" x_position="0" y_position="0" rotation="90/11"/>
+                    <stimulus tag="XIM002" type="image_file" path="./2.png" x_size="25" y_size="25" x_position="0" y_position="0" rotation="2*90/11"/>
                 </stimulus_group>
                 <stimulus_group tag="subGroup1A-2C">
-                    <stimulus tag="XIM003" type="image_file" path="./3.png" x_size="25" y_size="25" x_position="0" y_position="0" rotation="3*90/11" contrast="0.0" affine_transform="0"/>
-                    <stimulus tag="XIM004" type="image_file" path="./4.png" x_size="25" y_size="25" x_position="0" y_position="0" rotation="4*90/11" contrast="0.0" affine_transform="0"/>
-                    <stimulus tag="XIM005" type="image_file" path="./5.png" x_size="25" y_size="25" x_position="0" y_position="0" rotation="5*90/11" contrast="0.0" affine_transform="0"/>
+                    <stimulus tag="XIM003" type="image_file" path="./3.png" x_size="25" y_size="25" x_position="0" y_position="0" rotation="3*90/11"/>
+                    <stimulus tag="XIM004" type="image_file" path="./4.png" x_size="25" y_size="25" x_position="0" y_position="0" rotation="4*90/11"/>
+                    <stimulus tag="XIM005" type="image_file" path="./5.png" x_size="25" y_size="25" x_position="0" y_position="0" rotation="5*90/11"/>
                 </stimulus_group>
             </stimulus_group>
             <stimulus_group tag="subGroup1B">
                 <stimulus_group tag="subGroup1B-2A">
-                    <stimulus tag="XIM006" type="image_file" path="./6.png" x_size="25" y_size="25" x_position="0" y_position="0" rotation="6*90/11" contrast="0.0" affine_transform="0"/>
-                    <stimulus tag="XIM007" type="image_file" path="./7.png" x_size="25" y_size="25" x_position="0" y_position="0" rotation="7*90/11" contrast="0.0" affine_transform="0"/>
-                    <stimulus tag="XIM008" type="image_file" path="./ball-crazy-eight.jpg" x_size="25" y_size="25" x_position="0" y_position="0" rotation="8*90/11" contrast="0.0" affine_transform="0"/>
-                    <stimulus tag="XIM009" type="image_file" path="./764px-Old_Nine_Network.svg.png" x_size="25" y_size="25" x_position="0" y_position="0" rotation="9*90/11" contrast="0.0" affine_transform="0"/>
+                    <stimulus tag="XIM006" type="image_file" path="./6.png" x_size="25" y_size="25" x_position="0" y_position="0" rotation="6*90/11"/>
+                    <stimulus tag="XIM007" type="image_file" path="./7.png" x_size="25" y_size="25" x_position="0" y_position="0" rotation="7*90/11"/>
+                    <stimulus tag="XIM008" type="image_file" path="./ball-crazy-eight.jpg" x_size="25" y_size="25" x_position="0" y_position="0" rotation="8*90/11"/>
+                    <stimulus tag="XIM009" type="image_file" path="./764px-Old_Nine_Network.svg.png" x_size="25" y_size="25" x_position="0" y_position="0" rotation="9*90/11"/>
                 </stimulus_group>
             </stimulus_group>
         </stimulus_group>

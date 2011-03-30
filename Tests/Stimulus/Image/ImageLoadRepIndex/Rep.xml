@@ -11,7 +11,7 @@
     <stimuli>
         <stimulus_group tag="myGroup" full_name="fullname_3">
             <range_replicator tag="Range Replicator_1" full_name="fullname_1" from="1" to="2" step="1" variable="z">
-                <stimulus tag="image${z}" full_name="image${z}" type="image_file" path="./Image${z}.png" x_size="3" y_size="3" x_position="0" y_position="0" rotation="0.0" contrast="0.0" affine_transform="0"/>
+                <stimulus tag="image${z}" full_name="image${z}" type="image_file" path="./Image${z}.png" x_size="3" y_size="3" x_position="0" y_position="0" rotation="0.0"/>
             </range_replicator>
         </stimulus_group>
     </stimuli>

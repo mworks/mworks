@@ -11,30 +11,30 @@
         <stimulus_group tag="mainGroup" full_name="fullname_3">
             <stimulus_group tag="subGroup1A" full_name="fullname_3">
                 <stimulus_group tag="subGroup1A-2A" full_name="fullname_3">
-                    <stimulus tag="XIM000" full_name="XIM 000" type="image_file" path="./zero.0.jpg" x_size="25" y_size="25" x_position="0" y_position="0" rotation="0" contrast="0.0" affine_transform="0"></stimulus>
-                    <stimulus tag="XIM001" full_name="XIM 001" type="image_file" path="./1.png" x_size="25" y_size="25" x_position="0" y_position="0" rotation="90/11" contrast="0.0" affine_transform="0"></stimulus>
+                    <stimulus tag="XIM000" full_name="XIM 000" type="image_file" path="./zero.0.jpg" x_size="25" y_size="25" x_position="0" y_position="0" rotation="0"></stimulus>
+                    <stimulus tag="XIM001" full_name="XIM 001" type="image_file" path="./1.png" x_size="25" y_size="25" x_position="0" y_position="0" rotation="90/11"></stimulus>
                 </stimulus_group>
                 <stimulus_group tag="subGroup1A-2B" full_name="fullname_3">
-                    <stimulus tag="XIM002" full_name="XIM 002" type="image_file" path="./2.png" x_size="25" y_size="25" x_position="0" y_position="0" rotation="2*90/11" contrast="0.0" affine_transform="0"></stimulus>
-                    <stimulus tag="XIM003" full_name="XIM 003" type="image_file" path="./3.png" x_size="25" y_size="25" x_position="0" y_position="0" rotation="3*90/11" contrast="0.0" affine_transform="0"></stimulus>
+                    <stimulus tag="XIM002" full_name="XIM 002" type="image_file" path="./2.png" x_size="25" y_size="25" x_position="0" y_position="0" rotation="2*90/11"></stimulus>
+                    <stimulus tag="XIM003" full_name="XIM 003" type="image_file" path="./3.png" x_size="25" y_size="25" x_position="0" y_position="0" rotation="3*90/11"></stimulus>
                 </stimulus_group>
                 <stimulus_group tag="subGroup1A-2C" full_name="fullname_3">
-                    <stimulus tag="XIM004" full_name="XIM 004" type="image_file" path="./4.png" x_size="25" y_size="25" x_position="0" y_position="0" rotation="4*90/11" contrast="0.0" affine_transform="0"></stimulus>
-                    <stimulus tag="XIM005" full_name="XIM 005" type="image_file" path="./5.png" x_size="25" y_size="25" x_position="0" y_position="0" rotation="5*90/11" contrast="0.0" affine_transform="0"></stimulus>
+                    <stimulus tag="XIM004" full_name="XIM 004" type="image_file" path="./4.png" x_size="25" y_size="25" x_position="0" y_position="0" rotation="4*90/11"></stimulus>
+                    <stimulus tag="XIM005" full_name="XIM 005" type="image_file" path="./5.png" x_size="25" y_size="25" x_position="0" y_position="0" rotation="5*90/11"></stimulus>
                 </stimulus_group>
             </stimulus_group>
             <stimulus_group tag="subGroup1B" full_name="fullname_3">
                 <stimulus_group tag="subGroup1B-2A" full_name="fullname_3">
-                    <stimulus tag="XIM006" full_name="XIM 006" type="image_file" path="./6.png" x_size="25" y_size="25" x_position="0" y_position="0" rotation="6*90/11" contrast="0.0" affine_transform="0"></stimulus>
-                    <stimulus tag="XIM007" full_name="XIM 007" type="image_file" path="./7.png" x_size="25" y_size="25" x_position="0" y_position="0" rotation="7*90/11" contrast="0.0" affine_transform="0"></stimulus>
+                    <stimulus tag="XIM006" full_name="XIM 006" type="image_file" path="./6.png" x_size="25" y_size="25" x_position="0" y_position="0" rotation="6*90/11"></stimulus>
+                    <stimulus tag="XIM007" full_name="XIM 007" type="image_file" path="./7.png" x_size="25" y_size="25" x_position="0" y_position="0" rotation="7*90/11"></stimulus>
                 </stimulus_group>
                 <stimulus_group tag="subGroup1B-2B" full_name="fullname_3">
-                    <stimulus tag="XIM008" full_name="XIM 008" type="image_file" path="./ball-crazy-eight.jpg" x_size="25" y_size="25" x_position="0" y_position="0" rotation="8*90/11" contrast="0.0" affine_transform="0"></stimulus>
-                    <stimulus tag="XIM009" full_name="XIM 009" type="image_file" path="./764px-Old_Nine_Network.svg.png" x_size="25" y_size="25" x_position="0" y_position="0" rotation="9*90/11" contrast="0.0" affine_transform="0"></stimulus>
+                    <stimulus tag="XIM008" full_name="XIM 008" type="image_file" path="./ball-crazy-eight.jpg" x_size="25" y_size="25" x_position="0" y_position="0" rotation="8*90/11"></stimulus>
+                    <stimulus tag="XIM009" full_name="XIM 009" type="image_file" path="./764px-Old_Nine_Network.svg.png" x_size="25" y_size="25" x_position="0" y_position="0" rotation="9*90/11"></stimulus>
                 </stimulus_group>
                 <stimulus_group tag="subGroup1B-2C" full_name="fullname_3">
-                    <stimulus tag="XIM010" full_name="XIM 010" type="image_file" path="./ten.jpg" x_size="25" y_size="25" x_position="0" y_position="0" rotation="10*90/11" contrast="0.0" affine_transform="0"></stimulus>
-                    <stimulus tag="XIM011" full_name="XIM 011" type="image_file" path="./eleven-lallone.jpg" x_size="25" y_size="25" x_position="0" y_position="0" rotation="11*90/11" contrast="0.0" affine_transform="0"></stimulus>
+                    <stimulus tag="XIM010" full_name="XIM 010" type="image_file" path="./ten.jpg" x_size="25" y_size="25" x_position="0" y_position="0" rotation="10*90/11"></stimulus>
+                    <stimulus tag="XIM011" full_name="XIM 011" type="image_file" path="./eleven-lallone.jpg" x_size="25" y_size="25" x_position="0" y_position="0" rotation="11*90/11"></stimulus>
                 </stimulus_group>
             </stimulus_group>
         </stimulus_group>

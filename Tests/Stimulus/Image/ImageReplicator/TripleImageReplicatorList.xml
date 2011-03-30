@@ -11,7 +11,7 @@
         <list_replicator tag="List Replicator_1" full_name="fullname_1" values="0,1" variable="x">
             <list_replicator tag="List Replicator_2" full_name="fullname_1" values="2,0" variable="y">
                 <list_replicator tag="List Replicator_3" full_name="fullname_1" values="3,7,1,0" variable="z">
-                    <stimulus tag="Distractor${x}${y}${z}" full_name="Distractor${x}${y}${z}" type="image_file" path="./Distractor${x}${y}${z}.png" x_size="3" y_size="3" x_position="0" y_position="0" rotation="0.0" contrast="0.0" affine_transform="0"/>
+                    <stimulus tag="Distractor${x}${y}${z}" full_name="Distractor${x}${y}${z}" type="image_file" path="./Distractor${x}${y}${z}.png" x_size="3" y_size="3" x_position="0" y_position="0" rotation="0.0"/>
                 </list_replicator>
             </list_replicator>
         </list_replicator>

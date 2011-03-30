@@ -10,7 +10,7 @@
     <sounds/>
     <stimuli>
         <range_replicator tag="Range Replicator_1" full_name="fullname_1" from="1" to="5" step="1" variable="indx">
-            <stimulus tag="im${indx}" full_name="fullname12" type="image_file" path="./TrainingPic${indx}.png" x_size="0" y_size="0" x_position="0" y_position="0" rotation="0.0" contrast="0.0" affine_transform="0"/>
+            <stimulus tag="im${indx}" full_name="fullname12" type="image_file" path="./TrainingPic${indx}.png" x_size="0" y_size="0" x_position="0" y_position="0" rotation="0.0"/>
         </range_replicator>
     </stimuli>
     <experiment tag="MyExperiment" full_name="My Experiment">

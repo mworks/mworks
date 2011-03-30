@@ -6,12 +6,12 @@
     <stimuli>
         <stimulus_group tag="mainGroup" full_name="fullname_3">
                 <stimulus_group tag="subGroup1" full_name="fullname_3">
-                    <stimulus tag="XIM000" full_name="XIM 000" type="image_file" path="./zero.0.jpg" x_size="25" y_size="25" x_position="0" y_position="0" rotation="0" contrast="0.0" affine_transform="0"/>
-                    <stimulus tag="XIM001" full_name="XIM 001" type="image_file" path="./1.png" x_size="25" y_size="25" x_position="0" y_position="0" rotation="90/11" contrast="0.0" affine_transform="0"/>
+                    <stimulus tag="XIM000" full_name="XIM 000" type="image_file" path="./zero.0.jpg" x_size="25" y_size="25" x_position="0" y_position="0" rotation="0"/>
+                    <stimulus tag="XIM001" full_name="XIM 001" type="image_file" path="./1.png" x_size="25" y_size="25" x_position="0" y_position="0" rotation="90/11"/>
                 </stimulus_group>
                 <stimulus_group tag="subGroup2" full_name="fullname_3">
-                    <stimulus tag="XIM002" full_name="XIM 002" type="image_file" path="./2.png" x_size="25" y_size="25" x_position="0" y_position="0" rotation="2*90/11" contrast="0.0" affine_transform="0"/>
-                    <stimulus tag="XIM003" full_name="XIM 003" type="image_file" path="./3.png" x_size="25" y_size="25" x_position="0" y_position="0" rotation="3*90/11" contrast="0.0" affine_transform="0"/>
+                    <stimulus tag="XIM002" full_name="XIM 002" type="image_file" path="./2.png" x_size="25" y_size="25" x_position="0" y_position="0" rotation="2*90/11"/>
+                    <stimulus tag="XIM003" full_name="XIM 003" type="image_file" path="./3.png" x_size="25" y_size="25" x_position="0" y_position="0" rotation="3*90/11"/>
                 </stimulus_group>
         </stimulus_group>
     </stimuli>

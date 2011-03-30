@@ -10,8 +10,8 @@
     <sounds/>
     <stimuli>
         <stimulus_group tag="myGroup" full_name="fullname_3">
-            <stimulus tag="image1" full_name="image1" type="image_file" path="./Image1.png" x_size="3" y_size="3" x_position="0" y_position="0" rotation="0.0" contrast="0.0" affine_transform="0"/>
-            <stimulus tag="image2" full_name="image2" type="image_file" path="./Image2.png" x_size="3" y_size="3" x_position="0" y_position="0" rotation="0.0" contrast="0.0" affine_transform="0"/>
+            <stimulus tag="image1" full_name="image1" type="image_file" path="./Image1.png" x_size="3" y_size="3" x_position="0" y_position="0" rotation="0.0"/>
+            <stimulus tag="image2" full_name="image2" type="image_file" path="./Image2.png" x_size="3" y_size="3" x_position="0" y_position="0" rotation="0.0"/>
         </stimulus_group>
     </stimuli>
     <experiment tag="MyExperiment" full_name="My Experiment">

@@ -6,7 +6,7 @@
     </variables>
     <sounds/>
     <stimuli>
-        <stimulus tag="stimulus12" full_name="fullname12" type="image_file" path="./Image1.png" x_size="2" y_size="2" x_position="0" y_position="0" rotation="0.0" contrast="0.0" affine_transform="0"/>
+        <stimulus tag="stimulus12" full_name="fullname12" type="image_file" path="./Image1.png" x_size="2" y_size="2" x_position="0" y_position="0" rotation="0.0"/>
     </stimuli>
     <experiment tag="MyExperiment" full_name="My Experiment">
         <protocol tag="Protocol1" full_name="Protocol 1" description="" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
