@@ -124,7 +124,7 @@ ComponentRegistry::ComponentRegistry() :
 	// stimuli
     registerFactory<StandardStimulusFactory, BlankScreen>();
     registerFactory<StandardStimulusFactory, ImageStimulus>();
-	registerFactory("stimulus/fixation_point", new FixationPointFactory());
+    registerFactory<StandardStimulusFactory, FixationPoint>();
     registerFactory<StandardComponentFactory, StimulusGroup>();
 	
 	// sounds

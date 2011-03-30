@@ -75,16 +75,6 @@ namespace mw {
         #define CALIBRATOR_SAMPLE_CALIBRATED_HV "calibratedHV"  
 
 
-// Triggers ======================================================  
-#define ANNOUNCE_TRIGGER_TAGNAME        "#announceTrigger"
-
-    // Sept 2006 -- JJD note: these are currently only implemented through the 
-    //          stim announce (fixation point)
-    #define TRIGGER_CENTERX             "center_x"
-    #define TRIGGER_CENTERY             "center_y"
-    #define TRIGGER_WIDTH               "width"
-
-
 // ===============================================================
 
 // Request variables are used by the client to  

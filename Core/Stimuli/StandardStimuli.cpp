@@ -72,21 +72,6 @@ BasicTransformStimulus::BasicTransformStimulus(const ParameterValueMap &paramete
 { }
 
 
-BasicTransformStimulus::BasicTransformStimulus(std::string _tag,
-										shared_ptr<Variable> _xoffset, 
-										shared_ptr<Variable> _yoffset, shared_ptr<Variable> _xscale,
-										shared_ptr<Variable> _yscale, shared_ptr<Variable> _rot,
-												 shared_ptr<Variable> _alpha)
-															: Stimulus(_tag) {
-    xoffset = registerVariable(_xoffset);
-    yoffset = registerVariable(_yoffset);
-    xscale = registerVariable(_xscale);
-    yscale = registerVariable(_yscale);
-    rotation = registerVariable(_rot);
-	alpha_multiplier = registerVariable(_alpha);
-}
-
-
 BasicTransformStimulus::BasicTransformStimulus(
 								const BasicTransformStimulus& tocopy) :
 										Stimulus((const Stimulus &)tocopy){
@@ -364,40 +349,6 @@ ImageStimulus::ImageStimulus(const ParameterValueMap &parameters) :
 }
 
 
-// for cloning
-ImageStimulus::ImageStimulus( std::string _tag, 
-								std::string _filename,
-								const vector<GLuint>& _texture_maps, 
-								int _width, int _height,
-								shared_ptr<Variable> _xoffset, 
-                                shared_ptr<Variable> _yoffset, shared_ptr<Variable> _xscale, 
-                                shared_ptr<Variable> _yscale, shared_ptr<Variable> _rot,
-								shared_ptr<Variable> _alpha) 
-                                : BasicTransformStimulus(_tag, _xoffset, _yoffset,
-                                                     _xscale ,_yscale, _rot, _alpha) {
-//    fprintf(stderr,"Creating image stimulus (filename = %s)\n",_filename.c_str());
-//	fflush(stderr);
-	
-	// actually copy the string...
-	filename = _filename;
-	
-    vector<GLuint>::const_iterator i;
-    for(i = _texture_maps.begin(); i != _texture_maps.end(); ++i){
-        texture_maps.push_back(*i);
-    }
-
-    //image_loaded = false;
-	//il_image_name = 0; 
-	width = _width; 
-	height = _height;
-
-	
-    //	filename = _filename;
-    //image_loader = new OpenGLImageLoader();
-	
-	
-}
-     
 ImageStimulus::ImageStimulus(ImageStimulus& copy):
 					BasicTransformStimulus((BasicTransformStimulus&) copy) { 
     
@@ -552,19 +503,24 @@ Datum ImageStimulus::getCurrentAnnounceDrawData() {
 }
 
 
-PointStimulus::PointStimulus(std::string _tag, shared_ptr<Variable> _xoffset, shared_ptr<Variable> _yoffset, 
-						shared_ptr<Variable> _xscale, shared_ptr<Variable> _yscale,
-							   shared_ptr<Variable> _rot,
-							   shared_ptr<Variable> _alpha,
-							   shared_ptr<Variable> _r, shared_ptr<Variable> _g, shared_ptr<Variable> _b
-							   ) :
-							BasicTransformStimulus
-							(_tag, _xoffset, _yoffset,_xscale ,_yscale, _rot, _alpha) {    
-    r = registerVariable(_r);     // should be 0-1    (1 is full saturation)
-    g = registerVariable(_g); 
-    b = registerVariable(_b);                                    
-                         
+const std::string PointStimulus::COLOR("color");
+
+
+void PointStimulus::describeComponent(ComponentInfo &info) {
+    BasicTransformStimulus::describeComponent(info);
+    info.addParameter(COLOR, "1.0,1.0,1.0");
 }
+
+
+PointStimulus::PointStimulus(const ParameterValueMap &parameters) :
+    BasicTransformStimulus(parameters)
+{
+    ParsedColorTrio pct(parameters[COLOR]);
+    r = registerVariable(pct.getR());
+    g = registerVariable(pct.getG());
+    b = registerVariable(pct.getB());
+}
+
 
 PointStimulus::PointStimulus(const PointStimulus &tocopy) : 
 				BasicTransformStimulus((const BasicTransformStimulus&)tocopy){
@@ -572,8 +528,6 @@ PointStimulus::PointStimulus(const PointStimulus &tocopy) :
 	g = tocopy.g;
 	b = tocopy.b;
 }
-
-PointStimulus::~PointStimulus(){ }
 
 
 void PointStimulus::drawInUnitSquare(shared_ptr<StimulusDisplay> display) {

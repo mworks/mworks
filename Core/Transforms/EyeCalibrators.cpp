@@ -13,7 +13,11 @@
 #include "ComponentFactory.h"
 #include <boost/regex.hpp>
 #include "ParsedColorTrio.h"
-using namespace mw;
+#include "ComponentInfo.h"
+#include "ParameterValue.h"
+
+
+BEGIN_NAMESPACE_MW
 
 
 #define VERBOSE_EYE_CALIBRATORS 0
@@ -23,7 +27,6 @@ GoldStandard::GoldStandard() {
 }
 
 GoldStandard::~GoldStandard() {
-    // TODO you should check to make sure it isnt NULL
     delete goldStandardValues;
 }
 
@@ -32,38 +35,32 @@ ExpandableList<Datum> *GoldStandard::getGoldStandardValues() {
 }
 
 
+const std::string FixationPoint::TRIGGER_WIDTH("trigger_width");
+const std::string FixationPoint::TRIGGER_WATCH_X("trigger_watch_x");
+const std::string FixationPoint::TRIGGER_WATCH_Y("trigger_watch_y");
+const std::string FixationPoint::TRIGGER_FLAG("trigger_flag");
 
-// lots of variables here because we inherit from three classes:
-//      (PointStimulus, SquareRegionTrigger, GoldStandard)
-FixationPoint::FixationPoint(std::string _tag, shared_ptr<Variable> _xoffset, shared_ptr<Variable> _yoffset, 
-                                shared_ptr<Variable> _xscale, shared_ptr<Variable> _yscale, shared_ptr<Variable> _rot,
-							   shared_ptr<Variable> _alpha,
-                                shared_ptr<Variable> _r, shared_ptr<Variable> _g, shared_ptr<Variable> _b,
-                                shared_ptr<Variable> _triggerWidth, 
-                                shared_ptr<Variable> _triggerWatchx, 
-                                shared_ptr<Variable> _triggerWatchy,
-                                shared_ptr<Variable> _triggerVariable):
-        PointStimulus(_tag, _xoffset,  _yoffset, _xscale,  _yscale, _rot, _alpha, _r, _g, _b),
-        SquareRegionTrigger(_xoffset, _yoffset, _triggerWidth, _triggerWatchx,_triggerWatchy, _triggerVariable) {
-            
+
+void FixationPoint::describeComponent(ComponentInfo &info) {
+    PointStimulus::describeComponent(info);
+    info.setSignature("stimulus/fixation_point");
+    info.addParameter(TRIGGER_WIDTH);
+    info.addParameter(TRIGGER_WATCH_X);
+    info.addParameter(TRIGGER_WATCH_Y);
+    info.addParameter(TRIGGER_FLAG);
 }
 
 
-FixationPoint::FixationPoint(const FixationPoint& tocopy): 
-					PointStimulus((const PointStimulus&)tocopy),
-					SquareRegionTrigger((const SquareRegionTrigger&)tocopy){
-	
-	//xoffset = tocopy.xoffset;
-	//yoffset = tocopy.yoffset;
-}
+FixationPoint::FixationPoint(const ParameterValueMap &parameters):
+    PointStimulus(parameters),
+    SquareRegionTrigger(parameters[X_POSITION],
+                        parameters[Y_POSITION],
+                        parameters[TRIGGER_WIDTH],
+                        parameters[TRIGGER_WATCH_X],
+                        parameters[TRIGGER_WATCH_Y],
+                        parameters[TRIGGER_FLAG])
+{ }
 
-FixationPoint::~FixationPoint(){
-
-	//if(frozen){
-//		delete xoffset;
-//		delete yoffset;
-//	}
-}                                 
 
 ExpandableList<Datum> *FixationPoint::getGoldStandardValues() {
 
@@ -99,103 +96,12 @@ Datum FixationPoint::getCurrentAnnounceDrawData() {
     announceData.addElement(STIM_COLOR_B,last_b);  
     
     // stuff from the trigger that is not in point stimulus ...
-    announceData.addElement(TRIGGER_CENTERX, (double)(*centerx));
-    announceData.addElement(TRIGGER_CENTERY, (double)(*centery));
-    announceData.addElement(TRIGGER_WIDTH, (double)(*width));
+    announceData.addElement("center_x", (double)(*centerx));
+    announceData.addElement("center_y", (double)(*centery));
+    announceData.addElement("width", (double)(*width));
 
     return (announceData);
 }
-
-shared_ptr<mw::Component> FixationPointFactory::createObject(std::map<std::string, std::string> parameters,
-													ComponentRegistry *reg) {
-	REQUIRE_ATTRIBUTES(parameters, 
-					   "tag", 
-					   "x_size", 
-					   "y_size", 
-					   "x_position", 
-					   "y_position", 
-					   "rotation", 
-					   "color", 
-					   "trigger_width",
-					   "trigger_watch_x",
-					   "trigger_watch_y",
-					   "trigger_flag"
-	);
-	
-	std::string tagname(parameters.find("tag")->second);
-	shared_ptr<Variable> x_size = reg->getVariable(parameters.find("x_size")->second);	
-	shared_ptr<Variable> y_size = reg->getVariable(parameters.find("y_size")->second);	
-	shared_ptr<Variable> x_position = reg->getVariable(parameters.find("x_position")->second);	
-	shared_ptr<Variable> y_position = reg->getVariable(parameters.find("y_position")->second);	
-	shared_ptr<Variable> rotation = reg->getVariable(parameters.find("rotation")->second);	
-	shared_ptr<Variable> alpha_multiplier = 
-				reg->getVariable(parameters["alpha_multiplier"], "1");
-	
-	// find the RGB values
-	// get the values
-	ParsedColorTrio pct(reg, parameters.find("color")->second);
-	shared_ptr<Variable> r = pct.getR();	
-	shared_ptr<Variable> g = pct.getG();	
-	shared_ptr<Variable> b = pct.getB();	
-	
-//	checkAttribute(r, parameters["reference_id"], "color (r)", colorParams[1]);
-//	checkAttribute(g, parameters["reference_id"], "color (g)", colorParams[2]);
-//	checkAttribute(b, parameters["reference_id"], "color (b)", colorParams[3]);
-
-
-	
-	
-	shared_ptr<Variable> trigger_width = reg->getVariable(parameters.find("trigger_width")->second);	
-	shared_ptr<Variable> trigger_watch_x = reg->getVariable(parameters.find("trigger_watch_x")->second);	
-	shared_ptr<Variable> trigger_watch_y = reg->getVariable(parameters.find("trigger_watch_y")->second);	
-	shared_ptr<Variable> trigger_flag = reg->getVariable(parameters.find("trigger_flag")->second);	
-	
-	checkAttribute(x_size, parameters["reference_id"], "x_size", parameters.find("x_size")->second);                                                  
-	checkAttribute(y_size, parameters["reference_id"], "y_size", parameters.find("y_size")->second);                                                  
-	checkAttribute(x_position, parameters["reference_id"], "x_position", parameters.find("x_position")->second);                                      
-	checkAttribute(y_position, parameters["reference_id"], "y_position", parameters.find("y_position")->second);                                      
-	checkAttribute(rotation, parameters["reference_id"], "rotation", parameters.find("rotation")->second);                                            
-	checkAttribute(alpha_multiplier, parameters["reference_id"], "alpha_multiplier", parameters.find("alpha_multiplier")->second);                    
-	checkAttribute(trigger_width, parameters["reference_id"], "trigger_width", parameters.find("trigger_width")->second);                             
-	checkAttribute(trigger_watch_x, parameters["reference_id"], "trigger_watch_x", parameters.find("trigger_watch_x")->second);                       
-	checkAttribute(trigger_watch_y, parameters["reference_id"], "trigger_watch_y", parameters.find("trigger_watch_y")->second);                       
-	checkAttribute(trigger_flag, parameters["reference_id"], "trigger_flag", parameters.find("trigger_flag")->second);       
-
-	if(GlobalCurrentExperiment == 0) {
-		throw SimpleException("no experiment currently defined");		
-	}
-	
-	shared_ptr<StimulusDisplay> defaultDisplay = GlobalCurrentExperiment->getStimulusDisplay();
-	if(defaultDisplay == 0) {
-		throw SimpleException("no stimulusDisplay in current experiment");
-	}
-	
-	
-	shared_ptr <FixationPoint> newFixationPoint = shared_ptr<FixationPoint>(new FixationPoint(tagname, 
-																								 x_position,
-																								 y_position,
-																								 x_size,
-																								 y_size,
-																								 rotation,
-																								 alpha_multiplier,
-																								 r,
-																								 g,
-																								 b,
-																								 trigger_width,
-																								 trigger_watch_x,
-																								 trigger_watch_y,
-																								 trigger_flag));
-	
-	
-	
-	newFixationPoint->load(defaultDisplay);
-	shared_ptr <StimulusNode> thisStimNode = shared_ptr<StimulusNode>(new StimulusNode(newFixationPoint));
-	reg->registerStimulusNode(tagname, thisStimNode);
-	
-	return newFixationPoint;
-}
-
-
 
 
 // =====================================================
@@ -1067,5 +973,30 @@ shared_ptr<mw::Component> LinearEyeCalibratorFactory::createObject(std::map<std:
 																							  1));
 	return newEyeCalibrator;
 }
+
+
+END_NAMESPACE_MW
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

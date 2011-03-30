@@ -55,13 +55,6 @@ public:
     static void describeComponent(ComponentInfo &info);
     
     explicit BasicTransformStimulus(const Map<ParameterValue> &parameters);
-    BasicTransformStimulus(std::string _tag, 
-                           shared_ptr<Variable> _xoffset, 
-                           shared_ptr<Variable> _yoffset,
-                           shared_ptr<Variable> _xscale, 
-                           shared_ptr<Variable> _yscale, 
-                           shared_ptr<Variable> _rot,
-                           shared_ptr<Variable> _alpha);
     BasicTransformStimulus(const BasicTransformStimulus& tocopy);
     virtual ~BasicTransformStimulus() { }
     
@@ -101,18 +94,6 @@ public:
     static void describeComponent(ComponentInfo &info);
     
     explicit ImageStimulus(const Map<ParameterValue> &parameters);
-    // constructor for cloning an existing image stimulus
-    ImageStimulus(std::string _tag, std::string _filename,
-                  const vector<GLuint>& _texture_maps, 
-                  int _width,
-                  int _height,
-                  shared_ptr<Variable> _xoffset, 
-                  shared_ptr<Variable> _yoffset, 
-                  shared_ptr<Variable> _xscale, 
-                  shared_ptr<Variable> _yscale, 
-                  shared_ptr<Variable> _rot,
-                  shared_ptr<Variable> _alpha);
-    
     ImageStimulus(ImageStimulus& copy);
     virtual ~ImageStimulus() { }
     
@@ -124,32 +105,26 @@ public:
 };
 
 
-// Simple point (e.g. for fixation) - JJD started, but not clear how to implement JJD TODO
-// the x and y units are in the ambient open GL space
-// how to specify size  ???
+// Simple point (e.g. for fixation)
 class PointStimulus : public BasicTransformStimulus {
-    protected:
-        shared_ptr<Variable> r;
-		shared_ptr<Variable> g;
-		shared_ptr<Variable> b;
-        float last_r,last_g,last_b;
-        
-    public:
-        PointStimulus(std::string _tag, shared_ptr<Variable> _xoffset, 
-										shared_ptr<Variable> _yoffset, 
-                                        shared_ptr<Variable> _xscale,
-                                        shared_ptr<Variable> _yscale,
-					   shared_ptr<Variable> _rot,
-					   shared_ptr<Variable> _alpha,
-                                        shared_ptr<Variable> _r, 
-                                        shared_ptr<Variable> _g, 
-                                        shared_ptr<Variable> _b);
-		PointStimulus(const PointStimulus &tocopy);
-		~PointStimulus();
-		
-        virtual void drawInUnitSquare(shared_ptr<StimulusDisplay> display);
-        virtual Datum getCurrentAnnounceDrawData();
-
+protected:
+    shared_ptr<Variable> r;
+    shared_ptr<Variable> g;
+    shared_ptr<Variable> b;
+    float last_r,last_g,last_b;
+    
+public:
+    static const std::string COLOR;
+    
+    static void describeComponent(ComponentInfo &info);
+    
+    explicit PointStimulus(const Map<ParameterValue> &parameters);
+    PointStimulus(const PointStimulus &tocopy);
+    virtual ~PointStimulus() { }
+    
+    virtual void drawInUnitSquare(shared_ptr<StimulusDisplay> display);
+    virtual Datum getCurrentAnnounceDrawData();
+    
 };
 
 
