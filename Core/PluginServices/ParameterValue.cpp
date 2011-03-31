@@ -26,7 +26,7 @@ ParsedColorTrio ParameterValue::convert(const std::string &s, ComponentRegistryP
 
 
 template<>
-RGBColor ParameterValue::convert(const std::string &s, mw::ComponentRegistry *reg) {
+RGBColor ParameterValue::convert(const std::string &s, ComponentRegistryPtr reg) {
     return convert<ParsedColorTrio>(s, reg).getValue();
 }
 

@@ -170,9 +170,38 @@ const std::string Stimulus::DEFERRED("deferred");
 
 void Stimulus::describeComponent(ComponentInfo &info) {
     Component::describeComponent(info);
-    info.addParameter(Component::TAG);  // Make tag required
+    info.addParameter(TAG);  // Make tag required
     info.addParameter(DEFERRED, "no");
 }
+
+
+template<>
+Stimulus::load_style ParameterValue::convert(const std::string &s, ComponentRegistryPtr reg) {
+    std::string ds(boost::algorithm::to_lower_copy(s));
+    
+    if ((ds == "no") || (ds == "0") || (ds == "false")) {
+        return Stimulus::nondeferred_load;
+    } else if ((ds == "yes") || (ds == "1") || (ds == "true")) {
+        return Stimulus::deferred_load;
+    } else if (ds == "explicit") {
+        return Stimulus::explicit_load;
+    } else {
+        throw SimpleException("invalid value for parameter \"deferred\"", s);
+    }
+}
+
+
+Stimulus::Stimulus(const ParameterValueMap &parameters) :
+    Announcable(ANNOUNCE_STIMULUS_TAGNAME),
+    mw::Component(parameters),
+    loaded(false),
+    visible(false),
+    cached(false),
+    has_thumbnail(false),
+    thumbnail(NULL),
+    deferred(parameters[DEFERRED]),
+    frozen(false)
+{ }
 
 
 Stimulus::Stimulus(std::string _tag) :
@@ -185,23 +214,9 @@ Stimulus::Stimulus(std::string _tag) :
     cached = false;
     has_thumbnail = false;
     thumbnail = NULL;
-    	
+    
     deferred = Stimulus::nondeferred_load;
 	frozen = false;
-}
-
-
-Stimulus::Stimulus(const ParameterValueMap &parameters) :
-    Announcable(ANNOUNCE_STIMULUS_TAGNAME),
-    mw::Component(parameters),
-    loaded(false),
-    visible(false),
-    cached(false),
-    has_thumbnail(false),
-    thumbnail(NULL),
-    frozen(false)
-{
-    setDeferredFromString(parameters[DEFERRED]);
 }
 
 
@@ -303,19 +318,6 @@ bool Stimulus::hasThumbnail() {
 
 Stimulus * Stimulus::getThumbnail() {
     return thumbnail;
-}
-
-
-void Stimulus::setDeferredFromString(const std::string &deferredString) {
-    std::string ds(boost::algorithm::to_lower_copy(deferredString));
-
-    if ((ds == "yes") || (ds == "1") || (ds == "true")) {
-        setDeferred(deferred_load);
-    } else if (ds == "explicit") {
-        setDeferred(explicit_load);
-    } else {
-        setDeferred(nondeferred_load);
-    }
 }
 
 
