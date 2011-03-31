@@ -19,106 +19,110 @@
 #include "GenericVariable.h"
 #include "Component.h"
 
-namespace mw {
-    
-    using namespace boost;
-    
-    class StimulusGroup;
-    
-    
+using namespace boost;
 
-    class StimulusNode : public Lockable, public LinkedListNode<StimulusNode>, public mw::Component { //, public enable_shared_from_this<StimulusNode> {
-    protected:
-        
-		
-        shared_ptr<Stimulus> stim;      // the raw, original version of the stimulus
 
-        //shared_ptr<Stimulus> live_stim; // the current version of the stimulus to be shown
-                                        // this could be a "frozen" version of stim
-                                        // (e.g. one where the live variables are replaced
-                                        // with constant versions)
-    
-		
-		// Is the stimulus set to be shown on the next update?
-    
-        bool visible;         // show whenever an update display (or any kind) is issued
-    
-        bool visible_on_last_update;    // internal knowledge of whether this stimulus
-                                        // was shown previously (to enable "stim off"
-                                        // events
+BEGIN_NAMESPACE_MW
 
-        
-        bool pending;       // a flag indicating that some element of this 
-                            // is pending a change to occur on the next
-                            // "explicit" display update
-                            // Explicit updates happen when the user issues an 
-                            // updateDisplay; display updates can also be driven
-                            // internally, e.g. by dynamic stimuli
-    
-        bool pending_visible; // queued, but not yet visible; set to visible
-                                // when performing an explicit updateDisplay
-                                // do not change state if display is updated 
-                                // by a scheduled update (e.g. from a dynamic stimulus)
-    
-        bool pending_removal;   // a flag indicating that the node should be 
-                                // removed from the chain on the next "explicit"
-                                // display update
-    
-        // Is the stimulus in a "frozen" state?
-		bool frozen;
 
-    public:
-        
-		StimulusNode();
-		StimulusNode(shared_ptr<Stimulus> _stim);
-		
-		virtual ~StimulusNode(){}
-        
-		virtual shared_ptr<Stimulus> getStimulus();
-        
-		virtual void addToDisplay(shared_ptr<StimulusDisplay> display);
-		
-		
-        virtual void setVisible(bool _vis);
-        virtual bool isVisible();
-        
-        
-        // Set a flag to determine whether to draw this stimulus on the
-        // next update
-        virtual void setPending(){ pending = true; }
-        virtual void clearPending();
-        virtual bool isPending();
-    
-        virtual void setPendingVisible(bool _vis);
-        virtual bool isPendingVisible();
-    
-        virtual void setPendingRemoval();
-        virtual void clearPendingRemoval();
-        virtual bool isPendingRemoval();
-    
-		// "Freeze" the stimulus (copy with fixed variable values), and query the frozen flag
-		virtual void freeze();
-        virtual void thaw();
-		virtual bool isFrozen();
-		
-		virtual bool needDraw();
-		virtual void draw(shared_ptr<StimulusDisplay> display);
+class StimulusGroup;
 
-        virtual void announce(Datum announceData, MWTime time);
-		virtual void announceStimulusDraw(MWTime time);
-		virtual Datum getCurrentAnnounceDrawData();
+
+class StimulusNode : public Lockable, public LinkedListNode<StimulusNode>, public mw::Component { //, public enable_shared_from_this<StimulusNode> {
+protected:
+    
+    
+    shared_ptr<Stimulus> stim;      // the raw, original version of the stimulus
+    
+    //shared_ptr<Stimulus> live_stim; // the current version of the stimulus to be shown
+    // this could be a "frozen" version of stim
+    // (e.g. one where the live variables are replaced
+    // with constant versions)
+    
+    
+    // Is the stimulus set to be shown on the next update?
+    
+    bool visible;         // show whenever an update display (or any kind) is issued
+    
+    bool visible_on_last_update;    // internal knowledge of whether this stimulus
+    // was shown previously (to enable "stim off"
+    // events
+    
+    
+    bool pending;       // a flag indicating that some element of this 
+    // is pending a change to occur on the next
+    // "explicit" display update
+    // Explicit updates happen when the user issues an 
+    // updateDisplay; display updates can also be driven
+    // internally, e.g. by dynamic stimuli
+    
+    bool pending_visible; // queued, but not yet visible; set to visible
+    // when performing an explicit updateDisplay
+    // do not change state if display is updated 
+    // by a scheduled update (e.g. from a dynamic stimulus)
+    
+    bool pending_removal;   // a flag indicating that the node should be 
+    // removed from the chain on the next "explicit"
+    // display update
+    
+    // Is the stimulus in a "frozen" state?
+    bool frozen;
+    
+public:
+    
+    StimulusNode();
+    StimulusNode(shared_ptr<Stimulus> _stim);
+    
+    virtual ~StimulusNode(){}
+    
+    virtual shared_ptr<Stimulus> getStimulus();
+    
+    virtual void addToDisplay(shared_ptr<StimulusDisplay> display);
+    
+    
+    virtual void setVisible(bool _vis);
+    virtual bool isVisible();
+    
+    
+    // Set a flag to determine whether to draw this stimulus on the
+    // next update
+    virtual void setPending(){ pending = true; }
+    virtual void clearPending();
+    virtual bool isPending();
+    
+    virtual void setPendingVisible(bool _vis);
+    virtual bool isPendingVisible();
+    
+    virtual void setPendingRemoval();
+    virtual void clearPendingRemoval();
+    virtual bool isPendingRemoval();
+    
+    // "Freeze" the stimulus (copy with fixed variable values), and query the frozen flag
+    virtual void freeze();
+    virtual void thaw();
+    virtual bool isFrozen();
+    
+    virtual bool needDraw();
+    virtual void draw(shared_ptr<StimulusDisplay> display);
+    
+    virtual void announce(Datum announceData, MWTime time);
+    virtual void announceStimulusDraw(MWTime time);
+    virtual Datum getCurrentAnnounceDrawData();
 	
-        virtual void load(shared_ptr<StimulusDisplay> display);
-        virtual void unload(shared_ptr<StimulusDisplay> display);
-        
-        virtual bool isLoaded();
-        virtual int getDeferred();
+    virtual void load(shared_ptr<StimulusDisplay> display);
+    virtual void unload(shared_ptr<StimulusDisplay> display);
+    
+    virtual bool isLoaded();
+    virtual int getDeferred();
 	
-    private:
-        // this disables copying the object.
-        StimulusNode(const StimulusNode&) { }
-        void operator=(const StimulusNode& lval) { }
- };
+private:
+    // this disables copying the object.
+    StimulusNode(const StimulusNode&) { }
+    void operator=(const StimulusNode& lval) { }
+};
+
+
+typedef boost::shared_ptr<StimulusNode> StimulusNodePtr;
 
 
 // A group of stimulus nodes; WATCH the names of these things, they are
@@ -208,5 +212,31 @@ class StimulusGroupReferenceNode : public StimulusNode {
 //		virtual void sendBackward();
 
 };
- }
+
+
+END_NAMESPACE_MW
+
+
 #endif
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

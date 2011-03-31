@@ -95,6 +95,10 @@ RGBColor ParameterValue::convert(const std::string &s, ComponentRegistryPtr reg)
 
 
 template<>
+StimulusNodePtr ParameterValue::convert(const std::string &s, ComponentRegistryPtr reg);
+
+
+template<>
 StimulusGroupPtr ParameterValue::convert(const std::string &s, ComponentRegistryPtr reg);
 
 

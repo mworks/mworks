@@ -29,7 +29,7 @@ BEGIN_NAMESPACE_MW
 void StimulusGroup::describeComponent(ComponentInfo &info) {
     Component::describeComponent(info);
     info.setSignature("stimulus_group");
-    info.addParameter(Component::TAG);  // Make tag required
+    info.addParameter(TAG);  // Make tag required
 }
 
 

@@ -21,16 +21,7 @@
 #include "boost/bind.hpp"
 
 
-#ifdef	__APPLE__
-	#include <AGL/agl.h>
-	#include <OpenGL/gl.h>
-	#include <OpenGL/glu.h>
-#elif	linux
-	// TODO: where are these in linux?
-#endif
-
-
-using namespace mw;
+BEGIN_NAMESPACE_MW
 
 
 
@@ -495,6 +486,9 @@ shared_ptr<StimulusDisplay> StimulusDisplay::getCurrentStimulusDisplay() {
     
     return currentDisplay;
 }
+
+
+END_NAMESPACE_MW
 
 
 

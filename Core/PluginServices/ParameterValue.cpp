@@ -32,6 +32,18 @@ RGBColor ParameterValue::convert(const std::string &s, ComponentRegistryPtr reg)
 
 
 template<>
+StimulusNodePtr ParameterValue::convert(const std::string &s, ComponentRegistryPtr reg) {
+    StimulusNodePtr stimNode(reg->getStimulus(s));
+    
+    if (!stimNode) {
+        throw SimpleException("Unknown stimulus", s);
+    }
+    
+    return stimNode;
+}
+
+
+template<>
 StimulusGroupPtr ParameterValue::convert(const std::string &s, ComponentRegistryPtr reg) {
     StimulusGroupPtr stimGroup(reg->getObject<StimulusGroup>(s));
 

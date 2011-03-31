@@ -19,7 +19,10 @@
 
 #include <iostream>
 #include <sstream>
-using namespace mw;
+
+
+BEGIN_NAMESPACE_MW
+
 
 #define VERBOSE_ACTION_METHODS  0
 
@@ -27,6 +30,19 @@ using namespace mw;
 /****************************************************************
  *                       Action Methods
  ****************************************************************/
+void Action::describeComponent(ComponentInfo &info) {
+    State::describeComponent(info);
+}
+
+Action::Action(const ParameterValueMap &parameters) :
+    State(),  // TODO: pass parameters once State supports them
+    delay(NULL),
+    taskRef(0)
+{
+    setOwner(GlobalCurrentExperiment);   // a bit of kludge for now
+    setName("Action");
+}
+
 Action::Action() : State() {
     setOwner(GlobalCurrentExperiment);   // a bit of kludge for now
 	delay = NULL;
@@ -2055,13 +2071,32 @@ shared_ptr<mw::Component> ClearAveragerFactory::createObject(std::map<std::strin
 }	
 
 
-
-
-
-
-//#endif
-
 // action to flush calibration samples up to some time?? (variable controlled?)
 
 // action to load params into calibration??  (where should this happen?)
+
+
+END_NAMESPACE_MW
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

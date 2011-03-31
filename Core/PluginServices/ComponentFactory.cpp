@@ -21,6 +21,7 @@ bool ComponentFactory::shouldIgnoreParameter(const std::string &name) {
             //
             // Parameters added or used by the parser
             //
+            (name == "parent_scope") ||
             (name == "reference_id") ||
             (name == "type") ||
             (name == "variable_assignment") ||

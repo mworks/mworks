@@ -8,7 +8,10 @@
  */
 
 #include "StimulusNode.h"
-using namespace mw;
+
+
+BEGIN_NAMESPACE_MW
+
 
 /**********************************************************************
  *                  StimulusNode Methods
@@ -466,3 +469,29 @@ Datum StimulusGroupReferenceNode::getCurrentAnnounceDrawData(){
 //	}
 //}
 //
+
+
+END_NAMESPACE_MW
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

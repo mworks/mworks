@@ -27,38 +27,49 @@
 #include "EyeCalibrators.h"
 #include "Sound.h"
 #include "ComponentRegistry.h"
-namespace mw {
+#include "ComponentInfo.h"
+#include "ParameterValue.h"
 
 using namespace boost;
 
+
+BEGIN_NAMESPACE_MW
+
+
 // base class for all actions
 class Action : public State, public VariableNotification {
-    protected:
-       // State *parent;
-		Variable *delay;
-		ScheduleTask *taskRef;
-	public:
-		Action();
-        virtual ~Action();
-		virtual bool execute();
-		
-		// TODO: are these needed
-        virtual void setOwner(weak_ptr<State> _parent);
-        virtual weak_ptr<State> getOwner();
-        
-		virtual weak_ptr<Experiment> getExperiment();
-		void setName(const std::string &_name);
-		
-		// Fancier features
-		void setDelay(Variable *_delay){ delay = _delay; }
-		Variable *getDelay(){ return delay; };
-		
-		virtual void announceEntry();
-		virtual void announceExit();
-		
-		// State methods
-		virtual void action();
-		virtual weak_ptr<State> next();
+
+protected:
+    // State *parent;
+    Variable *delay;
+    ScheduleTask *taskRef;
+
+public:
+    static void describeComponent(ComponentInfo &info);
+
+    explicit Action(const ParameterValueMap &parameters);
+    Action();
+    virtual ~Action();
+    virtual bool execute();
+    
+    // TODO: are these needed
+    virtual void setOwner(weak_ptr<State> _parent);
+    virtual weak_ptr<State> getOwner();
+    
+    virtual weak_ptr<Experiment> getExperiment();
+    void setName(const std::string &_name);
+    
+    // Fancier features
+    void setDelay(Variable *_delay){ delay = _delay; }
+    Variable *getDelay(){ return delay; };
+    
+    virtual void announceEntry();
+    virtual void announceExit();
+    
+    // State methods
+    virtual void action();
+    virtual weak_ptr<State> next();
+
 };
 
 class ActionVariableNotification : public VariableNotification{
@@ -863,8 +874,30 @@ class ClearAveragerFactory : public ComponentFactory{
 	virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
 												ComponentRegistry *reg);
 };
-}
+
+
+END_NAMESPACE_MW
+
 
 #endif
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
