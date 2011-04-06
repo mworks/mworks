@@ -11,12 +11,24 @@
 #include <boost/filesystem/operations.hpp>
 #include "Announcers.h"
 #include "StandardVariables.h"
-using namespace mw;
 
-OpenALSound::OpenALSound(shared_ptr<Variable> _amplitude){
-	
-	amplitude = _amplitude;
 
+BEGIN_NAMESPACE_MW
+
+
+const std::string OpenALSound::AMPLITUDE("amplitude");
+
+
+void OpenALSound::describeComponent(ComponentInfo &info) {
+    Sound::describeComponent(info);
+    info.addParameter(AMPLITUDE, "1.0");
+}
+
+
+OpenALSound::OpenALSound(const ParameterValueMap &parameters) :
+    Sound(parameters),
+    amplitude(parameters[AMPLITUDE])
+{
 	alGenBuffers(1, &buffer);
 	
 	if ((error = alGetError()) != AL_NO_ERROR) { 
@@ -90,11 +102,25 @@ void OpenALSound::stop(){
 }
 
 
+const std::string WavFileSound::PATH("path");
 
-WavFileSound::WavFileSound(const boost::filesystem::path &filename, shared_ptr<Variable> _amplitude) :
-				OpenALSound(_amplitude){
-	// TODO: check to see if file exists
+
+void WavFileSound::describeComponent(ComponentInfo &info) {
+    OpenALSound::describeComponent(info);
+    info.setSignature("sound/wav_file");
+    info.addParameter(PATH);
+}
+
+
+WavFileSound::WavFileSound(const ParameterValueMap &parameters) :
+    OpenALSound(parameters)
+{
+    namespace bf = boost::filesystem;
+    bf::path filename(parameters[PATH].as<bf::path>());
 	
+    if (bf::is_directory(filename)) {
+        throw SimpleException("Path is a directory", filename.string());
+    }
 	
 	format = 0;
 	data = NULL;
@@ -167,30 +193,27 @@ void WavFileSound::announceSoundPlayed(){
 }
 
 
-shared_ptr<mw::Component> WavFileSoundFactory::createObject(std::map<std::string, std::string> parameters,
-																		 ComponentRegistry *reg) {
-	REQUIRE_ATTRIBUTES(parameters, "path");
+END_NAMESPACE_MW
 
-	namespace bf = boost::filesystem;
-	
-	bf::path full_path = reg->getPath(parameters["working_path"], parameters["path"]);
-	
-	if(!bf::exists(full_path)) {
-		throw InvalidReferenceException(parameters["reference_id"], "path", full_path.string());
-	}
-	
-	if(bf::is_directory(full_path)) {
-		throw InvalidReferenceException(parameters["reference_id"], "path", full_path.string());
-	}
-	
-	
-	shared_ptr<Variable> amplitude;
-	if(!parameters["amplitude"].empty()){
-		amplitude = reg->getVariable(parameters["amplitude"]);
-	} else {
-		amplitude = reg->getVariable("1.0");
-	}
-	
-	shared_ptr <mw::Component> newSound = shared_ptr<mw::Component>(new WavFileSound(full_path, amplitude));
-	return newSound;	
-}		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

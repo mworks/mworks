@@ -13,8 +13,12 @@
 #include "Sound.h"
 #include "OpenALContextManager.h"
 #include <boost/filesystem/path.hpp>
-#include "ComponentRegistry.h"
-namespace mw {
+#include "ComponentInfo.h"
+
+
+BEGIN_NAMESPACE_MW
+
+
 class OpenALSound : public Sound {
 
 protected:
@@ -25,8 +29,12 @@ protected:
 	shared_ptr<Variable> amplitude;
 	
 public:
+    static const std::string AMPLITUDE;
+    
+    static void describeComponent(ComponentInfo &info);
+    
+    OpenALSound(const ParameterValueMap &parameters);
 
-	OpenALSound(shared_ptr<Variable> amplitude);
 	virtual void play();	
 	virtual void pause();	
 	virtual void stop();
@@ -47,8 +55,11 @@ protected:
 	string path;
 
 public:
-	
-	WavFileSound(const boost::filesystem::path &filename, shared_ptr<Variable> amplitude);
+    static const std::string PATH;
+    
+    static void describeComponent(ComponentInfo &info);
+    
+    WavFileSound(const ParameterValueMap &parameters);
 
 	~WavFileSound();
 	
@@ -56,11 +67,29 @@ public:
 	virtual void announceSoundPlayed();
 };
 
-class WavFileSoundFactory : public ComponentFactory {
-	
-public:
-	virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-												ComponentRegistry *reg);
-};
-}
+
+END_NAMESPACE_MW
+
+
 #endif
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

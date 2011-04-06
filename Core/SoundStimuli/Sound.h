@@ -12,18 +12,23 @@
 
 #include "Utilities.h"
 #include "Component.h"
-#include "ComponentFactory.h"
 #include "StandardVariables.h"
 #include "Announcers.h"
-namespace mw {
-class Sound : public mw::Component, public ComponentFactory, public Announcable {
+#include "ParameterValue.h"
 
+
+BEGIN_NAMESPACE_MW
+
+
+class Sound : public Component, public Announcable {
 
 public:
-
-	Sound() : Announcable(ANNOUNCE_SOUND_TAGNAME) {  };
+    Sound(const ParameterValueMap &parameters) :
+        Component(parameters),
+        Announcable(ANNOUNCE_SOUND_TAGNAME)
+    { }
 	
-	virtual ~Sound(){}
+	virtual ~Sound() { }
 
 	virtual void play(){
 		mwarning(M_SYSTEM_MESSAGE_DOMAIN,
@@ -40,7 +45,32 @@ public:
 				"Attempting a pause an empty base-class sound");
 	}
 	
-	
 };
-}
+
+
+END_NAMESPACE_MW
+
+
 #endif
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

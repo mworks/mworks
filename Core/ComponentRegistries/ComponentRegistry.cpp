@@ -128,7 +128,7 @@ ComponentRegistry::ComponentRegistry() :
     registerFactory<StandardComponentFactory, StimulusGroup>();
 	
 	// sounds
-	registerFactory("sound/wav_file", new WavFileSoundFactory());
+    registerFactory<StandardComponentFactory, WavFileSound>();
   
   
   // cache these as members, since they will otherwise be created and destroyed a bazillion times
