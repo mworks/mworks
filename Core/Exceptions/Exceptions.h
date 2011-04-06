@@ -78,6 +78,10 @@ class SimpleException : public std::exception, public boost::exception {
 		virtual string getMessage(){ return message; }
 		//string getSubject(){ return subject; }
 		MessageDomain getDomain(){ return domain; }
+    
+        void setMessage(const std::string &newMessage) {
+            message = newMessage;
+        }
 		
 		virtual const char* what() const throw(){
             return message.c_str();

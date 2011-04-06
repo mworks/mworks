@@ -9,3 +9,26 @@
 
 #include "DummyIODevice.h"
 
+
+BEGIN_NAMESPACE_MW
+
+
+void DummyIODevice::describeComponent(ComponentInfo &info) {
+    IODevice::describeComponent(info);
+    info.setSignature("iodevice/dummy");
+}
+
+
+bool DummyIODevice::startDeviceIO() {
+    mprintf(M_IODEVICE_MESSAGE_DOMAIN, "Started I/O on dummy device");
+    return true;
+}
+
+
+bool DummyIODevice::stopDeviceIO() {
+    mprintf(M_IODEVICE_MESSAGE_DOMAIN, "Stopped I/O on dummy device");
+    return true;
+}
+
+
+END_NAMESPACE_MW

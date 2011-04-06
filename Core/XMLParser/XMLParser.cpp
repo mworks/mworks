@@ -753,41 +753,39 @@ void XMLParser::_processGenericCreateDirective(xmlNode *node, bool anon){
 			registry->registerObject(tag, component);
 		}
 		
-	} catch (FatalParserException& e){
-        // rethrow if it is marked as fatal
-        // (e.g. severe consistency errors)
-        throw;
-        
     } catch (SimpleException& e){
         
         // other exceptions may be recoverable
+        bool is_fatal = (dynamic_cast<FatalParserException *>(&e) != NULL);
         bool allow_failover = (bool)(alt_failover->getValue());
-		if(properties.find("alt") != properties.end() && allow_failover){
+        bool have_alt = (properties.find("alt") != properties.end());
+        
+		if (!is_fatal && have_alt && allow_failover) {
 			// Still in the game
             mwarning(M_PARSER_MESSAGE_DOMAIN,
 					 "Failed to create object \"%s\" of type %s (but alt object is specified)",
 					 tag.c_str(), object_type.c_str());
 		} else {
-            stringstream error_msg;
-        
-            // Fatal error
-            error_msg << "Failed to create object. ";
-            if(properties.find("alt") != properties.end()){
-                error_msg << 
-                       "An 'alt' object is specified, but the #allowAltFailover setup variable is set to disallow failover";
+            FatalParserException f;
+            
+            if (is_fatal) {
+                // Copy existing exception's data to f
+                f = dynamic_cast<FatalParserException &>(e);
+            } else {
+                stringstream error_msg;
+                error_msg << "Failed to create object. ";
+                if (have_alt) {
+                    error_msg << 
+                    "An 'alt' object is specified, but the #allowAltFailover setup variable is set to disallow failover";
+                }
+                f.setMessage(error_msg.str());
+                f << reason_error_info(e.what());
             }
             
-            FatalParserException f(error_msg.str());
-            
-            f << reason_error_info(e.what());
             f << object_type_error_info(object_type);
             f << parent_scope_error_info(parent_scope);
             f << ref_id_error_info(reference_id);
-            if (component) {
-                f << component_error_info(component);
-            } else {
-                f << component_error_info(tag);
-            }
+            f << (component ? component_error_info(component) : component_error_info(tag));
             
             throw f;
 		}

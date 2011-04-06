@@ -1,7 +1,17 @@
-#include "IODeviceVariableNotification.h"
 #include "IODevice.h"
+#include "IODeviceVariableNotification.h"
 
-using namespace mw;
+
+BEGIN_NAMESPACE_MW
+
+
+const std::string IODevice::ALT("alt");
+
+
+void IODevice::describeComponent(ComponentInfo &info) {
+    Component::describeComponent(info);
+    info.addParameter(ALT, false);
+}
 
 
 void IODevice::finalize(std::map<std::string, std::string> parameters, ComponentRegistry *reg)
@@ -12,11 +22,14 @@ void IODevice::finalize(std::map<std::string, std::string> parameters, Component
 	
 	if(!initialize()) {
 		// Initialization failed, so try to map the tag to the alt device
-		if(parameters.find("alt") == parameters.end()) {
+		if(parameters.find(ALT) == parameters.end()) {
 			throw SimpleException("Can't start iodevice (" + tag + ") and no alt tag specified");
 		} else {
-			shared_ptr <IODevice> alt_io_device = reg->getObject<IODevice>(parameters.find("alt")->second);
+			shared_ptr <IODevice> alt_io_device = reg->getObject<IODevice>(parameters[ALT]);
 			reg->registerAltObject(tag, alt_io_device);
 		}
 	}
 }
+
+
+END_NAMESPACE_MW

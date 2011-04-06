@@ -17,31 +17,16 @@
 BEGIN_NAMESPACE_MW
 
 
-class ComponentFactoryException : public SimpleException {
+class ComponentFactoryException : public FatalParserException {
 
 public:
-	virtual ~ComponentFactoryException() throw() { }
-    
     ComponentFactoryException(const std::string &message) :
-        SimpleException(M_PARSER_MESSAGE_DOMAIN, message)
+        FatalParserException(message)
     { }
 
 	ComponentFactoryException(const std::string &refID, const std::string &message) :
-        SimpleException(M_PARSER_MESSAGE_DOMAIN, message)
-    {
-        if (refID.empty()) {
-            _referenceID = refID;
-        } else {
-            _referenceID = "<unknown>";
-        }
-	}
-	
-	const std::string& referenceID() const {
-		return _referenceID;
-	}
-
-private:
-	std::string _referenceID;
+        FatalParserException(message)
+    { }
     
 };
 

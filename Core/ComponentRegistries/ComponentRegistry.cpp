@@ -117,7 +117,7 @@ ComponentRegistry::ComponentRegistry() :
     registerFactory("bias_monitor", new BiasMonitorFactory());
 	
 	// IO devices
-	registerFactory("iodevice/dummy", new DummyIODeviceFactory());
+    registerFactory<StandardComponentFactory, DummyIODevice>();
 	
 	registerFactory("iochannel", new IOChannelRequestFactory());
 	
@@ -198,16 +198,7 @@ shared_ptr<mw::Component> ComponentRegistry::createNewObject(const std::string &
 	shared_ptr<ComponentFactory> factory = getFactory(type_name);
 	
 	// create the new object
-	shared_ptr<mw::Component> obj;
-	try {
-		obj = factory->createObject(parameters, this);
-	} catch (FatalParserException& e){
-        std::string what(e.what());
-        
-		merror(M_PARSER_MESSAGE_DOMAIN, what);
-	}
-	
-	return obj;
+    return factory->createObject(parameters, this);
 }
 
 

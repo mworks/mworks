@@ -7,57 +7,35 @@
  *
  */
 
-/*
- *  NE500.h
- *  MWorksCore
- *
- *  Created by David Cox on 2/1/08.
- *  Copyright 2008 __MyCompanyName__. All rights reserved.
- *
- */
-
 #ifndef	_DUMMY_IO_H_
 #define _DUMMY_IO_H_
 
 #include "IODevice.h"
 
-namespace mw {
-using namespace std;
+
+BEGIN_NAMESPACE_MW
 
 
 class DummyIODevice : public IODevice {
+    
+public:
+    static void describeComponent(ComponentInfo &info);
+    
+    explicit DummyIODevice(const ParameterValueMap &parameters) : IODevice(parameters) { }
+    
+    virtual void addChild(std::map<std::string, std::string> parameters,
+                          ComponentRegistryPtr reg, 
+                          shared_ptr<Component> child)
+    { }
 
-
-	public:
-	
-		DummyIODevice(){ }
-		
-		
-		
-		virtual bool initialize(){  return true;  }
-
-		virtual void addChild(std::map<std::string, std::string> parameters,
-								ComponentRegistry *reg, 
-								shared_ptr<mw::Component> _child){ }
-		
-		virtual bool startDeviceIO(){  return true; }
-		virtual bool stopDeviceIO(){  return true; }
-
-
+    virtual bool startDeviceIO();
+    virtual bool stopDeviceIO();
+    
 };
 
 
-class DummyIODeviceFactory : public ComponentFactory {
+END_NAMESPACE_MW
 
-	shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-													 ComponentRegistry *reg){
-													 
-			return shared_ptr<mw::Component>(new DummyIODevice());
-	}
-};
-
-
-}
 
 #endif
 

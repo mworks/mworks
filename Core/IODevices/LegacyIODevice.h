@@ -1,6 +1,7 @@
 #ifndef _LEGACYIODEVICE_H
 #define _LEGACYIODEVICE_H
 
+#include "Lockable.h"
 #include "IODevice.h"
 
 #include "GenericVariable.h"
@@ -401,7 +402,7 @@ namespace mw {
 	//
 	// Ultimately, the unit of negotiation is called a "channel".  This specifies a mapping between a device.
 	// Assumptions here:   for now, we assume that requests for channels will not be done after initialization
-	class LegacyIODevice : public IODevice {
+	class LegacyIODevice : public Lockable, public IODevice {
 		
     protected:
         IOPhysicalDeviceReference*					attached_device;            // this points to an object that contains info about the specific device that is attached to this object
