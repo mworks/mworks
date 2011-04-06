@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<marionette_info>
+  <expected_messages>
+    <message type="starts_with">Starting device</message>
+    <message type="whole_message">Started I/O on dummy device</message>
+    <message type="starts_with">Waiting</message>
+    <message type="starts_with">Stopping device</message>
+    <message type="whole_message">Stopped I/O on dummy device</message>
+  </expected_messages>
+</marionette_info>
