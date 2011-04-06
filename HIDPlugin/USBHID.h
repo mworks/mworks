@@ -2,9 +2,9 @@
 #ifndef USB_HID_DEVICE_H
 #define USB_HID_DEVICE_H
 
+#include "HIDUtilities.h"
 #include "MWorksCore/LegacyIODevice.h"
 
-#include "HIDUtilities.h"
 using namespace mw;
 
 class mUSBHID : public LegacyIODevice {

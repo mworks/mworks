@@ -2,9 +2,10 @@
 #ifndef MSSW_GAMEPAD_DEVICE_H
 #define MSSW_GAMEPAD_DEVICE_H
 
+#include "HIDUtilities.h"
+
 #include "MWorksCore/IODevice.h"
 
-#include "HIDUtilities.h"
 #include "ButtonMap.h"
 using namespace mw;
 

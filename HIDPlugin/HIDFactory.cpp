@@ -7,8 +7,8 @@
  *
  */
 
-#include "HIDFactory.h"
 #include "USBHID.h"
+#include "HIDFactory.h"
 
 
 boost::shared_ptr<mw::Component> mHIDFactory::createObject(std::map<std::string, std::string> parameters,

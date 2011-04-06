@@ -7,8 +7,8 @@
  *
  */
 
-#include "MSSWGamepadFactory.h"
 #include "MSSWGamepad.h"
+#include "MSSWGamepadFactory.h"
 
 boost::shared_ptr<mw::Component> mMSSWGamepadFactory::createObject(std::map<std::string, std::string> parameters,
 																	  mw::ComponentRegistry *reg) {
