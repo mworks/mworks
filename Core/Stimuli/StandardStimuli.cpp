@@ -335,11 +335,7 @@ ImageStimulus::ImageStimulus(const ParameterValueMap &parameters) :
     height(0)
 {
     namespace bf = boost::filesystem;
-    bf::path full_path(expandPath(parameters["working_path"], parameters[PATH]));
-
-	if (!bf::exists(full_path)) {
-		throw SimpleException("Path does not exist", full_path.string());
-	}
+    bf::path full_path(parameters[PATH].as<bf::path>());
 	
 	if (bf::is_directory(full_path)) {
 		throw SimpleException("Path is a directory", full_path.string());

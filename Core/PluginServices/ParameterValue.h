@@ -14,6 +14,7 @@
 #include <map>
 #include <string>
 
+#include <boost/filesystem.hpp>
 #include <boost/lexical_cast.hpp>
 
 #include "ComponentRegistry.h"
@@ -100,6 +101,10 @@ StimulusNodePtr ParameterValue::convert(const std::string &s, ComponentRegistryP
 
 template<>
 StimulusGroupPtr ParameterValue::convert(const std::string &s, ComponentRegistryPtr reg);
+
+
+template<>
+boost::filesystem::path ParameterValue::convert(const std::string &s, ComponentRegistryPtr reg);
 
 
 END_NAMESPACE_MW

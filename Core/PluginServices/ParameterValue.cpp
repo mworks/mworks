@@ -7,6 +7,7 @@
  *
  */
 
+#include "Experiment.h"
 #include "ParameterValue.h"
 
 
@@ -52,6 +53,25 @@ StimulusGroupPtr ParameterValue::convert(const std::string &s, ComponentRegistry
     }
 
     return stimGroup;
+}
+
+
+template<>
+boost::filesystem::path ParameterValue::convert(const std::string &s, ComponentRegistryPtr reg) {
+    namespace bf = boost::filesystem;
+    
+    std::string workingPath;
+    if (GlobalCurrentExperiment) {
+        workingPath = GlobalCurrentExperiment->getWorkingPath();
+    }
+    
+    bf::path fullPath(expandPath(workingPath, s));
+    
+    if (!bf::exists(fullPath)) {
+        throw SimpleException("Path does not exist", fullPath.string());
+    }
+    
+    return fullPath;
 }
 
 

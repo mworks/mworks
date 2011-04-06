@@ -170,6 +170,7 @@ class Experiment : public ContainerState {
 		// Info about this experiment
 		std::string experimentName;
 		std::string experimentPath;
+        std::string workingPath;
 		
 		// Private methods to log changes in variable values
 		void logChange(Variable *variable, const Datum& data);
@@ -213,6 +214,14 @@ class Experiment : public ContainerState {
         void setExperimentPath(std::string);
 		std::string getExperimentPath();
         std::string getExperimentDirectory();
+    
+        void setWorkingPath(const std::string &newWorkingPath) {
+            workingPath = newWorkingPath;
+        }
+    
+        const std::string& getWorkingPath() const {
+            return workingPath;
+        }
 		
 		
 		// Announce the local variables (typically on the behalf of another
@@ -287,6 +296,9 @@ class ExperimentFactory : public ComponentFactory {
 		if(!parameters["tag"].empty()){
 			GlobalCurrentExperiment->setExperimentName(parameters["tag"]);
 		}
+        
+        GlobalCurrentExperiment->setWorkingPath(parameters["working_path"]);
+        
 		return experiment;
 	}
 		
