@@ -132,8 +132,6 @@
 		0EF2B6720EBB6ED70088F58F /* RegisteredSingletonTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EF2B6700EBB6ED70088F58F /* RegisteredSingletonTests.cpp */; };
 		0EFC71400EDBAF6800FFABA8 /* ScheduledActions.h in Headers */ = {isa = PBXBuildFile; fileRef = 0EFC713E0EDBAF6800FFABA8 /* ScheduledActions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0EFC71410EDBAF6800FFABA8 /* ScheduledActions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EFC713F0EDBAF6800FFABA8 /* ScheduledActions.cpp */; };
-		0EFC71460EDBB04D00FFABA8 /* CancelScheduledActionsAction.h in Headers */ = {isa = PBXBuildFile; fileRef = 0EFC71440EDBB04D00FFABA8 /* CancelScheduledActionsAction.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		0EFC71470EDBB04D00FFABA8 /* CancelScheduledActionsAction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EFC71450EDBB04D00FFABA8 /* CancelScheduledActionsAction.cpp */; };
 		0EFC71630EDBB14000FFABA8 /* PulseAction.h in Headers */ = {isa = PBXBuildFile; fileRef = 0EFC71610EDBB14000FFABA8 /* PulseAction.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0EFC71640EDBB14000FFABA8 /* PulseAction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EFC71620EDBB14000FFABA8 /* PulseAction.cpp */; };
 		5C05099A0A0ED95900F02584 /* Selectable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C0509980A0ED95900F02584 /* Selectable.cpp */; };
@@ -746,8 +744,6 @@
 		0EF2B6700EBB6ED70088F58F /* RegisteredSingletonTests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RegisteredSingletonTests.cpp; path = Core/Utilities/tests/RegisteredSingletonTests.cpp; sourceTree = "<group>"; };
 		0EFC713E0EDBAF6800FFABA8 /* ScheduledActions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ScheduledActions.h; path = Core/ParadigmComponents/ScheduledActions.h; sourceTree = "<group>"; };
 		0EFC713F0EDBAF6800FFABA8 /* ScheduledActions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ScheduledActions.cpp; path = Core/ParadigmComponents/ScheduledActions.cpp; sourceTree = "<group>"; };
-		0EFC71440EDBB04D00FFABA8 /* CancelScheduledActionsAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CancelScheduledActionsAction.h; path = Core/ParadigmComponents/CancelScheduledActionsAction.h; sourceTree = "<group>"; };
-		0EFC71450EDBB04D00FFABA8 /* CancelScheduledActionsAction.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CancelScheduledActionsAction.cpp; path = Core/ParadigmComponents/CancelScheduledActionsAction.cpp; sourceTree = "<group>"; };
 		0EFC71610EDBB14000FFABA8 /* PulseAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PulseAction.h; path = Core/ParadigmComponents/PulseAction.h; sourceTree = "<group>"; };
 		0EFC71620EDBB14000FFABA8 /* PulseAction.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PulseAction.cpp; path = Core/ParadigmComponents/PulseAction.cpp; sourceTree = "<group>"; };
 		5C0509980A0ED95900F02584 /* Selectable.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = Selectable.cpp; path = Core/ParadigmComponents/Selectable.cpp; sourceTree = SOURCE_ROOT; };
@@ -1288,8 +1284,6 @@
 				5CD504300D4ED0BA00CD1C1D /* TrialBuildingBlocks.cpp */,
 				0EFC713E0EDBAF6800FFABA8 /* ScheduledActions.h */,
 				0EFC713F0EDBAF6800FFABA8 /* ScheduledActions.cpp */,
-				0EFC71440EDBB04D00FFABA8 /* CancelScheduledActionsAction.h */,
-				0EFC71450EDBB04D00FFABA8 /* CancelScheduledActionsAction.cpp */,
 				0EFC71610EDBB14000FFABA8 /* PulseAction.h */,
 				0EFC71620EDBB14000FFABA8 /* PulseAction.cpp */,
 			);
@@ -2438,7 +2432,6 @@
 				5CB6C47E0E9A92CA006923EC /* SimpleConduit.h in Headers */,
 				0EF2B5C40EBB49F20088F58F /* RegisteredSingleton.h in Headers */,
 				0EFC71400EDBAF6800FFABA8 /* ScheduledActions.h in Headers */,
-				0EFC71460EDBB04D00FFABA8 /* CancelScheduledActionsAction.h in Headers */,
 				0EFC71630EDBB14000FFABA8 /* PulseAction.h in Headers */,
 				0E2FE5A10EF00CC900CEB818 /* ParsedColorTrio.h in Headers */,
 				0EB1423F0EFB4EFC0056E2A2 /* IODeviceVariableNotification.h in Headers */,
@@ -3136,7 +3129,6 @@
 				5CB6C4790E9A92CA006923EC /* BufferSyncConduit.cpp in Sources */,
 				5CB6C47D0E9A92CA006923EC /* SimpleConduit.cpp in Sources */,
 				0EFC71410EDBAF6800FFABA8 /* ScheduledActions.cpp in Sources */,
-				0EFC71470EDBB04D00FFABA8 /* CancelScheduledActionsAction.cpp in Sources */,
 				0EFC71640EDBB14000FFABA8 /* PulseAction.cpp in Sources */,
 				0E2FE5A20EF00CC900CEB818 /* ParsedColorTrio.cpp in Sources */,
 				0EB142400EFB4EFD0056E2A2 /* IODeviceVariableNotification.cpp in Sources */,

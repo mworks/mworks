@@ -12,11 +12,14 @@
 using namespace mw;
 
 ScheduledActions::ScheduledActions(shared_ptr<Variable> _n_repeats, 
-									 shared_ptr<Variable> _delay, 
-									 shared_ptr<Variable> _interval){						  
+                                   shared_ptr<Variable> _delay, 
+                                   shared_ptr<Variable> _interval,
+                                   shared_ptr<Variable> _cancel)
+{						  
 	n_repeats = _n_repeats;
 	delay = _delay;
 	interval = _interval;
+    cancel = _cancel;
 	setName("ScheduledActions");
 }
 
@@ -75,6 +78,10 @@ unsigned int ScheduledActions::getNRepeated() const {
 	return nRepeated;
 }
 
+bool ScheduledActions::shouldCancel() const {
+    return bool(*cancel);
+}
+
 void ScheduledActions::executeActions() {
 	for(int i = 0; i < action_list.getNElements(); i++){
 		action_list[i]->announceEntry();
@@ -89,6 +96,14 @@ void ScheduledActions::executeActions() {
  ****************************************************************/
 namespace mw {
 	void *scheduled_action_runner(const shared_ptr<ScheduledActions> &sa){
+        if (sa->shouldCancel()) {
+            shared_ptr<ScheduleTask> node(sa->getNode());
+            if (node) {
+                node->cancel();
+                return NULL;
+            }
+        }
+        
 		shared_ptr <Clock> clock = Clock::instance();
 		MWTime delta = clock->getCurrentTimeUS() - ((sa->getTimeScheduled() + sa->getDelay()) + sa->getNRepeated()*sa->getInterval());
 		
@@ -110,6 +125,7 @@ shared_ptr<mw::Component> ScheduledActionsFactory::createObject(std::map<std::st
 	shared_ptr<Variable> delay = reg->getVariable(parameters.find("delay")->second);
 	shared_ptr<Variable> duration = reg->getVariable(parameters.find("duration")->second);
 	shared_ptr<Variable> repeats = reg->getVariable(parameters.find("repeats")->second);
+	shared_ptr<Variable> cancel = reg->getVariable(parameters.find("cancel")->second, "0");
 	
 	checkAttribute(duration, parameters["reference_id"], "duration", parameters.find("duration")->second);
 	
@@ -117,10 +133,12 @@ shared_ptr<mw::Component> ScheduledActionsFactory::createObject(std::map<std::st
 	
 	checkAttribute(repeats, parameters["reference_id"], "repeats", parameters.find("repeats")->second);
 	
+	checkAttribute(repeats, parameters["reference_id"], "cancel", parameters.find("cancel")->second);
+	
 	
 	// TODO .. needs more work, the actual actions aren't included here
 	
-	shared_ptr <mw::Component> newScheduledActions = shared_ptr<mw::Component>(new ScheduledActions(repeats, delay, duration));
+	shared_ptr <mw::Component> newScheduledActions = shared_ptr<mw::Component>(new ScheduledActions(repeats, delay, duration, cancel));
 	return newScheduledActions;		
 }
 

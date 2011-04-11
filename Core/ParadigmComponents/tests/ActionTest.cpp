@@ -12,7 +12,6 @@
 #include "TrialBuildingBlocks.h"
 #include "GenericVariable.h"
 #include "ScheduledActions.h"
-#include "CancelScheduledActionsAction.h"
 using namespace mw;
 
 CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( ActionTestFixture, "Unit Test" );
@@ -642,8 +641,9 @@ void ActionTestFixture::testScheduledAssignment() {
 	shared_ptr<ConstantVariable>delay = shared_ptr<ConstantVariable>(new ConstantVariable(DELAY_US));
 	shared_ptr<ConstantVariable>repeats = shared_ptr<ConstantVariable>(new ConstantVariable(1L));
 	shared_ptr<ConstantVariable>interval = shared_ptr<ConstantVariable>(new ConstantVariable(0L));
+	shared_ptr<ConstantVariable>cancel(new ConstantVariable(0L));
 	
-	shared_ptr<ScheduledActions> sa = shared_ptr<ScheduledActions>(new ScheduledActions(repeats, delay, interval));
+	shared_ptr<ScheduledActions> sa = shared_ptr<ScheduledActions>(new ScheduledActions(repeats, delay, interval, cancel));
 	shared_ptr<Assignment>a = shared_ptr<Assignment>(new Assignment(v1,c1));
 	CPPUNIT_ASSERT((long)*v1 == 0L);	
 	
@@ -680,14 +680,13 @@ void ActionTestFixture::testScheduledAssignmentWithCancel() {
 	shared_ptr<ConstantVariable>delay = shared_ptr<ConstantVariable>(new ConstantVariable(DELAY_US));
 	shared_ptr<ConstantVariable>repeats = shared_ptr<ConstantVariable>(new ConstantVariable(1L));
 	shared_ptr<ConstantVariable>interval = shared_ptr<ConstantVariable>(new ConstantVariable(0L));
-	shared_ptr<ScheduledActions>sa = shared_ptr<ScheduledActions>(new ScheduledActions(repeats, delay, interval));
+	shared_ptr<GlobalVariable>cancel(new GlobalVariable(0L));
+	shared_ptr<ScheduledActions>sa = shared_ptr<ScheduledActions>(new ScheduledActions(repeats, delay, interval, cancel));
 	shared_ptr<Assignment>a = shared_ptr<Assignment>(new Assignment(v1,c1));
 	CPPUNIT_ASSERT((long)*v1 == 0L);	
 	
 	sa->addAction(a);
 	CPPUNIT_ASSERT((long)*v1 == 0L);	
-	
-	CancelScheduledAction csa(sa);
 	
 	shared_ptr <Clock> clock = Clock::instance();
 	MWTime start_time_us = clock->getCurrentTimeUS();
@@ -698,7 +697,7 @@ void ActionTestFixture::testScheduledAssignmentWithCancel() {
 	CPPUNIT_ASSERT((long)*v1 == 0L);	
 	
 	
-	CPPUNIT_ASSERT(csa.execute());
+    cancel->setValue(1L);
 	
 	CPPUNIT_ASSERT((long)*v1 == 0L);	
 	
@@ -725,14 +724,13 @@ void ActionTestFixture::testScheduledAssignmentWithCancelThatsTooLate() {
 	shared_ptr<ConstantVariable>delay = shared_ptr<ConstantVariable>(new ConstantVariable(DELAY_US));
 	shared_ptr<ConstantVariable>repeats = shared_ptr<ConstantVariable>(new ConstantVariable(1L));
 	shared_ptr<ConstantVariable>interval = shared_ptr<ConstantVariable>(new ConstantVariable(0L));
-	shared_ptr<ScheduledActions>sa = shared_ptr<ScheduledActions>(new ScheduledActions(repeats, delay, interval));
+	shared_ptr<GlobalVariable>cancel(new GlobalVariable(0L));
+	shared_ptr<ScheduledActions>sa = shared_ptr<ScheduledActions>(new ScheduledActions(repeats, delay, interval, cancel));
 	shared_ptr<Assignment>a = shared_ptr<Assignment>(new Assignment(v1,c1));
 	CPPUNIT_ASSERT((long)*v1 == 0L);	
 	
 	sa->addAction(a);
 	CPPUNIT_ASSERT((long)*v1 == 0L);	
-	
-	CancelScheduledAction csa(sa);
 	
 	shared_ptr <Clock> clock = Clock::instance();
 	sa->execute();
@@ -741,16 +739,9 @@ void ActionTestFixture::testScheduledAssignmentWithCancelThatsTooLate() {
 	usleep(CANCEL_TIME_US);
 	CPPUNIT_ASSERT((long)*v1 == 1L);	
 	
-	CPPUNIT_ASSERT(csa.execute());
+    cancel->setValue(1L);
 	
 	CPPUNIT_ASSERT((long)*v1 == 1L);	
-}
-
-void ActionTestFixture::testCancelNULLScheduledActions() {
-	shared_ptr<ScheduledActions>sa;	
-	
-	CancelScheduledAction csa(sa);
-	CPPUNIT_ASSERT(!(csa.execute()));
 }
 
 

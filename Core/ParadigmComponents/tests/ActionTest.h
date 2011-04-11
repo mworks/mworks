@@ -38,7 +38,6 @@ class ActionTestFixture : public FullCoreEnvironmentTestFixture {
 	CPPUNIT_TEST( testScheduledAssignment );
 	CPPUNIT_TEST( testScheduledAssignmentWithCancel );
 	CPPUNIT_TEST( testScheduledAssignmentWithCancelThatsTooLate );
-	CPPUNIT_TEST( testCancelNULLScheduledActions );
 	CPPUNIT_TEST_SUITE_END();
 	
 	
