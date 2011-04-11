@@ -284,18 +284,39 @@
 - (void) updateRecentScripts {
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     
-    if([self path] != Nil){
+    if([self path] != nil){
         [defaults setObject:[self path] forKey:@"lastPythonScript"];
         [defaults synchronize];
     }
     NSArray *recentScripts = [defaults arrayForKey:@"recentPythonScripts"];
-    if([self path] != Nil && ![recentScripts containsObject:[self path]]){
-        NSMutableArray *recentScriptsMutable = [[NSMutableArray alloc] init];
-        [recentScriptsMutable addObjectsFromArray:recentScripts];
-        [recentScriptsMutable addObject:[self path]];
+    if([self path] != nil){
+        NSMutableArray *recentScriptsMutable = [NSMutableArray arrayWithArray:recentScripts];
+        [recentScriptsMutable removeObject:[self path]];  // In case it's already in the list
+        [recentScriptsMutable insertObject:[self path] atIndex:0];
         [defaults setObject:recentScriptsMutable forKey:@"recentPythonScripts"];
         [defaults synchronize];
     }
 }
 
 @end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
