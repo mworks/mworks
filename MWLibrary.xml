@@ -677,8 +677,9 @@
 		<allowed_parent>Block</allowed_parent>
 		<allowed_parent>List</allowed_parent>
 		<allowed_parent>Protocol</allowed_parent>
-        <allowed_parent>Conditionally Execute Actions</allowed_parent>
-        <allowed_parent>Folder</allowed_parent>
+		<allowed_parent>Conditionally Execute Actions</allowed_parent>
+		<allowed_parent>Schedule Actions</allowed_parent>
+		<allowed_parent>Folder</allowed_parent>
 		
 		<disallowed_sibling_before>Transition</disallowed_sibling_before>
 		<disallowed_sibling_before>Variable</disallowed_sibling_before>
@@ -806,10 +807,11 @@
 		
 		<!-- Payload -->
 		<code>
-			<action type="schedule" tag="Scheduler Action" 
+			<action type="schedule" tag="Schedule Actions" 
 									  delay=""
 									  duration=""
-									  repeats=""/>
+									  repeats=""
+									  cancel=""/>
 		</code>
 	</MWElement>
 
