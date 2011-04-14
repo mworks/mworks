@@ -122,18 +122,18 @@ shared_ptr<mw::Component> ScheduledActionsFactory::createObject(std::map<std::st
 															  ComponentRegistry *reg) {
 	REQUIRE_ATTRIBUTES(parameters, "delay", "repeats", "duration");
 	
-	shared_ptr<Variable> delay = reg->getVariable(parameters.find("delay")->second);
-	shared_ptr<Variable> duration = reg->getVariable(parameters.find("duration")->second);
-	shared_ptr<Variable> repeats = reg->getVariable(parameters.find("repeats")->second);
-	shared_ptr<Variable> cancel = reg->getVariable(parameters.find("cancel")->second, "0");
+	shared_ptr<Variable> delay = reg->getVariable(parameters["delay"]);
+	shared_ptr<Variable> duration = reg->getVariable(parameters["duration"]);
+	shared_ptr<Variable> repeats = reg->getVariable(parameters["repeats"]);
+	shared_ptr<Variable> cancel = reg->getVariable(parameters["cancel"], "0");
 	
-	checkAttribute(duration, parameters["reference_id"], "duration", parameters.find("duration")->second);
+	checkAttribute(duration, parameters["reference_id"], "duration", parameters["duration"]);
 	
-	checkAttribute(delay, parameters["reference_id"], "delay", parameters.find("delay")->second);
+	checkAttribute(delay, parameters["reference_id"], "delay", parameters["delay"]);
 	
-	checkAttribute(repeats, parameters["reference_id"], "repeats", parameters.find("repeats")->second);
+	checkAttribute(repeats, parameters["reference_id"], "repeats", parameters["repeats"]);
 	
-	checkAttribute(repeats, parameters["reference_id"], "cancel", parameters.find("cancel")->second);
+	checkAttribute(repeats, parameters["reference_id"], "cancel", parameters["cancel"]);
 	
 	
 	// TODO .. needs more work, the actual actions aren't included here
