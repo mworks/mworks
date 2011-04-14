@@ -59,10 +59,9 @@
 
 
 - (void)hideWindow {
-    if ([[self window] isVisible]) {
-        [self relinquishCurrentView];
-        [[self window] orderOut:self];
-    }
+
+    [self relinquishCurrentView];
+    [[self window] orderOut:self];
 }
 
 - (void) relinquishCurrentView {
