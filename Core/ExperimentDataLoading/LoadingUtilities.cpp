@@ -386,7 +386,10 @@ namespace mw {
         
         bf::directory_iterator endIter;
         for (bf::directory_iterator iter(dirPath); iter != endIter; iter++) {
-            if (bf::is_regular_file(iter->status())) {
+            // Include only regular files whose names don't start with "."
+            if (bf::is_regular_file(iter->status()) &&
+                (iter->path().filename().find(bf::dot<bf::path>::value) != 0))
+            {
                 filePaths.push_back(iter->path().string());
             }
         }
