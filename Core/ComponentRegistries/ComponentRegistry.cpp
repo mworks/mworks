@@ -18,7 +18,6 @@
 #include "DynamicStimulusActionFactories.h"
 #include "ScheduledActions.h"
 #include "PulseAction.h"
-#include "CancelScheduledActionsAction.h"
 #include "StandardSounds.h"
 #include "Averagers.h"
 #include "SimpleStaircase.h"
@@ -62,7 +61,6 @@ ComponentRegistry::ComponentRegistry() :
 	
 	registerFactory("action/schedule", new ScheduledActionsFactory());
 	registerFactory("action/if", new IfFactory());
-	registerFactory("action/cancel_scheduled_action", new CancelScheduledActionFactory());
 	
 	
 	registerFactory("action/assignment", new AssignmentFactory());

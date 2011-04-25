@@ -19,6 +19,7 @@ namespace mw {
 		shared_ptr<Variable> delay;
 		shared_ptr<Variable> n_repeats;
 		shared_ptr<Variable> interval;
+		shared_ptr<Variable> cancel;
 		
 		shared_ptr<ScheduleTask> node;
 		MWTime timeScheduled;
@@ -26,8 +27,9 @@ namespace mw {
 		
 	public:
 		ScheduledActions(shared_ptr<Variable> _n_repeats, 
-						  shared_ptr<Variable> _delay, 
-						  shared_ptr<Variable> _interval);
+                         shared_ptr<Variable> _delay, 
+                         shared_ptr<Variable> _interval,
+                         shared_ptr<Variable> _cancel);
 		void addAction(shared_ptr<Action> _action);
 		void addChild(std::map<std::string, std::string> parameters,
 					  ComponentRegistry *reg,
@@ -38,6 +40,7 @@ namespace mw {
 		MWTime getInterval() const;
 		MWTime getTimeScheduled() const;
 		unsigned int getNRepeated() const;
+        bool shouldCancel() const;
 		void executeActions();
 	};
 	

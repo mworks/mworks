@@ -21,7 +21,7 @@ Pulse::Pulse(shared_ptr<Variable> _var, shared_ptr<Variable> _duration) : var(_v
 	actions = 
 	shared_ptr<ScheduledActions>(new ScheduledActions(
 														one_variable, _duration,
-														zero_variable));
+														zero_variable, zero_variable));
 	
 	assignment = 
 	shared_ptr<Assignment>(new Assignment(var, zero_variable));

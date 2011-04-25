@@ -469,10 +469,8 @@ void XMLParser::_generateListReplicatorFilenames(xmlNode *node, vector<string> &
 
     for (int i = 0; i < globResults.gl_pathc; i++) {
         bf::path filePath(globResults.gl_pathv[i], bf::native);
-        if (bf::is_regular_file(filePath)) {
-            values.push_back(filePath.string());
-            numMatches++;
-        }
+        values.push_back(filePath.string());
+        numMatches++;
     }
     
     if (0 == numMatches) {
