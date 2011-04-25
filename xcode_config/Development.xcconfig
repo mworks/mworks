@@ -8,7 +8,7 @@ GCC_WARN_ABOUT_RETURN_TYPE = YES
 SDKROOT = macosx10.6
 WARNING_CFLAGS = -Wno-sign-compare
 
-MW_VERSION = 0.4.5-dev
+MW_VERSION = 0.5.dev
 
 APP_SUPPORT_DIR = /Library/Application Support/MWorks
 CONFIG_DIR = $(APP_SUPPORT_DIR)/Configuration
