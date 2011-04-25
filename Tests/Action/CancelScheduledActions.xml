@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<monkeyml version="1.0">
+    <io_devices tag="IO Devices"></io_devices>
+    <variables tag="Variables">
+        <variable tag="pulse_interval" scope="global" logging="when_changed" default_value="1000000" type="float"></variable>
+        <variable tag="num_pulses" scope="global" logging="when_changed" default_value="5" type="integer"></variable>
+        <variable tag="pulse_count" scope="global" logging="when_changed" default_value="0" type="integer"></variable>
+        <variable tag="cancel_pulses" scope="global" logging="when_changed" default_value="0" type="boolean"></variable>
+    </variables>
+    <sounds tag="Sounds"></sounds>
+    <stimuli tag="Stimuli"></stimuli>
+    <filters tag="Filters"></filters>
+    <optimizers tag="Optimizers"></optimizers>
+    <experiment tag="New Experiment" full_name="" description="">
+        <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential">
+            <task_system tag="New Task System" interruptible="YES">
+                <task_system_state tag="Begin State System" interruptible="YES">
+                    <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                    <action type="assignment" tag="Reset pulse_count" variable="pulse_count" value="0"></action>
+                    <action type="assignment" tag="Reset cancel_pulses" variable="cancel_pulses" value="0"></action>
+                    <action type="schedule" tag="Schedule pulses" delay="0" duration="pulse_interval" repeats="1000" cancel="cancel_pulses">
+                        <action type="assignment" tag="Update pulse_count" variable="pulse_count" value="pulse_count + 1"></action>
+                        <action type="report" tag="Report 2" message="Sent pulse $pulse_count"></action>
+                    </action>
+                    <action type="start_timer" tag="Start Timer 2" timer="MyTimer" timebase="" duration="num_pulses - 1" duration_units="s"></action>
+                    <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                    <transition type="timer_expired" tag="If Timer Expired, Transition to ... 2" target="Cancel pulses" timer="MyTimer"></transition>
+                </task_system_state>
+                <task_system_state tag="Cancel pulses" interruptible="YES">
+                    <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                    <action type="assignment" tag="Cancel pulses" variable="cancel_pulses" value="1"></action>
+                    <action type="start_timer" tag="Start Timer" timer="MyTimer" timebase="" duration="3" duration_units="s"></action>
+                    <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                    <transition type="timer_expired" tag="If Timer Expired, Transition to ..." target="Exit State System" timer="MyTimer"></transition>
+                </task_system_state>
+                <task_system_state tag="Exit State System" interruptible="YES">
+                    <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                    <action type="assert" tag="Assert" condition="pulse_count == num_pulses" message="Wrong number of pulses"></action>
+                    <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                    <transition tag="Return to parent task system" type="yield"></transition>
+                </task_system_state>
+            </task_system>
+        </protocol>
+    </experiment>
+</monkeyml>

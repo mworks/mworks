@@ -14,7 +14,7 @@
     <optimizers tag="Optimizers"></optimizers>
     <experiment tag="New Experiment" full_name="" description="">
         <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential">
-            <list_replicator tag="New List Replicator" values="FILENAMES(dir1/*),filenames(dir2/*),filenames(dir*)" variable="filename">
+            <list_replicator tag="New List Replicator" values="FILENAMES(dir1/*),filenames(dir2/*),filenames(dir/*)" variable="filename">
                 <block tag="New Block" nsamples="1" sampling_method="cycles" selection="sequential">
 		    <action type="assert" tag="Assert" condition="0" message="This shouldn't run!"></action>
                 </block>
