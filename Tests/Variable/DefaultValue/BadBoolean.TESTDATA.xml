@@ -1,9 +1,7 @@
 <?xml version="1.0"?>
 <marionette_info>
   <expected_messages>
-    <message type="whole_message">ERROR: invalid boolean literal: 2</message>
-    <message type="whole_message">WARNING: Null object created</message>
-    <message type="contains">Attempt to register empty component: bool_var</message>
+    <message type="starts_with">ERROR: invalid boolean literal: 2</message>
     <message type="starts_with">ERROR: Failed to parse experiment </message>
   </expected_messages>
   <expected_events>
