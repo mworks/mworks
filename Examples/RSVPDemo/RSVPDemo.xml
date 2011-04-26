@@ -73,7 +73,7 @@
                 <stimulus _id="id30610" tag="OSImage_$RSVP_stim_counter" type="image_file" path="./images/RSVP_images/OSImage_${RSVP_stim_counter}.png" x_size="stm_size" y_size="stm_size" x_position="stm_pos_x" y_position="stm_pos_y" rotation="0" alpha_multiplier="1"></stimulus>
             </range_replicator>
         </stimulus_group>
-        <stimulus _id="id30640" tag="fixation_dot" type="fixation_point" color="1,0,0" trigger_width="fixation_width" trigger_watch_x="eye_h" trigger_watch_y="eye_v" trigger_flag="eye_in_window" x_size="fixation_point_size" y_size="fixation_point_size" x_position="fixation_pos_x" y_position="fixation_pos_y" rotation="0.0" alpha_multiplier="1.0" alpha_multipler="0.0"></stimulus>
+        <stimulus _id="id30640" tag="fixation_dot" type="fixation_point" color="1,0,0" trigger_width="fixation_width" trigger_watch_x="eye_h" trigger_watch_y="eye_v" trigger_flag="eye_in_window" x_size="fixation_point_size" y_size="fixation_point_size" x_position="fixation_pos_x" y_position="fixation_pos_y" rotation="0.0" alpha_multiplier="1.0"></stimulus>
         <stimulus _id="id30681" tag="blank screen" type="blank_screen" color="0.5,0.5,0.5"></stimulus>
     </stimuli>
     <sounds _id="id30689" tag="Sounds">
