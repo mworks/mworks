@@ -31,7 +31,12 @@ bool ComponentFactory::shouldIgnoreParameter(const std::string &name) {
             //
             // Generic, currently-unused parameters that appear in many old experiments
             //
-            (name == "full_name")
+            (name == "full_name") ||
+            
+            //
+            // The editor used to add this, so it's probably still in many experiments
+            //
+            (name == "_id")
             );
 }
 
