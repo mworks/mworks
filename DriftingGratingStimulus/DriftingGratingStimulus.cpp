@@ -8,7 +8,6 @@
  */
 
 #include "DriftingGratingStimulus.h"
-#include "DriftingGratingConstants.h"
 using namespace mw;
 
 DriftingGratingStimulus::DriftingGratingStimulus(const std::string &_tag, 
@@ -280,8 +279,8 @@ void DriftingGratingStimulus::drawFrame(shared_ptr<StimulusDisplay> display, int
 		//
 		// multiply by -1 so it the grating goes in the correct direction
         double elapsed_seconds = (double)elapsed_time /  (double)1000000;
-		const double phase = -1*(starting_phase->getValue().getFloat()*(M_DG_PI/180.) + speed->getValue().getFloat()*spatial_frequency->getValue().getFloat()*(2.*M_DG_PI)*elapsed_seconds);
-		const double direction_in_radians = direction_in_degrees->getValue().getFloat()*(M_DG_PI/180.);		
+		const double phase = -1*(starting_phase->getValue().getFloat()*(M_PI/180.) + speed->getValue().getFloat()*spatial_frequency->getValue().getFloat()*(2.*M_PI)*elapsed_seconds);
+		const double direction_in_radians = direction_in_degrees->getValue().getFloat()*(M_PI/180.);		
 		const double aspect = width->getValue().getFloat()/height->getValue().getFloat();
 		
         //mprintf("drifting grating draw (%lld - %lld = %lld, %g, %g, %g, %g)", now, start_time, elapsed_time, elapsed_seconds, phase, direction_in_radians, aspect);
@@ -297,7 +296,7 @@ void DriftingGratingStimulus::drawFrame(shared_ptr<StimulusDisplay> display, int
 		const float mask_s_ratio = 1-MIN(1,aspect);
 		const float mask_t_ratio = 1-MIN(1,1/aspect);
 		
-		const float phase_proportion = phase/(2*M_DG_PI);
+		const float phase_proportion = phase/(2*M_PI);
 		const float cycle_proportion = spatial_frequency->getValue().getFloat()*width->getValue().getFloat();
 		
 		glNormal3f(0.0, 0.0, 1.0);
@@ -320,7 +319,7 @@ void DriftingGratingStimulus::drawFrame(shared_ptr<StimulusDisplay> display, int
 	
 	glEnd(); // GL_QUADS		
     
-	last_phase = phase*(180/M_DG_PI);
+	last_phase = phase*(180/M_PI);
 	
 	
     // ----------------------------------------

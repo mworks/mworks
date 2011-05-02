@@ -8,7 +8,6 @@
  */
 
 #include "GaussianMask.h"
-#include "DriftingGratingConstants.h"
 
 mGaussianMask::mGaussianMask(const shared_ptr<Variable> &_size,
 							 const shared_ptr<Variable> &_mean,
@@ -21,7 +20,7 @@ mGaussianMask::mGaussianMask(const shared_ptr<Variable> &_size,
 	// for clarity
 	const float s = std_dev->getValue().getFloat();
 	const float u = mean->getValue().getFloat();
-	const float pi = M_DG_PI;
+	const float pi = M_PI;
 	
 	// leave the one pixel margin around the edge
 	for(unsigned int channel=0; channel<M_MASK_CHANNELS; ++channel) {

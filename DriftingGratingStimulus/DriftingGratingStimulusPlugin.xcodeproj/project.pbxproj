@@ -80,7 +80,6 @@
 		0EC0F2CA0EC533E8004AD5CE /* GratingData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GratingData.h; sourceTree = "<group>"; };
 		0EC0F2D10EC53519004AD5CE /* SinusoidGratingData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SinusoidGratingData.h; sourceTree = "<group>"; };
 		0EC0F2D20EC53519004AD5CE /* SinusoidGratingData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SinusoidGratingData.cpp; sourceTree = "<group>"; };
-		0EC0F2EA0EC53788004AD5CE /* DriftingGratingConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DriftingGratingConstants.h; sourceTree = "<group>"; };
 		0EC0F33A0EC5395C004AD5CE /* SquareGratingData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SquareGratingData.h; sourceTree = "<group>"; };
 		0EC0F33B0EC5395C004AD5CE /* SquareGratingData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SquareGratingData.cpp; sourceTree = "<group>"; };
 		0EDCBABE0EE9D39B00432792 /* MWLibrary.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MWLibrary.xml; sourceTree = "<group>"; };
@@ -153,7 +152,6 @@
 				0EC0F2540EC52DD7004AD5CE /* Factory */,
 				0EC0F2350EC52B22004AD5CE /* Masks */,
 				0EC0F2C90EC533CA004AD5CE /* Textures */,
-				0EC0F2EA0EC53788004AD5CE /* DriftingGratingConstants.h */,
 				0EE4686B0ECCB6DC00C4CDE7 /* DriftingGratingUtilities.h */,
 				0EE4686C0ECCB6DC00C4CDE7 /* DriftingGratingUtilities.cpp */,
 			);
