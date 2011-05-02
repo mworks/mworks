@@ -8,39 +8,92 @@
  */
 
 #include "DriftingGratingStimulus.h"
-using namespace mw;
+#include "EllipseMask.h"
+#include "GaussianMask.h"
+#include "RectangleMask.h"
+#include "SawtoothGratingData.h"
+#include "SinusoidGratingData.h"
+#include "SquareGratingData.h"
+#include "TriangleGratingData.h"
 
-DriftingGratingStimulus::DriftingGratingStimulus(const std::string &_tag, 
-                                                 shared_ptr<Variable> _frames_per_second,
-                                                 shared_ptr<Variable> _xoffset, 
-                                                 shared_ptr<Variable> _yoffset, 
-                                                 shared_ptr<Variable> _width,
-                                                 shared_ptr<Variable> _height,
-                                                 shared_ptr<Variable> _rot,
-                                                 shared_ptr<Variable> _alpha,
-                                                 shared_ptr<Variable> _direction,
-                                                 shared_ptr<Variable> _frequency,
-                                                 shared_ptr<Variable> _speed,
-                                                 shared_ptr<Variable> _starting_phase,
-                                                 shared_ptr<Mask> _mask,
-                                                 shared_ptr<GratingData> _grating) :
-    StandardDynamicStimulus(_tag, _frames_per_second)
+
+const std::string DriftingGratingStimulus::DIRECTION("direction");
+const std::string DriftingGratingStimulus::STARTING_PHASE("starting_phase");
+const std::string DriftingGratingStimulus::FREQUENCY("spatial_frequency");
+const std::string DriftingGratingStimulus::SPEED("speed");
+const std::string DriftingGratingStimulus::GRATING_TYPE("grating_type");
+const std::string DriftingGratingStimulus::MASK("mask");
+const std::string DriftingGratingStimulus::GRATING_SAMPLE_RATE("grating_sample_rate");
+const std::string DriftingGratingStimulus::INVERTED("inverted");
+const std::string DriftingGratingStimulus::STD_DEV("std_dev");
+const std::string DriftingGratingStimulus::MEAN("mean");
+
+
+void DriftingGratingStimulus::describeComponent(ComponentInfo &info) {
+    StandardDynamicStimulus::describeComponent(info);
+    
+    info.setSignature("stimulus/drifting_grating");
+
+    info.addParameter(BasicTransformStimulus::X_SIZE);
+    info.addParameter(BasicTransformStimulus::Y_SIZE);
+    info.addParameter(BasicTransformStimulus::X_POSITION, "0.0");
+    info.addParameter(BasicTransformStimulus::Y_POSITION, "0.0");
+    info.addParameter(BasicTransformStimulus::ROTATION, "0.0");
+    info.addParameter(BasicTransformStimulus::ALPHA_MULTIPLIER, "1.0");
+    
+    info.addParameter(DIRECTION, "0.0");
+    info.addParameter(STARTING_PHASE, "0.0");
+    info.addParameter(FREQUENCY);
+    info.addParameter(SPEED);
+    info.addParameter(GRATING_TYPE);
+    info.addParameter(MASK);
+    info.addParameter(GRATING_SAMPLE_RATE, "32");
+    info.addParameter(INVERTED, "0");
+    info.addParameter(STD_DEV, "1.0");
+    info.addParameter(MEAN, "0.0");
+}
+
+
+DriftingGratingStimulus::DriftingGratingStimulus(const ParameterValueMap &parameters) :
+    StandardDynamicStimulus(parameters),
+    xoffset(registerVariable(parameters[BasicTransformStimulus::X_POSITION])),
+    yoffset(registerVariable(parameters[BasicTransformStimulus::Y_POSITION])),
+    width(registerVariable(parameters[BasicTransformStimulus::X_SIZE])),
+    height(registerVariable(parameters[BasicTransformStimulus::Y_SIZE])),
+    rotation(registerVariable(parameters[BasicTransformStimulus::ROTATION])),
+    alpha_multiplier(registerVariable(parameters[BasicTransformStimulus::ALPHA_MULTIPLIER])),
+    spatial_frequency(registerVariable(parameters[FREQUENCY])),
+    speed(registerVariable(parameters[SPEED])),
+    starting_phase(registerVariable(parameters[STARTING_PHASE])),
+    direction_in_degrees(registerVariable(parameters[DIRECTION]))
 {
-	xoffset = registerVariable(_xoffset);
-	yoffset = registerVariable(_yoffset);
-	width = registerVariable(_width);
-	height = registerVariable(_height);
-	
-	rotation = registerVariable(_rot);
-	alpha_multiplier = registerVariable(_alpha);
-	
-	spatial_frequency = registerVariable(_frequency);
-	speed = registerVariable(_speed);
-	starting_phase = registerVariable(_starting_phase);
-	direction_in_degrees = registerVariable(_direction);
-	
-	mask = _mask;
-	grating = _grating;
+    const std::string &grating_type = parameters[GRATING_TYPE].str();
+    shared_ptr<Variable> grating_sample_rate(parameters[GRATING_SAMPLE_RATE]);
+
+	if (grating_type == "sinusoid") {
+		grating = shared_ptr<SinusoidGratingData>(new SinusoidGratingData(grating_sample_rate));
+	} else if (grating_type == "square") {
+		grating = shared_ptr<SquareGratingData>(new SquareGratingData(grating_sample_rate));
+	} else if (grating_type == "triangle") {
+		grating = shared_ptr<TriangleGratingData>(new TriangleGratingData(grating_sample_rate));
+	} else if (grating_type == "sawtooth") {
+		grating = shared_ptr<SawtoothGratingData>(new SawtoothGratingData(grating_sample_rate, parameters[INVERTED]));
+	} else {
+		throw SimpleException("illegal grating type", grating_type);		
+	}
+
+    const std::string &mask_type = parameters[MASK].str();
+	shared_ptr<Variable> mask_size(new ConstantVariable(128L));
+
+	if (mask_type == "rectangle") {
+		mask = shared_ptr<Mask>(new RectangleMask(mask_size));
+	} else if (mask_type == "ellipse") {
+		mask = shared_ptr<Mask>(new EllipseMask(mask_size));
+	} else if (mask_type == "gaussian") {
+		mask = shared_ptr<Mask>(new GaussianMask(mask_size, parameters[MEAN], parameters[STD_DEV]));
+	} else {
+		throw SimpleException("illegal mask", mask_type);				
+	}
 }
 
 
@@ -179,12 +232,6 @@ void DriftingGratingStimulus::unload(shared_ptr<StimulusDisplay> display) {
     
     loaded = false;
 }
-
-
-DriftingGratingStimulus::~DriftingGratingStimulus() {
-    stop();
-}
-
 
 
 void DriftingGratingStimulus::drawFrame(shared_ptr<StimulusDisplay> display, int frameNumber) {

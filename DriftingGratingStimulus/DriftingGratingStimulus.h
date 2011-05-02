@@ -10,13 +10,19 @@
 #ifndef DRIFTING_GRATNG_STIMULUS_H
 #define DRIFTING_GRATNG_STIMULUS_H
 
+#include <boost/noncopyable.hpp>
+
 #include <MWorksCore/StandardDynamicStimulus.h>
+
 #include "Mask.h"
 #include "GratingData.h"
+
 using namespace mw;
 
-class DriftingGratingStimulus : public StandardDynamicStimulus {
-protected:
+
+class DriftingGratingStimulus : public StandardDynamicStimulus, boost::noncopyable {
+
+private:
 	shared_ptr<Variable> xoffset;
 	shared_ptr<Variable> yoffset;
 	
@@ -36,35 +42,54 @@ protected:
 	
 	vector<GLuint> mask_textures;
 	vector<GLuint> grating_textures;
-	
-
     
 	float last_phase;
+
 public:
-	DriftingGratingStimulus(const std::string &_tag, 
-                            shared_ptr<Variable> _frames_per_second,
-                            shared_ptr<Variable> _xoffset, 
-                            shared_ptr<Variable> _yoffset, 
-                            shared_ptr<Variable> _width,
-                            shared_ptr<Variable> _height,
-                            shared_ptr<Variable> _rot,
-                            shared_ptr<Variable> _alpha,
-                            shared_ptr<Variable> _direction,
-                            shared_ptr<Variable> _frequency,
-                            shared_ptr<Variable> _speed,
-                            shared_ptr<Variable> _starting_phase,
-                            shared_ptr<Mask> _mask,
-                            shared_ptr<GratingData> _grating);
+    static const std::string DIRECTION;
+    static const std::string STARTING_PHASE;
+    static const std::string FREQUENCY;
+    static const std::string SPEED;
+    static const std::string GRATING_TYPE;
+    static const std::string MASK;
+    static const std::string GRATING_SAMPLE_RATE;
+    static const std::string INVERTED;
+    static const std::string STD_DEV;
+    static const std::string MEAN;
     
-   
-	DriftingGratingStimulus(const DriftingGratingStimulus &tocopy);
-	~DriftingGratingStimulus();
-	
+    static void describeComponent(ComponentInfo &info);
+    
+    explicit DriftingGratingStimulus(const ParameterValueMap &parameters);
+    
+	virtual ~DriftingGratingStimulus() { }
 
 	virtual void load(shared_ptr<StimulusDisplay> display);
 	virtual void unload(shared_ptr<StimulusDisplay> display);
     virtual void drawFrame(shared_ptr<StimulusDisplay> display, int frameNumber);
 	virtual Datum getCurrentAnnounceDrawData();
+
 };
 
+
 #endif 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

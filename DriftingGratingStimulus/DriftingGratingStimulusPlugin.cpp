@@ -7,18 +7,21 @@
  *
  */
 
-#include "DriftingGratingStimulusPlugin.h"
-#include "DriftingGratingStimulusFactory.h"
-#include "MWorksCore/ComponentFactory.h"
+#include <MWorksCore/Plugin.h>
+#include <MWorksCore/StandardStimulusFactory.h>
+
+#include "DriftingGratingStimulus.h"
+
 using namespace mw;
 
-Plugin *getPlugin(){
+
+class DriftingGratingStimulusPlugin : public Plugin {
+    void registerComponents(shared_ptr<ComponentRegistry> registry) {
+        registry->registerFactory<StandardStimulusFactory, DriftingGratingStimulus>();
+    }
+};
+
+
+extern "C" Plugin* getPlugin(){
     return new DriftingGratingStimulusPlugin();
-}
-
-
-void DriftingGratingStimulusPlugin::registerComponents(shared_ptr<mw::ComponentRegistry> registry) {
-	
-	registry->registerFactory(std::string("stimulus/drifting_grating"),
-							  (ComponentFactory *)(new DriftingGratingStimulusFactory()));
 }
