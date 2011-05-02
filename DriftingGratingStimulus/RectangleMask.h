@@ -13,9 +13,9 @@
 
 #include "Mask.h"
 
-class mRectangleMask : public mMask {
+class RectangleMask : public Mask {
 public:
-	mRectangleMask(const shared_ptr<Variable> &_size);
+	RectangleMask(const shared_ptr<Variable> &_size);
 	virtual const std::string getName() const;
 };
 

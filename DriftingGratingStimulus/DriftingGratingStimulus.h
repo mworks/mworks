@@ -31,8 +31,8 @@ protected:
 	shared_ptr<Variable> speed;
 	shared_ptr<Variable> starting_phase;
 	
-	shared_ptr<mMask> mask;
-	shared_ptr<mGratingData> grating;
+	shared_ptr<Mask> mask;
+	shared_ptr<GratingData> grating;
 	
 	vector<GLuint> mask_textures;
 	vector<GLuint> grating_textures;
@@ -53,8 +53,8 @@ public:
                             shared_ptr<Variable> _frequency,
                             shared_ptr<Variable> _speed,
                             shared_ptr<Variable> _starting_phase,
-                            shared_ptr<mMask> _mask,
-                            shared_ptr<mGratingData> _grating);
+                            shared_ptr<Mask> _mask,
+                            shared_ptr<GratingData> _grating);
     
    
 	DriftingGratingStimulus(const DriftingGratingStimulus &tocopy);

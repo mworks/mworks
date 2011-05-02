@@ -12,13 +12,13 @@
 
 #include "Mask.h"
 
-class mGaussianMask : public mMask {
+class GaussianMask : public Mask {
 protected:
 	shared_ptr<Variable> mean;
 	shared_ptr<Variable> std_dev;
 	
 public:
-	mGaussianMask(const shared_ptr<Variable> &_size,
+	GaussianMask(const shared_ptr<Variable> &_size,
 									 const shared_ptr<Variable> &_mean,
 									 const shared_ptr<Variable> &_std_dev);
 	virtual const std::string getName() const;

@@ -10,8 +10,8 @@
 #include "SawtoothGratingData.h"
 
 
-mSawtoothGratingData::mSawtoothGratingData(const shared_ptr <Variable> &_data_sample_rate,
-										   const shared_ptr <Variable> &_inverted) : mGratingData(_data_sample_rate) {
+SawtoothGratingData::SawtoothGratingData(const shared_ptr <Variable> &_data_sample_rate,
+										   const shared_ptr <Variable> &_inverted) : GratingData(_data_sample_rate) {
 	inverted=_inverted;
 	
 	for(unsigned int i=0; i<current_data_size; ++i) {
@@ -20,7 +20,7 @@ mSawtoothGratingData::mSawtoothGratingData(const shared_ptr <Variable> &_data_sa
 }
 
 
-const std::string mSawtoothGratingData::getName() const {
+const std::string SawtoothGratingData::getName() const {
 	return inverted->getValue().getInteger() ? "inverted_sawtooth" : "sawtooth";
 }
 

@@ -10,7 +10,7 @@
 #include "TriangleGratingData.h"
 
 
-mTriangleGratingData::mTriangleGratingData(const shared_ptr <Variable> &_data_sample_rate) : mGratingData(_data_sample_rate) {
+TriangleGratingData::TriangleGratingData(const shared_ptr <Variable> &_data_sample_rate) : GratingData(_data_sample_rate) {
 	for(unsigned int i=0; i<current_data_size; ++i) {
 		float half_size = (float)current_data_size/2;
 		
@@ -18,6 +18,6 @@ mTriangleGratingData::mTriangleGratingData(const shared_ptr <Variable> &_data_sa
 	}	
 }
 
-const std::string mTriangleGratingData::getName() const {
+const std::string TriangleGratingData::getName() const {
 	return "triangle";
 }

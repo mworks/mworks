@@ -12,9 +12,9 @@
 
 #include "GratingData.h"
 
-class mTriangleGratingData : public mGratingData {
+class TriangleGratingData : public GratingData {
 public:
-	mTriangleGratingData(const shared_ptr <Variable> &_data_sample_size);
+	TriangleGratingData(const shared_ptr <Variable> &_data_sample_size);
 	const std::string getName() const;
 };
 

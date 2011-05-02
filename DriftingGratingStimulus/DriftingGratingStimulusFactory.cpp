@@ -121,13 +121,13 @@ shared_ptr<mw::Component> DriftingGratingStimulusFactory::createObject(std::map<
 	
 	
 	
-	shared_ptr <mGratingData> grating;
+	shared_ptr <GratingData> grating;
 	if(parameters.find(GRATING_TYPE)->second == "sinusoid") {
-		grating = shared_ptr<mSinusoidGratingData>(new mSinusoidGratingData(grating_sample_rate));
+		grating = shared_ptr<SinusoidGratingData>(new SinusoidGratingData(grating_sample_rate));
 	} else if(parameters.find(GRATING_TYPE)->second == "square") {
-		grating = shared_ptr<mSquareGratingData>(new mSquareGratingData(grating_sample_rate));
+		grating = shared_ptr<SquareGratingData>(new SquareGratingData(grating_sample_rate));
 	} else if(parameters.find(GRATING_TYPE)->second == "triangle") {
-		grating = shared_ptr<mTriangleGratingData>(new mTriangleGratingData(grating_sample_rate));
+		grating = shared_ptr<TriangleGratingData>(new TriangleGratingData(grating_sample_rate));
 	} else if(parameters.find(GRATING_TYPE)->second == "sawtooth") {
 		const char *INVERTED = "inverted";
 		
@@ -136,18 +136,18 @@ shared_ptr<mw::Component> DriftingGratingStimulusFactory::createObject(std::map<
 					   parameters.find("reference_id")->second, 
 					   INVERTED, 
 					   parameters.find(INVERTED)->second);                                              
-		grating = shared_ptr<mSawtoothGratingData>(new mSawtoothGratingData(grating_sample_rate,
+		grating = shared_ptr<SawtoothGratingData>(new SawtoothGratingData(grating_sample_rate,
 																			inverted));
 	} else {
 		throw SimpleException("illegal grating type: " + parameters.find(GRATING_TYPE)->second);		
 	}
 	
-	shared_ptr <mMask> mask;
+	shared_ptr <Mask> mask;
 	shared_ptr <Variable> mask_size = shared_ptr<Variable>(new ConstantVariable(128L));
 	if(parameters.find(MASK)->second == "rectangle") {
-		mask = shared_ptr<mMask>(new mRectangleMask(mask_size));
+		mask = shared_ptr<Mask>(new RectangleMask(mask_size));
 	} else if(parameters.find(MASK)->second == "ellipse") {
-		mask = shared_ptr<mMask>(new mEllipseMask(mask_size));
+		mask = shared_ptr<Mask>(new EllipseMask(mask_size));
 	} else if(parameters.find(MASK)->second == "gaussian") {
 		const char *STD_DEV = "std_dev";
 		const char *MEAN = "mean";
@@ -167,7 +167,7 @@ shared_ptr<mw::Component> DriftingGratingStimulusFactory::createObject(std::map<
 					   MEAN, 
 					   parameters.find(MEAN)->second);                                              
 		
-		mask = shared_ptr<mMask>(new mGaussianMask(mask_size,
+		mask = shared_ptr<Mask>(new GaussianMask(mask_size,
 													 mean,
 													 std_dev));
 	} else {

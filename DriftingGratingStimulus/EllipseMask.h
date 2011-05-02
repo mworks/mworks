@@ -13,9 +13,9 @@
 #include "Mask.h"
 using namespace mw;
 
-class mEllipseMask : public mMask {
+class EllipseMask : public Mask {
 public:
-	mEllipseMask(const shared_ptr<Variable> &_size);
+	EllipseMask(const shared_ptr<Variable> &_size);
 	virtual const std::string getName() const;
 };
 

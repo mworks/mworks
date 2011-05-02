@@ -10,7 +10,7 @@
 #include "EllipseMask.h"
 using namespace mw;
 
-mEllipseMask::mEllipseMask(const shared_ptr<Variable> &_size) : mMask(_size) {
+EllipseMask::EllipseMask(const shared_ptr<Variable> &_size) : Mask(_size) {
 	const float radius = current_size/2;
 
 	// leave a 1 pixel border around the mask so when it clamps to the edge.  The array is initialized to all 
@@ -26,7 +26,7 @@ mEllipseMask::mEllipseMask(const shared_ptr<Variable> &_size) : mMask(_size) {
 	}
 }
 
-const std::string mEllipseMask::getName() const {
+const std::string EllipseMask::getName() const {
 	return "ellipse";
 }
 

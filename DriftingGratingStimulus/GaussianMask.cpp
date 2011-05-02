@@ -9,9 +9,9 @@
 
 #include "GaussianMask.h"
 
-mGaussianMask::mGaussianMask(const shared_ptr<Variable> &_size,
+GaussianMask::GaussianMask(const shared_ptr<Variable> &_size,
 							 const shared_ptr<Variable> &_mean,
-							 const shared_ptr<Variable> &_std_dev) : mMask(_size) {
+							 const shared_ptr<Variable> &_std_dev) : Mask(_size) {
 	mean = _mean;
 	std_dev = _std_dev;
 	
@@ -35,7 +35,7 @@ mGaussianMask::mGaussianMask(const shared_ptr<Variable> &_size,
 	}
 }
 
-const std::string mGaussianMask::getName() const {
+const std::string GaussianMask::getName() const {
 	return "gaussian";
 }
 

@@ -12,9 +12,9 @@
 
 #include "GratingData.h"
 
-class mSinusoidGratingData : public mGratingData {
+class SinusoidGratingData : public GratingData {
 public:
-	mSinusoidGratingData(const shared_ptr <Variable> &_data_sample_size);
+	SinusoidGratingData(const shared_ptr <Variable> &_data_sample_size);
 	const std::string getName() const;
 };
 

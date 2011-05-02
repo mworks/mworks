@@ -12,11 +12,11 @@
 
 #include "GratingData.h"
 
-class mSawtoothGratingData : public mGratingData {
+class SawtoothGratingData : public GratingData {
 protected:
 	shared_ptr<Variable> inverted;
 public:
-	mSawtoothGratingData(const shared_ptr <Variable> &_data_sample_size,
+	SawtoothGratingData(const shared_ptr <Variable> &_data_sample_size,
 							const shared_ptr <Variable> &_inverted);
 	const std::string getName() const;
 };

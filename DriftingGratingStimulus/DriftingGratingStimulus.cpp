@@ -22,8 +22,8 @@ DriftingGratingStimulus::DriftingGratingStimulus(const std::string &_tag,
                                                  shared_ptr<Variable> _frequency,
                                                  shared_ptr<Variable> _speed,
                                                  shared_ptr<Variable> _starting_phase,
-                                                 shared_ptr<mMask> _mask,
-                                                 shared_ptr<mGratingData> _grating) :
+                                                 shared_ptr<Mask> _mask,
+                                                 shared_ptr<GratingData> _grating) :
     StandardDynamicStimulus(_tag, _frames_per_second)
 {
 	xoffset = registerVariable(_xoffset);

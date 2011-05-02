@@ -10,7 +10,7 @@
 #include "Mask.h"
 #include "DriftingGratingUtilities.h"
 
-mMask::mMask(const shared_ptr<Variable> &_size) {
+Mask::Mask(const shared_ptr<Variable> &_size) {
 	size=_size;
 	
 	current_size = MAX(4,DriftingGratingUtilities::getNextPowerOfTwo(size->getValue().getInteger()));	
@@ -26,15 +26,15 @@ mMask::mMask(const shared_ptr<Variable> &_size) {
 }
 
 
-mMask::~mMask() {
+Mask::~Mask() {
 	delete [] data;
 }
 
-GLint mMask::getSize() const {
+GLint Mask::getSize() const {
 	return current_size;
 }
 
-const GLfloat * mMask::get2DData() const {
+const GLfloat * Mask::get2DData() const {
 	return data;
 }
 

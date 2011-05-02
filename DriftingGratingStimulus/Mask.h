@@ -16,7 +16,7 @@ using namespace mw;
 
 #define M_MASK_CHANNELS 2
 
-class mMask {
+class Mask {
 protected:
 	GLfloat *data;
 	boost::shared_ptr<Variable> size;
@@ -24,8 +24,8 @@ protected:
 	
 	
 public:
-	mMask(const shared_ptr<Variable> &_size);
-	virtual ~mMask();
+	Mask(const shared_ptr<Variable> &_size);
+	virtual ~Mask();
 	GLint getSize() const;
 	const GLfloat *get2DData() const;
 	virtual const std::string getName() const = 0;
