@@ -2831,7 +2831,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/zsh;
-			shellScript = "export SOURCE_DIR=${BUILT_PRODUCTS_DIR}/../../\necho $SOURCE_DIR\nexport GIT=`/usr/bin/env which git`\necho $GIT\nexport VERSION_STRING=`$GIT log -n1 --pretty=format:%H`\n\necho $VERSION_STRING\nexport SUBS_STRING=s/_VERSION_STRING_/${VERSION_STRING}/\nmkdir -p ${SOURCE_DIR}\nsed $SUBS_STRING  ${SOURCE_DIR}/MWorksCore-Info.template.plist > ${SOURCE_DIR}/MWorksCore-Info.plist\n";
+			shellScript = "export SOURCE_DIR=$PROJECT_DIR\necho $SOURCE_DIR\nexport GIT=`/usr/bin/env which git`\necho $GIT\nexport VERSION_STRING=`$GIT log -n1 --pretty=format:%H`\n\necho $VERSION_STRING\nexport SUBS_STRING=s/_VERSION_STRING_/${VERSION_STRING}/\nmkdir -p ${SOURCE_DIR}\nsed $SUBS_STRING  ${SOURCE_DIR}/MWorksCore-Info.template.plist > ${SOURCE_DIR}/MWorksCore-Info.plist\n";
 		};
 		5C4D23A709DC83D20082BF9F /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2870,7 +2870,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/zsh;
-			shellScript = "export FULL_NAME=${PRODUCT_NAME}.${EXECUTABLE_EXTENSION}\nexport MW_PYTHON_DIR=${APP_SUPPORT_DIR}/Scripting/Python/mworks\nexport SOURCE_DIR=${BUILT_PRODUCTS_DIR}/../../\n\ncp \"${BUILT_PRODUCTS_DIR}/${FULL_NAME}\" \"${MW_PYTHON_DIR}/\"\ncp \"${SOURCE_DIR}/Core/Communications/Conduits/conduit.py\" \"${MW_PYTHON_DIR}/\"\n\n# Byte-compile the .py files\n/usr/bin/python2.6 -m compileall \"${MW_PYTHON_DIR}\"";
+			shellScript = "export FULL_NAME=${PRODUCT_NAME}.${EXECUTABLE_EXTENSION}\nexport MW_PYTHON_DIR=${APP_SUPPORT_DIR}/Scripting/Python/mworks\nexport SOURCE_DIR=${PROJECT_DIR}\n\ncp \"${BUILT_PRODUCTS_DIR}/${FULL_NAME}\" \"${MW_PYTHON_DIR}/\"\ncp \"${SOURCE_DIR}/Core/Communications/Conduits/conduit.py\" \"${MW_PYTHON_DIR}/\"\n\n# Byte-compile the .py files\n/usr/bin/python2.6 -m compileall \"${MW_PYTHON_DIR}\"";
 		};
 		5CCE1CCE10A4692500EF5866 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2883,7 +2883,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/zsh;
-			shellScript = "export SOURCE_DIR=${BUILT_PRODUCTS_DIR}/../../\nexport MW_PYTHON_DIR=${APP_SUPPORT_DIR}/Scripting/Python/mworks\n\nmkdir -p \"${MW_PYTHON_DIR}\"\n\ncp -r ${SOURCE_DIR}/Core/Python/* \"${MW_PYTHON_DIR}\"\n\necho \"${APP_SUPPORT_DIR}/Scripting/Python\" > /Library/Python/2.6/site-packages/mworks.pth\n\nmkdir -p /Library/Python/2.7/site-packages\necho \"${APP_SUPPORT_DIR}/Scripting/Python\" > /Library/Python/2.7/site-packages/mworks.pth\n";
+			shellScript = "export SOURCE_DIR=${PROJECT_DIR}\nexport MW_PYTHON_DIR=${APP_SUPPORT_DIR}/Scripting/Python/mworks\n\nmkdir -p \"${MW_PYTHON_DIR}\"\n\ncp -r ${SOURCE_DIR}/Core/Python/* \"${MW_PYTHON_DIR}\"\n\necho \"${APP_SUPPORT_DIR}/Scripting/Python\" > /Library/Python/2.6/site-packages/mworks.pth\n\nmkdir -p /Library/Python/2.7/site-packages\necho \"${APP_SUPPORT_DIR}/Scripting/Python\" > /Library/Python/2.7/site-packages/mworks.pth\n";
 		};
 		5CEE864C081D53A700F366DE /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2896,7 +2896,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/zsh;
-			shellScript = "export FULL_NAME=${PRODUCT_NAME}.${WRAPPER_EXTENSION}\n\nrm -Rf \"${INSTALL_PATH}/${FULL_NAME}\"\ncp -Rf \"${BUILT_PRODUCTS_DIR}/${FULL_NAME}\"  \"${INSTALL_PATH}\"\n\nmkdir -p ${CONFIG_DIR}/examples\ncp -f $BUILT_PRODUCTS_DIR/../../Core/SetupVariables/setup_variables_macbook.xml ${CONFIG_DIR}/examples\ncp -f $BUILT_PRODUCTS_DIR/../../Core/SetupVariables/setup_variables_two_monitors.xml ${CONFIG_DIR}/examples\n\nmkdir -p \"${PLUGINS_DIR}\"\n\nexit 0";
+			shellScript = "export FULL_NAME=${PRODUCT_NAME}.${WRAPPER_EXTENSION}\n\nrm -Rf \"${INSTALL_PATH}/${FULL_NAME}\"\ncp -Rf \"${BUILT_PRODUCTS_DIR}/${FULL_NAME}\"  \"${INSTALL_PATH}\"\n\nmkdir -p ${CONFIG_DIR}/examples\ncp -f $PROJECT_DIR/Core/SetupVariables/setup_variables_macbook.xml ${CONFIG_DIR}/examples\ncp -f $PROJECT_DIR/Core/SetupVariables/setup_variables_two_monitors.xml ${CONFIG_DIR}/examples\n\nmkdir -p \"${PLUGINS_DIR}\"\n\nexit 0";
 		};
 		5CF73C6208625E3E00F453C3 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2948,7 +2948,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/zsh;
-			shellScript = "export SOURCE_DIR=${BUILT_PRODUCTS_DIR}/../..\n\ncp \"${SOURCE_DIR}/UnitTests/mw_test\" \"${MW_BIN_DIR_UNQUOTED}\"\n";
+			shellScript = "export SOURCE_DIR=${PROJECT_DIR}\n\ncp \"${SOURCE_DIR}/UnitTests/mw_test\" \"${MW_BIN_DIR_UNQUOTED}\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
