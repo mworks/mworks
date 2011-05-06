@@ -1,4 +1,5 @@
 MWorksCore-Info.plist
 MWorksCore.xcodeproj/*.pbxuser
 MWorksCore.xcodeproj/*.perspectivev3
+MWorksCore.xcodeproj/xcuserdata/*
 build/
