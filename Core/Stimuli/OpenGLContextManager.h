@@ -97,7 +97,9 @@ namespace mw {
         int getDisplayRefreshRate(int index);
 		int getDisplayWidth(const int index);
 		int getDisplayHeight(const int index);
-		
+        
+        NSOpenGLView *getFullscreenView(){  return fullscreen_view; }
+		NSOpenGLView *getMirrorView(){  return mirror_view; }
         
 		// Get information about the monitors attached to the system
         int getNMonitors();
