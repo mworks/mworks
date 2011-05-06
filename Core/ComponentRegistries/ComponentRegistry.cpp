@@ -116,8 +116,7 @@ ComponentRegistry::ComponentRegistry() :
 	
 	// IO devices
     registerFactory<StandardComponentFactory, DummyIODevice>();
-	
-	registerFactory("iochannel", new IOChannelRequestFactory());
+    registerFactory<StandardComponentFactory, IOChannelRequest>();
 	
 	// stimuli
     registerFactory<StandardStimulusFactory, BlankScreen>();

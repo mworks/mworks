@@ -4,7 +4,9 @@
 #include "Experiment.h"
 #include "boost/bind.hpp"
 
-using namespace mw;
+
+BEGIN_NAMESPACE_MW
+
 
 // logic of channels and channel updating:
 // --------------------------------------
@@ -44,37 +46,33 @@ using namespace mw;
 //  TODO !!!
 
 
+// External function for scheduling
+void *update_io_channel(const shared_ptr<UpdateIOChannelArgs> &update_io_channels){
+    
+    shared_ptr<LegacyIODevice> theDevice = (update_io_channels->device).lock();
+    if (theDevice) {
+        // runs the updateChannel method for a particular IOdevice
+        theDevice->updateChannel(update_io_channels->channel_index);
+    }
+    
+    // TODO: check this
+    return NULL;
+}
 
 
-namespace mw {
-	// External function for scheduling
-	void *update_io_channel(const shared_ptr<UpdateIOChannelArgs> &update_io_channels){
-
-        shared_ptr<LegacyIODevice> theDevice = (update_io_channels->device).lock();
-        if (theDevice) {
-            // runs the updateChannel method for a particular IOdevice
-            theDevice->updateChannel(update_io_channels->channel_index);
-        }
-		
-		// TODO: check this
-		return NULL;
-	}
-	
-	
-	void *update_all_io_channels(void *void_args){
-		
-		// cast the null pointer as a pointer to a UpdateIOChannelArgs structure
-		UpdateIOChannelArgs *args = (UpdateIOChannelArgs *)void_args;    
-		
-        shared_ptr<LegacyIODevice> theDevice = (args->device).lock();
-        if (theDevice) {
-            // runs the updateChannel method for a particular IOdevice
-            theDevice->updateAllChannels();
-        }
-		
-		// TODO: check this
-		return NULL;
-	}
+void *update_all_io_channels(void *void_args){
+    
+    // cast the null pointer as a pointer to a UpdateIOChannelArgs structure
+    UpdateIOChannelArgs *args = (UpdateIOChannelArgs *)void_args;    
+    
+    shared_ptr<LegacyIODevice> theDevice = (args->device).lock();
+    if (theDevice) {
+        // runs the updateChannel method for a particular IOdevice
+        theDevice->updateAllChannels();
+    }
+    
+    // TODO: check this
+    return NULL;
 }
 
 
@@ -137,36 +135,112 @@ void				IOCapability::setAvailable(bool _available) {available = _available; }
 bool				IOCapability::isAvailable(){ return available; }
 
 
-IOChannelRequest::IOChannelRequest(
-									 std::string _channel_name,
-									 shared_ptr<Variable> _param, 
-									 std::string _requested_capability_name, 
-									 IODataDirection _requested_data_direction, 
-									 IODataType _requested_data_type, 
-									 IODataSynchronyType _requested_synchrony_type,
-									 long _requested_data_interval_usec, 
-									 long _requested_update_interval_usec, 
-									 double _requested_range_min, 
-									 double _requested_range_max, 
-									 int _requested_resolution_bits):Lockable(), mw::Component(_channel_name) {
-	
-	
-    if (VERBOSE_IO_DEVICE) mprintf("mIOChannelRequest object has just been instantiated.");
-	
-	channel_name = _channel_name;
-	parameter = _param;
-	requested_capability_name = _requested_capability_name;
-	requested_data_direction = _requested_data_direction;
-	requested_data_type = _requested_data_type;
-	requested_synchrony_type = _requested_synchrony_type;
-	requested_data_interval_usec = _requested_data_interval_usec;         
-	requested_update_interval_usec = _requested_update_interval_usec;   
-	requested_range_min = _requested_range_min;
-	requested_range_max = _requested_range_max;
-	requested_resolution_bits = _requested_resolution_bits;
-	resolved = false;       // the request is not yet resolved to a channel
-	
+const std::string IOChannelRequest::CAPABILITY("capability");
+const std::string IOChannelRequest::DATA_INTERVAL("data_interval");
+const std::string IOChannelRequest::DIRECTION("direction");
+const std::string IOChannelRequest::RANGE_MIN("range_min");
+const std::string IOChannelRequest::RANGE_MAX("range_max");
+const std::string IOChannelRequest::RESOLUTION("resolution");
+const std::string IOChannelRequest::SYNCHRONY("synchrony");
+const std::string IOChannelRequest::DATA_TYPE("data_type");
+const std::string IOChannelRequest::UPDATE_INTERVAL("update_interval");
+const std::string IOChannelRequest::VARIABLE("variable");
+
+
+void IOChannelRequest::describeComponent(ComponentInfo &info) {
+    Component::describeComponent(info);
+    
+    info.setSignature("iochannel");
+    
+    info.addParameter(CAPABILITY);
+    info.addParameter(DATA_INTERVAL);
+    info.addParameter(DIRECTION);
+    info.addParameter(RANGE_MIN);
+    info.addParameter(RANGE_MAX);
+    info.addParameter(RESOLUTION);
+    info.addParameter(SYNCHRONY);
+    info.addParameter(DATA_TYPE);
+    info.addParameter(UPDATE_INTERVAL);
+    info.addParameter(VARIABLE);
 }
+
+
+template<>
+IODataDirection ParameterValue::convert(const std::string &s, ComponentRegistryPtr reg) {
+    std::string direction_string(boost::algorithm::to_lower_copy(s));                                       
+
+    if (direction_string == "input") {
+        return M_INPUT_DATA;
+    } else if (direction_string == "output") {
+        return M_OUTPUT_DATA;
+    } else {
+        throw SimpleException("Invalid data direction type", direction_string);
+    }
+}
+
+
+template<>
+IODataSynchronyType ParameterValue::convert(const std::string &s, ComponentRegistryPtr reg) {
+    std::string synchrony_string(boost::algorithm::to_lower_copy(s));                                       
+    
+    if (synchrony_string == "hardware_timed_synchronous") {
+        return M_HARDWARE_TIMED_SYNCHRONOUS_IO;
+    } else if (synchrony_string == "software_timed_synchronous") {
+        return M_SOFTWARE_TIMED_SYNCHRONOUS_IO;
+    } else if (synchrony_string == "asynchronous") {
+        return M_ASYNCHRONOUS_IO;
+    } else {
+        throw SimpleException("Unknown IO Channel synchrony type", synchrony_string);			
+    }
+}
+
+
+template<>
+IODataType ParameterValue::convert(const std::string &s, ComponentRegistryPtr reg) {
+    std::string type_string(boost::algorithm::to_lower_copy(s));                                       
+    
+    if (type_string == "analog") {
+        return M_ANALOG_DATA;
+    } else if (type_string == "digital") {
+        return M_DIGITAL_DATA;
+    } else if (type_string == "edge_low_to_high") {
+        return M_EDGE_LOW_TO_HIGH;
+    } else if (type_string == "edge_high_to_low") {
+        return M_EDGE_HIGH_TO_LOW;		
+    } else if (type_string == "edge_any") {
+        return M_EDGE_ANY;
+    } else if (type_string == "pulse_active_high") {
+        return M_DIGITAL_PULSE_ACTIVE_HIGH;
+    } else if (type_string == "pulse_active_low") {
+        return M_DIGITAL_PULSE_ACTIVE_LOW;
+    } else if (type_string == "triggered_analog_snippet") {
+        return M_ANALOG_SNIPPET_DATA;
+    } else if (type_string == "digital_uint8") {
+        return M_DIGITAL_UINT8_BIT;
+    } else {
+        throw SimpleException("Unknown IO Channel data type", type_string);
+    }
+}
+
+
+IOChannelRequest::IOChannelRequest(const ParameterValueMap &parameters) :
+    Component(parameters),
+    channel_name(parameters[TAG].str()),
+    parameter(parameters[VARIABLE]),
+    requested_capability_name(parameters[CAPABILITY].str()),
+    requested_data_direction(parameters[DIRECTION]),
+    requested_data_type(parameters[DATA_TYPE]),
+    requested_synchrony_type(parameters[SYNCHRONY]),
+    requested_data_interval_usec(parameters[DATA_INTERVAL]),
+    requested_update_interval_usec(parameters[UPDATE_INTERVAL]),
+    requested_range_min(parameters[RANGE_MIN]),
+    requested_range_max(parameters[RANGE_MAX]),
+    requested_resolution_bits(parameters[RESOLUTION]),
+    resolved(false)
+{
+    if (VERBOSE_IO_DEVICE) mprintf("IOChannelRequest object has just been instantiated.");
+}
+
 
 IOChannelRequest::IOChannelRequest(IOChannelRequest& copy){
 	channel_name = copy.getChannelName();
@@ -593,6 +667,18 @@ int LegacyIODevice::matchCapabilityByName(std::string name){
 
 
 // class IODevice:  public methods follow: ------------------------
+
+
+LegacyIODevice::LegacyIODevice(const ParameterValueMap &parameters) :
+    IODevice(parameters),
+    attached_device(NULL),
+    capabilities(new ExpandableList<IOCapability>()),
+    channels(new ExpandableList<IOChannel>()),
+    pending_channel_requests(new ExpandableList<IOChannelRequest>()),
+    incompatibilities(new ExpandableList<IOChannelIncompatibility>())
+{
+}
+
 
 // constructor function called when IODevice is instantiated  -- start expandable lists
 LegacyIODevice::LegacyIODevice(){
@@ -1195,6 +1281,25 @@ void AsynchronousOutputNotification::notify(const Datum& data, MWTime timeUS){
         theDevice->updateChannel(channel_index, data);
     }
 }
+
+
+END_NAMESPACE_MW
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
