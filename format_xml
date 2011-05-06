@@ -1,0 +1,15 @@
+#!/usr/bin/python
+
+import sys
+import xml.etree.ElementTree as etree
+
+
+def main():
+    tree = etree.parse(sys.argv[1])
+    print >>sys.stdout, '<?xml version="1.0"?>'
+    tree.write(sys.stdout)
+    print
+
+
+if __name__ == '__main__':
+    main()

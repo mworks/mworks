@@ -1,25 +1,25 @@
 <?xml version="1.0"?>
 <monkeyml version="1.0">
     <io_devices>
-        <iodevice tag="ITC" priority="" type="itc18" id="">
-            <iochannel variable="AnalogChannel0" capability="ITC18_ADC_INPUT0" data_type="analog" direction="input" synchrony="hardware_timed_synchronous" range_min="-10" range_max="10" resolution="16" update_interval="3ms" data_interval="1ms" tag="analog_data_channel" TTL_trigger_port="0" pre_trigger_interval="5ms" post_trigger_interval="5ms"/>
+        <iodevice id="" priority="" tag="ITC" type="itc18">
+            <iochannel capability="ITC18_ADC_INPUT0" data_interval="1ms" data_type="analog" direction="input" range_max="10" range_min="-10" resolution="16" synchrony="hardware_timed_synchronous" tag="analog_data_channel" update_interval="3ms" variable="AnalogChannel0" />
         </iodevice>
     </io_devices>
     <variables>
-        <variable tag="AnalogChannel0" default_value="0" scope="GLOBAL" type="INTEGER" editable="never" logging="when_changed"/>
+        <variable default_value="0" editable="never" logging="when_changed" scope="GLOBAL" tag="AnalogChannel0" type="INTEGER" />
     </variables>
-    <sounds/>
-    <stimuli/>
+    <sounds />
+    <stimuli />
     <experiment tag="AnalogInExample">
-        <protocol tag="Protocol" interruptable="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles" description="" interruptible="YES">
-            <block tag="Block" interruptable="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles" description="" interruptible="YES">
-                <trial tag="Trial" description="" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
-                    <task_system tag="TS" interruptable="YES" description="" interruptible="YES">
-                        <task_system_state tag="openITC" full_name="openITC" interruptable="YES" description="" interruptible="YES">
-                            <action type="start_device_IO" device="ITC"/>
-                            <action type="wait" duration="4000ms"/>
-                            <action type="stop_device_IO" device="ITC"/>
-                            <transition type="yield"/>
+        <protocol description="" interruptable="YES" interruptible="YES" nsamples="1" sampling_method="cycles" selection="sequential_ascending" tag="Protocol">
+            <block description="" interruptable="YES" interruptible="YES" nsamples="1" sampling_method="cycles" selection="sequential_ascending" tag="Block">
+                <trial description="" interruptible="YES" nsamples="1" sampling_method="cycles" selection="sequential_ascending" tag="Trial">
+                    <task_system description="" interruptable="YES" interruptible="YES" tag="TS">
+                        <task_system_state description="" full_name="openITC" interruptable="YES" interruptible="YES" tag="openITC">
+                            <action device="ITC" type="start_device_IO" />
+                            <action duration="4000ms" type="wait" />
+                            <action device="ITC" type="stop_device_IO" />
+                            <transition type="yield" />
                         </task_system_state>
                     </task_system>
                 </trial>
