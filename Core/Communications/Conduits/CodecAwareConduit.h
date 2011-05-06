@@ -15,6 +15,7 @@ using namespace mw;
 
 #define name_defined_callback_key   "CodeAwareConduit::name_defined_callback_key"
 
+#define CODEC_RESEND_TIMEOUT_MS 100
 
 // A conduit that maintains a local codec (code -> name mappings)
 // that it transmits to the other side of the conduit so that it
@@ -62,6 +63,11 @@ public:
     
     void codeTranslatedCallback(shared_ptr<Event> evt, EventCallback cb, int new_code);
     
+    map<int, string> getLocalCodec(){ return local_codec; }
+    map<string, int> getLocalReverseCodec(){  return local_reverse_codec; }
+    map<int, string> getRemoteCodec();
+    map<string, int> getRemoteReverseCodec();
+
 };
 
 #endif

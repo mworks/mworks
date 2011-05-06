@@ -47,6 +47,11 @@ time.sleep(1)
 
 assert(counter_a == 1.5)
 
+print("Client codec: %s" % client.codec)
+print("Client reverse codec: %s" % client.reverse_codec)
+
+print("Server codec: %s" % server.codec)
+print("Server reverse codec: %s" % server.reverse_codec)
 
 
 server.finalize()

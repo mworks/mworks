@@ -129,7 +129,33 @@ public:
     
     virtual void registerLocalEventCode(int code, string event_name){
         conduit->registerLocalEventCode(code, event_name);
+    } 
+    
+    virtual boost::python::dict getAndConvertCodec(bool reverse=false){
+        boost::python::dict d;
+        map<int, string> codec = conduit->getRemoteCodec();
+        
+        map<int, string>::iterator i;
+        for(i = codec.begin(); i != codec.end(); i++){
+            pair<int, string> map_pair = *i;
+            if(reverse){
+                d[map_pair.second] = map_pair.first;
+            } else {
+                d[map_pair.first] = map_pair.second;
+            }
+        }
+        
+        return d;
     }
+    
+    virtual boost::python::dict getCodec(){
+        return getAndConvertCodec();
+    }
+    
+    virtual boost::python::dict getReverseCodec(){
+        return getAndConvertCodec(true);
+    }
+    
     
     virtual void finalize(){
         if(conduit != NULL){

@@ -59,7 +59,7 @@ void CodecAwareConduit::rebuildEventCallbacks(){
         } else {
             //std::cerr << "Cannot register callback for unknown name: " << evt_name << " (maybe codec hasn't been received yet?)" << endl;
             // send a request, just in case no one else has
-            sendData(SystemEventFactory::requestCodecControl());
+            // sendData(SystemEventFactory::requestCodecControl());
             continue;
         }
         
@@ -125,3 +125,24 @@ void CodecAwareConduit::registerLocalEventCode(int code, string event_name){
     transmitCodecEvent();
     
 }
+
+
+map<int, string> CodecAwareConduit::getRemoteCodec(){
+    bool empty = true;
+    { 
+        boost::mutex::scoped_lock lock(local_codec_lock);
+        empty = remote_codec.empty();
+    }
+    
+    if(empty){
+        sendData(SystemEventFactory::requestCodecControl());
+        shared_ptr<Clock> c = Clock::instance(false);
+        if(c != NULL){
+            c->sleepMS(CODEC_RESEND_TIMEOUT_MS);
+        }
+    }
+    
+    return remote_codec; 
+}
+
+map<string, int> CodecAwareConduit::getRemoteReverseCodec(){  return remote_reverse_codec; }

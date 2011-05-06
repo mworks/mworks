@@ -28,6 +28,8 @@ BOOST_PYTHON_MODULE(_conduit)
     .def("register_callback_for_code", &PythonIPCServerConduit::registerCallbackForCode)
     .def("register_callback_for_name", &PythonIPCServerConduit::registerCallbackForName)
     .def("register_local_event_code", &PythonIPCServerConduit::registerLocalEventCode)
+    .add_property("codec", &PythonIPCServerConduit::getCodec)
+    .add_property("reverse_codec", &PythonIPCServerConduit::getReverseCodec)
     .add_property("initialized", &PythonIPCServerConduit::isInitialized)
     ;
     
@@ -40,6 +42,8 @@ BOOST_PYTHON_MODULE(_conduit)
     .def("register_callback_for_code", &PythonIPCClientConduit::registerCallbackForCode)
     .def("register_callback_for_name", &PythonIPCClientConduit::registerCallbackForName)
     .def("register_local_event_code", &PythonIPCClientConduit::registerLocalEventCode)
+    .add_property("codec", &PythonIPCClientConduit::getCodec)
+    .add_property("reverse_codec", &PythonIPCClientConduit::getReverseCodec)
     .add_property("initialized", &PythonIPCClientConduit::isInitialized)
     ;
     
