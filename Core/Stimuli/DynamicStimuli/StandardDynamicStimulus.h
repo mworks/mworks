@@ -21,9 +21,10 @@ BEGIN_NAMESPACE_MW
 class StandardDynamicStimulus : public Stimulus, public DynamicStimulusDriver {
 
 public:
+    static const std::string FRAMES_PER_SECOND;
+    
     static void describeComponent(ComponentInfo &info);
 
-    StandardDynamicStimulus(const std::string &tag, shared_ptr<Variable> framesPerSecond);
     explicit StandardDynamicStimulus(const ParameterValueMap &parameters);
     
     virtual ~StandardDynamicStimulus() { }
