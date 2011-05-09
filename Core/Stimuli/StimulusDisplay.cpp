@@ -219,17 +219,17 @@ CVReturn StimulusDisplay::displayLinkCallback(CVDisplayLinkRef _displayLink,
         {
             upgrade_to_unique_lock lock(upgradeLock);
             
-//#define WARN_ON_SKIPPED_REFRESH
-#ifdef WARN_ON_SKIPPED_REFRESH
-            if (display->lastFrameTime) {
-                int64_t delta = (outputTime->videoTime - display->lastFrameTime) - outputTime->videoRefreshPeriod;
-                if (delta) {
-                    mwarning(M_DISPLAY_MESSAGE_DOMAIN,
-                             "Skipped %g display refresh cycles",
-                             (double)delta / (double)(outputTime->videoRefreshPeriod));
+            if (bool(warnOnSkippedRefresh->getValue())) {
+                if (display->lastFrameTime) {
+                    int64_t delta = (outputTime->videoTime - display->lastFrameTime) - outputTime->videoRefreshPeriod;
+                    if (delta) {
+                        mwarning(M_DISPLAY_MESSAGE_DOMAIN,
+                                 "Skipped %g display refresh cycles",
+                                 (double)delta / (double)(outputTime->videoRefreshPeriod));
+                    }
                 }
             }
-#endif
+            
             display->lastFrameTime = outputTime->videoTime;
         }
         
