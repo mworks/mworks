@@ -444,7 +444,13 @@ void StimulusDisplay::announceDisplayUpdate(void *_display) {
     
     display->setCurrent(0);
     if (display->opengl_context_manager->hasFence()) {
-        glFinishFenceAPPLE(display->opengl_context_manager->getFence());
+        if (glTestFenceAPPLE(display->opengl_context_manager->getFence())) {
+            mwarning(M_DISPLAY_MESSAGE_DOMAIN,
+                     "Display update announcement was delayed; time stamp on next %s event may be inaccurate",
+                     STIMULUS_DISPLAY_UPDATE_TAGNAME);
+        } else {
+            glFinishFenceAPPLE(display->opengl_context_manager->getFence());
+        }
     } else {
         glFinish();
     }
