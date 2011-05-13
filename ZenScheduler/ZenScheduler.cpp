@@ -21,6 +21,8 @@
 
 #include <iostream>
 
+#include "MachUtilities.h"
+
 #ifndef	LOW_PRIORITY_MODE
 #define SILENCE_SCHEDULE_WARNINGS 0
 #else
@@ -67,71 +69,6 @@ int get_bus_speed()
     return busspeed;
 }
 //#endif
-
-int set_realtime(int period, int computation, int constraint) {
-    struct thread_time_constraint_policy ttcpolicy;
-    int ret;
-	
-	
-	
-    ttcpolicy.period=period; // HZ/160
-    ttcpolicy.computation=computation; // HZ/3300;
-    ttcpolicy.constraint=constraint; // HZ/2200;
-    ttcpolicy.preemptible=1;
-	
-    if ((ret=thread_policy_set(mach_thread_self(), THREAD_TIME_CONSTRAINT_POLICY, (int *)&ttcpolicy, THREAD_TIME_CONSTRAINT_POLICY_COUNT)) != KERN_SUCCESS) 
-    {
-		mprintf("Set realtime failed (error code: %d, period = %d, computation = %d, constraint = %d)", ret, period, computation, constraint);
-		return 0;
-    } else {
-		//mprintf("Set realtime successful");
-	}
-    return 1;
-}
-
-int set_realtime(int priority){
-	kern_return_t                       result = 0;
-	
-	integer_t	timeShareData;
-	integer_t	precedenceData;
-	//thread_extended_policy_data_t       timeShareData;
-	//thread_precedence_policy_data_t     precedenceData;
-	
-	//Set up some variables that we need for the task
-	//mprintf("Setting realtime...");
-	   
-	precedenceData = priority;
-	if(priority > 64){
-		timeShareData = 0;
-	} else {
-		timeShareData = 1;
-	}
-	   // precedenceData.importance = priority;
-	   // timeShareData.timeshare = true;//isTimeshare;
-	
-	mach_port_t  machThread = mach_thread_self();
-	
-	//Set the scheduling flavor. We want to do this first, since doing so
-	//can alter the priority
-	result = thread_policy_set( machThread,
-								THREAD_EXTENDED_POLICY,
-								&timeShareData,
-								THREAD_EXTENDED_POLICY_COUNT );
-	
-	if( 0 != result )
-		return 0;
-	
-	//Now set the priority
-	result =   thread_policy_set( machThread,
-								  THREAD_PRECEDENCE_POLICY,
-								  &precedenceData,
-								  THREAD_PRECEDENCE_POLICY_COUNT );
-	
-	if( 0 != result )
-		return 0;
-	
-	return 1;
-}
 
 
 void *zenSchedulerWatchDog(void *arglist){
