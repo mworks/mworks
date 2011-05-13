@@ -1084,9 +1084,6 @@
 		DA2CE1E507E9F97F00C68AEF /* VariableProperties.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = VariableProperties.h; path = Core/Variables/VariableProperties.h; sourceTree = "<group>"; };
 		DA2CE1E607E9F97F00C68AEF /* ScopedVariableContext.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ScopedVariableContext.cpp; path = Core/Variables/ScopedVariableContext.cpp; sourceTree = "<group>"; };
 		DA2CE1E707E9F97F00C68AEF /* ScopedVariableContext.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ScopedVariableContext.h; path = Core/Variables/ScopedVariableContext.h; sourceTree = "<group>"; };
-		DA2CE1FE07E9FA8000C68AEF /* StandardStateSystemPlugin-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "StandardStateSystemPlugin-Info.plist"; sourceTree = SOURCE_ROOT; };
-		DA2CE36E07E9FF5500C68AEF /* StandardClockPlugin-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "StandardClockPlugin-Info.plist"; sourceTree = SOURCE_ROOT; };
-		DA2CE38007EA028100C68AEF /* StandardSchedulerPlugin-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "StandardSchedulerPlugin-Info.plist"; sourceTree = SOURCE_ROOT; };
 		DA2CE39007EA035F00C68AEF /* MachClockPlugin.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MachClockPlugin.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA2CE39107EA035F00C68AEF /* MachClockPlugin-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MachClockPlugin-Info.plist"; sourceTree = SOURCE_ROOT; };
 		DA2CE39607EA040D00C68AEF /* MachClock.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = MachClock.cpp; path = MachClock/MachClock.cpp; sourceTree = SOURCE_ROOT; };
@@ -2253,9 +2250,6 @@
 				5C6616C10F4C9B6900C8FD71 /* MWorksCore-Info.template.plist */,
 				5C4D239D09DC83930082BF9F /* MWorksCoreTest-Info.plist */,
 				DA2CE0D607E9F68100C68AEF /* MWorksCore-Info.plist */,
-				DA2CE1FE07E9FA8000C68AEF /* StandardStateSystemPlugin-Info.plist */,
-				DA2CE36E07E9FF5500C68AEF /* StandardClockPlugin-Info.plist */,
-				DA2CE38007EA028100C68AEF /* StandardSchedulerPlugin-Info.plist */,
 				DA2CE39107EA035F00C68AEF /* MachClockPlugin-Info.plist */,
 				DA2CE3A407EA046800C68AEF /* MWorksScripting-Info.plist */,
 				DA2CE3BD07EA057500C68AEF /* ZenClockPlugin-Info.plist */,
