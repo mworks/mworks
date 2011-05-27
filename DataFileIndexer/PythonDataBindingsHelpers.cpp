@@ -317,10 +317,12 @@ PyObject *convert_scarab_to_python(ScarabDatum *datum, int prev_type /* = -1*/){
     
     int n_items;
     long long l_val;
+    char *s_val;
+    int s_size;
     
     PyObject *dict;
     ScarabDatum **keys, **values;
-    PyObject *thelist, *key_py_obj, *value_py_obj;
+    PyObject *thelist, *key_py_obj, *value_py_obj, *string_py_obj;
     
     switch (datum->type){
         case(SCARAB_NULL):
@@ -371,7 +373,12 @@ PyObject *convert_scarab_to_python(ScarabDatum *datum, int prev_type /* = -1*/){
             return thelist;
             
         case(SCARAB_OPAQUE):
-            return PyString_FromString(scarab_extract_string(datum));
+            s_val = scarab_extract_opaque(datum, &s_size);
+            if (s_val[s_size - 1] == '\0')
+                s_size -= 1;  // PyString_FromStringAndSize doesn't expect a null-terminated string
+            string_py_obj = PyString_FromStringAndSize(s_val, s_size);
+            free(s_val);
+            return string_py_obj;
             
         default:
             Py_RETURN_NONE;
