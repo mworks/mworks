@@ -19,6 +19,10 @@ def update_experiment(filename):
     for node in tree.findall('//iochannel'):
         node.attrib.pop('device', None)
 
+    for node in tree.findall('//stimulus'):
+        node.attrib.pop('affine_transform', None)
+        node.attrib.pop('contrast', None)
+
     with open(filename, 'w') as fp:
         fp.write('<?xml version="1.0"?>\n')
         tree.write(fp)
