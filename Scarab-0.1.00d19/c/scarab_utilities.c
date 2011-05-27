@@ -40,12 +40,10 @@ int scarab_create_file(const char *filename){
 
 
 
-char *scarab_extract_string(ScarabDatum *d){
-
+char* scarab_extract_opaque(ScarabDatum *d, int *size) {
     ScarabOpaque opaque;
     char *returnstring;
     int i;
-    
     
     opaque = d->data.opaque;
 
@@ -56,8 +54,16 @@ char *scarab_extract_string(ScarabDatum *d){
         returnstring[i] = (char)opaque.data[i];
     }
     
+    *size = opaque.size;
+    
     return returnstring;
+}
 
+
+
+char* scarab_extract_string(ScarabDatum *d) {
+    int size;
+    return scarab_extract_opaque(d, &size);
 }
 
 

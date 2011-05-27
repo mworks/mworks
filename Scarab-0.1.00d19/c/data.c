@@ -67,7 +67,7 @@ ScarabDatum *scarab_new_opaque(const char* opaque, int size)
 	return d;
 }
 
-ScarabDatum *scarab_init_lock(ScarabDatum *datum){
+void scarab_init_lock(ScarabDatum *datum){
 	#ifdef THREAD_SAFE_SCARAB_DATUM
 		if(datum != NULL){
 			datum->mutex = 
@@ -77,7 +77,7 @@ ScarabDatum *scarab_init_lock(ScarabDatum *datum){
 	#endif
 }
 
-ScarabDatum *scarab_lock_datum(ScarabDatum *datum){
+void scarab_lock_datum(ScarabDatum *datum){
 	#ifdef THREAD_SAFE_SCARAB_DATUM
 		if(datum != NULL){// && datum->mutex != NULL){ // unnecessary checking in
 													   // critical section?
@@ -116,7 +116,7 @@ ScarabDatum *scarab_lock_datum(ScarabDatum *datum){
 	#endif
 }
 
-ScarabDatum *scarab_unlock_datum(ScarabDatum *datum){
+void scarab_unlock_datum(ScarabDatum *datum){
 	#ifdef THREAD_SAFE_SCARAB_DATUM
 		if(datum != NULL){// && datum->mutex != NULL){// unnecessary check in
 													  // critical section?
@@ -158,7 +158,7 @@ ScarabDatum *scarab_unlock_datum(ScarabDatum *datum){
 }
 
 
-ScarabDatum *scarab_destroy_lock(ScarabDatum *datum){
+void scarab_destroy_lock(ScarabDatum *datum){
 	#ifdef THREAD_SAFE_SCARAB_DATUM
 		if(datum != NULL && datum->mutex != NULL){
 			pthread_mutex_destroy(datum->mutex);
