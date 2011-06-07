@@ -21,8 +21,9 @@ BEGIN_NAMESPACE_MW
 class ParameterInfo {
     
 public:
-    explicit ParameterInfo(bool required = true) :
-        required(required)
+    explicit ParameterInfo(bool required = true, const std::string &exampleValue = "") :
+        required(required),
+        exampleValue(exampleValue)
     { }
     
     explicit ParameterInfo(const std::string &defaultValue) :
@@ -49,9 +50,14 @@ public:
         return defaultValue;
     }
     
+    const std::string& getExampleValue() const {
+        return exampleValue;
+    }
+    
 private:
     bool required;
     std::string defaultValue;
+    std::string exampleValue;
     
 };
 
