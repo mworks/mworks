@@ -94,7 +94,7 @@ namespace mw {
         
         // Get information about a given monitor
 		NSRect getDisplayFrame(const int index);
-        int getDisplayRefreshRate(int index);
+        double getDisplayRefreshRate(int index);
 		int getDisplayWidth(const int index);
 		int getDisplayHeight(const int index);
         
