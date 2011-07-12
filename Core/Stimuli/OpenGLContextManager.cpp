@@ -284,6 +284,9 @@ int OpenGLContextManager::newFullscreenContext(int screen_number){
     [fullscreen_window setOpaque:YES];
     [fullscreen_window setHidesOnDeactivate:NO];
     
+    //[fullscreen_window setAcceptsMouseMovedEvents:YES];
+
+    
     NSOpenGLPixelFormatAttribute attrs[] =
     {
         NSOpenGLPFADoubleBuffer,
