@@ -54,6 +54,7 @@ typedef enum {
     M_LOAD_VARIABLES                    = 3009,
     M_REQUEST_CODEC                     = 3010,
     M_SET_EVENT_FORWARDING              = 3011,
+    M_REQUEST_VARIABLES                 = 3012,
     
 	// response messages
     M_DATA_FILE_OPENED                  = 4007,

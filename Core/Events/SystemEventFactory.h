@@ -66,6 +66,7 @@ class SystemEventFactory {
 												   const bool fullPath);
 	
     static shared_ptr<Event> setEventForwardingControl(std::string, bool);
+    static shared_ptr<Event> requestVariablesUpdateControl();
     
     /*********************************************************
 		*          Response Package Events

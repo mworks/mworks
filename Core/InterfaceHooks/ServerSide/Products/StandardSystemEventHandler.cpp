@@ -131,6 +131,16 @@ void StandardSystemEventHandler::handleSystemEvent(const Datum &sysEvent) {
             global_outgoing_event_buffer->putEvent(SystemEventFactory::codecPackage());
             break;
         }
+        
+        case M_REQUEST_VARIABLES:
+        {
+            if(global_variable_registry == NULL){
+                throw SimpleException(M_SYSTEM_MESSAGE_DOMAIN, "Request received to announce all variables, "
+                                                               "without a global variable registry in place");
+            }
+            global_variable_registry->announceAll();
+            break;
+        }
         case M_CLOSE_EXPERIMENT:
 		{
 		 Datum payload(sysEvent.getElement(M_SYSTEM_PAYLOAD));

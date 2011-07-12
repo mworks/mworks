@@ -56,6 +56,9 @@ void Client::handleEvent(shared_ptr<Event> evt) {
 	
 	if(code == RESERVED_CODEC_CODE) {
 		registry->updateFromCodecDatum(evt->getData());
+        
+        // request updated values for these new variables
+        outgoing_event_buffer->putEvent( SystemEventFactory::requestVariablesUpdateControl() );
     }
     
     

@@ -186,6 +186,19 @@ shared_ptr<Event> SystemEventFactory::requestCodecControl() {
 	return ret;
 }
 
+
+
+shared_ptr<Event> SystemEventFactory::requestVariablesUpdateControl() {
+    Datum payload(systemEventPackage(M_SYSTEM_CONTROL_PACKAGE, 
+                                    M_REQUEST_VARIABLES));
+	shared_ptr<Event> ret(new Event(RESERVED_SYSTEM_EVENT_CODE, 
+                                    payload));
+	
+	return ret;
+}
+
+
+
 shared_ptr<Event> SystemEventFactory::setEventForwardingControl(string name, bool state) {
     Datum control_datum(M_DICTIONARY, 2);
 	
@@ -203,6 +216,7 @@ shared_ptr<Event> SystemEventFactory::setEventForwardingControl(string name, boo
 	
 	return ret;
 }
+
 
 shared_ptr<Event> SystemEventFactory::dataFileOpenControl(std::string  filename, 
 													  DatumFileOptions opt) {
