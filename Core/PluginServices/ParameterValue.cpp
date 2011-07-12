@@ -13,6 +13,12 @@
 
 BEGIN_NAMESPACE_MW
 
+template <>
+const char *ParameterValue::convert(const std::string& s,
+                       ComponentRegistryPtr reg){
+    return s.c_str();
+}
+
 
 template<>
 VariablePtr ParameterValue::convert(const std::string &s, ComponentRegistryPtr reg) {

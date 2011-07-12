@@ -106,6 +106,9 @@ StimulusGroupPtr ParameterValue::convert(const std::string &s, ComponentRegistry
 template<>
 boost::filesystem::path ParameterValue::convert(const std::string &s, ComponentRegistryPtr reg);
 
+template<>
+const char * ParameterValue::convert(const std::string &s, ComponentRegistryPtr reg);
+
 
 END_NAMESPACE_MW
 
