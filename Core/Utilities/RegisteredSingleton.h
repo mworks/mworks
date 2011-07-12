@@ -41,13 +41,20 @@
       if(an_instance == NULL) { \
         throw SimpleException("attempting to register NULL instance for a singleton");	 \
       }		\
+      shared_ptr<TYPE> as_type = dynamic_pointer_cast<TYPE, mw::Component>(an_instance); \
+      if(as_type == NULL) { \
+        throw SimpleException("attempting to register singleton instance for wrong type of object");	\
+      } \
+      registerInstance(as_type);  \
+    }\
+    static void registerInstance(const boost::shared_ptr<TYPE> &an_instance){\
+      if(an_instance == NULL) { \
+        throw SimpleException("attempting to register NULL instance for a singleton");	 \
+      }		\
       if(singleton_instance != NULL) { \
         throw SimpleException("attempting to register singleton instance when there's already an instance"); \
       } \
-      singleton_instance = dynamic_pointer_cast<TYPE, mw::Component>(an_instance); \
-      if(singleton_instance == NULL) { \
-        throw SimpleException("attempting to register singleton instance for wrong type of object");	\
-      } \
+      singleton_instance = an_instance; \
     }
 
 #define  SINGLETON_DESTROY_METHOD(TYPE)   static \
