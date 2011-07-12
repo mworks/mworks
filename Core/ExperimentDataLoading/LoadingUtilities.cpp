@@ -148,7 +148,7 @@ namespace mw {
 			return false;
 		} catch(std::exception& e){
             merror(M_PARSER_MESSAGE_DOMAIN, 
-                  "An unanticipated error occurred.  This is probably a bug.  Error message was: %s",
+                  "An unanticipated error occurred.  This is probably a bug, and someone will want to run this in a debugger.  Error message was: \"%s\"",
                   e.what());
             GlobalCurrentExperiment = shared_ptr<Experiment>();
 			global_outgoing_event_buffer->putEvent(SystemEventFactory::currentExperimentState());
