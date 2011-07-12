@@ -23,6 +23,7 @@
 #include "ScarabServer.h"
 #include "EventStreamInterface.h"
 #include "VariableRegistryInterface.h"
+#include "RegisteredSingleton.h"
 
 
 namespace mw {
@@ -159,6 +160,9 @@ class Server : public RegistryAwareEventStreamInterface {
 		bool isStarted();
 		bool isAccepting();
 		bool isExperimentLoaded();
+        
+        
+        REGISTERED_SINGLETON_CODE_INJECTION( Server );
 };
 }
 #endif

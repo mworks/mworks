@@ -20,6 +20,8 @@
 
 using namespace mw;
 
+SINGLETON_INSTANCE_STATIC_DECLARATION(Server)
+
 
 Server::Server() : RegistryAwareEventStreamInterface(M_SERVER_MESSAGE_DOMAIN, true){
 	
