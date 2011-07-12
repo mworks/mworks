@@ -56,12 +56,12 @@ void DynamicStimulusDriver::play() {
         return;
     }
     
-    const int frameRate = frames_per_second->getValue().getInteger();
-    const int refreshRate = StimulusDisplay::getCurrentStimulusDisplay()->getMainDisplayRefreshRate();
+    const double frameRate = frames_per_second->getValue().getFloat();
+    const double refreshRate = StimulusDisplay::getCurrentStimulusDisplay()->getMainDisplayRefreshRate();
 
-    if ((frameRate > refreshRate) || ((refreshRate % frameRate) != 0)) {
+    if ((frameRate > refreshRate) || (fmod(refreshRate, frameRate) != 0.0)) {
         merror(M_DISPLAY_MESSAGE_DOMAIN,
-               "Requested frame rate (%d) is incompatible with display refresh rate (%d)",
+               "Requested frame rate (%g) is incompatible with display refresh rate (%g)",
                frameRate,
                refreshRate);
     }
@@ -69,7 +69,7 @@ void DynamicStimulusDriver::play() {
     willPlay();
     
     start_time = clock->getCurrentTimeUS();
-    interval_us = (MWorksTime)((double)1000000 / (double)frameRate);
+    interval_us = (MWorksTime)(1000000.0 / frameRate);
     started = true;
 }
 

@@ -135,16 +135,16 @@ int OpenGLContextManager::getDisplayHeight(const int index) {
     return frame.size.height;
 }
 
-int OpenGLContextManager::getDisplayRefreshRate(const int index){
+double OpenGLContextManager::getDisplayRefreshRate(const int index){
     std::map<int, double>::iterator rate = display_refresh_rates.find(index);
     
     if (rate == display_refresh_rates.end()) {
-        return 0;
+        return 0.0;
     }
     
     double refresh_rate = (*rate).second;
         
-    return (int)refresh_rate;
+    return refresh_rate;
 }
 
 CGDirectDisplayID OpenGLContextManager::_getDisplayID(int screen_number) {

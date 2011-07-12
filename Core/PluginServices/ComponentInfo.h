@@ -25,8 +25,16 @@ public:
         signature = newSignature;
     }
     
-    void addParameter(const std::string &name, bool required = true) {
-        addParameter(name, ParameterInfo(required));
+    void setDisplayName(const std::string &newDisplayName) {
+        displayName = newDisplayName;
+    }
+    
+    void setDescription(const std::string &newDescription) {
+        description = newDescription;
+    }
+    
+    void addParameter(const std::string &name, bool required = true, const std::string &exampleValue = "") {
+        addParameter(name, ParameterInfo(required, exampleValue));
     }
     
     void addParameter(const std::string &name, const std::string &defaultValue) {
@@ -47,12 +55,22 @@ public:
         return signature;
     }
     
+    const std::string& getDisplayName() const {
+        return displayName;
+    }
+    
+    const std::string& getDescription() const {
+        return description;
+    }
+    
     const ParameterInfoMap& getParameters() const {
         return parameters;
     }
     
 private:
     std::string signature;
+    std::string displayName;
+    std::string description;
     ParameterInfoMap parameters;
     
 };

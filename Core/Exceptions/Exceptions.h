@@ -172,7 +172,7 @@ public:
 
 class UnknownVariableException : public SimpleException {
 public:
-    UnknownVariableException(string _subject) : SimpleException(M_PARSER_MESSAGE_DOMAIN, "Invalid variable definition", _subject){ }
+    UnknownVariableException(string _subject) : SimpleException(M_PARSER_MESSAGE_DOMAIN, "Unknown variable", _subject){ }
 };
 
 

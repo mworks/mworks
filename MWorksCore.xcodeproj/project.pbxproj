@@ -461,6 +461,8 @@
 		E127D3AD133A615C00532496 /* MWorksMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = E127D3AC133A615C00532496 /* MWorksMacros.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E13BD56812130E6800DF5C02 /* StandardDynamicStimulus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E13BD56612130E6800DF5C02 /* StandardDynamicStimulus.cpp */; };
 		E13BD56912130E6800DF5C02 /* StandardDynamicStimulus.h in Headers */ = {isa = PBXBuildFile; fileRef = E13BD56712130E6800DF5C02 /* StandardDynamicStimulus.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E16BC17B137D952D0052D8E1 /* MachUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = E16BC179137D952D0052D8E1 /* MachUtilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E16BC17C137D952D0052D8E1 /* MachUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E16BC17A137D952D0052D8E1 /* MachUtilities.cpp */; };
 		E1F65DF9119086A100F9A3A3 /* IODevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1F65DF8119086A100F9A3A3 /* IODevice.cpp */; };
 		E1F805C112E8E5DF005265A5 /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E1F805C012E8E5DF005265A5 /* libcrypto.dylib */; };
 /* End PBXBuildFile section */
@@ -1084,16 +1086,12 @@
 		DA2CE1E507E9F97F00C68AEF /* VariableProperties.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = VariableProperties.h; path = Core/Variables/VariableProperties.h; sourceTree = "<group>"; };
 		DA2CE1E607E9F97F00C68AEF /* ScopedVariableContext.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ScopedVariableContext.cpp; path = Core/Variables/ScopedVariableContext.cpp; sourceTree = "<group>"; };
 		DA2CE1E707E9F97F00C68AEF /* ScopedVariableContext.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ScopedVariableContext.h; path = Core/Variables/ScopedVariableContext.h; sourceTree = "<group>"; };
-		DA2CE1FE07E9FA8000C68AEF /* StandardStateSystemPlugin-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "StandardStateSystemPlugin-Info.plist"; sourceTree = SOURCE_ROOT; };
-		DA2CE36E07E9FF5500C68AEF /* StandardClockPlugin-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "StandardClockPlugin-Info.plist"; sourceTree = SOURCE_ROOT; };
-		DA2CE38007EA028100C68AEF /* StandardSchedulerPlugin-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "StandardSchedulerPlugin-Info.plist"; sourceTree = SOURCE_ROOT; };
 		DA2CE39007EA035F00C68AEF /* MachClockPlugin.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MachClockPlugin.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA2CE39107EA035F00C68AEF /* MachClockPlugin-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MachClockPlugin-Info.plist"; sourceTree = SOURCE_ROOT; };
 		DA2CE39607EA040D00C68AEF /* MachClock.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = MachClock.cpp; path = MachClock/MachClock.cpp; sourceTree = SOURCE_ROOT; };
 		DA2CE39707EA040D00C68AEF /* MachClock.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MachClock.h; path = MachClock/MachClock.h; sourceTree = SOURCE_ROOT; };
 		DA2CE3A407EA046800C68AEF /* MWorksScripting-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MWorksScripting-Info.plist"; sourceTree = SOURCE_ROOT; };
 		DA2CE3AC07EA04FF00C68AEF /* MonkeyScript.i */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c.preprocessed; name = MonkeyScript.i; path = MonkeyWorksScripting/MonkeyScript.i; sourceTree = SOURCE_ROOT; };
-		DA2CE3BD07EA057500C68AEF /* ZenClockPlugin-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ZenClockPlugin-Info.plist"; sourceTree = SOURCE_ROOT; };
 		DA2E379C08B0FE5800BD22C4 /* EventBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = EventBuffer.cpp; path = Core/Events/EventBuffer.cpp; sourceTree = SOURCE_ROOT; };
 		DA2E379D08B0FE5800BD22C4 /* EventBuffer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = EventBuffer.h; path = Core/Events/EventBuffer.h; sourceTree = SOURCE_ROOT; };
 		DA30579B08B6A23700BA4B0E /* NetworkReturn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NetworkReturn.h; path = Core/Network/NetworkReturn.h; sourceTree = SOURCE_ROOT; };
@@ -1122,6 +1120,8 @@
 		E127D3AC133A615C00532496 /* MWorksMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MWorksMacros.h; path = Core/MWorksMacros.h; sourceTree = "<group>"; };
 		E13BD56612130E6800DF5C02 /* StandardDynamicStimulus.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StandardDynamicStimulus.cpp; sourceTree = "<group>"; };
 		E13BD56712130E6800DF5C02 /* StandardDynamicStimulus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StandardDynamicStimulus.h; sourceTree = "<group>"; };
+		E16BC179137D952D0052D8E1 /* MachUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MachUtilities.h; path = Core/Utilities/MachUtilities.h; sourceTree = "<group>"; };
+		E16BC17A137D952D0052D8E1 /* MachUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MachUtilities.cpp; path = Core/Utilities/MachUtilities.cpp; sourceTree = "<group>"; };
 		E1F65DF8119086A100F9A3A3 /* IODevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IODevice.cpp; path = Core/IODevices/IODevice.cpp; sourceTree = "<group>"; };
 		E1F805C012E8E5DF005265A5 /* libcrypto.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcrypto.dylib; path = usr/lib/libcrypto.dylib; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -1811,6 +1811,8 @@
 				8E1A4BE008DF5626002E47BD /* MathUtilities.cpp */,
 				68FEE2340C903A80002BCAE9 /* CoreEventFunctor.h */,
 				0EF2B5C30EBB49F20088F58F /* RegisteredSingleton.h */,
+				E16BC179137D952D0052D8E1 /* MachUtilities.h */,
+				E16BC17A137D952D0052D8E1 /* MachUtilities.cpp */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -2253,12 +2255,8 @@
 				5C6616C10F4C9B6900C8FD71 /* MWorksCore-Info.template.plist */,
 				5C4D239D09DC83930082BF9F /* MWorksCoreTest-Info.plist */,
 				DA2CE0D607E9F68100C68AEF /* MWorksCore-Info.plist */,
-				DA2CE1FE07E9FA8000C68AEF /* StandardStateSystemPlugin-Info.plist */,
-				DA2CE36E07E9FF5500C68AEF /* StandardClockPlugin-Info.plist */,
-				DA2CE38007EA028100C68AEF /* StandardSchedulerPlugin-Info.plist */,
 				DA2CE39107EA035F00C68AEF /* MachClockPlugin-Info.plist */,
 				DA2CE3A407EA046800C68AEF /* MWorksScripting-Info.plist */,
-				DA2CE3BD07EA057500C68AEF /* ZenClockPlugin-Info.plist */,
 				5CF73BCC0862535B00F453C3 /* ZenSchedulerPlugin-Info.plist */,
 				5CF73C80086260E900F453C3 /* ZenStateSystemPlugin-Info.plist */,
 			);
@@ -2491,6 +2489,7 @@
 				E104A8DD133B8D7200D36236 /* ParameterValue.h in Headers */,
 				E104A8F0133B8D9700D36236 /* StandardComponentFactory.h in Headers */,
 				E104A8F4133B8DB400D36236 /* StandardStimulusFactory.h in Headers */,
+				E16BC17B137D952D0052D8E1 /* MachUtilities.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3189,6 +3188,7 @@
 				E13BD56812130E6800DF5C02 /* StandardDynamicStimulus.cpp in Sources */,
 				5C0BB1F1126CDA1900387C54 /* AccumulatingConduit.cpp in Sources */,
 				E104A8DE133B8D7200D36236 /* ParameterValue.cpp in Sources */,
+				E16BC17C137D952D0052D8E1 /* MachUtilities.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

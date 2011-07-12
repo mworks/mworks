@@ -19,9 +19,18 @@ using namespace mw;
 bool VariableLoad::loadExperimentwideVariables(const boost::filesystem::path &file) {
 	
     shared_ptr<ComponentRegistry> reg = ComponentRegistry::getSharedRegistry();
-	XMLParser parser(reg, file.string());
-	
-	parser.parse();
+
+    try {
+        
+        XMLParser parser(reg, file.string());
+        parser.parse();
+        
+    } catch (SimpleException &e) {
+        
+        display_extended_error_information(e);
+        return false;
+        
+    }
 	
 	return true;
     
@@ -39,7 +48,7 @@ bool VariableLoad::loadExperimentwideVariables(const boost::filesystem::path &fi
 		interp.evalFile(prependScriptingPath("XMLSavedVarParser.pl").string());	
   
 		return true;
-	}*/
+	}
 
-	return false;
+	return false;*/
 }

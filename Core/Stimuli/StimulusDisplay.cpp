@@ -132,10 +132,10 @@ void StimulusDisplay::getDisplayBounds(GLdouble &left, GLdouble &right, GLdouble
     top = this->top;
 }
 
-int StimulusDisplay::getMainDisplayRefreshRate() {
-    int refreshRate = opengl_context_manager->getDisplayRefreshRate(opengl_context_manager->getMainDisplayIndex());
-    if (refreshRate <= 0) {
-        refreshRate = 60;
+double StimulusDisplay::getMainDisplayRefreshRate() {
+    double refreshRate = opengl_context_manager->getDisplayRefreshRate(opengl_context_manager->getMainDisplayIndex());
+    if (refreshRate <= 0.0) {
+        refreshRate = 60.0;
     }
     return refreshRate;
 }
@@ -219,17 +219,17 @@ CVReturn StimulusDisplay::displayLinkCallback(CVDisplayLinkRef _displayLink,
         {
             upgrade_to_unique_lock lock(upgradeLock);
             
-//#define WARN_ON_SKIPPED_REFRESH
-#ifdef WARN_ON_SKIPPED_REFRESH
-            if (display->lastFrameTime) {
-                int64_t delta = (outputTime->videoTime - display->lastFrameTime) - outputTime->videoRefreshPeriod;
-                if (delta) {
-                    mwarning(M_DISPLAY_MESSAGE_DOMAIN,
-                             "Skipped %g display refresh cycles",
-                             (double)delta / (double)(outputTime->videoRefreshPeriod));
+            if (bool(warnOnSkippedRefresh->getValue())) {
+                if (display->lastFrameTime) {
+                    int64_t delta = (outputTime->videoTime - display->lastFrameTime) - outputTime->videoRefreshPeriod;
+                    if (delta) {
+                        mwarning(M_DISPLAY_MESSAGE_DOMAIN,
+                                 "Skipped %g display refresh cycles",
+                                 (double)delta / (double)(outputTime->videoRefreshPeriod));
+                    }
                 }
             }
-#endif
+            
             display->lastFrameTime = outputTime->videoTime;
         }
         
@@ -405,7 +405,7 @@ void StimulusDisplay::updateDisplay() {
     
 #ifdef ERROR_ON_LATE_FRAMES
     MWTime now = clock->getCurrentTimeUS();
-    MWTime slop = 2 * (1000000 / getMainDisplayRefreshRate());
+    MWTime slop = 2 * (MWTime)(1000000.0 / getMainDisplayRefreshRate());
     
     if(now-before_draw > slop) {
         merror(M_DISPLAY_MESSAGE_DOMAIN,
@@ -444,7 +444,13 @@ void StimulusDisplay::announceDisplayUpdate(void *_display) {
     
     display->setCurrent(0);
     if (display->opengl_context_manager->hasFence()) {
-        glFinishFenceAPPLE(display->opengl_context_manager->getFence());
+        if (glTestFenceAPPLE(display->opengl_context_manager->getFence())) {
+            mwarning(M_DISPLAY_MESSAGE_DOMAIN,
+                     "Display update announcement was delayed; time stamp on next %s event may be inaccurate",
+                     STIMULUS_DISPLAY_UPDATE_TAGNAME);
+        } else {
+            glFinishFenceAPPLE(display->opengl_context_manager->getFence());
+        }
     } else {
         glFinish();
     }

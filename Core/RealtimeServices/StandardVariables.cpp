@@ -26,6 +26,7 @@ namespace mw {
 	shared_ptr<Variable> stimDisplayUpdate;   // JJD added June 2006
 	shared_ptr<Variable> beamPosition;		// DDC added as an experiment, Aug 2006
 	shared_ptr<Variable> mainDisplayInfo;
+    shared_ptr<Variable> warnOnSkippedRefresh;
 	shared_ptr<Variable> currentState;
 	
 	shared_ptr<Variable> trialAnnounce;
@@ -223,6 +224,18 @@ namespace mw {
 																				"Used to convert from screen units into degrees",
 																				M_WHEN_CHANGED, M_WHEN_CHANGED, true, false, M_STRUCTURED,
 																				PRIVATE_SYSTEM_VARIABLES));
+        
+        
+        warnOnSkippedRefresh = registry->createGlobalVariable(new VariableProperties(new Datum((bool)false), 
+                                                                                     WARN_ON_SKIPPED_REFRESH_TAGNAME, 
+                                                                                     "Warn On Skipped Refresh", 
+                                                                                     "Issue a warning if stimulus display driver misses a display refresh cycle", 
+                                                                                     M_WHEN_CHANGED,
+                                                                                     M_WHEN_CHANGED, 
+                                                                                     true, 
+                                                                                     false, 
+                                                                                     M_DISCRETE_BOOLEAN,
+                                                                                     PRIVATE_SYSTEM_VARIABLES));
 		
 		
 		debuggerActive = registry->createGlobalVariable(new VariableProperties(new Datum(0L),

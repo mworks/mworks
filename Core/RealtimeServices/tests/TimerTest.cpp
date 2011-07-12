@@ -10,61 +10,10 @@
 #include "TimerTest.h"
 #include "MWorksCore/TrialBuildingBlocks.h"
 #include "MWorksCore/GlobalVariable.h"
+#include "MWorksCore/MachUtilities.h"
 using namespace mw;
 
 CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( TimerTestFixture, "Unit Test" );
-
-
-#include <mach/mach_types.h>
-#include <mach/mach_init.h>
-#include <mach/thread_policy.h>
-#include <mach/task_policy.h>
-#include <mach/thread_act.h>
-#include <sys/sysctl.h>
-
-int set_realtime(int priority){
-		kern_return_t                       result = 0;
-	    
-		integer_t	timeShareData;
-		integer_t	precedenceData;
-		//thread_extended_policy_data_t       timeShareData;
-	    //thread_precedence_policy_data_t     precedenceData;
-
-	    //Set up some variables that we need for the task
-	   
-		precedenceData = priority;
-		
-		if(priority > 64){
-			timeShareData = 0;
-		} else {
-			timeShareData = 1;
-		}
-	   // precedenceData.importance = priority;
-	   // timeShareData.timeshare = true;//isTimeshare;
-	    
-	    mach_port_t  machThread = mach_thread_self();
-
-	    //Set the scheduling flavor. We want to do this first, since doing so
-	    //can alter the priority
-	    result = thread_policy_set( machThread,
-	                                THREAD_EXTENDED_POLICY,
-	                                &timeShareData,
-	                                THREAD_EXTENDED_POLICY_COUNT );
-
-	    if( 0 != result )
-	        return 0;
-	
-	    //Now set the priority
-	    result =   thread_policy_set( machThread,
-	                                THREAD_PRECEDENCE_POLICY,
-	                                &precedenceData,
-	                                THREAD_PRECEDENCE_POLICY_COUNT );
-
-	    if( 0 != result )
-	        return 0;
-
-	return 1;
-}
 
 
 Lockable *g_timer_cppunit_lock;

@@ -31,6 +31,8 @@
 #include <mach/thread_act.h>
 #include <sys/sysctl.h>
 
+#include "MachUtilities.h"
+
 #ifdef	LOW_PRIORITY_MODE
 	#define STATE_SYSTEM_PRIORITY	0
 #else
@@ -42,9 +44,6 @@ using namespace boost;
 
 pthread_mutex_t state_system_mutex;
 pthread_t state_system_thread;
-
-int set_realtime(int priority);
-int set_realtime(int period, int computation, int constraint);
 
 static bool in_action, in_transition, is_running, is_paused;
 static weak_ptr<State> current_state;
@@ -175,8 +174,6 @@ void *checkStateSystem(void *void_state_system){
 		fprintf(stderr,"Scheduler didn't go realtime.  Bummer.\n");
 		fflush(stderr);
 	}
-	
-   // set_realtime(bus_speed/1000, bus_speed/4000, bus_speed/2000);
 
 
 	mprintf("Starting state system....");
@@ -338,68 +335,6 @@ void *checkStateSystem(void *void_state_system){
 	
 	pthread_exit(0);
 	return NULL;
-}
-
-int set_realtime(int priority){
-		kern_return_t                       result = 0;
-	    
-		integer_t	timeShareData;
-		integer_t	precedenceData;
-		//thread_extended_policy_data_t       timeShareData;
-	    //thread_precedence_policy_data_t     precedenceData;
-
-	    //Set up some variables that we need for the task
-	   
-		precedenceData = priority;
-		
-		if(priority > 64){
-			timeShareData = 0;
-		} else {
-			timeShareData = 1;
-		}
-	   // precedenceData.importance = priority;
-	   // timeShareData.timeshare = true;//isTimeshare;
-	    
-	    mach_port_t  machThread = mach_thread_self();
-
-	    //Set the scheduling flavor. We want to do this first, since doing so
-	    //can alter the priority
-	    result = thread_policy_set( machThread,
-	                                THREAD_EXTENDED_POLICY,
-	                                &timeShareData,
-	                                THREAD_EXTENDED_POLICY_COUNT );
-
-	    if( 0 != result )
-	        return 0;
-	
-	    //Now set the priority
-	    result =   thread_policy_set( machThread,
-	                                THREAD_PRECEDENCE_POLICY,
-	                                &precedenceData,
-	                                THREAD_PRECEDENCE_POLICY_COUNT );
-
-	    if( 0 != result )
-	        return 0;
-
-	return 1;
-}
-
-
-int set_realtime(int period, int computation, int constraint) {
-    struct thread_time_constraint_policy ttcpolicy;
-    int ret;
-
-    ttcpolicy.period=period; // HZ/160
-    ttcpolicy.computation=computation; // HZ/3300;
-    ttcpolicy.constraint=constraint; // HZ/2200;
-    ttcpolicy.preemptible=0;
-
-    if ((ret=thread_policy_set(mach_thread_self(), THREAD_TIME_CONSTRAINT_POLICY, (int *)&ttcpolicy, THREAD_TIME_CONSTRAINT_POLICY_COUNT)) != KERN_SUCCESS) 
-    {
-            //mprintf("Set realtime failed (%d)", ret);
-            return 0;
-    }
-    return 1;
 }
 
 
