@@ -237,6 +237,9 @@
 /* Begin PBXProject section */
 		089C1669FE841209C02AAC07 /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0410;
+			};
 			buildConfigurationList = 1DEB913E08733D840010E9CD /* Build configuration list for PBXProject "___PROJECTNAME___" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
@@ -317,7 +320,6 @@
 			buildSettings = {
 				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
 				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
-				PREBINDING = NO;
 			};
 			name = Development;
 		};

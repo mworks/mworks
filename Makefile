@@ -13,6 +13,7 @@ install: clean
 	rsync -a \
 	  --exclude='*.pbxuser' \
 	  --exclude='*.perspectivev3' \
+	  --exclude='xcuserdata' \
 	  --exclude='build' \
 	  MWorks $(XCODE_TEMPLATES_DIR)
 
