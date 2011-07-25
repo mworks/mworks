@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 42;
+	objectVersion = 46;
 	objects = {
 
 /* Begin PBXAggregateTarget section */
@@ -184,8 +184,11 @@
 /* Begin PBXProject section */
 		0E2D77240D71EDDE005AFCC2 /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0410;
+			};
 			buildConfigurationList = 0E2D77270D71EDDE005AFCC2 /* Build configuration list for PBXProject "MWorksStreamUtilities" */;
-			compatibilityVersion = "Xcode 2.4";
+			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -229,7 +232,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/zsh;
-			shellScript = "mkdir -p \"${FINAL_INSTALL_DIR}/lib\"\nrm -f \"${FINAL_INSTALL_DIR}/lib/libMWorksStreamUtilities.a\"\ncp -f \"${BUILT_PRODUCTS_DIR}/libMWorksStreamUtilities.a\" \"${FINAL_INSTALL_DIR}/lib\"\n\nmkdir -p \"${FINAL_INSTALL_DIR}/include\"\nrm -f \"${FINAL_INSTALL_DIR}/include/mWorksStreamUtilities.h\"\ncp -f \"${BUILT_PRODUCTS_DIR}/../../mWorksStreamUtilities.h\" \"${FINAL_INSTALL_DIR}/include\"\n\n";
+			shellScript = "mkdir -p \"${FINAL_INSTALL_DIR}/lib\"\nrm -f \"${FINAL_INSTALL_DIR}/lib/libMWorksStreamUtilities.a\"\ncp -f \"${BUILT_PRODUCTS_DIR}/libMWorksStreamUtilities.a\" \"${FINAL_INSTALL_DIR}/lib\"\n\nmkdir -p \"${FINAL_INSTALL_DIR}/include\"\nrm -f \"${FINAL_INSTALL_DIR}/include/mWorksStreamUtilities.h\"\ncp -f \"${PROJECT_DIR}/mWorksStreamUtilities.h\" \"${FINAL_INSTALL_DIR}/include\"\n\n";
 		};
 		0E60D61D0E6D8D9E00B82521 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -299,7 +302,7 @@
 				MATLAB_DIR = "\"$(APP_SUPPORT_DIR)/Scripting/Matlab/MATLAB\"";
 				MW_INCLUDE_DIR = "\"$(APP_SUPPORT_DIR)/Developer/gcc40/include\"";
 				MW_LIB_DIR = "\"$(APP_SUPPORT_DIR)/Developer/gcc40/lib\"";
-				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
+				SDKROOT = "";
 			};
 			name = Release;
 		};
@@ -308,9 +311,7 @@
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_MODEL_TUNING = G5;
-				PREBINDING = NO;
 				PRODUCT_NAME = MWorksStreamUtilities;
 			};
 			name = Release;
@@ -320,7 +321,6 @@
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
@@ -344,7 +344,6 @@
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				PRODUCT_NAME = UninstallMWorksStreamUtilities;
 				ZERO_LINK = NO;
 			};
@@ -365,7 +364,6 @@
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				PRODUCT_NAME = Everything;
 				ZERO_LINK = NO;
 			};
@@ -394,10 +392,8 @@
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				PREBINDING = NO;
 				PRODUCT_NAME = MWorksStreamUtilities;
 			};
 			name = Development;
@@ -407,7 +403,6 @@
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
