@@ -171,7 +171,7 @@ def libpng():
     srcdir = 'libpng-' + version
     tarfile = srcdir + '.tar.bz2'
 
-    download_tarfile_from_sf('libpng/libpng12', version, tarfile)
+    download_tarfile_from_sf('libpng/libpng12/older-releases', version, tarfile)
     unpack_tarfile(tarfile, srcdir)
 
     run_configure_and_make(srcdir)
@@ -247,8 +247,8 @@ def devil():
     run_configure_and_make(
         srcdir = srcdir,
         extra_args = ['--enable-ILU', '--enable-ILUT'],
-        extra_cflags = ('-I/usr/include/malloc -I%s/include' %
-                        path_to_stagedir), 
+        extra_cflags = ('-I%s/usr/include/malloc -I%s/include' %
+                        (sdk_root, path_to_stagedir)), 
         extra_ldflags = ('-lstdc++ -L%s/lib' % path_to_stagedir), 
         )
 
@@ -281,7 +281,8 @@ def main():
             announce('ERROR: unknown builder: %r', name)
             sys.exit(1)
 
-    remove_directory(stagedir)
+    if not requested_builders:
+        remove_directory(stagedir)
     check_call(['/bin/mkdir', '-p', downloaddir, builddir, stagedir,
                 installdir])
 
