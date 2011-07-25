@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 42;
+	objectVersion = 46;
 	objects = {
 
 /* Begin PBXAggregateTarget section */
@@ -264,8 +264,11 @@
 /* Begin PBXProject section */
 		5CF4DE9705911D6D002A02B7 /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0410;
+			};
 			buildConfigurationList = DA2B5970089814BA0071B527 /* Build configuration list for PBXProject "Scarab" */;
-			compatibilityVersion = "Xcode 2.4";
+			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 1;
 			knownRegions = (
@@ -323,7 +326,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/zsh;
-			shellScript = "# strip off quotes\nexport LIB_DIR=$MW_LIB_DIR_UNQUOTED\nexport INCLUDE_DIR=$MW_INCLUDE_DIR_UNQUOTED\n\necho $LIB_DIR\necho $INCLUDE_DIR\n\n\n# Ensure that things are there, even on the first run\nmkdir -p \"${LIB_DIR}\"\ntouch \"${LIB_DIR}/libscarab.a\"\n\n# Remove the existing library\nrm -Rf \"${LIB_DIR}/libscarab.a\"\n\n# Copy the newly compiled library to install location\necho cp -Rf \"$BUILT_PRODUCTS_DIR/libscarab.a\" \"${LIB_DIR}/\"\ncp -Rf \"$BUILT_PRODUCTS_DIR/libscarab.a\" \"${LIB_DIR}/\"\n\n# Create a directory for headers\nmkdir -p \"${INCLUDE_DIR}/Scarab\"\n\n# Copy headers into the include directory\ncp -p \"$BUILT_PRODUCTS_DIR/../../Scarab-0.1.00d19/c\"/*.h \"${INCLUDE_DIR}/Scarab\"\n\n\n\n\n\n";
+			shellScript = "# strip off quotes\nexport LIB_DIR=$MW_LIB_DIR_UNQUOTED\nexport INCLUDE_DIR=$MW_INCLUDE_DIR_UNQUOTED\n\necho $LIB_DIR\necho $INCLUDE_DIR\n\n\n# Ensure that things are there, even on the first run\nmkdir -p \"${LIB_DIR}\"\ntouch \"${LIB_DIR}/libscarab.a\"\n\n# Remove the existing library\nrm -Rf \"${LIB_DIR}/libscarab.a\"\n\n# Copy the newly compiled library to install location\necho cp -Rf \"$BUILT_PRODUCTS_DIR/libscarab.a\" \"${LIB_DIR}/\"\ncp -Rf \"$BUILT_PRODUCTS_DIR/libscarab.a\" \"${LIB_DIR}/\"\n\n# Create a directory for headers\nmkdir -p \"${INCLUDE_DIR}/Scarab\"\n\n# Copy headers into the include directory\ncp -p \"${PROJECT_DIR}/Scarab-0.1.00d19/c\"/*.h \"${INCLUDE_DIR}/Scarab\"\n\n\n\n\n\n";
 		};
 		5C4BDDC309E25B98008B8AB7 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -410,7 +413,6 @@
 				INSTALL_OWNER = "$(USER)";
 				INSTALL_PATH = "/Library/Application Support/MWorks/Developer";
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
-				PREBINDING = NO;
 				PRODUCT_NAME = scarab;
 			};
 			name = Development;
@@ -437,7 +439,6 @@
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
 				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				GCC_MODEL_TUNING = G5;
@@ -454,7 +455,6 @@
 					"-framework",
 					AppKit,
 				);
-				PREBINDING = NO;
 				PRODUCT_NAME = Scarab;
 				STRIP_INSTALLED_PRODUCT = NO;
 				ZERO_LINK = NO;
