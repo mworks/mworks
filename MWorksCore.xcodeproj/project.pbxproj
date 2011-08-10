@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 44;
+	objectVersion = 46;
 	objects = {
 
 /* Begin PBXAggregateTarget section */
@@ -99,7 +99,6 @@
 		0E681E7B0E62CF9200F4757B /* MarionetteMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EB975860E624B8700632F05 /* MarionetteMessage.m */; };
 		0E7E9FCB0A75502600E20898 /* GenericDataTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E7E9FB90A754FCD00E20898 /* GenericDataTest.cpp */; };
 		0E7E9FCC0A75502600E20898 /* GenericDataTest.h in Headers */ = {isa = PBXBuildFile; fileRef = 0E7E9FBA0A754FCD00E20898 /* GenericDataTest.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		0E7E9FCD0A75502600E20898 /* VectorTest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C4D233A09DC6F0C0082BF9F /* VectorTest.h */; settings = {ATTRIBUTES = (); }; };
 		0E8014390E422F2800D6DE20 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E8014360E422F2800D6DE20 /* main.m */; };
 		0E80143A0E422F2800D6DE20 /* MarionetteClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E8014380E422F2800D6DE20 /* MarionetteClient.m */; };
 		0E8665790AEFE8C700564B87 /* VariableLoad.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E8665770AEFE8C700564B87 /* VariableLoad.cpp */; };
@@ -2301,7 +2300,6 @@
 				5C4238A209EE97820023EB90 /* ScarabEventTest.h in Headers */,
 				5CCDF6AD09F5C5C3008B1D65 /* TriggerTest.h in Headers */,
 				0E7E9FCC0A75502600E20898 /* GenericDataTest.h in Headers */,
-				0E7E9FCD0A75502600E20898 /* VectorTest.h in Headers */,
 				5CBFD7600AC04587007AB1A9 /* FullCoreEnvironmentTest.h in Headers */,
 				0E4A1DB40B1F2B7700643235 /* PlatformDependentServicesTest.h in Headers */,
 				0ED517170B217A35001559AD /* BoostMathExampleTest.h in Headers */,
@@ -2681,8 +2679,11 @@
 /* Begin PBXProject section */
 		DA2CE0C907E9070200C68AEF /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0410;
+			};
 			buildConfigurationList = 5C0E850E086D85D400B3EE7C /* Build configuration list for PBXProject "MWorksCore" */;
-			compatibilityVersion = "Xcode 3.0";
+			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -3400,7 +3401,6 @@
 					"-lxml2",
 					"-lxslt",
 				);
-				PREBINDING = NO;
 				PRODUCT_NAME = MarionetteTest;
 				WRAPPER_EXTENSION = app;
 			};
@@ -3573,7 +3573,6 @@
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
 				GCC_DEBUGGING_SYMBOLS = full;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				OTHER_CFLAGS = "";
@@ -3629,7 +3628,6 @@
 				);
 				GCC_DEBUGGING_SYMBOLS = full;
 				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -3647,7 +3645,6 @@
 					"-lILUT",
 					"-lscarab",
 				);
-				PREBINDING = NO;
 				PRODUCT_NAME = MWorksCoreTestRunner;
 				ZERO_LINK = NO;
 			};
@@ -3709,7 +3706,7 @@
 				GCC_VERSION = 4.2;
 				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
 				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
-				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
+				SDKROOT = macosx10.6;
 				STRIP_INSTALLED_PRODUCT = NO;
 				TESTS_DIR = "$(APP_SUPPORT_DIR)/Developer/tests";
 			};
@@ -3768,7 +3765,6 @@
 					"-lxslt",
 				);
 				PRODUCT_NAME = MWorksCore;
-				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
 				WARNING_CFLAGS = (
 					"-Wmost",
 					"-Wno-four-char-constants",
@@ -3786,7 +3782,6 @@
 				);
 				COPY_PHASE_STRIP = NO;
 				GCC_DEBUGGING_SYMBOLS = full;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_ENABLE_OBJC_GC = supported;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
@@ -3807,7 +3802,6 @@
 				);
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = MachClockPlugin;
-				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = (
 					"-Wmost",
@@ -3823,7 +3817,6 @@
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
 				GCC_DEBUGGING_SYMBOLS = full;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				OTHER_CFLAGS = "";
@@ -3849,7 +3842,6 @@
 				);
 				COPY_PHASE_STRIP = NO;
 				GCC_DEBUGGING_SYMBOLS = full;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_ENABLE_OBJC_GC = supported;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
@@ -3874,7 +3866,6 @@
 				);
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = ZenSchedulerPlugin;
-				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
 				WARNING_CFLAGS = (
 					"-Wmost",
 					"-Wno-four-char-constants",
@@ -4024,7 +4015,6 @@
 				);
 				GCC_DEBUGGING_SYMBOLS = full;
 				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_ENABLE_OBJC_GC = supported;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
@@ -4043,7 +4033,6 @@
 					"-lILUT",
 					"-lscarab",
 				);
-				PREBINDING = NO;
 				PRODUCT_NAME = MWorksCoreTestRunner;
 				ZERO_LINK = NO;
 			};
@@ -4070,7 +4059,6 @@
 					"-lxml2",
 					"-lxslt",
 				);
-				PREBINDING = NO;
 				PRODUCT_NAME = MarionetteTest;
 				WRAPPER_EXTENSION = app;
 			};
@@ -4107,7 +4095,6 @@
 					"-lboost_python",
 					"-lpython2.5",
 				);
-				PREBINDING = NO;
 				PRODUCT_NAME = mw_conduit;
 			};
 			name = Release;
@@ -4137,7 +4124,6 @@
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				PRODUCT_NAME = PyMW;
 				ZERO_LINK = NO;
 			};
@@ -4169,7 +4155,6 @@
 					dynamic_lookup,
 					"-lboost_python",
 				);
-				PREBINDING = NO;
 				PRODUCT_NAME = _conduit;
 				WARNING_CFLAGS = (
 					"-Wno-sign-compare",
@@ -4193,7 +4178,6 @@
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				PRODUCT_NAME = test_mworks;
 				ZERO_LINK = NO;
 			};
