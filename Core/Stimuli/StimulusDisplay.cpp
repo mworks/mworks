@@ -18,6 +18,8 @@
 #include "ComponentRegistry.h"
 #include "VariableNotification.h"
 
+#include <CoreAudio/HostTime.h>
+
 #include "boost/bind.hpp"
 
 
@@ -29,7 +31,8 @@ BEGIN_NAMESPACE_MW
  *                  StimulusDisplay Methods
  **********************************************************************/
 StimulusDisplay::StimulusDisplay() :
-    refreshSync(2)
+    refreshSync(2),
+    currentOutputTimeUS(-1)
 {
     current_context_index = -1;
 
@@ -174,6 +177,7 @@ void StimulusDisplay::stateSystemCallback(const Datum &data, MWorksTime time) {
             if (kCVReturnSuccess != CVDisplayLinkStop(displayLink)) {
                 merror(M_DISPLAY_MESSAGE_DOMAIN, "Unable to stop display updates");
             } else {
+                currentOutputTimeUS = -1;
                 mprintf(M_DISPLAY_MESSAGE_DOMAIN, "Display updates stopped");
             }
         }
@@ -231,6 +235,24 @@ CVReturn StimulusDisplay::displayLinkCallback(CVDisplayLinkRef _displayLink,
             }
             
             display->lastFrameTime = outputTime->videoTime;
+            
+            //
+            // Here's how the time calculation works:
+            //
+            // outputTime->hostTime is the (estimated) time that the frame we're currently drawing will be displayed.
+            // The value is in units of the "host time base", which appears to mean that it's directly comparable to
+            // the value returned by mach_absolute_time().  However, the relationship to mach_absolute_time() is not
+            // explicitly stated in the docs, so presumably we can't depend on it.
+            //
+            // What the CoreVideo docs *do* say is "the host time base for Core Video and the one for CoreAudio are
+            // identical, and the values returned from either API can be used interchangeably".  Hence, we can use the
+            // CoreAudio function AudioConvertHostTimeToNanos() to convert from the host time base to nanoseconds.
+            //
+            // Once we have a system time in nanoseconds, we substract the system base time and convert to
+            // microseconds, which leaves us with a value that can be compared to clock->getCurrentTimeUS().
+            //
+            display->currentOutputTimeUS = (MWTime(AudioConvertHostTimeToNanos(outputTime->hostTime)) -
+                                            display->clock->getSystemBaseTimeNS()) / 1000LL;
         }
         
         shared_lock sharedLock(upgradeLock);  // Downgrade to shared_lock

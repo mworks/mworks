@@ -61,6 +61,7 @@ class StandardClock : public Clock, public ComponentFactory {
         virtual MWTime getSystemTimeMS();
 		virtual MWTime getSystemTimeUS();
 		virtual MWTime getSystemTimeNS();
+        virtual MWTime getSystemBaseTimeNS();
 		
         //virtual MWTime getSystemReferenceTime();
         virtual void startClock();

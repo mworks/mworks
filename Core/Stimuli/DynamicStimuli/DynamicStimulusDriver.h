@@ -13,7 +13,9 @@
 #include "StandardStimuli.h"
 #include "VariableNotification.h"
 
-namespace mw {
+
+BEGIN_NAMESPACE_MW
+
 
 class DynamicStimulusDriver {
 	
@@ -49,7 +51,9 @@ public:
     void stateSystemCallback(const Datum& data, MWorksTime time);
 };
 
-}
+
+END_NAMESPACE_MW
+
 
 #endif /* DYNAMIC_STIMULUS_H */
 

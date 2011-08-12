@@ -11,7 +11,9 @@
 #include "boost/bind.hpp"
 #include "MWorksCore/StandardVariables.h"
 
-namespace mw{
+
+BEGIN_NAMESPACE_MW
+
 
 DynamicStimulusDriver::DynamicStimulusDriver(shared_ptr<Scheduler> scheduler,
                                              shared_ptr<Variable> frames_per_second) :
@@ -34,7 +36,9 @@ DynamicStimulusDriver::DynamicStimulusDriver(shared_ptr<Scheduler> scheduler,
     state_system_mode->addNotification(state_system_callback);
 }
 
+
 DynamicStimulusDriver::DynamicStimulusDriver(const DynamicStimulusDriver &tocopy){}
+
 
 void DynamicStimulusDriver::stateSystemCallback(const Datum& data, MWorksTime time){
     if(data.getInteger() == IDLE){
@@ -42,15 +46,15 @@ void DynamicStimulusDriver::stateSystemCallback(const Datum& data, MWorksTime ti
     }
 }
 
+
 DynamicStimulusDriver::~DynamicStimulusDriver(){
  
     state_system_callback->remove();
 }
 
+
 void DynamicStimulusDriver::play() {
 	boost::mutex::scoped_lock locker(stim_lock);
-	
-    //mprintf("CALLED PLAY!");
     
     if (started) {
         return;
@@ -73,10 +77,9 @@ void DynamicStimulusDriver::play() {
     started = true;
 }
 
+
 void DynamicStimulusDriver::stop() {
 	boost::mutex::scoped_lock locker(stim_lock);
-	
-    //mprintf("CALLED STOP!");
     
     if (!started) {
         return;
@@ -87,15 +90,17 @@ void DynamicStimulusDriver::stop() {
     didStop();
 }
 
+
 MWTime DynamicStimulusDriver::getElapsedTime(){
     
-    if(!started){
+    if (!started) {
         return -1;
     }
     
     MWTime now = clock->getCurrentTimeUS();
     return now - start_time;
 }
+
 
 int DynamicStimulusDriver::getFrameNumber(){
     
@@ -107,7 +112,26 @@ int DynamicStimulusDriver::getFrameNumber(){
     return elapsed / interval_us;
 }
 
-} // end namespace
+
+END_NAMESPACE_MW
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
