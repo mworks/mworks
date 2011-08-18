@@ -10,8 +10,6 @@
 #ifndef DRIFTING_GRATNG_STIMULUS_H
 #define DRIFTING_GRATNG_STIMULUS_H
 
-#include <boost/noncopyable.hpp>
-
 #include <MWorksCore/StandardDynamicStimulus.h>
 
 #include "Mask.h"
@@ -20,7 +18,7 @@
 using namespace mw;
 
 
-class DriftingGratingStimulus : public StandardDynamicStimulus, boost::noncopyable {
+class DriftingGratingStimulus : public StandardDynamicStimulus {
 
 private:
 	shared_ptr<Variable> xoffset;
@@ -65,7 +63,7 @@ public:
 
 	virtual void load(shared_ptr<StimulusDisplay> display);
 	virtual void unload(shared_ptr<StimulusDisplay> display);
-    virtual void drawFrame(shared_ptr<StimulusDisplay> display, int frameNumber);
+    virtual void draw(shared_ptr<StimulusDisplay> display);
 	virtual Datum getCurrentAnnounceDrawData();
 
 };

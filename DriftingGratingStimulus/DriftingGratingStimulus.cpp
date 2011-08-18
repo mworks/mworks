@@ -234,7 +234,8 @@ void DriftingGratingStimulus::unload(shared_ptr<StimulusDisplay> display) {
 }
 
 
-void DriftingGratingStimulus::drawFrame(shared_ptr<StimulusDisplay> display, int frameNumber) {
+void DriftingGratingStimulus::draw(shared_ptr<StimulusDisplay> display) {
+    boost::mutex::scoped_lock locker(stim_lock);
     
 	glPushMatrix();	
 	glTranslatef(xoffset->getValue().getFloat(), yoffset->getValue().getFloat(), 0);
@@ -409,7 +410,8 @@ void DriftingGratingStimulus::drawFrame(shared_ptr<StimulusDisplay> display, int
 	glPopMatrix();	
 }
 
-inline Datum DriftingGratingStimulus::getCurrentAnnounceDrawData() {
+
+Datum DriftingGratingStimulus::getCurrentAnnounceDrawData() {
 	boost::mutex::scoped_lock locker(stim_lock);
 	Datum announce_data = StandardDynamicStimulus::getCurrentAnnounceDrawData();
 
@@ -430,3 +432,28 @@ inline Datum DriftingGratingStimulus::getCurrentAnnounceDrawData() {
 	
 	return announce_data;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
