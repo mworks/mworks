@@ -6,7 +6,7 @@ import xml.etree.ElementTree as etree
 def update_experiment(filename):
     tree = etree.parse(filename)
 
-    for node in tree.findall('//iodevice'):
+    for node in tree.findall('.//iodevice'):
         if node.attrib['type'].lower() == 'itc18':
             for channel in node.findall('iochannel'):
                 channel_type = channel.attrib.get('type', '').lower() 
@@ -16,12 +16,16 @@ def update_experiment(filename):
                                  'post_trigger_interval'):
                         channel.attrib.pop(attr, None)
 
-    for node in tree.findall('//iochannel'):
+    for node in tree.findall('.//iochannel'):
         node.attrib.pop('device', None)
 
-    for node in tree.findall('//stimulus'):
+    for node in tree.findall('.//stimulus'):
         node.attrib.pop('affine_transform', None)
         node.attrib.pop('contrast', None)
+        if node.attrib['type'] == 'drifting_grating':
+            node.attrib.pop('frames_per_second', None)
+            node.attrib.pop('statistics_reporting', None)
+            node.attrib.pop('error_reporting', None)
 
     with open(filename, 'w') as fp:
         fp.write('<?xml version="1.0"?>\n')
