@@ -21,24 +21,14 @@ BEGIN_NAMESPACE_MW
 class StandardDynamicStimulus : public Stimulus, public DynamicStimulusDriver {
 
 public:
-    static const std::string FRAMES_PER_SECOND;
-    
     static void describeComponent(ComponentInfo &info);
 
     explicit StandardDynamicStimulus(const ParameterValueMap &parameters);
     
     virtual ~StandardDynamicStimulus() { }
-
-    virtual void didStop();
     
     virtual bool needDraw();
-    virtual void draw(shared_ptr<StimulusDisplay> display);
-    virtual void drawFrame(shared_ptr<StimulusDisplay> display, int frameNumber) { }
-    
     virtual Datum getCurrentAnnounceDrawData();
-    
-protected:
-    int lastFrameDrawn;
     
 };
 

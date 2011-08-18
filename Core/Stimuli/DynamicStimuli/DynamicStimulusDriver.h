@@ -13,48 +13,71 @@
 #include "StandardStimuli.h"
 #include "VariableNotification.h"
 
+#include <boost/noncopyable.hpp>
+
 
 BEGIN_NAMESPACE_MW
 
 
-class DynamicStimulusDriver {
-	
-protected: 
-	boost::shared_ptr<Clock> clock;
-	boost::shared_ptr<Variable> frames_per_second;
-	
-    shared_ptr<VariableCallbackNotification> state_system_callback;
-	
-	bool started;
-	MWTime start_time;
-	MWTime interval_us;
-    
-	boost::mutex stim_lock;
+class DynamicStimulusDriver : boost::noncopyable {
 	
 public:
-	
-	DynamicStimulusDriver(shared_ptr<Scheduler> scheduler, shared_ptr<Variable> frames_per_second);
-	
-	DynamicStimulusDriver(const DynamicStimulusDriver &tocopy);
+	DynamicStimulusDriver();
     
     virtual ~DynamicStimulusDriver();
 	
 	virtual void play();
+    virtual void reset();
 	virtual void stop();
 
-	virtual void willPlay() { }
-	virtual void didStop() { }
-
-	virtual MWTime getElapsedTime();
-    virtual int getFrameNumber();
+    void stateSystemCallback(const Datum &data, MWorksTime time);
     
-    void stateSystemCallback(const Datum& data, MWorksTime time);
+protected: 
+    static const MWTime NOT_STARTED = -1LL;
+    
+    virtual bool isPlaying() const { return playing; }
+    virtual MWTime getStartTime() const { return startTime; }
+	virtual MWTime getElapsedTime();
+    
+	boost::mutex stim_lock;
+	
+private: 
+    bool playing;
+	MWTime startTime;
+    
+    shared_ptr<VariableCallbackNotification> stateSystemCallbackNotification;
+
 };
 
 
 END_NAMESPACE_MW
 
 
-#endif /* DYNAMIC_STIMULUS_H */
+#endif
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
