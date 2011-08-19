@@ -140,7 +140,7 @@
 		5C0B04AC0BB8A46500FD57B9 /* ScopedVariableEnvironment.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C0B04AA0BB8A46500FD57B9 /* ScopedVariableEnvironment.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5C0B04AD0BB8A46500FD57B9 /* ScopedVariableEnvironment.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C0B04AB0BB8A46500FD57B9 /* ScopedVariableEnvironment.cpp */; };
 		5C0BB1F1126CDA1900387C54 /* AccumulatingConduit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C0BB1EF126CDA1900387C54 /* AccumulatingConduit.cpp */; };
-		5C0BB1F2126CDA1900387C54 /* AccumulatingConduit.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C0BB1F0126CDA1900387C54 /* AccumulatingConduit.h */; };
+		5C0BB1F2126CDA1900387C54 /* AccumulatingConduit.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C0BB1F0126CDA1900387C54 /* AccumulatingConduit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5C0BB1F7126CDA4F00387C54 /* PythonAccumulatingConduit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C0BB1F3126CDA2D00387C54 /* PythonAccumulatingConduit.cpp */; };
 		5C0C4A8609B64DAD0021D3CC /* SelectionVariable.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C0C4A8409B64DAD0021D3CC /* SelectionVariable.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5C0C4A8709B64DAD0021D3CC /* SelectionVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C0C4A8509B64DAD0021D3CC /* SelectionVariable.cpp */; };
@@ -166,7 +166,7 @@
 		5C4D23AD09DC84160082BF9F /* VectorTest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C4D233A09DC6F0C0082BF9F /* VectorTest.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5C524E880CAA02C60063B1DC /* TimerTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C524E860CAA02C60063B1DC /* TimerTest.cpp */; };
 		5C524E890CAA02C60063B1DC /* TimerTest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C524E870CAA02C60063B1DC /* TimerTest.h */; };
-		5C5FA530126FBA0C00468660 /* PythonConduits.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C5FA52E126FBA0C00468660 /* PythonConduits.h */; };
+		5C5FA530126FBA0C00468660 /* PythonConduits.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C5FA52E126FBA0C00468660 /* PythonConduits.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5C5FA540126FBEAA00468660 /* PythonConduits.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C5FA52F126FBA0C00468660 /* PythonConduits.cpp */; };
 		5C5FA54B126FC8A700468660 /* python_accum_conduit_test.py in Resources */ = {isa = PBXBuildFile; fileRef = 5C5FA54A126FC8A700468660 /* python_accum_conduit_test.py */; };
 		5C643EA10D501E99004A8BD2 /* UnresolvedReferenceVariable.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C643E9F0D501E99004A8BD2 /* UnresolvedReferenceVariable.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -186,12 +186,6 @@
 		5C7720430B6972CA008DC497 /* ScarabFileTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C37484109EC18A200F8265F /* ScarabFileTest.cpp */; };
 		5C78EDEC115C00EC00151A76 /* DynamicStimulusDriver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C78EDE2115C00EC00151A76 /* DynamicStimulusDriver.cpp */; };
 		5C78EDED115C00EC00151A76 /* DynamicStimulusDriver.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C78EDE3115C00EC00151A76 /* DynamicStimulusDriver.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5C78EDEE115C00EC00151A76 /* PlayDynamicStimulus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C78EDE4115C00EC00151A76 /* PlayDynamicStimulus.cpp */; };
-		5C78EDEF115C00EC00151A76 /* PlayDynamicStimulus.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C78EDE5115C00EC00151A76 /* PlayDynamicStimulus.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5C78EDF0115C00EC00151A76 /* DynamicStimulusActionFactories.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C78EDE6115C00EC00151A76 /* DynamicStimulusActionFactories.cpp */; };
-		5C78EDF1115C00EC00151A76 /* DynamicStimulusActionFactories.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C78EDE7115C00EC00151A76 /* DynamicStimulusActionFactories.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5C78EDF2115C00EC00151A76 /* StopDynamicStimulus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C78EDE8115C00EC00151A76 /* StopDynamicStimulus.cpp */; };
-		5C78EDF3115C00EC00151A76 /* StopDynamicStimulus.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C78EDE9115C00EC00151A76 /* StopDynamicStimulus.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5C7A88270F818A38007B4724 /* SimpleConduitTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C7A88250F818A38007B4724 /* SimpleConduitTest.cpp */; };
 		5C7A88280F818A38007B4724 /* SimpleConduitTest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C7A88260F818A38007B4724 /* SimpleConduitTest.h */; };
 		5C7CEFE30BC5D7AB00434931 /* LegacyBuffers.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C7CEFE10BC5D7AB00434931 /* LegacyBuffers.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -462,6 +456,8 @@
 		E13BD56912130E6800DF5C02 /* StandardDynamicStimulus.h in Headers */ = {isa = PBXBuildFile; fileRef = E13BD56712130E6800DF5C02 /* StandardDynamicStimulus.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E16BC17B137D952D0052D8E1 /* MachUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = E16BC179137D952D0052D8E1 /* MachUtilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E16BC17C137D952D0052D8E1 /* MachUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E16BC17A137D952D0052D8E1 /* MachUtilities.cpp */; };
+		E1C87A1313FDA558005FF5ED /* DynamicStimulusActions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1C87A1213FDA558005FF5ED /* DynamicStimulusActions.cpp */; };
+		E1C87A1513FDA56F005FF5ED /* DynamicStimulusActions.h in Headers */ = {isa = PBXBuildFile; fileRef = E1C87A1413FDA56F005FF5ED /* DynamicStimulusActions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1CB606913F57B6200145D5B /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1CB606813F57B6200145D5B /* CoreAudio.framework */; };
 		E1F65DF9119086A100F9A3A3 /* IODevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1F65DF8119086A100F9A3A3 /* IODevice.cpp */; };
 		E1F805C112E8E5DF005265A5 /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E1F805C012E8E5DF005265A5 /* libcrypto.dylib */; };
@@ -827,12 +823,6 @@
 		5C7667530C1BB30A00B1203C /* StimulusDisplay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StimulusDisplay.h; path = Core/Stimuli/StimulusDisplay.h; sourceTree = "<group>"; };
 		5C78EDE2115C00EC00151A76 /* DynamicStimulusDriver.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DynamicStimulusDriver.cpp; sourceTree = "<group>"; };
 		5C78EDE3115C00EC00151A76 /* DynamicStimulusDriver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DynamicStimulusDriver.h; sourceTree = "<group>"; };
-		5C78EDE4115C00EC00151A76 /* PlayDynamicStimulus.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PlayDynamicStimulus.cpp; sourceTree = "<group>"; };
-		5C78EDE5115C00EC00151A76 /* PlayDynamicStimulus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayDynamicStimulus.h; sourceTree = "<group>"; };
-		5C78EDE6115C00EC00151A76 /* DynamicStimulusActionFactories.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DynamicStimulusActionFactories.cpp; sourceTree = "<group>"; };
-		5C78EDE7115C00EC00151A76 /* DynamicStimulusActionFactories.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DynamicStimulusActionFactories.h; sourceTree = "<group>"; };
-		5C78EDE8115C00EC00151A76 /* StopDynamicStimulus.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StopDynamicStimulus.cpp; sourceTree = "<group>"; };
-		5C78EDE9115C00EC00151A76 /* StopDynamicStimulus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StopDynamicStimulus.h; sourceTree = "<group>"; };
 		5C7A88250F818A38007B4724 /* SimpleConduitTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SimpleConduitTest.cpp; sourceTree = "<group>"; };
 		5C7A88260F818A38007B4724 /* SimpleConduitTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleConduitTest.h; sourceTree = "<group>"; };
 		5C7B90670B0A625200448C9E /* EmbeddedPerlInterpreter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EmbeddedPerlInterpreter.h; path = Core/Interpreters/EmbeddedPerlInterpreter.h; sourceTree = "<group>"; };
@@ -1122,6 +1112,8 @@
 		E13BD56712130E6800DF5C02 /* StandardDynamicStimulus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StandardDynamicStimulus.h; sourceTree = "<group>"; };
 		E16BC179137D952D0052D8E1 /* MachUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MachUtilities.h; path = Core/Utilities/MachUtilities.h; sourceTree = "<group>"; };
 		E16BC17A137D952D0052D8E1 /* MachUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MachUtilities.cpp; path = Core/Utilities/MachUtilities.cpp; sourceTree = "<group>"; };
+		E1C87A1213FDA558005FF5ED /* DynamicStimulusActions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DynamicStimulusActions.cpp; sourceTree = "<group>"; };
+		E1C87A1413FDA56F005FF5ED /* DynamicStimulusActions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DynamicStimulusActions.h; sourceTree = "<group>"; };
 		E1CB606813F57B6200145D5B /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
 		E1F65DF8119086A100F9A3A3 /* IODevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IODevice.cpp; path = Core/IODevices/IODevice.cpp; sourceTree = "<group>"; };
 		E1F805C012E8E5DF005265A5 /* libcrypto.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcrypto.dylib; path = usr/lib/libcrypto.dylib; sourceTree = SDKROOT; };
@@ -1554,16 +1546,12 @@
 		5C78EDE1115C00EC00151A76 /* DynamicStimuli */ = {
 			isa = PBXGroup;
 			children = (
-				5C78EDE2115C00EC00151A76 /* DynamicStimulusDriver.cpp */,
 				5C78EDE3115C00EC00151A76 /* DynamicStimulusDriver.h */,
-				5C78EDE4115C00EC00151A76 /* PlayDynamicStimulus.cpp */,
-				5C78EDE5115C00EC00151A76 /* PlayDynamicStimulus.h */,
-				5C78EDE6115C00EC00151A76 /* DynamicStimulusActionFactories.cpp */,
-				5C78EDE7115C00EC00151A76 /* DynamicStimulusActionFactories.h */,
-				5C78EDE8115C00EC00151A76 /* StopDynamicStimulus.cpp */,
-				5C78EDE9115C00EC00151A76 /* StopDynamicStimulus.h */,
-				E13BD56612130E6800DF5C02 /* StandardDynamicStimulus.cpp */,
+				5C78EDE2115C00EC00151A76 /* DynamicStimulusDriver.cpp */,
+				E1C87A1413FDA56F005FF5ED /* DynamicStimulusActions.h */,
+				E1C87A1213FDA558005FF5ED /* DynamicStimulusActions.cpp */,
 				E13BD56712130E6800DF5C02 /* StandardDynamicStimulus.h */,
+				E13BD56612130E6800DF5C02 /* StandardDynamicStimulus.cpp */,
 			);
 			name = DynamicStimuli;
 			path = Core/Stimuli/DynamicStimuli;
@@ -2337,6 +2325,9 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E1C87A1513FDA56F005FF5ED /* DynamicStimulusActions.h in Headers */,
+				5C5FA530126FBA0C00468660 /* PythonConduits.h in Headers */,
+				5C0BB1F2126CDA1900387C54 /* AccumulatingConduit.h in Headers */,
 				0E1DB69C0B4EB983000C0D68 /* ExperimentUnpackager.h in Headers */,
 				0E86657C0AEFE8D300564B87 /* VariableLoad.h in Headers */,
 				0ED112880A83C48D008C1F48 /* VariableSave.h in Headers */,
@@ -2472,9 +2463,6 @@
 				5CA07B4E10D0560C00000A95 /* EventCallbackHandler.h in Headers */,
 				5CA07C5510D13A4700000A95 /* CodecAwareConduit.h in Headers */,
 				5C78EDED115C00EC00151A76 /* DynamicStimulusDriver.h in Headers */,
-				5C78EDEF115C00EC00151A76 /* PlayDynamicStimulus.h in Headers */,
-				5C78EDF1115C00EC00151A76 /* DynamicStimulusActionFactories.h in Headers */,
-				5C78EDF3115C00EC00151A76 /* StopDynamicStimulus.h in Headers */,
 				5CD621591174FF3D007339B7 /* FreezableVariableContainer.h in Headers */,
 				5CF85602119D8DCD004167A5 /* Shader.h in Headers */,
 				5CF85613119D8FD9004167A5 /* glew.h in Headers */,
@@ -2482,8 +2470,6 @@
 				5C8101A611A2DE1600050690 /* ConvolutionKernels.h in Headers */,
 				5C8101A811A2DE1600050690 /* VideoFilterShader.h in Headers */,
 				E13BD56912130E6800DF5C02 /* StandardDynamicStimulus.h in Headers */,
-				5C0BB1F2126CDA1900387C54 /* AccumulatingConduit.h in Headers */,
-				5C5FA530126FBA0C00468660 /* PythonConduits.h in Headers */,
 				E127D38C133A5CFC00532496 /* Map.h in Headers */,
 				E127D3AD133A615C00532496 /* MWorksMacros.h in Headers */,
 				E104A8D4133B8D3E00D36236 /* ComponentInfo.h in Headers */,
@@ -3181,9 +3167,6 @@
 				5CA07B4C10D055FD00000A95 /* SimpleCodecUtilities.cpp in Sources */,
 				5CA07C5610D13A4B00000A95 /* CodecAwareConduit.cpp in Sources */,
 				5C78EDEC115C00EC00151A76 /* DynamicStimulusDriver.cpp in Sources */,
-				5C78EDEE115C00EC00151A76 /* PlayDynamicStimulus.cpp in Sources */,
-				5C78EDF0115C00EC00151A76 /* DynamicStimulusActionFactories.cpp in Sources */,
-				5C78EDF2115C00EC00151A76 /* StopDynamicStimulus.cpp in Sources */,
 				5CD6215A1174FF3D007339B7 /* FreezableVariableContainer.cpp in Sources */,
 				5CF85601119D8DCD004167A5 /* Shader.cpp in Sources */,
 				5CF85611119D8FC3004167A5 /* glew.c in Sources */,
@@ -3194,6 +3177,7 @@
 				5C0BB1F1126CDA1900387C54 /* AccumulatingConduit.cpp in Sources */,
 				E104A8DE133B8D7200D36236 /* ParameterValue.cpp in Sources */,
 				E16BC17C137D952D0052D8E1 /* MachUtilities.cpp in Sources */,
+				E1C87A1313FDA558005FF5ED /* DynamicStimulusActions.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

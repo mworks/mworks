@@ -34,6 +34,7 @@
 			<xsl:apply-templates mode="action_create"/>
 			<xsl:apply-templates mode="action_connect"/>
 			<xsl:apply-templates mode="spring_loaded_action_connect"/>
+			<xsl:apply-templates mode="action_finalize"/>
 			
 			<xsl:apply-templates mode="list_connect"/>
 			
@@ -675,6 +676,13 @@
 		<xsl:apply-templates select="node()" mode="iodevice_finalize"/>
 	</xsl:template>
 	<xsl:template match="text()" mode = "iodevice_finalize"/>
+	
+	<!-- Actions -->
+	<xsl:template match="//action" mode="action_finalize">
+		<xsl:call-template name="generic_finalize"/>
+		<xsl:apply-templates select="node()" mode="action_finalize"/>
+	</xsl:template>
+	<xsl:template match="text()" mode = "action_finalize"/>
 	
 	<!-- ********************* -->
 	<!-- Variable assignments -->

@@ -45,9 +45,12 @@ private:
     bool playing;
 	MWTime startTime;
     
-    shared_ptr<VariableCallbackNotification> stateSystemCallbackNotification;
+    boost::shared_ptr<VariableCallbackNotification> stateSystemCallbackNotification;
 
 };
+
+
+typedef boost::shared_ptr<DynamicStimulusDriver> DynamicStimulusDriverPtr;
 
 
 END_NAMESPACE_MW

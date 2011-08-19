@@ -15,7 +15,7 @@
 #include "BlockAndProtocol.h"
 #include "States.h"
 #include "TrialBuildingBlocks.h"
-#include "DynamicStimulusActionFactories.h"
+#include "DynamicStimulusActions.h"
 #include "ScheduledActions.h"
 #include "PulseAction.h"
 #include "StandardSounds.h"
@@ -96,8 +96,8 @@ ComponentRegistry::ComponentRegistry() :
 	registerFactory("action/update_calibration", new CalibrateNowFactory());
 	registerFactory("action/clear_calibration", new ClearCalibrationFactory());
 
-    registerFactory("action/play_dynamic_stimulus", new PlayDynamicStimulusFactory());
-    registerFactory("action/stop_dynamic_stimulus", new StopDynamicStimulusFactory());
+    registerFactory<StandardComponentFactory, PlayDynamicStimulus>();
+    registerFactory<StandardComponentFactory, StopDynamicStimulus>();
             
             
 	// transitions
