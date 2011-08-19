@@ -1,7 +1,10 @@
 <?xml version="1.0"?>
 <marionette_info>
   <expected_messages>
-    <message type="whole_message">ERROR: Attempted to play a non-dynamic stimulus.  Doing nothing.</message>
-    <message type="whole_message">ERROR: Attempted to stop a non-dynamic stimulus.  Doing nothing.</message>
+    <message type="starts_with">ERROR: Action target is not a dynamic stimulus: background</message>
+    <message type="starts_with">ERROR: Failed to parse experiment</message>
   </expected_messages>
+  <expected_events>
+    <!-- The experiment shouldn't load, so we expect no events -->
+  </expected_events>
 </marionette_info>
