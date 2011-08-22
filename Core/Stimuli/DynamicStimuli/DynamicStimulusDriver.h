@@ -27,21 +27,20 @@ public:
     virtual ~DynamicStimulusDriver();
 	
 	virtual void play();
-    virtual void reset();
 	virtual void stop();
 
     void stateSystemCallback(const Datum &data, MWorksTime time);
     
-protected: 
+protected:
     static const MWTime NOT_STARTED = -1LL;
     
-    virtual bool isPlaying() const { return playing; }
-    virtual MWTime getStartTime() const { return startTime; }
-	virtual MWTime getElapsedTime();
+    bool isPlaying() const { return playing; }
+    MWTime getStartTime() const { return startTime; }
+    MWTime getElapsedTime();
     
 	boost::mutex stim_lock;
 	
-private: 
+private:
     bool playing;
 	MWTime startTime;
     

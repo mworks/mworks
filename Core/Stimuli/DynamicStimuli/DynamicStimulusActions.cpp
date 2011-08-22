@@ -37,7 +37,6 @@ void DynamicStimulusAction::finalize(std::map<std::string, std::string> paramete
     if (!stimulus) {
         throw SimpleException("Action target is not a dynamic stimulus", stimulusNode->getStimulus()->getTag());
     }
-
 }
 
 

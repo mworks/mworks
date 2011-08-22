@@ -28,7 +28,7 @@ DynamicStimulusDriver::DynamicStimulusDriver() :
 }
 
 
-DynamicStimulusDriver::~DynamicStimulusDriver(){
+DynamicStimulusDriver::~DynamicStimulusDriver() {
     stateSystemCallbackNotification->remove();
 }
 
@@ -45,12 +45,6 @@ void DynamicStimulusDriver::stateSystemCallback(const Datum &data, MWorksTime ti
 void DynamicStimulusDriver::play() {
 	boost::mutex::scoped_lock locker(stim_lock);
     playing = true;
-}
-
-
-void DynamicStimulusDriver::reset() {
-	boost::mutex::scoped_lock locker(stim_lock);
-    startTime = NOT_STARTED;
 }
 
 
