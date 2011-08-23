@@ -1,0 +1,32 @@
+<?xml version="1.0" standalone="no"?>
+<monkeyml version="1.0">
+    <io_devices tag="IO Devices"></io_devices>
+    <variables tag="Variables">
+        <variable default_value="0.2" logging="when_changed" scope="global" tag="std_dev" type="float"></variable>
+        <variable default_value="-0.1" logging="when_changed" scope="global" tag="mean" type="float"></variable>
+        <variable default_value="10" logging="when_changed" scope="global" tag="size" type="float"></variable>
+        <variable default_value="10" logging="when_changed" scope="global" tag="x_pos" type="float"></variable>
+    </variables>
+    <sounds tag="Sounds"></sounds>
+    <stimuli tag="Stimuli">
+        <stimulus color="0.5,0.5,0.5" tag="bg" type="blank_screen"></stimulus>
+        <stimulus alpha_multiplier="1" direction="0" grating_type="sinusoid" mask="gaussian" mean="mean" rotation="0" spatial_frequency="1" speed="1" starting_phase="0" std_dev="std_dev" tag="left_dg" type="drifting_grating" x_position="-x_pos" x_size="size" y_position="0" y_size="size"></stimulus>
+        <stimulus alpha_multiplier="1" direction="0" grating_type="sinusoid" mask="gaussian" mean="mean" rotation="0" spatial_frequency="1" speed="1" starting_phase="0" std_dev="std_dev" tag="center_dg" type="drifting_grating" x_position="0" x_size="size" y_position="0" y_size="size" autoplay="1"></stimulus>
+        <stimulus alpha_multiplier="1" direction="0" grating_type="sinusoid" mask="gaussian" mean="mean" rotation="0" spatial_frequency="1" speed="1" starting_phase="0" std_dev="std_dev" tag="right_dg" type="drifting_grating" x_position="x_pos" x_size="size" y_position="0" y_size="size" autoplay="0"></stimulus>
+    </stimuli>
+    <filters tag="Filters"></filters>
+    <optimizers tag="Optimizers"></optimizers>
+    <experiment tag="New Experiment" description="" full_name="">
+        <protocol nsamples="1" sampling_method="cycles" selection="sequential" tag="New Protocol">
+            <block nsamples="1" sampling_method="cycles" selection="sequential" tag="New Block">
+                <action stimulus="bg" tag="Queue background" type="queue_stimulus"></action>
+                <action stimulus="left_dg" tag="Queue left grating" type="queue_stimulus"></action>
+                <action stimulus="center_dg" tag="Queue center grating" type="queue_stimulus"></action>
+                <action stimulus="right_dg" tag="Queue right grating" type="queue_stimulus"></action>
+                <action tag="Update display" type="update_stimulus_display"></action>
+                <action type="report" tag="Report" message="Only the center grating should be visible"></action>
+                <action duration="5" duration_units="s" tag="Wait" type="wait"></action>
+            </block>
+        </protocol>
+    </experiment>
+</monkeyml>
