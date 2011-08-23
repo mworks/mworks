@@ -63,7 +63,7 @@ public:
 
 	virtual void load(shared_ptr<StimulusDisplay> display);
 	virtual void unload(shared_ptr<StimulusDisplay> display);
-    virtual void draw(shared_ptr<StimulusDisplay> display);
+    virtual void drawFrame(shared_ptr<StimulusDisplay> display);
 	virtual Datum getCurrentAnnounceDrawData();
 
 };

@@ -12,7 +12,6 @@
 		<!-- Payload -->
 		<code>
 			<stimulus type="drifting_grating" tag="New Drifting Grating"
-			frames_per_second="10"
 			direction="0"
 			starting_phase="0"
 			spatial_frequency="0"
@@ -26,7 +25,8 @@
 			x_position="0"
 			y_position="0"
 			rotation="0"
-			alpha_multiplier="1"/>
+			alpha_multiplier="1"
+			autoplay="0"/>
         </code>
     </MWElement>
 </MWElements>

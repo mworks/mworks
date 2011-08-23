@@ -16,6 +16,8 @@
 #include "SquareGratingData.h"
 #include "TriangleGratingData.h"
 
+#include <MWorksCore/StandardStimuli.h>
+
 
 const std::string DriftingGratingStimulus::DIRECTION("direction");
 const std::string DriftingGratingStimulus::STARTING_PHASE("starting_phase");
@@ -234,9 +236,7 @@ void DriftingGratingStimulus::unload(shared_ptr<StimulusDisplay> display) {
 }
 
 
-void DriftingGratingStimulus::draw(shared_ptr<StimulusDisplay> display) {
-    boost::mutex::scoped_lock locker(stim_lock);
-    
+void DriftingGratingStimulus::drawFrame(shared_ptr<StimulusDisplay> display) {
 	glPushMatrix();	
 	glTranslatef(xoffset->getValue().getFloat(), yoffset->getValue().getFloat(), 0);
 	glRotatef(rotation->getValue().getFloat(),0,0,1);
