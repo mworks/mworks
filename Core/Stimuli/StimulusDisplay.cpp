@@ -196,6 +196,9 @@ void StimulusDisplay::stateSystemCallback(const Datum &data, MWorksTime time) {
             {
                 merror(M_DISPLAY_MESSAGE_DOMAIN, "Unable to start display updates");
             } else {
+                // Wait for a refresh to complete, so we know that getCurrentOutputTimeUS() will return a valid time
+                ensureRefresh(lock);
+                
                 mprintf(M_DISPLAY_MESSAGE_DOMAIN,
                         "Display updates started (main = %d, current = %d)",
                         CGMainDisplayID(),
@@ -340,6 +343,7 @@ void StimulusDisplay::clearDisplay() {
         }
     }
 	
+    needDraw = true;
     ensureRefresh(upgradeLock);
 }
 
@@ -423,6 +427,7 @@ void StimulusDisplay::updateDisplay() {
     MWTime before_draw = clock->getCurrentTimeUS();
 #endif
 
+    needDraw = true;
     ensureRefresh(upgradeLock);
     
 #ifdef ERROR_ON_LATE_FRAMES
@@ -441,8 +446,6 @@ void StimulusDisplay::updateDisplay() {
 
 void StimulusDisplay::ensureRefresh(upgrade_lock &lock) {
     shared_lock sharedLock(lock);  // Downgrade to shared_lock
-
-    needDraw = true;
     
     if (!CVDisplayLinkIsRunning(displayLink)) {
         // Need to do the refresh here

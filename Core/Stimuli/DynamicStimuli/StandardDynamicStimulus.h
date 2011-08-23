@@ -9,8 +9,8 @@
 #ifndef StandardDynamicStimulus_H_
 #define StandardDynamicStimulus_H_
 
-#include "DynamicStimulusDriver.h"
 #include "Stimulus.h"
+#include "DynamicStimulusDriver.h"
 #include "ComponentInfo.h"
 #include "ParameterValue.h"
 
@@ -21,6 +21,8 @@ BEGIN_NAMESPACE_MW
 class StandardDynamicStimulus : public Stimulus, public DynamicStimulusDriver {
 
 public:
+    static const std::string AUTOPLAY;
+    
     static void describeComponent(ComponentInfo &info);
 
     explicit StandardDynamicStimulus(const ParameterValueMap &parameters);
@@ -28,7 +30,13 @@ public:
     virtual ~StandardDynamicStimulus() { }
     
     virtual bool needDraw();
+    virtual void draw(shared_ptr<StimulusDisplay> display);
+    virtual void drawFrame(shared_ptr<StimulusDisplay> display) = 0;
+    
     virtual Datum getCurrentAnnounceDrawData();
+    
+protected:
+    VariablePtr autoplay;
     
 };
 

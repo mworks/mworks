@@ -28,11 +28,12 @@ public:
     
     virtual ~DynamicStimulusAction() { }
     
-    virtual void finalize(std::map<std::string, std::string> parameters, ComponentRegistryPtr reg);
-    
 protected:
+    DynamicStimulusDriverPtr getDynamicStimulus() {
+        return boost::dynamic_pointer_cast<DynamicStimulusDriver>(stimulusNode->getStimulus());
+    }
+    
     StimulusNodePtr stimulusNode;
-    DynamicStimulusDriverPtr stimulus;
     
 };
 

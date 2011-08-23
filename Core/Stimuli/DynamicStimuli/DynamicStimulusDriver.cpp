@@ -10,7 +10,6 @@
 #include "DynamicStimulusDriver.h"
 
 #include "StandardVariables.h"
-#include "StimulusDisplay.h"
 
 #include <boost/bind.hpp>
 
@@ -19,7 +18,6 @@ BEGIN_NAMESPACE_MW
 
 
 DynamicStimulusDriver::DynamicStimulusDriver() :
-    playing(true),
     startTime(NOT_STARTED)
 {
     stateSystemCallbackNotification =
@@ -35,35 +33,45 @@ DynamicStimulusDriver::~DynamicStimulusDriver() {
 
 void DynamicStimulusDriver::stateSystemCallback(const Datum &data, MWorksTime time) {
     if (data.getInteger() == IDLE) {
-        boost::mutex::scoped_lock locker(stim_lock);
-        playing = true;
-        startTime = NOT_STARTED;
+        stop();
     }
 }
 
 
 void DynamicStimulusDriver::play() {
 	boost::mutex::scoped_lock locker(stim_lock);
-    playing = true;
+    
+    if (!isPlaying()) {
+        startPlaying();
+    }
 }
 
 
 void DynamicStimulusDriver::stop() {
 	boost::mutex::scoped_lock locker(stim_lock);
-    playing = false;
-    startTime = NOT_STARTED;
+    
+    if (isPlaying()) {
+        stopPlaying();
+    }
 }
 
 
-MWTime DynamicStimulusDriver::getElapsedTime() {
-    MWTime currentFrameTime = StimulusDisplay::getCurrentStimulusDisplay()->getCurrentOutputTimeUS();
-    
-    if (NOT_STARTED == startTime) {
-        startTime = currentFrameTime;
-        return 0LL;
+MWTime DynamicStimulusDriver::getElapsedTime() const {
+    if (!isPlaying()) {
+        return NOT_STARTED;
     }
     
-    return currentFrameTime - startTime;
+    return getCurrentTime() - startTime;
+}
+
+
+void DynamicStimulusDriver::startPlaying() {
+    startTime = getCurrentTime();
+}
+
+
+void DynamicStimulusDriver::stopPlaying() {
+    startTime = NOT_STARTED;
 }
 
 

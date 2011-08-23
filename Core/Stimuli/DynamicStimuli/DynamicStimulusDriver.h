@@ -10,7 +10,7 @@
 #ifndef DYNAMIC_STIMULUS_H
 #define DYNAMIC_STIMULUS_H
 
-#include "StandardStimuli.h"
+#include "StimulusDisplay.h"
 #include "VariableNotification.h"
 
 #include <boost/noncopyable.hpp>
@@ -34,16 +34,18 @@ public:
 protected:
     static const MWTime NOT_STARTED = -1LL;
     
-    bool isPlaying() const { return playing; }
+    bool isPlaying() const { return (startTime != NOT_STARTED); }
     MWTime getStartTime() const { return startTime; }
-    MWTime getElapsedTime();
+    MWTime getCurrentTime() const { return StimulusDisplay::getCurrentStimulusDisplay()->getCurrentOutputTimeUS(); }
+    MWTime getElapsedTime() const;
+    
+    virtual void startPlaying();
+    virtual void stopPlaying();
     
 	boost::mutex stim_lock;
 	
 private:
-    bool playing;
 	MWTime startTime;
-    
     boost::shared_ptr<VariableCallbackNotification> stateSystemCallbackNotification;
 
 };

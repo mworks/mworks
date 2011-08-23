@@ -29,17 +29,6 @@ DynamicStimulusAction::DynamicStimulusAction(const ParameterValueMap &parameters
 { }
 
 
-void DynamicStimulusAction::finalize(std::map<std::string, std::string> parameters, ComponentRegistryPtr reg) {
-    Action::finalize(parameters, reg);
-    
-    stimulus = boost::dynamic_pointer_cast<DynamicStimulusDriver>(stimulusNode->getStimulus());
-    
-    if (!stimulus) {
-        throw SimpleException("Action target is not a dynamic stimulus", stimulusNode->getStimulus()->getTag());
-    }
-}
-
-
 void PlayDynamicStimulus::describeComponent(ComponentInfo &info) {
     DynamicStimulusAction::describeComponent(info);
     info.setSignature("action/play_dynamic_stimulus");
@@ -54,6 +43,13 @@ PlayDynamicStimulus::PlayDynamicStimulus(const ParameterValueMap &parameters) :
 
 
 bool PlayDynamicStimulus::execute() {
+    DynamicStimulusDriverPtr stimulus(getDynamicStimulus());
+    
+    if (!stimulus) {
+        merror(M_PARADIGM_MESSAGE_DOMAIN, "Attempted to play a non-dynamic stimulus.  Doing nothing.");
+        return false;
+    }
+
     stimulus->play();
     return true;
 }
@@ -73,6 +69,13 @@ StopDynamicStimulus::StopDynamicStimulus(const ParameterValueMap &parameters) :
 
 
 bool StopDynamicStimulus::execute() {
+    DynamicStimulusDriverPtr stimulus(getDynamicStimulus());
+    
+    if (!stimulus) {
+        merror(M_PARADIGM_MESSAGE_DOMAIN, "Attempted to stop a non-dynamic stimulus.  Doing nothing.");
+        return false;
+    }
+    
     stimulus->stop();
     return true;
 }

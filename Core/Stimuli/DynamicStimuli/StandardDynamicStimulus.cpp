@@ -12,19 +12,39 @@
 BEGIN_NAMESPACE_MW
 
 
+const std::string StandardDynamicStimulus::AUTOPLAY("autoplay");
+
+
 void StandardDynamicStimulus::describeComponent(ComponentInfo &info) {
     Stimulus::describeComponent(info);
+    info.addParameter(AUTOPLAY, "0");
 }
 
 
 StandardDynamicStimulus::StandardDynamicStimulus(const ParameterValueMap &parameters) :
-    Stimulus(parameters)
+    Stimulus(parameters),
+    autoplay(parameters[AUTOPLAY])
 {
 }
 
 
 bool StandardDynamicStimulus::needDraw() {
     return isPlaying();
+}
+
+
+void StandardDynamicStimulus::draw(shared_ptr<StimulusDisplay> display) {
+    boost::mutex::scoped_lock locker(stim_lock);
+    
+    if (!isPlaying()) {
+        if (autoplay->getValue().getBool()) {
+            startPlaying();
+        } else {
+            return;
+        }
+    }
+    
+    drawFrame(display);
 }
 
 
