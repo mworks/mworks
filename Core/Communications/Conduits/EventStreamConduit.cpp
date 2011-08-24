@@ -242,5 +242,7 @@ void EventStreamConduit::serviceIncomingEventsFromConduit(){
             }
         }
         
+        event_stream->putEvent(incoming_event);
+        
     }
 }
