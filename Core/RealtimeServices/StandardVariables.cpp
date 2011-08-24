@@ -226,7 +226,7 @@ namespace mw {
 																				PRIVATE_SYSTEM_VARIABLES));
         
         
-        warnOnSkippedRefresh = registry->createGlobalVariable(new VariableProperties(new Datum((bool)false), 
+        warnOnSkippedRefresh = registry->createGlobalVariable(new VariableProperties(new Datum((bool)true), 
                                                                                      WARN_ON_SKIPPED_REFRESH_TAGNAME, 
                                                                                      "Warn On Skipped Refresh", 
                                                                                      "Issue a warning if stimulus display driver misses a display refresh cycle", 

@@ -8,106 +8,92 @@
  */
 
 #include "DynamicStimulusDriver.h"
-#include "boost/bind.hpp"
-#include "MWorksCore/StandardVariables.h"
 
-namespace mw{
+#include "StandardVariables.h"
 
-DynamicStimulusDriver::DynamicStimulusDriver(shared_ptr<Scheduler> scheduler,
-                                             shared_ptr<Variable> frames_per_second) :
-    frames_per_second(frames_per_second),
-    started(false),
-    start_time(-1)
+#include <boost/bind.hpp>
+
+
+BEGIN_NAMESPACE_MW
+
+
+DynamicStimulusDriver::DynamicStimulusDriver() :
+    startTime(NOT_STARTED)
 {
-    if (!scheduler) {
-        scheduler = Scheduler::instance();
-        if (!scheduler) {
-            throw SimpleException("No scheduler registered");
-        }
-    }
-	
-    clock = scheduler->getClock();
-                                                                                              
-    state_system_callback = shared_ptr<VariableCallbackNotification>(
-                                new VariableCallbackNotification(boost::bind(&DynamicStimulusDriver::stateSystemCallback, this, _1,_2))
-                            );
-    state_system_mode->addNotification(state_system_callback);
+    stateSystemCallbackNotification =
+        shared_ptr<VariableCallbackNotification>(new VariableCallbackNotification(boost::bind(&DynamicStimulusDriver::stateSystemCallback, this, _1,_2)));
+    state_system_mode->addNotification(stateSystemCallbackNotification);
 }
 
-DynamicStimulusDriver::DynamicStimulusDriver(const DynamicStimulusDriver &tocopy){}
 
-void DynamicStimulusDriver::stateSystemCallback(const Datum& data, MWorksTime time){
-    if(data.getInteger() == IDLE){
+DynamicStimulusDriver::~DynamicStimulusDriver() {
+    stateSystemCallbackNotification->remove();
+}
+
+
+void DynamicStimulusDriver::stateSystemCallback(const Datum &data, MWorksTime time) {
+    if (data.getInteger() == IDLE) {
         stop();
     }
 }
 
-DynamicStimulusDriver::~DynamicStimulusDriver(){
- 
-    state_system_callback->remove();
-}
 
 void DynamicStimulusDriver::play() {
 	boost::mutex::scoped_lock locker(stim_lock);
-	
-    //mprintf("CALLED PLAY!");
     
-    if (started) {
-        return;
+    if (!isPlaying()) {
+        startPlaying();
     }
-    
-    const double frameRate = frames_per_second->getValue().getFloat();
-    const double refreshRate = StimulusDisplay::getCurrentStimulusDisplay()->getMainDisplayRefreshRate();
-
-    if ((frameRate > refreshRate) || (fmod(refreshRate, frameRate) != 0.0)) {
-        merror(M_DISPLAY_MESSAGE_DOMAIN,
-               "Requested frame rate (%g) is incompatible with display refresh rate (%g)",
-               frameRate,
-               refreshRate);
-    }
-    
-    willPlay();
-    
-    start_time = clock->getCurrentTimeUS();
-    interval_us = (MWorksTime)(1000000.0 / frameRate);
-    started = true;
 }
+
 
 void DynamicStimulusDriver::stop() {
 	boost::mutex::scoped_lock locker(stim_lock);
-	
-    //mprintf("CALLED STOP!");
     
-    if (!started) {
-        return;
+    if (isPlaying()) {
+        stopPlaying();
     }
-
-	started = false;
-    
-    didStop();
 }
 
-MWTime DynamicStimulusDriver::getElapsedTime(){
-    
-    if(!started){
-        return -1;
+
+MWTime DynamicStimulusDriver::getElapsedTime() const {
+    if (!isPlaying()) {
+        return NOT_STARTED;
     }
     
-    MWTime now = clock->getCurrentTimeUS();
-    return now - start_time;
+    return getCurrentTime() - startTime;
 }
 
-int DynamicStimulusDriver::getFrameNumber(){
-    
-    if (!started) {
-        return -1;
-    }
 
-    MWTime elapsed = getElapsedTime();
-    return elapsed / interval_us;
+void DynamicStimulusDriver::startPlaying() {
+    startTime = getCurrentTime();
 }
 
-} // end namespace
+
+void DynamicStimulusDriver::stopPlaying() {
+    startTime = NOT_STARTED;
+}
+
+
+END_NAMESPACE_MW
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

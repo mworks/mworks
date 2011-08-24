@@ -59,6 +59,10 @@ MWTime Clock::getSystemTimeNS(){
     return 0;
 }
 
+MWTime Clock::getSystemBaseTimeNS(){
+    return 0;
+}
+
 
 MWTime Clock::getSystemReferenceTime() {
     return 0;

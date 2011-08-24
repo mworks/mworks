@@ -86,6 +86,7 @@ namespace mw {
         shared_ptr<VariableCallbackNotification> stateSystemNotification;
         CVDisplayLinkRef displayLink;
         int64_t lastFrameTime;
+        MWTime currentOutputTimeUS;
         
         std::vector< shared_ptr<StimulusNode> > stimsToAnnounce;
         std::vector<Datum> stimAnnouncements;
@@ -127,6 +128,7 @@ namespace mw {
 		void clearDisplay();
         void getDisplayBounds(GLdouble &left, GLdouble &right, GLdouble &bottom, GLdouble &top);
         double getMainDisplayRefreshRate();
+        MWTime getCurrentOutputTimeUS() const { return currentOutputTimeUS; }
         
         static shared_ptr<StimulusDisplay> getCurrentStimulusDisplay();
 		

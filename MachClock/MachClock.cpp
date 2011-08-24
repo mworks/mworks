@@ -74,6 +74,10 @@ MWTime StandardClock::getSystemTimeNS() {
 	return (MWTime)(nano * tTBI.numer / tTBI.denom);
 }
     
+MWTime StandardClock::getSystemBaseTimeNS() {
+    return (MWTime)(baseTime * tTBI.numer / tTBI.denom);
+}
+    
 MWTime StandardClock::getCurrentTimeMS() {
     uint64_t nano = mach_absolute_time() - baseTime;
 	return (MWTime)(nano * tTBI.numer / tTBI.denom) / 1000000LL;

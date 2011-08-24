@@ -46,6 +46,7 @@ public:
 	virtual MWTime getSystemTimeMS();
 	virtual MWTime getSystemTimeUS();
 	virtual MWTime getSystemTimeNS();
+	virtual MWTime getSystemBaseTimeNS();
 	/**
 	 * Returns the difference between the system start time
 	 * and the UNIX reference time Jan 1 1970. 
