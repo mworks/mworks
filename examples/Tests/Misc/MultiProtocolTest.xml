@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<monkeyml version="1.0">
+    <variables tag="Variables">
+        <variable tag="some_Var" full_name="some Var" default_value="0" scope="global" type="float" editable="ALWAYS" logging="WHEN_CHANGED"></variable>
+    </variables>
+    <stimuli tag="Stimuli">
+        <stimulus tag="blank screen" full_name="blank screen" type="blank_screen" color="1,0,0"></stimulus>
+    </stimuli>
+    <experiment tag="theExperiment" full_name="the Experiment">
+        <protocol tag="Protocol1" full_name="Protocol 1" interruptable="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles" description="" interruptible="YES">
+            <block tag="theBlock" full_name="the Block" interruptable="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles" description="" interruptible="YES">
+                <trial tag="theTrial" full_name="the Trial" description="" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
+                    <task_system tag="theTaskSystem">
+                        <task_system_state tag="theState" full_name="the State" description="" interruptible="YES">
+                            <action tag="some_Var assignment" full_name="fullname_1" type="assignment" variable="some_Var" value="some_Var + 6"></action>
+                            <action type="assert" tag="Assert" condition="some_Var == 6" message="expected 6, got $some_Var"></action>
+                            <transition type="yield"></transition>
+                        </task_system_state>
+                    </task_system>
+                </trial>
+            </block>
+        </protocol>
+        <protocol tag="Protocol2" full_name="Protocol 2" interruptable="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles" description="" interruptible="YES">
+            <block tag="theBlock" full_name="the Block" interruptable="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles" description="" interruptible="YES">
+                <trial tag="theTrial" full_name="the Trial" description="" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
+                    <task_system tag="theTaskSystem">
+                        <task_system_state tag="theState" full_name="the State" description="" interruptible="YES">
+                            <action tag="some_Var assignment" full_name="fullname_1" type="assignment" variable="some_Var" value="7"></action>
+                            <action type="assert" tag="Assert 2" condition="0" message="Executed protocol 2"></action>
+                            <transition type="yield"></transition>
+                        </task_system_state>
+                    </task_system>
+                </trial>
+            </block>
+        </protocol>
+    </experiment>
+</monkeyml>

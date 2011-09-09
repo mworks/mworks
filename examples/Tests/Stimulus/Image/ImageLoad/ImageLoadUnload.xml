@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<monkeyml version="1.0">
+    <io_devices tag="IO Devices"></io_devices>
+    <variables tag="Variables"></variables>
+    <sounds tag="Sounds"></sounds>
+    <stimuli tag="Stimuli">
+        <stimulus type="image_file" tag="normal" path="TrainingPic1.png" x_size="5.0" y_size="5.0" x_position="-10.0" y_position="0.0" rotation="0.0" alpha_multiplier="1.0" deferred="NO"></stimulus>
+        <stimulus type="image_file" tag="deferred" path="TrainingPic2.png" x_size="5.0" y_size="5.0" x_position="0.0" y_position="0.0" rotation="0.0" alpha_multiplier="1.0" deferred="YES"></stimulus>
+        <stimulus type="image_file" tag="explicit" path="TrainingPic3.png" x_size="5.0" y_size="5.0" x_position="10.0" y_position="0.0" rotation="0.0" alpha_multiplier="1.0" deferred="explicit"></stimulus>
+    </stimuli>
+    <filters tag="Filters"></filters>
+    <optimizers tag="Optimizers"></optimizers>
+    <experiment tag="New Experiment" full_name="" description="">
+        <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential">
+            <action type="report" tag="Report" message="Queuing normal"></action>
+            <action tag="Queue normal" type="queue_stimulus" stimulus="normal"></action>
+            <action type="report" tag="Report 2" message="Queuing deferred"></action>
+            <action tag="Queue deferred" type="queue_stimulus" stimulus="deferred"></action>
+            <action type="report" tag="Report 3" message="Queuing explicit"></action>
+            <action tag="Queue explicit" type="queue_stimulus" stimulus="explicit"></action>
+            <action tag="Update stimulus display" type="update_stimulus_display"></action>
+            <action type="wait" tag="Wait" duration="2" duration_units="s"></action>
+            <action type="report" tag="Report 4" message="Loading normal"></action>
+            <action tag="Load normal" type="load_stimulus" stimulus="normal"></action>
+            <action type="report" tag="Report 5" message="Loading deferred"></action>
+            <action tag="Load deferred" type="load_stimulus" stimulus="deferred"></action>
+            <action type="report" tag="Report 6" message="Loading explicit"></action>
+            <action tag="Load explicit" type="load_stimulus" stimulus="explicit"></action>
+            <action tag="Update stimulus display 2" type="update_stimulus_display"></action>
+            <action type="wait" tag="Wait 2" duration="2" duration_units="s"></action>
+            <action type="report" tag="Report 7" message="Unloading normal"></action>
+            <action tag="Unload normal" type="unload_stimulus" stimulus="normal"></action>
+            <action type="report" tag="Report 8" message="Unloading deferrred"></action>
+            <action tag="Unload deferred" type="unload_stimulus" stimulus="deferred"></action>
+            <action type="report" tag="Report 9" message="Unloading explicit"></action>
+            <action tag="Unload explicit" type="unload_stimulus" stimulus="explicit"></action>
+            <action tag="Update stimulus display 3" type="update_stimulus_display"></action>
+            <action type="wait" tag="Wait 3" duration="2" duration_units="s"></action>
+        </protocol>
+    </experiment>
+</monkeyml>

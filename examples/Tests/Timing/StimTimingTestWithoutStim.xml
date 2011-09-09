@@ -1,0 +1,116 @@
+<?xml version="1.0"?>
+<monkeyml version="1.0">
+    <io_devices>
+    </io_devices>
+    <variables>
+        <variable tag="number_of_stm_shown" full_name="number_of_stm_shown" default_value="0" scope="GLOBAL" type="INTEGER" editable="never" logging="when_changed"/>
+        <variable tag="stm_tag" full_name="stm_tag" default_value="0" scope="GLOBAL" type="INTEGER" editable="never" logging="when_changed"/>
+        <variable tag="stm_duration" full_name="stm_duration" default_value="0" scope="GLOBAL" type="INTEGER" editable="never" logging="when_changed"/>
+        <variable type="selection" tag="stm_chooser" full_name="stm_chooser" values="1,2,3,4,5" selection="sequential_ascending" nsamples="200" sampling_method="cycles"/>
+        <variable tag="vertical_refresh" full_name="fullname9" default_value="0" scope="GLOBAL" type="INTEGER" editable="never" logging="when_changed"/>
+    </variables>
+    <sounds/>
+    <stimuli>
+    </stimuli>
+    <experiment tag="It is your boy" full_name="Super Awesome Happy">
+        <protocol tag="refprot" full_name="sup" interruptable="YES" selection="sequential" nsamples="1" sampling_method="cycles">
+            <block tag="sup2" full_name="supsup" interruptable="YES" selection="sequential" nsamples="1" sampling_method="cycles">
+                <trial tag="trial20" full_name="fullname20" interruptable="YES" selection="sequential" nsamples="1" sampling_method="cycles">
+				
+				
+                    <task_system tag="RSVP Start_IO">
+                        <task_system_state tag="RSVP StartIO_state">
+                            <transition type="yield"/>
+                        </task_system_state>
+                    </task_system>
+
+
+                    <list tag="RSVP_list" selection="sequential" nsamples="100" sampling_method="cycles">
+
+
+                    <task_system tag="task_system21" full_name="fullname21" interruptable="YES">
+                        <task_system_state tag="initiation" full_name="initiation" interruptable="YES">
+                            <action tag="report message" full_name="report message" type="report" message="** Entering (initiation)"/>
+                            <action tag="reset number_of_stm_shown" full_name="reset number_of_stm_shown" type="assignment" variable="number_of_stm_shown" value="0"/>
+                            <action tag="report message" full_name="report message" type="report" message="transitioning to (background on)"/>
+                            <transition tag="go to background on" full_name="go to background on" target="background on" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="background on" full_name="background on" interruptable="YES">
+                            <action tag="report message" full_name="report message" type="report" message="Entering (background on)"/>
+                            <action tag="if stm1" full_name="if stm1" type="if" condition="stm_tag==1">
+                            </action>
+                            <action tag="if stm2" full_name="if stm2" type="if" condition="stm_tag==2">
+                            </action>
+                            <action tag="if stm3" full_name="if stm3" type="if" condition="stm_tag==3">
+                            </action>
+                            <action tag="if stm4" full_name="if stm4" type="if" condition="stm_tag==4">
+                            </action>
+                            <action tag="if stm5" full_name="if stm5" type="if" condition="stm_tag==5">
+                            </action>
+                            <action tag="record stm_tag" full_name="record stm_tag" type="assignment" variable="stm_tag" value="0"/>
+                            <action tag="report message" full_name="report message" type="report" message="starting timer for 1000ms"/>
+                            <action tag="record stm_duration" full_name="record stm_duration" type="assignment" variable="stm_duration" value="1000 ms"/>
+                            <action tag="start stm_timer" full_name="start stm_timer" type="start_timer" timer="stm_timer" duration="1000ms"/>
+                            <action tag="report message" full_name="report message" type="report" message="number_or_stm_shown = $number_of_stm_shown"/>
+                            <action tag="report message" full_name="report message" type="report" message="* Transitioning to (stm on) on stm_timer expired or (trial end) on number_of_stm_shown == 5"/>
+                            <transition tag="go to stm on" full_name="go to stm on" target="stm on" type="timer_expired" timer="stm_timer"/>
+                            <transition tag="go to trial end" full_name="go to trial end" target="trial end" type="conditional" condition="number_of_stm_shown==5"/>
+                        </task_system_state>
+                        <task_system_state tag="stm on" full_name="stm on" interruptable="YES">
+                            <action tag="report message" full_name="report message" type="report" message="** Entering (stm on)"/>
+                            <action tag="if not 1st one" full_name="if not 1st one" type="if" condition="number_of_stm_shown>0">
+			         <action tag="choose stm" full_name="choose stm" type="next_selection" selection="stm_chooser"/>
+                            </action>
+                            <action tag="update number_of_stm_shown" full_name="update number_of_stm_shown" type="assignment" variable="number_of_stm_shown" value="number_of_stm_shown+1"/>
+                            <action tag="record stm_tag" full_name="record stm_tag" type="assignment" variable="stm_tag" value="stm_chooser"/>
+                            <action tag="if stm1" full_name="if stm1" type="if" condition="stm_tag==1">
+                                <action tag="record stm_duration" full_name="record stm_duration" type="assignment" variable="stm_duration" value="100 ms"/>
+				<action tag="report message" full_name="report message" type="report" message="starting timer for $stm_duration"/>
+                                <action tag="start stm_timer" full_name="start stm_timer" type="start_timer" timer="stm_timer" duration="stm_duration"/>
+                            </action>
+                            <action tag="if stm2" full_name="if stm2" type="if" condition="stm_tag==2">
+                                <action tag="record stm_duration" full_name="record stm_duration" type="assignment" variable="stm_duration" value="200 ms"/>
+				<action tag="report message" full_name="report message" type="report" message="starting timer for $stm_duration"/>
+                                <action tag="start stm_timer" full_name="start stm_timer" type="start_timer" timer="stm_timer" duration="stm_duration"/>
+                            </action>
+                            <action tag="if stm3" full_name="if stm3" type="if" condition="stm_tag==3">
+                                <action tag="record stm_duration" full_name="record stm_duration" type="assignment" variable="stm_duration" value="300 ms"/>
+				<action tag="report message" full_name="report message" type="report" message="starting timer for $stm_duration"/>
+                                <action tag="start stm_timer" full_name="start stm_timer" type="start_timer" timer="stm_timer" duration="stm_duration"/>
+                            </action>
+                            <action tag="if stm4" full_name="if stm4" type="if" condition="stm_tag==4">
+                                <action tag="record stm_duration" full_name="record stm_duration" type="assignment" variable="stm_duration" value="400 ms"/>
+				<action tag="report message" full_name="report message" type="report" message="starting timer for $stm_duration"/>
+                                <action tag="start stm_timer" full_name="start stm_timer" type="start_timer" timer="stm_timer" duration="stm_duration"/>
+                            </action>
+                            <action tag="if stm5" full_name="if stm5" type="if" condition="stm_tag==5">
+                                <action tag="record stm_duration" full_name="record stm_duration" type="assignment" variable="stm_duration" value="500 ms"/>
+				<action tag="report message" full_name="report message" type="report" message="starting timer for $stm_duration"/>
+                                <action tag="start stm_timer" full_name="start stm_timer" type="start_timer" timer="stm_timer" duration="stm_duration"/>
+                            </action>
+                            <action tag="report message" full_name="report message" type="report" message="* Transitioning to (background on) on stm_timer"/>
+                            <transition tag="go to background on" full_name="go to background on" target="background on" type="timer_expired" timer="stm_timer"/>
+                        </task_system_state>
+                        <task_system_state tag="trial end" full_name="trial end" interruptable="YES">
+                            <action tag="report message" full_name="report message" type="report" message="** Entering (trial end)"/>
+                            <action tag="report message" full_name="report message" type="report" message="* always yielding"/>
+                            <transition type="yield" tag="yield" full_name="yield"/>
+                        </task_system_state>
+                    </task_system>
+
+					</list>
+
+                    <task_system tag="RSVP Stop_IO">
+                        <task_system_state tag="StopIO_state">
+                            <transition type="yield"/>
+                        </task_system_state>
+                    </task_system> 
+
+
+
+
+                </trial>
+            </block>
+        </protocol>
+    </experiment>
+</monkeyml>

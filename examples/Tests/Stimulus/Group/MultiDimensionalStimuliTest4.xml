@@ -1,0 +1,102 @@
+<?xml version="1.0"?>
+<monkeyml version="1.0">
+    <io_devices tag="IO Devices"></io_devices>
+    <variables tag="Variables">
+        <variable tag="X" default_value="-15" scope="global" type="float" editable="NEVER" logging="WHEN_CHANGED" persistant="NO"></variable>
+        <variable tag="Y" default_value="105" scope="global" type="float" editable="NEVER" logging="WHEN_CHANGED" persistant="NO"></variable>
+        <variable tag="Z" default_value="47" scope="global" type="float" editable="NEVER" logging="WHEN_CHANGED" persistant="NO"></variable>
+    </variables>
+    <sounds tag="Sounds"></sounds>
+    <stimuli tag="Stimuli">
+        <stimulus_group tag="mainGroup" full_name="fullname_3">
+            <stimulus_group tag="subGroup1A" full_name="fullname_3">
+                <stimulus_group tag="subGroup1A-2A" full_name="fullname_3">
+                    <stimulus tag="XIM000" full_name="XIM 000" type="image_file" path="./zero.0.jpg" x_size="25" y_size="25" x_position="0" y_position="0" rotation="0"></stimulus>
+                    <stimulus tag="XIM001" full_name="XIM 001" type="image_file" path="./1.png" x_size="25" y_size="25" x_position="0" y_position="0" rotation="90/11"></stimulus>
+                </stimulus_group>
+                <stimulus_group tag="subGroup1A-2B" full_name="fullname_3">
+                    <stimulus tag="XIM002" full_name="XIM 002" type="image_file" path="./2.png" x_size="25" y_size="25" x_position="0" y_position="0" rotation="2*90/11"></stimulus>
+                    <stimulus tag="XIM003" full_name="XIM 003" type="image_file" path="./3.png" x_size="25" y_size="25" x_position="0" y_position="0" rotation="3*90/11"></stimulus>
+                </stimulus_group>
+                <stimulus_group tag="subGroup1A-2C" full_name="fullname_3">
+                    <stimulus tag="XIM004" full_name="XIM 004" type="image_file" path="./4.png" x_size="25" y_size="25" x_position="0" y_position="0" rotation="4*90/11"></stimulus>
+                    <stimulus tag="XIM005" full_name="XIM 005" type="image_file" path="./5.png" x_size="25" y_size="25" x_position="0" y_position="0" rotation="5*90/11"></stimulus>
+                </stimulus_group>
+            </stimulus_group>
+            <stimulus_group tag="subGroup1B" full_name="fullname_3">
+                <stimulus_group tag="subGroup1B-2A" full_name="fullname_3">
+                    <stimulus tag="XIM006" full_name="XIM 006" type="image_file" path="./6.png" x_size="25" y_size="25" x_position="0" y_position="0" rotation="6*90/11"></stimulus>
+                    <stimulus tag="XIM007" full_name="XIM 007" type="image_file" path="./7.png" x_size="25" y_size="25" x_position="0" y_position="0" rotation="7*90/11"></stimulus>
+                </stimulus_group>
+                <stimulus_group tag="subGroup1B-2B" full_name="fullname_3">
+                    <stimulus tag="XIM008" full_name="XIM 008" type="image_file" path="./ball-crazy-eight.jpg" x_size="25" y_size="25" x_position="0" y_position="0" rotation="8*90/11"></stimulus>
+                    <stimulus tag="XIM009" full_name="XIM 009" type="image_file" path="./764px-Old_Nine_Network.svg.png" x_size="25" y_size="25" x_position="0" y_position="0" rotation="9*90/11"></stimulus>
+                </stimulus_group>
+                <stimulus_group tag="subGroup1B-2C" full_name="fullname_3">
+                    <stimulus tag="XIM010" full_name="XIM 010" type="image_file" path="./ten.jpg" x_size="25" y_size="25" x_position="0" y_position="0" rotation="10*90/11"></stimulus>
+                    <stimulus tag="XIM011" full_name="XIM 011" type="image_file" path="./eleven-lallone.jpg" x_size="25" y_size="25" x_position="0" y_position="0" rotation="11*90/11"></stimulus>
+                </stimulus_group>
+            </stimulus_group>
+        </stimulus_group>
+    </stimuli>
+    <experiment tag="MultiDimensionalStimuliTest" full_name="MultiDimensionalStimuliTest">
+        <protocol tag="Protocol" full_name="Protocol" description="" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
+            <block tag="Block" full_name="Block" description="" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="samples">
+                <task_system tag="Task System_Count" full_name="fullname_4" description="" interruptible="YES">
+                    <task_system_state tag="stimON0_count" full_name="fullname_5" description="" interruptible="YES">
+                        <action type="queue_stimulus" stimulus="mainGroup[23.5+(7*X+Y-Z/2)] [23.5+(7*X+Y-Z/2)] [23.5+(7*X+Y-Z/2)]"></action>
+                        <action type="update_stimulus_display"></action>
+                        <action type="wait" duration="1000000"></action>
+                        <action type="dequeue_stimulus" stimulus="mainGroup[23.5+(7*X+Y-Z/2)] [23.5+(7*X+Y-Z/2)] [23.5+(7*X+Y-Z/2)]"></action>
+                        <action type="queue_stimulus" stimulus="mainGroup[23.5+(7*X+Y-Z/2)] [23.5+(7*X+Y-Z/2)] [sqrt(4)+22.5+(7*X+Y-Z/2)]"></action>
+                        <action type="update_stimulus_display"></action>
+                        <action type="wait" duration="1000000"></action>
+                        <action type="dequeue_stimulus" stimulus="mainGroup[23.5+(7*X+Y-Z/2)] [23.5+(7*X+Y-Z/2)] [sqrt(4)+22.5+(7*X+Y-Z/2)]"></action>
+                        <action type="queue_stimulus" stimulus="mainGroup[23.5+(7*X+Y-Z/2)] [sqrt(4)+22.5+(7*X+Y-Z/2)] [23.5+(7*X+Y-Z/2)]"></action>
+                        <action type="update_stimulus_display"></action>
+                        <action type="wait" duration="1000000"></action>
+                        <action type="dequeue_stimulus" stimulus="mainGroup[23.5+(7*X+Y-Z/2)] [sqrt(4)+22.5+(7*X+Y-Z/2)] [23.5+(7*X+Y-Z/2)]"></action>
+                        <action type="queue_stimulus" stimulus="mainGroup[23.5+(7*X+Y-Z/2)] [sqrt(4)+22.5+(7*X+Y-Z/2)] [sqrt(4)+22.5+(7*X+Y-Z/2)]"></action>
+                        <action type="update_stimulus_display"></action>
+                        <action type="wait" duration="1000000"></action>
+                        <action type="dequeue_stimulus" stimulus="mainGroup[23.5+(7*X+Y-Z/2)] [sqrt(4)+22.5+(7*X+Y-Z/2)] [sqrt(4)+22.5+(7*X+Y-Z/2)]"></action>
+                        <action type="queue_stimulus" stimulus="mainGroup[23.5+(7*X+Y-Z/2)] [sqrt(4)+23.5+(7*X+Y-Z/2)] [23.5+(7*X+Y-Z/2)]"></action>
+                        <action type="update_stimulus_display"></action>
+                        <action type="wait" duration="1000000"></action>
+                        <action type="dequeue_stimulus" stimulus="mainGroup[23.5+(7*X+Y-Z/2)] [sqrt(4)+23.5+(7*X+Y-Z/2)] [23.5+(7*X+Y-Z/2)]"></action>
+                        <action type="queue_stimulus" stimulus="mainGroup[23.5+(7*X+Y-Z/2)] [sqrt(4)+23.5+(7*X+Y-Z/2)] [sqrt(4)+22.5+(7*X+Y-Z/2)]"></action>
+                        <action type="update_stimulus_display"></action>
+                        <action type="wait" duration="1000000"></action>
+                        <action type="dequeue_stimulus" stimulus="mainGroup[23.5+(7*X+Y-Z/2)] [sqrt(4)+23.5+(7*X+Y-Z/2)] [sqrt(4)+22.5+(7*X+Y-Z/2)]"></action>
+                        <action type="queue_stimulus" stimulus="mainGroup[sqrt(4)+22.5+(7*X+Y-Z/2)] [23.5+(7*X+Y-Z/2)] [23.5+(7*X+Y-Z/2)]"></action>
+                        <action type="update_stimulus_display"></action>
+                        <action type="wait" duration="1000000"></action>
+                        <action type="dequeue_stimulus" stimulus="mainGroup[sqrt(4)+22.5+(7*X+Y-Z/2)] [23.5+(7*X+Y-Z/2)] [23.5+(7*X+Y-Z/2)]"></action>
+                        <action type="queue_stimulus" stimulus="mainGroup[sqrt(4)+22.5+(7*X+Y-Z/2)] [23.5+(7*X+Y-Z/2)] [sqrt(4)+22.5+(7*X+Y-Z/2)]"></action>
+                        <action type="update_stimulus_display"></action>
+                        <action type="wait" duration="1000000"></action>
+                        <action type="dequeue_stimulus" stimulus="mainGroup[sqrt(4)+22.5+(7*X+Y-Z/2)] [23.5+(7*X+Y-Z/2)] [sqrt(4)+22.5+(7*X+Y-Z/2)]"></action>
+                        <action type="queue_stimulus" stimulus="mainGroup[sqrt(4)+22.5+(7*X+Y-Z/2)] [sqrt(4)+22.5+(7*X+Y-Z/2)] [23.5+(7*X+Y-Z/2)]"></action>
+                        <action type="update_stimulus_display"></action>
+                        <action type="wait" duration="1000000"></action>
+                        <action type="dequeue_stimulus" stimulus="mainGroup[sqrt(4)+22.5+(7*X+Y-Z/2)] [sqrt(4)+22.5+(7*X+Y-Z/2)] [23.5+(7*X+Y-Z/2)]"></action>
+                        <action type="queue_stimulus" stimulus="mainGroup[sqrt(4)+22.5+(7*X+Y-Z/2)] [sqrt(4)+22.5+(7*X+Y-Z/2)] [sqrt(4)+22.5+(7*X+Y-Z/2)]"></action>
+                        <action type="update_stimulus_display"></action>
+                        <action type="wait" duration="1000000"></action>
+                        <action type="dequeue_stimulus" stimulus="mainGroup[sqrt(4)+22.5+(7*X+Y-Z/2)] [sqrt(4)+22.5+(7*X+Y-Z/2)] [sqrt(4)+22.5+(7*X+Y-Z/2)]"></action>
+                        <action type="queue_stimulus" stimulus="mainGroup[sqrt(4)+22.5+(7*X+Y-Z/2)] [sqrt(4)+23.5+(7*X+Y-Z/2)] [23.5+(7*X+Y-Z/2)]"></action>
+                        <action type="update_stimulus_display"></action>
+                        <action type="wait" duration="1000000"></action>
+                        <action type="dequeue_stimulus" stimulus="mainGroup[sqrt(4)+22.5+(7*X+Y-Z/2)] [sqrt(4)+23.5+(7*X+Y-Z/2)] [23.5+(7*X+Y-Z/2)]"></action>
+                        <action type="queue_stimulus" stimulus="mainGroup[sqrt(4)+22.5+(7*X+Y-Z/2)] [sqrt(4)+23.5+(7*X+Y-Z/2)] [sqrt(4)+22.5+(7*X+Y-Z/2)]"></action>
+                        <action type="update_stimulus_display"></action>
+                        <action type="wait" duration="1000000"></action>
+                        <action type="dequeue_stimulus" stimulus="mainGroup[sqrt(4)+22.5+(7*X+Y-Z/2)] [sqrt(4)+23.5+(7*X+Y-Z/2)] [sqrt(4)+22.5+(7*X+Y-Z/2)]"></action>
+                        <action type="update_stimulus_display"></action>
+                        <transition type="yield"></transition>
+                    </task_system_state>
+                </task_system>
+            </block>
+        </protocol>
+    </experiment>
+</monkeyml>

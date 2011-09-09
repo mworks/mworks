@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<monkeyml version="1.0">
+    <io_devices tag="IO Devices"></io_devices>
+    <variables tag="Variables">
+        <variable tag="filename" scope="local" logging="when_changed" default_value="0" type="string"></variable>
+    </variables>
+    <sounds tag="Sounds"></sounds>
+    <stimuli tag="Stimuli">
+        <list_replicator tag="New List Replicator" values="FILENAMES(dir1/*),filenames(dir2/*)" variable="filename">
+            <stimulus type="image_file" tag="${filename}" path="${filename}" x_size="10.0" y_size="10.0" x_position="0.0" y_position="0.0" rotation="0.0" alpha_multiplier="1.0" deferred="NO"></stimulus>
+        </list_replicator>
+    </stimuli>
+    <filters tag="Filters"></filters>
+    <optimizers tag="Optimizers"></optimizers>
+    <experiment tag="New Experiment" full_name="" description="">
+        <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential">
+            <list_replicator tag="New List Replicator" values="FILENAMES(dir1/*),filenames(dir2/*),filenames(dir/*)" variable="filename">
+                <block tag="New Block" nsamples="1" sampling_method="cycles" selection="sequential">
+		    <action type="assert" tag="Assert" condition="0" message="This shouldn't run!"></action>
+                </block>
+            </list_replicator>
+        </protocol>
+    </experiment>
+</monkeyml>

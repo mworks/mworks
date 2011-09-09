@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<monkeyml version="1.0">
+    <io_devices/>
+    <variables>
+        <variable tag="stim_index" default_value="0" scope="LOCAL" type="INTEGER" editable="NEVER" logging="WHEN_CHANGED" persistant="NO"/>
+    </variables>
+    <sounds/>
+    <stimuli>
+        <stimulus_group tag="FullStimSet">
+            <range_replicator tag="StimulusReplicator" from="100" to="101" step="1" variable="stim_index">
+				<stimulus tag="circle$stim_index" type="circle" color="0,1,1" x_size="25" y_size="25" x_position="5" y_position="5" rotation="0.0"/>
+            </range_replicator>
+        </stimulus_group>
+    </stimuli>
+    <experiment tag="IndexOutOfRangeTest" full_name="My Experiment" description="">
+        <protocol tag="Very Simple Presentation Protocol" full_name="Protocol 1" description="" interruptible="YES" selection="sequential" nsamples="1" sampling_method="cycles">
+            <block tag="Basic Block" description="" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
+                <range_replicator tag="Trial/Stimulus Replicator" from="0" to="2" step="1" variable="stim_index">
+                    <trial tag="Present Stimulus Sequence" description="" interruptible="YES" selection="sequential" nsamples="1" sampling_method="cycles">
+                        <action tag="Queue Stimulus" type="queue_stimulus" stimulus="FullStimSet[stim_index]"/>
+                        <action tag="Update Stimulus Display" type="update_stimulus_display"/>
+                        <action tag="Wait" type="wait" duration="100 ms"/>
+                        <action tag="Dequeue Stimulus" type="dequeue_stimulus" stimulus="FullStimSet[stim_index]"/>
+                        <action tag="Update Stimulus Display" type="update_stimulus_display"/>
+                        <action tag="Wait" type="wait" duration="100 ms"/>
+                    </trial>
+                </range_replicator>
+            </block>
+        </protocol>
+    </experiment>
+</monkeyml>

@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<monkeyml version="1.0">
+    <io_devices tag="IO Devices"></io_devices>
+    <variables tag="Variables"></variables>
+    <sounds tag="Sounds"></sounds>
+    <stimuli tag="Stimuli">
+        <stimulus type="image_directory_movie" tag="movie" directory_path="empty_dir" x_size="15.0" y_size="15.0" x_position="0.0" y_position="0.0" rotation="0.0" alpha_multiplier="1.0" deferred="no" frames_per_second="1" ended="" loop="0"></stimulus>
+    </stimuli>
+    <filters tag="Filters"></filters>
+    <optimizers tag="Optimizers"></optimizers>
+    <experiment tag="New Experiment" full_name="" description="">
+        <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential"></protocol>
+    </experiment>
+</monkeyml>

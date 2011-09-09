@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<monkeyml version="1.0">
+    <variables tag="Variables">
+        <variable tag="RR_var" default_value="0" scope="local" type="integer" editable="ALWAYS" logging="WHEN_CHANGED" persistant="NO"></variable>
+        <variable tag="movie_stats" default_value="0" scope="global" type="integer" editable="ALWAYS" logging="WHEN_CHANGED" persistant="NO"></variable>
+        <variable tag="movie_error" default_value="0" scope="global" type="integer" editable="ALWAYS" logging="WHEN_CHANGED" persistant="NO"></variable>
+        <variable tag="movie_ended" scope="global" logging="when_changed" default_value="0" type="boolean"></variable>
+    </variables>
+    <stimuli tag="Stimuli">
+        <stimulus_group tag="movie_group">
+            <range_replicator tag="RR" full_name="fullname_13" from="1" to="52" step="1" variable="RR_var">
+                <stimulus tag="image_${RR_var}" full_name="fullname12" type="image_file" path="./images/MotIm_${RR_var}.jpg" x_size="25" y_size="25" x_position="0" y_position="0" rotation="0.0" alpha_multiplier="1.0"></stimulus>
+            </range_replicator>
+        </stimulus_group>
+        <stimulus tag="blank screen" full_name="blank screen" type="blank_screen" color="0.5,0.5,0.5"></stimulus>
+        <stimulus type="movie" tag="MyMovie1" stimulus_group="movie_group" frames_per_second="10" ended="movie_ended"></stimulus>
+    </stimuli>
+    <experiment tag="experiment">
+        <protocol tag="Protocol" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
+            <block tag="Block" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
+                <task_system tag="Task System" full_name="TS" description="" interruptible="YES">
+                    <task_system_state tag="startMovie" description="" interruptible="YES">
+                        <action tag="Queue Stimulus" type="queue_stimulus" stimulus="blank screen"></action>
+                        <action tag="Update Stimulus Display" type="update_stimulus_display"></action>
+                        <action tag="Report" type="report" message="about to start movie"></action>
+                        <action tag="waiter" type="wait" duration="15000"></action>
+                        <action tag="Queue Stimulus" type="queue_stimulus" stimulus="MyMovie1"></action>
+                        <action tag="Report" type="report" message="just queued movie"></action>
+                        <action tag="Update Stimulus Display" type="update_stimulus_display"></action>
+                        <action tag="Report" type="report" message="just updated stim display"></action>
+                        <action tag="Update Stimulus Display" type="update_stimulus_display"></action>
+                        <action type="assignment" tag="Assign Variable" variable="movie_ended" value="0"></action>
+                        <action tag="movie_player" type="play_dynamic_stimulus" stimulus="MyMovie1"></action>
+                        <action tag="Wait" type="wait" duration="6000000"></action>
+                        <action type="assert" tag="Assert" condition="movie_ended == 1" message="movie_ended wasn't set"></action>
+                        <action tag="Queue Stimulus" type="dequeue_stimulus" stimulus="MyMovie1"></action>
+                        <action tag="Update Stimulus Display" type="update_stimulus_display"></action>
+                        <action tag="Report" type="report" message="finished"></action>
+                        <transition tag="yielder" type="yield"></transition>
+                    </task_system_state>
+                </task_system>
+            </block>
+        </protocol>
+    </experiment>
+</monkeyml>

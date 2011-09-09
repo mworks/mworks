@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<monkeyml version="1.0">
+    <io_devices tag="IO Devices"></io_devices>
+    <variables tag="Variables"></variables>
+    <sounds tag="Sounds"></sounds>
+    <stimuli tag="Stimuli">
+        <stimulus tag="background" full_name="background" type="blank_screen" color="1, 0, 0"></stimulus>
+    </stimuli>
+    <filters tag="Filters"></filters>
+    <optimizers tag="Optimizers"></optimizers>
+    <experiment tag="New Experiment" full_name="" description="">
+        <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential">
+            <action tag="Queue Stimulus" type="queue_stimulus" stimulus="background"></action>
+            <action tag="Update display" type="update_stimulus_display"></action>
+            <action tag="Play dynamic stimulus" stimulus="background" type="play_dynamic_stimulus"></action>
+            <action type="wait" tag="Wait" duration="2" duration_units="s"></action>
+            <action tag="Stop dynamic stimulus" stimulus="background" type="stop_dynamic_stimulus"></action>
+            <action tag="Dequeue Stimulus" type="dequeue_stimulus" stimulus="background"></action>
+            <action tag="Update display 2" type="update_stimulus_display"></action>
+        </protocol>
+    </experiment>
+</monkeyml>

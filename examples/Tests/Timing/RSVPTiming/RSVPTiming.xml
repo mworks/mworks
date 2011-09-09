@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<monkeyml version="1.0">
+    <io_devices/>
+    <variables>
+        <variable tag="counter" full_name="counter" default_value="0" scope="GLOBAL" type="INTEGER" editable="NEVER" logging="WHEN_CHANGED"/>
+    </variables>
+    <sounds/>
+    <stimuli>
+        <stimulus tag="stimulus12" full_name="fullname12" type="image_file" path="./Image1.png" x_size="2" y_size="2" x_position="0" y_position="0" rotation="0.0"/>
+    </stimuli>
+    <experiment tag="MyExperiment" full_name="My Experiment">
+        <protocol tag="Protocol1" full_name="Protocol 1" description="" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
+            <block tag="Block1" full_name="Block 1" description="" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
+                <trial tag="Trial_1" full_name="fullname_1" description="" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
+                    <task_system tag="Task System_2" full_name="fullname_2" description="" interruptible="YES">
+                        <task_system_state tag="start" full_name="fullname_3" description="" interruptible="YES">
+                            <action tag="Assignment_1" full_name="fullname_1" type="assignment" variable="counter" value="0"/>
+                            <transition tag="AlwaysGo_2" full_name="fullname_2" target="imOn" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="imOn" full_name="fullname_4" description="" interruptible="YES">
+                            <action tag="Assignment_12" full_name="fullname_12" type="assignment" variable="counter" value="counter+1"/>
+                            <action tag="LiveQueueStimulus_3" full_name="fullname_3" type="live_queue_stimulus" stimulus="stimulus12"/>
+                            <action tag="UpdateStimulusDisplay_4" full_name="fullname_4" type="update_stimulus_display"/>
+                            <action tag="StartTimer_7" full_name="fullname_7" type="start_timer" timer="timer" duration="100ms"/>
+                            <transition tag="TimerExpired_8" full_name="fullname_8" target="imOff" type="timer_expired" timer="timer"/>
+                        </task_system_state>
+                        <task_system_state tag="imOff" full_name="fullname_5" description="" interruptible="YES">
+                            <action tag="DequeueStimulus_5" full_name="fullname_5" type="dequeue_stimulus" stimulus="stimulus12"/>
+                            <action tag="UpdateStimulusDisplay_6" full_name="fullname_6" type="update_stimulus_display"/>
+                            <action tag="StartTimer_7" full_name="fullname_7" type="start_timer" timer="timer" duration="100ms"/>
+                            <transition tag="ConditionalTransition_11" full_name="fullname_11" target="end" type="conditional" condition="counter==3000"/>
+                            <transition tag="TimerExpired_10" full_name="fullname_10" target="imOn" type="timer_expired" timer="timer"/>
+                        </task_system_state>
+                        <task_system_state tag="end" full_name="fullname_13" description="" interruptible="YES">
+                            <action tag="Report_14" full_name="fullname_14" type="report" message="end"/>
+                            <transition type="yield" tag="Yield_15" full_name="fullname_15"/>
+                        </task_system_state>
+                    </task_system>
+                </trial>
+            </block>
+        </protocol>
+    </experiment>
+</monkeyml>

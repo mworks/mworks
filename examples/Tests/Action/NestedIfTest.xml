@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<monkeyml version="1.0">
+    <io_devices _id="id39150127" tag="IO Devices"></io_devices>
+    <variables _id="id39150128" tag="Variables">
+        <variable _id="id39150130" tag="flag1" full_name="fullname12" default_value="0" scope="global" type="integer" editable="NEVER" logging="WHEN_CHANGED" persistant="NO"></variable>
+        <variable _id="id39150155" tag="flag2" full_name="fullname12" default_value="0" scope="global" type="integer" editable="NEVER" logging="WHEN_CHANGED" persistant="NO"></variable>
+        <variable _id="id39150173" tag="flag3" full_name="fullname12" default_value="0" scope="global" type="integer" editable="NEVER" logging="WHEN_CHANGED" persistant="NO"></variable>
+    </variables>
+    <sounds _id="id39150191" tag="Sounds"></sounds>
+    <stimuli _id="id39150192" tag="Stimuli"></stimuli>
+    <experiment _id="id39150194" tag="MyExperiment" full_name="My Experiment" description="">
+        <protocol _id="id39150201" tag="Protocol1" full_name="Protocol 1" description="" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
+            <block _id="id39150218" tag="Block1" full_name="Block 1" description="" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
+                <action _id="id39150234" tag="If always" type="if" condition="1">
+                    <action _id="id39150241" tag="flag1 = 1" type="assignment" variable="flag1" value="1"></action>
+                    <action _id="id39150251" tag="If always" type="if" condition="1">
+                        <action _id="id39150259" tag="flag2 = 2" type="assignment" variable="flag2" value="2"></action>
+                    </action>
+                    <action _id="id39150268" tag="If always" type="if" condition="1">
+                        <action _id="id39150276" tag="flag3 = 3" type="assignment" variable="flag3" value="3"></action>
+                    </action>
+                </action>
+                <action _id="id39150286" tag="Assert flag1" type="assert" condition="flag1 == 1" message="Flag1 should be 1"></action>
+                <action _id="id39150296" tag="Assert flag2" type="assert" condition="flag2 == 2" message="Flag2 should be 2"></action>
+                <action _id="id39150306" tag="Assert flag3" type="assert" condition="flag3 == 3" message="Flag3 should be 3"></action>
+            </block>
+        </protocol>
+    </experiment>
+</monkeyml>

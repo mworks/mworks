@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<monkeyml version="1.0">
+    <io_devices/>
+    <variables>
+        <variable tag="variable12" full_name="fullname12" default_value="0" scope="GLOBAL" type="INTEGER" editable="NEVER" logging="WHEN_CHANGED"/>
+        <variable tag="variable11" full_name="fullname11" default_value="0" scope="GLOBAL" type="INTEGER" editable="NEVER" logging="WHEN_CHANGED"/>
+        <variable tag="variable10" full_name="fullname10" default_value="0" scope="GLOBAL" type="INTEGER" editable="NEVER" logging="WHEN_CHANGED"/>
+        <variable tag="variable9" full_name="fullname9" default_value="0" scope="GLOBAL" type="INTEGER" editable="NEVER" logging="WHEN_CHANGED"/>
+    </variables>
+    <sounds/>
+    <stimuli>
+        <stimulus tag="square" full_name="fullname12" type="image_file" path="square180.png" x_size="5.4" y_size="5.4" x_position="0" y_position="0" rotation="0.0"/>
+    </stimuli>
+    <experiment tag="MyExperiment" full_name="My Experiment">
+        <protocol tag="Protocol1" full_name="Protocol 1" description="" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
+            <block tag="Block1" full_name="Block 1" description="" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
+                <trial tag="Trial_1" full_name="fullname_1" description="" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
+                    <task_system tag="Task System_2" full_name="fullname_2" description="" interruptible="YES">
+                        <task_system_state tag="Task System State_3" full_name="fullname_3" description="" interruptible="YES">
+                            <action tag="StartTimer_5" full_name="fullname_5" type="start_timer" timer="timer" duration="30000ms"/>
+                            <action tag="QueueStimulus_6" full_name="fullname_6" type="show_stimulus" stimulus="square"/>
+                            <action tag="UpdateStimulusDisplay_7" full_name="fullname_7" type="update_stimulus_display"/>
+                            <transition tag="TimerExpired_9" full_name="fullname_9" target="Task System State_4" type="timer_expired" timer="timer"/>
+                        </task_system_state>
+                        <task_system_state tag="Task System State_4" full_name="fullname_4" description="" interruptible="YES">
+                            <transition type="yield" tag="Yield_10" full_name="fullname_10"/>
+                        </task_system_state>
+                    </task_system>
+                </trial>
+            </block>
+        </protocol>
+    </experiment>
+</monkeyml>

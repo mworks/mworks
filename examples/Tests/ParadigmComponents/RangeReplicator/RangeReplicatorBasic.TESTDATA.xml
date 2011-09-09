@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<marionette_info>
+  <expected_messages>
+    <message type="starts_with">var = 3 </message>
+    <message type="starts_with">var = 7 </message>
+    <message type="starts_with">var = 11 </message>
+    <message type="starts_with">var = 15 </message>
+  </expected_messages>
+</marionette_info>

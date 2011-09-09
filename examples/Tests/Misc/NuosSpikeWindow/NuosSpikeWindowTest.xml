@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<monkeyml version="1.0">
+    <io_devices/>
+    <variables>
+        <variable tag="spikes" full_name="fullname12" default_value="0" scope="GLOBAL" type="INTEGER" editable="NEVER" logging="WHEN_CHANGED"/>
+        <variable tag="eye_h" full_name="fullname11" default_value="0" scope="GLOBAL" type="INTEGER" editable="NEVER" logging="WHEN_CHANGED"/>
+        <variable tag="eye_v" full_name="fullname10" default_value="0" scope="GLOBAL" type="INTEGER" editable="NEVER" logging="WHEN_CHANGED"/>
+        <variable tag="stim_index" full_name="fullname9" default_value="0" scope="LOCAL" type="INTEGER" editable="NEVER" logging="WHEN_CHANGED"/>
+    </variables>
+    <sounds/>
+    <stimuli>
+        <stimulus_group tag="myGroup" full_name="fullname_2">
+            <stimulus tag="Image_1" full_name="fullname12" type="image_file" path="./Image_1.png" x_size="5" y_size="5" x_position="0" y_position="0" rotation="0.0"/>
+            <stimulus tag="Image_2" full_name="fullname12" type="image_file" path="./Image_2.png" x_size="5" y_size="5" x_position="0" y_position="0" rotation="0.0"/>
+        </stimulus_group>
+    </stimuli>
+    <experiment tag="MyExperiment" full_name="My Experiment">
+        <protocol tag="Protocol1" full_name="Protocol 1" description="" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
+            <block tag="Block1" full_name="Block 1" description="" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
+                <list tag="List_7" full_name="fullname_7" description="" interruptible="YES" selection="sequential_ascending" nsamples="3" sampling_method="cycles">
+                    <range_replicator tag="Range Replicator_6" full_name="fullname_6" from="0" to="1" step="1" variable="stim_index">
+                        <task_system tag="Task System_3" full_name="fullname_3" description="" interruptible="YES">
+                            <task_system_state tag="stim_on" full_name="fullname_4" description="" interruptible="YES">
+                                <action tag="QueueStimulus_12" full_name="fullname_12" type="queue_stimulus" stimulus="myGroup[stim_index]"/>
+                                <action tag="UpdateStimulusDisplay_13" full_name="fullname_13" type="update_stimulus_display"/>
+                                <action tag="StartTimer_1" full_name="fullname_1" type="start_timer" timer="timer" duration="120ms"/>
+                                <transition tag="TimerExpired_2" full_name="fullname_2" target="spiking" type="timer_expired" timer="timer"/>
+                            </task_system_state>
+                            <task_system_state tag="spiking" full_name="fullname_23" description="" interruptible="YES">
+                                <action tag="Assignment_25" full_name="fullname_25" type="assignment" variable="spikes" value="0"/>
+                                <action tag="StartTimer_16" full_name="fullname_16" type="start_timer" timer="timer" duration="300ms"/>
+                                <transition tag="TimerExpired_18" full_name="fullname_18" target="stim_off" type="timer_expired" timer="timer"/>
+                            </task_system_state>
+                            <task_system_state tag="stim_off" full_name="fullname_5" description="" interruptible="YES">
+                                <action tag="DequeueStimulus_14" full_name="fullname_14" type="hide_stimulus" stimulus="myGroup[stim_index]"/>
+                                <action tag="UpdateStimulusDisplay_13" full_name="fullname_13" type="update_stimulus_display"/>
+                                <action tag="StartTimer_17" full_name="fullname_17" type="start_timer" timer="timer" duration="300ms"/>
+                                <transition tag="TimerExpired_22" full_name="fullname_22" target="yield" type="timer_expired" timer="timer"/>
+                            </task_system_state>
+                            <task_system_state tag="yield" full_name="fullname_19" description="" interruptible="YES">
+                                <action tag="Report_20" full_name="fullname_20" type="report" message="whatever"/>
+                                <transition type="yield" tag="Yield_21" full_name="fullname_21"/>
+                            </task_system_state>
+                        </task_system>
+                    </range_replicator>
+                </list>
+            </block>
+        </protocol>
+    </experiment>
+</monkeyml>

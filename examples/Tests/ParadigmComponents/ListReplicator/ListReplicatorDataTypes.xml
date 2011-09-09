@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<monkeyml version="1.0">
+    <io_devices tag="IO Devices"></io_devices>
+    <variables tag="Variables">
+        <variable tag="bool_var" scope="local" logging="when_changed" default_value="0" type="boolean"></variable>
+        <variable tag="int_var" scope="local" logging="when_changed" default_value="0" type="integer"></variable>
+        <variable tag="float_var" scope="local" logging="when_changed" default_value="0.0" type="float"></variable>
+        <variable tag="string_var" scope="local" logging="when_changed" default_value="DEFAULT" type="string"></variable>
+    </variables>
+    <sounds tag="Sounds"></sounds>
+    <stimuli tag="Stimuli"></stimuli>
+    <filters tag="Filters"></filters>
+    <optimizers tag="Optimizers"></optimizers>
+    <experiment tag="New Experiment" full_name="" description="">
+        <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential">
+            <list_replicator tag="Bool Replicator" values="0,1" variable="bool_var">
+                <trial tag="Bool List" nsamples="1" sampling_method="cycles" selection="sequential">
+                    <action type="report" tag="Bool Report" message="bool_var = $bool_var"></action>
+                </trial>
+            </list_replicator>
+            <list_replicator tag="Int Replicator" values="0,1,2" variable="int_var">
+                <trial tag="Int List" nsamples="1" sampling_method="cycles" selection="sequential">
+                    <action type="report" tag="Int Report" message="int_var = $int_var"></action>
+                </trial>
+            </list_replicator>
+            <list_replicator tag="Float Replicator" values="0,1,2,3.4" variable="float_var">
+                <trial tag="Float List" nsamples="1" sampling_method="cycles" selection="sequential">
+                    <action type="report" tag="Float Report" message="float_var = $float_var"></action>
+                </trial>
+            </list_replicator>
+            <list_replicator tag="String Replicator" values="0,1,2,3.4,\&quot;five\&quot;" variable="string_var">
+                <trial tag="String List" nsamples="1" sampling_method="cycles" selection="sequential">
+                    <action type="report" tag="String Report" message="string_var = $string_var"></action>
+                </trial>
+            </list_replicator>
+        </protocol>
+    </experiment>
+</monkeyml>

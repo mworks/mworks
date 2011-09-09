@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<monkeyml version="1.0">
+    <io_devices/>
+    <variables>
+        <variable tag="counter" full_name="counter" default_value="0" scope="GLOBAL" type="INTEGER" editable="never" logging="when_changed" persistant="NO"/>
+    </variables>
+    <sounds/>
+    <stimuli/>
+    <experiment tag="experiment" full_name="experiment" description="">
+        <protocol tag="protocol" full_name="protocol" interruptable="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles" description="" interruptible="YES">
+            <block tag="block" full_name="block" interruptable="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles" description="" interruptible="YES">
+                <trial tag="trial" full_name="trial" interruptable="YES" selection="sequential_ascending" nsamples="100" sampling_method="cycles" description="" interruptible="YES">
+                    <task_system tag="task_system21" full_name="fullname21" interruptable="YES" description="" interruptible="YES">
+                        <task_system_state tag="initiation" full_name="initiation" interruptable="YES" description="" interruptible="YES">
+                            <action tag="report message" full_name="report message" type="report" message="** Entering (initiation)"/>
+                            <action tag="reset counter" full_name="reset counter" type="assignment" variable="counter" value="0"/>
+                            <action tag="report message" full_name="report message" type="report" message="transitioning to (START)"/>
+                            <transition tag="go to background on" full_name="go to background on" target="START" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="START" full_name="background on" interruptable="YES" description="" interruptible="YES">
+                            <action tag="report message" full_name="report message" type="report" message="** Entering (START)"/>
+                            <action tag="report message" full_name="report message" type="report" message="starting timer for 1000ms"/>
+                            <action tag="start stm_timer" full_name="start stm_timer" type="start_timer" timer="stm_timer" duration="1000ms" timebase=""/>
+                            <action tag="reset counter" full_name="reset counter" type="assignment" variable="counter" value="counter+1"/>
+                            <action tag="report message" full_name="report message" type="report" message="counter = $counter"/>
+                            <action tag="report message" full_name="report message" type="report" message="* Transitioning to (B) on stm_timer expired or (A) directly 0r (trial end) on counter == 5"/>
+                            <transition tag="go to trial end" full_name="go to trial end" target="trial end" type="conditional" condition="counter==5"/>
+                            <transition tag="go to B" full_name="go to B" target="B" type="timer_expired" timer="stm_timer"/>
+                            <transition tag="go to background on" full_name="go to background on" target="A" type="direct"/>
+                        </task_system_state>
+                        <task_system_state tag="A" full_name="initiation" interruptable="YES" description="" interruptible="YES">
+                            <action tag="report message" full_name="report message" type="report" message="** Entering (A)"/>
+                            <action tag="start stm_timer" full_name="start stm_timer" type="start_timer" timer="stm_timer" duration="1000ms" timebase=""/>
+                            <action tag="reset counter" full_name="reset counter" type="assignment" variable="counter" value="counter+1"/>
+                            <action tag="report message" full_name="report message" type="report" message="* transitioning to (START) on stm_timer expired"/>
+                            <transition tag="go to START" full_name="go to START" target="START" type="timer_expired" timer="stm_timer"/>
+                        </task_system_state>
+                        <task_system_state tag="B" full_name="initiation" interruptable="YES" description="" interruptible="YES">
+                            <action tag="report message" full_name="report message" type="report" message="** Entering (B)"/>
+                            <action tag="report message" full_name="report message" type="report" message="* transitioning to (START) on stm_timer expired"/>
+                            <action tag="start stm_timer" full_name="start stm_timer" type="start_timer" timer="stm_timer" duration="1000ms" timebase=""/>
+                            <action tag="reset counter" full_name="reset counter" type="assignment" variable="counter" value="counter+1"/>
+                            <transition tag="go to START" full_name="go to START" target="START" type="timer_expired" timer="stm_timer"/>
+                        </task_system_state>
+                        <task_system_state tag="trial end" full_name="trial end" interruptable="YES" description="" interruptible="YES">
+                            <action tag="report message" full_name="report message" type="report" message="** Entering (trial end)"/>
+                            <action tag="report message" full_name="report message" type="report" message="* always yielding"/>
+                            <transition type="yield" tag="yield" full_name="yield"/>
+                        </task_system_state>
+                    </task_system>
+                </trial>
+            </block>
+        </protocol>
+    </experiment>
+</monkeyml>

@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<monkeyml version="1.0">
+    <io_devices tag="IO Devices" />
+    <variables tag="Variables">
+        <variable default_value="1" editable="ALWAYS" full_name="" logging="WHEN_CHANGED" persistant="NO" scope="global" tag="speed" type="float" />
+        <variable default_value="0" editable="ALWAYS" full_name="" logging="WHEN_CHANGED" persistant="NO" scope="global" tag="direction" type="float" />
+        <variable default_value="3" logging="when_changed" scope="global" tag="x_position" type="float" />
+        <variable default_value="3" logging="when_changed" scope="global" tag="y_position" type="float" />
+        <variable default_value="0" editable="ALWAYS" full_name="" logging="WHEN_CHANGED" persistant="NO" scope="global" tag="rotation" type="float" />
+        <variable default_value="0.333333333" editable="ALWAYS" full_name="" logging="WHEN_CHANGED" persistant="NO" scope="global" tag="frequency" type="float" />
+        <variable default_value="0" editable="ALWAYS" full_name="" logging="WHEN_CHANGED" persistant="NO" scope="global" tag="mean" type="float" />
+        <variable default_value="0.3" editable="ALWAYS" full_name="" logging="WHEN_CHANGED" persistant="NO" scope="global" tag="std_dev" type="float" />
+        <variable default_value="4" editable="ALWAYS" full_name="" logging="WHEN_CHANGED" persistant="NO" scope="global" tag="width" type="float" />
+        <variable default_value="4" editable="ALWAYS" full_name="" logging="WHEN_CHANGED" persistant="NO" scope="global" tag="height" type="float" />
+    </variables>
+    <sounds tag="Sounds" />
+    <stimuli tag="Stimuli">
+        <stimulus direction="direction" grating_type="sinusoid" inverted="1" mask="ellipse" rotation="rotation" spatial_frequency="frequency" speed="speed" tag="dg" type="drifting_grating" x_position="x_position" x_size="width" y_position="y_position" y_size="height" />
+    </stimuli>
+    <filters tag="Filters" />
+    <optimizers tag="Optimizers" />
+    <experiment description="" full_name="" tag="New Experiment">
+        <protocol nsamples="1" sampling_method="cycles" selection="sequential" tag="New Protocol">
+            <action stimulus="dg" tag="Load Stimulus" type="load_stimulus" />
+            <action stimulus="dg" tag="Queue Stimulus" type="queue_stimulus" />
+            <action tag="Update display" type="update_stimulus_display" />
+            <action stimulus="dg" tag="Play dynamic stimulus" type="play_dynamic_stimulus" />
+            <action duration="5" duration_units="s" tag="Wait" type="wait" />
+            <action stimulus="dg" tag="Stop dynamic stimulus" type="stop_dynamic_stimulus" />
+            <action stimulus="dg" tag="Dequeue Stimulus" type="dequeue_stimulus" />
+            <action tag="Update display 2" type="update_stimulus_display" />
+            <action stimulus="dg" tag="Unload Stimulus" type="unload_stimulus" />
+            <action duration="2" duration_units="s" tag="Wait 2" type="wait" />
+        </protocol>
+    </experiment>
+</monkeyml>

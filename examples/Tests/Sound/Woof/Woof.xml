@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<monkeyml version="1.0">
+    <io_devices tag="IO Devices"></io_devices>
+    <variables tag="Variables"></variables>
+    <sounds tag="Sounds">
+        <sound tag="woof" type="wav_file" path="woof.wav"></sound>
+    </sounds>
+    <stimuli tag="Stimuli">
+        <stimulus tag="blank screen" full_name="blank screen" type="blank_screen" color="0.5,0.5,0.5"></stimulus>
+        <stimulus tag="dog" full_name="Dog" type="image_file" alpha_multiplier="1" path="dog.png" x_size="15" y_size="15" x_position="0" y_position="0" rotation="0"></stimulus>
+    </stimuli>
+    <filters tag="Filters"></filters>
+    <optimizers tag="Optimizers"></optimizers>
+    <experiment tag="New Experiment" full_name="" description="">
+        <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential">
+            <action tag="Queue background" type="queue_stimulus" stimulus="blank screen"></action>
+            <action tag="Queue dog" type="queue_stimulus" stimulus="dog"></action>
+            <action tag="Update Stimulus" type="update_stimulus_display"></action>
+            <action tag="Play Sound" type="play_sound" sound="woof"></action>
+            <action type="report" tag="Report" message="You should hear the dog howling."></action>
+            <action type="wait" tag="Wait" duration="3" duration_units="s"></action>
+        </protocol>
+    </experiment>
+</monkeyml>

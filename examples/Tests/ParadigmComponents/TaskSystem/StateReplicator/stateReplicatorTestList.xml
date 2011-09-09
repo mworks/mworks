@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<monkeyml version="1.0">
+    <io_devices/>
+    <variables>
+        <variable tag="v" full_name="v" default_value="0" scope="GLOBAL" type="INTEGER" editable="NEVER" logging="WHEN_CHANGED"/>
+        <variable tag="w" full_name="w" default_value="0" scope="LOCAL" type="INTEGER" editable="NEVER" logging="WHEN_CHANGED"/>
+    </variables>
+    <sounds/>
+    <stimuli/>
+    <experiment tag="stateReplicatorTestList" full_name="stateReplicatorTestList">
+        <protocol tag="Protocol" full_name="Protocol" description="" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
+            <block tag="Block" full_name="Block" description="" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
+                <trial tag="Trial_1" full_name="fullname_1" description="" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
+                    <list_replicator tag="Range Replicator" full_name="fullname_1" values="1,4,6,8,2" variable="w">
+                        <task_system tag="Task System_4" full_name="fullname_4" description="" interruptible="YES">
+                            <task_system_state tag="RR_state" full_name="fullname_6" description="" interruptible="YES">
+                                <action tag="Assignment_1" full_name="fullname_1" type="assignment" variable="v" value="w"/>
+								<action tag="Assert_1" full_name="fullname_2" type="assert" condition="v==w" message="Assert: !(v==w)"/>
+								<action tag="Assert_1a" full_name="fullname_2" type="assert" condition="w==v" message="Assert: !(w==v)"/>
+                                <action tag="Assert_2" full_name="fullname_2" type="assert" condition="w==w" message="Assert: !(w==w)"/>
+                                <transition type="yield" tag="Yield_4" full_name="fullname_4"/>
+                            </task_system_state>
+                        </task_system>
+                    </list_replicator>
+                </trial>
+                <trial tag="Trial_2" full_name="fullname_2" description="" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
+                    <task_system tag="Task System_3" full_name="fullname_3" description="" interruptible="YES">
+                        <task_system_state tag="END" full_name="fullname_6" description="" interruptible="YES">
+                            <action tag="Assert_3" full_name="fullname_2" type="assert" condition="v==2" message="Assert: !(v==2)"/>
+                            <action tag="Assert_3a" full_name="fullname_2" type="assert" condition="2==v" message="Assert: !(2==v)"/>
+                            <action tag="Report_2" full_name="fullname_2" type="report" message="v = $v"/>
+                            <transition tag="yielder" full_name="fullname_17" type="yield"/>
+                        </task_system_state>
+                    </task_system>
+                </trial>
+            </block>
+        </protocol>
+    </experiment>
+</monkeyml>

@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<monkeyml version="1.0">
+    <variables/>
+    <stimuli>
+        <stimulus tag="blank screen" full_name="blank screen" type="blank_screen" color="1,0,0"/>
+    </stimuli>
+    <experiment tag="theExperiment" full_name="the Experiment" description="">
+        <protocol tag="theProtocol" full_name="the Protocol" interruptable="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles" description="" interruptible="YES">
+            <block tag="theBlock" full_name="the Block" interruptable="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles" description="" interruptible="YES">
+                <trial tag="theTrial" full_name="the Trial" description="" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
+                    <task_system tag="theTaskSystem">
+                        <task_system_state tag="primeTheTimer" full_name="the State" description="" interruptible="YES">
+                            <action tag="setTimer" full_name="fullname_2" type="start_timer" timer="theTimer" duration="2000ms" timebase=""/>
+                            <action tag="Report_1" full_name="fullname_1" type="report" message="Setting the timer for 2 seconds"/>
+                            <transition tag="goToNextStateWhenTimerExpires" target="endState" type="conditional" condition="theTimer"/>
+                        </task_system_state>
+                        <task_system_state tag="endState" full_name="fullname_4" description="" interruptible="YES">
+                            <action tag="Report_5" full_name="fullname_5" type="report" message="entered endState"/>
+                            <transition type="yield" tag="Yield_6" full_name="fullname_6"/>
+                        </task_system_state>
+                    </task_system>
+                </trial>
+            </block>
+        </protocol>
+    </experiment>
+</monkeyml>

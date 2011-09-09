@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<monkeyml version="1.0">
+    <io_devices/>
+    <variables>
+        <variable tag="v" full_name="v" default_value="0" scope="GLOBAL" type="INTEGER" editable="NEVER" logging="WHEN_CHANGED"/>
+        <variable tag="w" full_name="w" default_value="0" scope="LOCAL" type="INTEGER" editable="NEVER" logging="WHEN_CHANGED"/>
+        <variable tag="x" full_name="v" default_value="-1" scope="GLOBAL" type="INTEGER" editable="NEVER" logging="WHEN_CHANGED"/>
+    </variables>
+    <sounds/>
+    <stimuli/>
+    <experiment tag="MyExperiment" full_name="My Experiment">
+        <protocol tag="theProtocol" full_name="Protocol 1" description="" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
+            <block tag="theBlock" full_name="Block 1" description="" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
+				<range_replicator tag="Range Replicator_6" full_name="fullname_1" from="0" to="4" step="1" variable="w">
+					<trial tag="Trial_1" full_name="fullname_1" description="" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
+                        <task_system tag="TaskSystem" full_name="fullname_4" description="" interruptible="YES">
+                            <task_system_state tag="RR_state" full_name="fullname_6" description="" interruptible="YES">
+							
+                                <action tag="Report_minus2" full_name="fullname_2" type="report" message="About to assign x=x+1"/>
+								<action tag="Assignment_1" full_name="fullname_1" type="assignment" variable="x" value="x+1"/>
+                                <action tag="Report_minus1" full_name="fullname_2" type="report" message="About to assign v=w"/>
+                                <action tag="Assignment_2" full_name="fullname_1" type="assignment" variable="v" value="w"/>
+                                <action tag="Report_0" full_name="fullname_2" type="report" message="ABOUT TO CHECK ASSERTS"/>
+                                <action tag="Report_0A1" full_name="fullname_2" type="report" message="checking v==w"/>
+	                            <action tag="Assert_1" full_name="fullname_2" type="assert" condition="v==w" message="!(v==w)"/>
+	                            <action tag="Assert_1a" full_name="fullname_2" type="assert" condition="w==v" message="!(w==v)"/>
+                                <action tag="Report_0A1x" full_name="fullname_2" type="report" message="finished checking v==w"/>
+                                <action tag="Report_0A2" full_name="fullname_2" type="report" message="checking w==x"/>
+	                            <action tag="Assert_2" full_name="fullname_2" type="assert" condition="w==x" message="!(w==x)"/>
+	                            <action tag="Assert_2a" full_name="fullname_2" type="assert" condition="x==w" message="!(x==w)"/>
+                                <action tag="Report_0A2x" full_name="fullname_2" type="report" message="checking w==x"/>
+                                <action tag="Report_0A3" full_name="fullname_2" type="report" message="checking x==v"/>
+	                            <action tag="Assert_3" full_name="fullname_2" type="assert" condition="x==v" message="!(x==v)"/>
+	                            <action tag="Assert_3a" full_name="fullname_2" type="assert" condition="v==x" message="!(v==x)"/>
+                                <action tag="Report_0A3x" full_name="fullname_2" type="report" message="checking x==v"/>
+                                <action tag="Report_0B" full_name="fullname_2" type="report" message="FINISHED CHECKING ASSERTS; ABOUT TO REPORT"/>
+	                            <!--action tag="Assert_2" full_name="fullname_2" type="assert" condition="v==$w" message="!(v==$w)"/>
+                                <action tag="Assert_3" full_name="fullname_2" type="assert" condition="w==$w" message="!(w==$w)"/>
+                                <action tag="Report_1" full_name="fullname_2" type="report" message="w = $w"/-->
+                                <action tag="Report_1" full_name="fullname_2" type="report" message="v = $v"/>
+                                <action tag="Report_2" full_name="fullname_2" type="report" message="x = $x"/>
+                                <action tag="Report_0" full_name="fullname_2" type="report" message="FINISHED REPORTING"/>
+                                <transition type="yield" tag="Yield_4" full_name="fullname_4"/>
+                            </task_system_state>
+                        </task_system>
+					</trial>
+				</range_replicator>
+                <trial tag="Trial_2" full_name="fullname_2" description="" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
+                    <task_system tag="Task System_3" full_name="fullname_3" description="" interruptible="YES">
+                        <task_system_state tag="END" full_name="fullname_6" description="" interruptible="YES">
+                            <action tag="Report_3" full_name="fullname_2" type="report" message="v = $v"/>
+                            <action tag="Report_4" full_name="fullname_2" type="report" message="x = $x"/>
+                            <action tag="Assert_4" full_name="fullname_2" type="assert" condition="v==4" message="!(v==4)"/>
+                            <action tag="Assert_4a" full_name="fullname_2" type="assert" condition="4==v" message="!(4==v)"/>
+                            <action tag="Assert_5" full_name="fullname_2" type="assert" condition="x==4" message="!(x==4)"/>
+                            <action tag="Assert_5a" full_name="fullname_2" type="assert" condition="4==x" message="!(4==x)"/>
+                            <transition tag="yield" full_name="fullname_17" type="yield"/>
+                        </task_system_state>
+                    </task_system>
+                </trial>
+            </block>
+        </protocol>
+    </experiment>
+</monkeyml>

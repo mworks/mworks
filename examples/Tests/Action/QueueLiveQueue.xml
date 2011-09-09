@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<monkeyml version="1.0">
+    <io_devices tag="IO Devices"></io_devices>
+    <variables tag="Variables">
+        <variable tag="red" scope="global" logging="when_changed" default_value="0" type="float"></variable>
+        <variable tag="wait_time" scope="global" logging="when_changed" default_value="2000" type="integer"></variable>
+    </variables>
+    <sounds tag="Sounds"></sounds>
+    <stimuli tag="Stimuli">
+        <stimulus type="blank_screen" tag="gray_screen" color="0.5,0.5,0.5"></stimulus>
+        <stimulus type="blank_screen" tag="colored_screen" color="red,0.0,0.0"></stimulus>
+    </stimuli>
+    <experiment tag="MyExperiment" full_name="My Experiment">
+        <protocol tag="Protocol1" full_name="Protocol 1" description="" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
+            <block tag="Block1" full_name="Block 1" description="" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
+                <task_system tag="Task System_1" full_name="fullname_1" description="" interruptible="YES">
+                    <task_system_state tag="queue" full_name="queue" description="" interruptible="YES">
+                        <action tag="Assignment_8" full_name="fullname_8" type="assignment" variable="red" value="0"></action>
+                        <action type="report" tag="Report 3" message="red = $red. Queuing stimulus."></action>
+                        <action tag="QueueStimulus_7" full_name="fullname_7" type="queue_stimulus" stimulus="colored_screen"></action>
+                        <action tag="Assignment_8" full_name="fullname_8" type="assignment" variable="red" value="1"></action>
+                        <action tag="StartTimer_9" full_name="fullname_9" type="start_timer" timer="timer" duration="wait_time" duration_units="ms"></action>
+                        <action type="report" tag="Report" message="red = $red. Display should be BLACK."></action>
+                        <action tag="UpdateStimulusDisplay_11" full_name="fullname_11" type="update_stimulus_display"></action>
+                        <transition tag="TimerExpired_20" full_name="fullname_20" target="stimOff1" type="timer_expired" timer="timer"></transition>
+                    </task_system_state>
+                    <task_system_state tag="stimOff1" full_name="fullname_4" description="" interruptible="YES">
+                        <action tag="StartTimer_9" full_name="fullname_9" type="start_timer" timer="timer" duration="wait_time" duration_units="ms"></action>
+                        <action tag="DequeueStimulus_24" full_name="fullname_24" type="dequeue_stimulus" stimulus="colored_screen"></action>
+                        <action tag="Queue Stimulus" type="queue_stimulus" stimulus="gray_screen"></action>
+                        <action tag="UpdateStimulusDisplay_11" full_name="fullname_11" type="update_stimulus_display"></action>
+                        <transition tag="TimerExpired_21" full_name="fullname_21" target="liveQueue" type="timer_expired" timer="timer"></transition>
+                    </task_system_state>
+                    <task_system_state tag="liveQueue" full_name="queue" description="" interruptible="YES">
+                        <action tag="Dequeue Stimulus" type="dequeue_stimulus" stimulus="gray_screen"></action>
+                        <action tag="StartTimer_9" full_name="fullname_9" type="start_timer" timer="timer" duration="wait_time" duration_units="ms"></action>
+                        <action tag="Assignment_8" full_name="fullname_8" type="assignment" variable="red" value="0"></action>
+                        <action type="report" tag="Report 4" message="red = $red. Live queuing stimulus."></action>
+                        <action tag="LiveQueueStimulus_19" full_name="fullname_19" type="live_queue_stimulus" stimulus="colored_screen"></action>
+                        <action tag="Assignment_8" full_name="fullname_8" type="assignment" variable="red" value="1"></action>
+                        <action type="report" tag="Report 2" message="red = $red. Display should be RED."></action>
+                        <action tag="UpdateStimulusDisplay_11" full_name="fullname_11" type="update_stimulus_display"></action>
+                        <transition tag="TimerExpired_22" full_name="fullname_22" target="stimOff2" type="timer_expired" timer="timer"></transition>
+                    </task_system_state>
+                    <task_system_state tag="stimOff2" full_name="queue" description="" interruptible="YES">
+                        <action tag="DequeueStimulus_24" full_name="fullname_24" type="dequeue_stimulus" stimulus="colored_screen"></action>
+                        <action tag="Queue Stimulus 2" type="queue_stimulus" stimulus="gray_screen"></action>
+                        <action tag="UpdateStimulusDisplay_11" full_name="fullname_11" type="update_stimulus_display"></action>
+                        <transition type="yield" tag="Yield_23" full_name="fullname_23"></transition>
+                    </task_system_state>
+                </task_system>
+            </block>
+        </protocol>
+    </experiment>
+</monkeyml>

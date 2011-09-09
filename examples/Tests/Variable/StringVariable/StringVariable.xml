@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<monkeyml version="1.0">
+    <io_devices tag="IO Devices"></io_devices>
+    <variables tag="Variables">
+        <variable tag="var" scope="global" logging="when_changed" default_value="First" type="string"></variable>
+        <variable tag="other_var" scope="global" logging="when_changed" default_value="Second" type="string"></variable>
+    </variables>
+    <sounds tag="Sounds"></sounds>
+    <stimuli tag="Stimuli"></stimuli>
+    <filters tag="Filters"></filters>
+    <optimizers tag="Optimizers"></optimizers>
+    <experiment tag="New Experiment" full_name="" description="">
+        <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential">
+            <action type="assert" tag="Assert" condition="var == &quot;First&quot;" message="var is $var, should be First"></action>
+            <action type="report" tag="Report" message="var = $var"></action>
+            <action type="assignment" tag="Assign Variable" variable="var" value="other_var"></action>
+            <action type="assert" tag="Assert 2" condition="var == &quot;Second&quot;" message="var is $var, should be Second"></action>
+            <action type="report" tag="Report 2" message="var = $var"></action>
+            <action type="assignment" tag="Assign Variable 2" variable="var" value="&quot;Third&quot;"></action>
+            <action type="assert" tag="Assert 3" condition="var == &quot;Third&quot;" message="var is $var, should be Third"></action>
+            <action type="report" tag="Report 3" message="var = $var"></action>
+        </protocol>
+    </experiment>
+</monkeyml>

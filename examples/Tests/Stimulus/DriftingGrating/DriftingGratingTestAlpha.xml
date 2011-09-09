@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<monkeyml version="1.0">
+    <io_devices tag="IO Devices" />
+    <variables tag="Variables">
+        <variable default_value="0.2" logging="when_changed" scope="global" tag="std_dev" type="float" />
+        <variable default_value="-0.1" logging="when_changed" scope="global" tag="mean" type="float" />
+        <variable default_value="20" logging="when_changed" scope="global" tag="size" type="float" />
+        <variable default_value="10" logging="when_changed" scope="global" tag="x_pos" type="float" />
+        <variable default_value="0.2" logging="when_changed" scope="global" tag="alpha" type="float" />
+    </variables>
+    <sounds tag="Sounds" />
+    <stimuli tag="Stimuli">
+        <stimulus color="0.5,0.5,0.5" tag="bg" type="blank_screen" />
+        <stimulus alpha_multiplier="1" direction="0" grating_type="sinusoid" mask="gaussian" mean="mean" rotation="0" spatial_frequency="1" speed="1" starting_phase="0" std_dev="std_dev" tag="left_dg" type="drifting_grating" x_position="-x_pos" x_size="size" y_position="0" y_size="size" />
+        <stimulus alpha_multiplier="alpha" direction="0" grating_type="sinusoid" mask="gaussian" mean="mean" rotation="0" spatial_frequency="1" speed="1" starting_phase="0" std_dev="std_dev" tag="right_dg" type="drifting_grating" x_position="x_pos" x_size="size" y_position="0" y_size="size" />
+    </stimuli>
+    <filters tag="Filters" />
+    <optimizers tag="Optimizers" />
+    <experiment description="" full_name="" tag="New Experiment">
+        <protocol nsamples="1" sampling_method="cycles" selection="sequential" tag="New Protocol">
+            <block nsamples="1" sampling_method="cycles" selection="sequential" tag="New Block">
+                <action stimulus="bg" tag="Queue background" type="queue_stimulus" />
+                <action stimulus="left_dg" tag="Queue left grating" type="queue_stimulus" />
+                <action stimulus="right_dg" tag="Queue right grating" type="queue_stimulus" />
+                <action stimulus="left_dg" tag="Play left grating" type="play_dynamic_stimulus" />
+                <action stimulus="right_dg" tag="Play right grating" type="play_dynamic_stimulus" />
+                <action tag="Update display" type="update_stimulus_display" />
+                <action duration="5" duration_units="s" tag="Wait" type="wait" />
+                <action stimulus="left_dg" tag="Stop left grating" type="stop_dynamic_stimulus" />
+                <action stimulus="right_dg" tag="Stop right grating" type="stop_dynamic_stimulus" />
+                <action stimulus="left_dg" tag="Dequeue left grating" type="dequeue_stimulus" />
+                <action stimulus="right_dg" tag="Dequeue right grating" type="dequeue_stimulus" />
+                <action stimulus="bg" tag="Dequeue background" type="dequeue_stimulus" />
+            </block>
+        </protocol>
+    </experiment>
+</monkeyml>

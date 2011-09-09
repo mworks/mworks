@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<monkeyml version="1.0">
+    <io_devices/>
+    <variables>
+        <variable tag="localIndex" full_name="localIndex" default_value="0" scope="GLOBAL" type="INTEGER" editable="NEVER" logging="WHEN_CHANGED" persistant="NO"/>
+        <variable tag="index" full_name="index" default_value="0" scope="LOCAL" type="INTEGER" editable="NEVER" logging="WHEN_CHANGED" persistant="NO"/>
+        <variable tag="numStatesAccepted" full_name="numStatesAccepted" default_value="0" scope="GLOBAL" type="INTEGER" editable="NEVER" logging="WHEN_CHANGED" persistant="NO"/>
+        <variable tag="shouldAccept" full_name="shouldAccept" default_value="0" scope="GLOBAL" type="INTEGER" editable="NEVER" logging="WHEN_CHANGED" persistant="NO"/>
+    </variables>
+    <sounds/>
+    <stimuli/>
+    <experiment tag="MyExperiment" full_name="My Experiment" description="">
+        <protocol tag="Protocol" full_name="Protocol" description="" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
+            <block tag="Block" full_name="Block" description="" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
+                <action tag="init numStatesAccepted" type="assignment" variable="numStatesAccepted" value="0"/>
+                <trial tag="Trial" full_name="fullname" description="" interruptible="YES" selection="random_without_replacement" nsamples="1" sampling_method="cycles">
+                    <range_replicator tag="Range Replicator_5" full_name="fullname_5" from="1" to="25" step="1" variable="index">
+                        <task_system tag="SelectionTask" full_name="fullname_2" description="" interruptible="YES">
+                            <task_system_state tag="check accept or not" full_name="fullname_3" description="" interruptible="YES">
+                                <action tag="shouldAcceptAssign" type="assignment" variable="shouldAccept" value="disc_rand(0,9)"/>
+                                <action tag="assign localIndex" type="assignment" variable="localIndex" value="index"/>
+                                <action tag="trialReport" type="report" message="shouldAccept = $shouldAccept .. index = $localIndex"/>
+                                <action tag="increment report" type="report" message="numStatesAccepted = $numStatesAccepted"/>
+                                <transition tag="go to accept" full_name="go to accept" target="accept" type="conditional" condition="shouldAccept#GE3"/>
+                                <transition tag="go to reject" full_name="fullname_9" target="reject" type="conditional" condition="shouldAccept#LT3"/>
+                            </task_system_state>
+                            <task_system_state tag="accept" full_name="fullname_10" description="" interruptible="YES">
+                                <action tag="Report_19" full_name="fullname_19" type="report" message="*************** Accept ****************"/>
+                                <action tag="accept Trial" full_name="fullname_12" type="accept_selections" selection="Trial"/>
+                                <action tag="increment numStatesAccepted" type="assignment" variable="numStatesAccepted" value="numStatesAccepted + 1"/>
+                                <transition type="yield" tag="Yield_17" full_name="fullname_17"/>
+                            </task_system_state>
+                            <task_system_state tag="reject" full_name="fullname_11" description="" interruptible="YES">
+                                <action tag="Report_20" full_name="fullname_20" type="report" message="*************** Reject ****************"/>
+                                <action tag="reject Trial" type="reject_selections" selection="Trial"/>
+                                <transition type="yield" tag="Yield_18" full_name="fullname_18"/>
+                            </task_system_state>
+                        </task_system>
+                    </range_replicator>
+                </trial>
+                <action tag="end check" type="assert" condition="numStatesAccepted == 25" message="numStatesAccepted is incorrect ( == $numStatesAccepted)"/>
+            </block>
+        </protocol>
+    </experiment>
+</monkeyml>

@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<monkeyml version="1.0">
+    <io_devices/>
+    <variables/>
+    <sounds/>
+    <stimuli/>
+    <experiment tag="MyExperiment" full_name="My Experiment">
+        <protocol tag="Protocol1" full_name="Protocol 1" description="" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
+            <block tag="Block1" full_name="Block 1" description="" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
+                <trial tag="Trial_1" full_name="fullname_1" description="" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
+                    <list tag="MyList" full_name="fullname_4" description="" interruptible="YES" selection="random_without_replacement" nsamples="1" sampling_method="samples">
+                            <task_system tag="SelectionTaskAccept" full_name="fullname_2" description="" interruptible="YES">
+                                <task_system_state tag="check accept or not" full_name="fullname_3" description="" interruptible="YES">
+                                    <action tag="Report_20" full_name="fullname_20" type="report" message="*************** Accept ****************"/>
+                                    <action tag="accept MyList" full_name="fullname_15" type="accept_selections" selection="MyList"/>
+                                    <transition type="yield" tag="Yield_17" full_name="fullname_17"/>
+                                </task_system_state>
+                            </task_system>
+                            <task_system tag="SelectionTaskReject" full_name="fullname_2" description="" interruptible="YES">
+                                <task_system_state tag="reject" full_name="fullname_11" description="" interruptible="YES">
+                                    <action tag="Report_20" full_name="fullname_20" type="report" message="*************** Reject ****************"/>
+                                    <action tag="reject MyList" full_name="fullname_16" type="reject_selections" selection="MyList"/>
+                                    <transition type="yield" tag="Yield_18" full_name="fullname_18"/>
+                                </task_system_state>
+                            </task_system>
+			 </list>
+		   </trial>
+	    </block>
+    </protocol>
+   </experiment>
+</monkeyml>

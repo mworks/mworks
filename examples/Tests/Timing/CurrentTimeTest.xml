@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<monkeyml version="1.0">
+    <io_devices _id="id38573712" tag="IO Devices"></io_devices>
+    <variables _id="id38573713" tag="Variables">
+        <variable _id="id38573714" tag="currTime" full_name="currTime" default_value="0" scope="global" type="integer" editable="NEVER" logging="WHEN_CHANGED" persistant="NO"></variable>
+        <variable _id="id35813705" tag="difference" full_name="difference" default_value="0" scope="global" type="integer" editable="NEVER" logging="WHEN_CHANGED" persistant="NO"></variable>
+        <variable _id="id35813723" tag="avgDifference" full_name="avgDifference" default_value="0" scope="global" type="integer" editable="NEVER" logging="WHEN_CHANGED" persistant="NO"></variable>
+        <variable _id="id35813741" tag="accumDiff" full_name="accumDiff" default_value="0" scope="global" type="integer" editable="NEVER" logging="WHEN_CHANGED" persistant="NO"></variable>
+        <variable _id="id35813759" tag="startTime" full_name="startTime" default_value="0" scope="global" type="integer" editable="ALWAYS" logging="WHEN_CHANGED" persistant="NO"></variable>
+        <variable _id="id35813777" tag="slop" full_name="slop" default_value="1000" scope="global" type="integer" editable="ALWAYS" logging="WHEN_CHANGED" persistant="NO"></variable>
+        <variable _id="id35813796" tag="counter" full_name="counter" default_value="0" scope="global" type="integer" editable="ALWAYS" logging="WHEN_CHANGED" persistant="NO"></variable>
+    </variables>
+    <sounds _id="id35813851" tag="Sounds"></sounds>
+    <stimuli _id="id35813852" tag="Stimuli"></stimuli>
+    <experiment _id="id35813853" tag="CurrentTimeTest" full_name="CurrentTimeTest" description="">
+        <protocol _id="id35813861" tag="Protocol" full_name="Protocol" description="" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
+            <block _id="id35813877" tag="Block" full_name="Block" description="" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
+                <trial _id="id35813894" tag="Trial" full_name="Trial" description="" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
+                    <task_system _id="id35813910" tag="TS" full_name="TS" description="" interruptible="YES">
+                        <task_system_state _id="id35813920" tag="start" full_name="start" description="" interruptible="YES">
+                            <action _id="id35813929" tag="setStartTime" full_name="setStartTime" type="assignment" variable="startTime" value="now()"></action>
+                            <action _id="id35813941" tag="setTimebase" full_name="setTimebase" type="set_timebase" timebase="timebase"></action>
+                            <action _id="id35813951" tag="clear accumulated" full_name="initCounter" type="assignment" variable="accumDiff" value="0"></action>
+                            <action _id="id35813963" tag="initCounter" full_name="initCounter" type="assignment" variable="counter" value="0"></action>
+                            <transition _id="id35813975" tag="goToNextState" full_name="goToNextState" target="nextState" type="direct"></transition>
+                        </task_system_state>
+                        <task_system_state _id="id35813985" tag="nextState" full_name="nextState" description="" interruptible="YES">
+                            <action _id="id35813994" type="report" message="********* entering timer state" tag="enterReport" full_name="enterReport"></action>
+                            <action _id="id35814004" tag="setTimeVar" full_name="setTimeVar" type="assignment" variable="currTime" value="now()"></action>
+                            <action _id="id35814016" type="report" message="current time=$currTime" tag="timeReport" full_name="timeReport"></action>
+                            <action _id="id35814026" type="report" message="current counter=$counter" tag="counterReport" full_name="counterReport"></action>
+                            <action _id="id35814080" tag="set Time difference" type="assignment" variable="difference" value="currTime-(startTime+(counter*100000))"></action>
+                            <action _id="id35814091" tag="timeDifferenceReoprt" type="report" message="time difference = $difference"></action>
+                            <action _id="_id1" type="assert" tag="Assert difference within slop" condition="ABS(difference) &lt;= slop" message="difference exceeds allowed slop ($difference > $slop)"></action>
+                            <action _id="id35814098" tag="accumulateError" type="assignment" variable="accumDiff" value="accumDiff + difference"></action>
+                            <action _id="id35814108" tag="incrementCounter" full_name="incrementCounter" type="assignment" variable="counter" value="counter+1"></action>
+                            <action _id="id35814120" type="report" message="current counter=$counter" tag="counterReport2" full_name="counterReport2"></action>
+                            <action _id="id35814130" tag="StartStateTimer" timebase="timebase" full_name="fullname" type="start_timer" timer="stateTimer" duration="counter*100ms"></action>
+                            <transition _id="id35814144" tag="counterReachedEnd" target="end" type="conditional" condition="counter == 250"></transition>
+                            <transition _id="id35814154" tag="stateTimerExpired" full_name="stateTimerExpired" target="nextState" type="timer_expired" timer="stateTimer"></transition>
+                        </task_system_state>
+                        <task_system_state _id="id35814166" tag="end" full_name="fullname_13" description="" interruptible="YES">
+                            <action _id="id35814176" tag="avgDiff" type="assignment" variable="avgDifference" value="accumDiff/(counter-1)"></action>
+                            <action _id="id35814186" tag="checkTime" full_name="checkTime" type="report" message="Time is off by $avgDifference"></action>
+                            <action _id="id35814196" tag="reportEnd" full_name="reportEnd" type="report" message="end ^^ averageDifference = $avgDifference"></action>
+                            <transition _id="id35814206" type="yield" tag="Yield" full_name="Yield"></transition>
+                        </task_system_state>
+                    </task_system>
+                </trial>
+            </block>
+        </protocol>
+    </experiment>
+</monkeyml>

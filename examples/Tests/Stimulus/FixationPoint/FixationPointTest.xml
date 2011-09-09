@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<monkeyml version="1.0">
+    <io_devices/>
+    <variables>
+        <variable tag="eye_h" full_name="fullname12" default_value="0" scope="GLOBAL" type="INTEGER" editable="NEVER" logging="WHEN_CHANGED" persistant="NO"/>
+        <variable tag="saccade" full_name="fullname10" default_value="0" scope="GLOBAL" type="INTEGER" editable="NEVER" logging="WHEN_CHANGED" persistant="NO"/>
+        <variable tag="StimIndex" default_value="0" scope="GLOBAL" type="INTEGER" editable="ALWAYS" persistant="NO" logging="WHEN_CHANGED"/>
+        <variable tag="X" default_value="0" scope="LOCAL" type="INTEGER" editable="ALWAYS" persistant="NO" logging="WHEN_CHANGED"/>
+        <variable tag="eye_v" full_name="fullname11" default_value="0" scope="GLOBAL" type="INTEGER" editable="NEVER" logging="WHEN_CHANGED" persistant="NO"/>
+    </variables>
+    <sounds/>
+    <stimuli>
+        <stimulus_group tag="MyGroup" full_name="fullname_1">
+            <stimulus tag="Target1" full_name="Target1" type="fixation_point" color="0,0,1" trigger_width="1.0" trigger_watch_x="eye_h" trigger_watch_y="eye_v" trigger_flag="saccade" x_size="5" y_size="5" x_position="0" y_position="0" rotation="0.0"/>
+            <stimulus tag="Target2" full_name="Target2" type="fixation_point" color="0,1,0" trigger_width="1.0" trigger_watch_x="eye_h" trigger_watch_y="eye_v" trigger_flag="saccade" x_size="5" y_size="5" x_position="0" y_position="0" rotation="0.0"/>
+            <stimulus tag="Target3" full_name="Target3" type="fixation_point" color="1,0,0" trigger_width="1.0" trigger_watch_x="eye_h" trigger_watch_y="eye_v" trigger_flag="saccade" x_size="5" y_size="5" x_position="0" y_position="0" rotation="0.0"/>
+            <stimulus tag="Target1a" full_name="Target1a" type="fixation_point" alpha_multiplier="0.5" color="0,0,1" trigger_width="1.0" trigger_watch_x="eye_h" trigger_watch_y="eye_v" trigger_flag="saccade" x_size="5" y_size="5" x_position="0" y_position="0" rotation="0.0"/>
+            <stimulus tag="Target2a" full_name="Target2a" type="fixation_point" alpha_multiplier="0.5" color="0,1,0" trigger_width="1.0" trigger_watch_x="eye_h" trigger_watch_y="eye_v" trigger_flag="saccade" x_size="5" y_size="5" x_position="0" y_position="0" rotation="0.0"/>
+            <stimulus tag="Target3a" full_name="Target3a" type="fixation_point" alpha_multiplier="0.5" color="1,0,0" trigger_width="1.0" trigger_watch_x="eye_h" trigger_watch_y="eye_v" trigger_flag="saccade" x_size="5" y_size="5" x_position="0" y_position="0" rotation="0.0"/>
+            <stimulus tag="Target1b" full_name="Target1b" type="fixation_point" alpha_multiplier="0.1" color="0,0,1" trigger_width="1.0" trigger_watch_x="eye_h" trigger_watch_y="eye_v" trigger_flag="saccade" x_size="5" y_size="5" x_position="0" y_position="0" rotation="0.0"/>
+            <stimulus tag="Target2b" full_name="Target2b" type="fixation_point" alpha_multiplier="0.1" color="0,1,0" trigger_width="1.0" trigger_watch_x="eye_h" trigger_watch_y="eye_v" trigger_flag="saccade" x_size="5" y_size="5" x_position="0" y_position="0" rotation="0.0"/>
+            <stimulus tag="Target3b" full_name="Target3b" type="fixation_point" alpha_multiplier="0.1" color="1,0,0" trigger_width="1.0" trigger_watch_x="eye_h" trigger_watch_y="eye_v" trigger_flag="saccade" x_size="5" y_size="5" x_position="0" y_position="0" rotation="0.0"/>
+        </stimulus_group>
+    </stimuli>
+    <experiment tag="MyExperiment" full_name="My Experiment" description="">
+        <protocol tag="Protocol1" full_name="Protocol 1" description="" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
+            <block tag="Block1" full_name="Block 1" description="" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
+                <trial tag="Trial_5" full_name="fullname_5" description="" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
+                    <range_replicator tag="Range Replicator_1" from="0" to="8" step="1" variable="X">
+                        <task_system tag="Task System_6" full_name="fullname_6" description="" interruptible="YES">
+                            <task_system_state tag="Stim On" full_name="fullname_8" description="" interruptible="YES">
+                                <action tag="Next Fixation Point" full_name="fullname_17" type="assignment" variable="StimIndex" values="X" value="0"/>
+                                <action tag="Report Stim On" full_name="fullname_19" type="report" message="*************** Stim On: MyGroup[$StimIndex ] **"/>
+                                <action tag="QueueStimulus" full_name="fullname_10" type="queue_stimulus" stimulus="MyGroup[X]"/>
+                                <action tag="UpdateStimulusDisplay" full_name="fullname_14" type="update_stimulus_display"/>
+                                <action tag="StartTimer" full_name="fullname_12" type="start_timer" timer="MyTimer" duration="500ms" timebase=""/>
+                                <transition tag="go to Stim Off" full_name="go to Stim Off" target="Stim Off" type="timer_expired" timer="MyTimer"/>
+                            </task_system_state>
+                            <task_system_state tag="Stim Off" full_name="fullname_9" description="" interruptible="YES">
+                                <action tag="Report_19" full_name="fullname_19" type="report" message="************** Stim OFF ****************"/>
+                                <action tag="DequeueStimulus" full_name="fullname_16" type="dequeue_stimulus" stimulus="MyGroup[X]"/>
+                                <action tag="UpdateStimulusDisplay" full_name="fullname_14" type="update_stimulus_display"/>
+                                <action tag="StartTimer" full_name="fullname_12" type="start_timer" timer="MyTimer" duration="500ms" timebase=""/>
+                                <transition tag="go to End" full_name="go to End" target="End" type="timer_expired" timer="MyTimer"/>
+                            </task_system_state>
+                            <task_system_state tag="End" full_name="End" description="" interruptible="YES">
+                                <transition type="yield" tag="Yield" full_name="fullname_18"/>
+                            </task_system_state>
+                        </task_system>
+                    </range_replicator>
+                </trial>
+            </block>
+        </protocol>
+    </experiment>
+</monkeyml>

@@ -1,0 +1,94 @@
+<?xml version="1.0"?>
+<monkeyml version="1.0">
+    <io_devices/>
+    <variables/>
+    <sounds/>
+    <stimuli>
+        <stimulus_group tag="mainGroup">
+            <stimulus_group tag="subGroup1A">
+                <stimulus_group tag="subGroup1A-2A">
+                    <stimulus tag="XIM000" type="image_file" path="./zero.0.jpg" x_size="25" y_size="25" x_position="0" y_position="0" rotation="0"/>
+                </stimulus_group>
+                <stimulus_group tag="subGroup1A-2B">
+                    <stimulus tag="XIM001" type="image_file" path="./1.png" x_size="25" y_size="25" x_position="0" y_position="0" rotation="90/11"/>
+                    <stimulus tag="XIM002" type="image_file" path="./2.png" x_size="25" y_size="25" x_position="0" y_position="0" rotation="2*90/11"/>
+                </stimulus_group>
+                <stimulus_group tag="subGroup1A-2C">
+                    <stimulus tag="XIM003" type="image_file" path="./3.png" x_size="25" y_size="25" x_position="0" y_position="0" rotation="3*90/11"/>
+                    <stimulus tag="XIM004" type="image_file" path="./4.png" x_size="25" y_size="25" x_position="0" y_position="0" rotation="4*90/11"/>
+                    <stimulus tag="XIM005" type="image_file" path="./5.png" x_size="25" y_size="25" x_position="0" y_position="0" rotation="5*90/11"/>
+                </stimulus_group>
+            </stimulus_group>
+            <stimulus_group tag="subGroup1B">
+                <stimulus_group tag="subGroup1B-2A">
+                    <stimulus tag="XIM006" type="image_file" path="./6.png" x_size="25" y_size="25" x_position="0" y_position="0" rotation="6*90/11"/>
+                    <stimulus tag="XIM007" type="image_file" path="./7.png" x_size="25" y_size="25" x_position="0" y_position="0" rotation="7*90/11"/>
+                    <stimulus tag="XIM008" type="image_file" path="./ball-crazy-eight.jpg" x_size="25" y_size="25" x_position="0" y_position="0" rotation="8*90/11"/>
+                    <stimulus tag="XIM009" type="image_file" path="./764px-Old_Nine_Network.svg.png" x_size="25" y_size="25" x_position="0" y_position="0" rotation="9*90/11"/>
+                </stimulus_group>
+            </stimulus_group>
+        </stimulus_group>
+    </stimuli>
+    <experiment tag="MultiDimensionalStimuliTest">
+        <protocol tag="Protocol" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
+            <block tag="Block" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="samples">
+                <task_system tag="Task System_Count" interruptible="YES">
+                    <task_system_state tag="stimON0_count" interruptible="YES">
+                        <action type="queue_stimulus" stimulus="mainGroup[0][0][0]"/>
+                        <action type="update_stimulus_display"/>
+                        <action type="report" message="mainGroup[0][0][0] -- Image 0"/>
+                        <action type="wait" duration="1000000"/>
+                        <action type="dequeue_stimulus" stimulus="mainGroup[0][0][0]"/>
+                        <action type="queue_stimulus" stimulus="mainGroup[0][1][0]"/>
+                        <action type="update_stimulus_display"/>
+                        <action type="report" message="mainGroup[0][1][0] -- Image 1"/>
+                        <action type="wait" duration="1000000"/>
+                        <action type="dequeue_stimulus" stimulus="mainGroup[0][1][0]"/>
+                        <action type="queue_stimulus" stimulus="mainGroup[0][1][1]"/>
+                        <action type="update_stimulus_display"/>
+                        <action type="report" message="mainGroup[0][1][1] -- Image 2"/>
+                        <action type="wait" duration="1000000"/>
+                        <action type="dequeue_stimulus" stimulus="mainGroup[0][1][1]"/>
+                        <action type="queue_stimulus" stimulus="mainGroup[0][2][0]"/>
+                        <action type="update_stimulus_display"/>
+			<action type="report" message="mainGroup[0][2][0] -- Image 3"/>
+                        <action type="wait" duration="1000000"/>
+                        <action type="dequeue_stimulus" stimulus="mainGroup[0][2][0]"/>
+                        <action type="queue_stimulus" stimulus="mainGroup[0][2][1]"/>
+                        <action type="update_stimulus_display"/>
+			<action type="report" message="mainGroup[0][2][1] -- Image 4"/>
+                        <action type="wait" duration="1000000"/>
+                        <action type="dequeue_stimulus" stimulus="mainGroup[0][2][1]"/>
+                        <action type="queue_stimulus" stimulus="mainGroup[0][2][2]"/>
+                        <action type="update_stimulus_display"/>
+			<action type="report" message="mainGroup[0][2][2] -- Image 5"/>
+                        <action type="wait" duration="1000000"/>
+                        <action type="dequeue_stimulus" stimulus="mainGroup[0][2][2]"/>
+                        <action type="queue_stimulus" stimulus="mainGroup[1][0][0]"/>
+                        <action type="update_stimulus_display"/>
+			<action type="report" message="mainGroup[1][0][0] -- Image 6"/>
+                        <action type="wait" duration="1000000"/>
+                        <action type="dequeue_stimulus" stimulus="mainGroup[1][0][0]"/>
+                        <action type="queue_stimulus" stimulus="mainGroup[1][0][1]"/>
+                        <action type="update_stimulus_display"/>
+			<action type="report" message="mainGroup[1][0][1] -- Image 7"/>
+                        <action type="wait" duration="1000000"/>
+                        <action type="dequeue_stimulus" stimulus="mainGroup[1][0][1]"/>
+                        <action type="queue_stimulus" stimulus="mainGroup[1][0][2]"/>
+                        <action type="update_stimulus_display"/>
+			<action type="report" message="mainGroup[1][0][2] -- Image 8"/>
+                        <action type="wait" duration="1000000"/>
+                        <action type="dequeue_stimulus" stimulus="mainGroup[1][0][2]"/>
+                        <action type="queue_stimulus" stimulus="mainGroup[1][0][3]"/>
+                        <action type="update_stimulus_display"/>
+			<action type="report" message="mainGroup[1][0][3] -- Image 9"/>
+                        <action type="wait" duration="1000000"/>
+                        <action type="dequeue_stimulus" stimulus="mainGroup[1][0][3]"/>
+                        <action type="update_stimulus_display"/>
+                        <transition type="yield"/>
+                    </task_system_state>
+                </task_system>
+            </block>
+        </protocol>
+    </experiment>
+</monkeyml>

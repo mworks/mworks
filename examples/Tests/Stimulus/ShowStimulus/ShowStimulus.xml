@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<monkeyml version="1.0">
+    <io_devices/>
+    <variables/>
+    <sounds/>
+    <stimuli>
+        <stimulus tag="eight" full_name="fullname12" type="image_file" path="eight.jpg" x_size="25" y_size="25" x_position="0" y_position="0" rotation="0.0"/>
+    </stimuli>
+    <experiment tag="ShowStimulus" full_name="ShowStimulus">
+        <protocol tag="Protocol" full_name="Protocol" description="" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
+            <block tag="Block" full_name="Block" description="" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
+                <task_system tag="Task System" full_name="TS" description="" interruptible="YES">
+                    <task_system_state tag="stimON" full_name="stimON" description="" interruptible="YES">
+                        <action tag="StartTimer_5" full_name="fullname_5" type="start_timer" timer="onTimer" duration="500 ms"/>
+                        <action tag="QueueStimulus_6" full_name="fullname_6" type="queue_stimulus" stimulus="eight"/>
+                        <action tag="UpdateStimulusDisplay_7" full_name="fullname_7" type="update_stimulus_display"/>
+                        <transition tag="TimerExpired_8" full_name="fullname_8" target="stimOFF" type="timer_expired" timer="onTimer"/>
+                    </task_system_state>
+                    <task_system_state tag="stimOFF" full_name="stimOFF" description="" interruptible="YES">
+                        <action tag="StartTimer_9" full_name="fullname_9" type="start_timer" timer="offTimer" duration="500 ms"/>
+                        <action tag="DequeueStimulus_10" full_name="fullname_10" type="dequeue_stimulus" stimulus="eight"/>
+                        <action tag="UpdateStimulusDisplay_11" full_name="fullname_11" type="update_stimulus_display"/>
+                        <transition tag="TimerExpired_12" full_name="fullname_12" target="DONE" type="timer_expired" timer="offTimer"/>
+                    </task_system_state>
+                    <task_system_state tag="DONE" full_name="DONE" description="" interruptible="YES">
+                        <action tag="Report_13" full_name="fullname_13" type="report" message="Finished"/>
+                        <transition type="yield" tag="Yield_14" full_name="fullname_14"/>
+                    </task_system_state>
+                </task_system>
+            </block>
+        </protocol>
+    </experiment>
+</monkeyml>

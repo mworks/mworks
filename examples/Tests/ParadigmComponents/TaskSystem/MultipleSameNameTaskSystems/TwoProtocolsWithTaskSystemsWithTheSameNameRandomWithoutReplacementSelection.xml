@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<monkeyml version="1.0">
+    <variables>
+        <variable tag="x" default_value="0" scope="GLOBAL" type="INTEGER" editable="NEVER" logging="WHEN_CHANGED" persistant="NO"/>
+    </variables>
+    <experiment tag="MyExperiment">
+        <protocol tag="Protocol1" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
+            <block tag="Block1" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
+               <trial tag="Trial1" nterruptible="YES" selection="random_without_replacement" nsamples="15" sampling_method="cycles">
+                    <task_system tag="Task System_1" interruptible="YES">
+                        <task_system_state tag="TSS1" interruptible="YES">
+                            <action type="report" message="TS11 x=$x"/>
+                            <action type="assignment" variable="x" value="x+1"/>
+                            <transition type="yield"/>
+                        </task_system_state>
+                    </task_system>
+                    <task_system tag="Task System_2" interruptible="YES">
+                        <task_system_state tag="TSS2" interruptible="YES">
+                            <action type="report" message="TS12 x=$x"/>
+                            <action type="assignment" variable="x" value="x+1"/>
+                            <transition type="yield"/>
+                        </task_system_state>
+                    </task_system>
+                </trial>
+                <action type="assert" message="x doesn't equal 30" condition="x==30"/>
+           </block>
+        </protocol>
+        <protocol tag="Protocol2" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
+            <block tag="Block2" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
+                <trial tag="Trial2" interruptible="YES" selection="random_without_replacement" nsamples="15" sampling_method="cycles">
+                    <task_system tag="Task System_1" interruptible="YES">
+                        <task_system_state tag="TSS1" interruptible="YES">
+                            <action type="report" message="TS21 x=$x"/>
+                            <action type="assignment" variable="x" value="x+1"/>
+                            <transition type="yield"/>
+                        </task_system_state>
+                    </task_system>
+                    <task_system tag="Task System_2" interruptible="YES">
+                        <task_system_state tag="TSS2" interruptible="YES">
+                            <action type="report" message="TS22 x=$x"/>
+                            <action type="assignment" variable="x" value="x+1"/>
+                            <transition type="yield"/>
+                        </task_system_state>
+                    </task_system>
+                </trial>
+                <action type="assert" message="x doesn't equal 30" condition="x==30"/>
+            </block>
+        </protocol>
+    </experiment>
+</monkeyml>

@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<monkeyml version="1.0">
+    <io_devices/>
+    <variables>
+        <variable tag="x" full_name="x" default_value="0" scope="GLOBAL" type="INTEGER" editable="NEVER" logging="WHEN_CHANGED"/>
+        <variable tag="y" full_name="y" default_value="0" scope="GLOBAL" type="INTEGER" editable="NEVER" logging="WHEN_CHANGED"/>
+        <variable tag="z" full_name="z" default_value="0" scope="GLOBAL" type="INTEGER" editable="NEVER" logging="WHEN_CHANGED"/>
+    </variables>
+    <sounds/>
+    <stimuli>
+        <range_replicator tag="Range Replicator_1" full_name="fullname_1" from="0" to="1" step="1" variable="x">
+            <range_replicator tag="Range Replicator_2" full_name="fullname_1" from="0" to="2" step="1" variable="y">
+                <range_replicator tag="Range Replicator_3" full_name="fullname_1" from="0" to="9" step="1" variable="z">
+                    <stimulus tag="Distractor${x}${y}${z}" full_name="Distractor${x}${y}${z}" type="image_file" path="./Distractor${x}${y}${z}.png" x_size="6" y_size="6" x_position="0" y_position="0" rotation="0.0"/>
+                </range_replicator>
+            </range_replicator>
+        </range_replicator>
+    </stimuli>
+    <experiment tag="TripleImageReplicatorRange" full_name="TripleImageReplicatorRange">
+        <protocol tag="Protocol" full_name="Protocol" description="" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
+            <block tag="Block" full_name="Block" description="" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
+                            <task_system tag="Task System_4" full_name="fullname_4" description="" interruptible="YES">
+                                <task_system_state tag="stimON" full_name="fullname_5" description="" interruptible="YES">
+                                    <action tag="QueueStimulus_8" full_name="fullname_8" type="queue_stimulus" stimulus="Distractor000"/>
+                                    <action tag="StartTimer_9" full_name="fullname_9" type="start_timer" timer="timer" duration="300ms"/>
+                                    <action tag="UpdateStimulusDisplay_10" full_name="fullname_10" type="update_stimulus_display"/>
+                                    <transition tag="TimerExpired_15" full_name="fullname_15" target="StimOFF" type="timer_expired" timer="timer"/>
+                                </task_system_state>
+                                <task_system_state tag="StimOFF" full_name="fullname_6" description="" interruptible="YES">
+                                    <action tag="DequeueStimulus_14" full_name="fullname_8" type="dequeue_stimulus" stimulus="Distractor000"/>
+                                    <action tag="UpdateStimulusDisplay_10" full_name="fullname_10" type="update_stimulus_display"/>
+                                    <action tag="StartTimer_9" full_name="fullname_9" type="start_timer" timer="timer2" duration="300ms"/>
+                                    <transition tag="TimerExpired_17" full_name="fullname_15" target="END" type="timer_expired" timer="timer2"/>
+                                </task_system_state>
+                                <task_system_state tag="END" full_name="fullname_6" description="" interruptible="YES">
+                                    <transition tag="yield" full_name="fullname_17" type="yield"/>
+                                </task_system_state>
+                            </task_system>
+            </block>
+        </protocol>
+    </experiment>
+</monkeyml>
+

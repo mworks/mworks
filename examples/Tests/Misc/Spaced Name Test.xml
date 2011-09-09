@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<monkeyml version="1.0">
+    <io_devices _id="id39152471" tag="IO Devices"></io_devices>
+    <variables _id="id39152472" tag="Variables"></variables>
+    <sounds _id="id39152489" tag="Sounds"></sounds>
+    <stimuli _id="id39152490" tag="Stimuli"></stimuli>
+    <experiment _id="id39152491" tag="Experiment" full_name="Experiment">
+        <protocol _id="id39152496" tag="Protocol" full_name="Protocol" description="" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
+            <block _id="id39152511" tag="Block" full_name="Block" description="" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
+                <task_system _id="id39152525" tag="Task System" full_name="Task System" description="" interruptible="YES">
+                    <task_system_state _id="id39152534" tag="theTrial" full_name="the Trial" description="" interruptible="YES">
+                        <action _id="id39152543" tag="report" type="report" message="If we got this far, everything must be OK."></action>
+                        <transition _id="id39152550" type="yield" tag="Yield" full_name="Yield"></transition>
+                    </task_system_state>
+                </task_system>
+            </block>
+        </protocol>
+    </experiment>
+</monkeyml>

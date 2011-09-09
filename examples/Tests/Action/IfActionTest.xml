@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<monkeyml version="1.0">
+    <variables tag="Variables">
+        <variable tag="some_Var" full_name="some Var" default_value="0" scope="global" type="float" editable="ALWAYS" logging="WHEN_CHANGED"></variable>
+        <variable tag="another_Var" full_name="another_Var" default_value="0" scope="global" type="integer" editable="ALWAYS" logging="WHEN_CHANGED"></variable>
+    </variables>
+    <stimuli tag="Stimuli">
+        <stimulus tag="blank screen" full_name="blank screen" type="blank_screen" color="1,0,0"></stimulus>
+    </stimuli>
+    <experiment tag="theExperiment" full_name="the Experiment">
+        <protocol tag="theProtocol" full_name="the Protocol" interruptable="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles" description="" interruptible="YES">
+            <block tag="theBlock" full_name="the Block" interruptable="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles" description="" interruptible="YES">
+                <trial tag="theTrial" full_name="the Trial" description="" interruptible="YES" selection="sequential_ascending" nsamples="20" sampling_method="samples">
+                    <task_system tag="theTaskSystem">
+                        <task_system_state tag="theState" full_name="the State" description="" interruptible="YES">
+                            <action tag="StartAt0" full_name="fullname_7" type="assignment" variable="another_Var" value="0"></action>
+                            <action tag="CheckToSeeIf another_Var is initialized" full_name="CheckToSeeIf another_Var is initialized" type="assert" condition="another_Var == 0" message="another_Var wasn't initialized"></action>
+                            <action tag="GetTheRandomValue" full_name="fullname_2" type="assignment" variable="some_Var" value="rand(0,1)"></action>
+                            <action tag="Report some_Var" full_name="Report some_Var" type="report" message="some_Var = $some_Var"></action>
+                            <action tag="IfGT66" full_name="fullname_3" type="if" condition="some_Var #GE 0.66">
+                                <action tag="AssignTo1" full_name="AssignTo1" type="assignment" variable="another_Var" value="1"></action>
+                            </action>
+                            <action tag="IfBetween33And66" full_name="fullname_4" type="if" condition="some_Var #GE 0.33 #AND some_Var #LT 0.66">
+                                <action tag="AssignTo2" full_name="AssignTo2" type="assignment" variable="another_Var" value="2"></action>
+                            </action>
+                            <action tag="IfLT33" full_name="fullname_5" type="if" condition="some_Var #LT 0.33">
+                                <action tag="AssignTo3" full_name="AssignTo3" type="assignment" variable="another_Var" value="3"></action>
+                            </action>
+                            <action tag="Report another_Var" full_name="Report another_Var" type="report" message="another_Var = $another_Var"></action>
+                            <action tag="CheckToSeeIf another_Var is assigned" full_name="CheckToSeeIf another_Var is assigned" type="assert" condition="(another_Var == 1) OR (another_Var == 2) OR (another_Var == 3)" message="another_Var wasn't assigned"></action>
+                            <transition type="yield" tag="Yield" full_name="Yield"></transition>
+                        </task_system_state>
+                    </task_system>
+                </trial>
+            </block>
+        </protocol>
+    </experiment>
+</monkeyml>
