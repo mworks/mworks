@@ -1,0 +1,523 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		0E121C0D0E6B1CD6007B29B8 /* UninstallDriftingGratingStimulusPlugin */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 0E121C190E6B1CF6007B29B8 /* Build configuration list for PBXAggregateTarget "UninstallDriftingGratingStimulusPlugin" */;
+			buildPhases = (
+				0E121C0C0E6B1CD6007B29B8 /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = UninstallDriftingGratingStimulusPlugin;
+			productName = UninstallDriftingGratingStimulusPlugin;
+		};
+		E17B9D28119C9E7E00EEBF5D /* Everything */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = E17B9D30119C9E8D00EEBF5D /* Build configuration list for PBXAggregateTarget "Everything" */;
+			buildPhases = (
+			);
+			dependencies = (
+				E17B9D2C119C9E8700EEBF5D /* PBXTargetDependency */,
+			);
+			name = Everything;
+			productName = Everything;
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		0E287D330E64A5CD005BE396 /* DriftingGratingStimulus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E287D2F0E64A5CD005BE396 /* DriftingGratingStimulus.cpp */; };
+		0E37FBA30E59C3DD008B885D /* DriftingGratingStimulusPlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E37FBA10E59C3DD008B885D /* DriftingGratingStimulusPlugin.cpp */; };
+		0E3891CC0ECD26E500F044B8 /* TriangleGratingData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E3891CB0ECD26E500F044B8 /* TriangleGratingData.cpp */; };
+		0EC0F2400EC52BC0004AD5CE /* RectangleMask.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EC0F23F0EC52BC0004AD5CE /* RectangleMask.cpp */; };
+		0EC0F24A0EC52D17004AD5CE /* EllipseMask.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EC0F2490EC52D17004AD5CE /* EllipseMask.cpp */; };
+		0EC0F2D30EC53519004AD5CE /* SinusoidGratingData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EC0F2D20EC53519004AD5CE /* SinusoidGratingData.cpp */; };
+		0EC0F33C0EC5395C004AD5CE /* SquareGratingData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EC0F33B0EC5395C004AD5CE /* SquareGratingData.cpp */; };
+		0EDCBABF0EE9D39B00432792 /* MWLibrary.xml in Resources */ = {isa = PBXBuildFile; fileRef = 0EDCBABE0EE9D39B00432792 /* MWLibrary.xml */; };
+		0EE467290ECC934400C4CDE7 /* GratingData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EE467280ECC934400C4CDE7 /* GratingData.cpp */; };
+		0EE467A40ECC995F00C4CDE7 /* Mask.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EE467A30ECC995F00C4CDE7 /* Mask.cpp */; };
+		0EE4686D0ECCB6DC00C4CDE7 /* DriftingGratingUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EE4686C0ECCB6DC00C4CDE7 /* DriftingGratingUtilities.cpp */; };
+		0EE4691D0ECCBB4D00C4CDE7 /* GaussianMask.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EE4691C0ECCBB4D00C4CDE7 /* GaussianMask.cpp */; };
+		0EF49B6F0ECD2A6700A82BC8 /* SawtoothGratingData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EF49B6E0ECD2A6700A82BC8 /* SawtoothGratingData.cpp */; };
+		5C4B0A650DC79212001BC518 /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C4B0A630DC79212001BC518 /* MWorksCore.framework */; };
+		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		E17B9D2B119C9E8700EEBF5D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8D5B49AC048680CD000E48DA;
+			remoteInfo = DriftingGratingStimulusPlugin;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		089C1672FE841209C02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		089C167EFE841241C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
+		0E287D2F0E64A5CD005BE396 /* DriftingGratingStimulus.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DriftingGratingStimulus.cpp; sourceTree = "<group>"; };
+		0E287D300E64A5CD005BE396 /* DriftingGratingStimulus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DriftingGratingStimulus.h; sourceTree = "<group>"; };
+		0E37FBA10E59C3DD008B885D /* DriftingGratingStimulusPlugin.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DriftingGratingStimulusPlugin.cpp; sourceTree = "<group>"; };
+		0E3891CA0ECD26E500F044B8 /* TriangleGratingData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TriangleGratingData.h; sourceTree = "<group>"; };
+		0E3891CB0ECD26E500F044B8 /* TriangleGratingData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TriangleGratingData.cpp; sourceTree = "<group>"; };
+		0EC0F2360EC52B36004AD5CE /* Mask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Mask.h; sourceTree = "<group>"; };
+		0EC0F23E0EC52BC0004AD5CE /* RectangleMask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RectangleMask.h; sourceTree = "<group>"; };
+		0EC0F23F0EC52BC0004AD5CE /* RectangleMask.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RectangleMask.cpp; sourceTree = "<group>"; };
+		0EC0F2480EC52D17004AD5CE /* EllipseMask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EllipseMask.h; sourceTree = "<group>"; };
+		0EC0F2490EC52D17004AD5CE /* EllipseMask.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EllipseMask.cpp; sourceTree = "<group>"; };
+		0EC0F2CA0EC533E8004AD5CE /* GratingData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GratingData.h; sourceTree = "<group>"; };
+		0EC0F2D10EC53519004AD5CE /* SinusoidGratingData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SinusoidGratingData.h; sourceTree = "<group>"; };
+		0EC0F2D20EC53519004AD5CE /* SinusoidGratingData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SinusoidGratingData.cpp; sourceTree = "<group>"; };
+		0EC0F33A0EC5395C004AD5CE /* SquareGratingData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SquareGratingData.h; sourceTree = "<group>"; };
+		0EC0F33B0EC5395C004AD5CE /* SquareGratingData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SquareGratingData.cpp; sourceTree = "<group>"; };
+		0EDCBABE0EE9D39B00432792 /* MWLibrary.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MWLibrary.xml; sourceTree = "<group>"; };
+		0EE467280ECC934400C4CDE7 /* GratingData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GratingData.cpp; sourceTree = "<group>"; };
+		0EE467A30ECC995F00C4CDE7 /* Mask.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Mask.cpp; sourceTree = "<group>"; };
+		0EE4686B0ECCB6DC00C4CDE7 /* DriftingGratingUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DriftingGratingUtilities.h; sourceTree = "<group>"; };
+		0EE4686C0ECCB6DC00C4CDE7 /* DriftingGratingUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DriftingGratingUtilities.cpp; sourceTree = "<group>"; };
+		0EE4691B0ECCBB4D00C4CDE7 /* GaussianMask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GaussianMask.h; sourceTree = "<group>"; };
+		0EE4691C0ECCBB4D00C4CDE7 /* GaussianMask.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GaussianMask.cpp; sourceTree = "<group>"; };
+		0EF49B6D0ECD2A6700A82BC8 /* SawtoothGratingData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SawtoothGratingData.h; sourceTree = "<group>"; };
+		0EF49B6E0ECD2A6700A82BC8 /* SawtoothGratingData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SawtoothGratingData.cpp; sourceTree = "<group>"; };
+		32DBCF630370AF2F00C91783 /* DriftingGratingStimulusPlugin_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DriftingGratingStimulusPlugin_Prefix.pch; sourceTree = "<group>"; };
+		5C4B0A630DC79212001BC518 /* MWorksCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MWorksCore.framework; path = /Library/Frameworks/MWorksCore.framework; sourceTree = "<absolute>"; };
+		5CC9877B1159366900B65B91 /* Development.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Development.xcconfig; path = "/Library/Application Support/MWorks/Developer/Xcode/Development.xcconfig"; sourceTree = "<absolute>"; };
+		5CC9877C1159366900B65B91 /* WARNING.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = WARNING.txt; path = "/Library/Application Support/MWorks/Developer/Xcode/WARNING.txt"; sourceTree = "<absolute>"; };
+		8D5B49B6048680CD000E48DA /* DriftingGratingStimulusPlugin.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DriftingGratingStimulusPlugin.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D2F7E65807B2D6F200F64583 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8D5B49B3048680CD000E48DA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5C4B0A650DC79212001BC518 /* MWorksCore.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		089C166AFE841209C02AAC07 /* DriftingGratingStimulusPlugin */ = {
+			isa = PBXGroup;
+			children = (
+				5CC987761159362800B65B91 /* External Config */,
+				08FB77AFFE84173DC02AAC07 /* Classes */,
+				32C88E010371C26100C91783 /* Other Sources */,
+				089C167CFE841241C02AAC07 /* Resources */,
+				089C1671FE841209C02AAC07 /* Frameworks and Libraries */,
+				19C28FB8FE9D52D311CA2CBB /* Products */,
+			);
+			name = DriftingGratingStimulusPlugin;
+			sourceTree = "<group>";
+		};
+		089C1671FE841209C02AAC07 /* Frameworks and Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */,
+				1058C7AEFEA557BF11CA2CBB /* Other Frameworks */,
+			);
+			name = "Frameworks and Libraries";
+			sourceTree = "<group>";
+		};
+		089C167CFE841241C02AAC07 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				0EDCBABE0EE9D39B00432792 /* MWLibrary.xml */,
+				8D5B49B7048680CD000E48DA /* Info.plist */,
+				089C167DFE841241C02AAC07 /* InfoPlist.strings */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		08FB77AFFE84173DC02AAC07 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				0EB9927E0EC4C26200A282C7 /* DriftingGratingStimulus */,
+				0EC0F2550EC52DE5004AD5CE /* Plugin */,
+				0EC0F2350EC52B22004AD5CE /* Masks */,
+				0EC0F2C90EC533CA004AD5CE /* Textures */,
+				0EE4686B0ECCB6DC00C4CDE7 /* DriftingGratingUtilities.h */,
+				0EE4686C0ECCB6DC00C4CDE7 /* DriftingGratingUtilities.cpp */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		0EB9927E0EC4C26200A282C7 /* DriftingGratingStimulus */ = {
+			isa = PBXGroup;
+			children = (
+				0E287D300E64A5CD005BE396 /* DriftingGratingStimulus.h */,
+				0E287D2F0E64A5CD005BE396 /* DriftingGratingStimulus.cpp */,
+			);
+			name = DriftingGratingStimulus;
+			sourceTree = "<group>";
+		};
+		0EC0F2350EC52B22004AD5CE /* Masks */ = {
+			isa = PBXGroup;
+			children = (
+				0EC0F2360EC52B36004AD5CE /* Mask.h */,
+				0EE467A30ECC995F00C4CDE7 /* Mask.cpp */,
+				0EC0F23E0EC52BC0004AD5CE /* RectangleMask.h */,
+				0EC0F23F0EC52BC0004AD5CE /* RectangleMask.cpp */,
+				0EC0F2480EC52D17004AD5CE /* EllipseMask.h */,
+				0EC0F2490EC52D17004AD5CE /* EllipseMask.cpp */,
+				0EE4691B0ECCBB4D00C4CDE7 /* GaussianMask.h */,
+				0EE4691C0ECCBB4D00C4CDE7 /* GaussianMask.cpp */,
+			);
+			name = Masks;
+			sourceTree = "<group>";
+		};
+		0EC0F2550EC52DE5004AD5CE /* Plugin */ = {
+			isa = PBXGroup;
+			children = (
+				0E37FBA10E59C3DD008B885D /* DriftingGratingStimulusPlugin.cpp */,
+			);
+			name = Plugin;
+			sourceTree = "<group>";
+		};
+		0EC0F2C90EC533CA004AD5CE /* Textures */ = {
+			isa = PBXGroup;
+			children = (
+				0EC0F2CA0EC533E8004AD5CE /* GratingData.h */,
+				0EE467280ECC934400C4CDE7 /* GratingData.cpp */,
+				0EC0F2D10EC53519004AD5CE /* SinusoidGratingData.h */,
+				0EC0F2D20EC53519004AD5CE /* SinusoidGratingData.cpp */,
+				0EC0F33A0EC5395C004AD5CE /* SquareGratingData.h */,
+				0EC0F33B0EC5395C004AD5CE /* SquareGratingData.cpp */,
+				0E3891CA0ECD26E500F044B8 /* TriangleGratingData.h */,
+				0E3891CB0ECD26E500F044B8 /* TriangleGratingData.cpp */,
+				0EF49B6D0ECD2A6700A82BC8 /* SawtoothGratingData.h */,
+				0EF49B6E0ECD2A6700A82BC8 /* SawtoothGratingData.cpp */,
+			);
+			name = Textures;
+			sourceTree = "<group>";
+		};
+		1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				5C4B0A630DC79212001BC518 /* MWorksCore.framework */,
+			);
+			name = "Linked Frameworks";
+			sourceTree = "<group>";
+		};
+		1058C7AEFEA557BF11CA2CBB /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				089C167FFE841241C02AAC07 /* AppKit.framework */,
+				D2F7E65807B2D6F200F64583 /* CoreData.framework */,
+				089C1672FE841209C02AAC07 /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		19C28FB8FE9D52D311CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8D5B49B6048680CD000E48DA /* DriftingGratingStimulusPlugin.bundle */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		32C88E010371C26100C91783 /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				32DBCF630370AF2F00C91783 /* DriftingGratingStimulusPlugin_Prefix.pch */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		5CC987761159362800B65B91 /* External Config */ = {
+			isa = PBXGroup;
+			children = (
+				5CC9877B1159366900B65B91 /* Development.xcconfig */,
+				5CC9877C1159366900B65B91 /* WARNING.txt */,
+			);
+			name = "External Config";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8D5B49AC048680CD000E48DA /* DriftingGratingStimulusPlugin */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1DEB913A08733D840010E9CD /* Build configuration list for PBXNativeTarget "DriftingGratingStimulusPlugin" */;
+			buildPhases = (
+				8D5B49AF048680CD000E48DA /* Resources */,
+				8D5B49B1048680CD000E48DA /* Sources */,
+				8D5B49B3048680CD000E48DA /* Frameworks */,
+				5C4B0B5D0DC7CAB9001BC518 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = DriftingGratingStimulusPlugin;
+			productInstallPath = "$(HOME)/Library/Bundles";
+			productName = DriftingGratingStimulusPlugin;
+			productReference = 8D5B49B6048680CD000E48DA /* DriftingGratingStimulusPlugin.bundle */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		089C1669FE841209C02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0410;
+			};
+			buildConfigurationList = 1DEB913E08733D840010E9CD /* Build configuration list for PBXProject "DriftingGratingStimulusPlugin" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
+			mainGroup = 089C166AFE841209C02AAC07 /* DriftingGratingStimulusPlugin */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8D5B49AC048680CD000E48DA /* DriftingGratingStimulusPlugin */,
+				0E121C0D0E6B1CD6007B29B8 /* UninstallDriftingGratingStimulusPlugin */,
+				E17B9D28119C9E7E00EEBF5D /* Everything */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8D5B49AF048680CD000E48DA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */,
+				0EDCBABF0EE9D39B00432792 /* MWLibrary.xml in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		0E121C0C0E6B1CD6007B29B8 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# shell script goes here\nrm -Rf \"$PLUGINS_DIR/DriftingGratingStimulusPlugin.bundle\"\nexit 0";
+		};
+		5C4B0B5D0DC7CAB9001BC518 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "export FULL_NAME=${PRODUCT_NAME}.${WRAPPER_EXTENSION}\n\nrm -Rf \"$PLUGINS_DIR/${FULL_NAME}\"\ncp -R \"$BUILT_PRODUCTS_DIR/${FULL_NAME}\" \"$PLUGINS_DIR\"";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8D5B49B1048680CD000E48DA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0E37FBA30E59C3DD008B885D /* DriftingGratingStimulusPlugin.cpp in Sources */,
+				0E287D330E64A5CD005BE396 /* DriftingGratingStimulus.cpp in Sources */,
+				0EC0F2400EC52BC0004AD5CE /* RectangleMask.cpp in Sources */,
+				0EC0F24A0EC52D17004AD5CE /* EllipseMask.cpp in Sources */,
+				0EC0F2D30EC53519004AD5CE /* SinusoidGratingData.cpp in Sources */,
+				0EC0F33C0EC5395C004AD5CE /* SquareGratingData.cpp in Sources */,
+				0EE467290ECC934400C4CDE7 /* GratingData.cpp in Sources */,
+				0EE467A40ECC995F00C4CDE7 /* Mask.cpp in Sources */,
+				0EE4686D0ECCB6DC00C4CDE7 /* DriftingGratingUtilities.cpp in Sources */,
+				0EE4691D0ECCBB4D00C4CDE7 /* GaussianMask.cpp in Sources */,
+				0E3891CC0ECD26E500F044B8 /* TriangleGratingData.cpp in Sources */,
+				0EF49B6F0ECD2A6700A82BC8 /* SawtoothGratingData.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		E17B9D2C119C9E8700EEBF5D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8D5B49AC048680CD000E48DA /* DriftingGratingStimulusPlugin */;
+			targetProxy = E17B9D2B119C9E8700EEBF5D /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		089C167DFE841241C02AAC07 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				089C167EFE841241C02AAC07 /* English */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		0E121C0E0E6B1CD6007B29B8 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = DriftingGratingStimulusPlugin.bundle;
+			};
+			name = Development;
+		};
+		0E121C0F0E6B1CD6007B29B8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = DriftingGratingStimulusPlugin.bundle;
+			};
+			name = Release;
+		};
+		1DEB913B08733D840010E9CD /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = /Library/Frameworks;
+				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = DriftingGratingStimulusPlugin_Prefix.pch;
+				HEADER_SEARCH_PATHS = (
+					$MW_INCLUDE_DIR,
+					/usr/include/libxml2,
+				);
+				INFOPLIST_FILE = Info.plist;
+				LIBRARY_SEARCH_PATHS = $MW_LIB_DIR;
+				OTHER_LDFLAGS = (
+					"-framework",
+					OpenGL,
+					"-lboost_regex",
+				);
+				PRODUCT_NAME = DriftingGratingStimulusPlugin;
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Development;
+		};
+		1DEB913C08733D840010E9CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = DriftingGratingStimulusPlugin_Prefix.pch;
+				HEADER_SEARCH_PATHS = /usr/include/libxml2;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Library/Bundles";
+				OTHER_LDFLAGS = "-lboost_regex";
+				PRODUCT_NAME = DriftingGratingStimulusPlugin;
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Release;
+		};
+		1DEB913F08733D840010E9CD /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5CC9877B1159366900B65B91 /* Development.xcconfig */;
+			buildSettings = {
+				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+			};
+			name = Development;
+		};
+		1DEB914008733D840010E9CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					x86_64,
+					i386,
+				);
+				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				SDKROOT = macosx10.6;
+			};
+			name = Release;
+		};
+		E17B9D29119C9E7E00EEBF5D /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = Everything;
+			};
+			name = Development;
+		};
+		E17B9D2A119C9E7E00EEBF5D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				PRODUCT_NAME = Everything;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		0E121C190E6B1CF6007B29B8 /* Build configuration list for PBXAggregateTarget "UninstallDriftingGratingStimulusPlugin" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0E121C0E0E6B1CD6007B29B8 /* Development */,
+				0E121C0F0E6B1CD6007B29B8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1DEB913A08733D840010E9CD /* Build configuration list for PBXNativeTarget "DriftingGratingStimulusPlugin" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DEB913B08733D840010E9CD /* Development */,
+				1DEB913C08733D840010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1DEB913E08733D840010E9CD /* Build configuration list for PBXProject "DriftingGratingStimulusPlugin" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DEB913F08733D840010E9CD /* Development */,
+				1DEB914008733D840010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E17B9D30119C9E8D00EEBF5D /* Build configuration list for PBXAggregateTarget "Everything" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E17B9D29119C9E7E00EEBF5D /* Development */,
+				E17B9D2A119C9E7E00EEBF5D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 089C1669FE841209C02AAC07 /* Project object */;
+}

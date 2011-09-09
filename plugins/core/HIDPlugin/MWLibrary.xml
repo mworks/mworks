@@ -1,0 +1,37 @@
+<MWElements>
+	<MWElement name="HID IO Device">
+		<!-- XPath 2.0 expression defining nodes of this type -->
+		<match_signature>iodevice[@type='usbhid']</match_signature>
+
+		<!-- Inheritance -->
+		<isa>IODevice</isa>
+		
+		<description>
+			Used for interfacing to a usb HID device
+		</description>
+		<icon>smallIOFolder</icon>
+
+		<!-- Payload -->
+		<code>
+			<iodevice tag="USBHID" priority="" type="usbhid" alt=""/>
+		</code>
+	</MWElement>	
+	<MWElement name="HID IO Channel">
+		<!-- XPath 2.0 expression defining nodes of this type -->
+		<match_signature>iochannel[@type='usbhid']</match_signature>
+
+		<!-- Inheritance -->
+		<isa>IOChannel</isa>
+		<allowed_parent>HID IO Device</allowed_parent>
+
+		<description>
+			Used for interfacing to a usb HID device
+		</description>
+		<icon>smallIOFolder</icon>
+
+		<!-- Payload -->
+		<code>
+			            <iochannel tag="USBHID button" type="usbhid" data_interval="5us" update_interval="50ms" variable="" capability="Button_X" data_type="analog" direction="input" synchrony="asynchronous" range_min="0" range_max="0" resolution="1"></iochannel>
+								</code>
+	</MWElement>	
+	</MWElements>
