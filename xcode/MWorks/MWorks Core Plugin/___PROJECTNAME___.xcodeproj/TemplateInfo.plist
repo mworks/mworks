@@ -1,0 +1,6 @@
+{
+	FilesToMacroExpand = (
+		"INSTRUCTIONS.txt",
+	);
+	Description = "This project builds a MWorks Core Plugin";
+}
