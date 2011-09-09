@@ -1,0 +1,564 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		0E121BE30E6B1BA0007B29B8 /* UninstallServer */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 0E121BE90E6B1BC1007B29B8 /* Build configuration list for PBXAggregateTarget "UninstallServer" */;
+			buildPhases = (
+				0E121BE20E6B1BA0007B29B8 /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = UninstallServer;
+			productName = UninstallServer;
+		};
+		5C488A6F0F4E291200C5A526 /* Set Version String */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 5C488A7F0F4E293D00C5A526 /* Build configuration list for PBXAggregateTarget "Set Version String" */;
+			buildPhases = (
+				5C488A6E0F4E291200C5A526 /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = "Set Version String";
+			productName = "Set Version String";
+		};
+		5C77F4B110E969C600919719 /* Everything */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 5C77F4C510E969E600919719 /* Build configuration list for PBXAggregateTarget "Everything" */;
+			buildPhases = (
+			);
+			dependencies = (
+				5C77F4B610E969CB00919719 /* PBXTargetDependency */,
+			);
+			name = Everything;
+			productName = Everything;
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		0E054D520CB0690200104CD5 /* MWSNetworkPreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E054D510CB0690200104CD5 /* MWSNetworkPreferencesController.m */; };
+		0E1F31B50C5B1FEA00EB89EA /* MWorksCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E1F31B40C5B1FEA00EB89EA /* MWorksCocoa.framework */; };
+		0EA037950C3D8313007C37CF /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EA037940C3D8313007C37CF /* MWorksCore.framework */; };
+		0EA037E00C3D879F007C37CF /* YellowMonkey.icns in Resources */ = {isa = PBXBuildFile; fileRef = 0EA037DF0C3D879F007C37CF /* YellowMonkey.icns */; };
+		0EA0380A0C3D8A9A007C37CF /* MWSServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA038090C3D8A9A007C37CF /* MWSServer.m */; };
+		68E8A3740C9EBE68003ECAB7 /* MWSToolbarControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 68E8A3730C9EBE68003ECAB7 /* MWSToolbarControl.m */; };
+		68E8A3FD0C9EC7F7003ECAB7 /* MWSMenuControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 68E8A3FC0C9EC7F7003ECAB7 /* MWSMenuControl.m */; };
+		68E8A40D0C9EC969003ECAB7 /* MWSNetworkToolbarItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 68E8A40C0C9EC969003ECAB7 /* MWSNetworkToolbarItem.m */; };
+		8D11072A0486CEB800E47090 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 29B97318FDCFA39411CA2CEA /* MainMenu.nib */; };
+		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
+		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
+		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		5C488A720F4E293300C5A526 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5C488A6F0F4E291200C5A526;
+			remoteInfo = "Set Version String";
+		};
+		5C77F4B510E969CB00919719 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8D1107260486CEB800E47090;
+			remoteInfo = MWorksServer;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		0E054D500CB0690200104CD5 /* MWSNetworkPreferencesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MWSNetworkPreferencesController.h; path = Network/MWSNetworkPreferencesController.h; sourceTree = "<group>"; };
+		0E054D510CB0690200104CD5 /* MWSNetworkPreferencesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MWSNetworkPreferencesController.m; path = Network/MWSNetworkPreferencesController.m; sourceTree = "<group>"; };
+		0E1F31B40C5B1FEA00EB89EA /* MWorksCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MWorksCocoa.framework; path = /Library/Frameworks/MWorksCocoa.framework; sourceTree = "<absolute>"; };
+		0EA037940C3D8313007C37CF /* MWorksCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; name = MWorksCore.framework; path = /Library/Frameworks/MWorksCore.framework; sourceTree = "<absolute>"; };
+		0EA037DF0C3D879F007C37CF /* YellowMonkey.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = YellowMonkey.icns; sourceTree = "<group>"; };
+		0EA038080C3D8A9A007C37CF /* MWSServer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MWSServer.h; sourceTree = "<group>"; };
+		0EA038090C3D8A9A007C37CF /* MWSServer.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = MWSServer.m; sourceTree = "<group>"; };
+		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		29B97319FDCFA39411CA2CEA /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/MainMenu.nib; sourceTree = "<group>"; };
+		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
+		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		32CA4F630368D1EE00C91783 /* MWServer_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWServer_Prefix.pch; sourceTree = "<group>"; };
+		5C6615620F4C91CC00C8FD71 /* Info.template.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.template.plist; sourceTree = "<group>"; };
+		5CE62A30115854CF00C757F1 /* Development.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Development.xcconfig; path = "/Library/Application Support/MWorks/Developer/Xcode/Development.xcconfig"; sourceTree = "<absolute>"; };
+		5CE62A31115854CF00C757F1 /* WARNING.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = WARNING.txt; path = "/Library/Application Support/MWorks/Developer/Xcode/WARNING.txt"; sourceTree = "<absolute>"; };
+		68B526B00CA0248A0093D825 /* MWSConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWSConstants.h; sourceTree = "<group>"; };
+		68E8A3720C9EBE68003ECAB7 /* MWSToolbarControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWSToolbarControl.h; sourceTree = "<group>"; };
+		68E8A3730C9EBE68003ECAB7 /* MWSToolbarControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWSToolbarControl.m; sourceTree = "<group>"; };
+		68E8A3FB0C9EC7F7003ECAB7 /* MWSMenuControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWSMenuControl.h; sourceTree = "<group>"; };
+		68E8A3FC0C9EC7F7003ECAB7 /* MWSMenuControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWSMenuControl.m; sourceTree = "<group>"; };
+		68E8A40B0C9EC969003ECAB7 /* MWSNetworkToolbarItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWSNetworkToolbarItem.h; sourceTree = "<group>"; };
+		68E8A40C0C9EC969003ECAB7 /* MWSNetworkToolbarItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWSNetworkToolbarItem.m; sourceTree = "<group>"; };
+		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		8D1107320486CEB800E47090 /* MWServer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MWServer.app; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8D11072E0486CEB800E47090 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
+				0EA037950C3D8313007C37CF /* MWorksCore.framework in Frameworks */,
+				0E1F31B50C5B1FEA00EB89EA /* MWorksCocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0E054D4F0CB068D000104CD5 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				0E054D500CB0690200104CD5 /* MWSNetworkPreferencesController.h */,
+				0E054D510CB0690200104CD5 /* MWSNetworkPreferencesController.m */,
+			);
+			name = Network;
+			sourceTree = "<group>";
+		};
+		0EA037DE0C3D879F007C37CF /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				0EA037DF0C3D879F007C37CF /* YellowMonkey.icns */,
+			);
+			path = Images;
+			sourceTree = "<group>";
+		};
+		0EA038070C3D8A9A007C37CF /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				0E054D4F0CB068D000104CD5 /* Network */,
+				0ECEAFE80CA1F693002F52CA /* GUIControls */,
+				29B97316FDCFA39411CA2CEA /* main.m */,
+				0EA038080C3D8A9A007C37CF /* MWSServer.h */,
+				0EA038090C3D8A9A007C37CF /* MWSServer.m */,
+				68B526B00CA0248A0093D825 /* MWSConstants.h */,
+			);
+			path = Source;
+			sourceTree = "<group>";
+		};
+		0ECEAFE80CA1F693002F52CA /* GUIControls */ = {
+			isa = PBXGroup;
+			children = (
+				68E8A3FB0C9EC7F7003ECAB7 /* MWSMenuControl.h */,
+				68E8A3FC0C9EC7F7003ECAB7 /* MWSMenuControl.m */,
+				0ECEAFE90CA1F6A2002F52CA /* Toolbar */,
+			);
+			name = GUIControls;
+			sourceTree = "<group>";
+		};
+		0ECEAFE90CA1F6A2002F52CA /* Toolbar */ = {
+			isa = PBXGroup;
+			children = (
+				68E8A3720C9EBE68003ECAB7 /* MWSToolbarControl.h */,
+				68E8A3730C9EBE68003ECAB7 /* MWSToolbarControl.m */,
+				68E8A40B0C9EC969003ECAB7 /* MWSNetworkToolbarItem.h */,
+				68E8A40C0C9EC969003ECAB7 /* MWSNetworkToolbarItem.m */,
+			);
+			name = Toolbar;
+			sourceTree = "<group>";
+		};
+		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
+			);
+			name = "Linked Frameworks";
+			sourceTree = "<group>";
+		};
+		1058C7A2FEA54F0111CA2CBB /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				29B97324FDCFA39411CA2CEA /* AppKit.framework */,
+				29B97325FDCFA39411CA2CEA /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		19C28FACFE9D520D11CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8D1107320486CEB800E47090 /* MWServer.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		29B97314FDCFA39411CA2CEA /* MWorksServer */ = {
+			isa = PBXGroup;
+			children = (
+				5CE62A2E115854AB00C757F1 /* External Config */,
+				0EA038070C3D8A9A007C37CF /* Source */,
+				0EA037DE0C3D879F007C37CF /* Images */,
+				29B97315FDCFA39411CA2CEA /* Other Sources */,
+				29B97317FDCFA39411CA2CEA /* Resources */,
+				29B97323FDCFA39411CA2CEA /* Frameworks */,
+				19C28FACFE9D520D11CA2CBB /* Products */,
+			);
+			name = MWorksServer;
+			sourceTree = "<group>";
+		};
+		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				32CA4F630368D1EE00C91783 /* MWServer_Prefix.pch */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		29B97317FDCFA39411CA2CEA /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				5C6615620F4C91CC00C8FD71 /* Info.template.plist */,
+				8D1107310486CEB800E47090 /* Info.plist */,
+				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
+				29B97318FDCFA39411CA2CEA /* MainMenu.nib */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0E1F31B40C5B1FEA00EB89EA /* MWorksCocoa.framework */,
+				0EA037940C3D8313007C37CF /* MWorksCore.framework */,
+				1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */,
+				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		5CE62A2E115854AB00C757F1 /* External Config */ = {
+			isa = PBXGroup;
+			children = (
+				5CE62A30115854CF00C757F1 /* Development.xcconfig */,
+				5CE62A31115854CF00C757F1 /* WARNING.txt */,
+			);
+			name = "External Config";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8D1107260486CEB800E47090 /* MWorksServer */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "MWorksServer" */;
+			buildPhases = (
+				8D1107290486CEB800E47090 /* Resources */,
+				8D11072C0486CEB800E47090 /* Sources */,
+				8D11072E0486CEB800E47090 /* Frameworks */,
+				0EA0379E0C3D83A4007C37CF /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				5C488A730F4E293300C5A526 /* PBXTargetDependency */,
+			);
+			name = MWorksServer;
+			productInstallPath = "$(HOME)/Applications";
+			productName = MWorksServer;
+			productReference = 8D1107320486CEB800E47090 /* MWServer.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		29B97313FDCFA39411CA2CEA /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0410;
+			};
+			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "MWServer" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
+			mainGroup = 29B97314FDCFA39411CA2CEA /* MWorksServer */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8D1107260486CEB800E47090 /* MWorksServer */,
+				0E121BE30E6B1BA0007B29B8 /* UninstallServer */,
+				5C488A6F0F4E291200C5A526 /* Set Version String */,
+				5C77F4B110E969C600919719 /* Everything */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8D1107290486CEB800E47090 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D11072A0486CEB800E47090 /* MainMenu.nib in Resources */,
+				8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */,
+				0EA037E00C3D879F007C37CF /* YellowMonkey.icns in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		0E121BE20E6B1BA0007B29B8 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# shell script goes here\nrm -rf /Applications/MWServer.app\n\nexit 0";
+		};
+		0EA0379E0C3D83A4007C37CF /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "export FULL_NAME=${PRODUCT_NAME}.${WRAPPER_EXTENSION}\nexport FINAL_INSTALL_DIR=\"/Applications\"\n\n# copy the framework to the proper directory\nrm -dfR \"${FINAL_INSTALL_DIR}/${FULL_NAME}\"\ncp -Rf \"${BUILT_PRODUCTS_DIR}/${FULL_NAME}\" \"${FINAL_INSTALL_DIR}\"\n";
+		};
+		5C488A6E0F4E291200C5A526 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/zsh;
+			shellScript = "export SOURCE_DIR=./\n\nexport GIT=`/usr/bin/env which git`\necho $GIT\nexport VERSION_STRING=\"`$GIT log -n1  --pretty=format:%h`\"\n\n\necho $VERSION_STRING\nexport SUBS_STRING=s/_VERSION_STRING_/${VERSION_STRING}/\nsed $SUBS_STRING  ${SOURCE_DIR}/Info.template.plist > ${SOURCE_DIR}/Info.plist\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8D11072C0486CEB800E47090 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D11072D0486CEB800E47090 /* main.m in Sources */,
+				0EA0380A0C3D8A9A007C37CF /* MWSServer.m in Sources */,
+				68E8A3740C9EBE68003ECAB7 /* MWSToolbarControl.m in Sources */,
+				68E8A3FD0C9EC7F7003ECAB7 /* MWSMenuControl.m in Sources */,
+				68E8A40D0C9EC969003ECAB7 /* MWSNetworkToolbarItem.m in Sources */,
+				0E054D520CB0690200104CD5 /* MWSNetworkPreferencesController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		5C488A730F4E293300C5A526 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5C488A6F0F4E291200C5A526 /* Set Version String */;
+			targetProxy = 5C488A720F4E293300C5A526 /* PBXContainerItemProxy */;
+		};
+		5C77F4B610E969CB00919719 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8D1107260486CEB800E47090 /* MWorksServer */;
+			targetProxy = 5C77F4B510E969CB00919719 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		089C165CFE840E0CC02AAC07 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				089C165DFE840E0CC02AAC07 /* English */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		29B97318FDCFA39411CA2CEA /* MainMenu.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				29B97319FDCFA39411CA2CEA /* English */,
+			);
+			name = MainMenu.nib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		0E121BE40E6B1BA0007B29B8 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = UninstallServer;
+			};
+			name = Development;
+		};
+		0E121BE50E6B1BA0007B29B8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Release;
+		};
+		5C488A700F4E291200C5A526 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = "Set Version String";
+			};
+			name = Development;
+		};
+		5C488A710F4E291200C5A526 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				PRODUCT_NAME = "Set Version String";
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		5C77F4B210E969C600919719 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = Everything;
+			};
+			name = Development;
+		};
+		5C77F4B410E969C600919719 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				PRODUCT_NAME = Everything;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		C01FCF4B08A954540054247B /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CONFIG_DIR = "$(APP_SUPPORT_DIR)/Configuration";
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_GC = unsupported;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = /Applications;
+				PRODUCT_NAME = MWServer;
+				VERSIONS_DIR = "$(CONFIG_DIR)/Versions";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Development;
+		};
+		C01FCF4C08A954540054247B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = /Applications;
+				PRODUCT_NAME = MWorksServer;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		C01FCF4F08A954540054247B /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5CE62A30115854CF00C757F1 /* Development.xcconfig */;
+			buildSettings = {
+				GCC_ENABLE_OBJC_GC = unsupported;
+				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
+				GCC_OBJC_CALL_CXX_CDTORS = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
+				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
+			};
+			name = Development;
+		};
+		C01FCF5008A954540054247B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = /Library/Frameworks;
+				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
+				GCC_OBJC_CALL_CXX_CDTORS = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = /Library/MonkeyWorks/include;
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				SDKROOT = "";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		0E121BE90E6B1BC1007B29B8 /* Build configuration list for PBXAggregateTarget "UninstallServer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0E121BE40E6B1BA0007B29B8 /* Development */,
+				0E121BE50E6B1BA0007B29B8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		5C488A7F0F4E293D00C5A526 /* Build configuration list for PBXAggregateTarget "Set Version String" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5C488A700F4E291200C5A526 /* Development */,
+				5C488A710F4E291200C5A526 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		5C77F4C510E969E600919719 /* Build configuration list for PBXAggregateTarget "Everything" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5C77F4B210E969C600919719 /* Development */,
+				5C77F4B410E969C600919719 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "MWorksServer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C01FCF4B08A954540054247B /* Development */,
+				C01FCF4C08A954540054247B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "MWServer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C01FCF4F08A954540054247B /* Development */,
+				C01FCF5008A954540054247B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 29B97313FDCFA39411CA2CEA /* Project object */;
+}
