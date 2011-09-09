@@ -1,0 +1,5 @@
+MWorksCocoa.xcodeproj/*.pbxuser
+MWorksCocoa.xcodeproj/*.perspectivev3
+MWorksCocoa.xcodeproj/project.xcworkspace/xcuserdata/
+MWorksCocoa.xcodeproj/xcuserdata/
+build/
