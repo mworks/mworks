@@ -1,0 +1,45 @@
+#!/usr/bin/python
+
+#
+# If setup_variables.xml doesn't exist, create it
+#
+
+
+import os
+from subprocess import check_call
+import sys
+
+
+config_dir = '/Library/Application Support/MWorks/Configuration/'
+system_setup_vars = config_dir + 'setup_variables.xml'
+user_setup_vars = os.path.expanduser('~' + system_setup_vars)
+archived_setup_vars = os.path.expanduser('~/Desktop/MWorks Backup' +
+                                         system_setup_vars)
+example_setup_vars = config_dir + 'examples/setup_variables_macbook.xml'
+
+
+def announce(msg, *args):
+    sys.stdout.write((msg + '\n') % args)
+
+
+def create_setup_vars():
+    for setup_vars in (user_setup_vars, system_setup_vars):
+        if os.path.isfile(setup_vars):
+            announce('Found "%s"', setup_vars)
+            return
+
+    if os.path.isfile(archived_setup_vars):
+        setup_vars = archived_setup_vars
+    else:
+        setup_vars = example_setup_vars
+
+    announce('Copying "%s" to "%s"', setup_vars, system_setup_vars)
+    check_call(['cp', '-p', setup_vars, system_setup_vars])
+
+
+def main():
+    create_setup_vars()
+
+
+if __name__ == '__main__':
+    main()

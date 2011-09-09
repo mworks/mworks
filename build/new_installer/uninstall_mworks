@@ -1,0 +1,134 @@
+#!/usr/bin/python
+
+from collections import deque
+from optparse import OptionParser
+import os
+import pwd
+from subprocess import check_call
+import sys
+import time
+
+
+mw_files = (
+    # Current
+    '/Applications/MWClient.app',
+    '/Applications/MWEditor.app',
+    '/Applications/MWServer.app',
+    '/Library/Application Support/Developer/Shared/Xcode/Project Templates/MWorks',
+    '/Library/Application Support/MWorks',
+    '/Library/Frameworks/MWorksCocoa.framework',
+    '/Library/Frameworks/MWorksCore.framework',
+    '/Library/Python/2.6/site-packages/mworks.pth',
+    '/Library/Python/2.7/site-packages/mworks.pth',
+
+    # Legacy
+    '/Developer/Library/Xcode/Project Templates/MWorks',
+    '/Documents/MWorks',
+    '/Documents/MonkeyWorks',
+    '/Library/Application Support/MWClient',
+    '/Library/Application Support/MWEditor',
+    '/Library/Application Support/MonkeyWorks',
+    '/Library/Application Support/MonkeyWorksClient',
+    '/Library/Application Support/MonkeyWorksEditor',
+    '/Library/Application Support/NewClient',
+    '/Library/Application Support/NewEditor',
+    '/Library/Frameworks/MonkeyWorksCocoa.framework',
+    '/Library/Frameworks/MonkeyWorksCore.framework',
+    '/Library/Frameworks/Narrative.framework',
+    '/Library/Frameworks/Scarab.framework',
+    '/Library/MonkeyWorks',
+    )
+
+
+def announce(msg, *args):
+    sys.stdout.write((msg + '\n') % args)
+
+
+def get_userdir(path):
+    return os.path.expanduser(os.path.join('~', path))
+
+
+def check_installed_files():
+    for filename in mw_files:
+        if os.path.exists(filename):
+            announce('Found installed MWorks files')
+            return True
+
+    announce('No installed MWorks files found')
+    return False
+
+
+def create_directory(dirname):
+    dirlist = deque()
+    while not os.path.exists(dirname):
+        dirlist.appendleft(dirname)
+        dirname = os.path.dirname(dirname)
+
+    # Since the backup may be created as root but moved/deleted by a
+    # normal user, we need to ensure that all created subdirectories
+    # have the same owner as the base directory
+    username = pwd.getpwuid(os.stat(dirname).st_uid).pw_name
+
+    for dirname in dirlist:
+        check_call(['mkdir', dirname])
+        check_call(['chown', username, dirname])
+
+
+def backup_files(backupdir):
+    if os.path.exists(backupdir):
+        timestamp = time.ctime(os.stat(backupdir)[-1]).replace(':', '.')
+        old_backupdir = '%s (%s)' % (backupdir, timestamp)
+        announce('Found existing "%s"; moving to "%s"', backupdir,
+                 old_backupdir)
+        check_call(['mv', backupdir, old_backupdir])
+
+    for filename in mw_files:
+        if os.path.exists(filename):
+            announce('Moving "%s" to "%s"', filename, backupdir)
+            destdir = os.path.join(backupdir, os.path.dirname(filename[1:]))
+            create_directory(destdir)
+            check_call(['mv', filename, destdir])
+
+
+def restore_files(backupdir):
+    if not os.path.isdir(backupdir):
+        return
+
+    for filename in mw_files:
+        srcfile = os.path.join(backupdir, filename[1:])
+        if os.path.exists(srcfile):
+            announce('Restoring "%s" from "%s"', filename, backupdir)
+            check_call(['mv', srcfile, os.path.dirname(filename)])
+
+    trashdir = get_userdir('.Trash')
+    announce('Moving "%s" to "%s"', backupdir, trashdir)
+    check_call(['mv', backupdir, trashdir])
+
+
+def main():
+    parser = OptionParser()
+    parser.add_option('-c', '--check', action='store_true', dest='check',
+                      help="check for installed MWorks files")
+    parser.add_option('-b', '--backup', action='store_true', dest='backup',
+                      help="don't restore, but back up old installation")
+    parser.add_option('-d', '--delete', action='store_true', dest='delete',
+                      help="permanently delete uninstalled files")
+    (options, args) = parser.parse_args()
+
+    backupdir = get_userdir('Desktop/MWorks Backup')
+
+    if options.check:
+        sys.exit(int(not check_installed_files()))
+    elif options.backup:
+        backup_files(backupdir)
+    else:
+        uninstalldir = get_userdir('.Trash/Uninstalled MWorks')
+        backup_files(uninstalldir)
+        restore_files(backupdir)
+        if options.delete:
+            announce('Deleting "%s"', uninstalldir)
+            check_call(['rm', '-Rf', uninstalldir])
+
+
+if __name__ == '__main__':
+    main()

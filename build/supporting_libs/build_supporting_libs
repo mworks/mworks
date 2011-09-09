@@ -1,0 +1,306 @@
+#!/usr/bin/python
+
+from contextlib import contextmanager
+import os
+import os.path
+import subprocess
+import sys
+
+
+################################################################################
+#
+# Shared configuration
+#
+################################################################################
+
+
+gcc_version = '4.2'
+gcc = '/Developer/usr/bin/gcc-' + gcc_version
+gplusplus = '/Developer/usr/bin/g++-' + gcc_version
+
+sdk_version = '10.6'
+sdk_root = '/Developer/SDKs/MacOSX%s.sdk' % sdk_version
+
+python_version = '2.6'
+python = '/usr/bin/python' + python_version
+
+ldflags = ('-arch x86_64 -arch i386 -isysroot %s -mmacosx-version-min=%s ' %
+           (sdk_root, sdk_version))
+cflags = ldflags + '-pipe -Os -mtune=core2 -gdwarf-2 -fexceptions '
+
+downloaddir = 'download'
+path_to_downloaddir = '../' + downloaddir
+builddir = 'source'
+stagedir = 'stage'
+path_to_stagedir = os.path.abspath(stagedir)
+installdir = '/Library/Application Support/MWorks/Developer'
+
+
+################################################################################
+#
+# Build helpers
+#
+################################################################################
+
+
+all_builders = []
+builder = all_builders.append  # For use as a decorator
+
+
+def announce(msg, *args):
+    sys.stderr.write((msg + '\n') % args)
+
+
+def check_call(args, **kwargs):
+    announce('Running command: %s', ' '.join(repr(a) for a in args))
+    subprocess.check_call(args, **kwargs)
+
+
+@contextmanager
+def workdir(path):
+    old_path = os.getcwd()
+    announce('Entering directory %r', path)
+    os.chdir(path)
+    yield
+    announce('Leaving directory %r', path)
+    os.chdir(old_path)
+
+
+def download_file(url, filename):
+    filepath = path_to_downloaddir + '/' + filename
+    if os.path.isfile(filepath):
+        announce('Already downloaded file %r', filename)
+    else:
+        check_call(['/usr/bin/curl', '-#', '-L', '-f', '-o', filepath, url])
+
+
+def download_tarfile(url_path, filename):
+    download_file(url_path + filename, filename)
+
+
+def download_tarfile_from_sf(path, version, filename):
+    url = (('http://downloads.sourceforge.net/project/%s/%s/%s'
+            '?use_mirror=autoselect') % (path, version, filename))
+    return download_file(url, filename)
+
+
+def remove_directory(path):
+    if os.path.isdir(path):
+        check_call(['/bin/rm', '-Rf', path])
+
+
+def unpack_tarfile(filename, outputdir):
+    remove_directory(outputdir)
+    check_call(['/usr/bin/tar', 'xf', path_to_downloaddir + '/' + filename])
+
+
+def run_configure_and_make(
+    srcdir,
+    extra_args = [],
+    command = ['./configure'],
+    extra_cflags = '',
+    extra_ldflags = '',
+    ):
+
+    env = os.environ.copy()
+    env.update({
+        'CC': gcc,
+        'CXX': gplusplus,
+        'CFLAGS': cflags + extra_cflags,
+        'CXXFLAGS': cflags + extra_cflags,
+        'LDFLAGS': ldflags + extra_ldflags,
+        })
+
+    with workdir(srcdir):
+        check_call(
+            args = command + [
+                '--prefix=' + path_to_stagedir,
+                '--disable-dependency-tracking',
+                '--disable-shared',
+                '--enable-static',
+                ] + extra_args,
+            env = env,
+            )
+        check_call(['/usr/bin/make', 'install'])
+
+
+################################################################################
+#
+# Library builders
+#
+################################################################################
+
+
+@builder
+def boost():
+    version = '1.45.0'
+    srcdir = 'boost_' + version.replace('.', '_')
+    tarfile = srcdir + '.tar.bz2'
+
+    download_tarfile_from_sf('boost/boost', version, tarfile)
+    unpack_tarfile(tarfile, srcdir)
+
+    with workdir(srcdir):
+        check_call([
+            './bootstrap.sh',
+            ('--with-libraries='
+             'filesystem,python,regex,serialization,system,test,thread'),
+            '--without-icu',
+            '--with-python=' + python,
+            '--prefix=' + path_to_stagedir,
+            ])
+        check_call([
+            './bjam',
+            'optimization=space',
+            'debug-symbols=on',
+            'inlining=on',
+            'runtime-debugging=off',
+            'link=static',
+            'threading=multi',
+            'architecture=x86',
+            'address-model=32_64',
+            'macosx-version=' + sdk_version,
+            'macosx-version-min=' + sdk_version,
+            'install',
+            ])
+
+
+@builder
+def libpng():
+    version = '1.2.44'
+    srcdir = 'libpng-' + version
+    tarfile = srcdir + '.tar.bz2'
+
+    download_tarfile_from_sf('libpng/libpng12/older-releases', version, tarfile)
+    unpack_tarfile(tarfile, srcdir)
+
+    run_configure_and_make(srcdir)
+
+
+@builder
+def jpeg():
+    version = '8b'
+    srcdir = 'jpeg-' + version
+    tarfile = 'jpegsrc.v%s.tar.gz' % version
+
+    download_tarfile('http://www.ijg.org/files/', tarfile)
+    unpack_tarfile(tarfile, srcdir)
+
+    run_configure_and_make(srcdir)
+
+
+@builder
+def lcms():
+    version = '1.19'
+    srcdir = 'lcms-' + version
+    tarfile = srcdir + '.tar.gz'
+
+    download_tarfile_from_sf('lcms/lcms', version, tarfile)
+    unpack_tarfile(tarfile, srcdir)
+
+    run_configure_and_make(srcdir)
+
+
+@builder
+def libmng():
+    version = '1.0.10'
+    srcdir = 'libmng-' + version
+    tarfile = srcdir + '.tar.bz2'
+
+    download_tarfile_from_sf('libmng/libmng-devel', version, tarfile)
+    unpack_tarfile(tarfile, srcdir)
+
+    run_configure_and_make(
+        srcdir = srcdir,
+        command = ['/bin/sh', 'unmaintained/autogen.sh'],
+        extra_args = [
+            '--with-jpeg=' + path_to_stagedir,
+            '--with-lcms=' + path_to_stagedir,
+            ],
+        )
+
+
+@builder
+def tiff():
+    version = '3.9.4'
+    srcdir = 'tiff-' + version
+    tarfile = srcdir + '.tar.gz'
+
+    download_tarfile('http://download.osgeo.org/libtiff/', tarfile)
+    unpack_tarfile(tarfile, srcdir)
+
+    run_configure_and_make(
+        srcdir = srcdir,
+        extra_args = ['--disable-cxx', '--with-apple-opengl-framework'],
+        )
+
+
+@builder
+def devil():
+    version = '1.7.8'
+    srcdir = 'devil-' + version
+    tarfile = 'DevIL-%s.tar.gz' % version
+
+    download_tarfile_from_sf('openil/DevIL', version, tarfile)
+    unpack_tarfile(tarfile, srcdir)
+
+    run_configure_and_make(
+        srcdir = srcdir,
+        extra_args = ['--enable-ILU', '--enable-ILUT'],
+        extra_cflags = ('-I%s/usr/include/malloc -I%s/include' %
+                        (sdk_root, path_to_stagedir)), 
+        extra_ldflags = ('-lstdc++ -L%s/lib' % path_to_stagedir), 
+        )
+
+
+@builder
+def cppunit():
+    version = '1.12.1'
+    srcdir = 'cppunit-' + version
+    tarfile = srcdir + '.tar.gz'
+
+    download_tarfile_from_sf('cppunit/cppunit', version, tarfile)
+    unpack_tarfile(tarfile, srcdir)
+
+    run_configure_and_make(srcdir)
+
+
+################################################################################
+#
+# Main function
+#
+################################################################################
+
+
+def main():
+    requested_builders = sys.argv[1:]
+    builder_names = set(buildfunc.__name__ for buildfunc in all_builders)
+
+    for name in requested_builders:
+        if name not in builder_names:
+            announce('ERROR: unknown builder: %r', name)
+            sys.exit(1)
+
+    if not requested_builders:
+        remove_directory(stagedir)
+    check_call(['/bin/mkdir', '-p', downloaddir, builddir, stagedir,
+                installdir])
+
+    with workdir(builddir):
+        for buildfunc in all_builders:
+            if ((not requested_builders) or
+                (buildfunc.__name__ in requested_builders)):
+                buildfunc()
+
+    # Remove unwanted build products
+    for dirpath in ('bin', 'lib/pkgconfig', 'share'):
+        remove_directory(stagedir + '/' + dirpath)
+    check_call(['/usr/bin/find', (stagedir + '/lib'), '-name', '*.la',
+                '-exec', '/bin/rm', '{}', ';'])
+
+    # Install files
+    check_call(['/usr/bin/rsync', '-a', (stagedir + '/'), installdir])
+
+
+if __name__ == '__main__':
+    main()

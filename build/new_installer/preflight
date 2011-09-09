@@ -1,0 +1,55 @@
+#!/bin/bash
+
+#
+# Check for and offer to backup an existing MWorks installation
+#
+
+set -u
+
+uninstall_mworks="${1}/Contents/Resources/uninstall_mworks"
+
+if ! "${uninstall_mworks}" --check; then
+    # No installation detected, nothing to backup
+    exit 0
+fi
+
+if ! /usr/bin/osascript > /dev/null 2>&1 <<EOF
+tell application "System Events"
+    activate
+    display dialog \
+      "Back up existing MWorks installation?" \
+      buttons {"No", "Yes"} \
+      default button "Yes" \
+      cancel button "No" \
+      with title "Previous Installation Detected" \
+      giving up after 30
+end tell
+EOF
+then
+    echo "User declined backup of existing MWorks installation"
+else
+    "${uninstall_mworks}" --backup || exit
+    /usr/bin/osascript > /dev/null 2>&1 <<EOF
+tell application "System Events"
+    activate
+    display dialog \
+      "Previous installation backed up to Desktop" \
+      buttons {"OK"} \
+      default button "OK" \
+      with title "Backup Complete" \
+      giving up after 10
+end tell
+EOF
+fi
+
+/usr/bin/osascript > /dev/null 2>&1 <<EOF
+tell application "System Events"
+    activate
+    set frontmostApp to name of first process whose frontmost is true
+end tell
+tell application frontmostApp
+   activate
+end tell
+EOF
+
+exit 0

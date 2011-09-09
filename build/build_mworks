@@ -1,0 +1,244 @@
+#!/usr/bin/python
+
+from contextlib import contextmanager
+from functools import partial, wraps
+from itertools import izip
+from optparse import OptionParser
+import os
+import os.path
+import subprocess
+import sys
+
+
+################################################################################
+#
+# Shared configuration
+#
+################################################################################
+
+
+mw_developer_dir = '/Library/Application Support/MWorks/Developer/'
+mw_bin_dir = mw_developer_dir + 'bin/'
+mw_xcode_dir = mw_developer_dir + 'Xcode/'
+
+mw_xcodebuild = mw_bin_dir + 'mw_xcodebuild'
+
+mw_xcode_configuration = 'Development'
+mw_version = 'CUSTOM'
+
+
+################################################################################
+#
+# Build helpers
+#
+################################################################################
+
+
+def announce(msg, *args):
+    sys.stderr.write((msg + '\n') % args)
+
+
+def check_call(args, **kwargs):
+    announce('Running command: %s', ' '.join(repr(a) for a in args))
+    subprocess.check_call(args, **kwargs)
+
+
+@contextmanager
+def workdir(path):
+    old_path = os.getcwd()
+    announce('Entering directory %r', path)
+    os.chdir(path)
+    yield
+    announce('Leaving directory %r', path)
+    os.chdir(old_path)
+
+
+all_builders = []
+required_builder_names = []
+
+def builder(func, build_dir=None, required=False):
+    if isinstance(func, basestring):
+        return partial(builder, build_dir=func, required=required)
+
+    if build_dir is None:
+        build_dir = func.__name__
+
+    @wraps(func)
+    def func_wrapper():
+        with workdir(build_dir):
+            func()
+
+    all_builders.append(func_wrapper)
+    if required:
+        required_builder_names.append(func_wrapper.__name__)
+
+
+def xcodebuild(target='Everything'):
+    check_call([mw_xcodebuild, target, mw_xcode_configuration, mw_version])
+
+
+def make(targets=[]):
+    check_call(
+        args = [
+            '/usr/bin/make',
+            'XCCONFIG_DIR=' + mw_xcode_dir.replace(' ', '\ ').rstrip('/'),
+            'XCCONFIG_NAME=' + mw_xcode_configuration,
+            'MW_VERSION=' + mw_version,
+            'MW_XCODEBUILD=' + mw_xcodebuild,
+            ] + targets,
+        )
+
+
+################################################################################
+#
+# Builders
+#
+################################################################################
+
+
+@builder('mw_build/new_installer')
+def uninstall():
+    check_call(['./uninstall_mworks', '--delete'])
+
+
+@builder('mw_build/xcode_config', required=True)
+def build_requirements():
+    make()
+
+
+@builder('mw_build/supporting_libs')
+def supporting_libs():
+    check_call(['./build_supporting_libs'])
+
+
+@builder
+def mw_scarab():
+    xcodebuild()
+
+
+@builder
+def mw_core():
+    xcodebuild()
+
+
+@builder
+def mw_datatools():
+    for subdir in ('DataFileIndexer', 'MWorksStreamUtilities'):
+        with workdir(subdir):
+            xcodebuild()
+
+    with workdir('MatlabDataReader'):
+        make(['clean', 'install'])
+
+
+@builder
+def mw_core_plugins():
+    for subdir in ('DriftingGratingStimulus',
+                   'HIDPlugin',
+                   'NE500',
+                   'SidewinderPlugAndPlayGamepadPlugin'):
+        with workdir(subdir):
+            xcodebuild()
+
+
+@builder
+def dicarlolab_mwcore_plugins():
+    for subdir in ('CircleStimulus',
+                   'FakeMonkeyPlugin',
+                   'ITC18Plugin',
+                   'MoviePlugin',
+                   'RectangleStimulus',
+                   'WhiteNoiseBackground'):
+        with workdir(subdir):
+            xcodebuild()
+
+
+@builder
+def mw_cocoa():
+    xcodebuild()
+
+
+@builder
+def mw_client():
+    xcodebuild()
+
+
+@builder
+def mw_client_plugins():
+    for subdir in ('BehavioralWindow',
+                   'PythonBridgePlugin',
+                   'VariablesWindow'):
+        with workdir(subdir):
+            xcodebuild()
+
+
+@builder
+def dicarlolab_mwclient_plugins():
+    for subdir in ('CalibratorWindow',
+                   'EyeWindow',
+                   'MATLABWindow',
+                   'RewardWindow'):
+        with workdir(subdir):
+            xcodebuild()
+
+
+@builder
+def mw_editor():
+    xcodebuild()
+
+
+@builder
+def mw_server():
+    xcodebuild()
+
+
+@builder
+def mw_examples():
+    make()
+
+
+@builder
+def mw_xcode_templates():
+    make(['test', 'install'])
+
+
+################################################################################
+#
+# Main function
+#
+################################################################################
+
+
+def main():
+    global mw_version
+
+    parser = OptionParser(usage='Usage: %prog [options] [builder_name ...]')
+    parser.add_option('--mw-version',
+                      dest = 'mw_version',
+                      default = mw_version,
+                      help = 'MWorks version number [default: %default]')
+
+    (options, requested_builders) = parser.parse_args()
+    mw_version = options.mw_version
+
+    all_builder_names = [builder.__name__ for builder in all_builders]
+
+    unknown_builders = [name for name in requested_builders
+                        if (name not in all_builder_names)]
+    if unknown_builders:
+        parser.error('unknown builders: ' +
+                     ', '.join(repr(name) for name in unknown_builders))
+
+    srcroot = os.path.abspath(os.path.dirname(__file__) + '/..')
+
+    with workdir(srcroot):
+        for builder_name, builder in izip(all_builder_names, all_builders):
+            if ((not requested_builders) or
+                (builder_name in requested_builders) or
+                (builder_name in required_builder_names)):
+
+                builder()
+
+
+if __name__ == '__main__':
+    main()
