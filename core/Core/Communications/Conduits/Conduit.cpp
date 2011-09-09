@@ -1,0 +1,35 @@
+/*
+ *  Conduit.cpp
+ *  MWorksCore
+ *
+ *  Created by David Cox on 9/25/08.
+ *  Copyright 2008 Harvard University. All rights reserved.
+ *
+ */
+
+#include "Conduit.h"
+using namespace mw;
+
+
+Conduit::Conduit(shared_ptr<EventTransport> _transport){
+    transport = _transport;
+    running = false;
+    timeout_ms = 1000;
+    stopping = false;
+    stopped = false;
+}
+
+
+
+// Send data to the other side.  It is assumed that both sides understand 
+// what the event codes mean.
+void Conduit::sendData(int code, Datum data){
+    //fprintf(stderr, "sending event");fflush(stderr);
+    shared_ptr<Event> event(new Event(code, data));
+    transport->sendEvent(event);
+}
+
+void Conduit::sendData(shared_ptr<Event> evt){
+    transport->sendEvent(evt);
+}
+

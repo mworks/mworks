@@ -1,0 +1,183 @@
+#!/usr/bin/python
+
+from cStringIO import StringIO
+from optparse import OptionParser
+import os
+from subprocess import call, Popen, PIPE
+import sys
+from tempfile import NamedTemporaryFile
+from xml.dom import minidom
+
+
+tests_dir = '/Library/Application Support/MWorks/Developer/tests'
+test_file_dir = os.path.join(tests_dir, 'XML')
+
+arch = '/usr/bin/arch'
+valid_arch_names = ('x86_64', 'i386')
+mworks_core_test_runner = os.path.join(tests_dir, 'MWorksCoreTestRunner')
+marionette_test = os.path.join(tests_dir, ('MarionetteTest.app/Contents/'
+                                           'MacOS/MarionetteTest'))
+
+test_file_extensions = ('.xml', '.mwtest')
+test_data_suffix = 'TESTDATA.xml'
+
+
+marionette_prep_applescript = """
+
+-- Ensure that the display is awake by simulating a CTRL key press
+tell application "System Events" to key code 59
+
+-- Ensure that audio isn't muted
+if (output muted of (get volume settings)) then
+    set volume output muted false
+end if
+set minVolume to 10
+if (output volume of (get volume settings)) < minVolume then
+    set volume output volume minVolume
+end if
+
+"""
+
+
+def error(status, msg, *args):
+    sys.stderr.write('ERROR: ' + (msg % args) + '\n')
+    sys.exit(status)
+
+
+def run_unit_tests(arch_name, test_names=None):
+    with NamedTemporaryFile() as output:
+        args = [arch, '-arch', arch_name, mworks_core_test_runner, output.name]
+        if test_names:
+            args.extend(test_names)
+
+        status = call(args)
+        if status not in (0, 1):
+            error(status, '%s quit unexpectedly',
+                  os.path.basename(mworks_core_test_runner))
+
+        results = minidom.parse(output)
+
+    failed_tests = results.getElementsByTagName('FailedTests')[0]
+    return [test.firstChild.data for test in
+            failed_tests.getElementsByTagName('Name')]
+
+
+def iter_marionette_tests(top_dir=test_file_dir):
+    for root, dirs, files in os.walk(top_dir):
+        for f in files:
+            if ((os.path.splitext(f)[1] in test_file_extensions) and
+                (not f.endswith(test_data_suffix))):
+                yield os.path.join(root, f)
+
+
+def run_marionette_tests(arch_name, test_names=None):
+    if not test_names:
+        test_file_iter = iter_marionette_tests
+    else:
+        def test_file_iter():
+            for test in test_names:
+                if not os.path.exists(test):
+                    test = os.path.join(test_file_dir, test)
+                if not os.path.isdir(test):
+                    yield test
+                else:
+                    for t in iter_marionette_tests(test):
+                        yield t
+
+    env = os.environ.copy()
+    env['MWORKS_WRITE_MESSAGES_TO_STDERR'] = '1'
+
+    failed_tests = []
+
+    for test_file in test_file_iter():
+        if not os.path.isfile(test_file):
+            error(3, 'no such file: "%s"', test_file)
+
+        args = [arch, '-arch', arch_name, marionette_test, test_file]
+
+        for test_data in ((os.path.splitext(test_file)[0] + '.' +
+                           test_data_suffix),
+                          os.path.join(os.path.dirname(test_file),
+                                       test_data_suffix)):
+            if os.path.isfile(test_data):
+                args.append(test_data)
+                break
+
+        if test_file.startswith(test_file_dir):
+            test_name = test_file[len(test_file_dir)+1:]
+        else:
+            test_name = test_file
+
+        cmd = Popen(['/usr/bin/osascript'], stdin=PIPE)
+        cmd.communicate(marionette_prep_applescript)
+        if cmd.returncode != 0:
+            error(cmd.returncode, 'osascript command failed')
+
+        print test_name,
+        sys.stdout.flush()
+        cmd = Popen(args, stderr=PIPE, env=env)
+        output = cmd.communicate()[1]
+        print ':',
+        if cmd.returncode == 0:
+            print 'OK'
+        else:
+            print 'error'
+            for line in output.strip().split('\n'):
+                print '    >', line
+            failed_tests.append(test_name)
+
+    return failed_tests
+
+
+def run_tests(arch_name, unit_test_names, marionette_test_names):
+    failed_tests = []
+
+    if unit_test_names:
+        failed_tests.extend(run_unit_tests(arch_name, unit_test_names))
+    elif not marionette_test_names:
+        failed_tests.extend(run_unit_tests(arch_name))
+
+    if marionette_test_names:
+        failed_tests.extend(run_marionette_tests(arch_name,
+                                                 marionette_test_names))
+    elif not unit_test_names:
+        failed_tests.extend(run_marionette_tests(arch_name))
+
+    print
+    if not failed_tests:
+        print 'ALL TESTS PASS'
+    else:
+        print 'FAILURES:\n'
+        for test_name in failed_tests:
+            print '    %s' % test_name
+    print
+
+    return failed_tests
+
+
+def main():
+    op = OptionParser(usage='Usage: %prog [options] [test_name ...]')
+    op.add_option('--arch',
+                  type = 'choice',
+                  choices = valid_arch_names,
+                  default = valid_arch_names[0],
+                  help = 'use specified CPU architecture')
+
+    (opts, args) = op.parse_args()
+
+    unit_test_names = []
+    marionette_test_names = []
+
+    for name in args:
+        if name.startswith('mw::'):
+            unit_test_names.append(name)
+        else:
+            marionette_test_names.append(name)
+
+    failed_tests = run_tests(opts.arch, unit_test_names, marionette_test_names)
+
+    sys.exit(bool(failed_tests))
+
+
+if __name__ == '__main__':
+    main()

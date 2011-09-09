@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<marionette_info>
+  <permitted_error_messages>
+    <!-- Test-specific messages are appended to this list -->
+    <message type="starts_with">WARNING: Write Service Routine Interrupted on id </message>
+    <message type="whole_message">WARNING: Failed to set thread priority: thread not running</message>
+  </permitted_error_messages>
+  <expected_messages>
+    <!-- Test-specific messages replace this list -->
+    <message type="whole_message">Called start on state system</message>
+    <message type="whole_message">Starting state system....</message>
+    <message type="whole_message">State system ending</message>
+    <message type="whole_message">Reseting experiment</message>
+  </expected_messages>
+  <expected_events>
+    <!-- Test-specific events replace this list -->
+    <event variable="#state_system_mode">
+      <value type="integer">0</value>
+    </event>
+    <event variable="#announceMessage"/>
+    <event variable="#stimDisplayUpdate"/>
+    <event variable="#beamPosition"/>
+    <event variable="#experimentLoadProgress"/>
+    <event variable="#announceStimulus"/>
+    <event variable="#requestCalibrator"/>
+    <event variable="#announceCurrentState"/>
+    <event variable="#annouceTrial"/>
+    <event variable="#announceBlock"/>
+    <event variable="#announceAssertion"/>
+    <event variable="#serverName"/>
+    <event variable="#mainScreenInfo"/>
+    <event variable="#state_system_mode">
+      <value type="integer">2</value>
+    </event>
+    <event variable="#state_system_mode">
+      <value type="integer">0</value>
+    </event>
+  </expected_events>
+</marionette_info>

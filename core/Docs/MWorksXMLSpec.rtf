@@ -1,0 +1,1246 @@
+{\rtf1\ansi\ansicpg1252\cocoartf949\cocoasubrtf350
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;\red129\green0\blue0;\red130\green130\blue130;\red129\green129\blue129;
+\red127\green120\blue128;}
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
+
+\f0\b\fs46 \cf0 MonkeyWorks XML Specification 
+\fs34 \
+
+\b0 Working Draft, January 2006\
+
+\b \cf2 \
+\
+0.1  Overall MonkeyWorks XML Conventions\
+\
+
+\b0\fs24 \cf0 \'95 Element identifiers should be in lowercase (e.g. <experiment>, NOT <Experiment>),\
+  though the parser does it's best to ignore case.\
+  \
+\'95 Multi-word attributes should be written in_the_following_form.\
+\
+\'95 For the purposes of this document, an XML "element" refers to generic identifier ("gi") of the\
+  XML node (e.g. <this_part />).  "Attribute" refers to this part: <element this_part="...">
+\b\fs34 \cf2 \
+\
+\
+1.1a  High-level Paradigm Structure (Paradigm Containers)
+\b0\fs24 \cf0 \
+\
+	<experiment tag = "...">  \
+		<protocol tag = "...">\
+			....\
+			<block tag = "...">\
+			\
+				<list tag = "..">\
+					\
+					<trial tag ="..">\
+					\
+					</trial>\
+					...\
+				</list>\
+				....\
+			</block>\
+		</protocol>\
+	</experiment>\
+\
+
+\i\b All High-Level Paradigm Types
+\b0 \
+\
+	
+\b Element Types: 
+\i0\b0 experiment, protocol, block, list, trial
+\i \
+	\
+		
+\i0 experiment: 	overall experiment (usually one per file)\
+				Can contain protocols only.\
+				\
+		protocol:	the top-level user-selectable unit of execution. \
+				Available protocols will be selected in a menu, and \
+				will run until the protocol finishes or the user interrupts \
+				(examples: "Eye Calibration," "Four Choice Task" etc. etc.)\
+				Can contain blocks only.\
+		\
+		list:		a container that will execute everything within it according\
+				to the parameters set forth in the selection object (see below)\
+				Can contain any paradigm component except experiments,\
+				protocols, and blocks.\
+		\
+		block:		a list that issues "block start" and "block end" events\
+				(that are interpretted by the client)\
+				Can contain anything a list can contain.\
+		\
+		trial:		a list that issues "trial start" and "trial end" events\
+				(typically these should only use sequential selection objects)				Can contain anything a list can contain.
+\i \
+	\
+	
+\i0\b tag:		
+\b0 unique identifier string for this object\
+	
+\b full_name:  	
+\b0 human-readable name\
+	
+\b description:
+\b0  description of what this object is\
+	
+\b interruptible:
+\b0  defines whether the task system will be allowed to stop while this state is executing\
+			 when the use requests a stop\
+	
+\b selection:	
+\b0 sequential, random_with_replacement, \
+				random_without_replacement\
+	
+\b sampling_method: 
+\b0 samples, cycles\
+	
+\b nsamples:
+\b0  		if sampling_method is "samples," this indicates that\
+				the list should draw and run "nsamples" elements from\
+				the list.  If sampling_method is "cycles," then the list\
+				should draw and run this many cycles through the \
+				full list\
+
+\b 	\
+	Variable assignment:
+\i \
+	
+\i0\b0 <variable_assignment name = "..."  value = "..."/>\
+	Sets the local value of this variable at this level of the hierarchy. See\
+	discussion of local and global variables below
+\b \
+
+\b0 \
+\
+
+\i\b Paradigm mw::Component References\
+\
+	
+\i0\b0 Paradigm component references that use the same tag will be taken to refer to the same\
+	object.  This makes it possible to define an object in one place and then use it in several\
+	others.  The preferred syntax for this is to define the object normally and then place an\
+	element containing just the tag wherever a reference is desired (e.g. <trial tag="mytrial"/>). \
+\
+\
+\
+
+\b\fs34 \cf2 1.1b  Loop objects
+\b0\fs24 \cf0 \
+\
+\cf3 \
+
+\b \cf0 Range replicator (For Loop):
+\b0 \cf3 \
+\
+<list tag = "...">\cf0   \
+	<range_replicator variable="..."  from="..."  to="..."  step="..."/>\
+\cf4 </list>\cf0 \
+
+\i \
+	
+\i0 Currently, these are stored inside of a list-type object to generate a longer\
+	list of trials from which the list object can draw.
+\i \
+\
+
+\i0\b 	variable:		
+\b0 the variable whose value will be iterated\
+	\
+	
+\b from: 			
+\b0 start value\
+	
+\b to:
+\b0  			value not to cross\
+	
+\b step:
+\b0  			amount to increment (need not be an integer)\
+\
+
+\b List replicator (For Each Loop):
+\b0 \cf3 \
+\
+<list tag = "...">\cf0   \
+	<list_replicator variable="..."  values="...">\
+\cf4 </list>\cf0 \
+
+\i \
+	
+\i0 Currently, these are stored inside of a list-type object to generate a longer\
+	list of trials from which the list object can draw.
+\i \
+\
+
+\i0\b 	variable:		
+\b0 the variable whose value will be iterated\
+	\
+	
+\b values:		
+\b0 a comma-delimited list of values for the variable to take on\
+\
+\
+\
+
+\b\fs34 \cf2 1.2   Task Systems and Task System States
+\b0\fs24 \cf0 \
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
+\cf5 <block ...>\cf0 \
+	<task_system tag = "...">  <task_system_state tag = "..." > ... </state>  </trial>\
+\cf5 </block>\cf0 \
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
+
+\i\b \cf0 All task_system related objects
+\b0 \
+\
+	
+\b Element types
+\i0 :	
+\b0 task_system, task_system_state\
+	\
+				task_system:  contains a number of task_system_state objects and\
+						 runs them until one of the states executes a "yield to\
+						 parent" transition\
+						 Can contain task_system_states only.\
+				\
+				task_system_state:   a finite state machine state. Each such state\
+							 performs some number of actions and then\
+							 iterates through a transition list (which evaluate\
+							 various conditionals) until one returns a state to \
+							 go to next.\
+	
+\i 	\
+	
+\i0\b tag:		
+\b0 unique identifier string for this object\
+	
+\b full_name:  	
+\b0 human-readable name\
+	
+\b description:
+\b0  description of what this object is\
+\
+\
+\
+
+\b\fs34 \cf2 1.3   Actions
+\b0\fs24 \cf0 \
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
+\cf5 <state ...>\cf0 \
+	<action type = "..." ... />\
+	....\
+\cf5 </state>\cf0 \
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
+
+\i\b \cf0 All Action objects
+\b0 \
+\
+	
+\i0\b type:		
+\b0 what kind of action
+\i 	\
+	
+\i0\b tag:		
+\b0 unique identifier string for this object (optional)\
+\
+
+\i\b assert action\
+\
+
+\i0 	message:
+\b0 	the message to report (issues message event). A variable name\
+			with a "$" in front of it will be evaluated and displayed in the string\
+			(e.g. "The value of x = $x" will display as "The value of x = 4" if x \
+			equals 4).\
+	
+\b condition:	
+\b0 the expression that is used to trigger the assert.  If the condition evaluates\
+			zero, the assert is triggered.\
+\
+
+\i\b report action\
+\
+
+\i0 	message:
+\b0 	the message to report (issues message event). A variable name\
+			with a "$" in front of it will be evaluated and displayed in the string\
+			(e.g. "The value of x = $x" will display as "The value of x = 4" if x \
+			equals 4).\
+			The text can also be placed between open and close tags, e.g.:\
+			<action type="Report">Text to report goes here.</action>\
+\
+
+\i\b start_timer action\
+\
+	
+\i0 timer:
+\i 		
+\i0\b0 name identifying the timer instance (e.g. "intertrial_timer")\
+	
+\b duration:	
+\b0 how long until timer expires\
+	
+\b timebase:	
+\b0 (optional) Timebase relative to which to measure time (see below).\
+			If omitted, the time of the start timer action is taken to be the\
+			timebase\
+\
+
+\i\b set_timebase action\
+\
+	
+\i0 timebase:
+\i 	
+\i0\b0 name identifying the timebase instance\
+	
+\b 		
+\b0 Executing this action creates a timebase against which a timer can\
+			be measured (e.g. multiple timers can be set to go off at various\
+			times after a given timebase)\
+\
+\
+
+\i\b queue_stimulus action\
+live_queue_stimulus action \
+\
+	
+\i0 stimulus:		
+\b0 tag name of stimulus to add to display chain\
+	
+\b instance_tag:  	
+\b0 tag identifying this node in the display chain\
+	
+\b position:		
+\b0 front (default), \{n\}, back\
+\
+	Difference: queue_stimulus freezes the value of the stimulus' variables (such as \
+	size, position, etc.)\
+\
+
+\i\b \
+bring_stimulus_to_front action\
+send_stimulus_to_back action\
+\
+	
+\i0 instance_tag:    	
+\b0 which stimulus node on which to operate\
+\
+
+\i\b \
+dequeue_stimulus action\
+\
+	
+\i0 stimulus:	
+\b0 tag of stimulus or stimulus instance to show or hide\
+\
+
+\i\b update_display action  \
+\
+	
+\i0 display:	
+\b0 (optional) which display (OpenGL context) to redraw\
+\
+\
+
+\i\b play_sound action
+\i0\b0 \
+\
+	
+\b sound:	
+\b0 tag of sound object to be played\
+\
+
+\i\b start_device_io action\
+stop_device_io action\
+\
+	
+\i0 device:	
+\b0 tag of IO device to start or stop\
+
+\i\b 	
+\i0 channels:	(not implemented) 
+\b0 only start or stop some channels;  all (default),  list of numbers
+\i\b \
+
+\i0\b0 \
+
+\i\b activate_trigger action	(set not implemented)\
+deactivate_trigger action\
+\
+	
+\i0 trigger:	
+\b0 tag of trigger to make active/inactive\
+\
+
+\i\b assignment action\
+\
+	
+\i0 variable:	
+\b0 variable to set\
+	
+\b value:		
+\b0 variable to set equal to, or constant\
+\
+
+\i\b pulse_variable action\
+\
+	
+\i0 variable:	
+\b0 variable to set\
+	
+\b duration:	
+\b0 time for variable to go high (1.0) and then low (0.0)\
+\
+\
+
+\i\b If action  
+\i0\b0 (container for other actions)	\
+
+\i\b If_Not action
+\b0  (container for other actions) (if_not isn't implemented)\
+
+\i0 \
+	
+\b condition:	
+\b0 condition to evaluate
+\b 	
+\b0 \
+\
+\
+Actions to control and averager object (allows restart, clear, etc.)\
+The averager object will update the average continuously. (see Filters)\
+
+\i\b start_averager action				\
+
+\i0 	averager:		
+\b0 averager to control 	\
+
+\i\b stop_averager action				\
+
+\i0 	averager:		
+\b0 averager to control 	\
+
+\i\b clear_averager action				\
+
+\i0 	averager:		
+\b0 averager to control 	   \
+    \
+    \
+Actions to control calibrators:\
+
+\i\b update_calibration action	
+\i0\b0 action to cause a calibrator to try to fit its parameters\
+	
+\b calibrator: 			
+\b0 calibrator to control\
+\
+
+\i\b clear_calibration action	
+\i0\b0 action to cause a calibrator to clear all its calibration samples\
+	
+\b calibrator: 		
+\b0 calibrator to control\
+\
+
+\i\b begin_calibration_average action  
+\i0\b0 action to cause a calibrator to start averaging over each input line (after reseting the ave)\
+	
+\b calibrator: 		
+\b0 calibrator to control\
+\
+
+\i\b end_calibration_average_and_take_sample action    
+\i0\b0 action to cause a calibrator to stop averaging over each input line and save the average values as a calibration sample \
+	
+\b calibrator: 			
+\b0 calibrator to control\
+       	
+\b calibratable_object: 	
+\b0 the object that will deliver gold sample values for this calibrator (e.g. fixation point) \
+\
+
+\i\b end_calibration_average_and_ignore action    
+\i0\b0 action to cause a calibrator to stop averaging over each input line and ignore the average value (e.g. break fixation early, etc.)\
+	
+\b calibrator: 			
+\b0 calibrator to control\
+\
+
+\i\b take_calibration_sample action    
+\i0\b0 action to cause a calibrator to use the last input line values as a calibration sample \
+	
+\b calibrator: 			
+\b0 calibrator to control\
+   	
+\b calibratable_object: 	
+\b0 the object that will deliver gold sample values for this calibrator (e.g. fixation point) \
+\
+
+\i\b accept_selections action		
+\i0\b0 action to accept the current selected items\
+	
+\b selection: 			
+\b0 selection object\
+
+\i\b reject_selections action		
+\i0\b0 action to reject the current selected items\
+	
+\b selection: 			
+\b0 selection object\
+
+\i\b reset_selections action		
+\i0\b0 action to reset the selection object\
+	
+\b selection: 			
+\b0 selection object\
+
+\i\b next_selections action		
+\i0\b0 advance to the next selection of a selectable object (selection_variable or list paradigm compondent).\
+	
+\b selection: 			
+\b0 selection object\
+
+\i\b \
+\
+deferred_action action		
+\i0\b0 a container for actions that are to be deferred or repeated\
+	
+\b delay: 			
+\b0 time to wait before starting action\
+	
+\b duration: 			
+\b0 the interval between repeats\
+	
+\b repeats: 			
+\b0 number of times to repeat\
+\
+\
+
+\b\fs34 \cf2 1.4   Transitions
+\b0\fs24 \cf0 \
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
+\cf5 <task_system_state ...>\cf0 \
+	...\
+	<transition type = "..." ... />\
+\cf5 </task_system state>\cf0 \
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
+
+\i\b \cf0 All Transition objects
+\b0 \
+\
+	
+\i0\b type:		
+\b0 what kind of transition
+\i 	
+\i0 \
+	
+\b target:	
+\b0 target state (tag) if true\
+\
+
+\i\b direct transition 
+\i0\b0 (default if no type is defined)
+\i\b \
+	\
+	
+\i0\b0 Always go to the state specified
+\i\b \
+	
+\i0\b0 no special fields
+\i\b \
+\
+yield transition
+\i0\b0  (target always = parent)
+\b \
+\
+
+\b0 	Exit the task_system. Cannot have target defined\
+\
+
+\i\b timer_has_expired transition
+\i0\b0 	\
+\
+	
+\b timer:		
+\b0 tag of timer\
+\
+
+\i\b conditional transition
+\i0\b0 \
+\
+	
+\b condition:	
+\b0 A string such as "a == 4",  where "a" is a previously defined variable.\
+\
+\
+\
+
+\b\fs34 \cf2 2.  Variables
+\b0\fs24 \cf0 \
+\
+<variables>  <variable tag = "..." scope = "..." .../>  </variables>\
+\
+
+\i\b All Variables
+\b0 \
+\
+	
+\i0\b tag:		
+\b0 unique identifier string for this variable\
+	
+\b full_name:	
+\b0 human readable variable name\
+	
+\b default_value:
+\b0  The default value of a variable\
+	
+\b description: 
+\b0 description of what this variable is (take this out of here, you can just add a description\
+									node as a  child of a variable)\
+	
+\b scope:	
+\b0 local or global (default)\
+	\
+			local variables can be assigned at the level of individual paradigm components. If\
+			variable "a" were set to 4 in a protocol object, that value would apply to all objects below\
+			that object in the hierarchy.  However, if a block below that protocol defined "a" equal to\
+			6, then everything below that block would have "a" equal to 6; siblings of this block would\
+			be unaffected.  Thus, local variables "shadow" one another, just as local variables do in\
+			languages such as c.\
+			\
+			global variables have one global value for the entire experiment.\
+			\
+	
+\b type:		
+\b0 integer, float, boolean (possibly list & dictionary too? not implemented yet)\
+	
+\b editable:	
+\b0 can this be edited at runtime by the user? Valid values are from the mWhenType enum\
+			as follows:  never, when_idle, always...\
+	
+\b logging:
+\b0 	when_changed (default), never, every_x_ms (not implemented) Also from the\
+			mWhenTpe enum can also be at_startup, when_idle, every_trial but i dont think\
+			they are implemented
+\i \
+
+\i0 \
+
+\i\b selection_variable
+\b0 \
+
+\i0 \
+	
+\b values:		
+\b0 a comma separated list of values that the variable can take on.\
+	
+\b nsamples:		
+\b0 the number of samples or cycles that will be taken.\
+	
+\b selection:		
+\b0 tthy type of selection method.  Possible values are:	sequential, \
+												sequential_descending, \
+												random_with_replacement, \
+												random_without_replacement\
+	
+\b sampling_method:	
+\b0 sequential or cycles.  A cycle is completed when each value is read once.  A sequence \
+				is completed when nsamples have been taken, or the  \
+	\
+			\
+				See the actions AcceptSelections, RejectSelections, ResetSelection, NextSelection\
+				\
+				Here's some examples of usages of a selection variable:\
+				\
+				- nsamples = 4, sampling method = sequential, selection = sequential, values = 1,2,3,4\
+				\
+				selection_variable =  1, first NextSelection call makes selection_variable = 2, second \
+				NextSelection call is 3, third NextSelection call is 4, fourth NextSelection call is also 4.\
+				\
+				The selections can be rejected at anytime, and the sequence will be started over.  \
+				Accepting the selections at any time allows a reject up to that point. \
+				\
+				For example, selection_variable = 1, first NextSelection is 2, second NextSelection is 3, \
+				a RejectSelections is issued so selection_variable = 1, the third NextSelection is 2, etc.\
+				\
+				Another example, the selection_variable = 1, first NextSelection is 2, an AcceptSelections \
+				is issued, second NextSelection is 3, a RejectSelections is issued, third NextSelection is \
+				also 3, etc.\
+\
+				- nsamples = 3, sampling method = sequential, selection = sequential, values = 1,2,3,4\
+				\
+				selection_variable =  1, first NextSelection call makes selection_variable = 2, second \
+				NextSelection call is 3, third NextSelection call is 3, fourth NextSelection call is also 3.\
+\
+				\
+				- nsamples = 5, sampling method = sequential, selection = sequential, values = 1,2,3,4\
+				\
+				selection_variable =  1, first NextSelection call makes selection_variable = 2, second \
+				NextSelection call is 3, third NextSelection call is 4, fourth NextSelection call is 1, fifth\
+				NextSelection call is also 1.\
+				\
+\
+
+\b Special Variables (predefined):   (not yet implemented)\
+\
+	trial_time_ms:		
+\b0 current time, trial relative, in milliseconds\
+	
+\b trial_time_us:		
+\b0 current time, trial relative, in microseconds\
+	
+\b session_time_ms: 	
+\b0 current time, session relative, in milliseconds\
+	
+\b session_time_us: 		
+\b0 current time, session relative, in microseconds\
+
+\b 	absolute_time_ms: 	
+\b0 current time, processor relative, in miliseconds\
+
+\b 	absolute_time_us: 	
+\b0 current time, processor relative, in microseconds\
+
+\b 	date_month: 		
+\b0 current month\
+	
+\b date_day: 			
+\b0 current day\
+	
+\b date_hour: 			
+\b0 current hour\
+	
+\b date_minute: 		
+\b0 current minute\
+	
+\b date_second: 		
+\b0 current second\
+\
+\
+
+\b\fs34 \cf2 3.1  Visual Stimuli
+\b0\fs24 \cf0 \
+\
+<stimuli>  <stimulus tag = "..."  type = "..." .../>  </stimuli>\
+\
+
+\i\b All Stimulus Types (not all params are used by all)
+\b0 \
+\
+	
+\i0\b tag:	
+\b0 		unique identifier string for this stimulus
+\i \
+
+\i0\b 	type
+\b0 :  			which type of stimulus
+\i \
+	
+\i0\b x_size:		
+\b0 horizontal size\
+	
+\b y_size:
+\b0 		vertical size\
+	
+\b x_position:
+\b0 		horizontal position (center location)\
+	
+\b y_position:
+\b0 		vertical position (center location)  \
+	
+\b rotation:
+\b0 		planar rotation\
+	\
+	\
+	\
+
+\i\b image_file Type	\
+	
+\i0 file:
+\b0 		path to image file\
+\
+
+\i\b blank_screen Type 
+\i0\b0 \
+	
+\b color:
+\b0 			a string of the form "r,g,b" that defines the\
+				color. Not always meaningful (e.g. for image_file stimuli)\
+				are the RGB values int or double 0-255 or fractions of 1.0\
+\
+
+\i\b fixation_point Type 	
+\b0 (still minor flaws with stimulus display, calibration not tested)
+\i0 \
+	\
+	This visual stimulus object draws a square of specified size centered at the specified location.\
+	It is also "calibratabel" in that it can be used by a calibrator to obtain "gold standard" values.\
+    	In particular, this object willl report its x,y location. (x_position and y_position attributes).\
+	It also acts as a square region trigger centered on the specified x,y location.\
+	Currently, it sets its <trigger_flag> variable to TRUE whenever the watch variables \
+	are inside the trigger region, regardless of (e.g.) how quickly those watch variables are changing.\
+	When the object is not displayed (not visible on screen), it should deactivate its\
+	trigger (but this is not yet implemented.  Also note that this behavior will cause the <trigger_flag> to go false if it 	is true.)\
+\
+	
+\b color			
+\b0 a comma-delimited rgb list of color variables\
+            
+\b trigger_width	
+\b0 width of the square trigger region (diameter)
+\b \
+    	trigger_watch_x	
+\b0 variable to monitor for x position inside trigger
+\b \
+        	trigger_watch_y	
+\b0 variable to monitor for y position inside trigger\
+            
+\b trigger_flag		
+\b0 variable to flag as true when trigger detected\
+            \
+
+\i\b movie Type 
+\b0 (not yet supported)
+\i0 \
+\
+	
+\b file:
+\b0 		movie file path\
+	
+\b frame_rate:
+\b0 	frames per second\
+\
+\
+\
+
+\b Stimulus Groups:
+\b0 \cf3 \
+\
+\cf0   \
+<stimulus_group  tag="...">\
+	<stimulus ...  index="0"/>\
+	<stimulus ...  index="..."/>\
+</stimulus_group>\
+
+\i \
+\
+	
+\i0 Allows stimuli to be referred to by group.  If the tag of the group\
+	is "MyGroup", the the first stimulus can be referred to by "MyGroup[0],"\
+	and so on, in any attribute that takes a stimulus as an argument.  Groups \
+	of groups are allowed, however at each level, there needs to be an\
+	equal number of stimuli.  Multi-dimensional groups are referred to by\
+	MyGroup[0][1] etc.\
+	
+\i \
+
+\i0\b 	tag:		
+\b0 tag name for the group\
+	\
+	
+\b index: 	
+\b0 (in contained stimulus tag) index value in the group.  If not \
+			specified, the indices are assigned automatically by their\
+			order in the list.\
+\
+\
+\
+
+\b\fs34 \cf2 3.2  Audio Stimuli
+\b0\fs24 \cf0 \
+\
+<sounds>  <sound tag = "..."  type = "..." .../>  </sounds>\
+\
+
+\i\b All Sound Types
+\b0 \
+\
+	
+\i0\b tag:	
+\b0 	unique identifier string for this stimulus
+\i \
+
+\i0\b 	type
+\b0 :  		which type of sound
+\i \
+	
+\i0\b volume:	
+\b0 volume of the sound stimulus\
+	
+\b duration:	
+\b0 play for how long
+\i \
+
+\i0 	
+\b loop:		
+\b0 loop playback? yes, no	\
+\
+
+\i\b File Type\
+\
+	
+\i0 file:
+\b0 		path to image file\
+\
+
+\i\b Tone Type 
+\b0 (not yet supported)
+\i0 \
+\
+	
+\b frequency:
+\b0 	tone frequency\
+\
+\
+\
+
+\b\fs34 \cf2 4.1  IO Devices
+\b0\fs24 \cf0 \
+\
+<iodevice tag = "..."  type = "..." ...>  \
+	...\
+</iodevice>\
+\
+
+\i\b All IODevice Types
+\b0 \
+\
+	
+\i0\b tag:	
+\b0 	an identifier string for this particular io device\
+	
+\b priority:
+\b0 	if more than one IODevice is defined with the same tag, try higher priority first
+\b \
+	type
+\b0 :  		what type of io device is this\
+	
+\b id:		
+\b0 device specific id (e.g. if there is more than one device of the same type available)\
+\
+\
+
+\i\b fake_monkey Type
+\i0\b0 \
+	\
+
+\i\b USB6009 Type
+\i0\b0 \
+\
+
+\i\b ITC18 Type 
+\i0\b0 \
+\
+\
+\
+
+\b\fs34 \cf2 4.2  IO Channels
+\b0\fs24 \cf0 \
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
+\cf5 <iodevice tag = "..."  type = "..." ...>  \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
+\cf0 	<channel  tag = "..."  .... />\
+	...\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
+\cf5 </iodevice>\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
+\cf0 \
+
+\i\b All Channel Types
+\b0 \
+\
+	
+\i0\b tag:	
+\b0 		unique identifier string for this particular io channel
+\b 	
+\b0 (generated automatically if not provided)\
+	
+\b variable:		
+\b0 variable to put channel data in (input channel) or take data from (output channel)\
+    \
+
+\b 	capability:		
+\b0 a text field that requests a particular device capability (device specific)  e.g. analog input on port 2 (see device for specific capability names)\
+    	
+\b type
+\b0 :  			what type of data. \
+        					Current options:  "analog" and "digital"\
+            
+\b direction
+\b0 :  		what direction is data flowing relative to the Core. \
+            				Current options:  "input" (into Core) and "output" (out of Core)\
+            
+\b synchrony
+\b0 :  		what timing is used for the data stream.   \
+            				Current options:  "hardware_timed_synchronous" (e.g. ITC)  "software_timed_synchronous" (Fake monkey)  "asynchronous" (e.g. juice) \
+	
+\b data_interval:	
+\b0 how often to sample the data stream.  (e.g. 1 ms)\
+    	
+\b update_interval:	
+\b0 how often to push data from the device to the Core.  (e.g. 1 ms)\
+        	
+\b range_min:		
+\b0 minimum value expected (e.g. -10 volts for ITC analog input)\
+        	
+\b range_max:		
+\b0 maximum value expected (e.g. +10 volts for ITC analog input)\
+            
+\b resolution:		
+\b0 bits of resolution (e.g. 16 for ITC analog input)\
+        	\
+\
+\
+\
+
+\b\fs34 \cf2 5.0  Triggers
+\b0\fs24 \cf0 \
+\
+<trigger tag = "..."  variable = "..." type = "..." >  \
+	<bound variable = "..."    comparison = "..."   value = "..." / >\
+	...\
+</trigger>\
+\
+
+\i\b trigger fields 
+\b0 \
+\
+	
+\i0\b variable:		
+\b0 variable to set true if bound conditions are met 
+\i \
+
+\i0\b 	type
+\b0 :  			AND, OR, XOR, NAND, NOR\
+	
+\b frequency:		
+\b0 how often to check on trigger\
+	
+\b when_changed: 	
+\b0 force evaluation whenever any of the variables listed changes
+\b \
+
+\b0 \
+
+\i\b bound fields\
+\
+	
+\i0 variable:		
+\b0 variable to evaluate\
+	
+\b comparison: 	
+\b0 =, <, >, <=, >=, !=\
+	
+\b value:			
+\b0 another variable, or constant\
+	
+\b condition:		
+\b0 an optional string version of the above fields\
+    \
+    \
+ 
+\b\fs34 \cf2 5.1  Calibrators
+\b0\fs24 \cf0 \
+\
+	These are variable transformers that take data in one or more variables as input and produce \
+	calibrated data in one or more variables as output.  These typically have associated \
+	actions and/or stimuli that must be used to make them funcitonal.\
+\
+<calibrator tag = "..."   type = "..." ...>  \
+	...\
+</calibrator >\
+\
+\
+
+\i\b All Calibrator Types
+\b0 \
+
+\i0\b \
+	tag
+\b0 :  		to refer to calibrator
+\b \
+	type
+\b0 :  		type of calibrator  ('standard_eye_calibrator' is only type currently defined)\
+  	\
+    \
+
+\i\b stardard_eye_calibrator Type  
+\i0\b0  \
+	This calibrator takes two inputs and two outputs.\
+    	Its fitable function is a 2D polynomial.\
+        	(Thus, although the names here are specific, the calibrator is general wrt to this form of problem)\
+        \
+
+\b 	eyeh_raw:		
+\b0 name of raw eye horizontal variable \
+						(e.g. output of IO device channel)\
+
+\b 	eyev_raw:		
+\b0 name of raw eye vertical variable \
+						(e.g. output of IO device channel)\
+	
+\b eyeh_calibrated:	
+\b0 name of calibrated eye horizontal variable \
+
+\b 	eyev_calibrated:	
+\b0 name of calibrated eye vertical variable 
+\b\fs34 \cf2 \
+
+\b0\fs24 \cf0    \
+    \
+    \
+    \
+ 
+\b\fs34 \cf2 5.2  Filters
+\b0\fs24 \cf0 \
+\
+	These are varaible transformers that take some set of variables (input(s)) and can modify some set of variables (output(s)).\
+\
+<filter tag = "..."   type = "..." ...>  \
+	...\
+</filter >\
+\
+\
+
+\i\b All Filter Types
+\b0 \
+
+\i0\b \
+	tag
+\b0 :  		to refer to calibrator
+\b \
+	type
+\b0 :  		what type of filter is this\
+	
+\b id:		
+\b0 (e.g. if there is more than calibrator of the same type available)\
+    \
+    \
+
+\i\b boxcar_filter_1d Type 
+\i0\b0 \
+
+\b 	in1:			
+\b0 name of input variable\
+   	
+\b out1:			
+\b0 name of output variable\
+    	
+\b width_samples:	
+\b0 number of samples to use in boxcar (full width) \
+  \
+  \
+
+\i\b linear_filter_1d Type  
+\i0\b0 \
+\
+
+\b 	in1:			
+\b0 name of input variable\
+   	
+\b out1:			
+\b0 name of output variable\
+    	
+\b gain:			
+\b0 multiply input variable by this value\
+        	
+\b offset:		
+\b0 then add this value\
+    	
+\b noise_sd:		then add a random variable with this standard dev (currently this is uniform -- [-SD,+SD])
+\b0    \
+  \
+ 
+\i\b averager Type 
+\i0\b0 \
+\
+
+\b 	in1:			
+\b0 name of input variable (average over this variable)\
+   	
+\b out1:			
+\b0 name of output variable (place average in here -- updated continuously when started) \
+   	\
+
+\i\b basic_eye_monitor Type 
+\i0\b0 \
+\
+	
+\b eyeh_calibrated:	
+\b0 name of calibrated eye horizontal variable \
+
+\b 	eyev_calibrated:	
+\b0 name of calibrated eye vertical variable \
+    	
+\b eye_state:		
+\b0 name of variable containing eye state
+\b\fs34 \cf2 \
+ 	
+\fs24 \cf0 width_samples:			
+\b0 integer parameter:  number of samples to use \
+						in boxcar filtering steps \
+    	
+\b saccade_entry_speed:		
+\b0 real number parameter:  speed to enter \
+						saccade (default = 5 deg/sec) \
+        	
+\b saccade_exit_speed:		
+\b0 real number parameter:  speed to exit \
+						saccade (default = 20 deg/sec)  \
+\
+\
+
+\i\b advanced_eye_monitor Type  (implemented, but unused)
+\i0\b0 \
+\
+	
+\b eyeh_calibrated:		
+\b0 name of calibrated eye horizontal variable \
+
+\b 	eyev_calibrated:		
+\b0 name of calibrated eye vertical variable \
+    	
+\b eye_state:			
+\b0 name of variable containing eye state\
+        	
+\b saccade:				
+\b0 name of variable containing saccade data (struct!)
+\b\fs34 \cf2 \
+ 	
+\fs24 \cf0 width_samples:				
+\b0 integer parameter:  number of samples to \
+							use in boxcar filtering steps (\
+    	
+\b saccade_entry_speed:			
+\b0 real number parameter:  speed to enter \
+							saccade (default = 5 deg/sec) \
+        	
+\b saccade_exit_speed:			
+\b0 real number parameter:  speed to exit \
+							saccade (default = 20 deg/sec)   \
+            
+\b saccade_entry_direction_change:	
+\b0 real number parameter:  velocity \
+							change angle to start saccade (default = 10 deg) \
+        	
+\b saccade_min_amplitude:		
+\b0 real number parameter:  min amplitude to \
+							accept saccade (default = 0.2 deg)\
+            
+\b saccade_min_duration:			
+\b0 integer parameter:  min duration to accept \
+							saccade (default = 10 ms)\
+                
+\b\fs34 \cf2 \
+
+\b0\fs24 \cf0 \
+}
