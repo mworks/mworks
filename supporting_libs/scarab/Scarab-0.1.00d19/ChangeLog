@@ -1,0 +1,376 @@
+2000-06-25  Ken MacLeod  <ken@localhost.localdomain>
+
+	* LWProtocols.org/DWChat.html (Implementations): added Bijan's
+	Squeak implementation
+
+2000-05-26  Ken MacLeod  <ken@localhost.localdomain>
+
+	* LWProtocols.org/index.html: added Data Transfer Architectures,
+	with Linda systems
+
+	* LWProtocols.org/data-transfer.html: added
+
+	* LWProtocols.org/linda-systems.html: added
+
+2000-05-12  Ken MacLeod  <ken@localhost.localdomain>
+
+	* LWProtocols.org/index.html: added Why Anti-Virus... and Web RPCs
+	Considered Harmful
+
+2000-05-11  Ken MacLeod  <ken@localhost.localdomain>
+
+	* LWProtocols.org/index.html (Security): added, with IT Security
+	Checkbook and Firewalls FAQ
+
+2000-05-04  Ken MacLeod  <ken@localhost.localdomain>
+
+	* LWProtocols.org/index.html (News and Events): added, with
+	several WWW9 dist-app and xml protocols links
+
+2000-04-25  Ken MacLeod  <ken@localhost.localdomain>
+
+	* LWProtocols.org/index.html: permanent URL for soap-wrc.com
+
+2000-04-20  Ken MacLeod  <ken@localhost.localdomain>
+
+	* LWProtocols.org/index.html (CORBA, HTTP-NG): added links
+
+	* LWProtocols.org/xmlrpc2soap.html: added
+
+2000-04-19  Ken MacLeod  <ken@localhost.localdomain>
+
+	* LWProtocols.org/index.html (SOAP - WebServices Resource Center):
+	added
+
+2000-04-17  Ken MacLeod  <ken@localhost.localdomain>
+
+	* LWProtocols.org/index.html (Overviews, Protocol Matrix, SODL,
+	XMOP): added
+
+2000-04-02  Ken MacLeod  <ken@localhost.localdomain>
+
+	* Makefile.in (DOCS_XML): removed doc/overview.xml
+
+2000-03-13  Ken MacLeod  <ken@localhost.localdomain>
+
+	* python/SOAP.py (SOAPUnmarshaler.decode): removed
+
+	* python/Scarab.py, python/ScarabConnection.py: connect in SOAP
+
+	* python/Scarab.py, python/ScarabConnection.py,
+	python/time-echo.py, python/scarab.py, python/echo-server.py,
+	doc/user-api.html: change API calls to connect_to(),
+	connect_to_root_at(), and server_on()
+
+	* doc/FAQ.html: typo: should be Smalltalk not SmallTalk
+
+2000-03-12  Ken MacLeod  <ken@localhost.localdomain>
+
+	* doc/advanced-api.html: typo, should be string() not float()
+
+2000-03-11  Ken MacLeod  <ken@localhost.localdomain>
+
+	* LWProtocols.org/index.html: added XML-RPC Extensions
+
+	* LWProtocols.org/DAuth.html: add public-key encryption notes
+
+2000-03-10  Ken MacLeod  <ken@localhost.localdomain>
+
+	* LWProtocols.org/DAuth.html: added
+
+	* python/ScarabMarshal.py, python/LDOXML.py, python/LDOBinary.py
+	(m_init): revert back to without value
+
+2000-03-09  Ken MacLeod  <ken@localhost.localdomain>
+
+	* LWProtocols.org/index.html, LWProtocols.org/DWhite.html,
+	LWProtocols.org/DWChat.html: added
+
+	* doc/user-api.html (message_xml): added
+
+	* doc/ldo.html: moved overview.xml into ldo.html
+
+2000-03-06  Ken MacLeod  <ken@localhost.localdomain>
+
+	* doc/user-api.html, doc/advanced-api.html: added
+
+	* doc/user-api.xml, doc/intro.html: removed
+
+	* doc/index.html: add ref to WDDX; add link to user-api.html
+
+	* python/ScarabConnection.py: added automatic sensing of incoming
+	connection serialization, ScarabBufferedFile; added debugging
+	stream ScarabDebugFile
+
+	* python/Scarab.py: added support for ldoxml and an alias `ldo'
+	for ldobinary
+
+	* doc/index.html: moved LDO info into ldo.html; updated other info
+
+	* doc/ldo.html: added
+
+2000-03-04  Ken MacLeod  <ken@localhost.localdomain>
+
+	* EVERYTING: Rename library components to Scarab
+
+	* doc/user-api.xml: added
+
+2000-02-26  Ken MacLeod  <ken@localhost.localdomain>
+
+	* python/LDO.py: added
+
+	* python/ldo.py, python/echo-server.py, python/time-echo.py:
+	converted to new LDO API
+
+	* python/LDOConnection.py: rewrote to new LDO API, added debugging
+	info
+
+2000-02-20  Ken MacLeod  <ken@mskitty>
+
+	* python/LDOConnection.py (LDOConnection.call),
+	python/LDOProxy.py: accept a sequence for arguments rather than a
+	varargs
+
+1999-10-20  Ken MacLeod  <ken@jess>
+
+	* doc/TODO: add 0.00 goals
+
+1999-10-18  Ken MacLeod  <ken@jess>
+
+	* doc/overview.xml(Type naming and LDO Types): updated
+
+	* doc/ldo-types.xml: typo
+	Java classes as FULLY.QUALIFIED.CLASS.NAMES
+
+	* 0.00d13 released
+
+	* Makefile.in (DOCS_XML): added doc/ldo-types.xml
+
+	* doc/index.html(Specifications): added ldo-types.html and ldo-types.txt
+
+	* doc/ldo-types.xml: added
+
+1999-10-15  Ken MacLeod  <ken@jess>
+
+	* doc/binary-serialization.xml, doc/method-calls.xml,
+	doc/xml-serialization.xml: add note about [brackets]
+
+	* Makefile.in (DOCS_SGML, DOCS_XML): renamed doc/overview.sgml to
+	doc/overview.xml
+
+	* doc/overview.sgml: renamed to doc/overview.xml, major update
+
+1999-10-09  Ken MacLeod  <ken@jess>
+
+	* doc/req-enc-as-objs.sgml: rename and convert to
+	doc/method-calls.xml
+
+	* Makefile.in (DOCS_SGML), doc/index.html: rename and move
+	doc/req-enc-as-objs.sgml to doc/method-calls.xml
+
+	* doc/index.html(Future work): added firewall proxy
+
+1999-10-08  Ken MacLeod  <ken@jess>
+
+	* doc/index.html(Future work): add implementation guides
+
+	* doc/binary-serialization.xml: minor edits, some clarifications,
+	and some reorganization
+
+	* doc/FAQ.html: more simply describe the differences between LDO
+	and SOAP and XML-RPC
+
+	* doc/intro.html: noted a need to be more framework oriented
+
+	* doc/index.html, doc/FAQ.html: new ``what is LDO'' verbage
+
+1999-10-06  Ken MacLeod  <ken@jess>
+
+	* Makefile.in (DOCS_SGML): move doc/binary-serialization.sgml to
+	doc/binary-serialization.xml
+
+	* doc/binary-serialization.sgml: rename and convert to
+	doc/binary-serialization.xml
+
+	* doc/index.html(News): Updated XML Serialization spec
+
+	* doc/FAQ.html (RPC): updated ``need more data types?''
+
+	* doc/xml-serialization.xml: continuing writing
+
+1999-10-03  Ken MacLeod  <ken@jess>
+
+	* doc/index.html: add .txt files
+
+	* doc/xml-serialization.xml: major update
+
+	* doc/ldo-web.sh: copy .txt files too
+
+	* Makefile.in: add xml to (html|txt) rules
+	include XML RFC text
+
+1999-10-02  Ken MacLeod  <ken@jess>
+
+	* doc/index.html: added ``Wanted: LDO-XML implementations''
+
+	* doc/FAQ.html: added ``What is an "atom"?''
+
+	* tests/binary.py: added, disassembles LDO-Binary files
+
+	* doc/xml-serialization.xml: added, will replace xml-serialization.sgml
+
+1999-09-22  Ken MacLeod  <ken@jess>
+
+	* doc/xml-serialization.sgml: replace <value> with <atom> in example
+
+	* 0.00d5 snapshot
+
+	* doc/references.sgml: add Application Core Protocol
+
+	* all: changes ntlug.org to casbah.org
+
+	* doc/ldo-xml.dtd, doc/prolog.sgml, doc/xml-serialization.sgml:
+	change `scalar' to `atom'
+
+1999-09-19  Ken MacLeod  <ken@jess>
+
+	* doc/references.sgml: added SOAP, PDO, DMOZ, and Yahoo
+
+1999-09-15  Ken MacLeod  <ken@jess>
+
+	* doc/index.html: use local specs
+
+	* doc/ldo-web.sh: added
+
+	* doc/index.html: add download file
+
+	* doc/req-enc-as-objs.sgml: fix parse errors
+
+	* doc/prolog.sgml: added entities for req-enc-as-objs.sgml
+
+	* doc/ldo-release.sh (SED): don't use path for sed
+
+	* doc/index.html: add request for volunteers
+
+	* Makefile.in (.sgml.html): added
+
+	* doc/index.html: added FAQ.html
+
+	* doc/FAQ.html: added
+
+	* Makefile.in (DOCS_HTML): added and made default target instead
+	of DOCS_TXT
+
+	* doc/req-enc-as-objs.sgml, doc/references.sgml: added
+
+	* doc/ldo-tag.sh, doc/ldo-release.sh: added
+
+1999-09-11  Ken MacLeod  <ken@jess>
+
+	* ldo.sgml, overview.sgml, binary-serialization.sgml,
+	xml-serialization.sgml: moved to doc/
+	removed prolog
+
+	* notes, protos, refs, TODO, mu-http, ldo-xml.dtd: moved to doc/
+
+	* doc/prolog.sgml: added
+
+	* doc/index.html, doc/intro.html: added
+
+1999-04-28  Ken MacLeod  <kmacleod@serpentina.terrapinlabs.com>
+
+	* python/echo-server.py: remove erroneous debugging statement
+
+	* python/LDOMarshal.py (Marshaler.dumps, Unmarshaler.load): deleted
+	(Marshaler, Unmarshaler): removed file argument
+	removed dump, load shorthands (in concrete marshalers)
+
+	* python/LDOConnection.py (LDOConnection.__init__): take/create an
+	unpickler as well as a pickler
+
+	* python/LDOBinary.py (LDOBinaryMarshaler.__init__): instance
+	contains a stream, not takes a stream to `dump'
+	(LDOBinaryMarshaler.m_list): don't create references for cyclic
+	references
+	(loads): define as procedures
+	(LDOBinaryUnmarshaler.decode_ber): fixed obviously busted logic
+
+1999-02-10  Ken MacLeod  <kmacleod@outlaw.cycletime.com>
+
+	* xml-serialization.sgml: changed title
+
+	* binary-serialization.sgml (Format): changed dictionary and list
+	open/close tags to a length
+        added more content and changed title
+
+1999-01-28  Ken MacLeod  <kmacleod@outlaw.cycletime.com>
+
+	* notes: added
+
+1999-01-28  Ken MacLeod  <ken@bitsko.slc.ut.us>
+
+	* python/LDOBinary.py: converted to LDOMarshal style
+
+	* python/LDOMarshal.py: added
+
+1998-10-21  Ken MacLeod  <ken@bitsko.slc.ut.us>
+
+	* perl/echo-server.pl, perl/test.pl, perl/canvas.pl, perl/ldo.pl,
+	perl/marshal.pl, perl/time-echo.pl: use RPC::LDO::Manager
+
+	* perl/lib/RPC/LDO/Proxy.pm: added, from RPC/LDO/Connection.pm
+
+	* perl/lib/RPC/LDO/Manager.pm: renamed from Proxy/Connection.pm
+
+	* perl/lib/RPC/LDO/Connection.pm: renamed from RPC/LDO.pm
+
+	* perl/lib/Marshal/LDO_XML.pm: renamed from Marshal/LDO/XML.pm
+
+	* perl/lib/Marshal/LDO_Binary.pm: renamed from Marshal/LDO/Binary.pm
+
+1998-10-19  Ken MacLeod  <ken@bitsko.slc.ut.us>
+
+	* perl/lib/RPC/LDO.pm (head): fix wrong _die
+
+	* perl/lib/Marshal/LDO/Binary.pm (_encode_object): encode type for all objects
+	fix encoding of scalar references
+
+1998-10-17  Ken MacLeod  <ken@bitsko.slc.ut.us>
+
+	* perl/lib/RPC/LDO.pm (accept): don't die on bad thaw
+
+1998-10-14  Ken MacLeod  <ken@bitsko.slc.ut.us>
+
+	* perl/lib/RPC/LDO.pm (accept): invert request object encoding
+
+	* python/LDOConnection.py (LDOConnectionRemoteError): invert request object encoding
+
+	* python/LDOBinary.py (load_item): check for proper Python class
+
+	* perl/lib/RPC/LDO.pm (accept): add XML option
+	(RPC::LDO::BufferedFile): a special package to read and hold the first bytes of a file
+
+	* perl/lib/Proxy/Connection.pm (new_rootproxy): add XML option
+
+	* perl/lib/Marshal/LDO/Binary.pm (_decode_object): fix typo on attributes
+
+	* perl/time-echo.pl: add XML option
+
+	* perl/marshal.pl: work with both XML and Binary, add a binary value
+
+1998-09-26  Ken MacLeod  <ken@bitsko.slc.ut.us>
+
+	* perl/lib/Proxy/Connection.pm (new_rootproxy): die when can't create stream
+
+1998-10-15    <kmacleod@chelonia.bigplanet.com>
+
+	* ldo-xml.dtd: added
+
+1998-09-22  Ken MacLeod  <ken@bitsko.slc.ut.us>
+
+	* perl/time-echo.pl: changed to match python/time-echo.py
+
+1998-09-21  Ken MacLeod  <ken@bitsko.slc.ut.us>
+
+	* perl/echo-server.pl: renamed from perl/connection-test.pl
+

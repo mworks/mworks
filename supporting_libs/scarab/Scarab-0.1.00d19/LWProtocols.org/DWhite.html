@@ -1,0 +1,124 @@
+<!-- $Id: DWhite.html,v 1.1 2000/03/09 17:43:25 kmacleod Exp $ -->
+<HTML>
+  <HEAD>
+    <TITLE>DWhite -- Distributed Whiteboard API</TITLE>
+    <META NAME="keywords" CONTENT="lightweight protocol DWhite xml">
+  </HEAD>
+  <BODY>
+
+<h1>DWhite -- Distributed Whiteboard API</h1>
+<h3>Initial Draft -- March 9, 2000</h3>
+
+<p>DWhite (pronounced like the name Dwight) is an API for
+synchronizing trees or graphs of nodes.  Although the name is inspired
+by distributed whiteboards (a GUI application), DWhite actually
+supports any type of tree or graph of data.</p>
+
+<p>DWhite adopts a very simple "Model, View, Controller (MVC)" API.
+The core of DWhite allows a client to synchronize it's local copy of a
+"Model" (tree or graph) with the server's version of the same tree.
+"Views" and "Controllers" are applications, logically seperate from
+the DWhite core, that can query and manipulate the Model.  Client
+copies of the Model can be partially or fully populated.  The logical
+view of DWhite and an application on top of it, showing the major
+flows of data, looks like this:
+
+<pre>[wish somebody'd whip me up a PNG and/or SVG of this &lt;wink&gt;]
+
+           +----------------------------------------+
+           |              Application               |
+  Client:  +-------------+-------------+------------+
+           |    View     |      ^      | Controller |
+           +-------------+      |      +------------+
+                  ^             |             |
+                  |             |             |
+  message         /             /             /
+   layer          /             /             /
+                  |             |             |
+                  |             |             v
+           +-------------+      |      +------------+
+           |    View     |      |      | Controller |
+  Server:  +-------------+-------------+------------+
+           |                  Model                 |
+           +----------------------------------------+
+</pre></p>
+
+<p>The Model of all applications are trees or graphs of nodes.  Nodes
+may be major nodes or minor nodes.  Major nodes are the primary nodes
+of information in DWhite and may contain many properties, minor
+subnodes, and major subnodes.  Major nodes may be copied fully or
+partially.  Minor nodes may contain many properties, minor subnodes,
+and major subnodes, but are always copied in full as part of their
+containing major node.  Every major node in DWhite has at least the
+following properties:
+
+<blockquote>
+<table>
+<tr><td><b><tt>DW:Id</tt></b></td>
+<td>The DWhite ID of this node.</td></tr>
+<tr><td><b><tt>DW:Signature</tt></b></td>
+<td>The DWhite signature of this node.</td></tr>
+<tr><td><b><tt>DW:Partial</tt></b></td>
+<td>If present, indicates that this is a partial copy.</td></tr>
+</table>
+</blockquote>
+
+<p>A <tt>DW:Id</tt> uniquely identifies a node within one tree of an
+application and never changes and is never reused as long as the tree
+exists.  A <tt>DW:Id</tt> will always refer to the same node
+regardless of where it is moved in the tree.  A <tt>DW:Signature</tt>
+(based on XSignature) records the state of a node at one point in time
+and is used to check whether or not a node has been updated.
+<tt>DW:Partial</tt> indicates whether the node is fully populated
+(<tt>DW:Partial</tt> is false or undefined) or partially populated
+(<tt>DW:Partial</tt> is true).  A partially populated major node
+always contains a <tt>DW:Id</tt>, a <tt>DW:Signature</tt>, and
+<tt>DW:Partial</tt> indicator, and MAY contain additional properties
+as defined by an application.</p>
+
+Minor nodes do not have <tt>DW:Id</tt>'s, <tt>DW:Signatures</tt>'s or
+<tt>DW:Partial</tt> indicators, and are always fully populated.
+
+<p>The core DWhite API has only two methods, <tt>getNode()</tt> and
+<tt>checkNode()</tt>.  An empty string ("") as a <tt>DW:Id</tt> always
+represents the root node of a tree, it is used as a starting point for
+building the client copy of the tree.  The returned root node may have
+a <tt>DW:Id</tt> that contains a real (not "") identifier.
+Application View APIs will also have methods that will return specific
+(usually partial) nodes within the tree.</p>
+
+<p>
+<dl><dt><b><tt class=function>getNode</tt></b>(<var>node</var>)
+<dd>
+Returns a fully populated copy of the node represented by the (usually
+partial) <var>node</var>.  All properties and minor subnodes will be
+returned.  Major subnodes will be returned partially populated.</dl></p>
+
+<p>
+<dl><dt><b><tt class=function>checkNode</tt></b>(<var>node</var>)
+<dd>
+Takes a partial <var>node</var> and compares its <tt>DW:Signature</tt>
+to the server's version of <tt>DW:Signature</tt>.  If they match, then
+a partial copy of the node is returned (<tt>DW:Partial</tt> is true).
+If they do not match, then a full copy of the node is returned, as if
+<tt>getNode()</tt> had been called (<tt>DW:Partial</tt> is false or
+undefined).</dl></p>
+
+<p>Notes:
+
+<ul>
+ <li>future versions will have methods for setting live queries.
+ <li>Need to reference prior art -- possible comparison to WebDAV.
+     There's no doubt that this has been done before, just who?
+ <li>Authentication is expected in the transport/session layer.
+ <li>Distributed relaying of partial and/or full messages.
+</ul></p>
+
+<p></p><hr>
+<h2>Applications using DWhite</h2>
+<UL>
+<LI><A HREF="DWChat.html">DWhite Chat (DWC)</A>
+</UL>
+
+  </BODY>
+</HTML>

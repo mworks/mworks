@@ -1,0 +1,15 @@
+Scarab-perl.spec
+MANIFEST
+Makefile.PL
+README
+canvas.pl
+echo-server.pl
+scarab.pl
+marshal.pl
+test.pl
+time-echo.pl
+lib/Marshal/LDO_Binary.pm
+lib/Marshal/LDO_XML.pm
+lib/RPC/Scarab/Connection.pm
+lib/RPC/Scarab/Manager.pm
+lib/RPC/Scarab/Proxy.pm

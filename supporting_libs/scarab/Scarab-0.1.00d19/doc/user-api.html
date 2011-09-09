@@ -1,0 +1,280 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+<!-- $Id: user-api.html,v 1.3 2000/03/13 22:32:34 kmacleod Exp $ -->
+<html>
+  <head>
+
+    <title>Scarab: Application Programming Interface (API)</title>
+
+    <META NAME="DC.Title" CONTENT="Scarab: Application Programming Interface (API)">
+    <META NAME="DC.Creator" CONTENT="The Casbah Project">
+    <META NAME="DC.Creator.Address" CONTENT="devel@casbah.org">
+    <META NAME="DC.Subject" CONTENT="open source communications framework, distributed computing, distributed objects, remote, rpc, xml, scripting, linux, unix, casbah, free">
+    <META NAME="DC.Publisher" CONTENT="The Casbah Project">
+    <META NAME="DC.Type" CONTENT="Text.Homepage.Organizational">
+    <META NAME="DC.Format" CONTENT="text/html">
+    <META NAME="DC.Identifier" CONTENT="http://casbah.org/">
+
+    <link rel="stylesheet" href="http://casbah.org/new_casbah.css" type="text/css" media="screen">
+
+  </head>
+
+  <body>
+
+  <table bgcolor="#d2b48c" border="0" cellpadding="4"
+   cellspacing="1" width="90%" class="navbar">
+    <tr>
+      <td>
+        <font face="Verdana, Lucida Sans, Arial, Helvetica,
+	             Geneva, sans-serif">
+	   <strong>Scarab:</strong> Application Programming Interface (API)
+        </font>
+      </td>
+    </tr>
+  </table>
+
+<p>This is the main API for using the Scarab framework in most
+languages.  Each language may have slightly different semantics or may
+implement additional features, check in the implementation for
+details.<p>
+
+<p>Scarab's API is patterned after Apple's (nee NeXT's) Distributed
+Objects (DO).  See the docs for the NSConnection class in the <a
+href="http://developer.apple.com/techpubs/macosx/macosx.html">Foundation
+framework reference</a>.</p>
+
+<p>In addition to DO, Scarab also supports simple RPCs (i.e. the
+"object" is the remote system and methods are it's available
+procedures) and messaging.  "Messaging" is simply carrying a bundle of
+data from the sender to the receiver, without any understanding of the
+content.  "Messaging" is used generically to mean messaging, RPC,
+and/or DO.  Messaging (upper-level) protocols may be synchronous,
+asynchronous, or bi-directional, or not.  Transport (lower-level)
+protocols may either be stream based and support multiple messages
+(TCP/IP, HTTP 1.1) or request based and support only one message at a
+time (HTTP, SMTP).</p>
+
+<p>Apple DO supports only one internal, unspecified, protocol in it's
+NSConnection class.  Scarab supports several protocols and uses a
+connection class unique to each protocol.  Scarab uses a manager
+class, Scarab, to create connections and provide support.</p>
+
+<p>Scarab uses a special form of URL for identifying servers.  In
+addition to the transport URL (http:, mailto:, tcp: [default]) Scarab
+URLs also prefix the upper-level protocol (ldoxml:, soap:):
+
+<pre>
+    ldoxml:http://monkeyfist.com/editor.cgi
+</pre></p>
+
+<p><tt class=function>Scarab.connect_to()</tt> and <tt
+class=function>Scarab.connect_to_root_at()</tt> are used by clients.
+<tt class=function>connect_to()</tt> creates a connection to a server,
+one that you can do RPCs, DO, or messages over if you explicitly make
+those calls on the connection object (for "plain" messages, that's the
+only way).  <tt class=function>connect_to_root_at()</tt> is more of a
+distributed objects thing, you actually get a proxy object back that
+"acts" like the remote object, you simply make calls on it as if it
+were a local object.</p>
+
+<p>Most RPC and DO users use only the proxy objects and can ignore all
+the <tt class=module>ScarabConnection</tt> methods.  Users who send
+non-RPC, non-DO messages (like XML messages) will use the <tt
+class=function>message()</tt> and <tt class=function>message_xml</tt>
+methods to send their messages.</p>
+
+<p><tt class=function>Scarab.server_on()</tt> is used by servers.  It
+creates a socket that is "listening" for connections but not yet
+accepting them.  If your server is a daemon, you just call <tt
+class=function>serve()</tt> and from then on Scarab accepts all
+connections and processes all requests.  If your server isn't a
+daemon, and it's handling it's own sockets, then <tt
+class=function>accept()</tt> is called whenever an incoming request is
+ready; <tt class=function>accept()</tt> processes one message and
+returns.</p>
+
+<p>Here is an example client (in Python):
+
+<pre>
+    import Scarab
+
+    server = Scarab.connect_to('ldoxml:http://monkeyfist.com/editor.cgi')
+    server.post(message)
+</pre>
+
+And an example server:
+
+<pre>
+    import Scarab
+    import MyObject
+
+    root = MyObject.MyObject()
+    endpoint = Scarab.server_on('tcp://casbah.org:1234', { 'root' : root })
+    endpoint.start()
+</pre></p>
+
+<h2>Basic Scarab API</h2>
+
+<p>The Scarab API contains both commonly used, basic methods as well
+as advanced methods that may be needed by some users.  The rest of
+this section describes the basic Scarab API and the next section
+describes the remaining parts of the API.</p>
+
+<p>In the following description, methods are indicated by having
+parenthesis' ("<tt>( ... )</tt>") and attributes do not.</p>
+
+<p>In Java, attributes are accessed like <tt>conn.getStatistics()</tt>
+and <tt>conn.putReplyTimeout(seconds)</tt>.  In Perl, attributes are
+accessed using hash references like <tt>$conn->{Statistics}</tt> and
+<tt>$conn->{ReplyTimeout}=$seconds</tt>.  In Python, attributes are
+accessed like <tt>conn.statistics</tt> and
+<tt>conn.reply_timeout=seconds</tt></p>
+
+<h3><tt class=module>Scarab</tt></h3>
+
+<p>The <tt class=module>Scarab</tt> class is used to create clients
+and servers.</p>
+
+<p>
+<dl><dt><b><tt class=function>connect_to</tt></b>(<var>scarab_url</var> [, <var>options</var> ])
+<dd>
+Creates a connection to the server at <var>scarab_url</var> and
+returns the connection object.  <var>options</var> is a dictionary that may contain options to be passed to lower-level drivers.</dl></p>
+
+<p>
+<dl><dt><b><tt class=function>connect_to_root_at</tt></b>(<var>scarab_url</var> [, <var>options</var> ])
+<dd>
+Creates a connection to the server at <var>scarab_url</var> and
+returns a proxy or handle to the server's root object.
+<var>options</var> is a dictionary and is used to construct the
+connection.</dl></p>
+
+<p>
+<dl><dt><b><tt class=function>server_on</tt></b>(<var>scarab_url</var> [, <var>options</var> ])
+<dd>
+Creates a server endpoint and returns the connection object.
+<var>options</var> is a dictionary and is used to construct the
+connection.  The server is not started until either <tt
+class=function>serve()</tt> or <tt class=function>accept()</tt> is
+called on the connection.  If an upper-level protocol is not
+specified, then multiple upper-level protocols are supported.</dl></p>
+
+<h3><tt class=module>ScarabConnection</tt></h3>
+
+<p><tt class=module>ScarabConnection</tt> objects are returned by the
+<tt class=module>Scarab</tt> <tt class=function>server()</tt> and <tt
+class=function>serve()</tt> methods.  <tt
+class=module>ScarabConnection</tt> is where most of the functionality
+of Scarab is implemented.</p>
+
+<p><tt class=module>ScarabConnection</tt> is an "endpoint" and can be
+either a client, a server, or both.  Some methods only apply to server
+endpoints and some only apply to client endpoints.</p>
+
+<h4>Client methods</h4>
+
+<p>
+<dl><dt><b><tt class=function>call</tt></b>(<var>object</var>, <var>method</var>, <var>arguments</var>)
+<dd>
+Call <var>method</var> on remote <var>object</var>, passing it
+<var>arguments</var> (a list).  If <var>object</var> is not defined
+(null), then the root or implied object is messaged.  Only supported
+by RPC and DO protocols.  Remote faults are re-raised in the caller's
+process.  Using proxies is the preferred way to make remote object
+calls.</dl></p>
+
+<p>
+<dl><dt><b><tt class=function>rpc</tt></b>(<var>procedure</var>, <var>arguments</var>)
+<dd>
+Synonomous to <tt class=function>call(null, <var>procedure</var>, <var>arguments</var>)</tt></dl></p>
+
+<p>
+<dl><dt><b><tt class=function>message</tt></b>(<var>message</var>)
+<dd>
+Send <var>message</var> (a single, possibly compound, object) to the
+server.  Only supported by messaging protocols.</dl></p>
+
+<p>
+<dl><dt><b><tt class=function>message_xml</tt></b>(<var>dom</var>)
+<dd>
+Send <var>dom</var> (a DOM fragment object) to the server as XML.
+Only supported by messaging protocols.</dl></p>
+
+<h4>Server methods</h4>
+
+<p>
+<dl><dt><b><tt class=function>serve</tt></b>()
+<dd>
+Begin serving requests and continue serving until terminated.  FIXME:
+graceful shutdown</dl></p>
+
+<p>
+<dl><dt><b><tt class=function>accept</tt></b>()
+<dd>
+This method is called in an event-driven or polling system when one
+single request is available.</dl></p>
+
+<p>
+<dl><dt><b>(<var>response</var>, <var>envelope</var>)<tt class=function>process_string</tt></b>(<var>message</var>, <var>envelope</var>)
+<dd>
+Serve a single request contained in the string <var>message</var>,
+returning a new string <var>response</var>.  <var>envelope</var> is a
+dictionary with information from the caller or transport layer needed
+to process the request, such as a password or user ID.  Some protocols
+contain complete envelope information within <var>message</var>.  Upon
+return, <var>envelope</var><tt>['Content-Type']</tt> contains the MIME
+type of <var>response</var>, which will be the same format as
+<var>message</var>.</dl></p>
+
+<h4>Common methods and attributes</h4>
+
+<p>
+<dl><dt><b><tt class=function>invalidate</tt></b>()
+<dd>
+Tear down this connection and mark it no longer usable.</dl></p>
+
+
+<p>
+<dl><dt><b><tt>reply_timeout</tt></b>
+<dd>
+Timeout for receiving responses to requests, in seconds.</dl></p>
+
+<p>
+<dl><dt><b><tt>is_valid</tt></b>
+<dd>
+True if this connection is still usable.</dl></p>
+
+<p>
+<dl><dt><b><tt>statistics</tt></b>
+<dd>
+A dictionary containing statistics for this connection.  Used for
+debugging purposes.</dl></p>
+
+<p>
+<dl><dt><b><tt>url</tt></b>
+<dd>
+The URL for this connection.  For server endpoints this will include
+the IP port number if it was assigned dynamically.</dl></p>
+
+
+<p>
+<dl><dt><b><tt>globals</tt></b>
+<dd>
+On a server endpoint for a distributed objects server, a dictionary of
+objects that are available to clients, eg. they are "global".  The
+object with the key `<tt>root</tt>' is the server's root
+object.</dl></p>
+
+<p>
+<dl><dt><b><tt>methods</tt></b>
+<dd>
+On a server endpoint for a remote procedure server, a dictionary
+holding the methods that are available to clients.</dl></p>
+
+<p></p><hr>
+<UL>
+<LI><A NAME="tex2html1593"
+ HREF="advanced-api.html">Advanced Scarab API</A>
+</UL>
+
+  </body>
+</html>

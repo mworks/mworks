@@ -1,0 +1,440 @@
+<?xml version="1.0"?>
+<!-- $Id: xml-serialization.xml,v 1.9 2000/03/04 19:38:34 kmacleod Exp $ -->
+<!DOCTYPE rfc SYSTEM "rfc2629.dtd">
+<!--<?rfc toc="yes"?>-->
+<?rfc compact="yes"?>
+<?rfc private="Early Draft"?>
+<rfc ipr="full2026">
+
+<front>
+  <title abbrev="LDO-XML">Self-Describing XML Data Representation</title>
+  <author initials="K." surname="MacLeod" fullname="Ken MacLeod">
+    <organization>The Casbah Project</organization>
+    <address>
+      <postal>
+        <street>1330 66th Street</street>
+        <city>Des Moines</city> <region>IA</region> <code>50311</code>
+        <country>US</country>
+      </postal>
+      <phone>+1 515 279 0319</phone>
+      <email>ken@bitsko.slc.ut.us</email>
+      <uri>http://casbah.org/Scarab/</uri>
+    </address>
+  </author>
+
+  <date month="October" year="1999" />
+
+  <abstract><t>This document describes a simple, plain-text,
+   self-describing, Extensible Markup Language (XML) format for
+   structured data.  The base format defined here allows for nested
+   values made up of dictionaries, lists, and atomic values without
+   arbitrary size limits.  This format is intended to be minimal,
+   flexible, reusable, and targetable.</t></abstract>
+</front>
+
+<!--
+Bijan suggest the following topics:
+
+ * The most important bits, I think, is Explanation of purpose.
+ * cross references between LDO-XML and LDO-Binary
+   (I replied that I'd rather not x-ref them, that they should
+    stand alone.  maybe put that in a faq)
+ * where to go next
+ * notes for implementors, notes for users
+-->
+
+<middle>
+  <section title="Introduction">
+
+    <t>The XML Serialization format provides a way to marshal data
+     structures or application objects using a simple, fixed set of
+     XML elements.</t>
+
+    <t>XML Serialization provides four elements for encoding objects,
+     &lt;dictionary&gt;, &lt;list&gt;, &lt;atom&gt;, and &lt;ref&gt;.
+     Multiple references to &lt;dictionary&gt;, &lt;list&gt;, and
+     &lt;atom&gt; elements are supported using an `id' attribute that
+     can be referred to using the `ref' attribute of the &lt;ref&gt;
+     element.  &lt;dictionary&gt;, &lt;list&gt;, and &lt;atom&gt;
+     elements support a `type' attribute to declare the type or class
+     of the data.  &lt;atom&gt; elements support an `encoding'
+     attribute to declare it's encoding (such as BASE64).
+     &lt;dictionary&gt;, &lt;list&gt;, and &lt;atom&gt; elements
+     support a `length' attribute that gives the number of pairs in a
+     dictionary, the number of elements in a list, or the parsed
+     length of the text of an &lt;atom&gt;.</t>
+
+    <t>This format is being developed as part of <eref
+     target="http://casbah.org/Scarab/">Scarab</eref>, a framework for
+     handling data and distributed computing.  Scarab itself is being
+     developed as part of <eref
+     target="http://casbah.org/">Casbah</eref>, a language independent
+     environment for writing applications that access a wide variety
+     of data sources.  Scarab includes a binary format that is
+     comparible to this format.  Scarab supports storage or transfer
+     using other XML DTDs and Schemas in addition to this
+     serialization.</t>
+
+    <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL
+     NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and
+     "OPTIONAL" in this document are to be interpreted as described in
+     <xref target="refs.RFC2119">RFC 2119</xref>.</t>
+
+    <t>Within this draft, text enclosed within brackets (`[text]')
+    represents issues or incomplete specifications.</t>
+
+    <section title="Examples of XML Serialization">
+
+      <t>An example serialization of the following value:
+
+        <figure><artwork>
+    record = ( month: 'April', day: 5, year: 1997 ) 
+    encode(record, "a day in the life")
+</artwork></figure>
+     would be:
+
+<figure><artwork><![CDATA[
+    <?xml version="1.0"?>
+    <!DOCTYPE list SYSTEM "ldo-xml.dtd">
+    <list>
+      <dictionary>
+        <atom>month</atom><atom>April</atom>
+        <atom>day</atom><atom>5</atom>
+        <atom>year</atom><atom>1997</atom>
+      </dictionary>
+      <atom>a day in the life</atom>
+    </list>
+]]></artwork></figure>
+       </t>
+
+    </section>
+
+  </section>
+
+  <section title="XML Serialization">
+
+    <t>XML Serialization defines three generic datatypes,
+    &lt;atom&gt;, &lt;list&gt;, and &lt;dictionary&gt; that can be
+    further specialized by higher level protocols or marshaling.
+    &lt;atom&gt;s are used for datatypes having values which are
+    intrinsically indivisible.  &lt;list&gt;s and &lt;dictionary&gt;s
+    are used for datatypes having values which can be decomposed into
+    two or more components.  &lt;dictionary&gt;s, specifically, can be
+    used to represent records with keyed fields or objects with member
+    variable names.</t>
+
+    <t>&lt;atom&gt;s can only contain character data.  &lt;list&gt;s
+    and &lt;dictionary&gt;s can only contain other &lt;list&gt;s,
+    &lt;dictionary&gt;s, &lt;atom&gt;s, and &lt;ref&gt;s.
+    &lt;ref&gt;s are used to resolve multiple references to the same
+    serialized data value.</t>
+
+    <section title="&lt;atom&gt;">
+
+      <t>&lt;atom&gt;s are used to encode values that are
+      intrinsically indivisible, such as strings, numbers, symbols,
+      enumerated values, and binary data.  &lt;atom&gt; can also be
+      used to encode values that are divisible but have common string
+      representations, such as dates or URIs.</t>
+
+      <t>Implementations may treat all atoms as octet sequences or
+      strings.  The `type' attribute can be used to guide conversion
+      to more specialized types or to enforce data types.</t>
+
+      <t>The `length' attribute can be used to indicate the number of
+      octets encoded in the atom.</t>
+
+      <t>The `encoding' attribute can be used to specify `base64'
+      encoding for the atom, to support encoding of binary data.
+      Base64 encoding is defined in <xref target="refs.rfc1521">RFC
+      1521</xref>.</t>
+
+      <t>The `id' attribute can be used to provide an identifier for
+      this atom so it can be referenced again later using
+      &lt;ref&gt;.</t>
+
+    </section>
+
+    <section title="&lt;list&gt;">
+
+      <t>&lt;list&gt;s are used to encode multipart values that can
+      be represented as sequences.  &lt;list&gt; elements may contain
+      any number and any combination of &lt;atom&gt;s, &lt;list&gt;s,
+      &lt;dictionary&gt;s, and &lt;ref&gt;s.  Implementations can use
+      the `type' attribute to guide conversion to more specialized
+      types or to enforce data types.</t>
+
+      <t>The `length' attribute can be used to indicate the number of
+      values in the list.</t>
+
+      <t>The `id' attribute can be used to provide an identifier for
+      this list so it can be referenced again later using
+      &lt;ref&gt;.</t>
+
+    </section>
+
+    <section title="&lt;dictionary&gt;">
+
+      <t>&lt;dictionary&gt;s are used to encode multipart values that
+      can be represented as key, value pairs.  &lt;dictionary&gt;
+      elements may contain any number of pairs, and each key and value
+      may be any combination of &lt;atom&gt;s, &lt;list&gt;s,
+      &lt;dictionary&gt;s, and &lt;ref&gt;s.  Implementations can use
+      the `type' attribute to guide conversion to more specialized
+      types or to enforce data types.</t>
+
+      <t>The `length' attribute can be used to indicate the number of
+      key, value pairs in the list.</t>
+
+      <t>The `id' attribute can be used to provide an identifier for
+      this dictionary so it can be referenced again later using
+      &lt;ref&gt;.</t>
+
+    </section>
+
+    <section title="&lt;ref&gt;">
+
+      <t>&lt;ref&gt;s are used to refer to a value that has already
+      been serialized.  [need a good definition here]  The value of
+      the `ref' attribute identifies the previously serialized atom,
+      list, or dictionary with the corresponding `id' attribute.</t>
+
+    </section>
+
+    <section title="`type' attribute">
+
+    <t>The `type' attribute is intended to be used by implementations
+    to specify data types that are pertinent to that implementation.
+    Implementations may benefit by sharing a convention for declaring
+    the type of data, even if they cannot provide natural or
+    transparent access to that data.  For example, an implementation
+    may allow a user to access the contents of a generic dictionary,
+    list, or atom directly and without reliance on the `type'
+    attribute.</t>
+
+    <t>The convention presented here is patterned after URIs [RFC?].
+    Types are represented by a two-part identifier seperated by a
+    colon (`:').  The left-hand part is the scheme identifier (a
+    computer language name, a standard for data interchange, or an
+    alias declared externally (re. XML Namespaces)) and the right-hand
+    part is an opaque string identifying the type of data in a syntax
+    appropriate for and defined by the scheme.  [copy syntax from URI
+    RFC]</t>
+
+    <t>Example type attribute values are:
+
+<figure><artwork>
+    perl:scalar
+    xml-dcd:ui1
+    corba:i4
+    mime:text/html
+    ldo:number
+</artwork></figure></t>
+
+    <t>Type schemes used in LDO (including schemes for languages used
+    in LDO) will be defined as seperate specifications.  See <eref
+    target="http://casbah.org/Scarab">Scarab</eref>.</t>
+    </section>
+
+  </section>
+
+  <section title="Conformance and Interoperability">
+
+    <t>[need to fill out this section]</t>
+
+  </section>
+
+  <section title="Security Considerations">
+
+    <t>This data representation does not contain any features for
+    initiating actions.</t>
+
+    <t>Several elements in this data representation have no defined
+    upper limits on size or quantity.  Conforming implementations
+    SHOULD perform sanity checks on data received to avoid buffer
+    overruns and out of resource (memory, disk, etc.) conditions.</t>
+
+  </section>
+
+
+</middle>
+
+<back>
+
+  <section title="Document Type Definition">
+
+<figure>
+ <artwork><![CDATA[
+<!ENTITY % item        "(dictionary | list | atom | ref)">
+
+<!ENTITY % item.attrib
+       "type           CDATA           #IMPLIED
+        length         CDATA           #IMPLIED
+        id             ID              #IMPLIED">
+
+<!ELEMENT dictionary   (%item;, %item;)* > 
+<!ATTLIST dictionary
+        %item.attrib;
+>
+
+<!ELEMENT list         (%item;)*         > 
+<!ATTLIST list
+        %item.attrib;
+>
+
+<!ELEMENT atom         (#PCDATA)         > 
+<!ATTLIST atom
+        %item.attrib;
+        encoding       CDATA           #IMPLIED
+>
+
+<!ELEMENT ref          EMPTY             > 
+<!ATTLIST ref
+        ref            IDREF           #REQUIRED
+>
+]]></artwork>
+</figure>
+
+</section>
+
+  <section title="Larger Examples">
+
+    <t>[Well, we know what should go _here_, don't we? ;-]</t>
+
+  </section>
+
+  <section title="FAQ">
+
+   <t>This section will not appear in the final specification.  This
+    section is intended to provide history and commentary on the spec.
+    When this document is finalized, this information will be
+    historical and may be provided elsewhere.</t>
+
+    <section title="Q: Where did the name &quot;atom&quot; come from?">
+
+      <t>"atom" or "atomic" is the term most commonly used by
+      designers if and when they refer to a value or object that is
+      not composed of or an aggregate of other values or objects.
+      Many descriptions of computer languages, protocols, or formats
+      don't distinguish between simple or complex objects or don't
+      provide a specific term for non-aggregate types (they simply
+      call them "objects", for example).  The term "scalar" is a close
+      second to "atom" in terms of common usage.</t>
+
+      <t>Alternatives included "value", "data", "datum", "scalar", and
+      "primitive".  "value", "data", and "datum" all seemed wrong
+      because lists and dicts are also values, data, or datum.
+      "scalar" seems too closely tied to numeric or quantity values.
+      "primitive" is often associated with implementation in a
+      lower-level language (like C or assembler).</t>
+
+    </section>
+
+    <section title="Why not include more common data types, like
+    number, string, or JPEG?">
+
+      <t>Scarab's XML and binary reference serializations were
+      designed with the assumption that we don't know what datatypes
+      you really need.  Rather than define a small set of datatypes
+      that may or may not fit your needs, we've used some of the most
+      basic data types available and then supported a "type" attribute
+      that lets you declare a specific type.  LDO-Types defines common
+      values for type attributes supported by Scarab applications.  If
+      it's your application that is used for both client and server
+      you can also define your own data types.  Scarab can also use
+      other serialization formats that provide more specific data
+      types.</t>
+
+    </section>
+
+  </section>
+
+  <references>
+    <reference anchor="XML"
+     target="http://www.w3.org/TR/1998/REC-xml-19980210">
+      <front>
+        <title>Extensible Markup Language (XML) 1.0</title>
+        <author>
+          <organization abbrev="W3C">World Wide Web Consortium</organization>
+          <address>
+            <postal>
+              <street>MIT Laboratory for Computer Science</street>
+              <street>545 Technology Square</street>
+              <city>Cambridge</city> <region>MA</region> <code>02139</code>
+              <country>US</country>
+            </postal>
+            <phone>+ 1 617 253 2613</phone>
+            <facsimile>+ 1 617 258 5999</facsimile>
+            <email>timbl@w3.org</email>
+            <uri>http://www.w3c.org</uri>
+          </address>
+        </author>
+        <date month="February" year="1998" />
+      </front>
+      <seriesInfo name="W3C" value="XML" />
+    </reference>
+
+    <reference anchor="refs.rfc1521">
+      <front>
+        <title abbrev="MIME">MIME (Multipurpose Internet Mail Extensions) Part One:
+        Mechanisms for Specifying and Describing the Format of
+        Internet Message Bodies</title>
+        <author initials="N." surname="Borenstein" fullname="Nathaniel S. Borenstein">
+          <organization>Bellcore</organization>
+          <address>
+            <postal>
+              <street>MRE 2D-296</street>
+              <street>445 South St.</street>
+              <city>Morristown</city> <region>NJ</region> <code>07962-1910</code>
+              <country>US</country>
+            </postal>
+            <phone>+1 201 829 4270</phone>
+            <facsimile>+1 201 829 7019</facsimile>
+            <email>nsb@bellcore.com</email>
+          </address>
+        </author>
+        <author initials="N." surname="Freed" fullname="Ned Freed">
+          <organization abbrev="Innosoft">Innosoft International, Inc.</organization>
+          <address>
+            <postal>
+              <street>Suite 240</street>
+              <street>250 West First Street</street>
+              <city>Claremont</city> <region>CA</region> <code>91711</code>
+              <country>US</country>
+            </postal>
+            <phone>+1 909 624 7907</phone>
+            <facsimile>+1 909 621 5319</facsimile>
+            <email>ned@innosoft.com</email>
+          </address>
+        </author>
+        <date month="September" year="1993" />
+      </front>
+      <seriesInfo name="BCP" value="14" />
+      <seriesInfo name="RFC" value="2119" />
+    </reference>
+
+    <reference anchor="refs.RFC2119">
+      <front>
+        <title>Key words for use in RFCs to Indicate Requirement Levels</title>
+        <author initials="S." surname="Bradner" fullname="Scott Bradner">
+          <organization abbrev="Harvard">Harvard University</organization>
+          <address>
+            <postal>
+              <street>1350 Mass. Ave.</street>
+              <city>Cambridge</city> <region>MA</region> <code>02138</code>
+              <country>US</country>
+            </postal>
+            <phone>+1 617 495 3864</phone>
+            <email>sob@harvard.edu</email>
+          </address>
+        </author>
+        <date month="March" year="1997" />
+      </front>
+      <seriesInfo name="BCP" value="14" />
+      <seriesInfo name="RFC" value="2119" />
+    </reference>
+
+  </references>
+</back>
+
+</rfc>

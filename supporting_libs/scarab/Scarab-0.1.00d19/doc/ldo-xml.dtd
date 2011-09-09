@@ -1,0 +1,137 @@
+`<!-- ...................................................................... -->
+<!-- Lightweight Distributed Objects XML Serialization DTD V0.1 ........... -->
+<!-- File ldo-xml.dtd ..................................................... -->
+<!-- $Id: ldo-xml.dtd,v 1.3 2000/03/04 19:38:33 kmacleod Exp $ -->
+
+<!-- Copyright 1998, 1999 The Casbah Project
+     <http://casbah.org/>
+
+     Please direct all questions, bug reports, or suggestions for
+     changes to the devel@casbah.org mailing list or to the maintainer:
+
+     o Ken MacLeod
+       <ken@bitsko.slc.ut.us>
+
+-->
+
+<!-- ...................................................................... -->
+
+<!-- This DTD defines an object serialization format for use by
+     messaging, remote procedure, distributed object system protocols,
+     and language or application data marshaling needs.
+
+     This DTD is intended to be minimal, flexible, reusable, and
+     targetable.  Most applications will want to further specify how
+     internal objects are represented as types or languages will want
+     to specify how language-specific features are encoded.
+
+     One application that may be used to further specify
+     representation is the Lightweight Distributed Objects (LDO)
+     Request Encoding as Objects specification available at the Casbah
+     Scarab web page:
+
+         <http://casbah.org/Scarab/>
+
+     XML Serialization provides four elements for encoding objects, a
+     `dictionary', a `list', an `atom', and a `ref' element.  Cyclic
+     references to `dictionary', `list', and `atom' elements are
+     supported using an `id' attributed that can be referred to using
+     the `ref' attribute of the `ref' element.  `dictionary', `list'
+     and `atom' elements support a `type' attribute to declare the
+     type or class of the object.  `atom' elements have an `encoding'
+     attribute to declare it's encoding (currently either `base64' or
+     unspecified).  `dictionary' elements with a `class' attribute
+     marks the dictionary as an object, with the keys as field or
+     property names.
+
+     Untyped dictionaries are unordered and may be keyed by any item
+     and contain any item as values.
+
+     Untyped lists are ordered sequences of any items.
+
+     Untyped atoms are 8-bit strings.  Internal data types that have a
+     natural string representation should use that (as opposed to
+     encoding the internal binary representation, of course :).  8-bit
+     strings that contain characters that are not valid XML characters
+     should be encoded using MIME BASE64 and the `encoding' attribute
+     should be set to `base64'.
+
+     Note also that Tim Bray is promoting the use of an
+     `xml:packed="base64"' attribute for generic use.
+
+     TBD: Extended attributes are allowed, with or without XML
+     namespaces.  XML namespaces would naturally avoid name space
+     conflict though :-).
+
+     TBD: Element-level extension hasn't been evaluated yet, but we
+     would like to support it.
+
+     TBD: `dictionary', `list', and `atom' elements support a `length'
+     attribute that gives the number of pairs in a dictionary, the
+     number of elements in a list, or the parsed or stored length of
+     the data in a `atom'.
+
+     TBD: I'm not sure `atom' is the perfect name to convey what it
+     contains.  Alternatives are `value', `data', `datum', `scalar',
+     or `primitive'.
+
+     TBD: In some cases, it will be desirable to use references
+     (`ref') simply for compression (reuse of serialized data, such as
+     dictionary keys) as well as for marshaling objects that are
+     multiply-referenced.  The distinction is not clarified here.  One
+     solution is that applications will use `ref' for simple data
+     reuse and use an application defined object (via a dictionary) to
+     store multiple references to an object.
+
+     An example serialization of the following value:
+
+         record = ( month: 'April', day: 5, year: 1997 ) 
+         encode(record, "a day in the life") 
+
+     would be:
+
+         <?xml version="1.0"?>
+         <!DOCTYPE list
+           PUBLIC "-//The Casbah Project//DTD LDO XML Serialization V1.0//EN"
+                  "ldo-xml.dtd">
+         <list> 
+           <dictionary> 
+             <atom>month</atom><atom>April</atom> 
+             <atom>day</atom><atom>5</atom> 
+             <atom>year</atom><atom>1997</atom> 
+           </dictionary> 
+           <atom>a day in the life</atom> 
+         </list> 
+
+
+-->
+
+<!-- ...................................................................... -->
+
+<!ENTITY % item        "(dictionary | list | atom | ref)">
+
+<!ENTITY % item.attrib
+       "type           CDATA           #IMPLIED
+        length         CDATA           #IMPLIED
+        id             ID              #IMPLIED">
+
+<!ELEMENT dictionary   (%item;, %item;)* > 
+<!ATTLIST dictionary
+        %item.attrib;
+>
+
+<!ELEMENT list         (%item;)*         > 
+<!ATTLIST list
+        %item.attrib;
+>
+
+<!ELEMENT atom         (#PCDATA)         > 
+<!ATTLIST atom
+        %item.attrib;
+        encoding       CDATA           #IMPLIED
+>
+
+<!ELEMENT ref          EMPTY             > 
+<!ATTLIST ref
+        ref            IDREF           #REQUIRED
+>

@@ -1,0 +1,15 @@
+Micro-HTTP servers in apps
+
+I'm going to confuse things here for a bit and mention that we're also
+playing with an interface that allows an app to simply make it's
+variables available as a hierarchy, like URLs or /proc.  You can use
+simple GET and PUT requests to retrieve and update them.  This can be
+done either with object messages as described elsewhere or using a
+micro-HTTP server in the app.  The micro-HTTP servers-in-apps will be
+supported by LDO clients, and we've prototyped a C version using Jef
+Poskanser's thttpd (tiny/turbo/throttling HTTP server), which is about
+60KB.  The prototype for the micro-HTTP server API is in the Casbah
+cvsweb under `api1-examples', and an actual C implementation is in
+<http://www.ntlug.org/cgi-bin/cvsweb/api1-examples/api1-a/app-info-c.c?rev=1.1>
+
+(from an email message, to be expanded further)

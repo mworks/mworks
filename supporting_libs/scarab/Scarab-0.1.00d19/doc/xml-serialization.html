@@ -1,0 +1,428 @@
+<html><head><title>Self-Describing XML Data Representation</title>
+<STYLE type='text/css'>
+    .title { color: #990000; font-size: 22px; line-height: 22px; font-weight: bold; text-align: right;
+             font-family: helvetica, arial, sans-serif }
+    .filename { color: #666666; font-size: 18px; line-height: 28px; font-weight: bold; text-align: right;
+                  font-family: helvetica, arial, sans-serif }
+    p.copyright { color: #000000; font-size: 10px;
+                  font-family: verdana, charcoal, helvetica, arial, sans-serif }
+    p { margin-left: 2em; margin-right: 2em; }
+    ol { margin-left: 2em; margin-right: 2em; }
+    ul.text { margin-left: 2em; margin-right: 2em; }
+    pre { margin-left: 3em; color: #333333 }
+    ul.toc { color: #000000; line-height: 16px;
+             font-family: verdana, charcoal, helvetica, arial, sans-serif }
+    H3 { color: #333333; font-size: 16px; line-height: 16px; font-family: helvetica, arial, sans-serif }
+    H4 { color: #000000; font-size: 14px; font-family: helvetica, arial, sans-serif }
+    TD.header { color: #ffffff; font-size: 10px; font-family: arial, helvetica, san-serif; valign: top }
+    TD.author-text { color: #000000; font-size: 10px;
+                     font-family: verdana, charcoal, helvetica, arial, sans-serif }
+    TD.author { color: #000000; font-weight: bold; margin-left: 4em; font-size: 10px; font-family: verdana, charcoal, helvetica, arial, sans-serif }
+    A:link { color: #990000; font-size: 10px; text-transform: uppercase; font-weight: bold;
+             font-family: MS Sans Serif, verdana, charcoal, helvetica, arial, sans-serif }
+    A:visited { color: #333333; font-weight: bold; font-size: 10px; text-transform: uppercase;
+                font-family: MS Sans Serif, verdana, charcoal, helvetica, arial, sans-serif }
+    A:name { color: #333333; font-weight: bold; font-size: 10px; text-transform: uppercase;
+             font-family: MS Sans Serif, verdana, charcoal, helvetica, arial, sans-serif }
+    .link2 { color:#ffffff; font-weight: bold; text-decoration: none;
+             font-family: monaco, charcoal, geneva, MS Sans Serif, helvetica, monotype, verdana, sans-serif;
+             font-size: 9px }
+    .RFC { color:#666666; font-weight: bold; text-decoration: none;
+           font-family: monaco, charcoal, geneva, MS Sans Serif, helvetica, monotype, verdana, sans-serif;
+           font-size: 9px }
+    .hotText { color:#ffffff; font-weight: normal; text-decoration: none;
+               font-family: charcoal, monaco, geneva, MS Sans Serif, helvetica, monotype, verdana, sans-serif;
+               font-size: 9px }
+</style>
+</head>
+<body bgcolor="#ffffff"alink="#000000" vlink="#666666" link="#990000">
+<table width="66%" border="0" cellpadding="0" cellspacing="0"><tr><td><table width="100%" border="0" cellpadding="2" cellspacing="1">
+<tr valign="top"><td width="33%" bgcolor="#666666" class="header">Early Draft</td><td width="33%" bgcolor="#666666" class="header">K. MacLeod</td></tr>
+<tr valign="top"><td width="33%" bgcolor="#666666" class="header">xml-serialization</td><td width="33%" bgcolor="#666666" class="header">The Casbah Project</td></tr>
+<tr valign="top"><td width="33%" bgcolor="#666666" class="header">&nbsp;</td><td width="33%" bgcolor="#666666" class="header">October 1999</td></tr>
+</table></td></tr></table>
+<div align="right"><font face="monaco, MS Sans Serif" color="#990000" size="+3"><b><br><span class="title">Self-Describing XML Data Representation</span></b></font></div>
+<font face="verdana, helvetica, arial, sans-serif" size="2">
+
+<h3>Abstract</h3>
+
+<p>
+This document describes a simple, plain-text,
+   self-describing, Extensible Markup Language (XML) format for
+   structured data.  The base format defined here allows for nested
+   values made up of dictionaries, lists, and atomic values without
+   arbitrary size limits.  This format is intended to be minimal,
+   flexible, reusable, and targetable.
+</p>
+
+<a name="anchor1"><br><hr size="1" shade="0"></a>
+<h3>1.&nbsp;Introduction</h3>
+
+<p>
+The XML Serialization format provides a way to marshal data
+     structures or application objects using a simple, fixed set of
+     XML elements.
+</p>
+
+<p>
+XML Serialization provides four elements for encoding objects,
+     &lt;dictionary&gt;, &lt;list&gt;, &lt;atom&gt;, and &lt;ref&gt;.
+     Multiple references to &lt;dictionary&gt;, &lt;list&gt;, and
+     &lt;atom&gt; elements are supported using an `id' attribute that
+     can be referred to using the `ref' attribute of the &lt;ref&gt;
+     element.  &lt;dictionary&gt;, &lt;list&gt;, and &lt;atom&gt;
+     elements support a `type' attribute to declare the type or class
+     of the data.  &lt;atom&gt; elements support an `encoding'
+     attribute to declare it's encoding (such as BASE64).
+     &lt;dictionary&gt;, &lt;list&gt;, and &lt;atom&gt; elements
+     support a `length' attribute that gives the number of pairs in a
+     dictionary, the number of elements in a list, or the parsed
+     length of the text of an &lt;atom&gt;.
+</p>
+
+<p>
+This format is being developed as part of <a href="http://casbah.org/Scarab/">Scarab</a>, a framework for
+     handling data and distributed computing.  Scarab itself is being
+     developed as part of <a href="http://casbah.org/">Casbah</a>, a language independent
+     environment for writing applications that access a wide variety
+     of data sources.  Scarab includes a binary format that is
+     comparible to this format.  Scarab supports storage or transfer
+     using other XML DTDs and Schemas in addition to this
+     serialization.
+</p>
+
+<p>
+The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL
+     NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and
+     "OPTIONAL" in this document are to be interpreted as described in
+     <a href="#refs.RFC2119">RFC 2119</a>[3].
+</p>
+
+<p>
+Within this draft, text enclosed within brackets (`[text]')
+    represents issues or incomplete specifications.
+</p>
+
+<h4><a name="anchor2">1.1</a>&nbsp;Examples of XML Serialization</h4>
+
+<p>
+An example serialization of the following value:
+
+        </font><pre>
+    record = ( month: 'April', day: 5, year: 1997 ) 
+    encode(record, "a day in the life")
+</pre><font face="verdana, helvetica, arial, sans-serif" size="2">
+
+     would be:
+
+</font><pre>
+    &lt;?xml version="1.0"?>
+    &lt;!DOCTYPE list SYSTEM "ldo-xml.dtd">
+    &lt;list>
+      &lt;dictionary>
+        &lt;atom>month&lt;/atom>&lt;atom>April&lt;/atom>
+        &lt;atom>day&lt;/atom>&lt;atom>5&lt;/atom>
+        &lt;atom>year&lt;/atom>&lt;atom>1997&lt;/atom>
+      &lt;/dictionary>
+      &lt;atom>a day in the life&lt;/atom>
+    &lt;/list>
+</pre><font face="verdana, helvetica, arial, sans-serif" size="2">
+
+</p>
+
+<a name="anchor3"><br><hr size="1" shade="0"></a>
+<h3>2.&nbsp;XML Serialization</h3>
+
+<p>
+XML Serialization defines three generic datatypes,
+    &lt;atom&gt;, &lt;list&gt;, and &lt;dictionary&gt; that can be
+    further specialized by higher level protocols or marshaling.
+    &lt;atom&gt;s are used for datatypes having values which are
+    intrinsically indivisible.  &lt;list&gt;s and &lt;dictionary&gt;s
+    are used for datatypes having values which can be decomposed into
+    two or more components.  &lt;dictionary&gt;s, specifically, can be
+    used to represent records with keyed fields or objects with member
+    variable names.
+</p>
+
+<p>
+&lt;atom&gt;s can only contain character data.  &lt;list&gt;s
+    and &lt;dictionary&gt;s can only contain other &lt;list&gt;s,
+    &lt;dictionary&gt;s, &lt;atom&gt;s, and &lt;ref&gt;s.
+    &lt;ref&gt;s are used to resolve multiple references to the same
+    serialized data value.
+</p>
+
+<h4><a name="anchor4">2.1</a>&nbsp;&lt;atom&gt;</h4>
+
+<p>
+&lt;atom&gt;s are used to encode values that are
+      intrinsically indivisible, such as strings, numbers, symbols,
+      enumerated values, and binary data.  &lt;atom&gt; can also be
+      used to encode values that are divisible but have common string
+      representations, such as dates or URIs.
+</p>
+
+<p>
+Implementations may treat all atoms as octet sequences or
+      strings.  The `type' attribute can be used to guide conversion
+      to more specialized types or to enforce data types.
+</p>
+
+<p>
+The `length' attribute can be used to indicate the number of
+      octets encoded in the atom.
+</p>
+
+<p>
+The `encoding' attribute can be used to specify `base64'
+      encoding for the atom, to support encoding of binary data.
+      Base64 encoding is defined in <a href="#refs.rfc1521">RFC
+      1521</a>[2].
+</p>
+
+<p>
+The `id' attribute can be used to provide an identifier for
+      this atom so it can be referenced again later using
+      &lt;ref&gt;.
+</p>
+
+<h4><a name="anchor5">2.2</a>&nbsp;&lt;list&gt;</h4>
+
+<p>
+&lt;list&gt;s are used to encode multipart values that can
+      be represented as sequences.  &lt;list&gt; elements may contain
+      any number and any combination of &lt;atom&gt;s, &lt;list&gt;s,
+      &lt;dictionary&gt;s, and &lt;ref&gt;s.  Implementations can use
+      the `type' attribute to guide conversion to more specialized
+      types or to enforce data types.
+</p>
+
+<p>
+The `length' attribute can be used to indicate the number of
+      values in the list.
+</p>
+
+<p>
+The `id' attribute can be used to provide an identifier for
+      this list so it can be referenced again later using
+      &lt;ref&gt;.
+</p>
+
+<h4><a name="anchor6">2.3</a>&nbsp;&lt;dictionary&gt;</h4>
+
+<p>
+&lt;dictionary&gt;s are used to encode multipart values that
+      can be represented as key, value pairs.  &lt;dictionary&gt;
+      elements may contain any number of pairs, and each key and value
+      may be any combination of &lt;atom&gt;s, &lt;list&gt;s,
+      &lt;dictionary&gt;s, and &lt;ref&gt;s.  Implementations can use
+      the `type' attribute to guide conversion to more specialized
+      types or to enforce data types.
+</p>
+
+<p>
+The `length' attribute can be used to indicate the number of
+      key, value pairs in the list.
+</p>
+
+<p>
+The `id' attribute can be used to provide an identifier for
+      this dictionary so it can be referenced again later using
+      &lt;ref&gt;.
+</p>
+
+<h4><a name="anchor7">2.4</a>&nbsp;&lt;ref&gt;</h4>
+
+<p>
+&lt;ref&gt;s are used to refer to a value that has already
+      been serialized.  [need a good definition here]  The value of
+      the `ref' attribute identifies the previously serialized atom,
+      list, or dictionary with the corresponding `id' attribute.
+</p>
+
+<h4><a name="anchor8">2.5</a>&nbsp;`type' attribute</h4>
+
+<p>
+The `type' attribute is intended to be used by implementations
+    to specify data types that are pertinent to that implementation.
+    Implementations may benefit by sharing a convention for declaring
+    the type of data, even if they cannot provide natural or
+    transparent access to that data.  For example, an implementation
+    may allow a user to access the contents of a generic dictionary,
+    list, or atom directly and without reliance on the `type'
+    attribute.
+</p>
+
+<p>
+The convention presented here is patterned after URIs [RFC?].
+    Types are represented by a two-part identifier seperated by a
+    colon (`:').  The left-hand part is the scheme identifier (a
+    computer language name, a standard for data interchange, or an
+    alias declared externally (re. XML Namespaces)) and the right-hand
+    part is an opaque string identifying the type of data in a syntax
+    appropriate for and defined by the scheme.  [copy syntax from URI
+    RFC]
+</p>
+
+<p>
+Example type attribute values are:
+
+</font><pre>
+    perl:scalar
+    xml-dcd:ui1
+    corba:i4
+    mime:text/html
+    ldo:number
+</pre><font face="verdana, helvetica, arial, sans-serif" size="2">
+
+</p>
+
+<p>
+Type schemes used in LDO (including schemes for languages used
+    in LDO) will be defined as seperate specifications.  See <a href="http://casbah.org/Scarab">Scarab</a>.
+</p>
+
+<a name="anchor9"><br><hr size="1" shade="0"></a>
+<h3>3.&nbsp;Conformance and Interoperability</h3>
+
+<p>
+[need to fill out this section]
+</p>
+
+<a name="anchor10"><br><hr size="1" shade="0"></a>
+<h3>4.&nbsp;Security Considerations</h3>
+
+<p>
+This data representation does not contain any features for
+    initiating actions.
+</p>
+
+<p>
+Several elements in this data representation have no defined
+    upper limits on size or quantity.  Conforming implementations
+    SHOULD perform sanity checks on data received to avoid buffer
+    overruns and out of resource (memory, disk, etc.) conditions.
+</p>
+<a name="rfc.references"><br><hr size="1" shade="0"></a>
+<h3>References</h3>
+<table width="99%" border="0">
+<tr><td class="author-text" valign="top"><b><a name="XML">[1]</a></b></td>
+<td class="author-text"><a href="http://www.w3c.org">World Wide Web Consortium</a>, "<a href="http://www.w3.org/TR/1998/REC-xml-19980210">Extensible Markup Language (XML) 1.0</a>", W3C XML, February 1998.</td></tr>
+<tr><td class="author-text" valign="top"><b><a name="refs.rfc1521">[2]</a></b></td>
+<td class="author-text"><a href="mailto:nsb@bellcore.com">Borenstein, N.</a> and <a href="mailto:ned@innosoft.com">N. Freed</a>, "<a href="http://info.internet.isi.edu/in-notes/rfc/files/rfc2119.txt">MIME (Multipurpose Internet Mail Extensions) Part One:
+        Mechanisms for Specifying and Describing the Format of
+        Internet Message Bodies</a>", BCP 14, RFC 2119, September 1993.</td></tr>
+<tr><td class="author-text" valign="top"><b><a name="refs.RFC2119">[3]</a></b></td>
+<td class="author-text"><a href="mailto:sob@harvard.edu">Bradner, S.</a>, "<a href="http://info.internet.isi.edu/in-notes/rfc/files/rfc2119.txt">Key words for use in RFCs to Indicate Requirement Levels</a>", BCP 14, RFC 2119, March 1997.</td></tr>
+</table>
+
+<a name="rfc.authors"><br><hr size="1" shade="0"></a>
+<h3>Author's Address</h3>
+<table width="99%" border="0" cellpadding="0" cellspacing="0">
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">Ken MacLeod</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">The Casbah Project</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">1330 66th Street</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">Des Moines, IA  50311</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">US</td></tr>
+<tr><td class="author" align="right">Phone:&nbsp;</td>
+<td class="author-text">+1 515 279 0319</td></tr>
+<tr><td class="author" align="right">EMail:&nbsp;</td>
+<td class="author-text"><a href="mailto:ken@bitsko.slc.ut.us">ken@bitsko.slc.ut.us</a></td></tr>
+<tr><td class="author" align="right">URI:&nbsp;</td>
+<td class="author-text"><a href="http://casbah.org/Scarab/">http://casbah.org/Scarab/</a></td></tr>
+</table>
+
+<a name="anchor11"><br><hr size="1" shade="0"></a>
+<h3>Appendix A.&nbsp;Document Type Definition</h3>
+</font><pre>
+&lt;!ENTITY % item        "(dictionary | list | atom | ref)">
+
+&lt;!ENTITY % item.attrib
+       "type           CDATA           #IMPLIED
+        length         CDATA           #IMPLIED
+        id             ID              #IMPLIED">
+
+&lt;!ELEMENT dictionary   (%item;, %item;)* > 
+&lt;!ATTLIST dictionary
+        %item.attrib;
+>
+
+&lt;!ELEMENT list         (%item;)*         > 
+&lt;!ATTLIST list
+        %item.attrib;
+>
+
+&lt;!ELEMENT atom         (#PCDATA)         > 
+&lt;!ATTLIST atom
+        %item.attrib;
+        encoding       CDATA           #IMPLIED
+>
+
+&lt;!ELEMENT ref          EMPTY             > 
+&lt;!ATTLIST ref
+        ref            IDREF           #REQUIRED
+>
+</pre><font face="verdana, helvetica, arial, sans-serif" size="2">
+
+<a name="anchor12"><br><hr size="1" shade="0"></a>
+<h3>Appendix B.&nbsp;Larger Examples</h3>
+
+<p>
+[Well, we know what should go _here_, don't we? ;-]
+</p>
+
+<a name="anchor13"><br><hr size="1" shade="0"></a>
+<h3>Appendix C.&nbsp;FAQ</h3>
+
+<p>
+This section will not appear in the final specification.  This
+    section is intended to provide history and commentary on the spec.
+    When this document is finalized, this information will be
+    historical and may be provided elsewhere.
+</p>
+
+<h4><a name="anchor14">C.1</a>&nbsp;Q: Where did the name &quot;atom&quot; come from?</h4>
+
+<p>
+"atom" or "atomic" is the term most commonly used by
+      designers if and when they refer to a value or object that is
+      not composed of or an aggregate of other values or objects.
+      Many descriptions of computer languages, protocols, or formats
+      don't distinguish between simple or complex objects or don't
+      provide a specific term for non-aggregate types (they simply
+      call them "objects", for example).  The term "scalar" is a close
+      second to "atom" in terms of common usage.
+</p>
+
+<p>
+Alternatives included "value", "data", "datum", "scalar", and
+      "primitive".  "value", "data", and "datum" all seemed wrong
+      because lists and dicts are also values, data, or datum.
+      "scalar" seems too closely tied to numeric or quantity values.
+      "primitive" is often associated with implementation in a
+      lower-level language (like C or assembler).
+</p>
+
+<h4><a name="anchor15">C.2</a>&nbsp;Why not include more common data types, like
+    number, string, or JPEG?</h4>
+
+<p>
+Scarab's XML and binary reference serializations were
+      designed with the assumption that we don't know what datatypes
+      you really need.  Rather than define a small set of datatypes
+      that may or may not fit your needs, we've used some of the most
+      basic data types available and then supported a "type" attribute
+      that lets you declare a specific type.  LDO-Types defines common
+      values for type attributes supported by Scarab applications.  If
+      it's your application that is used for both client and server
+      you can also define your own data types.  Scarab can also use
+      other serialization formats that provide more specific data
+      types.
+</p>
+</font></body></html>

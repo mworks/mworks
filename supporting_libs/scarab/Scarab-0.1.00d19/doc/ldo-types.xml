@@ -1,0 +1,312 @@
+<?xml version="1.0"?>
+<!-- $Id: ldo-types.xml,v 1.4 2000/03/04 19:38:33 kmacleod Exp $ -->
+<!DOCTYPE rfc SYSTEM "rfc2629.dtd">
+<!--<?rfc toc="yes"?>-->
+<?rfc compact="yes"?>
+<?rfc private="Early Draft"?>
+<rfc ipr="full2026">
+
+<front>
+  <title abbrev="LDO-Types">Type Naming and LDO Data Types</title>
+  <author initials="K." surname="MacLeod" fullname="Ken MacLeod">
+    <organization>The Casbah Project</organization>
+    <address>
+      <postal>
+        <street>1330 66th Street</street>
+        <city>Des Moines</city> <region>IA</region> <code>50311</code>
+        <country>US</country>
+      </postal>
+      <phone>+1 515 279 0319</phone>
+      <email>ken@bitsko.slc.ut.us</email>
+      <uri>http://casbah.org/Scarab/</uri>
+    </address>
+  </author>
+
+  <date month="October" year="1999" />
+
+  <abstract><t>This document specifies a format for type names used to
+  declare the data types of marshalled data.  It also specifies a
+  basic set of data types for use with LDO protocols, as well as
+  formats for declaring object type names in Java, Perl, and
+  Python.</t></abstract>
+
+</front>
+
+<middle>
+  <section title="Introduction">
+
+    <t>[This document is a very early draft, expect some rather major
+    changes as discussion ensues.]</t>
+
+    <t>This format is being developed as part of <eref
+    target="http://casbah.org/Scarab/">Scarab</eref>, a framework for
+    handling data and distributed computing.  Scarab itself is being
+    developed as part of <eref
+    target="http://casbah.org/">Casbah</eref>, a language independent
+    environment for writing applications that access a wide variety of
+    data sources.  Scarab supports using data type names other than
+    the ones described here, such as CORBA, DCOM, Java RMI, or
+    language-specific data types.</t>
+
+    <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL
+    NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and
+    "OPTIONAL" in this document are to be interpreted as described in
+    <xref target="refs.rfc2119">RFC 2119</xref>.</t>
+
+    <t>Within this draft, text enclosed within brackets (`[text]')
+    represents issues or incomplete specifications.</t>
+
+    <section title="Examples of data type names">
+
+      <list>
+        <t>ldo:number</t>
+        <t>mime:TYPE/SUBTYPE</t>
+        <t>python:MODULE/CLASS</t>
+	<t>perl:PACKAGE</t>
+	<t>java:FULLY.QUALIFIED.CLASS.NAME</t>
+      </list>
+
+    </section>
+
+  </section>
+
+  <section title="Type name syntax">
+
+    <!-- borrowed almost verbatim from RFC1630 -->
+
+    <t>The type name format is patterned after Universal Resource
+    Identifiers (URIs) in <xref
+    target="refs.rfc1630">RFC 1630</xref>.</t>
+
+    <t>A complete type name consists of a naming scheme specifier followed
+    by a string whose format is a function of the naming scheme.  A
+    BNF description of the type name syntax is given in an a later
+    section. The components are as follows.</t>
+
+    <list style="hanging">
+
+      <t hangText="SCHEME">Within the type name, the first element is
+      the name of the scheme, separated from the rest of the type name
+      by a colon.</t>
+
+      <t hangText="LOCAL-PART">The rest of the type name follows the
+      colon in a format depending on the scheme. The local part is
+      interpreted in a manner dependent on the scheme being used.</t>
+
+    </list>
+
+    <t>[do we need to support URL escaping?  I.e. %2E.]</t>
+
+  </section>
+
+  <section title="Specific Schemes">
+
+    <t>The mapping for type names onto some existing standard and
+    experimental type schemes is outlined in the BNF syntax
+    definition.  Notes on particular naming schemes follows.  The
+    schemes covered are:
+    
+      <list style="hanging">
+
+        <t hangText="ldo">Basic data types used in LDO protocols</t>
+
+        <t hangText="mime">MIME types (RFC [XXX])</t>
+
+        <t hangText="java">Java fully qualified class names</t>
+
+        <t hangText="perl">Perl package names</t>
+
+        <t hangText="python">Python module and class names</t>
+
+      </list>
+    </t>
+
+    <t>The schemes for Java, Perl, and Python only describe the naming
+    scheme for serialized object instances, not primitive data types.
+    Naming for primitive data types in particular languages are
+    described in other specifications.</t>
+
+    <section title="LDO">
+
+      <t>The LDO scheme specifies basic or primitive data types used
+      in LDO protocols.</t>
+
+      <t>[more detail]</t>
+
+    </section>
+
+    <section title="MIME">
+
+      <t>The MIME scheme specifies how MIME types can be used as type
+      identifiers in LDO protocols.</t>
+
+      <t>[more detail]</t>
+
+    </section>
+
+    <section title="Java">
+
+      <t>The Java scheme specifies how Java class names are
+      marshalled.</t>
+
+      <t>[more detail]</t>
+
+    </section>
+
+    <section title="Perl">
+
+      <t>The Perl scheme specifies how Perl package names are
+      marshalled.</t>
+
+      <t>[more detail]</t>
+
+    </section>
+
+    <section title="Python">
+
+      <t>The Python scheme specifies how Python module and class names
+      are marshalled.</t>
+
+      <t>[more detail]</t>
+
+    </section>
+
+  </section>
+
+  <section title="Registration of naming schemes">
+
+    <t>[possible text from RFC 1630, which describes an IANA-type
+    formal registration as well as `x-'.]</t>
+
+    <t>[another alternative would be to take an XML-namespaces
+    approach, where the scheme identifer is an alias for a URI.  This
+    would require some form of prior declaration of a namespace,
+    possibly in the not-yet-specified protocol negotiation phase.]</t>
+
+  </section>
+
+  <section title="BNF of Type Name Syntax">
+
+    <t>[generic type name syntax]</t>
+
+    <section title="BNF for specific type name schemes">
+
+      <t>[LDO, MIME, Java, Perl, Python]</t>
+
+    </section>
+
+  </section>
+
+  <section title="Conformance and Interoperability">
+
+    <t>[need to fill out this section]</t>
+
+  </section>
+
+  <section title="Security Considerations">
+
+    <t>This data representation does not contain any features for
+    initiating actions.</t>
+
+    <t>Type names are not limited in size.  Conforming implementations
+    SHOULD perform sanity checks on data received to avoid buffer
+    overruns and out of resource (memory, disk, etc.) conditions.</t>
+
+    <t>Care SHOULD be taken when instantiating objects.  Senders could
+    pass type names that may be used to instantiate objects that could
+    be used to bypass security restrictions. [wording, examples?]</t>
+
+  </section>
+
+
+</middle>
+
+<back>
+
+  <references>
+
+    <reference anchor="refs.rfc1521">
+      <front>
+        <title abbrev="MIME">MIME (Multipurpose Internet Mail Extensions) Part One:
+        Mechanisms for Specifying and Describing the Format of
+        Internet Message Bodies</title>
+        <author initials="N." surname="Borenstein" fullname="Nathaniel S. Borenstein">
+          <organization>Bellcore</organization>
+          <address>
+            <postal>
+              <street>MRE 2D-296</street>
+              <street>445 South St.</street>
+              <city>Morristown</city> <region>NJ</region> <code>07962-1910</code>
+              <country>US</country>
+            </postal>
+            <phone>+1 201 829 4270</phone>
+            <facsimile>+1 201 829 7019</facsimile>
+            <email>nsb@bellcore.com</email>
+          </address>
+        </author>
+        <author initials="N." surname="Freed" fullname="Ned Freed">
+          <organization abbrev="Innosoft">Innosoft International, Inc.</organization>
+          <address>
+            <postal>
+              <street>Suite 240</street>
+              <street>250 West First Street</street>
+              <city>Claremont</city> <region>CA</region> <code>91711</code>
+              <country>US</country>
+            </postal>
+            <phone>+1 909 624 7907</phone>
+            <facsimile>+1 909 621 5319</facsimile>
+            <email>ned@innosoft.com</email>
+          </address>
+        </author>
+        <date month="September" year="1993" />
+      </front>
+      <seriesInfo name="BCP" value="14" />
+      <seriesInfo name="RFC" value="2119" />
+    </reference>
+
+    <reference anchor="refs.rfc1630">
+      <front>
+        <title>Universal Resource Identifiers in WWW</title>
+        <author initials="T." surname="Berners-Lee" fullname="Tim Berners-Lee">
+	  <organization>CERN</organization>
+	  <address>
+	    <postal>
+	      <street>World-Wide Web project</street>
+              <street>1211 Geneva 23</street>
+	      <country>Switzerland</country>
+            </postal>
+            <phone>+41 (22)767 3755</phone>
+	    <facsimile>+41 (22)767 7155</facsimile>
+	    <email>timbl@info.cern.ch</email>
+          </address>
+        </author>
+	<date month="June" year="1994" />
+      </front>
+      <seriesInfo name="RFC" value="1630" />
+    </reference>
+
+    <reference anchor="refs.rfc2119">
+      <front>
+        <title>Key words for use in RFCs to Indicate Requirement Levels</title>
+        <author initials="S." surname="Bradner" fullname="Scott Bradner">
+          <organization abbrev="Harvard">Harvard University</organization>
+          <address>
+            <postal>
+              <street>1350 Mass. Ave.</street>
+              <city>Cambridge</city> <region>MA</region> <code>02138</code>
+              <country>US</country>
+            </postal>
+            <phone>+1 617 495 3864</phone>
+            <email>sob@harvard.edu</email>
+          </address>
+        </author>
+        <date month="March" year="1997" />
+      </front>
+      <seriesInfo name="BCP" value="14" />
+      <seriesInfo name="RFC" value="2119" />
+    </reference>
+
+  </references>
+</back>
+
+</rfc>

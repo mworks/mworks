@@ -1,0 +1,121 @@
+<!-- $Id: references.sgml,v 1.6 2000/03/04 19:38:33 kmacleod Exp $ -->
+<!DOCTYPE File PUBLIC "-//Oren Patashnik//DTD bibtex//EN" >
+<File><Entry>
+
+<!-- *** Directories, Overviews, and General Articles *** -->
+
+<Misc>
+  <Title>DMOZ: Computers: Software: Object Oriented: Distributed Objects</Title>
+  <URL>Computers: Software: Object Oriented: Distributed Objects</URL>
+</Misc>
+<Misc>
+  <Title>Yahoo: Science > Computer Science > Distributed Computing</Title>
+  <URL>http://dir.yahoo.com/Science/Computer_Science/Distributed_Computing/</URL>
+</Misc>
+
+<!-- *** Distributed Computing Architectures *** -->
+
+<Misc>
+  <Title>CORBA</Title>
+  <URL>http://www.omg.org/</URL>
+  <Keywords>dc-arch</Keywords>
+</Misc>
+<Misc>
+  <Title>COM and DCOM</Title>
+  <URL>http://msdn.microsoft.com/</URL>
+  <Keywords>dc-arch</Keywords>
+</Misc>
+<Misc>
+  <Title>HTTP-NG</Title>
+  <URL>http://www.w3.org/Protocols/HTTP-NG/</URL>
+  <Keywords>dc-arch</Keywords>
+</Misc>
+<Misc>
+  <Title>Portable Distributed Objects (PDO)</Title>
+  <Annotate><p>Found in Apple's MacOS X and previously in NeXT's OpenStep.  URL needed.</p></Annotate>
+<Misc>
+  <Title>Scarab</Title>
+  <URL>http://casbah.org/Scarab/</URL>
+  <Keywords>dc-arch</Keywords>
+</Misc>
+<Misc>
+  <Title>RMI</Title>
+  <URL>http://java.sun.com/products/jdk/rmi/</URL>
+  <Keywords>dc-arch</Keywords>
+</Misc>
+<Misc>
+  <Title>Simple Object Access Protocol (SOAP)</Title>
+  <URL>http://www.develop.com/soap/</URL>
+  <Annotate><p>SOAP is an XML/HTTP-based protocol for accessing
+  services, objects and servers in a platform-indepenent
+  manner.</p></Annotate>
+<Misc>
+  <Title>Tcl-DP</Title>
+  <URL>http://www2.cs.cornell.edu/zeno/Projects/tcldp</URL>
+  <Keywords>dc-arch</Keywords>
+  <Annotate><p>A distributed programming extension to Tcl/Tk. Adds TCP
+   and IP connection management, RPC and distributed object support to
+   Tcl/Tk.</p></Annotate>
+</Misc>
+<Misc>
+  <Title>XML-RPC</Title>
+  <URL>http://www.xml-rpc.com/</URL>
+  <Keywords>dc-arch</Keywords>
+</Misc>
+
+<Misc>
+  <Title>Open Agent Architecture (OAA)</Title>
+  <URL>http://www.openagent.com/</URL>
+  <Keywords>dc-arch</Keywords>
+</Misc>
+
+<Misc>
+  <Title>DCOM Version 1 Internet Draft</Title>
+  <URL>http://www.ietf.org/internet-drafts/draft-brown-dcom-v1-spec-03.txt</URL>
+  <Keywords>dc-arch, internet-draft</Keywords>
+  <Annotate><p>This Internet Draft has expired.</p>
+  <p> The Distributed Component Object Model protocol is an
+   application-level protocol for object-oriented remote procedure
+   calls useful for distributed, component-based systems of all
+   types. It is a generic protocol layered on the distributed
+   computing environment (DCE) RPC specification and facilitates the
+   construction of task-specific communication protocols through
+   features such as: a platform neutral argument/parameter marshaling
+   format (NDR), the ability for objects to support multiple
+   interfaces with a safe, interface-level versioning scheme suited to
+   independent evolution by multiple parties, the ability to make
+   authenticated connections and to choose levels of channel security,
+   and a transport-neutral data representation for references
+   (including by-value) to objects.</p></Annotate>
+
+<!-- *** Data Representation, Serialization Formats *** -->
+
+<Misc>
+  <Title>RFC 1014 XDR: External Data Representation Standard</Title>
+  <Keywords>data-rep, rfc</Keywords>
+</Misc>
+<Misc>
+  <Title>RFC 971 A SURVEY OF DATA REPRESENTATION STANDARDS</Title>
+  <Keywords>data-rep, rfc, overview</Keywords>
+</Misc>
+<Misc>
+  <Title>RMI: Object Serialization Stream Protocol</Title>
+  <URL>http://www.java.sun.com/products/jdk/rmi/doc/serial-spec/protocol.doc.html</URL>
+  <Keywords>data-rep</Keywords>
+</Misc>
+<Misc>
+  <Title>pickle -- Python object serialization</Title>
+  <URL>http://www.python.org/doc/current/lib/module-pickle.html</URL>
+  <Keywords>data-rep</Keywords>
+  <Annotate><p>Refer to source for pickle format</p></Annotate>
+</Misc>
+<Misc>
+  <Title>Internet Draft: Application Core Protocol</Title>
+  <URL>http://search.ietf.org/internet-drafts/draft-earhart-acp-spec-00.txt</URL>
+  <Annotate><p>This document specifies a textual protocol intended as
+     a framework for applications-layer protocols.  While complete, it
+     does not do anything in and of itself; it's meant to be
+     extensible to particular applications.</p></Annotate>
+</Misc>
+
+</Entry></File>

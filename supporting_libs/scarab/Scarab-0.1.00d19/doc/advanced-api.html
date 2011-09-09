@@ -1,0 +1,95 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+<!-- $Id: advanced-api.html,v 1.2 2000/03/12 16:50:51 kmacleod Exp $ -->
+<html>
+  <head>
+
+    <title>Scarab: Application Programming Interface (API)</title>
+
+    <META NAME="DC.Title" CONTENT="Scarab: Application Programming Interface (API)">
+    <META NAME="DC.Creator" CONTENT="The Casbah Project">
+    <META NAME="DC.Creator.Address" CONTENT="devel@casbah.org">
+    <META NAME="DC.Subject" CONTENT="open source communications framework, distributed computing, distributed objects, remote, rpc, xml, scripting, linux, unix, casbah, free">
+    <META NAME="DC.Publisher" CONTENT="The Casbah Project">
+    <META NAME="DC.Type" CONTENT="Text.Homepage.Organizational">
+    <META NAME="DC.Format" CONTENT="text/html">
+    <META NAME="DC.Identifier" CONTENT="http://casbah.org/">
+
+    <link rel="stylesheet" href="http://casbah.org/new_casbah.css" type="text/css" media="screen">
+
+  </head>
+
+  <body>
+
+  <table bgcolor="#d2b48c" border="0" cellpadding="4"
+   cellspacing="1" width="90%" class="navbar">
+    <tr>
+      <td>
+        <font face="Verdana, Lucida Sans, Arial, Helvetica,
+	             Geneva, sans-serif">
+	   <strong>Scarab:</strong> Application Programming Interface (API)
+        </font>
+      </td>
+    </tr>
+  </table>
+
+<h2>Advanced Scarab API</h2>
+
+<h3><tt class=module>Scarab</tt></h3>
+
+<p>
+<dl><dt><b><tt class=function>type</tt></b>(<var>value</var>, <var>type</var>)
+<dd>
+Return a special object containing <var>value</var> explicitly typed
+as <var>type</var>.  This method is sometimes needed depending on the
+protocol or server being messaged.  See LDO-Types for more information
+on <var>type</var>.</dl></p>
+
+<p>
+<dl><dt><b><tt class=function>int</tt></b>(<var>value</var>)
+<dd>
+Return <var>value</var> explicitly typed as an integer.</dl></p>
+
+<p>
+<dl><dt><b><tt class=function>float</tt></b>(<var>value</var>)
+<dd>
+Return <var>value</var> explicitly typed as a float.</dl></p>
+
+<p>
+<dl><dt><b><tt class=function>string</tt></b>(<var>value</var>)
+<dd>
+Return <var>value</var> explcitly typed as a string.</dl></p>
+
+<h3><tt class=module>ScarabConnection</tt></h3>
+
+<p>The <tt class=function>server()</tt>, <tt
+class=function>server_root()</tt>, and <tt class=function>serve()</tt>
+methods in an ScarabConnection class are the "real" methods for any
+particular protocol.  Scarab figures out which protocol is going to be
+used, creates the appropriate ScarabConnection instance, and then
+forwards those methods to the new instance.  Users don't call those
+directly.</p>
+
+<p>
+<dl><dt><b><tt class=function>server</tt></b>(<var>url</var> [, <var>options</var>])
+<dd>
+Creates a new connection using the transport given in <var>url</var>.
+<var>options</var> is a dictionary containing options specific to each
+implementation.</dl></tt>
+
+<p>
+<dl><dt><b><tt class=function>server_root</tt></b>(<var>scarab_url</var> [, <var>options</var> ])
+<dd>
+Creates a new connection using the transport given in <var>url</var>
+and return a proxy for the server's root object.  <var>options</var>
+is a dictionary.</dl></tt>
+
+<p>
+<dl><dt><b><tt class=function>serve</tt></b>(<var>scarab_url</var> [, <var>options</var> ])
+<dd>
+Creates a server endpoint for <var>url</var>.  <var>options</var> is a
+dictionary.  The server is not started until <tt
+class=function>start()</tt> or <tt class=function>accept()</tt> is
+called.</dl></tt>
+
+  </body>
+</html>

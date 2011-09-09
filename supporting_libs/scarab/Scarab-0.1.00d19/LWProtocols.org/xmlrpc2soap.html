@@ -1,0 +1,195 @@
+<!-- $Id -->
+<HTML>
+  <HEAD>
+    <TITLE>HOWTO: Converting XML-RPC implementations to SOAP</TITLE>
+  </HEAD>
+  <BODY>
+
+<h1>HOWTO: Converting XML-RPC implementations to SOAP</h1>
+
+<p>Here's a quick how-to for creating a SOAP implementation from an
+XML-RPC implementation, based just in terms of what XML-RPC can do
+(plus NULL and extra data types).</p>
+
+<h2>Request Example</h2>
+
+<pre>
+    POST http://soapl.develop.com/cgi-bin/ServerDemo.pl?class=Geometry HTTP/1.0
+    SOAPMethodName: http://soapl.develop.com/cgi-bin/ServerDemo.pl?class=Geometry#calculateArea
+    Host: soapl.develop.com
+    Content-Type: text/xml
+    Content-Length: 494
+
+    &lt;?xml version="1.0"?&gt;
+    &lt;SOAP:Envelope
+        xmlns:xsi="http://www.w3.org/1999/XMLSchema/instance"
+        xmlns:xsd="http://www.w3.org/1999/XMLSchema/instance"
+        xmlns:SOAP="urn:schemas-xmlsoap-org:soap.v1"&gt;
+      &lt;SOAP:Body&gt;
+        &lt;calculateArea&gt;
+          &lt;origin&gt;
+            &lt;x xsd:type="float"&gt;10&lt;/x&gt;
+            &lt;y xsd:type="float"&gt;20&lt;/y&gt;
+          &lt;/origin&gt;
+          &lt;corner&gt;
+            &lt;x xsd:type="float"&gt;100&lt;/x&gt;
+            &lt;y xsd:type="float"&gt;200&lt;/y&gt;
+          &lt;/corner&gt;
+        &lt;/calculateArea&gt;
+      &lt;/SOAP:Body&gt;
+    &lt;/SOAP:Envelope&gt;
+</pre>
+
+<h2>Header Requirements</h2>
+
+<p>The SOAPMethodName header is the URI followed by a "#", followed by a
+method name.</p>
+
+<h2>Payload Format</h2>
+
+<p>SOAP leaves room for extensions, so SOAP XML content is an
+&lt;SOAP:Envelope&gt; and a &lt;SOAP:Body&gt; element.  The top level element
+within the &lt;SOAP:Body&gt; element is an element with the same name as the
+procedure to be called, such as &lt;calculateArea&gt; in the example above.
+The contents of the procedure element can be a simple type, a
+structure, or an array as described below.</p>
+
+<p>SOAP supports simple (scalar) types and compound types (structures and
+arrays).  Simple types are elements with no sub-elements.  Compound
+types contain zero or more sub-elements.</p>
+
+<p>&lt;SOAP:Envelope&gt; must include the following three standard namespace
+declarations:
+
+<pre>
+    xmlns:xsi="http://www.w3.org/1999/XMLSchema/instance"
+    xmlns:xsd="http://www.w3.org/1999/XMLSchema/instance"
+    xmlns:SOAP="urn:schemas-xmlsoap-org:soap.v1"
+</pre></p>
+
+<h2>Simple Types</h2>
+
+<p>SOAP supports all of the simple types and types derived from simple
+types summarized in Section 2.3 of the <a
+href="http://www.w3.org/TR/xmlschema-0/#CreatDt">XML Schema
+Primer</a>.  The data type is passed in the "<tt>xsd:type</tt>" attribute.</p>
+
+<p>NULL values are indicated with an attribute "<tt>xsi:null='true'</tt>".</p>
+
+<p>If a simple type does not include an "<tt>xsd:type</tt>" attribute,
+then it's up to the application to determine the data type based on
+the needs of the application.</p>
+
+<h2>Structure Types</h2>
+
+<p>Structure types contains elements for each member of the structure.
+The names of the elements are the names of the members.</p>
+
+<p>A structure element was used in the example above:
+
+<pre>
+    &lt;corner&gt;
+      &lt;x xsd:type="float"&gt;100&lt;/x&gt;
+      &lt;y xsd:type="float"&gt;200&lt;/y&gt;
+    &lt;/corner&gt;
+</pre></p>
+
+<p>&lt;corner&gt;, itself, is a structure member of the
+&lt;calculateArea&gt; method call.  Structures can contain simple
+types, structures, or arrays.</p>
+
+<h2>Array Types</h2>
+
+<p>Array types use the attribute "<tt>SOAP:arrayType='item[]'</tt>" to
+indicate that the contents of the array element is an array of
+&lt;item&gt; elements.</p>
+
+<pre>
+    &lt;stuff SOAP:arrayType='item[]'&gt;
+      &lt;item xsd:type="integer"&gt;42&lt;/item&gt;
+      &lt;item&gt;
+        &lt;x xsd:type="float"&gt;100&lt;/x&gt;
+        &lt;y xsd:type="float"&gt;200&lt;/x&gt;
+      &lt;/item&gt;
+      &lt;item xsd:type="string"&gt;All is well.&lt;/item&gt;
+      &lt;item xsi:null="true"/&gt;
+    &lt;/stuff&gt;
+</pre>
+
+<p>Arrays can contain simple types, structures, or arrays, and they
+can be mixed as shown above.</p>
+
+<h2>Response Example</h2>
+
+<pre>
+    HTTP/1.1 200 OK
+    Date: Thu, 20 Apr 2000 19:41:55 GMT
+    Server: Apache/1.3.9 (Unix) mod_perl/1.21
+    Content-Length: 326
+    Connection: close
+    Content-Type: text/xml
+
+    &lt;SOAP:Envelope
+        xmlns:xsi="http://www.w3.org/1999/XMLSchema/instance"
+        xmlns:xsd="http://www.w3.org/1999/XMLSchema/instance"
+        xmlns:SOAP="urn:schemas-xmlsoap-org:soap.v1"&gt;
+      &lt;SOAP:Body&gt;
+        &lt;calculateAreaResponse&gt;
+          &lt;area xsd:type='float'&gt;16200&lt;/area&gt;
+        &lt;/calculateAreaResponse&gt;
+      &lt;/SOAP:Body&gt;
+    &lt;/SOAP:Envelope&gt;
+</pre>
+
+<h2>Response Format</h2>
+
+<p>SOAP always returns an HTTP status of 200 unless a web server or
+connection error occurs.  SOAP errors are reported in the &lt;Fault&gt;
+structure described below.</p>
+
+<p>The response structure also contains a &lt;SOAP:Envelope&gt; and
+&lt;SOAP:Body&gt;.  The top level element within the &lt;SOAP:Body&gt; is an
+element with the same name as the procedure to be called with the
+string "Response" appended to it, as in &lt;calculateAreaResponse&gt; above.
+The contents of the procedure response element can be a simple type, a
+structure, or an array as described above.</p>
+
+<h2>Fault Example</h2>
+
+<pre>
+    HTTP/1.1 200 OK
+    Date: Thu, 20 Apr 2000 19:57:15 GMT
+    Server: Apache/1.3.9 (Unix) mod_perl/1.21
+    Content-Length: 436
+    Connection: close
+    Content-Type: text/xml
+
+    &lt;SOAP:Envelope
+        xmlns:xsi="http://www.w3.org/1999/XMLSchema/instance"
+        xmlns:xsd="http://www.w3.org/1999/XMLSchema/instance"
+        xmlns:SOAP="urn:schemas-xmlsoap-org:soap.v1"&gt;
+      &lt;SOAP:Body&gt;
+        &lt;SOAP:Fault&gt;
+          &lt;faultcode&gt;300&lt;/faultcode&gt;
+          &lt;faultstring&gt;Invalid Request&lt;/faultstring&gt;
+          &lt;runcode&gt;No&lt;/runcode&gt;
+          &lt;detail&gt;This class doesn't support method rotate&lt;/detail&gt;
+        &lt;/SOAP:Fault&gt;
+      &lt;/SOAP:Body&gt;
+    &lt;/SOAP:Envelope&gt;
+</pre>
+
+<p>&lt;faultcode&gt; can be one of 100 (Version mismatch), 200 (Must
+understand), 300 (Invalid request), or 400 (Application faulted).  See
+Section 7.3 of the SOAP spec for complete descriptions.</p>
+
+<p>&lt;faultstring&gt; is the string equivalent to &lt;faultcode&gt;.</p>
+
+<p>&lt;runcode&gt; indicates whether this fault was generated by the SOAP
+server ("No") or the application on the server ("Yes").</p>
+
+<p>&lt;detail&gt; contains more detailed information about the fault, it may be
+a simple type (such as a string), a structure, or an array as defined
+above.  &lt;detail&gt; is optional.</p>
+  </BODY>
+</HTML>

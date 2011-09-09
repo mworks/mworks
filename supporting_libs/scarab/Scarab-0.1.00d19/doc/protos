@@ -1,0 +1,36 @@
+
+
+Various RPC/DO/ORBs and where LDO fits:
+
++-----+-------+----+-----------------+----+
+|     |       |    |       LDO       |    |
+| RMI | CORBA |    +----+       +----+    |
+|     |       | HTTP-ng |       | XML-RPC |
++-----+-------+---------+---+---+---------+
+|         Streams           |     HTTP    |
++---------------------------+-------------+
+
+RMI, CORBA, and HTTP-ng (I think) only use streams.
+LDO supports both Streams and HTTP.
+XML-RPC only uses HTTP.
+
+Scarab
+
++-------------------------------------------------------+
+|                     Connection                        |
++---------+-------------------------+---------+---------+
+|         | RPC encoding as objects | Simple  |         |
+| HTTP-ng |------------+------------+  HTTP   | XML-RPC |
+|         |  Binary    |    XML     |         |         |
++---------+------------+---------+--+---------+---------+
+|           Streams              |          HTTP        |
++--------------------------------+----------------------+
+
+RPC encoded objects can be serialized in either binary or XML and
+passed over either Streams or HTTP.
+
+Simple HTTP requests can be made through LDO to access remote
+hierarchies from either HTTP servers or micro-HTTP servers [still
+being evaluated].
+
+XML-RPC only uses HTTP.

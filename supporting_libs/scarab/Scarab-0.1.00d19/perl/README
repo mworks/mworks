@@ -1,0 +1,148 @@
+$Id: README,v 1.3 2000/03/04 19:38:34 kmacleod Exp $
+
+
+                             Scarab-perl
+                             RPC::Scarab
+
+                A Perl 5 module implementing Casbah's
+                    Scarab communcation framework.
+
+                          The Casbah Project
+                     <http://casbah.org/Scarab/>
+
+INTRODUCTION
+
+    Scarab-perl, the RPC::Scarab module, is a Perl implementation of
+    Casbah's Scarab communication framework.  Scarab provides
+    inter-application communication between multiple systems,
+    processes, and supports multiple languages.  Scarab can be used to
+    send messages, support distributed objects, or perform remote
+    procedure calls.
+
+    Newer versions of this module can be found on CPAN or at
+    <ftp://ftp.casbah.org/pub/casbah/>.  The main Casbah web page is at
+    <http://casbah.org/Scarab/>.
+
+    Copyright (C) 1998, 1999, 2000 The Casbah Project
+    Scarab-perl is distributed under the same terms as Perl.
+    See the file COPYING for distribution terms.
+
+STATUS
+
+    This is ALPHA software and is still under development.  The
+    interfaces are still subject to change and interoperability
+    testing has not been completed yet.
+
+OVERVIEW
+
+    Scarab fits within an multiple layer architecture:
+
+      +----------------+
+      |   Application  |
+      +----------------+
+      |   Connection   |
+      +----------------+
+      |  Serialization |
+      +----------------+
+      |    Transport   |
+      +----------------+
+
+    The Application layer is your program or Perl module, RPC::Scarab
+    provides the Perl modules for the Connection and Serialization
+    layers, and existing Perl modules are used for the Transport
+    layer.
+
+    RPC::Scarab has three modules for supporting the Connection layer,
+    RPC::Scarab::Manager, RPC::Scarab::Connection, and
+    RPC::Scarab::Proxy.  There are two modules for the Serialization
+    layer, Marshal::LDO_Binary and Marshal::LDO_XML.
+
+    RPC::Scarab::Manager supports multiple connections simultaneously,
+    accepts incoming connections, and provides support for creating
+    connections.  RPC::Scarab::Manager provides methods for
+    registering your applications objects and message receivers so
+    other applications can contact your application.
+
+    RPC::Scarab::Connection maintains a single connection between your
+    application and a remote application.  RPC::Scarab::Connection has
+    methods for sending messages, object method requests, or remote
+    procedure calls.
+
+    RPC::Scarab::Proxy implements ``remote objects'', objects that exist
+    locally to act as surrogates, or proxies, to objects that truly
+    exist in the remote application.  Proxy objects are returned for
+    the root object of the remote application when you open a
+    connection and are automatically created necessary when you make
+    requests to remote objects.
+
+    Marshal::LDO_Binary provides a compact binary serialization for
+    objects.  Marshal::LDO_XML provides a plain text serialization
+    that can help in debugging and experimentation.  The XML::Parser
+    module is required if you want to use Marshal::LDO_XML
+    serialization.
+
+USAGE
+
+    In most cases you will only need to use RPC::Scarab::Manager and
+    it will take care of calling all the other modules as necessary.
+
+    To create a client, or calling, connection to a remote service,
+    use this code:
+
+       use RPC::Scarab::Manager;
+
+       $remote = RPC::Scarab::Manager
+                   ->new_rootproxy(connect_to => {PeerAddr => $url,
+                                                  Proto => 'tcp'})
+
+    Where `$url' is the host and port number of the remote service
+    seperated by colons, e.g.  `remote.com:4620'.
+
+    To create a server, or called, connection that accepts incoming
+    connections, you will need a ``root'' object to make available to
+    remote callers, then use this code:
+
+        use RPC::Scarab::Manager;
+
+        $object = MyRoot->new;
+
+        $server = RPC::Scarab::Manager->new('root' => $object);
+
+        print "connect to me on port "
+                . $server->receive_port->sockport . "\n";
+
+EXAMPLES
+
+    echo-server.pl
+        A simple server that provides one method, `echo', on it's root
+        object that echoes back anything you send to it.
+
+    time-echo.pl
+        A simple client that repeatedly calls an `echo-server'.  This
+        can be used to perform timing tests.
+
+    scarab.pl
+        A command-line utility for making Scarab object requests.
+        This command takes a URL for a server, an object and method
+        name, and a list of arguments (as Perl data structures) and
+        sends the request to the server.
+
+    canvas.pl
+        A server that creates a Perl/Tk `canvas' object and makes it
+        the root object of the server.  `scarab.pl' or your own client
+        can then send messages to the `canvas' object to have it
+        display.
+
+INSTALLATION
+
+    RPC::Scarab requires Perl 5.  XML serialization, if used, requires
+    XML::Parser:
+
+        <http://www.perl.com/CPAN/modules/by-module/XML/>
+
+    RPC::Scarab installs as a standard Perl module
+
+            perl Makefile.PL
+            make
+            make test
+            make install

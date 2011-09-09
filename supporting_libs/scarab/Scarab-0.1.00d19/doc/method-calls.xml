@@ -1,0 +1,238 @@
+<?xml version="1.0"?>
+<!-- $Id: method-calls.xml,v 1.6 1999/10/19 19:53:04 kmacleod Exp $ -->
+<!DOCTYPE rfc SYSTEM "rfc2629.dtd">
+<!--<?rfc toc="yes"?>-->
+<?rfc compact="yes"?>
+<?rfc private="Early Draft"?>
+<rfc ipr="full2026">
+
+<front>
+  <title>Method Call Request Encoding as Objects</title>
+  <author initials="K." surname="MacLeod" fullname="Ken MacLeod">
+    <organization>The Casbah Project</organization>
+    <address>
+      <postal>
+        <street>1330 66th Street</street>
+        <city>Des Moines</city> <region>IA</region> <code>50311</code>
+        <country>US</country>
+      </postal>
+      <phone>+1 515 279 0319</phone>
+      <email>ken@bitsko.slc.ut.us</email>
+      <uri>http://casbah.org/LDO/</uri>
+    </address>
+  </author>
+
+  <date month="October" year="1999" />
+
+  <abstract><t>This document describes a marshalling format for
+  procedure and method call requests and responses using dictionaries,
+  lists, and atomic values.  Procedure and method calls may include
+  the intended target or receiver of the request, the procedure or
+  method name, a request identifier, and call parameters or
+  arguments.</t></abstract>
+
+</front>
+
+<middle>
+  <section title="Introduction">
+
+    <t>This protocol is being developed as part of <eref
+     target="http://casbah.org/LDO/">LDO</eref>, a framework for
+     handling data and distributed computing.  LDO itself is being
+     developed as part of <eref
+     target="http://casbah.org/">Casbah</eref>, a language independent
+     environment for writing applications that access a wide variety
+     of data sources.  LDO supports other message protocols
+     addition to this protocol.</t>
+
+    <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL
+     NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and
+     "OPTIONAL" in this document are to be interpreted as described in
+     <xref target="refs.RFC2119">RFC 2119</xref>.</t>
+
+    <t>Within this draft, text enclosed within brackets (`[text]')
+    represents issues or incomplete specifications.</t>
+
+    <section title="Examples of Method Call Requests">
+
+      <t>[Need to fill out this section.  Using Python/Opossum syntax.
+      Minimal RPC, object method on root, complex example.]</t>
+
+    </section>
+
+  </section>
+
+  <section title="Requests">
+
+    <t>Requests are marshalled as dictionaries.  The "operation" and
+    "args" parameters are required, all other fields are optional.
+    All keys are unique, unordered, string values.</t>
+
+    <t>[XML2RFC: this is an annoying style, find better style in RFCs
+    for option, argument, or parameter definitions.]</t>
+
+    <list style="hanging">
+      <t hangText="operation">MUST contain the string value
+      "reo:call".</t>
+
+      <t hangText="args">A list containing the arguments or parameters
+      to the procedure or method call, which may be any type.</t>
+
+      <t hangText="method">A value of any type identifying the
+      procedure or method to call.  Most implementations will use a
+      string value.  If not present, then the call is directed at the
+      default or implicit procedure of the target.</t>
+
+      <t hangText="target">A value of any type identifying the
+      intended target or object to direct a method call to.  If not
+      present, then the call is directed at the default or implicit
+      target of the connection or session.</t>
+
+      <t hangText="call-id">A value of any type identifying this
+      request.  The "call-id" can be used to implement asynchronous
+      operations or other call status operations.  The "call-id" of
+      the request will be returned as the "call-id" of the
+      response.  If a "call-id" is not present, then the call is
+      performed synchronously.</t>
+    </list>
+
+    <t>[Issue: another field may be useful for systems that allow
+    named parameters.]</t>
+
+    <t>[Issue: synchronous and asynchronous calls cannot be intermixed
+    in the same session or connection, right?]</t>
+
+    <t>[Issue: "call-id" values are allowed on synchronous
+    connections, the mere presence of a "call-id" does not imply the
+    connection or session is asynchronous.  This should be stated
+    clearly.]</t>
+
+  </section>
+
+  <section title="Responses">
+
+    <t>Responses are marshalled as dictionaries.  The "operation" field
+    is required, all other fields are optional.  All keys are unique,
+    unordered, string values.</t>
+
+    <list style="hanging">
+      <t hangText="operation">MUST contain the string value
+      "reo:result".</t>
+
+      <t hangText="result">The value returned by the procedure or
+      method call, which may be of any type.  If not present, then the
+      call did not return a result, which is often the case if an
+      error field is also present.  A value for "result" may be
+      provided even if there is also a value for "error".</t>
+
+      <t hangText="error">A value of any type identifying the error
+      result of the operation.  Most implementations will use a string
+      message for the error.  If an "error" field is present, this
+      indicates a partial or complete failure of the call.</t>
+
+      <t hangText="call-id">A value of any type identifying this
+      response as the result for the call request with the same
+      "call-id".  If not present, then this response is a result of
+      the last request made.</t>
+    </list>
+
+    <t>[Issue: as in requests, the semantics of "call-id" are not
+    written clearly for the case of present or not present
+    vs. synchronous or asynchronous.]</t>
+
+    <t>[Issue: "error" does not distinguish operation (out-of-band)
+    errors and procedure or method call exceptions.  The previous
+    version of this doc had an operation "reo:operation-error" to
+    support non-procedure/method call errors.]</t>
+
+    <t>[Issue: some systems allow results to contain multiple or named
+    values.]</t>
+
+  </section>
+
+  <section title="Conformance and Interoperability">
+
+    <t>[need to fill out this section]</t>
+
+  </section>
+
+  <section title="Security Considerations">
+
+    <t>[preliminary]</t>
+
+    <list style="symbols">
+      <t>This protocol allows actions to be initiated.</t>
+
+      <t>This protocol does not describe facilities for validating
+      request/reponse conformance to an interface.</t>
+
+      <t>Requests and responses are unbounded in size or depth.</t>
+
+      <t>Should reference work on firewall, proxy, and other security
+      specs.</t>
+    </list>
+
+  </section>
+
+
+</middle>
+
+<back>
+
+  <references>
+    <reference anchor="refs.RFC2119">
+      <front>
+        <title>Key words for use in RFCs to Indicate Requirement Levels</title>
+        <author initials="S." surname="Bradner" fullname="Scott Bradner">
+          <organization abbrev="Harvard">Harvard University</organization>
+          <address>
+            <postal>
+              <street>1350 Mass. Ave.</street>
+              <city>Cambridge</city> <region>MA</region> <code>02138</code>
+              <country>US</country>
+            </postal>
+            <phone>+1 617 495 3864</phone>
+            <email>sob@harvard.edu</email>
+          </address>
+        </author>
+        <date month="March" year="1997" />
+      </front>
+      <seriesInfo name="BCP" value="14" />
+      <seriesInfo name="RFC" value="2119" />
+    </reference>
+
+  </references>
+
+  <section title="Changes since Request Encoding as Objects">
+
+    <list style="symbols">
+      <t>The title of the document now reflects that these requests
+      are specifically method (or procedure) requests as opposed to
+      any other type of request that may be encoded as objects.</t>
+
+      <t>Discussion of proxies and interfaces, and their operations,
+      have been removed.  Those will be addressed in seperate specs.
+      Proxy and interface requests will most likely become method
+      requests on special targets.</t>
+
+      <t>The "reo:hello" and "reo:operation-error" operations have
+      been removed.  If need be, they will be addressed in a separate
+      spec dealing with configuration negotiation.  Note the issue in
+      the "Responses" section that "operation-error" also had provided
+      an out-of-band error that may not be clearly represented in an
+      in-band "reo:result" response.</t>
+
+      <t>The "object" field of "reo:call" was renamed "target".</t>
+
+      <t>The "target", "method", and "call-id" field value types are
+      relaxed to allow any value type.</t>
+
+      <t>The "method" field is now optional, if it's missing then the
+      default or implicit method of the target is used.</t>
+
+    </list>
+
+  </section>
+</back>
+
+</rfc>

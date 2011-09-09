@@ -1,0 +1,81 @@
+========== Data Types ==========
+
+Scarab's goal is to allow two peers to talk to each other.  It is _not_
+intended to enforce a least common denominator set of data types on
+the two peers.  At some point the two peers may be able to negotiate a
+common set of datatypes but for the time being it is the peer
+initiating the connection (the client) that has to cater to the data
+types of the peer contacted (the server).  The idea behind this is
+simple: the server doesn't know who (or what language) is going to be
+contacting it, but the client _always_ knows who (or what language) it
+is contacting.
+
+Server authors should still be considerate of multiple language
+clients and try to use as few language-specific data types as
+possible.
+
+There are essentially three categories of data types in Scarab, the
+LDO basic types, CORBA/RMI types, and language-specific types.
+
+Types are passed as an attribute on values passed through Scarab.  The
+type name is a string
+
+  LANGUAGE:TYPE
+
+where LANGUAGE is the language or standard defined a set of types and
+TYPE is the LANGUAGE-defined syntax for a type name.
+
+LDO Basic Types
+
+Integer    ldo:integer      CaBoolean, CaInt*, CaUInt*
+Float      ldo:float        CaFloat, CaDouble
+Opaque     ldo:opaque       CaString, CaBinary
+Null       ldo:null         CaNull
+Dictionary ldo:dictionary   CaDict, CaObject
+Array      ldo:array        CaList
+Reference  ldo:reference
+Proxy      ldo:proxy
+
+LDO References and Proxies are actually composite types built from
+dictionaries.  References are used to resolve circular references
+during a marshalling (different from the lower level reference in the
+serializtion that is used to reuse data values previously used in the
+marshalling, like field names, type names, etc.).  Proxies are used to
+represent an object that is passed by reference to a remote system.
+
+LDO integer, float, opaque values, and the lengths of dictionaries and
+arrays can all be indefinitly large.
+
+CORBA/RMI Types
+
+Too many to recount here, but they're all prefixed by `corba:'
+
+Language Specific Types
+
+Language specific types are composite types built from LDO basic
+types, for example ``objects'' in most languages will become LDO
+dictionaries, where the keys are the member variable names and the
+values hold the member values.
+
+Other primitive datatypes (like complex numbers or dates) should
+also be built using the LDO basic types in a way that the data type
+can be marshaled and unmarshaled without losing information, but
+without concern about whether a client can access that information
+``natively'' or without wrappers or some manual coding.
+
+Each language marshaling module documents the complete semantics of
+what they marshal and their primitive data types.  Here is a brief
+overview of some of the language specific types.
+
+Python
+
+  python:MODULE/NAME
+
+where MODULE is the Python module and NAME is the class name.
+Dictionaries are ldo:dictionary, arrays are ldo:array.
+
+Perl
+
+  perl:PACKAGE
+
+Hashes are ldo:dictionary, arrays are ldo:array.

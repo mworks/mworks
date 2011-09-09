@@ -1,0 +1,169 @@
+<!-- $Id: DWChat.html,v 1.3 2000/06/25 18:31:42 kmacleod Exp $ -->
+<HTML>
+  <HEAD>
+    <TITLE>DWChat -- DWhite Chat API</TITLE>
+    <META NAME="keywords" CONTENT="lightweight protocol DWhite xml">
+  </HEAD>
+  <BODY>
+
+<h1>DWChat -- DWhite Chat API</h1>
+<h3>Initial Draft -- March 9, 2000</h3>
+
+<p>DWhite Chat (DWC) is a reference application using <a
+href="DWhite.html">DWhite</a>.  DWC nodes represent a chat room with
+possibly thousands or millions of small messages.</p>
+
+<p>The two primary node types in DWC are the <tt>Channel</tt> node and
+the <tt>Message</tt> node.  A secondary node type, an <tt>Index</tt>
+node, is used to partition the tree into smaller, more easily managed
+portions.  In the following description of properties, those
+properties marked with an asterisk (*) are copied with partial
+nodes.</p>
+
+<p>A <tt>Channel</tt> node contains the following properties:
+
+<blockquote>
+<table>
+<tr><td>*</td><td><b><tt>DW:Id</tt></b></td>
+<td>The channel's DWhite identifier.</td></tr>
+<tr><td>*</td><td><b><tt>DW:Signature</tt></b></td>
+<td>The channel's DWhite signature, will change over time.</td></tr>
+<tr><td>*</td><td><b><tt>Name</tt></b></td>
+<td>The channel name of the chat room.</td></tr>
+<tr><td>*</td><td><b><tt>Topic</tt></b></td>
+<td>The topic of the chat room.</td></tr>
+<tr><td>*</td><td><b><tt>Contents</tt></b></td>
+<td>The contents of the chat room, a list of either <tt>Index</tt>
+nodes or <tt>Message</tt> nodes (not mixed).</td></tr>
+<tr><td>*</td><td><b><tt>FirstMsgNum</tt></b></td>
+<td>The message number of the first message.</td></tr>
+<tr><td>*</td><td><b><tt>LastMsgNum</tt></b></td>
+<td>The message number of the last message.</td></tr>
+<tr><td>*</td><td><b><tt>FirstMsgDate</tt></b></td>
+<td>The date and time of the first message.</td></tr>
+<tr><td>*</td><td><b><tt>LastMsgDate</tt></b></td>
+<td>The date and time of the last message.</td></tr>
+</table>
+</blockquote>
+</p>
+
+<p>A <tt>Message</tt> node contains the following properties:
+
+<blockquote>
+<table>
+<tr><td>*</td><td><b><tt>DW:Id</tt></b></td>
+<td>The message's DWhite identifier.</td></tr>
+<tr><td>*</td><td><b><tt>DW:Signature</tt></b></td>
+<td>The message's DWhite signature, will never change.</td></tr>
+<tr><td>*</td><td><b><tt>From</tt></b></td>
+<td>An identifier (email? URI? UUID?) of the sender.</td></tr>
+<tr><td>*</td><td><b><tt>Date</tt></b></td>
+<td>The date when the message entered the tree.</td></tr>
+<tr><td>*</td><td><b><tt>MsgNum</tt></b></td>
+<td>The sequence number of the message.</td></tr>
+<tr><td>&nbsp;</td><td><b><tt>Body</tt></b></td>
+<td>A string (mixed content?) of up to 500 characters
+containing the body of the message.</td></tr>
+</table>
+</blockquote>
+</p>
+
+<p>An <tt>Index</tt> node contains the following properties:
+
+<blockquote>
+<table>
+<tr><td>*</td><td><b><tt>DW:Id</tt></b></td>
+<td>The index's DWhite identifier.</td></tr>
+<tr><td>*</td><td><b><tt>DW:Signature</tt></b></td>
+<td>The index's DWhite signature, will never change after the 50th
+subnode is inserted.</td></tr>
+<tr><td>*</td><td><b><tt>Contents</tt></b></td>
+<td>The contents of the index, a list of either <tt>Index</tt>
+nodes or <tt>Message</tt> nodes (not mixed).</td></tr>
+<tr><td>*</td><td><b><tt>FirstMsgNum</tt></b></td>
+<td>The message number of the first message.</td></tr>
+<tr><td>*</td><td><b><tt>LastMsgNum</tt></b></td>
+<td>The message number of the last message.</td></tr>
+<tr><td>*</td><td><b><tt>FirstMsgDate</tt></b></td>
+<td>The date and time of the first message.</td></tr>
+<tr><td>*</td><td><b><tt>LastMsgDate</tt></b></td>
+<td>The date and time of the last message.</td></tr>
+</table>
+</blockquote>
+</p>
+
+<p>The <tt>Contents</tt> of a <tt>Channel</tt> or <tt>Index</tt> node
+will, at any time, only contain up to 50 subnodes.  As soon as the
+51st subnode would have been created, an <tt>Index</tt> node is
+created and the 50 subnodes are moved to the new <tt>Index</tt> node.
+Another <tt>Index</tt> node will be created and the 51st subnode will
+be placed in the new <tt>Index</tt> node.  The two <tt>Index</tt>
+nodes together replace the <tt>Contents</tt> of the <tt>Channel</tt>
+or <tt>Index</tt> node that contained the subnodes.  In this manner, a
+<tt>Channel</tt>'s <tt>Contents</tt> may contain 0-N levels of
+<tt>Index</tt> nodes, with leaf <tt>Index</tt> nodes containing
+messages.  <tt>Index</tt> nodes and <tt>Message</tt> nodes are never
+mixed within the <tt>Contents</tt> of a <tt>Channel</tt> or
+<tt>Index</tt> node; the <tt>Contents</tt> will contain only all
+<tt>Index</tt> nodes or only all <tt>Message</tt> nodes.</p>
+
+<p>DWC has <tt>getMessages()</tt>, a "View" method, and
+<tt>postMessage()</tt> and <tt>setTopic()</tt> "Controller" methods.
+DWC methods are directed towards the root of the tree.</p>
+
+<p>
+<dl><dt><b><tt class=function>getMessages</tt></b>(<var>first</var>, <var>last</var>)
+<dd>
+Return a partial tree (several layers deep, if necessary) containing
+partial <tt>Message</tt> nodes for all messages between and including
+<var>first</var> and <var>last</var>, and partial nodes for all
+<tt>Index</tt> nodes and the <tt>Channel</tt> node that contain them
+(no <tt>Index</tt> nodes prior to the <var>first</var> or after the
+<var>last</var> message are returned).  If <var>first</var> or
+<var>last</var> are negative, then it is counted from the end of the
+message list.  <tt>getMessages(-75,&nbsp;-1)</tt> will return the last
+75 messages posted.  <tt>getMessages(<var>n</var>,&nbsp;-1)</tt> will get
+all the messages from <var>n</var> until the end of the message list.
+No more than the first 500 partial messages will be returned at one
+time.</dl></p>
+
+<p>
+<dl><dt><b><tt class=function>postMessage</tt></b>(<var>message</var>)
+<dd>
+Posts <var>message</var> to the <var>Channel</var>.
+<var>message</var> need only contain a <tt>From</tt> (for now) and
+<tt>Body</tt>, all other properties will be populated by the server.
+A full copy of the posted message will be returned.  Note, the message
+number of the returned message may be several messages after the last
+local message.</dl></p>
+
+<p>
+<dl><dt><b><tt class=function>setTopic</tt></b>(<var>topic</var>)
+<dd>
+Sets the <tt>Topic</tt> of the channel to <var>topic</var>.</dl></p>
+
+<p>At startup, the client application is expected to use
+<tt>getMessage(-<var>n</var>,&nbsp;-1)</tt> (<var>n</var> between
+50-500) to retrieve partial copies of the last <var>n</var> messages,
+and then periodically call <tt>getMessage(<var>m</var>,&nbsp;-1)</tt>,
+where <var>m</var> is the message number of the last retrieved message
+plus one.  The application could also use <tt>checkNode()</tt> on the
+<tt>Index</tt> or <tt>Channel</tt> nodes.  After calling
+<tt>getMessage()</tt>, the application then calls <tt>getNode()</tt>
+for each message to retrieve the fully populated Message node.</p>
+
+<p>Notes
+
+<ul>
+ <li>future versions will support authentication, authorization, and
+     other chat room features.
+</ul></p>
+
+<p></p><hr>
+<h2>Implementations of DWChat</h2>
+<UL>
+<LI><a href="http://www.unc.edu/~bparsia/squeak/dwchat.8.cs">dwchat.8.cs</a> for Squeak/Smalltalk by Bijan Parsia
+</UL>
+
+  </BODY>
+</HTML>
