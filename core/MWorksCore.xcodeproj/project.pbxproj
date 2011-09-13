@@ -2873,7 +2873,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/zsh;
-			shellScript = "export SOURCE_DIR=${PROJECT_DIR}\nexport MW_PYTHON_DIR=${APP_SUPPORT_DIR}/Scripting/Python/mworks\n\nmkdir -p \"${MW_PYTHON_DIR}\"\n\ncp -r ${SOURCE_DIR}/Core/Python/* \"${MW_PYTHON_DIR}\"\n\necho \"${APP_SUPPORT_DIR}/Scripting/Python\" > /Library/Python/2.6/site-packages/mworks.pth\n\nmkdir -p /Library/Python/2.7/site-packages\necho \"${APP_SUPPORT_DIR}/Scripting/Python\" > /Library/Python/2.7/site-packages/mworks.pth\n";
+			shellScript = "export SOURCE_DIR=${PROJECT_DIR}\nexport MW_PYTHON_DIR=${APP_SUPPORT_DIR}/Scripting/Python/mworks\n\nmkdir -p \"${MW_PYTHON_DIR}\"\n\ncp -r ${SOURCE_DIR}/Core/Python/* \"${MW_PYTHON_DIR}\"\n\n#echo \"${APP_SUPPORT_DIR}/Scripting/Python\" > /Library/Python/2.6/site-packages/mworks.pth\n\n#mkdir -p /Library/Python/2.7/site-packages\n#echo \"${APP_SUPPORT_DIR}/Scripting/Python\" > /Library/Python/2.7/site-packages/mworks.pth\n";
 		};
 		5CEE864C081D53A700F366DE /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2886,7 +2886,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/zsh;
-			shellScript = "export FULL_NAME=${PRODUCT_NAME}.${WRAPPER_EXTENSION}\n\nrm -Rf \"${INSTALL_PATH}/${FULL_NAME}\"\ncp -Rf \"${BUILT_PRODUCTS_DIR}/${FULL_NAME}\"  \"${INSTALL_PATH}\"\n\nmkdir -p ${CONFIG_DIR}/examples\ncp -f $PROJECT_DIR/Core/SetupVariables/setup_variables_macbook.xml ${CONFIG_DIR}/examples\ncp -f $PROJECT_DIR/Core/SetupVariables/setup_variables_two_monitors.xml ${CONFIG_DIR}/examples\n\nmkdir -p \"${PLUGINS_DIR}\"\n\nexit 0";
+			shellScript = "export FULL_NAME=${PRODUCT_NAME}.${WRAPPER_EXTENSION}\n\nrm -Rf \"${INSTALL_PATH}/${FULL_NAME}/*\"\ncp -Rf ${BUILT_PRODUCTS_DIR}/${FULL_NAME}/*  \"${INSTALL_PATH}/${FULL_NAME}/\"\n\nmkdir -p ${CONFIG_DIR}/examples\ncp -f $PROJECT_DIR/Core/SetupVariables/setup_variables_macbook.xml ${CONFIG_DIR}/examples\ncp -f $PROJECT_DIR/Core/SetupVariables/setup_variables_two_monitors.xml ${CONFIG_DIR}/examples\n\nmkdir -p \"${PLUGINS_DIR}\"\n\nexit 0";
 		};
 		5CF73C6208625E3E00F453C3 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -3424,6 +3424,8 @@
 		5C0E84DB086D85D400B3EE7C /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				DEPLOYMENT_LOCATION = YES;
+				DSTROOT = /;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
@@ -3707,6 +3709,8 @@
 					x86_64,
 					i386,
 				);
+				DEPLOYMENT_LOCATION = YES;
+				DSTROOT = /;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
