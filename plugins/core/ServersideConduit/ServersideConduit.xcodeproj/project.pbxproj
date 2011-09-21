@@ -1,0 +1,471 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		5C3190321375CA55006849EC /* Autogenerate Plugin Plumbing */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 5C3190331375CA55006849EC /* Build configuration list for PBXAggregateTarget "Autogenerate Plugin Plumbing" */;
+			buildPhases = (
+				5C3190361375CA5B006849EC /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = "Autogenerate Plugin Plumbing";
+			productName = "Autogenerate Plugin Plumbing";
+		};
+		5CFCAB1E11060985007CE55F /* Everything */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 5CFCAB24110609AA007CE55F /* Build configuration list for PBXAggregateTarget "Everything" */;
+			buildPhases = (
+			);
+			dependencies = (
+				5CFCAB231106098C007CE55F /* PBXTargetDependency */,
+			);
+			name = Everything;
+			productName = Everything;
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		5C31900A1374644A006849EC /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C3190091374644A006849EC /* Cocoa.framework */; };
+		5C31900D13746457006849EC /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C31900C13746457006849EC /* AppKit.framework */; };
+		5C31902A1375BB55006849EC /* ServersideConduit_definitions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C3190281375BB55006849EC /* ServersideConduit_definitions.cpp */; };
+		5C31902D1375C662006849EC /* ServersideConduit_plugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C31902B1375C662006849EC /* ServersideConduit_plugin.cpp */; };
+		5C3190301375C8A3006849EC /* plugin_definition.yml in Resources */ = {isa = PBXBuildFile; fileRef = 5C31902F1375C8A3006849EC /* plugin_definition.yml */; };
+		5CFCAB0A1105FB4C007CE55F /* MWLibrary.xml in Resources */ = {isa = PBXBuildFile; fileRef = 5CFCAB091105FB4C007CE55F /* MWLibrary.xml */; };
+		5CFCAB0D1105FCF2007CE55F /* Development Notes.txt in Resources */ = {isa = PBXBuildFile; fileRef = 5CFCAB0C1105FCF2007CE55F /* Development Notes.txt */; };
+		5CFCAB26110609D2007CE55F /* UserDocumentation.rst in Resources */ = {isa = PBXBuildFile; fileRef = 5CFCAB25110609D2007CE55F /* UserDocumentation.rst */; };
+		5CFE591A0F571B15000C7F30 /* ServersideConduit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CFE59190F571B15000C7F30 /* ServersideConduit.cpp */; };
+		BFBFB0D610446C180019216B /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFBFB0D510446C180019216B /* MWorksCore.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		5C3190371375CAB0006849EC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5C3190321375CA55006849EC;
+			remoteInfo = "Autogenerate Plugin Plumbing";
+		};
+		5CFCAB221106098C007CE55F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8D5B49AC048680CD000E48DA;
+			remoteInfo = ServersideConduit;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		32DBCF630370AF2F00C91783 /* mw_plugin.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mw_plugin.pch; sourceTree = "<group>"; };
+		5C3190091374644A006849EC /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = ../../../../../../../System/Library/Frameworks/Cocoa.framework; sourceTree = "<group>"; };
+		5C31900C13746457006849EC /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = ../../../../../../../System/Library/Frameworks/AppKit.framework; sourceTree = "<group>"; };
+		5C3190281375BB55006849EC /* ServersideConduit_definitions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ServersideConduit_definitions.cpp; sourceTree = "<group>"; };
+		5C3190291375BB55006849EC /* ServersideConduit_definitions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServersideConduit_definitions.h; sourceTree = "<group>"; };
+		5C31902B1375C662006849EC /* ServersideConduit_plugin.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ServersideConduit_plugin.cpp; sourceTree = "<group>"; };
+		5C31902C1375C662006849EC /* ServersideConduit_plugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServersideConduit_plugin.h; sourceTree = "<group>"; };
+		5C31902F1375C8A3006849EC /* plugin_definition.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = plugin_definition.yml; sourceTree = "<group>"; };
+		5C78EE6B115D02EE00151A76 /* Development.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Development.xcconfig; path = "/Library/Application Support/MWorks/Developer/Xcode/Development.xcconfig"; sourceTree = "<absolute>"; };
+		5C78EE6C115D02EE00151A76 /* WARNING.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = WARNING.txt; path = "/Library/Application Support/MWorks/Developer/Xcode/WARNING.txt"; sourceTree = "<absolute>"; };
+		5C9093161371CFDE00DE97CC /* ServersideConduit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServersideConduit.h; sourceTree = "<group>"; };
+		5CFCAB091105FB4C007CE55F /* MWLibrary.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MWLibrary.xml; sourceTree = "<group>"; };
+		5CFCAB0C1105FCF2007CE55F /* Development Notes.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Development Notes.txt"; sourceTree = "<group>"; };
+		5CFCAB0F11060747007CE55F /* INSTRUCTIONS.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = INSTRUCTIONS.txt; sourceTree = "<group>"; wrapsLines = 1; };
+		5CFCAB25110609D2007CE55F /* UserDocumentation.rst */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = UserDocumentation.rst; sourceTree = "<group>"; };
+		5CFE59190F571B15000C7F30 /* ServersideConduit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ServersideConduit.cpp; sourceTree = SOURCE_ROOT; };
+		8D5B49B6048680CD000E48DA /* ServersideConduit.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ServersideConduit.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D5B49B7048680CD000E48DA /* mw_plugin.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = mw_plugin.plist; sourceTree = "<group>"; };
+		BFBFB0D510446C180019216B /* MWorksCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MWorksCore.framework; path = /Library/Frameworks/MWorksCore.framework; sourceTree = "<absolute>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8D5B49B3048680CD000E48DA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BFBFB0D610446C180019216B /* MWorksCore.framework in Frameworks */,
+				5C31900A1374644A006849EC /* Cocoa.framework in Frameworks */,
+				5C31900D13746457006849EC /* AppKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		089C166AFE841209C02AAC07 /* ServersideConduit */ = {
+			isa = PBXGroup;
+			children = (
+				5CFCAB0F11060747007CE55F /* INSTRUCTIONS.txt */,
+				5C78EE69115D02C700151A76 /* External Build Settings */,
+				5C31902E1375C87C006849EC /* Plugin Configuration */,
+				5C3190261375BB2B006849EC /* Autogenerated */,
+				08FB77AFFE84173DC02AAC07 /* Classes */,
+				5CFE591D0F571BF6000C7F30 /* Documentation */,
+				32C88E010371C26100C91783 /* Other Sources */,
+				089C167CFE841241C02AAC07 /* Resources */,
+				089C1671FE841209C02AAC07 /* Frameworks and Libraries */,
+				19C28FB8FE9D52D311CA2CBB /* Products */,
+			);
+			name = ServersideConduit;
+			sourceTree = "<group>";
+		};
+		089C1671FE841209C02AAC07 /* Frameworks and Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */,
+				1058C7AEFEA557BF11CA2CBB /* Other Frameworks */,
+			);
+			name = "Frameworks and Libraries";
+			sourceTree = "<group>";
+		};
+		089C167CFE841241C02AAC07 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				8D5B49B7048680CD000E48DA /* mw_plugin.plist */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		08FB77AFFE84173DC02AAC07 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				5C9093161371CFDE00DE97CC /* ServersideConduit.h */,
+				5CFE59190F571B15000C7F30 /* ServersideConduit.cpp */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				5C31900C13746457006849EC /* AppKit.framework */,
+				5C3190091374644A006849EC /* Cocoa.framework */,
+				BFBFB0D510446C180019216B /* MWorksCore.framework */,
+			);
+			name = "Linked Frameworks";
+			sourceTree = "<group>";
+		};
+		1058C7AEFEA557BF11CA2CBB /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		19C28FB8FE9D52D311CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8D5B49B6048680CD000E48DA /* ServersideConduit.bundle */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		32C88E010371C26100C91783 /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				32DBCF630370AF2F00C91783 /* mw_plugin.pch */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		5C3190261375BB2B006849EC /* Autogenerated */ = {
+			isa = PBXGroup;
+			children = (
+				5C31902C1375C662006849EC /* ServersideConduit_plugin.h */,
+				5C31902B1375C662006849EC /* ServersideConduit_plugin.cpp */,
+				5C3190291375BB55006849EC /* ServersideConduit_definitions.h */,
+				5C3190281375BB55006849EC /* ServersideConduit_definitions.cpp */,
+				5CFCAB091105FB4C007CE55F /* MWLibrary.xml */,
+			);
+			name = Autogenerated;
+			sourceTree = "<group>";
+		};
+		5C31902E1375C87C006849EC /* Plugin Configuration */ = {
+			isa = PBXGroup;
+			children = (
+				5C31902F1375C8A3006849EC /* plugin_definition.yml */,
+			);
+			name = "Plugin Configuration";
+			sourceTree = "<group>";
+		};
+		5C78EE69115D02C700151A76 /* External Build Settings */ = {
+			isa = PBXGroup;
+			children = (
+				5C78EE6B115D02EE00151A76 /* Development.xcconfig */,
+				5C78EE6C115D02EE00151A76 /* WARNING.txt */,
+			);
+			name = "External Build Settings";
+			sourceTree = "<group>";
+		};
+		5CFE591D0F571BF6000C7F30 /* Documentation */ = {
+			isa = PBXGroup;
+			children = (
+				5CFCAB0C1105FCF2007CE55F /* Development Notes.txt */,
+				5CFCAB25110609D2007CE55F /* UserDocumentation.rst */,
+			);
+			name = Documentation;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8D5B49AC048680CD000E48DA /* ServersideConduit */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1DEB913A08733D840010E9CD /* Build configuration list for PBXNativeTarget "ServersideConduit" */;
+			buildPhases = (
+				8D5B49AF048680CD000E48DA /* Resources */,
+				8D5B49B1048680CD000E48DA /* Sources */,
+				8D5B49B3048680CD000E48DA /* Frameworks */,
+				5CFCAB1D11060975007CE55F /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				5C3190381375CAB0006849EC /* PBXTargetDependency */,
+			);
+			name = ServersideConduit;
+			productInstallPath = "$(HOME)/Library/Bundles";
+			productName = ServersideConduit;
+			productReference = 8D5B49B6048680CD000E48DA /* ServersideConduit.bundle */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		089C1669FE841209C02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 1DEB913E08733D840010E9CD /* Build configuration list for PBXProject "ServersideConduit" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
+			mainGroup = 089C166AFE841209C02AAC07 /* ServersideConduit */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8D5B49AC048680CD000E48DA /* ServersideConduit */,
+				5CFCAB1E11060985007CE55F /* Everything */,
+				5C3190321375CA55006849EC /* Autogenerate Plugin Plumbing */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8D5B49AF048680CD000E48DA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5CFCAB0A1105FB4C007CE55F /* MWLibrary.xml in Resources */,
+				5CFCAB0D1105FCF2007CE55F /* Development Notes.txt in Resources */,
+				5CFCAB26110609D2007CE55F /* UserDocumentation.rst in Resources */,
+				5C3190301375C8A3006849EC /* plugin_definition.yml in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		5C3190361375CA5B006849EC /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "DBIN=\"/Library/Application Support/MWorks/Developer/bin\"\n\"$DBIN/mw_plugin_helper\" regenerate ${PROJECT_DIR}/plugin_definition.yml ${PROJECT_DIR}\n";
+		};
+		5CFCAB1D11060975007CE55F /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/zsh;
+			shellScript = "export FULL_NAME=${PRODUCT_NAME}.${WRAPPER_EXTENSION}\nexport FINAL_INSTALL_DIR=${PLUGINS_DIR}\n\nmkdir -p \"${FINAL_INSTALL_DIR}/${FULL_NAME}\"\nrm -R \"${FINAL_INSTALL_DIR}/${FULL_NAME}\"\ncp -R \"${BUILT_PRODUCTS_DIR}/${FULL_NAME}\" ${FINAL_INSTALL_DIR}/\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8D5B49B1048680CD000E48DA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5CFE591A0F571B15000C7F30 /* ServersideConduit.cpp in Sources */,
+				5C31902A1375BB55006849EC /* ServersideConduit_definitions.cpp in Sources */,
+				5C31902D1375C662006849EC /* ServersideConduit_plugin.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		5C3190381375CAB0006849EC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5C3190321375CA55006849EC /* Autogenerate Plugin Plumbing */;
+			targetProxy = 5C3190371375CAB0006849EC /* PBXContainerItemProxy */;
+		};
+		5CFCAB231106098C007CE55F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8D5B49AC048680CD000E48DA /* ServersideConduit */;
+			targetProxy = 5CFCAB221106098C007CE55F /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		1DEB913B08733D840010E9CD /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = mw_plugin.pch;
+				INFOPLIST_FILE = mw_plugin.plist;
+				INSTALL_PATH = "$(PLUGINS_DIR)";
+				OTHER_LDFLAGS = (
+					"-framework",
+					OpenGL,
+				);
+				PRODUCT_NAME = ServersideConduit;
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Development;
+		};
+		1DEB913C08733D840010E9CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = mw_plugin.pch;
+				INFOPLIST_FILE = mw_plugin.plist;
+				INSTALL_PATH = "$(HOME)/Library/Bundles";
+				PRODUCT_NAME = ServersideConduit;
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Release;
+		};
+		1DEB913F08733D840010E9CD /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5C78EE6B115D02EE00151A76 /* Development.xcconfig */;
+			buildSettings = {
+				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
+				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
+				PREBINDING = NO;
+			};
+			name = Development;
+		};
+		1DEB914008733D840010E9CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					i386,
+					x86_64,
+				);
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PREBINDING = NO;
+				SDKROOT = macosx10.5;
+			};
+			name = Release;
+		};
+		5C3190341375CA55006849EC /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Development;
+		};
+		5C3190351375CA55006849EC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		5CFCAB1F11060986007CE55F /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = Everything;
+			};
+			name = Development;
+		};
+		5CFCAB2111060986007CE55F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				PRODUCT_NAME = Everything;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1DEB913A08733D840010E9CD /* Build configuration list for PBXNativeTarget "ServersideConduit" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DEB913B08733D840010E9CD /* Development */,
+				1DEB913C08733D840010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1DEB913E08733D840010E9CD /* Build configuration list for PBXProject "ServersideConduit" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DEB913F08733D840010E9CD /* Development */,
+				1DEB914008733D840010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		5C3190331375CA55006849EC /* Build configuration list for PBXAggregateTarget "Autogenerate Plugin Plumbing" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5C3190341375CA55006849EC /* Development */,
+				5C3190351375CA55006849EC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		5CFCAB24110609AA007CE55F /* Build configuration list for PBXAggregateTarget "Everything" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5CFCAB1F11060986007CE55F /* Development */,
+				5CFCAB2111060986007CE55F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 089C1669FE841209C02AAC07 /* Project object */;
+}

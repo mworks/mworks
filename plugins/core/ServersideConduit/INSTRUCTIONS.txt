@@ -1,0 +1,21 @@
+INSTRUCTIONS FOR USING THIS TEMPLATE
+
+Tasks:
+
+1) Implement your plugin's main functionality in ${object_name}.h/.cpp.  You'll need to look in the Core project to understand which object you should extend and which interfaces to use.  The primary kind of plugins that you are likely to want to implement are:
+
+* Visual Stimuli (inheriting from Stimulus in Stimulus.h)
+* Actions (inheriting from Action in TrialBuildingBlocks.h)
+* IO Devices (inheriting from IODevice in IODevice.h, though the current base class is more complicated than it needs to be; see example plugins before proceeding)
+
+2) Implement parameter parsing in MouseViewIODeviceFactory.h/.cpp.  Basically, the goal here is to take incoming parameters from the XML and use them to build your object.  A token example parameter is shown in the default template.
+
+3) Edit the XML Editor definition in MWLibrary.xml.  This file contains information that the MW Editor needs to properly display and interact with your object. 
+
+4) Write documentation for your plugin.
+
+
+"Advanced" Usage
+
+Plugins can implement more than one MW component, and this is advantageous when a given component cannot stand alone (e.g. a movie stimulus might want a "play" action that can tell it when to start).  In these cases, additional factory objects should be implemented, and the Plugin object (in MouseViewIODevicePlugin.h/.cpp) should register multiple factories.
+
