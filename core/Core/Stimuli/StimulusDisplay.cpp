@@ -31,7 +31,6 @@ BEGIN_NAMESPACE_MW
  *                  StimulusDisplay Methods
  **********************************************************************/
 StimulusDisplay::StimulusDisplay() :
-    refreshSync(2),
     currentOutputTimeUS(-1)
 {
     current_context_index = -1;
@@ -156,7 +155,7 @@ void StimulusDisplay::getCurrentViewportSize(GLint &width, GLint &height) {
 
 
 void StimulusDisplay::stateSystemCallback(const Datum &data, MWorksTime time) {
-    upgrade_lock lock(display_lock);
+    unique_lock lock(display_lock);
 
     int newState = data.getInteger();
 
@@ -221,44 +220,39 @@ CVReturn StimulusDisplay::displayLinkCallback(CVDisplayLinkRef _displayLink,
     StimulusDisplay *display = static_cast<StimulusDisplay*>(_display);
     
     {
-        upgrade_lock upgradeLock(display->display_lock);
+        unique_lock lock(display->display_lock);
         
-        {
-            upgrade_to_unique_lock lock(upgradeLock);
-            
-            if (bool(warnOnSkippedRefresh->getValue())) {
-                if (display->lastFrameTime) {
-                    int64_t delta = (outputTime->videoTime - display->lastFrameTime) - outputTime->videoRefreshPeriod;
-                    if (delta) {
-                        mwarning(M_DISPLAY_MESSAGE_DOMAIN,
-                                 "Skipped %g display refresh cycles",
-                                 (double)delta / (double)(outputTime->videoRefreshPeriod));
-                    }
+        if (bool(warnOnSkippedRefresh->getValue())) {
+            if (display->lastFrameTime) {
+                int64_t delta = (outputTime->videoTime - display->lastFrameTime) - outputTime->videoRefreshPeriod;
+                if (delta) {
+                    mwarning(M_DISPLAY_MESSAGE_DOMAIN,
+                             "Skipped %g display refresh cycles",
+                             (double)delta / (double)(outputTime->videoRefreshPeriod));
                 }
             }
-            
-            display->lastFrameTime = outputTime->videoTime;
-            
-            //
-            // Here's how the time calculation works:
-            //
-            // outputTime->hostTime is the (estimated) time that the frame we're currently drawing will be displayed.
-            // The value is in units of the "host time base", which appears to mean that it's directly comparable to
-            // the value returned by mach_absolute_time().  However, the relationship to mach_absolute_time() is not
-            // explicitly stated in the docs, so presumably we can't depend on it.
-            //
-            // What the CoreVideo docs *do* say is "the host time base for Core Video and the one for CoreAudio are
-            // identical, and the values returned from either API can be used interchangeably".  Hence, we can use the
-            // CoreAudio function AudioConvertHostTimeToNanos() to convert from the host time base to nanoseconds.
-            //
-            // Once we have a system time in nanoseconds, we substract the system base time and convert to
-            // microseconds, which leaves us with a value that can be compared to clock->getCurrentTimeUS().
-            //
-            display->currentOutputTimeUS = (MWTime(AudioConvertHostTimeToNanos(outputTime->hostTime)) -
-                                            display->clock->getSystemBaseTimeNS()) / 1000LL;
         }
         
-        shared_lock sharedLock(upgradeLock);  // Downgrade to shared_lock
+        display->lastFrameTime = outputTime->videoTime;
+        
+        //
+        // Here's how the time calculation works:
+        //
+        // outputTime->hostTime is the (estimated) time that the frame we're currently drawing will be displayed.
+        // The value is in units of the "host time base", which appears to mean that it's directly comparable to
+        // the value returned by mach_absolute_time().  However, the relationship to mach_absolute_time() is not
+        // explicitly stated in the docs, so presumably we can't depend on it.
+        //
+        // What the CoreVideo docs *do* say is "the host time base for Core Video and the one for CoreAudio are
+        // identical, and the values returned from either API can be used interchangeably".  Hence, we can use the
+        // CoreAudio function AudioConvertHostTimeToNanos() to convert from the host time base to nanoseconds.
+        //
+        // Once we have a system time in nanoseconds, we substract the system base time and convert to
+        // microseconds, which leaves us with a value that can be compared to clock->getCurrentTimeUS().
+        //
+        display->currentOutputTimeUS = (MWTime(AudioConvertHostTimeToNanos(outputTime->hostTime)) -
+                                        display->clock->getSystemBaseTimeNS()) / 1000LL;
+        
         display->refreshDisplay();
         display->waitingForRefresh = false;
     }
@@ -308,22 +302,12 @@ void StimulusDisplay::refreshDisplay() {
             } else {
                 
                 // Main display
-                
                 drawDisplayStack(true);
                 opengl_context_manager->flush(i);
-                if (opengl_context_manager->hasFence()) {
-                    glSetFenceAPPLE(opengl_context_manager->getFence());
-                }
-                
-                dispatch_async_f(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0),
-                                 this,
-                                 &StimulusDisplay::announceDisplayUpdate);
+                announceDisplayUpdate();
                 
             }
         }
-        
-        // Wait for StimulusDisplay::announceDisplayUpdate to acquire the lock
-        refreshSync.wait();
     }
     
     needDraw = false;
@@ -331,20 +315,16 @@ void StimulusDisplay::refreshDisplay() {
 
 
 void StimulusDisplay::clearDisplay() {
-    upgrade_lock upgradeLock(display_lock);
+    unique_lock lock(display_lock);
     
-    {
-        upgrade_to_unique_lock lock(upgradeLock);
-        
-        shared_ptr<StimulusNode> node = display_stack->getFrontmost();
-        while(node) {
-            node->setVisible(false);
-            node = node->getNext();
-        }
+    shared_ptr<StimulusNode> node = display_stack->getFrontmost();
+    while(node) {
+        node->setVisible(false);
+        node = node->getNext();
     }
 	
     needDraw = true;
-    ensureRefresh(upgradeLock);
+    ensureRefresh(lock);
 }
 
 
@@ -396,30 +376,26 @@ void StimulusDisplay::drawDisplayStack(bool doStimAnnouncements) {
 
 
 void StimulusDisplay::updateDisplay() {
-    upgrade_lock upgradeLock(display_lock);
+    unique_lock lock(display_lock);
     
-    {
-        upgrade_to_unique_lock lock(upgradeLock);
-        
-        shared_ptr<StimulusNode> node = display_stack->getFrontmost();
-        while (node) {
-            if (node->isPending()) {
-                // we're taking care of the pending state, so
-                // clear this flag
-                node->clearPending();
-                
-                // convert "pending visible" stimuli to "visible" ones
-                node->setVisible(node->isPendingVisible());
-                
-                if (node->isPendingRemoval()) {
-                    node->clearPendingRemoval();
-                    node->remove();
-                    continue;
-                }
-            }
+    shared_ptr<StimulusNode> node = display_stack->getFrontmost();
+    while (node) {
+        if (node->isPending()) {
+            // we're taking care of the pending state, so
+            // clear this flag
+            node->clearPending();
             
-            node = node->getNext();
+            // convert "pending visible" stimuli to "visible" ones
+            node->setVisible(node->isPendingVisible());
+            
+            if (node->isPendingRemoval()) {
+                node->clearPendingRemoval();
+                node->remove();
+                continue;
+            }
         }
+        
+        node = node->getNext();
     }
     
 #define ERROR_ON_LATE_FRAMES
@@ -428,7 +404,7 @@ void StimulusDisplay::updateDisplay() {
 #endif
 
     needDraw = true;
-    ensureRefresh(upgradeLock);
+    ensureRefresh(lock);
     
 #ifdef ERROR_ON_LATE_FRAMES
     MWTime now = clock->getCurrentTimeUS();
@@ -444,9 +420,7 @@ void StimulusDisplay::updateDisplay() {
 }
 
 
-void StimulusDisplay::ensureRefresh(upgrade_lock &lock) {
-    shared_lock sharedLock(lock);  // Downgrade to shared_lock
-    
+void StimulusDisplay::ensureRefresh(unique_lock &lock) {
     if (!CVDisplayLinkIsRunning(displayLink)) {
         // Need to do the refresh here
         refreshDisplay();
@@ -454,38 +428,23 @@ void StimulusDisplay::ensureRefresh(upgrade_lock &lock) {
         // Wait for next display refresh to complete
         waitingForRefresh = true;
         do {
-            refreshCond.wait(sharedLock);
+            refreshCond.wait(lock);
         } while (waitingForRefresh);
     }
 }
 
 
-void StimulusDisplay::announceDisplayUpdate(void *_display) {
-    StimulusDisplay *display = static_cast<StimulusDisplay*>(_display);
-    shared_lock sharedLock(display->display_lock);
-    
-    // Wait for StimulusDisplay::refreshDisplay to finish drawing
-    display->refreshSync.wait();
-    
-    display->setCurrent(0);
-    if (display->opengl_context_manager->hasFence()) {
-        if (glTestFenceAPPLE(display->opengl_context_manager->getFence())) {
-            mwarning(M_DISPLAY_MESSAGE_DOMAIN,
-                     "Display update announcement was delayed; time stamp on next %s event may be inaccurate",
-                     STIMULUS_DISPLAY_UPDATE_TAGNAME);
-        } else {
-            glFinishFenceAPPLE(display->opengl_context_manager->getFence());
-        }
-    } else {
-        glFinish();
+void StimulusDisplay::announceDisplayUpdate() {
+    MWTime now = getCurrentOutputTimeUS();
+    if (-1 == now) {
+        now = clock->getCurrentTimeUS();
     }
     
-    MWTime now = display->clock->getCurrentTimeUS();
-    stimDisplayUpdate->setValue(display->getAnnounceData(), now);
-    display->announceDisplayStack(now);
+    stimDisplayUpdate->setValue(getAnnounceData(), now);
+    announceDisplayStack(now);
 
-    display->stimsToAnnounce.clear();
-    display->stimAnnouncements.clear();
+    stimsToAnnounce.clear();
+    stimAnnouncements.clear();
 }
 
 
