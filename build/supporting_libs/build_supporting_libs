@@ -14,9 +14,8 @@ import sys
 ################################################################################
 
 
-gcc_version = '4.2'
-gcc = '/Developer/usr/bin/gcc-' + gcc_version
-gplusplus = '/Developer/usr/bin/g++-' + gcc_version
+gcc = '/Developer/usr/bin/gcc'
+gplusplus = '/Developer/usr/bin/g++'
 
 sdk_version = '10.6'
 sdk_root = '/Developer/SDKs/MacOSX%s.sdk' % sdk_version
