@@ -221,6 +221,9 @@ int OpenGLContextManager::newMirrorContext(bool sync_to_vbl){
     NSOpenGLPixelFormatAttribute attrs[] =
     {
         NSOpenGLPFADoubleBuffer,
+#if M_DRAW_EVERY_FRAME
+        NSOpenGLPFABackingStore,
+#endif
         0
     };
     
@@ -290,6 +293,9 @@ int OpenGLContextManager::newFullscreenContext(int screen_number){
     NSOpenGLPixelFormatAttribute attrs[] =
     {
         NSOpenGLPFADoubleBuffer,
+#if M_DRAW_EVERY_FRAME
+        NSOpenGLPFABackingStore,
+#endif
         0
     };
     

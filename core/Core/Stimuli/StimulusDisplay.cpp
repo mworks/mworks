@@ -283,8 +283,8 @@ void StimulusDisplay::refreshDisplay() {
             node = node->getNext();
         }
     }
-    
-    if (!needDraw) {
+
+    if (!(needDraw || M_DRAW_EVERY_FRAME)) {
         return;
     }
 
@@ -299,15 +299,26 @@ void StimulusDisplay::refreshDisplay() {
             if (i != 0) {
                 
                 // Non-main display
-                drawDisplayStack(false);
+                
+                if (needDraw) {
+                    drawDisplayStack(false);
+                }
+                
                 opengl_context_manager->updateAndFlush(i);
                 
             } else {
                 
                 // Main display
-                drawDisplayStack(true);
+                
+                if (needDraw) {
+                    drawDisplayStack(true);
+                }
+                
                 opengl_context_manager->flush(i);
-                announceDisplayUpdate();
+                
+                if (needDraw) {
+                    announceDisplayUpdate();
+                }
                 
             }
         }
