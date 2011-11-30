@@ -30,6 +30,7 @@
 	self = [super init];
 	if (self != nil) {
 		core = boost::shared_ptr <Server>(new Server());
+        Server::registerInstance(core);
 		core_as_esi = static_pointer_cast<EventStreamInterface>(core);
         
 		NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
