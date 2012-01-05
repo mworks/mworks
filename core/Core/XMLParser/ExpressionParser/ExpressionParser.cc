@@ -42,6 +42,8 @@
 #endif
 #include <boost/random.hpp>
 
+#include <boost/format.hpp>
+
 #include "Utilities.h"
 
 #include <iostream>
@@ -1525,7 +1527,7 @@ namespace stx {
 			return AnyScalar( std::fabs(paramlist[0].getDouble()) );
 		}
 		else {
-			throw(BadFunctionCallException("Function ABS() takes exactly one parameter"));
+			throw(BadFunctionCallException("Function ABS() requires a numeric parameter"));
 		}
 	}
 	
@@ -1572,6 +1574,27 @@ namespace stx {
 	{
         boost::shared_ptr<mw::StimulusDisplay> display(mw::StimulusDisplay::getCurrentStimulusDisplay());
 		return AnyScalar( display->getMainDisplayRefreshRate() );
+	}
+	
+	AnyScalar BasicSymbolTable::funcFORMAT(const paramlist_type &paramlist)
+	{
+        if (paramlist.size() < 1) {
+            throw BadFunctionCallException("Function FORMAT() requires at least one parameter");
+        }
+        
+        if (!(paramlist[0].isStringType())) {
+            throw BadFunctionCallException("First parameter to function FORMAT() must be a string");
+        }
+        
+        try {
+            boost::format fmt(paramlist[0].getString());
+            for (paramlist_type::size_type i = 1; i < paramlist.size(); i++) {
+                fmt % paramlist[i];
+            }
+            return AnyScalar( fmt.str() );
+        } catch (boost::io::format_error &e) {
+            throw BadFunctionCallException(std::string("Error in function FORMAT(): ") + e.what());
+        }
 	}
 	
 	AnyScalar BasicSymbolTable::funcUNIFORM_RAND(const paramlist_type &paramlist)
@@ -1697,6 +1720,7 @@ namespace stx {
 		setFunction("NOW", 0, funcNOW);
 		setFunction("TIMEREXPIRED", 1, funcTIMER_EXPIRED);
 		setFunction("REFRESHRATE", 0, funcREFRESH_RATE);
+		setFunction("FORMAT", -1, funcFORMAT);
 	}
 	
 	AnyScalar BasicSymbolTable::lookupVariable(const std::string &_varname) const

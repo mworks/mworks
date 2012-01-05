@@ -93,26 +93,21 @@ class	ParsedExpressionVariable : public Variable {
 			}
 			
 			
-			try{
+			try {
+                
 				val = expression_tree.evaluate((stx::SymbolTable&)(*(global_variable_registry.get())));
-
-				//std::cout << "evaluated: [" << original_expression << "] = " << val << "\n";
-			
-			} catch (stx::UnknownSymbolException &e){
-				
-				FatalParserException f("Unknown symbol while parsing expression");
-				
+                
+			} catch (stx::UnknownSymbolException &e) {
+                
+				throw FatalParserException("Unknown symbol while parsing expression", e.what());
                 
 			} catch (stx::ExpressionParserException &e){
-				merror(M_PARADIGM_MESSAGE_DOMAIN, "expression parser exception");
-				//std::cout << "ExpressionParserException: " << e.what() << "\n";
-				//return Datum(0L);
-                throw(e);
+                
+                throw SimpleException(M_PARSER_MESSAGE_DOMAIN, "Expression parser error", e.what());
+                
 			}
-		
-		 Datum returnval = val;
 			
-			return returnval;
+			return Datum(val);
 		
 		}
 		
