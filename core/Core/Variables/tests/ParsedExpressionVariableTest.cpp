@@ -110,7 +110,7 @@ void ParsedExpressionVariableTestFixture::testSimpleExpression() {
 	bool threw_exception = false;
 	try {
 		e = shared_ptr<ParsedExpressionVariable>(new ParsedExpressionVariable("(0 #GT 1))"));
-	} catch (stx::ExpressionParserException &e) {
+	} catch (FatalParserException &e) {
 		threw_exception = true;
 	}
 	
