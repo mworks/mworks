@@ -141,6 +141,7 @@ void EventStreamConduit::handleControlEventFromConduit(shared_ptr<Event> evt){
         event_stream->putEvent(evt);
     }
     
+    
     // if not event forwarding, pass
     if((int)payload_type != M_SET_EVENT_FORWARDING){
         return;
