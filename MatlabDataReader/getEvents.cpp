@@ -30,7 +30,7 @@ void mexFunction (int nlhs, mxArray *plhs[],
     mexErrMsgTxt("only had one output argument");
 
   // Get the inputs.
-  boost::filesystem::path mwk_file(getString(prhs[0]), boost::filesystem::native);
+  boost::filesystem::path mwk_file(getString(prhs[0]));
   std::vector<unsigned int> event_codes;
 
   MWorksTime lower_bound = MIN_MONKEY_WORKS_TIME();

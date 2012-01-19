@@ -24,7 +24,7 @@ dfindex::dfindex(const boost::filesystem::path &data_file) : mwk_data_file(data_
 	
 	if(!boost::filesystem::is_directory(mwk_data_file)) {
 		std::string temp_location_string(mwk_data_file.string() + ".orig");
-		boost::filesystem::path temp_location(temp_location_string, boost::filesystem::native);
+		boost::filesystem::path temp_location(temp_location_string);
 		boost::filesystem::rename(mwk_data_file, temp_location);
 		
 		boost::filesystem::create_directory(mwk_data_file);
@@ -68,7 +68,7 @@ void dfindex::load() {
 }
 
 boost::filesystem::path dfindex::indexFile() const {
-	return mwk_data_file / (mwk_data_file.leaf() + ".idx");
+	return mwk_data_file / (mwk_data_file.leaf().string() + ".idx");
 }
 
 std::vector<EventWrapper> dfindex::events(const std::vector<unsigned int> &event_codes_to_match,
