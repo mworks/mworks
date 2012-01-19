@@ -3,7 +3,7 @@
 from cStringIO import StringIO
 from optparse import OptionParser
 import os
-from subprocess import call, Popen, PIPE
+from subprocess import call, check_call, Popen, PIPE
 import sys
 from tempfile import NamedTemporaryFile
 from xml.dom import minidom
@@ -107,6 +107,16 @@ def run_marionette_tests(arch_name, test_names=None):
             test_name = test_file[len(test_file_dir)+1:]
         else:
             test_name = test_file
+
+        # For OS X 10.7: Remove any saved state, which can lead to a
+        # "Restore Windows" dialog that hangs MarionetteTest until
+        # it's dismissed
+        saved_state_dir = os.path.expanduser(
+            '~/Library/Saved Application State/'
+            'org.mworks-project.MarionetteTest.savedState'
+            )
+        if os.path.isdir(saved_state_dir):
+            check_call(['/bin/rm', '-Rf', saved_state_dir])
 
         cmd = Popen(['/usr/bin/osascript'], stdin=PIPE)
         cmd.communicate(marionette_prep_applescript)

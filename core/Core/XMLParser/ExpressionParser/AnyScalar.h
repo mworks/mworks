@@ -394,11 +394,31 @@ public:
 		atype == ATTRTYPE_BYTE || atype == ATTRTYPE_WORD ||
 		atype == ATTRTYPE_DWORD || atype == ATTRTYPE_QWORD);
     }
+    
+    /// Returns true if this object contains one of the signed integer types.
+    inline bool		isSignedIntegerType() const
+    {
+        return (atype == ATTRTYPE_CHAR || atype == ATTRTYPE_SHORT ||
+                atype == ATTRTYPE_INTEGER || atype == ATTRTYPE_LONG);
+    }
+    
+    /// Returns true if this object contains one of the unsigned integer types.
+    inline bool		isUnsignedIntegerType() const
+    {
+        return (atype == ATTRTYPE_BYTE || atype == ATTRTYPE_WORD ||
+                atype == ATTRTYPE_DWORD || atype == ATTRTYPE_QWORD);
+    }
 
     /// Returns true if this object contains one of the floating point types.
     inline bool		isFloatingType() const
     {
 	return (atype == ATTRTYPE_FLOAT || atype == ATTRTYPE_DOUBLE);
+    }
+    
+    /// Returns true if this object contains a string value.
+    inline bool		isStringType() const
+    {
+        return (atype == ATTRTYPE_STRING);
     }
 
     /// Attempts to convert the current type/value into the given type. Returns
@@ -859,7 +879,15 @@ public:
 /// Make AnyScalar outputtable to ostream
 static inline std::ostream& operator<< (std::ostream &stream, const AnyScalar &as)
 {
-    return stream << as.getString();
+    if (as.isSignedIntegerType()) {
+        return stream << as.getLong();
+    } else if (as.isUnsignedIntegerType()) {
+        return stream << as.getUnsignedLong();
+    } else if (as.isFloatingType()) {
+        return stream << as.getDouble();
+    } else {
+        return stream << as.getString();
+    }
 }
 
 } // namespace stx

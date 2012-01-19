@@ -1,0 +1,21 @@
+<?xml version="1.0" standalone="no"?>
+<monkeyml version="1.0">
+    <io_devices tag="IO Devices"></io_devices>
+    <variables tag="Variables">
+        <variable tag="result" scope="global" logging="when_changed" default_value="(null)" type="string"></variable>
+    </variables>
+    <sounds tag="Sounds"></sounds>
+    <stimuli tag="Stimuli"></stimuli>
+    <filters tag="Filters"></filters>
+    <optimizers tag="Optimizers"></optimizers>
+    <experiment tag="New Experiment" full_name="" description="">
+        <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential">
+            <action type="assignment" tag="Assign Variable" variable="result" value="format(&quot;%d&quot;, 9223372036854775807 + 1)"></action>
+            <action type="assert" tag="Assert" condition="result == &quot;-9223372036854775808&quot;" message="Unexpected signed result"></action>
+            <action type="report" tag="Report" message="Result: $result"></action>
+            <action type="assignment" tag="Assign Variable 2" variable="result" value="format(&quot;%d&quot;, (qword)9223372036854775807 + (qword)1)"></action>
+            <action type="assert" tag="Assert 2" condition="result == &quot;9223372036854775808&quot;" message="Unexpected unsigned result"></action>
+            <action type="report" tag="Report 2" message="Result: $result"></action>
+        </protocol>
+    </experiment>
+</monkeyml>
