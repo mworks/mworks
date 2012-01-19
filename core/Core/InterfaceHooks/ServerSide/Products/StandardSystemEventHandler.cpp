@@ -225,9 +225,9 @@ void StandardSystemEventHandler::handleSystemEvent(const Datum &sysEvent) {
                     }
                     
                     if(fullPath.getBool()) {
-                        filename = bf::path(file.getString(), boost::filesystem::native);				
+                        filename = bf::path(file.getString());				
                     } else {
-                        filename = variablesDirectory / bf::path(appendFileExtension(filestring, ".xml"), bf::native);
+                        filename = variablesDirectory / bf::path(appendFileExtension(filestring, ".xml"));
                     }
 
                 } catch (std::exception& e){
@@ -266,10 +266,10 @@ void StandardSystemEventHandler::handleSystemEvent(const Datum &sysEvent) {
 			
 			bf::path filename;
 			if(fullPath.getBool()) {
-				filename = bf::path(file.getString(), boost::filesystem::native);				
+				filename = bf::path(file.getString());				
 			} else {
 				filename = (getExperimentSavedVariablesPath(GlobalCurrentExperiment->getExperimentDirectory()) /
-                            bf::path(appendFileExtension(file.getString(), ".xml"), bf::native));
+                            bf::path(appendFileExtension(file.getString(), ".xml")));
 			}
 			
 			VariableLoad::loadExperimentwideVariables(filename);

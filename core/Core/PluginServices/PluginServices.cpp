@@ -61,7 +61,7 @@ namespace mw {
 		directory_iterator end_itr; // default construction yields past-the-end
 		
 		for ( directory_iterator itr( dir_path ); itr != end_itr; ++itr ){
-			string plugin_name = itr->filename();
+			string plugin_name = itr->path().filename().string();
 			string plugin_name_stripped = 
 			plugin_name.substr(0, plugin_name.find_last_of("."));
 			//cerr << "Loading " << plugin_name_stripped.c_str() << endl;

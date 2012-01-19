@@ -216,5 +216,5 @@ std::string Experiment::getExperimentPath() {
 
 std::string Experiment::getExperimentDirectory() {
     namespace bf = boost::filesystem;
-    return bf::path(experimentPath, bf::native).filename();
+    return bf::path(experimentPath).filename().string();
 }
