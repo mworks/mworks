@@ -44,9 +44,9 @@ ParsedColorTrio::ParsedColorTrio(ComponentRegistry *reg, const std::string &colo
 
 RGBColor ParsedColorTrio::getValue() const {
     RGBColor color;
-    color.red = r->getValue().getFloat();
-    color.green = g->getValue().getFloat();
-    color.blue = b->getValue().getFloat();
+    color.red = getRedValue();
+    color.green = getGreenValue();
+    color.blue = getBlueValue();
     return color;
 }
 

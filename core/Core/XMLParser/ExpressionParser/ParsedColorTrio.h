@@ -38,6 +38,10 @@ public:
     VariablePtr getB() const { return b; }
     
     RGBColor getValue() const;
+    
+    double getRedValue() const { return r->getValue().getFloat(); }
+    double getGreenValue() const { return g->getValue().getFloat(); }
+    double getBlueValue() const { return b->getValue().getFloat(); }
 
 private:
     static const boost::regex color_regex;
