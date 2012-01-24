@@ -32,4 +32,49 @@
 #endif
 
 
+//
+// MW_OVERRIDE expands to the C++11 "override" keyword if the compiler supports it.  Otherwise, it expands to
+// nothing but still serves to document the override.
+//
+
+#if __clang__
+#  ifndef __has_extension
+#    define __has_extension __has_feature
+#  endif
+#  if __has_extension(cxx_override_control)
+#    define MW_OVERRIDE override
+#  endif
+#endif  // __clang__
+
+#ifndef MW_OVERRIDE
+#  define MW_OVERRIDE
 #endif
+
+
+#endif  // _MWORKS_MACROS_H
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
