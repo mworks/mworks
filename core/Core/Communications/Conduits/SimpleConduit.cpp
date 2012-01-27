@@ -30,10 +30,15 @@ bool SimpleConduit::initialize(){
     
     running = true;
     
-    // register to receive codec events
+    // register to receive control events
+    // this is needed to be able to handshake regarding time offsets
+    registerCallback(RESERVED_SYSTEM_EVENT_CODE, bind(&SimpleConduit::handleSystemEvent, this, _1));
     
     return true;
 }
+
+
+
 
 SimpleConduit::~SimpleConduit(){
     
@@ -106,6 +111,9 @@ void SimpleConduit::serviceIncomingEvents(){
             continue;
         }
         
+        // if a clock offset has been stored from the other side of the conduit, apply it here:
+        incoming_event->setTime( incoming_event->getTime() + remote_clock_offset ); 
+        
         handleCallbacks(incoming_event);
         
     }
@@ -148,16 +156,6 @@ void SimpleConduit::finalize(){
     
 }
 
-
-//void SimpleConduit::registerCallback(string event_name, EventCallback functor){
-//    int event_code = -1;
-//    
-//    // lookup event code
-//    
-//    registerCallback(event_code, functor);
-//    
-//    sendData(SystemEventFactory::setEventForwardingControl(event_name, true));
-//}
 
 
 // Send data to the other side.  It is assumed that both sides understand 

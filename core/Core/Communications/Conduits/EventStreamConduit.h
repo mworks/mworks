@@ -7,7 +7,7 @@
  *
  *
  *  An object that endeavors to seemlessly bridge between an 
- *  interprocess conduit (e.g. shared memory with another application)
+ *  interprocess conduit (e.g. shared memory with another process)
  *  on one side, and a MW event stream on the other
  *
  *  To achieve this, the object must be responsible for keeping track of

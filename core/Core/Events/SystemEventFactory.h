@@ -68,6 +68,8 @@ class SystemEventFactory {
     static shared_ptr<Event> setEventForwardingControl(std::string, bool);
     static shared_ptr<Event> requestVariablesUpdateControl();
     
+    static shared_ptr<Event> clockOffsetEvent(MWTime offset_value);
+    
     /*********************************************************
 		*          Response Package Events
 		********************************************************/ 

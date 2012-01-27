@@ -43,6 +43,7 @@ protected:
     
     boost::thread read_thread;
     MWTime conduit_idle_quantum_us;
+    MWTime remote_clock_offset;
         
 public:
 
@@ -68,7 +69,16 @@ public:
     virtual void sendData(int code, Datum data);
     virtual void sendData(shared_ptr<Event> evt);
     
+    // A special callback to handle important system events from the other side of the conduit
+    virtual void handleSystemEvent(shared_ptr<Event> evt){
+        Datum payload_type = evt->getData().getElement(M_SYSTEM_PAYLOAD_TYPE);
     
+        if((int)payload_type == M_CLOCK_OFFSET_EVENT){
+            fprintf(stderr, "Got clock offset event");
+            fflush(stderr);
+            remote_clock_offset = (MWTime)evt->getData().getElement(M_SYSTEM_PAYLOAD);
+        }
+    }
 
 };
 
