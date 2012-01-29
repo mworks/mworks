@@ -70,16 +70,8 @@ public:
     virtual void sendData(shared_ptr<Event> evt);
     
     // A special callback to handle important system events from the other side of the conduit
-    virtual void handleSystemEvent(shared_ptr<Event> evt){
-        Datum payload_type = evt->getData().getElement(M_SYSTEM_PAYLOAD_TYPE);
+    virtual void handleSystemEvent(shared_ptr<Event> evt);
     
-        if((int)payload_type == M_CLOCK_OFFSET_EVENT){
-            fprintf(stderr, "Got clock offset event");
-            fflush(stderr);
-            remote_clock_offset = (MWTime)evt->getData().getElement(M_SYSTEM_PAYLOAD);
-        }
-    }
-
 };
 
     

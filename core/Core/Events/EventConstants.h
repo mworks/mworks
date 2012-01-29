@@ -56,6 +56,7 @@ typedef enum {
     M_SET_EVENT_FORWARDING              = 3011,
     M_REQUEST_VARIABLES                 = 3012,
     M_CLOCK_OFFSET_EVENT                = 3013,
+    M_CONNECTED_EVENT                   = 3014,
     
 	// response messages
     M_DATA_FILE_OPENED                  = 4007,
