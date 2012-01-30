@@ -25,19 +25,16 @@ class Map : public std::map<std::string, ValueType> {
     
 public:
     //
-    // This looks redundant, but without it, the compiler always uses the
-    // const version of operator[], even with non-const objects
-    //
-    ValueType& operator[](const std::string &key) {
-        return std::map<std::string, ValueType>::operator[](key);
-    }
-    
-    //
     // This allows use of operator[] with const maps
     //
     const ValueType& operator[](const std::string &key) const {
         return std::map<std::string, ValueType>::at(key);
     }
+    
+    //
+    // Without this, the compiler will always use the const version of operator[], even with non-const objects
+    //
+    using std::map<std::string, ValueType>::operator[];
     
 };
 

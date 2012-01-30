@@ -230,7 +230,7 @@ namespace mw {
 		boost::filesystem::path full_path;
 		
 		try {
-			specific_path = boost::filesystem::path(path, boost::filesystem::native);
+			specific_path = boost::filesystem::path(path);
 		} catch(std::exception& e){
 			cerr << "bad path" << endl;
 		}
@@ -240,7 +240,7 @@ namespace mw {
 		} else {
 			try{
 				
-				boost::filesystem::path working_path(working_directory, boost::filesystem::native);
+				boost::filesystem::path working_path(working_directory);
 				full_path = working_path / specific_path;
 			} catch(std::exception& e){
 				cerr << "bad path" << endl;
@@ -388,7 +388,7 @@ namespace mw {
         for (bf::directory_iterator iter(dirPath); iter != endIter; iter++) {
             // Include only regular files whose names don't start with "."
             if (bf::is_regular_file(iter->status()) &&
-                (iter->path().filename().find(bf::dot<bf::path>::value) != 0))
+                (iter->path().filename().string().find(".") != 0))
             {
                 filePaths.push_back(iter->path().string());
             }

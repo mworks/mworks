@@ -1,0 +1,21 @@
+<?xml version="1.0" standalone="no"?>
+<monkeyml version="1.0">
+    <io_devices tag="IO Devices"></io_devices>
+    <variables tag="Variables">
+        <variable tag="arg1" scope="global" logging="when_changed" default_value="2" type="integer"></variable>
+        <variable tag="arg2" scope="global" logging="when_changed" default_value="3.0" type="float"></variable>
+        <variable tag="arg3" scope="global" logging="when_changed" default_value="six" type="string"></variable>
+        <variable tag="result" scope="global" logging="when_changed" default_value="(null)" type="string"></variable>
+    </variables>
+    <sounds tag="Sounds"></sounds>
+    <stimuli tag="Stimuli"></stimuli>
+    <filters tag="Filters"></filters>
+    <optimizers tag="Optimizers"></optimizers>
+    <experiment tag="New Experiment" full_name="" description="">
+        <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential">
+            <action type="assignment" tag="Assign Variable" variable="result" value="format(&quot;%d * %.1f = %s&quot;, arg1, arg2, arg3)"></action>
+            <action type="assert" tag="Assert" condition="result == &quot;2 * 3.0 = six&quot;" message="Unexpected result"></action>
+            <action type="report" tag="Report" message="Result: $result"></action>
+        </protocol>
+    </experiment>
+</monkeyml>

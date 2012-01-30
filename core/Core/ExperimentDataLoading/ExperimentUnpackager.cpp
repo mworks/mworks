@@ -28,11 +28,11 @@ ExperimentUnpackager::prependExperimentInstallPath(
 	namespace bf = boost::filesystem;
 	
     if(expname.empty() || experimentFilename.empty()) { 
-		return bf::path("", bf::native); 
+		return bf::path(""); 
 	}
 	
     bf::path exp_tmp_path = getLocalExperimentStorageDir(expname);
-    bf::path exp_path = exp_tmp_path /  bf::path(experimentFilename, bf::native);
+    bf::path exp_path = exp_tmp_path /  bf::path(experimentFilename);
     
     bf::create_directories(exp_tmp_path);
     
@@ -64,7 +64,7 @@ bool ExperimentUnpackager::unpackageExperiment(Datum payload) {
 	   experimentFileName.getStringLength() <= 0) 
 		return false;
 	
-	bf::path experimentName(experimentFileName.getString(), bf::native);
+	bf::path experimentName(experimentFileName.getString());
 	
 	loadedExperimentFilename = prependExperimentInstallPath(removeFileExtension(experimentName.string()),
 								experimentName.string());
@@ -146,7 +146,7 @@ bool ExperimentUnpackager::createFile(Datum filename, Datum buffer) {
 	if(buffer.getDataType() != M_STRING ||
 	   filename.getDataType() != M_STRING) return false;
     
-    boost::filesystem::path filePath(filename.getString(), boost::filesystem::native);
+    boost::filesystem::path filePath(filename.getString());
     boost::filesystem::create_directories(filePath.parent_path());
 	
     // create an output file.

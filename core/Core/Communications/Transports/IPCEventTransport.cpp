@@ -78,7 +78,7 @@ void IPCEventTransport::sendEvent(shared_ptr<Event> event){
 }
 
 
-shared_ptr<Event> IPCEventTransport::deserializeEvent(const char *receive_buffer, size_t& received_size){
+shared_ptr<Event> IPCEventTransport::deserializeEvent(const char *receive_buffer, message_queue_size_type& received_size){
     
     string incoming_data(receive_buffer, received_size);
     input_stream.str(incoming_data);
@@ -92,7 +92,7 @@ shared_ptr<Event> IPCEventTransport::deserializeEvent(const char *receive_buffer
 
 shared_ptr<Event> IPCEventTransport::receiveEvent(){
     
-    size_t received_size = 0;
+    message_queue_size_type received_size = 0;
     unsigned int priority = QUEUE_PRIORITY;
     char *receive_buffer[MAX_MESSAGE_SIZE];
     
@@ -101,7 +101,7 @@ shared_ptr<Event> IPCEventTransport::receiveEvent(){
     }
     
     try{
-        incoming_queue->receive((void *)receive_buffer, MAX_MESSAGE_SIZE, (size_t&) received_size, (unsigned int&)priority);
+        incoming_queue->receive((void *)receive_buffer, MAX_MESSAGE_SIZE, received_size, priority);
     } catch(std::exception& e){
         cerr << "Error receiving on incoming queue: " << e.what() << endl;
     }
@@ -114,7 +114,7 @@ shared_ptr<Event> IPCEventTransport::receiveEvent(){
 
 shared_ptr<Event> IPCEventTransport::receiveEventAsynchronous(){
     
-    size_t received_size = 0;
+    message_queue_size_type received_size = 0;
     unsigned int priority = QUEUE_PRIORITY;
     char receive_buffer[MAX_MESSAGE_SIZE];
     
@@ -124,7 +124,7 @@ shared_ptr<Event> IPCEventTransport::receiveEventAsynchronous(){
     
     bool okayp = true;
     try{
-        okayp = incoming_queue->try_receive((void *)receive_buffer, MAX_MESSAGE_SIZE, (size_t&) received_size, (unsigned int&)priority);
+        okayp = incoming_queue->try_receive((void *)receive_buffer, MAX_MESSAGE_SIZE, received_size, priority);
     } catch(std::exception& e){
         cerr << "Error receiving on incoming queue: " << e.what() << endl;
     }
@@ -142,7 +142,7 @@ shared_ptr<Event> IPCEventTransport::receiveEventAsynchronous(){
 
 // Get an event if one is available; otherwise, release the lock and try again
 shared_ptr<Event> IPCEventTransport::receiveEventNoLock(){
-    size_t received_size = 0;
+    message_queue_size_type received_size = 0;
     unsigned int priority = QUEUE_PRIORITY;
     char *receive_buffer[MAX_MESSAGE_SIZE];
     
@@ -152,8 +152,8 @@ shared_ptr<Event> IPCEventTransport::receiveEventNoLock(){
         do {
             okayp = incoming_queue->timed_receive((void *)receive_buffer, 
                                                   MAX_MESSAGE_SIZE, 
-                                                  (size_t&) received_size, 
-                                                  (unsigned int&)priority,
+                                                  received_size, 
+                                                  priority,
                                                   boost::posix_time::microsec_clock::local_time() + boost::posix_time::microseconds(1000));
         } while(!okayp);
         

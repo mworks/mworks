@@ -17,7 +17,7 @@
 #undef seed
 #endif
 
-#include <boost/random.hpp>
+#include <boost/random/mersenne_twister.hpp>
 namespace mw {
 
 typedef	boost::mt19937	random_generator;

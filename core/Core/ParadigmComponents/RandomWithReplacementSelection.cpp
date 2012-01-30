@@ -9,6 +9,8 @@
 
 #include "RandomWithReplacementSelection.h"
 #include "Clock.h"
+#include <boost/random/uniform_int.hpp>
+#include <boost/random/variate_generator.hpp>
 using namespace mw;
 
 
