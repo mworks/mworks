@@ -19,7 +19,7 @@ BOOST_PYTHON_MODULE(_conduit)
     
     PyEval_InitThreads();
     
-    class_<PythonIPCServerConduit>("_IPCServerConduit", init<std::string>())
+    class_<PythonIPCServerConduit>("_IPCServerConduit", init<std::string, bool>())
     .def("_initialize", &PythonIPCServerConduit::initialize)
     .def("finalize", &PythonIPCServerConduit::finalize)
     .def("send_float", &PythonIPCServerConduit::sendFloat)
@@ -33,7 +33,7 @@ BOOST_PYTHON_MODULE(_conduit)
     .add_property("initialized", &PythonIPCServerConduit::isInitialized)
     ;
     
-    class_<PythonIPCClientConduit>("_IPCClientConduit", init<std::string>())
+    class_<PythonIPCClientConduit>("_IPCClientConduit", init<std::string, bool>())
     .def("_initialize", &PythonIPCClientConduit::initialize)
     .def("finalize", &PythonIPCClientConduit::finalize)
     .def("send_float", &PythonIPCClientConduit::sendFloat)

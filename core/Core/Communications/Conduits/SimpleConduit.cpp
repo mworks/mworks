@@ -13,9 +13,14 @@
 
 using namespace mw;
 
-SimpleConduit::SimpleConduit(shared_ptr<EventTransport> _transport, long _conduit_idle_quantum) :  Conduit(_transport), EventCallbackHandler(true){ 
-    conduit_idle_quantum_us = _conduit_idle_quantum;
-}
+SimpleConduit::SimpleConduit(shared_ptr<EventTransport> _transport, 
+                             bool _correct_incoming_timestamps,
+                             long _conduit_idle_quantum) :  
+    Conduit(_transport), 
+    EventCallbackHandler(true),
+    correct_incoming_timestamps(correct_incoming_timestamps),
+    conduit_idle_quantum_us(_conduit_idle_quantum)
+{ }
 
 // Start the conduit working
 bool SimpleConduit::initialize(){ 
@@ -115,14 +120,12 @@ void SimpleConduit::serviceIncomingEvents(){
         }
         
         
-        // if a clock offset has been stored from the other side of the conduit, apply it here:
-        incoming_event->setTime( incoming_event->getTime() - remote_clock_offset ); 
-
-        MWTime adj_time = incoming_event->getTime();
-        
-        
-
-        
+        if(correct_incoming_timestamps){
+            // if a clock offset has been stored from the other side of the conduit 
+            // apply the offset here:
+            incoming_event->setTime( incoming_event->getTime() - remote_clock_offset ); 
+        }
+                
         handleCallbacks(incoming_event);
         
     }

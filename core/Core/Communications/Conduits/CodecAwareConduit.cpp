@@ -11,8 +11,12 @@
 #include "SystemEventFactory.h"
 #include "StandardVariables.h"
 
-CodecAwareConduit::CodecAwareConduit(shared_ptr<EventTransport> _transport) : SimpleConduit(_transport){  
-    local_codec_code_counter = 0;
+CodecAwareConduit::CodecAwareConduit(shared_ptr<EventTransport> _transport,
+                                     bool correct_incoming_timestamps) : 
+    SimpleConduit(_transport, correct_incoming_timestamps),
+    local_codec_code_counter(0)
+{  
+
 }
 
 

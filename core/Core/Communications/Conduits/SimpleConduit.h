@@ -44,10 +44,14 @@ protected:
     boost::thread read_thread;
     MWTime conduit_idle_quantum_us;
     MWTime remote_clock_offset;
+    bool correct_incoming_timestamps;
         
 public:
 
-    SimpleConduit(shared_ptr<EventTransport> _transport, long _conduit_idle_quantum_us = DEFAULT_CONDUIT_IDLE_QUANTUM);
+
+    SimpleConduit(shared_ptr<EventTransport> _transport, 
+                  bool _correct_incoming_timestamps = true, 
+                  long _conduit_idle_quantum_us = DEFAULT_CONDUIT_IDLE_QUANTUM);
     
     virtual ~SimpleConduit();
 
