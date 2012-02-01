@@ -10,22 +10,23 @@
 #ifndef STIMULUS_DISPLAY_H_
 #define STIMULUS_DISPLAY_H_
 
+#include <map>
+#include <vector>
+
 #include <OpenGL/gl.h>
 #include <OpenGL/glu.h>
-
 #include <CoreVideo/CVDisplayLink.h>
 
+#include <boost/noncopyable.hpp>
+#include <boost/enable_shared_from_this.hpp>
+#include <boost/shared_ptr.hpp>
+#include <boost/weak_ptr.hpp>
+#include <boost/thread/mutex.hpp>
+#include <boost/thread/condition_variable.hpp>
 
 #include "Clock.h"
 #include "LinkedList.h"
-#include <vector>
-#include "boost/enable_shared_from_this.hpp"
 
-#include <boost/shared_ptr.hpp>
-#include <boost/weak_ptr.hpp>
-#include <boost/thread/shared_mutex.hpp>
-#include <boost/thread/barrier.hpp>
-#include <boost/thread/condition_variable.hpp>
 
 namespace mw {
 	using namespace boost;
@@ -62,7 +63,7 @@ namespace mw {
 		
   
 	
-	class StimulusDisplay : public enable_shared_from_this<StimulusDisplay> {
+	class StimulusDisplay : public enable_shared_from_this<StimulusDisplay>, boost::noncopyable {
     protected:
         std::vector<int> context_ids;
 		int current_context_index;
@@ -72,7 +73,7 @@ namespace mw {
         shared_ptr<OpenGLContextManager> opengl_context_manager;
 		
 		boost::mutex display_lock;
-        typedef boost::unique_lock<boost::mutex> unique_lock;
+        typedef boost::mutex::scoped_lock unique_lock;
         boost::condition_variable refreshCond;
         bool waitingForRefresh;
 
@@ -87,6 +88,15 @@ namespace mw {
         
         std::vector< shared_ptr<StimulusNode> > stimsToAnnounce;
         std::vector<Datum> stimAnnouncements;
+        
+        const bool drawEveryFrame;
+        std::map<int, GLuint> framebuffers;
+        std::map<int, GLuint> renderbuffers;
+        std::map<int, GLint> bufferWidths, bufferHeights;
+        
+        void allocateBufferStorage(int contextIndex);
+        void storeBackBuffer(int contextIndex);
+        void drawStoredBuffer(int contextIndex);
 		
         void glInit();
 		void setDisplayBounds();
@@ -108,7 +118,7 @@ namespace mw {
 		
     public:
 		
-		StimulusDisplay();
+		explicit StimulusDisplay(bool drawEveryFrame);
 		~StimulusDisplay();
 		
 		void addContext(int _context_id);
@@ -128,11 +138,6 @@ namespace mw {
         MWTime getCurrentOutputTimeUS() const { return currentOutputTimeUS; }
         
         static shared_ptr<StimulusDisplay> getCurrentStimulusDisplay();
-		
-		
-	private:
-        StimulusDisplay(const StimulusDisplay& s) { }
-        void operator=(const StimulusDisplay& l) { }
 	};
 }
 #endif

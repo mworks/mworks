@@ -30,8 +30,9 @@ BEGIN_NAMESPACE_MW
 /**********************************************************************
  *                  StimulusDisplay Methods
  **********************************************************************/
-StimulusDisplay::StimulusDisplay() :
-    currentOutputTimeUS(-1)
+StimulusDisplay::StimulusDisplay(bool drawEveryFrame) :
+    currentOutputTimeUS(-1),
+    drawEveryFrame(drawEveryFrame)
 {
     current_context_index = -1;
 
@@ -147,7 +148,77 @@ double StimulusDisplay::getMainDisplayRefreshRate() {
 
 void StimulusDisplay::addContext(int _context_id){
 	context_ids.push_back(_context_id);
+    
+    if (drawEveryFrame) {
+        int contextIndex = getNContexts() - 1;
+        setCurrent(contextIndex);
+        allocateBufferStorage(contextIndex);
+    }
 }
+
+
+void StimulusDisplay::allocateBufferStorage(int contextIndex) {
+    if (!(glewIsSupported("GL_EXT_framebuffer_object") && glewIsSupported("GL_EXT_framebuffer_blit"))) {
+        throw SimpleException("renderer does not support required OpenGL framebuffer extensions");
+    }
+    
+    glGenFramebuffersEXT(1, &framebuffers[contextIndex]);
+    glBindFramebufferEXT(GL_DRAW_FRAMEBUFFER_EXT, framebuffers[contextIndex]);
+    
+    glGenRenderbuffersEXT(1, &renderbuffers[contextIndex]);
+    glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, renderbuffers[contextIndex]);
+    
+    getCurrentViewportSize(bufferWidths[contextIndex], bufferHeights[contextIndex]);
+    glRenderbufferStorageEXT(GL_RENDERBUFFER_EXT, GL_RGBA8, bufferWidths[contextIndex], bufferHeights[contextIndex]);
+    
+    glFramebufferRenderbufferEXT(GL_DRAW_FRAMEBUFFER_EXT,
+                                 GL_COLOR_ATTACHMENT0_EXT,
+                                 GL_RENDERBUFFER_EXT,
+                                 renderbuffers[contextIndex]);
+    
+    GLenum status = glCheckFramebufferStatusEXT(GL_DRAW_FRAMEBUFFER_EXT);
+    if (GL_FRAMEBUFFER_COMPLETE_EXT != status) {
+        throw SimpleException("OpenGL framebuffer setup failed");
+    }
+    
+    glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
+    glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, 0);
+}
+
+
+void StimulusDisplay::storeBackBuffer(int contextIndex) {
+    glBindFramebufferEXT(GL_READ_FRAMEBUFFER_EXT, 0);
+    glReadBuffer(GL_BACK_LEFT);
+    
+    glBindFramebufferEXT(GL_DRAW_FRAMEBUFFER_EXT, framebuffers[contextIndex]);
+    GLenum drawBuffers[] = { GL_COLOR_ATTACHMENT0 };
+    glDrawBuffers(1, drawBuffers);
+    
+    glBlitFramebufferEXT(0, 0, bufferWidths[contextIndex], bufferHeights[contextIndex],
+                         0, 0, bufferWidths[contextIndex], bufferHeights[contextIndex],
+                         GL_COLOR_BUFFER_BIT,
+                         GL_LINEAR);
+    
+    glBindFramebufferEXT(GL_DRAW_FRAMEBUFFER_EXT, 0);
+}
+
+
+void StimulusDisplay::drawStoredBuffer(int contextIndex) {
+    glBindFramebufferEXT(GL_READ_FRAMEBUFFER_EXT, framebuffers[contextIndex]);
+    glReadBuffer(GL_COLOR_ATTACHMENT0);
+    
+    glBindFramebufferEXT(GL_DRAW_FRAMEBUFFER_EXT, 0);
+    GLenum drawBuffers[] = { GL_BACK_LEFT };
+    glDrawBuffers(1, drawBuffers);
+    
+    glBlitFramebufferEXT(0, 0, bufferWidths[contextIndex], bufferHeights[contextIndex],
+                         0, 0, bufferWidths[contextIndex], bufferHeights[contextIndex],
+                         GL_COLOR_BUFFER_BIT,
+                         GL_LINEAR);
+    
+    glBindFramebufferEXT(GL_READ_FRAMEBUFFER_EXT, 0);
+}
+
 
 void StimulusDisplay::getCurrentViewportSize(GLint &width, GLint &height) {
     GLint viewport[4];
@@ -284,7 +355,7 @@ void StimulusDisplay::refreshDisplay() {
         }
     }
 
-    if (!(needDraw || M_DRAW_EVERY_FRAME)) {
+    if (!(needDraw || drawEveryFrame)) {
         return;
     }
 
@@ -292,34 +363,28 @@ void StimulusDisplay::refreshDisplay() {
     // Draw stimuli
     //
     
-    if (context_ids.size() > 0) {
-        for (int i = 0; i < context_ids.size(); i++) {
-            setCurrent(i);
-            
-            if (i != 0) {
-                
-                // Non-main display
-                
-                if (needDraw) {
-                    drawDisplayStack(false);
-                }
-                
-                opengl_context_manager->updateAndFlush(i);
-                
-            } else {
-                
-                // Main display
-                
-                if (needDraw) {
-                    drawDisplayStack(true);
-                }
-                
-                opengl_context_manager->flush(i);
-                
-                if (needDraw) {
-                    announceDisplayUpdate();
-                }
-                
+    for (int i = 0; i < getNContexts(); i++) {
+        setCurrent(i);
+        
+        if (!needDraw) {
+            if (drawEveryFrame) {
+                drawStoredBuffer(i);
+            }
+        } else {
+            drawDisplayStack(i == 0);
+            if (drawEveryFrame) {
+                storeBackBuffer(i);
+            }
+        }
+        
+        if (i != 0) {
+            // Non-main display
+            opengl_context_manager->updateAndFlush(i);
+        } else {
+            // Main display
+            opengl_context_manager->flush(i);
+            if (needDraw) {
+                announceDisplayUpdate();
             }
         }
     }
