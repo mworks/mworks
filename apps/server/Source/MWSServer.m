@@ -175,8 +175,7 @@
     [save setCanCreateDirectories:NO];
     if([save runModalForDirectory:nil file:nil] ==
 	   NSFileHandlingPanelOKButton)  {
-		core->saveVariables(boost::filesystem::path([[save filename] cStringUsingEncoding:NSASCIIStringEncoding], 
-													boost::filesystem::native));
+		core->saveVariables(boost::filesystem::path([[save filename] cStringUsingEncoding:NSASCIIStringEncoding]));
     }
 	
 	[save release];	
@@ -194,8 +193,7 @@
         NSEnumerator * fileEnum = [fn objectEnumerator];
         NSString * filename;
         while(filename = [fileEnum nextObject]) {			
-			core->loadVariables(boost::filesystem::path([filename cStringUsingEncoding:NSASCIIStringEncoding], 
-														boost::filesystem::native));
+			core->loadVariables(boost::filesystem::path([filename cStringUsingEncoding:NSASCIIStringEncoding]));
         }
     }
 	

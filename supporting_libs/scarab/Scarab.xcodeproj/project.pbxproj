@@ -7,17 +7,6 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
-		0E121BA20E6B1A86007B29B8 /* ScarabUninstall */ = {
-			isa = PBXAggregateTarget;
-			buildConfigurationList = 0E121BA60E6B1ABE007B29B8 /* Build configuration list for PBXAggregateTarget "ScarabUninstall" */;
-			buildPhases = (
-				0E121BA10E6B1A86007B29B8 /* ShellScript */,
-			);
-			dependencies = (
-			);
-			name = ScarabUninstall;
-			productName = CleanScarab;
-		};
 		5C0CD7E9114A87D400B1C674 /* Everything */ = {
 			isa = PBXAggregateTarget;
 			buildConfigurationList = 5C0CD7F5114A87E000B1C674 /* Build configuration list for PBXAggregateTarget "Everything" */;
@@ -32,7 +21,6 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		0E1381D00A8937B300E1285E /* mem_simple.c in Sources */ = {isa = PBXBuildFile; fileRef = 5C5164A60A7012600034E68E /* mem_simple.c */; };
 		0ECA4C7B0D6DFF7D00BD00B2 /* encoding_ldo.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CF4DECC0591EAD9002A02B7 /* encoding_ldo.h */; };
 		0ECA4C7C0D6DFF7D00BD00B2 /* scarab.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CF4DEDA0591EAD9002A02B7 /* scarab.h */; };
 		0ECA4C7D0D6DFF7D00BD00B2 /* scarab_datatypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CF4DED40591EAD9002A02B7 /* scarab_datatypes.h */; };
@@ -54,27 +42,6 @@
 		0ECA4C8D0D6DFF8600BD00B2 /* stream_tcpip.c in Sources */ = {isa = PBXBuildFile; fileRef = 5CF4DEDD0591EAD9002A02B7 /* stream_tcpip.c */; };
 		0ECA4C8E0D6DFF8600BD00B2 /* stream_tcpip_buffered.c in Sources */ = {isa = PBXBuildFile; fileRef = 5C50306E0A67ED5700EB7EE2 /* stream_tcpip_buffered.c */; };
 		0ECA4C8F0D6DFF8600BD00B2 /* stream_tcpip_select.c in Sources */ = {isa = PBXBuildFile; fileRef = DA30B60508AA8A7F000988AD /* stream_tcpip_select.c */; };
-		5C4BDD8F09E258FC008B8AB7 /* comp.c in Sources */ = {isa = PBXBuildFile; fileRef = 5CF4DEC90591EAD9002A02B7 /* comp.c */; };
-		5C4BDD9009E258FD008B8AB7 /* data.c in Sources */ = {isa = PBXBuildFile; fileRef = 5CF4DECA0591EAD9002A02B7 /* data.c */; };
-		5C4BDD9109E258FE008B8AB7 /* encoding_ldo.c in Sources */ = {isa = PBXBuildFile; fileRef = 5CF4DECB0591EAD9002A02B7 /* encoding_ldo.c */; };
-		5C4BDD9209E258FF008B8AB7 /* encoding_ldo.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CF4DECC0591EAD9002A02B7 /* encoding_ldo.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5C4BDD9309E25901008B8AB7 /* hashtable.c in Sources */ = {isa = PBXBuildFile; fileRef = 5CF4DECD0591EAD9002A02B7 /* hashtable.c */; };
-		5C4BDD9409E25904008B8AB7 /* list.c in Sources */ = {isa = PBXBuildFile; fileRef = 5CF4DECE0591EAD9002A02B7 /* list.c */; };
-		5C4BDD9609E25906008B8AB7 /* os_unix.c in Sources */ = {isa = PBXBuildFile; fileRef = 5CF4DED20591EAD9002A02B7 /* os_unix.c */; };
-		5C4BDD9709E2590B008B8AB7 /* Scarab-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5C4BDD8809E258B4008B8AB7 /* Scarab-Info.plist */; };
-		5C4BDD9A09E25913008B8AB7 /* scarab.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CF4DEDA0591EAD9002A02B7 /* scarab.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5C4BDD9B09E25914008B8AB7 /* scarab_datatypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CF4DED40591EAD9002A02B7 /* scarab_datatypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5C4BDD9C09E25915008B8AB7 /* scarab_dict.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CF4DED50591EAD9002A02B7 /* scarab_dict.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5C4BDD9D09E25915008B8AB7 /* scarab_list.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CF4DED60591EAD9002A02B7 /* scarab_list.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5C4BDD9E09E25916008B8AB7 /* scarab_mem.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CF4DED70591EAD9002A02B7 /* scarab_mem.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5C4BDD9F09E2591A008B8AB7 /* scarab_os.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CF4DED80591EAD9002A02B7 /* scarab_os.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5C4BDDA009E2591A008B8AB7 /* scarab_utilities.c in Sources */ = {isa = PBXBuildFile; fileRef = 5C4FDA2A059D199E00BC36A7 /* scarab_utilities.c */; };
-		5C4BDDA109E2591B008B8AB7 /* scarab_utilities.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C4FDA2C059D1B1000BC36A7 /* scarab_utilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5C4BDDA209E2591E008B8AB7 /* session.c in Sources */ = {isa = PBXBuildFile; fileRef = 5CF4DEDB0591EAD9002A02B7 /* session.c */; };
-		5C4BDDA309E2591F008B8AB7 /* stream_file.c in Sources */ = {isa = PBXBuildFile; fileRef = 5CF4DEDC0591EAD9002A02B7 /* stream_file.c */; };
-		5C4BDDA409E25921008B8AB7 /* stream_tcpip.c in Sources */ = {isa = PBXBuildFile; fileRef = 5CF4DEDD0591EAD9002A02B7 /* stream_tcpip.c */; };
-		5C4BDDA509E25922008B8AB7 /* stream_tcpip_select.c in Sources */ = {isa = PBXBuildFile; fileRef = DA30B60508AA8A7F000988AD /* stream_tcpip_select.c */; };
-		5C50306F0A67ED5700EB7EE2 /* stream_tcpip_buffered.c in Sources */ = {isa = PBXBuildFile; fileRef = 5C50306E0A67ED5700EB7EE2 /* stream_tcpip_buffered.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -96,7 +63,6 @@
 		5C4FDA2C059D1B1000BC36A7 /* scarab_utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = scarab_utilities.h; path = "Scarab-0.1.00d19/c/scarab_utilities.h"; sourceTree = SOURCE_ROOT; };
 		5C50306E0A67ED5700EB7EE2 /* stream_tcpip_buffered.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = stream_tcpip_buffered.c; path = "Scarab-0.1.00d19/c/stream_tcpip_buffered.c"; sourceTree = "<group>"; };
 		5C5164A60A7012600034E68E /* mem_simple.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = mem_simple.c; path = "Scarab-0.1.00d19/c/mem_simple.c"; sourceTree = "<group>"; };
-		5CD3C8020ACAC50E00721B15 /* Scarab.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Scarab.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5CF4DEC90591EAD9002A02B7 /* comp.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = comp.c; path = "Scarab-0.1.00d19/c/comp.c"; sourceTree = SOURCE_ROOT; };
 		5CF4DECA0591EAD9002A02B7 /* data.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = data.c; path = "Scarab-0.1.00d19/c/data.c"; sourceTree = SOURCE_ROOT; };
 		5CF4DECB0591EAD9002A02B7 /* encoding_ldo.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = encoding_ldo.c; path = "Scarab-0.1.00d19/c/encoding_ldo.c"; sourceTree = SOURCE_ROOT; };
@@ -120,13 +86,6 @@
 
 /* Begin PBXFrameworksBuildPhase section */
 		0ECA4C720D6DFF4400BD00B2 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		5C4BDD8509E258B4008B8AB7 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -180,7 +139,6 @@
 		5CF4DEB40591EA4B002A02B7 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				5CD3C8020ACAC50E00721B15 /* Scarab.framework */,
 				0ECA4C740D6DFF4400BD00B2 /* libscarab.a */,
 			);
 			name = Products;
@@ -204,21 +162,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		5C4BDD8209E258B4008B8AB7 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				5C4BDD9209E258FF008B8AB7 /* encoding_ldo.h in Headers */,
-				5C4BDD9A09E25913008B8AB7 /* scarab.h in Headers */,
-				5C4BDD9B09E25914008B8AB7 /* scarab_datatypes.h in Headers */,
-				5C4BDD9C09E25915008B8AB7 /* scarab_dict.h in Headers */,
-				5C4BDD9D09E25915008B8AB7 /* scarab_list.h in Headers */,
-				5C4BDD9E09E25916008B8AB7 /* scarab_mem.h in Headers */,
-				5C4BDD9F09E2591A008B8AB7 /* scarab_os.h in Headers */,
-				5C4BDDA109E2591B008B8AB7 /* scarab_utilities.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
@@ -239,25 +182,6 @@
 			productName = libscarab.a;
 			productReference = 0ECA4C740D6DFF4400BD00B2 /* libscarab.a */;
 			productType = "com.apple.product-type.library.static";
-		};
-		5C4BDD8609E258B4008B8AB7 /* Scarab */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 5C4BDD8909E258B5008B8AB7 /* Build configuration list for PBXNativeTarget "Scarab" */;
-			buildPhases = (
-				5C4BDD8209E258B4008B8AB7 /* Headers */,
-				5C4BDD8309E258B4008B8AB7 /* Resources */,
-				5C4BDD8409E258B4008B8AB7 /* Sources */,
-				5C4BDD8509E258B4008B8AB7 /* Frameworks */,
-				5C4BDDC309E25B98008B8AB7 /* ShellScript */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = Scarab;
-			productName = Scarab;
-			productReference = 5CD3C8020ACAC50E00721B15 /* Scarab.framework */;
-			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
 
@@ -283,54 +207,15 @@
 			projectRoot = "";
 			targets = (
 				0ECA4C730D6DFF4400BD00B2 /* libscarab.a */,
-				5C4BDD8609E258B4008B8AB7 /* Scarab */,
-				0E121BA20E6B1A86007B29B8 /* ScarabUninstall */,
 				5C0CD7E9114A87D400B1C674 /* Everything */,
 			);
 		};
 /* End PBXProject section */
 
-/* Begin PBXResourcesBuildPhase section */
-		5C4BDD8309E258B4008B8AB7 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				5C4BDD9709E2590B008B8AB7 /* Scarab-Info.plist in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXResourcesBuildPhase section */
-
 /* Begin PBXShellScriptBuildPhase section */
-		0E121BA10E6B1A86007B29B8 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# shell script goes here\nrm -rf /Library/Frameworks/Scarab.framework\nrm -rf /Library/MWorks/include/Scarab\nrm -f /Library/MWorks/lib/libscarab.a\n\nexit 0";
-		};
 		0ECA4C910D6DFFB100BD00B2 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 8;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 1;
-			shellPath = /bin/zsh;
-			shellScript = "# strip off quotes\nexport LIB_DIR=$MW_LIB_DIR_UNQUOTED\nexport INCLUDE_DIR=$MW_INCLUDE_DIR_UNQUOTED\n\necho $LIB_DIR\necho $INCLUDE_DIR\n\n\n# Ensure that things are there, even on the first run\nmkdir -p \"${LIB_DIR}\"\ntouch \"${LIB_DIR}/libscarab.a\"\n\n# Remove the existing library\nrm -Rf \"${LIB_DIR}/libscarab.a\"\n\n# Copy the newly compiled library to install location\necho cp -Rf \"$BUILT_PRODUCTS_DIR/libscarab.a\" \"${LIB_DIR}/\"\ncp -Rf \"$BUILT_PRODUCTS_DIR/libscarab.a\" \"${LIB_DIR}/\"\n\n# Create a directory for headers\nmkdir -p \"${INCLUDE_DIR}/Scarab\"\n\n# Copy headers into the include directory\ncp -p \"${PROJECT_DIR}/Scarab-0.1.00d19/c\"/*.h \"${INCLUDE_DIR}/Scarab\"\n\n\n\n\n\n";
-		};
-		5C4BDDC309E25B98008B8AB7 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 12;
 			files = (
 			);
 			inputPaths = (
@@ -338,8 +223,8 @@
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# copy the framework to the proper directory\nrm -dfR \"/Library/Frameworks/Scarab.framework\"\ncp -Rf \"$BUILT_PRODUCTS_DIR/Scarab.framework\" \"/Library/Frameworks\"\n\n\n";
+			shellPath = /bin/zsh;
+			shellScript = "# strip off quotes\nexport LIB_DIR=$MW_LIB_DIR_UNQUOTED\nexport INCLUDE_DIR=$MW_INCLUDE_DIR_UNQUOTED\n\necho $LIB_DIR\necho $INCLUDE_DIR\n\n\n# Ensure that things are there, even on the first run\nmkdir -p \"${LIB_DIR}\"\ntouch \"${LIB_DIR}/libscarab.a\"\n\n# Remove the existing library\nrm -Rf \"${LIB_DIR}/libscarab.a\"\n\n# Copy the newly compiled library to install location\necho cp -Rf \"$BUILT_PRODUCTS_DIR/libscarab.a\" \"${LIB_DIR}/\"\ncp -Rf \"$BUILT_PRODUCTS_DIR/libscarab.a\" \"${LIB_DIR}/\"\n\n# Create a directory for headers\nmkdir -p \"${INCLUDE_DIR}/Scarab\"\n\n# Copy headers into the include directory\ncp -p \"${PROJECT_DIR}/Scarab-0.1.00d19/c\"/*.h \"${INCLUDE_DIR}/Scarab\"\n\n\n\n\n\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -364,26 +249,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		5C4BDD8409E258B4008B8AB7 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				0E1381D00A8937B300E1285E /* mem_simple.c in Sources */,
-				5C4BDD8F09E258FC008B8AB7 /* comp.c in Sources */,
-				5C4BDD9009E258FD008B8AB7 /* data.c in Sources */,
-				5C4BDD9109E258FE008B8AB7 /* encoding_ldo.c in Sources */,
-				5C4BDD9309E25901008B8AB7 /* hashtable.c in Sources */,
-				5C4BDD9409E25904008B8AB7 /* list.c in Sources */,
-				5C4BDD9609E25906008B8AB7 /* os_unix.c in Sources */,
-				5C4BDDA009E2591A008B8AB7 /* scarab_utilities.c in Sources */,
-				5C4BDDA209E2591E008B8AB7 /* session.c in Sources */,
-				5C4BDDA309E2591F008B8AB7 /* stream_file.c in Sources */,
-				5C4BDDA409E25921008B8AB7 /* stream_tcpip.c in Sources */,
-				5C4BDDA509E25922008B8AB7 /* stream_tcpip_select.c in Sources */,
-				5C50306F0A67ED5700EB7EE2 /* stream_tcpip_buffered.c in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -395,24 +260,9 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		0E121BA30E6B1A87007B29B8 /* Development */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = ScarabUninstall;
-			};
-			name = Development;
-		};
 		0ECA4C750D6DFF4400BD00B2 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				DEPLOYMENT_LOCATION = NO;
-				DEPLOYMENT_POSTPROCESSING = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				INSTALL_GROUP = "$(GROUP)";
-				INSTALL_OWNER = "$(USER)";
-				INSTALL_PATH = "/Library/Application Support/MWorks/Developer";
-				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				PRODUCT_NAME = scarab;
 			};
 			name = Development;
@@ -427,40 +277,6 @@
 			};
 			name = Development;
 		};
-		5C4BDD8A09E258B5008B8AB7 /* Development */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = (
-					ppc,
-					i386,
-				);
-				COPY_PHASE_STRIP = NO;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				FRAMEWORK_VERSION = A;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
-				GCC_MODEL_TUNING = G5;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = NO;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
-				GENERATE_PROFILING_CODE = YES;
-				INFOPLIST_FILE = "Scarab-Info.plist";
-				INSTALL_PATH = /Library/Frameworks;
-				OTHER_CFLAGS = "-DBUILD_SCARAB_FRAMEWORK";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-				);
-				PRODUCT_NAME = Scarab;
-				STRIP_INSTALLED_PRODUCT = NO;
-				ZERO_LINK = NO;
-			};
-			name = Development;
-		};
 		DA2B5971089814BA0071B527 /* Development */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5C0CD7D8114A877B00B1C674 /* Development.xcconfig */;
@@ -471,14 +287,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		0E121BA60E6B1ABE007B29B8 /* Build configuration list for PBXAggregateTarget "ScarabUninstall" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				0E121BA30E6B1A87007B29B8 /* Development */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
-		};
 		0ECA4C980D6DFFB500BD00B2 /* Build configuration list for PBXNativeTarget "libscarab.a" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -491,14 +299,6 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5C0CD7EA114A87D400B1C674 /* Development */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
-		};
-		5C4BDD8909E258B5008B8AB7 /* Build configuration list for PBXNativeTarget "Scarab" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				5C4BDD8A09E258B5008B8AB7 /* Development */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;

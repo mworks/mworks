@@ -37,7 +37,7 @@ void mw::XMLParserTestFixture::setUp() {
 	
 	ostringstream oss;
 	oss << "/tmp/XMLParserTest" << rand() << ".xml";
-	temp_xml_file_path = boost::filesystem::path(oss.str(), boost::filesystem::native);
+	temp_xml_file_path = boost::filesystem::path(oss.str());
 	
 }
 

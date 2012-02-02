@@ -454,9 +454,9 @@ shared_ptr<Event> SystemEventFactory::currentExperimentState() {
 				  itr != end_itr;
 				  ++itr ) {
 				
-				if (fileExtension(itr->filename()) == "xml")
+				if (fileExtension(itr->path().filename().string()) == "xml")
 				{
-					savedVarList.addElement(removeFileExtension(itr->filename()));
+					savedVarList.addElement(removeFileExtension(itr->path().filename().string()));
 				}
 			}
 			

@@ -468,7 +468,7 @@ void XMLParser::_generateListReplicatorFilenames(xmlNode *node, vector<string> &
     int numMatches = 0;
 
     for (int i = 0; i < globResults.gl_pathc; i++) {
-        bf::path filePath(globResults.gl_pathv[i], bf::native);
+        bf::path filePath(globResults.gl_pathv[i]);
         values.push_back(filePath.string());
         numMatches++;
     }
@@ -628,7 +628,7 @@ std::string XMLParser::getWorkingPathString(){
 	try{
 		std::string escaped_path_string = path;
 		//boost::replace_all(escaped_path_string, " ", "\\ ");
-		boost::filesystem::path the_path(escaped_path_string, boost::filesystem::native);
+		boost::filesystem::path the_path(escaped_path_string);
 		boost::filesystem::path the_branch = the_path.branch_path();
 		std::string branch_string = the_branch.string();
 		

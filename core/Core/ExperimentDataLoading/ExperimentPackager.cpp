@@ -96,7 +96,7 @@ Datum ExperimentPackager::packageExperiment(const boost::filesystem::path filena
 			
 			bf::path mediaPath = expandPath(working_path_string, mediaName);
 			
-			//bf::path mediaPath(include_files.getElement(i).getElement(M_PACKAGER_FULL_NAME).getString(), bf::native);
+			//bf::path mediaPath(include_files.getElement(i).getElement(M_PACKAGER_FULL_NAME).getString());
 			//std::string mediaName(include_files.getElement(i).getElement(M_PACKAGER_RELATIVE_NAME).getString());
             Datum mediaElement = packageSingleFile(mediaPath, mediaName);
 			

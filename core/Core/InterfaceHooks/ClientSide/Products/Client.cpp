@@ -133,7 +133,7 @@ bool Client::sendExperiment(const std::string &expPath) {
     if(!remoteConnection->isConnected()) { return false; }
     ExperimentPackager packer;
 	
-    Datum packaged_experiment(packer.packageExperiment(bf::path(expPath, bf::native)));
+    Datum packaged_experiment(packer.packageExperiment(bf::path(expPath)));
 	if(packaged_experiment.isUndefined()) {
 		merror(M_CLIENT_MESSAGE_DOMAIN, 
 			   "Failed to create a valid packaged experiment.");
