@@ -180,7 +180,7 @@ namespace stx {
 					;
 					
 					unary_expr
-					= !( root_node_d[ as_lower_d[ch_p('+') | ch_p('-') | ch_p('!') | str_p("not")] ] )
+					= !( root_node_d[ as_lower_d[ch_p('+') | ch_p('-') | ch_p('!') | keyword_p("not")] ] )
 					>> atom_expr
 					;
 					
@@ -219,12 +219,12 @@ namespace stx {
 					
 					and_expr
 					= comp_expr
-					>> *( root_node_d[ as_lower_d[str_p("and") | str_p("&&")] ] >> comp_expr )
+					>> *( root_node_d[ as_lower_d[keyword_p("and") | str_p("&&")] ] >> comp_expr )
 					;
 					
 					or_expr
 					= and_expr
-					>> *( root_node_d[ as_lower_d[str_p("or") | str_p("||")] ] >> and_expr )
+					>> *( root_node_d[ as_lower_d[keyword_p("or") | str_p("||")] ] >> and_expr )
 					;
 					
 					// *** Base Expression and List

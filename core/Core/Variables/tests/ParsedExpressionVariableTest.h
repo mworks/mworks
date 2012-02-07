@@ -16,23 +16,33 @@
 #include <cppunit/extensions/HelperMacros.h>
 
 #include "FullCoreEnvironmentTest.h"
-namespace mw {
+
+
+BEGIN_NAMESPACE_MW
+
+
 class ParsedExpressionVariableTestFixture : public FullCoreEnvironmentTestFixture {
 	
 	
 	CPPUNIT_TEST_SUITE( ParsedExpressionVariableTestFixture );
 	CPPUNIT_TEST( testSimpleExpression );
+	CPPUNIT_TEST( testAlternativeLogicalOperators );
 	CPPUNIT_TEST_SUITE_END();
 	
-	
+    
 private:
-public:
-
+    void createGlobalVariable(const std::string &name, Datum value);
+    Datum getExpressionValue(const std::string &expr);
 	
+public:
 	void testSimpleExpression();
+	void testAlternativeLogicalOperators();
 	
 };
-}
+
+
+END_NAMESPACE_MW
+
 
 #endif
 

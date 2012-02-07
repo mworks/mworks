@@ -12,9 +12,34 @@
 #include "VariableRegistry.h"
 #include "TrialBuildingBlocks.h"
 #include "EventBuffer.h"
-using namespace mw;
+
+
+BEGIN_NAMESPACE_MW
+
 
 CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( ParsedExpressionVariableTestFixture, "Unit Test" );
+
+
+void ParsedExpressionVariableTestFixture::createGlobalVariable(const std::string &name, Datum value) {
+    VariableProperties props(&value, 
+                             name,
+                             name,
+                             name,
+                             M_NEVER, 
+                             M_WHEN_CHANGED,
+                             true, 
+                             false,
+                             M_INTEGER_INFINITE,
+                             "");
+    
+    global_variable_registry->createGlobalVariable(&props);
+}
+
+
+Datum ParsedExpressionVariableTestFixture::getExpressionValue(const std::string &expr) {
+    return ParsedExpressionVariable(expr).getValue();
+}
+
 
 void ParsedExpressionVariableTestFixture::testSimpleExpression() {
 	
@@ -126,6 +151,26 @@ void ParsedExpressionVariableTestFixture::testSimpleExpression() {
 	CPPUNIT_ASSERT( threw_exception );
 	
 }
+
+
+void ParsedExpressionVariableTestFixture::testAlternativeLogicalOperators() {
+    createGlobalVariable("x", Datum(0L));
+    
+    // not
+    createGlobalVariable("notx", Datum(17L));
+    CPPUNIT_ASSERT_EQUAL(18L, long(getExpressionValue("(notx + 1)")));
+    
+    // and
+    createGlobalVariable("andx", Datum(5L));
+    CPPUNIT_ASSERT_THROW(getExpressionValue("(1 andx)"), FatalParserException);
+    
+    // or
+    createGlobalVariable("orx", Datum(6L));
+    CPPUNIT_ASSERT_THROW(getExpressionValue("(0 orx)"), FatalParserException);
+}
+
+
+END_NAMESPACE_MW
 
 
 
