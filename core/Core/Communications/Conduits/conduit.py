@@ -22,11 +22,11 @@ class _ConduitMixin(object):
 
 
 class IPCClientConduit(_ConduitMixin, _IPCClientConduit):
-    def __init__(self, conduit_name, correct_incoming_timestamps=True):
+    def __init__(self, conduit_name, correct_incoming_timestamps=False):
         _IPCClientConduit.__init__(self, conduit_name, correct_incoming_timestamps)
 
 class IPCServerConduit(_ConduitMixin, _IPCServerConduit):
-    def __init__(self, conduit_name, correct_incoming_timestamps=True):
+    def __init__(self, conduit_name, correct_incoming_timestamps=False):
         _IPCServerConduit.__init__(self, conduit_name, correct_incoming_timestamps)
 
 

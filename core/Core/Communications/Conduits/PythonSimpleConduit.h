@@ -250,7 +250,7 @@ class PythonIPCServerConduit : public PythonIPCPseudoConduit {
 
   public:
     PythonIPCServerConduit(std::string _resource_name, 
-                           bool correct_incoming_timestamps=true) : 
+                           bool correct_incoming_timestamps=false) : 
                            PythonIPCPseudoConduit(_resource_name, 
                                                   correct_incoming_timestamps,
                                                   EventTransport::server_event_transport){}
@@ -259,7 +259,7 @@ class PythonIPCServerConduit : public PythonIPCPseudoConduit {
 class PythonIPCClientConduit : public PythonIPCPseudoConduit {
   public:
     PythonIPCClientConduit(std::string _resource_name, 
-                           bool correct_incoming_timestamps=true) :
+                           bool correct_incoming_timestamps=false) :
                            PythonIPCPseudoConduit(_resource_name, 
                                                   correct_incoming_timestamps,
                                                   EventTransport::client_event_transport){}

@@ -50,7 +50,7 @@ public:
 
 
     SimpleConduit(shared_ptr<EventTransport> _transport, 
-                  bool _correct_incoming_timestamps = true, 
+                  bool _correct_incoming_timestamps = false, 
                   long _conduit_idle_quantum_us = DEFAULT_CONDUIT_IDLE_QUANTUM);
     
     virtual ~SimpleConduit();

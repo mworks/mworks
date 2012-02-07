@@ -82,7 +82,7 @@ namespace mw {
                                      string _start_evt,
                                      string _end_evt,
                                      boost::python::list _events_to_watch,
-                                     bool correct_incoming_timestamps=true) :
+                                     bool correct_incoming_timestamps=false) :
                                      PythonIPCPseudoConduit(_resource_name,
                                                            correct_incoming_timestamps,
                                                            event_trans_type){
