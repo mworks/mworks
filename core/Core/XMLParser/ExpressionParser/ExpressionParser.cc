@@ -219,12 +219,12 @@ namespace stx {
 					
 					and_expr
 					= comp_expr
-					>> *( root_node_d[ as_lower_d[keyword_p("and") | str_p("&&")] ] >> comp_expr )
+					>> *( root_node_d[ as_lower_d[keyword_p("and")] | str_p("&&") | keyword_p("#AND") ] >> comp_expr )
 					;
 					
 					or_expr
 					= and_expr
-					>> *( root_node_d[ as_lower_d[keyword_p("or") | str_p("||")] ] >> and_expr )
+					>> *( root_node_d[ as_lower_d[keyword_p("or")] | str_p("||") | keyword_p("#OR") ] >> and_expr )
 					;
 					
 					// *** Base Expression and List
@@ -875,12 +875,12 @@ namespace stx {
 				: ParseNode(),
 				left(_left), right(_right)
 				{
-					if (_op == "and" || _op == "&&")
+					if (_op == "and" || _op == "&&" || _op == "#and")
 						op = OP_AND;
-					else if (_op == "or" || _op == "||")
+					else if (_op == "or" || _op == "||" || _op == "#or")
 						op = OP_OR;
 					else
-						throw(BadSyntaxException("Program Error: invalid binary logic operator."));
+						throw(BadSyntaxException("Program Error: invalid binary logic operator: " + _op));
 				}
 				
 				/// Recursively delete parse tree.

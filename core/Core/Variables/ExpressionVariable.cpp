@@ -101,9 +101,6 @@ ParsedExpressionVariable::ParsedExpressionVariable(string _expression_string) : 
 	boost::replace_all(expression_string, "#GE", ">=");
 	boost::replace_all(expression_string, "#LE", "<=");
 	
-	boost::replace_all(expression_string, "#AND", "&&");
-	boost::replace_all(expression_string, "#OR", "||");
-	
 	std::string dest_string;
 
 	boost::regex_replace(std::back_inserter(dest_string),

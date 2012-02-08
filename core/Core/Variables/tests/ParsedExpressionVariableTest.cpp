@@ -161,12 +161,28 @@ void ParsedExpressionVariableTestFixture::testAlternativeLogicalOperators() {
     CPPUNIT_ASSERT_EQUAL(18L, long(getExpressionValue("(notx + 1)")));
     
     // and
+    CPPUNIT_ASSERT_EQUAL(true, bool(getExpressionValue("1 and 2")));
+    CPPUNIT_ASSERT_EQUAL(false, bool(getExpressionValue("1 AND 0")));
     createGlobalVariable("andx", Datum(5L));
     CPPUNIT_ASSERT_THROW(getExpressionValue("(1 andx)"), FatalParserException);
     
     // or
+    CPPUNIT_ASSERT_EQUAL(true, bool(getExpressionValue("1 or 0")));
+    CPPUNIT_ASSERT_EQUAL(false, bool(getExpressionValue("0 OR 0")));
     createGlobalVariable("orx", Datum(6L));
     CPPUNIT_ASSERT_THROW(getExpressionValue("(0 orx)"), FatalParserException);
+    
+    // #AND
+    CPPUNIT_ASSERT_EQUAL(true, bool(getExpressionValue("1 #AND 2")));
+    CPPUNIT_ASSERT_EQUAL(false, bool(getExpressionValue("0 #AND 2")));
+    CPPUNIT_ASSERT_THROW(getExpressionValue("1 #and 2"), FatalParserException);
+    CPPUNIT_ASSERT_EQUAL(std::string("1 #AND 2"), std::string(getExpressionValue("\"1 #AND 2\"")));
+    
+    // #OR
+    CPPUNIT_ASSERT_EQUAL(true, bool(getExpressionValue("0 #OR 1")));
+    CPPUNIT_ASSERT_EQUAL(false, bool(getExpressionValue("0 #OR 0")));
+    CPPUNIT_ASSERT_THROW(getExpressionValue("0 #or 1"), FatalParserException);
+    CPPUNIT_ASSERT_EQUAL(std::string("0 #OR 1"), std::string(getExpressionValue("\"0 #OR 1\"")));
 }
 
 
