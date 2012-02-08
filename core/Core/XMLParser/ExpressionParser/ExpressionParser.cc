@@ -1030,27 +1030,33 @@ namespace stx {
 					//	if (vr.getType() != AnyScalar::ATTRTYPE_BOOL)
 					//	    throw(BadSyntaxException(std::string("Invalid right operand for ") + get_opstr() + ". Both operands must be of type bool."));
 					
-					int bvl = vl.getInteger();
-					int bvr = vr.getInteger();
+					int bvl = 0;
+                    if (bl) bvl = vl.getInteger();
+					int bvr = 0;
+                    if (br) bvr = vr.getInteger();
 					
-					*dest = AnyScalar( do_operator(bvl, bvr) );
-					
-					if (op == OP_AND)
+                    if (bl && br) {
+                        *dest = AnyScalar( do_operator(bvl, bvr) );
+                        return true;
+                    }
+					else if (op == OP_AND)
 					{
-						// true if either both ops are themselves constant, or if either of
-						// the ops are constant and evaluates to false.
-						return (bl && br) || (bl && !bvl) || (br && !bvr);
+						// true if either of the ops is constant and evaluates to false.
+                        if ((bl && !bvl) || (br && !bvr)) {
+                            *dest = AnyScalar(false);
+                            return true;
+                        }
 					}
 					else if (op == OP_OR)
 					{
-						// true if either both ops are themselves constant, or if either of
-						// the ops is constant and evaluates to true.
-						return (bl && br) || (bl && bvl) || (br && bvr);
+						// true if either of the ops is constant and evaluates to true.
+                        if ((bl && bvl) || (br && bvr)) {
+                            *dest = AnyScalar(true);
+                            return true;
+                        }
 					}
-					else {
-						assert(0);
-						return false;
-					}
+                    
+                    return false;
 				}
 				
 				/// String (operandA op operandB)

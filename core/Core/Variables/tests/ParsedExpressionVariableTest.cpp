@@ -281,6 +281,40 @@ void ParsedExpressionVariableTestFixture::testTimeUnits() {
 }
 
 
+void ParsedExpressionVariableTestFixture::testBinaryLogicOperatorsWithVariableOperand() {
+    createGlobalVariable("x", Datum(1L));
+    createGlobalVariable("y", Datum(0L));
+    
+    //
+    // and
+    //
+    
+    // Constant (expression value does not depend on variable value)
+    CPPUNIT_ASSERT_EQUAL(true, bool(getExpressionValue("1 && 2")));
+    CPPUNIT_ASSERT_EQUAL(false, bool(getExpressionValue("x && 0")));
+    CPPUNIT_ASSERT_EQUAL(false, bool(getExpressionValue("0 && x")));
+    
+    // Non-constant (expression value depends on variable value)
+    CPPUNIT_ASSERT_EQUAL(true, bool(getExpressionValue("x && 1")));
+    CPPUNIT_ASSERT_EQUAL(true, bool(getExpressionValue("1 && x")));
+    CPPUNIT_ASSERT_EQUAL(false, bool(getExpressionValue("x && y")));
+    
+    //
+    // or
+    //
+    
+    // Constant (expression value does not depend on variable value)
+    CPPUNIT_ASSERT_EQUAL(true, bool(getExpressionValue("1 || 2")));
+    CPPUNIT_ASSERT_EQUAL(true, bool(getExpressionValue("y || 1")));
+    CPPUNIT_ASSERT_EQUAL(true, bool(getExpressionValue("1 || y")));
+    
+    // Non-constant (expression value depends on variable value)
+    CPPUNIT_ASSERT_EQUAL(false, bool(getExpressionValue("y || 0")));
+    CPPUNIT_ASSERT_EQUAL(false, bool(getExpressionValue("0 || y")));
+    CPPUNIT_ASSERT_EQUAL(true, bool(getExpressionValue("y || x")));
+}
+
+
 END_NAMESPACE_MW
 
 
