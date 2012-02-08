@@ -157,6 +157,8 @@ void ParsedExpressionVariableTestFixture::testAlternativeLogicalOperators() {
     createGlobalVariable("x", Datum(0L));
     
     // not
+    CPPUNIT_ASSERT_EQUAL(true, bool(getExpressionValue("not 0")));
+    CPPUNIT_ASSERT_EQUAL(false, bool(getExpressionValue("NOT 1")));
     createGlobalVariable("notx", Datum(17L));
     CPPUNIT_ASSERT_EQUAL(18L, long(getExpressionValue("(notx + 1)")));
     

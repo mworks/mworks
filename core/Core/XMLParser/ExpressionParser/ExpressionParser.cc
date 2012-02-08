@@ -180,7 +180,7 @@ namespace stx {
 					;
 					
 					unary_expr
-					= !( root_node_d[ as_lower_d[ch_p('+') | ch_p('-') | ch_p('!') | keyword_p("not")] ] )
+					= !( root_node_d[ ch_p('+') | ch_p('-') | ch_p('!') | as_lower_d[keyword_p("not")] ] )
 					>> atom_expr
 					;
 					
