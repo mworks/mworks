@@ -8,7 +8,6 @@
  */
 
 #include "ExpressionVariable.h"
-#include "boost/algorithm/string/trim.hpp"
 using namespace mw;
 
 
@@ -90,32 +89,8 @@ Datum ExpressionVariable::getExpressionValue(){
 
 
 
-ParsedExpressionVariable::ParsedExpressionVariable(string _expression_string) : Variable(),
-												original_expression(_expression_string){
-	
-	string expression_string = _expression_string;
-	std::string dest_string;
-
-	boost::regex_replace(std::back_inserter(dest_string),
-				expression_string.begin(), expression_string.end(),
-				boost::regex("(.*?[^a-zA-Z])us(\\s*$)", boost::regex::perl|boost::regex::icase),
-				"$1 * 1");
-	expression_string = dest_string; dest_string = "";
-
-	boost::regex_replace(std::back_inserter(dest_string),
-				expression_string.begin(), expression_string.end(),
-				boost::regex("(.*?[^a-zA-Z])ms(\\s*$)", boost::regex::perl|boost::regex::icase),
-				"$1 * 1000");
-	expression_string = dest_string; dest_string = "";
-
-	boost::regex_replace(std::back_inserter(dest_string),
-				expression_string.begin(), expression_string.end(),
-				boost::regex("(.*?[^a-zA-Z])s(\\s*$)", boost::regex::perl|boost::regex::icase),
-				"$1 * 1000000");
-	expression_string = dest_string; dest_string = "";
-	
-	//cerr << "expression: " << expression_string << endl;
-	//cerr << "dest string: " << dest_string << endl;
+ParsedExpressionVariable::ParsedExpressionVariable(string expression_string) : Variable(),
+												original_expression(expression_string){
 	
 	try {
 		expression_tree = stx::parseExpression(expression_string);

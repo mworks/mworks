@@ -85,6 +85,7 @@ namespace stx {
 			
 			atom_expr_id,
 			
+			units_expr_id,
 			unary_expr_id,
 			mul_expr_id,
 			add_expr_id,
@@ -179,9 +180,14 @@ namespace stx {
 					| varname
 					;
 					
+					units_expr
+					= atom_expr
+                    >> !( root_node_d[ as_lower_d[keyword_p("us") | keyword_p("ms") | keyword_p("s")] ] )
+					;
+					
 					unary_expr
 					= !( root_node_d[ ch_p('+') | ch_p('-') | ch_p('!') | as_lower_d[keyword_p("not")] ] )
-					>> atom_expr
+					>> units_expr
 					;
 					
 					cast_spec
@@ -259,6 +265,7 @@ namespace stx {
 					
 					BOOST_SPIRIT_DEBUG_RULE(atom_expr);
 					
+					BOOST_SPIRIT_DEBUG_RULE(units_expr);
 					BOOST_SPIRIT_DEBUG_RULE(unary_expr);
 					BOOST_SPIRIT_DEBUG_RULE(mul_expr);
 					BOOST_SPIRIT_DEBUG_RULE(add_expr);
@@ -302,6 +309,8 @@ namespace stx {
 				/// Helper rule which implements () bracket grouping.
 				rule<ScannerT, parser_context<>, parser_tag<atom_expr_id> > 		atom_expr;
 				
+				/// Units operator rule: recognizes "us" "ms" and "s".
+				rule<ScannerT, parser_context<>, parser_tag<units_expr_id> > 		units_expr;
 				/// Unary operator rule: recognizes + - ! and "not".
 				rule<ScannerT, parser_context<>, parser_tag<unary_expr_id> > 		unary_expr;
 				/// Binary operator rule taking precedent before add_expr:
@@ -478,6 +487,78 @@ namespace stx {
 					return str + ")";
 				}
 			};
+		
+		/// Parse tree node representing a units operator: "us", "ms", or "s".
+		/// This node has one child.
+		class PNUnitsArithmExpr : public ParseNode
+        {
+        private:
+            /// Pointer to the single operand
+            const ParseNode 	*operand;
+            
+            /// Units to apply: "us", "ms", or "s".
+            std::string units;
+            
+        public:
+            /// Constructor from the parser: operand subnode and operator id.
+            PNUnitsArithmExpr(const ParseNode* _operand, const std::string &_units)
+            : ParseNode(), operand(_operand), units(_units)
+            { }
+            
+            /// Recursively delete the parse tree.
+            virtual ~PNUnitsArithmExpr()
+            {
+                delete operand;
+            }
+            
+            /// Applies the operator to the recursively calculated value.
+            virtual AnyScalar evaluate(const class SymbolTable &st) const
+            {
+                AnyScalar dest = operand->evaluate(st);
+                
+                if (units == "s") {
+                    dest = dest * 1000000;	    
+                }
+                else if (units == "ms")
+                {
+                    dest = dest * 1000;	    
+                }
+                else {
+                    // No change for "us"
+                    assert(units == "us");
+                }
+                
+                return dest;
+            }
+            
+            /// Calculates subnodes and returns result if the operator can be applied.
+            virtual bool evaluate_const(AnyScalar *dest) const
+            {
+                if (!dest) return false;
+                
+                bool b = operand->evaluate_const(dest);
+                
+                if (units == "s") {
+                    *dest = (*dest) * 1000000;
+                }
+                else if (units == "ms")
+                {
+                    *dest = (*dest) * 1000;
+                }
+                else {
+                    // No change for "us"
+                    assert(units == "us");
+                }
+                
+                return b;
+            }
+            
+            /// Return the subnode's string with this operator prepended.
+            virtual std::string toString() const
+            {
+                return std::string("(") + operand->toString() + " " + units + ")";
+            }
+        };
 		
 		/// Parse tree node representing an unary operator: '+', '-', '!' or
 		/// "not". This node has one child.
@@ -1055,6 +1136,32 @@ namespace stx {
 					
 					// *** Arithmetic node cases
 					
+				case units_expr_id:
+				{
+					assert(i->children.size() == 1);
+                    
+					std::string units(i->value.begin(), i->value.end());
+					std::transform(units.begin(), units.end(), units.begin(), &_to_lower);
+					
+					const ParseNode *val = build_expr(i->children.begin());
+					
+					if (val->evaluate_const(NULL))
+					{
+						// construct a constant node
+						PNUnitsArithmExpr tmpnode(val, units);
+						AnyScalar constval(AnyScalar::ATTRTYPE_INVALID);
+						
+						tmpnode.evaluate_const(&constval);
+						
+						return new PNConstant(constval);
+					}
+					else
+					{
+						// calculation node
+						return new PNUnitsArithmExpr(val, units);
+					}
+				}
+					
 				case unary_expr_id:
 				{
 					char arithop = *i->value.begin();
@@ -1313,6 +1420,7 @@ namespace stx {
 			
 			rule_names[varname_id] = "varname";
 			
+			rule_names[units_expr_id] = "units_expr";
 			rule_names[unary_expr_id] = "unary_expr";
 			rule_names[mul_expr_id] = "mul_expr";
 			rule_names[add_expr_id] = "add_expr";

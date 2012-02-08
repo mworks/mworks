@@ -28,8 +28,6 @@
 #include "VariableRegistry.h"
 
 #include <iostream>
-#include <boost/algorithm/string/replace.hpp>
-#include <boost/regex.hpp>
 namespace mw {
 class	ExpressionVariable : public Variable {
 

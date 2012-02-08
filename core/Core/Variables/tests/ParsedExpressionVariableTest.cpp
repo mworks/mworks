@@ -242,6 +242,45 @@ void ParsedExpressionVariableTestFixture::testBooleanConstants() {
 }
 
 
+void ParsedExpressionVariableTestFixture::testTimeUnits() {
+    const double delta = 1e-12;
+    createGlobalVariable("x", Datum(3L));
+    
+    // us
+    CPPUNIT_ASSERT_EQUAL(2L, long(getExpressionValue("2us")));
+    CPPUNIT_ASSERT_EQUAL(2L, long(getExpressionValue("2 us")));
+    CPPUNIT_ASSERT_EQUAL(2L, long(getExpressionValue("2US")));
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(1e-7, double(getExpressionValue("1e-7us")), delta);
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(1e-7, double(getExpressionValue("1e-7 us")), delta);
+    CPPUNIT_ASSERT_EQUAL(3L, long(getExpressionValue("1 + 2 us")));
+    CPPUNIT_ASSERT_EQUAL(3L, long(getExpressionValue("2 us + 1")));
+    CPPUNIT_ASSERT_EQUAL(3L, long(getExpressionValue("x us")));
+    CPPUNIT_ASSERT_EQUAL(std::string("2us"), std::string(getExpressionValue("\"2us\"")));
+    
+    // ms
+    CPPUNIT_ASSERT_EQUAL(2000L, long(getExpressionValue("2ms")));
+    CPPUNIT_ASSERT_EQUAL(2000L, long(getExpressionValue("2 ms")));
+    CPPUNIT_ASSERT_EQUAL(2000L, long(getExpressionValue("2MS")));
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(1e-4, double(getExpressionValue("1e-7ms")), delta);
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(1e-4, double(getExpressionValue("1e-7 ms")), delta);
+    CPPUNIT_ASSERT_EQUAL(2001L, long(getExpressionValue("1 + 2 ms")));
+    CPPUNIT_ASSERT_EQUAL(2001L, long(getExpressionValue("2 ms + 1")));
+    CPPUNIT_ASSERT_EQUAL(3000L, long(getExpressionValue("x ms")));
+    CPPUNIT_ASSERT_EQUAL(std::string("2ms"), std::string(getExpressionValue("\"2ms\"")));
+    
+    // s
+    CPPUNIT_ASSERT_EQUAL(2000000L, long(getExpressionValue("2s")));
+    CPPUNIT_ASSERT_EQUAL(2000000L, long(getExpressionValue("2 s")));
+    CPPUNIT_ASSERT_EQUAL(2000000L, long(getExpressionValue("2S")));
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(1e-1, double(getExpressionValue("1e-7s")), delta);
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(1e-1, double(getExpressionValue("1e-7 s")), delta);
+    CPPUNIT_ASSERT_EQUAL(2000001L, long(getExpressionValue("1 + 2 s")));
+    CPPUNIT_ASSERT_EQUAL(2000001L, long(getExpressionValue("2 s + 1")));
+    CPPUNIT_ASSERT_EQUAL(3000000L, long(getExpressionValue("x s")));
+    CPPUNIT_ASSERT_EQUAL(std::string("2s"), std::string(getExpressionValue("\"2s\"")));
+}
+
+
 END_NAMESPACE_MW
 
 
