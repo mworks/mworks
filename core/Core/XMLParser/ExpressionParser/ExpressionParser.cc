@@ -126,7 +126,7 @@ namespace stx {
 					;
 					
 					boolean_const
-					= as_lower_d[keyword_p("true") | keyword_p("false")]
+					= as_lower_d[keyword_p("true") | keyword_p("false") | keyword_p("yes") | keyword_p("no")]
 					;
 					
 					integer_const
@@ -1024,8 +1024,9 @@ namespace stx {
 					
 				case boolean_const_id:
 				{
-					return new PNConstant(AnyScalar::ATTRTYPE_BOOL,
-										  std::string(i->value.begin(), i->value.end()));
+                    std::string boolconst(i->value.begin(), i->value.end());
+					std::transform(boolconst.begin(), boolconst.end(), boolconst.begin(), &_to_lower);
+					return new PNConstant(AnyScalar::ATTRTYPE_BOOL, boolconst);
 				}
 					
 				case integer_const_id:

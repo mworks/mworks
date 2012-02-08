@@ -219,6 +219,29 @@ void ParsedExpressionVariableTestFixture::testAlternativeComparisonOperators() {
 }
 
 
+void ParsedExpressionVariableTestFixture::testBooleanConstants() {
+    // true
+    CPPUNIT_ASSERT_EQUAL(true, bool(getExpressionValue("(true)")));
+    CPPUNIT_ASSERT_EQUAL(true, bool(getExpressionValue("(TRUE)")));
+    CPPUNIT_ASSERT_EQUAL(std::string("true"), std::string(getExpressionValue("\"true\"")));
+    
+    // false
+    CPPUNIT_ASSERT_EQUAL(false, bool(getExpressionValue("(false)")));
+    CPPUNIT_ASSERT_EQUAL(false, bool(getExpressionValue("(FALSE)")));
+    CPPUNIT_ASSERT_EQUAL(std::string("false"), std::string(getExpressionValue("\"false\"")));
+    
+    // YES
+    CPPUNIT_ASSERT_EQUAL(true, bool(getExpressionValue("(YES)")));
+    CPPUNIT_ASSERT_EQUAL(true, bool(getExpressionValue("(yes)")));
+    CPPUNIT_ASSERT_EQUAL(std::string("YES"), std::string(getExpressionValue("\"YES\"")));
+    
+    // NO
+    CPPUNIT_ASSERT_EQUAL(false, bool(getExpressionValue("(NO)")));
+    CPPUNIT_ASSERT_EQUAL(false, bool(getExpressionValue("(no)")));
+    CPPUNIT_ASSERT_EQUAL(std::string("NO"), std::string(getExpressionValue("\"NO\"")));
+}
+
+
 END_NAMESPACE_MW
 
 

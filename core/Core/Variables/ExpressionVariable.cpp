@@ -114,32 +114,6 @@ ParsedExpressionVariable::ParsedExpressionVariable(string _expression_string) : 
 				"$1 * 1000000");
 	expression_string = dest_string; dest_string = "";
 	
-				boost::regex_replace(std::back_inserter(dest_string),
-				expression_string.begin(), expression_string.end(),
-				boost::regex("(^|[^a-zA-Z])YES($|[^a-zA-Z])", boost::regex::perl|boost::regex::icase),
-				"$1 1 $2");
-	expression_string = dest_string; dest_string = "";
-	
-	
-	boost::regex_replace(std::back_inserter(dest_string),
-				expression_string.begin(), expression_string.end(),
-				boost::regex("(^|[^a-zA-Z])NO($|[^a-zA-Z])", boost::regex::perl|boost::regex::icase),
-				"$1 0 $2");
-	expression_string = dest_string; dest_string = "";
-	
-	boost::regex_replace(std::back_inserter(dest_string),
-				expression_string.begin(), expression_string.end(),
-				boost::regex("(^|[^a-zA-Z])true($|[^a-zA-Z])", boost::regex::perl|boost::regex::icase),
-				"$1 1 $2");
-	expression_string = dest_string; dest_string = "";
-	
-	boost::regex_replace(std::back_inserter(dest_string),
-				expression_string.begin(), expression_string.end(),
-				boost::regex("(^|[^a-zA-Z])false($|[^a-zA-Z])", boost::regex::perl|boost::regex::icase),
-				"$1 0 $2");
-	expression_string = boost::algorithm::trim_copy(dest_string); 
-	dest_string = "";
-	
 	//cerr << "expression: " << expression_string << endl;
 	//cerr << "dest string: " << dest_string << endl;
 	
