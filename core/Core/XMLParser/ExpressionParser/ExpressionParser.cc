@@ -212,9 +212,12 @@ namespace stx {
 					
 					comp_expr
 					= add_expr
-					>> *( root_node_d[( str_p("==") | str_p("!=") |
-									   str_p("<=") | str_p(">=") | str_p("=<") | str_p("=>") |
-									   ch_p('=') | ch_p('<') | ch_p('>') )] >> add_expr )
+					>> *( root_node_d[str_p("==") | ch_p('=') |
+                                      str_p("!=") |
+                                      str_p("<=") | str_p("=<") | keyword_p("#LE") |
+                                      ch_p('<') | keyword_p("#LT") |
+                                      str_p(">=") | str_p("=>") | keyword_p("#GE") |
+                                      ch_p('>') | keyword_p("#GT")] >> add_expr )
 					;
 					
 					and_expr
@@ -741,13 +744,13 @@ namespace stx {
 						op = EQUAL;
 					else if (_op == "!=")
 						op = NOTEQUAL;
-					else if (_op == "<")
+					else if (_op == "<" || _op == "#LT")
 						op = LESS;
-					else if (_op == ">")
+					else if (_op == ">" || _op == "#GT")
 						op = GREATER;
-					else if (_op == "<=" || _op == "=<")
+					else if (_op == "<=" || _op == "=<" || _op == "#LE")
 						op = LESSEQUAL;
-					else if (_op == ">=" || _op == "=>")
+					else if (_op == ">=" || _op == "=>" || _op == "#GE")
 						op = GREATEREQUAL;
 					else
 						throw(BadSyntaxException("Program Error: invalid binary comparision operator."));

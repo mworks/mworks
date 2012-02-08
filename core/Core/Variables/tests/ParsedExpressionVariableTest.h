@@ -27,6 +27,7 @@ class ParsedExpressionVariableTestFixture : public FullCoreEnvironmentTestFixtur
 	CPPUNIT_TEST_SUITE( ParsedExpressionVariableTestFixture );
 	CPPUNIT_TEST( testSimpleExpression );
 	CPPUNIT_TEST( testAlternativeLogicalOperators );
+	CPPUNIT_TEST( testAlternativeComparisonOperators );
 	CPPUNIT_TEST_SUITE_END();
 	
     
@@ -37,6 +38,7 @@ private:
 public:
 	void testSimpleExpression();
 	void testAlternativeLogicalOperators();
+	void testAlternativeComparisonOperators();
 	
 };
 

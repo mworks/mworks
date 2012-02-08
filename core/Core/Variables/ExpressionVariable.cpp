@@ -94,13 +94,6 @@ ParsedExpressionVariable::ParsedExpressionVariable(string _expression_string) : 
 												original_expression(_expression_string){
 	
 	string expression_string = _expression_string;
-	
-	// substitute #GT, #LT, et al.
-	boost::replace_all(expression_string, "#GT", ">");
-	boost::replace_all(expression_string, "#LT", "<");
-	boost::replace_all(expression_string, "#GE", ">=");
-	boost::replace_all(expression_string, "#LE", "<=");
-	
 	std::string dest_string;
 
 	boost::regex_replace(std::back_inserter(dest_string),
