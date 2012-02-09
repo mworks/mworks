@@ -414,6 +414,12 @@ namespace stx {
 				{
 				}
 				
+				/// Recursively delete the parse tree.
+				virtual ~PNVariable()
+				{
+					delete subscript;
+				}
+				
 				/// Check the given symbol table for the actual value of this variable.
 				virtual AnyScalar evaluate(const class SymbolTable &st) const
 				{
