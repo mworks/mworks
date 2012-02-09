@@ -163,12 +163,15 @@ namespace stx {
 							   ]
 					;
 					
-					// *** Expression names
+					// *** Variable names
 					
 					varname
-					= lexeme_d[ 
-							   token_node_d[ alpha_p >> *(alnum_p | ch_p('_')) ]
-							   ]
+					= root_node_d[
+                                  lexeme_d[
+                                           token_node_d[ alpha_p >> *(alnum_p | ch_p('_')) ]
+                                           ]
+                                  ]
+                    >> !( discard_node_d[ ch_p('[') ] >> expr >> discard_node_d[ ch_p(']') ] )
 					;
 					
 					// *** Valid Expressions, from small to large
@@ -400,18 +403,24 @@ namespace stx {
 			private:
 				/// String name of the variable
 				std::string		varname;
+                
+                /// Subscript expression (may be NULL)
+                const ParseNode *subscript;
 				
 			public:
 				/// Constructor from the string received from the parser.
-				PNVariable(std::string _varname)
-				: ParseNode(), varname(_varname)
+				PNVariable(std::string _varname, const ParseNode *_subscript)
+				: ParseNode(), varname(_varname), subscript(_subscript)
 				{
 				}
 				
 				/// Check the given symbol table for the actual value of this variable.
 				virtual AnyScalar evaluate(const class SymbolTable &st) const
 				{
-					return st.lookupVariable(varname);
+                    if (!subscript)
+                        return st.lookupVariable(varname);
+                    
+                    return st.lookupVariable(varname, subscript->evaluate(st));
 				}
 				
 				/// Returns false, because value isn't constant.
@@ -423,7 +432,10 @@ namespace stx {
 				/// Nothing but the variable name.
 				virtual std::string toString() const
 				{
-					return varname;
+                    std::string str = varname;
+                    if (subscript)
+                        str += "[" + subscript->toString() + "]";
+					return str;
 				}
 			};
 		
@@ -1336,11 +1348,15 @@ namespace stx {
 					
 				case varname_id:
 				{
-					assert(i->children.size() == 0);
+					assert(i->children.size() <= 1);
 					
 					std::string varname(i->value.begin(), i->value.end());
+                    
+                    const ParseNode *subscript = NULL;
+                    if (i->children.size() == 1)
+                        subscript = build_expr(i->children.begin());
 					
-					return new PNVariable(varname);
+					return new PNVariable(varname, subscript);
 				}
 					
 				case function_identifier_id:
@@ -1565,6 +1581,11 @@ namespace stx {
 	SymbolTable::~SymbolTable()
 	{
 	}
+    
+    AnyScalar SymbolTable::lookupVariable(const std::string &varname, const AnyScalar &subscript) const
+    {
+        throw BadVariableSubscriptException("Variable subscripts are not supported");
+    }
 	
 	EmptySymbolTable::~EmptySymbolTable()
 	{

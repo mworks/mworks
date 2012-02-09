@@ -109,6 +109,18 @@ public:
     { }
 };
 
+/** Exception class thrown when a variable subscript is invalid or
+ * variable subscripting is not supported. \ingroup Exception */
+
+class BadVariableSubscriptException : public ExpressionParserException
+{
+public:
+    /// Construct with a description string.
+    inline BadVariableSubscriptException(const std::string &s) throw()
+	: ExpressionParserException(s)
+    { }
+};
+
 /** Abstract class used for evaluation of variables and function placeholders
  * within an expression. If you wish some standard mathematic function, then
  * derive your SymbolTable class from BasicSymbolTable instead of directly from
@@ -124,6 +136,11 @@ public:
 
     /// Return the (constant) value of a variable.
     virtual AnyScalar	lookupVariable(const std::string &varname) const = 0;
+    
+    /// Return the (constant) value of a variable subscript. By default,
+    /// variable subscripts are not supported, so the base implementation always
+    /// throws a BadVariableSubscriptException.
+    virtual AnyScalar	lookupVariable(const std::string &varname, const AnyScalar &subscript) const;
 
     /// Called when a program-defined function needs to be evaluated within an
     /// expression.

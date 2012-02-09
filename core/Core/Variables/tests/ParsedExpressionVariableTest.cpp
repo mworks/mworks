@@ -315,6 +315,13 @@ void ParsedExpressionVariableTestFixture::testBinaryLogicOperatorsWithVariableOp
 }
 
 
+void ParsedExpressionVariableTestFixture::testVariableSubscript() {
+    createGlobalVariable("x", Datum(1L));
+    CPPUNIT_ASSERT_EQUAL(1L, long(getExpressionValue("(x)")));
+    CPPUNIT_ASSERT_THROW(getExpressionValue("(x[0])"), SimpleException);
+}
+
+
 END_NAMESPACE_MW
 
 
