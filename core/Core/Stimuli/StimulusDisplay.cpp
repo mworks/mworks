@@ -518,6 +518,92 @@ shared_ptr<StimulusDisplay> StimulusDisplay::getCurrentStimulusDisplay() {
     return currentDisplay;
 }
 
+// Delegated methods for transformations
+// Default implementations are for orthographic display
+void StimulusDisplay::translate2D(double x_deg, double y_deg){
+    glTranslatef(x_deg, y_deg,0);
+}
+
+void StimulusDisplay::rotateInPlane2D(double rot_angle_deg){
+    glRotatef(rot_angle_deg, 0,0,1);
+
+}
+
+void StimulusDisplay::scale2D(double x_size_deg, double y_size_deg){
+    glScalef(x_size_deg, y_size_deg, 1.0);
+}
+        
+
+
+
+
+VirtualTangentScreenDisplay::VirtualTangentScreenDisplay() : StimulusDisplay() { }
+
+
+void VirtualTangentScreenDisplay::setDisplayBounds(){
+    shared_ptr<mw::ComponentRegistry> reg = mw::ComponentRegistry::getSharedRegistry();
+    shared_ptr<Variable> main_screen_info = reg->getVariable(MAIN_SCREEN_INFO_TAGNAME);
+  
+    Datum display_info = *main_screen_info; // from standard variables
+	if(display_info.getDataType() == M_DICTIONARY &&
+	   display_info.hasKey(M_DISPLAY_WIDTH_KEY) &&
+	   display_info.hasKey(M_DISPLAY_HEIGHT_KEY) &&
+	   display_info.hasKey(M_DISPLAY_DISTANCE_KEY)){
+	
+    
+		screen_width = display_info.getElement(M_DISPLAY_WIDTH_KEY);
+		screen_height = display_info.getElement(M_DISPLAY_HEIGHT_KEY);
+		screen_distance = display_info.getElement(M_DISPLAY_DISTANCE_KEY);
+	
+		fov_y_deg = 2 * (180. / M_PI) * atan((screen_height/2.)/screen_distance);
+		
+        screen_radius = sqrt( (screen_height * screen_height) / 4 +
+                              (screen_width * screen_width) / 4 +
+                              (screen_distance * screen_distance) );
+                              
+        screen_aspect_ratio = screen_width / screen_height;
+        
+        near_clip_distance = 0;
+        far_clip_distance = screen_distance * 2;
+        
+	} else {
+        throw SimpleException("Unable to compute screen dimensions");
+	}
+	
+	mprintf("Display bounds set to (%g left, %g right, %g top, %g bottom)",
+			left, right, top, bottom);
+}
+
+    
+void VirtualTangentScreenDisplay::glInit(){ 
+
+
+    glShadeModel(GL_FLAT);
+    glDisable(GL_BLEND);
+    glDisable(GL_DITHER);
+    glDisable(GL_FOG);
+    glDisable(GL_LIGHTING);
+    
+    glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL); // DDC added
+    
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity(); // Reset The Projection Matrix
+    
+    gluPerspective(y_fov_deg, screen_aspect_ratio, near_clip_distance, far_clip_distance);
+    glMatrixMode(GL_MODELVIEW);
+    
+    glClearColor(0.5, 0.5, 0.5, 1.0);
+    glClear(GL_COLOR_BUFFER_BIT);
+
+}
+
+void VirtualTangentScreenDisplay::translate2D(double x_deg, double y_deg){ 
+
+}
+
+void VirtualTangentScreenDisplay::rotateInPlane2D(double rot_angle_deg){ }
+void VirtualTangentScreenDisplay::scale2D(double x_size_deg, double y_size_deg){ } 
+
 
 END_NAMESPACE_MW
 

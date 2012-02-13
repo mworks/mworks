@@ -53,17 +53,12 @@ namespace mw {
 	 * reporting back exactly what StimulusDisplay is getting.  Eventually, 
 	 * a ContextViewer utility will display the status and stats for every
 	 * context, and possibly allow users to create and change them. 
-	 *
-	 * May want to move the actual context itself into this class, at the risk of 
-	 * losing perfect portability, for performance's sake.  Right now, context
-	 * changes and flushes go through the ContextManager, which involves several
-	 * function calls and pointer dereferences.
 	 */
 		
   
 	
 	class StimulusDisplay : public enable_shared_from_this<StimulusDisplay> {
-    protected:
+      protected:
         std::vector<int> context_ids;
 		int current_context_index;
 		shared_ptr< LinkedList<StimulusNode> > display_stack;
@@ -91,7 +86,7 @@ namespace mw {
         std::vector< shared_ptr<StimulusNode> > stimsToAnnounce;
         std::vector<Datum> stimAnnouncements;
 		
-        void glInit();
+        virtual void glInit();
 		void setDisplayBounds();
         void refreshDisplay();
         void drawDisplayStack(bool doStimAnnouncements);
@@ -109,7 +104,7 @@ namespace mw {
                                             CVOptionFlags *flagsOut,
                                             void *_display);
 		
-    public:
+      public:
 		
 		StimulusDisplay();
 		~StimulusDisplay();
@@ -133,10 +128,40 @@ namespace mw {
         static shared_ptr<StimulusDisplay> getCurrentStimulusDisplay();
 		
 		
-	private:
+        // Delegated methods for transformations
+        // Default implementations are for orthographic display
+        virtual void translate2D(double x_deg, double y_deg);	
+        virtual void rotateInPlane2D(double rot_angle_deg);
+        virtual void scale2D(double x_size_deg, double y_size_deg);        
+                
+	  private:
         StimulusDisplay(const StimulusDisplay& s) : refreshSync(2) { }
         void operator=(const StimulusDisplay& l) { }
-	};
+    };
+
+
+    class VirtualTangentScreenDisplay : public StimulusDisplay {
+
+      protected:
+        GLdouble screen_width, screen_height, screen_distance, screen_radius;
+        GLdouble fov_y_deg;
+        GLdouble near_clip_distance, far_clip_distance;
+
+      public:
+    
+        VirtualTangentScreenDisplay();
+    
+        virtual void glInit();
+
+        virtual void translate2D(double x_deg, double y_deg);	
+        virtual void rotateInPlane2D(double rot_angle_deg);
+        virtual void scale2D(double x_size_deg, double y_size_deg);        
+                
+	  private:
+        VirtualTangentScreenDisplay(const VirtualTangentScreenDisplay& s) : refreshSync(2) { }
+        void operator=(const VirtualTangentScreenDisplay& l) { }
+    };
+    
 }
 #endif
 

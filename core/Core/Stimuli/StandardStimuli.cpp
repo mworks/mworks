@@ -114,10 +114,10 @@ void BasicTransformStimulus::draw(shared_ptr<StimulusDisplay>  display,float x, 
     
     glPushMatrix();
     
-	glTranslatef(x, y,0);
-	glRotatef(rot, 0,0,1);
-	glScalef(sizex, sizey, 1.0); // scale it up
-    glTranslatef(-0.5, -0.5, 0);
+	display->translate2D(x, y);
+	display->rotateInPlane2D(rot);
+	display->scale2D(sizex, sizey); // scale it up
+    display->translate2D(-0.5, -0.5);
     					
     drawInUnitSquare(display);
                     
