@@ -32,9 +32,12 @@ BEGIN_NAMESPACE_MW
  **********************************************************************/
 StimulusDisplay::StimulusDisplay() :
     refreshSync(2),
-    currentOutputTimeUS(-1)
-{
-    current_context_index = -1;
+    currentOutputTimeUS(-1),
+    current_context_index(-1)
+{ }
+
+
+void StimulusDisplay::initialize(){
 
     // defer creation of the display chain until after the stimulus display has been created
     display_stack = shared_ptr< LinkedList<StimulusNode> >(new LinkedList<StimulusNode>());
@@ -550,25 +553,33 @@ void VirtualTangentScreenDisplay::setDisplayBounds(){
 	   display_info.hasKey(M_DISPLAY_HEIGHT_KEY) &&
 	   display_info.hasKey(M_DISPLAY_DISTANCE_KEY)){
 	
+
     
 		screen_width = display_info.getElement(M_DISPLAY_WIDTH_KEY);
 		screen_height = display_info.getElement(M_DISPLAY_HEIGHT_KEY);
 		screen_distance = display_info.getElement(M_DISPLAY_DISTANCE_KEY);
 	
 		fov_y_deg = 2 * (180. / M_PI) * atan((screen_height/2.)/screen_distance);
-		
+		fov_x_deg = 2 * (180. / M_PI) * atan((screen_width/2.)/screen_distance);
+        
         screen_radius = sqrt( (screen_height * screen_height) / 4 +
                               (screen_width * screen_width) / 4 +
                               (screen_distance * screen_distance) );
                               
         screen_aspect_ratio = screen_width / screen_height;
         
-        near_clip_distance = 0;
-        far_clip_distance = screen_distance * 2;
+        near_clip_distance = screen_distance / 2.0;
+        far_clip_distance = screen_distance * 2.0;
+
+        left = -fov_x_deg / 2.0;
+        right = fov_x_deg / 2.0;
+        top = fov_y_deg / 2.0;
+        bottom = -fov_y_deg / 2.0;
         
 	} else {
         throw SimpleException("Unable to compute screen dimensions");
 	}
+
 	
 	mprintf("Display bounds set to (%g left, %g right, %g top, %g bottom)",
 			left, right, top, bottom);
@@ -584,12 +595,12 @@ void VirtualTangentScreenDisplay::glInit(){
     glDisable(GL_FOG);
     glDisable(GL_LIGHTING);
     
-    glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL); // DDC added
+    glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
     
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity(); // Reset The Projection Matrix
+    gluPerspective(fov_y_deg, screen_aspect_ratio, near_clip_distance, far_clip_distance);
     
-    gluPerspective(y_fov_deg, screen_aspect_ratio, near_clip_distance, far_clip_distance);
     glMatrixMode(GL_MODELVIEW);
     
     glClearColor(0.5, 0.5, 0.5, 1.0);
@@ -598,11 +609,27 @@ void VirtualTangentScreenDisplay::glInit(){
 }
 
 void VirtualTangentScreenDisplay::translate2D(double x_deg, double y_deg){ 
-
+    glRotated(x_deg, 0.0, 1.0, 0.0);
+    glRotated(y_deg, 1.0, 0.0, 0.0);
+    
+    // Project out onto the virtual screen
+    glTranslated(0.0, 0.0, -screen_radius);
 }
 
-void VirtualTangentScreenDisplay::rotateInPlane2D(double rot_angle_deg){ }
-void VirtualTangentScreenDisplay::scale2D(double x_size_deg, double y_size_deg){ } 
+void VirtualTangentScreenDisplay::rotateInPlane2D(double rot_angle_deg){ 
+    glRotated(rot_angle_deg, 0.0, 0.0, 1.0);
+}
+
+void VirtualTangentScreenDisplay::scale2D(double x_size_deg, double y_size_deg){ 
+    GLdouble xscale = 2.0 * screen_radius * tan(x_size_deg / 2.0);
+    GLdouble yscale = 2.0 * screen_radius * tan(y_size_deg / 2.0);
+    glScaled(xscale, yscale, 1.0);
+} 
+
+
+VirtualTangentScreenDisplay::VirtualTangentScreenDisplay(const VirtualTangentScreenDisplay& s) :
+    StimulusDisplay()
+{ }
 
 
 END_NAMESPACE_MW

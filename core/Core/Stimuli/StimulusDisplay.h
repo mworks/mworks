@@ -87,7 +87,7 @@ namespace mw {
         std::vector<Datum> stimAnnouncements;
 		
         virtual void glInit();
-		void setDisplayBounds();
+		virtual void setDisplayBounds();
         void refreshDisplay();
         void drawDisplayStack(bool doStimAnnouncements);
         void ensureRefresh(upgrade_lock &lock);
@@ -108,6 +108,8 @@ namespace mw {
 		
 		StimulusDisplay();
 		~StimulusDisplay();
+        
+        virtual void initialize();
 		
 		void addContext(int _context_id);
 		
@@ -143,22 +145,24 @@ namespace mw {
     class VirtualTangentScreenDisplay : public StimulusDisplay {
 
       protected:
-        GLdouble screen_width, screen_height, screen_distance, screen_radius;
-        GLdouble fov_y_deg;
+        GLdouble screen_width, screen_height, screen_distance, screen_radius,
+                 screen_aspect_ratio;
+        GLdouble fov_y_deg, fov_x_deg;
         GLdouble near_clip_distance, far_clip_distance;
+
+        virtual void glInit();
+		virtual void setDisplayBounds();
 
       public:
     
         VirtualTangentScreenDisplay();
-    
-        virtual void glInit();
 
         virtual void translate2D(double x_deg, double y_deg);	
         virtual void rotateInPlane2D(double rot_angle_deg);
         virtual void scale2D(double x_size_deg, double y_size_deg);        
                 
 	  private:
-        VirtualTangentScreenDisplay(const VirtualTangentScreenDisplay& s) : refreshSync(2) { }
+        VirtualTangentScreenDisplay(const VirtualTangentScreenDisplay& s);
         void operator=(const VirtualTangentScreenDisplay& l) { }
     };
     
