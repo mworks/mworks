@@ -454,8 +454,6 @@
 		E127D3AD133A615C00532496 /* MWorksMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = E127D3AC133A615C00532496 /* MWorksMacros.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E13BD56812130E6800DF5C02 /* StandardDynamicStimulus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E13BD56612130E6800DF5C02 /* StandardDynamicStimulus.cpp */; };
 		E13BD56912130E6800DF5C02 /* StandardDynamicStimulus.h in Headers */ = {isa = PBXBuildFile; fileRef = E13BD56712130E6800DF5C02 /* StandardDynamicStimulus.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E1457B4E14D08F7E004D3AD5 /* MWorksCoreTestMain.h in Headers */ = {isa = PBXBuildFile; fileRef = E1457B4D14D08F7E004D3AD5 /* MWorksCoreTestMain.h */; };
-		E1457B5014D08F95004D3AD5 /* MWorksCoreTestMain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1457B4F14D08F95004D3AD5 /* MWorksCoreTestMain.cpp */; };
 		E16BC17B137D952D0052D8E1 /* MachUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = E16BC179137D952D0052D8E1 /* MachUtilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E16BC17C137D952D0052D8E1 /* MachUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E16BC17A137D952D0052D8E1 /* MachUtilities.cpp */; };
 		E1C87A1313FDA558005FF5ED /* DynamicStimulusActions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1C87A1213FDA558005FF5ED /* DynamicStimulusActions.cpp */; };
@@ -1112,8 +1110,6 @@
 		E127D3AC133A615C00532496 /* MWorksMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MWorksMacros.h; path = Core/MWorksMacros.h; sourceTree = "<group>"; };
 		E13BD56612130E6800DF5C02 /* StandardDynamicStimulus.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StandardDynamicStimulus.cpp; sourceTree = "<group>"; };
 		E13BD56712130E6800DF5C02 /* StandardDynamicStimulus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StandardDynamicStimulus.h; sourceTree = "<group>"; };
-		E1457B4D14D08F7E004D3AD5 /* MWorksCoreTestMain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWorksCoreTestMain.h; sourceTree = "<group>"; };
-		E1457B4F14D08F95004D3AD5 /* MWorksCoreTestMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MWorksCoreTestMain.cpp; sourceTree = "<group>"; };
 		E16BC179137D952D0052D8E1 /* MachUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MachUtilities.h; path = Core/Utilities/MachUtilities.h; sourceTree = "<group>"; };
 		E16BC17A137D952D0052D8E1 /* MachUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MachUtilities.cpp; path = Core/Utilities/MachUtilities.cpp; sourceTree = "<group>"; };
 		E1C87A1213FDA558005FF5ED /* DynamicStimulusActions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DynamicStimulusActions.cpp; sourceTree = "<group>"; };
@@ -1439,8 +1435,6 @@
 			isa = PBXGroup;
 			children = (
 				0E39EB4A0E4BD609006F38A0 /* closeServers */,
-				E1457B4D14D08F7E004D3AD5 /* MWorksCoreTestMain.h */,
-				E1457B4F14D08F95004D3AD5 /* MWorksCoreTestMain.cpp */,
 				0E39EB220E4BD41F006F38A0 /* main.cpp */,
 				0E80142F0E422E8D00D6DE20 /* Marionette */,
 				0ED517140B217A35001559AD /* BoostMathExampleTest.cpp */,
@@ -2324,7 +2318,6 @@
 				5CA07B9010D0B23B00000A95 /* EventCallbackHandlerTest.h in Headers */,
 				5CA07BB310D0B4D200000A95 /* CodecAwareConduitTest.h in Headers */,
 				E104A8A2133B829F00D36236 /* MapTest.h in Headers */,
-				E1457B4E14D08F7E004D3AD5 /* MWorksCoreTestMain.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2880,7 +2873,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/zsh;
-			shellScript = "export SOURCE_DIR=${PROJECT_DIR}\nexport MW_PYTHON_DIR=${APP_SUPPORT_DIR}/Scripting/Python/mworks\n\nmkdir -p \"${MW_PYTHON_DIR}\"\n\ncp -r ${SOURCE_DIR}/Core/Python/* \"${MW_PYTHON_DIR}\"\n\necho \"${APP_SUPPORT_DIR}/Scripting/Python\" > /Library/Python/2.6/site-packages/mworks.pth\n\nmkdir -p /Library/Python/2.7/site-packages\necho \"${APP_SUPPORT_DIR}/Scripting/Python\" > /Library/Python/2.7/site-packages/mworks.pth\n";
+			shellScript = "export SOURCE_DIR=${PROJECT_DIR}\nexport MW_PYTHON_DIR=${APP_SUPPORT_DIR}/Scripting/Python/mworks\n\nmkdir -p \"${MW_PYTHON_DIR}\"\n\ncp -r ${SOURCE_DIR}/Core/Python/* \"${MW_PYTHON_DIR}\"\n\n#echo \"${APP_SUPPORT_DIR}/Scripting/Python\" > /Library/Python/2.6/site-packages/mworks.pth\n\n#mkdir -p /Library/Python/2.7/site-packages\n#echo \"${APP_SUPPORT_DIR}/Scripting/Python\" > /Library/Python/2.7/site-packages/mworks.pth\n";
 		};
 		5CEE864C081D53A700F366DE /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2893,7 +2886,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/zsh;
-			shellScript = "export FULL_NAME=${PRODUCT_NAME}.${WRAPPER_EXTENSION}\n\nrm -Rf \"${INSTALL_PATH}/${FULL_NAME}\"\ncp -Rf \"${BUILT_PRODUCTS_DIR}/${FULL_NAME}\"  \"${INSTALL_PATH}\"\n\nmkdir -p ${CONFIG_DIR}/examples\ncp -f $PROJECT_DIR/Core/SetupVariables/setup_variables_macbook.xml ${CONFIG_DIR}/examples\ncp -f $PROJECT_DIR/Core/SetupVariables/setup_variables_two_monitors.xml ${CONFIG_DIR}/examples\n\nmkdir -p \"${PLUGINS_DIR}\"\n\nexit 0";
+			shellScript = "export FULL_NAME=${PRODUCT_NAME}.${WRAPPER_EXTENSION}\n\nrm -Rf \"${INSTALL_PATH}/${FULL_NAME}/*\"\ncp -Rf ${BUILT_PRODUCTS_DIR}/${FULL_NAME}/*  \"${INSTALL_PATH}/${FULL_NAME}/\"\n\nmkdir -p ${CONFIG_DIR}/examples\ncp -f $PROJECT_DIR/Core/SetupVariables/setup_variables_macbook.xml ${CONFIG_DIR}/examples\ncp -f $PROJECT_DIR/Core/SetupVariables/setup_variables_two_monitors.xml ${CONFIG_DIR}/examples\n\nmkdir -p \"${PLUGINS_DIR}\"\n\nexit 0";
 		};
 		5CF73C6208625E3E00F453C3 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -3016,7 +3009,6 @@
 				5CA07B9110D0B23B00000A95 /* EventCallbackHandlerTest.cpp in Sources */,
 				5CA07BB410D0B4D200000A95 /* CodecAwareConduitTest.cpp in Sources */,
 				E104A8A3133B829F00D36236 /* MapTest.cpp in Sources */,
-				E1457B5014D08F95004D3AD5 /* MWorksCoreTestMain.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3379,11 +3371,14 @@
 		0E8014150E422E2B00D6DE20 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COPY_PHASE_STRIP = NO;
 				HEADER_SEARCH_PATHS = (
 					/usr/include/libxml2,
 					"$(MW_INCLUDE_DIR)",
 				);
 				INFOPLIST_FILE = "MarionetteTest-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -3395,6 +3390,7 @@
 					"-lxslt",
 				);
 				PRODUCT_NAME = MarionetteTest;
+				WRAPPER_EXTENSION = app;
 			};
 			name = Development;
 		};
@@ -3402,9 +3398,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREFIX_HEADER = "";
 				GCC_PREPROCESSOR_DEFINITIONS = LOW_PRIORITY_MODE;
+				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
 				INFOPLIST_FILE = "LowPrioritySchedulerPlugin-Info.plist";
 				INSTALL_PATH = "$(PLUGINS_DIR)";
+				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
+				LIBRARY_STYLE = BUNDLE;
+				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -3413,13 +3415,17 @@
 					"-framework",
 					MWorksCore,
 				);
+				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = LowPrioritySchedulerPlugin;
+				SECTORDER_FLAGS = "";
 			};
 			name = Development;
 		};
 		5C0E84DB086D85D400B3EE7C /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				DEPLOYMENT_LOCATION = YES;
+				DSTROOT = /;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
@@ -3429,6 +3435,8 @@
 					"$(MW_INCLUDE_DIR)",
 				);
 				INFOPLIST_FILE = "MWorksCore-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
 				OTHER_CFLAGS = "-ObjC++";
 				OTHER_LDFLAGS = (
 					"$(MW_LIB_DIR)/libpng.a",
@@ -3470,10 +3478,15 @@
 		5C0E84EB086D85D400B3EE7C /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COPY_PHASE_STRIP = NO;
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREFIX_HEADER = "";
+				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
 				INFOPLIST_FILE = "MachClockPlugin-Info.plist";
 				INSTALL_PATH = "$(PLUGINS_DIR)";
+				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
+				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -3482,17 +3495,28 @@
 					"-framework",
 					MWorksCore,
 				);
+				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = MachClockPlugin;
+				SECTORDER_FLAGS = "";
+				ZERO_LINK = NO;
 			};
 			name = Development;
 		};
 		5C0E84FB086D85D400B3EE7C /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5C0CD7A41149E75F00B1C674 /* Development.xcconfig */;
 			buildSettings = {
+				COPY_PHASE_STRIP = NO;
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREFIX_HEADER = "";
 				GCC_PREPROCESSOR_DEFINITIONS = REALTIME_SCHEDULER;
+				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
 				INFOPLIST_FILE = "ZenSchedulerPlugin-Info.plist";
 				INSTALL_PATH = "$(PLUGINS_DIR)";
+				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
+				LIBRARY_STYLE = BUNDLE;
+				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -3501,6 +3525,7 @@
 					"-framework",
 					MWorksCore,
 				);
+				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = ZenSchedulerPlugin;
 			};
 			name = Development;
@@ -3508,11 +3533,18 @@
 		5C0E84FF086D85D400B3EE7C /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COPY_PHASE_STRIP = NO;
 				GCC_DEBUGGING_SYMBOLS = full;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREFIX_HEADER = "";
+				GCC_PREPROCESSOR_DEFINITIONS = "";
+				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
 				INFOPLIST_FILE = "ZenStateSystemPlugin-Info.plist";
+				LIBRARY_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
+				LIBRARY_STYLE = BUNDLE;
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -3521,6 +3553,7 @@
 					"-framework",
 					MWorksCore,
 				);
+				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = ZenStateSystemPlugin;
 			};
 			name = Development;
@@ -3550,7 +3583,13 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5C0CD7A41149E75F00B1C674 /* Development.xcconfig */;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				FRAMEWORK_SEARCH_PATHS = /Library/Frameworks;
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
+				GCC_OBJC_CALL_CXX_CDTORS = YES;
+				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)/**";
+				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
+				STRIP_INSTALLED_PRODUCT = NO;
 			};
 			name = Development;
 		};
@@ -3567,6 +3606,12 @@
 		5C4D232E09DC595B0082BF9F /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					x86_64,
+					i386,
+				);
+				COPY_PHASE_STRIP = NO;
+				DSTROOT = "/tmp/$(PRODUCT_NAME).dst";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(FRAMEWORK_SEARCH_PATHS)",
 					"\"$(TESTS_DIR)\"",
@@ -3577,7 +3622,9 @@
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
 				INSTALL_PATH = "$(TESTS_DIR)";
+				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
 				OTHER_LDFLAGS = (
 					"-ldl",
 					"-lcppunit",
@@ -3589,6 +3636,7 @@
 					"-lscarab",
 				);
 				PRODUCT_NAME = MWorksCoreTestRunner;
+				ZERO_LINK = NO;
 			};
 			name = Development;
 		};
@@ -3603,8 +3651,11 @@
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_INPUT_FILETYPE = sourcecode.cpp.cpp;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
 				INFOPLIST_FILE = "MWorksCoreTest-Info.plist";
 				INSTALL_PATH = "$(TESTS_DIR)";
+				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
+				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
 					"-lstdc++",
 					"-framework",
@@ -3629,6 +3680,427 @@
 			};
 			name = Development;
 		};
+		5C9EBDA3107244C00051414D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APP_SUPPORT_DIR = "/Library/Application Support/MWorks";
+				ARCHS = (
+					x86_64,
+					i386,
+				);
+				CONFIG_DIR = "$(APP_SUPPORT_DIR)/Configuration";
+				FRAMEWORK_SEARCH_PATHS = /Library/Frameworks;
+				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
+				GCC_OBJC_CALL_CXX_CDTORS = YES;
+				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_VERSION = 4.2;
+				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
+				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
+				SDKROOT = macosx10.6;
+				STRIP_INSTALLED_PRODUCT = NO;
+				TESTS_DIR = "$(APP_SUPPORT_DIR)/Developer/tests";
+			};
+			name = Release;
+		};
+		5C9EBDA4107244C00051414D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					x86_64,
+					i386,
+				);
+				DEPLOYMENT_LOCATION = YES;
+				DSTROOT = /;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_DEBUGGING_SYMBOLS = full;
+				GCC_ENABLE_OBJC_GC = supported;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (
+					/usr/include/libxml2,
+					"$(MW_INCLUDE_DIR)",
+				);
+				INFOPLIST_FILE = "MWorksCore-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
+				OTHER_CFLAGS = "-ObjC++";
+				OTHER_LDFLAGS = (
+					"-lz",
+					"-llcms",
+					"-lmng",
+					"-ljpeg",
+					"-ltiff",
+					"-lpng",
+					"-framework",
+					OpenAL,
+					"-lILU",
+					"-lIL",
+					"-lILUT",
+					"-framework",
+					AppKit,
+					"-framework",
+					Carbon,
+					"-lscarab",
+					"-framework",
+					OpenGL,
+					"-framework",
+					GLUT,
+					"-framework",
+					IOKit,
+					"-lboost_regex",
+					"-lboost_thread",
+					"-lboost_system",
+					"-lboost_serialization",
+					"-lboost_filesystem",
+					"-lxml2",
+					"-lxslt",
+				);
+				PRODUCT_NAME = MWorksCore;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+			};
+			name = Release;
+		};
+		5C9EBDA5107244C00051414D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					x86_64,
+					i386,
+				);
+				COPY_PHASE_STRIP = NO;
+				GCC_DEBUGGING_SYMBOLS = full;
+				GCC_ENABLE_OBJC_GC = supported;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
+				INFOPLIST_FILE = "MachClockPlugin-Info.plist";
+				INSTALL_PATH = "$(PLUGINS_DIR)";
+				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+					"-framework",
+					MWorksCore,
+				);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = MachClockPlugin;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		5C9EBDA7107244C00051414D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DEBUGGING_SYMBOLS = full;
+				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = Everything;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		5C9EBDAA107244C00051414D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					x86_64,
+					i386,
+				);
+				COPY_PHASE_STRIP = NO;
+				GCC_DEBUGGING_SYMBOLS = full;
+				GCC_ENABLE_OBJC_GC = supported;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				GCC_PREPROCESSOR_DEFINITIONS = REALTIME_SCHEDULER;
+				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
+				INFOPLIST_FILE = "ZenSchedulerPlugin-Info.plist";
+				INSTALL_PATH = "$(PLUGINS_DIR)";
+				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
+				LIBRARY_STYLE = BUNDLE;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+					"-framework",
+					MWorksCore,
+				);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ZenSchedulerPlugin;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+			};
+			name = Release;
+		};
+		5C9EBDAB107244C00051414D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					i386,
+					x86_64,
+				);
+				COPY_PHASE_STRIP = NO;
+				GCC_DEBUGGING_SYMBOLS = full;
+				GCC_ENABLE_OBJC_GC = supported;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				GCC_PREPROCESSOR_DEFINITIONS = "";
+				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
+				INFOPLIST_FILE = "ZenStateSystemPlugin-Info.plist";
+				INSTALL_PATH = "$(PLUGINS_DIR)";
+				LIBRARY_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
+				LIBRARY_STYLE = BUNDLE;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+					"-framework",
+					MWorksCore,
+				);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ZenStateSystemPlugin;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+			};
+			name = Release;
+		};
+		5C9EBDAC107244C00051414D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					x86_64,
+					i386,
+				);
+				COPY_PHASE_STRIP = NO;
+				GCC_DEBUGGING_SYMBOLS = full;
+				GCC_ENABLE_OBJC_GC = supported;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				GCC_PREPROCESSOR_DEFINITIONS = LOW_PRIORITY_MODE;
+				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
+				INFOPLIST_FILE = "LowPrioritySchedulerPlugin-Info.plist";
+				INSTALL_PATH = "$(PLUGINS_DIR)";
+				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
+				LIBRARY_STYLE = BUNDLE;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+					"-framework",
+					MWorksCore,
+				);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = LowPrioritySchedulerPlugin;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+			};
+			name = Release;
+		};
+		5C9EBDAE107244C00051414D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					x86_64,
+					i386,
+				);
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_DEBUGGING_SYMBOLS = full;
+				GCC_ENABLE_OBJC_GC = supported;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_INPUT_FILETYPE = sourcecode.cpp.cpp;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
+				INFOPLIST_FILE = "MWorksCoreTest-Info.plist";
+				INSTALL_PATH = "$(TESTS_DIR)";
+				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = (
+					"-lstdc++",
+					"-framework",
+					AppKit,
+					"-framework",
+					Cocoa,
+					"-framework",
+					MWorksCore,
+					"-lcppunit",
+					"-lscarab",
+					"-lboost_serialization",
+				);
+				PRODUCT_NAME = MWorksCoreTest;
+				STANDARD_C_PLUS_PLUS_LIBRARY_TYPE = dynamic;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+			};
+			name = Release;
+		};
+		5C9EBDAF107244C00051414D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					x86_64,
+					i386,
+				);
+				COPY_PHASE_STRIP = NO;
+				DSTROOT = "/tmp/$(PRODUCT_NAME).dst";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(FRAMEWORK_SEARCH_PATHS)",
+					"$(TESTS_DIR)",
+				);
+				GCC_DEBUGGING_SYMBOLS = full;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_GC = supported;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
+				INSTALL_PATH = "$(TESTS_DIR)";
+				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
+				OTHER_LDFLAGS = (
+					"-ldl",
+					"-lcppunit",
+					"-framework",
+					MWorksCore,
+					"-framework",
+					MWorksCoreTest,
+					"-lILUT",
+					"-lscarab",
+				);
+				PRODUCT_NAME = MWorksCoreTestRunner;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		5C9EBDB2107244C00051414D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				HEADER_SEARCH_PATHS = (
+					/usr/include/libxml2,
+					"$(MW_INCLUDE_DIR)",
+				);
+				INFOPLIST_FILE = "MarionetteTest-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+					"-framework",
+					MWorksCore,
+					"-lxml2",
+					"-lxslt",
+				);
+				PRODUCT_NAME = MarionetteTest;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		5C9EBDB3107244C00051414D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = CoreUninstall;
+			};
+			name = Release;
+		};
+		5C9EBDB4107244C00051414D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = (
+					x86_64,
+					i386,
+				);
+				COPY_PHASE_STRIP = NO;
+				EXECUTABLE_EXTENSION = so;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				HEADER_SEARCH_PATHS = (
+					/usr/include/python2.5,
+					$MW_INCLUDE_DIR,
+				);
+				INSTALL_PATH = /usr/local/lib;
+				LINK_WITH_STANDARD_LIBRARIES = YES;
+				MACH_O_TYPE = mh_bundle;
+				OTHER_LDFLAGS = (
+					"-lboost_python",
+					"-lpython2.5",
+				);
+				PRODUCT_NAME = mw_conduit;
+			};
+			name = Release;
+		};
+		5C9EBDB5107244C00051414D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = "Set Version String";
+			};
+			name = Release;
+		};
 		5CCE1CD010A4692500EF5866 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -3639,17 +4111,35 @@
 			};
 			name = Development;
 		};
+		5CCE1CD210A4692500EF5866 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				PRODUCT_NAME = PyMW;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
 		5CDB8B250E9C4A6300993D99 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = (
+					x86_64,
+					i386,
+				);
+				COPY_PHASE_STRIP = NO;
 				EXECUTABLE_EXTENSION = so;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_INPUT_FILETYPE = sourcecode.cpp.cpp;
+				GCC_OPTIMIZATION_LEVEL = 0;
 				HEADER_SEARCH_PATHS = (
 					/usr/include/python2.6,
 					$MW_INCLUDE_DIR,
 				);
+				INSTALL_PATH = /usr/local/lib;
 				LINK_WITH_STANDARD_LIBRARIES = YES;
 				MACH_O_TYPE = mh_bundle;
 				OTHER_LDFLAGS = (
@@ -3658,7 +4148,10 @@
 					"-lboost_python",
 				);
 				PRODUCT_NAME = _conduit;
-				WARNING_CFLAGS = "-Wno-write-strings";
+				WARNING_CFLAGS = (
+					"-Wno-sign-compare",
+					"-Wno-write-strings",
+				);
 			};
 			name = Development;
 		};
@@ -3672,6 +4165,16 @@
 			};
 			name = Development;
 		};
+		E11542071193460300DDE09D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				PRODUCT_NAME = test_mworks;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -3679,6 +4182,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				0E121C940E6B1EF8007B29B8 /* Development */,
+				5C9EBDB3107244C00051414D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
@@ -3687,6 +4191,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				0E8014150E422E2B00D6DE20 /* Development */,
+				5C9EBDB2107244C00051414D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
@@ -3695,6 +4200,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5C0E757709D1A886002295FB /* Development */,
+				5C9EBDAC107244C00051414D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
@@ -3703,6 +4209,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5C0E84DB086D85D400B3EE7C /* Development */,
+				5C9EBDA4107244C00051414D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
@@ -3711,6 +4218,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5C0E84EB086D85D400B3EE7C /* Development */,
+				5C9EBDA5107244C00051414D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
@@ -3719,6 +4227,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5C0E84FB086D85D400B3EE7C /* Development */,
+				5C9EBDAA107244C00051414D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
@@ -3727,6 +4236,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5C0E84FF086D85D400B3EE7C /* Development */,
+				5C9EBDAB107244C00051414D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
@@ -3735,6 +4245,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5C0E8503086D85D400B3EE7C /* Development */,
+				5C9EBDA7107244C00051414D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
@@ -3743,6 +4254,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5C0E850F086D85D400B3EE7C /* Development */,
+				5C9EBDA3107244C00051414D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
@@ -3751,6 +4263,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5C488A170F4E27CD00C5A526 /* Development */,
+				5C9EBDB5107244C00051414D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
@@ -3759,6 +4272,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5C4D232E09DC595B0082BF9F /* Development */,
+				5C9EBDAF107244C00051414D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
@@ -3767,6 +4281,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5C4D239F09DC83950082BF9F /* Development */,
+				5C9EBDAE107244C00051414D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
@@ -3775,6 +4290,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5CCE1CD010A4692500EF5866 /* Development */,
+				5CCE1CD210A4692500EF5866 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
@@ -3783,6 +4299,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5CDB8B250E9C4A6300993D99 /* Development */,
+				5C9EBDB4107244C00051414D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
@@ -3791,6 +4308,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E11542051193460300DDE09D /* Development */,
+				E11542071193460300DDE09D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
