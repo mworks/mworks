@@ -589,11 +589,15 @@ void VirtualTangentScreenDisplay::setDisplayBounds(){
 void VirtualTangentScreenDisplay::glInit(){ 
 
 
-    glShadeModel(GL_FLAT);
-    glDisable(GL_BLEND);
+    glShadeModel(GL_SMOOTH);
+    glEnable(GL_BLEND);
     glDisable(GL_DITHER);
     glDisable(GL_FOG);
     glDisable(GL_LIGHTING);
+    
+    glEnable (GL_POLYGON_SMOOTH);
+    glHint (GL_POLYGON_SMOOTH_HINT, GL_NICEST);
+    glEnable(GL_MULTISAMPLE_ARB);
     
     glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
     
@@ -621,8 +625,8 @@ void VirtualTangentScreenDisplay::rotateInPlane2D(double rot_angle_deg){
 }
 
 void VirtualTangentScreenDisplay::scale2D(double x_size_deg, double y_size_deg){ 
-    GLdouble xscale = 2.0 * screen_radius * tan(x_size_deg / 2.0);
-    GLdouble yscale = 2.0 * screen_radius * tan(y_size_deg / 2.0);
+    GLdouble xscale = 2.0 * screen_radius * tan(M_PI * x_size_deg / (2.0 * 180));
+    GLdouble yscale = 2.0 * screen_radius * tan(M_PI * y_size_deg / (2.0 * 180));
     glScaled(xscale, yscale, 1.0);
 } 
 

@@ -117,7 +117,7 @@ void BasicTransformStimulus::draw(shared_ptr<StimulusDisplay>  display,float x, 
 	display->translate2D(x, y);
 	display->rotateInPlane2D(rot);
 	display->scale2D(sizex, sizey); // scale it up
-    display->translate2D(-0.5, -0.5);
+    glTranslated(-0.5, -0.5, 0.0);
     					
     drawInUnitSquare(display);
                     
@@ -543,9 +543,12 @@ void PointStimulus::drawInUnitSquare(shared_ptr<StimulusDisplay> display) {
 	   
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-	glEnable (GL_BLEND); 
+	glEnable(GL_POLYGON_SMOOTH);
+    glHint(GL_POLYGON_SMOOTH_HINT, GL_NICEST);
+    glEnable (GL_BLEND); 
 	glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_ADD);
+	
+    glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_ADD);
 	
     glBegin(GL_QUADS);
 		
