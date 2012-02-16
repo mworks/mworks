@@ -2,7 +2,6 @@
 
 from contextlib import contextmanager
 import os
-import os.path
 import subprocess
 import sys
 
@@ -14,17 +13,26 @@ import sys
 ################################################################################
 
 
-gcc = '/Developer/usr/bin/gcc'
-gplusplus = '/Developer/usr/bin/g++'
+if not os.path.isdir('/Applications/Xcode.app'):
+    # Xcode 4.2 or earlier
+    bin_root = ''
+    sdk_root = ''
+else:
+    # Xcode 4.3 or later
+    bin_root = '/Applications/Xcode.app/Contents'
+    sdk_root = bin_root + '/Developer/Platforms/MacOSX.platform'
+
+gcc = bin_root + '/Developer/usr/bin/gcc'
+gplusplus = bin_root + '/Developer/usr/bin/g++'
 
 sdk_version = '10.6'
-sdk_root = '/Developer/SDKs/MacOSX%s.sdk' % sdk_version
+sdk_path = '%s/Developer/SDKs/MacOSX%s.sdk' % (sdk_root, sdk_version)
 
 python_version = '2.6'
 python = '/usr/bin/python' + python_version
 
 ldflags = ('-arch x86_64 -arch i386 -isysroot %s -mmacosx-version-min=%s ' %
-           (sdk_root, sdk_version))
+           (sdk_path, sdk_version))
 cflags = ldflags + '-pipe -Os -mtune=core2 -gdwarf-2 -fexceptions '
 
 downloaddir = 'download'
@@ -140,6 +148,9 @@ def boost():
     unpack_tarfile(tarfile, srcdir)
 
     with workdir(srcdir):
+        with open('tools/build/v2/user-config.jam', 'w') as fp:
+            fp.write('using darwin : : : <root>' + sdk_root  + '/Developer ;\n')
+        
         check_call([
             './bootstrap.sh',
             ('--with-libraries='
@@ -148,6 +159,7 @@ def boost():
             '--with-python=' + python,
             '--prefix=' + path_to_stagedir,
             ])
+        
         check_call([
             './b2',
             'optimization=space',
@@ -247,7 +259,7 @@ def devil():
         srcdir = srcdir,
         extra_args = ['--enable-ILU', '--enable-ILUT'],
         extra_cflags = ('-I%s/usr/include/malloc -I%s/include' %
-                        (sdk_root, path_to_stagedir)), 
+                        (sdk_path, path_to_stagedir)), 
         extra_ldflags = ('-lstdc++ -L%s/lib' % path_to_stagedir), 
         )
 
