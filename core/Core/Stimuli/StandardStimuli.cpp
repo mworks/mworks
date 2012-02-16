@@ -48,6 +48,7 @@ const std::string BasicTransformStimulus::X_POSITION("x_position");
 const std::string BasicTransformStimulus::Y_POSITION("y_position");
 const std::string BasicTransformStimulus::ROTATION("rotation");
 const std::string BasicTransformStimulus::ALPHA_MULTIPLIER("alpha_multiplier");
+const std::string BasicTransformStimulus::USE_SCREEN_UNITS("use_screen_units");
 
 
 void BasicTransformStimulus::describeComponent(ComponentInfo &info) {
@@ -58,11 +59,13 @@ void BasicTransformStimulus::describeComponent(ComponentInfo &info) {
     info.addParameter(Y_POSITION, "0.0");
     info.addParameter(ROTATION, "0.0");
     info.addParameter(ALPHA_MULTIPLIER, "1.0");
+    info.addParameter(USE_SCREEN_UNITS, false);
 }
 
 
 BasicTransformStimulus::BasicTransformStimulus(const ParameterValueMap &parameters) :
     Stimulus(parameters),
+    use_screen_units(parameters[USE_SCREEN_UNITS]),
     xscale(registerVariable(parameters[X_SIZE])),
     yscale(registerVariable(parameters[Y_SIZE])),
     xoffset(registerVariable(parameters[X_POSITION])),
@@ -114,9 +117,16 @@ void BasicTransformStimulus::draw(shared_ptr<StimulusDisplay>  display,float x, 
     
     glPushMatrix();
     
-	display->translate2D(x, y);
-	display->rotateInPlane2D(rot);
-	display->scale2D(sizex, sizey); // scale it up
+    if(use_screen_units){
+        display->translate2D_screenUnits(x, y);
+        display->rotateInPlane2D(rot);
+        display->scale2D_screenUnits(sizex, sizey); 
+    } else {
+        display->translate2D(x, y);
+        display->rotateInPlane2D(rot);
+        display->scale2D(sizex, sizey); 
+    }
+    
     glTranslated(-0.5, -0.5, 0.0);
     					
     drawInUnitSquare(display);

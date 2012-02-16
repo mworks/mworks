@@ -99,10 +99,10 @@ void StimulusDisplay::addStimulusNode(shared_ptr<StimulusNode> stimnode) {
 }
 
 void StimulusDisplay::setDisplayBounds(){
-  shared_ptr<mw::ComponentRegistry> reg = mw::ComponentRegistry::getSharedRegistry();
-  shared_ptr<Variable> main_screen_info = reg->getVariable(MAIN_SCREEN_INFO_TAGNAME);
+    shared_ptr<mw::ComponentRegistry> reg = mw::ComponentRegistry::getSharedRegistry();
+    shared_ptr<Variable> main_screen_info = reg->getVariable(MAIN_SCREEN_INFO_TAGNAME);
   
- Datum display_info = *main_screen_info; // from standard variables
+    Datum display_info = *main_screen_info; // from standard variables
 	if(display_info.getDataType() == M_DICTIONARY &&
 	   display_info.hasKey(M_DISPLAY_WIDTH_KEY) &&
 	   display_info.hasKey(M_DISPLAY_HEIGHT_KEY) &&
@@ -120,6 +120,8 @@ void StimulusDisplay::setDisplayBounds(){
 		right = half_width_deg;
 		top = half_height_deg;
 		bottom = -half_height_deg;
+        
+        degrees_per_screen_unit = 2.0 * half_width_deg / width_unknown_units;
 	} else {
 		left = M_STIMULUS_DISPLAY_LEFT_EDGE;
 		right = M_STIMULUS_DISPLAY_RIGHT_EDGE;
@@ -537,6 +539,18 @@ void StimulusDisplay::scale2D(double x_size_deg, double y_size_deg){
 }
         
 
+void StimulusDisplay::translate2D_screenUnits(double x, double y){
+    glTranslated(x * degrees_per_screen_unit, 
+                 y * degrees_per_screen_unit, 
+                 0.0);
+}
+
+void StimulusDisplay::scale2D_screenUnits(double x_size, double y_size){
+    glTranslated(x_size * degrees_per_screen_unit, 
+                 y_size * degrees_per_screen_unit, 
+                 1.0);
+}
+
 
 
 
@@ -629,6 +643,15 @@ void VirtualTangentScreenDisplay::scale2D(double x_size_deg, double y_size_deg){
     GLdouble yscale = 2.0 * screen_radius * tan(M_PI * y_size_deg / (2.0 * 180));
     glScaled(xscale, yscale, 1.0);
 } 
+
+void VirtualTangentScreenDisplay::translate2D_screenUnits(double x, double y){
+    glTranslated(x, y, -screen_radius);
+}
+
+void VirtualTangentScreenDisplay::scale2D_screenUnits(double x_size, double y_size){
+    glTranslated(x_size, y_size, 1.0);
+}
+
 
 
 VirtualTangentScreenDisplay::VirtualTangentScreenDisplay(const VirtualTangentScreenDisplay& s) :

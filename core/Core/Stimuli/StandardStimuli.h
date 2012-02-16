@@ -41,6 +41,8 @@ protected:
     shared_ptr<Variable> rotation; // planar rotation added in for free
     shared_ptr<Variable> alpha_multiplier;
     
+    bool use_screen_units;
+    
     // JJD added these July 2006 to keep track of what was actually done for announcing things
     float last_posx, last_posy, last_sizex, last_sizey, last_rot;
     
@@ -51,6 +53,7 @@ public:
     static const std::string Y_POSITION;
     static const std::string ROTATION;
     static const std::string ALPHA_MULTIPLIER;
+    static const std::string USE_SCREEN_UNITS;
     
     static void describeComponent(ComponentInfo &info);
     

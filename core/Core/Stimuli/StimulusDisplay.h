@@ -134,9 +134,14 @@ namespace mw {
         // Default implementations are for orthographic display
         virtual void translate2D(double x_deg, double y_deg);	
         virtual void rotateInPlane2D(double rot_angle_deg);
-        virtual void scale2D(double x_size_deg, double y_size_deg);        
+        virtual void scale2D(double x_size_deg, double y_size_deg);  
+        
+        // Stimulus transformation in 
+        virtual void translate2D_screenUnits(double x, double y);
+        virtual void scale2D_screenUnits(double x_size, double y_size);
                 
 	  private:
+        GLdouble degrees_per_screen_unit;
         StimulusDisplay(const StimulusDisplay& s) : refreshSync(2) { }
         void operator=(const StimulusDisplay& l) { }
     };
@@ -160,7 +165,10 @@ namespace mw {
         virtual void translate2D(double x_deg, double y_deg);	
         virtual void rotateInPlane2D(double rot_angle_deg);
         virtual void scale2D(double x_size_deg, double y_size_deg);        
-                
+        
+        virtual void translate2D_screenUnits(double x, double y);
+        virtual void scale2D_screenUnits(double x_size, double y_size);
+        
 	  private:
         VirtualTangentScreenDisplay(const VirtualTangentScreenDisplay& s);
         void operator=(const VirtualTangentScreenDisplay& l) { }
