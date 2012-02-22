@@ -59,7 +59,7 @@ void BasicTransformStimulus::describeComponent(ComponentInfo &info) {
     info.addParameter(Y_POSITION, "0.0");
     info.addParameter(ROTATION, "0.0");
     info.addParameter(ALPHA_MULTIPLIER, "1.0");
-    info.addParameter(USE_SCREEN_UNITS, false);
+    info.addParameter(USE_SCREEN_UNITS, "0");
 }
 
 

@@ -582,8 +582,8 @@ void VirtualTangentScreenDisplay::setDisplayBounds(){
                               
         screen_aspect_ratio = screen_width / screen_height;
         
-        near_clip_distance = screen_distance / 2.0;
-        far_clip_distance = screen_distance * 2.0;
+        near_clip_distance = screen_distance - 1.0;
+        far_clip_distance = screen_distance * 200.0;
 
         left = -fov_x_deg / 2.0;
         right = fov_x_deg / 2.0;
@@ -627,7 +627,7 @@ void VirtualTangentScreenDisplay::glInit(){
 }
 
 void VirtualTangentScreenDisplay::translate2D(double x_deg, double y_deg){ 
-    glRotated(x_deg, 0.0, 1.0, 0.0);
+    glRotated(-x_deg, 0.0, 1.0, 0.0);
     glRotated(y_deg, 1.0, 0.0, 0.0);
     
     // Project out onto the virtual screen
@@ -649,7 +649,7 @@ void VirtualTangentScreenDisplay::translate2D_screenUnits(double x, double y){
 }
 
 void VirtualTangentScreenDisplay::scale2D_screenUnits(double x_size, double y_size){
-    glTranslated(x_size, y_size, 1.0);
+    glScaled(x_size, y_size, 1.0);
 }
 
 
