@@ -163,6 +163,10 @@ extern shared_ptr<Variable> beamPosition;		// DDC added as an experiment, Aug 20
 #define M_USE_VIRTUAL_TANGENT_SCREEN_KEY    "use_virtual_tangent_screen"
 #define M_MIRROR_WINDOW_BASE_HEIGHT_KEY		"mirror_window_base_height"
 #define M_REFRESH_RATE_KEY					"refresh_rate_hz"
+
+#define M_DISPLAY_X_OFFSET_KEY              "horizontal_offset"
+#define M_DISPLAY_Y_OFFSET_KEY              "vertical_offset"
+
 extern shared_ptr<Variable> mainDisplayInfo;		
 extern shared_ptr<Variable> warnOnSkippedRefresh;		
 extern shared_ptr<Variable> alt_failover;
