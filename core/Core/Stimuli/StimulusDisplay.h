@@ -152,6 +152,7 @@ namespace mw {
       protected:
         GLdouble screen_width, screen_height, screen_distance, screen_radius,
                  screen_aspect_ratio;
+        GLdouble x_offset_screen_units, y_offset_screen_units;
         GLdouble fov_y_deg, fov_x_deg;
         GLdouble near_clip_distance, far_clip_distance;
 

@@ -568,6 +568,17 @@ void VirtualTangentScreenDisplay::setDisplayBounds(){
 	   display_info.hasKey(M_DISPLAY_DISTANCE_KEY)){
 	
 
+        if(display_info.hasKey(M_DISPLAY_X_OFFSET_KEY)){
+            x_offset_screen_units = display_info.getElement(M_DISPLAY_X_OFFSET_KEY);
+        } else {
+            x_offset_screen_units = 0.0;
+        }
+        
+        if(display_info.hasKey(M_DISPLAY_Y_OFFSET_KEY)){
+            y_offset_screen_units = display_info.getElement(M_DISPLAY_Y_OFFSET_KEY);
+        } else {
+            y_offset_screen_units = 0.0;
+        }        
     
 		screen_width = display_info.getElement(M_DISPLAY_WIDTH_KEY);
 		screen_height = display_info.getElement(M_DISPLAY_HEIGHT_KEY);
@@ -627,6 +638,7 @@ void VirtualTangentScreenDisplay::glInit(){
 }
 
 void VirtualTangentScreenDisplay::translate2D(double x_deg, double y_deg){ 
+    glTranslated(x_offset_screen_units, y_offset_screen_units, 0.0);
     glRotated(-x_deg, 0.0, 1.0, 0.0);
     glRotated(y_deg, 1.0, 0.0, 0.0);
     
@@ -645,7 +657,7 @@ void VirtualTangentScreenDisplay::scale2D(double x_size_deg, double y_size_deg){
 } 
 
 void VirtualTangentScreenDisplay::translate2D_screenUnits(double x, double y){
-    glTranslated(x, y, -screen_radius);
+    glTranslated(x, y, -screen_distance);
 }
 
 void VirtualTangentScreenDisplay::scale2D_screenUnits(double x_size, double y_size){
