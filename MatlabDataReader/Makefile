@@ -4,14 +4,17 @@ include $(XCCONFIG_DIR)/$(XCCONFIG_NAME).xcconfig
 
 SHELL = /bin/bash
 
+CXX_ROOT = $(realpath /Applications/Xcode.app/Contents)
+SDK_ROOT = $(realpath $(CXX_ROOT)/Developer/Platforms/MacOSX.platform)
+
 INSTALL_DIR = "$(APP_SUPPORT_DIR)/Scripting/Matlab"
 MATLABHOME = /Applications/MATLAB
 MEX        = $(MATLABHOME)/bin/mex
-CXX        = /Developer/usr/bin/g++
+CXX        = $(CXX_ROOT)/Developer/usr/bin/g++
 CFLAGS     = -arch i386 -arch x86_64 -fno-common -no-cpp-precomp -fexceptions
 LIBS      = -L\"$(DEVELOPER_DIR)/lib\" -lscarab -ldfindex -lMWorksStreamUtilities -lboost_serialization -lboost_system -lboost_filesystem
 INCLUDE   = -I$(MATLABHOME)/extern/include -I"$(DEVELOPER_DIR)"/include
-MEXFLAGS  = -cxx LD='$(CXX)' LDFLAGS='`echo "$$LDFLAGS" | sed "s/10\.5/10\.6/g"`'
+MEXFLAGS  = -cxx LD='$(CXX)' LDFLAGS='`echo "$$LDFLAGS" | sed "s/10\.5/10\.6/g" | sed "s%-syslibroot,%-syslibroot,$(SDK_ROOT)%g"`'
 
 SRCS = getCodecs.cpp getEvents.cpp
 OBJS = $(SRCS:.cpp=.o)
