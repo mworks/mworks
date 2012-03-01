@@ -5,7 +5,7 @@ include $(XCCONFIG_DIR)/$(XCCONFIG_NAME).xcconfig
 SHELL = /bin/bash
 
 CXX_ROOT = $(realpath /Applications/Xcode.app/Contents)
-SDK_ROOT = $(realpath $(CXX_ROOT)/Developer/Platforms/MacOSX.platform)
+SDK_ROOT = $(realpath /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform)
 
 INSTALL_DIR = "$(APP_SUPPORT_DIR)/Scripting/Matlab"
 MATLABHOME = /Applications/MATLAB
