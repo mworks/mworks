@@ -200,6 +200,7 @@ namespace mw {
 		
 		// Utility look-ups to centralize commonly used parsing
 		bool getBoolean(std::string expression);
+        Datum getValue(std::string expression, GenericDataType type = M_UNDEFINED);
         Datum getNumber(std::string expression, GenericDataType type = M_FLOAT);
 		boost::filesystem::path getPath(std::string working, 
 										std::string expression);

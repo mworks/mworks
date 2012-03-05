@@ -471,7 +471,7 @@ bool ComponentRegistry::getBoolean(std::string expression){
 }
 
 
-Datum ComponentRegistry::getNumber(std::string expression, GenericDataType type){
+Datum ComponentRegistry::getValue(std::string expression, GenericDataType type) {
 
   std::pair<std::string, GenericDataType> cacheKey(expression, type);
   shared_ptr<Datum> test = data_cache[cacheKey];
@@ -511,11 +511,14 @@ Datum ComponentRegistry::getNumber(std::string expression, GenericDataType type)
           value = Datum(string(expression));
           break;
       default:
-          throw NonFatalParserException("Attempt to cast a number of invalid type");
+          // No lexical_cast for other types
+          break;
     }
     
-    data_cache[cacheKey] = shared_ptr<Datum>(new Datum(value));
-    return value;
+    if (!value.isUndefined()) {
+        data_cache[cacheKey] = shared_ptr<Datum>(new Datum(value));
+        return value;
+    }
   } catch (NonFatalParserException& e){
       // Until we work out how to effectively flag these issues, treat them as fatal errors
       throw FatalParserException(e.what());
@@ -526,7 +529,26 @@ Datum ComponentRegistry::getNumber(std::string expression, GenericDataType type)
   
 	ParsedExpressionVariable e(expression);
 	
-	value = e.getValue();
+	return e.getValue();
+}
+
+
+Datum ComponentRegistry::getNumber(std::string expression, GenericDataType type){
+
+  Datum value;
+    switch(type){
+      case M_FLOAT:
+      case M_INTEGER:
+      case M_BOOLEAN:
+      case M_STRING:
+          value = getValue(expression, type);
+          if (value.getDataType() == type) {
+              return value;
+          }
+          break;
+      default:
+          throw FatalParserException("Attempt to cast a number of invalid type");
+    }
 	
 	switch (type){
 	
@@ -539,39 +561,8 @@ Datum ComponentRegistry::getNumber(std::string expression, GenericDataType type)
 		case M_BOOLEAN:
 			return Datum(value.getBool());
 		default:
-			return Datum(value);			
+			return value;			
 	}
-	
-	return Datum(value);
-		
-/*	
-	
-	std::string final_expression("");
-	int modifier = 1;
-
-	// now, do a quick and find on "us", "ms" and "s" 
-	boost::regex r("(.*?\\W)(us|ms|s)");
-	smatch matches;
-	std::string modifier_part("");
-	
-	
-	if(regex_match(expression, matches, r)){
-		final_expression = matches[1];
-		modifier_part = matches[2];
-		
-		if(modifier_part == "ms"){
-			modifier = 1000;
-		} else if(modifier_part == "s"){
-			modifier = 1000000;
-		}
-	} else {
-		final_expression = expression;
-	}
-
-	double result = boost::lexical_cast<double>(final_expression);
-	result *= modifier;
-	
-	return Datum(result);*/
 }
 
 

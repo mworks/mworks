@@ -117,7 +117,12 @@ class InvalidXMLException : public SimpleException{
 	
 	public:
 	
-	InvalidXMLException(string _refid, string _message, string _subject = "") :
+	InvalidXMLException(string _refid, string _message) :
+        SimpleException(M_PARSER_MESSAGE_DOMAIN, _message),
+        reference_id(_refid)
+    { }
+	
+	InvalidXMLException(string _refid, string _message, string _subject) :
 				SimpleException(M_PARSER_MESSAGE_DOMAIN, _message, _subject){
 					
 		reference_id = _refid;
