@@ -21,8 +21,8 @@
                                 <action tag="assign localIndex" type="assignment" variable="localIndex" value="index"/>
                                 <action tag="trialReport" type="report" message="shouldAccept = $shouldAccept .. index = $localIndex"/>
                                 <action tag="increment report" type="report" message="numStatesAccepted = $numStatesAccepted"/>
-                                <transition tag="go to accept" full_name="go to accept" target="accept" type="conditional" condition="shouldAccept#GE3"/>
-                                <transition tag="go to reject" full_name="fullname_9" target="reject" type="conditional" condition="shouldAccept#LT3"/>
+                                <transition tag="go to accept" full_name="go to accept" target="accept" type="conditional" condition="shouldAccept #GE 3"/>
+                                <transition tag="go to reject" full_name="fullname_9" target="reject" type="conditional" condition="shouldAccept #LT 3"/>
                             </task_system_state>
                             <task_system_state tag="accept" full_name="fullname_10" description="" interruptible="YES">
                                 <action tag="Report_19" full_name="fullname_19" type="report" message="*************** Accept ****************"/>
