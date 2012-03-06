@@ -8,8 +8,9 @@
  */
 
 #include "ExpressionVariable.h"
-using namespace mw;
 
+
+BEGIN_NAMESPACE_MW
 
 
 ExpressionVariable::ExpressionVariable(Variable *_v1, 
@@ -88,15 +89,4 @@ Datum ExpressionVariable::getExpressionValue(){
 }
 
 
-
-ParsedExpressionVariable::ParsedExpressionVariable(string expression_string) : Variable(),
-												original_expression(expression_string){
-	
-	try {
-		expression_tree = stx::parseExpression(expression_string);
-	} catch (stx::ExpressionParserException &e){
-        throw FatalParserException("Expression parser error", e.what());
-	}
-													
-	getValue();												
-}
+END_NAMESPACE_MW

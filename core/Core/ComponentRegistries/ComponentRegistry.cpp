@@ -527,9 +527,7 @@ Datum ComponentRegistry::getValue(std::string expression, GenericDataType type) 
   }
   
   
-	ParsedExpressionVariable e(expression);
-	
-	return e.getValue();
+	return ParsedExpressionVariable::evaluateExpression(expression);
 }
 
 
