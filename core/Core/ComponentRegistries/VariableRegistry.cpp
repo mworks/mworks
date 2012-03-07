@@ -175,7 +175,7 @@ void VariableRegistry::announceAll() {
 // There is potential room for speed up with a hash_map, though this would
 // require const char * machinations, as hash_map cannot have string keys
 shared_ptr<Variable> VariableRegistry::getVariable(const std::string& tagname) const{
-	boost::mutex::scoped_lock s_lock((boost::mutex&)lock);
+	boost::mutex::scoped_lock s_lock(lock);
 	
     map< string, shared_ptr<Variable> >::const_iterator it;
     it = master_variable_dictionary.find(tagname);
@@ -195,7 +195,7 @@ shared_ptr<Variable> VariableRegistry::getVariable(int codec_code) {
 	
 	shared_ptr<Variable> var;	
 
-	boost::mutex::scoped_lock s_lock((boost::mutex&)lock);
+	boost::mutex::scoped_lock s_lock(lock);
 	
     // DDC: removed what was this for?
 	//mExpandableList<Variable> list(master_variable_list);

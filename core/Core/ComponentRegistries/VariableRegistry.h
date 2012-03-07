@@ -94,7 +94,8 @@ private:
 	
 	int current_unique_code; // the next unique number to be added to codec.
 	
-	boost::mutex lock;
+    // Declare lock mutable so that it can be acquired in const methods
+	mutable boost::mutex lock;
 	
 	shared_ptr<EventBuffer> event_buffer; // a given variable registry is
 											   // intimately tied to a given
