@@ -115,7 +115,14 @@ public:
         Variable(),
         expression_tree(parseExpression(expression_string))
     {
-        getValue();												
+        getValue();
+    }
+	
+    ParsedExpressionVariable(const stx::ParseTree &expression_tree) :
+        Variable(),
+        expression_tree(expression_tree)
+    {
+        getValue();
     }
     
     virtual Datum getValue() {
