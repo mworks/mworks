@@ -10,7 +10,6 @@
 #include "SelectionVariable.h"
 
 #include <boost/lexical_cast.hpp>
-#include <boost/tokenizer.hpp>
 #include <boost/algorithm/string/case_conv.hpp>
 
 #include "VariableReference.h"
@@ -20,6 +19,7 @@
 #include "RandomWORSelection.h"
 #include "RandomWithReplacementSelection.h"
 #include "ComponentRegistry.h"
+#include "ExpressionVariable.h"
 
 
 BEGIN_NAMESPACE_MW
@@ -239,13 +239,7 @@ shared_ptr<mw::Component> SelectionVariableFactory::createObject(std::map<std::s
 	selectionVar = global_variable_registry->createSelectionVariable(&props);
 	
 	// get the values
-	std::vector<std::string> values;
-
-	boost::tokenizer<> tok(parameters["values"]);
-	for(tokenizer<>::iterator beg=tok.begin(); beg!=tok.end();++beg){
-		values.push_back(*beg);
-    }
-	
+    stx::ParseTreeList values = ParsedExpressionVariable::parseExpressionList(parameters["values"]);
 	
 	// get the sampling method
 	std::map<std::string, std::string>::const_iterator samplingMethodElement = parameters.find("sampling_method");
@@ -296,11 +290,10 @@ shared_ptr<mw::Component> SelectionVariableFactory::createObject(std::map<std::s
 	
 	selectionVar->attachSelection(selection);
 	
-	for(std::vector<std::string>::const_iterator i = values.begin();
+	for(stx::ParseTreeList::const_iterator i = values.begin();
 		i != values.end();
 		++i) {
-		shared_ptr<Variable> valueVariable = reg->getVariable(*i);
-		selectionVar->addValue(valueVariable);
+		selectionVar->addValue(ParsedExpressionVariable::evaluateParseTree(*i));
 	}
 	
 	return selectionVar;
