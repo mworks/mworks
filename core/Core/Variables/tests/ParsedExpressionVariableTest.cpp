@@ -177,12 +177,14 @@ void ParsedExpressionVariableTestFixture::testAlternativeLogicalOperators() {
     // #AND
     CPPUNIT_ASSERT_EQUAL(true, bool(getExpressionValue("1 #AND 2")));
     CPPUNIT_ASSERT_EQUAL(false, bool(getExpressionValue("0 #AND 2")));
+    CPPUNIT_ASSERT_EQUAL(false, bool(getExpressionValue("0#AND2")));
     CPPUNIT_ASSERT_THROW(getExpressionValue("1 #and 2"), FatalParserException);
     CPPUNIT_ASSERT_EQUAL(std::string("1 #AND 2"), std::string(getExpressionValue("\"1 #AND 2\"")));
     
     // #OR
     CPPUNIT_ASSERT_EQUAL(true, bool(getExpressionValue("0 #OR 1")));
     CPPUNIT_ASSERT_EQUAL(false, bool(getExpressionValue("0 #OR 0")));
+    CPPUNIT_ASSERT_EQUAL(false, bool(getExpressionValue("0#OR0")));
     CPPUNIT_ASSERT_THROW(getExpressionValue("0 #or 1"), FatalParserException);
     CPPUNIT_ASSERT_EQUAL(std::string("0 #OR 1"), std::string(getExpressionValue("\"0 #OR 1\"")));
 }
@@ -193,6 +195,7 @@ void ParsedExpressionVariableTestFixture::testAlternativeComparisonOperators() {
     CPPUNIT_ASSERT_EQUAL(true, bool(getExpressionValue("2 #GT 1")));
     CPPUNIT_ASSERT_EQUAL(false, bool(getExpressionValue("2 #GT 2")));
     CPPUNIT_ASSERT_EQUAL(false, bool(getExpressionValue("1 #GT 2")));
+    CPPUNIT_ASSERT_EQUAL(false, bool(getExpressionValue("1#GT2")));
     CPPUNIT_ASSERT_THROW(getExpressionValue("2 #gt 1"), FatalParserException);
     CPPUNIT_ASSERT_EQUAL(std::string("2 #GT 1"), std::string(getExpressionValue("\"2 #GT 1\"")));
     
@@ -200,6 +203,7 @@ void ParsedExpressionVariableTestFixture::testAlternativeComparisonOperators() {
     CPPUNIT_ASSERT_EQUAL(false, bool(getExpressionValue("2 #LT 1")));
     CPPUNIT_ASSERT_EQUAL(false, bool(getExpressionValue("2 #LT 2")));
     CPPUNIT_ASSERT_EQUAL(true, bool(getExpressionValue("1 #LT 2")));
+    CPPUNIT_ASSERT_EQUAL(true, bool(getExpressionValue("1#LT2")));
     CPPUNIT_ASSERT_THROW(getExpressionValue("2 #lt 1"), FatalParserException);
     CPPUNIT_ASSERT_EQUAL(std::string("2 #LT 1"), std::string(getExpressionValue("\"2 #LT 1\"")));
     
@@ -207,6 +211,7 @@ void ParsedExpressionVariableTestFixture::testAlternativeComparisonOperators() {
     CPPUNIT_ASSERT_EQUAL(true, bool(getExpressionValue("2 #GE 1")));
     CPPUNIT_ASSERT_EQUAL(true, bool(getExpressionValue("2 #GE 2")));
     CPPUNIT_ASSERT_EQUAL(false, bool(getExpressionValue("1 #GE 2")));
+    CPPUNIT_ASSERT_EQUAL(false, bool(getExpressionValue("1#GE2")));
     CPPUNIT_ASSERT_THROW(getExpressionValue("2 #ge 1"), FatalParserException);
     CPPUNIT_ASSERT_EQUAL(std::string("2 #GE 1"), std::string(getExpressionValue("\"2 #GE 1\"")));
     
@@ -214,6 +219,7 @@ void ParsedExpressionVariableTestFixture::testAlternativeComparisonOperators() {
     CPPUNIT_ASSERT_EQUAL(false, bool(getExpressionValue("2 #LE 1")));
     CPPUNIT_ASSERT_EQUAL(true, bool(getExpressionValue("2 #LE 2")));
     CPPUNIT_ASSERT_EQUAL(true, bool(getExpressionValue("1 #LE 2")));
+    CPPUNIT_ASSERT_EQUAL(true, bool(getExpressionValue("1#LE2")));
     CPPUNIT_ASSERT_THROW(getExpressionValue("2 #le 1"), FatalParserException);
     CPPUNIT_ASSERT_EQUAL(std::string("2 #LE 1"), std::string(getExpressionValue("\"2 #LE 1\"")));
 }

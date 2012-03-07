@@ -223,20 +223,20 @@ namespace stx {
 					= add_expr
 					>> *( root_node_d[str_p("==") | ch_p('=') |
                                       str_p("!=") |
-                                      str_p("<=") | str_p("=<") | keyword_p("#LE") |
-                                      ch_p('<') | keyword_p("#LT") |
-                                      str_p(">=") | str_p("=>") | keyword_p("#GE") |
-                                      ch_p('>') | keyword_p("#GT")] >> add_expr )
+                                      str_p("<=") | str_p("=<") | str_p("#LE") |
+                                      ch_p('<') | str_p("#LT") |
+                                      str_p(">=") | str_p("=>") | str_p("#GE") |
+                                      ch_p('>') | str_p("#GT")] >> add_expr )
 					;
 					
 					and_expr
 					= comp_expr
-					>> *( root_node_d[ as_lower_d[keyword_p("and")] | str_p("&&") | keyword_p("#AND") ] >> comp_expr )
+					>> *( root_node_d[ as_lower_d[keyword_p("and")] | str_p("&&") | str_p("#AND") ] >> comp_expr )
 					;
 					
 					or_expr
 					= and_expr
-					>> *( root_node_d[ as_lower_d[keyword_p("or")] | str_p("||") | keyword_p("#OR") ] >> and_expr )
+					>> *( root_node_d[ as_lower_d[keyword_p("or")] | str_p("||") | str_p("#OR") ] >> and_expr )
 					;
 					
 					// *** Base Expression and List
