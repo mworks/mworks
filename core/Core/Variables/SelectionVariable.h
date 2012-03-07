@@ -33,39 +33,42 @@ public:
 	SelectionVariable(VariableProperties *props);
 	SelectionVariable(VariableProperties *props, shared_ptr<Selection> _sel);
     
-	virtual void addValue(shared_ptr<Variable> _var){
+    virtual ~SelectionVariable() { }
+    
+	virtual void addValue(shared_ptr<Variable> _var) {
 		values.push_back(_var);
-		if(selection != NULL){
+		if (selection != NULL) {
 			selection->reset();
 		}
 	}
 	
-	virtual shared_ptr<Variable> getValue(int i){
+	virtual shared_ptr<Variable> getValue(int i) {
 		return values[i];
 	}
 	
-	// A polymorphic copy constructor
-	virtual Variable *clone();
-	
 	virtual void nextValue();
 	
+    // Variable overrides
+	virtual Variable *clone();
 	virtual Datum getValue();
-	virtual void setValue(Datum data){  return; }
-	virtual void setValue(Datum data, MWTime time){ return; }
-	virtual void setSilentValue(Datum data){  return; }
-	
-	virtual int getNChildren(){ return values.size();  }
+	virtual void setValue(Datum data) { }
+	virtual void setValue(Datum data, MWTime time) { }
+	virtual void setSilentValue(Datum data) { }
     
-	// From Selectable
-	virtual int getNItems(){ return getNChildren(); }
+    //
+    // Selectable overrides
+    //
+    
+	virtual int getNItems() { return values.size(); }
+    
 	virtual void resetSelections() {
+        Selectable::resetSelections();
 		selected_index = NO_SELECTION;
-		selection->reset();
 	}
 	
 	void rejectSelections() {
-		selection->rejectSelections();
-		this->nextValue();
+        Selectable::rejectSelections();
+		nextValue();
 	}
     
 };
