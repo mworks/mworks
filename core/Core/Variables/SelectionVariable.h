@@ -21,29 +21,30 @@
 BEGIN_NAMESPACE_MW
 
 
-class SelectionVariable :  public Selectable, public Variable {
+class SelectionVariable : public Selectable, public Variable {
     
-private:
+protected:
     static const int NO_SELECTION = -1;
     
-    std::vector< shared_ptr<Variable> > values;
+    std::vector<Datum> values;
     int selected_index;
     
 public:
-	SelectionVariable(VariableProperties *props);
-	SelectionVariable(VariableProperties *props, shared_ptr<Selection> _sel);
+	SelectionVariable(VariableProperties *props, shared_ptr<Selection> _sel = shared_ptr<Selection>());
     
     virtual ~SelectionVariable() { }
     
-	virtual void addValue(shared_ptr<Variable> _var) {
-		values.push_back(_var);
+    virtual void addValue(const Datum &val) {
+        values.push_back(val);
 		if (selection != NULL) {
-			selection->reset();
+			resetSelections();
 		}
-	}
-	
-	virtual shared_ptr<Variable> getValue(int i) {
-		return values[i];
+    }
+    
+	virtual void addValue(shared_ptr<Variable> var) {
+        if (var) {
+            addValue(var->getValue());
+        }
 	}
 	
 	virtual void nextValue();

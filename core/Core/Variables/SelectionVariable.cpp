@@ -25,19 +25,14 @@
 BEGIN_NAMESPACE_MW
 
 
-SelectionVariable::SelectionVariable(VariableProperties *props) :
-    Selectable(),
-    Variable(props),
-    selected_index(NO_SELECTION)
-{ }
-
-
 SelectionVariable::SelectionVariable(VariableProperties *props, shared_ptr<Selection> _selection) :
     Selectable(),
     Variable(props),
     selected_index(NO_SELECTION)
 {
-	attachSelection(_selection);
+    if (_selection) {
+        attachSelection(_selection);
+    }
 }
 
 
@@ -55,14 +50,10 @@ void SelectionVariable::nextValue() {
             
 		}
 		
-		shared_ptr<Variable> selected_value = values[selected_index];
-		
-		if (selected_value != NULL) {
-			// announce your new value so that the event stream contains
-			// all information about what happened in the experiment
-			announce();
-			performNotifications(selected_value->getValue());
-		}
+        // announce your new value so that the event stream contains
+        // all information about what happened in the experiment
+        announce();
+        performNotifications(values[selected_index]);
 		
 	} else {
 		merror(M_PARADIGM_MESSAGE_DOMAIN,
@@ -82,7 +73,7 @@ Datum SelectionVariable::getValue() {
 		return Datum(0L);
 	}
 	
-	return values[selected_index]->getValue();
+	return values[selected_index];
 }
 
 
