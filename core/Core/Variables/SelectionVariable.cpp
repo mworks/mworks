@@ -8,6 +8,11 @@
  */
 
 #include "SelectionVariable.h"
+
+#include <boost/lexical_cast.hpp>
+#include <boost/tokenizer.hpp>
+#include <boost/algorithm/string/case_conv.hpp>
+
 #include "VariableReference.h"
 #include "VariableProperties.h"
 #include "VariableRegistry.h"
@@ -15,48 +20,44 @@
 #include "RandomWORSelection.h"
 #include "RandomWithReplacementSelection.h"
 #include "ComponentRegistry.h"
-#include <vector>
-#include <boost/lexical_cast.hpp>
-#include <boost/tokenizer.hpp>
-#include <boost/algorithm/string/case_conv.hpp>
-//#include <boost/spirit/include/classic_confix.hpp>
-//#include <boost/spirit/include/classic_lists.hpp>
-using namespace mw;
 
 
-SelectionVariable::SelectionVariable(VariableProperties *props) : 
-Selectable(), 
-Variable(props){
-}
+BEGIN_NAMESPACE_MW
 
-SelectionVariable::SelectionVariable(VariableProperties *props, 
-									   shared_ptr<Selection> _selection) : 
-Selectable(),
-Variable(props){
+
+SelectionVariable::SelectionVariable(VariableProperties *props) :
+    Selectable(),
+    Variable(props),
+    selected_index(NO_SELECTION)
+{ }
+
+
+SelectionVariable::SelectionVariable(VariableProperties *props, shared_ptr<Selection> _selection) :
+    Selectable(),
+    Variable(props),
+    selected_index(NO_SELECTION)
+{
 	attachSelection(_selection);
 }
 
 
-
-
-void SelectionVariable::nextValue(){
-	int index;
-	
-	if(selection != NULL){
+void SelectionVariable::nextValue() {
+	if (selection != NULL) {
 		
 		try {
-			index = selection->draw();
-			
-		} catch (std::exception &e){
+            
+			selected_index = selection->draw();
+
+		} catch (std::exception &e) {
 			
 			merror(M_PARADIGM_MESSAGE_DOMAIN, e.what());
 			return;
+            
 		}
 		
-		selected_value = values[index];
+		shared_ptr<Variable> selected_value = values[selected_index];
 		
-		if(selected_value != NULL){
-		
+		if (selected_value != NULL) {
 			// announce your new value so that the event stream contains
 			// all information about what happened in the experiment
 			announce();
@@ -70,25 +71,26 @@ void SelectionVariable::nextValue(){
 }
 
 
-Datum SelectionVariable::getValue(){
-	if(selected_value == NULL){
+Datum SelectionVariable::getValue() {
+	if (selected_index == NO_SELECTION) {
 		nextValue();
 	}
 	
-	if(selected_value == NULL){
+	if (selected_index == NO_SELECTION) {
 		merror(M_PARADIGM_MESSAGE_DOMAIN,
 			   "Attempt to select a value from a selection variable with no values defined");
 		return Datum(0L);
 	}
 	
-	
-	return selected_value->getValue();
+	return values[selected_index]->getValue();
 }
+
 
 Variable *SelectionVariable::clone(){
 	// This isn't quite right, but we can run with it for now
 	return new VariableReference(this);
 }
+
 
 shared_ptr<mw::Component> SelectionVariableFactory::createObject(std::map<std::string, std::string> parameters,
 														ComponentRegistry *reg) {
@@ -312,4 +314,32 @@ shared_ptr<mw::Component> SelectionVariableFactory::createObject(std::map<std::s
 	
 	return selectionVar;
 }
+
+
+END_NAMESPACE_MW
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

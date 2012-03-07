@@ -10,35 +10,31 @@
  *
  */
 
+#include <vector>
+
 #include "Selection.h"
 #include "Selectable.h"
 #include "GenericVariable.h"
 #include "ComponentFactory.h"
-namespace mw {
+
+
+BEGIN_NAMESPACE_MW
+
 
 class SelectionVariable :  public Selectable, public Variable {
-
-protected:
-
-	ExpandableList<Variable> values;
-	shared_ptr<Variable> selected_value;
+    
+private:
+    static const int NO_SELECTION = -1;
+    
+    std::vector< shared_ptr<Variable> > values;
+    int selected_index;
+    
 public:
-
 	SelectionVariable(VariableProperties *props);
 	SelectionVariable(VariableProperties *props, shared_ptr<Selection> _sel);
-	
-		
-	//mSelectionVariable(const SelectionVariable& tocopy);
-		
-				
-	virtual ~SelectionVariable(){
-		values.releaseElements();
-		
-	}
-	
-
+    
 	virtual void addValue(shared_ptr<Variable> _var){
-		values.addReference(_var);
+		values.push_back(_var);
 		if(selection != NULL){
 			selection->reset();
 		}
@@ -47,7 +43,6 @@ public:
 	virtual shared_ptr<Variable> getValue(int i){
 		return values[i];
 	}
-	
 	
 	// A polymorphic copy constructor
 	virtual Variable *clone();
@@ -59,28 +54,58 @@ public:
 	virtual void setValue(Datum data, MWTime time){ return; }
 	virtual void setSilentValue(Datum data){  return; }
 	
-	virtual int getNChildren(){ return values.getNElements();  }
-	
-			
+	virtual int getNChildren(){ return values.size();  }
+    
 	// From Selectable
 	virtual int getNItems(){ return getNChildren(); }
 	virtual void resetSelections() {
-		selected_value = shared_ptr<Variable>();
+		selected_index = NO_SELECTION;
 		selection->reset();
 	}
-	
 	
 	void rejectSelections() {
 		selection->rejectSelections();
 		this->nextValue();
 	}
-
+    
 };
 
 
 class SelectionVariableFactory : public ComponentFactory {
+    
 	virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-												ComponentRegistry *reg);
+                                                   ComponentRegistry *reg);
+    
 };
-}
+
+
+END_NAMESPACE_MW
+
+
 #endif
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
