@@ -3,11 +3,4 @@
   <permitted_error_messages>
     <message type="starts_with">WARNING: Warning: IODevice: ITC clock differs from system clock by more than </message>
   </permitted_error_messages>
-  <expected_messages>
-    <message type="contains" arch="x86_64">No factory for object type: iodevice/itc18</message>
-    <message type="starts_with" arch="x86_64">ERROR: Failed to parse experiment </message>
-  </expected_messages>
-  <expected_events>
-    <!-- Override the default events, since we don't expect the normal state-system progression on x86_64 -->
-  </expected_events>
 </marionette_info>

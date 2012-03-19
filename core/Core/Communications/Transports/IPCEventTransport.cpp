@@ -31,20 +31,20 @@ IPCEventTransport::IPCEventTransport(event_transport_type _type, event_transport
     
     try {
         if(type == server_event_transport){
-            interprocess::message_queue::remove(resource_name_outgoing.c_str());
-            interprocess::message_queue::remove(resource_name_incoming.c_str());
-            outgoing_queue = shared_ptr<interprocess::message_queue>(new interprocess::message_queue(interprocess::open_or_create, resource_name_outgoing.c_str(), outgoing_queue_size, MAX_MESSAGE_SIZE));
-            incoming_queue = shared_ptr<interprocess::message_queue>(new interprocess::message_queue(interprocess::open_or_create, resource_name_incoming.c_str(), incoming_queue_size, MAX_MESSAGE_SIZE));
+            message_queue::remove(resource_name_outgoing.c_str());
+            message_queue::remove(resource_name_incoming.c_str());
+            outgoing_queue = shared_ptr<message_queue>(new message_queue(interprocess::open_or_create, resource_name_outgoing.c_str(), outgoing_queue_size, MAX_MESSAGE_SIZE));
+            incoming_queue = shared_ptr<message_queue>(new message_queue(interprocess::open_or_create, resource_name_incoming.c_str(), incoming_queue_size, MAX_MESSAGE_SIZE));
         }
 
         if(type == client_event_transport){
-            outgoing_queue = shared_ptr<interprocess::message_queue>(new interprocess::message_queue(interprocess::open_only, resource_name_incoming.c_str()));
-            incoming_queue = shared_ptr<interprocess::message_queue>(new interprocess::message_queue(interprocess::open_only, resource_name_outgoing.c_str()));
+            outgoing_queue = shared_ptr<message_queue>(new message_queue(interprocess::open_only, resource_name_incoming.c_str()));
+            incoming_queue = shared_ptr<message_queue>(new message_queue(interprocess::open_only, resource_name_outgoing.c_str()));
         }
 
         if(type == symmetric_event_transport){
-            outgoing_queue = shared_ptr<interprocess::message_queue>(new interprocess::message_queue(interprocess::open_or_create, resource_name_outgoing.c_str(), outgoing_queue_size, MAX_MESSAGE_SIZE));
-            incoming_queue = shared_ptr<interprocess::message_queue>(new interprocess::message_queue(interprocess::open_or_create, resource_name_incoming.c_str(), incoming_queue_size, MAX_MESSAGE_SIZE));
+            outgoing_queue = shared_ptr<message_queue>(new message_queue(interprocess::open_or_create, resource_name_outgoing.c_str(), outgoing_queue_size, MAX_MESSAGE_SIZE));
+            incoming_queue = shared_ptr<message_queue>(new message_queue(interprocess::open_or_create, resource_name_incoming.c_str(), incoming_queue_size, MAX_MESSAGE_SIZE));
         }
     } catch(std::exception& e){
         cerr << "Couldn't create message queues: " << e.what() << endl;
