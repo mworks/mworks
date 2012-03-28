@@ -234,6 +234,7 @@ protected:
 	static AnyScalar	funcNOW(const paramlist_type& paramlist);
 	static AnyScalar	funcTIMER_EXPIRED(const paramlist_type& paramlist);
 	static AnyScalar	funcREFRESH_RATE(const paramlist_type& paramlist);
+	static AnyScalar	funcACTUAL_REFRESH_RATE(const paramlist_type& paramlist);
 	static AnyScalar	funcFORMAT(const paramlist_type& paramlist);
 	
 public:

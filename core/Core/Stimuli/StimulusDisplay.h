@@ -135,6 +135,7 @@ namespace mw {
 		void clearDisplay();
         void getDisplayBounds(GLdouble &left, GLdouble &right, GLdouble &bottom, GLdouble &top);
         double getMainDisplayRefreshRate();
+        double getActualMainDisplayRefreshRate();
         MWTime getCurrentOutputTimeUS() const { return currentOutputTimeUS; }
         
         static shared_ptr<StimulusDisplay> getCurrentStimulusDisplay();
