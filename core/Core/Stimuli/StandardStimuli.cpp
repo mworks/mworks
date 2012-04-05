@@ -75,6 +75,21 @@ BasicTransformStimulus::BasicTransformStimulus(const ParameterValueMap &paramete
 { }
 
 
+BasicTransformStimulus::BasicTransformStimulus(std::string _tag,
+										shared_ptr<Variable> _xoffset, 
+										shared_ptr<Variable> _yoffset, shared_ptr<Variable> _xscale,
+										shared_ptr<Variable> _yscale, shared_ptr<Variable> _rot,
+												 shared_ptr<Variable> _alpha)
+															: Stimulus(_tag) {
+    xoffset = registerVariable(_xoffset);
+    yoffset = registerVariable(_yoffset);
+    xscale = registerVariable(_xscale);
+    yscale = registerVariable(_yscale);
+    rotation = registerVariable(_rot);
+	alpha_multiplier = registerVariable(_alpha);
+}
+
+
 BasicTransformStimulus::BasicTransformStimulus(
 								const BasicTransformStimulus& tocopy) :
 										Stimulus((const Stimulus &)tocopy){

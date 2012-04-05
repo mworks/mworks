@@ -58,6 +58,13 @@ public:
     static void describeComponent(ComponentInfo &info);
     
     explicit BasicTransformStimulus(const Map<ParameterValue> &parameters);
+    BasicTransformStimulus(std::string _tag, 
+                           shared_ptr<Variable> _xoffset, 
+                           shared_ptr<Variable> _yoffset,
+                           shared_ptr<Variable> _xscale, 
+                           shared_ptr<Variable> _yscale, 
+                           shared_ptr<Variable> _rot,
+                           shared_ptr<Variable> _alpha);
     BasicTransformStimulus(const BasicTransformStimulus& tocopy);
     virtual ~BasicTransformStimulus() { }
     
