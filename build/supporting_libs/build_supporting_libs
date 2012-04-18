@@ -4,6 +4,7 @@ from contextlib import contextmanager
 import os
 import subprocess
 import sys
+import urllib
 
 
 ################################################################################
@@ -24,6 +25,7 @@ else:
 
 gcc = bin_root + '/Developer/usr/bin/gcc'
 gplusplus = bin_root + '/Developer/usr/bin/g++'
+xcodebuild = bin_root + '/Developer/usr/bin/xcodebuild'
 
 sdk_version = '10.6'
 sdk_path = '%s/Developer/SDKs/MacOSX%s.sdk' % (sdk_root, sdk_version)
@@ -53,7 +55,11 @@ installdir = '/Library/Application Support/MWorks/Developer'
 
 
 all_builders = []
-builder = all_builders.append  # For use as a decorator
+
+
+def builder(func):
+    all_builders.append(func)
+    return func
 
 
 def announce(msg, *args):
@@ -83,11 +89,11 @@ def download_file(url, filename):
         check_call(['/usr/bin/curl', '-#', '-L', '-f', '-o', filepath, url])
 
 
-def download_tarfile(url_path, filename):
+def download_archive(url_path, filename):
     download_file(url_path + filename, filename)
 
 
-def download_tarfile_from_sf(path, version, filename):
+def download_archive_from_sf(path, version, filename):
     url = (('http://downloads.sourceforge.net/project/%s/%s/%s'
             '?use_mirror=autoselect') % (path, version, filename))
     return download_file(url, filename)
@@ -101,6 +107,16 @@ def remove_directory(path):
 def unpack_tarfile(filename, outputdir):
     remove_directory(outputdir)
     check_call(['/usr/bin/tar', 'xf', path_to_downloaddir + '/' + filename])
+
+
+def unpack_zipfile(filename, outputdir):
+    remove_directory(outputdir)
+    check_call([
+        '/usr/bin/unzip',
+        '-q',
+        path_to_downloaddir + '/' + filename,
+        '-d', outputdir,
+        ])
 
 
 def run_configure_and_make(
@@ -158,7 +174,7 @@ def boost():
     srcdir = 'boost_' + version.replace('.', '_')
     tarfile = srcdir + '.tar.bz2'
 
-    download_tarfile_from_sf('boost/boost', version, tarfile)
+    download_archive_from_sf('boost/boost', version, tarfile)
     unpack_tarfile(tarfile, srcdir)
 
     with workdir(srcdir):
@@ -196,7 +212,7 @@ def libpng():
     srcdir = 'libpng-' + version
     tarfile = srcdir + '.tar.bz2'
 
-    download_tarfile_from_sf('libpng/libpng12', version, tarfile)
+    download_archive_from_sf('libpng/libpng12', version, tarfile)
     unpack_tarfile(tarfile, srcdir)
 
     run_configure_and_make(srcdir)
@@ -208,7 +224,7 @@ def jpeg():
     srcdir = 'jpeg-' + version
     tarfile = 'jpegsrc.v%s.tar.gz' % version
 
-    download_tarfile('http://www.ijg.org/files/', tarfile)
+    download_archive('http://www.ijg.org/files/', tarfile)
     unpack_tarfile(tarfile, srcdir)
 
     run_configure_and_make(srcdir)
@@ -220,7 +236,7 @@ def lcms():
     srcdir = 'lcms-' + version
     tarfile = srcdir + '.tar.gz'
 
-    download_tarfile_from_sf('lcms/lcms', version, tarfile)
+    download_archive_from_sf('lcms/lcms', version, tarfile)
     unpack_tarfile(tarfile, srcdir)
 
     run_configure_and_make(srcdir)
@@ -233,7 +249,7 @@ def libmng():
     tarfile = srcdir + '.tar.bz2'
     patchfile = srcdir + '_autogen.patch'
 
-    download_tarfile_from_sf('libmng/libmng-devel', version, tarfile)
+    download_archive_from_sf('libmng/libmng-devel', version, tarfile)
     unpack_tarfile(tarfile, srcdir)
 
     run_configure_and_make(
@@ -253,7 +269,7 @@ def tiff():
     srcdir = 'tiff-' + version
     tarfile = srcdir + '.tar.gz'
 
-    download_tarfile('http://download.osgeo.org/libtiff/', tarfile)
+    download_archive('http://download.osgeo.org/libtiff/', tarfile)
     unpack_tarfile(tarfile, srcdir)
 
     run_configure_and_make(
@@ -268,7 +284,7 @@ def devil():
     srcdir = 'devil-' + version
     tarfile = 'DevIL-%s.tar.gz' % version
 
-    download_tarfile_from_sf('openil/DevIL', version, tarfile)
+    download_archive_from_sf('openil/DevIL', version, tarfile)
     unpack_tarfile(tarfile, srcdir)
 
     run_configure_and_make(
@@ -286,10 +302,40 @@ def cppunit():
     srcdir = 'cppunit-' + version
     tarfile = srcdir + '.tar.gz'
 
-    download_tarfile_from_sf('cppunit/cppunit', version, tarfile)
+    download_archive_from_sf('cppunit/cppunit', version, tarfile)
     unpack_tarfile(tarfile, srcdir)
 
     run_configure_and_make(srcdir)
+
+
+@builder
+def narrative():
+    version = '0.1.2'
+    srcdir = 'Narrative-' + version
+    zipfile = srcdir + '.zip'
+
+    download_archive_from_sf('narrative/narrative',
+                             urllib.quote(srcdir.replace('-', ' ')),
+                             zipfile)
+    unpack_zipfile(zipfile, srcdir)
+
+    with workdir('/'.join([srcdir, srcdir, 'Narrative'])):
+        check_call([
+            xcodebuild,
+            '-project', 'Narrative.xcodeproj',
+            '-configuration', 'Release',
+            '-xcconfig', installdir + '/Xcode/Development.xcconfig',
+            'INSTALL_PATH=@loader_path/../Frameworks',
+            'MACOSX_DEPLOYMENT_TARGET=' + sdk_version,
+            'SDKROOT_i386=$(SDKROOT)',
+            ])
+
+        check_call([
+            '/usr/bin/rsync',
+            '-a',
+            'build/Release/Narrative.framework',
+            path_to_stagedir + '/Frameworks',
+            ])
 
 
 ################################################################################
