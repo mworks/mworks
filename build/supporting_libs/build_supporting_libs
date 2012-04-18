@@ -208,7 +208,7 @@ def boost():
 
 @builder
 def libpng():
-    version = '1.2.47'
+    version = '1.2.49'
     srcdir = 'libpng-' + version
     tarfile = srcdir + '.tar.bz2'
 
