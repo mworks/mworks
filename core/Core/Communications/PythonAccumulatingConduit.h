@@ -81,8 +81,11 @@ namespace mw {
         PythonIPCAccumulatingConduit(string _resource_name, EventTransport::event_transport_type event_trans_type,
                                      string _start_evt,
                                      string _end_evt,
-                                     boost::python::list _events_to_watch) :
-                                     PythonIPCPseudoConduit(_resource_name, event_trans_type){
+                                     boost::python::list _events_to_watch,
+                                     bool correct_incoming_timestamps=false) :
+                                     PythonIPCPseudoConduit(_resource_name,
+                                                           correct_incoming_timestamps,
+                                                           event_trans_type){
             start_evt = _start_evt;
             end_evt = _end_evt;
             

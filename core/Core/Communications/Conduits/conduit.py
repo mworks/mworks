@@ -20,24 +20,14 @@ class _ConduitMixin(object):
         else:
             self.send_object(code, data)
 
-    #def handle_codec_(self, evt):
-    #    self.reverse_codec = {}
-    #    self.codec = {}
-    #
-    #    codec_datum = evt.value()
-    #    
-    #    for k in codec_datum.keys():
-    #        name = codec_datum[k]["tagname"]
-    #        self.codec[k] = name 
-    #        self.reverse_codec[name] = k
-
 
 class IPCClientConduit(_ConduitMixin, _IPCClientConduit):
-    pass
-
+    def __init__(self, conduit_name, correct_incoming_timestamps=False):
+        _IPCClientConduit.__init__(self, conduit_name, correct_incoming_timestamps)
 
 class IPCServerConduit(_ConduitMixin, _IPCServerConduit):
-    pass
+    def __init__(self, conduit_name, correct_incoming_timestamps=False):
+        _IPCServerConduit.__init__(self, conduit_name, correct_incoming_timestamps)
 
 
 class IPCAccumClientConduit(_ConduitMixin, _IPCAccumulatingClientConduit):

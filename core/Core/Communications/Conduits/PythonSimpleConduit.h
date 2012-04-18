@@ -27,10 +27,10 @@ using namespace boost::python;
 
 class PythonEventCallback{
 
-protected:
+  protected:
     boost::python::object function_object;
     
-public:
+  public:
 
     PythonEventCallback(boost::python::object _function_object){
         function_object = _function_object;
@@ -56,16 +56,21 @@ public:
 // conduit to send events from a python application into MW
 class PythonIPCPseudoConduit {
 
-protected:
+  protected:
 
     std::string resource_name;
     shared_ptr<EventTransport> transport;
     shared_ptr<CodecAwareConduit> conduit;
     bool initialized;
+    bool correct_incoming_timestamps;
     
-public:
+  public:
 
-    PythonIPCPseudoConduit(std::string _resource_name, EventTransport::event_transport_type type){
+    PythonIPCPseudoConduit(std::string _resource_name, 
+                           bool _correct_incoming_timestamps,
+                           EventTransport::event_transport_type type) :
+                           correct_incoming_timestamps(_correct_incoming_timestamps)
+    {
         
         // if there's no clock defined, create the core infrastructure
         if(!Clock::instance(false)){
@@ -88,8 +93,6 @@ public:
             throw SimpleException("Failed to build conduit: ", e.what());
         }
         
-        
-        //cerr << "Created bidirectional conduit: " << resource_name << endl;
     }
     
     virtual bool isInitialized(){
@@ -99,7 +102,8 @@ public:
     virtual bool initialize(){
         
         try{
-            conduit = shared_ptr<CodecAwareConduit>(new CodecAwareConduit(transport));
+            conduit = shared_ptr<CodecAwareConduit>(new CodecAwareConduit(transport, 
+                                                                          correct_incoming_timestamps));
 
             initialized = conduit->initialize();
         } catch(std::exception& e){
@@ -223,10 +227,7 @@ public:
     }
     
     virtual void sendFloat(int code, double data){
-        //if(!isInitialized()){
-//            throw SimpleException("Not initialized");
-//        }
-//        
+
         if(conduit != NULL){
             conduit->sendData(code, Datum(data));
         }else {
@@ -247,13 +248,21 @@ public:
 
 class PythonIPCServerConduit : public PythonIPCPseudoConduit {
 
-public:
-    PythonIPCServerConduit(std::string _resource_name) : PythonIPCPseudoConduit(_resource_name, EventTransport::server_event_transport){}
+  public:
+    PythonIPCServerConduit(std::string _resource_name, 
+                           bool correct_incoming_timestamps=false) : 
+                           PythonIPCPseudoConduit(_resource_name, 
+                                                  correct_incoming_timestamps,
+                                                  EventTransport::server_event_transport){}
 };
 
 class PythonIPCClientConduit : public PythonIPCPseudoConduit {
-public:
-    PythonIPCClientConduit(std::string _resource_name) : PythonIPCPseudoConduit(_resource_name, EventTransport::client_event_transport){}
+  public:
+    PythonIPCClientConduit(std::string _resource_name, 
+                           bool correct_incoming_timestamps=false) :
+                           PythonIPCPseudoConduit(_resource_name, 
+                                                  correct_incoming_timestamps,
+                                                  EventTransport::client_event_transport){}
 };
 
 

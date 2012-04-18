@@ -13,9 +13,14 @@
 
 using namespace mw;
 
-SimpleConduit::SimpleConduit(shared_ptr<EventTransport> _transport, long _conduit_idle_quantum) :  Conduit(_transport), EventCallbackHandler(true){ 
-    conduit_idle_quantum_us = _conduit_idle_quantum;
-}
+SimpleConduit::SimpleConduit(shared_ptr<EventTransport> _transport, 
+                             bool _correct_incoming_timestamps,
+                             long _conduit_idle_quantum) :  
+    Conduit(_transport), 
+    EventCallbackHandler(true),
+    correct_incoming_timestamps(correct_incoming_timestamps),
+    conduit_idle_quantum_us(_conduit_idle_quantum)
+{ }
 
 // Start the conduit working
 bool SimpleConduit::initialize(){ 
@@ -30,10 +35,18 @@ bool SimpleConduit::initialize(){
     
     running = true;
     
-    // register to receive codec events
+    // register to receive control events
+    // this is needed to be able to handshake regarding time offsets
+    registerCallback(RESERVED_SYSTEM_EVENT_CODE, bind(&SimpleConduit::handleSystemEvent, this, _1));
+    
+    // send a "connected" event to the other side of the conduit
+    sendData(SystemEventFactory::connectedEvent());
     
     return true;
 }
+
+
+
 
 SimpleConduit::~SimpleConduit(){
     
@@ -106,6 +119,13 @@ void SimpleConduit::serviceIncomingEvents(){
             continue;
         }
         
+        
+        if(correct_incoming_timestamps){
+            // if a clock offset has been stored from the other side of the conduit 
+            // apply the offset here:
+            incoming_event->setTime( incoming_event->getTime() - remote_clock_offset ); 
+        }
+                
         handleCallbacks(incoming_event);
         
     }
@@ -149,21 +169,28 @@ void SimpleConduit::finalize(){
 }
 
 
-//void SimpleConduit::registerCallback(string event_name, EventCallback functor){
-//    int event_code = -1;
-//    
-//    // lookup event code
-//    
-//    registerCallback(event_code, functor);
-//    
-//    sendData(SystemEventFactory::setEventForwardingControl(event_name, true));
-//}
+void SimpleConduit::handleSystemEvent(shared_ptr<Event> evt){
+    Datum payload_type = evt->getData().getElement(M_SYSTEM_PAYLOAD_TYPE);
+    shared_ptr<Clock> clk = Clock::instance();
+            
+    switch((int)payload_type){
+        case M_CLOCK_OFFSET_EVENT:
+            if((int)payload_type == M_CLOCK_OFFSET_EVENT){
+                remote_clock_offset = clk->getSystemReferenceTime() - (MWTime)evt->getData().getElement(M_SYSTEM_PAYLOAD);
+                
+            }
+            break;
+        case M_CONNECTED_EVENT:
+            // another conduit is saying hello.  Respond with your local clock offset
+            sendData(SystemEventFactory::clockOffsetEvent(clk->getSystemReferenceTime()));
+            break;
+    }
+}
 
 
 // Send data to the other side.  It is assumed that both sides understand 
 // what the event codes mean.
 void SimpleConduit::sendData(int code, Datum data){
-    //fprintf(stderr, "sending event");fflush(stderr);
     shared_ptr<Event> event(new Event(code, data));
     transport->sendEvent(event);
 }

@@ -45,7 +45,8 @@ protected:
     
 public:
     
-    CodecAwareConduit(shared_ptr<EventTransport> _transport);
+    CodecAwareConduit(shared_ptr<EventTransport> _transport,
+                      bool correct_incoming_timestamps=false);
     virtual ~CodecAwareConduit(){ 
         // grab these locks, so that we can ensure that 
         // anyone else who had them is done

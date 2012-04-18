@@ -7,7 +7,7 @@
  *
  *
  *  An object that endeavors to seemlessly bridge between an 
- *  interprocess conduit (e.g. shared memory with another application)
+ *  interprocess conduit (e.g. shared memory with another process)
  *  on one side, and a MW event stream on the other
  *
  *  To achieve this, the object must be responsible for keeping track of
@@ -68,6 +68,8 @@ protected:
     boost::mutex internal_callback_lock;
     
     MWTime conduit_idle_quantum_us;
+    
+    MWTime remote_clock_offset;
     
     // these will be called from callbacks, so it is not necessary to lock them
     void registerInternalCallback(int event_code, EventCallback functor){

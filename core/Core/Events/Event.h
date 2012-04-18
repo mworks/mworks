@@ -87,6 +87,12 @@ namespace mw {
         MWTime getTime(){ 
 			return time;
 		}
+        
+        // Primarily for manipulating times from
+        // other processes.  Use with caution!
+        void setTime(MWTime _time){
+            time = _time;
+        }
 		
         Datum getData() {
 			return data;
