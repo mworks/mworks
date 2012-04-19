@@ -1,0 +1,168 @@
+MEXSUFFIX  = mexa64
+MATLAB_VERSION=matlab2008a
+MATLABHOME = /software/$(MATLAB_VERSION)
+MEX        = $(MATLABHOME)/bin/mex
+CXX        = g++
+INCLUDE   = -I$(MATLABHOME)/extern/include -I$(INSTALL_DIR)/include -I. 
+CFLAGS     = -fPIC -fno-common -fexceptions $(INCLUDE) -g -DLINUX
+LIBS      = -L$(INSTALL_DIR)/lib -lboost_serialization-gcc41-mt-1_36 -lboost_wserialization-gcc41-mt-1_36 -lboost_filesystem-gcc41-mt-1_36 -lboost_system-gcc41-mt-1_36
+#LIBS      = -L$(INSTALL_DIR)/lib -lboost_serialization-gcc41-mt-1_36 -lboost_wserialization-gcc41-mt-1_36 -lboost_filesystem-gcc41-mt-1_36 -lboost_system-gcc41-mt-1_36 -ldfindex -lMonkeyWorksStreamUtilities -lscarab
+MEXFLAGS  = -cxx CC='$(CXX)' CXX='$(CXX)' LD='$(CXX)'
+
+DFINDEX_OBJS	= \
+	dfindex.o \
+	DataFileIndexer.o \
+	EventBlock.o \
+	DataFileUtilities.o \
+	ScarabDatumWrapper.o
+
+SCARAB_OBJS=\
+	os_unix.o \
+	mem_simple.o \
+	comp.o \
+	data.o \
+	hashtable.o \
+	list.o \
+	session.o \
+	encoding_ldo.o \
+	scarab_utilities.o \
+	stream_file.o \
+	stream_tcpip.o \
+	stream_tcpip_select.o \
+	stream_tcpip_buffered.o
+
+all: getEvents.$(MEXSUFFIX) getCodecs.$(MEXSUFFIX)
+
+FORCE:
+
+install: all
+	mkdir -p $(INSTALL_DIR)/Matlab
+	cp getEvents.$(MEXSUFFIX) $(INSTALL_DIR)/Matlab/getEvents.$(MEXSUFFIX);
+	cp getCodecs.$(MEXSUFFIX) $(INSTALL_DIR)/Matlab/getCodecs.$(MEXSUFFIX);
+
+clean:
+	rm -f *.o \
+	rm -f *~ \
+	rm -f *.$(MEXSUFFIX) \
+	rm -f $(INSTALL_DIR)/Matlab/*.$(MEXSUFFIX)
+
+getCodecs.$(MEXSUFFIX): getCodecs.o monkeyWorksStreamUtilities.o $(DFINDEX_OBJS) $(SCARAB_OBJS) 
+	$(MEX) $(MEXFLAGS) $(LIBS) -output getCodecs $^
+#getCodecs.$(MEXSUFFIX): getCodecs.o
+#	$(MEX) $(MEXFLAGS) $(LIBS) -output getCodecs $^
+
+getCodecs.o: getCodecs.cpp 
+	$(CXX) $(CFLAGS) -c getCodecs.cpp 
+
+getEvents.$(MEXSUFFIX): getEvents.o monkeyWorksStreamUtilities.o $(DFINDEX_OBJS) $(SCARAB_OBJS) 
+	$(MEX) $(MEXFLAGS) $(LIBS) -output getEvents $^
+#getEvents.$(MEXSUFFIX): getEvents.o
+#	$(MEX) $(MEXFLAGS) $(LIBS) -output getEvents $^
+
+getEvents.o: getEvents.cpp 
+	$(CXX) $(CFLAGS) -c getEvents.cpp 
+
+monkeyWorksStreamUtilities.o: FORCE
+	cp -f ../MonkeyWorksStreamUtilities/monkeyWorksStreamUtilities.o .
+
+DataFileIndexer.o: FORCE
+	cp -f ../DataFileIndexer/DataFileIndexer.o .
+
+DataFileUtilities.o: FORCE
+	cp -f ../DataFileIndexer/DataFileUtilities.o .
+
+EventBlock.o: FORCE
+	cp -f ../DataFileIndexer/EventBlock.o .
+
+ScarabDatumWrapper.o: FORCE
+	cp -f ../DataFileIndexer/ScarabDatumWrapper.o .
+
+dfindex.o: FORCE
+	cp -f ../DataFileIndexer/dfindex.o .
+
+os_unix.o: FORCE
+	cp -f ../../Scarab/Scarab-0.1.00d19/c/os_unix.o .
+
+mem_simple.o: FORCE
+	cp -f ../../Scarab/Scarab-0.1.00d19/c/mem_simple.o .
+
+comp.o: FORCE
+	cp -f ../../Scarab/Scarab-0.1.00d19/c/comp.o .
+
+data.o: FORCE
+	cp -f ../../Scarab/Scarab-0.1.00d19/c/data.o .
+
+hashtable.o: FORCE
+	cp -f ../../Scarab/Scarab-0.1.00d19/c/hashtable.o .
+
+list.o: FORCE
+	cp -f ../../Scarab/Scarab-0.1.00d19/c/list.o .
+
+session.o: FORCE
+	cp -f ../../Scarab/Scarab-0.1.00d19/c/session.o .
+
+encoding_ldo.o: FORCE
+	cp -f ../../Scarab/Scarab-0.1.00d19/c/encoding_ldo.o .
+
+scarab_utilities.o: FORCE
+	cp -f ../../Scarab/Scarab-0.1.00d19/c/scarab_utilities.o .
+
+stream_file.o: FORCE
+	cp -f ../../Scarab/Scarab-0.1.00d19/c/stream_file.o .
+
+stream_tcpip.o: FORCE
+	cp -f ../../Scarab/Scarab-0.1.00d19/c/stream_tcpip.o .
+
+stream_tcpip_select.o: FORCE
+	cp -f ../../Scarab/Scarab-0.1.00d19/c/stream_tcpip_select.o .
+
+stream_tcpip_buffered.o: FORCE
+	cp -f ../../Scarab/Scarab-0.1.00d19/c/stream_tcpip_buffered.o .
+
+
+.c.o:
+	$(CC) $(CFLAGS) -c $<
+
+#MEXSUFFIX  = mexglx
+#MATLAB_VERSION=matlab2008a
+#MATLABHOME = /software/$(MATLAB_VERSION)
+#MEX        = $(MATLABHOME)/bin/mex
+#CXX        = g++
+#INCLUDE   = -I$(MATLABHOME)/extern/include -I$(INSTALL_DIR)/include
+#CFLAGS     = -fPIC -fno-common -fexceptions $(INCLUDE) -g -DLINUX
+#LIBS      = -L$(INSTALL_DIR)/lib -lscarab -lboost_serialization-gcc41-mt-1_36 -lboost_wserialization-gcc41-mt-1_36 -lboost_filesystem-gcc41-mt-1_36 -lboost_system-gcc41-mt-1_36 -ldfindex -lMonkeyWorksStreamUtilities
+#MEXFLAGS  = -cxx CC='$(CXX)' CXX='$(CXX)' LD='$(CXX)'
+#
+#DFINDEX_OBJS	= \
+#	dfindex.o \
+#	DataFileIndexer.o \
+#	EventBlock.o \
+#	DataFileUtilities.o \
+#	ScarabDatumWrapper.o
+#
+#
+#all: getEvents.$(MEXSUFFIX) getCodecs.$(MEXSUFFIX)
+#
+#install: all
+#	mkdir -p $(INSTALL_DIR)/Matlab
+#	cp getEvents.$(MEXSUFFIX) $(INSTALL_DIR)/Matlab/getEvents.$(MEXSUFFIX);
+#	cp getCodecs.$(MEXSUFFIX) $(INSTALL_DIR)/Matlab/getCodecs.$(MEXSUFFIX);
+#
+#clean:
+#	rm -f *.o \
+#	rm -f *~ \
+#	rm -f *.$(MEXSUFFIX) \
+#	rm -f $(INSTALL_DIR)/Matlab/*.$(MEXSUFFIX)
+#
+#getCodecs.$(MEXSUFFIX): getCodecs.o $(DFINDEX_OBJS)
+#	$(MEX) $(MEXFLAGS) $(LIBS) -output getCodecs $^
+#
+#getCodecs.o: getCodecs.cpp 
+#	$(CXX) $(CFLAGS) -c getCodecs.cpp 
+#
+#getEvents.$(MEXSUFFIX): getEvents.o
+#	$(MEX) $(MEXFLAGS) $(LIBS) -output getEvents $^
+#
+#getEvents.o: getEvents.cpp 
+#	$(CXX) $(CFLAGS) -c getEvents.cpp 
+#
