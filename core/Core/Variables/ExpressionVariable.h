@@ -87,6 +87,22 @@ public:
         }
     }
     
+    static stx::AnyScalar evaluateParseTree(const stx::ParseTree &tree) {
+        if (tree.isEmpty()) {
+            throw FatalParserException("Internal error", "Expression parse tree is empty");
+        }
+        
+        try {
+            return tree.evaluate((stx::SymbolTable&)(*(global_variable_registry.get())));
+        } catch (stx::ExpressionParserException &e){
+            throw FatalParserException("Expression parser error", e.what());
+        }
+    }
+    
+    static stx::AnyScalar evaluateExpression(const std::string &expr) {
+        return evaluateParseTree(parseExpression(expr));
+    }
+    
     static stx::ParseTreeList parseExpressionList(const std::string &exprList) {
         try {
             return stx::parseExpressionList(exprList);
@@ -95,20 +111,16 @@ public:
         }
     }
     
-    static Datum evaluateParseTree(const stx::ParseTree &tree) {
-        if (tree.isEmpty()) {
-            throw FatalParserException("Internal error", "Expression parse tree is empty");
-        }
-        
+    static void evaluateParseTreeList(const stx::ParseTreeList &treeList, std::vector<stx::AnyScalar> &values) {
         try {
-            return Datum(tree.evaluate((stx::SymbolTable&)(*(global_variable_registry.get()))));
+            treeList.evaluate(values, (stx::SymbolTable&)(*(global_variable_registry.get())));
         } catch (stx::ExpressionParserException &e){
             throw FatalParserException("Expression parser error", e.what());
         }
     }
     
-    static Datum evaluateExpression(const std::string &expr) {
-        return evaluateParseTree(parseExpression(expr));
+    static void evaluateExpressionList(const std::string &exprList, std::vector<stx::AnyScalar> &values) {
+        evaluateParseTreeList(parseExpressionList(exprList), values);
     }
 	
     ParsedExpressionVariable(const std::string &expression_string) :
@@ -126,7 +138,7 @@ public:
     }
     
     virtual Datum getValue() {
-        return evaluateParseTree(expression_tree);
+        return Datum(evaluateParseTree(expression_tree));
     }
     
     virtual void setValue(Datum val){ return; }

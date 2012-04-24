@@ -312,6 +312,13 @@ public:
     /// Function to recursively evaluate the contained parse tree and retrieve
     /// the calculated scalar value based on the given symbol table.
     virtual AnyScalar evaluate(const class SymbolTable &st = BasicSymbolTable()) const = 0;
+    
+    /// Function to recursively evaluate the contained parse tree and retrieve
+    /// *all* calculated scalar values based on the given symbol table.
+    virtual void evaluate(std::vector<AnyScalar> &values, const class SymbolTable &st = BasicSymbolTable()) const
+    {
+        values.push_back(evaluate(st));
+    }
 
     /// (Internal) Function to check if the subtree evaluates to a constant
     /// expression. If dest == NULL then do a static check whether the node is
@@ -361,6 +368,14 @@ public:
 		assert(rootnode.get() != NULL);
 		return rootnode->evaluate(st);
     }
+    
+    /// Function to recursively evaluate the contained parse tree and retrieve
+    /// *all* calculated scalar values based on the given symbol table.
+    void evaluate(std::vector<AnyScalar> &values, const class SymbolTable &st = BasicSymbolTable()) const
+    {
+		assert(rootnode.get() != NULL);
+		return rootnode->evaluate(values, st);
+    }
 
     /// Return the parsed expression as a string, which can be parsed again.
     std::string	toString() const
@@ -390,7 +405,7 @@ protected:
 public:
     /// Function to recursively evaluate all the contained parse trees and
     /// retrieve each calculated scalar value for the given symbol table.
-    std::vector<AnyScalar>	evaluate(const class SymbolTable &st = BasicSymbolTable()) const;
+    void evaluate(std::vector<AnyScalar> &values, const class SymbolTable &st = BasicSymbolTable()) const;
 
     /// Return the list of parsed expression as a string, which can be parsed
     /// again.

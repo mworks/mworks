@@ -239,7 +239,8 @@ shared_ptr<mw::Component> SelectionVariableFactory::createObject(std::map<std::s
 	selectionVar = global_variable_registry->createSelectionVariable(&props);
 	
 	// get the values
-    stx::ParseTreeList values = ParsedExpressionVariable::parseExpressionList(parameters["values"]);
+    std::vector<stx::AnyScalar> values;
+    ParsedExpressionVariable::evaluateExpressionList(parameters["values"], values);
 	
 	// get the sampling method
 	std::map<std::string, std::string>::const_iterator samplingMethodElement = parameters.find("sampling_method");
@@ -290,10 +291,10 @@ shared_ptr<mw::Component> SelectionVariableFactory::createObject(std::map<std::s
 	
 	selectionVar->attachSelection(selection);
 	
-	for(stx::ParseTreeList::const_iterator i = values.begin();
+	for(std::vector<stx::AnyScalar>::const_iterator i = values.begin();
 		i != values.end();
 		++i) {
-		selectionVar->addValue(ParsedExpressionVariable::evaluateParseTree(*i));
+		selectionVar->addValue(Datum(*i));
 	}
 	
 	return selectionVar;

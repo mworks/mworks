@@ -98,6 +98,9 @@ namespace stx {
 			or_expr_id,
 			
 			expr_id,
+			
+			range_expr_id,
+			
 			exprlist_id,
 		};
 		
@@ -245,8 +248,12 @@ namespace stx {
 					= or_expr
 					;
 					
+					range_expr
+					= expr >> root_node_d[ch_p(':')] >> expr
+					;
+					
 					exprlist
-					= infix_node_d[ !list_p(expr, ch_p(',')) ]
+					= infix_node_d[ !list_p((range_expr | expr), ch_p(',')) ]
 					;
 					
 					// Special spirit feature to declare multiple grammar entry points
@@ -281,6 +288,9 @@ namespace stx {
 					BOOST_SPIRIT_DEBUG_RULE(or_expr);
 					
 					BOOST_SPIRIT_DEBUG_RULE(expr);
+					
+					BOOST_SPIRIT_DEBUG_RULE(range_expr);
+					
 					BOOST_SPIRIT_DEBUG_RULE(exprlist);
 #endif
 				}
@@ -338,6 +348,10 @@ namespace stx {
 				
 				/// Base rule to match an expression 
 				rule<ScannerT, parser_context<>, parser_tag<expr_id> >        		expr;
+				
+				/// Range expression 
+				rule<ScannerT, parser_context<>, parser_tag<range_expr_id> >        range_expr;
+				
 				/// Base rule to match a comma-separated list of expressions (used for
 				/// function arguments and lists of expressions)
 				rule<ScannerT, parser_context<>, parser_tag<exprlist_id> >    		exprlist;
@@ -481,7 +495,7 @@ namespace stx {
 					
 					for(unsigned int i = 0; i < paramlist.size(); ++i)
 					{
-						paramvalues.push_back( paramlist[i]->evaluate(st) );
+						paramlist[i]->evaluate(paramvalues, st);
 					}
 					
 					return st.processFunction(funcname, paramvalues);
@@ -1100,6 +1114,77 @@ namespace stx {
 				}
 			};
 		
+		/// Parse tree node representing a range expression. This node has two children.
+		class PNRangeExpr : public ParseNode
+			{
+			private:
+				/// Pointer to the first of the two child parse trees.
+				const ParseNode *start;
+				
+				/// Pointer to the second of the two child parse trees.
+				const ParseNode	*stop;
+				
+			public:
+				/// Constructor from the parser
+				PNRangeExpr(const ParseNode* _start,
+                            const ParseNode* _stop)
+				: ParseNode(),
+				start(_start), stop(_stop)
+				{ }
+				
+				/// Recursively delete parse tree.
+				virtual ~PNRangeExpr()
+				{
+					delete start;
+					delete stop;
+				}
+				
+				/// Always throws, because a range expression can't be treated as a single scalar value
+				virtual AnyScalar evaluate(const class SymbolTable &st) const
+				{
+                    throw ExpressionParserException("Internal error: range expression cannot be evaluated as a scalar");
+				}
+				
+				/// Evaluates and returns the full range of values
+				virtual void evaluate(std::vector<AnyScalar> &values, const class SymbolTable &st) const
+				{
+					AnyScalar first = start->evaluate(st);
+					AnyScalar last = stop->evaluate(st);
+                    
+                    if (!(first.isIntegerType() && last.isIntegerType())) {
+                        throw ExpressionParserException("start and stop values of range expression must be integers");
+                    }
+                    
+                    // We *could* support unsigned integers, but it doesn't seem worth the trouble
+                    if (first.isUnsignedIntegerType() || last.isUnsignedIntegerType()) {
+                        throw ExpressionParserException("start and stop values of range expression cannot be unsigned integers");
+                    }
+                    
+                    const long long firstValue = first.getLong();
+                    const long long lastValue = last.getLong();
+                    const long long delta = ((firstValue <= lastValue) ? 1 : -1);
+                    
+                    for (long long currentValue = firstValue;
+                         currentValue != (lastValue + delta);
+                         currentValue += delta)
+                    {
+                        values.push_back( AnyScalar(currentValue) );
+                    }
+				}
+				
+				/// Returns false, because value isn't constant.
+				virtual bool evaluate_const(AnyScalar *) const
+				{
+					return false;
+				}
+				
+				/// String representing (operandA : operandB)
+				virtual std::string toString() const
+				{
+					return start->toString() + " : " + stop->toString();
+				}
+			};
+		
 		// *** Functions which translate the resulting parse tree into our expression
 		// *** tree, simultaneously folding constants.
 		
@@ -1400,6 +1485,17 @@ namespace stx {
 					
 					return new PNFunction(funcname, paramlist);
 				}
+
+				case range_expr_id:
+				{
+					assert(i->children.size() == 2);
+					
+					// auto_ptr needed because of possible parse exceptions in build_expr.
+					std::auto_ptr<const ParseNode> start( build_expr(i->children.begin()) );
+					std::auto_ptr<const ParseNode> stop( build_expr(i->children.begin()+1) );
+                    
+                    return new PNRangeExpr(start.release(), stop.release());
+				}
 					
 				default:
 					throw(ExpressionParserException("Unknown AST parse tree node found. This should never happen."));
@@ -1418,13 +1514,17 @@ namespace stx {
 #endif
 			
 			ParseTreeList ptlist;
-			
-			for(TreeIterT ci = i->children.begin(); ci != i->children.end(); ++ci)
-			{
-				ParseNode *vas = build_expr(ci);
-				
-				ptlist.push_back( ParseTree(vas) );
-			}
+            
+            if (i->value.id().to_long() == exprlist_id) {
+                for(TreeIterT ci = i->children.begin(); ci != i->children.end(); ++ci)
+                {
+                    ParseNode *vas = build_expr(ci);
+                    
+                    ptlist.push_back( ParseTree(vas) );
+                }
+            } else {
+                ptlist.push_back( ParseTree(build_expr(i)) );
+            }
 			
 			return ptlist;
 		}
@@ -1461,6 +1561,9 @@ namespace stx {
 			rule_names[or_expr_id] = "or_expr";
 			
 			rule_names[expr_id] = "expr";
+			
+			rule_names[range_expr_id] = "range_expr";
+			
 			rule_names[exprlist_id] = "exprlist";
 			
 			tree_to_xml(os, info.trees, input.c_str(), rule_names);
@@ -1554,16 +1657,12 @@ namespace stx {
 		return Grammar::build_exprlist(info.trees.begin());
 	}
 	
-	std::vector<AnyScalar> ParseTreeList::evaluate(const class SymbolTable &st) const
+	void ParseTreeList::evaluate(std::vector<AnyScalar> &values, const class SymbolTable &st) const
 	{
-		std::vector<AnyScalar> vl;
-		
 		for(parent_type::const_iterator i = parent_type::begin(); i != parent_type::end(); i++)
 		{
-			vl.push_back( i->evaluate(st) );
+			i->evaluate(values, st);
 		}
-		
-		return vl;
 	}
 	
 	std::string ParseTreeList::toString() const

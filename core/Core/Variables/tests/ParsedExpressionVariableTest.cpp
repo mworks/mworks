@@ -328,6 +328,75 @@ void ParsedExpressionVariableTestFixture::testVariableSubscript() {
 }
 
 
+void ParsedExpressionVariableTestFixture::testRangeExpression() {
+    typedef std::vector<stx::AnyScalar> valueList;
+    valueList values;
+    
+    // Can't evaluate range expr as a scalar
+    {
+        stx::ParseTreeList trees = ParsedExpressionVariable::parseExpressionList("1:3");
+        CPPUNIT_ASSERT_EQUAL(1, int(trees.size()));
+        CPPUNIT_ASSERT_THROW(ParsedExpressionVariable::evaluateParseTree(trees[0]), FatalParserException);
+    }
+    
+    // Start and stop must be signed integers
+    CPPUNIT_ASSERT_THROW(ParsedExpressionVariable::evaluateExpressionList("1.1:3", values), FatalParserException);
+    CPPUNIT_ASSERT_THROW(ParsedExpressionVariable::evaluateExpressionList("1:3.3", values), FatalParserException);
+    CPPUNIT_ASSERT_THROW(ParsedExpressionVariable::evaluateExpressionList("(word)1:3", values), FatalParserException);
+    CPPUNIT_ASSERT_THROW(ParsedExpressionVariable::evaluateExpressionList("1:(word)3", values), FatalParserException);
+    
+    // start < stop
+    ParsedExpressionVariable::evaluateExpressionList("1:3", values);
+    CPPUNIT_ASSERT_EQUAL(3, int(values.size()));
+    for (valueList::size_type i = 0; i < values.size(); i++) {
+        CPPUNIT_ASSERT( values[i].isIntegerType() );
+        CPPUNIT_ASSERT_EQUAL((long long)(i+1), values[i].getLong());
+    }
+    
+    // start > stop
+    values.clear();
+    ParsedExpressionVariable::evaluateExpressionList("5:-2", values);
+    CPPUNIT_ASSERT_EQUAL(8, int(values.size()));
+    for (valueList::size_type i = 0; i < values.size(); i++) {
+        CPPUNIT_ASSERT( values[i].isIntegerType() );
+        CPPUNIT_ASSERT_EQUAL((long long)(5-i), values[i].getLong());
+    }
+    
+    // start == stop
+    values.clear();
+    ParsedExpressionVariable::evaluateExpressionList("2:2", values);
+    CPPUNIT_ASSERT_EQUAL(1, int(values.size()));
+    CPPUNIT_ASSERT( values[0].isIntegerType() );
+    CPPUNIT_ASSERT_EQUAL((long long)(2), values[0].getLong());
+    
+    // Mixed expression list
+    values.clear();
+    ParsedExpressionVariable::evaluateExpressionList("1,2,3:5,6,7:10", values);
+    CPPUNIT_ASSERT_EQUAL(10, int(values.size()));
+    for (valueList::size_type i = 0; i < values.size(); i++) {
+        CPPUNIT_ASSERT( values[i].isIntegerType() );
+        CPPUNIT_ASSERT_EQUAL((long long)(i+1), values[i].getLong());
+    }
+    
+    // Single-value list (not a range expr, but we should verify that it still works)
+    values.clear();
+    ParsedExpressionVariable::evaluateExpressionList("2", values);
+    CPPUNIT_ASSERT_EQUAL(1, int(values.size()));
+    CPPUNIT_ASSERT( values[0].isIntegerType() );
+    CPPUNIT_ASSERT_EQUAL((long long)(2), values[0].getLong());
+    
+    // More complex expressions for start and stop
+    createGlobalVariable("x", Datum(1L));
+    values.clear();
+    ParsedExpressionVariable::evaluateExpressionList("x:x+2", values);
+    CPPUNIT_ASSERT_EQUAL(3, int(values.size()));
+    for (valueList::size_type i = 0; i < values.size(); i++) {
+        CPPUNIT_ASSERT( values[i].isIntegerType() );
+        CPPUNIT_ASSERT_EQUAL((long long)(i+1), values[i].getLong());
+    }
+}
+
+
 END_NAMESPACE_MW
 
 
