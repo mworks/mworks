@@ -47,6 +47,7 @@ public:
         }
 	}
 	
+    virtual Datum getTentativeSelection(int index);
 	virtual void nextValue();
 	
     // Variable overrides

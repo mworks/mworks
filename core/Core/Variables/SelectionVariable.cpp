@@ -36,6 +36,28 @@ SelectionVariable::SelectionVariable(VariableProperties *props, shared_ptr<Selec
 }
 
 
+Datum SelectionVariable::getTentativeSelection(int index) {
+    if (!selection) {
+        merror(M_PARADIGM_MESSAGE_DOMAIN, "Internal error: selection variable has no selection attached");
+        return Datum(0L);
+    }
+    
+    const std::vector<int>& tenativeSelections = selection->getTentativeSelections();
+    
+    if (tenativeSelections.size() == 0) {
+        merror(M_PARADIGM_MESSAGE_DOMAIN, "Selection variable has no tentative selections available.  Returning 0.");
+        return Datum(0L);
+    }
+    
+    if ((index < 0) || (index >= tenativeSelections.size())) {
+        merror(M_PARADIGM_MESSAGE_DOMAIN, "Selection variable index (%d) is out of bounds.  Returning 0.", index);
+        return Datum(0L);
+    }
+        
+    return values[tenativeSelections[index]];
+}
+
+
 void SelectionVariable::nextValue() {
 	if (selection != NULL) {
 		

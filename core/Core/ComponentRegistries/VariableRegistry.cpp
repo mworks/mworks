@@ -20,7 +20,10 @@
 #include "EventBuffer.h"
 #include "EventConstants.h"
 #include "GenericVariable.h"
-using namespace mw;
+
+
+BEGIN_NAMESPACE_MW
+
 
 VariableRegistry::VariableRegistry(shared_ptr<EventBuffer> _buffer) {
 	event_buffer = _buffer;
@@ -501,13 +504,59 @@ stx::AnyScalar	VariableRegistry::lookupVariable(const std::string &varname) cons
 	
 }
 
-namespace mw {
+
+stx::AnyScalar VariableRegistry::lookupVariable(const std::string &varname, const stx::AnyScalar &subscript) const {
+    shared_ptr<Variable> var = getVariable(varname);
+    if (!var) {
+        throw SimpleException("Failed to find variable during expression evaluation", varname);
+    }
+    
+    shared_ptr<SelectionVariable> sel = dynamic_pointer_cast<SelectionVariable>(var);
+    if (!sel) {
+        throw SimpleException("Variable does not support subscripts", varname);
+    }
+    
+    stx::AnyScalar value = sel->getTentativeSelection(subscript.getInteger());
+    return value;
+}
+
+
 shared_ptr<VariableRegistry> global_variable_registry;
 //static bool registry_initialized = false;
-}
+
 
 //void initializeVariableRegistry() {
 //	global_variable_registry = shared_ptr<VariableRegistry>(new VariableRegistry(global_outgoing_event_buffer));
 //    registry_initialized = true;
 //	
 //}
+
+
+END_NAMESPACE_MW
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

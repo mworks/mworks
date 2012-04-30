@@ -322,6 +322,11 @@ void ParsedExpressionVariableTestFixture::testBinaryLogicOperatorsWithVariableOp
 
 
 void ParsedExpressionVariableTestFixture::testVariableSubscript() {
+    // Unknown variable
+    CPPUNIT_ASSERT_THROW(getExpressionValue("(x)"), SimpleException);
+    CPPUNIT_ASSERT_THROW(getExpressionValue("(x[0])"), SimpleException);
+    
+    // Scalar variable
     createGlobalVariable("x", Datum(1L));
     CPPUNIT_ASSERT_EQUAL(1L, long(getExpressionValue("(x)")));
     CPPUNIT_ASSERT_THROW(getExpressionValue("(x[0])"), SimpleException);

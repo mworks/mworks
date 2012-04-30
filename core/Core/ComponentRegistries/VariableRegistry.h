@@ -211,7 +211,10 @@ public:
 	// ********************************************************
 	
 	/// Return the (constant) value of a variable.
-	virtual stx::AnyScalar	lookupVariable(const std::string &varname) const;
+	virtual stx::AnyScalar lookupVariable(const std::string &varname) const;
+    
+    /// Return the (constant) value of a variable subscript.
+    virtual stx::AnyScalar lookupVariable(const std::string &varname, const stx::AnyScalar &subscript) const;
 	
 };
 

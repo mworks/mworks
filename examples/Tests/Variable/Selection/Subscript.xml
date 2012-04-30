@@ -1,0 +1,29 @@
+<?xml version="1.0" standalone="no"?>
+<monkeyml version="1.0">
+    <io_devices tag="IO Devices"></io_devices>
+    <variables tag="Variables">
+        <variable type="selection" tag="sel" values="2,3.3,&quot;four&quot;" selection="sequential_descending" nsamples="1" sampling_method="cycles"></variable>
+        <variable tag="x" scope="global" logging="when_changed" default_value="0" type="integer"></variable>
+    </variables>
+    <sounds tag="Sounds"></sounds>
+    <stimuli tag="Stimuli"></stimuli>
+    <filters tag="Filters"></filters>
+    <optimizers tag="Optimizers"></optimizers>
+    <experiment tag="New Experiment" full_name="" description="">
+        <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential">
+            <action type="assignment" tag="Assign Variable" variable="x" value="sel[0]"></action>
+            <action type="assert" tag="Assert" condition="(string)x == &quot;four&quot;" message="Expected &quot;four&quot;, got $x"></action>
+            <action type="assignment" tag="Assign Variable" variable="x" value="sel[1]"></action>
+            <action type="assert" tag="Assert" condition="x == 0" message="Expected 0, got $x"></action>
+            <action tag="Next Selection" type="next_selection" selection="sel"></action>
+            <action tag="Next Selection" type="next_selection" selection="sel"></action>
+            <action type="assignment" tag="Assign Variable" variable="x" value="sel[1]"></action>
+            <action type="assert" tag="Assert" condition="x == 3.3" message="Expected 3.3, got $x"></action>
+            <action type="assignment" tag="Assign Variable" variable="x" value="sel[2]"></action>
+            <action type="assert" tag="Assert" condition="x == 2" message="Expected 2, got $x"></action>
+            <action tag="Accept Selections" type="accept_selections" selection="sel"></action>
+            <action type="assignment" tag="Assign Variable" variable="x" value="sel[0]"></action>
+            <action type="assert" tag="Assert" condition="x == 0" message="Expected 0, got $x"></action>
+        </protocol>
+    </experiment>
+</monkeyml>
