@@ -136,13 +136,17 @@ void StimulusDisplay::getDisplayBounds(GLdouble &left, GLdouble &right, GLdouble
 }
 
 double StimulusDisplay::getMainDisplayRefreshRate() {
-    double refreshRate = opengl_context_manager->getDisplayRefreshRate(opengl_context_manager->getMainDisplayIndex());
-    if (refreshRate <= 0.0) {
-        refreshRate = 60.0;
+    CVTime refreshPeriod = CVDisplayLinkGetNominalOutputVideoRefreshPeriod(displayLink);
+    double refreshRate = 60.0;
+    
+    if (refreshPeriod.flags & kCVTimeIsIndefinite) {
         mwarning(M_DISPLAY_MESSAGE_DOMAIN,
                  "Could not determine main display refresh rate.  Assuming %g Hz.",
                  refreshRate);
+    } else {
+        refreshRate = double(refreshPeriod.timeScale) / double(refreshPeriod.timeValue);
     }
+    
     return refreshRate;
 }
 
