@@ -35,6 +35,7 @@
 	}
 	
 	[self setPreferredWindowHeight:preferred_height];
+    [self setWindowFrameAutosaveName:@"Main Window"];
 }
 
 - (void)removeClientInstance:(MWClientInstance *)instance{
