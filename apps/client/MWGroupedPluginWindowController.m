@@ -71,8 +71,17 @@
     if([[holdFlags objectAtIndex:currentPluginIndex] boolValue]){
         NSWindow *current_content_window = [plugins objectAtIndex:currentPluginIndex];
         
-        // Make sure that we end all editing in this window, or we could get in trouble
-        [current_content_window endEditingFor:Nil];
+        @try {
+            // Make sure that we end all editing in this window, or we could get in trouble
+            [current_content_window endEditingFor:Nil];
+        }
+        @catch (NSException *exception) {
+            // FIXME: Doing "Show All", "Show Grouped", and then "Show All" again leads to an exception in
+            // endEditingFor.  However, the reason for this exception is a mystery.  Until someone figures out why
+            // it's happening, we'll just log the exception and carry on.
+            NSLog(@"Ignoring exception in %s: %@", __func__, exception);
+        }
+        
         [current_content_window setContentView:[content_box contentView]];
         [holdFlags replaceObjectAtIndex:currentPluginIndex withObject:[NSNumber numberWithBool:NO]];
     }

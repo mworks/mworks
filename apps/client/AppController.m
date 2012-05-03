@@ -17,6 +17,7 @@
 
 - (void) awakeFromNib {
 	[self newClientInstance:self];
+    [self setWindowFrameAutosaveName:@"Main Window"];
 }
 
 - (IBAction)newClientInstance:(id)sender {
@@ -35,7 +36,6 @@
 	}
 	
 	[self setPreferredWindowHeight:preferred_height];
-    [self setWindowFrameAutosaveName:@"Main Window"];
 }
 
 - (void)removeClientInstance:(MWClientInstance *)instance{
