@@ -207,6 +207,15 @@
 }
 
 
+- (void)setServerURL:(NSString *)newServerURL {
+    if (![serverURL isEqualToString:newServerURL]) {
+        [serverURL release];
+        serverURL = [newServerURL copy];
+        [grouped_plugin_controller setWindowFrameAutosaveName:serverURL];
+    }
+}
+
+
 - (void)checkConnection {
   
   @synchronized(self){
@@ -242,7 +251,10 @@
 	
 	[self setExperimentName:@""];
 	[self setExperimentPath:@""];
-	[self hideAllPlugins];
+    
+    if (appController.shouldAutoClosePluginWindows) {
+        [self hideAllPlugins];
+    }
 	
 	[self setServerName:Nil];
     [self setVariableSetName:Nil];
@@ -444,7 +456,10 @@
 	[self setExperimentLoading:NO];
 	[self setExperimentPath:Nil];
 	[self setExperimentName:Nil];
-	[self hideAllPlugins];
+    
+    if (appController.shouldAutoClosePluginWindows) {
+        [self hideAllPlugins];
+    }
 }
 
 
@@ -936,6 +951,7 @@
     [grouped_plugin_controller loadWindow];
     [[grouped_plugin_controller window] orderOut:self];
     [grouped_plugin_controller setCustomColor:self.headerColor];
+    [grouped_plugin_controller setWindowFrameAutosaveName:self.serverURL];
 	
   
     NSFileManager *fm = [NSFileManager defaultManager];
@@ -1049,16 +1065,6 @@
 	
     [[grouped_plugin_controller window] orderFront:self];
     [grouped_plugin_controller setCurrentPluginIndex: 0];
-    
-    NSString *autosavename;
-    if([self serverURL] != Nil){
-        autosavename = [self serverURL];
-    } else if([self serverName] != Nil){
-        autosavename = [self serverName];
-    }
-    
-    [grouped_plugin_controller setWindowFrameAutosaveName:autosavename];
-    
 }
 
 - (void)hideAllPlugins {
