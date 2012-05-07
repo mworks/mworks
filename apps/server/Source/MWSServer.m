@@ -17,7 +17,7 @@
 #define DEFAULT_HOST_IP @"127.0.0.1"
 #define LISTENING_ADDRESS_KEY @"listeningAddressKey"
 
-#define HELP_URL @"http://mworks-project.github.com"
+#define HELP_URL @"http://help.mworks-project.org/"
 
 @interface MWSServer(PrivateMethods)
 - (void)processEvent:(id)cocoaEvent;
