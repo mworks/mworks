@@ -8,6 +8,8 @@
 
 #import "MWGroupedPluginWindowController.h"
 
+#import <MWorksCocoa/MWWindowController.h>
+
 
 @interface MWGroupedPluginWindowController(PrivateMethods)
 -(void) relinquishCurrentView;
@@ -97,7 +99,7 @@
         [content_window orderOut:self];
         
         if([[content_window windowController] respondsToSelector:@selector(setInGroupedWindow:)]){
-            [[content_window windowController] setInGroupedWindow:YES];
+            [(id<MWWindowController>)[content_window windowController] setInGroupedWindow:YES];
         }
         
         NSView *current_view = [content_window contentView];

@@ -1036,7 +1036,7 @@
         //[grouped_plugin_controller incrementPlugin:self];
     }
 	
-    NSWindowController *controller = [pluginWindows objectAtIndex:i];
+    NSWindowController<MWWindowController> *controller = [pluginWindows objectAtIndex:i];
     if([controller respondsToSelector:@selector(setInGroupedWindow:)]){
         [controller setInGroupedWindow:NO];
     }
