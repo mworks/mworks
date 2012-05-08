@@ -2,6 +2,7 @@
  *Copyright 2007 MIT. All rights reserved.
  */
 
+#import "MWorksCocoa/MWClientProtocol.h"
 #import "MWorksCocoa/MWWindowController.h"
 #import "MWorksCore/GenericData.h"
 #import "MWVariablesDataSource.h"
@@ -10,7 +11,7 @@
 @interface MWVariablesWindowController : NSWindowController {
 	IBOutlet MWVariablesDataSource *ds;
 	IBOutlet NSOutlineView *varView;
-	IBOutlet id delegate;
+	IBOutlet id<MWClientProtocol> delegate;
 	id variables;
 }
 

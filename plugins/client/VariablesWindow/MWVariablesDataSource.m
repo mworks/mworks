@@ -110,9 +110,12 @@ objectValueForTableColumn:(NSTableColumn *)tableColumn
 }
 
 - (void)outlineView:(NSOutlineView *)outlineView 
-	 setObjectValue:(id)object 
+	 setObjectValue:(id)_object 
 	 forTableColumn:(NSTableColumn *)tableColumn 
-			 byItem:(id)item {
+			 byItem:(id)item
+{
+    NSString *object = (NSString *)_object;
+    
 	if(delegate != nil) {
 		if(tableColumn == valueCol) {
 			mw::Datum setval;
