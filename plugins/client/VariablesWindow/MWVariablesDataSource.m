@@ -31,11 +31,20 @@
 
 
 - (void)setRootGroups:(NSDictionary *)rootGroups {
+    NSMutableDictionary *oldRootObjects = [NSMutableDictionary dictionaryWithCapacity:[rootItems count]];
+    for (MWVariableDisplayItem *item in rootItems) {
+        [oldRootObjects setObject:item forKey:item.displayName];
+    }
+    
 	[rootItems removeAllObjects];
+    
 	for (NSString *key in rootGroups) {
-		MWVariableDisplayItem *item = [[MWVariableDisplayItem alloc] initWithGroupName:key andVariables:[rootGroups objectForKey:key]];
+        MWVariableDisplayItem *item = [oldRootObjects objectForKey:key];
+        if (!item) {
+            item = [[[MWVariableDisplayItem alloc] initWithName:key] autorelease];
+        }
+        [item setVariables:[rootGroups objectForKey:key]];
 		[rootItems addObject:item];
-        [item release];
 	}
 }
 
