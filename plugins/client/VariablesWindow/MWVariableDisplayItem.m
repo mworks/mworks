@@ -13,19 +13,18 @@
 
 
 - (id) initWithGroupName:(NSString *)name
-			andVariables:(NSArray *)vars {
+			andVariables:(NSArray *)vars
+{
     if (self = [super init])
     {
 		displayName = name;
-		parent = nil;
 		children = [[NSMutableArray alloc] initWithCapacity:[vars count]];
 
 		NSString *newVarName;
 		
 		NSEnumerator *enumerator = [vars objectEnumerator];
 		while(newVarName = [enumerator nextObject]) {
-			MWVariableDisplayItem *newChild = [[MWVariableDisplayItem alloc] initWithVarName:newVarName
-																				   andParent:self];
+			MWVariableDisplayItem *newChild = [[MWVariableDisplayItem alloc] initWithVarName:newVarName];
 			[children addObject:newChild];
             [newChild release];
 		}
@@ -34,11 +33,10 @@
 }
 
 - (id) initWithVarName:(NSString *)name
-			 andParent:(id)_parent {
+{
     if (self = [super init])
     {
 		displayName = name;
-		parent = _parent;
 		children = nil;
     }
     return self;	
@@ -74,10 +72,6 @@
     if (children) [children release];
     [displayName release];
     [super dealloc];
-}
-
-- (MWVariableDisplayItem *)parent {	
-	return parent;
 }
 
 @end

@@ -13,19 +13,16 @@
 {
 	NSString *displayName;
 	NSMutableArray *children;
-    MWVariableDisplayItem *parent;
 }
 
 - (int)numberOfChildren;// Returns -1 for leaf nodes
 - (MWVariableDisplayItem *)childAtIndex:(NSUInteger)n;// Invalid to call on leaf nodes
 - (NSString *)displayName;
-- (MWVariableDisplayItem *)parent;
 
 - (id) initWithGroupName:(NSString *)name
 			andVariables:(NSArray *)vars;
 
-- (id) initWithVarName:(NSString *)name
-			andParent:(id)parent;
+- (id) initWithVarName:(NSString *)name;
 
 
 @end

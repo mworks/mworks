@@ -12,7 +12,6 @@
 
 @implementation MWVariablesDataSource
 - (void)awakeFromNib {
-	rootGroups = nil;
 	rootItems = [[NSMutableArray alloc] init];
 }
 
@@ -31,14 +30,11 @@
 }
 
 
-- (void)addRootGroups:(NSDictionary *)groups {
-    [rootGroups release];
-    rootGroups = [groups copy];
+- (void)setRootGroups:(NSDictionary *)rootGroups {
 	[rootItems removeAllObjects];
-	for(int index = 0; index < [rootGroups count]; index++){
-		NSString *key = [[rootGroups allKeys] objectAtIndex:index];
+	for (NSString *key in rootGroups) {
 		MWVariableDisplayItem *item = [[MWVariableDisplayItem alloc] initWithGroupName:key andVariables:[rootGroups objectForKey:key]];
-		[rootItems insertObject:item atIndex:index];
+		[rootItems addObject:item];
         [item release];
 	}
 }
@@ -46,11 +42,10 @@
 
 
 // DataSource overridden methods
-- (int)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item
+- (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item
 {
 	if(item == nil) {
-		int numGroups = [[rootGroups allKeys] count];
-		return numGroups;
+		return [rootItems count];
 	} else {
 		return [item numberOfChildren];
 	}
@@ -68,12 +63,10 @@
 }
 
 - (id)outlineView:(NSOutlineView *)outlineView
-			child:(int)index
+			child:(NSInteger)index
 		   ofItem:(id)item
 {
 	if(item == nil) {
-		//NSString *key = [[rootGroups allKeys] objectAtIndex:index];
-		//MWVariableDisplayItem *item = [[MWVariableDisplayItem alloc] initWithGroupName:key andVariables:[rootGroups objectForKey:key]];
 		MWVariableDisplayItem *item = [rootItems objectAtIndex:index];
 		return item;
 	} else {
