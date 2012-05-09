@@ -85,8 +85,8 @@
 	
 	BOOL is_connected = [modalClientInstanceInCharge serverConnected];
 	
-	NSLog(@"is it?: %d", is_connected);
-	NSLog(@"%d", [item representedObject]);
+	//NSLog(@"is it?: %d", is_connected);
+	//NSLog(@"%d", [item representedObject]);
 	
 	NSWindow *sheet_to_use;
 	
@@ -343,7 +343,7 @@
 
 - (IBAction) openDataFile: (id) sender{
 	MWClientInstance *client_instance = [self modalClientInstanceInCharge];
-	NSLog(@"Client instance: %d", client_instance);
+	//NSLog(@"Client instance: %d", client_instance);
 	[client_instance setDataFileName:[modalDataFileField stringValue]];
 	
 	BOOL overwrite = NO;
@@ -503,7 +503,7 @@
 
 
 - (IBAction) launchHelp: (id) sender {
-  NSLog(@"Launching Help...");
+  //NSLog(@"Launching Help...");
   [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:HELP_URL]];
 }
 

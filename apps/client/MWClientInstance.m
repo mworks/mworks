@@ -314,7 +314,7 @@
 	BOOL success = core->connectToServer(url, [serverPort intValue]);  
 	// If that didn't work, try launching the server remotely
 	if((!success || !core->isConnected()) && [self launchIfNeeded]){
-		NSLog(@"Attempting to remotely launch server");
+		//NSLog(@"Attempting to remotely launch server");
 	
 		if([[self serverURL] isEqualToString:@"127.0.0.1"] || [[self serverURL] isEqualToString:@"localhost"]){
 
@@ -962,7 +962,7 @@
 	
 	for(int i = 0; i < [plugins count]; i++){
 		NSString *plugin_file = [plugins objectAtIndex:i];
-		NSLog(@"%@", plugin_file);
+		//NSLog(@"%@", plugin_file);
 		
 		NSString *fullpath = [plugin_directory stringByAppendingString:plugin_file];
 		NSBundle *plugin_bundle = [[NSBundle alloc] initWithPath:fullpath];
@@ -980,7 +980,7 @@
                 nib = [[NSNib alloc] initWithNibNamed:@"Main" bundle:plugin_bundle];
         
                 if(![nib instantiateNibWithOwner:self topLevelObjects:&toplevel]){
-                    NSLog(@"Couldn't instantiate Nib");
+                    NSLog(@"Couldn't instantiate nib for %@", plugin_file);
                     nib_loaded_correctly = false;
                 }
             } @catch(NSException *e){
@@ -996,7 +996,7 @@
 			
 			for(int j=0; j < [toplevel count]; j++){
 				NSObject *obj = [toplevel objectAtIndex:j];
-				NSLog(@"object = %d", obj);
+				//NSLog(@"object = %d", obj);
 				if([obj isKindOfClass:[NSWindowController class]]){
 					controller = (NSWindowController *)obj;
 					[controller loadWindow];
@@ -1007,7 +1007,7 @@
                     [grouped_plugin_controller addPluginWindow:[controller window] withName:[[controller window] title]];
                     [grouped_plugin_controller setCurrentPluginIndex:0];
                     
-					NSLog(@"object is a controller (%d)", [pluginWindows count]);
+					//NSLog(@"object is a controller (%d)", [pluginWindows count]);
 					break;
 				}
 			}
@@ -1022,7 +1022,7 @@
 		}
 	}
 	
-	NSLog(@"%d plugin windows in instance %d", [pluginWindows count], self);
+	//NSLog(@"%d plugin windows in instance %d", [pluginWindows count], self);
 }
 
 
@@ -1053,7 +1053,7 @@
 		[[controller window] orderFront:self];
 	}
 
-	NSLog(@"showing all (%d) from instance %d", [pluginWindows count], self);
+	//NSLog(@"showing all (%d) from instance %d", [pluginWindows count], self);
 }
 
 - (NSWindow *)groupedPluginWindow {
