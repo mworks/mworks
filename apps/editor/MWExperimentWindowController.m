@@ -8,6 +8,8 @@
 
 #import "MWExperimentWindowController.h"
 
+#define HELP_URL @"http://help.mworks-project.org/"
+
 
 @implementation MWExperimentWindowController
 
@@ -90,6 +92,10 @@
 
 - (NSUndoManager *)windowWillReturnUndoManager:(NSWindow *)sender{ 
     return [[self document] undoManager];
+}
+
+- (void)showHelp:(id)sender {
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:HELP_URL]];
 }
 
 @end

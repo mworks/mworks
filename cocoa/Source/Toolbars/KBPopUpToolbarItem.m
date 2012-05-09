@@ -216,7 +216,7 @@
 	if ([[self toolbar] delegate] &&
 		[[[self toolbar] delegate] respondsToSelector:@selector(validateToolbarItem:)] &&
 		[self target] && [[self target] respondsToSelector:[self action]])
-		[self setEnabled:[[[self toolbar] delegate] validateToolbarItem:self]];
+		[self setEnabled:[(NSObject *)[[self toolbar] delegate] validateToolbarItem:self]];
 }
 
 @end

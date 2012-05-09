@@ -18,6 +18,15 @@
 
 #import <Cocoa/Cocoa.h>
 
+
+@protocol MWWindowController <NSObject>
+
+@optional
+- (void)setInGroupedWindow:(BOOL)isInGroupedWindow;
+
+@end
+
+
 @interface MWWindowController : NSWindowController {
 	id delegate;
 }

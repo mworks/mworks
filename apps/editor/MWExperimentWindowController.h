@@ -38,4 +38,6 @@
 
 - (IBAction)newElement:(id)sender;
 
+- (void)showHelp:(id)sender;
+
 @end

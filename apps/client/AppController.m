@@ -10,13 +10,38 @@
 #import "MWClientInstance.h"
 #import "NSMenuExtensions.h"
 
+#define DEFAULTS_AUTO_CLOSE_PLUGIN_WINDOWS_KEY @"autoClosePluginWindows"
+
+
 @implementation AppController
 
 
 @synthesize preferredWindowHeight;
 
+
++ (void)initialize {
+    //
+    // The class identity test ensures that this method is called only once.  For more info, see
+    // http://lists.apple.com/archives/cocoa-dev/2009/Mar/msg01166.html
+    //
+    if (self == [AppController class]) {
+        NSMutableDictionary *defaultValues = [NSMutableDictionary dictionary];
+        
+        [defaultValues setObject:[NSNumber numberWithBool:YES] forKey:DEFAULTS_AUTO_CLOSE_PLUGIN_WINDOWS_KEY];
+        
+        [[NSUserDefaults standardUserDefaults] registerDefaults:defaultValues];
+    }
+}
+
+
+- (BOOL)shouldAutoClosePluginWindows {
+    return [[NSUserDefaults standardUserDefaults] boolForKey:DEFAULTS_AUTO_CLOSE_PLUGIN_WINDOWS_KEY];
+}
+
+
 - (void) awakeFromNib {
 	[self newClientInstance:self];
+    [self setWindowFrameAutosaveName:@"Main Window"];
 }
 
 - (IBAction)newClientInstance:(id)sender {

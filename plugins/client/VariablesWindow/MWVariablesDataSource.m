@@ -32,12 +32,14 @@
 
 
 - (void)addRootGroups:(NSDictionary *)groups {
-	rootGroups = groups;
+    [rootGroups release];
+    rootGroups = [groups copy];
 	[rootItems removeAllObjects];
 	for(int index = 0; index < [rootGroups count]; index++){
 		NSString *key = [[rootGroups allKeys] objectAtIndex:index];
 		MWVariableDisplayItem *item = [[MWVariableDisplayItem alloc] initWithGroupName:key andVariables:[rootGroups objectForKey:key]];
 		[rootItems insertObject:item atIndex:index];
+        [item release];
 	}
 }
 
@@ -110,13 +112,16 @@ objectValueForTableColumn:(NSTableColumn *)tableColumn
 }
 
 - (void)outlineView:(NSOutlineView *)outlineView 
-	 setObjectValue:(id)object 
+	 setObjectValue:(id)_object 
 	 forTableColumn:(NSTableColumn *)tableColumn 
-			 byItem:(id)item {
+			 byItem:(id)item
+{
+    NSString *object = (NSString *)_object;
+    
 	if(delegate != nil) {
 		if(tableColumn == valueCol) {
 			mw::Datum setval;
-			NSScanner *scanner = [[NSScanner alloc] initWithString:object];
+			NSScanner *scanner = [NSScanner scannerWithString:object];
 			
 			double possibleDoubleValue;
 			

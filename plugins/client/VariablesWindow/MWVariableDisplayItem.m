@@ -27,6 +27,7 @@
 			MWVariableDisplayItem *newChild = [[MWVariableDisplayItem alloc] initWithVarName:newVarName
 																				   andParent:self];
 			[children addObject:newChild];
+            [newChild release];
 		}
     }
     return self;

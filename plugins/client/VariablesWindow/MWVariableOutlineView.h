@@ -15,6 +15,6 @@
 
 
 - (void) textDidEndEditing: (NSNotification *) notification;
-- (void) tableViewSelectionDidChange: (NSNotification *) notification;
+//- (void) tableViewSelectionDidChange: (NSNotification *) notification;
 
 @end

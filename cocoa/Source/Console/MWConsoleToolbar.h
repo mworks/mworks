@@ -8,11 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-#if NSAppKitVersionNumber > NSAppKitVersionNumber10_5_11
 @interface MWConsoleToolbar : NSObject <NSToolbarDelegate> {
-#else
-@interface MWConsoleToolbar : NSObject {
-#endif
     
     IBOutlet NSWindow *window;
 	IBOutlet id delegate;
