@@ -1576,12 +1576,6 @@ namespace stx {
 		return AnyScalar( display->getMainDisplayRefreshRate() );
 	}
 	
-	AnyScalar BasicSymbolTable::funcACTUAL_REFRESH_RATE(const paramlist_type &paramlist)
-	{
-        boost::shared_ptr<mw::StimulusDisplay> display(mw::StimulusDisplay::getCurrentStimulusDisplay());
-		return AnyScalar( display->getActualMainDisplayRefreshRate() );
-	}
-	
 	AnyScalar BasicSymbolTable::funcFORMAT(const paramlist_type &paramlist)
 	{
         if (paramlist.size() < 1) {
@@ -1726,7 +1720,6 @@ namespace stx {
 		setFunction("NOW", 0, funcNOW);
 		setFunction("TIMEREXPIRED", 1, funcTIMER_EXPIRED);
 		setFunction("REFRESHRATE", 0, funcREFRESH_RATE);
-		setFunction("ACTUALREFRESHRATE", 0, funcACTUAL_REFRESH_RATE);
 		setFunction("FORMAT", -1, funcFORMAT);
 	}
 	

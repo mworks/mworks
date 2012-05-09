@@ -2,46 +2,55 @@
 <monkeyml version="1.0">
     <io_devices tag="IO Devices"></io_devices>
     <variables tag="Variables">
-        <variable tag="nominal_rate" scope="global" logging="when_changed" default_value="refreshRate()" type="float"></variable>
-        <variable tag="actual_rate_start" scope="global" logging="when_changed" default_value="actualRefreshRate()" type="float"></variable>
-        <variable tag="actual_rate_stop" scope="global" logging="when_changed" default_value="0" type="float"></variable>
-        <variable tag="rate_diff" scope="global" logging="when_changed" default_value="0" type="float"></variable>
+        <variable tag="LOCAL_time" scope="global" logging="when_changed" default_value="0" type="float"></variable>
+        <variable tag="LOCAL_n" scope="global" logging="when_changed" default_value="0" type="integer"></variable>
+        <variable tag="frameRate" scope="global" logging="when_changed" default_value="refreshRate()" type="float" persistant="0"></variable>
+        <variable tag="percentDiff" scope="global" logging="when_changed" default_value="0" type="float"></variable>
+        <variable tag="acceptablePercentDiff" scope="global" logging="when_changed" default_value="0.1" type="float"></variable>
     </variables>
     <sounds tag="Sounds"></sounds>
     <stimuli tag="Stimuli">
-        <stimulus tag="background" full_name="background" type="blank_screen" color="0, 0, 1"></stimulus>
+        <stimulus tag="background" full_name="background" type="blank_screen" color="0, 0, 0"></stimulus>
     </stimuli>
     <filters tag="Filters"></filters>
     <optimizers tag="Optimizers"></optimizers>
     <experiment tag="New Experiment" full_name="" description="">
-        <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential">
-            <task_system tag="New Task System" interruptible="YES">
+        <protocol tag="FrameRate Estimation" nsamples="1" sampling_method="cycles" selection="sequential">
+            <action tag="Queue Background" type="queue_stimulus" stimulus="background"></action>
+            <action tag="Update Stimulus" type="update_stimulus_display"></action>
+            <task_system tag="FrameRate Estimation Task System" interruptible="YES">
                 <task_system_state tag="Begin State System" interruptible="YES">
                     <action_marker _unmoveable="1" tag="Actions"></action_marker>
-                    <action type="assert" tag="Assert" condition="nominal_rate == actual_rate_start" message="Nominal and actual rates differ"></action>
-                    <action type="report" tag="Report" message="nominal rate = $nominal_rate"></action>
-                    <action type="assignment" tag="Assign Variable" variable="actual_rate_start" value="actualRefreshRate()"></action>
-                    <action type="report" tag="Report 2" message="starting actual rate = $actual_rate_start"></action>
-                    <action type="assignment" tag="Assign Variable 4" variable="rate_diff" value="abs(actual_rate_start - nominal_rate) / nominal_rate * 100"></action>
-                    <action type="report" tag="Report 5" message="nominal and actual starting rates differ by $rate_diff percent"></action>
-                    <action type="assert" tag="Assert 2" condition="rate_diff &lt; 1.0" message="Nominal and actual starting rates differ by more than 1%"></action>
-                    <action tag="Queue Stimulus" type="queue_stimulus" stimulus="background"></action>
-                    <action tag="Update display" type="update_stimulus_display"></action>
-                    <action type="start_timer" tag="Start Timer" timer="MyTimer" timebase="" duration="60" duration_units="s"></action>
+                    <action type="report" tag="Announce Measurement" message="Measuring for 500 frames ..."></action>
+                    <action tag="Update Display" type="update_stimulus_display"></action>
+                    <action type="assignment" tag="Get Time" variable="LOCAL_time" value="now()"></action>
+                    <action type="assignment" tag="Count this update" variable="LOCAL_n" value="1"></action>
                     <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
-                    <transition type="timer_expired" tag="If Timer Expired, Transition to ..." target="Exit State System" timer="MyTimer"></transition>
+                    <transition tag="Go to Update" type="direct" target="Update"></transition>
+                </task_system_state>
+                <task_system_state tag="Update" interruptible="YES">
+                    <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                    <action tag="Update Display" type="update_stimulus_display"></action>
+                    <action type="assignment" tag="Count this update" variable="LOCAL_n" value="LOCAL_n + 1"></action>
+                    <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                    <transition type="conditional" tag="If we have 500 frames, Transition to Exit" condition="LOCAL_n == 500" target="Exit State System"></transition>
+                    <transition type="direct" tag="Else, repeat" target="Update"></transition>
                 </task_system_state>
                 <task_system_state tag="Exit State System" interruptible="YES">
                     <action_marker _unmoveable="1" tag="Actions"></action_marker>
-                    <action type="assignment" tag="Assign Variable 2" variable="actual_rate_stop" value="actualRefreshRate()"></action>
-                    <action type="report" tag="Report 3" message="ending actual_rate = $actual_rate_stop"></action>
-                    <action type="assignment" tag="Assign Variable 3" variable="rate_diff" value="abs(actual_rate_stop - actual_rate_start) / actual_rate_start * 100"></action>
-                    <action type="report" tag="Report 4" message="starting and ending rates differ by $rate_diff percent"></action>
-                    <action type="assert" tag="Assert 3" condition="rate_diff &lt; 0.01" message="Starting and ending rates differ by more than 0.01%"></action>
+                    <action tag="Update Display" type="update_stimulus_display"></action>
+                    <action type="assignment" tag="Get elapsed time" variable="LOCAL_time" value="now() - LOCAL_time"></action>
+                    <action type="assignment" tag="Calculate measured Framerate" variable="frameRate" value="1.0/ ((LOCAL_time/(float)LOCAL_n)/1000000.0)"></action>
+                    <action type="assignment" tag="Get system framerate" variable="LOCAL_time" value="refreshRate()"></action>
+                    <action type="assignment" tag="Calculate percentage difference" variable="percentDiff" value="abs(frameRate-refreshRate()) / refreshRate() * 100"></action>
+                    <action type="report" tag="Announce Results" message="System reports $LOCAL_time Hz ; Measurement results in $frameRate Hz ; Values differ by $percentDiff percent"></action>
+                    <action type="assert" tag="Assert difference is acceptable" condition="percentDiff &lt;= acceptablePercentDiff" message="Values differ by more than $acceptablePercentDiff percent"></action>
                     <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
                     <transition tag="Return to parent task system" type="yield"></transition>
                 </task_system_state>
             </task_system>
+            <action tag="Dequeue Stimulus" type="dequeue_stimulus" stimulus="background"></action>
+            <action tag="Update Display" type="update_stimulus_display"></action>
         </protocol>
     </experiment>
 </monkeyml>

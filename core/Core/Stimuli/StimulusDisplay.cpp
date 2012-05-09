@@ -150,17 +150,6 @@ double StimulusDisplay::getMainDisplayRefreshRate() {
     return refreshRate;
 }
 
-double StimulusDisplay::getActualMainDisplayRefreshRate() {
-    if (!CVDisplayLinkIsRunning(displayLink)) {
-        mwarning(M_DISPLAY_MESSAGE_DOMAIN,
-                 "Cannot obtain actual main display refresh rate when display updates are paused.  "
-                 "Returning nominal refresh rate instead.");
-        return getMainDisplayRefreshRate();
-    }
-    
-    return (1.0 / CVDisplayLinkGetActualOutputVideoRefreshPeriod(displayLink));
-}
-
 void StimulusDisplay::addContext(int _context_id){
 	context_ids.push_back(_context_id);
     

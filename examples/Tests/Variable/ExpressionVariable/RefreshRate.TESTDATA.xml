@@ -1,9 +1,0 @@
-<?xml version="1.0"?>
-<marionette_info>
-  <permitted_error_messages>
-    <message type="whole_message" max_matches="4">WARNING: Cannot obtain actual main display refresh rate when display updates are paused.  Returning nominal refresh rate instead.</message>
-  </permitted_error_messages>
-  <expected_messages>
-    <message type="whole_message">WARNING: Cannot obtain actual main display refresh rate when display updates are paused.  Returning nominal refresh rate instead.</message>
-  </expected_messages>
-</marionette_info>
