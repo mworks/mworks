@@ -71,12 +71,12 @@ protected:
     
     // these will be called from callbacks, so it is not necessary to lock them
     void registerInternalCallback(int event_code, EventCallback functor){
-        //boost::mutex::scoped_lock(internal_callback_lock);
+        //boost::mutex::scoped_lock lock(internal_callback_lock);
         internal_callbacks[event_code] = functor;
     }
     
     void unregisterInternalCallbacks(){
-        //boost::mutex::scoped_lock(internal_callback_lock);
+        //boost::mutex::scoped_lock lock(internal_callback_lock);
         internal_callbacks.clear();
     }
     

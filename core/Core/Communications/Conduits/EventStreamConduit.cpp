@@ -106,14 +106,14 @@ bool EventStreamConduit::initialize(){
 void EventStreamConduit::finalize(){
     
     {   // tell the system to stop
-        boost::mutex::scoped_lock(stopping_mutex);
+        boost::mutex::scoped_lock lock(stopping_mutex);
         stopping = true;
     }   // release the lock
     
     
     while(true){  // wait for the all clear that the conduit has finished
         
-        boost::mutex::scoped_lock(stopping_mutex);
+        boost::mutex::scoped_lock lock(stopping_mutex);
         if(stopped){
             break;
         }
@@ -214,7 +214,7 @@ void EventStreamConduit::serviceIncomingEventsFromConduit(){
     while(1){
         
         {
-            boost::mutex::scoped_lock(stopping_mutex);
+            boost::mutex::scoped_lock lock(stopping_mutex);
             if(stopping){
                 stopped = true;
                 break;
@@ -236,7 +236,7 @@ void EventStreamConduit::serviceIncomingEventsFromConduit(){
         int event_code = incoming_event->getEventCode();
         
         {   // scope for locking
-            boost::mutex::scoped_lock(internal_callback_lock);
+            boost::mutex::scoped_lock lock(internal_callback_lock);
             if(internal_callbacks.find(event_code) != internal_callbacks.end()){
                 internal_callbacks[event_code](incoming_event);
             }

@@ -49,8 +49,8 @@ public:
     virtual ~CodecAwareConduit(){ 
         // grab these locks, so that we can ensure that 
         // anyone else who had them is done
-        boost::mutex::scoped_lock(local_codec_lock);
-        boost::mutex::scoped_lock(remote_codec_lock);
+        boost::mutex::scoped_lock l1(local_codec_lock);
+        boost::mutex::scoped_lock l2(remote_codec_lock);
     }
     
     

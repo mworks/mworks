@@ -45,7 +45,7 @@ SimpleConduit::~SimpleConduit(){
         wait_count++;
         bool is_stopping, is_stopped;
         {
-            boost::mutex::scoped_lock(stopping_mutex);
+            boost::mutex::scoped_lock lock(stopping_mutex);
             is_stopping = stopping;
             is_stopped = stopped;
         }
@@ -78,7 +78,7 @@ void SimpleConduit::serviceIncomingEvents(){
         bool _stopping = false;
         
         {
-            boost::mutex::scoped_lock(stopping_mutex);
+            boost::mutex::scoped_lock lock(stopping_mutex);
             _stopping = stopping;
         }
         
@@ -86,7 +86,7 @@ void SimpleConduit::serviceIncomingEvents(){
         if(_stopping){
             
             {
-                boost::mutex::scoped_lock(stopping_mutex);
+                boost::mutex::scoped_lock lock(stopping_mutex);
                 stopped = true;
             }
             finished = true;
@@ -118,7 +118,7 @@ void SimpleConduit::finalize(){
     shared_ptr<Clock> clock = Clock::instance(false);
     
     {   // tell the system to stop
-        boost::mutex::scoped_lock(stopping_mutex);
+        boost::mutex::scoped_lock lock(stopping_mutex);
         stopping = true;
     }   // release the lock
     
@@ -130,7 +130,7 @@ void SimpleConduit::finalize(){
         
         bool _stopped = false;
         {
-            boost::mutex::scoped_lock(stopping_mutex);
+            boost::mutex::scoped_lock lock(stopping_mutex);
             _stopped = stopped;
         }
         
