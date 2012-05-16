@@ -78,7 +78,7 @@ void IPCEventTransport::sendEvent(shared_ptr<Event> event){
 }
 
 
-shared_ptr<Event> IPCEventTransport::deserializeEvent(const char *receive_buffer, message_queue_size_type& received_size){
+shared_ptr<Event> IPCEventTransport::deserializeEvent(message_queue_size_type& received_size){
     
     string incoming_data(receive_buffer, received_size);
     input_stream.str(incoming_data);
@@ -94,7 +94,6 @@ shared_ptr<Event> IPCEventTransport::receiveEvent(){
     
     message_queue_size_type received_size = 0;
     unsigned int priority = QUEUE_PRIORITY;
-    char *receive_buffer[MAX_MESSAGE_SIZE];
     
     if(incoming_queue == NULL){
         return shared_ptr<Event>();
@@ -106,7 +105,7 @@ shared_ptr<Event> IPCEventTransport::receiveEvent(){
         cerr << "Error receiving on incoming queue: " << e.what() << endl;
     }
     
-    shared_ptr<Event> event = deserializeEvent((const char *)receive_buffer, received_size);
+    shared_ptr<Event> event = deserializeEvent(received_size);
     
     return event;
 }
@@ -116,7 +115,6 @@ shared_ptr<Event> IPCEventTransport::receiveEventAsynchronous(){
     
     message_queue_size_type received_size = 0;
     unsigned int priority = QUEUE_PRIORITY;
-    char receive_buffer[MAX_MESSAGE_SIZE];
     
     if(incoming_queue == NULL){
         return shared_ptr<Event>();
@@ -133,7 +131,7 @@ shared_ptr<Event> IPCEventTransport::receiveEventAsynchronous(){
         return shared_ptr<Event>();
     }
     
-    shared_ptr<Event> event = deserializeEvent((const char *)receive_buffer, received_size);
+    shared_ptr<Event> event = deserializeEvent(received_size);
     
     return event;
 }
@@ -144,7 +142,6 @@ shared_ptr<Event> IPCEventTransport::receiveEventAsynchronous(){
 shared_ptr<Event> IPCEventTransport::receiveEventNoLock(){
     message_queue_size_type received_size = 0;
     unsigned int priority = QUEUE_PRIORITY;
-    char *receive_buffer[MAX_MESSAGE_SIZE];
     
     bool okayp;
     
@@ -161,7 +158,7 @@ shared_ptr<Event> IPCEventTransport::receiveEventNoLock(){
         cerr << "Error receiving on incoming queue: " << e.what() << endl;
     }
     
-    shared_ptr<Event> event = deserializeEvent((const char *)receive_buffer, received_size);
+    shared_ptr<Event> event = deserializeEvent(received_size);
     
     return event;
 

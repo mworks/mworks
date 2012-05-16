@@ -36,7 +36,7 @@ class IPCEventTransport : public EventTransport{
     
 protected:
     
-    static const int MAX_MESSAGE_SIZE = 64000;
+    static const int MAX_MESSAGE_SIZE = 524288;  // 512kB
     static const int DEFAULT_QUEUE_SIZE = 2000;
     
     string resource_name;
@@ -60,6 +60,8 @@ protected:
     shared_ptr<message_queue> incoming_queue;
     shared_ptr<message_queue> outgoing_queue;
     
+    char receive_buffer[MAX_MESSAGE_SIZE];
+    
 public:
     typedef message_queue::size_type message_queue_size_type;
     
@@ -78,7 +80,7 @@ public:
     
     virtual shared_ptr<Event> receiveEventNoLock();
   
-    virtual shared_ptr<Event> deserializeEvent(const char *receive_buffer, message_queue_size_type& received_size);  
+    virtual shared_ptr<Event> deserializeEvent(message_queue_size_type& received_size);  
     
     
     virtual void flush();
