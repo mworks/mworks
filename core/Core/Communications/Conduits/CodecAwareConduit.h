@@ -15,7 +15,7 @@ using namespace mw;
 
 #define name_defined_callback_key   "CodeAwareConduit::name_defined_callback_key"
 
-#define CODEC_RESEND_TIMEOUT_MS 100
+#define CODEC_RESEND_TIMEOUT_MS 5000
 
 // A conduit that maintains a local codec (code -> name mappings)
 // that it transmits to the other side of the conduit so that it
@@ -35,6 +35,7 @@ protected:
     int local_codec_code_counter;
     
     boost::mutex remote_codec_lock;
+    boost::condition_variable remote_codec_cond;
     map<int, string> remote_codec;
     map<string, int> remote_reverse_codec;
     
@@ -42,6 +43,7 @@ protected:
     
     void transmitCodecEvent();
     void rebuildEventCallbacks();
+    void waitForRemoteCodec(boost::mutex::scoped_lock &lock);
     
 public:
     

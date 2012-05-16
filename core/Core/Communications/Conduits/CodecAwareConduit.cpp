@@ -24,14 +24,16 @@ void CodecAwareConduit::transmitCodecEvent(){
 }
 
 void CodecAwareConduit::receiveCodecEvent(shared_ptr<Event> evt){
-    //std::cerr << "Receiving codec in conduit: " << this << std::endl;
-    boost::mutex::scoped_lock lock(local_codec_lock);
-    remote_codec = extract_simple_codec_map(evt);
-    remote_reverse_codec = reverse_simple_codec_map(remote_codec);
+    {
+        boost::mutex::scoped_lock lock(remote_codec_lock);
+        
+        remote_codec = extract_simple_codec_map(evt);
+        remote_reverse_codec = reverse_simple_codec_map(remote_codec);
+        
+        rebuildEventCallbacks();
+    }
     
-    rebuildEventCallbacks();
-    //std::cerr << "Received codec in conduit: " << this << std::endl;
-
+    remote_codec_cond.notify_all();
 }
 
 void CodecAwareConduit::receiveControlEvent(shared_ptr<Event> evt){
@@ -47,7 +49,6 @@ void CodecAwareConduit::rebuildEventCallbacks(){
     
     unregisterCallbacks(name_defined_callback_key);
     
-    boost::mutex::scoped_lock lock(remote_codec_lock);
     map<string, EventCallback>::iterator i;
     for(i = callbacks_by_name.begin(); i != callbacks_by_name.end(); ++i){
         string evt_name = (*i).first;
@@ -105,6 +106,8 @@ bool CodecAwareConduit::initialize(){
 }
 
 void CodecAwareConduit::registerCallbackByName(string event_name, EventCallback cb){
+    boost::mutex::scoped_lock lock(remote_codec_lock);
+    
     if(event_name.size() == 0){
         throw SimpleException("Attempt to register callback for empty event name");
     }
@@ -127,22 +130,54 @@ void CodecAwareConduit::registerLocalEventCode(int code, string event_name){
 }
 
 
-map<int, string> CodecAwareConduit::getRemoteCodec(){
-    bool empty = true;
-    { 
-        boost::mutex::scoped_lock lock(local_codec_lock);
-        empty = remote_codec.empty();
-    }
-    
-    if(empty){
+void CodecAwareConduit::waitForRemoteCodec(boost::mutex::scoped_lock &lock) {
+    if (remote_codec.empty()) {
         sendData(SystemEventFactory::requestCodecControl());
-        shared_ptr<Clock> c = Clock::instance(false);
-        if(c != NULL){
-            c->sleepMS(CODEC_RESEND_TIMEOUT_MS);
-        }
+        
+        boost::system_time timeout = boost::get_system_time() + boost::posix_time::milliseconds(CODEC_RESEND_TIMEOUT_MS);
+        do {
+            if (!remote_codec_cond.timed_wait(lock, timeout)) {
+                throw SimpleException("Timeout while waiting for remote codec");
+            }
+        } while (remote_codec.empty());
     }
-    
-    return remote_codec; 
 }
 
-map<string, int> CodecAwareConduit::getRemoteReverseCodec(){  return remote_reverse_codec; }
+
+map<int, string> CodecAwareConduit::getRemoteCodec() {
+    boost::mutex::scoped_lock lock(remote_codec_lock);
+    waitForRemoteCodec(lock);
+    return remote_codec;
+}
+
+map<string, int> CodecAwareConduit::getRemoteReverseCodec() {
+    boost::mutex::scoped_lock lock(remote_codec_lock);
+    waitForRemoteCodec(lock);
+    return remote_reverse_codec;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
