@@ -128,18 +128,8 @@ void EventStreamConduit::handleControlEventFromConduit(shared_ptr<Event> evt){
     // mainly interested in M_SET_EVENT_FORWARDING events
     // since these tell us that the other end of this conduit
     // wants us to send or not send it those events
-    // Also interested in M_REQUEST_CODEC events since these require
-    // action on our part
     
     Datum payload_type = evt->getData().getElement(M_SYSTEM_PAYLOAD_TYPE);
-    
-    
-    if((int)payload_type == M_REQUEST_CODEC){
-        //std::cerr << "Sending codec over conduit, as requested" << std::endl;
-        //shared_ptr<Event> codec_event = SystemEventFactory::codecPackage();
-        //sendData(codec_event);
-        event_stream->putEvent(evt);
-    }
     
     // if not event forwarding, pass
     if((int)payload_type != M_SET_EVENT_FORWARDING){
