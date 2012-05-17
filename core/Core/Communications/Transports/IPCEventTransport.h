@@ -36,8 +36,8 @@ class IPCEventTransport : public EventTransport{
     
 protected:
     
-    static const int MAX_MESSAGE_SIZE = 524288;  // 512kB
-    static const int DEFAULT_QUEUE_SIZE = 2000;
+    static const int MAX_MESSAGE_SIZE = 262144;  // 256kB
+    static const int DEFAULT_QUEUE_SIZE = 500;
     
     string resource_name;
     ostringstream output_stream;
