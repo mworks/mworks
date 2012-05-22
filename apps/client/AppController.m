@@ -11,6 +11,7 @@
 #import "NSMenuExtensions.h"
 
 #define DEFAULTS_AUTO_CLOSE_PLUGIN_WINDOWS_KEY @"autoClosePluginWindows"
+#define DEFAULTS_RESTORE_OPEN_PLUGIN_WINDOWS_KEY @"restoreOpenPluginWindows"
 
 
 @implementation AppController
@@ -28,6 +29,7 @@
         NSMutableDictionary *defaultValues = [NSMutableDictionary dictionary];
         
         [defaultValues setObject:[NSNumber numberWithBool:YES] forKey:DEFAULTS_AUTO_CLOSE_PLUGIN_WINDOWS_KEY];
+        [defaultValues setObject:[NSNumber numberWithBool:NO] forKey:DEFAULTS_RESTORE_OPEN_PLUGIN_WINDOWS_KEY];
         
         [[NSUserDefaults standardUserDefaults] registerDefaults:defaultValues];
     }
@@ -36,6 +38,11 @@
 
 - (BOOL)shouldAutoClosePluginWindows {
     return [[NSUserDefaults standardUserDefaults] boolForKey:DEFAULTS_AUTO_CLOSE_PLUGIN_WINDOWS_KEY];
+}
+
+
+- (BOOL)shouldRestoreOpenPluginWindows {
+    return [[NSUserDefaults standardUserDefaults] boolForKey:DEFAULTS_RESTORE_OPEN_PLUGIN_WINDOWS_KEY];
 }
 
 
@@ -65,8 +72,8 @@
 - (void)removeClientInstance:(MWClientInstance *)instance{
     
     [instance hideAllPlugins];
+	[instance shutDown];
 	[clientInstances removeObject:instance];
-	[instance finalize];
 }
 
 
@@ -502,9 +509,43 @@
 }
 
 
+- (void)applicationWillTerminate:(NSNotification *)aNotification {
+    for (MWClientInstance *client in [clientInstances arrangedObjects]) {
+        [client shutDown];
+    }
+}
+
+
 - (IBAction) launchHelp: (id) sender {
   //NSLog(@"Launching Help...");
   [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:HELP_URL]];
 }
 
+
 @end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

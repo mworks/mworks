@@ -148,13 +148,14 @@
     if(cycleTimer != Nil){
         
         [cycleTimer invalidate];
-        [cycleTimer finalize];
+        [cycleTimer release];
+        cycleTimer = nil;
     }
     
     cycling = value;
     if(cycling){
         NSTimeInterval interval = cycleTime;
-        cycleTimer = [NSTimer scheduledTimerWithTimeInterval:interval target:self selector:@selector(nextPlugin:) userInfo:self repeats:YES];
+        cycleTimer = [[NSTimer scheduledTimerWithTimeInterval:interval target:self selector:@selector(nextPlugin:) userInfo:self repeats:YES] retain];
     }
 }
 
