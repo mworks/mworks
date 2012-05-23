@@ -181,6 +181,13 @@ void StandardSystemEventHandler::handleSystemEvent(const Datum &sysEvent) {
 		}
 			break;
 			
+		case M_PAUSE_EXPERIMENT:
+		{
+			shared_ptr <StateSystem> state_system = StateSystem::instance();
+			state_system->pause();
+		}
+			break;
+			
 		case M_OPEN_DATA_FILE:
 		{
 			// issues an event on success
