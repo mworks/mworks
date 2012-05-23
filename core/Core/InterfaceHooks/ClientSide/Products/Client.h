@@ -106,11 +106,11 @@ class Client : public RegistryAwareEventStreamInterface {
         virtual void sendPauseEvent();
 
         /*!
-         * @function sendUnpauseEvent
-         * @discussion Puts a M_PAUSE_EXPERIMENT event into the outgoing 
+         * @function sendResumeEvent
+         * @discussion Puts a M_RESUME_EXPERIMENT event into the outgoing 
          * event stream.
          */
-        virtual void sendUnpauseEvent();
+        virtual void sendResumeEvent();
 
         /*!
          * @function sendOpenDataFileEvent

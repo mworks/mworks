@@ -550,12 +550,13 @@
 	BOOL isit = [paused boolValue];
     
 #ifndef HOLLOW_OUT_FOR_ADC
-    core->sendPauseEvent();
 	if(isit){
 		//resume
+        core->sendResumeEvent();
         [notebook addEntry:@"Experiment resumed"];
 	} else {
 		//pause
+        core->sendPauseEvent();
         [notebook addEntry:@"Experiment paused"];
 	}
 #endif

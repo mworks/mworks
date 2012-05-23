@@ -21,6 +21,8 @@ void StateSystem::stop(){}
 
 void StateSystem::pause(){}
 
+void StateSystem::resume(){}
+
 bool StateSystem::isRunning(){ return false; }
 
 bool StateSystem::isPaused(){ return false;  }

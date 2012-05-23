@@ -177,6 +177,15 @@ shared_ptr<Event> SystemEventFactory::pauseExperimentControl() {
 	return ret;
 }
 
+shared_ptr<Event> SystemEventFactory::resumeExperimentControl() {
+    Datum payload(systemEventPackage(M_SYSTEM_CONTROL_PACKAGE, 
+									 M_RESUME_EXPERIMENT));
+	shared_ptr<Event> ret(new Event(RESERVED_SYSTEM_EVENT_CODE, 
+                                    payload));
+	
+	return ret;
+}
+
 shared_ptr<Event> SystemEventFactory::requestCodecControl() {
     Datum payload(systemEventPackage(M_SYSTEM_CONTROL_PACKAGE, 
                                     M_REQUEST_CODEC));

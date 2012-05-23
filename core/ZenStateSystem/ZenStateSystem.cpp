@@ -115,18 +115,24 @@ void StandardStateSystem::stop(){
 void StandardStateSystem::pause(){
     boost::mutex::scoped_lock lock(state_system_mutex);
     
-    if (!is_running) {
+    if (!is_running || is_paused) {
         return;
     }
     
-    is_paused = !is_paused;
+    mprintf("Pausing state system");
+    is_paused = true;
+    sendSystemStateEvent();
+}
+
+void StandardStateSystem::resume(){
+    boost::mutex::scoped_lock lock(state_system_mutex);
     
-    if (is_paused) {
-        mprintf("Pausing state system");
-    } else {
-        mprintf("Resuming paused state system");
+    if (!is_running || !is_paused) {
+        return;
     }
     
+    mprintf("Resuming paused state system");
+    is_paused = false;
     sendSystemStateEvent();
 }
 

@@ -37,6 +37,7 @@ public:
     virtual void start();
     virtual void stop();
     virtual void pause();
+    virtual void resume();
     
     virtual bool isRunning();
     virtual bool isPaused();
