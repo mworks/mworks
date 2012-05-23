@@ -39,11 +39,11 @@ class StandardStateSystem : public StateSystem {
         virtual bool isInAction();
         virtual bool isInTransition();
         
-        virtual void setInAction(bool);
-        virtual void setInTransition(bool);
+        //virtual void setInAction(bool);
+        //virtual void setInTransition(bool);
         
         weak_ptr<State> getCurrentState();
-        void setCurrentState(weak_ptr<State> new_current);
+        //void setCurrentState(weak_ptr<State> new_current);
 };
 }
 

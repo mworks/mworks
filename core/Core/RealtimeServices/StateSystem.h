@@ -38,14 +38,14 @@ public:
 	virtual bool isInAction();
 	virtual bool isInTransition();
 	
-	virtual void setInAction(bool);
-	virtual void setInTransition(bool);
+	//virtual void setInAction(bool);
+	//virtual void setInTransition(bool);
 	
 	// use these to send the proper events at the proper times
 	virtual void sendSystemStateEvent();
 	
 	weak_ptr<State> getCurrentState();
-	void setCurrentState(weak_ptr<State> current);
+	//void setCurrentState(weak_ptr<State> current);
 	shared_ptr<Clock> getClock() const;
   
   REGISTERED_SINGLETON_CODE_INJECTION(StateSystem)

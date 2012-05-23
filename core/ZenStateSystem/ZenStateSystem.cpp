@@ -136,21 +136,21 @@ bool StandardStateSystem::isInTransition(){
     return in_transition;
 }
 
-void StandardStateSystem::setInAction(bool isit){
-    in_action = isit;
-}
+//void StandardStateSystem::setInAction(bool isit){
+//    in_action = isit;
+//}
 
-void StandardStateSystem::setInTransition(bool isit){
-    in_transition = isit;
-}
+//void StandardStateSystem::setInTransition(bool isit){
+//    in_transition = isit;
+//}
 
 weak_ptr<State> StandardStateSystem::getCurrentState(){
     return current_state;
 }
 
-void StandardStateSystem::setCurrentState(weak_ptr<State> newcurrent){
-    current_state = newcurrent;
-}
+//void StandardStateSystem::setCurrentState(weak_ptr<State> newcurrent){
+//    current_state = newcurrent;
+//}
 
 //  check state system
 void *checkStateSystem(void *void_state_system){
