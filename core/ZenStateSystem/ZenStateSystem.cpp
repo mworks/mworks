@@ -53,6 +53,8 @@ void *checkStateSystem(void *noargs);
 
     
 StandardStateSystem::StandardStateSystem(const shared_ptr <Clock> &a_clock) : StateSystem(a_clock) {
+    in_action = false;
+    in_transition = false;
     is_running = false;
     is_paused = false;
 }
@@ -107,9 +109,15 @@ void StandardStateSystem::stop(){
 }
 
 void StandardStateSystem::pause(){
-    // send in a message to suspend the state system
-//    sendSystemPausedEvent();
-    //is_paused = true;
+    is_paused = !is_paused;
+    
+    if (is_paused) {
+        mprintf("Pausing state system");
+    } else {
+        mprintf("Resuming paused state system");
+    }
+    
+    sendSystemStateEvent();
 }
 
 bool StandardStateSystem::isRunning(){
@@ -206,22 +214,32 @@ void *checkStateSystem(void *void_state_system){
 	
 	shared_ptr<State> current_state_shared(current_state);
 	
-	while((current_state_shared != NULL			  &&		// broken system
-	      (long)(*state_system_mode) != IDLE      &&			// hard stop
-		  (long)(*state_system_mode) != STOPPING)  ||		// stop requested
-								!(current_state_shared->isInterruptible())){ // might not be
-																			   // an okay place to stop
-		
+	while (current_state_shared) {
+        const bool canInterrupt = current_state_shared->isInterruptible();  // might not be an okay place to stop
+        
+        if (canInterrupt &&
+            (long(*state_system_mode) == IDLE ||      // hard stop
+             long(*state_system_mode) == STOPPING))   // stop requested
+        {
+            break;
+        }
+        else if (in_transition ||              // waiting for the next state
+                 (canInterrupt && is_paused))  // paused
+        {
+            ss->getClock()->sleepUS(500);
+            if (canInterrupt && is_paused) {
+                continue;
+            }
+        }
+       
 		// this is a global bool; it is set a by a listener to the variable
 		// debuggerActive
-		if(debugger_enabled){
+		if(!in_action && !in_transition && debugger_enabled){
 			debuggerCheck();
 		}
 		
-		
-		
 		//mprintf("State system main loop, current state = %d", current_state);
-		if(!in_action){
+		if (!in_transition) {
 			in_action = true;
 			
 			//mState *test_state = current_state;
@@ -239,7 +257,7 @@ void *checkStateSystem(void *void_state_system){
 			in_action = false;
 		}
 		
-		if(!in_transition){
+		if (!in_action) {
 			in_transition = true;
 
 		
@@ -251,28 +269,11 @@ void *checkStateSystem(void *void_state_system){
 				state_system_mode->setValue((long)STOPPING);
 				break;
 			}
-			
-			while(next_state.expired()){// && E->getInt(taskMode_edit) == RUNNING){
-				
-				if(current_state_shared->isInterruptible() &&
-					((long)(*state_system_mode) == IDLE  ||			// hard stop
-					 (long)(*state_system_mode) == STOPPING)){
-					 next_state = GlobalCurrentExperiment;
-					 break;
-				}
-				
-				// no next state yet, sleep until the next tick
-				ss->getClock()->sleepUS(500);
-				try {
-					next_state = current_state_shared->next();
-				} catch (std::exception& e){
-					merror(M_PARADIGM_MESSAGE_DOMAIN,
-						  "Stopping state system: %s", e.what());
-                    state_system_mode->setValue((long)STOPPING);
-                    break;
-				}
-				
-			}
+            
+            if (next_state.expired()) {
+                // no next state yet, sleep until the next tick
+                continue;
+            }
 			
             shared_ptr<State> next_state_shared;
             
@@ -317,6 +318,7 @@ void *checkStateSystem(void *void_state_system){
 	in_action = false;
 	in_transition = false;
 	is_running = false;
+    is_paused = false;
     (*state_system_mode) = IDLE;    
 	mprintf("State system ending");
 	
