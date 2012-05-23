@@ -53,7 +53,12 @@ StandardStateSystem::StandardStateSystem(const shared_ptr <Clock> &a_clock) : St
 }
 
 void StandardStateSystem::start(){
-
+    boost::mutex::scoped_lock lock(state_system_mutex);
+    
+    if (is_running) {
+        return;
+    }
+    
     //E->setInt(taskMode_edit, RUNNING);
 
 //	(*state_system_mode) = RUNNING;
@@ -88,6 +93,12 @@ void StandardStateSystem::start(){
     
     
 void StandardStateSystem::stop(){
+    boost::mutex::scoped_lock lock(state_system_mutex);
+    
+    if (!is_running) {
+        return;
+    }
+    
     // stop this thing somehow....
 
 	if(state_system_mode != NULL){
@@ -102,6 +113,12 @@ void StandardStateSystem::stop(){
 }
 
 void StandardStateSystem::pause(){
+    boost::mutex::scoped_lock lock(state_system_mutex);
+    
+    if (!is_running) {
+        return;
+    }
+    
     is_paused = !is_paused;
     
     if (is_paused) {
@@ -186,11 +203,6 @@ void StandardStateSystem::run() {
 	mprintf("Starting state system....");
 
 
-	if(GlobalCurrentExperiment == NULL){
-		merror(M_STATE_SYSTEM_MESSAGE_DOMAIN,
-				"GlobalCurrentExperiment is not defined.");
-		return;
-	}
     //mprintf("----------setting task  mode to running------------");
 	(*state_system_mode) = (long) RUNNING;
 	current_state = GlobalCurrentExperiment->getCurrentState();
@@ -314,19 +326,23 @@ void StandardStateSystem::run() {
 	}
 	
 	
-	in_action = false;
-	in_transition = false;
-	is_running = false;
-    is_paused = false;
-    (*state_system_mode) = IDLE;    
-	mprintf("State system ending");
-	
-	
-	// DDC: graceful stop?
-	if(GlobalCurrentExperiment != NULL){
-		mprintf("Reseting experiment");
-		GlobalCurrentExperiment->reset();
-	}
+    {
+        boost::mutex::scoped_lock lock(state_system_mutex);
+        
+        in_action = false;
+        in_transition = false;
+        is_running = false;
+        is_paused = false;
+        
+        (*state_system_mode) = IDLE;    
+        mprintf("State system ending");
+        
+        // DDC: graceful stop?
+        if(GlobalCurrentExperiment != NULL){
+            mprintf("Reseting experiment");
+            GlobalCurrentExperiment->reset();
+        }
+    }
     
     
 #ifdef __APPLE__
