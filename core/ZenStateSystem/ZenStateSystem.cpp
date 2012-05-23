@@ -39,17 +39,10 @@
 	#define STATE_SYSTEM_PRIORITY 96
 #endif
 
-using namespace mw;
 using namespace boost;
 
-pthread_mutex_t state_system_mutex;
-pthread_t state_system_thread;
 
-static bool in_action, in_transition, is_running, is_paused;
-static weak_ptr<State> current_state;
-
-
-void *checkStateSystem(void *noargs);
+BEGIN_NAMESPACE_MW
 
     
 StandardStateSystem::StandardStateSystem(const shared_ptr <Clock> &a_clock) : StateSystem(a_clock) {
@@ -78,9 +71,9 @@ void StandardStateSystem::start(){
 	GlobalCurrentExperiment->setCurrentState(exp_ref);
 	//GlobalCurrentExperiment->setCurrentState(GlobalCurrentExperiment->getCurrentProtocol());
 		
-	shared_ptr <StateSystem> *shared_ptr_to_this_ptr = 
-            new shared_ptr<StateSystem>(component_shared_from_this<StateSystem>());
-	pthread_create(&state_system_thread, NULL, checkStateSystem, shared_ptr_to_this_ptr);
+	shared_ptr <StandardStateSystem> *shared_ptr_to_this_ptr = 
+            new shared_ptr<StandardStateSystem>(component_shared_from_this<StandardStateSystem>());
+	pthread_create(&state_system_thread, NULL, runStateSystem, shared_ptr_to_this_ptr);
     
     struct sched_param sp;
     memset(&sp, 0, sizeof(struct sched_param));
@@ -152,18 +145,24 @@ weak_ptr<State> StandardStateSystem::getCurrentState(){
 //    current_state = newcurrent;
 //}
 
-//  check state system
-void *checkStateSystem(void *void_state_system){
 
+void* StandardStateSystem::runStateSystem(void *_ss) {
+	// Hand-off the self state system reference
+	shared_ptr<StandardStateSystem> *ss_ptr = (shared_ptr<StandardStateSystem> *)_ss;
+	shared_ptr<StandardStateSystem> ss = *ss_ptr;
+	delete ss_ptr;
+    
+    ss->run();
+    
+	pthread_exit(NULL);
+	return NULL;
+}
+
+
+void StandardStateSystem::run() {
 #ifdef __APPLE__
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 #endif
-    
-	// Hand-off the self state system reference
-	shared_ptr<StateSystem> *ss_ptr = (shared_ptr<StateSystem> *)void_state_system;
-	shared_ptr<StateSystem> ss = *ss_ptr;
-	delete ss_ptr;
-
 	
 	weak_ptr<State> next_state;
 
@@ -190,7 +189,7 @@ void *checkStateSystem(void *void_state_system){
 	if(GlobalCurrentExperiment == NULL){
 		merror(M_STATE_SYSTEM_MESSAGE_DOMAIN,
 				"GlobalCurrentExperiment is not defined.");
-		return NULL;
+		return;
 	}
     //mprintf("----------setting task  mode to running------------");
 	(*state_system_mode) = (long) RUNNING;
@@ -226,7 +225,7 @@ void *checkStateSystem(void *void_state_system){
         else if (in_transition ||              // waiting for the next state
                  (canInterrupt && is_paused))  // paused
         {
-            ss->getClock()->sleepUS(500);
+            getClock()->sleepUS(500);
             if (canInterrupt && is_paused) {
                 continue;
             }
@@ -333,13 +332,10 @@ void *checkStateSystem(void *void_state_system){
 #ifdef __APPLE__
     [pool drain];
 #endif
-    
-	
-	pthread_exit(0);
-	return NULL;
 }
 
 
+END_NAMESPACE_MW
 
 
 
