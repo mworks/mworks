@@ -42,8 +42,8 @@ class StandardStateSystem : public StateSystem {
         //virtual void setInAction(bool);
         //virtual void setInTransition(bool);
         
-        weak_ptr<State> getCurrentState();
-        //void setCurrentState(weak_ptr<State> new_current);
+        virtual weak_ptr<State> getCurrentState();
+        //virtual void setCurrentState(weak_ptr<State> new_current);
 };
 }
 
