@@ -732,6 +732,18 @@ class TaskSystemFactory : public ComponentFactory{
 };
 
 
+class StopExperiment : public Action {
+    
+public:
+    static void describeComponent(ComponentInfo &info);
+    
+    explicit StopExperiment(const ParameterValueMap &parameters);
+    virtual ~StopExperiment() { }
+    
+    virtual bool execute();
+    
+};
+
 
 // action to cause the calibrator object to take a calibration value immediately
 // the calibrator class has methods to get values for registered varaibles and 

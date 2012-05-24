@@ -1735,6 +1735,29 @@ weak_ptr<State> TaskSystem::getStartState() {
 	}
 }
 
+
+/****************************************************************
+ *                 StopExperiment Methods
+ ****************************************************************/
+
+
+void StopExperiment::describeComponent(ComponentInfo &info) {
+    Action::describeComponent(info);
+    info.setSignature("action/stop_experiment");
+}
+
+
+StopExperiment::StopExperiment(const ParameterValueMap &parameters) :
+    Action(parameters)
+{ }
+
+
+bool StopExperiment::execute() {
+    StateSystem::instance()->stop();
+    return true;
+}
+
+
 /*ExpandableList<State> * TaskSystem::getTaskSystemStates() {
  return list;
  }*/
