@@ -8,7 +8,7 @@
     <filters/>
     <optimizers/>
     <experiment tag="New Experiment" full_name="" description="">
-        <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential"/>
+        <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES"/>
     </experiment>
 
 </monkeyml>

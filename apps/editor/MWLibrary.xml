@@ -497,7 +497,7 @@
 		
 		<!-- Payload -->
 		<code>
-			<protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential"/>
+			<protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES"/>
 		</code>
 	</MWElement>
 
@@ -522,7 +522,7 @@
 		
 		<!-- Payload -->
 		<code>
-			<block tag="New Block" nsamples="1" sampling_method="cycles" selection="sequential"/>
+			<block tag="New Block" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES"/>
 		</code>
 	</MWElement>
 
@@ -550,7 +550,7 @@
 		
 		<!-- Payload -->
 		<code>
-			<trial tag="New Trial" nsamples="1" sampling_method="cycles" selection="sequential"/>
+			<trial tag="New Trial" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES"/>
 		</code>
 	</MWElement>
 
@@ -578,7 +578,7 @@
 		
 		<!-- Payload -->
 		<code>
-			<list tag="New List" nsamples="1" sampling_method="cycles" selection="sequential"/>
+			<list tag="New List" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES"/>
 		</code>
 	</MWElement>
 
