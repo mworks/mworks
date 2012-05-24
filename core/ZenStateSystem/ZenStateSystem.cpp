@@ -99,13 +99,8 @@ void StandardStateSystem::stop(){
         return;
     }
     
-    // stop this thing somehow....
-
-	if(state_system_mode != NULL){
-		// is_running = false;
-		(*state_system_mode) = IDLE;
-	}
-	
+    mprintf("Called stop on state system");
+    (*state_system_mode) = STOPPING;
 	
 	// TODO: need to stop ongoing schedules...
 	// esp. IO devices
