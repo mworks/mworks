@@ -1341,25 +1341,51 @@
 		
 		<description>
 			Start playing a dynamic stimulus
-        </description>
+		</description>
 		
 		<code>
-			<action tag="Play dynamic stimulus" stimulus="" type="play_dynamic_stimulus"/>
-        </code>
-    </MWElement>
-	
+			<action tag="Play dynamic stimulus" type="play_dynamic_stimulus" stimulus=""/>
+		</code>
+	</MWElement>
+
 	<MWElement name="Stop Dynamic Stimulus">
 		<match_signature>action[@type='stop_dynamic_stimulus']</match_signature>
 		<isa>Action</isa>
 		
 		<description>
 			Stop a dynamic stimulus
-        </description>
+		</description>
 		
 		<code>
-			<action tag="Stop dynamic stimulus" stimulus="" type="stop_dynamic_stimulus"/>
-        </code>
-    </MWElement>
+			<action tag="Stop dynamic stimulus" type="stop_dynamic_stimulus" stimulus=""/>
+		</code>
+	</MWElement>
+
+	<MWElement name="Pause Dynamic Stimulus">
+		<match_signature>action[@type='pause_dynamic_stimulus']</match_signature>
+		<isa>Action</isa>
+		
+		<description>
+			Pause a playing dynamic stimulus
+		</description>
+		
+		<code>
+			<action tag="Pause dynamic stimulus" type="pause_dynamic_stimulus" stimulus=""/>
+		</code>
+	</MWElement>
+
+	<MWElement name="Unpause Dynamic Stimulus">
+		<match_signature>action[@type='unpause_dynamic_stimulus']</match_signature>
+		<isa>Action</isa>
+		
+		<description>
+			Unpause (i.e. resume playing) a paused dynamic stimulus
+		</description>
+		
+		<code>
+			<action tag="Unpause dynamic stimulus" type="unpause_dynamic_stimulus" stimulus=""/>
+		</code>
+	</MWElement>
 
 
 	<!-- ****************** -->

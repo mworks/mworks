@@ -60,6 +60,28 @@ public:
 };
 
 
+class PauseDynamicStimulus : public DynamicStimulusAction {
+    
+public:
+    static void describeComponent(ComponentInfo &info);
+    
+    explicit PauseDynamicStimulus(const ParameterValueMap &parameters);
+    virtual bool execute();
+    
+};
+
+
+class UnpauseDynamicStimulus : public DynamicStimulusAction {
+    
+public:
+    static void describeComponent(ComponentInfo &info);
+    
+    explicit UnpauseDynamicStimulus(const ParameterValueMap &parameters);
+    virtual bool execute();
+    
+};
+
+
 END_NAMESPACE_MW
 
 

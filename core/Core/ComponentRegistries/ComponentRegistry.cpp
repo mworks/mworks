@@ -99,6 +99,8 @@ ComponentRegistry::ComponentRegistry() :
 
     registerFactory<StandardComponentFactory, PlayDynamicStimulus>();
     registerFactory<StandardComponentFactory, StopDynamicStimulus>();
+    registerFactory<StandardComponentFactory, PauseDynamicStimulus>();
+    registerFactory<StandardComponentFactory, UnpauseDynamicStimulus>();
             
             
 	// transitions
