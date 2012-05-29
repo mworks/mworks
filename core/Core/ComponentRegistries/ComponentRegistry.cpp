@@ -65,8 +65,8 @@ ComponentRegistry::ComponentRegistry() :
 	
 	registerFactory("action/assignment", new AssignmentFactory());
 	registerFactory("action/pulse", new PulseFactory());
-	registerFactory("action/report", new ReportStringFactory());
-	registerFactory("action/assert", new AssertionActionFactory());
+    registerFactory<StandardComponentFactory, ReportString>();
+    registerFactory<StandardComponentFactory, AssertionAction>();
 	registerFactory("action/next_selection", new NextVariableSelectionFactory());
 	registerFactory("action/set_timebase", new SetTimeBaseFactory());
 	registerFactory("action/start_timer", new StartTimerFactory());
