@@ -142,14 +142,16 @@ class AssertionAction : public MessageAction {
     
 protected:
     shared_ptr<Variable> condition;
+    const bool stopOnFailure;
     
 public:
     static const std::string CONDITION;
+    static const std::string STOP_ON_FAILURE;
     
     static void describeComponent(ComponentInfo &info);
     
     explicit AssertionAction(const Map<ParameterValue> &parameters);
-    AssertionAction(shared_ptr<Variable> condition, const std::string &message);
+    AssertionAction(shared_ptr<Variable> condition, const std::string &message, bool stopOnFailure = false);
     
     virtual ~AssertionAction() { }
     

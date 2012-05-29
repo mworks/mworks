@@ -287,6 +287,7 @@ bool ReportString::execute() {
 
 
 const std::string AssertionAction::CONDITION("condition");
+const std::string AssertionAction::STOP_ON_FAILURE("stop_on_failure");
 
 
 void AssertionAction::describeComponent(ComponentInfo &info) {
@@ -294,12 +295,14 @@ void AssertionAction::describeComponent(ComponentInfo &info) {
     info.setSignature("action/assert");
     info.addParameter(CONDITION);
     info.addParameter(MESSAGE, false);
+    info.addParameter(STOP_ON_FAILURE, "0");
 }
 
 
 AssertionAction::AssertionAction(const ParameterValueMap &parameters) :
     MessageAction(parameters),
-    condition(parameters[CONDITION])
+    condition(parameters[CONDITION]),
+    stopOnFailure(parameters[STOP_ON_FAILURE])
 {
     setName("Assertion");
     
@@ -311,23 +314,27 @@ AssertionAction::AssertionAction(const ParameterValueMap &parameters) :
 }
 
 
-AssertionAction::AssertionAction(shared_ptr<Variable> condition, const std::string &message) :
-    condition(condition)
+AssertionAction::AssertionAction(shared_ptr<Variable> condition, const std::string &message, bool stopOnFailure) :
+    condition(condition),
+    stopOnFailure(stopOnFailure)
 {
     setName("Assertion");
     parseMessage(message);
 }
 
 
-bool AssertionAction::execute(){
-    Datum result = condition->getValue();
-    if(!(result.getBool())){
+bool AssertionAction::execute() {
+    if (!(condition->getValue().getBool())) {
         std::string outStr = getMessage();
         assertionFailure->setValue(outStr);
-        merror(M_STATE_SYSTEM_MESSAGE_DOMAIN,"Assertion: %s", 
-               outStr.c_str());
-        assertionFailure->setValue((long)0);
+        merror(M_STATE_SYSTEM_MESSAGE_DOMAIN, "Assertion: %s", outStr.c_str());
+        if (stopOnFailure) {
+            merror(M_STATE_SYSTEM_MESSAGE_DOMAIN, "Stopping experiment due to failed assertion");
+            StateSystem::instance()->stop();
+        }
+        assertionFailure->setValue(0L);
     }
+    
     return true;
 }
 

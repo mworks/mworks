@@ -1,0 +1,16 @@
+<?xml version="1.0" standalone="no"?>
+<monkeyml version="1.0">
+    <io_devices tag="IO Devices"></io_devices>
+    <variables tag="Variables"></variables>
+    <sounds tag="Sounds"></sounds>
+    <stimuli tag="Stimuli"></stimuli>
+    <filters tag="Filters"></filters>
+    <optimizers tag="Optimizers"></optimizers>
+    <experiment tag="New Experiment" full_name="" description="">
+        <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
+            <action type="assert" tag="Assert" condition="0" message="This shouldn't stop the experiment" stop_on_failure="0"></action>
+            <action type="assert" tag="Assert 2" condition="0" message="This SHOULD stop the experiment" stop_on_failure="1"></action>
+            <action type="assert" tag="Assert 3" condition="0" message="This should never execute!" stop_on_failure="0"></action>
+        </protocol>
+    </experiment>
+</monkeyml>

@@ -780,12 +780,16 @@
 		<!-- Information for display in the GUI -->
 		<description>
 			Test a boolean condition.  If it evaluates to false,
-			report an error with the specified message. 
+			report an error with the specified message.  If no
+			message is specified, a default one containing the
+			condition expression is used.  If stop_on_failure
+			is true, then the experiment will automatically stop
+			if the assertion fails.
 		</description>
 		
 		<!-- Payload -->
 		<code>
-			<action type="assert" tag="Assert" condition="" message=""/>
+			<action type="assert" tag="Assert" condition="" message="" stop_on_failure="0"/>
 		</code>
 	</MWElement>
 
