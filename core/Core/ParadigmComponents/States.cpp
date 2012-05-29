@@ -296,6 +296,19 @@ void *State::scopedClone(){
 }
 
 
+bool State::isInterruptible() {
+    if (!interruptible) {
+        return false;
+    }
+    
+    shared_ptr<State> sharedParent = parent.lock();
+    if (sharedParent) {
+        return sharedParent->isInterruptible();
+    }
+    
+    return true;
+}
+
 
 void State::setName(std::string n) {  
 	name = n;

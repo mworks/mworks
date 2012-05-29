@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<marionette_info>
+  <expected_messages>
+    <message type="starts_with">Entered block</message>
+    <message type="starts_with">Entered trial</message>
+    <message type="starts_with">Entered list</message>
+    <message type="whole_message">Called stop on state system</message>
+    <message type="starts_with">Exiting list</message>
+    <message type="starts_with">Exiting trial</message>
+    <message type="starts_with">Exiting block</message>
+  </expected_messages>
+</marionette_info>

@@ -125,7 +125,7 @@ class State : public ScopedVariableEnvironment,
 		State *getStateInstance();
 
 		void setInterruptible(bool _interruptible){ interruptible = _interruptible; }
-		bool isInterruptible(){ return interruptible; }
+		bool isInterruptible();
 		
         /**
          * Sets the user defined name of the state.  Originally it will be
