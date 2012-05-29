@@ -1,0 +1,63 @@
+<?xml version="1.0" standalone="no"?>
+<monkeyml version="1.0">
+    <io_devices tag="IO Devices"></io_devices>
+    <variables tag="Variables">
+        <variable tag="num_frames" scope="global" logging="when_changed" default_value="52" type="integer"></variable>
+        <variable tag="frames_per_second" scope="global" logging="when_changed" default_value="10" type="integer"></variable>
+        <variable tag="movie_ended" scope="global" logging="when_changed" default_value="0" type="boolean"></variable>
+        <variable tag="start_time" scope="global" logging="when_changed" default_value="0" type="float"></variable>
+        <variable tag="stop_time" scope="global" logging="when_changed" default_value="0" type="float"></variable>
+        <variable tag="pause_duration" scope="global" logging="when_changed" default_value="5" type="float"></variable>
+        <variable tag="num_pauses" scope="global" logging="when_changed" default_value="3" type="integer"></variable>
+        <variable tag="expected_duration" scope="global" logging="when_changed" default_value="(double)num_frames / (double)frames_per_second + pause_duration * num_pauses" type="float"></variable>
+        <variable tag="actual_duration" scope="global" logging="when_changed" default_value="0" type="float"></variable>
+        <variable tag="slop" scope="global" logging="when_changed" default_value="0" type="float"></variable>
+        <variable tag="tolerance" scope="global" logging="when_changed" default_value="1.5 * 1.0 / (double)(refreshRate())" type="float"></variable>
+        <variable tag="index" scope="local" logging="when_changed" default_value="0" type="integer"></variable>
+        <variable tag="repeat" scope="global" logging="when_changed" default_value="0" type="integer"></variable>
+    </variables>
+    <sounds tag="Sounds"></sounds>
+    <stimuli tag="Stimuli">
+        <stimulus_group tag="images">
+            <range_replicator tag="New Replicator" from="1" to="52" step="1" variable="index">
+                <stimulus type="image_file" tag="image_${index}" path="images/MotIm_${index}.jpg" x_size="25" y_size="25" x_position="0.0" y_position="0.0" rotation="0.0" alpha_multiplier="1.0" deferred="NO"></stimulus>
+            </range_replicator>
+        </stimulus_group>
+        <stimulus type="movie" tag="movie" stimulus_group="images" frames_per_second="frames_per_second" ended="movie_ended"></stimulus>
+    </stimuli>
+    <filters tag="Filters"></filters>
+    <optimizers tag="Optimizers"></optimizers>
+    <experiment tag="New Experiment" full_name="" description="">
+        <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential">
+            <action type="assignment" tag="Reset movie_ended" variable="movie_ended" value="0"></action>
+            <action type="assignment" tag="Reset repeat" variable="repeat" value="0"></action>
+            <action tag="Queue movie" type="queue_stimulus" stimulus="movie"></action>
+            <action tag="Update stimulus display" type="update_stimulus_display"></action>
+            <action tag="Start movie" stimulus="movie" type="play_dynamic_stimulus"></action>
+            <action type="assignment" tag="Record start time" variable="start_time" value="now()"></action>
+            <task_system tag="New Task System" interruptible="YES">
+                <task_system_state tag="Begin State System" interruptible="YES">
+                    <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                    <action type="wait" tag="Wait" duration="1" duration_units="s"></action>
+                    <action tag="Pause dynamic stimulus" type="pause_dynamic_stimulus" stimulus="movie"></action>
+                    <action type="wait" tag="Wait 2" duration="pause_duration" duration_units="s"></action>
+                    <action tag="Unpause dynamic stimulus" type="unpause_dynamic_stimulus" stimulus="movie"></action>
+                    <action type="assignment" tag="Update repeat" variable="repeat" value="repeat + 1"></action>
+                    <action type="assert" tag="Assert" condition="!movie_ended" message="Movie ended prematurely"></action>
+                    <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                    <transition type="conditional" tag="If Condition is True, Transition to ... 2" condition="repeat &lt; num_pauses" target="Begin State System"></transition>
+                    <transition type="conditional" tag="If Condition is True, Transition to ..." condition="movie_ended" target="Exit State System"></transition>
+                </task_system_state>
+                <task_system_state tag="Exit State System" interruptible="YES">
+                    <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                    <action type="assignment" tag="Record stop time" variable="stop_time" value="now()"></action>
+                    <action type="assignment" tag="Compute duration" variable="actual_duration" value="(stop_time - start_time) / 1000000.0"></action>
+                    <action type="assignment" tag="Compute slop" variable="slop" value="abs(actual_duration - expected_duration)"></action>
+                    <action type="assert" tag="Assert slop within tolerance" condition="slop &lt;= tolerance" message="Duration slop ($slop) not within tolerance ($tolerance)"></action>
+                    <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                    <transition tag="Return to parent task system" type="yield"></transition>
+                </task_system_state>
+            </task_system>
+        </protocol>
+    </experiment>
+</monkeyml>
