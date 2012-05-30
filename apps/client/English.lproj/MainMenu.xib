@@ -4478,6 +4478,26 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
+						<string key="label">image: representedObject.experimentPaused</string>
+						<reference key="source" ref="124084690"/>
+						<reference key="destination" ref="1060059268"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="124084690"/>
+							<reference key="NSDestination" ref="1060059268"/>
+							<string key="NSLabel">image: representedObject.experimentPaused</string>
+							<string key="NSBinding">image</string>
+							<string key="NSKeyPath">representedObject.experimentPaused</string>
+							<object class="NSDictionary" key="NSOptions">
+								<string key="NS.key.0">NSValueTransformerName</string>
+								<string key="NS.object.0">MWExperimentPauseResumeIconTransformer</string>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1330</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
 						<string key="label">enabled: representedObject.experimentLoaded</string>
 						<reference key="source" ref="324649889"/>
 						<reference key="destination" ref="1060059268"/>
@@ -8784,7 +8804,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">1327</int>
+			<int key="maxID">1330</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
