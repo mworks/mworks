@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<marionette_info>
+  <permitted_error_messages>
+    <message type="starts_with" max_matches="1">WARNING: Scheduled action is starting</message>
+  </permitted_error_messages>
+  <expected_messages>
+    <message type="starts_with">About to pause experiment</message>
+    <message type="whole_message">Pausing state system</message>
+    <message type="whole_message">Resuming paused state system</message>
+    <message type="starts_with">Experiment resumed</message>
+  </expected_messages>
+</marionette_info>

@@ -1759,6 +1759,50 @@ bool StopExperiment::execute() {
 }
 
 
+/****************************************************************
+ *                 PauseExperiment Methods
+ ****************************************************************/
+
+
+void PauseExperiment::describeComponent(ComponentInfo &info) {
+    Action::describeComponent(info);
+    info.setSignature("action/pause_experiment");
+}
+
+
+PauseExperiment::PauseExperiment(const ParameterValueMap &parameters) :
+    Action(parameters)
+{ }
+
+
+bool PauseExperiment::execute() {
+    StateSystem::instance()->pause();
+    return true;
+}
+
+
+/****************************************************************
+ *                 ResumeExperiment Methods
+ ****************************************************************/
+
+
+void ResumeExperiment::describeComponent(ComponentInfo &info) {
+    Action::describeComponent(info);
+    info.setSignature("action/resume_experiment");
+}
+
+
+ResumeExperiment::ResumeExperiment(const ParameterValueMap &parameters) :
+    Action(parameters)
+{ }
+
+
+bool ResumeExperiment::execute() {
+    StateSystem::instance()->resume();
+    return true;
+}
+
+
 /*ExpandableList<State> * TaskSystem::getTaskSystemStates() {
  return list;
  }*/

@@ -770,6 +770,32 @@ public:
 };
 
 
+class PauseExperiment : public Action {
+    
+public:
+    static void describeComponent(ComponentInfo &info);
+    
+    explicit PauseExperiment(const ParameterValueMap &parameters);
+    virtual ~PauseExperiment() { }
+    
+    virtual bool execute();
+    
+};
+
+
+class ResumeExperiment : public Action {
+    
+public:
+    static void describeComponent(ComponentInfo &info);
+    
+    explicit ResumeExperiment(const ParameterValueMap &parameters);
+    virtual ~ResumeExperiment() { }
+    
+    virtual bool execute();
+    
+};
+
+
 // action to cause the calibrator object to take a calibration value immediately
 // the calibrator class has methods to get values for registered varaibles and 
 //  call goldStandard objects to get true values
