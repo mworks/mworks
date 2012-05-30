@@ -63,8 +63,8 @@ Datum StandardDynamicStimulus::getCurrentAnnounceDrawData() {
 }
 
 
-void StandardDynamicStimulus::endPause() {
-    DynamicStimulusDriver::endPause();
+void StandardDynamicStimulus::beginPause() {
+    DynamicStimulusDriver::beginPause();
     didDrawWhilePaused = false;
 }
 

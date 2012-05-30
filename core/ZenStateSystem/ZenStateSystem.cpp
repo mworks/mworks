@@ -116,6 +116,8 @@ void StandardStateSystem::pause(){
     
     mprintf("Pausing state system");
     is_paused = true;
+    (*state_system_mode) = PAUSED;
+    
     sendSystemStateEvent();
 }
 
@@ -128,6 +130,8 @@ void StandardStateSystem::resume(){
     
     mprintf("Resuming paused state system");
     is_paused = false;
+    (*state_system_mode) = RUNNING;
+    
     sendSystemStateEvent();
 }
 

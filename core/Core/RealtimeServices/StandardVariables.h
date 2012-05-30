@@ -97,7 +97,7 @@ namespace mw {
 
 // ======================================================  
 // defines for state system modes
-enum {IDLE, STOPPING, RUNNING, TASKMODES};	
+enum {IDLE, STOPPING, RUNNING, PAUSED, TASKMODES};	
 
 
 

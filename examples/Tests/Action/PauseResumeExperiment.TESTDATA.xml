@@ -9,4 +9,21 @@
     <message type="whole_message">Resuming paused state system</message>
     <message type="starts_with">Experiment resumed</message>
   </expected_messages>
+  <expected_events>
+    <event variable="#state_system_mode">
+      <value type="integer">0</value>
+    </event>
+    <event variable="#state_system_mode">
+      <value type="integer">2</value>
+    </event>
+    <event variable="#state_system_mode">
+      <value type="integer">3</value>
+    </event>
+    <event variable="#state_system_mode">
+      <value type="integer">2</value>
+    </event>
+    <event variable="#state_system_mode">
+      <value type="integer">0</value>
+    </event>
+  </expected_events>
 </marionette_info>

@@ -471,6 +471,10 @@ Datum _getNumber(const string &expression, const GenericDataType type);
 			case RUNNING:
 				self.stateSystemRunning = YES;								
 				break;
+			case PAUSED:
+				[self marionetteAssert:self.stateSystemRunning
+						   withMessage:@"stateSystemRunning is false"]; 
+				break;
 			default:
 				[self marionetteAssert:@"illegal state_system_mode value"]; 
 				break;
