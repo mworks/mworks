@@ -43,6 +43,14 @@
     in_grouped_window = NO;
     self.scrollToBottomOnOutput = [[NSUserDefaults standardUserDefaults]
                                    boolForKey:DEFAULTS_SCROLL_TO_BOTTOM_ON_OUTPUT_KEY];
+    
+    // Automatically terminate script at application shutdown
+    [[NSNotificationCenter defaultCenter] addObserverForName:NSApplicationWillTerminateNotification
+                                                      object:nil
+                                                       queue:[NSOperationQueue mainQueue]
+                                                  usingBlock:^(NSNotification *notification) {
+                                                      [self terminateScript];
+                                                  }];
 }
 
 - (void) setInGroupedWindow:(BOOL)isit {
