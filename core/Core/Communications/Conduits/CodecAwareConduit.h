@@ -26,33 +26,31 @@ using namespace mw;
 class CodecAwareConduit : public SimpleConduit, public enable_shared_from_this<CodecAwareConduit> {
     
 protected:
+    boost::mutex conduit_mutex;
     
     // A local codec mapping local codes to event names
     // when changed, this will get transmitted over the 
-    boost::mutex local_codec_lock;
     map<int, string> local_codec;
     map<string, int> local_reverse_codec;
-    int local_codec_code_counter;
     
-    boost::mutex remote_codec_lock;
-    boost::condition_variable remote_codec_cond;
     map<int, string> remote_codec;
     map<string, int> remote_reverse_codec;
+    boost::condition_variable remote_codec_cond;
     
     map<string, EventCallback> callbacks_by_name;
     
     void transmitCodecEvent();
+    void addEventCallback(const std::string &name, EventCallback cb);
     void rebuildEventCallbacks();
     void waitForRemoteCodec(boost::mutex::scoped_lock &lock);
     
 public:
     
-    CodecAwareConduit(shared_ptr<EventTransport> _transport);
+    CodecAwareConduit(shared_ptr<EventTransport> _transport) : SimpleConduit(_transport) { }
     virtual ~CodecAwareConduit(){ 
-        // grab these locks, so that we can ensure that 
-        // anyone else who had them is done
-        boost::mutex::scoped_lock l1(local_codec_lock);
-        boost::mutex::scoped_lock l2(remote_codec_lock);
+        // grab the lock, so that we can ensure that 
+        // anyone else who had it is done
+        boost::mutex::scoped_lock lock(conduit_mutex);
     }
     
     
@@ -63,10 +61,12 @@ public:
     void receiveCodecEvent(shared_ptr<Event> evt);   
     void receiveControlEvent(shared_ptr<Event> evt);
     
-    void codeTranslatedCallback(shared_ptr<Event> evt, EventCallback cb, int new_code);
+    static void codeTranslatedCallback(shared_ptr<Event> evt, EventCallback cb, int new_code);
     
-    map<int, string> getLocalCodec(){ return local_codec; }
-    map<string, int> getLocalReverseCodec(){  return local_reverse_codec; }
+    virtual void handleCallbacks(shared_ptr<Event> evt);
+    
+    //map<int, string> getLocalCodec(){ return local_codec; }
+    //map<string, int> getLocalReverseCodec(){  return local_reverse_codec; }
     map<int, string> getRemoteCodec();
     map<string, int> getRemoteReverseCodec();
 
