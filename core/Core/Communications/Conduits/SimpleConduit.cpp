@@ -160,16 +160,3 @@ void SimpleConduit::finalize(){
 //}
 
 
-// Send data to the other side.  It is assumed that both sides understand 
-// what the event codes mean.
-void SimpleConduit::sendData(int code, Datum data){
-    //fprintf(stderr, "sending event");fflush(stderr);
-    shared_ptr<Event> event(new Event(code, data));
-    transport->sendEvent(event);
-}
-
-void SimpleConduit::sendData(shared_ptr<Event> evt){
-    transport->sendEvent(evt);
-}
-
-
