@@ -35,6 +35,7 @@
     NSString *path;
     NSString *status;
     NSString *loadButtonTitle;
+    BOOL scrollToBottomOnOutput;
     
     // GUI view objects
     IBOutlet NSView *content_view;
@@ -49,6 +50,7 @@
 @property(retain) NSString *path;
 @property(retain) NSString *status;
 @property(retain) NSString *loadButtonTitle;
+@property(nonatomic, assign) BOOL scrollToBottomOnOutput;
 
 
 -(void) awakeFromNib;

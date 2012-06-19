@@ -20,6 +20,10 @@
 #define CLIENT_LOAD_MESSAGE_CALLBACK_KEY    "MWClientInstance::load_message_callback"
 #define CLIENT_CODEC_EVENT_CALLBACK_KEY "MWClientInstance::codec_callback"
 
+#define DEFAULTS_OPEN_PLUGIN_WINDOWS_KEY @"openPluginWindows"
+#define DEFAULTS_GROUPED_PLUGIN_WINDOW_IS_OPEN_KEY @"groupedPluginWindowIsOpen"
+
+
 
 @implementation MWClientInstance
 
@@ -93,16 +97,16 @@
 }
 
 
-- (void)finalize {
-
+- (void)shutDown {
 	if([self serverConnected] || [self serverConnecting]){
 		[self disconnect];
 	}
+    
+    if (appController.shouldRestoreOpenPluginWindows) {
+        [self saveOpenPluginWindows];
+    }
 
     [self hideAllPlugins];
-	
-	[super finalize];
-	
 }
 
 /*- (void)connectToURL:(NSString *)URL AtPort:(NSString *)port{
@@ -314,7 +318,7 @@
 	BOOL success = core->connectToServer(url, [serverPort intValue]);  
 	// If that didn't work, try launching the server remotely
 	if((!success || !core->isConnected()) && [self launchIfNeeded]){
-		NSLog(@"Attempting to remotely launch server");
+		//NSLog(@"Attempting to remotely launch server");
 	
 		if([[self serverURL] isEqualToString:@"127.0.0.1"] || [[self serverURL] isEqualToString:@"localhost"]){
 
@@ -962,7 +966,7 @@
 	
 	for(int i = 0; i < [plugins count]; i++){
 		NSString *plugin_file = [plugins objectAtIndex:i];
-		NSLog(@"%@", plugin_file);
+		//NSLog(@"%@", plugin_file);
 		
 		NSString *fullpath = [plugin_directory stringByAppendingString:plugin_file];
 		NSBundle *plugin_bundle = [[NSBundle alloc] initWithPath:fullpath];
@@ -980,7 +984,7 @@
                 nib = [[NSNib alloc] initWithNibNamed:@"Main" bundle:plugin_bundle];
         
                 if(![nib instantiateNibWithOwner:self topLevelObjects:&toplevel]){
-                    NSLog(@"Couldn't instantiate Nib");
+                    NSLog(@"Couldn't instantiate nib for %@", plugin_file);
                     nib_loaded_correctly = false;
                 }
             } @catch(NSException *e){
@@ -996,7 +1000,7 @@
 			
 			for(int j=0; j < [toplevel count]; j++){
 				NSObject *obj = [toplevel objectAtIndex:j];
-				NSLog(@"object = %d", obj);
+				//NSLog(@"object = %d", obj);
 				if([obj isKindOfClass:[NSWindowController class]]){
 					controller = (NSWindowController *)obj;
 					[controller loadWindow];
@@ -1007,7 +1011,7 @@
                     [grouped_plugin_controller addPluginWindow:[controller window] withName:[[controller window] title]];
                     [grouped_plugin_controller setCurrentPluginIndex:0];
                     
-					NSLog(@"object is a controller (%d)", [pluginWindows count]);
+					//NSLog(@"object is a controller (%d)", [pluginWindows count]);
 					break;
 				}
 			}
@@ -1022,7 +1026,11 @@
 		}
 	}
 	
-	NSLog(@"%d plugin windows in instance %d", [pluginWindows count], self);
+	//NSLog(@"%d plugin windows in instance %d", [pluginWindows count], self);
+    
+    if (appController.shouldRestoreOpenPluginWindows) {
+        [self restoreOpenPluginWindows];
+    }
 }
 
 
@@ -1053,7 +1061,7 @@
 		[[controller window] orderFront:self];
 	}
 
-	NSLog(@"showing all (%d) from instance %d", [pluginWindows count], self);
+	//NSLog(@"showing all (%d) from instance %d", [pluginWindows count], self);
 }
 
 - (NSWindow *)groupedPluginWindow {
@@ -1074,6 +1082,51 @@
 		NSWindowController *controller = [pluginWindows objectAtIndex:i];
 		[[controller window] orderOut:self];
 	}
+}
+
+
+- (void)saveOpenPluginWindows {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    
+    [defaults setBool:[[grouped_plugin_controller window] isVisible] forKey:DEFAULTS_GROUPED_PLUGIN_WINDOW_IS_OPEN_KEY];
+    
+    NSArray *previousOpenPluginWindows = [defaults arrayForKey:DEFAULTS_OPEN_PLUGIN_WINDOWS_KEY];
+    NSMutableArray *openPluginWindows;
+    
+    if (previousOpenPluginWindows) {
+        openPluginWindows = [previousOpenPluginWindows mutableCopy];
+    } else {
+        openPluginWindows = [NSMutableArray array];
+    }
+    
+    for (NSWindowController *controller in pluginWindows) {
+        NSString *autoSaveName = [controller windowFrameAutosaveName];
+        [openPluginWindows removeObject:autoSaveName];
+        if ([[controller window] isVisible]) {
+            [openPluginWindows addObject:autoSaveName];
+        }
+    }
+    
+    [defaults setObject:openPluginWindows forKey:DEFAULTS_OPEN_PLUGIN_WINDOWS_KEY];
+}
+
+
+- (void)restoreOpenPluginWindows {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    
+    if ([defaults boolForKey:DEFAULTS_GROUPED_PLUGIN_WINDOW_IS_OPEN_KEY]) {
+        [self showGroupedPlugins];
+    }
+    
+    NSArray *openPluginWindows = [defaults arrayForKey:DEFAULTS_OPEN_PLUGIN_WINDOWS_KEY];
+    if (openPluginWindows) {
+        for (int i = 0; i < [pluginWindows count]; i++) {
+            NSWindowController *controller = [pluginWindows objectAtIndex:i];
+            if ([openPluginWindows containsObject:[controller windowFrameAutosaveName]]) {
+                [self showPlugin:i];
+            }
+        }
+    }
 }
 
 

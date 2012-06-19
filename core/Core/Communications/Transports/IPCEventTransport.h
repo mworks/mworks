@@ -36,8 +36,8 @@ class IPCEventTransport : public EventTransport{
     
 protected:
     
-    static const int MAX_MESSAGE_SIZE = 64000;
-    static const int DEFAULT_QUEUE_SIZE = 2000;
+    static const int MAX_MESSAGE_SIZE = 262144;  // 256kB
+    static const int DEFAULT_QUEUE_SIZE = 500;
     
     string resource_name;
     ostringstream output_stream;
@@ -60,6 +60,8 @@ protected:
     shared_ptr<message_queue> incoming_queue;
     shared_ptr<message_queue> outgoing_queue;
     
+    char receive_buffer[MAX_MESSAGE_SIZE];
+    
 public:
     typedef message_queue::size_type message_queue_size_type;
     
@@ -76,9 +78,9 @@ public:
     // Get an event if one is available; otherwise, return immediately 
     virtual shared_ptr<Event> receiveEventAsynchronous();
     
-    virtual shared_ptr<Event> receiveEventNoLock();
+    //virtual shared_ptr<Event> receiveEventNoLock();
   
-    virtual shared_ptr<Event> deserializeEvent(const char *receive_buffer, message_queue_size_type& received_size);  
+    virtual shared_ptr<Event> deserializeEvent(message_queue_size_type& received_size);  
     
     
     virtual void flush();

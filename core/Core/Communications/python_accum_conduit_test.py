@@ -4,13 +4,14 @@ import time
 server = IPCServerConduit("test_resource")
 client = IPCAccumClientConduit("test_resource", "start", "stop",["test"])
 
-# define some dummy functions
-counter_a = 0
-counter_b = 0
+
+received_data = []
 
 def bundle_callback(evts):
     print("I got %d events" % len(evts))
-    print("event[0].data = %d" % evts[0].data)
+    for i, evt in enumerate(evts):
+        print("event[%d].data = %d" % (i, evt.data))
+        received_data.append(evt.data)
     
 
 server.initialize()
@@ -49,6 +50,7 @@ server.send_data(STOP, 0)
 print "sending stop"
 time.sleep(2)
 
+assert received_data == [5, 6]
 
 server.finalize()
 client.finalize()

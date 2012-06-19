@@ -497,7 +497,7 @@
 		
 		<!-- Payload -->
 		<code>
-			<protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential"/>
+			<protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES"/>
 		</code>
 	</MWElement>
 
@@ -522,7 +522,7 @@
 		
 		<!-- Payload -->
 		<code>
-			<block tag="New Block" nsamples="1" sampling_method="cycles" selection="sequential"/>
+			<block tag="New Block" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES"/>
 		</code>
 	</MWElement>
 
@@ -550,7 +550,7 @@
 		
 		<!-- Payload -->
 		<code>
-			<trial tag="New Trial" nsamples="1" sampling_method="cycles" selection="sequential"/>
+			<trial tag="New Trial" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES"/>
 		</code>
 	</MWElement>
 
@@ -578,7 +578,7 @@
 		
 		<!-- Payload -->
 		<code>
-			<list tag="New List" nsamples="1" sampling_method="cycles" selection="sequential"/>
+			<list tag="New List" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES"/>
 		</code>
 	</MWElement>
 
@@ -780,12 +780,16 @@
 		<!-- Information for display in the GUI -->
 		<description>
 			Test a boolean condition.  If it evaluates to false,
-			report an error with the specified message. 
+			report an error with the specified message.  If no
+			message is specified, a default one containing the
+			condition expression is used.  If stop_on_failure
+			is true, then the experiment will automatically stop
+			if the assertion fails.
 		</description>
 		
 		<!-- Payload -->
 		<code>
-			<action type="assert" tag="Assert" condition="" message=""/>
+			<action type="assert" tag="Assert" condition="" message="" stop_on_failure="0"/>
 		</code>
 	</MWElement>
 
@@ -1165,6 +1169,20 @@
 		</code>
 	</MWElement>
 
+	<MWElement name="Stop Experiment">
+		<match_signature>action[@type='stop_experiment']</match_signature>
+		<isa>Action</isa>
+		
+		<description>
+			Stop the experiment.  Gives an experiment the ability to
+			terminate itself (e.g. in response to a fatal error).
+		</description>
+		
+		<code>
+			<action tag="Stop Experiment" type="stop_experiment"/>
+		</code>
+	</MWElement>
+
 	<MWElement name="Start IO Device">
 		<match_signature>action[@type='start_device_IO']</match_signature>
 		<isa>Action</isa>
@@ -1327,25 +1345,51 @@
 		
 		<description>
 			Start playing a dynamic stimulus
-        </description>
+		</description>
 		
 		<code>
-			<action tag="Play dynamic stimulus" stimulus="" type="play_dynamic_stimulus"/>
-        </code>
-    </MWElement>
-	
+			<action tag="Play dynamic stimulus" type="play_dynamic_stimulus" stimulus=""/>
+		</code>
+	</MWElement>
+
 	<MWElement name="Stop Dynamic Stimulus">
 		<match_signature>action[@type='stop_dynamic_stimulus']</match_signature>
 		<isa>Action</isa>
 		
 		<description>
 			Stop a dynamic stimulus
-        </description>
+		</description>
 		
 		<code>
-			<action tag="Stop dynamic stimulus" stimulus="" type="stop_dynamic_stimulus"/>
-        </code>
-    </MWElement>
+			<action tag="Stop dynamic stimulus" type="stop_dynamic_stimulus" stimulus=""/>
+		</code>
+	</MWElement>
+
+	<MWElement name="Pause Dynamic Stimulus">
+		<match_signature>action[@type='pause_dynamic_stimulus']</match_signature>
+		<isa>Action</isa>
+		
+		<description>
+			Pause a playing dynamic stimulus
+		</description>
+		
+		<code>
+			<action tag="Pause dynamic stimulus" type="pause_dynamic_stimulus" stimulus=""/>
+		</code>
+	</MWElement>
+
+	<MWElement name="Unpause Dynamic Stimulus">
+		<match_signature>action[@type='unpause_dynamic_stimulus']</match_signature>
+		<isa>Action</isa>
+		
+		<description>
+			Unpause (i.e. resume playing) a paused dynamic stimulus
+		</description>
+		
+		<code>
+			<action tag="Unpause dynamic stimulus" type="unpause_dynamic_stimulus" stimulus=""/>
+		</code>
+	</MWElement>
 
 
 	<!-- ****************** -->

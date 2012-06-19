@@ -140,7 +140,7 @@
         //NSLog(@"Entered valueForKey:");
         try {
             if([_key isEqualToString:@"variableNames"]){
-                NSLog(@"doing it...");
+                //NSLog(@"doing it...");
                 //NSLog(@"Leaving valueForKey: (variableNames)");
                 return [self variableNames];
             }
@@ -221,7 +221,7 @@
 	if ([val isKindOfClass:[NSNumber class]]) {
 		setval.setFloat([val floatValue]);
 		
-		NSLog(@"value is %g", [val floatValue]);
+		//NSLog(@"value is %g", [val floatValue]);
 		
 	} else if([val isKindOfClass:[NSString class]]) {
 		NSScanner *scanner = [[NSScanner alloc] initWithString:val];
@@ -229,17 +229,17 @@
 
 		if ([scanner scanDouble:&possibleDoubleValue] && [scanner isAtEnd]) {
             setval.setFloat(possibleDoubleValue);
-            NSLog(@"value is: %g", possibleDoubleValue);
+            //NSLog(@"value is: %g", possibleDoubleValue);
         } else {
             setval.setString([val cStringUsingEncoding:NSASCIIStringEncoding]);				
-            NSLog(@"value is: %@", val);
+            //NSLog(@"value is: %@", val);
         }
         
         [scanner release];
 	}
 
 	// tell core client to set it	
-	NSLog(@"Set %@ (code = %d) to %@", key, code, val);
+	//NSLog(@"Set %@ (code = %d) to %@", key, code, val);
 	
   @synchronized(clientInstance){
     [self willChangeValueForKey:key];
@@ -249,7 +249,7 @@
     [self didChangeValueForKey:key];
   }
 	
-	NSLog(@"%@ now equals %s", key, setval.toString().c_str());
+	//NSLog(@"%@ now equals %s", key, setval.toString().c_str());
 }
 
 

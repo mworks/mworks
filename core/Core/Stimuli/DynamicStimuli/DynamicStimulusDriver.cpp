@@ -18,7 +18,9 @@ BEGIN_NAMESPACE_MW
 
 
 DynamicStimulusDriver::DynamicStimulusDriver() :
-    startTime(NOT_STARTED)
+    startTime(NOT_STARTED),
+    pauseTime(NOT_PAUSED),
+    elapsedTimeWhilePaused(0)
 {
     stateSystemCallbackNotification =
         shared_ptr<VariableCallbackNotification>(new VariableCallbackNotification(boost::bind(&DynamicStimulusDriver::stateSystemCallback, this, _1,_2)));
@@ -56,12 +58,37 @@ void DynamicStimulusDriver::stop() {
 }
 
 
+void DynamicStimulusDriver::pause() {
+    boost::mutex::scoped_lock locker(stim_lock);
+    
+    if (isPlaying() && !isPaused()) {
+        beginPause();
+    }
+}
+
+
+void DynamicStimulusDriver::unpause() {
+    boost::mutex::scoped_lock locker(stim_lock);
+    
+    if (isPlaying() && isPaused()) {
+        endPause();
+    }
+}
+
+
 MWTime DynamicStimulusDriver::getElapsedTime() const {
     if (!isPlaying()) {
         return NOT_STARTED;
     }
     
-    return getCurrentTime() - startTime;
+    MWTime currentTime;
+    if (isPaused()) {
+        currentTime = pauseTime;
+    } else {
+        currentTime = getCurrentTime();
+    }
+    
+    return (currentTime - startTime) - elapsedTimeWhilePaused;
 }
 
 
@@ -72,6 +99,19 @@ void DynamicStimulusDriver::startPlaying() {
 
 void DynamicStimulusDriver::stopPlaying() {
     startTime = NOT_STARTED;
+    pauseTime = NOT_PAUSED;
+    elapsedTimeWhilePaused = 0;
+}
+
+
+void DynamicStimulusDriver::beginPause() {
+    pauseTime = getCurrentTime();
+}
+
+
+void DynamicStimulusDriver::endPause() {
+    elapsedTimeWhilePaused += getCurrentTime() - pauseTime;
+    pauseTime = NOT_PAUSED;
 }
 
 
