@@ -26,7 +26,8 @@ using namespace mw;
 class CodecAwareConduit : public SimpleConduit, public enable_shared_from_this<CodecAwareConduit> {
     
 protected:
-    boost::mutex conduit_mutex;
+    boost::recursive_mutex conduit_mutex;
+    typedef boost::recursive_mutex::scoped_lock scoped_lock;
     
     // A local codec mapping local codes to event names
     // when changed, this will get transmitted over the 
@@ -35,14 +36,14 @@ protected:
     
     map<int, string> remote_codec;
     map<string, int> remote_reverse_codec;
-    boost::condition_variable remote_codec_cond;
+    boost::condition_variable_any remote_codec_cond;
     
     map<string, EventCallback> callbacks_by_name;
     
     void transmitCodecEvent();
     void addEventCallback(const std::string &name, EventCallback cb);
     void rebuildEventCallbacks();
-    void waitForRemoteCodec(boost::mutex::scoped_lock &lock);
+    void waitForRemoteCodec(scoped_lock &lock);
     
 public:
     
@@ -50,7 +51,7 @@ public:
     virtual ~CodecAwareConduit(){ 
         // grab the lock, so that we can ensure that 
         // anyone else who had it is done
-        boost::mutex::scoped_lock lock(conduit_mutex);
+        scoped_lock lock(conduit_mutex);
     }
     
     
