@@ -139,9 +139,6 @@ void CodecAwareConduit::registerCallbackByName(string event_name, EventCallback 
     
     callbacks_by_name[event_name] = cb;
     addEventCallback(event_name, cb);
-    
-    //std::cerr << "Sending event forwarding event for " << event_name << std::endl;
-    sendData(SystemEventFactory::setEventForwardingControl(event_name, true));
 }
 
 
