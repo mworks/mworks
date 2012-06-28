@@ -65,8 +65,8 @@ ComponentRegistry::ComponentRegistry() :
 	
 	registerFactory("action/assignment", new AssignmentFactory());
 	registerFactory("action/pulse", new PulseFactory());
-	registerFactory("action/report", new ReportStringFactory());
-	registerFactory("action/assert", new AssertionActionFactory());
+    registerFactory<StandardComponentFactory, ReportString>();
+    registerFactory<StandardComponentFactory, AssertionAction>();
 	registerFactory("action/next_selection", new NextVariableSelectionFactory());
 	registerFactory("action/set_timebase", new SetTimeBaseFactory());
 	registerFactory("action/start_timer", new StartTimerFactory());
@@ -89,6 +89,7 @@ ComponentRegistry::ComponentRegistry() :
 	registerFactory("action/reset_selection", new ResetSelectionFactory());
 	registerFactory("action/accept_selections", new AcceptSelectionsFactory());
 	registerFactory("action/reject_selections", new RejectSelectionsFactory());
+    registerFactory<StandardComponentFactory, StopExperiment>();
 	registerFactory("action/take_calibration_sample", new TakeCalibrationSampleNowFactory());
 	registerFactory("action/begin_calibration_average", new StartAverageCalibrationSampleFactory());
 	registerFactory("action/end_calibration_average_and_ignore", new EndAverageAndIgnoreFactory());
@@ -98,6 +99,8 @@ ComponentRegistry::ComponentRegistry() :
 
     registerFactory<StandardComponentFactory, PlayDynamicStimulus>();
     registerFactory<StandardComponentFactory, StopDynamicStimulus>();
+    registerFactory<StandardComponentFactory, PauseDynamicStimulus>();
+    registerFactory<StandardComponentFactory, UnpauseDynamicStimulus>();
             
             
 	// transitions

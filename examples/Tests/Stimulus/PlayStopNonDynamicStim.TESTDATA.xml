@@ -3,5 +3,7 @@
   <expected_messages>
     <message type="whole_message">ERROR: Attempted to play a non-dynamic stimulus.  Doing nothing.</message>
     <message type="whole_message">ERROR: Attempted to stop a non-dynamic stimulus.  Doing nothing.</message>
+    <message type="whole_message">ERROR: Attempted to pause a non-dynamic stimulus.  Doing nothing.</message>
+    <message type="whole_message">ERROR: Attempted to unpause a non-dynamic stimulus.  Doing nothing.</message>
   </expected_messages>
 </marionette_info>

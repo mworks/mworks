@@ -10,13 +10,45 @@
 #import "MWClientInstance.h"
 #import "NSMenuExtensions.h"
 
+#define DEFAULTS_AUTO_CLOSE_PLUGIN_WINDOWS_KEY @"autoClosePluginWindows"
+#define DEFAULTS_RESTORE_OPEN_PLUGIN_WINDOWS_KEY @"restoreOpenPluginWindows"
+
+
 @implementation AppController
 
 
 @synthesize preferredWindowHeight;
 
+
++ (void)initialize {
+    //
+    // The class identity test ensures that this method is called only once.  For more info, see
+    // http://lists.apple.com/archives/cocoa-dev/2009/Mar/msg01166.html
+    //
+    if (self == [AppController class]) {
+        NSMutableDictionary *defaultValues = [NSMutableDictionary dictionary];
+        
+        [defaultValues setObject:[NSNumber numberWithBool:YES] forKey:DEFAULTS_AUTO_CLOSE_PLUGIN_WINDOWS_KEY];
+        [defaultValues setObject:[NSNumber numberWithBool:NO] forKey:DEFAULTS_RESTORE_OPEN_PLUGIN_WINDOWS_KEY];
+        
+        [[NSUserDefaults standardUserDefaults] registerDefaults:defaultValues];
+    }
+}
+
+
+- (BOOL)shouldAutoClosePluginWindows {
+    return [[NSUserDefaults standardUserDefaults] boolForKey:DEFAULTS_AUTO_CLOSE_PLUGIN_WINDOWS_KEY];
+}
+
+
+- (BOOL)shouldRestoreOpenPluginWindows {
+    return [[NSUserDefaults standardUserDefaults] boolForKey:DEFAULTS_RESTORE_OPEN_PLUGIN_WINDOWS_KEY];
+}
+
+
 - (void) awakeFromNib {
 	[self newClientInstance:self];
+    [self setWindowFrameAutosaveName:@"Main Window"];
 }
 
 - (IBAction)newClientInstance:(id)sender {
@@ -40,8 +72,8 @@
 - (void)removeClientInstance:(MWClientInstance *)instance{
     
     [instance hideAllPlugins];
+	[instance shutDown];
 	[clientInstances removeObject:instance];
-	[instance finalize];
 }
 
 
@@ -60,8 +92,8 @@
 	
 	BOOL is_connected = [modalClientInstanceInCharge serverConnected];
 	
-	NSLog(@"is it?: %d", is_connected);
-	NSLog(@"%d", [item representedObject]);
+	//NSLog(@"is it?: %d", is_connected);
+	//NSLog(@"%d", [item representedObject]);
 	
 	NSWindow *sheet_to_use;
 	
@@ -318,7 +350,7 @@
 
 - (IBAction) openDataFile: (id) sender{
 	MWClientInstance *client_instance = [self modalClientInstanceInCharge];
-	NSLog(@"Client instance: %d", client_instance);
+	//NSLog(@"Client instance: %d", client_instance);
 	[client_instance setDataFileName:[modalDataFileField stringValue]];
 	
 	BOOL overwrite = NO;
@@ -477,9 +509,43 @@
 }
 
 
+- (void)applicationWillTerminate:(NSNotification *)aNotification {
+    for (MWClientInstance *client in [clientInstances arrangedObjects]) {
+        [client shutDown];
+    }
+}
+
+
 - (IBAction) launchHelp: (id) sender {
-  NSLog(@"Launching Help...");
+  //NSLog(@"Launching Help...");
   [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:HELP_URL]];
 }
 
+
 @end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

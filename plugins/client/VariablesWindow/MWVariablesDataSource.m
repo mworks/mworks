@@ -12,7 +12,6 @@
 
 @implementation MWVariablesDataSource
 - (void)awakeFromNib {
-	rootGroups = nil;
 	rootItems = [[NSMutableArray alloc] init];
 }
 
@@ -31,24 +30,31 @@
 }
 
 
-- (void)addRootGroups:(NSDictionary *)groups {
-	rootGroups = groups;
+- (void)setRootGroups:(NSDictionary *)rootGroups {
+    NSMutableDictionary *oldRootObjects = [NSMutableDictionary dictionaryWithCapacity:[rootItems count]];
+    for (MWVariableDisplayItem *item in rootItems) {
+        [oldRootObjects setObject:item forKey:item.displayName];
+    }
+    
 	[rootItems removeAllObjects];
-	for(int index = 0; index < [rootGroups count]; index++){
-		NSString *key = [[rootGroups allKeys] objectAtIndex:index];
-		MWVariableDisplayItem *item = [[MWVariableDisplayItem alloc] initWithGroupName:key andVariables:[rootGroups objectForKey:key]];
-		[rootItems insertObject:item atIndex:index];
+    
+	for (NSString *key in rootGroups) {
+        MWVariableDisplayItem *item = [oldRootObjects objectForKey:key];
+        if (!item) {
+            item = [[[MWVariableDisplayItem alloc] initWithName:key] autorelease];
+        }
+        [item setVariables:[rootGroups objectForKey:key]];
+		[rootItems addObject:item];
 	}
 }
 
 
 
 // DataSource overridden methods
-- (int)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item
+- (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item
 {
 	if(item == nil) {
-		int numGroups = [[rootGroups allKeys] count];
-		return numGroups;
+		return [rootItems count];
 	} else {
 		return [item numberOfChildren];
 	}
@@ -66,12 +72,10 @@
 }
 
 - (id)outlineView:(NSOutlineView *)outlineView
-			child:(int)index
+			child:(NSInteger)index
 		   ofItem:(id)item
 {
 	if(item == nil) {
-		//NSString *key = [[rootGroups allKeys] objectAtIndex:index];
-		//MWVariableDisplayItem *item = [[MWVariableDisplayItem alloc] initWithGroupName:key andVariables:[rootGroups objectForKey:key]];
 		MWVariableDisplayItem *item = [rootItems objectAtIndex:index];
 		return item;
 	} else {
@@ -110,13 +114,16 @@ objectValueForTableColumn:(NSTableColumn *)tableColumn
 }
 
 - (void)outlineView:(NSOutlineView *)outlineView 
-	 setObjectValue:(id)object 
+	 setObjectValue:(id)_object 
 	 forTableColumn:(NSTableColumn *)tableColumn 
-			 byItem:(id)item {
+			 byItem:(id)item
+{
+    NSString *object = (NSString *)_object;
+    
 	if(delegate != nil) {
 		if(tableColumn == valueCol) {
 			mw::Datum setval;
-			NSScanner *scanner = [[NSScanner alloc] initWithString:object];
+			NSScanner *scanner = [NSScanner scannerWithString:object];
 			
 			double possibleDoubleValue;
 			

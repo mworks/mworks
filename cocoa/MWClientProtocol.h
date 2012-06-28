@@ -12,7 +12,7 @@
 #import "MWNotebook.h"
 
 
-@protocol MWClientProtocol
+@protocol MWClientProtocol <NSObject>
 
 // Methods for registering to be notified of events from the core object
 - (void)registerEventCallbackWithReceiver:(id)receiver 
@@ -45,5 +45,6 @@
 - (void)updateVariableWithTag:(NSString *)tag withData:(mw::Datum *)data;
 
 - (MWNotebook *) notebook;
+- (NSDictionary *)varGroups;
 
 @end

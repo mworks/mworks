@@ -8,8 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface MWVariablesDataSource : NSObject {
-	NSDictionary *rootGroups;
+@interface MWVariablesDataSource : NSObject <NSOutlineViewDataSource> {
 	NSMutableArray *rootItems;
 	IBOutlet NSTableColumn *nameCol;
 	IBOutlet NSTableColumn *valueCol;
@@ -20,6 +19,6 @@
 - (id)delegate;
 - (void)setDelegate:(id)new_delegate;
 
-- (void)addRootGroups:(NSDictionary *)groups;
+- (void)setRootGroups:(NSDictionary *)rootGroups;
 
 @end

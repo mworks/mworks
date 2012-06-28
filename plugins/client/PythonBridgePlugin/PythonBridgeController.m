@@ -16,6 +16,8 @@
 #define STATUS_ACTIVE   @"Active"
 #define STATUS_TERMINATING  @"Terminating..."
 
+#define DEFAULTS_SCROLL_TO_BOTTOM_ON_OUTPUT_KEY @"autoScrollPythonOutput"
+
 #ifdef __x86_64__
 #  define PYTHON_ARCH @"x86_64"
 #else
@@ -30,6 +32,7 @@
 @synthesize path;
 @synthesize status;
 @synthesize loadButtonTitle;
+@synthesize scrollToBottomOnOutput;
 
 
 -(void)awakeFromNib {
@@ -38,10 +41,30 @@
     [self setPath:Nil];
     [self setStatus:STATUS_NONE_LOADED];
     in_grouped_window = NO;
+    self.scrollToBottomOnOutput = [[NSUserDefaults standardUserDefaults]
+                                   boolForKey:DEFAULTS_SCROLL_TO_BOTTOM_ON_OUTPUT_KEY];
+    
+    // Automatically terminate script at application shutdown
+    [[NSNotificationCenter defaultCenter] addObserverForName:NSApplicationWillTerminateNotification
+                                                      object:nil
+                                                       queue:[NSOperationQueue mainQueue]
+                                                  usingBlock:^(NSNotification *notification) {
+                                                      [self terminateScript];
+                                                  }];
 }
 
 - (void) setInGroupedWindow:(BOOL)isit {
     in_grouped_window = isit;
+}
+
+
+- (void)setScrollToBottomOnOutput:(BOOL)shouldScroll {
+    if (scrollToBottomOnOutput != shouldScroll) {
+        [self willChangeValueForKey:@"scrollToBottomOnOutput"];
+        scrollToBottomOnOutput = shouldScroll;
+        [self didChangeValueForKey:@"scrollToBottomOnOutput"];
+        [[NSUserDefaults standardUserDefaults] setBool:shouldScroll forKey:DEFAULTS_SCROLL_TO_BOTTOM_ON_OUTPUT_KEY];
+    }
 }
 
 
@@ -184,6 +207,15 @@
     
 }
 
+
+- (void)postToConsole:(NSAttributedString *)attstr {
+    [[console_view textStorage] appendAttributedString:attstr];
+    if (self.scrollToBottomOnOutput) {
+        [console_view scrollRangeToVisible:NSMakeRange([[console_view textStorage] length], 0) ];
+    }
+}
+
+
 - (void) postDataFromStdout:(id)notification{
     
     NSData *data = [[notification userInfo] objectForKey:NSFileHandleNotificationDataItem];
@@ -193,7 +225,7 @@
         str = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
         NSAttributedString *attstr = [[NSAttributedString alloc] initWithString:str];
         
-        [[console_view textStorage] appendAttributedString:attstr];
+        [self postToConsole:attstr];
         
         // reregister a request to read in the background
         [python_task_stdout readInBackgroundAndNotify];
@@ -214,7 +246,7 @@
         
         NSAttributedString *attstr = [[NSAttributedString alloc] initWithString:str attributes:attr];
         
-        [[console_view textStorage] appendAttributedString:attstr];
+        [self postToConsole:attstr];
         
         // reregister a request to read in the background
         [python_task_stderr readInBackgroundAndNotify];

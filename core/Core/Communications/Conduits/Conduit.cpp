@@ -14,7 +14,6 @@ using namespace mw;
 Conduit::Conduit(shared_ptr<EventTransport> _transport){
     transport = _transport;
     running = false;
-    timeout_ms = 1000;
     stopping = false;
     stopped = false;
 }
@@ -26,7 +25,7 @@ Conduit::Conduit(shared_ptr<EventTransport> _transport){
 void Conduit::sendData(int code, Datum data){
     //fprintf(stderr, "sending event");fflush(stderr);
     shared_ptr<Event> event(new Event(code, data));
-    transport->sendEvent(event);
+    sendData(event);
 }
 
 void Conduit::sendData(shared_ptr<Event> evt){

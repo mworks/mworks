@@ -71,14 +71,22 @@ protected:
     
     // these will be called from callbacks, so it is not necessary to lock them
     void registerInternalCallback(int event_code, EventCallback functor){
-        //boost::mutex::scoped_lock(internal_callback_lock);
+        //boost::mutex::scoped_lock lock(internal_callback_lock);
         internal_callbacks[event_code] = functor;
     }
     
     void unregisterInternalCallbacks(){
-        //boost::mutex::scoped_lock(internal_callback_lock);
+        //boost::mutex::scoped_lock lock(internal_callback_lock);
         internal_callbacks.clear();
     }
+    
+    // In response to new information (assume conduit_side_codec and 
+    // conduit_side_reverse_codec are valid):
+    // 1) Unregister old stream-side callbacks
+    // 2) Re-register new stream-side callbacks using the stream-side codec 
+    void rebuildStreamToConduitForwarding();    
+    
+    void startForwardingEvent(const std::string &name);
     
 public:
     
@@ -137,6 +145,7 @@ public:
         }
         
         // Rebuild codes_to_forward according to the new codec
+        boost::mutex::scoped_lock lock(events_to_forward_lock);
         rebuildStreamToConduitForwarding();
         
     }
@@ -148,12 +157,6 @@ public:
     void handleCodecFromStream(shared_ptr<Event> event){
         return handleCodec(event, false);
     }
-    
-    // In response to new information (assume conduit_side_codec and 
-    // conduit_side_reverse_codec are valid):
-    // 1) Unregister old stream-side callbacks
-    // 2) Re-register new stream-side callbacks using the stream-side codec 
-    void rebuildStreamToConduitForwarding();    
 
     // Handle incoming requests for change in event forwarding (e.g. if the
     // other side wants to receive a particular kind of event)

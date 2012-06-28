@@ -8,10 +8,18 @@
  */
 
 #include "IPCEventTransport.h"
-using namespace mw;
 
-IPCEventTransport::IPCEventTransport(event_transport_type _type, event_transport_directionality _dir, string _resource_name) : 
-                  EventTransport(_type, _dir){
+#include "MWorksMacros.h"
+#include "Exceptions.h"
+#include "Utilities.h"
+
+
+BEGIN_NAMESPACE_MW
+
+
+IPCEventTransport::IPCEventTransport(event_transport_type _type, event_transport_directionality _dir, string _resource_name) :
+    EventTransport(_type, _dir)
+{
 
     resource_name = _resource_name;
     
@@ -29,25 +37,19 @@ IPCEventTransport::IPCEventTransport(event_transport_type _type, event_transport
     string resource_name_outgoing = resource_name + OUTGOING_SUFFIX;
     string resource_name_incoming = resource_name + INCOMING_SUFFIX;
     
-    try {
-        if(type == server_event_transport){
-            message_queue::remove(resource_name_outgoing.c_str());
-            message_queue::remove(resource_name_incoming.c_str());
-            outgoing_queue = shared_ptr<message_queue>(new message_queue(interprocess::open_or_create, resource_name_outgoing.c_str(), outgoing_queue_size, MAX_MESSAGE_SIZE));
-            incoming_queue = shared_ptr<message_queue>(new message_queue(interprocess::open_or_create, resource_name_incoming.c_str(), incoming_queue_size, MAX_MESSAGE_SIZE));
-        }
-
-        if(type == client_event_transport){
-            outgoing_queue = shared_ptr<message_queue>(new message_queue(interprocess::open_only, resource_name_incoming.c_str()));
-            incoming_queue = shared_ptr<message_queue>(new message_queue(interprocess::open_only, resource_name_outgoing.c_str()));
-        }
-
-        if(type == symmetric_event_transport){
-            outgoing_queue = shared_ptr<message_queue>(new message_queue(interprocess::open_or_create, resource_name_outgoing.c_str(), outgoing_queue_size, MAX_MESSAGE_SIZE));
-            incoming_queue = shared_ptr<message_queue>(new message_queue(interprocess::open_or_create, resource_name_incoming.c_str(), incoming_queue_size, MAX_MESSAGE_SIZE));
-        }
-    } catch(std::exception& e){
-        cerr << "Couldn't create message queues: " << e.what() << endl;
+    if (type == server_event_transport) {
+        message_queue::remove(resource_name_outgoing.c_str());
+        message_queue::remove(resource_name_incoming.c_str());
+        outgoing_queue = shared_ptr<message_queue>(new message_queue(interprocess::open_or_create, resource_name_outgoing.c_str(), outgoing_queue_size, MAX_MESSAGE_SIZE));
+        incoming_queue = shared_ptr<message_queue>(new message_queue(interprocess::open_or_create, resource_name_incoming.c_str(), incoming_queue_size, MAX_MESSAGE_SIZE));
+    } else if (type == client_event_transport) {
+        outgoing_queue = shared_ptr<message_queue>(new message_queue(interprocess::open_only, resource_name_incoming.c_str()));
+        incoming_queue = shared_ptr<message_queue>(new message_queue(interprocess::open_only, resource_name_outgoing.c_str()));
+    } else if (type == symmetric_event_transport) {
+        outgoing_queue = shared_ptr<message_queue>(new message_queue(interprocess::open_or_create, resource_name_outgoing.c_str(), outgoing_queue_size, MAX_MESSAGE_SIZE));
+        incoming_queue = shared_ptr<message_queue>(new message_queue(interprocess::open_or_create, resource_name_incoming.c_str(), incoming_queue_size, MAX_MESSAGE_SIZE));
+    } else {
+        throw SimpleException("Internal error: invalid event_transport_type in IPCEventTransport constructor");
     }
     
 }
@@ -61,24 +63,28 @@ void IPCEventTransport::sendEvent(shared_ptr<Event> event){
     
     boost::archive::binary_oarchive serialized_archive(output_stream_);
     
-    if(outgoing_queue == NULL){
-        cerr << "Error sending on outgoing queue: nonexistent queue" << endl;
-        return;
-    }
+    //if(outgoing_queue == NULL){
+    //    cerr << "Error sending on outgoing queue: nonexistent queue" << endl;
+    //    return;
+    //}
     
     serialized_archive << event;
     
     string data = output_stream_.str();
     try {
         //cerr << "data.size() = " << data.size() << endl;
-        outgoing_queue->timed_send((void *)data.c_str(), data.size(), QUEUE_PRIORITY, boost::posix_time::microsec_clock::local_time() + boost::posix_time::microseconds(10000));
+        boost::posix_time::ptime timeout = (boost::posix_time::microsec_clock::local_time() +
+                                            boost::posix_time::microseconds(10000));
+        if (!(outgoing_queue->timed_send((void *)data.c_str(), data.size(), QUEUE_PRIORITY, timeout))) {
+            merror(M_SYSTEM_MESSAGE_DOMAIN, "Send on outgoing queue timed out; event will not be sent");
+        }
     } catch(std::exception& e){
-        cerr << "Error sending on outgoing queue: " << e.what() << endl;
+        merror(M_SYSTEM_MESSAGE_DOMAIN, "Error sending on outgoing queue: %s", e.what());
     }
 }
 
 
-shared_ptr<Event> IPCEventTransport::deserializeEvent(const char *receive_buffer, message_queue_size_type& received_size){
+shared_ptr<Event> IPCEventTransport::deserializeEvent(message_queue_size_type& received_size){
     
     string incoming_data(receive_buffer, received_size);
     input_stream.str(incoming_data);
@@ -94,19 +100,19 @@ shared_ptr<Event> IPCEventTransport::receiveEvent(){
     
     message_queue_size_type received_size = 0;
     unsigned int priority = QUEUE_PRIORITY;
-    char *receive_buffer[MAX_MESSAGE_SIZE];
     
-    if(incoming_queue == NULL){
-        return shared_ptr<Event>();
-    }
+    //if(incoming_queue == NULL){
+    //    return shared_ptr<Event>();
+    //}
     
     try{
         incoming_queue->receive((void *)receive_buffer, MAX_MESSAGE_SIZE, received_size, priority);
     } catch(std::exception& e){
-        cerr << "Error receiving on incoming queue: " << e.what() << endl;
+        merror(M_SYSTEM_MESSAGE_DOMAIN, "Error receiving on incoming queue: %s", e.what());
+        return shared_ptr<Event>();
     }
     
-    shared_ptr<Event> event = deserializeEvent((const char *)receive_buffer, received_size);
+    shared_ptr<Event> event = deserializeEvent(received_size);
     
     return event;
 }
@@ -116,24 +122,24 @@ shared_ptr<Event> IPCEventTransport::receiveEventAsynchronous(){
     
     message_queue_size_type received_size = 0;
     unsigned int priority = QUEUE_PRIORITY;
-    char receive_buffer[MAX_MESSAGE_SIZE];
     
-    if(incoming_queue == NULL){
-        return shared_ptr<Event>();
-    }
+    //if(incoming_queue == NULL){
+    //    return shared_ptr<Event>();
+    //}
     
     bool okayp = true;
     try{
         okayp = incoming_queue->try_receive((void *)receive_buffer, MAX_MESSAGE_SIZE, received_size, priority);
     } catch(std::exception& e){
-        cerr << "Error receiving on incoming queue: " << e.what() << endl;
+        merror(M_SYSTEM_MESSAGE_DOMAIN, "Error receiving on incoming queue: %s", e.what());
+        okayp = false;
     }
     
     if(!okayp){
         return shared_ptr<Event>();
     }
     
-    shared_ptr<Event> event = deserializeEvent((const char *)receive_buffer, received_size);
+    shared_ptr<Event> event = deserializeEvent(received_size);
     
     return event;
 }
@@ -141,31 +147,30 @@ shared_ptr<Event> IPCEventTransport::receiveEventAsynchronous(){
 
 
 // Get an event if one is available; otherwise, release the lock and try again
-shared_ptr<Event> IPCEventTransport::receiveEventNoLock(){
-    message_queue_size_type received_size = 0;
-    unsigned int priority = QUEUE_PRIORITY;
-    char *receive_buffer[MAX_MESSAGE_SIZE];
-    
-    bool okayp;
-    
-    try{
-        do {
-            okayp = incoming_queue->timed_receive((void *)receive_buffer, 
-                                                  MAX_MESSAGE_SIZE, 
-                                                  received_size, 
-                                                  priority,
-                                                  boost::posix_time::microsec_clock::local_time() + boost::posix_time::microseconds(1000));
-        } while(!okayp);
-        
-    } catch(std::exception& e){
-        cerr << "Error receiving on incoming queue: " << e.what() << endl;
-    }
-    
-    shared_ptr<Event> event = deserializeEvent((const char *)receive_buffer, received_size);
-    
-    return event;
-
-}
+//shared_ptr<Event> IPCEventTransport::receiveEventNoLock(){
+//    message_queue_size_type received_size = 0;
+//    unsigned int priority = QUEUE_PRIORITY;
+//    
+//    bool okayp;
+//    
+//    try{
+//        do {
+//            okayp = incoming_queue->timed_receive((void *)receive_buffer, 
+//                                                  MAX_MESSAGE_SIZE, 
+//                                                  received_size, 
+//                                                  priority,
+//                                                  boost::posix_time::microsec_clock::local_time() + boost::posix_time::microseconds(1000));
+//        } while(!okayp);
+//        
+//    } catch(std::exception& e){
+//        cerr << "Error receiving on incoming queue: " << e.what() << endl;
+//    }
+//    
+//    shared_ptr<Event> event = deserializeEvent(received_size);
+//    
+//    return event;
+//
+//}
 
 void IPCEventTransport::flush(){
     int num_msg = incoming_queue->get_num_msg();
@@ -174,6 +179,9 @@ void IPCEventTransport::flush(){
         receiveEvent();
     }
 }
+
+
+END_NAMESPACE_MW
 
 
 

@@ -173,122 +173,111 @@ shared_ptr<mw::Component> NextVariableSelectionFactory::createObject(std::map<st
 
 
 /****************************************************************
+ *                       MessageAction Methods
+ ****************************************************************/
+
+
+const std::string MessageAction::MESSAGE("message");
+
+
+MessageAction::MessageAction(const ParameterValueMap &parameters) :
+    Action(parameters)
+{ }
+
+
+void MessageAction::parseMessage(const std::string &outStr) {
+    stringFragments.clear();
+    error = false;
+    
+    typedef boost::tokenizer<boost::char_separator<char> > tokenizer;
+    boost::char_separator<char> sep("", "().,;:|/\\+-*&^!@=<>?$ \t", boost::drop_empty_tokens);
+    tokenizer tokens(outStr, sep);
+    for (tokenizer::iterator tok_iter = tokens.begin(); tok_iter != tokens.end(); ++tok_iter){
+        std::string token = *tok_iter;
+        if(token == "$"){
+            // peek ahead to the next token. if it starts with a word char, this is a variable
+            ++tok_iter;
+            if(tok_iter != tokens.end()){
+                std::string next_token = *tok_iter;
+                boost::regex re("^\\w");
+                if(boost::regex_search(next_token, re)){  // if it's a word
+                    shared_ptr<Variable> var = global_variable_registry->getVariable(next_token);
+                    if(!var) {
+                        error = true;
+                        var = shared_ptr<ConstantVariable>(new ConstantVariable(Datum(std::string("UNKNOWNVAR"))));
+                    }
+                    
+                    stringFragments.push_back(var);
+                    
+                } else { // if it's not a word (an isolated $, apparently)
+                    
+                    shared_ptr<ConstantVariable> c(new ConstantVariable(Datum("$" + next_token)));
+                    stringFragments.push_back(c);
+                }
+                
+            } else {
+                break; // at the end of the token stream
+            }
+        } else {
+            shared_ptr<ConstantVariable> c(new ConstantVariable(Datum(token)));
+            stringFragments.push_back(c);
+        }
+    }         
+}
+
+
+std::string MessageAction::getMessage() const {
+    std::string outStr("");
+    
+    for (std::vector< shared_ptr<Variable> >::const_iterator i = stringFragments.begin();
+         i != stringFragments.end();
+         i++)
+    {
+        outStr.append((*i)->getValue().toString());
+    }
+    
+    return outStr;
+}
+
+
+/****************************************************************
  *                       ReportString Methods
  ****************************************************************/
-ReportString::ReportString(const std::string &reportStr) : Action() {
-	
-	setName("Report");
-	std::string outStr(reportStr);	
-  
-  error = false;
-  
-  typedef boost::tokenizer<boost::char_separator<char> > tokenizer;
-  boost::char_separator<char> sep("", "().,;:|/\\+-*&^!@=<>?$ \t", boost::drop_empty_tokens);
-  tokenizer tokens(outStr, sep);
-  for (tokenizer::iterator tok_iter = tokens.begin(); tok_iter != tokens.end(); ++tok_iter){
-    std::string token = *tok_iter;
-    if(token == "$"){
-      // peek ahead to the next token. if it starts with a word char, this is a variable
-      ++tok_iter;
-      if(tok_iter != tokens.end()){
-        std::string next_token = *tok_iter;
-        boost::regex re("^\\w");
-        if(boost::regex_search(next_token, re)){  // if it's a word
-           shared_ptr<Variable> var = global_variable_registry->getVariable(next_token);
-           if(!var) {
-             error = true;
-              var = shared_ptr<ConstantVariable>(new ConstantVariable(Datum(std::string("UNKNOWNVAR"))));			
-           }
-           
-           stringFragments.push_back(var);
-         
-        } else { // if it's not a word (an isolated $, apparently)
-           
-           shared_ptr<ConstantVariable> c(new ConstantVariable(Datum("$" + next_token)));
-           stringFragments.push_back(c);
-        }
-           
-      } else {
-        break; // at the end of the token stream
-      }
-    } else {
-       shared_ptr<ConstantVariable> c(new ConstantVariable(Datum(token)));
-       stringFragments.push_back(c);
-    }
- }         
-    
-    
-  /*
-	error = false;
-	
-	stringFragments.clear();
-	
-	while(outStr.find_first_of("$") != std::string::npos) {
-		
-    // TODO: This section is the source of bug #8.
-    // Need to come up with something smarter that tokenizes using more than just whitespace
-    
-    std::string stringSegment;
-		std::string varName;
-		istringstream parser(outStr);
-  
-		getline(parser, stringSegment, '$');
-		shared_ptr<ConstantVariable> c(new ConstantVariable(Datum(stringSegment)));
-		stringFragments.push_back(c);
-		
-		getline(parser, varName, ' ');
-    
-		shared_ptr<Variable> var = global_variable_registry->getVariable(varName);
-		if(!var) {
-			error = true;
-			var = shared_ptr<ConstantVariable>(new ConstantVariable(Datum(std::string("UNKNOWNVAR"))));			
-		}
-		
-		stringFragments.push_back(var);
-		
-		outStr.erase(0, stringSegment.size() + varName.size() + 1);
-	}
-	
-	// add any remainder
-	shared_ptr<ConstantVariable> remainder(new ConstantVariable(Datum(outStr)));
-	stringFragments.push_back(remainder);*/
+
+
+void ReportString::describeComponent(ComponentInfo &info) {
+    Action::describeComponent(info);
+    info.setSignature("action/report");
+    info.addParameter(MESSAGE);
 }
 
-ReportString::~ReportString() { }
+
+ReportString::ReportString(const ParameterValueMap &parameters) :
+    MessageAction(parameters)
+{
+    setName("Report");
+    parseMessage(parameters[MESSAGE].str());
+}
+
+
+ReportString::ReportString(const std::string &message) {
+    setName("Report");
+    parseMessage(message);
+}
+
 
 bool ReportString::execute() {
-	std::string outStr("");
-	
-	for(std::vector<shared_ptr<Variable> >::iterator i=stringFragments.begin();
-		i != stringFragments.end();
-		++i) {
-		
-		shared_ptr<Variable> var = *i;
-		
-		outStr.append(var->getValue().toString());		
-	}
-	
-	shared_ptr <Clock> clock = Clock::instance();
-
-	if(!error) {
-		mprintf("%s (%lld)", outStr.c_str(), clock->getCurrentTimeUS());
-	} else {
-		merror(M_STATE_SYSTEM_MESSAGE_DOMAIN,
-			   "%s (%lld)", outStr.c_str(), clock->getCurrentTimeUS());		
-	}
-	
-	return true;
-}
-
-shared_ptr<mw::Component> ReportStringFactory::createObject(std::map<std::string, std::string> parameters,
-														  ComponentRegistry *reg) {
-	
-	REQUIRE_ATTRIBUTES(parameters, "message");
-	
-	std::string reportString = parameters.find("message")->second;
-	
-	shared_ptr <mw::Component> newReportStringAction = shared_ptr<mw::Component>(new ReportString(reportString));
-	return newReportStringAction;		
+    std::string outStr = getMessage();
+    shared_ptr <Clock> clock = Clock::instance();
+    
+    if(!error) {
+        mprintf("%s (%lld)", outStr.c_str(), clock->getCurrentTimeUS());
+    } else {
+        merror(M_STATE_SYSTEM_MESSAGE_DOMAIN,
+               "%s (%lld)", outStr.c_str(), clock->getCurrentTimeUS());
+    }
+    
+    return true;
 }
 
 
@@ -296,45 +285,57 @@ shared_ptr<mw::Component> ReportStringFactory::createObject(std::map<std::string
  *                       AssertionAction Methods
  ****************************************************************/
 
-AssertionAction::AssertionAction(shared_ptr<Variable> _condition, 
-                                 const std::string &assertionMessage) : ReportString(assertionMessage) {
-	setName("Assertion");
-	condition = _condition;
+
+const std::string AssertionAction::CONDITION("condition");
+const std::string AssertionAction::STOP_ON_FAILURE("stop_on_failure");
+
+
+void AssertionAction::describeComponent(ComponentInfo &info) {
+    Action::describeComponent(info);
+    info.setSignature("action/assert");
+    info.addParameter(CONDITION);
+    info.addParameter(MESSAGE, false);
+    info.addParameter(STOP_ON_FAILURE, "0");
 }
 
-AssertionAction::~AssertionAction(){}
 
-bool AssertionAction::execute(){
- Datum result = condition->getValue();
-	if(!(result.getBool())){
-		std::string outStr("");
-		
-		for(std::vector<shared_ptr<Variable> >::iterator i=stringFragments.begin();
-			i != stringFragments.end();
-			++i) {
-			outStr.append((*i)->getValue().toString());		
-		}
-		
-		assertionFailure->setValue(outStr);
-		merror(M_STATE_SYSTEM_MESSAGE_DOMAIN,"Assertion: %s", 
-			   outStr.c_str());
-		assertionFailure->setValue((long)0);
-	}
-	return true;
+AssertionAction::AssertionAction(const ParameterValueMap &parameters) :
+    MessageAction(parameters),
+    condition(parameters[CONDITION]),
+    stopOnFailure(parameters[STOP_ON_FAILURE])
+{
+    setName("Assertion");
+    
+    if (!(parameters[MESSAGE].empty())) {
+        parseMessage(parameters[MESSAGE].str());
+    } else {
+        parseMessage("Condition failed: " + parameters[CONDITION].str());
+    }
 }
 
-shared_ptr<mw::Component> AssertionActionFactory::createObject(std::map<std::string, std::string> parameters,
-															 ComponentRegistry *reg) {
-	REQUIRE_ATTRIBUTES(parameters, "message", "condition");
-	
-	std::string reportString = parameters.find("message")->second;
-	shared_ptr<Variable> condition = reg->getVariable(parameters.find("condition")->second);
-	
-	checkAttribute(condition, parameters["reference_id"], "condition", parameters.find("condition")->second);
-	
-	
-	shared_ptr <mw::Component> newReportStringAction = shared_ptr<mw::Component>(new AssertionAction(condition, reportString));
-	return newReportStringAction;		
+
+AssertionAction::AssertionAction(shared_ptr<Variable> condition, const std::string &message, bool stopOnFailure) :
+    condition(condition),
+    stopOnFailure(stopOnFailure)
+{
+    setName("Assertion");
+    parseMessage(message);
+}
+
+
+bool AssertionAction::execute() {
+    if (!(condition->getValue().getBool())) {
+        std::string outStr = getMessage();
+        assertionFailure->setValue(outStr);
+        merror(M_STATE_SYSTEM_MESSAGE_DOMAIN, "Assertion: %s", outStr.c_str());
+        if (stopOnFailure) {
+            merror(M_STATE_SYSTEM_MESSAGE_DOMAIN, "Stopping experiment due to failed assertion");
+            StateSystem::instance()->stop();
+        }
+        assertionFailure->setValue(0L);
+    }
+    
+    return true;
 }
 
 
@@ -1734,6 +1735,29 @@ weak_ptr<State> TaskSystem::getStartState() {
 		return parent;
 	}
 }
+
+
+/****************************************************************
+ *                 StopExperiment Methods
+ ****************************************************************/
+
+
+void StopExperiment::describeComponent(ComponentInfo &info) {
+    Action::describeComponent(info);
+    info.setSignature("action/stop_experiment");
+}
+
+
+StopExperiment::StopExperiment(const ParameterValueMap &parameters) :
+    Action(parameters)
+{ }
+
+
+bool StopExperiment::execute() {
+    StateSystem::instance()->stop();
+    return true;
+}
+
 
 /*ExpandableList<State> * TaskSystem::getTaskSystemStates() {
  return list;

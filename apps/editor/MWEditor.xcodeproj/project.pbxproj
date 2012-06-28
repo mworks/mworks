@@ -139,14 +139,14 @@
 		5CF729BD0E58F18900F427AC /* nodes.tif in Resources */ = {isa = PBXBuildFile; fileRef = 5CF729BC0E58F18900F427AC /* nodes.tif */; };
 		5CF72A0B0E59213A00F427AC /* no_graphviz.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 5CF72A0A0E59213A00F427AC /* no_graphviz.pdf */; };
 		5CF8C3AD0E7975DD00AAA250 /* MWSimpleSoundPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CF8C3AC0E7975DD00AAA250 /* MWSimpleSoundPlayer.m */; };
-		8D15AC2D0486D014006FF6A4 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 2A37F4B6FDCFA73011CA2CEA /* MainMenu.nib */; };
-		8D15AC2E0486D014006FF6A4 /* MyDocument.nib in Resources */ = {isa = PBXBuildFile; fileRef = 2A37F4B4FDCFA73011CA2CEA /* MyDocument.nib */; };
 		8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165FFE840EACC02AAC07 /* InfoPlist.strings */; };
 		8D15AC310486D014006FF6A4 /* MWXMLDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4ACFDCFA73011CA2CEA /* MWXMLDocument.m */; settings = {ATTRIBUTES = (); }; };
 		8D15AC320486D014006FF6A4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4B0FDCFA73011CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D15AC340486D014006FF6A4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
 		E12449AA11EB9D7C0012EEEB /* MWLibraryBrowserMatrix.m in Sources */ = {isa = PBXBuildFile; fileRef = E12449A911EB9D7C0012EEEB /* MWLibraryBrowserMatrix.m */; };
 		E12449C811EB9FF20012EEEB /* MWGenericInspectorView.m in Sources */ = {isa = PBXBuildFile; fileRef = E12449C711EB9FF20012EEEB /* MWGenericInspectorView.m */; };
+		E1FFCD851558203B004DD840 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = E1FFCD811558203B004DD840 /* MainMenu.xib */; };
+		E1FFCD861558203B004DD840 /* MyDocument.xib in Resources */ = {isa = PBXBuildFile; fileRef = E1FFCD831558203B004DD840 /* MyDocument.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -187,8 +187,6 @@
 		2A37F4ACFDCFA73011CA2CEA /* MWXMLDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWXMLDocument.m; sourceTree = "<group>"; };
 		2A37F4AEFDCFA73011CA2CEA /* MWXMLDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWXMLDocument.h; sourceTree = "<group>"; };
 		2A37F4B0FDCFA73011CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		2A37F4B5FDCFA73011CA2CEA /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/MyDocument.nib; sourceTree = "<group>"; };
-		2A37F4B7FDCFA73011CA2CEA /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/MainMenu.nib; sourceTree = "<group>"; };
 		2A37F4C4FDCFA73011CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		2A37F4C5FDCFA73011CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		32DBCF750370BD2300C91783 /* NewEditor_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewEditor_Prefix.pch; sourceTree = "<group>"; };
@@ -330,6 +328,8 @@
 		E12449A911EB9D7C0012EEEB /* MWLibraryBrowserMatrix.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWLibraryBrowserMatrix.m; sourceTree = "<group>"; };
 		E12449C611EB9FF20012EEEB /* MWGenericInspectorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWGenericInspectorView.h; sourceTree = "<group>"; };
 		E12449C711EB9FF20012EEEB /* MWGenericInspectorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWGenericInspectorView.m; sourceTree = "<group>"; };
+		E1FFCD821558203B004DD840 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		E1FFCD841558203B004DD840 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MyDocument.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -436,8 +436,8 @@
 				5CDC06AD0CE022DD008B67D0 /* XML */,
 				5CCBABC70CDE627000B42E7B /* Images */,
 				5CDC03EF0CDFA8F2008B67D0 /* InspectorViews */,
-				2A37F4B6FDCFA73011CA2CEA /* MainMenu.nib */,
-				2A37F4B4FDCFA73011CA2CEA /* MyDocument.nib */,
+				E1FFCD811558203B004DD840 /* MainMenu.xib */,
+				E1FFCD831558203B004DD840 /* MyDocument.xib */,
 				8D15AC360486D014006FF6A4 /* Info.template.plist */,
 				089C165FFE840EACC02AAC07 /* InfoPlist.strings */,
 			);
@@ -714,8 +714,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8D15AC2D0486D014006FF6A4 /* MainMenu.nib in Resources */,
-				8D15AC2E0486D014006FF6A4 /* MyDocument.nib in Resources */,
 				8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */,
 				5CCBA9B80CDD245200B42E7B /* MWLibrary.xml in Resources */,
 				5CCBA9B90CDD245200B42E7B /* MWLibraryTransformation.xsl in Resources */,
@@ -796,6 +794,8 @@
 				0EC2F5150EE9B248008BD196 /* MWLibraryCombiner.xsl in Resources */,
 				5C56F6F31010BDA0007E03A9 /* ReportInspectorView.xib in Resources */,
 				5CF17BB310FFA9A800B7EF53 /* LoadStimulusInspectorView.xib in Resources */,
+				E1FFCD851558203B004DD840 /* MainMenu.xib in Resources */,
+				E1FFCD861558203B004DD840 /* MyDocument.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -890,20 +890,20 @@
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
-		2A37F4B4FDCFA73011CA2CEA /* MyDocument.nib */ = {
+		E1FFCD811558203B004DD840 /* MainMenu.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				2A37F4B5FDCFA73011CA2CEA /* English */,
+				E1FFCD821558203B004DD840 /* English */,
 			);
-			name = MyDocument.nib;
+			name = MainMenu.xib;
 			sourceTree = "<group>";
 		};
-		2A37F4B6FDCFA73011CA2CEA /* MainMenu.nib */ = {
+		E1FFCD831558203B004DD840 /* MyDocument.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				2A37F4B7FDCFA73011CA2CEA /* English */,
+				E1FFCD841558203B004DD840 /* English */,
 			);
-			name = MainMenu.nib;
+			name = MyDocument.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

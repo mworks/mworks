@@ -8,6 +8,8 @@
 
 #import "MWGroupedPluginWindowController.h"
 
+#import <MWorksCocoa/MWWindowController.h>
+
 
 @interface MWGroupedPluginWindowController(PrivateMethods)
 -(void) relinquishCurrentView;
@@ -71,8 +73,17 @@
     if([[holdFlags objectAtIndex:currentPluginIndex] boolValue]){
         NSWindow *current_content_window = [plugins objectAtIndex:currentPluginIndex];
         
-        // Make sure that we end all editing in this window, or we could get in trouble
-        [current_content_window endEditingFor:Nil];
+        @try {
+            // Make sure that we end all editing in this window, or we could get in trouble
+            [current_content_window endEditingFor:Nil];
+        }
+        @catch (NSException *exception) {
+            // FIXME: Doing "Show All", "Show Grouped", and then "Show All" again leads to an exception in
+            // endEditingFor.  However, the reason for this exception is a mystery.  Until someone figures out why
+            // it's happening, we'll just log the exception and carry on.
+            NSLog(@"Ignoring exception in %s: %@", __func__, exception);
+        }
+        
         [current_content_window setContentView:[content_box contentView]];
         [holdFlags replaceObjectAtIndex:currentPluginIndex withObject:[NSNumber numberWithBool:NO]];
     }
@@ -88,7 +99,7 @@
         [content_window orderOut:self];
         
         if([[content_window windowController] respondsToSelector:@selector(setInGroupedWindow:)]){
-            [[content_window windowController] setInGroupedWindow:YES];
+            [(id<MWWindowController>)[content_window windowController] setInGroupedWindow:YES];
         }
         
         NSView *current_view = [content_window contentView];
@@ -137,13 +148,14 @@
     if(cycleTimer != Nil){
         
         [cycleTimer invalidate];
-        [cycleTimer finalize];
+        [cycleTimer release];
+        cycleTimer = nil;
     }
     
     cycling = value;
     if(cycling){
         NSTimeInterval interval = cycleTime;
-        cycleTimer = [NSTimer scheduledTimerWithTimeInterval:interval target:self selector:@selector(nextPlugin:) userInfo:self repeats:YES];
+        cycleTimer = [[NSTimer scheduledTimerWithTimeInterval:interval target:self selector:@selector(nextPlugin:) userInfo:self repeats:YES] retain];
     }
 }
 

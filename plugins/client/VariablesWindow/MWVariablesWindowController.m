@@ -97,7 +97,7 @@
 
 - (void)populateDataSource {
 	if(delegate != nil) {
-		[ds addRootGroups:[[delegate varGroups] copyWithZone:Nil]];
+		[ds setRootGroups:[delegate varGroups]];
 		
 		[varView performSelectorOnMainThread:@selector(reloadData)
 								  withObject:nil
