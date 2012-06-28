@@ -59,7 +59,7 @@ namespace mw {
 		
         // these regexes are cached at the object / member level to avoid
         // memory inefficiency at runtime
-        boost::regex r1, r2, r3, r4, u1, strip_it;
+        boost::regex u1, strip_it;
             
         boost::unordered_map< std::string, shared_ptr<Variable> > variable_cache;
         boost::unordered_map< std::pair<std::string, GenericDataType>, shared_ptr<Datum> > data_cache;

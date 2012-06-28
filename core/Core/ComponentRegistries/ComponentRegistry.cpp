@@ -36,10 +36,6 @@ BEGIN_NAMESPACE_MW
 shared_ptr<ComponentRegistry> ComponentRegistry::shared_component_registry;
 
 ComponentRegistry::ComponentRegistry() :
-        r1(".*?[\\*\\!\\+\\-\\=\\/\\&\\|\\%\\>\\<\\(\\)\\[\\]\"].*?"),
-        r2(".*?((\\#AND)|(\\#OR)|(\\#GT)|(\\#LT)|(\\#GE)|(\\#LE)|(\\Wms)|([^a-zA-z#]s)|(\\Wus)).*"),
-        r3("^\\s*\\d*\\.?\\d*\\s*(ms|us|s)?\\s*$"),
-        r4("^\\s*\\.?\\d*\\s*(ms|us|s)?\\s*$"),
         u1("^(.*?\\$.+?)$"),
         strip_it("^\\s*(.+?)\\s*$")
 {
@@ -129,14 +125,6 @@ ComponentRegistry::ComponentRegistry() :
 	
 	// sounds
     registerFactory<StandardComponentFactory, WavFileSound>();
-  
-  
-  // cache these as members, since they will otherwise be created and destroyed a bazillion times
-  //boost::regex r1(".*?[\\*\\!\\+\\-\\=\\/\\&\\|\\%\\>\\<\\(\\)].*?");
-//	//boost::regex r1("(\\*|\\!|\\+|\\-|\\=|\\/|\\&|\\||\\%|\\>|\\<|\\(|\\))");
-//	boost::regex r2(".*?((\\#AND)|(\\#OR)|(\\#GT)|(\\#LT)|(\\#GE)|(\\#LE)|(\\Wms)|([^a-zA-z#]s)|(\\Wus)).*");
-//	boost::regex r3("^\\s*\\d*\\.?\\d*\\s*(ms|us|s)?\\s*$");
-//	boost::regex r4("^\\s*\\.?\\d*\\s*(ms|us|s)?\\s*$");
     
 }
 
@@ -277,32 +265,23 @@ shared_ptr<Variable>	ComponentRegistry::getVariable(std::string expression){
 		shared_ptr<Variable> unresolved_var(new UnresolvedReferenceVariable(expression, registry));
 		return unresolved_var;
 	}
-
-	smatch matches1, matches2, matches3;
-	
-	bool b1, b2, b3;
-	b1 = boost::regex_match(expression, matches1, r1); 
-	b2 = boost::regex_match(expression, matches2, r2);
-	b3 = boost::regex_match(expression, matches3, r3);
-	if(b1 || b2 || b3){
-        // TODO try
-		shared_ptr<Variable> expression_var(new ParsedExpressionVariable(expression));	
-		return expression_var;
-	} 
 	
 	smatch strip_match;
 	boost::regex_match(expression, strip_match, strip_it); 
 	
 	shared_ptr<Variable> var = global_variable_registry->getVariable(strip_match[1]);
   
-    if(var == NULL){
+    if (var != NULL) {
+        // cache/hash the variable for fast access
+        variable_cache[expression] = var;
+        return var;
+    }
+
+    try {
+        return shared_ptr<Variable>(new ParsedExpressionVariable(expression));
+    } catch (SimpleException &) {
         throw UnknownVariableException(strip_match[1]);
     }
-  
-    // cache/hash the variable for fast access
-    variable_cache[expression] = var;
-  
-	return var;
 }
 
 // An alternate getVariable call that includes a default value
