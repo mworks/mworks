@@ -30,8 +30,6 @@ protected:
     bool stopping;
     bool stopped;
     
-    MWTime timeout_ms;
-    
 public:
     
     Conduit(shared_ptr<EventTransport> _transport);
@@ -41,14 +39,18 @@ public:
     // Start the conduit working
     virtual bool initialize() = 0;
     
+    virtual bool isRunning(){
+        return !(stopping || stopped);
+    }
+    
     // Stop any unfinished business on the conduit; block until 
     // everything is done and the object can be safely destroyed.
     virtual void finalize() = 0;
   
     // Send data to the other side.  It is assumed that both sides understand 
     // what the event codes mean.
-    void sendData(int code, Datum data);
-    void sendData(shared_ptr<Event> evt);    
+    virtual void sendData(int code, Datum data);
+    virtual void sendData(shared_ptr<Event> evt);
     
 };
 }

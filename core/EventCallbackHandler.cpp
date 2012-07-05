@@ -9,7 +9,11 @@
 
 #include "EventCallbackHandler.h"
 
-using namespace mw;
+#include <boost/scoped_ptr.hpp>
+
+
+BEGIN_NAMESPACE_MW
+
 
 KeyedEventCallbackPair::KeyedEventCallbackPair(){ 
     key = "<invalid>";
@@ -43,23 +47,6 @@ void KeyedEventCallbackPair::dummyCallback(shared_ptr<Event> evt){
 }
 
 
-
-void EventCallbackHandler::lock_callbacks(){
-    if(recursively_lock_callbacks){
-        recursive_callbacks_lock.lock();
-    } else {
-        callbacks_lock.lock();
-    }
-}
-
-void EventCallbackHandler::unlock_callbacks(){
-    if(recursively_lock_callbacks){
-        recursive_callbacks_lock.unlock();
-    } else {
-        callbacks_lock.unlock();
-    }
-}
-
 void EventCallbackHandler::handleCallbacks(shared_ptr<Event> evt){
     
     if(evt == NULL){
@@ -73,7 +60,7 @@ void EventCallbackHandler::handleCallbacks(shared_ptr<Event> evt){
     pair<EventCallbackMap::iterator, EventCallbackMap::iterator> itp;
     EventCallbackMap::iterator callback_iterator;
     
-    lock_callbacks();
+    CallbacksLock lock(*this);
     
     // issue any "always" callbacks
     // TODO: this can be made more efficient (e.g. search doesn't always need to be done)
@@ -95,7 +82,6 @@ void EventCallbackHandler::handleCallbacks(shared_ptr<Event> evt){
         
     }
     
-    unlock_callbacks();
 }
 
 void EventCallbackHandler::registerCallback(EventCallback cb, string callback_key){
@@ -103,11 +89,10 @@ void EventCallbackHandler::registerCallback(EventCallback cb, string callback_ke
 }
 
 void EventCallbackHandler::registerCallback(int code, EventCallback cb, string callback_key){
-    lock_callbacks();
+    CallbacksLock lock(*this);
     //std::cerr << "Registering callback for code: " << code << ", key: " << callback_key << std::endl;
     callbacks_by_code.insert(pair< int, KeyedEventCallbackPair >(code, KeyedEventCallbackPair(callback_key, cb)));
     codes_by_key.insert( pair<string, int>(callback_key, code) );
-    unlock_callbacks();
 }
 
 
@@ -117,8 +102,9 @@ void EventCallbackHandler::unregisterCallbacksNoLocking(const std::string &key){
 
 void EventCallbackHandler::unregisterCallbacks(const std::string &key, bool locked) {
     
+    boost::scoped_ptr<CallbacksLock> lock;
     if(locked){
-        lock_callbacks();
+        lock.reset(new CallbacksLock(*this));
     }
     
     //std::cerr << "Unregistering callbacks for key: " << key << std::endl;
@@ -137,7 +123,7 @@ void EventCallbackHandler::unregisterCallbacks(const std::string &key, bool lock
     for(erase_iterator = nodes_to_erase.begin(); erase_iterator != nodes_to_erase.end(); ++erase_iterator){
         callbacks_by_code.erase(*erase_iterator);
     }
-    if(locked){
-        unlock_callbacks();
-    }
 }
+
+
+END_NAMESPACE_MW

@@ -78,7 +78,7 @@ public:
     // Get an event if one is available; otherwise, return immediately 
     virtual shared_ptr<Event> receiveEventAsynchronous();
     
-    virtual shared_ptr<Event> receiveEventNoLock();
+    //virtual shared_ptr<Event> receiveEventNoLock();
   
     virtual shared_ptr<Event> deserializeEvent(message_queue_size_type& received_size);  
     

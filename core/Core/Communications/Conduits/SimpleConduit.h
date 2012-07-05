@@ -53,20 +53,11 @@ public:
     // Start the conduit working
     virtual bool initialize();
     
-    virtual bool isRunning(){
-        return !(stopping || stopped);
-    }
-    
     virtual void serviceIncomingEvents();
     
     // Stop any unfinished business on the conduit; block until 
     // everything is done and the object can be safely destroyed.
     virtual void finalize();
-    
-    // Send data to the other side.  It is assumed that both sides understand 
-    // what the event codes mean.
-    virtual void sendData(int code, Datum data);
-    virtual void sendData(shared_ptr<Event> evt);
     
     
 
