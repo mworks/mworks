@@ -34,12 +34,6 @@ Experiment::Experiment(shared_ptr<VariableRegistry> var_reg)
 Experiment::~Experiment() { }
 
 
-// The following two because SWIG eats ass
-State *Experiment::getStateInstance(){ 
-	return (State *)clone(); 
-}
-
-
 void Experiment::createVariableContexts(){
 	
 	if(variable_registry == NULL){

@@ -39,9 +39,7 @@ weak_ptr<State> Block::next(){
 
 
 shared_ptr<mw::Component> Block::createInstanceObject(){
-//void *Block::scopedClone(){
-	
-	ListState *new_state = new Block();
+	Block *new_state = new Block();
 	
 	new_state->setExperiment(getExperiment());
 	new_state->setScopedVariableEnvironment(getScopedVariableEnvironment());
@@ -61,8 +59,6 @@ shared_ptr<mw::Component> Block::createInstanceObject(){
 		(new_state->getSelection())->setNItems(list->getNElements());
 	}*/
 	
-	new_state->setIsAClone(true);	// in case we care for memory-freeing purposes
-	
 	shared_ptr<mw::Component> clone_ptr(new_state);
 	return clone_ptr;
 }
@@ -75,9 +71,7 @@ mw::Protocol::Protocol() : ListState(){
 		
 
 shared_ptr<mw::Component> mw::Protocol::createInstanceObject(){
-//void *mw::Protocol::scopedClone(){
-	
-	ListState *new_state = new mw::Protocol();
+	mw::Protocol *new_state = new mw::Protocol();
 
 	new_state->setExperiment(getExperiment());
 	new_state->setScopedVariableEnvironment(getScopedVariableEnvironment());
@@ -91,9 +85,6 @@ shared_ptr<mw::Component> mw::Protocol::createInstanceObject(){
 		new_state->attachSelection(sel);
 	}
 	
-	
-	new_state->setIsAClone(true);	// in case we care for memory-freeing purposes
-	
 	shared_ptr<mw::Component> clone_ptr(new_state);
 	return clone_ptr;
 }
@@ -106,9 +97,7 @@ GenericListState::GenericListState() : ListState(){
 
 
 shared_ptr<mw::Component> GenericListState::createInstanceObject(){
-//void *GenericListState::scopedClone(){
-	
-	ListState *new_state = new GenericListState();
+	GenericListState *new_state = new GenericListState();
 	//new_state->setLocalVariableContext(new VariableContext());
 	new_state->setExperiment(getExperiment());
 	new_state->setScopedVariableEnvironment(getScopedVariableEnvironment());
@@ -131,8 +120,6 @@ shared_ptr<mw::Component> GenericListState::createInstanceObject(){
 	/*if(new_state->getSelection() != NULL){
 		(new_state->getSelection())->setNItems(list->getNElements());
 	}*/
-	
-	new_state->setIsAClone(true);	// in case we care for memory-freeing purposes
 	
 	shared_ptr<mw::Component> copy_ptr(new_state);
 	return copy_ptr;
@@ -163,9 +150,7 @@ weak_ptr<State> Trial::next(){
 
 
 shared_ptr<mw::Component> Trial::createInstanceObject(){
-//void *Trial::scopedClone(){
-	
-	ListState *new_state = new Trial();
+	Trial *new_state = new Trial();
 	//new_state->setLocalVariableContext(new VariableContext());
 	new_state->setExperiment(getExperiment());
 	new_state->setScopedVariableEnvironment(getScopedVariableEnvironment());
@@ -188,8 +173,6 @@ shared_ptr<mw::Component> Trial::createInstanceObject(){
 	/*if(new_state->getSelection() != NULL){
 		(new_state->getSelection())->setNItems(list->getNElements());
 	}*/
-	
-	new_state->setIsAClone(true);	// in case we care for memory-freeing purposes
 	
 	shared_ptr<mw::Component> clone_ptr(new_state);
 	return clone_ptr;

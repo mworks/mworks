@@ -1436,22 +1436,17 @@ TaskSystemState::TaskSystemState() : State() {
 //}
 
 TaskSystemState::~TaskSystemState() {
-    
-	if(!isAClone()){
-		if(action_list) {
-			delete action_list;
-			action_list = NULL;
-		}
-		if(transition_list) {
-			delete transition_list;
-			transition_list = NULL;
-		}
-	}
+    if(action_list) {
+        delete action_list;
+        action_list = NULL;
+    }
+    if(transition_list) {
+        delete transition_list;
+        transition_list = NULL;
+    }
 }
 
 shared_ptr<mw::Component> TaskSystemState::createInstanceObject(){
-	//void *TaskSystemState::scopedClone(){
-	
 	shared_ptr<mw::Component> alias(getSelfPtr<mw::Component>());
 	return alias;
 	
@@ -1466,8 +1461,6 @@ shared_ptr<mw::Component> TaskSystemState::createInstanceObject(){
 //	// TODO: copy the list objects?
 //	new_state->setActionList(action_list);
 //	new_state->setTransitionList(transition_list);
-//	
-//	new_state->setIsAClone(true);	// in case we care for memory-freeing purposes
 //	
 //	shared_ptr<mw::Component> clone_ptr(new_state);
 //	return clone_ptr;
@@ -1605,8 +1598,6 @@ TaskSystem::TaskSystem() : ContainerState() {
 TaskSystem::~TaskSystem() {  }
 
 shared_ptr<mw::Component> TaskSystem::createInstanceObject(){
-	//void *TaskSystem::scopedClone(){
-	
 	TaskSystem *new_state;
 	
 	if(!parent.expired()){
@@ -1629,15 +1620,13 @@ shared_ptr<mw::Component> TaskSystem::createInstanceObject(){
 		new_state->setLocalScopedVariableContext(con);
 	} else {
 		merror(M_PARADIGM_MESSAGE_DOMAIN,
-			   "Attempt to scopedClone a state without an associated scoped environment");
+			   "Attempt to clone a state without an associated scoped environment");
 	}
 	
 	new_state->setDescription(getDescription());
 	new_state->setName(getName());
 	
 	new_state->setList(getList());
-	
-	new_state->setIsAClone(true);	// in case we care for memory-freeing purposes
 	
 	shared_ptr<mw::Component> clone_ptr(new_state);
 	return clone_ptr;

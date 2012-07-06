@@ -19,7 +19,6 @@
 #include "Utilities.h"
 #include "Selection.h"
 #include "ScopedVariableContext.h"
-#include "Clonable.h"
 #include "Selectable.h"
 #include "StandardVariables.h"
 #include "ScopedVariableEnvironment.h"
@@ -34,10 +33,8 @@ using namespace std;
 //#define announceState(statename) fprintf(stderr, "=> Current State: %s (%d)\n", statename, (int)this); fflush(stderr);
 #define announceState(x);
 
-class State : public ScopedVariableEnvironment, 
-			   public Clonable, 
-			   public mw::Component,
-			   public ComponentFactory {
+class State : public ScopedVariableEnvironment, public Component {
+    
 	protected:
         // who immediately owns this state? (e.g. a block)
         weak_ptr<State> parent;	
@@ -79,7 +76,6 @@ class State : public ScopedVariableEnvironment,
 		virtual void requestVariableContext();
 
 		virtual shared_ptr<mw::Component> createInstanceObject();
-		virtual void *scopedClone(); // deprecated
 
 		void setParameters(std::map<std::string, std::string> parameters,
 											ComponentRegistry *reg);
@@ -119,11 +115,6 @@ class State : public ScopedVariableEnvironment,
         
 		shared_ptr<ScopedVariableContext> getLocalScopedVariableContext();
 
-		// this is a semi-shallow copy that just keeps pointers to most things
-		// except the variable context, for which it gets a new object that points
-		// through at the original
-		State *getStateInstance();
-
 		void setInterruptible(bool _interruptible){ interruptible = _interruptible; }
 		bool isInterruptible();
 		
@@ -152,22 +143,6 @@ class State : public ScopedVariableEnvironment,
         
 };
 
-
-class StateReference : public State {
-
-	protected:
-		State *state;
-	
-	public:
-	
-		StateReference(State *ref);
-		
-		virtual void action();
-		virtual weak_ptr<State> next();
-		
-		virtual void update();
-
-};
 
 class ContainerState : public State {
 

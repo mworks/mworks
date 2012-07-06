@@ -246,12 +246,6 @@ class Experiment : public ContainerState {
 	    shared_ptr<VariableRegistry> getVariableRegistry();
 
 
-		// because SWIG eats ass
-		virtual State *getStateInstance();
-//		virtual void addState(shared_ptr<State> state);
-		//virtual void addState(int index, shared_ptr<State> state);
-//		
-		
 		virtual void finalize(std::map<std::string, std::string> parameters,
 												ComponentRegistry *reg) {
 			current_state = getSelfPtr<State>();

@@ -251,22 +251,7 @@ shared_ptr<ScopedVariableContext> State::getLocalScopedVariableContext() {
     return local_variable_context;
 }
 
-// semi shallow copy
-State *State::getStateInstance(){
-	// clone this object
-	// this depends on an appropriate implementation
-	// of clone in inherited versions of this class
-	State *new_state = (State *)scopedClone();
-	
-	// "inherit" the local variable context from this object
-	//new_state->inheritLocalScopedVariableContext(getLocalScopedVariableContext());
-	
-	return new_state;
-}
-
 shared_ptr<mw::Component> State::createInstanceObject(){
-//void *State::scopedClone(){
-	
 	State *new_state = new State();
 	new_state->setParent(parent);
 	//new_state->setLocalScopedVariableContext(new ScopedVariableContext());
@@ -278,21 +263,6 @@ shared_ptr<mw::Component> State::createInstanceObject(){
 	
 	shared_ptr<mw::Component> clone_ptr(new_state);
 	return clone_ptr;
-}
-
-// TODO: deprecated
-void *State::scopedClone(){
-	
-	State *new_state = new State();
-	new_state->setParent(parent);
-	//new_state->setLocalScopedVariableContext(new ScopedVariableContext());
-	//new_state->setLocalScopedVariableContext(getLocalScopedVariableContext());
-	new_state->setExperiment(getExperiment());
-	new_state->setScopedVariableEnvironment(getScopedVariableEnvironment());
-	new_state->setDescription(getDescription());
-	new_state->setName(getName());
-	
-	return new_state;
 }
 
 
@@ -329,37 +299,7 @@ void State::setDescription(std::string d) {
 std::string State::getDescription() {
     return description;
 }
-
-
-/*shared_ptr<mw::Component> State::createInstanceObject(){
-	mw::Component *clone = (mw::Component *)scopedClone();
-	shared_ptr<mw::Component> the_alias((mw::Component *)clone);
-	return the_alias;
-}*/
         
-
-StateReference::StateReference(State *ref){
-	state = ref;
-}
-		
-void StateReference::action(){
-	weak_ptr<State> old_parent = state->getParent();
-	state->setParent(parent);
-	state->action();
-	state->setParent(old_parent);
-}
-weak_ptr<State> StateReference::next(){
-	weak_ptr<State> old_parent = state->getParent();
-	state->setParent(parent);
-	weak_ptr<State> return_state = state->next();
-	state->setParent(old_parent);
-	return return_state;
-}
-
-
-void StateReference::update(){
-	state->update();
-}
 
 //mContainerState::ContainerState(Experiment *exp) : 
 //	 State(exp),
@@ -383,9 +323,6 @@ ContainerState::ContainerState() :
 }*/
 
 ContainerState::~ContainerState() {
-/*	if(!isAClone()){
-		delete(list);
-	}	*/
 }
 
 /*void ContainerState::addState(shared_ptr<State> newstate) {
@@ -413,8 +350,6 @@ void ContainerState::addState(int index, shared_ptr<State> newstate) {
 
 
 shared_ptr<mw::Component> ContainerState::createInstanceObject(){
-//void *ContainerState::scopedClone(){
-
 	ContainerState *new_state = new ContainerState();
 	new_state->setExperiment(getExperiment());
 	new_state->setScopedVariableEnvironment(getScopedVariableEnvironment());
@@ -424,7 +359,6 @@ shared_ptr<mw::Component> ContainerState::createInstanceObject(){
 
 	new_state->setList(list);
 	
-	new_state->setIsAClone(true);	// in case we care for memory-freeing purposes
 	shared_ptr<mw::Component> clone_ptr(new_state);
 	return clone_ptr;
 }
@@ -449,8 +383,6 @@ ListState::~ListState() {
 
 
 shared_ptr<mw::Component> ListState::createInstanceObject(){
-//void *ListState::scopedClone(){
-
 	ListState *new_state = new ListState();
 	new_state->setParent(parent);
 	//new_state->setLocalScopedVariableContext(new ScopedVariableContext());
@@ -476,7 +408,6 @@ shared_ptr<mw::Component> ListState::createInstanceObject(){
 		(new_state->getSelection())->setNItems(list->getNElements());
 	}*/
 	
-	new_state->setIsAClone(true);	// in case we care for memory-freeing purposes
 	shared_ptr<mw::Component> clone_ptr(new_state);
 	return clone_ptr;
 }

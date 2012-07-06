@@ -31,7 +31,7 @@ class ScopedVariable : public Variable {
 	
 	
 	/**
-	 *  A polymorphic copy constructor (inherited from Clonable)
+	 *  A polymorphic copy constructor
 	 */
 	virtual Variable *clone();
 	

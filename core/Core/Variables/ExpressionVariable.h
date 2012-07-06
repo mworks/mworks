@@ -62,7 +62,7 @@ class	ExpressionVariable : public Variable {
 		
 		
 		/**
-		 *  A polymorphic copy constructor (inherited from Clonable)
+		 *  A polymorphic copy constructor
 		 */
 		virtual Variable *clone(){
 			ExpressionVariable *returned = new ExpressionVariable((const ExpressionVariable&)(*this));
@@ -117,7 +117,7 @@ class	ParsedExpressionVariable : public Variable {
 		virtual void setSilentValue(Datum _value){ return; }
 		
 		/**
-		 *  A polymorphic copy constructor (inherited from Clonable)
+		 *  A polymorphic copy constructor
 		 */
 		virtual Variable *clone(){
 			ParsedExpressionVariable *returned = 

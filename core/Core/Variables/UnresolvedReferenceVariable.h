@@ -117,7 +117,7 @@ class UnresolvedReferenceVariable : public Variable {
 		virtual void setSilentValue(Datum _value){ return; }
 		
 		/**
-		 *  A polymorphic copy constructor (inherited from Clonable)
+		 *  A polymorphic copy constructor
 		 */
 		virtual Variable *clone(){
 			UnresolvedReferenceVariable *returned = 
