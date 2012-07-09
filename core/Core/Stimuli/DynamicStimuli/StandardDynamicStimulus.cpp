@@ -55,7 +55,7 @@ void StandardDynamicStimulus::draw(shared_ptr<StimulusDisplay> display) {
 
 Datum StandardDynamicStimulus::getCurrentAnnounceDrawData() {
     Datum announceData(M_DICTIONARY, 5);
-    announceData.addElement(STIM_NAME, tag);
+    announceData.addElement(STIM_NAME, getTag());
     announceData.addElement(STIM_ACTION, STIM_ACTION_DRAW);
     announceData.addElement(STIM_TYPE, "standard_dynamic_stimulus");  
     announceData.addElement("start_time", getStartTime());  

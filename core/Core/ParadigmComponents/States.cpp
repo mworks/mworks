@@ -19,7 +19,9 @@
 #include "RandomWORSelection.h"
 #include "RandomWithReplacementSelection.h"
 
-using namespace mw;
+
+BEGIN_NAMESPACE_MW
+
 
 ///////////////////////////////////////////////////////////////////
 // -> Required Parameters
@@ -71,68 +73,6 @@ void State::requestVariableContext(){
 												
 }
 
-
-//mState::State(Experiment *exp) : ScopedVariableEnvironment() {
-//    experiment = exp;
-//	parent = weak_ptr<State>();
-//    name = "mState";
-//    description = "";
-//	if(experiment) {
-//		local_variable_context = experiment->createNewContext();
-//		setScopedVariableEnvironment(experiment);
-//	} else if(GlobalCurrentExperiment){
-//		local_variable_context = GlobalCurrentExperiment->createNewContext();
-//		setScopedVariableEnvironment(GlobalCurrentExperiment);
-//	} else {
-//		merror(M_SYSTEM_MESSAGE_DOMAIN,
-//			   "Attempt to create a state object without a valid variable environment in place (2)");
-//	}
-//
-//	setCurrentContext(local_variable_context);
-//	interruptible = true;
-//	
-//}
-	
-//mState::State(weak_ptr<State> newparent) : ScopedVariableEnvironment()  {
-//    parent = newparent;
-//    name = "mState";
-//    description ="";
-//	
-//	interruptible = true;
-//	
-//    if(parent) {
-//        experiment = parent->getExperiment();
-//    } else {
-//        experiment = NULL;
-//    }
-//    
-//	if(experiment == NULL){
-//		experiment = GlobalCurrentExperiment;
-//	}
-//	
-//	// TODO: still a problem here
-//	if(experiment != NULL) {
-//		local_variable_context = experiment->createNewContext();
-//		setScopedVariableEnvironment(experiment);
-//	} else {
-//		merror(M_SYSTEM_MESSAGE_DOMAIN,
-//			   "Attempt to create a state object without a valid variable environment in place (3)");
-//		local_variable_context = shared_ptr<ScopedVariableContext>(new ScopedVariableContext(NULL));
-//	}
-//	
-//	setCurrentContext(local_variable_context);
-//	
-//    if(parent != NULL && parent->getLocalScopedVariableContext() != NULL){
-////        local_variable_context = new ScopedVariableContext(parent->getLocalScopedVariableContext());
-//		local_variable_context->inheritFrom(parent->getLocalScopedVariableContext());
-//	}// else {
-////	    local_variable_context = new ScopedVariableContext();  // DEAL WITH THIS EVENTUALLY
-// //   }
-//	
-//}
-	
-State::~State() { }
-
 void State::action() {
     currentState->setValue(getCompactID());
 	//currentState->setValue(tag);
@@ -145,11 +85,11 @@ void State::action() {
 	updateCurrentScopedVariableContext();
 }
 
-void  State::update() { } 	
 
 weak_ptr<State> State::next() {
     return weak_ptr<State>();
 }
+
 
 void State::setParent(weak_ptr<State> newparent) {
     parent = newparent;
@@ -214,22 +154,7 @@ void State::updateCurrentScopedVariableContext() {
 	}
 }	
 
-void State::reset() { }
 
-//void  State::announceIdentity() {
-// Datum nameString(name);
-//	announce(nameString);
-//}
-//
-
-weak_ptr<State> State::getParent() {
-    return parent;
-}
-
-weak_ptr<Experiment> State::getExperiment() {
-    return experiment;
-}
-        
 void State::setExperiment(weak_ptr<Experiment> _experiment) {
     experiment = _experiment;
 }
@@ -266,7 +191,7 @@ shared_ptr<mw::Component> State::createInstanceObject(){
 }
 
 
-bool State::isInterruptible() {
+bool State::isInterruptible() const {
     if (!interruptible) {
         return false;
     }
@@ -277,27 +202,6 @@ bool State::isInterruptible() {
     }
     
     return true;
-}
-
-
-void State::setName(std::string n) {  
-	name = n;
-}
-
-void State::setName(const char *n){
-	name = n;
-}
-
-std::string State::getName() {
-    return name;
-}
-
-void State::setDescription(std::string d) {
-	description = d;
-}
-
-std::string State::getDescription() {
-    return description;
 }
         
 
@@ -645,3 +549,6 @@ int ListState::getNItems() { return getNChildren(); }
 
 shared_ptr< vector< shared_ptr<State> > > ContainerState::getList() { return list; }
 void ContainerState::setList(shared_ptr< vector< shared_ptr<State> > > newlist){  list = newlist; }
+
+
+END_NAMESPACE_MW

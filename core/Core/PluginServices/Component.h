@@ -28,7 +28,7 @@ namespace mw {
 	
 	class Component : public enable_shared_from_this<Component>{
 		
-	protected:
+	private:
 		
 		std::string tag;
 		std::string reference_id;
@@ -47,7 +47,7 @@ namespace mw {
         static void describeComponent(ComponentInfo &info);
         
         explicit Component(const Map<ParameterValue> &parameters);
-        explicit Component(std::string _tag = "", std::string _sig = "");
+        explicit Component(const std::string &_tag = "", const std::string &_sig = "");
 		
 		virtual ~Component(){ }
 		
@@ -56,7 +56,7 @@ namespace mw {
 			reference_id = copy.reference_id;
 		}
 		
-		virtual bool isAmbiguous(){ return false; }
+		virtual bool isAmbiguous() const { return false; }
 		
 		//virtual void setSelfPtr(weak_ptr<mw::Component> ptr){ self_ptr = ptr; }
 		
@@ -74,16 +74,16 @@ namespace mw {
 			return weakened;
 		}
 		
-		virtual void setTag(std::string _tag){ tag = _tag; }
-		virtual std::string getTag(){	return tag;  }
+		void setTag(const std::string &_tag) { tag = _tag; }
+		const std::string& getTag() const { return tag; }
 		
-		void setReferenceID(std::string ref_id){  reference_id = ref_id; }
-		std::string getReferenceID(){  return reference_id;  }
+		void setReferenceID(const std::string &ref_id) { reference_id = ref_id; }
+		const std::string& getReferenceID() const { return reference_id; }
 		
-        void setObjectSignature(std::string _sig){  object_signature = _sig; }
-        std::string getObjectSignature(){ return object_signature; }
+        void setObjectSignature(const std::string &_sig) { object_signature = _sig; }
+        const std::string& getObjectSignature() const { return object_signature; }
         
-		long getCompactID(){  return compact_id;  }
+		long getCompactID() const { return compact_id; }
 		
 		
 		virtual shared_ptr<mw::Component> createInstanceObject(){
@@ -104,7 +104,7 @@ namespace mw {
 			return;
 		}
 		
-        virtual string getStringRepresentation(){
+        virtual std::string getStringRepresentation() const {
             return getTag();
         }
         
@@ -121,17 +121,17 @@ namespace mw {
 		
     public:
 		
-		virtual bool isAmbiguous(){  return true; }
+		virtual bool isAmbiguous() const {  return true; }
 		
-		virtual void addAmbiguousComponent(shared_ptr<mw::Component> component_to_add){
+		void addAmbiguousComponent(shared_ptr<mw::Component> component_to_add){
 			ambiguous_components.push_back(component_to_add);
 		}
 		
-		virtual vector< shared_ptr<mw::Component> > getAmbiguousComponents(){
+		const vector< shared_ptr<mw::Component> >& getAmbiguousComponents() const {
 			return ambiguous_components;
 		}
         
-        virtual string getStringRepresentation();
+        virtual std::string getStringRepresentation() const;
 		
 	};
 }
