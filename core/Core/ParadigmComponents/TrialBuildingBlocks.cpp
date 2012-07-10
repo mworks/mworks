@@ -51,7 +51,7 @@ Action::Action() : State() {
 }	
 
 Action::~Action() {
-    parent = weak_ptr<State>();
+    setParent(shared_ptr<State>());
 	if(taskRef) { taskRef->cancel(); }
 }
 
@@ -62,15 +62,10 @@ bool Action::execute() {
 void Action::action(){ 
 	announceEntry();
 	execute(); 
-	announceExit();
 }
 
 void Action::announceEntry() {
 	currentState->setValue(getCompactID());
-}
-
-void Action::announceExit() {
-    // no need to do this
 }
 
 
@@ -79,30 +74,22 @@ void Action::setName(const std::string &_name) {
 }
 
 weak_ptr<State> Action::next(){ 
-	
-	shared_ptr<State> parent_shared(parent);
-	parent_shared->update();
-	parent_shared->updateCurrentScopedVariableContext();
-	return parent; 
+	shared_ptr<State> parent_shared(getParent());
+    if (parent_shared) {
+        parent_shared->update();
+        parent_shared->updateCurrentScopedVariableContext();
+    }
+	return parent_shared;
 }
 
 void Action::setOwner(weak_ptr<State> _parent) {
-	parent = _parent;
+	setParent(_parent.lock());
 }
 
 weak_ptr<State> Action::getOwner() {
-	return parent;
+	return getParent();
 }
 
-
-weak_ptr<Experiment> Action::getExperiment() {
-	if(!parent.expired()) {
-		shared_ptr<State> parent_shared(parent);
-		return parent_shared->getExperiment();
-	} 	
-	//mprintf("Action has no parent experiment");
-	return weak_ptr<Experiment>();
-}
 
 ActionVariableNotification::ActionVariableNotification(shared_ptr<Action> _action){
 	action = _action;
@@ -1409,8 +1396,8 @@ weak_ptr<State> YieldToParent::execute() {
 		return weak_ptr<State>(GlobalCurrentExperiment);
 	}
 	
-	weak_ptr<State> parent = owner_shared->getParent();
-	if(parent.expired()) {
+	shared_ptr<State> parent = owner_shared->getParent();
+	if (!parent) {
 		merror(M_PARADIGM_MESSAGE_DOMAIN, 
 			   "Attempting to yield in an owner-less transition");
 		return GlobalCurrentExperiment;
@@ -1425,7 +1412,7 @@ TaskSystemState::TaskSystemState() : State() {
     done = false;
 	action_list = new ExpandableList<Action>(4);
 	transition_list = new ExpandableList<TransitionCondition>(4);
-	name = "mTaskSystemState";
+	setTag("TaskSystemState");
 }
 
 //mTaskSystemState::TaskSystemState(State *parent) : State(parent) {
@@ -1485,7 +1472,6 @@ void TaskSystemState::action() {
 			//cerr << "a" << i << "(" << (*action_list)[i] << ", normal execution)" << endl;
 			the_action->announceEntry();
 			the_action->execute();
-			the_action->announceExit();
 		}
 	}
 }
@@ -1514,9 +1500,9 @@ weak_ptr<State> TaskSystemState::next() {
 			shared_ptr<State> trans_shared(trans);
 			done = false;
 			
-			shared_ptr<State> parent_shared(parent);
+			shared_ptr<State> parent_shared(getParent());
 			if(trans_shared.get() != parent_shared.get()){
-				trans_shared->setParent(parent); // TODO: this gets set WAY too many times
+				trans_shared->setParent(parent_shared); // TODO: this gets set WAY too many times
 			}
 			
 			trans_shared->updateCurrentScopedVariableContext();
@@ -1588,7 +1574,7 @@ ExpandableList<TransitionCondition> * TaskSystemState::getTransitionList() {
 TaskSystem::TaskSystem() : ContainerState() {
 	
 	execution_triggered = 0;
-	name = "mTaskSystem";
+	setTag("TaskSystem");
 }
 
 //mTaskSystem::TaskSystem(State *parent) : ContainerState(parent) {
@@ -1616,16 +1602,12 @@ shared_ptr<mw::Component> TaskSystem::createInstanceObject(){
 }
 
 void TaskSystem::updateHierarchy() {
-	if(parent.expired()){
-		// do nothing
-	} else {
-        // update various settings with respect to hierarchy
-		setParent(parent);
-	}
+    State::updateHierarchy();
+    
+    shared_ptr<State> self_ptr = component_shared_from_this<State>();
 	for(unsigned int i = 0; i < list->size(); i++) {
         // recurse down the hierarchy
 		// TODO: here there be dragons
-		weak_ptr<State> self_ptr = getSelfPtr<State>();
 		(list->operator[](i))->setParent(self_ptr);
 		
 		(list->operator[](i))->updateHierarchy();
@@ -1652,12 +1634,12 @@ weak_ptr<State> TaskSystem::next() {
 		execution_triggered = 0;
 		//mprintf("Returning parent");
 		// TODO: deal with updating etc.
-		if(!parent.expired()){
-			shared_ptr<State> parent_shared(parent);
+        shared_ptr<State> parent_shared(getParent());
+		if (parent_shared) {
 			parent_shared->update();
 			parent_shared->updateCurrentScopedVariableContext();
 			reset();
-			return parent;
+			return parent_shared;
 		} else {
 			// TODO: better throw
 			throw SimpleException("Attempt to access invalid parent object");
@@ -1670,10 +1652,10 @@ weak_ptr<State> TaskSystem::next() {
 		} else {
 			mwarning(M_PARADIGM_MESSAGE_DOMAIN,
 					 "Warning: trial object contains no list");
-			if(!parent.expired()){
-				shared_ptr<State> parent_shared(parent);
+            shared_ptr<State> parent_shared(getParent());
+			if (parent_shared) {
 				parent_shared->updateCurrentScopedVariableContext();
-				return parent;
+				return parent_shared;
 			} else {
 				// TODO: better throw
 				throw SimpleException("Attempt to access an invalid parent");
@@ -1703,7 +1685,7 @@ weak_ptr<State> TaskSystem::getStartState() {
 		return list->operator[](0);
 	} else {
 		mprintf("Error: attempt to run an empty trial");
-		return parent;
+		return getParent();
 	}
 }
 

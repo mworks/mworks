@@ -40,6 +40,18 @@ namespace mw {
 		long compact_id;
 		
 		static long _id_count;
+        
+    protected:
+        template <typename T>
+        shared_ptr<T> clone() {
+            shared_ptr<T> new_component(new T);
+            
+            new_component->setTag(getTag());
+            new_component->setReferenceID(getReferenceID());
+            new_component->setObjectSignature(getObjectSignature());
+            
+            return new_component;
+        }
 		
 	public:
         static const std::string TAG;

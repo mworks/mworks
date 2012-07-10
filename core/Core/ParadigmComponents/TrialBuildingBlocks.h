@@ -56,7 +56,6 @@ public:
     virtual void setOwner(weak_ptr<State> _parent);
     virtual weak_ptr<State> getOwner();
     
-    virtual weak_ptr<Experiment> getExperiment();
     void setName(const std::string &_name);
     
     // Fancier features
@@ -64,7 +63,6 @@ public:
     Variable *getDelay(){ return delay; };
     
     virtual void announceEntry();
-    virtual void announceExit();
     
     // State methods
     virtual void action();

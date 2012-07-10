@@ -22,8 +22,7 @@ Experiment::Experiment(shared_ptr<VariableRegistry> var_reg)
 	
 	// These fields will eventually be self-referential (set during "finalize")
 	current_state = weak_ptr<State>();
-	experiment = weak_ptr<Experiment>();
-	environment = weak_ptr<ScopedVariableEnvironment>();
+	setScopedVariableEnvironment(weak_ptr<ScopedVariableEnvironment>());
 	
     experimentName = "";
 	setName(experimentName);
@@ -41,8 +40,7 @@ void Experiment::createVariableContexts(){
 		return;
 	}
 	
-	local_variable_context = createNewDefaultContext();
-	setCurrentContext(local_variable_context);
+    setLocalScopedVariableContext(createNewDefaultContext());
 	//local_variable_context = variable_registry->createLocalVariableContext();
 	
 }

@@ -41,8 +41,6 @@ BEGIN_NAMESPACE_MW
 
 State::State() : ScopedVariableEnvironment() {
 	experiment = weak_ptr<Experiment>(GlobalCurrentExperiment);
-	parent = weak_ptr<State>();
-    name = "";
     description = "";
 
 	requestVariableContext();
@@ -77,8 +75,8 @@ void State::action() {
     currentState->setValue(getCompactID());
 	//currentState->setValue(tag);
 	
-	if(!experiment.expired()){
-		shared_ptr<Experiment> experiment_shared(experiment);
+    shared_ptr<Experiment> experiment_shared(getExperiment());
+	if (experiment_shared) {
 		experiment_shared->announceLocalVariables();
 	}
 	
@@ -91,28 +89,26 @@ weak_ptr<State> State::next() {
 }
 
 
-void State::setParent(weak_ptr<State> newparent) {
+void State::setParent(shared_ptr<State> newparent) {
     parent = newparent;
     
-    if(!newparent.expired()) {
-		shared_ptr<State> newparent_locked = shared_ptr<State>(newparent);
-        setExperiment(newparent_locked->getExperiment());
-        setScopedVariableEnvironment(newparent_locked->getScopedVariableEnvironment());
+    if (newparent) {
+        setExperiment(newparent->getExperiment());
+        setScopedVariableEnvironment(newparent->getScopedVariableEnvironment());
     } else {
         mprintf("Setting experiment and localVariableEnvironment fields to NULL");
-        setExperiment(weak_ptr<Experiment>());
+        setExperiment(shared_ptr<Experiment>());
         setScopedVariableEnvironment(weak_ptr<ScopedVariableEnvironment>());
     }
                 
-    if(local_variable_context == NULL) {
+    if (local_variable_context == NULL) {
 		merror(M_SYSTEM_MESSAGE_DOMAIN,
 			  "Invalid variable context in state object");
         local_variable_context = shared_ptr<ScopedVariableContext>(new ScopedVariableContext(NULL));
     }
 	
-	shared_ptr<State> parent_locked(parent);
-    if(parent_locked != NULL && parent_locked->getLocalScopedVariableContext() != NULL) {
-        local_variable_context->inheritFrom(parent_locked->getLocalScopedVariableContext());
+    if (newparent && newparent->getLocalScopedVariableContext()) {
+        local_variable_context->inheritFrom(newparent->getLocalScopedVariableContext());
     } else {
 		merror(M_SYSTEM_MESSAGE_DOMAIN,
 			   "Invalid parent or parent variable context");
@@ -124,10 +120,9 @@ void State::setParent(weak_ptr<State> newparent) {
 }	
 	
 void State::updateHierarchy() {
-	if(parent.expired()) {
-        // do nothing
-    } else {
-        setParent(parent);  // refresh LocalScopedVariableContext, experiment, etc.
+    shared_ptr<State> sharedParent = getParent();
+	if (sharedParent) {
+        setParent(sharedParent);  // refresh LocalScopedVariableContext, experiment, etc.
     }
 }
 
@@ -136,8 +131,8 @@ void State::updateCurrentScopedVariableContext() {
 		shared_ptr<ScopedVariableEnvironment> environment_shared(environment);
 		environment_shared->setCurrentContext(local_variable_context);
 		
-		if(!parent.expired()) {
-			shared_ptr<State> parent_shared(parent);
+        shared_ptr<State> parent_shared(parent);
+		if (parent_shared) {
 			shared_ptr<ScopedVariableContext> parentContext = parent_shared->getLocalScopedVariableContext();
 			if(parentContext) {
 				int numScopedVars = local_variable_context->getNFields();
@@ -154,10 +149,6 @@ void State::updateCurrentScopedVariableContext() {
 	}
 }	
 
-
-void State::setExperiment(weak_ptr<Experiment> _experiment) {
-    experiment = _experiment;
-}
 
 weak_ptr<ScopedVariableEnvironment> State::getScopedVariableEnvironment() {
     return environment;
@@ -186,7 +177,7 @@ bool State::isInterruptible() const {
         return false;
     }
     
-    shared_ptr<State> sharedParent = parent.lock();
+    shared_ptr<State> sharedParent(getParent());
     if (sharedParent) {
         return sharedParent->isInterruptible();
     }
@@ -286,7 +277,7 @@ void State::setParameters(std::map<std::string, std::string> parameters,
 	}
 	
 	if(parameters.find("tag") != parameters.end()) {
-		this->setName(parameters.find("tag")->second);
+		this->setTag(parameters.find("tag")->second);
 	} else {
 //		this->setName(tag);				
 	}
@@ -375,12 +366,7 @@ void ListState::finalize(std::map<std::string, std::string> parameters,
 }
 
 void ContainerState::updateHierarchy() {
-	if(parent.expired()) {
-		// do nothing
-	} else {
-		// update various settings with respect to hierarchy
-		setParent(parent); 
-	}
+    State::updateHierarchy();
 	
 	for(unsigned int i = 0; i < list->size(); i++) {
 		// recurse down the hierarchy
@@ -423,9 +409,10 @@ weak_ptr<State> ListState::next() {
 			mwarning(M_PARADIGM_MESSAGE_DOMAIN,
 				"List state returned invalid state at index %d (1)",
 				index);
-			if(!parent.expired()){
+            shared_ptr<State> sharedParent = getParent();
+			if (sharedParent) {
 				update();
-				return parent;
+				return sharedParent;
 			} else {
 				
 				shared_ptr <Clock> clock = Clock::instance();
@@ -439,9 +426,10 @@ weak_ptr<State> ListState::next() {
 			mwarning(M_PARADIGM_MESSAGE_DOMAIN,
 				"List state returned invalid state at index %d (2)",
 				index);
-			if(!parent.expired()){
+            shared_ptr<State> sharedParent = getParent();
+			if (sharedParent) {
 				update();
-				return parent;
+				return sharedParent;
 			} else {
 				shared_ptr <Clock> clock = Clock::instance();
 				clock->sleepMS(10000);
@@ -454,7 +442,7 @@ weak_ptr<State> ListState::next() {
 		if(thestate != NULL && thestate_parent.get() != this) {
 			// this ensures that we find our way back, 
 			// even if something is screwed up
-			thestate->setParent(getSelfPtr<State>());
+			thestate->setParent(component_shared_from_this<State>());
 			updateHierarchy(); // TODO: might want to do this differently
 		}
 		
@@ -465,11 +453,11 @@ weak_ptr<State> ListState::next() {
 		// wait a bit so that I can see what's going on...
 		//tick(10000); 
 		// update my parent to update done tables, etc.
-		shared_ptr<State> parent_shared(parent);
+		shared_ptr<State> parent_shared(getParent());
 		parent_shared->update(); 
 		parent_shared->updateCurrentScopedVariableContext();
 		reset();
-		return parent;
+		return parent_shared;
 	}
 }
 

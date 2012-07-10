@@ -41,7 +41,7 @@ class Experiment;
 
 class State : public ScopedVariableEnvironment, public Component {
     
-protected:
+private:
     // who immediately owns this state? (e.g. a block)
     weak_ptr<State> parent;	
     
@@ -51,20 +51,19 @@ protected:
     
     shared_ptr<ScopedVariableContext> local_variable_context;
     
-    // name of the state for user display
-    std::string name;
+    // description of the state for user display
     std::string description;
     
     bool interruptible;
     
+protected:
     template <typename T>
     shared_ptr<T> clone() {
-        shared_ptr<T> new_state(new T);
+        shared_ptr<T> new_state(Component::clone<T>());
         
-        new_state->setParent(parent);
+        new_state->setParent(getParent());
         new_state->setExperiment(getExperiment());
         new_state->setScopedVariableEnvironment(getScopedVariableEnvironment());
-        new_state->setName(getName());
         new_state->setDescription(getDescription());
         new_state->setInterruptible(interruptible);
         
@@ -102,8 +101,8 @@ public:
      */
     virtual weak_ptr<State> next();
     
-    virtual void setParent(weak_ptr<State> newparent);
-    weak_ptr<State> getParent() { return parent; }
+    virtual void setParent(shared_ptr<State> newparent);
+    shared_ptr<State> getParent() const { return parent.lock(); }
     
     virtual void updateHierarchy();
     
@@ -112,8 +111,8 @@ public:
     //        virtual void announceIdentity();
     
     //void inheritLocalScopedVariableContext(ScopedVariableContext *newinfo);
-    weak_ptr<Experiment> getExperiment() { return experiment; }
-    virtual void setExperiment(weak_ptr<Experiment> _experiment);
+    shared_ptr<Experiment> getExperiment() const { return experiment.lock(); }
+    void setExperiment(shared_ptr<Experiment> _experiment) { experiment = _experiment; }
     
     virtual weak_ptr<ScopedVariableEnvironment> getScopedVariableEnvironment();
     virtual void setScopedVariableEnvironment(weak_ptr<ScopedVariableEnvironment> _env);
@@ -127,16 +126,10 @@ public:
     bool isInterruptible() const;
     
     /**
-     * Sets the user defined name of the state.  Originally it will be
-     * NULL.
+     * Aliases for setTag/getTag (for backwards compatibility)
      */
-    void setName(const std::string &n) { name = n; }
-    void setName(const char *n) { name = n; }
-    
-    /**
-     * Returns the user defined name or an empty string if no name has been defined.
-     */
-    const std::string& getName() const { return name; }
+    void setName(const std::string &n) { setTag(n); }
+    const std::string& getName() const { return getTag(); }
     
     /**
      * Sets the description for this state.
@@ -196,7 +189,7 @@ public:
         }
         
         list->push_back(state);
-        state->setParent(getSelfPtr<State>());
+        state->setParent(component_shared_from_this<State>());
         state->updateHierarchy();
         
     }

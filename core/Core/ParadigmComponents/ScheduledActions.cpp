@@ -86,7 +86,6 @@ void ScheduledActions::executeActions() {
 	for(int i = 0; i < action_list.getNElements(); i++){
 		action_list[i]->announceEntry();
 		action_list[i]->execute();
-		action_list[i]->announceExit();
 	}
 	++nRepeated;
 }
