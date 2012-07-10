@@ -57,6 +57,20 @@ protected:
     
     bool interruptible;
     
+    template <typename T>
+    shared_ptr<T> clone() {
+        shared_ptr<T> new_state(new T);
+        
+        new_state->setParent(parent);
+        new_state->setExperiment(getExperiment());
+        new_state->setScopedVariableEnvironment(getScopedVariableEnvironment());
+        new_state->setName(getName());
+        new_state->setDescription(getDescription());
+        new_state->setInterruptible(interruptible);
+        
+        return new_state;
+    }
+    
 public:
     /**
      * Default Constructor.
@@ -147,6 +161,13 @@ protected:
     shared_ptr< vector< shared_ptr<State> > > list; // the list of states
     bool accessed;
 	
+    template <typename T>
+    shared_ptr<T> clone() {
+        shared_ptr<T> new_state(State::clone<T>());
+        new_state->setList(list);
+        return new_state;
+    }
+    
 public:
 	
     
@@ -187,6 +208,18 @@ class ListState : public ContainerState, public Selectable {
 protected:
     
     bool has_more_children_to_run;
+    
+    template <typename T>
+    shared_ptr<T> clone() {
+        shared_ptr<T> new_state(ContainerState::clone<T>());
+        
+        shared_ptr<Selection> sel = getSelectionClone();
+        if (sel) {
+            new_state->attachSelection(sel);
+        }
+        
+        return new_state;
+    }
     
 public:
 	

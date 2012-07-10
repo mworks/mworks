@@ -88,8 +88,7 @@ namespace mw {
 		
 		virtual shared_ptr<mw::Component> createInstanceObject(){
 			mprintf("Using base createInstanceObject()");
-			shared_ptr<mw::Component> self_ptr(getSelfPtr<mw::Component>());
-			return self_ptr;
+			return shared_from_this();
 		}
 		
 		virtual void addChild(std::map<std::string, std::string> parameters,

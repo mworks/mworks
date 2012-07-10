@@ -177,17 +177,7 @@ shared_ptr<ScopedVariableContext> State::getLocalScopedVariableContext() {
 }
 
 shared_ptr<mw::Component> State::createInstanceObject(){
-	State *new_state = new State();
-	new_state->setParent(parent);
-	//new_state->setLocalScopedVariableContext(new ScopedVariableContext());
-	//new_state->setLocalScopedVariableContext(getLocalScopedVariableContext());
-	new_state->setExperiment(getExperiment());
-	new_state->setScopedVariableEnvironment(getScopedVariableEnvironment());
-	new_state->setDescription(getDescription());
-	new_state->setName(getName());
-	
-	shared_ptr<mw::Component> clone_ptr(new_state);
-	return clone_ptr;
+    return clone<State>();
 }
 
 
@@ -254,17 +244,7 @@ void ContainerState::addState(int index, shared_ptr<State> newstate) {
 
 
 shared_ptr<mw::Component> ContainerState::createInstanceObject(){
-	ContainerState *new_state = new ContainerState();
-	new_state->setExperiment(getExperiment());
-	new_state->setScopedVariableEnvironment(getScopedVariableEnvironment());
-	new_state->setDescription(getDescription());
-	new_state->setName(getName());
-	
-
-	new_state->setList(list);
-	
-	shared_ptr<mw::Component> clone_ptr(new_state);
-	return clone_ptr;
+    return clone<ContainerState>();
 }
 
 //
@@ -287,33 +267,7 @@ ListState::~ListState() {
 
 
 shared_ptr<mw::Component> ListState::createInstanceObject(){
-	ListState *new_state = new ListState();
-	new_state->setParent(parent);
-	//new_state->setLocalScopedVariableContext(new ScopedVariableContext());
-	new_state->setExperiment(getExperiment());
-	new_state->setScopedVariableEnvironment(getScopedVariableEnvironment());
-	new_state->setDescription(getDescription());
-	new_state->setName(getName());
-	
-	//new_state->setN(getN());
-	//new_state->setSamplingMethod(getSamplingMethod());
-	
-
-	new_state->setList(list);
-	
-	shared_ptr<Selection> sel = getSelectionClone();
-	if(sel != shared_ptr<Selection>()){
-		new_state->attachSelection(sel);
-		//new_state->setSelection((Selection *)(sel->clone()));
-	}
-	
-	// TODO: was this safe to remove?
-	/*if(new_state->getSelection() != NULL){
-		(new_state->getSelection())->setNItems(list->getNElements());
-	}*/
-	
-	shared_ptr<mw::Component> clone_ptr(new_state);
-	return clone_ptr;
+    return clone<ListState>();
 }
 
 
