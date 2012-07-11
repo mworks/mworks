@@ -1412,8 +1412,7 @@ TaskSystemState::~TaskSystemState() {
 }
 
 shared_ptr<mw::Component> TaskSystemState::createInstanceObject(){
-	shared_ptr<mw::Component> alias(getSelfPtr<mw::Component>());
-	return alias;
+	return component_shared_from_this<mw::Component>();
 }
 
 void TaskSystemState::action() {
@@ -1507,7 +1506,7 @@ void TaskSystemState::addTransition(shared_ptr<TransitionCondition> trans) {
 		mprintf("Attempt to add NULL transition");
 		return;
 	}
-	trans->setOwner(getSelfPtr<State>());
+	trans->setOwner(component_shared_from_this<State>());
 	transition_list->addReference(trans);
 }
 

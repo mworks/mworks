@@ -70,21 +70,12 @@ namespace mw {
 		
 		virtual bool isAmbiguous() const { return false; }
 		
-		//virtual void setSelfPtr(weak_ptr<mw::Component> ptr){ self_ptr = ptr; }
-		
         template <class T>
         shared_ptr<T> component_shared_from_this(){
             shared_ptr<mw::Component> shared = shared_from_this();
 			shared_ptr<T> casted = dynamic_pointer_cast<T, mw::Component>(shared);
             return casted;
         }
-        
-		template <class T>
-		weak_ptr<T> getSelfPtr(){
-            shared_ptr<T> casted = component_shared_from_this<T>();
-			weak_ptr<T> weakened(casted);
-			return weakened;
-		}
 		
 		void setTag(const std::string &_tag) { tag = _tag; }
 		const std::string& getTag() const { return tag; }

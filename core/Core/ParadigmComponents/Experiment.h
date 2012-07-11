@@ -248,9 +248,10 @@ class Experiment : public ContainerState {
 
 		virtual void finalize(std::map<std::string, std::string> parameters,
 												ComponentRegistry *reg) {
-			current_state = getSelfPtr<State>();
-			setExperiment(component_shared_from_this<Experiment>());
-			setScopedVariableEnvironment(getSelfPtr<ScopedVariableEnvironment>());
+            shared_ptr<Experiment> self_ptr(component_shared_from_this<Experiment>());
+			current_state = self_ptr;
+			setExperiment(self_ptr);
+			setScopedVariableEnvironment(self_ptr);
 			createVariableContexts();
 		}
 		
