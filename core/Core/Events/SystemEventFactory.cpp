@@ -96,7 +96,7 @@ shared_ptr<Event> SystemEventFactory::protocolPackage() {
 		return empty_ret;
     }
 	
-    shared_ptr< vector< shared_ptr<State> > > protList = GlobalCurrentExperiment->getList();
+    const vector< shared_ptr<State> >& protList = GlobalCurrentExperiment->getList();
 	
 	// get the experiment name
     Datum expName(GlobalCurrentExperiment->getExperimentName());
@@ -104,12 +104,12 @@ shared_ptr<Event> SystemEventFactory::protocolPackage() {
 	
 	
 	// set the protocol list
-    Datum protocolList(M_LIST, (int)protList->size());
+    Datum protocolList(M_LIST, (int)protList.size());
 	
-    for(unsigned int i = 0; i < protList->size(); ++i) {
+    for(unsigned int i = 0; i < protList.size(); ++i) {
         Datum protocolEntry(M_DICTIONARY, 2);
 		
-		shared_ptr <State> protocol = (*protList)[i];
+		shared_ptr <State> protocol = protList[i];
         Datum protocolName(protocol->getName());
 		protocolEntry.addElement(M_PROTOCOL_NAME, protocolName);
 		

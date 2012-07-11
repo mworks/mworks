@@ -142,31 +142,33 @@ public:
 
 class ContainerState : public State {
     
-protected:
+private:
     // Shared pointer to a vector of pointers to states
     // (we need a pointer, rather than a bare object so that multiple 
     //  aliases to the same underlying state can share the same list)
     shared_ptr< vector< shared_ptr<State> > > list; // the list of states
+    
+protected:
     bool accessed;
 	
     template <typename T>
     shared_ptr<T> clone() {
         shared_ptr<T> new_state(State::clone<T>());
-        new_state->setList(list);
+        new_state->list = list;
         return new_state;
     }
     
 public:
-	
-    
     ContainerState();
 	
     virtual shared_ptr<mw::Component> createInstanceObject();
 	
-    shared_ptr< vector< shared_ptr<State> > > getList() { return list; }
-    void setList(shared_ptr< vector< shared_ptr<State> > > newlist) { list = newlist; }
+    const vector< shared_ptr<State> >& getList() const { return *list; }
+    int getNChildren() const { return list->size(); }
     
     virtual void updateHierarchy();
+    
+    virtual void reset();
     
     // mw::Component methods
     virtual void addChild(std::map<std::string, std::string> parameters,
@@ -212,11 +214,6 @@ public:
 	
     // Clone this object, but create new local variable context (aka scope)
     virtual shared_ptr<mw::Component> createInstanceObject();
-	
-    // ContainerState methods
-    virtual int getNChildren() { return list->size(); }
-    //virtual void addState(shared_ptr<State> newstate);
-    //		virtual void addState(int index, shared_ptr<State> newstate);
     
     virtual void update();
     

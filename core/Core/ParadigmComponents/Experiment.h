@@ -262,7 +262,7 @@ class Experiment : public ContainerState {
 			ContainerState::addChild(parameters, reg, child);
 			
 			if(current_protocol == NULL) {
-				shared_ptr<State> first_protocol = list->operator[](0);
+				shared_ptr<State> first_protocol = getList()[0];
 				current_protocol = boost::dynamic_pointer_cast<mw::Protocol, State>(first_protocol); // TODO: remove up-cast
 				current_state = weak_ptr<State>(first_protocol);
 			}

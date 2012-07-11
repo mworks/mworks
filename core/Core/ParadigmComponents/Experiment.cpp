@@ -55,12 +55,12 @@ void Experiment::setStimulusDisplay(shared_ptr<StimulusDisplay> newdisplay) {
 
 
 void Experiment::setCurrentProtocol(unsigned int protocol_number) {
-    if(protocol_number < 0 || protocol_number > list->size()) {
+    if(protocol_number < 0 || protocol_number >= getList().size()) {
 		merror(M_PARADIGM_MESSAGE_DOMAIN,
 			   "Attempt to access invalid protocol number");
     }
 	
-    current_protocol = boost::dynamic_pointer_cast<mw::Protocol, State>((*list)[protocol_number]);
+    current_protocol = boost::dynamic_pointer_cast<mw::Protocol, State>(getList()[protocol_number]);
 	
 	// TODO: is this implicit cast kosher?
 	current_state = weak_ptr<State>(current_protocol);
@@ -72,8 +72,8 @@ void Experiment::setCurrentProtocol(unsigned int protocol_number) {
 void Experiment::setCurrentProtocol(std::string protName) {
     mprintf("Setting protocol to %s", protName.c_str());
 	if(protName.size() == 0) { return; }
-    for(unsigned int i = 0; i < list->size(); i++) {
-        std::string comp = ((*list)[i])->getName();
+    for(unsigned int i = 0; i < getList().size(); i++) {
+        std::string comp = (getList()[i])->getName();
 		
 	    if(comp == protName){
             setCurrentProtocol(i);
@@ -133,9 +133,9 @@ void Experiment::setCurrentState(weak_ptr<State> newstate) {
 void Experiment::action(){
 	variable_registry->announceAll();
 	
-	if(current_protocol.use_count() == 0 && list->size()){
+	if(current_protocol.use_count() == 0 && getList().size()){
 		// TODO: this line is bad
-		current_protocol =  boost::dynamic_pointer_cast<mw::Protocol, State>(list->operator[](0)); // TODO: remove up-cast;
+		current_protocol =  boost::dynamic_pointer_cast<mw::Protocol, State>(getList()[0]); // TODO: remove up-cast;
 	}
 	
 	ContainerState::action();
@@ -150,9 +150,7 @@ weak_ptr<State> Experiment::next() {
 
 
 void Experiment::reset(){
-	for(unsigned int i = 0; i < list->size(); i++){
-		(*list)[i]->reset();
-	}
+    ContainerState::reset();
 	
 	// TODO: is implicit cast kosher?
 	weak_ptr<State> state_ptr(current_protocol);

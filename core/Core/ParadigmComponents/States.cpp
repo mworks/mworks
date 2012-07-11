@@ -294,16 +294,16 @@ void ContainerState::updateHierarchy() {
 	for(unsigned int i = 0; i < list->size(); i++) {
 		// recurse down the hierarchy
 		shared_ptr<State> this_element = (*list)[i];
-		
-		if(this_element == NULL){
-			merror(M_PARADIGM_MESSAGE_DOMAIN,
-					"Null child in container component.  This will cause problems");
-		
-			continue;
-		}
-		
         this_element->setParent(self_ptr);
 		this_element->updateHierarchy(); 
+	}
+}
+
+
+void ContainerState::reset() {
+	for(int i = 0; i < list->size(); i++) {
+		// call recursively down the experiment hierarchy
+		(*list)[i]->reset();  
 	}
 }
 
@@ -341,7 +341,7 @@ weak_ptr<State> ListState::next() {
 			}
 		}
 		//mprintf("State System: Fetching sub-state #%d", index);
-		shared_ptr<State> thestate = (list->operator[](index));
+		shared_ptr<State> thestate = getList()[index];
 		if(thestate == NULL){		
 			mwarning(M_PARADIGM_MESSAGE_DOMAIN,
 				"List state returned invalid state at index %d (2)",
@@ -392,10 +392,7 @@ void ListState::update(){
 
 void ListState::reset() {
 	has_more_children_to_run = true;
-	for(int i = 0; i < getNChildren(); i++) {
-		// call recursively down the experiment hierarchy
-		(*list)[i]->reset();  
-	}
+    ContainerState::reset();
 	if(selection != NULL) {
 		selection->reset();
 	} else {

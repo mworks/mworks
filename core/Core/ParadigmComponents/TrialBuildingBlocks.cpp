@@ -1582,10 +1582,10 @@ weak_ptr<State> TaskSystem::next() {
 			throw SimpleException("Attempt to access invalid parent object");
 		}
 	} else {
-		if(list->size() > 0) {
+		if(getList().size() > 0) {
 			execution_triggered= 1;
 			//mprintf("Trial execution triggered");
-			return list->operator[](0);
+			return getList()[0];
 		} else {
 			mwarning(M_PARADIGM_MESSAGE_DOMAIN,
 					 "Warning: trial object contains no list");
@@ -1603,8 +1603,8 @@ weak_ptr<State> TaskSystem::next() {
 
 
 weak_ptr<State> TaskSystem::getStartState() {
-	if(list->size() > 0) {
-		return list->operator[](0);
+	if(getList().size() > 0) {
+		return getList()[0];
 	} else {
 		mprintf("Error: attempt to run an empty trial");
 		return getParent();
