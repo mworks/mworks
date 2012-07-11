@@ -51,7 +51,6 @@ Action::Action() : State() {
 }	
 
 Action::~Action() {
-    setParent(shared_ptr<State>());
 	if(taskRef) { taskRef->cancel(); }
 }
 
@@ -1436,22 +1435,6 @@ TaskSystemState::~TaskSystemState() {
 shared_ptr<mw::Component> TaskSystemState::createInstanceObject(){
 	shared_ptr<mw::Component> alias(getSelfPtr<mw::Component>());
 	return alias;
-	
-	//mTaskSystemState *new_state = new TaskSystemState();
-//	new_state->setParent(parent);
-//	//new_state->setLocalScopedVariableContext(getLocalScopedVariableContext());
-//	new_state->setExperiment(getExperiment());
-//	new_state->setScopedVariableEnvironment(getScopedVariableEnvironment());
-//	new_state->setDescription(getDescription());
-//	new_state->setName(getName());
-//	
-//	// TODO: copy the list objects?
-//	new_state->setActionList(action_list);
-//	new_state->setTransitionList(transition_list);
-//	
-//	shared_ptr<mw::Component> clone_ptr(new_state);
-//	return clone_ptr;
-//	
 }
 
 void TaskSystemState::action() {
@@ -1503,6 +1486,7 @@ weak_ptr<State> TaskSystemState::next() {
 			shared_ptr<State> parent_shared(getParent());
 			if(trans_shared.get() != parent_shared.get()){
 				trans_shared->setParent(parent_shared); // TODO: this gets set WAY too many times
+                trans_shared->updateHierarchy();
 			}
 			
 			trans_shared->updateCurrentScopedVariableContext();
@@ -1581,7 +1565,6 @@ TaskSystem::TaskSystem() : ContainerState() {
 //	execution_triggered = 0;
 //}
 
-TaskSystem::~TaskSystem() {  }
 
 shared_ptr<mw::Component> TaskSystem::createInstanceObject(){
     shared_ptr<TaskSystem> new_state(clone<TaskSystem>());
@@ -1601,18 +1584,6 @@ shared_ptr<mw::Component> TaskSystem::createInstanceObject(){
 	
 }
 
-void TaskSystem::updateHierarchy() {
-    State::updateHierarchy();
-    
-    shared_ptr<State> self_ptr = component_shared_from_this<State>();
-	for(unsigned int i = 0; i < list->size(); i++) {
-        // recurse down the hierarchy
-		// TODO: here there be dragons
-		(list->operator[](i))->setParent(self_ptr);
-		
-		(list->operator[](i))->updateHierarchy();
-	}
-}
 
 void TaskSystem::action() {
 	//execution_triggered = 1;

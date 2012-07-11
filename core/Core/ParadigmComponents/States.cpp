@@ -23,22 +23,6 @@
 BEGIN_NAMESPACE_MW
 
 
-///////////////////////////////////////////////////////////////////
-// -> Required Parameters
-//
-// Although parameters are normally completely user defined,
-// the following parameters must be declared for the collection
-// of state objects to function properly.  They are only declared
-// here.  They must still be defined and registered by the user
-// in UserData.h
-//
-///////////////////////////////////////////////////////////////////
-
-//mVariabletaskMode_edit;
-//mVariableSAMPLING_ON;
-//mVariableIS_RUNNING;
-
-
 State::State() : ScopedVariableEnvironment() {
 	experiment = weak_ptr<Experiment>(GlobalCurrentExperiment);
     description = "";
@@ -71,9 +55,9 @@ void State::requestVariableContext(){
 												
 }
 
+
 void State::action() {
     currentState->setValue(getCompactID());
-	//currentState->setValue(tag);
 	
     shared_ptr<Experiment> experiment_shared(getExperiment());
 	if (experiment_shared) {
@@ -89,49 +73,39 @@ weak_ptr<State> State::next() {
 }
 
 
-void State::setParent(shared_ptr<State> newparent) {
-    parent = newparent;
-    
-    if (newparent) {
-        setExperiment(newparent->getExperiment());
-        setScopedVariableEnvironment(newparent->getScopedVariableEnvironment());
-    } else {
-        mprintf("Setting experiment and localVariableEnvironment fields to NULL");
-        setExperiment(shared_ptr<Experiment>());
-        setScopedVariableEnvironment(weak_ptr<ScopedVariableEnvironment>());
+void State::updateHierarchy() {
+    shared_ptr<State> sharedParent = getParent();
+	if (!sharedParent) {
+        return;
     }
-                
+    
+    setExperiment(sharedParent->getExperiment());
+    setScopedVariableEnvironment(sharedParent->getScopedVariableEnvironment());
+    
     if (local_variable_context == NULL) {
 		merror(M_SYSTEM_MESSAGE_DOMAIN,
-			  "Invalid variable context in state object");
+               "Invalid variable context in state object");
         local_variable_context = shared_ptr<ScopedVariableContext>(new ScopedVariableContext(NULL));
     }
 	
-    if (newparent && newparent->getLocalScopedVariableContext()) {
-        local_variable_context->inheritFrom(newparent->getLocalScopedVariableContext());
+    if (sharedParent->getLocalScopedVariableContext()) {
+        local_variable_context->inheritFrom(sharedParent->getLocalScopedVariableContext());
     } else {
-		merror(M_SYSTEM_MESSAGE_DOMAIN,
-			   "Invalid parent or parent variable context");
+		merror(M_SYSTEM_MESSAGE_DOMAIN, "Invalid parent variable context");
 		//throw("I don't know what will happen here yet...");
 		//local_variable_context = new ScopedVariableContext();// DEAL WITH THIS EVENTUALLY
 	}
 	
 	setCurrentContext(local_variable_context);
-}	
-	
-void State::updateHierarchy() {
-    shared_ptr<State> sharedParent = getParent();
-	if (sharedParent) {
-        setParent(sharedParent);  // refresh LocalScopedVariableContext, experiment, etc.
-    }
 }
+
 
 void State::updateCurrentScopedVariableContext() {
 	if(!environment.expired()){
 		shared_ptr<ScopedVariableEnvironment> environment_shared(environment);
 		environment_shared->setCurrentContext(local_variable_context);
 		
-        shared_ptr<State> parent_shared(parent);
+        shared_ptr<State> parent_shared(getParent());
 		if (parent_shared) {
 			shared_ptr<ScopedVariableContext> parentContext = parent_shared->getLocalScopedVariableContext();
 			if(parentContext) {
@@ -186,14 +160,6 @@ bool State::isInterruptible() const {
 }
         
 
-//mContainerState::ContainerState(Experiment *exp) : 
-//	 State(exp),
-//	 list(new vector< shared_ptr<State> >){
-//	 
-//	accessed = false;
-//	setName("mContainerState");
-//}
-
 ContainerState::ContainerState() : 
 	State(),
 	list(new vector< shared_ptr<State> >){
@@ -202,47 +168,11 @@ ContainerState::ContainerState() :
 	setName("mContainerState");
 }
 
-/*ContainerState::ContainerState(State *parent) : State(parent){
-	list = new ExpandableList<State>();
-	accessed = false;
-}*/
-
-ContainerState::~ContainerState() {
-}
-
-/*void ContainerState::addState(shared_ptr<State> newstate) {
-
-	if(newstate == NULL) {
-		return;
-		//throw("Attempt to add a null state to a list state");
-	}
-	
-	// add the new object to the expandable list
-	list->addReference(newstate);
-	newstate->setParent(this);
-	
-	// recurse throughout the hierarchy to update parents, 
-	// LocalScopedVariableContext, & experiment
-	////newstate->updateHierarchy(); 
-	
-}
-	
-void ContainerState::addState(int index, shared_ptr<State> newstate) { 
-	list->addReference(index, newstate);
-	newstate->setParent(this);
-	newstate->updateHierarchy(); 
-}*/
-
 
 shared_ptr<mw::Component> ContainerState::createInstanceObject(){
     return clone<ContainerState>();
 }
 
-//
-//mListState::ListState(State *newparent): ContainerState(newparent) {
-//	has_more_children_to_run = true;
-//	setName((char *)"base ListState");
-//}
 
 ListState::ListState() : ContainerState() {
 
@@ -250,17 +180,10 @@ ListState::ListState() : ContainerState() {
 	setName((char *)"base ListState");
 }
 
-ListState::~ListState() {
-	
-	
-	//delete(local_variable_context);
-}
-
 
 shared_ptr<mw::Component> ListState::createInstanceObject(){
     return clone<ListState>();
 }
-
 
 
 void State::setParameters(std::map<std::string, std::string> parameters,
@@ -278,8 +201,6 @@ void State::setParameters(std::map<std::string, std::string> parameters,
 	
 	if(parameters.find("tag") != parameters.end()) {
 		this->setTag(parameters.find("tag")->second);
-	} else {
-//		this->setName(tag);				
 	}
 	
 	if(parameters.find("description") != parameters.end()) {
@@ -367,10 +288,12 @@ void ListState::finalize(std::map<std::string, std::string> parameters,
 
 void ContainerState::updateHierarchy() {
     State::updateHierarchy();
+    
+    shared_ptr<State> self_ptr = component_shared_from_this<State>();
 	
 	for(unsigned int i = 0; i < list->size(); i++) {
 		// recurse down the hierarchy
-		shared_ptr<State> this_element = list->operator[](i);
+		shared_ptr<State> this_element = (*list)[i];
 		
 		if(this_element == NULL){
 			merror(M_PARADIGM_MESSAGE_DOMAIN,
@@ -379,14 +302,11 @@ void ContainerState::updateHierarchy() {
 			continue;
 		}
 		
+        this_element->setParent(self_ptr);
 		this_element->updateHierarchy(); 
 	}
 }
 
-
-int ListState::getNChildren() {
-	return list->size();
-}
 
 weak_ptr<State> ListState::next() {
 
@@ -482,15 +402,6 @@ void ListState::reset() {
 		mwarning(M_PARSER_MESSAGE_DOMAIN,"attempt to reset NULL selection object");
 	}
 }
-
-int ListState::getNItems() { return getNChildren(); }
-
-
-//template <class U, class E>
-//void setInfo(E, U){};
-
-shared_ptr< vector< shared_ptr<State> > > ContainerState::getList() { return list; }
-void ContainerState::setList(shared_ptr< vector< shared_ptr<State> > > newlist){  list = newlist; }
 
 
 END_NAMESPACE_MW

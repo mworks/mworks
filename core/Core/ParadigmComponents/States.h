@@ -76,11 +76,6 @@ public:
      */
     State();
     
-    /**
-     * Destructor.
-     */
-    virtual ~State() { }
-    
     virtual void requestVariableContext();
     
     virtual shared_ptr<mw::Component> createInstanceObject();
@@ -101,7 +96,7 @@ public:
      */
     virtual weak_ptr<State> next();
     
-    virtual void setParent(shared_ptr<State> newparent);
+    void setParent(shared_ptr<State> newparent) { parent = newparent; }
     shared_ptr<State> getParent() const { return parent.lock(); }
     
     virtual void updateHierarchy();
@@ -165,14 +160,11 @@ public:
 	
     
     ContainerState();
-    //mContainerState(Experiment *exp);
-    //		ContainerState(State *parent);
-    virtual ~ContainerState();
 	
     virtual shared_ptr<mw::Component> createInstanceObject();
 	
-    shared_ptr< vector< shared_ptr<State> > >  getList();
-    void setList(shared_ptr< vector< shared_ptr<State> > > newlist);
+    shared_ptr< vector< shared_ptr<State> > > getList() { return list; }
+    void setList(shared_ptr< vector< shared_ptr<State> > > newlist) { list = newlist; }
     
     virtual void updateHierarchy();
     
@@ -217,14 +209,12 @@ protected:
 public:
 	
     ListState();
-    //mListState(State *newparent);
-    virtual ~ListState();
 	
     // Clone this object, but create new local variable context (aka scope)
     virtual shared_ptr<mw::Component> createInstanceObject();
 	
     // ContainerState methods
-    virtual int getNChildren();
+    virtual int getNChildren() { return list->size(); }
     //virtual void addState(shared_ptr<State> newstate);
     //		virtual void addState(int index, shared_ptr<State> newstate);
     
@@ -235,7 +225,7 @@ public:
     virtual void reset();
     
     // Selectable methods
-    virtual int getNItems();
+    virtual int getNItems() { return getNChildren(); }
     
     void finalize(std::map<std::string, std::string> parameters,
                   ComponentRegistry *reg);

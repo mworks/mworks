@@ -716,8 +716,6 @@ public:
 	TaskSystem(State *parent);	
 	
 	virtual shared_ptr<mw::Component> createInstanceObject();
-	virtual ~TaskSystem();	
-	virtual void updateHierarchy();
 	virtual void action();
 	virtual weak_ptr<State> next();
 	
