@@ -39,28 +39,14 @@ BEGIN_NAMESPACE_MW
 // base class for all actions
 class Action : public State, public VariableNotification {
 
-protected:
-    // State *parent;
-    Variable *delay;
-    ScheduleTask *taskRef;
-
 public:
     static void describeComponent(ComponentInfo &info);
 
     explicit Action(const ParameterValueMap &parameters);
     Action();
-    virtual ~Action();
     virtual bool execute();
     
-    // TODO: are these needed
-    virtual void setOwner(weak_ptr<State> _parent);
-    virtual weak_ptr<State> getOwner();
-    
     void setName(const std::string &_name);
-    
-    // Fancier features
-    void setDelay(Variable *_delay){ delay = _delay; }
-    Variable *getDelay(){ return delay; };
     
     virtual void announceEntry();
     

@@ -35,24 +35,16 @@ void Action::describeComponent(ComponentInfo &info) {
 }
 
 Action::Action(const ParameterValueMap &parameters) :
-    State(),  // TODO: pass parameters once State supports them
-    delay(NULL),
-    taskRef(0)
+    State()  // TODO: pass parameters once State supports them
 {
-    setOwner(GlobalCurrentExperiment);   // a bit of kludge for now
+    setParent(GlobalCurrentExperiment);   // a bit of kludge for now
     setName("Action");
 }
 
 Action::Action() : State() {
-    setOwner(GlobalCurrentExperiment);   // a bit of kludge for now
-	delay = NULL;
-	taskRef = 0;
+    setParent(GlobalCurrentExperiment);   // a bit of kludge for now
 	setName("Action");
 }	
-
-Action::~Action() {
-	if(taskRef) { taskRef->cancel(); }
-}
 
 bool Action::execute() {
     return false;
@@ -79,14 +71,6 @@ weak_ptr<State> Action::next(){
         parent_shared->updateCurrentScopedVariableContext();
     }
 	return parent_shared;
-}
-
-void Action::setOwner(weak_ptr<State> _parent) {
-	setParent(_parent.lock());
-}
-
-weak_ptr<State> Action::getOwner() {
-	return getParent();
 }
 
 
@@ -1138,7 +1122,7 @@ If::If(shared_ptr<Variable> v1) {
 If::~If() { }
 
 void If::addAction(shared_ptr<Action> act) {
-	act->setOwner(getOwner());
+    act->setParent(getParent());
 	actionlist.addReference(act);
 }
 
@@ -1519,7 +1503,7 @@ void TaskSystemState::addAction(shared_ptr<Action> act) {
         mprintf("Attempt to add a NULL action");
 		return;
     }
-	act->setOwner(getSelfPtr<State>());
+	act->setParent(component_shared_from_this<State>());
 	action_list->addReference(act);
 }
 

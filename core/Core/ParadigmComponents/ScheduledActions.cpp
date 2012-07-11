@@ -36,7 +36,7 @@ void ScheduledActions::addChild(std::map<std::string, std::string> parameters,
 		throw SimpleException("Attempting to add illegal action (" + child->getTag() + ") to scheduled action (" + this->getTag() + ")");
 	}
 	addAction(act);
-	act->setOwner(getSelfPtr<State>());
+	act->setParent(component_shared_from_this<State>());
 }
 
 bool ScheduledActions::execute(){
