@@ -893,12 +893,12 @@ bool UpdateStimulusDisplay::execute() {
     //if(experiment == NULL) {		// still bad?
 	//experiment = weak_ptr<Experiment>(GlobalCurrentExperiment); // a bit of a kludge
     //}
-    if(experiment.expired() ) {		// there's no making you happy
+    shared_ptr<Experiment> experiment_shared = experiment.lock();
+    if(!experiment_shared) {		// there's no making you happy
         merror(M_PARADIGM_MESSAGE_DOMAIN,
 			   "No experiment object on which to update the display");
         return false;
     } else {
-		shared_ptr<Experiment> experiment_shared(experiment);
         shared_ptr<StimulusDisplay> display = experiment_shared->getStimulusDisplay();
 		
 		if(display){
@@ -1201,7 +1201,6 @@ weak_ptr<State> TransitionCondition::execute() {
 	if(always_go){
 		
 		if(!transition.expired()){
-			shared_ptr<State> transition_shared(transition);
 			currentState->setValue(getCompactID());
             return transition;
 		} else {
@@ -1213,8 +1212,6 @@ weak_ptr<State> TransitionCondition::execute() {
 		//		fflush(stderr); 
 		
 		if(!transition.expired()){
-			shared_ptr<State> transition_shared(transition);
-			//currentState->setValue(name + " to " + transition_shared->getName());
 			currentState->setValue(getCompactID());
 			return transition;
 		} else {
@@ -1305,8 +1302,6 @@ weak_ptr<State> TransitionIfTimerExpired::execute() {
 		//fprintf(stderr, "===> Going because timer expired\n");
 		//fflush(stderr);
 		if(!transition.expired()){
-			shared_ptr<State> transition_shared(transition);
-			//currentState->setValue(name + " to " + transition_shared->getName());
 			currentState->setValue(getCompactID());
             return transition;
 		} else {
@@ -1463,8 +1458,8 @@ weak_ptr<State> TaskSystemState::next() {
 	for(int i = 0; i < nelem; i++) {
 		//cerr << "t" << i <<  "(" << (*transition_list)[i] << ")" << endl;
 		trans = (*transition_list)[i]->execute();
-		if(!trans.expired()) {
-			shared_ptr<State> trans_shared(trans);
+        shared_ptr<State> trans_shared = trans.lock();
+		if(trans_shared) {
 			done = false;
 			
 			shared_ptr<State> parent_shared(getParent());
@@ -1545,17 +1540,12 @@ TaskSystem::TaskSystem() : ContainerState() {
 	setTag("TaskSystem");
 }
 
-//mTaskSystem::TaskSystem(State *parent) : ContainerState(parent) {
-//	execution_triggered = 0;
-//}
-
 
 shared_ptr<mw::Component> TaskSystem::createInstanceObject(){
     shared_ptr<TaskSystem> new_state(clone<TaskSystem>());
 	
-    weak_ptr<ScopedVariableEnvironment> env = getScopedVariableEnvironment();
-	if(!env.expired()){
-		shared_ptr<ScopedVariableEnvironment> env_shared(env);
+    shared_ptr<ScopedVariableEnvironment> env_shared = getScopedVariableEnvironment().lock();
+	if(env_shared){
 		shared_ptr<ScopedVariableContext> con = env_shared->createNewContext();
 		
 		new_state->setLocalScopedVariableContext(con);
@@ -1576,13 +1566,6 @@ void TaskSystem::action() {
 	updateHierarchy();  // TODO: need to rethink how all of this is working...
 }
 
-/*void TaskSystem::announceIdentity(){
- std::string announcement("Task System: " + name);	
- announceState(announcement.c_str());
- Datum announceString;
- announceString.setString(announcement);
- currentState->setValue(announceString);
- }*/
 
 weak_ptr<State> TaskSystem::next() {
 	if(execution_triggered) {
@@ -1619,21 +1602,6 @@ weak_ptr<State> TaskSystem::next() {
 	}
 }
 
-/*void TaskSystem::addTaskSystemState(shared_ptr<TaskSystemState> state) {
- addState(state);
- }*/
-
-/*void TaskSystem::addState(State *state) {
- list->addReference(state);  // trial state now owns it, not us
- // set that state to have this one as it's parent
- // (so it knows who to yield control to)
- state->setParent(this);
- state->updateHierarchy();
- }*/
-
-/*void TaskSystem::setStartState(State *state) {
- startstate = state;
- }*/
 
 weak_ptr<State> TaskSystem::getStartState() {
 	if(list->size() > 0) {

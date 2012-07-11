@@ -36,8 +36,8 @@ State::State() : ScopedVariableEnvironment() {
 
 void State::requestVariableContext(){
 												
-	if(!experiment.expired()) {
-		shared_ptr<Experiment> experiment_shared(experiment);
+    shared_ptr<Experiment> experiment_shared = experiment.lock();
+	if(experiment_shared) {
 		local_variable_context = experiment_shared->createNewContext();
 		weak_ptr<ScopedVariableEnvironment> env(dynamic_pointer_cast<ScopedVariableEnvironment, Experiment>(GlobalCurrentExperiment)); 
 		setScopedVariableEnvironment(env);
@@ -101,8 +101,8 @@ void State::updateHierarchy() {
 
 
 void State::updateCurrentScopedVariableContext() {
-	if(!environment.expired()){
-		shared_ptr<ScopedVariableEnvironment> environment_shared(environment);
+    shared_ptr<ScopedVariableEnvironment> environment_shared = environment.lock();
+	if(environment_shared){
 		environment_shared->setCurrentContext(local_variable_context);
 		
         shared_ptr<State> parent_shared(getParent());
