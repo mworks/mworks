@@ -649,24 +649,21 @@ public:
 	virtual weak_ptr<State> execute();
 };
 
-class TaskSystemState : public State {
+class TaskSystemState : public ContainerState {
     
-protected:
-	ExpandableList<Action> *action_list;
-	ExpandableList<TransitionCondition> *transition_list;
-	bool done;
+private:
+	shared_ptr< vector< shared_ptr<TransitionCondition> > > transition_list;
+    int currentActionIndex;
     
-	void addAction(shared_ptr<Action> act);
 	void addTransition(shared_ptr<TransitionCondition> trans);
     
 public:
 	TaskSystemState();
-	TaskSystemState(State *parent);
-	virtual ~TaskSystemState();	
 	
 	virtual shared_ptr<mw::Component> createInstanceObject();
 	virtual void action();
 	virtual weak_ptr<State> next();
+    virtual void reset();
 	
 	virtual void addChild(std::map<std::string, std::string> parameters,
 						  ComponentRegistry *reg, shared_ptr<mw::Component> comp);
@@ -692,7 +689,6 @@ public:
 	// execute what's in the box, leaving the transition 
 	// list open to be user defined
 	TaskSystem();
-	TaskSystem(State *parent);	
 	
 	virtual shared_ptr<mw::Component> createInstanceObject();
 	virtual void action();

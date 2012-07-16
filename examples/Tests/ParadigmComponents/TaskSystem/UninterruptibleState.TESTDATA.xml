@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<marionette_info>
+  <expected_messages>
+    <message type="starts_with">Experiment started. Waiting.</message>
+    <message type="starts_with">Stopping experiment</message>
+    <message type="whole_message">Called stop on state system</message>
+    <message type="starts_with">Exiting uninterruptible state</message>
+  </expected_messages>
+</marionette_info>

@@ -14,6 +14,7 @@
 #include "StimulusDisplay.h"
 #include "ExpressionVariable.h"
 
+#include <boost/foreach.hpp>
 #include <boost/regex.hpp>
 #include <boost/tokenizer.hpp>
 
@@ -1377,81 +1378,55 @@ weak_ptr<State> YieldToParent::execute() {
 /****************************************************************
  *                 TaskSystemState Methods
  ****************************************************************/
-TaskSystemState::TaskSystemState() : State() {
-    done = false;
-	action_list = new ExpandableList<Action>(4);
-	transition_list = new ExpandableList<TransitionCondition>(4);
+TaskSystemState::TaskSystemState() :
+    transition_list(new vector< shared_ptr<TransitionCondition> >),
+    currentActionIndex(0)
+{
 	setTag("TaskSystemState");
 }
 
-//mTaskSystemState::TaskSystemState(State *parent) : State(parent) {
-//	done = false;
-//	action_list = new ExpandableList<Action>(4);
-//	transition_list = new ExpandableList<TransitionCondition>(4);
-//	name = "mTaskSystemState";
-//}
-
-TaskSystemState::~TaskSystemState() {
-    if(action_list) {
-        delete action_list;
-        action_list = NULL;
-    }
-    if(transition_list) {
-        delete transition_list;
-        transition_list = NULL;
-    }
-}
 
 shared_ptr<mw::Component> TaskSystemState::createInstanceObject(){
-	return component_shared_from_this<mw::Component>();
+    shared_ptr<TaskSystemState> new_state = clone<TaskSystemState>();
+    new_state->transition_list = transition_list;
+	return new_state;
 }
+
 
 void TaskSystemState::action() {
-	currentState->setValue(getCompactID());
-	//currentState->setValue(name);
-	if(!done) {
-		int nelem = action_list->getNElements();
-		for(int i=0; i < nelem; i++) {
-			
-			shared_ptr<Action> the_action = (*action_list)[i]; 
-			
-			if(the_action == NULL){
-				continue;
-			}
-			the_action->setScopedVariableEnvironment(getScopedVariableEnvironment());
-			the_action->updateCurrentScopedVariableContext();
-			
-			//cerr << "a" << i << "(" << (*action_list)[i] << ", normal execution)" << endl;
-			the_action->announceEntry();
-			the_action->execute();
-		}
-	}
+    if (!accessed) {
+        currentState->setValue(getCompactID());
+        accessed = true;
+    }
 }
 
-/*void TaskSystemState::announceIdentity(){
- std::string announcement("Task System State: " + name);	
- announceState(announcement.c_str());
- Datum announceString;
- announceString.setString(announcement);
- currentState->setValue(announceString);
- }*/
 
 weak_ptr<State> TaskSystemState::next() {
+    if (currentActionIndex < getList().size()) {
+        shared_ptr<State> action = getList()[currentActionIndex++];
+        
+        shared_ptr<State> actionParent(action->getParent());
+        if (actionParent.get() != this) {
+            action->setParent(component_shared_from_this<State>());
+            action->updateHierarchy();
+        }
+        
+        action->updateCurrentScopedVariableContext();
+        
+        return action;
+    }
+    
     weak_ptr<State> trans;
-	if(transition_list->getNElements() == 0) {
+	if(transition_list->size() == 0) {
 		mprintf("Error: no valid transitions. Ending experiment");
 		trans = weak_ptr<State>(GlobalCurrentExperiment);
 		return trans;
 	}			
 	
-	int nelem = transition_list->getNElements();
-	for(int i = 0; i < nelem; i++) {
-		//cerr << "t" << i <<  "(" << (*transition_list)[i] << ")" << endl;
-		trans = (*transition_list)[i]->execute();
+    BOOST_FOREACH( shared_ptr<TransitionCondition> condition, *transition_list ) {
+		trans = condition->execute();
         shared_ptr<State> trans_shared = trans.lock();
 		if(trans_shared) {
-			done = false;
-			
 			shared_ptr<State> parent_shared(getParent());
 			if(trans_shared.get() != parent_shared.get()){
 				trans_shared->setParent(parent_shared); // TODO: this gets set WAY too many times
@@ -1459,10 +1434,17 @@ weak_ptr<State> TaskSystemState::next() {
 			}
 			
 			trans_shared->updateCurrentScopedVariableContext();
+            reset();
 			return trans;
 		}
 	}	
 	return weak_ptr<State>();
+}
+
+
+void TaskSystemState::reset() {
+    ContainerState::reset();
+    currentActionIndex = 0;
 }
 
 
@@ -1472,7 +1454,7 @@ void TaskSystemState::addChild(std::map<std::string, std::string> parameters,
 	
 	shared_ptr<Action> as_action = dynamic_pointer_cast<Action, mw::Component>(comp);
 	if(as_action != NULL){
-		return addAction(as_action);
+        return ContainerState::addChild(parameters, reg, comp);
 	}
 	
 	shared_ptr<TransitionCondition> as_transition = dynamic_pointer_cast<TransitionCondition, mw::Component>(comp);
@@ -1483,14 +1465,6 @@ void TaskSystemState::addChild(std::map<std::string, std::string> parameters,
 	throw SimpleException("Attempting to add something (" + comp->getTag() + ") to task state (" + this->getTag() + ") that is not a transition or action");
 }
 
-void TaskSystemState::addAction(shared_ptr<Action> act) {
-    if(!act) { 
-        mprintf("Attempt to add a NULL action");
-		return;
-    }
-	act->setParent(component_shared_from_this<State>());
-	action_list->addReference(act);
-}
 
 void TaskSystemState::addTransition(shared_ptr<TransitionCondition> trans) {
 	if(!trans) {
@@ -1498,19 +1472,9 @@ void TaskSystemState::addTransition(shared_ptr<TransitionCondition> trans) {
 		return;
 	}
 	trans->setOwner(component_shared_from_this<State>());
-	transition_list->addReference(trans);
+	transition_list->push_back(trans);
 }
 
-
-/****************************************************************
- *                 WaitState Methods
- ****************************************************************/
-/*
- WaitState::WaitState(State *parent, Variable *wait) 
- : TaskSystemState(parent) : wait_time(wait) {
- addAction(new Wait(wait_time));
- }
- */
 
 /****************************************************************
  *                 TaskSystem Methods

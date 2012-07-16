@@ -324,7 +324,7 @@ weak_ptr<State> ListState::next() {
 			// this ensures that we find our way back, 
 			// even if something is screwed up
 			thestate->setParent(component_shared_from_this<State>());
-			updateHierarchy(); // TODO: might want to do this differently
+			thestate->updateHierarchy(); // TODO: might want to do this differently
 		}
 		
 		thestate->updateCurrentScopedVariableContext();
