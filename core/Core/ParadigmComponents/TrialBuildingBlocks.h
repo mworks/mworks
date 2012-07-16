@@ -52,7 +52,6 @@ public:
     
     // State methods
     virtual void action();
-    virtual weak_ptr<State> next();
 
 };
 
@@ -651,10 +650,15 @@ public:
 };
 
 class TaskSystemState : public State {
+    
 protected:
 	ExpandableList<Action> *action_list;
 	ExpandableList<TransitionCondition> *transition_list;
 	bool done;
+    
+	void addAction(shared_ptr<Action> act);
+	void addTransition(shared_ptr<TransitionCondition> trans);
+    
 public:
 	TaskSystemState();
 	TaskSystemState(State *parent);
@@ -666,16 +670,7 @@ public:
 	
 	virtual void addChild(std::map<std::string, std::string> parameters,
 						  ComponentRegistry *reg, shared_ptr<mw::Component> comp);
-	virtual void addAction(shared_ptr<Action> act);
-	virtual void addTransition(shared_ptr<TransitionCondition> trans);
-	
-	
-	ExpandableList<Action> * getActionList();
-	ExpandableList<TransitionCondition> * getTransitionList();
-	void setActionList(ExpandableList<Action> *al){  action_list = al; }
-	void setTransitionList(ExpandableList<TransitionCondition> *tl){  
-		transition_list = tl;
-	}  
+    
 };
 
 class TaskSystemStateFactory : public ComponentFactory{	
@@ -692,8 +687,6 @@ class TaskSystemStateFactory : public ComponentFactory{
 
 // A container for building blocks
 class TaskSystem : public ContainerState {
-protected:
-	bool execution_triggered;
 	
 public:
 	// execute what's in the box, leaving the transition 
@@ -720,6 +713,7 @@ public:
         //reg->registerObject(full_tag, comp);
 	
 	}
+    
 };
 
 class TaskSystemFactory : public ComponentFactory{	

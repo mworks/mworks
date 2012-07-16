@@ -64,14 +64,6 @@ void Action::setName(const std::string &_name) {
 	State::setName("Action: " + _name);
 }
 
-weak_ptr<State> Action::next(){ 
-	shared_ptr<State> parent_shared(getParent());
-    if (parent_shared) {
-        parent_shared->updateCurrentScopedVariableContext();
-    }
-	return parent_shared;
-}
-
 
 ActionVariableNotification::ActionVariableNotification(shared_ptr<Action> _action){
 	action = _action;
@@ -1509,13 +1501,6 @@ void TaskSystemState::addTransition(shared_ptr<TransitionCondition> trans) {
 	transition_list->addReference(trans);
 }
 
-ExpandableList<Action> * TaskSystemState::getActionList() {
-    return action_list;
-}
-
-ExpandableList<TransitionCondition> * TaskSystemState::getTransitionList() {
-    return transition_list;
-}
 
 /****************************************************************
  *                 WaitState Methods
@@ -1533,8 +1518,6 @@ ExpandableList<TransitionCondition> * TaskSystemState::getTransitionList() {
 // execute what's in the box, leaving the transition 
 // list open to be user defined
 TaskSystem::TaskSystem() : ContainerState() {
-	
-	execution_triggered = 0;
 	setTag("TaskSystem");
 }
 
@@ -1558,43 +1541,23 @@ shared_ptr<mw::Component> TaskSystem::createInstanceObject(){
 
 
 void TaskSystem::action() {
-	//execution_triggered = 1;
 	currentState->setValue(getCompactID());
-	//currentState->setValue(name);
 	updateHierarchy();  // TODO: need to rethink how all of this is working...
 }
 
 
 weak_ptr<State> TaskSystem::next() {
-	if(execution_triggered) {
-		execution_triggered = 0;
-		//mprintf("Returning parent");
-		// TODO: deal with updating etc.
-        shared_ptr<State> parent_shared(getParent());
-		if (parent_shared) {
-			parent_shared->updateCurrentScopedVariableContext();
-			reset();
-			return parent_shared;
-		} else {
-			// TODO: better throw
-			throw SimpleException("Attempt to access invalid parent object");
-		}
+	if (accessed) {
+        return State::next();
 	} else {
 		if(getList().size() > 0) {
-			execution_triggered= 1;
+			accessed = true;
 			//mprintf("Trial execution triggered");
 			return getList()[0];
 		} else {
 			mwarning(M_PARADIGM_MESSAGE_DOMAIN,
 					 "Warning: trial object contains no list");
-            shared_ptr<State> parent_shared(getParent());
-			if (parent_shared) {
-				parent_shared->updateCurrentScopedVariableContext();
-				return parent_shared;
-			} else {
-				// TODO: better throw
-				throw SimpleException("Attempt to access an invalid parent");
-			}
+            return State::next();
 		}
 	}
 }

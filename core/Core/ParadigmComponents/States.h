@@ -155,9 +155,10 @@ protected:
 public:
     ContainerState();
 	
-    virtual shared_ptr<mw::Component> createInstanceObject();
-	
     const vector< shared_ptr<State> >& getList() const { return *list; }
+    
+    // Subclasses must decide for themselves how child states are traversed
+    virtual weak_ptr<State> next() = 0;
     
     virtual void updateHierarchy();
     

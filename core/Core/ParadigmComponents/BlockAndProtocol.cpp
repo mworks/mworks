@@ -18,7 +18,7 @@ using namespace mw;
 
 
 Block::Block() : ListState(){
-	setName("mBlock");
+	setName("Block");
 }
 
 
@@ -45,7 +45,7 @@ shared_ptr<mw::Component> Block::createInstanceObject(){
 
 		
 mw::Protocol::Protocol() : ListState(){
-	setName("mProtocol");
+	setName("Protocol");
 }
 		
 
@@ -54,21 +54,10 @@ shared_ptr<mw::Component> mw::Protocol::createInstanceObject(){
 }
 
 
-
-GenericListState::GenericListState() : ListState(){
-	setName("mList");
-}
-
-
-shared_ptr<mw::Component> GenericListState::createInstanceObject(){
-    return clone<GenericListState>();
-}
-
-
 //////////////
 
 Trial::Trial() :ListState(){
-	setName("mTrial");
+	setName("Trial");
 }
 
 

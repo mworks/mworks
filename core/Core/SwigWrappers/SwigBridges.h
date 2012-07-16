@@ -176,8 +176,8 @@ DEF_CAST_SHARED_PTR(Trial, State,	castStateAsTrialPtr);
 DEF_CAST_RAW_PTR(Experiment, State,		castStateAsExperiment);
 DEF_CAST_SHARED_PTR(Experiment, State,	castStateAsExperimentPtr);
 
-DEF_CAST_RAW_PTR(GenericListState, State,		castStateAsGenericListState);
-DEF_CAST_SHARED_PTR(GenericListState, State,	castStateAsGenericListStatePtr);
+DEF_CAST_RAW_PTR(ListState, State,		castStateAsGenericListState);
+DEF_CAST_SHARED_PTR(ListState, State,	castStateAsGenericListStatePtr);
 
 
 DEF_SHARED_PTR(Action);
@@ -191,7 +191,6 @@ DEF_GET_RAW(ScheduledActions);
 
 
 DEF_GET_RAW(ListState)
-DEF_GET_RAW(GenericListState)
 DEF_GET_RAW(Trial)
 DEF_GET_RAW(Block)
 

@@ -71,7 +71,15 @@ void State::action() {
 
 
 weak_ptr<State> State::next() {
-    return weak_ptr<State>();
+    shared_ptr<State> sharedParent = getParent();
+    if (!sharedParent) {
+        throw SimpleException("Internal error: state has no parent");
+    }
+    
+    sharedParent->updateCurrentScopedVariableContext();
+    reset();
+    
+    return sharedParent;
 }
 
 
@@ -170,13 +178,8 @@ ContainerState::ContainerState() :
 }
 
 
-shared_ptr<mw::Component> ContainerState::createInstanceObject(){
-    return clone<ContainerState>();
-}
-
-
-ListState::ListState() : ContainerState() {
-	setName("base ListState");
+ListState::ListState() {
+	setName("List");
 }
 
 
@@ -330,14 +333,7 @@ weak_ptr<State> ListState::next() {
 			mwarning(M_PARADIGM_MESSAGE_DOMAIN,
 				"List state returned invalid state at index %d",
 				index);
-            shared_ptr<State> sharedParent = getParent();
-			if (sharedParent) {
-				return sharedParent;
-			} else {
-				shared_ptr <Clock> clock = Clock::instance();
-				clock->sleepMS(10000);
-				return weak_ptr<State>();
-			}
+            return State::next();
 		}
 		
 		shared_ptr<State> thestate_parent(thestate->getParent()); 
@@ -352,14 +348,7 @@ weak_ptr<State> ListState::next() {
 		thestate->updateCurrentScopedVariableContext();
 		return thestate;		
 	} else {
-		//mprintf("Returning Parent!!!");	
-		// wait a bit so that I can see what's going on...
-		//tick(10000); 
-		// update my parent to update done tables, etc.
-		shared_ptr<State> parent_shared(getParent());
-		parent_shared->updateCurrentScopedVariableContext();
-		reset();
-		return parent_shared;
+        return State::next();
 	}
 }
 
