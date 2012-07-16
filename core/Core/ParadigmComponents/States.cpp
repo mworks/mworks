@@ -25,7 +25,7 @@
 BEGIN_NAMESPACE_MW
 
 
-State::State() : ScopedVariableEnvironment() {
+State::State() {
 	experiment = weak_ptr<Experiment>(GlobalCurrentExperiment);
     description = "";
 
@@ -37,17 +37,16 @@ State::State() : ScopedVariableEnvironment() {
 
 
 void State::requestVariableContext(){
-												
-    shared_ptr<Experiment> experiment_shared = experiment.lock();
-	if(experiment_shared) {
+    shared_ptr<Experiment> experiment_shared = getExperiment();
+    
+    if (!experiment_shared && GlobalCurrentExperiment) {
+        experiment_shared = GlobalCurrentExperiment;
+        setExperiment(GlobalCurrentExperiment);
+    }
+    
+	if (experiment_shared) {
 		local_variable_context = experiment_shared->createNewContext();
-		weak_ptr<ScopedVariableEnvironment> env(dynamic_pointer_cast<ScopedVariableEnvironment, Experiment>(GlobalCurrentExperiment)); 
-		setScopedVariableEnvironment(env);
-	} else if(GlobalCurrentExperiment != NULL){
-		experiment = weak_ptr<Experiment>(GlobalCurrentExperiment);
-		local_variable_context = GlobalCurrentExperiment->createNewContext();
-		weak_ptr<ScopedVariableEnvironment> env(dynamic_pointer_cast<ScopedVariableEnvironment, Experiment>(GlobalCurrentExperiment)); 
-		setScopedVariableEnvironment(env);
+		setScopedVariableEnvironment(experiment_shared);
 	} else {
 		//merror(M_PARSER_MESSAGE_DOMAIN,
 		//		"Unable to set scoped variable environment");
@@ -133,23 +132,6 @@ void State::updateCurrentScopedVariableContext() {
 	}
 }	
 
-
-weak_ptr<ScopedVariableEnvironment> State::getScopedVariableEnvironment() {
-    return environment;
-}
-
-void State::setScopedVariableEnvironment(weak_ptr<ScopedVariableEnvironment> _env) {
-    environment = _env;
-}
-
-void State::setLocalScopedVariableContext(shared_ptr<ScopedVariableContext> c) {  
-	local_variable_context = c;
-	setCurrentContext(local_variable_context); 
-}
-
-shared_ptr<ScopedVariableContext> State::getLocalScopedVariableContext() {
-    return local_variable_context;
-}
 
 shared_ptr<mw::Component> State::createInstanceObject(){
     return clone<State>();

@@ -90,26 +90,26 @@ public:
      */
     virtual weak_ptr<State> next();
     
-    void setParent(shared_ptr<State> newparent) { parent = newparent; }
     shared_ptr<State> getParent() const { return parent.lock(); }
+    void setParent(shared_ptr<State> newparent) { parent = newparent; }
     
     virtual void updateHierarchy();
     
     virtual void reset() { }
 	
-    //        virtual void announceIdentity();
-    
-    //void inheritLocalScopedVariableContext(ScopedVariableContext *newinfo);
     shared_ptr<Experiment> getExperiment() const { return experiment.lock(); }
     void setExperiment(shared_ptr<Experiment> _experiment) { experiment = _experiment; }
     
-    virtual weak_ptr<ScopedVariableEnvironment> getScopedVariableEnvironment();
-    virtual void setScopedVariableEnvironment(weak_ptr<ScopedVariableEnvironment> _env);
+    shared_ptr<ScopedVariableEnvironment> getScopedVariableEnvironment() const { return environment.lock(); }
+    void setScopedVariableEnvironment(weak_ptr<ScopedVariableEnvironment> _env) { environment = _env; }
+    
+    shared_ptr<ScopedVariableContext> getLocalScopedVariableContext() const { return local_variable_context; }
+    void setLocalScopedVariableContext(shared_ptr<ScopedVariableContext> c) {
+        local_variable_context = c;
+        setCurrentContext(local_variable_context);
+    }
     
     virtual void updateCurrentScopedVariableContext();
-    void setLocalScopedVariableContext(shared_ptr<ScopedVariableContext> c);
-    
-    shared_ptr<ScopedVariableContext> getLocalScopedVariableContext();
     
     void setInterruptible(bool _interruptible){ interruptible = _interruptible; }
     bool isInterruptible() const;

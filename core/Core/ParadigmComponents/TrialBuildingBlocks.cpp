@@ -1525,7 +1525,7 @@ TaskSystem::TaskSystem() : ContainerState() {
 shared_ptr<mw::Component> TaskSystem::createInstanceObject(){
     shared_ptr<TaskSystem> new_state(clone<TaskSystem>());
 	
-    shared_ptr<ScopedVariableEnvironment> env_shared = getScopedVariableEnvironment().lock();
+    shared_ptr<ScopedVariableEnvironment> env_shared = getScopedVariableEnvironment();
 	if(env_shared){
 		shared_ptr<ScopedVariableContext> con = env_shared->createNewContext();
 		

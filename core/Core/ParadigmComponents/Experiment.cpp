@@ -20,9 +20,8 @@ Experiment::Experiment(shared_ptr<VariableRegistry> var_reg)
 	
     //stimulus_display = NULL;
 	
-	// These fields will eventually be self-referential (set during "finalize")
+	// This fields will eventually be self-referential (set during "finalize")
 	current_state = weak_ptr<State>();
-	setScopedVariableEnvironment(weak_ptr<ScopedVariableEnvironment>());
 	
     experimentName = "";
 	setName(experimentName);
