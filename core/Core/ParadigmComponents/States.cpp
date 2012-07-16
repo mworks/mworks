@@ -19,6 +19,8 @@
 #include "RandomWORSelection.h"
 #include "RandomWithReplacementSelection.h"
 
+#include <boost/foreach.hpp>
+
 
 BEGIN_NAMESPACE_MW
 
@@ -161,11 +163,10 @@ bool State::isInterruptible() const {
         
 
 ContainerState::ContainerState() : 
-	State(),
-	list(new vector< shared_ptr<State> >){
-	
-	accessed = false;
-	setName("mContainerState");
+	list(new vector< shared_ptr<State> >),
+    accessed(false)
+{
+	setName("ContainerState");
 }
 
 
@@ -175,9 +176,7 @@ shared_ptr<mw::Component> ContainerState::createInstanceObject(){
 
 
 ListState::ListState() : ContainerState() {
-
-	has_more_children_to_run = true;
-	setName((char *)"base ListState");
+	setName("base ListState");
 }
 
 
@@ -257,7 +256,7 @@ void ListState::finalize(std::map<std::string, std::string> parameters,
 	if(sampling_method == M_SAMPLES){
 		N = nsamples;
 	} else {
-		N = nsamples * getNChildren();
+		N = nsamples * getNItems();
 	}
 	
 	Selection *selection = NULL;	
@@ -291,20 +290,21 @@ void ContainerState::updateHierarchy() {
     
     shared_ptr<State> self_ptr = component_shared_from_this<State>();
 	
-	for(unsigned int i = 0; i < list->size(); i++) {
-		// recurse down the hierarchy
-		shared_ptr<State> this_element = (*list)[i];
-        this_element->setParent(self_ptr);
-		this_element->updateHierarchy(); 
-	}
+    BOOST_FOREACH( shared_ptr<State> child, *list ) {
+        // recurse down the hierarchy
+        child->setParent(self_ptr);
+        child->updateHierarchy(); 
+    }
 }
 
 
 void ContainerState::reset() {
-	for(int i = 0; i < list->size(); i++) {
-		// call recursively down the experiment hierarchy
-		(*list)[i]->reset();  
-	}
+    accessed = false;
+    
+    BOOST_FOREACH( shared_ptr<State> child, *list ) {
+        // call recursively down the experiment hierarchy
+        child->reset();
+    }
 }
 
 
@@ -314,41 +314,24 @@ weak_ptr<State> ListState::next() {
 		throw SimpleException("Attempt to draw from an invalid selection object");
 	}
 
-	if(has_more_children_to_run) {
+	if (hasMoreChildrenToRun()) {
 		//mprintf("I am %s, and I have more children to run!", name);
 		int index;
 		
 		try{
 			index = selection->draw();
-		
 		} catch(std::exception& e){
 			index = -1; // just a bandaid for now
 		}
 		
-		if(index < 0){
+		shared_ptr<State> thestate;
+        
+		if ((index < 0) || !(thestate = getList()[index])) {
 			mwarning(M_PARADIGM_MESSAGE_DOMAIN,
-				"List state returned invalid state at index %d (1)",
+				"List state returned invalid state at index %d",
 				index);
             shared_ptr<State> sharedParent = getParent();
 			if (sharedParent) {
-				update();
-				return sharedParent;
-			} else {
-				
-				shared_ptr <Clock> clock = Clock::instance();
-				clock->sleepMS(10000);
-				return weak_ptr<State>();
-			}
-		}
-		//mprintf("State System: Fetching sub-state #%d", index);
-		shared_ptr<State> thestate = getList()[index];
-		if(thestate == NULL){		
-			mwarning(M_PARADIGM_MESSAGE_DOMAIN,
-				"List state returned invalid state at index %d (2)",
-				index);
-            shared_ptr<State> sharedParent = getParent();
-			if (sharedParent) {
-				update();
 				return sharedParent;
 			} else {
 				shared_ptr <Clock> clock = Clock::instance();
@@ -359,7 +342,7 @@ weak_ptr<State> ListState::next() {
 		
 		shared_ptr<State> thestate_parent(thestate->getParent()); 
 
-		if(thestate != NULL && thestate_parent.get() != this) {
+		if (thestate_parent.get() != this) {
 			// this ensures that we find our way back, 
 			// even if something is screwed up
 			thestate->setParent(component_shared_from_this<State>());
@@ -374,7 +357,6 @@ weak_ptr<State> ListState::next() {
 		//tick(10000); 
 		// update my parent to update done tables, etc.
 		shared_ptr<State> parent_shared(getParent());
-		parent_shared->update(); 
 		parent_shared->updateCurrentScopedVariableContext();
 		reset();
 		return parent_shared;
@@ -382,16 +364,7 @@ weak_ptr<State> ListState::next() {
 }
 
 
-void ListState::update(){
-	//mprintf("updating list state");
-	if(selection->isFinished()) {
-		has_more_children_to_run = false;
-	}
-}
-
-
 void ListState::reset() {
-	has_more_children_to_run = true;
     ContainerState::reset();
 	if(selection != NULL) {
 		selection->reset();

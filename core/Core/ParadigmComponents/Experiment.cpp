@@ -106,16 +106,6 @@ shared_ptr<mw::Protocol> Experiment::getCurrentProtocol() {
 }
 
 
-
-void Experiment::update() {   
-    // we got called from the protocol we were running, so we're done for now
-    ///setInt(taskMode_edit, IDLE);
-    current_state = weak_ptr<State>();
-	*state_system_mode = STOPPING;
-}
-
-
-
 weak_ptr<State> Experiment::getCurrentState() {
 	if(current_state.expired()) {
 		return getCurrentProtocol();
@@ -143,9 +133,15 @@ void Experiment::action(){
 
 
 weak_ptr<State> Experiment::next() {
-	current_protocol->updateCurrentScopedVariableContext();
-	weak_ptr<State> weak_return(current_protocol);
-    return (weak_return);
+    if (!accessed) {
+        accessed = true;
+        current_protocol->updateCurrentScopedVariableContext();
+        return current_protocol;
+    } else {
+        current_state = weak_ptr<State>();
+        *state_system_mode = STOPPING;
+        return current_state;
+    }
 }
 
 

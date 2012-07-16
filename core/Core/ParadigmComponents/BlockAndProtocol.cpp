@@ -31,7 +31,7 @@ void Block::action(){
 }
 
 weak_ptr<State> Block::next(){
-	if(!has_more_children_to_run) {
+	if (!hasMoreChildrenToRun()) {
 		blockAnnounce->setValue(blockAnnounce->getValue().getInteger() - 1);
 	}
 	return ListState::next();
@@ -81,7 +81,7 @@ void Trial::action(){
 }
 
 weak_ptr<State> Trial::next(){
-	if(!has_more_children_to_run) {
+	if (!hasMoreChildrenToRun()) {
 		trialAnnounce->setValue(trialAnnounce->getValue().getInteger() - 1);
 	}
 	return ListState::next();

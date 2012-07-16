@@ -86,12 +86,6 @@ public:
     virtual void action();
     
     /**
-     * Update the status of the state, e.g. to update a block after
-     * a trial is done
-     */
-    virtual void update() { }
-    
-    /**
      * Returns the next state.
      */
     virtual weak_ptr<State> next();
@@ -164,7 +158,6 @@ public:
     virtual shared_ptr<mw::Component> createInstanceObject();
 	
     const vector< shared_ptr<State> >& getList() const { return *list; }
-    int getNChildren() const { return list->size(); }
     
     virtual void updateHierarchy();
     
@@ -192,9 +185,9 @@ public:
 
 
 class ListState : public ContainerState, public Selectable {
-protected:
     
-    bool has_more_children_to_run;
+protected:
+    bool hasMoreChildrenToRun() { return selection && !(selection->isFinished()); }
     
     template <typename T>
     shared_ptr<T> clone() {
@@ -215,14 +208,12 @@ public:
     // Clone this object, but create new local variable context (aka scope)
     virtual shared_ptr<mw::Component> createInstanceObject();
     
-    virtual void update();
-    
     // State methods
     virtual weak_ptr<State> next();
     virtual void reset();
     
     // Selectable methods
-    virtual int getNItems() { return getNChildren(); }
+    virtual int getNItems() { return int(getList().size()); }
     
     void finalize(std::map<std::string, std::string> parameters,
                   ComponentRegistry *reg);

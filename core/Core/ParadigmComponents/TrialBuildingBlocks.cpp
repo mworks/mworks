@@ -67,7 +67,6 @@ void Action::setName(const std::string &_name) {
 weak_ptr<State> Action::next(){ 
 	shared_ptr<State> parent_shared(getParent());
     if (parent_shared) {
-        parent_shared->update();
         parent_shared->updateCurrentScopedVariableContext();
     }
 	return parent_shared;
@@ -1573,7 +1572,6 @@ weak_ptr<State> TaskSystem::next() {
 		// TODO: deal with updating etc.
         shared_ptr<State> parent_shared(getParent());
 		if (parent_shared) {
-			parent_shared->update();
 			parent_shared->updateCurrentScopedVariableContext();
 			reset();
 			return parent_shared;
@@ -1598,16 +1596,6 @@ weak_ptr<State> TaskSystem::next() {
 				throw SimpleException("Attempt to access an invalid parent");
 			}
 		}
-	}
-}
-
-
-weak_ptr<State> TaskSystem::getStartState() {
-	if(getList().size() > 0) {
-		return getList()[0];
-	} else {
-		mprintf("Error: attempt to run an empty trial");
-		return getParent();
 	}
 }
 

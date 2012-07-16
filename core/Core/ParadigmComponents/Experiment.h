@@ -203,7 +203,6 @@ class Experiment : public ContainerState {
 		
 		//virtual void announceIdentity();
 		
-		void update();	
 		virtual void reset();
 
 		

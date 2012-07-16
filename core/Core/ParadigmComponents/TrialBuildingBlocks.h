@@ -720,12 +720,6 @@ public:
         //reg->registerObject(full_tag, comp);
 	
 	}
-	
-	
-	virtual weak_ptr<State> getStartState();
-	//mExpandableList<State> * getTaskSystemStates();
-	
-	//void setTaskSystemStates(ExpandableList<State> *states){ list = states; }
 };
 
 class TaskSystemFactory : public ComponentFactory{	
