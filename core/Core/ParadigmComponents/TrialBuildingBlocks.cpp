@@ -489,31 +489,25 @@ Wait::Wait(shared_ptr<TimeBase> _timeBase,
 	setName("Wait");
 }
 
-Wait::~Wait() {
-	
-}
-
 bool Wait::execute() {
-	
-	MWTime timeToWait_us;
-	
-	shared_ptr <Clock> clock = Clock::instance();
-
-	if(timeBase != 0){
-		timeToWait_us = (timeBase->getTime() + (MWTime)(*waitTime)) - clock->getCurrentTimeUS();
-	} else {
-		timeToWait_us = ((MWTime)(*waitTime));
-	}
-	
-	if(timeToWait_us > 0) {
-		clock->sleepUS(timeToWait_us);
-	}
-	
-	return true;
+    MWTime baseTime;
+    
+    if (timeBase) {
+        baseTime = timeBase->getTime();
+    } else {
+        baseTime = Clock::instance()->getCurrentTimeUS();
+    }
+    
+    expirationTime = baseTime + MWTime(*waitTime);
+    
+    return true;
 }
 
-shared_ptr<Variable> Wait::getTimeToWait() {
-    return waitTime;
+weak_ptr<State> Wait::next() {
+    if (Clock::instance()->getCurrentTimeUS() >= expirationTime) {
+        return Action::next();
+    }
+    return weak_ptr<State>();
 }
 
 shared_ptr<mw::Component> WaitFactory::createObject(std::map<std::string, std::string> parameters,
@@ -524,7 +518,7 @@ shared_ptr<mw::Component> WaitFactory::createObject(std::map<std::string, std::s
     shared_ptr<Variable> _timeToWait;
     
 	shared_ptr<Variable> duration = reg->getVariable(parameters.find("duration")->second);
-	checkAttribute(duration, parameters["reference_id"], "_timeToWait", parameters.find("_timeToWait")->second);		
+    CHECK_ATTRIBUTE(duration, parameters, "duration");
 	
     string duration_units = parameters["duration_units"];
    
@@ -549,7 +543,7 @@ shared_ptr<mw::Component> WaitFactory::createObject(std::map<std::string, std::s
 	std::map<std::string, std::string>::const_iterator timeBaseElement = parameters.find("timebase");
 	if(timeBaseElement != parameters.end()) {
 		shared_ptr<TimeBase> _timeBase = reg->getObject<TimeBase>(timeBaseElement->second);
-		checkAttribute(_timeBase, parameters["reference_id"], "_timeBase", parameters.find("_timeBase")->second);		
+        CHECK_ATTRIBUTE(_timeBase, parameters, "timebase");
 		
 		newWaitAction = shared_ptr<mw::Component>(new Wait(_timeBase, _timeToWait));
 	} else {

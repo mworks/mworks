@@ -37,7 +37,7 @@ BEGIN_NAMESPACE_MW
 
 
 // base class for all actions
-class Action : public State, public VariableNotification {
+class Action : public State {
 
 public:
     static void describeComponent(ComponentInfo &info);
@@ -225,13 +225,13 @@ class Wait : public Action {
 protected:
 	shared_ptr<Variable> waitTime;
 	shared_ptr<TimeBase> timeBase;
+    MWTime expirationTime;
 public:
 	Wait(shared_ptr<Variable> time_us);
 	Wait(shared_ptr<TimeBase> timeBase,
 		  shared_ptr<Variable> time_us);
-	virtual ~Wait();
 	virtual bool execute();
-	shared_ptr<Variable> getTimeToWait();
+    virtual weak_ptr<State> next();
 };
 
 class WaitFactory : public ComponentFactory{
