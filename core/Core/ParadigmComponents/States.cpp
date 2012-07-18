@@ -57,6 +57,11 @@ void State::requestVariableContext(){
 }
 
 
+shared_ptr<mw::Component> State::createInstanceObject(){
+    return clone<State>();
+}
+
+
 void State::action() {
     currentState->setValue(getCompactID());
 	
@@ -133,11 +138,6 @@ void State::updateCurrentScopedVariableContext() {
 }	
 
 
-shared_ptr<mw::Component> State::createInstanceObject(){
-    return clone<State>();
-}
-
-
 bool State::isInterruptible() const {
     if (!interruptible) {
         return false;
@@ -150,28 +150,10 @@ bool State::isInterruptible() const {
     
     return true;
 }
-        
-
-ContainerState::ContainerState() : 
-	list(new vector< shared_ptr<State> >),
-    accessed(false)
-{
-	setName("ContainerState");
-}
-
-
-ListState::ListState() {
-	setName("List");
-}
-
-
-shared_ptr<mw::Component> ListState::createInstanceObject(){
-    return clone<ListState>();
-}
 
 
 void State::setParameters(std::map<std::string, std::string> parameters,
-											ComponentRegistry *reg){
+                          ComponentRegistry *reg){
 	if(parameters.find("interruptible") != parameters.end()) {
 		try {
 			bool _interruptible = reg->getBoolean(parameters.find("interruptible")->second);
@@ -189,6 +171,99 @@ void State::setParameters(std::map<std::string, std::string> parameters,
 	
 	if(parameters.find("description") != parameters.end()) {
 		this->setDescription(parameters.find("description")->second);
+	}
+}
+        
+
+ContainerState::ContainerState() : 
+	list(new vector< shared_ptr<State> >),
+    accessed(false)
+{
+	setName("ContainerState");
+}
+
+
+void ContainerState::updateHierarchy() {
+    State::updateHierarchy();
+    
+    shared_ptr<State> self_ptr = component_shared_from_this<State>();
+	
+    BOOST_FOREACH( shared_ptr<State> child, *list ) {
+        // recurse down the hierarchy
+        child->setParent(self_ptr);
+        child->updateHierarchy(); 
+    }
+}
+
+
+void ContainerState::reset() {
+    accessed = false;
+    
+    BOOST_FOREACH( shared_ptr<State> child, *list ) {
+        // call recursively down the experiment hierarchy
+        child->reset();
+    }
+}
+
+
+ListState::ListState() {
+	setName("List");
+}
+
+
+shared_ptr<mw::Component> ListState::createInstanceObject(){
+    return clone<ListState>();
+}
+
+
+weak_ptr<State> ListState::next() {
+    
+	if(!selection){
+		throw SimpleException("Attempt to draw from an invalid selection object");
+	}
+    
+	if (hasMoreChildrenToRun()) {
+		//mprintf("I am %s, and I have more children to run!", name);
+		int index;
+		
+		try{
+			index = selection->draw();
+		} catch(std::exception& e){
+			index = -1; // just a bandaid for now
+		}
+		
+		shared_ptr<State> thestate;
+        
+		if ((index < 0) || !(thestate = getList()[index])) {
+			mwarning(M_PARADIGM_MESSAGE_DOMAIN,
+                     "List state returned invalid state at index %d",
+                     index);
+            return State::next();
+		}
+		
+		shared_ptr<State> thestate_parent(thestate->getParent()); 
+        
+		if (thestate_parent.get() != this) {
+			// this ensures that we find our way back, 
+			// even if something is screwed up
+			thestate->setParent(component_shared_from_this<State>());
+			thestate->updateHierarchy(); // TODO: might want to do this differently
+		}
+		
+		thestate->updateCurrentScopedVariableContext();
+		return thestate;		
+	} else {
+        return State::next();
+	}
+}
+
+
+void ListState::reset() {
+    ContainerState::reset();
+	if(selection != NULL) {
+		selection->reset();
+	} else {
+		mwarning(M_PARSER_MESSAGE_DOMAIN,"attempt to reset NULL selection object");
 	}
 }
 	
@@ -268,80 +343,6 @@ void ListState::finalize(std::map<std::string, std::string> parameters,
 	shared_ptr<Selection> sel_ptr(selection);
 	attachSelection(sel_ptr);
 
-}
-
-void ContainerState::updateHierarchy() {
-    State::updateHierarchy();
-    
-    shared_ptr<State> self_ptr = component_shared_from_this<State>();
-	
-    BOOST_FOREACH( shared_ptr<State> child, *list ) {
-        // recurse down the hierarchy
-        child->setParent(self_ptr);
-        child->updateHierarchy(); 
-    }
-}
-
-
-void ContainerState::reset() {
-    accessed = false;
-    
-    BOOST_FOREACH( shared_ptr<State> child, *list ) {
-        // call recursively down the experiment hierarchy
-        child->reset();
-    }
-}
-
-
-weak_ptr<State> ListState::next() {
-
-	if(!selection){
-		throw SimpleException("Attempt to draw from an invalid selection object");
-	}
-
-	if (hasMoreChildrenToRun()) {
-		//mprintf("I am %s, and I have more children to run!", name);
-		int index;
-		
-		try{
-			index = selection->draw();
-		} catch(std::exception& e){
-			index = -1; // just a bandaid for now
-		}
-		
-		shared_ptr<State> thestate;
-        
-		if ((index < 0) || !(thestate = getList()[index])) {
-			mwarning(M_PARADIGM_MESSAGE_DOMAIN,
-				"List state returned invalid state at index %d",
-				index);
-            return State::next();
-		}
-		
-		shared_ptr<State> thestate_parent(thestate->getParent()); 
-
-		if (thestate_parent.get() != this) {
-			// this ensures that we find our way back, 
-			// even if something is screwed up
-			thestate->setParent(component_shared_from_this<State>());
-			thestate->updateHierarchy(); // TODO: might want to do this differently
-		}
-		
-		thestate->updateCurrentScopedVariableContext();
-		return thestate;		
-	} else {
-        return State::next();
-	}
-}
-
-
-void ListState::reset() {
-    ContainerState::reset();
-	if(selection != NULL) {
-		selection->reset();
-	} else {
-		mwarning(M_PARSER_MESSAGE_DOMAIN,"attempt to reset NULL selection object");
-	}
 }
 
 

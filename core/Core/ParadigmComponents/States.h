@@ -80,9 +80,6 @@ public:
     
     virtual shared_ptr<mw::Component> createInstanceObject();
     
-    void setParameters(std::map<std::string, std::string> parameters,
-                       ComponentRegistry *reg);
-    
     virtual void action();
     
     /**
@@ -130,6 +127,8 @@ public:
      * has been set.
      */
     const std::string& getDescription() const { return description; }
+    
+    void setParameters(std::map<std::string, std::string> parameters, ComponentRegistry *reg);
     
 };
 
@@ -216,8 +215,7 @@ public:
     // Selectable methods
     virtual int getNItems() { return int(getList().size()); }
     
-    void finalize(std::map<std::string, std::string> parameters,
-                  ComponentRegistry *reg);
+    virtual void finalize(std::map<std::string, std::string> parameters, ComponentRegistry *reg);
 	
 };
 
