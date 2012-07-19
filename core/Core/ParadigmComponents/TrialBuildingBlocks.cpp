@@ -1514,7 +1514,7 @@ weak_ptr<State> TaskSystem::next() {
 			return getList()[0];
 		} else {
 			mwarning(M_PARADIGM_MESSAGE_DOMAIN,
-					 "Warning: trial object contains no list");
+					 "Task system contains no states");
             return State::next();
 		}
 	}

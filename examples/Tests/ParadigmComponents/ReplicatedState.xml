@@ -1,0 +1,31 @@
+<?xml version="1.0" standalone="no"?>
+<monkeyml version="1.0">
+    <io_devices tag="IO Devices"></io_devices>
+    <variables tag="Variables">
+        <variable tag="count" scope="global" logging="when_changed" default_value="0" type="integer"></variable>
+        <variable tag="index" scope="local" logging="when_changed" default_value="0" type="integer"></variable>
+    </variables>
+    <sounds tag="Sounds"></sounds>
+    <stimuli tag="Stimuli"></stimuli>
+    <filters tag="Filters"></filters>
+    <optimizers tag="Optimizers"></optimizers>
+    <experiment tag="New Experiment" full_name="" description="">
+        <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
+            <action type="assignment" tag="Reset count" variable="count" value="0"></action>
+            <range_replicator tag="New Range Replicator" from="1" to="5" step="1" variable="index">
+                <list tag="New List" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
+                    <action type="assignment" tag="Increment count" variable="count" value="count+1"></action>
+                </list>
+                <task_system tag="New Task System" interruptible="YES">
+                    <task_system_state tag="Task System State" interruptible="YES">
+                        <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                        <action type="assignment" tag="Increment count" variable="count" value="count+1"></action>
+                        <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                        <transition tag="Return to parent task system" type="yield"></transition>
+                    </task_system_state>
+                </task_system>
+            </range_replicator>
+            <action type="assert" tag="Assert" condition="count == 10" message="count is $count (should be 10)" stop_on_failure="0"></action>
+        </protocol>
+    </experiment>
+</monkeyml>
