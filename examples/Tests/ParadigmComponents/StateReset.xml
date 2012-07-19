@@ -1,0 +1,48 @@
+<?xml version="1.0" standalone="no"?>
+<monkeyml version="1.0">
+    <io_devices tag="IO Devices"></io_devices>
+    <variables tag="Variables">
+        <variable tag="count" scope="global" logging="when_changed" default_value="0" type="integer"></variable>
+    </variables>
+    <sounds tag="Sounds"></sounds>
+    <stimuli tag="Stimuli"></stimuli>
+    <filters tag="Filters"></filters>
+    <optimizers tag="Optimizers"></optimizers>
+    <experiment tag="New Experiment" full_name="" description="">
+        <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
+            <block tag="New Block" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
+                <action type="report" tag="Report" message="Testing if ListState resets its selections"></action>
+                <action type="assignment" tag="Reset count" variable="count" value="0"></action>
+                <trial tag="New Trial" nsamples="5" sampling_method="cycles" selection="sequential" interruptible="YES">
+                    <list tag="New List" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
+                        <action type="assignment" tag="Increment count" variable="count" value="count+1"></action>
+                    </list>
+                </trial>
+                <action type="assert" tag="Assert" condition="count == 5" message="count is $count (should be 5)" stop_on_failure="0"></action>
+            </block>
+            <block tag="New Block 2" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
+                <action type="report" tag="Report 2" message="Testing if TaskSystemState resets its action list"></action>
+                <action type="assignment" tag="Reset count" variable="count" value="0"></action>
+                <action type="start_timer" tag="Set timeout" timer="MyTimer" timebase="" duration="5" duration_units="s"></action>
+                <task_system tag="New Task System" interruptible="YES">
+                    <task_system_state tag="Begin State System" interruptible="YES">
+                        <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                        <action type="assignment" tag="Increment count" variable="count" value="count+2"></action>
+                        <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                        <transition type="timer_expired" tag="If Timer Expired, Transition to ..." target="Exit State System" timer="MyTimer"></transition>
+                        <transition type="conditional" tag="If Condition is True, Transition to ..." condition="count == 10" target="Exit State System"></transition>
+                        <transition type="direct" tag="Always Go to ..." target="Begin State System"></transition>
+                    </task_system_state>
+                    <task_system_state tag="Exit State System" interruptible="YES">
+                        <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                        <action type="assert" tag="Assert 2" condition="count == 10" message="count is $count (should be 10)" stop_on_failure="0"></action>
+                        <action type="report" tag="Report 3" message="Terminating experiment before normal completion.  Run it again without reloading to test if ContainerState resets its child states."></action>
+                        <action tag="Stop Experiment" type="stop_experiment"></action>
+                        <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                        <transition tag="Return to parent task system" type="yield"></transition>
+                    </task_system_state>
+                </task_system>
+            </block>
+        </protocol>
+    </experiment>
+</monkeyml>
