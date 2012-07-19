@@ -78,8 +78,6 @@ public:
     
     virtual void requestVariableContext();
     
-    virtual shared_ptr<mw::Component> createInstanceObject();
-    
     virtual void action();
     
     /**
@@ -204,9 +202,6 @@ protected:
 public:
 	
     ListState();
-	
-    // Clone this object, but create new local variable context (aka scope)
-    virtual shared_ptr<mw::Component> createInstanceObject();
     
     // State methods
     virtual weak_ptr<State> next();

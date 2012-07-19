@@ -90,7 +90,6 @@ namespace mw {
 		
 		
 		virtual shared_ptr<mw::Component> createInstanceObject(){
-			mprintf("Using base createInstanceObject()");
 			return shared_from_this();
 		}
 		

@@ -9,7 +9,8 @@
 
 #include "BlockAndProtocol.h"
 
-using namespace mw;
+
+BEGIN_NAMESPACE_MW
 
 
 ////////////////////////////////////////////////
@@ -82,3 +83,9 @@ shared_ptr<mw::Component> Trial::createInstanceObject(){
 }
 
 
+shared_ptr<mw::Component> GenericListState::createInstanceObject(){
+    return clone<GenericListState>();
+}
+
+
+END_NAMESPACE_MW

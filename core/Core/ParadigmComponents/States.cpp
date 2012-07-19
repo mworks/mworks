@@ -57,11 +57,6 @@ void State::requestVariableContext(){
 }
 
 
-shared_ptr<mw::Component> State::createInstanceObject(){
-    return clone<State>();
-}
-
-
 void State::action() {
     currentState->setValue(getCompactID());
 	
@@ -208,11 +203,6 @@ void ContainerState::reset() {
 
 ListState::ListState() {
 	setName("List");
-}
-
-
-shared_ptr<mw::Component> ListState::createInstanceObject(){
-    return clone<ListState>();
 }
 
 
