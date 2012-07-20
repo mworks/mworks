@@ -294,7 +294,7 @@ bool AssertionAction::execute() {
             merror(M_STATE_SYSTEM_MESSAGE_DOMAIN, "Stopping experiment due to failed assertion");
             StateSystem::instance()->stop();
         }
-        assertionFailure->setValue(0L);
+        assertionFailure->setSilentValue(0L);
     }
     
     return true;
