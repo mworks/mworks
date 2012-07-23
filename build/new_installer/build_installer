@@ -1,11 +1,27 @@
 #!/usr/bin/python
 
 import os
-from subprocess import check_call
+from subprocess import check_call, Popen, PIPE
 import sys
 
 
-packagemaker = '/Developer/Applications/Utilities/PackageMaker.app/Contents/MacOS/PackageMaker'
+def find_app(name):
+    cmd = Popen(
+        args = (
+            '/usr/bin/mdfind',
+            'kMDItemContentType == "com.apple.application-bundle" && kMDItemFSName = "%s"' % name,
+            ),
+        stdout = PIPE,
+        )
+
+    app_path = cmd.communicate()[0].split('\n')[0]
+    assert cmd.returncode == 0
+    assert app_path
+
+    return app_path
+
+
+packagemaker = find_app('PackageMaker.app') + '/Contents/MacOS/PackageMaker'
 installer_root = '/tmp/mw_installer'
 core_package_name = 'MWorksCoreComponents'
 
@@ -52,6 +68,7 @@ package_contents = {
     'MWorksPythonTools':
         (
         '/Library/Application Support/MWorks/Plugins/Client/PythonBridgePlugin.bundle',
+        '/Library/Application Support/MWorks/Plugins/Core/ServersideConduit.bundle',
         '/Library/Application Support/MWorks/Scripting/Python',
         '/Library/Python/2.6/site-packages/mworks.pth',
         '/Library/Python/2.7/site-packages/mworks.pth',
@@ -79,13 +96,13 @@ package_contents = {
 
 def make_destdir(package, path):
     destdir = os.path.join(installer_root, package, os.path.dirname(path[1:]))
-    check_call(['mkdir', '-p', destdir])
+    check_call(['/bin/mkdir', '-p', destdir])
     return destdir
 
 
 def copy_path(package, path):
     destdir = make_destdir(package, path)
-    check_call(['cp', '-R', path, destdir])
+    check_call(['/bin/cp', '-R', path, destdir])
 
 
 def build_component_package(package_name):
@@ -105,26 +122,26 @@ def main():
     installer_name = 'MWorks'
     installer_version = sys.argv[1]
 
-    check_call(['rm', '-Rf', installer_root])
+    check_call(['/bin/rm', '-Rf', installer_root])
 
     for package_name, contents in package_contents.iteritems():
         for path in contents:
             copy_path(package_name, path)
-            build_component_package(package_name)
+        build_component_package(package_name)
 
     dmg_contents_dir = os.path.join(installer_root, '%s %s' % (installer_name, installer_version))
-    check_call(['mkdir', dmg_contents_dir])
+    check_call(['/bin/mkdir', dmg_contents_dir])
 
     installer_path = os.path.join(dmg_contents_dir, installer_name + '.mpkg')
     check_call([packagemaker, '--doc', 'MWorks Installer.pmdoc', '--out', installer_path])
-    check_call('rm -Rf ~/.Trash/MWorks*.pkg', shell=True)  # Clean up packagemaker's mess
+    check_call('/bin/rm -Rf ~/.Trash/MWorks*.pkg', shell=True)  # Clean up packagemaker's mess
 
     scripts_path = os.path.join(installer_path, 'Contents/Packages/%s.pkg/Contents/Resources' % core_package_name)
-    check_call(['cp', 'uninstall_mworks', 'preflight', 'postflight', scripts_path])
-    check_call(['cp', 'uninstall_mworks', os.path.join(dmg_contents_dir, 'Uninstall MWorks')])
+    check_call(['/bin/cp', 'uninstall_mworks', 'preflight', 'postflight', scripts_path])
+    check_call(['/bin/cp', 'uninstall_mworks', os.path.join(dmg_contents_dir, 'Uninstall MWorks')])
 
     output_file = os.path.join(installer_root, '%s-%s.dmg' % (installer_name, installer_version))
-    check_call(['hdiutil', 'create', '-quiet', '-srcfolder', dmg_contents_dir, output_file])
+    check_call(['/usr/bin/hdiutil', 'create', '-quiet', '-srcfolder', dmg_contents_dir, output_file])
 
 
 if __name__ == '__main__':
