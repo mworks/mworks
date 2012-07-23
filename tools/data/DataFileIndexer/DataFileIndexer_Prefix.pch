@@ -1,0 +1,6 @@
+//
+// Prefix header for all source files of the 'DateFileIndexer' target in the 'DateFileIndexer' project.
+//
+
+
+#include <iostream>
