@@ -23,7 +23,7 @@ ServersideConduit::ServersideConduit(const ParameterValueMap &p) :
                                                                           resource_name));
 
     // build the conduit, attaching it to the core/client's event stream 
-    conduit = shared_ptr<mw::EventStreamConduit>(new mw::EventStreamConduit(transport, dynamic_pointer_cast<EventStreamInterface, Server>(core)));
+    conduit = shared_ptr<mw::EventStreamConduit>(new mw::EventStreamConduit(transport, core));
     conduit->initialize();
 
 }
