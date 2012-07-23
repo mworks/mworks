@@ -1,0 +1,42 @@
+<MWElements>
+	<MWElement name="NE500 Syringe Pump">
+		<!-- XPath 2.0 expression defining nodes of this type -->
+		<match_signature>iodevice[@type='NE500']</match_signature>
+        
+		<!-- Inheritance -->
+		<isa>IODevice</isa>
+		
+		<description>
+			Used for interfacing to an NE500 syringe pump, accessed via a serial-to-ethernet bridge.
+		</description>
+		<icon>smallIOFolder</icon>
+        
+		<!-- Payload -->
+		<code>
+			<iodevice address="#ne500_pump_address" alt="" id="" port="100" priority="" tag="NE500" type="NE500"/>
+		</code>
+	</MWElement>	
+
+    <MWElement name="NE500 Channel">
+		<!-- XPath 2.0 expression defining nodes of this type -->
+		<match_signature>iochannel[@type='NE500']</match_signature>
+        
+		<!-- Inheritance -->
+		<isa>IOChannel</isa>
+		<allowed_parent>NE500 Syringe Pump</allowed_parent>
+        
+		<description>
+			Used for interfacing to a NE500 syringe pump
+		</description>
+		<icon>smallIOFolder</icon>
+        
+		<!-- Payload -->
+		<code>
+            <iochannel capability="01" 
+                       flow_rate="50" 
+                       syringe_diameter="15.0" 
+                       tag="pump1" type="NE500" 
+                       variable=""/>
+        </code>
+	</MWElement>	
+</MWElements>
