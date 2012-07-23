@@ -96,7 +96,7 @@ def make(targets=[]):
 ################################################################################
 
 
-@builder('mw_build/new_installer')
+@builder('mworks/build/new_installer')
 def uninstall():
     check_call(['./uninstall_mworks', '--delete'])
 
