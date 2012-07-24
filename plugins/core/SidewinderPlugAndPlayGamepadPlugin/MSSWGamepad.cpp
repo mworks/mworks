@@ -269,20 +269,20 @@ bool mMSSWGamepad::updateButtonsDiscrete() {
 			}
 			
 			if(value < 63) {
-				if(D->getValue().getInteger() != 1) {
-					D->setValue(Datum(1L));
-				}				
-				if(U->getValue().getInteger() != 0) {
-					U->setValue(Datum(0L));
-				}				
-			}
-			
-			if(value > 63) {
 				if(D->getValue().getInteger() != 0) {
 					D->setValue(Datum(0L));
 				}				
 				if(U->getValue().getInteger() != 1) {
 					U->setValue(Datum(1L));
+				}				
+			}
+			
+			if(value > 63) {
+				if(D->getValue().getInteger() != 1) {
+					D->setValue(Datum(1L));
+				}				
+				if(U->getValue().getInteger() != 0) {
+					U->setValue(Datum(0L));
 				}				
 			}
 		} else if (i->getName() == "Button_1") {
@@ -347,13 +347,13 @@ bool mMSSWGamepad::updateButtonsContinuous() {
 			}
 			
 			if(value < 63) {
-				D->setValue(Datum(1L));
-				U->setValue(Datum(0L));
+				D->setValue(Datum(0L));
+				U->setValue(Datum(1L));
 			}
 			
 			if(value > 63) {
-				D->setValue(Datum(0L));
-				U->setValue(Datum(1L));
+				D->setValue(Datum(1L));
+				U->setValue(Datum(0L));
 			}
 		} else if (i->getName() == "Button_1") {
 			A->setValue(Datum((long)hidEvent.value));
