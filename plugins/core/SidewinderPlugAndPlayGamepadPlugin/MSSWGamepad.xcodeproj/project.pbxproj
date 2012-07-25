@@ -34,7 +34,6 @@
 /* Begin PBXBuildFile section */
 		0E02E7660EEDA60B0082CFCB /* MWLibrary.xml in Resources */ = {isa = PBXBuildFile; fileRef = 0E02E7650EEDA60B0082CFCB /* MWLibrary.xml */; };
 		0E37FBA30E59C3DD008B885D /* MSSWGamepadPlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E37FBA10E59C3DD008B885D /* MSSWGamepadPlugin.cpp */; };
-		0E43D1350E954D940056CD4C /* ButtonMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E43D1340E954D940056CD4C /* ButtonMap.cpp */; };
 		0E52AED30E93B9780013DFCC /* MSSWGamepad.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E52AECF0E93B9780013DFCC /* MSSWGamepad.cpp */; };
 		0E52AED40E93B9780013DFCC /* HIDUtilities.c in Sources */ = {isa = PBXBuildFile; fileRef = 0E52AED10E93B9780013DFCC /* HIDUtilities.c */; };
 		0E52AF5B0E93BE8B0013DFCC /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E52AF5A0E93BE8B0013DFCC /* IOKit.framework */; };
@@ -62,7 +61,6 @@
 		0E37FBA10E59C3DD008B885D /* MSSWGamepadPlugin.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MSSWGamepadPlugin.cpp; sourceTree = "<group>"; };
 		0E37FBA20E59C3DD008B885D /* MSSWGamepadPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSSWGamepadPlugin.h; sourceTree = "<group>"; };
 		0E43D1330E954D940056CD4C /* ButtonMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ButtonMap.h; sourceTree = "<group>"; };
-		0E43D1340E954D940056CD4C /* ButtonMap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ButtonMap.cpp; sourceTree = "<group>"; };
 		0E52AECF0E93B9780013DFCC /* MSSWGamepad.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MSSWGamepad.cpp; sourceTree = "<group>"; };
 		0E52AED00E93B9780013DFCC /* MSSWGamepad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSSWGamepad.h; sourceTree = "<group>"; };
 		0E52AED10E93B9780013DFCC /* HIDUtilities.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = HIDUtilities.c; sourceTree = "<group>"; };
@@ -137,7 +135,6 @@
 				0E37FBA10E59C3DD008B885D /* MSSWGamepadPlugin.cpp */,
 				0E37FBA20E59C3DD008B885D /* MSSWGamepadPlugin.h */,
 				0E43D1330E954D940056CD4C /* ButtonMap.h */,
-				0E43D1340E954D940056CD4C /* ButtonMap.cpp */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -295,7 +292,6 @@
 				0E37FBA30E59C3DD008B885D /* MSSWGamepadPlugin.cpp in Sources */,
 				689708DC0E5A03BB00CE38EA /* MSSWGamepadFactory.cpp in Sources */,
 				0E52AED40E93B9780013DFCC /* HIDUtilities.c in Sources */,
-				0E43D1350E954D940056CD4C /* ButtonMap.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

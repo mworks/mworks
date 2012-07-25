@@ -34,6 +34,10 @@ next_states = tuple(('Test %s press' % name.upper()) for name in button_names[1:
                     <action_marker _unmoveable="1" tag="Actions"></action_marker>
                     <action type="report" tag="Report" message="Testing ${data_type.upper()}"></action>
                     <action tag="Start IO Device" type="start_device_IO" device="gamepad_${data_type}"></action>
+                    <action type="if" tag="Conditionally Execute Actions" condition="up || down || left || right">
+                        <action type="report" tag="Report" message="Rock D-pad to clear bogus initial values"></action>
+                        <action type="wait" tag="Wait" duration="10" duration_units="s"></action>
+                    </action>
                     <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
                     <transition type="direct" tag="Always Go to ... 2" target="Test ${button_names[0].upper()} press"></transition>
                 </task_system_state>
