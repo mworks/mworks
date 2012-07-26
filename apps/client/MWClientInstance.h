@@ -90,7 +90,6 @@
 }
 
 - (id)initWithAppController:(AppController *)_appController;
-- (void)finalize;
 
 // Accessors
 - (shared_ptr<mw::Client>) coreClient;
@@ -190,6 +189,7 @@
 // Actions
 - (void)connect;
 - (void)disconnect;
+- (void)shutDown;
 
 - (void)loadExperiment;
 - (void)openDataFile;
@@ -210,6 +210,8 @@
 - (NSWindow *)groupedPluginWindow;
 - (void)hideAllPlugins;
 - (NSArray *)pluginWindows;
+- (void)saveOpenPluginWindows;
+- (void)restoreOpenPluginWindows;
 
 // Error Handling
 //- (void)launchErrorSheet;

@@ -10,19 +10,32 @@
 #ifndef BUTTON_MAP_H
 #define BUTTON_MAP_H
 
-#include "MWorksCore/GenericVariable.h"
-using namespace mw;
+#include <string>
 
 
-class mButtonMap {
-protected:
-	long capability_id;
-	std::string name;
+class ButtonMap {
+    
+private:
+    long capabilityID;
+    std::string name;
+    long minValue, maxValue, meanValue;
+    
 public:
-	mButtonMap(const long capability_id_,
-			   const std::string &name);
-	long getCapabilityID() const;	
-	std::string getName() const;
+    ButtonMap(long capabilityID, const std::string &name, long minValue, long maxValue) :
+        capabilityID(capabilityID),
+        name(name),
+        minValue(minValue),
+        maxValue(maxValue),
+        meanValue((maxValue - minValue) / 2L)
+    { }
+    
+    long getCapabilityID() const { return capabilityID; }
+    const std::string& getName() const { return name; }
+    long getMinValue() const { return minValue; }
+    long getMaxValue() const { return maxValue; }
+    long getMeanValue() const { return meanValue; }
+    
 };
+
 
 #endif

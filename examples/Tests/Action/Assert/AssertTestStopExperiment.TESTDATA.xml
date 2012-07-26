@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<marionette_info>
+  <expected_messages>
+    <message type="whole_message">ERROR: Assertion: This shouldn't stop the experiment</message>
+    <message type="whole_message">ERROR: Assertion: This SHOULD stop the experiment</message>
+    <message type="whole_message">ERROR: Stopping experiment due to failed assertion</message>
+  </expected_messages>
+  <expected_events>
+    <event variable="#announceAssertion" continue="0">
+      <value type="string">This shouldn't stop the experiment</value>
+    </event>
+    <event variable="#announceAssertion" continue="0">
+      <value type="string">This SHOULD stop the experiment</value>
+    </event>
+  </expected_events>
+</marionette_info>

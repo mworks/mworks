@@ -12,40 +12,28 @@
 @implementation MWVariableDisplayItem
 
 
-- (id) initWithGroupName:(NSString *)name
-			andVariables:(NSArray *)vars {
-    if (self = [super init])
-    {
-		displayName = name;
-		parent = nil;
-		children = [[NSMutableArray alloc] initWithCapacity:[vars count]];
+@synthesize displayName;
 
-		NSString *newVarName;
-		
-		NSEnumerator *enumerator = [vars objectEnumerator];
-		while(newVarName = [enumerator nextObject]) {
-			MWVariableDisplayItem *newChild = [[MWVariableDisplayItem alloc] initWithVarName:newVarName
-																				   andParent:self];
-			[children addObject:newChild];
-		}
+
+- (id)initWithName:(NSString *)name
+{
+    if ((self = [super init])) {
+        displayName = [name copy];
     }
     return self;
 }
 
-- (id) initWithVarName:(NSString *)name
-			 andParent:(id)_parent {
-    if (self = [super init])
-    {
-		displayName = name;
-		parent = _parent;
-		children = nil;
-    }
-    return self;	
-}
 
-- (NSString *)displayName
+- (void)setVariables:(NSArray *)vars
 {
-    return displayName;
+    [children release];
+    children = [[NSMutableArray alloc] initWithCapacity:[vars count]];
+    
+    for (NSString *newVarName in vars) {
+        MWVariableDisplayItem *newChild = [[MWVariableDisplayItem alloc] initWithName:newVarName];
+        [children addObject:newChild];
+        [newChild release];
+    }
 }
 
 
@@ -57,6 +45,7 @@
 		return nil;
 	}
 }
+
 
 - (int)numberOfChildren
 {
@@ -70,14 +59,36 @@
 
 - (void)dealloc
 {
-    if (children) [children release];
+    [children release];
     [displayName release];
     [super dealloc];
 }
 
-- (MWVariableDisplayItem *)parent {	
-	return parent;
-}
 
 @end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

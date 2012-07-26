@@ -36,7 +36,12 @@ public:
     virtual Datum getCurrentAnnounceDrawData();
     
 protected:
+    virtual void endPause();
+    
     VariablePtr autoplay;
+    
+private:
+    bool didDrawWhilePaused;
     
 };
 

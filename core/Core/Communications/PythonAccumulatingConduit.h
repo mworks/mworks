@@ -31,21 +31,18 @@ namespace mw {
     using namespace std;
     
     
-    class PythonEventListCallback{
-        
-    protected:
-        boost::python::object function_object;
+    class PythonEventListCallback : public PythonEventCallback {
         
     public:
         
         typedef vector< shared_ptr<Event> > EventList;
         
-        PythonEventListCallback(boost::python::object _function_object){
-            function_object = _function_object;
-        }
+        PythonEventListCallback(boost::python::object _function_object) :
+            PythonEventCallback(_function_object)
+        { }
         
         void callback(shared_ptr<EventList> evts){
-            PyGILState_STATE gstate = PyGILState_Ensure();
+            ScopedGILAcquire sga;
             
             boost::python::list evts_list;
             
@@ -56,12 +53,10 @@ namespace mw {
             //EventList evts_copy(*evts);
             
             try {
-                function_object(evts_list);
+                (*function_object)(evts_list);
             } catch (error_already_set &) {
                 PyErr_Print();
             }
-            
-            PyGILState_Release(gstate);
         }
         
         
@@ -97,6 +92,7 @@ namespace mw {
         
         
         virtual bool initialize(){
+            ScopedGILRelease sgr;
             
             try{
                 conduit = shared_ptr<CodecAwareConduit>(new AccumulatingConduit(transport, start_evt, end_evt, events_to_watch));
@@ -112,6 +108,11 @@ namespace mw {
         virtual void registerBundleCallback(boost::python::object function_object){
             
             shared_ptr<PythonEventListCallback> cb(new PythonEventListCallback(function_object));
+            
+            // Need to hold the GIL until *after* we create the PythonEventListCallback, since doing so
+            // involves an implicit PyINCREF
+            ScopedGILRelease sgr;
+            
             shared_ptr<AccumulatingConduit> accumulating_conduit = dynamic_pointer_cast<AccumulatingConduit>(conduit);
             accumulating_conduit->registerBundleCallback(bind(&PythonEventListCallback::callback, cb, _1));
         }

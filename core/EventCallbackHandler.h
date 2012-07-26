@@ -23,6 +23,7 @@
 #include <map>
 #include <boost/thread/mutex.hpp>
 #include <boost/thread/recursive_mutex.hpp>
+#include "MWorksMacros.h"
 #include "Utilities.h"
 
 #include "Event.h"
@@ -31,7 +32,9 @@ using namespace boost;
 using namespace std;
 using namespace __gnu_cxx;
 
-namespace mw{
+
+BEGIN_NAMESPACE_MW
+
 
 typedef boost::function<void(shared_ptr<Event>)>  EventCallback;
 
@@ -71,7 +74,7 @@ typedef multimap<string, int>      EventCallbackKeyCodeMap;
 
 class EventCallbackHandler {
     
-protected:
+private:
     
     // A dictionary of callback functors by code
     EventCallbackMap                callbacks_by_code;
@@ -82,16 +85,35 @@ protected:
     // Thread safety measures
     boost::mutex callbacks_lock;
     boost::recursive_mutex recursive_callbacks_lock;
-    bool recursively_lock_callbacks;
+    const bool recursively_lock_callbacks;
+   
+protected:
     
-    void lock_callbacks();
-    void unlock_callbacks();
+    class CallbacksLock {
+    public:
+        CallbacksLock(EventCallbackHandler &h) : handler(h) {
+            if (handler.recursively_lock_callbacks) {
+                handler.recursive_callbacks_lock.lock();
+            } else {
+                handler.callbacks_lock.lock();
+            }
+        }
+        
+        ~CallbacksLock() {
+            if (handler.recursively_lock_callbacks){
+                handler.recursive_callbacks_lock.unlock();
+            } else {
+                handler.callbacks_lock.unlock();
+            }
+        }
+        
+    private:
+        EventCallbackHandler &handler;
+    };
     
 public:
     
-    EventCallbackHandler(bool locking){
-        recursively_lock_callbacks = locking;
-    }
+    EventCallbackHandler(bool locking) : recursively_lock_callbacks(locking) { }
     
     virtual ~EventCallbackHandler(){ 
         // grab these locks to ensure that anyone else who needs them
@@ -113,6 +135,9 @@ public:
     virtual void handleCallbacks(shared_ptr<Event> evt);
     
 };
-}
+
+
+END_NAMESPACE_MW
+
 
 #endif

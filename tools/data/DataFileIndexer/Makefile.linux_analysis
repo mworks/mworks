@@ -1,0 +1,33 @@
+CC=g++
+CFLAGS=-g -fPIC -I. -I$(INSTALL_DIR)/include
+
+all: DataFileIndexer.o DataFileUtilities.o ScarabDatumWrapper.o EventBlock.o dfindex.o
+
+DataFileIndexer.o: DataFileIndexer.cpp DataFileIndexer.h ScarabDatumWrapper.h EventBlock.h
+	$(CC) $(CFLAGS) -c DataFileIndexer.cpp
+
+DataFileUtilities.o: DataFileUtilities.cpp DataFileUtilities.h MonkeyWorksCore.h ScarabDatumWrapper.h EventBlock.h
+	$(CC) $(CFLAGS) -c DataFileUtilities.cpp
+
+EventBlock.o: MonkeyWorksCore.h EventBlock.h EventBlock.cpp
+	$(CC) $(CFLAGS) -c EventBlock.cpp
+
+ScarabDatumWrapper.o: ScarabDatumWrapper.h ScarabDatumWrapper.cpp
+	$(CC) $(CFLAGS) -c ScarabDatumWrapper.cpp
+
+dfindex.o: dfindex.cpp dfindex.h ScarabDatumWrapper.h MonkeyWorksCore.h
+	$(CC) $(CFLAGS) -c dfindex.cpp
+
+install: all
+	mkdir -p $(INSTALL_DIR)/include/dfindex
+	cp -f *.h $(INSTALL_DIR)/include/dfindex
+	mkdir -p $(INSTALL_DIR)/lib
+
+
+clean:
+	rm -rf $(INSTALL_DIR)/include/dfindex
+	rm -f *~
+	rm -f *.o
+
+
+####################################################

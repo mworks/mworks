@@ -81,6 +81,58 @@ bool StopDynamicStimulus::execute() {
 }
 
 
+void PauseDynamicStimulus::describeComponent(ComponentInfo &info) {
+    DynamicStimulusAction::describeComponent(info);
+    info.setSignature("action/pause_dynamic_stimulus");
+}
+
+
+PauseDynamicStimulus::PauseDynamicStimulus(const ParameterValueMap &parameters) :
+    DynamicStimulusAction(parameters)
+{
+    setName("PauseDynamicStimulus");
+}
+
+
+bool PauseDynamicStimulus::execute() {
+    DynamicStimulusDriverPtr stimulus(getDynamicStimulus());
+    
+    if (!stimulus) {
+        merror(M_PARADIGM_MESSAGE_DOMAIN, "Attempted to pause a non-dynamic stimulus.  Doing nothing.");
+        return false;
+    }
+    
+    stimulus->pause();
+    return true;
+}
+
+
+void UnpauseDynamicStimulus::describeComponent(ComponentInfo &info) {
+    DynamicStimulusAction::describeComponent(info);
+    info.setSignature("action/unpause_dynamic_stimulus");
+}
+
+
+UnpauseDynamicStimulus::UnpauseDynamicStimulus(const ParameterValueMap &parameters) :
+    DynamicStimulusAction(parameters)
+{
+    setName("UnpauseDynamicStimulus");
+}
+
+
+bool UnpauseDynamicStimulus::execute() {
+    DynamicStimulusDriverPtr stimulus(getDynamicStimulus());
+    
+    if (!stimulus) {
+        merror(M_PARADIGM_MESSAGE_DOMAIN, "Attempted to unpause a non-dynamic stimulus.  Doing nothing.");
+        return false;
+    }
+    
+    stimulus->unpause();
+    return true;
+}
+
+
 END_NAMESPACE_MW
 
 

@@ -206,7 +206,10 @@ void NE500PumpNetworkDevice::disconnectFromDevice() {
 
 string NE500PumpNetworkDevice::sendMessage(string message){
 			
-	#define RECV_BUFFER_SIZE	512
+	#define RECV_BUFFER_SIZE        512
+    #define RESPONSE_TIMEOUT_MS     100
+    #define PUMP_SERIAL_DELIMITER_CHAR 3 // ETX
+    
 	char recv_buffer[RECV_BUFFER_SIZE];
 	int rc;
 	bool broken = false;
@@ -229,54 +232,92 @@ string NE500PumpNetworkDevice::sendMessage(string message){
 		
 		// give it a moment
 		shared_ptr<Clock> clock = Clock::instance();
-		clock->sleepMS(1);
-		
+		MWTime tic = clock->getCurrentTimeMS();
+        
 		while(true){
 			rc = recv(s, recv_buffer, RECV_BUFFER_SIZE, 0);
 			
+            // didn't receive data
 			if(rc < 0){
 
+                // any response other than EWOULDBLOCK (basically, no data yet)
+                // is a sign that an error has occurred.
 				if(errno != EWOULDBLOCK){
 					broken = true;
 				}
-				break;
+                
+                // if the response is complete
+                // NE500 responses are of the form: "\t01S"
+                if(result.size() > 1 && result[result.size() - 1] == PUMP_SERIAL_DELIMITER_CHAR){
+                    
+                    if(result.size() > 3){
+                        char status_char = result[3];
+                        
+                        
+                        switch(status_char){
+                                
+                            case 'S':
+                            case 'W':
+                            case 'I':
+                                
+                                break;
+                            default:
+                                mwarning(M_SYSTEM_MESSAGE_DOMAIN,
+                                         "An unknown response was received from the syringe pump: %c", status_char);
+                        }
+                    }
+                    
+                    if(result.size() > 4){
+                        
+                        char error_char = result[4];
+                        if(error_char == '?'){
+                            string error_code = result.substr(5, result.size() - 6);
+                            string err_str("");
+                            
+                            if(error_code == ""){
+                                err_str = "Unrecognized command";
+                            } else if(error_code == "OOR"){
+                                err_str = "Out of Range";
+                            } else if(error_code == "NA"){
+                                err_str = "Command currently not applicable";
+                            } else if(error_code == "IGN"){
+                                err_str = "Command ignored";
+                            } else if(error_code == "COM"){
+                                err_str = "Communications failure";
+                            } else {
+                                err_str = "Unspecified error";
+                            }
+                            
+                            mwarning(M_SYSTEM_MESSAGE_DOMAIN,
+                                     "The syringe pump returned an error: %s (%s)", err_str.c_str(), error_code.c_str());
+                        }
+                    }
+                
+                    break;
+                
+                } else if((clock->getCurrentTimeMS() - tic) > RESPONSE_TIMEOUT_MS){
+                    mwarning(M_SYSTEM_MESSAGE_DOMAIN,
+                             "Did not receive a complete response from the pump");
+                    break;
+                }
 			}
 			
 			result += string(recv_buffer);
 		}
 		
 		if(broken){
-			broken = false;
+
 			disconnectFromDevice();
 			
 			mwarning(M_SYSTEM_MESSAGE_DOMAIN,
-					 "Connection lost, reconnecting...");
+					 "Connection lost, reconnecting..."
+                     "Command may not have been sent correctly");
 			connectToDevice();
 		
-			// try again
-			while(true){
-				rc = recv(s, recv_buffer, RECV_BUFFER_SIZE, 0);
-				
-				if(rc < 0){
-
-					if(errno != EWOULDBLOCK){
-						broken = true;
-					}
-					break;
-				}
-				
-				result += string(recv_buffer);
-			}
 		}
+					
 		
-		
-		if(broken){
-			merror(M_SYSTEM_MESSAGE_DOMAIN,
-					"Connection to device lost; message not sent");
-		}
-			
-		
-	mprintf("RETURNED: %s", result.c_str());
+        mprintf("RETURNED: %s", result.c_str());
 	}
 	
 	

@@ -11,6 +11,7 @@
 #define PYTHON_SIMPLE_CONDUIT_H_
 
 #include <boost/python.hpp>
+#include <boost/noncopyable.hpp>
 
 #include "CodecAwareConduit.h"
 #include "IPCEventTransport.h"
@@ -21,32 +22,51 @@
 #include "CoreBuilderForeman.h"
 #include "StandardServerCoreBuilder.h"
 
-namespace mw {
 using namespace boost::python;
 
 
-class PythonEventCallback{
+BEGIN_NAMESPACE_MW
 
-  protected:
-    boost::python::object function_object;
+
+class PythonEventCallback : boost::noncopyable {
+
+protected:
+    // Use a pointer so that we can ensure that the GIL is held when the object is destroyed
+    boost::python::object *function_object;
     
-  public:
+    class ScopedGILAcquire : boost::noncopyable {
+    private:
+        PyGILState_STATE gstate;
+    public:
+        ScopedGILAcquire() {
+            gstate = PyGILState_Ensure();
+        }
+        ~ScopedGILAcquire() {
+            PyGILState_Release(gstate);
+        }
+    };
+    
+public:
 
     PythonEventCallback(boost::python::object _function_object){
-        function_object = _function_object;
+        // The caller should already hold the GIL, so we don't acquire it here
+        function_object = new boost::python::object(_function_object);
+    }
+    
+    ~PythonEventCallback() {
+        ScopedGILAcquire sga;
+        delete function_object;
     }
     
     void callback(shared_ptr<Event> evt){
-        PyGILState_STATE gstate = PyGILState_Ensure();
+        ScopedGILAcquire sga;
         Event evt_copy(*evt);
         
         try {
-            function_object(evt_copy);
+            (*function_object)(evt_copy);
         } catch (error_already_set &) {
             PyErr_Print();
         }
-        
-        PyGILState_Release(gstate);
     }
 
 
@@ -56,7 +76,7 @@ class PythonEventCallback{
 // conduit to send events from a python application into MW
 class PythonIPCPseudoConduit {
 
-  protected:
+protected:
 
     std::string resource_name;
     shared_ptr<EventTransport> transport;
@@ -64,13 +84,26 @@ class PythonIPCPseudoConduit {
     bool initialized;
     bool correct_incoming_timestamps;
     
-  public:
+    class ScopedGILRelease : boost::noncopyable {
+    private:
+        PyThreadState *threadState;
+    public:
+        ScopedGILRelease() {
+            threadState = PyEval_SaveThread();
+        }
+        ~ScopedGILRelease() {
+            PyEval_RestoreThread(threadState);
+        }
+    };
+    
+public:
 
-    PythonIPCPseudoConduit(std::string _resource_name, 
+    PythonIPCPseudoConduit(std::string _resource_name,
                            bool _correct_incoming_timestamps,
                            EventTransport::event_transport_type type) :
-                           correct_incoming_timestamps(_correct_incoming_timestamps)
+        correct_incoming_timestamps(_correct_incoming_timestamps)
     {
+        ScopedGILRelease sgr;
         
         // if there's no clock defined, create the core infrastructure
         if(!Clock::instance(false)){
@@ -92,7 +125,6 @@ class PythonIPCPseudoConduit {
             initialized = false;
             throw SimpleException("Failed to build conduit: ", e.what());
         }
-        
     }
     
     virtual bool isInitialized(){
@@ -100,6 +132,7 @@ class PythonIPCPseudoConduit {
     }
     
     virtual bool initialize(){
+        ScopedGILRelease sgr;
         
         try{
             conduit = shared_ptr<CodecAwareConduit>(new CodecAwareConduit(transport, 
@@ -119,25 +152,41 @@ class PythonIPCPseudoConduit {
     }
     
     virtual void registerCallbackForCode(int code, boost::python::object function_object){
-    
+        
         shared_ptr<PythonEventCallback> callback(new PythonEventCallback(function_object));
+        
+        // Need to hold the GIL until *after* we create the PythonEventCallback, since doing so
+        // involves an implicit PyINCREF
+        ScopedGILRelease sgr;
+        
         conduit->registerCallback(code, bind(&PythonEventCallback::callback, callback, _1));
     }
 
     virtual void registerCallbackForName(string event_name, boost::python::object function_object){
         
         shared_ptr<PythonEventCallback> cb(new PythonEventCallback(function_object));
+        
+        // Need to hold the GIL until *after* we create the PythonEventCallback, since doing so
+        // involves an implicit PyINCREF
+        ScopedGILRelease sgr;
+        
         conduit->registerCallbackByName(event_name, bind(&PythonEventCallback::callback, cb, _1));
     }
     
     
     virtual void registerLocalEventCode(int code, string event_name){
+        ScopedGILRelease sgr;
         conduit->registerLocalEventCode(code, event_name);
     } 
     
     virtual boost::python::dict getAndConvertCodec(bool reverse=false){
         boost::python::dict d;
-        map<int, string> codec = conduit->getRemoteCodec();
+        map<int, string> codec;
+        
+        {
+            ScopedGILRelease sgr;
+            codec = conduit->getRemoteCodec();
+        }
         
         map<int, string>::iterator i;
         for(i = codec.begin(); i != codec.end(); i++){
@@ -162,6 +211,7 @@ class PythonIPCPseudoConduit {
     
     
     virtual void finalize(){
+        ScopedGILRelease sgr;
         if(conduit != NULL){
             conduit->finalize();
         } else {
@@ -219,6 +269,7 @@ class PythonIPCPseudoConduit {
     }
     
     virtual void sendPyObject(int code, PyObject *pyobj){
+        ScopedGILRelease sgr;
         if(conduit != NULL){
             conduit->sendData(code, packagePyObject(pyobj));
         } else {
@@ -227,7 +278,8 @@ class PythonIPCPseudoConduit {
     }
     
     virtual void sendFloat(int code, double data){
-
+        ScopedGILRelease sgr;
+        
         if(conduit != NULL){
             conduit->sendData(code, Datum(data));
         }else {
@@ -237,6 +289,7 @@ class PythonIPCPseudoConduit {
     }
 
     virtual void sendInteger(int code, long data){
+        ScopedGILRelease sgr;
         if(conduit != NULL){
             conduit->sendData(code, Datum(data));
         } else {
@@ -248,7 +301,7 @@ class PythonIPCPseudoConduit {
 
 class PythonIPCServerConduit : public PythonIPCPseudoConduit {
 
-  public:
+public:
     PythonIPCServerConduit(std::string _resource_name, 
                            bool correct_incoming_timestamps=false) : 
                            PythonIPCPseudoConduit(_resource_name, 
@@ -257,7 +310,7 @@ class PythonIPCServerConduit : public PythonIPCPseudoConduit {
 };
 
 class PythonIPCClientConduit : public PythonIPCPseudoConduit {
-  public:
+public:
     PythonIPCClientConduit(std::string _resource_name, 
                            bool correct_incoming_timestamps=false) :
                            PythonIPCPseudoConduit(_resource_name, 
@@ -271,7 +324,7 @@ extern PyObject *convert_scarab_to_python(ScarabDatum *datum);
 extern PyObject *convert_datum_to_python(Datum datum);
     
     
+END_NAMESPACE_MW
 
-}
 
 #endif

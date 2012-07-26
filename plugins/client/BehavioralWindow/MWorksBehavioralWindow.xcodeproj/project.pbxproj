@@ -67,7 +67,7 @@
 		5C07403B0B25D5DD00B39336 /* Main.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = Main.nib; sourceTree = "<group>"; };
 		5CE62AAD1158589000C757F1 /* Development.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Development.xcconfig; path = "/Library/Application Support/MWorks/Developer/Xcode/Development.xcconfig"; sourceTree = "<absolute>"; };
 		5CE62AAE1158589000C757F1 /* WARNING.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = WARNING.txt; path = "/Library/Application Support/MWorks/Developer/Xcode/WARNING.txt"; sourceTree = "<absolute>"; };
-		5CF17CCF11000D0700B7EF53 /* Narrative.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Narrative.framework; sourceTree = "<group>"; };
+		5CF17CCF11000D0700B7EF53 /* Narrative.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Narrative.framework; path = "/Library/Application Support/MWorks/Developer/Frameworks/Narrative.framework"; sourceTree = "<absolute>"; };
 		5CF287500994124E000C55A3 /* MWorksCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MWorksCocoa.framework; path = /Library/Frameworks/MWorksCocoa.framework; sourceTree = "<absolute>"; };
 		5CF2875F099412A7000C55A3 /* MWorksCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MWorksCore.framework; path = /Library/Frameworks/MWorksCore.framework; sourceTree = "<absolute>"; };
 		686E22E50AC84B66003EFDDA /* MWorksBehavioralWindow.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MWorksBehavioralWindow.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -314,7 +314,7 @@
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
 				);
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(FINAL_INSTALL_DIR)/$(TARGET_NAME).$(WRAPPER_EXTENSION)/Contents/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SRCROOT)\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(MW_DEVELOPER_DIR)/Frameworks\"";
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
 				MACH_O_TYPE = mh_bundle;

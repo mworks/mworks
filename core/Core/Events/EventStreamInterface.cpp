@@ -15,7 +15,6 @@ using namespace std;
 
 EventStreamInterface::EventStreamInterface(MessageDomain _dom, bool locking) : EventCallbackHandler(locking){
     message_domain = _dom;
-    recursively_lock_callbacks = locking;
 }
 
 EventStreamInterface::~EventStreamInterface() { }

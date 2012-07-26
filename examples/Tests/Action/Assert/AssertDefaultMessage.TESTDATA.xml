@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<marionette_info>
+  <expected_messages>
+    <message type="whole_message">ERROR: Assertion: Condition failed: 2 &lt; 1</message>
+  </expected_messages>
+  <expected_events>
+    <event variable="#announceAssertion" continue="0">
+      <value type="string">Condition failed: 2 &lt; 1</value>
+    </event>
+  </expected_events>
+</marionette_info>

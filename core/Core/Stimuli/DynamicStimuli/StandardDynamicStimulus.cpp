@@ -23,13 +23,14 @@ void StandardDynamicStimulus::describeComponent(ComponentInfo &info) {
 
 StandardDynamicStimulus::StandardDynamicStimulus(const ParameterValueMap &parameters) :
     Stimulus(parameters),
-    autoplay(parameters[AUTOPLAY])
+    autoplay(parameters[AUTOPLAY]),
+    didDrawWhilePaused(false)
 {
 }
 
 
 bool StandardDynamicStimulus::needDraw() {
-    return isPlaying();
+    return isPlaying() && !(isPaused() && didDrawWhilePaused);
 }
 
 
@@ -45,6 +46,10 @@ void StandardDynamicStimulus::draw(shared_ptr<StimulusDisplay> display) {
     }
     
     drawFrame(display);
+    
+    if (isPaused()) {
+        didDrawWhilePaused = true;
+    }
 }
 
 
@@ -55,6 +60,12 @@ Datum StandardDynamicStimulus::getCurrentAnnounceDrawData() {
     announceData.addElement(STIM_TYPE, "standard_dynamic_stimulus");  
     announceData.addElement("start_time", getStartTime());  
     return announceData;
+}
+
+
+void StandardDynamicStimulus::endPause() {
+    DynamicStimulusDriver::endPause();
+    didDrawWhilePaused = false;
 }
 
 

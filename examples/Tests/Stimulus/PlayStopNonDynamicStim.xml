@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" standalone="no"?>
 <monkeyml version="1.0">
     <io_devices tag="IO Devices"></io_devices>
     <variables tag="Variables"></variables>
@@ -15,6 +15,10 @@
             <action tag="Play dynamic stimulus" stimulus="background" type="play_dynamic_stimulus"></action>
             <action type="wait" tag="Wait" duration="2" duration_units="s"></action>
             <action tag="Stop dynamic stimulus" stimulus="background" type="stop_dynamic_stimulus"></action>
+            <action type="wait" tag="Wait 2" duration="2" duration_units="s"></action>
+            <action tag="Pause dynamic stimulus" type="pause_dynamic_stimulus" stimulus="background"></action>
+            <action type="wait" tag="Wait 3" duration="2" duration_units="s"></action>
+            <action tag="Unpause dynamic stimulus" type="unpause_dynamic_stimulus" stimulus="background"></action>
             <action tag="Dequeue Stimulus" type="dequeue_stimulus" stimulus="background"></action>
             <action tag="Update display 2" type="update_stimulus_display"></action>
         </protocol>

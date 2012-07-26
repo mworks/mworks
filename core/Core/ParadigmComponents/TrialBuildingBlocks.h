@@ -103,37 +103,62 @@ class AssignmentFactory : public ComponentFactory{
 };
 
 
-class ReportString : public Action {
+class MessageAction : public Action {
+    
 protected:
-	std::vector <shared_ptr<Variable> >stringFragments;
-	bool error;
+    std::vector < shared_ptr<Variable> > stringFragments;
+    bool error;
+    
+    void parseMessage(const std::string &msg);
+    std::string getMessage() const;
+    
 public:
-	ReportString(const std::string &string_to_report);
-	virtual ~ReportString();
-	virtual bool execute();
+    static const std::string MESSAGE;
+    
+    explicit MessageAction(const Map<ParameterValue> &parameters);
+    MessageAction() { }
+    
+    virtual ~MessageAction() { }
+    
 };
 
-class ReportStringFactory : public ComponentFactory{
-	virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-												ComponentRegistry *reg);
+
+class ReportString : public MessageAction {
+    
+public:
+    static void describeComponent(ComponentInfo &info);
+    
+    explicit ReportString(const Map<ParameterValue> &parameters);
+    explicit ReportString(const std::string &message);
+    
+    virtual ~ReportString() { }
+    
+    virtual bool execute();
+    
 };
 
 
-class AssertionAction : public ReportString {
+class AssertionAction : public MessageAction {
+    
 protected:
-	shared_ptr<Variable> condition;
-	
+    shared_ptr<Variable> condition;
+    const bool stopOnFailure;
+    
 public:
-	AssertionAction(shared_ptr<Variable> _condition, 
-					 const std::string &_assertion_message);
-	virtual ~AssertionAction();		
-	virtual bool execute();
+    static const std::string CONDITION;
+    static const std::string STOP_ON_FAILURE;
+    
+    static void describeComponent(ComponentInfo &info);
+    
+    explicit AssertionAction(const Map<ParameterValue> &parameters);
+    AssertionAction(shared_ptr<Variable> condition, const std::string &message, bool stopOnFailure = false);
+    
+    virtual ~AssertionAction() { }
+    
+    virtual bool execute();
+    
 };
 
-class AssertionActionFactory : public ComponentFactory{
-	virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-												ComponentRegistry *reg);
-};
 
 class NextVariableSelection : public Action {
 	
@@ -731,6 +756,18 @@ class TaskSystemFactory : public ComponentFactory{
 	}
 };
 
+
+class StopExperiment : public Action {
+    
+public:
+    static void describeComponent(ComponentInfo &info);
+    
+    explicit StopExperiment(const ParameterValueMap &parameters);
+    virtual ~StopExperiment() { }
+    
+    virtual bool execute();
+    
+};
 
 
 // action to cause the calibrator object to take a calibration value immediately
