@@ -64,6 +64,8 @@ public:
     // everything is done and the object can be safely destroyed.
     virtual void finalize();
     
+    // A special callback to handle important system events from the other side of the conduit
+    virtual void handleSystemEvent(shared_ptr<Event> evt);
     
 };
 
