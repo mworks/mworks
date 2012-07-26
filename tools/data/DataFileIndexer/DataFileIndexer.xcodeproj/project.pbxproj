@@ -522,84 +522,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		0E60D6050E6D89E600B82521 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				PRODUCT_NAME = diindexerInstall;
-				ZERO_LINK = NO;
-			};
-			name = Release;
-		};
-		0EA58F0F0D6B20120027A3AC /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_MODEL_TUNING = G5;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
-				INFOPLIST_FILE = "Test-Info.plist";
-				INSTALL_PATH = "$(HOME)/Applications";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Carbon,
-				);
-				PRODUCT_NAME = Test;
-				WRAPPER_EXTENSION = app;
-				ZERO_LINK = NO;
-			};
-			name = Release;
-		};
-		0EA58F9C0D6B25000027A3AC /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_MODEL_TUNING = G5;
-				INSTALL_PATH = /usr/local/lib;
-				PRODUCT_NAME = dfindex;
-				ZERO_LINK = NO;
-			};
-			name = Release;
-		};
-		1DEB916608733D950010E9CD /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5073E0C609E734A800EC74B6 /* DataFileIndexerProj.xcconfig */;
-			buildSettings = {
-				ARCHS = (
-					ppc,
-					i386,
-				);
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				SDKROOT = "";
-			};
-			name = Release;
-		};
-		5C2A62001039DD7F00A62CBA /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				EXECUTABLE_PREFIX = lib;
-				GCC_MODEL_TUNING = G5;
-				INSTALL_PATH = /usr/local/lib;
-				OTHER_LDFLAGS = (
-					"-lboost_filesystem",
-					"-lscarab",
-					"-lboost_system",
-					"-lpython2.6",
-					"-lboost_serialization",
-					"-lboost_python",
-				);
-				PRODUCT_NAME = DataFile;
-				ZERO_LINK = NO;
-			};
-			name = Release;
-		};
 		5C7242FF1097F3ED004887A5 /* Development */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E1C78767116FA6C1004928BF /* Development.xcconfig */;
@@ -645,7 +567,7 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
-				INSTALL_PATH = "$(DEVELOPER_DIR)";
+				INSTALL_PATH = "$(MW_DEVELOPER_DIR)";
 				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
 				PRODUCT_NAME = dfindex;
 			};
@@ -720,19 +642,6 @@
 			};
 			name = Development;
 		};
-		5CA077A010CE9F6C00000A95 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_MODEL_TUNING = G5;
-				INSTALL_PATH = /usr/local/bin;
-				PRODUCT_NAME = PythonBindingsTest;
-				ZERO_LINK = NO;
-			};
-			name = Release;
-		};
 		E16EB57E114EDDB500F23DB5 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -743,16 +652,6 @@
 			};
 			name = Development;
 		};
-		E16EB57F114EDDB500F23DB5 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				PRODUCT_NAME = Everything;
-				ZERO_LINK = NO;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -760,64 +659,57 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5C7243021097F3ED004887A5 /* Development */,
-				0E60D6050E6D89E600B82521 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Development;
 		};
 		0EA58F100D6B20120027A3AC /* Build configuration list for PBXNativeTarget "Test" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5C7243001097F3ED004887A5 /* Development */,
-				0EA58F0F0D6B20120027A3AC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Development;
 		};
 		0EA58FB10D6B25870027A3AC /* Build configuration list for PBXNativeTarget "dfindex" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5C7243011097F3ED004887A5 /* Development */,
-				0EA58F9C0D6B25000027A3AC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Development;
 		};
 		1DEB916408733D950010E9CD /* Build configuration list for PBXProject "DataFileIndexer" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5C7242FF1097F3ED004887A5 /* Development */,
-				1DEB916608733D950010E9CD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Development;
 		};
 		5C2A62011039DDAA00A62CBA /* Build configuration list for PBXNativeTarget "Python Bindings" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5C7243031097F3ED004887A5 /* Development */,
-				5C2A62001039DD7F00A62CBA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Development;
 		};
 		5CA077A810CE9F7700000A95 /* Build configuration list for PBXNativeTarget "Python Bindings Test" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5CA0779F10CE9F6C00000A95 /* Development */,
-				5CA077A010CE9F6C00000A95 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Development;
 		};
 		E16EB58A114EDE1100F23DB5 /* Build configuration list for PBXAggregateTarget "Everything" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E16EB57E114EDDB500F23DB5 /* Development */,
-				E16EB57F114EDDB500F23DB5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Development;
 		};
 /* End XCConfigurationList section */
 	};

@@ -282,73 +282,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		0E2D77260D71EDDE005AFCC2 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				APP_SUPPORT_DIR = "/Library/Application Support/MonkeyWorks";
-				ARCHS = i386;
-				COPY_PHASE_STRIP = YES;
-				FINAL_INSTALL_DIR = "$(APP_SUPPORT_DIR)/Tools";
-				HEADER_SEARCH_PATHS = (
-					"$(HEADER_SEARCH_PATHS_QUOTED_FOR_PROJECT_1)",
-					"$(MATLAB_DIR)/extern/include",
-					"$(MW_INCLUDE_DIR)",
-				);
-				HEADER_SEARCH_PATHS_QUOTED_FOR_PROJECT_1 = "\"$(FINAL_INSTALL_DIR)/include\"";
-				LIBRARY_SEARCH_PATHS = (
-					"$(MATLAB_DIR)/bin/maci",
-					"$(MW_LIB_DIR)",
-				);
-				MATLAB_DIR = "\"$(APP_SUPPORT_DIR)/Scripting/Matlab/MATLAB\"";
-				MW_INCLUDE_DIR = "\"$(APP_SUPPORT_DIR)/Developer/gcc40/include\"";
-				MW_LIB_DIR = "\"$(APP_SUPPORT_DIR)/Developer/gcc40/lib\"";
-				SDKROOT = "";
-			};
-			name = Release;
-		};
-		0E454E400D71EF000040E668 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_MODEL_TUNING = G5;
-				PRODUCT_NAME = MWorksStreamUtilities;
-			};
-			name = Release;
-		};
-		0E454EA70D71F7FF0040E668 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_MODEL_TUNING = G5;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
-				INFOPLIST_FILE = "MWSUtest-Info.plist";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Carbon,
-					"-lscarab",
-					"-lMWorksStreamUtilities",
-					"-lmat",
-					"-lmx",
-				);
-				PRODUCT_NAME = MWSUtest;
-				SKIP_INSTALL = YES;
-				WRAPPER_EXTENSION = app;
-			};
-			name = Release;
-		};
-		0E60D6200E6D8D9E00B82521 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				PRODUCT_NAME = UninstallMWorksStreamUtilities;
-				ZERO_LINK = NO;
-			};
-			name = Release;
-		};
 		E17B9F67119CABD100EEBF5D /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -359,22 +292,12 @@
 			};
 			name = Development;
 		};
-		E17B9F68119CABD100EEBF5D /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				PRODUCT_NAME = Everything;
-				ZERO_LINK = NO;
-			};
-			name = Release;
-		};
 		E1C787D6116FB042004928BF /* Development */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E1C787D0116FAFDB004928BF /* Development.xcconfig */;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
-				FINAL_INSTALL_DIR = "$(DEVELOPER_DIR)";
+				FINAL_INSTALL_DIR = "$(MW_DEVELOPER_DIR)";
 				HEADER_SEARCH_PATHS = (
 					"$(HEADER_SEARCH_PATHS_QUOTED_FOR_PROJECT_1)",
 					"$(MATLAB_DIR)/extern/include",
@@ -439,46 +362,41 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E1C787D6116FB042004928BF /* Development */,
-				0E2D77260D71EDDE005AFCC2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Development;
 		};
 		0E454E410D71EF000040E668 /* Build configuration list for PBXNativeTarget "libMWorksStreamUtilities" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E1C787D7116FB042004928BF /* Development */,
-				0E454E400D71EF000040E668 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Development;
 		};
 		0E454EA80D71F7FF0040E668 /* Build configuration list for PBXNativeTarget "MWSUtest" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E1C787D8116FB042004928BF /* Development */,
-				0E454EA70D71F7FF0040E668 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Development;
 		};
 		0E60D6210E6D8DBC00B82521 /* Build configuration list for PBXAggregateTarget "UninstallMWorksStreamUtilities" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E1C787D9116FB042004928BF /* Development */,
-				0E60D6200E6D8D9E00B82521 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Development;
 		};
 		E17B9F6F119CABD900EEBF5D /* Build configuration list for PBXAggregateTarget "Everything" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E17B9F67119CABD100EEBF5D /* Development */,
-				E17B9F68119CABD100EEBF5D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Development;
 		};
 /* End XCConfigurationList section */
 	};
