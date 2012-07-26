@@ -35,7 +35,7 @@ protected:
 	MWorksTime update_period;
 	mMSSWGamepadDataType data_type;
 	
-	std::vector<mButtonMap> button_ids;
+	std::vector<ButtonMap> button_ids;
 	
 	IOHIDDeviceInterface ** pphidDeviceInterface;
 	io_iterator_t hidObjectIterator;
@@ -73,11 +73,6 @@ public:
 	virtual bool startDeviceIO();
 	virtual bool stopDeviceIO();
 	
-	virtual void addChild(std::map<std::string, std::string> parameters,
-						  mw::ComponentRegistry *reg,
-						  shared_ptr<mw::Component> child);
-	
-	shared_ptr<mMSSWGamepad> shared_from_this() { return dynamic_pointer_cast<mMSSWGamepad>(IODevice::shared_from_this()); }
 };
 
 
