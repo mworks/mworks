@@ -1,5 +1,7 @@
 #!/usr/bin/python
 
+import glob
+import itertools
 import os
 from subprocess import check_call, Popen, PIPE
 import sys
@@ -23,7 +25,9 @@ def find_app(name):
 
 packagemaker = find_app('PackageMaker.app') + '/Contents/MacOS/PackageMaker'
 installer_root = '/tmp/mw_installer'
+
 core_package_name = 'MWorksCoreComponents'
+optional_plugins_package_name = 'MWorksOptionalPlugins'
 
 
 package_contents = {
@@ -50,19 +54,6 @@ package_contents = {
         '/Library/Application Support/MWorks/Plugins/Core/HIDPlugin.bundle',
         '/Library/Application Support/MWorks/Plugins/Core/MSSWGamepadPlugin.bundle',
         '/Library/Application Support/MWorks/Plugins/Core/NE500Plugin.bundle',
-        ),
-
-    'MWorksOptionalPlugins':
-        (
-        '/Library/Application Support/MWorks/Plugins/Client/CalibratorWindow.bundle',
-        '/Library/Application Support/MWorks/Plugins/Client/MWorksEyeWindow.bundle',
-        '/Library/Application Support/MWorks/Plugins/Client/MWorksRewardWindow.bundle',
-        '/Library/Application Support/MWorks/Plugins/Core/CircleStimulusPlugin.bundle',
-        '/Library/Application Support/MWorks/Plugins/Core/FakeMonkeyPlugin.bundle',
-        '/Library/Application Support/MWorks/Plugins/Core/ITC18Plugin.bundle',
-        '/Library/Application Support/MWorks/Plugins/Core/MovieStimulusPlugin.bundle',
-        '/Library/Application Support/MWorks/Plugins/Core/RectangleStimulusPlugin.bundle',
-        '/Library/Application Support/MWorks/Plugins/Core/WhiteNoiseBackground.bundle',
         ),
 
     'MWorksPythonTools':
@@ -94,6 +85,23 @@ package_contents = {
     }
 
 
+def find_optional_plugins():
+    standard_components = set()
+    for package_name, components in package_contents.iteritems():
+        standard_components.update(components)
+
+    optional_plugins = tuple(sorted(
+        plugin for plugin in itertools.chain(
+        glob.iglob('/Library/Application Support/MWorks/Plugins/Client/*.bundle'),
+        glob.iglob('/Library/Application Support/MWorks/Plugins/Core/*.bundle'),
+        )
+        if plugin not in standard_components
+        ))
+
+    assert optional_plugins
+    package_contents[optional_plugins_package_name] = optional_plugins
+
+
 def make_destdir(package, path):
     destdir = os.path.join(installer_root, package, os.path.dirname(path[1:]))
     check_call(['/bin/mkdir', '-p', destdir])
@@ -121,6 +129,8 @@ def build_component_package(package_name):
 def main():
     installer_name = 'MWorks'
     installer_version = sys.argv[1]
+    
+    find_optional_plugins()
 
     check_call(['/bin/rm', '-Rf', installer_root])
 
