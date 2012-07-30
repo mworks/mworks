@@ -1,0 +1,81 @@
+## -*- mode: sgml; -*-
+## mwpp="/usr/local/bin/mako-render"
+<?xml version="1.0" standalone="no"?>
+
+<%
+data_types = ('event', 'continuous')
+button_names = ('up', 'down', 'left', 'right', 'trigger_left', 'trigger_right', 'a', 'b', 'x', 'y')
+next_states = tuple(('Test %s press' % name.upper()) for name in button_names[1:]) + ('Exit State System',)
+%>
+
+<monkeyml version="1.0">
+    <io_devices tag="IO Devices">
+        % for data_type in data_types:
+            <iodevice tag="gamepad_${data_type}" priority="" data_type="${data_type}" type="sidewinder_gamepad" data_interval="50ms" up="up" down="down" left="left" right="right" trigger_left="trigger_left" trigger_right="trigger_right" a="a" b="b" x="x" y="y"></iodevice>
+        % endfor
+    </io_devices>
+    <variables tag="Variables">
+        % for name in button_names:
+            <variable tag="${name}" scope="global" logging="when_changed" default_value="0" type="integer"></variable>
+        % endfor
+    </variables>
+    <sounds tag="Sounds"></sounds>
+    <stimuli tag="Stimuli"></stimuli>
+    <filters tag="Filters"></filters>
+    <optimizers tag="Optimizers"></optimizers>
+    <experiment tag="New Experiment" full_name="" description="">
+        <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
+        % for data_type in data_types:
+            % for name in button_names:
+                <action type="assignment" tag="Reset ${name}" variable="${name}" value="0"></action>
+            % endfor
+            <task_system tag="Test ${data_type.upper()}" interruptible="YES">
+                <task_system_state tag="Begin State System" interruptible="YES">
+                    <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                    <action type="report" tag="Report" message="Testing ${data_type.upper()}"></action>
+                    <action tag="Start IO Device" type="start_device_IO" device="gamepad_${data_type}"></action>
+                    <action type="if" tag="Conditionally Execute Actions" condition="up || down || left || right">
+                        <action type="report" tag="Report" message="Rock D-pad to clear bogus initial values"></action>
+                        <action type="wait" tag="Wait" duration="10" duration_units="s"></action>
+                    </action>
+                    <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                    <transition type="direct" tag="Always Go to ... 2" target="Test ${button_names[0].upper()} press"></transition>
+                </task_system_state>
+                % for name, next_state in zip(button_names, next_states):
+                    <task_system_state tag="Test ${name.upper()} press" interruptible="YES">
+                        <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                        <action type="assert" tag="Assert" condition="${name} == 0" message="" stop_on_failure="1"></action>
+                        <action type="report" tag="Report" message="Press and hold ${name.upper()}"></action>
+                        <action type="start_timer" tag="Start Timer" timer="MyTimer" timebase="" duration="5" duration_units="s"></action>
+                        <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                        <transition type="conditional" tag="If Condition is True, Transition to ..." condition="${name} == 1" target="Test ${name.upper()} release"></transition>
+                        <transition type="timer_expired" tag="If Timer Expired, Transition to ..." target="Timeout" timer="MyTimer"></transition>
+                    </task_system_state>
+                    <task_system_state tag="Test ${name.upper()} release" interruptible="YES">
+                        <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                        <action type="assert" tag="Assert" condition="${name} == 1" message="" stop_on_failure="1"></action>
+                        <action type="report" tag="Report" message="Release ${name.upper()}"></action>
+                        <action type="start_timer" tag="Start Timer" timer="MyTimer" timebase="" duration="5" duration_units="s"></action>
+                        <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                        <transition type="conditional" tag="If Condition is True, Transition to ..." condition="${name} == 0" target="${next_state}"></transition>
+                        <transition type="timer_expired" tag="If Timer Expired, Transition to ..." target="Timeout" timer="MyTimer"></transition>
+                    </task_system_state>
+                % endfor
+                <task_system_state tag="Timeout" interruptible="YES">
+                    <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                    <action type="assert" tag="Assert" condition="0" message="Timeout while waiting for input" stop_on_failure="1"></action>
+                    <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                    <transition tag="Return to parent task system" type="yield"></transition>
+                </task_system_state>
+                <task_system_state tag="Exit State System" interruptible="YES">
+                    <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                    <action type="report" tag="Report" message="All ${data_type.upper()} tests pass!"></action>
+                    <action tag="Stop IO Device" type="stop_device_IO" device="gamepad_${data_type}"></action>
+                    <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                    <transition tag="Return to parent task system" type="yield"></transition>
+                </task_system_state>
+            </task_system>
+        % endfor
+        </protocol>
+    </experiment>
+</monkeyml>

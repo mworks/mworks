@@ -1,0 +1,27 @@
+<!-- THIS IS AN AUTO-GENERATED FILE: DO NOT EDIT IT DIRECTLY  -->
+<!-- The content of this file is pulled from the project YAML description -->
+<!-- see plugin_definition.yml for details -->
+
+<MWElements>
+  <MWElement name="Server-side Event Conduit">
+    <!-- XPath 2.0 expression defining nodes of this type -->
+    <!-- -->
+    <match_signature>iodevice[@type="serverside_conduit"]</match_signature>
+    
+    <!-- Which super-types does the object belong to -->
+    <isa>IODevice</isa>
+    
+    <description>
+      A conduit object that allows external programs to request and interact with variables within a MW server
+    </description>
+    
+    <!-- Payload -->
+    <!-- This XML gets inserted when you drop this object into the project -->
+    <code>
+      <iodevice type="serverside_conduit" 
+                tag="My Server-side Event Conduit"
+                resource_name = "server_conduit"
+                />
+    </code>
+  </MWElement>
+</MWElements>

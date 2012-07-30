@@ -24,6 +24,7 @@
 		5C4B0A600DC791D4001BC518 /* NE500.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C4B0A5B0DC791D4001BC518 /* NE500.cpp */; };
 		5C4B0A650DC79212001BC518 /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C4B0A630DC79212001BC518 /* MWorksCore.framework */; };
 		5C4B0ADE0DC793E2001BC518 /* NE500Plugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C4B0ADD0DC793E2001BC518 /* NE500Plugin.cpp */; };
+		5C79BEB3145709D3007CAAC0 /* MWLibrary.xml in Resources */ = {isa = PBXBuildFile; fileRef = 5C79BEB2145709D3007CAAC0 /* MWLibrary.xml */; };
 		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
 /* End PBXBuildFile section */
@@ -49,6 +50,7 @@
 		5C4B0A630DC79212001BC518 /* MWorksCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MWorksCore.framework; path = /Library/Frameworks/MWorksCore.framework; sourceTree = "<absolute>"; };
 		5C4B0ADC0DC793E2001BC518 /* NE500Plugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NE500Plugin.h; sourceTree = "<group>"; };
 		5C4B0ADD0DC793E2001BC518 /* NE500Plugin.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NE500Plugin.cpp; sourceTree = "<group>"; };
+		5C79BEB2145709D3007CAAC0 /* MWLibrary.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MWLibrary.xml; sourceTree = "<group>"; };
 		5CE62A89115857F600C757F1 /* Development.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Development.xcconfig; path = "/Library/Application Support/MWorks/Developer/Xcode/Development.xcconfig"; sourceTree = "<absolute>"; };
 		5CE62A8A115857F600C757F1 /* WARNING.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = WARNING.txt; path = "/Library/Application Support/MWorks/Developer/Xcode/WARNING.txt"; sourceTree = "<absolute>"; };
 		8D5B49B6048680CD000E48DA /* NE500Plugin.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NE500Plugin.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -96,6 +98,7 @@
 			children = (
 				8D5B49B7048680CD000E48DA /* Info.plist */,
 				089C167DFE841241C02AAC07 /* InfoPlist.strings */,
+				5C79BEB2145709D3007CAAC0 /* MWLibrary.xml */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -211,6 +214,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */,
+				5C79BEB3145709D3007CAAC0 /* MWLibrary.xml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
