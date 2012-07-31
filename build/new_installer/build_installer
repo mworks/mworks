@@ -87,7 +87,7 @@ package_contents = {
 
 def find_optional_plugins():
     standard_components = set()
-    for package_name, components in package_contents.iteritems():
+    for components in package_contents.itervalues():
         standard_components.update(components)
 
     optional_plugins = tuple(sorted(
