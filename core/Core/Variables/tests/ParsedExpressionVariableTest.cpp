@@ -364,7 +364,7 @@ void ParsedExpressionVariableTestFixture::testRangeExpression() {
     CPPUNIT_ASSERT_EQUAL(8, int(values.size()));
     for (valueList::size_type i = 0; i < values.size(); i++) {
         CPPUNIT_ASSERT( values[i].isIntegerType() );
-        CPPUNIT_ASSERT_EQUAL((long long)(5-i), values[i].getLong());
+        CPPUNIT_ASSERT_EQUAL((long long)(5) - (long long)(i), values[i].getLong());
     }
     
     // start == stop

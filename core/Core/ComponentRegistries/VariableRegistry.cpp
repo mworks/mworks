@@ -494,8 +494,7 @@ stx::AnyScalar	VariableRegistry::lookupVariable(const std::string &varname) cons
 	
 	shared_ptr<Variable> var = getVariable(varname);
 	if(var == NULL){
-		// TODO: throw better
-		throw  SimpleException("Failed to find variable during expression evaluation", varname);
+        throw UnknownVariableException(varname);
 	}
 	
  Datum value = *(var);
@@ -508,7 +507,7 @@ stx::AnyScalar	VariableRegistry::lookupVariable(const std::string &varname) cons
 stx::AnyScalar VariableRegistry::lookupVariable(const std::string &varname, const stx::AnyScalar &subscript) const {
     shared_ptr<Variable> var = getVariable(varname);
     if (!var) {
-        throw SimpleException("Failed to find variable during expression evaluation", varname);
+        throw UnknownVariableException(varname);
     }
     
     shared_ptr<SelectionVariable> sel = dynamic_pointer_cast<SelectionVariable>(var);

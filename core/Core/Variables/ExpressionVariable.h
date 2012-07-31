@@ -23,6 +23,8 @@
  
 #ifndef	EXPRESSION_VARIABLE_H_
 #define	EXPRESSION_VARIABLE_H_
+
+#include <boost/algorithm/string/trim.hpp>
  
 #include "GenericVariable.h"
 #include "VariableRegistry.h"
@@ -81,7 +83,7 @@ protected:
 public:
     static stx::ParseTree parseExpression(const std::string &expr) {
         try {
-            return stx::parseExpression(expr);
+            return stx::parseExpression(boost::algorithm::trim_copy(expr));
         } catch (stx::ExpressionParserException &e) {
             throw FatalParserException("Expression parser error", e.what());
         }
@@ -105,7 +107,7 @@ public:
     
     static stx::ParseTreeList parseExpressionList(const std::string &exprList) {
         try {
-            return stx::parseExpressionList(exprList);
+            return stx::parseExpressionList(boost::algorithm::trim_copy(exprList));
         } catch (stx::ExpressionParserException &e) {
             throw FatalParserException("Expression parser error", e.what());
         }

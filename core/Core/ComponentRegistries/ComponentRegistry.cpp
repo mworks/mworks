@@ -277,11 +277,9 @@ shared_ptr<Variable>	ComponentRegistry::getVariable(std::string expression){
         return var;
     }
 
-    try {
-        return shared_ptr<Variable>(new ParsedExpressionVariable(expression));
-    } catch (SimpleException &) {
-        throw UnknownVariableException(strip_match[1]);
-    }
+    // The expression parser will throw UnknownVariableException if the expression contains a bad variable
+    // name, so we don't need to catch anything here
+    return shared_ptr<Variable>(new ParsedExpressionVariable(expression));
 }
 
 // An alternate getVariable call that includes a default value
