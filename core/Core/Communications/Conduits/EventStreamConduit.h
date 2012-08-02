@@ -69,8 +69,6 @@ protected:
     
     MWTime conduit_idle_quantum_us;
     
-    MWTime remote_clock_offset;
-    
     // these will be called from callbacks, so it is not necessary to lock them
     void registerInternalCallback(int event_code, EventCallback functor){
         //boost::mutex::scoped_lock lock(internal_callback_lock);
