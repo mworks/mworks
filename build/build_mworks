@@ -56,21 +56,35 @@ def workdir(path):
 all_builders = []
 required_builder_names = []
 
-def builder(func, build_dir=None, required=False):
+def builder(func, build_dir=None, required=False, transient=False):
     if isinstance(func, basestring):
-        return partial(builder, build_dir=func, required=required)
+        return partial(builder,
+                       build_dir = func,
+                       required = required,
+                       transient = transient)
 
+    builder_name = func.__name__ 
     if build_dir is None:
-        build_dir = func.__name__
+        build_dir = builder_name
 
     @wraps(func)
     def func_wrapper():
-        with workdir(build_dir):
-            func()
+        if transient and (not os.path.isdir(build_dir)):
+            announce('Directory %r not found; skipping %s', build_dir,
+                     builder_name)
+        else:
+            announce('Building %s', builder_name)
+            with workdir(build_dir):
+                func()
 
     all_builders.append(func_wrapper)
     if required:
-        required_builder_names.append(func_wrapper.__name__)
+        required_builder_names.append(builder_name)
+
+
+def list_subdirs():
+    return sorted(dir for dir in os.listdir('.')
+                  if os.path.isdir(dir) and (not dir.startswith('.')))
 
 
 def xcodebuild(target='Everything'):
@@ -112,17 +126,17 @@ def supporting_libs():
 
 
 @builder('mworks/supporting_libs/scarab')
-def mw_scarab():
+def scarab():
     xcodebuild()
 
 
 @builder('mworks/core')
-def mw_core():
+def core():
     xcodebuild()
 
 
 @builder('mworks/tools/data')
-def mw_datatools():
+def data_tools():
     for subdir in ('DataFileIndexer', 'MWorksStreamUtilities'):
         with workdir(subdir):
             xcodebuild()
@@ -132,7 +146,7 @@ def mw_datatools():
 
 
 @builder('mworks/plugins/core')
-def mw_core_plugins():
+def core_plugins():
     for subdir in ('DriftingGratingStimulus',
                    'HIDPlugin',
                    'NE500',
@@ -142,30 +156,25 @@ def mw_core_plugins():
             xcodebuild()
 
 
-@builder
-def dicarlolab_mwcore_plugins():
-    for subdir in ('CircleStimulus',
-                   'FakeMonkeyPlugin',
-                   'ITC18Plugin',
-                   'MoviePlugin',
-                   'RectangleStimulus',
-                   'WhiteNoiseBackground'):
+@builder('plugins/core', transient=True)
+def local_core_plugins():
+    for subdir in list_subdirs():
         with workdir(subdir):
             xcodebuild()
 
 
 @builder('mworks/cocoa')
-def mw_cocoa():
+def cocoa():
     xcodebuild()
 
 
 @builder('mworks/apps/client')
-def mw_client():
+def client():
     xcodebuild()
 
 
 @builder('mworks/plugins/client')
-def mw_client_plugins():
+def client_plugins():
     for subdir in ('BehavioralWindow',
                    'PythonBridgePlugin',
                    'VariablesWindow'):
@@ -173,33 +182,30 @@ def mw_client_plugins():
             xcodebuild()
 
 
-@builder
-def dicarlolab_mwclient_plugins():
-    for subdir in ('CalibratorWindow',
-                   'EyeWindow',
-                   'MATLABWindow',
-                   'RewardWindow'):
+@builder('plugins/client', transient=True)
+def local_client_plugins():
+    for subdir in list_subdirs():
         with workdir(subdir):
             xcodebuild()
 
 
 @builder('mworks/apps/editor')
-def mw_editor():
+def editor():
     xcodebuild()
 
 
 @builder('mworks/apps/server')
-def mw_server():
+def server():
     xcodebuild()
 
 
 @builder('mworks/examples')
-def mw_examples():
+def examples():
     make()
 
 
 @builder('mworks/xcode')
-def mw_xcode_templates():
+def xcode_templates():
     make(['test', 'install'])
 
 
