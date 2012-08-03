@@ -106,7 +106,7 @@ void CodecAwareConduit::codeTranslatedCallback(shared_ptr<Event> evt, EventCallb
 
 
 void CodecAwareConduit::handleCallbacks(shared_ptr<Event> evt) {
-    boost::mutex::scoped_lock lock(conduit_mutex);
+    scoped_lock lock(conduit_mutex);
     SimpleConduit::handleCallbacks(evt);
 }
 
@@ -128,22 +128,22 @@ bool CodecAwareConduit::initialize(){
 
 
 void CodecAwareConduit::registerCallbackByName(string event_name, EventCallback cb){
-    boost::mutex::scoped_lock lock(conduit_mutex);
+    scoped_lock lock(conduit_mutex);
     
     if(event_name.size() == 0){
         throw SimpleException("Attempt to register callback for empty event name");
     }
     
+    // We can't register a callback by name until we have the remote codec
+    waitForRemoteCodec(lock);
+    
     callbacks_by_name[event_name] = cb;
     addEventCallback(event_name, cb);
-    
-    //std::cerr << "Sending event forwarding event for " << event_name << std::endl;
-    sendData(SystemEventFactory::setEventForwardingControl(event_name, true));
 }
 
 
 void CodecAwareConduit::registerLocalEventCode(int code, string event_name){
-    boost::mutex::scoped_lock lock(conduit_mutex);
+    scoped_lock lock(conduit_mutex);
     
     //std::cerr << "registering local name: " << event_name << " to code: " << code << endl;
     local_codec[code] = event_name;
@@ -155,20 +155,20 @@ void CodecAwareConduit::registerLocalEventCode(int code, string event_name){
 
 
 map<int, string> CodecAwareConduit::getRemoteCodec() {
-    boost::mutex::scoped_lock lock(conduit_mutex);
+    scoped_lock lock(conduit_mutex);
     waitForRemoteCodec(lock);
     return remote_codec;
 }
 
 
 map<string, int> CodecAwareConduit::getRemoteReverseCodec() {
-    boost::mutex::scoped_lock lock(conduit_mutex);
+    scoped_lock lock(conduit_mutex);
     waitForRemoteCodec(lock);
     return remote_reverse_codec;
 }
 
 
-void CodecAwareConduit::waitForRemoteCodec(boost::mutex::scoped_lock &lock) {
+void CodecAwareConduit::waitForRemoteCodec(scoped_lock &lock) {
     if (remote_codec.empty()) {
         sendData(SystemEventFactory::requestCodecControl());
         

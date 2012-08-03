@@ -1,0 +1,717 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		0E60D6030E6D89E500B82521 /* dfindexerUninstall */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 0E60D6060E6D8A1700B82521 /* Build configuration list for PBXAggregateTarget "dfindexerUninstall" */;
+			buildPhases = (
+				0E60D6020E6D89E500B82521 /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = dfindexerUninstall;
+			productName = diindexerInstall;
+		};
+		E16EB57C114EDDB500F23DB5 /* Everything */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = E16EB58A114EDE1100F23DB5 /* Build configuration list for PBXAggregateTarget "Everything" */;
+			buildPhases = (
+			);
+			dependencies = (
+				E16EB581114EDDC700F23DB5 /* PBXTargetDependency */,
+				E16EB583114EDDC700F23DB5 /* PBXTargetDependency */,
+			);
+			name = Everything;
+			productName = Everything;
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		0E587B3F0D6B63B20053BE5C /* EventWrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = 0E587B3D0D6B63B20053BE5C /* EventWrapper.h */; };
+		0E587B400D6B63B20053BE5C /* EventWrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E587B3E0D6B63B20053BE5C /* EventWrapper.cpp */; };
+		0E7788180D6B44FB00AF41F2 /* DataFileUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = 0E7788160D6B44FB00AF41F2 /* DataFileUtilities.h */; };
+		0E7788190D6B44FB00AF41F2 /* DataFileUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E7788170D6B44FB00AF41F2 /* DataFileUtilities.cpp */; };
+		0EA2B4C50D6BB349002396FC /* EventBlock.h in Headers */ = {isa = PBXBuildFile; fileRef = 0EA2B4C30D6BB349002396FC /* EventBlock.h */; };
+		0EA2B4C60D6BB349002396FC /* EventBlock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EA2B4C40D6BB349002396FC /* EventBlock.cpp */; };
+		0EA58F120D6B20410027A3AC /* Test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EA58EB50D6B1D850027A3AC /* Test.cpp */; };
+		0EA58F9F0D6B25500027A3AC /* DataFileIndexer.h in Headers */ = {isa = PBXBuildFile; fileRef = 50149BD909E781A5002DEE6A /* DataFileIndexer.h */; };
+		0EA58FA00D6B25580027A3AC /* DataFileIndexer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5073E0C409E734A800EC74B6 /* DataFileIndexer.cpp */; };
+		0EE378AA0D6CA7B30065846A /* dfindex.h in Headers */ = {isa = PBXBuildFile; fileRef = 0EE378A80D6CA7B30065846A /* dfindex.h */; };
+		0EE378AB0D6CA7B30065846A /* dfindex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EE378A90D6CA7B30065846A /* dfindex.cpp */; };
+		5C2A62051039DDDB00A62CBA /* PythonDataBindings.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C2A62031039DDDB00A62CBA /* PythonDataBindings.h */; };
+		5C2A62061039DDDB00A62CBA /* PythonDataBindings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C2A62041039DDDB00A62CBA /* PythonDataBindings.cpp */; };
+		5CA077A910CE9FDF00000A95 /* PythonBindingsTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CA0779610CE9E9C00000A95 /* PythonBindingsTest.cpp */; };
+		5CA077D810CEA49500000A95 /* PythonDataBindingsHelpers.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CA077D610CEA49500000A95 /* PythonDataBindingsHelpers.h */; };
+		5CA077D910CEA49500000A95 /* PythonDataBindingsHelpers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CA077D710CEA49500000A95 /* PythonDataBindingsHelpers.cpp */; };
+		5CA077E010CEA53000000A95 /* DataFileIndexer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5073E0C409E734A800EC74B6 /* DataFileIndexer.cpp */; };
+		5CA077E110CEA53100000A95 /* DataFileUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E7788170D6B44FB00AF41F2 /* DataFileUtilities.cpp */; };
+		5CA077E210CEA53400000A95 /* dfindex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EE378A90D6CA7B30065846A /* dfindex.cpp */; };
+		5CA077E310CEA53400000A95 /* EventBlock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EA2B4C40D6BB349002396FC /* EventBlock.cpp */; };
+		5CA077E410CEA53500000A95 /* EventWrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E587B3E0D6B63B20053BE5C /* EventWrapper.cpp */; };
+		5CA077E610CEA53C00000A95 /* PythonDataBindingsHelpers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CA077D710CEA49500000A95 /* PythonDataBindingsHelpers.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		0EA58F9D0D6B254C0027A3AC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0EA58F990D6B24FF0027A3AC;
+			remoteInfo = dfindex;
+		};
+		E16EB580114EDDC700F23DB5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0EA58F990D6B24FF0027A3AC;
+			remoteInfo = dfindex;
+		};
+		E16EB582114EDDC700F23DB5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5C2A61FD1039DD7B00A62CBA;
+			remoteInfo = "Python Bindings";
+		};
+		E1701BD6119DDC0800F6DE65 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0EA58F990D6B24FF0027A3AC;
+			remoteInfo = dfindex;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		08FB77AAFE841565C02AAC07 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
+		0E587B3D0D6B63B20053BE5C /* EventWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventWrapper.h; sourceTree = "<group>"; };
+		0E587B3E0D6B63B20053BE5C /* EventWrapper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventWrapper.cpp; sourceTree = "<group>"; };
+		0E7788160D6B44FB00AF41F2 /* DataFileUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataFileUtilities.h; sourceTree = "<group>"; };
+		0E7788170D6B44FB00AF41F2 /* DataFileUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DataFileUtilities.cpp; sourceTree = "<group>"; };
+		0EA2B4C30D6BB349002396FC /* EventBlock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventBlock.h; sourceTree = "<group>"; };
+		0EA2B4C40D6BB349002396FC /* EventBlock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventBlock.cpp; sourceTree = "<group>"; };
+		0EA58EB50D6B1D850027A3AC /* Test.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Test.cpp; sourceTree = "<group>"; };
+		0EA58EF50D6B1F260027A3AC /* DFITest-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "DFITest-Info.plist"; sourceTree = "<group>"; };
+		0EA58F0B0D6B20120027A3AC /* Test.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Test.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		0EA58F0D0D6B20120027A3AC /* Test-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Test-Info.plist"; sourceTree = "<group>"; };
+		0EA58F9A0D6B24FF0027A3AC /* libdfindex.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libdfindex.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		0EE378A80D6CA7B30065846A /* dfindex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dfindex.h; sourceTree = "<group>"; };
+		0EE378A90D6CA7B30065846A /* dfindex.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = dfindex.cpp; sourceTree = "<group>"; };
+		32BAE0B70371A74B00C91783 /* DataFileIndexer_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataFileIndexer_Prefix.pch; sourceTree = "<group>"; };
+		50149BD909E781A5002DEE6A /* DataFileIndexer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataFileIndexer.h; sourceTree = "<group>"; };
+		5073E0C409E734A800EC74B6 /* DataFileIndexer.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = DataFileIndexer.cpp; sourceTree = "<group>"; };
+		5073E0C609E734A800EC74B6 /* DataFileIndexerProj.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = DataFileIndexerProj.xcconfig; sourceTree = "<group>"; };
+		5073E0C709E734A800EC74B6 /* DataFileIndexerTarget.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = DataFileIndexerTarget.xcconfig; sourceTree = "<group>"; };
+		5C2A61FE1039DD7B00A62CBA /* _data.so */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = _data.so; sourceTree = BUILT_PRODUCTS_DIR; };
+		5C2A62031039DDDB00A62CBA /* PythonDataBindings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PythonDataBindings.h; sourceTree = "<group>"; };
+		5C2A62041039DDDB00A62CBA /* PythonDataBindings.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PythonDataBindings.cpp; sourceTree = "<group>"; };
+		5C2A62461039E7A800A62CBA /* data.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = data.py; sourceTree = "<group>"; };
+		5CA0764B10CE6B4C00000A95 /* stream_example.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = stream_example.py; sourceTree = "<group>"; };
+		5CA0779510CE9E9C00000A95 /* PythonBindingsTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PythonBindingsTest.h; sourceTree = "<group>"; };
+		5CA0779610CE9E9C00000A95 /* PythonBindingsTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PythonBindingsTest.cpp; sourceTree = "<group>"; };
+		5CA0779C10CE9F6B00000A95 /* PythonBindingsTest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = PythonBindingsTest; sourceTree = BUILT_PRODUCTS_DIR; };
+		5CA077D610CEA49500000A95 /* PythonDataBindingsHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PythonDataBindingsHelpers.h; sourceTree = "<group>"; };
+		5CA077D710CEA49500000A95 /* PythonDataBindingsHelpers.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PythonDataBindingsHelpers.cpp; sourceTree = "<group>"; };
+		5CBBA1801055D5C5004C69DF /* __init__.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = __init__.py; sourceTree = "<group>"; };
+		5CBBA1B01055E5C3004C69DF /* example.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = example.py; sourceTree = "<group>"; };
+		E1C78767116FA6C1004928BF /* Development.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Development.xcconfig; path = "/Library/Application Support/MWorks/Developer/Xcode/Development.xcconfig"; sourceTree = "<absolute>"; };
+		E1C78768116FA6C1004928BF /* WARNING.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = WARNING.txt; path = "/Library/Application Support/MWorks/Developer/Xcode/WARNING.txt"; sourceTree = "<absolute>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		0EA58F090D6B20120027A3AC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0EA58F980D6B24FF0027A3AC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5C2A61FC1039DD7B00A62CBA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5CA0779A10CE9F6B00000A95 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		034768DDFF38A45A11DB9C8B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0EA58F0B0D6B20120027A3AC /* Test.app */,
+				0EA58F9A0D6B24FF0027A3AC /* libdfindex.a */,
+				5C2A61FE1039DD7B00A62CBA /* _data.so */,
+				5CA0779C10CE9F6B00000A95 /* PythonBindingsTest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		0867D691FE84028FC02AAC07 /* DataFileIndexer */ = {
+			isa = PBXGroup;
+			children = (
+				E1C78763116FA698004928BF /* External Config */,
+				0EA58EB30D6B1D6A0027A3AC /* Test */,
+				5073E0CA09E734BC00EC74B6 /* Configuration Files */,
+				08FB77ACFE841707C02AAC07 /* Source */,
+				0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */,
+				034768DDFF38A45A11DB9C8B /* Products */,
+				0EA58EF50D6B1F260027A3AC /* DFITest-Info.plist */,
+				0EA58F0D0D6B20120027A3AC /* Test-Info.plist */,
+			);
+			name = DataFileIndexer;
+			sourceTree = "<group>";
+		};
+		0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				08FB77AAFE841565C02AAC07 /* Carbon.framework */,
+			);
+			name = "External Frameworks and Libraries";
+			sourceTree = "<group>";
+		};
+		08FB77ACFE841707C02AAC07 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				5C2A62021039DDBD00A62CBA /* Python Bindings */,
+				32BAE0B70371A74B00C91783 /* DataFileIndexer_Prefix.pch */,
+				50149BD909E781A5002DEE6A /* DataFileIndexer.h */,
+				5073E0C409E734A800EC74B6 /* DataFileIndexer.cpp */,
+				0E7788160D6B44FB00AF41F2 /* DataFileUtilities.h */,
+				0E7788170D6B44FB00AF41F2 /* DataFileUtilities.cpp */,
+				0E587B3D0D6B63B20053BE5C /* EventWrapper.h */,
+				0E587B3E0D6B63B20053BE5C /* EventWrapper.cpp */,
+				0EA2B4C30D6BB349002396FC /* EventBlock.h */,
+				0EA2B4C40D6BB349002396FC /* EventBlock.cpp */,
+				0EE378A80D6CA7B30065846A /* dfindex.h */,
+				0EE378A90D6CA7B30065846A /* dfindex.cpp */,
+			);
+			name = Source;
+			sourceTree = "<group>";
+		};
+		0EA58EB30D6B1D6A0027A3AC /* Test */ = {
+			isa = PBXGroup;
+			children = (
+				0EA58EB50D6B1D850027A3AC /* Test.cpp */,
+			);
+			name = Test;
+			sourceTree = "<group>";
+		};
+		5073E0CA09E734BC00EC74B6 /* Configuration Files */ = {
+			isa = PBXGroup;
+			children = (
+				5073E0C609E734A800EC74B6 /* DataFileIndexerProj.xcconfig */,
+				5073E0C709E734A800EC74B6 /* DataFileIndexerTarget.xcconfig */,
+			);
+			name = "Configuration Files";
+			sourceTree = "<group>";
+		};
+		5C2A62021039DDBD00A62CBA /* Python Bindings */ = {
+			isa = PBXGroup;
+			children = (
+				5CA078E710CED3A200000A95 /* examples */,
+				5CA0779410CE9E8C00000A95 /* test */,
+				5C2A62031039DDDB00A62CBA /* PythonDataBindings.h */,
+				5C2A62041039DDDB00A62CBA /* PythonDataBindings.cpp */,
+				5CA077D610CEA49500000A95 /* PythonDataBindingsHelpers.h */,
+				5CA077D710CEA49500000A95 /* PythonDataBindingsHelpers.cpp */,
+				5C2A62461039E7A800A62CBA /* data.py */,
+				5CBBA1801055D5C5004C69DF /* __init__.py */,
+			);
+			name = "Python Bindings";
+			sourceTree = "<group>";
+		};
+		5CA0779410CE9E8C00000A95 /* test */ = {
+			isa = PBXGroup;
+			children = (
+				5CA0779510CE9E9C00000A95 /* PythonBindingsTest.h */,
+				5CA0779610CE9E9C00000A95 /* PythonBindingsTest.cpp */,
+			);
+			name = test;
+			sourceTree = "<group>";
+		};
+		5CA078E710CED3A200000A95 /* examples */ = {
+			isa = PBXGroup;
+			children = (
+				5CBBA1B01055E5C3004C69DF /* example.py */,
+				5CA0764B10CE6B4C00000A95 /* stream_example.py */,
+			);
+			name = examples;
+			sourceTree = "<group>";
+		};
+		E1C78763116FA698004928BF /* External Config */ = {
+			isa = PBXGroup;
+			children = (
+				E1C78767116FA6C1004928BF /* Development.xcconfig */,
+				E1C78768116FA6C1004928BF /* WARNING.txt */,
+			);
+			name = "External Config";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		0EA58F960D6B24FF0027A3AC /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0EA58F9F0D6B25500027A3AC /* DataFileIndexer.h in Headers */,
+				0E7788180D6B44FB00AF41F2 /* DataFileUtilities.h in Headers */,
+				0E587B3F0D6B63B20053BE5C /* EventWrapper.h in Headers */,
+				0EA2B4C50D6BB349002396FC /* EventBlock.h in Headers */,
+				0EE378AA0D6CA7B30065846A /* dfindex.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5C2A61FA1039DD7B00A62CBA /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5C2A62051039DDDB00A62CBA /* PythonDataBindings.h in Headers */,
+				5CA077D810CEA49500000A95 /* PythonDataBindingsHelpers.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		0EA58F0A0D6B20120027A3AC /* Test */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0EA58F100D6B20120027A3AC /* Build configuration list for PBXNativeTarget "Test" */;
+			buildPhases = (
+				0EA58F070D6B20120027A3AC /* Resources */,
+				0EA58F080D6B20120027A3AC /* Sources */,
+				0EA58F090D6B20120027A3AC /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				0EA58F9E0D6B254C0027A3AC /* PBXTargetDependency */,
+			);
+			name = Test;
+			productName = Test;
+			productReference = 0EA58F0B0D6B20120027A3AC /* Test.app */;
+			productType = "com.apple.product-type.application";
+		};
+		0EA58F990D6B24FF0027A3AC /* dfindex */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0EA58FB10D6B25870027A3AC /* Build configuration list for PBXNativeTarget "dfindex" */;
+			buildPhases = (
+				0EA58F960D6B24FF0027A3AC /* Headers */,
+				0EA58F970D6B24FF0027A3AC /* Sources */,
+				0EA58F980D6B24FF0027A3AC /* Frameworks */,
+				0EA58FA20D6B256A0027A3AC /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = dfindex;
+			productName = dfindex;
+			productReference = 0EA58F9A0D6B24FF0027A3AC /* libdfindex.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		5C2A61FD1039DD7B00A62CBA /* Python Bindings */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5C2A62011039DDAA00A62CBA /* Build configuration list for PBXNativeTarget "Python Bindings" */;
+			buildPhases = (
+				5C2A61FA1039DD7B00A62CBA /* Headers */,
+				5C2A61FB1039DD7B00A62CBA /* Sources */,
+				5C2A61FC1039DD7B00A62CBA /* Frameworks */,
+				5C52521610CD914B00ED20AE /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				E1701BD7119DDC0800F6DE65 /* PBXTargetDependency */,
+			);
+			name = "Python Bindings";
+			productName = DataFile;
+			productReference = 5C2A61FE1039DD7B00A62CBA /* _data.so */;
+			productType = "com.apple.product-type.library.dynamic";
+		};
+		5CA0779B10CE9F6B00000A95 /* Python Bindings Test */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5CA077A810CE9F7700000A95 /* Build configuration list for PBXNativeTarget "Python Bindings Test" */;
+			buildPhases = (
+				5CA0779910CE9F6B00000A95 /* Sources */,
+				5CA0779A10CE9F6B00000A95 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Python Bindings Test";
+			productName = PythonBindingsTest;
+			productReference = 5CA0779C10CE9F6B00000A95 /* PythonBindingsTest */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		0867D690FE84028FC02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0410;
+			};
+			buildConfigurationList = 1DEB916408733D950010E9CD /* Build configuration list for PBXProject "DataFileIndexer" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
+			mainGroup = 0867D691FE84028FC02AAC07 /* DataFileIndexer */;
+			productRefGroup = 034768DDFF38A45A11DB9C8B /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				E16EB57C114EDDB500F23DB5 /* Everything */,
+				0EA58F0A0D6B20120027A3AC /* Test */,
+				0EA58F990D6B24FF0027A3AC /* dfindex */,
+				0E60D6030E6D89E500B82521 /* dfindexerUninstall */,
+				5C2A61FD1039DD7B00A62CBA /* Python Bindings */,
+				5CA0779B10CE9F6B00000A95 /* Python Bindings Test */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		0EA58F070D6B20120027A3AC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		0E60D6020E6D89E500B82521 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "INSTALL_PATH=/Library/MonkeyWorks\n\nrm -Rf \"$INSTALL_PATH/lib/libdfindex.a\"\nrm -Rf \"$INSTALL_PATH/include/dfindex/\"\n\nexit 0";
+		};
+		0EA58FA20D6B256A0027A3AC /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "mkdir -p \"$INSTALL_PATH/lib\"\nmkdir -p \"$INSTALL_PATH/include/dfindex\"\n\nrm -Rf \"$INSTALL_PATH/lib/libdfindex.a\"\ncp -Rf \"$BUILT_PRODUCTS_DIR/libdfindex.a\" \"$INSTALL_PATH/lib\"\n\nmkdir -p \"$INSTALL_PATH/include/dfindex\"\ncp -f \"${PROJECT_DIR}/DataFileIndexer.h\" \"$INSTALL_PATH/include/dfindex/\"\ncp -f \"${PROJECT_DIR}/EventBlock.h\" \"$INSTALL_PATH/include/dfindex/\"\ncp -f \"${PROJECT_DIR}/EventWrapper.h\" \"$INSTALL_PATH/include/dfindex/\"\ncp -f \"${PROJECT_DIR}/DataFileUtilities.h\" \"$INSTALL_PATH/include/dfindex/\"\ncp -f \"${PROJECT_DIR}/dfindex.h\" \"$INSTALL_PATH/include/dfindex/\"\n\n\n";
+			showEnvVarsInLog = 0;
+		};
+		5C52521610CD914B00ED20AE /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/zsh;
+			shellScript = "export TARGET_DIR=${APP_SUPPORT_DIR}/Scripting/Python/mworks\n\nmkdir -p \"${TARGET_DIR}\"\n\nrm -f \"${TARGET_DIR}\"/_data.so\nrm -f \"${TARGET_DIR}\"/data.py\n\ncp $BUILT_PRODUCTS_DIR/_data.so \"${TARGET_DIR}\"\n\ncp \"${PROJECT_DIR}/data.py\" \"${TARGET_DIR}\"\n\n# Byte-compile the .py files\n/usr/bin/python2.6 -m compileall \"${TARGET_DIR}\"";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		0EA58F080D6B20120027A3AC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0EA58F120D6B20410027A3AC /* Test.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0EA58F970D6B24FF0027A3AC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0EA58FA00D6B25580027A3AC /* DataFileIndexer.cpp in Sources */,
+				0E7788190D6B44FB00AF41F2 /* DataFileUtilities.cpp in Sources */,
+				0E587B400D6B63B20053BE5C /* EventWrapper.cpp in Sources */,
+				0EA2B4C60D6BB349002396FC /* EventBlock.cpp in Sources */,
+				0EE378AB0D6CA7B30065846A /* dfindex.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5C2A61FB1039DD7B00A62CBA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5C2A62061039DDDB00A62CBA /* PythonDataBindings.cpp in Sources */,
+				5CA077D910CEA49500000A95 /* PythonDataBindingsHelpers.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5CA0779910CE9F6B00000A95 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5CA077A910CE9FDF00000A95 /* PythonBindingsTest.cpp in Sources */,
+				5CA077E010CEA53000000A95 /* DataFileIndexer.cpp in Sources */,
+				5CA077E110CEA53100000A95 /* DataFileUtilities.cpp in Sources */,
+				5CA077E210CEA53400000A95 /* dfindex.cpp in Sources */,
+				5CA077E310CEA53400000A95 /* EventBlock.cpp in Sources */,
+				5CA077E410CEA53500000A95 /* EventWrapper.cpp in Sources */,
+				5CA077E610CEA53C00000A95 /* PythonDataBindingsHelpers.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		0EA58F9E0D6B254C0027A3AC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0EA58F990D6B24FF0027A3AC /* dfindex */;
+			targetProxy = 0EA58F9D0D6B254C0027A3AC /* PBXContainerItemProxy */;
+		};
+		E16EB581114EDDC700F23DB5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0EA58F990D6B24FF0027A3AC /* dfindex */;
+			targetProxy = E16EB580114EDDC700F23DB5 /* PBXContainerItemProxy */;
+		};
+		E16EB583114EDDC700F23DB5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5C2A61FD1039DD7B00A62CBA /* Python Bindings */;
+			targetProxy = E16EB582114EDDC700F23DB5 /* PBXContainerItemProxy */;
+		};
+		E1701BD7119DDC0800F6DE65 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0EA58F990D6B24FF0027A3AC /* dfindex */;
+			targetProxy = E1701BD6119DDC0800F6DE65 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		5C7242FF1097F3ED004887A5 /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1C78767116FA6C1004928BF /* Development.xcconfig */;
+			buildSettings = {
+				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
+				LIBRARY_SEARCH_PATHS = (
+					/usr/lib,
+					/usr/local/lib,
+					"$(MW_LIB_DIR)",
+				);
+			};
+			name = Development;
+		};
+		5C7243001097F3ED004887A5 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OBJC_CALL_CXX_CDTORS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
+				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
+				INFOPLIST_FILE = "Test-Info.plist";
+				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
+				OTHER_LDFLAGS = (
+					"-lboost_system-mt",
+					"-lboost_filesystem-mt",
+					"-lboost_serialization-mt",
+					"-framework",
+					Carbon,
+					"-ldfindex",
+					"-lscarab",
+				);
+				PRODUCT_NAME = Test;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Development;
+		};
+		5C7243011097F3ED004887A5 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
+				INSTALL_PATH = "$(MW_DEVELOPER_DIR)";
+				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
+				PRODUCT_NAME = dfindex;
+			};
+			name = Development;
+		};
+		5C7243021097F3ED004887A5 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = diindexerInstall;
+			};
+			name = Development;
+		};
+		5C7243031097F3ED004887A5 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				EXECUTABLE_EXTENSION = so;
+				EXECUTABLE_PREFIX = "";
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				HEADER_SEARCH_PATHS = (
+					/usr/include/python2.6,
+					$MW_INCLUDE_DIR,
+				);
+				INSTALL_PATH = /usr/local/lib;
+				LIBRARY_SEARCH_PATHS = (
+					/usr/lib,
+					$MW_LIB_DIR,
+				);
+				OTHER_LDFLAGS = (
+					"-undefined",
+					dynamic_lookup,
+					"-lboost_filesystem",
+					"-lscarab",
+					"-lboost_system",
+					"-lboost_serialization",
+					"-lboost_python",
+					"-ldfindex",
+				);
+				PRODUCT_NAME = _data;
+			};
+			name = Development;
+		};
+		5CA0779F10CE9F6C00000A95 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				HEADER_SEARCH_PATHS = (
+					/usr/include/python2.6,
+					"$(MW_INCLUDE_DIR)",
+				);
+				INSTALL_PATH = /usr/local/bin;
+				OTHER_LDFLAGS = (
+					"-lboost_filesystem",
+					"-lpython",
+					"-lboost_system",
+					"-lscarab",
+					"-lboost_serialization",
+					"-lboost_unit_test_framework",
+					"-lboost_python",
+				);
+				PRODUCT_NAME = PythonBindingsTest;
+			};
+			name = Development;
+		};
+		E16EB57E114EDDB500F23DB5 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = Everything;
+			};
+			name = Development;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		0E60D6060E6D8A1700B82521 /* Build configuration list for PBXAggregateTarget "dfindexerUninstall" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5C7243021097F3ED004887A5 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		0EA58F100D6B20120027A3AC /* Build configuration list for PBXNativeTarget "Test" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5C7243001097F3ED004887A5 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		0EA58FB10D6B25870027A3AC /* Build configuration list for PBXNativeTarget "dfindex" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5C7243011097F3ED004887A5 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		1DEB916408733D950010E9CD /* Build configuration list for PBXProject "DataFileIndexer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5C7242FF1097F3ED004887A5 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		5C2A62011039DDAA00A62CBA /* Build configuration list for PBXNativeTarget "Python Bindings" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5C7243031097F3ED004887A5 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		5CA077A810CE9F7700000A95 /* Build configuration list for PBXNativeTarget "Python Bindings Test" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5CA0779F10CE9F6C00000A95 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		E16EB58A114EDE1100F23DB5 /* Build configuration list for PBXAggregateTarget "Everything" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E16EB57E114EDDB500F23DB5 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 0867D690FE84028FC02AAC07 /* Project object */;
+}

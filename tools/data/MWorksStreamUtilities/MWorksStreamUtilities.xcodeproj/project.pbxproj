@@ -1,0 +1,404 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		0E60D61E0E6D8D9E00B82521 /* UninstallMWorksStreamUtilities */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 0E60D6210E6D8DBC00B82521 /* Build configuration list for PBXAggregateTarget "UninstallMWorksStreamUtilities" */;
+			buildPhases = (
+				0E60D61D0E6D8D9E00B82521 /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = UninstallMWorksStreamUtilities;
+			productName = UninstallMWorksStreamUtilities;
+		};
+		E17B9F66119CABD000EEBF5D /* Everything */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = E17B9F6F119CABD900EEBF5D /* Build configuration list for PBXAggregateTarget "Everything" */;
+			buildPhases = (
+			);
+			dependencies = (
+				E17B9F6A119CABD500EEBF5D /* PBXTargetDependency */,
+			);
+			name = Everything;
+			productName = Everything;
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		0E454E420D71EF930040E668 /* mWorksStreamUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E454E350D71EED80040E668 /* mWorksStreamUtilities.cpp */; };
+		0E454E430D71EF960040E668 /* mWorksStreamUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = 0E454E360D71EED80040E668 /* mWorksStreamUtilities.h */; };
+		0E454EA90D71F8090040E668 /* Test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E454E5C0D71F12C0040E668 /* Test.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		0E454EAA0D71F8120040E668 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0E2D77240D71EDDE005AFCC2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0E454E3C0D71EF000040E668;
+			remoteInfo = libMWorksStreamUtilities;
+		};
+		E17B9F69119CABD500EEBF5D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0E2D77240D71EDDE005AFCC2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0E454E3C0D71EF000040E668;
+			remoteInfo = libMWorksStreamUtilities;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		0E454E350D71EED80040E668 /* mWorksStreamUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = mWorksStreamUtilities.cpp; sourceTree = "<group>"; };
+		0E454E360D71EED80040E668 /* mWorksStreamUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mWorksStreamUtilities.h; sourceTree = "<group>"; };
+		0E454E3D0D71EF000040E668 /* libMWorksStreamUtilities.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMWorksStreamUtilities.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		0E454E5C0D71F12C0040E668 /* Test.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Test.cpp; sourceTree = "<group>"; };
+		0E454EA30D71F7FE0040E668 /* MWSUtest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MWSUtest.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		0E454EA50D71F7FE0040E668 /* MWSUtest-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MWSUtest-Info.plist"; sourceTree = "<group>"; };
+		E1C787D0116FAFDB004928BF /* Development.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Development.xcconfig; path = "/Library/Application Support/MWorks/Developer/Xcode/Development.xcconfig"; sourceTree = "<absolute>"; };
+		E1C787D1116FAFDB004928BF /* WARNING.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = WARNING.txt; path = "/Library/Application Support/MWorks/Developer/Xcode/WARNING.txt"; sourceTree = "<absolute>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		0E454E3B0D71EF000040E668 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0E454EA10D71F7FE0040E668 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0E2D77220D71EDDE005AFCC2 = {
+			isa = PBXGroup;
+			children = (
+				E1C787CC116FAFBD004928BF /* External Configs */,
+				0E454E5B0D71F1160040E668 /* Test */,
+				0E2D772D0D71EDE2005AFCC2 /* Source */,
+				0E454E3E0D71EF000040E668 /* Products */,
+				0E454EA50D71F7FE0040E668 /* MWSUtest-Info.plist */,
+			);
+			sourceTree = "<group>";
+		};
+		0E2D772D0D71EDE2005AFCC2 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				0E454E350D71EED80040E668 /* mWorksStreamUtilities.cpp */,
+				0E454E360D71EED80040E668 /* mWorksStreamUtilities.h */,
+			);
+			name = Source;
+			sourceTree = "<group>";
+		};
+		0E454E3E0D71EF000040E668 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0E454E3D0D71EF000040E668 /* libMWorksStreamUtilities.a */,
+				0E454EA30D71F7FE0040E668 /* MWSUtest.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		0E454E5B0D71F1160040E668 /* Test */ = {
+			isa = PBXGroup;
+			children = (
+				0E454E5C0D71F12C0040E668 /* Test.cpp */,
+			);
+			name = Test;
+			sourceTree = "<group>";
+		};
+		E1C787CC116FAFBD004928BF /* External Configs */ = {
+			isa = PBXGroup;
+			children = (
+				E1C787D0116FAFDB004928BF /* Development.xcconfig */,
+				E1C787D1116FAFDB004928BF /* WARNING.txt */,
+			);
+			name = "External Configs";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		0E454E390D71EF000040E668 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0E454E430D71EF960040E668 /* mWorksStreamUtilities.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		0E454E3C0D71EF000040E668 /* libMWorksStreamUtilities */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0E454E410D71EF000040E668 /* Build configuration list for PBXNativeTarget "libMWorksStreamUtilities" */;
+			buildPhases = (
+				0E454E390D71EF000040E668 /* Headers */,
+				0E454E3A0D71EF000040E668 /* Sources */,
+				0E454E3B0D71EF000040E668 /* Frameworks */,
+				0E454E450D71EFA60040E668 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = libMWorksStreamUtilities;
+			productName = libMWorksStreamUtilities;
+			productReference = 0E454E3D0D71EF000040E668 /* libMWorksStreamUtilities.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		0E454EA20D71F7FE0040E668 /* MWSUtest */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0E454EA80D71F7FF0040E668 /* Build configuration list for PBXNativeTarget "MWSUtest" */;
+			buildPhases = (
+				0E454E9F0D71F7FE0040E668 /* Resources */,
+				0E454EA00D71F7FE0040E668 /* Sources */,
+				0E454EA10D71F7FE0040E668 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				0E454EAB0D71F8120040E668 /* PBXTargetDependency */,
+			);
+			name = MWSUtest;
+			productName = MWSUtest;
+			productReference = 0E454EA30D71F7FE0040E668 /* MWSUtest.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		0E2D77240D71EDDE005AFCC2 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0410;
+			};
+			buildConfigurationList = 0E2D77270D71EDDE005AFCC2 /* Build configuration list for PBXProject "MWorksStreamUtilities" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
+			mainGroup = 0E2D77220D71EDDE005AFCC2;
+			productRefGroup = 0E454E3E0D71EF000040E668 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				0E454E3C0D71EF000040E668 /* libMWorksStreamUtilities */,
+				0E454EA20D71F7FE0040E668 /* MWSUtest */,
+				0E60D61E0E6D8D9E00B82521 /* UninstallMWorksStreamUtilities */,
+				E17B9F66119CABD000EEBF5D /* Everything */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		0E454E9F0D71F7FE0040E668 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		0E454E450D71EFA60040E668 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/zsh;
+			shellScript = "mkdir -p \"${FINAL_INSTALL_DIR}/lib\"\nrm -f \"${FINAL_INSTALL_DIR}/lib/libMWorksStreamUtilities.a\"\ncp -f \"${BUILT_PRODUCTS_DIR}/libMWorksStreamUtilities.a\" \"${FINAL_INSTALL_DIR}/lib\"\n\nmkdir -p \"${FINAL_INSTALL_DIR}/include\"\nrm -f \"${FINAL_INSTALL_DIR}/include/mWorksStreamUtilities.h\"\ncp -f \"${PROJECT_DIR}/mWorksStreamUtilities.h\" \"${FINAL_INSTALL_DIR}/include\"\n\n";
+		};
+		0E60D61D0E6D8D9E00B82521 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/zsh;
+			shellScript = "rm -f \"${FINAL_INSTALL_DIR}/lib/libMWorksStreamUtilities.a\"\nrm -f \"${FINAL_INSTALL_DIR}/include/mWorksStreamUtilities.h\"\n\nexit 0";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		0E454E3A0D71EF000040E668 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0E454E420D71EF930040E668 /* mWorksStreamUtilities.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0E454EA00D71F7FE0040E668 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0E454EA90D71F8090040E668 /* Test.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		0E454EAB0D71F8120040E668 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0E454E3C0D71EF000040E668 /* libMWorksStreamUtilities */;
+			targetProxy = 0E454EAA0D71F8120040E668 /* PBXContainerItemProxy */;
+		};
+		E17B9F6A119CABD500EEBF5D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0E454E3C0D71EF000040E668 /* libMWorksStreamUtilities */;
+			targetProxy = E17B9F69119CABD500EEBF5D /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		E17B9F67119CABD100EEBF5D /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = Everything;
+			};
+			name = Development;
+		};
+		E1C787D6116FB042004928BF /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1C787D0116FAFDB004928BF /* Development.xcconfig */;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				FINAL_INSTALL_DIR = "$(MW_DEVELOPER_DIR)";
+				HEADER_SEARCH_PATHS = (
+					"$(HEADER_SEARCH_PATHS_QUOTED_FOR_PROJECT_1)",
+					"$(MATLAB_DIR)/extern/include",
+					"$(MW_INCLUDE_DIR)",
+					"$(HEADER_SEARCH_PATHS_QUOTED_FOR_PROJECT_1)",
+				);
+				HEADER_SEARCH_PATHS_QUOTED_FOR_PROJECT_1 = "\"$(FINAL_INSTALL_DIR)/include\"";
+				LIBRARY_SEARCH_PATHS = "";
+				MATLAB_DIR = /Applications/MATLAB;
+			};
+			name = Development;
+		};
+		E1C787D7116FB042004928BF /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = MWorksStreamUtilities;
+			};
+			name = Development;
+		};
+		E1C787D8116FB042004928BF /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
+				INFOPLIST_FILE = "MWSUtest-Info.plist";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Carbon,
+					"-lscarab",
+					"-lMWorksStreamUtilities",
+					"-lmat",
+					"-lmx",
+				);
+				PRODUCT_NAME = MWSUtest;
+				SKIP_INSTALL = YES;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Development;
+		};
+		E1C787D9116FB042004928BF /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = UninstallMWorksStreamUtilities;
+			};
+			name = Development;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		0E2D77270D71EDDE005AFCC2 /* Build configuration list for PBXProject "MWorksStreamUtilities" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E1C787D6116FB042004928BF /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		0E454E410D71EF000040E668 /* Build configuration list for PBXNativeTarget "libMWorksStreamUtilities" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E1C787D7116FB042004928BF /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		0E454EA80D71F7FF0040E668 /* Build configuration list for PBXNativeTarget "MWSUtest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E1C787D8116FB042004928BF /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		0E60D6210E6D8DBC00B82521 /* Build configuration list for PBXAggregateTarget "UninstallMWorksStreamUtilities" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E1C787D9116FB042004928BF /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		E17B9F6F119CABD900EEBF5D /* Build configuration list for PBXAggregateTarget "Everything" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E17B9F67119CABD100EEBF5D /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 0E2D77240D71EDDE005AFCC2 /* Project object */;
+}

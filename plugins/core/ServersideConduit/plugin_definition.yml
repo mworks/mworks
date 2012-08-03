@@ -1,0 +1,17 @@
+---
+name:           Server-side Event Conduit
+object_name:    ServersideConduit
+parent_class:   IODevice
+
+description:    A conduit object that allows external programs to 
+                request and interact with variables within a MW server
+signature:      iodevice/serverside_conduit
+
+parameters:
+  
+  - name:     resource_name
+    default:  "server_conduit"
+    required: 1
+    
+
+      

@@ -82,6 +82,7 @@ protected:
     shared_ptr<EventTransport> transport;
     shared_ptr<CodecAwareConduit> conduit;
     bool initialized;
+    bool correct_incoming_timestamps;
     
     class ScopedGILRelease : boost::noncopyable {
     private:
@@ -97,7 +98,11 @@ protected:
     
 public:
 
-    PythonIPCPseudoConduit(std::string _resource_name, EventTransport::event_transport_type type){
+    PythonIPCPseudoConduit(std::string _resource_name,
+                           bool _correct_incoming_timestamps,
+                           EventTransport::event_transport_type type) :
+        correct_incoming_timestamps(_correct_incoming_timestamps)
+    {
         ScopedGILRelease sgr;
         
         // if there's no clock defined, create the core infrastructure
@@ -120,9 +125,6 @@ public:
             initialized = false;
             throw SimpleException("Failed to build conduit: ", e.what());
         }
-        
-        
-        //cerr << "Created bidirectional conduit: " << resource_name << endl;
     }
     
     virtual bool isInitialized(){
@@ -133,7 +135,8 @@ public:
         ScopedGILRelease sgr;
         
         try{
-            conduit = shared_ptr<CodecAwareConduit>(new CodecAwareConduit(transport));
+            conduit = shared_ptr<CodecAwareConduit>(new CodecAwareConduit(transport, 
+                                                                          correct_incoming_timestamps));
 
             initialized = conduit->initialize();
         } catch(std::exception& e){
@@ -277,10 +280,6 @@ public:
     virtual void sendFloat(int code, double data){
         ScopedGILRelease sgr;
         
-        //if(!isInitialized()){
-//            throw SimpleException("Not initialized");
-//        }
-//        
         if(conduit != NULL){
             conduit->sendData(code, Datum(data));
         }else {
@@ -303,12 +302,20 @@ public:
 class PythonIPCServerConduit : public PythonIPCPseudoConduit {
 
 public:
-    PythonIPCServerConduit(std::string _resource_name) : PythonIPCPseudoConduit(_resource_name, EventTransport::server_event_transport){}
+    PythonIPCServerConduit(std::string _resource_name, 
+                           bool correct_incoming_timestamps=false) : 
+                           PythonIPCPseudoConduit(_resource_name, 
+                                                  correct_incoming_timestamps,
+                                                  EventTransport::server_event_transport){}
 };
 
 class PythonIPCClientConduit : public PythonIPCPseudoConduit {
 public:
-    PythonIPCClientConduit(std::string _resource_name) : PythonIPCPseudoConduit(_resource_name, EventTransport::client_event_transport){}
+    PythonIPCClientConduit(std::string _resource_name, 
+                           bool correct_incoming_timestamps=false) :
+                           PythonIPCPseudoConduit(_resource_name, 
+                                                  correct_incoming_timestamps,
+                                                  EventTransport::client_event_transport){}
 };
 
 

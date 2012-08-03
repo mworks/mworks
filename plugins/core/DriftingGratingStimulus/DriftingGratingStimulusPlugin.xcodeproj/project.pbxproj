@@ -386,26 +386,12 @@
 			};
 			name = Development;
 		};
-		0E121C0F0E6B1CD6007B29B8 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = DriftingGratingStimulusPlugin.bundle;
-			};
-			name = Release;
-		};
 		1DEB913B08733D840010E9CD /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = /Library/Frameworks;
-				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = DriftingGratingStimulusPlugin_Prefix.pch;
-				HEADER_SEARCH_PATHS = (
-					$MW_INCLUDE_DIR,
-					/usr/include/libxml2,
-				);
 				INFOPLIST_FILE = Info.plist;
-				LIBRARY_SEARCH_PATHS = $MW_LIB_DIR;
 				OTHER_LDFLAGS = (
 					"-framework",
 					OpenGL,
@@ -416,67 +402,20 @@
 			};
 			name = Development;
 		};
-		1DEB913C08733D840010E9CD /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_MODEL_TUNING = G5;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = DriftingGratingStimulusPlugin_Prefix.pch;
-				HEADER_SEARCH_PATHS = /usr/include/libxml2;
-				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = "$(HOME)/Library/Bundles";
-				OTHER_LDFLAGS = "-lboost_regex";
-				PRODUCT_NAME = DriftingGratingStimulusPlugin;
-				WRAPPER_EXTENSION = bundle;
-			};
-			name = Release;
-		};
 		1DEB913F08733D840010E9CD /* Development */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5CC9877B1159366900B65B91 /* Development.xcconfig */;
 			buildSettings = {
-				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 			};
 			name = Development;
-		};
-		1DEB914008733D840010E9CD /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = (
-					x86_64,
-					i386,
-				);
-				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.5;
-				SDKROOT = macosx10.6;
-			};
-			name = Release;
 		};
 		E17B9D29119C9E7E00EEBF5D /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
 				PRODUCT_NAME = Everything;
 			};
 			name = Development;
-		};
-		E17B9D2A119C9E7E00EEBF5D /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				PRODUCT_NAME = Everything;
-				ZERO_LINK = NO;
-			};
-			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
@@ -485,37 +424,33 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				0E121C0E0E6B1CD6007B29B8 /* Development */,
-				0E121C0F0E6B1CD6007B29B8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Development;
 		};
 		1DEB913A08733D840010E9CD /* Build configuration list for PBXNativeTarget "DriftingGratingStimulusPlugin" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1DEB913B08733D840010E9CD /* Development */,
-				1DEB913C08733D840010E9CD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Development;
 		};
 		1DEB913E08733D840010E9CD /* Build configuration list for PBXProject "DriftingGratingStimulusPlugin" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1DEB913F08733D840010E9CD /* Development */,
-				1DEB914008733D840010E9CD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Development;
 		};
 		E17B9D30119C9E8D00EEBF5D /* Build configuration list for PBXAggregateTarget "Everything" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E17B9D29119C9E7E00EEBF5D /* Development */,
-				E17B9D2A119C9E7E00EEBF5D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Development;
 		};
 /* End XCConfigurationList section */
 	};

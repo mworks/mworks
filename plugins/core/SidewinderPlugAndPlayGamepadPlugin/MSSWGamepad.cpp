@@ -182,7 +182,22 @@ void mMSSWGamepad::registerHID_CFDictionary(CFDictionaryRef object)
 	}
 	else {
 		std::string name(capability_name);		
-		button_ids.push_back(mButtonMap(capability_identifier, name));
+        
+        CFNumberRef objectMin = (const __CFNumber*)CFDictionaryGetValue(object, CFSTR(kIOHIDElementMinKey));
+        long valueMin;
+        bool valueMinOK = CFNumberGetValue(objectMin, kCFNumberLongType, &valueMin);
+        
+        CFNumberRef objectMax = (const __CFNumber*)CFDictionaryGetValue(object, CFSTR(kIOHIDElementMaxKey));
+        long valueMax;
+        bool valueMaxOK = CFNumberGetValue(objectMax, kCFNumberLongType, &valueMax);
+        
+        if (!valueMinOK || !valueMaxOK) {
+            throw SimpleException(M_IODEVICE_MESSAGE_DOMAIN,
+                                  "Cannot determine value range for HID capability",
+                                  name);
+        }
+        
+		button_ids.push_back(ButtonMap(capability_identifier, name, valueMin, valueMax));
 	}
 }
 
@@ -222,7 +237,7 @@ bool mMSSWGamepad::updateButtons() {
 
 
 bool mMSSWGamepad::updateButtonsDiscrete() {	
-	for(std::vector<mButtonMap>::const_iterator i=button_ids.begin();
+	for(std::vector<ButtonMap>::const_iterator i=button_ids.begin();
 		i != button_ids.end();
 		++i) {
 		IOHIDEventStruct hidEvent;
@@ -232,7 +247,7 @@ bool mMSSWGamepad::updateButtonsDiscrete() {
 		
 		
 		if(i->getName() == "X-Axis") {
-			if(value == 63) {
+			if(value == i->getMeanValue()) {
 				if(L->getValue().getInteger() != 0) {
 					L->setValue(Datum(0L));
 				}				
@@ -241,7 +256,7 @@ bool mMSSWGamepad::updateButtonsDiscrete() {
 				}				
 			}
 			
-			if(value < 63) {
+			if(value < i->getMeanValue()) {
 				if(L->getValue().getInteger() != 1) {
 					L->setValue(Datum(1L));
 				}				
@@ -250,7 +265,7 @@ bool mMSSWGamepad::updateButtonsDiscrete() {
 				}				
 			}
 			
-			if(value > 63) {
+			if(value > i->getMeanValue()) {
 				if(L->getValue().getInteger() != 0) {
 					L->setValue(Datum(0L));
 				}				
@@ -259,7 +274,7 @@ bool mMSSWGamepad::updateButtonsDiscrete() {
 				}				
 			}
 		} else if (i->getName() == "Y-Axis") {			
-			if(value == 63) {
+			if(value == i->getMeanValue()) {
 				if(D->getValue().getInteger() != 0) {
 					D->setValue(Datum(0L));
 				}				
@@ -268,21 +283,21 @@ bool mMSSWGamepad::updateButtonsDiscrete() {
 				}				
 			}
 			
-			if(value < 63) {
-				if(D->getValue().getInteger() != 1) {
-					D->setValue(Datum(1L));
-				}				
-				if(U->getValue().getInteger() != 0) {
-					U->setValue(Datum(0L));
-				}				
-			}
-			
-			if(value > 63) {
+			if(value < i->getMeanValue()) {
 				if(D->getValue().getInteger() != 0) {
 					D->setValue(Datum(0L));
 				}				
 				if(U->getValue().getInteger() != 1) {
 					U->setValue(Datum(1L));
+				}				
+			}
+			
+			if(value > i->getMeanValue()) {
+				if(D->getValue().getInteger() != 1) {
+					D->setValue(Datum(1L));
+				}				
+				if(U->getValue().getInteger() != 0) {
+					U->setValue(Datum(0L));
 				}				
 			}
 		} else if (i->getName() == "Button_1") {
@@ -316,7 +331,7 @@ bool mMSSWGamepad::updateButtonsDiscrete() {
 }
 
 bool mMSSWGamepad::updateButtonsContinuous() {	
-	for(std::vector<mButtonMap>::const_iterator i=button_ids.begin();
+	for(std::vector<ButtonMap>::const_iterator i=button_ids.begin();
 		i != button_ids.end();
 		++i) {
 		IOHIDEventStruct hidEvent;
@@ -326,34 +341,34 @@ bool mMSSWGamepad::updateButtonsContinuous() {
 		
 		
 		if(i->getName() == "X-Axis") {
-			if(value == 63) {
+			if(value == i->getMeanValue()) {
 				L->setValue(Datum(0L));
 				R->setValue(Datum(0L));
 			}
 			
-			if(value < 63) {
+			if(value < i->getMeanValue()) {
 				L->setValue(Datum(1L));
 				R->setValue(Datum(0L));
 			}
 			
-			if(value > 63) {
+			if(value > i->getMeanValue()) {
 				L->setValue(Datum(0L));
 				R->setValue(Datum(1L));
 			}
 		} else if (i->getName() == "Y-Axis") {			
-			if(value == 63) {
+			if(value == i->getMeanValue()) {
 				D->setValue(Datum(0L));
 				U->setValue(Datum(0L));
 			}
 			
-			if(value < 63) {
-				D->setValue(Datum(1L));
-				U->setValue(Datum(0L));
-			}
-			
-			if(value > 63) {
+			if(value < i->getMeanValue()) {
 				D->setValue(Datum(0L));
 				U->setValue(Datum(1L));
+			}
+			
+			if(value > i->getMeanValue()) {
+				D->setValue(Datum(1L));
+				U->setValue(Datum(0L));
 			}
 		} else if (i->getName() == "Button_1") {
 			A->setValue(Datum((long)hidEvent.value));
@@ -375,8 +390,10 @@ bool mMSSWGamepad::updateButtonsContinuous() {
 
 
 bool mMSSWGamepad::startDeviceIO(){
+    // Ensure that button variables are up to date before exiting this function
+    updateButtons();
 	
-	shared_ptr<mMSSWGamepad> this_one = shared_from_this();
+	shared_ptr<mMSSWGamepad> this_one = component_shared_from_this<mMSSWGamepad>();
 	schedule_node = scheduler->scheduleUS(std::string(FILELINE ": ") + tag,
 														   (MWorksTime)0, 
 														   update_period, 
@@ -399,11 +416,6 @@ bool mMSSWGamepad::stopDeviceIO() {
     }
     return true;
 }
-
-
-void mMSSWGamepad::addChild(std::map<std::string, std::string> parameters,
-							mw::ComponentRegistry *reg,
-							shared_ptr<mw::Component> child){}
 
 
 

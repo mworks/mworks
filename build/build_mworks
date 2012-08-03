@@ -56,21 +56,35 @@ def workdir(path):
 all_builders = []
 required_builder_names = []
 
-def builder(func, build_dir=None, required=False):
+def builder(func, build_dir=None, required=False, transient=False):
     if isinstance(func, basestring):
-        return partial(builder, build_dir=func, required=required)
+        return partial(builder,
+                       build_dir = func,
+                       required = required,
+                       transient = transient)
 
+    builder_name = func.__name__ 
     if build_dir is None:
-        build_dir = func.__name__
+        build_dir = builder_name
 
     @wraps(func)
     def func_wrapper():
-        with workdir(build_dir):
-            func()
+        if transient and (not os.path.isdir(build_dir)):
+            announce('Directory %r not found; skipping %s', build_dir,
+                     builder_name)
+        else:
+            announce('Building %s', builder_name)
+            with workdir(build_dir):
+                func()
 
     all_builders.append(func_wrapper)
     if required:
-        required_builder_names.append(func_wrapper.__name__)
+        required_builder_names.append(builder_name)
+
+
+def list_subdirs():
+    return sorted(dir for dir in os.listdir('.')
+                  if os.path.isdir(dir) and (not dir.startswith('.')))
 
 
 def xcodebuild(target='Everything'):
@@ -96,33 +110,33 @@ def make(targets=[]):
 ################################################################################
 
 
-@builder('mw_build/new_installer')
+@builder('mworks/build/new_installer')
 def uninstall():
     check_call(['./uninstall_mworks', '--delete'])
 
 
-@builder('mw_build/xcode_config', required=True)
+@builder('mworks/build/xcode_config', required=True)
 def build_requirements():
     make()
 
 
-@builder('mw_build/supporting_libs')
+@builder('mworks/build/supporting_libs')
 def supporting_libs():
     check_call(['./build_supporting_libs'])
 
 
-@builder
-def mw_scarab():
+@builder('mworks/supporting_libs/scarab')
+def scarab():
     xcodebuild()
 
 
-@builder
-def mw_core():
+@builder('mworks/core')
+def core():
     xcodebuild()
 
 
-@builder
-def mw_datatools():
+@builder('mworks/tools/data')
+def data_tools():
     for subdir in ('DataFileIndexer', 'MWorksStreamUtilities'):
         with workdir(subdir):
             xcodebuild()
@@ -131,40 +145,36 @@ def mw_datatools():
         make(['clean', 'install'])
 
 
-@builder
-def mw_core_plugins():
+@builder('mworks/plugins/core')
+def core_plugins():
     for subdir in ('DriftingGratingStimulus',
                    'HIDPlugin',
                    'NE500',
+                   'ServersideConduit',
                    'SidewinderPlugAndPlayGamepadPlugin'):
         with workdir(subdir):
             xcodebuild()
 
 
-@builder
-def dicarlolab_mwcore_plugins():
-    for subdir in ('CircleStimulus',
-                   'FakeMonkeyPlugin',
-                   'ITC18Plugin',
-                   'MoviePlugin',
-                   'RectangleStimulus',
-                   'WhiteNoiseBackground'):
+@builder('plugins/core', transient=True)
+def local_core_plugins():
+    for subdir in list_subdirs():
         with workdir(subdir):
             xcodebuild()
 
 
-@builder
-def mw_cocoa():
+@builder('mworks/cocoa')
+def cocoa():
     xcodebuild()
 
 
-@builder
-def mw_client():
+@builder('mworks/apps/client')
+def client():
     xcodebuild()
 
 
-@builder
-def mw_client_plugins():
+@builder('mworks/plugins/client')
+def client_plugins():
     for subdir in ('BehavioralWindow',
                    'PythonBridgePlugin',
                    'VariablesWindow'):
@@ -172,33 +182,30 @@ def mw_client_plugins():
             xcodebuild()
 
 
-@builder
-def dicarlolab_mwclient_plugins():
-    for subdir in ('CalibratorWindow',
-                   'EyeWindow',
-                   'MATLABWindow',
-                   'RewardWindow'):
+@builder('plugins/client', transient=True)
+def local_client_plugins():
+    for subdir in list_subdirs():
         with workdir(subdir):
             xcodebuild()
 
 
-@builder
-def mw_editor():
+@builder('mworks/apps/editor')
+def editor():
     xcodebuild()
 
 
-@builder
-def mw_server():
+@builder('mworks/apps/server')
+def server():
     xcodebuild()
 
 
-@builder
-def mw_examples():
+@builder('mworks/examples')
+def examples():
     make()
 
 
-@builder
-def mw_xcode_templates():
+@builder('mworks/xcode')
+def xcode_templates():
     make(['test', 'install'])
 
 
@@ -229,7 +236,7 @@ def main():
         parser.error('unknown builders: ' +
                      ', '.join(repr(name) for name in unknown_builders))
 
-    srcroot = os.path.abspath(os.path.dirname(__file__) + '/..')
+    srcroot = os.path.abspath(os.path.dirname(__file__) + '/../..')
 
     with workdir(srcroot):
         for builder_name, builder in izip(all_builder_names, all_builders):

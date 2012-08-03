@@ -55,6 +55,8 @@ typedef enum {
     M_REQUEST_CODEC                     = 3010,
     M_SET_EVENT_FORWARDING              = 3011,
     M_REQUEST_VARIABLES                 = 3012,
+    M_CLOCK_OFFSET_EVENT                = 3013,
+    M_CONNECTED_EVENT                   = 3014,
     
 	// response messages
     M_DATA_FILE_OPENED                  = 4007,
@@ -120,6 +122,8 @@ enum MessageDomain { M_GENERIC_MESSAGE_DOMAIN		= 0,
 
 #define M_SET_EVENT_FORWARDING_NAME   "event_name"
 #define M_SET_EVENT_FORWARDING_STATE  "forward"
+
+
 
 
 enum ReservedEventCode {	M_UNDEFINED_EVENT_CODE =		-999,

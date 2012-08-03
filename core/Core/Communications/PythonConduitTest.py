@@ -1,6 +1,7 @@
 import sys; sys.path.append("/Library/Application Support/MWorks/Scripting/Python")
 
 from mworks.conduit import *
+import time
 
 # connect as a client to a remote IPC conduit (assumed to be attached to the "live" MW server)
 conduit = IPCClientConduit("python_test_conduit")
@@ -16,8 +17,8 @@ def increment_by_two():
 
 conduit.initialize()
 
-conduit.register_callback_by_code(4, increment_by_one)
-conduit.register_callback_by_name("#announceBlock", increment_by_two)
+conduit.register_callback_for_code(4, increment_by_one)
+conduit.register_callback_for_name("#announceBlock", increment_by_two)
 
 # let it be known that on this side of the conduit, 10 = #announceBlock
 conduit.register_local_event_code(10, "#announceBlock")
