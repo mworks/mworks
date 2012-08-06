@@ -40,6 +40,7 @@ StimulusDisplay::StimulusDisplay(bool drawEveryFrame) :
     display_stack = shared_ptr< LinkedList<StimulusNode> >(new LinkedList<StimulusNode>());
     
 	setDisplayBounds();
+    setBackgroundColor(0.5, 0.5, 0.5);
 
     opengl_context_manager = OpenGLContextManager::instance();
     clock = Clock::instance();
@@ -133,6 +134,12 @@ void StimulusDisplay::getDisplayBounds(GLdouble &left, GLdouble &right, GLdouble
     right = this->right;
     bottom = this->bottom;
     top = this->top;
+}
+
+void StimulusDisplay::setBackgroundColor(GLclampf red, GLclampf green, GLclampf blue) {
+    backgroundRed = red;
+    backgroundGreen = green;
+    backgroundBlue = blue;
 }
 
 double StimulusDisplay::getMainDisplayRefreshRate() {
@@ -427,7 +434,7 @@ void StimulusDisplay::glInit() {
     gluOrtho2D(left, right, bottom, top);
     glMatrixMode(GL_MODELVIEW);
     
-    glClearColor(0.5, 0.5, 0.5, 1.0);
+    glClearColor(backgroundRed, backgroundGreen, backgroundBlue, 1.0);
     glClear(GL_COLOR_BUFFER_BIT);
 
 }

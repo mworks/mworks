@@ -80,6 +80,7 @@ namespace mw {
         bool needDraw;
 		
 		GLdouble left, right, top, bottom; // display bounds
+        GLclampf backgroundRed, backgroundGreen, backgroundBlue;  // background color
         
         shared_ptr<VariableCallbackNotification> stateSystemNotification;
         CVDisplayLinkRef displayLink;
@@ -131,6 +132,7 @@ namespace mw {
         shared_ptr<StimulusNode> addStimulus(shared_ptr<Stimulus> stim);
 		void addStimulusNode(shared_ptr<StimulusNode> stimnode);
 		
+        void setBackgroundColor(GLclampf red, GLclampf green, GLclampf blue);
 		void updateDisplay();
 		void clearDisplay();
         void getDisplayBounds(GLdouble &left, GLdouble &right, GLdouble &bottom, GLdouble &top);
