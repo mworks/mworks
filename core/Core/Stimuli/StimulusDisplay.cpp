@@ -31,6 +31,7 @@ BEGIN_NAMESPACE_MW
  *                  StimulusDisplay Methods
  **********************************************************************/
 StimulusDisplay::StimulusDisplay(bool drawEveryFrame) :
+    mainDisplayRefreshRate(0.0),
     currentOutputTimeUS(-1),
     drawEveryFrame(drawEveryFrame)
 {
@@ -48,7 +49,11 @@ StimulusDisplay::StimulusDisplay(bool drawEveryFrame) :
     waitingForRefresh = false;
     needDraw = false;
     
-    if (kCVReturnSuccess != CVDisplayLinkCreateWithActiveCGDisplays(&displayLink)) {
+    if (kCVReturnSuccess != CVDisplayLinkCreateWithActiveCGDisplays(&displayLink) ||
+        kCVReturnSuccess != CVDisplayLinkSetOutputCallback(displayLink,
+                                                           &StimulusDisplay::displayLinkCallback,
+                                                           this))
+    {
         throw SimpleException("Unable to create display link");
     }
         
@@ -142,7 +147,7 @@ void StimulusDisplay::setBackgroundColor(GLclampf red, GLclampf green, GLclampf 
     backgroundBlue = blue;
 }
 
-double StimulusDisplay::getMainDisplayRefreshRate() {
+void StimulusDisplay::setMainDisplayRefreshRate() {
     CVTime refreshPeriod = CVDisplayLinkGetNominalOutputVideoRefreshPeriod(displayLink);
     double refreshRate = 60.0;
     
@@ -154,14 +159,22 @@ double StimulusDisplay::getMainDisplayRefreshRate() {
         refreshRate = double(refreshPeriod.timeScale) / double(refreshPeriod.timeValue);
     }
     
-    return refreshRate;
+    mainDisplayRefreshRate = refreshRate;
 }
 
 void StimulusDisplay::addContext(int _context_id){
 	context_ids.push_back(_context_id);
+    int contextIndex = getNContexts() - 1;
+    
+    if (0 == contextIndex) {
+        if (kCVReturnSuccess != opengl_context_manager->prepareDisplayLinkForMainDisplay(displayLink))
+        {
+            throw SimpleException("Unable to associate display link with main display");
+        }
+        setMainDisplayRefreshRate();
+    }
     
     if (drawEveryFrame) {
-        int contextIndex = getNContexts() - 1;
         setCurrent(contextIndex);
         allocateBufferStorage(contextIndex);
     }
@@ -272,12 +285,7 @@ void StimulusDisplay::stateSystemCallback(const Datum &data, MWorksTime time) {
 
             lastFrameTime = 0;
 
-            if (kCVReturnSuccess != CVDisplayLinkSetOutputCallback(displayLink,
-                                                                   &StimulusDisplay::displayLinkCallback,
-                                                                   this) ||
-                kCVReturnSuccess != opengl_context_manager->prepareDisplayLinkForMainDisplay(displayLink) ||
-                kCVReturnSuccess != CVDisplayLinkStart(displayLink))
-            {
+            if (kCVReturnSuccess != CVDisplayLinkStart(displayLink)) {
                 merror(M_DISPLAY_MESSAGE_DOMAIN, "Unable to start display updates");
             } else {
                 // Wait for a refresh to complete, so we know that getCurrentOutputTimeUS() will return a valid time

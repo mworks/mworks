@@ -84,6 +84,7 @@ namespace mw {
         
         shared_ptr<VariableCallbackNotification> stateSystemNotification;
         CVDisplayLinkRef displayLink;
+        double mainDisplayRefreshRate;
         int64_t lastFrameTime;
         MWTime currentOutputTimeUS;
         
@@ -95,6 +96,7 @@ namespace mw {
         std::map<int, GLuint> renderbuffers;
         std::map<int, GLint> bufferWidths, bufferHeights;
         
+        void setMainDisplayRefreshRate();
         void allocateBufferStorage(int contextIndex);
         void storeBackBuffer(int contextIndex);
         void drawStoredBuffer(int contextIndex);
@@ -136,7 +138,7 @@ namespace mw {
 		void updateDisplay();
 		void clearDisplay();
         void getDisplayBounds(GLdouble &left, GLdouble &right, GLdouble &bottom, GLdouble &top);
-        double getMainDisplayRefreshRate();
+        double getMainDisplayRefreshRate() const { return mainDisplayRefreshRate; }
         MWTime getCurrentOutputTimeUS() const { return currentOutputTimeUS; }
         
         static shared_ptr<StimulusDisplay> getCurrentStimulusDisplay();
