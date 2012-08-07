@@ -7,17 +7,6 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
-		0E60D6030E6D89E500B82521 /* dfindexerUninstall */ = {
-			isa = PBXAggregateTarget;
-			buildConfigurationList = 0E60D6060E6D8A1700B82521 /* Build configuration list for PBXAggregateTarget "dfindexerUninstall" */;
-			buildPhases = (
-				0E60D6020E6D89E500B82521 /* ShellScript */,
-			);
-			dependencies = (
-			);
-			name = dfindexerUninstall;
-			productName = diindexerInstall;
-		};
 		E16EB57C114EDDB500F23DB5 /* Everything */ = {
 			isa = PBXAggregateTarget;
 			buildConfigurationList = E16EB58A114EDE1100F23DB5 /* Build configuration list for PBXAggregateTarget "Everything" */;
@@ -392,7 +381,6 @@
 				E16EB57C114EDDB500F23DB5 /* Everything */,
 				0EA58F0A0D6B20120027A3AC /* Test */,
 				0EA58F990D6B24FF0027A3AC /* dfindex */,
-				0E60D6030E6D89E500B82521 /* dfindexerUninstall */,
 				5C2A61FD1039DD7B00A62CBA /* Python Bindings */,
 				5CA0779B10CE9F6B00000A95 /* Python Bindings Test */,
 			);
@@ -410,19 +398,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		0E60D6020E6D89E500B82521 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "INSTALL_PATH=/Library/MonkeyWorks\n\nrm -Rf \"$INSTALL_PATH/lib/libdfindex.a\"\nrm -Rf \"$INSTALL_PATH/include/dfindex/\"\n\nexit 0";
-		};
 		0EA58FA20D6B256A0027A3AC /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -526,30 +501,18 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E1C78767116FA6C1004928BF /* Development.xcconfig */;
 			buildSettings = {
-				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
-				LIBRARY_SEARCH_PATHS = (
-					/usr/lib,
-					/usr/local/lib,
-					"$(MW_LIB_DIR)",
-				);
 			};
 			name = Development;
 		};
 		5C7243001097F3ED004887A5 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_OBJC_CALL_CXX_CDTORS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
-				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INFOPLIST_FILE = "Test-Info.plist";
-				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
 				OTHER_LDFLAGS = (
-					"-lboost_system-mt",
-					"-lboost_filesystem-mt",
-					"-lboost_serialization-mt",
+					"-lboost_system",
+					"-lboost_filesystem",
+					"-lboost_serialization",
 					"-framework",
 					Carbon,
 					"-ldfindex",
@@ -563,45 +526,20 @@
 		5C7243011097F3ED004887A5 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
 				INSTALL_PATH = "$(MW_DEVELOPER_DIR)";
-				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
 				PRODUCT_NAME = dfindex;
-			};
-			name = Development;
-		};
-		5C7243021097F3ED004887A5 /* Development */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				PRODUCT_NAME = diindexerInstall;
 			};
 			name = Development;
 		};
 		5C7243031097F3ED004887A5 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				COPY_PHASE_STRIP = NO;
 				EXECUTABLE_EXTENSION = so;
-				EXECUTABLE_PREFIX = "";
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_MODEL_TUNING = G5;
-				GCC_OPTIMIZATION_LEVEL = 0;
 				HEADER_SEARCH_PATHS = (
 					/usr/include/python2.6,
 					$MW_INCLUDE_DIR,
 				);
-				INSTALL_PATH = /usr/local/lib;
-				LIBRARY_SEARCH_PATHS = (
-					/usr/lib,
-					$MW_LIB_DIR,
-				);
+				INSTALL_PATH = "$(APP_SUPPORT_DIR)/Scripting/Python/mworks";
 				OTHER_LDFLAGS = (
 					"-undefined",
 					dynamic_lookup,
@@ -619,16 +557,10 @@
 		5CA0779F10CE9F6C00000A95 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_MODEL_TUNING = G5;
-				GCC_OPTIMIZATION_LEVEL = 0;
 				HEADER_SEARCH_PATHS = (
 					/usr/include/python2.6,
 					"$(MW_INCLUDE_DIR)",
 				);
-				INSTALL_PATH = /usr/local/bin;
 				OTHER_LDFLAGS = (
 					"-lboost_filesystem",
 					"-lpython",
@@ -645,9 +577,6 @@
 		E16EB57E114EDDB500F23DB5 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
 				PRODUCT_NAME = Everything;
 			};
 			name = Development;
@@ -655,14 +584,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		0E60D6060E6D8A1700B82521 /* Build configuration list for PBXAggregateTarget "dfindexerUninstall" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				5C7243021097F3ED004887A5 /* Development */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
-		};
 		0EA58F100D6B20120027A3AC /* Build configuration list for PBXNativeTarget "Test" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
