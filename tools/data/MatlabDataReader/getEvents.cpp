@@ -51,7 +51,7 @@ void mexFunction (int nlhs, mxArray *plhs[],
   vector<EventWrapper> events;
   
   dfindex dfi(mwk_file);
-  events = dfi.events(event_codes, lower_bound,  upper_bound);
+  dfi.getEvents(events, event_codes, lower_bound,  upper_bound);
   
   mxArray *events_struct = createTopLevelEventStruct(events.size());
   

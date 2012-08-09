@@ -8,13 +8,13 @@
  */
 
 #include <iostream>
-#include "MWorksStreamUtilities/mWorksStreamUtilities.h"
+#include "mWorksStreamUtilities.h"
 #include "mat.h"
 
 using namespace std;
 
 int main() {
-	char *mwkfile = "ldobinary:file:///Users/bkennedy/Documents/sandbox/MWorks_trunk/MWorksTools/MatlabDataReader/simple2.mwk/simple2.mwk";
+	const char *mwkfile = "ldobinary:file:///Users/bkennedy/Documents/sandbox/MWorks_trunk/MWorksTools/MatlabDataReader/simple2.mwk/simple2.mwk";
 
 	ScarabSession *session = scarab_session_connect(mwkfile);
 	

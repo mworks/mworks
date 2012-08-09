@@ -7,17 +7,6 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
-		0E60D61E0E6D8D9E00B82521 /* UninstallMWorksStreamUtilities */ = {
-			isa = PBXAggregateTarget;
-			buildConfigurationList = 0E60D6210E6D8DBC00B82521 /* Build configuration list for PBXAggregateTarget "UninstallMWorksStreamUtilities" */;
-			buildPhases = (
-				0E60D61D0E6D8D9E00B82521 /* ShellScript */,
-			);
-			dependencies = (
-			);
-			name = UninstallMWorksStreamUtilities;
-			productName = UninstallMWorksStreamUtilities;
-		};
 		E17B9F66119CABD000EEBF5D /* Everything */ = {
 			isa = PBXAggregateTarget;
 			buildConfigurationList = E17B9F6F119CABD900EEBF5D /* Build configuration list for PBXAggregateTarget "Everything" */;
@@ -35,6 +24,7 @@
 		0E454E420D71EF930040E668 /* mWorksStreamUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E454E350D71EED80040E668 /* mWorksStreamUtilities.cpp */; };
 		0E454E430D71EF960040E668 /* mWorksStreamUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = 0E454E360D71EED80040E668 /* mWorksStreamUtilities.h */; };
 		0E454EA90D71F8090040E668 /* Test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E454E5C0D71F12C0040E668 /* Test.cpp */; };
+		E17CAE3615D2BEBF00C79629 /* mWorksStreamUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E454E350D71EED80040E668 /* mWorksStreamUtilities.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -168,6 +158,7 @@
 				0E454E9F0D71F7FE0040E668 /* Resources */,
 				0E454EA00D71F7FE0040E668 /* Sources */,
 				0E454EA10D71F7FE0040E668 /* Frameworks */,
+				E17CAE3A15D2C22F00C79629 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -204,7 +195,6 @@
 			targets = (
 				0E454E3C0D71EF000040E668 /* libMWorksStreamUtilities */,
 				0E454EA20D71F7FE0040E668 /* MWSUtest */,
-				0E60D61E0E6D8D9E00B82521 /* UninstallMWorksStreamUtilities */,
 				E17B9F66119CABD000EEBF5D /* Everything */,
 			);
 		};
@@ -234,7 +224,7 @@
 			shellPath = /bin/zsh;
 			shellScript = "mkdir -p \"${FINAL_INSTALL_DIR}/lib\"\nrm -f \"${FINAL_INSTALL_DIR}/lib/libMWorksStreamUtilities.a\"\ncp -f \"${BUILT_PRODUCTS_DIR}/libMWorksStreamUtilities.a\" \"${FINAL_INSTALL_DIR}/lib\"\n\nmkdir -p \"${FINAL_INSTALL_DIR}/include\"\nrm -f \"${FINAL_INSTALL_DIR}/include/mWorksStreamUtilities.h\"\ncp -f \"${PROJECT_DIR}/mWorksStreamUtilities.h\" \"${FINAL_INSTALL_DIR}/include\"\n\n";
 		};
-		0E60D61D0E6D8D9E00B82521 /* ShellScript */ = {
+		E17CAE3A15D2C22F00C79629 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -244,8 +234,8 @@
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/zsh;
-			shellScript = "rm -f \"${FINAL_INSTALL_DIR}/lib/libMWorksStreamUtilities.a\"\nrm -f \"${FINAL_INSTALL_DIR}/include/mWorksStreamUtilities.h\"\n\nexit 0";
+			shellPath = /bin/sh;
+			shellScript = "export FULL_NAME=${PRODUCT_NAME}.${WRAPPER_EXTENSION}\n\nfor libname in mat mx; do\n  install_name_tool -change \\\n    \"@loader_path/lib${libname}.dylib\" \\\n    \"@rpath/lib${libname}.dylib\" \\\n    \"${BUILT_PRODUCTS_DIR}/${FULL_NAME}/Contents/MacOS/${PRODUCT_NAME}\"\ndone";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -263,6 +253,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0E454EA90D71F8090040E668 /* Test.cpp in Sources */,
+				E17CAE3615D2BEBF00C79629 /* mWorksStreamUtilities.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -285,9 +276,6 @@
 		E17B9F67119CABD100EEBF5D /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
 				PRODUCT_NAME = Everything;
 			};
 			name = Development;
@@ -296,16 +284,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E1C787D0116FAFDB004928BF /* Development.xcconfig */;
 			buildSettings = {
-				COPY_PHASE_STRIP = NO;
 				FINAL_INSTALL_DIR = "$(MW_DEVELOPER_DIR)";
 				HEADER_SEARCH_PATHS = (
-					"$(HEADER_SEARCH_PATHS_QUOTED_FOR_PROJECT_1)",
 					"$(MATLAB_DIR)/extern/include",
 					"$(MW_INCLUDE_DIR)",
-					"$(HEADER_SEARCH_PATHS_QUOTED_FOR_PROJECT_1)",
 				);
-				HEADER_SEARCH_PATHS_QUOTED_FOR_PROJECT_1 = "\"$(FINAL_INSTALL_DIR)/include\"";
-				LIBRARY_SEARCH_PATHS = "";
 				MATLAB_DIR = /Applications/MATLAB;
 			};
 			name = Development;
@@ -313,10 +296,6 @@
 		E1C787D7116FB042004928BF /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_MODEL_TUNING = G5;
-				GCC_OPTIMIZATION_LEVEL = 0;
 				PRODUCT_NAME = MWorksStreamUtilities;
 			};
 			name = Development;
@@ -324,34 +303,21 @@
 		E1C787D8116FB042004928BF /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_MODEL_TUNING = G5;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				INFOPLIST_FILE = "MWSUtest-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(MATLAB_DIR)/bin/maci64",
+					"$(MW_LIB_DIR)",
+				);
 				OTHER_LDFLAGS = (
-					"-framework",
-					Carbon,
+					"-lboost_system",
 					"-lscarab",
-					"-lMWorksStreamUtilities",
 					"-lmat",
 					"-lmx",
 				);
 				PRODUCT_NAME = MWSUtest;
 				SKIP_INSTALL = YES;
 				WRAPPER_EXTENSION = app;
-			};
-			name = Development;
-		};
-		E1C787D9116FB042004928BF /* Development */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				PRODUCT_NAME = UninstallMWorksStreamUtilities;
 			};
 			name = Development;
 		};
@@ -378,14 +344,6 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E1C787D8116FB042004928BF /* Development */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
-		};
-		0E60D6210E6D8DBC00B82521 /* Build configuration list for PBXAggregateTarget "UninstallMWorksStreamUtilities" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				E1C787D9116FB042004928BF /* Development */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;

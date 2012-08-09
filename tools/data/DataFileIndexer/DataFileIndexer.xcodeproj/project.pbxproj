@@ -44,16 +44,14 @@
 		5CA077E310CEA53400000A95 /* EventBlock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EA2B4C40D6BB349002396FC /* EventBlock.cpp */; };
 		5CA077E410CEA53500000A95 /* EventWrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E587B3E0D6B63B20053BE5C /* EventWrapper.cpp */; };
 		5CA077E610CEA53C00000A95 /* PythonDataBindingsHelpers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CA077D710CEA49500000A95 /* PythonDataBindingsHelpers.cpp */; };
+		E167F67115D2A7F50096459C /* DataFileIndexer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5073E0C409E734A800EC74B6 /* DataFileIndexer.cpp */; };
+		E167F67315D2A7F80096459C /* DataFileUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E7788170D6B44FB00AF41F2 /* DataFileUtilities.cpp */; };
+		E167F67415D2A7FB0096459C /* EventWrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E587B3E0D6B63B20053BE5C /* EventWrapper.cpp */; };
+		E167F67515D2A7FE0096459C /* EventBlock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EA2B4C40D6BB349002396FC /* EventBlock.cpp */; };
+		E167F67615D2A8020096459C /* dfindex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EE378A90D6CA7B30065846A /* dfindex.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		0EA58F9D0D6B254C0027A3AC /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 0EA58F990D6B24FF0027A3AC;
-			remoteInfo = dfindex;
-		};
 		E16EB580114EDDC700F23DB5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
@@ -295,7 +293,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				0EA58F9E0D6B254C0027A3AC /* PBXTargetDependency */,
 			);
 			name = Test;
 			productName = Test;
@@ -433,6 +430,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				0EA58F120D6B20410027A3AC /* Test.cpp in Sources */,
+				E167F67115D2A7F50096459C /* DataFileIndexer.cpp in Sources */,
+				E167F67315D2A7F80096459C /* DataFileUtilities.cpp in Sources */,
+				E167F67415D2A7FB0096459C /* EventWrapper.cpp in Sources */,
+				E167F67515D2A7FE0096459C /* EventBlock.cpp in Sources */,
+				E167F67615D2A8020096459C /* dfindex.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -474,11 +476,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		0EA58F9E0D6B254C0027A3AC /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 0EA58F990D6B24FF0027A3AC /* dfindex */;
-			targetProxy = 0EA58F9D0D6B254C0027A3AC /* PBXContainerItemProxy */;
-		};
 		E16EB581114EDDC700F23DB5 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 0EA58F990D6B24FF0027A3AC /* dfindex */;
@@ -513,9 +510,6 @@
 					"-lboost_system",
 					"-lboost_filesystem",
 					"-lboost_serialization",
-					"-framework",
-					Carbon,
-					"-ldfindex",
 					"-lscarab",
 				);
 				PRODUCT_NAME = Test;

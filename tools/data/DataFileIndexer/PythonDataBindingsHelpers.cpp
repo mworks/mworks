@@ -68,13 +68,12 @@ std::vector<EventWrapper> PythonDataFile::test_function(int number){
 
 
 std::vector<EventWrapper> PythonDataFile::fetch_all_events(){
+    std::vector<EventWrapper> events;
     std::vector<unsigned int> no_codes;
     if(indexer != NULL){
-        return indexer->events(no_codes, MIN_MONKEY_WORKS_TIME(), MAX_MONKEY_WORKS_TIME());
-    } else {
-        std::vector<EventWrapper> empty;
-        return empty;
+        indexer->getEvents(events, no_codes, MIN_MONKEY_WORKS_TIME(), MAX_MONKEY_WORKS_TIME());
     }
+    return events;
 }
 
 std::vector<EventWrapper> PythonDataFile::fetch_events1(bp::list codes){
@@ -94,6 +93,7 @@ std::vector<EventWrapper> PythonDataFile::fetch_events3(bp::list codes,
     //                                           long lower_bound = 0, 
     //                                           long upper_bound = 999999999L){
     //        
+    std::vector<EventWrapper> events;
     std::vector<unsigned int> event_codes;
     
     int n = len(codes);
@@ -106,11 +106,10 @@ std::vector<EventWrapper> PythonDataFile::fetch_events3(bp::list codes,
     //printf("fetching events from %lld to %lld\n", lower_bound, upper_bound); 
     
     if(indexer != NULL){
-        return indexer->events(event_codes, lower_bound, upper_bound);
-    } else {
-        std::vector<EventWrapper> empty;
-        return empty;
+        indexer->getEvents(events, event_codes, lower_bound, upper_bound);
     }
+    
+    return events;
 }
 
 

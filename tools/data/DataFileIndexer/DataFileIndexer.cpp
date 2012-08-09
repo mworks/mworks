@@ -124,11 +124,11 @@ DataFileIndexer::~DataFileIndexer() {
 	}
 }
 
-std::vector<EventWrapper> DataFileIndexer::events(const std::vector<unsigned int> &event_codes_to_match,
-														const MWorksTime lower_bound, 
-														const MWorksTime upper_bound) const {
-	std::vector<EventWrapper> return_vector;
-
+void DataFileIndexer::getEvents(std::vector<EventWrapper> &return_vector,
+                                const std::vector<unsigned int> &event_codes_to_match,
+                                const MWorksTime lower_bound,
+                                const MWorksTime upper_bound) const
+{
     // Recursively find event blocks that meet our search criteria
 	std::vector<boost::shared_ptr<EventBlock> > matching_event_blocks = root->children(event_codes_to_match, lower_bound, upper_bound);
 	
@@ -145,7 +145,7 @@ std::vector<EventWrapper> DataFileIndexer::events(const std::vector<unsigned int
 		unsigned int current_relative_event = 0;
 		
         // Read through the event block
-		while((current_datum = scarab_read(session)) && current_relative_event < events_per_block) {
+		while (current_relative_event < events_per_block && (current_datum = scarab_read(session))) {
 			MWorksTime event_time = DataFileUtilities::getScarabEventTime(current_datum);
 			
             // Check the time criterion
@@ -171,8 +171,6 @@ std::vector<EventWrapper> DataFileIndexer::events(const std::vector<unsigned int
 			current_relative_event++;
 		}			
 	}
-	
-	return return_vector;	
 }
 
 unsigned int DataFileIndexer::getNEvents() const {

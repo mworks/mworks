@@ -42,9 +42,10 @@ class dfindex
             return dfi.getMaximumTime();
         }
         
-		std::vector<EventWrapper> events(const std::vector<unsigned int> &event_codes,
-											   const MWorksTime lower_bound = MIN_MONKEY_WORKS_TIME(), 
-											   const MWorksTime upper_bound = MAX_MONKEY_WORKS_TIME()) const;
+		void getEvents(std::vector<EventWrapper> &events,
+                       const std::vector<unsigned int> &event_codes,
+                       const MWorksTime lower_bound = MIN_MONKEY_WORKS_TIME(), 
+                       const MWorksTime upper_bound = MAX_MONKEY_WORKS_TIME()) const;
 	};
 
 

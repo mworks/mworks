@@ -31,7 +31,8 @@ void mexFunction (int nlhs, mxArray *plhs[],
   
   dfindex dfi(mwk_file);
   
-  vector<EventWrapper> codecs = dfi.events(event_codes, lower_bound,  upper_bound);
+  vector<EventWrapper> codecs;
+  dfi.getEvents(codecs, event_codes, lower_bound,  upper_bound);
   
   mxArray *codec_struct = createTopLevelCodecStruct(codecs.size());
   

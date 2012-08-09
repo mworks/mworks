@@ -30,6 +30,7 @@ int main( int argc, char *argv[])
 	cout << "indexing ... took " << tv2.tv_sec-tv.tv_sec << " s" << endl;
 	cout << "indexing ... took " << tv2.tv_usec-tv.tv_usec << " us" << endl;
 
+	vector<EventWrapper> events;
 	std::vector<unsigned int> event_codes;
 	event_codes.push_back(0);
 //	event_codes.push_back(1);
@@ -44,7 +45,7 @@ int main( int argc, char *argv[])
 //	event_codes.push_back(10);
 	gettimeofday(&tv, &tz);
 //	MWorksTime spike_time = 3598592801LL;
-	vector<EventWrapper> events = dfi.events(event_codes);
+	dfi.getEvents(events, event_codes);
 	gettimeofday(&tv2, &tz2);
 	
 	cout << "number of events: " << events.size() << " ... took " << tv2.tv_sec-tv.tv_sec << " s" << endl;

@@ -71,11 +71,12 @@ boost::filesystem::path dfindex::indexFile() const {
 	return mwk_data_file / (mwk_data_file.leaf().string() + ".idx");
 }
 
-std::vector<EventWrapper> dfindex::events(const std::vector<unsigned int> &event_codes_to_match,
-												const MWorksTime lower_bound, 
-												const MWorksTime upper_bound) const {
-	std::vector<EventWrapper> events = dfi.events(event_codes_to_match, lower_bound, upper_bound);
-	return events;
+void dfindex::getEvents(std::vector<EventWrapper> &events,
+                        const std::vector<unsigned int> &event_codes_to_match,
+                        const MWorksTime lower_bound,
+                        const MWorksTime upper_bound) const
+{
+	dfi.getEvents(events, event_codes_to_match, lower_bound, upper_bound);
 }
 
 
