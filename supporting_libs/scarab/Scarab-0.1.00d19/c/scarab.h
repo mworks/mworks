@@ -374,10 +374,8 @@ void
 scarab_free_datum(ScarabDatum *d);
 
 
-void scarab_init_lock(ScarabDatum *datum);
 void scarab_lock_datum(ScarabDatum *datum);
 void scarab_unlock_datum(ScarabDatum *datum);
-void scarab_destroy_lock(ScarabDatum *datum);
 
 
 

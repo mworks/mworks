@@ -69,7 +69,6 @@
 		5CF4DECC0591EAD9002A02B7 /* encoding_ldo.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = encoding_ldo.h; path = "Scarab-0.1.00d19/c/encoding_ldo.h"; sourceTree = SOURCE_ROOT; };
 		5CF4DECD0591EAD9002A02B7 /* hashtable.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = hashtable.c; path = "Scarab-0.1.00d19/c/hashtable.c"; sourceTree = SOURCE_ROOT; };
 		5CF4DECE0591EAD9002A02B7 /* list.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = list.c; path = "Scarab-0.1.00d19/c/list.c"; sourceTree = SOURCE_ROOT; };
-		5CF4DED10591EAD9002A02B7 /* mem_std.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = mem_std.c; path = "Scarab-0.1.00d19/c/mem_std.c"; sourceTree = SOURCE_ROOT; };
 		5CF4DED20591EAD9002A02B7 /* os_unix.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = os_unix.c; path = "Scarab-0.1.00d19/c/os_unix.c"; sourceTree = SOURCE_ROOT; };
 		5CF4DED40591EAD9002A02B7 /* scarab_datatypes.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = scarab_datatypes.h; path = "Scarab-0.1.00d19/c/scarab_datatypes.h"; sourceTree = SOURCE_ROOT; };
 		5CF4DED50591EAD9002A02B7 /* scarab_dict.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = scarab_dict.h; path = "Scarab-0.1.00d19/c/scarab_dict.h"; sourceTree = SOURCE_ROOT; };
@@ -115,7 +114,6 @@
 				5CF4DECC0591EAD9002A02B7 /* encoding_ldo.h */,
 				5CF4DECD0591EAD9002A02B7 /* hashtable.c */,
 				5CF4DECE0591EAD9002A02B7 /* list.c */,
-				5CF4DED10591EAD9002A02B7 /* mem_std.c */,
 				5C5164A60A7012600034E68E /* mem_simple.c */,
 				5CF4DED20591EAD9002A02B7 /* os_unix.c */,
 				5CF4DEDA0591EAD9002A02B7 /* scarab.h */,
