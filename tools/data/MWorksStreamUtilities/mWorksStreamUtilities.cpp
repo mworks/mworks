@@ -255,12 +255,12 @@ mxArray *recursiveGetScarabDict(ScarabDatum *datum){
 	return struct_array;
 }
 
-MWorksTime getMWorksTime(const mxArray *time) {
+MWTime getMWorksTime(const mxArray *time) {
 	if(!mxIsNumeric(time)) {
 		return -1;
 	}
 	
-	return (MWorksTime)mxGetScalar(time);
+	return (MWTime)mxGetScalar(time);
 }
 
 mxArray *getScarabEventData(ScarabDatum *datum){

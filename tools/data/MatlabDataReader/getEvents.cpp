@@ -33,8 +33,8 @@ void mexFunction (int nlhs, mxArray *plhs[],
   boost::filesystem::path mwk_file(getString(prhs[0]));
   std::vector<unsigned int> event_codes;
 
-  MWorksTime lower_bound = MIN_MONKEY_WORKS_TIME();
-  MWorksTime upper_bound = MAX_MONKEY_WORKS_TIME();
+  MWTime lower_bound = MIN_MONKEY_WORKS_TIME();
+  MWTime upper_bound = MAX_MONKEY_WORKS_TIME();
 
   if(nrhs >= 2) {
     event_codes = arrayToVector(prhs[1]);

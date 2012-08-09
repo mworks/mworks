@@ -73,8 +73,8 @@ boost::filesystem::path dfindex::indexFile() const {
 
 void dfindex::getEvents(std::vector<EventWrapper> &events,
                         const std::vector<unsigned int> &event_codes_to_match,
-                        const MWorksTime lower_bound,
-                        const MWorksTime upper_bound) const
+                        const MWTime lower_bound,
+                        const MWTime upper_bound) const
 {
 	dfi.getEvents(events, event_codes_to_match, lower_bound, upper_bound);
 }

@@ -87,11 +87,11 @@ class DataFileIndexer
         
 		void getEvents(std::vector<EventWrapper> &events,
                        const std::vector<unsigned int> &event_codes,
-                       const MWorksTime lower_bound = MIN_MONKEY_WORKS_TIME(), 
-                       const MWorksTime upper_bound = MAX_MONKEY_WORKS_TIME()) const;
+                       const MWTime lower_bound = MIN_MONKEY_WORKS_TIME(), 
+                       const MWTime upper_bound = MAX_MONKEY_WORKS_TIME()) const;
 		unsigned int getNEvents() const;
-		MWorksTime getMinimumTime() const;
-        MWorksTime getMaximumTime() const;
+		MWTime getMinimumTime() const;
+        MWTime getMaximumTime() const;
         
 	};
 

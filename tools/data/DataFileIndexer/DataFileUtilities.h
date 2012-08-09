@@ -14,5 +14,5 @@ using namespace mw;
 class DataFileUtilities {
 public:  
 	static unsigned int getScarabEventCode(ScarabDatum *datum);
-	static MWorksTime getScarabEventTime(ScarabDatum *datum);
+	static MWTime getScarabEventTime(ScarabDatum *datum);
 };

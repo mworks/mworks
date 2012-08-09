@@ -44,7 +44,7 @@ int main( int argc, char *argv[])
 //	event_codes.push_back(9);
 //	event_codes.push_back(10);
 	gettimeofday(&tv, &tz);
-//	MWorksTime spike_time = 3598592801LL;
+//	MWTime spike_time = 3598592801LL;
 	dfi.getEvents(events, event_codes);
 	gettimeofday(&tv2, &tz2);
 	

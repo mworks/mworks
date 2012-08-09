@@ -17,7 +17,7 @@ using namespace mw;
 
 int insertDatumIntoEventList(mxArray *eventlist, const int index, ScarabDatum *datum);
 int insertDatumIntoCodecList(mxArray *codeclist, const int index, ScarabDatum *datum);
-MWorksTime getMWorksTime(const mxArray *time);
+MWTime getMWorksTime(const mxArray *time);
 std::string getString(const mxArray *string_array_ptr);
 int getScarabEventCode(ScarabDatum *datum);
 long long getScarabEventTime(ScarabDatum *datum);

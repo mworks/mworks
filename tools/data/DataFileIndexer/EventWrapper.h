@@ -37,7 +37,7 @@ class EventWrapper
             return code_datum->data.integer;
         }
         
-        MWorksTime getTime(){
+        MWTime getTime(){
             if(empty()){
                 return 0LL;
             }

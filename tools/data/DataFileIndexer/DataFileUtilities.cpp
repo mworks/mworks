@@ -14,7 +14,7 @@ unsigned int DataFileUtilities::getScarabEventCode(ScarabDatum *datum){
 	return code_datum->data.integer;
 }
 
-MWorksTime DataFileUtilities::getScarabEventTime(ScarabDatum *datum) {
+MWTime DataFileUtilities::getScarabEventTime(ScarabDatum *datum) {
 	ScarabDatum *time_datum = scarab_list_get(datum, SCARAB_EVENT_TIME_INDEX);
 	return time_datum->data.integer;
 }

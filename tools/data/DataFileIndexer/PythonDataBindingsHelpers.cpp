@@ -55,8 +55,8 @@ bool PythonDataFile::valid(){
     return (indexer != NULL);
 }
 
-MWorksTime PythonDataFile::minimum_time(){ return indexer->getMinimumTime(); }
-MWorksTime PythonDataFile::maximum_time(){ return indexer->getMaximumTime(); }
+MWTime PythonDataFile::minimum_time(){ return indexer->getMinimumTime(); }
+MWTime PythonDataFile::maximum_time(){ return indexer->getMaximumTime(); }
 
 std::vector<EventWrapper> PythonDataFile::test_function(int number){
     
@@ -80,14 +80,14 @@ std::vector<EventWrapper> PythonDataFile::fetch_events1(bp::list codes){
     return fetch_events3(codes, MIN_MONKEY_WORKS_TIME(), MAX_MONKEY_WORKS_TIME());
 }
 
-std::vector<EventWrapper> PythonDataFile::fetch_events2(bp::list codes, const MWorksTime lower_bound){
+std::vector<EventWrapper> PythonDataFile::fetch_events2(bp::list codes, const MWTime lower_bound){
     return fetch_events3(codes, lower_bound, MAX_MONKEY_WORKS_TIME());
 }
 
 
 std::vector<EventWrapper> PythonDataFile::fetch_events3(bp::list codes,
-                                        const MWorksTime lower_bound, 
-                                        const MWorksTime upper_bound){
+                                        const MWTime lower_bound, 
+                                        const MWTime upper_bound){
     
     //   std::vector<EventWrapper> fetch_events(bp::list codes,
     //                                           long lower_bound = 0, 
