@@ -108,11 +108,11 @@ std::vector<unsigned int> EventBlock::eventCodes() const {
 	return event_codes;
 }
 
-std::vector<boost::shared_ptr<EventBlock> > EventBlock::children(const std::vector<unsigned int> &event_codes_to_match,
-																 const MWTime lower_bound,
-																 const MWTime upper_bound) const {
-	std::vector<boost::shared_ptr<EventBlock> > matching_child_blocks;
-	
+void EventBlock::children(std::vector<boost::shared_ptr<EventBlock> > &matching_child_blocks,
+                          const std::vector<unsigned int> &event_codes_to_match,
+                          const MWTime lower_bound,
+                          const MWTime upper_bound) const
+{
 	for(std::vector<boost::shared_ptr<EventBlock> >::const_iterator i = _children.begin();
 		i != _children.end();
 		++i) {
@@ -121,7 +121,8 @@ std::vector<boost::shared_ptr<EventBlock> > EventBlock::children(const std::vect
 			if((*i)->isLeaf()) {
 				matching_child_blocks.push_back(*i);
 			} else {
-				std::vector<boost::shared_ptr<EventBlock> > lower_matching_child_blocks = (*i)->children(event_codes_to_match, lower_bound, upper_bound);
+				std::vector<boost::shared_ptr<EventBlock> > lower_matching_child_blocks;
+				(*i)->children(lower_matching_child_blocks, event_codes_to_match, lower_bound, upper_bound);
 				for(std::vector<boost::shared_ptr<EventBlock> >::const_iterator j = lower_matching_child_blocks.begin();
 					j != lower_matching_child_blocks.end();
 					++j) {
@@ -134,7 +135,5 @@ std::vector<boost::shared_ptr<EventBlock> > EventBlock::children(const std::vect
 			}
 		}
 	}
-	
-	return matching_child_blocks;
 }
 

@@ -7,24 +7,80 @@
  *
  */
  
+#ifndef __mWorksStreamUtilities__
+#define __mWorksStreamUtilities__
+
 #include <string>
-#include <mex.h>
-#include "Scarab/scarab.h"
-#include "Scarab/scarab_utilities.h"
-#include <MWorksCore/Utilities.h>
-using namespace mw;
+#include <matrix.h>
+#include <Scarab/scarab.h>
+#include <dfindex/DataFileUtilities.h>
+
+using namespace DataFileUtilities;
 
 
-int insertDatumIntoEventList(mxArray *eventlist, const int index, ScarabDatum *datum);
 int insertDatumIntoCodecList(mxArray *codeclist, const int index, ScarabDatum *datum);
 MWTime getMWorksTime(const mxArray *time);
 std::string getString(const mxArray *string_array_ptr);
-int getScarabEventCode(ScarabDatum *datum);
-long long getScarabEventTime(ScarabDatum *datum);
-ScarabDatum *getScarabEventPayload(ScarabDatum *datum);
 mxArray *getScarabEventData(ScarabDatum *datum);
 mxArray *getCodec(ScarabDatum *system_payload);
 mxArray *recursiveGetScarabList(ScarabDatum *datum);
 mxArray *recursiveGetScarabDict(ScarabDatum *datum);
 mxArray *createTopLevelCodecStruct(long ncodecs);
 mxArray *createTopLevelEventStruct(long nevents);
+
+
+class MATLABEventInfo {
+    
+public:
+    MATLABEventInfo(ScarabDatum *datum) :
+        code(mxCreateDoubleScalar(double(getScarabEventCode(datum)))),
+        time(mxCreateDoubleScalar(double(getScarabEventTime(datum)))),
+        data(getScarabEventData(datum))
+    { }
+    
+    mxArray* getCode() const { return code; }
+    mxArray* getTime() const { return time; }
+    mxArray* getData() const { return data; }
+    
+private:
+    mxArray *code;
+    mxArray *time;
+    mxArray *data;
+    
+};
+
+
+void insertEventIntoEventList(mxArray *eventlist, const int index, const MATLABEventInfo &event);
+
+
+inline void insertDatumIntoEventList(mxArray *eventlist, const int index, ScarabDatum *datum) {
+    MATLABEventInfo event(datum);
+    insertEventIntoEventList(eventlist, index, event);
+}
+
+
+#endif /* !defined(__mWorksStreamUtilities__) */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

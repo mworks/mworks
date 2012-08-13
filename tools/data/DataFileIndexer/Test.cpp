@@ -24,15 +24,14 @@ int main( int argc, char *argv[])
 	struct timezone tz2;	
 	cout << "start indexing" << endl;
 	gettimeofday(&tv, &tz);
-//	dfindex dfi("/Users/bkennedy/Documents/MWorks/Data/trainingD1.mwk");
-	dfindex dfi("/Users/bkennedy/Documents/sandbox/MWorks_trunk/MWorksTools/MatlabDataReader/simple4.mwk");
+	dfindex dfi("/Users/cstawarz/Documents/MWorks/Data/dots_test.mwk");
 	gettimeofday(&tv2, &tz2);
 	cout << "indexing ... took " << tv2.tv_sec-tv.tv_sec << " s" << endl;
 	cout << "indexing ... took " << tv2.tv_usec-tv.tv_usec << " us" << endl;
 
 	vector<EventWrapper> events;
 	std::vector<unsigned int> event_codes;
-	event_codes.push_back(0);
+//	event_codes.push_back(0);
 //	event_codes.push_back(1);
 //	event_codes.push_back(2);
 //	event_codes.push_back(3);

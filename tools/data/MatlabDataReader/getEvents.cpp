@@ -13,10 +13,6 @@ const int MIN_INPUT_ARGS = 1;
 const int MAX_INPUT_ARGS = 4;
 const int NUM_OUTPUT_ARGS = 1;
 
-// Function declarations.
-// -----------------------------------------------------------------
-std::vector<unsigned int> arrayToVector(const mxArray *array);
-
 // Function definitions.
 // -----------------------------------------------------------------
 void mexFunction (int nlhs, mxArray *plhs[],
@@ -36,8 +32,17 @@ void mexFunction (int nlhs, mxArray *plhs[],
   MWTime lower_bound = MIN_MONKEY_WORKS_TIME();
   MWTime upper_bound = MAX_MONKEY_WORKS_TIME();
 
-  if(nrhs >= 2) {
-    event_codes = arrayToVector(prhs[1]);
+  if (nrhs >= 2) {
+      if (!mxIsNumeric(prhs[1])) {
+          mexErrMsgTxt("argument 2 must be a numeric array");
+      }
+
+      size_t numElements = mxGetNumberOfElements(prhs[1]);
+      double *arrayData = mxGetPr(prhs[1]);
+      
+      for (size_t i = 0; i < numElements; i++) {
+          event_codes.push_back((unsigned int)(*(arrayData + i)));
+      }
   }
 
   if(nrhs >= 3) {
@@ -48,41 +53,21 @@ void mexFunction (int nlhs, mxArray *plhs[],
     upper_bound = getMWorksTime(prhs[3]);
   }
 
-  vector<EventWrapper> events;
-  
   dfindex dfi(mwk_file);
-  dfi.getEvents(events, event_codes, lower_bound,  upper_bound);
+  DataFileIndexer::EventsIterator ei = dfi.getEventsIterator(event_codes, lower_bound,  upper_bound);
+  std::vector<MATLABEventInfo> events;
+  EventWrapper event;
+
+  while ((event = ei.getNextEvent())) {
+      events.push_back(MATLABEventInfo(event.getDatum()));
+  }
   
   mxArray *events_struct = createTopLevelEventStruct(events.size());
   
-  int event_number = 0;
-  for(std::vector<EventWrapper>::const_iterator i = events.begin();
-      i != events.end();
-      ++i) {
-    ScarabDatum *datum = i->getDatum();
-    //    mxArray *event = getScarabEventData(datum);
-    insertDatumIntoEventList(events_struct, event_number, datum);
-    
-    event_number++;
+  for (int i = 0; i < events.size(); i++) {
+      insertEventIntoEventList(events_struct, i, events[i]);
   }
   
   // for now output the number of events
   plhs[0] = events_struct;
-}
-
-std::vector<unsigned int> arrayToVector(const mxArray *array) {
-  std::vector<unsigned int>return_vector;
-
-  if(!mxIsNumeric(array)) {
-    mexErrMsgTxt("Could not create vector");
-    return return_vector;
-  }
-
-  for(int i = 0; i < mxGetNumberOfElements(array); ++i) {
-    double *event_code = mxGetPr(array)+i;
-    //    mexPrintf("i=%d .. num elem=%d .. cur elem: %ud\n", i, mxGetNumberOfElements(array), (unsigned int)*event_code);
-    return_vector.push_back((unsigned int)*event_code);
-  }
-    
-  return return_vector;
 }

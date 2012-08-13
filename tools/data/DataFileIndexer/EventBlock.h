@@ -59,9 +59,10 @@ public:
 	MWTime minimumTime() const;
 	long int blockOffset() const;
 	std::vector<unsigned int> eventCodes() const;
-	std::vector<boost::shared_ptr<EventBlock> > children(const std::vector<unsigned int> &event_codes,
-														 const MWTime lower_bound,
-														 const MWTime upper_bound) const;	
+	void children(std::vector<boost::shared_ptr<EventBlock> > &matching_child_blocks,
+                  const std::vector<unsigned int> &event_codes,
+                  const MWTime lower_bound,
+                  const MWTime upper_bound) const;	
 };
 
 #endif // EventBlock_

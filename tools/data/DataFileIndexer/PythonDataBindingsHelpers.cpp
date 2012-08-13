@@ -120,14 +120,8 @@ PythonDataStream::PythonDataStream(std::string _uri){
 }
 
 void PythonDataStream::open(){
-    
-    // TODO: verify it is safe to remove Ben's kludge here
-    char *uri_temp = new char[uri.length() + 1];
-    strncpy(uri_temp, uri.c_str(), uri.length() + 1);
-    
     //std::cerr << "Opening file: " << uri_temp << "..." << std::endl;
-    session = scarab_session_connect(uri_temp);
-    delete [] uri_temp;
+    session = scarab_session_connect(uri.c_str());
     
     int err;
     if(err = scarab_session_geterr(session)){

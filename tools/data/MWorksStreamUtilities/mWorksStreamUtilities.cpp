@@ -7,28 +7,8 @@
  *
  */
 
-#include <string>
 #include "mWorksStreamUtilities.h"
-#include <MWorksCore/EventConstants.h>
 
-int getScarabEventCode(ScarabDatum *datum){
-	
-	ScarabDatum *code_datum = scarab_list_get(datum, SCARAB_EVENT_CODEC_CODE_INDEX);
-	return code_datum->data.integer;	
-}
-
-long long getScarabEventTime(ScarabDatum *datum){
-	ScarabDatum *time_datum = scarab_list_get(datum, SCARAB_EVENT_TIME_INDEX);
-	return time_datum->data.integer;
-}
-
-ScarabDatum *getScarabEventPayload(ScarabDatum *datum){
-    if (datum->data.list->size < SCARAB_PAYLOAD_EVENT_N_TOPLEVEL_ELEMENTS) {
-        return NULL;
-    }
-	ScarabDatum *payload_datum = scarab_list_get(datum, SCARAB_EVENT_PAYLOAD_INDEX);
-	return payload_datum;
-}
 
 mxArray *recursiveGetScarabList(ScarabDatum *datum){
 	
@@ -370,35 +350,27 @@ mxArray *getCodec(ScarabDatum *codec){
 	return codec_struct;
 }
 
-int insertDatumIntoEventList(mxArray *eventlist, const int index, ScarabDatum *datum){	
-	long code = getScarabEventCode(datum);
-	long long time = getScarabEventTime(datum);
-	
-	mxArray *data;
-	
-	data = getScarabEventData(datum);
-	
-	mxArray *old_code = mxGetField(eventlist, index, "event_code");
-	if(old_code != NULL){
-		mxDestroyArray(old_code);
-	}
-	mxSetField(eventlist, index, "event_code", mxCreateDoubleScalar((double)code));		
-	
-	mxArray *old_time = mxGetField(eventlist, index, "time_us");
-	if(old_time != NULL){
-		mxDestroyArray(old_time);
-	}
-	
-	mxSetField(eventlist, index, "time_us", mxCreateDoubleScalar((double)time));
-	
-	mxArray *old_data = mxGetField(eventlist, index, "data");
-	if(old_data){
-		mxDestroyArray(old_data);
-	}
-	mxSetField(eventlist, index, "data", data);
-	
-	return code;
-}	
+
+void insertEventIntoEventList(mxArray *eventlist, const int index, const MATLABEventInfo &event) {
+    mxArray *old_code = mxGetField(eventlist, index, "event_code");
+    if (old_code != NULL) {
+        mxDestroyArray(old_code);
+    }
+    mxSetField(eventlist, index, "event_code", event.getCode());
+    
+    mxArray *old_time = mxGetField(eventlist, index, "time_us");
+    if (old_time != NULL) {
+        mxDestroyArray(old_time);
+    }
+    mxSetField(eventlist, index, "time_us", event.getTime());
+    
+    mxArray *old_data = mxGetField(eventlist, index, "data");
+    if (old_data) {
+        mxDestroyArray(old_data);
+    }
+    mxSetField(eventlist, index, "data", event.getData());
+}
+
 
 int insertDatumIntoCodecList(mxArray *eventlist, const int index, ScarabDatum *datum){	
 	long code = getScarabEventCode(datum);
