@@ -1,14 +1,14 @@
 /*
- *  mWorksStreamUtilities.h
- *  MWorksMatlab
+ *  MWorksMATLABTools.h
+ *  MATLABTools
  *
  *  Created by David Cox on 12/20/06.
  *  Copyright 2006 MIT. All rights reserved.
  *
  */
  
-#ifndef __mWorksStreamUtilities__
-#define __mWorksStreamUtilities__
+#ifndef __MWorksMATLABTools__
+#define __MWorksMATLABTools__
 
 #include <string>
 #include <matrix.h>
@@ -59,7 +59,7 @@ inline void insertDatumIntoEventList(mxArray *eventlist, const int index, Scarab
 }
 
 
-#endif /* !defined(__mWorksStreamUtilities__) */
+#endif /* !defined(__MWorksMATLABTools__) */
 
 
 

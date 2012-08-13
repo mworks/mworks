@@ -1,13 +1,13 @@
 /*
- *  mWorksStreamUtilities.cpp
- *  MWorksMatlab
+ *  MWorksMATLABTools.cpp
+ *  MATLABTools
  *
  *  Created by David Cox on 12/20/06.
  *  Copyright 2006 MIT. All rights reserved.
  *
  */
 
-#include "mWorksStreamUtilities.h"
+#include "MWorksMATLABTools.h"
 
 
 mxArray *recursiveGetScarabList(ScarabDatum *datum){

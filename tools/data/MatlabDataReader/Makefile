@@ -13,7 +13,7 @@ MATLABHOME = /Applications/MATLAB
 MEX        = $(MATLABHOME)/bin/mex
 CXX        = $(CXX_ROOT)/Developer/usr/bin/g++
 CFLAGS     = -arch i386 -arch x86_64 -fno-common -no-cpp-precomp -fexceptions
-LIBS      = -L\"$(MW_DEVELOPER_DIR)/lib\" -lscarab -ldfindex -lMWorksStreamUtilities -lboost_serialization -lboost_system -lboost_filesystem
+LIBS      = -L\"$(MW_DEVELOPER_DIR)/lib\" -lscarab -ldfindex -lMWorksMATLABTools -lboost_serialization -lboost_system -lboost_filesystem
 INCLUDE   = -I$(MATLABHOME)/extern/include -I"$(MW_DEVELOPER_DIR)"/include
 MEXFLAGS  = -cxx LD='$(CXX)' LDFLAGS='`echo "$$LDFLAGS" | sed "s/10\.5/$(MACOSX_VERSION_QUOTED)/g" | sed "s%-syslibroot,%-syslibroot,$(SDK_ROOT)%g"`'
 

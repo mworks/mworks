@@ -4,7 +4,7 @@
 #include <sys/time.h>
 #include <unistd.h>
 #include "boost/filesystem/path.hpp"
-#include "mWorksStreamUtilities.h"
+#include "MWorksMATLABTools.h"
 #include <iostream>
 
 using namespace std;

@@ -1,6 +1,6 @@
 /*
  *  Test.cpp
- *  MWorksStreamUtilities
+ *  MATLABTools
  *
  *  Created by bkennedy on 2/24/08.
  *  Copyright 2008 MIT. All rights reserved.
@@ -8,7 +8,7 @@
  */
 
 #include <iostream>
-#include "mWorksStreamUtilities.h"
+#include "MWorksMATLABTools.h"
 #include "mat.h"
 
 using namespace std;
