@@ -84,7 +84,7 @@ public:
     class EventsIterator {
     private:
         const DataFileIndexer &dfi;
-        const std::vector<unsigned int> &event_codes_to_match;
+        const std::vector<unsigned int> event_codes_to_match;
         const MWTime lower_bound;
         const MWTime upper_bound;
         

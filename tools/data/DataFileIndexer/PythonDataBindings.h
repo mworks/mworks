@@ -45,18 +45,12 @@ BOOST_PYTHON_MODULE(_data)
         .def(vector_indexing_suite< std::vector<EventWrapper> >())
     ;
     
-    class_< std::vector<unsigned int> >("unsigned_int_vector")
-        .def(vector_indexing_suite< std::vector<unsigned int> >())
-    ;
-    
     class_<PythonDataFile>("_MWKFile", init<std::string>())
         .def("open", &PythonDataFile::open)
         .def("close", &PythonDataFile::close)
-        .def("_fetch_all_events", &PythonDataFile::fetch_all_events)
-        .def("_fetch_events", &PythonDataFile::fetch_events1)
-        .def("_fetch_events", &PythonDataFile::fetch_events2)
-        .def("_fetch_events", &PythonDataFile::fetch_events3)
-        .def("_test_function", &PythonDataFile::test_function)
+        .def("_select_events", &PythonDataFile::select_events)
+        .def("_get_next_event", &PythonDataFile::get_next_event)
+        .def("_get_events", &PythonDataFile::get_events)
         .add_property("exists", &PythonDataFile::exists)
         .add_property("loaded", &PythonDataFile::loaded)
         .add_property("valid", &PythonDataFile::valid)

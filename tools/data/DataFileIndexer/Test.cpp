@@ -29,7 +29,6 @@ int main( int argc, char *argv[])
 	cout << "indexing ... took " << tv2.tv_sec-tv.tv_sec << " s" << endl;
 	cout << "indexing ... took " << tv2.tv_usec-tv.tv_usec << " us" << endl;
 
-	vector<EventWrapper> events;
 	std::vector<unsigned int> event_codes;
 //	event_codes.push_back(0);
 //	event_codes.push_back(1);
@@ -42,14 +41,47 @@ int main( int argc, char *argv[])
 //	event_codes.push_back(8);
 //	event_codes.push_back(9);
 //	event_codes.push_back(10);
-	gettimeofday(&tv, &tz);
 //	MWTime spike_time = 3598592801LL;
-	dfi.getEvents(events, event_codes);
+    
+	gettimeofday(&tv, &tz);
+    
+    DataFileIndexer::EventsIterator ei = dfi.getEventsIterator(event_codes);
+    size_t numEvents = 0;
+    while (ei.getNextEvent()) {
+        numEvents++;
+    }
+    
 	gettimeofday(&tv2, &tz2);
 	
-	cout << "number of events: " << events.size() << " ... took " << tv2.tv_sec-tv.tv_sec << " s" << endl;
-	cout << "number of events: " << events.size() << " ... took " << tv2.tv_usec-tv.tv_usec << " us" << endl;
+	cout << "number of events: " << numEvents << " ... took " << tv2.tv_sec-tv.tv_sec << " s" << endl;
+	cout << "number of events: " << numEvents << " ... took " << tv2.tv_usec-tv.tv_usec << " us" << endl;
 		
 	return 0;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
