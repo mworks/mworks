@@ -141,9 +141,6 @@ def data_tools():
         with workdir(subdir):
             xcodebuild()
 
-    with workdir('MatlabDataReader'):
-        make(['clean', 'install'])
-
 
 @builder('mworks/plugins/core')
 def core_plugins():
