@@ -339,11 +339,15 @@ PyObject *convert_scarab_to_python(ScarabDatum *datum, int prev_type /* = -1*/){
             values = scarab_dict_values(datum);
             
             for(int i = 0; i < n_items; i++){
-                // convert the key
+                // convert the key and value
                 key_py_obj = convert_scarab_to_python(keys[i], SCARAB_DICT);
                 value_py_obj = convert_scarab_to_python(values[i]);
                 
                 PyDict_SetItem(dict, key_py_obj, value_py_obj);
+                
+                // PyDict_SetItem does *not* steal the key and value references, so we need to DECREF them
+                Py_DECREF(key_py_obj);
+                Py_DECREF(value_py_obj);
             }
             
             return dict;
@@ -355,6 +359,7 @@ PyObject *convert_scarab_to_python(ScarabDatum *datum, int prev_type /* = -1*/){
             else thelist = PyList_New(n_items);
             
             for(int i=0; i < n_items; i++){
+                // PyTuple_SetItem and PyList_SetItem steal the item reference, so we don't need to DECREF it
                 if (prev_type == SCARAB_DICT)
                     PyTuple_SetItem(thelist, i, convert_scarab_to_python(datum->data.list->values[i]));
                 else
@@ -364,12 +369,11 @@ PyObject *convert_scarab_to_python(ScarabDatum *datum, int prev_type /* = -1*/){
             return thelist;
             
         case(SCARAB_OPAQUE):
-            s_val = scarab_extract_opaque(datum, &s_size);
-            if (s_val[s_size - 1] == '\0')
+            s_val = (char *)(datum->data.opaque.data);
+            s_size = datum->data.opaque.size;
+            if (scarab_opaque_is_string(datum))
                 s_size -= 1;  // PyString_FromStringAndSize doesn't expect a null-terminated string
-            string_py_obj = PyString_FromStringAndSize(s_val, s_size);
-            free(s_val);
-            return string_py_obj;
+            return PyString_FromStringAndSize(s_val, s_size);
             
         default:
             Py_RETURN_NONE;

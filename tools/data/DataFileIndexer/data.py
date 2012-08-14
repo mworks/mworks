@@ -34,7 +34,14 @@ class MWKFile(_MWKFile):
     def close(self):
         super(MWKFile, self).close()
         self._codec = None
-        self._reverse_codec = None 
+        self._reverse_codec = None
+
+    def __enter__(self):
+        self.open()
+        return self
+
+    def __exit__(self, type, value, tb):
+        self.close()
 
     def _prepare_events_iter(self, **kwargs):
         event_codes = []
