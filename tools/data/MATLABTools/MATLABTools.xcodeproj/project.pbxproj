@@ -71,6 +71,7 @@
 		E196649615DAA29800B88553 /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		E1C787D0116FAFDB004928BF /* Development.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Development.xcconfig; path = "/Library/Application Support/MWorks/Developer/Xcode/Development.xcconfig"; sourceTree = "<absolute>"; };
 		E1C787D1116FAFDB004928BF /* WARNING.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = WARNING.txt; path = "/Library/Application Support/MWorks/Developer/Xcode/WARNING.txt"; sourceTree = "<absolute>"; };
+		E1D59A7515DC2C5500BE6DF0 /* MEXUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MEXUtils.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -133,6 +134,7 @@
 			isa = PBXGroup;
 			children = (
 				E196649615DAA29800B88553 /* Makefile */,
+				E1D59A7515DC2C5500BE6DF0 /* MEXUtils.h */,
 				E196649415DAA29800B88553 /* getCodecs.cpp */,
 				E196649515DAA29800B88553 /* getEvents.cpp */,
 			);

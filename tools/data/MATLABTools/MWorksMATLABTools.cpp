@@ -9,6 +9,9 @@
 
 #include "MWorksMATLABTools.h"
 
+#include <stdio.h>
+#include <string.h>
+
 
 mxArray *recursiveGetScarabList(ScarabDatum *datum){
 	
@@ -227,14 +230,6 @@ mxArray *recursiveGetScarabDict(ScarabDatum *datum){
 	return struct_array;
 }
 
-MWTime getMWorksTime(const mxArray *time) {
-	if(!mxIsNumeric(time)) {
-		return -1;
-	}
-	
-	return (MWTime)mxGetScalar(time);
-}
-
 mxArray *getScarabEventData(ScarabDatum *datum){
 	if(datum == NULL){
 		return mxCreateDoubleScalar(0.0);
@@ -414,23 +409,6 @@ mxArray *createTopLevelEventStruct(long nevents) {
                                           event_nfields, event_field_names);
     
     return events;
-}
-
-std::string getString(const mxArray *string_array_ptr) {
-	// Allocate enough memory to hold the converted string.                     
-	mwSize buflen = mxGetNumberOfElements(string_array_ptr) + 1;
-	char *buf = (char *)calloc(buflen, sizeof(char));
-	
-	// Copy the string data from string_array_ptr and place it into buf.        
-	if (mxGetString(string_array_ptr, buf, buflen) != 0) {
-		free(buf);
-		return std::string();
-	}
-	
-	std::string new_string(buf);
-	free(buf);
-	
-	return new_string;
 }
 
 mxArray *getScarabOpaque(ScarabDatum *datum) {

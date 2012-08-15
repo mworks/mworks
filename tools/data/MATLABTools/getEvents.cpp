@@ -5,7 +5,7 @@
 #include <unistd.h>
 #include "boost/filesystem/path.hpp"
 #include "MWorksMATLABTools.h"
-#include <iostream>
+#include "MEXUtils.h"
 
 using namespace std;
 
@@ -26,31 +26,23 @@ void mexFunction (int nlhs, mxArray *plhs[],
     mexErrMsgTxt("only had one output argument");
 
   // Get the inputs.
-  boost::filesystem::path mwk_file(getString(prhs[0]));
+  std::string filename;
+  getStringParameter(prhs, 1, filename);
+  boost::filesystem::path mwk_file(filename);
+
   std::vector<unsigned int> event_codes;
+  if (nrhs >= 2) {
+      getNumericArrayParameter<unsigned int>(prhs, 2, event_codes);
+  }
 
   MWTime lower_bound = MIN_MONKEY_WORKS_TIME();
-  MWTime upper_bound = MAX_MONKEY_WORKS_TIME();
-
-  if (nrhs >= 2) {
-      if (!mxIsNumeric(prhs[1])) {
-          mexErrMsgTxt("argument 2 must be a numeric array");
-      }
-
-      size_t numElements = mxGetNumberOfElements(prhs[1]);
-      double *arrayData = mxGetPr(prhs[1]);
-      
-      for (size_t i = 0; i < numElements; i++) {
-          event_codes.push_back((unsigned int)(*(arrayData + i)));
-      }
-  }
-
   if(nrhs >= 3) {
-    lower_bound = getMWorksTime(prhs[2]);
+    lower_bound = getNumericScalarParameter<MWTime>(prhs, 3);
   }
 
+  MWTime upper_bound = MAX_MONKEY_WORKS_TIME();
   if(nrhs >= 4) {
-    upper_bound = getMWorksTime(prhs[3]);
+    upper_bound = getNumericScalarParameter<MWTime>(prhs, 4);
   }
 
   dfindex dfi(mwk_file);

@@ -10,7 +10,6 @@
 #ifndef __MWorksMATLABTools__
 #define __MWorksMATLABTools__
 
-#include <string>
 #include <matrix.h>
 #include <Scarab/scarab.h>
 #include <dfindex/DataFileUtilities.h>
@@ -19,8 +18,6 @@ using namespace DataFileUtilities;
 
 
 int insertDatumIntoCodecList(mxArray *codeclist, const int index, ScarabDatum *datum);
-MWTime getMWorksTime(const mxArray *time);
-std::string getString(const mxArray *string_array_ptr);
 mxArray *getScarabOpaque(ScarabDatum *datum);
 mxArray *getScarabEventData(ScarabDatum *datum);
 mxArray *getCodec(ScarabDatum *system_payload);
