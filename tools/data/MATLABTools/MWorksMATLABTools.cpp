@@ -44,12 +44,8 @@ mxArray *recursiveGetScarabList(ScarabDatum *datum){
 					mx_datum = mxCreateDoubleScalar(scarab_extract_float(values[i]));
 					break;
 				case SCARAB_OPAQUE:
-				{
-					char *buffer = scarab_extract_string(values[i]);
-					mx_datum = mxCreateString(buffer);
-					free(buffer);
+					mx_datum = getScarabOpaque(values[i]);
 					break;
-				}
 				case SCARAB_DICT:
 					mx_datum = recursiveGetScarabDict(values[i]);
 					break;
@@ -196,12 +192,8 @@ mxArray *recursiveGetScarabDict(ScarabDatum *datum){
 					mx_datum = mxCreateDoubleScalar(scarab_extract_float(values[i]));
 					break;
 				case SCARAB_OPAQUE:
-				{
-					char *buffer = scarab_extract_string(values[i]);
-					mx_datum = mxCreateString(buffer);
-					free(buffer);
+					mx_datum = getScarabOpaque(values[i]);
 					break;
-				}
 				case SCARAB_DICT:
 					mx_datum = recursiveGetScarabDict(values[i]);
 					break;
@@ -268,12 +260,8 @@ mxArray *getScarabEventData(ScarabDatum *datum){
 			retVal = mxCreateDoubleScalar(scarab_extract_float(payload)); // HACK
 			break;
 		case SCARAB_OPAQUE:
-		{
-			char *buffer = scarab_extract_string(payload);
-			retVal = mxCreateString(buffer);
-			free(buffer);
+			retVal = getScarabOpaque(payload);
 			break;
-		}
 		case SCARAB_DICT:
 			retVal = recursiveGetScarabDict(payload);
 			break;
@@ -337,8 +325,8 @@ mxArray *getCodec(ScarabDatum *codec){
 									   mxCreateDoubleScalar(varValue->data.integer));
 						} else if(varValue->type == SCARAB_OPAQUE){
 							char *val = scarab_extract_string(varValue);
-							mxSetField(codec_struct, c, buffer, 
-									   mxCreateString(val));
+							mxSetField(codec_struct, c, buffer, mxCreateString(val));
+                            free(val);
 						}
 						
 						free(buffer);
@@ -444,4 +432,46 @@ std::string getString(const mxArray *string_array_ptr) {
 	
 	return new_string;
 }
+
+mxArray *getScarabOpaque(ScarabDatum *datum) {
+    unsigned char *data = datum->data.opaque.data;
+    mxArray *opaque;
+    
+    if (scarab_opaque_is_string(datum)) {
+        opaque = mxCreateString((char *)data);
+    } else {
+        int size = datum->data.opaque.size;
+        mwSize dims[] = { 1, size };
+        opaque = mxCreateNumericArray(2, dims, mxUINT8_CLASS, mxREAL);
+        if (opaque != NULL) {
+            memcpy(mxGetData(opaque), data, size);
+        }
+    }
+    
+    return opaque;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

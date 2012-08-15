@@ -18,11 +18,7 @@ EXES_32 = $(OBJS:.o=.mexmaci)
 EXES_64 = $(OBJS:.o=.mexmaci64)
 EXES = $(EXES_32) $(EXES_64)
 
-install: all
-	/bin/mkdir -p $(INSTALL_DIR)
-	/bin/cp $(EXES) $(INSTALL_DIR)
-
-all: $(EXES)
+all: clean_exes install
 
 $(EXES_32): %.mexmaci: %.o
 	MACI64=0 $(MEX) -maci $(MEXFLAGS) $(LIBS) -output $@ $<
@@ -33,5 +29,16 @@ $(EXES_64): %.mexmaci64: %.o
 $(OBJS): %.o: %.cpp
 	$(CXX) $(CFLAGS) $(INCLUDE) -c $<
 
-clean:
-	/bin/rm -f $(EXES) $(OBJS)
+build: $(EXES)
+
+install: build
+	/bin/mkdir -p $(INSTALL_DIR)
+	/bin/cp $(EXES) $(INSTALL_DIR)
+
+clean_objs:
+	/bin/rm -f $(OBJS)
+
+clean_exes:
+	/bin/rm -f $(EXES)
+
+clean: clean_objs clean_exes
