@@ -14,8 +14,6 @@
 #include <Scarab/scarab.h>
 #include <dfindex/DataFileUtilities.h>
 
-using namespace DataFileUtilities;
-
 
 mxArray* getScarabDatum(ScarabDatum *datum);
 mxArray *getCodec(ScarabDatum *system_payload);
@@ -28,9 +26,9 @@ class MATLABEventInfo {
     
 public:
     MATLABEventInfo(ScarabDatum *datum) :
-        code(mxCreateDoubleScalar(double(getScarabEventCode(datum)))),
-        time(mxCreateDoubleScalar(double(getScarabEventTime(datum)))),
-        data(getScarabDatum(getScarabEventPayload(datum)))
+        code(getScarabDatum(DataFileUtilities::getScarabEventCodeDatum(datum))),
+        time(getScarabDatum(DataFileUtilities::getScarabEventTimeDatum(datum))),
+        data(getScarabDatum(DataFileUtilities::getScarabEventPayload(datum)))
     { }
     
     mxArray* getCode() const { return code; }

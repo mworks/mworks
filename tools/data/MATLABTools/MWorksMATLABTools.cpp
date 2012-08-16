@@ -13,79 +13,42 @@
 #include <string.h>
 
 
-static mxArray* getScarabOpaque(ScarabDatum *datum);
-static mxArray* getScarabList(ScarabDatum *datum);
+static mxArray* getScarabInteger(ScarabDatum *datum);
 static mxArray* getScarabDict(ScarabDatum *datum);
+static mxArray* getScarabList(ScarabDatum *datum);
+static mxArray* getScarabOpaque(ScarabDatum *datum);
+static mxArray* getScarabFloat(ScarabDatum *datum);
 
 
 mxArray* getScarabDatum(ScarabDatum *datum) {
-    if (datum == NULL) {
+    if (datum == NULL || datum->type == SCARAB_NULL) {
+        // An empty array is the closest equivalent of NULL in MATLAB
         return mxCreateDoubleMatrix(0, 0, mxREAL);
     }
     
-    mxArray *retVal;
-    
     switch (datum->type) {
         case SCARAB_INTEGER:
-            retVal = mxCreateDoubleScalar(datum->data.integer);
-            break;
-        case SCARAB_FLOAT:
-            retVal = mxCreateDoubleScalar((double)datum->data.floatp);
-            break;
-        case SCARAB_FLOAT_NAN:
-        case SCARAB_FLOAT_OPAQUE:
-            retVal = mxCreateDoubleScalar(scarab_extract_float(datum));
-            break;
-        case SCARAB_OPAQUE:
-            retVal = getScarabOpaque(datum);
-            break;
+            return getScarabInteger(datum);
+            
         case SCARAB_DICT:
-            retVal = getScarabDict(datum);
-            break;
+            return getScarabDict(datum);
+            
         case SCARAB_LIST:
-            retVal = getScarabList(datum);
-            break;
+            return getScarabList(datum);
+            
+        case SCARAB_OPAQUE:
+            return getScarabOpaque(datum);
+            
         default:
-            retVal = mxCreateDoubleScalar(0.0);
-            break;
+            return getScarabFloat(datum);
     }
-    
-    return retVal;
 }
 
 
-static mxArray* getScarabOpaque(ScarabDatum *datum) {
-    unsigned char *data = datum->data.opaque.data;
-    mxArray *opaque;
-    
-    if (scarab_opaque_is_string(datum)) {
-        opaque = mxCreateString((char *)data);
-    } else {
-        int size = datum->data.opaque.size;
-        opaque = mxCreateNumericMatrix(1, size, mxUINT8_CLASS, mxREAL);
-        if (opaque != NULL) {
-            memcpy(mxGetData(opaque), data, size);
-        }
-    }
-    
-    return opaque;
-}
-
-
-static mxArray* getScarabList(ScarabDatum *datum){
-	const int n = datum->data.list->size;
-	ScarabDatum **values = datum->data.list->values;
-	
-	mxArray *cell_matrix = mxCreateCellMatrix(1, n);
-	
-	for (int i = 0; i < n; i++) {
-		mxArray *mx_datum = getScarabDatum(values[i]);
-        if (mx_datum != NULL) {
-            mxSetCell(cell_matrix, i, mx_datum);
-        }
-	}
-	
-	return cell_matrix;
+static mxArray* getScarabInteger(ScarabDatum *datum) {
+    mxArray *integer = mxCreateNumericMatrix(1, 1, mxINT64_CLASS, mxREAL);
+    *((long long *)mxGetData(integer)) = datum->data.integer;
+    return integer;
 }
 
 
@@ -210,6 +173,70 @@ static mxArray* getScarabDict(ScarabDatum *datum){
 }
 
 
+static mxArray* getScarabList(ScarabDatum *datum) {
+    const int n = datum->data.list->size;
+    ScarabDatum **values = datum->data.list->values;
+    
+    mxArray *cell_matrix = mxCreateCellMatrix(1, n);
+    
+    for (int i = 0; i < n; i++) {
+        mxArray *mx_datum = getScarabDatum(values[i]);
+        if (mx_datum != NULL) {
+            mxSetCell(cell_matrix, i, mx_datum);
+        }
+    }
+    
+    return cell_matrix;
+}
+
+
+static mxArray* getScarabOpaque(ScarabDatum *datum) {
+    unsigned char *data = datum->data.opaque.data;
+    mxArray *opaque;
+    
+    if (scarab_opaque_is_string(datum)) {
+        opaque = mxCreateString((char *)data);
+    } else {
+        int size = datum->data.opaque.size;
+        opaque = mxCreateNumericMatrix(1, size, mxUINT8_CLASS, mxREAL);
+        if (opaque != NULL) {
+            memcpy(mxGetData(opaque), data, size);
+        }
+    }
+    
+    return opaque;
+}
+
+
+static mxArray* getScarabFloat(ScarabDatum *datum) {
+    double value;
+    
+    switch (datum->type) {
+        case SCARAB_FLOAT:
+            value = datum->data.floatp;
+            break;
+            
+        case SCARAB_FLOAT_INF:
+            value = mxGetInf();
+            break;
+            
+        case SCARAB_FLOAT_NAN:
+            value = mxGetNaN();
+            break;
+            
+        case SCARAB_FLOAT_OPAQUE:
+            value = scarab_extract_float(datum);
+            break;
+            
+        default:
+            value = 0.0;
+            break;
+    }
+    
+    return mxCreateDoubleScalar(value);
+}
+
+
 mxArray *getCodec(ScarabDatum *codec){
 	int n_codec_entries = scarab_dict_number_of_elements(codec);
 	
@@ -293,13 +320,13 @@ void insertEventIntoEventList(mxArray *eventlist, const int index, const MATLABE
 
 
 int insertDatumIntoCodecList(mxArray *eventlist, const int index, ScarabDatum *datum){	
-	long code = getScarabEventCode(datum);
+	long code = DataFileUtilities::getScarabEventCode(datum);
 	if(code == 0) {
-		long long time = getScarabEventTime(datum);
+		long long time = DataFileUtilities::getScarabEventTime(datum);
 		
 		mxArray *data;
 		
-		data = getCodec(getScarabEventPayload(datum));
+		data = getCodec(DataFileUtilities::getScarabEventPayload(datum));
 		
 		mxArray *old_time = mxGetField(eventlist, index, "time_us");
 		if(old_time != NULL){

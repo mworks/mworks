@@ -22,13 +22,23 @@ using mw::MWTime;
 BEGIN_NAMESPACE(DataFileUtilities)
 
 
+inline ScarabDatum* getScarabEventCodeDatum(ScarabDatum *datum) {
+    return scarab_list_get(datum, SCARAB_EVENT_CODEC_CODE_INDEX);
+}
+
+
 inline unsigned int getScarabEventCode(ScarabDatum *datum) {
-    return scarab_list_get(datum, SCARAB_EVENT_CODEC_CODE_INDEX)->data.integer;
+    return getScarabEventCodeDatum(datum)->data.integer;
+}
+
+
+inline ScarabDatum* getScarabEventTimeDatum(ScarabDatum *datum) {
+    return scarab_list_get(datum, SCARAB_EVENT_TIME_INDEX);
 }
 
 
 inline MWTime getScarabEventTime(ScarabDatum *datum) {
-    return scarab_list_get(datum, SCARAB_EVENT_TIME_INDEX)->data.integer;
+    return getScarabEventTimeDatum(datum)->data.integer;
 }
 
 
