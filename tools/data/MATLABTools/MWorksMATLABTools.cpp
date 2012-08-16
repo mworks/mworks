@@ -13,74 +13,84 @@
 #include <string.h>
 
 
-mxArray *recursiveGetScarabList(ScarabDatum *datum){
-	
-	int i;
-	
-	//mexPrintf("recursiveGetScarabList");
-	
-	if(datum->type != SCARAB_LIST){
-		return NULL;
-	}
-	
-	int n = datum->data.list->size;
+static mxArray* getScarabOpaque(ScarabDatum *datum);
+static mxArray* getScarabList(ScarabDatum *datum);
+static mxArray* getScarabDict(ScarabDatum *datum);
+
+
+mxArray* getScarabDatum(ScarabDatum *datum) {
+    if (datum == NULL) {
+        return mxCreateDoubleMatrix(0, 0, mxREAL);
+    }
+    
+    mxArray *retVal;
+    
+    switch (datum->type) {
+        case SCARAB_INTEGER:
+            retVal = mxCreateDoubleScalar(datum->data.integer);
+            break;
+        case SCARAB_FLOAT:
+            retVal = mxCreateDoubleScalar((double)datum->data.floatp);
+            break;
+        case SCARAB_FLOAT_NAN:
+        case SCARAB_FLOAT_OPAQUE:
+            retVal = mxCreateDoubleScalar(scarab_extract_float(datum));
+            break;
+        case SCARAB_OPAQUE:
+            retVal = getScarabOpaque(datum);
+            break;
+        case SCARAB_DICT:
+            retVal = getScarabDict(datum);
+            break;
+        case SCARAB_LIST:
+            retVal = getScarabList(datum);
+            break;
+        default:
+            retVal = mxCreateDoubleScalar(0.0);
+            break;
+    }
+    
+    return retVal;
+}
+
+
+static mxArray* getScarabOpaque(ScarabDatum *datum) {
+    unsigned char *data = datum->data.opaque.data;
+    mxArray *opaque;
+    
+    if (scarab_opaque_is_string(datum)) {
+        opaque = mxCreateString((char *)data);
+    } else {
+        int size = datum->data.opaque.size;
+        opaque = mxCreateNumericMatrix(1, size, mxUINT8_CLASS, mxREAL);
+        if (opaque != NULL) {
+            memcpy(mxGetData(opaque), data, size);
+        }
+    }
+    
+    return opaque;
+}
+
+
+static mxArray* getScarabList(ScarabDatum *datum){
+	const int n = datum->data.list->size;
 	ScarabDatum **values = datum->data.list->values;
-	
 	
 	mxArray *cell_matrix = mxCreateCellMatrix(1, n);
 	
-	for(i = 0; i < n; i++){
-		
-		mxArray *mx_datum;
-		
-		if(values[i] != NULL){
-			
-			switch(values[i]->type){
-					
-				case SCARAB_INTEGER:
-					mx_datum = mxCreateDoubleScalar((double)values[i]->data.integer);
-					break;
-				case SCARAB_FLOAT:
-					mx_datum = mxCreateDoubleScalar((double)values[i]->data.floatp);
-					break;
-				case SCARAB_FLOAT_OPAQUE:
-					mx_datum = mxCreateDoubleScalar(scarab_extract_float(values[i]));
-					break;
-				case SCARAB_OPAQUE:
-					mx_datum = getScarabOpaque(values[i]);
-					break;
-				case SCARAB_DICT:
-					mx_datum = recursiveGetScarabDict(values[i]);
-					break;
-				case SCARAB_LIST:
-					mx_datum = recursiveGetScarabList(values[i]);
-					break;
-				default:
-					mx_datum = NULL;
-					break;
-			}
-			
-			if(mx_datum != NULL){
-				mxSetCell(cell_matrix, i, mx_datum);
-			}
-		}
+	for (int i = 0; i < n; i++) {
+		mxArray *mx_datum = getScarabDatum(values[i]);
+        if (mx_datum != NULL) {
+            mxSetCell(cell_matrix, i, mx_datum);
+        }
 	}
 	
 	return cell_matrix;
 }
 
 
-mxArray *recursiveGetScarabDict(ScarabDatum *datum){
-	
-	int i;
-	
-	//mexPrintf("recursiveGetScarabDict");
-	
-	if(datum->type != SCARAB_DICT){
-		return NULL;
-	}
-	
-	int n = scarab_dict_number_of_elements(datum);
+static mxArray* getScarabDict(ScarabDatum *datum){
+	const int n = scarab_dict_number_of_elements(datum);
 	ScarabDatum **keys = scarab_dict_keys(datum);
 	ScarabDatum **values = scarab_dict_values(datum);
 	
@@ -92,7 +102,7 @@ mxArray *recursiveGetScarabDict(ScarabDatum *datum){
 	int unknowns = 0;	
 	
 	// fix me here
-	for(i = 0; i < n; i++){
+	for (int i = 0; i < n; i++) {
 		if(keys[i]) {
 			switch(keys[i]->type) {
 				case SCARAB_OPAQUE:
@@ -177,50 +187,19 @@ mxArray *recursiveGetScarabDict(ScarabDatum *datum){
 	mwSize ndims = 1;
 	mxArray *struct_array = mxCreateStructArray(ndims, &dims, n, (const char **)fields);
 	
-	for(i = 0; i < n; i++){
-		
-		mxArray *mx_datum;
-		
-		if(values[i] != NULL){
-			
-			switch(values[i]->type){
-					
-				case SCARAB_INTEGER:
-					mx_datum = mxCreateDoubleScalar((double)values[i]->data.integer);
-					break;
-				case SCARAB_FLOAT:
-					mx_datum = mxCreateDoubleScalar((double)values[i]->data.floatp);
-					break;
-				case SCARAB_FLOAT_OPAQUE:
-					mx_datum = mxCreateDoubleScalar(scarab_extract_float(values[i]));
-					break;
-				case SCARAB_OPAQUE:
-					mx_datum = getScarabOpaque(values[i]);
-					break;
-				case SCARAB_DICT:
-					mx_datum = recursiveGetScarabDict(values[i]);
-					break;
-				case SCARAB_LIST:
-					mx_datum = recursiveGetScarabList(values[i]);
-					break;
-				default:
-					mx_datum = NULL;
-					break;
-			}
-			
-			if(mx_datum != NULL){
-				mxArray *old_thing = mxGetField(struct_array, 0, fields[i]);
-				if(old_thing){
-					mxDestroyArray(old_thing);
-				}
-				
-				mxSetField(struct_array, 0, fields[i], mx_datum);
-			}
-		}
+	for (int i = 0; i < n; i++) {
+		mxArray *mx_datum = getScarabDatum(values[i]);
+        if (mx_datum != NULL) {
+            mxArray *old_thing = mxGetField(struct_array, 0, fields[i]);
+            if(old_thing){
+                mxDestroyArray(old_thing);
+            }
+            mxSetField(struct_array, 0, fields[i], mx_datum);
+        }
 	}
 	
 	
-	for(i = 0; i < n; i++){
+	for (int i = 0; i < n; i++) {
 		if(fields[i]) {
 			free(fields[i]);
 		}
@@ -228,48 +207,6 @@ mxArray *recursiveGetScarabDict(ScarabDatum *datum){
 	free(fields);
 	
 	return struct_array;
-}
-
-mxArray *getScarabEventData(ScarabDatum *datum){
-	if(datum == NULL){
-		return mxCreateDoubleScalar(0.0);
-	}
-	
-	ScarabDatum *payload = getScarabEventPayload(datum);
-	
-	if(!payload){
-		return mxCreateDoubleScalar(0.0);
-	}
-	
-	mxArray *retVal;
-	
-	switch(payload->type) {
-		case SCARAB_INTEGER:
-			retVal =  mxCreateDoubleScalar(payload->data.integer);
-			break;
-		case SCARAB_FLOAT:
-			retVal = mxCreateDoubleScalar((double)payload->data.floatp);
-			break;
-		case SCARAB_FLOAT_NAN:
-		case SCARAB_FLOAT_OPAQUE:
-			retVal = mxCreateDoubleScalar(scarab_extract_float(payload)); // HACK
-			break;
-		case SCARAB_OPAQUE:
-			retVal = getScarabOpaque(payload);
-			break;
-		case SCARAB_DICT:
-			retVal = recursiveGetScarabDict(payload);
-			break;
-		case SCARAB_LIST:
-			retVal = recursiveGetScarabList(payload);
-			break;
-		default:
-			retVal = mxCreateDoubleScalar(0.0);
-			break;
-	}
-	
-	
-	return retVal;
 }
 
 
@@ -411,23 +348,6 @@ mxArray *createTopLevelEventStruct(long nevents) {
     return events;
 }
 
-mxArray *getScarabOpaque(ScarabDatum *datum) {
-    unsigned char *data = datum->data.opaque.data;
-    mxArray *opaque;
-    
-    if (scarab_opaque_is_string(datum)) {
-        opaque = mxCreateString((char *)data);
-    } else {
-        int size = datum->data.opaque.size;
-        mwSize dims[] = { 1, size };
-        opaque = mxCreateNumericArray(2, dims, mxUINT8_CLASS, mxREAL);
-        if (opaque != NULL) {
-            memcpy(mxGetData(opaque), data, size);
-        }
-    }
-    
-    return opaque;
-}
 
 
 

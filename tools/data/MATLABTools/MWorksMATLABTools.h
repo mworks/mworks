@@ -17,14 +17,11 @@
 using namespace DataFileUtilities;
 
 
-int insertDatumIntoCodecList(mxArray *codeclist, const int index, ScarabDatum *datum);
-mxArray *getScarabOpaque(ScarabDatum *datum);
-mxArray *getScarabEventData(ScarabDatum *datum);
+mxArray* getScarabDatum(ScarabDatum *datum);
 mxArray *getCodec(ScarabDatum *system_payload);
-mxArray *recursiveGetScarabList(ScarabDatum *datum);
-mxArray *recursiveGetScarabDict(ScarabDatum *datum);
 mxArray *createTopLevelCodecStruct(long ncodecs);
 mxArray *createTopLevelEventStruct(long nevents);
+int insertDatumIntoCodecList(mxArray *codeclist, const int index, ScarabDatum *datum);
 
 
 class MATLABEventInfo {
@@ -33,7 +30,7 @@ public:
     MATLABEventInfo(ScarabDatum *datum) :
         code(mxCreateDoubleScalar(double(getScarabEventCode(datum)))),
         time(mxCreateDoubleScalar(double(getScarabEventTime(datum)))),
-        data(getScarabEventData(datum))
+        data(getScarabDatum(getScarabEventPayload(datum)))
     { }
     
     mxArray* getCode() const { return code; }

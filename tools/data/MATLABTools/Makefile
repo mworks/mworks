@@ -26,7 +26,7 @@ $(EXES_32): %.mexmaci: %.o
 $(EXES_64): %.mexmaci64: %.o
 	MACI64=1 $(MEX) -maci64 $(MEXFLAGS) $(LIBS) -output $@ $<
 
-$(OBJS): %.o: %.cpp MEXUtils.h
+$(OBJS): %.o: %.cpp MWorksMATLABTools.h MEXUtils.h
 	$(CXX) $(CFLAGS) $(INCLUDE) -c $<
 
 build: $(EXES)

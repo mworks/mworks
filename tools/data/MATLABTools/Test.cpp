@@ -27,7 +27,7 @@ int main() {
 		
 		if(getScarabEventCode(datum) == 0) {
 			cout << "Codec! at event: " << events << endl;
-			mxArray *codec = getScarabEventData(datum);
+			mxArray *codec = getScarabDatum(datum);
 			MATFile *test = matOpen("/Users/bkennedy/Desktop/test.mat", "w");
 			matPutVariable(test, "codec", codec);
 			matClose(test);
