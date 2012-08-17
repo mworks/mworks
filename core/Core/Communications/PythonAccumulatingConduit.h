@@ -22,7 +22,6 @@
 
 #include "AccumulatingConduit.h"
 #include "IPCEventTransport.h"
-#include "DummyEventTransport.h"
 #include "Exceptions.h"
 
 

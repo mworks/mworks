@@ -449,6 +449,7 @@
 		E104A8DE133B8D7200D36236 /* ParameterValue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E104A8DC133B8D7200D36236 /* ParameterValue.cpp */; };
 		E104A8F0133B8D9700D36236 /* StandardComponentFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = E104A8EF133B8D9700D36236 /* StandardComponentFactory.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E104A8F4133B8DB400D36236 /* StandardStimulusFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = E104A8F3133B8DB400D36236 /* StandardStimulusFactory.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E10AECD215DE904300E71CA7 /* IPCUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = E10AECD115DE904300E71CA7 /* IPCUtilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E11AFFBD118F865C0034CC04 /* IODevice.h in Headers */ = {isa = PBXBuildFile; fileRef = E11AFFBC118F865C0034CC04 /* IODevice.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E127D38C133A5CFC00532496 /* Map.h in Headers */ = {isa = PBXBuildFile; fileRef = E127D38B133A5CFC00532496 /* Map.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E127D3AD133A615C00532496 /* MWorksMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = E127D3AC133A615C00532496 /* MWorksMacros.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1106,6 +1107,7 @@
 		E104A8DC133B8D7200D36236 /* ParameterValue.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ParameterValue.cpp; path = Core/PluginServices/ParameterValue.cpp; sourceTree = "<group>"; };
 		E104A8EF133B8D9700D36236 /* StandardComponentFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StandardComponentFactory.h; path = Core/PluginServices/StandardComponentFactory.h; sourceTree = "<group>"; };
 		E104A8F3133B8DB400D36236 /* StandardStimulusFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StandardStimulusFactory.h; path = Core/Stimuli/StandardStimulusFactory.h; sourceTree = "<group>"; };
+		E10AECD115DE904300E71CA7 /* IPCUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IPCUtilities.h; sourceTree = "<group>"; };
 		E11542181193471F00DDE09D /* mw_test */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = mw_test; sourceTree = "<group>"; };
 		E11AFFBC118F865C0034CC04 /* IODevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IODevice.h; path = Core/IODevices/IODevice.h; sourceTree = "<group>"; };
 		E127D38B133A5CFC00532496 /* Map.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Map.h; sourceTree = "<group>"; };
@@ -1382,6 +1384,7 @@
 				5CB6C46C0E9A92B1006923EC /* DummyEventTransport.cpp */,
 				5CB6C46D0E9A92B1006923EC /* DummyEventTransport.h */,
 				5C2386B80E8D18FA00CDC4FC /* EventTransport.h */,
+				E10AECD115DE904300E71CA7 /* IPCUtilities.h */,
 				5C2386BA0E8D18FA00CDC4FC /* IPCEventTransport.h */,
 				5C2386B90E8D18FA00CDC4FC /* IPCEventTransport.cpp */,
 			);
@@ -2485,6 +2488,7 @@
 				E104A8F0133B8D9700D36236 /* StandardComponentFactory.h in Headers */,
 				E104A8F4133B8DB400D36236 /* StandardStimulusFactory.h in Headers */,
 				E16BC17B137D952D0052D8E1 /* MachUtilities.h in Headers */,
+				E10AECD215DE904300E71CA7 /* IPCUtilities.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

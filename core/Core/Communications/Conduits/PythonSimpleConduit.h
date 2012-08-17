@@ -15,7 +15,6 @@
 
 #include "CodecAwareConduit.h"
 #include "IPCEventTransport.h"
-#include "DummyEventTransport.h"
 #include "Exceptions.h"
 
 #include "Clock.h"
