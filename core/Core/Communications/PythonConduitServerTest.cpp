@@ -19,7 +19,6 @@
  *
  */
 
-#include "DummyEventTransport.h"
 #include "IPCEventTransport.h"
 #include "CodecAwareConduit.h"
 #include "StandardSystemEventHandler.h"

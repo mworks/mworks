@@ -24,14 +24,13 @@ int main( int argc, char *argv[])
 	struct timezone tz2;	
 	cout << "start indexing" << endl;
 	gettimeofday(&tv, &tz);
-//	dfindex dfi("/Users/bkennedy/Documents/MWorks/Data/trainingD1.mwk");
-	dfindex dfi("/Users/bkennedy/Documents/sandbox/MWorks_trunk/MWorksTools/MatlabDataReader/simple4.mwk");
+	dfindex dfi("/Users/cstawarz/Documents/MWorks/Data/dots_test.mwk");
 	gettimeofday(&tv2, &tz2);
 	cout << "indexing ... took " << tv2.tv_sec-tv.tv_sec << " s" << endl;
 	cout << "indexing ... took " << tv2.tv_usec-tv.tv_usec << " us" << endl;
 
 	std::vector<unsigned int> event_codes;
-	event_codes.push_back(0);
+//	event_codes.push_back(0);
 //	event_codes.push_back(1);
 //	event_codes.push_back(2);
 //	event_codes.push_back(3);
@@ -42,14 +41,47 @@ int main( int argc, char *argv[])
 //	event_codes.push_back(8);
 //	event_codes.push_back(9);
 //	event_codes.push_back(10);
+//	MWTime spike_time = 3598592801LL;
+    
 	gettimeofday(&tv, &tz);
-//	MWorksTime spike_time = 3598592801LL;
-	vector<EventWrapper> events = dfi.events(event_codes);
+    
+    DataFileIndexer::EventsIterator ei = dfi.getEventsIterator(event_codes);
+    size_t numEvents = 0;
+    while (ei.getNextEvent()) {
+        numEvents++;
+    }
+    
 	gettimeofday(&tv2, &tz2);
 	
-	cout << "number of events: " << events.size() << " ... took " << tv2.tv_sec-tv.tv_sec << " s" << endl;
-	cout << "number of events: " << events.size() << " ... took " << tv2.tv_usec-tv.tv_usec << " us" << endl;
+	cout << "number of events: " << numEvents << " ... took " << tv2.tv_sec-tv.tv_sec << " s" << endl;
+	cout << "number of events: " << numEvents << " ... took " << tv2.tv_usec-tv.tv_usec << " us" << endl;
 		
 	return 0;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

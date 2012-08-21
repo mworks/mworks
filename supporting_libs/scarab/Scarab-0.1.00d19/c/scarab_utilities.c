@@ -3,6 +3,7 @@
 #include <Scarab/scarab_list.h>
 #include <Scarab/scarab_dict.h>
 #include <stdio.h>
+#include <string.h>
 
 // DDC kludge necessary to do linux compile, for some reason
 /*#define S_MAGIC_SIZE  	7
@@ -40,21 +41,21 @@ int scarab_create_file(const char *filename){
 
 
 
-char* scarab_extract_opaque(ScarabDatum *d, int *size) {
-    ScarabOpaque opaque;
-    char *returnstring;
-    int i;
-    
-    opaque = d->data.opaque;
+int scarab_opaque_is_string(ScarabDatum *d) {
+    unsigned char *data = d->data.opaque.data;
+    int size = d->data.opaque.size;
+    // data is a string if its last byte (and only its last byte) is zero
+    return memchr(data, 0, size) == (data + (size-1));
+}
 
-    returnstring = (char *)calloc(opaque.size, sizeof(char));
+
+
+char* scarab_extract_opaque(ScarabDatum *d, int *size) {
+    char *returnstring;
     
-    for(i = 0; i < opaque.size; i++){
-        
-        returnstring[i] = (char)opaque.data[i];
-    }
-    
-    *size = opaque.size;
+    *size = d->data.opaque.size;
+    returnstring = (char *)malloc(*size);
+    memcpy(returnstring, d->data.opaque.data, *size);
     
     return returnstring;
 }

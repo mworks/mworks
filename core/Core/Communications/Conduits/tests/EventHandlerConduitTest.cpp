@@ -9,7 +9,6 @@
 
 #include "EventHandlerConduitTest.h"
 
-#include "DummyEventTransport.h"
 #include "IPCEventTransport.h"
 #include "SimpleConduit.h"
 #include "StandardSystemEventHandler.h"
