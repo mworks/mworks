@@ -18,10 +18,19 @@ from subprocess import check_call, Popen, PIPE
 import sys
 
 
-xcodebuild = '/Developer/usr/bin/xcodebuild'
-if os.path.isdir('/Applications/Xcode.app'):
-    # Xcode 4.3 or later
-    xcodebuild = '/Applications/Xcode.app/Contents' + xcodebuild
+def find_tool(name):
+    cmd = Popen(
+        args = ('/usr/bin/xcrun', '-find', name),
+        stdout = PIPE,
+        )
+
+    output = cmd.communicate()[0]
+    assert cmd.returncode == 0
+
+    return output.strip()
+
+
+xcodebuild = find_tool('xcodebuild')
 
 
 def die(msg='', status=1):

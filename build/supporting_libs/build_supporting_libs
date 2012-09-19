@@ -173,7 +173,7 @@ def run_configure_and_make(
 
 @builder
 def boost():
-    version = '1.50.0'
+    version = '1.51.0'
     srcdir = 'boost_' + version.replace('.', '_')
     tarfile = srcdir + '.tar.bz2'
 
@@ -245,7 +245,7 @@ def lcms():
     run_configure_and_make(srcdir)
 
 
-@builder
+#@builder
 def libmng():
     version = '1.0.10'
     srcdir = 'libmng-' + version
@@ -292,7 +292,7 @@ def devil():
 
     run_configure_and_make(
         srcdir = srcdir,
-        extra_args = ['--enable-ILU', '--enable-ILUT'],
+        extra_args = ['--enable-ILU', '--enable-ILUT', '--disable-mng'],
         extra_cflags = ('-I%s/usr/include/malloc -I%s/include' %
                         (sdk_path, path_to_stagedir)), 
         extra_ldflags = ('-lstdc++ -L%s/lib' % path_to_stagedir), 
