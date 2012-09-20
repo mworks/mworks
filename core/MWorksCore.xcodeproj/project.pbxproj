@@ -3438,7 +3438,6 @@
 					"$(MW_LIB_DIR)/libpng.a",
 					"$(MW_LIB_DIR)/libtiff.a",
 					"$(MW_LIB_DIR)/libjpeg.a",
-					"$(MW_LIB_DIR)/libmng.a",
 					"$(MW_LIB_DIR)/liblcms.a",
 					"-lz",
 					"-framework",
