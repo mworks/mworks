@@ -18,19 +18,7 @@ from subprocess import check_call, Popen, PIPE
 import sys
 
 
-def find_tool(name):
-    cmd = Popen(
-        args = ('/usr/bin/xcrun', '-find', name),
-        stdout = PIPE,
-        )
-
-    output = cmd.communicate()[0]
-    assert cmd.returncode == 0
-
-    return output.strip()
-
-
-xcodebuild = find_tool('xcodebuild')
+xcrun = '/usr/bin/xcrun'
 
 
 def die(msg='', status=1):
@@ -50,7 +38,7 @@ def error(msg):
 
 def get_targets_and_configs():
     cmd = Popen(
-        args = (xcodebuild, '-list'),
+        args = (xcrun, 'xcodebuild', '-list'),
         stdout = PIPE,
         )
 
@@ -103,7 +91,8 @@ def main():
     if config not in valid_configs:
         error('invalid config: "%s"' % config)
 
-    cmd = [xcodebuild,
+    cmd = [xcrun,
+           'xcodebuild',
            '-target', target,
            '-configuration', config,
            'clean',

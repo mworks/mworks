@@ -15,29 +15,17 @@ import urllib
 ################################################################################
 
 
-if not os.path.isdir('/Applications/Xcode.app'):
-    # Xcode 4.2 or earlier
-    bin_root = ''
-    sdk_root = ''
-else:
-    # Xcode 4.3 or later
-    bin_root = '/Applications/Xcode.app/Contents'
-    sdk_root = bin_root + '/Developer/Platforms/MacOSX.platform'
+cc = '/usr/bin/gcc'
+cxx = '/usr/bin/g++'
+xcodebuild = '/usr/bin/xcodebuild'
 
-gcc = bin_root + '/Developer/usr/bin/gcc'
-gplusplus = bin_root + '/Developer/usr/bin/g++'
-xcodebuild = bin_root + '/Developer/usr/bin/xcodebuild'
-
-macosx_version_current = '.'.join(platform.mac_ver()[0].split('.')[:2])
 macosx_version_min = '10.6'
-sdk_version = macosx_version_current
-sdk_path = '%s/Developer/SDKs/MacOSX%s.sdk' % (sdk_root, sdk_version)
 
 python_version = '2.6'
 python = '/usr/bin/python' + python_version
 
-ldflags = ('-arch x86_64 -arch i386 -isysroot %s -mmacosx-version-min=%s ' %
-           (sdk_path, macosx_version_min))
+ldflags = ('-arch x86_64 -arch i386 -mmacosx-version-min=%s ' %
+           macosx_version_min)
 cflags = ldflags + '-pipe -Os -mtune=core2 -gdwarf-2 -fexceptions '
 
 downloaddir = 'download'
@@ -134,8 +122,8 @@ def run_configure_and_make(
 
     env = os.environ.copy()
     env.update({
-        'CC': gcc,
-        'CXX': gplusplus,
+        'CC': cc,
+        'CXX': cxx,
         'CFLAGS': cflags + extra_cflags,
         'CXXFLAGS': cflags + extra_cflags,
         'LDFLAGS': ldflags + extra_ldflags,
@@ -181,8 +169,13 @@ def boost():
     unpack_tarfile(tarfile, srcdir)
 
     with workdir(srcdir):
-        with open('tools/build/v2/user-config.jam', 'w') as fp:
-            fp.write('using darwin : : : <root>' + sdk_root  + '/Developer ;\n')
+        # With Xcode 4.3 or later, the standard darwin build
+        # configuration can't find the "SDKs" directory, which causes
+        # it to reject the value of macosx-version-min.  The following
+        # works around this issue.
+        if os.path.isdir('/Applications/Xcode.app'):
+            with open('tools/build/v2/user-config.jam', 'w') as fp:
+                fp.write('using darwin : : : <root>/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer ;\n')
         
         check_call([
             './bootstrap.sh',
@@ -203,7 +196,6 @@ def boost():
             'threading=multi',
             'architecture=x86',
             'address-model=32_64',
-            'macosx-version=' + sdk_version,
             'macosx-version-min=' + macosx_version_min,
             'install',
             ])
@@ -293,8 +285,8 @@ def devil():
     run_configure_and_make(
         srcdir = srcdir,
         extra_args = ['--enable-ILU', '--enable-ILUT', '--disable-mng'],
-        extra_cflags = ('-I%s/usr/include/malloc -I%s/include' %
-                        (sdk_path, path_to_stagedir)), 
+        extra_cflags = ('-I/usr/include/malloc -I%s/include' %
+                        path_to_stagedir), 
         extra_ldflags = ('-lstdc++ -L%s/lib' % path_to_stagedir), 
         )
 
@@ -329,7 +321,7 @@ def narrative():
             '-configuration', 'Release',
             '-xcconfig', installdir + '/Xcode/Development.xcconfig',
             'INSTALL_PATH=@loader_path/../Frameworks',
-            'SDKROOT=macosx' + sdk_version,
+            'SDKROOT=macosx',
             'SDKROOT_i386=$(SDKROOT)',
             ])
 

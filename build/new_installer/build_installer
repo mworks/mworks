@@ -54,20 +54,17 @@ package_contents = {
         '/Library/Application Support/MWorks/Plugins/Core/HIDPlugin.bundle',
         '/Library/Application Support/MWorks/Plugins/Core/MSSWGamepadPlugin.bundle',
         '/Library/Application Support/MWorks/Plugins/Core/NE500Plugin.bundle',
+        '/Library/Application Support/MWorks/Plugins/Core/ServersideConduit.bundle',
         ),
 
     'MWorksPythonTools':
         (
         '/Library/Application Support/MWorks/Plugins/Client/PythonBridgePlugin.bundle',
-        '/Library/Application Support/MWorks/Plugins/Core/ServersideConduit.bundle',
         '/Library/Application Support/MWorks/Scripting/Python',
-        '/Library/Python/2.6/site-packages/mworks.pth',
-        '/Library/Python/2.7/site-packages/mworks.pth',
         ),
 
     'MWorksMATLABTools':
         (
-        '/Library/Application Support/MWorks/Plugins/Client/MWorksMATLABWindow.bundle',
         '/Library/Application Support/MWorks/Scripting/Matlab',
         ),
 
@@ -78,7 +75,6 @@ package_contents = {
 
     'MWorksDevelopmentFiles':
         (
-        '/Library/Application Support/Developer/Shared/Xcode/Project Templates/MWorks',
         '/Library/Application Support/MWorks/Developer',
         ),
 
