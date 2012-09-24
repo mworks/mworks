@@ -268,9 +268,6 @@
 		5C0CD7EA114A87D400B1C674 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
 				PRODUCT_NAME = Everything;
 			};
 			name = Development;

@@ -182,7 +182,7 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
 
 	void testString() {
 	 Datum data("Test string");
-		char * test = "Test string";
+		const char * test = "Test string";
 		
 		for(unsigned int i = 0; i<strlen(test); i++)
 		{
@@ -191,8 +191,8 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
 		}
 		
 	 Datum data2;
-		char * test2 = "Test second string";
-		char * test2a = "Test second string";
+		const char * test2 = "Test second string";
+		const char * test2a = "Test second string";
 		
 		CPPUNIT_ASSERT(strcmp(test2, test2a) == 0);
 		
@@ -209,8 +209,8 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
 		
 		
 		data2 = "Test third string";
-		char * test3a = "Test third string";
-		char * test3b = "Test 3rd string";
+		const char * test3a = "Test third string";
+		const char * test3b = "Test 3rd string";
 		
 		CPPUNIT_ASSERT(data2 == test3a);
 		CPPUNIT_ASSERT(data2 != test3b);

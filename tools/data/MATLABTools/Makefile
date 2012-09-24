@@ -1,12 +1,11 @@
 SHELL = /bin/bash
 
-CXX_ROOT = $(realpath /Applications/Xcode.app/Contents)
 SDK_ROOT = $(realpath /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform)
 MACOSX_VERSION_QUOTED = $(shell sw_vers -productVersion | grep -Eo '^[0-9]+(\.[0-9]+)?' | sed 's/\./\\\./')
 
 INSTALL_DIR = "$(APP_SUPPORT_DIR)/Scripting/Matlab"
 MEX        = $(MATLAB_DIR)/bin/mex
-CXX        = $(CXX_ROOT)/Developer/usr/bin/g++
+CXX        = /usr/bin/g++
 CFLAGS     = -arch i386 -arch x86_64 -fno-common -no-cpp-precomp -fexceptions
 LIBS      = -L\"$(MW_DEVELOPER_DIR)/lib\" -lscarab -ldfindex -lMWorksMATLABTools -lboost_serialization -lboost_system -lboost_filesystem
 INCLUDE   = -I$(MATLAB_DIR)/extern/include -I"$(MW_DEVELOPER_DIR)"/include
