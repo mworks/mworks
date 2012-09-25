@@ -15,6 +15,7 @@
 #include <cppunit/TestSuite.h>
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
+#include <algorithm>
 #include <sstream>
 #include "MWorksCore/GenericData.h"
 
@@ -1102,6 +1103,9 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
      
 			dic_d.addElement(key, val);
 		}
+        
+        std::vector<Datum> allKeys = dic_d.getKeys();
+        CPPUNIT_ASSERT(allKeys.size() == num_elem);
 
 		for(long i=0; i<num_elem; i++) {
 			key[0]=(char)('a' + i);
@@ -1109,6 +1113,7 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
 			key[2]='\0';
      
 			CPPUNIT_ASSERT(dic_d.hasKey(key));
+            CPPUNIT_ASSERT(std::find(allKeys.begin(), allKeys.end(), key) != allKeys.end());
 		}
 
 		for(long i=0; i<num_elem; i++) {
