@@ -179,5 +179,5 @@ extern shared_ptr<Variable> debuggerStep;
         
 void initializeStandardVariables(shared_ptr<VariableRegistry> registry);
 }
-#endif STANDARD_VARIABLES_H
+#endif /* STANDARD_VARIABLES_H */
 

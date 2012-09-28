@@ -154,7 +154,7 @@ Datum::Datum(const Datum& that) {
   
   #if INTERNALLY_LOCKED_MDATA
 	lock();
-  #endif;
+  #endif
   
   data = NULL;
 
@@ -355,7 +355,7 @@ double Datum::getFloat() const {
 	
 	#if INTERNALLY_LOCKED_MDATA
 		lock();
-	#endif;
+	#endif
 
 	if(data == NULL){
 		mwarning(M_SYSTEM_MESSAGE_DOMAIN,
@@ -390,7 +390,7 @@ double Datum::getFloat() const {
 long Datum::getInteger() const{
   #if INTERNALLY_LOCKED_MDATA
 	lock();
-  #endif;
+  #endif
   
   if(data == NULL){
     mwarning(M_SYSTEM_MESSAGE_DOMAIN,
@@ -426,7 +426,7 @@ const char * Datum::getString() const{
   
   #if INTERNALLY_LOCKED_MDATA
 	lock();
-  #endif;
+  #endif
   
   const char *result;
   
@@ -449,7 +449,7 @@ int Datum::getStringLength()  const{
   
   #if INTERNALLY_LOCKED_MDATA
 	lock();
-  #endif;
+  #endif
   
   int result = 0;
   
@@ -472,7 +472,7 @@ void Datum::setBool(bool newdata) {
   
   #if INTERNALLY_LOCKED_MDATA
 	lock();
-  #endif;
+  #endif
   
   datatype = M_BOOLEAN;
   if(data != NULL){
@@ -488,7 +488,7 @@ void Datum::setBool(bool newdata) {
 void Datum::setInteger(long long newdata) {
   #if INTERNALLY_LOCKED_MDATA
 	lock();
-  #endif;
+  #endif
   datatype = M_INTEGER;
   if(data != NULL){
     scarab_free_datum(data);
@@ -502,7 +502,7 @@ void Datum::setInteger(long long newdata) {
 void Datum::setFloat(double newdata) {
   #if INTERNALLY_LOCKED_MDATA
 	lock();
-  #endif;
+  #endif
   datatype = M_FLOAT;
   
   if(data != NULL){
@@ -518,7 +518,7 @@ void Datum::setFloat(double newdata) {
 void Datum::setString(const char * newdata, int size) {
   #if INTERNALLY_LOCKED_MDATA
 	lock();
-  #endif;
+  #endif
   datatype = M_STRING;
 
   if(data != NULL){
@@ -544,7 +544,7 @@ void Datum::setString(const char * newdata, int size) {
 void Datum::setString(std::string newdata) {
   #if INTERNALLY_LOCKED_MDATA
 	lock();
-  #endif;
+  #endif
   datatype = M_STRING;
 
   if(data != NULL){
@@ -583,7 +583,7 @@ Datum& Datum::operator=(const Datum& that) {
 
   #if INTERNALLY_LOCKED_MDATA
 	lock();
-  #endif;
+  #endif
   
   setDataType(that.getDataType());
 
@@ -1423,7 +1423,7 @@ Datum Datum::getElement(const int index)  const{
   
   #if INTERNALLY_LOCKED_MDATA
 	lock();
-  #endif;
+  #endif
   
   //TODO: we could do something clever for M_DICTIONARY here
 	if(getDataType() != M_LIST) {

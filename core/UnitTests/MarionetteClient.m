@@ -424,7 +424,7 @@ Datum _getNumber(const string &expression, const GenericDataType type);
 					case M_USER_DEFINED:
 						break;
 					default:
-						[self marionetteAssert:[NSString stringWithFormat:@"illeagal #system type: %d", sys_event_type.getInteger()]]; 
+						[self marionetteAssert:[NSString stringWithFormat:@"illeagal #system type: %ld", sys_event_type.getInteger()]];
 						break;
 				}
 			}
@@ -755,8 +755,8 @@ Datum _getNumber(const string &expression,
 			return Datum(expression);
 		case M_BOOLEAN:
 			return Datum(boost::lexical_cast<bool>(expression));
+		default:
+			return Datum(expression);
 	}
-	
-	return Datum(expression);
 }	
 

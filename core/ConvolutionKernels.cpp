@@ -40,7 +40,7 @@ namespace MathUtils
         const float round_to_nearest = 0.5f;
         int i;
         
-#ifndef _LINUX
+#if !defined(_LINUX) && !defined(__APPLE__)
         __asm
         {
             fld x
@@ -75,7 +75,7 @@ namespace MathUtils
 #endif
         int i;
         
-#ifndef _LINUX
+#if !defined(_LINUX) && !defined(__APPLE__)
         __asm
         {
             fld x
@@ -110,7 +110,7 @@ namespace MathUtils
 #endif
         int i;
         
-#ifndef _LINUX
+#if !defined(_LINUX) && !defined(__APPLE__)
         __asm
         {
             fld x

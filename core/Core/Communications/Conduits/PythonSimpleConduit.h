@@ -254,8 +254,11 @@ public:
         
         mw::Datum dict_datum(M_DICTIONARY, size);
         
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-writable-strings"
         PyObject *keys = PyMapping_Keys(pyobj);
         PyObject *items = PyMapping_Items(pyobj);
+#pragma clang diagnostic pop
         
         for(int i = 0; i < size; i++){
             PyObject *key = PySequence_GetItem(keys,i);

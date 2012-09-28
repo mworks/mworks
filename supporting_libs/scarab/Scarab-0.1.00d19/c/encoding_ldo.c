@@ -235,13 +235,13 @@ ldo_write_float(ScarabSession * session, double d) {
 // DDC: kludge on top of kludge. The pre-existing kludge is not platform
 //		independent; therefore we must handle different byte orders
 //		Ultimately, the underlying problem needs to be dealt with
-	int i;
 
 	#if	__LITTLE_ENDIAN__
 		char * haxxor = (char *)&d;
     #else
 		char swap_bytes[sizeof(double)];
 		char *double_bytes = (char *)(&d);
+		int i;
 		for(i = 0; i < sizeof(double); i++){
 			swap_bytes[i] = double_bytes[sizeof(double) - i - 1];
 		}

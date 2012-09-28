@@ -15,8 +15,12 @@ import urllib
 ################################################################################
 
 
-cc = '/usr/bin/gcc'
-cxx = '/usr/bin/g++'
+def join_flags(*flags):
+    return ' '.join(flags).strip()
+
+
+cc = '/usr/bin/clang'
+cxx = '/usr/bin/clang++'
 xcodebuild = '/usr/bin/xcodebuild'
 
 macosx_version_min = '10.6'
@@ -24,9 +28,11 @@ macosx_version_min = '10.6'
 python_version = '2.6'
 python = '/usr/bin/python' + python_version
 
-ldflags = ('-arch x86_64 -arch i386 -mmacosx-version-min=%s ' %
-           macosx_version_min)
-cflags = ldflags + '-pipe -Os -mtune=core2 -gdwarf-2 -fexceptions '
+link_flags = ('-arch x86_64 -arch i386 -mmacosx-version-min=' +
+              macosx_version_min)
+compile_flags = join_flags('-g -Os -fexceptions', link_flags)
+cflags = join_flags('-std=c99', compile_flags)
+cxxflags = join_flags('-std=c++98', compile_flags, '-stdlib=libstdc++')
 
 downloaddir = 'download'
 path_to_downloaddir = '../' + downloaddir
@@ -115,6 +121,7 @@ def run_configure_and_make(
     extra_args = [],
     command = ['./configure'],
     extra_cflags = '',
+    extra_cxxflags = '',
     extra_ldflags = '',
     patchfile = None,
     post_patch_command = None,
@@ -124,9 +131,9 @@ def run_configure_and_make(
     env.update({
         'CC': cc,
         'CXX': cxx,
-        'CFLAGS': cflags + extra_cflags,
-        'CXXFLAGS': cflags + extra_cflags,
-        'LDFLAGS': ldflags + extra_ldflags,
+        'CFLAGS': join_flags(cflags, extra_cflags),
+        'CXXFLAGS': join_flags(cxxflags, extra_cflags, extra_cxxflags),
+        'LDFLAGS': join_flags(link_flags, extra_ldflags),
         })
 
     with workdir(srcdir):
@@ -169,16 +176,9 @@ def boost():
     unpack_tarfile(tarfile, srcdir)
 
     with workdir(srcdir):
-        # With Xcode 4.3 or later, the standard darwin build
-        # configuration can't find the "SDKs" directory, which causes
-        # it to reject the value of macosx-version-min.  The following
-        # works around this issue.
-        if os.path.isdir('/Applications/Xcode.app'):
-            with open('tools/build/v2/user-config.jam', 'w') as fp:
-                fp.write('using darwin : : : <root>/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer ;\n')
-        
         check_call([
             './bootstrap.sh',
+            '--with-toolset=clang',
             ('--with-libraries='
              'filesystem,python,regex,serialization,system,test,thread'),
             '--without-icu',
@@ -194,9 +194,9 @@ def boost():
             'runtime-debugging=off',
             'link=static',
             'threading=multi',
-            'architecture=x86',
-            'address-model=32_64',
-            'macosx-version-min=' + macosx_version_min,
+            'cflags=' + cflags,
+            'cxxflags=' + cxxflags,
+            'linkflags=' + link_flags,
             'install',
             ])
 
@@ -285,9 +285,10 @@ def devil():
     run_configure_and_make(
         srcdir = srcdir,
         extra_args = ['--enable-ILU', '--enable-ILUT', '--disable-mng'],
-        extra_cflags = ('-I/usr/include/malloc -I%s/include' %
-                        path_to_stagedir), 
-        extra_ldflags = ('-lstdc++ -L%s/lib' % path_to_stagedir), 
+        extra_cflags = ('-std=gnu89 -I/usr/include/malloc -I%s/include' %
+                        path_to_stagedir),
+        extra_cxxflags = '-std=gnu++98',
+        extra_ldflags = ('-lstdc++ -L%s/lib' % path_to_stagedir),
         )
 
 
@@ -300,7 +301,7 @@ def cppunit():
     download_archive_from_sf('cppunit/cppunit', version, tarfile)
     unpack_tarfile(tarfile, srcdir)
 
-    run_configure_and_make(srcdir)
+    run_configure_and_make(srcdir, extra_cflags='-g0')
 
 
 @builder

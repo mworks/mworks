@@ -11,8 +11,6 @@
 using namespace mw;
 
 
-static void *terminate(const shared_ptr<ScarabConnection> &sc);
-
 ScarabConnection::ScarabConnection(shared_ptr<EventBuffer> _event_buffer, std::string _uri) {
     pipe = NULL;
     
@@ -143,7 +141,7 @@ void ScarabConnection::disconnect() {
 						  0, 
 						  200000, 
 						  1, 
-						  boost::bind(terminate, this_one),
+						  boost::bind(&ScarabConnection::terminate, this_one),
 						  M_DEFAULT_NETWORK_PRIORITY, 
 						  (MWTime)0, // No warnings 
 						  M_DEFAULT_NETWORK_FAIL_SLOP_MS,
@@ -194,10 +192,10 @@ void ScarabConnection::kill() {
 	}
 }
 
-static void * terminate(const shared_ptr<ScarabConnection> &sc) {
+void* ScarabConnection::terminate() {
     // do nothing until we have sent the termination sequence
-    while(!sc->canTerminate()) { }
-    sc->kill();
+    while(!canTerminate()) { }
+    kill();
 	//connected = false; // DDC added
     return NULL;
 }

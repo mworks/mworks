@@ -63,7 +63,7 @@ void Experiment::setStimulusDisplay(shared_ptr<StimulusDisplay> newdisplay) {
 
 
 void Experiment::setCurrentProtocol(unsigned int protocol_number) {
-    if(protocol_number < 0 || protocol_number > list->size()) {
+    if(protocol_number > list->size()) {
 		merror(M_PARADIGM_MESSAGE_DOMAIN,
 			   "Attempt to access invalid protocol number");
     }

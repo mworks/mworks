@@ -11,7 +11,6 @@
 #ifndef		M_CLONABLE_H_
 #define		M_CLONABLE_H_
 namespace mw {
-using namespace std;
 
 
 class Clonable {

@@ -8,7 +8,10 @@
  */
 
 #include "SVDfit.h"
-using namespace mw;
+
+
+BEGIN_NAMESPACE_MW
+
 
 // ported from DLAB code
 
@@ -371,6 +374,8 @@ float pythag(float a, float b)
 	else return (absb == 0.0 ? 0.0 : absb*sqrt(1.0+SQR(absa/absb)));
 }
 
+
+END_NAMESPACE_MW
 
 
 /* (C) Copr. 1986-92 Numerical Recipes Software ):5-). */

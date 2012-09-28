@@ -47,6 +47,8 @@ class ScarabConnection : public enable_shared_from_this<ScarabConnection> {
 	ScarabConnection(ScarabConnection& ref) { }
 	void operator=(ScarabConnection& ref) { }
 	ScarabConnection() { }
+    
+    void* terminate();
 
     public:
         

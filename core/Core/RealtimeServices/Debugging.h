@@ -9,7 +9,7 @@
 #ifndef	_DEBUGGING_H_
 #define _DEBUGGING_H_
 
-#include "VariableNotification.h";
+#include "VariableNotification.h"
 namespace mw {
 	extern bool debugger_enabled;
 	
