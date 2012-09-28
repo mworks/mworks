@@ -3352,6 +3352,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
+				GCC_OPTIMIZATION_LEVEL = 0;
 				HEADER_SEARCH_PATHS = (
 					/usr/include/libxml2,
 					"$(MW_INCLUDE_DIR)",
@@ -3518,6 +3519,7 @@
 					"\"$(TESTS_DIR)\"",
 				);
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INSTALL_PATH = "$(TESTS_DIR)";
 				OTHER_LDFLAGS = (
@@ -3541,6 +3543,7 @@
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
 				INFOPLIST_FILE = "MWorksCoreTest-Info.plist";
 				INSTALL_PATH = "$(TESTS_DIR)";
 				OTHER_LDFLAGS = (
