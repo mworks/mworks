@@ -138,7 +138,7 @@
                                             [NSString stringWithUTF8String:(setupVariablesFile().string().c_str())]]];
 }
 
-- (IBAction)toggleConsole:(id)sender {
+- (void)toggleConsole:(id)sender {
 	if([[cc window] isVisible]) {
 		[cc close];
 	} else {
@@ -155,14 +155,15 @@
     [op setCanChooseDirectories:NO];
     // it is important that you never allow multiple files to be selected!
     [op setAllowsMultipleSelection:NO];
+    [op setAllowedFileTypes:[NSArray arrayWithObjects:@"xml", nil]];
 
-    int bp = [op runModalForTypes:[NSArray arrayWithObjects:@"xml", nil]];
-    if(bp == NSOKButton) {
-        NSArray * fn = [op filenames];
+    int bp = [op runModal];
+    if(bp == NSFileHandlingPanelOKButton) {
+        NSArray * fn = [op URLs];
         NSEnumerator * fileEnum = [fn objectEnumerator];
-        NSString * filename;
+        NSURL * filename;
         while(filename = [fileEnum nextObject]) {
-			if(!core->openExperiment([filename cStringUsingEncoding:NSASCIIStringEncoding])) {
+			if(!core->openExperiment([[filename path] cStringUsingEncoding:NSASCIIStringEncoding])) {
                 NSLog(@"Could not open experiment %@", filename);
             }
         }
@@ -173,9 +174,8 @@
     NSSavePanel * save = [[NSSavePanel savePanel] retain];
     [save setAllowedFileTypes:[NSArray arrayWithObject:@"xml"]];
     [save setCanCreateDirectories:NO];
-    if([save runModalForDirectory:nil file:nil] ==
-	   NSFileHandlingPanelOKButton)  {
-		core->saveVariables(boost::filesystem::path([[save filename] cStringUsingEncoding:NSASCIIStringEncoding]));
+    if([save runModal] == NSFileHandlingPanelOKButton) {
+		core->saveVariables(boost::filesystem::path([[[save URL] path] cStringUsingEncoding:NSASCIIStringEncoding]));
     }
 	
 	[save release];	
@@ -186,14 +186,15 @@
     [op setCanChooseDirectories:NO];
     // it is important that you never allow multiple files to be selected!
     [op setAllowsMultipleSelection:NO];
+    [op setAllowedFileTypes:[NSArray arrayWithObjects:@"xml", nil]];
 	
-    int bp = [op runModalForTypes:[NSArray arrayWithObjects:@"xml", nil]];
-    if(bp == NSOKButton) {
-        NSArray * fn = [op filenames];
+    int bp = [op runModal];
+    if(bp == NSFileHandlingPanelOKButton) {
+        NSArray * fn = [op URLs];
         NSEnumerator * fileEnum = [fn objectEnumerator];
-        NSString * filename;
+        NSURL * filename;
         while(filename = [fileEnum nextObject]) {			
-			core->loadVariables(boost::filesystem::path([filename cStringUsingEncoding:NSASCIIStringEncoding]));
+			core->loadVariables(boost::filesystem::path([[filename path] cStringUsingEncoding:NSASCIIStringEncoding]));
         }
     }
 	
@@ -204,9 +205,8 @@
     NSSavePanel * save = [[NSSavePanel savePanel] retain];
     [save setAllowedFileTypes:[NSArray arrayWithObject:@"mwk"]];
     [save setCanCreateDirectories:NO];
-    if([save runModalForDirectory:nil file:nil] ==
-	   NSFileHandlingPanelOKButton)  {
-        core->openDataFile([[[save filename] lastPathComponent]
+    if([save runModal] == NSFileHandlingPanelOKButton) {
+        core->openDataFile([[[[save URL] path] lastPathComponent]
                             cStringUsingEncoding:NSASCIIStringEncoding]);
     }
 	

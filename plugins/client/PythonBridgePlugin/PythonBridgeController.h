@@ -6,7 +6,8 @@
 //  Copyright 2009 Harvard University. All rights reserved.
 //
 
-#import "MWorksCocoa/MWWindowController.h"
+#import <MWorksCocoa/MWWindowController.h>
+#import <MWorksCocoa/MWClientProtocol.h>
 
 #import <MWorksCore/Client.h>
 #import <MWorksCore/EventStreamConduit.h>
@@ -14,7 +15,7 @@
 
 @interface PythonBridgeController : NSWindowController {
 
-    IBOutlet id delegate;
+    IBOutlet id<MWClientProtocol> delegate;
     
     // The "core" object and a conduit that will be connected to the 
     // external script process

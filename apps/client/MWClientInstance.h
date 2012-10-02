@@ -108,7 +108,7 @@
 @property BOOL serverConnected;
 @property BOOL serverConnecting;
 @property(copy, readwrite) NSString *serverName;
-@property(copy, readwrite) NSString *serverURL;
+@property(nonatomic, copy, readwrite) NSString *serverURL;
 @property(copy, readwrite) NSNumber *serverPort;
 @property BOOL launchIfNeeded;
 

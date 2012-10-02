@@ -46,5 +46,8 @@
 
 - (MWNotebook *) notebook;
 - (NSDictionary *)varGroups;
+- (NSArray *)variableNames;
+
+- (NSWindow *)groupedPluginWindow;
 
 @end

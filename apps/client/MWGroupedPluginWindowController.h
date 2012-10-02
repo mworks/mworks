@@ -32,12 +32,14 @@
     NSColor *headerColor;
 }
 
-@property(assign) int currentPluginIndex;
+@property(nonatomic, assign) int currentPluginIndex;
 @property(retain) NSArray* plugins;
 @property(retain) NSArray* names;
-@property(assign) double cycleTime;
-@property(assign) BOOL cycling;
+@property(nonatomic, assign) double cycleTime;
+@property(nonatomic, assign) BOOL cycling;
 @property(assign) id clientInstance;
+
+- (id)initWithClientInstance:(id)instance;
 
 - (void) addPluginWindow:(NSWindow *)window withName:(NSString *)name;
 - (void) changeViewToPlugin:(int)i;

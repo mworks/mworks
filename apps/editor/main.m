@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
   @try{
     return NSApplicationMain(argc, (const char **) argv);
   } @catch (NSException *e) {
-    NSLog([e reason]);
+    NSLog(@"%@", [e reason]);
   }
   
 }

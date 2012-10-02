@@ -941,7 +941,6 @@
 			baseConfigurationReference = 5C78EAAC1159515A00151A76 /* Development.xcconfig */;
 			buildSettings = {
 				GCC_ENABLE_OBJC_GC = required;
-				GCC_WARN_UNUSED_VARIABLE = YES;
 			};
 			name = Development;
 		};

@@ -269,7 +269,7 @@
       [self willChangeValueForKey:variable_name];
       [self didChangeValueForKey:variable_name];
       
-      NSString *keypath = [NSString stringWithString:@"variables."];
+      NSString *keypath = @"variables.";
       keypath = [keypath stringByAppendingString:variable_name];
       
       any = YES;

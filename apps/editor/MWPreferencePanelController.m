@@ -28,8 +28,8 @@
     self.selectedTab = 1;
 }
 
-- (NSArray *)toolbarSelectableItemIdentifiers:(NSToolbar *)toolbar{
-    NSArray *items = [toolbar items];
+- (NSArray *)toolbarSelectableItemIdentifiers:(NSToolbar *)theToolbar{
+    NSArray *items = [theToolbar items];
     NSMutableArray *item_identifiers = [[NSMutableArray alloc] init];
     
     NSEnumerator *e = [items objectEnumerator];

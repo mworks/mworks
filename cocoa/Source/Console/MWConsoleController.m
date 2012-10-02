@@ -171,9 +171,8 @@
 	NSSavePanel * save = [[NSSavePanel savePanel] retain];
     [save setAllowedFileTypes:[NSArray arrayWithObject:@"txt"]];
     [save setCanCreateDirectories:YES];
-    if([save runModalForDirectory:nil file:nil] ==
-	   NSFileHandlingPanelOKButton)  {
-		[log writeToFile:[save filename] 
+    if([save runModal] == NSFileHandlingPanelOKButton)  {
+		[log writeToURL:[save URL]
 			  atomically:NO
 				encoding:NSASCIIStringEncoding
 				   error:nil];

@@ -407,7 +407,6 @@
 			baseConfigurationReference = 5CE62A30115854CF00C757F1 /* Development.xcconfig */;
 			buildSettings = {
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
-				GCC_WARN_UNUSED_VARIABLE = YES;
 			};
 			name = Development;
 		};

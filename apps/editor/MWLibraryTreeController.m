@@ -96,10 +96,10 @@
     NSXMLNode *code_element_child = Nil;
     while(code_element_child = [code_element_child_enumerator nextObject]){
       if([code_element_child kind] == NSXMLElementKind){
-        [code_element_child addAttribute:[NSXMLNode attributeWithName:@"_element_key"
+        [(NSXMLElement *)code_element_child addAttribute:[NSXMLNode attributeWithName:@"_element_key"
 											  stringValue:name_string]];
         NSString *new_id = [document newInternalID];
-        [code_element_child addAttribute:[NSXMLNode attributeWithName:@"_id"
+        [(NSXMLElement *)code_element_child addAttribute:[NSXMLNode attributeWithName:@"_id"
                                                           stringValue:new_id]];
         break;
       }

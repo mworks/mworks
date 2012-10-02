@@ -495,7 +495,6 @@
 			buildSettings = {
 				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
 				GCC_WARN_HIDDEN_VIRTUAL_FUNCTIONS = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
 			};
 			name = Development;
 		};

@@ -39,7 +39,7 @@
 ////////////////////////////////////////
 - (NSToolbarItem *)toolbar:(NSToolbar *)toolbar
 	 itemForItemIdentifier:(NSString *)itemIdentifier
-	willBeInsertedIntoToolbar:(bool)flag {
+	willBeInsertedIntoToolbar:(BOOL)flag {
 	
 	if([itemIdentifier isEqualToString:SAVE_BUTTON]) {
 		NSString *resourcePath = [[NSBundle bundleWithPath:@"/Library/Frameworks/MWorksCocoa.framework"] resourcePath];

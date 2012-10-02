@@ -15,6 +15,8 @@
 
 #import <Cocoa/Cocoa.h>
 
+#import "MWSServer.h"
+
 
 int main(int argc, char *argv[]) {
 	using namespace mw;
@@ -58,7 +60,7 @@ int main(int argc, char *argv[]) {
     [NSBundle loadNibNamed:@"MainMenu" owner:myapp];
 	
 	if(error != Nil){
-        [[myapp delegate] setError:error];
+        [(MWSServer *)[myapp delegate] setError:error];
     }
     
     // ---------------------------------------

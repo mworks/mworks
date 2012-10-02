@@ -252,7 +252,6 @@
 			buildSettings = {
 				FINAL_INSTALL_DIR = "$(APP_SUPPORT_DIR)/Plugins/Client Plugins";
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
-				GCC_WARN_UNUSED_VARIABLE = YES;
 			};
 			name = Development;
 		};

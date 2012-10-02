@@ -577,8 +577,6 @@ NSString *MWExperimentTreeNodeType = @"MEExperimentTreeNodeType";
     while(file = (NSString *)[file_enumerator nextObject]){
         NSString *extension = [file pathExtension];
         
-        NSError *error;
-        
         if([extension isEqualToString:@"tif"] ||
            [extension isEqualToString:@"tiff"] ||
            [extension isEqualToString:@"png"] ||
@@ -863,7 +861,7 @@ NSString *MWExperimentTreeNodeType = @"MEExperimentTreeNodeType";
 	if([nodes count] == 0){
 		NSLog(@"no matches");
 	} else {
-		NSLog(@"%d matches", [nodes count]);
+		NSLog(@"%lu matches", (unsigned long)[nodes count]);
 	}
 	
 	int i;

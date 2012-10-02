@@ -61,7 +61,7 @@
 ////////////////////////////////////////
 - (NSToolbarItem *)toolbar:(NSToolbar *)toolbar
 	 itemForItemIdentifier:(NSString *)itemIdentifier
-	willBeInsertedIntoToolbar:(bool)flag {
+	willBeInsertedIntoToolbar:(BOOL)flag {
 	
 	if([itemIdentifier isEqualToString:NETWORK_BUTTON]) {
 		MWSNetworkToolbarItem *item = [[MWSNetworkToolbarItem alloc] initWithItemIdentifier:itemIdentifier];

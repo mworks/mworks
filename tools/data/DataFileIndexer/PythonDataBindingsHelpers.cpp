@@ -313,7 +313,7 @@ PyObject *convert_scarab_to_python(ScarabDatum *datum, int prev_type /* = -1*/){
     
     PyObject *dict;
     ScarabDatum **keys, **values;
-    PyObject *thelist, *key_py_obj, *value_py_obj, *string_py_obj;
+    PyObject *thelist, *key_py_obj, *value_py_obj;
     
     switch (datum->type){
         case(SCARAB_NULL):

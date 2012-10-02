@@ -26,14 +26,15 @@
 	#define ESCHEW_NSHOST	1
 	#if ESCHEW_NSHOST
 		// TODO: double check this
-		struct ifaddrs *addrs;
-		int i = getifaddrs(&addrs);
 		NSMutableArray *netAddresses = [[NSMutableArray alloc] init];
-		while(addrs != NULL){
-			[netAddresses insertObject:[NSString stringWithCString:addrs->ifa_name encoding:NSASCIIStringEncoding] atIndex:0];
-			addrs = addrs->ifa_next;
-		}
-	#else	
+        struct ifaddrs *addrs;
+        if (getifaddrs(&addrs) == 0) {
+            while(addrs != NULL){
+                [netAddresses insertObject:[NSString stringWithCString:addrs->ifa_name encoding:NSASCIIStringEncoding] atIndex:0];
+                addrs = addrs->ifa_next;
+            }
+        }
+	#else
 		NSArray *netAddresses = [[NSHost currentHost] addresses];
 	#endif
 	

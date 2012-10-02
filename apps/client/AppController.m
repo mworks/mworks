@@ -202,7 +202,7 @@
   {
     // Get an array containing the full filenames of all
     // files and directories selected.
-    NSArray* files = [openDlg filenames];
+    NSArray* files = [openDlg URLs];
     
     if([files count] != 1){
       // TODO: raise hell
@@ -212,7 +212,7 @@
     // Loop through all the files and process them.
     for(int i = 0; i < [files count]; i++ )
     {
-      NSString* file_name = [files objectAtIndex:i];
+      NSString* file_name = [[files objectAtIndex:i] path];
       
       if(file_name == Nil){
         return;

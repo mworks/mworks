@@ -304,7 +304,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5CE62B0F11585B3600C757F1 /* Development.xcconfig */;
 			buildSettings = {
-				GCC_WARN_UNUSED_VARIABLE = YES;
 			};
 			name = Development;
 		};
