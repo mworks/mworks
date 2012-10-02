@@ -4,7 +4,8 @@
 #include <sys/time.h>
 #include <unistd.h>
 #include "boost/filesystem/path.hpp"
-#include "mWorksStreamUtilities.h"
+#include "MWorksMATLABTools.h"
+#include "MEXUtils.h"
 
 using namespace std;
 
@@ -22,16 +23,20 @@ void mexFunction (int nlhs, mxArray *plhs[],
     mexErrMsgTxt("only had one output argument");
 
   // Get the inputs.
-  boost::filesystem::path mwk_file(getString(prhs[0]));
+  std::string filename;
+  getStringParameter(prhs, 1, filename);
+  boost::filesystem::path mwk_file(filename);
+
   std::vector<unsigned int> event_codes;
   event_codes.push_back(0);
 
-  MWorksTime lower_bound = MIN_MONKEY_WORKS_TIME();
-  MWorksTime upper_bound = MAX_MONKEY_WORKS_TIME();
+  MWTime lower_bound = MIN_MONKEY_WORKS_TIME();
+  MWTime upper_bound = MAX_MONKEY_WORKS_TIME();
   
   dfindex dfi(mwk_file);
   
-  vector<EventWrapper> codecs = dfi.events(event_codes, lower_bound,  upper_bound);
+  vector<EventWrapper> codecs;
+  dfi.getEvents(codecs, event_codes, lower_bound,  upper_bound);
   
   mxArray *codec_struct = createTopLevelCodecStruct(codecs.size());
   

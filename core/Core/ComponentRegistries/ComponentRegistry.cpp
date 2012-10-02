@@ -451,6 +451,14 @@ bool ComponentRegistry::getBoolean(std::string expression){
 }
 
 
+// The following enables the use of GenericDataType values in data_cache keys.  See
+// http://www.boost.org/doc/libs/1_51_0/doc/html/hash/custom.html for details.
+std::size_t hash_value(const GenericDataType &type) {
+    boost::hash<int> hasher;
+    return hasher(type);
+}
+
+
 Datum ComponentRegistry::getValue(std::string expression, GenericDataType type) {
 
   std::pair<std::string, GenericDataType> cacheKey(expression, type);

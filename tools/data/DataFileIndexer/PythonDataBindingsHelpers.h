@@ -25,6 +25,7 @@ namespace bp = boost::python;
 class PythonDataFile {
     std::string file_name;
     shared_ptr<dfindex> indexer;
+    shared_ptr<DataFileIndexer::EventsIterator> eventsIterator;
     
     
 public:
@@ -42,19 +43,12 @@ public:
     std::string file();
     std::string true_mwk_file();
     
-    MWorksTime minimum_time();
-    MWorksTime maximum_time();
+    MWTime minimum_time();
+    MWTime maximum_time();
     
-    std::vector<EventWrapper> test_function(int number);    
-    
-    std::vector<EventWrapper> fetch_all_events();
-    
-    std::vector<EventWrapper> fetch_events1(bp::list codes);    
-    std::vector<EventWrapper> fetch_events2(bp::list codes, const MWorksTime lower_bound);    
-    
-    std::vector<EventWrapper> fetch_events3(bp::list codes,
-                                            const MWorksTime lower_bound, 
-                                            const MWorksTime upper_bound);
+    void select_events(bp::list codes, const MWTime lower_bound, const MWTime upper_bound);
+    shared_ptr<EventWrapper> get_next_event();
+    std::vector<EventWrapper> get_events();
 };
 
 

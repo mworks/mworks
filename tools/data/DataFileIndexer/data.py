@@ -34,48 +34,47 @@ class MWKFile(_MWKFile):
     def close(self):
         super(MWKFile, self).close()
         self._codec = None
-        self._reverse_codec = None 
+        self._reverse_codec = None
 
-    def get_events(self, **kwargs):
+    def __enter__(self):
+        self.open()
+        return self
+
+    def __exit__(self, type, value, tb):
+        self.close()
+
+    def _prepare_events_iter(self, **kwargs):
         event_codes = []
-        time_range = []
-    
-        # shortcut to argument-free version
-        if "codes" not in kwargs and "time_range" not in kwargs:
-            return self._fetch_all_events()
-    
-        codec = self.codec
-        
-        if codec is None:
-            raise NoValidCodecException
-            
-        reverse_codec = self.reverse_codec
-         
-        if reverse_codec is None:
-            raise NoValidCodecException
     
         if "codes" in kwargs:
+            reverse_codec = self.reverse_codec
+            if not reverse_codec:
+                raise NoValidCodecException
+    
             event_codes = kwargs["codes"]
-            
-            for i in range(0, len(event_codes)):
-                code = event_codes[i]
-                if(type(code) == str):
-                    if(code in reverse_codec):
-                        event_codes[i] = reverse_codec[code]
-            
-        else:
-            event_codes = codec.keys()  # all events
+
+            for i, code in enumerate(event_codes):
+                if isinstance(code, basestring) and (code in reverse_codec):
+                    event_codes[i] = reverse_codec[code]
         
         if "time_range" in kwargs:
             time_range = kwargs["time_range"]
         else:
             time_range = [self.minimum_time, self.maximum_time]
     
-        # TODO: convert possible string-based event codes
-    
-        events = self._fetch_events(event_codes, time_range[0], time_range[1])
-        
-        return events
+        self._select_events(event_codes, time_range[0], time_range[1])
+
+    def get_events_iter(self, **kwargs):
+        self._prepare_events_iter(**kwargs)
+        while True:
+            evt = self._get_next_event()
+            if evt.empty:
+                break
+            yield evt
+
+    def get_events(self, **kwargs):
+        self._prepare_events_iter(**kwargs)
+        return self._get_events()
     
     @property
     def codec(self):
@@ -84,16 +83,15 @@ class MWKFile(_MWKFile):
         if self._codec is not None:
             return self._codec
     
-        e = self._fetch_events([0])
-        if(len(e) == 0):
+        self._select_events([0], self.minimum_time, self.maximum_time)
+        e = self._get_next_event()
+        if e.empty:
             self._codec = {}
             return self._codec
+
+        raw_codec = e.value
+        codec = dict((key, raw_codec[key]["tagname"]) for key in raw_codec)
         
-        raw_codec = e[0].value
-        
-        codec = {}
-        for key in raw_codec.keys():
-            codec[key] = raw_codec[key]["tagname"]
         self._codec = codec
         return codec
     
@@ -104,15 +102,7 @@ class MWKFile(_MWKFile):
         if self._reverse_codec is not None:
             return self._reverse_codec
     
-        c = self.codec
-        keys = c.keys()
-        values = c.values()
-        rc = {}
-        for i in range(0, len(keys)):
-            k = keys[i]
-            v = values[i]
-            #print("key: %d, value %s" % (k,v))
-            rc[v] = k
+        rc = dict((v, k) for k, v in self.codec.iteritems())
 
         self._reverse_codec = rc
         return rc
@@ -169,6 +159,6 @@ class MWKStream(_MWKStream):
 
     def read_event(self):
         result = self._read_event()
-        if(result.empty):
+        if result.empty:
             result = None
         return result

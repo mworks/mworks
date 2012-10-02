@@ -34,20 +34,55 @@ class dfindex
             return mwk_data_file.string();
         }
         
-        MWorksTime getMinimumTime() const {
+        MWTime getMinimumTime() const {
             return dfi.getMinimumTime();
         }
         
-        MWorksTime getMaximumTime() const {
+        MWTime getMaximumTime() const {
             return dfi.getMaximumTime();
         }
         
-		std::vector<EventWrapper> events(const std::vector<unsigned int> &event_codes,
-											   const MWorksTime lower_bound = MIN_MONKEY_WORKS_TIME(), 
-											   const MWorksTime upper_bound = MAX_MONKEY_WORKS_TIME()) const;
+		void getEvents(std::vector<EventWrapper> &events,
+                       const std::vector<unsigned int> &event_codes,
+                       const MWTime lower_bound = MIN_MONKEY_WORKS_TIME(), 
+                       const MWTime upper_bound = MAX_MONKEY_WORKS_TIME()) const
+        {
+            dfi.getEvents(events, event_codes, lower_bound, upper_bound);
+        }
+        
+        DataFileIndexer::EventsIterator getEventsIterator(const std::vector<unsigned int> &event_codes,
+                                                          const MWTime lower_bound = MIN_MONKEY_WORKS_TIME(),
+                                                          const MWTime upper_bound = MAX_MONKEY_WORKS_TIME()) const
+        {
+            return dfi.getEventsIterator(event_codes, lower_bound, upper_bound);
+        }
 	};
 
 
 #endif //dfindex_
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

@@ -12,8 +12,8 @@
 #include "EventBlock.h"
 
 EventBlock::EventBlock(const long int offset,
-					   const MWorksTime min_time,
-					   const MWorksTime max_time,
+					   const MWTime min_time,
+					   const MWTime max_time,
 					   const std::vector<unsigned int> _event_codes) : 
 file_offset(offset), 
 minimum_time(min_time), 
@@ -33,8 +33,8 @@ maximum_time(MIN_MONKEY_WORKS_TIME())
 	}
 }
 
-bool EventBlock::hasTime(const MWorksTime lower_bound,
-						 const MWorksTime upper_bound) const {
+bool EventBlock::hasTime(const MWTime lower_bound,
+						 const MWTime upper_bound) const {
 	return lower_bound <= maximum_time && upper_bound >= minimum_time;
 }
 
@@ -92,11 +92,11 @@ void EventBlock::addChild(boost::shared_ptr<EventBlock> child) {
 					  event_codes.end());
 }
 
-MWorksTime EventBlock::maximumTime() const {
+MWTime EventBlock::maximumTime() const {
 	return maximum_time;
 }
 
-MWorksTime EventBlock::minimumTime() const {
+MWTime EventBlock::minimumTime() const {
 	return minimum_time;
 }
 
@@ -108,11 +108,11 @@ std::vector<unsigned int> EventBlock::eventCodes() const {
 	return event_codes;
 }
 
-std::vector<boost::shared_ptr<EventBlock> > EventBlock::children(const std::vector<unsigned int> &event_codes_to_match,
-																 const MWorksTime lower_bound,
-																 const MWorksTime upper_bound) const {
-	std::vector<boost::shared_ptr<EventBlock> > matching_child_blocks;
-	
+void EventBlock::children(std::vector<boost::shared_ptr<EventBlock> > &matching_child_blocks,
+                          const std::vector<unsigned int> &event_codes_to_match,
+                          const MWTime lower_bound,
+                          const MWTime upper_bound) const
+{
 	for(std::vector<boost::shared_ptr<EventBlock> >::const_iterator i = _children.begin();
 		i != _children.end();
 		++i) {
@@ -121,7 +121,8 @@ std::vector<boost::shared_ptr<EventBlock> > EventBlock::children(const std::vect
 			if((*i)->isLeaf()) {
 				matching_child_blocks.push_back(*i);
 			} else {
-				std::vector<boost::shared_ptr<EventBlock> > lower_matching_child_blocks = (*i)->children(event_codes_to_match, lower_bound, upper_bound);
+				std::vector<boost::shared_ptr<EventBlock> > lower_matching_child_blocks;
+				(*i)->children(lower_matching_child_blocks, event_codes_to_match, lower_bound, upper_bound);
 				for(std::vector<boost::shared_ptr<EventBlock> >::const_iterator j = lower_matching_child_blocks.begin();
 					j != lower_matching_child_blocks.end();
 					++j) {
@@ -134,7 +135,5 @@ std::vector<boost::shared_ptr<EventBlock> > EventBlock::children(const std::vect
 			}
 		}
 	}
-	
-	return matching_child_blocks;
 }
 

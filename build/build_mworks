@@ -94,7 +94,8 @@ def xcodebuild(target='Everything'):
 def make(targets=[]):
     check_call(
         args = [
-            '/usr/bin/make',
+            '/usr/bin/xcrun',
+            'make',
             'XCCONFIG_DIR=' + mw_xcode_dir.replace(' ', '\ ').rstrip('/'),
             'XCCONFIG_NAME=' + mw_xcode_configuration,
             'MW_VERSION=' + mw_version,
@@ -112,7 +113,7 @@ def make(targets=[]):
 
 @builder('mworks/build/new_installer')
 def uninstall():
-    check_call(['./uninstall_mworks', '--delete'])
+    check_call(['./uninstall_mworks', '--delete', '--no-sudo'])
 
 
 @builder('mworks/build/xcode_config', required=True)
@@ -137,12 +138,9 @@ def core():
 
 @builder('mworks/tools/data')
 def data_tools():
-    for subdir in ('DataFileIndexer', 'MWorksStreamUtilities'):
+    for subdir in ('DataFileIndexer', 'MATLABTools'):
         with workdir(subdir):
             xcodebuild()
-
-    with workdir('MatlabDataReader'):
-        make(['clean', 'install'])
 
 
 @builder('mworks/plugins/core')
@@ -204,7 +202,7 @@ def examples():
     make()
 
 
-@builder('mworks/xcode')
+#@builder('mworks/xcode')
 def xcode_templates():
     make(['test', 'install'])
 

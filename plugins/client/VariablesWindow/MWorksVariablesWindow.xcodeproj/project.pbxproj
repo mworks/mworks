@@ -304,21 +304,13 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5CE62B0F11585B3600C757F1 /* Development.xcconfig */;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = /Library/Frameworks/;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
-				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
 			};
 			name = Development;
 		};
 		5C4D298709DDBC920082BF9F /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
 				PRODUCT_NAME = Everything;
 			};
 			name = Development;

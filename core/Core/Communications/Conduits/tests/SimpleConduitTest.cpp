@@ -8,7 +8,6 @@
  */
 
 #include "SimpleConduitTest.h"
-#include "DummyEventTransport.h"
 #include "IPCEventTransport.h"
 #include "SimpleConduit.h"
 
