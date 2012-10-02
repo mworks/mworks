@@ -14,17 +14,15 @@ mw_files = (
     '/Applications/MWClient.app',
     '/Applications/MWEditor.app',
     '/Applications/MWServer.app',
-    '/Library/Application Support/Developer/Shared/Xcode/Project Templates/MWorks',
     '/Library/Application Support/MWorks',
     '/Library/Frameworks/MWorksCocoa.framework',
     '/Library/Frameworks/MWorksCore.framework',
-    '/Library/Python/2.6/site-packages/mworks.pth',
-    '/Library/Python/2.7/site-packages/mworks.pth',
 
     # Legacy
     '/Developer/Library/Xcode/Project Templates/MWorks',
     '/Documents/MWorks',
     '/Documents/MonkeyWorks',
+    '/Library/Application Support/Developer/Shared/Xcode/Project Templates/MWorks',
     '/Library/Application Support/MWClient',
     '/Library/Application Support/MWEditor',
     '/Library/Application Support/MonkeyWorks',
@@ -37,6 +35,8 @@ mw_files = (
     '/Library/Frameworks/Narrative.framework',
     '/Library/Frameworks/Scarab.framework',
     '/Library/MonkeyWorks',
+    '/Library/Python/2.6/site-packages/mworks.pth',
+    '/Library/Python/2.7/site-packages/mworks.pth',
     )
 
 
@@ -64,14 +64,14 @@ def create_directory(dirname):
         dirlist.appendleft(dirname)
         dirname = os.path.dirname(dirname)
 
-    # Since the backup may be created as root but moved/deleted by a
+    # Since the backup will be created as root but moved/deleted by a
     # normal user, we need to ensure that all created subdirectories
     # have the same owner as the base directory
     username = pwd.getpwuid(os.stat(dirname).st_uid).pw_name
 
     for dirname in dirlist:
-        check_call(['mkdir', dirname])
-        check_call(['chown', username, dirname])
+        check_call(['/bin/mkdir', dirname])
+        check_call(['/usr/sbin/chown', username, dirname])
 
 
 def backup_files(backupdir):
@@ -80,14 +80,14 @@ def backup_files(backupdir):
         old_backupdir = '%s (%s)' % (backupdir, timestamp)
         announce('Found existing "%s"; moving to "%s"', backupdir,
                  old_backupdir)
-        check_call(['mv', backupdir, old_backupdir])
+        check_call(['/bin/mv', backupdir, old_backupdir])
 
     for filename in mw_files:
         if os.path.exists(filename):
             announce('Moving "%s" to "%s"', filename, backupdir)
             destdir = os.path.join(backupdir, os.path.dirname(filename[1:]))
             create_directory(destdir)
-            check_call(['mv', filename, destdir])
+            check_call(['/bin/mv', filename, destdir])
 
 
 def restore_files(backupdir):
@@ -98,11 +98,11 @@ def restore_files(backupdir):
         srcfile = os.path.join(backupdir, filename[1:])
         if os.path.exists(srcfile):
             announce('Restoring "%s" from "%s"', filename, backupdir)
-            check_call(['mv', srcfile, os.path.dirname(filename)])
+            check_call(['/bin/mv', srcfile, os.path.dirname(filename)])
 
     trashdir = get_userdir('.Trash')
     announce('Moving "%s" to "%s"', backupdir, trashdir)
-    check_call(['mv', backupdir, trashdir])
+    check_call(['/bin/mv', backupdir, trashdir])
 
 
 def main():
@@ -113,13 +113,23 @@ def main():
                       help="don't restore, but back up old installation")
     parser.add_option('-d', '--delete', action='store_true', dest='delete',
                       help="permanently delete uninstalled files")
+    parser.add_option('--no-sudo', action='store_false', dest='use_sudo',
+                      default=True,
+                      help="don't execute commands as the superuser")
     (options, args) = parser.parse_args()
+    
+    if options.check:
+        sys.exit(int(not check_installed_files()))
+
+    # Since we're moving files to/from system directories, we need to
+    # be running as root
+    if options.use_sudo and (os.getuid() != 0):
+        sudo = '/usr/bin/sudo'
+        os.execl(sudo, sudo, sys.executable, *sys.argv)
 
     backupdir = get_userdir('Desktop/MWorks Backup')
 
-    if options.check:
-        sys.exit(int(not check_installed_files()))
-    elif options.backup:
+    if options.backup:
         backup_files(backupdir)
     else:
         uninstalldir = get_userdir('.Trash/Uninstalled MWorks')
@@ -127,7 +137,7 @@ def main():
         restore_files(backupdir)
         if options.delete:
             announce('Deleting "%s"', uninstalldir)
-            check_call(['rm', '-Rf', uninstalldir])
+            check_call(['/bin/rm', '-Rf', uninstalldir])
 
 
 if __name__ == '__main__':

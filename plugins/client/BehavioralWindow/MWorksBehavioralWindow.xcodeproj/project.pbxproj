@@ -292,7 +292,6 @@
 		1DEB913B08733D840010E9CD /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_ENABLE_OBJC_GC = unsupported;
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				GCC_PREFIX_HEADER = MWorksBehavioralWindow_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
@@ -315,8 +314,6 @@
 				);
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(FINAL_INSTALL_DIR)/$(TARGET_NAME).$(WRAPPER_EXTENSION)/Contents/Frameworks\"";
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(MW_DEVELOPER_DIR)/Frameworks\"";
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
 				MACH_O_TYPE = mh_bundle;
 			};
 			name = Development;
@@ -324,10 +321,6 @@
 		5C4D298709DDBC920082BF9F /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
 				PRODUCT_NAME = Everything;
 			};
 			name = Development;

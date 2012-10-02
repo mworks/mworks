@@ -18,10 +18,7 @@ from subprocess import check_call, Popen, PIPE
 import sys
 
 
-xcodebuild = '/Developer/usr/bin/xcodebuild'
-if os.path.isdir('/Applications/Xcode.app'):
-    # Xcode 4.3 or later
-    xcodebuild = '/Applications/Xcode.app/Contents' + xcodebuild
+xcrun = '/usr/bin/xcrun'
 
 
 def die(msg='', status=1):
@@ -41,7 +38,7 @@ def error(msg):
 
 def get_targets_and_configs():
     cmd = Popen(
-        args = (xcodebuild, '-list'),
+        args = (xcrun, 'xcodebuild', '-list'),
         stdout = PIPE,
         )
 
@@ -94,7 +91,8 @@ def main():
     if config not in valid_configs:
         error('invalid config: "%s"' % config)
 
-    cmd = [xcodebuild,
+    cmd = [xcrun,
+           'xcodebuild',
            '-target', target,
            '-configuration', config,
            'clean',

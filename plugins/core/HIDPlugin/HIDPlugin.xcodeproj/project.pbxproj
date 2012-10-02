@@ -7,17 +7,6 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
-		0E121C700E6B1EB6007B29B8 /* UninstallHIDPlugin */ = {
-			isa = PBXAggregateTarget;
-			buildConfigurationList = 0E121C770E6B1ED3007B29B8 /* Build configuration list for PBXAggregateTarget "UninstallHIDPlugin" */;
-			buildPhases = (
-				0E121C6F0E6B1EB6007B29B8 /* ShellScript */,
-			);
-			dependencies = (
-			);
-			name = UninstallHIDPlugin;
-			productName = UninstallHIDPlugin;
-		};
 		5CFC67CC0F2A84F000552431 /* Everything */ = {
 			isa = PBXAggregateTarget;
 			buildConfigurationList = 5CFC67E00F2A850E00552431 /* Build configuration list for PBXAggregateTarget "Everything" */;
@@ -61,7 +50,7 @@
 		0E37FBA20E59C3DD008B885D /* HIDPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HIDPlugin.h; sourceTree = "<group>"; };
 		0E52AECF0E93B9780013DFCC /* USBHID.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = USBHID.cpp; sourceTree = "<group>"; };
 		0E52AED00E93B9780013DFCC /* USBHID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = USBHID.h; sourceTree = "<group>"; };
-		0E52AED10E93B9780013DFCC /* HIDUtilities.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = HIDUtilities.c; sourceTree = "<group>"; };
+		0E52AED10E93B9780013DFCC /* HIDUtilities.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; path = HIDUtilities.c; sourceTree = "<group>"; };
 		0E52AED20E93B9780013DFCC /* HIDUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HIDUtilities.h; sourceTree = "<group>"; };
 		0E52AF5A0E93BE8B0013DFCC /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = /System/Library/Frameworks/IOKit.framework; sourceTree = "<absolute>"; };
 		0E52AF630E93BEDB0013DFCC /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
@@ -234,7 +223,6 @@
 			projectRoot = "";
 			targets = (
 				8D5B49AC048680CD000E48DA /* HIDPlugin */,
-				0E121C700E6B1EB6007B29B8 /* UninstallHIDPlugin */,
 				5CFC67CC0F2A84F000552431 /* Everything */,
 			);
 		};
@@ -253,19 +241,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		0E121C6F0E6B1EB6007B29B8 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# shell script goes here\nrm -Rf \"$PLUGINS_DIR/HIDPlugin.bundle\"\n\nexit 0";
-		};
 		5C4B0B5D0DC7CAB9001BC518 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -315,23 +290,12 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		0E121C710E6B1EB6007B29B8 /* Development */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = HIDPlugin.bundle;
-			};
-			name = Development;
-		};
 		1DEB913B08733D840010E9CD /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = /Library/Frameworks;
-				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = HIDPlugin_Prefix.pch;
-				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
 				INFOPLIST_FILE = Info.plist;
-				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
 				PRODUCT_NAME = HIDPlugin;
 				WRAPPER_EXTENSION = bundle;
 			};
@@ -341,8 +305,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5CC987AB1159383D00B65B91 /* Development.xcconfig */;
 			buildSettings = {
-				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 			};
 			name = Development;
@@ -350,9 +312,6 @@
 		5CFC67CD0F2A84F000552431 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
 				PRODUCT_NAME = Everything;
 			};
 			name = Development;
@@ -360,14 +319,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		0E121C770E6B1ED3007B29B8 /* Build configuration list for PBXAggregateTarget "UninstallHIDPlugin" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				0E121C710E6B1EB6007B29B8 /* Development */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
-		};
 		1DEB913A08733D840010E9CD /* Build configuration list for PBXNativeTarget "HIDPlugin" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
