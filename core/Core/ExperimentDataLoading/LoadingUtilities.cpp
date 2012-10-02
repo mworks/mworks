@@ -268,6 +268,8 @@ namespace mw {
     
 		bool always_display_mirror_window = 0;
 		int display_to_use = 0;
+        bool redraw_on_every_refresh = true;
+        
 		if(main_screen_info != NULL){
 			
 		 Datum val = *(main_screen_info);
@@ -278,9 +280,13 @@ namespace mw {
 			if(val.hasKey(M_ALWAYS_DISPLAY_MIRROR_WINDOW_KEY)){
 				always_display_mirror_window = (bool)val.getElement(M_ALWAYS_DISPLAY_MIRROR_WINDOW_KEY);
 			}
+			
+			if(val.hasKey(M_REDRAW_ON_EVERY_REFRESH_KEY)){
+				redraw_on_every_refresh = (bool)val.getElement(M_REDRAW_ON_EVERY_REFRESH_KEY);
+			}
 		}
 		
-		shared_ptr<StimulusDisplay> stimdisplay(new StimulusDisplay());
+		shared_ptr<StimulusDisplay> stimdisplay(new StimulusDisplay(redraw_on_every_refresh));
 		int new_context = -1;
         
         

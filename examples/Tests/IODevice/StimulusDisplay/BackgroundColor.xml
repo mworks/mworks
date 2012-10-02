@@ -1,0 +1,27 @@
+<?xml version="1.0" standalone="no"?>
+<monkeyml version="1.0">
+    <io_devices tag="IO Devices">
+        <iodevice type="stimulus_display" tag="Stimulus Display" background_color="bg_red, bg_green, bg_blue"></iodevice>
+    </io_devices>
+    <variables tag="Variables">
+        <variable tag="bg_red" scope="global" logging="when_changed" default_value="64.0/255.0" type="float"></variable>
+        <variable tag="bg_green" scope="global" logging="when_changed" default_value="224.0/255.0" type="float"></variable>
+        <variable tag="bg_blue" scope="global" logging="when_changed" default_value="208.0/255.0" type="float"></variable>
+    </variables>
+    <sounds tag="Sounds"></sounds>
+    <stimuli tag="Stimuli"></stimuli>
+    <filters tag="Filters"></filters>
+    <optimizers tag="Optimizers"></optimizers>
+    <experiment tag="New Experiment" full_name="" description="">
+        <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
+            <action type="report" tag="Report" message="Background should have been turquoise since experiment loaded"></action>
+            <action type="wait" tag="Wait" duration="5" duration_units="s"></action>
+            <action type="assignment" tag="Assign Variable" variable="bg_red" value="0.0"></action>
+            <action type="assignment" tag="Assign Variable 2" variable="bg_green" value="0.0"></action>
+            <action type="assignment" tag="Assign Variable 3" variable="bg_blue" value="0.0"></action>
+            <action tag="Update display" type="update_stimulus_display"></action>
+            <action type="report" tag="Report 2" message="Changed color variables to ($bg_red, $bg_green, $bg_blue); background should be unchanged"></action>
+            <action type="wait" tag="Wait 2" duration="5" duration_units="s"></action>
+        </protocol>
+    </experiment>
+</monkeyml>

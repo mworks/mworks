@@ -23,6 +23,7 @@
 #include "SimpleStaircase.h"
 #include "DummyIODevice.h"
 #include "LegacyIODevice.h"
+#include "StimulusDisplayDevice.h"
 #include "StandardSounds.h"
 #include "XMLParser.h"
 #include "BiasMonitor.h"
@@ -120,6 +121,7 @@ ComponentRegistry::ComponentRegistry() :
 	// IO devices
     registerFactory<StandardComponentFactory, DummyIODevice>();
     registerFactory<StandardComponentFactory, IOChannelRequest>();
+    registerFactory<StandardComponentFactory, StimulusDisplayDevice>();
 	
 	// stimuli
     registerFactory<StandardStimulusFactory, BlankScreen>();
