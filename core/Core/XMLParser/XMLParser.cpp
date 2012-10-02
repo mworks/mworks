@@ -383,21 +383,24 @@ void XMLParser::_processRangeReplicator(xmlNode *node){
 
 void XMLParser::_generateRangeReplicatorValues(xmlNode *node, vector<string> &values) {
     const int numParams = 3;
-    
-    vector<string> paramStrings(numParams);
-	paramStrings[0] = _attributeForName(node, "from");
-	paramStrings[1] = _attributeForName(node, "to");
-	paramStrings[2] = _attributeForName(node, "step");
+    const char* paramNames[] = { "from", "to", "step" };
     
     vector<double> params(numParams);
     for (int i = 0; i < numParams; i++) {
-        try {
-            params[i] = boost::lexical_cast<double>(paramStrings[i]);
-        } catch (bad_lexical_cast &) {
+        string paramString(_attributeForName(node, paramNames[i]));
+        Datum paramValue = registry->getValue(paramString, M_FLOAT);
+        if (!paramValue.isNumber()) {
             throw InvalidXMLException(_attributeForName(node, "reference_id"),
-                                      "Non-numeric parameter in range replicator",
-                                      paramStrings[i]);
+                                      string("Range replicator parameter \"") + paramNames[i] +
+                                      string("\" has a non-numeric value"),
+                                      paramValue.toString());
         }
+        params[i] = paramValue.getFloat();
+    }
+    
+    if (params[2] <= 0.0) {
+        throw InvalidXMLException(_attributeForName(node, "reference_id"),
+                                  "Range replicator step must be greater than zero");
     }
 	
 	for (double v = params[0]; v <= params[1]; v += params[2]) {

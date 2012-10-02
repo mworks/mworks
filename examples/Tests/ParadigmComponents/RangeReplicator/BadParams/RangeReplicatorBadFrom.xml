@@ -1,8 +1,7 @@
-<?xml version="1.0"?>
+<?xml version="1.0" standalone="no"?>
 <monkeyml version="1.0">
     <io_devices tag="IO Devices"></io_devices>
     <variables tag="Variables">
-        <variable tag="var" scope="global" logging="when_changed" default_value="0" type="integer"></variable>
         <variable tag="index" scope="local" logging="when_changed" default_value="0" type="integer"></variable>
     </variables>
     <sounds tag="Sounds"></sounds>
@@ -11,7 +10,7 @@
     <optimizers tag="Optimizers"></optimizers>
     <experiment tag="New Experiment" full_name="" description="">
         <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential">
-            <range_replicator tag="New Replicator" from="var" to="10" step="1" variable="index">
+            <range_replicator tag="New Replicator" from="&quot;foo&quot;" to="10" step="1" variable="index">
                 <trial tag="New List" nsamples="1" sampling_method="cycles" selection="sequential">
                     <action type="assert" tag="Assert" condition="0" message="Experiment should have failed to parse!"></action>
                 </trial>

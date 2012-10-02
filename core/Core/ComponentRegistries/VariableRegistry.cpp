@@ -20,7 +20,10 @@
 #include "EventBuffer.h"
 #include "EventConstants.h"
 #include "GenericVariable.h"
-using namespace mw;
+
+
+BEGIN_NAMESPACE_MW
+
 
 VariableRegistry::VariableRegistry(shared_ptr<EventBuffer> _buffer) {
 	event_buffer = _buffer;
@@ -175,7 +178,7 @@ void VariableRegistry::announceAll() {
 // There is potential room for speed up with a hash_map, though this would
 // require const char * machinations, as hash_map cannot have string keys
 shared_ptr<Variable> VariableRegistry::getVariable(const std::string& tagname) const{
-	boost::mutex::scoped_lock s_lock((boost::mutex&)lock);
+	boost::mutex::scoped_lock s_lock(lock);
 	
     map< string, shared_ptr<Variable> >::const_iterator it;
     it = master_variable_dictionary.find(tagname);
@@ -195,7 +198,7 @@ shared_ptr<Variable> VariableRegistry::getVariable(int codec_code) {
 	
 	shared_ptr<Variable> var;	
 
-	boost::mutex::scoped_lock s_lock((boost::mutex&)lock);
+	boost::mutex::scoped_lock s_lock(lock);
 	
     // DDC: removed what was this for?
 	//mExpandableList<Variable> list(master_variable_list);
@@ -491,8 +494,7 @@ stx::AnyScalar	VariableRegistry::lookupVariable(const std::string &varname) cons
 	
 	shared_ptr<Variable> var = getVariable(varname);
 	if(var == NULL){
-		// TODO: throw better
-		throw  SimpleException("Failed to find variable during expression evaluation", varname);
+        throw UnknownVariableException(varname);
 	}
 	
  Datum value = *(var);
@@ -501,13 +503,59 @@ stx::AnyScalar	VariableRegistry::lookupVariable(const std::string &varname) cons
 	
 }
 
-namespace mw {
+
+stx::AnyScalar VariableRegistry::lookupVariable(const std::string &varname, const stx::AnyScalar &subscript) const {
+    shared_ptr<Variable> var = getVariable(varname);
+    if (!var) {
+        throw UnknownVariableException(varname);
+    }
+    
+    shared_ptr<SelectionVariable> sel = dynamic_pointer_cast<SelectionVariable>(var);
+    if (!sel) {
+        throw SimpleException("Variable does not support subscripts", varname);
+    }
+    
+    stx::AnyScalar value = sel->getTentativeSelection(subscript.getInteger());
+    return value;
+}
+
+
 shared_ptr<VariableRegistry> global_variable_registry;
 //static bool registry_initialized = false;
-}
+
 
 //void initializeVariableRegistry() {
 //	global_variable_registry = shared_ptr<VariableRegistry>(new VariableRegistry(global_outgoing_event_buffer));
 //    registry_initialized = true;
 //	
 //}
+
+
+END_NAMESPACE_MW
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
