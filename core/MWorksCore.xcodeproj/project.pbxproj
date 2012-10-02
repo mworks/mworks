@@ -93,8 +93,6 @@
 		0E8665790AEFE8C700564B87 /* VariableLoad.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E8665770AEFE8C700564B87 /* VariableLoad.cpp */; };
 		0E86657C0AEFE8D300564B87 /* VariableLoad.h in Headers */ = {isa = PBXBuildFile; fileRef = 0E86657A0AEFE8D300564B87 /* VariableLoad.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0E88D1730D04708A00D7D273 /* ComponentFactoryException.h in Headers */ = {isa = PBXBuildFile; fileRef = 0E88D1710D04708A00D7D273 /* ComponentFactoryException.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		0E9AD3140AD94214009C0B0B /* Clonable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E9AD3090AD94214009C0B0B /* Clonable.cpp */; };
-		0E9AD3150AD94214009C0B0B /* Clonable.h in Headers */ = {isa = PBXBuildFile; fileRef = 0E9AD30A0AD94214009C0B0B /* Clonable.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0E9AD3160AD94214009C0B0B /* ExpandableList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E9AD30B0AD94214009C0B0B /* ExpandableList.cpp */; };
 		0E9AD3170AD94214009C0B0B /* ExpandableList.h in Headers */ = {isa = PBXBuildFile; fileRef = 0E9AD30C0AD94214009C0B0B /* ExpandableList.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0EAA0DE60B98FC1500331AA5 /* SimpleStaircase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EAA0DE40B98FC1500331AA5 /* SimpleStaircase.cpp */; };
@@ -711,8 +709,6 @@
 		0E8665770AEFE8C700564B87 /* VariableLoad.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = VariableLoad.cpp; path = Core/Variables/VariableLoad.cpp; sourceTree = "<group>"; };
 		0E86657A0AEFE8D300564B87 /* VariableLoad.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = VariableLoad.h; path = Core/Variables/VariableLoad.h; sourceTree = "<group>"; };
 		0E88D1710D04708A00D7D273 /* ComponentFactoryException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ComponentFactoryException.h; path = Core/PluginServices/ComponentFactoryException.h; sourceTree = "<group>"; };
-		0E9AD3090AD94214009C0B0B /* Clonable.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = Clonable.cpp; sourceTree = "<group>"; };
-		0E9AD30A0AD94214009C0B0B /* Clonable.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = Clonable.h; sourceTree = "<group>"; };
 		0E9AD30B0AD94214009C0B0B /* ExpandableList.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ExpandableList.cpp; path = Core/GenericStructures/ExpandableList.cpp; sourceTree = "<group>"; };
 		0E9AD30C0AD94214009C0B0B /* ExpandableList.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ExpandableList.h; path = Core/GenericStructures/ExpandableList.h; sourceTree = "<group>"; };
 		0E9AD3120AD94214009C0B0B /* ExpandableListTest.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = ExpandableListTest.cpp; sourceTree = "<group>"; };
@@ -1238,8 +1234,6 @@
 			isa = PBXGroup;
 			children = (
 				0E9AD3110AD94214009C0B0B /* tests */,
-				0E9AD30A0AD94214009C0B0B /* Clonable.h */,
-				0E9AD3090AD94214009C0B0B /* Clonable.cpp */,
 				5C7CF4ED0BC6B48D00434931 /* LinkedList.h */,
 				E127D38B133A5CFC00532496 /* Map.h */,
 			);
@@ -2408,7 +2402,6 @@
 				8E16A70E0A08E12E0070955E /* Averagers.h in Headers */,
 				5C05099B0A0ED95900F02584 /* Selectable.h in Headers */,
 				8E28B5FC0A6C317E00DA6287 /* Announcers.h in Headers */,
-				0E9AD3150AD94214009C0B0B /* Clonable.h in Headers */,
 				0E9AD3170AD94214009C0B0B /* ExpandableList.h in Headers */,
 				5CBA76D40AE069A300D6F4A6 /* Sound.h in Headers */,
 				5CBA76DC0AE06F6500D6F4A6 /* StandardSounds.h in Headers */,
@@ -3107,7 +3100,6 @@
 				8E16A70F0A08E12E0070955E /* Averagers.cpp in Sources */,
 				5C05099A0A0ED95900F02584 /* Selectable.cpp in Sources */,
 				8E28B5FD0A6C317E00DA6287 /* Announcers.cpp in Sources */,
-				0E9AD3140AD94214009C0B0B /* Clonable.cpp in Sources */,
 				0E9AD3160AD94214009C0B0B /* ExpandableList.cpp in Sources */,
 				5CBA76D50AE069A300D6F4A6 /* Sound.cpp in Sources */,
 				5CBA76DD0AE06F6500D6F4A6 /* StandardSounds.cpp in Sources */,

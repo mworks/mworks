@@ -159,7 +159,7 @@ void StimulusGroup::addChild(std::map<std::string, std::string> parameters,
 		addSubGroup(stim_group);
 
 		shared_ptr<ComponentRegistry> component_registry = ComponentRegistry::getSharedRegistry();
-		shared_ptr <StimulusGroup> stim_group_parent = component_registry->getObject<StimulusGroup>(tag);
+		shared_ptr <StimulusGroup> stim_group_parent = component_registry->getObject<StimulusGroup>(getTag());
 		stim_group->setParent(stim_group_parent);
 	}
 }
@@ -374,7 +374,7 @@ void Stimulus::announceStimulusErase(char *groupName, int idx) {
 Datum Stimulus::getCurrentAnnounceDrawData() {
     
     Datum announceData(M_DICTIONARY, 3);
-    announceData.addElement(STIM_NAME,tag);        // char
+    announceData.addElement(STIM_NAME,getTag());        // char
     announceData.addElement(STIM_ACTION,STIM_ACTION_DRAW);
     announceData.addElement(STIM_TYPE,STIM_TYPE_GENERIC);  
     

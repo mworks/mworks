@@ -23,10 +23,10 @@ void IODevice::finalize(std::map<std::string, std::string> parameters, Component
 	if(!initialize()) {
 		// Initialization failed, so try to map the tag to the alt device
 		if(parameters.find(ALT) == parameters.end()) {
-			throw SimpleException("Can't start iodevice (" + tag + ") and no alt tag specified");
+			throw SimpleException("Can't start iodevice (" + getTag() + ") and no alt tag specified");
 		} else {
 			shared_ptr <IODevice> alt_io_device = reg->getObject<IODevice>(parameters[ALT]);
-			reg->registerAltObject(tag, alt_io_device);
+			reg->registerAltObject(getTag(), alt_io_device);
 		}
 	}
 }

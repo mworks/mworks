@@ -19,8 +19,8 @@ AmbiguousComponentReferenceException::AmbiguousComponentReferenceException(share
     stringstream extended_info;
     extended_info << std::endl;
     
-    vector< shared_ptr<Component> > components = component_reference->getAmbiguousComponents();
-    vector< shared_ptr<Component> >::iterator i;
+    const vector< shared_ptr<Component> > &components = component_reference->getAmbiguousComponents();
+    vector< shared_ptr<Component> >::const_iterator i;
     extended_info << "Conflicts: " << std::endl; 
     for(i = components.begin(); i != components.end(); i++){
         if(*i == NULL){

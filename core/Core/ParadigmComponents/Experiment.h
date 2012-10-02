@@ -203,7 +203,6 @@ class Experiment : public ContainerState {
 		
 		//virtual void announceIdentity();
 		
-		void update();	
 		virtual void reset();
 
 		
@@ -246,17 +245,12 @@ class Experiment : public ContainerState {
 	    shared_ptr<VariableRegistry> getVariableRegistry();
 
 
-		// because SWIG eats ass
-		virtual State *getStateInstance();
-//		virtual void addState(shared_ptr<State> state);
-		//virtual void addState(int index, shared_ptr<State> state);
-//		
-		
 		virtual void finalize(std::map<std::string, std::string> parameters,
 												ComponentRegistry *reg) {
-			current_state = getSelfPtr<State>();
-			experiment = getSelfPtr<Experiment>();
-			environment = getSelfPtr<ScopedVariableEnvironment>();
+            shared_ptr<Experiment> self_ptr(component_shared_from_this<Experiment>());
+			current_state = self_ptr;
+			setExperiment(self_ptr);
+			setScopedVariableEnvironment(self_ptr);
 			createVariableContexts();
 		}
 		
@@ -267,7 +261,7 @@ class Experiment : public ContainerState {
 			ContainerState::addChild(parameters, reg, child);
 			
 			if(current_protocol == NULL) {
-				shared_ptr<State> first_protocol = list->operator[](0);
+				shared_ptr<State> first_protocol = getList()[0];
 				current_protocol = boost::dynamic_pointer_cast<mw::Protocol, State>(first_protocol); // TODO: remove up-cast
 				current_state = weak_ptr<State>(first_protocol);
 			}

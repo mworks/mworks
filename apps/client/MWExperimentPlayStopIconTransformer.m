@@ -12,26 +12,24 @@
 @implementation MWExperimentPlayStopIconTransformer
 
 
-+ (Class)transformedValueClass { return [NSImage class]; }
-+ (BOOL)allowsReverseTransformation { return NO; }
-- (id)transformedValue:(id)value {	
-	
-	NSString *imageName;
-	
-	if([value respondsToSelector:@selector(boolValue)] && [value boolValue]){
-			
-		imageName = [[NSBundle mainBundle] pathForResource:@"StopTBIcon" ofType:@"tiff"];
-		NSImage* connected_icon = [[NSImage alloc] initWithContentsOfFile:imageName];
-		return connected_icon;
-		//return imageName;
-
-	}
-	
-	//imageName = [[NSBundle mainBundle] pathForResource:@"OkCheck" ofType:@"tiff"];
-	imageName = [[NSBundle mainBundle] pathForResource:@"RunTBIcon" ofType:@"tiff"];
-	NSImage* disconnected_icon = [[NSImage alloc] initWithContentsOfFile:imageName];
-	return disconnected_icon;
-	//return imageName;
++ (Class)transformedValueClass
+{
+    return [NSImage class];
 }
+
+
+- (id)transformedValue:(id)value
+{
+    NSString *imageName;
+    
+    if ([value respondsToSelector:@selector(boolValue)] && [value boolValue]) {
+        imageName = [[NSBundle mainBundle] pathForResource:@"StopTBIcon" ofType:@"tiff"];
+    } else {
+        imageName = [[NSBundle mainBundle] pathForResource:@"RunTBIcon" ofType:@"tiff"];
+    }
+    
+    return [[[NSImage alloc] initWithContentsOfFile:imageName] autorelease];
+}
+
 
 @end

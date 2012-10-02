@@ -20,7 +20,7 @@ IODeviceVariableNotification::IODeviceVariableNotification
 IODeviceVariableNotification::~IODeviceVariableNotification() {}
 
 void IODeviceVariableNotification::notify(const Datum& data, MWTime timeUS) {
-	if(data.getInteger() == STOPPING || data.getInteger() == IDLE) {
+	if(data.getInteger() == IDLE) {
 		shared_ptr<IODevice> io_dev_shared = io_device.lock();
         if(io_dev_shared != NULL){ 
             io_dev_shared->stopDeviceIO();

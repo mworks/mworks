@@ -19,6 +19,8 @@
 #include <stdarg.h>
 #include <stdio.h>
 
+#include <boost/thread/locks.hpp>
+#include <boost/thread/mutex.hpp>
 
 #include "Timer.h"
 using namespace mw;
@@ -35,6 +37,8 @@ namespace mw {
 	
 	static bool timer_has_expired;
 	void *expireTimer(void *);
+    
+    static boost::mutex globalMessageVariableMutex;
 	
 	void _makeString(const std::string &format, va_list ap, 
 					 MessageType type, 
@@ -42,21 +46,17 @@ namespace mw {
 		char buffer[MSG_BUFFER_SIZE];// = { '\0' };
 		vsnprintf(buffer, MSG_BUFFER_SIZE-1, format.c_str(), ap);
 		
-		
-        Datum messageDatum=Datum(M_DICTIONARY, 4);
-		messageDatum.addElement(M_MESSAGE_DOMAIN, Datum(M_INTEGER, domain));
-		messageDatum.addElement(M_MESSAGE, Datum(std::string(buffer)));
-		messageDatum.addElement(M_MESSAGE_TYPE, Datum(M_INTEGER, type));
-		messageDatum.addElement(M_MESSAGE_ORIGIN, Datum(M_INTEGER, GlobalMessageOrigin));
-		if(GlobalMessageVariable != 0) {
-			if(type == M_GENERIC_MESSAGE){
+		if (GlobalMessageVariable) {
+            Datum messageDatum(M_DICTIONARY, 4);
+            messageDatum.addElement(M_MESSAGE_DOMAIN, Datum(M_INTEGER, domain));
+            messageDatum.addElement(M_MESSAGE, Datum(buffer));
+            messageDatum.addElement(M_MESSAGE_TYPE, Datum(M_INTEGER, type));
+            messageDatum.addElement(M_MESSAGE_ORIGIN, Datum(M_INTEGER, GlobalMessageOrigin));
             
-				GlobalMessageVariable->setValue(messageDatum);
-			} else {
-#ifndef	SILENCE_WARNINGS_MODE
-				GlobalMessageVariable->setValue(messageDatum);
-#endif
-			}
+            // Use a mutex to ensure that the set and reset happen atomically
+            boost::lock_guard<boost::mutex> lock(globalMessageVariableMutex);
+            GlobalMessageVariable->setValue(messageDatum);
+            GlobalMessageVariable->setSilentValue(0L);
 		}
         
         // For debugging:  If the environment variable MWORKS_WRITE_MESSAGES_TO_STDERR is set,

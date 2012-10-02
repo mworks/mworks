@@ -89,7 +89,7 @@ void ScopedVariable::setSilentValue(Datum _data, MWTime timeUS){
 
 
 ////////////////////////////////////////////////////////////////////////////
-// A polymorphic copy constructor (inherited from Clonable)
+// A polymorphic copy constructor
 ////////////////////////////////////////////////////////////////////////////
 Variable *ScopedVariable::clone(){
 	ScopedVariable *returned = 

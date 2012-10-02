@@ -71,6 +71,8 @@
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+		E11416F2157669DF00FFE959 /* ResumeTBIcon.tiff in Resources */ = {isa = PBXBuildFile; fileRef = E11416F1157669DF00FFE959 /* ResumeTBIcon.tiff */; };
+		E11416F615766A5900FFE959 /* MWExperimentPauseResumeIconTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = E11416F515766A5900FFE959 /* MWExperimentPauseResumeIconTransformer.m */; };
 		E18B840D1552D7C000268197 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = E18B840B1552D7C000268197 /* MainMenu.xib */; };
 /* End PBXBuildFile section */
 
@@ -150,6 +152,9 @@
 		5CFE56570F54A653000C7F30 /* MWURLStringValueTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWURLStringValueTransformer.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* MWClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MWClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E11416F1157669DF00FFE959 /* ResumeTBIcon.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = ResumeTBIcon.tiff; path = Images/ResumeTBIcon.tiff; sourceTree = "<group>"; };
+		E11416F415766A5900FFE959 /* MWExperimentPauseResumeIconTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWExperimentPauseResumeIconTransformer.h; sourceTree = "<group>"; };
+		E11416F515766A5900FFE959 /* MWExperimentPauseResumeIconTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWExperimentPauseResumeIconTransformer.m; sourceTree = "<group>"; };
 		E18B840C1552D7C000268197 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -304,6 +309,7 @@
 				5CEDF8250D85D7550044D738 /* OpenExperimentTBIcon.tif */,
 				5CEDF8260D85D7550044D738 /* OptionKeyGlyph_nib.tiff */,
 				5CEDF8270D85D7550044D738 /* PauseTBIcon.tiff */,
+				E11416F1157669DF00FFE959 /* ResumeTBIcon.tiff */,
 				5CEDF8280D85D7550044D738 /* RunTBIcon.tiff */,
 				5CEDF8290D85D7550044D738 /* ShifteyGlyph_nib.tiff */,
 				5CEDF82A0D85D7550044D738 /* StopTBIcon.tiff */,
@@ -321,6 +327,8 @@
 				5C23D5410D8827670044AC9E /* MWStringTruncateValueTransformer.m */,
 				5C23D6750D8878810044AC9E /* MWExperimentPlayStopIconTransformer.h */,
 				5C23D6760D8878810044AC9E /* MWExperimentPlayStopIconTransformer.m */,
+				E11416F415766A5900FFE959 /* MWExperimentPauseResumeIconTransformer.h */,
+				E11416F515766A5900FFE959 /* MWExperimentPauseResumeIconTransformer.m */,
 				5CD6D4370D9751580042051C /* MWErrorColorTransformer.h */,
 				5CD6D4380D9751580042051C /* MWErrorColorTransformer.m */,
 				5CFE56560F54A653000C7F30 /* MWURLStringValueTransformer.h */,
@@ -412,6 +420,7 @@
 				5C6DA5150DEF22F7005E496A /* GroupedPluginsWindow.xib in Resources */,
 				5CF675C00DF58FF5006C80D5 /* candybar.tif in Resources */,
 				E18B840D1552D7C000268197 /* MainMenu.xib in Resources */,
+				E11416F2157669DF00FFE959 /* ResumeTBIcon.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -462,6 +471,7 @@
 				5CD6D4390D9751580042051C /* MWErrorColorTransformer.m in Sources */,
 				5C6DA5130DEF2237005E496A /* MWGroupedPluginWindowController.m in Sources */,
 				5CFE56580F54A653000C7F30 /* MWURLStringValueTransformer.m in Sources */,
+				E11416F615766A5900FFE959 /* MWExperimentPauseResumeIconTransformer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -33,7 +33,7 @@ Component::Component(const ParameterValueMap &parameters) :
 }
 
 
-Component::Component(std::string _tag, std::string _sig) :
+Component::Component(const std::string &_tag, const std::string &_sig) :
     tag(_tag),
     object_signature(_sig)
 {
@@ -41,9 +41,9 @@ Component::Component(std::string _tag, std::string _sig) :
 }
 
 
-string AmbiguousComponentReference::getStringRepresentation(){
+std::string AmbiguousComponentReference::getStringRepresentation() const {
     stringstream rep;
-    vector< shared_ptr<mw::Component> >::iterator i;
+    vector< shared_ptr<mw::Component> >::const_iterator i;
     for(i = ambiguous_components.begin(); i != ambiguous_components.end(); ++i){
         shared_ptr<Component> comp = *i;
         rep << comp->getTag() << "(" << comp->getReferenceID() << ") ";
