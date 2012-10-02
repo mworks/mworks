@@ -8,6 +8,10 @@
  */
 
 #include "SelectionVariable.h"
+
+#include <boost/lexical_cast.hpp>
+#include <boost/algorithm/string/case_conv.hpp>
+
 #include "VariableReference.h"
 #include "VariableProperties.h"
 #include "VariableRegistry.h"
@@ -15,53 +19,63 @@
 #include "RandomWORSelection.h"
 #include "RandomWithReplacementSelection.h"
 #include "ComponentRegistry.h"
-#include <vector>
-#include <boost/lexical_cast.hpp>
-#include <boost/tokenizer.hpp>
-#include <boost/algorithm/string/case_conv.hpp>
-//#include <boost/spirit/include/classic_confix.hpp>
-//#include <boost/spirit/include/classic_lists.hpp>
-using namespace mw;
+#include "ExpressionVariable.h"
 
 
-SelectionVariable::SelectionVariable(VariableProperties *props) : 
-Selectable(), 
-Variable(props){
-}
+BEGIN_NAMESPACE_MW
 
-SelectionVariable::SelectionVariable(VariableProperties *props, 
-									   shared_ptr<Selection> _selection) : 
-Selectable(),
-Variable(props){
-	attachSelection(_selection);
+
+SelectionVariable::SelectionVariable(VariableProperties *props, shared_ptr<Selection> _selection) :
+    Selectable(),
+    Variable(props),
+    selected_index(NO_SELECTION)
+{
+    if (_selection) {
+        attachSelection(_selection);
+    }
 }
 
 
+Datum SelectionVariable::getTentativeSelection(int index) {
+    if (!selection) {
+        merror(M_PARADIGM_MESSAGE_DOMAIN, "Internal error: selection variable has no selection attached");
+        return Datum(0L);
+    }
+    
+    const std::vector<int>& tenativeSelections = selection->getTentativeSelections();
+    
+    if (tenativeSelections.size() == 0) {
+        merror(M_PARADIGM_MESSAGE_DOMAIN, "Selection variable has no tentative selections available.  Returning 0.");
+        return Datum(0L);
+    }
+    
+    if ((index < 0) || (index >= tenativeSelections.size())) {
+        merror(M_PARADIGM_MESSAGE_DOMAIN, "Selection variable index (%d) is out of bounds.  Returning 0.", index);
+        return Datum(0L);
+    }
+        
+    return values[tenativeSelections[index]];
+}
 
 
-void SelectionVariable::nextValue(){
-	int index;
-	
-	if(selection != NULL){
+void SelectionVariable::nextValue() {
+	if (selection != NULL) {
 		
 		try {
-			index = selection->draw();
-			
-		} catch (std::exception &e){
+            
+			selected_index = selection->draw();
+
+		} catch (std::exception &e) {
 			
 			merror(M_PARADIGM_MESSAGE_DOMAIN, e.what());
 			return;
+            
 		}
 		
-		selected_value = values[index];
-		
-		if(selected_value != NULL){
-		
-			// announce your new value so that the event stream contains
-			// all information about what happened in the experiment
-			announce();
-			performNotifications(selected_value->getValue());
-		}
+        // announce your new value so that the event stream contains
+        // all information about what happened in the experiment
+        announce();
+        performNotifications(values[selected_index]);
 		
 	} else {
 		merror(M_PARADIGM_MESSAGE_DOMAIN,
@@ -70,25 +84,26 @@ void SelectionVariable::nextValue(){
 }
 
 
-Datum SelectionVariable::getValue(){
-	if(selected_value == NULL){
+Datum SelectionVariable::getValue() {
+	if (selected_index == NO_SELECTION) {
 		nextValue();
 	}
 	
-	if(selected_value == NULL){
+	if (selected_index == NO_SELECTION) {
 		merror(M_PARADIGM_MESSAGE_DOMAIN,
 			   "Attempt to select a value from a selection variable with no values defined");
 		return Datum(0L);
 	}
 	
-	
-	return selected_value->getValue();
+	return values[selected_index];
 }
+
 
 Variable *SelectionVariable::clone(){
 	// This isn't quite right, but we can run with it for now
 	return new VariableReference(this);
 }
+
 
 shared_ptr<mw::Component> SelectionVariableFactory::createObject(std::map<std::string, std::string> parameters,
 														ComponentRegistry *reg) {
@@ -246,13 +261,8 @@ shared_ptr<mw::Component> SelectionVariableFactory::createObject(std::map<std::s
 	selectionVar = global_variable_registry->createSelectionVariable(&props);
 	
 	// get the values
-	std::vector<std::string> values;
-
-	boost::tokenizer<> tok(parameters["values"]);
-	for(tokenizer<>::iterator beg=tok.begin(); beg!=tok.end();++beg){
-		values.push_back(*beg);
-    }
-	
+    std::vector<stx::AnyScalar> values;
+    ParsedExpressionVariable::evaluateExpressionList(parameters["values"], values);
 	
 	// get the sampling method
 	std::map<std::string, std::string>::const_iterator samplingMethodElement = parameters.find("sampling_method");
@@ -303,13 +313,40 @@ shared_ptr<mw::Component> SelectionVariableFactory::createObject(std::map<std::s
 	
 	selectionVar->attachSelection(selection);
 	
-	for(std::vector<std::string>::const_iterator i = values.begin();
+	for(std::vector<stx::AnyScalar>::const_iterator i = values.begin();
 		i != values.end();
 		++i) {
-		shared_ptr<Variable> valueVariable = reg->getVariable(*i);
-		selectionVar->addValue(valueVariable);
+		selectionVar->addValue(Datum(*i));
 	}
 	
 	return selectionVar;
 }
+
+
+END_NAMESPACE_MW
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

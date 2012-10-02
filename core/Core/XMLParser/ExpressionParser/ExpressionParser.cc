@@ -85,6 +85,7 @@ namespace stx {
 			
 			atom_expr_id,
 			
+			units_expr_id,
 			unary_expr_id,
 			mul_expr_id,
 			add_expr_id,
@@ -97,6 +98,9 @@ namespace stx {
 			or_expr_id,
 			
 			expr_id,
+			
+			range_expr_id,
+			
 			exprlist_id,
 		};
 		
@@ -126,7 +130,7 @@ namespace stx {
 					;
 					
 					boolean_const
-					= as_lower_d[keyword_p("true") | keyword_p("false")]
+					= as_lower_d[keyword_p("true") | keyword_p("false") | keyword_p("yes") | keyword_p("no")]
 					;
 					
 					integer_const
@@ -162,12 +166,15 @@ namespace stx {
 							   ]
 					;
 					
-					// *** Expression names
+					// *** Variable names
 					
 					varname
-					= lexeme_d[ 
-							   token_node_d[ alpha_p >> *(alnum_p | ch_p('_')) ]
-							   ]
+					= root_node_d[
+                                  lexeme_d[
+                                           token_node_d[ alpha_p >> *(alnum_p | ch_p('_')) ]
+                                           ]
+                                  ]
+                    >> !( discard_node_d[ ch_p('[') ] >> expr >> discard_node_d[ ch_p(']') ] )
 					;
 					
 					// *** Valid Expressions, from small to large
@@ -179,9 +186,14 @@ namespace stx {
 					| varname
 					;
 					
+					units_expr
+					= atom_expr
+                    >> !( root_node_d[ as_lower_d[keyword_p("us") | keyword_p("ms") | keyword_p("s")] ] )
+					;
+					
 					unary_expr
-					= !( root_node_d[ as_lower_d[ch_p('+') | ch_p('-') | ch_p('!') | str_p("not")] ] )
-					>> atom_expr
+					= !( root_node_d[ ch_p('+') | ch_p('-') | ch_p('!') | as_lower_d[keyword_p("not")] ] )
+					>> units_expr
 					;
 					
 					cast_spec
@@ -212,19 +224,22 @@ namespace stx {
 					
 					comp_expr
 					= add_expr
-					>> *( root_node_d[( str_p("==") | str_p("!=") |
-									   str_p("<=") | str_p(">=") | str_p("=<") | str_p("=>") |
-									   ch_p('=') | ch_p('<') | ch_p('>') )] >> add_expr )
+					>> *( root_node_d[str_p("==") | ch_p('=') |
+                                      str_p("!=") |
+                                      str_p("<=") | str_p("=<") | str_p("#LE") |
+                                      ch_p('<') | str_p("#LT") |
+                                      str_p(">=") | str_p("=>") | str_p("#GE") |
+                                      ch_p('>') | str_p("#GT")] >> add_expr )
 					;
 					
 					and_expr
 					= comp_expr
-					>> *( root_node_d[ as_lower_d[str_p("and") | str_p("&&")] ] >> comp_expr )
+					>> *( root_node_d[ as_lower_d[keyword_p("and")] | str_p("&&") | str_p("#AND") ] >> comp_expr )
 					;
 					
 					or_expr
 					= and_expr
-					>> *( root_node_d[ as_lower_d[str_p("or") | str_p("||")] ] >> and_expr )
+					>> *( root_node_d[ as_lower_d[keyword_p("or")] | str_p("||") | str_p("#OR") ] >> and_expr )
 					;
 					
 					// *** Base Expression and List
@@ -233,8 +248,12 @@ namespace stx {
 					= or_expr
 					;
 					
+					range_expr
+					= expr >> root_node_d[ch_p(':')] >> expr
+					;
+					
 					exprlist
-					= infix_node_d[ !list_p(expr, ch_p(',')) ]
+					= infix_node_d[ !list_p((range_expr | expr), ch_p(',')) ]
 					;
 					
 					// Special spirit feature to declare multiple grammar entry points
@@ -256,6 +275,7 @@ namespace stx {
 					
 					BOOST_SPIRIT_DEBUG_RULE(atom_expr);
 					
+					BOOST_SPIRIT_DEBUG_RULE(units_expr);
 					BOOST_SPIRIT_DEBUG_RULE(unary_expr);
 					BOOST_SPIRIT_DEBUG_RULE(mul_expr);
 					BOOST_SPIRIT_DEBUG_RULE(add_expr);
@@ -268,6 +288,9 @@ namespace stx {
 					BOOST_SPIRIT_DEBUG_RULE(or_expr);
 					
 					BOOST_SPIRIT_DEBUG_RULE(expr);
+					
+					BOOST_SPIRIT_DEBUG_RULE(range_expr);
+					
 					BOOST_SPIRIT_DEBUG_RULE(exprlist);
 #endif
 				}
@@ -299,6 +322,8 @@ namespace stx {
 				/// Helper rule which implements () bracket grouping.
 				rule<ScannerT, parser_context<>, parser_tag<atom_expr_id> > 		atom_expr;
 				
+				/// Units operator rule: recognizes "us" "ms" and "s".
+				rule<ScannerT, parser_context<>, parser_tag<units_expr_id> > 		units_expr;
 				/// Unary operator rule: recognizes + - ! and "not".
 				rule<ScannerT, parser_context<>, parser_tag<unary_expr_id> > 		unary_expr;
 				/// Binary operator rule taking precedent before add_expr:
@@ -323,6 +348,10 @@ namespace stx {
 				
 				/// Base rule to match an expression 
 				rule<ScannerT, parser_context<>, parser_tag<expr_id> >        		expr;
+				
+				/// Range expression 
+				rule<ScannerT, parser_context<>, parser_tag<range_expr_id> >        range_expr;
+				
 				/// Base rule to match a comma-separated list of expressions (used for
 				/// function arguments and lists of expressions)
 				rule<ScannerT, parser_context<>, parser_tag<exprlist_id> >    		exprlist;
@@ -388,18 +417,30 @@ namespace stx {
 			private:
 				/// String name of the variable
 				std::string		varname;
+                
+                /// Subscript expression (may be NULL)
+                const ParseNode *subscript;
 				
 			public:
 				/// Constructor from the string received from the parser.
-				PNVariable(std::string _varname)
-				: ParseNode(), varname(_varname)
+				PNVariable(std::string _varname, const ParseNode *_subscript)
+				: ParseNode(), varname(_varname), subscript(_subscript)
 				{
+				}
+				
+				/// Recursively delete the parse tree.
+				virtual ~PNVariable()
+				{
+					delete subscript;
 				}
 				
 				/// Check the given symbol table for the actual value of this variable.
 				virtual AnyScalar evaluate(const class SymbolTable &st) const
 				{
-					return st.lookupVariable(varname);
+                    if (!subscript)
+                        return st.lookupVariable(varname);
+                    
+                    return st.lookupVariable(varname, subscript->evaluate(st));
 				}
 				
 				/// Returns false, because value isn't constant.
@@ -411,7 +452,10 @@ namespace stx {
 				/// Nothing but the variable name.
 				virtual std::string toString() const
 				{
-					return varname;
+                    std::string str = varname;
+                    if (subscript)
+                        str += "[" + subscript->toString() + "]";
+					return str;
 				}
 			};
 		
@@ -451,7 +495,7 @@ namespace stx {
 					
 					for(unsigned int i = 0; i < paramlist.size(); ++i)
 					{
-						paramvalues.push_back( paramlist[i]->evaluate(st) );
+						paramlist[i]->evaluate(paramvalues, st);
 					}
 					
 					return st.processFunction(funcname, paramvalues);
@@ -475,6 +519,78 @@ namespace stx {
 					return str + ")";
 				}
 			};
+		
+		/// Parse tree node representing a units operator: "us", "ms", or "s".
+		/// This node has one child.
+		class PNUnitsArithmExpr : public ParseNode
+        {
+        private:
+            /// Pointer to the single operand
+            const ParseNode 	*operand;
+            
+            /// Units to apply: "us", "ms", or "s".
+            std::string units;
+            
+        public:
+            /// Constructor from the parser: operand subnode and operator id.
+            PNUnitsArithmExpr(const ParseNode* _operand, const std::string &_units)
+            : ParseNode(), operand(_operand), units(_units)
+            { }
+            
+            /// Recursively delete the parse tree.
+            virtual ~PNUnitsArithmExpr()
+            {
+                delete operand;
+            }
+            
+            /// Applies the operator to the recursively calculated value.
+            virtual AnyScalar evaluate(const class SymbolTable &st) const
+            {
+                AnyScalar dest = operand->evaluate(st);
+                
+                if (units == "s") {
+                    dest = dest * 1000000;	    
+                }
+                else if (units == "ms")
+                {
+                    dest = dest * 1000;	    
+                }
+                else {
+                    // No change for "us"
+                    assert(units == "us");
+                }
+                
+                return dest;
+            }
+            
+            /// Calculates subnodes and returns result if the operator can be applied.
+            virtual bool evaluate_const(AnyScalar *dest) const
+            {
+                if (!dest) return false;
+                
+                bool b = operand->evaluate_const(dest);
+                
+                if (units == "s") {
+                    *dest = (*dest) * 1000000;
+                }
+                else if (units == "ms")
+                {
+                    *dest = (*dest) * 1000;
+                }
+                else {
+                    // No change for "us"
+                    assert(units == "us");
+                }
+                
+                return b;
+            }
+            
+            /// Return the subnode's string with this operator prepended.
+            virtual std::string toString() const
+            {
+                return std::string("(") + operand->toString() + " " + units + ")";
+            }
+        };
 		
 		/// Parse tree node representing an unary operator: '+', '-', '!' or
 		/// "not". This node has one child.
@@ -741,13 +857,13 @@ namespace stx {
 						op = EQUAL;
 					else if (_op == "!=")
 						op = NOTEQUAL;
-					else if (_op == "<")
+					else if (_op == "<" || _op == "#LT")
 						op = LESS;
-					else if (_op == ">")
+					else if (_op == ">" || _op == "#GT")
 						op = GREATER;
-					else if (_op == "<=" || _op == "=<")
+					else if (_op == "<=" || _op == "=<" || _op == "#LE")
 						op = LESSEQUAL;
-					else if (_op == ">=" || _op == "=>")
+					else if (_op == ">=" || _op == "=>" || _op == "#GE")
 						op = GREATEREQUAL;
 					else
 						throw(BadSyntaxException("Program Error: invalid binary comparision operator."));
@@ -875,12 +991,12 @@ namespace stx {
 				: ParseNode(),
 				left(_left), right(_right)
 				{
-					if (_op == "and" || _op == "&&")
+					if (_op == "and" || _op == "&&" || _op == "#and")
 						op = OP_AND;
-					else if (_op == "or" || _op == "||")
+					else if (_op == "or" || _op == "||" || _op == "#or")
 						op = OP_OR;
 					else
-						throw(BadSyntaxException("Program Error: invalid binary logic operator."));
+						throw(BadSyntaxException("Program Error: invalid binary logic operator: " + _op));
 				}
 				
 				/// Recursively delete parse tree.
@@ -946,27 +1062,33 @@ namespace stx {
 					//	if (vr.getType() != AnyScalar::ATTRTYPE_BOOL)
 					//	    throw(BadSyntaxException(std::string("Invalid right operand for ") + get_opstr() + ". Both operands must be of type bool."));
 					
-					int bvl = vl.getInteger();
-					int bvr = vr.getInteger();
+					int bvl = 0;
+                    if (bl) bvl = vl.getInteger();
+					int bvr = 0;
+                    if (br) bvr = vr.getInteger();
 					
-					*dest = AnyScalar( do_operator(bvl, bvr) );
-					
-					if (op == OP_AND)
+                    if (bl && br) {
+                        *dest = AnyScalar( do_operator(bvl, bvr) );
+                        return true;
+                    }
+					else if (op == OP_AND)
 					{
-						// true if either both ops are themselves constant, or if either of
-						// the ops are constant and evaluates to false.
-						return (bl && br) || (bl && !bvl) || (br && !bvr);
+						// true if either of the ops is constant and evaluates to false.
+                        if ((bl && !bvl) || (br && !bvr)) {
+                            *dest = AnyScalar(false);
+                            return true;
+                        }
 					}
 					else if (op == OP_OR)
 					{
-						// true if either both ops are themselves constant, or if either of
-						// the ops is constant and evaluates to true.
-						return (bl && br) || (bl && bvl) || (br && bvr);
+						// true if either of the ops is constant and evaluates to true.
+                        if ((bl && bvl) || (br && bvr)) {
+                            *dest = AnyScalar(true);
+                            return true;
+                        }
 					}
-					else {
-						assert(0);
-						return false;
-					}
+                    
+                    return false;
 				}
 				
 				/// String (operandA op operandB)
@@ -989,6 +1111,77 @@ namespace stx {
 					ParseNode *n = right;
 					right = NULL;
 					return n;
+				}
+			};
+		
+		/// Parse tree node representing a range expression. This node has two children.
+		class PNRangeExpr : public ParseNode
+			{
+			private:
+				/// Pointer to the first of the two child parse trees.
+				const ParseNode *start;
+				
+				/// Pointer to the second of the two child parse trees.
+				const ParseNode	*stop;
+				
+			public:
+				/// Constructor from the parser
+				PNRangeExpr(const ParseNode* _start,
+                            const ParseNode* _stop)
+				: ParseNode(),
+				start(_start), stop(_stop)
+				{ }
+				
+				/// Recursively delete parse tree.
+				virtual ~PNRangeExpr()
+				{
+					delete start;
+					delete stop;
+				}
+				
+				/// Always throws, because a range expression can't be treated as a single scalar value
+				virtual AnyScalar evaluate(const class SymbolTable &st) const
+				{
+                    throw ExpressionParserException("Internal error: range expression cannot be evaluated as a scalar");
+				}
+				
+				/// Evaluates and returns the full range of values
+				virtual void evaluate(std::vector<AnyScalar> &values, const class SymbolTable &st) const
+				{
+					AnyScalar first = start->evaluate(st);
+					AnyScalar last = stop->evaluate(st);
+                    
+                    if (!(first.isIntegerType() && last.isIntegerType())) {
+                        throw ExpressionParserException("start and stop values of range expression must be integers");
+                    }
+                    
+                    // We *could* support unsigned integers, but it doesn't seem worth the trouble
+                    if (first.isUnsignedIntegerType() || last.isUnsignedIntegerType()) {
+                        throw ExpressionParserException("start and stop values of range expression cannot be unsigned integers");
+                    }
+                    
+                    const long long firstValue = first.getLong();
+                    const long long lastValue = last.getLong();
+                    const long long delta = ((firstValue <= lastValue) ? 1 : -1);
+                    
+                    for (long long currentValue = firstValue;
+                         currentValue != (lastValue + delta);
+                         currentValue += delta)
+                    {
+                        values.push_back( AnyScalar(currentValue) );
+                    }
+				}
+				
+				/// Returns false, because value isn't constant.
+				virtual bool evaluate_const(AnyScalar *) const
+				{
+					return false;
+				}
+				
+				/// String representing (operandA : operandB)
+				virtual std::string toString() const
+				{
+					return start->toString() + " : " + stop->toString();
 				}
 			};
 		
@@ -1021,8 +1214,9 @@ namespace stx {
 					
 				case boolean_const_id:
 				{
-					return new PNConstant(AnyScalar::ATTRTYPE_BOOL,
-										  std::string(i->value.begin(), i->value.end()));
+                    std::string boolconst(i->value.begin(), i->value.end());
+					std::transform(boolconst.begin(), boolconst.end(), boolconst.begin(), &_to_lower);
+					return new PNConstant(AnyScalar::ATTRTYPE_BOOL, boolconst);
 				}
 					
 				case integer_const_id:
@@ -1050,6 +1244,32 @@ namespace stx {
 				}
 					
 					// *** Arithmetic node cases
+					
+				case units_expr_id:
+				{
+					assert(i->children.size() == 1);
+                    
+					std::string units(i->value.begin(), i->value.end());
+					std::transform(units.begin(), units.end(), units.begin(), &_to_lower);
+					
+					const ParseNode *val = build_expr(i->children.begin());
+					
+					if (val->evaluate_const(NULL))
+					{
+						// construct a constant node
+						PNUnitsArithmExpr tmpnode(val, units);
+						AnyScalar constval(AnyScalar::ATTRTYPE_INVALID);
+						
+						tmpnode.evaluate_const(&constval);
+						
+						return new PNConstant(constval);
+					}
+					else
+					{
+						// calculation node
+						return new PNUnitsArithmExpr(val, units);
+					}
+				}
 					
 				case unary_expr_id:
 				{
@@ -1219,11 +1439,15 @@ namespace stx {
 					
 				case varname_id:
 				{
-					assert(i->children.size() == 0);
+					assert(i->children.size() <= 1);
 					
 					std::string varname(i->value.begin(), i->value.end());
+                    
+                    const ParseNode *subscript = NULL;
+                    if (i->children.size() == 1)
+                        subscript = build_expr(i->children.begin());
 					
-					return new PNVariable(varname);
+					return new PNVariable(varname, subscript);
 				}
 					
 				case function_identifier_id:
@@ -1261,6 +1485,17 @@ namespace stx {
 					
 					return new PNFunction(funcname, paramlist);
 				}
+
+				case range_expr_id:
+				{
+					assert(i->children.size() == 2);
+					
+					// auto_ptr needed because of possible parse exceptions in build_expr.
+					std::auto_ptr<const ParseNode> start( build_expr(i->children.begin()) );
+					std::auto_ptr<const ParseNode> stop( build_expr(i->children.begin()+1) );
+                    
+                    return new PNRangeExpr(start.release(), stop.release());
+				}
 					
 				default:
 					throw(ExpressionParserException("Unknown AST parse tree node found. This should never happen."));
@@ -1279,13 +1514,17 @@ namespace stx {
 #endif
 			
 			ParseTreeList ptlist;
-			
-			for(TreeIterT ci = i->children.begin(); ci != i->children.end(); ++ci)
-			{
-				ParseNode *vas = build_expr(ci);
-				
-				ptlist.push_back( ParseTree(vas) );
-			}
+            
+            if (i->value.id().to_long() == exprlist_id) {
+                for(TreeIterT ci = i->children.begin(); ci != i->children.end(); ++ci)
+                {
+                    ParseNode *vas = build_expr(ci);
+                    
+                    ptlist.push_back( ParseTree(vas) );
+                }
+            } else {
+                ptlist.push_back( ParseTree(build_expr(i)) );
+            }
 			
 			return ptlist;
 		}
@@ -1309,6 +1548,7 @@ namespace stx {
 			
 			rule_names[varname_id] = "varname";
 			
+			rule_names[units_expr_id] = "units_expr";
 			rule_names[unary_expr_id] = "unary_expr";
 			rule_names[mul_expr_id] = "mul_expr";
 			rule_names[add_expr_id] = "add_expr";
@@ -1321,6 +1561,9 @@ namespace stx {
 			rule_names[or_expr_id] = "or_expr";
 			
 			rule_names[expr_id] = "expr";
+			
+			rule_names[range_expr_id] = "range_expr";
+			
 			rule_names[exprlist_id] = "exprlist";
 			
 			tree_to_xml(os, info.trees, input.c_str(), rule_names);
@@ -1414,16 +1657,12 @@ namespace stx {
 		return Grammar::build_exprlist(info.trees.begin());
 	}
 	
-	std::vector<AnyScalar> ParseTreeList::evaluate(const class SymbolTable &st) const
+	void ParseTreeList::evaluate(std::vector<AnyScalar> &values, const class SymbolTable &st) const
 	{
-		std::vector<AnyScalar> vl;
-		
 		for(parent_type::const_iterator i = parent_type::begin(); i != parent_type::end(); i++)
 		{
-			vl.push_back( i->evaluate(st) );
+			i->evaluate(values, st);
 		}
-		
-		return vl;
 	}
 	
 	std::string ParseTreeList::toString() const
@@ -1447,6 +1686,11 @@ namespace stx {
 	SymbolTable::~SymbolTable()
 	{
 	}
+    
+    AnyScalar SymbolTable::lookupVariable(const std::string &varname, const AnyScalar &subscript) const
+    {
+        throw BadVariableSubscriptException("Variable subscripts are not supported");
+    }
 	
 	EmptySymbolTable::~EmptySymbolTable()
 	{

@@ -1,0 +1,25 @@
+<?xml version="1.0" standalone="no"?>
+<monkeyml version="1.0">
+    <io_devices tag="IO Devices"></io_devices>
+    <variables tag="Variables">
+        <variable tag="first" scope="global" logging="when_changed" default_value="-2" type="integer"></variable>
+        <variable type="selection" tag="selection" values="first,-pi()/pi(),0+0,first+3,sqrt(4.0)" selection="sequential_ascending" nsamples="5" sampling_method="samples"></variable>
+    </variables>
+    <sounds tag="Sounds"></sounds>
+    <stimuli tag="Stimuli"></stimuli>
+    <filters tag="Filters"></filters>
+    <optimizers tag="Optimizers"></optimizers>
+    <experiment tag="New Experiment" full_name="" description="">
+        <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential">
+            <action type="assert" tag="Assert" condition="selection == -2" message="Missing -2"></action>
+            <action tag="Next Selection" type="next_selection" selection="selection"></action>
+            <action type="assert" tag="Assert" condition="selection == -1" message="Missing -1"></action>
+            <action tag="Next Selection" type="next_selection" selection="selection"></action>
+            <action type="assert" tag="Assert" condition="selection == 0" message="Missing 0"></action>
+            <action tag="Next Selection" type="next_selection" selection="selection"></action>
+            <action type="assert" tag="Assert" condition="selection == 1" message="Missing 1"></action>
+            <action tag="Next Selection" type="next_selection" selection="selection"></action>
+            <action type="assert" tag="Assert" condition="selection == 2" message="Missing 2"></action>
+        </protocol>
+    </experiment>
+</monkeyml>

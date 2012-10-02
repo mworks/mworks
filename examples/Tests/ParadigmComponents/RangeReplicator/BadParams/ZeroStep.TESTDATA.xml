@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<marionette_info>
+  <expected_messages>
+    <message type="starts_with">ERROR: Range replicator step must be greater than zero</message>
+    <message type="starts_with">ERROR: Failed to parse experiment </message>
+  </expected_messages>
+  <expected_events>
+    <!-- The experiment shouldn't parse, so we don't expect the normal state-system events -->
+  </expected_events>
+</marionette_info>

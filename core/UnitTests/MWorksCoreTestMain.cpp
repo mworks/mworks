@@ -46,6 +46,12 @@ int MWorksCoreTestMain(int argc, char *argv[]) {
         return 2;
     }
     
+    if (NULL != getenv("MWORKS_PAUSE_FOR_DEBUGGER")) {
+        std::cerr << "Waiting for debugger to attach...";
+        pause();
+        std::cerr << " continuing" << std::endl;
+    }
+    
     CppUnit::TextTestRunner runner;
     
     std::ofstream outfile( argv[1] );

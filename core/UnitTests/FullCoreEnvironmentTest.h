@@ -15,9 +15,14 @@
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
 
+#include "MWorksMacros.h"
 #include "MWorksCore/TestBedCoreBuilder.h"
 #include "MWorksCore/ComponentRegistry.h"
-namespace mw {
+
+
+BEGIN_NAMESPACE_MW
+
+
 class FullCoreEnvironmentTestFixture : public CppUnit::TestFixture {
 	
  private:
@@ -29,6 +34,10 @@ class FullCoreEnvironmentTestFixture : public CppUnit::TestFixture {
 	void setUp();
 	void tearDown();
 };
-}
+
+
+END_NAMESPACE_MW
+
+
 #endif
 

@@ -1,0 +1,64 @@
+<?xml version="1.0" standalone="no"?>
+<monkeyml version="1.0">
+    <io_devices tag="IO Devices"></io_devices>
+    <variables tag="Variables">
+        <variable tag="x" scope="global" logging="when_changed" default_value="6" type="integer"></variable>
+        <variable type="selection" tag="selection" values="1,2:4,x-1:x+1,8,0:-3" selection="sequential_ascending" nsamples="1" sampling_method="cycles"></variable>
+        <variable type="selection" tag="selection2" values="1:10000" selection="sequential_ascending" nsamples="1" sampling_method="cycles"></variable>
+    </variables>
+    <sounds tag="Sounds"></sounds>
+    <stimuli tag="Stimuli"></stimuli>
+    <filters tag="Filters"></filters>
+    <optimizers tag="Optimizers"></optimizers>
+    <experiment tag="New Experiment" full_name="" description="">
+        <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential">
+            <action type="assert" tag="Assert" condition="selection == 1" message="Missing 1"></action>
+            <action tag="Next Selection" type="next_selection" selection="selection"></action>
+            <action type="assert" tag="Assert" condition="selection == 2" message="Missing 2"></action>
+            <action tag="Next Selection" type="next_selection" selection="selection"></action>
+            <action type="assert" tag="Assert" condition="selection == 3" message="Missing 3"></action>
+            <action tag="Next Selection" type="next_selection" selection="selection"></action>
+            <action type="assert" tag="Assert" condition="selection == 4" message="Missing 4"></action>
+            <action tag="Next Selection" type="next_selection" selection="selection"></action>
+            <action type="assert" tag="Assert" condition="selection == 5" message="Missing 5"></action>
+            <action tag="Next Selection" type="next_selection" selection="selection"></action>
+            <action type="assert" tag="Assert" condition="selection == 6" message="Missing 6"></action>
+            <action tag="Next Selection" type="next_selection" selection="selection"></action>
+            <action type="assert" tag="Assert" condition="selection == 7" message="Missing 7"></action>
+            <action tag="Next Selection" type="next_selection" selection="selection"></action>
+            <action type="assert" tag="Assert" condition="selection == 8" message="Missing 8"></action>
+            <action tag="Next Selection" type="next_selection" selection="selection"></action>
+            <action type="assert" tag="Assert" condition="selection == 0" message="Missing 0"></action>
+            <action tag="Next Selection" type="next_selection" selection="selection"></action>
+            <action type="assert" tag="Assert" condition="selection == -1" message="Missing -1"></action>
+            <action tag="Next Selection" type="next_selection" selection="selection"></action>
+            <action type="assert" tag="Assert" condition="selection == -2" message="Missing -2"></action>
+            <action tag="Next Selection" type="next_selection" selection="selection"></action>
+            <action type="assert" tag="Assert" condition="selection == -3" message="Missing -3"></action>
+            <block tag="New Block" nsamples="1" sampling_method="cycles" selection="sequential">
+                <action type="assignment" tag="Assign Variable" variable="x" value="1"></action>
+                <task_system tag="New Task System" interruptible="YES">
+                    <task_system_state tag="Begin State System" interruptible="YES">
+                        <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                        <action type="assert" tag="Assert 2" condition="selection2 == x" message="Expected $x, got $selection2"></action>
+                        <action type="assignment" tag="Assign Variable 2" variable="x" value="x+1"></action>
+                        <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                        <transition type="conditional" tag="If Condition is True, Transition to ..." condition="x &lt; 10000" target="Next selection"></transition>
+                        <transition tag="Go to Exit" type="direct" target="Exit State System"></transition>
+                    </task_system_state>
+                    <task_system_state tag="Next selection" interruptible="YES">
+                        <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                        <action tag="Next Selection 2" type="next_selection" selection="selection2"></action>
+                        <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                        <transition type="direct" tag="Always Go to ..." target="Begin State System"></transition>
+                    </task_system_state>
+                    <task_system_state tag="Exit State System" interruptible="YES">
+                        <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                        <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                        <transition tag="Return to parent task system" type="yield"></transition>
+                    </task_system_state>
+                </task_system>
+            </block>
+        </protocol>
+    </experiment>
+</monkeyml>
