@@ -10,7 +10,6 @@
 #include "CodecAwareConduitTest.h"
 
 #include "SimpleConduitTest.h"
-#include "DummyEventTransport.h"
 #include "IPCEventTransport.h"
 
 CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( CodecAwareConduitTestFixture, "Unit Test" );

@@ -7,17 +7,6 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
-		0E60D6030E6D89E500B82521 /* dfindexerUninstall */ = {
-			isa = PBXAggregateTarget;
-			buildConfigurationList = 0E60D6060E6D8A1700B82521 /* Build configuration list for PBXAggregateTarget "dfindexerUninstall" */;
-			buildPhases = (
-				0E60D6020E6D89E500B82521 /* ShellScript */,
-			);
-			dependencies = (
-			);
-			name = dfindexerUninstall;
-			productName = diindexerInstall;
-		};
 		E16EB57C114EDDB500F23DB5 /* Everything */ = {
 			isa = PBXAggregateTarget;
 			buildConfigurationList = E16EB58A114EDE1100F23DB5 /* Build configuration list for PBXAggregateTarget "Everything" */;
@@ -34,9 +23,7 @@
 
 /* Begin PBXBuildFile section */
 		0E587B3F0D6B63B20053BE5C /* EventWrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = 0E587B3D0D6B63B20053BE5C /* EventWrapper.h */; };
-		0E587B400D6B63B20053BE5C /* EventWrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E587B3E0D6B63B20053BE5C /* EventWrapper.cpp */; };
 		0E7788180D6B44FB00AF41F2 /* DataFileUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = 0E7788160D6B44FB00AF41F2 /* DataFileUtilities.h */; };
-		0E7788190D6B44FB00AF41F2 /* DataFileUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E7788170D6B44FB00AF41F2 /* DataFileUtilities.cpp */; };
 		0EA2B4C50D6BB349002396FC /* EventBlock.h in Headers */ = {isa = PBXBuildFile; fileRef = 0EA2B4C30D6BB349002396FC /* EventBlock.h */; };
 		0EA2B4C60D6BB349002396FC /* EventBlock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EA2B4C40D6BB349002396FC /* EventBlock.cpp */; };
 		0EA58F120D6B20410027A3AC /* Test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EA58EB50D6B1D850027A3AC /* Test.cpp */; };
@@ -50,21 +37,15 @@
 		5CA077D810CEA49500000A95 /* PythonDataBindingsHelpers.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CA077D610CEA49500000A95 /* PythonDataBindingsHelpers.h */; };
 		5CA077D910CEA49500000A95 /* PythonDataBindingsHelpers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CA077D710CEA49500000A95 /* PythonDataBindingsHelpers.cpp */; };
 		5CA077E010CEA53000000A95 /* DataFileIndexer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5073E0C409E734A800EC74B6 /* DataFileIndexer.cpp */; };
-		5CA077E110CEA53100000A95 /* DataFileUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E7788170D6B44FB00AF41F2 /* DataFileUtilities.cpp */; };
 		5CA077E210CEA53400000A95 /* dfindex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EE378A90D6CA7B30065846A /* dfindex.cpp */; };
 		5CA077E310CEA53400000A95 /* EventBlock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EA2B4C40D6BB349002396FC /* EventBlock.cpp */; };
-		5CA077E410CEA53500000A95 /* EventWrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E587B3E0D6B63B20053BE5C /* EventWrapper.cpp */; };
 		5CA077E610CEA53C00000A95 /* PythonDataBindingsHelpers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CA077D710CEA49500000A95 /* PythonDataBindingsHelpers.cpp */; };
+		E167F67115D2A7F50096459C /* DataFileIndexer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5073E0C409E734A800EC74B6 /* DataFileIndexer.cpp */; };
+		E167F67515D2A7FE0096459C /* EventBlock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EA2B4C40D6BB349002396FC /* EventBlock.cpp */; };
+		E167F67615D2A8020096459C /* dfindex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EE378A90D6CA7B30065846A /* dfindex.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		0EA58F9D0D6B254C0027A3AC /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 0EA58F990D6B24FF0027A3AC;
-			remoteInfo = dfindex;
-		};
 		E16EB580114EDDC700F23DB5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
@@ -91,9 +72,7 @@
 /* Begin PBXFileReference section */
 		08FB77AAFE841565C02AAC07 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
 		0E587B3D0D6B63B20053BE5C /* EventWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventWrapper.h; sourceTree = "<group>"; };
-		0E587B3E0D6B63B20053BE5C /* EventWrapper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventWrapper.cpp; sourceTree = "<group>"; };
 		0E7788160D6B44FB00AF41F2 /* DataFileUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataFileUtilities.h; sourceTree = "<group>"; };
-		0E7788170D6B44FB00AF41F2 /* DataFileUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DataFileUtilities.cpp; sourceTree = "<group>"; };
 		0EA2B4C30D6BB349002396FC /* EventBlock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventBlock.h; sourceTree = "<group>"; };
 		0EA2B4C40D6BB349002396FC /* EventBlock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventBlock.cpp; sourceTree = "<group>"; };
 		0EA58EB50D6B1D850027A3AC /* Test.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Test.cpp; sourceTree = "<group>"; };
@@ -103,7 +82,6 @@
 		0EA58F9A0D6B24FF0027A3AC /* libdfindex.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libdfindex.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		0EE378A80D6CA7B30065846A /* dfindex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dfindex.h; sourceTree = "<group>"; };
 		0EE378A90D6CA7B30065846A /* dfindex.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = dfindex.cpp; sourceTree = "<group>"; };
-		32BAE0B70371A74B00C91783 /* DataFileIndexer_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataFileIndexer_Prefix.pch; sourceTree = "<group>"; };
 		50149BD909E781A5002DEE6A /* DataFileIndexer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataFileIndexer.h; sourceTree = "<group>"; };
 		5073E0C409E734A800EC74B6 /* DataFileIndexer.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = DataFileIndexer.cpp; sourceTree = "<group>"; };
 		5073E0C609E734A800EC74B6 /* DataFileIndexerProj.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = DataFileIndexerProj.xcconfig; sourceTree = "<group>"; };
@@ -194,13 +172,10 @@
 			isa = PBXGroup;
 			children = (
 				5C2A62021039DDBD00A62CBA /* Python Bindings */,
-				32BAE0B70371A74B00C91783 /* DataFileIndexer_Prefix.pch */,
 				50149BD909E781A5002DEE6A /* DataFileIndexer.h */,
 				5073E0C409E734A800EC74B6 /* DataFileIndexer.cpp */,
 				0E7788160D6B44FB00AF41F2 /* DataFileUtilities.h */,
-				0E7788170D6B44FB00AF41F2 /* DataFileUtilities.cpp */,
 				0E587B3D0D6B63B20053BE5C /* EventWrapper.h */,
-				0E587B3E0D6B63B20053BE5C /* EventWrapper.cpp */,
 				0EA2B4C30D6BB349002396FC /* EventBlock.h */,
 				0EA2B4C40D6BB349002396FC /* EventBlock.cpp */,
 				0EE378A80D6CA7B30065846A /* dfindex.h */,
@@ -306,7 +281,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				0EA58F9E0D6B254C0027A3AC /* PBXTargetDependency */,
 			);
 			name = Test;
 			productName = Test;
@@ -392,7 +366,6 @@
 				E16EB57C114EDDB500F23DB5 /* Everything */,
 				0EA58F0A0D6B20120027A3AC /* Test */,
 				0EA58F990D6B24FF0027A3AC /* dfindex */,
-				0E60D6030E6D89E500B82521 /* dfindexerUninstall */,
 				5C2A61FD1039DD7B00A62CBA /* Python Bindings */,
 				5CA0779B10CE9F6B00000A95 /* Python Bindings Test */,
 			);
@@ -410,19 +383,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		0E60D6020E6D89E500B82521 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "INSTALL_PATH=/Library/MonkeyWorks\n\nrm -Rf \"$INSTALL_PATH/lib/libdfindex.a\"\nrm -Rf \"$INSTALL_PATH/include/dfindex/\"\n\nexit 0";
-		};
 		0EA58FA20D6B256A0027A3AC /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -458,6 +418,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				0EA58F120D6B20410027A3AC /* Test.cpp in Sources */,
+				E167F67115D2A7F50096459C /* DataFileIndexer.cpp in Sources */,
+				E167F67515D2A7FE0096459C /* EventBlock.cpp in Sources */,
+				E167F67615D2A8020096459C /* dfindex.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -466,8 +429,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				0EA58FA00D6B25580027A3AC /* DataFileIndexer.cpp in Sources */,
-				0E7788190D6B44FB00AF41F2 /* DataFileUtilities.cpp in Sources */,
-				0E587B400D6B63B20053BE5C /* EventWrapper.cpp in Sources */,
 				0EA2B4C60D6BB349002396FC /* EventBlock.cpp in Sources */,
 				0EE378AB0D6CA7B30065846A /* dfindex.cpp in Sources */,
 			);
@@ -488,10 +449,8 @@
 			files = (
 				5CA077A910CE9FDF00000A95 /* PythonBindingsTest.cpp in Sources */,
 				5CA077E010CEA53000000A95 /* DataFileIndexer.cpp in Sources */,
-				5CA077E110CEA53100000A95 /* DataFileUtilities.cpp in Sources */,
 				5CA077E210CEA53400000A95 /* dfindex.cpp in Sources */,
 				5CA077E310CEA53400000A95 /* EventBlock.cpp in Sources */,
-				5CA077E410CEA53500000A95 /* EventWrapper.cpp in Sources */,
 				5CA077E610CEA53C00000A95 /* PythonDataBindingsHelpers.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -499,11 +458,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		0EA58F9E0D6B254C0027A3AC /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 0EA58F990D6B24FF0027A3AC /* dfindex */;
-			targetProxy = 0EA58F9D0D6B254C0027A3AC /* PBXContainerItemProxy */;
-		};
 		E16EB581114EDDC700F23DB5 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 0EA58F990D6B24FF0027A3AC /* dfindex */;
@@ -526,33 +480,18 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E1C78767116FA6C1004928BF /* Development.xcconfig */;
 			buildSettings = {
-				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
-				LIBRARY_SEARCH_PATHS = (
-					/usr/lib,
-					/usr/local/lib,
-					"$(MW_LIB_DIR)",
-				);
 			};
 			name = Development;
 		};
 		5C7243001097F3ED004887A5 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_OBJC_CALL_CXX_CDTORS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
-				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INFOPLIST_FILE = "Test-Info.plist";
-				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
 				OTHER_LDFLAGS = (
-					"-lboost_system-mt",
-					"-lboost_filesystem-mt",
-					"-lboost_serialization-mt",
-					"-framework",
-					Carbon,
-					"-ldfindex",
+					"-lboost_system",
+					"-lboost_filesystem",
+					"-lboost_serialization",
 					"-lscarab",
 				);
 				PRODUCT_NAME = Test;
@@ -563,45 +502,20 @@
 		5C7243011097F3ED004887A5 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
 				INSTALL_PATH = "$(MW_DEVELOPER_DIR)";
-				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
 				PRODUCT_NAME = dfindex;
-			};
-			name = Development;
-		};
-		5C7243021097F3ED004887A5 /* Development */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				PRODUCT_NAME = diindexerInstall;
 			};
 			name = Development;
 		};
 		5C7243031097F3ED004887A5 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				COPY_PHASE_STRIP = NO;
 				EXECUTABLE_EXTENSION = so;
-				EXECUTABLE_PREFIX = "";
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_MODEL_TUNING = G5;
-				GCC_OPTIMIZATION_LEVEL = 0;
 				HEADER_SEARCH_PATHS = (
 					/usr/include/python2.6,
 					$MW_INCLUDE_DIR,
 				);
-				INSTALL_PATH = /usr/local/lib;
-				LIBRARY_SEARCH_PATHS = (
-					/usr/lib,
-					$MW_LIB_DIR,
-				);
+				INSTALL_PATH = "$(APP_SUPPORT_DIR)/Scripting/Python/mworks";
 				OTHER_LDFLAGS = (
 					"-undefined",
 					dynamic_lookup,
@@ -619,16 +533,10 @@
 		5CA0779F10CE9F6C00000A95 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_MODEL_TUNING = G5;
-				GCC_OPTIMIZATION_LEVEL = 0;
 				HEADER_SEARCH_PATHS = (
 					/usr/include/python2.6,
 					"$(MW_INCLUDE_DIR)",
 				);
-				INSTALL_PATH = /usr/local/bin;
 				OTHER_LDFLAGS = (
 					"-lboost_filesystem",
 					"-lpython",
@@ -645,9 +553,6 @@
 		E16EB57E114EDDB500F23DB5 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
 				PRODUCT_NAME = Everything;
 			};
 			name = Development;
@@ -655,14 +560,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		0E60D6060E6D8A1700B82521 /* Build configuration list for PBXAggregateTarget "dfindexerUninstall" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				5C7243021097F3ED004887A5 /* Development */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
-		};
 		0EA58F100D6B20120027A3AC /* Build configuration list for PBXNativeTarget "Test" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

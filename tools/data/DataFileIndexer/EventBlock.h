@@ -35,33 +35,34 @@ protected:
     }
 	
 	long int file_offset;
-	MWorksTime minimum_time;
-	MWorksTime maximum_time;
+	MWTime minimum_time;
+	MWTime maximum_time;
 	std::vector<unsigned int> event_codes;
 	std::vector<boost::shared_ptr<EventBlock> > _children;
 	
 public:
 	EventBlock() {};
 	EventBlock(const long int offset,
-			   const MWorksTime min_time,
-			   const MWorksTime max_time,
+			   const MWTime min_time,
+			   const MWTime max_time,
 			   const std::vector<unsigned int> _event_codes);
 	
 	EventBlock(const std::vector<boost::shared_ptr<EventBlock> > child_event_blocks);
 	
-	bool hasTime(const MWorksTime lower_bound, 
-				 const MWorksTime upper_bound) const;
+	bool hasTime(const MWTime lower_bound, 
+				 const MWTime upper_bound) const;
 	bool hasEventCode(const unsigned int event_code) const;
 	bool hasEventCodes(const std::vector<unsigned int> &event_codes_to_match) const;
 	bool isLeaf() const;
 	void addChild(boost::shared_ptr<EventBlock> child);	
-	MWorksTime maximumTime() const;
-	MWorksTime minimumTime() const;
+	MWTime maximumTime() const;
+	MWTime minimumTime() const;
 	long int blockOffset() const;
 	std::vector<unsigned int> eventCodes() const;
-	std::vector<boost::shared_ptr<EventBlock> > children(const std::vector<unsigned int> &event_codes,
-														 const MWorksTime lower_bound,
-														 const MWorksTime upper_bound) const;	
+	void children(std::vector<boost::shared_ptr<EventBlock> > &matching_child_blocks,
+                  const std::vector<unsigned int> &event_codes,
+                  const MWTime lower_bound,
+                  const MWTime upper_bound) const;	
 };
 
 #endif // EventBlock_

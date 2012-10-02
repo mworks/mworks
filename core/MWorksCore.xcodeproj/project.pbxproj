@@ -7,17 +7,6 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
-		0E121C930E6B1EF7007B29B8 /* CoreUninstall */ = {
-			isa = PBXAggregateTarget;
-			buildConfigurationList = 0E121C960E6B1F0D007B29B8 /* Build configuration list for PBXAggregateTarget "CoreUninstall" */;
-			buildPhases = (
-				0E121C920E6B1EF7007B29B8 /* ShellScript */,
-			);
-			dependencies = (
-			);
-			name = CoreUninstall;
-			productName = UninstallCore;
-		};
 		5C488A160F4E27CD00C5A526 /* Set Version String */ = {
 			isa = PBXAggregateTarget;
 			buildConfigurationList = 5C488A2D0F4E281F00C5A526 /* Build configuration list for PBXAggregateTarget "Set Version String" */;
@@ -447,6 +436,7 @@
 		E104A8DE133B8D7200D36236 /* ParameterValue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E104A8DC133B8D7200D36236 /* ParameterValue.cpp */; };
 		E104A8F0133B8D9700D36236 /* StandardComponentFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = E104A8EF133B8D9700D36236 /* StandardComponentFactory.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E104A8F4133B8DB400D36236 /* StandardStimulusFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = E104A8F3133B8DB400D36236 /* StandardStimulusFactory.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E10AECD215DE904300E71CA7 /* IPCUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = E10AECD115DE904300E71CA7 /* IPCUtilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E11AFFBD118F865C0034CC04 /* IODevice.h in Headers */ = {isa = PBXBuildFile; fileRef = E11AFFBC118F865C0034CC04 /* IODevice.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E127D38C133A5CFC00532496 /* Map.h in Headers */ = {isa = PBXBuildFile; fileRef = E127D38B133A5CFC00532496 /* Map.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E127D3AD133A615C00532496 /* MWorksMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = E127D3AC133A615C00532496 /* MWorksMacros.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -901,7 +891,7 @@
 		5CE04BD50BB0724700263274 /* SchedulerTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SchedulerTest.cpp; sourceTree = "<group>"; };
 		5CE30A470CF9FAE400BEB3E3 /* MWParserTransformation.xsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = MWParserTransformation.xsl; path = Core/XMLParser/MWParserTransformation.xsl; sourceTree = "<group>"; };
 		5CE30A490CF9FAFA00BEB3E3 /* XMLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XMLParser.h; path = Core/XMLParser/XMLParser.h; sourceTree = "<group>"; };
-		5CE30A4A0CF9FAFA00BEB3E3 /* XMLParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = XMLParser.cpp; path = Core/XMLParser/XMLParser.cpp; sourceTree = "<group>"; };
+		5CE30A4A0CF9FAFA00BEB3E3 /* XMLParser.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = XMLParser.cpp; path = Core/XMLParser/XMLParser.cpp; sourceTree = "<group>"; };
 		5CE30A4D0CFA49D600BEB3E3 /* Component.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Component.h; path = Core/PluginServices/Component.h; sourceTree = "<group>"; };
 		5CE30A4E0CFA49D600BEB3E3 /* Component.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Component.cpp; path = Core/PluginServices/Component.cpp; sourceTree = "<group>"; };
 		5CE65B930B619C930060AB37 /* LinkedListTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LinkedListTest.h; sourceTree = "<group>"; };
@@ -917,7 +907,7 @@
 		5CF73C7F086260E900F453C3 /* ZenStateSystemPlugin.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ZenStateSystemPlugin.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		5CF73C80086260E900F453C3 /* ZenStateSystemPlugin-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ZenStateSystemPlugin-Info.plist"; sourceTree = SOURCE_ROOT; };
 		5CF73C860862616800F453C3 /* ZenStateSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZenStateSystem.h; path = ZenStateSystem/ZenStateSystem.h; sourceTree = SOURCE_ROOT; };
-		5CF73C870862616800F453C3 /* ZenStateSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ZenStateSystem.cpp; path = ZenStateSystem/ZenStateSystem.cpp; sourceTree = SOURCE_ROOT; };
+		5CF73C870862616800F453C3 /* ZenStateSystem.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = ZenStateSystem.cpp; path = ZenStateSystem/ZenStateSystem.cpp; sourceTree = SOURCE_ROOT; };
 		5CF855FF119D8DCD004167A5 /* Shader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Shader.cpp; sourceTree = "<group>"; };
 		5CF85600119D8DCD004167A5 /* Shader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Shader.h; sourceTree = "<group>"; };
 		5CF85610119D8FC3004167A5 /* glew.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = glew.c; sourceTree = "<group>"; };
@@ -997,7 +987,7 @@
 		DA2CE12107E9F88900C68AEF /* Buffers.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Buffers.h; path = Core/Events/Buffers.h; sourceTree = SOURCE_ROOT; };
 		DA2CE12207E9F88900C68AEF /* Event.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = Event.cpp; path = Core/Events/Event.cpp; sourceTree = SOURCE_ROOT; };
 		DA2CE12307E9F88900C68AEF /* Event.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Event.h; path = Core/Events/Event.h; sourceTree = SOURCE_ROOT; };
-		DA2CE12807E9F8B200C68AEF /* LoadingUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = LoadingUtilities.cpp; path = Core/ExperimentDataLoading/LoadingUtilities.cpp; sourceTree = SOURCE_ROOT; };
+		DA2CE12807E9F8B200C68AEF /* LoadingUtilities.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 30; name = LoadingUtilities.cpp; path = Core/ExperimentDataLoading/LoadingUtilities.cpp; sourceTree = SOURCE_ROOT; };
 		DA2CE12907E9F8B200C68AEF /* LoadingUtilities.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = LoadingUtilities.h; path = Core/ExperimentDataLoading/LoadingUtilities.h; sourceTree = SOURCE_ROOT; };
 		DA2CE13207E9F8C900C68AEF /* Interpreter.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = Interpreter.cpp; path = Core/Interpreters/Interpreter.cpp; sourceTree = SOURCE_ROOT; };
 		DA2CE13307E9F8C900C68AEF /* Interpreter.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Interpreter.h; path = Core/Interpreters/Interpreter.h; sourceTree = SOURCE_ROOT; };
@@ -1031,7 +1021,7 @@
 		DA2CE17A07E9F93900C68AEF /* States.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = States.cpp; path = Core/ParadigmComponents/States.cpp; sourceTree = SOURCE_ROOT; };
 		DA2CE17B07E9F93900C68AEF /* States.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = States.h; path = Core/ParadigmComponents/States.h; sourceTree = SOURCE_ROOT; };
 		DA2CE17D07E9F93900C68AEF /* TrialBuildingBlocks.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = TrialBuildingBlocks.h; path = Core/ParadigmComponents/TrialBuildingBlocks.h; sourceTree = "<group>"; };
-		DA2CE19007E9F94300C68AEF /* PlatformDependentServices.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = PlatformDependentServices.cpp; path = Core/PlatformDependent/PlatformDependentServices.cpp; sourceTree = SOURCE_ROOT; };
+		DA2CE19007E9F94300C68AEF /* PlatformDependentServices.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 30; name = PlatformDependentServices.cpp; path = Core/PlatformDependent/PlatformDependentServices.cpp; sourceTree = SOURCE_ROOT; };
 		DA2CE19107E9F94300C68AEF /* PlatformDependentServices.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = PlatformDependentServices.h; path = Core/PlatformDependent/PlatformDependentServices.h; sourceTree = SOURCE_ROOT; };
 		DA2CE19407E9F94B00C68AEF /* ComponentFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ComponentFactory.cpp; path = Core/PluginServices/ComponentFactory.cpp; sourceTree = "<group>"; };
 		DA2CE19507E9F94B00C68AEF /* ComponentFactory.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ComponentFactory.h; path = Core/PluginServices/ComponentFactory.h; sourceTree = "<group>"; };
@@ -1055,15 +1045,15 @@
 		DA2CE1AF07E9F95600C68AEF /* Utilities.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Utilities.h; path = Core/RealtimeServices/Utilities.h; sourceTree = SOURCE_ROOT; };
 		DA2CE1C007E9F96500C68AEF /* ScarabServices.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ScarabServices.cpp; path = Core/Scarab/ScarabServices.cpp; sourceTree = SOURCE_ROOT; };
 		DA2CE1C107E9F96500C68AEF /* ScarabServices.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ScarabServices.h; path = Core/Scarab/ScarabServices.h; sourceTree = SOURCE_ROOT; };
-		DA2CE1C707E9F96E00C68AEF /* OpenGLContextManager.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = OpenGLContextManager.cpp; path = Core/Stimuli/OpenGLContextManager.cpp; sourceTree = SOURCE_ROOT; };
+		DA2CE1C707E9F96E00C68AEF /* OpenGLContextManager.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 30; name = OpenGLContextManager.cpp; path = Core/Stimuli/OpenGLContextManager.cpp; sourceTree = SOURCE_ROOT; };
 		DA2CE1C807E9F96E00C68AEF /* OpenGLContextManager.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = OpenGLContextManager.h; path = Core/Stimuli/OpenGLContextManager.h; sourceTree = SOURCE_ROOT; };
-		DA2CE1C907E9F96E00C68AEF /* StandardStimuli.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = StandardStimuli.cpp; path = Core/Stimuli/StandardStimuli.cpp; sourceTree = SOURCE_ROOT; };
+		DA2CE1C907E9F96E00C68AEF /* StandardStimuli.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 30; name = StandardStimuli.cpp; path = Core/Stimuli/StandardStimuli.cpp; sourceTree = SOURCE_ROOT; };
 		DA2CE1CA07E9F96E00C68AEF /* StandardStimuli.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = StandardStimuli.h; path = Core/Stimuli/StandardStimuli.h; sourceTree = SOURCE_ROOT; };
 		DA2CE1CB07E9F96E00C68AEF /* StimMirrorController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = StimMirrorController.h; path = Core/Stimuli/StimMirrorController.h; sourceTree = SOURCE_ROOT; };
 		DA2CE1CC07E9F96E00C68AEF /* StimMirrorController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = StimMirrorController.m; path = Core/Stimuli/StimMirrorController.m; sourceTree = SOURCE_ROOT; };
-		DA2CE1CD07E9F96E00C68AEF /* Stimulus.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = Stimulus.cpp; path = Core/Stimuli/Stimulus.cpp; sourceTree = SOURCE_ROOT; };
+		DA2CE1CD07E9F96E00C68AEF /* Stimulus.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 30; name = Stimulus.cpp; path = Core/Stimuli/Stimulus.cpp; sourceTree = SOURCE_ROOT; };
 		DA2CE1CE07E9F96E00C68AEF /* Stimulus.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Stimulus.h; path = Core/Stimuli/Stimulus.h; sourceTree = SOURCE_ROOT; };
-		DA2CE1CF07E9F96E00C68AEF /* StimulusDisplay.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = StimulusDisplay.cpp; path = Core/Stimuli/StimulusDisplay.cpp; sourceTree = SOURCE_ROOT; };
+		DA2CE1CF07E9F96E00C68AEF /* StimulusDisplay.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 30; name = StimulusDisplay.cpp; path = Core/Stimuli/StimulusDisplay.cpp; sourceTree = SOURCE_ROOT; };
 		DA2CE1DC07E9F97700C68AEF /* SwigBridges.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = SwigBridges.cpp; path = Core/SwigWrappers/SwigBridges.cpp; sourceTree = "<group>"; };
 		DA2CE1DD07E9F97700C68AEF /* SwigBridges.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = SwigBridges.h; path = Core/SwigWrappers/SwigBridges.h; sourceTree = "<group>"; };
 		DA2CE1E007E9F97F00C68AEF /* GenericData.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = GenericData.cpp; path = Core/Variables/GenericData.cpp; sourceTree = SOURCE_ROOT; };
@@ -1089,7 +1079,7 @@
 		DA96B8B20981901F0007610D /* AbstractCoreBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AbstractCoreBuilder.h; path = Core/CoreBuilders/AbstractCoreBuilder.h; sourceTree = SOURCE_ROOT; };
 		DA96B8B30981901F0007610D /* AbstractCoreBuilder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AbstractCoreBuilder.cpp; path = Core/CoreBuilders/AbstractCoreBuilder.cpp; sourceTree = SOURCE_ROOT; };
 		DA96B8D40981951E0007610D /* StandardServerCoreBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StandardServerCoreBuilder.h; path = Core/CoreBuilders/StandardServerCoreBuilder.h; sourceTree = SOURCE_ROOT; };
-		DA96B8D50981951E0007610D /* StandardServerCoreBuilder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StandardServerCoreBuilder.cpp; path = Core/CoreBuilders/StandardServerCoreBuilder.cpp; sourceTree = SOURCE_ROOT; };
+		DA96B8D50981951E0007610D /* StandardServerCoreBuilder.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = StandardServerCoreBuilder.cpp; path = Core/CoreBuilders/StandardServerCoreBuilder.cpp; sourceTree = SOURCE_ROOT; };
 		DA96B90609819B4E0007610D /* CoreBuilderForeman.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CoreBuilderForeman.h; path = Core/CoreBuilders/CoreBuilderForeman.h; sourceTree = SOURCE_ROOT; };
 		DA96B90709819B4E0007610D /* CoreBuilderForeman.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CoreBuilderForeman.cpp; path = Core/CoreBuilders/CoreBuilderForeman.cpp; sourceTree = SOURCE_ROOT; };
 		DA96C0E40988546D0007610D /* ExperimentPackager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ExperimentPackager.h; path = Core/ExperimentDataLoading/ExperimentPackager.h; sourceTree = SOURCE_ROOT; };
@@ -1102,6 +1092,7 @@
 		E104A8DC133B8D7200D36236 /* ParameterValue.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ParameterValue.cpp; path = Core/PluginServices/ParameterValue.cpp; sourceTree = "<group>"; };
 		E104A8EF133B8D9700D36236 /* StandardComponentFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StandardComponentFactory.h; path = Core/PluginServices/StandardComponentFactory.h; sourceTree = "<group>"; };
 		E104A8F3133B8DB400D36236 /* StandardStimulusFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StandardStimulusFactory.h; path = Core/Stimuli/StandardStimulusFactory.h; sourceTree = "<group>"; };
+		E10AECD115DE904300E71CA7 /* IPCUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IPCUtilities.h; sourceTree = "<group>"; };
 		E11542181193471F00DDE09D /* mw_test */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = mw_test; sourceTree = "<group>"; };
 		E11AFFBC118F865C0034CC04 /* IODevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IODevice.h; path = Core/IODevices/IODevice.h; sourceTree = "<group>"; };
 		E127D38B133A5CFC00532496 /* Map.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Map.h; sourceTree = "<group>"; };
@@ -1376,6 +1367,7 @@
 				5CB6C46C0E9A92B1006923EC /* DummyEventTransport.cpp */,
 				5CB6C46D0E9A92B1006923EC /* DummyEventTransport.h */,
 				5C2386B80E8D18FA00CDC4FC /* EventTransport.h */,
+				E10AECD115DE904300E71CA7 /* IPCUtilities.h */,
 				5C2386BA0E8D18FA00CDC4FC /* IPCEventTransport.h */,
 				5C2386B90E8D18FA00CDC4FC /* IPCEventTransport.cpp */,
 			);
@@ -2478,6 +2470,7 @@
 				E104A8F0133B8D9700D36236 /* StandardComponentFactory.h in Headers */,
 				E104A8F4133B8DB400D36236 /* StandardStimulusFactory.h in Headers */,
 				E16BC17B137D952D0052D8E1 /* MachUtilities.h in Headers */,
+				E10AECD215DE904300E71CA7 /* IPCUtilities.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2697,7 +2690,6 @@
 				5C4D232409DC59410082BF9F /* MWorksCoreTestRunner */,
 				0E8014110E422E2A00D6DE20 /* MarionetteTest */,
 				E11542041193460300DDE09D /* mw_test */,
-				0E121C930E6B1EF7007B29B8 /* CoreUninstall */,
 				5CCE1CCF10A4692500EF5866 /* PyMW */,
 				5CDB8B230E9C4A6300993D99 /* Python MW Conduit */,
 				5C488A160F4E27CD00C5A526 /* Set Version String */,
@@ -2784,19 +2776,6 @@
 			shellPath = /bin/zsh;
 			shellScript = "export FULL_NAME=${PRODUCT_NAME}.${WRAPPER_EXTENSION}\n\nrm -Rf \"${TESTS_DIR}/${FULL_NAME}\"\ncp -Rf \"${BUILT_PRODUCTS_DIR}/${FULL_NAME}\" \"${TESTS_DIR}/\"\n\n\n";
 		};
-		0E121C920E6B1EF7007B29B8 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# shell script goes here\nMW_INSTALL_DIR=/Library/MWorks\nrm -rf \"/Library/Frameworks/MWorksCore.framework\"\nrm -rf \"${MW_INSTALL_DIR}/tests/MarionetteTest.app\"\nrm -rf \"${MW_INSTALL_DIR}/tests/MWorksCoreTest.framework\"\nrm -rf \"${MW_INSTALL_DIR}/tests/MWorksCoreTestRunner\"\nrm -rf \"${MW_INSTALL_DIR}/Plugins/LowPrioritySchedulerPlugin.bundle\"\nrm -rf \"${MW_INSTALL_DIR}/Plugins/MachClockPlugin.bundle\"\nrm -rf \"${MW_INSTALL_DIR}/Plugins/ZenSchedulerPlugin.bundle\"\nrm -rf \"${MW_INSTALL_DIR}/Plugins/ZenStateSystemPlugin.bundle\"\n\n\nexit 0";
-		};
 		5C0E757509D1A886002295FB /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -2873,7 +2852,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/zsh;
-			shellScript = "export SOURCE_DIR=${PROJECT_DIR}\nexport MW_PYTHON_DIR=${APP_SUPPORT_DIR}/Scripting/Python/mworks\n\nmkdir -p \"${MW_PYTHON_DIR}\"\n\ncp -r ${SOURCE_DIR}/Core/Python/* \"${MW_PYTHON_DIR}\"\n\necho \"${APP_SUPPORT_DIR}/Scripting/Python\" > /Library/Python/2.6/site-packages/mworks.pth\n\nmkdir -p /Library/Python/2.7/site-packages\necho \"${APP_SUPPORT_DIR}/Scripting/Python\" > /Library/Python/2.7/site-packages/mworks.pth\n";
+			shellScript = "export SOURCE_DIR=${PROJECT_DIR}\nexport MW_PYTHON_DIR=${APP_SUPPORT_DIR}/Scripting/Python/mworks\n\nmkdir -p \"${MW_PYTHON_DIR}\"\n\ncp -r ${SOURCE_DIR}/Core/Python/* \"${MW_PYTHON_DIR}\"\n\n#echo \"${APP_SUPPORT_DIR}/Scripting/Python\" > /Library/Python/2.6/site-packages/mworks.pth\n\n#mkdir -p /Library/Python/2.7/site-packages\n#echo \"${APP_SUPPORT_DIR}/Scripting/Python\" > /Library/Python/2.7/site-packages/mworks.pth\n";
 		};
 		5CEE864C081D53A700F366DE /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -3361,16 +3340,10 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		0E121C940E6B1EF8007B29B8 /* Development */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = CoreUninstall;
-			};
-			name = Development;
-		};
 		0E8014150E422E2B00D6DE20 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				HEADER_SEARCH_PATHS = (
 					/usr/include/libxml2,
 					"$(MW_INCLUDE_DIR)",
@@ -3393,7 +3366,6 @@
 		5C0E757709D1A886002295FB /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				GCC_PREPROCESSOR_DEFINITIONS = LOW_PRIORITY_MODE;
 				INFOPLIST_FILE = "LowPrioritySchedulerPlugin-Info.plist";
 				INSTALL_PATH = "$(PLUGINS_DIR)";
@@ -3421,12 +3393,10 @@
 					"$(MW_INCLUDE_DIR)",
 				);
 				INFOPLIST_FILE = "MWorksCore-Info.plist";
-				OTHER_CFLAGS = "-ObjC++";
 				OTHER_LDFLAGS = (
 					"$(MW_LIB_DIR)/libpng.a",
 					"$(MW_LIB_DIR)/libtiff.a",
 					"$(MW_LIB_DIR)/libjpeg.a",
-					"$(MW_LIB_DIR)/libmng.a",
 					"$(MW_LIB_DIR)/liblcms.a",
 					"-lz",
 					"-framework",
@@ -3462,8 +3432,6 @@
 		5C0E84EB086D85D400B3EE7C /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
-				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				INFOPLIST_FILE = "MachClockPlugin-Info.plist";
 				INSTALL_PATH = "$(PLUGINS_DIR)";
 				OTHER_LDFLAGS = (
@@ -3481,7 +3449,6 @@
 		5C0E84FB086D85D400B3EE7C /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				GCC_PREPROCESSOR_DEFINITIONS = REALTIME_SCHEDULER;
 				INFOPLIST_FILE = "ZenSchedulerPlugin-Info.plist";
 				INSTALL_PATH = "$(PLUGINS_DIR)";
@@ -3500,10 +3467,7 @@
 		5C0E84FF086D85D400B3EE7C /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_DEBUGGING_SYMBOLS = full;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
-				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				INFOPLIST_FILE = "ZenStateSystemPlugin-Info.plist";
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -3520,21 +3484,7 @@
 		5C0E8503086D85D400B3EE7C /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DEBUGGING_SYMBOLS = full;
-				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
-				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = Everything;
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-				ZERO_LINK = NO;
 			};
 			name = Development;
 		};
@@ -3542,16 +3492,12 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5C0CD7A41149E75F00B1C674 /* Development.xcconfig */;
 			buildSettings = {
-				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 			};
 			name = Development;
 		};
 		5C488A170F4E27CD00C5A526 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
 				PRODUCT_NAME = "Set Version String";
 			};
 			name = Development;
@@ -3563,11 +3509,7 @@
 					"$(FRAMEWORK_SEARCH_PATHS)",
 					"\"$(TESTS_DIR)\"",
 				);
-				GCC_DEBUGGING_SYMBOLS = full;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INSTALL_PATH = "$(TESTS_DIR)";
 				OTHER_LDFLAGS = (
@@ -3590,15 +3532,10 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
-				GCC_DEBUGGING_SYMBOLS = full;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
-				GCC_INPUT_FILETYPE = sourcecode.cpp.cpp;
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INFOPLIST_FILE = "MWorksCoreTest-Info.plist";
 				INSTALL_PATH = "$(TESTS_DIR)";
 				OTHER_LDFLAGS = (
-					"-lstdc++",
 					"-framework",
 					AppKit,
 					"-framework",
@@ -3610,23 +3547,12 @@
 					"-lboost_serialization",
 				);
 				PRODUCT_NAME = MWorksCoreTest;
-				STANDARD_C_PLUS_PLUS_LIBRARY_TYPE = dynamic;
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-					"-Wno-sign-compare",
-					"-Wno-write-strings",
-				);
 			};
 			name = Development;
 		};
 		5CCE1CD010A4692500EF5866 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
 				PRODUCT_NAME = PyMW;
 			};
 			name = Development;
@@ -3635,9 +3561,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_EXTENSION = so;
-				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
-				GCC_INPUT_FILETYPE = sourcecode.cpp.cpp;
 				HEADER_SEARCH_PATHS = (
 					/usr/include/python2.6,
 					$MW_INCLUDE_DIR,
@@ -3650,16 +3574,12 @@
 					"-lboost_python",
 				);
 				PRODUCT_NAME = _conduit;
-				WARNING_CFLAGS = "-Wno-write-strings";
 			};
 			name = Development;
 		};
 		E11542051193460300DDE09D /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
 				PRODUCT_NAME = test_mworks;
 			};
 			name = Development;
@@ -3667,14 +3587,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		0E121C960E6B1F0D007B29B8 /* Build configuration list for PBXAggregateTarget "CoreUninstall" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				0E121C940E6B1EF8007B29B8 /* Development */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
-		};
 		0E8014170E422E2B00D6DE20 /* Build configuration list for PBXNativeTarget "MarionetteTest" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

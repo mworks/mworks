@@ -41,6 +41,7 @@ void PythonDataFile::open(){
 void PythonDataFile::close(){
     // close it
     indexer = shared_ptr<dfindex>();
+    eventsIterator = shared_ptr<DataFileIndexer::EventsIterator>();
 }
 
 bool PythonDataFile::exists(){
@@ -55,64 +56,60 @@ bool PythonDataFile::valid(){
     return (indexer != NULL);
 }
 
-MWorksTime PythonDataFile::minimum_time(){ return indexer->getMinimumTime(); }
-MWorksTime PythonDataFile::maximum_time(){ return indexer->getMaximumTime(); }
-
-std::vector<EventWrapper> PythonDataFile::test_function(int number){
-    
-    std::vector<EventWrapper> returnval;
-    
-    printf("Booyah");
-    return returnval;
-}
-
-
-std::vector<EventWrapper> PythonDataFile::fetch_all_events(){
-    std::vector<unsigned int> no_codes;
-    if(indexer != NULL){
-        return indexer->events(no_codes, MIN_MONKEY_WORKS_TIME(), MAX_MONKEY_WORKS_TIME());
-    } else {
-        std::vector<EventWrapper> empty;
-        return empty;
+MWTime PythonDataFile::minimum_time() {
+    if (indexer != NULL) {
+        return indexer->getMinimumTime();
     }
+    return MIN_MONKEY_WORKS_TIME();
 }
 
-std::vector<EventWrapper> PythonDataFile::fetch_events1(bp::list codes){
-    return fetch_events3(codes, MIN_MONKEY_WORKS_TIME(), MAX_MONKEY_WORKS_TIME());
+MWTime PythonDataFile::maximum_time() {
+    if (indexer != NULL) {
+        return indexer->getMaximumTime();
+    }
+    return MAX_MONKEY_WORKS_TIME();
 }
 
-std::vector<EventWrapper> PythonDataFile::fetch_events2(bp::list codes, const MWorksTime lower_bound){
-    return fetch_events3(codes, lower_bound, MAX_MONKEY_WORKS_TIME());
-}
 
-
-std::vector<EventWrapper> PythonDataFile::fetch_events3(bp::list codes,
-                                        const MWorksTime lower_bound, 
-                                        const MWorksTime upper_bound){
+void PythonDataFile::select_events(bp::list codes, const MWTime lower_bound, const MWTime upper_bound)
+{
+    if (indexer == NULL) {
+        throw std::runtime_error("data file is not open");
+    }
     
-    //   std::vector<EventWrapper> fetch_events(bp::list codes,
-    //                                           long lower_bound = 0, 
-    //                                           long upper_bound = 999999999L){
-    //        
     std::vector<unsigned int> event_codes;
-    
     int n = len(codes);
-    
         
     for(int i = 0; i < n; i++){
         event_codes.push_back(bp::extract<unsigned int>(codes[i]));
     }
     
-    //printf("fetching events from %lld to %lld\n", lower_bound, upper_bound); 
-    
-    if(indexer != NULL){
-        return indexer->events(event_codes, lower_bound, upper_bound);
-    } else {
-        std::vector<EventWrapper> empty;
-        return empty;
-    }
+    eventsIterator = shared_ptr<DataFileIndexer::EventsIterator>(new DataFileIndexer::EventsIterator(indexer->getEventsIterator(event_codes, lower_bound, upper_bound)));
 }
 
+
+shared_ptr<EventWrapper> PythonDataFile::get_next_event() {
+    if (eventsIterator == NULL) {
+        throw std::runtime_error("no event iterator available");
+    }
+    return shared_ptr<EventWrapper>(new EventWrapper(eventsIterator->getNextEvent()));
+}
+
+
+std::vector<EventWrapper> PythonDataFile::get_events() {
+    if (eventsIterator == NULL) {
+        throw std::runtime_error("no event iterator available");
+    }
+    
+    std::vector<EventWrapper> events;
+    EventWrapper evt;
+    
+    while ((evt = eventsIterator->getNextEvent())) {
+        events.push_back(evt);
+    }
+    
+    return events;
+}
 
 
 PythonDataStream::PythonDataStream(std::string _uri){
@@ -121,14 +118,8 @@ PythonDataStream::PythonDataStream(std::string _uri){
 }
 
 void PythonDataStream::open(){
-    
-    // TODO: verify it is safe to remove Ben's kludge here
-    char *uri_temp = new char[uri.length() + 1];
-    strncpy(uri_temp, uri.c_str(), uri.length() + 1);
-    
     //std::cerr << "Opening file: " << uri_temp << "..." << std::endl;
-    session = scarab_session_connect(uri_temp);
-    delete [] uri_temp;
+    session = scarab_session_connect(uri.c_str());
     
     int err;
     if(err = scarab_session_geterr(session)){
@@ -348,11 +339,15 @@ PyObject *convert_scarab_to_python(ScarabDatum *datum, int prev_type /* = -1*/){
             values = scarab_dict_values(datum);
             
             for(int i = 0; i < n_items; i++){
-                // convert the key
+                // convert the key and value
                 key_py_obj = convert_scarab_to_python(keys[i], SCARAB_DICT);
                 value_py_obj = convert_scarab_to_python(values[i]);
                 
                 PyDict_SetItem(dict, key_py_obj, value_py_obj);
+                
+                // PyDict_SetItem does *not* steal the key and value references, so we need to DECREF them
+                Py_DECREF(key_py_obj);
+                Py_DECREF(value_py_obj);
             }
             
             return dict;
@@ -364,6 +359,7 @@ PyObject *convert_scarab_to_python(ScarabDatum *datum, int prev_type /* = -1*/){
             else thelist = PyList_New(n_items);
             
             for(int i=0; i < n_items; i++){
+                // PyTuple_SetItem and PyList_SetItem steal the item reference, so we don't need to DECREF it
                 if (prev_type == SCARAB_DICT)
                     PyTuple_SetItem(thelist, i, convert_scarab_to_python(datum->data.list->values[i]));
                 else
@@ -373,12 +369,11 @@ PyObject *convert_scarab_to_python(ScarabDatum *datum, int prev_type /* = -1*/){
             return thelist;
             
         case(SCARAB_OPAQUE):
-            s_val = scarab_extract_opaque(datum, &s_size);
-            if (s_val[s_size - 1] == '\0')
+            s_val = (char *)(datum->data.opaque.data);
+            s_size = datum->data.opaque.size;
+            if (scarab_opaque_is_string(datum))
                 s_size -= 1;  // PyString_FromStringAndSize doesn't expect a null-terminated string
-            string_py_obj = PyString_FromStringAndSize(s_val, s_size);
-            free(s_val);
-            return string_py_obj;
+            return PyString_FromStringAndSize(s_val, s_size);
             
         default:
             Py_RETURN_NONE;

@@ -7,17 +7,6 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
-		0E121BE30E6B1BA0007B29B8 /* UninstallServer */ = {
-			isa = PBXAggregateTarget;
-			buildConfigurationList = 0E121BE90E6B1BC1007B29B8 /* Build configuration list for PBXAggregateTarget "UninstallServer" */;
-			buildPhases = (
-				0E121BE20E6B1BA0007B29B8 /* ShellScript */,
-			);
-			dependencies = (
-			);
-			name = UninstallServer;
-			productName = UninstallServer;
-		};
 		5C488A6F0F4E291200C5A526 /* Set Version String */ = {
 			isa = PBXAggregateTarget;
 			buildConfigurationList = 5C488A7F0F4E293D00C5A526 /* Build configuration list for PBXAggregateTarget "Set Version String" */;
@@ -292,7 +281,6 @@
 			projectRoot = "";
 			targets = (
 				8D1107260486CEB800E47090 /* MWorksServer */,
-				0E121BE30E6B1BA0007B29B8 /* UninstallServer */,
 				5C488A6F0F4E291200C5A526 /* Set Version String */,
 				5C77F4B110E969C600919719 /* Everything */,
 			);
@@ -313,19 +301,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		0E121BE20E6B1BA0007B29B8 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# shell script goes here\nrm -rf /Applications/MWServer.app\n\nexit 0";
-		};
 		0EA0379E0C3D83A4007C37CF /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -403,130 +378,46 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		0E121BE40E6B1BA0007B29B8 /* Development */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = UninstallServer;
-			};
-			name = Development;
-		};
-		0E121BE50E6B1BA0007B29B8 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-			};
-			name = Release;
-		};
 		5C488A700F4E291200C5A526 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
 				PRODUCT_NAME = "Set Version String";
 			};
 			name = Development;
-		};
-		5C488A710F4E291200C5A526 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				PRODUCT_NAME = "Set Version String";
-				ZERO_LINK = NO;
-			};
-			name = Release;
 		};
 		5C77F4B210E969C600919719 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
 				PRODUCT_NAME = Everything;
 			};
 			name = Development;
-		};
-		5C77F4B410E969C600919719 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				PRODUCT_NAME = Everything;
-				ZERO_LINK = NO;
-			};
-			name = Release;
 		};
 		C01FCF4B08A954540054247B /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CONFIG_DIR = "$(APP_SUPPORT_DIR)/Configuration";
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_OBJC_GC = unsupported;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = /Applications;
 				PRODUCT_NAME = MWServer;
-				VERSIONS_DIR = "$(CONFIG_DIR)/Versions";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Development;
-		};
-		C01FCF4C08A954540054247B /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = /Applications;
-				PRODUCT_NAME = MWorksServer;
-				WRAPPER_EXTENSION = app;
-			};
-			name = Release;
 		};
 		C01FCF4F08A954540054247B /* Development */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5CE62A30115854CF00C757F1 /* Development.xcconfig */;
 			buildSettings = {
-				GCC_ENABLE_OBJC_GC = unsupported;
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
-				GCC_OBJC_CALL_CXX_CDTORS = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
-				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
 			};
 			name = Development;
-		};
-		C01FCF5008A954540054247B /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = /Library/Frameworks;
-				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
-				GCC_OBJC_CALL_CXX_CDTORS = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = /Library/MonkeyWorks/include;
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				SDKROOT = "";
-			};
-			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		0E121BE90E6B1BC1007B29B8 /* Build configuration list for PBXAggregateTarget "UninstallServer" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				0E121BE40E6B1BA0007B29B8 /* Development */,
-				0E121BE50E6B1BA0007B29B8 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
-		};
 		5C488A7F0F4E293D00C5A526 /* Build configuration list for PBXAggregateTarget "Set Version String" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5C488A700F4E291200C5A526 /* Development */,
-				5C488A710F4E291200C5A526 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
@@ -535,7 +426,6 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5C77F4B210E969C600919719 /* Development */,
-				5C77F4B410E969C600919719 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
@@ -544,7 +434,6 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C01FCF4B08A954540054247B /* Development */,
-				C01FCF4C08A954540054247B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
@@ -553,7 +442,6 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C01FCF4F08A954540054247B /* Development */,
-				C01FCF5008A954540054247B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;

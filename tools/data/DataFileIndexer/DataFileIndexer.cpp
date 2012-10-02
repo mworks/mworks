@@ -10,6 +10,7 @@
 #include "DataFileIndexer.h"
 #include "DataFileUtilities.h"
 #include "boost/shared_ptr.hpp"
+#include <algorithm>
 #include <iostream>
 
 DataFileIndexer::DataFileIndexer() {
@@ -19,16 +20,10 @@ DataFileIndexer::DataFileIndexer() {
 DataFileIndexer::DataFileIndexer(const boost::filesystem::path &data_file, 
 								 const unsigned int _events_per_block,
 								 const unsigned int multiplication_factor_per_level,
-								 const int number_of_indexing_threads) : events_per_block(_events_per_block) {
-	uri = "ldobinary:file_readonly://" + data_file.string();
-	
-	// TODO: verify it is safe to remove Ben's kludge here
-    // Ben says: I hate myself for this
-	char *uri_temp = new char[uri.length() + 1];
-	strncpy(uri_temp, uri.c_str(), uri.length() + 1);
-	session = scarab_session_connect(uri_temp);
-	delete [] uri_temp;
-
+								 const int number_of_indexing_threads) :
+    events_per_block(_events_per_block)
+{
+    openScarabSession(data_file);
 	
 	{
 		std::vector<boost::shared_ptr<EventBlock> > event_blocks;
@@ -36,15 +31,15 @@ DataFileIndexer::DataFileIndexer(const boost::filesystem::path &data_file,
 			number_of_events = 0;
 			
 			std::vector<unsigned int> event_codes_in_block;
-			MWorksTime max_time = MIN_MONKEY_WORKS_TIME();
-			MWorksTime min_time = MAX_MONKEY_WORKS_TIME();
+			MWTime max_time = MIN_MONKEY_WORKS_TIME();
+			MWTime min_time = MAX_MONKEY_WORKS_TIME();
 			long int previous_datum_location = scarab_tell(session);
 			
 			ScarabDatum *datum = NULL;
 			while(datum = scarab_read(session)) {
 				event_codes_in_block.push_back(DataFileUtilities::getScarabEventCode(datum));
 				
-				const MWorksTime event_time = DataFileUtilities::getScarabEventTime(datum);
+				const MWTime event_time = DataFileUtilities::getScarabEventTime(datum);
 				max_time = max_time > event_time ? max_time : event_time;
 				min_time = min_time < event_time ? min_time : event_time;
 				
@@ -124,66 +119,101 @@ DataFileIndexer::~DataFileIndexer() {
 	}
 }
 
-std::vector<EventWrapper> DataFileIndexer::events(const std::vector<unsigned int> &event_codes_to_match,
-														const MWorksTime lower_bound, 
-														const MWorksTime upper_bound) const {
-	std::vector<EventWrapper> return_vector;
+void DataFileIndexer::getEvents(std::vector<EventWrapper> &return_vector,
+                                const std::vector<unsigned int> &event_codes_to_match,
+                                const MWTime lower_bound,
+                                const MWTime upper_bound) const
+{
+    EventsIterator ei = getEventsIterator(event_codes_to_match, lower_bound, upper_bound);
+    EventWrapper event;
+    while ((event = ei.getNextEvent())) {
+        return_vector.push_back(event);
+    }
+}
 
+
+DataFileIndexer::EventsIterator::EventsIterator(const DataFileIndexer &_dfi,
+                                                const std::vector<unsigned int> &_event_codes_to_match,
+                                                MWTime _lower_bound,
+                                                MWTime _upper_bound) :
+    dfi(_dfi),
+    event_codes_to_match(_event_codes_to_match),
+    lower_bound(_lower_bound),
+    upper_bound(_upper_bound)
+{
     // Recursively find event blocks that meet our search criteria
-	std::vector<boost::shared_ptr<EventBlock> > matching_event_blocks = root->children(event_codes_to_match, lower_bound, upper_bound);
-	
-    // Read the blocks found by the search
-	for(std::vector<boost::shared_ptr<EventBlock> >::const_iterator i = matching_event_blocks.begin();
-		i != matching_event_blocks.end();
-		++i) {
+	dfi.root->children(matching_event_blocks, event_codes_to_match, lower_bound, upper_bound);
+    
+    // Prepare for iteration
+    matching_event_blocks_iter = matching_event_blocks.begin();
+    current_relative_event = dfi.events_per_block;
+    current_datum = NULL;
+}
+
+
+EventWrapper DataFileIndexer::EventsIterator::getNextEvent() {
+    EventWrapper event;
+    
+    while (matching_event_blocks_iter != matching_event_blocks.end()) {
+        if ((current_relative_event == dfi.events_per_block) || (current_datum == NULL)) {
+            // Advance to the next block
+            scarab_seek(dfi.session, (*matching_event_blocks_iter)->blockOffset(), SEEK_SET);
+            current_relative_event = 0;
+        }
         
-        // Seek to the offset in the file to start reading from
-		long int block_offset = (*i)->blockOffset();
-		scarab_seek(session, block_offset, SEEK_SET);
-		
-		ScarabDatum *current_datum = NULL;
-		unsigned int current_relative_event = 0;
-		
         // Read through the event block
-		while((current_datum = scarab_read(session)) && current_relative_event < events_per_block) {
-			MWorksTime event_time = DataFileUtilities::getScarabEventTime(current_datum);
+		while (!event && (current_relative_event < dfi.events_per_block) && (current_datum = scarab_read(dfi.session)))
+        {
+			MWTime event_time = DataFileUtilities::getScarabEventTime(current_datum);
 			
             // Check the time criterion
-            if(event_time >= lower_bound && event_time <= upper_bound) {
+            if (event_time >= lower_bound && event_time <= upper_bound) {
 				unsigned int event_code = DataFileUtilities::getScarabEventCode(current_datum);
 				
-                if(event_codes_to_match.size() == 0){
-                    // if event_codes_to_match is empty, match anything
-                    return_vector.push_back(EventWrapper(current_datum));
-                } else {
-                    // otherwise, actually search if the event code is one we're interested in
-                    for(std::vector<unsigned int>::const_iterator j = event_codes_to_match.begin();
-                        j != event_codes_to_match.end();
-                        ++j) {
-                        if(event_code == *j) {
-                            return_vector.push_back(EventWrapper(current_datum));	
-                        }
-                    }
+                // Check if the event code matches
+                if (event_codes_to_match.size() == 0 ||
+                    std::find(event_codes_to_match.begin(), event_codes_to_match.end(), event_code) != event_codes_to_match.end())
+                {
+                    event = EventWrapper(current_datum);
                 }
 			}
 			
 			scarab_free_datum(current_datum);
 			current_relative_event++;
-		}			
-	}
-	
-	return return_vector;	
+		}
+        
+        if ((current_relative_event == dfi.events_per_block) || (current_datum == NULL))
+            matching_event_blocks_iter++;
+        
+        if (event)
+            return event;
+    }
+    
+    return event;
 }
 
-unsigned int DataFileIndexer::getNEvents() const {
-	return number_of_events;
-}
 
-MWorksTime DataFileIndexer::getMinimumTime() const{
-    return root->minimumTime();
-}
 
-MWorksTime DataFileIndexer::getMaximumTime() const{
-    return root->maximumTime();
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

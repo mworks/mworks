@@ -43,10 +43,15 @@ protected:
     
     boost::thread read_thread;
     MWTime conduit_idle_quantum_us;
+    MWTime remote_clock_offset;
+    bool correct_incoming_timestamps;
         
 public:
 
-    SimpleConduit(shared_ptr<EventTransport> _transport, long _conduit_idle_quantum_us = DEFAULT_CONDUIT_IDLE_QUANTUM);
+
+    SimpleConduit(shared_ptr<EventTransport> _transport, 
+                  bool _correct_incoming_timestamps = false, 
+                  long _conduit_idle_quantum_us = DEFAULT_CONDUIT_IDLE_QUANTUM);
     
     virtual ~SimpleConduit();
 
@@ -59,8 +64,9 @@ public:
     // everything is done and the object can be safely destroyed.
     virtual void finalize();
     
+    // A special callback to handle important system events from the other side of the conduit
+    virtual void handleSystemEvent(shared_ptr<Event> evt);
     
-
 };
 
     

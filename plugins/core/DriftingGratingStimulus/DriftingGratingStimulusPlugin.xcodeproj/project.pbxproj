@@ -7,17 +7,6 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
-		0E121C0D0E6B1CD6007B29B8 /* UninstallDriftingGratingStimulusPlugin */ = {
-			isa = PBXAggregateTarget;
-			buildConfigurationList = 0E121C190E6B1CF6007B29B8 /* Build configuration list for PBXAggregateTarget "UninstallDriftingGratingStimulusPlugin" */;
-			buildPhases = (
-				0E121C0C0E6B1CD6007B29B8 /* ShellScript */,
-			);
-			dependencies = (
-			);
-			name = UninstallDriftingGratingStimulusPlugin;
-			productName = UninstallDriftingGratingStimulusPlugin;
-		};
 		E17B9D28119C9E7E00EEBF5D /* Everything */ = {
 			isa = PBXAggregateTarget;
 			buildConfigurationList = E17B9D30119C9E8D00EEBF5D /* Build configuration list for PBXAggregateTarget "Everything" */;
@@ -290,7 +279,6 @@
 			projectRoot = "";
 			targets = (
 				8D5B49AC048680CD000E48DA /* DriftingGratingStimulusPlugin */,
-				0E121C0D0E6B1CD6007B29B8 /* UninstallDriftingGratingStimulusPlugin */,
 				E17B9D28119C9E7E00EEBF5D /* Everything */,
 			);
 		};
@@ -309,19 +297,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		0E121C0C0E6B1CD6007B29B8 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# shell script goes here\nrm -Rf \"$PLUGINS_DIR/DriftingGratingStimulusPlugin.bundle\"\nexit 0";
-		};
 		5C4B0B5D0DC7CAB9001BC518 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -379,13 +354,6 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		0E121C0E0E6B1CD6007B29B8 /* Development */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = DriftingGratingStimulusPlugin.bundle;
-			};
-			name = Development;
-		};
 		1DEB913B08733D840010E9CD /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -420,14 +388,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		0E121C190E6B1CF6007B29B8 /* Build configuration list for PBXAggregateTarget "UninstallDriftingGratingStimulusPlugin" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				0E121C0E0E6B1CD6007B29B8 /* Development */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
-		};
 		1DEB913A08733D840010E9CD /* Build configuration list for PBXNativeTarget "DriftingGratingStimulusPlugin" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

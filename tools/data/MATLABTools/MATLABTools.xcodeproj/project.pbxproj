@@ -7,17 +7,6 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
-		0E60D61E0E6D8D9E00B82521 /* UninstallMWorksStreamUtilities */ = {
-			isa = PBXAggregateTarget;
-			buildConfigurationList = 0E60D6210E6D8DBC00B82521 /* Build configuration list for PBXAggregateTarget "UninstallMWorksStreamUtilities" */;
-			buildPhases = (
-				0E60D61D0E6D8D9E00B82521 /* ShellScript */,
-			);
-			dependencies = (
-			);
-			name = UninstallMWorksStreamUtilities;
-			productName = UninstallMWorksStreamUtilities;
-		};
 		E17B9F66119CABD000EEBF5D /* Everything */ = {
 			isa = PBXAggregateTarget;
 			buildConfigurationList = E17B9F6F119CABD900EEBF5D /* Build configuration list for PBXAggregateTarget "Everything" */;
@@ -25,6 +14,7 @@
 			);
 			dependencies = (
 				E17B9F6A119CABD500EEBF5D /* PBXTargetDependency */,
+				E152185A15D9529600884ECC /* PBXTargetDependency */,
 			);
 			name = Everything;
 			productName = Everything;
@@ -32,9 +22,10 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		0E454E420D71EF930040E668 /* mWorksStreamUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E454E350D71EED80040E668 /* mWorksStreamUtilities.cpp */; };
-		0E454E430D71EF960040E668 /* mWorksStreamUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = 0E454E360D71EED80040E668 /* mWorksStreamUtilities.h */; };
+		0E454E420D71EF930040E668 /* MWorksMATLABTools.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E454E350D71EED80040E668 /* MWorksMATLABTools.cpp */; };
+		0E454E430D71EF960040E668 /* MWorksMATLABTools.h in Headers */ = {isa = PBXBuildFile; fileRef = 0E454E360D71EED80040E668 /* MWorksMATLABTools.h */; };
 		0E454EA90D71F8090040E668 /* Test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E454E5C0D71F12C0040E668 /* Test.cpp */; };
+		E17CAE3615D2BEBF00C79629 /* MWorksMATLABTools.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E454E350D71EED80040E668 /* MWorksMATLABTools.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +35,20 @@
 			proxyType = 1;
 			remoteGlobalIDString = 0E454E3C0D71EF000040E668;
 			remoteInfo = libMWorksStreamUtilities;
+		};
+		E152185715D9528A00884ECC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0E2D77240D71EDDE005AFCC2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0E454E3C0D71EF000040E668;
+			remoteInfo = libMWorksMATLABTools;
+		};
+		E152185915D9529600884ECC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0E2D77240D71EDDE005AFCC2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E152185315D9522A00884ECC;
+			remoteInfo = "MEX Files";
 		};
 		E17B9F69119CABD500EEBF5D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -55,14 +60,18 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0E454E350D71EED80040E668 /* mWorksStreamUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = mWorksStreamUtilities.cpp; sourceTree = "<group>"; };
-		0E454E360D71EED80040E668 /* mWorksStreamUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mWorksStreamUtilities.h; sourceTree = "<group>"; };
-		0E454E3D0D71EF000040E668 /* libMWorksStreamUtilities.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMWorksStreamUtilities.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		0E454E350D71EED80040E668 /* MWorksMATLABTools.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MWorksMATLABTools.cpp; sourceTree = "<group>"; };
+		0E454E360D71EED80040E668 /* MWorksMATLABTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWorksMATLABTools.h; sourceTree = "<group>"; };
+		0E454E3D0D71EF000040E668 /* libMWorksMATLABTools.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMWorksMATLABTools.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		0E454E5C0D71F12C0040E668 /* Test.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Test.cpp; sourceTree = "<group>"; };
-		0E454EA30D71F7FE0040E668 /* MWSUtest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MWSUtest.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		0E454EA50D71F7FE0040E668 /* MWSUtest-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MWSUtest-Info.plist"; sourceTree = "<group>"; };
+		0E454EA30D71F7FE0040E668 /* MWMTtest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MWMTtest.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		0E454EA50D71F7FE0040E668 /* MWMTtest-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MWMTtest-Info.plist"; sourceTree = "<group>"; };
+		E196649415DAA29800B88553 /* getCodecs.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = getCodecs.cpp; sourceTree = "<group>"; };
+		E196649515DAA29800B88553 /* getEvents.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = getEvents.cpp; sourceTree = "<group>"; };
+		E196649615DAA29800B88553 /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		E1C787D0116FAFDB004928BF /* Development.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Development.xcconfig; path = "/Library/Application Support/MWorks/Developer/Xcode/Development.xcconfig"; sourceTree = "<absolute>"; };
 		E1C787D1116FAFDB004928BF /* WARNING.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = WARNING.txt; path = "/Library/Application Support/MWorks/Developer/Xcode/WARNING.txt"; sourceTree = "<absolute>"; };
+		E1D59A7515DC2C5500BE6DF0 /* MEXUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MEXUtils.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,18 +96,19 @@
 			isa = PBXGroup;
 			children = (
 				E1C787CC116FAFBD004928BF /* External Configs */,
-				0E454E5B0D71F1160040E668 /* Test */,
 				0E2D772D0D71EDE2005AFCC2 /* Source */,
+				0E454E5B0D71F1160040E668 /* Test */,
 				0E454E3E0D71EF000040E668 /* Products */,
-				0E454EA50D71F7FE0040E668 /* MWSUtest-Info.plist */,
+				0E454EA50D71F7FE0040E668 /* MWMTtest-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
 		0E2D772D0D71EDE2005AFCC2 /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				0E454E350D71EED80040E668 /* mWorksStreamUtilities.cpp */,
-				0E454E360D71EED80040E668 /* mWorksStreamUtilities.h */,
+				E196649315DAA27F00B88553 /* MEX Files */,
+				0E454E360D71EED80040E668 /* MWorksMATLABTools.h */,
+				0E454E350D71EED80040E668 /* MWorksMATLABTools.cpp */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -106,8 +116,8 @@
 		0E454E3E0D71EF000040E668 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				0E454E3D0D71EF000040E668 /* libMWorksStreamUtilities.a */,
-				0E454EA30D71F7FE0040E668 /* MWSUtest.app */,
+				0E454E3D0D71EF000040E668 /* libMWorksMATLABTools.a */,
+				0E454EA30D71F7FE0040E668 /* MWMTtest.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -118,6 +128,17 @@
 				0E454E5C0D71F12C0040E668 /* Test.cpp */,
 			);
 			name = Test;
+			sourceTree = "<group>";
+		};
+		E196649315DAA27F00B88553 /* MEX Files */ = {
+			isa = PBXGroup;
+			children = (
+				E196649615DAA29800B88553 /* Makefile */,
+				E1D59A7515DC2C5500BE6DF0 /* MEXUtils.h */,
+				E196649415DAA29800B88553 /* getCodecs.cpp */,
+				E196649515DAA29800B88553 /* getEvents.cpp */,
+			);
+			name = "MEX Files";
 			sourceTree = "<group>";
 		};
 		E1C787CC116FAFBD004928BF /* External Configs */ = {
@@ -136,16 +157,34 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0E454E430D71EF960040E668 /* mWorksStreamUtilities.h in Headers */,
+				0E454E430D71EF960040E668 /* MWorksMATLABTools.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
+/* Begin PBXLegacyTarget section */
+		E152185315D9522A00884ECC /* MEX Files */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "$(ACTION)";
+			buildConfigurationList = E152185515D9522A00884ECC /* Build configuration list for PBXLegacyTarget "MEX Files" */;
+			buildPhases = (
+			);
+			buildToolPath = /usr/bin/make;
+			buildWorkingDirectory = "";
+			dependencies = (
+				E152185815D9528A00884ECC /* PBXTargetDependency */,
+			);
+			name = "MEX Files";
+			passBuildSettingsInEnvironment = 1;
+			productName = "MEX Files";
+		};
+/* End PBXLegacyTarget section */
+
 /* Begin PBXNativeTarget section */
-		0E454E3C0D71EF000040E668 /* libMWorksStreamUtilities */ = {
+		0E454E3C0D71EF000040E668 /* libMWorksMATLABTools */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 0E454E410D71EF000040E668 /* Build configuration list for PBXNativeTarget "libMWorksStreamUtilities" */;
+			buildConfigurationList = 0E454E410D71EF000040E668 /* Build configuration list for PBXNativeTarget "libMWorksMATLABTools" */;
 			buildPhases = (
 				0E454E390D71EF000040E668 /* Headers */,
 				0E454E3A0D71EF000040E668 /* Sources */,
@@ -156,27 +195,28 @@
 			);
 			dependencies = (
 			);
-			name = libMWorksStreamUtilities;
+			name = libMWorksMATLABTools;
 			productName = libMWorksStreamUtilities;
-			productReference = 0E454E3D0D71EF000040E668 /* libMWorksStreamUtilities.a */;
+			productReference = 0E454E3D0D71EF000040E668 /* libMWorksMATLABTools.a */;
 			productType = "com.apple.product-type.library.static";
 		};
-		0E454EA20D71F7FE0040E668 /* MWSUtest */ = {
+		0E454EA20D71F7FE0040E668 /* MWMTtest */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 0E454EA80D71F7FF0040E668 /* Build configuration list for PBXNativeTarget "MWSUtest" */;
+			buildConfigurationList = 0E454EA80D71F7FF0040E668 /* Build configuration list for PBXNativeTarget "MWMTtest" */;
 			buildPhases = (
 				0E454E9F0D71F7FE0040E668 /* Resources */,
 				0E454EA00D71F7FE0040E668 /* Sources */,
 				0E454EA10D71F7FE0040E668 /* Frameworks */,
+				E17CAE3A15D2C22F00C79629 /* ShellScript */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				0E454EAB0D71F8120040E668 /* PBXTargetDependency */,
 			);
-			name = MWSUtest;
+			name = MWMTtest;
 			productName = MWSUtest;
-			productReference = 0E454EA30D71F7FE0040E668 /* MWSUtest.app */;
+			productReference = 0E454EA30D71F7FE0040E668 /* MWMTtest.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -187,7 +227,7 @@
 			attributes = {
 				LastUpgradeCheck = 0410;
 			};
-			buildConfigurationList = 0E2D77270D71EDDE005AFCC2 /* Build configuration list for PBXProject "MWorksStreamUtilities" */;
+			buildConfigurationList = 0E2D77270D71EDDE005AFCC2 /* Build configuration list for PBXProject "MATLABTools" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -202,9 +242,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				0E454E3C0D71EF000040E668 /* libMWorksStreamUtilities */,
-				0E454EA20D71F7FE0040E668 /* MWSUtest */,
-				0E60D61E0E6D8D9E00B82521 /* UninstallMWorksStreamUtilities */,
+				0E454E3C0D71EF000040E668 /* libMWorksMATLABTools */,
+				0E454EA20D71F7FE0040E668 /* MWMTtest */,
+				E152185315D9522A00884ECC /* MEX Files */,
 				E17B9F66119CABD000EEBF5D /* Everything */,
 			);
 		};
@@ -232,9 +272,9 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/zsh;
-			shellScript = "mkdir -p \"${FINAL_INSTALL_DIR}/lib\"\nrm -f \"${FINAL_INSTALL_DIR}/lib/libMWorksStreamUtilities.a\"\ncp -f \"${BUILT_PRODUCTS_DIR}/libMWorksStreamUtilities.a\" \"${FINAL_INSTALL_DIR}/lib\"\n\nmkdir -p \"${FINAL_INSTALL_DIR}/include\"\nrm -f \"${FINAL_INSTALL_DIR}/include/mWorksStreamUtilities.h\"\ncp -f \"${PROJECT_DIR}/mWorksStreamUtilities.h\" \"${FINAL_INSTALL_DIR}/include\"\n\n";
+			shellScript = "mkdir -p \"${FINAL_INSTALL_DIR}/lib\"\nrm -f \"${FINAL_INSTALL_DIR}/lib/libMWorksMATLABTools.a\"\ncp -f \"${BUILT_PRODUCTS_DIR}/libMWorksMATLABTools.a\" \"${FINAL_INSTALL_DIR}/lib\"\n\nmkdir -p \"${FINAL_INSTALL_DIR}/include\"\nrm -f \"${FINAL_INSTALL_DIR}/include/MWorksMATLABTools.h\"\ncp -f \"${PROJECT_DIR}/MWorksMATLABTools.h\" \"${FINAL_INSTALL_DIR}/include\"\n\n";
 		};
-		0E60D61D0E6D8D9E00B82521 /* ShellScript */ = {
+		E17CAE3A15D2C22F00C79629 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -244,8 +284,8 @@
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/zsh;
-			shellScript = "rm -f \"${FINAL_INSTALL_DIR}/lib/libMWorksStreamUtilities.a\"\nrm -f \"${FINAL_INSTALL_DIR}/include/mWorksStreamUtilities.h\"\n\nexit 0";
+			shellPath = /bin/sh;
+			shellScript = "export FULL_NAME=${PRODUCT_NAME}.${WRAPPER_EXTENSION}\n\nfor libname in mat mx; do\n  install_name_tool -change \\\n    \"@loader_path/lib${libname}.dylib\" \\\n    \"@rpath/lib${libname}.dylib\" \\\n    \"${BUILT_PRODUCTS_DIR}/${FULL_NAME}/Contents/MacOS/${PRODUCT_NAME}\"\ndone";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -254,7 +294,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0E454E420D71EF930040E668 /* mWorksStreamUtilities.cpp in Sources */,
+				0E454E420D71EF930040E668 /* MWorksMATLABTools.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -263,6 +303,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0E454EA90D71F8090040E668 /* Test.cpp in Sources */,
+				E17CAE3615D2BEBF00C79629 /* MWorksMATLABTools.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -271,23 +312,37 @@
 /* Begin PBXTargetDependency section */
 		0E454EAB0D71F8120040E668 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 0E454E3C0D71EF000040E668 /* libMWorksStreamUtilities */;
+			target = 0E454E3C0D71EF000040E668 /* libMWorksMATLABTools */;
 			targetProxy = 0E454EAA0D71F8120040E668 /* PBXContainerItemProxy */;
+		};
+		E152185815D9528A00884ECC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0E454E3C0D71EF000040E668 /* libMWorksMATLABTools */;
+			targetProxy = E152185715D9528A00884ECC /* PBXContainerItemProxy */;
+		};
+		E152185A15D9529600884ECC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E152185315D9522A00884ECC /* MEX Files */;
+			targetProxy = E152185915D9529600884ECC /* PBXContainerItemProxy */;
 		};
 		E17B9F6A119CABD500EEBF5D /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 0E454E3C0D71EF000040E668 /* libMWorksStreamUtilities */;
+			target = 0E454E3C0D71EF000040E668 /* libMWorksMATLABTools */;
 			targetProxy = E17B9F69119CABD500EEBF5D /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		E152185415D9522A00884ECC /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Development;
+		};
 		E17B9F67119CABD100EEBF5D /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
 				PRODUCT_NAME = Everything;
 			};
 			name = Development;
@@ -296,69 +351,49 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E1C787D0116FAFDB004928BF /* Development.xcconfig */;
 			buildSettings = {
-				COPY_PHASE_STRIP = NO;
 				FINAL_INSTALL_DIR = "$(MW_DEVELOPER_DIR)";
 				HEADER_SEARCH_PATHS = (
-					"$(HEADER_SEARCH_PATHS_QUOTED_FOR_PROJECT_1)",
 					"$(MATLAB_DIR)/extern/include",
 					"$(MW_INCLUDE_DIR)",
-					"$(HEADER_SEARCH_PATHS_QUOTED_FOR_PROJECT_1)",
 				);
-				HEADER_SEARCH_PATHS_QUOTED_FOR_PROJECT_1 = "\"$(FINAL_INSTALL_DIR)/include\"";
-				LIBRARY_SEARCH_PATHS = "";
-				MATLAB_DIR = /Applications/MATLAB;
+				LIBRARY_SEARCH_PATHS = (
+					"$(MATLAB_DIR)/bin/$(MATLAB_ARCH_$(CURRENT_ARCH))",
+					"$(MW_LIB_DIR)",
+				);
+				MATLAB_ARCH_i386 = maci;
+				MATLAB_ARCH_x86_64 = maci64;
+				MATLAB_DIR = "/Applications/MATLAB_$(MATLAB_VERSION).app";
+				MATLAB_VERSION = R2010a;
 			};
 			name = Development;
 		};
 		E1C787D7116FB042004928BF /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_MODEL_TUNING = G5;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				PRODUCT_NAME = MWorksStreamUtilities;
+				PRODUCT_NAME = MWorksMATLABTools;
 			};
 			name = Development;
 		};
 		E1C787D8116FB042004928BF /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_MODEL_TUNING = G5;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
-				INFOPLIST_FILE = "MWSUtest-Info.plist";
+				INFOPLIST_FILE = "MWMTtest-Info.plist";
 				OTHER_LDFLAGS = (
-					"-framework",
-					Carbon,
+					"-lboost_system",
 					"-lscarab",
-					"-lMWorksStreamUtilities",
 					"-lmat",
 					"-lmx",
 				);
-				PRODUCT_NAME = MWSUtest;
+				PRODUCT_NAME = MWMTtest;
 				SKIP_INSTALL = YES;
 				WRAPPER_EXTENSION = app;
-			};
-			name = Development;
-		};
-		E1C787D9116FB042004928BF /* Development */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				PRODUCT_NAME = UninstallMWorksStreamUtilities;
 			};
 			name = Development;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		0E2D77270D71EDDE005AFCC2 /* Build configuration list for PBXProject "MWorksStreamUtilities" */ = {
+		0E2D77270D71EDDE005AFCC2 /* Build configuration list for PBXProject "MATLABTools" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E1C787D6116FB042004928BF /* Development */,
@@ -366,7 +401,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
 		};
-		0E454E410D71EF000040E668 /* Build configuration list for PBXNativeTarget "libMWorksStreamUtilities" */ = {
+		0E454E410D71EF000040E668 /* Build configuration list for PBXNativeTarget "libMWorksMATLABTools" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E1C787D7116FB042004928BF /* Development */,
@@ -374,7 +409,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
 		};
-		0E454EA80D71F7FF0040E668 /* Build configuration list for PBXNativeTarget "MWSUtest" */ = {
+		0E454EA80D71F7FF0040E668 /* Build configuration list for PBXNativeTarget "MWMTtest" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E1C787D8116FB042004928BF /* Development */,
@@ -382,10 +417,10 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
 		};
-		0E60D6210E6D8DBC00B82521 /* Build configuration list for PBXAggregateTarget "UninstallMWorksStreamUtilities" */ = {
+		E152185515D9522A00884ECC /* Build configuration list for PBXLegacyTarget "MEX Files" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				E1C787D9116FB042004928BF /* Development */,
+				E152185415D9522A00884ECC /* Development */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;

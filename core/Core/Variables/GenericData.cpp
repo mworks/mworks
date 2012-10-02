@@ -963,18 +963,16 @@ Datum Datum::operator==(const Datum& other)  const{
 			return Datum(M_BOOLEAN, false);
 	} else if(isDictionary()) {
 		if(other.isDictionary() && (getNElements() == other.getNElements())) {
-			for(int i=0; i<getMaxElements(); i++) {
-			 Datum key(getKey(i));
+            std::vector<Datum> keys = getKeys();
+			for (int i = 0; i < keys.size(); i++) {
+                Datum key(keys[i]);
 				
-				if(!key.isUndefined()) {
-				 Datum val1, val2;
-					val1 = getElement(key);
-					val2 = other.getElement(key);
-
-					if(val1 != val2) {
-						return Datum(M_BOOLEAN, false);
-					}
-				}
+                Datum val1 = getElement(key);
+                Datum val2 = other.getElement(key);
+                
+                if (val1 != val2) {
+                    return Datum(M_BOOLEAN, false);
+                }
 			}
 			return Datum(M_BOOLEAN, true);
 		} else {
@@ -1246,6 +1244,7 @@ int Datum::getMaxElements()  const{
 	return returnval;
 }
 
+/*
 Datum Datum::getKey(const int n)  const {
 
 	if(getDataType() != M_DICTIONARY) {
@@ -1281,6 +1280,7 @@ Datum Datum::getKey(const int n)  const {
 
 	return returnval; 
 }
+ */
 
 std::vector<Datum> Datum::getKeys() const {
 	std::vector<Datum> keys;
@@ -1294,11 +1294,14 @@ std::vector<Datum> Datum::getKeys() const {
 	ScarabDatum ** sd = scarab_dict_keys(data);
 	
     // DDC: 12/09: I think this should be size, not tablesize
-	//int n_keys = data->data.dict->tablesize;
-	int n_keys = data->data.dict->size;
+    // CJS: 9/12: No, tablesize is correct.  size indicates the number of non-NULL keys in the table; you
+    // have to interate through all tablesize slots to find them.
+	int max_keys = data->data.dict->tablesize;
     
-	for(int i = 0; i<n_keys; ++i) {
-		keys.push_back(sd[i]);
+	for (int i = 0; i < max_keys; ++i) {
+        if (sd[i]) {
+            keys.push_back(sd[i]);
+        }
 	}
 	
 	unlockDatum();

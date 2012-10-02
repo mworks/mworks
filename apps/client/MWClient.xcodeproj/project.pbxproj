@@ -513,162 +513,36 @@
 		5C488A430F4E289600C5A526 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
 				PRODUCT_NAME = "Set Version String";
 			};
 			name = Development;
-		};
-		5C488A440F4E289600C5A526 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				PRODUCT_NAME = "Set Version String";
-				ZERO_LINK = NO;
-			};
-			name = Release;
 		};
 		5C77F49A10E969AC00919719 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
 				PRODUCT_NAME = Everything;
 			};
 			name = Development;
-		};
-		5C77F49C10E969AC00919719 /* HollowedOut */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = Everything;
-			};
-			name = HollowedOut;
-		};
-		5C77F49D10E969AC00919719 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				PRODUCT_NAME = Everything;
-				ZERO_LINK = NO;
-			};
-			name = Release;
-		};
-		5CAA504E106B1F4500ABE746 /* HollowedOut */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = (
-					x86_64,
-					i386,
-				);
-				GCC_ENABLE_OBJC_GC = unsupported;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREPROCESSOR_DEFINITIONS = HOLLOW_OUT_FOR_ADC;
-				GCC_VERSION = 4.2;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
-				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
-				MW_INCLUDE_DIR = "\"$(APP_SUPPORT_DIR)/Developer/include\"";
-				MW_LIB_DIR = "\"$(APP_SUPPORT_DIR)/Developer/lib\"";
-				SDKROOT = macosx10.6;
-			};
-			name = HollowedOut;
-		};
-		5CAA504F106B1F4500ABE746 /* HollowedOut */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = /Library/Frameworks;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_OBJC_GC = unsupported;
-				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
-				GCC_OBJC_CALL_CXX_CDTORS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "New Client_Prefix.pch";
-				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
-				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = "$(HOME)/Applications";
-				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
-				PRODUCT_NAME = MWClient;
-				WRAPPER_EXTENSION = app;
-			};
-			name = HollowedOut;
-		};
-		5CAA5050106B1F4500ABE746 /* HollowedOut */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				PRODUCT_NAME = "Set Version String";
-			};
-			name = HollowedOut;
 		};
 		C01FCF4B08A954540054247B /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = /Library/Frameworks;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_OBJC_GC = unsupported;
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
-				GCC_OBJC_CALL_CXX_CDTORS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "New Client_Prefix.pch";
-				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
 				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = "$(HOME)/Applications";
-				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
 				PRODUCT_NAME = MWClient;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Development;
-		};
-		C01FCF4C08A954540054247B /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
-				GCC_MODEL_TUNING = G5;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "New Client_Prefix.pch";
-				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = "$(HOME)/Applications";
-				OTHER_LDFLAGS = "-lboost";
-				PRODUCT_NAME = "New Client";
-				WRAPPER_EXTENSION = app;
-			};
-			name = Release;
 		};
 		C01FCF4F08A954540054247B /* Development */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5CE62A60115855F700C757F1 /* Development.xcconfig */;
 			buildSettings = {
-				GCC_ENABLE_OBJC_GC = unsupported;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = "$(MW_INCLUDE_DIR)";
-				LIBRARY_SEARCH_PATHS = "$(MW_LIB_DIR)";
 			};
 			name = Development;
-		};
-		C01FCF5008A954540054247B /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = (
-					ppc,
-					i386,
-				);
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				SDKROOT = "";
-			};
-			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
@@ -677,41 +551,33 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5C488A430F4E289600C5A526 /* Development */,
-				5CAA5050106B1F4500ABE746 /* HollowedOut */,
-				5C488A440F4E289600C5A526 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Development;
 		};
 		5C77F4A410E969B400919719 /* Build configuration list for PBXAggregateTarget "Everything" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5C77F49A10E969AC00919719 /* Development */,
-				5C77F49C10E969AC00919719 /* HollowedOut */,
-				5C77F49D10E969AC00919719 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Development;
 		};
 		C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "MWClient" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C01FCF4B08A954540054247B /* Development */,
-				5CAA504F106B1F4500ABE746 /* HollowedOut */,
-				C01FCF4C08A954540054247B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Development;
 		};
 		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "MWClient" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C01FCF4F08A954540054247B /* Development */,
-				5CAA504E106B1F4500ABE746 /* HollowedOut */,
-				C01FCF5008A954540054247B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Development;
 		};
 /* End XCConfigurationList section */
 	};

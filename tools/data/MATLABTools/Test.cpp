@@ -1,6 +1,6 @@
 /*
  *  Test.cpp
- *  MWorksStreamUtilities
+ *  MATLABTools
  *
  *  Created by bkennedy on 2/24/08.
  *  Copyright 2008 MIT. All rights reserved.
@@ -8,13 +8,13 @@
  */
 
 #include <iostream>
-#include "MWorksStreamUtilities/mWorksStreamUtilities.h"
+#include "MWorksMATLABTools.h"
 #include "mat.h"
 
 using namespace std;
 
 int main() {
-	char *mwkfile = "ldobinary:file:///Users/bkennedy/Documents/sandbox/MWorks_trunk/MWorksTools/MatlabDataReader/simple2.mwk/simple2.mwk";
+	const char *mwkfile = "ldobinary:file:///Users/bkennedy/Documents/sandbox/MWorks_trunk/MWorksTools/MatlabDataReader/simple2.mwk/simple2.mwk";
 
 	ScarabSession *session = scarab_session_connect(mwkfile);
 	
@@ -27,7 +27,7 @@ int main() {
 		
 		if(getScarabEventCode(datum) == 0) {
 			cout << "Codec! at event: " << events << endl;
-			mxArray *codec = getScarabEventData(datum);
+			mxArray *codec = getScarabDatum(datum);
 			MATFile *test = matOpen("/Users/bkennedy/Desktop/test.mat", "w");
 			matPutVariable(test, "codec", codec);
 			matClose(test);

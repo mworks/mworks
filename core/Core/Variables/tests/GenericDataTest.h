@@ -15,6 +15,7 @@
 #include <cppunit/TestSuite.h>
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
+#include <algorithm>
 #include <sstream>
 #include "MWorksCore/GenericData.h"
 
@@ -182,7 +183,7 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
 
 	void testString() {
 	 Datum data("Test string");
-		char * test = "Test string";
+		const char * test = "Test string";
 		
 		for(unsigned int i = 0; i<strlen(test); i++)
 		{
@@ -191,8 +192,8 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
 		}
 		
 	 Datum data2;
-		char * test2 = "Test second string";
-		char * test2a = "Test second string";
+		const char * test2 = "Test second string";
+		const char * test2a = "Test second string";
 		
 		CPPUNIT_ASSERT(strcmp(test2, test2a) == 0);
 		
@@ -209,8 +210,8 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
 		
 		
 		data2 = "Test third string";
-		char * test3a = "Test third string";
-		char * test3b = "Test 3rd string";
+		const char * test3a = "Test third string";
+		const char * test3b = "Test 3rd string";
 		
 		CPPUNIT_ASSERT(data2 == test3a);
 		CPPUNIT_ASSERT(data2 != test3b);
@@ -1102,6 +1103,9 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
      
 			dic_d.addElement(key, val);
 		}
+        
+        std::vector<Datum> allKeys = dic_d.getKeys();
+        CPPUNIT_ASSERT(allKeys.size() == num_elem);
 
 		for(long i=0; i<num_elem; i++) {
 			key[0]=(char)('a' + i);
@@ -1109,6 +1113,7 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
 			key[2]='\0';
      
 			CPPUNIT_ASSERT(dic_d.hasKey(key));
+            CPPUNIT_ASSERT(std::find(allKeys.begin(), allKeys.end(), key) != allKeys.end());
 		}
 
 		for(long i=0; i<num_elem; i++) {

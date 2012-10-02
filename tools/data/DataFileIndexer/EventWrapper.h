@@ -10,52 +10,100 @@
 #ifndef SCARAB_DATUM_WRAPPER_H
 #define SCARAB_DATUM_WRAPPER_H
 
-#include "Scarab/scarab.h"
-#include <MWorksCore/EventConstants.h>
-#include <MWorksCore/Utilities.h>
-using namespace mw;
+#include <Scarab/scarab.h>
 
-class EventWrapper
-	{
-	protected:
-		ScarabDatum *datum;		
-	public:
-		EventWrapper(ScarabDatum *);
-		EventWrapper(const EventWrapper &sdw);
-		~EventWrapper();
-		ScarabDatum *getDatum() const;
-        
-        bool empty(){
-            return (datum == NULL);
+#include <dfindex/DataFileUtilities.h>
+
+
+class EventWrapper {
+    
+private:
+    ScarabDatum *datum;
+    
+public:
+    ~EventWrapper() {
+        scarab_free_datum(datum);
+    }
+    
+    EventWrapper(ScarabDatum *new_datum = NULL) {
+        datum = scarab_copy_datum(new_datum);
+    }
+    
+    EventWrapper(const EventWrapper &other) {
+        datum = scarab_copy_datum(other.datum);
+    }
+    
+    EventWrapper& operator=(const EventWrapper &other) {
+        scarab_free_datum(datum);
+        datum = scarab_copy_datum(other.datum);
+        return (*this);
+    }
+    
+    ScarabDatum* getDatum() const {
+        return datum;
+    }
+    
+    bool empty() const {
+        return (datum == NULL);
+    }
+    
+    operator bool() const {
+        return (datum != NULL);
+    }
+    
+    int getEventCode() const {
+        if (empty()) {
+            return -1;
         }
-        
-        int getEventCode(){
-            if(empty()){
-                return -1;
-            }
-            ScarabDatum *code_datum = scarab_list_get(datum, SCARAB_EVENT_CODEC_CODE_INDEX);
-            return code_datum->data.integer;
+        return DataFileUtilities::getScarabEventCode(datum);
+    }
+    
+    MWTime getTime() const {
+        if (empty()) {
+            return 0LL;
         }
-        
-        MWorksTime getTime(){
-            if(empty()){
-                return 0LL;
-            }
-            ScarabDatum *time_datum = scarab_list_get(datum, SCARAB_EVENT_TIME_INDEX);
-            return time_datum->data.integer;
+        return DataFileUtilities::getScarabEventTime(datum);
+    }
+    
+    ScarabDatum *getPayload() const {
+        if (empty()) {
+            return NULL;
         }
-        
-        ScarabDatum *getPayload(){
-            if(empty() || (datum->data.list->size < SCARAB_PAYLOAD_EVENT_N_TOPLEVEL_ELEMENTS)){
-                return NULL;
-            }
-            ScarabDatum *payload_datum = scarab_list_get(datum, SCARAB_EVENT_PAYLOAD_INDEX);
-            return payload_datum;    
-        }
-        
-        // This is needed for Python bindings
-        bool operator==(EventWrapper const& event) const { return datum == event.datum; }
-	};
+        return DataFileUtilities::getScarabEventPayload(datum);
+    }
+    
+    // This is needed for Python bindings
+    bool operator==(EventWrapper const& event) const { return datum == event.datum; }
+    
+};
 
 
 #endif //SCARAB_DATUM_WRAPPER_H
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

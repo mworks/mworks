@@ -231,7 +231,6 @@ namespace mw {
 			int getMaxElements() const;
 			
 			bool hasKey(const Datum &key) const;
-            Datum getKey(const int n)  const;
 			std::vector<Datum> getKeys() const;
 			
 			
@@ -270,8 +269,9 @@ namespace mw {
 				double fval;
 				bool bval;
 				std::string sval;
-				int nelements;
                 int string_length;
+				int nelements;
+                std::vector<Datum> keys;
                 
 				ar << datatype;
 				switch(datatype){
@@ -310,8 +310,9 @@ namespace mw {
 					case M_DICTIONARY:
                         nelements = getNElements();
                         ar << nelements;
-                        for(int i = 0; i < nelements; i++){
-                            Datum key = getKey(i);
+                        keys = getKeys();
+                        for(int i = 0; i < keys.size(); i++){
+                            Datum key = keys[i];
                             ar << key;
                             Datum val = getElement(key);
                             ar << val;
