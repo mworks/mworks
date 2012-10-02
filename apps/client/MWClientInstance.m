@@ -252,6 +252,7 @@
 	[self setHasExperimentLoadErrors:NO];
 	[self setExperimentLoading:NO];
 	[self setExperimentRunning:NO];
+	[self setExperimentPaused:NO];
 	
 	[self setExperimentName:@""];
 	[self setExperimentPath:@""];
@@ -276,6 +277,7 @@
 	[self setHasExperimentLoadErrors:NO];
 	[self setExperimentLoading:NO];
 	[self setExperimentRunning:NO];
+	[self setExperimentPaused:NO];
 	[self setExperimentPath:Nil];
 	[self setExperimentName:Nil];
     [self setVariableSetName:Nil];
@@ -288,6 +290,7 @@
 	[self setHasExperimentLoadErrors:NO];
 	[self setExperimentLoading:NO];
 	[self setExperimentRunning:NO];
+	[self setExperimentPaused:NO];
 }
 
 - (void)enforceLoadFailedState{
@@ -297,6 +300,7 @@
 	[self setHasExperimentLoadErrors:YES];
 	[self setExperimentLoading:NO];
 	[self setExperimentRunning:NO];
+	[self setExperimentPaused:NO];
 	[self setExperimentName:@"Experiment Load Failed..."];
 }
 
@@ -307,6 +311,7 @@
 	[self setHasExperimentLoadErrors:NO];
 	[self setExperimentLoading:NO];
 	[self setExperimentRunning:YES];
+	[self setExperimentPaused:NO];
 }
 
 	
@@ -540,6 +545,24 @@
 }
 
 
+- (void)toggleExperimentPaused:(id)paused{
+	
+	BOOL isit = [paused boolValue];
+    
+#ifndef HOLLOW_OUT_FOR_ADC
+	if(isit){
+		//resume
+        core->sendResumeEvent();
+        [notebook addEntry:@"Experiment resumed"];
+	} else {
+		//pause
+        core->sendPauseEvent();
+        [notebook addEntry:@"Experiment paused"];
+	}
+#endif
+}
+
+
 // Iteraction with core client
 
 - (NSNumber *)codeForTag:(NSString *)tag {
@@ -752,6 +775,7 @@
                     
                     [self setExperimentLoading:NO];
                     [self setExperimentRunning:NO];
+                    [self setExperimentPaused:NO];
                     
                     if([self hasExperimentLoadErrors]){
                         [self enforceLoadFailedState];

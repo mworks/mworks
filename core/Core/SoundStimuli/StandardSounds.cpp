@@ -65,7 +65,7 @@ void OpenALSound::play(){
 void OpenALSound::announceSoundPlayed(){
 	
  Datum data(M_DICTIONARY, 0);
-	data.addElement(SOUND_NAME, tag);
+	data.addElement(SOUND_NAME, getTag());
 	
 	announce(data);
 }
@@ -187,7 +187,7 @@ WavFileSound::~WavFileSound(){
 void WavFileSound::announceSoundPlayed(){
 	
  Datum data(M_DICTIONARY, 2);
-	data.addElement(SOUND_NAME, tag);
+	data.addElement(SOUND_NAME, getTag());
 	data.addElement(SOUND_FILENAME, path); 
 	announce(data);
 }

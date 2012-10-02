@@ -42,7 +42,14 @@ class ActionTestFixture : public FullCoreEnvironmentTestFixture {
 	
 	
 private:
+    boost::shared_ptr<VariableCallbackNotification> messageCallbackNotification;
+    Datum messagePackage;
+    
+    void messageCallback(const Datum &data, MWorksTime time);
+    
 public:
+    void setUp();
+    void tearDown();
 
 	// assigment tests
 	void testSimpleAssignment1();

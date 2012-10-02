@@ -36,7 +36,7 @@ public:
     virtual Datum getCurrentAnnounceDrawData();
     
 protected:
-    virtual void endPause();
+    virtual void beginPause();
     
     VariablePtr autoplay;
     

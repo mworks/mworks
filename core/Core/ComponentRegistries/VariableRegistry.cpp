@@ -279,8 +279,8 @@ shared_ptr<ScopedVariable> VariableRegistry::addScopedVariable(weak_ptr<ScopedVa
 	new_variable->setCodecCode(codec_code);
 	new_variable->setEventTarget(static_pointer_cast<EventReceiver>(event_buffer));
 	
-	if(!env.expired()){
-		shared_ptr<ScopedVariableEnvironment> env_shared(env);
+    shared_ptr<ScopedVariableEnvironment> env_shared = env.lock();
+	if(env_shared){
 		env_shared->addVariable(new_variable);
 	}
 	

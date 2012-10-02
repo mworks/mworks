@@ -394,7 +394,7 @@ bool mMSSWGamepad::startDeviceIO(){
     updateButtons();
 	
 	shared_ptr<mMSSWGamepad> this_one = component_shared_from_this<mMSSWGamepad>();
-	schedule_node = scheduler->scheduleUS(std::string(FILELINE ": ") + tag,
+	schedule_node = scheduler->scheduleUS(std::string(FILELINE ": ") + getTag(),
 														   (MWorksTime)0, 
 														   update_period, 
 														   M_REPEAT_INDEFINITELY, 

@@ -56,7 +56,6 @@
 #include "LinkedList.h"
 #include "VariableNotification.h"
 #include "Utilities.h"
-#include "Clonable.h"
 #include <boost/shared_ptr.hpp>
 #include <boost/weak_ptr.hpp>
 #include <list>

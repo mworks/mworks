@@ -31,6 +31,7 @@ public:
 	virtual void start();
 	virtual void stop();
 	virtual void pause();
+	virtual void resume();
 	
 	virtual bool isRunning();
 	virtual bool isPaused();
@@ -38,14 +39,14 @@ public:
 	virtual bool isInAction();
 	virtual bool isInTransition();
 	
-	virtual void setInAction(bool);
-	virtual void setInTransition(bool);
+	//virtual void setInAction(bool);
+	//virtual void setInTransition(bool);
+    
+	virtual weak_ptr<State> getCurrentState();
+	//virtual void setCurrentState(weak_ptr<State> current);
 	
 	// use these to send the proper events at the proper times
-	virtual void sendSystemStateEvent();
-	
-	weak_ptr<State> getCurrentState();
-	void setCurrentState(weak_ptr<State> current);
+	void sendSystemStateEvent();
 	shared_ptr<Clock> getClock() const;
   
   REGISTERED_SINGLETON_CODE_INJECTION(StateSystem)

@@ -168,8 +168,8 @@ void  Client::sendPauseEvent() {
     putEvent(SystemEventFactory::pauseExperimentControl());
 }
 
-void  Client::sendUnpauseEvent() {
-    putEvent(SystemEventFactory::pauseExperimentControl());
+void  Client::sendResumeEvent() {
+    putEvent(SystemEventFactory::resumeExperimentControl());
 }
 
 void  Client::sendOpenDataFileEvent(const std::string &filename, 
