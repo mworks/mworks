@@ -490,15 +490,26 @@ Wait::Wait(shared_ptr<TimeBase> _timeBase,
 }
 
 bool Wait::execute() {
-    MWTime baseTime;
+    shared_ptr<Clock> clock = Clock::instance();
+    MWTime now = clock->getCurrentTimeUS();
     
+    MWTime baseTime;
     if (timeBase) {
         baseTime = timeBase->getTime();
     } else {
-        baseTime = Clock::instance()->getCurrentTimeUS();
+        baseTime = now;
     }
     
     expirationTime = baseTime + MWTime(*waitTime);
+    
+    if (StateSystem::instance()->getCurrentState().lock().get() != this) {
+        // If we're executing outside of the normal state system (e.g. as part of a ScheduledActions instance),
+        // then we need to do the wait ourselves, right here
+        MWTime timeToWait = expirationTime - now;
+        if (timeToWait > 0) {
+            clock->sleepUS(timeToWait);
+        }
+    }
     
     return true;
 }
