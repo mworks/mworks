@@ -42,6 +42,7 @@
 #endif
 #include <boost/random.hpp>
 
+#include <boost/math/special_functions/round.hpp>
 #include <boost/format.hpp>
 
 #include "Utilities.h"
@@ -1795,6 +1796,21 @@ namespace stx {
 		return AnyScalar( std::sqrt(paramlist[0].getDouble()) );
 	}
 	
+	AnyScalar BasicSymbolTable::funcCEIL(const paramlist_type &paramlist)
+	{
+		return AnyScalar( std::ceil(paramlist[0].getDouble()) );
+	}
+	
+	AnyScalar BasicSymbolTable::funcFLOOR(const paramlist_type &paramlist)
+	{
+		return AnyScalar( std::floor(paramlist[0].getDouble()) );
+	}
+	
+	AnyScalar BasicSymbolTable::funcROUND(const paramlist_type &paramlist)
+	{
+		return AnyScalar( boost::math::round(paramlist[0].getDouble()) );
+	}
+	
 	static boost::mt19937 rng;
 	static bool seeded;
 	static void seed_rng(){
@@ -1954,6 +1970,10 @@ namespace stx {
 		setFunction("LOGN", 1, funcLOGN);
 		setFunction("POW", 2, funcPOW);
 		setFunction("SQRT", 1, funcSQRT);
+		
+		setFunction("CEIL", 1, funcCEIL);
+		setFunction("FLOOR", 1, funcFLOOR);
+		setFunction("ROUND", 1, funcROUND);
 		
 		setFunction("RAND", 0, funcUNIFORM_RAND);
 		setFunction("RAND", 2, funcUNIFORM_RAND);

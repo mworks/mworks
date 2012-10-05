@@ -244,6 +244,15 @@ protected:
 
     /// Return the value of sqrt(x) as a double AnyScalar
     static AnyScalar	funcSQRT(const paramlist_type& paramlist);
+    
+    /// Return the value of ceil(x) as a double AnyScalar
+    static AnyScalar	funcCEIL(const paramlist_type& paramlist);
+    
+    /// Return the value of floor(x) as a double AnyScalar
+    static AnyScalar	funcFLOOR(const paramlist_type& paramlist);
+    
+    /// Return the value of round(x) as a double AnyScalar
+    static AnyScalar	funcROUND(const paramlist_type& paramlist);
 
     static AnyScalar	funcUNIFORM_RAND(const paramlist_type& paramlist);
     static AnyScalar	funcDISC_UNIFORM_RAND(const paramlist_type& paramlist);
