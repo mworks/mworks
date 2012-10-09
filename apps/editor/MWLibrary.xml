@@ -1601,6 +1601,34 @@
 		</code>
 	</MWElement>
 
+
+	<!-- **************************** -->
+	<!-- Stimulus Display Definitions -->
+	<!-- **************************** -->
+	
+	<MWElement name="Stimulus Display">
+		<!-- XPath 2.0 expression defining nodes of this type -->
+		<match_signature>iodevice[@type='stimulus_display']</match_signature>
+
+		<!-- Inheritance -->
+		<isa>IODevice</isa>
+		
+		<description>
+			A stimulus display device.  At present, MWorks
+			always creates one (and only one) of these per
+			experiment, regardless of whether the
+			experiment file defines one.  By including a
+			definition in your experiment file, you can
+			change the display's default background color.
+		</description>
+		
+		<!-- Payload -->
+		<code>
+			<iodevice type="stimulus_display" tag="Stimulus Display" background_color="0, 0, 0"/>
+		</code>
+	</MWElement>
+
+
 	<!-- ********************** -->
 	<!-- Calibrator Definitions -->
 	<!-- ********************** -->

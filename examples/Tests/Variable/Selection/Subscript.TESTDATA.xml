@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<marionette_info>
+  <expected_messages>
+    <message type="starts_with">ERROR: Selection variable has no tentative selections available.  Returning 0</message>
+    <message type="starts_with">ERROR: Selection variable has no tentative selections available.  Returning 0</message>
+    <message type="starts_with">ERROR: Selection variable has no tentative selections available.  Returning 0</message>
+    <message type="starts_with">ERROR: Selection variable has no tentative selections available.  Returning 0</message>
+    <message type="starts_with">ERROR: Selection variable has no tentative selections available.  Returning 0</message>
+    <message type="starts_with">ERROR: Selection variable index (1) is out of bounds.  Returning 0.</message>
+    <message type="starts_with">ERROR: Selection variable has no tentative selections available.  Returning 0.</message>
+  </expected_messages>
+</marionette_info>

@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<marionette_info>
+  <expected_messages>
+    <message type="contains">Object is missing required attribute "background_color"</message>
+    <message type="starts_with">ERROR: Failed to parse experiment</message>
+  </expected_messages>
+  <expected_events>
+    <!-- The experiment shouldn't load, so we expect no events -->
+  </expected_events>
+</marionette_info>

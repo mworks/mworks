@@ -13,7 +13,9 @@
 #include "States.h"
 #include <boost/lexical_cast.hpp>
 
-namespace mw {
+
+BEGIN_NAMESPACE_MW
+
 
 class Block : public ListState{
 	
@@ -39,18 +41,6 @@ public:
 };
 
 
-class GenericListState : public ListState {
-	
-public:
-	
-	GenericListState();
-	
-	virtual shared_ptr<mw::Component> createInstanceObject();
-	
-
-};
-
-
 class Trial : public ListState {
 	
 public:
@@ -65,10 +55,21 @@ public:
 };
 
 
+class GenericListState : public ListState {
+    
+public:
+    virtual shared_ptr<mw::Component> createInstanceObject();
+    
+};
+
+
 class BlockFactory : public ListStateFactory<Block>{};
 class TrialFactory : public ListStateFactory<Trial>{};
 class ProtocolFactory : public ListStateFactory<mw::Protocol>{};
 class GenericListStateFactory : public ListStateFactory<GenericListState>{}; 
-}
-#endif
 
+
+END_NAMESPACE_MW
+
+
+#endif

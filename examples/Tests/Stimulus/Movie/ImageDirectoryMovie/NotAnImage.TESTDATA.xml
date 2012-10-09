@@ -1,5 +1,8 @@
 <?xml version="1.0"?>
 <marionette_info>
+  <permitted_error_messages>
+    <message type="contains"> is incompatible with display refresh rate </message>
+  </permitted_error_messages>
   <expected_messages>
     <message type="contains">Cannot load image: file read error</message>
     <message type="starts_with">ERROR: Failed to parse experiment </message>

@@ -34,8 +34,18 @@ DynamicStimulusDriver::~DynamicStimulusDriver() {
 
 
 void DynamicStimulusDriver::stateSystemCallback(const Datum &data, MWorksTime time) {
-    if (data.getInteger() == IDLE) {
-        stop();
+    switch (data.getInteger()) {
+        case IDLE:
+            stop();
+            break;
+            
+        case RUNNING:
+            unpause();
+            break;
+            
+        case PAUSED:
+            pause();
+            break;
     }
 }
 

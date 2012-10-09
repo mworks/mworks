@@ -97,7 +97,7 @@ namespace mw {
 
 // ======================================================  
 // defines for state system modes
-enum {IDLE, STOPPING, RUNNING, TASKMODES};	
+enum {IDLE, STOPPING, RUNNING, PAUSED, TASKMODES};	
 
 
 
@@ -162,6 +162,7 @@ extern shared_ptr<Variable> beamPosition;		// DDC added as an experiment, Aug 20
 #define M_ALWAYS_DISPLAY_MIRROR_WINDOW_KEY	"always_display_mirror_window"
 #define M_MIRROR_WINDOW_BASE_HEIGHT_KEY		"mirror_window_base_height"
 #define M_REFRESH_RATE_KEY					"refresh_rate_hz"
+#define M_REDRAW_ON_EVERY_REFRESH_KEY		"redraw_on_every_refresh"
 extern shared_ptr<Variable> mainDisplayInfo;		
 extern shared_ptr<Variable> warnOnSkippedRefresh;		
 extern shared_ptr<Variable> alt_failover;

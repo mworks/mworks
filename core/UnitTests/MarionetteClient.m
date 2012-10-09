@@ -413,6 +413,7 @@ Datum _getNumber(const string &expression, const GenericDataType type);
 					case M_START_EXPERIMENT:
 					case M_STOP_EXPERIMENT:
 					case M_PAUSE_EXPERIMENT:
+					case M_RESUME_EXPERIMENT:
 					case M_SAVE_VARIABLES:
 					case M_LOAD_VARIABLES:
 					case M_OPEN_DATA_FILE:
@@ -469,6 +470,10 @@ Datum _getNumber(const string &expression, const GenericDataType type);
 				break;
 			case RUNNING:
 				self.stateSystemRunning = YES;								
+				break;
+			case PAUSED:
+				[self marionetteAssert:self.stateSystemRunning
+						   withMessage:@"stateSystemRunning is false"]; 
 				break;
 			default:
 				[self marionetteAssert:@"illegal state_system_mode value"]; 

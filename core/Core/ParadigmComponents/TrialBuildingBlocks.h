@@ -37,38 +37,21 @@ BEGIN_NAMESPACE_MW
 
 
 // base class for all actions
-class Action : public State, public VariableNotification {
-
-protected:
-    // State *parent;
-    Variable *delay;
-    ScheduleTask *taskRef;
+class Action : public State {
 
 public:
     static void describeComponent(ComponentInfo &info);
 
     explicit Action(const ParameterValueMap &parameters);
     Action();
-    virtual ~Action();
     virtual bool execute();
     
-    // TODO: are these needed
-    virtual void setOwner(weak_ptr<State> _parent);
-    virtual weak_ptr<State> getOwner();
-    
-    virtual weak_ptr<Experiment> getExperiment();
     void setName(const std::string &_name);
     
-    // Fancier features
-    void setDelay(Variable *_delay){ delay = _delay; }
-    Variable *getDelay(){ return delay; };
-    
     virtual void announceEntry();
-    virtual void announceExit();
     
     // State methods
     virtual void action();
-    virtual weak_ptr<State> next();
 
 };
 
@@ -242,13 +225,13 @@ class Wait : public Action {
 protected:
 	shared_ptr<Variable> waitTime;
 	shared_ptr<TimeBase> timeBase;
+    MWTime expirationTime;
 public:
 	Wait(shared_ptr<Variable> time_us);
 	Wait(shared_ptr<TimeBase> timeBase,
 		  shared_ptr<Variable> time_us);
-	virtual ~Wait();
 	virtual bool execute();
-	shared_ptr<Variable> getTimeToWait();
+    virtual weak_ptr<State> next();
 };
 
 class WaitFactory : public ComponentFactory{
@@ -666,32 +649,25 @@ public:
 	virtual weak_ptr<State> execute();
 };
 
-class TaskSystemState : public State {
-protected:
-	ExpandableList<Action> *action_list;
-	ExpandableList<TransitionCondition> *transition_list;
-	bool done;
+class TaskSystemState : public ContainerState {
+    
+private:
+	shared_ptr< vector< shared_ptr<TransitionCondition> > > transition_list;
+    int currentActionIndex;
+    
+	void addTransition(shared_ptr<TransitionCondition> trans);
+    
 public:
 	TaskSystemState();
-	TaskSystemState(State *parent);
-	virtual ~TaskSystemState();	
 	
 	virtual shared_ptr<mw::Component> createInstanceObject();
 	virtual void action();
 	virtual weak_ptr<State> next();
+    virtual void reset();
 	
 	virtual void addChild(std::map<std::string, std::string> parameters,
 						  ComponentRegistry *reg, shared_ptr<mw::Component> comp);
-	virtual void addAction(shared_ptr<Action> act);
-	virtual void addTransition(shared_ptr<TransitionCondition> trans);
-	
-	
-	ExpandableList<Action> * getActionList();
-	ExpandableList<TransitionCondition> * getTransitionList();
-	void setActionList(ExpandableList<Action> *al){  action_list = al; }
-	void setTransitionList(ExpandableList<TransitionCondition> *tl){  
-		transition_list = tl;
-	}  
+    
 };
 
 class TaskSystemStateFactory : public ComponentFactory{	
@@ -708,18 +684,13 @@ class TaskSystemStateFactory : public ComponentFactory{
 
 // A container for building blocks
 class TaskSystem : public ContainerState {
-protected:
-	bool execution_triggered;
 	
 public:
 	// execute what's in the box, leaving the transition 
 	// list open to be user defined
 	TaskSystem();
-	TaskSystem(State *parent);	
 	
 	virtual shared_ptr<mw::Component> createInstanceObject();
-	virtual ~TaskSystem();	
-	virtual void updateHierarchy();
 	virtual void action();
 	virtual weak_ptr<State> next();
 	
@@ -738,12 +709,7 @@ public:
         //reg->registerObject(full_tag, comp);
 	
 	}
-	
-	
-	virtual weak_ptr<State> getStartState();
-	//mExpandableList<State> * getTaskSystemStates();
-	
-	//void setTaskSystemStates(ExpandableList<State> *states){ list = states; }
+    
 };
 
 class TaskSystemFactory : public ComponentFactory{	
@@ -764,6 +730,32 @@ public:
     
     explicit StopExperiment(const ParameterValueMap &parameters);
     virtual ~StopExperiment() { }
+    
+    virtual bool execute();
+    
+};
+
+
+class PauseExperiment : public Action {
+    
+public:
+    static void describeComponent(ComponentInfo &info);
+    
+    explicit PauseExperiment(const ParameterValueMap &parameters);
+    virtual ~PauseExperiment() { }
+    
+    virtual bool execute();
+    
+};
+
+
+class ResumeExperiment : public Action {
+    
+public:
+    static void describeComponent(ComponentInfo &info);
+    
+    explicit ResumeExperiment(const ParameterValueMap &parameters);
+    virtual ~ResumeExperiment() { }
     
     virtual bool execute();
     

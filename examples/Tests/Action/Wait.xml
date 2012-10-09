@@ -1,0 +1,52 @@
+<?xml version="1.0" standalone="no"?>
+<monkeyml version="1.0">
+    <io_devices tag="IO Devices"></io_devices>
+    <variables tag="Variables">
+        <variable tag="t_start" scope="global" logging="when_changed" default_value="0" type="integer"></variable>
+        <variable tag="delta_t" scope="global" logging="when_changed" default_value="0" type="integer"></variable>
+        <variable tag="tolerance" scope="global" logging="when_changed" default_value="1000" type="integer"></variable>
+        <variable tag="wait_complete" scope="global" logging="when_changed" default_value="0" type="boolean"></variable>
+    </variables>
+    <sounds tag="Sounds"></sounds>
+    <stimuli tag="Stimuli"></stimuli>
+    <filters tag="Filters"></filters>
+    <optimizers tag="Optimizers"></optimizers>
+    <experiment tag="New Experiment" full_name="" description="">
+        <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential">
+            <action type="assignment" tag="Assign Variable" variable="t_start" value="now()"></action>
+            <action type="wait" tag="Wait" duration="2" duration_units="s"></action>
+            <action type="assignment" tag="Assign Variable 2" variable="delta_t" value="now() - t_start"></action>
+            <action type="assert" tag="Assert" condition="abs(delta_t - 2000000) &lt; tolerance" message=""></action>
+            <action type="assignment" tag="Assign Variable 3" variable="t_start" value="now()"></action>
+            <action type="wait" tag="Wait 2" duration="-1" duration_units="s"></action>
+            <action type="assignment" tag="Assign Variable 4" variable="delta_t" value="now() - t_start"></action>
+            <action type="assert" tag="Assert 2" condition="delta_t &lt; tolerance" message=""></action>
+            <action type="set_timebase" tag="Set Timebase" timebase="MyTimebase"></action>
+            <action type="wait" tag="Wait 3" duration="3" duration_units="s"></action>
+            <action type="assignment" tag="Assign Variable 5" variable="t_start" value="now()"></action>
+            <action type="wait" tag="Wait 4" duration="5" duration_units="s" timebase="MyTimebase"></action>
+            <action type="assignment" tag="Assign Variable 6" variable="delta_t" value="now() - t_start"></action>
+            <action type="assert" tag="Assert 3" condition="abs(delta_t - 2000000) &lt; tolerance" message="" stop_on_failure="0"></action>
+            <task_system tag="New Task System" interruptible="YES">
+                <task_system_state tag="Begin State System" interruptible="YES">
+                    <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                    <action type="assignment" tag="Assign Variable 7" variable="wait_complete" value="0"></action>
+                    <action type="schedule" tag="Schedule Actions" delay="0" duration="0" repeats="1" cancel="">
+                        <action type="assignment" tag="Assign Variable 8" variable="t_start" value="now()"></action>
+                        <action type="wait" tag="Wait 5" duration="2" duration_units="s"></action>
+                        <action type="assignment" tag="Assign Variable 9" variable="delta_t" value="now() - t_start"></action>
+                        <action type="assignment" tag="Assign Variable 10" variable="wait_complete" value="1"></action>
+                    </action>
+                    <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                    <transition type="conditional" tag="If Condition is True, Transition to ..." condition="wait_complete" target="Exit State System"></transition>
+                </task_system_state>
+                <task_system_state tag="Exit State System" interruptible="YES">
+                    <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                    <action type="assert" tag="Assert 4" condition="abs(delta_t - 2000000) &lt; tolerance + 500" message="" stop_on_failure="0"></action>
+                    <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                    <transition tag="Return to parent task system" type="yield"></transition>
+                </task_system_state>
+            </task_system>
+        </protocol>
+    </experiment>
+</monkeyml>

@@ -108,7 +108,7 @@ public:
 
 
 // A request to bind a parameter to a named channel
-class IOChannelRequest : public Lockable, public mw::Component {     // JJD made Clonable on jan 20, 2007
+class IOChannelRequest : public Lockable, public mw::Component {
     
 protected:
     std::string             channel_name;

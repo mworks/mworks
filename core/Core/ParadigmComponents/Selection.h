@@ -22,7 +22,6 @@
 #include "Utilities.h"
 #include "GenericVariable.h"
 #include "ExpandableList.h"
-#include "Clonable.h"
 #include "Selectable.h"
 namespace mw {
 
@@ -88,6 +87,7 @@ class Selection {
 		virtual bool isFinished(){  return (done_so_far >= n_draws); }
 		virtual int  getNDone(){  return done_so_far; }
 		virtual int  getNLeft(){ return n_draws - done_so_far; }
+		virtual const std::vector<int>& getTentativeSelections() { return tentative_selections; }
 		
 		virtual shared_ptr<Selection> clone() = 0;
 		

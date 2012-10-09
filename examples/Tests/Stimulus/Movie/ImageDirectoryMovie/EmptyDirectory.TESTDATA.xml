@@ -1,5 +1,8 @@
 <?xml version="1.0"?>
 <marionette_info>
+  <permitted_error_messages>
+    <message type="contains"> is incompatible with display refresh rate </message>
+  </permitted_error_messages>
   <expected_messages>
     <message type="starts_with">ERROR: Experiment packaging failed: Directory contains no regular files: </message>
     <message type="whole_message">ERROR: Failed to create a valid packaged experiment.</message>

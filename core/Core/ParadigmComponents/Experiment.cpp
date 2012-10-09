@@ -20,10 +20,8 @@ Experiment::Experiment(shared_ptr<VariableRegistry> var_reg)
 	
     //stimulus_display = NULL;
 	
-	// These fields will eventually be self-referential (set during "finalize")
+	// This fields will eventually be self-referential (set during "finalize")
 	current_state = weak_ptr<State>();
-	experiment = weak_ptr<Experiment>();
-	environment = weak_ptr<ScopedVariableEnvironment>();
 	
     experimentName = "";
 	setName(experimentName);
@@ -34,12 +32,6 @@ Experiment::Experiment(shared_ptr<VariableRegistry> var_reg)
 Experiment::~Experiment() { }
 
 
-// The following two because SWIG eats ass
-State *Experiment::getStateInstance(){ 
-	return (State *)clone(); 
-}
-
-
 void Experiment::createVariableContexts(){
 	
 	if(variable_registry == NULL){
@@ -47,8 +39,7 @@ void Experiment::createVariableContexts(){
 		return;
 	}
 	
-	local_variable_context = createNewDefaultContext();
-	setCurrentContext(local_variable_context);
+    setLocalScopedVariableContext(createNewDefaultContext());
 	//local_variable_context = variable_registry->createLocalVariableContext();
 	
 }
@@ -63,12 +54,12 @@ void Experiment::setStimulusDisplay(shared_ptr<StimulusDisplay> newdisplay) {
 
 
 void Experiment::setCurrentProtocol(unsigned int protocol_number) {
-    if(protocol_number > list->size()) {
+    if(protocol_number >= getList().size()) {
 		merror(M_PARADIGM_MESSAGE_DOMAIN,
 			   "Attempt to access invalid protocol number");
     }
 	
-    current_protocol = boost::dynamic_pointer_cast<mw::Protocol, State>((*list)[protocol_number]);
+    current_protocol = boost::dynamic_pointer_cast<mw::Protocol, State>(getList()[protocol_number]);
 	
 	// TODO: is this implicit cast kosher?
 	current_state = weak_ptr<State>(current_protocol);
@@ -80,8 +71,8 @@ void Experiment::setCurrentProtocol(unsigned int protocol_number) {
 void Experiment::setCurrentProtocol(std::string protName) {
     mprintf("Setting protocol to %s", protName.c_str());
 	if(protName.size() == 0) { return; }
-    for(unsigned int i = 0; i < list->size(); i++) {
-        std::string comp = ((*list)[i])->getName();
+    for(unsigned int i = 0; i < getList().size(); i++) {
+        std::string comp = (getList()[i])->getName();
 		
 	    if(comp == protName){
             setCurrentProtocol(i);
@@ -114,16 +105,6 @@ shared_ptr<mw::Protocol> Experiment::getCurrentProtocol() {
 }
 
 
-
-void Experiment::update() {   
-    // we got called from the protocol we were running, so we're done for now
-    ///setInt(taskMode_edit, IDLE);
-    current_state = weak_ptr<State>();
-	*state_system_mode = STOPPING;
-}
-
-
-
 weak_ptr<State> Experiment::getCurrentState() {
 	if(current_state.expired()) {
 		return getCurrentProtocol();
@@ -141,9 +122,9 @@ void Experiment::setCurrentState(weak_ptr<State> newstate) {
 void Experiment::action(){
 	variable_registry->announceAll();
 	
-	if(current_protocol.use_count() == 0 && list->size()){
+	if(current_protocol.use_count() == 0 && getList().size()){
 		// TODO: this line is bad
-		current_protocol =  boost::dynamic_pointer_cast<mw::Protocol, State>(list->operator[](0)); // TODO: remove up-cast;
+		current_protocol =  boost::dynamic_pointer_cast<mw::Protocol, State>(getList()[0]); // TODO: remove up-cast;
 	}
 	
 	ContainerState::action();
@@ -151,16 +132,20 @@ void Experiment::action(){
 
 
 weak_ptr<State> Experiment::next() {
-	current_protocol->updateCurrentScopedVariableContext();
-	weak_ptr<State> weak_return(current_protocol);
-    return (weak_return);
+    if (!accessed) {
+        accessed = true;
+        current_protocol->updateCurrentScopedVariableContext();
+        return current_protocol;
+    } else {
+        current_state = weak_ptr<State>();
+        *state_system_mode = STOPPING;
+        return current_state;
+    }
 }
 
 
 void Experiment::reset(){
-	for(unsigned int i = 0; i < list->size(); i++){
-		(*list)[i]->reset();
-	}
+    ContainerState::reset();
 	
 	// TODO: is implicit cast kosher?
 	weak_ptr<State> state_ptr(current_protocol);

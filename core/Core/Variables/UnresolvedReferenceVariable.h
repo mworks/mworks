@@ -99,8 +99,8 @@ class UnresolvedReferenceVariable : public Variable {
 			
 			string resolved_string = unresolved_string.resolve();
 			
-			if(!registry.expired()){
-				shared_ptr<ComponentRegistry> registry_shared(registry);
+            shared_ptr<ComponentRegistry> registry_shared = registry.lock();
+			if(registry_shared){
 				shared_ptr<Variable> resolved_variable = registry_shared->getVariable(resolved_string);
 				
 				if(resolved_variable != NULL){
@@ -117,7 +117,7 @@ class UnresolvedReferenceVariable : public Variable {
 		virtual void setSilentValue(Datum _value){ return; }
 		
 		/**
-		 *  A polymorphic copy constructor (inherited from Clonable)
+		 *  A polymorphic copy constructor
 		 */
 		virtual Variable *clone(){
 			UnresolvedReferenceVariable *returned = 

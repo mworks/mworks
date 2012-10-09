@@ -1,0 +1,27 @@
+<?xml version="1.0" standalone="no"?>
+<monkeyml version="1.0">
+    <io_devices tag="IO Devices"></io_devices>
+    <variables tag="Variables"></variables>
+    <sounds tag="Sounds"></sounds>
+    <stimuli tag="Stimuli"></stimuli>
+    <filters tag="Filters"></filters>
+    <optimizers tag="Optimizers"></optimizers>
+    <experiment tag="New Experiment" full_name="" description="">
+        <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
+            <block tag="New Block" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="0">
+                <action type="report" tag="Report" message="Entered block"></action>
+                <trial tag="New Trial" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
+                    <action type="report" tag="Report 2" message="Entered trial"></action>
+                    <list tag="New List" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="0">
+                        <action type="report" tag="Report 3" message="Entered list"></action>
+                        <action tag="Stop Experiment" type="stop_experiment"></action>
+                        <action type="report" tag="Report 4" message="Exiting list"></action>
+                    </list>
+                    <action type="report" tag="Report 5" message="Exiting trial"></action>
+                </trial>
+                <action type="report" tag="Report 6" message="Exiting block"></action>
+            </block>
+            <action type="assert" tag="Assert" condition="0" message="This should never be reached" stop_on_failure="0"></action>
+        </protocol>
+    </experiment>
+</monkeyml>

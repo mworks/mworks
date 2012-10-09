@@ -10,77 +10,107 @@
  *
  */
 
+#include <vector>
+
 #include "Selection.h"
 #include "Selectable.h"
 #include "GenericVariable.h"
 #include "ComponentFactory.h"
-namespace mw {
 
-class SelectionVariable :  public Selectable, public Variable {
 
+BEGIN_NAMESPACE_MW
+
+
+class SelectionVariable : public Selectable, public Variable {
+    
 protected:
-
-	ExpandableList<Variable> values;
-	shared_ptr<Variable> selected_value;
+    static const int NO_SELECTION = -1;
+    
+    std::vector<Datum> values;
+    int selected_index;
+    
 public:
-
-	SelectionVariable(VariableProperties *props);
-	SelectionVariable(VariableProperties *props, shared_ptr<Selection> _sel);
-	
-		
-	//mSelectionVariable(const SelectionVariable& tocopy);
-		
-				
-	virtual ~SelectionVariable(){
-		values.releaseElements();
-		
-	}
-	
-
-	virtual void addValue(shared_ptr<Variable> _var){
-		values.addReference(_var);
-		if(selection != NULL){
-			selection->reset();
+	SelectionVariable(VariableProperties *props, shared_ptr<Selection> _sel = shared_ptr<Selection>());
+    
+    virtual ~SelectionVariable() { }
+    
+    virtual void addValue(const Datum &val) {
+        values.push_back(val);
+		if (selection != NULL) {
+			resetSelections();
 		}
+    }
+    
+	virtual void addValue(shared_ptr<Variable> var) {
+        if (var) {
+            addValue(var->getValue());
+        }
 	}
 	
-	virtual shared_ptr<Variable> getValue(int i){
-		return values[i];
-	}
-	
-	
-	// A polymorphic copy constructor
-	virtual Variable *clone();
-	
+    virtual Datum getTentativeSelection(int index);
 	virtual void nextValue();
 	
+    // Variable overrides
+	virtual Variable *clone();
 	virtual Datum getValue();
-	virtual void setValue(Datum data){  return; }
-	virtual void setValue(Datum data, MWTime time){ return; }
-	virtual void setSilentValue(Datum data){  return; }
-	
-	virtual int getNChildren(){ return values.getNElements();  }
-	
-			
-	// From Selectable
-	virtual int getNItems(){ return getNChildren(); }
+	virtual void setValue(Datum data) { }
+	virtual void setValue(Datum data, MWTime time) { }
+	virtual void setSilentValue(Datum data) { }
+    
+    //
+    // Selectable overrides
+    //
+    
+	virtual int getNItems() { return values.size(); }
+    
 	virtual void resetSelections() {
-		selected_value = shared_ptr<Variable>();
-		selection->reset();
+        Selectable::resetSelections();
+		selected_index = NO_SELECTION;
 	}
-	
 	
 	void rejectSelections() {
-		selection->rejectSelections();
-		this->nextValue();
+        Selectable::rejectSelections();
+		nextValue();
 	}
-
+    
 };
 
 
 class SelectionVariableFactory : public ComponentFactory {
+    
 	virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-												ComponentRegistry *reg);
+                                                   ComponentRegistry *reg);
+    
 };
-}
+
+
+END_NAMESPACE_MW
+
+
 #endif
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

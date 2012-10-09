@@ -2221,3 +2221,119 @@ void SelectionVariableTestFixture::testRandomWithReplacementRejects(){
 	CPPUNIT_ASSERT(var.getNDone() == 4);
 }
 
+
+void SelectionVariableTestFixture::testGetTentativeSelection() {
+    SelectionVariable var(NULL);
+    
+    var.addValue(Datum(true));
+    var.addValue(Datum(2L));
+    var.addValue(Datum(3.3));
+    var.addValue(Datum("four"));
+    
+    // No selection attached (interal error)
+    {
+        Datum v = var.getTentativeSelection(0);
+        CPPUNIT_ASSERT(v.isInteger());
+        CPPUNIT_ASSERT_EQUAL(0L, long(v));
+    }
+    
+    shared_ptr<Selection> sel( new SequentialSelection(4, false) );
+    var.attachSelection(sel);
+    
+    // No tenative selections
+    {
+        Datum v = var.getTentativeSelection(0);
+        CPPUNIT_ASSERT(v.isInteger());
+        CPPUNIT_ASSERT_EQUAL(0L, long(v));
+    }
+    
+    CPPUNIT_ASSERT_EQUAL(4, var.getNLeft());
+    var.nextValue();
+    var.nextValue();
+    var.nextValue();
+    CPPUNIT_ASSERT_EQUAL(1, var.getNLeft());
+    
+    // Negative index (out of bounds)
+    {
+        Datum v = var.getTentativeSelection(-1);
+        CPPUNIT_ASSERT(v.isInteger());
+        CPPUNIT_ASSERT_EQUAL(0L, long(v));
+    }
+    
+    // Index == 0
+    {
+        Datum v = var.getTentativeSelection(0);
+        CPPUNIT_ASSERT(v != var.getValue());
+        CPPUNIT_ASSERT(v.isString());
+        CPPUNIT_ASSERT_EQUAL(std::string("four"), std::string(v));
+    }
+    
+    // Index == 1
+    {
+        Datum v = var.getTentativeSelection(1);
+        CPPUNIT_ASSERT(v != var.getValue());
+        CPPUNIT_ASSERT(v.isFloat());
+        CPPUNIT_ASSERT_EQUAL(3.3, double(v));
+    }
+    
+    // Index == 2
+    {
+        Datum v = var.getTentativeSelection(2);
+        CPPUNIT_ASSERT(v == var.getValue());
+        CPPUNIT_ASSERT(v.isInteger());
+        CPPUNIT_ASSERT_EQUAL(2L, long(v));
+    }
+    
+    // Index == 3 (out of bounds)
+    {
+        Datum v = var.getTentativeSelection(3);
+        CPPUNIT_ASSERT(v.isInteger());
+        CPPUNIT_ASSERT_EQUAL(0L, long(v));
+    }
+    
+    var.nextValue();
+    CPPUNIT_ASSERT_EQUAL(0, var.getNLeft());
+    
+    // Index == 3 (now valid)
+    {
+        Datum v = var.getTentativeSelection(3);
+        CPPUNIT_ASSERT(v == var.getValue());
+        CPPUNIT_ASSERT(v.isBool());
+        CPPUNIT_ASSERT_EQUAL(true, bool(v));
+    }
+    
+    var.acceptSelections();
+    
+    // Index == 0 (now invalid)
+    {
+        Datum v = var.getTentativeSelection(0);
+        CPPUNIT_ASSERT(v.isInteger());
+        CPPUNIT_ASSERT_EQUAL(0L, long(v));
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

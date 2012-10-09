@@ -198,6 +198,7 @@
 - (void)updateRecentExperiments;
 
 - (void)toggleExperimentRunning:(id)running;
+- (void)toggleExperimentPaused:(id)paused;
 						  
 - (void) loadVariableSet;
 - (void) saveVariableSet;

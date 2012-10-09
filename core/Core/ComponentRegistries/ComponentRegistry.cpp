@@ -23,6 +23,7 @@
 #include "SimpleStaircase.h"
 #include "DummyIODevice.h"
 #include "LegacyIODevice.h"
+#include "StimulusDisplayDevice.h"
 #include "StandardSounds.h"
 #include "XMLParser.h"
 #include "BiasMonitor.h"
@@ -36,10 +37,6 @@ BEGIN_NAMESPACE_MW
 shared_ptr<ComponentRegistry> ComponentRegistry::shared_component_registry;
 
 ComponentRegistry::ComponentRegistry() :
-        r1(".*?[\\*\\!\\+\\-\\=\\/\\&\\|\\%\\>\\<\\(\\)\"].*?"),
-        r2(".*?((\\#AND)|(\\#OR)|(\\#GT)|(\\#LT)|(\\#GE)|(\\#LE)|(\\Wms)|([^a-zA-z#]s)|(\\Wus)).*"),
-        r3("^\\s*\\d*\\.?\\d*\\s*(ms|us|s)?\\s*$"),
-        r4("^\\s*\\.?\\d*\\s*(ms|us|s)?\\s*$"),
         u1("^(.*?\\$.+?)$"),
         strip_it("^\\s*(.+?)\\s*$")
 {
@@ -90,6 +87,8 @@ ComponentRegistry::ComponentRegistry() :
 	registerFactory("action/accept_selections", new AcceptSelectionsFactory());
 	registerFactory("action/reject_selections", new RejectSelectionsFactory());
     registerFactory<StandardComponentFactory, StopExperiment>();
+    registerFactory<StandardComponentFactory, PauseExperiment>();
+    registerFactory<StandardComponentFactory, ResumeExperiment>();
 	registerFactory("action/take_calibration_sample", new TakeCalibrationSampleNowFactory());
 	registerFactory("action/begin_calibration_average", new StartAverageCalibrationSampleFactory());
 	registerFactory("action/end_calibration_average_and_ignore", new EndAverageAndIgnoreFactory());
@@ -120,6 +119,7 @@ ComponentRegistry::ComponentRegistry() :
 	// IO devices
     registerFactory<StandardComponentFactory, DummyIODevice>();
     registerFactory<StandardComponentFactory, IOChannelRequest>();
+    registerFactory<StandardComponentFactory, StimulusDisplayDevice>();
 	
 	// stimuli
     registerFactory<StandardStimulusFactory, BlankScreen>();
@@ -129,14 +129,6 @@ ComponentRegistry::ComponentRegistry() :
 	
 	// sounds
     registerFactory<StandardComponentFactory, WavFileSound>();
-  
-  
-  // cache these as members, since they will otherwise be created and destroyed a bazillion times
-  //boost::regex r1(".*?[\\*\\!\\+\\-\\=\\/\\&\\|\\%\\>\\<\\(\\)].*?");
-//	//boost::regex r1("(\\*|\\!|\\+|\\-|\\=|\\/|\\&|\\||\\%|\\>|\\<|\\(|\\))");
-//	boost::regex r2(".*?((\\#AND)|(\\#OR)|(\\#GT)|(\\#LT)|(\\#GE)|(\\#LE)|(\\Wms)|([^a-zA-z#]s)|(\\Wus)).*");
-//	boost::regex r3("^\\s*\\d*\\.?\\d*\\s*(ms|us|s)?\\s*$");
-//	boost::regex r4("^\\s*\\.?\\d*\\s*(ms|us|s)?\\s*$");
     
 }
 
@@ -277,32 +269,21 @@ shared_ptr<Variable>	ComponentRegistry::getVariable(std::string expression){
 		shared_ptr<Variable> unresolved_var(new UnresolvedReferenceVariable(expression, registry));
 		return unresolved_var;
 	}
-
-	smatch matches1, matches2, matches3;
-	
-	bool b1, b2, b3;
-	b1 = boost::regex_match(expression, matches1, r1); 
-	b2 = boost::regex_match(expression, matches2, r2);
-	b3 = boost::regex_match(expression, matches3, r3);
-	if(b1 || b2 || b3){
-        // TODO try
-		shared_ptr<Variable> expression_var(new ParsedExpressionVariable(expression));	
-		return expression_var;
-	} 
 	
 	smatch strip_match;
 	boost::regex_match(expression, strip_match, strip_it); 
 	
 	shared_ptr<Variable> var = global_variable_registry->getVariable(strip_match[1]);
   
-    if(var == NULL){
-        throw UnknownVariableException(strip_match[1]);
+    if (var != NULL) {
+        // cache/hash the variable for fast access
+        variable_cache[expression] = var;
+        return var;
     }
-  
-    // cache/hash the variable for fast access
-    variable_cache[expression] = var;
-  
-	return var;
+
+    // The expression parser will throw UnknownVariableException if the expression contains a bad variable
+    // name, so we don't need to catch anything here
+    return shared_ptr<Variable>(new ParsedExpressionVariable(expression));
 }
 
 // An alternate getVariable call that includes a default value
@@ -482,7 +463,7 @@ std::size_t hash_value(const GenericDataType &type) {
 }
 
 
-Datum ComponentRegistry::getNumber(std::string expression, GenericDataType type){
+Datum ComponentRegistry::getValue(std::string expression, GenericDataType type) {
 
   std::pair<std::string, GenericDataType> cacheKey(expression, type);
   shared_ptr<Datum> test = data_cache[cacheKey];
@@ -522,11 +503,14 @@ Datum ComponentRegistry::getNumber(std::string expression, GenericDataType type)
           value = Datum(string(expression));
           break;
       default:
-          throw NonFatalParserException("Attempt to cast a number of invalid type");
+          // No lexical_cast for other types
+          break;
     }
     
-    data_cache[cacheKey] = shared_ptr<Datum>(new Datum(value));
-    return value;
+    if (!value.isUndefined()) {
+        data_cache[cacheKey] = shared_ptr<Datum>(new Datum(value));
+        return value;
+    }
   } catch (NonFatalParserException& e){
       // Until we work out how to effectively flag these issues, treat them as fatal errors
       throw FatalParserException(e.what());
@@ -535,9 +519,26 @@ Datum ComponentRegistry::getNumber(std::string expression, GenericDataType type)
   }
   
   
-	ParsedExpressionVariable e(expression);
-	
-	value = e.getValue();
+	return Datum(ParsedExpressionVariable::evaluateExpression(expression));
+}
+
+
+Datum ComponentRegistry::getNumber(std::string expression, GenericDataType type){
+
+  Datum value;
+    switch(type){
+      case M_FLOAT:
+      case M_INTEGER:
+      case M_BOOLEAN:
+      case M_STRING:
+          value = getValue(expression, type);
+          if (value.getDataType() == type) {
+              return value;
+          }
+          break;
+      default:
+          throw FatalParserException("Attempt to cast a number of invalid type");
+    }
 	
 	switch (type){
 	
@@ -550,108 +551,9 @@ Datum ComponentRegistry::getNumber(std::string expression, GenericDataType type)
 		case M_BOOLEAN:
 			return Datum(value.getBool());
 		default:
-			return Datum(value);			
+			return value;			
 	}
-	
-	return Datum(value);
-		
-/*	
-	
-	std::string final_expression("");
-	int modifier = 1;
-
-	// now, do a quick and find on "us", "ms" and "s" 
-	boost::regex r("(.*?\\W)(us|ms|s)");
-	smatch matches;
-	std::string modifier_part("");
-	
-	
-	if(regex_match(expression, matches, r)){
-		final_expression = matches[1];
-		modifier_part = matches[2];
-		
-		if(modifier_part == "ms"){
-			modifier = 1000;
-		} else if(modifier_part == "s"){
-			modifier = 1000000;
-		}
-	} else {
-		final_expression = expression;
-	}
-
-	double result = boost::lexical_cast<double>(final_expression);
-	result *= modifier;
-	
-	return Datum(result);*/
 }
-
-
-string ComponentRegistry::getValueForAttribute(string attribute,
-                                               map<string, string>& parameters){
-    
-    map<string,string>::iterator attr_iter = parameters.find(attribute);
-    if(attr_iter == parameters.end()){
-        
-        string reference_id("<unknown object>");
-        if(parameters.find("reference_id") != parameters.end()){
-            reference_id = parameters["reference_id"];
-        }
-        
-        string tag = parameters["tag"];
-        if(tag.empty()){
-            tag = "unknown name";
-        }
-        
-        throw MissingAttributeException(reference_id, (boost::format("Object <%s> missing required attribute '%s'")% tag % attribute).str());
-    }
-    
-    return (*attr_iter).second;
-}
-
-
-
-shared_ptr<Variable> ComponentRegistry::getVariableForAttribute(string attribute,
-                                                               map<string, string>& parameters,
-                                                               string default_expression){
-    
-    
-    // if there's a default value specified, catch missing attribute exceptions
-    // and use the default expression instead
-    if(!default_expression.empty() && default_expression.size() > 0){
-        try {
-            string val = getValueForAttribute(attribute, parameters);
-            return getVariable(val, default_expression);
-        } catch (MissingAttributeException){
-            return getVariable(default_expression);
-        }
-    }
-    
-    string val = getValueForAttribute(attribute, parameters);
-    return getVariable(val, default_expression);
-    
-}
-
-Datum ComponentRegistry::getNumberForAttribute(string attribute,
-                                              map<string, string>& parameters,
-                                              GenericDataType datatype){
-    
-    string val = getValueForAttribute(attribute, parameters);
-    
-    return getNumber(val, datatype);
-}
-
-Datum ComponentRegistry::getNumberForAttribute(string attribute,
-                                              map<string, string>& parameters,
-                                              Datum default_number,
-                                              GenericDataType datatype){
-    
-    try {
-        return getNumberForAttribute(attribute, parameters, datatype);
-    } catch (MissingAttributeException){
-        return default_number;
-    }
-}
-
 
 
 boost::filesystem::path ComponentRegistry::getPath(std::string working_path,

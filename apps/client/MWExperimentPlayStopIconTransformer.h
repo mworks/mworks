@@ -9,12 +9,6 @@
 #import <Cocoa/Cocoa.h>
 
 
-@interface MWExperimentPlayStopIconTransformer : NSValueTransformer {
-
-}
-
-+ (Class)transformedValueClass;
-+ (BOOL)allowsReverseTransformation;
-- (id)transformedValue:(id)value;
+@interface MWExperimentPlayStopIconTransformer : NSValueTransformer
 
 @end

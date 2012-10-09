@@ -109,6 +109,18 @@ public:
     { }
 };
 
+/** Exception class thrown when a variable subscript is invalid or
+ * variable subscripting is not supported. \ingroup Exception */
+
+class BadVariableSubscriptException : public ExpressionParserException
+{
+public:
+    /// Construct with a description string.
+    inline BadVariableSubscriptException(const std::string &s) throw()
+	: ExpressionParserException(s)
+    { }
+};
+
 /** Abstract class used for evaluation of variables and function placeholders
  * within an expression. If you wish some standard mathematic function, then
  * derive your SymbolTable class from BasicSymbolTable instead of directly from
@@ -124,6 +136,11 @@ public:
 
     /// Return the (constant) value of a variable.
     virtual AnyScalar	lookupVariable(const std::string &varname) const = 0;
+    
+    /// Return the (constant) value of a variable subscript. By default,
+    /// variable subscripts are not supported, so the base implementation always
+    /// throws a BadVariableSubscriptException.
+    virtual AnyScalar	lookupVariable(const std::string &varname, const AnyScalar &subscript) const;
 
     /// Called when a program-defined function needs to be evaluated within an
     /// expression.
@@ -227,6 +244,15 @@ protected:
 
     /// Return the value of sqrt(x) as a double AnyScalar
     static AnyScalar	funcSQRT(const paramlist_type& paramlist);
+    
+    /// Return the value of ceil(x) as a double AnyScalar
+    static AnyScalar	funcCEIL(const paramlist_type& paramlist);
+    
+    /// Return the value of floor(x) as a double AnyScalar
+    static AnyScalar	funcFLOOR(const paramlist_type& paramlist);
+    
+    /// Return the value of round(x) as a double AnyScalar
+    static AnyScalar	funcROUND(const paramlist_type& paramlist);
 
     static AnyScalar	funcUNIFORM_RAND(const paramlist_type& paramlist);
     static AnyScalar	funcDISC_UNIFORM_RAND(const paramlist_type& paramlist);
@@ -295,6 +321,13 @@ public:
     /// Function to recursively evaluate the contained parse tree and retrieve
     /// the calculated scalar value based on the given symbol table.
     virtual AnyScalar evaluate(const class SymbolTable &st = BasicSymbolTable()) const = 0;
+    
+    /// Function to recursively evaluate the contained parse tree and retrieve
+    /// *all* calculated scalar values based on the given symbol table.
+    virtual void evaluate(std::vector<AnyScalar> &values, const class SymbolTable &st = BasicSymbolTable()) const
+    {
+        values.push_back(evaluate(st));
+    }
 
     /// (Internal) Function to check if the subtree evaluates to a constant
     /// expression. If dest == NULL then do a static check whether the node is
@@ -344,6 +377,14 @@ public:
 		assert(rootnode.get() != NULL);
 		return rootnode->evaluate(st);
     }
+    
+    /// Function to recursively evaluate the contained parse tree and retrieve
+    /// *all* calculated scalar values based on the given symbol table.
+    void evaluate(std::vector<AnyScalar> &values, const class SymbolTable &st = BasicSymbolTable()) const
+    {
+		assert(rootnode.get() != NULL);
+		return rootnode->evaluate(values, st);
+    }
 
     /// Return the parsed expression as a string, which can be parsed again.
     std::string	toString() const
@@ -373,7 +414,7 @@ protected:
 public:
     /// Function to recursively evaluate all the contained parse trees and
     /// retrieve each calculated scalar value for the given symbol table.
-    std::vector<AnyScalar>	evaluate(const class SymbolTable &st = BasicSymbolTable()) const;
+    void evaluate(std::vector<AnyScalar> &values, const class SymbolTable &st = BasicSymbolTable()) const;
 
     /// Return the list of parsed expression as a string, which can be parsed
     /// again.

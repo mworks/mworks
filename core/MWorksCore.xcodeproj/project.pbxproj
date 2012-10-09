@@ -93,8 +93,6 @@
 		0E8665790AEFE8C700564B87 /* VariableLoad.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E8665770AEFE8C700564B87 /* VariableLoad.cpp */; };
 		0E86657C0AEFE8D300564B87 /* VariableLoad.h in Headers */ = {isa = PBXBuildFile; fileRef = 0E86657A0AEFE8D300564B87 /* VariableLoad.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0E88D1730D04708A00D7D273 /* ComponentFactoryException.h in Headers */ = {isa = PBXBuildFile; fileRef = 0E88D1710D04708A00D7D273 /* ComponentFactoryException.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		0E9AD3140AD94214009C0B0B /* Clonable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E9AD3090AD94214009C0B0B /* Clonable.cpp */; };
-		0E9AD3150AD94214009C0B0B /* Clonable.h in Headers */ = {isa = PBXBuildFile; fileRef = 0E9AD30A0AD94214009C0B0B /* Clonable.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0E9AD3160AD94214009C0B0B /* ExpandableList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E9AD30B0AD94214009C0B0B /* ExpandableList.cpp */; };
 		0E9AD3170AD94214009C0B0B /* ExpandableList.h in Headers */ = {isa = PBXBuildFile; fileRef = 0E9AD30C0AD94214009C0B0B /* ExpandableList.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0EAA0DE60B98FC1500331AA5 /* SimpleStaircase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EAA0DE40B98FC1500331AA5 /* SimpleStaircase.cpp */; };
@@ -448,6 +446,8 @@
 		E1457B5014D08F95004D3AD5 /* MWorksCoreTestMain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1457B4F14D08F95004D3AD5 /* MWorksCoreTestMain.cpp */; };
 		E16BC17B137D952D0052D8E1 /* MachUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = E16BC179137D952D0052D8E1 /* MachUtilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E16BC17C137D952D0052D8E1 /* MachUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E16BC17A137D952D0052D8E1 /* MachUtilities.cpp */; };
+		E194BF6E1590DB5300D4A62D /* StimulusDisplayDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E194BF6D1590DB5300D4A62D /* StimulusDisplayDevice.cpp */; };
+		E194BF6F1590DB6900D4A62D /* StimulusDisplayDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = E194BF6C1590DB3900D4A62D /* StimulusDisplayDevice.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1C87A1313FDA558005FF5ED /* DynamicStimulusActions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1C87A1213FDA558005FF5ED /* DynamicStimulusActions.cpp */; };
 		E1C87A1513FDA56F005FF5ED /* DynamicStimulusActions.h in Headers */ = {isa = PBXBuildFile; fileRef = E1C87A1413FDA56F005FF5ED /* DynamicStimulusActions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1CB606913F57B6200145D5B /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1CB606813F57B6200145D5B /* CoreAudio.framework */; };
@@ -711,8 +711,6 @@
 		0E8665770AEFE8C700564B87 /* VariableLoad.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = VariableLoad.cpp; path = Core/Variables/VariableLoad.cpp; sourceTree = "<group>"; };
 		0E86657A0AEFE8D300564B87 /* VariableLoad.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = VariableLoad.h; path = Core/Variables/VariableLoad.h; sourceTree = "<group>"; };
 		0E88D1710D04708A00D7D273 /* ComponentFactoryException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ComponentFactoryException.h; path = Core/PluginServices/ComponentFactoryException.h; sourceTree = "<group>"; };
-		0E9AD3090AD94214009C0B0B /* Clonable.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = Clonable.cpp; sourceTree = "<group>"; };
-		0E9AD30A0AD94214009C0B0B /* Clonable.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = Clonable.h; sourceTree = "<group>"; };
 		0E9AD30B0AD94214009C0B0B /* ExpandableList.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ExpandableList.cpp; path = Core/GenericStructures/ExpandableList.cpp; sourceTree = "<group>"; };
 		0E9AD30C0AD94214009C0B0B /* ExpandableList.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ExpandableList.h; path = Core/GenericStructures/ExpandableList.h; sourceTree = "<group>"; };
 		0E9AD3120AD94214009C0B0B /* ExpandableListTest.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = ExpandableListTest.cpp; sourceTree = "<group>"; };
@@ -1107,6 +1105,8 @@
 		E1457B4F14D08F95004D3AD5 /* MWorksCoreTestMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MWorksCoreTestMain.cpp; sourceTree = "<group>"; };
 		E16BC179137D952D0052D8E1 /* MachUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MachUtilities.h; path = Core/Utilities/MachUtilities.h; sourceTree = "<group>"; };
 		E16BC17A137D952D0052D8E1 /* MachUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MachUtilities.cpp; path = Core/Utilities/MachUtilities.cpp; sourceTree = "<group>"; };
+		E194BF6C1590DB3900D4A62D /* StimulusDisplayDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = StimulusDisplayDevice.h; path = Core/Stimuli/StimulusDisplayDevice.h; sourceTree = "<group>"; };
+		E194BF6D1590DB5300D4A62D /* StimulusDisplayDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StimulusDisplayDevice.cpp; path = Core/Stimuli/StimulusDisplayDevice.cpp; sourceTree = "<group>"; };
 		E1C87A1213FDA558005FF5ED /* DynamicStimulusActions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DynamicStimulusActions.cpp; sourceTree = "<group>"; };
 		E1C87A1413FDA56F005FF5ED /* DynamicStimulusActions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DynamicStimulusActions.h; sourceTree = "<group>"; };
 		E1CB606813F57B6200145D5B /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
@@ -1238,8 +1238,6 @@
 			isa = PBXGroup;
 			children = (
 				0E9AD3110AD94214009C0B0B /* tests */,
-				0E9AD30A0AD94214009C0B0B /* Clonable.h */,
-				0E9AD3090AD94214009C0B0B /* Clonable.cpp */,
 				5C7CF4ED0BC6B48D00434931 /* LinkedList.h */,
 				E127D38B133A5CFC00532496 /* Map.h */,
 			);
@@ -2014,6 +2012,8 @@
 				DA2CE1CD07E9F96E00C68AEF /* Stimulus.cpp */,
 				5C7667530C1BB30A00B1203C /* StimulusDisplay.h */,
 				DA2CE1CF07E9F96E00C68AEF /* StimulusDisplay.cpp */,
+				E194BF6C1590DB3900D4A62D /* StimulusDisplayDevice.h */,
+				E194BF6D1590DB5300D4A62D /* StimulusDisplayDevice.cpp */,
 				5C76674D0C1BB28C00B1203C /* StimulusNode.h */,
 				5C76674E0C1BB28C00B1203C /* StimulusNode.cpp */,
 				E104A8F3133B8DB400D36236 /* StandardStimulusFactory.h */,
@@ -2408,7 +2408,6 @@
 				8E16A70E0A08E12E0070955E /* Averagers.h in Headers */,
 				5C05099B0A0ED95900F02584 /* Selectable.h in Headers */,
 				8E28B5FC0A6C317E00DA6287 /* Announcers.h in Headers */,
-				0E9AD3150AD94214009C0B0B /* Clonable.h in Headers */,
 				0E9AD3170AD94214009C0B0B /* ExpandableList.h in Headers */,
 				5CBA76D40AE069A300D6F4A6 /* Sound.h in Headers */,
 				5CBA76DC0AE06F6500D6F4A6 /* StandardSounds.h in Headers */,
@@ -2477,6 +2476,7 @@
 				E104A8F0133B8D9700D36236 /* StandardComponentFactory.h in Headers */,
 				E104A8F4133B8DB400D36236 /* StandardStimulusFactory.h in Headers */,
 				E16BC17B137D952D0052D8E1 /* MachUtilities.h in Headers */,
+				E194BF6F1590DB6900D4A62D /* StimulusDisplayDevice.h in Headers */,
 				E10AECD215DE904300E71CA7 /* IPCUtilities.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3107,7 +3107,6 @@
 				8E16A70F0A08E12E0070955E /* Averagers.cpp in Sources */,
 				5C05099A0A0ED95900F02584 /* Selectable.cpp in Sources */,
 				8E28B5FD0A6C317E00DA6287 /* Announcers.cpp in Sources */,
-				0E9AD3140AD94214009C0B0B /* Clonable.cpp in Sources */,
 				0E9AD3160AD94214009C0B0B /* ExpandableList.cpp in Sources */,
 				5CBA76D50AE069A300D6F4A6 /* Sound.cpp in Sources */,
 				5CBA76DD0AE06F6500D6F4A6 /* StandardSounds.cpp in Sources */,
@@ -3165,6 +3164,7 @@
 				E104A8DE133B8D7200D36236 /* ParameterValue.cpp in Sources */,
 				E16BC17C137D952D0052D8E1 /* MachUtilities.cpp in Sources */,
 				E1C87A1313FDA558005FF5ED /* DynamicStimulusActions.cpp in Sources */,
+				E194BF6E1590DB5300D4A62D /* StimulusDisplayDevice.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

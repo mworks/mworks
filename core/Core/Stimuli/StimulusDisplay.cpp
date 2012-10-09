@@ -30,9 +30,10 @@ BEGIN_NAMESPACE_MW
 /**********************************************************************
  *                  StimulusDisplay Methods
  **********************************************************************/
-StimulusDisplay::StimulusDisplay() :
-    refreshSync(2),
-    currentOutputTimeUS(-1)
+StimulusDisplay::StimulusDisplay(bool drawEveryFrame) :
+    mainDisplayRefreshRate(0.0),
+    currentOutputTimeUS(-1),
+    drawEveryFrame(drawEveryFrame)
 {
     current_context_index = -1;
 
@@ -40,6 +41,7 @@ StimulusDisplay::StimulusDisplay() :
     display_stack = shared_ptr< LinkedList<StimulusNode> >(new LinkedList<StimulusNode>());
     
 	setDisplayBounds();
+    setBackgroundColor(0.5, 0.5, 0.5);
 
     opengl_context_manager = OpenGLContextManager::instance();
     clock = Clock::instance();
@@ -47,7 +49,11 @@ StimulusDisplay::StimulusDisplay() :
     waitingForRefresh = false;
     needDraw = false;
     
-    if (kCVReturnSuccess != CVDisplayLinkCreateWithActiveCGDisplays(&displayLink)) {
+    if (kCVReturnSuccess != CVDisplayLinkCreateWithActiveCGDisplays(&displayLink) ||
+        kCVReturnSuccess != CVDisplayLinkSetOutputCallback(displayLink,
+                                                           &StimulusDisplay::displayLinkCallback,
+                                                           this))
+    {
         throw SimpleException("Unable to create display link");
     }
         
@@ -135,17 +141,108 @@ void StimulusDisplay::getDisplayBounds(GLdouble &left, GLdouble &right, GLdouble
     top = this->top;
 }
 
-double StimulusDisplay::getMainDisplayRefreshRate() {
-    double refreshRate = opengl_context_manager->getDisplayRefreshRate(opengl_context_manager->getMainDisplayIndex());
-    if (refreshRate <= 0.0) {
-        refreshRate = 60.0;
+void StimulusDisplay::setBackgroundColor(GLclampf red, GLclampf green, GLclampf blue) {
+    backgroundRed = red;
+    backgroundGreen = green;
+    backgroundBlue = blue;
+}
+
+void StimulusDisplay::setMainDisplayRefreshRate() {
+    CVTime refreshPeriod = CVDisplayLinkGetNominalOutputVideoRefreshPeriod(displayLink);
+    double refreshRate = 60.0;
+    
+    if (refreshPeriod.flags & kCVTimeIsIndefinite) {
+        mwarning(M_DISPLAY_MESSAGE_DOMAIN,
+                 "Could not determine main display refresh rate.  Assuming %g Hz.",
+                 refreshRate);
+    } else {
+        refreshRate = double(refreshPeriod.timeScale) / double(refreshPeriod.timeValue);
     }
-    return refreshRate;
+    
+    mainDisplayRefreshRate = refreshRate;
 }
 
 void StimulusDisplay::addContext(int _context_id){
 	context_ids.push_back(_context_id);
+    int contextIndex = getNContexts() - 1;
+    
+    if (0 == contextIndex) {
+        if (kCVReturnSuccess != opengl_context_manager->prepareDisplayLinkForMainDisplay(displayLink))
+        {
+            throw SimpleException("Unable to associate display link with main display");
+        }
+        setMainDisplayRefreshRate();
+    }
+    
+    if (drawEveryFrame) {
+        setCurrent(contextIndex);
+        allocateBufferStorage(contextIndex);
+    }
 }
+
+
+void StimulusDisplay::allocateBufferStorage(int contextIndex) {
+    if (!(glewIsSupported("GL_EXT_framebuffer_object") && glewIsSupported("GL_EXT_framebuffer_blit"))) {
+        throw SimpleException("renderer does not support required OpenGL framebuffer extensions");
+    }
+    
+    glGenFramebuffersEXT(1, &framebuffers[contextIndex]);
+    glBindFramebufferEXT(GL_DRAW_FRAMEBUFFER_EXT, framebuffers[contextIndex]);
+    
+    glGenRenderbuffersEXT(1, &renderbuffers[contextIndex]);
+    glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, renderbuffers[contextIndex]);
+    
+    getCurrentViewportSize(bufferWidths[contextIndex], bufferHeights[contextIndex]);
+    glRenderbufferStorageEXT(GL_RENDERBUFFER_EXT, GL_RGBA8, bufferWidths[contextIndex], bufferHeights[contextIndex]);
+    
+    glFramebufferRenderbufferEXT(GL_DRAW_FRAMEBUFFER_EXT,
+                                 GL_COLOR_ATTACHMENT0_EXT,
+                                 GL_RENDERBUFFER_EXT,
+                                 renderbuffers[contextIndex]);
+    
+    GLenum status = glCheckFramebufferStatusEXT(GL_DRAW_FRAMEBUFFER_EXT);
+    if (GL_FRAMEBUFFER_COMPLETE_EXT != status) {
+        throw SimpleException("OpenGL framebuffer setup failed");
+    }
+    
+    glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
+    glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, 0);
+}
+
+
+void StimulusDisplay::storeBackBuffer(int contextIndex) {
+    glBindFramebufferEXT(GL_READ_FRAMEBUFFER_EXT, 0);
+    glReadBuffer(GL_BACK_LEFT);
+    
+    glBindFramebufferEXT(GL_DRAW_FRAMEBUFFER_EXT, framebuffers[contextIndex]);
+    GLenum drawBuffers[] = { GL_COLOR_ATTACHMENT0 };
+    glDrawBuffers(1, drawBuffers);
+    
+    glBlitFramebufferEXT(0, 0, bufferWidths[contextIndex], bufferHeights[contextIndex],
+                         0, 0, bufferWidths[contextIndex], bufferHeights[contextIndex],
+                         GL_COLOR_BUFFER_BIT,
+                         GL_LINEAR);
+    
+    glBindFramebufferEXT(GL_DRAW_FRAMEBUFFER_EXT, 0);
+}
+
+
+void StimulusDisplay::drawStoredBuffer(int contextIndex) {
+    glBindFramebufferEXT(GL_READ_FRAMEBUFFER_EXT, framebuffers[contextIndex]);
+    glReadBuffer(GL_COLOR_ATTACHMENT0);
+    
+    glBindFramebufferEXT(GL_DRAW_FRAMEBUFFER_EXT, 0);
+    GLenum drawBuffers[] = { GL_BACK_LEFT };
+    glDrawBuffers(1, drawBuffers);
+    
+    glBlitFramebufferEXT(0, 0, bufferWidths[contextIndex], bufferHeights[contextIndex],
+                         0, 0, bufferWidths[contextIndex], bufferHeights[contextIndex],
+                         GL_COLOR_BUFFER_BIT,
+                         GL_LINEAR);
+    
+    glBindFramebufferEXT(GL_READ_FRAMEBUFFER_EXT, 0);
+}
+
 
 void StimulusDisplay::getCurrentViewportSize(GLint &width, GLint &height) {
     GLint viewport[4];
@@ -156,7 +253,7 @@ void StimulusDisplay::getCurrentViewportSize(GLint &width, GLint &height) {
 
 
 void StimulusDisplay::stateSystemCallback(const Datum &data, MWorksTime time) {
-    upgrade_lock lock(display_lock);
+    unique_lock lock(display_lock);
 
     int newState = data.getInteger();
 
@@ -188,12 +285,7 @@ void StimulusDisplay::stateSystemCallback(const Datum &data, MWorksTime time) {
 
             lastFrameTime = 0;
 
-            if (kCVReturnSuccess != CVDisplayLinkSetOutputCallback(displayLink,
-                                                                   &StimulusDisplay::displayLinkCallback,
-                                                                   this) ||
-                kCVReturnSuccess != opengl_context_manager->prepareDisplayLinkForMainDisplay(displayLink) ||
-                kCVReturnSuccess != CVDisplayLinkStart(displayLink))
-            {
+            if (kCVReturnSuccess != CVDisplayLinkStart(displayLink)) {
                 merror(M_DISPLAY_MESSAGE_DOMAIN, "Unable to start display updates");
             } else {
                 // Wait for a refresh to complete, so we know that getCurrentOutputTimeUS() will return a valid time
@@ -221,44 +313,39 @@ CVReturn StimulusDisplay::displayLinkCallback(CVDisplayLinkRef _displayLink,
     StimulusDisplay *display = static_cast<StimulusDisplay*>(_display);
     
     {
-        upgrade_lock upgradeLock(display->display_lock);
+        unique_lock lock(display->display_lock);
         
-        {
-            upgrade_to_unique_lock lock(upgradeLock);
-            
-            if (bool(warnOnSkippedRefresh->getValue())) {
-                if (display->lastFrameTime) {
-                    int64_t delta = (outputTime->videoTime - display->lastFrameTime) - outputTime->videoRefreshPeriod;
-                    if (delta) {
-                        mwarning(M_DISPLAY_MESSAGE_DOMAIN,
-                                 "Skipped %g display refresh cycles",
-                                 (double)delta / (double)(outputTime->videoRefreshPeriod));
-                    }
+        if (bool(warnOnSkippedRefresh->getValue())) {
+            if (display->lastFrameTime) {
+                int64_t delta = (outputTime->videoTime - display->lastFrameTime) - outputTime->videoRefreshPeriod;
+                if (delta) {
+                    mwarning(M_DISPLAY_MESSAGE_DOMAIN,
+                             "Skipped %g display refresh cycles",
+                             (double)delta / (double)(outputTime->videoRefreshPeriod));
                 }
             }
-            
-            display->lastFrameTime = outputTime->videoTime;
-            
-            //
-            // Here's how the time calculation works:
-            //
-            // outputTime->hostTime is the (estimated) time that the frame we're currently drawing will be displayed.
-            // The value is in units of the "host time base", which appears to mean that it's directly comparable to
-            // the value returned by mach_absolute_time().  However, the relationship to mach_absolute_time() is not
-            // explicitly stated in the docs, so presumably we can't depend on it.
-            //
-            // What the CoreVideo docs *do* say is "the host time base for Core Video and the one for CoreAudio are
-            // identical, and the values returned from either API can be used interchangeably".  Hence, we can use the
-            // CoreAudio function AudioConvertHostTimeToNanos() to convert from the host time base to nanoseconds.
-            //
-            // Once we have a system time in nanoseconds, we substract the system base time and convert to
-            // microseconds, which leaves us with a value that can be compared to clock->getCurrentTimeUS().
-            //
-            display->currentOutputTimeUS = (MWTime(AudioConvertHostTimeToNanos(outputTime->hostTime)) -
-                                            display->clock->getSystemBaseTimeNS()) / 1000LL;
         }
         
-        shared_lock sharedLock(upgradeLock);  // Downgrade to shared_lock
+        display->lastFrameTime = outputTime->videoTime;
+        
+        //
+        // Here's how the time calculation works:
+        //
+        // outputTime->hostTime is the (estimated) time that the frame we're currently drawing will be displayed.
+        // The value is in units of the "host time base", which appears to mean that it's directly comparable to
+        // the value returned by mach_absolute_time().  However, the relationship to mach_absolute_time() is not
+        // explicitly stated in the docs, so presumably we can't depend on it.
+        //
+        // What the CoreVideo docs *do* say is "the host time base for Core Video and the one for CoreAudio are
+        // identical, and the values returned from either API can be used interchangeably".  Hence, we can use the
+        // CoreAudio function AudioConvertHostTimeToNanos() to convert from the host time base to nanoseconds.
+        //
+        // Once we have a system time in nanoseconds, we substract the system base time and convert to
+        // microseconds, which leaves us with a value that can be compared to clock->getCurrentTimeUS().
+        //
+        display->currentOutputTimeUS = (MWTime(AudioConvertHostTimeToNanos(outputTime->hostTime)) -
+                                        display->clock->getSystemBaseTimeNS()) / 1000LL;
+        
         display->refreshDisplay();
         display->waitingForRefresh = false;
     }
@@ -286,8 +373,8 @@ void StimulusDisplay::refreshDisplay() {
             node = node->getNext();
         }
     }
-    
-    if (!needDraw) {
+
+    if (!(needDraw || drawEveryFrame)) {
         return;
     }
 
@@ -295,35 +382,30 @@ void StimulusDisplay::refreshDisplay() {
     // Draw stimuli
     //
     
-    if (context_ids.size() > 0) {
-        for (int i = 0; i < context_ids.size(); i++) {
-            setCurrent(i);
-            
-            if (i != 0) {
-                
-                // Non-main display
-                drawDisplayStack(false);
-                opengl_context_manager->updateAndFlush(i);
-                
-            } else {
-                
-                // Main display
-                
-                drawDisplayStack(true);
-                opengl_context_manager->flush(i);
-                if (opengl_context_manager->hasFence()) {
-                    glSetFenceAPPLE(opengl_context_manager->getFence());
-                }
-                
-                dispatch_async_f(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0),
-                                 this,
-                                 &StimulusDisplay::announceDisplayUpdate);
-                
+    for (int i = 0; i < getNContexts(); i++) {
+        setCurrent(i);
+        
+        if (!needDraw) {
+            if (drawEveryFrame) {
+                drawStoredBuffer(i);
+            }
+        } else {
+            drawDisplayStack(i == 0);
+            if (drawEveryFrame) {
+                storeBackBuffer(i);
             }
         }
         
-        // Wait for StimulusDisplay::announceDisplayUpdate to acquire the lock
-        refreshSync.wait();
+        if (i != 0) {
+            // Non-main display
+            opengl_context_manager->updateAndFlush(i);
+        } else {
+            // Main display
+            opengl_context_manager->flush(i);
+            if (needDraw) {
+                announceDisplayUpdate();
+            }
+        }
     }
     
     needDraw = false;
@@ -331,20 +413,16 @@ void StimulusDisplay::refreshDisplay() {
 
 
 void StimulusDisplay::clearDisplay() {
-    upgrade_lock upgradeLock(display_lock);
+    unique_lock lock(display_lock);
     
-    {
-        upgrade_to_unique_lock lock(upgradeLock);
-        
-        shared_ptr<StimulusNode> node = display_stack->getFrontmost();
-        while(node) {
-            node->setVisible(false);
-            node = node->getNext();
-        }
+    shared_ptr<StimulusNode> node = display_stack->getFrontmost();
+    while(node) {
+        node->setVisible(false);
+        node = node->getNext();
     }
 	
     needDraw = true;
-    ensureRefresh(upgradeLock);
+    ensureRefresh(lock);
 }
 
 
@@ -364,7 +442,7 @@ void StimulusDisplay::glInit() {
     gluOrtho2D(left, right, bottom, top);
     glMatrixMode(GL_MODELVIEW);
     
-    glClearColor(0.5, 0.5, 0.5, 1.0);
+    glClearColor(backgroundRed, backgroundGreen, backgroundBlue, 1.0);
     glClear(GL_COLOR_BUFFER_BIT);
 
 }
@@ -396,30 +474,26 @@ void StimulusDisplay::drawDisplayStack(bool doStimAnnouncements) {
 
 
 void StimulusDisplay::updateDisplay() {
-    upgrade_lock upgradeLock(display_lock);
+    unique_lock lock(display_lock);
     
-    {
-        upgrade_to_unique_lock lock(upgradeLock);
-        
-        shared_ptr<StimulusNode> node = display_stack->getFrontmost();
-        while (node) {
-            if (node->isPending()) {
-                // we're taking care of the pending state, so
-                // clear this flag
-                node->clearPending();
-                
-                // convert "pending visible" stimuli to "visible" ones
-                node->setVisible(node->isPendingVisible());
-                
-                if (node->isPendingRemoval()) {
-                    node->clearPendingRemoval();
-                    node->remove();
-                    continue;
-                }
-            }
+    shared_ptr<StimulusNode> node = display_stack->getFrontmost();
+    while (node) {
+        if (node->isPending()) {
+            // we're taking care of the pending state, so
+            // clear this flag
+            node->clearPending();
             
-            node = node->getNext();
+            // convert "pending visible" stimuli to "visible" ones
+            node->setVisible(node->isPendingVisible());
+            
+            if (node->isPendingRemoval()) {
+                node->clearPendingRemoval();
+                node->remove();
+                continue;
+            }
         }
+        
+        node = node->getNext();
     }
     
 #define ERROR_ON_LATE_FRAMES
@@ -428,7 +502,7 @@ void StimulusDisplay::updateDisplay() {
 #endif
 
     needDraw = true;
-    ensureRefresh(upgradeLock);
+    ensureRefresh(lock);
     
 #ifdef ERROR_ON_LATE_FRAMES
     MWTime now = clock->getCurrentTimeUS();
@@ -444,9 +518,7 @@ void StimulusDisplay::updateDisplay() {
 }
 
 
-void StimulusDisplay::ensureRefresh(upgrade_lock &lock) {
-    shared_lock sharedLock(lock);  // Downgrade to shared_lock
-    
+void StimulusDisplay::ensureRefresh(unique_lock &lock) {
     if (!CVDisplayLinkIsRunning(displayLink)) {
         // Need to do the refresh here
         refreshDisplay();
@@ -454,38 +526,23 @@ void StimulusDisplay::ensureRefresh(upgrade_lock &lock) {
         // Wait for next display refresh to complete
         waitingForRefresh = true;
         do {
-            refreshCond.wait(sharedLock);
+            refreshCond.wait(lock);
         } while (waitingForRefresh);
     }
 }
 
 
-void StimulusDisplay::announceDisplayUpdate(void *_display) {
-    StimulusDisplay *display = static_cast<StimulusDisplay*>(_display);
-    shared_lock sharedLock(display->display_lock);
-    
-    // Wait for StimulusDisplay::refreshDisplay to finish drawing
-    display->refreshSync.wait();
-    
-    display->setCurrent(0);
-    if (display->opengl_context_manager->hasFence()) {
-        if (glTestFenceAPPLE(display->opengl_context_manager->getFence())) {
-            mwarning(M_DISPLAY_MESSAGE_DOMAIN,
-                     "Display update announcement was delayed; time stamp on next %s event may be inaccurate",
-                     STIMULUS_DISPLAY_UPDATE_TAGNAME);
-        } else {
-            glFinishFenceAPPLE(display->opengl_context_manager->getFence());
-        }
-    } else {
-        glFinish();
+void StimulusDisplay::announceDisplayUpdate() {
+    MWTime now = getCurrentOutputTimeUS();
+    if (-1 == now) {
+        now = clock->getCurrentTimeUS();
     }
     
-    MWTime now = display->clock->getCurrentTimeUS();
-    stimDisplayUpdate->setValue(display->getAnnounceData(), now);
-    display->announceDisplayStack(now);
+    stimDisplayUpdate->setValue(getAnnounceData(), now);
+    announceDisplayStack(now);
 
-    display->stimsToAnnounce.clear();
-    display->stimAnnouncements.clear();
+    stimsToAnnounce.clear();
+    stimAnnouncements.clear();
 }
 
 
