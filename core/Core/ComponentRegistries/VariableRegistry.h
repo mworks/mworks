@@ -81,12 +81,14 @@
 #include "AnyScalar.h"
 #include "ExpressionParser.h"
 
+using std::map;
+using std::string;
+using std::vector;
+
 
 namespace mw {
 #define CODEC_RESERVED_TAGNAME "#codec"
 #define COMPONENT_CODEC_RESERVED_TAGNAME "#componentCodec"
-
-using namespace std;
     
 class VariableRegistry : public stx::BasicSymbolTable {
 

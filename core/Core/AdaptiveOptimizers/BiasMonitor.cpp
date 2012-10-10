@@ -78,8 +78,8 @@ void BiasMonitor::newDataReceived(int inputIndex, const Datum& data,
     // compute task correlation (e.g. normalized cross correlation of responses 
     // with correct answers
     
-    deque<Datum>::iterator success_iterator;
-    deque<Datum>::iterator response_iterator;
+    std::deque<Datum>::iterator success_iterator;
+    std::deque<Datum>::iterator response_iterator;
     
     double task_corr = 0.;
     double resp_corr = 0.;

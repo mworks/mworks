@@ -29,8 +29,9 @@
 #include "Event.h"
 
 using namespace boost;
-using namespace std;
 using namespace __gnu_cxx;
+
+using std::string;
 
 
 BEGIN_NAMESPACE_MW
@@ -61,10 +62,10 @@ public:
 #ifdef  USE_HASH_MAP_IN_CALLBACK_HANDLER
 typedef hash_multimap<int, KeyedEventCallbackPair>  EventCallbackMap;
 #else
-typedef multimap<int, KeyedEventCallbackPair> EventCallbackMap;
+typedef std::multimap<int, KeyedEventCallbackPair> EventCallbackMap;
 #endif
 
-typedef multimap<string, int>      EventCallbackKeyCodeMap;
+typedef std::multimap<string, int>      EventCallbackKeyCodeMap;
 
 #define DEFAULT_CALLBACK_KEY    "<default>"
 #define ALWAYS_CALLBACK_KEY     -1

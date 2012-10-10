@@ -152,7 +152,7 @@ bool ExperimentUnpackager::createFile(Datum filename, Datum buffer) {
     boost::filesystem::create_directories(filePath.parent_path());
 	
     // create an output file.
-    ofstream outFile(filePath.string().c_str()); //, ios::binary);
+    std::ofstream outFile(filePath.string().c_str()); //, ios::binary);
 											//write the data
     outFile.write(buffer.getString(), buffer.getStringLength());
     // flush buffer

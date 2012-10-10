@@ -48,8 +48,8 @@ protected:
 	
 	unsigned int count;
 	
-    deque<Datum> success_buffer;
-    deque<Datum> response_index_buffer;
+    std::deque<Datum> success_buffer;
+    std::deque<Datum> response_index_buffer;
 	
 public:
 	

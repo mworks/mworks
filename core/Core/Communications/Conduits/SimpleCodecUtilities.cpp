@@ -12,7 +12,6 @@
 #include <map>
 
 namespace mw {
-using namespace std;
 
 
 map<int, string> extract_simple_codec_map(Datum datum){

@@ -590,8 +590,7 @@ void VariableProperties::printToSTDERR() {
 }
 
 std::vector <std::string> VariableProperties::parseGroupList(const std::string &groups_csv) const {
-	using namespace std;
-	stringstream groupStream(groups_csv);
+	std::stringstream groupStream(groups_csv);
 	string field;
 	
 	

@@ -16,7 +16,6 @@
 
 namespace mw {
 	
-	using namespace std;
 	using namespace boost;
 	
 #include <libxml/parser.h>

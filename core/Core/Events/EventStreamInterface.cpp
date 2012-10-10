@@ -9,8 +9,6 @@
 
 #include "EventStreamInterface.h"
 
-using namespace std;
-
 
 BEGIN_NAMESPACE_MW
 

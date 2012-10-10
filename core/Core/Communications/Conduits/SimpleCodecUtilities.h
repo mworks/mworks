@@ -15,9 +15,11 @@
 #include "Event.h"
 #include <map>
 
+using std::map;
+using std::string;
+
 
 namespace mw{
-using namespace std;
     
 extern map<int, string> extract_simple_codec_map(Datum datum);
 extern map<int, string> extract_simple_codec_map(shared_ptr<Event> evt);

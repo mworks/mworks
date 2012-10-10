@@ -19,8 +19,6 @@
 
 namespace mw{
 
-using namespace std;
-
 class AccumulatingConduit : public CodecAwareConduit{
 
 protected:

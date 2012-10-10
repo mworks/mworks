@@ -15,8 +15,6 @@
 
 #include <string>
 
-using namespace std;
-
 
 BEGIN_NAMESPACE_MW
 
@@ -47,8 +45,8 @@ public:
     typedef message_queue::size_type message_queue_size_type;
     
     IPCEventTransport(event_transport_type _type, 
-                       event_transport_directionality _dir, 
-                       string _resource_name);
+                      event_transport_directionality _dir, 
+                      std::string _resource_name);
                           
     // Send event to the other side
     virtual void sendEvent(shared_ptr<Event> event);

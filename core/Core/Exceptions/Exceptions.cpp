@@ -16,7 +16,7 @@ AmbiguousComponentReferenceException::AmbiguousComponentReferenceException(share
                     "Please ensure that all object tag names are unique."),
     component_reference(ref){ 
     
-    stringstream extended_info;
+    std::stringstream extended_info;
     extended_info << std::endl;
     
     const vector< shared_ptr<Component> > &components = component_reference->getAmbiguousComponents();
@@ -103,7 +103,7 @@ void display_extended_error_information(SimpleException& e){
     
     // Display the primary message
     
-    stringstream extended_info;
+    std::stringstream extended_info;
     extended_info << e.what() << endl;
         
     using namespace mw::error_info_types;

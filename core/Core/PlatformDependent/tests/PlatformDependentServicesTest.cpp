@@ -11,6 +11,8 @@
 #include "PlatformDependentServices.h"
 #include <string>
 
+using std::string;
+
 
 BEGIN_NAMESPACE_MW
 
@@ -66,8 +68,6 @@ bool PlatformDependentServicesTestFixture::bejesus_beater(
 }
 
 void PlatformDependentServicesTestFixture::testConstStrings() {
-  using namespace std;
-	
   const int big_ugly_chunk_of_data = 1978;
   char *dummy[12];
 	

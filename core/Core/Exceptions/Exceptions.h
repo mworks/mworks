@@ -22,6 +22,7 @@
 #include <map>
 #include <string>
 
+using std::string;
 
 
 
@@ -33,7 +34,6 @@ class Variable;
 class StimulusGroup;
 class Component;
 
-using namespace std;
 using namespace boost;
 
 // fwd dec
@@ -213,7 +213,7 @@ namespace error_info_types{
     typedef  variant<shared_ptr<StimulusGroup>, string> StimulusGroupOrString;
     typedef  variant<shared_ptr<Variable>, string>      VariableOrString;
     typedef  variant< string >                          ErrorString;
-    typedef  variant< map<string, string> , string>     ComponentAttributeMap;
+    typedef  variant< std::map<string, string> , string>     ComponentAttributeMap;
     typedef  variant< int, double >                     ErrorNumber;
 }
 

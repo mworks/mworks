@@ -30,7 +30,6 @@
 
 namespace mw {
 using namespace boost;
-using namespace std;
 
 #define EVENT_STREAM_CONDUIT_DEFAULT_IDLE_QUANTUM   500
     
@@ -51,7 +50,7 @@ protected:
     
     // A list of event names that the conduit side has requested be forwarded to it
     boost::mutex events_to_forward_lock;
-    list<string> events_to_forward;
+    std::list<string> events_to_forward;
     
     // A unique key that we can use to unregister/re-register callbacks made by 
     // this object

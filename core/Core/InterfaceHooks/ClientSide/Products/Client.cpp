@@ -241,8 +241,6 @@ void Client::updateValue(const int code, const Datum &data) {
 //
 //
 //void Client::unregisterCallbacks(const std::string &callback_id) {
-//	using namespace std;
-//	
 ////	boost::recursive_mutex::scoped_lock lock(callbacksLock);
 //	
 //	// get each vector of callbacks from the main callbacks vector 

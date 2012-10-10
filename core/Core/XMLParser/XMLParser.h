@@ -29,11 +29,13 @@
 
 #include <boost/lexical_cast.hpp>
 
+using std::string;
+using std::vector;
+
 #define INSTANCE_PREFIX "instance:"
 #define INSTANCE_STEM	"_"
 
 namespace mw {
-	using namespace std;
 
 class XMLParser {
 

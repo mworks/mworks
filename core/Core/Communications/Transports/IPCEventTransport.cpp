@@ -63,7 +63,7 @@ IPCEventTransport::IPCEventTransport(event_transport_type _type, event_transport
 
 void IPCEventTransport::sendEvent(shared_ptr<Event> event){
         
-    ostringstream output_stream;
+    std::ostringstream output_stream;
     oarchive serialized_archive(output_stream);
     
     //if(outgoing_queue == NULL){
@@ -90,7 +90,7 @@ void IPCEventTransport::sendEvent(shared_ptr<Event> event){
 shared_ptr<Event> IPCEventTransport::deserializeEvent(message_queue_size_type& received_size){
     
     string incoming_data(receive_buffer, received_size);
-    istringstream input_stream(incoming_data);
+    std::istringstream input_stream(incoming_data);
     iarchive serialized_archive(input_stream);
     
     shared_ptr<Event> event;

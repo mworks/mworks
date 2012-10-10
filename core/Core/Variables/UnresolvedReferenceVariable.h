@@ -16,7 +16,6 @@
 #include <string>
 #include <sstream>
 namespace mw {
-using namespace std;
 
 
 class UnresolvedVariableString {
@@ -35,7 +34,7 @@ class UnresolvedVariableString {
 			while(outStr.find_first_of("$") != std::string::npos) {
 				std::string stringSegment;
 				std::string varName;
-				istringstream parser(outStr);
+				std::istringstream parser(outStr);
 				
 				getline(parser, stringSegment, '$');
 				shared_ptr<ConstantVariable> c(new ConstantVariable(Datum(stringSegment)));

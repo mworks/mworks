@@ -14,6 +14,11 @@
 #include <boost/archive/text_iarchive.hpp>
 #include <boost/archive/text_oarchive.hpp>
 
+using std::ios_base;
+using std::stringstream;
+using std::istringstream;
+using std::ostringstream;
+
 
 BEGIN_NAMESPACE_MW
 

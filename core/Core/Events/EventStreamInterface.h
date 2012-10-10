@@ -36,8 +36,6 @@
 
 namespace mw {
 
-using namespace std;
-
 
 class EventStreamInterface : public EventCallbackHandler, public enable_shared_from_this<EventStreamInterface> {
     

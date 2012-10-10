@@ -35,7 +35,7 @@ void mw::XMLParserTestFixture::setUp() {
 	
 	CPPUNIT_ASSERT(testVar->getValue().getInteger() == 0);	
 	
-	ostringstream oss;
+	std::ostringstream oss;
 	oss << "/tmp/XMLParserTest" << rand() << ".xml";
 	temp_xml_file_path = boost::filesystem::path(oss.str());
 	

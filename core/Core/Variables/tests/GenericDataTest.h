@@ -19,12 +19,13 @@
 #include <sstream>
 #include "MWorksCore/GenericData.h"
 
+using std::ostringstream;
+
 void *hammerit(void *thedatum);
 void *hammerlist(void *thedatum);
 void *hammerdict(void *thedatum);
 
 namespace mw {
-using namespace std;
 
 class GenericDataTestFixture : public CppUnit::TestFixture {
   

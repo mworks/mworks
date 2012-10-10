@@ -45,7 +45,6 @@ BEGIN_NAMESPACE_MW
     
 
 using namespace boost;
-using namespace std;
 
 class ComponentRegistry;  // forward declaration
 class ParameterValue;
@@ -76,9 +75,9 @@ protected:
     
     void requireAttributes(StdStringMap &parameters, const StdStringVector &attributes);
     void checkAttribute(shared_ptr<mw::Component> component,
-                        const string &refID,
-                        const string &name,
-                        const string &value);
+                        const std::string &refID,
+                        const std::string &name,
+                        const std::string &value);
     
     ComponentInfo info;
     

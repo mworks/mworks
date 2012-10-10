@@ -42,7 +42,7 @@ Component::Component(const std::string &_tag, const std::string &_sig) :
 
 
 std::string AmbiguousComponentReference::getStringRepresentation() const {
-    stringstream rep;
+    std::stringstream rep;
     vector< shared_ptr<mw::Component> >::const_iterator i;
     for(i = ambiguous_components.begin(); i != ambiguous_components.end(); ++i){
         shared_ptr<Component> comp = *i;

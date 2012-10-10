@@ -22,9 +22,11 @@
 
 #include "ScarabServices.h"
 
+using std::cerr;
+using std::endl;
+
 namespace boost {
     namespace serialization {
-        using namespace std;
         // These are some "shim" functions for serializing ScarabDatum structs
         // Ultimately, ScarabDatum's only exist for serialization, so if we 
         // move to an alternative serialization scheme (e.g. boost.serialization),

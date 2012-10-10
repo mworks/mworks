@@ -26,8 +26,6 @@
 
 
 namespace mw {
-
-    using namespace std;
     
     
     class PythonEventListCallback : public PythonEventCallback {

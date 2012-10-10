@@ -773,7 +773,7 @@ void XMLParser::_processGenericCreateDirective(xmlNode *node, bool anon){
                 // Copy existing exception's data to f
                 f = dynamic_cast<FatalParserException &>(e);
             } else {
-                stringstream error_msg;
+                std::stringstream error_msg;
                 error_msg << "Failed to create object. ";
                 if (have_alt) {
                     error_msg << 

@@ -28,8 +28,11 @@
 #include <boost/archive/basic_binary_oprimitive.hpp>
 #include <boost/archive/basic_binary_iprimitive.hpp>
 #include "Serialization.h"
-	
-using namespace std;
+
+using std::map;
+using std::pair;
+using std::string;
+using std::vector;
 
 
 BEGIN_NAMESPACE_MW

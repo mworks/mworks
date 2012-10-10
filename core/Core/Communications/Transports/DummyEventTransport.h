@@ -23,8 +23,10 @@
 #include <iostream>
 #include <sstream>
 #include <queue>
+
+using std::string;
+
 namespace mw {
-using namespace std;
 
 
 
@@ -41,7 +43,7 @@ protected:
     static const int DEFAULT_QUEUE_SIZE  = 2000;
     static const int MAX_MESSAGE_SIZE = 64000;
     
-    typedef shared_ptr< queue< shared_ptr<Event> > >   event_queue_ptr;
+    typedef shared_ptr< std::queue< shared_ptr<Event> > >   event_queue_ptr;
     typedef shared_ptr<boost::mutex> mutex_ptr;
     
     static map<string, event_queue_ptr > named_queues;
@@ -75,7 +77,7 @@ public:
             return DummyEventTransport::named_queues[key];
         }
         
-        DummyEventTransport::named_queues[key] = event_queue_ptr(new queue< shared_ptr<Event> >());
+        DummyEventTransport::named_queues[key] = event_queue_ptr(new std::queue< shared_ptr<Event> >());
         
         DummyEventTransport::named_queue_locks[key] = shared_ptr<boost::mutex>(new boost::mutex());
         return DummyEventTransport::named_queues[key];
