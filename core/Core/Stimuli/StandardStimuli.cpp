@@ -292,7 +292,10 @@ void DevILImageLoader::load(const std::string &filename, int &width, int &height
     height = ilGetInteger(IL_IMAGE_HEIGHT);
 
     // Compute the SHA-1 message digest of the raw file data, convert it to a hex string, and copy it to fileHash
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     unsigned char *hash = SHA1((unsigned char*)[imageData bytes], [imageData length], NULL);
+#pragma clang diagnostic pop
     std::ostringstream os;
     os.fill('0');
     os << std::hex;

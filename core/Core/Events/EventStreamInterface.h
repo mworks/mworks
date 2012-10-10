@@ -30,7 +30,6 @@
 #include <boost/thread/recursive_mutex.hpp>
 #include <boost/enable_shared_from_this.hpp>
 #include <map>
-#include <ext/hash_map>
 
 #include "EventCallbackHandler.h"
 

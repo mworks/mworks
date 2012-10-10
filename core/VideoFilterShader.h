@@ -4,9 +4,9 @@
 #include "Shader.h"
 #include "ConvolutionKernels.h"
 
-using namespace Shaders;
 
-namespace Shaders {
+BEGIN_NAMESPACE(Shaders)
+
 
   class BaseVideoFilterShader : public CGLSLShaderProgram
   {
@@ -62,7 +62,9 @@ namespace Shaders {
       GLint GetTextureFilter() { return GL_LINEAR; }
   };
 
-} // end namespace
+
+END_NAMESPACE(Shaders)
+
 
 #endif
 

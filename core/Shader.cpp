@@ -32,13 +32,11 @@
 #include <fstream>
 
 
+BEGIN_NAMESPACE(Shaders)
+
+
 #define LOG_SIZE 1024
 
-using namespace Shaders;
-using namespace std;
-
-using namespace Shaders;
-using namespace std;
 
 //////////////////////////////////////////////////////////////////////
 // CShader
@@ -54,7 +52,7 @@ bool CShader::LoadSource(const string& filename, const string& prefix)
     std::ifstream f;
     std::stringstream ss;
     
-    f.open(full_filename.c_str(), ios::in);
+    f.open(full_filename.c_str(), std::ios::in);
     
     if (!f) {
         throw mw::SimpleException("Unable to open shader file");
@@ -531,6 +529,10 @@ void CARBShaderProgram::Disable()
         OnDisabled();
     }
 }
+
+
+END_NAMESPACE(Shaders)
+
 
 #endif
 

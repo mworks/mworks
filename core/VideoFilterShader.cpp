@@ -30,8 +30,9 @@
 
 #define EMBED_SHADER_CODE   0
 
-using namespace Shaders;
-using namespace std;
+
+BEGIN_NAMESPACE(Shaders)
+
 
 //////////////////////////////////////////////////////////////////////
 // BaseVideoFilterShader - base class for video filter shaders
@@ -275,3 +276,5 @@ bool StretchFilterShader::OnEnabled()
   return true;
 }
 
+
+END_NAMESPACE(Shaders)

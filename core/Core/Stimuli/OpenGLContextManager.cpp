@@ -35,6 +35,7 @@ BEGIN_NAMESPACE_MW
 //#define kDefaultDisplay 1
 
 
+/*
 // TODO: this may make more sense if it were in the stimDisplay class instead
 //		 since multiple displays will have different VBLs etc. etc.
 //		 This is currently just hacked in to show how it is done and to use
@@ -71,6 +72,7 @@ void *announce_beam_position(void *arg){
 	
 	return NULL;
 }
+ */
 
 
 

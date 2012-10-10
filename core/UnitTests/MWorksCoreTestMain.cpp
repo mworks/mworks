@@ -8,6 +8,8 @@
 
 #include "MWorksCoreTestMain.h"
 
+#include <unistd.h>
+
 #include <cppunit/TextTestRunner.h>
 #include <cppunit/BriefTestProgressListener.h>
 #include <cppunit/TestCase.h>
