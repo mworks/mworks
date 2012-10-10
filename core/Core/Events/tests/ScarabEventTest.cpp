@@ -9,7 +9,10 @@
 
 #include "ScarabEventTest.h"
 #include "EventBuffer.h"
-using namespace mw;
+
+
+BEGIN_NAMESPACE_MW
+
 
 CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( ScarabEventTestFixture, "Unit Test" );
 
@@ -77,3 +80,6 @@ void ScarabEventTestFixture::testToFromScarabDatum(){
 	
 	scarab_free_datum(serialized);
 }
+
+
+END_NAMESPACE_MW

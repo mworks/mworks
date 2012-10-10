@@ -11,7 +11,9 @@
 #include "IPCEventTransport.h"
 #include "SimpleConduit.h"
 
-using namespace mw;
+
+BEGIN_NAMESPACE_MW
+
 
 CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( SimpleConduitTestFixture, "Unit Test" );
 
@@ -74,3 +76,6 @@ void SimpleConduitTestFixture::testInOneThread(){
     client_conduit.finalize();
     
 }
+
+
+END_NAMESPACE_MW

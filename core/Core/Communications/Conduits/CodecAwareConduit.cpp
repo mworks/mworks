@@ -12,6 +12,9 @@
 #include "StandardVariables.h"
 
 
+BEGIN_NAMESPACE_MW
+
+
 void CodecAwareConduit::transmitCodecEvent(){
     // This is called internally from methods that already hold conduit_mutex
     
@@ -180,6 +183,9 @@ void CodecAwareConduit::waitForRemoteCodec(scoped_lock &lock) {
         } while (remote_codec.empty());
     }
 }
+
+
+END_NAMESPACE_MW
 
 
 

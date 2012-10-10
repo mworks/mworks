@@ -9,7 +9,10 @@
 
 #include "IPCEventTransportTest.h"
 #include "IPCEventTransport.h"
-using namespace mw;
+
+
+BEGIN_NAMESPACE_MW
+
 
 CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( IPCEventTransportTestFixture, "Unit Test" );
 
@@ -43,3 +46,6 @@ void IPCEventTransportTestFixture::setUp(){
 void IPCEventTransportTestFixture::tearDown(){
 	Clock::destroy();
 }
+
+
+END_NAMESPACE_MW

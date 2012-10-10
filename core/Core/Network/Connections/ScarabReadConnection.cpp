@@ -19,7 +19,10 @@
 #include "boost/bind.hpp"
 
 #include "Event.h"
-using namespace mw;
+
+
+BEGIN_NAMESPACE_MW
+
 
 // this calls the service function. static so no one outside this file can
 // see it.
@@ -227,3 +230,5 @@ int ScarabReadConnection::service() {
     return 1;
 }
  
+
+END_NAMESPACE_MW

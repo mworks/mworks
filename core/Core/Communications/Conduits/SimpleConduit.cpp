@@ -11,7 +11,9 @@
 #include "SystemEventFactory.h"
 #include "StandardVariables.h"
 
-using namespace mw;
+
+BEGIN_NAMESPACE_MW
+
 
 SimpleConduit::SimpleConduit(shared_ptr<EventTransport> _transport, 
                              bool _correct_incoming_timestamps,
@@ -189,3 +191,4 @@ void SimpleConduit::handleSystemEvent(shared_ptr<Event> evt){
 }
 
 
+END_NAMESPACE_MW

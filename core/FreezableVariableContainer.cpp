@@ -9,7 +9,9 @@
 
 #include "FreezableVariableContainer.h"
 
-using namespace mw;
+
+BEGIN_NAMESPACE_MW
+
 
 FreezableVariableContainer::FreezableVariableContainer(shared_ptr<Variable> _var){
     frozen = false;
@@ -77,3 +79,6 @@ void FreezableVariableContainer::setSilentValue(Datum value){
     // for thread safety
     variable->setSilentValue(value);
 }
+
+
+END_NAMESPACE_MW

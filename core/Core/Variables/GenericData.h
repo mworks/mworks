@@ -11,6 +11,7 @@
 #ifndef _GENERIC_DATA_H
 #define _GENERIC_DATA_H
 
+#include "MWorksMacros.h"
 #include "MWorksTypes.h"
 #include "ScarabServices.h"
 #include "Lockable.h"
@@ -27,9 +28,12 @@
 #include <boost/archive/basic_binary_oprimitive.hpp>
 #include <boost/archive/basic_binary_iprimitive.hpp>
 #include "Serialization.h"
-namespace mw {
 	
-    using namespace std;
+using namespace std;
+
+
+BEGIN_NAMESPACE_MW
+
     
 #define M_NO_DATA   0      // JJD added Aug 16, 2005
 	
@@ -415,7 +419,9 @@ namespace mw {
 		 Datum removeElement(const char * key) { return Datum(); }
 			
 		};
-		
-	}
+
+
+END_NAMESPACE_MW
+
+
 #endif
-	

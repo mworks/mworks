@@ -14,8 +14,9 @@
 #include <stdio.h>
 
 #include <sstream>
-using namespace mw;
 
+
+BEGIN_NAMESPACE_MW
 
 
 VariableProperties::VariableProperties(Datum * def, 
@@ -613,3 +614,4 @@ std::vector <std::string> VariableProperties::parseGroupList(const std::string &
 }
 
 
+END_NAMESPACE_MW

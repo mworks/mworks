@@ -8,12 +8,12 @@
  */
 
 #include "OpenALContextManager.h"
-using namespace mw;
 
-namespace mw {
-    SINGLETON_INSTANCE_STATIC_DECLARATION(OpenALContextManager);
-}
 
+BEGIN_NAMESPACE_MW
+
+
+SINGLETON_INSTANCE_STATIC_DECLARATION(OpenALContextManager);
 
 
 OpenALContextManager::OpenALContextManager() :
@@ -121,3 +121,6 @@ void OpenALContextManager::setDefaultContextCurrent(){
 		return; 
 	}
 }
+
+
+END_NAMESPACE_MW

@@ -11,7 +11,9 @@
 #include "Clock.h"
 #include <boost/random/uniform_int.hpp>
 #include <boost/random/variate_generator.hpp>
-using namespace mw;
+
+
+BEGIN_NAMESPACE_MW
 
 
 RandomWithReplacementSelection::RandomWithReplacementSelection(int _n_draws, bool _autoreset) 
@@ -63,5 +65,4 @@ void RandomWithReplacementSelection::rejectSelections() {
 }
 
 
-
-
+END_NAMESPACE_MW

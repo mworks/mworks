@@ -12,9 +12,11 @@
 #include "SimpleConduitTest.h"
 #include "IPCEventTransport.h"
 
-CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( CodecAwareConduitTestFixture, "Unit Test" );
 
-using namespace mw;
+BEGIN_NAMESPACE_MW
+
+
+CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( CodecAwareConduitTestFixture, "Unit Test" );
 
 
 void CodecAwareConduitTestFixture::setUp(){
@@ -123,3 +125,6 @@ void CodecAwareConduitTestFixture::testInOneThread(){
     CPPUNIT_ASSERT((double)received_event->getData() == 4.0);
     
 }
+
+
+END_NAMESPACE_MW

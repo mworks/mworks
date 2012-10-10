@@ -17,7 +17,6 @@
 #import "StateSystem.h"
 #import "Event.h"
 #import "PluginServices.h"
-#import "StandardInterpreters.h"
 #import "TrialBuildingBlocks.h"
 #import "VariableRegistry.h"
 #import "StandardVariables.h"
@@ -25,7 +24,10 @@
 #import "OpenALContextManager.h"
 #import "OpenGLContextManager.h"
 #include "PlatformDependentServices.h"
-using namespace mw;
+
+
+BEGIN_NAMESPACE_MW
+
 
 StandardServerCoreBuilder::StandardServerCoreBuilder() { }
 StandardServerCoreBuilder::~StandardServerCoreBuilder() { }
@@ -107,6 +109,4 @@ bool StandardServerCoreBuilder::customInitialization() {
 bool StandardServerCoreBuilder::buildProcessWillEnd() { return true; }
 
 
-
-
- 
+END_NAMESPACE_MW

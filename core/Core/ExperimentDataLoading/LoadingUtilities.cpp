@@ -9,7 +9,6 @@
 #include "Event.h"
 #include "LoadingUtilities.h"
 #include "Experiment.h"
-#include "EmbeddedPerlInterpreter.h"
 #include "PlatformDependentServices.h"
 #include "SystemEventFactory.h"
 #include "EventBuffer.h"
@@ -25,10 +24,10 @@
 #include "ComponentRegistry.h"
 #include "XMLParser.h"
 #include "DataFileManager.h"
-using namespace mw;
 
 
-namespace mw {
+BEGIN_NAMESPACE_MW
+
 
 // DDC: HOLY CRAP: WHY WAS HE QUIETLY REPLACING MISSING VALUES WITH DEFAULTS?!?
 // Datum checkLoadedValueAndReturnNewValuesWithLoadedValueOrDefaultIfNotNumber(const Datum main_window_values, 
@@ -404,7 +403,9 @@ namespace mw {
             throw SimpleException("Directory contains no regular files", directoryPath);
         }
     }
-}
+
+
+END_NAMESPACE_MW
 
 
 

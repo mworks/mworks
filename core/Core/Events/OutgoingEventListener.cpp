@@ -8,7 +8,10 @@
  */
 
 #include "OutgoingEventListener.h"
-using namespace mw;
+
+
+BEGIN_NAMESPACE_MW
+
 
 OutgoingEventListener::OutgoingEventListener(shared_ptr<EventBuffer> _event_buffer, shared_ptr<EventStreamInterface> hand) :
 								EventListener(_event_buffer){
@@ -39,3 +42,5 @@ OutgoingEventListener& OutgoingEventListener::operator=(
     return *this;
 }
 
+
+END_NAMESPACE_MW

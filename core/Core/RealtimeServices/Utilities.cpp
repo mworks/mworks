@@ -23,10 +23,11 @@
 #include <boost/thread/mutex.hpp>
 
 #include "Timer.h"
-using namespace mw;
 
 
-namespace mw {
+BEGIN_NAMESPACE_MW
+
+
 	// system messages are going to be limited to 1024 characters.
 
 #define MSG_BUFFER_SIZE 2048
@@ -203,5 +204,5 @@ namespace mw {
 		return NULL;
 	}
 	
-}
 
+END_NAMESPACE_MW

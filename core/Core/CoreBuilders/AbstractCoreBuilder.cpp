@@ -7,7 +7,14 @@
  */
 
 #include "AbstractCoreBuilder.h"
-using namespace mw;
+
+
+BEGIN_NAMESPACE_MW
+
+
 AbstractCoreBuilder::AbstractCoreBuilder() { }
 
 AbstractCoreBuilder::~AbstractCoreBuilder() { }
+
+
+END_NAMESPACE_MW

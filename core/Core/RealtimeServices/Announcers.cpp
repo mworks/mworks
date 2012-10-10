@@ -12,7 +12,9 @@
 // variable registry for the experiment can be found through here
 #include "Experiment.h" 
 
-using namespace mw;
+
+BEGIN_NAMESPACE_MW
+
 
 #define VERBOSE_ANNOUNCERS 0
 
@@ -221,7 +223,7 @@ bool PrivateDataNotification::isRespondingToPrivateVarNotification() {
 }
 
 
-
+END_NAMESPACE_MW
 
 
 

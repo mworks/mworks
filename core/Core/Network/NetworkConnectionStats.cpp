@@ -8,7 +8,10 @@
  */
 
 #include "NetworkConnectionStats.h"
-using namespace mw;
+
+
+BEGIN_NAMESPACE_MW
+
 
 const double USEC_TO_SEC = 1000000.0;
 
@@ -132,3 +135,6 @@ void NetworkConnectionStats::eventTransmitted(int type,
     }
     M_ISUNLOCK;
 }
+
+
+END_NAMESPACE_MW

@@ -8,7 +8,10 @@
  */
 
 #include "Clock.h"
-using namespace mw;
+
+
+BEGIN_NAMESPACE_MW
+
 
 //Clock::singleton_instance = shared_ptr<Clock>();
 
@@ -68,3 +71,6 @@ MWTime Clock::getSystemReferenceTime() {
 //    return 0;
     return getSystemBaseTimeNS() / 1000;
 }
+
+
+END_NAMESPACE_MW

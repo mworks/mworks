@@ -14,7 +14,10 @@
 #include "MWorksCore/DataFileManager.h"
 #include "MWorksCore/ScarabServices.h"
 #include <pthread.h>
-using namespace mw;
+
+
+BEGIN_NAMESPACE_MW
+
 
 #define USE_MACRO_EVENTS	0
 #define MACRO_EVENT_HIGH_WATER_MARK	1
@@ -115,3 +118,6 @@ void DatumFileTestFixture::dataFileWriterTest() {
 
 void DatumFileTestFixture::multiDataFileWriterTest() {
 }
+
+
+END_NAMESPACE_MW

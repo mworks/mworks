@@ -8,7 +8,13 @@
  */
 
 #include "ScarabNetworkTest.h"
-using namespace mw;
+
+
+BEGIN_NAMESPACE_MW
+
 
 CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( ScarabNetworkTestFixture, "Unit Test" );
 //CPPUNIT_TEST_SUITE_REGISTRATION( ScarabNetworkTestFixture );
+
+
+END_NAMESPACE_MW

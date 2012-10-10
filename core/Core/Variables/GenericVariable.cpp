@@ -21,7 +21,8 @@
 #include "EventBuffer.h"
 #include "TrialBuildingBlocks.h"
 
-using namespace mw;
+
+BEGIN_NAMESPACE_MW
 
 
 /*******************************************************************
@@ -484,4 +485,4 @@ ExpressionVariable Variable::operator+()
 }
 
 
-
+END_NAMESPACE_MW

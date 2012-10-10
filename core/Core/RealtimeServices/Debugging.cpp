@@ -12,25 +12,29 @@
 
 #include "Clock.h"
 #include "StandardVariables.h"
-using namespace mw;
 
-namespace mw {
-	bool debugger_enabled;
-	
-	
-	// Stall or proceed according to the settings of the debugging variables
-	void debuggerCheck(){
-		
-		if(!debuggerRunning->getValue()){
-			
-			while(!debuggerRunning->getValue()){
-				if((long)(debuggerStep->getValue()) > 0){
-					debuggerStep->setValue((long)debuggerStep->getValue() - 1);
-					break;
-				}
-				shared_ptr <Clock> clock = Clock::instance();
-				clock->sleepMS(50);
-			}
-		}
-	}
+
+BEGIN_NAMESPACE_MW
+
+
+bool debugger_enabled;
+
+
+// Stall or proceed according to the settings of the debugging variables
+void debuggerCheck(){
+    
+    if(!debuggerRunning->getValue()){
+        
+        while(!debuggerRunning->getValue()){
+            if((long)(debuggerStep->getValue()) > 0){
+                debuggerStep->setValue((long)debuggerStep->getValue() - 1);
+                break;
+            }
+            shared_ptr <Clock> clock = Clock::instance();
+            clock->sleepMS(50);
+        }
+    }
 }
+
+
+END_NAMESPACE_MW

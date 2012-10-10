@@ -10,7 +10,9 @@
 #include "GlobalVariable.h"
 #include "VariableProperties.h"
 #include <boost/shared_ptr.hpp>
-using namespace mw;
+
+
+BEGIN_NAMESPACE_MW
 
 
 /*******************************************************************
@@ -122,3 +124,6 @@ void GlobalVariable::printToSTDERR() {
     value->printToSTDERR();
 	valueLock->unlock();
 }
+
+
+END_NAMESPACE_MW

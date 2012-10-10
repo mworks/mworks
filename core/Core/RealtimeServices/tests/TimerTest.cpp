@@ -11,7 +11,10 @@
 #include "MWorksCore/TrialBuildingBlocks.h"
 #include "MWorksCore/GlobalVariable.h"
 #include "MWorksCore/MachUtilities.h"
-using namespace mw;
+
+
+BEGIN_NAMESPACE_MW
+
 
 CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( TimerTestFixture, "Unit Test" );
 
@@ -377,3 +380,6 @@ void TimerTestFixture::textTimerWithTimebase(){
 	}
 
 }
+
+
+END_NAMESPACE_MW

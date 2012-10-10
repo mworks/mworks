@@ -9,7 +9,9 @@
 
 #include "TestBedCoreBuilder.h"
 #include "Utilities.h"
-using namespace mw;
+
+
+BEGIN_NAMESPACE_MW
 
 
 bool TestBedCoreBuilder::startInterpreters(){
@@ -17,3 +19,6 @@ bool TestBedCoreBuilder::startInterpreters(){
 	mwarning(M_SYSTEM_MESSAGE_DOMAIN, "No Perl interpretter was started");
 	return true;
 }
+
+
+END_NAMESPACE_MW

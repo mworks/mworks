@@ -11,7 +11,10 @@
 #include "StandardVariables.h"
 // ===================================
 
-using namespace mw;
+
+BEGIN_NAMESPACE_MW
+
+
 IODeviceVariableNotification::IODeviceVariableNotification
         (const shared_ptr<IODevice> &_io_device) : VariableNotification() {
 	io_device = weak_ptr<IODevice>(_io_device);
@@ -28,3 +31,5 @@ void IODeviceVariableNotification::notify(const Datum& data, MWTime timeUS) {
 	}
 }
 
+
+END_NAMESPACE_MW

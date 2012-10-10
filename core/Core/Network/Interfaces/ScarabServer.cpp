@@ -16,9 +16,11 @@
 #include <string>
 #include "boost/bind.hpp"
 #include "DataFileManager.h"
-using namespace mw;
 
-namespace mw {
+
+BEGIN_NAMESPACE_MW
+
+
 	const MWTime INITIAL_THREAD_DELAY = 0;
 	const MWTime REPEAT_INTERVAL = 20;
 	const int TIMES_TO_RUN = 1;
@@ -59,7 +61,7 @@ namespace mw {
 	
 	// the thread function
 	static void * acceptClients(const shared_ptr<ScarabServer> &ss);
-}
+
 
 ScarabServer::ScarabServer(shared_ptr<EventBuffer> _incoming_event_buffer, 
                            shared_ptr<EventBuffer> _outgoing_event_buffer, 
@@ -393,15 +395,15 @@ int ScarabServer::getDefaultHighPort() {
     return DEFAULT_PORT_NUMBER_HIGH;
 }
 
-namespace mw {
-	void * acceptClients(const shared_ptr<ScarabServer> &ss) {	
-		int rc = ss->service();
-		if(rc < 0) {
-			ss->stopAccepting();
-		}
-		return NULL;
-	}
+
+void * acceptClients(const shared_ptr<ScarabServer> &ss) {
+    int rc = ss->service();
+    if(rc < 0) {
+        ss->stopAccepting();
+    }
+    return NULL;
 }
+
 
 int ScarabServer::service() {
     if(1){
@@ -491,3 +493,6 @@ int ScarabServer::service() {
 	
 	return 0;
 } 
+
+
+END_NAMESPACE_MW

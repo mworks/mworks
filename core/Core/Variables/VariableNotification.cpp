@@ -8,7 +8,9 @@
  */
 
 #include "VariableNotification.h"
-using namespace mw;
+
+
+BEGIN_NAMESPACE_MW
 
 
 /*******************************************************************
@@ -22,3 +24,6 @@ VariableNotification::~VariableNotification() {
 }
 // called when a new value is set
 void VariableNotification::notify(const Datum& data, MWTime time){ } 
+
+
+END_NAMESPACE_MW

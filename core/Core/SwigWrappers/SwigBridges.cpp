@@ -8,9 +8,9 @@
  */
 
 #include "SwigBridges.h"
-using namespace mw;
 
 
+BEGIN_NAMESPACE_MW
 
 
 VariableProperties *createNewVariableProperties(long defaultval, char *_tagname, char *_shortname, 
@@ -32,3 +32,6 @@ Datum createNewDataObject(double data){
  Datum thedata = Datum(data);
 	return thedata;
 }
+
+
+END_NAMESPACE_MW

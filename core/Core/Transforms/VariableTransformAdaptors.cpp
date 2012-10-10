@@ -9,7 +9,8 @@
 
 #include "VariableTransformAdaptors.h"
 
-using namespace mw;
+
+BEGIN_NAMESPACE_MW
 
 
 VarTransformAdaptor::VarTransformAdaptor() {
@@ -145,3 +146,4 @@ void VarTransformNotification::notify(const Datum& data, MWTime timeUS) {
 }
 
 
+END_NAMESPACE_MW

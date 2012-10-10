@@ -8,7 +8,10 @@
  */
 
 #include "Averagers.h"
-using namespace mw;
+
+
+BEGIN_NAMESPACE_MW
+
 
 #define VERBOSE_AVERAGER 0
 
@@ -173,6 +176,9 @@ shared_ptr<mw::Component> AveragerUserFactory::createObject(std::map<std::string
 	shared_ptr <mw::Component> newAveragerUser = shared_ptr<mw::Component>(new AveragerUser(in1, out1));
 	return newAveragerUser;		
 }
+
+
+END_NAMESPACE_MW
 
 
 

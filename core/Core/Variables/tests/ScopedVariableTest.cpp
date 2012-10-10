@@ -11,7 +11,9 @@
 #include "Experiment.h"
 #include "SequentialSelection.h"
 #include "EventBuffer.h"
-using namespace mw;
+
+
+BEGIN_NAMESPACE_MW
 
 
 CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( ScopedVariableTestFixture, "Unit Test" );
@@ -235,3 +237,4 @@ void ScopedVariableTestFixture::invitroTest(){
 }
 
 
+END_NAMESPACE_MW

@@ -8,7 +8,9 @@
  */
 
 #include "ExpandableListTest.h"
-using namespace mw;
+
+
+BEGIN_NAMESPACE_MW
 
 
 CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( ExpandableListTestFixture, "Unit Test" );
@@ -79,3 +81,5 @@ void ExpandableListTestFixture::testBracketOperator(){
 
 // void ExpandableListTestFixture::testAddition(); // etc. etc...
 
+
+END_NAMESPACE_MW

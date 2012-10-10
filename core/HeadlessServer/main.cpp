@@ -19,7 +19,6 @@
 #include "MWorksCore/Event.h"
 #include "MWorksCore/PluginServices.h"
 #include "MWorksCore/OpenGLContextManager.h"
-#include "MWorksCore/StandardInterpreters.h"
 #include "MWorksCore/FakeMonkey.h"
 #include "MWorksCore/LoadingUtilities.h"
 #include "MWorksCore/ITC18_IODevice.h"

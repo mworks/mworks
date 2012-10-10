@@ -12,11 +12,12 @@
 //  (objects that take vars as input and alter vars as output)
 
 #include "FilterManager.h"
-using namespace mw;
 
-namespace mw {
-	FilterManager *GlobalFilterManager;
-}
+
+BEGIN_NAMESPACE_MW
+
+
+FilterManager *GlobalFilterManager;
 
 FilterManager::FilterManager(){}
 	
@@ -25,3 +26,6 @@ FilterManager::~FilterManager(){}
 void FilterManager::addFilter(shared_ptr<VarTransformAdaptor> _filter){
 	filters.addReference(_filter);
 }
+
+
+END_NAMESPACE_MW

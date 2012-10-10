@@ -8,6 +8,12 @@
  */
 
 #include "VectorTest.h"
-using namespace mw;
+
+
+BEGIN_NAMESPACE_MW
+
 
 CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( VectorTestFixture, "Unit Test" );
+
+
+END_NAMESPACE_MW

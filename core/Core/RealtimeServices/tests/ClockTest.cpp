@@ -9,7 +9,10 @@
 
 #include "ClockTest.h"
 #include "Clock.h"
-using namespace mw;
+
+
+BEGIN_NAMESPACE_MW
+
 
 CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( ClockTestFixture, "Unit Test" );
 
@@ -80,4 +83,7 @@ void ClockTestFixture::testClock(){
 	shared_clock = Clock::instance(false);	
 	CPPUNIT_ASSERT(shared_clock == NULL);
 }
+
+
+END_NAMESPACE_MW
 

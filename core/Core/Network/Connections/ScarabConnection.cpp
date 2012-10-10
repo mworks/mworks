@@ -8,7 +8,9 @@
 #include "boost/bind.hpp"
 #include <string>
 #include "Event.h"
-using namespace mw;
+
+
+BEGIN_NAMESPACE_MW
 
 
 ScarabConnection::ScarabConnection(shared_ptr<EventBuffer> _event_buffer, std::string _uri) {
@@ -199,4 +201,6 @@ void* ScarabConnection::terminate() {
 	//connected = false; // DDC added
     return NULL;
 }
- 
+
+
+END_NAMESPACE_MW

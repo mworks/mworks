@@ -10,7 +10,10 @@
 #include "SimpleStaircase.h"
 #include "ComponentRegistry.h"
 #include <boost/lexical_cast.hpp>
-using namespace mw;
+
+
+BEGIN_NAMESPACE_MW
+
 
 SimpleStaircaseOptimizer::SimpleStaircaseOptimizer(shared_ptr<Variable> _watch,
 													 shared_ptr<Variable> _output,
@@ -181,3 +184,6 @@ shared_ptr<mw::Component> SimpleStaircaseOptimizerFactory::createObject(std::map
 																											   history));
 	return newSimpleStaircaseOptimizer;
 }
+
+
+END_NAMESPACE_MW

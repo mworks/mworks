@@ -23,8 +23,12 @@
 #include "RandomWORSelection.h"
 #include "RandomWithReplacementSelection.h"
 #include "ScheduledActions.h"
-namespace mw {
+
 using namespace boost;
+
+
+BEGIN_NAMESPACE_MW
+
 
 #define	DEF_CAST_SHARED_PTR(X,Y,NAME)	shared_ptr<X> NAME(shared_ptr<Y> ptr){ return dynamic_pointer_cast<X,Y>(ptr); }
 #define DEF_GET_RAW(X)	X *get_raw_pointer(shared_ptr<X> ptr){ return ptr.get(); }
@@ -258,7 +262,8 @@ DEF_GET_RAW(Stimulus);
 
 DEF_CAST_RAW_PTR(ScopedVariableEnvironment,  Experiment,  castAsScopedVariableEnvironment);
 
-}
+
+END_NAMESPACE_MW
 
 
 

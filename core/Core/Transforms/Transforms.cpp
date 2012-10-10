@@ -8,7 +8,10 @@
  */
 
 #include "Transforms.h"
-using namespace mw;
+
+
+BEGIN_NAMESPACE_MW
+
 
 // standard transform interface
 void Transform::input() {};
@@ -150,7 +153,7 @@ int TransformWithMemory::getAllElements(int inputIndex, double *dataVector, MWTi
 }
 
 
-
+END_NAMESPACE_MW
 
 
 

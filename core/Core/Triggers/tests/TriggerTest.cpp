@@ -8,6 +8,12 @@
  */
 
 #include "TriggerTest.h"
-using namespace mw;
+
+
+BEGIN_NAMESPACE_MW
+
 
 CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( TriggerTestFixture, "Unit Test" );
+
+
+END_NAMESPACE_MW

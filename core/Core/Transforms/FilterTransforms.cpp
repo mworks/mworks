@@ -10,7 +10,10 @@
 #include "FilterTransforms.h"
 #include "ComponentRegistry.h"
 #include <boost/lexical_cast.hpp>
-using namespace mw;
+
+
+BEGIN_NAMESPACE_MW
+
 
 #define VERBOSE_FILTERS 0       // set to 1 to see messages from filter methods 
 
@@ -392,5 +395,4 @@ shared_ptr<mw::Component> Filter_LinearFilter1DFactory::createObject(std::map<st
 }
 
 
-
-
+END_NAMESPACE_MW

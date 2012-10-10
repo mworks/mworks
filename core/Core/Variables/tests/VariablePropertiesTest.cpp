@@ -9,7 +9,10 @@
 
 #include "VariablePropertiesTest.h"
 #include "EventBuffer.h"
-using namespace mw;
+
+
+BEGIN_NAMESPACE_MW
+
 
 CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( VariablePropertiesTestFixture, "Unit Test" );
 
@@ -155,3 +158,6 @@ void VariablePropertiesTestFixture::testGroups(){
 	CPPUNIT_ASSERT(groups5[2] == "g2");
 	
 }
+
+
+END_NAMESPACE_MW

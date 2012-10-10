@@ -9,7 +9,10 @@
 
 #include "ScheduledActions.h"
 #include "boost/bind.hpp"
-using namespace mw;
+
+
+BEGIN_NAMESPACE_MW
+
 
 ScheduledActions::ScheduledActions(shared_ptr<Variable> _n_repeats, 
                                    shared_ptr<Variable> _delay, 
@@ -93,7 +96,7 @@ void ScheduledActions::executeActions() {
 /****************************************************************
  *                       ScheduledActions Methods
  ****************************************************************/
-namespace mw {
+
 	void *scheduled_action_runner(const shared_ptr<ScheduledActions> &sa){
         if (sa->shouldCancel()) {
             shared_ptr<ScheduleTask> node(sa->getNode());
@@ -115,9 +118,9 @@ namespace mw {
 		sa->executeActions();
 		return 0;
 	}
-}
 
-shared_ptr<mw::Component> ScheduledActionsFactory::createObject(std::map<std::string, std::string> parameters,
+
+shared_ptr<Component> ScheduledActionsFactory::createObject(std::map<std::string, std::string> parameters,
 															  ComponentRegistry *reg) {
 	REQUIRE_ATTRIBUTES(parameters, "delay", "repeats", "duration");
 	
@@ -137,7 +140,9 @@ shared_ptr<mw::Component> ScheduledActionsFactory::createObject(std::map<std::st
 	
 	// TODO .. needs more work, the actual actions aren't included here
 	
-	shared_ptr <mw::Component> newScheduledActions = shared_ptr<mw::Component>(new ScheduledActions(repeats, delay, duration, cancel));
+	shared_ptr <Component> newScheduledActions = shared_ptr<Component>(new ScheduledActions(repeats, delay, duration, cancel));
 	return newScheduledActions;		
 }
 
+
+END_NAMESPACE_MW

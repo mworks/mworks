@@ -17,8 +17,11 @@
 #ifndef _ABSTRACT_CORE_BUILDER_H__
 #define _ABSTRACT_CORE_BUILDER_H__
 
+#include "MWorksMacros.h"
 
-namespace mw {
+
+BEGIN_NAMESPACE_MW
+
 
 class AbstractCoreBuilder {
     public:
@@ -121,5 +124,9 @@ class AbstractCoreBuilder {
          */
         virtual ~AbstractCoreBuilder();
 };
-}
+
+
+END_NAMESPACE_MW
+
+
 #endif

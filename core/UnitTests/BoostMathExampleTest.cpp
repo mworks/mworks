@@ -19,7 +19,9 @@
 // for trig
 #include <cmath>
 
-using namespace mw;
+
+BEGIN_NAMESPACE_MW
+
 
 CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( BoostMathExampleTestFixture, "Unit Test" );
 
@@ -110,4 +112,7 @@ void BoostMathExampleTestFixture::example4Test() {
     CPPUNIT_ASSERT_DOUBLES_EQUAL(-1.0, cos(pi), tol);
     CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0/sqrt(2.0), sin(angle_in_rad), tol);
 }
+
+
+END_NAMESPACE_MW
 

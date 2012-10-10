@@ -12,9 +12,11 @@
 
 #include "ScarabServices.h"
 #include "Utilities.h"
-using namespace mw;
 
-namespace mw {
+
+BEGIN_NAMESPACE_MW
+
+
 	void printDatum(ScarabDatum * datum) {
 		switch(datum->type) {
 			case 0://SCARAB_NULL
@@ -93,5 +95,6 @@ namespace mw {
 			mnetwork("OSERR: %i: %s", oserr, scarab_os_error_string);
 		} 
 	}
-	
-}
+
+
+END_NAMESPACE_MW

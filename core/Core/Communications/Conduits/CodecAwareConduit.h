@@ -11,7 +11,10 @@
 #define CODEC_AWARE_CONDUIT_H_
 
 #include "SimpleConduit.h"
-using namespace mw;
+
+
+BEGIN_NAMESPACE_MW
+
 
 #define name_defined_callback_key   "CodeAwareConduit::name_defined_callback_key"
 
@@ -75,5 +78,9 @@ public:
     map<string, int> getRemoteReverseCodec();
 
 };
+
+
+END_NAMESPACE_MW
+
 
 #endif

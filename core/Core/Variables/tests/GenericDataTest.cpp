@@ -8,7 +8,10 @@
  */
 
 #include "GenericDataTest.h"
-using namespace mw;
+
+
+BEGIN_NAMESPACE_MW
+
 
 CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( GenericDataTestFixture, "Unit Test" );
 
@@ -496,3 +499,5 @@ void GenericDataTestFixture::testIs() {
 	CPPUNIT_ASSERT(!a_dict.isNumber());
 }
 
+
+END_NAMESPACE_MW

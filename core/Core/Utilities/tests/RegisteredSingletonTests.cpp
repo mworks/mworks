@@ -9,7 +9,9 @@
 
 #include "RegisteredSingletonTests.h"
 #include "MWorksCore/ConstantVariable.h"
-using namespace mw;
+
+
+BEGIN_NAMESPACE_MW
 
 
 //template <> boost::shared_ptr<Dummy> RegisteredSingleton<Dummy>::singleton_instance = boost::shared_ptr<Dummy>();
@@ -232,3 +234,4 @@ void RegisteredSingletonTestFixture::tryToRegisterNULLInstance(){
 }
 
 
+END_NAMESPACE_MW

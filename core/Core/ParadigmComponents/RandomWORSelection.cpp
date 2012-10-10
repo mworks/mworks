@@ -12,7 +12,9 @@
 
 #include <boost/random.hpp>
 #include "Clock.h"
-using namespace mw;
+
+
+BEGIN_NAMESPACE_MW
 
 
 RandomWORSelection::RandomWORSelection(int _n_draws, bool _autoreset) : Selection(_n_draws, _autoreset){
@@ -106,3 +108,5 @@ void RandomWORSelection::rejectSelections(){
 	tentative_selections = std::vector<int>();
 }
 
+
+END_NAMESPACE_MW

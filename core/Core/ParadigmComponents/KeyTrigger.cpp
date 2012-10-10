@@ -1,6 +1,9 @@
 #include "KeyTrigger.h"
 #include "Experiment.h"
-using namespace mw;
+
+
+BEGIN_NAMESPACE_MW
+
 
 void KeyTrigger::trigger(){  // called from somewhere else when the key is pressed
 
@@ -24,3 +27,6 @@ void KeyTrigger::trigger(){  // called from somewhere else when the key is press
 bool KeyTrigger::isActive() { 
 	return (bool)(*active);
 }
+
+
+END_NAMESPACE_MW

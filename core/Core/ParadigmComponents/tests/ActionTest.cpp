@@ -15,7 +15,9 @@
 
 #include <boost/bind.hpp>
 
-using namespace mw;
+
+BEGIN_NAMESPACE_MW
+
 
 CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( ActionTestFixture, "Unit Test" );
 
@@ -768,6 +770,9 @@ void ActionTestFixture::testScheduledAssignmentWithCancelThatsTooLate() {
 	
 	CPPUNIT_ASSERT((long)*v1 == 1L);	
 }
+
+
+END_NAMESPACE_MW
 
 
 

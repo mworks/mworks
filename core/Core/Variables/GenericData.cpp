@@ -11,21 +11,19 @@
  * Copyright (c) 2005 MIT. All rights reserved.
  */
 
-// TEMP
-#include "EmbeddedPerlInterpreter.h"
-// ENDTEMP
-
-
 #include "GenericData.h"
 #include "Utilities.h"
 #include "ScarabServices.h"
 #include <string>
 #include <sstream>
 
-using namespace mw;
 using namespace std;
 
 #include "ExpressionParser.h"
+
+
+BEGIN_NAMESPACE_MW
+
 
 void Datum::initScarabDatum(){
   // TODO, this could cause a shitload of memory leaks
@@ -1567,4 +1565,4 @@ std::string Datum::toString() const {
 }
 
 
-
+END_NAMESPACE_MW

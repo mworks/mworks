@@ -8,7 +8,10 @@
  * Copyright (c) 2005 MIT. All rights reserved. 
  */
 #include "Interpreter.h"
-using namespace mw;
+
+
+BEGIN_NAMESPACE_MW
+
 
 Interpreter::Interpreter() { }
 Interpreter::~Interpreter() { }
@@ -19,3 +22,6 @@ void Interpreter::evalFile(char *filename) { }
 bool Interpreter::shutdown(){ return false; }
 void Interpreter::reset() { }
 bool Interpreter::restart() { return false; }
+
+
+END_NAMESPACE_MW

@@ -792,8 +792,6 @@
 		5C4D233B09DC6F0C0082BF9F /* VectorTest.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = VectorTest.cpp; path = Core/Variables/tests/VectorTest.cpp; sourceTree = SOURCE_ROOT; };
 		5C4D239C09DC83930082BF9F /* MWorksCoreTest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MWorksCoreTest.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5C4D239D09DC83930082BF9F /* MWorksCoreTest-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MWorksCoreTest-Info.plist"; sourceTree = "<group>"; };
-		5C4D26C809DD58AD0082BF9F /* PerlInterpreterTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PerlInterpreterTest.h; path = Core/Interpreters/tests/PerlInterpreterTest.h; sourceTree = SOURCE_ROOT; };
-		5C4D26C909DD58AD0082BF9F /* PerlInterpreterTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PerlInterpreterTest.cpp; path = Core/Interpreters/tests/PerlInterpreterTest.cpp; sourceTree = SOURCE_ROOT; };
 		5C524E860CAA02C60063B1DC /* TimerTest.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = TimerTest.cpp; sourceTree = "<group>"; };
 		5C524E870CAA02C60063B1DC /* TimerTest.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TimerTest.h; sourceTree = "<group>"; };
 		5C5FA52E126FBA0C00468660 /* PythonConduits.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PythonConduits.h; sourceTree = "<group>"; };
@@ -815,8 +813,6 @@
 		5C78EDE3115C00EC00151A76 /* DynamicStimulusDriver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DynamicStimulusDriver.h; sourceTree = "<group>"; };
 		5C7A88250F818A38007B4724 /* SimpleConduitTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SimpleConduitTest.cpp; sourceTree = "<group>"; };
 		5C7A88260F818A38007B4724 /* SimpleConduitTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleConduitTest.h; sourceTree = "<group>"; };
-		5C7B90670B0A625200448C9E /* EmbeddedPerlInterpreter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EmbeddedPerlInterpreter.h; path = Core/Interpreters/EmbeddedPerlInterpreter.h; sourceTree = "<group>"; };
-		5C7B90680B0A625200448C9E /* EmbeddedPerlInterpreter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EmbeddedPerlInterpreter.cpp; path = Core/Interpreters/EmbeddedPerlInterpreter.cpp; sourceTree = "<group>"; };
 		5C7CEFE10BC5D7AB00434931 /* LegacyBuffers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LegacyBuffers.h; path = Core/Events/LegacyBuffers.h; sourceTree = "<group>"; };
 		5C7CEFE20BC5D7AB00434931 /* LegacyBuffers.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = LegacyBuffers.cpp; path = Core/Events/LegacyBuffers.cpp; sourceTree = "<group>"; };
 		5C7CF4ED0BC6B48D00434931 /* LinkedList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LinkedList.h; sourceTree = "<group>"; };
@@ -993,8 +989,6 @@
 		DA2CE12907E9F8B200C68AEF /* LoadingUtilities.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = LoadingUtilities.h; path = Core/ExperimentDataLoading/LoadingUtilities.h; sourceTree = SOURCE_ROOT; };
 		DA2CE13207E9F8C900C68AEF /* Interpreter.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = Interpreter.cpp; path = Core/Interpreters/Interpreter.cpp; sourceTree = SOURCE_ROOT; };
 		DA2CE13307E9F8C900C68AEF /* Interpreter.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Interpreter.h; path = Core/Interpreters/Interpreter.h; sourceTree = SOURCE_ROOT; };
-		DA2CE13407E9F8C900C68AEF /* StandardInterpreters.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = StandardInterpreters.cpp; path = Core/Interpreters/StandardInterpreters.cpp; sourceTree = SOURCE_ROOT; };
-		DA2CE13507E9F8C900C68AEF /* StandardInterpreters.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = StandardInterpreters.h; path = Core/Interpreters/StandardInterpreters.h; sourceTree = SOURCE_ROOT; };
 		DA2CE13A07E9F8D300C68AEF /* LegacyIODevice.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = LegacyIODevice.cpp; path = Core/IODevices/LegacyIODevice.cpp; sourceTree = "<group>"; };
 		DA2CE13B07E9F8D300C68AEF /* LegacyIODevice.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = LegacyIODevice.h; path = Core/IODevices/LegacyIODevice.h; sourceTree = "<group>"; };
 		DA2CE15207E9F92500C68AEF /* NetworkWatcher.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = NetworkWatcher.h; path = Core/Network/Interfaces/NetworkWatcher.h; sourceTree = SOURCE_ROOT; };
@@ -1466,16 +1460,6 @@
 			name = tests;
 			path = Core/Variables/tests;
 			sourceTree = SOURCE_ROOT;
-		};
-		5C4D254109DCBA4A0082BF9F /* tests */ = {
-			isa = PBXGroup;
-			children = (
-				5C4D26C809DD58AD0082BF9F /* PerlInterpreterTest.h */,
-				5C4D26C909DD58AD0082BF9F /* PerlInterpreterTest.cpp */,
-			);
-			name = tests;
-			path = Core/Interpreters/tests;
-			sourceTree = "<group>";
 		};
 		5C4D254209DCBA7F0082BF9F /* tests */ = {
 			isa = PBXGroup;
@@ -2126,13 +2110,8 @@
 		DA2CE0FD07E9F70700C68AEF /* Interpreters */ = {
 			isa = PBXGroup;
 			children = (
-				5C4D254109DCBA4A0082BF9F /* tests */,
 				DA2CE13207E9F8C900C68AEF /* Interpreter.cpp */,
 				DA2CE13307E9F8C900C68AEF /* Interpreter.h */,
-				DA2CE13407E9F8C900C68AEF /* StandardInterpreters.cpp */,
-				DA2CE13507E9F8C900C68AEF /* StandardInterpreters.h */,
-				5C7B90670B0A625200448C9E /* EmbeddedPerlInterpreter.h */,
-				5C7B90680B0A625200448C9E /* EmbeddedPerlInterpreter.cpp */,
 				DA2CE1DD07E9F97700C68AEF /* SwigBridges.h */,
 				DA2CE1DC07E9F97700C68AEF /* SwigBridges.cpp */,
 			);

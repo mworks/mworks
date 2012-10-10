@@ -19,7 +19,10 @@
 #include <boost/filesystem/operations.hpp>
 #include "PlatformDependentServices.h"
 #include "ComponentRegistry.h"
-using namespace mw;
+
+
+BEGIN_NAMESPACE_MW
+
 
 const int AUTOMATIC_RESPONSE_EVENT_PAYLOAD_SIZE     = 1;
 const int RESPONSE_EVENT_CODE_INDEX                 = 0;
@@ -529,3 +532,4 @@ Datum SystemEventFactory::systemEventPackage(SystemEventType eType,
 }
 
 
+END_NAMESPACE_MW

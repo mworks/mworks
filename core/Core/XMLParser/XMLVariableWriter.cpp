@@ -8,9 +8,11 @@
  */
 
 #include "XMLVariableWriter.h"
-using namespace mw;
 
-namespace mw {
+
+BEGIN_NAMESPACE_MW
+
+
 	void	variable_writer_error_func(void * _parser_context, const char * error, ...){
 		
 		va_list ap;
@@ -28,7 +30,7 @@ namespace mw {
 		cerr << buffer << endl;
 		merror(M_PARSER_MESSAGE_DOMAIN, buffer);
 	}
-}
+
 
 void XMLVariableWriter::writeVariablesToFile(vector< shared_ptr<Variable> > variables, 
 											 filesystem::path file){
@@ -172,3 +174,5 @@ xmlNodePtr XMLVariableWriter::recursiveValueToXML(const Datum &value) {
 	return value_node;
 }
 
+
+END_NAMESPACE_MW

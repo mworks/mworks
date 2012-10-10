@@ -9,7 +9,9 @@
 
 #include "Timer.h"
 #include "boost/bind.hpp"
-using namespace mw;
+
+
+BEGIN_NAMESPACE_MW
 
 
 TimeBase::TimeBase() {
@@ -121,11 +123,10 @@ Variable *Timer::clone(){
 }
 
 
-namespace mw {
-	void *expireTheTimer(const shared_ptr<Timer> &timer){
-		timer->setExpired(true);
-		return NULL;
-	}
+void *expireTheTimer(const shared_ptr<Timer> &timer){
+    timer->setExpired(true);
+    return NULL;
 }
 
 
+END_NAMESPACE_MW

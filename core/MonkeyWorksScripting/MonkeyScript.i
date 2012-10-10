@@ -37,8 +37,7 @@
 #include "MWorksCore/LoadingUtilities.h"
 #include "MWorksCore/SwigBridges.h"
 #include "MWorksCore/IODevice.h"
-#include "MWorksCore/EmbeddedPerlInterpreter.h"	
-#include "MWorksCore/ExperimentPackager.h"	
+#include "MWorksCore/ExperimentPackager.h"
 #include "NIDAQmxBase.h"
 #include "MWorksCore/PlatformDependentServices.h"
 
@@ -136,7 +135,6 @@
 %include "FakeMonkey.h"
 
 %include "ITC18_IODevice.h"
-%include "EmbeddedPerlInterpreter.h"	
 %include "ExperimentPackager.h"	
 
 //%include "OpenGLContextManager.h"

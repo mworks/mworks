@@ -9,7 +9,10 @@
 
 #include "Trigger.h"
 #include "Utilities.h"
-using namespace mw;
+
+
+BEGIN_NAMESPACE_MW
+
 
 #define VERBOSE_TRIGGERS 0
 
@@ -269,5 +272,4 @@ bool CircularRegionTrigger::evaluate(){
 }
 
 
-
-
+END_NAMESPACE_MW

@@ -16,7 +16,9 @@
 //
 
 #include "FitableFunctions.h"
-using namespace mw;
+
+
+BEGIN_NAMESPACE_MW
 
 
 BasisFunction::BasisFunction() {};
@@ -551,4 +553,4 @@ SecondOrderPolynomialFitableFunction::SecondOrderPolynomialFitableFunction
 }
 
 
-
+END_NAMESPACE_MW

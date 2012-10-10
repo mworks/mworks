@@ -9,7 +9,9 @@
 
 #include "IncomingEventListener.h"
 
-using namespace mw;
+
+BEGIN_NAMESPACE_MW
+
 
 IncomingEventListener::IncomingEventListener(shared_ptr<EventBuffer> _event_buffer, shared_ptr<EventStreamInterface> hand) :
 								EventListener(_event_buffer){
@@ -40,3 +42,6 @@ IncomingEventListener& IncomingEventListener::operator=(
                                             const IncomingEventListener&) {
     return *this;
 }
+
+
+END_NAMESPACE_MW

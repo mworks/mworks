@@ -11,7 +11,9 @@
 #include "SequentialSelection.h"
 #include "RandomWORSelection.h"
 #include "RandomWithReplacementSelection.h"
-using namespace mw;
+
+
+BEGIN_NAMESPACE_MW
 
 
 Selectable::Selectable(){
@@ -66,3 +68,6 @@ int Selectable::getNLeft() {
 int Selectable::getNDone() {
 	return selection->getNDone();
 }
+
+
+END_NAMESPACE_MW

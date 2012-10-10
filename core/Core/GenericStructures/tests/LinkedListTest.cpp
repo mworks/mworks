@@ -8,7 +8,10 @@
  */
 
 #include "LinkedListTest.h"
-using namespace mw;
+
+
+BEGIN_NAMESPACE_MW
+
 
 CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( LinkedListTestFixture, "Unit Test" );
 
@@ -397,3 +400,6 @@ void LinkedListTestFixture::testNotificationStyle() {
 	CPPUNIT_ASSERT(list3.getNElements() == 0);
 
 }
+
+
+END_NAMESPACE_MW

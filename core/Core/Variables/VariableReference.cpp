@@ -8,9 +8,14 @@
  */
 
 #include "VariableReference.h"
-using namespace mw;
+
+
+BEGIN_NAMESPACE_MW
 
 
 VariableReference::VariableReference(Variable *var){
 	variable = var;
 }
+
+
+END_NAMESPACE_MW

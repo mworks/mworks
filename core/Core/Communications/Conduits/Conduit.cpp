@@ -8,7 +8,9 @@
  */
 
 #include "Conduit.h"
-using namespace mw;
+
+
+BEGIN_NAMESPACE_MW
 
 
 Conduit::Conduit(shared_ptr<EventTransport> _transport){
@@ -32,3 +34,5 @@ void Conduit::sendData(shared_ptr<Event> evt){
     transport->sendEvent(evt);
 }
 
+
+END_NAMESPACE_MW

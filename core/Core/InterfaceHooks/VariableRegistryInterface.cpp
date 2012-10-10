@@ -9,7 +9,9 @@
 
 #include "VariableRegistryInterface.h"
 
-using namespace mw;
+
+BEGIN_NAMESPACE_MW
+
 
 shared_ptr<Variable> VariableRegistryInterface::getVariable(const std::string &tag) {
 	if(registry != NULL){
@@ -59,3 +61,6 @@ void RegistryAwareEventStreamInterface::registerCallback(EventCallback cb, strin
 void RegistryAwareEventStreamInterface::registerCallback(int code, EventCallback cb, string callback_key){
     EventStreamInterface::registerCallback(code, cb, callback_key);
 }
+
+
+END_NAMESPACE_MW

@@ -14,7 +14,9 @@
 #include "StandardSystemEventHandler.h"
 #include "StandardVariables.h"
 
-using namespace mw;
+
+BEGIN_NAMESPACE_MW
+
 
 CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( EventStreamConduitTestFixture, "Unit Test" );
 
@@ -86,3 +88,6 @@ void EventStreamConduitTestFixture::testInOneThread(){
 
     
 }
+
+
+END_NAMESPACE_MW

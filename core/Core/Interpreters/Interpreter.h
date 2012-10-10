@@ -25,7 +25,14 @@
 
 #ifndef _INTERPRETER_H
 #define _INTERPRETER_H
-namespace mw {
+
+
+#include "MWorksMacros.h"
+
+
+BEGIN_NAMESPACE_MW
+
+
 class Interpreter {
     public:
         // These are all base classes. All bool functions return false.
@@ -73,5 +80,9 @@ class Interpreter {
          */
         virtual bool restart();
 };
-}
+
+
+END_NAMESPACE_MW
+
+
 #endif

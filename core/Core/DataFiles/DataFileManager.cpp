@@ -19,11 +19,13 @@
 #include "EventBuffer.h"
 #include "PlatformDependentServices.h"
 #include "boost/filesystem/convenience.hpp"
-using namespace mw;
 
-namespace mw {
- DataFileManager *GlobalDataFileManager;
-}
+
+BEGIN_NAMESPACE_MW
+
+
+DataFileManager *GlobalDataFileManager;
+
 
 DataFileManager::DataFileManager() {
 	
@@ -143,3 +145,5 @@ std::string DataFileManager::getFilename() {
     return filename;
 }
 
+
+END_NAMESPACE_MW

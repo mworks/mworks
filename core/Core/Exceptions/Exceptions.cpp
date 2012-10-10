@@ -4,10 +4,10 @@
 #include "Stimulus.h"
 #include "GenericVariable.h"
 
-using namespace mw;
 using namespace boost;
 
-namespace mw{
+
+BEGIN_NAMESPACE_MW
 
 
 AmbiguousComponentReferenceException::AmbiguousComponentReferenceException(shared_ptr<AmbiguousComponentReference> ref) :
@@ -124,4 +124,5 @@ void display_extended_error_information(SimpleException& e){
 
 }
 
-}
+
+END_NAMESPACE_MW

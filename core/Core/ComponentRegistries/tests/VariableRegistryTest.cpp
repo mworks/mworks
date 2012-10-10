@@ -9,7 +9,10 @@
 
 #include "VariableRegistryTest.h"
 #include "EventBuffer.h"
-using namespace mw;
+
+
+BEGIN_NAMESPACE_MW
+
 
 CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( VariableRegistryTestFixture, "Unit Test" );
 
@@ -144,3 +147,6 @@ void VariableRegistryTestFixture::checkCodec(ScarabDatum *generated_codec,
 	
 	CPPUNIT_ASSERT(num_entries == number_of_entries);
 }
+
+
+END_NAMESPACE_MW

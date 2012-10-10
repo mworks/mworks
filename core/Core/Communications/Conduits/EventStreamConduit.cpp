@@ -63,7 +63,8 @@
 #include "SystemEventFactory.h"
 #include "StandardVariables.h"
 
-using namespace mw;
+
+BEGIN_NAMESPACE_MW
 
 
 int EventStreamConduit::count = 0;
@@ -238,3 +239,6 @@ void EventStreamConduit::serviceIncomingEventsFromConduit(){
         
     }
 }
+
+
+END_NAMESPACE_MW

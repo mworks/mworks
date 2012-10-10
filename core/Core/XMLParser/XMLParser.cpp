@@ -21,9 +21,10 @@
 
 #import <Foundation/Foundation.h>
 
-using namespace mw;
 
-namespace mw {
+BEGIN_NAMESPACE_MW
+
+
 	void XMLParser::error_func(void * _parser_context, const char * error, ...){
 		
 		va_list ap;
@@ -44,7 +45,6 @@ namespace mw {
         }
 		//cerr << buffer << endl;
 	}
-}
 
 
 void XMLParser::setup(shared_ptr<ComponentRegistry> _reg, std::string _path, std::string _simplification_transform_path){
@@ -1351,3 +1351,5 @@ void XMLParser::_processVariableAssignment(xmlNode *node){
 	variable->setValue(value);
 }
 
+
+END_NAMESPACE_MW

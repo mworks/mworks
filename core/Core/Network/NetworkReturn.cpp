@@ -11,7 +11,10 @@
 #include "Utilities.h"
 #include <stdarg.h>
 #include <string>
-using namespace mw;
+
+
+BEGIN_NAMESPACE_MW
+
 
 // buffer padding for variable length arguments.
 const int BUFFER_PADDING = 256;
@@ -58,3 +61,6 @@ void NetworkReturn::appendInformationWithFormat(const std::string MSG, ...) {
     appendInformation(tmp);
     delete [] tmp;
 }
+
+
+END_NAMESPACE_MW

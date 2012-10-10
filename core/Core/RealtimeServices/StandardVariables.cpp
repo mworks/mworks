@@ -17,9 +17,11 @@
 #include "Announcers.h"
 
 #include "Debugging.h"
-using namespace mw;
 
-namespace mw {
+
+BEGIN_NAMESPACE_MW
+
+
 	shared_ptr<Variable> state_system_mode; 
 	shared_ptr<Variable> GlobalMessageVariable; 
 	shared_ptr<Variable> GlobalSystemEventVariable; 
@@ -270,5 +272,6 @@ namespace mw {
 		
 		
 	}
-}
 
+
+END_NAMESPACE_MW

@@ -13,7 +13,9 @@
 #include "LoadingUtilities.h"
 #include "boost/filesystem/path.hpp"
 
-using namespace mw;
+
+BEGIN_NAMESPACE_MW
+
 
 #define CLIENT_INTERNAL_KEY	"MWClientInternalCallbackKey"
 
@@ -269,3 +271,5 @@ void Client::updateValue(const int code, const Datum &data) {
 //	}
 //}
 
+
+END_NAMESPACE_MW

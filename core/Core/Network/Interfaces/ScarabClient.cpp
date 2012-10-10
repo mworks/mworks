@@ -13,7 +13,9 @@
 #include "SystemEventFactory.h"
 #include <string.h>
 #include <boost/format.hpp>
-using namespace mw;
+
+
+BEGIN_NAMESPACE_MW
 
 
 #define	USE_TCP_BUFFERED	1
@@ -159,3 +161,6 @@ void ScarabClient::setServerAddress(std::string  h) {
 void ScarabClient::setServerPort(int p) {
     serverPort = p;
 }
+
+
+END_NAMESPACE_MW

@@ -9,7 +9,6 @@
 
 
 #include "ExperimentPackager.h"
-#include "EmbeddedPerlInterpreter.h"
 #include "Scarab/scarab.h"
 #include "Utilities.h"
 #include "LoadingUtilities.h"
@@ -20,7 +19,10 @@
 #include "PlatformDependentServices.h"
 #include "boost/filesystem/path.hpp"
 #include "boost/algorithm/string/replace.hpp"
-using namespace mw;
+
+
+BEGIN_NAMESPACE_MW
+
 
 Datum
 ExperimentPackager::packageSingleFile(const boost::filesystem::path filepath, const std::string filename) {
@@ -146,6 +148,9 @@ void IncludedFilesParser::_processCreateDirective(xmlNode *node) {
         child = child->next;
     }
 }
+
+
+END_NAMESPACE_MW
 
 
 

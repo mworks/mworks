@@ -10,7 +10,9 @@
 #include "ScopedVariableContext.h"
 #include "Utilities.h"
 
-using namespace mw;
+
+BEGIN_NAMESPACE_MW
+
 
 ScopedVariableContext::ScopedVariableContext(ScopedVariableEnvironment *env) {
     
@@ -140,3 +142,5 @@ void ScopedVariableContext::setWithTransparency(int index, const Datum& _newdata
     transparency[index] = M_TRANSPARENT;
 }
 
+
+END_NAMESPACE_MW

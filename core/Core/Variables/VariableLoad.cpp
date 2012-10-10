@@ -12,9 +12,11 @@
 #include "XMLParser.h"
 #include "Experiment.h"
 #include "PlatformDependentServices.h"
-//#include "EmbeddedPerlInterpreter.h"
 #include <string>
-using namespace mw;
+
+
+BEGIN_NAMESPACE_MW
+
 
 bool VariableLoad::loadExperimentwideVariables(const boost::filesystem::path &file) {
 	
@@ -52,3 +54,6 @@ bool VariableLoad::loadExperimentwideVariables(const boost::filesystem::path &fi
 
 	return false;*/
 }
+
+
+END_NAMESPACE_MW

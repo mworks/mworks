@@ -4,7 +4,10 @@
 #include "StateSystem.h"
 #include "EventBuffer.h"
 #include "SystemEventFactory.h" 
-using namespace mw;
+
+
+BEGIN_NAMESPACE_MW
+
  
 //template <> shared_ptr<StateSystem> RegisteredSingleton<StateSystem>::singleton_instance = shared_ptr<StateSystem>();
 SINGLETON_INSTANCE_STATIC_DECLARATION(StateSystem)
@@ -48,3 +51,6 @@ weak_ptr<State> StateSystem::getCurrentState(){ return weak_ptr<State>(); }
 shared_ptr<Clock> StateSystem::getClock() const {
 	return the_clock;
 }
+
+
+END_NAMESPACE_MW

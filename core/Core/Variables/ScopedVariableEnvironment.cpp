@@ -10,7 +10,10 @@
 #include "ScopedVariableEnvironment.h"
 #include "ScopedVariable.h"
 #include "VariableProperties.h"
-using namespace mw;
+
+
+BEGIN_NAMESPACE_MW
+
 
 ScopedVariableEnvironment::ScopedVariableEnvironment() : variables(){
 	//current_context = NULL;
@@ -87,3 +90,6 @@ void ScopedVariableEnvironment::announceAll(){
 		}
 	}
 }
+
+
+END_NAMESPACE_MW

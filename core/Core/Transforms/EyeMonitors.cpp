@@ -10,7 +10,10 @@
 #include "EyeMonitors.h"
 #include "ComponentRegistry.h"
 #include <boost/lexical_cast.hpp>
-using namespace mw;
+
+
+BEGIN_NAMESPACE_MW
+
 
 // all of these units should be assumed to be arbitrary, even though they many are tagged
 //      by the term "deg"  TODO -- drop all the "deg" refs
@@ -1203,3 +1206,4 @@ static void eyeCompute(float JJD_sampleTimeMS, float sampleIntervalMS, DOUBLE_PO
 }
 
 
+END_NAMESPACE_MW

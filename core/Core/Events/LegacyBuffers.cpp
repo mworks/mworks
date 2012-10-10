@@ -19,7 +19,10 @@
  */
 
 #include "Buffers.h"
-using namespace mw;
+
+
+BEGIN_NAMESPACE_MW
+
 
 // class RingBuffer
 
@@ -303,3 +306,4 @@ MWTime TimeStampedBufferReader::getTime(){
 }
 
 
+END_NAMESPACE_MW

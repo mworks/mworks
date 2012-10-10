@@ -9,7 +9,9 @@
 
 #include "SchedulerTest.h"
 #include "boost/bind.hpp"
-using namespace mw;
+
+
+BEGIN_NAMESPACE_MW
 
 
 CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( SchedulerTestFixture, "Unit Test" );
@@ -375,7 +377,6 @@ void SchedulerTestFixture::reportLatencies(std::vector<MWTime> times_array,
 }	
 
 
-namespace mw {
 	void *counter_no_payload(const boost::shared_ptr<std::vector<MWTime> > &times_array){
 		shared_ptr <Clock> clock = Clock::instance();
 		//MWTime now = clock->getCurrentTimeUS();
@@ -431,4 +432,6 @@ namespace mw {
 			st_AssertMessage = message;
 		}
 	}
-} 
+
+
+END_NAMESPACE_MW

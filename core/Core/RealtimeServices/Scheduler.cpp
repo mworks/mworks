@@ -10,7 +10,10 @@
 
 #include "Scheduler.h"
 #include "Utilities.h"
-using namespace mw;
+
+
+BEGIN_NAMESPACE_MW
+
 
 //template <> shared_ptr<Scheduler> RegisteredSingleton<Scheduler>::singleton_instance = shared_ptr<Scheduler>();
 SINGLETON_INSTANCE_STATIC_DECLARATION(Scheduler)
@@ -48,3 +51,6 @@ void Scheduler::fork(boost::function<void *()> _functor,
 boost::shared_ptr<Clock> Scheduler::getClock() const {
 	return the_clock;
 }	
+
+
+END_NAMESPACE_MW

@@ -16,7 +16,11 @@
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
 
-namespace mw {
+#include "MWorksMacros.h"
+
+
+BEGIN_NAMESPACE_MW
+
 	
 	class BoostMathExampleTestFixture : public CppUnit::TestFixture {
 		
@@ -40,7 +44,9 @@ namespace mw {
 		void example4Test();
 	};
 	
-}
+
+END_NAMESPACE_MW
+
 
 #endif
 

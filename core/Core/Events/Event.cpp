@@ -12,7 +12,10 @@
 #include "Utilities.h"
 #include "VariableRegistry.h"
 #include "ScarabServices.h"
-using namespace mw;
+
+
+BEGIN_NAMESPACE_MW
+
 
 // -----------------------------------------------------------------
 //  Event Methods
@@ -107,3 +110,6 @@ ScarabDatum *Event::toScarabDatum(){
 	
 	return event_datum;   
 }
+
+
+END_NAMESPACE_MW

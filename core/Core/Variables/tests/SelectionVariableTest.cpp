@@ -13,7 +13,10 @@
 #include "RandomWORSelection.h"
 #include "RandomWithReplacementSelection.h"
 #include "Clock.h"
-using namespace mw;
+
+
+BEGIN_NAMESPACE_MW
+
 
 CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( SelectionVariableTestFixture, "Unit Test" );
 
@@ -2313,7 +2316,7 @@ void SelectionVariableTestFixture::testGetTentativeSelection() {
 }
 
 
-
+END_NAMESPACE_MW
 
 
 

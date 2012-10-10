@@ -8,18 +8,20 @@
  */
 
 #include "EventBuffer.h"
-using namespace mw;
 
-namespace mw {
-	shared_ptr<EventBuffer> global_outgoing_event_buffer;
-    shared_ptr<EventBuffer> global_incoming_event_buffer;
-	
-	
-	void initEventBuffers() {
-		global_outgoing_event_buffer = shared_ptr<EventBuffer>(new EventBuffer());
-        global_incoming_event_buffer = shared_ptr<EventBuffer>(new EventBuffer());
-	}
+
+BEGIN_NAMESPACE_MW
+
+
+shared_ptr<EventBuffer> global_outgoing_event_buffer;
+shared_ptr<EventBuffer> global_incoming_event_buffer;
+
+
+void initEventBuffers() {
+    global_outgoing_event_buffer = shared_ptr<EventBuffer>(new EventBuffer());
+    global_incoming_event_buffer = shared_ptr<EventBuffer>(new EventBuffer());
 }
+
 
 /**********************************************************************
  *         EventBuffer : public 
@@ -127,3 +129,5 @@ bool EventBufferReader::hasAtLeastNEvents(const unsigned int n) {
 //	incomingBuffer->reset();
 //}
 
+
+END_NAMESPACE_MW

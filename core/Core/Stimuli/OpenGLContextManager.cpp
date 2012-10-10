@@ -12,11 +12,6 @@
 #include "Event.h"
 #include "ComponentRegistry.h"
 
-using namespace mw;
-
-
-
-
 
 //******************************************************************
 //******************************************************************
@@ -32,6 +27,10 @@ using namespace mw;
 #import <OpenGL/glext.h>
 #import <IOKit/graphics/IOGraphicsTypes.h>
 #import "StateSystem.h"
+
+
+BEGIN_NAMESPACE_MW
+
 
 //#define kDefaultDisplay 1
 
@@ -402,7 +401,8 @@ void OpenGLContextManager::flush(int context_id, bool update) {
     
 }
 
-namespace mw {
-	SINGLETON_INSTANCE_STATIC_DECLARATION(OpenGLContextManager)
-}
 
+SINGLETON_INSTANCE_STATIC_DECLARATION(OpenGLContextManager)
+
+
+END_NAMESPACE_MW

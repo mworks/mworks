@@ -19,7 +19,11 @@
 #include "Scarab/scarab_datatypes.h"
 #include "Scarab/scarab_utilities.h"
 
-namespace mw {
+#include "MWorksMacros.h"
+
+
+BEGIN_NAMESPACE_MW
+
 
 /**
  * Prints out a scarab datum.
@@ -59,5 +63,9 @@ const char * getOSErrorDescription(int oserror);
  * Combines the scarab error string messages into one.
  */
 void logDescriptiveScarabMessage(ScarabSession *);
-}
+
+
+END_NAMESPACE_MW
+
+
 #endif

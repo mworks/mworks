@@ -8,7 +8,10 @@
  */
 
 #include "DummyEventTransport.h"
-using namespace mw;
+
+
+BEGIN_NAMESPACE_MW
+
 
 map<string, DummyEventTransport::event_queue_ptr> DummyEventTransport::named_queues;
 map<string, DummyEventTransport::mutex_ptr> DummyEventTransport::named_queue_locks;
@@ -65,4 +68,6 @@ shared_ptr<Event> DummyEventTransport::receiveEventAsynchronous(){
     
     return event;
 }
-   
+
+
+END_NAMESPACE_MW

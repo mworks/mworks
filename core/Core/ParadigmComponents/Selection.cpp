@@ -15,7 +15,10 @@
 #include "Selectable.h"
 #include "Experiment.h"
 #include "ConstantVariable.h"
-using namespace mw;
+
+
+BEGIN_NAMESPACE_MW
+
 
 // for random seeds
 
@@ -52,7 +55,7 @@ void Selection::acceptSelections(){
 }
 
 
-
+END_NAMESPACE_MW
 
 
 

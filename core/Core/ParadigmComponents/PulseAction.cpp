@@ -8,7 +8,10 @@
  */
 
 #include "PulseAction.h"
-using namespace mw;
+
+
+BEGIN_NAMESPACE_MW
+
 
 Pulse::Pulse(shared_ptr<Variable> _var, shared_ptr<Variable> _duration) : var(_var) {
 	setName("Pulse");
@@ -53,3 +56,6 @@ shared_ptr<mw::Component> PulseFactory::createObject(std::map<std::string, std::
 	shared_ptr <mw::Component> newPulseAction = shared_ptr<mw::Component>(new Pulse(variable, duration));
 	return newPulseAction;		
 }
+
+
+END_NAMESPACE_MW

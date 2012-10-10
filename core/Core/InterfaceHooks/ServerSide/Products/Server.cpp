@@ -18,7 +18,8 @@
 #include "Server.h"
 
 
-using namespace mw;
+BEGIN_NAMESPACE_MW
+
 
 SINGLETON_INSTANCE_STATIC_DECLARATION(Server)
 
@@ -220,3 +221,5 @@ bool Server::isExperimentLoaded() {
 	return (GlobalCurrentExperiment.use_count() > 0) ;
 }
 
+
+END_NAMESPACE_MW

@@ -15,7 +15,9 @@
 #include "PlatformDependentServices.h"
 #include "XMLVariableWriter.h"
 
-using namespace mw;
+
+BEGIN_NAMESPACE_MW
+
 
 bool VariableSave::saveExperimentwideVariables(const boost::filesystem::path &file) {
 	using namespace std;
@@ -43,3 +45,6 @@ bool VariableSave::saveExperimentwideVariables(const boost::filesystem::path &fi
     }
 	return true;
 }
+
+
+END_NAMESPACE_MW

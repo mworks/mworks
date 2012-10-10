@@ -5,11 +5,13 @@
 #include "ConstantVariable.h"
 #include "ExpressionVariable.h"
 //#include "UserData.h"
-using namespace mw;
 
-namespace mw {
-	shared_ptr<Experiment> GlobalCurrentExperiment; // a kludge for now
-}
+
+BEGIN_NAMESPACE_MW
+
+
+shared_ptr<Experiment> GlobalCurrentExperiment; // a kludge for now
+
 
 Experiment::Experiment(shared_ptr<VariableRegistry> var_reg)
 : ContainerState() {
@@ -203,3 +205,6 @@ std::string Experiment::getExperimentDirectory() {
     namespace bf = boost::filesystem;
     return bf::path(experimentPath).filename().string();
 }
+
+
+END_NAMESPACE_MW

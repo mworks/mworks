@@ -11,7 +11,10 @@
 
 #include "ComponentRegistry.h"
 #include <boost/lexical_cast.hpp>
-using namespace mw;
+
+
+BEGIN_NAMESPACE_MW
+
 
 BiasMonitor::BiasMonitor(shared_ptr<Variable> _success,
 							  shared_ptr<Variable> _response_index,
@@ -166,3 +169,6 @@ shared_ptr<mw::Component> BiasMonitorFactory::createObject(std::map<std::string,
                                                                                   
 	return newBiasMonitor;
 }
+
+
+END_NAMESPACE_MW

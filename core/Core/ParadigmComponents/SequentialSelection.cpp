@@ -8,7 +8,10 @@
  */
 
 #include "SequentialSelection.h"
-using namespace mw;
+
+
+BEGIN_NAMESPACE_MW
+
 
 SequentialSelection::SequentialSelection(int _n_draws, bool ascendingp, bool _autoreset) : 
 													Selection(_n_draws, _autoreset) {
@@ -103,3 +106,6 @@ void SequentialSelection::reset() {
 	
 	Selection::reset();
 }
+
+
+END_NAMESPACE_MW

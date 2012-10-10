@@ -13,10 +13,12 @@
 #import "EventBuffer.h"
 #import "PluginServices.h"
 #import "ScarabServices.h"
-#import "StandardInterpreters.h"
 #import "StandardVariables.h"
 #include "PlatformDependentServices.h"
-using namespace mw;
+
+
+BEGIN_NAMESPACE_MW
+
 
 StandardClientCoreBuilder::StandardClientCoreBuilder() { }
 
@@ -87,4 +89,7 @@ bool StandardClientCoreBuilder::customInitialization() {
     return true; 
 }
 
-bool StandardClientCoreBuilder::buildProcessWillEnd() { return true; } 
+bool StandardClientCoreBuilder::buildProcessWillEnd() { return true; }
+
+
+END_NAMESPACE_MW

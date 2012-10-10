@@ -67,7 +67,6 @@ namespace stx {
 	namespace Grammar {
 		
 		using namespace boost::spirit::classic;
-		using namespace mw;
 		
 		/// This enum specifies ids for the parse tree nodes created for each rule.
 		enum parser_ids

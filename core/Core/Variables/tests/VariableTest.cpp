@@ -10,7 +10,10 @@
 #include "VariableTest.h"
 #include "VariableRegistry.h"
 #include "TrialBuildingBlocks.h"
-using namespace mw;
+
+
+BEGIN_NAMESPACE_MW
+
 
 CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( VariableTestFixture, "Unit Test" );
 
@@ -230,8 +233,7 @@ void VariableTestFixture::testExpressionClone() {
 }
 
 
-
-
+END_NAMESPACE_MW
 
 
 

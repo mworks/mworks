@@ -15,7 +15,10 @@
 #include "ScarabServices.h"
 #include "boost/bind.hpp"
 #include "Event.h"
-using namespace mw;
+
+
+BEGIN_NAMESPACE_MW
+
 
 #define min(a,b) (((a)<(b))?(a):(b))
 
@@ -253,4 +256,6 @@ int ScarabWriteConnection::service() {
         return 1;
 //    }
 }
- 
+
+
+END_NAMESPACE_MW

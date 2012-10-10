@@ -9,7 +9,6 @@
 
 #include "ExperimentUnpackager.h"
 #include "ExperimentPackager.h"
-#include "EmbeddedPerlInterpreter.h"
 #include "Scarab/scarab.h"
 #include "Utilities.h"
 #include "LoadingUtilities.h"
@@ -19,7 +18,10 @@
 #include "PlatformDependentServices.h"
 #include "boost/filesystem/path.hpp"
 #include "boost/filesystem/convenience.hpp"
-using namespace mw;
+
+
+BEGIN_NAMESPACE_MW
+
 
 boost::filesystem::path 
 ExperimentUnpackager::prependExperimentInstallPath(
@@ -159,3 +161,6 @@ bool ExperimentUnpackager::createFile(Datum filename, Datum buffer) {
     outFile.close();
     return true;
 }
+
+
+END_NAMESPACE_MW

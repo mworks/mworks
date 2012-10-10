@@ -8,7 +8,10 @@
  */
 
 #include "CoreBuilderForeman.h"
-using namespace mw;
+
+
+BEGIN_NAMESPACE_MW
+
 
 #define CHECK(flag) if(!flag) { return false; }
 
@@ -25,3 +28,6 @@ bool CoreBuilderForeman::constructCoreStandardOrder(AbstractCoreBuilder * builde
     CHECK(builder->buildProcessWillEnd());
     return true;
 }
+
+
+END_NAMESPACE_MW

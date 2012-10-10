@@ -14,7 +14,9 @@
 #include "Experiment.h"
 #include "ScopedVariableEnvironment.h"
 
-using namespace mw;
+
+BEGIN_NAMESPACE_MW
+
 
 /*******************************************************************
 *                   ScopedVariable member functions
@@ -117,3 +119,5 @@ void ScopedVariable::setContextIndex(int i) {
 	context_index = i; 
 }
 
+
+END_NAMESPACE_MW

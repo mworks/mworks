@@ -8,7 +8,10 @@
  */
 
 #include "DoneTableSelection.h"
-using namespace mw;
+
+
+BEGIN_NAMESPACE_MW
+
 
 DoneTableSelection::DoneTableSelection(Selectable *_selectable, bool _autoreset) : Selection(_selectable, _autoreset){
 	done_table_samples = 0;
@@ -106,4 +109,4 @@ void DoneTableSelection::rejectSelections(){
 }
 
 
-
+END_NAMESPACE_MW

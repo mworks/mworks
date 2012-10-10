@@ -10,7 +10,9 @@
 #include "PlatformDependentServicesTest.h"
 #include "PlatformDependentServices.h"
 #include <string>
-using namespace mw;
+
+
+BEGIN_NAMESPACE_MW
 
 
 CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( PlatformDependentServicesTestFixture, "Unit Test" );
@@ -213,3 +215,5 @@ void PlatformDependentServicesTestFixture::testConstStrings() {
   }
 }	      
 
+
+END_NAMESPACE_MW
