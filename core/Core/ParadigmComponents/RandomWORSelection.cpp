@@ -43,7 +43,7 @@ void RandomWORSelection::reset() {
 
 shared_ptr <Selection> RandomWORSelection::clone(){
 	shared_ptr <RandomWORSelection> newsel = shared_ptr<RandomWORSelection>(new RandomWORSelection(*this));
-	return dynamic_pointer_cast<Selection, RandomWORSelection>(newsel);
+	return boost::dynamic_pointer_cast<Selection, RandomWORSelection>(newsel);
 }
 
 

@@ -9,24 +9,22 @@
 
 #include "ParsedColorTrio.h"
 
-using namespace boost;
-
 
 BEGIN_NAMESPACE_MW
 
 
-const regex ParsedColorTrio::color_regex("^\\s*([a-zA-z]\\w*|[\\d]*\\.?[\\d]+)\\s*,\\s*([a-zA-z]\\w*|[\\d]*"
+const boost::regex ParsedColorTrio::color_regex("^\\s*([a-zA-z]\\w*|[\\d]*\\.?[\\d]+)\\s*,\\s*([a-zA-z]\\w*|[\\d]*"
                                          "\\.?[\\d]+)\\s*,\\s*([a-zA-z]\\w*|[\\d]*\\.?[\\d]+)\\s*$");
 
 
 ParsedColorTrio::ParsedColorTrio(ComponentRegistry *reg, const std::string &color_string)
 {
-	smatch colorParams;
+	boost::smatch colorParams;
 	try{
 		if(!regex_match(color_string, colorParams, color_regex)){
 			throw SimpleException("Invalid color string", color_string);
 		} 
-	} catch (regex_error& e) {
+	} catch (boost::regex_error& e) {
 		// TODO: throw a factory exception of some kind
 		throw SimpleException("Regular expression error during color parsing");
 	}

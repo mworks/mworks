@@ -14,7 +14,6 @@
 #include <boost/shared_ptr.hpp>
 #include "Event.h"
 namespace mw {
-using namespace boost;
 
 
 // A class that simply moves Event objects from point A

@@ -30,8 +30,6 @@
 #include "ComponentInfo.h"
 #include "ParameterValue.h"
 
-using namespace boost;
-
 
 BEGIN_NAMESPACE_MW
 

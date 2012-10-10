@@ -26,6 +26,9 @@
 #include <boost/serialization/string.hpp>
 #include <boost/serialization/version.hpp>
 
+using boost::shared_ptr;
+
+
 /**
  *	----------------------
  *	Scarab Event Structure
@@ -38,7 +41,6 @@
  *
  */
 namespace mw {
-	using namespace boost;
 	
 	
 	class Event {

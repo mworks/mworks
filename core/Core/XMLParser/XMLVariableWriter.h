@@ -16,15 +16,13 @@
 
 namespace mw {
 	
-	using namespace boost;
-	
 #include <libxml/parser.h>
 #include <libxml/tree.h>
 	
 	class XMLVariableWriter {
 		
     public:
-		static void writeVariablesToFile(vector< shared_ptr<Variable> > variables, filesystem::path file);
+		static void writeVariablesToFile(vector< shared_ptr<Variable> > variables, boost::filesystem::path file);
 		
 		static xmlNodePtr variableToXML(shared_ptr<Variable> var);
 		static xmlNodePtr recursiveValueToXML(const Datum &value);    

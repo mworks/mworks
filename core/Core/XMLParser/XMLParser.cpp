@@ -832,7 +832,7 @@ void XMLParser::_processInstanceDirective(xmlNode *node){
 	// If the object is a valid variable environment, we'll apply variable
 	// assignments if there are any
 	// Look for variable assignments if appropriate
-	shared_ptr<ScopedVariableEnvironment> env = dynamic_pointer_cast<ScopedVariableEnvironment, mw::Component>(alias);
+	shared_ptr<ScopedVariableEnvironment> env = boost::dynamic_pointer_cast<ScopedVariableEnvironment, mw::Component>(alias);
 	if(env != NULL){
 		
 		xmlNode *alias_child = node->children;
@@ -856,7 +856,7 @@ void XMLParser::_processInstanceDirective(xmlNode *node){
 											  "Invalid value", content);
 				} 
 				
-				shared_ptr<ScopedVariable> svar = dynamic_pointer_cast<ScopedVariable, Variable>(var);
+				shared_ptr<ScopedVariable> svar = boost::dynamic_pointer_cast<ScopedVariable, Variable>(var);
 				
 				if(svar == NULL){
 					// TODO: better throw

@@ -13,7 +13,6 @@
 #include "EventTransport.h"
 #include <boost/shared_ptr.hpp>
 namespace mw {
-using namespace boost;
 
 class Conduit {
 

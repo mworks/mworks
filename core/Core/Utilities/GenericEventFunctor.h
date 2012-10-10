@@ -17,7 +17,6 @@
 #include "Event.h"
 #include "Utilities.h"
 namespace mw {
-	using namespace boost;
 	
 	// abstract base class
 	class GenericEventFunctor

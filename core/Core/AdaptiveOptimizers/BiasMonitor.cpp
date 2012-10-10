@@ -140,14 +140,14 @@ shared_ptr<mw::Component> BiasMonitorFactory::createObject(std::map<std::string,
 	unsigned int grace_period = 0;
 	try {
 		grace_period = boost::lexical_cast< unsigned int >(parameters.find("grace_period")->second);
-	} catch(bad_lexical_cast &) {
+	} catch(boost::bad_lexical_cast &) {
 		throw InvalidReferenceException(parameters["reference_id"], "grace_period", parameters.find("grace_period")->second);
 	}
 	
 	unsigned int history = 0;
 	try {
 		history = boost::lexical_cast< unsigned int >(parameters.find("history")->second);
-	} catch(bad_lexical_cast &) {
+	} catch(boost::bad_lexical_cast &) {
 		throw InvalidReferenceException(parameters["reference_id"], "history", parameters.find("history")->second);
 	}
 	

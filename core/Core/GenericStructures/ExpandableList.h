@@ -34,9 +34,7 @@
 #define M_THREAD_SAFE_EXPANDABLE_LISTS	1
 
 #include <boost/shared_ptr.hpp>
-#include <boost/weak_ptr.hpp>
 namespace mw {
-	using namespace boost;
 
 template <class Class> 
 class ExpandableList : public Lockable {

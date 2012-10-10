@@ -27,7 +27,7 @@ void ScopedVariableTestFixture::setUp(){
 	GlobalCurrentExperiment = shared_ptr<Experiment>(new Experiment(reg));
 	
 	exp = GlobalCurrentExperiment;
-	env = dynamic_pointer_cast<ScopedVariableEnvironment, Experiment>(exp);
+	env = boost::dynamic_pointer_cast<ScopedVariableEnvironment, Experiment>(exp);
 
 	c1 = shared_ptr<ConstantVariable>(new ConstantVariable(1L));
 	c2 = shared_ptr<ConstantVariable>(new ConstantVariable(2L));

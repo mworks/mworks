@@ -4,8 +4,6 @@
 #include "Stimulus.h"
 #include "GenericVariable.h"
 
-using namespace boost;
-
 
 BEGIN_NAMESPACE_MW
 
@@ -70,28 +68,28 @@ string to_string_visitor::operator()(shared_ptr<mw::Component> operand) const{
 }
 
 string to_string_visitor::operator()(shared_ptr<mw::Stimulus> operand)  const{
-    return this->operator()(dynamic_pointer_cast<mw::Component, mw::Stimulus>(operand) );
+    return this->operator()(boost::dynamic_pointer_cast<mw::Component, mw::Stimulus>(operand) );
 }
 
 string to_string_visitor::operator()(shared_ptr<mw::StimulusGroup> operand)  const{
-    return this->operator()(dynamic_pointer_cast<mw::Component, mw::StimulusGroup>(operand) );
+    return this->operator()(boost::dynamic_pointer_cast<mw::Component, mw::StimulusGroup>(operand) );
 }
 
 string to_string_visitor::operator()(shared_ptr<mw::Variable> operand)  const{
-    return this->operator()(dynamic_pointer_cast<mw::Component, mw::Variable>(operand) );
+    return this->operator()(boost::dynamic_pointer_cast<mw::Component, mw::Variable>(operand) );
 }
 
 
 #define CHECK_AND_REPORT_STRING_ERROR_INFORMATION(TOKEN, TYPE)                             \
-    if( get_error_info< ERROR_INFO_OBJECT(TOKEN) >(e) != NULL ){                    \
-        TYPE TOKEN ## _tmp = *(get_error_info< ERROR_INFO_OBJECT(TOKEN) >(e));  \
+    if( boost::get_error_info< ERROR_INFO_OBJECT(TOKEN) >(e) != NULL ){                    \
+        TYPE TOKEN ## _tmp = *(boost::get_error_info< ERROR_INFO_OBJECT(TOKEN) >(e));  \
         merror(e.getDomain(), "\t%s: %s", #TOKEN, TOKEN ## _tmp.c_str());                            \
     }    
 
 
 #define CHECK_AND_REPORT_ERROR_INFORMATION(TOKEN, TYPE)                                                 \
-    if( get_error_info< ERROR_INFO_OBJECT(TOKEN) >(e) != NULL ){                                                \
-        TYPE TOKEN ## _tmp = *(get_error_info< ERROR_INFO_OBJECT(TOKEN) >(e));                                  \
+    if( boost::get_error_info< ERROR_INFO_OBJECT(TOKEN) >(e) != NULL ){                                                \
+        TYPE TOKEN ## _tmp = *(boost::get_error_info< ERROR_INFO_OBJECT(TOKEN) >(e));                                  \
         string result = apply_visitor(to_string_visitor(), TOKEN ## _tmp);                                       \
         if(!result.empty()){                                                           \
             extended_info << "\t" << #TOKEN << ": " << result << endl;                              \

@@ -44,8 +44,6 @@ BEGIN_NAMESPACE_MW
     checkAttribute((variable), (parameters)["reference_id"], (key), parameters[(key)])
     
 
-using namespace boost;
-
 class ComponentRegistry;  // forward declaration
 class ParameterValue;
 class Variable;

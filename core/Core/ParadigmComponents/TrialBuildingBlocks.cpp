@@ -123,7 +123,7 @@ shared_ptr<mw::Component> NextVariableSelectionFactory::createObject(std::map<st
 		throw MissingAttributeException(parameters["reference_id"], "Selection attribute not found");
 	}
 	
-	shared_ptr<SelectionVariable> variable = dynamic_pointer_cast<SelectionVariable, Variable>(variable_uncast);
+	shared_ptr<SelectionVariable> variable = boost::dynamic_pointer_cast<SelectionVariable, Variable>(variable_uncast);
 	
 	if(variable == NULL){
 		throw SimpleException((boost::format("Invalid object for attribute \"%s\" (should be a selection variable, but isn't)") % parameters["selection"]).str());
@@ -1126,7 +1126,7 @@ void If::addAction(shared_ptr<Action> act) {
 void If::addChild(std::map<std::string, std::string> parameters,
 					ComponentRegistry *reg,
 					shared_ptr<mw::Component> child){
-	shared_ptr<Action> act = dynamic_pointer_cast<Action,mw::Component>(child);
+	shared_ptr<Action> act = boost::dynamic_pointer_cast<Action,mw::Component>(child);
 	if(act == 0) {
 		throw SimpleException("Attempting to add illegal object (" + child->getTag() + ") to coditional (if) action (" + this->getTag() + ")");
 	}
@@ -1239,7 +1239,7 @@ shared_ptr<mw::Component> TransitionFactory::createObject(std::map<std::string, 
 	
 	shared_ptr<mw::Component> newTransition;
 	    
-	if(to_lower_copy(parameters.find("type")->second) == "yield") {
+	if(boost::algorithm::to_lower_copy(parameters.find("type")->second) == "yield") {
 		newTransition = shared_ptr<mw::Component>(new YieldToParent());	 
 	} else {
 		// if it doesn't yield it needs a target
@@ -1248,7 +1248,7 @@ shared_ptr<mw::Component> TransitionFactory::createObject(std::map<std::string, 
 		
 		checkAttribute(target, parameters["reference_id"], "target", parameters.find("target")->second);		
 		
-		string type = to_lower_copy(parameters.find("type")->second);
+		string type = boost::algorithm::to_lower_copy(parameters.find("type")->second);
 		if(type == "conditional") {
 			REQUIRE_ATTRIBUTES(parameters, "type", "target", "condition");
 			shared_ptr<Variable> condition = reg->getVariable(parameters.find("condition")->second);			
@@ -1457,12 +1457,12 @@ void TaskSystemState::addChild(std::map<std::string, std::string> parameters,
 								ComponentRegistry *reg,
 								shared_ptr<mw::Component> comp){
 	
-	shared_ptr<Action> as_action = dynamic_pointer_cast<Action, mw::Component>(comp);
+	shared_ptr<Action> as_action = boost::dynamic_pointer_cast<Action, mw::Component>(comp);
 	if(as_action != NULL){
         return ContainerState::addChild(parameters, reg, comp);
 	}
 	
-	shared_ptr<TransitionCondition> as_transition = dynamic_pointer_cast<TransitionCondition, mw::Component>(comp);
+	shared_ptr<TransitionCondition> as_transition = boost::dynamic_pointer_cast<TransitionCondition, mw::Component>(comp);
 	if(as_transition != NULL){
 		return addTransition(as_transition);
 	}

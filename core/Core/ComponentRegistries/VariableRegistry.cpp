@@ -277,7 +277,7 @@ shared_ptr<ScopedVariable> VariableRegistry::addScopedVariable(weak_ptr<ScopedVa
 	new_variable->setContextIndex(variable_context_index);
 	new_variable->setLogging(M_WHEN_CHANGED);
 	new_variable->setCodecCode(codec_code);
-	new_variable->setEventTarget(static_pointer_cast<EventReceiver>(event_buffer));
+	new_variable->setEventTarget(boost::static_pointer_cast<EventReceiver>(event_buffer));
 	
     shared_ptr<ScopedVariableEnvironment> env_shared = env.lock();
 	if(env_shared){
@@ -310,7 +310,7 @@ shared_ptr<GlobalVariable> VariableRegistry::addGlobalVariable(VariablePropertie
     global_variable_list.push_back(returnref);
 	
 	returnref->setCodecCode(codec_code);
-	returnref->setEventTarget(static_pointer_cast<EventReceiver>(event_buffer));
+	returnref->setEventTarget(boost::static_pointer_cast<EventReceiver>(event_buffer));
 	
 	return returnref;
 }
@@ -320,7 +320,7 @@ shared_ptr<ConstantVariable> VariableRegistry::addConstantVariable(Datum value){
 	
 	shared_ptr<ConstantVariable> returnref(new ConstantVariable(value));
 	returnref->setCodecCode(-1);
-	returnref->setEventTarget(static_pointer_cast<EventReceiver>(event_buffer));
+	returnref->setEventTarget(boost::static_pointer_cast<EventReceiver>(event_buffer));
 	
 	return returnref;
 }
@@ -344,7 +344,7 @@ shared_ptr<Timer> VariableRegistry::createTimer(VariableProperties *props) {
 	}
 	
 	new_timer->setCodecCode(-1);
-	new_timer->setEventTarget(static_pointer_cast<EventReceiver>(event_buffer));	
+	new_timer->setEventTarget(boost::static_pointer_cast<EventReceiver>(event_buffer));	
 	
 	return new_timer;
 }
@@ -396,7 +396,7 @@ shared_ptr<SelectionVariable> VariableRegistry::addSelectionVariable(VariablePro
     selection_variable_list.push_back(returnref);
 	
 	returnref->setCodecCode(codec_code);
-	returnref->setEventTarget(static_pointer_cast<EventReceiver>(event_buffer));
+	returnref->setEventTarget(boost::static_pointer_cast<EventReceiver>(event_buffer));
 	return returnref;
 }
 
@@ -510,7 +510,7 @@ stx::AnyScalar VariableRegistry::lookupVariable(const std::string &varname, cons
         throw UnknownVariableException(varname);
     }
     
-    shared_ptr<SelectionVariable> sel = dynamic_pointer_cast<SelectionVariable>(var);
+    shared_ptr<SelectionVariable> sel = boost::dynamic_pointer_cast<SelectionVariable>(var);
     if (!sel) {
         throw SimpleException("Variable does not support subscripts", varname);
     }

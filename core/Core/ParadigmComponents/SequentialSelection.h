@@ -27,7 +27,7 @@ public:
 	
 	virtual shared_ptr<Selection> clone(){
 		shared_ptr<SequentialSelection> newsel = shared_ptr<SequentialSelection>(new SequentialSelection(*this));
-		return dynamic_pointer_cast<Selection, SequentialSelection>(newsel);
+		return boost::dynamic_pointer_cast<Selection, SequentialSelection>(newsel);
 	}
 
 	

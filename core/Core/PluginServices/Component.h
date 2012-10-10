@@ -11,7 +11,6 @@
 
 #include <string>
 #include <boost/shared_ptr.hpp>
-#include <boost/weak_ptr.hpp>
 #include <boost/enable_shared_from_this.hpp>
 #include <iostream>
 #include <sstream>
@@ -19,14 +18,16 @@
 #include "Utilities.h"
 #include "Map.h"
 
+using boost::shared_ptr;
+
+
 namespace mw {
-	using namespace boost;
 	
 	class ComponentRegistry;  // forward decl
     class ComponentInfo;
     class ParameterValue;
 	
-	class Component : public enable_shared_from_this<Component>{
+	class Component : public boost::enable_shared_from_this<Component>{
 		
 	private:
 		
@@ -73,7 +74,7 @@ namespace mw {
         template <class T>
         shared_ptr<T> component_shared_from_this(){
             shared_ptr<mw::Component> shared = shared_from_this();
-			shared_ptr<T> casted = dynamic_pointer_cast<T, mw::Component>(shared);
+			shared_ptr<T> casted = boost::dynamic_pointer_cast<T, mw::Component>(shared);
             return casted;
         }
 		

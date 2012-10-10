@@ -34,7 +34,7 @@ void ScheduledActions::addChild(std::map<std::string, std::string> parameters,
 								 ComponentRegistry *reg,
 								 shared_ptr<mw::Component> child){
 	
-	shared_ptr<Action> act = dynamic_pointer_cast<Action,mw::Component>(child);
+	shared_ptr<Action> act = boost::dynamic_pointer_cast<Action,mw::Component>(child);
 	if(act == 0) {
 		throw SimpleException("Attempting to add illegal action (" + child->getTag() + ") to scheduled action (" + this->getTag() + ")");
 	}

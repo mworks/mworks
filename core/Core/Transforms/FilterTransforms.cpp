@@ -312,7 +312,7 @@ shared_ptr<mw::Component> Filter_BoxcarFilter1DFactory::createObject(std::map<st
 	unsigned int width_samples = 0;
 	try {
 		width_samples = boost::lexical_cast< unsigned int >(parameters.find("width_samples")->second);
-	} catch(bad_lexical_cast &) {
+	} catch(boost::bad_lexical_cast &) {
 		throw InvalidReferenceException(parameters["reference_id"], "width_samples", parameters.find("width_samples")->second);
 	}
 	
@@ -369,21 +369,21 @@ shared_ptr<mw::Component> Filter_LinearFilter1DFactory::createObject(std::map<st
 	double gain = 0;
 	try {
 		gain = boost::lexical_cast<double>(parameters.find("gain")->second);
-	} catch(bad_lexical_cast &) {
+	} catch(boost::bad_lexical_cast &) {
 		throw InvalidReferenceException(parameters["reference_id"], "gain", parameters.find("gain")->second);
 	}
 	
 	double offset = 0;
 	try {
 		offset = boost::lexical_cast<double>(parameters.find("offset")->second);
-	} catch(bad_lexical_cast &) {
+	} catch(boost::bad_lexical_cast &) {
 		throw InvalidReferenceException(parameters["reference_id"], "offset", parameters.find("offset")->second);
 	}
 	
 	double noise_sd = 0;
 	try {
 		noise_sd = boost::lexical_cast<double>(parameters.find("noise_sd")->second);
-	} catch(bad_lexical_cast &) {
+	} catch(boost::bad_lexical_cast &) {
 		throw InvalidReferenceException(parameters["reference_id"], "noise_sd", parameters.find("noise_sd")->second);
 	}
 	

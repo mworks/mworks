@@ -153,7 +153,7 @@ void State::setParameters(std::map<std::string, std::string> parameters,
 		try {
 			bool _interruptible = reg->getBoolean(parameters.find("interruptible")->second);
 			this->setInterruptible(_interruptible);
-		} catch(bad_lexical_cast &) {
+		} catch(boost::bad_lexical_cast &) {
 			throw InvalidReferenceException(parameters["reference_id"], "interruptible", parameters.find("interruptible")->second);
 		}
 	} else {

@@ -19,6 +19,8 @@
 #include <string>
 #include <iostream>
 
+#include <boost/weak_ptr.hpp>
+
 #include "MWorksMacros.h"
 #include "Utilities.h"
 #include "Selection.h"
@@ -27,6 +29,8 @@
 #include "StandardVariables.h"
 #include "ScopedVariableEnvironment.h"
 #include "Announcers.h"
+
+using boost::weak_ptr;
 
 
 BEGIN_NAMESPACE_MW
@@ -165,7 +169,7 @@ public:
                           ComponentRegistry *reg,
                           shared_ptr<mw::Component> child){
         
-        shared_ptr<State> state = dynamic_pointer_cast<State, mw::Component>(child);
+        shared_ptr<State> state = boost::dynamic_pointer_cast<State, mw::Component>(child);
         
         if(state == NULL){
             // TODO: better throw

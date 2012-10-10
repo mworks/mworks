@@ -22,6 +22,9 @@
 #include <map>
 #include <string>
 
+using boost::error_info;
+using boost::shared_ptr;
+using boost::variant;
 using std::string;
 
 
@@ -33,8 +36,6 @@ class Stimulus;
 class Variable;
 class StimulusGroup;
 class Component;
-
-using namespace boost;
 
 // fwd dec
 class Component;

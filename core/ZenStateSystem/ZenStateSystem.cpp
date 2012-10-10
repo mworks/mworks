@@ -39,8 +39,6 @@
 	#define STATE_SYSTEM_PRIORITY 96
 #endif
 
-using namespace boost;
-
 
 BEGIN_NAMESPACE_MW
 

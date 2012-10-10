@@ -21,6 +21,8 @@
 #include "EventBuffer.h"
 #include "TrialBuildingBlocks.h"
 
+using boost::algorithm::to_lower_copy;
+
 
 BEGIN_NAMESPACE_MW
 
@@ -179,7 +181,7 @@ shared_ptr<mw::Component> VariableFactory::createObject(std::map<std::string, st
 			try {
 				defaultValue = reg->getNumber(parameters.find("default_value")->second, type);
 				//mData(type, boost::lexical_cast<double>(parameters.find("default_value")->second));					
-			} catch (bad_lexical_cast &) {					
+			} catch (boost::bad_lexical_cast &) {
 				throw InvalidAttributeException(parameters["reference_id"], "default_value", parameters.find("default_value")->second);
 			}
 			break;
@@ -213,7 +215,7 @@ shared_ptr<mw::Component> VariableFactory::createObject(std::map<std::string, st
 	if(scope_string == "global") {
 		newVar = global_variable_registry->createGlobalVariable(&props);
 	} else if(scope_string == "local") {
-        shared_ptr<ScopedVariableEnvironment> env = dynamic_pointer_cast<ScopedVariableEnvironment, Experiment>(GlobalCurrentExperiment);
+        shared_ptr<ScopedVariableEnvironment> env = boost::dynamic_pointer_cast<ScopedVariableEnvironment, Experiment>(GlobalCurrentExperiment);
         weak_ptr<ScopedVariableEnvironment> env_weak(env);
 		newVar = global_variable_registry->createScopedVariable(env_weak, &props);		
 	} else {
@@ -234,7 +236,7 @@ void Variable::addChild(std::map<std::string, std::string> parameters,
 						 ComponentRegistry *reg,
 						 shared_ptr<mw::Component> child) {
 	
-	shared_ptr<Action> act = dynamic_pointer_cast<Action,mw::Component>(child);
+	shared_ptr<Action> act = boost::dynamic_pointer_cast<Action,mw::Component>(child);
 	
 	if(act == 0) {
 		throw SimpleException("Attempting to add illegal object (" + child->getTag() + ") to variable (" + this->getVariableName() + ")");

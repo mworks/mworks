@@ -87,7 +87,7 @@ public:
         shared_ptr<FreezableVariableContainer> freezable(new FreezableVariableContainer(var));
         variables.push_back(freezable);
         
-        return dynamic_pointer_cast<FreezableVariableContainer, Variable>(freezable);
+        return boost::dynamic_pointer_cast<FreezableVariableContainer, Variable>(freezable);
     }
     
     // Individually "freeze" 

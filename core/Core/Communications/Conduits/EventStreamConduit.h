@@ -29,11 +29,10 @@
 
 
 namespace mw {
-using namespace boost;
 
 #define EVENT_STREAM_CONDUIT_DEFAULT_IDLE_QUANTUM   500
     
-class EventStreamConduit : public Conduit, public enable_shared_from_this<EventStreamConduit> {
+class EventStreamConduit : public Conduit, public boost::enable_shared_from_this<EventStreamConduit> {
 
 protected:
     

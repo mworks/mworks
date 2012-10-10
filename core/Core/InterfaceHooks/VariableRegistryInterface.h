@@ -20,8 +20,6 @@ using std::string;
 
 namespace mw{
 
-using namespace boost;
-
 class VariableRegistryInterface {
  
 protected:

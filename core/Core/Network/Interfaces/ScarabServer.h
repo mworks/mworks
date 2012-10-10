@@ -36,7 +36,7 @@ extern const int DEFAULT_PORT_NUMBER_HIGH;
 extern const int DEFAULT_MAX_NUMBER_OF_CLIENTS;
 extern const IOModel DEFAULT_IO_MODEL;
 
-class ScarabServer  : public enable_shared_from_this<ScarabServer> {
+class ScarabServer  : public boost::enable_shared_from_this<ScarabServer> {
     protected:
         ScarabSession * listeningSocket; // listen socket
         std::string listenUri; // scarab uri

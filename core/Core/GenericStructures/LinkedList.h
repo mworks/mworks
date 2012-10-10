@@ -21,7 +21,6 @@
 #include "Utilities.h"
 #include <boost/shared_ptr.hpp>
 namespace mw {
-using namespace boost;
 
 
 //#define EMPTY_NODE	shared_ptr<LinkedList<T>>()

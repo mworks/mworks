@@ -234,7 +234,7 @@ class StimulusGroup : public ExpandableList<Stimulus>, public mw::Component {
 private:
 	std::vector <shared_ptr<StimulusGroup> > sub_groups;
 	
-	weak_ptr<StimulusGroup> parent;
+	boost::weak_ptr<StimulusGroup> parent;
 
 	void addSubGroup(const shared_ptr <StimulusGroup> stim_group);
 	void addStimToParents(const shared_ptr <Stimulus> stim);
@@ -251,7 +251,7 @@ public:
 	shared_ptr<StimulusGroup> getSubGroup(const unsigned int sub_group_index) const;
 	shared_ptr<StimulusGroup> getParent() const;
 	
-	void setParent(weak_ptr <StimulusGroup> _parent);
+	void setParent(boost::weak_ptr <StimulusGroup> _parent);
 	
 	virtual void addChild(std::map<std::string, std::string> parameters,
 						  ComponentRegistry *reg,

@@ -152,7 +152,7 @@ shared_ptr<ComponentFactory> ComponentRegistry::getFactory(const std::string &ty
 	if (!factory) {
 		// try splitting
 		std::vector<std::string> split_vector;
-		split(split_vector, type_name, is_any_of("/"));
+		split(split_vector, type_name, boost::algorithm::is_any_of("/"));
 		factory = factories[split_vector[0]];
 	}
 	
@@ -214,14 +214,14 @@ void ComponentRegistry::registerObject(std::string tag_name, shared_ptr<mw::Comp
 
         shared_ptr<AmbiguousComponentReference> ambiguous_component;
         if(preexisting->isAmbiguous()){
-            ambiguous_component = dynamic_pointer_cast<AmbiguousComponentReference>(preexisting);
+            ambiguous_component = boost::dynamic_pointer_cast<AmbiguousComponentReference>(preexisting);
         } else {
             ambiguous_component = shared_ptr<AmbiguousComponentReference>(new AmbiguousComponentReference());
         }
         
         ambiguous_component->addAmbiguousComponent(component);
         
-        instances[tag_name] = dynamic_pointer_cast<AmbiguousComponentReference, Component>(ambiguous_component);
+        instances[tag_name] = boost::dynamic_pointer_cast<AmbiguousComponentReference, Component>(ambiguous_component);
         
         return;
     }
@@ -261,7 +261,7 @@ shared_ptr<Variable>	ComponentRegistry::getVariable(std::string expression){
   
 	// Check to see if it can be resolved, or if it will need to be resolved
 	// at runtime
-	smatch unresolved_match;
+	boost::smatch unresolved_match;
 
 	bool unresolved = boost::regex_match(expression, unresolved_match, u1);
 	if(unresolved){
@@ -270,7 +270,7 @@ shared_ptr<Variable>	ComponentRegistry::getVariable(std::string expression){
 		return unresolved_var;
 	}
 	
-	smatch strip_match;
+	boost::smatch strip_match;
 	boost::regex_match(expression, strip_match, strip_it); 
 	
 	shared_ptr<Variable> var = global_variable_registry->getVariable(strip_match[1]);
@@ -299,12 +299,10 @@ shared_ptr<Variable> ComponentRegistry::getVariable(std::string expression,
 
 shared_ptr<mw::StimulusNode>	ComponentRegistry::getStimulus(std::string expression){
 	
-	using namespace boost;
-	
 	// regex for parsing the stimulus string
-	regex stimulus_regex("(.+?)(\\[(.+)\\])?"); 
+    boost::regex stimulus_regex("(.+?)(\\[(.+)\\])?");
 	
-	smatch matches;
+    boost::smatch matches;
 	try{
 		
 		regex_match(expression, matches, stimulus_regex); 
@@ -315,7 +313,7 @@ shared_ptr<mw::StimulusNode>	ComponentRegistry::getStimulus(std::string expressi
 		// matches[3] contains the index expression (if there is one), 
 		//			  without brackets.
 		
-   } catch (regex_error& e) {
+   } catch (boost::regex_error& e) {
 		throw FatalParserException("Regex error during stimulus parsing (regex_error exception)", e.what());
    }
    
@@ -346,7 +344,7 @@ shared_ptr<mw::StimulusNode>	ComponentRegistry::getStimulus(std::string expressi
 	if(stimulus_node_group == NULL){
 		stimulus_node_group = shared_ptr<StimulusNodeGroup>(new StimulusNodeGroup(stimulus_group));
 		
-		shared_ptr<mw::Component> newStimulusNodeGroup = dynamic_pointer_cast<mw::Component, StimulusNodeGroup>(stimulus_node_group);
+		shared_ptr<mw::Component> newStimulusNodeGroup = boost::dynamic_pointer_cast<mw::Component, StimulusNodeGroup>(stimulus_node_group);
 		registerObject(stem + ":node", newStimulusNodeGroup);
 	}
 	
@@ -362,7 +360,7 @@ shared_ptr<mw::StimulusNode>	ComponentRegistry::getStimulus(std::string expressi
 	std::string index_expression;
 	
 	// A regex to determine if the stimulus is multidimensional, e.g. stim[1][2]
-	regex multi_dimensional_group_regex(".+\\]\\s*\\[.+");
+	boost::regex multi_dimensional_group_regex(".+\\]\\s*\\[.+");
 	if( regex_match(index_pattern, multi_dimensional_group_regex) ){
 		
 		// If it's multidimensional, we need to split up the contents of the
@@ -375,13 +373,13 @@ shared_ptr<mw::StimulusNode>	ComponentRegistry::getStimulus(std::string expressi
 		index_expression_stream << "0";  // get things started
 		
 		
-		regex index_regex("\\]\\s*\\[");
+		boost::regex index_regex("\\]\\s*\\[");
 
 		// split the index strings
-		sregex_token_iterator i_t(index_pattern.begin(), 
+        boost::sregex_token_iterator i_t(index_pattern.begin(),
 									   index_pattern.end(),
 									   index_regex, -1);
-		sregex_token_iterator j_t;
+        boost::sregex_token_iterator j_t;
 		
 		vector<string> indices;
 		while(i_t != j_t){
@@ -480,7 +478,7 @@ Datum ComponentRegistry::getValue(std::string expression, GenericDataType type) 
       case M_FLOAT:
       case M_INTEGER:
       case M_BOOLEAN:
-            doubleValue = lexical_cast<double>(expression);
+            doubleValue = boost::lexical_cast<double>(expression);
             if (M_FLOAT == type) {
                 value = Datum(doubleValue);
             } else if (M_INTEGER == type) {
@@ -564,7 +562,7 @@ boost::filesystem::path ComponentRegistry::getPath(std::string working_path,
 
 void ComponentRegistry::dumpToStdErr(){
 
-    unordered_map< string, shared_ptr<Component> >::iterator i;
+    boost::unordered_map< string, shared_ptr<Component> >::iterator i;
     for(i = instances.begin(); i != instances.end(); ++i){
         pair< string, shared_ptr<Component> > instance = *i;
         cerr << instance.first << ": " << instance.second.get() << endl;

@@ -149,7 +149,7 @@ namespace mw {
 			
 			// Split the parent scope so that we can search from inside out
 			vector<string> scope_components;
-			split(scope_components, parent_scope, is_any_of("/"));
+			split(scope_components, parent_scope, boost::algorithm::is_any_of("/"));
 			
 			shared_ptr<T> candidate;
 			
@@ -185,11 +185,11 @@ namespace mw {
             if(obj->isAmbiguous()){
                 //string string_rep = obj->getStringRepresentation();
                 shared_ptr<AmbiguousComponentReference> amb_ref = 
-                            dynamic_pointer_cast<AmbiguousComponentReference, Component>(obj);
+                            boost::dynamic_pointer_cast<AmbiguousComponentReference, Component>(obj);
                 throw AmbiguousComponentReferenceException(amb_ref);
             }
             
-			return dynamic_pointer_cast<T, mw::Component>(obj);
+			return boost::dynamic_pointer_cast<T, mw::Component>(obj);
 		}
 		
 		// Instance lookups with some extra parsing smarts

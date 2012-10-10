@@ -76,6 +76,7 @@
 #include "Scarab/scarab.h"
 
 #include <boost/thread/mutex.hpp>
+#include <boost/weak_ptr.hpp>
 #include <vector>
 
 #include "AnyScalar.h"
@@ -128,7 +129,7 @@ protected:
 	// ********************************************************
 	
 	// create a new entry and return one instance
-	shared_ptr<ScopedVariable> addScopedVariable(weak_ptr<ScopedVariableEnvironment> env,
+	shared_ptr<ScopedVariable> addScopedVariable(boost::weak_ptr<ScopedVariableEnvironment> env,
 												  VariableProperties *p = NULL); 
 	shared_ptr<GlobalVariable> addGlobalVariable(VariableProperties *p = NULL);
 	shared_ptr<SelectionVariable> addSelectionVariable(VariableProperties *p = NULL);
@@ -177,7 +178,7 @@ public:
 	// Creation methods
 	// ********************************************************
 	
-	shared_ptr<ScopedVariable> createScopedVariable(weak_ptr<ScopedVariableEnvironment> env,
+	shared_ptr<ScopedVariable> createScopedVariable(boost::weak_ptr<ScopedVariableEnvironment> env,
 													 VariableProperties *p = NULL); 
 													 
 	shared_ptr<GlobalVariable> createGlobalVariable(VariableProperties *p = NULL);

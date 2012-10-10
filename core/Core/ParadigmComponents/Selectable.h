@@ -12,8 +12,11 @@
 
 //#include "Selection.h"
 #include <boost/shared_ptr.hpp>
+
+using boost::shared_ptr;
+
+
 namespace mw {
-	using namespace boost;
 
 
 class Selection;

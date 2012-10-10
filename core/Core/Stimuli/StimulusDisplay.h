@@ -20,7 +20,6 @@
 #include <boost/noncopyable.hpp>
 #include <boost/enable_shared_from_this.hpp>
 #include <boost/shared_ptr.hpp>
-#include <boost/weak_ptr.hpp>
 #include <boost/thread/mutex.hpp>
 #include <boost/thread/condition_variable.hpp>
 
@@ -29,8 +28,6 @@
 
 
 namespace mw {
-	using namespace boost;
-	
 	// forward declarations
     class Datum;
 	class Stimulus;
@@ -63,7 +60,7 @@ namespace mw {
 		
   
 	
-	class StimulusDisplay : public enable_shared_from_this<StimulusDisplay>, boost::noncopyable {
+	class StimulusDisplay : public boost::enable_shared_from_this<StimulusDisplay>, boost::noncopyable {
     protected:
         std::vector<int> context_ids;
 		int current_context_index;

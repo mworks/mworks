@@ -33,7 +33,7 @@ BEGIN_NAMESPACE_MW
 
 
 void XMLVariableWriter::writeVariablesToFile(vector< shared_ptr<Variable> > variables, 
-											 filesystem::path file){
+											 boost::filesystem::path file){
     
     xmlParserCtxt *context = xmlNewParserCtxt();	
 	

@@ -110,7 +110,7 @@ namespace mw {
             // involves an implicit PyINCREF
             ScopedGILRelease sgr;
             
-            shared_ptr<AccumulatingConduit> accumulating_conduit = dynamic_pointer_cast<AccumulatingConduit>(conduit);
+            shared_ptr<AccumulatingConduit> accumulating_conduit = boost::dynamic_pointer_cast<AccumulatingConduit>(conduit);
             accumulating_conduit->registerBundleCallback(bind(&PythonEventListCallback::callback, cb, _1));
         }
 

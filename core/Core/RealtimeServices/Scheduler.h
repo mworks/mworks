@@ -60,8 +60,6 @@ M_MISSED_EXECUTION_FAIL};
 
 #include <pthread.h>
 
-using namespace boost;
-
 void *dummy_function(void *);
 
 

@@ -24,13 +24,11 @@
 #include "RandomWithReplacementSelection.h"
 #include "ScheduledActions.h"
 
-using namespace boost;
-
 
 BEGIN_NAMESPACE_MW
 
 
-#define	DEF_CAST_SHARED_PTR(X,Y,NAME)	shared_ptr<X> NAME(shared_ptr<Y> ptr){ return dynamic_pointer_cast<X,Y>(ptr); }
+#define	DEF_CAST_SHARED_PTR(X,Y,NAME)	shared_ptr<X> NAME(shared_ptr<Y> ptr){ return boost::dynamic_pointer_cast<X,Y>(ptr); }
 #define DEF_GET_RAW(X)	X *get_raw_pointer(shared_ptr<X> ptr){ return ptr.get(); }
 #define DEF_SHARED_PTR(X)	shared_ptr<X> create_shared_ptr(X *arg){ return shared_ptr<X>(arg); }
 #define DEF_SHARED_PTR_LITERAL(X,Y) shared_ptr<X> create_shared_ptr(Y *arg){ return shared_ptr<X>(arg); }

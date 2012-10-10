@@ -142,8 +142,8 @@ unsigned int StimulusGroup::getNDimensions() const {
 void StimulusGroup::addChild(std::map<std::string, std::string> parameters,
 							  ComponentRegistry *reg,
 							  shared_ptr<mw::Component> child){
-	shared_ptr<Stimulus> stim = dynamic_pointer_cast<Stimulus, mw::Component>(child);
-	shared_ptr<StimulusGroup> stim_group = dynamic_pointer_cast<StimulusGroup, mw::Component>(child);
+	shared_ptr<Stimulus> stim = boost::dynamic_pointer_cast<Stimulus, mw::Component>(child);
+	shared_ptr<StimulusGroup> stim_group = boost::dynamic_pointer_cast<StimulusGroup, mw::Component>(child);
 	
 	if((stim == NULL && stim_group == NULL) || (stim != NULL && stim_group != NULL)){
 		// TODO: better exception

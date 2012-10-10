@@ -285,7 +285,7 @@ class ExperimentFactory : public ComponentFactory {
 		//GlobalCurrentExperiment->createVariableContexts();
 		prepareStimulusDisplay();
 		
-		shared_ptr<mw::Component> experiment = dynamic_pointer_cast<mw::Component, Experiment>(GlobalCurrentExperiment);		
+		shared_ptr<mw::Component> experiment = boost::dynamic_pointer_cast<mw::Component, Experiment>(GlobalCurrentExperiment);		
 		
 		if(!parameters["tag"].empty()){
 			GlobalCurrentExperiment->setExperimentName(parameters["tag"]);

@@ -28,9 +28,6 @@
 
 #include "Event.h"
 
-using namespace boost;
-using namespace __gnu_cxx;
-
 using std::string;
 
 
@@ -40,7 +37,7 @@ BEGIN_NAMESPACE_MW
 typedef boost::function<void(shared_ptr<Event>)>  EventCallback;
 
 // simple convenience class
-class KeyedEventCallbackPair : public enable_shared_from_this<KeyedEventCallbackPair>{
+class KeyedEventCallbackPair : public boost::enable_shared_from_this<KeyedEventCallbackPair>{
 
 protected:
     

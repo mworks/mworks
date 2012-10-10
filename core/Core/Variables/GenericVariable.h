@@ -57,12 +57,9 @@
 #include "VariableNotification.h"
 #include "Utilities.h"
 #include <boost/shared_ptr.hpp>
-#include <boost/weak_ptr.hpp>
 #include <list>
 BEGIN_NAMESPACE_MW
 class EventBuffer;
-
-using namespace boost;
 
 enum VariableScope{ M_INVALID_SCOPE = -1, 
 					 M_EXPERIMENTWIDE_SCOPE, 

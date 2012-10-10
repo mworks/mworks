@@ -11,7 +11,6 @@
 #define ANNOUNCERS_H
 
 #include "GenericVariable.h"
-#include <boost/weak_ptr.hpp>
 
 
 // class to define standard experiment component interface for

@@ -37,7 +37,7 @@
 namespace mw {
 
 
-class EventStreamInterface : public EventCallbackHandler, public enable_shared_from_this<EventStreamInterface> {
+class EventStreamInterface : public EventCallbackHandler, public boost::enable_shared_from_this<EventStreamInterface> {
     
 protected:
     

@@ -17,7 +17,7 @@
 
 #include "boost/enable_shared_from_this.hpp"
 namespace mw {
-class EventListener : public enable_shared_from_this<EventListener>  {
+class EventListener : public boost::enable_shared_from_this<EventListener>  {
 protected:
 	boost::mutex listenerLock;
 	

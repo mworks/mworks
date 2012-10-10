@@ -19,8 +19,6 @@
 #include "GenericVariable.h"
 #include "Component.h"
 
-using namespace boost;
-
 
 BEGIN_NAMESPACE_MW
 

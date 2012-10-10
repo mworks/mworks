@@ -21,6 +21,8 @@
 #include "ComponentRegistry.h"
 #include "ExpressionVariable.h"
 
+using boost::algorithm::to_lower_copy;
+
 
 BEGIN_NAMESPACE_MW
 
@@ -274,7 +276,7 @@ shared_ptr<mw::Component> SelectionVariableFactory::createObject(std::map<std::s
 	unsigned int numSamples = 0;
 	try {
 		numSamples = boost::lexical_cast< unsigned int >( parameters.find("nsamples")->second );
-	} catch (bad_lexical_cast &) {
+	} catch (boost::bad_lexical_cast &) {
 		throw InvalidAttributeException(parameters["reference_id"], "nsamples", parameters.find("nsamples")->second);			
 	}
 	

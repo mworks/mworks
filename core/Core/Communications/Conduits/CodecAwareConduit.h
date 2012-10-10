@@ -26,7 +26,7 @@ BEGIN_NAMESPACE_MW
 // Additionally, it receives codecs coming from the conduit so that
 // it is possible to register for event callbacks by name rather than
 // code
-class CodecAwareConduit : public SimpleConduit, public enable_shared_from_this<CodecAwareConduit> {
+class CodecAwareConduit : public SimpleConduit, public boost::enable_shared_from_this<CodecAwareConduit> {
     
 protected:
     boost::recursive_mutex conduit_mutex;
