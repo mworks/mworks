@@ -1,16 +1,17 @@
-XCCONFIG_DIR = /Library/Application\ Support/MWorks/Developer/Xcode
-XCCONFIG_NAME = Development
-include $(XCCONFIG_DIR)/$(XCCONFIG_NAME).xcconfig
+RM_RF = /bin/rm -Rf
 
-XCODE_TEMPLATES_DIR = "/Library/Application Support/Developer/Shared/Xcode/Project Templates"
-MW_XCODEBUILD = $(MW_BIN_DIR_UNQUOTED)/mw_xcodebuild
+MW_APP_SUPPORT_DIR = /Library/Application\ Support/MWorks
+MW_PLUGINS_DIR = $(MW_APP_SUPPORT_DIR)/Plugins/Core
+XCODE_TEMPLATES_DIR = /Library/Application\ Support/Developer/Shared/Xcode/Project\ Templates
+
+MW_XCODEBUILD = $(MW_APP_SUPPORT_DIR)/Developer/bin/mw_xcodebuild
 
 all: install
 
 install: clean
-	rm -Rf $(XCODE_TEMPLATES_DIR)/MWorks
-	mkdir -p $(XCODE_TEMPLATES_DIR)
-	rsync -a \
+	$(RM_RF) $(XCODE_TEMPLATES_DIR)/MWorks
+	/bin/mkdir -p $(XCODE_TEMPLATES_DIR)
+	/usr/bin/rsync -a \
 	  --exclude='*.pbxuser' \
 	  --exclude='*.perspectivev3' \
 	  --exclude='xcuserdata' \
@@ -18,7 +19,7 @@ install: clean
 	  MWorks $(XCODE_TEMPLATES_DIR)
 
 clean:
-	rm -Rf "$(PLUGINS_DIR)"/___PROJECTNAME___.bundle
+	$(RM_RF) $(MW_PLUGINS_DIR)/___PROJECTNAME___.bundle
 
 test:
-	cd "MWorks/MWorks Core Plugin" && "$(MW_XCODEBUILD)" Everything Development
+	cd "MWorks/MWorks Core Plugin" && $(MW_XCODEBUILD) Everything Development

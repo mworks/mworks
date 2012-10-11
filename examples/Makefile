@@ -1,25 +1,27 @@
-XCCONFIG_DIR = /Library/Application\ Support/MWorks/Developer/Xcode
-XCCONFIG_NAME = Development
-include $(XCCONFIG_DIR)/$(XCCONFIG_NAME).xcconfig
+CP_RP = /bin/cp -Rp
+MKDIR_P = /bin/mkdir -p
+RM_RF = /bin/rm -Rf
 
-TEST_XML_DIR = "$(TESTS_DIR)/XML"
+MW_APP_SUPPORT_DIR = /Library/Application\ Support/MWorks
+EXAMPLES_DIR = $(MW_APP_SUPPORT_DIR)/Examples
+TEST_XML_DIR = $(MW_APP_SUPPORT_DIR)/Developer/tests/XML
 
 all: install
 
 install: install-examples install-tests
 
 install-examples: uninstall-examples
-	mkdir -p $(EXAMPLES_DIR)
-	cp -Rp Examples/ $(EXAMPLES_DIR)
+	$(MKDIR_P) $(EXAMPLES_DIR)
+	$(CP_RP) Examples/ $(EXAMPLES_DIR)
 
 install-tests: uninstall-tests
-	mkdir -p $(TEST_XML_DIR)
-	cp -Rp Tests/ $(TEST_XML_DIR)
+	$(MKDIR_P) $(TEST_XML_DIR)
+	$(CP_RP) Tests/ $(TEST_XML_DIR)
 
 uninstall: uninstall-examples uninstall-tests
 
 uninstall-examples:
-	rm -Rf $(EXAMPLES_DIR)
+	$(RM_RF) $(EXAMPLES_DIR)
 
 uninstall-tests:
-	rm -Rf $(TEST_XML_DIR)
+	$(RM_RF) $(TEST_XML_DIR)

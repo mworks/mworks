@@ -17,11 +17,8 @@ import sys
 ################################################################################
 
 
-mw_developer_dir = '/Library/Application Support/MWorks/Developer/'
-mw_bin_dir = mw_developer_dir + 'bin/'
-mw_xcode_dir = mw_developer_dir + 'Xcode/'
-
-mw_xcodebuild = mw_bin_dir + 'mw_xcodebuild'
+mw_xcodebuild = ('/Library/Application Support/MWorks/Developer/bin/'
+                 'mw_xcodebuild')
 
 mw_xcode_configuration = 'Development'
 mw_version = 'CUSTOM'
@@ -92,16 +89,7 @@ def xcodebuild(target='Everything'):
 
 
 def make(targets=[]):
-    check_call(
-        args = [
-            '/usr/bin/xcrun',
-            'make',
-            'XCCONFIG_DIR=' + mw_xcode_dir.replace(' ', '\ ').rstrip('/'),
-            'XCCONFIG_NAME=' + mw_xcode_configuration,
-            'MW_VERSION=' + mw_version,
-            'MW_XCODEBUILD=' + mw_xcodebuild,
-            ] + targets,
-        )
+    check_call(['/usr/bin/xcrun', 'make'] + targets)
 
 
 ################################################################################
