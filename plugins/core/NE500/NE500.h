@@ -18,9 +18,9 @@
 #include "MWorksCore/ComponentFactory.h"
 #include "MWorksCore/ComponentRegistry.h"
 
+using std::string;
+using std::vector;
 
-
-using namespace std;
 
 namespace mw {
 
@@ -77,7 +77,7 @@ class NE500DeviceChannelFactory : public ComponentFactory {
 		
 		REQUIRE_ATTRIBUTES(parameters, "variable", "capability", "syringe_diameter", "flow_rate");
 		
-		string capability_string = to_lower_copy(parameters["capability"]);
+		string capability_string = boost::algorithm::to_lower_copy(parameters["capability"]);
 		
 		shared_ptr<Variable> variable = reg->getVariable(parameters["variable"]);
 		

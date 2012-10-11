@@ -164,7 +164,7 @@
 }
 
 - (shared_ptr<mw::EventStreamInterface>) eventStreamInterface{
-    return static_pointer_cast<EventStreamInterface>(core);
+    return boost::static_pointer_cast<EventStreamInterface>(core);
 }
 
 - (NSArray *)variableNames {

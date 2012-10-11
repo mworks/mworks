@@ -32,7 +32,7 @@ public:
 	virtual bool attachPhysicalDevice();
 	virtual bool startDeviceIO();
 	
-	shared_ptr<mUSBHID> shared_from_this() { return dynamic_pointer_cast<mUSBHID>(IODevice::shared_from_this()); }
+	shared_ptr<mUSBHID> shared_from_this() { return boost::dynamic_pointer_cast<mUSBHID>(IODevice::shared_from_this()); }
 };
 
 

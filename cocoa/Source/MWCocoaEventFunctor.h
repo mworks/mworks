@@ -15,8 +15,6 @@
 #import "CocoaBindingsSetter.h"
 #include "MWorksCore/EventStreamInterface.h"
 #include <boost/shared_ptr.hpp>
-using namespace std;
-using namespace boost;
 
 
 namespace mw {
