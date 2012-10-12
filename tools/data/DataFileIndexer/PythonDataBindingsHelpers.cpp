@@ -242,11 +242,11 @@ ScarabDatum *convert_python_to_scarab(PyObject *pObj) {
     // Float
     else if (PyFloat_Check(pObj)) {
         double value = PyFloat_AsDouble(pObj);
-        if (isinf(value)) {
+        if (std::isinf(value)) {
             datum = scarab_new_atomic();
             datum->type = SCARAB_FLOAT_INF;
         }
-        else if (isnan(value)) {
+        else if (std::isnan(value)) {
             datum = scarab_new_atomic();
             datum->type = SCARAB_FLOAT_NAN;
         }

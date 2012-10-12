@@ -210,17 +210,30 @@ def main():
                       dest = 'mw_version',
                       default = mw_version,
                       help = 'MWorks version number [default: %default]')
+    parser.add_option('--start-with',
+                      dest = 'first_builder',
+                      metavar = 'BUILDER_NAME',
+                      help = 'Start build from given builder')
 
     (options, requested_builders) = parser.parse_args()
     mw_version = options.mw_version
 
     all_builder_names = [builder.__name__ for builder in all_builders]
 
-    unknown_builders = [name for name in requested_builders
-                        if (name not in all_builder_names)]
-    if unknown_builders:
-        parser.error('unknown builders: ' +
-                     ', '.join(repr(name) for name in unknown_builders))
+    if options.first_builder:
+        if requested_builders:
+            parser.error('cannot specify builder names when using --start-with')
+        first_builder = options.first_builder
+        if first_builder not in all_builder_names:
+            parser.error('unknown builder: ' + first_builder)
+        requested_builders = \
+            all_builder_names[all_builder_names.index(first_builder):]
+    else:
+        unknown_builders = [name for name in requested_builders
+                            if (name not in all_builder_names)]
+        if unknown_builders:
+            parser.error('unknown builders: ' +
+                         ', '.join(repr(name) for name in unknown_builders))
 
     srcroot = os.path.abspath(os.path.dirname(__file__) + '/../..')
 
