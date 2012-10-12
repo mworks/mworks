@@ -22,8 +22,10 @@ def join_flags(*flags):
 cc = '/usr/bin/clang'
 cxx = '/usr/bin/clang++'
 xcodebuild = '/usr/bin/xcodebuild'
+use_libcxx = False
 
-macosx_version_min = '10.6'
+# libc++ is available on OS X 10.7 or later
+macosx_version_min = ('10.7' if use_libcxx else '10.6')
 
 python_version = '2.6'
 python = '/usr/bin/python' + python_version
@@ -32,7 +34,9 @@ link_flags = ('-arch x86_64 -arch i386 -mmacosx-version-min=' +
               macosx_version_min)
 compile_flags = join_flags('-g -Os -fexceptions', link_flags)
 cflags = join_flags('-std=c99', compile_flags)
-cxxflags = join_flags('-std=c++98', compile_flags, '-stdlib=libstdc++')
+cxxflags = join_flags('-std=c++98',
+                      compile_flags,
+                      '-stdlib=lib%sc++' % ('' if use_libcxx else 'std'))
 
 downloaddir = 'download'
 path_to_downloaddir = '../' + downloaddir
@@ -116,6 +120,14 @@ def unpack_zipfile(filename, outputdir):
         ])
 
 
+def apply_patch(patchfile):
+    with open(path_to_patchdir + '/' + patchfile) as fp:
+        check_call(
+            args = ['/usr/bin/patch', '-p1'],
+            stdin = fp,
+            )
+
+
 def run_configure_and_make(
     srcdir,
     extra_args = [],
@@ -138,11 +150,7 @@ def run_configure_and_make(
 
     with workdir(srcdir):
         if patchfile:
-            with open(path_to_patchdir + '/' + patchfile) as fp:
-                check_call(
-                    args = ['/usr/bin/patch', '-p1'],
-                    stdin = fp,
-                    )
+            apply_patch(patchfile)
             if post_patch_command:
                 check_call(post_patch_command)
         
@@ -176,6 +184,8 @@ def boost():
     unpack_tarfile(tarfile, srcdir)
 
     with workdir(srcdir):
+        apply_patch('boost_clang_visibility.patch')
+        
         check_call([
             './bootstrap.sh',
             '--with-toolset=clang',
@@ -284,7 +294,9 @@ def devil():
 
     run_configure_and_make(
         srcdir = srcdir,
-        extra_args = ['--enable-ILU', '--enable-ILUT', '--disable-mng'],
+        extra_args = ['--enable-ILU', '--enable-ILUT', '--disable-exr',
+                      '--disable-mng', '--disable-utx', '--without-squish',
+                      '--without-nvtt'],
         extra_cflags = ('-std=gnu89 -I/usr/include/malloc -I%s/include' %
                         path_to_stagedir),
         extra_cxxflags = '-std=gnu++98',

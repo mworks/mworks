@@ -1,0 +1,16 @@
+diff -ur boost_1_51_0/boost/config/compiler/clang.hpp boost/boost/config/compiler/clang.hpp
+--- boost_1_51_0/boost/config/compiler/clang.hpp	2012-07-15 11:59:05.000000000 -0400
++++ boost/boost/config/compiler/clang.hpp	2012-10-11 15:11:24.000000000 -0400
+@@ -126,6 +126,12 @@
+ // Clang always supports variadic macros
+ // Clang always supports extern templates
+ 
++#if __has_attribute(visibility)
++#  define BOOST_SYMBOL_EXPORT __attribute__((visibility("default")))
++#  define BOOST_SYMBOL_IMPORT
++#  define BOOST_SYMBOL_VISIBLE __attribute__((visibility("default")))
++#endif
++
+ #ifndef BOOST_COMPILER
+ #  define BOOST_COMPILER "Clang version " __clang_version__
+ #endif
