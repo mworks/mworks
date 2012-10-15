@@ -141,11 +141,6 @@ namespace mw {
                                                                                                                 _events_to_watch){}    
     };
     
-    
-    
-    extern PyObject *convert_scarab_to_python(ScarabDatum *datum);
-    extern PyObject *convert_datum_to_python(Datum datum);
-    
 
     
 }

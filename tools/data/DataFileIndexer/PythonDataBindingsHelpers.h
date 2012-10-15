@@ -17,7 +17,9 @@
 #include <boost/shared_ptr.hpp>
 #include <string>
 #include <vector>
-#include <python.h>
+#include <Python.h>
+
+#include "PythonDataHelpers.h"
 
 using namespace boost;
 namespace bp = boost::python;
@@ -80,11 +82,6 @@ public:
     int write_event(shared_ptr<EventWrapper> e);
 
 };    
-
-// Convert a ScarabDatum into a corresponding Python object
-extern PyObject *convert_scarab_to_python(ScarabDatum *datum, int prev_typ = -1);
-// vice versa
-extern ScarabDatum *convert_python_to_scarab(PyObject *pObj);
 
 
 extern PyObject *extract_event_value(EventWrapper e);

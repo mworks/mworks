@@ -28,10 +28,6 @@ BOOST_PYTHON_MODULE(_data)
     
     PyEval_InitThreads();
  
-    //def("convert_scarab_to_python", convert_scarab_to_python, "Convert a Scarab datum to a corresponding Python object, recursing as needed");
-    //def("convert_python_to_scarab", convert_python_to_scarab);
-
-    
     class_<EventWrapper, boost::noncopyable>("Event", init<ScarabDatum *>())
     .add_property("code", &EventWrapper::getEventCode)
     .add_property("time", &EventWrapper::getTime)

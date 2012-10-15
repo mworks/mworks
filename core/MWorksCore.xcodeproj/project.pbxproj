@@ -153,7 +153,6 @@
 		5C4D23AD09DC84160082BF9F /* VectorTest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C4D233A09DC6F0C0082BF9F /* VectorTest.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5C524E880CAA02C60063B1DC /* TimerTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C524E860CAA02C60063B1DC /* TimerTest.cpp */; };
 		5C524E890CAA02C60063B1DC /* TimerTest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C524E870CAA02C60063B1DC /* TimerTest.h */; };
-		5C5FA530126FBA0C00468660 /* PythonConduits.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C5FA52E126FBA0C00468660 /* PythonConduits.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5C5FA540126FBEAA00468660 /* PythonConduits.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C5FA52F126FBA0C00468660 /* PythonConduits.cpp */; };
 		5C5FA54B126FC8A700468660 /* python_accum_conduit_test.py in Resources */ = {isa = PBXBuildFile; fileRef = 5C5FA54A126FC8A700468660 /* python_accum_conduit_test.py */; };
 		5C643EA10D501E99004A8BD2 /* UnresolvedReferenceVariable.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C643E9F0D501E99004A8BD2 /* UnresolvedReferenceVariable.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -440,6 +439,7 @@
 		E11AFFBD118F865C0034CC04 /* IODevice.h in Headers */ = {isa = PBXBuildFile; fileRef = E11AFFBC118F865C0034CC04 /* IODevice.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E127D38C133A5CFC00532496 /* Map.h in Headers */ = {isa = PBXBuildFile; fileRef = E127D38B133A5CFC00532496 /* Map.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E127D3AD133A615C00532496 /* MWorksMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = E127D3AC133A615C00532496 /* MWorksMacros.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E12E834E162C8F9500B8DDF7 /* PythonDataHelpers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E12E834D162C8F3B00B8DDF7 /* PythonDataHelpers.cpp */; };
 		E13BD56812130E6800DF5C02 /* StandardDynamicStimulus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E13BD56612130E6800DF5C02 /* StandardDynamicStimulus.cpp */; };
 		E13BD56912130E6800DF5C02 /* StandardDynamicStimulus.h in Headers */ = {isa = PBXBuildFile; fileRef = E13BD56712130E6800DF5C02 /* StandardDynamicStimulus.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1457B4E14D08F7E004D3AD5 /* MWorksCoreTestMain.h in Headers */ = {isa = PBXBuildFile; fileRef = E1457B4D14D08F7E004D3AD5 /* MWorksCoreTestMain.h */; };
@@ -1093,6 +1093,8 @@
 		E11AFFBC118F865C0034CC04 /* IODevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IODevice.h; path = Core/IODevices/IODevice.h; sourceTree = "<group>"; };
 		E127D38B133A5CFC00532496 /* Map.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Map.h; sourceTree = "<group>"; };
 		E127D3AC133A615C00532496 /* MWorksMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MWorksMacros.h; path = Core/MWorksMacros.h; sourceTree = "<group>"; };
+		E12E834B162C8F1700B8DDF7 /* PythonDataHelpers.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PythonDataHelpers.h; sourceTree = "<group>"; };
+		E12E834D162C8F3B00B8DDF7 /* PythonDataHelpers.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PythonDataHelpers.cpp; sourceTree = "<group>"; };
 		E13BD56612130E6800DF5C02 /* StandardDynamicStimulus.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StandardDynamicStimulus.cpp; sourceTree = "<group>"; };
 		E13BD56712130E6800DF5C02 /* StandardDynamicStimulus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StandardDynamicStimulus.h; sourceTree = "<group>"; };
 		E1457B4D14D08F7E004D3AD5 /* MWorksCoreTestMain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWorksCoreTestMain.h; sourceTree = "<group>"; };
@@ -1624,6 +1626,8 @@
 			children = (
 				5CA07E5610D1A86800000A95 /* examples */,
 				5CA078E410CED36F00000A95 /* tests */,
+				E12E834B162C8F1700B8DDF7 /* PythonDataHelpers.h */,
+				E12E834D162C8F3B00B8DDF7 /* PythonDataHelpers.cpp */,
 				5CB6C4760E9A92CA006923EC /* PythonSimpleConduit.h */,
 				5CB6C4750E9A92CA006923EC /* PythonSimpleConduit.cpp */,
 				5CCE1D3D10A49C8D00EF5866 /* conduit.py */,
@@ -2304,7 +2308,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				E1C87A1513FDA56F005FF5ED /* DynamicStimulusActions.h in Headers */,
-				5C5FA530126FBA0C00468660 /* PythonConduits.h in Headers */,
 				5C0BB1F2126CDA1900387C54 /* AccumulatingConduit.h in Headers */,
 				0E1DB69C0B4EB983000C0D68 /* ExperimentUnpackager.h in Headers */,
 				0E86657C0AEFE8D300564B87 /* VariableLoad.h in Headers */,
@@ -2985,6 +2988,7 @@
 				5CDB8B270E9C4AFC00993D99 /* PythonSimpleConduit.cpp in Sources */,
 				5C0BB1F7126CDA4F00387C54 /* PythonAccumulatingConduit.cpp in Sources */,
 				5C5FA540126FBEAA00468660 /* PythonConduits.cpp in Sources */,
+				E12E834E162C8F9500B8DDF7 /* PythonDataHelpers.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

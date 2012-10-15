@@ -40,6 +40,9 @@
 		5CA077E210CEA53400000A95 /* dfindex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EE378A90D6CA7B30065846A /* dfindex.cpp */; };
 		5CA077E310CEA53400000A95 /* EventBlock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EA2B4C40D6BB349002396FC /* EventBlock.cpp */; };
 		5CA077E610CEA53C00000A95 /* PythonDataBindingsHelpers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CA077D710CEA49500000A95 /* PythonDataBindingsHelpers.cpp */; };
+		E12E8351162C95A500B8DDF7 /* PythonDataHelpers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E12E834F162C95A500B8DDF7 /* PythonDataHelpers.cpp */; };
+		E12E8352162C95A500B8DDF7 /* PythonDataHelpers.h in Headers */ = {isa = PBXBuildFile; fileRef = E12E8350162C95A500B8DDF7 /* PythonDataHelpers.h */; };
+		E12E8354162C95FE00B8DDF7 /* PythonDataHelpers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E12E834F162C95A500B8DDF7 /* PythonDataHelpers.cpp */; };
 		E167F67115D2A7F50096459C /* DataFileIndexer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5073E0C409E734A800EC74B6 /* DataFileIndexer.cpp */; };
 		E167F67515D2A7FE0096459C /* EventBlock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EA2B4C40D6BB349002396FC /* EventBlock.cpp */; };
 		E167F67615D2A8020096459C /* dfindex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EE378A90D6CA7B30065846A /* dfindex.cpp */; };
@@ -98,6 +101,8 @@
 		5CA077D710CEA49500000A95 /* PythonDataBindingsHelpers.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PythonDataBindingsHelpers.cpp; sourceTree = "<group>"; };
 		5CBBA1801055D5C5004C69DF /* __init__.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = __init__.py; sourceTree = "<group>"; };
 		5CBBA1B01055E5C3004C69DF /* example.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = example.py; sourceTree = "<group>"; };
+		E12E834F162C95A500B8DDF7 /* PythonDataHelpers.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PythonDataHelpers.cpp; path = ../../../core/Core/Communications/PythonDataHelpers.cpp; sourceTree = "<group>"; };
+		E12E8350162C95A500B8DDF7 /* PythonDataHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PythonDataHelpers.h; path = ../../../core/Core/Communications/PythonDataHelpers.h; sourceTree = "<group>"; };
 		E1C78767116FA6C1004928BF /* Development.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Development.xcconfig; path = "/Library/Application Support/MWorks/Developer/Xcode/Development.xcconfig"; sourceTree = "<absolute>"; };
 		E1C78768116FA6C1004928BF /* WARNING.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = WARNING.txt; path = "/Library/Application Support/MWorks/Developer/Xcode/WARNING.txt"; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
@@ -210,6 +215,8 @@
 				5C2A62041039DDDB00A62CBA /* PythonDataBindings.cpp */,
 				5CA077D610CEA49500000A95 /* PythonDataBindingsHelpers.h */,
 				5CA077D710CEA49500000A95 /* PythonDataBindingsHelpers.cpp */,
+				E12E8350162C95A500B8DDF7 /* PythonDataHelpers.h */,
+				E12E834F162C95A500B8DDF7 /* PythonDataHelpers.cpp */,
 				5C2A62461039E7A800A62CBA /* data.py */,
 				5CBBA1801055D5C5004C69DF /* __init__.py */,
 			);
@@ -264,6 +271,7 @@
 			files = (
 				5C2A62051039DDDB00A62CBA /* PythonDataBindings.h in Headers */,
 				5CA077D810CEA49500000A95 /* PythonDataBindingsHelpers.h in Headers */,
+				E12E8352162C95A500B8DDF7 /* PythonDataHelpers.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -440,6 +448,7 @@
 			files = (
 				5C2A62061039DDDB00A62CBA /* PythonDataBindings.cpp in Sources */,
 				5CA077D910CEA49500000A95 /* PythonDataBindingsHelpers.cpp in Sources */,
+				E12E8351162C95A500B8DDF7 /* PythonDataHelpers.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -452,6 +461,7 @@
 				5CA077E210CEA53400000A95 /* dfindex.cpp in Sources */,
 				5CA077E310CEA53400000A95 /* EventBlock.cpp in Sources */,
 				5CA077E610CEA53C00000A95 /* PythonDataBindingsHelpers.cpp in Sources */,
+				E12E8354162C95FE00B8DDF7 /* PythonDataHelpers.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

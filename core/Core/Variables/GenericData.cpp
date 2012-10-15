@@ -233,6 +233,14 @@ Datum::Datum(ScarabDatum * datum) {
   case SCARAB_FLOAT:
     setDataType(M_FLOAT);
     break;
+  case SCARAB_FLOAT_INF:
+    setDataType(M_FLOAT);
+    setFloat(INFINITY);
+    return;
+  case SCARAB_FLOAT_NAN:
+    setDataType(M_FLOAT);
+    setFloat(NAN);
+    return;
   case SCARAB_FLOAT_OPAQUE:
 	//       Dave: How did we end up with all of this bullshit anyways?
 	//       Ben:  I don't know, so I just deleted it.
