@@ -247,6 +247,11 @@ Datum _getNumber(const string &expression, const GenericDataType type);
 
 - (void)waitForExperimentToEnd:(NSTimer *)the_timer {
 	if(self.experimentEnded || self.asserted) {
+        if (!self.asserted) {
+            // Give the MWorks threads some time to finish their business
+            [NSThread sleepForTimeInterval:5];
+        }
+        
 		if(!self.asserted && ([self.expectedMessages count] > 0 || [self.expectedEvents count] > 0)) {
 			if([self.expectedMessages count] > 0) {
 				[self marionetteAssert:[NSString stringWithFormat:@"not all required messages were recevied in the proper order.  Next expected: %@", [[self.expectedMessages objectAtIndex:0] message]]]; 
