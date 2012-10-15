@@ -245,6 +245,14 @@ scarab_dict_remove(ScarabDatum *dictionary, ScarabDatum *key)
 	return oldval;
 }
 
+//
+// As written, the following three functions provide no advantage over accessing the ScarabDict fields directly.
+// Even worse, scarab_dict_keys and scarab_dict_values are misleading, in that you might think you're getting
+// a simple array of keys/values, when in fact you're getting a raw hash table pointer and must manually find
+// the non-NULL elements in it.  Until these functions are rewritten to do something useful, it seems better to
+// leave them out of the API entirely.
+//
+/*
 ScarabDatum ** scarab_dict_keys(ScarabDatum * dictionary) {
     //scarab_lock_datum(dictionary);
 	ScarabDict * dict = dictionary->data.dict;
@@ -268,3 +276,4 @@ int scarab_dict_number_of_elements(ScarabDatum * dictionary) {
 	//scarab_unlock_datum(dictionary);
 	return size;
 }
+ */

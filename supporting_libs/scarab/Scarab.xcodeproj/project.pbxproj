@@ -276,6 +276,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5C0CD7D8114A877B00B1C674 /* Development.xcconfig */;
 			buildSettings = {
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 			};
 			name = Development;
 		};

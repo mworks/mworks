@@ -203,7 +203,7 @@ DEF(struct, ScarabSession)
 /*
  * Initilize the Scarab library.
  */
-extern int      scarab_init();
+extern int      scarab_init(void);
 
 /*
  * Create a new scarab session.
@@ -353,13 +353,13 @@ extern long int scarab_tell(ScarabSession *session);
  * Create a new molecular (has its own memory context).
  * Initially set to null value.
  */
-extern ScarabDatum *scarab_new_molecular();
+extern ScarabDatum *scarab_new_molecular(void);
 
 /*
  * Create a new atomic (uses callers memory context).
  * Initially set to null value.
  */
-extern ScarabDatum *scarab_new_atomic();
+extern ScarabDatum *scarab_new_atomic(void);
 
 /*
  * Create copies of a ScarabDatum

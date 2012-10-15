@@ -21,6 +21,6 @@ extern const char* scarab_os_strerror(int err);
 /*
  * Return the OS specific error code.
  */
-extern int scarab_os_geterr();
+extern int scarab_os_geterr(void);
 
 #endif

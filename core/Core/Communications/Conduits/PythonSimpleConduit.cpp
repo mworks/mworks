@@ -39,16 +39,17 @@ PyObject *convert_scarab_to_python(ScarabDatum *datum){
             return PyFloat_FromDouble(scarab_extract_float(datum));
         case(SCARAB_DICT):
             dict = PyDict_New();
-            n_items = scarab_dict_number_of_elements(datum);
-            keys = scarab_dict_keys(datum);
-            values = scarab_dict_values(datum);
+            keys = datum->data.dict->keys;
+            values = datum->data.dict->values;
             
-            for(int i = 0; i < n_items; i++){
-                // convert the key
-                key_py_obj = convert_scarab_to_python(keys[i]);
-                value_py_obj = convert_scarab_to_python(values[i]);
-                
-                PyDict_SetItem(dict, key_py_obj, value_py_obj);
+            for (int i = 0; i < datum->data.dict->tablesize; i++) {
+                if (keys[i]) {
+                    // convert the key
+                    key_py_obj = convert_scarab_to_python(keys[i]);
+                    value_py_obj = convert_scarab_to_python(values[i]);
+                    
+                    PyDict_SetItem(dict, key_py_obj, value_py_obj);
+                }
             }
             
             return dict;

@@ -75,7 +75,7 @@ void VariableRegistry::updateFromCodecDatum(const Datum &codec) {
 	
 	ScarabDatum *datum = codec.getScarabDatum();
 	
-	ScarabDatum ** keys = scarab_dict_keys(datum);
+	ScarabDatum ** keys = datum->data.dict->keys;
 	int size = datum->data.dict->tablesize;
 	
 	

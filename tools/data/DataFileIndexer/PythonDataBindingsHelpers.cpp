@@ -334,20 +334,21 @@ PyObject *convert_scarab_to_python(ScarabDatum *datum, int prev_type /* = -1*/){
             return PyFloat_FromDouble(scarab_extract_float(datum));
         case(SCARAB_DICT):
             dict = PyDict_New();
-            n_items = scarab_dict_number_of_elements(datum);
-            keys = scarab_dict_keys(datum);
-            values = scarab_dict_values(datum);
+            keys = datum->data.dict->keys;
+            values = datum->data.dict->values;
             
-            for(int i = 0; i < n_items; i++){
-                // convert the key and value
-                key_py_obj = convert_scarab_to_python(keys[i], SCARAB_DICT);
-                value_py_obj = convert_scarab_to_python(values[i]);
-                
-                PyDict_SetItem(dict, key_py_obj, value_py_obj);
-                
-                // PyDict_SetItem does *not* steal the key and value references, so we need to DECREF them
-                Py_DECREF(key_py_obj);
-                Py_DECREF(value_py_obj);
+            for (int i = 0; i < datum->data.dict->tablesize; i++) {
+                if (keys[i]) {
+                    // convert the key and value
+                    key_py_obj = convert_scarab_to_python(keys[i], SCARAB_DICT);
+                    value_py_obj = convert_scarab_to_python(values[i]);
+                    
+                    PyDict_SetItem(dict, key_py_obj, value_py_obj);
+                    
+                    // PyDict_SetItem does *not* steal the key and value references, so we need to DECREF them
+                    Py_DECREF(key_py_obj);
+                    Py_DECREF(value_py_obj);
+                }
             }
             
             return dict;

@@ -11,6 +11,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <vector>
 
 
 static mxArray* getScarabInteger(ScarabDatum *datum);
@@ -53,9 +54,16 @@ static mxArray* getScarabInteger(ScarabDatum *datum) {
 
 
 static mxArray* getScarabDict(ScarabDatum *datum){
-	const int n = scarab_dict_number_of_elements(datum);
-	ScarabDatum **keys = scarab_dict_keys(datum);
-	ScarabDatum **values = scarab_dict_values(datum);
+	const int n = datum->data.dict->size;
+    std::vector<ScarabDatum *> keys, values;
+    
+    // To simplify iteration, extract the non-NULL keys and corresponding values
+    for (int i = 0; i < datum->data.dict->tablesize; i++) {
+        if (datum->data.dict->keys[i]) {
+            keys.push_back(datum->data.dict->keys[i]);
+            values.push_back(datum->data.dict->values[i]);
+        }
+    }
 	
 	char **fields = (char **) calloc(n, sizeof(char *));
 	
@@ -66,7 +74,6 @@ static mxArray* getScarabDict(ScarabDatum *datum){
 	
 	// fix me here
 	for (int i = 0; i < n; i++) {
-		if(keys[i]) {
 			switch(keys[i]->type) {
 				case SCARAB_OPAQUE:
 					//mexPrintf("  key is SCARAB_OPAQUE (keys[%d]->type): %d\n", i, keys[i]->type);
@@ -141,9 +148,6 @@ static mxArray* getScarabDict(ScarabDatum *datum){
 				}
 					break;
 			}
-		} else {
-			fields[i] = NULL;
-		}
 	}
 	
 	mwSize dims = 1;
@@ -238,9 +242,16 @@ static mxArray* getScarabFloat(ScarabDatum *datum) {
 
 
 mxArray *getCodec(ScarabDatum *codec){
-	int n_codec_entries = scarab_dict_number_of_elements(codec);
+	int n_codec_entries = codec->data.dict->size;
+    std::vector<ScarabDatum *> keys;
+    
+    // To simplify iteration, extract the non-NULL keys
+    for (int i = 0; i < codec->data.dict->tablesize; i++) {
+        if (codec->data.dict->keys[i]) {
+            keys.push_back(codec->data.dict->keys[i]);
+        }
+    }
 	
-	ScarabDatum **keys = scarab_dict_keys(codec);
 	const char *codec_field_names[] = {"code", 
 		"tagname",
 		"logging",  
@@ -262,17 +273,15 @@ mxArray *getCodec(ScarabDatum *codec){
 	
 	
 	for(int c = 0; c < n_codec_entries; ++c){
-		if(keys[c]) {
 			int code = keys[c]->data.integer;
 			ScarabDatum *serializedVar = scarab_dict_get(codec, keys[c]);
 			
 			mxSetField(codec_struct, c, "code", mxCreateDoubleScalar(code));
 			
 			if(serializedVar && serializedVar->type == SCARAB_DICT) {      
-				for(int d = 0; d < scarab_dict_number_of_elements(serializedVar); ++d) {
-					
-					ScarabDatum **varKeys = scarab_dict_keys(serializedVar);
-					
+                ScarabDatum **varKeys = serializedVar->data.dict->keys;
+                
+				for(int d = 0; d < serializedVar->data.dict->tablesize; ++d) {
 					if(varKeys[d]) {
 						char *buffer = scarab_extract_string(varKeys[d]);
 						
@@ -292,7 +301,6 @@ mxArray *getCodec(ScarabDatum *codec){
 					}
 				}      
 			}
-		}    
 	}
 	return codec_struct;
 }

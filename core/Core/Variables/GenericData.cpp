@@ -1191,7 +1191,7 @@ int Datum::getNElements() const {
 			returnval =  1;
 			break;
 		case M_DICTIONARY:	
-			returnval = scarab_dict_number_of_elements(data);    
+			returnval = data->data.dict->size;
 			break;
 		case M_LIST:
 			{
@@ -1258,7 +1258,7 @@ Datum Datum::getKey(const int n)  const {
 	}
   
 	lockDatum();
-	ScarabDatum ** sd = scarab_dict_keys(data);
+	ScarabDatum ** sd = data->data.dict->keys;
 
 	int n_keys = data->data.dict->tablesize;
   
@@ -1287,7 +1287,7 @@ std::vector<Datum> Datum::getKeys() const {
 	}
 	
 	lockDatum();
-	ScarabDatum ** sd = scarab_dict_keys(data);
+	ScarabDatum ** sd = data->data.dict->keys;
 	
     // DDC: 12/09: I think this should be size, not tablesize
     // CJS: 9/12: No, tablesize is correct.  size indicates the number of non-NULL keys in the table; you

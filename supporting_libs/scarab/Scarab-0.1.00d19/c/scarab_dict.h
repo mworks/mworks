@@ -53,21 +53,19 @@ extern ScarabDatum *scarab_dict_remove(ScarabDatum *dict, ScarabDatum *key);
  */
 extern int scarab_dict_times2(ScarabDict *dict);
 
-//<EDIT>
 /**
  * Returns a pointer to an array of keys in the dictionary.
  */
-extern ScarabDatum ** scarab_dict_keys(ScarabDatum * dict);
+//extern ScarabDatum ** scarab_dict_keys(ScarabDatum * dict);
 
 /**
  * Returns a pointer to an array of values in the dictionary. 
  */
-extern ScarabDatum ** scarab_dict_values(ScarabDatum * dict);
+//extern ScarabDatum ** scarab_dict_values(ScarabDatum * dict);
 
 /**
  * Returns the number of elements in the dictionary.
  */
-extern int scarab_dict_number_of_elements(ScarabDatum * dict);
-//</EDIT>
+//extern int scarab_dict_number_of_elements(ScarabDatum * dict);
 
 #endif
