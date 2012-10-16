@@ -416,7 +416,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/zsh;
-			shellScript = "export TARGET_DIR=${APP_SUPPORT_DIR}/Scripting/Python/mworks\n\nmkdir -p \"${TARGET_DIR}\"\n\nrm -f \"${TARGET_DIR}\"/_data.so\nrm -f \"${TARGET_DIR}\"/data.py\n\ncp $BUILT_PRODUCTS_DIR/_data.so \"${TARGET_DIR}\"\n\ncp \"${PROJECT_DIR}/data.py\" \"${TARGET_DIR}\"\n\n# Byte-compile the .py files\n/usr/bin/python2.6 -m compileall \"${TARGET_DIR}\"";
+			shellScript = "export TARGET_DIR=${APP_SUPPORT_DIR}/Scripting/Python/mworks\n\nmkdir -p \"${TARGET_DIR}\"\n\nrm -f \"${TARGET_DIR}\"/_data.so\nrm -f \"${TARGET_DIR}\"/data.py\n\ncp $BUILT_PRODUCTS_DIR/_data.so \"${TARGET_DIR}\"\n\ncp \"${PROJECT_DIR}/data.py\" \"${TARGET_DIR}\"\n\n# Byte-compile the .py files\n/usr/bin/python${MW_PYTHON_VERSION} -m compileall \"${TARGET_DIR}\"";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -523,7 +523,7 @@
 				EXECUTABLE_EXTENSION = so;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				HEADER_SEARCH_PATHS = (
-					/usr/include/python2.6,
+					"/usr/include/python$(MW_PYTHON_VERSION)",
 					$MW_INCLUDE_DIR,
 				);
 				INSTALL_PATH = "$(APP_SUPPORT_DIR)/Scripting/Python/mworks";
@@ -545,7 +545,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				HEADER_SEARCH_PATHS = (
-					/usr/include/python2.6,
+					"/usr/include/python$(MW_PYTHON_VERSION)",
 					"$(MW_INCLUDE_DIR)",
 				);
 				OTHER_LDFLAGS = (

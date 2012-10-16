@@ -2828,7 +2828,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/zsh;
-			shellScript = "export FULL_NAME=${PRODUCT_NAME}.${EXECUTABLE_EXTENSION}\nexport MW_PYTHON_DIR=${APP_SUPPORT_DIR}/Scripting/Python/mworks\nexport SOURCE_DIR=${PROJECT_DIR}\n\ncp \"${BUILT_PRODUCTS_DIR}/${FULL_NAME}\" \"${MW_PYTHON_DIR}/\"\ncp \"${SOURCE_DIR}/Core/Communications/Conduits/conduit.py\" \"${MW_PYTHON_DIR}/\"\n\n# Byte-compile the .py files\n/usr/bin/python2.6 -m compileall \"${MW_PYTHON_DIR}\"";
+			shellScript = "export FULL_NAME=${PRODUCT_NAME}.${EXECUTABLE_EXTENSION}\nexport MW_PYTHON_DIR=${APP_SUPPORT_DIR}/Scripting/Python/mworks\nexport SOURCE_DIR=${PROJECT_DIR}\n\ncp \"${BUILT_PRODUCTS_DIR}/${FULL_NAME}\" \"${MW_PYTHON_DIR}/\"\ncp \"${SOURCE_DIR}/Core/Communications/Conduits/conduit.py\" \"${MW_PYTHON_DIR}/\"\n\n# Byte-compile the .py files\n/usr/bin/python${MW_PYTHON_VERSION} -m compileall \"${MW_PYTHON_DIR}\"";
 		};
 		5CCE1CCE10A4692500EF5866 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -3557,7 +3557,7 @@
 				EXECUTABLE_EXTENSION = so;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				HEADER_SEARCH_PATHS = (
-					/usr/include/python2.6,
+					"/usr/include/python$(MW_PYTHON_VERSION)",
 					$MW_INCLUDE_DIR,
 				);
 				LINK_WITH_STANDARD_LIBRARIES = YES;

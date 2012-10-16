@@ -100,7 +100,7 @@
     
     NSArray *arguments;
     arguments = [NSArray arrayWithObjects:@"-arch", PYTHON_ARCH,
-                 @"/usr/bin/python2.6",
+                 @"/usr/bin/python" PYTHON_VERSION,
                  script_path,
                  [NSString stringWithCString:CONDUIT_RESOURCE_NAME encoding:NSASCIIStringEncoding],
                  nil];
