@@ -69,7 +69,7 @@
 @implementation MWAutocompletingComboBox
 
 - (NSString *)xPathForPartialTag:(NSString *)partial{ 
-	return [NSString stringWithFormat:@"//@tag", partial];
+	return [NSString stringWithFormat:@"//@tag"/*, partial*/];
 }
 @end
 

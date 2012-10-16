@@ -84,7 +84,7 @@
 	NSError *outError;
 	
 	NSArray *content = [self content];
-	NSLog(@"number of errors: %d", [content count]);
+	NSLog(@"number of errors: %lu", (unsigned long)[content count]);
 	
 	NSXMLElement *error_node = [content objectAtIndex:error_index];
 	NSString *node_id = [error_node valueForKey:@"id"];

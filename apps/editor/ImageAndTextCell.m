@@ -356,7 +356,7 @@
 
 	NSMenu *themenu = [super menuForEvent:anEvent inRect:cellFrame ofView:aView];
 		
-	[delegate setSelectionIndexPath:[[self node] indexPath]];
+	[(MWExperimentTreeController *)delegate setSelectionIndexPath:[[self node] indexPath]];
 	[(MWExperimentTreeController *)delegate updateInspectorView:self];
 	
 	return themenu; 

@@ -241,7 +241,7 @@ enum MWGraphOutlineType { CURRENT_ELEMENT = 0, PARENT_ELEMENT=1, CHILD_ELEMENT=2
     
     [task setLaunchPath: @"/usr/local/bin/dot"];
         
-    NSLog(dot_input);
+    NSLog(@"%@", dot_input);
     
     NSArray *arguments;
     arguments = [NSArray arrayWithObjects: @"-Tpdf", nil];

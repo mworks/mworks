@@ -109,7 +109,9 @@
 											  
 		// TODO: add display hints
 		
-		[pboard setString:[code_element_child prettyXMLString] forType:NSStringPboardType];
+        if (code_element_child && ([code_element_child kind] == NSXMLElementKind)) {
+            [pboard setString:[(NSXMLElement *)code_element_child prettyXMLString] forType:NSStringPboardType];
+        }
 		return YES;
 	}
 	

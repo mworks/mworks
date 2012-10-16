@@ -34,7 +34,7 @@
     resultNodes = [doc nodesForXPath:xpath error:&error];
     
     if(error != Nil){
-        NSLog(@"found %d nodes", [resultNodes count]);
+        NSLog(@"found %lu nodes", (unsigned long)[resultNodes count]);
     } else {
         NSLog(@"xpath error: %@", [error localizedDescription]);
     }
@@ -59,7 +59,7 @@
     }
     
     NSXMLNode *node = [resultNodes objectAtIndex:self.currentResult];
-    NSLog([NSString stringWithFormat:@"next result: tag = %@", [node valueForKey:@"tag"],Nil]);
+    NSLog(@"next result: tag = %@", [node valueForKey:@"tag"]);
     [experimentController setSelectionWithNode:node];
 }
 
@@ -75,7 +75,7 @@
     }
     
     NSXMLNode *node = [resultNodes objectAtIndex:self.currentResult];
-    NSLog([NSString stringWithFormat:@"next result: tag = %@", [node valueForKey:@"tag"],Nil]);
+    NSLog(@"next result: tag = %@", [node valueForKey:@"tag"]);
     [experimentController setSelectionWithNode:node];
 }
 

@@ -153,7 +153,7 @@
 	unsigned int l1 = [self length], l2 = [other length];
 	
 	if ( l1 < l2 ) {
-		unsigned int elems1[l1], elems2[l2], i;
+		NSUInteger elems1[l1], elems2[l2], i;
 		
 		[self getIndexes: elems1];
 		[other getIndexes: elems2];
@@ -173,7 +173,7 @@
 	unsigned int l1 = [self length], l2 = [other length];
 	
 	if ( l1 == l2 ) {
-		unsigned int elems1[l1], elems2[l2], i;
+		NSUInteger elems1[l1], elems2[l2], i;
 		
 		[self getIndexes: elems1];
 		[other getIndexes: elems2];
@@ -193,7 +193,7 @@
 	unsigned int l1 = [self length], l2 = [other length];
 	
 	if ( l1 && l2 ) {
-		unsigned int elems1[l1], elems2[l2], i, min = ( l1 < l2 ) ? l1-1 : l2-1;
+		NSUInteger elems1[l1], elems2[l2], i, min = ( l1 < l2 ) ? l1-1 : l2-1;
 		
 		[self getIndexes: elems1];
 		[other getIndexes: elems2];
