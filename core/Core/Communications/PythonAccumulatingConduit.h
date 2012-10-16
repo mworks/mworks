@@ -107,7 +107,7 @@ namespace mw {
             shared_ptr<PythonEventListCallback> cb(new PythonEventListCallback(function_object));
             
             // Need to hold the GIL until *after* we create the PythonEventListCallback, since doing so
-            // involves an implicit PyINCREF
+            // involves an implicit Py_INCREF
             ScopedGILRelease sgr;
             
             shared_ptr<AccumulatingConduit> accumulating_conduit = boost::dynamic_pointer_cast<AccumulatingConduit>(conduit);

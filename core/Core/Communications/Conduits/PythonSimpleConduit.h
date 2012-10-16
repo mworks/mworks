@@ -157,7 +157,7 @@ public:
         shared_ptr<PythonEventCallback> callback(new PythonEventCallback(function_object));
         
         // Need to hold the GIL until *after* we create the PythonEventCallback, since doing so
-        // involves an implicit PyINCREF
+        // involves an implicit Py_INCREF
         ScopedGILRelease sgr;
         
         conduit->registerCallback(code, bind(&PythonEventCallback::callback, callback, _1));
@@ -168,7 +168,7 @@ public:
         shared_ptr<PythonEventCallback> cb(new PythonEventCallback(function_object));
         
         // Need to hold the GIL until *after* we create the PythonEventCallback, since doing so
-        // involves an implicit PyINCREF
+        // involves an implicit Py_INCREF
         ScopedGILRelease sgr;
         
         conduit->registerCallbackByName(event_name, bind(&PythonEventCallback::callback, cb, _1));
@@ -229,9 +229,13 @@ public:
     }
     
     virtual void sendPyObject(int code, PyObject *pyobj){
+        Datum data = packagePyObject(pyobj);
+        
+        // Need to hold the GIL until *after* we convert the object
         ScopedGILRelease sgr;
+        
         if(conduit != NULL){
-            conduit->sendData(code, packagePyObject(pyobj));
+            conduit->sendData(code, data);
         } else {
             throw SimpleException("Invalid conduit");
         }
