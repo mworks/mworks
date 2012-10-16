@@ -88,7 +88,7 @@ namespace mw {
 		void setCurrent(int i);
 		void setDefaultContextCurrent();
 	
-        REGISTERED_SINGLETON_CODE_INJECTION(OpenALContextManager);
+        REGISTERED_SINGLETON_CODE_INJECTION(OpenALContextManager)
 	};
 	
 }

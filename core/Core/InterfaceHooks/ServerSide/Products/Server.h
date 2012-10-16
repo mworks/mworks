@@ -162,7 +162,7 @@ class Server : public RegistryAwareEventStreamInterface {
 		bool isExperimentLoaded();
         
         
-        REGISTERED_SINGLETON_CODE_INJECTION( Server );
+        REGISTERED_SINGLETON_CODE_INJECTION( Server )
 };
 }
 #endif

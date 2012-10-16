@@ -48,9 +48,6 @@ namespace mw {
         
         IOPMAssertionID         display_sleep_block;
 		
-		
-		shared_ptr<ScheduleTask>			beamNode;
-		
 		int						main_display_index;
 		
         NSScreen                *_getScreen(const int screen_number);
@@ -113,7 +110,6 @@ namespace mw {
         
 	};
 	
-	extern OpenGLContextManager *GlobalOpenGLContextManager;
 }
 
 #endif  
