@@ -12,57 +12,31 @@
 @implementation MWVariableOutlineView
 
 
-// make return and tab only end editing, and not cause other cells to edit
-
-- (void) textDidEndEditing: (NSNotification *) notification
+- (void)textDidEndEditing:(NSNotification *)notification
 {
-    NSDictionary *userInfo = [notification userInfo];
+    NSInteger editedColumn = [self editedColumn];
+    NSInteger lastColumn = [[self tableColumns] count] - 1;
+    int textMovement = [[[notification userInfo] valueForKey:@"NSTextMovement"] intValue];
+    NSInteger nextRow = [self editedRow] + 1;
 	
-    int textMovement = [[userInfo valueForKey:@"NSTextMovement"] intValue];
-	
-    if (textMovement == NSReturnTextMovement
-        || textMovement == NSTabTextMovement
-        || textMovement == NSBacktabTextMovement) {
-		
-        NSMutableDictionary *newInfo;
-        newInfo = [NSMutableDictionary dictionaryWithDictionary: userInfo];
-		
-        [newInfo setObject: [NSNumber numberWithInt: NSIllegalTextMovement]
-					forKey: @"NSTextMovement"];
-		
-        notification =
-            [NSNotification notificationWithName: [notification name]
-										  object: [notification object]
-										userInfo: newInfo];
-		
+    // Need to do this *after* we get the info about the edited cell
+    [super textDidEndEditing:notification];
+    
+    //
+    // If the user finished editing a cell in the last column by pressing TAB, start editing the first editable
+    // cell in the next row
+    //
+    if (editedColumn == lastColumn &&
+        textMovement == NSTabTextMovement &&
+        nextRow < [self numberOfRows])
+    {
+        NSUInteger firstEditableColumn = [[self tableColumns] indexOfObjectPassingTest:^(id obj, NSUInteger idx, BOOL *stop) {
+            return [(NSTableColumn *)obj isEditable];
+        }];
+        [self selectRowIndexes:[NSIndexSet indexSetWithIndex:nextRow] byExtendingSelection:NO];
+        [self editColumn:firstEditableColumn row:nextRow withEvent:nil select:YES];
     }
-	
-    [super textDidEndEditing: notification];
-    [[self window] makeFirstResponder:self];
-	
-} // textDidEndEditing
-
-
-//
-//- (void) tableViewSelectionDidChange: (NSNotification *) notification
-//{
-//    int row;
-//    row = [self selectedRow];
-//	
-//    if (row == -1) {
-////        do stuff for the no-rows-selected case
-//    } else {
-////        do stuff for the selected row
-//    }
-//			
-//} // tableViewSelectionDidChange
-
-
-
-
-
-
-
+}
 
 
 @end

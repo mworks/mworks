@@ -9,12 +9,6 @@
 #import <Cocoa/Cocoa.h>
 
 
-@interface MWVariableOutlineView : NSOutlineView {
-
-}
-
-
-- (void) textDidEndEditing: (NSNotification *) notification;
-//- (void) tableViewSelectionDidChange: (NSNotification *) notification;
+@interface MWVariableOutlineView : NSOutlineView
 
 @end
