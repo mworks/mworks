@@ -12,8 +12,7 @@
 @implementation NSXMLNode (MWXMLNodeAdditions)
 
 - (void)willChangeValueForKey:(NSString *)key{
-
-	if([self parent] != Nil){
+	if (key && [self parent]) {
 		[super willChangeValueForKey:key];
 		[[self parent] oneStepWillChangeValueForKey:[self name]];
 		[[self parent] oneStepWillChangeValueForKey:@"prettyXMLString"];
@@ -23,7 +22,7 @@
 
 
 - (void)didChangeValueForKey:(NSString *)key{
-	if([self parent] != Nil){
+	if (key && [self parent]) {
 		[super didChangeValueForKey:key];
 		[[self parent] oneStepDidChangeValueForKey:[self name]];
 		[[self parent] oneStepDidChangeValueForKey:@"prettyXMLString"];
@@ -32,8 +31,7 @@
 }
 
 - (void)oneStepWillChangeValueForKey:(NSString *)key{
-
-	if([self parent] != Nil){
+	if (key && [self parent]) {
 		[super willChangeValueForKey:key];
 		[super willChangeValueForKey:[self name]];
 		[super willChangeValueForKey:@"prettyXMLString"];
@@ -43,7 +41,7 @@
 
 
 - (void)oneStepDidChangeValueForKey:(NSString *)key{
-	if([self parent] != Nil){
+	if (key && [self parent]) {
 		[super didChangeValueForKey:key];
 		[super didChangeValueForKey:[self name]];
 		[super didChangeValueForKey:@"prettyXMLString"];
