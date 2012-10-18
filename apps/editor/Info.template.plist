@@ -42,7 +42,7 @@
 	<key>CFBundleVersion</key>
 	<string>_VERSION_STRING_</string>
 	<key>CFBundleShortVersionString</key>
-	<string>${MW_VERSION}</string>
+	<string>${MW_VERSION}${MW_VERSION_SUFFIX}</string>
 	<key>NSMainNibFile</key>
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>

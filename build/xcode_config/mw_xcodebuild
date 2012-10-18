@@ -16,6 +16,7 @@ import os
 import string
 from subprocess import check_call, Popen, PIPE
 import sys
+import time
 
 
 xcrun = '/usr/bin/xcrun'
@@ -105,6 +106,12 @@ def main():
         # will exclude fake versions like "NIGHTLY" and "CUSTOM".
         if mw_version[0] in string.digits:
             cmd.append('MW_VERSION=' + mw_version)
+        else:
+            # If we're using the default, hard-coded version number,
+            # attach a suffix containing the date to help identify the
+            # build
+            mw_version_suffix = time.strftime('-%Y%m%d', time.localtime())
+            cmd.append('MW_VERSION_SUFFIX=' + mw_version_suffix)
 
     check_call(cmd)
 
