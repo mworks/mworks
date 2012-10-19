@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
 from contextlib import contextmanager
+import multiprocessing
 import platform
 import os
 import subprocess
@@ -29,6 +30,8 @@ macosx_version_min = ('10.7' if use_libcxx else '10.6')
 
 python_version = '2.6'
 python = '/usr/bin/python' + python_version
+
+num_cores = str(multiprocessing.cpu_count())
 
 link_flags = ('-arch x86_64 -arch i386 -mmacosx-version-min=' +
               macosx_version_min)
@@ -164,7 +167,7 @@ def run_configure_and_make(
             env = env,
             )
         
-        check_call(['/usr/bin/make', 'install'])
+        check_call(['/usr/bin/make', '-j', num_cores, 'install'])
 
 
 ################################################################################
@@ -198,6 +201,7 @@ def boost():
         
         check_call([
             './b2',
+            '-j', num_cores,
             'optimization=space',
             'debug-symbols=on',
             'inlining=on',
