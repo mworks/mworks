@@ -99,17 +99,17 @@ def make(targets=[]):
 ################################################################################
 
 
-@builder('mworks/build/new_installer')
+@builder('mworks/build/installer')
 def uninstall():
     check_call(['./uninstall_mworks', '--delete', '--no-sudo'])
 
 
-@builder('mworks/build/xcode_config', required=True)
+@builder('mworks/build/xcode', required=True)
 def build_requirements():
     make()
 
 
-@builder('mworks/build/supporting_libs')
+@builder('mworks/supporting_libs')
 def supporting_libs():
     check_call(['./build_supporting_libs'])
 
