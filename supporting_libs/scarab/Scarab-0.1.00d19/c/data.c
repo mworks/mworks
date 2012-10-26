@@ -64,7 +64,7 @@ ScarabDatum *scarab_new_opaque(const char* opaque, int size)
 	d->type=SCARAB_OPAQUE;
 	d->data.opaque.size=size;
 	
-	d->data.opaque.data = (unsigned char *)calloc(size, sizeof(unsigned char));
+	d->data.opaque.data = (unsigned char *)scarab_mem_malloc(size * sizeof(unsigned char));
 	memcpy(d->data.opaque.data, opaque, size); 
 	return d;
 }

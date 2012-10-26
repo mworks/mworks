@@ -499,7 +499,7 @@ scarab_session_close(ScarabSession * session)
     // keeping this one because this one actually calls shutdown on the socket
 	scarab_stream_close(session->stream_head);
 
-	free(session);
+	scarab_mem_free(session);
     //<END_EDIT>
 	return 0;
 }

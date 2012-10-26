@@ -33,16 +33,23 @@
 
 
 //
-// MW_OVERRIDE expands to the C++11 "override" keyword if the compiler and current language standard support it.
-// Otherwise, it expands to nothing but still serves to document the override.
+// MW_NOEXCEPT and MW_OVERRIDE expand to the C++11 "noexcept" and "override" keywords, respectively, if the compiler
+// and current language standard support them.  Otherwise, they expand to nothing but still serve to document the
+// programmer's intent.
 //
 
 #ifdef __clang__
+#  if __has_feature(cxx_noexcept)
+#    define MW_NOEXCEPT noexcept
+#  endif
 #  if __has_feature(cxx_override_control)
 #    define MW_OVERRIDE override
 #  endif
 #endif  // __clang__
 
+#ifndef MW_NOEXCEPT
+#  define MW_NOEXCEPT
+#endif
 #ifndef MW_OVERRIDE
 #  define MW_OVERRIDE
 #endif

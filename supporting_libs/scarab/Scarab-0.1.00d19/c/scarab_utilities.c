@@ -54,7 +54,7 @@ char* scarab_extract_opaque(ScarabDatum *d, int *size) {
     char *returnstring;
     
     *size = d->data.opaque.size;
-    returnstring = (char *)malloc(*size);
+    returnstring = (char *)scarab_mem_malloc(*size);
     memcpy(returnstring, d->data.opaque.data, *size);
     
     return returnstring;
