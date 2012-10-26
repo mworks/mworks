@@ -157,7 +157,7 @@ find_stream(const char *uri)
 }
 
 int
-scarab_init()
+scarab_init(int ignore_sigpipe)
 {
 	int             r;
 	ScarabEncoderEngine **encoder;
@@ -175,7 +175,7 @@ scarab_init()
     // ignored and EPIPE will be generated.  This was removed from
     // inside the stream_write function to here because it is a process
     // wide thing to ignore the SIGPIPE message
-    if(signal(SIGPIPE, SIG_IGN) == SIG_ERR) {
+    if(ignore_sigpipe && signal(SIGPIPE, SIG_IGN) == SIG_ERR) {
         //handle error
         fprintf(stderr, "Failed to Ignore SIGPIPE signal in scarab_init()");
         fflush(stderr);

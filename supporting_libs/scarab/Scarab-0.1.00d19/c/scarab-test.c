@@ -169,7 +169,7 @@ int test_client(char *uri, void *memctx) {
 int main(int argc, char *argv[]) {
 	void * memctx;
 
-    scarab_init();
+    scarab_init(1);
 	memctx = scarab_memctx_new();
 
 	if (argv[1] && strcmp(argv[1], "client") == 0 && argv[2]) {

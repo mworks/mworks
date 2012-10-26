@@ -203,7 +203,7 @@ DEF(struct, ScarabSession)
 /*
  * Initilize the Scarab library.
  */
-extern int      scarab_init(void);
+extern int      scarab_init(int ignore_sigpipe);
 
 /*
  * Create a new scarab session.
