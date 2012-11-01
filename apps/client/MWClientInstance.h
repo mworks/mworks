@@ -11,7 +11,7 @@
 #import <MWorksCocoa/MWCocoaEvent.h>
 #import <MWorksCocoa/MWCoreContainer.h>
 #import <MWorksCocoa/MWClientProtocol.h>
-#import "MWCodec.h"
+#import <MWorksCocoa/MWCodec.h>
 #import "MWGroupedPluginWindowController.h"
 //#import "MWNotebook.h"
 #import "AppController.h"

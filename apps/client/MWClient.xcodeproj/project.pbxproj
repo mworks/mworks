@@ -35,7 +35,6 @@
 		5C23D5420D8827670044AC9E /* MWStringTruncateValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C23D5410D8827670044AC9E /* MWStringTruncateValueTransformer.m */; };
 		5C23D5640D882FFA0044AC9E /* MWorksCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C23D5630D882FFA0044AC9E /* MWorksCocoa.framework */; };
 		5C23D6770D8878810044AC9E /* MWExperimentPlayStopIconTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C23D6760D8878810044AC9E /* MWExperimentPlayStopIconTransformer.m */; };
-		5C23D8F60D8B27E50044AC9E /* MWCodec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C23D8F50D8B27E50044AC9E /* MWCodec.m */; };
 		5C55E10D0D8E00A8000E1CB5 /* NSMenuExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C55E10C0D8E00A8000E1CB5 /* NSMenuExtensions.m */; };
 		5C6DA5130DEF2237005E496A /* MWGroupedPluginWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C6DA5120DEF2237005E496A /* MWGroupedPluginWindowController.m */; };
 		5C6DA5150DEF22F7005E496A /* GroupedPluginsWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5C6DA5140DEF22F7005E496A /* GroupedPluginsWindow.xib */; };
@@ -106,8 +105,6 @@
 		5C23D5630D882FFA0044AC9E /* MWorksCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MWorksCocoa.framework; path = /Library/Frameworks/MWorksCocoa.framework; sourceTree = "<absolute>"; };
 		5C23D6750D8878810044AC9E /* MWExperimentPlayStopIconTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWExperimentPlayStopIconTransformer.h; sourceTree = "<group>"; };
 		5C23D6760D8878810044AC9E /* MWExperimentPlayStopIconTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWExperimentPlayStopIconTransformer.m; sourceTree = "<group>"; };
-		5C23D8F40D8B27E50044AC9E /* MWCodec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWCodec.h; sourceTree = "<group>"; };
-		5C23D8F50D8B27E50044AC9E /* MWCodec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWCodec.m; sourceTree = "<group>"; };
 		5C55E10B0D8E00A8000E1CB5 /* NSMenuExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSMenuExtensions.h; sourceTree = "<group>"; };
 		5C55E10C0D8E00A8000E1CB5 /* NSMenuExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSMenuExtensions.m; sourceTree = "<group>"; };
 		5C6616DA0F4C9BF600C8FD71 /* Info.template.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.template.plist; sourceTree = "<group>"; };
@@ -182,8 +179,6 @@
 				5CEDF85C0D85E49D0044D738 /* MWClientInstance.m */,
 				5CEDF8EF0D86247F0044D738 /* AppController.h */,
 				5CEDF8F00D86247F0044D738 /* AppController.m */,
-				5C23D8F40D8B27E50044AC9E /* MWCodec.h */,
-				5C23D8F50D8B27E50044AC9E /* MWCodec.m */,
 				5C6DA5110DEF2237005E496A /* MWGroupedPluginWindowController.h */,
 				5C6DA5120DEF2237005E496A /* MWGroupedPluginWindowController.m */,
 			);
@@ -466,7 +461,6 @@
 				5CEDFA7C0D86C8C90044D738 /* MWServerConnectedIconTransformer.m in Sources */,
 				5C23D5420D8827670044AC9E /* MWStringTruncateValueTransformer.m in Sources */,
 				5C23D6770D8878810044AC9E /* MWExperimentPlayStopIconTransformer.m in Sources */,
-				5C23D8F60D8B27E50044AC9E /* MWCodec.m in Sources */,
 				5C55E10D0D8E00A8000E1CB5 /* NSMenuExtensions.m in Sources */,
 				5CD6D4390D9751580042051C /* MWErrorColorTransformer.m in Sources */,
 				5C6DA5130DEF2237005E496A /* MWGroupedPluginWindowController.m in Sources */,

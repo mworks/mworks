@@ -168,7 +168,8 @@
 }
 
 - (NSArray *)variableNames {
-	return [variables variableNames];
+    // Return a copy of MWCodec's internal variable names array 
+    return [[[variables variableNames] copy] autorelease];
 }
 
 - (NSDictionary *)varGroups {

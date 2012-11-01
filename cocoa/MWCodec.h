@@ -8,17 +8,17 @@
 
 #import <Cocoa/Cocoa.h>
 #import <MWorksCore/Client.h>
-#import <MWorksCocoa/MWCocoaEvent.h>
+
+#import "MWCocoaEvent.h"
+#import "MWClientProtocol.h"
 
 #define MW_CODEC_CALLBACK_KEY	"mw_codec_callback_key"
 #define MW_CODEC_VALUE_CHANGE_CALLBACK_KEY	"mw_codec_value_change_callback_key"
 
 @interface MWCodec : NSObject {
 
-#ifndef HOLLOW_OUT_FOR_ADC
-  shared_ptr<mw::Client> core;
-#endif
-	id clientInstance;
+    shared_ptr<mw::Client> core;
+	id<MWClientProtocol> clientInstance;
 	
 	NSMutableArray *variable_names;
 	NSMutableArray *variable_codes;
@@ -33,7 +33,7 @@
 - (int)countOfVariableNames;
 - (id) objectInVariableNamesAtIndex: (int)i;
 
-- (id) initWithClientInstance: (id) _client;
+- (id) initWithClientInstance: (id<MWClientProtocol>) _client;
 
 // Update internally stored information given the arrival of a 
 // new codec.

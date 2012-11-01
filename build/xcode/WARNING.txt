@@ -1,5 +1,10 @@
-These configuration files are shared amongst all of the MW projects.  There are several important consequences of this arrangement:
+These configuration files are shared amongst all of the MW projects.
+There are several important consequences of this arrangement:
 
-1) The version-controlled "master" versions of these files live in the mworks repository and get installed by a script into the MWorks application support directory.  Editing them directly from this project will result in the changes not "sticking"
+1) The version-controlled "master" versions of these files live in the
+mworks repository and get installed by a script into the MWorks
+application support directory.  Editing them directly from this
+project will result in the changes not "sticking".
 
-2) Any changes made to these configuration files must not mess up the other projects
+2) Any changes made to these configuration files must not mess up the
+other projects.

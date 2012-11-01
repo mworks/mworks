@@ -7,20 +7,17 @@
 //
 
 #import "MWCodec.h"
-#import "MWorksCocoa/MWCocoaEventFunctor.h"
-#import "MWClientInstance.h"
+#import "MWCocoaEventFunctor.h"
 
 #define UPDATE_INTERVAL	0.1
 
 @implementation MWCodec
 
 
-- (id) initWithClientInstance: (id) _client{
-	clientInstance = (MWClientInstance *)_client;
+- (id) initWithClientInstance: (id<MWClientProtocol>) _client{
+	clientInstance = _client;
 	
-#ifndef HOLLOW_OUT_FOR_ADC
-  core = [clientInstance coreClient];
-#endif
+    core = [clientInstance coreClient];
   
 	variable_names = [[NSMutableArray alloc] init];
 	variable_codes = [[NSMutableArray alloc] init];
@@ -68,17 +65,7 @@
     [variable_changed removeAllObjects];
     
     // get variable names
-#ifndef HOLLOW_OUT_FOR_ADC
     vector<string> variable_names_vector = core->getVariableTagNames();
-#else
-    vector<string> variable_names_vector;
-    string a("a");
-    string b("b");
-    string c("c");
-    variable_names_vector.push_back(a);
-    variable_names_vector.push_back(b);
-    variable_names_vector.push_back(b);
-#endif
     
     vector<string>::iterator i;
     for(i = variable_names_vector.begin(); i != variable_names_vector.end(); i++){
@@ -88,11 +75,7 @@
         }
         NSString *variable_name = [NSString stringWithCString:variable_name_string.c_str() encoding:NSASCIIStringEncoding];
         
-#ifndef HOLLOW_OUT_FOR_ADC
         int code = core->lookupCodeForTag(variable_name_string);
-#else
-        int code = 0;
-#endif
       
         [variable_names addObject:variable_name];
         [variable_codes addObject:[NSNumber numberWithInteger:code]];
@@ -164,7 +147,6 @@
                 key = [NSString stringWithCString:skey.c_str() encoding:NSASCIIStringEncoding];
             }
             
-#ifndef HOLLOW_OUT_FOR_ADC
             // ask core client for value
             shared_ptr<mw::Variable> variable = core->getVariable([key cStringUsingEncoding:NSASCIIStringEncoding]);
             
@@ -176,9 +158,6 @@
             mw::Datum value = variable->getValue();
             
             string value_string = value.toString();
-#else
-          string value_string("blah");
-#endif
           
             if(value_string.empty()){
               //NSLog(@"Leaving valueForKey: (empty string)");  
@@ -210,11 +189,9 @@
     // lookup code
   int code = -1;
   
-#ifndef HOLLOW_OUT_FOR_ADC
   @synchronized(clientInstance){
     code = core->lookupCodeForTag([key cStringUsingEncoding:NSASCIIStringEncoding]);
 	}
-#endif
   
 	// format value appropriately
 	mw::Datum setval;
@@ -243,9 +220,7 @@
 	
   @synchronized(clientInstance){
     [self willChangeValueForKey:key];
-#ifndef HOLLOW_OUT_FOR_ADC
     core->updateValue(code, setval);
-#endif
     [self didChangeValueForKey:key];
   }
 	
