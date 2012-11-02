@@ -3,7 +3,7 @@
  */
 
 #import "MWorksCocoa/MWClientProtocol.h"
-#import "MWorksCocoa/MWWindowController.h"
+#import "MWorksCocoa/MWCodec.h"
 #import "MWorksCore/GenericData.h"
 #import "MWVariablesDataSource.h"
 
@@ -12,16 +12,12 @@
 	IBOutlet MWVariablesDataSource *ds;
 	IBOutlet NSOutlineView *varView;
 	IBOutlet id<MWClientProtocol> delegate;
-	id variables;
+	MWCodec *variables;
 }
 
-
-@end
-
-
-@interface MWVariablesWindowController(DelegateMethods) 
 - (NSString *)getValueString:(NSString *)tag;
 - (void)set:(NSString *)tag toValue:(mw::Datum *)val;
 - (BOOL)isTagDictionary:(NSString *)tag;
 - (BOOL)isTagList:(NSString *)tag;
+
 @end

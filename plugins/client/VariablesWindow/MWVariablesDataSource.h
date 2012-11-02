@@ -8,16 +8,20 @@
 
 #import <Cocoa/Cocoa.h>
 
+
+@class MWVariablesWindowController;  // Forward declaration
+
+
 @interface MWVariablesDataSource : NSObject <NSOutlineViewDataSource> {
 	NSMutableArray *rootItems;
 	IBOutlet NSTableColumn *nameCol;
 	IBOutlet NSTableColumn *valueCol;
 	
-	IBOutlet id delegate;
+	IBOutlet MWVariablesWindowController *delegate;
 }
 
-- (id)delegate;
-- (void)setDelegate:(id)new_delegate;
+- (MWVariablesWindowController *)delegate;
+- (void)setDelegate:(MWVariablesWindowController *)new_delegate;
 
 - (void)setRootGroups:(NSDictionary *)rootGroups;
 

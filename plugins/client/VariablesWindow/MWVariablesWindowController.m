@@ -9,10 +9,8 @@
 
 @interface MWVariablesWindowController(PrivateMethods)
 - (void)cacheCodes;
-- (void)populateDataSource;
-- (void)serviceEvent:(MWCocoaEvent *)event;
+- (void)populateDataSource:(MWCocoaEvent *)event;
 - (void)causeDataReload:(NSTimer *)timer;
-- (void)causeDataReload2:(id)arg;
 @end
 
 @implementation MWVariablesWindowController
@@ -20,65 +18,18 @@
 
 - (void)awakeFromNib {
 
-	variables = Nil;
-	if([delegate respondsToSelector:@selector(variables)]){
-		variables = [delegate variables];
-	}
+    variables = [delegate variables];
 
-	[NSTimer scheduledTimerWithTimeInterval:0.75
-									 target:self 
-								   selector:@selector(causeDataReload:)
-								   userInfo:nil 
-									repeats:YES];
+	NSTimer *reloadTimer = [NSTimer timerWithTimeInterval:0.75
+                                                   target:self
+                                                 selector:@selector(causeDataReload:)
+                                                 userInfo:nil
+                                                  repeats:YES];
+    [[NSRunLoop mainRunLoop] addTimer:reloadTimer forMode:NSDefaultRunLoopMode];
 									
-	[delegate registerEventCallbackWithReceiver:self 
-                                       selector:@selector(serviceEvent:)
-                                    callbackKey:VARIABLES_WINDOW_CALLBACK_KEY
-                                forVariableCode:RESERVED_CODEC_CODE
-                                   onMainThread:YES];
+    [self cacheCodes];
 }
 
-//- (void)setDelegate:(id)new_delegate {
-//	if(![new_delegate respondsToSelector:@selector(registerEventCallbackWithReceiver:
-//												   andSelector:
-//												   andKey:)] ||
-//	   ![new_delegate respondsToSelector:@selector(registerEventCallbackWithReceiver:
-//												   andSelector:
-//												   andKey:
-//												   forVariableCode:)] ||
-//	   ![new_delegate respondsToSelector:@selector(codeForTag:)] ||
-//	   ![new_delegate respondsToSelector:@selector(unregisterCallbacksWithKey:)] ||
-//	   ![new_delegate respondsToSelector:@selector(varGroups)] ||
-//	   ![new_delegate respondsToSelector:@selector(valueStringForTag:)] ||
-//	   ![new_delegate respondsToSelector:@selector(isDictionary:)] ||
-//	   ![new_delegate respondsToSelector:@selector(isList:)] ||
-//	   ![new_delegate respondsToSelector:@selector(set: to:)]) {
-//		[NSException raise:NSInternalInconsistencyException
-//					format:@"Delegate doesn't respond to required methods for MWVariablesWindowController"];		
-//	}
-//	
-//	delegate = new_delegate;
-//	[delegate registerEventCallbackWithReceiver:self 
-//									andSelector:@selector(serviceEvent:)
-//										 andKey:VARIABLES_WINDOW_CALLBACK_KEY
-//								forVariableCode:RESERVED_CODEC_CODE];
-//}
-
-
-- (void)serviceEvent:(MWCocoaEvent *)event {
-	if([event code] == RESERVED_CODEC_CODE) { // new codec arrived
-		[self cacheCodes];
-		[self populateDataSource];
-	}
-	
-}
-
-/*******************************************************************
-*                MWWindowController Methods
-*******************************************************************/
-- (NSString *)mWorksFrameAutosaveName {
-    return @"MWorksVariablesWindow";
-}
 
 /*******************************************************************
 *                           Private Methods
@@ -87,7 +38,7 @@
 	if(delegate != nil) {
 		[delegate unregisterCallbacksWithKey:VARIABLES_WINDOW_CALLBACK_KEY];
 		[delegate registerEventCallbackWithReceiver:self 
-                                           selector:@selector(serviceEvent:)
+                                           selector:@selector(populateDataSource:)
                                         callbackKey:VARIABLES_WINDOW_CALLBACK_KEY
                                     forVariableCode:RESERVED_CODEC_CODE
                                        onMainThread:YES];
@@ -95,24 +46,15 @@
 	}
 }	
 
-- (void)populateDataSource {
+- (void)populateDataSource:(MWCocoaEvent *)event {
 	if(delegate != nil) {
 		[ds setRootGroups:[delegate varGroups]];
-		
-		[varView performSelectorOnMainThread:@selector(reloadData)
-								  withObject:nil
-							   waitUntilDone:NO];	
+		[varView reloadData];
 	}
 }
 
 - (void)causeDataReload:(NSTimer *)timer {
-	[self performSelectorOnMainThread:@selector(causeDataReload2:)
-						   withObject:nil 
-						waitUntilDone:NO];
-}
-
-- (void)causeDataReload2:(id)arg {
-		[varView setNeedsDisplayInRect:[varView rectOfColumn:1]];	
+    [varView setNeedsDisplayInRect:[varView rectOfColumn:1]];
 }
 
 

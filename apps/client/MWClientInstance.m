@@ -596,7 +596,7 @@
                              onMainThread:(BOOL)on_main{
 
 	
-    core->registerCallback(create_cocoa_event_callback(receiver, selector), string(key));
+    core->registerCallback(create_cocoa_event_callback(receiver, selector, on_main, self), string(key));
 }
 
 - (void)registerEventCallbackWithReceiver:(id)receiver 

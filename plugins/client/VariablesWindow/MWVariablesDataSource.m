@@ -16,16 +16,11 @@
 }
 
 
-- (id)delegate {
+- (MWVariablesWindowController *)delegate {
 	return delegate;
 }
 
-- (void)setDelegate:(id)new_delegate {
-	if(![new_delegate respondsToSelector:@selector(getValueString:)]) {
-		[NSException raise:NSInternalInconsistencyException
-					format:@"Delegate doesn't respond to required methods for MWVariablesDataSource"];		
-	}
-	
+- (void)setDelegate:(MWVariablesWindowController *)new_delegate {
 	delegate = new_delegate;
 }
 
@@ -53,7 +48,10 @@
 // DataSource overridden methods
 - (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item
 {
-	if(item == nil) {
+    if (!rootItems) {
+        // In case we're being called before awakeFromNib
+        return 0;
+    } else if (item == nil) {
 		return [rootItems count];
 	} else {
 		return [item numberOfChildren];
