@@ -121,15 +121,15 @@ int ScarabWriteConnection::service() {
             ScarabDatum * termEvent;
             // puts a control event of type termination into a scarab package
             // and sends the package
-            termEvent = scarab_list_new(2);
+            termEvent = scarab_list_new(SCARAB_EVENT_N_TOPLEVEL_ELEMENTS);
 			
 			ScarabDatum *termCode = scarab_new_integer(RESERVED_TERMINATION_CODE);
-            scarab_list_put(termEvent, 0, termCode);
+            scarab_list_put(termEvent, SCARAB_EVENT_CODEC_CODE_INDEX, termCode);
 			scarab_free_datum(termCode);
 			
 			shared_ptr <Clock> clock = Clock::instance();
-			ScarabDatum *time = scarab_new_integer(clock->getSystemTimeMS());
-            scarab_list_put(termEvent, 1, time);
+			ScarabDatum *time = scarab_new_integer(clock->getCurrentTimeUS());
+            scarab_list_put(termEvent, SCARAB_EVENT_TIME_INDEX, time);
 			scarab_free_datum(time);
 
             if(scarab_write(pipe, termEvent) == 0) {
