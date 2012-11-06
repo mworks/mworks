@@ -30,9 +30,10 @@ BEGIN_NAMESPACE_MW
 /**********************************************************************
  *                  StimulusDisplay Methods
  **********************************************************************/
-StimulusDisplay::StimulusDisplay(bool drawEveryFrame) :
+StimulusDisplay::StimulusDisplay(bool drawEveryFrame, bool announceIndividualStimuli) :
     mainDisplayRefreshRate(0.0),
     currentOutputTimeUS(-1),
+    announceIndividualStimuli(announceIndividualStimuli),
     drawEveryFrame(drawEveryFrame)
 {
     current_context_index = -1;
@@ -539,7 +540,10 @@ void StimulusDisplay::announceDisplayUpdate() {
     }
     
     stimDisplayUpdate->setValue(getAnnounceData(), now);
-    announceDisplayStack(now);
+    
+    if (announceIndividualStimuli) {
+        announceDisplayStack(now);
+    }
 
     stimsToAnnounce.clear();
     stimAnnouncements.clear();

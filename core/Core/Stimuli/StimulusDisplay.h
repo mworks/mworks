@@ -85,6 +85,7 @@ namespace mw {
         int64_t lastFrameTime;
         MWTime currentOutputTimeUS;
         
+        const bool announceIndividualStimuli;
         std::vector< shared_ptr<StimulusNode> > stimsToAnnounce;
         std::vector<Datum> stimAnnouncements;
         
@@ -118,7 +119,7 @@ namespace mw {
 		
     public:
 		
-		explicit StimulusDisplay(bool drawEveryFrame);
+		StimulusDisplay(bool drawEveryFrame, bool announceIndividualStimuli);
 		~StimulusDisplay();
 		
 		void addContext(int _context_id);
