@@ -13,7 +13,6 @@
 int scarab_opaque_is_string(ScarabDatum *d);
 char * scarab_extract_opaque(ScarabDatum *d, int *size);
 char * scarab_extract_string(ScarabDatum *d);
-double scarab_extract_float(ScarabDatum *datum);
 
 // DDC added 8/2005
 // solve the chicken and egg problem encountered with starting a new

@@ -11,6 +11,10 @@
 
 #include <limits.h>
 
+#include "PythonDataHelpers.h"
+
+using boost::python::throw_error_already_set;
+
 
 PythonDataFile::PythonDataFile(std::string _file_name){
     file_name = _file_name;
@@ -112,121 +116,151 @@ std::vector<EventWrapper> PythonDataFile::get_events() {
 }
 
 
-PythonDataStream::PythonDataStream(std::string _uri){
-    uri = _uri;
-    session = NULL;
+void PythonDataStream::createFile(const std::string &filename) {
+    if (scarab_create_file(filename.c_str()) != 0) {
+        PyErr_Format(PyExc_IOError, "Cannot create Scarab file '%s'", filename.c_str());
+        throw_error_already_set();
+    }
 }
 
-void PythonDataStream::open(){
-    //std::cerr << "Opening file: " << uri_temp << "..." << std::endl;
-    session = scarab_session_connect(uri.c_str());
-    
-    int err;
-    if(err = scarab_session_geterr(session)){
-        std::cerr << "Error: " << scarab_strerror(err) << std::endl; 
-        session = NULL;
-    }
-    
-    if(err = scarab_session_getoserr(session)){
-        std::cerr << "Error: " << scarab_strerror(err) << std::endl; 
-        session = NULL;
-    }
-    
-    if(!session){
-        PyErr_Warn(NULL, "Unable to connect Scarab session");
-    }
-    
+
+PythonDataStream::PythonDataStream(const std::string &uri) :
+    uri(uri),
+    session(NULL)
+{ }
+
+
+PythonDataStream::~PythonDataStream() {
+    close();
 }
+
+
+void PythonDataStream::open(){
+    if (session) {
+        PyErr_SetString(PyExc_ValueError, "Scarab session is already connected");
+        throw_error_already_set();
+    }
+    
+    session = scarab_session_connect(uri.c_str());
+    if (!session) {
+        // The pointer will be NULL only if scarab_mem_malloc failed
+        PyErr_NoMemory();
+        throw_error_already_set();
+    }
+    
+    int err = scarab_session_geterr(session);
+    if (err != 0) {
+        scarab_mem_free(session);
+        session = NULL;
+        PyErr_Format(PyExc_IOError, "Cannot connect to Scarab session '%s': %s", uri.c_str(), scarab_strerror(err));
+        throw_error_already_set();
+    }
+}
+
 
 void PythonDataStream::close(){
     // close it
     if(session) {
-        scarab_session_close(session);
+        (void)scarab_session_close(session);  // Ignore return value
         session = NULL;
     }
 }
 
-// Creates a new scarab file
-int PythonDataStream::_scarab_create_file(std::string _fn) {
-    return scarab_create_file(_fn.c_str());
+
+boost::python::object PythonDataStream::read() {
+    return mw::convert_datum_to_python(readDatum());
 }
 
-// Reads at most `len` bytes from the session file.
-std::string PythonDataStream::_scarab_session_read(int len) {
-    std::string rtn_buf;
-    if (!session) return rtn_buf;
-    
-    char *buf = new char[len];
-    size_t actual_len = (size_t) scarab_session_read(session, buf, len);
-    rtn_buf.assign(buf, actual_len);  // "copies" the buf
-    delete [] buf;
-    
-    return rtn_buf;
-}
 
-int PythonDataStream::_scarab_session_write(std::string buf) {
-    if (!session) return -1;
-    return scarab_session_write(session, buf.data(), buf.size());
-}
-
-int PythonDataStream::_scarab_session_seek(long int offset, int origin) {
-    if (!session) return -1;
-    return scarab_session_seek(session, offset, origin);
-}
-
-long int PythonDataStream::_scarab_session_tell(void) {
-    if (!session) return -1;
-    return scarab_session_tell(session);
-}
-
-int PythonDataStream::_scarab_session_flush(void) {
-    if (!session) return -1;
-    return scarab_session_flush(session);
-}
-
-int PythonDataStream::_scarab_write(PyObject *obj) {
-    if (!session) return -1;
-
-    ScarabDatum *datum = convert_python_to_scarab(obj);
-    int r_val = scarab_write(session, datum);
-    scarab_free_datum(datum);
-    return r_val;
+void PythonDataStream::write(const boost::python::object &obj) {
+    writeDatum(mw::convert_python_to_datum(obj));
 }
 
 
 shared_ptr<EventWrapper> PythonDataStream::read_event(){
-    ScarabDatum *current_datum = NULL;
-    if(session){
-        current_datum = scarab_read(session);
-    }
-    
-    int err = 0;
-    if(err = scarab_session_geterr(session)){
-        std::cerr << "Error: " << scarab_strerror(err) << std::endl; 
-    }
-    
-    if(err = scarab_session_getoserr(session)){
-        std::cerr << "Error: " << scarab_strerror(err) << std::endl; 
-        session = NULL;
-    }
-    
-    shared_ptr<EventWrapper> event(new EventWrapper(current_datum));
-    return event;
-}
-    
-int PythonDataStream::write_event(shared_ptr<EventWrapper> e) {
-    if (!session || !e) return -1;
-    ScarabDatum *datum = e->getDatum();
-    if (!datum) return -1;
-    
-    return scarab_write(session, datum); 
+    mw::Datum datum(readDatum());
+    return shared_ptr<EventWrapper>(new EventWrapper(datum.getScarabDatum()));
 }
 
 
-PyObject *extract_event_value(EventWrapper e){
+void PythonDataStream::write_event(const shared_ptr<EventWrapper> &e) {
+    mw::Datum datum(e->getDatum());
+    writeDatum(datum);
+}
+
+
+void PythonDataStream::requireValidSession() const {
+    if (!session) {
+        PyErr_SetString(PyExc_ValueError, "Scarab session is not connected");
+        throw_error_already_set();
+    }
+}
+
+
+mw::Datum PythonDataStream::readDatum() {
+    requireValidSession();
+    
+    ScarabDatum *rawDatum = scarab_read(session);
+    
+    if (!rawDatum) {
+        int err = scarab_session_geterr(session);
+        if (err != 0) {
+            PyErr_Format(PyExc_IOError, "Scarab read failed: %s", scarab_strerror(err));
+        } else {
+            PyErr_SetNone(PyExc_EOFError);
+        }
+        throw_error_already_set();
+    }
+    
+    mw::Datum datum(rawDatum);
+    scarab_free_datum(rawDatum);
+    
+    return datum;
+}
+
+
+void PythonDataStream::writeDatum(const mw::Datum &datum) {
+    requireValidSession();
+    
+    int err = scarab_write(session, datum.getScarabDatum());
+    
+    if (err != 0) {
+        PyErr_Format(PyExc_IOError, "Scarab write failed: %s", scarab_strerror(err));
+        throw_error_already_set();
+    }
+}
+
+
+boost::python::object extract_event_value(EventWrapper e){
     if(e.empty()){
         // TODO throw / complain
-        Py_RETURN_NONE;
+        return boost::python::object();
     }
-    return convert_scarab_to_python(e.getPayload());
+    return mw::convert_datum_to_python(mw::Datum(e.getPayload()));
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

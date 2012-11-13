@@ -126,8 +126,6 @@ int ScarabReadConnection::service() {
             case 0://SCARAB_NULL
             case 1://SCARAB_INTEGER
             case 2://SCARAB_FLOAT
-            case 3://SCARAB_FLOAT_INF
-            case 4://SCARAB_FLOAT+NAN
 				mwarning(M_NETWORK_MESSAGE_DOMAIN,
 						"Bare numerical scarab datum in the network stream");
                 break;

@@ -75,7 +75,6 @@
 		5CF4DED60591EAD9002A02B7 /* scarab_list.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = scarab_list.h; path = "Scarab-0.1.00d19/c/scarab_list.h"; sourceTree = SOURCE_ROOT; };
 		5CF4DED70591EAD9002A02B7 /* scarab_mem.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = scarab_mem.h; path = "Scarab-0.1.00d19/c/scarab_mem.h"; sourceTree = SOURCE_ROOT; };
 		5CF4DED80591EAD9002A02B7 /* scarab_os.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = scarab_os.h; path = "Scarab-0.1.00d19/c/scarab_os.h"; sourceTree = SOURCE_ROOT; };
-		5CF4DED90591EAD9002A02B7 /* scarab-test.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = "scarab-test.c"; path = "Scarab-0.1.00d19/c/scarab-test.c"; sourceTree = SOURCE_ROOT; };
 		5CF4DEDA0591EAD9002A02B7 /* scarab.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = scarab.h; path = "Scarab-0.1.00d19/c/scarab.h"; sourceTree = SOURCE_ROOT; };
 		5CF4DEDB0591EAD9002A02B7 /* session.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = session.c; path = "Scarab-0.1.00d19/c/session.c"; sourceTree = SOURCE_ROOT; };
 		5CF4DEDC0591EAD9002A02B7 /* stream_file.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = stream_file.c; path = "Scarab-0.1.00d19/c/stream_file.c"; sourceTree = SOURCE_ROOT; };
@@ -107,7 +106,6 @@
 			isa = PBXGroup;
 			children = (
 				5C0CD7D6114A875200B1C674 /* External Config */,
-				5CF4DEB40591EA4B002A02B7 /* Products */,
 				5CF4DEC90591EAD9002A02B7 /* comp.c */,
 				5CF4DECA0591EAD9002A02B7 /* data.c */,
 				5CF4DECB0591EAD9002A02B7 /* encoding_ldo.c */,
@@ -124,13 +122,13 @@
 				5CF4DED80591EAD9002A02B7 /* scarab_os.h */,
 				5C4FDA2A059D199E00BC36A7 /* scarab_utilities.c */,
 				5C4FDA2C059D1B1000BC36A7 /* scarab_utilities.h */,
-				5CF4DED90591EAD9002A02B7 /* scarab-test.c */,
 				5CF4DEDB0591EAD9002A02B7 /* session.c */,
 				5CF4DEDC0591EAD9002A02B7 /* stream_file.c */,
 				5CF4DEDD0591EAD9002A02B7 /* stream_tcpip.c */,
 				DA30B60508AA8A7F000988AD /* stream_tcpip_select.c */,
-				5C4BDD8809E258B4008B8AB7 /* Scarab-Info.plist */,
 				5C50306E0A67ED5700EB7EE2 /* stream_tcpip_buffered.c */,
+				5C4BDD8809E258B4008B8AB7 /* Scarab-Info.plist */,
+				5CF4DEB40591EA4B002A02B7 /* Products */,
 			);
 			sourceTree = "<group>";
 		};

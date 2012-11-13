@@ -142,7 +142,6 @@ void scarab_free_datum(ScarabDatum *d){
 				scarab_mem_free(d->data.list);
 
 				break;
-			case SCARAB_FLOAT_OPAQUE:
 			case SCARAB_OPAQUE:
 				
 				// free opaque data
@@ -238,7 +237,6 @@ void scarab_free_datum(ScarabDatum *d){
 //    
 //    break;
 //    
-//  case SCARAB_FLOAT_OPAQUE:  // TODO: godforsaken hack that I must correct some day
 //  case SCARAB_OPAQUE:
 //    
 //    return_datum = (ScarabDatum *)calloc(1, sizeof(ScarabDatum));

@@ -9,170 +9,194 @@
 #include "PythonDataHelpers.h"
 
 #include <climits>
-#include <cmath>
+
+#include <boost/foreach.hpp>
+
+using boost::python::throw_error_already_set;
 
 
-// Convert a Python object into a ScarabDatum
-ScarabDatum *convert_python_to_scarab(PyObject *pObj) { 
-    ScarabDatum *datum;
+BEGIN_NAMESPACE_MW
 
-    // None of NULL
-    if (pObj == NULL) {
-        datum = scarab_new_atomic();
-        datum->type = SCARAB_NULL;
-    }
-    // Integer
-    else if (PyInt_Check(pObj)) { 
-        datum = scarab_new_integer(PyInt_AsLong(pObj));
-    }
-    // Long
-    else if (PyLong_Check(pObj)) { 
-        datum = scarab_new_integer((long long) PyLong_AsLongLong(pObj));
-    }
-    // Float
-    else if (PyFloat_Check(pObj)) {
-        double value = PyFloat_AsDouble(pObj);
-        if (std::isinf(value)) {
-            datum = scarab_new_atomic();
-            datum->type = SCARAB_FLOAT_INF;
-        }
-        else if (std::isnan(value)) {
-            datum = scarab_new_atomic();
-            datum->type = SCARAB_FLOAT_NAN;
-        }
-        else datum = scarab_new_float(value);
-    }
-    // String
-    else if (PyString_Check(pObj)) {
-        char *buf; Py_ssize_t len;
-        PyString_AsStringAndSize(pObj, &buf, &len);
-        datum = scarab_new_opaque(buf, (int) len + 1 /* note: buf is NULL terminated*/);
-    }
-    // Sequence (list, tuple, etc.)
-    else if (PySequence_Check(pObj)) {
-        int len = PySequence_Size(pObj);
-        datum = scarab_list_new(len);
 
-        for (int i = 0; i < len; i++) {
-            PyObject *item = PySequence_GetItem(pObj, i);  // Returns a new reference
-            ScarabDatum *list_element = convert_python_to_scarab(item);
-            scarab_list_put(datum, i, list_element);
-            scarab_free_datum(list_element);
-            Py_DECREF(item);
-        }
+static inline boost::python::object manageNewRef(PyObject *pObj) {
+    if (!pObj) {
+        throw_error_already_set();
     }
-    // Mapping (dict, etc.)
-    else if (PyMapping_Check(pObj)) {
-        int len = (int) PyMapping_Size(pObj);
-        datum = scarab_dict_new(len, scarab_dict_times2);
-        
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-writable-strings"
-        PyObject *keys = PyMapping_Keys(pObj);
-        PyObject *values = PyMapping_Values(pObj);
-#pragma clang diagnostic pop
-
-        for (int i = 0; i < len; i++) {
-            ScarabDatum *key = convert_python_to_scarab(PyList_GetItem(keys, i));
-            ScarabDatum *value = convert_python_to_scarab(PyList_GetItem(values, i));
-            scarab_dict_put(datum, key, value);
-            scarab_free_datum(key);
-            scarab_free_datum(value);
-        }
-        
-        Py_DECREF(keys);
-        Py_DECREF(values);
-    }
-    // Every else
-    else {
-        datum = scarab_new_atomic();
-        datum->type = SCARAB_NULL;
-    }
-    return datum;
+    return boost::python::object(boost::python::handle<>(pObj));
 }
 
 
-// Convert a ScarabDatum into a corresponding Python object
-PyObject *convert_scarab_to_python(ScarabDatum *datum, int prev_type /* = -1*/){
-    
-    if(datum == NULL){
-        Py_RETURN_NONE;
+static inline boost::python::object manageBorrowedRef(PyObject *pObj) {
+    if (!pObj) {
+        throw_error_already_set();
+    }
+    return boost::python::object(boost::python::handle<>(boost::python::borrowed(pObj)));
+}
+
+
+Datum convert_python_to_datum(const boost::python::object &obj) {
+    if (obj.is_none()) {
+        return Datum();
     }
     
-    int n_items;
-    long long l_val;
-    char *s_val;
-    int s_size;
+    PyObject *pObj = obj.ptr();
     
-    PyObject *dict;
-    ScarabDatum **keys, **values;
-    PyObject *thelist, *key_py_obj, *value_py_obj;
+    if (PyBool_Check(pObj)) {
+        
+        return Datum(bool(pObj == Py_True));
     
-    switch (datum->type){
-        case(SCARAB_NULL):
-            Py_RETURN_NONE;
-        case(SCARAB_INTEGER):
-            l_val = datum->data.integer;
-            if (l_val > (long long) LONG_MAX)
-                return PyLong_FromLongLong(l_val);
-            else
-	            return PyInt_FromLong((long) l_val);
-        case(SCARAB_FLOAT):
-            return PyFloat_FromDouble((double)datum->data.floatp);
-        case(SCARAB_FLOAT_INF):
-            return PyFloat_FromDouble(INFINITY);
-        case(SCARAB_FLOAT_NAN):
-            return PyFloat_FromDouble(NAN);
-        case(SCARAB_FLOAT_OPAQUE):
-            return PyFloat_FromDouble(scarab_extract_float(datum));
-        case(SCARAB_DICT):
-            dict = PyDict_New();
-            keys = datum->data.dict->keys;
-            values = datum->data.dict->values;
+    } else if (PyInt_Check(pObj)) {  // Must come *after* PyBool_Check
+        
+        long l_val = PyInt_AsLong(pObj);
+        if ((l_val == -1) && PyErr_Occurred())
+            throw_error_already_set();
+        
+        return Datum(l_val);
+        
+    } else if (PyLong_Check(pObj)) {
+        
+        long long ll_val = PyLong_AsLongLong(pObj);
+        if ((ll_val == -1) && PyErr_Occurred())
+            throw_error_already_set();
+        
+        return Datum(ll_val);
+        
+    } else if (PyFloat_Check(pObj)) {
+        
+        double value = PyFloat_AsDouble(pObj);
+        if ((value == -1.0) && PyErr_Occurred())
+            throw_error_already_set();
+        
+        return Datum(value);
+        
+    } else if (PyString_Check(pObj) || PyUnicode_Check(pObj)) {
+        
+        boost::python::object string;
+        if (!PyUnicode_Check(pObj)) {
+            string = obj;
+        } else {
+            string = manageNewRef( PyUnicode_AsUTF8String(pObj) );
+        }
+        
+        const char *buf = PyString_AsString(string.ptr());
+        if (!buf)
+            throw_error_already_set();
+        
+        return Datum(buf);
+        
+    } else if (PySequence_Check(pObj)) {  // Must come *after* PyString_Check and PyUnicode_Check
+        
+        int size = int(PySequence_Size(pObj));
+        if (size == -1)
+            throw_error_already_set();
+        
+        Datum list(M_LIST, size);
+
+        for (int i = 0; i < size; i++) {
+            list.setElement(i, convert_python_to_datum(manageNewRef(PySequence_GetItem(pObj, i))));
+        }
+        
+        return list;
+        
+    } else if (PyMapping_Check(pObj)) {
+        
+        int size = int(PyMapping_Size(pObj));
+        if (size == -1)
+            throw_error_already_set();
+        
+        Datum dict(M_DICTIONARY, size);
+        
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-writable-strings"
+        boost::python::object keys = manageNewRef( PyMapping_Keys(pObj) );
+        boost::python::object values = manageNewRef( PyMapping_Values(pObj) );
+#pragma clang diagnostic pop
+
+        for (int i = 0; i < size; i++) {
+            dict.addElement(convert_python_to_datum(manageBorrowedRef( PyList_GetItem(keys.ptr(), i) )),
+                            convert_python_to_datum(manageBorrowedRef( PyList_GetItem(values.ptr(), i) )));
+        }
+        
+        return dict;
+        
+    }
+    
+    PyErr_Format(PyExc_TypeError, "Cannot convert object of type %s", pObj->ob_type->tp_name);
+    throw_error_already_set();
+    return Datum();  // Never reached
+}
+
+
+boost::python::object convert_datum_to_python(const Datum &datum) {
+    if (datum.isUndefined()) {
+        return boost::python::object();
+    }
+    
+    switch (datum.getDataType()) {
+        case M_INTEGER: {
+            long long ll_val = datum.getInteger();
+            if (ll_val >= LONG_MIN && ll_val <= LONG_MAX)
+	            return manageNewRef( PyInt_FromLong(long(ll_val)) );
+            return manageNewRef( PyLong_FromLongLong(ll_val) );
+        }
             
-            for (int i = 0; i < datum->data.dict->tablesize; i++) {
-                if (keys[i]) {
-                    // convert the key and value
-                    key_py_obj = convert_scarab_to_python(keys[i], SCARAB_DICT);
-                    value_py_obj = convert_scarab_to_python(values[i]);
-                    
-                    PyDict_SetItem(dict, key_py_obj, value_py_obj);
-                    
-                    // PyDict_SetItem does *not* steal the key and value references, so we need to DECREF them
-                    Py_DECREF(key_py_obj);
-                    Py_DECREF(value_py_obj);
+        case M_FLOAT:
+            return manageNewRef( PyFloat_FromDouble(datum.getFloat()) );
+            
+        case M_BOOLEAN:
+            return manageNewRef( PyBool_FromLong(datum.getBool()) );
+            
+        case M_STRING: {
+            const char *data = datum.getString();
+            int size = datum.getStringLength();
+            if (datum.stringIsCString())
+                size -= 1;  // PyString_FromStringAndSize doesn't expect a null-terminated string
+            return manageNewRef( PyString_FromStringAndSize(data, size) );
+        }
+            
+        case M_LIST: {
+            int size = datum.getNElements();
+            
+            boost::python::object list = manageNewRef( PyList_New(size) );
+            
+            for (int i = 0; i < size; i++) {
+                boost::python::object item = convert_datum_to_python(datum.getElement(i));
+                // PyList_SetItem "steals" the item reference, so we need to INCREF it
+                Py_INCREF(item.ptr());
+                if (PyList_SetItem(list.ptr(), i, item.ptr()))
+                    throw_error_already_set();
+            }
+            
+            return list;
+        }
+            
+        case M_DICTIONARY: {
+            boost::python::object dict = manageNewRef( PyDict_New() );
+            
+            std::vector<Datum> keys = datum.getKeys();
+            
+            BOOST_FOREACH( const Datum &key, keys ) {
+                if (PyDict_SetItem(dict.ptr(),
+                                   convert_datum_to_python(key).ptr(),
+                                   convert_datum_to_python(datum.getElement(key)).ptr()))
+                {
+                    throw_error_already_set();
                 }
             }
             
             return dict;
-            
-        case(SCARAB_LIST):
-            n_items = datum->data.list->size;
-            // Python Dictionaries cannot have lists as keys. Should be tuple.
-            if (prev_type == SCARAB_DICT) thelist = PyTuple_New(n_items);
-            else thelist = PyList_New(n_items);
-            
-            for(int i=0; i < n_items; i++){
-                // PyTuple_SetItem and PyList_SetItem steal the item reference, so we don't need to DECREF it
-                if (prev_type == SCARAB_DICT)
-                    PyTuple_SetItem(thelist, i, convert_scarab_to_python(datum->data.list->values[i]));
-                else
-                    PyList_SetItem(thelist, i, convert_scarab_to_python(datum->data.list->values[i]));
-            }
-            
-            return thelist;
-            
-        case(SCARAB_OPAQUE):
-            s_val = (char *)(datum->data.opaque.data);
-            s_size = datum->data.opaque.size;
-            if (scarab_opaque_is_string(datum))
-                s_size -= 1;  // PyString_FromStringAndSize doesn't expect a null-terminated string
-            return PyString_FromStringAndSize(s_val, s_size);
+        }
             
         default:
-            Py_RETURN_NONE;
+            PyErr_Format(PyExc_TypeError, "Cannot convert Datum of unknown type (%d)", datum.getDataType());
+            throw_error_already_set();
+            return boost::python::object();  // Never reached
     }
 }
+
+
+END_NAMESPACE_MW
+
 
 
 

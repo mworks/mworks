@@ -180,22 +180,8 @@ class ScarabFileTestFixture : public CppUnit::TestFixture {
 			ScarabDatum *received_float = putGet(thefloat);
 			
 			CPPUNIT_ASSERT( received_float != NULL );
-			CPPUNIT_ASSERT( received_float->type == SCARAB_FLOAT_OPAQUE );
-			
-			#if	__LITTLE_ENDIAN__
-				double float_hack = *((double *)(received_float->data.opaque.data));
-			#else
-			
-				char swap_bytes[sizeof(double)];
-				char *double_bytes = (char *)(received_float->data.opaque.data);
-				for(int i = 0; i < sizeof(double); i++){
-					swap_bytes[i] = double_bytes[sizeof(double) - i];
-				}
-		
-				double float_hack = *((double *)swap_bytes);
-			#endif
-			
-			CPPUNIT_ASSERT( float_hack == 3.14159 );
+			CPPUNIT_ASSERT( received_float->type == SCARAB_FLOAT );
+			CPPUNIT_ASSERT( received_float->data.floatp == 3.14159 );
 			
 		}
 

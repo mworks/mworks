@@ -13,12 +13,14 @@
 #include <string.h>
 #include <vector>
 
+#include <mex.h>
 
-static mxArray* getScarabInteger(ScarabDatum *datum);
+#define MWORKS_UNKNOWN_DATA_TYPE     "MWorks:UnknownDataType"
+
+
 static mxArray* getScarabDict(ScarabDatum *datum);
 static mxArray* getScarabList(ScarabDatum *datum);
 static mxArray* getScarabOpaque(ScarabDatum *datum);
-static mxArray* getScarabFloat(ScarabDatum *datum);
 
 
 mxArray* getScarabDatum(ScarabDatum *datum) {
@@ -28,8 +30,14 @@ mxArray* getScarabDatum(ScarabDatum *datum) {
     }
     
     switch (datum->type) {
-        case SCARAB_INTEGER:
-            return getScarabInteger(datum);
+        case SCARAB_INTEGER: {
+            mxArray *integer = mxCreateNumericMatrix(1, 1, mxINT64_CLASS, mxREAL);
+            *((long long *)mxGetData(integer)) = datum->data.integer;
+            return integer;
+        }
+            
+        case SCARAB_FLOAT:
+            return mxCreateDoubleScalar(datum->data.floatp);
             
         case SCARAB_DICT:
             return getScarabDict(datum);
@@ -41,15 +49,11 @@ mxArray* getScarabDatum(ScarabDatum *datum) {
             return getScarabOpaque(datum);
             
         default:
-            return getScarabFloat(datum);
+            mexErrMsgIdAndTxt(MWORKS_UNKNOWN_DATA_TYPE,
+                              "Cannot convert Scarab datum of unknown type (%d)",
+                              datum->type);
+            return NULL;
     }
-}
-
-
-static mxArray* getScarabInteger(ScarabDatum *datum) {
-    mxArray *integer = mxCreateNumericMatrix(1, 1, mxINT64_CLASS, mxREAL);
-    *((long long *)mxGetData(integer)) = datum->data.integer;
-    return integer;
 }
 
 
@@ -106,9 +110,6 @@ static mxArray* getScarabDict(ScarabDatum *datum){
 				}
 					break;
 				case SCARAB_FLOAT:
-				case SCARAB_FLOAT_INF:
-				case SCARAB_FLOAT_NAN:
-				case SCARAB_FLOAT_OPAQUE:
 					//mexPrintf("  key is SCARAB_FLOAT (keys[%d]->type): %d\n", i, keys[i]->type);
 				{
 					const char *floatPrefix = "float";
@@ -209,35 +210,6 @@ static mxArray* getScarabOpaque(ScarabDatum *datum) {
     }
     
     return opaque;
-}
-
-
-static mxArray* getScarabFloat(ScarabDatum *datum) {
-    double value;
-    
-    switch (datum->type) {
-        case SCARAB_FLOAT:
-            value = datum->data.floatp;
-            break;
-            
-        case SCARAB_FLOAT_INF:
-            value = mxGetInf();
-            break;
-            
-        case SCARAB_FLOAT_NAN:
-            value = mxGetNaN();
-            break;
-            
-        case SCARAB_FLOAT_OPAQUE:
-            value = scarab_extract_float(datum);
-            break;
-            
-        default:
-            value = 0.0;
-            break;
-    }
-    
-    return mxCreateDoubleScalar(value);
 }
 
 

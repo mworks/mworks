@@ -30,14 +30,6 @@ BEGIN_NAMESPACE_MW
 				mdebug("datum->type => SCARAB_FLOAT");
 				mdebug("datum->data.floatp => %d", datum->data.floatp);
 				break;
-			case 3://SCARAB_FLOAT_INF
-				mdebug("datum->type => SCARAB_FLOAT_INF");
-				mdebug("datum->data.floatp => %d", datum->data.floatp);
-				break;
-			case 4://SCARAB_FLOAT+NAN
-				mdebug("datum->type => SCARAB_FLOAT_NAN");
-				mdebug("datum->data.floatp => %d", datum->data.floatp);
-				break;
 			case 6://SCARAB_LIST
 				mdebug("datum->type => SCARAB_LIST");
 				break;

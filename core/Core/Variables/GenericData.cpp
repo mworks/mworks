@@ -122,7 +122,7 @@ Datum::Datum(const long newdata){
   setInteger(newdata);
 }
 
-Datum::Datum(const MWTime newdata){
+Datum::Datum(const long long newdata){
   initScarabDatum();
   setDataType(M_INTEGER);
   setInteger(newdata);
@@ -140,7 +140,7 @@ Datum::Datum(const std::string &string){
   setString(string.c_str(), string.size()+1);
 }
 
-Datum::Datum(bool newdata) {
+Datum::Datum(const bool newdata) {
   initScarabDatum();
   setDataType(M_BOOLEAN);
   setBool(newdata);
@@ -223,8 +223,6 @@ Datum::Datum(ScarabDatum * datum) {
     return;
   }
   
-  double d;
-  
   switch(datum->type) {
   case SCARAB_INTEGER:
 	// TODO do we want a separate class for bools?
@@ -233,41 +231,6 @@ Datum::Datum(ScarabDatum * datum) {
   case SCARAB_FLOAT:
     setDataType(M_FLOAT);
     break;
-  case SCARAB_FLOAT_INF:
-    setDataType(M_FLOAT);
-    setFloat(INFINITY);
-    return;
-  case SCARAB_FLOAT_NAN:
-    setDataType(M_FLOAT);
-    setFloat(NAN);
-    return;
-  case SCARAB_FLOAT_OPAQUE:
-	//       Dave: How did we end up with all of this bullshit anyways?
-	//       Ben:  I don't know, so I just deleted it.
-	//       <Ben skulks away and fixes his bugs>
-	
-	// TODO: part of the HAXXOR .. I don't like any of it and it will be 
-	// immenently fixed.  Right after the nightly regressions get completed
-    
-	// DDC: meta-kludge to compensate for the platform-dependence of this
-	//		most loathesome of hacks 
-	#if __LITTLE_ENDIAN__
-		d = *((double *)(datum->data.opaque.data));
-	#else
-		char swap_bytes[sizeof(double)];
-		char *double_bytes = (char *)(datum->data.opaque.data);
-		for(unsigned int i = 0; i < sizeof(double); i++){
-			swap_bytes[i] = double_bytes[sizeof(double) - i - 1];
-		}
-		
-		d = *((double *)swap_bytes);
-	#endif
-	
-    setDataType(M_FLOAT);
-    setFloat(d);
-    return; // I don't like this return here, 
-            // but it will go away when this is fixed
-
   case SCARAB_OPAQUE:
 	// TODO do we want a separate class for string?
     setDataType(M_STRING);
@@ -391,7 +354,7 @@ double Datum::getFloat() const {
 	return result;
 }
 
-long Datum::getInteger() const{
+long long Datum::getInteger() const{
   #if INTERNALLY_LOCKED_MDATA
 	lock();
   #endif
@@ -405,7 +368,7 @@ long Datum::getInteger() const{
 	return 0;
   }
   
-  long result = 0;
+  long long result = 0;
   
   switch (datatype) {
   case M_INTEGER:
@@ -413,7 +376,7 @@ long Datum::getInteger() const{
     result = data->data.integer;
 	break;
   case M_FLOAT:
-    result = (long)(data->data.floatp);
+    result = (long long)(data->data.floatp);
 	break;
   default:                
     result = 0;
@@ -470,6 +433,27 @@ int Datum::getStringLength()  const{
 	unlock();
   #endif
   return result;
+}
+
+bool Datum::stringIsCString() const {
+#if INTERNALLY_LOCKED_MDATA
+    lock();
+#endif
+    bool result;
+    
+    switch (datatype) {
+        case M_STRING:
+            result = scarab_opaque_is_string(data);
+            break;
+        default:
+            result = false;
+            break;
+    }
+    
+#if INTERNALLY_LOCKED_MDATA
+    unlock();
+#endif
+    return result;
 }
 
 void Datum::setBool(bool newdata) {
@@ -608,6 +592,10 @@ Datum& Datum::operator=(const Datum& that) {
 	unlock();
   #endif
   return *this;
+}
+
+void Datum::operator=(long long newdata) {
+  setInteger(newdata);
 }
 
 void Datum::operator=(long newdata) {
@@ -847,13 +835,13 @@ Datum Datum::operator+(const Datum& other)  const{
   Datum returnval;
   if(isInteger() || isBool()) {
     if(other.isInteger() || other.isBool()) {
-      returnval = getInteger() + (long)other;
+      returnval = getInteger() + (long long)other;
     } else if(other.isFloat()) {
       returnval = getInteger() + (double)other;
     }
   } else if(isFloat()) {
     if(other.isInteger() || other.isBool()) {
-      returnval = getFloat() + (long)other;
+      returnval = getFloat() + (long long)other;
     } else if(other.isFloat()) {
       returnval = getFloat() + (double)other;
     }
@@ -867,13 +855,13 @@ Datum Datum::operator-(const Datum& other)  const{
   Datum returnval;
   if(isInteger() || isBool()) {
     if(other.isInteger() || other.isBool()) {
-      returnval = getInteger() - (long)other;
+      returnval = getInteger() - (long long)other;
     } else if(other.isFloat()) {
       returnval = getInteger() - (double)other;
     }
   } else if(isFloat()) {
     if(other.isInteger() || other.isBool()) {
-      returnval = getFloat() - (long)other;
+      returnval = getFloat() - (long long)other;
     } else if(other.isFloat()) { 
       returnval = getFloat() - (double)other;
     }
@@ -887,13 +875,13 @@ Datum Datum::operator*(const Datum& other)  const{
   Datum returnval;
   if(isInteger() || isBool()) {
     if(other.isInteger() || other.isBool()) {
-      returnval = getInteger() * (long)other;
+      returnval = getInteger() * (long long)other;
     } else if(other.isFloat()) {
       returnval = getInteger() * (double)other;
     }
   } else if(isFloat()) {
     if(other.isInteger() || other.isBool()) {
-      returnval = getFloat() * (long)other;
+      returnval = getFloat() * (long long)other;
     } else if(other.isFloat()) {
       returnval = getFloat() * (double)other;
     }
@@ -907,13 +895,13 @@ Datum Datum::operator/(const Datum& other)  const{
   Datum returnval;
   if(isInteger() || isBool()) {
     if(other.isInteger() || other.isBool()) {
-      returnval = getInteger() / (long)other;
+      returnval = getInteger() / (long long)other;
     } else if(other.isFloat()) {
       returnval = getInteger() / (double)other;
     }
   } else if(isFloat()){
     if(other.isInteger() || other.isBool()) {
-      returnval = getFloat() / (long)other;
+      returnval = getFloat() / (long long)other;
     } else if(other.isFloat()) {
       returnval = getFloat() / (double)other;
     }
@@ -927,15 +915,15 @@ Datum Datum::operator%(const Datum& other)  const{
   Datum returnval;
   if(isInteger() || isBool()) {
     if(other.isInteger() || other.isBool()) {
-      returnval = getInteger() % (long)other;
+      returnval = getInteger() % (long long)other;
     } else if(other.isFloat()) {
-      returnval = getInteger() % (long)other;
+      returnval = getInteger() % (long long)other;
     }
   } else if(isFloat()){
     if(other.isInteger() || other.isBool()) {
-      returnval = getInteger() % (long)other;
+      returnval = getInteger() % (long long)other;
     } else if(other.isFloat()) {
-      returnval = getInteger() % (long)other;
+      returnval = getInteger() % (long long)other;
     }
   } else {
     returnval = 0;
@@ -946,7 +934,7 @@ Datum Datum::operator%(const Datum& other)  const{
 Datum Datum::operator==(const Datum& other)  const{
 	if(isInteger() || isBool()) {
 		if(other.isInteger() || other.isBool()) {
-			return Datum(M_BOOLEAN, (getInteger() == (long)other));
+			return Datum(M_BOOLEAN, (getInteger() == (long long)other));
 		} else if(other.isFloat()) {
 			return Datum(M_BOOLEAN, (getInteger() == (double)other));
 		} else {
@@ -954,7 +942,7 @@ Datum Datum::operator==(const Datum& other)  const{
 		}
 	} else if(isFloat()) {
 		if(other.isInteger() || other.isBool()) {
-			return Datum(M_BOOLEAN, ( getFloat() == (long)other));
+			return Datum(M_BOOLEAN, ( getFloat() == (long long)other));
 		} else if(other.isFloat()) {
 			return Datum(M_BOOLEAN, ( getFloat() == (double)other));
 		} else {
@@ -1024,13 +1012,13 @@ Datum Datum::operator>(const Datum& other)  const{
   Datum returnval;
   if(isInteger() || isBool()) {
     if(other.isInteger() || other.isBool()) {
-      returnval = getInteger() > (long)other;
+      returnval = getInteger() > (long long)other;
     } else if(other.isFloat()) {
       returnval = getInteger() > (double)other;
     }
   } else if(isFloat()){
     if(other.isInteger() || other.isBool()) {
-      returnval = getFloat() > (long)other;
+      returnval = getFloat() > (long long)other;
     } else if(other.isFloat()) {
       returnval = getFloat() > (double)other;
     }
@@ -1044,13 +1032,13 @@ Datum Datum::operator>=(const Datum& other)  const{
   Datum returnval;
   if(isInteger() || isBool()) {
     if(other.isInteger() || other.isBool()) {
-      returnval = getInteger() >= (long)other;
+      returnval = getInteger() >= (long long)other;
     } else if(other.isFloat()) {
       returnval = getInteger() >= (double)other;
     }
   } else if(isFloat()) {
     if(other.isInteger() || other.isBool()) {
-      returnval = getFloat() >= (long)other;
+      returnval = getFloat() >= (long long)other;
     } else if(other.isFloat()) {
       returnval = getFloat() >= (double)other;
     }
@@ -1064,13 +1052,13 @@ Datum Datum::operator<(const Datum& other)  const{
   Datum returnval;
   if(isInteger() || isBool()) {
     if(other.isInteger() || other.isBool()) {
-      returnval = getInteger() < (long)other;
+      returnval = getInteger() < (long long)other;
     } else if(other.isFloat()) {
       returnval = getInteger() < (double)other;
     }
   } else if(isFloat()) {
     if(other.isInteger() || other.isBool()) {
-      returnval = getFloat() < (long)other;
+      returnval = getFloat() < (long long)other;
     } else if(other.isFloat()) {
       returnval = getFloat() < (double)other;
     }
@@ -1084,13 +1072,13 @@ Datum Datum::operator<=(const Datum& other)  const{
   Datum returnval;
   if(isInteger() || isBool()) {
     if(other.isInteger() || other.isBool()) {
-      returnval = getInteger() <= (long)other;
+      returnval = getInteger() <= (long long)other;
     } else if(other.isFloat()) {
       returnval = getInteger() <= (double)other;
     }
   } else if(isFloat()) {
     if(other.isInteger() || other.isBool()) {
-      returnval = getFloat() <= (long)other;
+      returnval = getFloat() <= (long long)other;
     } else if(other.isFloat()) {
       returnval = getFloat() <= (double)other;
     }
@@ -1115,7 +1103,7 @@ void Datum::printToSTDERR() {
 	fprintf(stderr, "Datatype => %d\n", datatype);
 	switch (datatype) {
 		case M_INTEGER:
-			fprintf(stderr, "Value is => %ld\n", getInteger());
+			fprintf(stderr, "Value is => %lld\n", getInteger());
 			break;
 		case M_BOOLEAN:
 			fprintf(stderr, "Value is => %ld\n", getBool());

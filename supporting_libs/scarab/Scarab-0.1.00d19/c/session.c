@@ -689,14 +689,7 @@ scarab_write(ScarabSession * session, ScarabDatum * value)
 		returnval = enc->write_integer(session, value->data.integer);
 		break;
 	case SCARAB_FLOAT:
-	case SCARAB_FLOAT_OPAQUE:
 		returnval = enc->write_float(session, value->data.floatp);
-		break;
-	case SCARAB_FLOAT_INF:
-		returnval = enc->write_float_inf(session);
-		break;
-	case SCARAB_FLOAT_NAN:
-		returnval = enc->write_float_nan(session);
 		break;
 	case SCARAB_DICT:
 		returnval = enc->write_dict(session, value->data.dict);
@@ -732,10 +725,6 @@ scarab_write_integer(ScarabSession * session, int value)
 int
 scarab_write_float(ScarabSession * session, double value)
 {
-	if (isnan(value))
-		return session->encoder_engine->write_float_nan(session);
-	if (isinf(value))
-		return session->encoder_engine->write_float_inf(session);
 	return session->encoder_engine->write_float(session, value);
 }
 

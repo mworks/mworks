@@ -21,12 +21,6 @@ scarab_hash(ScarabDatum *datum, int modulo, int atry)
 
 	switch (datum->type) 
     {
-    case SCARAB_FLOAT_INF:
-		hv = atry*atry;
-		break;
-    case SCARAB_FLOAT_NAN:
-		hv = atry;
-		break;
     case SCARAB_INTEGER:
     case SCARAB_FLOAT:
 		hv = (int)datum->data.integer;
@@ -65,8 +59,6 @@ scarab_equals(ScarabDatum *datum1, ScarabDatum *datum2)
 		switch (datum1->type) 
 		{
 		case SCARAB_NULL:
-		case SCARAB_FLOAT_NAN:
-		case SCARAB_FLOAT_INF:
 			return 1;
 		case SCARAB_OPAQUE:
 			o1 = &datum1->data.opaque;

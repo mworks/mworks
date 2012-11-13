@@ -43,6 +43,7 @@
 		E12E8351162C95A500B8DDF7 /* PythonDataHelpers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E12E834F162C95A500B8DDF7 /* PythonDataHelpers.cpp */; };
 		E12E8352162C95A500B8DDF7 /* PythonDataHelpers.h in Headers */ = {isa = PBXBuildFile; fileRef = E12E8350162C95A500B8DDF7 /* PythonDataHelpers.h */; };
 		E12E8354162C95FE00B8DDF7 /* PythonDataHelpers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E12E834F162C95A500B8DDF7 /* PythonDataHelpers.cpp */; };
+		E14FFF8C164C52680006081B /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E14FFF8B164C52670006081B /* MWorksCore.framework */; };
 		E167F67115D2A7F50096459C /* DataFileIndexer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5073E0C409E734A800EC74B6 /* DataFileIndexer.cpp */; };
 		E167F67515D2A7FE0096459C /* EventBlock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EA2B4C40D6BB349002396FC /* EventBlock.cpp */; };
 		E167F67615D2A8020096459C /* dfindex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EE378A90D6CA7B30065846A /* dfindex.cpp */; };
@@ -103,6 +104,7 @@
 		5CBBA1B01055E5C3004C69DF /* example.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = example.py; sourceTree = "<group>"; };
 		E12E834F162C95A500B8DDF7 /* PythonDataHelpers.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PythonDataHelpers.cpp; path = ../../../core/Core/Communications/PythonDataHelpers.cpp; sourceTree = "<group>"; };
 		E12E8350162C95A500B8DDF7 /* PythonDataHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PythonDataHelpers.h; path = ../../../core/Core/Communications/PythonDataHelpers.h; sourceTree = "<group>"; };
+		E14FFF8B164C52670006081B /* MWorksCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MWorksCore.framework; path = /Library/Frameworks/MWorksCore.framework; sourceTree = "<absolute>"; };
 		E1C78767116FA6C1004928BF /* Development.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Development.xcconfig; path = "/Library/Application Support/MWorks/Developer/Xcode/Development.xcconfig"; sourceTree = "<absolute>"; };
 		E1C78768116FA6C1004928BF /* WARNING.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = WARNING.txt; path = "/Library/Application Support/MWorks/Developer/Xcode/WARNING.txt"; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
@@ -126,6 +128,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E14FFF8C164C52680006081B /* MWorksCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -169,6 +172,7 @@
 			isa = PBXGroup;
 			children = (
 				08FB77AAFE841565C02AAC07 /* Carbon.framework */,
+				E14FFF8B164C52670006081B /* MWorksCore.framework */,
 			);
 			name = "External Frameworks and Libraries";
 			sourceTree = "<group>";
@@ -402,7 +406,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "mkdir -p \"$INSTALL_PATH/lib\"\nmkdir -p \"$INSTALL_PATH/include/dfindex\"\n\nrm -Rf \"$INSTALL_PATH/lib/libdfindex.a\"\ncp -Rf \"$BUILT_PRODUCTS_DIR/libdfindex.a\" \"$INSTALL_PATH/lib\"\n\nmkdir -p \"$INSTALL_PATH/include/dfindex\"\ncp -f \"${PROJECT_DIR}/DataFileIndexer.h\" \"$INSTALL_PATH/include/dfindex/\"\ncp -f \"${PROJECT_DIR}/EventBlock.h\" \"$INSTALL_PATH/include/dfindex/\"\ncp -f \"${PROJECT_DIR}/EventWrapper.h\" \"$INSTALL_PATH/include/dfindex/\"\ncp -f \"${PROJECT_DIR}/DataFileUtilities.h\" \"$INSTALL_PATH/include/dfindex/\"\ncp -f \"${PROJECT_DIR}/dfindex.h\" \"$INSTALL_PATH/include/dfindex/\"\n\n\n";
+			shellScript = "mkdir -p \"$INSTALL_PATH/lib\"\nmkdir -p \"$INSTALL_PATH/include/dfindex\"\n\nrm -Rf \"$INSTALL_PATH/lib/libdfindex.a\"\ncp -Rf \"$BUILT_PRODUCTS_DIR/libdfindex.a\" \"$INSTALL_PATH/lib\"\n\nmkdir -p \"$INSTALL_PATH/include/dfindex\"\ncp -fp \"${PROJECT_DIR}/DataFileIndexer.h\" \"$INSTALL_PATH/include/dfindex/\"\ncp -fp \"${PROJECT_DIR}/EventBlock.h\" \"$INSTALL_PATH/include/dfindex/\"\ncp -fp \"${PROJECT_DIR}/EventWrapper.h\" \"$INSTALL_PATH/include/dfindex/\"\ncp -fp \"${PROJECT_DIR}/DataFileUtilities.h\" \"$INSTALL_PATH/include/dfindex/\"\ncp -fp \"${PROJECT_DIR}/dfindex.h\" \"$INSTALL_PATH/include/dfindex/\"\n\n\n";
 			showEnvVarsInLog = 0;
 		};
 		5C52521610CD914B00ED20AE /* ShellScript */ = {

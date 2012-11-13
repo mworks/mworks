@@ -17,8 +17,6 @@
 #define FLOAT_NP			0x05
 #define FLOAT_PN			0x06
 #define FLOAT_PP			0x07
-#define FLOAT_INF			0x08
-#define FLOAT_NAN			0x09
 #define OPAQUE				0x0A
 #define LDO_NULL			0x0B
 #define LIST			    0x0C

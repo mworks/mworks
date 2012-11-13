@@ -9,16 +9,23 @@
 #ifndef MWorksCore_PythonDataHelpers_h
 #define MWorksCore_PythonDataHelpers_h
 
-#include <Python.h>
+#include <boost/python.hpp>
 
-#include <Scarab/scarab.h>
+#include <MWorksCore/GenericData.h>
 
 
-// Convert a Python object into a ScarabDatum
-ScarabDatum *convert_python_to_scarab(PyObject *pObj);
+BEGIN_NAMESPACE_MW
 
-// Convert a ScarabDatum into a corresponding Python object
-PyObject *convert_scarab_to_python(ScarabDatum *datum, int prev_type = -1);
+
+// Convert a Python object into a MWorks Datum
+Datum convert_python_to_datum(const boost::python::object &obj);
+
+
+// Convert a MWorks Datum into a Python object
+boost::python::object convert_datum_to_python(const Datum &datum);
+
+
+END_NAMESPACE_MW
 
 
 #endif /* !defined(MWorksCore_PythonDataHelpers_h) */

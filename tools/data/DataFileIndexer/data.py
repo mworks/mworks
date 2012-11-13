@@ -157,8 +157,34 @@ class MWKFile(_MWKFile):
 
 class MWKStream(_MWKStream):
 
+    @classmethod
+    def _create_file(cls, filename):
+        super(MWKStream, cls)._create_file(filename)
+        return cls.open_file(filename, _writable=True)
+
+    @classmethod
+    def open_file(cls, filename, _writable=False):
+        uri = ('ldobinary:file%s://%s' %
+               (('' if _writable else '_readonly'), filename))
+        stream = cls(uri)
+        stream.open()
+        return stream
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, type, value, tb):
+        self.close()
+
+    def __iter__(self):
+        while True:
+            event = self.read_event()
+            if event is None:
+                break
+            yield event
+
     def read_event(self):
-        result = self._read_event()
-        if result.empty:
-            result = None
-        return result
+        try:
+            return self._read_event()
+        except EOFError:
+            return None

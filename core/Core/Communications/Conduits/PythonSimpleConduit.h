@@ -220,16 +220,8 @@ public:
         }
     }
     
-    
-    virtual mw::Datum packagePyObject(PyObject *pyobj){
-        ScarabDatum *scarabDatum = convert_python_to_scarab(pyobj);
-        mw::Datum datum(scarabDatum);
-        scarab_free_datum(scarabDatum);
-        return datum;
-    }
-    
-    virtual void sendPyObject(int code, PyObject *pyobj){
-        Datum data = packagePyObject(pyobj);
+    virtual void sendPyObject(int code, const boost::python::object &pyobj){
+        Datum data = convert_python_to_datum(pyobj);
         
         // Need to hold the GIL until *after* we convert the object
         ScopedGILRelease sgr;
@@ -283,13 +275,32 @@ public:
 };
 
 
-    
-inline PyObject *convert_datum_to_python(const Datum &datum) {
-    return convert_scarab_to_python(datum.getScarabDatum());
-}
-
-
 END_NAMESPACE_MW
 
 
 #endif
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

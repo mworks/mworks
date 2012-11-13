@@ -26,7 +26,10 @@ using namespace boost::python;
 BOOST_PYTHON_MODULE(_data)
 {
     
-    PyEval_InitThreads();
+    if (scarab_init(0) != 0) {
+        PyErr_SetString(PyExc_RuntimeError, "Scarab initialization failed");
+        throw_error_already_set();
+    }
  
     class_<EventWrapper, boost::noncopyable>("Event", init<ScarabDatum *>())
     .add_property("code", &EventWrapper::getEventCode)
@@ -57,21 +60,43 @@ BOOST_PYTHON_MODULE(_data)
         ;
     
     
-    class_<PythonDataStream>("_MWKStream", init<std::string>())
+    class_<PythonDataStream, boost::noncopyable>("_MWKStream", init<const std::string &>())
+        .def("_create_file", &PythonDataStream::createFile)
+        .staticmethod("_create_file")
         .def("open", &PythonDataStream::open)
         .def("close", &PythonDataStream::close)
+        .def("_read", &PythonDataStream::read)
+        .def("_write", &PythonDataStream::write)
         .def("_read_event", &PythonDataStream::read_event)
         .def("_write_event", &PythonDataStream::write_event)
-		.def("_scarab_session_read", &PythonDataStream::_scarab_session_read)
-		.def("_scarab_session_write", &PythonDataStream::_scarab_session_write)
-		.def("_scarab_session_seek", &PythonDataStream::_scarab_session_seek)
-		.def("_scarab_session_tell", &PythonDataStream::_scarab_session_tell)
-		.def("_scarab_session_flush", &PythonDataStream::_scarab_session_flush)
-		.def("_scarab_write", &PythonDataStream::_scarab_write)
-		.def("_scarab_create_file", &PythonDataStream::_scarab_create_file)
-		.staticmethod("_scarab_create_file")
         ;
     
 }
 
 #endif
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

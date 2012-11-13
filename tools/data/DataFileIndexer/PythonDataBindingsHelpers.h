@@ -14,12 +14,10 @@
 #include <Scarab/scarab_utilities.h>
 #include <boost/python.hpp>
 #include "dfindex.h"
+#include <boost/noncopyable.hpp>
 #include <boost/shared_ptr.hpp>
 #include <string>
 #include <vector>
-#include <Python.h>
-
-#include "PythonDataHelpers.h"
 
 using namespace boost;
 namespace bp = boost::python;
@@ -57,65 +55,63 @@ public:
 
 // A simple, non-indexing stream (e.g. file / socket) reader/writer for 
 // python wrapping
-class PythonDataStream {
-    std::string uri;
-    
-    ScarabSession *session;
+class PythonDataStream : boost::noncopyable {
     
 public:
+    static void createFile(const std::string &filename);
     
-    PythonDataStream(std::string _uri);
+    PythonDataStream(const std::string &uri);
+    ~PythonDataStream();
     
     void open();
-    
     void close();
-	
-	static int _scarab_create_file(std::string _fn);  // creates new scarab file
-    std::string _scarab_session_read(int len);
-    int _scarab_session_write(std::string buf);
-    int _scarab_session_seek(long int offset, int origin = 0);
-    int _scarab_session_flush(void);
-    long int _scarab_session_tell(void);
-    int _scarab_write(PyObject *obj);
     
+    boost::python::object read();
+    void write(const boost::python::object &obj);
+	
     shared_ptr<EventWrapper> read_event();
-    int write_event(shared_ptr<EventWrapper> e);
+    void write_event(const shared_ptr<EventWrapper> &e);
+    
+private:
+    void requireValidSession() const;
+    
+    mw::Datum readDatum();
+    void writeDatum(const mw::Datum &datum);
+    
+    const std::string uri;
+    ScarabSession *session;
 
 };    
 
 
-extern PyObject *extract_event_value(EventWrapper e);
+extern boost::python::object extract_event_value(EventWrapper e);
 
 
-//struct eventvector2pysequence{
-//    
-//    typedef boost::tuples::tuple< float, float, float> colour_tuple_type;
-//    
-//    typedef bpl::from_py_sequence< colour_tuple_type > converter_type;
-//    
-//    static void* convertible(PyObject* obj){
-//        return converter_type::convertible( obj );
-//    }
-//    
-//    static void
-//    construct( PyObject* obj, bpl::converter::rvalue_from_python_stage1_data* data){
-//        typedef bpl::converter::rvalue_from_python_storage<colour_t> colour_storage_t;
-//        colour_storage_t* the_storage = reinterpret_cast<colour_storage_t*>( data );
-//        void* memory_chunk = the_storage->storage.bytes;
-//        
-//        float red(0.0), green(0.0), blue(0.0);
-//        boost::tuples::tie(red, green, blue) = converter_type::to_c_tuple( obj );
-//        
-//        colour_t* colour = new (memory_chunk) colour_t(red, green, blue);
-//        data->convertible = memory_chunk;
-//    }
-//};
-//
-//void register_pytuple2colour(){
-//    converter::registry::push_back(  &pytuple2colour::convertible
-//                                        , &pytuple2colour::construct
-//                                        , bpl::type_id<colour_t>() );
-//}
+#endif /* !defined(PYTHON_DATA_BINDINGS_HELPERS_H_) */
 
 
-#endif
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

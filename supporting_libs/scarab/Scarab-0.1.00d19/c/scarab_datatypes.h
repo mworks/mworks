@@ -5,13 +5,9 @@
 #define SCARAB_NULL			0
 #define SCARAB_INTEGER		1
 #define SCARAB_FLOAT		2
-#define SCARAB_FLOAT_INF	3
-#define SCARAB_FLOAT_NAN	4
 #define SCARAB_DICT			5
 #define SCARAB_LIST			6
 #define SCARAB_OPAQUE		7
-#define SCARAB_MWTIME       8
-#define SCARAB_FLOAT_OPAQUE 9
 
 #define FWD(type,name)		type __##name;typedef type __##name name
 #define	DEF(type,name)		type __##name

@@ -430,7 +430,7 @@ Datum _getNumber(const string &expression, const GenericDataType type);
 					case M_USER_DEFINED:
 						break;
 					default:
-						[self marionetteAssert:[NSString stringWithFormat:@"illeagal #system type: %ld", sys_event_type.getInteger()]];
+						[self marionetteAssert:[NSString stringWithFormat:@"illeagal #system type: %lld", sys_event_type.getInteger()]];
 						break;
 				}
 			}

@@ -56,8 +56,6 @@ DEF(struct, ScarabEncoderEngine)
 	int             (*write_null) (ScarabSession * s);
 	int             (*write_integer) (ScarabSession * s, long long value);
 	int             (*write_float) (ScarabSession * s, double value);
-	int             (*write_float_inf) (ScarabSession * s);
-	int             (*write_float_nan) (ScarabSession * s);
 	int             (*write_opaque) (ScarabSession * s, const char *value, int len);
 	int             (*write_list) (ScarabSession * s, ScarabList * list);
 	int             (*write_dict) (ScarabSession * s, ScarabDict * dict);
