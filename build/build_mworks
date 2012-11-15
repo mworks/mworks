@@ -131,6 +131,11 @@ def data_tools():
             xcodebuild()
 
 
+@builder('mworks/tools/python')
+def python_tools():
+    xcodebuild()
+
+
 @builder('mworks/plugins/core')
 def core_plugins():
     for subdir in ('DriftingGratingStimulus',

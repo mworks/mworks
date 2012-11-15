@@ -13,13 +13,13 @@
 #include <boost/python.hpp>
 #include <boost/noncopyable.hpp>
 
-#include "CodecAwareConduit.h"
-#include "IPCEventTransport.h"
-#include "Exceptions.h"
+#include <MWorksCore/CodecAwareConduit.h>
+#include <MWorksCore/IPCEventTransport.h>
+#include <MWorksCore/Exceptions.h>
 
-#include "Clock.h"
-#include "CoreBuilderForeman.h"
-#include "StandardServerCoreBuilder.h"
+#include <MWorksCore/Clock.h>
+#include <MWorksCore/CoreBuilderForeman.h>
+#include <MWorksCore/StandardServerCoreBuilder.h>
 
 #include "PythonDataHelpers.h"
 

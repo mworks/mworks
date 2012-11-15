@@ -1,4 +1,4 @@
-from _conduit import _IPCClientConduit, _IPCServerConduit, _IPCAccumulatingClientConduit, Event
+from _mworks import _IPCClientConduit, _IPCServerConduit, _IPCAccumulatingClientConduit, Event
 import numpy
 
 

@@ -20,9 +20,9 @@
 #include "PythonSimpleConduit.h"
 
 
-#include "AccumulatingConduit.h"
-#include "IPCEventTransport.h"
-#include "Exceptions.h"
+#include <MWorksCore/AccumulatingConduit.h>
+#include <MWorksCore/IPCEventTransport.h>
+#include <MWorksCore/Exceptions.h>
 
 
 namespace mw {

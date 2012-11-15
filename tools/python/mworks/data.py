@@ -6,7 +6,8 @@
 #  Copyright (c) 2009 Harvard University. All rights reserved.
 #
 
-from _data import Event, _MWKFile, _MWKStream
+from _mworks import _MWKFile, _MWKStream
+from _mworks import ScarabEvent as Event
 import os
 import shutil
 
