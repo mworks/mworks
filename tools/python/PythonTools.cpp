@@ -12,10 +12,9 @@
 #include "PythonDataBindingsHelpers.h"
 
 #include <boost/python/suite/indexing/vector_indexing_suite.hpp>
-#include <boost/python/register_ptr_to_python.hpp>
 
 
-namespace mw {
+BEGIN_NAMESPACE_MW
 
 
 BOOST_PYTHON_MODULE(_mworks)
@@ -98,7 +97,7 @@ BOOST_PYTHON_MODULE(_mworks)
     .add_property("initialized", &PythonIPCAccumulatingClientConduit::isInitialized)
     ;
     
-    class_<EventWrapper, boost::noncopyable>("ScarabEvent", init<ScarabDatum *>())
+    class_<EventWrapper, boost::noncopyable>("EventWrapper", init<ScarabDatum *>())
     .add_property("code", &EventWrapper::getEventCode)
     .add_property("time", &EventWrapper::getTime)
     .add_property("value", extract_event_value)
@@ -141,4 +140,4 @@ BOOST_PYTHON_MODULE(_mworks)
 }
 
 
-}  // end namespace mw
+END_NAMESPACE_MW

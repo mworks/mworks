@@ -1,13 +1,5 @@
-#
-#  mworks/data.py
-#  DataFileIndexer
-#
-#  Created by David Cox on 8/17/09.
-#  Copyright (c) 2009 Harvard University. All rights reserved.
-#
-
 from _mworks import _MWKFile, _MWKStream
-from _mworks import ScarabEvent as Event
+from _mworks import EventWrapper as Event
 import os
 import shutil
 

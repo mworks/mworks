@@ -327,6 +327,8 @@
 			buildSettings = {
 				EXECUTABLE_EXTENSION = so;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "PythonTools-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
 					"/usr/include/python$(MW_PYTHON_VERSION)",
 					$MW_INCLUDE_DIR,
@@ -384,6 +386,7 @@
 				E18D3BDE16554E9C00D472D0 /* Development */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
 		};
 		E18D3BEC1655580000D472D0 /* Build configuration list for PBXAggregateTarget "Everything" */ = {
 			isa = XCConfigurationList;
@@ -391,6 +394,7 @@
 				E18D3BED1655580000D472D0 /* Development */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
 		};
 /* End XCConfigurationList section */
 	};

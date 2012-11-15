@@ -1,6 +1,5 @@
 /*
  *  PythonDataBindingsHelpers.h
- *  DataFileIndexer
  *
  *  Created by David Cox on 12/8/09.
  *  Copyright 2009 Harvard University. All rights reserved.
@@ -21,6 +20,10 @@
 
 using namespace boost;
 namespace bp = boost::python;
+
+
+BEGIN_NAMESPACE_MW
+
 
 class PythonDataFile {
     std::string file_name;
@@ -75,8 +78,8 @@ public:
 private:
     void requireValidSession() const;
     
-    mw::Datum readDatum();
-    void writeDatum(const mw::Datum &datum);
+    Datum readDatum();
+    void writeDatum(const Datum &datum);
     
     const std::string uri;
     ScarabSession *session;
@@ -85,6 +88,9 @@ private:
 
 
 extern boost::python::object extract_event_value(EventWrapper e);
+
+
+END_NAMESPACE_MW
 
 
 #endif /* !defined(PYTHON_DATA_BINDINGS_HELPERS_H_) */

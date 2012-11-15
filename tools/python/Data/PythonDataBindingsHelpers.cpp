@@ -1,6 +1,5 @@
 /*
  *  PythonDataBindingsHelpers.cpp
- *  DataFileIndexer
  *
  *  Created by David Cox on 12/8/09.
  *  Copyright 2009 Harvard University. All rights reserved.
@@ -14,6 +13,9 @@
 #include "PythonDataHelpers.h"
 
 using boost::python::throw_error_already_set;
+
+
+BEGIN_NAMESPACE_MW
 
 
 PythonDataFile::PythonDataFile(std::string _file_name){
@@ -168,23 +170,23 @@ void PythonDataStream::close(){
 
 
 boost::python::object PythonDataStream::read() {
-    return mw::convert_datum_to_python(readDatum());
+    return convert_datum_to_python(readDatum());
 }
 
 
 void PythonDataStream::write(const boost::python::object &obj) {
-    writeDatum(mw::convert_python_to_datum(obj));
+    writeDatum(convert_python_to_datum(obj));
 }
 
 
 shared_ptr<EventWrapper> PythonDataStream::read_event(){
-    mw::Datum datum(readDatum());
+    Datum datum(readDatum());
     return shared_ptr<EventWrapper>(new EventWrapper(datum.getScarabDatum()));
 }
 
 
 void PythonDataStream::write_event(const shared_ptr<EventWrapper> &e) {
-    mw::Datum datum(e->getDatum());
+    Datum datum(e->getDatum());
     writeDatum(datum);
 }
 
@@ -197,7 +199,7 @@ void PythonDataStream::requireValidSession() const {
 }
 
 
-mw::Datum PythonDataStream::readDatum() {
+Datum PythonDataStream::readDatum() {
     requireValidSession();
     
     ScarabDatum *rawDatum = scarab_read(session);
@@ -212,14 +214,14 @@ mw::Datum PythonDataStream::readDatum() {
         throw_error_already_set();
     }
     
-    mw::Datum datum(rawDatum);
+    Datum datum(rawDatum);
     scarab_free_datum(rawDatum);
     
     return datum;
 }
 
 
-void PythonDataStream::writeDatum(const mw::Datum &datum) {
+void PythonDataStream::writeDatum(const Datum &datum) {
     requireValidSession();
     
     int err = scarab_write(session, datum.getScarabDatum());
@@ -236,8 +238,11 @@ boost::python::object extract_event_value(EventWrapper e){
         // TODO throw / complain
         return boost::python::object();
     }
-    return mw::convert_datum_to_python(mw::Datum(e.getPayload()));
+    return convert_datum_to_python(Datum(e.getPayload()));
 }
+
+
+END_NAMESPACE_MW
 
 
 

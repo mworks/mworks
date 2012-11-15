@@ -1,13 +1,12 @@
 //
 //  PythonDataHelpers.h
-//  MWorksCore
 //
 //  Created by Christopher Stawarz on 10/15/12.
 //
 //
 
-#ifndef MWorksCore_PythonDataHelpers_h
-#define MWorksCore_PythonDataHelpers_h
+#ifndef PythonDataHelpers_h_
+#define PythonDataHelpers_h_
 
 #include <boost/python.hpp>
 
@@ -28,4 +27,4 @@ boost::python::object convert_datum_to_python(const Datum &datum);
 END_NAMESPACE_MW
 
 
-#endif /* !defined(MWorksCore_PythonDataHelpers_h) */
+#endif /* !defined(PythonDataHelpers_h_) */

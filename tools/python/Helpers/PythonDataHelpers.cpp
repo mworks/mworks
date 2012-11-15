@@ -1,6 +1,5 @@
 //
 //  PythonDataHelpers.cpp
-//  MWorksCore
 //
 //  Created by Christopher Stawarz on 10/15/12.
 //
