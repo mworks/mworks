@@ -60,12 +60,12 @@ namespace mw {
         
     public:
         
-        PythonIPCAccumulatingConduit(string _resource_name, EventTransport::event_transport_type event_trans_type,
+        PythonIPCAccumulatingConduit(const string &resource_name, EventTransport::event_transport_type event_trans_type,
                                      string _start_evt,
                                      string _end_evt,
                                      boost::python::list _events_to_watch,
                                      bool correct_incoming_timestamps=false) :
-                                     PythonIPCConduit(_resource_name,
+                                     PythonIPCConduit(resource_name,
                                                       correct_incoming_timestamps,
                                                       event_trans_type)
         {
@@ -79,21 +79,17 @@ namespace mw {
         }
         
         
-        virtual bool initialize(){
+        bool initialize(){
             ScopedGILRelease sgr;
             
-            try{
-                conduit = shared_ptr<CodecAwareConduit>(new AccumulatingConduit(transport, start_evt, end_evt, events_to_watch));
-                initialized = conduit->initialize();
-            } catch(std::exception& e){
-                fprintf(stderr, "%s\n", e.what()); fflush(stderr);
-                initialized = false;
-            }
+            conduit.reset(new AccumulatingConduit(transport, start_evt, end_evt, events_to_watch));
+            initialized = conduit->initialize();
             
             return initialized;
         }
         
-        virtual void registerBundleCallback(boost::python::object function_object){
+        void registerBundleCallback(boost::python::object function_object){
+            requireValidConduit();
             
             shared_ptr<PythonEventListCallback> cb(new PythonEventListCallback(function_object));
             
@@ -110,10 +106,10 @@ namespace mw {
     class PythonIPCAccumulatingServerConduit : public PythonIPCAccumulatingConduit {
         
     public:
-        PythonIPCAccumulatingServerConduit(std::string _resource_name,
+        PythonIPCAccumulatingServerConduit(const std::string &resource_name,
                                            string _start_evt,
                                            string _end_evt,
-                                           boost::python::list _events_to_watch) : PythonIPCAccumulatingConduit(_resource_name, 
+                                           boost::python::list _events_to_watch) : PythonIPCAccumulatingConduit(resource_name, 
                                                                                                                 EventTransport::server_event_transport,
                                                                                                                 _start_evt,
                                                                                                                 _end_evt,
@@ -122,10 +118,10 @@ namespace mw {
     
     class PythonIPCAccumulatingClientConduit : public PythonIPCAccumulatingConduit {
     public:
-            PythonIPCAccumulatingClientConduit(std::string _resource_name,
+            PythonIPCAccumulatingClientConduit(const std::string &resource_name,
                                            string _start_evt,
                                            string _end_evt,
-                                           boost::python::list _events_to_watch) : PythonIPCAccumulatingConduit(_resource_name, 
+                                           boost::python::list _events_to_watch) : PythonIPCAccumulatingConduit(resource_name, 
                                                                                                                 EventTransport::client_event_transport,
                                                                                                                 _start_evt,
                                                                                                                 _end_evt,

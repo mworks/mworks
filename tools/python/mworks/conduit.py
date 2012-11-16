@@ -1,8 +1,5 @@
-from _mworks import _IPCClientConduit, _IPCServerConduit, _IPCAccumulatingClientConduit, Event
+from _mworks import _IPCClientConduit, _IPCServerConduit, _IPCAccumulatingClientConduit
 import numpy
-
-
-Event.__module__ = __name__  # So help() thinks Event is part of this module
 
 
 class _ConduitMixin(object):
@@ -20,6 +17,7 @@ class _ConduitMixin(object):
 class IPCClientConduit(_ConduitMixin, _IPCClientConduit):
     def __init__(self, conduit_name, correct_incoming_timestamps=False):
         _IPCClientConduit.__init__(self, conduit_name, correct_incoming_timestamps)
+
 
 class IPCServerConduit(_ConduitMixin, _IPCServerConduit):
     def __init__(self, conduit_name, correct_incoming_timestamps=False):

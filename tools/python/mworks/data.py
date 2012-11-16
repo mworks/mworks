@@ -1,5 +1,4 @@
 from _mworks import _MWKFile, _MWKStream
-from _mworks import EventWrapper as Event
 import os
 import shutil
 
@@ -12,9 +11,6 @@ class NoValidCodecException(Exception):
     
 class IndexingException(Exception):
     pass
-
-
-Event.__module__ = __name__  # So help() thinks Event is part of this module
 
 
 class MWKFile(_MWKFile):

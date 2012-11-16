@@ -49,10 +49,9 @@ public:
     
     void callback(shared_ptr<Event> evt){
         ScopedGILAcquire sga;
-        Event evt_copy(*evt);
         
         try {
-            (*function_object)(evt_copy);
+            (*function_object)(evt);
         } catch (error_already_set &) {
             PyErr_Print();
         }
@@ -63,21 +62,27 @@ public:
 
 // A helper class to wrap to make it easy to create a no-fuss interprocess
 // conduit to send events from a python application into MW
-class PythonIPCConduit {
+class PythonIPCConduit : boost::noncopyable {
 
 protected:
 
-    std::string resource_name;
     shared_ptr<EventTransport> transport;
     shared_ptr<CodecAwareConduit> conduit;
     bool initialized;
-    bool correct_incoming_timestamps;
+    const bool correct_incoming_timestamps;
+    
+    void requireValidConduit() const {
+        if (!conduit || !initialized) {
+            throw SimpleException("Conduit is not initialized");
+        }
+    }
     
 public:
 
-    PythonIPCConduit(std::string _resource_name,
+    PythonIPCConduit(const std::string &resource_name,
                      bool _correct_incoming_timestamps,
                      EventTransport::event_transport_type type) :
+        initialized(false),
         correct_incoming_timestamps(_correct_incoming_timestamps)
     {
         // We'll be calling Python code in non-Python background threads, so ensure that the
@@ -88,52 +93,29 @@ public:
         ScopedGILRelease sgr;
         
         // if there's no clock defined, create the core infrastructure
-        if(!Clock::instance(false)){
-            shared_ptr<StandardServerCoreBuilder> core_builder(new StandardServerCoreBuilder());
-            CoreBuilderForeman::constructCoreStandardOrder(core_builder.get());
+        if (!Clock::instance(false)) {
+            StandardServerCoreBuilder core_builder;
+            CoreBuilderForeman::constructCoreStandardOrder(&core_builder);
         }
         
-        resource_name = _resource_name;
-        initialized = false;
-        
-        try {
-            transport = shared_ptr<EventTransport>(new IPCEventTransport(type, 
-                                                                          EventTransport::bidirectional_event_transport, 
-                                                                          resource_name));
-            if(transport == NULL){
-                throw SimpleException("Failed to create valid transport");
-            }
-        } catch(std::exception& e){
-            initialized = false;
-            throw SimpleException("Failed to build conduit: ", e.what());
-        }
+        transport.reset(new IPCEventTransport(type, EventTransport::bidirectional_event_transport, resource_name));
     }
     
-    virtual bool isInitialized(){
+    bool isInitialized(){
         return initialized;
     }
     
-    virtual bool initialize(){
+    bool initialize(){
         ScopedGILRelease sgr;
         
-        try{
-            conduit = shared_ptr<CodecAwareConduit>(new CodecAwareConduit(transport, 
-                                                                          correct_incoming_timestamps));
-
-            initialized = conduit->initialize();
-        } catch(std::exception& e){
-            fprintf(stderr, "%s\n", e.what()); fflush(stderr);
-            initialized = false;
-        }
-        
-        if(conduit == NULL){
-            initialized = false;
-        }
+        conduit.reset(new CodecAwareConduit(transport, correct_incoming_timestamps));
+        initialized = conduit->initialize();
         
         return initialized;
     }
     
-    virtual void registerCallbackForCode(int code, boost::python::object function_object){
+    void registerCallbackForCode(int code, boost::python::object function_object){
+        requireValidConduit();
         
         shared_ptr<PythonEventCallback> callback(new PythonEventCallback(function_object));
         
@@ -144,7 +126,8 @@ public:
         conduit->registerCallback(code, bind(&PythonEventCallback::callback, callback, _1));
     }
 
-    virtual void registerCallbackForName(string event_name, boost::python::object function_object){
+    void registerCallbackForName(string event_name, boost::python::object function_object){
+        requireValidConduit();
         
         shared_ptr<PythonEventCallback> cb(new PythonEventCallback(function_object));
         
@@ -156,12 +139,16 @@ public:
     }
     
     
-    virtual void registerLocalEventCode(int code, string event_name){
+    void registerLocalEventCode(int code, string event_name){
+        requireValidConduit();
+        
         ScopedGILRelease sgr;
         conduit->registerLocalEventCode(code, event_name);
     } 
     
-    virtual boost::python::dict getAndConvertCodec(bool reverse=false){
+    boost::python::dict getAndConvertCodec(bool reverse=false){
+        requireValidConduit();
+        
         boost::python::dict d;
         map<int, string> codec;
         
@@ -183,55 +170,45 @@ public:
         return d;
     }
     
-    virtual boost::python::dict getCodec(){
+    boost::python::dict getCodec(){
         return getAndConvertCodec();
     }
     
-    virtual boost::python::dict getReverseCodec(){
+    boost::python::dict getReverseCodec(){
         return getAndConvertCodec(true);
     }
     
     
-    virtual void finalize(){
+    void finalize(){
+        requireValidConduit();
+        
         ScopedGILRelease sgr;
-        if(conduit != NULL){
-            conduit->finalize();
-        } else {
-            throw SimpleException("Invalid conduit");
-        }
+        conduit->finalize();
     }
     
-    virtual void sendPyObject(int code, const boost::python::object &pyobj){
+    void sendPyObject(int code, const boost::python::object &pyobj){
+        requireValidConduit();
+        
         Datum data = convert_python_to_datum(pyobj);
         
         // Need to hold the GIL until *after* we convert the object
         ScopedGILRelease sgr;
         
-        if(conduit != NULL){
-            conduit->sendData(code, data);
-        } else {
-            throw SimpleException("Invalid conduit");
-        }
+        conduit->sendData(code, data);
     }
     
-    virtual void sendFloat(int code, double data){
-        ScopedGILRelease sgr;
+    void sendFloat(int code, double data){
+        requireValidConduit();
         
-        if(conduit != NULL){
-            conduit->sendData(code, Datum(data));
-        }else {
-            //fprintf(stderr, "Test"); fflush(stderr);
-            throw SimpleException("Invalid conduit");
-        }
+        ScopedGILRelease sgr;
+        conduit->sendData(code, Datum(data));
     }
 
-    virtual void sendInteger(int code, long data){
+    void sendInteger(int code, long data){
+        requireValidConduit();
+        
         ScopedGILRelease sgr;
-        if(conduit != NULL){
-            conduit->sendData(code, Datum(data));
-        } else {
-            throw SimpleException("Invalid conduit");
-        }
+        conduit->sendData(code, Datum(data));
     }
 
 };
@@ -239,9 +216,9 @@ public:
 class PythonIPCServerConduit : public PythonIPCConduit {
 
 public:
-    PythonIPCServerConduit(std::string _resource_name, 
+    PythonIPCServerConduit(const std::string &resource_name,
                            bool correct_incoming_timestamps=false) : 
-                           PythonIPCConduit(_resource_name, 
+                           PythonIPCConduit(resource_name, 
                                             correct_incoming_timestamps,
                                             EventTransport::server_event_transport)
     { }
@@ -249,9 +226,9 @@ public:
 
 class PythonIPCClientConduit : public PythonIPCConduit {
 public:
-    PythonIPCClientConduit(std::string _resource_name, 
+    PythonIPCClientConduit(const std::string &resource_name,
                            bool correct_incoming_timestamps=false) :
-                           PythonIPCConduit(_resource_name, 
+                           PythonIPCConduit(resource_name, 
                                             correct_incoming_timestamps,
                                             EventTransport::client_event_transport)
     { }

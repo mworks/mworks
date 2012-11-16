@@ -25,7 +25,7 @@ namespace bp = boost::python;
 BEGIN_NAMESPACE_MW
 
 
-class PythonDataFile {
+class PythonDataFile : boost::noncopyable {
     std::string file_name;
     shared_ptr<dfindex> indexer;
     shared_ptr<DataFileIndexer::EventsIterator> eventsIterator;
