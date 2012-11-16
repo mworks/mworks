@@ -47,10 +47,6 @@ public:
         return (datum == NULL);
     }
     
-    operator bool() const {
-        return (datum != NULL);
-    }
-    
     int getEventCode() const {
         if (empty()) {
             return -1;

@@ -125,8 +125,10 @@ void DataFileIndexer::getEvents(std::vector<EventWrapper> &return_vector,
                                 const MWTime upper_bound) const
 {
     EventsIterator ei = getEventsIterator(event_codes_to_match, lower_bound, upper_bound);
-    EventWrapper event;
-    while ((event = ei.getNextEvent())) {
+    while (true) {
+        EventWrapper event = ei.getNextEvent();
+        if (event.empty())
+            break;
         return_vector.push_back(event);
     }
 }
@@ -162,7 +164,7 @@ EventWrapper DataFileIndexer::EventsIterator::getNextEvent() {
         }
         
         // Read through the event block
-		while (!event && (current_relative_event < dfi.events_per_block) && (current_datum = scarab_read(dfi.session)))
+		while (event.empty() && (current_relative_event < dfi.events_per_block) && (current_datum = scarab_read(dfi.session)))
         {
 			MWTime event_time = DataFileUtilities::getScarabEventTime(current_datum);
 			
@@ -185,7 +187,7 @@ EventWrapper DataFileIndexer::EventsIterator::getNextEvent() {
         if ((current_relative_event == dfi.events_per_block) || (current_datum == NULL))
             matching_event_blocks_iter++;
         
-        if (event)
+        if (!event.empty())
             return event;
     }
     

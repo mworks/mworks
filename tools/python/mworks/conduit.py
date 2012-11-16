@@ -2,14 +2,10 @@ from _mworks import _IPCClientConduit, _IPCServerConduit, _IPCAccumulatingClient
 import numpy
 
 
+Event.__module__ = __name__  # So help() thinks Event is part of this module
+
+
 class _ConduitMixin(object):
-       
-    def initialize(self):
-        # register a pure python handler for the codec
-        #self.register_callback_for_code(0, lambda e:self.handle_codec(self, e))
-        
-        # call the C++ initialize method
-        self._initialize()
 
     def send_data(self, code, data):
         dtype = type(data)
@@ -32,7 +28,3 @@ class IPCServerConduit(_ConduitMixin, _IPCServerConduit):
 
 class IPCAccumClientConduit(_ConduitMixin, _IPCAccumulatingClientConduit):
     pass
-
-Event.__module__ = __name__  # So help() thinks Event is part of this module
-Event.data = property(lambda self:
-                          self._convert_mw_datum_to_python(self._mw_datum))

@@ -20,6 +20,7 @@
 #include <MWorksCore/CoreBuilderForeman.h>
 #include <MWorksCore/StandardServerCoreBuilder.h>
 
+#include "GILHelpers.h"
 #include "PythonDataHelpers.h"
 
 using namespace boost::python;
@@ -33,18 +34,6 @@ class PythonEventCallback : boost::noncopyable {
 protected:
     // Use a pointer so that we can ensure that the GIL is held when the object is destroyed
     boost::python::object *function_object;
-    
-    class ScopedGILAcquire : boost::noncopyable {
-    private:
-        PyGILState_STATE gstate;
-    public:
-        ScopedGILAcquire() {
-            gstate = PyGILState_Ensure();
-        }
-        ~ScopedGILAcquire() {
-            PyGILState_Release(gstate);
-        }
-    };
     
 public:
 
@@ -74,7 +63,7 @@ public:
 
 // A helper class to wrap to make it easy to create a no-fuss interprocess
 // conduit to send events from a python application into MW
-class PythonIPCPseudoConduit {
+class PythonIPCConduit {
 
 protected:
 
@@ -84,25 +73,18 @@ protected:
     bool initialized;
     bool correct_incoming_timestamps;
     
-    class ScopedGILRelease : boost::noncopyable {
-    private:
-        PyThreadState *threadState;
-    public:
-        ScopedGILRelease() {
-            threadState = PyEval_SaveThread();
-        }
-        ~ScopedGILRelease() {
-            PyEval_RestoreThread(threadState);
-        }
-    };
-    
 public:
 
-    PythonIPCPseudoConduit(std::string _resource_name,
-                           bool _correct_incoming_timestamps,
-                           EventTransport::event_transport_type type) :
+    PythonIPCConduit(std::string _resource_name,
+                     bool _correct_incoming_timestamps,
+                     EventTransport::event_transport_type type) :
         correct_incoming_timestamps(_correct_incoming_timestamps)
     {
+        // We'll be calling Python code in non-Python background threads, so ensure that the
+        // GIL is initialized
+        PyEval_InitThreads();
+        
+        // Need to hold the GIL until *after* we call PyEval_InitThreads
         ScopedGILRelease sgr;
         
         // if there's no clock defined, create the core infrastructure
@@ -254,24 +236,31 @@ public:
 
 };
 
-class PythonIPCServerConduit : public PythonIPCPseudoConduit {
+class PythonIPCServerConduit : public PythonIPCConduit {
 
 public:
     PythonIPCServerConduit(std::string _resource_name, 
                            bool correct_incoming_timestamps=false) : 
-                           PythonIPCPseudoConduit(_resource_name, 
-                                                  correct_incoming_timestamps,
-                                                  EventTransport::server_event_transport){}
+                           PythonIPCConduit(_resource_name, 
+                                            correct_incoming_timestamps,
+                                            EventTransport::server_event_transport)
+    { }
 };
 
-class PythonIPCClientConduit : public PythonIPCPseudoConduit {
+class PythonIPCClientConduit : public PythonIPCConduit {
 public:
     PythonIPCClientConduit(std::string _resource_name, 
                            bool correct_incoming_timestamps=false) :
-                           PythonIPCPseudoConduit(_resource_name, 
-                                                  correct_incoming_timestamps,
-                                                  EventTransport::client_event_transport){}
+                           PythonIPCConduit(_resource_name, 
+                                            correct_incoming_timestamps,
+                                            EventTransport::client_event_transport)
+    { }
 };
+
+
+inline boost::python::object extractEventData(const Event &e) {
+    return convert_datum_to_python(e.getData());
+}
 
 
 END_NAMESPACE_MW

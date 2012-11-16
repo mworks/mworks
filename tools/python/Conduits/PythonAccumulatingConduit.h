@@ -51,7 +51,7 @@ namespace mw {
     
     
     
-    class PythonIPCAccumulatingConduit : public PythonIPCPseudoConduit{
+    class PythonIPCAccumulatingConduit : public PythonIPCConduit {
      
     protected:
     
@@ -65,9 +65,10 @@ namespace mw {
                                      string _end_evt,
                                      boost::python::list _events_to_watch,
                                      bool correct_incoming_timestamps=false) :
-                                     PythonIPCPseudoConduit(_resource_name,
-                                                           correct_incoming_timestamps,
-                                                           event_trans_type){
+                                     PythonIPCConduit(_resource_name,
+                                                      correct_incoming_timestamps,
+                                                      event_trans_type)
+        {
             start_evt = _start_evt;
             end_evt = _end_evt;
             

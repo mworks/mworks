@@ -50,7 +50,7 @@ public:
     MWTime maximum_time();
     
     void select_events(bp::list codes, const MWTime lower_bound, const MWTime upper_bound);
-    shared_ptr<EventWrapper> get_next_event();
+    EventWrapper get_next_event();
     std::vector<EventWrapper> get_events();
 };
 
@@ -72,8 +72,8 @@ public:
     boost::python::object read();
     void write(const boost::python::object &obj);
 	
-    shared_ptr<EventWrapper> read_event();
-    void write_event(const shared_ptr<EventWrapper> &e);
+    EventWrapper read_event();
+    void write_event(const EventWrapper &e);
     
 private:
     void requireValidSession() const;
@@ -87,7 +87,7 @@ private:
 };    
 
 
-extern boost::python::object extract_event_value(EventWrapper e);
+boost::python::object extract_event_value(const EventWrapper &e);
 
 
 END_NAMESPACE_MW

@@ -54,7 +54,10 @@ namespace mw {
 		
         Datum data;
 		shared_ptr<Event> nextEvent;
-		boost::mutex eventLock;
+        
+        // Declare eventLock mutable so that it can be acquired in const methods
+		mutable boost::mutex eventLock;
+        
     public:       
         /**
          * Constructor.  Defines an Variable member and the event type.
@@ -75,7 +78,7 @@ namespace mw {
          * Returns the event code.  This code is given to an
          * Variable by the parameter registry.
          */
-        int getEventCode(){ 
+        int getEventCode() const {
 			return code;
 		}
 		
@@ -86,7 +89,7 @@ namespace mw {
         /**
          * Returns the event time.
          */
-        MWTime getTime(){ 
+        MWTime getTime() const {
 			return time;
 		}
         
@@ -96,11 +99,11 @@ namespace mw {
             time = _time;
         }
 		
-        Datum getData() {
+        Datum getData() const {
 			return data;
 		}
 		
-		shared_ptr<Event> getNextEvent() {
+		shared_ptr<Event> getNextEvent() const {
 			boost::mutex::scoped_lock lock(eventLock);
 			return nextEvent;
 		}
@@ -113,7 +116,7 @@ namespace mw {
 		
 		
         // Convert to ScarabDatum for later serialization
-        virtual ScarabDatum *toScarabDatum();
+        virtual ScarabDatum *toScarabDatum() const;
 		
         // Boost serialization
         friend class boost::serialization::access;

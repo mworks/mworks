@@ -40,17 +40,22 @@
 
 #ifdef __clang__
 #  if __has_feature(cxx_noexcept)
-#    define MW_NOEXCEPT noexcept
+#    define MW_HAVE_NOEXCEPT
 #  endif
 #  if __has_feature(cxx_override_control)
-#    define MW_OVERRIDE override
+#    define MW_HAVE_OVERRIDE
 #  endif
 #endif  // __clang__
 
-#ifndef MW_NOEXCEPT
+#ifdef MW_HAVE_NOEXCEPT
+#  define MW_NOEXCEPT noexcept
+#else
 #  define MW_NOEXCEPT
 #endif
-#ifndef MW_OVERRIDE
+
+#ifdef MW_HAVE_OVERRIDE
+#  define MW_OVERRIDE override
+#else
 #  define MW_OVERRIDE
 #endif
 

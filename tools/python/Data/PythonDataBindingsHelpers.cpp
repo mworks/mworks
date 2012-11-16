@@ -94,11 +94,11 @@ void PythonDataFile::select_events(bp::list codes, const MWTime lower_bound, con
 }
 
 
-shared_ptr<EventWrapper> PythonDataFile::get_next_event() {
+EventWrapper PythonDataFile::get_next_event() {
     if (eventsIterator == NULL) {
         throw std::runtime_error("no event iterator available");
     }
-    return shared_ptr<EventWrapper>(new EventWrapper(eventsIterator->getNextEvent()));
+    return eventsIterator->getNextEvent();
 }
 
 
@@ -108,9 +108,11 @@ std::vector<EventWrapper> PythonDataFile::get_events() {
     }
     
     std::vector<EventWrapper> events;
-    EventWrapper evt;
     
-    while ((evt = eventsIterator->getNextEvent())) {
+    while (true) {
+        EventWrapper evt = eventsIterator->getNextEvent();
+        if (evt.empty())
+            break;
         events.push_back(evt);
     }
     
@@ -179,14 +181,14 @@ void PythonDataStream::write(const boost::python::object &obj) {
 }
 
 
-shared_ptr<EventWrapper> PythonDataStream::read_event(){
+EventWrapper PythonDataStream::read_event() {
     Datum datum(readDatum());
-    return shared_ptr<EventWrapper>(new EventWrapper(datum.getScarabDatum()));
+    return EventWrapper(datum.getScarabDatum());
 }
 
 
-void PythonDataStream::write_event(const shared_ptr<EventWrapper> &e) {
-    Datum datum(e->getDatum());
+void PythonDataStream::write_event(const EventWrapper &e) {
+    Datum datum(e.getDatum());
     writeDatum(datum);
 }
 
@@ -233,7 +235,7 @@ void PythonDataStream::writeDatum(const Datum &datum) {
 }
 
 
-boost::python::object extract_event_value(EventWrapper e){
+boost::python::object extract_event_value(const EventWrapper &e){
     if(e.empty()){
         // TODO throw / complain
         return boost::python::object();
