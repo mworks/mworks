@@ -24,7 +24,7 @@ namespace mw {
         
         typedef vector< shared_ptr<Event> > EventList;
         
-        PythonEventListCallback(boost::python::object _function_object) :
+        PythonEventListCallback(const boost::python::object &_function_object) :
             PythonEventCallback(_function_object)
         { }
         
@@ -33,15 +33,13 @@ namespace mw {
             
             boost::python::list evts_list;
             
-            EventList::iterator i;
-            for(i = evts->begin(); i != evts->end(); ++i){
+            for (EventList::iterator i = evts->begin(); i != evts->end(); i++) {
                 evts_list.append< shared_ptr<Event> >(*i);
             }
-            //EventList evts_copy(*evts);
             
             try {
                 (*function_object)(evts_list);
-            } catch (error_already_set &) {
+            } catch (const error_already_set &) {
                 PyErr_Print();
             }
         }
@@ -55,25 +53,24 @@ namespace mw {
      
     protected:
     
-        string start_evt, end_evt;
+        const std::string start_evt;
+        const std::string end_evt;
         vector<string> events_to_watch;
         
     public:
         
-        PythonIPCAccumulatingConduit(const string &resource_name, EventTransport::event_transport_type event_trans_type,
-                                     string _start_evt,
-                                     string _end_evt,
-                                     boost::python::list _events_to_watch,
-                                     bool correct_incoming_timestamps=false) :
-                                     PythonIPCConduit(resource_name,
-                                                      correct_incoming_timestamps,
-                                                      event_trans_type)
+        PythonIPCAccumulatingConduit(const std::string &resource_name,
+                                     EventTransport::event_transport_type event_trans_type,
+                                     const std::string &start_evt,
+                                     const std::string &end_evt,
+                                     const boost::python::list &_events_to_watch,
+                                     bool correct_incoming_timestamps) :
+            PythonIPCConduit(resource_name, correct_incoming_timestamps, event_trans_type),
+            start_evt(start_evt),
+            end_evt(end_evt)
         {
-            start_evt = _start_evt;
-            end_evt = _end_evt;
-            
-            int n = len(_events_to_watch);
-            for(int i = 0; i < n; i++){
+            ssize_t n = len(_events_to_watch);
+            for (ssize_t i = 0; i < n; i++) {
                 events_to_watch.push_back(boost::python::extract<string>(_events_to_watch[i]));
             }
         }
@@ -88,7 +85,7 @@ namespace mw {
             return initialized;
         }
         
-        void registerBundleCallback(boost::python::object function_object){
+        void registerBundleCallback(const boost::python::object &function_object) {
             requireValidConduit();
             
             shared_ptr<PythonEventListCallback> cb(new PythonEventListCallback(function_object));
@@ -104,28 +101,39 @@ namespace mw {
     };
     
     class PythonIPCAccumulatingServerConduit : public PythonIPCAccumulatingConduit {
-        
+
     public:
         PythonIPCAccumulatingServerConduit(const std::string &resource_name,
-                                           string _start_evt,
-                                           string _end_evt,
-                                           boost::python::list _events_to_watch) : PythonIPCAccumulatingConduit(resource_name, 
-                                                                                                                EventTransport::server_event_transport,
-                                                                                                                _start_evt,
-                                                                                                                _end_evt,
-                                                                                                                _events_to_watch){}
+                                           const std::string &start_evt,
+                                           const std::string &end_evt,
+                                           const boost::python::list &events_to_watch,
+                                           bool correct_incoming_timestamps = false) :
+            PythonIPCAccumulatingConduit(resource_name,
+                                         EventTransport::server_event_transport,
+                                         start_evt,
+                                         end_evt,
+                                         events_to_watch,
+                                         correct_incoming_timestamps)
+        { }
+        
     };
     
     class PythonIPCAccumulatingClientConduit : public PythonIPCAccumulatingConduit {
+        
     public:
-            PythonIPCAccumulatingClientConduit(const std::string &resource_name,
-                                           string _start_evt,
-                                           string _end_evt,
-                                           boost::python::list _events_to_watch) : PythonIPCAccumulatingConduit(resource_name, 
-                                                                                                                EventTransport::client_event_transport,
-                                                                                                                _start_evt,
-                                                                                                                _end_evt,
-                                                                                                                _events_to_watch){}    
+        PythonIPCAccumulatingClientConduit(const std::string &resource_name,
+                                           const std::string &start_evt,
+                                           const std::string &end_evt,
+                                           const boost::python::list &events_to_watch,
+                                           bool correct_incoming_timestamps = false) :
+            PythonIPCAccumulatingConduit(resource_name,
+                                         EventTransport::client_event_transport,
+                                         start_evt,
+                                         end_evt,
+                                         events_to_watch,
+                                         correct_incoming_timestamps)
+        { }
+        
     };
     
 

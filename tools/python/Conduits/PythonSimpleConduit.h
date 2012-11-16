@@ -37,7 +37,7 @@ protected:
     
 public:
 
-    PythonEventCallback(boost::python::object _function_object){
+    PythonEventCallback(const boost::python::object &_function_object){
         // The caller should already hold the GIL, so we don't acquire it here
         function_object = new boost::python::object(_function_object);
     }
@@ -49,10 +49,9 @@ public:
     
     void callback(shared_ptr<Event> evt){
         ScopedGILAcquire sga;
-        
         try {
             (*function_object)(evt);
-        } catch (error_already_set &) {
+        } catch (const error_already_set &) {
             PyErr_Print();
         }
     }
@@ -101,7 +100,7 @@ public:
         transport.reset(new IPCEventTransport(type, EventTransport::bidirectional_event_transport, resource_name));
     }
     
-    bool isInitialized(){
+    bool isInitialized() const {
         return initialized;
     }
     
@@ -114,7 +113,7 @@ public:
         return initialized;
     }
     
-    void registerCallbackForCode(int code, boost::python::object function_object){
+    void registerCallbackForCode(int code, const boost::python::object &function_object) {
         requireValidConduit();
         
         shared_ptr<PythonEventCallback> callback(new PythonEventCallback(function_object));
@@ -126,7 +125,7 @@ public:
         conduit->registerCallback(code, bind(&PythonEventCallback::callback, callback, _1));
     }
 
-    void registerCallbackForName(string event_name, boost::python::object function_object){
+    void registerCallbackForName(const std::string &event_name, const boost::python::object &function_object) {
         requireValidConduit();
         
         shared_ptr<PythonEventCallback> cb(new PythonEventCallback(function_object));
@@ -139,14 +138,14 @@ public:
     }
     
     
-    void registerLocalEventCode(int code, string event_name){
+    void registerLocalEventCode(int code, const std::string &event_name) {
         requireValidConduit();
         
         ScopedGILRelease sgr;
         conduit->registerLocalEventCode(code, event_name);
     } 
     
-    boost::python::dict getAndConvertCodec(bool reverse=false){
+    boost::python::dict getAndConvertCodec(bool reverse) {
         requireValidConduit();
         
         boost::python::dict d;
@@ -171,7 +170,7 @@ public:
     }
     
     boost::python::dict getCodec(){
-        return getAndConvertCodec();
+        return getAndConvertCodec(false);
     }
     
     boost::python::dict getReverseCodec(){

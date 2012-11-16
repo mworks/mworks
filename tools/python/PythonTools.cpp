@@ -50,10 +50,12 @@ BOOST_PYTHON_MODULE(_mworks)
     
     class_<PythonIPCServerConduit, boost::noncopyable, bases<PythonIPCConduit> >
     ("_IPCServerConduit", init<std::string, bool>())
+    .def(init<std::string>())
     ;
     
     class_<PythonIPCClientConduit, boost::noncopyable, bases<PythonIPCConduit> >
     ("_IPCClientConduit", init<std::string, bool>())
+    .def(init<std::string>())
     ;
     
     class_<PythonIPCAccumulatingConduit, boost::noncopyable, bases<PythonIPCConduit> >
@@ -63,11 +65,13 @@ BOOST_PYTHON_MODULE(_mworks)
     ;
     
     class_<PythonIPCAccumulatingServerConduit, boost::noncopyable, bases<PythonIPCAccumulatingConduit> >
-    ("_IPCAccumulatingServerConduit", init< string,string,string,boost::python::list>())
+    ("_IPCAccumulatingServerConduit", init<string, string, string, boost::python::list, bool>())
+    .def(init<string, string, string, boost::python::list>())
     ;
     
     class_<PythonIPCAccumulatingClientConduit, boost::noncopyable, bases<PythonIPCAccumulatingConduit> >
-    ("_IPCAccumulatingClientConduit", init< string,string,string,boost::python::list>())
+    ("_IPCAccumulatingClientConduit", init<string, string, string, boost::python::list, bool>())
+    .def(init<string, string, string, boost::python::list>())
     ;
     
     class_<EventWrapper>("EventWrapper", no_init)

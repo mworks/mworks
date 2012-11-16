@@ -10,6 +10,7 @@
 
 #include <limits.h>
 
+#include "GILHelpers.h"
 #include "PythonDataHelpers.h"
 
 using boost::python::throw_error_already_set;
@@ -121,7 +122,13 @@ std::vector<EventWrapper> PythonDataFile::get_events() {
 
 
 void PythonDataStream::createFile(const std::string &filename) {
-    if (scarab_create_file(filename.c_str()) != 0) {
+    int err;
+    {
+        ScopedGILRelease sgr;
+        err = scarab_create_file(filename.c_str());
+    }
+    
+    if (err != 0) {
         PyErr_Format(PyExc_IOError, "Cannot create Scarab file '%s'", filename.c_str());
         throw_error_already_set();
     }
@@ -145,7 +152,11 @@ void PythonDataStream::open(){
         throw_error_already_set();
     }
     
-    session = scarab_session_connect(uri.c_str());
+    {
+        ScopedGILRelease sgr;
+        session = scarab_session_connect(uri.c_str());
+    }
+    
     if (!session) {
         // The pointer will be NULL only if scarab_mem_malloc failed
         PyErr_NoMemory();
@@ -165,6 +176,7 @@ void PythonDataStream::open(){
 void PythonDataStream::close(){
     // close it
     if(session) {
+        ScopedGILRelease sgr;
         (void)scarab_session_close(session);  // Ignore return value
         session = NULL;
     }
@@ -204,7 +216,11 @@ void PythonDataStream::requireValidSession() const {
 Datum PythonDataStream::readDatum() {
     requireValidSession();
     
-    ScarabDatum *rawDatum = scarab_read(session);
+    ScarabDatum *rawDatum;
+    {
+        ScopedGILRelease sgr;
+        rawDatum = scarab_read(session);
+    }
     
     if (!rawDatum) {
         int err = scarab_session_geterr(session);
@@ -226,7 +242,11 @@ Datum PythonDataStream::readDatum() {
 void PythonDataStream::writeDatum(const Datum &datum) {
     requireValidSession();
     
-    int err = scarab_write(session, datum.getScarabDatum());
+    int err;
+    {
+        ScopedGILRelease sgr;
+        err = scarab_write(session, datum.getScarabDatum());
+    }
     
     if (err != 0) {
         PyErr_Format(PyExc_IOError, "Scarab write failed: %s", scarab_strerror(err));
