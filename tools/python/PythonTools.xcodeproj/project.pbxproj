@@ -7,6 +7,18 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
+		E134E8F6165BF5C600B159A1 /* Test */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = E134E8F8165BF5C600B159A1 /* Build configuration list for PBXAggregateTarget "Test" */;
+			buildPhases = (
+				E134E8FE165BF5F500B159A1 /* ShellScript */,
+			);
+			dependencies = (
+				E134E8FB165BF5DD00B159A1 /* PBXTargetDependency */,
+			);
+			name = Test;
+			productName = Test;
+		};
 		E18D3BDC16554E9C00D472D0 /* Install */ = {
 			isa = PBXAggregateTarget;
 			buildConfigurationList = E18D3BDD16554E9C00D472D0 /* Build configuration list for PBXAggregateTarget "Install" */;
@@ -26,7 +38,7 @@
 			buildPhases = (
 			);
 			dependencies = (
-				E18D3BEF1655580500D472D0 /* PBXTargetDependency */,
+				E134E8FD165BF5E300B159A1 /* PBXTargetDependency */,
 			);
 			name = Everything;
 			productName = Everything;
@@ -47,6 +59,20 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		E134E8FA165BF5DD00B159A1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E18D3B70165537A300D472D0 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E18D3BDC16554E9C00D472D0;
+			remoteInfo = Install;
+		};
+		E134E8FC165BF5E300B159A1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E18D3B70165537A300D472D0 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E134E8F6165BF5C600B159A1;
+			remoteInfo = Test;
+		};
 		E18D3BDF16554EB000D472D0 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = E18D3B70165537A300D472D0 /* Project object */;
@@ -54,20 +80,13 @@
 			remoteGlobalIDString = E18D3B78165537A300D472D0;
 			remoteInfo = "Extension Module";
 		};
-		E18D3BEE1655580500D472D0 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = E18D3B70165537A300D472D0 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = E18D3BDC16554E9C00D472D0;
-			remoteInfo = Install;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		E18D3BE116554EB700D472D0 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
-			dstPath = "$(MW_PYTHON_DIR)";
+			dstPath = "$(MW_PYTHON_DIR)/mworks";
 			dstSubfolderSpec = 0;
 			files = (
 				E18D3BE616554EE200D472D0 /* _mworks.so in CopyFiles */,
@@ -267,12 +286,27 @@
 			targets = (
 				E18D3B78165537A300D472D0 /* Extension Module */,
 				E18D3BDC16554E9C00D472D0 /* Install */,
+				E134E8F6165BF5C600B159A1 /* Test */,
 				E18D3BEB1655580000D472D0 /* Everything */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		E134E8FE165BF5F500B159A1 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "for arch in ${VALID_ARCHS}; do\n  echo \"Running tests for Python ${MW_PYTHON_VERSION} (${arch})\"\n  /usr/bin/arch -${arch} /usr/bin/python${MW_PYTHON_VERSION} run_tests.py || exit\ndone";
+			showEnvVarsInLog = 0;
+		};
 		E18D3BEA16554F9100D472D0 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -303,24 +337,36 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		E134E8FB165BF5DD00B159A1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E18D3BDC16554E9C00D472D0 /* Install */;
+			targetProxy = E134E8FA165BF5DD00B159A1 /* PBXContainerItemProxy */;
+		};
+		E134E8FD165BF5E300B159A1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E134E8F6165BF5C600B159A1 /* Test */;
+			targetProxy = E134E8FC165BF5E300B159A1 /* PBXContainerItemProxy */;
+		};
 		E18D3BE016554EB000D472D0 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = E18D3B78165537A300D472D0 /* Extension Module */;
 			targetProxy = E18D3BDF16554EB000D472D0 /* PBXContainerItemProxy */;
 		};
-		E18D3BEF1655580500D472D0 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = E18D3BDC16554E9C00D472D0 /* Install */;
-			targetProxy = E18D3BEE1655580500D472D0 /* PBXContainerItemProxy */;
-		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		E134E8F7165BF5C600B159A1 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Development;
+		};
 		E18D3B84165537A300D472D0 /* Development */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E18D3B981655390600D472D0 /* Development.xcconfig */;
 			buildSettings = {
-				MW_PYTHON_DIR = "$(MW_APP_SUPPORT_DIR)/Scripting/Python/mworks";
+				MW_PYTHON_DIR = "$(MW_APP_SUPPORT_DIR)/Scripting/Python";
 			};
 			name = Development;
 		};
@@ -366,6 +412,13 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		E134E8F8165BF5C600B159A1 /* Build configuration list for PBXAggregateTarget "Test" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E134E8F7165BF5C600B159A1 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		E18D3B73165537A300D472D0 /* Build configuration list for PBXProject "PythonTools" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
