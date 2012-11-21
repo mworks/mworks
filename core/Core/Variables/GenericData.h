@@ -276,7 +276,6 @@ BEGIN_NAMESPACE_MW
 				long long ival;
 				double fval;
 				bool bval;
-				std::string sval;
                 int string_length;
 				int nelements;
                 std::vector<Datum> keys;
@@ -296,16 +295,9 @@ BEGIN_NAMESPACE_MW
 						ar << bval;
 						break;
 					case M_STRING:
-						sval = getString();
                         string_length = getStringLength();
                         ar << string_length;
-                        /*std::cerr << "serializing: ";
-                        for(int i = 0; i < string_length; i++){
-                            std::cerr << " " << sval[i] << " ";
-                            ar << sval[i];
-                        }
-                        std::cerr << std::endl;*/
-                        ar << sval;
+                        ar.save_binary(getString(), string_length);
                         break;
 					case M_LIST:
                         nelements = getNElements();
@@ -338,7 +330,6 @@ BEGIN_NAMESPACE_MW
 				long long ival;
 				double fval;
 				bool bval;
-				std::string sval;
 				int nelements;
                 Datum datum, key;
                 int string_length;
@@ -360,18 +351,15 @@ BEGIN_NAMESPACE_MW
 						break;
 					case M_STRING:
                         ar >> string_length;
-                        /*sval = "";
-                        std::cerr << "deserializing: ";
-                        for(int i = 0; i < string_length; i++){
-                            ar >> c;
-                            sval += c;
-                            std::cerr << " " << c << " ";
+                        if (version > 0) {
+                            char buffer[string_length];
+                            ar.load_binary(&buffer, string_length);
+                            setString(buffer, string_length);
+                        } else {
+                            std::string sval;
+                            ar >> sval;
+                            setString(sval);
                         }
-                         std::cerr << std::endl;*/
-                        
-                        ar >> sval;
-                        setString(sval);
-                        
                         break;
 					case M_LIST:
                         ar >> nelements;
@@ -426,6 +414,10 @@ BEGIN_NAMESPACE_MW
 
 
 END_NAMESPACE_MW
+
+
+// This needs to be outside of namespace mw
+BOOST_CLASS_VERSION(mw::Datum, 1)
 
 
 #endif

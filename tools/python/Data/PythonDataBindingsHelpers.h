@@ -33,7 +33,7 @@ class PythonDataFile : boost::noncopyable {
     
 public:
     
-    PythonDataFile(std::string _file_name);    
+    explicit PythonDataFile(std::string _file_name);
     
     void open();    
     void close();    
@@ -63,7 +63,7 @@ class PythonDataStream : boost::noncopyable {
 public:
     static void createFile(const std::string &filename);
     
-    PythonDataStream(const std::string &uri);
+    explicit PythonDataStream(const std::string &uri);
     ~PythonDataStream();
     
     void open();

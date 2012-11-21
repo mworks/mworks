@@ -10,11 +10,28 @@
 #include <climits>
 
 #include <boost/foreach.hpp>
+#include <boost/noncopyable.hpp>
 
 using boost::python::throw_error_already_set;
 
 
 BEGIN_NAMESPACE_MW
+
+
+class ScopedRecursionGuard : boost::noncopyable {
+    
+public:
+    explicit ScopedRecursionGuard(const std::string &where) {
+        if (Py_EnterRecursiveCall(const_cast<char *>(where.c_str()))) {
+            throw_error_already_set();
+        }
+    }
+    
+    ~ScopedRecursionGuard() {
+        Py_LeaveRecursiveCall();
+    }
+    
+};
 
 
 static inline boost::python::object manageNewRef(PyObject *pObj) {
@@ -34,6 +51,8 @@ static inline boost::python::object manageBorrowedRef(PyObject *pObj) {
 
 
 Datum convert_python_to_datum(const boost::python::object &obj) {
+    ScopedRecursionGuard srg(" while converting Python object to MWorks datum");
+    
     if (obj.is_none()) {
         return Datum();
     }
@@ -77,25 +96,14 @@ Datum convert_python_to_datum(const boost::python::object &obj) {
             string = manageNewRef( PyUnicode_AsUTF8String(pObj) );
         }
         
-        const char *buf = PyString_AsString(string.ptr());
-        if (!buf)
+        char *buffer;
+        Py_ssize_t size;
+        if (PyString_AsStringAndSize(string.ptr(), &buffer, &size))
             throw_error_already_set();
         
-        return Datum(buf);
-        
-    } else if (PySequence_Check(pObj)) {  // Must come *after* PyString_Check and PyUnicode_Check
-        
-        int size = int(PySequence_Size(pObj));
-        if (size == -1)
-            throw_error_already_set();
-        
-        Datum list(M_LIST, size);
-
-        for (int i = 0; i < size; i++) {
-            list.setElement(i, convert_python_to_datum(manageNewRef(PySequence_GetItem(pObj, i))));
-        }
-        
-        return list;
+        Datum datum;
+        datum.setString(buffer, int(size));
+        return datum;
         
     } else if (PyMapping_Check(pObj)) {
         
@@ -118,6 +126,19 @@ Datum convert_python_to_datum(const boost::python::object &obj) {
         
         return dict;
         
+    } else if (PySequence_Check(pObj)) {  // Must come *after* PyString_Check, PyUnicode_Check, and PyMapping_Check
+        
+        int size = int(PySequence_Size(pObj));
+        if (size == -1)
+            throw_error_already_set();
+        
+        Datum list(M_LIST, size);
+        
+        for (int i = 0; i < size; i++) {
+            list.setElement(i, convert_python_to_datum(manageNewRef(PySequence_GetItem(pObj, i))));
+        }
+        
+        return list;
     }
     
     PyErr_Format(PyExc_TypeError, "Cannot convert object of type %s", pObj->ob_type->tp_name);
@@ -127,6 +148,8 @@ Datum convert_python_to_datum(const boost::python::object &obj) {
 
 
 boost::python::object convert_datum_to_python(const Datum &datum) {
+    ScopedRecursionGuard srg(" while converting MWorks datum to Python object");
+    
     if (datum.isUndefined()) {
         return boost::python::object();
     }

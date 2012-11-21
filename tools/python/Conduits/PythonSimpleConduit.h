@@ -37,7 +37,7 @@ protected:
     
 public:
 
-    PythonEventCallback(const boost::python::object &_function_object){
+    explicit PythonEventCallback(const boost::python::object &_function_object) {
         // The caller should already hold the GIL, so we don't acquire it here
         function_object = new boost::python::object(_function_object);
     }
@@ -215,8 +215,8 @@ public:
 class PythonIPCServerConduit : public PythonIPCConduit {
 
 public:
-    PythonIPCServerConduit(const std::string &resource_name,
-                           bool correct_incoming_timestamps=false) : 
+    explicit PythonIPCServerConduit(const std::string &resource_name,
+                                    bool correct_incoming_timestamps=false) : 
                            PythonIPCConduit(resource_name, 
                                             correct_incoming_timestamps,
                                             EventTransport::server_event_transport)
@@ -225,8 +225,8 @@ public:
 
 class PythonIPCClientConduit : public PythonIPCConduit {
 public:
-    PythonIPCClientConduit(const std::string &resource_name,
-                           bool correct_incoming_timestamps=false) :
+    explicit PythonIPCClientConduit(const std::string &resource_name,
+                                    bool correct_incoming_timestamps=false) :
                            PythonIPCConduit(resource_name, 
                                             correct_incoming_timestamps,
                                             EventTransport::client_event_transport)

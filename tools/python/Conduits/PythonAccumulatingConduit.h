@@ -24,7 +24,7 @@ namespace mw {
         
         typedef vector< shared_ptr<Event> > EventList;
         
-        PythonEventListCallback(const boost::python::object &_function_object) :
+        explicit PythonEventListCallback(const boost::python::object &_function_object) :
             PythonEventCallback(_function_object)
         { }
         
