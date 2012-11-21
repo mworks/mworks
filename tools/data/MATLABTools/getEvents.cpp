@@ -78,9 +78,11 @@ void mexFunction(int nlhs, mxArray *plhs[],
 
 static void returnOneArray(mxArray *plhs[], DataFileIndexer::EventsIterator &ei) {
     std::vector<MATLABEventInfo> events;
-    EventWrapper event;
     
-    while ((event = ei.getNextEvent())) {
+    while (true) {
+        EventWrapper event = ei.getNextEvent();
+        if (event.empty())
+            break;
         events.push_back(MATLABEventInfo(event.getDatum()));
     }
     
@@ -99,9 +101,10 @@ static void returnThreeArrays(mxArray *plhs[], DataFileIndexer::EventsIterator &
     std::vector<MWTime> times;
     std::vector<mxArray *> values;
     
-    EventWrapper event;
-    
-    while ((event = ei.getNextEvent())) {
+    while (true) {
+        EventWrapper event = ei.getNextEvent();
+        if (event.empty())
+            break;
         codes.push_back(event.getEventCode());
         times.push_back(event.getTime());
         values.push_back(getScarabDatum(event.getPayload()));
