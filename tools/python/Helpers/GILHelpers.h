@@ -22,15 +22,15 @@ BEGIN_NAMESPACE_MW
 class ScopedGILAcquire : boost::noncopyable {
     
 private:
-    PyGILState_STATE gstate;
+    PyGILState_STATE state;
     
 public:
-    ScopedGILAcquire() {
-        gstate = PyGILState_Ensure();
-    }
+    ScopedGILAcquire() :
+        state(PyGILState_Ensure())
+    { }
     
     ~ScopedGILAcquire() {
-        PyGILState_Release(gstate);
+        PyGILState_Release(state);
     }
     
 };
@@ -39,15 +39,15 @@ public:
 class ScopedGILRelease : boost::noncopyable {
     
 private:
-    PyThreadState *threadState;
+    PyThreadState *state;
     
 public:
-    ScopedGILRelease() {
-        threadState = PyEval_SaveThread();
-    }
+    ScopedGILRelease() :
+        state(PyEval_SaveThread())
+    { }
     
     ~ScopedGILRelease() {
-        PyEval_RestoreThread(threadState);
+        PyEval_RestoreThread(state);
     }
     
 };

@@ -205,6 +205,22 @@ void PythonDataStream::write_event(const EventWrapper &e) {
 }
 
 
+void PythonDataStream::flush() {
+    requireValidSession();
+    
+    int err;
+    {
+        ScopedGILRelease sgr;
+        err = scarab_session_flush(session);
+    }
+    
+    if (err != 0) {
+        PyErr_Format(PyExc_IOError, "Scarab flush failed: %s", scarab_strerror(err));
+        throw_error_already_set();
+    }
+}
+
+
 void PythonDataStream::requireValidSession() const {
     if (!session) {
         PyErr_SetString(PyExc_ValueError, "Scarab session is not connected");

@@ -1,6 +1,8 @@
 #include <assert.h>
-#include <stdio.h>
+#include <limits.h>
 #include <math.h>
+#include <stdio.h>
+
 #include <scarab.h>
 #include "encoding_ldo.h"
 
@@ -255,11 +257,19 @@ static int
 ldo_write_integer(ScarabSession * session, long long val)
 {
 	unsigned char   type_code;
+    
+    if (val == LLONG_MIN) {
+        // Special case:  The magnitude of LLONG_MIN can't be stored as a positive long long (because
+        // abs(LLONG_MIN) == LLONG_MAX+1), so denote it with the special type code INTEGER_MIN
+        if (ldo_write_typecode(session, INTEGER_MIN) != 0)
+            return scarab_session_seterr(session, LDO_ERR_IO);
+        return 0;
+    }
 
 	if (val < 0)
 	{
 		type_code = INTEGER_N;
-		val = abs(val);
+		val = llabs(val);
 	}
 	else
 	{
@@ -428,6 +438,9 @@ ldo_read(ScarabSession * session)
 	case INTEGER_P:
 		value = scarab_new_integer(ldo_readber(session) * sign);
 		break;
+    case INTEGER_MIN:
+        value = scarab_new_integer(LLONG_MIN);
+        break;
 
 		/*
 		 * float
@@ -473,9 +486,9 @@ ldo_read(ScarabSession * session)
 	case REFERENCE:
 		value = ldo_getref(session, ldo_readber(session));
 		break;
+	case LDO_NULL:
 	case 0x0:  // DDC August 10, 2005, changed from NULL
 		value = scarab_new_atomic();
-		value->type = SCARAB_NULL;
 		break;
 	default:
 		return NULL;

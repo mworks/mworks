@@ -716,7 +716,7 @@ scarab_write(ScarabSession * session, ScarabDatum * value)
 }
 
 int
-scarab_write_integer(ScarabSession * session, int value)
+scarab_write_integer(ScarabSession * session, long long value)
 {
     //printf("Called scarab_write_integer");
 	return session->encoder_engine->write_integer(session, value);

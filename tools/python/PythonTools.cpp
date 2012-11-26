@@ -110,6 +110,7 @@ BOOST_PYTHON_MODULE(_mworks)
     .def("_write", &PythonDataStream::write)
     .def("_read_event", &PythonDataStream::read_event)
     .def("_write_event", &PythonDataStream::write_event)
+    .def("_flush", &PythonDataStream::flush)
     ;
     
 }

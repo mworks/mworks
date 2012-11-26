@@ -1,3 +1,4 @@
+#include <assert.h>
 #include <stdlib.h>
 #include <scarab.h>
 #include <scarab_utilities.h>
@@ -11,7 +12,6 @@ scarab_dict_times2(ScarabDict *d)
 static ScarabDict*
 newdict(int initialsize, ScarabDictExpFun f) 
 {
-	int i=0;
 	ScarabDict *dict;
 	
 	dict = (ScarabDict*)scarab_mem_malloc(sizeof(ScarabDict));  
@@ -19,16 +19,11 @@ newdict(int initialsize, ScarabDictExpFun f)
 	dict->size = 0;
 	dict->tablesize = initialsize;
 
-	dict->keys = (ScarabDatum**)scarab_mem_malloc(
-		initialsize * sizeof(ScarabDatum*));
-	dict->values = (ScarabDatum**)scarab_mem_malloc(
-		initialsize * sizeof(ScarabDatum*));
+    assert(initialsize > 0);
+	dict->keys = (ScarabDatum**)scarab_mem_calloc(initialsize, sizeof(ScarabDatum*));
+	dict->values = (ScarabDatum**)scarab_mem_calloc(initialsize, sizeof(ScarabDatum*));
 
 	dict->expansion_function = f;
-	for (i=0; i < initialsize; i++)
-	{
-		dict->keys[i] = dict->values[i] = NULL;
-	}
 	
 	return dict;
 }

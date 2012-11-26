@@ -25,6 +25,7 @@
 #define REFERENCE			0x0F
 #define ATTRIBUTES			0x10
 #define FLOAT_OPAQUE		0x11
+#define INTEGER_MIN			0x12
 
 /* 
  * Error codes

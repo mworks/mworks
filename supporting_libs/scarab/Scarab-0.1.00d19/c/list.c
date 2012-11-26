@@ -1,3 +1,4 @@
+#include <assert.h>
 #include <scarab.h>
 
 // TODO: does this work?
@@ -24,16 +25,16 @@ scarab_list_copy(ScarabDatum *dest, int destpos, ScarabDatum *source,
 ScarabDatum*
 scarab_list_new(int initialsize) 
 {
-	int i;
 	ScarabDatum *d = scarab_new_molecular();
 	ScarabList *list;
 	list = (ScarabList*)scarab_mem_malloc(sizeof(ScarabList));
-	list->size = initialsize;
-	list->values = (ScarabDatum**)scarab_mem_malloc(initialsize * sizeof(void*));
-	for (i = 0; i < initialsize; i++)
-	{
-		list->values[i] = NULL;
-	}
+    if (initialsize < 1) {
+        list->size = 0;
+        list->values = NULL;
+    } else {
+        list->size = initialsize;
+        list->values = (ScarabDatum**)scarab_mem_calloc(initialsize, sizeof(ScarabDatum*));
+    }
 	d->data.list = list;
 	d->type = SCARAB_LIST;
 	return d;
@@ -45,6 +46,8 @@ scarab_list_put(ScarabDatum *list, int idx, ScarabDatum *val)
 	scarab_lock_datum(list);
 	scarab_lock_datum(val);
 	ScarabList *l = list->data.list;
+
+    assert((idx >= 0) && (idx < l->size));
 	ScarabDatum *oldval = l->values[idx];
 	l->values[idx] = val;
 	
@@ -71,7 +74,10 @@ scarab_list_get(ScarabDatum *list, int idx)
 {
 	scarab_lock_datum(list);
 	ScarabList *l = list->data.list;
+
+    assert((idx >= 0) && (idx < l->size));
 	ScarabDatum *value = l->values[idx];
+
 	scarab_unlock_datum(list);
 	return value;
 }

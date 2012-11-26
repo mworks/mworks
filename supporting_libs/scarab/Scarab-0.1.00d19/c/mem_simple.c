@@ -20,7 +20,13 @@ void scarab_mem_init(void)
   
 void *scarab_mem_malloc(int bytes) 
 {
-	return (void *)malloc(bytes);
+	return malloc(bytes);
+}
+
+
+void *scarab_mem_calloc(int num, int size)
+{
+    return calloc(num, size);
 }
 
 

@@ -75,6 +75,8 @@ public:
     EventWrapper read_event();
     void write_event(const EventWrapper &e);
     
+    void flush();
+    
 private:
     void requireValidSession() const;
     

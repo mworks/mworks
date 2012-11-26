@@ -27,6 +27,12 @@ extern void scarab_mem_init(void);
 extern void *scarab_mem_malloc(int bytes);
 
 /*
+ * Returns a pointer to zero-initialized memory for an array of 'num'
+ * objects of size 'size' bytes.
+ */
+extern void *scarab_mem_calloc(int num, int size);
+
+/*
  * Frees a single allocation within a memory context.
  */
 extern void scarab_mem_free(void *ptr);

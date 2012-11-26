@@ -1497,13 +1497,15 @@ vector<Datum> Datum::getElements() const {
 // Private methods
 void Datum::createDictionary(const int is) {
 	int initialsize = is;
+
+    /* Scarab ensures that the hash table has at least one slot.  There's no reason to fuss about this.
 	if(initialsize < 1) {
 		mwarning(M_SYSTEM_MESSAGE_DOMAIN,
 				 "Attempt to create an M_DICTIONARY with size less than 1...using size of 1");
 		initialsize = 1;
 	}
+     */
 	
-	;
 	data = (ScarabDatum *)scarab_dict_new( initialsize,
 										   &scarab_dict_times2);
 	
@@ -1513,12 +1515,13 @@ void Datum::createDictionary(const int is) {
 void Datum::createList(const int ls) {
 	int size = ls;
 	
+    /* Scarab will handle an empty list correctly.  There's no reason to forbid it.
 	if(size < 1) {
 		mwarning(M_SYSTEM_MESSAGE_DOMAIN,
 				 "Attempt to create an M_LIST with size less than 1...using size of 1");
 		size = 1;
 	}
-	
+     */
 	
 	data = (ScarabDatum *)scarab_list_new( size);
 	/*for(int i = 0; i < size; i++){	// the list comes this way

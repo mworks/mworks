@@ -324,7 +324,7 @@ extern int     scarab_session_read_should_die(ScarabSession * session);
  *				< 0 on failure.
  */
 extern int      scarab_write(ScarabSession * session, ScarabDatum * value);
-extern int      scarab_write_integer(ScarabSession * session, int value);
+extern int      scarab_write_integer(ScarabSession * session, long long value);
 extern int      scarab_write_float(ScarabSession * session, double value);
 extern int      scarab_write_string(ScarabSession * session, const char *value);
 extern int      scarab_write_opaque(ScarabSession * session, const char *value,
