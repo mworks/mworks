@@ -24,6 +24,9 @@ assert (os.path.dirname(mworks.__file__) ==
 
 class TypeConversionTestMixin(object):
 
+    can_convert_inf = True
+    can_convert_nan = True
+
     def send(self, data):
         raise NotImplementedError
 
@@ -48,6 +51,12 @@ class TypeConversionTestMixin(object):
         received = self.receive()
         self.assertIsInstance(received, expected_type)
         self.assertEqual(expected, received)
+
+    def assertReceivedIsInf(self, sent):
+        self.send(sent)
+        received = self.receive()
+        self.assertIsInstance(received, float)
+        self.assertIs(self.can_convert_inf, math.isinf(received))
 
     def test_none(self):
         self.assertReceivedIsSent(None)
@@ -85,12 +94,13 @@ class TypeConversionTestMixin(object):
         self.assertReceivedEqualsSent(-2.2)
 
     def test_float_inf(self):
-        self.send(numpy.inf)
-        self.assertTrue(math.isinf(self.receive()))
+        self.assertReceivedIsInf(numpy.inf)
 
     def test_float_nan(self):
         self.send(numpy.nan)
-        self.assertTrue(math.isnan(self.receive()))
+        received = self.receive()
+        self.assertIsInstance(received, float)
+        self.assertIs(self.can_convert_nan, math.isnan(received))
 
     def test_str(self):
         self.assertReceivedEqualsSent('')
@@ -196,3 +206,113 @@ class TypeConversionTestMixin(object):
         # somewhere else in the Python interpreter, but it may be a
         # bug.
         self.assertRaises((RuntimeError, TypeError), self.send, l)
+
+    def test_numpy_bool_(self):
+        self.assertReceivedEqualsSent(numpy.bool_(True), True)
+        self.assertReceivedEqualsSent(numpy.bool_(False), False)
+
+    def _test_numpy_integer(self, itype):
+        type_info = numpy.iinfo(itype)
+        longlong_info = numpy.iinfo(numpy.longlong)
+
+        self.assertReceivedEqualsSent(itype(0), 0)
+        self.assertReceivedEqualsSent(itype(1), 1)
+        if type_info.min < 0:
+            self.assertReceivedEqualsSent(itype(-2), -2)
+
+        if type_info.max <= longlong_info.max:
+            self.assertReceivedEqualsSent(itype(type_info.max),
+                                          int(type_info.max))
+        else:
+            self.assertReceivedEqualsSent(itype(longlong_info.max),
+                                          int(longlong_info.max))
+            self.assertRaises(OverflowError,
+                              self.send,
+                              itype(longlong_info.max+1))
+
+        if type_info.min >= longlong_info.min:
+            self.assertReceivedEqualsSent(itype(type_info.min),
+                                          int(type_info.min))
+        else:
+            self.assertReceivedEqualsSent(itype(longlong_info.min),
+                                          int(longlong_info.min))
+            self.assertRaises(OverflowError,
+                              self.send,
+                              itype(longong_info.min-1))
+
+    def test_numpy_byte(self):
+        self._test_numpy_integer(numpy.byte)
+
+    def test_numpy_short(self):
+        self._test_numpy_integer(numpy.short)
+
+    def test_numpy_intc(self):
+        self._test_numpy_integer(numpy.intc)
+
+    def test_numpy_int_(self):
+        self._test_numpy_integer(numpy.int_)
+
+    def test_numpy_longlong(self):
+        self._test_numpy_integer(numpy.longlong)
+
+    def test_numpy_ubyte(self):
+        self._test_numpy_integer(numpy.ubyte)
+
+    def test_numpy_ushort(self):
+        self._test_numpy_integer(numpy.ushort)
+
+    def test_numpy_uintc(self):
+        self._test_numpy_integer(numpy.uintc)
+
+    def test_numpy_uint(self):
+        self._test_numpy_integer(numpy.uint)
+
+    def test_numpy_ulonglong(self):
+        self._test_numpy_integer(numpy.ulonglong)
+
+    def _test_numpy_floating(self, ftype):
+        self.assertReceivedEqualsSent(ftype(0.0), 0.0)
+        self.assertReceivedEqualsSent(ftype(1.0), 1.0)
+        self.assertReceivedEqualsSent(ftype(-2.2), float(ftype(-2.2)))
+
+        type_info = numpy.finfo(ftype)
+        float_info = numpy.finfo(float)
+
+        if type_info.max <= float_info.max:
+            self.assertReceivedEqualsSent(ftype(type_info.max),
+                                          float(type_info.max))
+            self.assertReceivedEqualsSent(ftype(type_info.min),
+                                          float(type_info.min))
+        else:
+            self.assertReceivedEqualsSent(ftype(float_info.max),
+                                          float(float_info.max))
+            self.assertReceivedIsInf(ftype(float_info.max) * 2.0)
+            self.assertReceivedEqualsSent(ftype(float_info.min),
+                                          float(float_info.min))
+            self.assertReceivedIsInf(ftype(float_info.min) * 2.0)
+
+    def test_numpy_half(self):
+        self._test_numpy_floating(numpy.half)
+
+    def test_numpy_single(self):
+        self._test_numpy_floating(numpy.single)
+
+    def test_numpy_float_(self):
+        self._test_numpy_floating(numpy.float_)
+
+    def test_numpy_longfloat(self):
+        self._test_numpy_floating(numpy.longfloat)
+
+    def test_numpy_str_(self):
+        self.assertReceivedEqualsSent(numpy.str_('foo'), str)
+
+    def test_numpy_unicode_(self):
+        self.assertReceivedEqualsSent(numpy.unicode_(u'foo'), str)
+
+    def test_numpy_array(self):
+        self.assertReceivedEqualsSent(numpy.array([]), [])
+        self.assertReceivedEqualsSent(numpy.array([], dtype=numpy.single), [])
+        self.assertReceivedEqualsSent(numpy.arange(10, dtype=numpy.ushort),
+                                      range(10))
+        self.assertReceivedEqualsSent(numpy.arange(10, dtype=numpy.single),
+                                      [float(x) for x in xrange(10)])

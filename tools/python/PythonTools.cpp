@@ -13,12 +13,17 @@
 
 #include <boost/python/suite/indexing/vector_indexing_suite.hpp>
 
+#define PY_ARRAY_UNIQUE_SYMBOL _mworks_ARRAY_API
+#include <numpy/arrayobject.h>
+
 
 BEGIN_NAMESPACE_MW
 
 
 BOOST_PYTHON_MODULE(_mworks)
 {
+    
+    import_array();
     
     if (scarab_init(0) != 0) {
         PyErr_SetString(PyExc_RuntimeError, "Scarab initialization failed");
@@ -37,15 +42,17 @@ BOOST_PYTHON_MODULE(_mworks)
     class_<PythonIPCConduit, boost::noncopyable>("_IPCConduit", no_init)
     .def("initialize", &PythonIPCConduit::initialize)
     .def("finalize", &PythonIPCConduit::finalize)
-    .def("send_float", &PythonIPCConduit::sendFloat)
-    .def("send_integer", &PythonIPCConduit::sendInteger)
-    .def("send_object", &PythonIPCConduit::sendPyObject)
+    .def("send_data", &PythonIPCConduit::sendPyObject)
     .def("register_callback_for_code", &PythonIPCConduit::registerCallbackForCode)
     .def("register_callback_for_name", &PythonIPCConduit::registerCallbackForName)
     .def("register_local_event_code", &PythonIPCConduit::registerLocalEventCode)
     .add_property("codec", &PythonIPCConduit::getCodec)
     .add_property("reverse_codec", &PythonIPCConduit::getReverseCodec)
     .add_property("initialized", &PythonIPCConduit::isInitialized)
+    // The following three methods aren't needed but remain for backwards compatibility
+    .def("send_float", &PythonIPCConduit::sendFloat)
+    .def("send_integer", &PythonIPCConduit::sendInteger)
+    .def("send_object", &PythonIPCConduit::sendPyObject)
     ;
     
     class_<PythonIPCServerConduit, boost::noncopyable, bases<PythonIPCConduit> >

@@ -8,6 +8,11 @@ from test_mworks import unittest, TypeConversionTestMixin
 
 class TestConduitTypeConversion(TypeConversionTestMixin, unittest.TestCase):
 
+    # boost::serialization apparently doesn't support serialization of
+    # inf/nan to text archives
+    can_convert_inf = False
+    can_convert_nan = False
+
     server_class = IPCServerConduit
     client_class = IPCClientConduit
     resource_name = 'mworks_conduit_test'
@@ -51,15 +56,3 @@ class TestConduitTypeConversion(TypeConversionTestMixin, unittest.TestCase):
 
         self.assertTrue(self.server.initialized)
         self.assertTrue(self.client.initialized)
-
-    # boost::serialization apparently doesn't support serialization of
-    # inf/nan to text archives, so we expect the next two tests to
-    # fail
-
-    @unittest.expectedFailure
-    def test_float_inf(self):
-        super(TestConduitTypeConversion, self).test_float_inf()
-
-    @unittest.expectedFailure
-    def test_float_nan(self):
-        super(TestConduitTypeConversion, self).test_float_nan()

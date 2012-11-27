@@ -12,6 +12,10 @@
 #include <boost/foreach.hpp>
 #include <boost/noncopyable.hpp>
 
+#define PY_ARRAY_UNIQUE_SYMBOL _mworks_ARRAY_API
+#define NO_IMPORT_ARRAY
+#include <numpy/arrayobject.h>
+
 using boost::python::throw_error_already_set;
 
 
@@ -62,6 +66,10 @@ Datum convert_python_to_datum(const boost::python::object &obj) {
     if (PyBool_Check(pObj)) {
         
         return Datum(bool(pObj == Py_True));
+        
+    } else if (PyArray_IsScalar(pObj, Bool)) {
+        
+        return Datum(bool(PyObject_IsTrue(pObj)));
     
     } else if (PyInt_Check(pObj)) {  // Must come *after* PyBool_Check
         
@@ -70,6 +78,10 @@ Datum convert_python_to_datum(const boost::python::object &obj) {
             throw_error_already_set();
         
         return Datum(l_val);
+        
+    } else if (PyArray_IsScalar(pObj, Integer)) {
+        
+        return convert_python_to_datum(manageNewRef(PyNumber_Int(pObj)));
         
     } else if (PyLong_Check(pObj)) {
         
@@ -86,6 +98,10 @@ Datum convert_python_to_datum(const boost::python::object &obj) {
             throw_error_already_set();
         
         return Datum(value);
+        
+    } else if (PyArray_IsScalar(pObj, Floating)) {
+        
+        return convert_python_to_datum(manageNewRef(PyNumber_Float(pObj)));
         
     } else if (PyString_Check(pObj) || PyUnicode_Check(pObj)) {
         

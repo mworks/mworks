@@ -379,6 +379,7 @@
 				GCC_PREFIX_HEADER = "PythonTools-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
 					"/usr/include/python$(MW_PYTHON_VERSION)",
+					"/System/Library/Frameworks/Python.framework/Versions/$(MW_PYTHON_VERSION)/Extras/lib/python/numpy/core/include",
 					$MW_INCLUDE_DIR,
 				);
 				LIBRARY_SEARCH_PATHS = (
