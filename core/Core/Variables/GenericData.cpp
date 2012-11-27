@@ -128,16 +128,19 @@ Datum::Datum(const long long newdata){
   setInteger(newdata);
 }
 
+Datum::Datum(const char * string, int size) {
+    initScarabDatum();
+    setString(string, size);
+}
+
 Datum::Datum(const char * string) {
   initScarabDatum();
-  datatype = M_STRING;
-  setString(string, strlen(string)+1);
+  setString(string);
 }
 
 Datum::Datum(const std::string &string){
   initScarabDatum();
-  datatype = M_STRING;
-  setString(string.c_str(), string.size()+1);
+  setString(string);
 }
 
 Datum::Datum(const bool newdata) {
@@ -512,40 +515,22 @@ void Datum::setString(const char * newdata, int size) {
   if(data != NULL){
 	scarab_free_datum(data); // TODO: why isn't this safe?
   }
-
-  //int size = strlen(newdata) + 1;
   
-  char *string = new char[size];
-  memcpy(string, newdata, size);
-  
-  data = scarab_new_opaque(string, size);
+  data = scarab_new_opaque(newdata, size);
 
   #if INTERNALLY_LOCKED_MDATA
 	unlock();
   #endif
-    
-  delete[] string;
-  
 }
 
 
-void Datum::setString(std::string newdata) {
-  #if INTERNALLY_LOCKED_MDATA
-	lock();
-  #endif
-  datatype = M_STRING;
-
-  if(data != NULL){
-	scarab_free_datum(data); // TODO: why isn't this safe?
-  }
-
-  data = scarab_new_opaque(newdata.c_str(), newdata.length()+1);
+void Datum::setString(const char * newdata) {
+    setString(newdata, strlen(newdata)+1);
+}
 
 
-  #if INTERNALLY_LOCKED_MDATA
-	unlock();
-  #endif
-  
+void Datum::setString(const std::string &newdata) {
+    setString(newdata.c_str(), newdata.size()+1);
 }
 
 
@@ -623,14 +608,14 @@ void Datum::operator=(float newdata) {
 }
 
 void Datum::operator=(const char * newdata) {
-  setString(std::string(newdata));
-}
-
-void Datum::operator=(std::string newdata){
   setString(newdata);
 }
 
-void Datum::operator=(stx::AnyScalar newdata){
+void Datum::operator=(const std::string &newdata){
+  setString(newdata);
+}
+
+void Datum::operator=(const stx::AnyScalar &newdata){
 	stx::AnyScalar::attrtype_t type = newdata.getType();
 	switch(type){
 		case stx::AnyScalar::ATTRTYPE_BOOL:

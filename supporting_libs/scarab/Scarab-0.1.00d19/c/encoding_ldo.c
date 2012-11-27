@@ -465,12 +465,7 @@ ldo_read(ScarabSession * session)
 		 */
 	case OPAQUE:
 		len = ldo_readber(session);
-		value = scarab_new_atomic();
-		value->type = SCARAB_OPAQUE;
-		value->data.opaque.size = len;
-		value->data.opaque.data = (unsigned char*)scarab_mem_malloc(
-													sizeof(char) * len);
-
+		value = scarab_new_opaque(NULL, len);
 		scarab_session_read(session, value->data.opaque.data, len);
 		break;
 

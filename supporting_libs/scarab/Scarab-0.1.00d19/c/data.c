@@ -1,8 +1,7 @@
-#include <scarab.h>
-
-#ifndef BUILD_SCARAB_FRAMEWORK
+#include <assert.h>
 #include <string.h>
-#endif //BUILD_SCARAB_FRAMEWORK
+
+#include <scarab.h>
 
 
 ScarabDatum  *
@@ -47,25 +46,31 @@ ScarabDatum *scarab_new_float( double num)
 
 ScarabDatum *scarab_new_string(const char* opaque) 
 {
-	int i=0;
-	for (;;) 
-	{
-		if (!opaque[i++])
-		{
-			return scarab_new_opaque(opaque, i);
-		}
-	}
+    assert(opaque != NULL);
+    return scarab_new_opaque(opaque, strlen(opaque) + 1);
 }
 
 
 ScarabDatum *scarab_new_opaque(const char* opaque, int size) 
 {
-	ScarabDatum *d=scarab_new_atomic();
-	d->type=SCARAB_OPAQUE;
-	d->data.opaque.size=size;
-	
-	d->data.opaque.data = (unsigned char *)scarab_mem_malloc(size * sizeof(unsigned char));
-	memcpy(d->data.opaque.data, opaque, size); 
+	ScarabDatum *d = scarab_new_atomic();
+	d->type = SCARAB_OPAQUE;
+    
+    if (size < 0) {
+        size = 0;
+    }
+    
+	d->data.opaque.size = size;
+
+    // Allocate space for size+1 bytes, and set the extra byte to NUL to protect against
+    // code that blindly assumes the data is NUL-terminated
+	d->data.opaque.data = (unsigned char *)scarab_mem_malloc((size + 1) * sizeof(unsigned char));
+    d->data.opaque.data[size] = '\0';
+    
+    if (opaque != NULL) {
+        memcpy(d->data.opaque.data, opaque, size);
+    }
+    
 	return d;
 }
 

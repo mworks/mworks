@@ -8,6 +8,7 @@
 #include "PythonDataHelpers.h"
 
 #include <climits>
+#include <cstring>
 
 #include <boost/foreach.hpp>
 #include <boost/noncopyable.hpp>
@@ -117,9 +118,12 @@ Datum convert_python_to_datum(const boost::python::object &obj) {
         if (PyString_AsStringAndSize(string.ptr(), &buffer, &size))
             throw_error_already_set();
         
-        Datum datum;
-        datum.setString(buffer, int(size));
-        return datum;
+        // If the buffer contains no NUL's (meaning it's probably text, not binary data), include
+        // the NUL terminator in the resulting Datum
+        if (std::memchr(buffer, 0, size) == NULL)
+            size++;
+        
+        return Datum(buffer, int(size));
         
     } else if (PyMapping_Check(pObj)) {
         
@@ -188,7 +192,7 @@ boost::python::object convert_datum_to_python(const Datum &datum) {
             const char *data = datum.getString();
             int size = datum.getStringLength();
             if (datum.stringIsCString())
-                size -= 1;  // PyString_FromStringAndSize doesn't expect a null-terminated string
+                size -= 1;  // PyString_FromStringAndSize doesn't expect a NUL-terminated string
             return manageNewRef( PyString_FromStringAndSize(data, size) );
         }
             

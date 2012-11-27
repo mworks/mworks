@@ -79,6 +79,7 @@ BEGIN_NAMESPACE_MW
             Datum(const double value);
             Datum(const float value);
             Datum(const bool value);
+            Datum(const char * string, int size);
             Datum(const char * string);   
             Datum(const std::string &string); 
             Datum(const stx::AnyScalar);
@@ -174,7 +175,8 @@ BEGIN_NAMESPACE_MW
 			virtual void setFloat(double value);
 			virtual void setInteger(long long value);
 			virtual void setString(const char * string, int size);
-			virtual void setString(std::string string);
+			virtual void setString(const char * string);
+			virtual void setString(const std::string &string);
 			
 			bool isInteger()  const;
 			bool isFloat() const;
@@ -206,8 +208,8 @@ BEGIN_NAMESPACE_MW
 			virtual void operator=(double newdata);
 			virtual void operator=(float newdata);
 			virtual void operator=(const char * newdata);
-			virtual void operator=(std::string newdata);
-			virtual void operator=(stx::AnyScalar newdata);
+			virtual void operator=(const std::string &newdata);
+			virtual void operator=(const stx::AnyScalar &newdata);
 			
 			//void inc();
 			// prefix operators.

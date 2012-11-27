@@ -731,10 +731,7 @@ scarab_write_float(ScarabSession * session, double value)
 int
 scarab_write_string(ScarabSession * session, const char *value)
 {
-	int             len;
-
-	for (len = 0; value[len]; len++);
-	return session->encoder_engine->write_opaque(session, value, len);
+	return session->encoder_engine->write_opaque(session, value, strlen(value) + 1);
 }
 
 int
