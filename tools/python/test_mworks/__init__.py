@@ -291,6 +291,7 @@ class TypeConversionTestMixin(object):
                                           float(float_info.min))
             self.assertReceivedIsInf(ftype(float_info.min) * 2.0)
 
+    @unittest.skipUnless(hasattr(numpy, 'half'), 'numpy.half not found')
     def test_numpy_half(self):
         self._test_numpy_floating(numpy.half)
 
