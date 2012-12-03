@@ -22,31 +22,50 @@ using mw::MWTime;
 BEGIN_NAMESPACE(DataFileUtilities)
 
 
-inline ScarabDatum* getScarabEventCodeDatum(ScarabDatum *datum) {
-    return scarab_list_get(datum, SCARAB_EVENT_CODEC_CODE_INDEX);
+inline int getScarabEventSize(const ScarabDatum *datum) {
+    return datum->data.list->size;
 }
 
 
-inline unsigned int getScarabEventCode(ScarabDatum *datum) {
+inline ScarabDatum** getScarabEventElements(const ScarabDatum *datum) {
+    return datum->data.list->values;
+}
+
+
+inline ScarabDatum* getScarabEventCodeDatum(const ScarabDatum *datum) {
+    return getScarabEventElements(datum)[SCARAB_EVENT_CODEC_CODE_INDEX];
+}
+
+
+inline unsigned int getScarabEventCode(const ScarabDatum *datum) {
     return getScarabEventCodeDatum(datum)->data.integer;
 }
 
 
-inline ScarabDatum* getScarabEventTimeDatum(ScarabDatum *datum) {
-    return scarab_list_get(datum, SCARAB_EVENT_TIME_INDEX);
+inline ScarabDatum* getScarabEventTimeDatum(const ScarabDatum *datum) {
+    return getScarabEventElements(datum)[SCARAB_EVENT_TIME_INDEX];
 }
 
 
-inline MWTime getScarabEventTime(ScarabDatum *datum) {
+inline MWTime getScarabEventTime(const ScarabDatum *datum) {
     return getScarabEventTimeDatum(datum)->data.integer;
 }
 
 
-inline ScarabDatum* getScarabEventPayload(ScarabDatum *datum) {
-    if (datum->data.list->size < SCARAB_PAYLOAD_EVENT_N_TOPLEVEL_ELEMENTS) {
+inline ScarabDatum* getScarabEventPayload(const ScarabDatum *datum) {
+    if (getScarabEventSize(datum) < SCARAB_PAYLOAD_EVENT_N_TOPLEVEL_ELEMENTS) {
         return NULL;
     }
-    return scarab_list_get(datum, SCARAB_EVENT_PAYLOAD_INDEX);
+    return getScarabEventElements(datum)[SCARAB_EVENT_PAYLOAD_INDEX];
+}
+
+
+inline bool isScarabEvent(const ScarabDatum *datum) {
+    return ((datum->type == SCARAB_LIST) &&
+            ((getScarabEventSize(datum) == SCARAB_PAYLOAD_EVENT_N_TOPLEVEL_ELEMENTS) ||
+             (getScarabEventSize(datum) == SCARAB_EVENT_N_TOPLEVEL_ELEMENTS)) &&
+            (getScarabEventCodeDatum(datum)->type == SCARAB_INTEGER) &&
+            (getScarabEventTimeDatum(datum)->type == SCARAB_INTEGER));
 }
 
 
@@ -54,3 +73,30 @@ END_NAMESPACE(DataFileUtilities)
 
 
 #endif /* !defined(__DataFileIndexer__DataFileUtilities__) */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
