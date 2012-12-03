@@ -148,7 +148,7 @@ PythonDataStream::~PythonDataStream() {
 
 void PythonDataStream::open(){
     if (session) {
-        PyErr_SetString(PyExc_ValueError, "Scarab session is already connected");
+        PyErr_SetString(PyExc_IOError, "Scarab session is already connected");
         throw_error_already_set();
     }
     
@@ -196,7 +196,7 @@ void PythonDataStream::write(const boost::python::object &obj) {
 EventWrapper PythonDataStream::read_event() {
     Datum datum(readDatum());
     if (!DataFileUtilities::isScarabEvent(datum.getScarabDatum())) {
-        PyErr_SetString(PyExc_ValueError, "Read invalid event from Scarab session");
+        PyErr_SetString(PyExc_IOError, "Read invalid event from Scarab session");
         throw_error_already_set();
     }
     return EventWrapper(datum.getScarabDatum());
@@ -227,7 +227,7 @@ void PythonDataStream::flush() {
 
 void PythonDataStream::requireValidSession() const {
     if (!session) {
-        PyErr_SetString(PyExc_ValueError, "Scarab session is not connected");
+        PyErr_SetString(PyExc_IOError, "Scarab session is not connected");
         throw_error_already_set();
     }
 }

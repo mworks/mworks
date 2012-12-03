@@ -11,12 +11,17 @@ from test_mworks import unittest, TypeConversionTestMixin
 
 class MWKStreamTestMixin(object):
 
-    @classmethod
-    def setUpClass(cls):
+    @staticmethod
+    def create_file():
         with warnings.catch_warnings():
             warnings.simplefilter('ignore', RuntimeWarning)
-            cls.filename = os.tempnam()
-        cls.outstream = MWKStream._create_file(cls.filename)
+            filename = os.tempnam()
+        fp = MWKStream._create_file(filename)
+        return filename, fp
+
+    @classmethod
+    def setUpClass(cls):
+        cls.filename, cls.outstream = cls.create_file()
         cls.instream = MWKStream.open_file(cls.filename)
 
     @classmethod
@@ -57,13 +62,14 @@ class TestMWKStreamTypeConversion(MWKStreamTestMixin,
 
 class TestMWKStreamEventIO(MWKStreamTestMixin, unittest.TestCase):
 
+    def read_event(self):
+        return self.instream.read_event()
+
     def write_event(self, evt):
         self.outstream._write_event(evt)
         self.outstream._flush()
 
-    def assertEvent(self, code, time, value):
-        evt = self.instream.read_event()
-
+    def assertEvent(self, evt, code, time, value):
         self.assertIsInstance(evt, EventWrapper)
         self.assertFalse(evt.empty)
         self.assertIsInstance(evt.code, int)
@@ -86,11 +92,14 @@ class TestMWKStreamEventIO(MWKStreamTestMixin, unittest.TestCase):
 
         # Write a "raw" event
         self.write([code, time, value])
-        evt = self.assertEvent(code, time, value)
+        evt = self.read_event()
+        self.assertEvent(evt, code, time, value)
 
         # Write an EventWrapper instance
         self.write_event(evt)
-        self.assertEvent(code, time, value)
+        evt2 = self.read_event()
+        self.assertIsNot(evt2, evt)
+        self.assertEvent(evt2, code, time, value)
 
     def test_no_payload(self):
         code = 123
@@ -98,16 +107,19 @@ class TestMWKStreamEventIO(MWKStreamTestMixin, unittest.TestCase):
 
         # Write a "raw" event
         self.write([code, time])
-        evt = self.assertEvent(code, time, None)
+        evt = self.read_event()
+        self.assertEvent(evt, code, time, None)
 
         # Write an EventWrapper instance
         self.write_event(evt)
-        self.assertEvent(code, time, None)
+        evt2 = self.read_event()
+        self.assertIsNot(evt2, evt)
+        self.assertEvent(evt2, code, time, None)
 
     def test_bad_event(self):
         def test(e):
             self.write(e)
-            self.assertRaises(ValueError, self.instream.read_event)
+            self.assertRaises(IOError, self.instream.read_event)
 
         test(1)  # Not a list
         test(None)  # Not a list
@@ -115,3 +127,30 @@ class TestMWKStreamEventIO(MWKStreamTestMixin, unittest.TestCase):
         test([1,2,3,4])  # Too many elements
         test([1.0, 2, 3])  # Bad code
         test([1, 'two', 3])  # Bad time
+
+    def test_iteration_and_context_management(self):
+        evts = [
+            [1, 11, 'one'],
+            [2, 22, 'two'],
+            [3, 33, 'three'],
+            [4, 44, 'four'],
+            ]
+
+        filename, outstream = self.create_file()
+        with outstream:
+            for e in evts:
+                outstream._write(e)
+
+        # Write to closed file should fail
+        self.assertRaises(IOError, outstream._write, evts[0])
+
+        with MWKStream.open_file(filename) as instream:
+            for i, e in enumerate(instream):
+                self.assertEvent(e, *evts[i])
+            self.assertEqual(len(evts)-1, i)
+            # Once we've hit EOF, read_event should return None
+            self.assertIs(instream.read_event(), None)
+            self.assertIs(instream.read_event(), None)
+
+        # Read from closed file should fail
+        self.assertRaises(IOError, instream._read)
