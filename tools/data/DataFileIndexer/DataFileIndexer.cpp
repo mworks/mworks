@@ -18,9 +18,8 @@ DataFileIndexer::DataFileIndexer() {
 }
 
 DataFileIndexer::DataFileIndexer(const boost::filesystem::path &data_file, 
-								 const unsigned int _events_per_block,
-								 const unsigned int multiplication_factor_per_level,
-								 const int number_of_indexing_threads) :
+								 unsigned int _events_per_block,
+								 unsigned int multiplication_factor_per_level) :
     events_per_block(_events_per_block)
 {
     openScarabSession(data_file);
@@ -39,7 +38,7 @@ DataFileIndexer::DataFileIndexer(const boost::filesystem::path &data_file,
 			while(datum = scarab_read(session)) {
 				event_codes_in_block.push_back(DataFileUtilities::getScarabEventCode(datum));
 				
-				const MWTime event_time = DataFileUtilities::getScarabEventTime(datum);
+				MWTime event_time = DataFileUtilities::getScarabEventTime(datum);
 				max_time = max_time > event_time ? max_time : event_time;
 				min_time = min_time < event_time ? min_time : event_time;
 				
@@ -99,8 +98,7 @@ DataFileIndexer::DataFileIndexer(const boost::filesystem::path &data_file,
 			
 			if(blocks_at_next_level.size() != 1) {
 				//badness
-				std::cerr << "something went wrong...please abort and try again" << std::endl;
-				throw new std::exception;
+				throw std::runtime_error("something went wrong...please abort and try again");
 			}
             
             // DDC added a patch to fix failure to index small numbers of events
@@ -121,8 +119,8 @@ DataFileIndexer::~DataFileIndexer() {
 
 void DataFileIndexer::getEvents(std::vector<EventWrapper> &return_vector,
                                 const std::vector<unsigned int> &event_codes_to_match,
-                                const MWTime lower_bound,
-                                const MWTime upper_bound) const
+                                MWTime lower_bound,
+                                MWTime upper_bound) const
 {
     EventsIterator ei = getEventsIterator(event_codes_to_match, lower_bound, upper_bound);
     while (true) {

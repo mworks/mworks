@@ -3,13 +3,13 @@ import os
 import shutil
 
 
-class FileNotLoadedException(Exception):
+class FileNotLoadedException(IOError):
     pass
     
-class NoValidCodecException(Exception):
+class NoValidCodecException(IOError):
     pass
     
-class IndexingException(Exception):
+class IndexingException(IOError):
     pass
 
 
@@ -32,26 +32,22 @@ class MWKFile(_MWKFile):
     def __exit__(self, type, value, tb):
         self.close()
 
-    def _prepare_events_iter(self, **kwargs):
-        event_codes = []
-    
-        if "codes" in kwargs:
+    def _prepare_events_iter(self, codes=(), time_range=(None, None)):
+        if not codes:
+            codes = []
+        else:
             reverse_codec = self.reverse_codec
             if not reverse_codec:
                 raise NoValidCodecException
-    
-            event_codes = kwargs["codes"]
+            codes = [reverse_codec.get(c, c) for c in codes]
 
-            for i, code in enumerate(event_codes):
-                if isinstance(code, basestring) and (code in reverse_codec):
-                    event_codes[i] = reverse_codec[code]
-        
-        if "time_range" in kwargs:
-            time_range = kwargs["time_range"]
-        else:
-            time_range = [self.minimum_time, self.maximum_time]
-    
-        self._select_events(event_codes, time_range[0], time_range[1])
+        min_time, max_time = time_range
+        if min_time is None:
+            min_time = self.minimum_time
+        if max_time is None:
+            max_time = self.maximum_time
+
+        self._select_events(codes, min_time, max_time)
 
     def get_events_iter(self, **kwargs):
         self._prepare_events_iter(**kwargs)
@@ -167,10 +163,10 @@ class MWKStream(_MWKStream):
 
     def __iter__(self):
         while True:
-            event = self.read_event()
-            if event is None:
+            try:
+                yield self._read_event()
+            except EOFError:
                 break
-            yield event
 
     def read_event(self):
         try:

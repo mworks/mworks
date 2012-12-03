@@ -43,26 +43,26 @@ protected:
 public:
 	EventBlock() {};
 	EventBlock(const long int offset,
-			   const MWTime min_time,
-			   const MWTime max_time,
+			   MWTime min_time,
+			   MWTime max_time,
 			   const std::vector<unsigned int> _event_codes);
 	
 	EventBlock(const std::vector<boost::shared_ptr<EventBlock> > child_event_blocks);
 	
-	bool hasTime(const MWTime lower_bound, 
-				 const MWTime upper_bound) const;
-	bool hasEventCode(const unsigned int event_code) const;
+	bool hasTime(MWTime lower_bound, 
+				 MWTime upper_bound) const;
+	bool hasEventCode(unsigned int event_code) const;
 	bool hasEventCodes(const std::vector<unsigned int> &event_codes_to_match) const;
 	bool isLeaf() const;
 	void addChild(boost::shared_ptr<EventBlock> child);	
 	MWTime maximumTime() const;
 	MWTime minimumTime() const;
 	long int blockOffset() const;
-	std::vector<unsigned int> eventCodes() const;
+	const std::vector<unsigned int>& eventCodes() const;
 	void children(std::vector<boost::shared_ptr<EventBlock> > &matching_child_blocks,
                   const std::vector<unsigned int> &event_codes,
-                  const MWTime lower_bound,
-                  const MWTime upper_bound) const;	
+                  MWTime lower_bound,
+                  MWTime upper_bound) const;	
 };
 
 #endif // EventBlock_

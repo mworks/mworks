@@ -12,8 +12,8 @@
 #include "EventBlock.h"
 
 EventBlock::EventBlock(const long int offset,
-					   const MWTime min_time,
-					   const MWTime max_time,
+					   MWTime min_time,
+					   MWTime max_time,
 					   const std::vector<unsigned int> _event_codes) : 
 file_offset(offset), 
 minimum_time(min_time), 
@@ -33,12 +33,12 @@ maximum_time(MIN_MONKEY_WORKS_TIME())
 	}
 }
 
-bool EventBlock::hasTime(const MWTime lower_bound,
-						 const MWTime upper_bound) const {
+bool EventBlock::hasTime(MWTime lower_bound,
+						 MWTime upper_bound) const {
 	return lower_bound <= maximum_time && upper_bound >= minimum_time;
 }
 
-bool EventBlock::hasEventCode(const unsigned int event_code) const {
+bool EventBlock::hasEventCode(unsigned int event_code) const {
 	for(std::vector<unsigned int>::const_iterator i = event_codes.begin();
 		i != event_codes.end();
 		++i) {
@@ -104,14 +104,14 @@ long int EventBlock::blockOffset() const {
 	return file_offset;
 }
 
-std::vector<unsigned int> EventBlock::eventCodes() const {
+const std::vector<unsigned int>& EventBlock::eventCodes() const {
 	return event_codes;
 }
 
 void EventBlock::children(std::vector<boost::shared_ptr<EventBlock> > &matching_child_blocks,
                           const std::vector<unsigned int> &event_codes_to_match,
-                          const MWTime lower_bound,
-                          const MWTime upper_bound) const
+                          MWTime lower_bound,
+                          MWTime upper_bound) const
 {
 	for(std::vector<boost::shared_ptr<EventBlock> >::const_iterator i = _children.begin();
 		i != _children.end();

@@ -8,8 +8,9 @@
  */
 
 #include "dfindex.h"
-#include "boost/filesystem/operations.hpp"
-#include "boost/archive/tmpdir.hpp"
+#include <boost/filesystem/operations.hpp>
+#include <boost/format.hpp>
+#include <boost/archive/tmpdir.hpp>
 #include <exception>
 #include <fstream>
 #include <iostream>
@@ -18,8 +19,7 @@
 
 dfindex::dfindex(const boost::filesystem::path &data_file) : mwk_data_file(data_file) {
 	if(!boost::filesystem::exists(mwk_data_file)) {
-		std::cerr << ".mwk file: " << mwk_data_file.string() << " doesn't exist" << std::endl;
-		throw new std::exception;
+		throw std::runtime_error((boost::format("File \"%s\" does not exist") % mwk_data_file.string()).str());
 	}
 	
 	if(!boost::filesystem::is_directory(mwk_data_file)) {
@@ -34,9 +34,8 @@ dfindex::dfindex(const boost::filesystem::path &data_file) : mwk_data_file(data_
 	boost::filesystem::path actual_mwk_file(mwk_data_file / mwk_data_file.leaf());
 	
 	if(!boost::filesystem::exists(actual_mwk_file)) {
-		std::cerr << ".mwk file: " << actual_mwk_file.string() << " doesn't exist" << std::endl;
-		throw new std::exception;
-	} else {			
+		throw std::runtime_error((boost::format("File \"%s\" does not exist") % actual_mwk_file.string()).str());
+	} else {
 		boost::filesystem::path index_file(this->indexFile());
 		if(!boost::filesystem::exists(index_file)) {
 			dfi = DataFileIndexer(actual_mwk_file, 5000, 4);	

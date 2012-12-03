@@ -57,9 +57,8 @@ private:
 public:
     DataFileIndexer();
     DataFileIndexer(const boost::filesystem::path &data_file,
-                    const unsigned int events_per_block = 1000,
-                    const unsigned int multiplication_factor_per_level = 2,
-                    const int number_of_indexing_threads = 1);
+                    unsigned int events_per_block = 1000,
+                    unsigned int multiplication_factor_per_level = 2);
     ~DataFileIndexer();
     
     void openScarabSession(const boost::filesystem::path &data_file) {
@@ -78,8 +77,8 @@ public:
     
     void getEvents(std::vector<EventWrapper> &events,
                    const std::vector<unsigned int> &event_codes,
-                   const MWTime lower_bound = MIN_MONKEY_WORKS_TIME(),
-                   const MWTime upper_bound = MAX_MONKEY_WORKS_TIME()) const;
+                   MWTime lower_bound = MIN_MONKEY_WORKS_TIME(),
+                   MWTime upper_bound = MAX_MONKEY_WORKS_TIME()) const;
     
     class EventsIterator {
     private:
@@ -104,8 +103,8 @@ public:
     };
     
     EventsIterator getEventsIterator(const std::vector<unsigned int> &event_codes,
-                                     const MWTime lower_bound = MIN_MONKEY_WORKS_TIME(),
-                                     const MWTime upper_bound = MAX_MONKEY_WORKS_TIME()) const
+                                     MWTime lower_bound = MIN_MONKEY_WORKS_TIME(),
+                                     MWTime upper_bound = MAX_MONKEY_WORKS_TIME()) const
     {
         return EventsIterator(*this, event_codes, lower_bound, upper_bound);
     }

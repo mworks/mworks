@@ -14,7 +14,7 @@
 #include <boost/python.hpp>
 #include <dfindex/dfindex.h>
 #include <boost/noncopyable.hpp>
-#include <boost/shared_ptr.hpp>
+#include <boost/scoped_ptr.hpp>
 #include <string>
 #include <vector>
 
@@ -26,14 +26,9 @@ BEGIN_NAMESPACE_MW
 
 
 class PythonDataFile : boost::noncopyable {
-    std::string file_name;
-    shared_ptr<dfindex> indexer;
-    shared_ptr<DataFileIndexer::EventsIterator> eventsIterator;
-    
     
 public:
-    
-    explicit PythonDataFile(std::string _file_name);
+    explicit PythonDataFile(const std::string &_file_name);
     
     void open();    
     void close();    
@@ -43,15 +38,24 @@ public:
     bool loaded();    
     bool valid();
     
-    std::string file();
-    std::string true_mwk_file();
+    std::string file() const;
     
-    MWTime minimum_time();
-    MWTime maximum_time();
+    unsigned int num_events() const;
+    MWTime minimum_time() const;
+    MWTime maximum_time() const;
     
-    void select_events(bp::list codes, const MWTime lower_bound, const MWTime upper_bound);
+    void select_events(const bp::list &codes, MWTime lower_bound, MWTime upper_bound);
     EventWrapper get_next_event();
     std::vector<EventWrapper> get_events();
+    
+private:
+    void requireValidIndexer() const;
+    void requireValidEventsIterator() const;
+    
+    const std::string file_name;
+    boost::scoped_ptr<dfindex> indexer;
+    boost::scoped_ptr<DataFileIndexer::EventsIterator> eventsIterator;
+    
 };
 
 

@@ -102,10 +102,10 @@ BOOST_PYTHON_MODULE(_mworks)
     .add_property("exists", &PythonDataFile::exists)
     .add_property("loaded", &PythonDataFile::loaded)
     .add_property("valid", &PythonDataFile::valid)
+    .add_property("num_events", &PythonDataFile::num_events)
     .add_property("minimum_time", &PythonDataFile::minimum_time)
     .add_property("maximum_time", &PythonDataFile::maximum_time)
     .add_property("file", &PythonDataFile::file)
-    .add_property("true_mwk_file", &PythonDataFile::true_mwk_file)
     ;
     
     class_<PythonDataStream, boost::noncopyable>("_MWKStream", init<std::string>())

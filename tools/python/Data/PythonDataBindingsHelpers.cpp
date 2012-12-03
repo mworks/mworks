@@ -19,70 +19,75 @@ using boost::python::throw_error_already_set;
 BEGIN_NAMESPACE_MW
 
 
-PythonDataFile::PythonDataFile(std::string _file_name){
-    file_name = _file_name;
-}
+PythonDataFile::PythonDataFile(const std::string &_file_name) :
+    file_name(_file_name)
+{ }
 
-std::string PythonDataFile::file(){
+
+std::string PythonDataFile::file() const {
     return file_name;
 }
 
-std::string PythonDataFile::true_mwk_file(){
-    if(indexer != NULL){
-        return indexer->getFilePath();
-    } else {
-        return "";
-    }
-}
 
 void PythonDataFile::open(){
+    if (indexer) {
+        PyErr_SetString(PyExc_IOError, "Data file is already open");
+        throw_error_already_set();
+    }
     
     // convert the filename string to a boost::filesystem path
-    // TODO: catch exception
     boost::filesystem::path file_path(file_name);
     
     // open the file
-    indexer = shared_ptr<dfindex>(new dfindex(file_path));
+    ScopedGILRelease sgr;
+    indexer.reset(new dfindex(file_path));
 }
+
 
 void PythonDataFile::close(){
     // close it
-    indexer = shared_ptr<dfindex>();
-    eventsIterator = shared_ptr<DataFileIndexer::EventsIterator>();
+    ScopedGILRelease sgr;
+    indexer.reset();
+    eventsIterator.reset();
 }
+
 
 bool PythonDataFile::exists(){
     return true;
 }
 
+
 bool PythonDataFile::loaded(){
     return (indexer != NULL);
 }
+
 
 bool PythonDataFile::valid(){
     return (indexer != NULL);
 }
 
-MWTime PythonDataFile::minimum_time() {
-    if (indexer != NULL) {
-        return indexer->getMinimumTime();
-    }
-    return MIN_MONKEY_WORKS_TIME();
-}
 
-MWTime PythonDataFile::maximum_time() {
-    if (indexer != NULL) {
-        return indexer->getMaximumTime();
-    }
-    return MAX_MONKEY_WORKS_TIME();
+unsigned int PythonDataFile::num_events() const {
+    requireValidIndexer();
+    return indexer->getNEvents();
 }
 
 
-void PythonDataFile::select_events(bp::list codes, const MWTime lower_bound, const MWTime upper_bound)
+MWTime PythonDataFile::minimum_time() const {
+    requireValidIndexer();
+    return indexer->getMinimumTime();
+}
+
+
+MWTime PythonDataFile::maximum_time() const {
+    requireValidIndexer();
+    return indexer->getMaximumTime();
+}
+
+
+void PythonDataFile::select_events(const bp::list &codes, MWTime lower_bound, MWTime upper_bound)
 {
-    if (indexer == NULL) {
-        throw std::runtime_error("data file is not open");
-    }
+    requireValidIndexer();
     
     std::vector<unsigned int> event_codes;
     int n = len(codes);
@@ -91,23 +96,21 @@ void PythonDataFile::select_events(bp::list codes, const MWTime lower_bound, con
         event_codes.push_back(bp::extract<unsigned int>(codes[i]));
     }
     
-    eventsIterator = shared_ptr<DataFileIndexer::EventsIterator>(new DataFileIndexer::EventsIterator(indexer->getEventsIterator(event_codes, lower_bound, upper_bound)));
+    eventsIterator.reset(new DataFileIndexer::EventsIterator(indexer->getEventsIterator(event_codes, lower_bound, upper_bound)));
 }
 
 
 EventWrapper PythonDataFile::get_next_event() {
-    if (eventsIterator == NULL) {
-        throw std::runtime_error("no event iterator available");
-    }
+    requireValidEventsIterator();
+    ScopedGILRelease sgr;
     return eventsIterator->getNextEvent();
 }
 
 
 std::vector<EventWrapper> PythonDataFile::get_events() {
-    if (eventsIterator == NULL) {
-        throw std::runtime_error("no event iterator available");
-    }
+    requireValidEventsIterator();
     
+    ScopedGILRelease sgr;
     std::vector<EventWrapper> events;
     
     while (true) {
@@ -118,6 +121,22 @@ std::vector<EventWrapper> PythonDataFile::get_events() {
     }
     
     return events;
+}
+
+
+void PythonDataFile::requireValidIndexer() const {
+    if (!indexer) {
+        PyErr_SetString(PyExc_IOError, "Data file is not open");
+        throw_error_already_set();
+    }
+}
+
+
+void PythonDataFile::requireValidEventsIterator() const {
+    if (!eventsIterator) {
+        PyErr_SetString(PyExc_IOError, "No events have been selected");
+        throw_error_already_set();
+    }
 }
 
 
