@@ -30,9 +30,16 @@ BOOST_PYTHON_MODULE(_mworks)
         throw_error_already_set();
     }
     
+    enum_<ReservedEventCode>("ReservedEventCode")
+    .value("RESERVED_CODEC_CODE", RESERVED_CODEC_CODE)
+    .value("RESERVED_SYSTEM_EVENT_CODE", RESERVED_SYSTEM_EVENT_CODE)
+    .value("RESERVED_COMPONENT_CODEC_CODE", RESERVED_COMPONENT_CODEC_CODE)
+    .value("RESERVED_TERMINATION_CODE", RESERVED_TERMINATION_CODE)
+    ;
+    
     class_<Event>("Event", no_init)
     .add_property("code", &Event::getEventCode)
-    .add_property("time", &Event::getTime)
+    .add_property("time", extractEventTime)
     .add_property("data", extractEventData)
     .add_property("value", extractEventData)  // For compatibility with EventWrapper
     ;
@@ -83,7 +90,7 @@ BOOST_PYTHON_MODULE(_mworks)
     
     class_<EventWrapper>("EventWrapper", no_init)
     .add_property("code", &EventWrapper::getEventCode)
-    .add_property("time", &EventWrapper::getTime)
+    .add_property("time", extract_event_time)
     .add_property("value", extract_event_value)
     .add_property("data", extract_event_value)  // For compatibility with Event
     .add_property("empty", &EventWrapper::empty)
@@ -99,9 +106,8 @@ BOOST_PYTHON_MODULE(_mworks)
     .def("_select_events", &PythonDataFile::select_events)
     .def("_get_next_event", &PythonDataFile::get_next_event)
     .def("_get_events", &PythonDataFile::get_events)
-    .add_property("exists", &PythonDataFile::exists)
     .add_property("loaded", &PythonDataFile::loaded)
-    .add_property("valid", &PythonDataFile::valid)
+    .add_property("valid", &PythonDataFile::loaded)
     .add_property("num_events", &PythonDataFile::num_events)
     .add_property("minimum_time", &PythonDataFile::minimum_time)
     .add_property("maximum_time", &PythonDataFile::maximum_time)

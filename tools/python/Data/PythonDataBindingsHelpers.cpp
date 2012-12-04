@@ -8,8 +8,6 @@
 
 #include "PythonDataBindingsHelpers.h"
 
-#include <limits.h>
-
 #include "GILHelpers.h"
 #include "PythonDataHelpers.h"
 
@@ -52,17 +50,7 @@ void PythonDataFile::close(){
 }
 
 
-bool PythonDataFile::exists(){
-    return true;
-}
-
-
-bool PythonDataFile::loaded(){
-    return (indexer != NULL);
-}
-
-
-bool PythonDataFile::valid(){
+bool PythonDataFile::loaded() const {
     return (indexer != NULL);
 }
 
@@ -294,11 +282,12 @@ void PythonDataStream::writeDatum(const Datum &datum) {
 }
 
 
-boost::python::object extract_event_value(const EventWrapper &e){
-    if(e.empty()){
-        // TODO throw / complain
-        return boost::python::object();
-    }
+boost::python::object extract_event_time(const EventWrapper &e) {
+    return convert_longlong_to_python(e.getTime());
+}
+
+
+boost::python::object extract_event_value(const EventWrapper &e) {
     return convert_datum_to_python(Datum(e.getPayload()));
 }
 

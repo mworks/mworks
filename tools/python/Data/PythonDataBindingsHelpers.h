@@ -33,10 +33,7 @@ public:
     void open();    
     void close();    
     
-    bool exists();
-    
-    bool loaded();    
-    bool valid();
+    bool loaded() const;
     
     std::string file() const;
     
@@ -93,6 +90,7 @@ private:
 };    
 
 
+boost::python::object extract_event_time(const EventWrapper &e);
 boost::python::object extract_event_value(const EventWrapper &e);
 
 

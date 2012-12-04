@@ -234,6 +234,11 @@ public:
 };
 
 
+inline boost::python::object extractEventTime(const Event &e) {
+    return convert_longlong_to_python(e.getTime());
+}
+
+
 inline boost::python::object extractEventData(const Event &e) {
     return convert_datum_to_python(e.getData());
 }

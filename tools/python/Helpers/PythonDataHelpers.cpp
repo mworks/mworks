@@ -175,12 +175,8 @@ boost::python::object convert_datum_to_python(const Datum &datum) {
     }
     
     switch (datum.getDataType()) {
-        case M_INTEGER: {
-            long long ll_val = datum.getInteger();
-            if (ll_val >= LONG_MIN && ll_val <= LONG_MAX)
-	            return manageNewRef( PyInt_FromLong(long(ll_val)) );
-            return manageNewRef( PyLong_FromLongLong(ll_val) );
-        }
+        case M_INTEGER:
+            return convert_longlong_to_python(datum.getInteger());
             
         case M_FLOAT:
             return manageNewRef( PyFloat_FromDouble(datum.getFloat()) );
@@ -234,6 +230,14 @@ boost::python::object convert_datum_to_python(const Datum &datum) {
             throw_error_already_set();
             return boost::python::object();  // Never reached
     }
+}
+
+
+boost::python::object convert_longlong_to_python(long long ll_val) {
+    if (ll_val >= LONG_MIN && ll_val <= LONG_MAX) {
+        return manageNewRef( PyInt_FromLong(long(ll_val)) );
+    }
+    return manageNewRef( PyLong_FromLongLong(ll_val) );
 }
 
 

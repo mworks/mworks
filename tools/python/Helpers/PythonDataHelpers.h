@@ -24,6 +24,10 @@ Datum convert_python_to_datum(const boost::python::object &obj);
 boost::python::object convert_datum_to_python(const Datum &datum);
 
 
+// Convert a long long value into a Python int or long, as appropriate
+boost::python::object convert_longlong_to_python(long long ll_val);
+
+
 END_NAMESPACE_MW
 
 

@@ -2,16 +2,12 @@ from Queue import Queue
 import random
 
 from mworks.conduit import IPCClientConduit, IPCServerConduit
+from mworks._mworks import Event
 
 from test_mworks import unittest, TypeConversionTestMixin
 
 
-class TestConduitTypeConversion(TypeConversionTestMixin, unittest.TestCase):
-
-    # boost::serialization apparently doesn't support serialization of
-    # inf/nan to text archives
-    can_convert_inf = False
-    can_convert_nan = False
+class ConduitTestMixin(object):
 
     server_class = IPCServerConduit
     client_class = IPCClientConduit
@@ -36,6 +32,22 @@ class TestConduitTypeConversion(TypeConversionTestMixin, unittest.TestCase):
         cls.client.finalize()
         cls.server.finalize()
 
+    def send(self, data):
+        self.client.send_data(self.event_code, data)
+
+    def receive(self):
+        return self.queue.get(timeout=self.queue_timeout)
+
+
+class TestConduitTypeConversion(ConduitTestMixin,
+                                TypeConversionTestMixin,
+                                unittest.TestCase):
+
+    # boost::serialization apparently doesn't support serialization of
+    # inf/nan to text archives
+    can_convert_inf = False
+    can_convert_nan = False
+
     @classmethod
     def event_callback(cls, event):
         try:
@@ -44,11 +56,28 @@ class TestConduitTypeConversion(TypeConversionTestMixin, unittest.TestCase):
             data = e
         cls.queue.put(data, block=False)
 
-    def send(self, data):
-        self.client.send_data(self.event_code, data)
 
-    def receive(self):
-        return self.queue.get(timeout=self.queue_timeout)
+class TestConduits(ConduitTestMixin, unittest.TestCase):
+
+    @classmethod
+    def event_callback(cls, event):
+        cls.queue.put(event, block=False)
+
+    def assertReceived(self, data):
+        evt = self.receive()
+        self.assertIsInstance(evt, Event)
+
+        self.assertIsInstance(evt.code, int)
+        self.assertEqual(self.event_code, evt.code)
+
+        self.assertIsInstance(evt.time, int)
+
+        self.assertIsInstance(evt.data, type(data))
+        self.assertEqual(data, evt.data)
+
+        # Alternative name for data
+        self.assertIsInstance(evt.value, type(data))
+        self.assertEqual(data, evt.value)
 
     def test_initialization(self):
         self.assertIsInstance(self.server, self.server_class)
@@ -56,3 +85,27 @@ class TestConduitTypeConversion(TypeConversionTestMixin, unittest.TestCase):
 
         self.assertTrue(self.server.initialized)
         self.assertTrue(self.client.initialized)
+
+    def test_basic_send(self):
+        data = {'a': 1, 'b': 2.2}
+        self.send(data)
+        self.assertReceived(data)
+
+    def test_send_float(self):
+        self.client.send_float(self.event_code, 1.2)
+        self.assertReceived(1.2)
+        self.client.send_float(self.event_code, 12)
+        self.assertReceived(12.0)
+
+    def test_send_integer(self):
+        self.client.send_integer(self.event_code, 12)
+        self.assertReceived(12)
+        self.assertRaises(TypeError,
+                          self.client.send_integer,
+                          self.event_code,
+                          1.2)
+
+    def test_send_object(self):
+        data = [1, 2.0, 'three']
+        self.client.send_object(self.event_code, data)
+        self.assertReceived(data)

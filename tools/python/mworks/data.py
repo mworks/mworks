@@ -1,14 +1,17 @@
-from _mworks import _MWKFile, _MWKStream
 import os
 import shutil
+
+from _mworks import ReservedEventCode, _MWKFile, _MWKStream
 
 
 class FileNotLoadedException(IOError):
     pass
-    
+
+
 class NoValidCodecException(IOError):
     pass
-    
+
+
 class IndexingException(IOError):
     pass
 
@@ -18,7 +21,7 @@ class MWKFile(_MWKFile):
     def __init__(self, file_name):
         super(MWKFile, self).__init__(file_name)
         self._codec = None 
-        self._reverse_codec = None 
+        self._reverse_codec = None
 
     def close(self):
         super(MWKFile, self).close()
@@ -31,6 +34,10 @@ class MWKFile(_MWKFile):
 
     def __exit__(self, type, value, tb):
         self.close()
+
+    @property
+    def exists(self):
+        return os.path.exists(self.file)
 
     def _prepare_events_iter(self, codes=(), time_range=(None, None)):
         if not codes:
@@ -68,7 +75,9 @@ class MWKFile(_MWKFile):
         if self._codec is not None:
             return self._codec
     
-        self._select_events([0], self.minimum_time, self.maximum_time)
+        self._select_events([ReservedEventCode.RESERVED_CODEC_CODE],
+                            self.minimum_time,
+                            self.maximum_time)
         e = self._get_next_event()
         if e.empty:
             self._codec = {}
@@ -172,4 +181,4 @@ class MWKStream(_MWKStream):
         try:
             return self._read_event()
         except EOFError:
-            return None
+            pass

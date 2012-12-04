@@ -17,7 +17,7 @@ class DataTestMixin(object):
         self.assertFalse(evt.empty)
         self.assertIsInstance(evt.code, int)
         self.assertEqual(code, evt.code)
-        self.assertIsInstance(evt.time, long)
+        self.assertIsInstance(evt.time, (int, long))
         self.assertEqual(time, evt.time)
         self.assertIsInstance(evt.value, type(value))
         self.assertEqual(value, evt.value)
@@ -181,9 +181,7 @@ class TestMWKFile(DataTestMixin, unittest.TestCase):
                 fp._write(evt)
 
     def test_unopened_file(self):
-        # exists() always returns True
-        self.assertIs(True, self.fp.exists)
-
+        self.assertIs(False, self.fp.exists)
         self.assertIs(False, self.fp.loaded)
         self.assertIs(False, self.fp.valid)
 
@@ -205,8 +203,11 @@ class TestMWKFile(DataTestMixin, unittest.TestCase):
         self.assertRaises(RuntimeError, self.fp.open)
 
     def test_context_manager(self):
+        self.assertFalse(self.fp.exists)
+
         self.create_file()
         
+        self.assertTrue(self.fp.exists)
         self.assertFalse(self.fp.loaded)
         self.assertFalse(self.fp.valid)
 
