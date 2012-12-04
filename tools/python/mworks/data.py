@@ -4,14 +4,6 @@ import shutil
 from _mworks import ReservedEventCode, _MWKFile, _MWKStream
 
 
-class FileNotLoadedException(IOError):
-    pass
-
-
-class NoValidCodecException(IOError):
-    pass
-
-
 class IndexingException(IOError):
     pass
 
@@ -44,8 +36,6 @@ class MWKFile(_MWKFile):
             codes = []
         else:
             reverse_codec = self.reverse_codec
-            if not reverse_codec:
-                raise NoValidCodecException
             codes = [reverse_codec.get(c, c) for c in codes]
 
         min_time, max_time = time_range
@@ -70,8 +60,6 @@ class MWKFile(_MWKFile):
     
     @property
     def codec(self):
-        if not self.loaded:
-            raise FileNotLoadedException
         if self._codec is not None:
             return self._codec
     
@@ -91,8 +79,6 @@ class MWKFile(_MWKFile):
     
     @property
     def reverse_codec(self):
-        if not self.loaded:
-            raise FileNotLoadedException
         if self._reverse_codec is not None:
             return self._reverse_codec
     

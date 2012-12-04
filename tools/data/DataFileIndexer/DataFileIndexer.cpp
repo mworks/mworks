@@ -141,6 +141,10 @@ DataFileIndexer::EventsIterator::EventsIterator(const DataFileIndexer &_dfi,
     lower_bound(_lower_bound),
     upper_bound(_upper_bound)
 {
+    if (lower_bound > upper_bound) {
+        throw std::runtime_error("Minimum event time must be less than or equal to maximum event time");
+    }
+    
     // Recursively find event blocks that meet our search criteria
 	dfi.root->children(matching_event_blocks, event_codes_to_match, lower_bound, upper_bound);
     

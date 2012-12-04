@@ -1,3 +1,4 @@
+from itertools import izip
 import os
 import warnings
 
@@ -158,7 +159,7 @@ class TestMWKStreamEventIO(MWKStreamTestMixin, unittest.TestCase):
         self.assertRaises(IOError, instream._read)
 
 
-class TestMWKFile(DataTestMixin, unittest.TestCase):
+class MWKFileTestMixin(DataTestMixin):
 
     def setUp(self):
         with warnings.catch_warnings():
@@ -179,6 +180,12 @@ class TestMWKFile(DataTestMixin, unittest.TestCase):
         with MWKStream._create_file(self.filename) as fp:
             for evt in events:
                 fp._write(evt)
+
+    def open_file(self):
+        self.fp.open()
+
+
+class TestMWKFileBasics(MWKFileTestMixin, unittest.TestCase):
 
     def test_unopened_file(self):
         self.assertIs(False, self.fp.exists)
@@ -218,7 +225,7 @@ class TestMWKFile(DataTestMixin, unittest.TestCase):
         self.assertFalse(self.fp.loaded)
         self.assertFalse(self.fp.valid)
 
-    def test_simple(self):
+    def test_basic_selection(self):
         events = (
             [1, 11, 1.0],
             [2, 22, 'two'],
@@ -227,18 +234,92 @@ class TestMWKFile(DataTestMixin, unittest.TestCase):
             )
 
         self.create_file(events)
+        self.open_file()
 
-        with self.fp:
-            self.assertEqual(len(events), self.fp.num_events)
-            self.assertEqual(11, self.fp.minimum_time)
-            self.assertEqual(44, self.fp.maximum_time)
+        self.assertEqual(len(events), self.fp.num_events)
+        self.assertEqual(11, self.fp.minimum_time)
+        self.assertEqual(44, self.fp.maximum_time)
 
-            # Iterating through events one by one
-            for i, evt in enumerate(self.fp.get_events_iter()):
-                self.assertEvent(evt, *events[i])
-            self.assertEqual(len(events)-1, i)
+        # Iterating through events one by one
+        for i, evt in enumerate(self.fp.get_events_iter()):
+            self.assertEvent(evt, *events[i])
+        self.assertEqual(len(events)-1, i)
 
-            # All events in a single array
-            for i, evt in enumerate(self.fp.get_events()):
-                self.assertEvent(evt, *events[i])
-            self.assertEqual(len(events)-1, i)
+        # All events in a single array
+        for i, evt in enumerate(self.fp.get_events()):
+            self.assertEvent(evt, *events[i])
+        self.assertEqual(len(events)-1, i)
+
+
+class TestMWKFileSelection(MWKFileTestMixin, unittest.TestCase):
+
+    def setUp(self):
+        super(TestMWKFileSelection, self).setUp()
+        self.events = (
+            [1, 11, 1.0],
+            [2, 22, 'two'],
+            [3, 33, [1, 2.2, 'three']],
+            [4, 44, {'four': [1, 2, 3, 4]}],
+            )
+        self.all = range(len(self.events))
+        self.create_file(self.events)
+        self.open_file()
+
+    def assertSelected(self, indices, codes=(), min_time=None, max_time=None):
+        expected = [self.events[i] for i in indices]
+        selected = self.select(codes, min_time, max_time)
+
+        self.assertEqual(len(indices), len(selected))
+        for evt, values in izip(selected, expected):
+            self.assertEvent(evt, *values)
+
+    def select(self, codes=(), min_time=None, max_time=None):
+        return list(self.fp.get_events_iter(codes = codes,
+                                            time_range = (min_time, max_time)))
+
+    def test_by_code(self):
+        self.assertSelected([0], codes=(1,))
+        self.assertSelected([1], codes=(2,))
+        self.assertSelected([2], codes=(3,))
+        self.assertSelected([3], codes=(4,))
+        self.assertSelected([0, 2], codes=(1, 3))
+        self.assertSelected(self.all, codes=(1, 2, 3, 4))
+
+    def test_by_time(self):
+        self.assertSelected(self.all, min_time=10)
+        self.assertSelected(self.all, min_time=11)
+        self.assertSelected([1,2,3], min_time=22)
+        self.assertSelected([2,3], min_time=33)
+        self.assertSelected([3], min_time=44)
+        self.assertSelected([], min_time=45, max_time=46)
+
+        self.assertSelected([], min_time=9, max_time=10)
+        self.assertSelected([0], max_time=11)
+        self.assertSelected([0,1], max_time=22)
+        self.assertSelected([0,1,2], max_time=33)
+        self.assertSelected(self.all, max_time=44)
+        self.assertSelected(self.all, max_time=45)
+
+        self.assertSelected(self.all, min_time=11, max_time=44)
+        self.assertSelected([1,2], min_time=22, max_time=33)
+        self.assertSelected([], min_time=23, max_time=32)
+        self.assertSelected([1], min_time=22, max_time=22)
+        self.assertRaises(RuntimeError, self.select, min_time=23, max_time=22)
+
+    def test_by_code_and_time(self):
+        self.assertSelected([1,2,3], codes=(2,3,4), min_time=22)
+        self.assertSelected([2,3], codes=(2,3,4), min_time=23)
+        self.assertSelected([1,2], codes=(2,3), min_time=22, max_time=33)
+        self.assertSelected([1], codes=(2,3), min_time=22, max_time=32)
+
+    def test_by_tag(self):
+        self.fp._reverse_codec = {'a':1, 'b':2, 'c':3, 'd':4}
+
+        self.assertSelected([0], codes=['a'])
+        self.assertSelected([1], codes=['b'])
+        self.assertSelected([2], codes=['c'])
+        self.assertSelected([3], codes=['d'])
+
+        self.assertSelected([1,2,3], codes=('b', 3, 'd'))
+
+        self.assertRaises(TypeError, self.select, codes=('a', 'c', 'e'))
