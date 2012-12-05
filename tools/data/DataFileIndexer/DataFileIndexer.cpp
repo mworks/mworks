@@ -168,7 +168,7 @@ DataFileIndexer::EventsIterator::EventsIterator(const DataFileIndexer &_dfi,
 	dfi.root->children(matching_event_blocks, event_codes_to_match, lower_bound, upper_bound);
     
     // Prepare for iteration
-    matching_event_blocks_iter = matching_event_blocks.begin();
+    current_event_block = 0;
     current_relative_event = dfi.events_per_block;
     current_datum = NULL;
 }
@@ -177,10 +177,10 @@ DataFileIndexer::EventsIterator::EventsIterator(const DataFileIndexer &_dfi,
 EventWrapper DataFileIndexer::EventsIterator::getNextEvent() {
     EventWrapper event;
     
-    while (matching_event_blocks_iter != matching_event_blocks.end()) {
+    while (current_event_block < matching_event_blocks.size()) {
         if ((current_relative_event == dfi.events_per_block) || (current_datum == NULL)) {
             // Advance to the next block
-            scarab_seek(dfi.session, (*matching_event_blocks_iter)->blockOffset(), SEEK_SET);
+            scarab_seek(dfi.session, matching_event_blocks[current_event_block]->blockOffset(), SEEK_SET);
             current_relative_event = 0;
         }
         
@@ -212,7 +212,7 @@ EventWrapper DataFileIndexer::EventsIterator::getNextEvent() {
 		}
         
         if ((current_relative_event == dfi.events_per_block) || (current_datum == NULL))
-            matching_event_blocks_iter++;
+            current_event_block++;
         
         if (!event.empty())
             return event;

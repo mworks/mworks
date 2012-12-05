@@ -85,7 +85,7 @@ public:
         const MWTime upper_bound;
         
         std::vector<boost::shared_ptr<EventBlock> > matching_event_blocks;
-        std::vector<boost::shared_ptr<EventBlock> >::const_iterator matching_event_blocks_iter;
+        std::vector<boost::shared_ptr<EventBlock> >::size_type current_event_block;
         
         unsigned int current_relative_event;
         ScarabDatum *current_datum;
