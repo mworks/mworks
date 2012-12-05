@@ -1,6 +1,8 @@
 from collections import defaultdict
 from itertools import izip
+import math
 import os
+import random
 import warnings
 
 import numpy
@@ -378,9 +380,15 @@ class TestRealMWKFile(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.event_counts = defaultdict(lambda: 0)
+        cls.event_times = []
+
         with MWKStream.open_file(cls.filename) as stream:
             for evt in stream:
                 cls.event_counts[evt.code] += 1
+                cls.event_times.append(evt.time)
+
+        cls.event_counts = dict(cls.event_counts)
+        cls.event_times = numpy.array(cls.event_times)
 
         cls.fp = MWKFile(cls.filename)
         cls.fp.open()
@@ -389,6 +397,11 @@ class TestRealMWKFile(unittest.TestCase):
     def tearDownClass(cls):
         cls.fp.close()
         cls.fp.unindex()
+
+    def count(self, codes=(), min_time=None, max_time=None):
+        return sum(1 for _ in
+                   self.fp.get_events_iter(codes=codes,
+                                           time_range=(min_time, max_time)))
 
     def test_codec(self):
         codec_code = ReservedEventCode.RESERVED_CODEC_CODE
@@ -412,3 +425,46 @@ class TestRealMWKFile(unittest.TestCase):
 
         for code, tagname in codec.iteritems():
             self.assertEqual(code, reverse_codec[tagname])
+
+    def test_select_by_code(self):
+        total_count = 0
+
+        for code, expected_count in self.event_counts.iteritems():
+            count = self.count(codes=[code])
+            self.assertEqual(expected_count, count)
+            total_count += count
+
+        self.assertEqual(self.fp.num_events, total_count)
+
+    def test_select_by_tag(self):
+        total_count = 0
+
+        for code, tag in self.fp.codec.iteritems():
+            count = self.count(codes=[tag])
+            self.assertEqual(self.event_counts[code], count)
+            total_count += count
+
+        reserved_code_count = sum(self.event_counts[c]
+                                  for c in ReservedEventCode.values)
+        self.assertEqual(self.fp.num_events - reserved_code_count,
+                         total_count)
+
+    def test_select_multiple_codes(self):
+        codes = random.sample(self.event_counts.keys(), 5)
+        expected_count = sum(self.event_counts[c] for c in codes)
+        self.assertEqual(expected_count, self.count(codes=codes))
+
+    def test_select_by_time(self):
+        median = numpy.median(self.event_times)
+        if isinstance(median, numpy.floating):
+            median_low = int(math.floor(median))
+            median_high = int(math.ceil(median))
+        else:
+            median_low = median
+            median_high = median
+
+        self.assertEqual(len(numpy.where(self.event_times >= median_high)[0]),
+                         self.count(min_time=median_high))
+
+        self.assertEqual(len(numpy.where(self.event_times <= median_low)[0]),
+                         self.count(max_time=median_low))
