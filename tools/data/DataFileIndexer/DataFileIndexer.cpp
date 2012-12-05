@@ -9,7 +9,8 @@
 
 #include "DataFileIndexer.h"
 #include "DataFileUtilities.h"
-#include "boost/shared_ptr.hpp"
+#include <boost/format.hpp>
+#include <boost/shared_ptr.hpp>
 #include <algorithm>
 #include <iostream>
 
@@ -36,6 +37,12 @@ DataFileIndexer::DataFileIndexer(const boost::filesystem::path &data_file,
 			
 			ScarabDatum *datum = NULL;
 			while(datum = scarab_read(session)) {
+                if (!DataFileUtilities::isScarabEvent(datum)) {
+                    // Ignore invalid events
+                    scarab_free_datum(datum);
+                    continue;
+                }
+                
 				event_codes_in_block.push_back(DataFileUtilities::getScarabEventCode(datum));
 				
 				MWTime event_time = DataFileUtilities::getScarabEventTime(datum);
@@ -117,6 +124,18 @@ DataFileIndexer::~DataFileIndexer() {
 	}
 }
 
+
+void DataFileIndexer::openScarabSession(const boost::filesystem::path &data_file) {
+    uri = "ldobinary:file_readonly://" + data_file.string();
+    session = scarab_session_connect(uri.c_str());
+    if ((session == NULL) || (scarab_session_geterr(session) != 0)) {
+        scarab_mem_free(session);
+        session = NULL;
+		throw std::runtime_error((boost::format("Cannot open file \"%s\"") % data_file.string()).str());
+    }
+}
+
+
 void DataFileIndexer::getEvents(std::vector<EventWrapper> &return_vector,
                                 const std::vector<unsigned int> &event_codes_to_match,
                                 MWTime lower_bound,
@@ -168,6 +187,12 @@ EventWrapper DataFileIndexer::EventsIterator::getNextEvent() {
         // Read through the event block
 		while (event.empty() && (current_relative_event < dfi.events_per_block) && (current_datum = scarab_read(dfi.session)))
         {
+            if (!DataFileUtilities::isScarabEvent(current_datum)) {
+                // Skip invalid events
+                scarab_free_datum(current_datum);
+                continue;
+            }
+            
 			MWTime event_time = DataFileUtilities::getScarabEventTime(current_datum);
 			
             // Check the time criterion

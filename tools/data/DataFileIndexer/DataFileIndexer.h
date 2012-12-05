@@ -61,10 +61,7 @@ public:
                     unsigned int multiplication_factor_per_level = 2);
     ~DataFileIndexer();
     
-    void openScarabSession(const boost::filesystem::path &data_file) {
-        uri = "ldobinary:file_readonly://" + data_file.string();
-        session = scarab_session_connect(uri.c_str());
-    }
+    void openScarabSession(const boost::filesystem::path &data_file);
     
     void reconstituteScarabSession(const boost::filesystem::path &data_file){
         boost::filesystem::path true_mwk_path = data_file / data_file.leaf();

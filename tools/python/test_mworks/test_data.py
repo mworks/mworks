@@ -1,3 +1,4 @@
+from collections import defaultdict
 from itertools import izip
 import os
 import warnings
@@ -5,7 +6,7 @@ import warnings
 import numpy
 
 import mworks.data
-from mworks.data import MWKFile, MWKStream
+from mworks.data import MWKFile, MWKStream, ReservedEventCode
 from mworks._mworks import EventWrapper
 
 from test_mworks import unittest, TypeConversionTestMixin
@@ -88,6 +89,18 @@ class TestMWKStreamEventIO(MWKStreamTestMixin, unittest.TestCase):
         self.outstream._write_event(evt)
         self.outstream._flush()
 
+    def test_nonexistent_file(self):
+        self.assertRaises(IOError, MWKStream.open_file, 'not_a_file.mwk')
+
+    def test_unreadable_file(self):
+        filename, fp = self.create_file()
+        fp.close()
+        os.chmod(filename, 0)
+        try:
+            self.assertRaises(IOError, MWKStream.open_file, filename)
+        finally:
+            os.remove(filename)
+
     def test_basic(self):
         code = 123
         time = 456
@@ -148,9 +161,13 @@ class TestMWKStreamEventIO(MWKStreamTestMixin, unittest.TestCase):
         self.assertRaises(IOError, outstream._write, evts[0])
 
         with MWKStream.open_file(filename) as instream:
+            # Attempt to open already-open stream should fail
+            self.assertRaises(IOError, instream.open)
+
             for i, e in enumerate(instream):
                 self.assertEvent(e, *evts[i])
             self.assertEqual(len(evts)-1, i)
+
             # Once we've hit EOF, read_event should return None
             self.assertIs(instream.read_event(), None)
             self.assertIs(instream.read_event(), None)
@@ -209,6 +226,11 @@ class TestMWKFileBasics(MWKFileTestMixin, unittest.TestCase):
     def test_nonexistent_file(self):
         self.assertRaises(RuntimeError, self.fp.open)
 
+    def test_unreadable_file(self):
+        self.create_file()
+        os.chmod(self.filename, 0)
+        self.assertRaises(RuntimeError, self.open_file)
+
     def test_context_manager(self):
         self.assertFalse(self.fp.exists)
 
@@ -249,6 +271,22 @@ class TestMWKFileBasics(MWKFileTestMixin, unittest.TestCase):
         for i, evt in enumerate(self.fp.get_events()):
             self.assertEvent(evt, *events[i])
         self.assertEqual(len(events)-1, i)
+
+    def test_bad_event(self):
+        events = (
+            [1, 11, 1.0],
+            [2, 22, 'two'],
+            3,
+            [4, 44, {'four': [1, 2, 3, 4]}],
+            )
+
+        self.create_file(events)
+        self.open_file()
+
+        self.assertEqual(len(events)-1, self.fp.num_events)
+
+        for i, evt in izip((0, 1, 3), self.fp.get_events_iter()):
+            self.assertEvent(evt, *events[i])
 
 
 class TestMWKFileSelection(MWKFileTestMixin, unittest.TestCase):
@@ -323,3 +361,54 @@ class TestMWKFileSelection(MWKFileTestMixin, unittest.TestCase):
         self.assertSelected([1,2,3], codes=('b', 3, 'd'))
 
         self.assertRaises(TypeError, self.select, codes=('a', 'c', 'e'))
+
+
+def skipUnlessFileExists(filename):
+    if not os.path.exists(filename):
+        return unittest.skip('Required file %r not found' % filename)
+    def filename_setter(test):
+        test.filename = filename
+        return test
+    return filename_setter
+
+
+@skipUnlessFileExists('data.mwk')
+class TestRealMWKFile(unittest.TestCase):
+
+    @classmethod
+    def setUpClass(cls):
+        cls.event_counts = defaultdict(lambda: 0)
+        with MWKStream.open_file(cls.filename) as stream:
+            for evt in stream:
+                cls.event_counts[evt.code] += 1
+
+        cls.fp = MWKFile(cls.filename)
+        cls.fp.open()
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.fp.close()
+        cls.fp.unindex()
+
+    def test_codec(self):
+        codec_code = ReservedEventCode.RESERVED_CODEC_CODE
+        self.assertEqual(1, self.event_counts[codec_code])
+
+        codec = self.fp.codec
+        self.assertIs(codec, self.fp.codec)  # Value is cached
+        self.assertIsInstance(codec, dict)
+        self.assertTrue(len(codec) > 0)
+        self.assertEqual(len(self.event_counts) - len(ReservedEventCode.values),
+                         len(codec))
+
+        for c in self.event_counts:
+            self.assertTrue((c in codec) or (c in ReservedEventCode.values),
+                            'Code %d not in codec' % c)
+
+        reverse_codec = self.fp.reverse_codec
+        self.assertIs(reverse_codec, self.fp.reverse_codec)  # Value is cached
+        self.assertIsInstance(reverse_codec, dict)
+        self.assertEqual(len(reverse_codec), len(codec))
+
+        for code, tagname in codec.iteritems():
+            self.assertEqual(code, reverse_codec[tagname])
