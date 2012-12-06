@@ -23,8 +23,8 @@ event_codes(_event_codes) {
 
 EventBlock::EventBlock(const std::vector<boost::shared_ptr<EventBlock> > &child_event_blocks) :
 file_offset(-1), 
-minimum_time(MAX_MONKEY_WORKS_TIME()), 
-maximum_time(MIN_MONKEY_WORKS_TIME())
+minimum_time(MAX_MWORKS_TIME()), 
+maximum_time(MIN_MWORKS_TIME())
 {
 	for(std::vector<boost::shared_ptr<EventBlock> >::const_iterator i = child_event_blocks.begin();
 		i != child_event_blocks.end();

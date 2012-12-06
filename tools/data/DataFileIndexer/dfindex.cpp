@@ -38,7 +38,7 @@ dfindex::dfindex(const boost::filesystem::path &data_file) : mwk_data_file(data_
 	} else {
 		boost::filesystem::path index_file(this->indexFile());
 		if(!boost::filesystem::exists(index_file)) {
-			dfi = DataFileIndexer(actual_mwk_file, 5000, 4);	
+			dfi = DataFileIndexer(actual_mwk_file);	
 			this->save();
 		} 
 		this->load();

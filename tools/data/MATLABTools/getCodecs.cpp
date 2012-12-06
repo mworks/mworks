@@ -30,8 +30,8 @@ void mexFunction (int nlhs, mxArray *plhs[],
   std::vector<unsigned int> event_codes;
   event_codes.push_back(0);
 
-  MWTime lower_bound = MIN_MONKEY_WORKS_TIME();
-  MWTime upper_bound = MAX_MONKEY_WORKS_TIME();
+  MWTime lower_bound = MIN_MWORKS_TIME();
+  MWTime upper_bound = MAX_MWORKS_TIME();
   
   dfindex dfi(mwk_file);
   

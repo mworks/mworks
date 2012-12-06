@@ -10,42 +10,28 @@
 #ifndef DateFileIndexer_
 #define DateFileIndexer_
 
-/* The classes below are exported */
-#pragma GCC visibility push(default)
-
 #include <vector>
-#include <map>
-#include "boost/filesystem/path.hpp"
-#include "boost/shared_ptr.hpp"
-//#include "Scarab/scarab.h"
+
+#include <boost/filesystem/path.hpp>
+#include <boost/serialization/access.hpp>
+#include <boost/shared_ptr.hpp>
+
 #include <MWorksCore/Utilities.h>
-using namespace mw;
+
 #include "EventWrapper.h"
 #include "EventBlock.h"
-#include "boost/archive/text_oarchive.hpp"
-#include "boost/archive/text_iarchive.hpp"
-#include "boost/serialization/split_member.hpp"
 
 
 class DataFileIndexer {
     
 private:
     friend class boost::serialization::access;
-    template<class Archive> void save(Archive & ar, const unsigned int version) const {
-        ar << uri;
-        ar << number_of_events;
-        ar << events_per_block;
-        ar << root;
+    template<class Archive> void serialize(Archive & ar, const unsigned int version) {
+        ar & uri;
+        ar & number_of_events;
+        ar & events_per_block;
+        ar & root;
     }
-    
-    template<class Archive> void load(Archive & ar, const unsigned int version)	{
-        ar >> uri;
-        ar >> number_of_events;
-        ar >> events_per_block;
-        ar >> root;
-    }
-    
-    BOOST_SERIALIZATION_SPLIT_MEMBER();
     
     ScarabSession *session;
     std::string uri;
@@ -56,9 +42,9 @@ private:
     
 public:
     DataFileIndexer();
-    DataFileIndexer(const boost::filesystem::path &data_file,
-                    unsigned int events_per_block = 1000,
-                    unsigned int multiplication_factor_per_level = 2);
+    explicit DataFileIndexer(const boost::filesystem::path &data_file,
+                             unsigned int events_per_block = 5000,
+                             unsigned int multiplication_factor_per_level = 4);
     ~DataFileIndexer();
     
     void openScarabSession(const boost::filesystem::path &data_file);
@@ -74,8 +60,8 @@ public:
     
     void getEvents(std::vector<EventWrapper> &events,
                    const std::vector<unsigned int> &event_codes,
-                   MWTime lower_bound = MIN_MONKEY_WORKS_TIME(),
-                   MWTime upper_bound = MAX_MONKEY_WORKS_TIME()) const;
+                   MWTime lower_bound,
+                   MWTime upper_bound) const;
     
     class EventsIterator {
     private:
@@ -100,16 +86,16 @@ public:
     };
     
     EventsIterator getEventsIterator(const std::vector<unsigned int> &event_codes,
-                                     MWTime lower_bound = MIN_MONKEY_WORKS_TIME(),
-                                     MWTime upper_bound = MAX_MONKEY_WORKS_TIME()) const
+                                     MWTime lower_bound,
+                                     MWTime upper_bound) const
     {
         return EventsIterator(*this, event_codes, lower_bound, upper_bound);
     }
     
 };
 
-#pragma GCC visibility pop
-#endif
+
+#endif  // !defined(DateFileIndexer_)
 
 
 

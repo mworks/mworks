@@ -31,8 +31,8 @@ DataFileIndexer::DataFileIndexer(const boost::filesystem::path &data_file,
 			number_of_events = 0;
 			
 			std::vector<unsigned int> event_codes_in_block;
-			MWTime max_time = MIN_MONKEY_WORKS_TIME();
-			MWTime min_time = MAX_MONKEY_WORKS_TIME();
+			MWTime max_time = MIN_MWORKS_TIME();
+			MWTime min_time = MAX_MWORKS_TIME();
 			long int previous_datum_location = scarab_tell(session);
 			
 			ScarabDatum *datum = NULL;
@@ -63,8 +63,8 @@ DataFileIndexer::DataFileIndexer(const boost::filesystem::path &data_file,
 					event_blocks.push_back(new_event_block);
 					
 					event_codes_in_block.clear();
-					max_time = MIN_MONKEY_WORKS_TIME();
-					min_time = MAX_MONKEY_WORKS_TIME();
+					max_time = MIN_MWORKS_TIME();
+					min_time = MAX_MWORKS_TIME();
 					previous_datum_location = scarab_tell(session);
 				}			
 				scarab_free_datum(datum);

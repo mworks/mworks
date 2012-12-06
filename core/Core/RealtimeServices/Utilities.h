@@ -21,11 +21,16 @@
 #define TOSTRING(x) TOSTRING2(x)
 #define FILELINE __FILE__ ":" TOSTRING(__LINE__)
 
-#include "Event.h"
+#include <limits>
 #include <string>
+
+#include "Event.h"
 #include "Exceptions.h"
 
-namespace mw {
+
+BEGIN_NAMESPACE_MW
+
+
 //#define MONKEYWORKS_DEBUG_MODE	0 // make this a compiler flag... 
 //read the freaking history that is why it is there
 
@@ -57,28 +62,46 @@ void mgeneric_printf(int type, const char *format, ...);
  */
 void mdebug(const char* format, ...);
 
-static inline MWTime MIN_MONKEY_WORKS_TIME() {
-	MWTime min = 1;
-	for(unsigned int i=0; i<(sizeof(MWTime)*8)-1; ++i) {
-		min = min << 1;
-	}
-	return min;
-}
-
-static inline MWTime MAX_MONKEY_WORKS_TIME() {
-	MWTime max = 0;
-	MWTime min = MIN_MONKEY_WORKS_TIME();
-	max = ~max;
-	max = max ^ min;
-	return max;
-}
-
 extern MessageOrigin GlobalMessageOrigin;
 
 
-//void tick();  // start stop watch (like matlab function)
-//long tock();  // report how much time has elapsed
-	
+inline MWTime MIN_MWORKS_TIME() {
+    return std::numeric_limits<MWTime>::min();
 }
-#endif
+
+
+inline MWTime MAX_MWORKS_TIME() {
+    return std::numeric_limits<MWTime>::max();
+}
+	
+
+END_NAMESPACE_MW
+
+
+#endif // !defined(MONKEYWORKS_UTILITIES_H__)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

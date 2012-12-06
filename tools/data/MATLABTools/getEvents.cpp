@@ -55,12 +55,12 @@ void mexFunction(int nlhs, mxArray *plhs[],
         }
     }
     
-    MWTime lower_bound = MIN_MONKEY_WORKS_TIME();
+    MWTime lower_bound = MIN_MWORKS_TIME();
     if(nrhs >= 3) {
         lower_bound = MWTime(getNumericScalarParameter(prhs, 3));
     }
     
-    MWTime upper_bound = MAX_MONKEY_WORKS_TIME();
+    MWTime upper_bound = MAX_MWORKS_TIME();
     if(nrhs >= 4) {
         upper_bound = MWTime(getNumericScalarParameter(prhs, 4));
     }

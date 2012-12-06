@@ -11,13 +11,16 @@
 #define EventBlock_
 
 #include <MWorksCore/Utilities.h>
-using namespace mw;
 #include <vector>
 #include "boost/shared_ptr.hpp"
 #include "boost/archive/text_oarchive.hpp"
 #include "boost/archive/text_iarchive.hpp"
 #include "boost/serialization/shared_ptr.hpp"
 #include "boost/serialization/vector.hpp"
+
+using mw::MWTime;
+using mw::MIN_MWORKS_TIME;
+using mw::MAX_MWORKS_TIME;
 
 
 
