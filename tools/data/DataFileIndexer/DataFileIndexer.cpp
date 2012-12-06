@@ -9,14 +9,23 @@
 
 #include "DataFileIndexer.h"
 #include "DataFileUtilities.h"
-#include <boost/format.hpp>
 #include <boost/shared_ptr.hpp>
 #include <algorithm>
 #include <iostream>
 
-DataFileIndexer::DataFileIndexer() {
-	session = 0;
+
+DataFileIndexer::~DataFileIndexer() {
+    closeScarabSession();
 }
+
+
+DataFileIndexer::DataFileIndexer(const boost::filesystem::path &data_file) :
+    number_of_events(0),
+    events_per_block(0)
+{
+    openScarabSession(data_file);
+}
+
 
 DataFileIndexer::DataFileIndexer(const boost::filesystem::path &data_file, 
 								 unsigned int _events_per_block,
@@ -105,7 +114,7 @@ DataFileIndexer::DataFileIndexer(const boost::filesystem::path &data_file,
 			
 			if(blocks_at_next_level.size() != 1) {
 				//badness
-				throw std::runtime_error("something went wrong...please abort and try again");
+				throw DataFileIndexerError("Something went wrong ... please abort and try again");
 			}
             
             // DDC added a patch to fix failure to index small numbers of events
@@ -118,21 +127,28 @@ DataFileIndexer::DataFileIndexer(const boost::filesystem::path &data_file,
 	}
 }
 
-DataFileIndexer::~DataFileIndexer() {
-	if(session) {
-		scarab_session_close(session);
-	}
+
+DataFileIndexer::DataFileIndexer(BOOST_RV_REF(DataFileIndexer) other) :
+    session(other.session),
+    number_of_events(other.number_of_events),
+    events_per_block(other.events_per_block),
+    root(boost::move(other.root))
+{
+    other.session = NULL;
 }
 
 
-void DataFileIndexer::openScarabSession(const boost::filesystem::path &data_file) {
-    uri = "ldobinary:file_readonly://" + data_file.string();
-    session = scarab_session_connect(uri.c_str());
-    if ((session == NULL) || (scarab_session_geterr(session) != 0)) {
-        scarab_mem_free(session);
-        session = NULL;
-		throw std::runtime_error((boost::format("Cannot open file \"%s\"") % data_file.string()).str());
-    }
+DataFileIndexer& DataFileIndexer::operator=(BOOST_RV_REF(DataFileIndexer) other) {
+    closeScarabSession();
+    
+    session = other.session;
+    number_of_events = other.number_of_events;
+    events_per_block = other.events_per_block;
+    root = boost::move(other.root);
+    
+    other.session = NULL;
+    
+    return (*this);
 }
 
 
@@ -161,7 +177,7 @@ DataFileIndexer::EventsIterator::EventsIterator(const DataFileIndexer &_dfi,
     upper_bound(_upper_bound)
 {
     if (lower_bound > upper_bound) {
-        throw std::runtime_error("Minimum event time must be less than or equal to maximum event time");
+        throw DataFileIndexerError("Minimum event time must be less than or equal to maximum event time");
     }
     
     // Recursively find event blocks that meet our search criteria
@@ -219,6 +235,24 @@ EventWrapper DataFileIndexer::EventsIterator::getNextEvent() {
     }
     
     return event;
+}
+
+
+void DataFileIndexer::openScarabSession(const boost::filesystem::path &data_file) {
+    std::string uri = "ldobinary:file_readonly://" + data_file.string();
+    session = scarab_session_connect(uri.c_str());
+    if ((session == NULL) || (scarab_session_geterr(session) != 0)) {
+        scarab_mem_free(session);
+        session = NULL;
+		throw DataFileIndexerError(boost::format("Cannot open file \"%s\"") % data_file.string());
+    }
+}
+
+
+void DataFileIndexer::closeScarabSession() {
+	if (session) {
+		scarab_session_close(session);
+	}
 }
 
 

@@ -28,6 +28,10 @@ BEGIN_NAMESPACE_MW
 class PythonDataFile : boost::noncopyable {
     
 public:
+    static void translateDFIError(const DataFileIndexerError &e) {
+        PyErr_SetString(PyExc_IOError, e.what());
+    }
+    
     explicit PythonDataFile(const std::string &_file_name);
     
     void open();    

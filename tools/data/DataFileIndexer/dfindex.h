@@ -11,21 +11,11 @@
 #define dfindex_
 
 #include <boost/filesystem/path.hpp>
-#include <boost/archive/text_oarchive.hpp>
-#include <boost/archive/text_iarchive.hpp>
 
 #include "DataFileIndexer.h"
 
 
 class dfindex {
-    
-private:
-    DataFileIndexer dfi;
-    const boost::filesystem::path mwk_data_file;
-    
-    boost::filesystem::path indexFile() const;
-    void save() const;
-    void load();
     
 public:
     dfindex(const boost::filesystem::path &data_file);
@@ -60,6 +50,14 @@ public:
     {
         return dfi.getEventsIterator(event_codes, lower_bound, upper_bound);
     }
+    
+private:
+    static boost::filesystem::path prepareDataFile(const boost::filesystem::path &mwk_data_file);
+    
+    const boost::filesystem::path mwk_data_file;
+    const boost::filesystem::path actual_mwk_file;
+    const boost::filesystem::path index_file;
+    DataFileIndexer dfi;
     
 };
 
