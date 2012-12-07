@@ -77,11 +77,11 @@ void PythonDataFile::select_events(const bp::list &codes, MWTime lower_bound, MW
 {
     requireValidIndexer();
     
-    std::vector<unsigned int> event_codes;
+    std::set<unsigned int> event_codes;
     int n = len(codes);
         
     for(int i = 0; i < n; i++){
-        event_codes.push_back(bp::extract<unsigned int>(codes[i]));
+        event_codes.insert(bp::extract<unsigned int>(codes[i]));
     }
     
     eventsIterator.reset(new DataFileIndexer::EventsIterator(indexer->getEventsIterator(event_codes, lower_bound, upper_bound)));

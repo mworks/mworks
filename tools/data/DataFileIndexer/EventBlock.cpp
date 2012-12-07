@@ -7,6 +7,7 @@
  *
  */
 
+#include <algorithm>
 #include <iostream>
 
 #include "EventBlock.h"
@@ -14,12 +15,13 @@
 EventBlock::EventBlock(long int offset,
 					   MWTime min_time,
 					   MWTime max_time,
-					   const std::vector<unsigned int> &_event_codes) :
+					   const std::set<unsigned int> &_event_codes) :
 file_offset(offset), 
 minimum_time(min_time), 
 maximum_time(max_time), 
 event_codes(_event_codes) {
 }
+
 
 EventBlock::EventBlock(const std::vector<boost::shared_ptr<EventBlock> > &child_event_blocks) :
 file_offset(-1), 
@@ -33,39 +35,22 @@ maximum_time(MIN_MWORKS_TIME())
 	}
 }
 
-bool EventBlock::hasTime(MWTime lower_bound,
-						 MWTime upper_bound) const {
-	return lower_bound <= maximum_time && upper_bound >= minimum_time;
-}
 
-bool EventBlock::hasEventCode(unsigned int event_code) const {
-	for(std::vector<unsigned int>::const_iterator i = event_codes.begin();
-		i != event_codes.end();
-		++i) {
-		if(*i == event_code) {
-			return true;
-		}
-	}
-	
-	return false;
-}
-
-bool EventBlock::hasEventCodes(const std::vector<unsigned int> &event_codes_to_match) const {
-	
+bool EventBlock::hasEventCodes(const std::set<unsigned int> &event_codes_to_match) const {
     // if no codes are passed in, assume that any code is okay
-    if(event_codes_to_match.size() == 0){
+    if (event_codes_to_match.empty()) {
         return true;
     }
     
-    
     // otherwise, go through the codes contained in this block to determine acceptance
-    for(std::vector<unsigned int>::const_iterator j = event_codes_to_match.begin();
+    for (std::set<unsigned int>::const_iterator j = event_codes_to_match.begin();
 		j != event_codes_to_match.end();
 		++j) {
 		if(hasEventCode(*j)) {
 			return true;
 		}
 	}
+    
 	return false;
 }
 
@@ -73,25 +58,15 @@ bool EventBlock::hasEventCodes(const std::vector<unsigned int> &event_codes_to_m
 void EventBlock::addChild(const boost::shared_ptr<EventBlock> &child) {
 	_children.push_back(child);
 	
-	maximum_time = maximum_time > child->maximumTime() ? maximum_time : child->maximumTime();
-	minimum_time = minimum_time < child->minimumTime() ? minimum_time : child->minimumTime();
-	
-	std::vector<unsigned int> new_event_codes = child->eventCodes();
-	for(std::vector<unsigned int>::const_iterator i = new_event_codes.begin();
-		i != new_event_codes.end();
-		++i) {
-		event_codes.push_back(*i);
-	}
-
-	std::sort(event_codes.begin(), event_codes.end());
-	event_codes.erase(std::unique(event_codes.begin(), 
-								  event_codes.end()), 
-					  event_codes.end());
+	maximum_time = std::max(maximum_time, child->maximumTime());
+	minimum_time = std::min(minimum_time, child->minimumTime());
+    
+    event_codes.insert(child->eventCodes().begin(), child->eventCodes().end());
 }
 
 
 void EventBlock::children(std::vector<boost::shared_ptr<EventBlock> > &matching_child_blocks,
-                          const std::vector<unsigned int> &event_codes_to_match,
+                          const std::set<unsigned int> &event_codes_to_match,
                           MWTime lower_bound,
                           MWTime upper_bound) const
 {

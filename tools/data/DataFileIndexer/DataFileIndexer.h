@@ -10,6 +10,7 @@
 #ifndef DateFileIndexer_
 #define DateFileIndexer_
 
+#include <set>
 #include <stdexcept>
 #include <vector>
 
@@ -53,14 +54,14 @@ public:
     MWTime getMaximumTime() const { return root->maximumTime(); }
     
     void getEvents(std::vector<EventWrapper> &events,
-                   const std::vector<unsigned int> &event_codes,
+                   const std::set<unsigned int> &event_codes,
                    MWTime lower_bound,
                    MWTime upper_bound) const;
     
     class EventsIterator {
     private:
         const DataFileIndexer &dfi;
-        const std::vector<unsigned int> event_codes_to_match;
+        const std::set<unsigned int> event_codes_to_match;
         const MWTime lower_bound;
         const MWTime upper_bound;
         
@@ -72,14 +73,14 @@ public:
         
     public:
         EventsIterator(const DataFileIndexer &indexer,
-                       const std::vector<unsigned int> &event_codes,
+                       const std::set<unsigned int> &event_codes,
                        MWTime lower_bound,
                        MWTime upper_bound);
         
         EventWrapper getNextEvent();
     };
     
-    EventsIterator getEventsIterator(const std::vector<unsigned int> &event_codes,
+    EventsIterator getEventsIterator(const std::set<unsigned int> &event_codes,
                                      MWTime lower_bound,
                                      MWTime upper_bound) const
     {

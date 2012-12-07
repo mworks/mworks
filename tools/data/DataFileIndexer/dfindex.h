@@ -37,14 +37,14 @@ public:
     }
     
     void getEvents(std::vector<EventWrapper> &events,
-                   const std::vector<unsigned int> &event_codes,
+                   const std::set<unsigned int> &event_codes,
                    MWTime lower_bound,
                    MWTime upper_bound) const
     {
         dfi.getEvents(events, event_codes, lower_bound, upper_bound);
     }
     
-    DataFileIndexer::EventsIterator getEventsIterator(const std::vector<unsigned int> &event_codes,
+    DataFileIndexer::EventsIterator getEventsIterator(const std::set<unsigned int> &event_codes,
                                                       MWTime lower_bound,
                                                       MWTime upper_bound) const
     {

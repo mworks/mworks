@@ -46,12 +46,12 @@ void mexFunction(int nlhs, mxArray *plhs[],
     getStringParameter(prhs, 1, filename);
     boost::filesystem::path mwk_file(filename);
     
-    std::vector<unsigned int> event_codes;
+    std::set<unsigned int> event_codes;
     if (nrhs >= 2) {
         size_t numCodes;
         const double *codes = getNumericArrayParameter(prhs, 2, numCodes);
         for (size_t i = 0; i < numCodes; i++) {
-            event_codes.push_back((unsigned int)(codes[i]));
+            event_codes.insert((unsigned int)(codes[i]));
         }
     }
     
