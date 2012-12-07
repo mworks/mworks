@@ -24,11 +24,13 @@ dfindex::dfindex(const boost::filesystem::path &data_file) :
     dfi(actual_mwk_file)
 {
     if (boost::filesystem::exists(index_file)) {
+        // Load the previously-created index
         std::ifstream ifs(index_file.string().c_str(), std::ios::binary);
         boost::archive::text_iarchive ia(ifs);
         ia >> dfi;
     } else {
-        dfi = DataFileIndexer(actual_mwk_file, 5000, 4);
+        // Build and store a new index
+        dfi.buildIndex(5000, 4);
         std::ofstream ofs(index_file.string().c_str(), std::ios::binary);
         boost::archive::text_oarchive oa(ofs);
         oa << dfi;

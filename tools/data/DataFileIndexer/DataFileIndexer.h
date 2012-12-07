@@ -15,7 +15,7 @@
 
 #include <boost/filesystem/path.hpp>
 #include <boost/format.hpp>
-#include <boost/move/move.hpp>
+#include <boost/noncopyable.hpp>
 #include <boost/serialization/split_member.hpp>
 #include <boost/shared_ptr.hpp>
 
@@ -39,21 +39,14 @@ public:
 };
 
 
-class DataFileIndexer {
-    
-    BOOST_MOVABLE_BUT_NOT_COPYABLE(DataFileIndexer)
+class DataFileIndexer : boost::noncopyable {
     
 public:
     ~DataFileIndexer();
     
     DataFileIndexer(const boost::filesystem::path &data_file);
-    DataFileIndexer(const boost::filesystem::path &data_file,
-                    unsigned int events_per_block,
-                    unsigned int multiplication_factor_per_level);
-
-    DataFileIndexer(BOOST_RV_REF(DataFileIndexer) other);  // Move constructor
     
-    DataFileIndexer& operator=(BOOST_RV_REF(DataFileIndexer) other);  // Move assignment
+    void buildIndex(unsigned int events_per_block, unsigned int multiplication_factor_per_level);
     
     unsigned int getNEvents() const { return number_of_events; }
     MWTime getMinimumTime() const { return root->minimumTime(); }
@@ -94,9 +87,6 @@ public:
     }
     
 private:
-    void openScarabSession(const boost::filesystem::path &data_file);
-    void closeScarabSession();
-    
     friend class boost::serialization::access;
     
     template<class Archive> void save(Archive & ar, const unsigned int version) const {

@@ -15,7 +15,7 @@
 
 
 DataFileIndexer::~DataFileIndexer() {
-    closeScarabSession();
+    scarab_session_close(session);
 }
 
 
@@ -23,22 +23,23 @@ DataFileIndexer::DataFileIndexer(const boost::filesystem::path &data_file) :
     number_of_events(0),
     events_per_block(0)
 {
-    openScarabSession(data_file);
+    const std::string uri("ldobinary:file_readonly://" + data_file.string());
+    session = scarab_session_connect(uri.c_str());
+    if ((session == NULL) || (scarab_session_geterr(session) != 0)) {
+        scarab_mem_free(session);
+		throw DataFileIndexerError(boost::format("Cannot open file \"%s\"") % data_file.string());
+    }
 }
 
 
-DataFileIndexer::DataFileIndexer(const boost::filesystem::path &data_file, 
-								 unsigned int _events_per_block,
-								 unsigned int multiplication_factor_per_level) :
-    events_per_block(_events_per_block)
-{
-    openScarabSession(data_file);
+void DataFileIndexer::buildIndex(unsigned int _events_per_block, unsigned int multiplication_factor_per_level) {
+    number_of_events = 0;
+    events_per_block = _events_per_block;
+    root.reset();
 	
 	{
 		std::vector<boost::shared_ptr<EventBlock> > event_blocks;
 		{
-			number_of_events = 0;
-			
 			std::vector<unsigned int> event_codes_in_block;
 			MWTime max_time = MIN_MWORKS_TIME();
 			MWTime min_time = MAX_MWORKS_TIME();
@@ -128,30 +129,6 @@ DataFileIndexer::DataFileIndexer(const boost::filesystem::path &data_file,
 }
 
 
-DataFileIndexer::DataFileIndexer(BOOST_RV_REF(DataFileIndexer) other) :
-    session(other.session),
-    number_of_events(other.number_of_events),
-    events_per_block(other.events_per_block),
-    root(boost::move(other.root))
-{
-    other.session = NULL;
-}
-
-
-DataFileIndexer& DataFileIndexer::operator=(BOOST_RV_REF(DataFileIndexer) other) {
-    closeScarabSession();
-    
-    session = other.session;
-    number_of_events = other.number_of_events;
-    events_per_block = other.events_per_block;
-    root = boost::move(other.root);
-    
-    other.session = NULL;
-    
-    return (*this);
-}
-
-
 void DataFileIndexer::getEvents(std::vector<EventWrapper> &return_vector,
                                 const std::vector<unsigned int> &event_codes_to_match,
                                 MWTime lower_bound,
@@ -235,24 +212,6 @@ EventWrapper DataFileIndexer::EventsIterator::getNextEvent() {
     }
     
     return event;
-}
-
-
-void DataFileIndexer::openScarabSession(const boost::filesystem::path &data_file) {
-    std::string uri = "ldobinary:file_readonly://" + data_file.string();
-    session = scarab_session_connect(uri.c_str());
-    if ((session == NULL) || (scarab_session_geterr(session) != 0)) {
-        scarab_mem_free(session);
-        session = NULL;
-		throw DataFileIndexerError(boost::format("Cannot open file \"%s\"") % data_file.string());
-    }
-}
-
-
-void DataFileIndexer::closeScarabSession() {
-	if (session) {
-		scarab_session_close(session);
-	}
 }
 
 

@@ -25,7 +25,7 @@ public:
         scarab_free_datum(datum);
     }
     
-    EventWrapper(ScarabDatum *new_datum = NULL) {
+    explicit EventWrapper(ScarabDatum *new_datum = NULL) {
         datum = scarab_copy_datum(new_datum);
     }
     
