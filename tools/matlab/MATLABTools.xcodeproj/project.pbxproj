@@ -1,0 +1,210 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		E1523D9B167673A300069B10 /* getEvents.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1523D99167673A300069B10 /* getEvents.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		E1523D62167669BF00069B10 /* getEvents.mexmaci64 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.objfile"; includeInIndex = 0; path = getEvents.mexmaci64; sourceTree = BUILT_PRODUCTS_DIR; };
+		E1523D66167669BF00069B10 /* MATLABTools-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MATLABTools-Prefix.pch"; sourceTree = "<group>"; };
+		E1523D7716766AE400069B10 /* Development.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Development.xcconfig; path = "/Library/Application Support/MWorks/Developer/Xcode/Development.xcconfig"; sourceTree = "<absolute>"; };
+		E1523D7816766AE400069B10 /* WARNING.txt */ = {isa = PBXFileReference; lastKnownFileType = text; name = WARNING.txt; path = "/Library/Application Support/MWorks/Developer/Xcode/WARNING.txt"; sourceTree = "<absolute>"; };
+		E1523D99167673A300069B10 /* getEvents.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = getEvents.cpp; sourceTree = "<group>"; };
+		E1523DA316767CDE00069B10 /* Utilities.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Utilities.h; sourceTree = "<group>"; };
+		E1523DA416767E4200069B10 /* TypeInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TypeInfo.h; sourceTree = "<group>"; };
+		E1523DA516767FE100069B10 /* CreateArray.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CreateArray.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		E1523D5F167669BF00069B10 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		E1523D57167669BF00069B10 = {
+			isa = PBXGroup;
+			children = (
+				E1523D7516766ABC00069B10 /* External Config */,
+				E1523DA216767C7F00069B10 /* Helpers */,
+				E1523D64167669BF00069B10 /* MEX File */,
+				E1523D63167669BF00069B10 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		E1523D63167669BF00069B10 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E1523D62167669BF00069B10 /* getEvents.mexmaci64 */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E1523D64167669BF00069B10 /* MEX File */ = {
+			isa = PBXGroup;
+			children = (
+				E1523D99167673A300069B10 /* getEvents.cpp */,
+				E1523D65167669BF00069B10 /* Supporting Files */,
+			);
+			name = "MEX File";
+			sourceTree = "<group>";
+		};
+		E1523D65167669BF00069B10 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				E1523D66167669BF00069B10 /* MATLABTools-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		E1523D7516766ABC00069B10 /* External Config */ = {
+			isa = PBXGroup;
+			children = (
+				E1523D7716766AE400069B10 /* Development.xcconfig */,
+				E1523D7816766AE400069B10 /* WARNING.txt */,
+			);
+			name = "External Config";
+			path = MATLABTools;
+			sourceTree = "<group>";
+		};
+		E1523DA216767C7F00069B10 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				E1523DA316767CDE00069B10 /* Utilities.h */,
+				E1523DA416767E4200069B10 /* TypeInfo.h */,
+				E1523DA516767FE100069B10 /* CreateArray.h */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		E1523D60167669BF00069B10 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		E1523D61167669BF00069B10 /* MEX File */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E1523D6F167669BF00069B10 /* Build configuration list for PBXNativeTarget "MEX File" */;
+			buildPhases = (
+				E1523D5E167669BF00069B10 /* Sources */,
+				E1523D5F167669BF00069B10 /* Frameworks */,
+				E1523D60167669BF00069B10 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "MEX File";
+			productName = MATLABTools;
+			productReference = E1523D62167669BF00069B10 /* getEvents.mexmaci64 */;
+			productType = "com.apple.product-type.objfile";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E1523D59167669BF00069B10 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0450;
+				ORGANIZATIONNAME = "MWorks Project";
+			};
+			buildConfigurationList = E1523D5C167669BF00069B10 /* Build configuration list for PBXProject "MATLABTools" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = E1523D57167669BF00069B10;
+			productRefGroup = E1523D63167669BF00069B10 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				E1523D61167669BF00069B10 /* MEX File */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		E1523D5E167669BF00069B10 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E1523D9B167673A300069B10 /* getEvents.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		E1523D6D167669BF00069B10 /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1523D7716766AE400069B10 /* Development.xcconfig */;
+			buildSettings = {
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				MW_MATLAB_VERSION = R2010a;
+			};
+			name = Development;
+		};
+		E1523D70167669BF00069B10 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_EXTENSION = mexmaci64;
+				GCC_PREPROCESSOR_DEFINITIONS = MATLAB_MEX_FILE;
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
+				HEADER_SEARCH_PATHS = (
+					"/Applications/MATLAB_$(MW_MATLAB_VERSION).app/extern/include",
+					"$(inherited)",
+				);
+				LINK_WITH_STANDARD_LIBRARIES = YES;
+				MACH_O_TYPE = mh_bundle;
+				OTHER_LDFLAGS = (
+					"-undefined",
+					dynamic_lookup,
+				);
+				PRODUCT_NAME = getEvents;
+			};
+			name = Development;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		E1523D5C167669BF00069B10 /* Build configuration list for PBXProject "MATLABTools" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E1523D6D167669BF00069B10 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		E1523D6F167669BF00069B10 /* Build configuration list for PBXNativeTarget "MEX File" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E1523D70167669BF00069B10 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = E1523D59167669BF00069B10 /* Project object */;
+}
