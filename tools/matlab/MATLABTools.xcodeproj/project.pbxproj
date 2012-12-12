@@ -18,11 +18,32 @@
 			name = Test;
 			productName = Test;
 		};
+		E12F1A681678E53E007F0ECE /* Everything */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = E12F1A691678E53E007F0ECE /* Build configuration list for PBXAggregateTarget "Everything" */;
+			buildPhases = (
+			);
+			dependencies = (
+				E12F1A6C1678E545007F0ECE /* PBXTargetDependency */,
+			);
+			name = Everything;
+			productName = Everything;
+		};
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
 		E1523D9B167673A300069B10 /* getEvents.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1523D99167673A300069B10 /* getEvents.cpp */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		E12F1A6B1678E545007F0ECE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E1523D59167669BF00069B10 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E12F1A631678E19F007F0ECE;
+			remoteInfo = Test;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		E1523D62167669BF00069B10 /* getEvents.mexmaci64 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.objfile"; includeInIndex = 0; path = getEvents.mexmaci64; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -154,6 +175,7 @@
 			targets = (
 				E1523D61167669BF00069B10 /* MEX File */,
 				E12F1A631678E19F007F0ECE /* Test */,
+				E12F1A681678E53E007F0ECE /* Everything */,
 			);
 		};
 /* End PBXProject section */
@@ -186,8 +208,23 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		E12F1A6C1678E545007F0ECE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E12F1A631678E19F007F0ECE /* Test */;
+			targetProxy = E12F1A6B1678E545007F0ECE /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
 		E12F1A651678E19F007F0ECE /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Development;
+		};
+		E12F1A6A1678E53E007F0ECE /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -200,6 +237,7 @@
 			buildSettings = {
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				MW_MATLAB_DIR = "$(MW_APP_SUPPORT_DIR)/Scripting/Matlab";
 				MW_MATLAB_VERSION = R2010a;
 			};
 			name = Development;
@@ -216,7 +254,6 @@
 				);
 				LINK_WITH_STANDARD_LIBRARIES = YES;
 				MACH_O_TYPE = mh_bundle;
-				MW_MATLAB_DIR = "$(MW_APP_SUPPORT_DIR)/Scripting/Matlab";
 				OTHER_LDFLAGS = (
 					"-undefined",
 					dynamic_lookup,
@@ -232,6 +269,13 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E12F1A651678E19F007F0ECE /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		E12F1A691678E53E007F0ECE /* Build configuration list for PBXAggregateTarget "Everything" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E12F1A6A1678E53E007F0ECE /* Development */,
 			);
 			defaultConfigurationIsVisible = 0;
 		};
