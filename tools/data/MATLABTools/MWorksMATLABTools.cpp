@@ -180,6 +180,11 @@ static mxArray* getScarabDict(ScarabDatum *datum){
 
 static mxArray* getScarabList(ScarabDatum *datum) {
     const int n = datum->data.list->size;
+    
+    if (n < 1) {
+        return mxCreateCellMatrix(0, 0);
+    }
+    
     ScarabDatum **values = datum->data.list->values;
     
     mxArray *cell_matrix = mxCreateCellMatrix(1, n);

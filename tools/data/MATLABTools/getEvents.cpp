@@ -65,13 +65,17 @@ void mexFunction(int nlhs, mxArray *plhs[],
         upper_bound = MWTime(getNumericScalarParameter(prhs, 4));
     }
     
-    dfindex dfi(mwk_file);
-    DataFileIndexer::EventsIterator ei = dfi.getEventsIterator(event_codes, lower_bound,  upper_bound);
-    
-    if (nlhs == NUM_OUTPUT_ARGS_ONE_ARRAY) {
-        returnOneArray(plhs, ei);
-    } else {
-        returnThreeArrays(plhs, ei);
+    try {
+        dfindex dfi(mwk_file);
+        DataFileIndexer::EventsIterator ei = dfi.getEventsIterator(event_codes, lower_bound,  upper_bound);
+        
+        if (nlhs == NUM_OUTPUT_ARGS_ONE_ARRAY) {
+            returnOneArray(plhs, ei);
+        } else {
+            returnThreeArrays(plhs, ei);
+        }
+    } catch (const DataFileIndexerError &e) {
+        mexErrMsgIdAndTxt("MWorks:DataFileIndexerError", e.what());
     }
 }
 
@@ -110,16 +114,31 @@ static void returnThreeArrays(mxArray *plhs[], DataFileIndexer::EventsIterator &
         values.push_back(getScarabDatum(event.getPayload()));
     }
     
-    mxArray *codesArray = mxCreateNumericMatrix(1, codes.size(), mxINT32_CLASS, mxREAL);
-    memcpy(mxGetData(codesArray), &(codes.front()), codes.size() * sizeof(int));
+    mxArray *codesArray;
+    if (codes.empty()) {
+        codesArray = mxCreateNumericMatrix(0, 0, mxINT32_CLASS, mxREAL);
+    } else {
+        codesArray = mxCreateNumericMatrix(1, codes.size(), mxINT32_CLASS, mxREAL);
+        memcpy(mxGetData(codesArray), &(codes.front()), codes.size() * sizeof(int));
+    }
     
     BOOST_STATIC_ASSERT(sizeof(MWTime) == sizeof(long long));
-    mxArray *timesArray = mxCreateNumericMatrix(1, times.size(), mxINT64_CLASS, mxREAL);
-    memcpy(mxGetData(timesArray), &(times.front()), times.size() * sizeof(MWTime));
+    mxArray *timesArray;
+    if (times.empty()) {
+        timesArray = mxCreateNumericMatrix(0, 0, mxINT64_CLASS, mxREAL);
+    } else {
+        timesArray = mxCreateNumericMatrix(1, times.size(), mxINT64_CLASS, mxREAL);
+        memcpy(mxGetData(timesArray), &(times.front()), times.size() * sizeof(MWTime));
+    }
     
-    mxArray *valuesArray = mxCreateCellMatrix(1, values.size());
-    for (size_t i = 0; i < values.size(); i++) {
-        mxSetCell(valuesArray, i, values[i]);
+    mxArray *valuesArray;
+    if (values.empty()) {
+        valuesArray = mxCreateCellMatrix(0, 0);
+    } else {
+        valuesArray = mxCreateCellMatrix(1, values.size());
+        for (size_t i = 0; i < values.size(); i++) {
+            mxSetCell(valuesArray, i, values[i]);
+        }
     }
     
     plhs[0] = codesArray;
