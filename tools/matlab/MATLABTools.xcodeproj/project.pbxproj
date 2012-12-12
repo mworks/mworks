@@ -6,6 +6,20 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		E12F1A631678E19F007F0ECE /* Test */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = E12F1A641678E19F007F0ECE /* Build configuration list for PBXAggregateTarget "Test" */;
+			buildPhases = (
+				E12F1A661678E1AA007F0ECE /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = Test;
+			productName = Test;
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		E1523D9B167673A300069B10 /* getEvents.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1523D99167673A300069B10 /* getEvents.cpp */; };
 /* End PBXBuildFile section */
@@ -139,9 +153,27 @@
 			projectRoot = "";
 			targets = (
 				E1523D61167669BF00069B10 /* MEX File */,
+				E12F1A631678E19F007F0ECE /* Test */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		E12F1A661678E1AA007F0ECE /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/bin/python${MW_PYTHON_VERSION} run_tests.py ${ARCHS}";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		E1523D5E167669BF00069B10 /* Sources */ = {
@@ -155,6 +187,13 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
+		E12F1A651678E19F007F0ECE /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Development;
+		};
 		E1523D6D167669BF00069B10 /* Development */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E1523D7716766AE400069B10 /* Development.xcconfig */;
@@ -177,6 +216,7 @@
 				);
 				LINK_WITH_STANDARD_LIBRARIES = YES;
 				MACH_O_TYPE = mh_bundle;
+				MW_MATLAB_DIR = "$(MW_APP_SUPPORT_DIR)/Scripting/Matlab";
 				OTHER_LDFLAGS = (
 					"-undefined",
 					dynamic_lookup,
@@ -188,6 +228,13 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		E12F1A641678E19F007F0ECE /* Build configuration list for PBXAggregateTarget "Test" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E12F1A651678E19F007F0ECE /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		E1523D5C167669BF00069B10 /* Build configuration list for PBXProject "MATLABTools" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

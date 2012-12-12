@@ -304,7 +304,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "status=0\n\nfor arch in ${VALID_ARCHS}; do\n  echo \"Running tests for Python ${MW_PYTHON_VERSION} (${arch})\"\n  if ! /usr/bin/arch -${arch} /usr/bin/python${MW_PYTHON_VERSION} run_tests.py; then\n    status=1\n  fi\ndone\n\nexit $status";
+			shellScript = "status=0\n\nfor arch in ${ARCHS}; do\n  echo \"Running tests for Python ${MW_PYTHON_VERSION} (${arch})\"\n  if ! /usr/bin/arch -${arch} /usr/bin/python${MW_PYTHON_VERSION} run_tests.py; then\n    status=1\n  fi\ndone\n\nexit $status";
 			showEnvVarsInLog = 0;
 		};
 		E18D3BEA16554F9100D472D0 /* ShellScript */ = {

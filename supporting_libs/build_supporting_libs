@@ -321,6 +321,26 @@ def cppunit():
 
 
 @builder
+def matlab_xunit():
+    version = '3.1'
+    srcdir = 'matlab_xunit_' + version
+    zipfile = srcdir + '.zip'
+
+    download_file(('http://www.mathworks.com/matlabcentral/fileexchange/'
+                   '22846?download=true'),
+                  zipfile)
+    unpack_zipfile(zipfile, srcdir)
+
+    with workdir(srcdir):
+        check_call([
+            '/usr/bin/rsync',
+            '-a',
+            'matlab_xunit/xunit',
+            path_to_stagedir + '/MATLAB',
+            ])
+
+
+@builder
 def narrative():
     version = '0.1.2'
     srcdir = 'Narrative-' + version

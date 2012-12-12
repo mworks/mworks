@@ -10,9 +10,6 @@
 #define MATLABTools_CreateArray_h
 
 #include <cstring>
-#ifndef MATLAB_MEX_FILE
-#  include <new>
-#endif
 #include <vector>
 
 #include <boost/static_assert.hpp>
@@ -24,66 +21,48 @@ BEGIN_NAMESPACE_MW_MATLAB
 
 
 inline mxArray* createEmpty() {
-    mxArray *result = mxCreateDoubleMatrix(0, 0, mxREAL);
-#ifndef MATLAB_MEX_FILE
-    if (!result) throw std::bad_alloc();
-#endif
-    return result;
+    ArrayPtr result(mxCreateDoubleMatrix(0, 0, mxREAL));
+    return result.release();
 }
 
 
 template<typename T>
 mxArray* createScalar(T value) {
     BOOST_STATIC_ASSERT(TypeInfo<T>::is_numeric);
-    mxArray *result = mxCreateNumericMatrix(1, 1, TypeInfo<T>::class_id, mxREAL);
-#ifndef MATLAB_MEX_FILE
-    if (!result) throw std::bad_alloc();
-#endif
-    *(static_cast<T*>(mxGetData(result))) = value;
-    return result;
+    ArrayPtr result(mxCreateNumericMatrix(1, 1, TypeInfo<T>::class_id, mxREAL));
+    *(static_cast<T*>(mxGetData(result.get()))) = value;
+    return result.release();
 }
 
 
 template<>
 inline mxArray* createScalar(double value) {
-    mxArray *result = mxCreateDoubleScalar(value);
-#ifndef MATLAB_MEX_FILE
-    if (!result) throw std::bad_alloc();
-#endif
-    return result;
+    ArrayPtr result(mxCreateDoubleScalar(value));
+    return result.release();
 }
 
 
 template<>
 inline mxArray* createScalar(bool value) {
-    mxArray *result = mxCreateLogicalScalar(value);
-#ifndef MATLAB_MEX_FILE
-    if (!result) throw std::bad_alloc();
-#endif
-    return result;
+    ArrayPtr result(mxCreateLogicalScalar(value));
+    return result.release();
 }
 
 
 template<typename T>
 mxArray* createVector(const T *values, std::size_t size) {
     BOOST_STATIC_ASSERT(TypeInfo<T>::is_numeric);
-    mxArray *result = mxCreateNumericMatrix(1, size, TypeInfo<T>::class_id, mxREAL);
-#ifndef MATLAB_MEX_FILE
-    if (!result) throw std::bad_alloc();
-#endif
-    std::memcpy(mxGetData(result), values, size * sizeof(T));
-    return result;
+    ArrayPtr result(mxCreateNumericMatrix(1, size, TypeInfo<T>::class_id, mxREAL));
+    std::memcpy(mxGetData(result.get()), values, size * sizeof(T));
+    return result.release();
 }
 
 
 template<>
 mxArray* createVector(const double *values, std::size_t size) {
-    mxArray *result = mxCreateDoubleMatrix(1, size, mxREAL);
-#ifndef MATLAB_MEX_FILE
-    if (!result) throw std::bad_alloc();
-#endif
-    std::memcpy(mxGetPr(result), values, size * sizeof(double));
-    return result;
+    ArrayPtr result(mxCreateDoubleMatrix(1, size, mxREAL));
+    std::memcpy(mxGetPr(result.get()), values, size * sizeof(double));
+    return result.release();
 }
 
 
