@@ -50,5 +50,17 @@ assertList({1, {2, {3, {4, 5}}}}, getData('list_nested'));
 function testDictionary
 assertDict(struct(), getData('dict_empty'));
 assertDict(struct('a', 1), getData('dict_simple'));
-assertDict(struct('one', 1, 'Two', 2.0, 'ThReE', '3.0'), ...
+assertDict(struct('one', 1, 'Two', 2.0, 'ThReE_3', '3.0'), ...
            getData('dict_complex'));
+
+function testDictionaryAsMap
+assertDictAsMap({1}, {'a'}, getData('dict_int_key'));
+assertDictAsMap({char.empty(1,0)}, {1}, getData('dict_empty_str_key'))
+assertDictAsMap({'1a'}, {1}, getData('dict_str_key_starts_with_non_alpha'));
+assertDictAsMap({'foo.1'}, {1}, getData('dict_str_key_contains_non_alphanum'));
+
+function testDictionaryAsFallbackStruct
+assertDictAsFallbackStruct({int64(1), 'two'}, {'a', int64(2)}, ...
+                           getData('dict_mixed_keys'));
+assertDictAsFallbackStruct({uint8([97, 0, 98])}, {int64(1)}, ...
+                           getData('dict_binary_str_key'));

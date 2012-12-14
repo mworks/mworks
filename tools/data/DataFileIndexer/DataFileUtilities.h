@@ -38,7 +38,7 @@ inline ScarabDatum* getScarabEventCodeDatum(const ScarabDatum *datum) {
 
 
 inline unsigned int getScarabEventCode(const ScarabDatum *datum) {
-    return getScarabEventCodeDatum(datum)->data.integer;
+    return (unsigned int)(getScarabEventCodeDatum(datum)->data.integer);
 }
 
 

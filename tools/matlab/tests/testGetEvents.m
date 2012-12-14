@@ -10,7 +10,7 @@ e = getEvents(1, 2, 3, 4, 5);
 
 function testBadNumberOfInputs
 assertExceptionThrown(@tooFewInputs, 'MWorks:WrongNumberOfInputs');
-assertExceptionThrown(@tooManyInputs, 'MWorks:WrongNumberOfInputs');
+assertExceptionThrown(@tooManyInputs, 'MATLAB:TooManyInputs');
 
 
 function zeroOutputs
@@ -32,19 +32,43 @@ function filenameNotAString
 e = getEvents(3);
 
 function codesNotNumeric
-e = getEvents('foo', true);
+e = getEvents('foo', {});
+
+function codesNotIntegral
+e = getEvents('foo', 1.2);
+
+function codesNotNonNegative
+e = getEvents('foo', -1);
 
 function minTimeNotNumeric
-e = getEvents('foo', 0, true);
+e = getEvents('foo', 0, {});
+
+function minTimeNotIntegral
+e = getEvents('foo', 0, 1.2);
+
+function minTimeNotScalar
+e = getEvents('foo', 0, [1,2]);
 
 function maxTimeNotNumeric
-e = getEvents('foo', 0, 0, true);
+e = getEvents('foo', 0, 0, {});
+
+function maxTimeNotIntegral
+e = getEvents('foo', 0, 0, 1.2);
+
+function maxTimeNotScalar
+e = getEvents('foo', 0, 0, [1,2]);
 
 function testInvalidInputs
-assertExceptionThrown(@filenameNotAString, 'MWorks:InvalidInput');
-assertExceptionThrown(@codesNotNumeric, 'MWorks:InvalidInput');
-assertExceptionThrown(@minTimeNotNumeric, 'MWorks:InvalidInput');
-assertExceptionThrown(@maxTimeNotNumeric, 'MWorks:InvalidInput');
+assertExceptionThrown(@filenameNotAString, 'MATLAB:invalidType');
+assertExceptionThrown(@codesNotNumeric, 'MATLAB:invalidType');
+assertExceptionThrown(@codesNotIntegral, 'MATLAB:expectedInteger');
+assertExceptionThrown(@codesNotNonNegative, 'MATLAB:expectedNonnegative');
+assertExceptionThrown(@minTimeNotNumeric, 'MATLAB:invalidType');
+assertExceptionThrown(@minTimeNotIntegral, 'MATLAB:expectedInteger');
+assertExceptionThrown(@minTimeNotScalar, 'MATLAB:expectedScalar');
+assertExceptionThrown(@maxTimeNotNumeric, 'MATLAB:invalidType');
+assertExceptionThrown(@maxTimeNotIntegral, 'MATLAB:expectedInteger');
+assertExceptionThrown(@maxTimeNotScalar, 'MATLAB:expectedScalar');
 
 
 function notAFile
@@ -57,12 +81,12 @@ assertExceptionThrown(@notAFile, 'MWorks:DataFileIndexerError');
 function assertEvents(expected_codes, evts)
 assertEvent(evts);
 assertEqual(length(expected_codes), length(evts));
-assertEqual(int64(expected_codes), [evts.event_code]);
+assertEqual(int32(expected_codes), [evts.event_code]);
 assertEqual(int64(expected_codes), [evts.time_us]);
 
 
 function testGetAllEvents
-expected_codes = [1:length(fieldnames(getTagMap())), 0];
+expected_codes = [0:length(fieldnames(getTagMap()))+1];
 assertEvents(expected_codes, getEvents(getFilename()));
 assertEvents(expected_codes, getEvents(getFilename(), []));
 
@@ -78,11 +102,9 @@ function badTimeRange
 e = getEvents(getFilename(), [], 10, 5);
 
 function testGetEventsByTime
-max_time = length(fieldnames(getTagMap()));
+max_time = length(fieldnames(getTagMap())) + 1;
 assertEvents([5:max_time], getEvents(getFilename(), [], 5));
-assertEvents([1:10, 0], getEvents(getFilename(), [], -1, 10));
-% Non-integer time values are truncated
-assertEvents([4:12], getEvents(getFilename(), [], 4.6, 12.9));
+assertEvents([0:10], getEvents(getFilename(), [], -1, 10));
 assertEvents(7, getEvents(getFilename(), [], 7, 7));
 assertTrue(isempty(getEvents(getFilename(), [], 100, 200)));
 assertExceptionThrown(@badTimeRange, 'MWorks:DataFileIndexerError');
@@ -96,7 +118,7 @@ assertEvents(5:8, getEvents(getFilename(), 5:8, 4, 9));
 
 
 function assertSeparateArrays(evts, codes, times, values)
-assertEqual([evts.event_code], int64(codes));
+assertEqual([evts.event_code], int32(codes));
 assertEqual([evts.time_us], times);
 assertEqual({evts.data}, values);
 

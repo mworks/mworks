@@ -1,4 +1,5 @@
 import os
+import pickle
 import shutil
 import subprocess
 import sys
@@ -59,7 +60,13 @@ test_data = (
     ('list_nested', [1, [2, [3, [4, 5]]]]),
     ('dict_empty', {}),
     ('dict_simple', {'a': 1}),
-    ('dict_complex', {'one': 1, 'Two': 2.0, 'ThReE': '3.0'}),
+    ('dict_complex', {'one': 1, 'Two': 2.0, 'ThReE_3': '3.0'}),
+    ('dict_int_key', {1: 'a'}),
+    ('dict_empty_str_key', {'': 1}),
+    ('dict_str_key_starts_with_non_alpha', {'1a': 1}),
+    ('dict_str_key_contains_non_alphanum', {'foo.1': 1}),
+    ('dict_mixed_keys', {1: 'a', 'two': 2}),
+    ('dict_binary_str_key', {'a\0b': 1}),
     )
 
 
@@ -69,13 +76,16 @@ def create_test_file():
         filename = os.tempnam()
 
     with MWKStream._create_file(filename) as fp:
-        code = 1
-        tagmap = {}
+        with open('tests/codec.dat') as codec_fp:
+            fp._write([0, 0, pickle.load(codec_fp)])
+
+        tagmap = dict((item[0], i+2) for i, item in enumerate(test_data))
+        fp._write([1, 1, tagmap])
+
+        code = 2
         for tag, data in test_data:
-            tagmap[tag] = code
             fp._write([code, code, data])
             code += 1
-        fp._write([0, 0, tagmap])
 
     return filename
 

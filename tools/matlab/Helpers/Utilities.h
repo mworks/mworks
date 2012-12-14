@@ -9,15 +9,19 @@
 #ifndef MATLABTools_Utilities_h
 #define MATLABTools_Utilities_h
 
-#ifndef MATLAB_MEX_FILE
-#  include <new>
-#endif
-
 #include <matrix.h>
 
-#include <boost/noncopyable.hpp>
+#include <boost/format.hpp>
+#include <boost/move/move.hpp>
 
 #include <MWorksCore/MWorksMacros.h>
+
+#ifdef MATLAB_MEX_FILE
+#  include <mex.h>
+#else
+#  include <new>
+#  include <MWorksCore/Exceptions.h>
+#endif
 
 
 #define BEGIN_NAMESPACE_MW_MATLAB  BEGIN_NAMESPACE_MW    BEGIN_NAMESPACE(matlab)
@@ -27,19 +31,85 @@
 BEGIN_NAMESPACE_MW_MATLAB
 
 
-class ArrayPtr : boost::noncopyable {
+#ifndef MATLAB_MEX_FILE
+class MATLABError : public SimpleException {
     
 public:
-    explicit ArrayPtr(mxArray *ptr) : ptr(ptr) {
-#ifndef MATLAB_MEX_FILE
-        if (!ptr) throw std::bad_alloc();
+    MATLABError(const std::string &message) :
+        SimpleException(message)
+    { }
+    
+};
+#endif
+
+
+inline void throwMATLABError(const std::string &errorID, const std::string &msg) {
+#ifdef MATLAB_MEX_FILE
+    mexErrMsgIdAndTxt(errorID.c_str(), "%s", msg.c_str());
+#else
+    throw MATLABError(msg);
+#endif
+}
+
+
+inline void throwMATLABError(const std::string &errorID, const boost::format &fmt) {
+    throwMATLABError(errorID, fmt.str());
+}
+
+
+struct throw_if_null_t {};
+static const throw_if_null_t throw_if_null = throw_if_null_t();
+
+
+class ArrayPtr {
+    
+    BOOST_MOVABLE_BUT_NOT_COPYABLE(ArrayPtr)
+    
+public:
+    ~ArrayPtr() {
+#ifdef MATLAB_MEX_FILE
+        // If we're in a MEX-function, we don't deallocate the array in the destructor, as per the MATLAB docs:
+        // http://www.mathworks.com/help/matlab/matlab_external/troubleshooting-mex-files.html#brhj1k9-1
+#else
+        if (ptr) mxDestroyArray(ptr);
 #endif
     }
     
-    ~ArrayPtr() {
-#ifndef MATLAB_MEX_FILE
-        if (ptr) mxDestroyArray(ptr);
+    explicit ArrayPtr(mxArray *ptr = NULL) :
+        ptr(ptr)
+    { }
+    
+    ArrayPtr(throw_if_null_t throw_if_null, mxArray *ptr) :
+        ptr(ptr)
+    {
+#ifdef MATLAB_MEX_FILE
+        // MATLAB automatically terminates a MEX-function if memory allocation fails.
+        // This is just a sanity check.
+        mxAssert(ptr, "ptr is NULL");
+#else
+        if (!ptr) {
+            throw std::bad_alloc();
+        }
 #endif
+    }
+    
+    // Move constructor
+    ArrayPtr(BOOST_RV_REF(ArrayPtr) other) :
+        ptr(other.ptr)
+    {
+        other.ptr = NULL;
+    }
+    
+    // Move assignment
+    ArrayPtr& operator=(BOOST_RV_REF(ArrayPtr) other) {
+        if (ptr) mxDestroyArray(ptr);
+        ptr = other.ptr;
+        other.ptr = NULL;
+        return (*this);
+    }
+    
+    bool isNull() const MW_NOEXCEPT {
+        return (ptr == NULL);
     }
     
     mxArray* get() const MW_NOEXCEPT {
@@ -50,6 +120,12 @@ public:
         mxArray *orig_ptr = ptr;
         ptr = NULL;
         return orig_ptr;
+    }
+    
+    void destroy() {
+        mxAssert(ptr, "ptr is NULL");
+        mxDestroyArray(ptr);
+        ptr = NULL;
     }
     
 private:
