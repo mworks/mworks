@@ -116,6 +116,7 @@
 		E18D3BD916554D7D00D472D0 /* __init__.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; name = __init__.py; path = mworks/__init__.py; sourceTree = SOURCE_ROOT; };
 		E18D3BDA16554D7D00D472D0 /* conduit.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; name = conduit.py; path = mworks/conduit.py; sourceTree = SOURCE_ROOT; };
 		E18D3BDB16554D7D00D472D0 /* data.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; name = data.py; path = mworks/data.py; sourceTree = SOURCE_ROOT; };
+		E195639E168208D100C9F863 /* PythonTools-Exports.exp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.exports; path = "PythonTools-Exports.exp"; sourceTree = SOURCE_ROOT; };
 		E1ED66D7165585E3000AAAEA /* GILHelpers.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GILHelpers.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -169,6 +170,7 @@
 			isa = PBXGroup;
 			children = (
 				E18D3B7D165537A300D472D0 /* PythonTools-Prefix.pch */,
+				E195639E168208D100C9F863 /* PythonTools-Exports.exp */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -374,6 +376,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_EXTENSION = so;
+				EXPORTED_SYMBOLS_FILE = "PythonTools-Exports.exp";
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PythonTools-Prefix.pch";
