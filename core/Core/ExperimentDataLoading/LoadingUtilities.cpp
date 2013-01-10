@@ -285,8 +285,8 @@ BEGIN_NAMESPACE_MW
 				redraw_on_every_refresh = (bool)val.getElement(M_REDRAW_ON_EVERY_REFRESH_KEY);
 			}
 			
-			if(val.hasKey(M_ANNOUNCE_INDIVIDUAL_STIMULI)){
-				announce_individual_stimuli = (bool)val.getElement(M_ANNOUNCE_INDIVIDUAL_STIMULI);
+			if(val.hasKey(M_ANNOUNCE_INDIVIDUAL_STIMULI_KEY)){
+				announce_individual_stimuli = (bool)val.getElement(M_ANNOUNCE_INDIVIDUAL_STIMULI_KEY);
 			}
 		}
 		

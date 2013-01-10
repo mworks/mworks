@@ -163,7 +163,7 @@ extern shared_ptr<Variable> beamPosition;		// DDC added as an experiment, Aug 20
 #define M_MIRROR_WINDOW_BASE_HEIGHT_KEY		"mirror_window_base_height"
 #define M_REFRESH_RATE_KEY					"refresh_rate_hz"
 #define M_REDRAW_ON_EVERY_REFRESH_KEY		"redraw_on_every_refresh"
-#define M_ANNOUNCE_INDIVIDUAL_STIMULI		"announce_individual_stimuli"
+#define M_ANNOUNCE_INDIVIDUAL_STIMULI_KEY	"announce_individual_stimuli"
 extern shared_ptr<Variable> mainDisplayInfo;		
 extern shared_ptr<Variable> warnOnSkippedRefresh;		
 extern shared_ptr<Variable> alt_failover;
