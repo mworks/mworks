@@ -145,6 +145,7 @@ def main():
     scripts_path = os.path.join(installer_path, 'Contents/Packages/%s.pkg/Contents/Resources' % core_package_name)
     check_call(['/bin/cp', 'uninstall_mworks', 'preflight', 'postflight', scripts_path])
     check_call(['/bin/cp', 'uninstall_mworks', os.path.join(dmg_contents_dir, 'Uninstall MWorks')])
+    check_call(['/bin/cp', '../../LICENSE.txt', dmg_contents_dir])
 
     output_file = os.path.join(installer_root, '%s-%s.dmg' % (installer_name, installer_version))
     check_call(['/usr/bin/hdiutil', 'create', '-quiet', '-srcfolder', dmg_contents_dir, output_file])
