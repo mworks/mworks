@@ -1,0 +1,5 @@
+# This is the exported symbols file for MWorks core plugins.  Core
+# plugins expose a single function (getPlugin), which the core calls
+# to obtain the mw::Plugin instance.  All other symbols defined in a
+# plugin are private.
+_getPlugin
