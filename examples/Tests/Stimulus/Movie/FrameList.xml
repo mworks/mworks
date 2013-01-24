@@ -3,11 +3,10 @@
     <io_devices tag="IO Devices"></io_devices>
     <variables tag="Variables">
         <variable tag="num_frames" scope="global" logging="when_changed" default_value="52" type="integer"></variable>
-        <variable tag="frames_per_second" scope="global" logging="when_changed" default_value="refreshRate()" type="float"></variable>
         <variable tag="movie_ended" scope="global" logging="when_changed" default_value="0" type="boolean"></variable>
         <variable tag="start_time" scope="global" logging="when_changed" default_value="0" type="float"></variable>
         <variable tag="stop_time" scope="global" logging="when_changed" default_value="0" type="float"></variable>
-        <variable tag="expected_duration" scope="global" logging="when_changed" default_value="(double)num_frames / (double)frames_per_second" type="float"></variable>
+        <variable tag="expected_duration" scope="global" logging="when_changed" default_value="(double)num_frames / refreshRate()" type="float"></variable>
         <variable tag="actual_duration" scope="global" logging="when_changed" default_value="0" type="float"></variable>
         <variable tag="slop" scope="global" logging="when_changed" default_value="0" type="float"></variable>
         <variable tag="tolerance" scope="global" logging="when_changed" default_value="1.0 / (double)(refreshRate())" type="float"></variable>
@@ -20,7 +19,7 @@
                 <stimulus type="image_file" tag="image_${index}" path="images/MotIm_${index}.jpg" x_size="25" y_size="25" x_position="0.0" y_position="0.0" rotation="0.0" alpha_multiplier="1.0" deferred="NO"></stimulus>
             </range_replicator>
         </stimulus_group>
-        <stimulus type="movie" tag="movie" stimulus_group="images" frames_per_second="frames_per_second" ended="movie_ended"></stimulus>
+        <stimulus type="frame_list" tag="movie" stimulus_group="images" ended="movie_ended"></stimulus>
     </stimuli>
     <filters tag="Filters"></filters>
     <optimizers tag="Optimizers"></optimizers>
