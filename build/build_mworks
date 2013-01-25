@@ -126,13 +126,18 @@ def core():
 
 @builder('mworks/tools/data')
 def data_tools():
-    for subdir in ('DataFileIndexer', 'MATLABTools'):
+    for subdir in ('DataFileIndexer',):
         with workdir(subdir):
             xcodebuild()
 
 
 @builder('mworks/tools/python')
 def python_tools():
+    xcodebuild()
+
+
+@builder('mworks/tools/matlab')
+def matlab_tools():
     xcodebuild()
 
 
