@@ -7,6 +7,12 @@ import warnings
 
 import numpy
 
+mw_python_dir = os.environ.get(
+    'MW_PYTHON_DIR',
+    '/Library/Application Support/MWorks/Scripting/Python',
+    )
+sys.path.insert(0, mw_python_dir)
+
 from mworks.data import MWKStream
 
 
