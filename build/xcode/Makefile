@@ -6,7 +6,7 @@ MW_DEVELOPER_DIR = /Library/Application\ Support/MWorks/Developer
 MW_XCCONFIG_DIR = $(MW_DEVELOPER_DIR)/Xcode
 MW_BIN_DIR = $(MW_DEVELOPER_DIR)/bin
 
-XCCONFIG_FILES = *.xcconfig WARNING.txt CorePlugin.exp
+XCCONFIG_FILES = *.xcconfig WARNING.txt
 BIN_FILES = mw_xcodebuild
 
 all: install
