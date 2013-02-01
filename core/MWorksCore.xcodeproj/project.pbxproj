@@ -24,31 +24,54 @@
 			buildPhases = (
 			);
 			dependencies = (
-				5C3853F70AB7457800E52A63 /* PBXTargetDependency */,
-				DA1368DE07EA27D1001BA98B /* PBXTargetDependency */,
-				DA1368E607EA27E0001BA98B /* PBXTargetDependency */,
-				5C14D9F508646D1D00375FF1 /* PBXTargetDependency */,
-				5C14D9F708646D2000375FF1 /* PBXTargetDependency */,
-				5C0E758309D1AE53002295FB /* PBXTargetDependency */,
-				5C3853F90AB7458000E52A63 /* PBXTargetDependency */,
-				E17FB425110788AB00CA0FDC /* PBXTargetDependency */,
+				E1CBF64516BAF3480057CE48 /* PBXTargetDependency */,
+				E1CBF66316BAFB200057CE48 /* PBXTargetDependency */,
 				E115421C1193475D00DDE09D /* PBXTargetDependency */,
 			);
 			name = Everything;
 			productName = Everything;
 		};
-		E11542041193460300DDE09D /* mw_test */ = {
+		E11542041193460300DDE09D /* Install Testing Tools */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = E11542121193464F00DDE09D /* Build configuration list for PBXAggregateTarget "mw_test" */;
+			buildConfigurationList = E11542121193464F00DDE09D /* Build configuration list for PBXAggregateTarget "Install Testing Tools" */;
 			buildPhases = (
-				E11542031193460300DDE09D /* ShellScript */,
+				E1CBF66816BAFC100057CE48 /* CopyFiles */,
+				E1CBF66C16BAFC2C0057CE48 /* CopyFiles */,
 			);
 			dependencies = (
 				E115420B1193461300DDE09D /* PBXTargetDependency */,
 				E115420D1193461300DDE09D /* PBXTargetDependency */,
 			);
-			name = mw_test;
+			name = "Install Testing Tools";
 			productName = test_mworks;
+		};
+		E1CBF63A16BAF3090057CE48 /* Install MWorksCore */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = E1CBF63B16BAF3090057CE48 /* Build configuration list for PBXAggregateTarget "Install MWorksCore" */;
+			buildPhases = (
+				E1CBF63D16BAF3130057CE48 /* CopyFiles */,
+				E1CBF63F16BAF31C0057CE48 /* CopyFiles */,
+			);
+			dependencies = (
+				E1CBF64316BAF3380057CE48 /* PBXTargetDependency */,
+			);
+			name = "Install MWorksCore";
+			productName = "Install MWorksCore";
+		};
+		E1CBF65216BAFA240057CE48 /* Install Standard Plugins */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = E1CBF65316BAFA240057CE48 /* Build configuration list for PBXAggregateTarget "Install Standard Plugins" */;
+			buildPhases = (
+				E1CBF65D16BAFA430057CE48 /* CopyFiles */,
+			);
+			dependencies = (
+				E1CBF65616BAFA320057CE48 /* PBXTargetDependency */,
+				E1CBF65816BAFA330057CE48 /* PBXTargetDependency */,
+				E1CBF65A16BAFA360057CE48 /* PBXTargetDependency */,
+				E1CBF65C16BAFA370057CE48 /* PBXTargetDependency */,
+			);
+			name = "Install Standard Plugins";
+			productName = "Install Standard Plugins";
 		};
 /* End PBXAggregateTarget section */
 
@@ -389,7 +412,6 @@
 		DA2CE1EE07E9F97F00C68AEF /* ScopedVariableContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2CE1E607E9F97F00C68AEF /* ScopedVariableContext.cpp */; };
 		DA2CE1EF07E9F97F00C68AEF /* ScopedVariableContext.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2CE1E707E9F97F00C68AEF /* ScopedVariableContext.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DA2CE39807EA040D00C68AEF /* MachClock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2CE39607EA040D00C68AEF /* MachClock.cpp */; };
-		DA2CE39907EA040D00C68AEF /* MachClock.h in Resources */ = {isa = PBXBuildFile; fileRef = DA2CE39707EA040D00C68AEF /* MachClock.h */; };
 		DA2E379E08B0FE5800BD22C4 /* EventBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2E379C08B0FE5800BD22C4 /* EventBuffer.cpp */; };
 		DA2E379F08B0FE5800BD22C4 /* EventBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2E379D08B0FE5800BD22C4 /* EventBuffer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DA30579D08B6A23700BA4B0E /* NetworkReturn.h in Headers */ = {isa = PBXBuildFile; fileRef = DA30579B08B6A23700BA4B0E /* NetworkReturn.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -427,81 +449,23 @@
 		E1C87A1313FDA558005FF5ED /* DynamicStimulusActions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1C87A1213FDA558005FF5ED /* DynamicStimulusActions.cpp */; };
 		E1C87A1513FDA56F005FF5ED /* DynamicStimulusActions.h in Headers */ = {isa = PBXBuildFile; fileRef = E1C87A1413FDA56F005FF5ED /* DynamicStimulusActions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1CB606913F57B6200145D5B /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1CB606813F57B6200145D5B /* CoreAudio.framework */; };
+		E1CBF63E16BAF3190057CE48 /* MWorksCore.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = DA2CE0D407E9F68100C68AEF /* MWorksCore.framework */; };
+		E1CBF64016BAF32A0057CE48 /* setup_variables_macbook.xml in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0E1AE9920EF1A9EE00C224F1 /* setup_variables_macbook.xml */; };
+		E1CBF64116BAF32B0057CE48 /* setup_variables_two_monitors.xml in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0E1AE9A70EF1AB5500C224F1 /* setup_variables_two_monitors.xml */; };
+		E1CBF65E16BAFA540057CE48 /* MachClockPlugin.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = DA2CE39007EA035F00C68AEF /* MachClockPlugin.bundle */; };
+		E1CBF65F16BAFA560057CE48 /* ZenSchedulerPlugin.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5CF73C6108625E1800F453C3 /* ZenSchedulerPlugin.bundle */; };
+		E1CBF66016BAFA590057CE48 /* ZenStateSystemPlugin.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5CF73C7F086260E900F453C3 /* ZenStateSystemPlugin.bundle */; };
+		E1CBF66116BAFA5C0057CE48 /* LowPrioritySchedulerPlugin.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5C0E757A09D1A886002295FB /* LowPrioritySchedulerPlugin.bundle */; };
+		E1CBF66916BAFC1F0057CE48 /* MWorksCoreTest.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5C4D239C09DC83930082BF9F /* MWorksCoreTest.framework */; };
+		E1CBF66A16BAFC210057CE48 /* MWorksCoreTestRunner in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5C4D232509DC59420082BF9F /* MWorksCoreTestRunner */; };
+		E1CBF66B16BAFC260057CE48 /* MarionetteTest.app in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0E39EB030E4BD33D006F38A0 /* MarionetteTest.app */; };
+		E1CBF66D16BAFC410057CE48 /* mw_test in CopyFiles */ = {isa = PBXBuildFile; fileRef = E11542181193471F00DDE09D /* mw_test */; };
+		E1CBF66E16BAFD5F0057CE48 /* MWorksCoreTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C4D239C09DC83930082BF9F /* MWorksCoreTest.framework */; };
 		E1F65DF9119086A100F9A3A3 /* IODevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1F65DF8119086A100F9A3A3 /* IODevice.cpp */; };
 		E1F805C112E8E5DF005265A5 /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E1F805C012E8E5DF005265A5 /* libcrypto.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		0E01FB8E0E44E81E00C9A769 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = DA2CE0C907E9070200C68AEF /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 5CF73C7E086260E900F453C3;
-			remoteInfo = ZenStateSystemPlugin;
-		};
-		0E01FB900E44E84600C9A769 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = DA2CE0C907E9070200C68AEF /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = DA2CE38F07EA035F00C68AEF;
-			remoteInfo = MachClockPlugin;
-		};
-		0E01FB920E44E84B00C9A769 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = DA2CE0C907E9070200C68AEF /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 5CF73C6008625E1800F453C3;
-			remoteInfo = ZenSchedulerPlugin;
-		};
-		0E01FB940E44E84F00C9A769 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = DA2CE0C907E9070200C68AEF /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 5C0E756F09D1A886002295FB;
-			remoteInfo = LowPrioritySchedulerPlugin;
-		};
-		0E80145A0E42320000D6DE20 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = DA2CE0C907E9070200C68AEF /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = DA2CE0D307E9F68100C68AEF;
-			remoteInfo = MWorksCore;
-		};
-		5C0E758209D1AE53002295FB /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = DA2CE0C907E9070200C68AEF /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 5C0E756F09D1A886002295FB;
-			remoteInfo = LowPrioritySchedulerPlugin;
-		};
-		5C14D9F408646D1D00375FF1 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = DA2CE0C907E9070200C68AEF /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 5CF73C6008625E1800F453C3;
-			remoteInfo = ZenSchedulerPlugin;
-		};
-		5C14D9F608646D2000375FF1 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = DA2CE0C907E9070200C68AEF /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 5CF73C7E086260E900F453C3;
-			remoteInfo = ZenStateSystemPlugin;
-		};
-		5C3853F60AB7457800E52A63 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = DA2CE0C907E9070200C68AEF /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 5C4D239B09DC83930082BF9F;
-			remoteInfo = MWorksCoreTest;
-		};
-		5C3853F80AB7458000E52A63 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = DA2CE0C907E9070200C68AEF /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 5C4D232409DC59410082BF9F;
-			remoteInfo = MWorksCoreTestRunner;
-		};
 		5C488A180F4E27D400C5A526 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = DA2CE0C907E9070200C68AEF /* Project object */;
@@ -515,83 +479,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 5C4D239B09DC83930082BF9F;
 			remoteInfo = MWorksCoreTest;
-		};
-		5C4D25A709DCCD100082BF9F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = DA2CE0C907E9070200C68AEF /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = DA2CE0D307E9F68100C68AEF;
-			remoteInfo = MWorksCore;
-		};
-		68210E850D47965300725790 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = DA2CE0C907E9070200C68AEF /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = DA2CE0D307E9F68100C68AEF;
-			remoteInfo = MWorksCore;
-		};
-		68210E970D4796D600725790 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = DA2CE0C907E9070200C68AEF /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = DA2CE0D307E9F68100C68AEF;
-			remoteInfo = MWorksCore;
-		};
-		68210EA00D47970300725790 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = DA2CE0C907E9070200C68AEF /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = DA2CE0D307E9F68100C68AEF;
-			remoteInfo = MWorksCore;
-		};
-		68210EA30D47971D00725790 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = DA2CE0C907E9070200C68AEF /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = DA2CE0D307E9F68100C68AEF;
-			remoteInfo = MWorksCore;
-		};
-		68EC081E0CB2C1BF00FCD612 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = DA2CE0C907E9070200C68AEF /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 5CF73C6008625E1800F453C3;
-			remoteInfo = ZenSchedulerPlugin;
-		};
-		68EC08200CB2C1D000FCD612 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = DA2CE0C907E9070200C68AEF /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = DA2CE38F07EA035F00C68AEF;
-			remoteInfo = MachClockPlugin;
-		};
-		68EC08220CB2C1DB00FCD612 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = DA2CE0C907E9070200C68AEF /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 5CF73C7E086260E900F453C3;
-			remoteInfo = ZenStateSystemPlugin;
-		};
-		68EC08960CB2D02500FCD612 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = DA2CE0C907E9070200C68AEF /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 5C0E756F09D1A886002295FB;
-			remoteInfo = LowPrioritySchedulerPlugin;
-		};
-		DA1368DD07EA27D1001BA98B /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = DA2CE0C907E9070200C68AEF /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = DA2CE0D307E9F68100C68AEF;
-			remoteInfo = MWorksCore;
-		};
-		DA1368E507EA27E0001BA98B /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = DA2CE0C907E9070200C68AEF /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = DA2CE38F07EA035F00C68AEF;
-			remoteInfo = MachClockPlugin;
 		};
 		E115420A1193461300DDE09D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -614,14 +501,157 @@
 			remoteGlobalIDString = E11542041193460300DDE09D;
 			remoteInfo = test_mworks;
 		};
-		E17FB424110788AB00CA0FDC /* PBXContainerItemProxy */ = {
+		E1CBF64216BAF3380057CE48 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = DA2CE0C907E9070200C68AEF /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 0E8014110E422E2A00D6DE20;
-			remoteInfo = MarionetteTest;
+			remoteGlobalIDString = DA2CE0D307E9F68100C68AEF;
+			remoteInfo = MWorksCore;
+		};
+		E1CBF64416BAF3480057CE48 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DA2CE0C907E9070200C68AEF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E1CBF63A16BAF3090057CE48;
+			remoteInfo = "Install MWorksCore";
+		};
+		E1CBF64616BAF34F0057CE48 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DA2CE0C907E9070200C68AEF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E1CBF63A16BAF3090057CE48;
+			remoteInfo = "Install MWorksCore";
+		};
+		E1CBF64816BAF3530057CE48 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DA2CE0C907E9070200C68AEF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E1CBF63A16BAF3090057CE48;
+			remoteInfo = "Install MWorksCore";
+		};
+		E1CBF64A16BAF3580057CE48 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DA2CE0C907E9070200C68AEF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E1CBF63A16BAF3090057CE48;
+			remoteInfo = "Install MWorksCore";
+		};
+		E1CBF64C16BAF35C0057CE48 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DA2CE0C907E9070200C68AEF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E1CBF63A16BAF3090057CE48;
+			remoteInfo = "Install MWorksCore";
+		};
+		E1CBF65516BAFA320057CE48 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DA2CE0C907E9070200C68AEF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DA2CE38F07EA035F00C68AEF;
+			remoteInfo = MachClockPlugin;
+		};
+		E1CBF65716BAFA330057CE48 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DA2CE0C907E9070200C68AEF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5CF73C6008625E1800F453C3;
+			remoteInfo = ZenSchedulerPlugin;
+		};
+		E1CBF65916BAFA360057CE48 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DA2CE0C907E9070200C68AEF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5CF73C7E086260E900F453C3;
+			remoteInfo = ZenStateSystemPlugin;
+		};
+		E1CBF65B16BAFA370057CE48 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DA2CE0C907E9070200C68AEF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5C0E756F09D1A886002295FB;
+			remoteInfo = LowPrioritySchedulerPlugin;
+		};
+		E1CBF66216BAFB200057CE48 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DA2CE0C907E9070200C68AEF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E1CBF65216BAFA240057CE48;
+			remoteInfo = "Install Standard Plugins";
+		};
+		E1CBF66416BAFB2A0057CE48 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DA2CE0C907E9070200C68AEF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E1CBF65216BAFA240057CE48;
+			remoteInfo = "Install Standard Plugins";
+		};
+		E1CBF66616BAFB340057CE48 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DA2CE0C907E9070200C68AEF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E1CBF65216BAFA240057CE48;
+			remoteInfo = "Install Standard Plugins";
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		E1CBF63D16BAF3130057CE48 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+			dstSubfolderSpec = 0;
+			files = (
+				E1CBF63E16BAF3190057CE48 /* MWorksCore.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E1CBF63F16BAF31C0057CE48 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(MW_CONFIG_DIR)/examples";
+			dstSubfolderSpec = 0;
+			files = (
+				E1CBF64016BAF32A0057CE48 /* setup_variables_macbook.xml in CopyFiles */,
+				E1CBF64116BAF32B0057CE48 /* setup_variables_two_monitors.xml in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E1CBF65D16BAFA430057CE48 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(MW_PLUGINS_DIR)";
+			dstSubfolderSpec = 0;
+			files = (
+				E1CBF65E16BAFA540057CE48 /* MachClockPlugin.bundle in CopyFiles */,
+				E1CBF65F16BAFA560057CE48 /* ZenSchedulerPlugin.bundle in CopyFiles */,
+				E1CBF66016BAFA590057CE48 /* ZenStateSystemPlugin.bundle in CopyFiles */,
+				E1CBF66116BAFA5C0057CE48 /* LowPrioritySchedulerPlugin.bundle in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E1CBF66816BAFC100057CE48 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(MW_TESTS_DIR)";
+			dstSubfolderSpec = 0;
+			files = (
+				E1CBF66916BAFC1F0057CE48 /* MWorksCoreTest.framework in CopyFiles */,
+				E1CBF66A16BAFC210057CE48 /* MWorksCoreTestRunner in CopyFiles */,
+				E1CBF66B16BAFC260057CE48 /* MarionetteTest.app in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E1CBF66C16BAFC2C0057CE48 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(MW_BIN_DIR_UNQUOTED)";
+			dstSubfolderSpec = 0;
+			files = (
+				E1CBF66D16BAFC410057CE48 /* mw_test in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		0E0041890EB9F3C30099380C /* ClockTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClockTest.h; sourceTree = "<group>"; };
@@ -1061,6 +1091,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E1CBF66E16BAFD5F0057CE48 /* MWorksCoreTest.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1615,7 +1646,6 @@
 		5CF73BAA086252E800F453C3 /* ZenScheduler */ = {
 			isa = PBXGroup;
 			children = (
-				5C0E74F609D1A7E9002295FB /* LowPrioritySchedulerPlugin-Info.plist */,
 				5CF73BCE0862537E00F453C3 /* ZenScheduler.h */,
 				5CF73BCD0862537E00F453C3 /* ZenScheduler.cpp */,
 			);
@@ -1737,9 +1767,8 @@
 				DADAD3E107F2267E00F8D324 /* Docs (woefully incomplete) */,
 				5C85E1AC10F28FBD003CD8B3 /* Outdated */,
 				DA96B8A009818E5B0007610D /* plists */,
+				E1CBF63416BAF1210057CE48 /* Frameworks & Libraries */,
 				DA2CE0D507E9F68100C68AEF /* Products */,
-				E1CB606813F57B6200145D5B /* CoreAudio.framework */,
-				E1F805C012E8E5DF005265A5 /* libcrypto.dylib */,
 			);
 			sourceTree = "<group>";
 		};
@@ -2090,6 +2119,7 @@
 		DA2CE3AA07EA04EC00C68AEF /* MonkeyWorksScripting */ = {
 			isa = PBXGroup;
 			children = (
+				DA2CE3A407EA046800C68AEF /* MWorksScripting-Info.plist */,
 				DA2CE3AC07EA04FF00C68AEF /* MonkeyScript.i */,
 				5C08AEC10CC84DC000194E85 /* PyMonkeyWorks.cxx */,
 			);
@@ -2100,12 +2130,12 @@
 			isa = PBXGroup;
 			children = (
 				5C6616C10F4C9B6900C8FD71 /* MWorksCore-Info.template.plist */,
-				5C4D239D09DC83930082BF9F /* MWorksCoreTest-Info.plist */,
 				DA2CE0D607E9F68100C68AEF /* MWorksCore-Info.plist */,
 				DA2CE39107EA035F00C68AEF /* MachClockPlugin-Info.plist */,
-				DA2CE3A407EA046800C68AEF /* MWorksScripting-Info.plist */,
 				5CF73BCC0862535B00F453C3 /* ZenSchedulerPlugin-Info.plist */,
 				5CF73C80086260E900F453C3 /* ZenStateSystemPlugin-Info.plist */,
+				5C0E74F609D1A7E9002295FB /* LowPrioritySchedulerPlugin-Info.plist */,
+				5C4D239D09DC83930082BF9F /* MWorksCoreTest-Info.plist */,
 			);
 			name = plists;
 			sourceTree = SOURCE_ROOT;
@@ -2133,6 +2163,15 @@
 				8E2A2C7C09509D6800A7E004 /* MWorksXMLSpec.rtf */,
 			);
 			name = "Docs (woefully incomplete)";
+			sourceTree = "<group>";
+		};
+		E1CBF63416BAF1210057CE48 /* Frameworks & Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				E1CB606813F57B6200145D5B /* CoreAudio.framework */,
+				E1F805C012E8E5DF005265A5 /* libcrypto.dylib */,
+			);
+			name = "Frameworks & Libraries";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -2347,16 +2386,11 @@
 				0E80140E0E422E2A00D6DE20 /* Resources */,
 				0E80140F0E422E2A00D6DE20 /* Sources */,
 				0E8014100E422E2A00D6DE20 /* Frameworks */,
-				0E11D05B0E47771000E0B4B7 /* ShellScript */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				0E80145B0E42320000D6DE20 /* PBXTargetDependency */,
-				0E01FB910E44E84600C9A769 /* PBXTargetDependency */,
-				0E01FB930E44E84B00C9A769 /* PBXTargetDependency */,
-				0E01FB8F0E44E81E00C9A769 /* PBXTargetDependency */,
-				0E01FB950E44E84F00C9A769 /* PBXTargetDependency */,
+				E1CBF66716BAFB340057CE48 /* PBXTargetDependency */,
 			);
 			name = MarionetteTest;
 			productName = MarionetteTest;
@@ -2370,12 +2404,11 @@
 				5C0E757009D1A886002295FB /* Resources */,
 				5C0E757109D1A886002295FB /* Sources */,
 				5C0E757309D1A886002295FB /* Frameworks */,
-				5C0E757509D1A886002295FB /* ShellScript */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				68210EA40D47971D00725790 /* PBXTargetDependency */,
+				E1CBF64D16BAF35C0057CE48 /* PBXTargetDependency */,
 			);
 			name = LowPrioritySchedulerPlugin;
 			productName = ZenSchedulerPlugin;
@@ -2388,7 +2421,6 @@
 			buildPhases = (
 				5C4D232209DC59410082BF9F /* Sources */,
 				5C4D232309DC59410082BF9F /* Frameworks */,
-				68F1AAE40AA7814C0009800E /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -2408,16 +2440,11 @@
 				5C4D239809DC83930082BF9F /* Resources */,
 				5C4D239909DC83930082BF9F /* Sources */,
 				5C4D239A09DC83930082BF9F /* Frameworks */,
-				5C4D23A709DC83D20082BF9F /* ShellScript */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				68EC08230CB2C1DB00FCD612 /* PBXTargetDependency */,
-				68EC08970CB2D02500FCD612 /* PBXTargetDependency */,
-				68EC08210CB2C1D000FCD612 /* PBXTargetDependency */,
-				68EC081F0CB2C1BF00FCD612 /* PBXTargetDependency */,
-				5C4D25A809DCCD100082BF9F /* PBXTargetDependency */,
+				E1CBF66516BAFB2A0057CE48 /* PBXTargetDependency */,
 			);
 			name = MWorksCoreTest;
 			productName = MWorksCoreTest;
@@ -2431,12 +2458,11 @@
 				5CF73C5D08625E1800F453C3 /* Resources */,
 				5CF73C5E08625E1800F453C3 /* Sources */,
 				5CF73C5F08625E1800F453C3 /* Frameworks */,
-				5CF73C6208625E3E00F453C3 /* ShellScript */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				68210EA10D47970300725790 /* PBXTargetDependency */,
+				E1CBF64916BAF3530057CE48 /* PBXTargetDependency */,
 			);
 			name = ZenSchedulerPlugin;
 			productName = ZenSchedulerPlugin;
@@ -2450,12 +2476,11 @@
 				5CF73C7B086260E900F453C3 /* Resources */,
 				5CF73C7C086260E900F453C3 /* Sources */,
 				5CF73C7D086260E900F453C3 /* Frameworks */,
-				5CF73C810862611900F453C3 /* ShellScript */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				68210E860D47965300725790 /* PBXTargetDependency */,
+				E1CBF64B16BAF3580057CE48 /* PBXTargetDependency */,
 			);
 			name = ZenStateSystemPlugin;
 			productName = ZenStateSystemPlugin;
@@ -2470,7 +2495,6 @@
 				DA2CE0D007E9F68100C68AEF /* Resources */,
 				DA2CE0D107E9F68100C68AEF /* Sources */,
 				DA2CE0D207E9F68100C68AEF /* Frameworks */,
-				5CEE864C081D53A700F366DE /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -2489,12 +2513,11 @@
 				DA2CE38C07EA035F00C68AEF /* Resources */,
 				DA2CE38D07EA035F00C68AEF /* Sources */,
 				DA2CE38E07EA035F00C68AEF /* Frameworks */,
-				5C8A4B880858C6E20016978D /* ShellScript */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				68210E980D4796D600725790 /* PBXTargetDependency */,
+				E1CBF64716BAF34F0057CE48 /* PBXTargetDependency */,
 			);
 			name = MachClockPlugin;
 			productName = MachClockPlugin;
@@ -2524,17 +2547,19 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				DA1368DC07EA27C7001BA98B /* Everything */,
+				5C488A160F4E27CD00C5A526 /* Set Version String */,
 				DA2CE0D307E9F68100C68AEF /* MWorksCore */,
+				E1CBF63A16BAF3090057CE48 /* Install MWorksCore */,
 				DA2CE38F07EA035F00C68AEF /* MachClockPlugin */,
 				5CF73C6008625E1800F453C3 /* ZenSchedulerPlugin */,
 				5CF73C7E086260E900F453C3 /* ZenStateSystemPlugin */,
 				5C0E756F09D1A886002295FB /* LowPrioritySchedulerPlugin */,
+				E1CBF65216BAFA240057CE48 /* Install Standard Plugins */,
 				5C4D239B09DC83930082BF9F /* MWorksCoreTest */,
 				5C4D232409DC59410082BF9F /* MWorksCoreTestRunner */,
 				0E8014110E422E2A00D6DE20 /* MarionetteTest */,
-				E11542041193460300DDE09D /* mw_test */,
-				5C488A160F4E27CD00C5A526 /* Set Version String */,
+				E11542041193460300DDE09D /* Install Testing Tools */,
+				DA1368DC07EA27C7001BA98B /* Everything */,
 			);
 		};
 /* End PBXProject section */
@@ -2594,39 +2619,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DA2CE39907EA040D00C68AEF /* MachClock.h in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		0E11D05B0E47771000E0B4B7 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/zsh;
-			shellScript = "export FULL_NAME=${PRODUCT_NAME}.${WRAPPER_EXTENSION}\n\nrm -Rf \"${TESTS_DIR}/${FULL_NAME}\"\ncp -Rf \"${BUILT_PRODUCTS_DIR}/${FULL_NAME}\" \"${TESTS_DIR}/\"\n\n\n";
-		};
-		5C0E757509D1A886002295FB /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/zsh;
-			shellScript = "export FULL_NAME=${PRODUCT_NAME}.${WRAPPER_EXTENSION}\n\nrm -rf \"${PLUGINS_DIR}/${FULL_NAME}\"\ncp -R \"${BUILT_PRODUCTS_DIR}/${FULL_NAME}\" \"${PLUGINS_DIR}/\"";
-		};
 		5C488A150F4E27CD00C5A526 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -2639,97 +2637,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/zsh;
 			shellScript = "export SOURCE_DIR=$PROJECT_DIR\necho $SOURCE_DIR\nexport GIT=`/usr/bin/env which git`\necho $GIT\nexport VERSION_STRING=`$GIT log -n1 --pretty=format:%H`\n\necho $VERSION_STRING\nexport SUBS_STRING=s/_VERSION_STRING_/${VERSION_STRING}/\nmkdir -p ${SOURCE_DIR}\nsed $SUBS_STRING  ${SOURCE_DIR}/MWorksCore-Info.template.plist > ${SOURCE_DIR}/MWorksCore-Info.plist\n";
-		};
-		5C4D23A709DC83D20082BF9F /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/zsh;
-			shellScript = "export FULL_NAME=${PRODUCT_NAME}.${WRAPPER_EXTENSION}\n\necho making dir ${TESTS_DIR}/XML\nmkdir -p \"${TESTS_DIR}/XML\"\nrm -Rf \"${TESTS_DIR}/${FULL_NAME}\"\necho Copying files from ${BUILT_PRODUCTS_DIR}/${FULL_NAME} to ${TESTS_DIR}/\ncp -Rf \"${BUILT_PRODUCTS_DIR}/${FULL_NAME}\" \"${TESTS_DIR}/\"\nexit 0\n";
-		};
-		5C8A4B880858C6E20016978D /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/zsh;
-			shellScript = "export FULL_NAME=${PRODUCT_NAME}.${WRAPPER_EXTENSION}\n\nrm -rf \"${PLUGINS_DIR}/${FULL_NAME}\"\ncp -R \"${BUILT_PRODUCTS_DIR}/${FULL_NAME}\" \"${PLUGINS_DIR}/\"";
-		};
-		5CEE864C081D53A700F366DE /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/zsh;
-			shellScript = "export FULL_NAME=${PRODUCT_NAME}.${WRAPPER_EXTENSION}\n\nrm -Rf \"${INSTALL_PATH}/${FULL_NAME}\"\ncp -Rf \"${BUILT_PRODUCTS_DIR}/${FULL_NAME}\"  \"${INSTALL_PATH}\"\n\nmkdir -p ${CONFIG_DIR}/examples\ncp -f $PROJECT_DIR/Core/SetupVariables/setup_variables_macbook.xml ${CONFIG_DIR}/examples\ncp -f $PROJECT_DIR/Core/SetupVariables/setup_variables_two_monitors.xml ${CONFIG_DIR}/examples\n\nmkdir -p \"${PLUGINS_DIR}\"\n\nexit 0";
-		};
-		5CF73C6208625E3E00F453C3 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/zsh;
-			shellScript = "export FULL_NAME=${PRODUCT_NAME}.${WRAPPER_EXTENSION}\n\nrm -rf \"${PLUGINS_DIR}/${FULL_NAME}\"\ncp -R \"${BUILT_PRODUCTS_DIR}/${FULL_NAME}\" \"${PLUGINS_DIR}/\"";
-		};
-		5CF73C810862611900F453C3 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/zsh;
-			shellScript = "export FULL_NAME=${PRODUCT_NAME}.${WRAPPER_EXTENSION}\n\nrm -rf \"${PLUGINS_DIR}/${FULL_NAME}\"\ncp -R \"${BUILT_PRODUCTS_DIR}/${FULL_NAME}\" \"${PLUGINS_DIR}/\"";
-		};
-		68F1AAE40AA7814C0009800E /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/zsh;
-			shellScript = "export FULL_NAME=${PRODUCT_NAME}\n\necho making dir ${TESTS_DIR}/XML\nmkdir -p \"${TESTS_DIR}/XML\"\nrm -Rf \"${TESTS_DIR}/${FULL_NAME}\"\necho Copying files from ${BUILT_PRODUCTS_DIR}/${FULL_NAME} to ${TESTS_DIR}/\ncp -Rf \"${BUILT_PRODUCTS_DIR}/${FULL_NAME}\" \"${TESTS_DIR}/\"\nexit 0";
-		};
-		E11542031193460300DDE09D /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/zsh;
-			shellScript = "export SOURCE_DIR=${PROJECT_DIR}\n\ncp \"${SOURCE_DIR}/UnitTests/mw_test\" \"${MW_BIN_DIR_UNQUOTED}\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -2973,56 +2880,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		0E01FB8F0E44E81E00C9A769 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 5CF73C7E086260E900F453C3 /* ZenStateSystemPlugin */;
-			targetProxy = 0E01FB8E0E44E81E00C9A769 /* PBXContainerItemProxy */;
-		};
-		0E01FB910E44E84600C9A769 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = DA2CE38F07EA035F00C68AEF /* MachClockPlugin */;
-			targetProxy = 0E01FB900E44E84600C9A769 /* PBXContainerItemProxy */;
-		};
-		0E01FB930E44E84B00C9A769 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 5CF73C6008625E1800F453C3 /* ZenSchedulerPlugin */;
-			targetProxy = 0E01FB920E44E84B00C9A769 /* PBXContainerItemProxy */;
-		};
-		0E01FB950E44E84F00C9A769 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 5C0E756F09D1A886002295FB /* LowPrioritySchedulerPlugin */;
-			targetProxy = 0E01FB940E44E84F00C9A769 /* PBXContainerItemProxy */;
-		};
-		0E80145B0E42320000D6DE20 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = DA2CE0D307E9F68100C68AEF /* MWorksCore */;
-			targetProxy = 0E80145A0E42320000D6DE20 /* PBXContainerItemProxy */;
-		};
-		5C0E758309D1AE53002295FB /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 5C0E756F09D1A886002295FB /* LowPrioritySchedulerPlugin */;
-			targetProxy = 5C0E758209D1AE53002295FB /* PBXContainerItemProxy */;
-		};
-		5C14D9F508646D1D00375FF1 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 5CF73C6008625E1800F453C3 /* ZenSchedulerPlugin */;
-			targetProxy = 5C14D9F408646D1D00375FF1 /* PBXContainerItemProxy */;
-		};
-		5C14D9F708646D2000375FF1 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 5CF73C7E086260E900F453C3 /* ZenStateSystemPlugin */;
-			targetProxy = 5C14D9F608646D2000375FF1 /* PBXContainerItemProxy */;
-		};
-		5C3853F70AB7457800E52A63 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 5C4D239B09DC83930082BF9F /* MWorksCoreTest */;
-			targetProxy = 5C3853F60AB7457800E52A63 /* PBXContainerItemProxy */;
-		};
-		5C3853F90AB7458000E52A63 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 5C4D232409DC59410082BF9F /* MWorksCoreTestRunner */;
-			targetProxy = 5C3853F80AB7458000E52A63 /* PBXContainerItemProxy */;
-		};
 		5C488A190F4E27D400C5A526 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 5C488A160F4E27CD00C5A526 /* Set Version String */;
@@ -3032,61 +2889,6 @@
 			isa = PBXTargetDependency;
 			target = 5C4D239B09DC83930082BF9F /* MWorksCoreTest */;
 			targetProxy = 5C4D24C109DC95550082BF9F /* PBXContainerItemProxy */;
-		};
-		5C4D25A809DCCD100082BF9F /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = DA2CE0D307E9F68100C68AEF /* MWorksCore */;
-			targetProxy = 5C4D25A709DCCD100082BF9F /* PBXContainerItemProxy */;
-		};
-		68210E860D47965300725790 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = DA2CE0D307E9F68100C68AEF /* MWorksCore */;
-			targetProxy = 68210E850D47965300725790 /* PBXContainerItemProxy */;
-		};
-		68210E980D4796D600725790 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = DA2CE0D307E9F68100C68AEF /* MWorksCore */;
-			targetProxy = 68210E970D4796D600725790 /* PBXContainerItemProxy */;
-		};
-		68210EA10D47970300725790 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = DA2CE0D307E9F68100C68AEF /* MWorksCore */;
-			targetProxy = 68210EA00D47970300725790 /* PBXContainerItemProxy */;
-		};
-		68210EA40D47971D00725790 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = DA2CE0D307E9F68100C68AEF /* MWorksCore */;
-			targetProxy = 68210EA30D47971D00725790 /* PBXContainerItemProxy */;
-		};
-		68EC081F0CB2C1BF00FCD612 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 5CF73C6008625E1800F453C3 /* ZenSchedulerPlugin */;
-			targetProxy = 68EC081E0CB2C1BF00FCD612 /* PBXContainerItemProxy */;
-		};
-		68EC08210CB2C1D000FCD612 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = DA2CE38F07EA035F00C68AEF /* MachClockPlugin */;
-			targetProxy = 68EC08200CB2C1D000FCD612 /* PBXContainerItemProxy */;
-		};
-		68EC08230CB2C1DB00FCD612 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 5CF73C7E086260E900F453C3 /* ZenStateSystemPlugin */;
-			targetProxy = 68EC08220CB2C1DB00FCD612 /* PBXContainerItemProxy */;
-		};
-		68EC08970CB2D02500FCD612 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 5C0E756F09D1A886002295FB /* LowPrioritySchedulerPlugin */;
-			targetProxy = 68EC08960CB2D02500FCD612 /* PBXContainerItemProxy */;
-		};
-		DA1368DE07EA27D1001BA98B /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = DA2CE0D307E9F68100C68AEF /* MWorksCore */;
-			targetProxy = DA1368DD07EA27D1001BA98B /* PBXContainerItemProxy */;
-		};
-		DA1368E607EA27E0001BA98B /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = DA2CE38F07EA035F00C68AEF /* MachClockPlugin */;
-			targetProxy = DA1368E507EA27E0001BA98B /* PBXContainerItemProxy */;
 		};
 		E115420B1193461300DDE09D /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -3100,13 +2902,73 @@
 		};
 		E115421C1193475D00DDE09D /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = E11542041193460300DDE09D /* mw_test */;
+			target = E11542041193460300DDE09D /* Install Testing Tools */;
 			targetProxy = E115421B1193475D00DDE09D /* PBXContainerItemProxy */;
 		};
-		E17FB425110788AB00CA0FDC /* PBXTargetDependency */ = {
+		E1CBF64316BAF3380057CE48 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 0E8014110E422E2A00D6DE20 /* MarionetteTest */;
-			targetProxy = E17FB424110788AB00CA0FDC /* PBXContainerItemProxy */;
+			target = DA2CE0D307E9F68100C68AEF /* MWorksCore */;
+			targetProxy = E1CBF64216BAF3380057CE48 /* PBXContainerItemProxy */;
+		};
+		E1CBF64516BAF3480057CE48 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E1CBF63A16BAF3090057CE48 /* Install MWorksCore */;
+			targetProxy = E1CBF64416BAF3480057CE48 /* PBXContainerItemProxy */;
+		};
+		E1CBF64716BAF34F0057CE48 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E1CBF63A16BAF3090057CE48 /* Install MWorksCore */;
+			targetProxy = E1CBF64616BAF34F0057CE48 /* PBXContainerItemProxy */;
+		};
+		E1CBF64916BAF3530057CE48 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E1CBF63A16BAF3090057CE48 /* Install MWorksCore */;
+			targetProxy = E1CBF64816BAF3530057CE48 /* PBXContainerItemProxy */;
+		};
+		E1CBF64B16BAF3580057CE48 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E1CBF63A16BAF3090057CE48 /* Install MWorksCore */;
+			targetProxy = E1CBF64A16BAF3580057CE48 /* PBXContainerItemProxy */;
+		};
+		E1CBF64D16BAF35C0057CE48 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E1CBF63A16BAF3090057CE48 /* Install MWorksCore */;
+			targetProxy = E1CBF64C16BAF35C0057CE48 /* PBXContainerItemProxy */;
+		};
+		E1CBF65616BAFA320057CE48 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DA2CE38F07EA035F00C68AEF /* MachClockPlugin */;
+			targetProxy = E1CBF65516BAFA320057CE48 /* PBXContainerItemProxy */;
+		};
+		E1CBF65816BAFA330057CE48 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5CF73C6008625E1800F453C3 /* ZenSchedulerPlugin */;
+			targetProxy = E1CBF65716BAFA330057CE48 /* PBXContainerItemProxy */;
+		};
+		E1CBF65A16BAFA360057CE48 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5CF73C7E086260E900F453C3 /* ZenStateSystemPlugin */;
+			targetProxy = E1CBF65916BAFA360057CE48 /* PBXContainerItemProxy */;
+		};
+		E1CBF65C16BAFA370057CE48 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5C0E756F09D1A886002295FB /* LowPrioritySchedulerPlugin */;
+			targetProxy = E1CBF65B16BAFA370057CE48 /* PBXContainerItemProxy */;
+		};
+		E1CBF66316BAFB200057CE48 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E1CBF65216BAFA240057CE48 /* Install Standard Plugins */;
+			targetProxy = E1CBF66216BAFB200057CE48 /* PBXContainerItemProxy */;
+		};
+		E1CBF66516BAFB2A0057CE48 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E1CBF65216BAFA240057CE48 /* Install Standard Plugins */;
+			targetProxy = E1CBF66416BAFB2A0057CE48 /* PBXContainerItemProxy */;
+		};
+		E1CBF66716BAFB340057CE48 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E1CBF65216BAFA240057CE48 /* Install Standard Plugins */;
+			targetProxy = E1CBF66616BAFB340057CE48 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -3129,7 +2991,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				HEADER_SEARCH_PATHS = (
 					/usr/include/libxml2,
-					"$(MW_INCLUDE_DIR)",
+					"$(inherited)",
 				);
 				INFOPLIST_FILE = "MarionetteTest-Info.plist";
 				OTHER_LDFLAGS = (
@@ -3151,7 +3013,6 @@
 			buildSettings = {
 				GCC_PREPROCESSOR_DEFINITIONS = LOW_PRIORITY_MODE;
 				INFOPLIST_FILE = "LowPrioritySchedulerPlugin-Info.plist";
-				INSTALL_PATH = "$(PLUGINS_DIR)";
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -3173,7 +3034,7 @@
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				HEADER_SEARCH_PATHS = (
 					/usr/include/libxml2,
-					"$(MW_INCLUDE_DIR)",
+					"$(inherited)",
 				);
 				INFOPLIST_FILE = "MWorksCore-Info.plist";
 				OTHER_LDFLAGS = (
@@ -3216,7 +3077,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				INFOPLIST_FILE = "MachClockPlugin-Info.plist";
-				INSTALL_PATH = "$(PLUGINS_DIR)";
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -3234,7 +3094,6 @@
 			buildSettings = {
 				GCC_PREPROCESSOR_DEFINITIONS = REALTIME_SCHEDULER;
 				INFOPLIST_FILE = "ZenSchedulerPlugin-Info.plist";
-				INSTALL_PATH = "$(PLUGINS_DIR)";
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -3288,21 +3147,14 @@
 		5C4D232E09DC595B0082BF9F /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(FRAMEWORK_SEARCH_PATHS)",
-					"\"$(TESTS_DIR)\"",
-				);
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				INSTALL_PATH = "$(TESTS_DIR)";
 				OTHER_LDFLAGS = (
 					"-ldl",
 					"-lcppunit",
 					"-framework",
 					MWorksCore,
-					"-framework",
-					MWorksCoreTest,
 					"-lILUT",
 					"-lscarab",
 				);
@@ -3319,7 +3171,7 @@
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				INFOPLIST_FILE = "MWorksCoreTest-Info.plist";
-				INSTALL_PATH = "$(TESTS_DIR)";
+				INSTALL_PATH = "$(MW_TESTS_DIR)";
 				OTHER_LDFLAGS = (
 					"-framework",
 					AppKit,
@@ -3338,7 +3190,21 @@
 		E11542051193460300DDE09D /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				PRODUCT_NAME = test_mworks;
+				PRODUCT_NAME = "Install Testing Tools";
+			};
+			name = Development;
+		};
+		E1CBF63C16BAF3090057CE48 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Development;
+		};
+		E1CBF65416BAFA240057CE48 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Development;
 		};
@@ -3433,10 +3299,26 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
 		};
-		E11542121193464F00DDE09D /* Build configuration list for PBXAggregateTarget "mw_test" */ = {
+		E11542121193464F00DDE09D /* Build configuration list for PBXAggregateTarget "Install Testing Tools" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E11542051193460300DDE09D /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		E1CBF63B16BAF3090057CE48 /* Build configuration list for PBXAggregateTarget "Install MWorksCore" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E1CBF63C16BAF3090057CE48 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		E1CBF65316BAFA240057CE48 /* Build configuration list for PBXAggregateTarget "Install Standard Plugins" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E1CBF65416BAFA240057CE48 /* Development */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;

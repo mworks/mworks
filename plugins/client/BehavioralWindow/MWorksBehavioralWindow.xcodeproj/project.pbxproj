@@ -13,10 +13,22 @@
 			buildPhases = (
 			);
 			dependencies = (
-				5C4D298409DDBC8D0082BF9F /* PBXTargetDependency */,
+				E12D990616BC2E22004FEF79 /* PBXTargetDependency */,
 			);
 			name = Everything;
 			productName = Everything;
+		};
+		E12D990216BC2E19004FEF79 /* Install */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = E12D990316BC2E19004FEF79 /* Build configuration list for PBXAggregateTarget "Install" */;
+			buildPhases = (
+				E12D990916BC2E26004FEF79 /* CopyFiles */,
+			);
+			dependencies = (
+				E12D990816BC2E24004FEF79 /* PBXTargetDependency */,
+			);
+			name = Install;
+			productName = Install;
 		};
 /* End PBXAggregateTarget section */
 
@@ -26,19 +38,27 @@
 		0EB67A120AAE11E00034D377 /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CF2875F099412A7000C55A3 /* MWorksCore.framework */; };
 		5C07403C0B25D5DD00B39336 /* Main.nib in Resources */ = {isa = PBXBuildFile; fileRef = 5C07403B0B25D5DD00B39336 /* Main.nib */; };
 		5CF17CD011000D0700B7EF53 /* Narrative.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CF17CCF11000D0700B7EF53 /* Narrative.framework */; };
-		5CF17CD511000D1000B7EF53 /* Narrative.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5CF17CCF11000D0700B7EF53 /* Narrative.framework */; };
 		5CF287520994124E000C55A3 /* MWorksCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CF287500994124E000C55A3 /* MWorksCocoa.framework */; };
 		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
+		E12D990A16BC2E29004FEF79 /* MWorksBehavioralWindow.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = 686E22E50AC84B66003EFDDA /* MWorksBehavioralWindow.bundle */; };
+		E12D990B16BC2E73004FEF79 /* Narrative.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5CF17CCF11000D0700B7EF53 /* Narrative.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		5C4D298309DDBC8D0082BF9F /* PBXContainerItemProxy */ = {
+		E12D990516BC2E22004FEF79 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E12D990216BC2E19004FEF79;
+			remoteInfo = Install;
+		};
+		E12D990716BC2E24004FEF79 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 8D5B49AC048680CD000E48DA;
-			remoteInfo = MonkeyWorksRewardWindow;
+			remoteInfo = MWorksBehavioralWindow;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -49,7 +69,17 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				5CF17CD511000D1000B7EF53 /* Narrative.framework in CopyFiles */,
+				E12D990B16BC2E73004FEF79 /* Narrative.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E12D990916BC2E26004FEF79 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(MW_CLIENT_PLUGINS_DIR)";
+			dstSubfolderSpec = 0;
+			files = (
+				E12D990A16BC2E29004FEF79 /* MWorksBehavioralWindow.bundle in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -189,7 +219,6 @@
 				8D5B49AF048680CD000E48DA /* Resources */,
 				8D5B49B1048680CD000E48DA /* Sources */,
 				8D5B49B3048680CD000E48DA /* Frameworks */,
-				DA1E8AF8099AD12500CDAD82 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -224,6 +253,7 @@
 			projectRoot = "";
 			targets = (
 				8D5B49AC048680CD000E48DA /* MWorksBehavioralWindow */,
+				E12D990216BC2E19004FEF79 /* Install */,
 				5C4D298209DDBC890082BF9F /* Everything */,
 			);
 		};
@@ -242,22 +272,6 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		DA1E8AF8099AD12500CDAD82 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/zsh;
-			shellScript = "export FULL_NAME=${PRODUCT_NAME}.${WRAPPER_EXTENSION}\nexport FINAL_INSTALL_DIR=${CLIENT_PLUGINS_DIR}\n\n# make the directory if it isnt there\nmkdir -p ${FINAL_INSTALL_DIR}\n\n# copy the framework to the proper directory\nrm -dfR \"${FINAL_INSTALL_DIR}/${FULL_NAME}\"\n\ncp -Rf \"${BUILT_PRODUCTS_DIR}/${FULL_NAME}\" \"${FINAL_INSTALL_DIR}/\"\n\n#echo install_name_tool -change @executable_path/../Frameworks/Narrative.framework/Versions/A/Narrative ${FINAL_INSTALL_DIR}/${PRODUCT_NAME}.${WRAPPER_EXTENSION}/Contents/Frameworks ${FINAL_INSTALL_DIR}/${PRODUCT_NAME}.${WRAPPER_EXTENSION}\n\n#install_name_tool -change @executable_path/../Frameworks/Narrative.framework/Versions/A/Narrative ${FINAL_INSTALL_DIR}/${PRODUCT_NAME}.${WRAPPER_EXTENSION}/Contents/Frameworks/Narrative.framework/Versions/A/Narrative ${FINAL_INSTALL_DIR}/${PRODUCT_NAME}.${WRAPPER_EXTENSION}/Contents/MacOS/${PRODUCT_NAME}";
-		};
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
 		8D5B49B1048680CD000E48DA /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -270,10 +284,15 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		5C4D298409DDBC8D0082BF9F /* PBXTargetDependency */ = {
+		E12D990616BC2E22004FEF79 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E12D990216BC2E19004FEF79 /* Install */;
+			targetProxy = E12D990516BC2E22004FEF79 /* PBXContainerItemProxy */;
+		};
+		E12D990816BC2E24004FEF79 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 8D5B49AC048680CD000E48DA /* MWorksBehavioralWindow */;
-			targetProxy = 5C4D298309DDBC8D0082BF9F /* PBXContainerItemProxy */;
+			targetProxy = E12D990716BC2E24004FEF79 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -292,13 +311,13 @@
 		1DEB913B08733D840010E9CD /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(MW_DEVELOPER_DIR)/Frameworks\"",
+					"$(inherited)",
+				);
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				GCC_PREFIX_HEADER = MWorksBehavioralWindow_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
-				OTHER_LDFLAGS = (
-					"-framework",
-					Narrative,
-				);
 				PRODUCT_NAME = MWorksBehavioralWindow;
 				WRAPPER_EXTENSION = bundle;
 			};
@@ -308,12 +327,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5CE62AAD1158589000C757F1 /* Development.xcconfig */;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
-				);
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(FINAL_INSTALL_DIR)/$(TARGET_NAME).$(WRAPPER_EXTENSION)/Contents/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(MW_DEVELOPER_DIR)/Frameworks\"";
 				MACH_O_TYPE = mh_bundle;
 			};
 			name = Development;
@@ -322,6 +335,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = Everything;
+			};
+			name = Development;
+		};
+		E12D990416BC2E19004FEF79 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Development;
 		};
@@ -351,6 +371,13 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
+		};
+		E12D990316BC2E19004FEF79 /* Build configuration list for PBXAggregateTarget "Install" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E12D990416BC2E19004FEF79 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};

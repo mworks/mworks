@@ -368,7 +368,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E18D3B981655390600D472D0 /* Development.xcconfig */;
 			buildSettings = {
-				MW_PYTHON_DIR = "$(MW_APP_SUPPORT_DIR)/Scripting/Python";
 			};
 			name = Development;
 		};
@@ -383,11 +382,7 @@
 				HEADER_SEARCH_PATHS = (
 					"/usr/include/python$(MW_PYTHON_VERSION)",
 					"/System/Library/Frameworks/Python.framework/Versions/$(MW_PYTHON_VERSION)/Extras/lib/python/numpy/core/include",
-					$MW_INCLUDE_DIR,
-				);
-				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(LOCAL_LIBRARY_DIR)/Application Support/MWorks/Developer/lib\"",
 				);
 				LINK_WITH_STANDARD_LIBRARIES = YES;
 				MACH_O_TYPE = mh_bundle;

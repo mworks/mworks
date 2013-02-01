@@ -9,6 +9,10 @@
 #ifndef MATLABTools_Utilities_h
 #define MATLABTools_Utilities_h
 
+#if defined(__clang__) && defined(_LIBCPP_VERSION) && !defined(_LIBCPP_HAS_NO_UNICODE_CHARS)
+#  define CHAR16_T char16_t
+#endif
+
 #include <matrix.h>
 
 #include <boost/format.hpp>

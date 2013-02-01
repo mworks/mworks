@@ -359,12 +359,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E1523D7716766AE400069B10 /* Development.xcconfig */;
 			buildSettings = {
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				MATLAB_ARCH_i386 = maci;
 				MATLAB_ARCH_x86_64 = maci64;
 				MATLAB_DIR = "/Applications/MATLAB_$(MW_MATLAB_VERSION).app";
-				MW_MATLAB_DIR = "$(MW_APP_SUPPORT_DIR)/Scripting/Matlab";
+				MW_MATLAB_DIR = "$(MW_SCRIPTING_DIR)/Matlab";
 				MW_MATLAB_VERSION = R2010a;
 			};
 			name = Development;

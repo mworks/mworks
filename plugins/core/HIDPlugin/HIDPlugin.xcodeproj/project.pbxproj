@@ -13,10 +13,22 @@
 			buildPhases = (
 			);
 			dependencies = (
-				5CFC67D00F2A84F400552431 /* PBXTargetDependency */,
+				E12D98AA16BC2152004FEF79 /* PBXTargetDependency */,
 			);
 			name = Everything;
 			productName = Everything;
+		};
+		E12D98A616BC2148004FEF79 /* Install */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = E12D98A816BC2148004FEF79 /* Build configuration list for PBXAggregateTarget "Install" */;
+			buildPhases = (
+				E12D98AD16BC2169004FEF79 /* CopyFiles */,
+			);
+			dependencies = (
+				E12D98AC16BC2154004FEF79 /* PBXTargetDependency */,
+			);
+			name = Install;
+			productName = Install;
 		};
 /* End PBXAggregateTarget section */
 
@@ -31,10 +43,18 @@
 		5C4B0A650DC79212001BC518 /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C4B0A630DC79212001BC518 /* MWorksCore.framework */; };
 		689708DC0E5A03BB00CE38EA /* HIDFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 689708DB0E5A03BB00CE38EA /* HIDFactory.cpp */; };
 		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
+		E12D98AE16BC216E004FEF79 /* HIDPlugin.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8D5B49B6048680CD000E48DA /* HIDPlugin.bundle */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		5CFC67CF0F2A84F400552431 /* PBXContainerItemProxy */ = {
+		E12D98A916BC2152004FEF79 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E12D98A616BC2148004FEF79;
+			remoteInfo = Install;
+		};
+		E12D98AB16BC2154004FEF79 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
 			proxyType = 1;
@@ -42,6 +62,19 @@
 			remoteInfo = HIDPlugin;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		E12D98AD16BC2169004FEF79 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(MW_PLUGINS_DIR)";
+			dstSubfolderSpec = 0;
+			files = (
+				E12D98AE16BC216E004FEF79 /* HIDPlugin.bundle in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		089C167EFE841241C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -188,7 +221,6 @@
 				8D5B49AF048680CD000E48DA /* Resources */,
 				8D5B49B1048680CD000E48DA /* Sources */,
 				8D5B49B3048680CD000E48DA /* Frameworks */,
-				5C4B0B5D0DC7CAB9001BC518 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -223,6 +255,7 @@
 			projectRoot = "";
 			targets = (
 				8D5B49AC048680CD000E48DA /* HIDPlugin */,
+				E12D98A616BC2148004FEF79 /* Install */,
 				5CFC67CC0F2A84F000552431 /* Everything */,
 			);
 		};
@@ -240,22 +273,6 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		5C4B0B5D0DC7CAB9001BC518 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/zsh;
-			shellScript = "export FULL_NAME=${PRODUCT_NAME}.${WRAPPER_EXTENSION}\n\nrm -Rf \"$PLUGINS_DIR/${FULL_NAME}\"\ncp -R \"$BUILT_PRODUCTS_DIR/${FULL_NAME}\" \"$PLUGINS_DIR\"";
-		};
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
 		8D5B49B1048680CD000E48DA /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -271,10 +288,15 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		5CFC67D00F2A84F400552431 /* PBXTargetDependency */ = {
+		E12D98AA16BC2152004FEF79 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E12D98A616BC2148004FEF79 /* Install */;
+			targetProxy = E12D98A916BC2152004FEF79 /* PBXContainerItemProxy */;
+		};
+		E12D98AC16BC2154004FEF79 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 8D5B49AC048680CD000E48DA /* HIDPlugin */;
-			targetProxy = 5CFC67CF0F2A84F400552431 /* PBXContainerItemProxy */;
+			targetProxy = E12D98AB16BC2154004FEF79 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -315,6 +337,13 @@
 			};
 			name = Development;
 		};
+		E12D98A716BC2148004FEF79 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Development;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -341,6 +370,13 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
+		};
+		E12D98A816BC2148004FEF79 /* Build configuration list for PBXAggregateTarget "Install" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E12D98A716BC2148004FEF79 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};

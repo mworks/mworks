@@ -18,13 +18,25 @@
 			name = "Set Version String";
 			productName = "Set Version String";
 		};
+		E12D995016BC39AF004FEF79 /* Install */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = E12D995116BC39AF004FEF79 /* Build configuration list for PBXAggregateTarget "Install" */;
+			buildPhases = (
+				E12D995716BC39BB004FEF79 /* CopyFiles */,
+			);
+			dependencies = (
+				E12D995616BC39B8004FEF79 /* PBXTargetDependency */,
+			);
+			name = Install;
+			productName = Install;
+		};
 		E17B9EE6119CA89600EEBF5D /* Everything */ = {
 			isa = PBXAggregateTarget;
 			buildConfigurationList = E17B9EEF119CA89F00EEBF5D /* Build configuration list for PBXAggregateTarget "Everything" */;
 			buildPhases = (
 			);
 			dependencies = (
-				E17B9EE9119CA89B00EEBF5D /* PBXTargetDependency */,
+				E12D995416BC39B6004FEF79 /* PBXTargetDependency */,
 			);
 			name = Everything;
 			productName = Everything;
@@ -145,6 +157,7 @@
 		8D15AC340486D014006FF6A4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
 		E12449AA11EB9D7C0012EEEB /* MWLibraryBrowserMatrix.m in Sources */ = {isa = PBXBuildFile; fileRef = E12449A911EB9D7C0012EEEB /* MWLibraryBrowserMatrix.m */; };
 		E12449C811EB9FF20012EEEB /* MWGenericInspectorView.m in Sources */ = {isa = PBXBuildFile; fileRef = E12449C711EB9FF20012EEEB /* MWGenericInspectorView.m */; };
+		E12D995816BC39C4004FEF79 /* MWEditor.app in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8D15AC370486D014006FF6A4 /* MWEditor.app */; };
 		E1FFCD851558203B004DD840 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = E1FFCD811558203B004DD840 /* MainMenu.xib */; };
 		E1FFCD861558203B004DD840 /* MyDocument.xib in Resources */ = {isa = PBXBuildFile; fileRef = E1FFCD831558203B004DD840 /* MyDocument.xib */; };
 /* End PBXBuildFile section */
@@ -157,7 +170,14 @@
 			remoteGlobalIDString = 5C56F437100EB6A2007E03A9;
 			remoteInfo = "Set Version String";
 		};
-		E17B9EE8119CA89B00EEBF5D /* PBXContainerItemProxy */ = {
+		E12D995316BC39B6004FEF79 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E12D995016BC39AF004FEF79;
+			remoteInfo = Install;
+		};
+		E12D995516BC39B8004FEF79 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
 			proxyType = 1;
@@ -174,6 +194,16 @@
 			dstSubfolderSpec = 10;
 			files = (
 				5C992CC00E78884F0093A8FF /* Sparkle.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E12D995716BC39BB004FEF79 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(LOCAL_APPS_DIR)";
+			dstSubfolderSpec = 0;
+			files = (
+				E12D995816BC39C4004FEF79 /* MWEditor.app in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -667,7 +697,6 @@
 				8D15AC300486D014006FF6A4 /* Sources */,
 				8D15AC330486D014006FF6A4 /* Frameworks */,
 				5C298EE10E37C2A900FDC36C /* CopyFiles */,
-				5C00B9310DF4736500198261 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -702,8 +731,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				8D15AC270486D014006FF6A4 /* MWEditor */,
 				5C56F437100EB6A2007E03A9 /* Set Version String */,
+				8D15AC270486D014006FF6A4 /* MWEditor */,
+				E12D995016BC39AF004FEF79 /* Install */,
 				E17B9EE6119CA89600EEBF5D /* Everything */,
 			);
 		};
@@ -802,19 +832,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		5C00B9310DF4736500198261 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/zsh;
-			shellScript = "export FULL_NAME=${PRODUCT_NAME}.${WRAPPER_EXTENSION}\nexport FINAL_INSTALL_DIR=/Applications\n\nrm -dfR \"/Applications/${FULL_NAME}\"\ncp -Rf \"${BUILT_PRODUCTS_DIR}/${FULL_NAME}\" \"${FINAL_INSTALL_DIR}\"\n";
-		};
 		5C56F436100EB6A2007E03A9 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -874,10 +891,15 @@
 			target = 5C56F437100EB6A2007E03A9 /* Set Version String */;
 			targetProxy = 5C56F44E100EB7F4007E03A9 /* PBXContainerItemProxy */;
 		};
-		E17B9EE9119CA89B00EEBF5D /* PBXTargetDependency */ = {
+		E12D995416BC39B6004FEF79 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E12D995016BC39AF004FEF79 /* Install */;
+			targetProxy = E12D995316BC39B6004FEF79 /* PBXContainerItemProxy */;
+		};
+		E12D995616BC39B8004FEF79 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 8D15AC270486D014006FF6A4 /* MWEditor */;
-			targetProxy = E17B9EE8119CA89B00EEBF5D /* PBXContainerItemProxy */;
+			targetProxy = E12D995516BC39B8004FEF79 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -927,7 +949,6 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = NewEditor_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = MWEditor;
 				WRAPPER_EXTENSION = app;
 			};
@@ -937,7 +958,13 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5C78EAAC1159515A00151A76 /* Development.xcconfig */;
 			buildSettings = {
-				GCC_ENABLE_OBJC_GC = required;
+			};
+			name = Development;
+		};
+		E12D995216BC39AF004FEF79 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Development;
 		};
@@ -974,6 +1001,13 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
+		};
+		E12D995116BC39AF004FEF79 /* Build configuration list for PBXAggregateTarget "Install" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E12D995216BC39AF004FEF79 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 		E17B9EEF119CA89F00EEBF5D /* Build configuration list for PBXAggregateTarget "Everything" */ = {
 			isa = XCConfigurationList;

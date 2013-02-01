@@ -24,10 +24,22 @@
 			buildPhases = (
 			);
 			dependencies = (
-				5C77F4B610E969CB00919719 /* PBXTargetDependency */,
+				E12D995D16BC3B2B004FEF79 /* PBXTargetDependency */,
 			);
 			name = Everything;
 			productName = Everything;
+		};
+		E12D995916BC3B24004FEF79 /* Install */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = E12D995A16BC3B24004FEF79 /* Build configuration list for PBXAggregateTarget "Install" */;
+			buildPhases = (
+				E12D996016BC3B2F004FEF79 /* CopyFiles */,
+			);
+			dependencies = (
+				E12D995F16BC3B2D004FEF79 /* PBXTargetDependency */,
+			);
+			name = Install;
+			productName = Install;
 		};
 /* End PBXAggregateTarget section */
 
@@ -43,6 +55,7 @@
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+		E12D996116BC3B39004FEF79 /* MWServer.app in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8D1107320486CEB800E47090 /* MWServer.app */; };
 		E18B84011552D61100268197 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = E18B83FF1552D61100268197 /* MainMenu.xib */; };
 /* End PBXBuildFile section */
 
@@ -54,7 +67,14 @@
 			remoteGlobalIDString = 5C488A6F0F4E291200C5A526;
 			remoteInfo = "Set Version String";
 		};
-		5C77F4B510E969CB00919719 /* PBXContainerItemProxy */ = {
+		E12D995C16BC3B2B004FEF79 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E12D995916BC3B24004FEF79;
+			remoteInfo = Install;
+		};
+		E12D995E16BC3B2D004FEF79 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
 			proxyType = 1;
@@ -62,6 +82,19 @@
 			remoteInfo = MWorksServer;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		E12D996016BC3B2F004FEF79 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(LOCAL_APPS_DIR)";
+			dstSubfolderSpec = 0;
+			files = (
+				E12D996116BC3B39004FEF79 /* MWServer.app in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -245,7 +278,6 @@
 				8D1107290486CEB800E47090 /* Resources */,
 				8D11072C0486CEB800E47090 /* Sources */,
 				8D11072E0486CEB800E47090 /* Frameworks */,
-				0EA0379E0C3D83A4007C37CF /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -280,8 +312,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				8D1107260486CEB800E47090 /* MWorksServer */,
 				5C488A6F0F4E291200C5A526 /* Set Version String */,
+				8D1107260486CEB800E47090 /* MWorksServer */,
+				E12D995916BC3B24004FEF79 /* Install */,
 				5C77F4B110E969C600919719 /* Everything */,
 			);
 		};
@@ -301,19 +334,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		0EA0379E0C3D83A4007C37CF /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "export FULL_NAME=${PRODUCT_NAME}.${WRAPPER_EXTENSION}\nexport FINAL_INSTALL_DIR=\"/Applications\"\n\n# copy the framework to the proper directory\nrm -dfR \"${FINAL_INSTALL_DIR}/${FULL_NAME}\"\ncp -Rf \"${BUILT_PRODUCTS_DIR}/${FULL_NAME}\" \"${FINAL_INSTALL_DIR}\"\n";
-		};
 		5C488A6E0F4E291200C5A526 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -351,10 +371,15 @@
 			target = 5C488A6F0F4E291200C5A526 /* Set Version String */;
 			targetProxy = 5C488A720F4E293300C5A526 /* PBXContainerItemProxy */;
 		};
-		5C77F4B610E969CB00919719 /* PBXTargetDependency */ = {
+		E12D995D16BC3B2B004FEF79 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E12D995916BC3B24004FEF79 /* Install */;
+			targetProxy = E12D995C16BC3B2B004FEF79 /* PBXContainerItemProxy */;
+		};
+		E12D995F16BC3B2D004FEF79 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 8D1107260486CEB800E47090 /* MWorksServer */;
-			targetProxy = 5C77F4B510E969CB00919719 /* PBXContainerItemProxy */;
+			targetProxy = E12D995E16BC3B2D004FEF79 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -395,8 +420,8 @@
 		C01FCF4B08A954540054247B /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = /Applications;
 				PRODUCT_NAME = MWServer;
 				WRAPPER_EXTENSION = app;
 			};
@@ -406,7 +431,13 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5CE62A30115854CF00C757F1 /* Development.xcconfig */;
 			buildSettings = {
-				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
+			};
+			name = Development;
+		};
+		E12D995B16BC3B24004FEF79 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Development;
 		};
@@ -444,6 +475,13 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
+		};
+		E12D995A16BC3B24004FEF79 /* Build configuration list for PBXAggregateTarget "Install" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E12D995B16BC3B24004FEF79 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};

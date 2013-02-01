@@ -13,10 +13,22 @@
 			buildPhases = (
 			);
 			dependencies = (
-				5C77F48A10E9699500919719 /* PBXTargetDependency */,
+				E12D98F416BC295B004FEF79 /* PBXTargetDependency */,
 			);
 			name = Everything;
 			productName = Everything;
+		};
+		E12D98F016BC2928004FEF79 /* Install */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = E12D98F116BC2928004FEF79 /* Build configuration list for PBXAggregateTarget "Install" */;
+			buildPhases = (
+				E12D98F716BC295F004FEF79 /* CopyFiles */,
+			);
+			dependencies = (
+				E12D98F616BC295D004FEF79 /* PBXTargetDependency */,
+			);
+			name = Install;
+			productName = Install;
 		};
 /* End PBXAggregateTarget section */
 
@@ -65,17 +77,38 @@
 		DADD2F9208EC4D390009EB52 /* MWorksCocoa_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 32DBCF5E0370ADEE00C91783 /* MWorksCocoa_Prefix.pch */; settings = {ATTRIBUTES = (Public, ); }; };
 		E10743621642C58200518F25 /* MWCodec.h in Headers */ = {isa = PBXBuildFile; fileRef = E10743601642C58200518F25 /* MWCodec.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E10743631642C58200518F25 /* MWCodec.m in Sources */ = {isa = PBXBuildFile; fileRef = E10743611642C58200518F25 /* MWCodec.m */; };
+		E12D98F816BC2964004FEF79 /* MWorksCocoa.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 68DAF1B40AC959FA00928168 /* MWorksCocoa.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		5C77F48910E9699500919719 /* PBXContainerItemProxy */ = {
+		E12D98F316BC295B004FEF79 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E12D98F016BC2928004FEF79;
+			remoteInfo = Install;
+		};
+		E12D98F516BC295D004FEF79 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
-			remoteInfo = MonkeyWorksCocoa;
+			remoteInfo = MWorksCocoa;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		E12D98F716BC295F004FEF79 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+			dstSubfolderSpec = 0;
+			files = (
+				E12D98F816BC2964004FEF79 /* MWorksCocoa.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		0867D69BFE84028FC02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
@@ -345,7 +378,6 @@
 				8DC2EF520486A6940098B216 /* Resources */,
 				8DC2EF540486A6940098B216 /* Sources */,
 				8DC2EF560486A6940098B216 /* Frameworks */,
-				DA57CD5D083A6378006832CF /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -381,6 +413,7 @@
 			projectRoot = "";
 			targets = (
 				8DC2EF4F0486A6940098B216 /* MWorksCocoa */,
+				E12D98F016BC2928004FEF79 /* Install */,
 				5C77F48510E9698E00919719 /* Everything */,
 			);
 		};
@@ -408,22 +441,6 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		DA57CD5D083A6378006832CF /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/zsh;
-			shellScript = "export FULL_NAME=${PRODUCT_NAME}.${WRAPPER_EXTENSION}\nexport FINAL_INSTALL_DIR=/Library/Frameworks\n\necho Copying files from ${BUILT_PRODUCTS_DIR} to ${FINAL_INSTALL_DIR}\nrm -dfR \"${FINAL_INSTALL_DIR}/${FULL_NAME}\"\ncp -Rf \"${BUILT_PRODUCTS_DIR}/${FULL_NAME}\" \"${FINAL_INSTALL_DIR}/\"\n";
-		};
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
 		8DC2EF540486A6940098B216 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -447,10 +464,15 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		5C77F48A10E9699500919719 /* PBXTargetDependency */ = {
+		E12D98F416BC295B004FEF79 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E12D98F016BC2928004FEF79 /* Install */;
+			targetProxy = E12D98F316BC295B004FEF79 /* PBXContainerItemProxy */;
+		};
+		E12D98F616BC295D004FEF79 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 8DC2EF4F0486A6940098B216 /* MWorksCocoa */;
-			targetProxy = 5C77F48910E9699500919719 /* PBXContainerItemProxy */;
+			targetProxy = E12D98F516BC295D004FEF79 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -491,7 +513,6 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = MWorksCocoa_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = /Library/Frameworks;
 				PRODUCT_NAME = MWorksCocoa;
 				WRAPPER_EXTENSION = framework;
 			};
@@ -501,8 +522,13 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5CE62A151158540100C757F1 /* Development.xcconfig */;
 			buildSettings = {
-				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
-				GCC_WARN_HIDDEN_VIRTUAL_FUNCTIONS = YES;
+			};
+			name = Development;
+		};
+		E12D98F216BC2928004FEF79 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Development;
 		};
@@ -532,6 +558,13 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
+		};
+		E12D98F116BC2928004FEF79 /* Build configuration list for PBXAggregateTarget "Install" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E12D98F216BC2928004FEF79 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};

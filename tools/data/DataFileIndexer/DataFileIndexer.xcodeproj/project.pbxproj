@@ -13,10 +13,23 @@
 			buildPhases = (
 			);
 			dependencies = (
-				E16EB581114EDDC700F23DB5 /* PBXTargetDependency */,
+				E1CBF67516BB028D0057CE48 /* PBXTargetDependency */,
 			);
 			name = Everything;
 			productName = Everything;
+		};
+		E1CBF66F16BB02740057CE48 /* Install dfindex */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = E1CBF67016BB02740057CE48 /* Build configuration list for PBXAggregateTarget "Install dfindex" */;
+			buildPhases = (
+				E1CBF67616BB029A0057CE48 /* CopyFiles */,
+				E1CBF67C16BB02DA0057CE48 /* CopyFiles */,
+			);
+			dependencies = (
+				E1CBF67316BB02890057CE48 /* PBXTargetDependency */,
+			);
+			name = "Install dfindex";
+			productName = "Install dfindex";
 		};
 /* End PBXAggregateTarget section */
 
@@ -33,17 +46,57 @@
 		E167F67115D2A7F50096459C /* DataFileIndexer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5073E0C409E734A800EC74B6 /* DataFileIndexer.cpp */; };
 		E167F67515D2A7FE0096459C /* EventBlock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EA2B4C40D6BB349002396FC /* EventBlock.cpp */; };
 		E167F67615D2A8020096459C /* dfindex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EE378A90D6CA7B30065846A /* dfindex.cpp */; };
+		E1CBF67716BB02CF0057CE48 /* DataFileIndexer.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 50149BD909E781A5002DEE6A /* DataFileIndexer.h */; };
+		E1CBF67816BB02CF0057CE48 /* DataFileUtilities.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0E7788160D6B44FB00AF41F2 /* DataFileUtilities.h */; };
+		E1CBF67916BB02CF0057CE48 /* EventWrapper.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0E587B3D0D6B63B20053BE5C /* EventWrapper.h */; };
+		E1CBF67A16BB02CF0057CE48 /* EventBlock.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0EA2B4C30D6BB349002396FC /* EventBlock.h */; };
+		E1CBF67B16BB02CF0057CE48 /* dfindex.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0EE378A80D6CA7B30065846A /* dfindex.h */; };
+		E1CBF67D16BB02EF0057CE48 /* libdfindex.a in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0EA58F9A0D6B24FF0027A3AC /* libdfindex.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		E16EB580114EDDC700F23DB5 /* PBXContainerItemProxy */ = {
+		E1CBF67216BB02890057CE48 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 0EA58F990D6B24FF0027A3AC;
 			remoteInfo = dfindex;
 		};
+		E1CBF67416BB028D0057CE48 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E1CBF66F16BB02740057CE48;
+			remoteInfo = "Install dfindex";
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		E1CBF67616BB029A0057CE48 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(MW_INCLUDE_DIR_UNQUOTED)/dfindex";
+			dstSubfolderSpec = 0;
+			files = (
+				E1CBF67716BB02CF0057CE48 /* DataFileIndexer.h in CopyFiles */,
+				E1CBF67816BB02CF0057CE48 /* DataFileUtilities.h in CopyFiles */,
+				E1CBF67916BB02CF0057CE48 /* EventWrapper.h in CopyFiles */,
+				E1CBF67A16BB02CF0057CE48 /* EventBlock.h in CopyFiles */,
+				E1CBF67B16BB02CF0057CE48 /* dfindex.h in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E1CBF67C16BB02DA0057CE48 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(MW_LIB_DIR_UNQUOTED)";
+			dstSubfolderSpec = 0;
+			files = (
+				E1CBF67D16BB02EF0057CE48 /* libdfindex.a in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		08FB77AAFE841565C02AAC07 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
@@ -201,7 +254,6 @@
 				0EA58F960D6B24FF0027A3AC /* Headers */,
 				0EA58F970D6B24FF0027A3AC /* Sources */,
 				0EA58F980D6B24FF0027A3AC /* Frameworks */,
-				0EA58FA20D6B256A0027A3AC /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -235,9 +287,10 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				E16EB57C114EDDB500F23DB5 /* Everything */,
-				0EA58F0A0D6B20120027A3AC /* Test */,
 				0EA58F990D6B24FF0027A3AC /* dfindex */,
+				E1CBF66F16BB02740057CE48 /* Install dfindex */,
+				0EA58F0A0D6B20120027A3AC /* Test */,
+				E16EB57C114EDDB500F23DB5 /* Everything */,
 			);
 		};
 /* End PBXProject section */
@@ -251,23 +304,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		0EA58FA20D6B256A0027A3AC /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "mkdir -p \"$INSTALL_PATH/lib\"\nmkdir -p \"$INSTALL_PATH/include/dfindex\"\n\nrm -Rf \"$INSTALL_PATH/lib/libdfindex.a\"\ncp -Rf \"$BUILT_PRODUCTS_DIR/libdfindex.a\" \"$INSTALL_PATH/lib\"\n\nmkdir -p \"$INSTALL_PATH/include/dfindex\"\ncp -fp \"${PROJECT_DIR}/DataFileIndexer.h\" \"$INSTALL_PATH/include/dfindex/\"\ncp -fp \"${PROJECT_DIR}/EventBlock.h\" \"$INSTALL_PATH/include/dfindex/\"\ncp -fp \"${PROJECT_DIR}/EventWrapper.h\" \"$INSTALL_PATH/include/dfindex/\"\ncp -fp \"${PROJECT_DIR}/DataFileUtilities.h\" \"$INSTALL_PATH/include/dfindex/\"\ncp -fp \"${PROJECT_DIR}/dfindex.h\" \"$INSTALL_PATH/include/dfindex/\"\n\n\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		0EA58F080D6B20120027A3AC /* Sources */ = {
@@ -294,10 +330,15 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		E16EB581114EDDC700F23DB5 /* PBXTargetDependency */ = {
+		E1CBF67316BB02890057CE48 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 0EA58F990D6B24FF0027A3AC /* dfindex */;
-			targetProxy = E16EB580114EDDC700F23DB5 /* PBXContainerItemProxy */;
+			targetProxy = E1CBF67216BB02890057CE48 /* PBXContainerItemProxy */;
+		};
+		E1CBF67516BB028D0057CE48 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E1CBF66F16BB02740057CE48 /* Install dfindex */;
+			targetProxy = E1CBF67416BB028D0057CE48 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -328,7 +369,6 @@
 		5C7243011097F3ED004887A5 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INSTALL_PATH = "$(MW_DEVELOPER_DIR)";
 				PRODUCT_NAME = dfindex;
 			};
 			name = Development;
@@ -337,6 +377,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = Everything;
+			};
+			name = Development;
+		};
+		E1CBF67116BB02740057CE48 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Development;
 		};
@@ -374,6 +421,13 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
+		};
+		E1CBF67016BB02740057CE48 /* Build configuration list for PBXAggregateTarget "Install dfindex" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E1CBF67116BB02740057CE48 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};

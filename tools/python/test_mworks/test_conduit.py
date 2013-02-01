@@ -43,11 +43,6 @@ class TestConduitTypeConversion(ConduitTestMixin,
                                 TypeConversionTestMixin,
                                 unittest.TestCase):
 
-    # boost::serialization apparently doesn't support serialization of
-    # inf/nan to text archives
-    can_convert_inf = False
-    can_convert_nan = False
-
     @classmethod
     def event_callback(cls, event):
         try:

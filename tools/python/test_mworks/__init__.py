@@ -24,9 +24,6 @@ assert (os.path.dirname(mworks.__file__) ==
 
 class TypeConversionTestMixin(object):
 
-    can_convert_inf = True
-    can_convert_nan = True
-
     def send(self, data):
         raise NotImplementedError
 
@@ -56,7 +53,7 @@ class TypeConversionTestMixin(object):
         self.send(sent)
         received = self.receive()
         self.assertIsInstance(received, float)
-        self.assertIs(self.can_convert_inf, math.isinf(received))
+        self.assertTrue(math.isinf(received))
 
     def test_none(self):
         self.assertReceivedIsSent(None)
@@ -100,7 +97,7 @@ class TypeConversionTestMixin(object):
         self.send(numpy.nan)
         received = self.receive()
         self.assertIsInstance(received, float)
-        self.assertIs(self.can_convert_nan, math.isnan(received))
+        self.assertTrue(math.isnan(received))
 
     def test_str(self):
         self.assertReceivedEqualsSent('')
