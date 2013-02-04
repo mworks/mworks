@@ -12,7 +12,6 @@
 #if defined(__clang__) && defined(_LIBCPP_VERSION) && !defined(_LIBCPP_HAS_NO_UNICODE_CHARS)
 #  define CHAR16_T char16_t
 #endif
-
 #include <matrix.h>
 
 #include <boost/format.hpp>
@@ -61,6 +60,9 @@ inline void throwMATLABError(const std::string &errorID, const boost::format &fm
 }
 
 
+struct null_ok_t {};
+static const null_ok_t null_ok = null_ok_t();
+
 struct throw_if_null_t {};
 static const throw_if_null_t throw_if_null = throw_if_null_t();
 
@@ -79,9 +81,9 @@ public:
 #endif
     }
     
-    explicit ArrayPtr(mxArray *ptr = NULL) :
-        ptr(ptr)
-    { }
+    ArrayPtr() : ptr(NULL) { }
+    
+    ArrayPtr(null_ok_t null_ok, mxArray *ptr) : ptr(ptr) { }
     
     ArrayPtr(throw_if_null_t throw_if_null, mxArray *ptr) :
         ptr(ptr)

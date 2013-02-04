@@ -72,9 +72,9 @@ static ArrayPtr convertDictionaryToMap(const Datum &datum, const std::vector<Dat
 #ifdef MATLAB_MEX_FILE
     mxArray *lhs = NULL;
     mxArray *prhs[] = { keySet.get(), valueSet.get() };
-    ArrayPtr error(mexCallMATLABWithTrap(1, &lhs, 2, prhs, "containers.Map"));
+    ArrayPtr error(null_ok, mexCallMATLABWithTrap(1, &lhs, 2, prhs, "containers.Map"));
     if (error.isNull()) {
-        result = ArrayPtr(lhs);
+        result = ArrayPtr(throw_if_null, lhs);
         keySet.destroy();
         valueSet.destroy();
     } else {
