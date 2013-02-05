@@ -1,3 +1,4 @@
+import glob
 import os
 import pickle
 import shutil
@@ -25,8 +26,6 @@ mw_matlab_dir = os.environ.get(
     'MW_MATLAB_DIR',
     '/Library/Application Support/MWorks/Scripting/Matlab',
     )
-
-mw_matlab_version = os.environ.get('MW_MATLAB_VERSION', 'R2010a')
 
 
 matlab_script = '''\
@@ -103,11 +102,11 @@ def remove_test_file(filename):
         os.remove(filename)
 
 
-def run_matlab(arch):
+def run_matlab(path, arch):
     filename = create_test_file()
     try:
         args = (
-            '/Applications/MATLAB_%s.app/bin/matlab' % mw_matlab_version,
+            '%s/bin/matlab' % path,
             '-' + {'i386': 'maci', 'x86_64': 'maci64'}[arch],
             '-nodisplay',
             '-nojvm',
@@ -126,8 +125,9 @@ def run_matlab(arch):
 
 def main():
     status = 0
-    for arch in (sys.argv[1:] or ['x86_64']):
-        status = run_matlab(arch) or status
+    for path in glob.iglob('/Applications/MATLAB_R*.app'):
+        for arch in (sys.argv[1:] or ['x86_64']):
+            status = run_matlab(path, arch) or status
     sys.exit(status)
 
 

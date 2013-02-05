@@ -55,7 +55,9 @@ assertDict(struct('one', 1, 'Two', 2.0, 'ThReE_3', '3.0'), ...
 
 function testDictionaryAsMap
 assertDictAsMap({1}, {'a'}, getData('dict_int_key'));
-assertDictAsMap({char.empty(1,0)}, {1}, getData('dict_empty_str_key'))
+assertDictAsMap(containers.Map({''}, {1}).keys(), ...
+                {1}, ...
+                getData('dict_empty_str_key'))
 assertDictAsMap({'1a'}, {1}, getData('dict_str_key_starts_with_non_alpha'));
 assertDictAsMap({'foo.1'}, {1}, getData('dict_str_key_contains_non_alphanum'));
 
