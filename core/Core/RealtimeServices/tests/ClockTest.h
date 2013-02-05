@@ -14,6 +14,8 @@
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
 
+#include "MWorksMacros.h"
+
 
 BEGIN_NAMESPACE_MW
 
