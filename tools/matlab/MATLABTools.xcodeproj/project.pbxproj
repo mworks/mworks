@@ -35,7 +35,6 @@
 			buildConfigurationList = E1D2C0F1167B9A710030EF33 /* Build configuration list for PBXAggregateTarget "Install" */;
 			buildPhases = (
 				E1D2C0F7167B9ADD0030EF33 /* CopyFiles */,
-				E1D2C0FC167B9BB40030EF33 /* ShellScript */,
 			);
 			dependencies = (
 				E1D2C0F4167B9A900030EF33 /* PBXTargetDependency */,
@@ -291,20 +290,6 @@
 			shellScript = "/usr/bin/python${MW_PYTHON_VERSION} run_tests.py ${ARCHS}";
 			showEnvVarsInLog = 0;
 		};
-		E1D2C0FC167B9BB40030EF33 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "/bin/ln -sf mwfeval.mexmaci64 \"${MW_MATLAB_DIR}/mwfeval.mexmaci\"";
-			showEnvVarsInLog = 0;
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -359,11 +344,12 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E1523D7716766AE400069B10 /* Development.xcconfig */;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				MATLAB_ARCH_i386 = maci;
 				MATLAB_ARCH_x86_64 = maci64;
 				MATLAB_DIR = "/Applications/MATLAB_$(MW_MATLAB_VERSION).app";
 				MW_MATLAB_DIR = "$(MW_SCRIPTING_DIR)/Matlab";
-				MW_MATLAB_VERSION = R2010a;
+				MW_MATLAB_VERSION = R2011a;
 			};
 			name = Development;
 		};
