@@ -14,15 +14,19 @@
 #include "MWorksCore/ComponentRegistry.h"
 #include "ZenStateSystem.h"
 
-namespace mw{
+
+BEGIN_NAMESPACE_MW
+
 
 class StandardStateSystemFactory : public ComponentFactory {
 public:
 	virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
 												ComponentRegistry *reg);
 };
-    
-}
+
+
+END_NAMESPACE_MW
+
 
 #endif
 

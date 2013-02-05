@@ -13,7 +13,11 @@
  * ??/??/?? ??? Created.
  * 05/17/04 PAJ Added inspection methods.
  */
-namespace mw {
+
+
+BEGIN_NAMESPACE_MW
+
+
 enum KeyModifier{ NO_MODIFIER, OPTION_KEY, COMMAND_KEY, ALT_KEY, CONTROL_KEY, SHIFT_KEY};
 
 
@@ -124,6 +128,9 @@ class KeyTrigger{
 		}
 	*/				
 };
-}
+
+
+END_NAMESPACE_MW
+
 
 #endif

@@ -16,7 +16,11 @@
 #define _INCOMING_EVENT_LISTENER_H__
 
 #include "EventListener.h"
-namespace mw {
+
+
+BEGIN_NAMESPACE_MW
+
+
 class IncomingEventListener : public EventListener {
     public:
         IncomingEventListener(shared_ptr<EventBuffer> _event_buffer, shared_ptr<EventStreamInterface>);
@@ -28,5 +32,9 @@ class IncomingEventListener : public EventListener {
         IncomingEventListener(const IncomingEventListener&);
         IncomingEventListener& operator=(const IncomingEventListener&);
 };
-}
+
+
+END_NAMESPACE_MW
+
+
 #endif

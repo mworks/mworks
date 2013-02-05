@@ -40,7 +40,7 @@ using boost::shared_ptr;
  * |  codec code   |   time (64bit,signed)  |	  payload      |
  *
  */
-namespace mw {
+BEGIN_NAMESPACE_MW
 	
 	
 	class Event {
@@ -135,6 +135,9 @@ namespace mw {
             virtual ~EventReceiver(){ }
             virtual void putEvent(shared_ptr<Event> evt) = 0;
     };
-	
-}
+
+
+END_NAMESPACE_MW
+
+
 #endif

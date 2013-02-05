@@ -16,7 +16,11 @@
 
 #ifndef M_NETWORK_WATCHER_H__
 #define M_NETWORK_WATCHER_H__
-namespace mw {
+
+
+BEGIN_NAMESPACE_MW
+
+
 /**
 * Action Codes:
 *
@@ -38,5 +42,9 @@ class NetworkWatcher {
          */
         virtual void notifyWatcher(int actionCode) =0;
 };
-}
+
+
+END_NAMESPACE_MW
+
+
 #endif

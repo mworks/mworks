@@ -21,7 +21,11 @@
 #include "MWorksCore/ScopedVariableEnvironment.h"
 #include "MWorksCore/Experiment.h"
 #include "FullCoreEnvironmentTest.h"
-namespace mw {
+
+
+BEGIN_NAMESPACE_MW
+
+
 class ScopedVariableTestFixture : public FullCoreEnvironmentTestFixture {
 	
 	
@@ -60,5 +64,9 @@ public:
 	
 	
 };
-}
+
+
+END_NAMESPACE_MW
+
+
 #endif

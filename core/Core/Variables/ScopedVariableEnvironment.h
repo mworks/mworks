@@ -11,7 +11,11 @@
 
 #include "ExpandableList.h"
 #include "ScopedVariableContext.h"
-namespace mw {
+
+
+BEGIN_NAMESPACE_MW
+
+
 class ScopedVariableContext;
 
 class ScopedVariable;
@@ -57,6 +61,10 @@ class ScopedVariableEnvironment {
 		// Announcing
 		void announceAll();
 };
-}
+
+
+END_NAMESPACE_MW
+
+
 #endif
 

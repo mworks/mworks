@@ -16,7 +16,9 @@
 #include "boost/function.hpp"
 
 
-namespace mw {
+BEGIN_NAMESPACE_MW
+
+
 // A base class for asynchronous notification when an Param's value is changed
 // Among other things, allows asynchronous IO (outputs)
 class VariableNotification : public LinkedListNode<VariableNotification> {
@@ -47,6 +49,9 @@ public:
     }
     
 };
-    
-}
+
+
+END_NAMESPACE_MW
+
+
 #endif

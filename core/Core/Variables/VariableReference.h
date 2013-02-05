@@ -9,7 +9,10 @@
 
 #include "GenericVariable.h"
 
-namespace mw {
+
+BEGIN_NAMESPACE_MW
+
+
 class VariableReference : public Variable {
 
 protected:
@@ -42,4 +45,5 @@ public:
 	
 };
 
-}
+
+END_NAMESPACE_MW

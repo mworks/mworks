@@ -19,7 +19,11 @@
 
 #include "MWorksCore/SelectionVariable.h"
 #include "MWorksCore/ConstantVariable.h"
-namespace mw {
+
+
+BEGIN_NAMESPACE_MW
+
+
 class SelectionVariableTestFixture : public CppUnit::TestFixture  {
 
 
@@ -103,7 +107,9 @@ class SelectionVariableTestFixture : public CppUnit::TestFixture  {
 	
 	
 };
-}
+
+
+END_NAMESPACE_MW
 
 
 #endif

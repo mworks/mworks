@@ -13,7 +13,9 @@
 
 #include <boost/shared_ptr.hpp>
 #include "Event.h"
-namespace mw {
+
+
+BEGIN_NAMESPACE_MW
 
 
 // A class that simply moves Event objects from point A
@@ -72,7 +74,10 @@ public:
     
    // virtual shared_ptr<Event> receiveEventNoLock() = 0;
 };
-}
+
+
+END_NAMESPACE_MW
+
 
 #endif
 

@@ -17,7 +17,10 @@
 
 #include "FullCoreEnvironmentTest.h"
 
-namespace mw {
+
+BEGIN_NAMESPACE_MW
+
+
 class ActionTestFixture : public FullCoreEnvironmentTestFixture {
 	
 	
@@ -71,7 +74,10 @@ public:
 	void testCancelNULLScheduledActions();
 	
 };
-}
+
+
+END_NAMESPACE_MW
+
 
 #endif
 

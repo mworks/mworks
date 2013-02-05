@@ -15,7 +15,11 @@
 #define _STANDARD_SERVER_CORE_BUILDER_H__
 
 #include "AbstractCoreBuilder.h"
-namespace mw {
+
+
+BEGIN_NAMESPACE_MW
+
+
 class StandardServerCoreBuilder : public AbstractCoreBuilder {
     public:
         /*!
@@ -116,6 +120,8 @@ class StandardServerCoreBuilder : public AbstractCoreBuilder {
 
 };
 
-}
+
+END_NAMESPACE_MW
+
 
 #endif

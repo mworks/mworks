@@ -11,7 +11,11 @@
 #define PULSE_ACTION_H
 
 #include "ScheduledActions.h"
-namespace mw {
+
+
+BEGIN_NAMESPACE_MW
+
+
 class Pulse: public Action {
 protected:
 	shared_ptr<Variable> var;
@@ -31,6 +35,9 @@ class PulseFactory : public ComponentFactory{
 	virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
 												ComponentRegistry *reg);
 };
-}
+
+
+END_NAMESPACE_MW
+
 
 #endif

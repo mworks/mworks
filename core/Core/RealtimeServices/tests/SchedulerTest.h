@@ -13,7 +13,11 @@
 #include "FullCoreEnvironmentTest.h"
 #include <vector>
 #include <boost/thread/mutex.hpp>
-namespace mw {
+
+
+BEGIN_NAMESPACE_MW
+
+
 #define N_SCHEDULED_EXECUTIONS	100
 #define SLACK_MARGIN	5
 #define ACCEPTABLE_ERROR_US	1000 // 100 us
@@ -74,6 +78,10 @@ protected:
 						 MWTime expected);
 
 };
-}
+
+
+END_NAMESPACE_MW
+
+
 #endif
 

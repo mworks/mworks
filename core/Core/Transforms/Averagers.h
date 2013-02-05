@@ -17,7 +17,11 @@
 // the Averager class takes a single input and is a specific type of the 
 //  standard streaming variable interface (VarTransformAdaptor) 
 //  Currently the time stamps are ignored
-namespace mw {
+
+
+BEGIN_NAMESPACE_MW
+
+
 class Averager : public VarTransformAdaptor  {
 	
 private:
@@ -72,6 +76,10 @@ class AveragerUserFactory : public ComponentFactory {
 	virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
 												ComponentRegistry *reg);
 };
-}
+
+
+END_NAMESPACE_MW
+
+
 #endif
 

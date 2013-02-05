@@ -12,12 +12,23 @@
 
 #ifndef MONKEYWORKS_TYPES_H_
 #define MONKEYWORKS_TYPES_H_
-namespace mw {
+
+
+#include "MWorksMacros.h"
+
+
+BEGIN_NAMESPACE_MW
+
+
 // event time
 typedef	long long MWTime;
 typedef MWTime  MWorksTime;  // crutch for compatibility, for now
         
 // value of network statistics
 typedef unsigned long long NetworkStats;
-}
+
+
+END_NAMESPACE_MW
+
+
 #endif

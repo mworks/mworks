@@ -9,7 +9,11 @@
 
 #include "ScarabFileTest.h"
 #include <pthread.h>
-namespace mw {
+
+
+BEGIN_NAMESPACE_MW
+
+
 #define TEST_URI	"ldobinary:tcp_buffered://127.0.0.1:20000"
 //#define TEST_URI	"ldobinary:tcp://127.0.0.1:20000"
 
@@ -359,5 +363,6 @@ void *test_server_float_burst(void *args) {
 
 	return 0;
 }
-}	
-			
+
+
+END_NAMESPACE_MW

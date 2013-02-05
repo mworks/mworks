@@ -17,7 +17,10 @@
 #include "FullCoreEnvironmentTest.h"
 #include "boost/filesystem.hpp"
 
-namespace mw {
+
+BEGIN_NAMESPACE_MW
+
+
 	class XMLParserTestFixture : public FullCoreEnvironmentTestFixture {
 		
 		
@@ -108,7 +111,11 @@ namespace mw {
 		
 		void writeToFile(const std::string &text);
 	};
-}
+
+
+END_NAMESPACE_MW
+
+
 #endif
 
 

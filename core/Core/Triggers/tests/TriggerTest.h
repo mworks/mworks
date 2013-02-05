@@ -21,7 +21,11 @@
 #include "MWorksCore/VariableRegistry.h"
 #include "MWorksCore/ConstantVariable.h"
 #include "MWorksCore/EventBuffer.h"
-namespace mw {
+
+
+BEGIN_NAMESPACE_MW
+
+
 class TriggerTestFixture : public CppUnit::TestFixture {
 	
 	
@@ -151,7 +155,9 @@ public:
 	
 	
 };
-}
+
+
+END_NAMESPACE_MW
 
 
 #endif

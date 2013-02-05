@@ -8,7 +8,11 @@
  */
 
 #include "MathUtilities.h"
-namespace mw {
+
+
+BEGIN_NAMESPACE_MW
+
+
 	float **new2DfloatArray(int rows, int cols) {
 		
         float **A;
@@ -26,4 +30,6 @@ namespace mw {
         }
         delete [] arr;
     }
-}
+
+
+END_NAMESPACE_MW

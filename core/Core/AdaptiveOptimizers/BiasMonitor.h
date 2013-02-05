@@ -21,7 +21,9 @@
 #include "FilterTransforms.h"
 #include <deque>
 
-namespace mw {
+
+BEGIN_NAMESPACE_MW
+
 
 class BiasMonitor : public VarTransformAdaptor{
 	
@@ -74,6 +76,10 @@ class BiasMonitorFactory : public ComponentFactory {
 	virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
 												ComponentRegistry *reg);
 };
-}
+
+
+END_NAMESPACE_MW
+
+
 #endif
 

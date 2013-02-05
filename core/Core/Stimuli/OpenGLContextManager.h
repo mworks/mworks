@@ -28,7 +28,11 @@
 
 
 // USE_COCOA_OPENGL
-namespace mw {
+
+
+BEGIN_NAMESPACE_MW
+
+
 	// A class to manage Cocoa OpenGL contexts
 	class OpenGLContextManager : public Component{
 		
@@ -110,6 +114,8 @@ namespace mw {
         
 	};
 	
-}
+
+END_NAMESPACE_MW
+
 
 #endif  

@@ -34,7 +34,10 @@
 #define M_THREAD_SAFE_EXPANDABLE_LISTS	1
 
 #include <boost/shared_ptr.hpp>
-namespace mw {
+
+
+BEGIN_NAMESPACE_MW
+
 
 template <class Class> 
 class ExpandableList : public Lockable {
@@ -617,7 +620,11 @@ shared_ptr<Class> operator[](int i) {
 			#endif
 		}
 };
-}
+
+
+END_NAMESPACE_MW
+
+
 #endif
 
  

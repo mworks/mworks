@@ -19,7 +19,11 @@
 #include "VariableRegistry.h"
 #include <string>
 #include <boost/filesystem/path.hpp>
-namespace mw {
+
+
+BEGIN_NAMESPACE_MW
+
+
 typedef enum {
     M_OVERWRITE         = 1000,
     M_NO_OVERWRITE      = 1001,
@@ -117,5 +121,9 @@ public:
         SystemEventFactory(const SystemEventFactory& ) { }
         void operator=(const SystemEventFactory& ef) { }
 };
-}
+
+
+END_NAMESPACE_MW
+
+
 #endif

@@ -17,7 +17,10 @@
 #include <cppunit/extensions/HelperMacros.h>
 
 
-namespace mw {
+
+BEGIN_NAMESPACE_MW
+
+
 class Dummy : public mw::Component {//, public RegisteredSingleton<Dummy> {
   
 public:
@@ -54,6 +57,10 @@ public:
 	void tryToRegisterMultipleSingletons();
 	void tryToRegisterNULLInstance();
 };
-}
+
+
+END_NAMESPACE_MW
+
+
 #endif
 

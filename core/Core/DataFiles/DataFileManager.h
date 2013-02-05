@@ -29,7 +29,11 @@
 #define DATA_FILE_OPTIONS	"options"
 
 #define M_DATAFILE_SERVICE_INTERVAL_US	20000
-namespace mw {
+
+
+BEGIN_NAMESPACE_MW
+
+
 	class DataFileManager{
 		
 	private:
@@ -78,5 +82,9 @@ namespace mw {
 	
 	
 	extern DataFileManager *GlobalDataFileManager;
-}
+
+
+END_NAMESPACE_MW
+
+
 #endif

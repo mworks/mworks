@@ -15,7 +15,9 @@
 #include "ComponentRegistry.h"
 #include <string>
 #include <sstream>
-namespace mw {
+
+
+BEGIN_NAMESPACE_MW
 
 
 class UnresolvedVariableString {
@@ -127,5 +129,9 @@ class UnresolvedReferenceVariable : public Variable {
 		
 
 };
-}
+
+
+END_NAMESPACE_MW
+
+
 #endif

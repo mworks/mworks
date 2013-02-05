@@ -15,7 +15,11 @@
 #include "MWorksTypes.h"
 #include "Component.h"
 #include "RegisteredSingleton.h"
-namespace mw {
+
+
+BEGIN_NAMESPACE_MW
+
+
 // TODO: config.h 
 
 class Clock : public mw::Component {//, public RegisteredSingleton<Clock> {
@@ -57,6 +61,9 @@ public:
   
 };
 
-}
+
+END_NAMESPACE_MW
+
+
 #endif
 

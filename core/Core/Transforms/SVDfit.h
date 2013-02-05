@@ -15,7 +15,10 @@
 //#include <math.h>
 #include "MathUtilities.h"
 #include "MWorksCore/Experiment.h"   // to get merror function
-namespace mw {
+
+
+BEGIN_NAMESPACE_MW
+
 
 #define TOL 1.0e-5
 //#define NRANSI
@@ -63,5 +66,9 @@ static inline float SQR(const float a) {
 static inline float SIGN(const float a, const float b) {
 	return b >= 0.0 ? fabs(a) : -fabs(a);
 }
-}
+
+
+END_NAMESPACE_MW
+
+
 #endif

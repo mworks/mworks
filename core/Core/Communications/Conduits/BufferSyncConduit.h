@@ -23,7 +23,11 @@
 #include "Conduit.h"
 #include "VariableRegistry.h"
 #include "SystemEventFactory.h"
-namespace mw {
+
+
+BEGIN_NAMESPACE_MW
+
+
 class BufferSyncConduit : public Conduit {
     
 protected:
@@ -77,6 +81,9 @@ public:
     }
 
 };
-}
+
+
+END_NAMESPACE_MW
+
 
 #endif

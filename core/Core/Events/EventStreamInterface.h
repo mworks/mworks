@@ -33,7 +33,8 @@
 
 #include "EventCallbackHandler.h"
 
-namespace mw {
+
+BEGIN_NAMESPACE_MW
 
 
 class EventStreamInterface : public EventCallbackHandler, public boost::enable_shared_from_this<EventStreamInterface> {
@@ -55,7 +56,8 @@ public:
 };
     
 
+END_NAMESPACE_MW
     
-}
+
 #endif
 

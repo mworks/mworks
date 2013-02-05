@@ -18,7 +18,9 @@
 
 using std::string;
 
-namespace mw{
+
+BEGIN_NAMESPACE_MW
+
 
 class VariableRegistryInterface {
  
@@ -47,7 +49,9 @@ public:
     virtual void registerCallback(int code, EventCallback cb, string callback_key = DEFAULT_CALLBACK_KEY);
 };
 
-}
+
+END_NAMESPACE_MW
+
 
 #endif
 

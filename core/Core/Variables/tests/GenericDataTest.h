@@ -25,7 +25,9 @@ void *hammerit(void *thedatum);
 void *hammerlist(void *thedatum);
 void *hammerdict(void *thedatum);
 
-namespace mw {
+
+BEGIN_NAMESPACE_MW
+
 
 class GenericDataTestFixture : public CppUnit::TestFixture {
   
@@ -1444,6 +1446,8 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
 };
 
 
-}
+END_NAMESPACE_MW
+
+
 #endif
 

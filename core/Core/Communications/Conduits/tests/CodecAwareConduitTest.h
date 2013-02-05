@@ -19,7 +19,9 @@
 #include "SimpleConduitTest.h"
 #include "CodecAwareConduit.h"
 
-namespace mw {
+
+BEGIN_NAMESPACE_MW
+
     
     class CodecAwareConduitTestFixture : public FullCoreEnvironmentTestFixture {
         
@@ -46,7 +48,7 @@ namespace mw {
     };
     
     
-    
-}
+END_NAMESPACE_MW
+
 
 #endif

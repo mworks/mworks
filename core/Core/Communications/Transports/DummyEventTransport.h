@@ -26,8 +26,8 @@
 
 using std::string;
 
-namespace mw {
 
+BEGIN_NAMESPACE_MW
 
 
 #define QUEUE_PRIORITY 100
@@ -86,6 +86,9 @@ public:
     
 };
 
-}
+
+END_NAMESPACE_MW
+
+
 #endif
 

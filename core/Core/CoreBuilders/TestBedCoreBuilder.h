@@ -11,7 +11,10 @@
  */
 
 #include "StandardServerCoreBuilder.h"
-namespace mw {
+
+
+BEGIN_NAMESPACE_MW
+
 
 class TestBedCoreBuilder : public StandardServerCoreBuilder {
 
@@ -28,5 +31,9 @@ class TestBedCoreBuilder : public StandardServerCoreBuilder {
         virtual bool startInterpreters();
 
 };
-}
+
+
+END_NAMESPACE_MW
+
+
 #endif

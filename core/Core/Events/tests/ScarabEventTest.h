@@ -18,7 +18,11 @@
 
 #include "MWorksCore/VariableRegistry.h"
 #include "MWorksCore/ScarabServices.h"
-namespace mw {
+
+
+BEGIN_NAMESPACE_MW
+
+
 class ScarabEventTestFixture : public CppUnit::TestFixture {
 
 
@@ -39,7 +43,9 @@ class ScarabEventTestFixture : public CppUnit::TestFixture {
 		void testToFromScarabDatum();
 };
 
-}
+
+END_NAMESPACE_MW
+
 
 #endif
 

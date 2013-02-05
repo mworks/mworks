@@ -12,7 +12,10 @@
 
 #include "GlobalVariable.h"
 
-namespace mw {
+
+BEGIN_NAMESPACE_MW
+
+
 class ConstantVariable : public GlobalVariable {
 
 
@@ -27,6 +30,10 @@ public:
 
 
 };
-}
+
+
+END_NAMESPACE_MW
+
+
 #endif
 

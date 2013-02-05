@@ -19,7 +19,10 @@
 
 #include "MWorksCore/GenericData.h"
 #include "MWorksCore/ExpandableList.h"
-namespace mw {
+
+
+BEGIN_NAMESPACE_MW
+
 
 class ExpandableListTestFixture : public CppUnit::TestFixture {
 
@@ -50,7 +53,9 @@ class ExpandableListTestFixture : public CppUnit::TestFixture {
 	void testBracketOperator();
 		
 };
-}
+
+
+END_NAMESPACE_MW
 
 
 #endif

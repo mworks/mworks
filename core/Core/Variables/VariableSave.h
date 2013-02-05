@@ -13,14 +13,24 @@
 
 #include "boost/filesystem/path.hpp"
 
+#include "MWorksMacros.h"
+
 #define SAVE_VARIABLES_FILE "file"
 #define SAVE_VARIABLES_FULL_PATH "full path"
 #define SAVE_VARIABLES_OVERWRITE "overwrite"
-namespace mw {
+
+
+BEGIN_NAMESPACE_MW
+
+
 class VariableSave {
 	public:
 	static bool saveExperimentwideVariables(const boost::filesystem::path &file);
 };
-}
+
+
+END_NAMESPACE_MW
+
+
 #endif
 

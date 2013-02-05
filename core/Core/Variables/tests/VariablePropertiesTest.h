@@ -16,7 +16,11 @@
 #include <cppunit/extensions/HelperMacros.h>
 
 #include "MWorksCore/VariableRegistry.h"
-namespace mw {
+
+
+BEGIN_NAMESPACE_MW
+
+
 class VariablePropertiesTestFixture : public CppUnit::TestFixture {
 	
 	
@@ -38,5 +42,9 @@ public:
 	
 	
 };
-}
+
+
+END_NAMESPACE_MW
+
+
 #endif

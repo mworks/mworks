@@ -28,7 +28,8 @@
 #include "boost/enable_shared_from_this.hpp"
 
 
-namespace mw {
+BEGIN_NAMESPACE_MW
+
 
 #define EVENT_STREAM_CONDUIT_DEFAULT_IDLE_QUANTUM   500
     
@@ -163,8 +164,8 @@ public:
     
 };
     
-}
 
+END_NAMESPACE_MW
 
 
 #endif

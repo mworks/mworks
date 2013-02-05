@@ -33,7 +33,9 @@
 #define M_EXPERIMENT_PACKAGE_NUMBER_ELEMENTS_PER_UNIT 2
 #define M_EXPERIMENT_PACKAGE_NUMBER_ELEMENTS 2
 
-namespace mw {
+
+BEGIN_NAMESPACE_MW
+
 
 class ExperimentPackager {
 public:
@@ -76,6 +78,9 @@ class IncludedFilesParser : public XMLParser {
 		virtual Datum getIncludedFilesManifest(){  return manifest; }
 		
 };
-}
+
+
+END_NAMESPACE_MW
+
 
 #endif

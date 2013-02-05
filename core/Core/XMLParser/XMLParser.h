@@ -35,7 +35,9 @@ using std::vector;
 #define INSTANCE_PREFIX "instance:"
 #define INSTANCE_STEM	"_"
 
-namespace mw {
+
+BEGIN_NAMESPACE_MW
+
 
 class XMLParser {
 
@@ -134,7 +136,10 @@ public:
 		static string squashFileName(string name);
 		virtual std::string getWorkingPathString();
 };
-}
+
+
+END_NAMESPACE_MW
+
 
 #endif
 

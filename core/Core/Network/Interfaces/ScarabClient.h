@@ -15,7 +15,11 @@
 #include "ScarabConnection.h"
 #include "ScarabReadConnection.h"
 #include "ScarabWriteConnection.h"
-namespace mw {
+
+
+BEGIN_NAMESPACE_MW
+
+
 class ScarabClient {
     protected:
         shared_ptr<ScarabReadConnection> reader;  // a connection for reading
@@ -80,5 +84,9 @@ class ScarabClient {
         void setServerAddress(std::string );
         void setServerPort(int);
 };
-}
+
+
+END_NAMESPACE_MW
+
+
 #endif

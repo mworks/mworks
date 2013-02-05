@@ -27,7 +27,9 @@
 
 #include "LegacyBuffers.h"
 
-namespace mw {
+
+BEGIN_NAMESPACE_MW
+
 
 // A singly linked list
 
@@ -115,6 +117,9 @@ public:
 		return true;
 	}
 };
-}
+
+
+END_NAMESPACE_MW
+
 
 #endif

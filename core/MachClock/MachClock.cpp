@@ -30,7 +30,8 @@
 #include <sys/sysctl.h>
 
 
-namespace mw {
+BEGIN_NAMESPACE_MW
+
 
 /********************************************************
  *          Non-Static function definitions
@@ -180,4 +181,5 @@ void StandardClock::stopClock() {
     // nothing to do
 }
     
-} // namespace mw
+
+END_NAMESPACE_MW

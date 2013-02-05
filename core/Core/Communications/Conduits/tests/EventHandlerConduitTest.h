@@ -22,7 +22,9 @@
 
 #include "EventStreamConduit.h"
 
-namespace mw {
+
+BEGIN_NAMESPACE_MW
+
     
     class EventStreamConduitTestFixture : public FullCoreEnvironmentTestFixture {
         
@@ -42,7 +44,8 @@ namespace mw {
     };
     
 
-}
+END_NAMESPACE_MW
+
 
 #endif
 

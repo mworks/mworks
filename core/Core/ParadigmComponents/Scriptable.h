@@ -4,7 +4,10 @@
 
 // This is meant to work just like the design-time interfaces in JavaBeans or VisualBasic
 
-namespace mw {
+
+BEGIN_NAMESPACE_MW
+
+
 class Scriptable{
 
     void set(char *variable_name, Datum value);
@@ -13,4 +16,5 @@ class Scriptable{
 
 }
 
-}
+
+END_NAMESPACE_MW

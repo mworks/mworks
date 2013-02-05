@@ -13,7 +13,11 @@
 #define _SCARAB_READ_CONNECTION_H__
 
 #include "ScarabConnection.h"
-namespace mw {
+
+
+BEGIN_NAMESPACE_MW
+
+
 class ScarabReadConnection : public ScarabConnection {
     public:
         /** 
@@ -37,5 +41,9 @@ class ScarabReadConnection : public ScarabConnection {
          */
         Event * generateEventFromList(ScarabDatum * listDatum);
 };
-}
+
+
+END_NAMESPACE_MW
+
+
 #endif

@@ -11,7 +11,11 @@
 #define SCOPED_VARIABLE_H_
 
 #include "GenericVariable.h"
-namespace mw {
+
+
+BEGIN_NAMESPACE_MW
+
+
 class ScopedVariableEnvironment;
 
 class ScopedVariable : public Variable {
@@ -59,6 +63,9 @@ class ScopedVariable : public Variable {
 	virtual void setSilentValue(Datum _value,  MWTime _when);
 	
 };
-}
+
+
+END_NAMESPACE_MW
+
 
 #endif

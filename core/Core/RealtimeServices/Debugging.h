@@ -10,7 +10,11 @@
 #define _DEBUGGING_H_
 
 #include "VariableNotification.h"
-namespace mw {
+
+
+BEGIN_NAMESPACE_MW
+
+
 	extern bool debugger_enabled;
 	
 	extern void debuggerCheck();
@@ -24,6 +28,9 @@ namespace mw {
 		}
 		
 	};
-}
+
+
+END_NAMESPACE_MW
+
 
 #endif

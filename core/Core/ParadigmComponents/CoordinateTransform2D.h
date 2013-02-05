@@ -4,7 +4,11 @@
 
 #include "ExpandableList.h"
 //#include "LAPACK.h"
-namespace mw {
+
+
+BEGIN_NAMESPACE_MW
+
+
 class CoordinateTransform2D{
 	
 	public:
@@ -244,6 +248,10 @@ class QuadraticCalibration{
 			quad = new QuadraticTransform2D(a,b,c,d,e,f, a2,b2,c2,d2,e2,f2);
 		}
 };	
-}
+
+
+END_NAMESPACE_MW
+
+
 #endif		
 	

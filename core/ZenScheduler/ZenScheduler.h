@@ -18,9 +18,11 @@
 #include "boost/shared_ptr.hpp"
 
 #include <map>
+#include <string>
 
 
-namespace mw{
+BEGIN_NAMESPACE_MW
+
 
 #define SAFE_GET(type, A)   type result; lock(); result = A; unlock(); return result;
 #define SAFE_SET(A, B)	   lock(); A = B; unlock();
@@ -29,8 +31,7 @@ namespace mw{
 
 //#undef REALTIME_SCHEDULER
 
-#include <string>
-#define BASE_NUM_TASKS 5    
+#define BASE_NUM_TASKS 5
 #define TASK_PRIORITY 64
 
 #ifndef LOW_PRIORITY_MODE
@@ -321,6 +322,9 @@ namespace low_priority_scheduler{
 		};
 		
 	} // end namespace
+
+
+END_NAMESPACE_MW
 	
-}
+
 #endif

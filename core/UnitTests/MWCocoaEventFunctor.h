@@ -12,7 +12,11 @@
 
 #include "MWorksCore/GenericEventFunctor.h"
 #include "MWCocoaEvent.h"
-namespace mw {
+
+
+BEGIN_NAMESPACE_MW
+
+
 // derived template class
 class CocoaEventFunctor : public GenericEventFunctor
 {
@@ -54,6 +58,10 @@ public:
 		[pool release];
 	};         
 };
-}
+
+
+END_NAMESPACE_MW
+
+
 #endif
 

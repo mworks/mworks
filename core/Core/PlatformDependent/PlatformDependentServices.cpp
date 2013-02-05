@@ -16,7 +16,9 @@
 #include <Cocoa/Cocoa.h>
 #endif
 
-namespace mw {
+
+BEGIN_NAMESPACE_MW
+
 	
 #ifdef __APPLE__
     const char * DATA_FILE_PATH = "MWorks/Data";
@@ -194,4 +196,6 @@ namespace mw {
 	std::string appendVarFileExt(const std::string expName) {
 		return expName + VARIABLE_FILE_EXT;
 	}
-}
+
+
+END_NAMESPACE_MW

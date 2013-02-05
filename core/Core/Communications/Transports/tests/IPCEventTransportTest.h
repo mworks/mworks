@@ -16,7 +16,11 @@
 #include <cppunit/extensions/HelperMacros.h>
 
 #include "FullCoreEnvironmentTest.h"
-namespace mw {
+
+
+BEGIN_NAMESPACE_MW
+
+
 class IPCEventTransportTestFixture : public CppUnit::TestFixture {
 	
 	
@@ -35,5 +39,8 @@ public:
 	
 };
 
-}
+
+END_NAMESPACE_MW
+
+
 #endif

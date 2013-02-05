@@ -23,7 +23,10 @@
 
 #include "RegisteredSingleton.h"
 
-namespace mw {
+
+BEGIN_NAMESPACE_MW
+
+
 	//class ALContext{
 //		
 //	public:
@@ -91,5 +94,8 @@ namespace mw {
         REGISTERED_SINGLETON_CODE_INJECTION(OpenALContextManager)
 	};
 	
-}
+
+END_NAMESPACE_MW
+
+
 #endif

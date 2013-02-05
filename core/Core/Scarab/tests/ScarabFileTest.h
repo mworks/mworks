@@ -18,7 +18,11 @@
 
 #include "MWorksCore/ScarabServices.h"
 #include "MWorksCore/VariableRegistry.h"
-namespace mw {
+
+
+BEGIN_NAMESPACE_MW
+
+
 class ScarabFileTestFixture : public CppUnit::TestFixture {
 
 
@@ -280,7 +284,9 @@ class ScarabFileTestFixture : public CppUnit::TestFixture {
 		
 };
 
-}
+
+END_NAMESPACE_MW
+
 
 #endif
 

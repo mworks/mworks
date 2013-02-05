@@ -87,7 +87,9 @@ using std::string;
 using std::vector;
 
 
-namespace mw {
+BEGIN_NAMESPACE_MW
+
+
 #define CODEC_RESERVED_TAGNAME "#codec"
 #define COMPONENT_CODEC_RESERVED_TAGNAME "#componentCodec"
     
@@ -223,7 +225,10 @@ public:
 
 extern shared_ptr<VariableRegistry> global_variable_registry;
 //void initializeVariableRegistry(); // create a new global registry
-}
+
+
+END_NAMESPACE_MW
+
 
 #endif
 

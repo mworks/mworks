@@ -37,7 +37,10 @@
 #import <CoreFoundation/CoreFoundation.h>
 #endif
 
-namespace mw {
+
+BEGIN_NAMESPACE_MW
+
+
 	bool registries_are_initialized = false;
 	shared_ptr<ComponentRegistry> ComponentRegistry__;
 	
@@ -168,4 +171,6 @@ namespace mw {
 		plugin->registerComponents(component_registry);
 		
 	}
-}
+
+
+END_NAMESPACE_MW

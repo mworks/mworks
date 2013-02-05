@@ -18,7 +18,11 @@
 
 #include "MWorksCore/ScarabServices.h"
 #include "MWorksCore/VariableRegistry.h"
-namespace mw {
+
+
+BEGIN_NAMESPACE_MW
+
+
 class VariableRegistryTestFixture : public CppUnit::TestFixture {
 
 
@@ -41,6 +45,10 @@ class VariableRegistryTestFixture : public CppUnit::TestFixture {
 		void testCodec();
 
 };
-}
+
+
+END_NAMESPACE_MW
+
+
 #endif
 

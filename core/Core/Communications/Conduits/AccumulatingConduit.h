@@ -17,7 +17,9 @@
 #include <boost/shared_ptr.hpp>
 #include "CodecAwareConduit.h"
 
-namespace mw{
+
+BEGIN_NAMESPACE_MW
+
 
 class AccumulatingConduit : public CodecAwareConduit{
 
@@ -85,6 +87,9 @@ public:
     }
 
 };
-}
+
+
+END_NAMESPACE_MW
+
 
 #endif

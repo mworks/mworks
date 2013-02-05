@@ -18,7 +18,7 @@
 
 #include "EventCallbackHandler.h"
 /*
-namespace mw {
+BEGIN_NAMESPACE_MW
     class EventCallbackHandlerTestFixture : public CppUnit::TestFixture {
         
         
@@ -37,7 +37,7 @@ namespace mw {
 		void testToFromScarabDatum();
     };
     
-}
+END_NAMESPACE_MW
 */
 
 

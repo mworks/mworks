@@ -42,7 +42,9 @@
 #include <boost/unordered_map.hpp>
 
 
-namespace mw {
+BEGIN_NAMESPACE_MW
+
+
 	class ComponentRegistry {
 		
 	protected:
@@ -230,7 +232,8 @@ namespace mw {
     // it should be redefined as boost::shared_ptr<ComponentRegistry>
     typedef ComponentRegistry* ComponentRegistryPtr;
     
-	
-}
+
+END_NAMESPACE_MW
+
 
 #endif

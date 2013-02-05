@@ -15,7 +15,11 @@
 #include <cppunit/TestSuite.h>
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
-namespace mw {
+
+
+BEGIN_NAMESPACE_MW
+
+
 class PlatformDependentServicesTestFixture : public CppUnit::TestFixture {
   
   
@@ -40,7 +44,9 @@ class PlatformDependentServicesTestFixture : public CppUnit::TestFixture {
 	void tearDown();
 	void testConstStrings();
 };
-}
+
+
+END_NAMESPACE_MW
 
 
 #endif

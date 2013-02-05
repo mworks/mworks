@@ -14,7 +14,13 @@
 #define _ASIO_EVENT_TRANSPORT_H_
 
 #include <boost/asio.hpp>
-namespace mw {
+
+#include "MWorksMacros.h"
+
+
+BEGIN_NAMESPACE_MW
+
+
 class ASIOEventTransport {
 
     ASIOEventTransport(){
@@ -22,5 +28,9 @@ class ASIOEventTransport {
     }
 
 };
-}
+
+
+END_NAMESPACE_MW
+
+
 #endif

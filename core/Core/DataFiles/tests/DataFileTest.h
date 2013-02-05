@@ -20,7 +20,9 @@
 #include "MWorksCore/DataFileManager.h"
 
 
-namespace mw {
+BEGIN_NAMESPACE_MW
+
+
 class DatumFileTestFixture : public CppUnit::TestFixture {
   
   
@@ -42,8 +44,9 @@ class DatumFileTestFixture : public CppUnit::TestFixture {
 	void dataFileWriterTest();
 	void multiDataFileWriterTest();
 };
-}
 
+
+END_NAMESPACE_MW
 
 
 #endif

@@ -12,7 +12,11 @@
 #define DONE_TABLE_SELECTION_H
 
 #include "Selection.h"
-namespace mw {
+
+
+BEGIN_NAMESPACE_MW
+
+
 // Base Class for Selection with a "Done" table of some sort 
 class DoneTableSelection : public Selection {
 protected:
@@ -45,7 +49,8 @@ public:
 	virtual void rejectSelections();
 };
 
-}
+
+END_NAMESPACE_MW
 
 
 #endif

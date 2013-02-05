@@ -15,7 +15,11 @@
 
 // class to define standard experiment component interface for
 // announcing status by making changes to pre-negotiated standard announce variables
-namespace mw {
+
+
+BEGIN_NAMESPACE_MW
+
+
 class RequestNotification;
 class PrivateDataNotification;
 
@@ -106,7 +110,7 @@ public:
 };
 
 
+END_NAMESPACE_MW
 
-}
 
 #endif

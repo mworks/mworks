@@ -24,7 +24,9 @@
 #include <boost/filesystem/path.hpp>
 #include <boost/enable_shared_from_this.hpp>
 
-namespace mw {
+
+BEGIN_NAMESPACE_MW
+
 
 class Client : public RegistryAwareEventStreamInterface {
     protected:
@@ -169,5 +171,9 @@ class Client : public RegistryAwareEventStreamInterface {
 		
             
 };
-}
+
+
+END_NAMESPACE_MW
+
+
 #endif

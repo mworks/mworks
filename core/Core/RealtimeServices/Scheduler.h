@@ -19,7 +19,10 @@
 #include "boost/function.hpp"
 
 #include "boost/enable_shared_from_this.hpp"
-namespace mw {
+
+
+BEGIN_NAMESPACE_MW
+
 
 enum MissedExecutionBehavior{ M_MISSED_EXECUTION_DROP,
 	M_MISSED_EXECUTION_CATCH_UP,
@@ -134,6 +137,9 @@ public:
   REGISTERED_SINGLETON_CODE_INJECTION(Scheduler)
 };
 
-}
+
+END_NAMESPACE_MW
+
+
 #endif
 

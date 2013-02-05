@@ -11,7 +11,11 @@
 #define _DEFAULT_EVENT_HANDLER_H__
 
 #include "EventStreamInterface.h"
-namespace mw {
+
+
+BEGIN_NAMESPACE_MW
+
+
     class StandardSystemEventHandler : public EventStreamInterface {
         
     public:
@@ -24,6 +28,10 @@ namespace mw {
         
 
     };
-}
+
+
+END_NAMESPACE_MW
+
+
 #endif
 

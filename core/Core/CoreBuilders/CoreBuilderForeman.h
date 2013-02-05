@@ -15,7 +15,11 @@
 #define CORE_BUILDER_FOREMAN_H__
 
 #include "AbstractCoreBuilder.h"
-namespace mw {
+
+
+BEGIN_NAMESPACE_MW
+
+
 class CoreBuilderForeman {
 
     public:
@@ -41,5 +45,9 @@ class CoreBuilderForeman {
          */
         static bool constructCoreStandardOrder(AbstractCoreBuilder * builder);
 };
-}
+
+
+END_NAMESPACE_MW
+
+
 #endif

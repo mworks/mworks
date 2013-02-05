@@ -12,7 +12,11 @@
 
 #include "GenericVariable.h"
 #include "VariableRegistry.h"
-namespace mw {
+
+
+BEGIN_NAMESPACE_MW
+
+
 // Stimuli ======================================================   
 #define ANNOUNCE_STIMULUS_TAGNAME       "#announceStimulus"
 
@@ -180,6 +184,10 @@ extern shared_ptr<Variable> debuggerStep;
 
         
 void initializeStandardVariables(shared_ptr<VariableRegistry> registry);
-}
+
+
+END_NAMESPACE_MW
+
+
 #endif /* STANDARD_VARIABLES_H */
 

@@ -21,7 +21,10 @@
 #include "SVDfit.h"
 
 #define VERBOSE_FITABLE_FUNCTION 1
-namespace mw {
+
+
+BEGIN_NAMESPACE_MW
+
 	
 	class BasisFunction: public Lockable {
     public:
@@ -158,7 +161,9 @@ namespace mw {
         FirstOrderPolynomialFitableFunction(int _numInputs, 
 											bool _includeAnOffsetParameter, int _defaultInput); 
 	};
-}
+
+
+END_NAMESPACE_MW
 
 
 #endif

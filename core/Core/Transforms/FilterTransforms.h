@@ -16,7 +16,10 @@
 #include "Transforms.h"
 #include "VariableTransformAdaptors.h"
 
-namespace mw {
+
+BEGIN_NAMESPACE_MW
+
+
 // this is a simple, one-input filter with fixed kernel
 // it keep track of time and returns a time with the output time that is the
 //   time of the most recent value used as part of the filter
@@ -179,7 +182,9 @@ class Filter_LinearFilter1DFactory : public ComponentFactory {
 	virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
 												ComponentRegistry *reg);
 };        
- 
-}
+
+
+END_NAMESPACE_MW
+
 
 #endif

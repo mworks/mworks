@@ -21,7 +21,8 @@
 using boost::shared_ptr;
 
 
-namespace mw {
+BEGIN_NAMESPACE_MW
+
 	
 	class ComponentRegistry;  // forward decl
     class ComponentInfo;
@@ -136,5 +137,9 @@ namespace mw {
         virtual std::string getStringRepresentation() const;
 		
 	};
-}
+
+
+END_NAMESPACE_MW
+
+
 #endif

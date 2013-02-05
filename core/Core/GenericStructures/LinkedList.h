@@ -20,7 +20,9 @@
 #include "Lockable.h"
 #include "Utilities.h"
 #include <boost/shared_ptr.hpp>
-namespace mw {
+
+
+BEGIN_NAMESPACE_MW
 
 
 //#define EMPTY_NODE	shared_ptr<LinkedList<T>>()
@@ -432,7 +434,9 @@ shared_ptr<T> LinkedList<T>::popElement(){
 	
 	return node;
 }
-}
+
+
+END_NAMESPACE_MW
 
 
 #endif

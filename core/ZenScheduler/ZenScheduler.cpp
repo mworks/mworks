@@ -36,7 +36,10 @@
 
 #define CRAZY_SHIT_SCHEDULER	0
 
-namespace mw {
+
+BEGIN_NAMESPACE_MW
+
+
 Plugin *getPlugin() {
 	#ifdef LOW_PRIORITY_MODE
 		return new low_priority_scheduler::ZenSchedulerPlugin();
@@ -665,4 +668,5 @@ void ZenScheduler::checkTasks(){
 
 } // end namespace
 
-} // end namespace mw;
+
+END_NAMESPACE_MW

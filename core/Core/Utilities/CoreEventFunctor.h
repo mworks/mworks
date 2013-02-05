@@ -11,7 +11,7 @@
 #define __CORE_EVENT_FUNCTOR_H_
 
 #include "GenericEventFunctor.h"
-//namespace mw {
+//BEGIN_NAMESPACE_MW
 //	// derived template class
 //	template <class Class> class CoreEventFunctor : public GenericEventFunctor
 //		{
@@ -38,5 +38,5 @@
 //			};         
 //			
 //		};
-//}
+//END_NAMESPACE_MW
 #endif

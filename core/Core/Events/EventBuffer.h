@@ -15,7 +15,11 @@
 #include "Buffers.h"
 #include "Event.h"
 #include <boost/thread/mutex.hpp>
-namespace mw {
+
+
+BEGIN_NAMESPACE_MW
+
+
 class EventBuffer : public EventReceiver {
     protected:
 		boost::mutex bufferLock;
@@ -60,7 +64,6 @@ class EventBufferReader {
     
 void initEventBuffers();
     
-}
 
 //class BufferManager {
 //
@@ -100,6 +103,8 @@ void initEventBuffers();
 //extern shared_ptr<BufferManager> global_outgoing_event_buffer;
 //
 
-//}
+
+END_NAMESPACE_MW
+
 
 #endif

@@ -36,7 +36,9 @@
 #include "boost/shared_ptr.hpp"
 #include "Clock.h"
 
-namespace mw {
+
+BEGIN_NAMESPACE_MW
+
 
 class RingBuffer {
     protected:
@@ -260,5 +262,9 @@ class GenericTimeStampedBufferReader : public TimeStampedBufferReader{
 #define FloatDataTimeStampedBufferReader GenericTimeStampedBufferReader<float> 
 #define DoubleDataTimeStampedBufferReader GenericTimeStampedBufferReader<double> 
 #define StringDataTimeStampedBufferReader GenericTimeStampedBufferReader<char *>
-}
+
+
+END_NAMESPACE_MW
+
+
 #endif

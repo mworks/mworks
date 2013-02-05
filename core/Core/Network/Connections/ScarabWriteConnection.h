@@ -14,7 +14,11 @@
 
 #include "ScarabConnection.h"
 #include "EventBuffer.h"
-namespace mw {
+
+
+BEGIN_NAMESPACE_MW
+
+
 class ScarabWriteConnection : public ScarabConnection {
     private:
         shared_ptr<EventBufferReader> buffer_reader;
@@ -37,5 +41,9 @@ class ScarabWriteConnection : public ScarabConnection {
         void startThread(int interval);
         void stopThread();
 };
-}
+
+
+END_NAMESPACE_MW
+
+
 #endif

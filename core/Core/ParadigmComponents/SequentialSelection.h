@@ -11,7 +11,11 @@
 #define _SEQENTIAL_SELECTION_H_
 
 #include "Selection.h"
-namespace mw {
+
+
+BEGIN_NAMESPACE_MW
+
+
 class SequentialSelection : public Selection {
 protected:
 	int current;
@@ -41,5 +45,9 @@ public:
 	// available again for selection)
 	virtual void rejectSelections();
 };
-}
+
+
+END_NAMESPACE_MW
+
+
 #endif

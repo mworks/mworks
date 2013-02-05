@@ -17,7 +17,11 @@
 #include <cppunit/extensions/HelperMacros.h>
 
 #include "MWorksCore/ScarabServices.h"
-namespace mw {
+
+
+BEGIN_NAMESPACE_MW
+
+
 class ScarabDataTestFixture : public CppUnit::TestFixture {
 
 
@@ -153,7 +157,9 @@ class ScarabDataTestFixture : public CppUnit::TestFixture {
 		
 };
 
-}
+
+END_NAMESPACE_MW
+
 
 #endif
 

@@ -14,13 +14,23 @@
 
 #include <boost/filesystem/path.hpp>
 
+#include "MWorksMacros.h"
+
 #define LOAD_VARIABLES_FILE "file"
 #define LOAD_VARIABLES_FULL_PATH "full path"
-namespace mw {
+
+
+BEGIN_NAMESPACE_MW
+
+
 class VariableLoad {
 	public:
 		static bool loadExperimentwideVariables(const boost::filesystem::path &file);
 };
-}
+
+
+END_NAMESPACE_MW
+
+
 #endif
 

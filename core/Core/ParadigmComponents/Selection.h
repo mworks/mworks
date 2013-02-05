@@ -23,7 +23,10 @@
 #include "GenericVariable.h"
 #include "ExpandableList.h"
 #include "Selectable.h"
-namespace mw {
+
+
+BEGIN_NAMESPACE_MW
+
 
 enum SelectionType { M_SEQUENTIAL, M_SEQUENTIAL_ASCENDING, 
                      M_SEQUENTIAL_DESCENDING, M_RANDOM_WITH_REPLACEMENT, 
@@ -95,6 +98,9 @@ class Selection {
 		
 };
 
-}
+
+END_NAMESPACE_MW
+
+
 #endif
 

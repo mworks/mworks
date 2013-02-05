@@ -30,7 +30,11 @@
 
 #include "GenericVariable.h"
 #include "boost/shared_ptr.hpp"
-namespace mw {
+
+
+BEGIN_NAMESPACE_MW
+
+
 class GlobalVariable : public Variable{
     protected:
 		shared_ptr<Datum> value;
@@ -92,6 +96,10 @@ class GlobalVariable : public Variable{
          */
         virtual void printToSTDERR();
 };
-}
+
+
+END_NAMESPACE_MW
+
+
 #endif
 

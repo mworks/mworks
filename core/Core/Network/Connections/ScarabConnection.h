@@ -23,7 +23,11 @@
 #include "Scheduler.h"
 
 #include "boost/enable_shared_from_this.hpp"
-namespace mw {
+
+
+BEGIN_NAMESPACE_MW
+
+
 class ScarabConnection : public boost::enable_shared_from_this<ScarabConnection> {
     protected:
 	boost::mutex connectLock;
@@ -148,6 +152,10 @@ class ScarabConnection : public boost::enable_shared_from_this<ScarabConnection>
          */
         virtual int service();
 };
-}
+
+
+END_NAMESPACE_MW
+
+
 #endif
  

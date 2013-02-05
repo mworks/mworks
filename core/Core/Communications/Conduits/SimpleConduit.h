@@ -33,7 +33,8 @@
 
 #define DEFAULT_CONDUIT_IDLE_QUANTUM    5000
 
-namespace mw {
+
+BEGIN_NAMESPACE_MW
 
 
 class SimpleConduit : public Conduit, public EventCallbackHandler {
@@ -69,9 +70,7 @@ public:
 };
 
     
-
-
-}
+END_NAMESPACE_MW
 
 
 #endif

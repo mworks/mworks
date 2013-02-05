@@ -14,7 +14,11 @@
 #include "GenericData.h"
 #include <string>
 #include "boost/filesystem/path.hpp"
-namespace mw {
+
+
+BEGIN_NAMESPACE_MW
+
+
 class ExperimentUnpackager {
 public:
 	bool unpackageExperiment(Datum payload);
@@ -30,7 +34,11 @@ private:
 	
 	bool createFile(Datum filename, Datum buffer);
 };
-}
+
+
+END_NAMESPACE_MW
+
+
 #endif
 
 

@@ -141,7 +141,11 @@
 ///////////////////////////////////////////////
 // GLOBAL DECLARATION (for now)
 ///////////////////////////////////////////////
-namespace mw {
+
+
+BEGIN_NAMESPACE_MW
+
+
 extern void setCurrentExperiment(Experiment *exp);
 extern shared_ptr<Experiment> GlobalCurrentExperiment;
 
@@ -298,7 +302,8 @@ class ExperimentFactory : public ComponentFactory {
 		
 };
 
-}
+
+END_NAMESPACE_MW
 
 
 #endif

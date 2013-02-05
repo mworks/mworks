@@ -11,7 +11,9 @@
 //#include "States.h"
 
 
-namespace mw {
+BEGIN_NAMESPACE_MW
+
+
 class StateSystem : public mw::Component {//, public enable_shared_from_this<StateSystem>{ //, public RegisteredSingleton<StateSystem> {
 protected:
 	shared_ptr <Clock> the_clock;
@@ -52,7 +54,8 @@ public:
   REGISTERED_SINGLETON_CODE_INJECTION(StateSystem)
 };
 
-}
+
+END_NAMESPACE_MW
 
 
 #endif

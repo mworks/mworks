@@ -18,7 +18,10 @@
 
 #include "MWorksCore/GenericData.h"
 
-namespace mw {
+
+BEGIN_NAMESPACE_MW
+
+
 class VectorTestFixture : public CppUnit::TestFixture {
 
 
@@ -97,7 +100,9 @@ class VectorTestFixture : public CppUnit::TestFixture {
 		
 		
 };
-}
+
+
+END_NAMESPACE_MW
 
 
 #endif

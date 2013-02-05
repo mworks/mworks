@@ -68,7 +68,7 @@
 //#include "boost/shared_ptr.hpp"
 //#include "Exceptions.h"
 //#include "Component.h"
-//namespace mw {
+//BEGIN_NAMESPACE_MW
 //template <class T> class RegisteredSingleton {
 //protected:
 //	static boost::shared_ptr<T> singleton_instance;
@@ -110,6 +110,6 @@
 //
 //template <class T> boost::shared_ptr<T> RegisteredSingleton<T> ::singleton_instance;
 //	
-//}
+//END_NAMESPACE_MW
 
 #endif

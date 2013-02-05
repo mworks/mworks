@@ -31,7 +31,11 @@
 #include "Experiment.h"
 
 #define VERBOSE_VAR_TRANSFORM_ADAPTOR 0
-namespace mw {
+
+
+BEGIN_NAMESPACE_MW
+
+
 // warn compiler that I will declare later.. 
 class VarTransformNotification;
 
@@ -111,7 +115,10 @@ class VarTransformNotification : public VariableNotification{
 		virtual void notify(const Datum& data, MWTime timeUS);
 
 };
-}
+
+
+END_NAMESPACE_MW
+
 
 #endif
 

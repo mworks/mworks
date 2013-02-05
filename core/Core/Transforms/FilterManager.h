@@ -16,7 +16,10 @@
 #include "ExpandableList.h"
 #include "VariableTransformAdaptors.h"
 
-namespace mw {
+
+BEGIN_NAMESPACE_MW
+
+
 class FilterManager {
 
 protected:
@@ -33,6 +36,10 @@ public:
 
 
 extern FilterManager *GlobalFilterManager;
-}
+
+
+END_NAMESPACE_MW
+
+
 #endif
 

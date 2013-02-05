@@ -16,7 +16,11 @@
 #include "Scheduler.h"
 
 #include "boost/enable_shared_from_this.hpp"
-namespace mw {
+
+
+BEGIN_NAMESPACE_MW
+
+
 class EventListener : public boost::enable_shared_from_this<EventListener>  {
 protected:
 	boost::mutex listenerLock;
@@ -49,5 +53,9 @@ protected:
         EventListener(const EventListener&);
         virtual EventListener& operator=(const EventListener&);
 };
-}
+
+
+END_NAMESPACE_MW
+
+
 #endif

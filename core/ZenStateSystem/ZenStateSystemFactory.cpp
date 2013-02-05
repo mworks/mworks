@@ -10,7 +10,9 @@
 #include "ZenStateSystemFactory.h"
 #include "ZenStateSystem.h"
 
-namespace mw{
+
+BEGIN_NAMESPACE_MW
+
 
 shared_ptr<mw::Component> StandardStateSystemFactory::createObject(std::map<std::string, std::string> parameters,
 																 ComponentRegistry *reg){
@@ -18,4 +20,5 @@ shared_ptr<mw::Component> StandardStateSystemFactory::createObject(std::map<std:
 	return shared_ptr<mw::Component>(new StandardStateSystem(a_clock));
 }
     
-} // namespace mw
+
+END_NAMESPACE_MW

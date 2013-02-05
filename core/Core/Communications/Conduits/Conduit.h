@@ -12,7 +12,10 @@
 
 #include "EventTransport.h"
 #include <boost/shared_ptr.hpp>
-namespace mw {
+
+
+BEGIN_NAMESPACE_MW
+
 
 class Conduit {
 
@@ -52,5 +55,9 @@ public:
     virtual void sendData(shared_ptr<Event> evt);
     
 };
-}
+
+
+END_NAMESPACE_MW
+
+
 #endif

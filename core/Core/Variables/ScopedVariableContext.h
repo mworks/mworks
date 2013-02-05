@@ -46,7 +46,11 @@
  */	
  
 #include <map>
-namespace mw { 
+
+
+BEGIN_NAMESPACE_MW
+
+
 enum  Transparency{ M_TRANSPARENT, M_OPAQUE };
 
 // The base trial info object, containing user defined variables which are needed to run trials
@@ -85,7 +89,9 @@ class ScopedVariableContext : public Lockable{
 		void setWithTransparency(int index, const Datum& newdata);
                 
 };
-}
+
+
+END_NAMESPACE_MW
 
 
 #endif

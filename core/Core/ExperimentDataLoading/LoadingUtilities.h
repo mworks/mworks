@@ -9,7 +9,11 @@
 
 #include <string>
 #include "boost/filesystem/path.hpp"
-namespace mw {
+
+
+BEGIN_NAMESPACE_MW
+
+
 	bool loadSetupVariables();
 	bool loadExperimentFromXMLParser(const boost::filesystem::path filepath);
 	void parseMediaTagsFromExperiment(const boost::filesystem::path filepath);
@@ -33,5 +37,9 @@ namespace mw {
                       const std::string &directoryPath,
                       std::vector<std::string> &filePaths);
     void getFilePaths(const std::string &directoryPath, std::vector<std::string> &filePaths);
-}
+
+
+END_NAMESPACE_MW
+
+
 #endif

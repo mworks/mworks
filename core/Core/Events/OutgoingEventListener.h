@@ -11,7 +11,11 @@
 #define _OUTGOING_EVENT_LISTENER_H__
 
 #include "EventListener.h"
-namespace mw {
+
+
+BEGIN_NAMESPACE_MW
+
+
 class OutgoingEventListener : public EventListener {
 	
 public:
@@ -23,5 +27,9 @@ protected:
     OutgoingEventListener(const OutgoingEventListener&);
 	OutgoingEventListener& operator=(const OutgoingEventListener&);
 };
-}
+
+
+END_NAMESPACE_MW
+
+
 #endif

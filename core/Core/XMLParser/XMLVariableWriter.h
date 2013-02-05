@@ -9,16 +9,16 @@
 
 
 #include <vector>
+#include <libxml/parser.h>
+#include <libxml/tree.h>
 #include <boost/filesystem/path.hpp>
 #include <boost/filesystem/operations.hpp>
 #include <boost/shared_ptr.hpp>
 #include "GenericVariable.h"
 
-namespace mw {
-	
-#include <libxml/parser.h>
-#include <libxml/tree.h>
-	
+
+BEGIN_NAMESPACE_MW
+
 	class XMLVariableWriter {
 		
     public:
@@ -27,4 +27,6 @@ namespace mw {
 		static xmlNodePtr variableToXML(shared_ptr<Variable> var);
 		static xmlNodePtr recursiveValueToXML(const Datum &value);    
 	};
-}
+
+
+END_NAMESPACE_MW

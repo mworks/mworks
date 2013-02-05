@@ -11,7 +11,11 @@
 #include <vector>
 
 #include "MWorksCore/Timer.h"
-namespace mw {
+
+
+BEGIN_NAMESPACE_MW
+
+
 class TimerTestFixture : public FullCoreEnvironmentTestFixture {
 
 	CPPUNIT_TEST_SUITE( TimerTestFixture );
@@ -45,5 +49,7 @@ protected:
 	void textTimerWithTimebase();
 
 };
-}
+
+
+END_NAMESPACE_MW
 

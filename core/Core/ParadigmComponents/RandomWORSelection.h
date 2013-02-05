@@ -18,7 +18,11 @@
 #endif
 
 #include <boost/random/mersenne_twister.hpp>
-namespace mw {
+
+
+BEGIN_NAMESPACE_MW
+
+
 typedef	boost::mt19937	random_generator;
 
 
@@ -39,5 +43,9 @@ public:
 	
 	virtual void rejectSelections();
 };
-}
+
+
+END_NAMESPACE_MW
+
+
 #endif

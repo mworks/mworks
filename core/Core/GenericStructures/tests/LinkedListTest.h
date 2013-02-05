@@ -16,7 +16,10 @@
 #include <cppunit/extensions/HelperMacros.h>
 
 #include "MWorksCore/Stimulus.h"
-namespace mw {
+
+
+BEGIN_NAMESPACE_MW
+
 
 class LinkedListTestFixture : public CppUnit::TestFixture {
 
@@ -67,5 +70,9 @@ class LinkedListTestFixture : public CppUnit::TestFixture {
 		void testRemoveAndReadd();	
 		void testNotificationStyle();
 };
-}
+
+
+END_NAMESPACE_MW
+
+
 #endif

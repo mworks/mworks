@@ -11,8 +11,19 @@
 
 #ifndef _MATH_UTILITIES
 #define _MATH_UTILITIES
-namespace mw {
+
+
+#include "MWorksMacros.h"
+
+
+BEGIN_NAMESPACE_MW
+
+
 float  **new2DfloatArray(int rows, int cols);
 void delete2DfloatArray(float **arr, int rows);
-}
+
+
+END_NAMESPACE_MW
+
+
 #endif

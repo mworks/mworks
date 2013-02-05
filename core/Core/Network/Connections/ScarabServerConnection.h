@@ -19,7 +19,11 @@
 #include "ScarabReadConnection.h"
 #include "ScarabWriteConnection.h"
 #include "NetworkReturn.h"
-namespace mw {
+
+
+BEGIN_NAMESPACE_MW
+
+
 class ScarabServerConnection {
     protected:
         shared_ptr<ScarabReadConnection> reader;  // a connection for reading
@@ -74,5 +78,9 @@ class ScarabServerConnection {
          */
         std::string getForeignHost();
 };
-}
+
+
+END_NAMESPACE_MW
+
+
 #endif

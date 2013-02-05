@@ -18,7 +18,11 @@
 #include "ComponentRegistry.h"
 
 #include <boost/filesystem/path.hpp>
-namespace mw {
+
+
+BEGIN_NAMESPACE_MW
+
+
 	extern bool registries_are_initialized;
 	extern shared_ptr<ComponentRegistry> ComponentRegistry__;
 	
@@ -34,5 +38,9 @@ namespace mw {
 	void chooseDefaultScheduler();
 	void chooseDefaultClock();
 	void chooseDefaultStateSystem();
-}
+
+
+END_NAMESPACE_MW
+
+
 #endif

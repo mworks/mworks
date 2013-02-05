@@ -25,7 +25,10 @@
 
 #include "ComponentRegistry.h"
 #include "ComponentFactory.h"
-namespace mw {
+
+
+BEGIN_NAMESPACE_MW
+
 	
 	class Plugin {
 		
@@ -34,6 +37,9 @@ namespace mw {
 		virtual void registerComponents(shared_ptr<ComponentRegistry> registry) { }
 		
 	};
-}
+
+
+END_NAMESPACE_MW
+
 
 #endif

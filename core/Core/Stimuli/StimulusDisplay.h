@@ -27,7 +27,9 @@
 #include "LinkedList.h"
 
 
-namespace mw {
+BEGIN_NAMESPACE_MW
+
+
 	// forward declarations
     class Datum;
 	class Stimulus;
@@ -141,7 +143,11 @@ namespace mw {
         
         static shared_ptr<StimulusDisplay> getCurrentStimulusDisplay();
 	};
-}
+
+
+END_NAMESPACE_MW
+
+
 #endif
 
 

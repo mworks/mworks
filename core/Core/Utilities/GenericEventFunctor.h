@@ -16,7 +16,10 @@
 #include <boost/shared_ptr.hpp>
 #include "Event.h"
 #include "Utilities.h"
-namespace mw {
+
+
+BEGIN_NAMESPACE_MW
+
 	
 	// abstract base class
 	class GenericEventFunctor
@@ -57,5 +60,9 @@ namespace mw {
             functor(evt);
         }
     };
-}
+
+
+END_NAMESPACE_MW
+
+
 #endif

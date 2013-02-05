@@ -24,7 +24,10 @@
 
 #include "VariableTransformAdaptors.h"
 #include "FilterTransforms.h"
-namespace mw {
+
+
+BEGIN_NAMESPACE_MW
+
 
 enum EyeStatusEnum{ M_EYE_STATUS_FIXATING=0, M_EYE_STATUS_SACCADING, M_EYE_STATUS_UNKNOWN};
 
@@ -313,9 +316,8 @@ class EyeStatusComputerWithSaccades : public EyeStatusComputer {
         */
 
 
+END_NAMESPACE_MW
 
-
-}
 
 #endif
 

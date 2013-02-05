@@ -3,7 +3,10 @@
 
 #include "Buffers.h"
 
-namespace mw {
+
+BEGIN_NAMESPACE_MW
+
+
 class Filter{
 
 
@@ -64,6 +67,8 @@ class BoxCarFilter : public Filter {
 
 };
 
-}
+
+END_NAMESPACE_MW
+
 
 #endif

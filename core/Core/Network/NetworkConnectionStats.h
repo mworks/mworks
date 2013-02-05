@@ -13,7 +13,11 @@
 #include "MWorksTypes.h"
 #include "EventBuffer.h"
 #include "Lockable.h"
-namespace mw {
+
+
+BEGIN_NAMESPACE_MW
+
+
 class NetworkConnectionStats : Lockable {
     protected:
         // number of events transmitted
@@ -68,6 +72,10 @@ class NetworkConnectionStats : Lockable {
          void eventReceived(int code, unsigned int numBytes);
          void eventTransmitted(int code, unsigned int numBytes);
 };
-}
+
+
+END_NAMESPACE_MW
+
+
 #endif
 

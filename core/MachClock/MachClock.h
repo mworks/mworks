@@ -19,7 +19,10 @@
 #include "MWorksCore/Plugin.h"
 #include "mach/mach_time.h"
 
-namespace mw{
+
+BEGIN_NAMESPACE_MW
+
+
 //////////////////////////////////////////////////////////////////////////
 // Plugin entry point
 //
@@ -87,7 +90,9 @@ class StandardClockPlugin : public Plugin {
                                                 getServiceDescriptions();*/
 };
 
-}
+
+END_NAMESPACE_MW
+
 
 #endif
     

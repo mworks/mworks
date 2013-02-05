@@ -17,7 +17,11 @@
 #include "MWorksCore/ExpandableList.h"
 #include "MWorksCore/Experiment.h"
 #include "MWorksCore/Buffers.h"
-namespace mw {
+
+
+BEGIN_NAMESPACE_MW
+
+
 #define VERBOSE_TRANSFORMS 0
 
 // this basically just defines the transform interface
@@ -94,7 +98,9 @@ class TransformWithMemory : public Transform {
 			
 };
 
-}
+
+END_NAMESPACE_MW
+
 
 #endif
 

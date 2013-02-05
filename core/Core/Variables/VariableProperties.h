@@ -44,7 +44,11 @@
 #include <vector>
 #include <limits.h>
 #include <float.h>
-namespace mw {
+
+
+BEGIN_NAMESPACE_MW
+
+
 // TODO: wtf?
 // number of items in pacakge
 const int __PACKAGESIZE__ = 11;
@@ -184,6 +188,10 @@ class VariableProperties {
          */
         void printToSTDERR();
 };
-}
+
+
+END_NAMESPACE_MW
+
+
 #endif
 

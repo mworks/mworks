@@ -15,7 +15,11 @@
 #define _STANDARD_CLIENT_CORE_BUILDER_H__
 
 #include "AbstractCoreBuilder.h"
-namespace mw {
+
+
+BEGIN_NAMESPACE_MW
+
+
 class StandardClientCoreBuilder : public AbstractCoreBuilder {
     public:
         /*!
@@ -113,6 +117,10 @@ class StandardClientCoreBuilder : public AbstractCoreBuilder {
         virtual bool buildProcessWillEnd();
 
 };
-}
+
+
+END_NAMESPACE_MW
+
+
 #endif
 

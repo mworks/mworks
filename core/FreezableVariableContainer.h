@@ -13,7 +13,9 @@
 #include "GenericVariable.h"
 #include <boost/thread/mutex.hpp>
 
-namespace mw{
+
+BEGIN_NAMESPACE_MW
+
 
 // A wrapper around a variable object that supports "freezing" --
 // i.e. transiently taking on a constant value
@@ -108,8 +110,10 @@ public:
     }
     
 };
-    
-}
+
+
+END_NAMESPACE_MW
+
 
 #endif
 

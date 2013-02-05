@@ -24,7 +24,11 @@
 #include <cppunit/extensions/HelperMacros.h>
 
 #include "FullCoreEnvironmentTest.h"
-namespace mw {
+
+
+BEGIN_NAMESPACE_MW
+
+
 class SerializationTestFixture : public CppUnit::TestFixture {
 	
 	
@@ -50,7 +54,10 @@ public:
     void testListSerialization();
 	
 };
-}
+
+
+END_NAMESPACE_MW
+
 
 #endif
 

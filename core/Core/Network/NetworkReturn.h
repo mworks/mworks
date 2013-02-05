@@ -15,7 +15,14 @@
 
 #include <stdio.h>
 #include <string>
-namespace mw {
+
+
+#include "MWorksMacros.h"
+
+
+BEGIN_NAMESPACE_MW
+
+
 const int NR_SUCCESS = 0; // success with no message
 const int NR_SUCCESS_WITH_MESSAGE = 1; //success with a message
 const int NR_SUCCESS_NETWORK_MESSAGE = 2;
@@ -83,5 +90,9 @@ class NetworkReturn {
         void appendInformation(const std::string &msg);
         void appendInformationWithFormat(const std::string msg, ...);
 };
-}
+
+
+END_NAMESPACE_MW
+
+
 #endif

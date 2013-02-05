@@ -14,7 +14,11 @@
 #include "Lockable.h"
 #include "Utilities.h"
 #include "ExpandableList.h"
-namespace mw {
+
+
+BEGIN_NAMESPACE_MW
+
+
 class Trigger {
 
 protected:
@@ -214,6 +218,9 @@ public:
 	virtual bool evaluate();
 };
 
-}
+
+END_NAMESPACE_MW
+
+
 #endif
 

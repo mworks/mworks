@@ -28,8 +28,8 @@ using boost::variant;
 using std::string;
 
 
+BEGIN_NAMESPACE_MW
 
-namespace mw {
 
 // forward decls
 class Stimulus;
@@ -254,7 +254,9 @@ public:
     }
 };
 
-}
+
+END_NAMESPACE_MW
+
 
 #endif
 

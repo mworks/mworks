@@ -14,7 +14,10 @@
 #include "VariableNotification.h"
 #include "IODevice.h"
 
-namespace mw {
+
+BEGIN_NAMESPACE_MW
+
+
 	class IODeviceVariableNotification : public VariableNotification{
 		
 	protected:
@@ -28,5 +31,9 @@ namespace mw {
 		virtual void notify(const Datum& data, MWTime timeUS);
 		
 	};
-}
+
+
+END_NAMESPACE_MW
+
+
 #endif

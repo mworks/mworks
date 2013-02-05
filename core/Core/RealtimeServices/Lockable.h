@@ -13,8 +13,12 @@
 
 #include <boost/thread/mutex.hpp>
 
+#include "MWorksMacros.h"
 
-namespace mw {
+
+BEGIN_NAMESPACE_MW
+
+
 // macros for locking gets and sets
 #define SAFE_GET(type, A)   type result; lock(); result = A; unlock(); return result;
 #define SAFE_SET(A, B)	   lock(); A = B; unlock();
@@ -82,7 +86,7 @@ private:
 };
 
 
-}
+END_NAMESPACE_MW
 
 
 #endif

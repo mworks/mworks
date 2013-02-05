@@ -10,11 +10,19 @@
 //const CFStringRef kStatAndMessWindowName = CFSTR("StatusAndMessages");
 //const CFStringRef kMenuBarNibName  = CFSTR("MenuBar");
 #define kApplicationSignature 'MCMD'
-namespace mw {
+
+
+BEGIN_NAMESPACE_MW
+
+
 extern MessagesController *GlobalMessageController;
 extern ParadigmVariablesController *GlobalParadigmVariablesController;
 // set to the data source so that it picks up log messages that get sent
 // before the initial opening of the log window
 extern NetworkLogDataSource * GlobalNetworkLog;
-}
+
+
+END_NAMESPACE_MW
+
+
 #endif

@@ -16,7 +16,10 @@
 #include "GenericVariable.h"
 #include "Component.h"
 #include <boost/thread/mutex.hpp>
-namespace mw {
+
+
+BEGIN_NAMESPACE_MW
+
 
 class TimeBase : public mw::Component {
 
@@ -66,6 +69,9 @@ public:
 
 
 void *expireTheTimer(const shared_ptr<Timer> &the_timer);
-}
+
+
+END_NAMESPACE_MW
+
 
 #endif

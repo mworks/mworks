@@ -13,7 +13,11 @@
 #include <cppunit/TestSuite.h>
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
-namespace mw {
+
+
+BEGIN_NAMESPACE_MW
+
+
 class ClockTestFixture : public CppUnit::TestFixture {
 	
 	CPPUNIT_TEST_SUITE( ClockTestFixture );	
@@ -28,7 +32,11 @@ public:
 	
 	void testClock();
 };
-}
+
+
+END_NAMESPACE_MW
+
+
 #endif
 
 
