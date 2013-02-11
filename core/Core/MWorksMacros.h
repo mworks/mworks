@@ -11,6 +11,13 @@
 #define _MWORKS_MACROS_H
 
 
+#if defined(__GNUC__) || defined(__clang__)
+#  define MW_SYMBOL_PUBLIC __attribute__((visibility("default")))
+#else
+#  define MW_SYMBOL_PUBLIC
+#endif
+
+
 //
 // Use of the following prevents syntax-aware editors from indenting everything in a namespace block
 //
@@ -24,11 +31,11 @@
 #endif
 
 #ifndef BEGIN_NAMESPACE_MW
-#define BEGIN_NAMESPACE_MW      BEGIN_NAMESPACE(mw)
+#define BEGIN_NAMESPACE_MW      namespace mw MW_SYMBOL_PUBLIC {
 #endif
 
 #ifndef END_NAMESPACE_MW
-#define END_NAMESPACE_MW        END_NAMESPACE(mw)
+#define END_NAMESPACE_MW        }
 #endif
 
 

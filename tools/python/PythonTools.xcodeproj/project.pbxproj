@@ -56,6 +56,10 @@
 		E18D3BE716554EE400D472D0 /* __init__.py in CopyFiles */ = {isa = PBXBuildFile; fileRef = E18D3BD916554D7D00D472D0 /* __init__.py */; };
 		E18D3BE816554EE600D472D0 /* conduit.py in CopyFiles */ = {isa = PBXBuildFile; fileRef = E18D3BDA16554D7D00D472D0 /* conduit.py */; };
 		E18D3BE916554EE800D472D0 /* data.py in CopyFiles */ = {isa = PBXBuildFile; fileRef = E18D3BDB16554D7D00D472D0 /* data.py */; };
+		E1DB978E16C1981E001481E9 /* libboost_serialization.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB978D16C1981E001481E9 /* libboost_serialization.a */; };
+		E1DB979016C19830001481E9 /* libboost_filesystem.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB978F16C19830001481E9 /* libboost_filesystem.a */; };
+		E1DB979216C19843001481E9 /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB979116C19843001481E9 /* libboost_system.a */; };
+		E1DB979416C19859001481E9 /* libscarab.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB979316C19859001481E9 /* libscarab.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -117,6 +121,10 @@
 		E18D3BDA16554D7D00D472D0 /* conduit.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; name = conduit.py; path = mworks/conduit.py; sourceTree = SOURCE_ROOT; };
 		E18D3BDB16554D7D00D472D0 /* data.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; name = data.py; path = mworks/data.py; sourceTree = SOURCE_ROOT; };
 		E195639E168208D100C9F863 /* PythonTools-Exports.exp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.exports; path = "PythonTools-Exports.exp"; sourceTree = SOURCE_ROOT; };
+		E1DB978D16C1981E001481E9 /* libboost_serialization.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_serialization.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_serialization.a"; sourceTree = "<absolute>"; };
+		E1DB978F16C19830001481E9 /* libboost_filesystem.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_filesystem.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_filesystem.a"; sourceTree = "<absolute>"; };
+		E1DB979116C19843001481E9 /* libboost_system.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_system.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_system.a"; sourceTree = "<absolute>"; };
+		E1DB979316C19859001481E9 /* libscarab.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libscarab.a; path = "/Library/Application Support/MWorks/Developer/lib/libscarab.a"; sourceTree = "<absolute>"; };
 		E1ED66D7165585E3000AAAEA /* GILHelpers.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GILHelpers.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -126,8 +134,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				E18D3BB8165541B900D472D0 /* MWorksCore.framework in Frameworks */,
+				E1DB979016C19830001481E9 /* libboost_filesystem.a in Frameworks */,
 				E18D3BBB1655422F00D472D0 /* libboost_python.a in Frameworks */,
+				E1DB978E16C1981E001481E9 /* libboost_serialization.a in Frameworks */,
+				E1DB979216C19843001481E9 /* libboost_system.a in Frameworks */,
 				E18D3BD316554AB200D472D0 /* libdfindex.a in Frameworks */,
+				E1DB979416C19859001481E9 /* libscarab.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -208,8 +220,12 @@
 			isa = PBXGroup;
 			children = (
 				E18D3BB7165541B900D472D0 /* MWorksCore.framework */,
+				E1DB978F16C19830001481E9 /* libboost_filesystem.a */,
 				E18D3BBA1655422F00D472D0 /* libboost_python.a */,
+				E1DB978D16C1981E001481E9 /* libboost_serialization.a */,
+				E1DB979116C19843001481E9 /* libboost_system.a */,
 				E18D3BD216554AB200D472D0 /* libdfindex.a */,
+				E1DB979316C19859001481E9 /* libscarab.a */,
 			);
 			name = "Frameworks & Libraries";
 			path = PythonTools;
@@ -376,7 +392,6 @@
 			buildSettings = {
 				EXECUTABLE_EXTENSION = so;
 				EXPORTED_SYMBOLS_FILE = "PythonTools-Exports.exp";
-				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PythonTools-Prefix.pch";
 				HEADER_SEARCH_PATHS = (

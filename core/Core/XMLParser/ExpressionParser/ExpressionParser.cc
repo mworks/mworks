@@ -60,7 +60,7 @@ char _to_upper (const char c) { return toupper(c); }
 
 // #define STX_DEBUG_PARSER
 
-namespace stx {
+namespace stx MW_SYMBOL_PUBLIC {
 	
 	/// Enclosure for the spirit parser grammar and hidden parse node
 	/// implementation classes.

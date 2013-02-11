@@ -16,6 +16,7 @@
 #include "ServersideConduit_definitions.h"
 
 
+MW_SYMBOL_PUBLIC
 Plugin *getPlugin(){
     return new ServersideConduitPlugin();
 }

@@ -33,7 +33,9 @@
 #include <ostream>
 #include <assert.h>
 
-namespace stx {
+#include "MWorksMacros.h"
+
+namespace stx MW_SYMBOL_PUBLIC {
 
 /** AnyScalar constructs objects holding a typed scalar value. It supports
  * boolean values, integer values both signed and unsigned, floating point

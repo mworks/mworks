@@ -81,10 +81,11 @@
 		5CFE56580F54A653000C7F30 /* MWURLStringValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CFE56570F54A653000C7F30 /* MWURLStringValueTransformer.m */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
-		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		E11416F2157669DF00FFE959 /* ResumeTBIcon.tiff in Resources */ = {isa = PBXBuildFile; fileRef = E11416F1157669DF00FFE959 /* ResumeTBIcon.tiff */; };
 		E11416F615766A5900FFE959 /* MWExperimentPauseResumeIconTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = E11416F515766A5900FFE959 /* MWExperimentPauseResumeIconTransformer.m */; };
 		E12D990116BC2AFE004FEF79 /* MWClient.app in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8D1107320486CEB800E47090 /* MWClient.app */; };
+		E15D0AF216C2ADFB00F331B1 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E15D0AF116C2ADFB00F331B1 /* AppKit.framework */; };
+		E15D0AF416C2AE1200F331B1 /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E15D0AF316C2AE1200F331B1 /* libboost_system.a */; };
 		E18B840D1552D7C000268197 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = E18B840B1552D7C000268197 /* MainMenu.xib */; };
 /* End PBXBuildFile section */
 
@@ -127,11 +128,7 @@
 
 /* Begin PBXFileReference section */
 		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
-		13E42FB307B3F0F600E4EEF1 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
-		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		32CA4F630368D1EE00C91783 /* New Client_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "New Client_Prefix.pch"; sourceTree = "<group>"; };
 		5C23D5400D8827670044AC9E /* MWStringTruncateValueTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWStringTruncateValueTransformer.h; sourceTree = "<group>"; };
 		5C23D5410D8827670044AC9E /* MWStringTruncateValueTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWStringTruncateValueTransformer.m; sourceTree = "<group>"; };
@@ -185,6 +182,8 @@
 		E11416F1157669DF00FFE959 /* ResumeTBIcon.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = ResumeTBIcon.tiff; path = Images/ResumeTBIcon.tiff; sourceTree = "<group>"; };
 		E11416F415766A5900FFE959 /* MWExperimentPauseResumeIconTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWExperimentPauseResumeIconTransformer.h; sourceTree = "<group>"; };
 		E11416F515766A5900FFE959 /* MWExperimentPauseResumeIconTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWExperimentPauseResumeIconTransformer.m; sourceTree = "<group>"; };
+		E15D0AF116C2ADFB00F331B1 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		E15D0AF316C2AE1200F331B1 /* libboost_system.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_system.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_system.a"; sourceTree = "<absolute>"; };
 		E18B840C1552D7C000268197 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -193,9 +192,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
 				5CEDF93E0D862FC60044D738 /* MWorksCore.framework in Frameworks */,
 				5C23D5640D882FFA0044AC9E /* MWorksCocoa.framework in Frameworks */,
+				E15D0AF216C2ADFB00F331B1 /* AppKit.framework in Frameworks */,
+				E15D0AF416C2AE1200F331B1 /* libboost_system.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -218,24 +218,6 @@
 			name = Classes;
 			sourceTree = "<group>";
 		};
-		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
-			);
-			name = "Linked Frameworks";
-			sourceTree = "<group>";
-		};
-		1058C7A2FEA54F0111CA2CBB /* Other Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				29B97324FDCFA39411CA2CEA /* AppKit.framework */,
-				13E42FB307B3F0F600E4EEF1 /* CoreData.framework */,
-				29B97325FDCFA39411CA2CEA /* Foundation.framework */,
-			);
-			name = "Other Frameworks";
-			sourceTree = "<group>";
-		};
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -251,7 +233,7 @@
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
-				29B97323FDCFA39411CA2CEA /* Frameworks */,
+				29B97323FDCFA39411CA2CEA /* Frameworks & Libraries */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 			);
 			name = "New Client";
@@ -279,15 +261,15 @@
 			name = Resources;
 			sourceTree = "<group>";
 		};
-		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
+		29B97323FDCFA39411CA2CEA /* Frameworks & Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				5C23D5630D882FFA0044AC9E /* MWorksCocoa.framework */,
 				5CEDF93D0D862FC60044D738 /* MWorksCore.framework */,
-				1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */,
-				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
+				5C23D5630D882FFA0044AC9E /* MWorksCocoa.framework */,
+				E15D0AF116C2ADFB00F331B1 /* AppKit.framework */,
+				E15D0AF316C2AE1200F331B1 /* libboost_system.a */,
 			);
-			name = Frameworks;
+			name = "Frameworks & Libraries";
 			sourceTree = "<group>";
 		};
 		5C55E10A0D8E007A000E1CB5 /* Extensions */ = {
@@ -610,6 +592,7 @@
 				E12D98FB16BC2AC3004FEF79 /* Development */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
 		};
 /* End XCConfigurationList section */
 	};

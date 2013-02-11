@@ -9,8 +9,10 @@
 #ifndef MWorksCore_MWorksCoreTestMain_h
 #define MWorksCore_MWorksCoreTestMain_h
 
+#include "MWorksMacros.h"
 
-int MWorksCoreTestMain(int argc, char *argv[]);
+
+MW_SYMBOL_PUBLIC int MWorksCoreTestMain(int argc, char *argv[]);
 
 
 #endif

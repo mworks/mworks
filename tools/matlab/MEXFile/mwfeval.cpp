@@ -11,6 +11,7 @@
 using namespace mw::matlab;
 
 
+MW_SYMBOL_PUBLIC
 void mexFunction(int nlhs, mxArray *plhs[],
                  int nrhs, const mxArray *prhs[])
 {

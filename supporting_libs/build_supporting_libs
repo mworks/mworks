@@ -36,7 +36,7 @@ python = '/usr/bin/python' + python_version
 num_cores = str(multiprocessing.cpu_count())
 
 compile_flags = (('-arch x86_64 -arch i386 -g -Os -fexceptions '
-                  '-isysroot %s -mmacosx-version-min=%s')
+                  '-fvisibility=hidden -isysroot %s -mmacosx-version-min=%s')
                  % (sdk_path, macosx_version_min))
 cflags = '-std=c99'
 cxxflags = '-std=c++98 -stdlib=libc++'
@@ -244,7 +244,7 @@ def jpeg():
     run_configure_and_make(srcdir)
 
 
-@builder
+#@builder
 def lcms():
     version = '1.19'
     srcdir = 'lcms-' + version
@@ -304,8 +304,8 @@ def devil():
     run_configure_and_make(
         srcdir = srcdir,
         extra_args = ['--enable-ILU', '--enable-ILUT', '--disable-exr',
-                      '--disable-mng', '--disable-utx', '--without-squish',
-                      '--without-nvtt'],
+                      '--disable-lcms', '--disable-mng', '--disable-utx',
+                      '--without-squish', '--without-nvtt'],
         extra_compile_flags = ('-I/usr/include/malloc -I%s/include' %
                                path_to_stagedir),
         extra_cflags = '-std=gnu89',
@@ -364,6 +364,7 @@ def narrative():
             '-xcconfig', installdir + '/Xcode/Development.xcconfig',
             'INSTALL_PATH=@loader_path/../Frameworks',
             'SDKROOT_i386=$(SDKROOT)',
+            'OTHER_CFLAGS=-fvisibility=default',
             ])
 
         check_call([

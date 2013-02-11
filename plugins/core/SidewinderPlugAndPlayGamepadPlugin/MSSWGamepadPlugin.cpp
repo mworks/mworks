@@ -10,6 +10,7 @@
 #include "MSSWGamepadPlugin.h"
 #include "MSSWGamepadFactory.h"
 
+MW_SYMBOL_PUBLIC
 Plugin *getPlugin(){
     return new mMSSWGamepadPlugin();
 }

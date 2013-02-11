@@ -33,7 +33,7 @@
 
 #include <boost/lexical_cast.hpp>
 
-namespace stx {
+namespace stx MW_SYMBOL_PUBLIC {
 
 bool AnyScalar::operator==(const AnyScalar &a) const
 {

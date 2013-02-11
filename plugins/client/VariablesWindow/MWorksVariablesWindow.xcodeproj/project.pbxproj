@@ -37,13 +37,13 @@
 		0E7B54FC0C8475C600A7BEA9 /* MWVariableDisplayItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E7B54FB0C8475C600A7BEA9 /* MWVariableDisplayItem.m */; };
 		0E7D46430C874F0A00E5AEEA /* MWVariableOutlineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E7D46420C874F0A00E5AEEA /* MWVariableOutlineView.m */; };
 		5C8E4A7B098FB02400EB44CA /* MWVariablesWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C8E4A7A098FB02400EB44CA /* MWVariablesWindowController.m */; };
-		5CF287520994124E000C55A3 /* MWorksCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CF287500994124E000C55A3 /* MWorksCocoa.framework */; };
 		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
-		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
-		B2F32F320A9BA48700D8EE53 /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CF2875F099412A7000C55A3 /* MWorksCore.framework */; };
 		DA1E8F1C099C393000CDAD82 /* MWorksVariablesWindow.xml in Resources */ = {isa = PBXBuildFile; fileRef = DA1E8F1B099C393000CDAD82 /* MWorksVariablesWindow.xml */; };
 		E12D991F16BC30C8004FEF79 /* MWorksVariablesWindow.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = 686E22AF0AC84B19003EFDDA /* MWorksVariablesWindow.bundle */; };
 		E14E801C1559A3F70064EA78 /* Main.xib in Resources */ = {isa = PBXBuildFile; fileRef = E14E801B1559A3F70064EA78 /* Main.xib */; };
+		E15D0B1416C2BC0E00F331B1 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E15D0B1316C2BC0E00F331B1 /* AppKit.framework */; };
+		E15D0B1616C2BC2100F331B1 /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E15D0B1516C2BC2100F331B1 /* MWorksCore.framework */; };
+		E15D0B1816C2BC2900F331B1 /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E15D0B1716C2BC2900F331B1 /* libboost_system.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -77,28 +77,25 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		089C1672FE841209C02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		089C167EFE841241C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		0E7B54DB0C84735700A7BEA9 /* MWVariablesDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWVariablesDataSource.h; sourceTree = "<group>"; };
 		0E7B54DC0C84735700A7BEA9 /* MWVariablesDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWVariablesDataSource.m; sourceTree = "<group>"; };
 		0E7B54FA0C8475C600A7BEA9 /* MWVariableDisplayItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWVariableDisplayItem.h; sourceTree = "<group>"; };
 		0E7B54FB0C8475C600A7BEA9 /* MWVariableDisplayItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWVariableDisplayItem.m; sourceTree = "<group>"; };
 		0E7D46410C874F0A00E5AEEA /* MWVariableOutlineView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWVariableOutlineView.h; sourceTree = "<group>"; };
 		0E7D46420C874F0A00E5AEEA /* MWVariableOutlineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWVariableOutlineView.m; sourceTree = "<group>"; };
-		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		32DBCF630370AF2F00C91783 /* MWorksVariablesWindow_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWorksVariablesWindow_Prefix.pch; sourceTree = "<group>"; };
 		5C8E4A79098FB02400EB44CA /* MWVariablesWindowController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MWVariablesWindowController.h; sourceTree = "<group>"; };
 		5C8E4A7A098FB02400EB44CA /* MWVariablesWindowController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = MWVariablesWindowController.m; sourceTree = "<group>"; };
 		5CE62B0F11585B3600C757F1 /* Development.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Development.xcconfig; path = "/Library/Application Support/MWorks/Developer/Xcode/Development.xcconfig"; sourceTree = "<absolute>"; };
 		5CE62B1011585B3600C757F1 /* WARNING.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = WARNING.txt; path = "/Library/Application Support/MWorks/Developer/Xcode/WARNING.txt"; sourceTree = "<absolute>"; };
-		5CF287500994124E000C55A3 /* MWorksCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MWorksCocoa.framework; path = /Library/Frameworks/MWorksCocoa.framework; sourceTree = "<absolute>"; };
-		5CF2875F099412A7000C55A3 /* MWorksCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MWorksCore.framework; path = /Library/Frameworks/MWorksCore.framework; sourceTree = "<absolute>"; };
 		686E22AF0AC84B19003EFDDA /* MWorksVariablesWindow.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MWorksVariablesWindow.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D2F7E65807B2D6F200F64583 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
 		DA1E8F1B099C393000CDAD82 /* MWorksVariablesWindow.xml */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; path = MWorksVariablesWindow.xml; sourceTree = "<group>"; };
 		E14E801B1559A3F70064EA78 /* Main.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Main.xib; sourceTree = "<group>"; };
+		E15D0B1316C2BC0E00F331B1 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		E15D0B1516C2BC2100F331B1 /* MWorksCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MWorksCore.framework; path = /Library/Frameworks/MWorksCore.framework; sourceTree = "<absolute>"; };
+		E15D0B1716C2BC2900F331B1 /* libboost_system.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_system.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_system.a"; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,9 +103,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */,
-				5CF287520994124E000C55A3 /* MWorksCocoa.framework in Frameworks */,
-				B2F32F320A9BA48700D8EE53 /* MWorksCore.framework in Frameworks */,
+				E15D0B1616C2BC2100F331B1 /* MWorksCore.framework in Frameworks */,
+				E15D0B1416C2BC0E00F331B1 /* AppKit.framework in Frameworks */,
+				E15D0B1816C2BC2900F331B1 /* libboost_system.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -122,20 +119,21 @@
 				08FB77AFFE84173DC02AAC07 /* Classes */,
 				32C88E010371C26100C91783 /* Other Sources */,
 				089C167CFE841241C02AAC07 /* Resources */,
-				089C1671FE841209C02AAC07 /* Frameworks and Libraries */,
+				089C1671FE841209C02AAC07 /* Frameworks & Libraries */,
 				19C28FB8FE9D52D311CA2CBB /* Products */,
 				DA1E8F1B099C393000CDAD82 /* MWorksVariablesWindow.xml */,
 			);
 			name = MWorksVariablesWindow;
 			sourceTree = "<group>";
 		};
-		089C1671FE841209C02AAC07 /* Frameworks and Libraries */ = {
+		089C1671FE841209C02AAC07 /* Frameworks & Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */,
-				1058C7AEFEA557BF11CA2CBB /* Other Frameworks */,
+				E15D0B1516C2BC2100F331B1 /* MWorksCore.framework */,
+				E15D0B1316C2BC0E00F331B1 /* AppKit.framework */,
+				E15D0B1716C2BC2900F331B1 /* libboost_system.a */,
 			);
-			name = "Frameworks and Libraries";
+			name = "Frameworks & Libraries";
 			sourceTree = "<group>";
 		};
 		089C167CFE841241C02AAC07 /* Resources */ = {
@@ -161,26 +159,6 @@
 				0E7D46420C874F0A00E5AEEA /* MWVariableOutlineView.m */,
 			);
 			name = Classes;
-			sourceTree = "<group>";
-		};
-		1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */,
-			);
-			name = "Linked Frameworks";
-			sourceTree = "<group>";
-		};
-		1058C7AEFEA557BF11CA2CBB /* Other Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				5CF2875F099412A7000C55A3 /* MWorksCore.framework */,
-				5CF287500994124E000C55A3 /* MWorksCocoa.framework */,
-				089C167FFE841241C02AAC07 /* AppKit.framework */,
-				D2F7E65807B2D6F200F64583 /* CoreData.framework */,
-				089C1672FE841209C02AAC07 /* Foundation.framework */,
-			);
-			name = "Other Frameworks";
 			sourceTree = "<group>";
 		};
 		19C28FB8FE9D52D311CA2CBB /* Products */ = {
@@ -376,6 +354,7 @@
 				E12D991816BC30B6004FEF79 /* Development */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
 		};
 /* End XCConfigurationList section */
 	};

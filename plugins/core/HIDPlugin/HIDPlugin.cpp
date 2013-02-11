@@ -10,6 +10,7 @@
 #include "HIDPlugin.h"
 #include "HIDFactory.h"
 
+MW_SYMBOL_PUBLIC
 Plugin *getPlugin(){
     return new HIDPlugin();
 }

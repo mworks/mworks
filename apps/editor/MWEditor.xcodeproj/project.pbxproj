@@ -48,7 +48,6 @@
 		5C23DAE10D997B1C0044AC9E /* errorGlyphSmaller.tif in Resources */ = {isa = PBXBuildFile; fileRef = 5C23DAE00D997B1C0044AC9E /* errorGlyphSmaller.tif */; };
 		5C23DB4F0D99BBFF0044AC9E /* MWBreadcrumbController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C23DB4E0D99BBFF0044AC9E /* MWBreadcrumbController.m */; };
 		5C42B3250E58A425000BD45F /* MWExperimentGraphController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C42B3240E58A425000BD45F /* MWExperimentGraphController.m */; };
-		5C42B3830E58A61E000BD45F /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C42B3820E58A61E000BD45F /* Quartz.framework */; };
 		5C56F6F31010BDA0007E03A9 /* ReportInspectorView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5C56F6F21010BDA0007E03A9 /* ReportInspectorView.xib */; };
 		5C58B0F40E7B023A00561EED /* MWPreferencePanelController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C58B0F30E7B023A00561EED /* MWPreferencePanelController.m */; };
 		5C9186B90E3636B600B64213 /* BiasMonitorInspectorView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5C9186B80E3636B600B64213 /* BiasMonitorInspectorView.xib */; };
@@ -141,7 +140,6 @@
 		5CDC068A0CE01B23008B67D0 /* gradient.tif in Resources */ = {isa = PBXBuildFile; fileRef = 5CDC06890CE01B23008B67D0 /* gradient.tif */; };
 		5CDC06AF0CE022F1008B67D0 /* MWStripHintsTransformation.xml in Resources */ = {isa = PBXBuildFile; fileRef = 5CDC06AE0CE022F1008B67D0 /* MWStripHintsTransformation.xml */; };
 		5CE065CD0E02B2140097F17F /* staircase_diagram.png in Resources */ = {isa = PBXBuildFile; fileRef = 5CE065CC0E02B2140097F17F /* staircase_diagram.png */; };
-		5CE065EF0E02C3F80097F17F /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CE065EE0E02C3F80097F17F /* QuartzCore.framework */; };
 		5CE067270E02EF430097F17F /* StaircaseInspectorView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5CE065CE0E02B2600097F17F /* StaircaseInspectorView.xib */; };
 		5CE0672B0E02EFA30097F17F /* MWXMLNodeAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CC65A300CE7BD960037BB6D /* MWXMLNodeAdditions.m */; };
 		5CE0672C0E02EFA40097F17F /* MWXMLElementAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CAC10E20CDA353A0064AA4A /* MWXMLElementAdditions.m */; };
@@ -154,10 +152,11 @@
 		8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165FFE840EACC02AAC07 /* InfoPlist.strings */; };
 		8D15AC310486D014006FF6A4 /* MWXMLDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4ACFDCFA73011CA2CEA /* MWXMLDocument.m */; settings = {ATTRIBUTES = (); }; };
 		8D15AC320486D014006FF6A4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4B0FDCFA73011CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
-		8D15AC340486D014006FF6A4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
 		E12449AA11EB9D7C0012EEEB /* MWLibraryBrowserMatrix.m in Sources */ = {isa = PBXBuildFile; fileRef = E12449A911EB9D7C0012EEEB /* MWLibraryBrowserMatrix.m */; };
 		E12449C811EB9FF20012EEEB /* MWGenericInspectorView.m in Sources */ = {isa = PBXBuildFile; fileRef = E12449C711EB9FF20012EEEB /* MWGenericInspectorView.m */; };
 		E12D995816BC39C4004FEF79 /* MWEditor.app in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8D15AC370486D014006FF6A4 /* MWEditor.app */; };
+		E15D0AF616C2AF0300F331B1 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E15D0AF516C2AF0300F331B1 /* AppKit.framework */; };
+		E15D0AF816C2AF3E00F331B1 /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E15D0AF716C2AF3E00F331B1 /* Quartz.framework */; };
 		E1FFCD851558203B004DD840 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = E1FFCD811558203B004DD840 /* MainMenu.xib */; };
 		E1FFCD861558203B004DD840 /* MyDocument.xib in Resources */ = {isa = PBXBuildFile; fileRef = E1FFCD831558203B004DD840 /* MyDocument.xib */; };
 /* End PBXBuildFile section */
@@ -212,20 +211,15 @@
 /* Begin PBXFileReference section */
 		089C1660FE840EACC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		0EC2F5140EE9B248008BD196 /* MWLibraryCombiner.xsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MWLibraryCombiner.xsl; sourceTree = "<group>"; };
-		1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
-		13E42FBA07B3F13500E4EEF1 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
 		2A37F4ACFDCFA73011CA2CEA /* MWXMLDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWXMLDocument.m; sourceTree = "<group>"; };
 		2A37F4AEFDCFA73011CA2CEA /* MWXMLDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWXMLDocument.h; sourceTree = "<group>"; };
 		2A37F4B0FDCFA73011CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		2A37F4C4FDCFA73011CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
-		2A37F4C5FDCFA73011CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		32DBCF750370BD2300C91783 /* NewEditor_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewEditor_Prefix.pch; sourceTree = "<group>"; };
 		5C23DAE00D997B1C0044AC9E /* errorGlyphSmaller.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = errorGlyphSmaller.tif; sourceTree = "<group>"; };
 		5C23DB4D0D99BBFF0044AC9E /* MWBreadcrumbController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWBreadcrumbController.h; sourceTree = "<group>"; };
 		5C23DB4E0D99BBFF0044AC9E /* MWBreadcrumbController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWBreadcrumbController.m; sourceTree = "<group>"; };
 		5C42B3230E58A425000BD45F /* MWExperimentGraphController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWExperimentGraphController.h; sourceTree = "<group>"; };
 		5C42B3240E58A425000BD45F /* MWExperimentGraphController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWExperimentGraphController.m; sourceTree = "<group>"; };
-		5C42B3820E58A61E000BD45F /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = /System/Library/Frameworks/Quartz.framework; sourceTree = "<absolute>"; };
 		5C56F441100EB76E007E03A9 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5C56F6F21010BDA0007E03A9 /* ReportInspectorView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ReportInspectorView.xib; path = InspectorViews/ReportInspectorView.xib; sourceTree = "<group>"; };
 		5C58B0F20E7B023A00561EED /* MWPreferencePanelController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWPreferencePanelController.h; sourceTree = "<group>"; };
@@ -342,7 +336,6 @@
 		5CDC06AE0CE022F1008B67D0 /* MWStripHintsTransformation.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MWStripHintsTransformation.xml; sourceTree = "<group>"; };
 		5CE065CC0E02B2140097F17F /* staircase_diagram.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = staircase_diagram.png; sourceTree = "<group>"; };
 		5CE065CE0E02B2600097F17F /* StaircaseInspectorView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = StaircaseInspectorView.xib; path = InspectorViews/StaircaseInspectorView.xib; sourceTree = "<group>"; };
-		5CE065EE0E02C3F80097F17F /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = /System/Library/Frameworks/QuartzCore.framework; sourceTree = "<absolute>"; };
 		5CE5203F0E01F3F3001604AE /* MWFindController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWFindController.h; sourceTree = "<group>"; };
 		5CE520400E01F3F3001604AE /* MWFindController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWFindController.m; sourceTree = "<group>"; };
 		5CEC89020D99E50200D719BE /* MWExperimentWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWExperimentWindowController.h; sourceTree = "<group>"; };
@@ -358,6 +351,8 @@
 		E12449A911EB9D7C0012EEEB /* MWLibraryBrowserMatrix.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWLibraryBrowserMatrix.m; sourceTree = "<group>"; };
 		E12449C611EB9FF20012EEEB /* MWGenericInspectorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWGenericInspectorView.h; sourceTree = "<group>"; };
 		E12449C711EB9FF20012EEEB /* MWGenericInspectorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWGenericInspectorView.m; sourceTree = "<group>"; };
+		E15D0AF516C2AF0300F331B1 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		E15D0AF716C2AF3E00F331B1 /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = System/Library/Frameworks/Quartz.framework; sourceTree = SDKROOT; };
 		E1FFCD821558203B004DD840 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		E1FFCD841558203B004DD840 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MyDocument.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -367,9 +362,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8D15AC340486D014006FF6A4 /* Cocoa.framework in Frameworks */,
-				5CE065EF0E02C3F80097F17F /* QuartzCore.framework in Frameworks */,
-				5C42B3830E58A61E000BD45F /* Quartz.framework in Frameworks */,
+				E15D0AF616C2AF0300F331B1 /* AppKit.framework in Frameworks */,
+				E15D0AF816C2AF3E00F331B1 /* Quartz.framework in Frameworks */,
 				5C992CBD0E7888430093A8FF /* Sparkle.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -377,24 +371,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		1058C7A6FEA54F5311CA2CBB /* Linked Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */,
-			);
-			name = "Linked Frameworks";
-			sourceTree = "<group>";
-		};
-		1058C7A8FEA54F5311CA2CBB /* Other Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				2A37F4C4FDCFA73011CA2CEA /* AppKit.framework */,
-				13E42FBA07B3F13500E4EEF1 /* CoreData.framework */,
-				2A37F4C5FDCFA73011CA2CEA /* Foundation.framework */,
-			);
-			name = "Other Frameworks";
-			sourceTree = "<group>";
-		};
 		19C28FB0FE9D524F11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -477,11 +453,9 @@
 		2A37F4C3FDCFA73011CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E15D0AF516C2AF0300F331B1 /* AppKit.framework */,
+				E15D0AF716C2AF3E00F331B1 /* Quartz.framework */,
 				5C992CBC0E7888430093A8FF /* Sparkle.framework */,
-				5C42B3820E58A61E000BD45F /* Quartz.framework */,
-				5CE065EE0E02C3F80097F17F /* QuartzCore.framework */,
-				1058C7A6FEA54F5311CA2CBB /* Linked Frameworks */,
-				1058C7A8FEA54F5311CA2CBB /* Other Frameworks */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1008,6 +982,7 @@
 				E12D995216BC39AF004FEF79 /* Development */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
 		};
 		E17B9EEF119CA89F00EEBF5D /* Build configuration list for PBXAggregateTarget "Everything" */ = {
 			isa = XCConfigurationList;

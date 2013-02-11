@@ -305,6 +305,7 @@
 		0ECA4C750D6DFF4400BD00B2 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				PRODUCT_NAME = scarab;
 			};
 			name = Development;
@@ -320,7 +321,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5C0CD7D8114A877B00B1C674 /* Development.xcconfig */;
 			buildSettings = {
-				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 			};
 			name = Development;
 		};
@@ -364,6 +364,7 @@
 				E1CBF62516BAEEDE0057CE48 /* Development */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
 		};
 /* End XCConfigurationList section */
 	};

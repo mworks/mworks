@@ -36,7 +36,7 @@
 #include "AnyScalar.h"
 
 /// STX - Some Template Extensions namespace
-namespace stx {
+namespace stx MW_SYMBOL_PUBLIC {
 
 /** Base class for other exceptions of the expression parser and
  * evaluators. \ingroup Exception */

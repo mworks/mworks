@@ -220,6 +220,8 @@ typedef _W64 int ptrdiff_t;
 
 #endif /* _WIN32 */
 
+#pragma GCC visibility push(default)
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -14411,6 +14413,8 @@ GLEWAPI const GLubyte* glewGetString (GLenum name);
 #ifdef __cplusplus
 }
 #endif
+    
+#pragma GCC visibility pop
 
 #ifdef GLEW_APIENTRY_DEFINED
 #undef GLEW_APIENTRY_DEFINED

@@ -12,6 +12,7 @@
 
 using namespace mw;
 
+MW_SYMBOL_PUBLIC
 Plugin *getPlugin(){
     return new NE500Plugin();
 }

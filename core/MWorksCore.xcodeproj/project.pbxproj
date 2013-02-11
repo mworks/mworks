@@ -448,7 +448,6 @@
 		E194BF6F1590DB6900D4A62D /* StimulusDisplayDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = E194BF6C1590DB3900D4A62D /* StimulusDisplayDevice.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1C87A1313FDA558005FF5ED /* DynamicStimulusActions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1C87A1213FDA558005FF5ED /* DynamicStimulusActions.cpp */; };
 		E1C87A1513FDA56F005FF5ED /* DynamicStimulusActions.h in Headers */ = {isa = PBXBuildFile; fileRef = E1C87A1413FDA56F005FF5ED /* DynamicStimulusActions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E1CB606913F57B6200145D5B /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1CB606813F57B6200145D5B /* CoreAudio.framework */; };
 		E1CBF63E16BAF3190057CE48 /* MWorksCore.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = DA2CE0D407E9F68100C68AEF /* MWorksCore.framework */; };
 		E1CBF64016BAF32A0057CE48 /* setup_variables_macbook.xml in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0E1AE9920EF1A9EE00C224F1 /* setup_variables_macbook.xml */; };
 		E1CBF64116BAF32B0057CE48 /* setup_variables_two_monitors.xml in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0E1AE9A70EF1AB5500C224F1 /* setup_variables_two_monitors.xml */; };
@@ -461,8 +460,49 @@
 		E1CBF66B16BAFC260057CE48 /* MarionetteTest.app in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0E39EB030E4BD33D006F38A0 /* MarionetteTest.app */; };
 		E1CBF66D16BAFC410057CE48 /* mw_test in CopyFiles */ = {isa = PBXBuildFile; fileRef = E11542181193471F00DDE09D /* mw_test */; };
 		E1CBF66E16BAFD5F0057CE48 /* MWorksCoreTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C4D239C09DC83930082BF9F /* MWorksCoreTest.framework */; };
+		E1DB974916C16BEE001481E9 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB974816C16BEE001481E9 /* CoreAudio.framework */; };
+		E1DB974B16C16C1F001481E9 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB974A16C16C1F001481E9 /* CoreVideo.framework */; };
+		E1DB974D16C16C30001481E9 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB974C16C16C30001481E9 /* AppKit.framework */; };
+		E1DB974F16C16C3F001481E9 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB974E16C16C3F001481E9 /* IOKit.framework */; };
+		E1DB975116C16C50001481E9 /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB975016C16C50001481E9 /* libcrypto.dylib */; };
+		E1DB975316C16C65001481E9 /* libboost_filesystem.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB975216C16C65001481E9 /* libboost_filesystem.a */; };
+		E1DB975516C16C73001481E9 /* libboost_regex.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB975416C16C73001481E9 /* libboost_regex.a */; };
+		E1DB975716C16C7F001481E9 /* libboost_thread.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB975616C16C7F001481E9 /* libboost_thread.a */; };
+		E1DB975916C16C89001481E9 /* libboost_serialization.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB975816C16C89001481E9 /* libboost_serialization.a */; };
+		E1DB975B16C16C8D001481E9 /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB975A16C16C8D001481E9 /* libboost_system.a */; };
+		E1DB975E16C16CA2001481E9 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB975C16C16CA1001481E9 /* OpenAL.framework */; };
+		E1DB975F16C16CA2001481E9 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB975D16C16CA1001481E9 /* OpenGL.framework */; };
+		E1DB976316C16CBC001481E9 /* libIL.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB976016C16CBC001481E9 /* libIL.a */; };
+		E1DB976416C16CBC001481E9 /* libILU.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB976116C16CBC001481E9 /* libILU.a */; };
+		E1DB976516C16CBC001481E9 /* libILUT.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB976216C16CBC001481E9 /* libILUT.a */; };
+		E1DB976716C16CC9001481E9 /* libscarab.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB976616C16CC9001481E9 /* libscarab.a */; };
+		E1DB976916C16CD4001481E9 /* libtiff.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB976816C16CD4001481E9 /* libtiff.a */; };
+		E1DB976B16C16CDA001481E9 /* libjpeg.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB976A16C16CD9001481E9 /* libjpeg.a */; };
+		E1DB976D16C16CEC001481E9 /* libpng.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB976C16C16CEC001481E9 /* libpng.a */; };
+		E1DB976F16C16D02001481E9 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB976E16C16D02001481E9 /* libz.dylib */; };
+		E1DB977216C16D19001481E9 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB977016C16D18001481E9 /* libxml2.dylib */; };
+		E1DB977316C16D19001481E9 /* libxslt.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB977116C16D18001481E9 /* libxslt.dylib */; };
+		E1DB977816C17068001481E9 /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB977716C17068001481E9 /* CoreServices.framework */; };
+		E1DB977916C18633001481E9 /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA2CE0D407E9F68100C68AEF /* MWorksCore.framework */; };
+		E1DB977A16C18D44001481E9 /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB975A16C16C8D001481E9 /* libboost_system.a */; };
+		E1DB977B16C18DA6001481E9 /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA2CE0D407E9F68100C68AEF /* MWorksCore.framework */; };
+		E1DB977C16C18DA9001481E9 /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB975A16C16C8D001481E9 /* libboost_system.a */; };
+		E1DB977D16C18E01001481E9 /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA2CE0D407E9F68100C68AEF /* MWorksCore.framework */; };
+		E1DB977E16C18E03001481E9 /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB975A16C16C8D001481E9 /* libboost_system.a */; };
+		E1DB977F16C18E44001481E9 /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA2CE0D407E9F68100C68AEF /* MWorksCore.framework */; };
+		E1DB978016C18E47001481E9 /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB975A16C16C8D001481E9 /* libboost_system.a */; };
+		E1DB978116C18FB5001481E9 /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA2CE0D407E9F68100C68AEF /* MWorksCore.framework */; };
+		E1DB978216C18FCC001481E9 /* libboost_filesystem.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB975216C16C65001481E9 /* libboost_filesystem.a */; };
+		E1DB978316C18FCE001481E9 /* libboost_serialization.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB975816C16C89001481E9 /* libboost_serialization.a */; };
+		E1DB978416C18FD1001481E9 /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB975A16C16C8D001481E9 /* libboost_system.a */; };
+		E1DB978616C18FE0001481E9 /* libcppunit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB978516C18FE0001481E9 /* libcppunit.a */; };
+		E1DB978716C1900B001481E9 /* libscarab.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB976616C16CC9001481E9 /* libscarab.a */; };
+		E1DB978816C1933D001481E9 /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA2CE0D407E9F68100C68AEF /* MWorksCore.framework */; };
+		E1DB978916C19340001481E9 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB974C16C16C30001481E9 /* AppKit.framework */; };
+		E1DB978A16C19344001481E9 /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB975A16C16C8D001481E9 /* libboost_system.a */; };
+		E1DB978B16C1934E001481E9 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB977016C16D18001481E9 /* libxml2.dylib */; };
+		E1DB978C16C19351001481E9 /* libxslt.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB977116C16D18001481E9 /* libxslt.dylib */; };
 		E1F65DF9119086A100F9A3A3 /* IODevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1F65DF8119086A100F9A3A3 /* IODevice.cpp */; };
-		E1F805C112E8E5DF005265A5 /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E1F805C012E8E5DF005265A5 /* libcrypto.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1067,9 +1107,31 @@
 		E194BF6D1590DB5300D4A62D /* StimulusDisplayDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StimulusDisplayDevice.cpp; path = Core/Stimuli/StimulusDisplayDevice.cpp; sourceTree = "<group>"; };
 		E1C87A1213FDA558005FF5ED /* DynamicStimulusActions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DynamicStimulusActions.cpp; sourceTree = "<group>"; };
 		E1C87A1413FDA56F005FF5ED /* DynamicStimulusActions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DynamicStimulusActions.h; sourceTree = "<group>"; };
-		E1CB606813F57B6200145D5B /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
+		E1DB974816C16BEE001481E9 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
+		E1DB974A16C16C1F001481E9 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
+		E1DB974C16C16C30001481E9 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		E1DB974E16C16C3F001481E9 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
+		E1DB975016C16C50001481E9 /* libcrypto.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcrypto.dylib; path = usr/lib/libcrypto.dylib; sourceTree = SDKROOT; };
+		E1DB975216C16C65001481E9 /* libboost_filesystem.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_filesystem.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_filesystem.a"; sourceTree = "<absolute>"; };
+		E1DB975416C16C73001481E9 /* libboost_regex.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_regex.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_regex.a"; sourceTree = "<absolute>"; };
+		E1DB975616C16C7F001481E9 /* libboost_thread.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_thread.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_thread.a"; sourceTree = "<absolute>"; };
+		E1DB975816C16C89001481E9 /* libboost_serialization.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_serialization.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_serialization.a"; sourceTree = "<absolute>"; };
+		E1DB975A16C16C8D001481E9 /* libboost_system.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_system.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_system.a"; sourceTree = "<absolute>"; };
+		E1DB975C16C16CA1001481E9 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
+		E1DB975D16C16CA1001481E9 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
+		E1DB976016C16CBC001481E9 /* libIL.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libIL.a; path = "/Library/Application Support/MWorks/Developer/lib/libIL.a"; sourceTree = "<absolute>"; };
+		E1DB976116C16CBC001481E9 /* libILU.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libILU.a; path = "/Library/Application Support/MWorks/Developer/lib/libILU.a"; sourceTree = "<absolute>"; };
+		E1DB976216C16CBC001481E9 /* libILUT.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libILUT.a; path = "/Library/Application Support/MWorks/Developer/lib/libILUT.a"; sourceTree = "<absolute>"; };
+		E1DB976616C16CC9001481E9 /* libscarab.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libscarab.a; path = "/Library/Application Support/MWorks/Developer/lib/libscarab.a"; sourceTree = "<absolute>"; };
+		E1DB976816C16CD4001481E9 /* libtiff.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libtiff.a; path = "/Library/Application Support/MWorks/Developer/lib/libtiff.a"; sourceTree = "<absolute>"; };
+		E1DB976A16C16CD9001481E9 /* libjpeg.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libjpeg.a; path = "/Library/Application Support/MWorks/Developer/lib/libjpeg.a"; sourceTree = "<absolute>"; };
+		E1DB976C16C16CEC001481E9 /* libpng.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libpng.a; path = "/Library/Application Support/MWorks/Developer/lib/libpng.a"; sourceTree = "<absolute>"; };
+		E1DB976E16C16D02001481E9 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		E1DB977016C16D18001481E9 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
+		E1DB977116C16D18001481E9 /* libxslt.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxslt.dylib; path = usr/lib/libxslt.dylib; sourceTree = SDKROOT; };
+		E1DB977716C17068001481E9 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = System/Library/Frameworks/CoreServices.framework; sourceTree = SDKROOT; };
+		E1DB978516C18FE0001481E9 /* libcppunit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcppunit.a; path = "/Library/Application Support/MWorks/Developer/lib/libcppunit.a"; sourceTree = "<absolute>"; };
 		E1F65DF8119086A100F9A3A3 /* IODevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IODevice.cpp; path = Core/IODevices/IODevice.cpp; sourceTree = "<group>"; };
-		E1F805C012E8E5DF005265A5 /* libcrypto.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcrypto.dylib; path = usr/lib/libcrypto.dylib; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1077,6 +1139,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E1DB978816C1933D001481E9 /* MWorksCore.framework in Frameworks */,
+				E1DB978916C19340001481E9 /* AppKit.framework in Frameworks */,
+				E1DB978A16C19344001481E9 /* libboost_system.a in Frameworks */,
+				E1DB978B16C1934E001481E9 /* libxml2.dylib in Frameworks */,
+				E1DB978C16C19351001481E9 /* libxslt.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1084,6 +1151,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E1DB977F16C18E44001481E9 /* MWorksCore.framework in Frameworks */,
+				E1DB978016C18E47001481E9 /* libboost_system.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1099,6 +1168,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E1DB978116C18FB5001481E9 /* MWorksCore.framework in Frameworks */,
+				E1DB978216C18FCC001481E9 /* libboost_filesystem.a in Frameworks */,
+				E1DB978316C18FCE001481E9 /* libboost_serialization.a in Frameworks */,
+				E1DB978416C18FD1001481E9 /* libboost_system.a in Frameworks */,
+				E1DB978616C18FE0001481E9 /* libcppunit.a in Frameworks */,
+				E1DB978716C1900B001481E9 /* libscarab.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1106,6 +1181,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E1DB977B16C18DA6001481E9 /* MWorksCore.framework in Frameworks */,
+				E1DB977C16C18DA9001481E9 /* libboost_system.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1113,6 +1190,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E1DB977D16C18E01001481E9 /* MWorksCore.framework in Frameworks */,
+				E1DB977E16C18E03001481E9 /* libboost_system.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1120,8 +1199,28 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E1CB606913F57B6200145D5B /* CoreAudio.framework in Frameworks */,
-				E1F805C112E8E5DF005265A5 /* libcrypto.dylib in Frameworks */,
+				E1DB974D16C16C30001481E9 /* AppKit.framework in Frameworks */,
+				E1DB974916C16BEE001481E9 /* CoreAudio.framework in Frameworks */,
+				E1DB974B16C16C1F001481E9 /* CoreVideo.framework in Frameworks */,
+				E1DB974F16C16C3F001481E9 /* IOKit.framework in Frameworks */,
+				E1DB975E16C16CA2001481E9 /* OpenAL.framework in Frameworks */,
+				E1DB975F16C16CA2001481E9 /* OpenGL.framework in Frameworks */,
+				E1DB975116C16C50001481E9 /* libcrypto.dylib in Frameworks */,
+				E1DB977216C16D19001481E9 /* libxml2.dylib in Frameworks */,
+				E1DB977316C16D19001481E9 /* libxslt.dylib in Frameworks */,
+				E1DB976F16C16D02001481E9 /* libz.dylib in Frameworks */,
+				E1DB975316C16C65001481E9 /* libboost_filesystem.a in Frameworks */,
+				E1DB975516C16C73001481E9 /* libboost_regex.a in Frameworks */,
+				E1DB975916C16C89001481E9 /* libboost_serialization.a in Frameworks */,
+				E1DB975716C16C7F001481E9 /* libboost_thread.a in Frameworks */,
+				E1DB975B16C16C8D001481E9 /* libboost_system.a in Frameworks */,
+				E1DB976316C16CBC001481E9 /* libIL.a in Frameworks */,
+				E1DB976416C16CBC001481E9 /* libILU.a in Frameworks */,
+				E1DB976516C16CBC001481E9 /* libILUT.a in Frameworks */,
+				E1DB976B16C16CDA001481E9 /* libjpeg.a in Frameworks */,
+				E1DB976D16C16CEC001481E9 /* libpng.a in Frameworks */,
+				E1DB976716C16CC9001481E9 /* libscarab.a in Frameworks */,
+				E1DB976916C16CD4001481E9 /* libtiff.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1129,6 +1228,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E1DB977916C18633001481E9 /* MWorksCore.framework in Frameworks */,
+				E1DB977816C17068001481E9 /* CoreServices.framework in Frameworks */,
+				E1DB977A16C18D44001481E9 /* libboost_system.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2168,10 +2270,48 @@
 		E1CBF63416BAF1210057CE48 /* Frameworks & Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				E1CB606813F57B6200145D5B /* CoreAudio.framework */,
-				E1F805C012E8E5DF005265A5 /* libcrypto.dylib */,
+				E1DB974616C16BB7001481E9 /* System */,
+				E1DB974716C16BBF001481E9 /* Project */,
 			);
 			name = "Frameworks & Libraries";
+			sourceTree = "<group>";
+		};
+		E1DB974616C16BB7001481E9 /* System */ = {
+			isa = PBXGroup;
+			children = (
+				E1DB974C16C16C30001481E9 /* AppKit.framework */,
+				E1DB974816C16BEE001481E9 /* CoreAudio.framework */,
+				E1DB977716C17068001481E9 /* CoreServices.framework */,
+				E1DB974A16C16C1F001481E9 /* CoreVideo.framework */,
+				E1DB974E16C16C3F001481E9 /* IOKit.framework */,
+				E1DB975C16C16CA1001481E9 /* OpenAL.framework */,
+				E1DB975D16C16CA1001481E9 /* OpenGL.framework */,
+				E1DB975016C16C50001481E9 /* libcrypto.dylib */,
+				E1DB977016C16D18001481E9 /* libxml2.dylib */,
+				E1DB977116C16D18001481E9 /* libxslt.dylib */,
+				E1DB976E16C16D02001481E9 /* libz.dylib */,
+			);
+			name = System;
+			sourceTree = "<group>";
+		};
+		E1DB974716C16BBF001481E9 /* Project */ = {
+			isa = PBXGroup;
+			children = (
+				E1DB975216C16C65001481E9 /* libboost_filesystem.a */,
+				E1DB975416C16C73001481E9 /* libboost_regex.a */,
+				E1DB975816C16C89001481E9 /* libboost_serialization.a */,
+				E1DB975A16C16C8D001481E9 /* libboost_system.a */,
+				E1DB975616C16C7F001481E9 /* libboost_thread.a */,
+				E1DB978516C18FE0001481E9 /* libcppunit.a */,
+				E1DB976016C16CBC001481E9 /* libIL.a */,
+				E1DB976116C16CBC001481E9 /* libILU.a */,
+				E1DB976216C16CBC001481E9 /* libILUT.a */,
+				E1DB976A16C16CD9001481E9 /* libjpeg.a */,
+				E1DB976C16C16CEC001481E9 /* libpng.a */,
+				E1DB976616C16CC9001481E9 /* libscarab.a */,
+				E1DB976816C16CD4001481E9 /* libtiff.a */,
+			);
+			name = Project;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -2994,16 +3134,6 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "MarionetteTest-Info.plist";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-					"-framework",
-					MWorksCore,
-					"-lxml2",
-					"-lxslt",
-				);
 				PRODUCT_NAME = MarionetteTest;
 			};
 			name = Development;
@@ -3013,14 +3143,6 @@
 			buildSettings = {
 				GCC_PREPROCESSOR_DEFINITIONS = LOW_PRIORITY_MODE;
 				INFOPLIST_FILE = "LowPrioritySchedulerPlugin-Info.plist";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-					"-framework",
-					MWorksCore,
-				);
 				PRODUCT_NAME = LowPrioritySchedulerPlugin;
 			};
 			name = Development;
@@ -3031,44 +3153,11 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
-				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				HEADER_SEARCH_PATHS = (
 					/usr/include/libxml2,
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "MWorksCore-Info.plist";
-				OTHER_LDFLAGS = (
-					"$(MW_LIB_DIR)/libpng.a",
-					"$(MW_LIB_DIR)/libtiff.a",
-					"$(MW_LIB_DIR)/libjpeg.a",
-					"$(MW_LIB_DIR)/liblcms.a",
-					"-lz",
-					"-framework",
-					OpenAL,
-					"$(MW_LIB_DIR)/libILU.a",
-					"$(MW_LIB_DIR)/libIL.a",
-					"$(MW_LIB_DIR)/libILUT.a",
-					"-framework",
-					AppKit,
-					"-framework",
-					Carbon,
-					"-lscarab",
-					"-framework",
-					OpenGL,
-					"-framework",
-					GLUT,
-					"-framework",
-					IOKit,
-					"-framework",
-					CoreVideo,
-					"$(MW_LIB_DIR)/libboost_regex.a",
-					"$(MW_LIB_DIR)/libboost_thread.a",
-					"$(MW_LIB_DIR)/libboost_system.a",
-					"$(MW_LIB_DIR)/libboost_serialization.a",
-					"$(MW_LIB_DIR)/libboost_filesystem.a",
-					"-lxml2",
-					"-lxslt",
-				);
 				PRODUCT_NAME = MWorksCore;
 			};
 			name = Development;
@@ -3077,14 +3166,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				INFOPLIST_FILE = "MachClockPlugin-Info.plist";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-					"-framework",
-					MWorksCore,
-				);
 				PRODUCT_NAME = MachClockPlugin;
 			};
 			name = Development;
@@ -3094,14 +3175,6 @@
 			buildSettings = {
 				GCC_PREPROCESSOR_DEFINITIONS = REALTIME_SCHEDULER;
 				INFOPLIST_FILE = "ZenSchedulerPlugin-Info.plist";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-					"-framework",
-					MWorksCore,
-				);
 				PRODUCT_NAME = ZenSchedulerPlugin;
 			};
 			name = Development;
@@ -3109,16 +3182,7 @@
 		5C0E84FF086D85D400B3EE7C /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				INFOPLIST_FILE = "ZenStateSystemPlugin-Info.plist";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-					"-framework",
-					MWorksCore,
-				);
 				PRODUCT_NAME = ZenStateSystemPlugin;
 			};
 			name = Development;
@@ -3147,17 +3211,7 @@
 		5C4D232E09DC595B0082BF9F /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				OTHER_LDFLAGS = (
-					"-ldl",
-					"-lcppunit",
-					"-framework",
-					MWorksCore,
-					"-lILUT",
-					"-lscarab",
-				);
 				PRODUCT_NAME = MWorksCoreTestRunner;
 			};
 			name = Development;
@@ -3168,21 +3222,9 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
-				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				INFOPLIST_FILE = "MWorksCoreTest-Info.plist";
 				INSTALL_PATH = "$(MW_TESTS_DIR)";
-				OTHER_LDFLAGS = (
-					"-framework",
-					AppKit,
-					"-framework",
-					Cocoa,
-					"-framework",
-					MWorksCore,
-					"-lcppunit",
-					"-lscarab",
-					"-lboost_serialization",
-				);
 				PRODUCT_NAME = MWorksCoreTest;
 			};
 			name = Development;

@@ -33,13 +33,13 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		5C28616710E09DF1004DA219 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C28616610E09DF1004DA219 /* AppKit.framework */; };
 		5CA0800910E04F1E00000A95 /* PythonBridgeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CA0800810E04F1E00000A95 /* PythonBridgeController.m */; };
 		5CA0804410E052B500000A95 /* Main.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5CA0804310E052B500000A95 /* Main.xib */; };
-		8D576314048677EA00EA77CD /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AA1909FFE8422F4C02AAC07 /* CoreFoundation.framework */; };
 		8D5B49A804867FD3000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8D5B49A704867FD3000E48DA /* InfoPlist.strings */; };
 		E12D991416BC2FF4004FEF79 /* PythonBridgePlugin.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8D576316048677EA00EA77CD /* PythonBridgePlugin.bundle */; };
 		E12D991616BC3032004FEF79 /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E12D991516BC3032004FEF79 /* MWorksCore.framework */; };
+		E15D0B1016C2BB3200F331B1 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E15D0B0F16C2BB3200F331B1 /* AppKit.framework */; };
+		E15D0B1216C2BB3800F331B1 /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E15D0B1116C2BB3800F331B1 /* libboost_system.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,8 +74,6 @@
 
 /* Begin PBXFileReference section */
 		089C167EFE841241C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		0AA1909FFE8422F4C02AAC07 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = /System/Library/Frameworks/CoreFoundation.framework; sourceTree = "<absolute>"; };
-		5C28616610E09DF1004DA219 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		5CA0800710E04F1E00000A95 /* PythonBridgeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PythonBridgeController.h; sourceTree = "<group>"; };
 		5CA0800810E04F1E00000A95 /* PythonBridgeController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PythonBridgeController.m; sourceTree = "<group>"; };
 		5CA0804310E052B500000A95 /* Main.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Main.xib; sourceTree = "<group>"; };
@@ -84,6 +82,8 @@
 		8D576316048677EA00EA77CD /* PythonBridgePlugin.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PythonBridgePlugin.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D576317048677EA00EA77CD /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E12D991516BC3032004FEF79 /* MWorksCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MWorksCore.framework; path = /Library/Frameworks/MWorksCore.framework; sourceTree = "<absolute>"; };
+		E15D0B0F16C2BB3200F331B1 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		E15D0B1116C2BB3800F331B1 /* libboost_system.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_system.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_system.a"; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -91,9 +91,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5C28616710E09DF1004DA219 /* AppKit.framework in Frameworks */,
-				8D576314048677EA00EA77CD /* CoreFoundation.framework in Frameworks */,
 				E12D991616BC3032004FEF79 /* MWorksCore.framework in Frameworks */,
+				E15D0B1016C2BB3200F331B1 /* AppKit.framework in Frameworks */,
+				E15D0B1216C2BB3800F331B1 /* libboost_system.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -106,20 +106,20 @@
 				5CE62AC911585A2E00C757F1 /* External Config */,
 				08FB77AFFE84173DC02AAC07 /* Source */,
 				089C167CFE841241C02AAC07 /* Resources */,
-				089C1671FE841209C02AAC07 /* External Frameworks and Libraries */,
+				089C1671FE841209C02AAC07 /* Frameworks & Libraries */,
 				19C28FB6FE9D52B211CA2CBB /* Products */,
 			);
 			name = PythonBridgePlugin;
 			sourceTree = "<group>";
 		};
-		089C1671FE841209C02AAC07 /* External Frameworks and Libraries */ = {
+		089C1671FE841209C02AAC07 /* Frameworks & Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				5C28616610E09DF1004DA219 /* AppKit.framework */,
-				0AA1909FFE8422F4C02AAC07 /* CoreFoundation.framework */,
 				E12D991516BC3032004FEF79 /* MWorksCore.framework */,
+				E15D0B0F16C2BB3200F331B1 /* AppKit.framework */,
+				E15D0B1116C2BB3800F331B1 /* libboost_system.a */,
 			);
-			name = "External Frameworks and Libraries";
+			name = "Frameworks & Libraries";
 			sourceTree = "<group>";
 		};
 		089C167CFE841241C02AAC07 /* Resources */ = {
@@ -321,6 +321,7 @@
 				E12D990E16BC2FE0004FEF79 /* Development */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
 		};
 /* End XCConfigurationList section */
 	};
