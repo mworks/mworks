@@ -138,7 +138,12 @@ def python_tools():
 
 @builder('mworks/tools/matlab')
 def matlab_tools():
-    xcodebuild()
+    try:
+        xcodebuild('MATLAB Install Check')
+    except subprocess.CalledProcessError:
+        announce('MATLAB install check failed; skipping matlab_tools')
+    else:
+        xcodebuild()
 
 
 @builder('mworks/plugins/core')

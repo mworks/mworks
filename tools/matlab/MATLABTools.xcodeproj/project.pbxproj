@@ -30,6 +30,17 @@
 			name = Everything;
 			productName = Everything;
 		};
+		E1CEE14C16CA9F39000BCB71 /* MATLAB Install Check */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = E1CEE14E16CA9F39000BCB71 /* Build configuration list for PBXAggregateTarget "MATLAB Install Check" */;
+			buildPhases = (
+				E1CEE15116CA9F55000BCB71 /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = "MATLAB Install Check";
+			productName = "MATLAB Install Check";
+		};
 		E1D2C0EF167B9A710030EF33 /* Install */ = {
 			isa = PBXAggregateTarget;
 			buildConfigurationList = E1D2C0F1167B9A710030EF33 /* Build configuration list for PBXAggregateTarget "Install" */;
@@ -283,6 +294,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
+				E1CEE14C16CA9F39000BCB71 /* MATLAB Install Check */,
 				E1523D61167669BF00069B10 /* MEX File */,
 				E1D2C0EF167B9A710030EF33 /* Install */,
 				E12F1A631678E19F007F0ECE /* Test */,
@@ -304,6 +316,20 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "/usr/bin/python${MW_PYTHON_VERSION} run_tests.py ${ARCHS}";
+			showEnvVarsInLog = 0;
+		};
+		E1CEE15116CA9F55000BCB71 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if ! [[ -d $MATLAB_DIR ]]; then\n  echo \"MATLAB installation not found\" 1>&2\n  exit 1\nfi";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -391,6 +417,13 @@
 			};
 			name = Development;
 		};
+		E1CEE14D16CA9F39000BCB71 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Development;
+		};
 		E1D2C0F0167B9A710030EF33 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -432,6 +465,13 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
+		};
+		E1CEE14E16CA9F39000BCB71 /* Build configuration list for PBXAggregateTarget "MATLAB Install Check" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E1CEE14D16CA9F39000BCB71 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 		E1D2C0F1167B9A710030EF33 /* Build configuration list for PBXAggregateTarget "Install" */ = {
 			isa = XCConfigurationList;
