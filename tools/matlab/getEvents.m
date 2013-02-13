@@ -35,7 +35,7 @@ else
     maxtime = intmax('int64');
 end
 
-f = @() mwfeval(mfilename, filename, codes, mintime, maxtime);
+f = @() mworks.mwfeval(mfilename, filename, codes, mintime, maxtime);
 
 if nargout == 1
     events = f();

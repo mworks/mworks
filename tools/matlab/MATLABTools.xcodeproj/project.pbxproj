@@ -45,6 +45,7 @@
 			isa = PBXAggregateTarget;
 			buildConfigurationList = E1D2C0F1167B9A710030EF33 /* Build configuration list for PBXAggregateTarget "Install" */;
 			buildPhases = (
+				E18FDB9116CC0B6900A1EDFD /* CopyFiles */,
 				E1D2C0F7167B9ADD0030EF33 /* CopyFiles */,
 			);
 			dependencies = (
@@ -63,7 +64,7 @@
 		E1503766167FA84D00CF3AEC /* MEXOutputs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1503764167FA84D00CF3AEC /* MEXOutputs.cpp */; };
 		E1503769167FB14D00CF3AEC /* libdfindex.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1503768167FB14D00CF3AEC /* libdfindex.a */; };
 		E1523D9B167673A300069B10 /* mwfeval.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1523D99167673A300069B10 /* mwfeval.cpp */; };
-		E1D2C0FB167B9B1A0030EF33 /* mwfeval.mexmaci64 in CopyFiles */ = {isa = PBXBuildFile; fileRef = E1523D62167669BF00069B10 /* mwfeval.mexmaci64 */; };
+		E18FDB9216CC0B7C00A1EDFD /* mwfeval.mexmaci64 in CopyFiles */ = {isa = PBXBuildFile; fileRef = E1523D62167669BF00069B10 /* mwfeval.mexmaci64 */; };
 		E1D2C0FF167BADF00030EF33 /* Converters.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1D2C0FD167BADF00030EF33 /* Converters.cpp */; };
 		E1D2C105167BB3420030EF33 /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1D2C104167BB3420030EF33 /* MWorksCore.framework */; };
 		E1DB979616C1998D001481E9 /* libscarab.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB979516C1998D001481E9 /* libscarab.a */; };
@@ -97,13 +98,22 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		E18FDB9116CC0B6900A1EDFD /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(MW_MATLAB_DIR)/+mworks";
+			dstSubfolderSpec = 0;
+			files = (
+				E18FDB9216CC0B7C00A1EDFD /* mwfeval.mexmaci64 in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E1D2C0F7167B9ADD0030EF33 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "$(MW_MATLAB_DIR)";
 			dstSubfolderSpec = 0;
 			files = (
-				E1D2C0FB167B9B1A0030EF33 /* mwfeval.mexmaci64 in CopyFiles */,
 				E10E3C8C168104DE00C3B4DF /* getEvents.m in CopyFiles */,
 				E10D38661695F7560043CB93 /* getCodecs.m in CopyFiles */,
 			);
@@ -472,6 +482,7 @@
 				E1CEE14D16CA9F39000BCB71 /* Development */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
 		};
 		E1D2C0F1167B9A710030EF33 /* Build configuration list for PBXAggregateTarget "Install" */ = {
 			isa = XCConfigurationList;
