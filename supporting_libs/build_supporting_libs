@@ -234,7 +234,7 @@ def libpng():
 
 @builder
 def jpeg():
-    version = '8d'
+    version = '9'
     srcdir = 'jpeg-' + version
     tarfile = 'jpegsrc.v%s.tar.gz' % version
 
@@ -244,42 +244,9 @@ def jpeg():
     run_configure_and_make(srcdir)
 
 
-#@builder
-def lcms():
-    version = '1.19'
-    srcdir = 'lcms-' + version
-    tarfile = srcdir + '.tar.gz'
-
-    download_archive_from_sf('lcms/lcms', version, tarfile)
-    unpack_tarfile(tarfile, srcdir)
-
-    run_configure_and_make(srcdir)
-
-
-#@builder
-def libmng():
-    version = '1.0.10'
-    srcdir = 'libmng-' + version
-    tarfile = srcdir + '.tar.bz2'
-    patchfile = srcdir + '_autogen.patch'
-
-    download_archive_from_sf('libmng/libmng-devel', version, tarfile)
-    unpack_tarfile(tarfile, srcdir)
-
-    run_configure_and_make(
-        srcdir = srcdir,
-        patchfile = patchfile,
-        post_patch_command = ['/bin/chmod', '+x', 'configure', 'install-sh'],
-        extra_args = [
-            '--with-jpeg=' + path_to_stagedir,
-            '--with-lcms=' + path_to_stagedir,
-            ],
-        )
-
-
 @builder
 def tiff():
-    version = '3.9.6'
+    version = '3.9.7'
     srcdir = 'tiff-' + version
     tarfile = srcdir + '.tar.gz'
 
