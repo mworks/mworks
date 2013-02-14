@@ -1,5 +1,9 @@
 <?xml version="1.0"?>
 <marionette_info>
+  <permitted_error_messages>
+    <!-- If there's a mirrow window, the errors will be announced twice.  Ignore the duplicates. -->
+    <message type="whole_message" max_matches="4">ERROR: Stimulus image is not loaded.  Displaying nothing.</message>
+  </permitted_error_messages>
   <expected_messages>
     <message type="whole_message">initializing image loader facility</message>
     <message type="whole_message">Image loaded into texture_map 1</message>
@@ -8,8 +12,6 @@
     <message type="starts_with">Queuing deferred (</message>
     <message type="whole_message">Image loaded into texture_map 2</message>
     <message type="starts_with">Queuing explicit (</message>
-    <!-- For some reason, the error message is announced twice -->
-    <message type="whole_message">ERROR: Stimulus image is not loaded.  Displaying nothing.</message>
     <message type="whole_message">ERROR: Stimulus image is not loaded.  Displaying nothing.</message>
     <message type="starts_with">Loading normal (</message>
     <message type="starts_with">Loading deferred (</message>
@@ -21,10 +23,6 @@
     <message type="whole_message">Image unloaded from texture_map 2</message>
     <message type="starts_with">Unloading explicit (</message>
     <message type="whole_message">Image unloaded from texture_map 3</message>
-    <!-- For some reason, the error messages are announced twice -->
-    <message type="whole_message">ERROR: Stimulus image is not loaded.  Displaying nothing.</message>
-    <message type="whole_message">ERROR: Stimulus image is not loaded.  Displaying nothing.</message>
-    <message type="whole_message">ERROR: Stimulus image is not loaded.  Displaying nothing.</message>
     <message type="whole_message">ERROR: Stimulus image is not loaded.  Displaying nothing.</message>
     <message type="whole_message">ERROR: Stimulus image is not loaded.  Displaying nothing.</message>
     <message type="whole_message">ERROR: Stimulus image is not loaded.  Displaying nothing.</message>
