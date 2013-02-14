@@ -435,6 +435,7 @@
 		E104A8F0133B8D9700D36236 /* StandardComponentFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = E104A8EF133B8D9700D36236 /* StandardComponentFactory.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E104A8F4133B8DB400D36236 /* StandardStimulusFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = E104A8F3133B8DB400D36236 /* StandardStimulusFactory.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E10AECD215DE904300E71CA7 /* IPCUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = E10AECD115DE904300E71CA7 /* IPCUtilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E10F94B916CD5A8300A31C5F /* OpenGLContextLock.h in Headers */ = {isa = PBXBuildFile; fileRef = E10F94B816CD5A8300A31C5F /* OpenGLContextLock.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E11AFFBD118F865C0034CC04 /* IODevice.h in Headers */ = {isa = PBXBuildFile; fileRef = E11AFFBC118F865C0034CC04 /* IODevice.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E127D38C133A5CFC00532496 /* Map.h in Headers */ = {isa = PBXBuildFile; fileRef = E127D38B133A5CFC00532496 /* Map.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E127D3AD133A615C00532496 /* MWorksMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = E127D3AC133A615C00532496 /* MWorksMacros.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1094,6 +1095,7 @@
 		E104A8EF133B8D9700D36236 /* StandardComponentFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StandardComponentFactory.h; path = Core/PluginServices/StandardComponentFactory.h; sourceTree = "<group>"; };
 		E104A8F3133B8DB400D36236 /* StandardStimulusFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StandardStimulusFactory.h; path = Core/Stimuli/StandardStimulusFactory.h; sourceTree = "<group>"; };
 		E10AECD115DE904300E71CA7 /* IPCUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IPCUtilities.h; sourceTree = "<group>"; };
+		E10F94B816CD5A8300A31C5F /* OpenGLContextLock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OpenGLContextLock.h; path = Core/Stimuli/OpenGLContextLock.h; sourceTree = "<group>"; };
 		E11542181193471F00DDE09D /* mw_test */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = mw_test; sourceTree = "<group>"; };
 		E11AFFBC118F865C0034CC04 /* IODevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IODevice.h; path = Core/IODevices/IODevice.h; sourceTree = "<group>"; };
 		E127D38B133A5CFC00532496 /* Map.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Map.h; sourceTree = "<group>"; };
@@ -1998,8 +2000,9 @@
 				5CF855E2119D8D2C004167A5 /* Utilities */,
 				5C78EDE1115C00EC00151A76 /* DynamicStimuli */,
 				5C4D254E09DCBB9A0082BF9F /* tests */,
-				DA2CE1C707E9F96E00C68AEF /* OpenGLContextManager.cpp */,
+				E10F94B816CD5A8300A31C5F /* OpenGLContextLock.h */,
 				DA2CE1C807E9F96E00C68AEF /* OpenGLContextManager.h */,
+				DA2CE1C707E9F96E00C68AEF /* OpenGLContextManager.cpp */,
 				DA2CE1C907E9F96E00C68AEF /* StandardStimuli.cpp */,
 				DA2CE1CA07E9F96E00C68AEF /* StandardStimuli.h */,
 				DA2CE1CB07E9F96E00C68AEF /* StimMirrorController.h */,
@@ -2515,6 +2518,7 @@
 				E16BC17B137D952D0052D8E1 /* MachUtilities.h in Headers */,
 				E194BF6F1590DB6900D4A62D /* StimulusDisplayDevice.h in Headers */,
 				E10AECD215DE904300E71CA7 /* IPCUtilities.h in Headers */,
+				E10F94B916CD5A8300A31C5F /* OpenGLContextLock.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

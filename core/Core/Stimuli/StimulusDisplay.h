@@ -25,6 +25,7 @@
 
 #include "Clock.h"
 #include "LinkedList.h"
+#include "OpenGLContextLock.h"
 
 
 BEGIN_NAMESPACE_MW
@@ -127,7 +128,7 @@ BEGIN_NAMESPACE_MW
 		void addContext(int _context_id);
 		
 		int getNContexts() { return context_ids.size(); }
-		void setCurrent(int i);	
+		OpenGLContextLock setCurrent(int i);	
 		int getCurrentContextIndex() { return current_context_index; }
         void getCurrentViewportSize(GLint &width, GLint &height);
 		

@@ -31,13 +31,12 @@ BEGIN_NAMESPACE_MW
  *                  StimulusDisplay Methods
  **********************************************************************/
 StimulusDisplay::StimulusDisplay(bool drawEveryFrame, bool announceIndividualStimuli) :
+    current_context_index(-1),
     mainDisplayRefreshRate(0.0),
     currentOutputTimeUS(-1),
     announceIndividualStimuli(announceIndividualStimuli),
     drawEveryFrame(drawEveryFrame)
 {
-    current_context_index = -1;
-
     // defer creation of the display chain until after the stimulus display has been created
     display_stack = shared_ptr< LinkedList<StimulusNode> >(new LinkedList<StimulusNode>());
     
@@ -67,14 +66,13 @@ StimulusDisplay::~StimulusDisplay(){
     CVDisplayLinkRelease(displayLink);
 }
 
-void StimulusDisplay::setCurrent(int i){
+OpenGLContextLock StimulusDisplay::setCurrent(int i){
     if ((i >= getNContexts()) || (i < 0)) {
         merror(M_DISPLAY_MESSAGE_DOMAIN, "invalid context index (%d)", i);
-        return;
+        return OpenGLContextLock();
     }
 
-	current_context_index = i;
-	opengl_context_manager->setCurrent(context_ids[i]); 
+	return opengl_context_manager->setCurrent(context_ids[i]);
 }
 
 shared_ptr<StimulusNode> StimulusDisplay::addStimulus(shared_ptr<Stimulus> stim) {
@@ -176,7 +174,7 @@ void StimulusDisplay::addContext(int _context_id){
     }
     
     if (drawEveryFrame) {
-        setCurrent(contextIndex);
+        OpenGLContextLock ctxLock = setCurrent(contextIndex);
         allocateBufferStorage(contextIndex);
     }
 }
@@ -384,7 +382,8 @@ void StimulusDisplay::refreshDisplay() {
     //
     
     for (int i = 0; i < getNContexts(); i++) {
-        setCurrent(i);
+        OpenGLContextLock ctxLock = setCurrent(i);
+        current_context_index = i;
         
         if (!needDraw) {
             if (drawEveryFrame) {
@@ -409,6 +408,7 @@ void StimulusDisplay::refreshDisplay() {
         }
     }
     
+    current_context_index = -1;
     needDraw = false;
 }
 

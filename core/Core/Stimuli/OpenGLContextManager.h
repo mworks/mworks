@@ -22,6 +22,8 @@
 #import "MWorksCore/StimMirrorController.h"
 #import "Scheduler.h"
 
+#include "OpenGLContextLock.h"
+
 #define M_FULLSCREEN_OPENGL_MODE 0
 #define M_MIRRORED_OPENGL_MODE 1
 
@@ -104,7 +106,7 @@ BEGIN_NAMESPACE_MW
         int getNMonitors();
         
         
-        void setCurrent(int context_id);
+        OpenGLContextLock setCurrent(int context_id);
                 
         void updateAndFlush(int context_id){ flush(context_id, true); }
         void flush(int context_id, bool update=false);

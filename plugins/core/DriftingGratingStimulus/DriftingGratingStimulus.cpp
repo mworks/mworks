@@ -108,7 +108,7 @@ void DriftingGratingStimulus::load(shared_ptr<StimulusDisplay> display) {
 	for(int i = 0; i < display->getNContexts(); ++i) {
 		
         
-        display->setCurrent(i);
+        OpenGLContextLock ctxLock = display->setCurrent(i);
         
         GLuint textures[2];
         glGenTextures(2, textures);
@@ -226,7 +226,7 @@ void DriftingGratingStimulus::unload(shared_ptr<StimulusDisplay> display) {
         return;
 
     for (int i = 0; i < display->getNContexts(); i++) {
-        display->setCurrent(i);
+        OpenGLContextLock ctxLock = display->setCurrent(i);
         glDeleteTextures(1, &(mask_textures[i]));
         glDeleteTextures(1, &(grating_textures[i]));
     }

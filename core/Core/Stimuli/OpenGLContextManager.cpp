@@ -75,6 +75,30 @@ void *announce_beam_position(void *arg){
  */
 
 
+OpenGLContextLock::OpenGLContextLock(CGLContextObj contextObj) :
+    contextObj(contextObj)
+{
+    if (contextObj) {
+        CGLError error = CGLLockContext(contextObj);
+        if (kCGLNoError != error) {
+            merror(M_DISPLAY_MESSAGE_DOMAIN, "Unable to lock OpenGL context (error = %d)", error);
+        }
+    }
+}
+
+
+void OpenGLContextLock::unlock(bool clearCurrent) {
+    if (contextObj) {
+        CGLError error = CGLUnlockContext(contextObj);
+        if (kCGLNoError != error) {
+            merror(M_DISPLAY_MESSAGE_DOMAIN, "Unable to unlock OpenGL context (error = %d)", error);
+        }
+        if (clearCurrent) {
+            [NSOpenGLContext clearCurrentContext];
+        }
+    }
+}
+
 
 OpenGLContextManager::OpenGLContextManager() {
 	
@@ -251,7 +275,7 @@ int OpenGLContextManager::newMirrorContext(bool sync_to_vbl){
     _measureDisplayRefreshRate(0);
     
     
-    setCurrent(context_id);
+    OpenGLContextLock ctxLock = setCurrent(context_id);
     _initGlew();
         
     return context_id;
@@ -319,7 +343,7 @@ int OpenGLContextManager::newFullscreenContext(int screen_number){
     
     _measureDisplayRefreshRate(screen_number);
     
-    setCurrent(context_id);
+    OpenGLContextLock ctxLock = setCurrent(context_id);
     _initGlew();
     
     if (kIOPMNullAssertionID == display_sleep_block) {
@@ -335,13 +359,16 @@ int OpenGLContextManager::newFullscreenContext(int screen_number){
 }
 
 
-void OpenGLContextManager::setCurrent(int context_id) {
+OpenGLContextLock OpenGLContextManager::setCurrent(int context_id) {
     if(context_id < 0 || context_id >= [contexts count]) {
 		mwarning(M_SERVER_MESSAGE_DOMAIN, "OpenGL Context Manager: no context to set current.");
 		//NSLog(@"OpenGL Context Manager: no context to set current.");
-        return;
+        return OpenGLContextLock();
     }
-    [[contexts objectAtIndex:context_id] makeCurrentContext];     
+    
+    NSOpenGLContext *ctx = [contexts objectAtIndex:context_id];
+    [ctx makeCurrentContext];
+    return OpenGLContextLock((CGLContextObj)[ctx CGLContextObj]);
 }
 
 

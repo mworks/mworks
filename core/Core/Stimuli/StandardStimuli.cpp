@@ -379,8 +379,8 @@ void ImageStimulus::load(shared_ptr<StimulusDisplay> display) {
 		return;
 	}
     
+    OpenGLContextLock ctxLock = display->setCurrent(0);  // Need an active OpenGL context when ilutInit() is called
     DevILImageLoader loader;
-    display->setCurrent(0);  // Need an active OpenGL context when ilutInit() is called
     loader.load(filename, width, height, fileHash);
 	
 	// TODO: this needs clean up.  We are counting on all of the contexts
@@ -401,7 +401,7 @@ void ImageStimulus::load(shared_ptr<StimulusDisplay> display) {
         if (i >= display->getNContexts())
             break;
         
-        display->setCurrent(i);
+        ctxLock = display->setCurrent(i);
         i++;
 	}
 	
@@ -423,7 +423,7 @@ void ImageStimulus::unload(shared_ptr<StimulusDisplay> display) {
     }
     
     for (int i = 0; i < display->getNContexts(); i++) {
-        display->setCurrent(i);
+        OpenGLContextLock ctxLock = display->setCurrent(i);
         glDeleteTextures(1, &(texture_maps[i]));
         mprintf("Image unloaded from texture_map %d", texture_maps[i]);
 	}
