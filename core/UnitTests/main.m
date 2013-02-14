@@ -9,35 +9,23 @@
  * Copyright MIT 2007 . All rights reserved.
  */
 
+#import <Cocoa/Cocoa.h>
+#import <IOKit/IOKitLib.h>
 
 #import "MWorksCore/StandardServerCoreBuilder.h"
 #import "MWorksCore/CoreBuilderForeman.h"
-#import <Cocoa/Cocoa.h>
 
 int main(int argc, const char *argv[]) {
-	mw::CoreBuilderForeman::constructCoreStandardOrder(new mw::StandardServerCoreBuilder());	
-	
-	return NSApplicationMain(argc, argv); 
+    // Ensure that the display is awake
+    io_registry_entry_t entry = IORegistryEntryFromPath(kIOMasterPortDefault,
+                                                        "IOService:/IOResources/IODisplayWrangler");
+    if (entry) {
+        (void)IORegistryEntrySetCFProperty(entry, CFSTR("IORequestIdle"), kCFBooleanFalse);
+        (void)IOObjectRelease(entry);
+    }
+    
+    mw::StandardServerCoreBuilder coreBuilder;
+    mw::CoreBuilderForeman::constructCoreStandardOrder(&coreBuilder);
+    
+    return NSApplicationMain(argc, argv);
 }
-//
-//    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-//    NSApplication *marionette_app = [NSApplication sharedApplication];
-//    
-//    // -----------------------------
-//    // Initialize the core
-//    // -----------------------------
-//	
-//	
-//    // ----------------------------
-//    // Load Basic Cocoa Resources
-//    // ----------------------------
-//    [NSBundle loadNibNamed:@"Marionette" owner:marionette_app];
-//	
-//	
-//    // ---------------------------------------
-//    // Set UI Running
-//    // ---------------------------------------    
-//    [marionette_app run];
-//    [pool release];
-//}
-

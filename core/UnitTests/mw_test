@@ -24,9 +24,6 @@ test_data_suffix = 'TESTDATA.xml'
 
 marionette_prep_applescript = """
 
--- Ensure that the display is awake by simulating a CTRL key press
-tell application "System Events" to key code 59
-
 -- Ensure that audio isn't muted
 if (output muted of (get volume settings)) then
     set volume output muted false

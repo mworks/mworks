@@ -460,6 +460,7 @@
 		E1CBF66B16BAFC260057CE48 /* MarionetteTest.app in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0E39EB030E4BD33D006F38A0 /* MarionetteTest.app */; };
 		E1CBF66D16BAFC410057CE48 /* mw_test in CopyFiles */ = {isa = PBXBuildFile; fileRef = E11542181193471F00DDE09D /* mw_test */; };
 		E1CBF66E16BAFD5F0057CE48 /* MWorksCoreTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C4D239C09DC83930082BF9F /* MWorksCoreTest.framework */; };
+		E1D97A9816CD3C4700E517DF /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB974E16C16C3F001481E9 /* IOKit.framework */; };
 		E1DB974916C16BEE001481E9 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB974816C16BEE001481E9 /* CoreAudio.framework */; };
 		E1DB974B16C16C1F001481E9 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB974A16C16C1F001481E9 /* CoreVideo.framework */; };
 		E1DB974D16C16C30001481E9 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB974C16C16C30001481E9 /* AppKit.framework */; };
@@ -1141,6 +1142,7 @@
 			files = (
 				E1DB978816C1933D001481E9 /* MWorksCore.framework in Frameworks */,
 				E1DB978916C19340001481E9 /* AppKit.framework in Frameworks */,
+				E1D97A9816CD3C4700E517DF /* IOKit.framework in Frameworks */,
 				E1DB978A16C19344001481E9 /* libboost_system.a in Frameworks */,
 				E1DB978B16C1934E001481E9 /* libxml2.dylib in Frameworks */,
 				E1DB978C16C19351001481E9 /* libxslt.dylib in Frameworks */,
