@@ -55,15 +55,19 @@ public:
     }
 
     virtual bool initialize(){
-        registerCallbackByName(start_event_name, boost::bind(&AccumulatingConduit::startAccumulating, this, _1));
-        registerCallbackByName(end_event_name, boost::bind(&AccumulatingConduit::stopAccumulating, this, _1));
+        bool ok = CodecAwareConduit::initialize();
         
-        vector<string>::iterator i;
-        for(i = event_names_to_accumulate.begin(); i != event_names_to_accumulate.end(); ++i){
-            registerCallbackByName(*i, boost::bind(&AccumulatingConduit::accumulate, this, _1));
+        if (ok) {
+            registerCallbackByName(start_event_name, boost::bind(&AccumulatingConduit::startAccumulating, this, _1));
+            registerCallbackByName(end_event_name, boost::bind(&AccumulatingConduit::stopAccumulating, this, _1));
+            
+            vector<string>::iterator i;
+            for(i = event_names_to_accumulate.begin(); i != event_names_to_accumulate.end(); ++i){
+                registerCallbackByName(*i, boost::bind(&AccumulatingConduit::accumulate, this, _1));
+            }
         }
         
-        return CodecAwareConduit::initialize();
+        return ok;
     }
 
     void startAccumulating(shared_ptr<Event> evt){

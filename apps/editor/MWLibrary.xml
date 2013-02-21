@@ -1064,7 +1064,7 @@
 		
 		<inspector>UpdateDisplayInspectorView</inspector>
 		<code>
-			<action tag="Update Stimulus" type="update_stimulus_display"/>
+			<action tag="Update Stimulus Display" type="update_stimulus_display"/>
 		</code>
 	</MWElement>
 

@@ -2,10 +2,7 @@ import collections
 import math
 import os
 import sys
-try:
-    import unittest2 as unittest
-except ImportError:
-    import unittest
+import unittest
 import warnings
 
 import numpy
@@ -197,12 +194,7 @@ class TypeConversionTestMixin(object):
     def test_infinite_recursion(self):
         l = []
         l.append(l)
-        # This should always raise RuntimeError, but under Python 2.6
-        # it raises TypeError.  Hopefully this means the runaway
-        # recursion is being caught (and possible misidentified)
-        # somewhere else in the Python interpreter, but it may be a
-        # bug.
-        self.assertRaises((RuntimeError, TypeError), self.send, l)
+        self.assertRaises(RuntimeError, self.send, l)
 
     def test_numpy_bool_(self):
         self.assertReceivedEqualsSent(numpy.bool_(True), True)
