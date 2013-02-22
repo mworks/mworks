@@ -28,7 +28,7 @@
 	<string>NSApplication</string>
 	<key>LSEnvironment</key>
 	<dict>
-		<key>DYLD_LIBRARY_PATH</key>
+		<key>DYLD_FALLBACK_LIBRARY_PATH</key>
 		<string>/Applications/MATLAB/bin/maci64</string>
 	</dict>
 </dict>
