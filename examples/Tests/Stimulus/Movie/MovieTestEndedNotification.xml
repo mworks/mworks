@@ -34,8 +34,16 @@
                     <action tag="Update stimulus display" type="update_stimulus_display"></action>
                     <action tag="Start movie" stimulus="movie" type="play_dynamic_stimulus"></action>
                     <action type="assignment" tag="Record start time" variable="start_time" value="now()"></action>
+                    <action type="start_timer" tag="Start Timer" timer="MyTimer" timebase="" duration="2*expected_duration" duration_units="s"></action>
                     <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
                     <transition type="conditional" tag="If Condition is True, Transition to ..." condition="movie_ended" target="Exit State System"></transition>
+                    <transition type="timer_expired" tag="If Timer Expired, Transition to ..." target="Timeout" timer="MyTimer"></transition>
+                </task_system_state>
+                <task_system_state tag="Timeout" interruptible="YES">
+                    <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                    <action type="assert" tag="Assert" condition="0" message="Timed out waiting for ended notification" stop_on_failure="0"></action>
+                    <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                    <transition type="yield" tag="Exit Task System..."></transition>
                 </task_system_state>
                 <task_system_state tag="Exit State System" interruptible="YES">
                     <action_marker _unmoveable="1" tag="Actions"></action_marker>
