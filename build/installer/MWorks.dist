@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<installer-gui-script minSpecVersion="2">
+    <title>MWorks</title>
+    <background file="monkeys.pdf" mime-type="application/pdf" alignment="topright" scaling="proportional"/>
+    <license file="LICENSE.txt" mime-type="text/plain"/>
+    <options customize="allow" require-scripts="false" rootVolumeOnly="true"/>
+    <choice id="org.mworks-project.pkg.MWorksCoreComponents" title="Core components" enabled="false">
+        <pkg-ref id="org.mworks-project.pkg.MWorksCoreComponents">#MWorksCoreComponents.pkg</pkg-ref>
+    </choice>
+    <choice id="org.mworks-project.pkg.MWorksStandardPlugins" title="Standard plugins">
+        <pkg-ref id="org.mworks-project.pkg.MWorksStandardPlugins">#MWorksStandardPlugins.pkg</pkg-ref>
+    </choice>
+    <choice id="org.mworks-project.pkg.MWorksOptionalPlugins" title="Optional plugins">
+        <pkg-ref id="org.mworks-project.pkg.MWorksOptionalPlugins">#MWorksOptionalPlugins.pkg</pkg-ref>
+    </choice>
+    <choice id="org.mworks-project.pkg.MWorksPythonTools" title="Python tools">
+        <pkg-ref id="org.mworks-project.pkg.MWorksPythonTools">#MWorksPythonTools.pkg</pkg-ref>
+    </choice>
+    <choice id="org.mworks-project.pkg.MWorksMATLABTools" title="MATLAB tools">
+        <pkg-ref id="org.mworks-project.pkg.MWorksMATLABTools">#MWorksMATLABTools.pkg</pkg-ref>
+    </choice>
+    <choice id="org.mworks-project.pkg.MWorksExampleExperiments" title="Example experiments">
+        <pkg-ref id="org.mworks-project.pkg.MWorksExampleExperiments">#MWorksExampleExperiments.pkg</pkg-ref>
+    </choice>
+    <choice id="org.mworks-project.pkg.MWorksDevelopmentFiles" title="Development files">
+        <pkg-ref id="org.mworks-project.pkg.MWorksDevelopmentFiles">#MWorksDevelopmentFiles.pkg</pkg-ref>
+    </choice>
+    <choices-outline>
+        <line choice="org.mworks-project.pkg.MWorksCoreComponents"/>
+        <line choice="org.mworks-project.pkg.MWorksStandardPlugins"/>
+        <line choice="org.mworks-project.pkg.MWorksOptionalPlugins"/>
+        <line choice="org.mworks-project.pkg.MWorksPythonTools"/>
+        <line choice="org.mworks-project.pkg.MWorksMATLABTools"/>
+        <line choice="org.mworks-project.pkg.MWorksExampleExperiments"/>
+        <line choice="org.mworks-project.pkg.MWorksDevelopmentFiles"/>
+    </choices-outline>
+    <volume-check script="true">
+        <allowed-os-versions>
+            <os-version min="10.7"/>
+        </allowed-os-versions>
+    </volume-check>
+</installer-gui-script>

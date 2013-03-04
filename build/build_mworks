@@ -99,7 +99,7 @@ def make(targets=[]):
 ################################################################################
 
 
-@builder('mworks/build/installer')
+@builder('mworks/build/installer/scripts')
 def uninstall():
     check_call(['./uninstall_mworks', '--delete', '--no-sudo'])
 

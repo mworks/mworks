@@ -6,7 +6,7 @@
 
 set -u
 
-uninstall_mworks="${1}/Contents/Resources/uninstall_mworks"
+uninstall_mworks="$(/usr/bin/dirname ${0})/uninstall_mworks"
 
 if ! "${uninstall_mworks}" --check; then
     # No installation detected, nothing to backup
