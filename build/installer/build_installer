@@ -1,11 +1,11 @@
 #!/usr/bin/python
 
+import argparse
 import glob
 import itertools
 import os
 import plistlib
 from subprocess import check_call
-import sys
 
 
 installer_root = '/tmp/mw_installer'
@@ -118,7 +118,7 @@ def build_component_package(package_name):
 
     plistlib.writePlist(plist, component_plist_path)
 
-    args = [
+    cmd = [
         '/usr/bin/pkgbuild',
         '--identifier', 'org.mworks-project.pkg.' + package_name,
         '--root', package_path,
@@ -127,14 +127,21 @@ def build_component_package(package_name):
         ]
 
     if package_name == core_components_package_name:
-        args[-1:-1] = ['--scripts', 'scripts']
+        cmd[-1:-1] = ['--scripts', 'scripts']
 
-    check_call(args)
+    check_call(cmd)
 
 
 def main():
+    parser = argparse.ArgumentParser(description='Build an MWorks installer package.')
+    parser.add_argument('version', help='version tag for disk image')
+    parser.add_argument('--sign', dest='signing_name', metavar='name',
+                        help='name on Developer ID certificates to use for code signing')
+    args = parser.parse_args()
+
     installer_name = 'MWorks'
-    installer_version = sys.argv[1]
+    installer_version = args.version
+    signing_name = args.signing_name
     
     find_optional_plugins()
 
@@ -149,15 +156,27 @@ def main():
     check_call(['/bin/mkdir', dmg_contents_dir])
 
     installer_path = os.path.join(dmg_contents_dir, installer_name + '.pkg')
-    check_call([
+    cmd = [
         '/usr/bin/productbuild',
         '--distribution', 'MWorks.dist',
         '--package-path', installer_root,
         '--resources', 'resources',
         installer_path,
-        ])
+        ]
+    if signing_name:
+        cmd[-1:-1] = ['--sign', 'Developer ID Installer: ' + signing_name]
+    check_call(cmd)
 
-    check_call(['/bin/cp', 'scripts/uninstall_mworks', os.path.join(dmg_contents_dir, 'Uninstall MWorks')])
+    uninstall_script_path = os.path.join(dmg_contents_dir, 'Uninstall MWorks')
+    check_call(['/bin/cp', 'scripts/uninstall_mworks', uninstall_script_path])
+    if signing_name:
+        check_call([
+            '/usr/bin/codesign',
+            '--verbose',
+            '--sign', 'Developer ID Application: ' + signing_name,
+            uninstall_script_path,
+            ])
+
     check_call(['/bin/cp', '../../LICENSE.txt', dmg_contents_dir])
 
     output_file = os.path.join(installer_root, '%s-%s.dmg' % (installer_name, installer_version))
