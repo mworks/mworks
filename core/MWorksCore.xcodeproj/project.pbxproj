@@ -1357,14 +1357,6 @@
 			name = Actions;
 			sourceTree = "<group>";
 		};
-		5C07C30A0E8E94AE0030D17B /* Sandbox-Experimental */ = {
-			isa = PBXGroup;
-			children = (
-				5C2386B10E8D18FA00CDC4FC /* Communications */,
-			);
-			name = "Sandbox-Experimental";
-			sourceTree = "<group>";
-		};
 		5C0CD79E1149E69A00B1C674 /* External Configuration */ = {
 			isa = PBXGroup;
 			children = (
@@ -1897,7 +1889,7 @@
 			isa = PBXGroup;
 			children = (
 				5C85E19B10F28EB2003CD8B3 /* Deprecated */,
-				5C07C30A0E8E94AE0030D17B /* Sandbox-Experimental */,
+				5C2386B10E8D18FA00CDC4FC /* Communications */,
 				DA2CE0F707E9F70600C68AEF /* Network */,
 				DA2CE0E807E9F70400C68AEF /* Scarab */,
 				DA2CE0DC07E9F70100C68AEF /* Variables */,
