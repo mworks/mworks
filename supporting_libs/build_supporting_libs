@@ -329,6 +329,8 @@ def narrative():
             '-project', 'Narrative.xcodeproj',
             '-configuration', 'Release',
             '-xcconfig', installdir + '/Xcode/Development.xcconfig',
+            'clean',
+            'build',
             'INSTALL_PATH=@loader_path/../Frameworks',
             'SDKROOT_i386=$(SDKROOT)',
             'OTHER_CFLAGS=-fvisibility=default',
