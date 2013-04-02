@@ -378,7 +378,7 @@
 		
 		<!-- Payload -->
 		<code>
-			<sound tag="New Sound File" type="wav_file" path=""/>
+			<sound tag="New Sound File" type="wav_file" path="" amplitude="1.0"/>
 		</code>
 	</MWElement>
 

@@ -1,0 +1,28 @@
+<?xml version="1.0" standalone="no"?>
+<monkeyml version="1.0">
+    <io_devices tag="IO Devices"></io_devices>
+    <variables tag="Variables">
+        <variable tag="amplitude" scope="global" logging="when_changed" default_value="0.0" type="float">
+            <action type="report" tag="Report" message="amplitude = $amplitude"></action>
+        </variable>
+    </variables>
+    <sounds tag="Sounds">
+        <sound tag="sound" type="wav_file" path="/Library/Application Support/MWorks/Examples/RSVPDemo/sounds/reward.wav" amplitude="amplitude"></sound>
+    </sounds>
+    <stimuli tag="Stimuli"></stimuli>
+    <filters tag="Filters"></filters>
+    <optimizers tag="Optimizers"></optimizers>
+    <experiment tag="New Experiment" full_name="" description="">
+        <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
+            <action type="assignment" tag="Assign Variable" variable="amplitude" value="1.0"></action>
+            <action tag="Play Sound" type="play_sound" sound="sound"></action>
+            <action type="wait" tag="Wait" duration="2" duration_units="s"></action>
+            <action type="assignment" tag="Assign Variable 2" variable="amplitude" value="0.2"></action>
+            <action tag="Play Sound 2" type="play_sound" sound="sound"></action>
+            <action type="wait" tag="Wait 2" duration="2" duration_units="s"></action>
+            <action type="assignment" tag="Assign Variable 3" variable="amplitude" value="0.0"></action>
+            <action tag="Play Sound 3" type="play_sound" sound="sound"></action>
+            <action type="wait" tag="Wait 3" duration="2" duration_units="s"></action>
+        </protocol>
+    </experiment>
+</monkeyml>
