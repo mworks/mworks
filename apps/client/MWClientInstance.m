@@ -23,6 +23,8 @@
 #define DEFAULTS_OPEN_PLUGIN_WINDOWS_KEY @"openPluginWindows"
 #define DEFAULTS_GROUPED_PLUGIN_WINDOW_IS_OPEN_KEY @"groupedPluginWindowIsOpen"
 
+#define MAX_NUM_RECENT_EXPERIMENTS 20
+
 
 
 @implementation MWClientInstance
@@ -48,7 +50,13 @@
 	errors = [[NSMutableArray alloc] init];
     serversideVariableSetNames = [[NSMutableArray alloc] init];
 	
-	serverURL = @"127.0.0.1";
+    NSArray *recentServers = [[NSUserDefaults standardUserDefaults] arrayForKey:@"recentServers"];
+    if (recentServers && ([recentServers count] > 0)) {
+        serverURL = [[recentServers objectAtIndex:0] copy];
+    } else {
+        serverURL = @"127.0.0.1";
+    }
+    
 	serverPort = [[NSNumber numberWithInteger:19989] retain];
 	
     variableSetName = Nil;
@@ -356,14 +364,24 @@
 		// get the name of the remote setup
 		[self setServerName:@"Unnamed Setup"];
 		
-		NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-		NSArray *recentServers = [defaults arrayForKey:@"recentServers"];
-		if([self serverURL] != Nil && ![recentServers containsObject:[self serverURL]]){
-			NSMutableArray *recentServersMutable = [[NSMutableArray alloc] init];
-			[recentServersMutable addObjectsFromArray:recentServers];
-			[recentServersMutable addObject:serverURL];
+		if ([self serverURL] != nil) {
+            NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+            NSArray *recentServers = [defaults arrayForKey:@"recentServers"];
+            NSMutableArray *recentServersMutable;
+            
+            if (recentServers) {
+                recentServersMutable = [recentServers mutableCopy];
+            } else {
+                recentServersMutable = [[NSMutableArray alloc] init];
+            }
+            
+            [recentServersMutable removeObject:[self serverURL]];  // In case it's already in the list
+            [recentServersMutable insertObject:[self serverURL] atIndex:0];
+            
 			[defaults setObject:recentServersMutable forKey:@"recentServers"];
 			[defaults synchronize];
+            
+            [recentServersMutable release];
 		}
 		
 		
@@ -432,19 +450,30 @@
 }
 
 - (void) updateRecentExperiments {
-	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    
-    if([self experimentPath] != Nil){
+    if ([self experimentPath]) {
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        
         [defaults setObject:[self experimentPath] forKey:@"lastExperiment"];
+        
+        NSArray *recentExperiments = [defaults arrayForKey:@"recentExperiments"];
+        NSMutableArray *recentExperimentsMutable;
+        
+        if (recentExperiments) {
+            recentExperimentsMutable = [recentExperiments mutableCopy];
+        } else {
+            recentExperimentsMutable = [[NSMutableArray alloc] init];
+        }
+        
+        [recentExperimentsMutable removeObject:[self experimentPath]];  // In case it's already in the list
+        [recentExperimentsMutable insertObject:[self experimentPath] atIndex:0];
+        while ([recentExperimentsMutable count] > MAX_NUM_RECENT_EXPERIMENTS) {
+            [recentExperimentsMutable removeLastObject];
+        }
+        
+        [defaults setObject:recentExperimentsMutable forKey:@"recentExperiments"];
+        [recentExperimentsMutable release];
+        
         [defaults synchronize];
-    }
-    NSArray *recentExperiments = [defaults arrayForKey:@"recentExperiments"];
-    if([self experimentPath] != Nil){
-      NSMutableArray *recentExperimentsMutable = [NSMutableArray arrayWithArray:recentExperiments];
-      [recentExperimentsMutable removeObject:[self experimentPath]];  // In case it's already in the list
-      [recentExperimentsMutable insertObject:[self experimentPath] atIndex:0];
-      [defaults setObject:recentExperimentsMutable forKey:@"recentExperiments"];
-      [defaults synchronize];
     }
 }
 
