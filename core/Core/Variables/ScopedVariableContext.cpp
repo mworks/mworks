@@ -91,7 +91,7 @@ Datum ScopedVariableContext::get(int index){
 	
 	if(index < 0 || index > (int)data.size()){
 		mwarning(M_PARADIGM_MESSAGE_DOMAIN,
-			"Attempt to access a variable context with an invalid index (%d; context has %d actual elements)",
+			"Attempt to access a variable context with an invalid index (%d; context has %ld actual elements)",
 			index, data.size());
 		return Datum();
 	}

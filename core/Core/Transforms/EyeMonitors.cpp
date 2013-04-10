@@ -1182,7 +1182,7 @@ static void eyeCompute(float JJD_sampleTimeMS, float sampleIntervalMS, DOUBLE_PO
     
         if (!diffWarned) {
             mwarning(M_SYSTEM_MESSAGE_DOMAIN,
-                "mPairedEyeData:  Eye H and V data are not paired in time within required limit of %d us. They are separated by %d us  (+ means old V data has no paired H). Correcting by discarding unpaired data.", 
+                "mPairedEyeData:  Eye H and V data are not paired in time within required limit of %d us. They are separated by %ld us  (+ means old V data has no paired H). Correcting by discarding unpaired data.", 
                 M_MAXIMAL_ALLOWED_EYE_PAIR_SEPARATION_US, diff);
             diffWarned = true;
         }

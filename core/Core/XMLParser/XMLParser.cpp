@@ -303,7 +303,7 @@ void XMLParser::_processNode(xmlNode *child){
         int bytes = xmlNodeDump(xml_buffer, xml_doc, child, 1, 1);
         if(bytes != -1){
             string content((const char *)xml_buffer->content);
-            mdebug(content.c_str());
+            mdebug("%s", content.c_str());
         }
 
         e << parser_context_error_info(name);

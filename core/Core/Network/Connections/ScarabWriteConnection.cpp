@@ -99,7 +99,7 @@ int ScarabWriteConnection::service() {
     //    mdebug("Started servicing write function count = %d", functionCount);
 //        functionCount++;
         if(getScarabError(pipe)) {
-            mwarning(M_NETWORK_MESSAGE_DOMAIN, "Session Failure on ID %d", cid);
+            mwarning(M_NETWORK_MESSAGE_DOMAIN, "Session Failure on ID %ld", cid);
             servicing = false;
             if(sibling) {
                 sibling->setInterrupt(true);
@@ -114,7 +114,7 @@ int ScarabWriteConnection::service() {
         // slight delay while out task is re-scheduled
         if(interrupt) {
             mwarning(M_NETWORK_MESSAGE_DOMAIN,
-					"Write Service Routine Interrupted on id %d", cid);
+					"Write Service Routine Interrupted on id %ld", cid);
             if(sibling) {
                 sibling->setInterrupt(true);
             }
@@ -134,14 +134,14 @@ int ScarabWriteConnection::service() {
 
             if(scarab_write(pipe, termEvent) == 0) {
                 // success
-                mdebug("Wrote termination message from id %d", cid);
+                mdebug("Wrote termination message from id %ld", cid);
                 servicing = false;
                 term = true; // mark the connection for termination
                 scarab_free_datum(termEvent);
 				return 0;
             } else {
                 mwarning(M_NETWORK_MESSAGE_DOMAIN,
-					"Failed to Write Termination Sequence on socket %d", cid);
+					"Failed to Write Termination Sequence on socket %ld", cid);
                 // even though there was an error we are going to 
                 // terminate
                 term = true; // mark the connection for termination

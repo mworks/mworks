@@ -24,11 +24,11 @@ BEGIN_NAMESPACE_MW
 				break;
 			case 1://SCARAB_INTEGER
 				mdebug("datum->type => SCARAB_INTEGER");
-				mdebug("datum->data.integer => %d", datum->data.integer);
+				mdebug("datum->data.integer => %lld", datum->data.integer);
 				break;
 			case 2://SCARAB_FLOAT
 				mdebug("datum->type => SCARAB_FLOAT");
-				mdebug("datum->data.floatp => %d", datum->data.floatp);
+				mdebug("datum->data.floatp => %g", datum->data.floatp);
 				break;
 			case 6://SCARAB_LIST
 				mdebug("datum->type => SCARAB_LIST");

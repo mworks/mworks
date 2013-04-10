@@ -28,7 +28,7 @@ BEGIN_NAMESPACE_MW
 		//xmlParserCtxt *context = (xmlParserCtxt *)_parser_context;
 		//string error_string((char *)buffer);
 		cerr << buffer << endl;
-		merror(M_PARSER_MESSAGE_DOMAIN, buffer);
+		merror(M_PARSER_MESSAGE_DOMAIN, "%s", buffer);
 	}
 
 

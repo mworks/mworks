@@ -329,7 +329,7 @@ bool LinearFitableFunction::fitTheFunction() {
         
         if (VERBOSE_FITABLE_FUNCTION>1) {
             MWTime timeUS = sampleToFit->getTime();        // testing only
-            mprintf("Fitable function: datum %d timeUS = %d",n, (long)timeUS);
+            mprintf("Fitable function: datum %d timeUS = %ld",n, (long)timeUS);
         }
 
         for (int i=0;i<numInputs;i++) {

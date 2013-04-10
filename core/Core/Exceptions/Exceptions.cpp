@@ -118,7 +118,7 @@ void display_extended_error_information(SimpleException& e){
     CHECK_AND_REPORT_ERROR_INFORMATION( variable, VariableOrString );
     CHECK_AND_REPORT_ERROR_INFORMATION( parser_context, ErrorString );
     
-    merror(e.getDomain(), extended_info.str());
+    merror(e.getDomain(), "%s", extended_info.str().c_str());
 
 }
 

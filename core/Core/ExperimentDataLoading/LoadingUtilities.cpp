@@ -126,7 +126,7 @@ BEGIN_NAMESPACE_MW
 		try {
 			unloadExperiment(false); // delete an experiment if one exists.
 		} catch(std::exception& e){
-			merror(M_PARSER_MESSAGE_DOMAIN, e.what());
+			merror(M_PARSER_MESSAGE_DOMAIN, "%s", e.what());
 			GlobalCurrentExperiment = shared_ptr<Experiment>();
 			global_outgoing_event_buffer->putEvent(SystemEventFactory::currentExperimentState());
 			return false;

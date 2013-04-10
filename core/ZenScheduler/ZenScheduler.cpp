@@ -93,7 +93,7 @@ void *zenScheduledExecutionThread(void *arglist){
 	delete task_ptr;	// moved until end for speediness
 	
 	//task->heartbeat();
-	if(VERBOSE_SCHEDULER) mprintf("Scheduled thread spawned %u", task.get());
+	if(VERBOSE_SCHEDULER) mprintf("Scheduled thread spawned %p", task.get());
 	
 	
 	// Unpack the task description
@@ -101,7 +101,7 @@ void *zenScheduledExecutionThread(void *arglist){
 	int ntimes = task->getNTimes();
 	MWTime initial_delay_us = task->getInitialDelayUS();
 	MWTime repeat_interval_us = task->getRepeatIntervalUS();
-	if(VERBOSE_SCHEDULER) mprintf(" ****** repeat_interval_us = %u   %u", (unsigned long)repeat_interval_us, task.get());
+	if(VERBOSE_SCHEDULER) mprintf(" ****** repeat_interval_us = %lu   %p", (unsigned long)repeat_interval_us, task.get());
 	
 	MWTime start_time_us = task->getStartTimeUS();
 	MissedExecutionBehavior behavior = task->getMissedExecutionBehavior();
@@ -161,7 +161,7 @@ void *zenScheduledExecutionThread(void *arglist){
 	
 	
 	if(VERBOSE_SCHEDULER) 
-		mprintf("Scheduled thread entering main loop (%d done, %d total)  %u", 
+		mprintf("Scheduled thread entering main loop (%ld done, %d total)  %p",
 				ndone, ntimes, task.get());
 	
 	
@@ -177,7 +177,7 @@ void *zenScheduledExecutionThread(void *arglist){
 		
 		if(VERBOSE_SCHEDULER){
 			mprintf("Scheduled function called "
-					"(main loop, %d done / %d total) %u", 
+					"(main loop, %ld done / %d total) %p",
 					ndone, ntimes, task.get());
 		}
 		
@@ -186,7 +186,7 @@ void *zenScheduledExecutionThread(void *arglist){
 		
 		if(VERBOSE_SCHEDULER){ 
 			mprintf("Scheduled function returned "
-					"(main loop) %u", task.get());
+					"(main loop) %p", task.get());
 		}
 		
 		
@@ -195,7 +195,7 @@ void *zenScheduledExecutionThread(void *arglist){
 		   now_us - next_us > fail_slop_us){
 			if(!SILENCE_SCHEDULE_WARNINGS){
 				merror(M_SCHEDULER_MESSAGE_DOMAIN,
-					   "Scheduled task (%s) not on time (off by %lld; task = %u; priority= %d)",
+					   "Scheduled task (%s) not on time (off by %lld; task = %p; priority= %d)",
 					   task->getDescription().c_str(),
 					   now_us - next_us, 
 					   task.get(), 
@@ -206,7 +206,7 @@ void *zenScheduledExecutionThread(void *arglist){
 				  now_us - next_us > warning_slop_us){
 			if (!SILENCE_SCHEDULE_WARNINGS) {
 				mwarning(M_SCHEDULER_MESSAGE_DOMAIN,
-						 "Scheduled task (%s) not on time (off by %lld; task = %u; priority=%d)", 
+						 "Scheduled task (%s) not on time (off by %lld; task = %p; priority=%d)", 
 						 task->getDescription().c_str(),
 						 now_us - next_us, task.get(),
 						 task->getPriority());
@@ -222,14 +222,14 @@ void *zenScheduledExecutionThread(void *arglist){
 		
 		if(ntimes != M_REPEAT_INDEFINITELY && ndone >= ntimes){
 			if(VERBOSE_SCHEDULER) 
-				mprintf("Scheduled task has completed %d executions, quitting  %u", 
+				mprintf("Scheduled task has completed %ld executions, quitting  %p",
 						ndone, task.get());
 			break;
 		}
 		
 		if(!task->isActive()){
 			if(VERBOSE_SCHEDULER) 
-				mprintf("Scheduled execution deactivated (2) %u", task.get());
+				mprintf("Scheduled execution deactivated (2) %p", task.get());
 			
 			break;
 		}
@@ -255,13 +255,13 @@ void *zenScheduledExecutionThread(void *arglist){
 																				//if (now_us > next_us) {							// DDC Feb 12, 3007
 			
 			if(VERBOSE_SCHEDULER){
-				mprintf("Thread not keeping up (off by %d usec: now = %u, next = %u, repeat = %u; priority = %d)  %u", 
-						(long)(now_us - next_us), 
+				mprintf("Thread not keeping up (off by %ld usec: now = %lu, next = %lu repeat = %lu; priority = %d)  %p",
+						(long)(now_us - next_us),
 						(unsigned long)now_us, 
 						(unsigned long)next_us, 
 						(unsigned long)repeat_interval_us, 
 						priority,
-						(unsigned long)(task.get()));
+						task.get());
 			}
 			
 			
@@ -270,7 +270,7 @@ void *zenScheduledExecutionThread(void *arglist){
 				case M_MISSED_EXECUTION_DROP:
 					if(repeat_interval_us){
 						if(VERBOSE_SCHEDULER) 
-							mprintf("Dropping (ndone was: %d)  %u", ndone, task.get());
+							mprintf("Dropping (ndone was: %ld)  %p", ndone, task.get());
 						ndone += 0 + 
 							(int)((now_us - next_us) / repeat_interval_us);
 						//mprintf("((now_us - next_us) / repeat_interval_us) = %lld", ((now_us - next_us) / repeat_interval_us));	
@@ -280,7 +280,7 @@ void *zenScheduledExecutionThread(void *arglist){
 								mwarning(M_SCHEDULER_MESSAGE_DOMAIN,
 										 "Scheduled task (%s) falling behind, dropping %d "
 										 "scheduled executions "
-										 "(priority = %d, interval = %u, task = %u)", 
+										 "(priority = %d, interval = %lld, task = %p)",
 										 task->getDescription().c_str(),
 										 1 + (int)((now_us - next_us) /
 												   repeat_interval_us),
@@ -317,7 +317,7 @@ void *zenScheduledExecutionThread(void *arglist){
 		
 		if((next_us - now_us) > 0){
 			if(VERBOSE_SCHEDULER) 
-				mprintf("Scheduled thread sleeping... (2: %lld) %u", 
+				mprintf("Scheduled thread sleeping... (2: %lld) %p", 
 						(next_us - now_us), task.get());
 			task->getScheduler()->getClock()->sleepUS(next_us - now_us);
 		}
@@ -327,7 +327,7 @@ void *zenScheduledExecutionThread(void *arglist){
 	task->getScheduler()->removeTask(task->getNodeID());
 	
 	
-	if(VERBOSE_SCHEDULER) mprintf("Scheduled thread ending... %u", task.get());
+	if(VERBOSE_SCHEDULER) mprintf("Scheduled thread ending... %p", task.get());
 	return 0;
 	
 }

@@ -52,7 +52,7 @@ public:
 		} else {
 			NSString *sn = NSStringFromSelector(selector);
 			NSString *errorMessage = @"Cannot call selector from specified receiver: ";
-			merror(M_CLIENT_MESSAGE_DOMAIN, [[errorMessage stringByAppendingString:sn] cStringUsingEncoding:NSASCIIStringEncoding]);
+			merror(M_CLIENT_MESSAGE_DOMAIN, "%s", [[errorMessage stringByAppendingString:sn] cStringUsingEncoding:NSASCIIStringEncoding]);
 		}
 		
 		[pool release];

@@ -79,7 +79,7 @@ int ScarabReadConnection::service() {
     //mdebug("Calling read function on id %d", cid);
     if(interrupt) {
         mwarning(M_NETWORK_MESSAGE_DOMAIN,
-					"Interrupt set for read connection id %d", cid);
+					"Interrupt set for read connection id %ld", cid);
         servicing = false;
         term = true;
         if(sibling) {
@@ -90,7 +90,7 @@ int ScarabReadConnection::service() {
     
     if(getScarabError(pipe)) {
         // TODO: should this be a warning or debug message
-		mwarning(M_NETWORK_MESSAGE_DOMAIN, "Session Failure on ID %d", cid);
+		mwarning(M_NETWORK_MESSAGE_DOMAIN, "Session Failure on ID %ld", cid);
         servicing = false;
         if(sibling) {
             sibling->setInterrupt(true);
@@ -108,7 +108,7 @@ int ScarabReadConnection::service() {
 		// client under bursty network load
 		if(getScarabError(pipe)) {
 			// TODO: should this be a warning or debug message
-			mwarning(M_NETWORK_MESSAGE_DOMAIN, "Session Failure on ID %d", cid);
+			mwarning(M_NETWORK_MESSAGE_DOMAIN, "Session Failure on ID %ld", cid);
 			servicing = false;
 			if(sibling) {
 				sibling->setInterrupt(true);
@@ -136,7 +136,7 @@ int ScarabReadConnection::service() {
 				if(code->type == SCARAB_INTEGER && code->data.integer == RESERVED_TERMINATION_CODE) { 
 					//termination event
                     mwarning(M_NETWORK_MESSAGE_DOMAIN, 
-							"Received Termination code on id %d", cid);
+							"Received Termination code on id %ld", cid);
                     servicing = false;
                     setInterrupt(true);
                     if(sibling) {

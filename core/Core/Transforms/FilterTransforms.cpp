@@ -284,9 +284,9 @@ void Filter_BoxcarFilter1D::newDataReceived(int inputIndex, const Datum& data, M
     filter->input((double)data, timeUS);
     filter->output(&outputValue, &outputTimeUS);   
     
-    if (VERBOSE_FILTERS) mprintf(" ****  Filter_BoxcarFilter1D newDataReceived:  input = %f  input time = %d us",
+    if (VERBOSE_FILTERS) mprintf(" ****  Filter_BoxcarFilter1D newDataReceived:  input = %f  input time = %ld us",
                                 (double)data,(long)timeUS);
-    if (VERBOSE_FILTERS) mprintf(" ****  Filter_BoxcarFilter1D newDataReceived:  output = %f output time = %d us",
+    if (VERBOSE_FILTERS) mprintf(" ****  Filter_BoxcarFilter1D newDataReceived:  output = %f output time = %ld us",
                                 (double)outputValue, (long)outputTimeUS);
     
     // updaate the only output variable using base class functionality    
@@ -344,9 +344,9 @@ void Filter_LinearFilter1D::newDataReceived(int inputIndex, const Datum& data, M
     filter->input((double)data, timeUS);
     filter->output(&outputValue, &outputTimeUS);   
     
-    if (VERBOSE_FILTERS) mprintf(" ****  Filter_mLinearFilter1D newDataReceived:  input = %f  input time = %d us",
+    if (VERBOSE_FILTERS) mprintf(" ****  Filter_mLinearFilter1D newDataReceived:  input = %f  input time = %ld us",
                                 (double)data,(long)timeUS);
-    if (VERBOSE_FILTERS) mprintf(" ****  Filter_mLinearFilter1D newDataReceived:  output = %f output time = %d us",
+    if (VERBOSE_FILTERS) mprintf(" ****  Filter_mLinearFilter1D newDataReceived:  output = %f output time = %ld us",
                                 (double)outputValue, (long)outputTimeUS);
 
     postResults(0,(Datum)outputValue, outputTimeUS);

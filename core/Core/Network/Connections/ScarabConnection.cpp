@@ -136,7 +136,7 @@ void ScarabConnection::disconnect() {
 	
 	shared_ptr<Scheduler> scheduler = Scheduler::instance();
 	
-    mdebug("Disconnect called on ID %d", cid);
+    mdebug("Disconnect called on ID %ld", cid);
     // schedule the connection for termination
     // this gives the socket a chance to send the termination sequence
     scheduler->scheduleMS(FILELINE,
@@ -183,13 +183,13 @@ void ScarabConnection::kill() {
 		thread->cancel();
     }
     if((connected) && (pipe)) {
-        mnetwork("Disconnecting on connection with ID %d", cid);
+        mnetwork("Disconnecting on connection with ID %ld", cid);
         scarab_session_close(pipe);
         connected = false;
         pipe = NULL;
-		mnetwork("Disconnected on connection with ID %d", cid);
+		mnetwork("Disconnected on connection with ID %ld", cid);
     } else {
-		mnetwork("Broken connection with ID %d", cid);
+		mnetwork("Broken connection with ID %ld", cid);
 		connected = false; // DDC added
 	}
 }

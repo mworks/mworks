@@ -69,7 +69,7 @@ void SelectionVariable::nextValue() {
 
 		} catch (std::exception &e) {
 			
-			merror(M_PARADIGM_MESSAGE_DOMAIN, e.what());
+			merror(M_PARADIGM_MESSAGE_DOMAIN, "%s", e.what());
 			return;
             
 		}

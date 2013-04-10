@@ -119,6 +119,7 @@ BEGIN_NAMESPACE_MW
 		va_end(ap);
 	}
 
+    /*
     void merror(MessageDomain dom, std::string format, ...) {
 		va_list ap;
 		va_start(ap, format);
@@ -126,6 +127,7 @@ BEGIN_NAMESPACE_MW
 		_makeString(pre, ap, M_ERROR_MESSAGE, dom);
 		va_end(ap);
 	}
+     */
     
     
 	void merror(MessageDomain dom, const char *format, ...) {

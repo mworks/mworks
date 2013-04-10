@@ -1058,7 +1058,7 @@ bool LegacyIODevice::validateIndividualChannel(
 	
 	// check data interval
 	if(request->getRequestedDataIntervalUsec() < matched_capability->getMinDataIntervalUsec()){
-		mwarning(M_IODEVICE_MESSAGE_DOMAIN,"IO Device channel: Requested sampling rate too high... %d us < %d us",
+		mwarning(M_IODEVICE_MESSAGE_DOMAIN,"IO Device channel: Requested sampling rate too high... %ld us < %ld us",
 				 request->getRequestedDataIntervalUsec(), matched_capability->getMinDataIntervalUsec());
 		incompatibility->addIncompatibilityType(M_SAMPLING_RATE_TOO_HIGH);
 		(incompatibility->getModifiedRequest())->setRequestedDataIntervalUsec(matched_capability->getMinDataIntervalUsec());
