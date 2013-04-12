@@ -22,7 +22,7 @@ void ScarabEventTestFixture::setUp(){
 	shared_ptr <Clock> shared_clock = Clock::instance(false);
 	
 	if(shared_clock == NULL) {
-		shared_ptr <Clock> new_clock = shared_ptr<Clock>(new Clock(0));
+		shared_ptr <Clock> new_clock = shared_ptr<Clock>(new Clock);
 		Clock::registerInstance(new_clock);
 	}
 	shared_clock = Clock::instance(false);

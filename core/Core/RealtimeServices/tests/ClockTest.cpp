@@ -53,7 +53,7 @@ void ClockTestFixture::testClock(){
 		
 		shared_clock = Clock::instance(false);	
 		CPPUNIT_ASSERT(shared_clock == NULL);
-		shared_ptr <Clock> new_clock = shared_ptr<Clock>(new Clock(0));
+		shared_ptr <Clock> new_clock = shared_ptr<Clock>(new Clock);
 		Clock::registerInstance(new_clock);
 		shared_clock = Clock::instance(false);	
 		CPPUNIT_ASSERT(shared_clock != NULL);
@@ -62,7 +62,7 @@ void ClockTestFixture::testClock(){
 		shared_clock = Clock::instance(false);	
 		CPPUNIT_ASSERT(shared_clock == NULL);
 		
-		new_clock = shared_ptr<Clock>(new Clock(0));
+		new_clock = shared_ptr<Clock>(new Clock);
 		Clock::registerInstance(new_clock);
 		shared_clock = Clock::instance(true);	
 		CPPUNIT_ASSERT(shared_clock != NULL);
@@ -71,7 +71,7 @@ void ClockTestFixture::testClock(){
 		shared_clock = Clock::instance(false);	
 		CPPUNIT_ASSERT(shared_clock == NULL);
 		
-		new_clock = shared_ptr<Clock>(new Clock(0));
+		new_clock = shared_ptr<Clock>(new Clock);
 		Clock::registerInstance(new_clock);
 		shared_clock = Clock::instance();	
 		CPPUNIT_ASSERT(shared_clock != NULL);	

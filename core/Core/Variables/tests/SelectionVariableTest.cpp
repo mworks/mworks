@@ -22,7 +22,7 @@ CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( SelectionVariableTestFixture, "Unit Test"
 
 
 void SelectionVariableTestFixture::setUp(){
-	shared_ptr <Clock> new_clock = shared_ptr<Clock>(new Clock(0));
+	shared_ptr <Clock> new_clock = shared_ptr<Clock>(new Clock);
 	Clock::registerInstance(new_clock);
 	
 	a = shared_ptr<ConstantVariable>(new ConstantVariable(Datum(10L)));

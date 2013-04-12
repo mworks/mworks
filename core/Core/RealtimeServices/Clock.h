@@ -1,16 +1,15 @@
-#ifndef CLOCK_H
-#define CLOCK_H
-
 /*
  *  Clock.h
- *  Experimental Control with Cocoa UI
  *
  *  Created by David Cox on Fri Dec 27 2002.
- * Paul Jankunas on 07/25/05 - Added getSystemReferenceTime
- * Paul Jankunas on 1/24/06 - Adding virtual destructor.
+ *  Paul Jankunas on 07/25/05 - Added getSystemReferenceTime
+ *  Paul Jankunas on 1/24/06 - Adding virtual destructor.
  *  Copyright (c) 2002 MIT. All rights reserved.
  *
  */
+
+#ifndef CLOCK_H
+#define CLOCK_H
 
 #include "MWorksTypes.h"
 #include "Component.h"
@@ -20,44 +19,33 @@
 BEGIN_NAMESPACE_MW
 
 
-// TODO: config.h 
-
-class Clock : public mw::Component {//, public RegisteredSingleton<Clock> {
-	
-protected:
-	long current_time, interval;
+class Clock : public Component {
 
 public:
+    static const MWTime nanosPerMilli = 1000000LL;
+    static const MWTime nanosPerMicro = 1000LL;
     
-	Clock(long interval_microseconds);
-	virtual ~Clock();
+	virtual ~Clock() { }
 	
-	virtual MWTime getCurrentTime();	
-	virtual MWTime getCurrentTimeMS();
-	virtual MWTime getCurrentTimeUS();
+	MWTime getCurrentTimeMS() { return getCurrentTimeNS() / nanosPerMilli; }
+	MWTime getCurrentTimeUS() { return getCurrentTimeNS() / nanosPerMicro; }
 	virtual MWTime getCurrentTimeNS();
 	
-	virtual void sleepMS(MWTime time);
-	virtual void sleepUS(MWTime time);
+	void sleepMS(MWTime time) { sleepNS(time * nanosPerMilli); }
+	void sleepUS(MWTime time) { sleepNS(time * nanosPerMicro); }
 	virtual void sleepNS(MWTime time);
 	
-	virtual long getInterval();
-	virtual void setInterval(long micro);
+	virtual void startClock() { }
+	virtual void stopClock() { }
 	
-	virtual void startClock();
-	virtual void stopClock();
-	
-	virtual MWTime getSystemTimeMS();
-	virtual MWTime getSystemTimeUS();
+	MWTime getSystemTimeMS() { return getSystemTimeNS() / nanosPerMilli; }
+	MWTime getSystemTimeUS() { return getSystemTimeNS() / nanosPerMicro; }
 	virtual MWTime getSystemTimeNS();
+    
+	MWTime getSystemReferenceTime() { return getSystemBaseTimeNS() / nanosPerMicro; }
 	virtual MWTime getSystemBaseTimeNS();
-	/**
-	 * Returns the difference between the system start time
-	 * and the UNIX reference time Jan 1 1970. 
-	 */
-	virtual MWTime getSystemReferenceTime();
   
-  REGISTERED_SINGLETON_CODE_INJECTION(Clock)
+    REGISTERED_SINGLETON_CODE_INJECTION(Clock)
   
 };
 
@@ -65,5 +53,29 @@ public:
 END_NAMESPACE_MW
 
 
-#endif
+#endif // !defined(CLOCK_H)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
