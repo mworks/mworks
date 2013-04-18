@@ -11,6 +11,8 @@
 
 #include <mach/mach.h>
 
+#include <boost/noncopyable.hpp>
+
 #include "Utilities.h"
 
 
@@ -24,7 +26,7 @@ BEGIN_NAMESPACE_MW
 //
 
 
-class MachThreadSelf {
+class MachThreadSelf : boost::noncopyable {
     
 public:
     MachThreadSelf() {
@@ -51,10 +53,10 @@ private:
 int set_realtime(int period, int computation, int constraint) {
     MachThreadSelf machThread;
 
-    struct thread_time_constraint_policy ttcpolicy;
-    ttcpolicy.period = period;              // HZ/160
-    ttcpolicy.computation = computation;    // HZ/3300;
-    ttcpolicy.constraint = constraint;      // HZ/2200;
+    thread_time_constraint_policy_data_t ttcpolicy;
+    ttcpolicy.period = period;
+    ttcpolicy.computation = computation;
+    ttcpolicy.constraint = constraint;
     ttcpolicy.preemptible = 1;
 
     kern_return_t ret = thread_policy_set(machThread.get(),

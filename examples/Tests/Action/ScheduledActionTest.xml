@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" standalone="no"?>
 <monkeyml version="1.0">
     <variables tag="Variables">
         <variable tag="some_Var" full_name="some Var" default_value="0" scope="global" type="float" editable="ALWAYS" logging="WHEN_CHANGED" persistant="NO"></variable>
@@ -12,6 +12,7 @@
                 <trial tag="theTrial" full_name="the Trial" description="" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
                     <task_system tag="theTaskSystem">
                         <task_system_state tag="theState" full_name="the State" description="" interruptible="YES">
+                            <action type="assignment" tag="Reset some_Var" variable="some_Var" value="0"></action>
                             <action tag="SchedulerAction" full_name="" type="schedule" delay="2000 ms" duration="160 ms" repeats="4">
                                 <action tag="some_Var assignment" full_name="fullname_1" type="assignment" variable="some_Var" value="some_Var + 1"></action>
                             </action>
