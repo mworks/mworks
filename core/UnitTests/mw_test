@@ -176,7 +176,7 @@ def main():
     marionette_test_names = []
 
     for name in args:
-        if name.startswith('mw::'):
+        if '::' in name:
             unit_test_names.append(name)
         else:
             marionette_test_names.append(name)
