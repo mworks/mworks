@@ -100,7 +100,7 @@ bool Client::connectToServer(const std::string &host, const int port) {
 
 bool Client::disconnectClient() {
 	
-	mprintf("reseting default client");
+	mprintf("resetting default client");
 	
     if(remoteConnection->isConnected()) { 
 		remoteConnection->disconnect();

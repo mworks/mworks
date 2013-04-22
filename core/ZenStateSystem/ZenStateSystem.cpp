@@ -342,7 +342,7 @@ void StandardStateSystem::run() {
         
         // DDC: graceful stop?
         if(GlobalCurrentExperiment != NULL){
-            mprintf("Reseting experiment");
+            mprintf("Resetting experiment");
             GlobalCurrentExperiment->reset();
         }
     }

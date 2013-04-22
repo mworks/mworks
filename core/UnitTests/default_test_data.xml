@@ -10,7 +10,7 @@
     <message type="whole_message">Called start on state system</message>
     <message type="whole_message">Starting state system....</message>
     <message type="whole_message">State system ending</message>
-    <message type="whole_message">Reseting experiment</message>
+    <message type="whole_message">Resetting experiment</message>
   </expected_messages>
   <expected_events>
     <!-- Test-specific events replace this list -->

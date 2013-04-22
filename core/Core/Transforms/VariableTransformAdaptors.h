@@ -95,7 +95,7 @@ class VarTransformAdaptor : public Lockable, public mw::Component {
 		// this is the thing that the derived classes should override
 		virtual void newDataReceived(int inputIndex, const Datum& data, 
                                                 MWTime timeUS);
-        virtual void reset() {};  // method to allow reseting of object
+        virtual void reset() {};  // method to allow resetting of object
         
 };
 

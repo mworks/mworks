@@ -51,7 +51,7 @@ int RandomWORSelection::draw() {
 	
 	if(done_so_far >= n_draws){
         if(autoreset){
-            mwarning(M_PARADIGM_MESSAGE_DOMAIN, "Autoreseting selection object");
+            mwarning(M_PARADIGM_MESSAGE_DOMAIN, "Autoresetting selection object");
             reset();
         } else {
             SelectionOffEdgeException e;

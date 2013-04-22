@@ -1043,7 +1043,7 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
 			}
 		}
 		
-		// now test reseting each element
+		// now test resetting each element
 		for(int i = 0; i < MAX_I; i++){
 			for(int j = 0; j < MAX_J; j++){
 				key[0]=(char)('a' + i);
@@ -1066,7 +1066,7 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
 			}
 		}
 		
-		// now test reseting each element
+		// now test resetting each element
 		for(int i = 0; i < MAX_I; i++){
 			for(int j = 0; j < MAX_J; j++){
 				key[0]=(char)('a' + i);
