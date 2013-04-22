@@ -44,5 +44,6 @@
             </dictionary>
         </variable_assignment>
         <variable_assignment variable="#warnOnSkippedRefresh" type="integer" value="1"/>
+        <variable_assignment variable="#allowAltFailover" type="integer" value="1"/>
     </variable_assignments>
 </monkeyml>
