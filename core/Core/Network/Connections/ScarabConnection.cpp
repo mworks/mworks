@@ -196,7 +196,9 @@ void ScarabConnection::kill() {
 
 void* ScarabConnection::terminate() {
     // do nothing until we have sent the termination sequence
-    while(!canTerminate()) { }
+    while (!canTerminate()) {
+        Clock::instance()->sleepUS(500);
+    }
     kill();
 	//connected = false; // DDC added
     return NULL;
