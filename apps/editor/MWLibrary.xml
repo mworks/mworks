@@ -212,6 +212,7 @@
 		
 		<!-- Placement rules -->
 		<allowed_parent>Variables</allowed_parent>
+		<allowed_parent>Folder</allowed_parent>
 		
 		<!-- Information for display in the GUI -->
 		<icon>xyz</icon>
@@ -232,7 +233,8 @@
                       values=""
                       selection=""
                       nsamples=""
-                      sampling_method=""/>
+                      sampling_method=""
+                      autoreset="NO"/>
 		</code>
 	</MWElement>
 	
