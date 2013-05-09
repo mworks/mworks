@@ -24,17 +24,23 @@
 BEGIN_NAMESPACE_MW
 
 
+Datum ExperimentPackager::packageSingleFile(const Datum &contents, const std::string &filename) {
+    Datum unit(M_DICTIONARY, M_EXPERIMENT_PACKAGE_NUMBER_ELEMENTS_PER_UNIT);
+    
+    Datum name;
+	name.setString(filename.c_str(), filename.length()+1);
+	unit.addElement(M_PACKAGER_FILENAME_STRING, name);
+    
+	unit.addElement(M_PACKAGER_CONTENTS_STRING, contents);
+    
+	return unit;
+}
+
+
 Datum
 ExperimentPackager::packageSingleFile(const boost::filesystem::path filepath, const std::string filename) {
 	namespace bf = boost::filesystem;
-	
- Datum unit(M_DICTIONARY, M_EXPERIMENT_PACKAGE_NUMBER_ELEMENTS_PER_UNIT);
-
-
- Datum name;
-	name.setString(filename.c_str(), filename.length()+1);
-	
-
+    
 	std::ifstream mediaFile;
 	mediaFile.open(filepath.string().c_str(), std::ios::binary);
 	
@@ -42,10 +48,10 @@ ExperimentPackager::packageSingleFile(const boost::filesystem::path filepath, co
 	mediaFile.seekg(0, std::ios::end);
 	int length = mediaFile.tellg();
 	// if the file was never opened
-	if(length <= 0) { 
+	if(length <= 0) {
 		mediaFile.close();
-	 Datum undef;
-		return undef; 
+        Datum undef;
+		return undef;
 	}
 	
 	char * buffer = new char[length];
@@ -54,16 +60,12 @@ ExperimentPackager::packageSingleFile(const boost::filesystem::path filepath, co
 	mediaFile.read(buffer, length);
 	mediaFile.close();
 	
- Datum bufferData;
+    Datum bufferData;
 	bufferData.setString(buffer, length);
 	
 	delete [] buffer;
-
 	
-	unit.addElement(M_PACKAGER_FILENAME_STRING, name);
-	unit.addElement(M_PACKAGER_CONTENTS_STRING, bufferData);		
-	
-	return unit;
+	return packageSingleFile(bufferData, filename);
 }
 
 Datum ExperimentPackager::packageExperiment(const boost::filesystem::path filename) {
@@ -83,8 +85,17 @@ Datum ExperimentPackager::packageExperiment(const boost::filesystem::path filena
 	}
 	
     Datum eventPayload(M_DICTIONARY, M_EXPERIMENT_PACKAGE_NUMBER_ELEMENTS);
-	eventPayload.addElement(M_PACKAGER_EXPERIMENT_STRING, 
-							packageSingleFile(filename, XMLParser::squashFileName(filename.string())));
+    
+    {
+        // Use getDocumentData to get the experiment file with any preprocessing and/or
+        // XInclude substitutions already applied
+        std::vector<xmlChar> fileData;
+        parser.getDocumentData(fileData);
+        
+        Datum contents(reinterpret_cast<char *>(&(fileData.front())), fileData.size());
+        eventPayload.addElement(M_PACKAGER_EXPERIMENT_STRING,
+                                packageSingleFile(contents, XMLParser::squashFileName(filename.string())));
+    }
 	
 	if(include_files.getNElements() >= 1) {
         Datum mediaFilesPayload(M_LIST, include_files.getNElements());

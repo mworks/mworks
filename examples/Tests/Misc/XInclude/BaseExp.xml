@@ -1,0 +1,18 @@
+<?xml version="1.0" standalone="no"?>
+<monkeyml version="1.0">
+    <io_devices tag="IO Devices"></io_devices>
+    <variables tag="Variables">
+        <variable tag="num_values" scope="global" logging="when_changed" default_value="10" type="integer"></variable>
+        <variable type="selection" tag="selection" values="1:num_values" selection="sequential_ascending" nsamples="1" sampling_method="cycles" autoreset="YES"></variable>
+    </variables>
+    <sounds tag="Sounds"></sounds>
+    <stimuli tag="Stimuli"></stimuli>
+    <filters tag="Filters"></filters>
+    <optimizers tag="Optimizers"></optimizers>
+    <experiment tag="New Experiment" full_name="" description="">
+        <protocol tag="New Protocol" nsamples="10" sampling_method="cycles" selection="sequential" interruptible="YES">
+            <action type="report" tag="Report" message="selection = $selection"></action>
+            <action tag="Next Selection" type="next_selection" selection="selection"></action>
+        </protocol>
+    </experiment>
+</monkeyml>

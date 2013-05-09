@@ -10,10 +10,12 @@
 #include "XMLParser.h"
 #include "States.h"
 
+#include <algorithm>
 #include <stdlib.h>
 #include <stdarg.h>
 #include <stdio.h>
 #include <glob.h>
+#include <libxml/xinclude.h>
 
 #include <boost/tokenizer.hpp>
 #include <boost/regex.hpp>
@@ -209,6 +211,31 @@ void XMLParser::loadFile() {
     }
     
     xml_doc = xmlCtxtReadMemory(context, buffer, (int)size, path.c_str(), NULL, 0);
+    
+    if (xml_doc) {
+        // Perform any XInclude substitutions
+        if (-1 == xmlXIncludeProcessFlags(xml_doc, XML_PARSE_NOBASEFIX)) {
+            xmlFreeDoc(xml_doc);
+            xml_doc = NULL;
+        }
+    }
+}
+
+
+void XMLParser::getDocumentData(std::vector<xmlChar> &data) {
+    if (!xml_doc) {
+        data.clear();
+        return;
+    }
+    
+    xmlChar *mem;
+    int size;
+    xmlDocDumpMemory(xml_doc, &mem, &size);
+    
+    data.resize(size);
+    std::copy(mem, mem+size, data.begin());
+    
+    xmlFree(mem);
 }
 
 

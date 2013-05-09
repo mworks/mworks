@@ -131,6 +131,7 @@ public:
 
         static void error_func(void * _parser_context, const char * error, ...);
 		
+        void getDocumentData(std::vector<xmlChar> &data);
 		virtual void parse(bool announce_progress = false);
 		
 		static string squashFileName(string name);

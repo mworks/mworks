@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<marionette_info>
+  <expected_messages>
+    <message type="contains">I/O warning : failed to load external entity </message>
+    <message type="whole_message">ERROR: Failed to create a valid packaged experiment.</message>
+  </expected_messages>
+  <expected_events>
+    <!-- The experiment shouldn't load, so we expect no events -->
+  </expected_events>
+</marionette_info>

@@ -43,8 +43,10 @@ public:
 							fileWithFullPath);
 	
 private:
- Datum packageSingleFile(const boost::filesystem::path filepath, 
-							const std::string filename);
+ Datum packageSingleFile(const boost::filesystem::path filepath,
+                         const std::string filename);
+ Datum packageSingleFile(const Datum &contents,
+                         const std::string &filename);
 };
 
 class IncludedFilesParser : public XMLParser {

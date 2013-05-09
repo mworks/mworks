@@ -4,9 +4,13 @@
 	<xsl:template match="/">
 		<xsl:element name="mw_unrolled">
 			<xsl:apply-templates mode="experiment_create"/>
+
 			<xsl:apply-templates mode="variable_create"/>
-			
 			<xsl:apply-templates mode="variable_assignment"/>
+
+                        <!-- Create selection variables after regular variables and variable assignments,
+                             so that expressions in selection variable parameters will evaluate as expected -->
+			<xsl:apply-templates mode="selection_variable_create"/>
 			
 			<xsl:apply-templates mode="iodevice_create"/>
 			<xsl:apply-templates mode="iochannel_create"/>
@@ -123,7 +127,12 @@
 	</xsl:template>
 	
 	<!-- Variable -->
-	<xsl:template match="//variable" mode="variable_create">
+	<xsl:template match="//variable[@type!='selection']" mode="variable_create">
+		<xsl:call-template name="generic_create"/>
+		<xsl:apply-templates select="node()" mode="variable_create"/>
+	</xsl:template>
+
+	<xsl:template match="//variable[@type='selection']" mode="selection_variable_create">
 		<xsl:call-template name="generic_create"/>
 		<xsl:apply-templates select="node()" mode="variable_create"/>
 	</xsl:template>

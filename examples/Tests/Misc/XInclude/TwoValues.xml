@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<monkeyml version="1.0" xmlns:xi="http://www.w3.org/2001/XInclude">
+    <xi:include href="BaseExp.xml" parse="xml" xpointer="xpointer(//monkeyml/*)"/>
+    <variable_assignments>
+        <variable_assignment variable="num_values" type="integer" value="2"/>
+    </variable_assignments>
+</monkeyml>

@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<marionette_info>
+  <expected_messages>
+    <message type="starts_with">selection = 1 </message>
+    <message type="starts_with">selection = 2 </message>
+    <message type="whole_message">WARNING: Autoresetting selection object</message>
+    <message type="starts_with">selection = 1 </message>
+    <message type="starts_with">selection = 2 </message>
+    <message type="whole_message">WARNING: Autoresetting selection object</message>
+    <message type="starts_with">selection = 1 </message>
+    <message type="starts_with">selection = 2 </message>
+    <message type="whole_message">WARNING: Autoresetting selection object</message>
+    <message type="starts_with">selection = 1 </message>
+    <message type="starts_with">selection = 2 </message>
+    <message type="whole_message">WARNING: Autoresetting selection object</message>
+    <message type="starts_with">selection = 1 </message>
+    <message type="starts_with">selection = 2 </message>
+    <message type="whole_message">WARNING: Autoresetting selection object</message>
+  </expected_messages>
+</marionette_info>
