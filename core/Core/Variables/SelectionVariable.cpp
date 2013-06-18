@@ -47,7 +47,12 @@ Datum SelectionVariable::getTentativeSelection(int index) {
     const std::vector<int>& tenativeSelections = selection->getTentativeSelections();
     
     if (tenativeSelections.size() == 0) {
-        merror(M_PARADIGM_MESSAGE_DOMAIN, "Selection variable has no tentative selections available.  Returning 0.");
+        // Issue an error message only if the experiment is running.  Otherwise, all selection variable indexing
+        // expressions will produce load-time errors (since ParsedExpressionVariable's constructors evaluate the
+        // expression to test for validity).
+        if (StateSystem::instance()->isRunning()) {
+            merror(M_PARADIGM_MESSAGE_DOMAIN, "Selection variable has no tentative selections available.  Returning 0.");
+        }
         return Datum(0L);
     }
     
