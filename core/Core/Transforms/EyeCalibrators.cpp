@@ -53,9 +53,9 @@ void FixationPoint::describeComponent(ComponentInfo &info) {
 
 FixationPoint::FixationPoint(const ParameterValueMap &parameters):
     PointStimulus(parameters),
-    SquareRegionTrigger(parameters[X_POSITION],
-                        parameters[Y_POSITION],
-                        parameters[TRIGGER_WIDTH],
+    SquareRegionTrigger(registerVariable(parameters[X_POSITION]),
+                        registerVariable(parameters[Y_POSITION]),
+                        registerVariable(parameters[TRIGGER_WIDTH]),
                         parameters[TRIGGER_WATCH_X],
                         parameters[TRIGGER_WATCH_Y],
                         parameters[TRIGGER_FLAG])
