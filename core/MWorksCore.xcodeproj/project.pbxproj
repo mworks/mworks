@@ -3139,7 +3139,10 @@
 		5C0E757709D1A886002295FB /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_PREPROCESSOR_DEFINITIONS = LOW_PRIORITY_MODE;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					LOW_PRIORITY_MODE,
+				);
 				INFOPLIST_FILE = "LowPrioritySchedulerPlugin-Info.plist";
 				PRODUCT_NAME = LowPrioritySchedulerPlugin;
 			};
@@ -3171,7 +3174,10 @@
 		5C0E84FB086D85D400B3EE7C /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_PREPROCESSOR_DEFINITIONS = REALTIME_SCHEDULER;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					REALTIME_SCHEDULER,
+				);
 				INFOPLIST_FILE = "ZenSchedulerPlugin-Info.plist";
 				PRODUCT_NAME = ZenSchedulerPlugin;
 			};

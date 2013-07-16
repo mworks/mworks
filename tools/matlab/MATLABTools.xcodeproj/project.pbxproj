@@ -412,7 +412,10 @@
 				EXPORTED_SYMBOLS_FILE = "$(MATLAB_DIR)/extern/lib/$(MATLAB_ARCH_$(CURRENT_ARCH))/mexFunction.map";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MATLABTools-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = MATLAB_MEX_FILE;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					MATLAB_MEX_FILE,
+				);
 				HEADER_SEARCH_PATHS = (
 					"$(MATLAB_DIR)/extern/include",
 					"$(inherited)",
