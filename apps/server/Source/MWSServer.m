@@ -17,6 +17,9 @@
 #define DEFAULT_HOST_IP @"127.0.0.1"
 #define LISTENING_ADDRESS_KEY @"listeningAddressKey"
 
+#define DEFAULTS_AUTO_OPEN_CLIENT @"autoOpenClient"
+#define DEFAULTS_AUTO_OPEN_CONSOLE @"autoOpenConsole"
+
 #define HELP_URL @"http://help.mworks-project.org/"
 
 @interface MWSServer(PrivateMethods)
@@ -25,6 +28,23 @@
 
 
 @implementation MWSServer
+
+
++ (void)initialize {
+    //
+    // The class identity test ensures that this method is called only once.  For more info, see
+    // http://lists.apple.com/archives/cocoa-dev/2009/Mar/msg01166.html
+    //
+    if (self == [MWSServer class]) {
+        NSMutableDictionary *defaultValues = [NSMutableDictionary dictionary];
+        
+        [defaultValues setObject:[NSNumber numberWithBool:NO] forKey:DEFAULTS_AUTO_OPEN_CLIENT];
+        [defaultValues setObject:[NSNumber numberWithBool:NO] forKey:DEFAULTS_AUTO_OPEN_CONSOLE];
+        
+        [[NSUserDefaults standardUserDefaults] registerDefaults:defaultValues];
+    }
+}
+
 
 - (id) init {
 	self = [super init];
@@ -90,8 +110,17 @@
         [app presentError:err];
         [app terminate:self];
     }
+    
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:DEFAULTS_AUTO_OPEN_CLIENT]) {
+        [NSTask launchedTaskWithLaunchPath:@"/usr/bin/open"
+                                 arguments:[NSArray arrayWithObject:@"/Applications/MWClient.app"]];
+    }
+    
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:DEFAULTS_AUTO_OPEN_CONSOLE]) {
+        [self toggleConsole:nil];
+    }
 }
-	
+
 - (void)awakeFromNib{
 	core->setListenLowPort(19989);
     core->setListenHighPort(19999);

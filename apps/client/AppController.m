@@ -10,6 +10,7 @@
 #import "MWClientInstance.h"
 #import "NSMenuExtensions.h"
 
+#define DEFAULTS_AUTO_CONNECT_TO_LAST_SERVER_KEY @"autoConnectToLastServer"
 #define DEFAULTS_AUTO_CLOSE_PLUGIN_WINDOWS_KEY @"autoClosePluginWindows"
 #define DEFAULTS_RESTORE_OPEN_PLUGIN_WINDOWS_KEY @"restoreOpenPluginWindows"
 
@@ -28,6 +29,7 @@
     if (self == [AppController class]) {
         NSMutableDictionary *defaultValues = [NSMutableDictionary dictionary];
         
+        [defaultValues setObject:[NSNumber numberWithBool:NO] forKey:DEFAULTS_AUTO_CONNECT_TO_LAST_SERVER_KEY];
         [defaultValues setObject:[NSNumber numberWithBool:YES] forKey:DEFAULTS_AUTO_CLOSE_PLUGIN_WINDOWS_KEY];
         [defaultValues setObject:[NSNumber numberWithBool:NO] forKey:DEFAULTS_RESTORE_OPEN_PLUGIN_WINDOWS_KEY];
         
@@ -67,6 +69,8 @@
 	}
 	
 	[self setPreferredWindowHeight:preferred_height];
+    
+    [self setModalClientInstanceInCharge:newInstance];
 }
 
 - (void)removeClientInstance:(MWClientInstance *)instance{
@@ -506,6 +510,13 @@
 
 - (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)theApplication {
 	return YES;
+}
+
+
+- (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:DEFAULTS_AUTO_CONNECT_TO_LAST_SERVER_KEY]) {
+        [modalClientInstanceInCharge connect];
+    }
 }
 
 
