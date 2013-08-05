@@ -302,7 +302,7 @@ def cppunit():
 
 @builder
 def matlab_xunit():
-    version = '3.1'
+    version = '3.1.1'
     srcdir = 'matlab_xunit_' + version
     zipfile = srcdir + '.zip'
 
@@ -315,7 +315,7 @@ def matlab_xunit():
         check_call([
             rsync,
             '-a',
-            'matlab_xunit/xunit',
+            'matlab_xunit_3_1_1/xunit',
             path_to_stagedir + '/MATLAB',
             ])
 
