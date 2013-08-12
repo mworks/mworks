@@ -35,7 +35,7 @@ Variable * FreezableVariableContainer::clone(){
 
 void FreezableVariableContainer::freeze(bool should_freeze){
     
-    boost::mutex::scoped_lock(lock);
+    boost::mutex::scoped_lock locker(lock);
     
     frozen = should_freeze;
     
@@ -50,7 +50,7 @@ void FreezableVariableContainer::thaw(){
 }
 
 Datum FreezableVariableContainer::getValue(){
-    boost::mutex::scoped_lock(lock);
+    boost::mutex::scoped_lock locker(lock);
     
     if(frozen){
         return frozen_value;
