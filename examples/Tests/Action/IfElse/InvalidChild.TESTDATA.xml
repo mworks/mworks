@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<marionette_info>
+  <expected_messages>
+    <message type="starts_with">ERROR: if/else can contain only conditional (if) actions</message>
+    <message type="starts_with">ERROR: Failed to parse experiment</message>
+  </expected_messages>
+  <expected_events>
+    <!-- Override the default events, since we don't expect the normal state-system progression -->
+  </expected_events>
+</marionette_info>

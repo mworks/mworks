@@ -1,0 +1,33 @@
+<?xml version="1.0" standalone="no"?>
+<monkeyml version="1.0">
+    <io_devices tag="IO Devices"></io_devices>
+    <variables tag="Variables">
+        <variable tag="x" scope="global" logging="when_changed" default_value="0" type="integer"></variable>
+        <variable tag="n" scope="global" logging="when_changed" default_value="0" type="integer"></variable>
+    </variables>
+    <sounds tag="Sounds"></sounds>
+    <stimuli tag="Stimuli"></stimuli>
+    <filters tag="Filters"></filters>
+    <optimizers tag="Optimizers"></optimizers>
+    <experiment tag="New Experiment" full_name="" description="">
+        <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
+            <block tag="New Block" nsamples="4" sampling_method="cycles" selection="sequential" interruptible="YES">
+                <action type="if_else" tag="If/Else">
+                    <action type="if" tag="If x >= 3" condition="x >= 3">
+                        <action type="report" tag="Report" message="x >= 3"></action>
+                        <action type="assignment" tag="Increment n" variable="n" value="n + 1"></action>
+                    </action>
+                    <action type="if" tag="If x >= 2" condition="x >= 2">
+                        <action type="report" tag="Report" message="x >= 2"></action>
+                        <action type="assignment" tag="Increment n" variable="n" value="n + 1"></action>
+                    </action>
+                    <action type="if" tag="If x >= 1" condition="x >= 1">
+                        <action type="report" tag="Report" message="x >= 1"></action>
+                        <action type="assignment" tag="Increment n" variable="n" value="n + 1"></action>
+                    </action>
+                </action>
+            </block>
+            <action type="assert" tag="Assert" condition="n == 0" message="n is $n but should be 0" stop_on_failure="0"></action>
+        </protocol>
+    </experiment>
+</monkeyml>

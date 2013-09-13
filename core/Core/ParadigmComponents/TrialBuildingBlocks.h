@@ -579,7 +579,6 @@ class If : public Action {
 protected:
 	shared_ptr<Variable> condition;
 	ExpandableList<Action> actionlist;
-	ExpandableList<Action> elselist;	
 public:
 	If(shared_ptr<Variable> v1);
 	virtual ~If();
@@ -594,6 +593,26 @@ class IfFactory : public ComponentFactory{
 	virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
 												ComponentRegistry *reg);
 };
+
+
+class IfElse : public Action {
+    
+public:
+    static void describeComponent(ComponentInfo &info);
+    
+    explicit IfElse(const ParameterValueMap &parameters);
+    
+    void addChild(std::map<std::string, std::string> parameters,
+                  ComponentRegistry *reg,
+                  shared_ptr<Component> child) MW_OVERRIDE;
+    
+    bool execute() MW_OVERRIDE;
+    
+private:
+    std::vector< shared_ptr<If> > conditionals;
+    
+};
+
 
 class Transition : public mw::Component { };
 

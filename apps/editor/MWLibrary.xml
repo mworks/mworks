@@ -828,6 +828,9 @@
 		<!-- Inheritance -->
 		<isa>Action</isa>
 		
+		<!-- Placement rules -->
+		<allowed_parent>Conditional Branching (If/Else)</allowed_parent>
+		
 		<!-- Information for display in the GUI -->
 		<inspector>IfInspectorView</inspector>
 		<description>
@@ -838,6 +841,24 @@
 		<code>
 			<action type="if" tag="Conditionally Execute Actions" 
 							  condition="1"/>
+		</code>
+	</MWElement>
+
+	<MWElement name="Conditional Branching (If/Else)">
+		<!-- XPath 2.0 expression defining nodes of this type -->
+		<match_signature>action[@type="if_else"]</match_signature>
+		
+		<!-- Inheritance -->
+		<isa>Action</isa>
+		
+		<!-- Information for display in the GUI -->
+		<description>
+Given a list of conditional (if) actions, executes the first one whose condition is true, or none if all conditions are false.  To implement an unconditional "else" action, add a conditional with an always-true condition at the end of the list.
+		</description>
+		
+		<!-- Payload -->
+		<code>
+			<action type="if_else" tag="If/Else"/>
 		</code>
 	</MWElement>
 	

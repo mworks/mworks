@@ -58,6 +58,7 @@ ComponentRegistry::ComponentRegistry() :
 	
 	registerFactory("action/schedule", new ScheduledActionsFactory());
 	registerFactory("action/if", new IfFactory());
+    registerFactory<StandardComponentFactory, IfElse>();
 	
 	
 	registerFactory("action/assignment", new AssignmentFactory());

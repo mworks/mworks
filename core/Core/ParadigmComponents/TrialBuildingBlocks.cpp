@@ -1128,23 +1128,22 @@ void If::addChild(std::map<std::string, std::string> parameters,
 					shared_ptr<mw::Component> child){
 	shared_ptr<Action> act = boost::dynamic_pointer_cast<Action,mw::Component>(child);
 	if(act == 0) {
-		throw SimpleException("Attempting to add illegal object (" + child->getTag() + ") to coditional (if) action (" + this->getTag() + ")");
+		throw SimpleException("Attempting to add illegal object (" + child->getTag() + ") to conditional (if) action (" + this->getTag() + ")");
 	}
 	
 	addAction(act);
 }
 
 bool If::execute() {
-    if((bool)(*condition)) {
+    bool shouldExecute = bool(*condition);
+    
+    if (shouldExecute) {
         for(int i=0; i < actionlist.getNElements(); i++) {
             actionlist[i]->execute();
         }
-    } else {
-        for(int i = 0; i < elselist.getNElements(); i++) {
-			elselist[i]->execute();
-        }
     }
-	return true;
+    
+    return shouldExecute;
 }
 
 shared_ptr<mw::Component> IfFactory::createObject(std::map<std::string, std::string> parameters,
@@ -1160,6 +1159,51 @@ shared_ptr<mw::Component> IfFactory::createObject(std::map<std::string, std::str
 	shared_ptr <mw::Component> newIfAction = shared_ptr<mw::Component>(new If(condition));
 	return newIfAction;			
 }
+
+
+/****************************************************************
+ *                 IfElse Methods
+ ****************************************************************/
+
+
+void IfElse::describeComponent(ComponentInfo &info) {
+    Action::describeComponent(info);
+    info.setSignature("action/if_else");
+}
+
+
+IfElse::IfElse(const ParameterValueMap &parameters) :
+    Action(parameters)
+{ }
+
+
+void IfElse::addChild(std::map<std::string, std::string> parameters,
+                      ComponentRegistry *reg,
+                      shared_ptr<Component> child)
+{
+    shared_ptr<If> cond = boost::dynamic_pointer_cast<If>(child);
+    if (!cond) {
+        throw SimpleException("if/else can contain only conditional (if) actions");
+    }
+    conditionals.push_back(cond);
+}
+
+
+bool IfElse::execute() {
+    if (conditionals.empty()) {
+        mwarning(M_PARADIGM_MESSAGE_DOMAIN, "if/else contains no conditional (if) actions");
+        return false;
+    }
+    
+    BOOST_FOREACH( const shared_ptr<If> &cond, conditionals ) {
+        if (cond->execute()) {
+            return true;
+        }
+    }
+    
+    return false;
+}
+
 
 /****************************************************************
  *                 TransitionCondition Methods
