@@ -326,10 +326,47 @@ void ParsedExpressionVariableTestFixture::testVariableSubscript() {
     CPPUNIT_ASSERT_THROW(getExpressionValue("(x)"), SimpleException);
     CPPUNIT_ASSERT_THROW(getExpressionValue("(x[0])"), SimpleException);
     
-    // Scalar variable
-    createGlobalVariable("x", Datum(1L));
-    CPPUNIT_ASSERT_EQUAL(1L, long(getExpressionValue("(x)")));
-    CPPUNIT_ASSERT_THROW(getExpressionValue("(x[0])"), SimpleException);
+    // Non-list variable
+    {
+        createGlobalVariable("x", Datum(1L));
+        
+        CPPUNIT_ASSERT_EQUAL(1L, long(getExpressionValue("(x)")));
+        
+        Datum value = getExpressionValue("(x[0])");
+        CPPUNIT_ASSERT( value.isInteger() );
+        CPPUNIT_ASSERT_EQUAL(0L, long(value));
+    }
+    
+    // List variable
+    {
+        Datum value(M_LIST, 3);
+        value.setElement(0, 2L);
+        value.setElement(1, 3.0);
+        value.setElement(2, "four");
+        createGlobalVariable("y", value);
+        
+        value = getExpressionValue("(y[0])");
+        CPPUNIT_ASSERT( value.isInteger() );
+        CPPUNIT_ASSERT_EQUAL(2L, long(value));
+        
+        value = getExpressionValue("(y[1])");
+        CPPUNIT_ASSERT( value.isFloat() );
+        CPPUNIT_ASSERT_EQUAL(3.0, double(value));
+        
+        value = getExpressionValue("(y[2])");
+        CPPUNIT_ASSERT( value.isString() );
+        CPPUNIT_ASSERT_EQUAL(std::string("four"), std::string(value));
+        
+        // Out-of-bounds index
+        value = getExpressionValue("(y[3])");
+        CPPUNIT_ASSERT( value.isInteger() );
+        CPPUNIT_ASSERT_EQUAL(0L, long(value));
+        
+        // Negative index
+        value = getExpressionValue("(y[-1])");
+        CPPUNIT_ASSERT( value.isInteger() );
+        CPPUNIT_ASSERT_EQUAL(0L, long(value));
+    }
 }
 
 

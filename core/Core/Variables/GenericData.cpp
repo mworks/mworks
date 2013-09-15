@@ -1404,10 +1404,7 @@ Datum Datum::getElement(const int index)  const{
   
   //TODO: we could do something clever for M_DICTIONARY here
 	if(getDataType() != M_LIST) {
-		mwarning(M_SYSTEM_MESSAGE_DOMAIN, "mData::getElement(int index)\n"
-			"Can't get element by index in something other than M_LIST -- Type => %d\n",getDataType());
-		//fprintf(stderr, "mData::getElement(int index)\n"
-		//	"Can't get element by index in something other than M_LIST -- Type => %d\n",getDataType());
+		merror(M_SYSTEM_MESSAGE_DOMAIN, "Cannot get element by index: value is not a list");
     
 	 Datum undefined;
 		#if INTERNALLY_LOCKED_MDATA
@@ -1419,7 +1416,7 @@ Datum Datum::getElement(const int index)  const{
 	
 	
 	if(data->type != SCARAB_LIST){
-		mwarning(M_SYSTEM_MESSAGE_DOMAIN,
+		merror(M_SYSTEM_MESSAGE_DOMAIN,
 			"Mismatched internal data type: attempting to access as list, but has type: %d",
 			data->type);
 	 Datum undefined;
@@ -1428,22 +1425,19 @@ Datum Datum::getElement(const int index)  const{
 		#endif
 		return undefined;
 	}
-
-	if(index >= getMaxElements()) {
-		mwarning(M_SYSTEM_MESSAGE_DOMAIN, 
-			"Requested index (%d) is larger than number of elements (%d)\n", 
-			index, getNElements());
-		//fprintf(stderr, "Requested index (%d) is larger than number of elements (%d)\n", index, getNElements());
     
-	 Datum undefined;
-		#if INTERNALLY_LOCKED_MDATA
-			unlock();
-		#endif
-		return undefined;
-	}
+    if (index < 0 || index >= getMaxElements()) {
+        merror(M_SYSTEM_MESSAGE_DOMAIN, "Requested list index (%d) is out of bounds", index);
+        
+        Datum undefined;
+#if INTERNALLY_LOCKED_MDATA
+        unlock();
+#endif
+        return undefined;
+    }
 
 	if(data == NULL) {
-		mwarning(M_SYSTEM_MESSAGE_DOMAIN, 
+		merror(M_SYSTEM_MESSAGE_DOMAIN,
 			"Attempted to access a list with a NULL internal datum");
 		//fprintf(stderr, "Requested index (%d) is larger than number of elements (%d)\n", index, getNElements());
     

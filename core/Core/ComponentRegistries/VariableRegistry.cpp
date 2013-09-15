@@ -510,12 +510,18 @@ stx::AnyScalar VariableRegistry::lookupVariable(const std::string &varname, cons
         throw UnknownVariableException(varname);
     }
     
+    int index = subscript.getInteger();
+    
     shared_ptr<SelectionVariable> sel = boost::dynamic_pointer_cast<SelectionVariable>(var);
-    if (!sel) {
-        throw SimpleException("Variable does not support subscripts", varname);
+    if (sel) {
+        return sel->getTentativeSelection(index);
     }
     
-    stx::AnyScalar value = sel->getTentativeSelection(subscript.getInteger());
+    Datum value = var->getValue().getElement(index);
+    if (value.isUndefined()) {
+        mwarning(M_SYSTEM_MESSAGE_DOMAIN, "Unable to get element by index.  Returning 0 instead.");
+        value.setInteger(0);
+    }
     return value;
 }
 
