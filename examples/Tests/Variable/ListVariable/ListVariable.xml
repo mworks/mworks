@@ -1,0 +1,28 @@
+<?xml version="1.0" standalone="no"?>
+<monkeyml version="1.0">
+    <io_devices tag="IO Devices"></io_devices>
+    <variables tag="Variables">
+        <variable tag="list1" scope="global" logging="when_changed" default_value="123" type="list"></variable>
+        <variable tag="list2" scope="global" logging="when_changed" default_value="1.5,2:4,&quot;five&quot;" type="list"></variable>
+    </variables>
+    <sounds tag="Sounds"></sounds>
+    <stimuli tag="Stimuli"></stimuli>
+    <filters tag="Filters"></filters>
+    <optimizers tag="Optimizers"></optimizers>
+    <experiment tag="New Experiment" full_name="" description="">
+        <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
+            <block tag="Test Single-Element List" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
+                <action type="assert" tag="Assert" condition="list1[0] == 123" message="" stop_on_failure="0"></action>
+                <action type="assert" tag="Assert 2" condition="list1[1] == 0" message="" stop_on_failure="0"></action>
+            </block>
+            <block tag="Test Multi-Element List" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
+                <action type="assert" tag="Assert 3" condition="list2[0] == 1.5" message="" stop_on_failure="0"></action>
+                <action type="assert" tag="Assert 4" condition="list2[1] == 2" message="" stop_on_failure="0"></action>
+                <action type="assert" tag="Assert 5" condition="list2[2] == 3" message="" stop_on_failure="0"></action>
+                <action type="assert" tag="Assert 6" condition="list2[3] == 4" message="" stop_on_failure="0"></action>
+                <action type="assert" tag="Assert 7" condition="(string)(list2[4]) == &quot;five&quot;" message="" stop_on_failure="0"></action>
+                <action type="assert" tag="Assert 8" condition="list2[5] == 0" message="" stop_on_failure="0"></action>
+            </block>
+        </protocol>
+    </experiment>
+</monkeyml>

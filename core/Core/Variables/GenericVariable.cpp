@@ -118,6 +118,9 @@ shared_ptr<mw::Component> VariableFactory::createObject(std::map<std::string, st
 	} else if(type_string == "boolean") {
 		type = M_BOOLEAN;
 		defaultValue = false;
+	} else if(type_string == "list") {
+		type = M_LIST;
+		defaultValue = Datum(M_LIST, 0);
 	} else {
 		throw InvalidAttributeException(parameters["reference_id"], "type", parameters.find("type")->second);
 	}
@@ -188,6 +191,17 @@ shared_ptr<mw::Component> VariableFactory::createObject(std::map<std::string, st
 		case M_STRING:
 			defaultValue = Datum(parameters.find("default_value")->second);
 			break;
+        case M_LIST: {
+            std::vector<stx::AnyScalar> values;
+            ParsedExpressionVariable::evaluateExpressionList(parameters.find("default_value")->second, values);
+            
+            defaultValue = Datum(M_LIST, int(values.size()));
+            for (int i = 0; i < values.size(); i++) {
+                defaultValue.setElement(i, values[i]);
+            }
+            
+            break;
+        }
 		default:
 			throw InvalidAttributeException(parameters["reference_id"], "default_value", parameters.find("default_value")->second);
 			break;
