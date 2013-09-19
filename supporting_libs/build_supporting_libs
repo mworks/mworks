@@ -26,7 +26,7 @@ rsync = '/usr/bin/rsync'
 xcodebuild = '/usr/bin/xcodebuild'
 
 macosx_version_min = '10.7'
-sdk_version = '10.8'
+sdk_version = '.'.join(platform.mac_ver()[0].split('.')[:2])
 sdk_path = (('/Applications/Xcode.app/Contents/Developer/Platforms/'
              'MacOSX.platform/Developer/SDKs/MacOSX%s.sdk') % sdk_version)
 
@@ -340,6 +340,7 @@ def narrative():
             'clean',
             'build',
             'INSTALL_PATH=@loader_path/../Frameworks',
+            'SDKROOT=macosx' + sdk_version,
             'SDKROOT_i386=$(SDKROOT)',
             'OTHER_CFLAGS=-fvisibility=default',
             ])
