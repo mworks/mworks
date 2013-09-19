@@ -18,6 +18,7 @@
 #include <boost/lexical_cast.hpp>
 
 #include "ComponentRegistry.h"
+#include "Experiment.h"
 #include "Map.h"
 #include "ParsedColorTrio.h"
 #include "Stimulus.h"
@@ -126,7 +127,22 @@ inline StimulusGroupPtr ParameterValue::convert(const std::string &s, ComponentR
 
 
 template<>
-boost::filesystem::path ParameterValue::convert(const std::string &s, ComponentRegistryPtr reg);
+inline boost::filesystem::path ParameterValue::convert(const std::string &s, ComponentRegistryPtr reg) {
+    namespace bf = boost::filesystem;
+    
+    std::string workingPath;
+    if (GlobalCurrentExperiment) {
+        workingPath = GlobalCurrentExperiment->getWorkingPath();
+    }
+    
+    bf::path fullPath(expandPath(workingPath, s));
+    
+    if (!bf::exists(fullPath)) {
+        throw SimpleException("Path does not exist", fullPath.string());
+    }
+    
+    return fullPath;
+}
 
 
 template<>
