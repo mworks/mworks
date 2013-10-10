@@ -45,5 +45,21 @@
         </variable_assignment>
         <variable_assignment variable="#warnOnSkippedRefresh" type="integer" value="1"/>
         <variable_assignment variable="#allowAltFailover" type="integer" value="1"/>
+        <variable_assignment variable="#realtimeComponents">
+            <dictionary>
+                <dictionary_element>
+                    <key>clock</key>
+                    <value type="string">MachClock</value>
+                </dictionary_element>
+                <dictionary_element>
+                    <key>scheduler</key>
+                    <value type="string">ZenScheduler</value>
+                </dictionary_element>
+                <dictionary_element>
+                    <key>state_system</key>
+                    <value type="string">ZenStateSystem</value>
+                </dictionary_element>
+            </dictionary>
+        </variable_assignment>
     </variable_assignments>
 </monkeyml>

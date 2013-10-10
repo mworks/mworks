@@ -155,10 +155,7 @@ extern shared_ptr<Variable> beamPosition;		// DDC added as an experiment, Aug 20
         myEyePosRawX,
         myEyePosRawY;*/
 
-#define	MAIN_SCREEN_INFO_TAGNAME        "#mainScreenInfo"
-#define WARN_ON_SKIPPED_REFRESH_TAGNAME "#warnOnSkippedRefresh"
-#define ALT_FAILOVER_TAGNAME            "#allowAltFailover"
-
+#define	MAIN_SCREEN_INFO_TAGNAME            "#mainScreenInfo"
 #define M_DISPLAY_WIDTH_KEY					"width"
 #define M_DISPLAY_HEIGHT_KEY				"height"
 #define M_DISPLAY_DISTANCE_KEY				"distance"
@@ -169,8 +166,14 @@ extern shared_ptr<Variable> beamPosition;		// DDC added as an experiment, Aug 20
 #define M_REDRAW_ON_EVERY_REFRESH_KEY		"redraw_on_every_refresh"
 #define M_ANNOUNCE_INDIVIDUAL_STIMULI_KEY	"announce_individual_stimuli"
 extern shared_ptr<Variable> mainDisplayInfo;		
-extern shared_ptr<Variable> warnOnSkippedRefresh;		
+
+#define WARN_ON_SKIPPED_REFRESH_TAGNAME "#warnOnSkippedRefresh"
+extern shared_ptr<Variable> warnOnSkippedRefresh;
+
+#define ALT_FAILOVER_TAGNAME "#allowAltFailover"
 extern shared_ptr<Variable> alt_failover;
+
+extern shared_ptr<Variable> realtimeComponents;
 
 // Debugger variables
 #define DEBUGGER_ACTIVE_TAGNAME "debuggerActive"

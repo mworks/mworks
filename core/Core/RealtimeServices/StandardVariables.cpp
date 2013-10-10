@@ -29,6 +29,7 @@ BEGIN_NAMESPACE_MW
 	shared_ptr<Variable> beamPosition;		// DDC added as an experiment, Aug 2006
 	shared_ptr<Variable> mainDisplayInfo;
     shared_ptr<Variable> warnOnSkippedRefresh;
+    shared_ptr<Variable> realtimeComponents;
 	shared_ptr<Variable> currentState;
 	
 	shared_ptr<Variable> trialAnnounce;
@@ -238,6 +239,15 @@ BEGIN_NAMESPACE_MW
                                                                                      false, 
                                                                                      M_DISCRETE_BOOLEAN,
                                                                                      PRIVATE_SYSTEM_VARIABLES));
+		
+		
+        Datum defaultRealtimeComponents;
+        realtimeComponents = registry->createGlobalVariable(new VariableProperties(&defaultRealtimeComponents,
+                                                                                   "#realtimeComponents",
+                                                                                   "Realtime Component Selections",
+                                                                                   "Used to select clock, scheduler, and state system components",
+                                                                                   M_WHEN_CHANGED, M_WHEN_CHANGED, true, false, M_STRUCTURED,
+                                                                                   PRIVATE_SYSTEM_VARIABLES));
 		
 		
 		debuggerActive = registry->createGlobalVariable(new VariableProperties(new Datum(0L),
