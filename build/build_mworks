@@ -124,6 +124,24 @@ def core():
     xcodebuild()
 
 
+@builder('mworks/plugins/core')
+def core_plugins():
+    for subdir in ('DriftingGratingStimulus',
+                   'HIDPlugin',
+                   'NE500',
+                   'ServersideConduit',
+                   'SidewinderPlugAndPlayGamepadPlugin'):
+        with workdir(subdir):
+            xcodebuild()
+
+
+@builder('plugins/core', transient=True)
+def local_core_plugins():
+    for subdir in list_subdirs():
+        with workdir(subdir):
+            xcodebuild()
+
+
 @builder('mworks/tools/data')
 def data_tools():
     for subdir in ('DataFileIndexer',):
@@ -144,24 +162,6 @@ def matlab_tools():
         announce('MATLAB install check failed; skipping matlab_tools')
     else:
         xcodebuild()
-
-
-@builder('mworks/plugins/core')
-def core_plugins():
-    for subdir in ('DriftingGratingStimulus',
-                   'HIDPlugin',
-                   'NE500',
-                   'ServersideConduit',
-                   'SidewinderPlugAndPlayGamepadPlugin'):
-        with workdir(subdir):
-            xcodebuild()
-
-
-@builder('plugins/core', transient=True)
-def local_core_plugins():
-    for subdir in list_subdirs():
-        with workdir(subdir):
-            xcodebuild()
 
 
 @builder('mworks/cocoa')
