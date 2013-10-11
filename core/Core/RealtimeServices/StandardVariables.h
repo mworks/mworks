@@ -122,7 +122,7 @@ extern shared_ptr<Variable> GlobalMessageVariable;
 #define ANNOUNCE_CURRENT_STATE_TAGNAME	"#announceCurrentState"
 extern shared_ptr<Variable> currentState;
 
-#define ANNOUNCE_TRIAL_TAGNAME	"#annouceTrial"
+#define ANNOUNCE_TRIAL_TAGNAME	"#announceTrial"
 #define ANNOUNCE_BLOCK_TAGNAME	"#announceBlock"
 
 extern shared_ptr<Variable> trialAnnounce;
@@ -137,8 +137,6 @@ extern shared_ptr<Variable> serverName;
 
 #define EXPERIMENT_LOAD_PROGRESS_TAGNAME	"#experimentLoadProgress"
 extern shared_ptr<Variable> experimentLoadProgress;
-
-extern shared_ptr<Variable> beamPosition;		// DDC added as an experiment, Aug 2006
 
 /*        sampleSource,
         spikeSource,

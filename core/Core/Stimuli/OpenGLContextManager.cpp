@@ -35,46 +35,6 @@ BEGIN_NAMESPACE_MW
 //#define kDefaultDisplay 1
 
 
-/*
-// TODO: this may make more sense if it were in the stimDisplay class instead
-//		 since multiple displays will have different VBLs etc. etc.
-//		 This is currently just hacked in to show how it is done and to use
-//		 in the meantime
-
-#define M_BEAM_POSITION_CHECK_INTERVAL_US	2000
-#define N_BEAM_POSITION_SUPPORT_CHECKS	50
-
-struct beam_position_args {
-	CGDirectDisplayID id;
-	int display_height;
-};
-
-// TODO: it should be pretty easy to adapt this to spit out a genuine
-//		(pre-time-stamped) VBL event that occurs pretty damned close to the
-//		real VBL
-
-void *announce_beam_position(void *arg){
-	
-	struct beam_position_args *beam_args = (struct beam_position_args *)arg; 
-	
-	
-	double beam_percent = ((double)CGDisplayBeamPosition(beam_args->id)) /
-	((double)beam_args->display_height);
-	
-	if(GlobalCurrentExperiment != NULL){
-		
-		shared_ptr <StateSystem> state_system = StateSystem::instance();
-		
-		if(state_system->isRunning()){
-			beamPosition->setValue(Datum((double)beam_percent));
-		}
-	}
-	
-	return NULL;
-}
- */
-
-
 OpenGLContextLock::OpenGLContextLock(CGLContextObj contextObj) :
     contextObj(contextObj)
 {

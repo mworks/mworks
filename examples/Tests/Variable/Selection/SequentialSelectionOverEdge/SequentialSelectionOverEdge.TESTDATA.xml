@@ -24,12 +24,11 @@
     </event>
     <event variable="#announceMessage"/>
     <event variable="#stimDisplayUpdate"/>
-    <event variable="#beamPosition"/>
     <event variable="#experimentLoadProgress"/>
     <event variable="#announceStimulus"/>
     <event variable="#requestCalibrator"/>
     <event variable="#announceCurrentState"/>
-    <event variable="#annouceTrial"/>
+    <event variable="#announceTrial"/>
     <event variable="#announceBlock"/>
     <event variable="#announceAssertion"/>
     <event variable="#serverName"/>

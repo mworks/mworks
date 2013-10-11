@@ -26,7 +26,6 @@ BEGIN_NAMESPACE_MW
 	shared_ptr<Variable> GlobalMessageVariable; 
 	shared_ptr<Variable> GlobalSystemEventVariable; 
 	shared_ptr<Variable> stimDisplayUpdate;   // JJD added June 2006
-	shared_ptr<Variable> beamPosition;		// DDC added as an experiment, Aug 2006
 	shared_ptr<Variable> mainDisplayInfo;
     shared_ptr<Variable> warnOnSkippedRefresh;
     shared_ptr<Variable> realtimeComponents;
@@ -101,16 +100,6 @@ BEGIN_NAMESPACE_MW
 																				   false, 
 																				   M_DISCRETE_BOOLEAN,
 																				   PRIVATE_SYSTEM_VARIABLES));  // view                                       
-		
-		beamPosition = registry->createGlobalVariable(
-													  new VariableProperties(
-																			  new Datum((long)0),
-																			  "#beamPosition", 
-																			  "Main stimulus display beam position",
-																			  "Main stimulus display beam position", 
-																			  M_WHEN_CHANGED,M_WHEN_CHANGED, true, false, 
-																			  M_INTEGER_FINITE,
-																			  PRIVATE_SYSTEM_VARIABLES));
 		
 		
 		experimentLoadProgress = registry->createGlobalVariable(
