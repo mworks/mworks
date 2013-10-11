@@ -76,10 +76,6 @@ void SchedulerTestFixture::testPeriod100HzNoPayload(){
 }
 
 void SchedulerTestFixture::testPeriod10HzNoPayloadChaffX4(){
-    // TODO: This test almost always fails.  It should be fixed or removed.
-    std::cout << " (DISABLED)";
-    return;
-
 	MWTime interval = 100000; // 10Hz
 	
 	std::vector<MWTime> times = timeTrial(interval, 400, 4);
