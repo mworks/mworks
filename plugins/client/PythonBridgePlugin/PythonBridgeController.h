@@ -13,7 +13,7 @@
 #import <MWorksCore/EventStreamConduit.h>
 #import <MWorksCocoa/MWCoreContainer.h>
 
-@interface PythonBridgeController : NSWindowController {
+@interface PythonBridgeController : NSWindowController <MWClientPluginTaskState> {
 
     IBOutlet id<MWClientProtocol> delegate;
     
@@ -75,3 +75,31 @@
 - (void) setInGroupedWindow:(BOOL)isit;
 
 @end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

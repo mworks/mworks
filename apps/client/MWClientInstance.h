@@ -213,6 +213,8 @@
 - (NSWindow *)groupedPluginWindow;
 - (void)hideAllPlugins;
 - (NSArray *)pluginWindows;
+- (NSArray *)openPluginWindows;
+- (void)setOpenPluginWindows:(NSArray *)openPluginWindows;
 - (void)saveOpenPluginWindows;
 - (void)restoreOpenPluginWindows;
 

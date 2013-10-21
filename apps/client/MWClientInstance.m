@@ -805,13 +805,9 @@
                         [self stopAccumulatingErrors];
                     }
                     
-                    [self setExperimentLoading:NO];
-                    [self setExperimentRunning:NO];
-                    [self setExperimentPaused:NO];
-                    
                     if([self hasExperimentLoadErrors]){
                         [self enforceLoadFailedState];
-                    } else {
+                    } else if (!self.experimentLoading) {
                         [self enforceConnectedState];
                     }
                 }
@@ -825,183 +821,6 @@
     
 }
 
-
-// IN THE PROCESS OF BEING DEPRECATED
-//- (void)processEvent:(MWCocoaEvent *)event {
-//	
-//    return;
-//    
-//	int code = [event code];
-//	
-//	if(code == RESERVED_CODEC_CODE) {
-//		
-//		
-//		[self unregisterCallbacksWithKey:STATE_SYSTEM_CALLBACK_KEY locking:NO];
-//		//[self registerEventCallbackWithReceiver:self 
-////										selector:@selector(processEvent:)
-////											 callbackKey:STATE_SYSTEM_CALLBACK_KEY
-////									forVariableCode:[NSNumber numberWithInt:RESERVED_CODEC_CODE]];
-////		
-//		
-//        
-//        // 12/09 DDC: deprecated
-//        //[self registerEventCallbackWithReceiver:self 
-////										selector:@selector(processEvent:)
-////											 callbackKey:STATE_SYSTEM_CALLBACK_KEY
-////									forVariableCode:systemCodecCode];
-////		
-//		
-//    
-//    [self registerBindingsBridgeWithReceiver:self
-//										bindingsKey:@"experimentLoadProgress"
-//												callbackKey:EXPERIMENT_LOAD_PROGRESS_KEY
-//									forVariable:@"#experimentLoadProgress"]; // TODO: use EXPERIMENT_LOAD_PROGRESS_TAGNAME instead
-//		
-//	} else {
-//		if(systemCodecCode < RESERVED_CODEC_CODE) {
-//			systemCodecCode = RESERVED_SYSTEM_EVENT_CODE; // TODO: cleanup
-//		}
-//		
-//		
-//		if (code == systemCodecCode && systemCodecCode > RESERVED_CODEC_CODE) {
-//			mw::Datum payload(*[event data]);
-//			mw::Datum sysEventType(payload.getElement(M_SYSTEM_PAYLOAD_TYPE));
-//			
-//			if(!sysEventType.isUndefined()) {
-//				// The F swich statement ... it's gotta be somewhere
-//				switch((mw::SystemPayloadType)sysEventType.getInteger()) {
-//					case M_PROTOCOL_PACKAGE:
-//					{
-//						mw::Datum pp(payload.getElement(M_SYSTEM_PAYLOAD));
-//						
-//						[protocolNames removeAllObjects];
-//						
-//						mw::Datum protocols(pp.getElement(M_PROTOCOLS));
-//						
-//						for(int i=0; i<protocols.getNElements(); ++i) {
-//							mw::Datum protocol(protocols[i]);
-//							
-//							NSString *protocolName = [[NSString alloc] initWithCString:protocol.getElement(M_PROTOCOL_NAME).getString()
-//																			  encoding:NSASCIIStringEncoding];
-//							
-//							[protocolNames addObject:protocolName];
-//						}
-//						
-//						[self willChangeValueForKey:@"protocolNames"];
-//						[self didChangeValueForKey:@"protocolNames"];
-//												
-//						string current_protocol_string = pp.getElement(M_CURRENT_PROTOCOL).getString();
-//		
-//						[self setCurrentProtocolName:[[NSString alloc] initWithCString:current_protocol_string.c_str()
-//																	   encoding:NSASCIIStringEncoding]];
-//																	   
-//						if(currentProtocolName == Nil || ([protocolNames indexOfObject:currentProtocolName] == NSNotFound)){
-//							[self setCurrentProtocolName:[protocolNames objectAtIndex:0]];
-//						}
-//					}
-//						break;
-//					
-//					case M_DATA_FILE_OPENED:
-//					{
-//						mw::Datum event(payload.getElement(M_SYSTEM_PAYLOAD));
-//						
-//						// TODO: kludge MUST be fixed
-//						mw::Datum file(event.getElement(1));
-//                        mw::Datum success(event.getElement(0));
-//						
-//                        if((int)success != M_COMMAND_SUCCESS){
-//                            [self setDataFileName:Nil];
-//                            [self setDataFileOpen:NO];
-//                            break;
-//                        }
-//                        
-//						[self setDataFileName:[NSString stringWithCString:file.getString() encoding:NSASCIIStringEncoding]];
-//						if([self dataFileName] != Nil){
-//							[self setDataFileOpen: YES];
-//						}
-//					}
-//						break;
-//					
-//					case M_DATA_FILE_CLOSED:
-//					{
-//						mw::Datum event(payload.getElement(M_SYSTEM_PAYLOAD));
-//						
-//						// TODO: kludge MUST be fixed
-//						mw::Datum file(event.getElement(1));
-//						
-//						[self setDataFileName:Nil];
-//						[self setDataFileOpen: NO];
-//						
-//					}
-//						break;
-//					
-//					case M_EXPERIMENT_STATE:
-//					{
-//						mw::Datum state(payload.getElement(M_SYSTEM_PAYLOAD));
-//						
-//						[self setExperimentLoaded:state.getElement(M_LOADED).getBool()];
-//						if([self experimentLoaded]) {
-//							[self setExperimentLoading:NO];						
-//                            core->unregisterCallbacks(CLIENT_LOAD_MESSAGE_CALLBACK_KEY, false);
-//							[self setExperimentPaused:state.getElement(M_PAUSED).getBool()];
-//							[self setExperimentRunning: state.getElement(M_RUNNING).getBool()];
-//							[self setExperimentName:[[NSString alloc] initWithCString:state.getElement(M_EXPERIMENT_NAME).getString()
-//																	  encoding:NSASCIIStringEncoding]];
-//							
-//							if([self experimentName] == Nil){
-//								[self setExperimentName:@"Unnamed Experiment"];
-//							}
-//							
-//							[self setExperimentPath:[[NSString alloc] initWithCString:state.getElement(M_EXPERIMENT_PATH).getString()
-//																	  encoding:NSASCIIStringEncoding]];
-//							
-//							
-//                            [self willChangeValueForKey:@"serversideVariableSetNames"];
-//
-//							[serversideVariableSetNames removeAllObjects];
-//							mw::Datum svs(state.getElement(M_SAVED_VARIABLES));
-//							
-//							if(svs.isList()) {
-//								for(int i=0; i<svs.getNElements(); ++i) {
-//									mw::Datum set(svs.getElement(i));
-//									
-//									[serversideVariableSetNames addObject:[NSString stringWithCString:set.getString()
-//																					encoding:NSASCIIStringEncoding]];
-//								}
-//							}
-//                            
-//                            [self didChangeValueForKey:@"serversideVariableSetNames"];
-//							
-//							if(accumulatingErrors){
-//								[self stopAccumulatingErrors];
-//							}
-//						
-//						} else {
-//							// Not loaded
-//							if(accumulatingErrors){
-//								[self stopAccumulatingErrors];
-//							}
-//								
-//							[self setExperimentLoading:NO];
-//							[self setExperimentRunning:NO];
-//							
-//							if([self hasExperimentLoadErrors]){
-//								[self enforceLoadFailedState];
-//							} else {
-//								[self enforceConnectedState];
-//							}
-//						}
-//					}
-//						break;
-//					default:
-//						break;
-//				}
-//				
-//			} 
-//		}
-//	}
-//
-//}
 
 - (void) loadPlugins {
 
@@ -1141,29 +960,34 @@
 }
 
 
-- (void)saveOpenPluginWindows {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    
-    [defaults setBool:[[grouped_plugin_controller window] isVisible] forKey:DEFAULTS_GROUPED_PLUGIN_WINDOW_IS_OPEN_KEY];
-    
-    NSArray *previousOpenPluginWindows = [defaults arrayForKey:DEFAULTS_OPEN_PLUGIN_WINDOWS_KEY];
-    NSMutableArray *openPluginWindows;
-    
-    if (previousOpenPluginWindows) {
-        openPluginWindows = [previousOpenPluginWindows mutableCopy];
-    } else {
-        openPluginWindows = [NSMutableArray array];
-    }
+- (NSArray *)openPluginWindows {
+    NSMutableArray *openPluginWindows = [NSMutableArray array];
     
     for (NSWindowController *controller in pluginWindows) {
         NSString *autoSaveName = [controller windowFrameAutosaveName];
-        [openPluginWindows removeObject:autoSaveName];
         if ([[controller window] isVisible]) {
             [openPluginWindows addObject:autoSaveName];
         }
     }
     
-    [defaults setObject:openPluginWindows forKey:DEFAULTS_OPEN_PLUGIN_WINDOWS_KEY];
+    return openPluginWindows;
+}
+
+
+- (void)setOpenPluginWindows:(NSArray *)openPluginWindows {
+    for (int i = 0; i < [pluginWindows count]; i++) {
+        NSWindowController *controller = [pluginWindows objectAtIndex:i];
+        if ([openPluginWindows containsObject:[controller windowFrameAutosaveName]]) {
+            [self showPlugin:i];
+        }
+    }
+}
+
+
+- (void)saveOpenPluginWindows {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setBool:[[grouped_plugin_controller window] isVisible] forKey:DEFAULTS_GROUPED_PLUGIN_WINDOW_IS_OPEN_KEY];
+    [defaults setObject:[self openPluginWindows] forKey:DEFAULTS_OPEN_PLUGIN_WINDOWS_KEY];
 }
 
 
@@ -1176,12 +1000,7 @@
     
     NSArray *openPluginWindows = [defaults arrayForKey:DEFAULTS_OPEN_PLUGIN_WINDOWS_KEY];
     if (openPluginWindows) {
-        for (int i = 0; i < [pluginWindows count]; i++) {
-            NSWindowController *controller = [pluginWindows objectAtIndex:i];
-            if ([openPluginWindows containsObject:[controller windowFrameAutosaveName]]) {
-                [self showPlugin:i];
-            }
-        }
+        [self setOpenPluginWindows:openPluginWindows];
     }
 }
 
@@ -1287,6 +1106,23 @@
     [taskInfo setObject:self.serverURL forKey:@"serverURL"];
     [taskInfo setObject:self.serverPort forKey:@"serverPort"];
     [taskInfo setObject:self.clientsideExperimentPath forKey:@"experimentPath"];
+    if (self.variableSetLoaded) {
+        [taskInfo setObject:self.variableSetName forKey:@"variableSetName"];
+    }
+    if (appController.shouldRestoreOpenPluginWindows) {
+        [taskInfo setObject:[self openPluginWindows] forKey:@"openPluginWindows"];
+    }
+    
+    NSMutableDictionary *pluginState = [NSMutableDictionary dictionary];
+    
+    for (NSWindowController *controller in pluginWindows) {
+        if ([controller respondsToSelector:@selector(taskState)]) {
+            [pluginState setObject:[(id<MWClientPluginTaskState>)controller taskState]
+                            forKey:[controller windowFrameAutosaveName]];
+        }
+    }
+    
+    [taskInfo setObject:pluginState forKey:@"pluginState"];
     
     return taskInfo;
 }
@@ -1308,10 +1144,35 @@
     }
     
     NSString *newExperimentPath = [taskInfo objectForKey:@"experimentPath"];
-    if (newExperimentPath && [newExperimentPath isKindOfClass:[NSString class]])
-    {
+    if (newExperimentPath && [newExperimentPath isKindOfClass:[NSString class]]) {
         self.experimentPath = newExperimentPath;
         [self loadExperiment];
+    }
+    
+    NSString *newVariableSetName = [taskInfo objectForKey:@"variableSetName"];
+    if (newVariableSetName && [newVariableSetName isKindOfClass:[NSString class]]) {
+        self.variableSetName = newVariableSetName;
+        [self loadVariableSet];
+    }
+    
+    if (appController.shouldRestoreOpenPluginWindows) {
+        NSArray *newOpenPluginWindows = [taskInfo objectForKey:@"openPluginWindows"];
+        if (newOpenPluginWindows && [newOpenPluginWindows isKindOfClass:[NSArray class]]) {
+            [self setOpenPluginWindows:newOpenPluginWindows];
+        }
+    }
+    
+    NSDictionary *newPluginState = [taskInfo objectForKey:@"pluginState"];
+    if (newPluginState && [newPluginState isKindOfClass:[NSDictionary class]]) {
+        for (NSWindowController *controller in pluginWindows) {
+            NSDictionary *state = [newPluginState objectForKey:[controller windowFrameAutosaveName]];
+            if (state &&
+                [state isKindOfClass:[NSDictionary class]] &&
+                [controller respondsToSelector:@selector(setTaskState:)])
+            {
+                [(id<MWClientPluginTaskState>)controller setTaskState:state];
+            }
+        }
     }
 }
 

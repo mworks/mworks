@@ -59,3 +59,38 @@
 - (NSWindow *)groupedPluginWindow;
 
 @end
+
+
+@protocol MWClientPluginTaskState <NSObject>
+
+- (NSDictionary *)taskState;
+- (void)setTaskState:(NSDictionary *)taskState;
+
+@end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

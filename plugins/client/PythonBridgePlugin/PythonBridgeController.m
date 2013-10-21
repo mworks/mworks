@@ -335,7 +335,35 @@
     }
 }
 
+
+- (NSDictionary *)taskState {
+    NSMutableDictionary *taskState = [NSMutableDictionary dictionary];
+    
+    if (python_task) {
+        [taskState setObject:self.path forKey:@"scriptPath"];
+    }
+    
+    return taskState;
+}
+
+
+- (void)setTaskState:(NSDictionary *)taskState {
+    NSString *newPath = [taskState objectForKey:@"scriptPath"];
+    if (newPath && [newPath isKindOfClass:[NSString class]]) {
+        if (python_task) {
+            [self terminateScript];
+        }
+        [self launchScriptAtPath:newPath];
+    }
+}
+
+
 @end
+
+
+
+
+
 
 
 
