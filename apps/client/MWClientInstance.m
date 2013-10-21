@@ -140,6 +140,7 @@
 @synthesize experimentRunning;
 @synthesize experimentPaused;
 @synthesize experimentName;
+@synthesize clientsideExperimentPath;
 @synthesize experimentPath;
 @synthesize hasExperimentLoadErrors;
 @synthesize errors;
@@ -426,6 +427,7 @@
 	[self setExperimentName:@"Loading Experiment..."];
 	string path = [[self experimentPath] cStringUsingEncoding:NSASCIIStringEncoding];
 	[self setExperimentLoading:YES];
+    self.clientsideExperimentPath = self.experimentPath;
 	[self updateRecentExperiments];
 	
 	[self registerEventCallbackWithReceiver:self 
@@ -1279,5 +1281,66 @@
 }
 
 
+- (NSDictionary *)taskInfo {
+    NSMutableDictionary *taskInfo = [NSMutableDictionary dictionary];
+    
+    [taskInfo setObject:self.serverURL forKey:@"serverURL"];
+    [taskInfo setObject:self.serverPort forKey:@"serverPort"];
+    [taskInfo setObject:self.clientsideExperimentPath forKey:@"experimentPath"];
+    
+    return taskInfo;
+}
+
+
+- (void)loadTask:(NSDictionary *)taskInfo {
+    NSString *newServerURL = [taskInfo objectForKey:@"serverURL"];
+    NSNumber *newServerPort = [taskInfo objectForKey:@"serverPort"];
+    if (newServerURL && [newServerURL isKindOfClass:[NSString class]] &&
+        newServerPort && [newServerPort isKindOfClass:[NSNumber class]])
+    {
+        self.serverURL = newServerURL;
+        self.serverPort = newServerPort;
+        [self connect];
+    }
+    
+    if (!self.serverConnected) {
+        return;
+    }
+    
+    NSString *newExperimentPath = [taskInfo objectForKey:@"experimentPath"];
+    if (newExperimentPath && [newExperimentPath isKindOfClass:[NSString class]])
+    {
+        self.experimentPath = newExperimentPath;
+        [self loadExperiment];
+    }
+}
+
 
 @end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

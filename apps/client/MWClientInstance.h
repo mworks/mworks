@@ -54,6 +54,7 @@
 	BOOL experimentRunning;
 	BOOL experimentPaused;
 	
+    NSString *clientsideExperimentPath;
 	NSString *experimentPath;
 	NSString *experimentName;
 	
@@ -119,6 +120,7 @@
 @property BOOL experimentLoaded;
 @property BOOL experimentRunning;
 @property BOOL experimentPaused;
+@property(copy, readwrite) NSString *clientsideExperimentPath;
 @property(copy, readwrite) NSString *experimentName;
 @property(copy, readwrite) NSString *experimentPath;
 @property BOOL hasExperimentLoadErrors;
@@ -223,4 +225,35 @@
 
 //- (void)handleMessageEvent:(MWCocoaEvent *)event;
 
+- (NSDictionary *)taskInfo;
+- (void)loadTask:(NSDictionary *)taskInfo;
+
 @end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

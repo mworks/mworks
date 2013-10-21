@@ -126,4 +126,35 @@
 
 - (NSColor *)uniqueColor;
 
+- (IBAction)loadTask:(id)sender;
+- (IBAction)saveTask:(id)sender;
+
 @end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

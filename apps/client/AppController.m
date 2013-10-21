@@ -146,13 +146,6 @@
 		
 	NSWindow *sheet_to_use;
 	
-	NSString *experimentPath = [modalClientInstanceInCharge experimentPath];
-	
-	
-	if(experimentPath == Nil){
-		experimentPath = @"/";
-	}
-	
 	if(is_loaded){
 		sheet_to_use = experimentCloseSheet;
 	} else {
@@ -190,6 +183,8 @@
 	
   // Create the File Open Dialog class.
   NSOpenPanel* openDlg = [self openPanel];
+    
+  [openDlg setTitle:@"Choose Experiment"];
   
   // Enable the selection of files in the dialog.
   [openDlg setCanChooseFiles:YES];
@@ -530,6 +525,55 @@
 - (IBAction) launchHelp: (id) sender {
   //NSLog(@"Launching Help...");
   [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:HELP_URL]];
+}
+
+
+- (IBAction)loadTask:(id)sender {
+    NSOpenPanel *openDlg = [self openPanel];
+    [openDlg setTitle:@"Load Task"];
+    if ([openDlg runModal] != NSFileHandlingPanelOKButton) {
+        return;
+    }
+    
+    NSURL *taskURL = [[openPanel URLs] lastObject];
+    NSData *taskData;
+    NSDictionary *taskInfo;
+    NSError *error = nil;
+    
+    if (!(taskData = [NSData dataWithContentsOfURL:taskURL options:0 error:&error]) ||
+        !(taskInfo = [NSJSONSerialization JSONObjectWithData:taskData options:0 error:nil]) ||
+        ![taskInfo isKindOfClass:[NSDictionary class]])
+    {
+        if (!error) {
+            error = [NSError errorWithDomain:NSCocoaErrorDomain
+                                        code:NSFileReadCorruptFileError
+                                    userInfo:[NSDictionary dictionaryWithObject:taskURL forKey:NSURLErrorKey]];
+        }
+        [self.window performSelectorOnMainThread:@selector(presentError:) withObject:error waitUntilDone:NO];
+        return;
+    }
+    
+    [[self modalClientInstanceInCharge] loadTask:taskInfo];
+}
+
+
+- (IBAction)saveTask:(id)sender {
+    NSSavePanel *savePanel = [NSSavePanel savePanel];
+    [savePanel setTitle:@"Save Task"];
+    if ([savePanel runModal] != NSFileHandlingPanelOKButton) {
+        return;
+    }
+    
+    NSData *taskData;
+    NSError *error;
+    if (!(taskData = [NSJSONSerialization dataWithJSONObject:[[self modalClientInstanceInCharge] taskInfo]
+                                                     options:NSJSONWritingPrettyPrinted
+                                                       error:&error]) ||
+        ![taskData writeToURL:[savePanel URL] options:0 error:&error])
+    {
+        [self.window performSelectorOnMainThread:@selector(presentError:) withObject:error waitUntilDone:NO];
+        return;
+    }
 }
 
 
