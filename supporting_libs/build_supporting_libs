@@ -281,8 +281,8 @@ def devil():
         extra_args = ['--enable-ILU', '--enable-ILUT', '--disable-exr',
                       '--disable-lcms', '--disable-mng', '--disable-utx',
                       '--without-squish', '--without-nvtt'],
-        extra_compile_flags = ('-I/usr/include/malloc -I%s/include' %
-                               path_to_stagedir),
+        extra_compile_flags = ('-I%s/usr/include/malloc -I%s/include' %
+                               (sdk_path, path_to_stagedir)),
         extra_cflags = '-std=gnu89',
         extra_ldflags = ('-L%s/lib' % path_to_stagedir),
         )
