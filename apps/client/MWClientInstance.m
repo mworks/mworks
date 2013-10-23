@@ -1117,8 +1117,10 @@
     
     for (NSWindowController *controller in pluginWindows) {
         if ([controller respondsToSelector:@selector(taskState)]) {
-            [pluginState setObject:[(id<MWClientPluginTaskState>)controller taskState]
-                            forKey:[controller windowFrameAutosaveName]];
+            NSDictionary *state = [(id<MWClientPluginTaskState>)controller taskState];
+            if ([state count] > 0) {
+                [pluginState setObject:state forKey:[controller windowFrameAutosaveName]];
+            }
         }
     }
     
@@ -1168,6 +1170,7 @@
             NSDictionary *state = [newPluginState objectForKey:[controller windowFrameAutosaveName]];
             if (state &&
                 [state isKindOfClass:[NSDictionary class]] &&
+                [state count] > 0 &&
                 [controller respondsToSelector:@selector(setTaskState:)])
             {
                 [(id<MWClientPluginTaskState>)controller setTaskState:state];
