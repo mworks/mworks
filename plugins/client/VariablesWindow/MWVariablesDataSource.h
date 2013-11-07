@@ -12,8 +12,9 @@
 @class MWVariablesWindowController;  // Forward declaration
 
 
-@interface MWVariablesDataSource : NSObject <NSOutlineViewDataSource> {
+@interface MWVariablesDataSource : NSObject <NSOutlineViewDataSource, NSOutlineViewDelegate> {
 	NSMutableArray *rootItems;
+    NSMutableArray *expandedItems;
 	IBOutlet NSTableColumn *nameCol;
 	IBOutlet NSTableColumn *valueCol;
 	
@@ -23,6 +24,6 @@
 - (MWVariablesWindowController *)delegate;
 - (void)setDelegate:(MWVariablesWindowController *)new_delegate;
 
-- (void)setRootGroups:(NSDictionary *)rootGroups;
+- (void)setRootGroups:(NSDictionary *)rootGroups forOutlineView:(NSOutlineView *)outlineView;
 
 @end

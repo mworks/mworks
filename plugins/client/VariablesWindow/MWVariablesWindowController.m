@@ -48,8 +48,7 @@
 
 - (void)populateDataSource:(MWCocoaEvent *)event {
 	if(delegate != nil) {
-		[ds setRootGroups:[delegate varGroups]];
-		[varView reloadData];
+		[ds setRootGroups:[delegate varGroups] forOutlineView:varView];
 	}
 }
 

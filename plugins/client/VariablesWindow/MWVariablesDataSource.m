@@ -10,9 +10,24 @@
 #import "MWVariableDisplayItem.h"
 #import "MWVariablesWindowController.h"
 
+#define DEFAULTS_EXPANDED_ITEMS_KEY @"Variables Window - expanded items"
+
+
 @implementation MWVariablesDataSource
-- (void)awakeFromNib {
-	rootItems = [[NSMutableArray alloc] init];
+
+
+- (id)init {
+    if ((self = [super init])) {
+        rootItems = [[NSMutableArray alloc] init];
+        expandedItems = [[NSMutableArray alloc] init];
+        
+        NSArray *restoredExpandedItems = [[NSUserDefaults standardUserDefaults] arrayForKey:DEFAULTS_EXPANDED_ITEMS_KEY];
+        if (restoredExpandedItems) {
+            [expandedItems addObjectsFromArray:restoredExpandedItems];
+        }
+    }
+    
+    return self;
 }
 
 
@@ -25,7 +40,7 @@
 }
 
 
-- (void)setRootGroups:(NSDictionary *)rootGroups {
+- (void)setRootGroups:(NSDictionary *)rootGroups forOutlineView:(NSOutlineView *)outlineView {
     NSMutableDictionary *oldRootObjects = [NSMutableDictionary dictionaryWithCapacity:[rootItems count]];
     for (MWVariableDisplayItem *item in rootItems) {
         [oldRootObjects setObject:item forKey:item.displayName];
@@ -41,6 +56,14 @@
         [item setVariables:[rootGroups objectForKey:key]];
 		[rootItems addObject:item];
 	}
+    
+    [outlineView reloadData];
+    
+    for (MWVariableDisplayItem *item in rootItems) {
+        if (NSNotFound != [expandedItems indexOfObject:item.displayName]) {
+            [outlineView expandItem:item];
+        }
+    }
 }
 
 
@@ -48,10 +71,7 @@
 // DataSource overridden methods
 - (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item
 {
-    if (!rootItems) {
-        // In case we're being called before awakeFromNib
-        return 0;
-    } else if (item == nil) {
+    if (item == nil) {
 		return [rootItems count];
 	} else {
 		return [item numberOfChildren];
@@ -146,4 +166,51 @@ objectValueForTableColumn:(NSTableColumn *)tableColumn
 	}
 }
 
+
+- (void)outlineViewItemDidExpand:(NSNotification *)notification
+{
+    MWVariableDisplayItem *item = [[notification userInfo] objectForKey:@"NSObject"];
+    if (NSNotFound == [expandedItems indexOfObject:item.displayName]) {
+        [expandedItems addObject:item.displayName];
+        [[NSUserDefaults standardUserDefaults] setObject:expandedItems forKey:DEFAULTS_EXPANDED_ITEMS_KEY];
+    }
+}
+
+
+- (void)outlineViewItemDidCollapse:(NSNotification *)notification
+{
+    MWVariableDisplayItem *item = [[notification userInfo] objectForKey:@"NSObject"];
+    [expandedItems removeObject:item.displayName];
+    [[NSUserDefaults standardUserDefaults] setObject:expandedItems forKey:DEFAULTS_EXPANDED_ITEMS_KEY];
+}
+
+
 @end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
