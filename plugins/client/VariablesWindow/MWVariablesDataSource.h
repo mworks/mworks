@@ -26,4 +26,7 @@
 
 - (void)setRootGroups:(NSDictionary *)rootGroups forOutlineView:(NSOutlineView *)outlineView;
 
+- (NSArray *)expandedItems;
+- (void)setExpandedItems:(NSArray *)items forOutlineView:(NSOutlineView *)outlineView;
+
 @end

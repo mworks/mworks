@@ -97,4 +97,50 @@
 }
 
 
+- (NSDictionary *)taskState {
+    NSMutableDictionary *taskState = [NSMutableDictionary dictionary];
+    
+    NSArray *expandedGroups = [ds expandedItems];
+    if ([expandedGroups count] > 0) {
+        [taskState setObject:expandedGroups forKey:@"expandedGroups"];
+    }
+    
+    return taskState;
+}
+
+
+- (void)setTaskState:(NSDictionary *)taskState {
+    NSArray *expandedGroups = [taskState objectForKey:@"expandedGroups"];
+    if (expandedGroups && [expandedGroups isKindOfClass:[NSArray class]]) {
+        [ds setExpandedItems:expandedGroups forOutlineView:varView];
+    }
+}
+
+
 @end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -67,6 +67,27 @@
 }
 
 
+- (NSArray *)expandedItems
+{
+    return [[expandedItems copy] autorelease];
+}
+
+
+- (void)setExpandedItems:(NSArray *)items forOutlineView:(NSOutlineView *)outlineView
+{
+    [expandedItems removeAllObjects];
+    [expandedItems addObjectsFromArray:items];
+    [[NSUserDefaults standardUserDefaults] setObject:expandedItems forKey:DEFAULTS_EXPANDED_ITEMS_KEY];
+    
+    for (MWVariableDisplayItem *item in rootItems) {
+        if (NSNotFound != [expandedItems indexOfObject:item.displayName]) {
+            [outlineView expandItem:item];
+        } else {
+            [outlineView collapseItem:item];
+        }
+    }
+}
+
 
 // DataSource overridden methods
 - (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item
@@ -180,8 +201,10 @@ objectValueForTableColumn:(NSTableColumn *)tableColumn
 - (void)outlineViewItemDidCollapse:(NSNotification *)notification
 {
     MWVariableDisplayItem *item = [[notification userInfo] objectForKey:@"NSObject"];
-    [expandedItems removeObject:item.displayName];
-    [[NSUserDefaults standardUserDefaults] setObject:expandedItems forKey:DEFAULTS_EXPANDED_ITEMS_KEY];
+    if (NSNotFound != [expandedItems indexOfObject:item.displayName]) {
+        [expandedItems removeObject:item.displayName];
+        [[NSUserDefaults standardUserDefaults] setObject:expandedItems forKey:DEFAULTS_EXPANDED_ITEMS_KEY];
+    }
 }
 
 

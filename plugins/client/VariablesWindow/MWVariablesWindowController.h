@@ -8,7 +8,7 @@
 #import "MWVariablesDataSource.h"
 
 
-@interface MWVariablesWindowController : NSWindowController {
+@interface MWVariablesWindowController : NSWindowController <MWClientPluginTaskState> {
 	IBOutlet MWVariablesDataSource *ds;
 	IBOutlet NSOutlineView *varView;
 	IBOutlet id<MWClientProtocol> delegate;
