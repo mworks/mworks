@@ -30,7 +30,8 @@ buildslave create-slave --umask=022 $SLAVEDIR \
     $SLAVE_NAME $SLAVE_PASS
 
 get_config buildbot_admin > $SLAVEDIR/info/admin
-system_profiler -detailLevel mini SPHardwareDataType > $SLAVEDIR/info/host
+system_profiler -detailLevel mini SPHardwareDataType SPSoftwareDataType \
+    > $SLAVEDIR/info/host
 
 #buildslave start $SLAVEDIR
 
