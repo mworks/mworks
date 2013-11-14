@@ -7,7 +7,9 @@ from optparse import OptionParser
 import os
 import os.path
 import subprocess
+import string
 import sys
+import time
 
 
 ################################################################################
@@ -17,10 +19,8 @@ import sys
 ################################################################################
 
 
-mw_xcodebuild = ('/Library/Application Support/MWorks/Developer/bin/'
-                 'mw_xcodebuild')
+xcrun = '/usr/bin/xcrun'
 
-mw_xcode_configuration = 'Development'
 mw_version = 'CUSTOM'
 
 
@@ -84,12 +84,29 @@ def list_subdirs():
                   if os.path.isdir(dir) and (not dir.startswith('.')))
 
 
-def xcodebuild(target='Everything'):
-    check_call([mw_xcodebuild, target, mw_xcode_configuration, mw_version])
+def xcodebuild(scheme='Everything'):
+    cmd = [xcrun,
+           'xcodebuild',
+           '-scheme', scheme,
+           'clean',
+           'build',
+           ]
+
+    if mw_version[0] in string.digits:
+        # Use version number only if it starts with a digit.  This
+        # will exclude fake versions like "NIGHTLY" and "CUSTOM".
+        cmd.append('MW_VERSION=' + mw_version)
+    else:
+        # If we're using a fake version number, attach a suffix
+        # containing the date to help identify the build
+        mw_version_suffix = time.strftime('-%Y%m%d', time.localtime())
+        cmd.append('MW_VERSION_SUFFIX=' + mw_version_suffix)
+
+    check_call(cmd)
 
 
 def make(targets=[]):
-    check_call(['/usr/bin/xcrun', 'make'] + targets)
+    check_call([xcrun, 'make'] + targets)
 
 
 ################################################################################
