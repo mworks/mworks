@@ -768,7 +768,6 @@
 		5C0509990A0ED95900F02584 /* Selectable.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Selectable.h; path = Core/ParadigmComponents/Selectable.h; sourceTree = "<group>"; };
 		5C08412209D596F800E4D2F4 /* TestBedCoreBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TestBedCoreBuilder.h; path = Core/CoreBuilders/TestBedCoreBuilder.h; sourceTree = SOURCE_ROOT; };
 		5C08412309D596F800E4D2F4 /* TestBedCoreBuilder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestBedCoreBuilder.cpp; path = Core/CoreBuilders/TestBedCoreBuilder.cpp; sourceTree = SOURCE_ROOT; };
-		5C08AEC10CC84DC000194E85 /* PyMonkeyWorks.cxx */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = PyMonkeyWorks.cxx; path = MonkeyWorksPython/PyMonkeyWorks.cxx; sourceTree = "<group>"; };
 		5C0B04AA0BB8A46500FD57B9 /* ScopedVariableEnvironment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ScopedVariableEnvironment.h; path = Core/Variables/ScopedVariableEnvironment.h; sourceTree = "<group>"; };
 		5C0B04AB0BB8A46500FD57B9 /* ScopedVariableEnvironment.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ScopedVariableEnvironment.cpp; path = Core/Variables/ScopedVariableEnvironment.cpp; sourceTree = "<group>"; };
 		5C0BB1EF126CDA1900387C54 /* AccumulatingConduit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AccumulatingConduit.cpp; sourceTree = "<group>"; };
@@ -847,8 +846,8 @@
 		5C91B98F086CC9DC00C14E1A /* Trigger.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Trigger.cpp; path = Core/Triggers/Trigger.cpp; sourceTree = SOURCE_ROOT; };
 		5CA07B0D10D04E9100000A95 /* SimpleCodecUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleCodecUtilities.h; sourceTree = "<group>"; };
 		5CA07B0E10D04E9100000A95 /* SimpleCodecUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SimpleCodecUtilities.cpp; sourceTree = "<group>"; };
-		5CA07B2710D052DB00000A95 /* EventCallbackHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventCallbackHandler.h; sourceTree = "<group>"; };
-		5CA07B2810D052DB00000A95 /* EventCallbackHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventCallbackHandler.cpp; sourceTree = "<group>"; };
+		5CA07B2710D052DB00000A95 /* EventCallbackHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EventCallbackHandler.h; path = Core/Events/EventCallbackHandler.h; sourceTree = "<group>"; };
+		5CA07B2810D052DB00000A95 /* EventCallbackHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EventCallbackHandler.cpp; path = Core/Events/EventCallbackHandler.cpp; sourceTree = "<group>"; };
 		5CA07B8E10D0B23B00000A95 /* EventCallbackHandlerTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventCallbackHandlerTest.h; sourceTree = "<group>"; };
 		5CA07B8F10D0B23B00000A95 /* EventCallbackHandlerTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventCallbackHandlerTest.cpp; sourceTree = "<group>"; };
 		5CA07BB110D0B4D200000A95 /* CodecAwareConduitTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CodecAwareConduitTest.h; sourceTree = "<group>"; };
@@ -857,7 +856,6 @@
 		5CA07BE810D1187200000A95 /* CodecAwareConduit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CodecAwareConduit.cpp; sourceTree = "<group>"; };
 		5CA9AD3010B5F9B500A04B67 /* VariableRegistryInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VariableRegistryInterface.h; path = Core/InterfaceHooks/VariableRegistryInterface.h; sourceTree = "<group>"; };
 		5CA9AD3110B5F9B500A04B67 /* VariableRegistryInterface.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = VariableRegistryInterface.cpp; path = Core/InterfaceHooks/VariableRegistryInterface.cpp; sourceTree = "<group>"; };
-		5CABA02D085E77B100FE4729 /* main.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = main.cpp; path = HeadlessServer/main.cpp; sourceTree = SOURCE_ROOT; };
 		5CAE8BF50AE4049E0013DB19 /* alut.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alut.h; sourceTree = "<group>"; };
 		5CAE8BF60AE4049E0013DB19 /* alut.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alut.c; sourceTree = "<group>"; };
 		5CB6C46A0E9A92B1006923EC /* ASIOEventTransport.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ASIOEventTransport.cpp; sourceTree = "<group>"; };
@@ -883,8 +881,8 @@
 		5CCDF6AB09F5C5C3008B1D65 /* TriggerTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TriggerTest.h; path = Core/Triggers/tests/TriggerTest.h; sourceTree = SOURCE_ROOT; };
 		5CCDF6AC09F5C5C3008B1D65 /* TriggerTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TriggerTest.cpp; path = Core/Triggers/tests/TriggerTest.cpp; sourceTree = SOURCE_ROOT; };
 		5CD504300D4ED0BA00CD1C1D /* TrialBuildingBlocks.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TrialBuildingBlocks.cpp; path = Core/ParadigmComponents/TrialBuildingBlocks.cpp; sourceTree = "<group>"; };
-		5CD621571174FF3D007339B7 /* FreezableVariableContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FreezableVariableContainer.h; sourceTree = "<group>"; };
-		5CD621581174FF3D007339B7 /* FreezableVariableContainer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FreezableVariableContainer.cpp; sourceTree = "<group>"; };
+		5CD621571174FF3D007339B7 /* FreezableVariableContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FreezableVariableContainer.h; path = Core/Variables/FreezableVariableContainer.h; sourceTree = "<group>"; };
+		5CD621581174FF3D007339B7 /* FreezableVariableContainer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FreezableVariableContainer.cpp; path = Core/Variables/FreezableVariableContainer.cpp; sourceTree = "<group>"; };
 		5CDCC87F0D2B0E10008E2F19 /* ExpressionParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExpressionParser.h; sourceTree = "<group>"; };
 		5CDCC8800D2B0E10008E2F19 /* ExpressionParser.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ExpressionParser.cc; sourceTree = "<group>"; };
 		5CDCC8810D2B0E10008E2F19 /* AnyScalar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnyScalar.h; sourceTree = "<group>"; };
@@ -1070,8 +1068,6 @@
 		DA2CE39107EA035F00C68AEF /* MachClockPlugin-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MachClockPlugin-Info.plist"; sourceTree = SOURCE_ROOT; };
 		DA2CE39607EA040D00C68AEF /* MachClock.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = MachClock.cpp; path = MachClock/MachClock.cpp; sourceTree = SOURCE_ROOT; };
 		DA2CE39707EA040D00C68AEF /* MachClock.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MachClock.h; path = MachClock/MachClock.h; sourceTree = SOURCE_ROOT; };
-		DA2CE3A407EA046800C68AEF /* MWorksScripting-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MWorksScripting-Info.plist"; sourceTree = SOURCE_ROOT; };
-		DA2CE3AC07EA04FF00C68AEF /* MonkeyScript.i */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c.preprocessed; name = MonkeyScript.i; path = MonkeyWorksScripting/MonkeyScript.i; sourceTree = SOURCE_ROOT; };
 		DA2E379C08B0FE5800BD22C4 /* EventBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = EventBuffer.cpp; path = Core/Events/EventBuffer.cpp; sourceTree = SOURCE_ROOT; };
 		DA2E379D08B0FE5800BD22C4 /* EventBuffer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = EventBuffer.h; path = Core/Events/EventBuffer.h; sourceTree = SOURCE_ROOT; };
 		DA30579B08B6A23700BA4B0E /* NetworkReturn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NetworkReturn.h; path = Core/Network/NetworkReturn.h; sourceTree = SOURCE_ROOT; };
@@ -1609,15 +1605,6 @@
 			name = Resources;
 			sourceTree = "<group>";
 		};
-		5C85E1AC10F28FBD003CD8B3 /* Outdated */ = {
-			isa = PBXGroup;
-			children = (
-				DA2CE3AA07EA04EC00C68AEF /* MonkeyWorksScripting */,
-				5CAB9FCB085E770400FE4729 /* Headless Server */,
-			);
-			name = Outdated;
-			sourceTree = "<group>";
-		};
 		5C8D03C10D56B18600454461 /* Dummy */ = {
 			isa = PBXGroup;
 			children = (
@@ -1636,14 +1623,6 @@
 			);
 			name = Triggers;
 			sourceTree = SOURCE_ROOT;
-		};
-		5CAB9FCB085E770400FE4729 /* Headless Server */ = {
-			isa = PBXGroup;
-			children = (
-				5CABA02D085E77B100FE4729 /* main.cpp */,
-			);
-			name = "Headless Server";
-			sourceTree = "<group>";
 		};
 		5CAE8BE20AE402250013DB19 /* alut */ = {
 			isa = PBXGroup;
@@ -1776,6 +1755,7 @@
 				5CF85600119D8DCD004167A5 /* Shader.h */,
 			);
 			name = Utilities;
+			path = Core/Stimuli/Utilities;
 			sourceTree = "<group>";
 		};
 		8E1A4BDC08DF55CB002E47BD /* Utilities */ = {
@@ -1863,7 +1843,6 @@
 				5C4D231C09DC3D0E0082BF9F /* Unit Testing */,
 				5C475B6107EF8BB4004A645E /* Standard Plugins */,
 				DADAD3E107F2267E00F8D324 /* Docs (woefully incomplete) */,
-				5C85E1AC10F28FBD003CD8B3 /* Outdated */,
 				DA96B8A009818E5B0007610D /* plists */,
 				E1CBF63416BAF1210057CE48 /* Frameworks & Libraries */,
 				DA2CE0D507E9F68100C68AEF /* Products */,
@@ -2214,16 +2193,6 @@
 			);
 			name = MachClock;
 			sourceTree = SOURCE_ROOT;
-		};
-		DA2CE3AA07EA04EC00C68AEF /* MonkeyWorksScripting */ = {
-			isa = PBXGroup;
-			children = (
-				DA2CE3A407EA046800C68AEF /* MWorksScripting-Info.plist */,
-				DA2CE3AC07EA04FF00C68AEF /* MonkeyScript.i */,
-				5C08AEC10CC84DC000194E85 /* PyMonkeyWorks.cxx */,
-			);
-			name = MonkeyWorksScripting;
-			sourceTree = "<group>";
 		};
 		DA96B8A009818E5B0007610D /* plists */ = {
 			isa = PBXGroup;

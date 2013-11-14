@@ -29,7 +29,7 @@
 ** THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include <glew.h>
+#include "glew.h"
 
 /*
  * Define glewGetContext and related helper macros.

@@ -20,7 +20,7 @@
  */
 
 //#include "include.h"
-#include <glew.h>
+#include "glew.h"
 //#include "include.h"
 //#include "../xbmc/Settings.h"
 
