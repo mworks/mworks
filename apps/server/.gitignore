@@ -1,6 +1,0 @@
-Info.plist
-MWServer.xcodeproj/*.pbxuser
-MWServer.xcodeproj/*.perspectivev3
-MWServer.xcodeproj/project.xcworkspace/xcuserdata/
-MWServer.xcodeproj/xcuserdata/
-build/

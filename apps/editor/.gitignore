@@ -1,6 +1,0 @@
-Info.plist
-MWEditor.xcodeproj/*.pbxuser
-MWEditor.xcodeproj/*.perspectivev3
-MWEditor.xcodeproj/project.xcworkspace/xcuserdata/
-MWEditor.xcodeproj/xcuserdata/
-build/
