@@ -296,6 +296,11 @@
     python_task = Nil;
     python_task_stdout = Nil;
     
+    if (conduit) {
+        conduit->finalize();
+        conduit.reset();
+    }
+    
     [self setStatus:STATUS_NONE_LOADED];
     [self setLoadButtonTitle:LOAD_BUTTON_TITLE];
 }

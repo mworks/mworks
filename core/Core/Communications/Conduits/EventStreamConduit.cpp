@@ -65,6 +65,8 @@
 
 #include <functional>
 
+#define CODEC_FROM_STREAM_CALLBACK_TAG "::codec_from_stream_callback"
+
 
 BEGIN_NAMESPACE_MW
 
@@ -83,7 +85,9 @@ bool EventStreamConduit::initialize(){
     
     
     // register a callback on
-    event_stream->registerCallback(RESERVED_CODEC_CODE, boost::bind(&EventStreamConduit::handleCodecFromStream, shared_from_this(), _1));
+    event_stream->registerCallback(RESERVED_CODEC_CODE,
+                                   boost::bind(&EventStreamConduit::handleCodecFromStream, shared_from_this(), _1),
+                                   callback_key + CODEC_FROM_STREAM_CALLBACK_TAG);
         
     // request a codec from the stream side
     event_stream->putEvent(SystemEventFactory::requestCodecControl());
@@ -107,6 +111,12 @@ bool EventStreamConduit::initialize(){
 
 
 void EventStreamConduit::finalize(){
+    {
+        // Unregister all callbacks
+        boost::mutex::scoped_lock lock(events_to_forward_lock);
+        event_stream->unregisterCallbacks(callback_key);
+        event_stream->unregisterCallbacks(callback_key + CODEC_FROM_STREAM_CALLBACK_TAG);
+    }
     
     {   // tell the system to stop
         boost::mutex::scoped_lock lock(stopping_mutex);
