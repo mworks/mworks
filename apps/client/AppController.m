@@ -508,6 +508,31 @@
 }
 
 
+- (BOOL)application:(NSApplication *)theApplication openFile:(NSString *)filename
+{
+    // We need to check for a server connection to prevent the user from using the recent documents menu to load
+    // a new task on top of an already-running one.  A better approach would be to disable all items in the recent
+    // documents menu when a task is loaded (as we do with the "Load Task" menu item); however, I haven't been able
+    // to figure out how to do that.
+    
+    if (![modalClientInstanceInCharge serverConnected]) {
+        
+        [self loadTaskFromURL:[NSURL fileURLWithPath:filename]];
+        
+    } else {
+        
+        NSAlert *alert = [[NSAlert alloc] init];
+        [alert setMessageText:@"Task already loaded"];
+        [alert setInformativeText:@"Please close the current experiment and disconnect from the server before attempting to load a new task."];
+        [alert runModal];
+        [alert release];
+        
+    }
+    
+    return YES;
+}
+
+
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     if ([[NSUserDefaults standardUserDefaults] boolForKey:DEFAULTS_AUTO_CONNECT_TO_LAST_SERVER_KEY]) {
         [modalClientInstanceInCharge connect];
@@ -531,11 +556,15 @@
 - (IBAction)loadTask:(id)sender {
     NSOpenPanel *openDlg = [self openPanel];
     [openDlg setTitle:@"Load Task"];
-    if ([openDlg runModal] != NSFileHandlingPanelOKButton) {
-        return;
+    if ([openDlg runModal] == NSFileHandlingPanelOKButton) {
+        [self loadTaskFromURL:[[openPanel URLs] lastObject]];
     }
+}
+
+
+- (void)loadTaskFromURL:(NSURL *)taskURL {
+    [[NSDocumentController sharedDocumentController] noteNewRecentDocumentURL:taskURL];
     
-    NSURL *taskURL = [[openPanel URLs] lastObject];
     NSData *taskData;
     NSDictionary *taskInfo;
     NSError *error = nil;

@@ -127,6 +127,7 @@
 - (NSColor *)uniqueColor;
 
 - (IBAction)loadTask:(id)sender;
+- (void)loadTaskFromURL:(NSURL *)taskURL;
 - (IBAction)saveTask:(id)sender;
 
 @end
