@@ -24,6 +24,7 @@
 #  define PYTHON_ARCH @"i386"
 #endif
 
+#import <MWorksCocoa/NSString+MWorksCocoaAdditions.h>
 #import <MWorksCore/IPCEventTransport.h>
 
 @implementation PythonBridgeController
@@ -353,7 +354,7 @@
         if (python_task) {
             [self terminateScript];
         }
-        [self launchScriptAtPath:newPath];
+        [self launchScriptAtPath:[newPath mwk_absolutePath]];
     }
 }
 

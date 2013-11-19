@@ -13,6 +13,7 @@
 #import <MWorksCocoa/MWCocoaEventFunctor.h>
 #import <MWorksCocoa/MWWindowController.h>
 #import <MWorksCocoa/MWNotebook.h>
+#import <MWorksCocoa/NSString+MWorksCocoaAdditions.h>
 
 #define ERROR_MESSAGE_CALLBACK_KEY	"MWClientInstance::client_error_message_callback"
 #define CLIENT_SYSTEM_EVENT_CALLBACK_KEY  "MWClientInstance::system_event_callback"
@@ -1147,7 +1148,7 @@
     
     NSString *newExperimentPath = [taskInfo objectForKey:@"experimentPath"];
     if (newExperimentPath && [newExperimentPath isKindOfClass:[NSString class]]) {
-        self.experimentPath = newExperimentPath;
+        self.experimentPath = [newExperimentPath mwk_absolutePath];
         [self loadExperiment];
     }
     
@@ -1157,11 +1158,9 @@
         [self loadVariableSet];
     }
     
-    if (appController.shouldRestoreOpenPluginWindows) {
-        NSArray *newOpenPluginWindows = [taskInfo objectForKey:@"openPluginWindows"];
-        if (newOpenPluginWindows && [newOpenPluginWindows isKindOfClass:[NSArray class]]) {
-            [self setOpenPluginWindows:newOpenPluginWindows];
-        }
+    NSArray *newOpenPluginWindows = [taskInfo objectForKey:@"openPluginWindows"];
+    if (newOpenPluginWindows && [newOpenPluginWindows isKindOfClass:[NSArray class]]) {
+        [self setOpenPluginWindows:newOpenPluginWindows];
     }
     
     NSDictionary *newPluginState = [taskInfo objectForKey:@"pluginState"];

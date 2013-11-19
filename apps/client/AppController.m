@@ -553,7 +553,21 @@
         return;
     }
     
-    [[self modalClientInstanceInCharge] loadTask:taskInfo];
+    // While loading the task, we set the current directory to the directory in which the task definition file
+    // resides, so that paths relative to that location will resolve correctly
+    
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSString *oldCurrentDirectoryPath = [fileManager currentDirectoryPath];
+    [fileManager changeCurrentDirectoryPath:[[taskURL path] stringByDeletingLastPathComponent]];
+    
+    @try {
+        [[self modalClientInstanceInCharge] loadTask:taskInfo];
+    }
+    @finally {
+        if (oldCurrentDirectoryPath) {
+            [fileManager changeCurrentDirectoryPath:oldCurrentDirectoryPath];
+        }
+    }
 }
 
 
