@@ -10,6 +10,7 @@
 #include "PythonSimpleConduit.h"
 #include "PythonAccumulatingConduit.h"
 #include "PythonDataBindingsHelpers.h"
+#include "PythonAppHelpers.h"
 
 #include <boost/python/suite/indexing/vector_indexing_suite.hpp>
 
@@ -47,6 +48,10 @@ BOOST_PYTHON_MODULE(_mworks)
     register_ptr_to_python< shared_ptr<Event> >();
     
     class_<PythonIPCConduit, boost::noncopyable>("_IPCConduit", no_init)
+    .def("_start_main_loop", python_start_main_loop)
+    .staticmethod("_start_main_loop")
+    .def("_stop_main_loop", python_stop_main_loop)
+    .staticmethod("_stop_main_loop")
     .def("initialize", &PythonIPCConduit::initialize)
     .def("finalize", &PythonIPCConduit::finalize)
     .def("send_data", &PythonIPCConduit::sendPyObject)

@@ -46,6 +46,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		E18951C11892C8F600804C10 /* PythonAppHelpers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E18951BF1892C8F600804C10 /* PythonAppHelpers.cpp */; };
 		E18D3BA216553B5900D472D0 /* PythonDataHelpers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E18D3B9E16553B5900D472D0 /* PythonDataHelpers.cpp */; };
 		E18D3BB8165541B900D472D0 /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E18D3BB7165541B900D472D0 /* MWorksCore.framework */; };
 		E18D3BBB1655422F00D472D0 /* libboost_python.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E18D3BBA1655422F00D472D0 /* libboost_python.a */; };
@@ -103,6 +104,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		E18951BF1892C8F600804C10 /* PythonAppHelpers.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = PythonAppHelpers.cpp; sourceTree = "<group>"; };
+		E18951C01892C8F600804C10 /* PythonAppHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PythonAppHelpers.h; sourceTree = "<group>"; };
 		E18D3B79165537A300D472D0 /* _mworks.so */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.objfile"; includeInIndex = 0; path = _mworks.so; sourceTree = BUILT_PRODUCTS_DIR; };
 		E18D3B7D165537A300D472D0 /* PythonTools-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PythonTools-Prefix.pch"; sourceTree = "<group>"; };
 		E18D3B981655390600D472D0 /* Development.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Development.xcconfig; path = "/Library/Application Support/MWorks/Developer/Xcode/Development.xcconfig"; sourceTree = "<absolute>"; };
@@ -212,6 +215,8 @@
 				E1ED66D7165585E3000AAAEA /* GILHelpers.h */,
 				E18D3B9F16553B5900D472D0 /* PythonDataHelpers.h */,
 				E18D3B9E16553B5900D472D0 /* PythonDataHelpers.cpp */,
+				E18951C01892C8F600804C10 /* PythonAppHelpers.h */,
+				E18951BF1892C8F600804C10 /* PythonAppHelpers.cpp */,
 			);
 			path = Helpers;
 			sourceTree = SOURCE_ROOT;
@@ -349,6 +354,7 @@
 				E18D3BC71655456600D472D0 /* PythonTools.cpp in Sources */,
 				E18D3BA216553B5900D472D0 /* PythonDataHelpers.cpp in Sources */,
 				E18D3BD01655489C00D472D0 /* PythonDataBindingsHelpers.cpp in Sources */,
+				E18951C11892C8F600804C10 /* PythonAppHelpers.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
