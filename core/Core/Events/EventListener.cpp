@@ -50,7 +50,7 @@ void EventListener::startListener() {
 	
     thread = scheduler->scheduleUS(FILELINE,
 								   0, 
-								   100000, 
+								   5000,
 								   M_REPEAT_INDEFINITELY,
 								   boost::bind(readReader, this_one),
 								   M_DEFAULT_NETWORK_PRIORITY,
