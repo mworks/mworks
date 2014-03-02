@@ -3,6 +3,7 @@
   <permitted_error_messages>
     <!-- Test-specific messages are appended to this list -->
     <message type="starts_with">WARNING: Write Service Routine Interrupted on id </message>
+    <message type="starts_with">WARNING: Received Termination code on id </message>
     <message type="whole_message">WARNING: Failed to set thread priority: thread not running</message>
   </permitted_error_messages>
   <expected_messages>
