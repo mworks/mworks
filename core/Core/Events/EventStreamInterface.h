@@ -25,7 +25,6 @@
 #include "Event.h"
 #include "GenericVariable.h"
 #include "VariableRegistry.h"
-#include "CoreEventFunctor.h"
 #include <boost/thread/mutex.hpp>
 #include <boost/thread/recursive_mutex.hpp>
 #include <boost/enable_shared_from_this.hpp>

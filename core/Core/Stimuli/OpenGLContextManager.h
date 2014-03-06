@@ -19,7 +19,6 @@
 
 
 
-#import "MWorksCore/StimMirrorController.h"
 #import "Scheduler.h"
 
 #include "OpenGLContextLock.h"
