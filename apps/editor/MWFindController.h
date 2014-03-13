@@ -28,8 +28,6 @@
 @property int currentResult;
 @property BOOL hasResults;
 
--(void)setSearchString:(NSString *)newstring;
-
 -(IBAction)nextResult:(id)sender;
 -(IBAction)previousResult:(id)sender;
 

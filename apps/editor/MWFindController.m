@@ -11,7 +11,6 @@
 
 @implementation MWFindController
 
-@synthesize searchString;
 @synthesize currentResult;
 @synthesize hasResults;
 
@@ -20,9 +19,13 @@
     return self;
 }
 
+-(NSString *)searchString {
+    return searchString;
+}
+
 -(void)setSearchString:(NSString *)newstring{
 
-    searchString = newstring;
+    searchString = [newstring copy];
     //NSString *xpath = @"//protocol";
     NSString *xpath = [NSString stringWithFormat:@"//*[contains(translate(@tag, 'abcdefghijklmnopqrstuvwxyz','ABCDEFGHIJKLMNOPQRSTUVWXYZ'), \"%@\")] | //*[@*[contains(., \"%@\")]]", [searchString uppercaseString], searchString, Nil]; 
     //NSString *xpath = [NSString stringWithFormat:@"//[contains(@*,\"%@\")]", [searchString uppercaseString], Nil]; 
