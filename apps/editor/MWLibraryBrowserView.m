@@ -8,6 +8,7 @@
 
 #import "MWLibraryBrowserView.h"
 #import "MWLibraryBrowserMatrix.h"
+#import "MWLibraryTreeController.h"
 
 
 @implementation MWLibraryBrowserView
@@ -21,7 +22,7 @@
 
 - (IBAction)copy:(id)sender{
 
-	[[self delegate] copy:sender];
+	[(MWLibraryTreeController *)[self delegate] copy:sender];
 }
 
 

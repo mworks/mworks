@@ -15,7 +15,6 @@
 	[self setIconKeyPath: nil];
 	[self setPrimaryTextKeyPath: nil];
 	[self setSecondaryTextKeyPath: nil];
-    [super dealloc];
 }
 
 - copyWithZone:(NSZone *)zone {
@@ -26,21 +25,16 @@
 }
 
 - (void) setIconKeyPath: (NSString*) path {
-	[iconKeyPath autorelease];
-	iconKeyPath = [path retain];
+	iconKeyPath = path;
 }
 - (void) setPrimaryTextKeyPath: (NSString*) path {
-	[primaryTextKeyPath autorelease];
-	primaryTextKeyPath = [path retain];	
+	primaryTextKeyPath = path;	
 }
 - (void) setSecondaryTextKeyPath: (NSString*) path {
-	[secondaryTextKeyPath autorelease];
-	secondaryTextKeyPath = [path retain];	
+	secondaryTextKeyPath = path;	
 }
 
 - (void) setDataDelegate: (NSObject*) aDelegate {
-	[aDelegate retain];	
-	[delegate autorelease];
 	delegate = aDelegate;	
 }
 

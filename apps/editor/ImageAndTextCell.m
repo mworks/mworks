@@ -63,22 +63,17 @@
     return self;
 }
 
-- (void)dealloc {
-    [image release];
-    [super dealloc];
-}
 
 - (id)copyWithZone:(NSZone *)zone {
     ImageAndTextCell *cell = (ImageAndTextCell *)[super copyWithZone:zone];
     // The image ivar will be directly copied; we need to retain or copy it.
-    cell->image = [image retain];
+    cell->image = image;
     return cell;
 }
 
 - (void)setAccessoryImage:(NSImage *)anImage {
     if (anImage != image) {
-        [image release];
-        image = [anImage retain];
+        image = anImage;
     }
 }
 

@@ -54,4 +54,40 @@
                     library:(NSXMLDocument *)lib 
                     intoTarget:(NSXMLElement *)target_element 
                     atIndex:(int)index;
+
+- (IBAction)copy:(id)sender;
+- (IBAction)cut:(id)sender;
+- (IBAction)paste:(id)sender;
+
+- (NSInteger)numberOfItemsInComboBox:(NSComboBox *)control;
+- (id)comboBox:(NSComboBox *)control objectValueForItemAtIndex:(NSInteger)index;
+- (NSString *)comboBox:(NSComboBox *)control completedString:(NSString *)uncompletedString;
+
 @end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

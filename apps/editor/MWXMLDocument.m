@@ -330,7 +330,6 @@
 - (void) dealloc {
 
 	[validationTimer invalidate];
-	[super dealloc];
 }
 
 - (NSString *)windowNibName
