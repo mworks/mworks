@@ -14,7 +14,7 @@
 {
     self = [super init];
 	
-	validationInProcess = NO;
+	validationInProcess = [NSNumber numberWithBool:NO];
 	
     if (self) {
 		////////////////////////////////////////////////////////////////
@@ -601,7 +601,7 @@
 
                     		
 	@synchronized(validationInProcess){
-		validationInProcess = NO;
+		validationInProcess = [NSNumber numberWithBool:NO];
 	}
     
     
