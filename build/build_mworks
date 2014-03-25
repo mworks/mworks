@@ -152,6 +152,7 @@ def examples():
 def core_plugins():
     for subdir in ('DriftingGratingStimulus',
                    'HIDPlugin',
+                   'MoviePlugin',
                    'NE500',
                    'ServersideConduit',
                    'SidewinderPlugAndPlayGamepadPlugin'):
