@@ -517,16 +517,17 @@ Datum ImageStimulus::getCurrentAnnounceDrawData() {
 }
 
 
-const std::string PointStimulus::COLOR("color");
+const std::string RectangleStimulus::COLOR("color");
 
 
-void PointStimulus::describeComponent(ComponentInfo &info) {
+void RectangleStimulus::describeComponent(ComponentInfo &info) {
     BasicTransformStimulus::describeComponent(info);
+    info.setSignature("stimulus/rectangle");
     info.addParameter(COLOR, "1.0,1.0,1.0");
 }
 
 
-PointStimulus::PointStimulus(const ParameterValueMap &parameters) :
+RectangleStimulus::RectangleStimulus(const ParameterValueMap &parameters) :
     BasicTransformStimulus(parameters)
 {
     ParsedColorTrio pct(parameters[COLOR]);
@@ -536,7 +537,7 @@ PointStimulus::PointStimulus(const ParameterValueMap &parameters) :
 }
 
 
-PointStimulus::PointStimulus(const PointStimulus &tocopy) : 
+RectangleStimulus::RectangleStimulus(const RectangleStimulus &tocopy) : 
 				BasicTransformStimulus((const BasicTransformStimulus&)tocopy){
 	r = tocopy.r;
 	g = tocopy.g;
@@ -544,13 +545,13 @@ PointStimulus::PointStimulus(const PointStimulus &tocopy) :
 }
 
 
-void PointStimulus::drawInUnitSquare(shared_ptr<StimulusDisplay> display) {
+void RectangleStimulus::drawInUnitSquare(shared_ptr<StimulusDisplay> display) {
     
      // draw point at desired location with desired color
      // fill a (0,0) (1,1) box with the right color
     if(r == NULL || g == NULL || b == NULL ){
 		merror(M_DISPLAY_MESSAGE_DOMAIN,
-				"NULL color variable in PointStimulus.");
+				"NULL color variable in RectangleStimulus.");
 	}
 	
 	
@@ -588,14 +589,14 @@ void PointStimulus::drawInUnitSquare(shared_ptr<StimulusDisplay> display) {
 }
 
 // override of base class to provide more info
-Datum PointStimulus::getCurrentAnnounceDrawData() {
+Datum RectangleStimulus::getCurrentAnnounceDrawData() {
     
-    //mprintf("getting announce DRAW data for point stimulus %s",tag );
+    //mprintf("getting announce DRAW data for rectangle stimulus %s",tag );
     
     Datum announceData(M_DICTIONARY, 11);
     announceData.addElement(STIM_NAME,getTag());        // char
     announceData.addElement(STIM_ACTION,STIM_ACTION_DRAW);
-    announceData.addElement(STIM_TYPE,STIM_TYPE_POINT);
+    announceData.addElement(STIM_TYPE, "rectangle");
     announceData.addElement(STIM_POSX,last_posx);  
     announceData.addElement(STIM_POSY,last_posy);  
     announceData.addElement(STIM_SIZEX,last_sizex);  

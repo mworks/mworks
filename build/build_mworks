@@ -141,6 +141,13 @@ def core():
     xcodebuild()
 
 
+# Install the standard examples *before* building plugins, since some plugins
+# will install their own examples/tests
+@builder('mworks/examples')
+def examples():
+    make()
+
+
 @builder('mworks/plugins/core')
 def core_plugins():
     for subdir in ('DriftingGratingStimulus',
@@ -215,11 +222,6 @@ def editor():
 @builder('mworks/apps/server')
 def server():
     xcodebuild()
-
-
-@builder('mworks/examples')
-def examples():
-    make()
 
 
 #@builder('mworks/xcode')

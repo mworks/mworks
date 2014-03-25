@@ -42,7 +42,7 @@ const std::string FixationPoint::TRIGGER_FLAG("trigger_flag");
 
 
 void FixationPoint::describeComponent(ComponentInfo &info) {
-    PointStimulus::describeComponent(info);
+    RectangleStimulus::describeComponent(info);
     info.setSignature("stimulus/fixation_point");
     info.addParameter(TRIGGER_WIDTH);
     info.addParameter(TRIGGER_WATCH_X);
@@ -52,7 +52,7 @@ void FixationPoint::describeComponent(ComponentInfo &info) {
 
 
 FixationPoint::FixationPoint(const ParameterValueMap &parameters):
-    PointStimulus(parameters),
+    RectangleStimulus(parameters),
     SquareRegionTrigger(registerVariable(parameters[X_POSITION]),
                         registerVariable(parameters[Y_POSITION]),
                         registerVariable(parameters[TRIGGER_WIDTH]),
@@ -77,7 +77,7 @@ ExpandableList<Datum> *FixationPoint::getGoldStandardValues() {
 }    
 
 
-// override of PointStimulus announce method -- allows trigger info to also be announced
+// override of RectangleStimulus announce method -- allows trigger info to also be announced
 Datum FixationPoint::getCurrentAnnounceDrawData() {
     
     //if (VERBOSE_EYE_CALIBRATORS> 1) mprintf("getting announce DRAW data for fixation point stimulus %s",tag );
@@ -95,7 +95,7 @@ Datum FixationPoint::getCurrentAnnounceDrawData() {
     announceData.addElement(STIM_COLOR_G,last_g);  
     announceData.addElement(STIM_COLOR_B,last_b);  
     
-    // stuff from the trigger that is not in point stimulus ...
+    // stuff from the trigger that is not in rectangle stimulus ...
     announceData.addElement("center_x", (double)(*centerx));
     announceData.addElement("center_y", (double)(*centery));
     announceData.addElement("width", (double)(*width));

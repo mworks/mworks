@@ -125,6 +125,7 @@ ComponentRegistry::ComponentRegistry() :
 	// stimuli
     registerFactory<StandardStimulusFactory, BlankScreen>();
     registerFactory<StandardStimulusFactory, ImageStimulus>();
+    registerFactory<StandardStimulusFactory, RectangleStimulus>();
     registerFactory<StandardStimulusFactory, FixationPoint>();
     registerFactory<StandardComponentFactory, StimulusGroup>();
 	

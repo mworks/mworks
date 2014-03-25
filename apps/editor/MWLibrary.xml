@@ -336,6 +336,32 @@
 		</code>
 	</MWElement>
 
+
+    <MWElement name="Rectangle Stimulus">
+        <!-- XPath 2.0 expression defining nodes of this type -->
+        <match_signature>stimulus[@type="rectangle"]</match_signature>
+        
+        <isa>Stimulus</isa>
+        
+        <description>
+A rectangle stimulus
+        </description>
+        
+        <!-- Payload -->
+        <code>
+          <stimulus type="rectangle"
+          			tag="New Rectangle"
+                    color="1,1,1"
+                    x_size=""
+                    y_size=""
+                    x_position=""
+                    y_position=""
+                    rotation=""
+                    alpha_multiplier=""/>
+        </code>
+    </MWElement>
+
+
 	<MWElement name="Fixation Point Stimulus">
 		<!-- XPath 2.0 expression defining nodes of this type -->
 		<match_signature>stimulus[@type="fixation_point"]</match_signature>

@@ -113,7 +113,7 @@ public:
 
 
 // Simple point (e.g. for fixation)
-class PointStimulus : public BasicTransformStimulus {
+class RectangleStimulus : public BasicTransformStimulus {
 protected:
     shared_ptr<Variable> r;
     shared_ptr<Variable> g;
@@ -125,9 +125,9 @@ public:
     
     static void describeComponent(ComponentInfo &info);
     
-    explicit PointStimulus(const Map<ParameterValue> &parameters);
-    PointStimulus(const PointStimulus &tocopy);
-    virtual ~PointStimulus() { }
+    explicit RectangleStimulus(const Map<ParameterValue> &parameters);
+    RectangleStimulus(const RectangleStimulus &tocopy);
+    virtual ~RectangleStimulus() { }
     
     virtual void drawInUnitSquare(shared_ptr<StimulusDisplay> display);
     virtual Datum getCurrentAnnounceDrawData();

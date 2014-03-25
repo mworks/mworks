@@ -57,7 +57,7 @@ public:
 // 2) it can use SquareRegionTrigger methods to detect when it is triggered (e.g. eye is close)
 // 3) it can provide "gold standard" values to any calibrator object when asked
 //    (for this particular class, the gold standard values are derived from the stimulus location)
-class FixationPoint : public PointStimulus, public SquareRegionTrigger, public GoldStandard {
+class FixationPoint : public RectangleStimulus, public SquareRegionTrigger, public GoldStandard {
     
 public:
     static const std::string TRIGGER_WIDTH;
@@ -72,7 +72,7 @@ public:
     virtual ~FixationPoint() { }
     
     virtual ExpandableList<Datum> *getGoldStandardValues();
-    virtual Datum getCurrentAnnounceDrawData();     // override of PointStimulus method to announce when drawn
+    virtual Datum getCurrentAnnounceDrawData();     // override of RectangleStimulus method to announce when drawn
     
 };
 
