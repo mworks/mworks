@@ -1,8 +1,0 @@
-<?xml version="1.0"?>
-<marionette_info>
-  <permitted_error_messages>
-    <!-- This test produces a ton of scheduler warnings and errors -->
-    <message type="starts_with">WARNING: Scheduled task </message>
-    <message type="starts_with">ERROR: Scheduled task </message>
-  </permitted_error_messages>
-</marionette_info>

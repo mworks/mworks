@@ -1,7 +1,0 @@
-<?xml version="1.0"?>
-<marionette_info>
-  <permitted_error_messages>
-    <!-- Many FakeMonkey tests generate scheduler warnings.  Is the plugin using too many threads? -->
-    <message type="starts_with">WARNING: Scheduled task </message>
-  </permitted_error_messages>
-</marionette_info>
