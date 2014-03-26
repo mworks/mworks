@@ -2660,8 +2660,9 @@
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/zsh;
-			shellScript = "export SOURCE_DIR=$PROJECT_DIR\necho $SOURCE_DIR\nexport GIT=`/usr/bin/env which git`\necho $GIT\nexport VERSION_STRING=`$GIT log -n1 --pretty=format:%H`\n\necho $VERSION_STRING\nexport SUBS_STRING=s/_VERSION_STRING_/${VERSION_STRING}/\nmkdir -p ${SOURCE_DIR}\nsed $SUBS_STRING  ${SOURCE_DIR}/MWorksCore-Info.template.plist > ${SOURCE_DIR}/MWorksCore-Info.plist\n";
+			shellPath = /bin/bash;
+			shellScript = "version_string=$(/usr/bin/xcrun git log -n1 --pretty=format:%H)\nplist_file=MWorksCore-Info.plist\n\nif [[ -f $plist_file ]]; then\n  old_version_string=$(/usr/bin/python -c \"import plistlib ; print plistlib.readPlist('$plist_file')['CFBundleVersion']\")\n  if [[ $old_version_string == $version_string ]]; then\n    # Version is already up to date\n    exit 0\n  fi\nfi\n\necho $version_string\n\n/usr/bin/sed \\\n  s/_VERSION_STRING_/${version_string}/  \\\n  MWorksCore-Info.template.plist > MWorksCore-Info.plist";
+			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
