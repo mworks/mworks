@@ -693,10 +693,10 @@
 		0E2FE5A00EF00CC900CEB818 /* ParsedColorTrio.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ParsedColorTrio.cpp; sourceTree = "<group>"; };
 		0E39EB030E4BD33D006F38A0 /* MarionetteTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MarionetteTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0E39EB220E4BD41F006F38A0 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
-		0E4688930EB9048D00B01560 /* ZenStateSystemPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZenStateSystemPlugin.h; path = ZenStateSystem/ZenStateSystemPlugin.h; sourceTree = "<group>"; };
-		0E4688940EB9048D00B01560 /* ZenStateSystemPlugin.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ZenStateSystemPlugin.cpp; path = ZenStateSystem/ZenStateSystemPlugin.cpp; sourceTree = "<group>"; };
-		0E4688BF0EB9061000B01560 /* ZenStateSystemFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZenStateSystemFactory.h; path = ZenStateSystem/ZenStateSystemFactory.h; sourceTree = "<group>"; };
-		0E4688C00EB9061000B01560 /* ZenStateSystemFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ZenStateSystemFactory.cpp; path = ZenStateSystem/ZenStateSystemFactory.cpp; sourceTree = "<group>"; };
+		0E4688930EB9048D00B01560 /* ZenStateSystemPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZenStateSystemPlugin.h; sourceTree = "<group>"; };
+		0E4688940EB9048D00B01560 /* ZenStateSystemPlugin.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ZenStateSystemPlugin.cpp; sourceTree = "<group>"; };
+		0E4688BF0EB9061000B01560 /* ZenStateSystemFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZenStateSystemFactory.h; sourceTree = "<group>"; };
+		0E4688C00EB9061000B01560 /* ZenStateSystemFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ZenStateSystemFactory.cpp; sourceTree = "<group>"; };
 		0E4A1DB10B1F2B7700643235 /* PlatformDependentServicesTest.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = PlatformDependentServicesTest.cpp; path = Core/PlatformDependent/tests/PlatformDependentServicesTest.cpp; sourceTree = "<group>"; };
 		0E4A1DB20B1F2B7700643235 /* PlatformDependentServicesTest.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = PlatformDependentServicesTest.h; path = Core/PlatformDependent/tests/PlatformDependentServicesTest.h; sourceTree = "<group>"; };
 		0E4ED2390E46208200F06F40 /* MarionetteServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MarionetteServer.m; sourceTree = "<group>"; };
@@ -705,7 +705,7 @@
 		0E776BCB0E43590300E7B55C /* MarionetteGlobals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MarionetteGlobals.h; sourceTree = "<group>"; };
 		0E7E9FB90A754FCD00E20898 /* GenericDataTest.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = GenericDataTest.cpp; sourceTree = "<group>"; };
 		0E7E9FBA0A754FCD00E20898 /* GenericDataTest.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GenericDataTest.h; sourceTree = "<group>"; };
-		0E8014140E422E2A00D6DE20 /* MarionetteTest-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "MarionetteTest-Info.plist"; path = "../MarionetteTest-Info.plist"; sourceTree = "<group>"; };
+		0E8014140E422E2A00D6DE20 /* MarionetteTest-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MarionetteTest-Info.plist"; sourceTree = "<group>"; };
 		0E8014360E422F2800D6DE20 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		0E8014370E422F2800D6DE20 /* MarionetteClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MarionetteClient.h; sourceTree = "<group>"; };
 		0E8014380E422F2800D6DE20 /* MarionetteClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MarionetteClient.m; sourceTree = "<group>"; };
@@ -881,14 +881,14 @@
 		5CEDF6640D84E5E60044D738 /* Debugging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Debugging.h; path = Core/RealtimeServices/Debugging.h; sourceTree = "<group>"; };
 		5CEFD82A0D4D1D6200EA9950 /* Exceptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Exceptions.h; path = Core/Exceptions/Exceptions.h; sourceTree = "<group>"; };
 		5CEFD82B0D4D1D6200EA9950 /* Exceptions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Exceptions.cpp; path = Core/Exceptions/Exceptions.cpp; sourceTree = "<group>"; };
-		5CF73BCC0862535B00F453C3 /* ZenSchedulerPlugin-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ZenSchedulerPlugin-Info.plist"; sourceTree = SOURCE_ROOT; };
-		5CF73BCD0862537E00F453C3 /* ZenScheduler.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ZenScheduler.cpp; path = ZenScheduler/ZenScheduler.cpp; sourceTree = SOURCE_ROOT; };
-		5CF73BCE0862537E00F453C3 /* ZenScheduler.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ZenScheduler.h; path = ZenScheduler/ZenScheduler.h; sourceTree = SOURCE_ROOT; };
+		5CF73BCC0862535B00F453C3 /* ZenSchedulerPlugin-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ZenSchedulerPlugin-Info.plist"; sourceTree = "<group>"; };
+		5CF73BCD0862537E00F453C3 /* ZenScheduler.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = ZenScheduler.cpp; sourceTree = "<group>"; };
+		5CF73BCE0862537E00F453C3 /* ZenScheduler.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ZenScheduler.h; sourceTree = "<group>"; };
 		5CF73C6108625E1800F453C3 /* ZenSchedulerPlugin.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ZenSchedulerPlugin.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		5CF73C7F086260E900F453C3 /* ZenStateSystemPlugin.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ZenStateSystemPlugin.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
-		5CF73C80086260E900F453C3 /* ZenStateSystemPlugin-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ZenStateSystemPlugin-Info.plist"; sourceTree = SOURCE_ROOT; };
-		5CF73C860862616800F453C3 /* ZenStateSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZenStateSystem.h; path = ZenStateSystem/ZenStateSystem.h; sourceTree = SOURCE_ROOT; };
-		5CF73C870862616800F453C3 /* ZenStateSystem.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = ZenStateSystem.cpp; path = ZenStateSystem/ZenStateSystem.cpp; sourceTree = SOURCE_ROOT; };
+		5CF73C80086260E900F453C3 /* ZenStateSystemPlugin-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ZenStateSystemPlugin-Info.plist"; sourceTree = "<group>"; };
+		5CF73C860862616800F453C3 /* ZenStateSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZenStateSystem.h; sourceTree = "<group>"; };
+		5CF73C870862616800F453C3 /* ZenStateSystem.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ZenStateSystem.cpp; sourceTree = "<group>"; };
 		5CF855FF119D8DCD004167A5 /* Shader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Shader.cpp; sourceTree = "<group>"; };
 		5CF85600119D8DCD004167A5 /* Shader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Shader.h; sourceTree = "<group>"; };
 		5CF85610119D8FC3004167A5 /* glew.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = glew.c; sourceTree = "<group>"; };
@@ -1029,9 +1029,9 @@
 		DA2CE1E607E9F97F00C68AEF /* ScopedVariableContext.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ScopedVariableContext.cpp; path = Core/Variables/ScopedVariableContext.cpp; sourceTree = "<group>"; };
 		DA2CE1E707E9F97F00C68AEF /* ScopedVariableContext.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ScopedVariableContext.h; path = Core/Variables/ScopedVariableContext.h; sourceTree = "<group>"; };
 		DA2CE39007EA035F00C68AEF /* MachClockPlugin.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MachClockPlugin.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
-		DA2CE39107EA035F00C68AEF /* MachClockPlugin-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MachClockPlugin-Info.plist"; sourceTree = SOURCE_ROOT; };
-		DA2CE39607EA040D00C68AEF /* MachClock.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = MachClock.cpp; path = MachClock/MachClock.cpp; sourceTree = SOURCE_ROOT; };
-		DA2CE39707EA040D00C68AEF /* MachClock.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MachClock.h; path = MachClock/MachClock.h; sourceTree = SOURCE_ROOT; };
+		DA2CE39107EA035F00C68AEF /* MachClockPlugin-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MachClockPlugin-Info.plist"; sourceTree = "<group>"; };
+		DA2CE39607EA040D00C68AEF /* MachClock.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = MachClock.cpp; sourceTree = "<group>"; };
+		DA2CE39707EA040D00C68AEF /* MachClock.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MachClock.h; sourceTree = "<group>"; };
 		DA2E379C08B0FE5800BD22C4 /* EventBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = EventBuffer.cpp; path = Core/Events/EventBuffer.cpp; sourceTree = SOURCE_ROOT; };
 		DA2E379D08B0FE5800BD22C4 /* EventBuffer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = EventBuffer.h; path = Core/Events/EventBuffer.h; sourceTree = SOURCE_ROOT; };
 		DA30579B08B6A23700BA4B0E /* NetworkReturn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NetworkReturn.h; path = Core/Network/NetworkReturn.h; sourceTree = SOURCE_ROOT; };
@@ -1443,6 +1443,7 @@
 				5CBFD75E0AC04587007AB1A9 /* FullCoreEnvironmentTest.h */,
 				5CBFD75F0AC04587007AB1A9 /* FullCoreEnvironmentTest.cpp */,
 				E11542181193471F00DDE09D /* mw_test */,
+				5C4D239D09DC83930082BF9F /* MWorksCoreTest-Info.plist */,
 			);
 			name = "Unit Testing";
 			path = UnitTests;
@@ -1561,6 +1562,8 @@
 			isa = PBXGroup;
 			children = (
 				0E1AE9910EF1A9EE00C224F1 /* SetupVariables */,
+				5C6616C10F4C9B6900C8FD71 /* MWorksCore-Info.template.plist */,
+				DA2CE0D607E9F68100C68AEF /* MWorksCore-Info.plist */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -1685,9 +1688,11 @@
 			children = (
 				5CF73BCE0862537E00F453C3 /* ZenScheduler.h */,
 				5CF73BCD0862537E00F453C3 /* ZenScheduler.cpp */,
+				5CF73BCC0862535B00F453C3 /* ZenSchedulerPlugin-Info.plist */,
+				5C0E74F609D1A7E9002295FB /* LowPrioritySchedulerPlugin-Info.plist */,
 			);
-			name = ZenScheduler;
-			sourceTree = SOURCE_ROOT;
+			path = ZenScheduler;
+			sourceTree = "<group>";
 		};
 		5CF73C850862613C00F453C3 /* ZenStateSystem */ = {
 			isa = PBXGroup;
@@ -1698,9 +1703,10 @@
 				0E4688940EB9048D00B01560 /* ZenStateSystemPlugin.cpp */,
 				0E4688BF0EB9061000B01560 /* ZenStateSystemFactory.h */,
 				0E4688C00EB9061000B01560 /* ZenStateSystemFactory.cpp */,
+				5CF73C80086260E900F453C3 /* ZenStateSystemPlugin-Info.plist */,
 			);
-			name = ZenStateSystem;
-			sourceTree = SOURCE_ROOT;
+			path = ZenStateSystem;
+			sourceTree = "<group>";
 		};
 		5CF855E2119D8D2C004167A5 /* Utilities */ = {
 			isa = PBXGroup;
@@ -1800,7 +1806,6 @@
 				5C4D231C09DC3D0E0082BF9F /* Unit Testing */,
 				5C475B6107EF8BB4004A645E /* Standard Plugins */,
 				DADAD3E107F2267E00F8D324 /* Docs (woefully incomplete) */,
-				DA96B8A009818E5B0007610D /* plists */,
 				E1CBF63416BAF1210057CE48 /* Frameworks & Libraries */,
 				DA2CE0D507E9F68100C68AEF /* Products */,
 			);
@@ -2125,25 +2130,12 @@
 		DA2CE39507EA040100C68AEF /* MachClock */ = {
 			isa = PBXGroup;
 			children = (
-				DA2CE39607EA040D00C68AEF /* MachClock.cpp */,
 				DA2CE39707EA040D00C68AEF /* MachClock.h */,
-			);
-			name = MachClock;
-			sourceTree = SOURCE_ROOT;
-		};
-		DA96B8A009818E5B0007610D /* plists */ = {
-			isa = PBXGroup;
-			children = (
-				5C6616C10F4C9B6900C8FD71 /* MWorksCore-Info.template.plist */,
-				DA2CE0D607E9F68100C68AEF /* MWorksCore-Info.plist */,
+				DA2CE39607EA040D00C68AEF /* MachClock.cpp */,
 				DA2CE39107EA035F00C68AEF /* MachClockPlugin-Info.plist */,
-				5CF73BCC0862535B00F453C3 /* ZenSchedulerPlugin-Info.plist */,
-				5CF73C80086260E900F453C3 /* ZenStateSystemPlugin-Info.plist */,
-				5C0E74F609D1A7E9002295FB /* LowPrioritySchedulerPlugin-Info.plist */,
-				5C4D239D09DC83930082BF9F /* MWorksCoreTest-Info.plist */,
 			);
-			name = plists;
-			sourceTree = SOURCE_ROOT;
+			path = MachClock;
+			sourceTree = "<group>";
 		};
 		DA96B8A409818EF30007610D /* CoreBuilders */ = {
 			isa = PBXGroup;
@@ -3020,7 +3012,7 @@
 					/usr/include/libxml2,
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = "MarionetteTest-Info.plist";
+				INFOPLIST_FILE = "UnitTests/MarionetteTest-Info.plist";
 				PRODUCT_NAME = MarionetteTest;
 			};
 			name = Development;
@@ -3032,7 +3024,7 @@
 					"$(inherited)",
 					LOW_PRIORITY_MODE,
 				);
-				INFOPLIST_FILE = "LowPrioritySchedulerPlugin-Info.plist";
+				INFOPLIST_FILE = "ZenScheduler/LowPrioritySchedulerPlugin-Info.plist";
 				PRODUCT_NAME = LowPrioritySchedulerPlugin;
 			};
 			name = Development;
@@ -3055,7 +3047,7 @@
 		5C0E84EB086D85D400B3EE7C /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = "MachClockPlugin-Info.plist";
+				INFOPLIST_FILE = "MachClock/MachClockPlugin-Info.plist";
 				PRODUCT_NAME = MachClockPlugin;
 			};
 			name = Development;
@@ -3067,7 +3059,7 @@
 					"$(inherited)",
 					REALTIME_SCHEDULER,
 				);
-				INFOPLIST_FILE = "ZenSchedulerPlugin-Info.plist";
+				INFOPLIST_FILE = "ZenScheduler/ZenSchedulerPlugin-Info.plist";
 				PRODUCT_NAME = ZenSchedulerPlugin;
 			};
 			name = Development;
@@ -3075,7 +3067,7 @@
 		5C0E84FF086D85D400B3EE7C /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = "ZenStateSystemPlugin-Info.plist";
+				INFOPLIST_FILE = "ZenStateSystem/ZenStateSystemPlugin-Info.plist";
 				PRODUCT_NAME = ZenStateSystemPlugin;
 			};
 			name = Development;
@@ -3116,7 +3108,7 @@
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				INFOPLIST_FILE = "MWorksCoreTest-Info.plist";
+				INFOPLIST_FILE = "UnitTests/MWorksCoreTest-Info.plist";
 				INSTALL_PATH = "$(MW_TESTS_DIR)";
 				PRODUCT_NAME = MWorksCoreTest;
 			};
