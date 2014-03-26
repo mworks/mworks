@@ -394,6 +394,8 @@ Datum _getNumber(const string &expression, const GenericDataType type);
 						[self marionetteAssert:self.experimentLoaded
 								   withMessage:@"trying to send run command without loading experiment first"]; 
 						if(!self.sentRunEvent) {
+                            // Disable skipped refresh warnings
+                            warnOnSkippedRefresh->setValue(false);
 							client->sendRunEvent();
 							self.sentRunEvent = YES;
 						}
