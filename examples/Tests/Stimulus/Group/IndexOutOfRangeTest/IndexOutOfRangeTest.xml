@@ -8,7 +8,7 @@
     <stimuli>
         <stimulus_group tag="FullStimSet">
             <range_replicator tag="StimulusReplicator" from="100" to="101" step="1" variable="stim_index">
-				<stimulus tag="circle$stim_index" type="circle" color="0,1,1" x_size="25" y_size="25" x_position="5" y_position="5" rotation="0.0"/>
+				<stimulus tag="rectangle$stim_index" type="rectangle" color="0,1,1" x_size="25" y_size="25" x_position="5" y_position="5" rotation="0.0"/>
             </range_replicator>
         </stimulus_group>
     </stimuli>

@@ -51,7 +51,7 @@
 							</dictionary_element>
 							<dictionary_element>
 								<key>name</key>
-								<value type="string">circle100</value>
+								<value type="string">rectangle100</value>
 							</dictionary_element>
 							<dictionary_element>
 								<key>color_g</key>
@@ -59,7 +59,7 @@
 							</dictionary_element>
 							<dictionary_element>
 								<key>type</key>
-								<value type="string">circle</value>
+								<value type="string">rectangle</value>
 							</dictionary_element>
 							<dictionary_element>
 								<key>pos_x</key>
@@ -106,7 +106,7 @@
 							</dictionary_element>
 							<dictionary_element>
 								<key>name</key>
-								<value type="string">circle101</value>
+								<value type="string">rectangle101</value>
 							</dictionary_element>
 							<dictionary_element>
 								<key>color_g</key>
@@ -114,7 +114,7 @@
 							</dictionary_element>
 							<dictionary_element>
 								<key>type</key>
-								<value type="string">circle</value>
+								<value type="string">rectangle</value>
 							</dictionary_element>
 							<dictionary_element>
 								<key>pos_x</key>

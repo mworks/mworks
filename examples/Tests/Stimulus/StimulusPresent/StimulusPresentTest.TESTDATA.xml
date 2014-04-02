@@ -62,7 +62,7 @@
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>type</key>
-		<value type="string">circle</value>
+		<value type="string">rectangle</value>
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>pos_x</key>
@@ -119,7 +119,7 @@
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>type</key>
-		<value type="string">circle</value>
+		<value type="string">rectangle</value>
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>pos_x</key>
@@ -175,7 +175,7 @@
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>type</key>
-		<value type="string">circle</value>
+		<value type="string">rectangle</value>
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>pos_x</key>
@@ -231,7 +231,7 @@
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>type</key>
-		<value type="string">circle</value>
+		<value type="string">rectangle</value>
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>pos_x</key>
@@ -285,7 +285,7 @@
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>type</key>
-		<value type="string">circle</value>
+		<value type="string">rectangle</value>
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>pos_x</key>
@@ -341,7 +341,7 @@
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>type</key>
-		<value type="string">circle</value>
+		<value type="string">rectangle</value>
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>pos_x</key>
@@ -397,7 +397,7 @@
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>type</key>
-		<value type="string">circle</value>
+		<value type="string">rectangle</value>
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>pos_x</key>
@@ -453,7 +453,7 @@
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>type</key>
-		<value type="string">circle</value>
+		<value type="string">rectangle</value>
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>pos_x</key>
@@ -509,7 +509,7 @@
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>type</key>
-		<value type="string">circle</value>
+		<value type="string">rectangle</value>
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>pos_x</key>
@@ -563,7 +563,7 @@
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>type</key>
-		<value type="string">circle</value>
+		<value type="string">rectangle</value>
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>pos_x</key>
@@ -619,7 +619,7 @@
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>type</key>
-		<value type="string">circle</value>
+		<value type="string">rectangle</value>
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>pos_x</key>
@@ -675,7 +675,7 @@
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>type</key>
-		<value type="string">circle</value>
+		<value type="string">rectangle</value>
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>pos_x</key>
@@ -731,7 +731,7 @@
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>type</key>
-		<value type="string">circle</value>
+		<value type="string">rectangle</value>
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>pos_x</key>
@@ -787,7 +787,7 @@
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>type</key>
-		<value type="string">circle</value>
+		<value type="string">rectangle</value>
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>pos_x</key>
@@ -841,7 +841,7 @@
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>type</key>
-		<value type="string">circle</value>
+		<value type="string">rectangle</value>
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>pos_x</key>
@@ -897,7 +897,7 @@
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>type</key>
-		<value type="string">circle</value>
+		<value type="string">rectangle</value>
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>pos_x</key>
@@ -953,7 +953,7 @@
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>type</key>
-		<value type="string">circle</value>
+		<value type="string">rectangle</value>
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>pos_x</key>
@@ -1009,7 +1009,7 @@
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>type</key>
-		<value type="string">circle</value>
+		<value type="string">rectangle</value>
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>pos_x</key>
@@ -1065,7 +1065,7 @@
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>type</key>
-		<value type="string">circle</value>
+		<value type="string">rectangle</value>
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>pos_x</key>
@@ -1119,7 +1119,7 @@
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>type</key>
-		<value type="string">circle</value>
+		<value type="string">rectangle</value>
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>pos_x</key>
@@ -1175,7 +1175,7 @@
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>type</key>
-		<value type="string">circle</value>
+		<value type="string">rectangle</value>
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>pos_x</key>
@@ -1231,7 +1231,7 @@
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>type</key>
-		<value type="string">circle</value>
+		<value type="string">rectangle</value>
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>pos_x</key>
@@ -1287,7 +1287,7 @@
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>type</key>
-		<value type="string">circle</value>
+		<value type="string">rectangle</value>
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>pos_x</key>
@@ -1343,7 +1343,7 @@
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>type</key>
-		<value type="string">circle</value>
+		<value type="string">rectangle</value>
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>pos_x</key>
@@ -1397,7 +1397,7 @@
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>type</key>
-		<value type="string">circle</value>
+		<value type="string">rectangle</value>
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>pos_x</key>
@@ -1453,7 +1453,7 @@
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>type</key>
-		<value type="string">circle</value>
+		<value type="string">rectangle</value>
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>pos_x</key>
@@ -1509,7 +1509,7 @@
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>type</key>
-		<value type="string">circle</value>
+		<value type="string">rectangle</value>
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>pos_x</key>
@@ -1565,7 +1565,7 @@
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>type</key>
-		<value type="string">circle</value>
+		<value type="string">rectangle</value>
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>pos_x</key>
@@ -1621,7 +1621,7 @@
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>type</key>
-		<value type="string">circle</value>
+		<value type="string">rectangle</value>
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>pos_x</key>
@@ -1675,63 +1675,7 @@
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>type</key>
-		<value type="string">circle</value>
-	      </dictionary_element>
-	      <dictionary_element>
-		<key>pos_x</key>
-		<value type="float">3</value>
-	      </dictionary_element>
-	      <dictionary_element>
-		<key>size_y</key>
-		<value type="float">5</value>
-	      </dictionary_element>
-	      <dictionary_element>
-		<key>pos_y</key>
-		<value type="float">3</value>
-	      </dictionary_element>
-	      <dictionary_element>
-		<key>action</key>
-		<value type="string">draw</value>
-	      </dictionary_element>
-	      <dictionary_element>
-		<key>rotation</key>
-		<value type="float">0</value>
-	      </dictionary_element>
-	    </dictionary>
-	  </list_element>
-	</list>
-      </value>
-    </event>
-    <event variable="#stimDisplayUpdate"/>
-    
-    <event variable="#stimDisplayUpdate">
-      <value>
-	<list>
-	  <list_element>
-	    <dictionary>
-	      <dictionary_element>
-		<key>color_r</key>
-		<value type="float">0</value>
-	      </dictionary_element>
-	      <dictionary_element>
-		<key>color_b</key>
-		<value type="float">0</value>
-	      </dictionary_element>
-	      <dictionary_element>
-		<key>size_x</key>
-		<value type="float">3</value>
-	      </dictionary_element>
-	      <dictionary_element>
-		<key>name</key>
-		<value type="string">image1</value>
-	      </dictionary_element>
-	      <dictionary_element>
-		<key>color_g</key>
-		<value type="float">0</value>
-	      </dictionary_element>
-	      <dictionary_element>
-		<key>type</key>
-		<value type="string">circle</value>
+		<value type="string">rectangle</value>
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>pos_x</key>
@@ -1787,7 +1731,63 @@
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>type</key>
-		<value type="string">circle</value>
+		<value type="string">rectangle</value>
+	      </dictionary_element>
+	      <dictionary_element>
+		<key>pos_x</key>
+		<value type="float">3</value>
+	      </dictionary_element>
+	      <dictionary_element>
+		<key>size_y</key>
+		<value type="float">5</value>
+	      </dictionary_element>
+	      <dictionary_element>
+		<key>pos_y</key>
+		<value type="float">3</value>
+	      </dictionary_element>
+	      <dictionary_element>
+		<key>action</key>
+		<value type="string">draw</value>
+	      </dictionary_element>
+	      <dictionary_element>
+		<key>rotation</key>
+		<value type="float">0</value>
+	      </dictionary_element>
+	    </dictionary>
+	  </list_element>
+	</list>
+      </value>
+    </event>
+    <event variable="#stimDisplayUpdate"/>
+    
+    <event variable="#stimDisplayUpdate">
+      <value>
+	<list>
+	  <list_element>
+	    <dictionary>
+	      <dictionary_element>
+		<key>color_r</key>
+		<value type="float">0</value>
+	      </dictionary_element>
+	      <dictionary_element>
+		<key>color_b</key>
+		<value type="float">0</value>
+	      </dictionary_element>
+	      <dictionary_element>
+		<key>size_x</key>
+		<value type="float">3</value>
+	      </dictionary_element>
+	      <dictionary_element>
+		<key>name</key>
+		<value type="string">image1</value>
+	      </dictionary_element>
+	      <dictionary_element>
+		<key>color_g</key>
+		<value type="float">0</value>
+	      </dictionary_element>
+	      <dictionary_element>
+		<key>type</key>
+		<value type="string">rectangle</value>
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>pos_x</key>
@@ -1843,7 +1843,7 @@
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>type</key>
-		<value type="string">circle</value>
+		<value type="string">rectangle</value>
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>pos_x</key>
@@ -1899,7 +1899,7 @@
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>type</key>
-		<value type="string">circle</value>
+		<value type="string">rectangle</value>
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>pos_x</key>
@@ -1953,7 +1953,7 @@
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>type</key>
-		<value type="string">circle</value>
+		<value type="string">rectangle</value>
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>pos_x</key>
@@ -2009,7 +2009,7 @@
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>type</key>
-		<value type="string">circle</value>
+		<value type="string">rectangle</value>
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>pos_x</key>
@@ -2065,7 +2065,7 @@
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>type</key>
-		<value type="string">circle</value>
+		<value type="string">rectangle</value>
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>pos_x</key>
@@ -2121,7 +2121,7 @@
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>type</key>
-		<value type="string">circle</value>
+		<value type="string">rectangle</value>
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>pos_x</key>
@@ -2177,7 +2177,7 @@
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>type</key>
-		<value type="string">circle</value>
+		<value type="string">rectangle</value>
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>pos_x</key>
@@ -2231,7 +2231,7 @@
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>type</key>
-		<value type="string">circle</value>
+		<value type="string">rectangle</value>
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>pos_x</key>
@@ -2287,7 +2287,7 @@
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>type</key>
-		<value type="string">circle</value>
+		<value type="string">rectangle</value>
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>pos_x</key>
@@ -2343,7 +2343,7 @@
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>type</key>
-		<value type="string">circle</value>
+		<value type="string">rectangle</value>
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>pos_x</key>
@@ -2399,7 +2399,7 @@
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>type</key>
-		<value type="string">circle</value>
+		<value type="string">rectangle</value>
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>pos_x</key>
@@ -2455,7 +2455,7 @@
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>type</key>
-		<value type="string">circle</value>
+		<value type="string">rectangle</value>
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>pos_x</key>
@@ -2509,7 +2509,7 @@
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>type</key>
-		<value type="string">circle</value>
+		<value type="string">rectangle</value>
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>pos_x</key>
@@ -2565,7 +2565,7 @@
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>type</key>
-		<value type="string">circle</value>
+		<value type="string">rectangle</value>
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>pos_x</key>
@@ -2621,7 +2621,7 @@
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>type</key>
-		<value type="string">circle</value>
+		<value type="string">rectangle</value>
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>pos_x</key>
@@ -2677,7 +2677,7 @@
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>type</key>
-		<value type="string">circle</value>
+		<value type="string">rectangle</value>
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>pos_x</key>
@@ -2733,7 +2733,7 @@
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>type</key>
-		<value type="string">circle</value>
+		<value type="string">rectangle</value>
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>pos_x</key>
@@ -2787,7 +2787,7 @@
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>type</key>
-		<value type="string">circle</value>
+		<value type="string">rectangle</value>
 	      </dictionary_element>
 	      <dictionary_element>
 		<key>pos_x</key>
