@@ -247,30 +247,33 @@ Datum _getNumber(const string &expression, const GenericDataType type);
 
 - (void)waitForExperimentToEnd:(NSTimer *)the_timer {
 	if(self.experimentEnded || self.asserted) {
-        if (!self.asserted) {
-            // Give the MWorks threads some time to finish their business
-            [NSThread sleepForTimeInterval:5];
+        if (!self.experimentEnded && self.stateSystemRunning) {
+            // If we're terminating due to an assertion, stop the experiment so that everything gets a chance
+            // to shut down cleanly
+            client->sendStopEvent();
+            return;
         }
+        
+        // Give the MWorks threads some time to finish their business
+        [NSThread sleepForTimeInterval:5];
         
 		if(!self.asserted && ([self.expectedMessages count] > 0 || [self.expectedEvents count] > 0)) {
 			if([self.expectedMessages count] > 0) {
-				[self marionetteAssert:[NSString stringWithFormat:@"not all required messages were recevied in the proper order.  Next expected: %@", [[self.expectedMessages objectAtIndex:0] message]]]; 
+				[self marionetteAssert:[NSString stringWithFormat:@"not all required messages were recevied in the proper order.  Next expected: %@", [[self.expectedMessages objectAtIndex:0] message]]];
 			}
 			
 			if([self.expectedEvents count] > 0) {
                 MarionetteEvent *expected_event = [self.expectedEvents objectAtIndex:0];
 				[self marionetteAssert:[NSString stringWithFormat:
                                         @"did not receive event for variable %@",
-                                        [expected_event variable]]]; 
+                                        [expected_event variable]]];
 			}
 		}
 		
-		if(!self.asserted) {
-			[self marionetteAssert:!self.dataFileOpen
-					   withMessage:@"Data file is open when it should be closed"];
-			[self marionetteAssert:!client->isConnected()
-					   withMessage:@"client should no longer be connected"];
-		}
+        [self marionetteAssert:!self.dataFileOpen
+                   withMessage:@"Data file is open when it should be closed"];
+        [self marionetteAssert:!client->isConnected()
+                   withMessage:@"client should no longer be connected"];
 		
 		exit(self.asserted);
 	}
@@ -396,6 +399,10 @@ Datum _getNumber(const string &expression, const GenericDataType type);
 						if(!self.sentRunEvent) {
                             // Disable skipped refresh warnings
                             warnOnSkippedRefresh->setValue(false);
+                            
+                            // Wait a bit, just to make sure everything has had time to initialize properly
+                            [NSThread sleepForTimeInterval:5];
+                            
 							client->sendRunEvent();
 							self.sentRunEvent = YES;
 						}
