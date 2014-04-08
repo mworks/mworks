@@ -32,7 +32,7 @@
 						<dictionary>
 							<dictionary_element>
 								<key>color_r</key>
-								<value type="float">1</value>
+								<value type="float">0</value>
 							</dictionary_element>
 							<dictionary_element>
 								<key>color_b</key>
@@ -40,11 +40,11 @@
 							</dictionary_element>
 							<dictionary_element>
 								<key>size_x</key>
-								<value type="float">10</value>
+								<value type="float">5</value>
 							</dictionary_element>
 							<dictionary_element>
 								<key>name</key>
-								<value type="string">rect</value>
+								<value type="string">Target1</value>
 							</dictionary_element>
 							<dictionary_element>
 								<key>color_g</key>
@@ -52,11 +52,11 @@
 							</dictionary_element>
 							<dictionary_element>
 								<key>type</key>
-								<value type="string">rectangle</value>
+								<value type="string">point</value>
 							</dictionary_element>
 							<dictionary_element>
 								<key>pos_x</key>
-								<value type="float">-5</value>
+								<value type="float">0</value>
 							</dictionary_element>
 							<dictionary_element>
 								<key>size_y</key>
@@ -64,7 +64,7 @@
 							</dictionary_element>
 							<dictionary_element>
 								<key>pos_y</key>
-								<value type="float">-5</value>
+								<value type="float">0</value>
 							</dictionary_element>
 							<dictionary_element>
 								<key>action</key>
@@ -77,6 +77,18 @@
                             <dictionary_element>
                                 <key>alpha_multiplier</key>
                                 <value type="float">0.5</value>
+                            </dictionary_element>
+                            <dictionary_element>
+                                <key>center_x</key>
+                                <value type="float">0</value>
+                            </dictionary_element>
+                            <dictionary_element>
+                                <key>center_y</key>
+                                <value type="float">0</value>
+                            </dictionary_element>
+                            <dictionary_element>
+                                <key>width</key>
+                                <value type="float">1</value>
                             </dictionary_element>
 						</dictionary>					
 				</list_element>

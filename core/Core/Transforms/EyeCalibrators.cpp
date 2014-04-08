@@ -82,18 +82,9 @@ Datum FixationPoint::getCurrentAnnounceDrawData() {
     
     //if (VERBOSE_EYE_CALIBRATORS> 1) mprintf("getting announce DRAW data for fixation point stimulus %s",tag );
     
-    Datum announceData(M_DICTIONARY, 14);
-    announceData.addElement(STIM_NAME,getTag());        // char
-    announceData.addElement(STIM_ACTION,STIM_ACTION_DRAW);
+    Datum announceData = RectangleStimulus::getCurrentAnnounceDrawData();
+    
     announceData.addElement(STIM_TYPE,STIM_TYPE_POINT);
-    announceData.addElement(STIM_POSX,last_posx);  
-    announceData.addElement(STIM_POSY,last_posy);  
-    announceData.addElement(STIM_SIZEX,last_sizex);  
-    announceData.addElement(STIM_SIZEY,last_sizey);  
-    announceData.addElement(STIM_ROT,last_rot);  
-    announceData.addElement(STIM_COLOR_R,last_r);  
-    announceData.addElement(STIM_COLOR_G,last_g);  
-    announceData.addElement(STIM_COLOR_B,last_b);  
     
     // stuff from the trigger that is not in rectangle stimulus ...
     announceData.addElement("center_x", (double)(*centerx));

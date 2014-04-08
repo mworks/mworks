@@ -42,7 +42,7 @@ protected:
     shared_ptr<Variable> alpha_multiplier;
     
     // JJD added these July 2006 to keep track of what was actually done for announcing things
-    float last_posx, last_posy, last_sizex, last_sizey, last_rot;
+    float last_posx, last_posy, last_sizex, last_sizey, last_rot, last_alpha;
     
 public:
     static const std::string X_SIZE;

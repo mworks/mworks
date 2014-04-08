@@ -4,7 +4,7 @@
     <variables/>
     <sounds/>
     <stimuli>
-        <stimulus tag="rect" type="rectangle" color="1,0,1" x_size="10" y_size="5" x_position="-5" y_position="-5" rotation="0.0"/>
+        <stimulus tag="rect" type="rectangle" color="1,0,1" x_size="10" y_size="5" x_position="-5" y_position="-5" rotation="0.0" alpha_multiplier="0.5"/>
     </stimuli>
     <experiment tag="RectStimulus">
         <protocol tag="Protocol" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">

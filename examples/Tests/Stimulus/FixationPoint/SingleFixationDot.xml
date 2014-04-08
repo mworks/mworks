@@ -8,7 +8,7 @@
     </variables>
     <sounds/>
     <stimuli>
-        <stimulus tag="Target1" full_name="Target1" type="fixation_point" color="0,0,1" trigger_width="1.0" trigger_watch_x="eye_h" trigger_watch_y="eye_v" trigger_flag="saccade" x_size="5" y_size="5" x_position="0" y_position="0" rotation="0.0"/>
+        <stimulus tag="Target1" full_name="Target1" type="fixation_point" color="0,0,1" trigger_width="1.0" trigger_watch_x="eye_h" trigger_watch_y="eye_v" trigger_flag="saccade" x_size="5" y_size="5" x_position="0" y_position="0" rotation="0.0" alpha_multiplier="0.5"/>
     </stimuli>
     <experiment tag="FixationDotTest" full_name="Exp" description="">
         <protocol tag="Protocol" full_name="Protocol" description="" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
