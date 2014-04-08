@@ -7,6 +7,7 @@
 //
 
 #import "MWClientInstance.h"
+#import "OrderedDictionary.h"
 #import <MWorksCore/StandardVariables.h>
 #import <MWorksCore/Client.h>
 #import <MWorksCocoa/MWCocoaEvent.h>
@@ -184,39 +185,36 @@
   
 	unsigned int nVars = core->numberOfVariablesInRegistry();
 	
-	NSMutableDictionary *allGroups = [[NSMutableDictionary alloc] init];
-	
+    // Use OrderedDictionary so that iterating over all groups preserves their ordering (which
+    // is by order of first appearance in the experiment file)
+	OrderedDictionary *allGroups = [[OrderedDictionary alloc] init];
 
-  
-	for(int i=N_RESERVED_CODEC_CODES; i < nVars + N_RESERVED_CODEC_CODES; ++i) {
+  	for (int i=N_RESERVED_CODEC_CODES; i < nVars + N_RESERVED_CODEC_CODES; ++i) {
 		shared_ptr <mw::Variable> var = core->getVariable(i);
 		
-        if((var == NULL) || (var->getProperties() == NULL)){
+        if ((var == NULL) || (var->getProperties() == NULL)) {
             continue;
         }
         
 		std::vector <std::string> groups(var->getProperties()->getGroups());
 		std::vector<std::string>::iterator iter = groups.begin();
 		while (iter != groups.end()) {
-			NSString *groupName = [[NSString alloc] initWithCString:iter->c_str() 
-														   encoding:NSASCIIStringEncoding];
-			
-			
+			NSString *groupName = [NSString stringWithUTF8String:iter->c_str()];
 			
 			NSMutableArray *aGroup = [allGroups valueForKey:groupName];
 			if(aGroup == nil) {
 				aGroup = [[NSMutableArray alloc] init];
+                [allGroups setValue:aGroup forKey:groupName];
+                [aGroup release];  // allGroups retains aGroup, so we can safely release it
 			}
 			
-			[aGroup addObject:[NSString stringWithCString:var->getProperties()->getTagName().c_str() 
-												 encoding:NSASCIIStringEncoding]];
+			[aGroup addObject:[NSString stringWithUTF8String:var->getProperties()->getTagName().c_str()]];
 			
-			[allGroups setValue:aGroup forKey:groupName];
 			++iter;
 		}
 	}
 	
-	return allGroups;
+	return [allGroups autorelease];
 }
 
 
