@@ -90,7 +90,7 @@ shared_ptr<mw::Component> VariableFactory::createObject(std::map<std::string, st
 	bool persistant = false; // save the variable from run to run
 	WhenType logging = M_WHEN_CHANGED; // when does this variable get logged
  Datum defaultValue(0L); // the default value Datum object.	
-	std::string groups("");
+	std::string groups("# EXPERIMENT VARIABLES");
 	
 	GET_ATTRIBUTE(parameters, tag, "tag", "NO_TAG");
 	GET_ATTRIBUTE(parameters, full_name, "full_name", "");	
@@ -208,7 +208,8 @@ shared_ptr<mw::Component> VariableFactory::createObject(std::map<std::string, st
 	}
 	
 	if(parameters.find("groups") != parameters.end()) {
-		groups = parameters.find("groups")->second;
+        groups.append(", ");
+		groups.append(parameters.find("groups")->second);
 	}
 	
 	// TODO when the variable properties get fixed, we can get rid of this nonsense
