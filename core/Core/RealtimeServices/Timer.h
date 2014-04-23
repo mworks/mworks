@@ -62,6 +62,7 @@ public:
 	void setValue(Datum v){ }
 	void setValue(Datum v, MWTime t){ }
 	void setSilentValue(Datum _value){ }
+    bool isWritable() const MW_OVERRIDE { return false; }
 	Variable *clone();
 	
 	

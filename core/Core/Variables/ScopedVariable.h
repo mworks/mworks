@@ -61,6 +61,8 @@ class ScopedVariable : public Variable {
 	virtual void setValue(Datum _data, MWTime _when);
 	virtual void setSilentValue(Datum _value);
 	virtual void setSilentValue(Datum _value,  MWTime _when);
+    
+    bool isWritable() const MW_OVERRIDE { return true; }
 	
 };
 

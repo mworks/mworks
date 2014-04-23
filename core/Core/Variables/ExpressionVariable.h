@@ -57,6 +57,8 @@ public:
     virtual void setValue(Datum val, MWTime time){ return; }
     virtual void setSilentValue(Datum _value){ return; }
     
+    bool isWritable() const MW_OVERRIDE { return false; }
+    
     // TODO: remove
     Datum getExpressionValue();
     
@@ -146,6 +148,8 @@ public:
     virtual void setValue(Datum val){ return; }
     virtual void setValue(Datum val, MWTime time){ return; }
     virtual void setSilentValue(Datum _value){ return; }
+    
+    bool isWritable() const MW_OVERRIDE { return false; }
     
     /**
      *  A polymorphic copy constructor (inherited from Clonable)

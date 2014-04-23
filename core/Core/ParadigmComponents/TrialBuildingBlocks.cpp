@@ -104,7 +104,10 @@ shared_ptr<mw::Component> AssignmentFactory::createObject(std::map<std::string, 
 	
 	checkAttribute(val, parameters["reference_id"], "value", parameters.find("value")->second);
 	checkAttribute(variable, parameters["reference_id"], "variable", parameters.find("variable")->second);
-	
+    
+    if (!variable->isWritable()) {
+        throw ComponentFactoryException(parameters["reference_id"], "Assignment target is not writable");
+    }
 	
 	shared_ptr <mw::Component> newAssignmentAction = shared_ptr<mw::Component>(new Assignment(variable, val));
 	return newAssignmentAction;		

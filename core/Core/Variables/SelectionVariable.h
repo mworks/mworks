@@ -56,7 +56,8 @@ public:
 	virtual void setValue(Datum data) { }
 	virtual void setValue(Datum data, MWTime time) { }
 	virtual void setSilentValue(Datum data) { }
-    
+    bool isWritable() const MW_OVERRIDE { return false; }
+
     //
     // Selectable overrides
     //

@@ -62,6 +62,7 @@ public:
     void setValue(Datum value);
     void setValue(Datum value, MWTime time);
     void setSilentValue(Datum value);
+    bool isWritable() const MW_OVERRIDE;
 
 };
     
