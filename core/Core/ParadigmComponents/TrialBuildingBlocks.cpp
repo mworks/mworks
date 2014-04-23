@@ -864,7 +864,7 @@ shared_ptr<mw::Component> SendStimulusToBackFactory::createObject(std::map<std::
 	checkAttribute(stimulus, parameters["reference_id"], "stimulus", parameters.find("stimulus")->second);		
 	
 	
-	shared_ptr <mw::Component> newSendStimulusToBackAction = shared_ptr<mw::Component>(new BringStimulusToFront(stimulus));
+	shared_ptr <mw::Component> newSendStimulusToBackAction = shared_ptr<mw::Component>(new SendStimulusToBack(stimulus));
 	return newSendStimulusToBackAction;	
 }
 
