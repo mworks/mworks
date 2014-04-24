@@ -40,9 +40,9 @@ struct dftTestArgs {
 };
 
 const int dft_TIMEOUT_TIME = 2400;
-const int dft_BUFF_SIZE = 50000;
-const int dft_NUM_THREADS = 50;
-const int dft_NUM_EVENTS_PER_THREAD = 999;
+//const int dft_BUFF_SIZE = 50000;
+//const int dft_NUM_THREADS = 50;
+//const int dft_NUM_EVENTS_PER_THREAD = 999;
 
 EventBuffer *dftglobal_outgoing_event_buffer;
 Lockable *dft_cppunit_lock;

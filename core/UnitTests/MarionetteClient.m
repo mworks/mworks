@@ -272,6 +272,9 @@ Datum _getNumber(const string &expression, const GenericDataType type);
 		
         [self marionetteAssert:!self.dataFileOpen
                    withMessage:@"Data file is open when it should be closed"];
+        
+        client->disconnectClient();
+        [NSThread sleepForTimeInterval:1];  // Wait for client threads to shut down
         [self marionetteAssert:!client->isConnected()
                    withMessage:@"client should no longer be connected"];
 		
@@ -380,7 +383,6 @@ Datum _getNumber(const string &expression, const GenericDataType type);
 								self.sentExperiment = YES;
 							} else if (self.sentCloseExperiment || !self.experimentLoaded) {
                                 self.experimentEnded = YES;
-                                client->disconnectClient();
                             }
 							
 						}
