@@ -405,6 +405,8 @@ shared_ptr<mw::Component> StartTimerFactory::createObject(std::map<std::string, 
         } else if(duration_units == "ms"){
             ConstantVariable one_thousand(1000L);
             e = duration->operator*((Variable &)one_thousand);
+        } else {
+            throw InvalidAttributeException(parameters["reference_id"], "duration_units", duration_units);
         }
         _timeToWait = shared_ptr<Variable>(e.clone());
     }
@@ -548,6 +550,8 @@ shared_ptr<mw::Component> WaitFactory::createObject(std::map<std::string, std::s
         } else if(duration_units == "ms"){
             ConstantVariable one_thousand(1000L);
             e = duration->operator*((Variable &)one_thousand);
+        } else {
+            throw InvalidAttributeException(parameters["reference_id"], "duration_units", duration_units);
         }
         _timeToWait = shared_ptr<Variable>(e.clone());
     }
