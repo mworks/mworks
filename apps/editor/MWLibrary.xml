@@ -910,6 +910,31 @@ Given a list of conditional (if) actions, executes the first one whose condition
 			<action type="wait" tag="Wait" duration="1.0" duration_units="s"/>
 		</code>
 	</MWElement>
+	
+
+	<MWElement name="Wait for Condition">
+		<!-- XPath 2.0 expression defining nodes of this type -->
+		<match_signature>action[@type='wait_for_condition']</match_signature>
+		
+		<!-- Inheritance -->
+		<isa>Action</isa>
+		
+		<!-- Information for display in the GUI -->
+		<icon>startTimer</icon>
+		<description>
+Wait until a condition becomes true or a timeout occurs.  If the wait times out before the condition becomes true, issue an error message and (optionally) stop the experiment.
+		</description>
+		
+		<!-- Payload -->
+		<code>
+			<action type="wait_for_condition"
+					tag="Wait for Condition"
+					condition=""
+					timeout=""
+					timeout_message=""
+					stop_on_timeout="YES"/>
+		</code>
+	</MWElement>
     
 
 	<MWElement name="Start Timer">

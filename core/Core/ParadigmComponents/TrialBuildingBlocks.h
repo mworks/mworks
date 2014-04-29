@@ -237,6 +237,31 @@ class WaitFactory : public ComponentFactory{
 												ComponentRegistry *reg);
 };
 
+
+class WaitForCondition : public MessageAction {
+    
+public:
+    static const std::string CONDITION;
+    static const std::string TIMEOUT;
+    static const std::string TIMEOUT_MESSAGE;
+    static const std::string STOP_ON_TIMEOUT;
+    
+    static void describeComponent(ComponentInfo &info);
+    
+    explicit WaitForCondition(const ParameterValueMap &parameters);
+    
+    bool execute() MW_OVERRIDE;
+    weak_ptr<State> next() MW_OVERRIDE;
+    
+private:
+    VariablePtr condition;
+    VariablePtr timeout;
+    const bool stopOnTimeout;
+    
+    MWTime deadline;
+    
+};
+
     
 class LoadStimulus : public Action {
 protected:

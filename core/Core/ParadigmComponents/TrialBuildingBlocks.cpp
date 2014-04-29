@@ -573,6 +573,81 @@ shared_ptr<mw::Component> WaitFactory::createObject(std::map<std::string, std::s
 
 
 /****************************************************************
+ *                 WaitForCondition Methods
+ ****************************************************************/
+
+
+const std::string WaitForCondition::CONDITION("condition");
+const std::string WaitForCondition::TIMEOUT("timeout");
+const std::string WaitForCondition::TIMEOUT_MESSAGE("timeout_message");
+const std::string WaitForCondition::STOP_ON_TIMEOUT("stop_on_timeout");
+
+
+void WaitForCondition::describeComponent(ComponentInfo &info) {
+    MessageAction::describeComponent(info);
+    
+    info.setSignature("action/wait_for_condition");
+    
+    info.addParameter(CONDITION);
+    info.addParameter(TIMEOUT);
+    info.addParameter(TIMEOUT_MESSAGE, false);
+    info.addParameter(STOP_ON_TIMEOUT, "YES");
+}
+
+
+WaitForCondition::WaitForCondition(const ParameterValueMap &parameters) :
+    MessageAction(parameters),
+    condition(parameters[CONDITION]),
+    timeout(parameters[TIMEOUT]),
+    stopOnTimeout(parameters[STOP_ON_TIMEOUT])
+{
+    setName("WaitForCondition");
+    
+    if (!(parameters[TIMEOUT_MESSAGE].empty())) {
+        parseMessage(parameters[TIMEOUT_MESSAGE].str());
+    } else {
+        parseMessage("Timeout while waiting for condition: " + parameters[CONDITION].str());
+    }
+}
+
+
+bool WaitForCondition::execute() {
+    // Ensure that we're executing via the state system and not, e.g., as part of a ScheduledActions instance
+    if (StateSystem::instance()->getCurrentState().lock().get() == this) {
+        deadline = Clock::instance()->getCurrentTimeUS() + MWTime(*timeout);
+    } else {
+        merror(M_STATE_SYSTEM_MESSAGE_DOMAIN, "wait_for_condition cannot execute outside of the main state system");
+        deadline = -1;
+    }
+    
+    return true;
+}
+
+
+weak_ptr<State> WaitForCondition::next() {
+    if (Clock::instance()->getCurrentTimeUS() >= deadline) {
+        
+        merror(M_STATE_SYSTEM_MESSAGE_DOMAIN, "%s", getMessage().c_str());
+        if (stopOnTimeout) {
+            merror(M_STATE_SYSTEM_MESSAGE_DOMAIN, "Stopping experiment due to wait for condition timeout");
+            StateSystem::instance()->stop();
+        }
+        
+        return MessageAction::next();
+        
+    } else if (condition->getValue().getBool()) {
+        
+        return MessageAction::next();
+        
+    } else {
+    
+        return weak_ptr<State>();
+        
+    }
+}
+
+
+/****************************************************************
  *                       LoadStimulus Methods
  ****************************************************************/
 LoadStimulus::LoadStimulus(shared_ptr<StimulusNode> _stimnode,
