@@ -129,7 +129,7 @@ shared_ptr<mw::Component> SelectionVariableFactory::createObject(std::map<std::s
 	bool persistant = false; // save the variable from run to run
 	WhenType logging = M_WHEN_CHANGED; // when does this variable get logged
  Datum defaultValue(0L); // the default value Datum object.	
-	std::string groups("");
+	std::string groups(EXPERIMENT_DEFINED_VARIABLES);
 	
 	string tag(parameters.find("tag")->second);
 	
@@ -249,7 +249,8 @@ shared_ptr<mw::Component> SelectionVariableFactory::createObject(std::map<std::s
 	}*/
 	
 	if(parameters.find("groups") != parameters.end()) {
-		groups = parameters.find("groups")->second;
+        groups.append(", ");
+        groups.append(parameters.find("groups")->second);
 	}
 	
 	// TODO when the variable properties get fixed, we can get rid of this nonsense
@@ -262,7 +263,7 @@ shared_ptr<mw::Component> SelectionVariableFactory::createObject(std::map<std::s
 							  true,
 							  false,
 							  M_INTEGER_INFINITE,
-							  std::string(""));
+							  groups);
 	
 	boost::shared_ptr<SelectionVariable>selectionVar;
 	selectionVar = global_variable_registry->createSelectionVariable(&props);

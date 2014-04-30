@@ -90,7 +90,7 @@ shared_ptr<mw::Component> VariableFactory::createObject(std::map<std::string, st
 	bool persistant = false; // save the variable from run to run
 	WhenType logging = M_WHEN_CHANGED; // when does this variable get logged
  Datum defaultValue(0L); // the default value Datum object.	
-	std::string groups("# EXPERIMENT VARIABLES");
+	std::string groups(EXPERIMENT_DEFINED_VARIABLES);
 	
 	GET_ATTRIBUTE(parameters, tag, "tag", "NO_TAG");
 	GET_ATTRIBUTE(parameters, full_name, "full_name", "");	
