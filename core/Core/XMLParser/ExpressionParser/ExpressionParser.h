@@ -261,6 +261,7 @@ protected:
 	static AnyScalar	funcTIMER_EXPIRED(const paramlist_type& paramlist);
 	static AnyScalar	funcREFRESH_RATE(const paramlist_type& paramlist);
 	static AnyScalar	funcFORMAT(const paramlist_type& paramlist);
+	static AnyScalar	funcNUMACCEPTED(const paramlist_type& paramlist);
 	
 public:
     /// Fills in the functionmap with the standard functions.

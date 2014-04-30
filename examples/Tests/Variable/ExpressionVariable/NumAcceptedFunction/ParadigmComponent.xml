@@ -1,0 +1,21 @@
+<?xml version="1.0" standalone="no"?>
+<monkeyml version="1.0">
+    <io_devices tag="IO Devices"></io_devices>
+    <variables tag="Variables">
+        <variable tag="counter" scope="global" logging="when_changed" default_value="0" type="integer"></variable>
+    </variables>
+    <sounds tag="Sounds"></sounds>
+    <stimuli tag="Stimuli"></stimuli>
+    <filters tag="Filters"></filters>
+    <optimizers tag="Optimizers"></optimizers>
+    <experiment tag="New Experiment" full_name="" description="">
+        <protocol tag="Protocol" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
+            <action type="assignment" tag="Reset counter" variable="counter" value="0"></action>
+            <block tag="Block" nsamples="5" sampling_method="cycles" selection="sequential" interruptible="YES">
+                <action type="assert" tag="Assert" condition="numAccepted(&quot;Protocol/Block&quot;) == counter*3" message="" stop_on_failure="NO"></action>
+                <action type="assignment" tag="Increment counter" variable="counter" value="counter + 1"></action>
+                <action tag="Accept Selections" type="accept_selections" selection="Block"></action>
+            </block>
+        </protocol>
+    </experiment>
+</monkeyml>

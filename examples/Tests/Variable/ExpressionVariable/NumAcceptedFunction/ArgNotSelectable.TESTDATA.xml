@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<marionette_info>
+  <expected_messages>
+    <message type="contains">Argument to function NUMACCEPTED() must be the name of a selectable object</message>
+    <message type="starts_with">ERROR: Failed to parse experiment</message>
+  </expected_messages>
+  <expected_events>
+    <!-- The experiment shouldn't load, so we don't expect the normal state-system events -->
+  </expected_events>
+</marionette_info>
