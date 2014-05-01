@@ -605,8 +605,8 @@ bool AnyScalar::setStringQuoted(const std::string &s)
 {
     // unescape string
     if (s.size() < 2) return false;
-    if (s[0] != '"') return false;
-    if (s[s.size()-1] != '"') return false;
+    if ((s[0] != '"') && (s[0] != '\'')) return false;
+    if ((s[s.size()-1] != '"') && (s[s.size()-1] != '\'')) return false;
 
     std::string t;
     t.reserve(s.size() + s.size() / 32);

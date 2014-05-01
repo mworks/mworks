@@ -151,7 +151,8 @@ namespace stx MW_SYMBOL_PUBLIC {
 					
 					string_const
 					= lexeme_d[
-							   token_node_d[ '"' >> *(c_escape_ch_p - '"') >> '"' ]
+							   token_node_d[ ('"'  >> *(c_escape_ch_p - '"' )  >> '"' ) |
+                                             ('\'' >> *(c_escape_ch_p - '\'')  >> '\'') ]
 							   ]
 					;
 					
