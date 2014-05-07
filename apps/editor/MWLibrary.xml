@@ -231,9 +231,10 @@
 			<variable type="selection"
                       tag="New Selection Variable" 
                       values=""
-                      selection=""
-                      nsamples=""
-                      sampling_method=""
+                      selection="sequential"
+                      nsamples="1"
+                      sampling_method="cycles"
+                      advance_on_accept="YES"
                       autoreset="NO"/>
 		</code>
 	</MWElement>

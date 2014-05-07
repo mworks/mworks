@@ -28,11 +28,16 @@ protected:
     
     std::vector<Datum> values;
     int selected_index;
+    bool advanceOnAccept;
     
 public:
 	SelectionVariable(VariableProperties *props, shared_ptr<Selection> _sel = shared_ptr<Selection>());
     
     virtual ~SelectionVariable() { }
+    
+    void setAdvanceOnAccept(bool val) {
+        advanceOnAccept = val;
+    }
     
     virtual void addValue(const Datum &val) {
         values.push_back(val);
@@ -62,18 +67,25 @@ public:
     // Selectable overrides
     //
     
-	virtual int getNItems() { return values.size(); }
+    int getNItems() MW_OVERRIDE { return values.size(); }
     
-	virtual void resetSelections() {
+    void resetSelections() MW_OVERRIDE {
         Selectable::resetSelections();
 		selected_index = NO_SELECTION;
 	}
 	
-	void rejectSelections() {
+	void rejectSelections() MW_OVERRIDE {
         Selectable::rejectSelections();
 		nextValue();
 	}
-    
+
+    void acceptSelections() MW_OVERRIDE {
+        Selectable::acceptSelections();
+        if (advanceOnAccept && (getNLeft() > 0)) {
+            nextValue();
+        }
+    }
+
 };
 
 
