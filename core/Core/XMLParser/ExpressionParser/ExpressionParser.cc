@@ -1838,6 +1838,12 @@ namespace stx MW_SYMBOL_PUBLIC {
 		return AnyScalar( display->getMainDisplayRefreshRate() );
 	}
 	
+	AnyScalar BasicSymbolTable::funcNEXT_FRAME_TIME(const paramlist_type &paramlist)
+    {
+        boost::shared_ptr<mw::StimulusDisplay> display(mw::StimulusDisplay::getCurrentStimulusDisplay());
+        return AnyScalar( display->getCurrentOutputTimeUS() );
+    }
+	
 	AnyScalar BasicSymbolTable::funcFORMAT(const paramlist_type &paramlist)
 	{
         if (paramlist.size() < 1) {
@@ -2002,6 +2008,7 @@ namespace stx MW_SYMBOL_PUBLIC {
 		setFunction("NOW", 0, funcNOW);
 		setFunction("TIMEREXPIRED", 1, funcTIMER_EXPIRED);
 		setFunction("REFRESHRATE", 0, funcREFRESH_RATE);
+		setFunction("NEXTFRAMETIME", 0, funcNEXT_FRAME_TIME);
         
 		setFunction("FORMAT", -1, funcFORMAT);
 		setFunction("NUMACCEPTED", 1, funcNUMACCEPTED);
