@@ -134,7 +134,7 @@
 			event:(NSEvent *)theEvent{
 			
 			
-	NSLog(@"ed: The string is: %@", [textObj string]);
+	//NSLog(@"ed: The string is: %@", [textObj string]);
 	[super editWithFrame:aRect
 		   inView:controlView
 		   editor:textObj

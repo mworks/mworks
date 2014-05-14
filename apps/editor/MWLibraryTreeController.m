@@ -26,7 +26,7 @@
 	
 	NSString *name = [element valueForKey:@"icon"];
 	NSString *fullpath = [[NSBundle mainBundle] pathForResource:name ofType:@"tif"];
-	NSLog(@"full icon path: %@", fullpath);
+	//NSLog(@"full icon path: %@", fullpath);
     NSImage *img = [[NSImage alloc] initWithContentsOfFile:fullpath];
 	
 	[cell setImage:img];

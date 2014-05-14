@@ -48,7 +48,7 @@
 	NSArray *selected;
 	NSXMLElement *current_element;
 	
-	NSLog(@"Set index %d", ind);
+	//NSLog(@"Set index %d", ind);
 
 	current_view_index = ind;
 	switch([self currentViewIndex]){
@@ -66,7 +66,7 @@
 					return [self setCurrentViewIndex:MWGenericInspectorKey];
 				}
 				
-				NSLog(@"Inspector nib: %@", inspector_nib);
+				//NSLog(@"Inspector nib: %@", inspector_nib);
 				
 				if(![self loadNib:inspector_nib]){
 					return [self setCurrentViewIndex:MWGenericInspectorKey];

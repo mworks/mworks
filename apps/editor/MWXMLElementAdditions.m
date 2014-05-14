@@ -19,7 +19,7 @@
 - (void)setObject:(id)object {
 	// actually just swap out the tag
 	//if([object isKindOfClass:@"NSString"]){
-	NSLog(@"setting");
+	//NSLog(@"setting");
 	[self setValue:object forKey:@"tag"];
 	//}
 	return;
@@ -97,7 +97,7 @@
 
 - (void)setValue:(id)val forUndefinedKey:(NSString *)key{
 
-	NSLog(@"creating attribute");
+	//NSLog(@"creating attribute");
 	
 	NSXMLNode *new_att = [NSXMLNode attributeWithName:key stringValue:[NSString stringWithFormat:@"%@", val]];
 	
