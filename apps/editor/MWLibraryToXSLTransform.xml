@@ -34,6 +34,11 @@
 			</xsl:element>
 		</xsl:element>
 	
+		<!-- Strip comments -->
+		<xsl:element name="xsl:template">
+			<xsl:attribute name="match">comment()</xsl:attribute>
+		</xsl:element>
+	
 		<xsl:apply-templates/>
 	</xsl:element>
 </xsl:template>
