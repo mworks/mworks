@@ -7,7 +7,10 @@ from subprocess import call, check_call, Popen, PIPE
 import sys
 from tempfile import NamedTemporaryFile
 from xml.dom import minidom
+import xml.etree.ElementTree as etree
 
+
+available_features = set()
 
 tests_dir = '/Library/Application Support/MWorks/Developer/tests'
 test_file_dir = os.path.join(tests_dir, 'XML')
@@ -98,12 +101,29 @@ def run_marionette_tests(arch_name, test_names=None):
                                        test_data_suffix)):
             if os.path.isfile(test_data):
                 args.append(test_data)
+
+                # Determine feature requirements
+                test_data_tree = etree.parse(test_data)
+                required_features = \
+                    set(e.attrib['name'] for e in
+                        test_data_tree.iterfind('.//requirements/feature'))
+                missing_features = required_features - available_features
+
                 break
+        else:
+            missing_features = None
 
         if test_file.startswith(test_file_dir):
             test_name = test_file[len(test_file_dir)+1:]
         else:
             test_name = test_file
+
+        print test_name, ':',
+        sys.stdout.flush()
+
+        if missing_features:
+            print 'skipped (requires %s)' % ', '.join(missing_features)
+            continue
 
         # For OS X 10.7: Remove any saved state, which can lead to a
         # "Restore Windows" dialog that hangs MarionetteTest until
@@ -120,11 +140,8 @@ def run_marionette_tests(arch_name, test_names=None):
         if cmd.returncode != 0:
             error(cmd.returncode, 'osascript command failed')
 
-        print test_name,
-        sys.stdout.flush()
         cmd = Popen(args, stderr=PIPE, env=env)
         output = cmd.communicate()[1]
-        print ':',
         if cmd.returncode == 0:
             print 'OK'
         else:
@@ -169,8 +186,14 @@ def main():
                   choices = valid_arch_names,
                   default = valid_arch_names[0],
                   help = 'use specified CPU architecture')
+    op.add_option('--features',
+                  default = '',
+                  help = 'available features (as a comma-separated list)')
 
     (opts, args) = op.parse_args()
+
+    available_features.update(name.strip() for name in
+                              opts.features.split(',') if name.strip())
 
     unit_test_names = []
     marionette_test_names = []
