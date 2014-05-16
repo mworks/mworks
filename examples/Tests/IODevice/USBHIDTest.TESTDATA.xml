@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<marionette_info>
+  <requirements>
+    <feature name="usbhid_gamepad"/>
+  </requirements>
+</marionette_info>
