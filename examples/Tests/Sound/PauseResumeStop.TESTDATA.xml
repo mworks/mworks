@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<marionette_info>
+  <expected_messages>
+    <message type="starts_with">Sound should not be playing</message>
+    <message type="starts_with">Pausing for 2 second</message>
+    <message type="whole_message">Pausing state system</message>
+    <message type="whole_message">Resuming paused state system</message>
+    <message type="starts_with">Sound should not be playing</message>
+    <message type="starts_with">Starting sound</message>
+    <message type="starts_with">Pausing for 2 second</message>
+    <message type="whole_message">Pausing state system</message>
+    <message type="whole_message">Resuming paused state system</message>
+    <message type="starts_with">Pausing for 2 second</message>
+    <message type="whole_message">Pausing state system</message>
+    <message type="whole_message">Resuming paused state system</message>
+    <message type="starts_with">Sound should now stop</message>
+  </expected_messages>
+</marionette_info>
