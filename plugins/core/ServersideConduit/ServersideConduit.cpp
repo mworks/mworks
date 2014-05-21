@@ -29,7 +29,9 @@ ServersideConduit::ServersideConduit(const ParameterValueMap &p) :
 }
     
 
-ServersideConduit::~ServersideConduit(){ }
+ServersideConduit::~ServersideConduit() {
+    conduit->finalize();
+}
 
 
 }
