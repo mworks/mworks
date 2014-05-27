@@ -1,0 +1,94 @@
+<?xml version="1.0"?>
+<marionette_info>
+  <permitted_error_messages>
+    <!--type can be "contains", "starts_with", "ends_with" or "whole_message"-->
+    <!--message type="starts_with">ERROR: Scheduled task (/</message>
+    <message type="starts_with">ERROR: updating main window display is taking longer than two frames</message-->
+  </permitted_error_messages>
+  <expected_messages/>
+  <expected_events>
+    <event variable="#state_system_mode">
+      <value type="integer">0</value>
+    </event>
+    <event variable="#announceMessage"/>
+    <event variable="#stimDisplayUpdate"/>
+    <event variable="#experimentLoadProgress"/>
+    <event variable="#announceStimulus"/>
+    <event variable="#requestCalibrator"/>
+    <event variable="#announceCurrentState"/>
+    <event variable="#announceTrial"/>
+    <event variable="#announceBlock"/>
+    <event variable="#announceAssertion"/>
+    <event variable="#serverName"/>
+    <event variable="#mainScreenInfo"/>
+    <event variable="#state_system_mode">
+      <value type="integer">2</value>
+    </event>
+
+    <event variable="#stimDisplayUpdate">
+      <value>
+			<list>
+				<list_element>
+						<dictionary>
+							<dictionary_element>
+								<key>color_r</key>
+								<value type="float">1</value>
+							</dictionary_element>
+							<dictionary_element>
+								<key>color_b</key>
+								<value type="float">1</value>
+							</dictionary_element>
+							<dictionary_element>
+								<key>size_x</key>
+								<value type="float">10</value>
+							</dictionary_element>
+							<dictionary_element>
+								<key>name</key>
+								<value type="string">rect</value>
+							</dictionary_element>
+							<dictionary_element>
+								<key>color_g</key>
+								<value type="float">0</value>
+							</dictionary_element>
+							<dictionary_element>
+								<key>type</key>
+								<value type="string">rectangle</value>
+							</dictionary_element>
+							<dictionary_element>
+								<key>pos_x</key>
+								<value type="float">-5</value>
+							</dictionary_element>
+							<dictionary_element>
+								<key>size_y</key>
+								<value type="float">5</value>
+							</dictionary_element>
+							<dictionary_element>
+								<key>pos_y</key>
+								<value type="float">-5</value>
+							</dictionary_element>
+							<dictionary_element>
+								<key>action</key>
+								<value type="string">draw</value>
+							</dictionary_element>
+							<dictionary_element>
+								<key>rotation</key>
+								<value type="float">0</value>
+							</dictionary_element>
+                            <dictionary_element>
+                                <key>alpha_multiplier</key>
+                                <value type="float">0.5</value>
+                            </dictionary_element>
+						</dictionary>					
+				</list_element>
+			</list>
+	  </value>
+	</event>
+	<event variable="#stimDisplayUpdate"/>
+
+    <event variable="#state_system_mode">
+      <value type="integer">0</value>
+    </event>
+  </expected_events>
+</marionette_info>
+
+

@@ -11,7 +11,6 @@
 
 @implementation MWFindController
 
-@synthesize searchString;
 @synthesize currentResult;
 @synthesize hasResults;
 
@@ -20,24 +19,30 @@
     return self;
 }
 
+-(NSString *)searchString {
+    return searchString;
+}
+
 -(void)setSearchString:(NSString *)newstring{
 
-    searchString = newstring;
+    searchString = [newstring copy];
     //NSString *xpath = @"//protocol";
     NSString *xpath = [NSString stringWithFormat:@"//*[contains(translate(@tag, 'abcdefghijklmnopqrstuvwxyz','ABCDEFGHIJKLMNOPQRSTUVWXYZ'), \"%@\")] | //*[@*[contains(., \"%@\")]]", [searchString uppercaseString], searchString, Nil]; 
     //NSString *xpath = [NSString stringWithFormat:@"//[contains(@*,\"%@\")]", [searchString uppercaseString], Nil]; 
     
-    NSLog(@"XPath = %@", xpath);
+    //NSLog(@"XPath = %@", xpath);
     // do XSLT search and populate resultNodes
     NSXMLDocument *doc = [document document];
     NSError *error = Nil;
     resultNodes = [doc nodesForXPath:xpath error:&error];
     
+    /*
     if(error != Nil){
         NSLog(@"found %lu nodes", (unsigned long)[resultNodes count]);
     } else {
         NSLog(@"xpath error: %@", [error localizedDescription]);
     }
+     */
     
     if(resultNodes != Nil && [resultNodes count]){
         self.hasResults = YES;
@@ -59,7 +64,7 @@
     }
     
     NSXMLNode *node = [resultNodes objectAtIndex:self.currentResult];
-    NSLog(@"next result: tag = %@", [node valueForKey:@"tag"]);
+    //NSLog(@"next result: tag = %@", [node valueForKey:@"tag"]);
     [experimentController setSelectionWithNode:node];
 }
 
@@ -75,14 +80,14 @@
     }
     
     NSXMLNode *node = [resultNodes objectAtIndex:self.currentResult];
-    NSLog(@"next result: tag = %@", [node valueForKey:@"tag"]);
+    //NSLog(@"next result: tag = %@", [node valueForKey:@"tag"]);
     [experimentController setSelectionWithNode:node];
 }
 
 
 
 -(BOOL)control:(NSControl*)control textView:(NSTextView*)textView doCommandBySelector:(SEL)commandSelector {
-    NSLog(@"delegate call");
+    //NSLog(@"delegate call");
     BOOL result = NO;	
 //    if (commandSelector == @selector(insertNewline:)) {
 //		// enter pressed
@@ -98,12 +103,12 @@
 
     if(commandSelector == @selector(moveUp:)) {
 		// up arrow pressed
-        NSLog(@"up");
+        //NSLog(@"up");
         [self previousResult:self];
 		result = YES;
 	}else if(commandSelector == @selector(moveDown:)) {
 		// down arrow pressed
-        NSLog(@"down");
+        //NSLog(@"down");
 		[self nextResult:self];
         result = YES;
 	}

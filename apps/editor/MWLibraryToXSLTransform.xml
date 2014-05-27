@@ -34,6 +34,11 @@
 			</xsl:element>
 		</xsl:element>
 	
+		<!-- Strip text nodes and comments, which the editor currently can't process -->
+		<xsl:element name="xsl:template">
+			<xsl:attribute name="match">text()|comment()</xsl:attribute>
+		</xsl:element>
+	
 		<xsl:apply-templates/>
 	</xsl:element>
 </xsl:template>

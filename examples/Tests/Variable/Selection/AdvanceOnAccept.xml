@@ -1,0 +1,88 @@
+<?xml version="1.0" standalone="no"?>
+<monkeyml version="1.0">
+    <io_devices tag="IO Devices"></io_devices>
+    <variables tag="Variables">
+        <variable type="selection" tag="sel" values="1:5" selection="sequential_ascending" nsamples="1" sampling_method="cycles" advance_on_accept="YES" autoreset="NO"></variable>
+        <variable type="selection" tag="sel_wo_aoa" values="1:3" selection="sequential_ascending" nsamples="1" sampling_method="cycles" advance_on_accept="NO" autoreset="NO"></variable>
+        <variable type="selection" tag="sel_w_ar" values="1:3" selection="sequential_ascending" nsamples="1" sampling_method="cycles" advance_on_accept="YES" autoreset="YES"></variable>
+    </variables>
+    <sounds tag="Sounds"></sounds>
+    <stimuli tag="Stimuli"></stimuli>
+    <filters tag="Filters"></filters>
+    <optimizers tag="Optimizers"></optimizers>
+    <experiment tag="New Experiment" full_name="" description="">
+        <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
+            <block tag="Without advance_on_accept" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
+                <action type="assert" tag="Assert" condition="sel_wo_aoa == 1" message="" stop_on_failure="NO"></action>
+                <action type="assert" tag="Assert" condition="numAccepted('sel_wo_aoa') == 0" message="" stop_on_failure="NO"></action>
+                <action tag="Accept Selections" type="accept_selections" selection="sel_wo_aoa"></action>
+                <action type="assert" tag="Assert" condition="sel_wo_aoa == 1" message="" stop_on_failure="NO"></action>
+                <action type="assert" tag="Assert" condition="numAccepted('sel_wo_aoa') == 1" message="" stop_on_failure="NO"></action>
+                <action tag="Next Selection" type="next_selection" selection="sel_wo_aoa"></action>
+                <action type="assert" tag="Assert" condition="sel_wo_aoa == 2" message="" stop_on_failure="NO"></action>
+                <action type="assert" tag="Assert" condition="numAccepted('sel_wo_aoa') == 1" message="" stop_on_failure="NO"></action>
+                <action tag="Accept Selections" type="accept_selections" selection="sel_wo_aoa"></action>
+                <action type="assert" tag="Assert" condition="sel_wo_aoa == 2" message="" stop_on_failure="NO"></action>
+                <action type="assert" tag="Assert" condition="numAccepted('sel_wo_aoa') == 2" message="" stop_on_failure="NO"></action>
+                <action tag="Next Selection" type="next_selection" selection="sel_wo_aoa"></action>
+                <action type="assert" tag="Assert" condition="sel_wo_aoa == 3" message="" stop_on_failure="NO"></action>
+                <action type="assert" tag="Assert" condition="numAccepted('sel_wo_aoa') == 2" message="" stop_on_failure="NO"></action>
+                <action tag="Accept Selections" type="accept_selections" selection="sel_wo_aoa"></action>
+                <action type="assert" tag="Assert" condition="sel_wo_aoa == 3" message="" stop_on_failure="NO"></action>
+                <action type="assert" tag="Assert" condition="numAccepted('sel_wo_aoa') == 3" message="" stop_on_failure="NO"></action>
+                <action tag="Accept Selections" type="accept_selections" selection="sel_wo_aoa"></action>
+                <action type="assert" tag="Assert" condition="sel_wo_aoa == 3" message="" stop_on_failure="NO"></action>
+                <action type="assert" tag="Assert" condition="numAccepted('sel_wo_aoa') == 3" message="" stop_on_failure="NO"></action>
+                <action tag="Next Selection" type="next_selection" selection="sel_wo_aoa"></action>
+            </block>
+            <block tag="With advance_on_accept" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
+                <action type="assert" tag="Assert" condition="sel == 1" message="" stop_on_failure="NO"></action>
+                <action type="assert" tag="Assert" condition="numAccepted('sel') == 0" message="" stop_on_failure="NO"></action>
+                <action tag="Accept Selections" type="accept_selections" selection="sel"></action>
+                <action type="assert" tag="Assert" condition="sel == 2" message="" stop_on_failure="NO"></action>
+                <action type="assert" tag="Assert" condition="numAccepted('sel') == 1" message="" stop_on_failure="NO"></action>
+                <action tag="Next Selection" type="next_selection" selection="sel"></action>
+                <action type="assert" tag="Assert" condition="sel == 3" message="" stop_on_failure="NO"></action>
+                <action type="assert" tag="Assert" condition="numAccepted('sel') == 1" message="" stop_on_failure="NO"></action>
+                <action tag="Accept Selections" type="accept_selections" selection="sel"></action>
+                <action type="assert" tag="Assert" condition="sel == 4" message="" stop_on_failure="NO"></action>
+                <action type="assert" tag="Assert" condition="numAccepted('sel') == 3" message="" stop_on_failure="NO"></action>
+                <action tag="Next Selection" type="next_selection" selection="sel"></action>
+                <action type="assert" tag="Assert" condition="sel == 5" message="" stop_on_failure="NO"></action>
+                <action type="assert" tag="Assert" condition="numAccepted('sel') == 3" message="" stop_on_failure="NO"></action>
+                <action tag="Reject Selections" type="reject_selections" selection="sel"></action>
+                <action type="assert" tag="Assert" condition="sel == 4" message="" stop_on_failure="NO"></action>
+                <action type="assert" tag="Assert" condition="numAccepted('sel') == 3" message="" stop_on_failure="NO"></action>
+                <action tag="Accept Selections" type="accept_selections" selection="sel"></action>
+                <action type="assert" tag="Assert" condition="sel == 5" message="" stop_on_failure="NO"></action>
+                <action type="assert" tag="Assert" condition="numAccepted('sel') == 4" message="" stop_on_failure="NO"></action>
+                <action tag="Accept Selections" type="accept_selections" selection="sel"></action>
+                <action type="assert" tag="Assert" condition="sel == 5" message="" stop_on_failure="NO"></action>
+                <action type="assert" tag="Assert" condition="numAccepted('sel') == 5" message="" stop_on_failure="NO"></action>
+                <action tag="Accept Selections" type="accept_selections" selection="sel"></action>
+                <action type="assert" tag="Assert" condition="sel == 5" message="" stop_on_failure="NO"></action>
+                <action type="assert" tag="Assert" condition="numAccepted('sel') == 5" message="" stop_on_failure="NO"></action>
+                <action tag="Next Selection" type="next_selection" selection="sel"></action>
+            </block>
+            <block tag="With autoreset" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
+                <action type="assert" tag="Assert" condition="sel_w_ar == 1" message="" stop_on_failure="NO"></action>
+                <action type="assert" tag="Assert" condition="numAccepted('sel_w_ar') == 0" message="" stop_on_failure="NO"></action>
+                <action tag="Accept Selections" type="accept_selections" selection="sel_w_ar"></action>
+                <action type="assert" tag="Assert" condition="sel_w_ar == 2" message="" stop_on_failure="NO"></action>
+                <action type="assert" tag="Assert" condition="numAccepted('sel_w_ar') == 1" message="" stop_on_failure="NO"></action>
+                <action tag="Accept Selections" type="accept_selections" selection="sel_w_ar"></action>
+                <action type="assert" tag="Assert" condition="sel_w_ar == 3" message="" stop_on_failure="NO"></action>
+                <action type="assert" tag="Assert" condition="numAccepted('sel_w_ar') == 2" message="" stop_on_failure="NO"></action>
+                <action tag="Accept Selections" type="accept_selections" selection="sel_w_ar"></action>
+                <action type="assert" tag="Assert" condition="sel_w_ar == 3" message="" stop_on_failure="NO"></action>
+                <action type="assert" tag="Assert" condition="numAccepted('sel_w_ar') == 3" message="" stop_on_failure="NO"></action>
+                <action tag="Accept Selections" type="accept_selections" selection="sel_w_ar"></action>
+                <action type="assert" tag="Assert" condition="sel_w_ar == 3" message="" stop_on_failure="NO"></action>
+                <action type="assert" tag="Assert" condition="numAccepted('sel_w_ar') == 3" message="" stop_on_failure="NO"></action>
+                <action tag="Next Selection" type="next_selection" selection="sel_w_ar"></action>
+                <action type="assert" tag="Assert" condition="sel_w_ar == 1" message="" stop_on_failure="NO"></action>
+                <action type="assert" tag="Assert" condition="numAccepted('sel_w_ar') == 0" message="" stop_on_failure="NO"></action>
+            </block>
+        </protocol>
+    </experiment>
+</monkeyml>

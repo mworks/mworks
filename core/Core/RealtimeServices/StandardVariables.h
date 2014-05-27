@@ -30,6 +30,7 @@ BEGIN_NAMESPACE_MW
     #define STIM_SIZEX  "size_x"
     #define STIM_SIZEY  "size_y"
     #define STIM_ROT    "rotation"
+    #define STIM_ALPHA  "alpha_multiplier"
     #define STIM_COLOR_R    "color_r"
     #define STIM_COLOR_G    "color_g"
     #define STIM_COLOR_B    "color_b"
@@ -106,6 +107,7 @@ enum {IDLE, STOPPING, RUNNING, PAUSED, TASKMODES};
 
 
 #define PRIVATE_SYSTEM_VARIABLES "# SYSTEM VARIABLES"
+#define EXPERIMENT_DEFINED_VARIABLES "# EXPERIMENT VARIABLES"
 
 
 extern shared_ptr<Variable> state_system_mode;

@@ -1,0 +1,39 @@
+<?xml version="1.0" standalone="no"?>
+<monkeyml version="1.0">
+    <io_devices tag="IO Devices"></io_devices>
+    <variables tag="Variables">
+        <variable type="selection" tag="sel" values="1:5" selection="sequential_ascending" nsamples="1" sampling_method="cycles" autoreset="NO"></variable>
+    </variables>
+    <sounds tag="Sounds"></sounds>
+    <stimuli tag="Stimuli"></stimuli>
+    <filters tag="Filters"></filters>
+    <optimizers tag="Optimizers"></optimizers>
+    <experiment tag="New Experiment" full_name="" description="">
+        <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
+            <action tag="Reset Selections" type="reset_selection" selection="sel"></action>
+            <action type="assert" tag="Assert" condition="numAccepted(&quot;sel&quot;) == 0" message="" stop_on_failure="NO"></action>
+            <action tag="Next Selection" type="next_selection" selection="sel"></action>
+            <action type="assert" tag="Assert" condition="numAccepted(&quot;sel&quot;) == 0" message="" stop_on_failure="NO"></action>
+            <action tag="Accept Selections" type="accept_selections" selection="sel"></action>
+            <action type="assert" tag="Assert" condition="numAccepted(&quot;sel&quot;) == 1" message="" stop_on_failure="NO"></action>
+            <action tag="Next Selection" type="next_selection" selection="sel"></action>
+            <action type="assert" tag="Assert" condition="numAccepted(&quot;sel&quot;) == 1" message="" stop_on_failure="NO"></action>
+            <action tag="Next Selection" type="next_selection" selection="sel"></action>
+            <action type="assert" tag="Assert" condition="numAccepted(&quot;sel&quot;) == 1" message="" stop_on_failure="NO"></action>
+            <action tag="Accept Selections" type="accept_selections" selection="sel"></action>
+            <action type="assert" tag="Assert" condition="numAccepted(&quot;sel&quot;) == 3" message="" stop_on_failure="NO"></action>
+            <action tag="Next Selection" type="next_selection" selection="sel"></action>
+            <action type="assert" tag="Assert" condition="numAccepted(&quot;sel&quot;) == 3" message="" stop_on_failure="NO"></action>
+            <action tag="Next Selection" type="next_selection" selection="sel"></action>
+            <action type="assert" tag="Assert" condition="numAccepted(&quot;sel&quot;) == 3" message="" stop_on_failure="NO"></action>
+            <action tag="Reject Selections" type="reject_selections" selection="sel"></action>
+            <action type="assert" tag="Assert" condition="numAccepted(&quot;sel&quot;) == 3" message="" stop_on_failure="NO"></action>
+            <action tag="Next Selection" type="next_selection" selection="sel"></action>
+            <action type="assert" tag="Assert" condition="numAccepted(&quot;sel&quot;) == 3" message="" stop_on_failure="NO"></action>
+            <action tag="Accept Selections" type="accept_selections" selection="sel"></action>
+            <action type="assert" tag="Assert" condition="numAccepted(&quot;sel&quot;) == 5" message="" stop_on_failure="NO"></action>
+            <action tag="Reset Selections" type="reset_selection" selection="sel"></action>
+            <action type="assert" tag="Assert" condition="numAccepted(&quot;sel&quot;) == 0" message="" stop_on_failure="NO"></action>
+        </protocol>
+    </experiment>
+</monkeyml>

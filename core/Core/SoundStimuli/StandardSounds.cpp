@@ -59,6 +59,8 @@ void OpenALSound::play(){
 		return; 
 	} else {
 		announceSoundPlayed();
+        isPlaying = true;
+        isPaused = false;
 	}
 }
 	
@@ -80,7 +82,7 @@ void OpenALSound::pause(){
 			   (boost::format("%d") % error).str());
 		return; 
 	}
-
+    isPaused = true;
 }
 
 void OpenALSound::stop(){
@@ -91,6 +93,9 @@ void OpenALSound::stop(){
 			   (boost::format("%d") % error).str());
 		return; 
 	}
+    
+    isPlaying = false;
+    isPaused = false;
 
 	alSourceRewind(source);
 	if ((error = alGetError()) != AL_NO_ERROR) { 

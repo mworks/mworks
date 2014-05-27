@@ -1,9 +1,0 @@
-<?xml version="1.0"?>
-<marionette_info>
-  <permitted_error_messages>
-    <message type="starts_with" max_matches="1">ERROR: updating main window display is taking longer than two frames </message>
-    <message type="starts_with">WARNING: Scheduled task </message>
-    <!-- TODO: Fix the test so it doesn't produce this warning -->
-    <message type="whole_message" max_matches="10">WARNING: Scheduling a timer to fire at a time in the past</message>
-  </permitted_error_messages>
-</marionette_info>

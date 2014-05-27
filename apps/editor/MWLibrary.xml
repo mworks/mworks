@@ -231,9 +231,10 @@
 			<variable type="selection"
                       tag="New Selection Variable" 
                       values=""
-                      selection=""
-                      nsamples=""
-                      sampling_method=""
+                      selection="sequential"
+                      nsamples="1"
+                      sampling_method="cycles"
+                      advance_on_accept="YES"
                       autoreset="NO"/>
 		</code>
 	</MWElement>
@@ -335,6 +336,32 @@
                                             color="0.5,0.5,0.5"/>
 		</code>
 	</MWElement>
+
+
+    <MWElement name="Rectangle Stimulus">
+        <!-- XPath 2.0 expression defining nodes of this type -->
+        <match_signature>stimulus[@type="rectangle"]</match_signature>
+        
+        <isa>Stimulus</isa>
+        
+        <description>
+A rectangle stimulus
+        </description>
+        
+        <!-- Payload -->
+        <code>
+          <stimulus type="rectangle"
+          			tag="New Rectangle"
+                    color="1,1,1"
+                    x_size=""
+                    y_size=""
+                    x_position=""
+                    y_position=""
+                    rotation=""
+                    alpha_multiplier=""/>
+        </code>
+    </MWElement>
+
 
 	<MWElement name="Fixation Point Stimulus">
 		<!-- XPath 2.0 expression defining nodes of this type -->
@@ -882,6 +909,31 @@ Given a list of conditional (if) actions, executes the first one whose condition
 		<!-- Payload -->
 		<code>
 			<action type="wait" tag="Wait" duration="1.0" duration_units="s"/>
+		</code>
+	</MWElement>
+	
+
+	<MWElement name="Wait for Condition">
+		<!-- XPath 2.0 expression defining nodes of this type -->
+		<match_signature>action[@type='wait_for_condition']</match_signature>
+		
+		<!-- Inheritance -->
+		<isa>Action</isa>
+		
+		<!-- Information for display in the GUI -->
+		<icon>startTimer</icon>
+		<description>
+Wait until a condition becomes true or a timeout occurs.  If the wait times out before the condition becomes true, issue an error message and (optionally) stop the experiment.
+		</description>
+		
+		<!-- Payload -->
+		<code>
+			<action type="wait_for_condition"
+					tag="Wait for Condition"
+					condition=""
+					timeout=""
+					timeout_message=""
+					stop_on_timeout="YES"/>
 		</code>
 	</MWElement>
     

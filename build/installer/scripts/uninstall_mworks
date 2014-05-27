@@ -74,14 +74,16 @@ def create_directory(dirname):
         check_call(['/usr/sbin/chown', username, dirname])
 
 
-def backup_files(backupdir):
-    if os.path.exists(backupdir):
-        timestamp = time.ctime(os.stat(backupdir)[-1]).replace(':', '.')
-        old_backupdir = '%s (%s)' % (backupdir, timestamp)
-        announce('Found existing "%s"; moving to "%s"', backupdir,
-                 old_backupdir)
-        check_call(['/bin/mv', backupdir, old_backupdir])
+def rename_existing_directory(dirname):
+    if os.path.exists(dirname):
+        timestamp = time.ctime(os.stat(dirname)[-1]).replace(':', '.')
+        old_dirname = '%s (%s)' % (dirname, timestamp)
+        announce('Found existing "%s"; moving to "%s"', dirname, old_dirname)
+        check_call(['/bin/mv', dirname, old_dirname])
 
+
+def backup_files(backupdir):
+    rename_existing_directory(backupdir)
     for filename in mw_files:
         if os.path.exists(filename):
             announce('Moving "%s" to "%s"', filename, backupdir)
@@ -101,6 +103,8 @@ def restore_files(backupdir):
             check_call(['/bin/mv', srcfile, os.path.dirname(filename)])
 
     trashdir = get_userdir('.Trash')
+    rename_existing_directory(os.path.join(trashdir,
+                                           os.path.basename(backupdir)))
     announce('Moving "%s" to "%s"', backupdir, trashdir)
     check_call(['/bin/mv', backupdir, trashdir])
 

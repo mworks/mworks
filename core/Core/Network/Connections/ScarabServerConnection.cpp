@@ -14,7 +14,7 @@
 BEGIN_NAMESPACE_MW
 
 
-#define THREAD_INTERVAL_US 200000 
+#define THREAD_INTERVAL_US 5000
 
 ScarabServerConnection::ScarabServerConnection(shared_ptr<EventBuffer> _incoming_event_buffer, shared_ptr<EventBuffer> _outgoing_event_buffer,  int interval) {
     

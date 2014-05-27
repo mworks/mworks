@@ -51,7 +51,7 @@
 							</dictionary_element>
 							<dictionary_element>
 								<key>name</key>
-								<value type="string">circle100</value>
+								<value type="string">rectangle100</value>
 							</dictionary_element>
 							<dictionary_element>
 								<key>color_g</key>
@@ -59,7 +59,7 @@
 							</dictionary_element>
 							<dictionary_element>
 								<key>type</key>
-								<value type="string">circle</value>
+								<value type="string">rectangle</value>
 							</dictionary_element>
 							<dictionary_element>
 								<key>pos_x</key>
@@ -81,6 +81,10 @@
 								<key>rotation</key>
 								<value type="float">0</value>
 							</dictionary_element>
+                            <dictionary_element>
+                                <key>alpha_multiplier</key>
+                                <value type="float">1</value>
+                            </dictionary_element>
 						</dictionary>					
 				</list_element>
 			</list>
@@ -106,7 +110,7 @@
 							</dictionary_element>
 							<dictionary_element>
 								<key>name</key>
-								<value type="string">circle101</value>
+								<value type="string">rectangle101</value>
 							</dictionary_element>
 							<dictionary_element>
 								<key>color_g</key>
@@ -114,7 +118,7 @@
 							</dictionary_element>
 							<dictionary_element>
 								<key>type</key>
-								<value type="string">circle</value>
+								<value type="string">rectangle</value>
 							</dictionary_element>
 							<dictionary_element>
 								<key>pos_x</key>
@@ -136,6 +140,10 @@
 								<key>rotation</key>
 								<value type="float">0</value>
 							</dictionary_element>
+                            <dictionary_element>
+                                <key>alpha_multiplier</key>
+                                <value type="float">1</value>
+                            </dictionary_element>
 						</dictionary>					
 				</list_element>
 			</list>

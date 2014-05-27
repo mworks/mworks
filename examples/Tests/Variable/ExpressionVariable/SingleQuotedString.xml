@@ -1,0 +1,20 @@
+<?xml version="1.0" standalone="no"?>
+<monkeyml version="1.0">
+    <io_devices tag="IO Devices"></io_devices>
+    <variables tag="Variables">
+        <variable tag="var" scope="global" logging="when_changed" default_value="0" type="integer"></variable>
+    </variables>
+    <sounds tag="Sounds"></sounds>
+    <stimuli tag="Stimuli"></stimuli>
+    <filters tag="Filters"></filters>
+    <optimizers tag="Optimizers"></optimizers>
+    <experiment tag="New Experiment" full_name="" description="">
+        <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
+            <action type="assert" tag="Assert" condition="'foo' == &quot;foo&quot;" message="" stop_on_failure="0"></action>
+            <action type="assert" tag="Assert 2" condition="'can\'t' == &quot;can't&quot;" message="" stop_on_failure="0"></action>
+            <action type="assert" tag="Assert 3" condition="'It\'s &quot;nice&quot;' == &quot;It's \&quot;nice\&quot;&quot;" message="" stop_on_failure="0"></action>
+            <action type="assignment" tag="Assign Variable" variable="var" value="'It\'s &quot;nice&quot;'"></action>
+            <action type="report" tag="Report" message="$var"></action>
+        </protocol>
+    </experiment>
+</monkeyml>

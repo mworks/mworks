@@ -164,7 +164,22 @@ void EventStreamConduit::handleControlEventFromConduit(shared_ptr<Event> evt){
     }
     
     
+    //
+    // Though it seems silly for us to explicitly acquire an internal lock of the event stream, we need to ensure
+    // the callbacks lock is acquired *before* our own events_to_forward_lock in order to avoid a deadlock
+    // with the event stream's event handling thread.  If we acquire events_to_forward_lock first, and then implicitly
+    // acquire the callbacks lock via a subsequent call to event_stream->registerCallback, then a deadlock
+    // can occur when the following two events coincide:
+    //
+    //   1) The event stream has received a new codec and is invoking our handleCodecFromStream method
+    //      (lock aquisition order: callbacks lock, events_to_forward_lock)
+    //
+    //   2) We're here, processing a new forwarding request from the conduit
+    //      (lock aquisition order: events_to_forward_lock, callbacks lock)
+    //
+    EventCallbackHandler::CallbacksLock callbacksLock(*event_stream);
     boost::mutex::scoped_lock lock(events_to_forward_lock);
+    
     std::list<string>::iterator event_iterator = find_if(events_to_forward.begin(), events_to_forward.end(), bind2nd(std::equal_to<string>(),event_name));
     
     if(state_datum.getBool()){

@@ -14,7 +14,7 @@
 {
     self = [super init];
 	
-	validationInProcess = NO;
+	validationInProcess = [NSNumber numberWithBool:NO];
 	
     if (self) {
 		////////////////////////////////////////////////////////////////
@@ -66,7 +66,7 @@
 		/////////////////////////////////////////////////////////////////////
 		// Get all of the plugins' library files
 		/////////////////////////////////////////////////////////////////////
-		NSLog(@"Loading Library XML...");
+		//NSLog(@"Loading Library XML...");
 		NSString *pluginPath = @"/Library/Application Support/MWorks/Plugins/Core";
 		NSArray *plugins = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:pluginPath error:&outError];
 		NSEnumerator *pluginEnumerator = [plugins objectEnumerator];
@@ -87,13 +87,13 @@
 									   ofType:@"xml"];
 			
 			if(xmlPluginPath != nil) {
-                NSLog(@"Loading %@", pluginName);
+                //NSLog(@"Loading %@", pluginName);
 				NSXMLNode *library_url_node = [NSXMLNode elementWithName:@"url" stringValue:[NSString stringWithString:[xmlPluginPath stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]]];
 				[root addChild:library_url_node];
 			}
 		}
 	
-    NSLog(@"%@", [xmlContentsDoc XMLString]);
+    //NSLog(@"%@", [xmlContentsDoc XMLString]);
       
   
 		// combine all the libraries now
@@ -107,7 +107,7 @@
 			return self;
     }
       
-    NSLog(@"%@", [libraries_untransformed XMLString]);
+    //NSLog(@"%@", [libraries_untransformed XMLString]);
         
     //DDC: remove stupid shit from Ben
 		// I need to write and re-read the file.  There's some bug here but I don't see where it is
@@ -124,7 +124,7 @@
 																		 error:&outError];
 		*/
 		
-		NSLog(@"Transforming Library XML...");
+		//NSLog(@"Transforming Library XML...");
     NSURL *library_transformation_url = [NSURL fileURLWithPath:xmlLibraryTransformationPath];
 		library = [libraries_untransformed 
              objectByApplyingXSLTAtURL:library_transformation_url
@@ -138,14 +138,14 @@
 		}
 		
 //		[[NSFileManager defaultManager] removeItemAtPath:temp_file error:nil];
-    NSLog(@"%@", [library XMLString]);
+    //NSLog(@"%@", [library XMLString]);
 		
 		
 		// --------------------------------------------------------------------
 		// Transform the Library XML into a display hint transformation
 		// --------------------------------------------------------------------
 		
-		NSLog(@"Transforming Library XML for display hints...");
+		//NSLog(@"Transforming Library XML for display hints...");
 		display_hint_transformation = 
 					[libraries_untransformed 
 						objectByApplyingXSLTAtURL:[NSURL fileURLWithPath:xmlLibraryToXSLTPath]
@@ -156,7 +156,7 @@
 			NSRunAlertPanel(@"Error", @"Error generating library transformation", @"OK", Nil, Nil, Nil);
 			return self;
 		}
-		NSLog(@"%@", [display_hint_transformation XMLString]);														
+		//NSLog(@"%@", [display_hint_transformation XMLString]);
 		
 		// --------------------------------------------------------------------
 		// Load an empty xml document
@@ -187,7 +187,7 @@
 													error:&outError];
 													
 			
-		NSLog(@"%@", [document XMLString]);
+		//NSLog(@"%@", [document XMLString]);
 		
 		if ( outError != Nil ) {
 			NSRunAlertPanel(@"Error", @"Error transforming xml document", @"OK", Nil, Nil, Nil);
@@ -231,7 +231,7 @@
 		
 		
 		
-		NSLog(@"Transforming Schematron XML into XSLT...");
+		//NSLog(@"Transforming Schematron XML into XSLT...");
 		schematronTransform = 
 					[schematron_untransformed 
 						objectByApplyingXSLTAtURL:[NSURL fileURLWithPath:schematronReportGeneratorPath]
@@ -260,7 +260,7 @@
 			return self;
 		}
 			
-		NSLog(@"%@", [schematronTransform XMLString]);
+		//NSLog(@"%@", [schematronTransform XMLString]);
 				
 		
 		//NSLog([library XMLString]);
@@ -330,7 +330,6 @@
 - (void) dealloc {
 
 	[validationTimer invalidate];
-	[super dealloc];
 }
 
 - (NSString *)windowNibName
@@ -395,7 +394,7 @@
     // You can also choose to override -fileWrapperOfType:error:, -writeToURL:ofType:error:, or -writeToURL:ofType:forSaveOperation:originalContentsURL:error: instead.
 
     // For applications targeted for Panther or earlier systems, you should use the deprecated API -dataRepresentationOfType:. In this case you can also choose to override -fileWrapperRepresentationOfType: or -writeToFile:ofType: instead.
-	NSLog(@"Type name = %@", typeName);
+	//NSLog(@"Type name = %@", typeName);
 
 	// XSLT for transforming the library into another XSLT stylesheet
 	// to add display hints to the document tree
@@ -602,7 +601,7 @@
 
                     		
 	@synchronized(validationInProcess){
-		validationInProcess = NO;
+		validationInProcess = [NSNumber numberWithBool:NO];
 	}
     
     

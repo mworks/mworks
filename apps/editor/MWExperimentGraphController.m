@@ -74,7 +74,7 @@ enum MWGraphOutlineType { CURRENT_ELEMENT = 0, PARENT_ELEMENT=1, CHILD_ELEMENT=2
 
 {
 
-	NSLog(@"Graph viewer: something changed");
+	//NSLog(@"Graph viewer: something changed");
     
     if([[experiment_controller selectedNodes] count] <= 0){
         return;
@@ -83,7 +83,7 @@ enum MWGraphOutlineType { CURRENT_ELEMENT = 0, PARENT_ELEMENT=1, CHILD_ELEMENT=2
 	if(element == Nil){
         return;
     }
-	NSLog(@"Name: %@", [element valueForKey:@"tag"]);
+	//NSLog(@"Name: %@", [element valueForKey:@"tag"]);
 	
 	NSString *dot = [self dotForElement:element];
 	[self renderDot:dot];
@@ -152,7 +152,7 @@ enum MWGraphOutlineType { CURRENT_ELEMENT = 0, PARENT_ELEMENT=1, CHILD_ELEMENT=2
 	
 	
 	if([[element name] isEqualToString:@"task_system_state"]){
-		NSLog(@"task_system_state");
+		//NSLog(@"task_system_state");
 		//[outstring appendFormat:@"subgraph %@ {label = \"%@\"; %@", [element valueForKey:@"_id"], [element valueForKey:@"tag"], options_string, Nil];
 		
 		
@@ -241,7 +241,7 @@ enum MWGraphOutlineType { CURRENT_ELEMENT = 0, PARENT_ELEMENT=1, CHILD_ELEMENT=2
     
     [task setLaunchPath: @"/usr/local/bin/dot"];
         
-    NSLog(@"%@", dot_input);
+    //NSLog(@"%@", dot_input);
     
     NSArray *arguments;
     arguments = [NSArray arrayWithObjects: @"-Tpdf", nil];

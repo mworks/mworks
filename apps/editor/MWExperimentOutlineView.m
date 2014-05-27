@@ -25,7 +25,7 @@
 
 - (IBAction)delete:(id)sender{
 
-	[[self delegate] remove:sender];
+	[(MWExperimentTreeController *)[self delegate] remove:sender];
 }
 
 
@@ -43,17 +43,17 @@
 
 - (IBAction)copy:(id)sender{
 
-	[[self delegate] copy:sender];
+	[(MWExperimentTreeController *)[self delegate] copy:sender];
 }
 
 - (IBAction)cut:(id)sender{
 
-	[[self delegate] cut:sender];
+	[(MWExperimentTreeController *)[self delegate] cut:sender];
 }
 
 - (IBAction)paste:(id)sender{
 
-	[[self delegate] paste:sender];
+	[(MWExperimentTreeController *)[self delegate] paste:sender];
 }
 
 - (IBAction)expandAll:(id)sender{
@@ -63,7 +63,7 @@
 
 - (BOOL)validateMenuItem:(NSMenuItem *)item {
 
-	return [[self delegate] validateMenuItem:item];
+	return [(MWExperimentTreeController *)[self delegate] validateMenuItem:item];
 }
 
 

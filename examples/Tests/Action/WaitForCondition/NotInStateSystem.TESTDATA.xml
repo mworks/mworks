@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<marionette_info>
+  <expected_messages>
+    <message type="whole_message">ERROR: wait_for_condition cannot execute outside of the main state system</message>
+  </expected_messages>
+</marionette_info>

@@ -18,4 +18,6 @@
 
 - (BOOL) writeElement:(NSXMLElement *)element toPasteboard:(NSPasteboard *)pboard;
 
+- (IBAction)copy:(id)sender;
+
 @end

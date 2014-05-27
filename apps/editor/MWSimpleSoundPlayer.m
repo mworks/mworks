@@ -14,7 +14,7 @@
 - (IBAction) playSound:(id)sender{
 
     NSString *path = [control_containing_path stringValue];
-    NSLog(@"PATH: %@", path);
+    //NSLog(@"PATH: %@", path);
     NSSound *sound = [[NSSound alloc] initWithContentsOfURL:[NSURL URLWithString:path] byReference:NO];
     [sound play];
 }

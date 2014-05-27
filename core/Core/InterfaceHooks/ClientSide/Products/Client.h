@@ -17,6 +17,7 @@
 
 
 #include "EventStreamInterface.h"
+#include "GenericEventFunctor.h"
 #include "VariableRegistryInterface.h"
 #include "IncomingEventListener.h"
 #include "ScarabClient.h"

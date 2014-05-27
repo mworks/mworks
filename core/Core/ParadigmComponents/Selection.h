@@ -89,6 +89,7 @@ class Selection {
 		// Interogation functions
 		virtual bool isFinished(){  return (done_so_far >= n_draws); }
 		virtual int  getNDone(){  return done_so_far; }
+        virtual int  getNAccepted(){  return (done_so_far - tentative_selections.size()); }
 		virtual int  getNLeft(){ return n_draws - done_so_far; }
 		virtual const std::vector<int>& getTentativeSelections() { return tentative_selections; }
 		

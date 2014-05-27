@@ -1,0 +1,33 @@
+<?xml version="1.0" standalone="no"?>
+<monkeyml version="1.0">
+    <io_devices tag="IO Devices"></io_devices>
+    <variables tag="Variables">
+        <variable tag="delay_ms" scope="global" logging="when_changed" default_value="5000" type="integer"></variable>
+    </variables>
+    <sounds tag="Sounds"></sounds>
+    <stimuli tag="Stimuli">
+        <stimulus type="rectangle" tag="green_square" color="0,1,0" x_size="5" y_size="5" x_position="0" y_position="0" rotation="30" alpha_multiplier="1"></stimulus>
+        <stimulus type="rectangle" tag="red_square" color="1,0,0" x_size="5" y_size="5" x_position="0" y_position="0" rotation="0" alpha_multiplier="1"></stimulus>
+        <stimulus type="rectangle" tag="blue_square" color="0,0,1" x_size="5" y_size="5" x_position="0" y_position="0" rotation="60" alpha_multiplier="1"></stimulus>
+    </stimuli>
+    <filters tag="Filters"></filters>
+    <optimizers tag="Optimizers"></optimizers>
+    <experiment tag="New Experiment" full_name="" description="">
+        <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
+            <action tag="Queue green square" type="queue_stimulus" stimulus="green_square"></action>
+            <action tag="Queue red square" type="queue_stimulus" stimulus="red_square"></action>
+            <action tag="Queue blue square" type="queue_stimulus" stimulus="blue_square"></action>
+            <action tag="Update display" type="update_stimulus_display"></action>
+            <action type="report" tag="Report" message="Red square in the middle"></action>
+            <action type="wait" tag="Wait" duration="delay_ms" duration_units="ms"></action>
+            <action tag="Bring red square to front" type="bring_stimulus_to_front" stimulus="red_square"></action>
+            <action tag="Update display" type="update_stimulus_display"></action>
+            <action type="report" tag="Report" message="Red square in front"></action>
+            <action type="wait" tag="Wait" duration="delay_ms" duration_units="ms"></action>
+            <action tag="Send red square to back" type="send_stimulus_to_back" stimulus="red_square"></action>
+            <action tag="Update display" type="update_stimulus_display"></action>
+            <action type="report" tag="Report" message="Red square in back"></action>
+            <action type="wait" tag="Wait" duration="delay_ms" duration_units="ms"></action>
+        </protocol>
+    </experiment>
+</monkeyml>

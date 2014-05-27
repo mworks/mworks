@@ -48,11 +48,11 @@
 	NSArray *selected;
 	NSXMLElement *current_element;
 	
-	NSLog(@"Set index %d", ind);
+	//NSLog(@"Set index %d", ind);
 
 	current_view_index = ind;
 	switch([self currentViewIndex]){
-		case MWCustomInspectorKey:
+		case MWCustomInspectorKey: {
 		
 			selected = [experiment_controller selectedObjects];
 			current_element = [selected objectAtIndex:0];
@@ -66,7 +66,7 @@
 					return [self setCurrentViewIndex:MWGenericInspectorKey];
 				}
 				
-				NSLog(@"Inspector nib: %@", inspector_nib);
+				//NSLog(@"Inspector nib: %@", inspector_nib);
 				
 				if(![self loadNib:inspector_nib]){
 					return [self setCurrentViewIndex:MWGenericInspectorKey];
@@ -91,6 +91,7 @@
 			}
 		
 			break;
+		}
 		case MWXMLInspectorKey:
 			[inspector_view setInspectorView:xml_view];
 			return;
@@ -154,6 +155,11 @@
 }
 
 
+//
+// MWExperimentTreeController doesn't implement control:textView:completions:forPartialWordRange:indexOfSelectedItem:,
+// so it's not clear why this was here
+//
+/*
 - (NSArray *)control:(NSControl *)control 
 			 textView:(NSTextView *)textView 
 			 completions:(NSArray *)words 
@@ -168,6 +174,7 @@
 			 indexOfSelectedItem:index];
 
 }
+ */
 
 
 - (NSInteger)numberOfItemsInComboBox:(NSComboBox *)control

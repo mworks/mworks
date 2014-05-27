@@ -160,7 +160,6 @@ Datum BasicTransformStimulus::getCurrentAnnounceDrawData() {
     announceData.addElement(STIM_SIZEX,last_sizex);  
     announceData.addElement(STIM_SIZEY,last_sizey);  
     announceData.addElement(STIM_ROT,last_rot);  
-//TODO	announceData.addElement(STIM_ALPHA, last_alpha);
         
     return (announceData);
 }
@@ -486,6 +485,8 @@ void ImageStimulus::drawInUnitSquare(shared_ptr<StimulusDisplay> display) {
 		
 		
 		glBindTexture(GL_TEXTURE_2D, 0); // unbind that fucker
+        
+        last_alpha = a;
 		
 		
 		//glActiveTexture(0);
@@ -500,33 +501,28 @@ Datum ImageStimulus::getCurrentAnnounceDrawData() {
     
     //mprintf("getting announce DRAW data for image stimulus %s",tag );
     
-    Datum announceData(M_DICTIONARY, 10);
-    announceData.addElement(STIM_NAME,getTag());        // char
-    announceData.addElement(STIM_ACTION,STIM_ACTION_DRAW);
+    Datum announceData = BasicTransformStimulus::getCurrentAnnounceDrawData();
+    
     announceData.addElement(STIM_TYPE,STIM_TYPE_IMAGE);
     announceData.addElement(STIM_FILENAME,filename);  
     announceData.addElement(STIM_FILE_HASH,fileHash);  
-    announceData.addElement(STIM_POSX,last_posx);  
-    announceData.addElement(STIM_POSY,last_posy);  
-    announceData.addElement(STIM_SIZEX,last_sizex);  
-    announceData.addElement(STIM_SIZEY,last_sizey);  
-    announceData.addElement(STIM_ROT,last_rot);  
-//TODO    announceData.addElement(STIM_ALPHA,last_alpha);  
+    announceData.addElement(STIM_ALPHA,last_alpha);
     
     return (announceData);
 }
 
 
-const std::string PointStimulus::COLOR("color");
+const std::string RectangleStimulus::COLOR("color");
 
 
-void PointStimulus::describeComponent(ComponentInfo &info) {
+void RectangleStimulus::describeComponent(ComponentInfo &info) {
     BasicTransformStimulus::describeComponent(info);
+    info.setSignature("stimulus/rectangle");
     info.addParameter(COLOR, "1.0,1.0,1.0");
 }
 
 
-PointStimulus::PointStimulus(const ParameterValueMap &parameters) :
+RectangleStimulus::RectangleStimulus(const ParameterValueMap &parameters) :
     BasicTransformStimulus(parameters)
 {
     ParsedColorTrio pct(parameters[COLOR]);
@@ -536,7 +532,7 @@ PointStimulus::PointStimulus(const ParameterValueMap &parameters) :
 }
 
 
-PointStimulus::PointStimulus(const PointStimulus &tocopy) : 
+RectangleStimulus::RectangleStimulus(const RectangleStimulus &tocopy) : 
 				BasicTransformStimulus((const BasicTransformStimulus&)tocopy){
 	r = tocopy.r;
 	g = tocopy.g;
@@ -544,13 +540,13 @@ PointStimulus::PointStimulus(const PointStimulus &tocopy) :
 }
 
 
-void PointStimulus::drawInUnitSquare(shared_ptr<StimulusDisplay> display) {
+void RectangleStimulus::drawInUnitSquare(shared_ptr<StimulusDisplay> display) {
     
      // draw point at desired location with desired color
      // fill a (0,0) (1,1) box with the right color
     if(r == NULL || g == NULL || b == NULL ){
 		merror(M_DISPLAY_MESSAGE_DOMAIN,
-				"NULL color variable in PointStimulus.");
+				"NULL color variable in RectangleStimulus.");
 	}
 	
 	
@@ -558,6 +554,7 @@ void PointStimulus::drawInUnitSquare(shared_ptr<StimulusDisplay> display) {
 	GLfloat _r = (float)(*r);
 	GLfloat _g = (float)(*g);
 	GLfloat _b = (float)(*b);
+	GLfloat _a = (float)(*alpha_multiplier);
 	   
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
@@ -570,7 +567,7 @@ void PointStimulus::drawInUnitSquare(shared_ptr<StimulusDisplay> display) {
 		//mprintf("fixpoint r: %g, g: %g, b: %g", red, green, blue);
 	
         //glColor3f(_r,_g,_b);
-		glColor4f(_r, _g, _b, *alpha_multiplier);
+		glColor4f(_r, _g, _b, _a);
         glVertex3f(0.0,0.0,0.0);
 		glVertex3f(1.0,0.0,0.0);
         glVertex3f(1.0,1.0,0.0);
@@ -583,27 +580,23 @@ void PointStimulus::drawInUnitSquare(shared_ptr<StimulusDisplay> display) {
     last_r = _r;
     last_g = _g;
     last_b = _b;
+    last_alpha = _a;
     
 
 }
 
 // override of base class to provide more info
-Datum PointStimulus::getCurrentAnnounceDrawData() {
+Datum RectangleStimulus::getCurrentAnnounceDrawData() {
     
-    //mprintf("getting announce DRAW data for point stimulus %s",tag );
+    //mprintf("getting announce DRAW data for rectangle stimulus %s",tag );
     
-    Datum announceData(M_DICTIONARY, 11);
-    announceData.addElement(STIM_NAME,getTag());        // char
-    announceData.addElement(STIM_ACTION,STIM_ACTION_DRAW);
-    announceData.addElement(STIM_TYPE,STIM_TYPE_POINT);
-    announceData.addElement(STIM_POSX,last_posx);  
-    announceData.addElement(STIM_POSY,last_posy);  
-    announceData.addElement(STIM_SIZEX,last_sizex);  
-    announceData.addElement(STIM_SIZEY,last_sizey);  
-    announceData.addElement(STIM_ROT,last_rot);  
-    announceData.addElement(STIM_COLOR_R,last_r);  
+    Datum announceData = BasicTransformStimulus::getCurrentAnnounceDrawData();
+    
+    announceData.addElement(STIM_TYPE, "rectangle");
+    announceData.addElement(STIM_COLOR_R,last_r);
     announceData.addElement(STIM_COLOR_G,last_g);  
     announceData.addElement(STIM_COLOR_B,last_b);  
+    announceData.addElement(STIM_ALPHA, last_alpha);
     
     return (announceData);
 }

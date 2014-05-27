@@ -45,6 +45,7 @@ class Selectable {
 		virtual void resetSelections();
 
 		virtual int getNDone();
+        virtual int getNAccepted();
 		virtual int getNLeft();
 		
 };

@@ -30,7 +30,8 @@ BEGIN_NAMESPACE_MW
 SelectionVariable::SelectionVariable(VariableProperties *props, shared_ptr<Selection> _selection) :
     Selectable(),
     Variable(props),
-    selected_index(NO_SELECTION)
+    selected_index(NO_SELECTION),
+    advanceOnAccept(false)
 {
     if (_selection) {
         attachSelection(_selection);
@@ -129,7 +130,8 @@ shared_ptr<mw::Component> SelectionVariableFactory::createObject(std::map<std::s
 	bool persistant = false; // save the variable from run to run
 	WhenType logging = M_WHEN_CHANGED; // when does this variable get logged
  Datum defaultValue(0L); // the default value Datum object.	
-	std::string groups("");
+	std::string groups(EXPERIMENT_DEFINED_VARIABLES);
+    bool advanceOnAccept = false;
 	
 	string tag(parameters.find("tag")->second);
 	
@@ -249,7 +251,16 @@ shared_ptr<mw::Component> SelectionVariableFactory::createObject(std::map<std::s
 	}*/
 	
 	if(parameters.find("groups") != parameters.end()) {
-		groups = parameters.find("groups")->second;
+        groups.append(", ");
+        groups.append(parameters.find("groups")->second);
+	}
+	
+	if (parameters.find("advance_on_accept") != parameters.end()) {
+		try {
+			advanceOnAccept = reg->getBoolean(parameters.find("advance_on_accept")->second);
+		} catch (boost::bad_lexical_cast &) {
+			throw InvalidAttributeException(parameters["reference_id"], "advance_on_accept", parameters.find("advance_on_accept")->second);
+		}
 	}
 	
 	// TODO when the variable properties get fixed, we can get rid of this nonsense
@@ -262,10 +273,12 @@ shared_ptr<mw::Component> SelectionVariableFactory::createObject(std::map<std::s
 							  true,
 							  false,
 							  M_INTEGER_INFINITE,
-							  std::string(""));
+							  groups);
 	
 	boost::shared_ptr<SelectionVariable>selectionVar;
 	selectionVar = global_variable_registry->createSelectionVariable(&props);
+    
+    selectionVar->setAdvanceOnAccept(advanceOnAccept);
 	
 	// get the values
     std::vector<stx::AnyScalar> values;

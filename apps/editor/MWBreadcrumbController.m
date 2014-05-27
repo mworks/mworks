@@ -13,7 +13,7 @@
 
 
 - (IBAction) gotoNode:(NSXMLElement *)node {
-	NSLog(@"goto node called");
+	//NSLog(@"goto node called");
 	[experiment_tree_controller setSelectionWithNode:node];
 }
 

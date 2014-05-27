@@ -1,8 +1,0 @@
-#!/bin/sh
-
-# kill all servers
-for MWS in `ps -ax | awk '/MWorksServer/ && !/awk/ {print $1}'`
-  do kill -9 $MWS;
-done
-
-exit 0;

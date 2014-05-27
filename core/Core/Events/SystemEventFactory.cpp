@@ -24,29 +24,29 @@
 BEGIN_NAMESPACE_MW
 
 
-const int AUTOMATIC_RESPONSE_EVENT_PAYLOAD_SIZE     = 1;
+//const int AUTOMATIC_RESPONSE_EVENT_PAYLOAD_SIZE     = 1;
 const int RESPONSE_EVENT_CODE_INDEX                 = 0;
 
 // Package Event Package Constants
 // how many extra spaces are added to the protocol list
-const int PROTOCOL_PACAKGE_MODIFIER                 = 4;
-const int PROTOCOL_PACKAGE_SIZE_INDEX               = 0;
-const int PROTOCOL_PACKAGE_EXPERIMENT_NAME_INDEX    = 1;
-const int PROTOCOL_PACKAGE_PROTOCOL_NAME_INDEX      = 2;
-const int PROTOCOL_PACKAGE_EMPTY_INDEX              = 3;
+//const int PROTOCOL_PACAKGE_MODIFIER                 = 4;
+//const int PROTOCOL_PACKAGE_SIZE_INDEX               = 0;
+//const int PROTOCOL_PACKAGE_EXPERIMENT_NAME_INDEX    = 1;
+//const int PROTOCOL_PACKAGE_PROTOCOL_NAME_INDEX      = 2;
+//const int PROTOCOL_PACKAGE_EMPTY_INDEX              = 3;
 
 // Control Event Package Constants
 const int DATA_FILE_OPEN_PAYLOAD_SIZE           = 2;
 const int DATA_FILE_CLOSE_PAYLOAD_SIZE          = 1;
 
 // Response Event Package Constants
-const int EXPERIMENT_LOADED_RESPONSE_PAYLOAD_SIZE   = 3;
-const int EXPERIMENT_LOADED_RESPONSE_NAME_INDEX     = 1;
-const int EXPERIMENT_LOADED_RESPONSE_MSG_INDEX      = 2;
+//const int EXPERIMENT_LOADED_RESPONSE_PAYLOAD_SIZE   = 3;
+//const int EXPERIMENT_LOADED_RESPONSE_NAME_INDEX     = 1;
+//const int EXPERIMENT_LOADED_RESPONSE_MSG_INDEX      = 2;
 
-const int EXPERIMENT_UNLOADED_RESPONSE_PAYLOAD_SIZE   = 3;
-const int EXPERIMENT_UNLOADED_RESPONSE_NAME_INDEX     = 1;
-const int EXPERIMENT_UNLOADED_RESPONSE_MSG_INDEX      = 2;
+//const int EXPERIMENT_UNLOADED_RESPONSE_PAYLOAD_SIZE   = 3;
+//const int EXPERIMENT_UNLOADED_RESPONSE_NAME_INDEX     = 1;
+//const int EXPERIMENT_UNLOADED_RESPONSE_MSG_INDEX      = 2;
 
 const int DATA_FILE_OPEN_RESPONSE_PAYLOAD_SIZE  = 2;
 const int DATA_FILE_OPEN_RESPONSE_FILE_INDEX    = 1;

@@ -37,6 +37,7 @@ package_contents = {
         '/Library/Application Support/MWorks/Plugins/Core/DriftingGratingStimulusPlugin.bundle',
         '/Library/Application Support/MWorks/Plugins/Core/HIDPlugin.bundle',
         '/Library/Application Support/MWorks/Plugins/Core/MSSWGamepadPlugin.bundle',
+        '/Library/Application Support/MWorks/Plugins/Core/MovieStimulusPlugin.bundle',
         '/Library/Application Support/MWorks/Plugins/Core/NE500Plugin.bundle',
         '/Library/Application Support/MWorks/Plugins/Core/ServersideConduit.bundle',
         ),

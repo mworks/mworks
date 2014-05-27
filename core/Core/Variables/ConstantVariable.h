@@ -27,6 +27,8 @@ public:
 	virtual void setValue(Datum _value){ *value = _value;}
 	virtual void setValue(Datum _value, MWTime time){  *value = _value;}
 	virtual void setSilentValue(Datum _value){ return; }
+    
+    bool isWritable() const MW_OVERRIDE { return false; }
 
 
 };

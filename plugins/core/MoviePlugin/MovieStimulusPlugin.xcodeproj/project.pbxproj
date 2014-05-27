@@ -1,0 +1,379 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		E17B9DBD119CA26F00EEBF5D /* Everything */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = E17B9DC7119CA27600EEBF5D /* Build configuration list for PBXAggregateTarget "Everything" */;
+			buildPhases = (
+			);
+			dependencies = (
+				E1944B4C132551E200D5ED81 /* PBXTargetDependency */,
+			);
+			name = Everything;
+			productName = Everything;
+		};
+		E1944B47132551A400D5ED81 /* Install */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = E1944B51132551EB00D5ED81 /* Build configuration list for PBXAggregateTarget "Install" */;
+			buildPhases = (
+				E1944B46132551A400D5ED81 /* CopyFiles */,
+			);
+			dependencies = (
+				E1944B4A132551AF00D5ED81 /* PBXTargetDependency */,
+			);
+			name = Install;
+			productName = Install;
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		0E37FBA30E59C3DD008B885D /* MovieStimulusPlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E37FBA10E59C3DD008B885D /* MovieStimulusPlugin.cpp */; };
+		0E3A0B530EEDA37500F5C65A /* MWLibrary.xml in Resources */ = {isa = PBXBuildFile; fileRef = 0E3A0B520EEDA37500F5C65A /* MWLibrary.xml */; };
+		0EDE104C0E58BA690031005B /* MovieStimulus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EDE10470E58BA690031005B /* MovieStimulus.cpp */; };
+		5C4B0A650DC79212001BC518 /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C4B0A630DC79212001BC518 /* MWorksCore.framework */; };
+		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
+		E118EEBC15D04F070018BE9C /* BaseFrameListStimulus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E118EEBA15D04F070018BE9C /* BaseFrameListStimulus.cpp */; };
+		E118EEC015D04F270018BE9C /* BaseMovieStimulus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E118EEBE15D04F270018BE9C /* BaseMovieStimulus.cpp */; };
+		E118EEC315D04F3E0018BE9C /* ImageDirectoryMovieStimulus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E118EEC115D04F3D0018BE9C /* ImageDirectoryMovieStimulus.cpp */; };
+		E118EEC615D052FD0018BE9C /* FrameListStimulus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E118EEC415D052FD0018BE9C /* FrameListStimulus.cpp */; };
+		E15D0B2016C2BFDA00F331B1 /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E15D0B1F16C2BFDA00F331B1 /* libboost_system.a */; };
+		E15DCDF817EB56B6006148B4 /* libboost_filesystem.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E15DCDF717EB56B6006148B4 /* libboost_filesystem.a */; };
+		E194490213254E7100D5ED81 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E194490113254E7100D5ED81 /* OpenGL.framework */; };
+		E1944B601325525F00D5ED81 /* MovieStimulusPlugin.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8D5B49B6048680CD000E48DA /* MovieStimulusPlugin.bundle */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		E1944B49132551AF00D5ED81 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8D5B49AC048680CD000E48DA;
+			remoteInfo = MovieStimulusPlugin;
+		};
+		E1944B4B132551E200D5ED81 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E1944B47132551A400D5ED81;
+			remoteInfo = Install;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		E1944B46132551A400D5ED81 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(PLUGINS_DIR)";
+			dstSubfolderSpec = 0;
+			files = (
+				E1944B601325525F00D5ED81 /* MovieStimulusPlugin.bundle in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		089C167EFE841241C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		0E37FBA10E59C3DD008B885D /* MovieStimulusPlugin.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MovieStimulusPlugin.cpp; sourceTree = "<group>"; };
+		0E3A0B520EEDA37500F5C65A /* MWLibrary.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MWLibrary.xml; sourceTree = "<group>"; };
+		0EDE10470E58BA690031005B /* MovieStimulus.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MovieStimulus.cpp; sourceTree = "<group>"; };
+		0EDE10480E58BA690031005B /* MovieStimulus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MovieStimulus.h; sourceTree = "<group>"; };
+		32DBCF630370AF2F00C91783 /* MovieStimulusPlugin_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MovieStimulusPlugin_Prefix.pch; sourceTree = "<group>"; };
+		5C4B0A630DC79212001BC518 /* MWorksCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MWorksCore.framework; path = /Library/Frameworks/MWorksCore.framework; sourceTree = "<absolute>"; };
+		8D5B49B6048680CD000E48DA /* MovieStimulusPlugin.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MovieStimulusPlugin.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E118EEBA15D04F070018BE9C /* BaseFrameListStimulus.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BaseFrameListStimulus.cpp; sourceTree = "<group>"; };
+		E118EEBB15D04F070018BE9C /* BaseFrameListStimulus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseFrameListStimulus.h; sourceTree = "<group>"; };
+		E118EEBE15D04F270018BE9C /* BaseMovieStimulus.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BaseMovieStimulus.cpp; sourceTree = "<group>"; };
+		E118EEBF15D04F270018BE9C /* BaseMovieStimulus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseMovieStimulus.h; sourceTree = "<group>"; };
+		E118EEC115D04F3D0018BE9C /* ImageDirectoryMovieStimulus.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ImageDirectoryMovieStimulus.cpp; sourceTree = "<group>"; };
+		E118EEC215D04F3D0018BE9C /* ImageDirectoryMovieStimulus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageDirectoryMovieStimulus.h; sourceTree = "<group>"; };
+		E118EEC415D052FD0018BE9C /* FrameListStimulus.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FrameListStimulus.cpp; sourceTree = "<group>"; };
+		E118EEC515D052FD0018BE9C /* FrameListStimulus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FrameListStimulus.h; sourceTree = "<group>"; };
+		E15D0B1F16C2BFDA00F331B1 /* libboost_system.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_system.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_system.a"; sourceTree = "<absolute>"; };
+		E15DCDF717EB56B6006148B4 /* libboost_filesystem.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_filesystem.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_filesystem.a"; sourceTree = "<absolute>"; };
+		E1895A5C116FCCB400D8CBE0 /* Development.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Development.xcconfig; path = "/Library/Application Support/MWorks/Developer/Xcode/Development.xcconfig"; sourceTree = "<absolute>"; };
+		E1895A5D116FCCB400D8CBE0 /* WARNING.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = WARNING.txt; path = "/Library/Application Support/MWorks/Developer/Xcode/WARNING.txt"; sourceTree = "<absolute>"; };
+		E194490113254E7100D5ED81 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8D5B49B3048680CD000E48DA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5C4B0A650DC79212001BC518 /* MWorksCore.framework in Frameworks */,
+				E194490213254E7100D5ED81 /* OpenGL.framework in Frameworks */,
+				E15DCDF817EB56B6006148B4 /* libboost_filesystem.a in Frameworks */,
+				E15D0B2016C2BFDA00F331B1 /* libboost_system.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		089C166AFE841209C02AAC07 /* MovieStimulusPlugin */ = {
+			isa = PBXGroup;
+			children = (
+				E1895A5A116FCCB400D8CBE0 /* External Configs */,
+				08FB77AFFE84173DC02AAC07 /* Classes */,
+				E1944B3613254FD700D5ED81 /* Editor Definitions */,
+				32C88E010371C26100C91783 /* Other Sources */,
+				089C167CFE841241C02AAC07 /* Resources */,
+				089C1671FE841209C02AAC07 /* Frameworks & Libraries */,
+				19C28FB8FE9D52D311CA2CBB /* Products */,
+			);
+			name = MovieStimulusPlugin;
+			sourceTree = "<group>";
+		};
+		089C1671FE841209C02AAC07 /* Frameworks & Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				5C4B0A630DC79212001BC518 /* MWorksCore.framework */,
+				E194490113254E7100D5ED81 /* OpenGL.framework */,
+				E15DCDF717EB56B6006148B4 /* libboost_filesystem.a */,
+				E15D0B1F16C2BFDA00F331B1 /* libboost_system.a */,
+			);
+			name = "Frameworks & Libraries";
+			sourceTree = "<group>";
+		};
+		089C167CFE841241C02AAC07 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				8D5B49B7048680CD000E48DA /* Info.plist */,
+				089C167DFE841241C02AAC07 /* InfoPlist.strings */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		08FB77AFFE84173DC02AAC07 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				E118EEBB15D04F070018BE9C /* BaseFrameListStimulus.h */,
+				E118EEBA15D04F070018BE9C /* BaseFrameListStimulus.cpp */,
+				E118EEC515D052FD0018BE9C /* FrameListStimulus.h */,
+				E118EEC415D052FD0018BE9C /* FrameListStimulus.cpp */,
+				E118EEBF15D04F270018BE9C /* BaseMovieStimulus.h */,
+				E118EEBE15D04F270018BE9C /* BaseMovieStimulus.cpp */,
+				0EDE10480E58BA690031005B /* MovieStimulus.h */,
+				0EDE10470E58BA690031005B /* MovieStimulus.cpp */,
+				E118EEC215D04F3D0018BE9C /* ImageDirectoryMovieStimulus.h */,
+				E118EEC115D04F3D0018BE9C /* ImageDirectoryMovieStimulus.cpp */,
+				0E37FBA10E59C3DD008B885D /* MovieStimulusPlugin.cpp */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		19C28FB8FE9D52D311CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8D5B49B6048680CD000E48DA /* MovieStimulusPlugin.bundle */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		32C88E010371C26100C91783 /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				32DBCF630370AF2F00C91783 /* MovieStimulusPlugin_Prefix.pch */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		E1895A5A116FCCB400D8CBE0 /* External Configs */ = {
+			isa = PBXGroup;
+			children = (
+				E1895A5C116FCCB400D8CBE0 /* Development.xcconfig */,
+				E1895A5D116FCCB400D8CBE0 /* WARNING.txt */,
+			);
+			name = "External Configs";
+			sourceTree = "<group>";
+		};
+		E1944B3613254FD700D5ED81 /* Editor Definitions */ = {
+			isa = PBXGroup;
+			children = (
+				0E3A0B520EEDA37500F5C65A /* MWLibrary.xml */,
+			);
+			name = "Editor Definitions";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8D5B49AC048680CD000E48DA /* MovieStimulusPlugin */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1DEB913A08733D840010E9CD /* Build configuration list for PBXNativeTarget "MovieStimulusPlugin" */;
+			buildPhases = (
+				8D5B49AF048680CD000E48DA /* Resources */,
+				8D5B49B1048680CD000E48DA /* Sources */,
+				8D5B49B3048680CD000E48DA /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MovieStimulusPlugin;
+			productInstallPath = "$(HOME)/Library/Bundles";
+			productName = MovieStimulusPlugin;
+			productReference = 8D5B49B6048680CD000E48DA /* MovieStimulusPlugin.bundle */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		089C1669FE841209C02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0410;
+			};
+			buildConfigurationList = 1DEB913E08733D840010E9CD /* Build configuration list for PBXProject "MovieStimulusPlugin" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
+			mainGroup = 089C166AFE841209C02AAC07 /* MovieStimulusPlugin */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8D5B49AC048680CD000E48DA /* MovieStimulusPlugin */,
+				E1944B47132551A400D5ED81 /* Install */,
+				E17B9DBD119CA26F00EEBF5D /* Everything */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8D5B49AF048680CD000E48DA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */,
+				0E3A0B530EEDA37500F5C65A /* MWLibrary.xml in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8D5B49B1048680CD000E48DA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0EDE104C0E58BA690031005B /* MovieStimulus.cpp in Sources */,
+				0E37FBA30E59C3DD008B885D /* MovieStimulusPlugin.cpp in Sources */,
+				E118EEBC15D04F070018BE9C /* BaseFrameListStimulus.cpp in Sources */,
+				E118EEC015D04F270018BE9C /* BaseMovieStimulus.cpp in Sources */,
+				E118EEC315D04F3E0018BE9C /* ImageDirectoryMovieStimulus.cpp in Sources */,
+				E118EEC615D052FD0018BE9C /* FrameListStimulus.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		E1944B4A132551AF00D5ED81 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8D5B49AC048680CD000E48DA /* MovieStimulusPlugin */;
+			targetProxy = E1944B49132551AF00D5ED81 /* PBXContainerItemProxy */;
+		};
+		E1944B4C132551E200D5ED81 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E1944B47132551A400D5ED81 /* Install */;
+			targetProxy = E1944B4B132551E200D5ED81 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		089C167DFE841241C02AAC07 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				089C167EFE841241C02AAC07 /* English */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		E17B9DBE119CA26F00EEBF5D /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = Everything;
+			};
+			name = Development;
+		};
+		E1895A66116FCD0100D8CBE0 /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1895A5C116FCCB400D8CBE0 /* Development.xcconfig */;
+			buildSettings = {
+			};
+			name = Development;
+		};
+		E1895A67116FCD0100D8CBE0 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = MovieStimulusPlugin_Prefix.pch;
+				INFOPLIST_FILE = Info.plist;
+				PRODUCT_NAME = MovieStimulusPlugin;
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Development;
+		};
+		E1944B48132551A400D5ED81 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = Install;
+			};
+			name = Development;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1DEB913A08733D840010E9CD /* Build configuration list for PBXNativeTarget "MovieStimulusPlugin" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E1895A67116FCD0100D8CBE0 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		1DEB913E08733D840010E9CD /* Build configuration list for PBXProject "MovieStimulusPlugin" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E1895A66116FCD0100D8CBE0 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		E17B9DC7119CA27600EEBF5D /* Build configuration list for PBXAggregateTarget "Everything" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E17B9DBE119CA26F00EEBF5D /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		E1944B51132551EB00D5ED81 /* Build configuration list for PBXAggregateTarget "Install" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E1944B48132551A400D5ED81 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 089C1669FE841209C02AAC07 /* Project object */;
+}

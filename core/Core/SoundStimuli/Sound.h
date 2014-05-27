@@ -23,12 +23,9 @@ BEGIN_NAMESPACE_MW
 class Sound : public Component, public Announcable {
 
 public:
-    Sound(const ParameterValueMap &parameters) :
-        Component(parameters),
-        Announcable(ANNOUNCE_SOUND_TAGNAME)
-    { }
+    explicit Sound(const ParameterValueMap &parameters);
 	
-	virtual ~Sound() { }
+	virtual ~Sound();
 
 	virtual void play(){
 		mwarning(M_SYSTEM_MESSAGE_DOMAIN,
@@ -44,6 +41,15 @@ public:
 		mwarning(M_SYSTEM_MESSAGE_DOMAIN,
 				"Attempting a pause an empty base-class sound");
 	}
+    
+    void stateSystemCallback(const Datum &data, MWorksTime time);
+	
+protected:
+    bool isPlaying;
+    bool isPaused;
+    
+private:
+    boost::shared_ptr<VariableCallbackNotification> stateSystemCallbackNotification;
 	
 };
 

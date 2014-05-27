@@ -10,7 +10,7 @@
     </variables>
     <sounds/>
     <stimuli>
-        <stimulus tag="image1" type="circle" color="0,0,0" x_size="x_size" y_size="y_size" x_position="x" y_position="y" rotation="rotation"/>
+        <stimulus tag="image1" type="rectangle" color="0,0,0" x_size="x_size" y_size="y_size" x_position="x" y_position="y" rotation="rotation"/>
     </stimuli>
     <experiment tag="stimulusPresentTest" full_name="" description="">
         <protocol tag="Protocol" full_name="Protocol " description="" interruptible="YES" selection="sequential" nsamples="1" sampling_method="cycles">

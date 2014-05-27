@@ -79,7 +79,12 @@ class GlobalVariable : public Variable{
 		void setValue(Datum newval, MWTime time);
 		void setSilentValue(Datum newval);
 		void setSilentValue(Datum newval, MWTime time);
-        
+    
+        /**
+         * The value can be modified
+         */
+        bool isWritable() const MW_OVERRIDE { return true; }
+    
         /**
          * Returns true, always
          */

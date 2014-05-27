@@ -3,8 +3,6 @@
 
 #include "Stimulus.h"
 #include "Utilities.h"
-//#include "EyeStatus.h"
-#include "KeyTrigger.h"
 #include "Stimulus.h"
 #include "VariableRegistry.h"
 #include "VariableProperties.h"

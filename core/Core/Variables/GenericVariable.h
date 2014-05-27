@@ -170,6 +170,8 @@ public:
 	virtual void setValue(Datum _data, MWTime _when) = 0;
 	virtual void setSilentValue(Datum _value) = 0;
 	
+    // Can the value be modified?
+    virtual bool isWritable() const = 0;
 	
 	// Hopefully to be removed
 	//virtual ScarabDatum * toScarabPackage();
@@ -246,6 +248,8 @@ public:
 	virtual void setValue(Datum v){ }
 	virtual void setValue(Datum v, MWTime t){ }
 	virtual void setSilentValue(Datum _value){ return; }
+    
+    bool isWritable() const MW_OVERRIDE { return false; }
 	
 	virtual Variable *clone(){ 
 		return new EmptyVariable((const EmptyVariable&)(*this));

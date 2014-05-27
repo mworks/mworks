@@ -116,6 +116,7 @@ class UnresolvedReferenceVariable : public Variable {
 		virtual void setValue(Datum val){ return; }
 		virtual void setValue(Datum val, MWTime time){ return; }
 		virtual void setSilentValue(Datum _value){ return; }
+        bool isWritable() const MW_OVERRIDE { return false; }
 		
 		/**
 		 *  A polymorphic copy constructor

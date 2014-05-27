@@ -42,6 +42,10 @@ public:
 	virtual void setSilentValue(Datum data){
 		variable->setSilentValue(data);
 	}
+    
+    bool isWritable() const MW_OVERRIDE {
+        return variable->isWritable();
+    }
 	
 };
 

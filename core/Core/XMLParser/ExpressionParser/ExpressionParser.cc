@@ -51,6 +51,8 @@
 #include <sstream>
 #include <cmath>
 
+#include "ComponentRegistry.h"
+#include "Selectable.h"
 #include "StimulusDisplay.h"
 
 // ugly/tricky.  I wish the STL guys would get their acts together
@@ -149,7 +151,8 @@ namespace stx MW_SYMBOL_PUBLIC {
 					
 					string_const
 					= lexeme_d[
-							   token_node_d[ '"' >> *(c_escape_ch_p - '"') >> '"' ]
+							   token_node_d[ ('"'  >> *(c_escape_ch_p - '"' )  >> '"' ) |
+                                             ('\'' >> *(c_escape_ch_p - '\'')  >> '\'') ]
 							   ]
 					;
 					
@@ -1835,6 +1838,12 @@ namespace stx MW_SYMBOL_PUBLIC {
 		return AnyScalar( display->getMainDisplayRefreshRate() );
 	}
 	
+	AnyScalar BasicSymbolTable::funcNEXT_FRAME_TIME(const paramlist_type &paramlist)
+    {
+        boost::shared_ptr<mw::StimulusDisplay> display(mw::StimulusDisplay::getCurrentStimulusDisplay());
+        return AnyScalar( display->getCurrentOutputTimeUS() );
+    }
+	
 	AnyScalar BasicSymbolTable::funcFORMAT(const paramlist_type &paramlist)
 	{
         if (paramlist.size() < 1) {
@@ -1855,6 +1864,22 @@ namespace stx MW_SYMBOL_PUBLIC {
             throw BadFunctionCallException(std::string("Error in function FORMAT(): ") + e.what());
         }
 	}
+    
+    AnyScalar BasicSymbolTable::funcNUMACCEPTED(const paramlist_type& paramlist)
+    {
+        if (!(paramlist[0].isStringType())) {
+            throw BadFunctionCallException("Argument to function NUMACCEPTED() must be a string");
+        }
+        
+        boost::shared_ptr<mw::ComponentRegistry> reg = mw::ComponentRegistry::getSharedRegistry();
+        boost::shared_ptr<mw::Selectable> selectable = reg->getObject<mw::Selectable>(paramlist[0].getString());
+        
+        if (!selectable) {
+            throw BadFunctionCallException("Argument to function NUMACCEPTED() must be the name of a selectable object");
+        }
+        
+        return AnyScalar( selectable->getNAccepted() );
+    }
 	
 	AnyScalar BasicSymbolTable::funcUNIFORM_RAND(const paramlist_type &paramlist)
 	{
@@ -1983,7 +2008,10 @@ namespace stx MW_SYMBOL_PUBLIC {
 		setFunction("NOW", 0, funcNOW);
 		setFunction("TIMEREXPIRED", 1, funcTIMER_EXPIRED);
 		setFunction("REFRESHRATE", 0, funcREFRESH_RATE);
+		setFunction("NEXTFRAMETIME", 0, funcNEXT_FRAME_TIME);
+        
 		setFunction("FORMAT", -1, funcFORMAT);
+		setFunction("NUMACCEPTED", 1, funcNUMACCEPTED);
 	}
 	
 	AnyScalar BasicSymbolTable::lookupVariable(const std::string &_varname) const

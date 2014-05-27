@@ -80,5 +80,10 @@ void FreezableVariableContainer::setSilentValue(Datum value){
     variable->setSilentValue(value);
 }
 
+bool FreezableVariableContainer::isWritable() const {
+    return variable->isWritable();
+}
+
+
 
 END_NAMESPACE_MW

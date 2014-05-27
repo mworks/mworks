@@ -85,7 +85,7 @@ private:
     boost::recursive_mutex recursive_callbacks_lock;
     const bool recursively_lock_callbacks;
    
-protected:
+public:
     
     class CallbacksLock {
     public:
@@ -108,8 +108,6 @@ protected:
     private:
         EventCallbackHandler &handler;
     };
-    
-public:
     
     EventCallbackHandler(bool locking) : recursively_lock_callbacks(locking) { }
     
