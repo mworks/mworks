@@ -878,7 +878,7 @@
 				if([obj isKindOfClass:[NSWindowController class]]){
 					controller = (NSWindowController *)obj;
 					[controller loadWindow];
-                    [controller setWindowFrameAutosaveName:plugin_file];
+                    [controller setWindowFrameAutosaveName:[plugin_file stringByDeletingPathExtension]];
 					[pluginWindows addObject:controller];
                     
                     // also, add the window to the grouped_plugin_controller
@@ -1108,9 +1108,7 @@
     if (self.variableSetLoaded) {
         [workspaceInfo setObject:self.variableSetName forKey:@"variableSetName"];
     }
-    if (appController.shouldRestoreOpenPluginWindows) {
-        [workspaceInfo setObject:[self openPluginWindows] forKey:@"openPluginWindows"];
-    }
+    [workspaceInfo setObject:[self openPluginWindows] forKey:@"openPluginWindows"];
     
     NSMutableDictionary *pluginState = [NSMutableDictionary dictionary];
     

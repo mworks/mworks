@@ -80,15 +80,6 @@
 	[clientInstances removeObject:instance];
 }
 
-
-- (IBAction) openConnectionList:(id)sender {
-
-}
-
-- (IBAction) saveConnectionlist:(id)sender {
-
-}
-
 - (IBAction)launchURLSheetForItem:(NSCollectionViewItem *)item {
 		
 	sheetOrigin = [[[self window] contentView] convertRect:[[item view] bounds] fromView:[item view]];
@@ -603,6 +594,9 @@
 - (IBAction)saveWorkspace:(id)sender {
     NSSavePanel *savePanel = [NSSavePanel savePanel];
     [savePanel setTitle:@"Save Workspace"];
+    [savePanel setAllowedFileTypes:[NSArray arrayWithObject:@"json"]];
+    [savePanel setAllowsOtherFileTypes:YES];
+    
     if ([savePanel runModal] != NSFileHandlingPanelOKButton) {
         return;
     }

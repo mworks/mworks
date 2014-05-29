@@ -210,9 +210,9 @@
 						<object class="NSMenu" key="NSSubmenu" id="875722060">
 							<string key="NSTitle">File</string>
 							<array class="NSMutableArray" key="NSMenuItems">
-								<object class="NSMenuItem" id="587790581">
+								<object class="NSMenuItem" id="225863142">
 									<reference key="NSMenu" ref="875722060"/>
-									<string key="NSTitle">Open Connection List…</string>
+									<string key="NSTitle">Open Workspace…</string>
 									<string key="NSKeyEquiv">o</string>
 									<int key="NSKeyEquivModMask">1048576</int>
 									<int key="NSMnemonicLoc">2147483647</int>
@@ -256,37 +256,11 @@
 									<reference key="NSOnImage" ref="1067563553"/>
 									<reference key="NSMixedImage" ref="507403559"/>
 								</object>
-								<object class="NSMenuItem" id="310941924">
-									<reference key="NSMenu" ref="875722060"/>
-									<string key="NSTitle">Save Connection List...</string>
-									<string key="NSKeyEquiv">s</string>
-									<int key="NSKeyEquivModMask">1048576</int>
-									<int key="NSMnemonicLoc">2147483647</int>
-									<reference key="NSOnImage" ref="1067563553"/>
-									<reference key="NSMixedImage" ref="507403559"/>
-								</object>
-								<object class="NSMenuItem" id="638933583">
-									<reference key="NSMenu" ref="875722060"/>
-									<bool key="NSIsDisabled">YES</bool>
-									<bool key="NSIsSeparator">YES</bool>
-									<string key="NSTitle"/>
-									<string key="NSKeyEquiv"/>
-									<int key="NSMnemonicLoc">2147483647</int>
-									<reference key="NSOnImage" ref="1067563553"/>
-									<reference key="NSMixedImage" ref="507403559"/>
-								</object>
-								<object class="NSMenuItem" id="225863142">
-									<reference key="NSMenu" ref="875722060"/>
-									<string key="NSTitle">Open Workspace...</string>
-									<string key="NSKeyEquiv"/>
-									<int key="NSMnemonicLoc">2147483647</int>
-									<reference key="NSOnImage" ref="1067563553"/>
-									<reference key="NSMixedImage" ref="507403559"/>
-								</object>
 								<object class="NSMenuItem" id="383234364">
 									<reference key="NSMenu" ref="875722060"/>
-									<string key="NSTitle">Save Workspace...</string>
-									<string key="NSKeyEquiv"/>
+									<string key="NSTitle">Save Workspace…</string>
+									<string key="NSKeyEquiv">s</string>
+									<int key="NSKeyEquivModMask">1048576</int>
 									<int key="NSMnemonicLoc">2147483647</int>
 									<reference key="NSOnImage" ref="1067563553"/>
 									<reference key="NSMixedImage" ref="507403559"/>
@@ -1228,6 +1202,7 @@
 								<string key="NSFrame">{{309, 11}, {30, 26}}</string>
 								<reference key="NSSuperview" ref="319151080"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView"/>
 								<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 								<bool key="NSIsBordered">YES</bool>
 								<object class="NSColor" key="NSColor">
@@ -4399,27 +4374,11 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
-						<string key="label">openDocument:</string>
-						<reference key="source" ref="957754425"/>
-						<reference key="destination" ref="587790581"/>
-					</object>
-					<string key="id">374</string>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
 						<string key="label">clearRecentDocuments:</string>
 						<reference key="source" ref="957754425"/>
 						<reference key="destination" ref="935847617"/>
 					</object>
 					<string key="id">127</string>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">saveDocument:</string>
-						<reference key="source" ref="957754425"/>
-						<reference key="destination" ref="310941924"/>
-					</object>
-					<string key="id">362</string>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
@@ -6555,23 +6514,15 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<string key="id">81</string>
 						<reference key="object" ref="875722060"/>
 						<array class="NSMutableArray" key="children">
-							<reference ref="587790581"/>
 							<reference ref="867985249"/>
 							<reference ref="1059174739"/>
-							<reference ref="310941924"/>
-							<reference ref="638933583"/>
-							<reference ref="225863142"/>
-							<reference ref="383234364"/>
 							<reference ref="618591176"/>
 							<reference ref="378000301"/>
+							<reference ref="225863142"/>
+							<reference ref="383234364"/>
 							<reference ref="1473629"/>
 						</array>
 						<reference key="parent" ref="151459816"/>
-					</object>
-					<object class="IBObjectRecord">
-						<string key="id">72</string>
-						<reference key="object" ref="587790581"/>
-						<reference key="parent" ref="875722060"/>
 					</object>
 					<object class="IBObjectRecord">
 						<string key="id">124</string>
@@ -6599,17 +6550,6 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<reference key="object" ref="1059174739"/>
 						<reference key="parent" ref="875722060"/>
 						<string key="objectName">7</string>
-					</object>
-					<object class="IBObjectRecord">
-						<string key="id">75</string>
-						<reference key="object" ref="310941924"/>
-						<reference key="parent" ref="875722060"/>
-						<string key="objectName">3</string>
-					</object>
-					<object class="IBObjectRecord">
-						<string key="id">To1-09-a7i</string>
-						<reference key="object" ref="638933583"/>
-						<reference key="parent" ref="875722060"/>
 					</object>
 					<object class="IBObjectRecord">
 						<string key="id">SdR-lf-thP</string>
@@ -9466,8 +9406,6 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				<boolean value="NO" key="706.showNotes"/>
 				<string key="707.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<boolean value="NO" key="707.showNotes"/>
-				<string key="72.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<boolean value="NO" key="72.showNotes"/>
 				<string key="724.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<reference key="724.IBUserGuides" ref="0"/>
 				<boolean value="NO" key="724.showNotes"/>
@@ -9475,8 +9413,6 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				<boolean value="NO" key="725.showNotes"/>
 				<string key="74.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<boolean value="NO" key="74.showNotes"/>
-				<string key="75.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<boolean value="NO" key="75.showNotes"/>
 				<string key="768.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<boolean value="NO" key="768.showNotes"/>
 				<string key="769.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -9616,8 +9552,6 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				<boolean value="NO" key="952.showNotes"/>
 				<string key="SdR-lf-thP.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<boolean value="NO" key="SdR-lf-thP.showNotes"/>
-				<string key="To1-09-a7i.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<boolean value="NO" key="To1-09-a7i.showNotes"/>
 				<string key="Wud-ov-G7o.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<boolean value="NO" key="Wud-ov-G7o.showNotes"/>
 			</dictionary>
@@ -9658,11 +9592,9 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<string key="loadRecentExperiment:">id</string>
 						<string key="loadServerSideVariableSet:">id</string>
 						<string key="newClientInstance:">id</string>
-						<string key="openConnectionList:">id</string>
 						<string key="openDataFile:">id</string>
 						<string key="openWorkspace:">id</string>
 						<string key="revertToCurrentVariableSet:">id</string>
-						<string key="saveConnectionlist:">id</string>
 						<string key="saveToCurrentVariableSet:">id</string>
 						<string key="saveWorkspace:">id</string>
 						<string key="showAllPlugins:">id</string>
@@ -9774,10 +9706,6 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<string key="name">newClientInstance:</string>
 							<string key="candidateClassName">id</string>
 						</object>
-						<object class="IBActionInfo" key="openConnectionList:">
-							<string key="name">openConnectionList:</string>
-							<string key="candidateClassName">id</string>
-						</object>
 						<object class="IBActionInfo" key="openDataFile:">
 							<string key="name">openDataFile:</string>
 							<string key="candidateClassName">id</string>
@@ -9788,10 +9716,6 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						</object>
 						<object class="IBActionInfo" key="revertToCurrentVariableSet:">
 							<string key="name">revertToCurrentVariableSet:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="saveConnectionlist:">
-							<string key="name">saveConnectionlist:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="saveToCurrentVariableSet:">
