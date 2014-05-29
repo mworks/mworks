@@ -2,13 +2,13 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1070</int>
-		<string key="IBDocument.SystemVersion">13A603</string>
-		<string key="IBDocument.InterfaceBuilderVersion">4514</string>
-		<string key="IBDocument.AppKitVersion">1265</string>
-		<string key="IBDocument.HIToolboxVersion">695.00</string>
+		<string key="IBDocument.SystemVersion">13D65</string>
+		<string key="IBDocument.InterfaceBuilderVersion">5056</string>
+		<string key="IBDocument.AppKitVersion">1265.20</string>
+		<string key="IBDocument.HIToolboxVersion">698.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">4514</string>
+			<string key="NS.object.0">5056</string>
 		</object>
 		<array key="IBDocument.IntegratedClassDependencies">
 			<string>NSArrayController</string>
@@ -277,7 +277,7 @@
 								</object>
 								<object class="NSMenuItem" id="225863142">
 									<reference key="NSMenu" ref="875722060"/>
-									<string key="NSTitle">Load Task...</string>
+									<string key="NSTitle">Open Workspace...</string>
 									<string key="NSKeyEquiv"/>
 									<int key="NSMnemonicLoc">2147483647</int>
 									<reference key="NSOnImage" ref="1067563553"/>
@@ -285,7 +285,7 @@
 								</object>
 								<object class="NSMenuItem" id="383234364">
 									<reference key="NSMenu" ref="875722060"/>
-									<string key="NSTitle">Save Task...</string>
+									<string key="NSTitle">Save Workspace...</string>
 									<string key="NSKeyEquiv"/>
 									<int key="NSMnemonicLoc">2147483647</int>
 									<reference key="NSOnImage" ref="1067563553"/>
@@ -1228,7 +1228,6 @@
 								<string key="NSFrame">{{309, 11}, {30, 26}}</string>
 								<reference key="NSSuperview" ref="319151080"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
 								<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 								<bool key="NSIsBordered">YES</bool>
 								<object class="NSColor" key="NSColor">
@@ -1989,10 +1988,10 @@
 								<int key="NSCellFlags">-2080374784</int>
 								<int key="NSCellFlags2">134217728</int>
 								<string key="NSContents">disconnect</string>
-								<object class="NSFont" key="NSSupport" id="28">
+								<object class="NSFont" key="NSSupport" id="791963494">
 									<string key="NSName">.LucidaGrandeUI</string>
 									<double key="NSSize">12</double>
-									<int key="NSfFlags">4883</int>
+									<int key="NSfFlags">787</int>
 								</object>
 								<reference key="NSControlView" ref="726701195"/>
 								<int key="NSButtonFlags">-2033434624</int>
@@ -2035,11 +2034,11 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 								<int key="NSCellFlags">-2080374784</int>
 								<int key="NSCellFlags2">134217728</int>
 								<string key="NSContents">cancel</string>
-								<reference key="NSSupport" ref="28"/>
+								<reference key="NSSupport" ref="791963494"/>
 								<reference key="NSControlView" ref="589510785"/>
 								<int key="NSButtonFlags">-2038284288</int>
 								<int key="NSButtonFlags2">164</int>
-								<reference key="NSAlternateImage" ref="28"/>
+								<reference key="NSAlternateImage" ref="791963494"/>
 								<string key="NSAlternateContents"/>
 								<string key="NSKeyEquivalent"/>
 								<int key="NSPeriodicDelay">400</int>
@@ -2178,7 +2177,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 								<int key="NSCellFlags">-2080374784</int>
 								<int key="NSCellFlags2">134217728</int>
 								<string key="NSContents">connect</string>
-								<reference key="NSSupport" ref="28"/>
+								<reference key="NSSupport" ref="791963494"/>
 								<reference key="NSControlView" ref="861139832"/>
 								<int key="NSButtonFlags">-2033434624</int>
 								<int key="NSButtonFlags2">164</int>
@@ -2217,11 +2216,11 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 								<int key="NSCellFlags">-2080374784</int>
 								<int key="NSCellFlags2">134217728</int>
 								<string key="NSContents">cancel</string>
-								<reference key="NSSupport" ref="28"/>
+								<reference key="NSSupport" ref="791963494"/>
 								<reference key="NSControlView" ref="600314090"/>
 								<int key="NSButtonFlags">-2038284288</int>
 								<int key="NSButtonFlags2">164</int>
-								<reference key="NSAlternateImage" ref="28"/>
+								<reference key="NSAlternateImage" ref="791963494"/>
 								<string key="NSAlternateContents"/>
 								<string key="NSKeyEquivalent"/>
 								<int key="NSPeriodicDelay">400</int>
@@ -2267,6 +2266,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 								<array class="NSMutableArray" key="NSPopUpListData">
 									<string>127.0.0.1</string>
 								</array>
+								<reference key="NSDelegate" ref="539632975"/>
 								<object class="NSComboTableView" key="NSTableView" id="26861181">
 									<reference key="NSNextResponder"/>
 									<int key="NSvFlags">274</int>
@@ -2368,6 +2368,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 								<array class="NSMutableArray" key="NSPopUpListData">
 									<string>19989</string>
 								</array>
+								<reference key="NSDelegate" ref="198254580"/>
 								<object class="NSComboTableView" key="NSTableView" id="577150273">
 									<reference key="NSNextResponder"/>
 									<int key="NSvFlags">274</int>
@@ -2506,7 +2507,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 								<int key="NSCellFlags">-2080374784</int>
 								<int key="NSCellFlags2">134217728</int>
 								<string key="NSContents">choose...</string>
-								<reference key="NSSupport" ref="28"/>
+								<reference key="NSSupport" ref="791963494"/>
 								<reference key="NSControlView" ref="990796530"/>
 								<int key="NSButtonFlags">-2033434624</int>
 								<int key="NSButtonFlags2">164</int>
@@ -2545,11 +2546,11 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 								<int key="NSCellFlags">-2080374784</int>
 								<int key="NSCellFlags2">134217728</int>
 								<string key="NSContents">cancel</string>
-								<reference key="NSSupport" ref="28"/>
+								<reference key="NSSupport" ref="791963494"/>
 								<reference key="NSControlView" ref="319494093"/>
 								<int key="NSButtonFlags">-2038284288</int>
 								<int key="NSButtonFlags2">164</int>
-								<reference key="NSAlternateImage" ref="28"/>
+								<reference key="NSAlternateImage" ref="791963494"/>
 								<string key="NSAlternateContents"/>
 								<string key="NSKeyEquivalent"/>
 								<int key="NSPeriodicDelay">400</int>
@@ -2589,7 +2590,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 								<int key="NSCellFlags">-2080374784</int>
 								<int key="NSCellFlags2">134217728</int>
 								<string key="NSContents">load</string>
-								<reference key="NSSupport" ref="28"/>
+								<reference key="NSSupport" ref="791963494"/>
 								<reference key="NSControlView" ref="366750779"/>
 								<int key="NSButtonFlags">-2033434624</int>
 								<int key="NSButtonFlags2">164</int>
@@ -2628,11 +2629,11 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 								<int key="NSCellFlags">-2080374784</int>
 								<int key="NSCellFlags2">134217728</int>
 								<string key="NSContents">cancel</string>
-								<reference key="NSSupport" ref="28"/>
+								<reference key="NSSupport" ref="791963494"/>
 								<reference key="NSControlView" ref="991152517"/>
 								<int key="NSButtonFlags">-2038284288</int>
 								<int key="NSButtonFlags2">164</int>
-								<reference key="NSAlternateImage" ref="28"/>
+								<reference key="NSAlternateImage" ref="791963494"/>
 								<string key="NSAlternateContents"/>
 								<string key="NSKeyEquivalent"/>
 								<int key="NSPeriodicDelay">400</int>
@@ -2736,7 +2737,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 								<int key="NSCellFlags">-2080374784</int>
 								<int key="NSCellFlags2">134217728</int>
 								<string key="NSContents">close experiment</string>
-								<reference key="NSSupport" ref="28"/>
+								<reference key="NSSupport" ref="791963494"/>
 								<reference key="NSControlView" ref="47928139"/>
 								<int key="NSButtonFlags">-2033434624</int>
 								<int key="NSButtonFlags2">164</int>
@@ -2775,11 +2776,11 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 								<int key="NSCellFlags">-2080374784</int>
 								<int key="NSCellFlags2">134217728</int>
 								<string key="NSContents">cancel</string>
-								<reference key="NSSupport" ref="28"/>
+								<reference key="NSSupport" ref="791963494"/>
 								<reference key="NSControlView" ref="1070384057"/>
 								<int key="NSButtonFlags">-2038284288</int>
 								<int key="NSButtonFlags2">164</int>
-								<reference key="NSAlternateImage" ref="28"/>
+								<reference key="NSAlternateImage" ref="791963494"/>
 								<string key="NSAlternateContents"/>
 								<string key="NSKeyEquivalent"/>
 								<int key="NSPeriodicDelay">400</int>
@@ -2857,7 +2858,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 								<int key="NSCellFlags">-2080374784</int>
 								<int key="NSCellFlags2">134217728</int>
 								<string key="NSContents">close stream</string>
-								<reference key="NSSupport" ref="28"/>
+								<reference key="NSSupport" ref="791963494"/>
 								<reference key="NSControlView" ref="970752460"/>
 								<int key="NSButtonFlags">-2033434624</int>
 								<int key="NSButtonFlags2">164</int>
@@ -2896,11 +2897,11 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 								<int key="NSCellFlags">-2080374784</int>
 								<int key="NSCellFlags2">134217728</int>
 								<string key="NSContents">cancel</string>
-								<reference key="NSSupport" ref="28"/>
+								<reference key="NSSupport" ref="791963494"/>
 								<reference key="NSControlView" ref="7292611"/>
 								<int key="NSButtonFlags">-2038284288</int>
 								<int key="NSButtonFlags2">164</int>
-								<reference key="NSAlternateImage" ref="28"/>
+								<reference key="NSAlternateImage" ref="791963494"/>
 								<string key="NSAlternateContents"/>
 								<string key="NSKeyEquivalent"/>
 								<int key="NSPeriodicDelay">400</int>
@@ -3025,7 +3026,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 								<int key="NSCellFlags">-2080374784</int>
 								<int key="NSCellFlags2">134217728</int>
 								<string key="NSContents">stream</string>
-								<reference key="NSSupport" ref="28"/>
+								<reference key="NSSupport" ref="791963494"/>
 								<reference key="NSControlView" ref="250610618"/>
 								<int key="NSButtonFlags">-2033434624</int>
 								<int key="NSButtonFlags2">164</int>
@@ -3064,11 +3065,11 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 								<int key="NSCellFlags">-2080374784</int>
 								<int key="NSCellFlags2">134217728</int>
 								<string key="NSContents">cancel</string>
-								<reference key="NSSupport" ref="28"/>
+								<reference key="NSSupport" ref="791963494"/>
 								<reference key="NSControlView" ref="842869764"/>
 								<int key="NSButtonFlags">-2038284288</int>
 								<int key="NSButtonFlags2">164</int>
-								<reference key="NSAlternateImage" ref="28"/>
+								<reference key="NSAlternateImage" ref="791963494"/>
 								<string key="NSAlternateContents"/>
 								<string key="NSKeyEquivalent"/>
 								<int key="NSPeriodicDelay">400</int>
@@ -3093,6 +3094,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 								<reference key="NSTextColor" ref="800254640"/>
 								<int key="NSVisibleItemCount">5</int>
 								<bool key="NSHasVerticalScroller">YES</bool>
+								<reference key="NSDelegate" ref="93462658"/>
 								<object class="NSComboTableView" key="NSTableView" id="185266989">
 									<reference key="NSNextResponder"/>
 									<int key="NSvFlags">274</int>
@@ -3634,7 +3636,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 									<reference key="NSDocView" ref="59158942"/>
 									<reference key="NSBGColor" ref="39951120"/>
 									<object class="NSCursor" key="NSCursor">
-										<string key="NSHotSpot">{1, -1}</string>
+										<string key="NSHotSpot">{5, 5}</string>
 										<int key="NSCursorType">0</int>
 									</object>
 									<int key="NScvFlags">4</int>
@@ -3943,6 +3945,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 												<reference key="NSTextColor" ref="800254640"/>
 												<int key="NSVisibleItemCount">5</int>
 												<bool key="NSHasVerticalScroller">YES</bool>
+												<reference key="NSDelegate" ref="113604452"/>
 												<object class="NSComboTableView" key="NSTableView" id="487416669">
 													<reference key="NSNextResponder"/>
 													<int key="NSvFlags">274</int>
@@ -5262,22 +5265,6 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
-						<string key="label">loadTask:</string>
-						<reference key="source" ref="526959389"/>
-						<reference key="destination" ref="225863142"/>
-					</object>
-					<string key="id">rLe-5W-Rxv</string>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">saveTask:</string>
-						<reference key="source" ref="526959389"/>
-						<reference key="destination" ref="383234364"/>
-					</object>
-					<string key="id">mmq-bl-TCD</string>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
 						<string key="label">launchHelp:</string>
 						<reference key="source" ref="526959389"/>
 						<reference key="destination" ref="467520244"/>
@@ -5651,6 +5638,22 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<reference key="destination" ref="994988965"/>
 					</object>
 					<string key="id">1102</string>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">saveWorkspace:</string>
+						<reference key="source" ref="526959389"/>
+						<reference key="destination" ref="383234364"/>
+					</object>
+					<string key="id">iqL-VO-Bdc</string>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">openWorkspace:</string>
+						<reference key="source" ref="526959389"/>
+						<reference key="destination" ref="225863142"/>
+					</object>
+					<string key="id">Qhd-Ny-cCD</string>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -9654,14 +9657,14 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<string key="loadExperiment:">id</string>
 						<string key="loadRecentExperiment:">id</string>
 						<string key="loadServerSideVariableSet:">id</string>
-						<string key="loadTask:">id</string>
 						<string key="newClientInstance:">id</string>
 						<string key="openConnectionList:">id</string>
 						<string key="openDataFile:">id</string>
+						<string key="openWorkspace:">id</string>
 						<string key="revertToCurrentVariableSet:">id</string>
 						<string key="saveConnectionlist:">id</string>
-						<string key="saveTask:">id</string>
 						<string key="saveToCurrentVariableSet:">id</string>
+						<string key="saveWorkspace:">id</string>
 						<string key="showAllPlugins:">id</string>
 						<string key="showGroupedPlugins:">id</string>
 						<string key="showPlugin:">id</string>
@@ -9767,10 +9770,6 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<string key="name">loadServerSideVariableSet:</string>
 							<string key="candidateClassName">id</string>
 						</object>
-						<object class="IBActionInfo" key="loadTask:">
-							<string key="name">loadTask:</string>
-							<string key="candidateClassName">id</string>
-						</object>
 						<object class="IBActionInfo" key="newClientInstance:">
 							<string key="name">newClientInstance:</string>
 							<string key="candidateClassName">id</string>
@@ -9783,6 +9782,10 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<string key="name">openDataFile:</string>
 							<string key="candidateClassName">id</string>
 						</object>
+						<object class="IBActionInfo" key="openWorkspace:">
+							<string key="name">openWorkspace:</string>
+							<string key="candidateClassName">id</string>
+						</object>
 						<object class="IBActionInfo" key="revertToCurrentVariableSet:">
 							<string key="name">revertToCurrentVariableSet:</string>
 							<string key="candidateClassName">id</string>
@@ -9791,12 +9794,12 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<string key="name">saveConnectionlist:</string>
 							<string key="candidateClassName">id</string>
 						</object>
-						<object class="IBActionInfo" key="saveTask:">
-							<string key="name">saveTask:</string>
-							<string key="candidateClassName">id</string>
-						</object>
 						<object class="IBActionInfo" key="saveToCurrentVariableSet:">
 							<string key="name">saveToCurrentVariableSet:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="saveWorkspace:">
+							<string key="name">saveWorkspace:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="showAllPlugins:">
@@ -10011,6 +10014,27 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/NSDocument.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">NSTextView</string>
+					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="orderFrontSharingServicePicker:">id</string>
+						<string key="toggleQuickLookPreviewPanel:">id</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="orderFrontSharingServicePicker:">
+							<string key="name">orderFrontSharingServicePicker:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="toggleQuickLookPreviewPanel:">
+							<string key="name">toggleQuickLookPreviewPanel:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/NSTextView.h</string>
 					</object>
 				</object>
 			</array>

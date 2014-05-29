@@ -126,9 +126,9 @@
 
 - (NSColor *)uniqueColor;
 
-- (IBAction)loadTask:(id)sender;
-- (void)loadTaskFromURL:(NSURL *)taskURL;
-- (IBAction)saveTask:(id)sender;
+- (IBAction)openWorkspace:(id)sender;
+- (void)loadWorkspaceFromURL:(NSURL *)workspaceURL;
+- (IBAction)saveWorkspace:(id)sender;
 
 @end
 

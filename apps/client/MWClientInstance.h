@@ -227,8 +227,8 @@
 
 //- (void)handleMessageEvent:(MWCocoaEvent *)event;
 
-- (NSDictionary *)taskInfo;
-- (void)loadTask:(NSDictionary *)taskInfo;
+- (NSDictionary *)workspaceInfo;
+- (void)loadWorkspace:(NSDictionary *)workspaceInfo;
 
 @end
 

@@ -61,10 +61,10 @@
 @end
 
 
-@protocol MWClientPluginTaskState <NSObject>
+@protocol MWClientPluginWorkspaceState <NSObject>
 
-- (NSDictionary *)taskState;
-- (void)setTaskState:(NSDictionary *)taskState;
+- (NSDictionary *)workspaceState;
+- (void)setWorkspaceState:(NSDictionary *)workspaceState;
 
 @end
 

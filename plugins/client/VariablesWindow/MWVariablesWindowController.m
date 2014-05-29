@@ -97,20 +97,20 @@
 }
 
 
-- (NSDictionary *)taskState {
-    NSMutableDictionary *taskState = [NSMutableDictionary dictionary];
+- (NSDictionary *)workspaceState {
+    NSMutableDictionary *workspaceState = [NSMutableDictionary dictionary];
     
     NSArray *expandedGroups = [ds expandedItems];
     if ([expandedGroups count] > 0) {
-        [taskState setObject:expandedGroups forKey:@"expandedGroups"];
+        [workspaceState setObject:expandedGroups forKey:@"expandedGroups"];
     }
     
-    return taskState;
+    return workspaceState;
 }
 
 
-- (void)setTaskState:(NSDictionary *)taskState {
-    NSArray *expandedGroups = [taskState objectForKey:@"expandedGroups"];
+- (void)setWorkspaceState:(NSDictionary *)workspaceState {
+    NSArray *expandedGroups = [workspaceState objectForKey:@"expandedGroups"];
     if (expandedGroups && [expandedGroups isKindOfClass:[NSArray class]]) {
         [ds setExpandedItems:expandedGroups forOutlineView:varView];
     }

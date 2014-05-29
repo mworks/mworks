@@ -510,20 +510,20 @@
 
 - (BOOL)application:(NSApplication *)theApplication openFile:(NSString *)filename
 {
-    // We need to check for a server connection to prevent the user from using the recent documents menu to load
-    // a new task on top of an already-running one.  A better approach would be to disable all items in the recent
-    // documents menu when a task is loaded (as we do with the "Load Task" menu item); however, I haven't been able
-    // to figure out how to do that.
+    // We need to check for a server connection to prevent the user from using the recent documents menu to open
+    // a new workspace on top of an existing one.  A better approach would be to disable all items in the recent
+    // documents menu when a workspace is loaded (as we do with the "Open Workspace" menu item); however, I haven't
+    // been able to figure out how to do that.
     
     if (![modalClientInstanceInCharge serverConnected]) {
         
-        [self loadTaskFromURL:[NSURL fileURLWithPath:filename]];
+        [self loadWorkspaceFromURL:[NSURL fileURLWithPath:filename]];
         
     } else {
         
         NSAlert *alert = [[NSAlert alloc] init];
-        [alert setMessageText:@"Task already loaded"];
-        [alert setInformativeText:@"Please close the current experiment and disconnect from the server before attempting to load a new task."];
+        [alert setMessageText:@"Workspace already loaded"];
+        [alert setInformativeText:@"Please close the current experiment and disconnect from the server before attempting to load a new workspace."];
         [alert runModal];
         [alert release];
         
@@ -553,44 +553,44 @@
 }
 
 
-- (IBAction)loadTask:(id)sender {
+- (IBAction)openWorkspace:(id)sender {
     NSOpenPanel *openDlg = [self openPanel];
-    [openDlg setTitle:@"Load Task"];
+    [openDlg setTitle:@"Open Workspace"];
     if ([openDlg runModal] == NSFileHandlingPanelOKButton) {
-        [self loadTaskFromURL:[[openPanel URLs] lastObject]];
+        [self loadWorkspaceFromURL:[[openPanel URLs] lastObject]];
     }
 }
 
 
-- (void)loadTaskFromURL:(NSURL *)taskURL {
-    [[NSDocumentController sharedDocumentController] noteNewRecentDocumentURL:taskURL];
+- (void)loadWorkspaceFromURL:(NSURL *)workspaceURL {
+    [[NSDocumentController sharedDocumentController] noteNewRecentDocumentURL:workspaceURL];
     
-    NSData *taskData;
-    NSDictionary *taskInfo;
+    NSData *workspaceData;
+    NSDictionary *workspaceInfo;
     NSError *error = nil;
     
-    if (!(taskData = [NSData dataWithContentsOfURL:taskURL options:0 error:&error]) ||
-        !(taskInfo = [NSJSONSerialization JSONObjectWithData:taskData options:0 error:nil]) ||
-        ![taskInfo isKindOfClass:[NSDictionary class]])
+    if (!(workspaceData = [NSData dataWithContentsOfURL:workspaceURL options:0 error:&error]) ||
+        !(workspaceInfo = [NSJSONSerialization JSONObjectWithData:workspaceData options:0 error:nil]) ||
+        ![workspaceInfo isKindOfClass:[NSDictionary class]])
     {
         if (!error) {
             error = [NSError errorWithDomain:NSCocoaErrorDomain
                                         code:NSFileReadCorruptFileError
-                                    userInfo:[NSDictionary dictionaryWithObject:taskURL forKey:NSURLErrorKey]];
+                                    userInfo:[NSDictionary dictionaryWithObject:workspaceURL forKey:NSURLErrorKey]];
         }
         [self.window performSelectorOnMainThread:@selector(presentError:) withObject:error waitUntilDone:NO];
         return;
     }
     
-    // While loading the task, we set the current directory to the directory in which the task definition file
-    // resides, so that paths relative to that location will resolve correctly
+    // While loading the workspace, we set the current directory to the directory in which the workspace
+    // definition file resides, so that paths relative to that location will resolve correctly
     
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSString *oldCurrentDirectoryPath = [fileManager currentDirectoryPath];
-    [fileManager changeCurrentDirectoryPath:[[taskURL path] stringByDeletingLastPathComponent]];
+    [fileManager changeCurrentDirectoryPath:[[workspaceURL path] stringByDeletingLastPathComponent]];
     
     @try {
-        [[self modalClientInstanceInCharge] loadTask:taskInfo];
+        [[self modalClientInstanceInCharge] loadWorkspace:workspaceInfo];
     }
     @finally {
         if (oldCurrentDirectoryPath) {
@@ -600,19 +600,19 @@
 }
 
 
-- (IBAction)saveTask:(id)sender {
+- (IBAction)saveWorkspace:(id)sender {
     NSSavePanel *savePanel = [NSSavePanel savePanel];
-    [savePanel setTitle:@"Save Task"];
+    [savePanel setTitle:@"Save Workspace"];
     if ([savePanel runModal] != NSFileHandlingPanelOKButton) {
         return;
     }
     
-    NSData *taskData;
+    NSData *workspaceData;
     NSError *error;
-    if (!(taskData = [NSJSONSerialization dataWithJSONObject:[[self modalClientInstanceInCharge] taskInfo]
+    if (!(workspaceData = [NSJSONSerialization dataWithJSONObject:[[self modalClientInstanceInCharge] workspaceInfo]
                                                      options:NSJSONWritingPrettyPrinted
                                                        error:&error]) ||
-        ![taskData writeToURL:[savePanel URL] options:0 error:&error])
+        ![workspaceData writeToURL:[savePanel URL] options:0 error:&error])
     {
         [self.window performSelectorOnMainThread:@selector(presentError:) withObject:error waitUntilDone:NO];
         return;

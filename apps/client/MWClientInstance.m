@@ -1099,39 +1099,39 @@
 }
 
 
-- (NSDictionary *)taskInfo {
-    NSMutableDictionary *taskInfo = [NSMutableDictionary dictionary];
+- (NSDictionary *)workspaceInfo {
+    NSMutableDictionary *workspaceInfo = [NSMutableDictionary dictionary];
     
-    [taskInfo setObject:self.serverURL forKey:@"serverURL"];
-    [taskInfo setObject:self.serverPort forKey:@"serverPort"];
-    [taskInfo setObject:self.clientsideExperimentPath forKey:@"experimentPath"];
+    [workspaceInfo setObject:self.serverURL forKey:@"serverURL"];
+    [workspaceInfo setObject:self.serverPort forKey:@"serverPort"];
+    [workspaceInfo setObject:self.clientsideExperimentPath forKey:@"experimentPath"];
     if (self.variableSetLoaded) {
-        [taskInfo setObject:self.variableSetName forKey:@"variableSetName"];
+        [workspaceInfo setObject:self.variableSetName forKey:@"variableSetName"];
     }
     if (appController.shouldRestoreOpenPluginWindows) {
-        [taskInfo setObject:[self openPluginWindows] forKey:@"openPluginWindows"];
+        [workspaceInfo setObject:[self openPluginWindows] forKey:@"openPluginWindows"];
     }
     
     NSMutableDictionary *pluginState = [NSMutableDictionary dictionary];
     
     for (NSWindowController *controller in pluginWindows) {
-        if ([controller respondsToSelector:@selector(taskState)]) {
-            NSDictionary *state = [(id<MWClientPluginTaskState>)controller taskState];
+        if ([controller respondsToSelector:@selector(workspaceState)]) {
+            NSDictionary *state = [(id<MWClientPluginWorkspaceState>)controller workspaceState];
             if ([state count] > 0) {
                 [pluginState setObject:state forKey:[controller windowFrameAutosaveName]];
             }
         }
     }
     
-    [taskInfo setObject:pluginState forKey:@"pluginState"];
+    [workspaceInfo setObject:pluginState forKey:@"pluginState"];
     
-    return taskInfo;
+    return workspaceInfo;
 }
 
 
-- (void)loadTask:(NSDictionary *)taskInfo {
-    NSString *newServerURL = [taskInfo objectForKey:@"serverURL"];
-    NSNumber *newServerPort = [taskInfo objectForKey:@"serverPort"];
+- (void)loadWorkspace:(NSDictionary *)workspaceInfo {
+    NSString *newServerURL = [workspaceInfo objectForKey:@"serverURL"];
+    NSNumber *newServerPort = [workspaceInfo objectForKey:@"serverPort"];
     if (newServerURL && [newServerURL isKindOfClass:[NSString class]] &&
         newServerPort && [newServerPort isKindOfClass:[NSNumber class]])
     {
@@ -1144,33 +1144,33 @@
         return;
     }
     
-    NSString *newExperimentPath = [taskInfo objectForKey:@"experimentPath"];
+    NSString *newExperimentPath = [workspaceInfo objectForKey:@"experimentPath"];
     if (newExperimentPath && [newExperimentPath isKindOfClass:[NSString class]]) {
         self.experimentPath = [newExperimentPath mwk_absolutePath];
         [self loadExperiment];
     }
     
-    NSString *newVariableSetName = [taskInfo objectForKey:@"variableSetName"];
+    NSString *newVariableSetName = [workspaceInfo objectForKey:@"variableSetName"];
     if (newVariableSetName && [newVariableSetName isKindOfClass:[NSString class]]) {
         self.variableSetName = newVariableSetName;
         [self loadVariableSet];
     }
     
-    NSArray *newOpenPluginWindows = [taskInfo objectForKey:@"openPluginWindows"];
+    NSArray *newOpenPluginWindows = [workspaceInfo objectForKey:@"openPluginWindows"];
     if (newOpenPluginWindows && [newOpenPluginWindows isKindOfClass:[NSArray class]]) {
         [self setOpenPluginWindows:newOpenPluginWindows];
     }
     
-    NSDictionary *newPluginState = [taskInfo objectForKey:@"pluginState"];
+    NSDictionary *newPluginState = [workspaceInfo objectForKey:@"pluginState"];
     if (newPluginState && [newPluginState isKindOfClass:[NSDictionary class]]) {
         for (NSWindowController *controller in pluginWindows) {
             NSDictionary *state = [newPluginState objectForKey:[controller windowFrameAutosaveName]];
             if (state &&
                 [state isKindOfClass:[NSDictionary class]] &&
                 [state count] > 0 &&
-                [controller respondsToSelector:@selector(setTaskState:)])
+                [controller respondsToSelector:@selector(setWorkspaceState:)])
             {
-                [(id<MWClientPluginTaskState>)controller setTaskState:state];
+                [(id<MWClientPluginWorkspaceState>)controller setWorkspaceState:state];
             }
         }
     }

@@ -13,7 +13,7 @@
 #import <MWorksCore/EventStreamConduit.h>
 #import <MWorksCocoa/MWCoreContainer.h>
 
-@interface PythonBridgeController : NSWindowController <MWClientPluginTaskState> {
+@interface PythonBridgeController : NSWindowController <MWClientPluginWorkspaceState> {
 
     IBOutlet id<MWClientProtocol> delegate;
     
