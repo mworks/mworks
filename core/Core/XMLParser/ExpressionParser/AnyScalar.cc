@@ -996,7 +996,7 @@ std::string AnyScalar::getString() const
     {
     case ATTRTYPE_INVALID:
 	assert(0);
-	return false;
+	return "";
 
     case ATTRTYPE_BOOL:
 	if (val._int == 0) return "false";
@@ -1045,7 +1045,7 @@ std::string AnyScalar::getString() const
     } 
     }
     assert(0);
-    return false;
+    return "";
 }
 
 std::string AnyScalar::getStringQuoted() const

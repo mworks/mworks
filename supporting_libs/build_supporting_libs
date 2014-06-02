@@ -39,7 +39,7 @@ compile_flags = (('-arch x86_64 -arch i386 -g -Os -fexceptions '
                   '-fvisibility=hidden -isysroot %s -mmacosx-version-min=%s')
                  % (sdk_path, macosx_version_min))
 cflags = '-std=c99'
-cxxflags = '-std=c++98 -stdlib=libc++'
+cxxflags = '-std=c++11 -stdlib=libc++'
 
 link_flags = '-Wl,-syslibroot,%s' % sdk_path
 
@@ -125,10 +125,10 @@ def unpack_zipfile(filename, outputdir):
         ])
 
 
-def apply_patch(patchfile):
+def apply_patch(patchfile, strip=1):
     with open(path_to_patchdir + '/' + patchfile) as fp:
         check_call(
-            args = ['/usr/bin/patch', '-p1'],
+            args = ['/usr/bin/patch', '-p%d' % strip],
             stdin = fp,
             )
 
@@ -184,7 +184,7 @@ def run_configure_and_make(
 
 @builder
 def boost():
-    version = '1.51.0'
+    version = '1.55.0'
     srcdir = 'boost_' + version.replace('.', '_')
     tarfile = srcdir + '.tar.bz2'
 
@@ -192,7 +192,9 @@ def boost():
     unpack_tarfile(tarfile, srcdir)
 
     with workdir(srcdir):
-        apply_patch('boost_clang_visibility.patch')
+        apply_patch('boost_1_55_clang_3_4_build.patch', 2)
+        apply_patch('boost_type_traits.patch', 2)
+        
         os.symlink('boost', 'mworks_boost')
         
         check_call([
@@ -230,7 +232,7 @@ def boost():
 
 @builder
 def libpng():
-    version = '1.2.50'
+    version = '1.2.51'
     srcdir = 'libpng-' + version
     tarfile = srcdir + '.tar.bz2'
 
@@ -242,7 +244,7 @@ def libpng():
 
 @builder
 def jpeg():
-    version = '9'
+    version = '9a'
     srcdir = 'jpeg-' + version
     tarfile = 'jpegsrc.v%s.tar.gz' % version
 

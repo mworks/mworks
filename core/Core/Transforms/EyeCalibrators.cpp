@@ -56,9 +56,9 @@ FixationPoint::FixationPoint(const ParameterValueMap &parameters):
     SquareRegionTrigger(registerVariable(parameters[X_POSITION]),
                         registerVariable(parameters[Y_POSITION]),
                         registerVariable(parameters[TRIGGER_WIDTH]),
-                        parameters[TRIGGER_WATCH_X],
-                        parameters[TRIGGER_WATCH_Y],
-                        parameters[TRIGGER_FLAG])
+                        VariablePtr(parameters[TRIGGER_WATCH_X]),
+                        VariablePtr(parameters[TRIGGER_WATCH_Y]),
+                        VariablePtr(parameters[TRIGGER_FLAG]))
 { }
 
 

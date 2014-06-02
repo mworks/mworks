@@ -28,7 +28,7 @@ BaseFrameListStimulus::BaseFrameListStimulus(const ParameterValueMap &parameters
     loop(registerVariable(parameters[LOOP]))
 {
     if (!(parameters[ENDED].empty())) {
-        ended = parameters[ENDED];
+        ended = VariablePtr(parameters[ENDED]);
     }
 }
 

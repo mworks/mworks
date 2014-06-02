@@ -158,7 +158,7 @@ void SchedulerTestFixture::testSchedulerLeaks() {
 								 M_MISSED_EXECUTION_CATCH_UP);
 	
 	sleep(5);
-	st_assert("something is wrong at this point", node);
+	st_assert("something is wrong at this point", bool(node));
 	st_assert("node should have one reference at this point", node.use_count() == 1);
 }
 

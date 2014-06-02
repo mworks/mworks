@@ -41,7 +41,10 @@ END_NAMESPACE(boost)
 
 
 // We must include message_queue.hpp *after* our implementation of get_rounded_size
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wtautological-constant-out-of-range-compare"
 #include <boost/interprocess/ipc/message_queue.hpp>
+#pragma clang diagnostic pop
 
 
 BEGIN_NAMESPACE_MW

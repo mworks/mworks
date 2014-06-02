@@ -14,7 +14,10 @@
 #include "EventTransport.h"
 #include "Serialization.h"
 #include <string>
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wtautological-constant-out-of-range-compare"
 #include <boost/interprocess/ipc/message_queue.hpp>
+#pragma clang diagnostic pop
 #include "boost/archive/binary_iarchive.hpp"
 #include "boost/archive/binary_oarchive.hpp"
 #include "boost/serialization/serialization.hpp"

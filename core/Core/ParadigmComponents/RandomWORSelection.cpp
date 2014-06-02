@@ -10,7 +10,10 @@
 #include "RandomWORSelection.h"
 
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-register"
 #include <boost/random.hpp>
+#pragma clang diagnostic pop
 #include "Clock.h"
 
 

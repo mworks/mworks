@@ -81,7 +81,8 @@ DriftingGratingStimulus::DriftingGratingStimulus(const ParameterValueMap &parame
 	} else if (grating_type == "triangle") {
 		grating = shared_ptr<TriangleGratingData>(new TriangleGratingData(grating_sample_rate));
 	} else if (grating_type == "sawtooth") {
-		grating = shared_ptr<SawtoothGratingData>(new SawtoothGratingData(grating_sample_rate, parameters[INVERTED]));
+		grating = shared_ptr<SawtoothGratingData>(new SawtoothGratingData(grating_sample_rate,
+                                                                          VariablePtr(parameters[INVERTED])));
 	} else {
 		throw SimpleException("illegal grating type", grating_type);		
 	}
@@ -94,7 +95,9 @@ DriftingGratingStimulus::DriftingGratingStimulus(const ParameterValueMap &parame
 	} else if (mask_type == "ellipse") {
 		mask = shared_ptr<Mask>(new EllipseMask(mask_size));
 	} else if (mask_type == "gaussian") {
-		mask = shared_ptr<Mask>(new GaussianMask(mask_size, parameters[MEAN], parameters[STD_DEV]));
+		mask = shared_ptr<Mask>(new GaussianMask(mask_size,
+                                                 VariablePtr(parameters[MEAN]),
+                                                 VariablePtr(parameters[STD_DEV])));
 	} else {
 		throw SimpleException("illegal mask", mask_type);				
 	}

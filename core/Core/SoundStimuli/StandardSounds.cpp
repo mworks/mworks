@@ -122,7 +122,7 @@ WavFileSound::WavFileSound(const ParameterValueMap &parameters) :
     OpenALSound(parameters)
 {
     namespace bf = boost::filesystem;
-    bf::path filename(parameters[PATH].as<bf::path>());
+    bf::path filename(parameters[PATH]);
 	
     if (bf::is_directory(filename)) {
         throw SimpleException("Path is a directory", filename.string());

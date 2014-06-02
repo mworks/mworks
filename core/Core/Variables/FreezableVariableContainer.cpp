@@ -9,6 +9,8 @@
 
 #include "FreezableVariableContainer.h"
 
+#include "ParameterValue.h"
+
 
 BEGIN_NAMESPACE_MW
 
@@ -85,5 +87,35 @@ bool FreezableVariableContainer::isWritable() const {
 }
 
 
+VariablePtr FreezableCollection::registerVariable(const ParameterValue &param, bool check_for_duplicates) {
+    return registerVariable(VariablePtr(param), check_for_duplicates);
+}
+
 
 END_NAMESPACE_MW
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

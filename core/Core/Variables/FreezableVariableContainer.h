@@ -17,6 +17,9 @@
 BEGIN_NAMESPACE_MW
 
 
+class ParameterValue;  // Forward declaration
+
+
 // A wrapper around a variable object that supports "freezing" --
 // i.e. transiently taking on a constant value
 // whenever the "freeze" method is called, and then returning
@@ -92,6 +95,8 @@ public:
         
         return boost::dynamic_pointer_cast<FreezableVariableContainer, Variable>(freezable);
     }
+    
+    virtual shared_ptr<Variable> registerVariable(const ParameterValue &param, bool check_for_duplicates = false);
     
     // Individually "freeze" 
     virtual void freeze(bool should_freeze = true){

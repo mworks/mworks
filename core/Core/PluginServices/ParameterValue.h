@@ -48,7 +48,7 @@ public:
     }
     
     template<typename Type>
-    operator Type() const {
+    explicit operator Type() const {
         return as<Type>();
     }
     

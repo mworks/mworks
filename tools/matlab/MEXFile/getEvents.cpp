@@ -58,7 +58,7 @@ void getEvents(MEXInputs &inputs, MEXOutputs &outputs)
             mxSetFieldByNumber(result.get(), i, 2, values[i].release());
         }
         
-        outputs << result;
+        outputs << std::move(result);
     }
     
 }
