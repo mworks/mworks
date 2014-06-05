@@ -88,9 +88,13 @@ BEGIN_NAMESPACE_MW
 		return bf::path("/Library/Application Support") / bf::path(CONFIG_PATH);
 	}
 	
+    boost::filesystem::path userSetupVariablesFile() {
+        return prependUserPath(SETUP_VARIABLES_FILENAME);
+    }
+
     boost::filesystem::path setupVariablesFile() {
         namespace bf = boost::filesystem;
-        bf::path setupPath(prependUserPath(SETUP_VARIABLES_FILENAME));
+        bf::path setupPath(userSetupVariablesFile());
         if (setupPath.empty() || !bf::is_regular_file(setupPath)) {
             setupPath = prependLocalPath(SETUP_VARIABLES_FILENAME);
         }

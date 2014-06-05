@@ -25,6 +25,7 @@ BEGIN_NAMESPACE_MW
 
 	boost::filesystem::path userPath();
 	boost::filesystem::path localPath();
+    boost::filesystem::path userSetupVariablesFile();
 	boost::filesystem::path setupVariablesFile();
 	boost::filesystem::path pluginPath();
 	boost::filesystem::path scriptingPath();

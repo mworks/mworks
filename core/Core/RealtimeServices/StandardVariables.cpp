@@ -209,7 +209,7 @@ BEGIN_NAMESPACE_MW
 																		   true, false, M_STRUCTURED, PRIVATE_SYSTEM_VARIABLES));
 		
 		
-        Datum default_screen_info;
+        Datum default_screen_info(M_DICTIONARY, 0);
 		mainDisplayInfo = registry->createGlobalVariable(new VariableProperties(&default_screen_info,
 																				MAIN_SCREEN_INFO_TAGNAME, 
 																				"Main Screen Geometry Information",
@@ -230,7 +230,7 @@ BEGIN_NAMESPACE_MW
                                                                                      PRIVATE_SYSTEM_VARIABLES));
 		
 		
-        Datum defaultRealtimeComponents;
+        Datum defaultRealtimeComponents(M_DICTIONARY, 0);
         realtimeComponents = registry->createGlobalVariable(new VariableProperties(&defaultRealtimeComponents,
                                                                                    "#realtimeComponents",
                                                                                    "Realtime Component Selections",

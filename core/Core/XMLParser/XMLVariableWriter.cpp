@@ -55,7 +55,7 @@ void XMLVariableWriter::writeVariablesToFile(vector< shared_ptr<Variable> > vari
     }
     
     string path_str = file.string();
-    xmlSaveFile(path_str.c_str(), doc);
+    xmlSaveFormatFile(path_str.c_str(), doc, 1);
 }
 
 
