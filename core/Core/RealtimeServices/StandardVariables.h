@@ -173,6 +173,9 @@ extern shared_ptr<Variable> warnOnSkippedRefresh;
 #define ALT_FAILOVER_TAGNAME "#allowAltFailover"
 extern shared_ptr<Variable> alt_failover;
 
+#define M_REALTIME_CLOCK_KEY        "clock"
+#define M_REALTIME_SCHEDULER_KEY    "scheduler"
+#define M_REALTIME_STATE_SYSTEM_KEY "state_system"
 extern shared_ptr<Variable> realtimeComponents;
 
 // Debugger variables

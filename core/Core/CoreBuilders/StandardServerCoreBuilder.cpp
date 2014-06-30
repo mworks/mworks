@@ -96,9 +96,9 @@ bool StandardServerCoreBuilder::chooseRealtimeComponents() {
     
     mprintf(M_SYSTEM_MESSAGE_DOMAIN, "Creating realtime components:");
 
-	Clock::registerInstance(createRealtimeComponent(componentRegistry, realtimeComponentsValue, "clock", "MachClock"));
-	Scheduler::registerInstance(createRealtimeComponent(componentRegistry, realtimeComponentsValue, "scheduler", "ZenScheduler"));
-	StateSystem::registerInstance(createRealtimeComponent(componentRegistry, realtimeComponentsValue, "state_system", "ZenStateSystem"));
+	Clock::registerInstance(createRealtimeComponent(componentRegistry, realtimeComponentsValue, M_REALTIME_CLOCK_KEY, "MachClock"));
+	Scheduler::registerInstance(createRealtimeComponent(componentRegistry, realtimeComponentsValue, M_REALTIME_SCHEDULER_KEY, "ZenScheduler"));
+	StateSystem::registerInstance(createRealtimeComponent(componentRegistry, realtimeComponentsValue, M_REALTIME_STATE_SYSTEM_KEY, "ZenStateSystem"));
 
     return true;
 }
