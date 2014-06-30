@@ -171,6 +171,11 @@ using mw::Datum;
 }
 
 
+- (BOOL)enableRedrawOnEveryRefresh {
+    return NO;
+}
+
+
 - (void)setRedrawOnEveryRefresh:(BOOL)redrawOnEveryRefresh {
     _redrawOnEveryRefresh = redrawOnEveryRefresh;
     [self updateVariable:mw::mainDisplayInfo

@@ -736,6 +736,7 @@
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
                                             <connections>
+                                                <binding destination="Npj-AL-FRl" name="enabled" keyPath="selection.enableRedrawOnEveryRefresh" id="Zta-89-pdt"/>
                                                 <binding destination="Npj-AL-FRl" name="value" keyPath="selection.redrawOnEveryRefresh" id="pHy-pE-jEx"/>
                                             </connections>
                                         </button>
