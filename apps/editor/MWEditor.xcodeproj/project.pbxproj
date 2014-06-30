@@ -53,8 +53,6 @@
 		5C9186B90E3636B600B64213 /* BiasMonitorInspectorView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5C9186B80E3636B600B64213 /* BiasMonitorInspectorView.xib */; };
 		5C9186DF0E368F0B00B64213 /* ImageStimulusInspectorView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5C9186DE0E368F0B00B64213 /* ImageStimulusInspectorView.xib */; };
 		5C9186F60E3697C400B64213 /* URLPathValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C9186F50E3697C400B64213 /* URLPathValueTransformer.m */; };
-		5C992CBD0E7888430093A8FF /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C992CBC0E7888430093A8FF /* Sparkle.framework */; };
-		5C992CC00E78884F0093A8FF /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5C992CBC0E7888430093A8FF /* Sparkle.framework */; };
 		5C992CE10E78A9950093A8FF /* SoundStimulusInspectorView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5C992CDF0E78A9950093A8FF /* SoundStimulusInspectorView.xib */; };
 		5C992CE20E78A9950093A8FF /* WaitInspectorView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5C992CE00E78A9950093A8FF /* WaitInspectorView.xib */; };
 		5C992DB60E78BFB20093A8FF /* greenmonkey.icns in Resources */ = {isa = PBXBuildFile; fileRef = 5C992DB50E78BFB20093A8FF /* greenmonkey.icns */; };
@@ -192,7 +190,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				5C992CC00E78884F0093A8FF /* Sparkle.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -230,7 +227,6 @@
 		5C9186DE0E368F0B00B64213 /* ImageStimulusInspectorView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ImageStimulusInspectorView.xib; path = InspectorViews/ImageStimulusInspectorView.xib; sourceTree = "<group>"; };
 		5C9186F40E3697C400B64213 /* URLPathValueTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = URLPathValueTransformer.h; sourceTree = "<group>"; };
 		5C9186F50E3697C400B64213 /* URLPathValueTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = URLPathValueTransformer.m; sourceTree = "<group>"; };
-		5C992CBC0E7888430093A8FF /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = "<group>"; };
 		5C992CDF0E78A9950093A8FF /* SoundStimulusInspectorView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = SoundStimulusInspectorView.xib; path = InspectorViews/SoundStimulusInspectorView.xib; sourceTree = "<group>"; };
 		5C992CE00E78A9950093A8FF /* WaitInspectorView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = WaitInspectorView.xib; path = InspectorViews/WaitInspectorView.xib; sourceTree = "<group>"; };
 		5C992DB50E78BFB20093A8FF /* greenmonkey.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = greenmonkey.icns; sourceTree = "<group>"; };
@@ -364,7 +360,6 @@
 			files = (
 				E15D0AF616C2AF0300F331B1 /* AppKit.framework in Frameworks */,
 				E15D0AF816C2AF3E00F331B1 /* Quartz.framework in Frameworks */,
-				5C992CBD0E7888430093A8FF /* Sparkle.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -455,7 +450,6 @@
 			children = (
 				E15D0AF516C2AF0300F331B1 /* AppKit.framework */,
 				E15D0AF716C2AF3E00F331B1 /* Quartz.framework */,
-				5C992CBC0E7888430093A8FF /* Sparkle.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";

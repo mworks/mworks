@@ -47,11 +47,5 @@
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
-	<key>SUEnableSystemProfiling</key>
-	<true/>
-	<key>SUFeedURL</key>
-	<string>http://public.coxlab.org/mw/MWorksEditorAppcast.xml</string>
-	<key>SUShowsReleaseNotes</key>
-	<true/>
 </dict>
 </plist>
