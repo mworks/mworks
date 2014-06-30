@@ -761,6 +761,25 @@
                                                 <binding destination="Npj-AL-FRl" name="value" keyPath="selection.warnOnSkippedRefresh" id="add-Bo-KwG"/>
                                             </connections>
                                         </button>
+                                        <popUpButton verticalHuggingPriority="750" id="1Vq-ag-saf">
+                                            <rect key="frame" x="115" y="195" width="159" height="26"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="ztZ-SQ-E1e">
+                                                <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                                <menu key="menu" title="OtherViews" id="FOX-pl-1Oy">
+                                                    <items>
+                                                        <menuItem title="Mirror window only" id="z9r-H2-2o0"/>
+                                                        <menuItem title="Main display" state="on" id="48h-o2-3Pu"/>
+                                                        <menuItem title="Display 2" id="2bB-g0-ZHh"/>
+                                                    </items>
+                                                </menu>
+                                            </popUpButtonCell>
+                                            <connections>
+                                                <binding destination="Npj-AL-FRl" name="contentValues" keyPath="selection.availableDisplays" id="MFr-4B-wZG"/>
+                                                <binding destination="Npj-AL-FRl" name="selectedIndex" keyPath="selection.displayToUse" previousBinding="MFr-4B-wZG" id="7Wb-7p-1nf"/>
+                                            </connections>
+                                        </popUpButton>
                                     </subviews>
                                 </view>
                             </tabViewItem>

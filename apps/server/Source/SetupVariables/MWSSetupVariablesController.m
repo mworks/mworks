@@ -20,6 +20,7 @@ using mw::Datum;
 @implementation MWSSetupVariablesController
 
 @synthesize serverName = _serverName;
+@synthesize displayToUse = _displayToUse;
 @synthesize displayWidth = _displayWidth;
 @synthesize displayHeight = _displayHeight;
 @synthesize displayDistance = _displayDistance;
@@ -42,6 +43,7 @@ using mw::Datum;
         {
             Datum mdi = mw::mainDisplayInfo->getValue();
             if (mdi.isDictionary()) {
+                _displayToUse = [[NSNumber alloc] initWithLong:(mdi.getElement(M_DISPLAY_TO_USE_KEY).getInteger() + 1)];
                 _displayWidth = [[NSNumber alloc] initWithDouble:(mdi.getElement(M_DISPLAY_WIDTH_KEY).getFloat())];
                 _displayHeight = [[NSNumber alloc] initWithDouble:(mdi.getElement(M_DISPLAY_HEIGHT_KEY).getFloat())];
                 _displayDistance = [[NSNumber alloc] initWithDouble:(mdi.getElement(M_DISPLAY_DISTANCE_KEY).getFloat())];
@@ -75,6 +77,7 @@ using mw::Datum;
     [_displayDistance release];
     [_displayHeight release];
     [_displayWidth release];
+    [_displayToUse release];
     [_serverName release];
     
     dispatch_release(writeQueue);
@@ -89,6 +92,30 @@ using mw::Datum;
         _serverName = [serverName copy];
     }
     [self updateVariable:mw::serverName value:[serverName UTF8String]];
+}
+
+
+- (NSArray *)availableDisplays {
+    NSMutableArray *displays = [NSMutableArray arrayWithArray:@[ @"Mirror window only", @"Main display" ]];
+    
+    NSArray *screens = [NSScreen screens];
+    // Index 0 is always the main display, so start iteration at index 1
+    for (NSUInteger index = 1; index < [screens count]; index++) {
+        [displays addObject:[NSString stringWithFormat:@"Display %lu", (unsigned long)(index+1)]];
+    }
+    
+    return displays;
+}
+
+
+- (void)setDisplayToUse:(NSNumber *)displayToUse {
+    if (_displayToUse != displayToUse) {
+        [_displayToUse release];
+        _displayToUse = [displayToUse retain];
+    }
+    [self updateVariable:mw::mainDisplayInfo
+                     key:M_DISPLAY_TO_USE_KEY
+                   value:([displayToUse longValue] - 1)];
 }
 
 
