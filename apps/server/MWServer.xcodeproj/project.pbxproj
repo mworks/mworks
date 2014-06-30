@@ -55,6 +55,8 @@
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		E12D996116BC3B39004FEF79 /* MWServer.app in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8D1107320486CEB800E47090 /* MWServer.app */; };
+		E14742AA193F9BFF00A82D91 /* MWSSetupVariablesController.m in Sources */ = {isa = PBXBuildFile; fileRef = E14742A9193F9BFF00A82D91 /* MWSSetupVariablesController.m */; };
+		E1518A9B1940C25D00ADB7D0 /* libboost_filesystem.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1518A9A1940C25D00ADB7D0 /* libboost_filesystem.a */; };
 		E15D0AEE16C2ACAA00F331B1 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E15D0AED16C2ACAA00F331B1 /* AppKit.framework */; };
 		E15D0AF016C2ACB000F331B1 /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E15D0AEF16C2ACB000F331B1 /* libboost_system.a */; };
 		E18B84011552D61100268197 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = E18B83FF1552D61100268197 /* MainMenu.xib */; };
@@ -120,6 +122,9 @@
 		68E8A40C0C9EC969003ECAB7 /* MWSNetworkToolbarItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWSNetworkToolbarItem.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* MWServer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MWServer.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E14742A8193F9BFF00A82D91 /* MWSSetupVariablesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWSSetupVariablesController.h; sourceTree = "<group>"; };
+		E14742A9193F9BFF00A82D91 /* MWSSetupVariablesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWSSetupVariablesController.m; sourceTree = "<group>"; };
+		E1518A9A1940C25D00ADB7D0 /* libboost_filesystem.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_filesystem.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_filesystem.a"; sourceTree = "<absolute>"; };
 		E15D0AED16C2ACAA00F331B1 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		E15D0AEF16C2ACB000F331B1 /* libboost_system.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_system.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_system.a"; sourceTree = "<absolute>"; };
 		E18B84001552D61100268197 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
@@ -133,6 +138,7 @@
 				0EA037950C3D8313007C37CF /* MWorksCore.framework in Frameworks */,
 				0E1F31B50C5B1FEA00EB89EA /* MWorksCocoa.framework in Frameworks */,
 				E15D0AEE16C2ACAA00F331B1 /* AppKit.framework in Frameworks */,
+				E1518A9B1940C25D00ADB7D0 /* libboost_filesystem.a in Frameworks */,
 				E15D0AF016C2ACB000F331B1 /* libboost_system.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -162,6 +168,7 @@
 			children = (
 				0E054D4F0CB068D000104CD5 /* Network */,
 				0ECEAFE80CA1F693002F52CA /* GUIControls */,
+				E14742A7193F99B100A82D91 /* SetupVariables */,
 				29B97316FDCFA39411CA2CEA /* main.m */,
 				0EA038080C3D8A9A007C37CF /* MWSServer.h */,
 				0EA038090C3D8A9A007C37CF /* MWSServer.m */,
@@ -238,6 +245,7 @@
 				0EA037940C3D8313007C37CF /* MWorksCore.framework */,
 				0E1F31B40C5B1FEA00EB89EA /* MWorksCocoa.framework */,
 				E15D0AED16C2ACAA00F331B1 /* AppKit.framework */,
+				E1518A9A1940C25D00ADB7D0 /* libboost_filesystem.a */,
 				E15D0AEF16C2ACB000F331B1 /* libboost_system.a */,
 			);
 			name = "Frameworks & Libraries";
@@ -250,6 +258,15 @@
 				5CE62A31115854CF00C757F1 /* WARNING.txt */,
 			);
 			name = "External Config";
+			sourceTree = "<group>";
+		};
+		E14742A7193F99B100A82D91 /* SetupVariables */ = {
+			isa = PBXGroup;
+			children = (
+				E14742A8193F9BFF00A82D91 /* MWSSetupVariablesController.h */,
+				E14742A9193F9BFF00A82D91 /* MWSSetupVariablesController.m */,
+			);
+			path = SetupVariables;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -338,6 +355,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E14742AA193F9BFF00A82D91 /* MWSSetupVariablesController.m in Sources */,
 				8D11072D0486CEB800E47090 /* main.m in Sources */,
 				0EA0380A0C3D8A9A007C37CF /* MWSServer.m in Sources */,
 				68E8A3740C9EBE68003ECAB7 /* MWSToolbarControl.m in Sources */,
@@ -405,6 +423,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
+				HEADER_SEARCH_PATHS = (
+					/usr/include/libxml2,
+					"$(inherited)",
+				);
 				INFOPLIST_FILE = Info.plist;
 				PRODUCT_NAME = MWServer;
 				WRAPPER_EXTENSION = app;

@@ -161,12 +161,6 @@
   [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:HELP_URL]];
 }
 
-- (IBAction) revealSetupVariables: (id)sender {
-    NSLog(@"Launching setup variables...");
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL fileURLWithPath:
-                                            [NSString stringWithUTF8String:(setupVariablesFile().string().c_str())]]];
-}
-
 - (void)toggleConsole:(id)sender {
 	if([[cc window] isVisible]) {
 		[cc close];
