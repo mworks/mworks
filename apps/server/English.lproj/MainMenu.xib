@@ -42,13 +42,7 @@
                             </menuItem>
                             <menuItem title="Preferences…" keyEquivalent="," id="129">
                                 <connections>
-                                    <action selector="makeKeyAndOrderFront:" target="465" id="467"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="Setup Variables..." id="387">
-                                <modifierMask key="keyEquivalentModifierMask"/>
-                                <connections>
-                                    <action selector="makeKeyAndOrderFront:" target="3PL-gq-ATj" id="aVk-Yr-Fhx"/>
+                                    <action selector="makeKeyAndOrderFront:" target="3PL-gq-ATj" id="1NF-Kb-tn1"/>
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="149">
@@ -492,40 +486,6 @@
                 <outlet property="delegate" destination="317" id="334"/>
             </connections>
         </window>
-        <window title="Preferences" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="465">
-            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
-            <windowPositionMask key="initialPositionMask" topStrut="YES"/>
-            <rect key="contentRect" x="163" y="800" width="210" height="74"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1028"/>
-            <view key="contentView" id="466">
-                <rect key="frame" x="0.0" y="0.0" width="210" height="74"/>
-                <autoresizingMask key="autoresizingMask"/>
-                <subviews>
-                    <button id="468">
-                        <rect key="frame" x="18" y="38" width="160" height="18"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="check" title="Open client at startup" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="469">
-                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <binding destination="470" name="value" keyPath="values.autoOpenClient" id="471"/>
-                        </connections>
-                    </button>
-                    <button id="472">
-                        <rect key="frame" x="18" y="18" width="174" height="18"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="check" title="Open console at startup" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="473">
-                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <binding destination="470" name="value" keyPath="values.autoOpenConsole" id="475"/>
-                        </connections>
-                    </button>
-                </subviews>
-            </view>
-        </window>
         <customObject id="YTj-mv-19p" customClass="MWSSetupVariablesController"/>
         <objectController objectClassName="MWSSetupVariablesController" id="Npj-AL-FRl">
             <connections>
@@ -533,7 +493,7 @@
             </connections>
         </objectController>
         <userDefaultsController representsSharedInstance="YES" id="470"/>
-        <window title="Setup Variables" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="3PL-gq-ATj">
+        <window title="Preferences" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="3PL-gq-ATj">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="540" y="552" width="480" height="283"/>
@@ -585,14 +545,36 @@
                                             </connections>
                                         </button>
                                         <button id="mZo-f9-7Ss">
-                                            <rect key="frame" x="15" y="157" width="178" height="18"/>
+                                            <rect key="frame" x="15" y="157" width="281" height="18"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <buttonCell key="cell" type="check" title="Use high-precision clock" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="nx0-gV-26o">
+                                            <buttonCell key="cell" type="check" title="Use high-precision clock (recommended)" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="nx0-gV-26o">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
                                             <connections>
                                                 <binding destination="Npj-AL-FRl" name="value" keyPath="selection.useHighPrecisionClock" id="KOl-Na-57b"/>
+                                            </connections>
+                                        </button>
+                                        <button id="tyZ-j0-d3I">
+                                            <rect key="frame" x="15" y="137" width="160" height="18"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <buttonCell key="cell" type="check" title="Open client at startup" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="kfT-uE-4og">
+                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <binding destination="470" name="value" keyPath="values.autoOpenClient" id="XkK-DB-MxS"/>
+                                            </connections>
+                                        </button>
+                                        <button id="472">
+                                            <rect key="frame" x="15" y="117" width="174" height="18"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <buttonCell key="cell" type="check" title="Open console at startup" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="473">
+                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <binding destination="470" name="value" keyPath="values.autoOpenConsole" id="475"/>
                                             </connections>
                                         </button>
                                     </subviews>
