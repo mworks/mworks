@@ -119,6 +119,7 @@ BEGIN_NAMESPACE_MW
             registerFactoryAlias(info.getSignature(), alias_name);
         }
 		
+		bool hasFactory(const std::string &type_name);
 		shared_ptr<ComponentFactory> getFactory(const std::string &type_name);
 		
 		
@@ -227,7 +228,10 @@ BEGIN_NAMESPACE_MW
 	
         // a debugging routine. Dump the names of every registered object
         void dumpToStdErr();
-            	
+        
+    private:
+        shared_ptr<ComponentFactory> findFactory(const std::string &type_name);
+        
 	};
 	
     

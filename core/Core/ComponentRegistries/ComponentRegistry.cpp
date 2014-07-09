@@ -149,7 +149,7 @@ void ComponentRegistry::registerFactory(const std::string &type_name, shared_ptr
 }
 
 
-shared_ptr<ComponentFactory> ComponentRegistry::getFactory(const std::string &type_name) {
+shared_ptr<ComponentFactory> ComponentRegistry::findFactory(const std::string &type_name) {
 	shared_ptr<ComponentFactory> factory(factories[type_name]);
 	
 	if (!factory) {
@@ -158,6 +158,18 @@ shared_ptr<ComponentFactory> ComponentRegistry::getFactory(const std::string &ty
 		split(split_vector, type_name, boost::algorithm::is_any_of("/"));
 		factory = factories[split_vector[0]];
 	}
+	
+	return factory;
+}
+
+
+bool ComponentRegistry::hasFactory(const std::string &type_name) {
+    return bool(findFactory(type_name));
+}
+
+
+shared_ptr<ComponentFactory> ComponentRegistry::getFactory(const std::string &type_name) {
+    shared_ptr<ComponentFactory> factory = findFactory(type_name);
 	
 	if (!factory) {
 		throw SimpleException("No factory for object type", type_name);

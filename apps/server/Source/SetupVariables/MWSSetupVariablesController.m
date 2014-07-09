@@ -8,8 +8,9 @@
 
 #import "MWSSetupVariablesController.h"
 
-#import <Cocoa/Cocoa.h>
+#import <AppKit/NSScreen.h>
 
+#include <MWorksCore/ComponentRegistry.h>
 #include <MWorksCore/PlatformDependentServices.h>
 #include <MWorksCore/StandardVariables.h>
 #include <MWorksCore/XMLVariableWriter.h>
@@ -201,6 +202,11 @@ using mw::Datum;
 - (void)setAllowAltFailover:(BOOL)allowAltFailover {
     _allowAltFailover = allowAltFailover;
     [self updateVariable:mw::alt_failover value:bool(allowAltFailover)];
+}
+
+
+- (BOOL)highPrecisionClockAvailable {
+    return mw::ComponentRegistry::getSharedRegistry()->hasFactory("HighPrecisionClock");
 }
 
 

@@ -39,8 +39,7 @@
 @property(nonatomic) BOOL announceIndividualStimuli;
 @property(nonatomic) BOOL warnOnSkippedRefresh;
 @property(nonatomic) BOOL allowAltFailover;
+@property(nonatomic, readonly) BOOL highPrecisionClockAvailable;
 @property(nonatomic) BOOL useHighPrecisionClock;
-
-- (instancetype)init;
 
 @end
