@@ -56,6 +56,9 @@ void XMLVariableWriter::writeVariablesToFile(vector< shared_ptr<Variable> > vari
     
     string path_str = file.string();
     xmlSaveFormatFile(path_str.c_str(), doc, 1);
+    
+    xmlSetGenericErrorFunc(NULL, NULL);
+    xmlFreeParserCtxt(context);
 }
 
 

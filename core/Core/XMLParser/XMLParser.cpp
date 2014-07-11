@@ -109,6 +109,9 @@ XMLParser::~XMLParser() {
 	}
 	
 	if(context != NULL){
+        // Clear the global generic error context, since it currently holds a pointer to context and, thereby,
+        // this XMLParser instance, both of which are being deallocated
+        xmlSetGenericErrorFunc(NULL, NULL);
 		xmlFreeParserCtxt(context);
 	}
 }

@@ -188,6 +188,9 @@ Datum _getNumber(const string &expression, const GenericDataType type);
         }		
     }
     
+    xmlSetGenericErrorFunc(NULL, NULL);
+    xmlFreeParserCtxt(context);
+    
     NSXMLDocument *info_xml = [[[NSXMLDocument alloc] initWithData:[NSData dataWithContentsOfFile:message_file]
                                                            options:0
                                                              error:nil] autorelease];
