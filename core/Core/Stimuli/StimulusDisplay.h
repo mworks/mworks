@@ -121,6 +121,11 @@ BEGIN_NAMESPACE_MW
                                             void *_display);
 		
     public:
+        static void getDisplayBounds(const Datum &mainScreenInfo,
+                                     GLdouble &left,
+                                     GLdouble &right,
+                                     GLdouble &bottom,
+                                     GLdouble &top);
 		
 		StimulusDisplay(bool drawEveryFrame, bool announceIndividualStimuli);
 		~StimulusDisplay();

@@ -100,11 +100,12 @@ void StimulusDisplay::addStimulusNode(shared_ptr<StimulusNode> stimnode) {
 	display_stack->addToFront(stimnode);  // TODO
 }
 
-void StimulusDisplay::setDisplayBounds(){
-  shared_ptr<mw::ComponentRegistry> reg = mw::ComponentRegistry::getSharedRegistry();
-  shared_ptr<Variable> main_screen_info = reg->getVariable(MAIN_SCREEN_INFO_TAGNAME);
-  
- Datum display_info = *main_screen_info; // from standard variables
+void StimulusDisplay::getDisplayBounds(const Datum &display_info,
+                                       GLdouble &left,
+                                       GLdouble &right,
+                                       GLdouble &bottom,
+                                       GLdouble &top)
+{
 	if(display_info.getDataType() == M_DICTIONARY &&
 	   display_info.hasKey(M_DISPLAY_WIDTH_KEY) &&
 	   display_info.hasKey(M_DISPLAY_HEIGHT_KEY) &&
@@ -128,6 +129,14 @@ void StimulusDisplay::setDisplayBounds(){
 		top = M_STIMULUS_DISPLAY_TOP_EDGE;
 		bottom = M_STIMULUS_DISPLAY_BOTTOM_EDGE;
 	}
+}
+
+void StimulusDisplay::setDisplayBounds(){
+    shared_ptr<mw::ComponentRegistry> reg = mw::ComponentRegistry::getSharedRegistry();
+    shared_ptr<Variable> main_screen_info = reg->getVariable(MAIN_SCREEN_INFO_TAGNAME);
+    
+    Datum display_info = *main_screen_info; // from standard variables
+    getDisplayBounds(display_info, left, right, bottom, top);
 	
 	mprintf("Display bounds set to (%g left, %g right, %g top, %g bottom)",
 			left, right, top, bottom);
