@@ -712,7 +712,7 @@
                                             </connections>
                                         </textField>
                                         <button toolTip="Irrespective of this setting, stimulus announcements are included in #stimDisplayUpdate events." id="lft-Ks-oNf">
-                                            <rect key="frame" x="15" y="92" width="401" height="18"/>
+                                            <rect key="frame" x="15" y="92" width="404" height="18"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <buttonCell key="cell" type="check" title="Announce stimuli individually via #announceStimulus events" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="Df5-Ly-yHO">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -723,7 +723,7 @@
                                             </connections>
                                         </button>
                                         <button toolTip="Changes take effect immediately." id="8tg-3i-kl8">
-                                            <rect key="frame" x="15" y="72" width="384" height="18"/>
+                                            <rect key="frame" x="15" y="72" width="399" height="18"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <buttonCell key="cell" type="check" title="Warn if stimulus presentation skips a display refresh cycle" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="f5t-xE-cYk">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
