@@ -202,6 +202,7 @@ public:
 
 class CircularRegionTrigger : public AsynchronousTrigger {
 
+protected:
 	shared_ptr<Variable> centerx;
 	shared_ptr<Variable> centery;
 	shared_ptr<Variable> width;

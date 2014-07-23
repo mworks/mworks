@@ -231,9 +231,11 @@ CircularRegionTrigger::CircularRegionTrigger(shared_ptr<Variable> _centerx,
 
 	centerx = _centerx;
 	centery = _centery;
+    width = _width;
 	watchx = _watchx;
 	watchy = _watchy;
-	width = _width;
+    addVariable(watchx);
+    addVariable(watchy);
 }
 
 bool CircularRegionTrigger::evaluate(){
@@ -241,16 +243,23 @@ bool CircularRegionTrigger::evaluate(){
 	bool result;
 	
 	if(!active) return false;
+    
+	double watchx_val = (double)(watchx->getValue());
+	double watchy_val = (double)(watchy->getValue());
 	
-	if( (((double)*watchx - (double)*centerx) * 
-		((double)*watchx - (double)*centerx) + 
+	double centerx_val = (double)(centerx->getValue());
+	double centery_val = (double)(centery->getValue());
+    
+	double width_val = (double)(width->getValue());
+	
+	if( ((watchx_val - centerx_val) *
+		 (watchx_val - centerx_val) +
 		
-		((double)*watchy - (double)*centery) * 
-		((double)*watchy - (double)*watchy)) 
+		 (watchy_val - centery_val) *
+		 (watchy_val - centery_val))
 		
-		< ((double)*width * (double)*width / 4)){
-		
-		if(trigger_variable) (*trigger_variable) = true;
+		 < (width_val * width_val / 4.0) )
+    {
 		result = true;
 	} else {
 		result = false;
