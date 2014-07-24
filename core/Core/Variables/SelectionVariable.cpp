@@ -321,6 +321,8 @@ shared_ptr<mw::Component> SelectionVariableFactory::createObject(std::map<std::s
 	shared_ptr<Selection> selection;
 	if(to_lower_copy(parameters.find("selection")->second) == "sequential_ascending") {
 		selection = shared_ptr<SequentialSelection>(new SequentialSelection(numSamples, true, autoreset_behavior));
+    } else if(to_lower_copy(parameters.find("selection")->second) == "sequential") {
+        selection = shared_ptr<SequentialSelection>(new SequentialSelection(numSamples, true, autoreset_behavior));
 	} else if(to_lower_copy(parameters.find("selection")->second) == "sequential_descending") {
 		selection = shared_ptr<SequentialSelection>(new SequentialSelection(numSamples, false, autoreset_behavior));			
 	} else if(to_lower_copy(parameters.find("selection")->second) == "random_without_replacement") {

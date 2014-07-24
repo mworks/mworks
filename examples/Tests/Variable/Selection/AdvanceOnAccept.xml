@@ -2,9 +2,9 @@
 <monkeyml version="1.0">
     <io_devices tag="IO Devices"></io_devices>
     <variables tag="Variables">
-        <variable type="selection" tag="sel" values="1:5" selection="sequential_ascending" nsamples="1" sampling_method="cycles" advance_on_accept="YES" autoreset="NO"></variable>
-        <variable type="selection" tag="sel_wo_aoa" values="1:3" selection="sequential_ascending" nsamples="1" sampling_method="cycles" advance_on_accept="NO" autoreset="NO"></variable>
-        <variable type="selection" tag="sel_w_ar" values="1:3" selection="sequential_ascending" nsamples="1" sampling_method="cycles" advance_on_accept="YES" autoreset="YES"></variable>
+        <variable type="selection" tag="sel" values="1:5" selection="sequential" nsamples="1" sampling_method="cycles" advance_on_accept="YES" autoreset="NO"></variable>
+        <variable type="selection" tag="sel_wo_aoa" values="1:3" selection="sequential" nsamples="1" sampling_method="cycles" advance_on_accept="NO" autoreset="NO"></variable>
+        <variable type="selection" tag="sel_w_ar" values="1:3" selection="sequential" nsamples="1" sampling_method="cycles" advance_on_accept="YES" autoreset="YES"></variable>
     </variables>
     <sounds tag="Sounds"></sounds>
     <stimuli tag="Stimuli"></stimuli>
