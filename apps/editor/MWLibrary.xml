@@ -74,7 +74,17 @@
 	<MWElementGroup name="Input/Output">
 		<icon>smallIOFolder</icon>
 		<description>
-			IO Devices, calibrators, filters, etc.
+			I/O devices
+		</description>
+	</MWElementGroup>
+	
+	<!-- ******************************
+				Filters GROUP
+		******************************* -->
+	<MWElementGroup name="Filters">
+		<icon>smallIOFolder</icon>
+		<description>
+			Filters and calibrators
 		</description>
 	</MWElementGroup>
 	
@@ -386,7 +396,7 @@ A rectangle stimulus
 											x_position=""
 											y_position=""
 											rotation=""
-											alpha_multiplier=""/>/>
+											alpha_multiplier=""/>
 		</code>
 	</MWElement>
 
@@ -1715,14 +1725,13 @@ Wait until a condition becomes true or a timeout occurs.  If the wait times out 
 		<!-- none -->
 		
 		<!-- Placement rules -->
-		<allowed_parent>Calibrators</allowed_parent>
+		<allowed_parent>Filters</allowed_parent>
 		<allowed_parent>IODevices</allowed_parent>
         <allowed_parent>Folder</allowed_parent>
 		
 		<!-- Information for display in the GUI -->
 		<icon>fakeMonkey</icon>
-		<belongs_to_group>Input/Output</belongs_to_group>
-		<belongs_to_group>Calibrators</belongs_to_group>
+		<belongs_to_group>Filters</belongs_to_group>
 		<description>Base-level calibrator stub</description>
 		
 	</MWElement>
@@ -1797,7 +1806,6 @@ Wait until a condition becomes true or a timeout occurs.  If the wait times out 
 		
 		<!-- Information for display in the GUI -->
 		<icon>fakeMonkey</icon>
-		<belongs_to_group>Input/Output</belongs_to_group>
 		<belongs_to_group>Filters</belongs_to_group>
 		<description>Base-level filter stub</description>
 		
@@ -1821,7 +1829,7 @@ Wait until a condition becomes true or a timeout occurs.  If the wait times out 
 		
 		<!-- Payload -->
 		<code>
-			<filter type="boxcar_filter_1D" in1=""  out1="" width_samples=""/>
+			<filter type="boxcar_filter_1D" tag="Box-car Filter" in1=""  out1="" width_samples=""/>
 		</code>
 	</MWElement>
 	
@@ -1844,7 +1852,8 @@ Wait until a condition becomes true or a timeout occurs.  If the wait times out 
 		
 		<!-- Payload -->
 		<code>
-			<filter type="basic_eye_monitor" eyeh_calibrated=""
+			<filter type="basic_eye_monitor" tag="Basic Eye Monitor"
+				                             eyeh_calibrated=""
 											 eyev_calibrated=""
 											 eye_state=""
 											 width_samples=""
@@ -1874,7 +1883,8 @@ Wait until a condition becomes true or a timeout occurs.  If the wait times out 
 		
 		<!-- Payload -->
 		<code>
-			<filter type="basic_eye_monitor" eyeh_calibrated=""
+			<filter type="basic_eye_monitor" tag="Advanced Eye Monitor"
+				                             eyeh_calibrated=""
 											 eyev_calibrated=""
 											 eye_state=""
 											 width_samples=""
