@@ -1,0 +1,46 @@
+<?xml version="1.0" standalone="no"?>
+<monkeyml version="1.0">
+    <io_devices tag="IO Devices"></io_devices>
+    <variables tag="Variables">
+        <variable tag="Hit" scope="global" logging="when_changed" default_value="0" type="integer"></variable>
+        <variable tag="k" scope="global" logging="when_changed" default_value="0" type="integer">
+            <action type="report" tag="Report" message="Hit = $Hit, k = $k"></action>
+        </variable>
+        <variable tag="k_min" scope="global" logging="when_changed" default_value="0" type="integer"></variable>
+        <variable tag="k_max" scope="global" logging="when_changed" default_value="3" type="integer"></variable>
+    </variables>
+    <sounds tag="Sounds"></sounds>
+    <stimuli tag="Stimuli"></stimuli>
+    <filters tag="Filters"></filters>
+    <optimizers tag="Optimizers">
+        <staircase type="simple" tag="New Staircase Optimizer" watch="Hit" output="k" lower_limit="k_min" upper_limit="k_max" up_criterion="1" down_criterion="1" step_size="1" grace_period="1" history="1"></staircase>
+    </optimizers>
+    <experiment tag="New Experiment" full_name="" description="">
+        <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
+            <action type="assignment" tag="Assign Variable" variable="Hit" value="1"></action>
+            <action type="assert" tag="Assert" condition="k == 1" message="" stop_on_failure="0"></action>
+            <action type="wait" tag="Wait" duration="1" duration_units="s"></action>
+            <action type="assignment" tag="Assign Variable" variable="Hit" value="1"></action>
+            <action type="assert" tag="Assert" condition="k == 2" message="" stop_on_failure="0"></action>
+            <action type="wait" tag="Wait" duration="1" duration_units="s"></action>
+            <action type="assignment" tag="Assign Variable" variable="Hit" value="1"></action>
+            <action type="assert" tag="Assert" condition="k == 3" message="" stop_on_failure="0"></action>
+            <action type="wait" tag="Wait" duration="1" duration_units="s"></action>
+            <action type="assignment" tag="Assign Variable" variable="Hit" value="1"></action>
+            <action type="assert" tag="Assert" condition="k == 3" message="" stop_on_failure="0"></action>
+            <action type="wait" tag="Wait" duration="1" duration_units="s"></action>
+            <action type="assignment" tag="Assign Variable" variable="Hit" value="0"></action>
+            <action type="assert" tag="Assert" condition="k == 2" message="" stop_on_failure="0"></action>
+            <action type="wait" tag="Wait" duration="1" duration_units="s"></action>
+            <action type="assignment" tag="Assign Variable" variable="Hit" value="0"></action>
+            <action type="assert" tag="Assert" condition="k == 1" message="" stop_on_failure="0"></action>
+            <action type="wait" tag="Wait" duration="1" duration_units="s"></action>
+            <action type="assignment" tag="Assign Variable" variable="Hit" value="0"></action>
+            <action type="assert" tag="Assert" condition="k == 0" message="" stop_on_failure="0"></action>
+            <action type="wait" tag="Wait" duration="1" duration_units="s"></action>
+            <action type="assignment" tag="Assign Variable" variable="Hit" value="0"></action>
+            <action type="assert" tag="Assert" condition="k == 0" message="" stop_on_failure="0"></action>
+            <action type="wait" tag="Wait" duration="1" duration_units="s"></action>
+        </protocol>
+    </experiment>
+</monkeyml>
