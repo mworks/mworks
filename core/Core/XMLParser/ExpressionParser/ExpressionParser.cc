@@ -1816,6 +1816,20 @@ namespace stx MW_SYMBOL_PUBLIC {
 		return AnyScalar( boost::math::round(paramlist[0].getDouble()) );
 	}
 	
+	AnyScalar BasicSymbolTable::funcMIN(const paramlist_type &paramlist)
+	{
+        auto &first = paramlist[0];
+        auto &second = paramlist[1];
+        return (first.less(second) ? first : second);
+	}
+	
+	AnyScalar BasicSymbolTable::funcMAX(const paramlist_type &paramlist)
+	{
+        auto &first = paramlist[0];
+        auto &second = paramlist[1];
+        return (first.greater(second) ? first : second);
+	}
+	
 	static boost::mt19937 rng;
 	static bool seeded;
 	static void seed_rng(){
@@ -2001,6 +2015,9 @@ namespace stx MW_SYMBOL_PUBLIC {
 		setFunction("CEIL", 1, funcCEIL);
 		setFunction("FLOOR", 1, funcFLOOR);
 		setFunction("ROUND", 1, funcROUND);
+
+		setFunction("MIN", 2, funcMIN);
+		setFunction("MAX", 2, funcMAX);
 		
 		setFunction("RAND", 0, funcUNIFORM_RAND);
 		setFunction("RAND", 2, funcUNIFORM_RAND);

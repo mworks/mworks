@@ -254,6 +254,9 @@ protected:
     /// Return the value of round(x) as a double AnyScalar
     static AnyScalar	funcROUND(const paramlist_type& paramlist);
 
+    static AnyScalar	funcMIN(const paramlist_type& paramlist);
+    static AnyScalar	funcMAX(const paramlist_type& paramlist);
+
     static AnyScalar	funcUNIFORM_RAND(const paramlist_type& paramlist);
     static AnyScalar	funcDISC_UNIFORM_RAND(const paramlist_type& paramlist);
 	static AnyScalar	funcGEOM_RAND(const paramlist_type& paramlist);

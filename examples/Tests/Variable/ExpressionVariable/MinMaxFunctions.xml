@@ -1,0 +1,19 @@
+<?xml version="1.0" standalone="no"?>
+<monkeyml version="1.0">
+    <io_devices tag="IO Devices"></io_devices>
+    <variables tag="Variables"></variables>
+    <sounds tag="Sounds"></sounds>
+    <stimuli tag="Stimuli"></stimuli>
+    <filters tag="Filters"></filters>
+    <optimizers tag="Optimizers"></optimizers>
+    <experiment tag="New Experiment" full_name="" description="">
+        <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
+            <action type="assert" tag="Assert" condition="min(1, 2) == 1" message="" stop_on_failure="0"></action>
+            <action type="assert" tag="Assert" condition="min(2, 1) == 1" message="" stop_on_failure="0"></action>
+            <action type="assert" tag="Assert" condition="min(1, 1) == 1" message="" stop_on_failure="0"></action>
+            <action type="assert" tag="Assert" condition="max(1, 2) == 2" message="" stop_on_failure="0"></action>
+            <action type="assert" tag="Assert" condition="max(2, 1) == 2" message="" stop_on_failure="0"></action>
+            <action type="assert" tag="Assert" condition="max(2, 2) == 2" message="" stop_on_failure="0"></action>
+        </protocol>
+    </experiment>
+</monkeyml>
