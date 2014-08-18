@@ -184,7 +184,7 @@ def run_configure_and_make(
 
 @builder
 def boost():
-    version = '1.55.0'
+    version = '1.56.0'
     srcdir = 'boost_' + version.replace('.', '_')
     tarfile = srcdir + '.tar.bz2'
 
@@ -192,9 +192,6 @@ def boost():
     unpack_tarfile(tarfile, srcdir)
 
     with workdir(srcdir):
-        apply_patch('boost_1_55_clang_3_4_build.patch', 2)
-        apply_patch('boost_type_traits.patch', 2)
-        
         os.symlink('boost', 'mworks_boost')
         
         check_call([
@@ -216,11 +213,8 @@ def boost():
             'runtime-debugging=off',
             'link=static',
             'threading=multi',
-            'cflags=' + join_flags(
-                compile_flags,
-                cflags,
-                '-Dboost=mworks_boost',
-                ),
+            'define=boost=mworks_boost',
+            'cflags=' + compile_flags,
             'cxxflags=' + cxxflags,
             'linkflags=' + link_flags,
             'install',

@@ -23,7 +23,10 @@
 #include <boost/serialization/list.hpp>
 #include <boost/serialization/string.hpp>
 #include <boost/serialization/version.hpp>
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdivision-by-zero"
 #include <boost/archive/binary_oarchive.hpp>
+#pragma clang diagnostic pop
 #include <boost/archive/binary_iarchive.hpp>
 #include <boost/archive/basic_binary_oprimitive.hpp>
 #include <boost/archive/basic_binary_iprimitive.hpp>
