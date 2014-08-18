@@ -92,6 +92,9 @@ def xcodebuild(scheme='Everything'):
            'build',
            ]
 
+    if treat_warnings_as_errors:
+        cmd.append('GCC_TREAT_WARNINGS_AS_ERRORS=YES')
+
     if mw_version[0] in string.digits:
         # Use version number only if it starts with a digit.  This
         # will exclude fake versions like "NIGHTLY" and "CUSTOM".
@@ -238,7 +241,7 @@ def xcode_templates():
 
 
 def main():
-    global mw_version
+    global mw_version, treat_warnings_as_errors
 
     parser = OptionParser(usage='Usage: %prog [options] [builder_name ...]')
     parser.add_option('--mw-version',
@@ -249,9 +252,14 @@ def main():
                       dest = 'first_builder',
                       metavar = 'BUILDER_NAME',
                       help = 'Start build from given builder')
+    parser.add_option('--treat-warnings-as-errors',
+                      action = 'store_true',
+                      dest = 'treat_warnings_as_errors',
+                      help = 'Treat compiler warnings as errors')
 
     (options, requested_builders) = parser.parse_args()
     mw_version = options.mw_version
+    treat_warnings_as_errors = options.treat_warnings_as_errors
 
     all_builder_names = [builder.__name__ for builder in all_builders]
 
