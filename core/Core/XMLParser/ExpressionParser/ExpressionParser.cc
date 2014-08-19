@@ -40,10 +40,7 @@
 #ifdef seed
 #undef seed
 #endif
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-register"
 #include <boost/random.hpp>
-#pragma clang diagnostic pop
 
 #include <boost/math/special_functions/round.hpp>
 #include <boost/format.hpp>

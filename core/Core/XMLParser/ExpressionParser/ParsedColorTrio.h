@@ -12,10 +12,7 @@
 
 #include <string>
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-register"
 #include <boost/regex.hpp>
-#pragma clang diagnostic pop
 
 #include "ComponentRegistry.h"
 #include "GenericVariable.h"

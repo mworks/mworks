@@ -38,10 +38,7 @@
 #include "boost/algorithm/string.hpp"
 #include "boost/filesystem/path.hpp"
 #include <map>
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-register"
 #include <boost/regex.hpp>
-#pragma clang diagnostic pop
 #include <boost/unordered_map.hpp>
 
 
