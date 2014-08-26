@@ -43,7 +43,8 @@ BEGIN_NAMESPACE_MW
 	shared_ptr<Variable> debuggerStep;
 	
 	shared_ptr<Variable> experimentLoadProgress;
-    
+    shared_ptr<Variable> loadedExperiment;
+
     shared_ptr<Variable> alt_failover;
 
 	
@@ -111,6 +112,16 @@ BEGIN_NAMESPACE_MW
 																						M_WHEN_CHANGED,M_WHEN_CHANGED, true, false, 
 																						M_CONTINUOUS_FINITE,
 																						PRIVATE_SYSTEM_VARIABLES));
+		
+		
+		loadedExperiment = registry->createGlobalVariable(
+                                                          new VariableProperties(
+                                                                                 new Datum(""),
+                                                                                 LOADED_EXPERIMENT_TAGNAME,
+                                                                                 "Source code of current experiment",
+                                                                                 "The complete XML description of the currently-loaded experiment",
+                                                                                 M_WHEN_CHANGED, M_WHEN_CHANGED,
+                                                                                 true, false, M_STRUCTURED, PRIVATE_SYSTEM_VARIABLES));
 		
 		
 		// any stimulus object will announce it appearance and disappearance through this variable

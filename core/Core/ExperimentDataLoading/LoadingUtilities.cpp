@@ -133,11 +133,16 @@ BEGIN_NAMESPACE_MW
 		}
 				
 		shared_ptr<ComponentRegistry> reg = ComponentRegistry::getSharedRegistry();
+        std::vector<xmlChar> fileData;
 		
 		try {
 			XMLParser parser(reg, filepath.string());
 			
 			parser.parse(true);
+            
+            // Use getDocumentData to get the experiment file with any preprocessing and/or
+            // XInclude substitutions already applied
+            parser.getDocumentData(fileData);
 			
 		} catch(SimpleException& e){
             // This is the "main" catch block for parsing
@@ -159,6 +164,10 @@ BEGIN_NAMESPACE_MW
 			global_outgoing_event_buffer->putEvent(SystemEventFactory::currentExperimentState());
 			return false;
 		}
+        
+        // Store the XML source of the experiment in #loadedExperiment, so that it will be
+        // recorded in the event stream
+        loadedExperiment->setValue(reinterpret_cast<char *>(fileData.data()), fileData.size());
 		
 		global_outgoing_event_buffer->putEvent(SystemEventFactory::componentCodecPackage());
 		global_outgoing_event_buffer->putEvent(SystemEventFactory::codecPackage());

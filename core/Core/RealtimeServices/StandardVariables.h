@@ -140,6 +140,9 @@ extern shared_ptr<Variable> serverName;
 #define EXPERIMENT_LOAD_PROGRESS_TAGNAME	"#experimentLoadProgress"
 extern shared_ptr<Variable> experimentLoadProgress;
 
+#define LOADED_EXPERIMENT_TAGNAME  "#loadedExperiment"
+extern shared_ptr<Variable> loadedExperiment;
+
 /*        sampleSource,
         spikeSource,
         leverSource,
