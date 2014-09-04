@@ -12,9 +12,11 @@ A simple movie stimulus that gets its frames from the specified stimulus group a
             <stimulus type="frame_list"
                       tag="New Frame List"
                       stimulus_group="" 
+                      ending=""
                       ended=""
-                      loop="0"
-                      autoplay="0" />
+                      loop="NO"
+                      repeats="0"
+                      autoplay="NO" />
         </code>
     </MWElement>
     <MWElement name="Movie Stimulus">
@@ -31,9 +33,11 @@ A movie stimulus
                       tag="New Movie"
                       stimulus_group="" 
                       frames_per_second="10"
+                      ending=""
                       ended=""
-                      loop="0"
-                      autoplay="0" />
+                      loop="NO"
+                      repeats="0"
+                      autoplay="NO" />
         </code>
     </MWElement>
     <MWElement name="Image Directory Movie Stimulus">
@@ -57,9 +61,11 @@ A movie stimulus that gets its frames from a directory of image files
                       alpha_multiplier="1.0"
                       deferred="no"
                       frames_per_second="10"
+                      ending=""
                       ended=""
-                      loop="0"
-                      autoplay="0" />
+                      loop="NO"
+                      repeats="0"
+                      autoplay="NO" />
         </code>
     </MWElement>
 </MWElements>

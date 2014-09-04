@@ -16,8 +16,10 @@ BEGIN_NAMESPACE_MW
 class BaseFrameListStimulus : public StandardDynamicStimulus {
     
 public:
+    static const std::string ENDING;
     static const std::string ENDED;
     static const std::string LOOP;
+    static const std::string REPEATS;
     
     static void describeComponent(ComponentInfo &info);
     
@@ -42,8 +44,10 @@ protected:
     virtual shared_ptr<Stimulus> getStimulusForFrame(int frameNumber) = 0;
     
 private:
+    shared_ptr<Variable> ending;
     shared_ptr<Variable> ended;
     shared_ptr<Variable> loop;
+    shared_ptr<Variable> repeats;
     
     int lastFrameDrawn;
     

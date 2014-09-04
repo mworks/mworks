@@ -12,21 +12,29 @@
 BEGIN_NAMESPACE_MW
 
 
+const std::string BaseFrameListStimulus::ENDING("ending");
 const std::string BaseFrameListStimulus::ENDED("ended");
 const std::string BaseFrameListStimulus::LOOP("loop");
+const std::string BaseFrameListStimulus::REPEATS("repeats");
 
 
 void BaseFrameListStimulus::describeComponent(ComponentInfo &info) {
     StandardDynamicStimulus::describeComponent(info);
+    info.addParameter(ENDING, false);
     info.addParameter(ENDED, false);
-    info.addParameter(LOOP, "0");
+    info.addParameter(LOOP, "NO");
+    info.addParameter(REPEATS, "0");
 }
 
 
 BaseFrameListStimulus::BaseFrameListStimulus(const ParameterValueMap &parameters) :
     StandardDynamicStimulus(parameters),
-    loop(registerVariable(parameters[LOOP]))
+    loop(registerVariable(parameters[LOOP])),
+    repeats(registerVariable(parameters[REPEATS]))
 {
+    if (!(parameters[ENDING].empty())) {
+        ending = VariablePtr(parameters[ENDING]);
+    }
     if (!(parameters[ENDED].empty())) {
         ended = VariablePtr(parameters[ENDED]);
     }
@@ -99,7 +107,22 @@ int BaseFrameListStimulus::getFrameNumber() {
     const int numFrames = getNumFrames();
     
     if (bool(loop->getValue())) {
+        // We're looping, so just return the wrapped frame number, never triggering ending or ended
+        return frameNumber % numFrames;
+    }
+    
+    const int numRepeats = int(repeats->getValue());
+    if ((numRepeats > 0) && (frameNumber < numFrames * numRepeats)) {
+        if (frameNumber < numFrames * (numRepeats - 1)) {
+            // We aren't yet in the last repetition cycle, so just return the wrapped frame number, without
+            // (potentially) triggering ending or ended
+            return frameNumber % numFrames;
+        }
         frameNumber %= numFrames;
+    }
+    
+    if ((frameNumber == numFrames - 1) && (ending != NULL) && (ending->getValue().getInteger() == 0)) {
+        ending->setValue(true);
     } else if ((frameNumber >= numFrames) && (ended != NULL) && (ended->getValue().getInteger() == 0)) {
         ended->setValue(true);
     }
