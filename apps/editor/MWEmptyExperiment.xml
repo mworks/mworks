@@ -1,6 +1,6 @@
 <monkeyml version="1.0">
     <io_devices>
-        <iodevice type="stimulus_display" tag="Stimulus Display" background_color="0, 0, 0"/>
+        <iodevice type="stimulus_display" tag="Stimulus Display" background_color="0, 0, 0" announce_stimuli_on_implicit_updates="YES"/>
     </io_devices>
     <variables/>
     <sounds/>

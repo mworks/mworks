@@ -35,6 +35,7 @@ StimulusDisplay::StimulusDisplay(bool drawEveryFrame, bool announceIndividualSti
     mainDisplayRefreshRate(0.0),
     currentOutputTimeUS(-1),
     announceIndividualStimuli(announceIndividualStimuli),
+    announceStimuliOnImplicitUpdates(true),
     drawEveryFrame(drawEveryFrame)
 {
     // defer creation of the display chain until after the stimulus display has been created
@@ -153,6 +154,10 @@ void StimulusDisplay::setBackgroundColor(GLclampf red, GLclampf green, GLclampf 
     backgroundRed = red;
     backgroundGreen = green;
     backgroundBlue = blue;
+}
+
+void StimulusDisplay::setAnnounceStimuliOnImplicitUpdates(bool announceStimuliOnImplicitUpdates) {
+    this->announceStimuliOnImplicitUpdates = announceStimuliOnImplicitUpdates;
 }
 
 void StimulusDisplay::setMainDisplayRefreshRate() {
@@ -370,6 +375,8 @@ void StimulusDisplay::refreshDisplay() {
     // Determine whether we need to draw
     //
     
+    const bool updateIsExplicit = needDraw;
+    
     if (!needDraw) {
         shared_ptr<StimulusNode> node = display_stack->getFrontmost();
         while (node) {
@@ -412,7 +419,7 @@ void StimulusDisplay::refreshDisplay() {
             // Main display
             opengl_context_manager->flush(i);
             if (needDraw) {
-                announceDisplayUpdate();
+                announceDisplayUpdate(updateIsExplicit);
             }
         }
     }
@@ -542,15 +549,15 @@ void StimulusDisplay::ensureRefresh(unique_lock &lock) {
 }
 
 
-void StimulusDisplay::announceDisplayUpdate() {
+void StimulusDisplay::announceDisplayUpdate(bool updateIsExplicit) {
     MWTime now = getCurrentOutputTimeUS();
     if (-1 == now) {
         now = clock->getCurrentTimeUS();
     }
     
-    stimDisplayUpdate->setValue(getAnnounceData(), now);
+    stimDisplayUpdate->setValue(getAnnounceData(updateIsExplicit), now);
     
-    if (announceIndividualStimuli) {
+    if (announceIndividualStimuli && shouldAnnounceStimuli(updateIsExplicit)) {
         announceDisplayStack(now);
     }
 
@@ -566,11 +573,19 @@ void StimulusDisplay::announceDisplayStack(MWTime time) {
 }
 
 
-Datum StimulusDisplay::getAnnounceData() {
-    Datum stimAnnounce(M_LIST, 1);
-    for (size_t i = 0; i < stimAnnouncements.size(); i++) {
-        stimAnnounce.addElement(stimAnnouncements[i]);
+Datum StimulusDisplay::getAnnounceData(bool updateIsExplicit) {
+    Datum stimAnnounce;
+    
+    if (!shouldAnnounceStimuli(updateIsExplicit)) {
+        // No stim announcements, so just report the number of stimuli drawn
+        stimAnnounce = Datum(long(stimAnnouncements.size()));
+    } else {
+        stimAnnounce = Datum(M_LIST, int(stimAnnouncements.size()));
+        for (size_t i = 0; i < stimAnnouncements.size(); i++) {
+            stimAnnounce.addElement(stimAnnouncements[i]);
+        }
     }
+    
 	return stimAnnounce;
 }
 

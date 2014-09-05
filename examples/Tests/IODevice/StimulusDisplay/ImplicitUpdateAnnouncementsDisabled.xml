@@ -1,0 +1,45 @@
+<?xml version="1.0" standalone="no"?>
+<monkeyml version="1.0">
+    <io_devices tag="IO Devices">
+        <iodevice type="stimulus_display" tag="display" background_color="0.5, 0.5, 0.5" announce_stimuli_on_implicit_updates="NO"></iodevice>
+    </io_devices>
+    <variables tag="Variables">
+        <variable tag="x_size" scope="global" logging="when_changed" default_value="10.0" type="float"></variable>
+        <variable tag="y_size" scope="global" logging="when_changed" default_value="5.0" type="float"></variable>
+        <variable tag="x_pos" scope="global" logging="when_changed" default_value="0.0" type="float"></variable>
+        <variable tag="y_pos" scope="global" logging="when_changed" default_value="0.0" type="float"></variable>
+        <variable tag="ending" scope="global" logging="when_changed" default_value="0" type="integer"></variable>
+    </variables>
+    <sounds tag="Sounds"></sounds>
+    <stimuli tag="Stimuli">
+        <stimulus_group tag="frames">
+            <stimulus type="rectangle" tag="red" color="1,0,0" x_size="x_size" y_size="y_size" x_position="x_pos" y_position="y_pos" rotation="0" alpha_multiplier="1"></stimulus>
+            <stimulus type="rectangle" tag="green" color="0,1,0" x_size="x_size" y_size="y_size" x_position="x_pos" y_position="y_pos" rotation="0" alpha_multiplier="1"></stimulus>
+            <stimulus type="rectangle" tag="blue" color="0,0,1" x_size="x_size" y_size="y_size" x_position="x_pos" y_position="y_pos" rotation="0" alpha_multiplier="1"></stimulus>
+        </stimulus_group>
+        <stimulus type="frame_list" tag="movie" stimulus_group="frames" ending="ending" ended="" loop="NO" repeats="2" autoplay="YES"></stimulus>
+    </stimuli>
+    <filters tag="Filters"></filters>
+    <optimizers tag="Optimizers"></optimizers>
+    <experiment tag="New Experiment" full_name="" description="">
+        <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
+            <task_system tag="New Task System" interruptible="YES">
+                <task_system_state tag="Begin State System" interruptible="YES">
+                    <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                    <action type="assignment" tag="Reset ending" variable="ending" value="0"></action>
+                    <action tag="Queue movie" type="queue_stimulus" stimulus="movie"></action>
+                    <action tag="Update display" type="update_stimulus_display"></action>
+                    <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                    <transition type="conditional" tag="If Condition is True, Transition to ..." condition="ending" target="Exit State System"></transition>
+                </task_system_state>
+                <task_system_state tag="Exit State System" interruptible="YES">
+                    <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                    <action tag="Dequeue movie" type="dequeue_stimulus" stimulus="movie"></action>
+                    <action tag="Update display" type="update_stimulus_display"></action>
+                    <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                    <transition tag="Return to parent task system" type="yield"></transition>
+                </task_system_state>
+            </task_system>
+        </protocol>
+    </experiment>
+</monkeyml>

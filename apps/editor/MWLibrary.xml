@@ -1709,7 +1709,11 @@ Wait until a condition becomes true or a timeout occurs.  If the wait times out 
 		
 		<!-- Payload -->
 		<code>
-			<iodevice type="stimulus_display" tag="Stimulus Display" background_color="0, 0, 0"/>
+			<iodevice type="stimulus_display"
+                      tag="Stimulus Display"
+                      background_color="0, 0, 0"
+                      announce_stimuli_on_implicit_updates="YES"
+                      />
 		</code>
 	</MWElement>
 

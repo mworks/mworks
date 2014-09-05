@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<marionette_info>
+  <expected_events>
+
+    <event variable="#stimDisplayUpdate">
+      <value>
+        <list></list>
+      </value>
+    </event>
+
+    <event variable="#stimDisplayUpdate">
+      <value type="integer">1</value>
+    </event>
+
+    <event variable="#stimDisplayUpdate">
+      <value type="integer">1</value>
+    </event>
+
+    <event variable="#stimDisplayUpdate">
+      <value type="integer">1</value>
+    </event>
+
+    <event variable="#stimDisplayUpdate">
+      <value type="integer">1</value>
+    </event>
+
+    <event variable="#stimDisplayUpdate">
+      <value type="integer">1</value>
+    </event>
+
+    <event variable="#stimDisplayUpdate">
+      <value>
+        <list></list>
+      </value>
+    </event>
+
+  </expected_events>
+</marionette_info>

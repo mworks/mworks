@@ -89,6 +89,7 @@ BEGIN_NAMESPACE_MW
         MWTime currentOutputTimeUS;
         
         const bool announceIndividualStimuli;
+        bool announceStimuliOnImplicitUpdates;
         std::vector< shared_ptr<StimulusNode> > stimsToAnnounce;
         std::vector<Datum> stimAnnouncements;
         
@@ -108,9 +109,10 @@ BEGIN_NAMESPACE_MW
         void drawDisplayStack(bool doStimAnnouncements);
         void ensureRefresh(unique_lock &lock);
 
-        void announceDisplayUpdate();
+        void announceDisplayUpdate(bool updateIsExplicit);
         void announceDisplayStack(MWTime time);
-        Datum getAnnounceData();
+        Datum getAnnounceData(bool updateIsExplicit);
+        bool shouldAnnounceStimuli(bool updateIsExplicit) { return updateIsExplicit || announceStimuliOnImplicitUpdates; }
 
         void stateSystemCallback(const Datum &data, MWorksTime time);
         static CVReturn displayLinkCallback(CVDisplayLinkRef displayLink,
@@ -141,6 +143,7 @@ BEGIN_NAMESPACE_MW
 		void addStimulusNode(shared_ptr<StimulusNode> stimnode);
 		
         void setBackgroundColor(GLclampf red, GLclampf green, GLclampf blue);
+        void setAnnounceStimuliOnImplicitUpdates(bool announceStimuliOnImplicitUpdates);
 		void updateDisplay();
 		void clearDisplay();
         void getDisplayBounds(GLdouble &left, GLdouble &right, GLdouble &bottom, GLdouble &top);
