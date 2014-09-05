@@ -25,7 +25,8 @@ void FrameListStimulus::describeComponent(ComponentInfo &info) {
 FrameListStimulus::FrameListStimulus(const ParameterValueMap &parameters) :
     BaseFrameListStimulus(parameters),
     stimulusGroup(parameters[STIMULUS_GROUP]),
-    currentFrameTime(-1)
+    currentFrameTime(-1),
+    currentNominalFrameNumber(-1)
 { }
 
 
@@ -42,6 +43,7 @@ Datum FrameListStimulus::getCurrentAnnounceDrawData() {
 
 void FrameListStimulus::startPlaying() {
     currentFrameTime = -1;
+    currentNominalFrameNumber = -1;
     BaseFrameListStimulus::startPlaying();
 }
 
@@ -50,9 +52,9 @@ int FrameListStimulus::getNominalFrameNumber() {
     MWTime elapsedTime = getElapsedTime();
     if (elapsedTime != currentFrameTime) {
         currentFrameTime = elapsedTime;
-        return getLastFrameDrawn() + 1;
+        currentNominalFrameNumber++;
     }
-    return getLastFrameDrawn();
+    return currentNominalFrameNumber;
 }
 
 

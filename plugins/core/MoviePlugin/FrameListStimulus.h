@@ -43,6 +43,7 @@ private:
     shared_ptr<StimulusGroup> stimulusGroup;
     
     MWTime currentFrameTime;
+    int currentNominalFrameNumber;
     
 };
 
