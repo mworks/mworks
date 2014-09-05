@@ -167,7 +167,7 @@ BEGIN_NAMESPACE_MW
         
         // Store the XML source of the experiment in #loadedExperiment, so that it will be
         // recorded in the event stream
-        loadedExperiment->setValue(reinterpret_cast<char *>(fileData.data()), fileData.size());
+        loadedExperiment->setValue(Datum(reinterpret_cast<char *>(fileData.data()), fileData.size()));
 		
 		global_outgoing_event_buffer->putEvent(SystemEventFactory::componentCodecPackage());
 		global_outgoing_event_buffer->putEvent(SystemEventFactory::codecPackage());

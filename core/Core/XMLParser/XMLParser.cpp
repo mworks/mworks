@@ -235,8 +235,9 @@ void XMLParser::getDocumentData(std::vector<xmlChar> &data) {
     int size;
     xmlDocDumpMemory(xml_doc, &mem, &size);
     
-    data.resize(size);
-    std::copy(mem, mem+size, data.begin());
+    // mem is NUL-terminated, but the terminator is not included in size
+    data.resize(size+1);
+    std::copy_n(mem, data.size(), data.begin());
     
     xmlFree(mem);
 }
