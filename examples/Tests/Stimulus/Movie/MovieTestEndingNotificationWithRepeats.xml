@@ -11,7 +11,7 @@
         <variable tag="expected_duration" scope="global" logging="when_changed" default_value="(double)(num_frames * repeats - 1) / (double)frames_per_second" type="float"></variable>
         <variable tag="actual_duration" scope="global" logging="when_changed" default_value="0" type="float"></variable>
         <variable tag="slop" scope="global" logging="when_changed" default_value="0" type="float"></variable>
-        <variable tag="tolerance" scope="global" logging="when_changed" default_value="1.0 / (double)(refreshRate())" type="float"></variable>
+        <variable tag="tolerance" scope="global" logging="when_changed" default_value="1.5 / (double)(refreshRate())" type="float"></variable>
         <variable tag="index" scope="local" logging="when_changed" default_value="0" type="integer"></variable>
     </variables>
     <sounds tag="Sounds"></sounds>
@@ -35,7 +35,7 @@
                     <action tag="Update stimulus display" type="update_stimulus_display"></action>
                     <action tag="Start movie" stimulus="movie" type="play_dynamic_stimulus"></action>
                     <action type="assignment" tag="Record start time" variable="start_time" value="now()"></action>
-                    <action type="start_timer" tag="Start Timer" timer="MyTimer" timebase="" duration="2*expected_duration" duration_units="s"></action>
+                    <action type="start_timer" tag="Start Timer" timer="MyTimer" timebase="" duration="10*expected_duration" duration_units="s"></action>
                     <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
                     <transition type="conditional" tag="If Condition is True, Transition to ..." condition="movie_ending" target="Exit State System"></transition>
                     <transition type="timer_expired" tag="If Timer Expired, Transition to ..." target="Timeout" timer="MyTimer"></transition>

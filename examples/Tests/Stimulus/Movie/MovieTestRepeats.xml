@@ -11,7 +11,7 @@
         <variable tag="expected_duration" scope="global" logging="when_changed" default_value="(double)(num_frames * repeats) / (double)frames_per_second" type="float"></variable>
         <variable tag="actual_duration" scope="global" logging="when_changed" default_value="0" type="float"></variable>
         <variable tag="slop" scope="global" logging="when_changed" default_value="0" type="float"></variable>
-        <variable tag="tolerance" scope="global" logging="when_changed" default_value="1.0 / (double)(refreshRate())" type="float"></variable>
+        <variable tag="tolerance" scope="global" logging="when_changed" default_value="1.5 / (double)(refreshRate())" type="float"></variable>
         <variable tag="index" scope="local" logging="when_changed" default_value="0" type="integer"></variable>
     </variables>
     <sounds tag="Sounds"></sounds>
