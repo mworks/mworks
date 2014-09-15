@@ -20,7 +20,6 @@ const std::string BaseFrameListStimulus::REPEATS("repeats");
 
 void BaseFrameListStimulus::describeComponent(ComponentInfo &info) {
     StandardDynamicStimulus::describeComponent(info);
-    info.addParameter(ENDING, false);
     info.addParameter(ENDED, false);
     info.addParameter(LOOP, "NO");
     info.addParameter(REPEATS, "0");

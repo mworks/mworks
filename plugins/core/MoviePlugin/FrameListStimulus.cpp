@@ -18,6 +18,7 @@ const std::string FrameListStimulus::STIMULUS_GROUP("stimulus_group");
 void FrameListStimulus::describeComponent(ComponentInfo &info) {
     BaseFrameListStimulus::describeComponent(info);
     info.setSignature("stimulus/frame_list");
+    info.addParameter(ENDING, false);
     info.addParameter(STIMULUS_GROUP);
 }
 
