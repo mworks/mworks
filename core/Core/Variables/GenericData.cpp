@@ -39,7 +39,7 @@ Datum::Datum() {
 }
 
 
-Datum::Datum(GenericDataType type, const int arg) {
+Datum::Datum(GenericDataType type, int arg) {
   
   initScarabDatum();
 
@@ -70,7 +70,7 @@ Datum::Datum(GenericDataType type, const int arg) {
   }
 }
 
-Datum::Datum(GenericDataType type, const double arg) {
+Datum::Datum(GenericDataType type, double arg) {
   
   
   initScarabDatum();
@@ -102,27 +102,27 @@ Datum::Datum(GenericDataType type, const double arg) {
   }
 }
 
-Datum::Datum(const double newdata) {
+Datum::Datum(double newdata) {
   initScarabDatum();
   setDataType(M_FLOAT);
   setFloat(newdata);
 }
 
 
-Datum::Datum(const float newdata) {
+Datum::Datum(float newdata) {
   initScarabDatum();
   setDataType(M_FLOAT);
   setFloat(newdata);
 }
 
 
-Datum::Datum(const long newdata){
+Datum::Datum(long newdata){
   initScarabDatum();
   setDataType(M_INTEGER);
   setInteger(newdata);
 }
 
-Datum::Datum(const long long newdata){
+Datum::Datum(long long newdata){
   initScarabDatum();
   setDataType(M_INTEGER);
   setInteger(newdata);
@@ -143,7 +143,7 @@ Datum::Datum(const std::string &string){
   setString(string);
 }
 
-Datum::Datum(const bool newdata) {
+Datum::Datum(bool newdata) {
   initScarabDatum();
   setDataType(M_BOOLEAN);
   setBool(newdata);
@@ -254,7 +254,7 @@ Datum::Datum(ScarabDatum * datum) {
   data = scarab_copy_datum(datum);
 }
 
-Datum::Datum(stx::AnyScalar newdata){
+Datum::Datum(const stx::AnyScalar &newdata){
 	initScarabDatum();
 	
 	operator=(newdata);	
@@ -282,7 +282,7 @@ GenericDataType Datum::getDataType() const {
   return datatype;
 }
 
-void Datum::setDataType(const GenericDataType type){
+void Datum::setDataType(GenericDataType type){
   datatype = type;
 }
 
@@ -1073,7 +1073,7 @@ Datum Datum::operator<=(const Datum& other)  const{
   return returnval;
 }
 
-Datum Datum::operator[](int i) {
+Datum Datum::operator[](int i) const {
   if(getDataType() != M_LIST) {
     fprintf(stderr, "mData is not of type M_LIST -- Type => %d\n", getDataType());
 
@@ -1084,7 +1084,7 @@ Datum Datum::operator[](int i) {
   return getElement(i);
 }
 
-void Datum::printToSTDERR() {
+void Datum::printToSTDERR() const {
 	fprintf(stderr, "Datatype => %d\n", datatype);
 	switch (datatype) {
 		case M_INTEGER:
@@ -1222,7 +1222,7 @@ int Datum::getMaxElements()  const{
 }
 
 /*
-Datum Datum::getKey(const int n)  const {
+Datum Datum::getKey(int n)  const {
 
 	if(getDataType() != M_DICTIONARY) {
 		fprintf(stderr, "Can't get keys in something other than M_DICTIONARY -- Type => %d\n", getDataType());
@@ -1333,7 +1333,7 @@ void Datum::addElement(const Datum &value) {
   setElement(index, value);
 }
 		
-void Datum::setElement(const int index, const Datum &value) {
+void Datum::setElement(int index, const Datum &value) {
  
   #if INTERNALLY_LOCKED_MDATA
 	lock();
@@ -1396,7 +1396,7 @@ void Datum::setElement(const int index, const Datum &value) {
   
 }
 
-Datum Datum::getElement(const int index)  const{
+Datum Datum::getElement(int index)  const{
   
   #if INTERNALLY_LOCKED_MDATA
 	lock();
@@ -1474,7 +1474,7 @@ vector<Datum> Datum::getElements() const {
 
 
 // Private methods
-void Datum::createDictionary(const int is) {
+void Datum::createDictionary(int is) {
 	int initialsize = is;
 
     /* Scarab ensures that the hash table has at least one slot.  There's no reason to fuss about this.
@@ -1491,7 +1491,7 @@ void Datum::createDictionary(const int is) {
 	datatype = M_DICTIONARY;
 }
 
-void Datum::createList(const int ls) {
+void Datum::createList(int ls) {
 	int size = ls;
 	
     /* Scarab will handle an empty list correctly.  There's no reason to forbid it.

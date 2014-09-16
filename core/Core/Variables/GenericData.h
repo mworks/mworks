@@ -66,13 +66,11 @@ class Datum
 private:
     GenericDataType datatype;
     ScarabDatum *data;
-    //mLockable *scarab_datum_lock;
-    
     
     void initScarabDatum();
     
-    void createDictionary(const int intialsize);
-    void createList(const int size);
+    void createDictionary(int intialsize);
+    void createList(int size);
     
     void lockDatum() const;
     void unlockDatum() const;
@@ -83,28 +81,28 @@ public:
      * be sent over the network.
      */
     Datum();
-    Datum(GenericDataType type, const int arg);
-    Datum(GenericDataType type, const double arg);
-    Datum(const long value);
-    Datum(const long long value);
-    Datum(const double value);
-    Datum(const float value);
-    Datum(const bool value);
+    Datum(GenericDataType type, int arg);
+    Datum(GenericDataType type, double arg);
+    Datum(long value);
+    Datum(long long value);
+    Datum(double value);
+    Datum(float value);
+    Datum(bool value);
     Datum(const char * string, int size);
     Datum(const char * string);
     Datum(const std::string &string);
-    Datum(const stx::AnyScalar);
+    Datum(const stx::AnyScalar &value);
     
     
-    Datum( map<int, string> dict){
+    Datum(const map<int, string> &dict) {
         
         int size = dict.size();
         createDictionary(size);
         
-        map<int,string>::iterator i;
+        map<int,string>::const_iterator i;
         for(i = dict.begin(); i != dict.end(); ++i){
             
-            pair<int, string> key_val = *i;
+            const pair<int, string> &key_val = *i;
             Datum key((long)key_val.first);
             Datum val((string)key_val.second);
             
@@ -113,15 +111,15 @@ public:
     }
     
     
-    Datum(map<string, int> dict){
+    Datum(const map<string, int> &dict) {
         
         int size = dict.size();
         createDictionary(size);
         
-        map<string,int>::iterator i;
+        map<string,int>::const_iterator i;
         for(i = dict.begin(); i != dict.end(); ++i){
             
-            pair<string, int> key_val = *i;
+            const pair<string, int> &key_val = *i;
             Datum key(key_val.first);
             Datum val((long)key_val.second);
             
@@ -154,7 +152,7 @@ public:
      * Returns the data type of the Datum object.
      */
     GenericDataType getDataType() const;
-    void setDataType(const GenericDataType _type);
+    void setDataType(GenericDataType _type);
     
     /**
      * Returns the scarab data package that stores this object
@@ -179,7 +177,7 @@ public:
     bool stringIsCString() const;
     
     // debug function to print the datum.
-    void printToSTDERR();
+    void printToSTDERR() const;
     
     // Removes old data and creates a new datum with the new value.
     void setBool(bool value);
@@ -257,11 +255,11 @@ public:
     
     void addElement(const Datum &key, const Datum &value);
     void addElement(const Datum &value);
-    void setElement(const int index, const Datum &value);
+    void setElement(int index, const Datum &value);
     std::vector<Datum> getElements() const;
     
     Datum getElement(const Datum &key) const;
-    Datum getElement(const int i) const;
+    Datum getElement(int i) const;
     
     //  Datum removeElement(const char * key);
     
@@ -271,7 +269,7 @@ public:
     //  void removeElement(int index);
     
     
-    Datum operator [](const int i);
+    Datum operator[](int i) const;
     
     std::string toString() const;
     
