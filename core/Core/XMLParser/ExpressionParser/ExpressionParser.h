@@ -158,9 +158,6 @@ public:
 class EmptySymbolTable : public SymbolTable
 {
 public:
-    /// STL container type used for parameter lists: a vector
-    typedef std::vector<AnyScalar>	paramlist_type;
-
     /// Required for virtual functions.
     virtual ~EmptySymbolTable();
 
