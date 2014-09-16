@@ -370,7 +370,7 @@ namespace stx MW_SYMBOL_PUBLIC {
 			{
 			private:
 				/// The constant parsed value.
-				class AnyScalar	value;
+				AnyScalar	value;
 				
 			public:
 				/// Assignment from the string received from the parser.
@@ -391,7 +391,7 @@ namespace stx MW_SYMBOL_PUBLIC {
 				}
 				
 				/// Easiest evaluation: return the constant.
-				virtual AnyScalar evaluate(const class SymbolTable &) const
+				virtual Datum evaluate(const class SymbolTable &) const
 				{
 					return value;
 				}
@@ -438,7 +438,7 @@ namespace stx MW_SYMBOL_PUBLIC {
 				}
 				
 				/// Check the given symbol table for the actual value of this variable.
-				virtual AnyScalar evaluate(const class SymbolTable &st) const
+				virtual Datum evaluate(const class SymbolTable &st) const
 				{
                     if (!subscript)
                         return st.lookupVariable(varname);
@@ -492,13 +492,17 @@ namespace stx MW_SYMBOL_PUBLIC {
 				}
 				
 				/// Check the given symbol table for the actual value of this variable.
-				virtual AnyScalar evaluate(const class SymbolTable &st) const
+				virtual Datum evaluate(const class SymbolTable &st) const
 				{
 					std::vector<AnyScalar> paramvalues;
 					
 					for(unsigned int i = 0; i < paramlist.size(); ++i)
 					{
-						paramlist[i]->evaluate(paramvalues, st);
+                        std::vector<Datum> values;
+						paramlist[i]->evaluate(values, st);
+                        for (auto &item : values) {
+                            paramvalues.push_back(item);
+                        }
 					}
 					
 					return st.processFunction(funcname, paramvalues);
@@ -547,7 +551,7 @@ namespace stx MW_SYMBOL_PUBLIC {
             }
             
             /// Applies the operator to the recursively calculated value.
-            virtual AnyScalar evaluate(const class SymbolTable &st) const
+            virtual Datum evaluate(const class SymbolTable &st) const
             {
                 AnyScalar dest = operand->evaluate(st);
                 
@@ -622,7 +626,7 @@ namespace stx MW_SYMBOL_PUBLIC {
 				}
 				
 				/// Applies the operator to the recursively calculated value.
-				virtual AnyScalar evaluate(const class SymbolTable &st) const
+				virtual Datum evaluate(const class SymbolTable &st) const
 				{
 					AnyScalar dest = operand->evaluate(st);
 					
@@ -709,7 +713,7 @@ namespace stx MW_SYMBOL_PUBLIC {
 				
 				/// Applies the operator to the two recursive calculated values. The actual
 				/// switching between types is handled by AnyScalar's operators.
-				virtual AnyScalar evaluate(const class SymbolTable &st) const
+				virtual Datum evaluate(const class SymbolTable &st) const
 				{
 					AnyScalar vl = left->evaluate(st);
 					AnyScalar vr = right->evaluate(st);
@@ -736,7 +740,7 @@ namespace stx MW_SYMBOL_PUBLIC {
 					}
 					
 					assert(0);
-					return 0;
+					return Datum();
 				}
 				
 				/// Returns false because this node isn't always constant. Tries to
@@ -807,7 +811,7 @@ namespace stx MW_SYMBOL_PUBLIC {
 				
 				/// Recursive calculation of the value and subsequent casting via
 				/// AnyScalar's convertType method.
-				virtual AnyScalar evaluate(const class SymbolTable &st) const
+				virtual Datum evaluate(const class SymbolTable &st) const
 				{
 					AnyScalar val = operand->evaluate(st);
 					val.convertType(type);
@@ -882,7 +886,7 @@ namespace stx MW_SYMBOL_PUBLIC {
 				/// Applies the operator to the two recursive calculated values. The actual
 				/// switching between types is handled by AnyScalar's operators. This
 				/// result type of this processing node is always bool.
-				virtual AnyScalar evaluate(const class SymbolTable &st) const
+				virtual Datum evaluate(const class SymbolTable &st) const
 				{
 					AnyScalar vl = left->evaluate(st);
 					AnyScalar vr = right->evaluate(st);
@@ -1028,7 +1032,7 @@ namespace stx MW_SYMBOL_PUBLIC {
 				
 				/// Applies the operator to the two recursive calculated values. The actual
 				/// switching between types is handled by AnyScalar's operators.
-				virtual AnyScalar evaluate(const class SymbolTable &st) const
+				virtual Datum evaluate(const class SymbolTable &st) const
 				{
 					AnyScalar vl = left->evaluate(st);
 					AnyScalar vr = right->evaluate(st);
@@ -1143,13 +1147,13 @@ namespace stx MW_SYMBOL_PUBLIC {
 				}
 				
 				/// Always throws, because a range expression can't be treated as a single scalar value
-				virtual AnyScalar evaluate(const class SymbolTable &st) const
+				Datum evaluate(const class SymbolTable &st) const override
 				{
                     throw ExpressionParserException("Internal error: range expression cannot be evaluated as a scalar");
 				}
 				
 				/// Evaluates and returns the full range of values
-				virtual void evaluate(std::vector<AnyScalar> &values, const class SymbolTable &st) const
+				void evaluate(std::vector<Datum> &values, const class SymbolTable &st) const override
 				{
 					AnyScalar first = start->evaluate(st);
 					AnyScalar last = stop->evaluate(st);
@@ -1660,7 +1664,7 @@ namespace stx MW_SYMBOL_PUBLIC {
 		return Grammar::build_exprlist(info.trees.begin());
 	}
 	
-	void ParseTreeList::evaluate(std::vector<AnyScalar> &values, const class SymbolTable &st) const
+	void ParseTreeList::evaluate(std::vector<Datum> &values, const class SymbolTable &st) const
 	{
 		for(parent_type::const_iterator i = parent_type::begin(); i != parent_type::end(); i++)
 		{
@@ -1690,7 +1694,7 @@ namespace stx MW_SYMBOL_PUBLIC {
 	{
 	}
     
-    AnyScalar SymbolTable::lookupVariable(const std::string &varname, const AnyScalar &subscript) const
+    Datum SymbolTable::lookupVariable(const std::string &varname, const Datum &subscript) const
     {
         throw BadVariableSubscriptException("Variable subscripts are not supported");
     }
@@ -1699,12 +1703,12 @@ namespace stx MW_SYMBOL_PUBLIC {
 	{
 	}
 	
-	AnyScalar EmptySymbolTable::lookupVariable(const std::string &varname) const
+	Datum EmptySymbolTable::lookupVariable(const std::string &varname) const
 	{
 		throw(UnknownSymbolException(std::string("Unknown variable ") + varname));
 	}
 	
-	AnyScalar EmptySymbolTable::processFunction(const std::string &funcname,
+	Datum EmptySymbolTable::processFunction(const std::string &funcname,
 												const paramlist_type &) const
 	{
 		throw(UnknownSymbolException(std::string("Unknown function ") + funcname + "()"));
@@ -1719,7 +1723,7 @@ namespace stx MW_SYMBOL_PUBLIC {
 	{
 	}
 	
-	void BasicSymbolTable::setVariable(const std::string& varname, const AnyScalar &value)
+	void BasicSymbolTable::setVariable(const std::string& varname, const Datum &value)
 	{
 		std::string vn = varname;
 		std::transform(vn.begin(), vn.end(), vn.begin(), _to_lower);
@@ -1745,27 +1749,27 @@ namespace stx MW_SYMBOL_PUBLIC {
 		functionmap.clear();
 	}
 	
-	AnyScalar BasicSymbolTable::funcPI(const paramlist_type &)
+	Datum BasicSymbolTable::funcPI(const paramlist_type &)
 	{
 		return AnyScalar(3.14159265358979323846);
 	}
 	
-	AnyScalar BasicSymbolTable::funcSIN(const paramlist_type &paramlist)
+	Datum BasicSymbolTable::funcSIN(const paramlist_type &paramlist)
 	{
 		return AnyScalar( std::sin(paramlist[0].getDouble()) );
 	}
 	
-	AnyScalar BasicSymbolTable::funcCOS(const paramlist_type &paramlist)
+	Datum BasicSymbolTable::funcCOS(const paramlist_type &paramlist)
 	{
 		return AnyScalar( std::cos(paramlist[0].getDouble()) );
 	}
 	
-	AnyScalar BasicSymbolTable::funcTAN(const paramlist_type &paramlist)
+	Datum BasicSymbolTable::funcTAN(const paramlist_type &paramlist)
 	{
 		return AnyScalar( std::tan(paramlist[0].getDouble()) );
 	}
 	
-	AnyScalar BasicSymbolTable::funcABS(const paramlist_type &paramlist)
+	Datum BasicSymbolTable::funcABS(const paramlist_type &paramlist)
 	{
 		if (paramlist[0].isIntegerType()) {
 			return AnyScalar( std::abs(paramlist[0].getInteger()) );
@@ -1778,49 +1782,49 @@ namespace stx MW_SYMBOL_PUBLIC {
 		}
 	}
 	
-	AnyScalar BasicSymbolTable::funcEXP(const paramlist_type &paramlist)
+	Datum BasicSymbolTable::funcEXP(const paramlist_type &paramlist)
 	{
 		return AnyScalar( std::exp(paramlist[0].getDouble()) );
 	}
 	
-	AnyScalar BasicSymbolTable::funcLOGN(const paramlist_type &paramlist)
+	Datum BasicSymbolTable::funcLOGN(const paramlist_type &paramlist)
 	{
 		return AnyScalar( std::log(paramlist[0].getDouble()) );
 	}
 	
-	AnyScalar BasicSymbolTable::funcPOW(const paramlist_type &paramlist)
+	Datum BasicSymbolTable::funcPOW(const paramlist_type &paramlist)
 	{
 		return AnyScalar( std::pow(paramlist[0].getDouble(), paramlist[1].getDouble()) );
 	}
 	
-	AnyScalar BasicSymbolTable::funcSQRT(const paramlist_type &paramlist)
+	Datum BasicSymbolTable::funcSQRT(const paramlist_type &paramlist)
 	{
 		return AnyScalar( std::sqrt(paramlist[0].getDouble()) );
 	}
 	
-	AnyScalar BasicSymbolTable::funcCEIL(const paramlist_type &paramlist)
+	Datum BasicSymbolTable::funcCEIL(const paramlist_type &paramlist)
 	{
 		return AnyScalar( std::ceil(paramlist[0].getDouble()) );
 	}
 	
-	AnyScalar BasicSymbolTable::funcFLOOR(const paramlist_type &paramlist)
+	Datum BasicSymbolTable::funcFLOOR(const paramlist_type &paramlist)
 	{
 		return AnyScalar( std::floor(paramlist[0].getDouble()) );
 	}
 	
-	AnyScalar BasicSymbolTable::funcROUND(const paramlist_type &paramlist)
+	Datum BasicSymbolTable::funcROUND(const paramlist_type &paramlist)
 	{
 		return AnyScalar( boost::math::round(paramlist[0].getDouble()) );
 	}
 	
-	AnyScalar BasicSymbolTable::funcMIN(const paramlist_type &paramlist)
+	Datum BasicSymbolTable::funcMIN(const paramlist_type &paramlist)
 	{
         auto &first = paramlist[0];
         auto &second = paramlist[1];
         return (first.less(second) ? first : second);
 	}
 	
-	AnyScalar BasicSymbolTable::funcMAX(const paramlist_type &paramlist)
+	Datum BasicSymbolTable::funcMAX(const paramlist_type &paramlist)
 	{
         auto &first = paramlist[0];
         auto &second = paramlist[1];
@@ -1835,30 +1839,30 @@ namespace stx MW_SYMBOL_PUBLIC {
 		seeded = true;
 	}
 	
-	AnyScalar BasicSymbolTable::funcNOW(const paramlist_type &paramlist)
+	Datum BasicSymbolTable::funcNOW(const paramlist_type &paramlist)
 	{
 		boost::shared_ptr <mw::Clock> clock = mw::Clock::instance();
 		return AnyScalar( clock->getCurrentTimeUS() );
 	}
 	
-	AnyScalar BasicSymbolTable::funcTIMER_EXPIRED(const paramlist_type &paramlist)
+	Datum BasicSymbolTable::funcTIMER_EXPIRED(const paramlist_type &paramlist)
 	{
 		return AnyScalar( paramlist[0].getLong() );
 	}
 	
-	AnyScalar BasicSymbolTable::funcREFRESH_RATE(const paramlist_type &paramlist)
+	Datum BasicSymbolTable::funcREFRESH_RATE(const paramlist_type &paramlist)
 	{
         boost::shared_ptr<mw::StimulusDisplay> display(mw::StimulusDisplay::getCurrentStimulusDisplay());
 		return AnyScalar( display->getMainDisplayRefreshRate() );
 	}
 	
-	AnyScalar BasicSymbolTable::funcNEXT_FRAME_TIME(const paramlist_type &paramlist)
+	Datum BasicSymbolTable::funcNEXT_FRAME_TIME(const paramlist_type &paramlist)
     {
         boost::shared_ptr<mw::StimulusDisplay> display(mw::StimulusDisplay::getCurrentStimulusDisplay());
         return AnyScalar( display->getCurrentOutputTimeUS() );
     }
 	
-	AnyScalar BasicSymbolTable::funcFORMAT(const paramlist_type &paramlist)
+	Datum BasicSymbolTable::funcFORMAT(const paramlist_type &paramlist)
 	{
         if (paramlist.size() < 1) {
             throw BadFunctionCallException("Function FORMAT() requires at least one parameter");
@@ -1879,7 +1883,7 @@ namespace stx MW_SYMBOL_PUBLIC {
         }
 	}
     
-    AnyScalar BasicSymbolTable::funcNUMACCEPTED(const paramlist_type& paramlist)
+    Datum BasicSymbolTable::funcNUMACCEPTED(const paramlist_type& paramlist)
     {
         if (!(paramlist[0].isStringType())) {
             throw BadFunctionCallException("Argument to function NUMACCEPTED() must be a string");
@@ -1895,7 +1899,7 @@ namespace stx MW_SYMBOL_PUBLIC {
         return AnyScalar( selectable->getNAccepted() );
     }
 	
-	AnyScalar BasicSymbolTable::funcUNIFORM_RAND(const paramlist_type &paramlist)
+	Datum BasicSymbolTable::funcUNIFORM_RAND(const paramlist_type &paramlist)
 	{
 		double hi, lo;
 		
@@ -1925,7 +1929,7 @@ namespace stx MW_SYMBOL_PUBLIC {
 		return AnyScalar( uni() );
 	}
 	
-	AnyScalar BasicSymbolTable::funcDISC_UNIFORM_RAND(const paramlist_type &paramlist)
+	Datum BasicSymbolTable::funcDISC_UNIFORM_RAND(const paramlist_type &paramlist)
 	{
 		// go get current values of high and low ranges (these might be variables)
 		long lo = paramlist[0].getLong();
@@ -1952,7 +1956,7 @@ namespace stx MW_SYMBOL_PUBLIC {
 	}
 	
 	
-	AnyScalar BasicSymbolTable::funcGEOM_RAND(const paramlist_type &paramlist)
+	Datum BasicSymbolTable::funcGEOM_RAND(const paramlist_type &paramlist)
 	{
 		
 		long value;
@@ -2031,7 +2035,7 @@ namespace stx MW_SYMBOL_PUBLIC {
 		setFunction("NUMACCEPTED", 1, funcNUMACCEPTED);
 	}
 	
-	AnyScalar BasicSymbolTable::lookupVariable(const std::string &_varname) const
+	Datum BasicSymbolTable::lookupVariable(const std::string &_varname) const
 	{
 		std::string varname = _varname;
 		std::transform(varname.begin(), varname.end(), varname.begin(), _to_lower);
@@ -2046,7 +2050,7 @@ namespace stx MW_SYMBOL_PUBLIC {
 		throw(UnknownSymbolException(std::string("Unknown variable ") + varname));
 	}
 	
-	AnyScalar BasicSymbolTable::processFunction(const std::string &_funcname,
+	Datum BasicSymbolTable::processFunction(const std::string &_funcname,
 												const paramlist_type &paramlist) const
 	{
 		std::string funcname = _funcname;

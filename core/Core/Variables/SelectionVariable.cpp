@@ -281,7 +281,7 @@ shared_ptr<mw::Component> SelectionVariableFactory::createObject(std::map<std::s
     selectionVar->setAdvanceOnAccept(advanceOnAccept);
 	
 	// get the values
-    std::vector<stx::AnyScalar> values;
+    std::vector<Datum> values;
     ParsedExpressionVariable::evaluateExpressionList(parameters["values"], values);
 	
 	// get the sampling method
@@ -335,10 +335,10 @@ shared_ptr<mw::Component> SelectionVariableFactory::createObject(std::map<std::s
 	
 	selectionVar->attachSelection(selection);
 	
-	for(std::vector<stx::AnyScalar>::const_iterator i = values.begin();
+	for(std::vector<Datum>::const_iterator i = values.begin();
 		i != values.end();
 		++i) {
-		selectionVar->addValue(Datum(*i));
+		selectionVar->addValue(*i);
 	}
 	
 	return selectionVar;

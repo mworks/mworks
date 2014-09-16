@@ -91,7 +91,7 @@ public:
         }
     }
     
-    static stx::AnyScalar evaluateParseTree(const stx::ParseTree &tree) {
+    static Datum evaluateParseTree(const stx::ParseTree &tree) {
         if (tree.isEmpty()) {
             throw FatalParserException("Internal error", "Expression parse tree is empty");
         }
@@ -103,7 +103,7 @@ public:
         }
     }
     
-    static stx::AnyScalar evaluateExpression(const std::string &expr) {
+    static Datum evaluateExpression(const std::string &expr) {
         return evaluateParseTree(parseExpression(expr));
     }
     
@@ -115,7 +115,7 @@ public:
         }
     }
     
-    static void evaluateParseTreeList(const stx::ParseTreeList &treeList, std::vector<stx::AnyScalar> &values) {
+    static void evaluateParseTreeList(const stx::ParseTreeList &treeList, std::vector<Datum> &values) {
         try {
             treeList.evaluate(values, (stx::SymbolTable&)(*(global_variable_registry.get())));
         } catch (stx::ExpressionParserException &e){
@@ -123,7 +123,7 @@ public:
         }
     }
     
-    static void evaluateExpressionList(const std::string &exprList, std::vector<stx::AnyScalar> &values) {
+    static void evaluateExpressionList(const std::string &exprList, std::vector<Datum> &values) {
         evaluateParseTreeList(parseExpressionList(exprList), values);
     }
 	

@@ -79,7 +79,6 @@
 #include <boost/weak_ptr.hpp>
 #include <vector>
 
-#include "AnyScalar.h"
 #include "ExpressionParser.h"
 
 using std::map;
@@ -216,10 +215,10 @@ public:
 	// ********************************************************
 	
 	/// Return the (constant) value of a variable.
-	virtual stx::AnyScalar lookupVariable(const std::string &varname) const;
+	Datum lookupVariable(const std::string &varname) const override;
     
     /// Return the (constant) value of a variable subscript.
-    virtual stx::AnyScalar lookupVariable(const std::string &varname, const stx::AnyScalar &subscript) const;
+    Datum lookupVariable(const std::string &varname, const Datum &subscript) const override;
 	
 };
 

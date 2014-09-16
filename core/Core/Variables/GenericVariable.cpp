@@ -192,7 +192,7 @@ shared_ptr<mw::Component> VariableFactory::createObject(std::map<std::string, st
 			defaultValue = Datum(parameters.find("default_value")->second);
 			break;
         case M_LIST: {
-            std::vector<stx::AnyScalar> values;
+            std::vector<Datum> values;
             ParsedExpressionVariable::evaluateExpressionList(parameters.find("default_value")->second, values);
             
             defaultValue = Datum(M_LIST, int(values.size()));

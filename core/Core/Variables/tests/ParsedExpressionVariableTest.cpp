@@ -371,7 +371,7 @@ void ParsedExpressionVariableTestFixture::testVariableSubscript() {
 
 
 void ParsedExpressionVariableTestFixture::testRangeExpression() {
-    typedef std::vector<stx::AnyScalar> valueList;
+    typedef std::vector<Datum> valueList;
     valueList values;
     
     // Can't evaluate range expr as a scalar
@@ -381,18 +381,16 @@ void ParsedExpressionVariableTestFixture::testRangeExpression() {
         CPPUNIT_ASSERT_THROW(ParsedExpressionVariable::evaluateParseTree(trees[0]), FatalParserException);
     }
     
-    // Start and stop must be signed integers
+    // Start and stop must be integers
     CPPUNIT_ASSERT_THROW(ParsedExpressionVariable::evaluateExpressionList("1.1:3", values), FatalParserException);
     CPPUNIT_ASSERT_THROW(ParsedExpressionVariable::evaluateExpressionList("1:3.3", values), FatalParserException);
-    CPPUNIT_ASSERT_THROW(ParsedExpressionVariable::evaluateExpressionList("(word)1:3", values), FatalParserException);
-    CPPUNIT_ASSERT_THROW(ParsedExpressionVariable::evaluateExpressionList("1:(word)3", values), FatalParserException);
     
     // start < stop
     ParsedExpressionVariable::evaluateExpressionList("1:3", values);
     CPPUNIT_ASSERT_EQUAL(3, int(values.size()));
     for (valueList::size_type i = 0; i < values.size(); i++) {
-        CPPUNIT_ASSERT( values[i].isIntegerType() );
-        CPPUNIT_ASSERT_EQUAL((long long)(i+1), values[i].getLong());
+        CPPUNIT_ASSERT( values[i].isInteger() );
+        CPPUNIT_ASSERT_EQUAL((long long)(i+1), values[i].getInteger());
     }
     
     // start > stop
@@ -400,32 +398,32 @@ void ParsedExpressionVariableTestFixture::testRangeExpression() {
     ParsedExpressionVariable::evaluateExpressionList("5:-2", values);
     CPPUNIT_ASSERT_EQUAL(8, int(values.size()));
     for (valueList::size_type i = 0; i < values.size(); i++) {
-        CPPUNIT_ASSERT( values[i].isIntegerType() );
-        CPPUNIT_ASSERT_EQUAL((long long)(5) - (long long)(i), values[i].getLong());
+        CPPUNIT_ASSERT( values[i].isInteger() );
+        CPPUNIT_ASSERT_EQUAL((long long)(5) - (long long)(i), values[i].getInteger());
     }
     
     // start == stop
     values.clear();
     ParsedExpressionVariable::evaluateExpressionList("2:2", values);
     CPPUNIT_ASSERT_EQUAL(1, int(values.size()));
-    CPPUNIT_ASSERT( values[0].isIntegerType() );
-    CPPUNIT_ASSERT_EQUAL((long long)(2), values[0].getLong());
+    CPPUNIT_ASSERT( values[0].isInteger() );
+    CPPUNIT_ASSERT_EQUAL((long long)(2), values[0].getInteger());
     
     // Mixed expression list
     values.clear();
     ParsedExpressionVariable::evaluateExpressionList("1,2,3:5,6,7:10", values);
     CPPUNIT_ASSERT_EQUAL(10, int(values.size()));
     for (valueList::size_type i = 0; i < values.size(); i++) {
-        CPPUNIT_ASSERT( values[i].isIntegerType() );
-        CPPUNIT_ASSERT_EQUAL((long long)(i+1), values[i].getLong());
+        CPPUNIT_ASSERT( values[i].isInteger() );
+        CPPUNIT_ASSERT_EQUAL((long long)(i+1), values[i].getInteger());
     }
     
     // Single-value list (not a range expr, but we should verify that it still works)
     values.clear();
     ParsedExpressionVariable::evaluateExpressionList("2", values);
     CPPUNIT_ASSERT_EQUAL(1, int(values.size()));
-    CPPUNIT_ASSERT( values[0].isIntegerType() );
-    CPPUNIT_ASSERT_EQUAL((long long)(2), values[0].getLong());
+    CPPUNIT_ASSERT( values[0].isInteger() );
+    CPPUNIT_ASSERT_EQUAL((long long)(2), values[0].getInteger());
     
     // More complex expressions for start and stop
     createGlobalVariable("x", Datum(1L));
@@ -433,8 +431,8 @@ void ParsedExpressionVariableTestFixture::testRangeExpression() {
     ParsedExpressionVariable::evaluateExpressionList("x:x+2", values);
     CPPUNIT_ASSERT_EQUAL(3, int(values.size()));
     for (valueList::size_type i = 0; i < values.size(); i++) {
-        CPPUNIT_ASSERT( values[i].isIntegerType() );
-        CPPUNIT_ASSERT_EQUAL((long long)(i+1), values[i].getLong());
+        CPPUNIT_ASSERT( values[i].isInteger() );
+        CPPUNIT_ASSERT_EQUAL((long long)(i+1), values[i].getInteger());
     }
 }
 

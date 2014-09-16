@@ -490,21 +490,19 @@ Datum VariableRegistry::generateCodecDatum() {
 
 
 /// Return the (constant) value of a variable.
-stx::AnyScalar	VariableRegistry::lookupVariable(const std::string &varname) const{
+Datum VariableRegistry::lookupVariable(const std::string &varname) const {
 	
 	shared_ptr<Variable> var = getVariable(varname);
 	if(var == NULL){
         throw UnknownVariableException(varname);
 	}
 	
- Datum value = *(var);
-	stx::AnyScalar retval = value;
-	return retval;
+	return *(var);
 	
 }
 
 
-stx::AnyScalar VariableRegistry::lookupVariable(const std::string &varname, const stx::AnyScalar &subscript) const {
+Datum VariableRegistry::lookupVariable(const std::string &varname, const Datum &subscript) const {
     shared_ptr<Variable> var = getVariable(varname);
     if (!var) {
         throw UnknownVariableException(varname);
