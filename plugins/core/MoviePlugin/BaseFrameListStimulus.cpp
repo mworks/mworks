@@ -31,9 +31,12 @@ BaseFrameListStimulus::BaseFrameListStimulus(const ParameterValueMap &parameters
     loop(registerVariable(parameters[LOOP])),
     repeats(registerVariable(parameters[REPEATS]))
 {
-    if (!(parameters[ENDING].empty())) {
+    // We need to use find() because "ending" isn't a valid parameter for all BaseFrameListStimulus
+    // subclasses, meaning it won't always have a default value
+    if ((parameters.find(ENDING) != parameters.end()) && !(parameters[ENDING].empty())) {
         ending = VariablePtr(parameters[ENDING]);
     }
+    
     if (!(parameters[ENDED].empty())) {
         ended = VariablePtr(parameters[ENDED]);
     }

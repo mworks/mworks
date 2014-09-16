@@ -19,7 +19,7 @@
                 <stimulus type="image_file" tag="image_${index}" path="images/MotIm_${index}.jpg" x_size="25" y_size="25" x_position="0.0" y_position="0.0" rotation="0.0" alpha_multiplier="1.0" deferred="NO"></stimulus>
             </range_replicator>
         </stimulus_group>
-        <stimulus type="frame_list" tag="movie" stimulus_group="images" ended="movie_ended"></stimulus>
+        <stimulus type="frame_list" tag="movie" stimulus_group="images" ending="" ended="movie_ended" loop="NO" repeats="0" autoplay="YES"></stimulus>
     </stimuli>
     <filters tag="Filters"></filters>
     <optimizers tag="Optimizers"></optimizers>
@@ -31,7 +31,6 @@
                     <action type="assignment" tag="Reset movie_ended" variable="movie_ended" value="0"></action>
                     <action tag="Queue movie" type="queue_stimulus" stimulus="movie"></action>
                     <action tag="Update stimulus display" type="update_stimulus_display"></action>
-                    <action tag="Start movie" stimulus="movie" type="play_dynamic_stimulus"></action>
                     <action type="assignment" tag="Record start time" variable="start_time" value="now()"></action>
                     <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
                     <transition type="conditional" tag="If Condition is True, Transition to ..." condition="movie_ended" target="Exit State System"></transition>
