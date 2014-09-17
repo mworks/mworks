@@ -397,7 +397,7 @@ namespace stx MW_SYMBOL_PUBLIC {
 				}
 				
 				/// Returns true, because value is constant
-				virtual bool evaluate_const(AnyScalar *dest) const
+				virtual bool evaluate_const(Datum *dest) const
 				{
 					if (dest) *dest = value;
 					return true;
@@ -447,7 +447,7 @@ namespace stx MW_SYMBOL_PUBLIC {
 				}
 				
 				/// Returns false, because value isn't constant.
-				virtual bool evaluate_const(AnyScalar *) const
+				virtual bool evaluate_const(Datum *) const
 				{
 					return false;
 				}
@@ -505,7 +505,7 @@ namespace stx MW_SYMBOL_PUBLIC {
 				}
 				
 				/// Returns false, because value isn't constant.
-				virtual bool evaluate_const(AnyScalar *) const
+				virtual bool evaluate_const(Datum *) const
 				{
 					return false;
 				}
@@ -567,18 +567,18 @@ namespace stx MW_SYMBOL_PUBLIC {
             }
             
             /// Calculates subnodes and returns result if the operator can be applied.
-            virtual bool evaluate_const(AnyScalar *dest) const
+            virtual bool evaluate_const(Datum *dest) const
             {
                 if (!dest) return false;
                 
                 bool b = operand->evaluate_const(dest);
                 
                 if (units == "s") {
-                    *dest = (*dest) * 1000000;
+                    *dest = (*dest).toAnyScalar() * 1000000;
                 }
                 else if (units == "ms")
                 {
-                    *dest = (*dest) * 1000;
+                    *dest = (*dest).toAnyScalar() * 1000;
                 }
                 else {
                     // No change for "us"
@@ -645,18 +645,18 @@ namespace stx MW_SYMBOL_PUBLIC {
 				}
 				
 				/// Calculates subnodes and returns result if the operator can be applied.
-				virtual bool evaluate_const(AnyScalar *dest) const
+				virtual bool evaluate_const(Datum *dest) const
 				{
 					if (!dest) return false;
 					
 					bool b = operand->evaluate_const(dest);
 					
 					if (op == '-') {
-						*dest = -(*dest);
+						*dest = -((*dest).toAnyScalar());
 					}
 					else if (op == '!')
 					{
-						if(dest->getBoolean()) {
+						if(dest->getBool()) {
 							*dest = 0;
 						} else {
 							*dest = 1;
@@ -741,32 +741,32 @@ namespace stx MW_SYMBOL_PUBLIC {
 				
 				/// Returns false because this node isn't always constant. Tries to
 				/// calculate a constant subtree's value.
-				virtual bool evaluate_const(AnyScalar *dest) const
+				virtual bool evaluate_const(Datum *dest) const
 				{
 					if (!dest) return false;
 					
-					AnyScalar vl(AnyScalar::ATTRTYPE_INVALID), vr(AnyScalar::ATTRTYPE_INVALID);
+					Datum vl, vr;
 					
 					bool bl = left->evaluate_const(&vl);
 					bool br = right->evaluate_const(&vr);
 					
 					if (op == '+') {
-						*dest = vl + vr;
+						*dest = vl.toAnyScalar() + vr.toAnyScalar();
 					}
 					else if (op == '-') {
-						*dest = vl - vr;
+						*dest = vl.toAnyScalar() - vr.toAnyScalar();
 					}
 					else if (op == '*') {
-						*dest = vl * vr;
+						*dest = vl.toAnyScalar() * vr.toAnyScalar();
 					}
 					else if (op == '/') {
-						*dest = vl / vr;
+						*dest = vl.toAnyScalar() / vr.toAnyScalar();
 					}
 					else if (op == '%') {
 //						assert(vr.isIntegerType() &&
 //							   vl.isIntegerType()); 
-						long vr_tmp = vr.getLong();
-						long vl_tmp = vl.getLong();
+						long vr_tmp = vr.getInteger();
+						long vl_tmp = vl.getInteger();
 						AnyScalar retval = vl_tmp % vr_tmp;
 						*dest = retval;
 					}
@@ -815,12 +815,16 @@ namespace stx MW_SYMBOL_PUBLIC {
 				}
 				
 				/// Returns false because this node isn't always constant.
-				virtual bool evaluate_const(AnyScalar *dest) const
+				virtual bool evaluate_const(Datum *dest) const
 				{
 					if (!dest) return false;
 					
 					bool b = operand->evaluate_const(dest);
-					dest->convertType(type);
+                    
+                    AnyScalar v = dest->toAnyScalar();
+                    v.convertType(type);
+                    *dest = v;
+                    
 					return b;
 				}
 				
@@ -923,11 +927,11 @@ namespace stx MW_SYMBOL_PUBLIC {
 				}
 				
 				/// Returns false because this node isn't always constant.
-				virtual bool evaluate_const(AnyScalar *dest) const
+				virtual bool evaluate_const(Datum *dest) const
 				{
 					if (!dest) return false;
 					
-					AnyScalar vl(AnyScalar::ATTRTYPE_INVALID), vr(AnyScalar::ATTRTYPE_INVALID);
+					Datum vl, vr;
 					
 					bool bl = left->evaluate_const(&vl);
 					bool br = right->evaluate_const(&vr);
@@ -935,27 +939,27 @@ namespace stx MW_SYMBOL_PUBLIC {
 					switch(op)
 					{
 						case EQUAL:
-							*dest = AnyScalar( vl.equal_to(vr) );
+							*dest = AnyScalar( vl.toAnyScalar().equal_to(vr.toAnyScalar()) );
 							break;
 							
 						case NOTEQUAL:
-							*dest = AnyScalar( vl.not_equal_to(vr) );
+							*dest = AnyScalar( vl.toAnyScalar().not_equal_to(vr.toAnyScalar()) );
 							break;
 							
 						case LESS:
-							*dest = AnyScalar( vl.less(vr) );
+							*dest = AnyScalar( vl.toAnyScalar().less(vr.toAnyScalar()) );
 							break;
 							
 						case GREATER:
-							*dest = AnyScalar( vl.greater(vr) );
+							*dest = AnyScalar( vl.toAnyScalar().greater(vr.toAnyScalar()) );
 							break;
 							
 						case LESSEQUAL:
-							*dest = AnyScalar( vl.less_equal(vr) );
+							*dest = AnyScalar( vl.toAnyScalar().less_equal(vr.toAnyScalar()) );
 							break;
 							
 						case GREATEREQUAL:
-							*dest = AnyScalar( vl.greater_equal(vr) );
+							*dest = AnyScalar( vl.toAnyScalar().greater_equal(vr.toAnyScalar()) );
 							break;
 							
 						default:
@@ -1050,11 +1054,11 @@ namespace stx MW_SYMBOL_PUBLIC {
 				/// values. Determining if this node is constant is somewhat more tricky
 				/// than with the other parse nodes: AND with a false operand is always
 				/// false. OR with a true operand is always true.
-				virtual bool evaluate_const(AnyScalar *dest) const
+				virtual bool evaluate_const(Datum *dest) const
 				{
 					if (!dest) return false; // returns false because this node isn't always constant
 					
-					AnyScalar vl(AnyScalar::ATTRTYPE_INVALID), vr(AnyScalar::ATTRTYPE_INVALID);
+					Datum vl, vr;
 					
 					bool bl = left->evaluate_const(&vl);
 					bool br = right->evaluate_const(&vr);
@@ -1176,7 +1180,7 @@ namespace stx MW_SYMBOL_PUBLIC {
 				}
 				
 				/// Returns false, because value isn't constant.
-				virtual bool evaluate_const(AnyScalar *) const
+				virtual bool evaluate_const(Datum *) const
 				{
 					return false;
 				}
@@ -1261,11 +1265,11 @@ namespace stx MW_SYMBOL_PUBLIC {
 					{
 						// construct a constant node
 						PNUnitsArithmExpr tmpnode(val, units);
-						AnyScalar constval(AnyScalar::ATTRTYPE_INVALID);
+						Datum constval;
 						
 						tmpnode.evaluate_const(&constval);
 						
-						return new PNConstant(constval);
+						return new PNConstant(constval.toAnyScalar());
 					}
 					else
 					{
@@ -1285,11 +1289,11 @@ namespace stx MW_SYMBOL_PUBLIC {
 					{
 						// construct a constant node
 						PNUnaryArithmExpr tmpnode(val, arithop);
-						AnyScalar constval(AnyScalar::ATTRTYPE_INVALID);
+						Datum constval;
 						
 						tmpnode.evaluate_const(&constval);
 						
-						return new PNConstant(constval);
+						return new PNConstant(constval.toAnyScalar());
 					}
 					else
 					{
@@ -1313,13 +1317,13 @@ namespace stx MW_SYMBOL_PUBLIC {
 					{
 						// construct a constant node
 						PNBinaryArithmExpr tmpnode(left.release(), right.release(), arithop);
-						AnyScalar both(AnyScalar::ATTRTYPE_INVALID);
+						Datum both;
 						
 						tmpnode.evaluate_const(&both);
 						
 						// left and right are deleted by tmpnode's deconstructor
 						
-						return new PNConstant(both);
+						return new PNConstant(both.toAnyScalar());
 					}
 					else
 					{
@@ -1344,11 +1348,11 @@ namespace stx MW_SYMBOL_PUBLIC {
 						// construct a constant node
 						PNCastExpr tmpnode(val, at);
 						
-						AnyScalar constval(AnyScalar::ATTRTYPE_INVALID);
+						Datum constval;
 						
 						tmpnode.evaluate_const(&constval);
 						
-						return new PNConstant(constval);
+						return new PNConstant(constval.toAnyScalar());
 					}
 					else
 					{
@@ -1373,13 +1377,13 @@ namespace stx MW_SYMBOL_PUBLIC {
 					{
 						// construct a constant node
 						PNBinaryComparisonExpr tmpnode(left.release(), right.release(), arithop);
-						AnyScalar both(AnyScalar::ATTRTYPE_INVALID);
+						Datum both;
 						
 						tmpnode.evaluate_const(&both);
 						
 						// left and right are deleted by tmpnode's deconstructor
 						
-						return new PNConstant(both);
+						return new PNConstant(both.toAnyScalar());
 					}
 					else
 					{
@@ -1412,14 +1416,14 @@ namespace stx MW_SYMBOL_PUBLIC {
 					
 					if (constleft || constright)
 					{
-						AnyScalar both(AnyScalar::ATTRTYPE_INVALID);
+						Datum both;
 						
 						// test if the node is really const.
 						if (node->evaluate_const(&both))
 						{
 							// return a constant node instead, node will be deleted by
 							// auto_ptr, left,right by node's destructor.
-							return new PNConstant(both);
+							return new PNConstant(both.toAnyScalar());
 						}
 					}
 					if (constleft)

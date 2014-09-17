@@ -39,7 +39,6 @@
 namespace stx MW_SYMBOL_PUBLIC {
     
 using Datum = mw::Datum;
-class AnyScalar;  // Forward declaration
 
 /** Base class for other exceptions of the expression parser and
  * evaluators. \ingroup Exception */
@@ -339,7 +338,7 @@ public:
     /// always a constant (ignoring subnodes), if dest != NULL try to calculate
     /// the constant value and type recursively, thus the return value can be
     /// true for a non-constant tree node.
-    virtual bool evaluate_const(AnyScalar *dest) const = 0;
+    virtual bool evaluate_const(Datum *dest) const = 0;
 
     /// Return the parsed expression as a string, which can be parsed again.
     virtual std::string toString() const = 0;
