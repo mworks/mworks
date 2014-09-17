@@ -68,6 +68,7 @@ private:
     ScarabDatum *data;
     
     void initScarabDatum();
+    void setDataType(GenericDataType _type);
     
     void createDictionary(int intialsize);
     void createList(int size);
@@ -83,6 +84,7 @@ public:
     Datum();
     Datum(GenericDataType type, int arg);
     Datum(GenericDataType type, double arg);
+    Datum(int value);
     Datum(long value);
     Datum(long long value);
     Datum(double value);
@@ -152,7 +154,6 @@ public:
      * Returns the data type of the Datum object.
      */
     GenericDataType getDataType() const;
-    void setDataType(GenericDataType _type);
     
     /**
      * Returns the scarab data package that stores this object
@@ -272,6 +273,7 @@ public:
     Datum operator[](int i) const;
     
     std::string toString() const;
+    stx::AnyScalar toAnyScalar() const;
     
 private:
     
@@ -398,6 +400,9 @@ private:
 };
 
 
+std::ostream& operator<<(std::ostream &stream, const Datum &d);
+
+
 END_NAMESPACE_MW
 
 
@@ -406,3 +411,30 @@ BOOST_CLASS_VERSION(mw::Datum, 1)
 
 
 #endif
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

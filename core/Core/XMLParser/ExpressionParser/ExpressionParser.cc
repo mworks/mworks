@@ -494,15 +494,11 @@ namespace stx MW_SYMBOL_PUBLIC {
 				/// Check the given symbol table for the actual value of this variable.
 				virtual Datum evaluate(const class SymbolTable &st) const
 				{
-					std::vector<AnyScalar> paramvalues;
+					std::vector<Datum> paramvalues;
 					
 					for(unsigned int i = 0; i < paramlist.size(); ++i)
 					{
-                        std::vector<Datum> values;
-						paramlist[i]->evaluate(values, st);
-                        for (auto &item : values) {
-                            paramvalues.push_back(item);
-                        }
+						paramlist[i]->evaluate(paramvalues, st);
 					}
 					
 					return st.processFunction(funcname, paramvalues);
@@ -1751,31 +1747,31 @@ namespace stx MW_SYMBOL_PUBLIC {
 	
 	Datum BasicSymbolTable::funcPI(const paramlist_type &)
 	{
-		return AnyScalar(3.14159265358979323846);
+		return Datum(3.14159265358979323846);
 	}
 	
 	Datum BasicSymbolTable::funcSIN(const paramlist_type &paramlist)
 	{
-		return AnyScalar( std::sin(paramlist[0].getDouble()) );
+		return Datum( std::sin(paramlist[0].getFloat()) );
 	}
 	
 	Datum BasicSymbolTable::funcCOS(const paramlist_type &paramlist)
 	{
-		return AnyScalar( std::cos(paramlist[0].getDouble()) );
+		return Datum( std::cos(paramlist[0].getFloat()) );
 	}
 	
 	Datum BasicSymbolTable::funcTAN(const paramlist_type &paramlist)
 	{
-		return AnyScalar( std::tan(paramlist[0].getDouble()) );
+		return Datum( std::tan(paramlist[0].getFloat()) );
 	}
 	
 	Datum BasicSymbolTable::funcABS(const paramlist_type &paramlist)
 	{
-		if (paramlist[0].isIntegerType()) {
-			return AnyScalar( std::abs(paramlist[0].getInteger()) );
+		if (paramlist[0].isInteger()) {
+			return Datum( std::abs(paramlist[0].getInteger()) );
 		}
-		else if (paramlist[0].isFloatingType()) {
-			return AnyScalar( std::fabs(paramlist[0].getDouble()) );
+		else if (paramlist[0].isFloat()) {
+			return Datum( std::fabs(paramlist[0].getFloat()) );
 		}
 		else {
 			throw(BadFunctionCallException("Function ABS() requires a numeric parameter"));
@@ -1784,51 +1780,51 @@ namespace stx MW_SYMBOL_PUBLIC {
 	
 	Datum BasicSymbolTable::funcEXP(const paramlist_type &paramlist)
 	{
-		return AnyScalar( std::exp(paramlist[0].getDouble()) );
+		return Datum( std::exp(paramlist[0].getFloat()) );
 	}
 	
 	Datum BasicSymbolTable::funcLOGN(const paramlist_type &paramlist)
 	{
-		return AnyScalar( std::log(paramlist[0].getDouble()) );
+		return Datum( std::log(paramlist[0].getFloat()) );
 	}
 	
 	Datum BasicSymbolTable::funcPOW(const paramlist_type &paramlist)
 	{
-		return AnyScalar( std::pow(paramlist[0].getDouble(), paramlist[1].getDouble()) );
+		return Datum( std::pow(paramlist[0].getFloat(), paramlist[1].getFloat()) );
 	}
 	
 	Datum BasicSymbolTable::funcSQRT(const paramlist_type &paramlist)
 	{
-		return AnyScalar( std::sqrt(paramlist[0].getDouble()) );
+		return Datum( std::sqrt(paramlist[0].getFloat()) );
 	}
 	
 	Datum BasicSymbolTable::funcCEIL(const paramlist_type &paramlist)
 	{
-		return AnyScalar( std::ceil(paramlist[0].getDouble()) );
+		return Datum( std::ceil(paramlist[0].getFloat()) );
 	}
 	
 	Datum BasicSymbolTable::funcFLOOR(const paramlist_type &paramlist)
 	{
-		return AnyScalar( std::floor(paramlist[0].getDouble()) );
+		return Datum( std::floor(paramlist[0].getFloat()) );
 	}
 	
 	Datum BasicSymbolTable::funcROUND(const paramlist_type &paramlist)
 	{
-		return AnyScalar( boost::math::round(paramlist[0].getDouble()) );
+		return Datum( boost::math::round(paramlist[0].getFloat()) );
 	}
 	
 	Datum BasicSymbolTable::funcMIN(const paramlist_type &paramlist)
 	{
         auto &first = paramlist[0];
         auto &second = paramlist[1];
-        return (first.less(second) ? first : second);
+        return (first.toAnyScalar().less(second.toAnyScalar()) ? first : second);
 	}
 	
 	Datum BasicSymbolTable::funcMAX(const paramlist_type &paramlist)
 	{
         auto &first = paramlist[0];
         auto &second = paramlist[1];
-        return (first.greater(second) ? first : second);
+        return (first.toAnyScalar().greater(second.toAnyScalar()) ? first : second);
 	}
 	
 	static boost::mt19937 rng;
@@ -1842,18 +1838,18 @@ namespace stx MW_SYMBOL_PUBLIC {
 	Datum BasicSymbolTable::funcNOW(const paramlist_type &paramlist)
 	{
 		boost::shared_ptr <mw::Clock> clock = mw::Clock::instance();
-		return AnyScalar( clock->getCurrentTimeUS() );
+		return Datum( clock->getCurrentTimeUS() );
 	}
 	
 	Datum BasicSymbolTable::funcTIMER_EXPIRED(const paramlist_type &paramlist)
 	{
-		return AnyScalar( paramlist[0].getLong() );
+		return Datum( paramlist[0].getInteger() );
 	}
 	
 	Datum BasicSymbolTable::funcREFRESH_RATE(const paramlist_type &paramlist)
 	{
         boost::shared_ptr<mw::StimulusDisplay> display(mw::StimulusDisplay::getCurrentStimulusDisplay());
-		return AnyScalar( display->getMainDisplayRefreshRate() );
+		return Datum( display->getMainDisplayRefreshRate() );
 	}
 	
 	Datum BasicSymbolTable::funcNEXT_FRAME_TIME(const paramlist_type &paramlist)
@@ -1868,7 +1864,7 @@ namespace stx MW_SYMBOL_PUBLIC {
             throw BadFunctionCallException("Function FORMAT() requires at least one parameter");
         }
         
-        if (!(paramlist[0].isStringType())) {
+        if (!(paramlist[0].isString())) {
             throw BadFunctionCallException("First parameter to function FORMAT() must be a string");
         }
         
@@ -1877,7 +1873,7 @@ namespace stx MW_SYMBOL_PUBLIC {
             for (paramlist_type::size_type i = 1; i < paramlist.size(); i++) {
                 fmt % paramlist[i];
             }
-            return AnyScalar( fmt.str() );
+            return Datum( fmt.str() );
         } catch (boost::io::format_error &e) {
             throw BadFunctionCallException(std::string("Error in function FORMAT(): ") + e.what());
         }
@@ -1885,7 +1881,7 @@ namespace stx MW_SYMBOL_PUBLIC {
     
     Datum BasicSymbolTable::funcNUMACCEPTED(const paramlist_type& paramlist)
     {
-        if (!(paramlist[0].isStringType())) {
+        if (!(paramlist[0].isString())) {
             throw BadFunctionCallException("Argument to function NUMACCEPTED() must be a string");
         }
         
@@ -1896,7 +1892,7 @@ namespace stx MW_SYMBOL_PUBLIC {
             throw BadFunctionCallException("Argument to function NUMACCEPTED() must be the name of a selectable object");
         }
         
-        return AnyScalar( selectable->getNAccepted() );
+        return Datum( selectable->getNAccepted() );
     }
 	
 	Datum BasicSymbolTable::funcUNIFORM_RAND(const paramlist_type &paramlist)
@@ -1911,29 +1907,29 @@ namespace stx MW_SYMBOL_PUBLIC {
 			hi = 1.0;
 			lo = 0.0;
 		} else {
-			lo = paramlist[0].getDouble();
-			hi = paramlist[1].getDouble();
+			lo = paramlist[0].getFloat();
+			hi = paramlist[1].getFloat();
 			
 			if(hi == lo) {
-				return AnyScalar(hi);
+				return Datum(hi);
 			}
 			
 			if(hi < lo) {
 				mw::merror(mw::M_GENERIC_MESSAGE_DOMAIN,"Trying to evaluate discrete uniform random variable with high limit <= low limit.  Returning 0.");
-				return AnyScalar(0);
+				return Datum(0);
 			}
 		}
 		
 		boost::uniform_real<> uni_dist(lo, hi);
 		boost::variate_generator<boost::mt19937&, boost::uniform_real<> > uni(rng, uni_dist);
-		return AnyScalar( uni() );
+		return Datum( uni() );
 	}
 	
 	Datum BasicSymbolTable::funcDISC_UNIFORM_RAND(const paramlist_type &paramlist)
 	{
 		// go get current values of high and low ranges (these might be variables)
-		long lo = paramlist[0].getLong();
-		long hi = paramlist[1].getLong();
+		long lo = paramlist[0].getInteger();
+		long hi = paramlist[1].getInteger();
 		
 		long value;
 		
@@ -1952,7 +1948,7 @@ namespace stx MW_SYMBOL_PUBLIC {
 			value = 0;
 		}
 		
-		return AnyScalar( value );
+		return Datum( value );
 	}
 	
 	
@@ -1966,8 +1962,8 @@ namespace stx MW_SYMBOL_PUBLIC {
 		}
 		
 		// go get current values of input parameters (these might be variables)
-		double Bernoulli_prob = paramlist[0].getDouble();
-		long high = paramlist[1].getDouble();
+		double Bernoulli_prob = paramlist[0].getFloat();
+		long high = paramlist[1].getFloat();
 		
 		// Discrete random number sampled in the interval [0, high] from a GEOMETRICAL DISTRIBUTION with constant Bernoulli probability = Bernoulli_prob
 		// (Monte Carlo sampling algorithm taken from Rubinstain).
@@ -1994,7 +1990,7 @@ namespace stx MW_SYMBOL_PUBLIC {
 			mw::mwarning(mw::M_GENERIC_MESSAGE_DOMAIN,"Trying to evaluate discrete geometric random variable with high limit <= low limit.  Returning 0.");
 			value = 0;
 		}
-		return AnyScalar( value );
+		return Datum( value );
 	}
 	
 	

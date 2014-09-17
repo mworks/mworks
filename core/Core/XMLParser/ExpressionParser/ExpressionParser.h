@@ -132,7 +132,7 @@ class SymbolTable
 {
 public:
     /// STL container type used for parameter lists: a vector
-    typedef std::vector<AnyScalar>	paramlist_type;
+    typedef std::vector<Datum>	paramlist_type;
 
     /// Required for virtual functions.
     virtual ~SymbolTable();

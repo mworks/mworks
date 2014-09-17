@@ -116,6 +116,13 @@ Datum::Datum(float newdata) {
 }
 
 
+Datum::Datum(int newdata){
+    initScarabDatum();
+    setDataType(M_INTEGER);
+    setInteger(newdata);
+}
+
+
 Datum::Datum(long newdata){
   initScarabDatum();
   setDataType(M_INTEGER);
@@ -534,7 +541,7 @@ void Datum::setString(const std::string &newdata) {
 }
 
 
-bool Datum::isInteger()  const{ return (datatype == M_INTEGER); }
+bool Datum::isInteger()  const{ return (datatype == M_BOOLEAN) || (datatype == M_INTEGER); }
 
 bool Datum::isBool()  const{ return (datatype == M_BOOLEAN); }
     
@@ -801,19 +808,8 @@ Datum::operator std::string() const {
 }
 
 Datum::operator stx::AnyScalar() const {
-	if(isInteger()){
-		return stx::AnyScalar(getInteger());
-	} else if(isFloat()){
-		return stx::AnyScalar(getFloat());
-	} else if(isString()){
-		return stx::AnyScalar(getString());
-	} else if(isBool()){
-		return stx::AnyScalar(getBool());
-	}
-	
-	return stx::AnyScalar();
+    return toAnyScalar();
 }
-
 
 
 Datum Datum::operator+(const Datum& other)  const{
@@ -1512,20 +1508,25 @@ void Datum::createList(int ls) {
 
 std::string Datum::toString() const {
 	std::ostringstream buf;
-	
-	switch (datatype) {
+    buf << *this;
+	return buf.str();
+}
+
+
+std::ostream& operator<<(std::ostream &buf, const Datum &d) {
+	switch (d.getDataType()) {
 		case M_INTEGER:
-			buf << getInteger();
+			buf << d.getInteger();
 			break;
 		case M_BOOLEAN:
-			buf << getBool();
+			buf << d.getBool();
 			break;
 		case M_FLOAT:
-			buf << getFloat();
+			buf << d.getFloat();
 			break;
 		case M_STRING:
-			buf << getString();
-			break;    
+			buf << d.getString();
+			break;
 		case M_DICTIONARY:
 			buf << "DICT";
 			break;
@@ -1536,9 +1537,50 @@ std::string Datum::toString() const {
 			buf << "";
 			break;
 	}
+    
+    return buf;
+}
+
+
+stx::AnyScalar Datum::toAnyScalar() const {
+	if(isInteger()){
+		return stx::AnyScalar(getInteger());
+	} else if(isFloat()){
+		return stx::AnyScalar(getFloat());
+	} else if(isString()){
+		return stx::AnyScalar(getString());
+	} else if(isBool()){
+		return stx::AnyScalar(getBool());
+	}
 	
-	return buf.str();
+	return stx::AnyScalar();
 }
 
 
 END_NAMESPACE_MW
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
