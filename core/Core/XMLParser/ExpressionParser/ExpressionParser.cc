@@ -44,6 +44,7 @@
 
 #include <boost/math/special_functions/round.hpp>
 #include <boost/format.hpp>
+#include <boost/lexical_cast.hpp>
 
 #include "Utilities.h"
 
@@ -365,27 +366,16 @@ namespace stx MW_SYMBOL_PUBLIC {
 		// *** not be publicly available via the header file.
 		
 		/// Constant value nodes of the parse tree. This class holds any of the three
-		/// constant types in the enclosed AnyScalar object.
+		/// constant types in the enclosed Datum object.
 		class PNConstant : public ParseNode
 			{
 			private:
 				/// The constant parsed value.
-				AnyScalar	value;
+				Datum	value;
 				
 			public:
-				/// Assignment from the string received from the parser.
-				PNConstant(AnyScalar::attrtype_t type, std::string strvalue)
-				: ParseNode(), value(type)
-				{
-					// check whether to dequote the incoming string.
-					if (type == AnyScalar::ATTRTYPE_STRING)
-						value.setStringQuoted(strvalue);
-					else
-						value.setString(strvalue); // not a string, but an integer or double or boolean value
-				}
-				
 				/// constructor for folded constant values.
-				PNConstant(const AnyScalar &_value)
+				PNConstant(const Datum &_value)
 				: value(_value)
 				{
 				}
@@ -403,13 +393,13 @@ namespace stx MW_SYMBOL_PUBLIC {
 					return true;
 				}
 				
-				/// String representation of the constant AnyScalar value.
+				/// String representation of the constant Datum value.
 				virtual std::string toString() const
 				{
-					if (value.getType() == AnyScalar::ATTRTYPE_STRING) {
-						return value.getStringQuoted();
+					if (value.isString()) {
+						return value.toStringQuoted();
 					}
-					return value.getString();
+					return value.toString();
 				}
 			};
 		
@@ -549,14 +539,14 @@ namespace stx MW_SYMBOL_PUBLIC {
             /// Applies the operator to the recursively calculated value.
             virtual Datum evaluate(const class SymbolTable &st) const
             {
-                AnyScalar dest = operand->evaluate(st);
+                Datum dest = operand->evaluate(st);
                 
                 if (units == "s") {
-                    dest = dest * 1000000;	    
+                    dest = dest * Datum(1000000);
                 }
                 else if (units == "ms")
                 {
-                    dest = dest * 1000;	    
+                    dest = dest * Datum(1000);
                 }
                 else {
                     // No change for "us"
@@ -574,11 +564,11 @@ namespace stx MW_SYMBOL_PUBLIC {
                 bool b = operand->evaluate_const(dest);
                 
                 if (units == "s") {
-                    *dest = (*dest).toAnyScalar() * 1000000;
+                    *dest = (*dest) * Datum(1000000);
                 }
                 else if (units == "ms")
                 {
-                    *dest = (*dest).toAnyScalar() * 1000;
+                    *dest = (*dest) * Datum(1000);
                 }
                 else {
                     // No change for "us"
@@ -624,17 +614,17 @@ namespace stx MW_SYMBOL_PUBLIC {
 				/// Applies the operator to the recursively calculated value.
 				virtual Datum evaluate(const class SymbolTable &st) const
 				{
-					AnyScalar dest = operand->evaluate(st);
+					Datum dest = operand->evaluate(st);
 					
 					if (op == '-') {
-						dest = -dest;	    
+						dest = -dest;
 					}
 					else if (op == '!')
 					{
-						if(dest.getBoolean()) {
-							dest = 0;
+						if (dest.getBool()) {
+							dest = false;
 						} else {
-							dest = 1;
+							dest = true;
 						}
 					}
 					else {
@@ -652,14 +642,14 @@ namespace stx MW_SYMBOL_PUBLIC {
 					bool b = operand->evaluate_const(dest);
 					
 					if (op == '-') {
-						*dest = -((*dest).toAnyScalar());
+						*dest = -(*dest);
 					}
 					else if (op == '!')
 					{
 						if(dest->getBool()) {
-							*dest = 0;
+							*dest = false;
 						} else {
-							*dest = 1;
+							*dest = true;
 						}
 					}
 					else {
@@ -708,11 +698,11 @@ namespace stx MW_SYMBOL_PUBLIC {
 				}
 				
 				/// Applies the operator to the two recursive calculated values. The actual
-				/// switching between types is handled by AnyScalar's operators.
+				/// switching between types is handled by Datum's operators.
 				virtual Datum evaluate(const class SymbolTable &st) const
 				{
-					AnyScalar vl = left->evaluate(st);
-					AnyScalar vr = right->evaluate(st);
+					Datum vl = left->evaluate(st);
+					Datum vr = right->evaluate(st);
 					
 					if (op == '+') {
 						return (vl + vr);
@@ -727,12 +717,7 @@ namespace stx MW_SYMBOL_PUBLIC {
 						return (vl / vr);
 					}
 					else if (op == '%') {
-//						assert(vr.isIntegerType() &&
-//							   vl.isIntegerType()); 
-						long vr_tmp = vr.getLong();
-						long vl_tmp = vl.getLong();
-						AnyScalar retval = vl_tmp % vr_tmp;
-						return (retval);
+						return (vl % vr);
 					}
 					
 					assert(0);
@@ -751,24 +736,19 @@ namespace stx MW_SYMBOL_PUBLIC {
 					bool br = right->evaluate_const(&vr);
 					
 					if (op == '+') {
-						*dest = vl.toAnyScalar() + vr.toAnyScalar();
+						*dest = vl + vr;
 					}
 					else if (op == '-') {
-						*dest = vl.toAnyScalar() - vr.toAnyScalar();
+						*dest = vl - vr;
 					}
 					else if (op == '*') {
-						*dest = vl.toAnyScalar() * vr.toAnyScalar();
+						*dest = vl * vr;
 					}
 					else if (op == '/') {
-						*dest = vl.toAnyScalar() / vr.toAnyScalar();
+						*dest = vl / vr;
 					}
 					else if (op == '%') {
-//						assert(vr.isIntegerType() &&
-//							   vl.isIntegerType()); 
-						long vr_tmp = vr.getInteger();
-						long vl_tmp = vl.getInteger();
-						AnyScalar retval = vl_tmp % vr_tmp;
-						*dest = retval;
+						*dest = vl % vr;
 					}
 					
 					return (bl && br);
@@ -788,13 +768,13 @@ namespace stx MW_SYMBOL_PUBLIC {
 				/// Child tree of which the return value should be casted.
 				const ParseNode*	operand;
 				
-				/// AnyScalar type to cast the value to.
-				AnyScalar::attrtype_t	type;
+				/// Datum type to cast the value to.
+                mw::GenericDataType	type;
 				
 			public:
 				/// Constructor from the parser: operand subnode and the cast type as
-				/// recognized by AnyScalar.
-				PNCastExpr(const ParseNode* _operand, AnyScalar::attrtype_t _type)
+				/// recognized by Datum.
+				PNCastExpr(const ParseNode* _operand, mw::GenericDataType _type)
 				: ParseNode(),
 				operand(_operand), type(_type)
 				{ }
@@ -804,34 +784,60 @@ namespace stx MW_SYMBOL_PUBLIC {
 				{
 					delete operand;
 				}
+                
+                static Datum convert(const Datum &value, mw::GenericDataType type) {
+                    switch (type) {
+                        case mw::M_BOOLEAN:
+                            return value.getBool();
+                            
+                        case mw::M_FLOAT:
+                            return value.getFloat();
+                            
+                        case mw::M_STRING:
+                            return value.toString();
+                            
+                        default:
+                            return value.getInteger();
+                    }
+                }
 				
-				/// Recursive calculation of the value and subsequent casting via
-				/// AnyScalar's convertType method.
+				/// Recursive calculation of the value and subsequent casting
 				virtual Datum evaluate(const class SymbolTable &st) const
 				{
-					AnyScalar val = operand->evaluate(st);
-					val.convertType(type);
-					return val;
+					Datum val = operand->evaluate(st);
+					return convert(val, type);
 				}
 				
-				/// Returns false because this node isn't always constant.
 				virtual bool evaluate_const(Datum *dest) const
 				{
 					if (!dest) return false;
 					
 					bool b = operand->evaluate_const(dest);
-                    
-                    AnyScalar v = dest->toAnyScalar();
-                    v.convertType(type);
-                    *dest = v;
+                    *dest = convert(*dest, type);
                     
 					return b;
 				}
+                
+                static const char * getTypeString(mw::GenericDataType type) {
+                    switch (type) {
+                        case mw::M_BOOLEAN:
+                            return "bool";
+                            
+                        case mw::M_FLOAT:
+                            return "float";
+                            
+                        case mw::M_STRING:
+                            return "string";
+                            
+                        default:
+                            return "integer";
+                    }
+                }
 				
 				/// c-like representation of the cast
 				virtual std::string toString() const
 				{
-					return std::string("((") + AnyScalar::getTypeString(type) + ")" + operand->toString() + ")";
+					return std::string("((") + getTypeString(type) + ")" + operand->toString() + ")";
 				}
 			};
 		
@@ -884,39 +890,39 @@ namespace stx MW_SYMBOL_PUBLIC {
 				}
 				
 				/// Applies the operator to the two recursive calculated values. The actual
-				/// switching between types is handled by AnyScalar's operators. This
+				/// switching between types is handled by Datum's operators. This
 				/// result type of this processing node is always bool.
 				virtual Datum evaluate(const class SymbolTable &st) const
 				{
-					AnyScalar vl = left->evaluate(st);
-					AnyScalar vr = right->evaluate(st);
+					Datum vl = left->evaluate(st);
+					Datum vr = right->evaluate(st);
 					
-					AnyScalar dest(AnyScalar::ATTRTYPE_BOOL);
+					Datum dest;
 					
 					switch(op)
 					{
 						case EQUAL:
-							dest = AnyScalar( vl.equal_to(vr) );
+							dest = (vl == vr);
 							break;
 							
 						case NOTEQUAL:
-							dest = AnyScalar( vl.not_equal_to(vr) );
+							dest = (vl != vr);
 							break;
 							
 						case LESS:
-							dest = AnyScalar( vl.less(vr) );
+							dest = (vl < vr);
 							break;
 							
 						case GREATER:
-							dest = AnyScalar( vl.greater(vr) );
+							dest = (vl > vr);
 							break;
 							
 						case LESSEQUAL:
-							dest = AnyScalar( vl.less_equal(vr) );
+							dest = (vl <= vr);
 							break;
 							
 						case GREATEREQUAL:
-							dest = AnyScalar( vl.greater_equal(vr) );
+							dest = (vl >= vr);
 							break;
 							
 						default:
@@ -939,27 +945,27 @@ namespace stx MW_SYMBOL_PUBLIC {
 					switch(op)
 					{
 						case EQUAL:
-							*dest = AnyScalar( vl.toAnyScalar().equal_to(vr.toAnyScalar()) );
+							*dest = (vl == vr);
 							break;
 							
 						case NOTEQUAL:
-							*dest = AnyScalar( vl.toAnyScalar().not_equal_to(vr.toAnyScalar()) );
+							*dest = (vl != vr);
 							break;
 							
 						case LESS:
-							*dest = AnyScalar( vl.toAnyScalar().less(vr.toAnyScalar()) );
+							*dest = (vl < vr);
 							break;
 							
 						case GREATER:
-							*dest = AnyScalar( vl.toAnyScalar().greater(vr.toAnyScalar()) );
+							*dest = (vl > vr);
 							break;
 							
 						case LESSEQUAL:
-							*dest = AnyScalar( vl.toAnyScalar().less_equal(vr.toAnyScalar()) );
+							*dest = (vl <= vr);
 							break;
 							
 						case GREATEREQUAL:
-							*dest = AnyScalar( vl.toAnyScalar().greater_equal(vr.toAnyScalar()) );
+							*dest = (vl >= vr);
 							break;
 							
 						default:
@@ -1031,23 +1037,16 @@ namespace stx MW_SYMBOL_PUBLIC {
 				}
 				
 				/// Applies the operator to the two recursive calculated values. The actual
-				/// switching between types is handled by AnyScalar's operators.
+				/// switching between types is handled by Datum's operators.
 				virtual Datum evaluate(const class SymbolTable &st) const
 				{
-					AnyScalar vl = left->evaluate(st);
-					AnyScalar vr = right->evaluate(st);
-					
-					// these should never happen.
-					// DDC REMOVED THESE CHECKS, BECAUSE THEY ARE SILLY
-					//	if (vl.getType() != AnyScalar::ATTRTYPE_BOOL)
-					//	    throw(BadSyntaxException(std::string("Invalid left operand for ") + get_opstr() + ". Both operands must be of type bool."));
-					//	if (vr.getType() != AnyScalar::ATTRTYPE_BOOL)
-					//	    throw(BadSyntaxException(std::string("Invalid right operand for ") + get_opstr() + ". Both operands must be of type bool."));
+					Datum vl = left->evaluate(st);
+					Datum vr = right->evaluate(st);
 					
 					int bvl = vl.getInteger();
 					int bvr = vr.getInteger();
 					
-					return AnyScalar( do_operator(bvl, bvr) );
+					return Datum( do_operator(bvl, bvr) );
 				}
 				
 				/// Applies the operator to the two recursive calculated const
@@ -1063,26 +1062,20 @@ namespace stx MW_SYMBOL_PUBLIC {
 					bool bl = left->evaluate_const(&vl);
 					bool br = right->evaluate_const(&vr);
 					
-					// DDC REMOVED THESE BECAUSE THEY WERE SILLY
-					//if (vl.getType() != AnyScalar::ATTRTYPE_BOOL)
-					//	    throw(BadSyntaxException(std::string("Invalid left operand for ") + get_opstr() + ". Both operands must be of type bool."));
-					//	if (vr.getType() != AnyScalar::ATTRTYPE_BOOL)
-					//	    throw(BadSyntaxException(std::string("Invalid right operand for ") + get_opstr() + ". Both operands must be of type bool."));
-					
 					int bvl = 0;
                     if (bl) bvl = vl.getInteger();
 					int bvr = 0;
                     if (br) bvr = vr.getInteger();
 					
                     if (bl && br) {
-                        *dest = AnyScalar( do_operator(bvl, bvr) );
+                        *dest = do_operator(bvl, bvr);
                         return true;
                     }
 					else if (op == OP_AND)
 					{
 						// true if either of the ops is constant and evaluates to false.
                         if ((bl && !bvl) || (br && !bvr)) {
-                            *dest = AnyScalar(false);
+                            *dest = false;
                             return true;
                         }
 					}
@@ -1090,7 +1083,7 @@ namespace stx MW_SYMBOL_PUBLIC {
 					{
 						// true if either of the ops is constant and evaluates to true.
                         if ((bl && bvl) || (br && bvr)) {
-                            *dest = AnyScalar(true);
+                            *dest = true;
                             return true;
                         }
 					}
@@ -1155,27 +1148,22 @@ namespace stx MW_SYMBOL_PUBLIC {
 				/// Evaluates and returns the full range of values
 				void evaluate(std::vector<Datum> &values, const class SymbolTable &st) const override
 				{
-					AnyScalar first = start->evaluate(st);
-					AnyScalar last = stop->evaluate(st);
+					Datum first = start->evaluate(st);
+					Datum last = stop->evaluate(st);
                     
-                    if (!(first.isIntegerType() && last.isIntegerType())) {
+                    if (!(first.isInteger() && last.isInteger())) {
                         throw ExpressionParserException("start and stop values of range expression must be integers");
                     }
                     
-                    // We *could* support unsigned integers, but it doesn't seem worth the trouble
-                    if (first.isUnsignedIntegerType() || last.isUnsignedIntegerType()) {
-                        throw ExpressionParserException("start and stop values of range expression cannot be unsigned integers");
-                    }
-                    
-                    const long long firstValue = first.getLong();
-                    const long long lastValue = last.getLong();
+                    const long long firstValue = first.getInteger();
+                    const long long lastValue = last.getInteger();
                     const long long delta = ((firstValue <= lastValue) ? 1 : -1);
                     
                     for (long long currentValue = firstValue;
                          currentValue != (lastValue + delta);
                          currentValue += delta)
                     {
-                        values.push_back( AnyScalar(currentValue) );
+                        values.emplace_back(currentValue);
                     }
 				}
 				
@@ -1223,31 +1211,33 @@ namespace stx MW_SYMBOL_PUBLIC {
 				{
                     std::string boolconst(i->value.begin(), i->value.end());
 					std::transform(boolconst.begin(), boolconst.end(), boolconst.begin(), &_to_lower);
-					return new PNConstant(AnyScalar::ATTRTYPE_BOOL, boolconst);
+					return new PNConstant(Datum((boolconst == "true") || (boolconst == "yes")));
 				}
 					
 				case integer_const_id:
 				{
-					return new PNConstant(AnyScalar::ATTRTYPE_INTEGER,
-										  std::string(i->value.begin(), i->value.end()));
+                    std::string intconst(i->value.begin(), i->value.end());
+					return new PNConstant(Datum(boost::lexical_cast<long long>(intconst)));
 				}
 					
 				case long_const_id:
 				{
-					return new PNConstant(AnyScalar::ATTRTYPE_LONG,
-										  std::string(i->value.begin(), i->value.end()));
+                    std::string longconst(i->value.begin(), i->value.end());
+					return new PNConstant(Datum(boost::lexical_cast<long long>(longconst)));
 				}
 					
 				case double_const_id:
 				{
-					return new PNConstant(AnyScalar::ATTRTYPE_DOUBLE,
-										  std::string(i->value.begin(), i->value.end()));
+                    std::string doubleconst(i->value.begin(), i->value.end());
+					return new PNConstant(Datum(boost::lexical_cast<double>(doubleconst)));
 				}
 					
 				case string_const_id:
 				{
-					return new PNConstant(AnyScalar::ATTRTYPE_STRING,
-										  std::string(i->value.begin(), i->value.end()));
+                    std::string stringconst(i->value.begin(), i->value.end());
+                    Datum val;
+                    val.setStringQuoted(stringconst);
+					return new PNConstant(val);
 				}
 					
 					// *** Arithmetic node cases
@@ -1269,7 +1259,7 @@ namespace stx MW_SYMBOL_PUBLIC {
 						
 						tmpnode.evaluate_const(&constval);
 						
-						return new PNConstant(constval.toAnyScalar());
+						return new PNConstant(constval);
 					}
 					else
 					{
@@ -1293,7 +1283,7 @@ namespace stx MW_SYMBOL_PUBLIC {
 						
 						tmpnode.evaluate_const(&constval);
 						
-						return new PNConstant(constval.toAnyScalar());
+						return new PNConstant(constval);
 					}
 					else
 					{
@@ -1323,7 +1313,7 @@ namespace stx MW_SYMBOL_PUBLIC {
 						
 						// left and right are deleted by tmpnode's deconstructor
 						
-						return new PNConstant(both.toAnyScalar());
+						return new PNConstant(both);
 					}
 					else
 					{
@@ -1339,24 +1329,35 @@ namespace stx MW_SYMBOL_PUBLIC {
 					assert(i->children.size() == 1);
 					
 					std::string tname(i->value.begin(), i->value.end());
-					AnyScalar::attrtype_t at = AnyScalar::stringToType(tname);
-					
+                    mw::GenericDataType type;
+                    
+                    if (tname == "bool") {
+                        type = mw::M_BOOLEAN;
+                    } else if (tname == "float" || tname == "double") {
+                        type = mw::M_FLOAT;
+                    } else if (tname == "string") {
+                        type = mw::M_STRING;
+                    } else {
+                        // All other types are integral
+                        type = mw::M_INTEGER;
+                    }
+
 					const ParseNode *val = build_expr(i->children.begin());
 					
 					if (val->evaluate_const(NULL))
 					{
 						// construct a constant node
-						PNCastExpr tmpnode(val, at);
+						PNCastExpr tmpnode(val, type);
 						
 						Datum constval;
 						
 						tmpnode.evaluate_const(&constval);
 						
-						return new PNConstant(constval.toAnyScalar());
+						return new PNConstant(constval);
 					}
 					else
 					{
-						return new PNCastExpr(val, at);
+						return new PNCastExpr(val, type);
 					}
 				}
 					
@@ -1383,7 +1384,7 @@ namespace stx MW_SYMBOL_PUBLIC {
 						
 						// left and right are deleted by tmpnode's deconstructor
 						
-						return new PNConstant(both.toAnyScalar());
+						return new PNConstant(both);
 					}
 					else
 					{
@@ -1423,7 +1424,7 @@ namespace stx MW_SYMBOL_PUBLIC {
 						{
 							// return a constant node instead, node will be deleted by
 							// auto_ptr, left,right by node's destructor.
-							return new PNConstant(both.toAnyScalar());
+							return new PNConstant(both);
 						}
 					}
 					if (constleft)
@@ -1821,14 +1822,14 @@ namespace stx MW_SYMBOL_PUBLIC {
 	{
         auto &first = paramlist[0];
         auto &second = paramlist[1];
-        return (first.toAnyScalar().less(second.toAnyScalar()) ? first : second);
+        return ((first < second) ? first : second);
 	}
 	
 	Datum BasicSymbolTable::funcMAX(const paramlist_type &paramlist)
 	{
         auto &first = paramlist[0];
         auto &second = paramlist[1];
-        return (first.toAnyScalar().greater(second.toAnyScalar()) ? first : second);
+        return ((first > second) ? first : second);
 	}
 	
 	static boost::mt19937 rng;
@@ -1859,7 +1860,7 @@ namespace stx MW_SYMBOL_PUBLIC {
 	Datum BasicSymbolTable::funcNEXT_FRAME_TIME(const paramlist_type &paramlist)
     {
         boost::shared_ptr<mw::StimulusDisplay> display(mw::StimulusDisplay::getCurrentStimulusDisplay());
-        return AnyScalar( display->getCurrentOutputTimeUS() );
+        return Datum( display->getCurrentOutputTimeUS() );
     }
 	
 	Datum BasicSymbolTable::funcFORMAT(const paramlist_type &paramlist)

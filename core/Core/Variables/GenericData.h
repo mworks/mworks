@@ -154,6 +154,7 @@ public:
      * Returns the data type of the Datum object.
      */
     GenericDataType getDataType() const;
+    const char * getDataTypeName() const;
     
     /**
      * Returns the scarab data package that stores this object
@@ -165,7 +166,7 @@ public:
      * If datatype is one of the numeric types then it will return
      * a representation for it, otherwise it will return 0.
      */
-    long getBool() const;
+    bool getBool() const;
     double getFloat() const;
     long long getInteger() const;
     
@@ -187,6 +188,7 @@ public:
     void setString(const char * string, int size);
     void setString(const char * string);
     void setString(const std::string &string);
+    void setStringQuoted(const std::string &string);
     
     bool isInteger()  const;
     bool isFloat() const;
@@ -232,6 +234,7 @@ public:
     bool operator==(const char * newdata) const;
     bool operator!=(const char * newdata) const;
     
+    Datum operator-() const;
     
     Datum operator+(const Datum&) const;
     Datum operator-(const Datum&) const;
@@ -273,6 +276,7 @@ public:
     Datum operator[](int i) const;
     
     std::string toString() const;
+    std::string toStringQuoted() const;
     stx::AnyScalar toAnyScalar() const;
     
 private:

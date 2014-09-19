@@ -3,7 +3,7 @@
 from cStringIO import StringIO
 from optparse import OptionParser
 import os
-from subprocess import call, check_call, Popen, PIPE
+from subprocess import call, check_call, check_output, Popen, PIPE
 import sys
 from tempfile import NamedTemporaryFile
 from xml.dom import minidom
@@ -42,6 +42,10 @@ end if
 def error(status, msg, *args):
     sys.stderr.write('ERROR: ' + (msg % args) + '\n')
     sys.exit(status)
+
+
+def demangle_name(name):
+    return check_output(['/usr/bin/c++filt', name])
 
 
 def run_unit_tests(arch_name, test_names=None):
@@ -199,7 +203,7 @@ def main():
     marionette_test_names = []
 
     for name in args:
-        if '::' in name:
+        if '::' in demangle_name(name):
             unit_test_names.append(name)
         else:
             marionette_test_names.append(name)

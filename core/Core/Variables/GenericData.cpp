@@ -289,6 +289,25 @@ GenericDataType Datum::getDataType() const {
   return datatype;
 }
 
+const char * Datum::getDataTypeName() const {
+    switch (datatype) {
+        case M_BOOLEAN:
+            return "boolean";
+        case M_INTEGER:
+            return "integer";
+        case M_FLOAT:
+            return "float";
+        case M_STRING:
+            return "string";
+        case M_LIST:
+            return "list";
+        case M_DICTIONARY:
+            return "dictionary";
+        default:
+            return "undefined";
+    }
+}
+
 void Datum::setDataType(GenericDataType type){
   datatype = type;
 }
@@ -303,7 +322,7 @@ ScarabDatum * Datum::getScarabDatumCopy() const{
   return new_datum;
 }
 
-long Datum::getBool() const{
+bool Datum::getBool() const{
 	
 	if(data == NULL){
 		mwarning(M_SYSTEM_MESSAGE_DOMAIN,
@@ -316,10 +335,10 @@ long Datum::getBool() const{
 	switch (datatype) {
 		case M_INTEGER:
 		case M_BOOLEAN:
-			result = (data->data.integer > 0);
+			result = bool(data->data.integer);
 			break;
 		case M_FLOAT:
-			result = (data->data.floatp > 0);
+			result = bool(data->data.floatp);
 			break;
 		default:
 			break;
@@ -538,6 +557,53 @@ void Datum::setString(const char * newdata) {
 
 void Datum::setString(const std::string &newdata) {
     setString(newdata.c_str(), newdata.size()+1);
+}
+
+
+void Datum::setStringQuoted(const std::string &s) {
+    if (s.size() < 2 ||
+        ((s.front() != '"') && (s.front() != '\'')) ||
+        ((s.back() != '"') && (s.back() != '\'')))
+    {
+        setString(s);
+        return;
+    }
+    
+    std::string t;
+    t.reserve(s.size() + s.size() / 32);
+    
+    for (std::size_t i = 1; i + 1 < s.size(); i++) {
+        if (s[i] != '\\') {
+            t += s[i];
+        } else {
+            i++;
+            if (i >= s.size() - 1) {
+                setString(s);
+                return;
+            }
+            
+            switch (s[i]) {
+                case 'a':	t += '\a';	break;
+                case 'b':	t += '\b';	break;
+                case 'f':	t += '\f';	break;
+                case 'n':	t += '\n';	break;
+                case 'r':	t += '\r';	break;
+                case 't':	t += '\t';	break;
+                case 'v':	t += '\v';	break;
+                case '\'':	t += '\'';	break;
+                case '"':	t += '"';	break;
+                case '\\':	t += '\\';	break;
+                case '?':	t += '?';	break;
+                    
+                default:
+                    t += '\\';
+                    t += s[i];
+                    break;
+            }
+        }
+    }
+    
+    setString(t);
 }
 
 
@@ -812,6 +878,18 @@ Datum::operator stx::AnyScalar() const {
 }
 
 
+Datum Datum::operator-() const {
+    if (isInteger()) {
+        return -getInteger();
+    } else if (isFloat()) {
+        return -getFloat();
+    }
+    
+    merror(M_SYSTEM_MESSAGE_DOMAIN, "Cannot negate %s", getDataTypeName());
+    return 0;
+}
+
+
 Datum Datum::operator+(const Datum& other)  const{
   Datum returnval;
   if(isInteger() || isBool()) {
@@ -852,25 +930,26 @@ Datum Datum::operator-(const Datum& other)  const{
   return returnval;
 }
 
+
 Datum Datum::operator*(const Datum& other)  const{
-  Datum returnval;
-  if(isInteger() || isBool()) {
-    if(other.isInteger() || other.isBool()) {
-      returnval = getInteger() * (long long)other;
-    } else if(other.isFloat()) {
-      returnval = getInteger() * (double)other;
+    if (isInteger()) {
+        if (other.isInteger()) {
+            return getInteger() * (long long)other;
+        } else if (other.isFloat()) {
+            return getInteger() * (double)other;
+        }
+    } else if (isFloat()) {
+        if (other.isInteger()) {
+            return getFloat() * (long long)other;
+        } else if (other.isFloat()) {
+            return getFloat() * (double)other;
+        }
     }
-  } else if(isFloat()) {
-    if(other.isInteger() || other.isBool()) {
-      returnval = getFloat() * (long long)other;
-    } else if(other.isFloat()) {
-      returnval = getFloat() * (double)other;
-    }
-  } else {
-    returnval = 0;
-  }
-  return returnval;
+    
+    merror(M_SYSTEM_MESSAGE_DOMAIN, "Cannot multiply %s and %s", getDataTypeName(), other.getDataTypeName());
+    return 0;
 }
+
 
 Datum Datum::operator/(const Datum& other)  const{
   Datum returnval;
@@ -1087,7 +1166,7 @@ void Datum::printToSTDERR() const {
 			fprintf(stderr, "Value is => %lld\n", getInteger());
 			break;
 		case M_BOOLEAN:
-			fprintf(stderr, "Value is => %ld\n", getBool());
+			fprintf(stderr, "Value is => %d\n", getBool());
 			break;
 		case M_FLOAT:
 			fprintf(stderr, "Value is => %G\n", getFloat());
@@ -1510,6 +1589,65 @@ std::string Datum::toString() const {
 	std::ostringstream buf;
     buf << *this;
 	return buf.str();
+}
+
+
+std::string Datum::toStringQuoted() const {
+    const std::string str = toString();
+    std::string os = "\"";
+    
+    os.reserve(2 + str.size() + str.size() / 16);
+    
+    for (char c : str) {
+        switch (c) {
+            case '\a':
+                os += "\\a";
+                break;
+                
+            case '\b':
+                os += "\\b";
+                break;
+                
+            case '\f':
+                os += "\\f";
+                break;
+                
+            case '\n':
+                os += "\\n";
+                break;
+                
+            case '\r':
+                os += "\\r";
+                break;
+                
+            case '\t':
+                os += "\\t";
+                break;
+                
+            case '\v':
+                os += "\\v";
+                break;
+                
+            case '\\':
+                os += "\\\\";
+                break;
+                
+            case '"':
+                os += "\\\"";
+                break;
+                
+            case '\'':
+                os += "\\'";
+                break;
+                
+            default:
+                os += c;
+                break;
+        }
+    }
+    
+    os += "\"";
+    return os;
 }
 
 
