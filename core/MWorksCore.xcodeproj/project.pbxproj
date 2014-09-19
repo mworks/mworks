@@ -243,8 +243,6 @@
 		5CD6215A1174FF3D007339B7 /* FreezableVariableContainer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CD621581174FF3D007339B7 /* FreezableVariableContainer.cpp */; };
 		5CDCC8830D2B0E10008E2F19 /* ExpressionParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CDCC87F0D2B0E10008E2F19 /* ExpressionParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5CDCC8840D2B0E10008E2F19 /* ExpressionParser.cc in Sources */ = {isa = PBXBuildFile; fileRef = 5CDCC8800D2B0E10008E2F19 /* ExpressionParser.cc */; };
-		5CDCC8850D2B0E10008E2F19 /* AnyScalar.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CDCC8810D2B0E10008E2F19 /* AnyScalar.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5CDCC8860D2B0E10008E2F19 /* AnyScalar.cc in Sources */ = {isa = PBXBuildFile; fileRef = 5CDCC8820D2B0E10008E2F19 /* AnyScalar.cc */; };
 		5CDCC89E0D2B2586008E2F19 /* ParsedExpressionVariableTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CDCC8960D2B17F4008E2F19 /* ParsedExpressionVariableTest.cpp */; };
 		5CDCC89F0D2B2587008E2F19 /* ParsedExpressionVariableTest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CDCC8950D2B17F4008E2F19 /* ParsedExpressionVariableTest.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5CE04BD60BB0724700263274 /* SchedulerTest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CE04BD40BB0724700263274 /* SchedulerTest.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -864,8 +862,6 @@
 		5CD621581174FF3D007339B7 /* FreezableVariableContainer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FreezableVariableContainer.cpp; path = Core/Variables/FreezableVariableContainer.cpp; sourceTree = "<group>"; };
 		5CDCC87F0D2B0E10008E2F19 /* ExpressionParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExpressionParser.h; sourceTree = "<group>"; };
 		5CDCC8800D2B0E10008E2F19 /* ExpressionParser.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ExpressionParser.cc; sourceTree = "<group>"; };
-		5CDCC8810D2B0E10008E2F19 /* AnyScalar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnyScalar.h; sourceTree = "<group>"; };
-		5CDCC8820D2B0E10008E2F19 /* AnyScalar.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AnyScalar.cc; sourceTree = "<group>"; };
 		5CDCC8950D2B17F4008E2F19 /* ParsedExpressionVariableTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParsedExpressionVariableTest.h; sourceTree = "<group>"; };
 		5CDCC8960D2B17F4008E2F19 /* ParsedExpressionVariableTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ParsedExpressionVariableTest.cpp; sourceTree = "<group>"; };
 		5CE04BD40BB0724700263274 /* SchedulerTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SchedulerTest.h; sourceTree = "<group>"; };
@@ -1665,8 +1661,6 @@
 			children = (
 				5CDCC87F0D2B0E10008E2F19 /* ExpressionParser.h */,
 				5CDCC8800D2B0E10008E2F19 /* ExpressionParser.cc */,
-				5CDCC8810D2B0E10008E2F19 /* AnyScalar.h */,
-				5CDCC8820D2B0E10008E2F19 /* AnyScalar.cc */,
 				0E2FE59F0EF00CC900CEB818 /* ParsedColorTrio.h */,
 				0E2FE5A00EF00CC900CEB818 /* ParsedColorTrio.cpp */,
 			);
@@ -2355,7 +2349,6 @@
 				5CE30A4F0CFA49D600BEB3E3 /* Component.h in Headers */,
 				0E88D1730D04708A00D7D273 /* ComponentFactoryException.h in Headers */,
 				5CDCC8830D2B0E10008E2F19 /* ExpressionParser.h in Headers */,
-				5CDCC8850D2B0E10008E2F19 /* AnyScalar.h in Headers */,
 				5CEFD82C0D4D1D6200EA9950 /* Exceptions.h in Headers */,
 				5C643EA10D501E99004A8BD2 /* UnresolvedReferenceVariable.h in Headers */,
 				5C8D03C40D56B1AE00454461 /* DummyIODevice.h in Headers */,
@@ -2849,7 +2842,6 @@
 				5CE30A4C0CF9FAFA00BEB3E3 /* XMLParser.cpp in Sources */,
 				5CE30A500CFA49D600BEB3E3 /* Component.cpp in Sources */,
 				5CDCC8840D2B0E10008E2F19 /* ExpressionParser.cc in Sources */,
-				5CDCC8860D2B0E10008E2F19 /* AnyScalar.cc in Sources */,
 				5CEFD82D0D4D1D6200EA9950 /* Exceptions.cpp in Sources */,
 				5CD504310D4ED0BA00CD1C1D /* TrialBuildingBlocks.cpp in Sources */,
 				5C643EA20D501E99004A8BD2 /* UnresolvedReferenceVariable.cpp in Sources */,

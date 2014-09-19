@@ -261,13 +261,6 @@ Datum::Datum(ScarabDatum * datum) {
   data = scarab_copy_datum(datum);
 }
 
-Datum::Datum(const stx::AnyScalar &newdata){
-	initScarabDatum();
-	
-	operator=(newdata);	
-}
-
-
 
 Datum::~Datum() {
   scarab_free_datum(data);
@@ -688,36 +681,6 @@ void Datum::operator=(const std::string &newdata){
   setString(newdata);
 }
 
-void Datum::operator=(const stx::AnyScalar &newdata){
-	stx::AnyScalar::attrtype_t type = newdata.getType();
-	switch(type){
-		case stx::AnyScalar::ATTRTYPE_BOOL:
-			setBool(newdata.getBoolean());
-			break;
-		case stx::AnyScalar::ATTRTYPE_INTEGER:
-		case stx::AnyScalar::ATTRTYPE_LONG:
-		case stx::AnyScalar::ATTRTYPE_SHORT:
-		case stx::AnyScalar::ATTRTYPE_WORD:
-		case stx::AnyScalar::ATTRTYPE_DWORD:
-		case stx::AnyScalar::ATTRTYPE_QWORD:
-			setInteger(newdata.getLong());
-			break;
-		case stx::AnyScalar::ATTRTYPE_CHAR:
-		case stx::AnyScalar::ATTRTYPE_BYTE:
-			setInteger(newdata.getULong());
-			break;
-		case stx::AnyScalar::ATTRTYPE_FLOAT:
-		case stx::AnyScalar::ATTRTYPE_DOUBLE:
-			setFloat(newdata.getDouble());
-			break;
-		case stx::AnyScalar::ATTRTYPE_STRING:
-			setString(newdata.getString());
-			break;
-		default:
-			break;
-	}
-}
-
 
 void Datum::operator++() {
   switch(datatype) {
@@ -871,10 +834,6 @@ Datum::operator bool() const{
 Datum::operator std::string() const {
   std::string returnval = getString();
   return returnval;
-}
-
-Datum::operator stx::AnyScalar() const {
-    return toAnyScalar();
 }
 
 
@@ -1677,21 +1636,6 @@ std::ostream& operator<<(std::ostream &buf, const Datum &d) {
 	}
     
     return buf;
-}
-
-
-stx::AnyScalar Datum::toAnyScalar() const {
-	if(isInteger()){
-		return stx::AnyScalar(getInteger());
-	} else if(isFloat()){
-		return stx::AnyScalar(getFloat());
-	} else if(isString()){
-		return stx::AnyScalar(getString());
-	} else if(isBool()){
-		return stx::AnyScalar(getBool());
-	}
-	
-	return stx::AnyScalar();
 }
 
 

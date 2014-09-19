@@ -51,32 +51,6 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
 	CPPUNIT_TEST( testDictionaryKey );
 	CPPUNIT_TEST( testDoubleTeamOnADictionary );
 	CPPUNIT_TEST( testDataEqual );
-	CPPUNIT_TEST( testAnyScalarConstructorBool );
-	CPPUNIT_TEST( testAnyScalarConstructorInt );
-	CPPUNIT_TEST( testAnyScalarConstructorLong );
-	CPPUNIT_TEST( testAnyScalarConstructorByte );
-	CPPUNIT_TEST( testAnyScalarConstructorShort );
-	CPPUNIT_TEST( testAnyScalarConstructorWord );
-	CPPUNIT_TEST( testAnyScalarConstructorDWord );
-	CPPUNIT_TEST( testAnyScalarConstructorQWord );
-	CPPUNIT_TEST( testAnyScalarConstructorFloat );
-	CPPUNIT_TEST( testAnyScalarConstructorDouble );
-	CPPUNIT_TEST( testAnyScalarConstructorString );
-	CPPUNIT_TEST( testAnyScalarConstructorChar );
-	CPPUNIT_TEST( testAnyScalarConstructorInvalid );
-	CPPUNIT_TEST( testAnyScalarEqualBool );
-	CPPUNIT_TEST( testAnyScalarEqualInt );
-	CPPUNIT_TEST( testAnyScalarEqualLong );
-	CPPUNIT_TEST( testAnyScalarEqualByte );
-	CPPUNIT_TEST( testAnyScalarEqualShort );
-	CPPUNIT_TEST( testAnyScalarEqualWord );
-	CPPUNIT_TEST( testAnyScalarEqualDWord );
-	CPPUNIT_TEST( testAnyScalarEqualQWord );
-	CPPUNIT_TEST( testAnyScalarEqualFloat );
-	CPPUNIT_TEST( testAnyScalarEqualDouble );
-	CPPUNIT_TEST( testAnyScalarEqualString );
-	CPPUNIT_TEST( testAnyScalarEqualChar );
-	CPPUNIT_TEST( testAnyScalarEqualInvalid );
 	CPPUNIT_TEST( testIs );
 	
 	CPPUNIT_TEST_SUITE_END();
@@ -1416,32 +1390,6 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
 
 	}	
 	
-	void testAnyScalarConstructorBool();
-	void testAnyScalarConstructorInt();
-	void testAnyScalarConstructorLong();                                            
-	void testAnyScalarConstructorByte();                                            
-	void testAnyScalarConstructorShort();                                           
-	void testAnyScalarConstructorWord();                                            
-	void testAnyScalarConstructorDWord();                                           
-	void testAnyScalarConstructorQWord();                                           
-	void testAnyScalarConstructorFloat();                                           
-	void testAnyScalarConstructorDouble();                                          
-	void testAnyScalarConstructorString();                                          
-	void testAnyScalarConstructorChar();                                            
-	void testAnyScalarConstructorInvalid();  
-	void testAnyScalarEqualBool();
-	void testAnyScalarEqualInt();
-	void testAnyScalarEqualLong();                                            
-	void testAnyScalarEqualByte();                                            
-	void testAnyScalarEqualShort();                                           
-	void testAnyScalarEqualWord();                                            
-	void testAnyScalarEqualDWord();                                           
-	void testAnyScalarEqualQWord();                                           
-	void testAnyScalarEqualFloat();                                           
-	void testAnyScalarEqualDouble();                                          
-	void testAnyScalarEqualString();                                          
-	void testAnyScalarEqualChar();                                            
-	void testAnyScalarEqualInvalid();  
 	void testIs();
 };
 

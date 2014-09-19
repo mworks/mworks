@@ -18,7 +18,6 @@
 #include <string>
 #include <vector>
 #include <map>
-#include "AnyScalar.h"
 
 #include <boost/serialization/list.hpp>
 #include <boost/serialization/string.hpp>
@@ -93,7 +92,6 @@ public:
     Datum(const char * string, int size);
     Datum(const char * string);
     Datum(const std::string &string);
-    Datum(const stx::AnyScalar &value);
     
     
     Datum(const map<int, string> &dict) {
@@ -210,7 +208,6 @@ public:
     operator bool() const;
     operator long long() const;
     operator std::string() const;
-    operator stx::AnyScalar() const;
     
     void operator=(long long newdata);
     void operator=(long newdata);
@@ -221,7 +218,6 @@ public:
     void operator=(float newdata);
     void operator=(const char * newdata);
     void operator=(const std::string &newdata);
-    void operator=(const stx::AnyScalar &newdata);
     
     //void inc();
     // prefix operators.
@@ -277,7 +273,6 @@ public:
     
     std::string toString() const;
     std::string toStringQuoted() const;
-    stx::AnyScalar toAnyScalar() const;
     
 private:
     
