@@ -396,10 +396,7 @@ namespace stx MW_SYMBOL_PUBLIC {
 				/// String representation of the constant Datum value.
 				virtual std::string toString() const
 				{
-					if (value.isString()) {
-						return value.toStringQuoted();
-					}
-					return value.toString();
+					return value.toString(true);
 				}
 			};
 		

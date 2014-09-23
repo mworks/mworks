@@ -11,7 +11,11 @@
 
 #include <algorithm>
 #include <sstream>
+
+#include <boost/bind.hpp>
+
 #include "MWorksCore/GenericData.h"
+#include "MWorksCore/StandardVariables.h"
 
 using std::ostringstream;
 
@@ -52,6 +56,33 @@ static void *hammerdict(void *thedatum){
     }
     
     return 0;
+}
+
+
+void GenericDataTestFixture::setUp() {
+    if (!GlobalMessageVariable) {
+        VariableProperties *props = new VariableProperties(new Datum(0),
+                                                           ANNOUNCE_MESSAGE_VAR_TAGNAME,
+                                                           "message",
+                                                           "message event channel",
+                                                           M_NEVER,
+                                                           M_WHEN_CHANGED,
+                                                           true,
+                                                           false,
+                                                           M_STRUCTURED,
+                                                           PRIVATE_SYSTEM_VARIABLES);
+        GlobalMessageVariable = shared_ptr<GlobalVariable>(new GlobalVariable(props));
+    }
+    
+    messageNotification = shared_ptr<VariableNotification>(
+        new VariableCallbackNotification(boost::bind(&GenericDataTestFixture::handleNewMessage, this, _1, _2))
+    );
+    GlobalMessageVariable->addNotification(messageNotification);
+}
+
+
+void GenericDataTestFixture::tearDown() {
+    messageNotification->remove();
 }
 
 
@@ -1400,6 +1431,7 @@ void GenericDataTestFixture::testIs() {
     
     Datum a_bool(M_BOOLEAN, false);
     CPPUNIT_ASSERT(a_bool.isBool());
+    CPPUNIT_ASSERT(a_bool.isInteger());
     CPPUNIT_ASSERT(a_bool.isNumber());
     
     Datum a_string = "";
@@ -1413,6 +1445,1171 @@ void GenericDataTestFixture::testIs() {
     Datum a_dict(M_DICTIONARY, 1);
     CPPUNIT_ASSERT(a_dict.isDictionary());
     CPPUNIT_ASSERT(!a_dict.isNumber());
+}
+
+
+void GenericDataTestFixture::testGetDataTypeName() {
+    CPPUNIT_ASSERT( std::string("undefined") == Datum().getDataTypeName() );
+    CPPUNIT_ASSERT( std::string("boolean") == Datum(true).getDataTypeName() );
+    CPPUNIT_ASSERT( std::string("integer") == Datum(1).getDataTypeName() );
+    CPPUNIT_ASSERT( std::string("float") == Datum(1.0).getDataTypeName() );
+    CPPUNIT_ASSERT( std::string("string") == Datum("foo").getDataTypeName() );
+    CPPUNIT_ASSERT( std::string("list") == Datum(M_LIST, 0).getDataTypeName() );
+    CPPUNIT_ASSERT( std::string("dictionary") == Datum(M_DICTIONARY, 0).getDataTypeName() );
+}
+
+
+void GenericDataTestFixture::testGetBool() {
+    // Boolean
+    CPPUNIT_ASSERT( Datum(true).getBool() );
+    CPPUNIT_ASSERT( !(Datum(false).getBool()) );
+    
+    // Integer
+    CPPUNIT_ASSERT( Datum(1).getBool() );
+    CPPUNIT_ASSERT( !(Datum(0).getBool()) );
+    CPPUNIT_ASSERT( Datum(-1).getBool() );
+    
+    // Float
+    CPPUNIT_ASSERT( Datum(1.0).getBool() );
+    CPPUNIT_ASSERT( !(Datum(0.0).getBool()) );
+    CPPUNIT_ASSERT( Datum(-1.0).getBool() );
+    
+    // Other
+    CPPUNIT_ASSERT( !(Datum("foo").getBool()) );
+    assertError("ERROR: Cannot convert string to boolean");
+}
+
+
+void GenericDataTestFixture::testGetInteger() {
+    // Boolean
+    CPPUNIT_ASSERT_EQUAL( 1LL, Datum(true).getInteger() );
+    CPPUNIT_ASSERT_EQUAL( 0LL, Datum(false).getInteger() );
+    
+    // Integer
+    CPPUNIT_ASSERT_EQUAL( 2LL,  Datum(2).getInteger() );
+    CPPUNIT_ASSERT_EQUAL( -3LL,  Datum(-3).getInteger() );
+    
+    // Float
+    CPPUNIT_ASSERT_EQUAL( 1LL,  Datum(1.7).getInteger() );
+    CPPUNIT_ASSERT_EQUAL( -2LL,  Datum(-2.3).getInteger() );
+    
+    // Other
+    CPPUNIT_ASSERT_EQUAL( 0LL, Datum("foo").getInteger() );
+    assertError("ERROR: Cannot convert string to integer");
+}
+
+
+void GenericDataTestFixture::testGetFloat() {
+    // Boolean
+    CPPUNIT_ASSERT_EQUAL( 1.0, Datum(true).getFloat() );
+    CPPUNIT_ASSERT_EQUAL( 0.0, Datum(false).getFloat() );
+    
+    // Integer
+    CPPUNIT_ASSERT_EQUAL( 2.0,  Datum(2).getFloat() );
+    CPPUNIT_ASSERT_EQUAL( -3.0,  Datum(-3).getFloat() );
+    
+    // Float
+    CPPUNIT_ASSERT_EQUAL( 1.5,  Datum(1.5).getFloat() );
+    CPPUNIT_ASSERT_EQUAL( -2.5,  Datum(-2.5).getFloat() );
+    
+    // Other
+    CPPUNIT_ASSERT_EQUAL( 0.0, Datum("foo").getFloat() );
+    assertError("ERROR: Cannot convert string to float");
+}
+
+
+void GenericDataTestFixture::testGetString() {
+    // String
+    CPPUNIT_ASSERT_EQUAL( std::string(""), std::string(Datum("").getString()) );
+    CPPUNIT_ASSERT_EQUAL( std::string("foo"), std::string(Datum("foo").getString()) );
+    
+    // Other
+    CPPUNIT_ASSERT( nullptr == Datum(3).getString() );
+    assertError("ERROR: Cannot convert integer to string");
+}
+
+
+void GenericDataTestFixture::testOperatorUnaryMinus() {
+    // Boolean
+    {
+        Datum d = -Datum(true);
+        CPPUNIT_ASSERT( d.isInteger() );
+        CPPUNIT_ASSERT_EQUAL( -1LL, d.getInteger() );
+    }
+    
+    // Integer
+    {
+        Datum d = -Datum(-3);
+        CPPUNIT_ASSERT( d.isInteger() );
+        CPPUNIT_ASSERT_EQUAL( 3LL, d.getInteger() );
+    }
+    
+    // Float
+    {
+        Datum d = -Datum(1.5);
+        CPPUNIT_ASSERT( d.isFloat() );
+        CPPUNIT_ASSERT_EQUAL( -1.5, d.getFloat() );
+    }
+    
+    // Other
+    {
+        Datum d = -Datum("foo");
+        CPPUNIT_ASSERT( d.isInteger() );
+        CPPUNIT_ASSERT_EQUAL( 0LL, d.getInteger() );
+        assertError("ERROR: Cannot negate string");
+    }
+}
+
+
+void GenericDataTestFixture::testOperatorBinaryPlus() {
+    // Boolean
+    {
+        // and boolean
+        {
+            Datum d = Datum(true) + Datum(false);
+            CPPUNIT_ASSERT( d.isInteger() );
+            CPPUNIT_ASSERT_EQUAL( 1LL, d.getInteger() );
+        }
+        
+        // and integer
+        {
+            Datum d = Datum(true) + Datum(3);
+            CPPUNIT_ASSERT( d.isInteger() );
+            CPPUNIT_ASSERT_EQUAL( 4LL, d.getInteger() );
+        }
+        
+        // and float
+        {
+            Datum d = Datum(true) + Datum(1.5);
+            CPPUNIT_ASSERT( d.isFloat() );
+            CPPUNIT_ASSERT_EQUAL( 2.5, d.getFloat() );
+        }
+        
+        // and other
+        {
+            Datum d = Datum(true) + Datum("foo");
+            CPPUNIT_ASSERT( d.isInteger() );
+            CPPUNIT_ASSERT_EQUAL( 0LL, d.getInteger() );
+            assertError("ERROR: Cannot add boolean and string");
+        }
+    }
+    
+    // Integer
+    {
+        // and boolean
+        {
+            Datum d = Datum(3) + Datum(true);
+            CPPUNIT_ASSERT( d.isInteger() );
+            CPPUNIT_ASSERT_EQUAL( 4LL, d.getInteger() );
+        }
+        
+        // and integer
+        {
+            Datum d = Datum(3) + Datum(5);
+            CPPUNIT_ASSERT( d.isInteger() );
+            CPPUNIT_ASSERT_EQUAL( 8LL, d.getInteger() );
+        }
+        
+        // and float
+        {
+            Datum d = Datum(2) + Datum(1.5);
+            CPPUNIT_ASSERT( d.isFloat() );
+            CPPUNIT_ASSERT_EQUAL( 3.5, d.getFloat() );
+        }
+        
+        // and other
+        {
+            Datum d = Datum(3) + Datum("foo");
+            CPPUNIT_ASSERT( d.isInteger() );
+            CPPUNIT_ASSERT_EQUAL( 0LL, d.getInteger() );
+            assertError("ERROR: Cannot add integer and string");
+        }
+    }
+    
+    // Float
+    {
+        // and boolean
+        {
+            Datum d = Datum(1.5) + Datum(true);
+            CPPUNIT_ASSERT( d.isFloat() );
+            CPPUNIT_ASSERT_EQUAL( 2.5, d.getFloat() );
+        }
+        
+        // and integer
+        {
+            Datum d = Datum(1.5) + Datum(-3);
+            CPPUNIT_ASSERT( d.isFloat() );
+            CPPUNIT_ASSERT_EQUAL( -1.5, d.getFloat() );
+        }
+        
+        // and float
+        {
+            Datum d = Datum(1.5) + Datum(4.0);
+            CPPUNIT_ASSERT( d.isFloat() );
+            CPPUNIT_ASSERT_EQUAL( 5.5, d.getFloat() );
+        }
+        
+        // and other
+        {
+            Datum d = Datum(1.5) + Datum("foo");
+            CPPUNIT_ASSERT( d.isInteger() );
+            CPPUNIT_ASSERT_EQUAL( 0LL, d.getInteger() );
+            assertError("ERROR: Cannot add float and string");
+        }
+    }
+    
+    // Other
+    {
+        Datum d = Datum("foo") + Datum(1);
+        CPPUNIT_ASSERT( d.isInteger() );
+        CPPUNIT_ASSERT_EQUAL( 0LL, d.getInteger() );
+        assertError("ERROR: Cannot add string and integer");
+    }
+}
+
+
+void GenericDataTestFixture::testOperatorBinaryMinus() {
+    // Boolean
+    {
+        // and boolean
+        {
+            Datum d = Datum(true) - Datum(false);
+            CPPUNIT_ASSERT( d.isInteger() );
+            CPPUNIT_ASSERT_EQUAL( 1LL, d.getInteger() );
+        }
+        
+        // and integer
+        {
+            Datum d = Datum(true) - Datum(3);
+            CPPUNIT_ASSERT( d.isInteger() );
+            CPPUNIT_ASSERT_EQUAL( -2LL, d.getInteger() );
+        }
+        
+        // and float
+        {
+            Datum d = Datum(true) - Datum(1.5);
+            CPPUNIT_ASSERT( d.isFloat() );
+            CPPUNIT_ASSERT_EQUAL( -0.5, d.getFloat() );
+        }
+        
+        // and other
+        {
+            Datum d = Datum(true) - Datum("foo");
+            CPPUNIT_ASSERT( d.isInteger() );
+            CPPUNIT_ASSERT_EQUAL( 0LL, d.getInteger() );
+            assertError("ERROR: Cannot subtract boolean and string");
+        }
+    }
+    
+    // Integer
+    {
+        // and boolean
+        {
+            Datum d = Datum(3) - Datum(true);
+            CPPUNIT_ASSERT( d.isInteger() );
+            CPPUNIT_ASSERT_EQUAL( 2LL, d.getInteger() );
+        }
+        
+        // and integer
+        {
+            Datum d = Datum(3) - Datum(5);
+            CPPUNIT_ASSERT( d.isInteger() );
+            CPPUNIT_ASSERT_EQUAL( -2LL, d.getInteger() );
+        }
+        
+        // and float
+        {
+            Datum d = Datum(2) - Datum(1.5);
+            CPPUNIT_ASSERT( d.isFloat() );
+            CPPUNIT_ASSERT_EQUAL( 0.5, d.getFloat() );
+        }
+        
+        // and other
+        {
+            Datum d = Datum(3) - Datum("foo");
+            CPPUNIT_ASSERT( d.isInteger() );
+            CPPUNIT_ASSERT_EQUAL( 0LL, d.getInteger() );
+            assertError("ERROR: Cannot subtract integer and string");
+        }
+    }
+    
+    // Float
+    {
+        // and boolean
+        {
+            Datum d = Datum(1.5) - Datum(true);
+            CPPUNIT_ASSERT( d.isFloat() );
+            CPPUNIT_ASSERT_EQUAL( 0.5, d.getFloat() );
+        }
+        
+        // and integer
+        {
+            Datum d = Datum(1.5) - Datum(-3);
+            CPPUNIT_ASSERT( d.isFloat() );
+            CPPUNIT_ASSERT_EQUAL( 4.5, d.getFloat() );
+        }
+        
+        // and float
+        {
+            Datum d = Datum(1.5) - Datum(4.0);
+            CPPUNIT_ASSERT( d.isFloat() );
+            CPPUNIT_ASSERT_EQUAL( -2.5, d.getFloat() );
+        }
+        
+        // and other
+        {
+            Datum d = Datum(1.5) - Datum("foo");
+            CPPUNIT_ASSERT( d.isInteger() );
+            CPPUNIT_ASSERT_EQUAL( 0LL, d.getInteger() );
+            assertError("ERROR: Cannot subtract float and string");
+        }
+    }
+    
+    // Other
+    {
+        Datum d = Datum("foo") - Datum(1);
+        CPPUNIT_ASSERT( d.isInteger() );
+        CPPUNIT_ASSERT_EQUAL( 0LL, d.getInteger() );
+        assertError("ERROR: Cannot subtract string and integer");
+    }
+}
+
+
+void GenericDataTestFixture::testOperatorTimes() {
+    // Boolean
+    {
+        // and boolean
+        {
+            Datum d = Datum(true) * Datum(true);
+            CPPUNIT_ASSERT( d.isInteger() );
+            CPPUNIT_ASSERT_EQUAL( 1LL, d.getInteger() );
+        }
+        
+        // and integer
+        {
+            Datum d = Datum(true) * Datum(3);
+            CPPUNIT_ASSERT( d.isInteger() );
+            CPPUNIT_ASSERT_EQUAL( 3LL, d.getInteger() );
+        }
+        
+        // and float
+        {
+            Datum d = Datum(true) * Datum(1.5);
+            CPPUNIT_ASSERT( d.isFloat() );
+            CPPUNIT_ASSERT_EQUAL( 1.5, d.getFloat() );
+        }
+        
+        // and other
+        {
+            Datum d = Datum(true) * Datum("foo");
+            CPPUNIT_ASSERT( d.isInteger() );
+            CPPUNIT_ASSERT_EQUAL( 0LL, d.getInteger() );
+            assertError("ERROR: Cannot multiply boolean and string");
+        }
+    }
+    
+    // Integer
+    {
+        // and boolean
+        {
+            Datum d = Datum(3) * Datum(true);
+            CPPUNIT_ASSERT( d.isInteger() );
+            CPPUNIT_ASSERT_EQUAL( 3LL, d.getInteger() );
+        }
+        
+        // and integer
+        {
+            Datum d = Datum(3) * Datum(5);
+            CPPUNIT_ASSERT( d.isInteger() );
+            CPPUNIT_ASSERT_EQUAL( 15LL, d.getInteger() );
+        }
+        
+        // and float
+        {
+            Datum d = Datum(3) * Datum(1.5);
+            CPPUNIT_ASSERT( d.isFloat() );
+            CPPUNIT_ASSERT_EQUAL( 4.5, d.getFloat() );
+        }
+        
+        // and other
+        {
+            Datum d = Datum(3) * Datum("foo");
+            CPPUNIT_ASSERT( d.isInteger() );
+            CPPUNIT_ASSERT_EQUAL( 0LL, d.getInteger() );
+            assertError("ERROR: Cannot multiply integer and string");
+        }
+    }
+    
+    // Float
+    {
+        // and boolean
+        {
+            Datum d = Datum(1.5) * Datum(true);
+            CPPUNIT_ASSERT( d.isFloat() );
+            CPPUNIT_ASSERT_EQUAL( 1.5, d.getFloat() );
+        }
+        
+        // and integer
+        {
+            Datum d = Datum(1.5) * Datum(-3);
+            CPPUNIT_ASSERT( d.isFloat() );
+            CPPUNIT_ASSERT_EQUAL( -4.5, d.getFloat() );
+        }
+        
+        // and float
+        {
+            Datum d = Datum(1.5) * Datum(4.0);
+            CPPUNIT_ASSERT( d.isFloat() );
+            CPPUNIT_ASSERT_EQUAL( 6.0, d.getFloat() );
+        }
+        
+        // and other
+        {
+            Datum d = Datum(1.5) * Datum("foo");
+            CPPUNIT_ASSERT( d.isInteger() );
+            CPPUNIT_ASSERT_EQUAL( 0LL, d.getInteger() );
+            assertError("ERROR: Cannot multiply float and string");
+        }
+    }
+    
+    // Other
+    {
+        Datum d = Datum("foo") * Datum(1);
+        CPPUNIT_ASSERT( d.isInteger() );
+        CPPUNIT_ASSERT_EQUAL( 0LL, d.getInteger() );
+        assertError("ERROR: Cannot multiply string and integer");
+    }
+}
+
+
+void GenericDataTestFixture::testOperatorDivide() {
+    // Boolean
+    {
+        // and boolean
+        {
+            Datum d = Datum(true) / Datum(true);
+            CPPUNIT_ASSERT( d.isInteger() );
+            CPPUNIT_ASSERT_EQUAL( 1LL, d.getInteger() );
+        }
+        
+        // and integer
+        {
+            Datum d = Datum(true) / Datum(-1);
+            CPPUNIT_ASSERT( d.isInteger() );
+            CPPUNIT_ASSERT_EQUAL( -1LL, d.getInteger() );
+        }
+        
+        // and float
+        {
+            Datum d = Datum(true) / Datum(2.0);
+            CPPUNIT_ASSERT( d.isFloat() );
+            CPPUNIT_ASSERT_EQUAL( 0.5, d.getFloat() );
+        }
+        
+        // and other
+        {
+            Datum d = Datum(true) / Datum("foo");
+            CPPUNIT_ASSERT( d.isInteger() );
+            CPPUNIT_ASSERT_EQUAL( 0LL, d.getInteger() );
+            assertError("ERROR: Cannot divide boolean and string");
+        }
+        
+        // by zero
+        {
+            Datum d = Datum(true) / Datum(false);
+            CPPUNIT_ASSERT( d.isInteger() );
+            CPPUNIT_ASSERT_EQUAL( 0LL, d.getInteger() );
+            assertError("ERROR: Division by zero");
+        }
+    }
+    
+    // Integer
+    {
+        // and boolean
+        {
+            Datum d = Datum(3) / Datum(true);
+            CPPUNIT_ASSERT( d.isInteger() );
+            CPPUNIT_ASSERT_EQUAL( 3LL, d.getInteger() );
+        }
+        
+        // and integer
+        {
+            Datum d = Datum(6) / Datum(3);
+            CPPUNIT_ASSERT( d.isInteger() );
+            CPPUNIT_ASSERT_EQUAL( 2LL, d.getInteger() );
+        }
+        
+        // and float
+        {
+            Datum d = Datum(2) / Datum(0.5);
+            CPPUNIT_ASSERT( d.isFloat() );
+            CPPUNIT_ASSERT_EQUAL( 4.0, d.getFloat() );
+        }
+        
+        // and other
+        {
+            Datum d = Datum(3) / Datum("foo");
+            CPPUNIT_ASSERT( d.isInteger() );
+            CPPUNIT_ASSERT_EQUAL( 0LL, d.getInteger() );
+            assertError("ERROR: Cannot divide integer and string");
+        }
+        
+        // by zero
+        {
+            Datum d = Datum(1) / Datum(0);
+            CPPUNIT_ASSERT( d.isInteger() );
+            CPPUNIT_ASSERT_EQUAL( 0LL, d.getInteger() );
+            assertError("ERROR: Division by zero");
+        }
+    }
+    
+    // Float
+    {
+        // and boolean
+        {
+            Datum d = Datum(1.5) / Datum(true);
+            CPPUNIT_ASSERT( d.isFloat() );
+            CPPUNIT_ASSERT_EQUAL( 1.5, d.getFloat() );
+        }
+        
+        // and integer
+        {
+            Datum d = Datum(1.5) / Datum(-3);
+            CPPUNIT_ASSERT( d.isFloat() );
+            CPPUNIT_ASSERT_EQUAL( -0.5, d.getFloat() );
+        }
+        
+        // and float
+        {
+            Datum d = Datum(4.5) / Datum(1.5);
+            CPPUNIT_ASSERT( d.isFloat() );
+            CPPUNIT_ASSERT_EQUAL( 3.0, d.getFloat() );
+        }
+        
+        // and other
+        {
+            Datum d = Datum(1.5) / Datum("foo");
+            CPPUNIT_ASSERT( d.isInteger() );
+            CPPUNIT_ASSERT_EQUAL( 0LL, d.getInteger() );
+            assertError("ERROR: Cannot divide float and string");
+        }
+        
+        // by zero
+        {
+            Datum d = Datum(1.0) / Datum(0.0);
+            CPPUNIT_ASSERT( d.isInteger() );
+            CPPUNIT_ASSERT_EQUAL( 0LL, d.getInteger() );
+            assertError("ERROR: Division by zero");
+        }
+    }
+    
+    // Other
+    {
+        Datum d = Datum("foo") / Datum(1);
+        CPPUNIT_ASSERT( d.isInteger() );
+        CPPUNIT_ASSERT_EQUAL( 0LL, d.getInteger() );
+        assertError("ERROR: Cannot divide string and integer");
+    }
+}
+
+
+void GenericDataTestFixture::testOperatorModulo() {
+    // Boolean
+    {
+        // and boolean
+        {
+            Datum d = Datum(true) % Datum(true);
+            CPPUNIT_ASSERT( d.isInteger() );
+            CPPUNIT_ASSERT_EQUAL( 0LL, d.getInteger() );
+        }
+        
+        // and integer
+        {
+            Datum d = Datum(true) % Datum(2);
+            CPPUNIT_ASSERT( d.isInteger() );
+            CPPUNIT_ASSERT_EQUAL( 1LL, d.getInteger() );
+        }
+        
+        // and float
+        {
+            Datum d = Datum(true) % Datum(2.9);
+            CPPUNIT_ASSERT( d.isInteger() );
+            CPPUNIT_ASSERT_EQUAL( 1LL, d.getInteger() );
+        }
+        
+        // and other
+        {
+            Datum d = Datum(true) % Datum("foo");
+            CPPUNIT_ASSERT( d.isInteger() );
+            CPPUNIT_ASSERT_EQUAL( 0LL, d.getInteger() );
+            assertError("ERROR: Cannot mod boolean and string");
+        }
+        
+        // by zero
+        {
+            Datum d = Datum(true) % Datum(false);
+            CPPUNIT_ASSERT( d.isInteger() );
+            CPPUNIT_ASSERT_EQUAL( 0LL, d.getInteger() );
+            assertError("ERROR: Division by zero");
+        }
+    }
+    
+    // Integer
+    {
+        // and boolean
+        {
+            Datum d = Datum(3) % Datum(true);
+            CPPUNIT_ASSERT( d.isInteger() );
+            CPPUNIT_ASSERT_EQUAL( 0LL, d.getInteger() );
+        }
+        
+        // and integer
+        {
+            Datum d = Datum(8) % Datum(3);
+            CPPUNIT_ASSERT( d.isInteger() );
+            CPPUNIT_ASSERT_EQUAL( 2LL, d.getInteger() );
+        }
+        
+        // and float
+        {
+            Datum d = Datum(2) % Datum(3.9);
+            CPPUNIT_ASSERT( d.isInteger() );
+            CPPUNIT_ASSERT_EQUAL( 2LL, d.getInteger() );
+        }
+        
+        // and other
+        {
+            Datum d = Datum(3) % Datum("foo");
+            CPPUNIT_ASSERT( d.isInteger() );
+            CPPUNIT_ASSERT_EQUAL( 0LL, d.getInteger() );
+            assertError("ERROR: Cannot mod integer and string");
+        }
+        
+        // by zero
+        {
+            Datum d = Datum(1) % Datum(0);
+            CPPUNIT_ASSERT( d.isInteger() );
+            CPPUNIT_ASSERT_EQUAL( 0LL, d.getInteger() );
+            assertError("ERROR: Division by zero");
+        }
+    }
+    
+    // Float
+    {
+        // and boolean
+        {
+            Datum d = Datum(3.9) % Datum(true);
+            CPPUNIT_ASSERT( d.isInteger() );
+            CPPUNIT_ASSERT_EQUAL( 0LL, d.getInteger() );
+        }
+        
+        // and integer
+        {
+            Datum d = Datum(8.9) % Datum(3);
+            CPPUNIT_ASSERT( d.isInteger() );
+            CPPUNIT_ASSERT_EQUAL( 2LL, d.getInteger() );
+        }
+        
+        // and float
+        {
+            Datum d = Datum(2.9) % Datum(3.9);
+            CPPUNIT_ASSERT( d.isInteger() );
+            CPPUNIT_ASSERT_EQUAL( 2LL, d.getInteger() );
+        }
+        
+        // and other
+        {
+            Datum d = Datum(3.0) % Datum("foo");
+            CPPUNIT_ASSERT( d.isInteger() );
+            CPPUNIT_ASSERT_EQUAL( 0LL, d.getInteger() );
+            assertError("ERROR: Cannot mod float and string");
+        }
+        
+        // by zero
+        {
+            Datum d = Datum(1.0) % Datum(0.0);
+            CPPUNIT_ASSERT( d.isInteger() );
+            CPPUNIT_ASSERT_EQUAL( 0LL, d.getInteger() );
+            assertError("ERROR: Division by zero");
+        }
+    }
+    
+    // Other
+    {
+        Datum d = Datum("foo") % Datum(1);
+        CPPUNIT_ASSERT( d.isInteger() );
+        CPPUNIT_ASSERT_EQUAL( 0LL, d.getInteger() );
+        assertError("ERROR: Cannot mod string and integer");
+    }
+}
+
+
+void GenericDataTestFixture::testOperatorGreaterThan() {
+    // Boolean
+    {
+        // and boolean
+        {
+            CPPUNIT_ASSERT( Datum(true) > Datum(false) );
+            CPPUNIT_ASSERT( !(Datum(true) > Datum(true)) );
+            CPPUNIT_ASSERT( !(Datum(false) > Datum(true)) );
+        }
+        
+        // and integer
+        {
+            CPPUNIT_ASSERT( Datum(true) > Datum(0) );
+            CPPUNIT_ASSERT( !(Datum(true) > Datum(1)) );
+            CPPUNIT_ASSERT( !(Datum(false) > Datum(1)) );
+        }
+        
+        // and float
+        {
+            CPPUNIT_ASSERT( Datum(true) > Datum(0.0) );
+            CPPUNIT_ASSERT( !(Datum(true) > Datum(1.0)) );
+            CPPUNIT_ASSERT( !(Datum(false) > Datum(1.0)) );
+        }
+        
+        // and other
+        {
+            CPPUNIT_ASSERT( !(Datum(true) > Datum("foo")) );
+            assertError("ERROR: Cannot test ordering of boolean and string");
+        }
+    }
+    
+    // Integer
+    {
+        // and boolean
+        {
+            CPPUNIT_ASSERT( Datum(1) > Datum(false) );
+            CPPUNIT_ASSERT( !(Datum(1) > Datum(true)) );
+            CPPUNIT_ASSERT( !(Datum(0) > Datum(true)) );
+        }
+        
+        // and integer
+        {
+            CPPUNIT_ASSERT( Datum(1) > Datum(0) );
+            CPPUNIT_ASSERT( !(Datum(1) > Datum(1)) );
+            CPPUNIT_ASSERT( !(Datum(0) > Datum(1)) );
+        }
+        
+        // and float
+        {
+            CPPUNIT_ASSERT( Datum(1) > Datum(0.0) );
+            CPPUNIT_ASSERT( !(Datum(1) > Datum(1.0)) );
+            CPPUNIT_ASSERT( !(Datum(0) > Datum(1.0)) );
+        }
+        
+        // and other
+        {
+            CPPUNIT_ASSERT( !(Datum(3) > Datum("foo")) );
+            assertError("ERROR: Cannot test ordering of integer and string");
+        }
+    }
+    
+    // Float
+    {
+        // and boolean
+        {
+            CPPUNIT_ASSERT( Datum(1.0) > Datum(false) );
+            CPPUNIT_ASSERT( !(Datum(1.0) > Datum(true)) );
+            CPPUNIT_ASSERT( !(Datum(0.0) > Datum(true)) );
+        }
+        
+        // and integer
+        {
+            CPPUNIT_ASSERT( Datum(1.0) > Datum(0) );
+            CPPUNIT_ASSERT( !(Datum(1.0) > Datum(1)) );
+            CPPUNIT_ASSERT( !(Datum(0.0) > Datum(1)) );
+        }
+        
+        // and float
+        {
+            CPPUNIT_ASSERT( Datum(1.0) > Datum(0.0) );
+            CPPUNIT_ASSERT( !(Datum(1.0) > Datum(1.0)) );
+            CPPUNIT_ASSERT( !(Datum(0.0) > Datum(1.0)) );
+        }
+        
+        // and other
+        {
+            CPPUNIT_ASSERT( !(Datum(1.5) > Datum("foo")) );
+            assertError("ERROR: Cannot test ordering of float and string");
+        }
+    }
+    
+    // Other
+    {
+        CPPUNIT_ASSERT( !(Datum("foo") > Datum(1)) );
+        assertError("ERROR: Cannot test ordering of string and integer");
+    }
+}
+
+
+void GenericDataTestFixture::testOperatorGreaterThanOrEqual() {
+    // Boolean
+    {
+        // and boolean
+        {
+            CPPUNIT_ASSERT( Datum(true) >= Datum(false) );
+            CPPUNIT_ASSERT( Datum(true) >= Datum(true) );
+            CPPUNIT_ASSERT( !(Datum(false) >= Datum(true)) );
+        }
+        
+        // and integer
+        {
+            CPPUNIT_ASSERT( Datum(true) >= Datum(0) );
+            CPPUNIT_ASSERT( Datum(true) >= Datum(1) );
+            CPPUNIT_ASSERT( !(Datum(false) >= Datum(1)) );
+        }
+        
+        // and float
+        {
+            CPPUNIT_ASSERT( Datum(true) >= Datum(0.0) );
+            CPPUNIT_ASSERT( Datum(true) >= Datum(1.0) );
+            CPPUNIT_ASSERT( !(Datum(false) >= Datum(1.0)) );
+        }
+        
+        // and other
+        {
+            CPPUNIT_ASSERT( !(Datum(true) >= Datum("foo")) );
+            assertError("ERROR: Cannot test ordering of boolean and string");
+        }
+    }
+    
+    // Integer
+    {
+        // and boolean
+        {
+            CPPUNIT_ASSERT( Datum(1) >= Datum(false) );
+            CPPUNIT_ASSERT( Datum(1) >= Datum(true) );
+            CPPUNIT_ASSERT( !(Datum(0) >= Datum(true)) );
+        }
+        
+        // and integer
+        {
+            CPPUNIT_ASSERT( Datum(1) >= Datum(0) );
+            CPPUNIT_ASSERT( Datum(1) >= Datum(1) );
+            CPPUNIT_ASSERT( !(Datum(0) >= Datum(1)) );
+        }
+        
+        // and float
+        {
+            CPPUNIT_ASSERT( Datum(1) >= Datum(0.0) );
+            CPPUNIT_ASSERT( Datum(1) >= Datum(1.0) );
+            CPPUNIT_ASSERT( !(Datum(0) >= Datum(1.0)) );
+        }
+        
+        // and other
+        {
+            CPPUNIT_ASSERT( !(Datum(3) >= Datum("foo")) );
+            assertError("ERROR: Cannot test ordering of integer and string");
+        }
+    }
+    
+    // Float
+    {
+        // and boolean
+        {
+            CPPUNIT_ASSERT( Datum(1.0) >= Datum(false) );
+            CPPUNIT_ASSERT( Datum(1.0) >= Datum(true) );
+            CPPUNIT_ASSERT( !(Datum(0.0) >= Datum(true)) );
+        }
+        
+        // and integer
+        {
+            CPPUNIT_ASSERT( Datum(1.0) >= Datum(0) );
+            CPPUNIT_ASSERT( Datum(1.0) >= Datum(1) );
+            CPPUNIT_ASSERT( !(Datum(0.0) >= Datum(1)) );
+        }
+        
+        // and float
+        {
+            CPPUNIT_ASSERT( Datum(1.0) >= Datum(0.0) );
+            CPPUNIT_ASSERT( Datum(1.0) >= Datum(1.0) );
+            CPPUNIT_ASSERT( !(Datum(0.0) >= Datum(1.0)) );
+        }
+        
+        // and other
+        {
+            CPPUNIT_ASSERT( !(Datum(1.5) >= Datum("foo")) );
+            assertError("ERROR: Cannot test ordering of float and string");
+        }
+    }
+    
+    // Other
+    {
+        CPPUNIT_ASSERT( !(Datum("foo") >= Datum(1)) );
+        assertError("ERROR: Cannot test ordering of string and integer");
+    }
+}
+
+
+void GenericDataTestFixture::testOperatorLessThan() {
+    // Boolean
+    {
+        // and boolean
+        {
+            CPPUNIT_ASSERT( Datum(false) < Datum(true) );
+            CPPUNIT_ASSERT( !(Datum(false) < Datum(false)) );
+            CPPUNIT_ASSERT( !(Datum(true) < Datum(false)) );
+        }
+        
+        // and integer
+        {
+            CPPUNIT_ASSERT( Datum(false) < Datum(1) );
+            CPPUNIT_ASSERT( !(Datum(false) < Datum(0)) );
+            CPPUNIT_ASSERT( !(Datum(true) < Datum(0)) );
+        }
+        
+        // and float
+        {
+            CPPUNIT_ASSERT( Datum(false) < Datum(1.0) );
+            CPPUNIT_ASSERT( !(Datum(false) < Datum(0.0)) );
+            CPPUNIT_ASSERT( !(Datum(true) < Datum(0.0)) );
+        }
+        
+        // and other
+        {
+            CPPUNIT_ASSERT( !(Datum(true) < Datum("foo")) );
+            assertError("ERROR: Cannot test ordering of boolean and string");
+        }
+    }
+    
+    // Integer
+    {
+        // and boolean
+        {
+            CPPUNIT_ASSERT( Datum(0) < Datum(true) );
+            CPPUNIT_ASSERT( !(Datum(0) < Datum(false)) );
+            CPPUNIT_ASSERT( !(Datum(1) < Datum(false)) );
+        }
+        
+        // and integer
+        {
+            CPPUNIT_ASSERT( Datum(0) < Datum(1) );
+            CPPUNIT_ASSERT( !(Datum(0) < Datum(0)) );
+            CPPUNIT_ASSERT( !(Datum(1) < Datum(0)) );
+        }
+        
+        // and float
+        {
+            CPPUNIT_ASSERT( Datum(0) < Datum(1.0) );
+            CPPUNIT_ASSERT( !(Datum(0) < Datum(0.0)) );
+            CPPUNIT_ASSERT( !(Datum(1) < Datum(0.0)) );
+        }
+        
+        // and other
+        {
+            CPPUNIT_ASSERT( !(Datum(3) < Datum("foo")) );
+            assertError("ERROR: Cannot test ordering of integer and string");
+        }
+    }
+    
+    // Float
+    {
+        // and boolean
+        {
+            CPPUNIT_ASSERT( Datum(0.0) < Datum(true) );
+            CPPUNIT_ASSERT( !(Datum(0.0) < Datum(false)) );
+            CPPUNIT_ASSERT( !(Datum(1.0) < Datum(false)) );
+        }
+        
+        // and integer
+        {
+            CPPUNIT_ASSERT( Datum(0.0) < Datum(1) );
+            CPPUNIT_ASSERT( !(Datum(0.0) < Datum(0)) );
+            CPPUNIT_ASSERT( !(Datum(1.0) < Datum(0)) );
+        }
+        
+        // and float
+        {
+            CPPUNIT_ASSERT( Datum(0.0) < Datum(1.0) );
+            CPPUNIT_ASSERT( !(Datum(0.0) < Datum(0.0)) );
+            CPPUNIT_ASSERT( !(Datum(1.0) < Datum(0.0)) );
+        }
+        
+        // and other
+        {
+            CPPUNIT_ASSERT( !(Datum(1.5) < Datum("foo")) );
+            assertError("ERROR: Cannot test ordering of float and string");
+        }
+    }
+    
+    // Other
+    {
+        CPPUNIT_ASSERT( !(Datum("foo") < Datum(1)) );
+        assertError("ERROR: Cannot test ordering of string and integer");
+    }
+}
+
+
+void GenericDataTestFixture::testOperatorLessThanOrEqual() {
+    // Boolean
+    {
+        // and boolean
+        {
+            CPPUNIT_ASSERT( Datum(false) <= Datum(true) );
+            CPPUNIT_ASSERT( Datum(false) <= Datum(false) );
+            CPPUNIT_ASSERT( !(Datum(true) <= Datum(false)) );
+        }
+        
+        // and integer
+        {
+            CPPUNIT_ASSERT( Datum(false) <= Datum(1) );
+            CPPUNIT_ASSERT( Datum(false) <= Datum(0) );
+            CPPUNIT_ASSERT( !(Datum(true) <= Datum(0)) );
+        }
+        
+        // and float
+        {
+            CPPUNIT_ASSERT( Datum(false) <= Datum(1.0) );
+            CPPUNIT_ASSERT( Datum(false) <= Datum(0.0) );
+            CPPUNIT_ASSERT( !(Datum(true) <= Datum(0.0)) );
+        }
+        
+        // and other
+        {
+            CPPUNIT_ASSERT( !(Datum(true) <= Datum("foo")) );
+            assertError("ERROR: Cannot test ordering of boolean and string");
+        }
+    }
+    
+    // Integer
+    {
+        // and boolean
+        {
+            CPPUNIT_ASSERT( Datum(0) <= Datum(true) );
+            CPPUNIT_ASSERT( Datum(0) <= Datum(false) );
+            CPPUNIT_ASSERT( !(Datum(1) <= Datum(false)) );
+        }
+        
+        // and integer
+        {
+            CPPUNIT_ASSERT( Datum(0) <= Datum(1) );
+            CPPUNIT_ASSERT( Datum(0) <= Datum(0) );
+            CPPUNIT_ASSERT( !(Datum(1) <= Datum(0)) );
+        }
+        
+        // and float
+        {
+            CPPUNIT_ASSERT( Datum(0) <= Datum(1.0) );
+            CPPUNIT_ASSERT( Datum(0) <= Datum(0.0) );
+            CPPUNIT_ASSERT( !(Datum(1) <= Datum(0.0)) );
+        }
+        
+        // and other
+        {
+            CPPUNIT_ASSERT( !(Datum(3) <= Datum("foo")) );
+            assertError("ERROR: Cannot test ordering of integer and string");
+        }
+    }
+    
+    // Float
+    {
+        // and boolean
+        {
+            CPPUNIT_ASSERT( Datum(0.0) <= Datum(true) );
+            CPPUNIT_ASSERT( Datum(0.0) <= Datum(false) );
+            CPPUNIT_ASSERT( !(Datum(1.0) <= Datum(false)) );
+        }
+        
+        // and integer
+        {
+            CPPUNIT_ASSERT( Datum(0.0) <= Datum(1) );
+            CPPUNIT_ASSERT( Datum(0.0) <= Datum(0) );
+            CPPUNIT_ASSERT( !(Datum(1.0) <= Datum(0)) );
+        }
+        
+        // and float
+        {
+            CPPUNIT_ASSERT( Datum(0.0) <= Datum(1.0) );
+            CPPUNIT_ASSERT( Datum(0.0) <= Datum(0.0) );
+            CPPUNIT_ASSERT( !(Datum(1.0) <= Datum(0.0)) );
+        }
+        
+        // and other
+        {
+            CPPUNIT_ASSERT( !(Datum(1.5) <= Datum("foo")) );
+            assertError("ERROR: Cannot test ordering of float and string");
+        }
+    }
+    
+    // Other
+    {
+        CPPUNIT_ASSERT( !(Datum("foo") <= Datum(1)) );
+        assertError("ERROR: Cannot test ordering of string and integer");
+    }
+}
+
+
+void GenericDataTestFixture::handleNewMessage(const Datum &value, MWTime time) {
+    if (value.isDictionary()) {
+        messageValue = value;
+    }
+}
+
+
+void GenericDataTestFixture::assertMessage(MessageType type, const std::string &msg) {
+    CPPUNIT_ASSERT( messageValue.isDictionary() );
+    
+    {
+        CPPUNIT_ASSERT( messageValue.hasKey(M_MESSAGE_TYPE) );
+        Datum actualType = messageValue.getElement(M_MESSAGE_TYPE);
+        CPPUNIT_ASSERT( actualType.isInteger() );
+        CPPUNIT_ASSERT_EQUAL( type, MessageType(actualType.getInteger()) );
+    }
+    
+    {
+        CPPUNIT_ASSERT( messageValue.hasKey(M_MESSAGE) );
+        Datum actualMsg = messageValue.getElement(M_MESSAGE);
+        CPPUNIT_ASSERT( actualMsg.isString() );
+        CPPUNIT_ASSERT_EQUAL( msg, std::string(actualMsg) );
+    }
+}
+
+
+void GenericDataTestFixture::assertEqualStrings(const std::string &expected, const std::string &actual) {
+    CPPUNIT_ASSERT_EQUAL( expected, actual );
+}
+
+
+void GenericDataTestFixture::testGetStringQuoted() {
+    // Non-string
+    assertEqualStrings("", Datum(1).getStringQuoted());
+    assertError("ERROR: Cannot convert integer to string");
+    
+    // String
+    assertEqualStrings(R"("a b c \a \b \f \n \r \t \v \\ \" \' d e f")",
+                       Datum("a b c \a \b \f \n \r \t \v \\ \" ' d e f").getStringQuoted());
+}
+
+
+void GenericDataTestFixture::testSetStringQuoted() {
+    Datum d;
+    auto setQuoted = [&d](const std::string &s) {
+        d.setStringQuoted(s);
+        return d.getString();
+    };
+    
+    // Fewer than 2 characters
+    assertEqualStrings( "", setQuoted("") );
+    assertEqualStrings( "'", setQuoted("'") );
+    
+    // Not fully quoted
+    assertEqualStrings( "abc", setQuoted("abc") );
+    assertEqualStrings( "\"abc", setQuoted("\"abc") );
+    assertEqualStrings( "'abc", setQuoted("'abc") );
+    assertEqualStrings( "abc\"", setQuoted("abc\"") );
+    assertEqualStrings( "abc'", setQuoted("abc'") );
+    
+    // Last quoted char is backslash
+    assertEqualStrings( R"('ab\')", setQuoted(R"('ab\')") );
+    
+    // Empty
+    assertEqualStrings( "", setQuoted("\"\"") );
+    assertEqualStrings( "", setQuoted("''") );
+    
+    // Non-empty
+    assertEqualStrings("a b c \a \b \f \n \r \t \v ' \" \\ ? \\q d e f",
+                       setQuoted(R"("a b c \a \b \f \n \r \t \v \' \" \\ \? \q d e f")"));
 }
 
 

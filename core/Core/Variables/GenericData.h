@@ -175,6 +175,7 @@ public:
     const char *getString() const;
     int getStringLength() const;
     bool stringIsCString() const;
+    std::string getStringQuoted() const;
     
     // debug function to print the datum.
     void printToSTDERR() const;
@@ -237,14 +238,13 @@ public:
     Datum operator*(const Datum&) const;
     Datum operator/(const Datum&) const;
     Datum operator%(const Datum&) const;
-    Datum operator==(const Datum&) const;
-    Datum operator!=(const Datum&) const;
-    Datum operator>(const Datum&) const;
-    Datum operator>=(const Datum&) const;
-    Datum operator<(const Datum&) const;
-    Datum operator<=(const Datum&) const;
     
-    
+    bool operator==(const Datum&) const;
+    bool operator!=(const Datum&) const;
+    bool operator>(const Datum&) const;
+    bool operator>=(const Datum&) const;
+    bool operator<(const Datum&) const;
+    bool operator<=(const Datum&) const;
     
     int getNElements() const;
     int getMaxElements() const;
@@ -271,8 +271,7 @@ public:
     
     Datum operator[](int i) const;
     
-    std::string toString() const;
-    std::string toStringQuoted() const;
+    std::string toString(bool quoted = false) const;
     
 private:
     
@@ -399,7 +398,9 @@ private:
 };
 
 
-std::ostream& operator<<(std::ostream &stream, const Datum &d);
+inline std::ostream& operator<<(std::ostream &stream, const Datum &d) {
+    return (stream << d.toString());
+}
 
 
 END_NAMESPACE_MW
