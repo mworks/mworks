@@ -272,7 +272,39 @@ void LinkedListTestFixture::testRemove(){
 	CPPUNIT_ASSERT( node == a );
 	node = node->getPrevious();			
 	CPPUNIT_ASSERT( node == NULL );
-	
+}
+
+void LinkedListTestFixture::testRemove2(){
+    //
+    // Same as testRemove, except elements are added with addToBack
+    //
+    
+    list.addToBack(a);
+    list.addToBack(b);
+    list.addToBack(c);
+    list.addToBack(d);
+    
+    b->remove();
+    
+    node = list.getFrontmost();
+    
+    CPPUNIT_ASSERT( node == a );
+    node = node->getNext();
+    CPPUNIT_ASSERT( node == c );
+    node = node->getNext();
+    CPPUNIT_ASSERT( node == d );
+    node = node->getNext();
+    CPPUNIT_ASSERT( node == NULL );
+    
+    node = list.getBackmost();
+    
+    CPPUNIT_ASSERT( node == d );
+    node = node->getPrevious();
+    CPPUNIT_ASSERT( node == c );
+    node = node->getPrevious();
+    CPPUNIT_ASSERT( node == a );
+    node = node->getPrevious();
+    CPPUNIT_ASSERT( node == NULL );
 }
 
 void LinkedListTestFixture::testEmpty(){

@@ -34,6 +34,7 @@ class LinkedListTestFixture : public CppUnit::TestFixture {
 	CPPUNIT_TEST( testShortList );
 	CPPUNIT_TEST( testSendToBack );
 	CPPUNIT_TEST( testRemove );
+    CPPUNIT_TEST( testRemove2 );
 	CPPUNIT_TEST( testEmpty );
 	CPPUNIT_TEST( testOneNode );
 	CPPUNIT_TEST( testGetNElements );
@@ -63,6 +64,7 @@ class LinkedListTestFixture : public CppUnit::TestFixture {
 		void testShortList();
 		void testSendToBack();
 		void testRemove();
+        void testRemove2();
 		void testEmpty();
 		void testOneNode();
 		void testGetNElements();

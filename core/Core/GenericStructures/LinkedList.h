@@ -409,6 +409,8 @@ void LinkedList<T>::addToBack(shared_ptr<T> newnode) {
 		head = newnode;
 		head->setPrevious(empty);
 	}
+    
+    newnode->setList(this);
 	nelements++;
 }
 
