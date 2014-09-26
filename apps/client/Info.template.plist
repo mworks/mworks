@@ -29,7 +29,7 @@
 	<key>LSEnvironment</key>
 	<dict>
 		<key>DYLD_FALLBACK_LIBRARY_PATH</key>
-		<string>/Applications/MATLAB/bin/maci64</string>
+		<string>/Applications/MATLAB/bin/maci64:/usr/local/lib:/lib:/usr/lib</string>
 	</dict>
 </dict>
 </plist>
