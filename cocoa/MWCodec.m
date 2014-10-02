@@ -147,15 +147,12 @@
                 key = [NSString stringWithCString:skey.c_str() encoding:NSASCIIStringEncoding];
             }
             
-            // ask core client for value
-            shared_ptr<mw::Variable> variable = core->getVariable([key cStringUsingEncoding:NSASCIIStringEncoding]);
+            mw::Datum value = [self valueForVariable:key];
             
-            if(variable == NULL){
+            if (value.isUndefined()) {
                 //NSLog(@"Leaving valueForKey: (NULL variable)");
                 return [self valueForUndefinedKey:key];
             }
-            
-            mw::Datum value = variable->getValue();
             
             string value_string = value.toString();
           
@@ -184,15 +181,6 @@
 
 
 - (void) setValue: (id)val forKey: (NSString *)key{
-	
-  //NSLog(@"Entered setValue:");
-    // lookup code
-  int code = -1;
-  
-  @synchronized(clientInstance){
-    code = core->lookupCodeForTag([key cStringUsingEncoding:NSASCIIStringEncoding]);
-	}
-  
 	// format value appropriately
 	mw::Datum setval;
 	if ([val isKindOfClass:[NSNumber class]]) {
@@ -214,17 +202,8 @@
         
         [scanner release];
 	}
-
-	// tell core client to set it	
-	//NSLog(@"Set %@ (code = %d) to %@", key, code, val);
-	
-  @synchronized(clientInstance){
-    [self willChangeValueForKey:key];
-    core->updateValue(code, setval);
-    [self didChangeValueForKey:key];
-  }
-	
-	//NSLog(@"%@ now equals %s", key, setval.toString().c_str());
+    
+    [self setValue:setval forVariable:key];
 }
 
 
@@ -253,5 +232,56 @@
   //NSLog(@"Leaving updateChangedValues");
 }
 
+
+- (mw::Datum)valueForVariable:(NSString *)key {
+    @synchronized (clientInstance) {
+        shared_ptr<mw::Variable> variable = core->getVariable([key cStringUsingEncoding:NSASCIIStringEncoding]);
+        
+        if (!variable) {
+            return mw::Datum();
+        }
+        
+        return variable->getValue();
+    }
+}
+
+
+- (void)setValue:(const mw::Datum &)setval forVariable:(NSString *)key {
+    @synchronized (clientInstance) {
+        int code = core->lookupCodeForTag([key cStringUsingEncoding:NSASCIIStringEncoding]);
+        [self willChangeValueForKey:key];
+        core->updateValue(code, setval);
+        [self didChangeValueForKey:key];
+    }
+}
+
+
 @end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

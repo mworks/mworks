@@ -17,7 +17,5 @@
 
 - (NSString *)getValueString:(NSString *)tag;
 - (void)set:(NSString *)tag toValue:(mw::Datum *)val;
-- (BOOL)isTagDictionary:(NSString *)tag;
-- (BOOL)isTagList:(NSString *)tag;
 
 @end

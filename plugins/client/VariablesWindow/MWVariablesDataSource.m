@@ -10,6 +10,8 @@
 #import "MWVariableDisplayItem.h"
 #import "MWVariablesWindowController.h"
 
+#import <MWorksCore/ExpressionVariable.h>
+
 #define DEFAULTS_EXPANDED_ITEMS_KEY @"Variables Window - expanded items"
 
 
@@ -157,34 +159,21 @@ objectValueForTableColumn:(NSTableColumn *)tableColumn
 	 forTableColumn:(NSTableColumn *)tableColumn 
 			 byItem:(id)item
 {
-    NSString *object = (NSString *)_object;
+    if (!delegate || (tableColumn != valueCol)) {
+        return;
+    }
     
-	if(delegate != nil) {
-		if(tableColumn == valueCol) {
-			mw::Datum setval;
-			NSScanner *scanner = [NSScanner scannerWithString:object];
-			
-			double possibleDoubleValue;
-			
-			if([scanner scanDouble:&possibleDoubleValue]) {
-				if([scanner isAtEnd]) {
-					setval.setFloat(possibleDoubleValue);
-				} else {
-					setval.setString([object cStringUsingEncoding:NSASCIIStringEncoding]);				
-				}
-			} else {
-			// this is kind of shitty, but it will keep a user from shooting themselves right now
-				if([object compare:@"DICT"] == NSOrderedSame && [delegate isTagDictionary:[item displayName]] ) {
-					return;
-				} else if([object compare:@"LIST"] == NSOrderedSame && [delegate isTagList:[item displayName]]) {
-					return;
-				}
-				setval.setString([object cStringUsingEncoding:NSASCIIStringEncoding]);
-			}
-			
-			[delegate set:[item displayName] toValue:&setval];
-		}
-	}
+    NSString *object = (NSString *)_object;
+    const char *objectUTF8 = [object UTF8String];
+    mw::Datum setval;
+    
+    try {
+        setval = ParsedExpressionVariable::evaluateExpression(objectUTF8);
+    } catch (const SimpleException &) {
+        setval.setString(objectUTF8);
+    }
+    
+    [delegate set:[item displayName] toValue:&setval];
 }
 
 

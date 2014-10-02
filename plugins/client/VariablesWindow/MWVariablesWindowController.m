@@ -62,7 +62,8 @@
 *******************************************************************/
 - (NSString *)getValueString:(NSString *)tag {
 	if(variables != nil) {
-		return [variables valueForKey:tag];
+        mw::Datum value = [variables valueForVariable:tag];
+		return [NSString stringWithUTF8String:(value.toString(true).c_str())];
 	} else {
 		return @"";
 	}
@@ -70,30 +71,8 @@
 
 - (void)set:(NSString *)tag toValue:(mw::Datum *)val {
 	if(variables != nil) {	
-        NSObject *value;
-        if (val->isString()) {
-            value = [NSString stringWithCString:val->getString() encoding:NSASCIIStringEncoding];
-        } else {
-            value = [NSNumber numberWithDouble:val->getFloat()];
-        }
-        [variables setValue:value forKey:tag];
+        [variables setValue:(*val) forVariable:tag];
 	}
-}
-
-- (BOOL)isTagDictionary:(NSString *)tag {
-	//if(delegate != nil) {
-//		return [[delegate isDictionary:tag] boolValue];
-//	} else {
-		return NO;
-	//}
-}
-
-- (BOOL)isTagList:(NSString *)tag {
-//	if(delegate != nil) {
-//		return [[delegate isList:tag] boolValue];
-//	} else {
-		return NO;
-//	}
 }
 
 
