@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <marionette_info>
   <expected_messages>
-    <message type="starts_with">bool_var = 0 (</message>
-    <message type="starts_with">bool_var = 1 (</message>
+    <message type="starts_with">bool_var = false (</message>
+    <message type="starts_with">bool_var = true (</message>
     <message type="starts_with">int_var = 0 (</message>
     <message type="starts_with">int_var = 1 (</message>
     <message type="starts_with">int_var = 2 (</message>
