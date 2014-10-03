@@ -209,7 +209,7 @@
 		
 		<!-- Payload -->
 		<code>
-			<variable tag="New Variable" scope="global" logging="when_changed" default_value="0" type="integer"/>
+			<variable tag="New Variable" scope="global" logging="when_changed" default_value="0" type="any"/>
 		</code>
 	</MWElement>
 	

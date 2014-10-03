@@ -105,7 +105,9 @@ shared_ptr<mw::Component> VariableFactory::createObject(std::map<std::string, st
 
 	type_string = to_lower_copy(type_string);
 	
-	if(type_string == "integer") {
+    if(type_string == "any") {
+        type = M_UNDEFINED;
+    } else if(type_string == "integer") {
 		type = M_INTEGER;
 		defaultValue = 0L;
 	} else if(type_string == "float" || 
@@ -178,6 +180,10 @@ shared_ptr<mw::Component> VariableFactory::createObject(std::map<std::string, st
 	
 	
 	switch(type) {
+        case M_UNDEFINED:
+            // Type is "any", so let the expression parser infer the type
+            defaultValue = ParsedExpressionVariable::evaluateExpression(parameters.find("default_value")->second);
+            break;
 		case M_INTEGER:
 		case M_FLOAT:
 		case M_BOOLEAN:

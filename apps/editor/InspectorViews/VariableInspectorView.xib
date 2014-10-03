@@ -90,12 +90,15 @@
                 <popUpButton verticalHuggingPriority="750" id="14">
                     <rect key="frame" x="17" y="99" width="120" height="22"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <popUpButtonCell key="cell" type="push" title="integer" bezelStyle="rounded" alignment="left" controlSize="small" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" inset="2" selectedItem="17" id="15">
+                    <popUpButtonCell key="cell" type="push" title="any" bezelStyle="rounded" alignment="left" controlSize="small" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" inset="2" selectedItem="OMn-Q4-dSh" id="15">
                         <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="smallSystem"/>
                         <menu key="menu" title="OtherViews" id="16">
                             <items>
-                                <menuItem title="integer" state="on" id="17">
+                                <menuItem title="any" state="on" id="OMn-Q4-dSh">
+                                    <modifierMask key="keyEquivalentModifierMask"/>
+                                </menuItem>
+                                <menuItem title="integer" id="17">
                                     <attributedString key="attributedTitle"/>
                                 </menuItem>
                                 <menuItem title="float" id="18"/>

@@ -1,0 +1,25 @@
+<?xml version="1.0" standalone="no"?>
+<monkeyml version="1.0">
+    <io_devices tag="IO Devices"></io_devices>
+    <variables tag="Variables">
+        <variable tag="bool_val" scope="global" logging="when_changed" default_value="1 &amp;&amp; 2" type="any"></variable>
+        <variable tag="int_val" scope="global" logging="when_changed" default_value="0 + 1234567890123456789" type="any"></variable>
+        <variable tag="float_val" scope="global" logging="when_changed" default_value="1.5 * 3" type="any"></variable>
+        <variable tag="string_val" scope="global" logging="when_changed" default_value="&quot;foo\n&quot;" type="any"></variable>
+        <variable tag="list_val" scope="global" logging="when_changed" default_value="[1, 2.5, 'three']" type="any"></variable>
+    </variables>
+    <sounds tag="Sounds"></sounds>
+    <stimuli tag="Stimuli"></stimuli>
+    <filters tag="Filters"></filters>
+    <optimizers tag="Optimizers"></optimizers>
+    <experiment tag="New Experiment" full_name="" description="">
+        <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
+            <action type="assert" tag="Assert" condition="bool_val == true" message="" stop_on_failure="0"></action>
+            <action type="assert" tag="Assert 2" condition="format(&quot;%s&quot;, bool_val) == &quot;true&quot;" message="" stop_on_failure="0"></action>
+            <action type="assert" tag="Assert 3" condition="(int)int_val == 1234567890123456789" message="" stop_on_failure="0"></action>
+            <action type="assert" tag="Assert 4" condition="float_val == 4.5" message="" stop_on_failure="0"></action>
+            <action type="assert" tag="Assert 5" condition="string_val == 'foo\n'" message="" stop_on_failure="0"></action>
+            <action type="assert" tag="Assert 6" condition="list_val == [1, 2.5, 'three']" message="" stop_on_failure="0"></action>
+        </protocol>
+    </experiment>
+</monkeyml>
