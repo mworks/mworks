@@ -44,7 +44,6 @@
 
 #include <boost/math/special_functions/round.hpp>
 #include <boost/format.hpp>
-#include <boost/lexical_cast.hpp>
 
 #include "Utilities.h"
 
@@ -1287,21 +1286,16 @@ namespace stx MW_SYMBOL_PUBLIC {
 				}
 					
 				case integer_const_id:
-				{
-                    std::string intconst(i->value.begin(), i->value.end());
-					return new PNConstant(Datum(boost::lexical_cast<long long>(intconst)));
-				}
-					
 				case long_const_id:
 				{
                     std::string longconst(i->value.begin(), i->value.end());
-					return new PNConstant(Datum(boost::lexical_cast<long long>(longconst)));
+					return new PNConstant(Datum(std::strtoll(longconst.c_str(), nullptr, 10)));
 				}
 					
 				case double_const_id:
 				{
                     std::string doubleconst(i->value.begin(), i->value.end());
-					return new PNConstant(Datum(boost::lexical_cast<double>(doubleconst)));
+					return new PNConstant(Datum(std::strtod(doubleconst.c_str(), nullptr)));
 				}
 					
 				case string_const_id:

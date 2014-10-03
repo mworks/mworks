@@ -502,6 +502,28 @@ void ParsedExpressionVariableTestFixture::testListLiteral() {
 }
 
 
+void ParsedExpressionVariableTestFixture::testIntegerOverflow() {
+    CPPUNIT_ASSERT_EQUAL(LLONG_MAX - 1,
+                         ParsedExpressionVariable::evaluateExpression("9223372036854775806").getInteger());
+    CPPUNIT_ASSERT_EQUAL(LLONG_MAX,
+                         ParsedExpressionVariable::evaluateExpression("9223372036854775807").getInteger());
+    CPPUNIT_ASSERT_EQUAL(LLONG_MAX,
+                         ParsedExpressionVariable::evaluateExpression("9223372036854775808").getInteger());
+}
+
+
+void ParsedExpressionVariableTestFixture::testFloatOverflow() {
+    CPPUNIT_ASSERT_EQUAL(std::nextafter(DBL_MAX, 0.0),
+                         ParsedExpressionVariable::evaluateExpression("1.7976931348623156e+308").getFloat());
+    CPPUNIT_ASSERT_EQUAL(DBL_MAX,
+                         ParsedExpressionVariable::evaluateExpression("1.7976931348623157e+308").getFloat());
+    CPPUNIT_ASSERT_EQUAL(DBL_MAX,
+                         ParsedExpressionVariable::evaluateExpression("1.7976931348623158e+308").getFloat());
+    CPPUNIT_ASSERT_EQUAL(HUGE_VAL,
+                         ParsedExpressionVariable::evaluateExpression("1.7976931348623159e+308").getFloat());
+}
+
+
 END_NAMESPACE_MW
 
 
