@@ -975,23 +975,13 @@ Datum Datum::operator*(const Datum& other)  const{
 
 
 Datum Datum::operator/(const Datum& other)  const{
-    if (isNumber() && other.isNumber() && (other.getFloat() == 0.0)) {
-        merror(M_SYSTEM_MESSAGE_DOMAIN, "Division by zero");
-        return 0;
-    }
-    
-    if (isInteger()) {
-        if (other.isInteger()) {
-            return getInteger() / (long long)other;
-        } else if (other.isFloat()) {
-            return getInteger() / (double)other;
+    if (isNumber() && other.isNumber()) {
+        double divisor = other.getFloat();
+        if (divisor == 0.0) {
+            merror(M_SYSTEM_MESSAGE_DOMAIN, "Division by zero");
+            return 0;
         }
-    } else if (isFloat()) {
-        if (other.isInteger()) {
-            return getFloat() / (long long)other;
-        } else if (other.isFloat()) {
-            return getFloat() / (double)other;
-        }
+        return getFloat() / divisor;
     }
     
     merror(M_SYSTEM_MESSAGE_DOMAIN, "Cannot divide %s and %s", getDataTypeName(), other.getDataTypeName());

@@ -1888,15 +1888,15 @@ void GenericDataTestFixture::testOperatorDivide() {
         // and boolean
         {
             Datum d = Datum(true) / Datum(true);
-            CPPUNIT_ASSERT( d.isInteger() );
-            CPPUNIT_ASSERT_EQUAL( 1LL, d.getInteger() );
+            CPPUNIT_ASSERT( d.isFloat() );
+            CPPUNIT_ASSERT_EQUAL( 1.0, d.getFloat() );
         }
         
         // and integer
         {
             Datum d = Datum(true) / Datum(-1);
-            CPPUNIT_ASSERT( d.isInteger() );
-            CPPUNIT_ASSERT_EQUAL( -1LL, d.getInteger() );
+            CPPUNIT_ASSERT( d.isFloat() );
+            CPPUNIT_ASSERT_EQUAL( -1.0, d.getFloat() );
         }
         
         // and float
@@ -1928,15 +1928,15 @@ void GenericDataTestFixture::testOperatorDivide() {
         // and boolean
         {
             Datum d = Datum(3) / Datum(true);
-            CPPUNIT_ASSERT( d.isInteger() );
-            CPPUNIT_ASSERT_EQUAL( 3LL, d.getInteger() );
+            CPPUNIT_ASSERT( d.isFloat() );
+            CPPUNIT_ASSERT_EQUAL( 3.0, d.getFloat() );
         }
         
         // and integer
         {
             Datum d = Datum(6) / Datum(3);
-            CPPUNIT_ASSERT( d.isInteger() );
-            CPPUNIT_ASSERT_EQUAL( 2LL, d.getInteger() );
+            CPPUNIT_ASSERT( d.isFloat() );
+            CPPUNIT_ASSERT_EQUAL( 2.0, d.getFloat() );
         }
         
         // and float
