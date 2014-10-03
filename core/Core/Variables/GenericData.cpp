@@ -1594,46 +1594,54 @@ void Datum::createList(int ls) {
 
 
 std::string Datum::toString(bool quoted) const {
+    if (quoted && isString()) {
+        return getStringQuoted();
+    }
 	std::ostringstream buf;
-    
-    switch (getDataType()) {
+    buf << *this;
+    return buf.str();
+}
+
+
+std::ostream& operator<<(std::ostream &buf, const Datum &d) {
+    switch (d.getDataType()) {
         case M_INTEGER:
-            buf << getInteger();
+            buf << d.getInteger();
             break;
         case M_BOOLEAN:
-            buf << (getBool() ? "true" : "false");
+            buf << (d.getBool() ? "true" : "false");
             break;
         case M_FLOAT:
-            buf << getFloat();
+            buf << d.getFloat();
             break;
         case M_STRING:
-            if (quoted) {
-                buf << getStringQuoted();
-            } else {
-                buf << getString();
-            }
+            buf << d.getString();
             break;
         case M_DICTIONARY:
             buf << "DICT";
             break;
         case M_LIST: {
             buf << "[";
-            const int numElements = getNElements();
+            const int numElements = d.getNElements();
             for (int i = 0; i < numElements; i++) {
                 if (i > 0) {
                     buf << ", ";
                 }
-                buf << getElement(i).toString(true);
+                const Datum item = d.getElement(i);
+                if (item.isString()) {
+                    buf << item.getStringQuoted();
+                } else {
+                    buf << item;
+                }
             }
             buf << "]";
             break;
         }
         default:
-            buf << "";
             break;
     }
     
-	return buf.str();
+	return buf;
 }
 
 

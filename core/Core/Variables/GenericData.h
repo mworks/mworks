@@ -398,9 +398,7 @@ private:
 };
 
 
-inline std::ostream& operator<<(std::ostream &stream, const Datum &d) {
-    return (stream << d.toString());
-}
+std::ostream& operator<<(std::ostream &stream, const Datum &d);
 
 
 END_NAMESPACE_MW
