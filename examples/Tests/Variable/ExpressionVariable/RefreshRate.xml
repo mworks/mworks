@@ -2,8 +2,8 @@
 <monkeyml version="1.0">
     <io_devices tag="IO Devices"></io_devices>
     <variables tag="Variables">
-        <variable tag="LOCAL_time" scope="global" logging="when_changed" default_value="0" type="float"></variable>
-        <variable tag="LOCAL_n" scope="global" logging="when_changed" default_value="0" type="integer"></variable>
+        <variable tag="LOCAL_time" scope="global" logging="when_changed" default_value="1" type="float"></variable>
+        <variable tag="LOCAL_n" scope="global" logging="when_changed" default_value="1" type="integer"></variable>
         <variable tag="frameRate" scope="global" logging="when_changed" default_value="refreshRate()" type="float" persistant="0"></variable>
         <variable tag="percentDiff" scope="global" logging="when_changed" default_value="0" type="float"></variable>
         <variable tag="acceptablePercentDiff" scope="global" logging="when_changed" default_value="0.1" type="float"></variable>

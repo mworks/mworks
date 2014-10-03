@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" standalone="no"?>
 <monkeyml version="1.0">
     <io_devices tag="IO Devices"></io_devices>
     <variables tag="Variables">
@@ -7,7 +7,7 @@
         <variable tag="stm_pos_x" full_name="stm_pos_x" default_value="40" scope="GLOBAL" type="INTEGER" editable="never" logging="when_changed"></variable>
         <variable tag="stm_pos_y" full_name="stm_pos_y" default_value="0" scope="GLOBAL" type="INTEGER" editable="never" logging="when_changed"></variable>
         <variable tag="start_time" scope="global" logging="when_changed" default_value="0" type="integer"></variable>
-        <variable tag="end_time" scope="global" logging="when_changed" default_value="0" type="integer"></variable>
+        <variable tag="end_time" scope="global" logging="when_changed" default_value="1" type="integer"></variable>
         <variable tag="frame_rate" scope="global" logging="when_changed" default_value="0" type="float"></variable>
         <variable tag="expected_frame_rate" scope="global" logging="when_changed" default_value="60" type="float"></variable>
         <variable tag="frame_rate_tolerance" scope="global" logging="when_changed" default_value="1" type="float"></variable>
