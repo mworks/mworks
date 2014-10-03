@@ -437,6 +437,71 @@ void ParsedExpressionVariableTestFixture::testRangeExpression() {
 }
 
 
+void ParsedExpressionVariableTestFixture::testListLiteral() {
+    // Empty list
+    {
+        Datum d = ParsedExpressionVariable::evaluateExpression("[]");
+        CPPUNIT_ASSERT( d.isList() );
+        CPPUNIT_ASSERT_EQUAL( 0, d.getNElements() );
+    }
+    
+    // Single-element list
+    {
+        Datum d = ParsedExpressionVariable::evaluateExpression("[1.5]");
+        CPPUNIT_ASSERT( d.isList() );
+        CPPUNIT_ASSERT_EQUAL( 1, d.getNElements() );
+        
+        Datum item = d.getElement(0);
+        CPPUNIT_ASSERT( item.isFloat() );
+        CPPUNIT_ASSERT_EQUAL( 1.5, item.getFloat() );
+    }
+    
+    // Multiple-element list
+    {
+        Datum d = ParsedExpressionVariable::evaluateExpression("[1, 2.5, 'foo']");
+        CPPUNIT_ASSERT( d.isList() );
+        CPPUNIT_ASSERT_EQUAL( 3, d.getNElements() );
+        
+        {
+            Datum item = d.getElement(0);
+            CPPUNIT_ASSERT( item.isInteger() );
+            CPPUNIT_ASSERT_EQUAL( 1LL, item.getInteger() );
+        }
+        
+        {
+            Datum item = d.getElement(1);
+            CPPUNIT_ASSERT( item.isFloat() );
+            CPPUNIT_ASSERT_EQUAL( 2.5, item.getFloat() );
+        }
+        
+        {
+            Datum item = d.getElement(2);
+            CPPUNIT_ASSERT( item.isString() );
+            CPPUNIT_ASSERT_EQUAL( std::string("foo"), std::string(item) );
+        }
+    }
+    
+    // Range expressions
+    {
+        Datum d = ParsedExpressionVariable::evaluateExpression("[1,2,3:5,6,7:10]");
+        CPPUNIT_ASSERT( d.isList() );
+        CPPUNIT_ASSERT_EQUAL( 10, d.getNElements() );
+        
+        for (int i = 0; i < 10; i++) {
+            Datum item = d.getElement(i);
+            CPPUNIT_ASSERT( item.isInteger() );
+            CPPUNIT_ASSERT_EQUAL( (long long)(i+1), item.getInteger() );
+        }
+    }
+    
+    // Missing closing bracket
+    CPPUNIT_ASSERT_THROW(ParsedExpressionVariable::evaluateExpression("[1,2,3"), FatalParserException);
+    
+    // Extra comma
+    CPPUNIT_ASSERT_THROW(ParsedExpressionVariable::evaluateExpression("[1,2,3,]"), FatalParserException);
+}
+
+
 END_NAMESPACE_MW
 
 

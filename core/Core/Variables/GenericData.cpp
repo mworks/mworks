@@ -1601,7 +1601,7 @@ std::string Datum::toString(bool quoted) const {
             buf << getInteger();
             break;
         case M_BOOLEAN:
-            buf << getBool();
+            buf << (getBool() ? "true" : "false");
             break;
         case M_FLOAT:
             buf << getFloat();
@@ -1616,9 +1616,18 @@ std::string Datum::toString(bool quoted) const {
         case M_DICTIONARY:
             buf << "DICT";
             break;
-        case M_LIST:
-            buf << "LIST";
+        case M_LIST: {
+            buf << "[";
+            const int numElements = getNElements();
+            for (int i = 0; i < numElements; i++) {
+                if (i > 0) {
+                    buf << ", ";
+                }
+                buf << getElement(i).toString(true);
+            }
+            buf << "]";
             break;
+        }
         default:
             buf << "";
             break;

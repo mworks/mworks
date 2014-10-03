@@ -80,6 +80,8 @@ namespace stx MW_SYMBOL_PUBLIC {
 			double_const_id,
 			string_const_id,
 			constant_id,
+            
+            list_literal_id,
 			
 			function_call_id,
 			function_identifier_id,
@@ -156,6 +158,12 @@ namespace stx MW_SYMBOL_PUBLIC {
                                              ('\'' >> *(c_escape_ch_p - '\'')  >> '\'') ]
 							   ]
 					;
+                    
+                    // *** List literal
+                    
+                    list_literal
+                    = root_node_d[ ch_p('[') ] >> exprlist >> discard_node_d[ ch_p(']') ]
+                    ;
 					
 					// *** Function call and function identifier
 					
@@ -186,6 +194,7 @@ namespace stx MW_SYMBOL_PUBLIC {
 					atom_expr
 					= constant
 					| inner_node_d[ ch_p('(') >> expr >> ch_p(')') ]
+                    | list_literal
 					| function_call
 					| varname
 					;
@@ -271,6 +280,8 @@ namespace stx MW_SYMBOL_PUBLIC {
 					BOOST_SPIRIT_DEBUG_RULE(long_const);
 					BOOST_SPIRIT_DEBUG_RULE(double_const);
 					BOOST_SPIRIT_DEBUG_RULE(string_const);
+                    
+                    BOOST_SPIRIT_DEBUG_RULE(list_literal);
 					
 					BOOST_SPIRIT_DEBUG_RULE(function_call);
 					BOOST_SPIRIT_DEBUG_RULE(function_identifier);
@@ -313,6 +324,9 @@ namespace stx MW_SYMBOL_PUBLIC {
 				rule<ScannerT, parser_context<>, parser_tag<double_const_id> > 		double_const;
 				/// String constant rule: with quotes "abc"
 				rule<ScannerT, parser_context<>, parser_tag<string_const_id> > 		string_const;
+                
+                /// List literal rule: [a,b,c] where a,b,c is a list of exprs
+                rule<ScannerT, parser_context<>, parser_tag<list_literal_id> >      list_literal;
 				
 				/// Function call rule: func1(a,b,c) where a,b,c is a list of exprs
 				rule<ScannerT, parser_context<>, parser_tag<function_call_id> > 	function_call;
@@ -448,6 +462,67 @@ namespace stx MW_SYMBOL_PUBLIC {
 					return str;
 				}
 			};
+        
+        /// Parse tree node representing a list literal.
+        class PNListLiteral : public ParseNode
+        {
+        public:
+            /// Type of sequence of subtrees to evaluate as list items.
+            typedef std::vector<const class ParseNode*> itemlist_type;
+            
+        private:
+            /// The array of list item subtrees
+            itemlist_type	itemlist;
+            
+        public:
+            /// Constructor from the string received from the parser.
+            PNListLiteral(const itemlist_type& _itemlist)
+            : ParseNode(), itemlist(_itemlist)
+            {
+            }
+            
+            /// Delete the itemlist
+            ~PNListLiteral()
+            {
+                for(unsigned int i = 0; i < itemlist.size(); ++i)
+                    delete itemlist[i];
+            }
+            
+            virtual Datum evaluate(const class SymbolTable &st) const
+            {
+                std::vector<Datum> itemvalues;
+                
+                for(unsigned int i = 0; i < itemlist.size(); ++i)
+                {
+                    itemlist[i]->evaluate(itemvalues, st);
+                }
+                
+                Datum value(mw::M_LIST, int(itemvalues.size()));
+                
+                for (int i = 0; i < itemvalues.size(); i++) {
+                    value.setElement(i, itemvalues.at(i));
+                }
+                
+                return value;
+            }
+            
+            /// Returns false, because value isn't constant.
+            virtual bool evaluate_const(Datum *) const
+            {
+                return false;
+            }
+            
+            virtual std::string toString() const
+            {
+                std::string str = "[";
+                for(unsigned int i = 0; i < itemlist.size(); ++i)
+                {
+                    if (i != 0) str += ",";
+                    str += itemlist[i]->toString();
+                }
+                return str + "]";
+            }
+        };
 		
 		/// Parse tree node representing a function place-holder. It is filled when
 		/// parameterized by a symbol table.
@@ -1454,6 +1529,41 @@ namespace stx MW_SYMBOL_PUBLIC {
 					
 					return new PNVariable(varname, subscript);
 				}
+                    
+                case list_literal_id:
+                {
+                    std::vector<const class ParseNode*> itemlist;
+                    
+                    if (i->children.size() > 0)
+                    {
+                        TreeIterT const& itemlistchild = i->children.begin();
+                        
+                        if (itemlistchild->value.id().to_long() == exprlist_id)
+                        {
+                            try
+                            {
+                                for(TreeIterT ci = itemlistchild->children.begin(); ci != itemlistchild->children.end(); ++ci)
+                                {
+                                    const ParseNode *pas = build_expr(ci);
+                                    itemlist.push_back(pas);
+                                }
+                            }
+                            catch (...) // need to clean-up
+                            {
+                                for(unsigned int i = 0; i < itemlist.size(); ++i)
+                                    delete itemlist[i];
+                                throw;
+                            }
+                        }
+                        else
+                        {
+                            // just one subnode and its not a full expression list
+                            itemlist.push_back( build_expr(itemlistchild) );
+                        }
+                    }
+                    
+                    return new PNListLiteral(itemlist);
+                }
 					
 				case function_identifier_id:
 				{
@@ -1547,6 +1657,8 @@ namespace stx MW_SYMBOL_PUBLIC {
 			rule_names[double_const_id] = "double_const";
 			rule_names[string_const_id] = "string_const";
 			rule_names[constant_id] = "constant";
+            
+            rule_names[list_literal_id] = "list_literal";
 			
 			rule_names[function_call_id] = "function_call";
 			rule_names[function_identifier_id] = "function_identifier";
