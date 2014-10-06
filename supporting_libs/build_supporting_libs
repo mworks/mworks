@@ -25,7 +25,7 @@ cxx = '/usr/bin/clang++'
 rsync = '/usr/bin/rsync'
 xcodebuild = '/usr/bin/xcodebuild'
 
-macosx_version_min = '10.7'
+macosx_version_min = '10.8'
 sdk_version = macosx_version_min
 sdk_path = (('/Applications/Xcode.app/Contents/Developer/Platforms/'
              'MacOSX.platform/Developer/SDKs/MacOSX%s.sdk') % sdk_version)

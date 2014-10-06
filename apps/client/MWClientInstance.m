@@ -857,7 +857,14 @@
             @try{
                 nib = [[NSNib alloc] initWithNibNamed:@"Main" bundle:plugin_bundle];
         
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+                // TODO: Replace instantiateNibWithOwner:topLevelObjects: with
+                // instantiateWithOwner:topLevelObjects:.  This will require a bit of work,
+                // as the latter method requires the caller to explicitly retain all instantiated
+                // objects.
                 if(![nib instantiateNibWithOwner:self topLevelObjects:&toplevel]){
+#pragma clang diagnostic pop
                     NSLog(@"Couldn't instantiate nib for %@", plugin_file);
                     nib_loaded_correctly = false;
                 }
