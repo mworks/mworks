@@ -19,7 +19,6 @@
     NSNumber *_displayDistance;
     BOOL _alwaysDisplayMirrorWindow;
     NSNumber *_mirrorWindowBaseHeight;
-    BOOL _redrawOnEveryRefresh;
     BOOL _announceIndividualStimuli;
     BOOL _warnOnSkippedRefresh;
     BOOL _allowAltFailover;
@@ -34,8 +33,6 @@
 @property(nonatomic, strong) NSNumber *displayDistance;
 @property(nonatomic) BOOL alwaysDisplayMirrorWindow;
 @property(nonatomic, strong) NSNumber *mirrorWindowBaseHeight;
-@property(nonatomic, readonly) BOOL enableRedrawOnEveryRefresh;
-@property(nonatomic) BOOL redrawOnEveryRefresh;
 @property(nonatomic) BOOL announceIndividualStimuli;
 @property(nonatomic) BOOL warnOnSkippedRefresh;
 @property(nonatomic) BOOL allowAltFailover;

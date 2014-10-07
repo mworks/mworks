@@ -276,7 +276,6 @@ BEGIN_NAMESPACE_MW
     
 		bool always_display_mirror_window = 0;
 		int display_to_use = 0;
-        bool redraw_on_every_refresh = true;
         bool announce_individual_stimuli = true;
         
 		if(main_screen_info != NULL){
@@ -290,16 +289,12 @@ BEGIN_NAMESPACE_MW
 				always_display_mirror_window = (bool)val.getElement(M_ALWAYS_DISPLAY_MIRROR_WINDOW_KEY);
 			}
 			
-			if(val.hasKey(M_REDRAW_ON_EVERY_REFRESH_KEY)){
-				redraw_on_every_refresh = (bool)val.getElement(M_REDRAW_ON_EVERY_REFRESH_KEY);
-			}
-			
 			if(val.hasKey(M_ANNOUNCE_INDIVIDUAL_STIMULI_KEY)){
 				announce_individual_stimuli = (bool)val.getElement(M_ANNOUNCE_INDIVIDUAL_STIMULI_KEY);
 			}
 		}
 		
-		shared_ptr<StimulusDisplay> stimdisplay(new StimulusDisplay(redraw_on_every_refresh, announce_individual_stimuli));
+		shared_ptr<StimulusDisplay> stimdisplay(new StimulusDisplay(announce_individual_stimuli));
 		int new_context = -1;
         
         

@@ -93,7 +93,6 @@ BEGIN_NAMESPACE_MW
         std::vector< shared_ptr<StimulusNode> > stimsToAnnounce;
         std::vector<Datum> stimAnnouncements;
         
-        const bool drawEveryFrame;
         std::map<int, GLuint> framebuffers;
         std::map<int, GLuint> renderbuffers;
         std::map<int, GLint> bufferWidths, bufferHeights;
@@ -129,7 +128,7 @@ BEGIN_NAMESPACE_MW
                                      GLdouble &bottom,
                                      GLdouble &top);
 		
-		StimulusDisplay(bool drawEveryFrame, bool announceIndividualStimuli);
+		explicit StimulusDisplay(bool announceIndividualStimuli);
 		~StimulusDisplay();
 		
 		void addContext(int _context_id);

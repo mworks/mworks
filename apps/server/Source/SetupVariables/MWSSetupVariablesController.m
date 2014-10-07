@@ -27,7 +27,6 @@ using mw::Datum;
 @synthesize displayDistance = _displayDistance;
 @synthesize alwaysDisplayMirrorWindow = _alwaysDisplayMirrorWindow;
 @synthesize mirrorWindowBaseHeight = _mirrorWindowBaseHeight;
-@synthesize redrawOnEveryRefresh = _redrawOnEveryRefresh;
 @synthesize announceIndividualStimuli = _announceIndividualStimuli;
 @synthesize warnOnSkippedRefresh = _warnOnSkippedRefresh;
 @synthesize allowAltFailover = _allowAltFailover;
@@ -50,7 +49,6 @@ using mw::Datum;
                 _displayDistance = [[NSNumber alloc] initWithDouble:(mdi.getElement(M_DISPLAY_DISTANCE_KEY).getFloat())];
                 _alwaysDisplayMirrorWindow = mdi.getElement(M_ALWAYS_DISPLAY_MIRROR_WINDOW_KEY).getBool();
                 _mirrorWindowBaseHeight = [[NSNumber alloc] initWithDouble:(mdi.getElement(M_MIRROR_WINDOW_BASE_HEIGHT_KEY).getFloat())];
-                _redrawOnEveryRefresh = mdi.getElement(M_REDRAW_ON_EVERY_REFRESH_KEY).getBool();
                 _announceIndividualStimuli = mdi.getElement(M_ANNOUNCE_INDIVIDUAL_STIMULI_KEY).getBool();
             }
         }
@@ -169,19 +167,6 @@ using mw::Datum;
     [self updateVariable:mw::mainDisplayInfo
                      key:M_MIRROR_WINDOW_BASE_HEIGHT_KEY
                    value:[mirrorWindowBaseHeight doubleValue]];
-}
-
-
-- (BOOL)enableRedrawOnEveryRefresh {
-    return NO;
-}
-
-
-- (void)setRedrawOnEveryRefresh:(BOOL)redrawOnEveryRefresh {
-    _redrawOnEveryRefresh = redrawOnEveryRefresh;
-    [self updateVariable:mw::mainDisplayInfo
-                     key:M_REDRAW_ON_EVERY_REFRESH_KEY
-                   value:bool(redrawOnEveryRefresh)];
 }
 
 

@@ -15,8 +15,6 @@
 #include "ComponentInfo.h"
 #include "ParameterValue.h"
 
-#include "OpenGLContextManager.h"
-
 #include "ComponentRegistry.h"
 
 

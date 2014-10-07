@@ -30,13 +30,12 @@ BEGIN_NAMESPACE_MW
 /**********************************************************************
  *                  StimulusDisplay Methods
  **********************************************************************/
-StimulusDisplay::StimulusDisplay(bool drawEveryFrame, bool announceIndividualStimuli) :
+StimulusDisplay::StimulusDisplay(bool announceIndividualStimuli) :
     current_context_index(-1),
     mainDisplayRefreshRate(0.0),
     currentOutputTimeUS(-1),
     announceIndividualStimuli(announceIndividualStimuli),
-    announceStimuliOnImplicitUpdates(true),
-    drawEveryFrame(drawEveryFrame)
+    announceStimuliOnImplicitUpdates(true)
 {
     // defer creation of the display chain until after the stimulus display has been created
     display_stack = shared_ptr< LinkedList<StimulusNode> >(new LinkedList<StimulusNode>());
@@ -187,10 +186,8 @@ void StimulusDisplay::addContext(int _context_id){
         setMainDisplayRefreshRate();
     }
     
-    if (drawEveryFrame) {
-        OpenGLContextLock ctxLock = setCurrent(contextIndex);
-        allocateBufferStorage(contextIndex);
-    }
+    OpenGLContextLock ctxLock = setCurrent(contextIndex);
+    allocateBufferStorage(contextIndex);
 }
 
 
@@ -389,10 +386,6 @@ void StimulusDisplay::refreshDisplay() {
         }
     }
 
-    if (!(needDraw || drawEveryFrame)) {
-        return;
-    }
-
     //
     // Draw stimuli
     //
@@ -402,14 +395,10 @@ void StimulusDisplay::refreshDisplay() {
         current_context_index = i;
         
         if (!needDraw) {
-            if (drawEveryFrame) {
-                drawStoredBuffer(i);
-            }
+            drawStoredBuffer(i);
         } else {
             drawDisplayStack(i == 0);
-            if (drawEveryFrame) {
-                storeBackBuffer(i);
-            }
+            storeBackBuffer(i);
         }
         
         if (i != 0) {

@@ -23,9 +23,6 @@
 BEGIN_NAMESPACE_MW
 
 
-// Can't open OpenGL from here?
-//#include "MWorksCore/OpenGLContextManager.h"
-
 void FullCoreEnvironmentTestFixture::setUp(){
 	builder = new TestBedCoreBuilder();
 	CoreBuilderForeman::constructCoreStandardOrder(builder);

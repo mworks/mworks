@@ -22,7 +22,6 @@
 #import "StandardVariables.h"
 #import "EventBuffer.h"
 #import "OpenALContextManager.h"
-#import "OpenGLContextManager.h"
 #include "PlatformDependentServices.h"
 
 
