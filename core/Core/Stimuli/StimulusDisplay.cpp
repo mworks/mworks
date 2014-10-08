@@ -35,7 +35,9 @@ StimulusDisplay::StimulusDisplay(bool announceIndividualStimuli) :
     mainDisplayRefreshRate(0.0),
     currentOutputTimeUS(-1),
     announceIndividualStimuli(announceIndividualStimuli),
-    announceStimuliOnImplicitUpdates(true)
+    announceStimuliOnImplicitUpdates(true),
+    framebuffer(0),
+    renderbuffer(0)
 {
     // defer creation of the display chain until after the stimulus display has been created
     display_stack = shared_ptr< LinkedList<StimulusNode> >(new LinkedList<StimulusNode>());
@@ -176,7 +178,10 @@ void StimulusDisplay::setMainDisplayRefreshRate() {
 
 void StimulusDisplay::addContext(int _context_id){
 	context_ids.push_back(_context_id);
-    int contextIndex = getNContexts() - 1;
+    int contextIndex = context_ids.size() - 1;
+    
+    OpenGLContextLock ctxLock = opengl_context_manager->setCurrent(_context_id);
+    getCurrentViewportSize(bufferWidths[contextIndex], bufferHeights[contextIndex]);
     
     if (0 == contextIndex) {
         if (kCVReturnSuccess != opengl_context_manager->prepareDisplayLinkForMainDisplay(displayLink))
@@ -184,31 +189,28 @@ void StimulusDisplay::addContext(int _context_id){
             throw SimpleException("Unable to associate display link with main display");
         }
         setMainDisplayRefreshRate();
+        allocateBufferStorage();
     }
-    
-    OpenGLContextLock ctxLock = setCurrent(contextIndex);
-    allocateBufferStorage(contextIndex);
 }
 
 
-void StimulusDisplay::allocateBufferStorage(int contextIndex) {
+void StimulusDisplay::allocateBufferStorage() {
     if (!glewIsSupported("GL_ARB_framebuffer_object")) {
         throw SimpleException("renderer does not support required OpenGL framebuffer extension");
     }
     
-    glGenFramebuffers(1, &framebuffers[contextIndex]);
-    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, framebuffers[contextIndex]);
+    glGenFramebuffers(1, &framebuffer);
+    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, framebuffer);
     
-    glGenRenderbuffers(1, &renderbuffers[contextIndex]);
-    glBindRenderbuffer(GL_RENDERBUFFER, renderbuffers[contextIndex]);
+    glGenRenderbuffers(1, &renderbuffer);
+    glBindRenderbuffer(GL_RENDERBUFFER, renderbuffer);
     
-    getCurrentViewportSize(bufferWidths[contextIndex], bufferHeights[contextIndex]);
-    glRenderbufferStorage(GL_RENDERBUFFER, GL_RGBA8, bufferWidths[contextIndex], bufferHeights[contextIndex]);
+    glRenderbufferStorage(GL_RENDERBUFFER, GL_RGBA8, bufferWidths[0], bufferHeights[0]);
     
     glFramebufferRenderbuffer(GL_DRAW_FRAMEBUFFER,
                               GL_COLOR_ATTACHMENT0,
                               GL_RENDERBUFFER,
-                              renderbuffers[contextIndex]);
+                              renderbuffer);
     
     GLenum status = glCheckFramebufferStatus(GL_DRAW_FRAMEBUFFER);
     if (GL_FRAMEBUFFER_COMPLETE != status) {
@@ -220,32 +222,15 @@ void StimulusDisplay::allocateBufferStorage(int contextIndex) {
 }
 
 
-void StimulusDisplay::storeBackBuffer(int contextIndex) {
-    glBindFramebuffer(GL_READ_FRAMEBUFFER, 0);
-    glReadBuffer(GL_BACK_LEFT);
-    
-    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, framebuffers[contextIndex]);
-    GLenum drawBuffers[] = { GL_COLOR_ATTACHMENT0 };
-    glDrawBuffers(1, drawBuffers);
-    
-    glBlitFramebuffer(0, 0, bufferWidths[contextIndex], bufferHeights[contextIndex],
-                      0, 0, bufferWidths[contextIndex], bufferHeights[contextIndex],
-                      GL_COLOR_BUFFER_BIT,
-                      GL_LINEAR);
-    
-    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
-}
-
-
 void StimulusDisplay::drawStoredBuffer(int contextIndex) {
-    glBindFramebuffer(GL_READ_FRAMEBUFFER, framebuffers[contextIndex]);
+    glBindFramebuffer(GL_READ_FRAMEBUFFER, framebuffer);
     glReadBuffer(GL_COLOR_ATTACHMENT0);
     
     glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
     GLenum drawBuffers[] = { GL_BACK_LEFT };
     glDrawBuffers(1, drawBuffers);
     
-    glBlitFramebuffer(0, 0, bufferWidths[contextIndex], bufferHeights[contextIndex],
+    glBlitFramebuffer(0, 0, bufferWidths[0], bufferHeights[0],
                       0, 0, bufferWidths[contextIndex], bufferHeights[contextIndex],
                       GL_COLOR_BUFFER_BIT,
                       GL_LINEAR);
@@ -390,16 +375,22 @@ void StimulusDisplay::refreshDisplay() {
     // Draw stimuli
     //
     
-    for (int i = 0; i < getNContexts(); i++) {
-        OpenGLContextLock ctxLock = setCurrent(i);
-        current_context_index = i;
+    for (int i = 0; i < context_ids.size(); i++) {
+        OpenGLContextLock ctxLock = opengl_context_manager->setCurrent(context_ids[i]);
         
-        if (!needDraw) {
-            drawStoredBuffer(i);
-        } else {
-            drawDisplayStack(i == 0);
-            storeBackBuffer(i);
+        if ((i == 0) && needDraw) {
+            glBindFramebuffer(GL_DRAW_FRAMEBUFFER, framebuffer);
+            GLenum drawBuffers[] = { GL_COLOR_ATTACHMENT0 };
+            glDrawBuffers(1, drawBuffers);
+            
+            current_context_index = 0;
+            drawDisplayStack();
+            current_context_index = -1;
+            
+            glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
         }
+        
+        drawStoredBuffer(i);
         
         if (i != 0) {
             // Non-main display
@@ -413,7 +404,6 @@ void StimulusDisplay::refreshDisplay() {
         }
     }
     
-    current_context_index = -1;
     needDraw = false;
 }
 
@@ -454,7 +444,7 @@ void StimulusDisplay::glInit() {
 }
 
 
-void StimulusDisplay::drawDisplayStack(bool doStimAnnouncements) {
+void StimulusDisplay::drawDisplayStack() {
     // OpenGL setup
 
     glInit();
@@ -466,12 +456,10 @@ void StimulusDisplay::drawDisplayStack(bool doStimAnnouncements) {
         if (node->isVisible()) {
             node->draw(shared_from_this());
             
-            if (doStimAnnouncements) {
-                Datum individualAnnounce(node->getCurrentAnnounceDrawData());
-                if (!individualAnnounce.isUndefined()) {
-                    stimsToAnnounce.push_back(node);
-                    stimAnnouncements.push_back(individualAnnounce);
-                }
+            Datum individualAnnounce(node->getCurrentAnnounceDrawData());
+            if (!individualAnnounce.isUndefined()) {
+                stimsToAnnounce.push_back(node);
+                stimAnnouncements.push_back(individualAnnounce);
             }
         }
         node = node->getPrevious();

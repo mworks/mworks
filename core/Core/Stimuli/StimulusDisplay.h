@@ -93,19 +93,18 @@ BEGIN_NAMESPACE_MW
         std::vector< shared_ptr<StimulusNode> > stimsToAnnounce;
         std::vector<Datum> stimAnnouncements;
         
-        std::map<int, GLuint> framebuffers;
-        std::map<int, GLuint> renderbuffers;
+        GLuint framebuffer;
+        GLuint renderbuffer;
         std::map<int, GLint> bufferWidths, bufferHeights;
         
         void setMainDisplayRefreshRate();
-        void allocateBufferStorage(int contextIndex);
-        void storeBackBuffer(int contextIndex);
+        void allocateBufferStorage();
         void drawStoredBuffer(int contextIndex);
 		
         void glInit();
 		void setDisplayBounds();
         void refreshDisplay();
-        void drawDisplayStack(bool doStimAnnouncements);
+        void drawDisplayStack();
         void ensureRefresh(unique_lock &lock);
 
         void announceDisplayUpdate(bool updateIsExplicit);
@@ -133,9 +132,12 @@ BEGIN_NAMESPACE_MW
 		
 		void addContext(int _context_id);
 		
-		int getNContexts() { return context_ids.size(); }
+        // These are meant to be used by stimulus classes that need to manage per-context GL resources.
+        // They should *not* be used internally by StimulusDisplay.
+        int getNContexts() { return (context_ids.empty() ? 0 : 1); }
 		OpenGLContextLock setCurrent(int i);	
 		int getCurrentContextIndex() { return current_context_index; }
+        
         void getCurrentViewportSize(GLint &width, GLint &height);
 		
         shared_ptr<StimulusNode> addStimulus(shared_ptr<Stimulus> stim);

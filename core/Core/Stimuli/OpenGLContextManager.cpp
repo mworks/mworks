@@ -210,7 +210,11 @@ int OpenGLContextManager::newMirrorContext(bool sync_to_vbl){
     
     NSOpenGLPixelFormat* pixel_format = [[NSOpenGLPixelFormat alloc] initWithAttributes:attrs];
 
-    NSOpenGLContext *opengl_context = [[NSOpenGLContext alloc] initWithFormat:pixel_format shareContext:nil];
+    NSOpenGLContext *opengl_context = [[NSOpenGLContext alloc] initWithFormat:pixel_format
+                                                                 shareContext:[fullscreen_view openGLContext]];
+    if (!opengl_context) {
+        throw SimpleException(M_SERVER_MESSAGE_DOMAIN, "Failed to create OpenGL context for mirror window");
+    }
     
     if(sync_to_vbl){
         GLint swap_int = 1;
