@@ -320,14 +320,14 @@ CVReturn StimulusDisplay::displayLinkCallback(CVDisplayLinkRef _displayLink,
                                               CVOptionFlags *flagsOut,
                                               void *_display)
 {
-    StimulusDisplay *display = static_cast<StimulusDisplay*>(_display);
+    StimulusDisplay &display = *static_cast<StimulusDisplay *>(_display);
     
     {
-        unique_lock lock(display->display_lock);
+        unique_lock lock(display.display_lock);
         
         if (bool(warnOnSkippedRefresh->getValue())) {
-            if (display->lastFrameTime) {
-                int64_t delta = (outputTime->videoTime - display->lastFrameTime) - outputTime->videoRefreshPeriod;
+            if (display.lastFrameTime) {
+                int64_t delta = (outputTime->videoTime - display.lastFrameTime) - outputTime->videoRefreshPeriod;
                 if (delta) {
                     mwarning(M_DISPLAY_MESSAGE_DOMAIN,
                              "Skipped %g display refresh cycles",
@@ -336,7 +336,7 @@ CVReturn StimulusDisplay::displayLinkCallback(CVDisplayLinkRef _displayLink,
             }
         }
         
-        display->lastFrameTime = outputTime->videoTime;
+        display.lastFrameTime = outputTime->videoTime;
         
         //
         // Here's how the time calculation works:
@@ -353,15 +353,15 @@ CVReturn StimulusDisplay::displayLinkCallback(CVDisplayLinkRef _displayLink,
         // Once we have a system time in nanoseconds, we substract the system base time and convert to
         // microseconds, which leaves us with a value that can be compared to clock->getCurrentTimeUS().
         //
-        display->currentOutputTimeUS = (MWTime(AudioConvertHostTimeToNanos(outputTime->hostTime)) -
-                                        display->clock->getSystemBaseTimeNS()) / 1000LL;
+        display.currentOutputTimeUS = (MWTime(AudioConvertHostTimeToNanos(outputTime->hostTime)) -
+                                       display.clock->getSystemBaseTimeNS()) / 1000LL;
         
-        display->refreshDisplay();
-        display->waitingForRefresh = false;
+        display.refreshDisplay();
+        display.waitingForRefresh = false;
     }
     
     // Signal waiting threads that refresh is complete
-    display->refreshCond.notify_all();
+    display.refreshCond.notify_all();
     
     return kCVReturnSuccess;
 }
