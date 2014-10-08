@@ -153,16 +153,10 @@ CGDirectDisplayID OpenGLContextManager::getMainDisplayID() {
     return _getDisplayID(main_display_index);
 }
 
-CVReturn OpenGLContextManager::prepareDisplayLinkForMainDisplay(CVDisplayLinkRef displayLink) {
-    NSOpenGLView *mainView;
-    if (fullscreen_view) {
-        mainView = fullscreen_view;
-    } else {
-        mainView = mirror_view;
-    }
-
-    CGLContextObj cglContext = (CGLContextObj)[[mainView openGLContext] CGLContextObj];
-    CGLPixelFormatObj cglPixelFormat = (CGLPixelFormatObj)[[mainView pixelFormat] CGLPixelFormatObj];
+CVReturn OpenGLContextManager::prepareDisplayLinkForContext(CVDisplayLinkRef displayLink, int context_id) {
+    NSOpenGLContext *ctx = [contexts objectAtIndex:context_id];
+    CGLContextObj cglContext = (CGLContextObj)[ctx CGLContextObj];
+    CGLPixelFormatObj cglPixelFormat = (CGLPixelFormatObj)[[(NSOpenGLView *)[ctx view] pixelFormat] CGLPixelFormatObj];
     return CVDisplayLinkSetCurrentCGDisplayFromOpenGLContext(displayLink, cglContext, cglPixelFormat);
 }
 

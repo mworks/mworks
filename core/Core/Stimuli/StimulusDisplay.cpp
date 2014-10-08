@@ -32,6 +32,7 @@ BEGIN_NAMESPACE_MW
  **********************************************************************/
 StimulusDisplay::StimulusDisplay(bool announceIndividualStimuli) :
     current_context_index(-1),
+    displayLinksRunning(false),
     mainDisplayRefreshRate(0.0),
     currentOutputTimeUS(-1),
     announceIndividualStimuli(announceIndividualStimuli),
@@ -51,21 +52,16 @@ StimulusDisplay::StimulusDisplay(bool announceIndividualStimuli) :
     waitingForRefresh = false;
     needDraw = false;
     
-    if (kCVReturnSuccess != CVDisplayLinkCreateWithActiveCGDisplays(&displayLink) ||
-        kCVReturnSuccess != CVDisplayLinkSetOutputCallback(displayLink,
-                                                           &StimulusDisplay::displayLinkCallback,
-                                                           this))
-    {
-        throw SimpleException("Unable to create display link");
-    }
-        
     stateSystemNotification = shared_ptr<VariableCallbackNotification>(new VariableCallbackNotification(boost::bind(&StimulusDisplay::stateSystemCallback, this, _1, _2)));
     state_system_mode->addNotification(stateSystemNotification);
 }
 
 StimulusDisplay::~StimulusDisplay(){
     stateSystemNotification->remove();
-    CVDisplayLinkRelease(displayLink);
+    
+    for (auto dl : displayLinks) {
+        CVDisplayLinkRelease(dl);
+    }
 }
 
 OpenGLContextLock StimulusDisplay::setCurrent(int i){
@@ -162,7 +158,7 @@ void StimulusDisplay::setAnnounceStimuliOnImplicitUpdates(bool announceStimuliOn
 }
 
 void StimulusDisplay::setMainDisplayRefreshRate() {
-    CVTime refreshPeriod = CVDisplayLinkGetNominalOutputVideoRefreshPeriod(displayLink);
+    CVTime refreshPeriod = CVDisplayLinkGetNominalOutputVideoRefreshPeriod(displayLinks.at(0));
     double refreshRate = 60.0;
     
     if (refreshPeriod.flags & kCVTimeIsIndefinite) {
@@ -183,11 +179,27 @@ void StimulusDisplay::addContext(int _context_id){
     OpenGLContextLock ctxLock = opengl_context_manager->setCurrent(_context_id);
     getCurrentViewportSize(bufferWidths[contextIndex], bufferHeights[contextIndex]);
     
+    CVDisplayLinkRef dl;
+    
+    if (kCVReturnSuccess != CVDisplayLinkCreateWithActiveCGDisplays(&dl)) {
+        throw SimpleException("Unable to create display link");
+    }
+    
+    displayLinks.push_back(dl);
+    displayLinkContexts.emplace_back(new DisplayLinkContext(this, contextIndex));
+    
+    if (kCVReturnSuccess != CVDisplayLinkSetOutputCallback(dl,
+                                                           &StimulusDisplay::displayLinkCallback,
+                                                           displayLinkContexts.back().get()))
+    {
+        throw SimpleException("Unable to set display link output callback");
+    }
+    
+    if (kCVReturnSuccess != opengl_context_manager->prepareDisplayLinkForContext(dl, _context_id)) {
+        throw SimpleException("Unable to associate display link with OpenGL context");
+    }
+    
     if (0 == contextIndex) {
-        if (kCVReturnSuccess != opengl_context_manager->prepareDisplayLinkForMainDisplay(displayLink))
-        {
-            throw SimpleException("Unable to associate display link with main display");
-        }
         setMainDisplayRefreshRate();
         allocateBufferStorage();
     }
@@ -222,7 +234,7 @@ void StimulusDisplay::allocateBufferStorage() {
 }
 
 
-void StimulusDisplay::drawStoredBuffer(int contextIndex) {
+void StimulusDisplay::drawStoredBuffer(int contextIndex) const {
     glBindFramebuffer(GL_READ_FRAMEBUFFER, framebuffer);
     glReadBuffer(GL_COLOR_ATTACHMENT0);
     
@@ -230,8 +242,8 @@ void StimulusDisplay::drawStoredBuffer(int contextIndex) {
     GLenum drawBuffers[] = { GL_BACK_LEFT };
     glDrawBuffers(1, drawBuffers);
     
-    glBlitFramebuffer(0, 0, bufferWidths[0], bufferHeights[0],
-                      0, 0, bufferWidths[contextIndex], bufferHeights[contextIndex],
+    glBlitFramebuffer(0, 0, bufferWidths.at(0), bufferHeights.at(0),
+                      0, 0, bufferWidths.at(contextIndex), bufferHeights.at(contextIndex),
                       GL_COLOR_BUFFER_BIT,
                       GL_LINEAR);
     
@@ -249,50 +261,53 @@ void StimulusDisplay::getCurrentViewportSize(GLint &width, GLint &height) {
 
 void StimulusDisplay::stateSystemCallback(const Datum &data, MWorksTime time) {
     unique_lock lock(display_lock);
-
+    
     int newState = data.getInteger();
-
-    if (IDLE == newState) {
+    
+    if ((IDLE == newState) && displayLinksRunning) {
         
-        if (CVDisplayLinkIsRunning(displayLink)) {
-            // If another thread is waiting for a display refresh, allow it to complete before stopping
-            // the display link
-            while (waitingForRefresh) {
-                refreshCond.wait(lock);
-            }
-
-            // We need to release the lock before calling CVDisplayLinkStop, because
-            // StimulusDisplay::displayLinkCallback could be blocked waiting for the lock, and
-            // CVDisplayLinkStop won't return until displayLinkCallback exits, leading to deadlock.
-            lock.unlock();
-            
-            if (kCVReturnSuccess != CVDisplayLinkStop(displayLink)) {
-                merror(M_DISPLAY_MESSAGE_DOMAIN, "Unable to stop display updates");
-            } else {
-                currentOutputTimeUS = -1;
-                mprintf(M_DISPLAY_MESSAGE_DOMAIN, "Display updates stopped");
+        // If another thread is waiting for a display refresh, allow it to complete before stopping
+        // the display link
+        while (waitingForRefresh) {
+            refreshCond.wait(lock);
+        }
+        
+        displayLinksRunning = false;
+        currentOutputTimeUS = -1;
+        
+        // We need to release the lock before calling CVDisplayLinkStop, because
+        // StimulusDisplay::displayLinkCallback could be blocked waiting for the lock, and
+        // CVDisplayLinkStop won't return until displayLinkCallback exits, leading to deadlock.
+        lock.unlock();
+        
+        for (auto dl : displayLinks) {
+            if (kCVReturnSuccess != CVDisplayLinkStop(dl)) {
+                merror(M_DISPLAY_MESSAGE_DOMAIN,
+                       "Unable to stop updates on display %d",
+                       CVDisplayLinkGetCurrentCGDisplay(dl));
             }
         }
         
-    } else if (RUNNING == newState) {
-
-        if (!CVDisplayLinkIsRunning(displayLink)) {
-
-            lastFrameTime = 0;
-
-            if (kCVReturnSuccess != CVDisplayLinkStart(displayLink)) {
-                merror(M_DISPLAY_MESSAGE_DOMAIN, "Unable to start display updates");
-            } else {
-                // Wait for a refresh to complete, so we know that getCurrentOutputTimeUS() will return a valid time
-                ensureRefresh(lock);
-                
-                mprintf(M_DISPLAY_MESSAGE_DOMAIN,
-                        "Display updates started (main = %d, current = %d)",
-                        CGMainDisplayID(),
-                        CVDisplayLinkGetCurrentCGDisplay(displayLink));
+        mprintf(M_DISPLAY_MESSAGE_DOMAIN, "Display updates stopped");
+        
+    } else if ((RUNNING == newState) && !displayLinksRunning) {
+        
+        lastFrameTime = 0;
+        
+        for (auto dl : displayLinks) {
+            if (kCVReturnSuccess != CVDisplayLinkStart(dl)) {
+                merror(M_DISPLAY_MESSAGE_DOMAIN,
+                       "Unable to start updates on display %d",
+                       CVDisplayLinkGetCurrentCGDisplay(dl));
             }
-
         }
+        
+        displayLinksRunning = true;
+        
+        // Wait for a refresh to complete, so we know that getCurrentOutputTimeUS() will return a valid time
+        ensureRefresh(lock);
+        
+        mprintf(M_DISPLAY_MESSAGE_DOMAIN, "Display updates started");
         
     }
 }
@@ -303,56 +318,66 @@ CVReturn StimulusDisplay::displayLinkCallback(CVDisplayLinkRef _displayLink,
                                               const CVTimeStamp *outputTime,
                                               CVOptionFlags flagsIn,
                                               CVOptionFlags *flagsOut,
-                                              void *_display)
+                                              void *_context)
 {
-    StimulusDisplay &display = *static_cast<StimulusDisplay *>(_display);
+    DisplayLinkContext &context = *static_cast<DisplayLinkContext *>(_context);
+    StimulusDisplay &display = *(context.first);
+    int contextIndex = context.second;
     
-    {
-        unique_lock lock(display.display_lock);
+    if (contextIndex != 0) {
         
-        if (bool(warnOnSkippedRefresh->getValue())) {
-            if (display.lastFrameTime) {
-                int64_t delta = (outputTime->videoTime - display.lastFrameTime) - outputTime->videoRefreshPeriod;
-                if (delta) {
-                    mwarning(M_DISPLAY_MESSAGE_DOMAIN,
-                             "Skipped %g display refresh cycles",
-                             (double)delta / (double)(outputTime->videoRefreshPeriod));
+        display.refreshMirrorDisplay(contextIndex);
+        
+    } else {
+        
+        {
+            unique_lock lock(display.display_lock);
+            
+            if (bool(warnOnSkippedRefresh->getValue())) {
+                if (display.lastFrameTime) {
+                    int64_t delta = (outputTime->videoTime - display.lastFrameTime) - outputTime->videoRefreshPeriod;
+                    if (delta) {
+                        mwarning(M_DISPLAY_MESSAGE_DOMAIN,
+                                 "Skipped %g display refresh cycles",
+                                 (double)delta / (double)(outputTime->videoRefreshPeriod));
+                    }
                 }
             }
+            
+            display.lastFrameTime = outputTime->videoTime;
+            
+            //
+            // Here's how the time calculation works:
+            //
+            // outputTime->hostTime is the (estimated) time that the frame we're currently drawing will be displayed.
+            // The value is in units of the "host time base", which appears to mean that it's directly comparable to
+            // the value returned by mach_absolute_time().  However, the relationship to mach_absolute_time() is not
+            // explicitly stated in the docs, so presumably we can't depend on it.
+            //
+            // What the CoreVideo docs *do* say is "the host time base for Core Video and the one for CoreAudio are
+            // identical, and the values returned from either API can be used interchangeably".  Hence, we can use the
+            // CoreAudio function AudioConvertHostTimeToNanos() to convert from the host time base to nanoseconds.
+            //
+            // Once we have a system time in nanoseconds, we substract the system base time and convert to
+            // microseconds, which leaves us with a value that can be compared to clock->getCurrentTimeUS().
+            //
+            display.currentOutputTimeUS = (MWTime(AudioConvertHostTimeToNanos(outputTime->hostTime)) -
+                                           display.clock->getSystemBaseTimeNS()) / 1000LL;
+            
+            display.refreshMainDisplay();
+            display.waitingForRefresh = false;
         }
         
-        display.lastFrameTime = outputTime->videoTime;
+        // Signal waiting threads that refresh is complete
+        display.refreshCond.notify_all();
         
-        //
-        // Here's how the time calculation works:
-        //
-        // outputTime->hostTime is the (estimated) time that the frame we're currently drawing will be displayed.
-        // The value is in units of the "host time base", which appears to mean that it's directly comparable to
-        // the value returned by mach_absolute_time().  However, the relationship to mach_absolute_time() is not
-        // explicitly stated in the docs, so presumably we can't depend on it.
-        //
-        // What the CoreVideo docs *do* say is "the host time base for Core Video and the one for CoreAudio are
-        // identical, and the values returned from either API can be used interchangeably".  Hence, we can use the
-        // CoreAudio function AudioConvertHostTimeToNanos() to convert from the host time base to nanoseconds.
-        //
-        // Once we have a system time in nanoseconds, we substract the system base time and convert to
-        // microseconds, which leaves us with a value that can be compared to clock->getCurrentTimeUS().
-        //
-        display.currentOutputTimeUS = (MWTime(AudioConvertHostTimeToNanos(outputTime->hostTime)) -
-                                       display.clock->getSystemBaseTimeNS()) / 1000LL;
-        
-        display.refreshDisplay();
-        display.waitingForRefresh = false;
     }
-    
-    // Signal waiting threads that refresh is complete
-    display.refreshCond.notify_all();
     
     return kCVReturnSuccess;
 }
 
 
-void StimulusDisplay::refreshDisplay() {
+void StimulusDisplay::refreshMainDisplay() {
     //
     // Determine whether we need to draw
     //
@@ -375,36 +400,36 @@ void StimulusDisplay::refreshDisplay() {
     // Draw stimuli
     //
     
-    for (int i = 0; i < context_ids.size(); i++) {
-        OpenGLContextLock ctxLock = opengl_context_manager->setCurrent(context_ids[i]);
+    OpenGLContextLock ctxLock = opengl_context_manager->setCurrent(context_ids.at(0));
+    
+    if (needDraw) {
+        glBindFramebuffer(GL_DRAW_FRAMEBUFFER, framebuffer);
+        GLenum drawBuffers[] = { GL_COLOR_ATTACHMENT0 };
+        glDrawBuffers(1, drawBuffers);
         
-        if ((i == 0) && needDraw) {
-            glBindFramebuffer(GL_DRAW_FRAMEBUFFER, framebuffer);
-            GLenum drawBuffers[] = { GL_COLOR_ATTACHMENT0 };
-            glDrawBuffers(1, drawBuffers);
-            
-            current_context_index = 0;
-            drawDisplayStack();
-            current_context_index = -1;
-            
-            glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
-        }
+        current_context_index = 0;
+        drawDisplayStack();
+        current_context_index = -1;
         
-        drawStoredBuffer(i);
-        
-        if (i != 0) {
-            // Non-main display
-            opengl_context_manager->updateAndFlush(i);
-        } else {
-            // Main display
-            opengl_context_manager->flush(i);
-            if (needDraw) {
-                announceDisplayUpdate(updateIsExplicit);
-            }
-        }
+        glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+    }
+    
+    drawStoredBuffer(0);
+    opengl_context_manager->flush(0);
+    
+    if (needDraw) {
+        announceDisplayUpdate(updateIsExplicit);
     }
     
     needDraw = false;
+}
+
+
+void StimulusDisplay::refreshMirrorDisplay(int contextIndex) const {
+    OpenGLContextLock ctxLock = opengl_context_manager->setCurrent(context_ids[contextIndex]);
+    
+    drawStoredBuffer(contextIndex);
+    opengl_context_manager->updateAndFlush(contextIndex);
 }
 
 
@@ -513,9 +538,12 @@ void StimulusDisplay::updateDisplay() {
 
 
 void StimulusDisplay::ensureRefresh(unique_lock &lock) {
-    if (!CVDisplayLinkIsRunning(displayLink)) {
+    if (!displayLinksRunning) {
         // Need to do the refresh here
-        refreshDisplay();
+        refreshMainDisplay();
+        for (int i = 1; i < context_ids.size(); i++) {
+            refreshMirrorDisplay(context_ids[i]);
+        }
     } else {
         // Wait for next display refresh to complete
         waitingForRefresh = true;

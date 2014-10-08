@@ -83,7 +83,10 @@ BEGIN_NAMESPACE_MW
         GLclampf backgroundRed, backgroundGreen, backgroundBlue;  // background color
         
         shared_ptr<VariableCallbackNotification> stateSystemNotification;
-        CVDisplayLinkRef displayLink;
+        std::vector<CVDisplayLinkRef> displayLinks;
+        using DisplayLinkContext = std::pair<StimulusDisplay *, int>;
+        std::vector<std::unique_ptr<DisplayLinkContext>> displayLinkContexts;
+        bool displayLinksRunning;
         double mainDisplayRefreshRate;
         int64_t lastFrameTime;
         MWTime currentOutputTimeUS;
@@ -99,11 +102,12 @@ BEGIN_NAMESPACE_MW
         
         void setMainDisplayRefreshRate();
         void allocateBufferStorage();
-        void drawStoredBuffer(int contextIndex);
+        void drawStoredBuffer(int contextIndex) const;
 		
         void glInit();
 		void setDisplayBounds();
-        void refreshDisplay();
+        void refreshMainDisplay();
+        void refreshMirrorDisplay(int contextIndex) const;
         void drawDisplayStack();
         void ensureRefresh(unique_lock &lock);
 
@@ -118,7 +122,7 @@ BEGIN_NAMESPACE_MW
                                             const CVTimeStamp *outputTime,
                                             CVOptionFlags flagsIn,
                                             CVOptionFlags *flagsOut,
-                                            void *_display);
+                                            void *_context);
 		
     public:
         static void getDisplayBounds(const Datum &mainScreenInfo,

@@ -90,7 +90,7 @@ BEGIN_NAMESPACE_MW
 		void setMainDisplayIndex(int index) { main_display_index = index; }
 		int getMainDisplayIndex() const { return main_display_index; }
         CGDirectDisplayID getMainDisplayID();
-        CVReturn prepareDisplayLinkForMainDisplay(CVDisplayLinkRef displayLink);
+        CVReturn prepareDisplayLinkForContext(CVDisplayLinkRef displayLink, int context_id);
         
         // Get information about a given monitor
 		NSRect getDisplayFrame(const int index);
