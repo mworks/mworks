@@ -429,7 +429,7 @@ void StimulusDisplay::refreshMirrorDisplay(int contextIndex) const {
     OpenGLContextLock ctxLock = opengl_context_manager->setCurrent(context_ids[contextIndex]);
     
     drawStoredBuffer(contextIndex);
-    opengl_context_manager->updateAndFlush(contextIndex);
+    opengl_context_manager->flush(contextIndex);
 }
 
 

@@ -29,6 +29,25 @@
 #import "StateSystem.h"
 
 
+@interface MWKOpenGLView : NSOpenGLView
+@end
+
+
+@implementation MWKOpenGLView
+
+
+- (void)update
+{
+    // This method is called by the windowing system on the main thread.  Since drawing normally occurs
+    // on a non-main thread, we need to acquire the context lock before updating the context.
+    mw::OpenGLContextLock ctxLock(static_cast<CGLContextObj>([[self openGLContext] CGLContextObj]));
+    [super update];
+}
+
+
+@end
+
+
 BEGIN_NAMESPACE_MW
 
 
@@ -217,7 +236,7 @@ int OpenGLContextManager::newMirrorContext(bool sync_to_vbl){
     
     NSRect view_rect = NSMakeRect(0.0, 0.0, mirror_rect.size.width, mirror_rect.size.height);
     
-    mirror_view = [[NSOpenGLView alloc] initWithFrame:view_rect pixelFormat:pixel_format];
+    mirror_view = [[MWKOpenGLView alloc] initWithFrame:view_rect pixelFormat:pixel_format];
     [mirror_window setContentView:mirror_view];
     [mirror_view setOpenGLContext:opengl_context];
     [opengl_context setView:mirror_view];
@@ -286,7 +305,7 @@ int OpenGLContextManager::newFullscreenContext(int screen_number){
     
     NSRect view_rect = NSMakeRect(0.0, 0.0, screen_rect.size.width, screen_rect.size.height);
     
-    fullscreen_view = [[NSOpenGLView alloc] initWithFrame:view_rect pixelFormat:pixel_format];
+    fullscreen_view = [[MWKOpenGLView alloc] initWithFrame:view_rect pixelFormat:pixel_format];
     [fullscreen_window setContentView:fullscreen_view];
     [fullscreen_view setOpenGLContext:opengl_context];
     [opengl_context setView:fullscreen_view];
@@ -370,20 +389,12 @@ void OpenGLContextManager::releaseDisplays() {
 }
 
 
-void OpenGLContextManager::flushCurrent() {
-    [[NSOpenGLContext currentContext] flushBuffer];
-}
-
-void OpenGLContextManager::flush(int context_id, bool update) {
+void OpenGLContextManager::flush(int context_id) {
     if(context_id < 0 || context_id >= [contexts count]){
 		mwarning(M_SERVER_MESSAGE_DOMAIN, "OpenGL Context Manager: no context to flush");
-		//NSLog(@"OpenGL Context Manager: no context to flush");
         return;
     }
     
-    if(update){
-        [[contexts objectAtIndex:context_id] update];
-    }
     [[contexts objectAtIndex:context_id] flushBuffer];
     
 }

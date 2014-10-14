@@ -107,9 +107,7 @@ BEGIN_NAMESPACE_MW
         
         OpenGLContextLock setCurrent(int context_id);
                 
-        void updateAndFlush(int context_id){ flush(context_id, true); }
-        void flush(int context_id, bool update=false);
-        void flushCurrent();
+        void flush(int context_id);
 		
         REGISTERED_SINGLETON_CODE_INJECTION(OpenGLContextManager)
         
