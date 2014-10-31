@@ -13,7 +13,7 @@
             </connections>
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
-        <customObject id="-3" userLabel="Application"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <treeController objectClassName="NSXMLElement" childrenKeyPath="childrenExt" leafKeyPath="leaf" avoidsEmptySelection="NO" id="100087" customClass="MWExperimentTreeController">
             <declaredKeys>
                 <string>tagNameAttribute</string>
@@ -141,7 +141,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" headerView="100280" id="100281" customClass="MWGenericInspectorView">
-                                <rect key="frame" x="0.0" y="0.0" width="597" height="343"/>
+                                <rect key="frame" x="0.0" y="0.0" width="597" height="19"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <size key="intercellSpacing" width="3" height="2"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -297,12 +297,12 @@
                     <scrollView alphaValue="0.6830986" autohidesScrollers="YES" horizontalLineScroll="25" horizontalPageScroll="10" verticalLineScroll="25" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" id="100376">
                         <rect key="frame" x="0.0" y="20" width="374" height="305"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <clipView key="contentView" id="0re-tB-Dsh">
+                        <clipView key="contentView" drawsBackground="NO" id="0re-tB-Dsh">
                             <rect key="frame" x="1" y="1" width="372" height="303"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
-                                <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="sourceList" alternatingRowBackgroundColors="YES" columnSelection="YES" autosaveColumns="NO" rowHeight="23" id="100379">
-                                    <rect key="frame" x="0.0" y="0.0" width="372" height="303"/>
+                                <tableView appearanceType="vibrantLight" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="sourceList" alternatingRowBackgroundColors="YES" columnSelection="YES" autosaveColumns="NO" rowHeight="23" id="100379">
+                                    <rect key="frame" x="0.0" y="0.0" width="372" height="25"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <size key="intercellSpacing" width="3" height="2"/>
                                     <color key="backgroundColor" name="_sourceListBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -354,7 +354,7 @@
                                     </connections>
                                 </tableView>
                             </subviews>
-                            <color key="backgroundColor" red="0.49773752999999998" green="0.49773752999999998" blue="0.49773752999999998" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="backgroundColor"/>
                         </clipView>
                         <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="0.0053763439999999999" horizontal="YES" id="100378">
                             <rect key="frame" x="-100" y="-100" width="439" height="15"/>
@@ -489,12 +489,12 @@
                                     </connections>
                                 </imageView>
                                 <segmentedControl focusRingType="none" verticalHuggingPriority="750" id="100576">
-                                    <rect key="frame" x="294" y="11" width="90" height="15"/>
+                                    <rect key="frame" x="286" y="11" width="93" height="15"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                     <segmentedCell key="cell" controlSize="mini" enabled="NO" borderStyle="border" focusRingType="none" alignment="left" style="rounded" trackingMode="selectOne" id="100585">
                                         <font key="font" metaFont="miniSystem"/>
                                         <segments>
-                                            <segment toolTip="Custom Inspector" image="NSQuickLookTemplate" width="30"/>
+                                            <segment toolTip="Custom Inspector" image="NSQuickLookTemplate" width="29"/>
                                             <segment toolTip="Generic Inspector" image="NSColumnViewTemplate" imageScaling="none" selected="YES" tag="1"/>
                                             <segment label="XML" toolTip="XML View"/>
                                         </segments>
@@ -759,13 +759,13 @@
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" autosaveColumns="NO" typeSelect="NO" rowHeight="22" indentationPerLevel="16" autoresizesOutlineColumn="YES" outlineTableColumn="100620" id="100616" customClass="MWExperimentOutlineView">
-                                            <rect key="frame" x="0.0" y="0.0" width="551" height="500"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="551" height="25"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="2" height="3"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             <color key="gridColor" red="0.79081630999999997" green="0.76402932000000001" blue="0.70796442000000004" alpha="1" colorSpace="calibratedRGB"/>
                                             <tableColumns>
-                                                <tableColumn width="549" minWidth="16" maxWidth="1000" id="100620">
+                                                <tableColumn width="534" minWidth="16" maxWidth="1000" id="100620">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -875,7 +875,7 @@
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" id="100718">
-                                    <rect key="frame" x="0.0" y="0.0" width="231" height="95"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="231" height="19"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <size key="intercellSpacing" width="3" height="2"/>
                                     <color key="backgroundColor" red="0.31122445999999998" green="0.31122445999999998" blue="0.31122445999999998" alpha="0.97000003000000001" colorSpace="calibratedRGB"/>
@@ -1089,7 +1089,7 @@
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnSelection="YES" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" id="100889">
-                                    <rect key="frame" x="0.0" y="0.0" width="267" height="112"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="267" height="19"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <size key="intercellSpacing" width="3" height="2"/>
                                     <color key="backgroundColor" red="0.60000001999999997" green="0.60000001999999997" blue="0.60000001999999997" alpha="1" colorSpace="calibratedRGB"/>
@@ -1101,7 +1101,7 @@
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" white="0.33333299" alpha="1" colorSpace="calibratedWhite"/>
                                             </tableHeaderCell>
-                                            <imageCell key="dataCell" controlSize="small" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="A96E7DE7-192F-43ED-81DE-7C6DAC55F11F" id="100897"/>
+                                            <imageCell key="dataCell" controlSize="small" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="5BB294F2-1377-45A0-91F6-BBB2C78CF299" id="100897"/>
                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                             <connections>
                                                 <binding destination="100898" name="valuePath" keyPath="arrangedObjects.icon" id="100918">
@@ -1317,7 +1317,7 @@
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <subviews>
                                                                 <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" headerView="101037" id="101036">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="562" height="67"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="562" height="19"/>
                                                                     <autoresizingMask key="autoresizingMask"/>
                                                                     <size key="intercellSpacing" width="3" height="2"/>
                                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1389,7 +1389,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" multipleSelection="NO" autosaveColumns="NO" headerView="101046" indentationPerLevel="16" autoresizesOutlineColumn="YES" outlineTableColumn="101047" id="101045">
-                                                    <rect key="frame" x="0.0" y="0.0" width="563" height="121"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="563" height="19"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <size key="intercellSpacing" width="3" height="2"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1495,7 +1495,7 @@
         </window>
     </objects>
     <resources>
-        <image name="A96E7DE7-192F-43ED-81DE-7C6DAC55F11F" width="17" height="17">
+        <image name="5BB294F2-1377-45A0-91F6-BBB2C78CF299" width="17" height="17">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPj9YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQsLzI4O1UkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw
