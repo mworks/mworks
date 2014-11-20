@@ -29,6 +29,17 @@ StandardDynamicStimulus::StandardDynamicStimulus(const ParameterValueMap &parame
 }
 
 
+void StandardDynamicStimulus::setVisible(bool newvis) {
+    boost::mutex::scoped_lock locker(stim_lock);
+    
+    Stimulus::setVisible(newvis);
+    
+    if (!newvis && isPlaying() && autoplay->getValue().getBool()) {
+        stopPlaying();
+    }
+}
+
+
 bool StandardDynamicStimulus::needDraw() {
     return isPlaying() && !(isPaused() && didDrawWhilePaused);
 }

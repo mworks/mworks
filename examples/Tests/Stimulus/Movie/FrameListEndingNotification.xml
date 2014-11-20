@@ -24,7 +24,7 @@
     <filters tag="Filters"></filters>
     <optimizers tag="Optimizers"></optimizers>
     <experiment tag="New Experiment" full_name="" description="">
-        <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential">
+        <protocol tag="New Protocol" nsamples="2" sampling_method="cycles" selection="sequential">
             <task_system tag="New Task System" interruptible="YES">
                 <task_system_state tag="Begin State System" interruptible="YES">
                     <action_marker _unmoveable="1" tag="Actions"></action_marker>
@@ -49,6 +49,8 @@
                     <action type="assignment" tag="Compute duration" variable="actual_duration" value="(stop_time - start_time) / 1000000.0"></action>
                     <action type="assignment" tag="Compute slop" variable="slop" value="abs(actual_duration - expected_duration)"></action>
                     <action type="assert" tag="Assert slop within tolerance" condition="slop &lt;= tolerance" message="Duration slop ($slop) not within tolerance ($tolerance)"></action>
+                    <action tag="Dequeue movie" type="dequeue_stimulus" stimulus="movie"></action>
+                    <action tag="Update stimulus display" type="update_stimulus_display"></action>
                     <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
                     <transition tag="Return to parent task system" type="yield"></transition>
                 </task_system_state>

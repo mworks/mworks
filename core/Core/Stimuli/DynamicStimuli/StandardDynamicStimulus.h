@@ -29,6 +29,7 @@ public:
     
     virtual ~StandardDynamicStimulus() { }
     
+    void setVisible(bool newvis) override;
     virtual bool needDraw();
     virtual void draw(shared_ptr<StimulusDisplay> display);
     virtual void drawFrame(shared_ptr<StimulusDisplay> display) = 0;
