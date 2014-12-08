@@ -314,13 +314,13 @@ BEGIN_NAMESPACE_MW
 			stimdisplay->addContext(new_context);
 			
 			if(always_display_mirror_window){
-				int auxilliary_context = opengl_context_manager->newMirrorContext(false); // don't sync to VBL
+				int auxilliary_context = opengl_context_manager->newMirrorContext();
 				stimdisplay->addContext(auxilliary_context);
 			}
 			
 		} else {
 			opengl_context_manager->setMainDisplayIndex(0);
-			new_context = opengl_context_manager->newMirrorContext(true); // sync to VBL to simulate full display
+			new_context = opengl_context_manager->newMirrorContext();
 			stimdisplay->addContext(new_context);		
 		}
 		

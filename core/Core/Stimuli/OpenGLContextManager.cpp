@@ -180,7 +180,7 @@ CVReturn OpenGLContextManager::prepareDisplayLinkForContext(CVDisplayLinkRef dis
 }
 
 
-int OpenGLContextManager::newMirrorContext(bool sync_to_vbl){
+int OpenGLContextManager::newMirrorContext(){
     
     // Determine the width and height of the mirror window
 
@@ -229,8 +229,7 @@ int OpenGLContextManager::newMirrorContext(bool sync_to_vbl){
         throw SimpleException(M_SERVER_MESSAGE_DOMAIN, "Failed to create OpenGL context for mirror window");
     }
     
-    // On OS X 10.10.0, the swap interval seems to default to 1, not 0, so we must always set it explicitly
-    GLint swap_int = sync_to_vbl;
+    GLint swap_int = 1;
     [opengl_context setValues: &swap_int forParameter: NSOpenGLCPSwapInterval];
     
     NSRect view_rect = NSMakeRect(0.0, 0.0, mirror_rect.size.width, mirror_rect.size.height);

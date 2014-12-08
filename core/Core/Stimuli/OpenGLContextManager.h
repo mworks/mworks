@@ -78,7 +78,7 @@ BEGIN_NAMESPACE_MW
         
         // Create a "mirror" window (smaller, movable window that displays whatever
         // is on the "main" display) and return its context index
-        int newMirrorContext(bool sync_to_vbl);
+        int newMirrorContext();
                 
         // Create a fullscreen context on a particular display
 		int newFullscreenContext(int index);
