@@ -1607,9 +1607,33 @@ std::ostream& operator<<(std::ostream &buf, const Datum &d) {
         case M_STRING:
             buf << d.getString();
             break;
-        case M_DICTIONARY:
-            buf << "DICT";
+        case M_DICTIONARY: {
+            buf << "{";
+            const std::vector<Datum> keys = d.getKeys();
+            for (int i = 0; i < keys.size(); i++) {
+                if (i > 0) {
+                    buf << ", ";
+                }
+                
+                const Datum &key = keys[i];
+                if (key.isString()) {
+                    buf << key.getStringQuoted();
+                } else {
+                    buf << key;
+                }
+                
+                buf << ": ";
+                
+                const Datum value = d.getElement(key);
+                if (value.isString()) {
+                    buf << value.getStringQuoted();
+                } else {
+                    buf << value;
+                }
+            }
+            buf << "}";
             break;
+        }
         case M_LIST: {
             buf << "[";
             const int numElements = d.getNElements();

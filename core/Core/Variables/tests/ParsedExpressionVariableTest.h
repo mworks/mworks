@@ -34,6 +34,7 @@ class ParsedExpressionVariableTestFixture : public FullCoreEnvironmentTestFixtur
 	CPPUNIT_TEST( testVariableSubscript );
 	CPPUNIT_TEST( testRangeExpression );
     CPPUNIT_TEST( testListLiteral );
+    CPPUNIT_TEST( testDictionaryLiteral );
     CPPUNIT_TEST( testIntegerOverflow );
     CPPUNIT_TEST( testFloatOverflow );
 	CPPUNIT_TEST_SUITE_END();
@@ -53,6 +54,7 @@ public:
     void testVariableSubscript();
     void testRangeExpression();
     void testListLiteral();
+    void testDictionaryLiteral();
     void testIntegerOverflow();
     void testFloatOverflow();
 	

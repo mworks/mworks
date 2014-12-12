@@ -502,6 +502,61 @@ void ParsedExpressionVariableTestFixture::testListLiteral() {
 }
 
 
+void ParsedExpressionVariableTestFixture::testDictionaryLiteral() {
+    // Empty dict
+    {
+        Datum d = ParsedExpressionVariable::evaluateExpression("{}");
+        CPPUNIT_ASSERT( d.isDictionary() );
+        CPPUNIT_ASSERT_EQUAL( 0, d.getNElements() );
+    }
+    
+    // Single-element dict
+    {
+        Datum d = ParsedExpressionVariable::evaluateExpression("{'foo': 1.5}");
+        CPPUNIT_ASSERT( d.isDictionary() );
+        CPPUNIT_ASSERT_EQUAL( 1, d.getNElements() );
+        
+        Datum value = d.getElement("foo");
+        CPPUNIT_ASSERT( value.isFloat() );
+        CPPUNIT_ASSERT_EQUAL( 1.5, value.getFloat() );
+    }
+    
+    // Multiple-element dict
+    {
+        Datum d = ParsedExpressionVariable::evaluateExpression("{'a': 1, true: 2.5, 3.5: 'foo'}");
+        CPPUNIT_ASSERT( d.isDictionary() );
+        CPPUNIT_ASSERT_EQUAL( 3, d.getNElements() );
+        
+        {
+            Datum value = d.getElement("a");
+            CPPUNIT_ASSERT( value.isInteger() );
+            CPPUNIT_ASSERT_EQUAL( 1LL, value.getInteger() );
+        }
+        
+        {
+            Datum value = d.getElement(Datum(true));
+            CPPUNIT_ASSERT( value.isFloat() );
+            CPPUNIT_ASSERT_EQUAL( 2.5, value.getFloat() );
+        }
+        
+        {
+            Datum value = d.getElement(Datum(3.5));
+            CPPUNIT_ASSERT( value.isString() );
+            CPPUNIT_ASSERT_EQUAL( std::string("foo"), std::string(value) );
+        }
+    }
+    
+    // Missing closing brace
+    CPPUNIT_ASSERT_THROW(ParsedExpressionVariable::evaluateExpression("{'a':1, 'b': 2"), FatalParserException);
+    
+    // Missing colon
+    CPPUNIT_ASSERT_THROW(ParsedExpressionVariable::evaluateExpression("{'a':1, 'b' 2}"), FatalParserException);
+    
+    // Extra comma
+    CPPUNIT_ASSERT_THROW(ParsedExpressionVariable::evaluateExpression("{'a':1, 'b': 2,}"), FatalParserException);
+}
+
+
 void ParsedExpressionVariableTestFixture::testIntegerOverflow() {
     CPPUNIT_ASSERT_EQUAL(LLONG_MAX - 1,
                          ParsedExpressionVariable::evaluateExpression("9223372036854775806").getInteger());

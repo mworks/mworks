@@ -81,6 +81,7 @@ namespace stx MW_SYMBOL_PUBLIC {
 			constant_id,
             
             list_literal_id,
+            dict_literal_id,
 			
 			function_call_id,
 			function_identifier_id,
@@ -163,6 +164,14 @@ namespace stx MW_SYMBOL_PUBLIC {
                     list_literal
                     = root_node_d[ ch_p('[') ] >> exprlist >> discard_node_d[ ch_p(']') ]
                     ;
+                    
+                    // *** Dictionary literal
+                    
+                    dict_literal
+                    = root_node_d[ ch_p('{') ]
+                    >> infix_node_d[ !list_p((expr >> ch_p(':') >> expr), ch_p(',')) ]
+                    >> discard_node_d[ ch_p('}') ]
+                    ;
 					
 					// *** Function call and function identifier
 					
@@ -194,6 +203,7 @@ namespace stx MW_SYMBOL_PUBLIC {
 					= constant
 					| inner_node_d[ ch_p('(') >> expr >> ch_p(')') ]
                     | list_literal
+                    | dict_literal
 					| function_call
 					| varname
 					;
@@ -281,6 +291,7 @@ namespace stx MW_SYMBOL_PUBLIC {
 					BOOST_SPIRIT_DEBUG_RULE(string_const);
                     
                     BOOST_SPIRIT_DEBUG_RULE(list_literal);
+                    BOOST_SPIRIT_DEBUG_RULE(dict_literal);
 					
 					BOOST_SPIRIT_DEBUG_RULE(function_call);
 					BOOST_SPIRIT_DEBUG_RULE(function_identifier);
@@ -326,6 +337,8 @@ namespace stx MW_SYMBOL_PUBLIC {
                 
                 /// List literal rule: [a,b,c] where a,b,c is a list of exprs
                 rule<ScannerT, parser_context<>, parser_tag<list_literal_id> >      list_literal;
+                /// Dictionary literal rule
+                rule<ScannerT, parser_context<>, parser_tag<dict_literal_id> >      dict_literal;
 				
 				/// Function call rule: func1(a,b,c) where a,b,c is a list of exprs
 				rule<ScannerT, parser_context<>, parser_tag<function_call_id> > 	function_call;
@@ -520,6 +533,67 @@ namespace stx MW_SYMBOL_PUBLIC {
                     str += itemlist[i]->toString();
                 }
                 return str + "]";
+            }
+        };
+        
+        /// Parse tree node representing a dictionary literal.
+        class PNDictLiteral : public ParseNode
+        {
+        public:
+            /// Type of sequence of subtrees to evaluate as dict items.
+            typedef std::vector<std::pair<const class ParseNode*, const class ParseNode*>> itemlist_type;
+            
+        private:
+            /// The array of dict item subtrees
+            itemlist_type	itemlist;
+            
+        public:
+            /// Constructor from the string received from the parser.
+            PNDictLiteral(const itemlist_type& _itemlist)
+            : ParseNode(), itemlist(_itemlist)
+            {
+            }
+            
+            /// Delete the itemlist
+            ~PNDictLiteral()
+            {
+                for(unsigned int i = 0; i < itemlist.size(); ++i) {
+                    delete itemlist[i].first;
+                    delete itemlist[i].second;
+                }
+            }
+            
+            virtual Datum evaluate(const class SymbolTable &st) const
+            {
+                Datum value(mw::M_DICTIONARY, int(itemlist.size()));
+                
+                for(unsigned int i = 0; i < itemlist.size(); ++i)
+                {
+                    Datum itemKey = itemlist[i].first->evaluate();
+                    Datum itemValue = itemlist[i].second->evaluate();
+                    value.addElement(itemKey, itemValue);
+                }
+                
+                return value;
+            }
+            
+            /// Returns false, because value isn't constant.
+            virtual bool evaluate_const(Datum *) const
+            {
+                return false;
+            }
+            
+            virtual std::string toString() const
+            {
+                std::string str = "{";
+                for(unsigned int i = 0; i < itemlist.size(); ++i)
+                {
+                    if (i != 0) str += ",";
+                    str += itemlist[i].first->toString();
+                    str += ":";
+                    str += itemlist[i].second->toString();
+                }
+                return str + "}";
             }
         };
 		
@@ -1558,6 +1632,27 @@ namespace stx MW_SYMBOL_PUBLIC {
                     
                     return new PNListLiteral(itemlist);
                 }
+                    
+                case dict_literal_id:
+                {
+                    PNDictLiteral::itemlist_type itemlist;
+                    
+                    for (TreeIterT ci = i->children.begin(); ci != i->children.end(); ++ci) {
+                        try {
+                            const ParseNode *keyNode = build_expr(ci);
+                            const ParseNode *valueNode = build_expr(++ci);
+                            itemlist.emplace_back(keyNode, valueNode);
+                        } catch (...)  {
+                            for (unsigned int i = 0; i < itemlist.size(); ++i) {
+                                delete itemlist[i].first;
+                                delete itemlist[i].second;
+                            }
+                            throw;
+                        }
+                    }
+                    
+                    return new PNDictLiteral(itemlist);
+                }
 					
 				case function_identifier_id:
 				{
@@ -1653,6 +1748,7 @@ namespace stx MW_SYMBOL_PUBLIC {
 			rule_names[constant_id] = "constant";
             
             rule_names[list_literal_id] = "list_literal";
+            rule_names[dict_literal_id] = "dict_literal";
 			
 			rule_names[function_call_id] = "function_call";
 			rule_names[function_identifier_id] = "function_identifier";
