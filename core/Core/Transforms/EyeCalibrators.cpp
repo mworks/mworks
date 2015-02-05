@@ -732,18 +732,26 @@ void EyeCalibrator::announceCalibrationSample(int outputIndex, Datum SampledData
     announceData.addElement(CALIBRATOR_NAME,uniqueCalibratorName);    // char
     announceData.addElement(CALIBRATOR_ACTION,CALIBRATOR_ACTION_SAMPLE);
     
-    Datum temp(M_LIST, 2);
-    temp.setElement(0,sampledH);
-    temp.setElement(1,sampledV);
-    announceData.addElement(CALIBRATOR_SAMPLE_SAMPLED_HV,temp);    // input values
+    {
+        Datum temp(M_LIST, 2);
+        temp.setElement(0,sampledH);
+        temp.setElement(1,sampledV);
+        announceData.addElement(CALIBRATOR_SAMPLE_SAMPLED_HV,temp);    // input values
+    }
     
-    temp.setElement(0,desiredH);
-    temp.setElement(1,desiredV);
-    announceData.addElement(CALIBRATOR_SAMPLE_DESIRED_HV,temp);    // gold standard values
+    {
+        Datum temp(M_LIST, 2);
+        temp.setElement(0,desiredH);
+        temp.setElement(1,desiredV);
+        announceData.addElement(CALIBRATOR_SAMPLE_DESIRED_HV,temp);    // gold standard values
+    }
     
-    temp.setElement(0,calibratedH);
-    temp.setElement(1,calibratedV);
-    announceData.addElement(CALIBRATOR_SAMPLE_CALIBRATED_HV,temp); // values produced from input values using current calibration
+    {
+        Datum temp(M_LIST, 2);
+        temp.setElement(0,calibratedH);
+        temp.setElement(1,calibratedV);
+        announceData.addElement(CALIBRATOR_SAMPLE_CALIBRATED_HV,temp); // values produced from input values using current calibration
+    }
     
     //announceData.addElement("JJDtest",desiredH); // values produced from input values using current calibration
     
