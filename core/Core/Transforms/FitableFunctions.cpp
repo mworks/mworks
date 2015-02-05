@@ -290,14 +290,13 @@ bool LinearFitableFunction::fitTheFunction() {
 
     if (basisSet == NULL) return false;
     
-    lock();
+    Locker lock(*this);
     
     int numParams = basisSet->getNElements();
     int numData = allSamplesToFit->getNElements();
     if (numData < numParams) {
         mwarning(M_SYSTEM_MESSAGE_DOMAIN,
 			"WARNING: Attempted fit without enough data.");
-        unlock();
         return false;
     }
 
@@ -305,18 +304,16 @@ bool LinearFitableFunction::fitTheFunction() {
         mprintf("Fitable function: n data=%d n params=%d", numData, numParams);
     }
 
-    float *B = new float [numParams];
-    float *Y = new float [numData];
-    
-    // 2D array creation
-    float *X = new float[numData * numParams];
+    std::vector<float> B(numParams);
+    std::vector<float> Y(numData);
+    std::vector<float> X(numData * numParams);
     
     // create space to hold all Parameters
     if (Parameters != NULL) delete [] Parameters;
     Parameters = new float [numParams];
 
     // get data back in correct format
-    double *temp = new double [numInputs];
+    std::vector<double> temp(numInputs);
     
     
     // unfold the data into the prescribed basis.
@@ -339,7 +336,7 @@ bool LinearFitableFunction::fitTheFunction() {
         }
         for (int p=0; p<numParams;p++) {
             // Need to use Fortran-style (i.e. column-major) ordering
-            X[n + p*numData] = (basisSet->getElement(p))->applyBasis(temp);
+            X[n + p*numData] = (basisSet->getElement(p))->applyBasis(temp.data());
         }
         
         Y[n] = (float)(sampleToFit->getOutputData());
@@ -355,9 +352,9 @@ bool LinearFitableFunction::fitTheFunction() {
         __CLPK_integer m = numData;
         __CLPK_integer n = numParams;
         __CLPK_integer nrhs = 1;
-        __CLPK_real *a = X;
+        __CLPK_real *a = X.data();
         __CLPK_integer lda = m;
-        __CLPK_real *b = Y;
+        __CLPK_real *b = Y.data();
         __CLPK_integer ldb = m;
         std::vector<__CLPK_real> s(n);
         __CLPK_real rcond = 1.0e-5;  // TOL from old SVDfit code
@@ -411,15 +408,6 @@ bool LinearFitableFunction::fitTheFunction() {
             mprintf("Fitable function: final fit param %d = %f5", p, Parameters[p]);
         }
     }
-    
-    delete [] B;
-	
-    delete [] X;
-    delete [] Y;
-    
-    delete [] temp;
-    
-    unlock();
     
     return true;
     
