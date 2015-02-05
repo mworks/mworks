@@ -285,10 +285,6 @@
 		68FEE2320C9039EE002BCAE9 /* GenericEventFunctor.h in Headers */ = {isa = PBXBuildFile; fileRef = 68FEE2310C9039EE002BCAE9 /* GenericEventFunctor.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8E16A70E0A08E12E0070955E /* Averagers.h in Headers */ = {isa = PBXBuildFile; fileRef = 8E16A70C0A08E12E0070955E /* Averagers.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8E16A70F0A08E12E0070955E /* Averagers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E16A70D0A08E12E0070955E /* Averagers.cpp */; };
-		8E1A4A1008DB8237002E47BD /* SVDfit.h in Headers */ = {isa = PBXBuildFile; fileRef = 8E1A4A0E08DB8237002E47BD /* SVDfit.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		8E1A4BE108DF5626002E47BD /* MathUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = 8E1A4BDF08DF5626002E47BD /* MathUtilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		8E1A4BE208DF5626002E47BD /* MathUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E1A4BE008DF5626002E47BD /* MathUtilities.cpp */; };
-		8E1A4BE608DF700B002E47BD /* SVDfit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E1A4A0F08DB8237002E47BD /* SVDfit.cpp */; };
 		8E1A4CB208DFBF94002E47BD /* FitableFunctions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8EE2F3A008C8227700B873A2 /* FitableFunctions.cpp */; };
 		8E1A4D4308E494CC002E47BD /* EyeCalibrators.h in Headers */ = {isa = PBXBuildFile; fileRef = 8ED4542A08C56280003880D5 /* EyeCalibrators.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8E28B5FC0A6C317E00DA6287 /* Announcers.h in Headers */ = {isa = PBXBuildFile; fileRef = 8E28B5FA0A6C317E00DA6287 /* Announcers.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -428,6 +424,7 @@
 		E16BC17C137D952D0052D8E1 /* MachUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E16BC17A137D952D0052D8E1 /* MachUtilities.cpp */; };
 		E194BF6E1590DB5300D4A62D /* StimulusDisplayDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E194BF6D1590DB5300D4A62D /* StimulusDisplayDevice.cpp */; };
 		E194BF6F1590DB6900D4A62D /* StimulusDisplayDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = E194BF6C1590DB3900D4A62D /* StimulusDisplayDevice.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E1A691541A83DD1800CE914C /* vecLib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1A691531A83DD1800CE914C /* vecLib.framework */; };
 		E1C87A1313FDA558005FF5ED /* DynamicStimulusActions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1C87A1213FDA558005FF5ED /* DynamicStimulusActions.cpp */; };
 		E1C87A1513FDA56F005FF5ED /* DynamicStimulusActions.h in Headers */ = {isa = PBXBuildFile; fileRef = E1C87A1413FDA56F005FF5ED /* DynamicStimulusActions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1CBF63E16BAF3190057CE48 /* MWorksCore.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = DA2CE0D407E9F68100C68AEF /* MWorksCore.framework */; };
@@ -912,10 +909,6 @@
 		68FEE2310C9039EE002BCAE9 /* GenericEventFunctor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GenericEventFunctor.h; path = Core/Utilities/GenericEventFunctor.h; sourceTree = "<group>"; };
 		8E16A70C0A08E12E0070955E /* Averagers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Averagers.h; path = Core/Transforms/Averagers.h; sourceTree = SOURCE_ROOT; };
 		8E16A70D0A08E12E0070955E /* Averagers.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Averagers.cpp; path = Core/Transforms/Averagers.cpp; sourceTree = SOURCE_ROOT; };
-		8E1A4A0E08DB8237002E47BD /* SVDfit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SVDfit.h; path = Core/Transforms/SVDfit.h; sourceTree = SOURCE_ROOT; };
-		8E1A4A0F08DB8237002E47BD /* SVDfit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SVDfit.cpp; path = Core/Transforms/SVDfit.cpp; sourceTree = SOURCE_ROOT; };
-		8E1A4BDF08DF5626002E47BD /* MathUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MathUtilities.h; path = Core/Utilities/MathUtilities.h; sourceTree = SOURCE_ROOT; };
-		8E1A4BE008DF5626002E47BD /* MathUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MathUtilities.cpp; path = Core/Utilities/MathUtilities.cpp; sourceTree = SOURCE_ROOT; };
 		8E28B5FA0A6C317E00DA6287 /* Announcers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Announcers.h; path = Core/RealtimeServices/Announcers.h; sourceTree = "<group>"; };
 		8E28B5FB0A6C317E00DA6287 /* Announcers.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Announcers.cpp; path = Core/RealtimeServices/Announcers.cpp; sourceTree = "<group>"; };
 		8E2A2C7C09509D6800A7E004 /* MWorksXMLSpec.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = MWorksXMLSpec.rtf; path = Docs/MWorksXMLSpec.rtf; sourceTree = "<group>"; };
@@ -1064,6 +1057,7 @@
 		E16BC17A137D952D0052D8E1 /* MachUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MachUtilities.cpp; path = Core/Utilities/MachUtilities.cpp; sourceTree = "<group>"; };
 		E194BF6C1590DB3900D4A62D /* StimulusDisplayDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = StimulusDisplayDevice.h; path = Core/Stimuli/StimulusDisplayDevice.h; sourceTree = "<group>"; };
 		E194BF6D1590DB5300D4A62D /* StimulusDisplayDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StimulusDisplayDevice.cpp; path = Core/Stimuli/StimulusDisplayDevice.cpp; sourceTree = "<group>"; };
+		E1A691531A83DD1800CE914C /* vecLib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = vecLib.framework; path = System/Library/Frameworks/vecLib.framework; sourceTree = SDKROOT; };
 		E1C87A1213FDA558005FF5ED /* DynamicStimulusActions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DynamicStimulusActions.cpp; sourceTree = "<group>"; };
 		E1C87A1413FDA56F005FF5ED /* DynamicStimulusActions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DynamicStimulusActions.h; sourceTree = "<group>"; };
 		E1DB974816C16BEE001481E9 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
@@ -1165,6 +1159,7 @@
 				E1DB974F16C16C3F001481E9 /* IOKit.framework in Frameworks */,
 				E1DB975E16C16CA2001481E9 /* OpenAL.framework in Frameworks */,
 				E1DB975F16C16CA2001481E9 /* OpenGL.framework in Frameworks */,
+				E1A691541A83DD1800CE914C /* vecLib.framework in Frameworks */,
 				E1DB975116C16C50001481E9 /* libcrypto.dylib in Frameworks */,
 				E1DB977216C16D19001481E9 /* libxml2.dylib in Frameworks */,
 				E1DB977316C16D19001481E9 /* libxslt.dylib in Frameworks */,
@@ -1726,8 +1721,6 @@
 				5C866A98086E1E43006CBE6F /* MWorksTypes.h */,
 				DA2CE1AF07E9F95600C68AEF /* Utilities.h */,
 				DA2CE1AE07E9F95600C68AEF /* Utilities.cpp */,
-				8E1A4BDF08DF5626002E47BD /* MathUtilities.h */,
-				8E1A4BE008DF5626002E47BD /* MathUtilities.cpp */,
 				0EF2B5C30EBB49F20088F58F /* RegisteredSingleton.h */,
 				E16BC179137D952D0052D8E1 /* MachUtilities.h */,
 				E16BC17A137D952D0052D8E1 /* MachUtilities.cpp */,
@@ -1753,8 +1746,6 @@
 				8ED4542B08C56280003880D5 /* EyeCalibrators.cpp */,
 				8EE2F39F08C8227700B873A2 /* FitableFunctions.h */,
 				8EE2F3A008C8227700B873A2 /* FitableFunctions.cpp */,
-				8E1A4A0E08DB8237002E47BD /* SVDfit.h */,
-				8E1A4A0F08DB8237002E47BD /* SVDfit.cpp */,
 				8E16A70C0A08E12E0070955E /* Averagers.h */,
 				8E16A70D0A08E12E0070955E /* Averagers.cpp */,
 			);
@@ -2175,6 +2166,7 @@
 				E1DB974E16C16C3F001481E9 /* IOKit.framework */,
 				E1DB975C16C16CA1001481E9 /* OpenAL.framework */,
 				E1DB975D16C16CA1001481E9 /* OpenGL.framework */,
+				E1A691531A83DD1800CE914C /* vecLib.framework */,
 				E1DB975016C16C50001481E9 /* libcrypto.dylib */,
 				E1DB977016C16D18001481E9 /* libxml2.dylib */,
 				E1DB977116C16D18001481E9 /* libxslt.dylib */,
@@ -2304,8 +2296,6 @@
 				8ED452C908BF9870003880D5 /* Transforms.h in Headers */,
 				8ED452CB08BF9870003880D5 /* VariableTransformAdaptors.h in Headers */,
 				8EE2F3A108C8227700B873A2 /* FitableFunctions.h in Headers */,
-				8E1A4A1008DB8237002E47BD /* SVDfit.h in Headers */,
-				8E1A4BE108DF5626002E47BD /* MathUtilities.h in Headers */,
 				8E1A4D4308E494CC002E47BD /* EyeCalibrators.h in Headers */,
 				DA96B8B40981901F0007610D /* AbstractCoreBuilder.h in Headers */,
 				DA96B8D60981951E0007610D /* StandardServerCoreBuilder.h in Headers */,
@@ -2801,8 +2791,6 @@
 				8ED451FF08BF5C0C003880D5 /* Transforms.cpp in Sources */,
 				8ED452C708BF9870003880D5 /* FilterManager.cpp in Sources */,
 				8ED452CA08BF9870003880D5 /* VariableTransformAdaptors.cpp in Sources */,
-				8E1A4BE208DF5626002E47BD /* MathUtilities.cpp in Sources */,
-				8E1A4BE608DF700B002E47BD /* SVDfit.cpp in Sources */,
 				8E1A4CB208DFBF94002E47BD /* FitableFunctions.cpp in Sources */,
 				8E58149C0920220F0058D767 /* EyeCalibrators.cpp in Sources */,
 				DA96B8B50981901F0007610D /* AbstractCoreBuilder.cpp in Sources */,

@@ -17,6 +17,8 @@
 
 #include "FitableFunctions.h"
 
+#include <vecLib/clapack.h>
+
 
 BEGIN_NAMESPACE_MW
 
@@ -307,7 +309,7 @@ bool LinearFitableFunction::fitTheFunction() {
     float *Y = new float [numData];
     
     // 2D array creation
-    float **X = new2DfloatArray(numData,numParams);
+    float *X = new float[numData * numParams];
     
     // create space to hold all Parameters
     if (Parameters != NULL) delete [] Parameters;
@@ -336,7 +338,8 @@ bool LinearFitableFunction::fitTheFunction() {
             temp[i] = inputVector->getElement(i);
         }
         for (int p=0; p<numParams;p++) {
-            X[n][p] = (basisSet->getElement(p))->applyBasis(temp);
+            // Need to use Fortran-style (i.e. column-major) ordering
+            X[n + p*numData] = (basisSet->getElement(p))->applyBasis(temp);
         }
         
         Y[n] = (float)(sampleToFit->getOutputData());
@@ -347,14 +350,59 @@ bool LinearFitableFunction::fitTheFunction() {
 
     // linear regression to find Parameters (SVD pseudo-inverse)
     // B = inv(XtX) XtY
-    int tempNumParams;
-    float chisq;
-    SVDfit svdfitter(X,Y,NULL,numData,numParams);    // no weighting for now
-    svdfitter.doFit(B, &tempNumParams, &chisq);
-    if (tempNumParams != numParams) 
-                merror(M_SYSTEM_MESSAGE_DOMAIN, 
-                        "Unexpected number of parameters");
+    // using SGELSD from LAPACK
+    {
+        __CLPK_integer m = numData;
+        __CLPK_integer n = numParams;
+        __CLPK_integer nrhs = 1;
+        __CLPK_real *a = X;
+        __CLPK_integer lda = m;
+        __CLPK_real *b = Y;
+        __CLPK_integer ldb = m;
+        std::vector<__CLPK_real> s(n);
+        __CLPK_real rcond = 1.0e-5;  // TOL from old SVDfit code
+        __CLPK_integer rank;
+        std::vector<__CLPK_real> work(1);
+        __CLPK_integer lwork = -1;
+        std::vector<__CLPK_integer> iwork(1);
+        __CLPK_integer info;
         
+        // We call SGELSD two times: once to determine appropriate sizes for work and iwork, and once to
+        // perform the actual fit
+        for (int numReps = 0; numReps < 2; numReps++) {
+            sgelsd_(&m,
+                    &n,
+                    &nrhs,
+                    a,
+                    &lda,
+                    b,
+                    &ldb,
+                    s.data(),
+                    &rcond,
+                    &rank,
+                    work.data(),
+                    &lwork,
+                    iwork.data(),
+                    &info);
+            
+            if (info != 0) {
+                merror(M_GENERIC_MESSAGE_DOMAIN, "Fitable function: SGELSD returned %d", int(info));
+                break;
+            }
+            
+            if (-1 == lwork) {
+                // Set sizes of work and iwork for next pass
+                work.resize(work.at(0));
+                lwork = work.size();
+                iwork.resize(iwork.at(0));
+            } else {
+                // Store solution
+                for (int p = 0; p < numParams; p++) {
+                    B[p] = b[p];
+                }
+            }
+        }
+    }
     
     // save for later application
     for (int p=0; p<numParams;p++) {
@@ -366,7 +414,7 @@ bool LinearFitableFunction::fitTheFunction() {
     
     delete [] B;
 	
-    delete2DfloatArray(X, numData);
+    delete [] X;
     delete [] Y;
     
     delete [] temp;

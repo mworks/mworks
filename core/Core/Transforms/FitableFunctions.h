@@ -18,7 +18,6 @@
 #include "ExpandableList.h"
 #include "LinkedList.h"
 #include "Experiment.h"
-#include "SVDfit.h"
 
 #define VERBOSE_FITABLE_FUNCTION 1
 
