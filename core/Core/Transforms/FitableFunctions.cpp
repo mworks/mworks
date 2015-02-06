@@ -357,7 +357,9 @@ bool LinearFitableFunction::fitTheFunction() {
         __CLPK_real *b = Y.data();
         __CLPK_integer ldb = m;
         std::vector<__CLPK_real> s(n);
-        __CLPK_real rcond = 1.0e-5;  // TOL from old SVDfit code
+        // The choice of N*epsilon for rcond comes from _Numerical Recipes in C_, Section 15.4,
+        // "Solution by Use of Singular Value Decomposition"
+        __CLPK_real rcond = n * std::numeric_limits<__CLPK_real>::epsilon();
         __CLPK_integer rank;
         std::vector<__CLPK_real> work(1);
         __CLPK_integer lwork = -1;
@@ -384,7 +386,7 @@ bool LinearFitableFunction::fitTheFunction() {
             
             if (info != 0) {
                 merror(M_GENERIC_MESSAGE_DOMAIN, "Fitable function: SGELSD returned %d", int(info));
-                break;
+                return false;
             }
             
             if (-1 == lwork) {
