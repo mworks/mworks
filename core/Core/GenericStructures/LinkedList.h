@@ -104,6 +104,7 @@ class LinkedList : public Lockable {
 	public:
 
 	LinkedList();
+    ~LinkedList();
 
 	shared_ptr<T> getFrontmost(); //head
 	shared_ptr<T> getBackmost(); //tail
@@ -359,6 +360,17 @@ void LinkedListNode<T>::sendToBack(){
 template <class T>
 LinkedList<T>::LinkedList() : Lockable() {
     nelements = 0;
+}
+
+template <class T>
+LinkedList<T>::~LinkedList() {
+    // Remove all nodes from this list, because otherwise they would soon hold
+    // dangling pointers to it
+    while (head) {
+        // Copy head first to ensure it stays alive while we remove it
+        auto node = head;
+        node->remove();
+    }
 }
 
 template <class T>

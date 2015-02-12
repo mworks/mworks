@@ -1,0 +1,44 @@
+<?xml version="1.0" standalone="no"?>
+<monkeyml version="1.0">
+    <io_devices tag="IO Devices">
+        <calibrator type="linear_eye_calibrator" tag="cal" eyeh_raw="x_raw" eyev_raw="y_raw" eyeh_calibrated="x_cal" eyev_calibrated="y_cal"></calibrator>
+    </io_devices>
+    <variables tag="Variables">
+        <variable tag="x_raw" scope="global" logging="when_changed" default_value="0" type="float"></variable>
+        <variable tag="y_raw" scope="global" logging="when_changed" default_value="0" type="float"></variable>
+        <variable tag="x_cal" scope="global" logging="when_changed" default_value="0" type="float"></variable>
+        <variable tag="y_cal" scope="global" logging="when_changed" default_value="0" type="float"></variable>
+        <variable tag="x_gold" scope="global" logging="when_changed" default_value="0" type="float"></variable>
+        <variable tag="y_gold" scope="global" logging="when_changed" default_value="0" type="float"></variable>
+        <variable tag="index" scope="local" logging="when_changed" default_value="0" type="float"></variable>
+    </variables>
+    <sounds tag="Sounds"></sounds>
+    <stimuli tag="Stimuli">
+        <stimulus type="fixation_point" tag="cal_obj" color="1,1,1" trigger_width="0" trigger_watch_x="0" trigger_watch_y="0" trigger_flag="0" x_size="1" y_size="1" x_position="x_gold" y_position="y_gold" rotation="0" alpha_multiplier="1"></stimulus>
+    </stimuli>
+    <filters tag="Filters"></filters>
+    <optimizers tag="Optimizers"></optimizers>
+    <experiment tag="New Experiment" full_name="" description="">
+        <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential">
+            <action tag="Clear Calibration" type="clear_calibration" calibrator="cal"></action>
+            <block tag="New Block" nsamples="2" sampling_method="cycles" selection="sequential" interruptible="YES">
+                <range_replicator tag="New Range Replicator" from="1" to="5" step="0.5" variable="index">
+                    <list tag="New List" nsamples="1" sampling_method="cycles" selection="sequential">
+                        <action type="assignment" tag="Set x_raw" variable="x_raw" value="index + rand(-0.1, 0.1)"></action>
+                        <action type="assignment" tag="Set y_raw" variable="y_raw" value="index + rand(-0.1, 0.1)"></action>
+                        <action type="assignment" tag="Set x_gold" variable="x_gold" value="index + 0.1"></action>
+                        <action type="assignment" tag="Set y_gold" variable="y_gold" value="2*index + 0.2"></action>
+                        <action tag="Take Calibration Sample" type="take_calibration_sample" calibrator="cal" calibratable_object="cal_obj"></action>
+                    </list>
+                </range_replicator>
+                <action tag="Update Calibration" type="update_calibration" calibrator="cal"></action>
+            </block>
+            <action type="assignment" tag="Set x_raw" variable="x_raw" value="6"></action>
+            <action type="assignment" tag="Set y_raw" variable="y_raw" value="6"></action>
+            <action type="report" tag="Announce x_cal" message="x_cal = $x_cal (should be about 6.1)"></action>
+            <action type="assert" tag="Assert x_cal" condition="abs(x_cal - 6.1) &lt; 0.1" message="" stop_on_failure="0"></action>
+            <action type="report" tag="Announce y_cal" message="y_cal = $y_cal (should be about 12.2)"></action>
+            <action type="assert" tag="Assert y_cal" condition="abs(y_cal - 12.2) &lt; 0.2" message="" stop_on_failure="0"></action>
+        </protocol>
+    </experiment>
+</monkeyml>
