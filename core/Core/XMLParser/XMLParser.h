@@ -100,7 +100,7 @@ class XMLParser {
             
 		virtual void _processVariableAssignment(xmlNode *node);
 		
-		shared_ptr<mw::Component> _getConnectionChild(xmlNode *child);
+		shared_ptr<mw::Component> _getConnectionChild(xmlNode *child, map<string, string> properties);
 		
 		virtual map<string, string> _createPropertiesMap(xmlNode *node);
 		

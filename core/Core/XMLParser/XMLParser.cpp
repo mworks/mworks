@@ -921,7 +921,7 @@ void XMLParser::_processInstanceDirective(xmlNode *node){
 }
 
 
-shared_ptr<mw::Component> XMLParser::_getConnectionChild(xmlNode *child){
+shared_ptr<mw::Component> XMLParser::_getConnectionChild(xmlNode *child, map<string, string> properties) {
 	
 	//string child_name((const char *)child->name);
 	string child_tag(_attributeForName(child, "tag"));
@@ -930,6 +930,7 @@ shared_ptr<mw::Component> XMLParser::_getConnectionChild(xmlNode *child){
 	if(child_instance_id.empty()){
 		child_instance_id = "0";
 	}
+    string parent_scope = properties["parent_scope"];
 	
     string original_child_tag = child_tag;
     
@@ -953,7 +954,7 @@ shared_ptr<mw::Component> XMLParser::_getConnectionChild(xmlNode *child){
 
     try {
 	
-        child_component = registry->getObject<mw::Component>(child_tag);
+        child_component = registry->getObject<mw::Component>(child_tag, parent_scope);
         
 
         if(child_component != NULL){
@@ -1017,9 +1018,12 @@ void XMLParser::_connectChildToParent(shared_ptr<mw::Component> parent,
         
         try {
         
-            child_component = _getConnectionChild(child_node);
+            child_component = _getConnectionChild(child_node, properties);
             
             if(child_component != NULL){
+                if (parent == child_component) {
+                    throw FatalParserException("Internal error", "Attempting to make component its own child");
+                }
                 parent->addChild(properties, registry.get(), child_component);
             } else {
                 string message((boost::format("Could not find child (%s) to connect to parent (%s)") % child_tag % parent_tag).str());
@@ -1091,6 +1095,7 @@ void XMLParser::_processConnectDirective(xmlNode *node){
     
     properties["parent_tag"] = parent_tag;
 	properties["parent_reference_id"] = reference_id;
+    properties["parent_scope"] = parent_scope;
 	
 	xmlNode *child = node->children;
 	
