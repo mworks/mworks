@@ -81,10 +81,6 @@ unsigned int ScheduledActions::getNRepeated() const {
 	return nRepeated;
 }
 
-bool ScheduledActions::shouldCancel() const {
-    return bool(*cancel);
-}
-
 void ScheduledActions::executeActions() {
 	for(int i = 0; i < action_list.getNElements(); i++){
 		action_list[i]->announceEntry();
@@ -98,14 +94,6 @@ void ScheduledActions::executeActions() {
  ****************************************************************/
 
 	void *scheduled_action_runner(const shared_ptr<ScheduledActions> &sa){
-        if (sa->shouldCancel()) {
-            shared_ptr<ScheduleTask> node(sa->getNode());
-            if (node) {
-                node->cancel();
-                return NULL;
-            }
-        }
-        
 		shared_ptr <Clock> clock = Clock::instance();
 		MWTime delta = clock->getCurrentTimeUS() - ((sa->getTimeScheduled() + sa->getDelay()) + sa->getNRepeated()*sa->getInterval());
 		
@@ -118,6 +106,17 @@ void ScheduledActions::executeActions() {
 		sa->executeActions();
 		return 0;
 	}
+
+
+void ScheduledActions::CancelNotification::notify(const Datum &data, MWTime time) {
+    boost::shared_ptr<ScheduledActions> sa = saWeak.lock();
+    if (sa && data.getBool()) {
+        shared_ptr<ScheduleTask> node(sa->getNode());
+        if (node) {
+            node->cancel();
+        }
+    }
+}
 
 
 shared_ptr<Component> ScheduledActionsFactory::createObject(std::map<std::string, std::string> parameters,
@@ -140,9 +139,42 @@ shared_ptr<Component> ScheduledActionsFactory::createObject(std::map<std::string
 	
 	// TODO .. needs more work, the actual actions aren't included here
 	
-	shared_ptr <Component> newScheduledActions = shared_ptr<Component>(new ScheduledActions(repeats, delay, duration, cancel));
+	auto newScheduledActions = boost::make_shared<ScheduledActions>(repeats, delay, duration, cancel);
+    
+    if (cancel) {
+        auto notification = boost::make_shared<ScheduledActions::CancelNotification>(newScheduledActions);
+        cancel->addNotification(notification);
+    }
+    
 	return newScheduledActions;		
 }
 
 
 END_NAMESPACE_MW
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

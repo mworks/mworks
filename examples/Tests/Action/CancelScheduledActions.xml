@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" standalone="no"?>
 <monkeyml version="1.0">
     <io_devices tag="IO Devices"></io_devices>
     <variables tag="Variables">
@@ -19,6 +19,10 @@
                     <action type="assignment" tag="Reset pulse_count" variable="pulse_count" value="0"></action>
                     <action type="assignment" tag="Reset cancel_pulses" variable="cancel_pulses" value="0"></action>
                     <action type="schedule" tag="Schedule pulses" delay="0" duration="pulse_interval" repeats="1000" cancel="cancel_pulses">
+                        <action type="if" tag="Conditionally Execute Actions" condition="pulse_count &gt;= num_pulses">
+                            <action type="assert" tag="Assert" condition="NO" message="Scheduled actions were not canceled successfully" stop_on_failure="NO"></action>
+                            <action type="assignment" tag="Set cancel_pulses" variable="cancel_pulses" value="1"></action>
+                        </action>
                         <action type="assignment" tag="Update pulse_count" variable="pulse_count" value="pulse_count + 1"></action>
                         <action type="report" tag="Report 2" message="Sent pulse $pulse_count"></action>
                     </action>
@@ -28,7 +32,8 @@
                 </task_system_state>
                 <task_system_state tag="Cancel pulses" interruptible="YES">
                     <action_marker _unmoveable="1" tag="Actions"></action_marker>
-                    <action type="assignment" tag="Cancel pulses" variable="cancel_pulses" value="1"></action>
+                    <action type="assignment" tag="Set cancel_pulses" variable="cancel_pulses" value="1"></action>
+                    <action type="assignment" tag="Clear cancel_pulses" variable="cancel_pulses" value="0"></action>
                     <action type="start_timer" tag="Start Timer" timer="MyTimer" timebase="" duration="3" duration_units="s"></action>
                     <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
                     <transition type="timer_expired" tag="If Timer Expired, Transition to ..." target="Exit State System" timer="MyTimer"></transition>

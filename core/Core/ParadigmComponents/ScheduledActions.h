@@ -44,8 +44,19 @@ BEGIN_NAMESPACE_MW
 		MWTime getInterval() const;
 		MWTime getTimeScheduled() const;
 		unsigned int getNRepeated() const;
-        bool shouldCancel() const;
 		void executeActions();
+        
+        class CancelNotification : public VariableNotification {
+        public:
+            CancelNotification(const boost::shared_ptr<ScheduledActions> &sa) :
+                saWeak(sa)
+            { }
+            
+            void notify(const Datum &data, MWTime time) override;
+            
+        private:
+            boost::weak_ptr<ScheduledActions> saWeak;
+        };
 	};
 	
 	class ScheduledActionsFactory : public ComponentFactory{
