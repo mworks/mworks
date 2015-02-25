@@ -950,52 +950,26 @@ shared_ptr<mw::Component> SendStimulusToBackFactory::createObject(std::map<std::
 /****************************************************************
  *                 UpdateStimulusDisplay Methods
  ****************************************************************/
-UpdateStimulusDisplay::UpdateStimulusDisplay() : Action() {
-	setName("UpdateStimulusDisplay");
-	experiment = weak_ptr<Experiment>(GlobalCurrentExperiment);
+
+
+void UpdateStimulusDisplay::describeComponent(ComponentInfo &info) {
+    Action::describeComponent(info);
+    info.setSignature("action/update_stimulus_display");
 }
 
-UpdateStimulusDisplay::~UpdateStimulusDisplay() {
-	
+
+UpdateStimulusDisplay::UpdateStimulusDisplay(const ParameterValueMap &parameters) :
+    Action(parameters)
+{
+    setName("UpdateStimulusDisplay");
 }
 
-// 2 frames at 60Hz
-#define IMAGE_PRESENTATION_SLOP_US (1000000*(2*((float)1/60)))
 
 bool UpdateStimulusDisplay::execute() {
-    /*if(experiment == NULL) {
-	 experiment = getExperiment();
-	 }*/
-	
-	
-	
-    //if(experiment == NULL) {		// still bad?
-	//experiment = weak_ptr<Experiment>(GlobalCurrentExperiment); // a bit of a kludge
-    //}
-    shared_ptr<Experiment> experiment_shared = experiment.lock();
-    if(!experiment_shared) {		// there's no making you happy
-        merror(M_PARADIGM_MESSAGE_DOMAIN,
-			   "No experiment object on which to update the display");
-        return false;
-    } else {
-        shared_ptr<StimulusDisplay> display = experiment_shared->getStimulusDisplay();
-		
-		if(display){
-			display->updateDisplay();
-		} else {
-			// TODO: warn
-		}
-        
-		return true;
-    }
-	return true;
+    StimulusDisplay::getCurrentStimulusDisplay()->updateDisplay();
+    return true;
 }
 
-shared_ptr<mw::Component> UpdateStimulusDisplayFactory::createObject(std::map<std::string, std::string> parameters,
-																   ComponentRegistry *reg) {
-	shared_ptr <mw::Component> newUpdateStimulusDisplayAction = shared_ptr<mw::Component>(new UpdateStimulusDisplay());
-	return newUpdateStimulusDisplayAction;	
-}
 
 /****************************************************************
  *                 PlaySound Methods

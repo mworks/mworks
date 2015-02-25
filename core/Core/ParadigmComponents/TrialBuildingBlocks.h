@@ -375,18 +375,16 @@ class SendStimulusToBackFactory : public ComponentFactory{
 												ComponentRegistry *reg);
 };
 
-class UpdateStimulusDisplay : public Action {
-protected:
-	weak_ptr<Experiment> experiment; 
-public: 
-	UpdateStimulusDisplay();
-	virtual ~UpdateStimulusDisplay();
-	virtual bool execute();
-};
 
-class UpdateStimulusDisplayFactory : public ComponentFactory{
-	virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-												ComponentRegistry *reg);
+class UpdateStimulusDisplay : public Action {
+    
+public:
+    static void describeComponent(ComponentInfo &info);
+    
+    explicit UpdateStimulusDisplay(const ParameterValueMap &parameters);
+    
+    bool execute() override;
+    
 };
 
 

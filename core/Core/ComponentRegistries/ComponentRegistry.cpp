@@ -79,7 +79,7 @@ ComponentRegistry::ComponentRegistry() :
 	registerFactoryAlias("action/dequeue_stimulus", "action/hide_stimulus");
 	registerFactory("action/bring_stimulus_to_front", new BringStimulusToFrontFactory());
 	registerFactory("action/send_stimulus_to_back", new SendStimulusToBackFactory());
-	registerFactory("action/update_stimulus_display", new UpdateStimulusDisplayFactory());
+    registerFactory<StandardComponentFactory, UpdateStimulusDisplay>();
 	registerFactory("action/play_sound", new PlaySoundFactory());
 	registerFactory("action/stop_sound", new StopSoundFactory());
 	registerFactory("action/pause_sound", new PauseSoundFactory());
