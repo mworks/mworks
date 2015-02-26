@@ -1149,7 +1149,10 @@ Wait until a condition becomes true or a timeout occurs.  If the wait times out 
 		
 		<inspector>UpdateDisplayInspectorView</inspector>
 		<code>
-			<action tag="Update Stimulus Display" type="update_stimulus_display"/>
+			<action tag="Update Stimulus Display"
+                    type="update_stimulus_display"
+                    predicted_output_time=""
+                    />
 		</code>
 	</MWElement>
 

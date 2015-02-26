@@ -952,9 +952,15 @@ shared_ptr<mw::Component> SendStimulusToBackFactory::createObject(std::map<std::
  ****************************************************************/
 
 
+const std::string UpdateStimulusDisplay::PREDICTED_OUTPUT_TIME("predicted_output_time");
+
+
 void UpdateStimulusDisplay::describeComponent(ComponentInfo &info) {
     Action::describeComponent(info);
+    
     info.setSignature("action/update_stimulus_display");
+    
+    info.addParameter(PREDICTED_OUTPUT_TIME, false);
 }
 
 
@@ -962,11 +968,20 @@ UpdateStimulusDisplay::UpdateStimulusDisplay(const ParameterValueMap &parameters
     Action(parameters)
 {
     setName("UpdateStimulusDisplay");
+    
+    if (!parameters[PREDICTED_OUTPUT_TIME].empty()) {
+        predictedOutputTime = VariablePtr(parameters[PREDICTED_OUTPUT_TIME]);
+    }
 }
 
 
 bool UpdateStimulusDisplay::execute() {
-    StimulusDisplay::getCurrentStimulusDisplay()->updateDisplay();
+    MWTime outputTime = StimulusDisplay::getCurrentStimulusDisplay()->updateDisplay();
+    
+    if (predictedOutputTime) {
+        predictedOutputTime->setValue(outputTime);
+    }
+    
     return true;
 }
 

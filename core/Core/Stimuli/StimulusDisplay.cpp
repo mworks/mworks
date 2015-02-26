@@ -492,7 +492,7 @@ void StimulusDisplay::drawDisplayStack() {
 }
 
 
-void StimulusDisplay::updateDisplay() {
+MWTime StimulusDisplay::updateDisplay() {
     unique_lock lock(display_lock);
     
     shared_ptr<StimulusNode> node = display_stack->getFrontmost();
@@ -534,6 +534,9 @@ void StimulusDisplay::updateDisplay() {
                slop);		
     }
 #endif
+    
+    // Return the predicted output time of the just-submitted frame
+    return currentOutputTimeUS;
 }
 
 

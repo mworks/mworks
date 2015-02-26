@@ -379,11 +379,16 @@ class SendStimulusToBackFactory : public ComponentFactory{
 class UpdateStimulusDisplay : public Action {
     
 public:
+    static const std::string PREDICTED_OUTPUT_TIME;
+    
     static void describeComponent(ComponentInfo &info);
     
     explicit UpdateStimulusDisplay(const ParameterValueMap &parameters);
     
     bool execute() override;
+    
+private:
+    VariablePtr predictedOutputTime;
     
 };
 

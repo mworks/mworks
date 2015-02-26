@@ -149,7 +149,7 @@ BEGIN_NAMESPACE_MW
 		
         void setBackgroundColor(GLclampf red, GLclampf green, GLclampf blue);
         void setAnnounceStimuliOnImplicitUpdates(bool announceStimuliOnImplicitUpdates);
-		void updateDisplay();
+		MWTime updateDisplay();
 		void clearDisplay();
         void getDisplayBounds(GLdouble &left, GLdouble &right, GLdouble &bottom, GLdouble &top);
         double getMainDisplayRefreshRate() const { return mainDisplayRefreshRate; }
