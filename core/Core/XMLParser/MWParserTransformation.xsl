@@ -83,6 +83,7 @@
 	
 	<xsl:template name="generic_create">
         <xsl:param name="parent_scope"/>
+        <xsl:param name="groups"/>
 		<xsl:element name="mw_create">
 			<xsl:attribute name="object">
 				<xsl:value-of select="name()"/>
@@ -95,6 +96,12 @@
                 <xsl:attribute name="parent_scope">
                     <xsl:value-of select="$parent_scope"/>
                 </xsl:attribute>
+            </xsl:if>
+            
+            <xsl:if test="$groups != ''">
+                <xsl:element name="groups">
+                    <xsl:value-of select="$groups"/>
+                </xsl:element>
             </xsl:if>
             
 			<xsl:for-each select="./@*">
@@ -128,12 +135,24 @@
 	
 	<!-- Variable -->
 	<xsl:template match="//variable[@type!='selection']" mode="variable_create">
-		<xsl:call-template name="generic_create"/>
+		<xsl:call-template name="generic_create">
+			<xsl:with-param name="groups">
+				<xsl:if test="not(@groups)">
+					<xsl:value-of select="ancestor::folder/@tag"/>
+				</xsl:if>
+			</xsl:with-param>
+		</xsl:call-template>
 		<xsl:apply-templates select="node()" mode="variable_create"/>
 	</xsl:template>
 
 	<xsl:template match="//variable[@type='selection']" mode="selection_variable_create">
-		<xsl:call-template name="generic_create"/>
+		<xsl:call-template name="generic_create">
+			<xsl:with-param name="groups">
+				<xsl:if test="not(@groups)">
+					<xsl:value-of select="ancestor::folder/@tag"/>
+				</xsl:if>
+			</xsl:with-param>
+		</xsl:call-template>
 		<xsl:apply-templates select="node()" mode="variable_create"/>
 	</xsl:template>
 

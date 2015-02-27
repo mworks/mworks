@@ -1,0 +1,32 @@
+<?xml version="1.0" standalone="no"?>
+<monkeyml version="1.0">
+    <io_devices tag="IO Devices"></io_devices>
+    <variables tag="Variables">
+        <folder tag="A">
+            <variable tag="folderA" scope="global" logging="when_changed" default_value="0" type="any"></variable>
+            <variable tag="folderA_groupB" scope="global" logging="when_changed" default_value="0" type="any" groups="B"></variable>
+        </folder>
+        <folder tag="B">
+            <variable type="selection" tag="sel_folderB" values="1:5" selection="sequential" nsamples="1" sampling_method="cycles" advance_on_accept="YES" autoreset="NO"></variable>
+            <variable type="selection" tag="sel_folderB_groupC" values="1:5" selection="sequential" nsamples="1" sampling_method="cycles" advance_on_accept="YES" autoreset="NO" groups="C"></variable>
+        </folder>
+        <folder tag="C">
+            <variable tag="folderC" scope="global" logging="when_changed" default_value="0" type="any"></variable>
+            <variable tag="folderC_groupsAB" scope="global" logging="when_changed" default_value="0" type="any" groups="A, B"></variable>
+            <variable type="selection" tag="sel_folderC_groupsAB" values="1:5" selection="sequential" nsamples="1" sampling_method="cycles" advance_on_accept="YES" autoreset="NO" groups="A, B"></variable>
+        </folder>
+        <variable tag="groupC" scope="global" logging="when_changed" default_value="0" type="any" groups="C"></variable>
+        <variable type="selection" tag="sel_groupC" values="1:5" selection="sequential" nsamples="1" sampling_method="cycles" advance_on_accept="YES" autoreset="NO" groups="C"></variable>
+        <variable tag="no_group" scope="global" logging="when_changed" default_value="0" type="any"></variable>
+        <variable type="selection" tag="sel_no_group" values="1:5" selection="sequential" nsamples="1" sampling_method="cycles" advance_on_accept="YES" autoreset="NO"></variable>
+    </variables>
+    <sounds tag="Sounds"></sounds>
+    <stimuli tag="Stimuli"></stimuli>
+    <filters tag="Filters"></filters>
+    <optimizers tag="Optimizers"></optimizers>
+    <experiment tag="New Experiment" full_name="" description="">
+        <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
+            <action type="report" tag="Report" message="Nothing to see here"></action>
+        </protocol>
+    </experiment>
+</monkeyml>

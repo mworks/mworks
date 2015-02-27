@@ -176,9 +176,11 @@
         <allowed_parent>Stimuli</allowed_parent>
         <allowed_parent>Sounds</allowed_parent>
         <allowed_parent>Calibrators</allowed_parent>
+
+        <belongs_to_group>Variables</belongs_to_group>
         
         <description>
-            A folder for (purely) organizational purposes
+A folder for (purely) organizational purposes.  Variables defined in a folder will be displayed as an expandable group in MWClient's variables window.
         </description>
         
         <code><folder tag="New Folder"/></code>
