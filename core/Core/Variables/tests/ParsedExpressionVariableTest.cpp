@@ -326,7 +326,7 @@ void ParsedExpressionVariableTestFixture::testVariableSubscript() {
     CPPUNIT_ASSERT_THROW(getExpressionValue("(x)"), SimpleException);
     CPPUNIT_ASSERT_THROW(getExpressionValue("(x[0])"), SimpleException);
     
-    // Non-list variable
+    // Non-subscriptable variable
     {
         createGlobalVariable("x", Datum(1L));
         
@@ -364,6 +364,27 @@ void ParsedExpressionVariableTestFixture::testVariableSubscript() {
         
         // Negative index
         value = getExpressionValue("(y[-1])");
+        CPPUNIT_ASSERT( value.isInteger() );
+        CPPUNIT_ASSERT_EQUAL(0L, long(value));
+    }
+    
+    // Dictionary variable
+    {
+        Datum value(M_DICTIONARY, 2);
+        value.addElement("foo", 1);
+        value.addElement("bar", 2.5);
+        createGlobalVariable("z", value);
+        
+        value = getExpressionValue("(z['foo'])");
+        CPPUNIT_ASSERT( value.isInteger() );
+        CPPUNIT_ASSERT_EQUAL( 1LL, value.getInteger() );
+        
+        value = getExpressionValue("(z['bar'])");
+        CPPUNIT_ASSERT( value.isFloat() );
+        CPPUNIT_ASSERT_EQUAL( 2.5, value.getFloat() );
+        
+        // Non-existent key
+        value = getExpressionValue("(z['blah'])");
         CPPUNIT_ASSERT( value.isInteger() );
         CPPUNIT_ASSERT_EQUAL(0L, long(value));
     }

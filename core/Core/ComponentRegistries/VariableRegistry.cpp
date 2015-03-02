@@ -508,14 +508,12 @@ Datum VariableRegistry::lookupVariable(const std::string &varname, const Datum &
         throw UnknownVariableException(varname);
     }
     
-    int index = subscript.getInteger();
-    
     shared_ptr<SelectionVariable> sel = boost::dynamic_pointer_cast<SelectionVariable>(var);
     if (sel) {
-        return sel->getTentativeSelection(index);
+        return sel->getTentativeSelection(subscript.getInteger());
     }
     
-    Datum value = var->getValue().getElement(index);
+    Datum value = var->getValue()[subscript];
     if (value.isUndefined()) {
         mwarning(M_SYSTEM_MESSAGE_DOMAIN, "Unable to get element by index.  Returning 0 instead.");
         value.setInteger(0);
