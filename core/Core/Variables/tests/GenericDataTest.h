@@ -63,6 +63,7 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
     CPPUNIT_TEST( testOperatorGreaterThanOrEqual );
     CPPUNIT_TEST( testOperatorLessThan );
     CPPUNIT_TEST( testOperatorLessThanOrEqual );
+    CPPUNIT_TEST( testGenericIndexing );
     
     CPPUNIT_TEST_SUITE_END();
     
@@ -106,6 +107,7 @@ public:
     void testOperatorGreaterThanOrEqual();
     void testOperatorLessThan();
     void testOperatorLessThanOrEqual();
+    void testGenericIndexing();
     
 private:
     void handleNewMessage(const Datum &value, MWTime time);

@@ -269,6 +269,7 @@ public:
     //  void removeElement(int index);
     
     
+    Datum operator[](const Datum &index) const;
     Datum operator[](int i) const;
     
     std::string toString(bool quoted = false) const;

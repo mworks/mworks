@@ -2540,6 +2540,82 @@ void GenericDataTestFixture::testOperatorLessThanOrEqual() {
 }
 
 
+void GenericDataTestFixture::testGenericIndexing() {
+    // List
+    {
+        Datum list(M_LIST, 2);
+        list.setElement(0, Datum(1));
+        list.setElement(1, Datum(2.5));
+        
+        // Valid indices
+        {
+            Datum item = list[Datum(0)];
+            CPPUNIT_ASSERT( item.isInteger() );
+            CPPUNIT_ASSERT_EQUAL( 1LL, item.getInteger() );
+        }
+        {
+            Datum item = list[Datum(1)];
+            CPPUNIT_ASSERT( item.isFloat() );
+            CPPUNIT_ASSERT_EQUAL( 2.5, item.getFloat() );
+        }
+        
+        // Out-of-bounds indices
+        {
+            Datum item = list[Datum(-1)];
+            CPPUNIT_ASSERT( item.isUndefined() );
+            assertError("ERROR: Requested list index (-1) is out of bounds");
+        }
+        {
+            Datum item = list[Datum(2)];
+            CPPUNIT_ASSERT( item.isUndefined() );
+            assertError("ERROR: Requested list index (2) is out of bounds");
+        }
+        
+        // Non-numeric index
+        {
+            Datum item = list[Datum("foo")];
+            // Datum::getInteger returns 0 on error, so the retrieved item is the first element
+            CPPUNIT_ASSERT( item.isInteger() );
+            CPPUNIT_ASSERT_EQUAL( 1LL, item.getInteger() );
+            assertError("ERROR: Cannot convert string to integer");
+        }
+    }
+    
+    // Dictionary
+    {
+        Datum dict(M_DICTIONARY, 2);
+        dict.addElement(Datum("foo"), Datum(1));
+        dict.addElement(Datum("bar"), Datum(2.5));
+        
+        // Valid keys
+        {
+            Datum item = dict[Datum("foo")];
+            CPPUNIT_ASSERT( item.isInteger() );
+            CPPUNIT_ASSERT_EQUAL( 1LL, item.getInteger() );
+        }
+        {
+            Datum item = dict[Datum("bar")];
+            CPPUNIT_ASSERT( item.isFloat() );
+            CPPUNIT_ASSERT_EQUAL( 2.5, item.getFloat() );
+        }
+        
+        // Non-existent key
+        {
+            Datum item = dict[Datum("blah")];
+            CPPUNIT_ASSERT( item.isUndefined() );
+            assertError("ERROR: Dictionary has no element for requested key (\"blah\")");
+        }
+    }
+    
+    // Other
+    {
+        Datum item = Datum(3)[Datum("blah")];
+        CPPUNIT_ASSERT( item.isUndefined() );
+        assertError("ERROR: Cannot subscript integer");
+    }
+}
+
+
 void GenericDataTestFixture::handleNewMessage(const Datum &value, MWTime time) {
     if (value.isDictionary()) {
         messageValue = value;

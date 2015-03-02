@@ -1144,6 +1144,32 @@ bool Datum::operator<=(const Datum& other) const {
 }
 
 
+Datum Datum::operator[](const Datum &index) const {
+    Datum result;
+    
+    switch (datatype) {
+        case M_LIST:
+            result = getElement(int(index.getInteger()));
+            break;
+            
+        case M_DICTIONARY:
+            result = getElement(index);
+            if (result.isUndefined()) {
+                merror(M_SYSTEM_MESSAGE_DOMAIN,
+                       "Dictionary has no element for requested key (%s)",
+                       index.toString(true).c_str());
+            }
+            break;
+            
+        default:
+            merror(M_SYSTEM_MESSAGE_DOMAIN, "Cannot subscript %s", getDataTypeName());
+            break;
+    }
+    
+    return result;
+}
+
+
 Datum Datum::operator[](int i) const {
   if(getDataType() != M_LIST) {
     fprintf(stderr, "mData is not of type M_LIST -- Type => %d\n", getDataType());
