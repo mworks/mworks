@@ -2083,6 +2083,22 @@ namespace stx MW_SYMBOL_PUBLIC {
         }
 	}
     
+    Datum BasicSymbolTable::funcSELECTION(const paramlist_type& paramlist)
+    {
+        if (!(paramlist[0].isString())) {
+            throw BadFunctionCallException("First argument to function SELECTION() must be a string");
+        }
+        
+        auto reg = mw::ComponentRegistry::getSharedRegistry();
+        auto sel = reg->getObject<mw::SelectionVariable>(paramlist[0].getString());
+        
+        if (!sel) {
+            throw BadFunctionCallException("First argument to function SELECTION() must be the name of a selection variable");
+        }
+        
+        return sel->getTentativeSelection(paramlist[1].getInteger());
+    }
+    
     Datum BasicSymbolTable::funcNUMACCEPTED(const paramlist_type& paramlist)
     {
         if (!(paramlist[0].isString())) {
@@ -2231,8 +2247,10 @@ namespace stx MW_SYMBOL_PUBLIC {
 		setFunction("REFRESHRATE", 0, funcREFRESH_RATE);
 		setFunction("NEXTFRAMETIME", 0, funcNEXT_FRAME_TIME);
         
+        setFunction("SELECTION", 2, funcSELECTION);
+        setFunction("NUMACCEPTED", 1, funcNUMACCEPTED);
+        
 		setFunction("FORMAT", -1, funcFORMAT);
-		setFunction("NUMACCEPTED", 1, funcNUMACCEPTED);
 	}
 	
 	Datum BasicSymbolTable::lookupVariable(const std::string &_varname) const

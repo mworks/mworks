@@ -259,12 +259,16 @@ protected:
     static Datum	funcUNIFORM_RAND(const paramlist_type& paramlist);
     static Datum	funcDISC_UNIFORM_RAND(const paramlist_type& paramlist);
 	static Datum	funcGEOM_RAND(const paramlist_type& paramlist);
+    
 	static Datum	funcNOW(const paramlist_type& paramlist);
 	static Datum	funcTIMER_EXPIRED(const paramlist_type& paramlist);
 	static Datum	funcREFRESH_RATE(const paramlist_type& paramlist);
 	static Datum	funcNEXT_FRAME_TIME(const paramlist_type& paramlist);
+    
+    static Datum	funcSELECTION(const paramlist_type& paramlist);
+    static Datum	funcNUMACCEPTED(const paramlist_type& paramlist);
+    
 	static Datum	funcFORMAT(const paramlist_type& paramlist);
-	static Datum	funcNUMACCEPTED(const paramlist_type& paramlist);
 	
 public:
     /// Fills in the functionmap with the standard functions.
