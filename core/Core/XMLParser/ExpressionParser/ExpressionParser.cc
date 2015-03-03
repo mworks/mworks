@@ -91,6 +91,7 @@ namespace stx MW_SYMBOL_PUBLIC {
 			atom_expr_id,
 			
 			units_expr_id,
+            subscript_expr_id,
 			unary_expr_id,
 			mul_expr_id,
 			add_expr_id,
@@ -189,12 +190,9 @@ namespace stx MW_SYMBOL_PUBLIC {
 					// *** Variable names
 					
 					varname
-					= root_node_d[
-                                  lexeme_d[
-                                           token_node_d[ alpha_p >> *(alnum_p | ch_p('_')) ]
-                                           ]
-                                  ]
-                    >> !( discard_node_d[ ch_p('[') ] >> expr >> discard_node_d[ ch_p(']') ] )
+					= lexeme_d[
+                               token_node_d[ alpha_p >> *(alnum_p | ch_p('_')) ]
+                               ]
 					;
 					
 					// *** Valid Expressions, from small to large
@@ -212,10 +210,15 @@ namespace stx MW_SYMBOL_PUBLIC {
 					= atom_expr
                     >> !( root_node_d[ as_lower_d[keyword_p("us") | keyword_p("ms") | keyword_p("s")] ] )
 					;
+                    
+                    subscript_expr
+                    = units_expr
+                    >> *( root_node_d[ ch_p('[') ] >> expr >> discard_node_d[ ch_p(']') ] )
+                    ;
 					
 					unary_expr
 					= !( root_node_d[ ch_p('+') | ch_p('-') | ch_p('!') | as_lower_d[keyword_p("not")] ] )
-					>> units_expr
+					>> subscript_expr
 					;
 					
 					cast_spec
@@ -301,6 +304,7 @@ namespace stx MW_SYMBOL_PUBLIC {
 					BOOST_SPIRIT_DEBUG_RULE(atom_expr);
 					
 					BOOST_SPIRIT_DEBUG_RULE(units_expr);
+                    BOOST_SPIRIT_DEBUG_RULE(subscript_expr);
 					BOOST_SPIRIT_DEBUG_RULE(unary_expr);
 					BOOST_SPIRIT_DEBUG_RULE(mul_expr);
 					BOOST_SPIRIT_DEBUG_RULE(add_expr);
@@ -354,6 +358,8 @@ namespace stx MW_SYMBOL_PUBLIC {
 				
 				/// Units operator rule: recognizes "us" "ms" and "s".
 				rule<ScannerT, parser_context<>, parser_tag<units_expr_id> > 		units_expr;
+                /// Subscript operator rule
+                rule<ScannerT, parser_context<>, parser_tag<subscript_expr_id> > 	subscript_expr;
 				/// Unary operator rule: recognizes + - ! and "not".
 				rule<ScannerT, parser_context<>, parser_tag<unary_expr_id> > 		unary_expr;
 				/// Binary operator rule taking precedent before add_expr:
@@ -433,30 +439,23 @@ namespace stx MW_SYMBOL_PUBLIC {
 			private:
 				/// String name of the variable
 				std::string		varname;
-                
-                /// Subscript expression (may be NULL)
-                const ParseNode *subscript;
 				
 			public:
 				/// Constructor from the string received from the parser.
-				PNVariable(std::string _varname, const ParseNode *_subscript)
-				: ParseNode(), varname(_varname), subscript(_subscript)
+				PNVariable(std::string _varname)
+				: ParseNode(), varname(_varname)
 				{
 				}
 				
 				/// Recursively delete the parse tree.
 				virtual ~PNVariable()
 				{
-					delete subscript;
 				}
 				
 				/// Check the given symbol table for the actual value of this variable.
 				virtual Datum evaluate(const class SymbolTable &st) const
 				{
-                    if (!subscript)
-                        return st.lookupVariable(varname);
-                    
-                    return st.lookupVariable(varname, subscript->evaluate(st));
+                    return st.lookupVariable(varname);
 				}
 				
 				/// Returns false, because value isn't constant.
@@ -468,10 +467,7 @@ namespace stx MW_SYMBOL_PUBLIC {
 				/// Nothing but the variable name.
 				virtual std::string toString() const
 				{
-                    std::string str = varname;
-                    if (subscript)
-                        str += "[" + subscript->toString() + "]";
-					return str;
+                    return varname;
 				}
 			};
         
@@ -729,6 +725,54 @@ namespace stx MW_SYMBOL_PUBLIC {
                 return std::string("(") + operand->toString() + " " + units + ")";
             }
         };
+        
+        /// Parse tree node representing subscripting. This node has two children.
+        class PNSubscriptExpr : public ParseNode
+            {
+            private:
+                const ParseNode *target;
+                const ParseNode *subscript;
+                
+            public:
+                PNSubscriptExpr(const ParseNode* _target,
+                                const ParseNode* _subscript)
+                : ParseNode(),
+                target(_target), subscript(_subscript)
+                { }
+                
+                /// Recursively delete parse tree.
+                virtual ~PNSubscriptExpr()
+                {
+                    delete target;
+                    delete subscript;
+                }
+                
+                virtual Datum evaluate(const class SymbolTable &st) const
+                {
+                    Datum vt = target->evaluate(st);
+                    Datum vs = subscript->evaluate(st);
+                    
+                    Datum value = vt[vs];
+                    
+                    if (value.isUndefined()) {
+                        mw::mwarning(mw::M_SYSTEM_MESSAGE_DOMAIN, "Subscript evaluation failed.  Returning 0 instead.");
+                        value.setInteger(0);
+                    }
+                    
+                    return value;
+                }
+                
+                /// Returns false, because value isn't constant.
+                virtual bool evaluate_const(Datum *dest) const
+                {
+                    return false;
+                }
+                
+                virtual std::string toString() const
+                {
+                    return std::string("(") + target->toString() + "[" + subscript->toString() + "])";
+                }
+            };
 		
 		/// Parse tree node representing an unary operator: '+', '-', '!' or
 		/// "not". This node has one child.
@@ -1407,6 +1451,17 @@ namespace stx MW_SYMBOL_PUBLIC {
 						return new PNUnitsArithmExpr(val, units);
 					}
 				}
+                    
+                case subscript_expr_id:
+                {
+                    assert(i->children.size() == 2);
+                    
+                    // auto_ptr needed because of possible parse exceptions in build_expr.
+                    std::auto_ptr<const ParseNode> target( build_expr(i->children.begin()) );
+                    std::auto_ptr<const ParseNode> subscript( build_expr(i->children.begin()+1) );
+                    
+                    return new PNSubscriptExpr(target.release(), subscript.release());
+                }
 					
 				case unary_expr_id:
 				{
@@ -1587,15 +1642,11 @@ namespace stx MW_SYMBOL_PUBLIC {
 					
 				case varname_id:
 				{
-					assert(i->children.size() <= 1);
+					assert(i->children.size() == 0);
 					
 					std::string varname(i->value.begin(), i->value.end());
-                    
-                    const ParseNode *subscript = NULL;
-                    if (i->children.size() == 1)
-                        subscript = build_expr(i->children.begin());
 					
-					return new PNVariable(varname, subscript);
+					return new PNVariable(varname);
 				}
                     
                 case list_literal_id:
@@ -1756,6 +1807,7 @@ namespace stx MW_SYMBOL_PUBLIC {
 			rule_names[varname_id] = "varname";
 			
 			rule_names[units_expr_id] = "units_expr";
+            rule_names[subscript_expr_id] = "subscript_expr";
 			rule_names[unary_expr_id] = "unary_expr";
 			rule_names[mul_expr_id] = "mul_expr";
 			rule_names[add_expr_id] = "add_expr";
@@ -1893,11 +1945,6 @@ namespace stx MW_SYMBOL_PUBLIC {
 	SymbolTable::~SymbolTable()
 	{
 	}
-    
-    Datum SymbolTable::lookupVariable(const std::string &varname, const Datum &subscript) const
-    {
-        throw BadVariableSubscriptException("Variable subscripts are not supported");
-    }
 	
 	EmptySymbolTable::~EmptySymbolTable()
 	{

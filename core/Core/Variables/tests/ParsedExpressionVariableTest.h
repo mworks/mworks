@@ -31,7 +31,7 @@ class ParsedExpressionVariableTestFixture : public FullCoreEnvironmentTestFixtur
 	CPPUNIT_TEST( testBooleanConstants );
 	CPPUNIT_TEST( testTimeUnits );
 	CPPUNIT_TEST( testBinaryLogicOperatorsWithVariableOperand );
-	CPPUNIT_TEST( testVariableSubscript );
+	CPPUNIT_TEST( testSubscriptExpression );
 	CPPUNIT_TEST( testRangeExpression );
     CPPUNIT_TEST( testListLiteral );
     CPPUNIT_TEST( testDictionaryLiteral );
@@ -51,7 +51,7 @@ public:
     void testBooleanConstants();
     void testTimeUnits();
     void testBinaryLogicOperatorsWithVariableOperand();
-    void testVariableSubscript();
+    void testSubscriptExpression();
     void testRangeExpression();
     void testListLiteral();
     void testDictionaryLiteral();

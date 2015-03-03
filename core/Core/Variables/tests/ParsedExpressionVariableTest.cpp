@@ -321,11 +321,7 @@ void ParsedExpressionVariableTestFixture::testBinaryLogicOperatorsWithVariableOp
 }
 
 
-void ParsedExpressionVariableTestFixture::testVariableSubscript() {
-    // Unknown variable
-    CPPUNIT_ASSERT_THROW(getExpressionValue("(x)"), SimpleException);
-    CPPUNIT_ASSERT_THROW(getExpressionValue("(x[0])"), SimpleException);
-    
+void ParsedExpressionVariableTestFixture::testSubscriptExpression() {
     // Non-subscriptable variable
     {
         createGlobalVariable("x", Datum(1L));
@@ -387,6 +383,36 @@ void ParsedExpressionVariableTestFixture::testVariableSubscript() {
         value = getExpressionValue("(z['blah'])");
         CPPUNIT_ASSERT( value.isInteger() );
         CPPUNIT_ASSERT_EQUAL(0L, long(value));
+    }
+    
+    // Subscripts on literals
+    {
+        Datum value = getExpressionValue("([1, 2, 3][1])");
+        CPPUNIT_ASSERT( value.isInteger() );
+        CPPUNIT_ASSERT_EQUAL( 2LL, value.getInteger() );
+        
+        value = getExpressionValue("([1, 2, 3][3])");
+        CPPUNIT_ASSERT( value.isInteger() );
+        CPPUNIT_ASSERT_EQUAL( 0LL, value.getInteger() );
+        
+        value = getExpressionValue("({'a': 1, 'b': 2}['b'])");
+        CPPUNIT_ASSERT( value.isInteger() );
+        CPPUNIT_ASSERT_EQUAL( 2LL, value.getInteger() );
+        
+        value = getExpressionValue("({'a': 1, 'b': 2}['c'])");
+        CPPUNIT_ASSERT( value.isInteger() );
+        CPPUNIT_ASSERT_EQUAL( 0LL, value.getInteger() );
+    }
+    
+    // Chained subscripts
+    {
+        Datum value = getExpressionValue("([1, 2, [3, 4, [5, 6]]][2][2][1])");
+        CPPUNIT_ASSERT( value.isInteger() );
+        CPPUNIT_ASSERT_EQUAL( 6LL, value.getInteger() );
+        
+        value = getExpressionValue("({'a': 1, 'b': {'c': 2, 'd': {'e': 3, 'f': 4}}}['b']['d']['f'])");
+        CPPUNIT_ASSERT( value.isInteger() );
+        CPPUNIT_ASSERT_EQUAL( 4LL, value.getInteger() );
     }
 }
 

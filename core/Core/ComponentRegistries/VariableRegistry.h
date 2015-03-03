@@ -216,9 +216,6 @@ public:
 	
 	/// Return the (constant) value of a variable.
 	Datum lookupVariable(const std::string &varname) const override;
-    
-    /// Return the (constant) value of a variable subscript.
-    Datum lookupVariable(const std::string &varname, const Datum &subscript) const override;
 	
 };
 

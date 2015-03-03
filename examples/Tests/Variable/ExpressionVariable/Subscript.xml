@@ -3,7 +3,7 @@
     <io_devices tag="IO Devices"></io_devices>
     <variables tag="Variables">
         <variable tag="dict_var" scope="global" logging="when_changed" default_value="{&quot;a&quot;: 1, 2: 2.5}" type="any"></variable>
-        <variable tag="list_var" scope="global" logging="when_changed" default_value="2,3.3,&quot;four&quot;" type="list"></variable>
+        <variable tag="list_var" scope="global" logging="when_changed" default_value="[2,3.3,&quot;four&quot;]" type="any"></variable>
         <variable tag="int_var" scope="global" logging="when_changed" default_value="123" type="integer"></variable>
         <variable tag="x" scope="global" logging="when_changed" default_value="0" type="integer"></variable>
     </variables>

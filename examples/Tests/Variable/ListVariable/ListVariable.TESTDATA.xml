@@ -3,13 +3,13 @@
   <expected_messages>
     <!-- Load-time errors -->
     <message type="whole_message">ERROR: Requested list index (1) is out of bounds</message>
-    <message type="whole_message">WARNING: Unable to get element by index.  Returning 0 instead.</message>
+    <message type="whole_message">WARNING: Subscript evaluation failed.  Returning 0 instead.</message>
     <message type="whole_message">ERROR: Requested list index (5) is out of bounds</message>
-    <message type="whole_message">WARNING: Unable to get element by index.  Returning 0 instead.</message>
+    <message type="whole_message">WARNING: Subscript evaluation failed.  Returning 0 instead.</message>
     <!-- Run-time errors -->
     <message type="whole_message">ERROR: Requested list index (1) is out of bounds</message>
-    <message type="whole_message">WARNING: Unable to get element by index.  Returning 0 instead.</message>
+    <message type="whole_message">WARNING: Subscript evaluation failed.  Returning 0 instead.</message>
     <message type="whole_message">ERROR: Requested list index (5) is out of bounds</message>
-    <message type="whole_message">WARNING: Unable to get element by index.  Returning 0 instead.</message>
+    <message type="whole_message">WARNING: Subscript evaluation failed.  Returning 0 instead.</message>
   </expected_messages>
 </marionette_info>
