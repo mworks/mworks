@@ -401,8 +401,8 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PythonTools-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
-					"/System/Library/Frameworks/Python.framework/Versions/$(MW_PYTHON_VERSION)/include/python$(MW_PYTHON_VERSION)",
-					"/System/Library/Frameworks/Python.framework/Versions/$(MW_PYTHON_VERSION)/Extras/lib/python/numpy/core/include",
+					"$(SDKROOT)/System/Library/Frameworks/Python.framework/Versions/$(MW_PYTHON_VERSION)/include/python$(MW_PYTHON_VERSION)",
+					"$(SDKROOT)/System/Library/Frameworks/Python.framework/Versions/$(MW_PYTHON_VERSION)/Extras/lib/python/numpy/core/include",
 					"$(inherited)",
 				);
 				LINK_WITH_STANDARD_LIBRARIES = YES;

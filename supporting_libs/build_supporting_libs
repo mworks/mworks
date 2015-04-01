@@ -32,6 +32,8 @@ sdk_path = (('/Applications/Xcode.app/Contents/Developer/Platforms/'
 
 python_version = '2.7'
 python = '/usr/bin/python' + python_version
+python_root = ('%s/System/Library/Frameworks/Python.framework/Versions/%s' %
+               (sdk_path, python_version))
 
 num_cores = str(multiprocessing.cpu_count())
 
@@ -192,6 +194,8 @@ def boost():
     unpack_tarfile(tarfile, srcdir)
 
     with workdir(srcdir):
+        apply_patch('boost_python_config.patch')
+
         os.symlink('boost', 'mworks_boost')
         
         check_call([
@@ -201,11 +205,14 @@ def boost():
              'filesystem,python,regex,serialization,system,test,thread'),
             '--without-icu',
             '--with-python=' + python,
+            '--with-python-root=' + python_root,
+            '--with-python-version=' + python_version,
             '--prefix=' + path_to_stagedir,
             ])
         
         check_call([
             './b2',
+            #'-d', '2',  # Show actual commands run,
             '-j', num_cores,
             'optimization=space',
             'debug-symbols=on',
@@ -221,7 +228,8 @@ def boost():
             ])
 
     with workdir(path_to_stagedir + '/include'):
-        os.symlink('boost', 'mworks_boost')
+        if not os.path.islink('mworks_boost'):
+            os.symlink('boost', 'mworks_boost')
 
 
 @builder
