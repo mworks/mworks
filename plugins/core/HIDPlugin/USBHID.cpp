@@ -131,11 +131,11 @@ void mUSBHID::registerHID_CFDictionary(CFDictionaryRef object)
 	long valueUsage;
 	CFNumberGetValue ((const __CFNumber*)objectUsage, kCFNumberLongType, &valueUsage);
 	
-	char *usagePageString, *usageString;
+	const char *usagePageString, *usageString;
 	hidUsageLookup(objectUsagePage, objectUsage, &usagePageString, &usageString);
-	char *capability_name = usageString;
+	const char *capability_name = usageString;
 	
-	char *capability_hid_type;
+	const char *capability_hid_type;
 	CFStringRef keyType = CFSTR(kIOHIDElementTypeKey);
 	CFTypeRef objectType = CFDictionaryGetValue (object, keyType);
 	hidTypeLookup(objectType, &capability_hid_type);

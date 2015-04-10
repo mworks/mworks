@@ -134,7 +134,7 @@ Datum convert_python_to_datum(const boost::python::object &obj) {
         Datum dict(M_DICTIONARY, size);
         
 #pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-writable-strings"
+#pragma clang diagnostic ignored "-Wwritable-strings"
         boost::python::object keys = manageNewRef( PyMapping_Keys(pObj) );
         boost::python::object values = manageNewRef( PyMapping_Values(pObj) );
 #pragma clang diagnostic pop

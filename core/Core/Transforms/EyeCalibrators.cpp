@@ -721,7 +721,7 @@ void EyeCalibrator::announceCalibrationSample(int outputIndex, Datum SampledData
         desiredV = DesiredOutputData;
         calibratedV = CalibratedOutputData;
         sampledV = (&SampledData)->getElement(inputIndexV);
-        if ( (abs(timeOfSampleUS-HsampleTime)) > 10000) {
+        if ( (std::abs(timeOfSampleUS-HsampleTime)) > 10000) {
             mwarning(M_SYSTEM_MESSAGE_DOMAIN,
             "Calibrator sample announce detected large time differential between h and v samples.  Values likely inaccurate.");
         }

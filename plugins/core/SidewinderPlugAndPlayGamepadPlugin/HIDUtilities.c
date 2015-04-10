@@ -67,7 +67,7 @@ static IOHIDElementCookie gButton3Cookie = 0;
 
 // functions (internal/private) ---------------------------------------------
 
-void PrintErrMsgIfIOErr (long expr, char * msg)
+void PrintErrMsgIfIOErr (long expr, const char * msg)
 {
     IOReturn err = (expr);
     if (err != kIOReturnSuccess)
@@ -81,7 +81,7 @@ void PrintErrMsgIfIOErr (long expr, char * msg)
 
 // --------------------------------------------------------------------------
 
-void PrintErrMsg (char * msg)
+void PrintErrMsg (const char * msg)
 {
 	fprintf (stderr, "%s\n", msg);
 	fflush (stderr);
@@ -949,7 +949,7 @@ void MyStartHIDDeviceInterfaceTest (void)
 
 
 
-void hidUsageLookup(CFTypeRef objectUsagePage, CFTypeRef objectUsage, char **usagePageString, char **usageString)
+void hidUsageLookup(CFTypeRef objectUsagePage, CFTypeRef objectUsage, const char **usagePageString, const char **usageString)
 {
 	
 	long valueUsage = 0, valueUsagePage = 0;
@@ -1074,7 +1074,7 @@ void hidUsageLookup(CFTypeRef objectUsagePage, CFTypeRef objectUsage, char **usa
 					{
 						default:
 							*usageString = (char *)calloc(80, sizeof(char));
-							sprintf(*usageString, "Button_%ld", valueUsage); break;
+							sprintf(const_cast<char *>(*usageString), "Button_%ld", valueUsage); break;
 					}
 						break;
 				/*case kHIDPage_Ordinal:
@@ -1167,7 +1167,7 @@ void hidUsageLookup(CFTypeRef objectUsagePage, CFTypeRef objectUsage, char **usa
 
 
 
-void hidTypeLookup (CFTypeRef objectType, char **type_string)
+void hidTypeLookup (CFTypeRef objectType, const char **type_string)
 {
 
     long valueType = 0;

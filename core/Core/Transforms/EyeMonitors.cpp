@@ -1173,7 +1173,7 @@ static void eyeCompute(float JJD_sampleTimeMS, float sampleIntervalMS, DOUBLE_PO
         
         diff = (long)(eyeHtimeUS-eyeVtimeUS);
         
-        if (abs(diff) <= M_MAXIMAL_ALLOWED_EYE_PAIR_SEPARATION_US) {   // data alignment acceptable to use 
+        if (std::abs(diff) <= M_MAXIMAL_ALLOWED_EYE_PAIR_SEPARATION_US) {   // data alignment acceptable to use 
             *pEyeTimeUS = eyeHtimeUS;
             eyeH_buffer_reader->advance();
             eyeV_buffer_reader->advance();

@@ -42,7 +42,7 @@ void SchedulerTestFixture::testPeriod10HzNoPayload(){
 	
 	
 	for(unsigned int i = 1 ; i < times.size(); i++){
-		CPPUNIT_ASSERT(abs(times[i] - times[i-1] - interval) < ACCEPTABLE_ERROR_US);
+		CPPUNIT_ASSERT(std::abs(times[i] - times[i-1] - interval) < ACCEPTABLE_ERROR_US);
 	}
 	
 	
@@ -56,7 +56,7 @@ void SchedulerTestFixture::testPeriod10HzSmallPayload(){
 	reportLatencies(diff(times), interval);
 	
 	for(unsigned int i = 1 ; i < times.size(); i++){
-		CPPUNIT_ASSERT(abs(times[i] - times[i-1] - interval) < ACCEPTABLE_ERROR_US);
+		CPPUNIT_ASSERT(std::abs(times[i] - times[i-1] - interval) < ACCEPTABLE_ERROR_US);
 	}
 	
 	
@@ -70,7 +70,7 @@ void SchedulerTestFixture::testPeriod100HzNoPayload(){
 	reportLatencies(diff(times), interval);
 	
 	for(unsigned int i = 1 ; i < times.size(); i++){
-		CPPUNIT_ASSERT(abs(times[i] - times[i-1] - interval) < ACCEPTABLE_ERROR_US);
+		CPPUNIT_ASSERT(std::abs(times[i] - times[i-1] - interval) < ACCEPTABLE_ERROR_US);
 	}
 	
 }
@@ -87,7 +87,7 @@ void SchedulerTestFixture::testPeriod10HzNoPayloadChaffX4(){
 	reportLatencies(diff(times), interval);
 	
 	for(unsigned int i = 1 ; i < times.size(); i++){
-		CPPUNIT_ASSERT(abs(times[i] - times[i-1] - interval) < ACCEPTABLE_ERROR_US);
+		CPPUNIT_ASSERT(std::abs(times[i] - times[i-1] - interval) < ACCEPTABLE_ERROR_US);
 	}
 	
 	
@@ -289,7 +289,7 @@ std::vector<MWTime> SchedulerTestFixture::timeTrialSmallPayload(MWTime interval,
 std::vector<MWTime> SchedulerTestFixture::diff(std::vector<MWTime> times){
 	std::vector<MWTime> returnval;
 	for(unsigned int i = 1 ; i < times.size(); i++){
-		MWTime diff = abs(times[i] - times[i-1]);
+		MWTime diff = std::abs(times[i] - times[i-1]);
 		returnval.push_back(diff);
 	}
 	return returnval;

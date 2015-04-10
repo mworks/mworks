@@ -104,7 +104,7 @@ IOHIDDeviceInterface ** MyCreateHIDDeviceInterface (io_object_t hidDevice);
 void MyTestEventInterface (IOHIDDeviceInterface **hidDeviceInterface);
 void MyTestPollingInterface (IOHIDDeviceInterface ** hidDeviceInterface);
 
-void hidUsageLookup(CFTypeRef objectUsagePage, CFTypeRef objectUsage, char **usagePageString, char **usageString);
-void hidTypeLookup (CFTypeRef objectType, char **type_string);
+void hidUsageLookup(CFTypeRef objectUsagePage, CFTypeRef objectUsage, const char **usagePageString, const char **usageString);
+void hidTypeLookup (CFTypeRef objectType, const char **type_string);
 
 #endif
