@@ -233,6 +233,22 @@ def boost():
 
 
 @builder
+def zeromq():
+    version = '4.0.5'
+    srcdir = 'zeromq-' + version
+    tarfile = srcdir + '.tar.gz'
+
+    download_archive('http://download.zeromq.org/', tarfile)
+    unpack_tarfile(tarfile, srcdir)
+
+    run_configure_and_make(
+        srcdir = srcdir,
+        extra_args = ['--disable-silent-rules'],
+        extra_ldflags = '-lc++',
+        )
+
+
+@builder
 def libpng():
     version = '1.2.52'
     srcdir = 'libpng-' + version
