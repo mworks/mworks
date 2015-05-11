@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <marionette_info>
   <expected_messages>
-    <message type="whole_message">ERROR: There are no more items left to draw</message>
-    <message type="whole_message">ERROR: There are no more items left to draw</message>
-    <message type="whole_message">WARNING: Autoresetting selection object</message>
+    <message type="whole_message">ERROR: There are no more items left to draw [at line 36]</message>
+    <message type="whole_message">ERROR: There are no more items left to draw [at line 65]</message>
+    <message type="whole_message">WARNING: Autoresetting selection object [at line 82]</message>
   </expected_messages>
 </marionette_info>

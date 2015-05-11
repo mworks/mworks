@@ -243,6 +243,19 @@ void XMLParser::getDocumentData(std::vector<xmlChar> &data) {
 }
 
 
+void XMLParser::_addLineNumberAttributes(xmlNode *node) {
+    if (!xmlNodeIsText(node)) {
+        _setAttributeForName(node, "_line_number", boost::lexical_cast<std::string>(node->line));
+    }
+    
+    xmlNode *child = node->children;
+    while (child) {
+        _addLineNumberAttributes(child);
+        child = child->next;
+    }
+}
+
+
 void XMLParser::parse(bool announce_progress){ 
     // parse the file and get the DOM 
     loadFile();
@@ -259,6 +272,8 @@ void XMLParser::parse(bool announce_progress){
 	
 	
 	// TODO: destroy exisiting resources
+    
+    _addLineNumberAttributes(xmlDocGetRootElement(xml_doc));
 	
 	xmlDoc *simplified = xsltApplyStylesheet(simplification_transform, xml_doc, NULL);
 	
@@ -825,6 +840,7 @@ void XMLParser::_processGenericCreateDirective(xmlNode *node, bool anon){
 	
 	if(component != NULL){
 		component->setReferenceID(reference_id);
+        component->setLineNumber(boost::lexical_cast<int>(properties["_line_number"]));
 	}
 }
 

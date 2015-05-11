@@ -43,7 +43,10 @@
 BEGIN_NAMESPACE_MW
 
     
-StandardStateSystem::StandardStateSystem(const shared_ptr <Clock> &a_clock) : StateSystem(a_clock) {
+StandardStateSystem::StandardStateSystem(const shared_ptr <Clock> &a_clock) :
+    StateSystem(a_clock),
+    state_system_thread(nullptr)
+{
     in_action = false;
     in_transition = false;
     is_running = false;
@@ -158,7 +161,11 @@ bool StandardStateSystem::isInTransition(){
 //}
 
 weak_ptr<State> StandardStateSystem::getCurrentState(){
-    return current_state;
+    // Allow access to the current state only on the state system thread
+    if (pthread_self() == state_system_thread) {
+        return current_state;
+    }
+    return weak_ptr<State>();
 }
 
 //void StandardStateSystem::setCurrentState(weak_ptr<State> newcurrent){

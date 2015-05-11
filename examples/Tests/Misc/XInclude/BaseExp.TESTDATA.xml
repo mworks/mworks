@@ -11,6 +11,6 @@
     <message type="starts_with">selection = 8 </message>
     <message type="starts_with">selection = 9 </message>
     <message type="starts_with">selection = 10 </message>
-    <message type="whole_message">WARNING: Autoresetting selection object</message>
+    <message type="whole_message">WARNING: Autoresetting selection object [at line 15]</message>
   </expected_messages>
 </marionette_info>

@@ -8,16 +8,16 @@
   <expected_messages>
     <message type="starts_with">About to not assert</message>
     <message type="starts_with">About to assert</message>
-    <message type="whole_message">ERROR: Assertion: This is a test assertion 1</message>
+    <message type="whole_message">ERROR: Assertion: This is a test assertion 1 [at line 13]</message>
     <message type="starts_with">About to not assert</message>
     <message type="starts_with">About to assert</message>
-    <message type="whole_message">ERROR: Assertion: This is a test assertion 2</message>
+    <message type="whole_message">ERROR: Assertion: This is a test assertion 2 [at line 17]</message>
     <message type="starts_with">About to not assert</message>
     <message type="starts_with">About to not assert</message>
     <message type="starts_with">About to assert</message>
-    <message type="whole_message">ERROR: Assertion: This is a test assertion 3</message>
+    <message type="whole_message">ERROR: Assertion: This is a test assertion 3 [at line 23]</message>
     <message type="starts_with">About to assert</message>
-    <message type="whole_message">ERROR: Assertion: This is a test assertion 4</message>
+    <message type="whole_message">ERROR: Assertion: This is a test assertion 4 [at line 25]</message>
     <message type="starts_with">About to not assert</message>
     <message type="starts_with">About to not assert</message>
     <message type="starts_with">About to not assert</message>

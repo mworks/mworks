@@ -14,6 +14,7 @@
 #include "Utilities.h"
 #include "EventBuffer.h"
 #include "StandardVariables.h"
+#include "StateSystem.h"
 #include <string>
 #include <stdlib.h>
 #include <stdarg.h>
@@ -45,7 +46,21 @@ BEGIN_NAMESPACE_MW
 					 MessageType type, 
 					 MessageDomain domain = M_GENERIC_MESSAGE_DOMAIN) {
 		char buffer[MSG_BUFFER_SIZE];// = { '\0' };
-		vsnprintf(buffer, MSG_BUFFER_SIZE-1, format.c_str(), ap);
+		int length = vsnprintf(buffer, MSG_BUFFER_SIZE, format.c_str(), ap);
+        
+        // If the message is a warning or an error, append line number information (if available)
+        if (type >= M_WARNING_MESSAGE &&
+            length < MSG_BUFFER_SIZE - 1)
+        {
+            boost::shared_ptr<StateSystem> stateSystem = StateSystem::instance(false);
+            boost::shared_ptr<State> currentState;
+            if (stateSystem && (currentState = stateSystem->getCurrentState().lock())) {
+                int currentLineNumber = currentState->getLineNumber();
+                if (currentLineNumber > 0) {
+                    snprintf(buffer + length, MSG_BUFFER_SIZE - length, " [at line %d]", currentLineNumber);
+                }
+            }
+        }
 		
 		if (GlobalMessageVariable) {
             Datum messageDatum(M_DICTIONARY, 4);

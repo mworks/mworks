@@ -35,6 +35,7 @@ BEGIN_NAMESPACE_MW
 		std::string tag;
 		std::string reference_id;
         std::string object_signature;
+        int line_number;
 		
 		// this is a compact, unique identifier for the purpose
 		// of event-sending.  It needs to be small because it might
@@ -51,6 +52,7 @@ BEGIN_NAMESPACE_MW
             new_component->setTag(getTag());
             new_component->setReferenceID(getReferenceID());
             new_component->setObjectSignature(getObjectSignature());
+            new_component->setLineNumber(getLineNumber());
             
             return new_component;
         }
@@ -68,6 +70,7 @@ BEGIN_NAMESPACE_MW
 		Component( const mw::Component& copy ){ 
 			tag = copy.tag;
 			reference_id = copy.reference_id;
+            line_number = copy.line_number;
 		}
 		
 		virtual bool isAmbiguous() const { return false; }
@@ -87,6 +90,9 @@ BEGIN_NAMESPACE_MW
 		
         void setObjectSignature(const std::string &_sig) { object_signature = _sig; }
         const std::string& getObjectSignature() const { return object_signature; }
+        
+        void setLineNumber(int lineNumber) { line_number = lineNumber; }
+        int getLineNumber() const { return line_number; }
         
 		long getCompactID() const { return compact_id; }
 		
