@@ -350,7 +350,7 @@ void DriftingGratingStimulus::drawFrame(shared_ptr<StimulusDisplay> display) {
 		const float mask_t_ratio = 1-std::min(1.0,1.0/aspect);
 		
 		const float phase_proportion = phase/(2*M_PI);
-		const float cycle_proportion = spatial_frequency->getValue().getFloat()*width->getValue().getFloat();
+		const float cycle_proportion = spatial_frequency->getValue().getFloat() * scale_size;
 		
 		glNormal3f(0.0, 0.0, 1.0);
 		

@@ -1,0 +1,27 @@
+<?xml version="1.0" standalone="no"?>
+<monkeyml version="1.0">
+    <io_devices tag="IO Devices"></io_devices>
+    <variables tag="Variables">
+        <variable tag="base_size" scope="global" logging="when_changed" default_value="5" type="any"></variable>
+        <variable tag="expanded_size" scope="global" logging="when_changed" default_value="1.8 * base_size" type="any"></variable>
+        <variable tag="margin" scope="global" logging="when_changed" default_value="0.5" type="any"></variable>
+    </variables>
+    <sounds tag="Sounds"></sounds>
+    <stimuli tag="Stimuli">
+        <stimulus type="drifting_grating" tag="dg1" direction="0" starting_phase="0" spatial_frequency="1" speed="1" grating_type="square" mask="rectangle" std_dev="1" mean="0" x_size="base_size" y_size="base_size" x_position="0" y_position="-0.5 * base_size " rotation="0" alpha_multiplier="1" autoplay="YES"></stimulus>
+        <stimulus type="drifting_grating" tag="dg2" direction="0" starting_phase="0" spatial_frequency="1" speed="1" grating_type="square" mask="rectangle" std_dev="1" mean="0" x_size="base_size" y_size="expanded_size" x_position="0" y_position="0.5 * expanded_size + margin" rotation="0" alpha_multiplier="1" autoplay="YES"></stimulus>
+        <stimulus type="drifting_grating" tag="dg3" direction="0" starting_phase="0" spatial_frequency="1" speed="1" grating_type="square" mask="rectangle" std_dev="1" mean="0" x_size="expanded_size" y_size="base_size" x_position="0" y_position="-(1.5 * base_size + margin)" rotation="0" alpha_multiplier="1" autoplay="YES"></stimulus>
+    </stimuli>
+    <filters tag="Filters"></filters>
+    <optimizers tag="Optimizers"></optimizers>
+    <experiment tag="New Experiment" full_name="" description="">
+        <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
+            <action tag="Queue dg1" type="queue_stimulus" stimulus="dg1"></action>
+            <action tag="Queue dg2" type="queue_stimulus" stimulus="dg2"></action>
+            <action tag="Queue dg3" type="queue_stimulus" stimulus="dg3"></action>
+            <action tag="Update Stimulus Display" type="update_stimulus_display" predicted_output_time=""></action>
+            <action type="report" tag="Report" message="All three gratings should have the same spatial frequency"></action>
+            <action type="wait" tag="Wait" duration="60" duration_units="s"></action>
+        </protocol>
+    </experiment>
+</monkeyml>
