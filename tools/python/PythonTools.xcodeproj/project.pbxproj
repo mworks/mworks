@@ -153,8 +153,10 @@
 			isa = PBXGroup;
 			children = (
 				E18D3B97165538D600D472D0 /* External Config */,
+				E18D3B9D16553B5900D472D0 /* Helpers */,
 				E18D3B7B165537A300D472D0 /* Extension Module */,
 				E18D3BD716554D5F00D472D0 /* Python Modules */,
+				E18D3B7C165537A300D472D0 /* Supporting Files */,
 				E18D3BB9165541D500D472D0 /* Frameworks & Libraries */,
 				E18D3B7A165537A300D472D0 /* Products */,
 			);
@@ -171,11 +173,10 @@
 		E18D3B7B165537A300D472D0 /* Extension Module */ = {
 			isa = PBXGroup;
 			children = (
-				E18D3BA716553CCF00D472D0 /* PythonTools.cpp */,
 				E18D3B9A16553B5900D472D0 /* Conduits */,
 				E18D3BCD1655489C00D472D0 /* Data */,
-				E18D3B9D16553B5900D472D0 /* Helpers */,
-				E18D3B7C165537A300D472D0 /* Supporting Files */,
+				E18D3BA716553CCF00D472D0 /* PythonTools.cpp */,
+				E195639E168208D100C9F863 /* PythonTools-Exports.exp */,
 			);
 			name = "Extension Module";
 			path = PythonTools;
@@ -185,9 +186,9 @@
 			isa = PBXGroup;
 			children = (
 				E18D3B7D165537A300D472D0 /* PythonTools-Prefix.pch */,
-				E195639E168208D100C9F863 /* PythonTools-Exports.exp */,
 			);
 			name = "Supporting Files";
+			path = PythonTools;
 			sourceTree = "<group>";
 		};
 		E18D3B97165538D600D472D0 /* External Config */ = {
@@ -390,6 +391,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E18D3B981655390600D472D0 /* Development.xcconfig */;
 			buildSettings = {
+				HEADER_SEARCH_PATHS = (
+					"$(SDKROOT)/System/Library/Frameworks/Python.framework/Versions/$(MW_PYTHON_VERSION)/include/python$(MW_PYTHON_VERSION)",
+					"$(SDKROOT)/System/Library/Frameworks/Python.framework/Versions/$(MW_PYTHON_VERSION)/Extras/lib/python/numpy/core/include",
+					"$(inherited)",
+				);
 			};
 			name = Development;
 		};
@@ -400,11 +406,6 @@
 				EXPORTED_SYMBOLS_FILE = "PythonTools-Exports.exp";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PythonTools-Prefix.pch";
-				HEADER_SEARCH_PATHS = (
-					"$(SDKROOT)/System/Library/Frameworks/Python.framework/Versions/$(MW_PYTHON_VERSION)/include/python$(MW_PYTHON_VERSION)",
-					"$(SDKROOT)/System/Library/Frameworks/Python.framework/Versions/$(MW_PYTHON_VERSION)/Extras/lib/python/numpy/core/include",
-					"$(inherited)",
-				);
 				LINK_WITH_STANDARD_LIBRARIES = YES;
 				MACH_O_TYPE = mh_bundle;
 				OTHER_LDFLAGS = (
