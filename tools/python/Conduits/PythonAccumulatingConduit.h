@@ -6,13 +6,7 @@
  *
  */
 
-#include <boost/python.hpp>
 #include "PythonSimpleConduit.h"
-
-
-#include <MWorksCore/AccumulatingConduit.h>
-#include <MWorksCore/IPCEventTransport.h>
-#include <MWorksCore/Exceptions.h>
 
 
 namespace mw {

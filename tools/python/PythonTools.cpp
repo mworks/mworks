@@ -12,8 +12,6 @@
 #include "PythonDataBindingsHelpers.h"
 #include "PythonAppHelpers.h"
 
-#include <boost/python/suite/indexing/vector_indexing_suite.hpp>
-
 #define PY_ARRAY_UNIQUE_SYMBOL _mworks_ARRAY_API
 #include <numpy/arrayobject.h>
 

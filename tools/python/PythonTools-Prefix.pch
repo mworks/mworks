@@ -2,5 +2,33 @@
 // Prefix header for all source files of the 'PythonTools' target in the 'PythonTools' project
 //
 
-#include <iostream>
+#include <Python.h>
 
+#include <Scarab/scarab.h>
+#include <Scarab/scarab_utilities.h>
+
+#ifdef __cplusplus
+
+#include <climits>
+#include <cstring>
+#include <string>
+#include <vector>
+
+#include <boost/foreach.hpp>
+#include <boost/noncopyable.hpp>
+#include <boost/python.hpp>
+#include <boost/python/suite/indexing/vector_indexing_suite.hpp>
+#include <boost/scoped_ptr.hpp>
+
+#include <MWorksCore/AccumulatingConduit.h>
+#include <MWorksCore/Clock.h>
+#include <MWorksCore/CodecAwareConduit.h>
+#include <MWorksCore/CoreBuilderForeman.h>
+#include <MWorksCore/Exceptions.h>
+#include <MWorksCore/GenericData.h>
+#include <MWorksCore/IPCEventTransport.h>
+#include <MWorksCore/StandardServerCoreBuilder.h>
+
+#include <dfindex/dfindex.h>
+
+#endif /* defined(__cplusplus) */

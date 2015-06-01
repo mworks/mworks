@@ -8,10 +8,6 @@
 #ifndef PythonDataHelpers_h_
 #define PythonDataHelpers_h_
 
-#include <boost/python.hpp>
-
-#include <MWorksCore/GenericData.h>
-
 
 BEGIN_NAMESPACE_MW
 

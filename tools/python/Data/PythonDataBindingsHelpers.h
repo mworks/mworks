@@ -9,15 +9,6 @@
 #ifndef PYTHON_DATA_BINDINGS_HELPERS_H_
 #define PYTHON_DATA_BINDINGS_HELPERS_H_
 
-#include <Scarab/scarab.h>
-#include <Scarab/scarab_utilities.h>
-#include <boost/python.hpp>
-#include <dfindex/dfindex.h>
-#include <boost/noncopyable.hpp>
-#include <boost/scoped_ptr.hpp>
-#include <string>
-#include <vector>
-
 using namespace boost;
 namespace bp = boost::python;
 

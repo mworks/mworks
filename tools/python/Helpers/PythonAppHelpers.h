@@ -9,8 +9,6 @@
 #ifndef __PythonTools__PythonAppHelpers__
 #define __PythonTools__PythonAppHelpers__
 
-#include <MWorksCore/MWorksMacros.h>
-
 
 BEGIN_NAMESPACE_MW
 

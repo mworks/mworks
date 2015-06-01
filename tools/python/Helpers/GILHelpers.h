@@ -9,12 +9,6 @@
 #ifndef PythonTools_GILHelpers_h
 #define PythonTools_GILHelpers_h
 
-#include <Python.h>
-
-#include <boost/noncopyable.hpp>
-
-#include <MWorksCore/MWorksMacros.h>
-
 
 BEGIN_NAMESPACE_MW
 

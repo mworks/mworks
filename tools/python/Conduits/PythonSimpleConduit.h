@@ -9,17 +9,6 @@
 #ifndef PYTHON_SIMPLE_CONDUIT_H_
 #define PYTHON_SIMPLE_CONDUIT_H_
 
-#include <boost/python.hpp>
-#include <boost/noncopyable.hpp>
-
-#include <MWorksCore/CodecAwareConduit.h>
-#include <MWorksCore/IPCEventTransport.h>
-#include <MWorksCore/Exceptions.h>
-
-#include <MWorksCore/Clock.h>
-#include <MWorksCore/CoreBuilderForeman.h>
-#include <MWorksCore/StandardServerCoreBuilder.h>
-
 #include "GILHelpers.h"
 #include "PythonDataHelpers.h"
 

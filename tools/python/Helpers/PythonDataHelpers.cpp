@@ -7,12 +7,6 @@
 
 #include "PythonDataHelpers.h"
 
-#include <climits>
-#include <cstring>
-
-#include <boost/foreach.hpp>
-#include <boost/noncopyable.hpp>
-
 #define PY_ARRAY_UNIQUE_SYMBOL _mworks_ARRAY_API
 #define NO_IMPORT_ARRAY
 #include <numpy/arrayobject.h>
