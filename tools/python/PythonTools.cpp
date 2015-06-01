@@ -12,7 +12,6 @@
 #include "PythonDataBindingsHelpers.h"
 #include "PythonAppHelpers.h"
 
-#define PY_ARRAY_UNIQUE_SYMBOL _mworks_ARRAY_API
 #include <numpy/arrayobject.h>
 
 

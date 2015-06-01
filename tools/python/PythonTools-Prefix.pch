@@ -27,6 +27,7 @@
 #include <MWorksCore/Exceptions.h>
 #include <MWorksCore/GenericData.h>
 #include <MWorksCore/IPCEventTransport.h>
+#include <MWorksCore/Plugin.h>
 #include <MWorksCore/StandardServerCoreBuilder.h>
 
 #include <dfindex/dfindex.h>

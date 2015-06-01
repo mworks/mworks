@@ -7,7 +7,6 @@
 
 #include "PythonDataHelpers.h"
 
-#define PY_ARRAY_UNIQUE_SYMBOL _mworks_ARRAY_API
 #define NO_IMPORT_ARRAY
 #include <numpy/arrayobject.h>
 
