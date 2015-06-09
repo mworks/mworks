@@ -32,22 +32,6 @@ public:
 };
 
 
-static inline boost::python::object manageNewRef(PyObject *pObj) {
-    if (!pObj) {
-        throw_error_already_set();
-    }
-    return boost::python::object(boost::python::handle<>(pObj));
-}
-
-
-static inline boost::python::object manageBorrowedRef(PyObject *pObj) {
-    if (!pObj) {
-        throw_error_already_set();
-    }
-    return boost::python::object(boost::python::handle<>(boost::python::borrowed(pObj)));
-}
-
-
 Datum convert_python_to_datum(const boost::python::object &obj) {
     ScopedRecursionGuard srg(" while converting Python object to MWorks datum");
     

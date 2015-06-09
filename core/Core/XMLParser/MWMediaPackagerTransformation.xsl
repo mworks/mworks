@@ -30,10 +30,10 @@
 			
 			<xsl:apply-templates mode="paradigm_component_alias"/>
 			<xsl:apply-templates mode="paradigm_component_range_replicator_alias"/>
-			<xsl:apply-templates mode="paradigm_component_list_replicator_alias"/>
+			<xsl:apply-templates mode="paradigm_component_list_replicator_alias"/> -->
 			
 			<xsl:apply-templates mode="action_create"/>
-			<xsl:apply-templates mode="action_connect"/>
+			<!-- <xsl:apply-templates mode="action_connect"/>
 			<xsl:apply-templates mode="spring_loaded_action_connect"/>
 			
 			<xsl:apply-templates mode="list_connect"/>

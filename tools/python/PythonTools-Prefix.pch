@@ -3,6 +3,7 @@
 //
 
 #include <Python.h>
+#include <node.h>
 
 #include <Scarab/scarab.h>
 #include <Scarab/scarab_utilities.h>
@@ -18,6 +19,7 @@
 #include <boost/noncopyable.hpp>
 #include <boost/python.hpp>
 #include <boost/python/suite/indexing/vector_indexing_suite.hpp>
+#include <boost/scope_exit.hpp>
 #include <boost/scoped_ptr.hpp>
 
 #include <MWorksCore/AccumulatingConduit.h>
@@ -28,7 +30,9 @@
 #include <MWorksCore/GenericData.h>
 #include <MWorksCore/IPCEventTransport.h>
 #include <MWorksCore/Plugin.h>
+#include <MWorksCore/StandardComponentFactory.h>
 #include <MWorksCore/StandardServerCoreBuilder.h>
+#include <MWorksCore/TrialBuildingBlocks.h>
 
 #include <dfindex/dfindex.h>
 

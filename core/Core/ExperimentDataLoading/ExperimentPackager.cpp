@@ -161,6 +161,11 @@ void IncludedFilesParser::_processCreateDirective(xmlNode *node) {
 }
 
 
+void IncludedFilesParser::_processAnonymousCreateDirective(xmlNode *node) {
+    _processCreateDirective(node);
+}
+
+
 END_NAMESPACE_MW
 
 

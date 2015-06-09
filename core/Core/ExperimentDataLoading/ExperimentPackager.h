@@ -58,10 +58,10 @@ class IncludedFilesParser : public XMLParser {
 		// instead of building experiment, just look for path arguments and save
 		// the results
         virtual void _processCreateDirective(xmlNode *node);
+        virtual void _processAnonymousCreateDirective(xmlNode *node);
 		
 		// don't do anything for these
 		virtual void _processConnectDirective(xmlNode *node){ }
-		virtual void _processAnonymousCreateDirective(xmlNode *node){ }
 		virtual void _processInstanceDirective(xmlNode *node){ }
 		virtual void _processFinalizeDirective(xmlNode *node){ }
 		
