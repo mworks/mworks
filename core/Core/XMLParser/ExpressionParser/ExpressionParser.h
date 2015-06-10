@@ -242,6 +242,7 @@ protected:
     static Datum	funcUNIFORM_RAND(const paramlist_type& paramlist);
     static Datum	funcDISC_UNIFORM_RAND(const paramlist_type& paramlist);
 	static Datum	funcGEOM_RAND(const paramlist_type& paramlist);
+    static Datum	funcEXP_RAND(const paramlist_type& paramlist);
     
 	static Datum	funcNOW(const paramlist_type& paramlist);
 	static Datum	funcTIMER_EXPIRED(const paramlist_type& paramlist);

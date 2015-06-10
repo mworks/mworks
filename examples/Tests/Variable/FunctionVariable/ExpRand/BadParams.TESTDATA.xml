@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<marionette_info>
+  <expected_messages>
+    <!-- Load-time errors -->
+    <message type="whole_message">ERROR: Failed to generate an exponential random value &lt;=2.5 after 100 tries.  Returning 2.5.</message>
+    <!-- Run-time errors -->
+    <message type="whole_message">ERROR: Failed to generate an exponential random value &lt;=2.5 after 100 tries.  Returning 2.5. [at line 13]</message>
+  </expected_messages>
+</marionette_info>

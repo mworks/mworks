@@ -2259,6 +2259,57 @@ namespace stx MW_SYMBOL_PUBLIC {
 		}
 		return Datum( value );
 	}
+    
+    Datum BasicSymbolTable::funcEXP_RAND(const paramlist_type &paramlist)
+    {
+        if (paramlist.size() < 1 || paramlist.size() > 3) {
+            throw BadFunctionCallException("Function EXP_RAND() requires 1 to 3 parameters");
+        }
+        
+        double beta = paramlist[0].getFloat();
+        double minVal = 0.0;
+        double maxVal = HUGE_VAL;
+        
+        if (paramlist.size() > 1) {
+            minVal = paramlist[1].getFloat();
+            if (paramlist.size() > 2) {
+                maxVal = paramlist[2].getFloat();
+            }
+        }
+        
+        if (beta <= 0.0) {
+            throw BadFunctionCallException("First parameter to function EXP_RAND() must be a positive number");
+        }
+        if (minVal < 0.0) {
+            throw BadFunctionCallException("Second parameter to function EXP_RAND() must be a non-negative number");
+        }
+        if (maxVal <= minVal) {
+            throw BadFunctionCallException("Third parameter to function EXP_RAND() must be greater than second parameter");
+        }
+        
+        if (!seeded) {
+            seed_rng();
+        }
+        
+        boost::random::uniform_real_distribution<> randDist;  // [0, 1)
+        constexpr int maxDraws = 100;
+        
+        for (int i = 0; i < maxDraws; i++) {
+            double result = 1.0 - randDist(rng);  // Include 1, exclude 0
+            result = minVal - beta * std::log(result);
+            if (result <= maxVal) {
+                return Datum( result );
+            }
+        }
+        
+        mw::merror(mw::M_GENERIC_MESSAGE_DOMAIN,
+                   "Failed to generate an exponential random value <=%g after %d tries.  Returning %g.",
+                   maxVal,
+                   maxDraws,
+                   minVal);
+        
+        return Datum( minVal );
+    }
 	
 	
 	
@@ -2285,9 +2336,9 @@ namespace stx MW_SYMBOL_PUBLIC {
 		
 		setFunction("RAND", 0, funcUNIFORM_RAND);
 		setFunction("RAND", 2, funcUNIFORM_RAND);
-		
 		setFunction("DISC_RAND", 2, funcDISC_UNIFORM_RAND);
 		setFunction("GEOM_RAND", 2, funcGEOM_RAND);
+        setFunction("EXP_RAND", -1, funcEXP_RAND);
 		
 		setFunction("NOW", 0, funcNOW);
 		setFunction("TIMEREXPIRED", 1, funcTIMER_EXPIRED);

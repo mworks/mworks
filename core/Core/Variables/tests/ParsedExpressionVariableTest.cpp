@@ -626,6 +626,75 @@ void ParsedExpressionVariableTestFixture::testFloatOverflow() {
 }
 
 
+void ParsedExpressionVariableTestFixture::testExpRandFunction() {
+    auto tryExpr = [](const std::string &expr) {
+        std::string msg("No exception thrown");
+        try {
+            ParsedExpressionVariable::evaluateExpression(expr);
+        } catch (FatalParserException &e) {
+            msg = e.getMessage();
+        }
+        return msg;
+    };
+    
+    // Too few parameters
+    CPPUNIT_ASSERT_EQUAL(std::string("Expression parser error: Function EXP_RAND() requires 1 to 3 parameters"),
+                         tryExpr("exp_rand()"));
+    
+    // Too many parameters
+    CPPUNIT_ASSERT_EQUAL(std::string("Expression parser error: Function EXP_RAND() requires 1 to 3 parameters"),
+                         tryExpr("exp_rand(1,1,1,1)"));
+    
+    // Bad beta
+    CPPUNIT_ASSERT_EQUAL(std::string("Expression parser error: First parameter to function EXP_RAND() must be a positive number"),
+                         tryExpr("exp_rand(-1)"));
+    CPPUNIT_ASSERT_EQUAL(std::string("Expression parser error: First parameter to function EXP_RAND() must be a positive number"),
+                         tryExpr("exp_rand(0)"));
+    
+    // Bad min
+    CPPUNIT_ASSERT_EQUAL(std::string("Expression parser error: Second parameter to function EXP_RAND() must be a non-negative number"),
+                         tryExpr("exp_rand(1, -1)"));
+    
+    // Bad max
+    CPPUNIT_ASSERT_EQUAL(std::string("Expression parser error: Third parameter to function EXP_RAND() must be greater than second parameter"),
+                         tryExpr("exp_rand(1, 1, 1)"));
+    CPPUNIT_ASSERT_EQUAL(std::string("Expression parser error: Third parameter to function EXP_RAND() must be greater than second parameter"),
+                         tryExpr("exp_rand(1, 1, 0)"));
+    
+    // One parameter
+    for (int i = 0; i < 10; i++) {
+        Datum result = ParsedExpressionVariable::evaluateExpression("exp_rand(1)");
+        CPPUNIT_ASSERT(result.isFloat());
+        double value = result.getFloat();
+        CPPUNIT_ASSERT(value >= 0.0);
+    }
+    
+    // Two parameters
+    for (int i = 0; i < 10; i++) {
+        Datum result = ParsedExpressionVariable::evaluateExpression("exp_rand(2, 5)");
+        CPPUNIT_ASSERT(result.isFloat());
+        double value = result.getFloat();
+        CPPUNIT_ASSERT(value >= 5.0);
+    }
+    
+    // Three parameters
+    for (int i = 0; i < 10; i++) {
+        Datum result = ParsedExpressionVariable::evaluateExpression("exp_rand(2, 5, 10)");
+        CPPUNIT_ASSERT(result.isFloat());
+        double value = result.getFloat();
+        CPPUNIT_ASSERT(value >= 5.0);
+        CPPUNIT_ASSERT(value <= 10.0);
+    }
+    
+    // Bad parameters
+    for (int i = 0; i < 10; i++) {
+        Datum result = ParsedExpressionVariable::evaluateExpression("exp_rand(2, 2.5, 2.5 + 1e-7)");
+        CPPUNIT_ASSERT(result.isFloat());
+        CPPUNIT_ASSERT_EQUAL(2.5, result.getFloat());
+    }
+}
+
+
 END_NAMESPACE_MW
 
 
