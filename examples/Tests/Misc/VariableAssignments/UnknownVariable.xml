@@ -1,0 +1,23 @@
+<?xml version="1.0" standalone="no"?>
+<monkeyml version="1.0">
+    <io_devices tag="IO Devices"></io_devices>
+    <variables tag="Variables">
+        <variable tag="x" scope="global" logging="when_changed" default_value="0" type="any"></variable>
+        <variable tag="z" scope="global" logging="when_changed" default_value="0" type="any"></variable>
+    </variables>
+    <sounds tag="Sounds"></sounds>
+    <stimuli tag="Stimuli"></stimuli>
+    <filters tag="Filters"></filters>
+    <optimizers tag="Optimizers"></optimizers>
+    <experiment tag="New Experiment" full_name="" description="">
+        <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
+            <action type="assert" tag="Assert x" condition="x == 1" message="" stop_on_failure="0"></action>
+            <action type="assert" tag="Assert z" condition="z == 3" message="" stop_on_failure="0"></action>
+        </protocol>
+    </experiment>
+    <variable_assignments>
+        <variable_assignment variable="x" type="integer" value="1"/>
+        <variable_assignment variable="y" type="integer" value="2"/>
+        <variable_assignment variable="z" type="integer" value="3"/>
+    </variable_assignments>
+</monkeyml>

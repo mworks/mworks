@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<marionette_info>
+  <expected_messages>
+    <message type="whole_message">ERROR: Unknown variable: y</message>
+  </expected_messages>
+</marionette_info>

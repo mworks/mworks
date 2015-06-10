@@ -1395,8 +1395,14 @@ void XMLParser::_processVariableAssignment(xmlNode *node){
         throw FatalParserException("Variable assignment without 'variable' field detected");
     }
     
-    
-    shared_ptr<Variable> variable = registry->getVariable(variable_name);
+    shared_ptr<Variable> variable;
+    try {
+        variable = registry->getVariable(variable_name);
+    } catch (UnknownVariableException &e) {
+        // If the variable doesn't exist, alert the user and continue parsing
+        merror(e.getDomain(), "%s", e.what());
+        return;
+    }
 	
     Datum value = _parseDataValue(node);
 	
@@ -1405,3 +1411,30 @@ void XMLParser::_processVariableAssignment(xmlNode *node){
 
 
 END_NAMESPACE_MW
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
