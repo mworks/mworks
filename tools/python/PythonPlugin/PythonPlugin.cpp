@@ -7,6 +7,7 @@
 //
 
 #include "RunPythonScriptAction.h"
+#include "RunPythonStringAction.h"
 
 
 BEGIN_NAMESPACE_MW
@@ -15,6 +16,7 @@ BEGIN_NAMESPACE_MW
 class PythonPlugin : public Plugin {
     void registerComponents(boost::shared_ptr<ComponentRegistry> registry) override {
         registry->registerFactory<StandardComponentFactory, RunPythonScriptAction>();
+        registry->registerFactory<StandardComponentFactory, RunPythonStringAction>();
     }
 };
 

@@ -9,11 +9,13 @@
 #ifndef __PythonTools__RunPythonScriptAction__
 #define __PythonTools__RunPythonScriptAction__
 
+#include "RunPythonAction.h"
+
 
 BEGIN_NAMESPACE_MW
 
 
-class RunPythonScriptAction : public Action, boost::noncopyable {
+class RunPythonScriptAction : public RunPythonAction {
     
 public:
     static const std::string PATH;
@@ -21,17 +23,9 @@ public:
     static void describeComponent(ComponentInfo &info);
     
     explicit RunPythonScriptAction(const ParameterValueMap &parameters);
-    ~RunPythonScriptAction();
-    
-    bool execute() override;
     
 private:
-    static void initializePython();
-    
-    static PyObject *globalsDict;
-    
     const boost::filesystem::path filename;
-    PyCodeObject *codeObject;
     
 };
 
