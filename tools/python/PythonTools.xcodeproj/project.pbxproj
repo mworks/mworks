@@ -64,7 +64,7 @@
 		E1D3CAA11B1CB7F700E94A2C /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E18D3BB7165541B900D472D0 /* MWorksCore.framework */; };
 		E1D3CAA21B1CB7FC00E94A2C /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB979116C19843001481E9 /* libboost_system.a */; };
 		E1D3CAA41B1CCAA900E94A2C /* libboost_python.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E18D3BBA1655422F00D472D0 /* libboost_python.a */; };
-		E1D3CAA71B1CCE3400E94A2C /* RunPythonScriptAction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1D3CAA51B1CCE3400E94A2C /* RunPythonScriptAction.cpp */; };
+		E1D3CAA71B1CCE3400E94A2C /* RunPythonFileAction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1D3CAA51B1CCE3400E94A2C /* RunPythonFileAction.cpp */; };
 		E1D3CAA81B1CD18D00E94A2C /* libboost_filesystem.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB978F16C19830001481E9 /* libboost_filesystem.a */; };
 		E1D3CAA91B1CDD4100E94A2C /* PythonDataHelpers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E18D3B9E16553B5900D472D0 /* PythonDataHelpers.cpp */; };
 		E1D645831B31C1ED0092C428 /* RunPythonAction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1D645811B31C1ED0092C428 /* RunPythonAction.cpp */; };
@@ -157,8 +157,8 @@
 		E19C4CB81B1E21BE005380F0 /* PythonException.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PythonException.cpp; sourceTree = "<group>"; };
 		E19C4CB91B1E21BE005380F0 /* PythonException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PythonException.h; sourceTree = "<group>"; };
 		E1D3CA9F1B1CB5E700E94A2C /* PythonPlugin.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PythonPlugin.cpp; sourceTree = "<group>"; };
-		E1D3CAA51B1CCE3400E94A2C /* RunPythonScriptAction.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RunPythonScriptAction.cpp; sourceTree = "<group>"; };
-		E1D3CAA61B1CCE3400E94A2C /* RunPythonScriptAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RunPythonScriptAction.h; sourceTree = "<group>"; };
+		E1D3CAA51B1CCE3400E94A2C /* RunPythonFileAction.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RunPythonFileAction.cpp; sourceTree = "<group>"; };
+		E1D3CAA61B1CCE3400E94A2C /* RunPythonFileAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RunPythonFileAction.h; sourceTree = "<group>"; };
 		E1D645811B31C1ED0092C428 /* RunPythonAction.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RunPythonAction.cpp; sourceTree = "<group>"; };
 		E1D645821B31C1ED0092C428 /* RunPythonAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RunPythonAction.h; sourceTree = "<group>"; };
 		E1D645841B31C5FF0092C428 /* RunPythonStringAction.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RunPythonStringAction.cpp; sourceTree = "<group>"; };
@@ -316,8 +316,8 @@
 			children = (
 				E1D645821B31C1ED0092C428 /* RunPythonAction.h */,
 				E1D645811B31C1ED0092C428 /* RunPythonAction.cpp */,
-				E1D3CAA61B1CCE3400E94A2C /* RunPythonScriptAction.h */,
-				E1D3CAA51B1CCE3400E94A2C /* RunPythonScriptAction.cpp */,
+				E1D3CAA61B1CCE3400E94A2C /* RunPythonFileAction.h */,
+				E1D3CAA51B1CCE3400E94A2C /* RunPythonFileAction.cpp */,
 				E1D645851B31C5FF0092C428 /* RunPythonStringAction.h */,
 				E1D645841B31C5FF0092C428 /* RunPythonStringAction.cpp */,
 			);
@@ -486,7 +486,7 @@
 				E1D3CAA91B1CDD4100E94A2C /* PythonDataHelpers.cpp in Sources */,
 				E1D645831B31C1ED0092C428 /* RunPythonAction.cpp in Sources */,
 				E19C4CBA1B1E21BE005380F0 /* PythonException.cpp in Sources */,
-				E1D3CAA71B1CCE3400E94A2C /* RunPythonScriptAction.cpp in Sources */,
+				E1D3CAA71B1CCE3400E94A2C /* RunPythonFileAction.cpp in Sources */,
 				E1D645861B31C5FF0092C428 /* RunPythonStringAction.cpp in Sources */,
 				E1D3CAA01B1CB5E700E94A2C /* PythonPlugin.cpp in Sources */,
 			);

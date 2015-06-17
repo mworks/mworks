@@ -20,7 +20,7 @@ const std::string RunPythonStringAction::CODE("code");
 
 void RunPythonStringAction::describeComponent(ComponentInfo &info) {
     RunPythonAction::describeComponent(info);
-    info.setSignature("action/run_python");
+    info.setSignature("action/run_python_string");
     info.addParameter(CODE);
 }
 
