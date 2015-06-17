@@ -1,0 +1,37 @@
+<MWElements>
+
+  <MWElement name="Run Python File">
+    <match_signature>action[@type="run_python_file"]</match_signature>
+
+    <isa>Action</isa>
+
+    <description>
+Execute the specified file as Python source code
+    </description>
+
+    <code>
+      <action type="run_python_file"
+              tag="Run Python File"
+              path=""
+              />
+    </code>
+  </MWElement>
+
+  <MWElement name="Run Python String">
+    <match_signature>action[@type="run_python_string"]</match_signature>
+
+    <isa>Action</isa>
+
+    <description>
+Execute the given string as Python source code
+    </description>
+
+    <code>
+      <action type="run_python_string"
+              tag="Run Python String"
+              code=""
+              />
+    </code>
+  </MWElement>
+
+</MWElements>

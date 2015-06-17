@@ -95,9 +95,14 @@ static PyMethodDef methods[] = {
 PyObject * RunPythonAction::globalsDict = nullptr;
 
 
-void RunPythonAction::initializePython() {
+RunPythonAction::RunPythonAction(const ParameterValueMap &parameters) :
+    Action(parameters),
+    codeObject(nullptr)
+{
+    //
+    // Perform one-time initialization of Python environment
+    //
     static std::once_flag initFlag;
-    
     std::call_once(initFlag, []() {
         //
         // Initialize Python interpreter
@@ -125,6 +130,7 @@ void RunPythonAction::initializePython() {
             throw PythonException("Unable to import Python __main__ module");
         }
         globalsDict = PyModule_GetDict(mainModule);  // Borrowed ref, never fails
+        Py_INCREF(globalsDict);  // Upgrade to owned ref
         
         //
         // Create mworkscore module and import its functions into __main__
@@ -135,20 +141,7 @@ void RunPythonAction::initializePython() {
             throw PythonException("Unable to import mworkscore methods into Python __main__ module");
         }
         Py_DECREF(result);
-        
-        //
-        // Retain reference to globalsDict
-        //
-        Py_INCREF(globalsDict);
     });
-}
-
-
-RunPythonAction::RunPythonAction(const ParameterValueMap &parameters) :
-    Action(parameters),
-    codeObject(nullptr)
-{
-    initializePython();
 }
 
 
@@ -161,7 +154,8 @@ RunPythonAction::~RunPythonAction() {
 bool RunPythonAction::execute() {
     ScopedGILAcquire sga;
     
-    assert(codeObject);
+    assert(codeObject);  // codeObject must be created by subclasses
+    
     PyObject *result = PyEval_EvalCode(codeObject, globalsDict, globalsDict);
     if (!result) {
         PythonException::logError("Python execution failed");

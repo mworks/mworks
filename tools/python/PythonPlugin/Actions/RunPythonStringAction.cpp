@@ -26,12 +26,11 @@ void RunPythonStringAction::describeComponent(ComponentInfo &info) {
 
 
 RunPythonStringAction::RunPythonStringAction(const ParameterValueMap &parameters) :
-    RunPythonAction(parameters),
-    code(parameters[CODE].str())
+    RunPythonAction(parameters)
 {
     ScopedGILAcquire sga;
     
-    struct _node *node = PyParser_SimpleParseString(code.c_str(), Py_file_input);
+    struct _node *node = PyParser_SimpleParseString(parameters[CODE].str().c_str(), Py_file_input);
     BOOST_SCOPE_EXIT(node) {
         PyNode_Free(node);
     } BOOST_SCOPE_EXIT_END

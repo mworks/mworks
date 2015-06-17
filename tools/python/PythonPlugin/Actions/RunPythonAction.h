@@ -25,8 +25,6 @@ protected:
     PyCodeObject *codeObject;
     
 private:
-    static void initializePython();
-    
     static PyObject *globalsDict;
     
 };

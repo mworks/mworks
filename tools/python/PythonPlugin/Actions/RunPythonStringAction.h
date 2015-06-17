@@ -24,9 +24,6 @@ public:
     
     explicit RunPythonStringAction(const ParameterValueMap &parameters);
     
-private:
-    const std::string code;
-    
 };
 
 

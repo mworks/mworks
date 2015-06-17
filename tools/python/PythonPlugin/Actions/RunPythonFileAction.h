@@ -24,9 +24,6 @@ public:
     
     explicit RunPythonFileAction(const ParameterValueMap &parameters);
     
-private:
-    const boost::filesystem::path filename;
-    
 };
 
 
