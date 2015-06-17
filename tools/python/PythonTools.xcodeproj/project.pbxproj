@@ -311,17 +311,25 @@
 			path = PythonTools;
 			sourceTree = "<group>";
 		};
-		E1E6039F1B1904D2009BA19D /* PythonPlugin */ = {
+		E1D645871B31CDCC0092C428 /* Actions */ = {
 			isa = PBXGroup;
 			children = (
-				E19C4CB91B1E21BE005380F0 /* PythonException.h */,
-				E19C4CB81B1E21BE005380F0 /* PythonException.cpp */,
 				E1D645821B31C1ED0092C428 /* RunPythonAction.h */,
 				E1D645811B31C1ED0092C428 /* RunPythonAction.cpp */,
 				E1D3CAA61B1CCE3400E94A2C /* RunPythonScriptAction.h */,
 				E1D3CAA51B1CCE3400E94A2C /* RunPythonScriptAction.cpp */,
 				E1D645851B31C5FF0092C428 /* RunPythonStringAction.h */,
 				E1D645841B31C5FF0092C428 /* RunPythonStringAction.cpp */,
+			);
+			path = Actions;
+			sourceTree = "<group>";
+		};
+		E1E6039F1B1904D2009BA19D /* PythonPlugin */ = {
+			isa = PBXGroup;
+			children = (
+				E1D645871B31CDCC0092C428 /* Actions */,
+				E19C4CB91B1E21BE005380F0 /* PythonException.h */,
+				E19C4CB81B1E21BE005380F0 /* PythonException.cpp */,
 				E1D3CA9F1B1CB5E700E94A2C /* PythonPlugin.cpp */,
 				E1E603A01B1904D2009BA19D /* Supporting Files */,
 			);
