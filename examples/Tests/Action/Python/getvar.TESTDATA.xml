@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<marionette_info>
+  <expected_messages>
+    <message type="contains">TypeError: getvar() takes exactly 1 argument (0 given)</message>
+    <message type="contains">TypeError: getvar() takes exactly 1 argument (2 given)</message>
+    <message type="contains">TypeError: must be string, not int</message>
+    <message type="contains">RuntimeError: Unknown variable: z</message>
+    <message type="contains">TypeError: unhashable type: 'list'</message>
+  </expected_messages>
+</marionette_info>

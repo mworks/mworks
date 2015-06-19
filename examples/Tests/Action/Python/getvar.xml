@@ -1,0 +1,22 @@
+<?xml version="1.0" standalone="no"?>
+<monkeyml version="1.0">
+    <io_devices tag="IO Devices"></io_devices>
+    <variables tag="Variables">
+        <variable tag="x" scope="global" logging="when_changed" default_value="123" type="any"></variable>
+        <variable tag="y" scope="global" logging="when_changed" default_value="{[1]: 'foo'}" type="any"></variable>
+    </variables>
+    <sounds tag="Sounds"></sounds>
+    <stimuli tag="Stimuli"></stimuli>
+    <filters tag="Filters"></filters>
+    <optimizers tag="Optimizers"></optimizers>
+    <experiment tag="New Experiment" full_name="" description="">
+        <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
+            <action type="run_python_string" tag="Too few args" code="getvar()"></action>
+            <action type="run_python_string" tag="Too many args" code="getvar('x', 'y')"></action>
+            <action type="run_python_string" tag="Wrong arg type" code="getvar(3)"></action>
+            <action type="run_python_string" tag="Unknown variable" code="getvar('z')"></action>
+            <action type="run_python_string" tag="Unconvertible value" code="getvar('y')"></action>
+            <action type="run_python_string" tag="Success" code="assert getvar('x') == 123"></action>
+        </protocol>
+    </experiment>
+</monkeyml>

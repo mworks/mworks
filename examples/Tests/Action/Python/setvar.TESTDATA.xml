@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<marionette_info>
+  <expected_messages>
+    <message type="contains">TypeError: setvar() takes exactly 2 arguments (1 given)</message>
+    <message type="contains">TypeError: setvar() takes exactly 2 arguments (3 given)</message>
+    <message type="contains">TypeError: must be string, not int</message>
+    <message type="contains">RuntimeError: Unknown variable: y</message>
+    <message type="contains">TypeError: Cannot convert object of type object</message>
+  </expected_messages>
+</marionette_info>
