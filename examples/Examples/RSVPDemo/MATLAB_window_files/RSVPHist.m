@@ -85,13 +85,13 @@ for histind = 1:length(stimstart)
     stimspks = spiketimes(find(spiketimes >= stimstart(histind)-150 & spiketimes <= (stimstart(histind)+500)))-stimstart(histind);
     %plot(ax(stimnum(histind)),stimspks,trialnum(stimnum(histind)).*ones(size(stimspks)),'k*','MarkerSize',[2]);
     raster(trialnum(stimnum(histind)),stimnum(histind)).spiketimes = stimspks;
-    [N2,BIN] = HISTC([raster(:,stimnum(histind)).spiketimes],timebins);
+    [N2,BIN] = histc(cast([raster(:,stimnum(histind)).spiketimes], 'double'),timebins);
     if isempty(N2)
         N2 = zeros(length(timebins));
     end
     FR2 = (N2*1000)./(trialnum(stimnum(histind))*binwidth)
     if trialnum(stimnum(histind)) > 1
-        [N1,BIN] = HISTC([raster(1:trialnum(stimnum(histind))-1,stimnum(histind)).spiketimes],timebins);
+        [N1,BIN] = histc(cast([raster(1:trialnum(stimnum(histind))-1,stimnum(histind)).spiketimes], 'double'),timebins);
         if isempty(N1)
             N1 = zeros(length(timebins));
         end
