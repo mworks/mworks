@@ -91,6 +91,7 @@ int ScarabReadConnection::service() {
     if(getScarabError(pipe)) {
         // TODO: should this be a warning or debug message
 		mwarning(M_NETWORK_MESSAGE_DOMAIN, "Session Failure on ID %ld", cid);
+        logDescriptiveScarabMessage(pipe);
         servicing = false;
         if(sibling) {
             sibling->setInterrupt(true);
@@ -109,6 +110,7 @@ int ScarabReadConnection::service() {
 		if(getScarabError(pipe)) {
 			// TODO: should this be a warning or debug message
 			mwarning(M_NETWORK_MESSAGE_DOMAIN, "Session Failure on ID %ld", cid);
+            logDescriptiveScarabMessage(pipe);
 			servicing = false;
 			if(sibling) {
 				sibling->setInterrupt(true);

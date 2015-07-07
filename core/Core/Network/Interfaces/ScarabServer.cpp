@@ -411,6 +411,7 @@ int ScarabServer::service() {
         if(getScarabError(listeningSocket)) {
             merror(M_NETWORK_MESSAGE_DOMAIN, 
 				   "Session failure on listening socket");
+            logDescriptiveScarabMessage(listeningSocket);
             return -1;
         }
         // this number should eventually come from the network

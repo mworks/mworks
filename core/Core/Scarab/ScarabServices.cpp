@@ -80,11 +80,11 @@ BEGIN_NAMESPACE_MW
 		int scCode = getScarabError(s); // scarab error code
 		int oserr = getScarabOSError(s);
     const char *scarab_error_string = scarab_strerror(scCode);
-		mnetwork("ERROR: SCR-%5.5i: %s: %s", scCode, scarab_moderror(scCode),
+		mwarning(M_NETWORK_MESSAGE_DOMAIN, "ERROR: SCR-%5.5i: %s: %s", scCode, scarab_moderror(scCode),
 				 scarab_error_string);
 		if(oserr) {
       const char *scarab_os_error_string = scarab_os_strerror(oserr);
-			mnetwork("OSERR: %i: %s", oserr, scarab_os_error_string);
+			mwarning(M_NETWORK_MESSAGE_DOMAIN, "OSERR: %i: %s", oserr, scarab_os_error_string);
 		} 
 	}
 

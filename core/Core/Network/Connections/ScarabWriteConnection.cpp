@@ -100,6 +100,7 @@ int ScarabWriteConnection::service() {
 //        functionCount++;
         if(getScarabError(pipe)) {
             mwarning(M_NETWORK_MESSAGE_DOMAIN, "Session Failure on ID %ld", cid);
+            logDescriptiveScarabMessage(pipe);
             servicing = false;
             if(sibling) {
                 sibling->setInterrupt(true);
