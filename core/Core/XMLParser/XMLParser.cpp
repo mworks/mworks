@@ -151,7 +151,11 @@ static NSString* extractPreprocessorPath(NSString *text) {
     static const boost::regex mwppRegex("\\h+mwpp=\"(?<path>.+?)\"");
     boost::smatch matchResult;
     
-    if (!boost::regex_search(std::string([text UTF8String]), matchResult, mwppRegex)) {
+    // matchResult.str() requires iterators to the input string to remain valid,
+    // so we need to keep the input string around until this function returns
+    const std::string textStr([text UTF8String]);
+    
+    if (!boost::regex_search(textStr, matchResult, mwppRegex)) {
         return nil;
     }
     
