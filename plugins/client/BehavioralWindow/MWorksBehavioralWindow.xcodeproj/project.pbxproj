@@ -35,7 +35,7 @@
 /* Begin PBXBuildFile section */
 		0E5505000AADB7FE00987B47 /* MWorksBehavioralWindow.xml in Resources */ = {isa = PBXBuildFile; fileRef = 0E5504FF0AADB7FE00987B47 /* MWorksBehavioralWindow.xml */; };
 		0E5505030AADB81800987B47 /* MWBehavioralWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E5505020AADB81800987B47 /* MWBehavioralWindowController.m */; };
-		5C07403C0B25D5DD00B39336 /* Main.nib in Resources */ = {isa = PBXBuildFile; fileRef = 5C07403B0B25D5DD00B39336 /* Main.nib */; };
+		5C07403C0B25D5DD00B39336 /* Main.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5C07403B0B25D5DD00B39336 /* Main.xib */; };
 		5CF17CD011000D0700B7EF53 /* Narrative.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CF17CCF11000D0700B7EF53 /* Narrative.framework */; };
 		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
 		E12D990A16BC2E29004FEF79 /* MWorksBehavioralWindow.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = 686E22E50AC84B66003EFDDA /* MWorksBehavioralWindow.bundle */; };
@@ -91,7 +91,7 @@
 		0E5504FF0AADB7FE00987B47 /* MWorksBehavioralWindow.xml */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; path = MWorksBehavioralWindow.xml; sourceTree = "<group>"; };
 		0E5505010AADB81800987B47 /* MWBehavioralWindowController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MWBehavioralWindowController.h; sourceTree = "<group>"; };
 		0E5505020AADB81800987B47 /* MWBehavioralWindowController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = MWBehavioralWindowController.m; sourceTree = "<group>"; };
-		5C07403B0B25D5DD00B39336 /* Main.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = Main.nib; sourceTree = "<group>"; };
+		5C07403B0B25D5DD00B39336 /* Main.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Main.xib; sourceTree = "<group>"; };
 		5CE62AAD1158589000C757F1 /* Development.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Development.xcconfig; path = "/Library/Application Support/MWorks/Developer/Xcode/Development.xcconfig"; sourceTree = "<absolute>"; };
 		5CE62AAE1158589000C757F1 /* WARNING.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = WARNING.txt; path = "/Library/Application Support/MWorks/Developer/Xcode/WARNING.txt"; sourceTree = "<absolute>"; };
 		5CF17CCF11000D0700B7EF53 /* Narrative.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Narrative.framework; path = "/Library/Application Support/MWorks/Developer/Frameworks/Narrative.framework"; sourceTree = "<absolute>"; };
@@ -145,7 +145,7 @@
 		089C167CFE841241C02AAC07 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				5C07403B0B25D5DD00B39336 /* Main.nib */,
+				5C07403B0B25D5DD00B39336 /* Main.xib */,
 				8D5B49B7048680CD000E48DA /* Info.plist */,
 				089C167DFE841241C02AAC07 /* InfoPlist.strings */,
 			);
@@ -244,7 +244,7 @@
 			files = (
 				8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */,
 				0E5505000AADB7FE00987B47 /* MWorksBehavioralWindow.xml in Resources */,
-				5C07403C0B25D5DD00B39336 /* Main.nib in Resources */,
+				5C07403C0B25D5DD00B39336 /* Main.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
