@@ -571,29 +571,38 @@
                                 <textField verticalHuggingPriority="750" id="155">
                                     <rect key="frame" x="82" y="78" width="156" height="22"/>
                                     <autoresizingMask key="autoresizingMask"/>
-                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" title="success" drawsBackground="YES" id="623">
+                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="623">
                                         <font key="font" metaFont="system"/>
                                         <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                     </textFieldCell>
+                                    <connections>
+                                        <binding destination="480" name="value" keyPath="values.Behavioral Window - success" id="wdw-Jx-wzR"/>
+                                    </connections>
                                 </textField>
                                 <textField verticalHuggingPriority="750" id="159">
                                     <rect key="frame" x="82" y="46" width="156" height="22"/>
                                     <autoresizingMask key="autoresizingMask"/>
-                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" title="failure" drawsBackground="YES" id="627">
+                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="627">
                                         <font key="font" metaFont="system"/>
                                         <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                     </textFieldCell>
+                                    <connections>
+                                        <binding destination="480" name="value" keyPath="values.Behavioral Window - failure" id="dS9-1T-OAN"/>
+                                    </connections>
                                 </textField>
                                 <textField verticalHuggingPriority="750" id="156">
                                     <rect key="frame" x="82" y="14" width="156" height="22"/>
                                     <autoresizingMask key="autoresizingMask"/>
-                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" title="ignore" drawsBackground="YES" id="624">
+                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="624">
                                         <font key="font" metaFont="system"/>
                                         <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                     </textFieldCell>
+                                    <connections>
+                                        <binding destination="480" name="value" keyPath="values.Behavioral Window - ignored" id="MLH-5w-yBE"/>
+                                    </connections>
                                 </textField>
                                 <textField verticalHuggingPriority="750" id="154">
                                     <rect key="frame" x="11" y="80" width="114" height="17"/>

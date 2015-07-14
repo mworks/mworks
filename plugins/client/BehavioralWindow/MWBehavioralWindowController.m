@@ -14,6 +14,10 @@ Copy right 2006 MIT. All rights reserved.
 
 #define BEHAVIORIAL_CALLBACK_KEY "MWorksBehaviorialWindowCallbackKey"
 
+#define BEHAVIORIAL_WINDOW_SUCCESS_KEY @"Behavioral Window - success"
+#define BEHAVIORIAL_WINDOW_FAILURE_KEY @"Behavioral Window - failure"
+#define BEHAVIORIAL_WINDOW_IGNORED_KEY @"Behavioral Window - ignored"
+
 NSString *percentCorrectPlotIdentifier = @"PercentCorrectLinePlot";
 
 @interface MWBehavioralWindowController(PrivateMethods)
@@ -227,6 +231,17 @@ NSString *percentCorrectPlotIdentifier = @"PercentCorrectLinePlot";
 }
 
 - (void)awakeFromNib {
+    // Register default values for preferences
+    {
+        NSMutableDictionary *defaultValues = [NSMutableDictionary dictionary];
+        
+        [defaultValues setObject:@"success" forKey:BEHAVIORIAL_WINDOW_SUCCESS_KEY];
+        [defaultValues setObject:@"failure" forKey:BEHAVIORIAL_WINDOW_FAILURE_KEY];
+        [defaultValues setObject:@"ignore" forKey:BEHAVIORIAL_WINDOW_IGNORED_KEY];
+        
+        [[NSUserDefaults standardUserDefaults] registerDefaults:defaultValues];
+    }
+    
 	CorrectCodecCode = -1;
 	FailureCodecCode = -1;
 	IgnoredCodecCode = -1;
