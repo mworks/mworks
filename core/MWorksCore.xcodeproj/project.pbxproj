@@ -84,7 +84,6 @@
 		0E1DB6A20B4EB99E000C0D68 /* ExperimentUnpackager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E1DB69B0B4EB878000C0D68 /* ExperimentUnpackager.cpp */; };
 		0E209C670E63067800F00BAD /* MarionetteParserTransformation.xsl in Resources */ = {isa = PBXBuildFile; fileRef = 0E209C660E63067800F00BAD /* MarionetteParserTransformation.xsl */; };
 		0E209D0A0E632EBD00F00BAD /* MarionetteEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E209D090E632EBD00F00BAD /* MarionetteEvent.m */; };
-		0E2BB2E40E4B5A54002E125B /* Marionette.nib in Resources */ = {isa = PBXBuildFile; fileRef = 0E2BB2E20E4B5A54002E125B /* Marionette.nib */; };
 		0E2FE5A10EF00CC900CEB818 /* ParsedColorTrio.h in Headers */ = {isa = PBXBuildFile; fileRef = 0E2FE59F0EF00CC900CEB818 /* ParsedColorTrio.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0E2FE5A20EF00CC900CEB818 /* ParsedColorTrio.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E2FE5A00EF00CC900CEB818 /* ParsedColorTrio.cpp */; };
 		0E39EB250E4BD43B006F38A0 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E39EB220E4BD41F006F38A0 /* main.cpp */; };
@@ -427,6 +426,7 @@
 		E1A691541A83DD1800CE914C /* vecLib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1A691531A83DD1800CE914C /* vecLib.framework */; };
 		E1C87A1313FDA558005FF5ED /* DynamicStimulusActions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1C87A1213FDA558005FF5ED /* DynamicStimulusActions.cpp */; };
 		E1C87A1513FDA56F005FF5ED /* DynamicStimulusActions.h in Headers */ = {isa = PBXBuildFile; fileRef = E1C87A1413FDA56F005FF5ED /* DynamicStimulusActions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E1CA92A61B5554EF00DF78B9 /* Marionette.xib in Resources */ = {isa = PBXBuildFile; fileRef = E1CA92A51B5554EF00DF78B9 /* Marionette.xib */; };
 		E1CBF63E16BAF3190057CE48 /* MWorksCore.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = DA2CE0D407E9F68100C68AEF /* MWorksCore.framework */; };
 		E1CBF64016BAF32A0057CE48 /* setup_variables_macbook.xml in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0E1AE9920EF1A9EE00C224F1 /* setup_variables_macbook.xml */; };
 		E1CBF64116BAF32B0057CE48 /* setup_variables_two_monitors.xml in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0E1AE9A70EF1AB5500C224F1 /* setup_variables_two_monitors.xml */; };
@@ -683,7 +683,6 @@
 		0E209C660E63067800F00BAD /* MarionetteParserTransformation.xsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MarionetteParserTransformation.xsl; sourceTree = "<group>"; };
 		0E209D080E632EBD00F00BAD /* MarionetteEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MarionetteEvent.h; sourceTree = "<group>"; };
 		0E209D090E632EBD00F00BAD /* MarionetteEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MarionetteEvent.m; sourceTree = "<group>"; };
-		0E2BB2E30E4B5A54002E125B /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/Marionette.nib; sourceTree = "<group>"; };
 		0E2FE59F0EF00CC900CEB818 /* ParsedColorTrio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParsedColorTrio.h; sourceTree = "<group>"; };
 		0E2FE5A00EF00CC900CEB818 /* ParsedColorTrio.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ParsedColorTrio.cpp; sourceTree = "<group>"; };
 		0E39EB030E4BD33D006F38A0 /* MarionetteTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MarionetteTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1060,6 +1059,7 @@
 		E1A691531A83DD1800CE914C /* vecLib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = vecLib.framework; path = System/Library/Frameworks/vecLib.framework; sourceTree = SDKROOT; };
 		E1C87A1213FDA558005FF5ED /* DynamicStimulusActions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DynamicStimulusActions.cpp; sourceTree = "<group>"; };
 		E1C87A1413FDA56F005FF5ED /* DynamicStimulusActions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DynamicStimulusActions.h; sourceTree = "<group>"; };
+		E1CA92A51B5554EF00DF78B9 /* Marionette.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Marionette.xib; sourceTree = "<group>"; };
 		E1DB974816C16BEE001481E9 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
 		E1DB974A16C16C1F001481E9 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
 		E1DB974C16C16C30001481E9 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -1224,7 +1224,7 @@
 				0E209C660E63067800F00BAD /* MarionetteParserTransformation.xsl */,
 				0EB975970E624D2F00632F05 /* default_test_data.xml */,
 				0E8014140E422E2A00D6DE20 /* MarionetteTest-Info.plist */,
-				0E2BB2E20E4B5A54002E125B /* Marionette.nib */,
+				E1CA92A51B5554EF00DF78B9 /* Marionette.xib */,
 				0EE137C10E429B23009B47B5 /* MWCocoaEvent.h */,
 				0EE137C20E429B23009B47B5 /* MWCocoaEvent.m */,
 				0EAE96050E4295FC0005613A /* MWCocoaEventFunctor.h */,
@@ -2578,7 +2578,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0E2BB2E40E4B5A54002E125B /* Marionette.nib in Resources */,
+				E1CA92A61B5554EF00DF78B9 /* Marionette.xib in Resources */,
 				0EB975980E624D2F00632F05 /* default_test_data.xml in Resources */,
 				0E209C670E63067800F00BAD /* MarionetteParserTransformation.xsl in Resources */,
 			);
@@ -2971,17 +2971,6 @@
 			targetProxy = E1CBF66616BAFB340057CE48 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
-
-/* Begin PBXVariantGroup section */
-		0E2BB2E20E4B5A54002E125B /* Marionette.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				0E2BB2E30E4B5A54002E125B /* English */,
-			);
-			name = Marionette.nib;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		0E8014150E422E2B00D6DE20 /* Development */ = {

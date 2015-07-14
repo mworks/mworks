@@ -38,7 +38,7 @@
 		0E1F31A00C5B1EB700EB89EA /* MWConsoleController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E1F319C0C5B1EB700EB89EA /* MWConsoleController.m */; };
 		0E1F31A10C5B1EB700EB89EA /* MWMessageContainer.h in Headers */ = {isa = PBXBuildFile; fileRef = 0E1F319D0C5B1EB700EB89EA /* MWMessageContainer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0E1F31A20C5B1EB700EB89EA /* MWMessageContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E1F319E0C5B1EB700EB89EA /* MWMessageContainer.m */; };
-		0E1F32130C5B26BC00EB89EA /* ConsoleWindow.nib in Resources */ = {isa = PBXBuildFile; fileRef = 0E1F32120C5B26BC00EB89EA /* ConsoleWindow.nib */; };
+		0E1F32130C5B26BC00EB89EA /* ConsoleWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E1F32120C5B26BC00EB89EA /* ConsoleWindow.xib */; };
 		0E36D05F0C7A2F440050471A /* MWWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = 0E36D05D0C7A2F440050471A /* MWWindowController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0E36D0600C7A2F440050471A /* MWWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E36D05E0C7A2F440050471A /* MWWindowController.m */; };
 		0E727A1B0CB64819000C7B3F /* MWConsoleToolbar.h in Headers */ = {isa = PBXBuildFile; fileRef = 0E727A190CB64819000C7B3F /* MWConsoleToolbar.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -118,7 +118,7 @@
 		0E1F319C0C5B1EB700EB89EA /* MWConsoleController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = MWConsoleController.m; sourceTree = "<group>"; };
 		0E1F319D0C5B1EB700EB89EA /* MWMessageContainer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MWMessageContainer.h; sourceTree = "<group>"; };
 		0E1F319E0C5B1EB700EB89EA /* MWMessageContainer.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = MWMessageContainer.m; sourceTree = "<group>"; };
-		0E1F32120C5B26BC00EB89EA /* ConsoleWindow.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = ConsoleWindow.nib; sourceTree = "<group>"; };
+		0E1F32120C5B26BC00EB89EA /* ConsoleWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ConsoleWindow.xib; sourceTree = "<group>"; };
 		0E36D05D0C7A2F440050471A /* MWWindowController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MWWindowController.h; sourceTree = "<group>"; };
 		0E36D05E0C7A2F440050471A /* MWWindowController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = MWWindowController.m; sourceTree = "<group>"; };
 		0E727A190CB64819000C7B3F /* MWConsoleToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWConsoleToolbar.h; sourceTree = "<group>"; };
@@ -239,7 +239,7 @@
 		0E1F32110C5B26BC00EB89EA /* NIBs */ = {
 			isa = PBXGroup;
 			children = (
-				0E1F32120C5B26BC00EB89EA /* ConsoleWindow.nib */,
+				0E1F32120C5B26BC00EB89EA /* ConsoleWindow.xib */,
 			);
 			path = NIBs;
 			sourceTree = "<group>";
@@ -414,7 +414,7 @@
 				5C58924A09D0BA2C00F9D2C5 /* warningGlyph.tif in Resources */,
 				5C58924C09D0BAF300F9D2C5 /* messageGlyph.tif in Resources */,
 				5C4D285109DD90B40082BF9F /* Localizable.strings in Resources */,
-				0E1F32130C5B26BC00EB89EA /* ConsoleWindow.nib in Resources */,
+				0E1F32130C5B26BC00EB89EA /* ConsoleWindow.xib in Resources */,
 				0E7EEF210C73529D005C39C0 /* Console.tif in Resources */,
 				0E7EEF3A0C735403005C39C0 /* greenCheck.tif in Resources */,
 				0E7EEF3B0C735403005C39C0 /* redX.tif in Resources */,
