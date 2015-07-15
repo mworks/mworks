@@ -21,7 +21,7 @@ Copy right 2006 MIT. All rights reserved.
 
 @protocol MWDataEventListenerProtocol;
 
-@interface MWBehavioralWindowController : NSWindowController {
+@interface MWBehavioralWindowController : NSWindowController <MWClientPluginWorkspaceState> {
 		
 		// editable text field	(this contains the variable to screen in the data stream)							
 		IBOutlet NSTextField *CorrectVariableField;
@@ -75,8 +75,6 @@ Copy right 2006 MIT. All rights reserved.
 		int percentFailureInSession;
 		int percentIgnoredInSession;
 		
-		BOOL VariableCheck;
-		
 		IBOutlet id<MWClientProtocol> delegate;
         IBOutlet NSTextField *addNotebookEntryField;
         IBOutlet NSTextView *notebookField;
@@ -108,7 +106,6 @@ Copy right 2006 MIT. All rights reserved.
 - (IBAction)resetPerformanceInSession:(id)sender;
 - (IBAction)launchOptionsSheet:(id)sender;
 - (IBAction)acceptOptionsSheet:(id)sender;
-- (IBAction)cancelOptionsSheet:(id)sender;
 
 
 - (void) updatePercentages;
