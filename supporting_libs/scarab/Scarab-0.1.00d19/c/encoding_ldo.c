@@ -137,18 +137,18 @@ ldo_readber(ScarabSession * session)
 {
 	long long           val;
 	unsigned char   c;
-    int             b_read;
     
 	val = 0;
-	b_read = scarab_session_read(session, &c, 1);
-  //  fprintf(stderr, "bytes read from readber %d\n", b_read);
-	while ((c & 0x80) != 0)
-	{
-		val = (val << 7) + (c & 0x7f);
-		b_read = scarab_session_read(session, &c, 1);
-  //      fprintf(stderr, "bytes read from readber %d\n", b_read);
-	}
-	val = (val << 7) + c;
+    
+	do {
+        if (0 == scarab_session_read(session, &c, 1)) {
+            fprintf(stderr, "Scarab session ended unexpectedly; data stream may be corrupt\n");
+            fflush(stderr);
+            break;
+        }
+        val = (val << 7) + (c & 0x7f);
+    } while ((c & 0x80) != 0);
+    
 	return val;
 }
 
