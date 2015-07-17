@@ -251,6 +251,10 @@ int ScarabWriteConnection::service() {
 			}
         } 
 
+        // Ensure that writes to file-based sessions are flushed to disk.  This helps to avoid
+        // the situation where the on-disk data ends in a partially-written event, which generally
+        // leads to a crash in Scarab when the user attempts to read the file.
+        scarab_session_flush(pipe);
 
         servicing = false;
 
