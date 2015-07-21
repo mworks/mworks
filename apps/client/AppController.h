@@ -129,6 +129,7 @@
 - (IBAction)openWorkspace:(id)sender;
 - (void)loadWorkspaceFromURL:(NSURL *)workspaceURL;
 - (IBAction)saveWorkspace:(id)sender;
+- (IBAction)closeWorkspace:(id)sender;
 
 @end
 

@@ -501,12 +501,12 @@
 
 - (BOOL)application:(NSApplication *)theApplication openFile:(NSString *)filename
 {
-    // We need to check for a server connection to prevent the user from using the recent documents menu to open
+    // We need to check for a loaded experiment to prevent the user from using the recent documents menu to open
     // a new workspace on top of an existing one.  A better approach would be to disable all items in the recent
     // documents menu when a workspace is loaded (as we do with the "Open Workspace" menu item); however, I haven't
     // been able to figure out how to do that.
     
-    if (![modalClientInstanceInCharge serverConnected]) {
+    if (![modalClientInstanceInCharge experimentLoaded]) {
         
         [self loadWorkspaceFromURL:[NSURL fileURLWithPath:filename]];
         
@@ -514,7 +514,7 @@
         
         NSAlert *alert = [[NSAlert alloc] init];
         [alert setMessageText:@"Workspace already loaded"];
-        [alert setInformativeText:@"Please close the current experiment and disconnect from the server before attempting to load a new workspace."];
+        [alert setInformativeText:@"Please close the current experiment before attempting to load a new workspace."];
         [alert runModal];
         [alert release];
         
@@ -611,6 +611,11 @@
         [self.window performSelectorOnMainThread:@selector(presentError:) withObject:error waitUntilDone:NO];
         return;
     }
+}
+
+
+- (IBAction)closeWorkspace:(id)sender {
+    [[self modalClientInstanceInCharge] closeWorkspace];
 }
 
 

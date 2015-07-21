@@ -1140,9 +1140,23 @@
     if (newServerURL && [newServerURL isKindOfClass:[NSString class]] &&
         newServerPort && [newServerPort isKindOfClass:[NSNumber class]])
     {
-        self.serverURL = newServerURL;
-        self.serverPort = newServerPort;
-        [self connect];
+        BOOL mustConnect = YES;
+        
+        if (self.serverConnected) {
+            if ([self.serverURL isEqualToString:newServerURL] &&
+                [self.serverPort isEqualToNumber:newServerPort])
+            {
+                mustConnect = NO;
+            } else {
+                [self disconnect];
+            }
+        }
+        
+        if (mustConnect) {
+            self.serverURL = newServerURL;
+            self.serverPort = newServerPort;
+            [self connect];
+        }
     }
     
     if (!self.serverConnected) {
@@ -1179,6 +1193,28 @@
             }
         }
     }
+}
+
+
+- (void)closeWorkspace {
+    if (self.experimentRunning) {
+        NSAlert *alert = [[NSAlert alloc] init];
+        [alert setMessageText:@"Experiment is running"];
+        [alert setInformativeText:@"Please stop the running experiment before attempting to close the workspace."];
+        [alert runModal];
+        [alert release];
+        return;
+    }
+    
+    if (self.dataFileOpen) {
+        [self closeDataFile];
+    }
+    
+    if (self.experimentLoaded) {
+        [self closeExperiment];
+    }
+    
+    [self hideAllPlugins];
 }
 
 

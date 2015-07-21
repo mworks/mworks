@@ -229,6 +229,7 @@
 
 - (NSDictionary *)workspaceInfo;
 - (void)loadWorkspace:(NSDictionary *)workspaceInfo;
+- (void)closeWorkspace;
 
 @end
 

@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5056" systemVersion="13E28" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
-        <deployment defaultVersion="1070" identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="5056"/>
+        <deployment identifier="macosx"/>
+        <development version="5100" identifier="xcode"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="7706"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="NSApplication">
@@ -11,7 +12,7 @@
             </connections>
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
-        <customObject id="-3" userLabel="Application"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <userDefaultsController representsSharedInstance="YES" id="830"/>
         <menu title="AMainMenu" systemMenu="main" id="29" userLabel="MainMenu">
             <items>
@@ -74,7 +75,7 @@
                             <menuItem title="Open Workspace…" keyEquivalent="o" id="SdR-lf-thP">
                                 <connections>
                                     <action selector="openWorkspace:" target="487" id="Qhd-Ny-cCD"/>
-                                    <binding destination="487" name="enabled" keyPath="modalClientInstanceInCharge.serverConnected" id="mxU-oS-J40">
+                                    <binding destination="487" name="enabled" keyPath="modalClientInstanceInCharge.experimentLoaded" id="O6m-We-UrN">
                                         <dictionary key="options">
                                             <string key="NSValueTransformerName">NSNegateBoolean</string>
                                         </dictionary>
@@ -94,6 +95,12 @@
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="79" userLabel="7">
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                            </menuItem>
+                            <menuItem title="Close Workspace" keyEquivalent="w" id="c9d-SA-aM0">
+                                <connections>
+                                    <action selector="closeWorkspace:" target="487" id="S0h-da-Qjr"/>
+                                    <binding destination="487" name="enabled" keyPath="modalClientInstanceInCharge.experimentLoaded" id="t2e-Bz-y1Z"/>
+                                </connections>
                             </menuItem>
                             <menuItem title="Save Workspace…" keyEquivalent="s" id="Wud-ov-G7o">
                                 <connections>
@@ -401,7 +408,7 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="NoX" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="457">
                         <behavior key="behavior" lightByContents="YES"/>
-                        <font key="font" size="10" name="LucidaGrande"/>
+                        <font key="font" metaFont="system" size="10"/>
                         <connections>
                             <binding destination="379" name="image" keyPath="representedObject.serverConnected" id="547">
                                 <dictionary key="options">
@@ -444,7 +451,7 @@
                     <rect key="frame" x="59" y="102" width="212" height="13"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="experiment path" allowsEditingTextAttributes="YES" id="455">
-                        <font key="font" size="10" name="LucidaGrande"/>
+                        <font key="font" metaFont="system" size="10"/>
                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
@@ -460,7 +467,7 @@
                     <rect key="frame" x="58" y="116" width="230" height="16"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Experiment Name" allowsEditingTextAttributes="YES" id="454">
-                        <font key="font" size="12" name="LucidaGrande-Bold"/>
+                        <font key="font" metaFont="systemBold" size="12"/>
                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
@@ -494,7 +501,7 @@
                     <rect key="frame" x="44" y="158" width="252" height="19"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Server name" allowsEditingTextAttributes="YES" id="447">
-                        <font key="font" size="16" name="LucidaGrande-Bold"/>
+                        <font key="font" metaFont="systemBold" size="16"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="backgroundColor" red="0.77173913039999997" green="0.77173913039999997" blue="0.77173913039999997" alpha="1" colorSpace="calibratedRGB"/>
                     </textFieldCell>
@@ -514,7 +521,7 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="OpenExperimentTBIcon" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="446">
                         <behavior key="behavior" lightByContents="YES"/>
-                        <font key="font" size="10" name="LucidaGrande"/>
+                        <font key="font" metaFont="system" size="10"/>
                     </buttonCell>
                     <connections>
                         <binding destination="379" name="enabled2" keyPath="representedObject.experimentRunning" previousBinding="517" id="cGO-t0-UZf">
@@ -658,7 +665,7 @@
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="NSAdvanced" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="1009">
                                 <behavior key="behavior" lightByContents="YES"/>
-                                <font key="font" size="10" name="LucidaGrande"/>
+                                <font key="font" metaFont="system" size="10"/>
                             </buttonCell>
                             <connections>
                                 <binding destination="379" name="enabled" keyPath="representedObject.experimentLoaded" id="1109"/>
@@ -678,7 +685,7 @@
                             <rect key="frame" x="46" y="15" width="216" height="16"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <textFieldCell key="cell" lineBreakMode="truncatingMiddle" sendsActionOnEndEditing="YES" title="Data File" allowsEditingTextAttributes="YES" id="503">
-                                <font key="font" size="12" name="LucidaGrande-Bold"/>
+                                <font key="font" metaFont="systemBold" size="12"/>
                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                             </textFieldCell>
@@ -698,7 +705,7 @@
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="InstallerLarge" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="466">
                                 <behavior key="behavior" lightByContents="YES"/>
-                                <font key="font" size="10" name="LucidaGrande"/>
+                                <font key="font" metaFont="system" size="10"/>
                             </buttonCell>
                             <connections>
                                 <binding destination="379" name="enabled" keyPath="representedObject.experimentLoaded" id="520"/>
@@ -718,7 +725,7 @@
                             <rect key="frame" x="132" y="49" width="171" height="16"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <textFieldCell key="cell" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="None" allowsEditingTextAttributes="YES" id="1148">
-                                <font key="font" size="12" name="LucidaGrande-Bold"/>
+                                <font key="font" metaFont="systemBold" size="12"/>
                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                             </textFieldCell>
@@ -812,7 +819,7 @@
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="PauseTBIcon" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="461">
                                 <behavior key="behavior" lightByContents="YES"/>
-                                <font key="font" size="10" name="LucidaGrande"/>
+                                <font key="font" metaFont="system" size="10"/>
                             </buttonCell>
                             <connections>
                                 <binding destination="379" name="target" keyPath="representedObject" previousBinding="1326" id="1327">
@@ -881,14 +888,14 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="PauseTBIcon" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="429">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                        <font key="font" size="10" name="LucidaGrande"/>
+                        <font key="font" metaFont="system" size="10"/>
                     </buttonCell>
                 </button>
                 <textField verticalHuggingPriority="750" id="424">
                     <rect key="frame" x="59" y="21" width="230" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="No disk streaming..." allowsEditingTextAttributes="YES" id="425">
-                        <font key="font" size="14" name="LucidaGrande-Bold"/>
+                        <font key="font" metaFont="systemBold" size="14"/>
                         <color key="textColor" red="0.46428573000000001" green="0.46428573000000001" blue="0.46428573000000001" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
@@ -903,14 +910,14 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="OkCheck" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="415">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                        <font key="font" size="10" name="LucidaGrande"/>
+                        <font key="font" metaFont="system" size="10"/>
                     </buttonCell>
                 </button>
                 <textField verticalHuggingPriority="750" id="412">
                     <rect key="frame" x="62" y="125" width="136" height="13"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="port 19989" allowsEditingTextAttributes="YES" id="413">
-                        <font key="font" size="10" name="LucidaGrande"/>
+                        <font key="font" metaFont="system" size="10"/>
                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
@@ -919,7 +926,7 @@
                     <rect key="frame" x="60" y="81" width="160" height="13"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="rat_behavior_general_rowl...xml" allowsEditingTextAttributes="YES" id="409">
-                        <font key="font" size="10" name="LucidaGrande"/>
+                        <font key="font" metaFont="system" size="10"/>
                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
@@ -937,7 +944,7 @@
                     <rect key="frame" x="136" y="125" width="136" height="13"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="10235 rx / 13840 tx" allowsEditingTextAttributes="YES" id="405">
-                        <font key="font" size="10" name="LucidaGrande"/>
+                        <font key="font" metaFont="system" size="10"/>
                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
@@ -962,14 +969,14 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="RunTBIcon" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="393">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                        <font key="font" size="10" name="LucidaGrande"/>
+                        <font key="font" metaFont="system" size="10"/>
                     </buttonCell>
                 </button>
                 <textField verticalHuggingPriority="750" id="388">
                     <rect key="frame" x="60" y="137" width="114" height="25"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="127.0.0.1" allowsEditingTextAttributes="YES" id="389">
-                        <font key="font" size="21" name="LucidaGrande-Bold"/>
+                        <font key="font" metaFont="systemBold" size="21"/>
                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
@@ -979,7 +986,7 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="OpenExperimentTBIcon" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="387">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                        <font key="font" size="10" name="LucidaGrande"/>
+                        <font key="font" metaFont="system" size="10"/>
                     </buttonCell>
                 </button>
                 <box autoresizesSubviews="NO" title="Box" boxType="custom" borderType="none" titlePosition="noTitle" id="430">
@@ -1064,9 +1071,9 @@
                     <button verticalHuggingPriority="750" id="573">
                         <rect key="frame" x="72" y="14" width="84" height="19"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="roundRect" title="disconnect" bezelStyle="roundedRect" image="03EB6774-E21A-4A15-A41F-7CB09F295FD6" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="574">
+                        <buttonCell key="cell" type="roundRect" title="disconnect" bezelStyle="roundedRect" image="6EFD4ADA-F67F-4EFC-B514-585E4998DA39" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="574">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="titleBar" size="12"/>
+                            <font key="font" metaFont="cellTitle"/>
                         </buttonCell>
                         <connections>
                             <action selector="disconnect:" target="487" id="646"/>
@@ -1077,7 +1084,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="roundRect" title="cancel" bezelStyle="roundedRect" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="576">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="titleBar" size="12"/>
+                            <font key="font" metaFont="cellTitle"/>
                             <connections>
                                 <action selector="closeDisconnectSheet:" target="487" id="659"/>
                             </connections>
@@ -1149,9 +1156,9 @@
                     <button verticalHuggingPriority="750" id="634">
                         <rect key="frame" x="84" y="12" width="67" height="19"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="roundRect" title="connect" bezelStyle="roundedRect" image="E5B64C4B-E17A-4A11-9778-3246EF7F9471" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="639">
+                        <buttonCell key="cell" type="roundRect" title="connect" bezelStyle="roundedRect" image="C79000F7-D55C-45FB-95E1-0EB1285B9147" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="639">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="titleBar" size="12"/>
+                            <font key="font" metaFont="cellTitle"/>
                         </buttonCell>
                         <connections>
                             <action selector="connect:" target="487" id="647"/>
@@ -1162,7 +1169,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="roundRect" title="cancel" bezelStyle="roundedRect" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="640">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="titleBar" size="12"/>
+                            <font key="font" metaFont="cellTitle"/>
                         </buttonCell>
                         <connections>
                             <action selector="closeURLSheet:" target="487" id="660"/>
@@ -1252,9 +1259,9 @@
                     <button verticalHuggingPriority="750" id="1274">
                         <rect key="frame" x="209" y="117" width="67" height="19"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="roundRect" title="choose..." bezelStyle="roundedRect" image="074ABD70-155B-412A-A851-747C210BBAC0" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="1275">
+                        <buttonCell key="cell" type="roundRect" title="choose..." bezelStyle="roundedRect" image="C553C005-0651-49FA-A172-76501D4A6113" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="1275">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="titleBar" size="12"/>
+                            <font key="font" metaFont="cellTitle"/>
                         </buttonCell>
                         <connections>
                             <action selector="chooseExperiment:" target="487" id="1297"/>
@@ -1265,7 +1272,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="roundRect" title="cancel" bezelStyle="roundedRect" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="692">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="titleBar" size="12"/>
+                            <font key="font" metaFont="cellTitle"/>
                         </buttonCell>
                         <connections>
                             <action selector="closeExperimentLoadSheet:" target="487" id="712"/>
@@ -1283,9 +1290,9 @@
                     <button verticalHuggingPriority="750" id="1278">
                         <rect key="frame" x="209" y="18" width="67" height="19"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="roundRect" title="load" bezelStyle="roundedRect" image="4E9B9B06-C5EB-4116-8B2F-19CE25E8424C" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="1281">
+                        <buttonCell key="cell" type="roundRect" title="load" bezelStyle="roundedRect" image="BF1FDDE6-6604-40B2-998F-826315BA4DEE" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="1281">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="titleBar" size="12"/>
+                            <font key="font" metaFont="cellTitle"/>
                         </buttonCell>
                         <connections>
                             <action selector="loadRecentExperiment:" target="487" id="1296"/>
@@ -1296,7 +1303,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="roundRect" title="cancel" bezelStyle="roundedRect" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="1280">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="titleBar" size="12"/>
+                            <font key="font" metaFont="cellTitle"/>
                         </buttonCell>
                         <connections>
                             <action selector="closeExperimentLoadSheet:" target="487" id="1284"/>
@@ -1342,9 +1349,9 @@
                     <button verticalHuggingPriority="750" id="702">
                         <rect key="frame" x="47" y="15" width="118" height="19"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="roundRect" title="close experiment" bezelStyle="roundedRect" image="B8A9F6F5-638D-4F3E-987F-071A325DD1D8" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="705">
+                        <buttonCell key="cell" type="roundRect" title="close experiment" bezelStyle="roundedRect" image="FBE02791-BA3C-4312-92E3-3B8188A5E4D9" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="705">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="titleBar" size="12"/>
+                            <font key="font" metaFont="cellTitle"/>
                         </buttonCell>
                         <connections>
                             <action selector="closeExperiment:" target="487" id="912"/>
@@ -1355,7 +1362,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="roundRect" title="cancel" bezelStyle="roundedRect" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="706">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="titleBar" size="12"/>
+                            <font key="font" metaFont="cellTitle"/>
                         </buttonCell>
                         <connections>
                             <action selector="closeExperimentCloseSheet:" target="487" id="713"/>
@@ -1412,9 +1419,9 @@
                     <button verticalHuggingPriority="750" id="773">
                         <rect key="frame" x="57" y="18" width="92" height="19"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="roundRect" title="close stream" bezelStyle="roundedRect" image="7778C81D-91DF-4C07-BC0E-9B12043EBF6D" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="776">
+                        <buttonCell key="cell" type="roundRect" title="close stream" bezelStyle="roundedRect" image="00CA917F-2F7F-4B28-9D41-AC2C5E567E14" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="776">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="titleBar" size="12"/>
+                            <font key="font" metaFont="cellTitle"/>
                         </buttonCell>
                         <connections>
                             <action selector="closeDataFile:" target="487" id="824"/>
@@ -1425,7 +1432,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="roundRect" title="cancel" bezelStyle="roundedRect" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="777">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="titleBar" size="12"/>
+                            <font key="font" metaFont="cellTitle"/>
                         </buttonCell>
                         <connections>
                             <action selector="closeDataFileCloseSheet:" target="487" id="825"/>
@@ -1487,9 +1494,9 @@
                     <button verticalHuggingPriority="750" id="804">
                         <rect key="frame" x="76" y="18" width="67" height="19"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="roundRect" title="stream" bezelStyle="roundedRect" image="80139C33-BC2C-4D0B-B011-104A604E3C76" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="809">
+                        <buttonCell key="cell" type="roundRect" title="stream" bezelStyle="roundedRect" image="1EE52501-B2FB-4F1C-B3C4-84ED9C747639" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="809">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="titleBar" size="12"/>
+                            <font key="font" metaFont="cellTitle"/>
                         </buttonCell>
                         <connections>
                             <action selector="openDataFile:" target="487" id="827"/>
@@ -1500,7 +1507,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="roundRect" title="cancel" bezelStyle="roundedRect" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="808">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="titleBar" size="12"/>
+                            <font key="font" metaFont="cellTitle"/>
                         </buttonCell>
                         <connections>
                             <action selector="closeDataFileOpenSheet:" target="487" id="826"/>
@@ -1642,7 +1649,7 @@
                             <autoresizingMask key="autoresizingMask"/>
                             <subviews>
                                 <textView importsGraphics="NO" findStyle="panel" continuousSpellChecking="YES" usesRuler="YES" usesFontPanel="YES" verticallyResizable="YES" smartInsertDelete="YES" id="1003">
-                                    <rect key="frame" x="0.0" y="0.0" width="286" height="144"/>
+                                    <rect key="frame" x="0.0" y="12" width="286" height="96"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <size key="minSize" width="286" height="96"/>
@@ -2249,7 +2256,7 @@
         </window>
     </objects>
     <resources>
-        <image name="03EB6774-E21A-4A15-A41F-7CB09F295FD6" width="1" height="1">
+        <image name="00CA917F-2F7F-4B28-9D41-AC2C5E567E14" width="1" height="1">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPj9YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQsLzI4O1UkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw
@@ -2267,7 +2274,7 @@ AhACGAIlAioCLAIuAjMCOwI+AkMCSwJOAmACYwJoAAAAAAAAAgEAAAAAAAAAQgAAAAAAAAAAAAAAAAAA
 Amo
 </mutableData>
         </image>
-        <image name="074ABD70-155B-412A-A851-747C210BBAC0" width="1" height="1">
+        <image name="1EE52501-B2FB-4F1C-B3C4-84ED9C747639" width="1" height="1">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPj9YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQsLzI4O1UkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw
@@ -2285,7 +2292,7 @@ AhACGAIlAioCLAIuAjMCOwI+AkMCSwJOAmACYwJoAAAAAAAAAgEAAAAAAAAAQgAAAAAAAAAAAAAAAAAA
 Amo
 </mutableData>
         </image>
-        <image name="4E9B9B06-C5EB-4116-8B2F-19CE25E8424C" width="1" height="1">
+        <image name="6EFD4ADA-F67F-4EFC-B514-585E4998DA39" width="1" height="1">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPj9YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQsLzI4O1UkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw
@@ -2303,7 +2310,7 @@ AhACGAIlAioCLAIuAjMCOwI+AkMCSwJOAmACYwJoAAAAAAAAAgEAAAAAAAAAQgAAAAAAAAAAAAAAAAAA
 Amo
 </mutableData>
         </image>
-        <image name="7778C81D-91DF-4C07-BC0E-9B12043EBF6D" width="1" height="1">
+        <image name="BF1FDDE6-6604-40B2-998F-826315BA4DEE" width="1" height="1">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPj9YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQsLzI4O1UkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw
@@ -2321,7 +2328,7 @@ AhACGAIlAioCLAIuAjMCOwI+AkMCSwJOAmACYwJoAAAAAAAAAgEAAAAAAAAAQgAAAAAAAAAAAAAAAAAA
 Amo
 </mutableData>
         </image>
-        <image name="80139C33-BC2C-4D0B-B011-104A604E3C76" width="1" height="1">
+        <image name="C553C005-0651-49FA-A172-76501D4A6113" width="1" height="1">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPj9YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQsLzI4O1UkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw
@@ -2339,7 +2346,7 @@ AhACGAIlAioCLAIuAjMCOwI+AkMCSwJOAmACYwJoAAAAAAAAAgEAAAAAAAAAQgAAAAAAAAAAAAAAAAAA
 Amo
 </mutableData>
         </image>
-        <image name="B8A9F6F5-638D-4F3E-987F-071A325DD1D8" width="1" height="1">
+        <image name="C79000F7-D55C-45FB-95E1-0EB1285B9147" width="1" height="1">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPj9YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQsLzI4O1UkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw
@@ -2357,7 +2364,7 @@ AhACGAIlAioCLAIuAjMCOwI+AkMCSwJOAmACYwJoAAAAAAAAAgEAAAAAAAAAQgAAAAAAAAAAAAAAAAAA
 Amo
 </mutableData>
         </image>
-        <image name="E5B64C4B-E17A-4A11-9778-3246EF7F9471" width="1" height="1">
+        <image name="FBE02791-BA3C-4312-92E3-3B8188A5E4D9" width="1" height="1">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPj9YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQsLzI4O1UkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw
@@ -2376,12 +2383,12 @@ Amo
 </mutableData>
         </image>
         <image name="InstallerLarge" width="32" height="32"/>
-        <image name="NSAddTemplate" width="8" height="8"/>
+        <image name="NSAddTemplate" width="11" height="11"/>
         <image name="NSAdvanced" width="32" height="32"/>
-        <image name="NSGoRightTemplate" width="9" height="9"/>
+        <image name="NSGoRightTemplate" width="9" height="12"/>
         <image name="NSInfo" width="32" height="32"/>
         <image name="NSRevealFreestandingTemplate" width="14" height="14"/>
-        <image name="NSStopProgressFreestandingTemplate" width="83" height="83"/>
+        <image name="NSStopProgressFreestandingTemplate" width="14" height="14"/>
         <image name="NoX" width="32" height="32"/>
         <image name="OkCheck" width="32" height="32"/>
         <image name="OpenExperimentTBIcon" width="54" height="53"/>
