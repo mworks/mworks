@@ -37,7 +37,11 @@ NE500DeviceChannel::NE500DeviceChannel(const ParameterValueMap &parameters) :
     variable(parameters[VARIABLE]),
     syringe_diameter(parameters[SYRINGE_DIAMETER]),
     rate(parameters[FLOW_RATE])
-{ }
+{
+    if (pump_id.empty()) {
+        throw SimpleException(M_IODEVICE_MESSAGE_DOMAIN, "Attempt to access invalid (empty) NE500 pump id");
+    }
+}
 
 
 const std::string NE500PumpNetworkDevice::ADDRESS("address");
@@ -57,35 +61,58 @@ void NE500PumpNetworkDevice::describeComponent(ComponentInfo &info) {
 NE500PumpNetworkDevice::NE500PumpNetworkDevice(const ParameterValueMap &parameters) :
     IODevice(parameters),
     address(VariablePtr(parameters[ADDRESS])->getValue().getString()),
-    port(parameters[PORT])
-{
-    connectToDevice();
+    port(parameters[PORT]),
+    s(-1),
+    connected(false),
+    active(false)
+{ }
+
+
+NE500PumpNetworkDevice::~NE500PumpNetworkDevice() {
+    disconnectFromDevice();
 }
 
 
 void NE500PumpNetworkDevice::addChild(std::map<std::string, std::string> parameters,
                                       ComponentRegistry *reg,
-                                      shared_ptr<Component> _child){
-    
+                                      shared_ptr<Component> _child)
+{
     shared_ptr<NE500DeviceChannel> channel = boost::dynamic_pointer_cast<NE500DeviceChannel, Component>(_child);
-    if(channel == NULL){
+    if (!channel){
         throw SimpleException("Attempt to access an invalid NE500 channel object");
     }
+    pumps.push_back(channel);
+}
+
+
+bool NE500PumpNetworkDevice::initialize() {
+    connectToDevice();
     
-    string pump_id = channel->getPumpID();
-    
-    if(pump_id.empty()){
-        throw SimpleException("Attempt to access invalid (empty) NE500 pump id");
+    for (auto &channel : pumps) {
+        initializePump(channel->getPumpID(), channel->getRate(), channel->getSyringeDiameter());
+        
+        shared_ptr<Variable> var = channel->getVariable();
+        
+        shared_ptr<NE500PumpNetworkDevice> shared_self_ref(component_shared_from_this<NE500PumpNetworkDevice>());
+        shared_ptr<VariableNotification> notif(new NE500DeviceOutputNotification(shared_self_ref, channel));
+        var->addNotification(notif);
     }
-    pump_ids.push_back(pump_id);
     
-    initializePump(pump_id, channel->getRate(), channel->getSyringeDiameter());
-    
-    shared_ptr<Variable> var = channel->getVariable();
-    
-    shared_ptr<NE500PumpNetworkDevice> shared_self_ref(component_shared_from_this<NE500PumpNetworkDevice>());
-    shared_ptr<VariableNotification> notif(new NE500DeviceOutputNotification(shared_self_ref, channel));
-    var->addNotification(notif);
+    return true;
+}
+
+
+bool NE500PumpNetworkDevice::startDeviceIO() {
+    scoped_lock active_lock(active_mutex);
+    active = true;
+    return true;
+}
+
+
+bool NE500PumpNetworkDevice::stopDeviceIO() {
+    scoped_lock active_lock(active_mutex);
+    active = false;
+    return true;
 }
 
 
@@ -341,8 +368,9 @@ string NE500PumpNetworkDevice::sendMessage(string message){
 
 
 void NE500PumpNetworkDevice::dispense(string pump_id, double rate, Datum data) {
+    scoped_lock active_lock(active_mutex);
     
-    if(getActive()){
+    if (active) {
         //initializePump(pump_id, 750.0, 20.0);
         double amount = (double)data;
         
@@ -405,6 +433,15 @@ void NE500PumpNetworkDevice::initializePump(string pump_id, double rate, double 
     string rate_message = (rate_message_format % pump_id % rate).str();
     
     sendMessage(rate_message);
+}
+
+
+void NE500PumpNetworkDevice::NE500DeviceOutputNotification::notify(const Datum &data, MWTime timeUS) {
+    if (auto shared_pump_network = pump_network.lock()) {
+        if (auto shared_channel = channel.lock()) {
+            shared_pump_network->dispense(shared_channel->getPumpID(), shared_channel->getRate(), data);
+        }
+    }
 }
 
 
