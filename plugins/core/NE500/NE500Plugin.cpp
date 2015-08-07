@@ -15,13 +15,10 @@ BEGIN_NAMESPACE_MW
 
 class NE500Plugin : public Plugin {
     void registerComponents(boost::shared_ptr<mw::ComponentRegistry> registry) override {
-
         registry->registerFactory(std::string("iodevice/ne500"),
                                   (ComponentFactory *)(new NE500DeviceFactory()));
-        
         registry->registerFactory(std::string("iochannel/ne500"),
                                   (ComponentFactory *)(new NE500DeviceChannelFactory()));
-        
     }
 };
 
