@@ -10,19 +10,12 @@
 #ifndef	_NE500_H_
 #define _NE500_H_
 
-#include <string>
-#include <boost/format.hpp>
-#include "MWorksCore/Utilities.h"
-#include "MWorksCore/Plugin.h"
-#include "MWorksCore/IODevice.h"
-#include "MWorksCore/ComponentFactory.h"
-#include "MWorksCore/ComponentRegistry.h"
-
 using std::string;
 using std::vector;
 
 
-namespace mw {
+BEGIN_NAMESPACE_MW
+
 
 class NE500DeviceOutputNotification;
 
@@ -119,23 +112,23 @@ class NE500PumpNetworkDevice : public IODevice {
 			connectToDevice();
 		}
 		
-		virtual ~NE500PumpNetworkDevice(){ 
+        ~NE500PumpNetworkDevice(){
 			disconnectFromDevice();
 		}
 		
 						
-		virtual void connectToDevice();
+        void connectToDevice();
 		
-		virtual void disconnectFromDevice();
+        void disconnectFromDevice();
 		
-		virtual void reconnectToDevice(){
+        void reconnectToDevice(){
 			disconnectFromDevice();
 			connectToDevice();
 		}
 		
 		string sendMessage(string message);
 		
-		virtual void dispense(string pump_id, double rate, Datum data){
+        void dispense(string pump_id, double rate, Datum data){
 			
 			if(getActive()){
 				//initializePump(pump_id, 750.0, 20.0);
@@ -181,7 +174,7 @@ class NE500PumpNetworkDevice : public IODevice {
 			}
 		}
 	
-		virtual void initializePump(string pump_id, double rate, double syringe_diameter){
+        void initializePump(string pump_id, double rate, double syringe_diameter){
 			
 			boost::format function_message_format("%s FUN RAT"); 
 			string function_message = (function_message_format % pump_id).str();
@@ -202,18 +195,18 @@ class NE500PumpNetworkDevice : public IODevice {
 		}
 		
 		// specify what this device can do
-		virtual bool initialize(){  return connected;  }
+        bool initialize() override {  return connected;  }
 
-		virtual void addChild(std::map<std::string, std::string> parameters,
+        void addChild(std::map<std::string, std::string> parameters,
 								ComponentRegistry *reg,
-								shared_ptr<Component> _child);
+								shared_ptr<Component> _child) override;
 		
-		virtual void setActive(bool _active){
+        void setActive(bool _active){
 			boost::mutex::scoped_lock active_lock(active_mutex);
 			active = _active;
 		}
 
-		virtual bool getActive(){
+        bool getActive(){
 			boost::mutex::scoped_lock active_lock(active_mutex);
 			bool is_active = active;
 			return is_active;
@@ -221,8 +214,8 @@ class NE500PumpNetworkDevice : public IODevice {
 
 
 
-		virtual bool startDeviceIO(){  setActive(true); return true; }
-		virtual bool stopDeviceIO(){  setActive(false); return true; }
+        bool startDeviceIO() override {  setActive(true); return true; }
+        bool stopDeviceIO() override {  setActive(false); return true; }
 
 
 };
@@ -253,7 +246,7 @@ class NE500DeviceOutputNotification : public VariableNotification {
 
 		}
 	
-		virtual void notify(const Datum& data, MWorksTime timeUS){
+        void notify(const Datum& data, MWorksTime timeUS) override {
 
 			shared_ptr<NE500PumpNetworkDevice> shared_pump_network(pump_network);
 			shared_ptr<NE500DeviceChannel> shared_channel(channel);
@@ -262,7 +255,9 @@ class NE500DeviceOutputNotification : public VariableNotification {
 		}
 };
 
-} // namespace mw
+
+END_NAMESPACE_MW
+
 
 #endif
 

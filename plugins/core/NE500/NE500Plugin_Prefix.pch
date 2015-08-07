@@ -1,9 +1,22 @@
-//
-// Prefix header for all source files of the 'CoxlabCorePlugins' target in the 'CoxlabCorePlugins' project.
-//
+#ifndef NE500Plugin_Prefix_pch
+#define NE500Plugin_Prefix_pch
 
-#include <MWorksCore/glew.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <netinet/in.h>
+#include <netdb.h>
+#include <arpa/inet.h>
+#include <pthread.h>
+#include <fcntl.h>
 
-#ifdef __OBJC__
-    #import <Cocoa/Cocoa.h>
-#endif
+#ifdef __cplusplus
+
+#include <MWorksCore/IODevice.h>
+#include <MWorksCore/Plugin.h>
+#include <MWorksCore/StandardComponentFactory.h>
+
+#endif /* defined(__cplusplus) */
+
+#endif /* !defined(NE500Plugin_Prefix_pch) */

@@ -8,20 +8,10 @@
  */
 
 #include "NE500.h"
-
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <netinet/in.h>
-#include <netdb.h>
-#include <arpa/inet.h>
-#include <pthread.h>
-#include <fcntl.h>
-
-#include <MWorksCore/Component.h>
 	
-using namespace mw;
+
+BEGIN_NAMESPACE_MW
+
 	
 void NE500PumpNetworkDevice::addChild(std::map<std::string, std::string> parameters,
 										ComponentRegistry *reg,
@@ -323,3 +313,34 @@ string NE500PumpNetworkDevice::sendMessage(string message){
 	
 	return result;
 }
+
+
+END_NAMESPACE_MW
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
