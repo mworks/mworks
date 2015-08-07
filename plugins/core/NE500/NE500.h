@@ -17,79 +17,49 @@ using std::vector;
 BEGIN_NAMESPACE_MW
 
 
-class NE500DeviceOutputNotification;
-
 class NE500DeviceChannel : public Component {
     
-protected:
+private:
+    const std::string pump_id;
+    const boost::shared_ptr<Variable> variable;
     
-    string pump_id;
-    shared_ptr<Variable> variable;
-    
-    double syringe_diameter;
-    shared_ptr<Variable> rate;
+    const double syringe_diameter;
+    const boost::shared_ptr<Variable> rate;
     
 public:
+    static const std::string CAPABILITY;
+    static const std::string VARIABLE;
+    static const std::string SYRINGE_DIAMETER;
+    static const std::string FLOW_RATE;
     
-    NE500DeviceChannel(string _pump_id,
-                       shared_ptr<Variable> _variable,
-                       double _syringe_diameter,
-                       shared_ptr<Variable> _rate){
-        
-        pump_id = _pump_id;
-        variable = _variable;
-        syringe_diameter = _syringe_diameter;
-        rate = _rate;
-        
-        if(rate == NULL){
-            throw SimpleException("Invalid rate variable in NE500 pump channel");
-        }
-    }
+    static void describeComponent(ComponentInfo &info);
     
+    explicit NE500DeviceChannel(const ParameterValueMap &parameters);
     
-    shared_ptr<Variable> getVariable(){
+    const boost::shared_ptr<Variable>& getVariable() const {
         return variable;
     }
     
-    string getPumpID(){
+    const std::string& getPumpID() const {
         return pump_id;
     }
     
-    double getSyringeDiameter(){ return syringe_diameter; }
-    double getRate(){
-        return (double)(rate->getValue());
+    double getSyringeDiameter() const {
+        return syringe_diameter;
     }
     
-    
-};
-
-class NE500DeviceChannelFactory : public ComponentFactory {
-    
-    shared_ptr<Component> createObject(std::map<std::string, std::string> parameters,
-                                       ComponentRegistry *reg) {
-        
-        REQUIRE_ATTRIBUTES(parameters, "variable", "capability", "syringe_diameter", "flow_rate");
-        
-        string capability_string = boost::algorithm::to_lower_copy(parameters["capability"]);
-        
-        shared_ptr<Variable> variable = reg->getVariable(parameters["variable"]);
-        
-        double syringe_diameter = reg->getNumber(parameters["syringe_diameter"]);
-        shared_ptr<Variable> rate = reg->getVariable(parameters["flow_rate"]);
-        
-        shared_ptr <Component> new_channel(new NE500DeviceChannel(capability_string, variable, syringe_diameter, rate));
-        return new_channel;
+    double getRate() const {
+        return rate->getValue().getFloat();
     }
     
 };
 
 
-class NE500PumpNetworkDevice : public IODevice {
+class NE500PumpNetworkDevice : public IODevice, boost::noncopyable {
     
-protected:
-    
-    string address;
-    int port;
+private:
+    const std::string address;
+    const int port;
     
     // the socket
     int s;
@@ -102,104 +72,32 @@ protected:
     boost::mutex active_mutex;
     
 public:
+    static const std::string ADDRESS;
+    static const std::string PORT;
     
-    NE500PumpNetworkDevice(string _address, int _port){
-        
-        address = _address;
-        port = _port;
-        
-        // TODO: connect to serial server
-        connectToDevice();
-    }
+    static void describeComponent(ComponentInfo &info);
+    
+    explicit NE500PumpNetworkDevice(const ParameterValueMap &parameters);
     
     ~NE500PumpNetworkDevice(){
         disconnectFromDevice();
     }
     
-    
-    void connectToDevice();
-    
-    void disconnectFromDevice();
-    
-    void reconnectToDevice(){
-        disconnectFromDevice();
-        connectToDevice();
-    }
-    
-    string sendMessage(string message);
-    
-    void dispense(string pump_id, double rate, Datum data){
-        
-        if(getActive()){
-            //initializePump(pump_id, 750.0, 20.0);
-            double amount = (double)data;
-            
-            if(amount == 0.0){
-                return;
-            }
-            
-            
-            string dir_str;
-            if(amount >= 0){
-                dir_str = "INF"; // infuse
-            } else {
-                amount *= -1.0;
-                dir_str = "WDR"; // withdraw
-            }
-            
-            boost::format direction_message_format("%s DIR %s");
-            string direction_message = (direction_message_format % pump_id % dir_str).str();
-            
-            sendMessage(direction_message);
-            
-            boost::format rate_message_format("%s RAT %.1f MM");
-            string rate_message = (rate_message_format % pump_id % rate).str();
-            
-            sendMessage(rate_message);
-            
-            boost::format message_format("%s VOL %.3f");
-            string message = (message_format % pump_id % amount).str();
-            
-            sendMessage(message);
-            
-            //				boost::format program_message_format("%s FUN RAT");
-            //				string program_message = (program_message_format % pump_id).str();
-            //
-            //				sendMessage(program_message);
-            
-            boost::format run_message_format("%s RUN");
-            string run_message = (run_message_format % pump_id).str();
-            
-            sendMessage(run_message);
-        }
-    }
-    
-    void initializePump(string pump_id, double rate, double syringe_diameter){
-        
-        boost::format function_message_format("%s FUN RAT");
-        string function_message = (function_message_format % pump_id).str();
-        
-        sendMessage(function_message);
-        
-        
-        boost::format diameter_message_format("%s DIA %g");
-        string diameter_message = (diameter_message_format % pump_id % syringe_diameter).str();
-        
-        sendMessage(diameter_message);
-        
-        
-        boost::format rate_message_format("%s RAT %g");
-        string rate_message = (rate_message_format % pump_id % rate).str();
-        
-        sendMessage(rate_message);
-    }
-    
-    // specify what this device can do
-    bool initialize() override {  return connected;  }
-    
     void addChild(std::map<std::string, std::string> parameters,
                   ComponentRegistry *reg,
                   shared_ptr<Component> _child) override;
+    
+    bool initialize() override {  return connected;  }
+    bool startDeviceIO() override {  setActive(true); return true; }
+    bool stopDeviceIO() override {  setActive(false); return true; }
+    
+private:
+    void connectToDevice();
+    void disconnectFromDevice();
+    
+    string sendMessage(string message);
+    void dispense(string pump_id, double rate, Datum data);
+    void initializePump(string pump_id, double rate, double syringe_diameter);
     
     void setActive(bool _active){
         boost::mutex::scoped_lock active_lock(active_mutex);
@@ -213,46 +111,26 @@ public:
     }
     
     
-    
-    bool startDeviceIO() override {  setActive(true); return true; }
-    bool stopDeviceIO() override {  setActive(false); return true; }
-    
-    
-};
-
-
-class NE500DeviceFactory : public ComponentFactory {
-    
-    shared_ptr<Component> createObject(std::map<std::string, std::string> parameters,
-                                       ComponentRegistry *reg);
-};
-
-
-class NE500DeviceOutputNotification : public VariableNotification {
-    
-protected:
-    
-    weak_ptr<NE500PumpNetworkDevice> pump_network;
-    weak_ptr<NE500DeviceChannel> channel;
-    //string pump_id;
-    
-    
-public:
-    
-    NE500DeviceOutputNotification(weak_ptr<NE500PumpNetworkDevice> _pump_network,
-                                  weak_ptr<NE500DeviceChannel> _channel){
-        pump_network = _pump_network;
-        channel = _channel;
+    class NE500DeviceOutputNotification : public VariableNotification {
+    private:
+        const boost::weak_ptr<NE500PumpNetworkDevice> pump_network;
+        const boost::weak_ptr<NE500DeviceChannel> channel;
         
-    }
-    
-    void notify(const Datum& data, MWorksTime timeUS) override {
+    public:
+        NE500DeviceOutputNotification(const boost::shared_ptr<NE500PumpNetworkDevice> &_pump_network,
+                                      const boost::shared_ptr<NE500DeviceChannel> &_channel) :
+            pump_network(_pump_network),
+            channel(_channel)
+        { }
         
-        shared_ptr<NE500PumpNetworkDevice> shared_pump_network(pump_network);
-        shared_ptr<NE500DeviceChannel> shared_channel(channel);
-        shared_pump_network->dispense(shared_channel->getPumpID(), shared_channel->getRate(), data);
-        
-    }
+        void notify(const Datum& data, MWorksTime timeUS) override {
+            if (auto shared_pump_network = pump_network.lock()) {
+                if (auto shared_channel = channel.lock()) {
+                    shared_pump_network->dispense(shared_channel->getPumpID(), shared_channel->getRate(), data);
+                }
+            }
+        }
+    };
 };
 
 
