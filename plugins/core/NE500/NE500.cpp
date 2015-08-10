@@ -89,13 +89,16 @@ void NE500PumpNetworkDevice::addChild(std::map<std::string, std::string> paramet
 
 
 bool NE500PumpNetworkDevice::initialize() {
-    connectToDevice();
+    if (!connectToDevice()) {
+        return false;
+    }
     
     for (auto &channel : pumps) {
-        initializePump(channel->getPumpID(), channel->getRate(), channel->getSyringeDiameter());
+        if (!initializePump(channel->getPumpID(), channel->getRate(), channel->getSyringeDiameter())) {
+            return false;
+        }
         
         shared_ptr<Variable> var = channel->getVariable();
-        
         shared_ptr<NE500PumpNetworkDevice> shared_self_ref(component_shared_from_this<NE500PumpNetworkDevice>());
         shared_ptr<VariableNotification> notif(new NE500DeviceOutputNotification(shared_self_ref, channel));
         var->addNotification(notif);
@@ -119,106 +122,56 @@ bool NE500PumpNetworkDevice::stopDeviceIO() {
 }
 
 
-void NE500PumpNetworkDevice::connectToDevice() {
-    
-    struct sockaddr_in addr;
-    struct hostent *hostp;
-    
+bool NE500PumpNetworkDevice::connectToDevice() {
     mprintf(M_IODEVICE_MESSAGE_DOMAIN,
             "Connecting to NE500 Pump Network...");
     
-    if(NULL == (hostp = gethostbyname(address.c_str()))) {
-        throw SimpleException("Error looking up host", address);
-        
+    struct hostent *hostp;
+    if (NULL == (hostp = gethostbyname(address.c_str()))) {
+        merror(M_IODEVICE_MESSAGE_DOMAIN,
+               "Host lookup failed: %s: %s",
+               address.c_str(),
+               hstrerror(h_errno));
+        return false;
     }
     
+    struct sockaddr_in addr;
     memset(&addr,0,sizeof(addr));
     memcpy((char *)&addr.sin_addr,hostp->h_addr,hostp->h_length);
     addr.sin_family = hostp->h_addrtype;
     addr.sin_port = htons((u_short)port);
     
-    
-    if((s=socket(PF_INET, SOCK_STREAM, 6)) < 0) {
-        throw SimpleException("Error creating socket.");
+    if ((s = socket(PF_INET, SOCK_STREAM, 6)) < 0) {
+        merror(M_IODEVICE_MESSAGE_DOMAIN, "Socket creation failed: %s", strerror(errno));
+        return false;
     }
-    
-    
-    int flags;
-    
-    int rc;
     
     /* Set socket to non-blocking */
-    
-    if ((flags = fcntl(s, F_GETFL, 0)) < 0)
+    int flags;
+    if ((flags = fcntl(s, F_GETFL, 0)) < 0 ||
+        fcntl(s, F_SETFL, flags | O_NONBLOCK) < 0)
     {
-        /* Handle error */
+        merror(M_IODEVICE_MESSAGE_DOMAIN, "Cannot set socket to non-blocking: %s", strerror(errno));
+        close(s);
+        return false;
     }
-    
-    
-    if (fcntl(s, F_SETFL, flags | O_NONBLOCK) < 0)
-    {
-        /* Handle error */
-    }
-    
     
     while(true){
-        rc = connect(s, (struct sockaddr *) &addr, sizeof(addr));
-        
+        int rc = connect(s, (struct sockaddr *) &addr, sizeof(addr));
         int connect_errno = errno;
         
         if(rc >= 0 || connect_errno == EISCONN){
             break;
         }
         
-        if(connect_errno != EALREADY && connect_errno != EINPROGRESS &&
-           connect_errno != EWOULDBLOCK){
-            
-            string err;
-            
-            
-            switch(connect_errno){
-                    
-                case EBADF:
-                    err = "descriptor not valid";
-                    break;
-                case EIO:
-                    err = "io error";
-                    break;
-                case ECONNREFUSED:
-                    err = "connection refused";
-                    break;
-                case EFAULT:
-                    err = "bad address";
-                    break;
-                case EHOSTUNREACH:
-                    err="host unreachable";
-                    break;
-                case ENAMETOOLONG:
-                    err="name too long";
-                    break;
-                case ENETDOWN:
-                    err="network down";
-                    break;
-                case EINTR:
-                    err ="interrupted";
-                    break;
-                case EINVAL:
-                    err = "invalid parameter";
-                    break;
-                case ETIMEDOUT:
-                    err = "timed out";
-                    break;
-                case ENOTSOCK:
-                    err = "not socket";
-                    break;
-                    
-                default:
-                    err = "unknown error";
-            }
-            
-            throw SimpleException( (boost::format("Error (%s, %d) connecting to %s") % err % errno % address).str());
+        if (connect_errno != EALREADY &&
+            connect_errno != EINPROGRESS &&
+            connect_errno != EWOULDBLOCK)
+        {
+            merror(M_IODEVICE_MESSAGE_DOMAIN, "Cannot connect to %s: %s", address.c_str(), strerror(connect_errno));
+            close(s);
+            return false;
         }
-        
         
         if(connect_errno == EINPROGRESS){
             timeval timeout;
@@ -231,212 +184,183 @@ void NE500PumpNetworkDevice::connectToDevice() {
             
             /* 0 means it timed out out & no fds changed */
             if(select_err==0) {
+                merror(M_IODEVICE_MESSAGE_DOMAIN, "Connection to NE500 device (%s) timed out", address.c_str());
                 close(s);
-                connected = false;
-                throw SimpleException((boost::format("Connection to NE500 Device (%s) timed out") % address).str());
+                return false;
             }
         }
     }
     
-    
     connected = true;
+    return true;
 }
 
 void NE500PumpNetworkDevice::disconnectFromDevice() {
-    if(connected){
-        close(s);
+    if (connected) {
+        if (close(s) < 0) {
+            mwarning(M_IODEVICE_MESSAGE_DOMAIN,
+                     "Cannot disconnect from NE500 device (%s): %s",
+                     address.c_str(),
+                     strerror(errno));
+        }
         connected = false;
     }
 }
 
-string NE500PumpNetworkDevice::sendMessage(string message){
+bool NE500PumpNetworkDevice::sendMessage(string message){
+    if (!connected) {
+        merror(M_IODEVICE_MESSAGE_DOMAIN, "No connection to NE500 device (%s)", address.c_str());
+        return false;
+    }
     
-#define PUMP_SERIAL_DELIMITER_CHAR 3 // ETX
+    // Send converted line back to client.
+    message = message + "\r";
+    if (send(s, message.c_str(), message.size(), 0) < 0){
+        merror(M_IODEVICE_MESSAGE_DOMAIN,
+               "Cannot send data to NE500 device (%s): %s",
+               address.c_str(),
+               strerror(errno));
+        return false;
+    }
+    mprintf(M_IODEVICE_MESSAGE_DOMAIN, "SENT: %s", message.c_str());
+    
+    // give it a moment
+    shared_ptr<Clock> clock = Clock::instance();
+    MWTime tic = clock->getCurrentTimeUS();
     
     std::array<char, 512> recv_buffer;
-    int rc;
     bool broken = false;
-    
     string result;
+    bool success = true;
     
-    message = message + "\r";
-    
-    if(connected){
+    while(true){
+        // Clear the buffer
+        recv_buffer.fill(0);
         
-        // Send converted line back to client.
-        if (send(s, message.c_str(), message.size(), 0) < 0){
-            cerr << "Error: cannot send data";
+        auto rc = recv(s, recv_buffer.data(), recv_buffer.size(), 0);
+
+        if (rc > 0) {
+            
+            result.append(recv_buffer.data(), rc);
+            
         } else {
-            mprintf("SENT: %s", message.c_str());
-        }
         
-        // give it a moment
-        shared_ptr<Clock> clock = Clock::instance();
-        MWTime tic = clock->getCurrentTimeUS();
-        
-        while(true){
-            // Clear the buffer
-            recv_buffer.fill(0);
-            
-            rc = recv(s,
-                      recv_buffer.data(),
-                      recv_buffer.size() - 1,  // -1 to ensure there's always a terminating NUL
-                      0);
-            
-            // didn't receive data
-            if(rc < 0){
-                
-                // any response other than EWOULDBLOCK (basically, no data yet)
-                // is a sign that an error has occurred.
-                if(errno != EWOULDBLOCK){
-                    broken = true;
-                }
-                
-                // if the response is complete
-                // NE500 responses are of the form: "\t01S"
-                if(result.size() > 1 && result[result.size() - 1] == PUMP_SERIAL_DELIMITER_CHAR){
-                    
-                    if(result.size() > 3){
-                        char status_char = result[3];
-                        
-                        
-                        switch(status_char){
-                                
-                            case 'S':
-                            case 'W':
-                            case 'I':
-                                
-                                break;
-                            default:
-                                mwarning(M_SYSTEM_MESSAGE_DOMAIN,
-                                         "An unknown response was received from the syringe pump: %c", status_char);
-                        }
-                    }
-                    
-                    if(result.size() > 4){
-                        
-                        char error_char = result[4];
-                        if(error_char == '?'){
-                            string error_code = result.substr(5, result.size() - 6);
-                            string err_str("");
-                            
-                            if(error_code == ""){
-                                err_str = "Unrecognized command";
-                            } else if(error_code == "OOR"){
-                                err_str = "Out of Range";
-                            } else if(error_code == "NA"){
-                                err_str = "Command currently not applicable";
-                            } else if(error_code == "IGN"){
-                                err_str = "Command ignored";
-                            } else if(error_code == "COM"){
-                                err_str = "Communications failure";
-                            } else {
-                                err_str = "Unspecified error";
-                            }
-                            
-                            mwarning(M_SYSTEM_MESSAGE_DOMAIN,
-                                     "The syringe pump returned an error: %s (%s)", err_str.c_str(), error_code.c_str());
-                        }
-                    }
-                    
-                    break;
-                    
-                } else if((clock->getCurrentTimeUS() - tic) > response_timeout){
-                    mwarning(M_SYSTEM_MESSAGE_DOMAIN,
-                             "Did not receive a complete response from the pump");
-                    break;
-                }
+            // If rc is zero, then the other side closed the connection.  Otherwise,
+            // any result other than EWOULDBLOCK (basically, no data yet)
+            // is a sign that an error has occurred.
+            if (rc == 0 || errno != EWOULDBLOCK) {
+                broken = true;
             }
             
-            result += string(recv_buffer.data());
+            // if the response is complete
+            // NE500 responses are of the form: "\t01S"
+            if(result.size() > 1 && result[result.size() - 1] == PUMP_SERIAL_DELIMITER_CHAR){
+                
+                if(result.size() > 3){
+                    char status_char = result[3];
+                    
+                    
+                    switch(status_char){
+                            
+                        case 'S':
+                        case 'W':
+                        case 'I':
+                            
+                            break;
+                        default:
+                            merror(M_IODEVICE_MESSAGE_DOMAIN,
+                                   "An unknown response was received from the syringe pump: %c", status_char);
+                            success = false;
+                            break;
+                    }
+                }
+                
+                if(result.size() > 4){
+                    
+                    char error_char = result[4];
+                    if(error_char == '?'){
+                        string error_code = result.substr(5, result.size() - 6);
+                        string err_str("");
+                        
+                        if(error_code == ""){
+                            err_str = "Unrecognized command";
+                        } else if(error_code == "OOR"){
+                            err_str = "Out of Range";
+                        } else if(error_code == "NA"){
+                            err_str = "Command currently not applicable";
+                        } else if(error_code == "IGN"){
+                            err_str = "Command ignored";
+                        } else if(error_code == "COM"){
+                            err_str = "Communications failure";
+                        } else {
+                            err_str = "Unspecified error";
+                        }
+                        
+                        merror(M_IODEVICE_MESSAGE_DOMAIN,
+                               "The syringe pump returned an error: %s (%s)", err_str.c_str(), error_code.c_str());
+                        success = false;
+                    }
+                }
+                
+                break;
+                
+            } else if((clock->getCurrentTimeUS() - tic) > response_timeout){
+                merror(M_IODEVICE_MESSAGE_DOMAIN,
+                       "Did not receive a complete response from the pump");
+                success = false;
+                break;
+            }
         }
-        
-        if(broken){
-            
-            disconnectFromDevice();
-            
-            mwarning(M_SYSTEM_MESSAGE_DOMAIN,
-                     "Connection lost, reconnecting..."
-                     "Command may not have been sent correctly");
-            connectToDevice();
-            
-        }
-        
-        
-        mprintf("RETURNED: %s", result.c_str());
     }
     
+    if (broken) {
+        merror(M_IODEVICE_MESSAGE_DOMAIN,
+               "Connection lost, reconnecting..."
+               "Command may not have been sent correctly");
+        disconnectFromDevice();
+        connectToDevice();
+    }
     
-    return result;
+    if (!result.empty()) {
+        mprintf(M_IODEVICE_MESSAGE_DOMAIN, "RETURNED: %s", result.c_str());
+    }
+    
+    return success;
 }
 
 
-void NE500PumpNetworkDevice::dispense(string pump_id, double rate, Datum data) {
+bool NE500PumpNetworkDevice::dispense(string pump_id, double rate, Datum data) {
     scoped_lock active_lock(active_mutex);
     
-    if (active) {
-        //initializePump(pump_id, 750.0, 20.0);
-        double amount = (double)data;
-        
-        if(amount == 0.0){
-            return;
-        }
-        
-        
-        string dir_str;
-        if(amount >= 0){
-            dir_str = "INF"; // infuse
-        } else {
-            amount *= -1.0;
-            dir_str = "WDR"; // withdraw
-        }
-        
-        boost::format direction_message_format("%s DIR %s");
-        string direction_message = (direction_message_format % pump_id % dir_str).str();
-        
-        sendMessage(direction_message);
-        
-        boost::format rate_message_format("%s RAT %.1f MM");
-        string rate_message = (rate_message_format % pump_id % rate).str();
-        
-        sendMessage(rate_message);
-        
-        boost::format message_format("%s VOL %.3f");
-        string message = (message_format % pump_id % amount).str();
-        
-        sendMessage(message);
-        
-        //				boost::format program_message_format("%s FUN RAT");
-        //				string program_message = (program_message_format % pump_id).str();
-        //
-        //				sendMessage(program_message);
-        
-        boost::format run_message_format("%s RUN");
-        string run_message = (run_message_format % pump_id).str();
-        
-        sendMessage(run_message);
+    if (!active) {
+        return false;
     }
+    
+    double amount = data.getFloat();
+    
+    if (amount == 0.0) {
+        return true;
+    }
+    
+    string dir_str;
+    if(amount >= 0){
+        dir_str = "INF"; // infuse
+    } else {
+        amount *= -1.0;
+        dir_str = "WDR"; // withdraw
+    }
+    
+    return (sendMessage(boost::format("%s DIR %s") % pump_id % dir_str) &&
+            sendMessage(boost::format("%s RAT %.1f MM") % pump_id % rate) &&
+            sendMessage(boost::format("%s VOL %.3f") % pump_id % amount) &&
+            sendMessage(boost::format("%s RUN") % pump_id));
 }
 
 
-void NE500PumpNetworkDevice::initializePump(string pump_id, double rate, double syringe_diameter) {
-    
-    boost::format function_message_format("%s FUN RAT");
-    string function_message = (function_message_format % pump_id).str();
-    
-    sendMessage(function_message);
-    
-    
-    boost::format diameter_message_format("%s DIA %g");
-    string diameter_message = (diameter_message_format % pump_id % syringe_diameter).str();
-    
-    sendMessage(diameter_message);
-    
-    
-    boost::format rate_message_format("%s RAT %g");
-    string rate_message = (rate_message_format % pump_id % rate).str();
-    
-    sendMessage(rate_message);
+bool NE500PumpNetworkDevice::initializePump(string pump_id, double rate, double syringe_diameter) {
+    return (sendMessage(boost::format("%s FUN RAT") % pump_id) &&
+            sendMessage(boost::format("%s DIA %g") % pump_id % syringe_diameter) &&
+            sendMessage(boost::format("%s RAT %g") % pump_id % rate));
 }
 
 

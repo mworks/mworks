@@ -88,12 +88,18 @@ public:
     bool stopDeviceIO() override;
     
 private:
-    void connectToDevice();
+    static constexpr char PUMP_SERIAL_DELIMITER_CHAR = 3;  // ETX
+    
+    bool connectToDevice();
     void disconnectFromDevice();
     
-    string sendMessage(string message);
-    void dispense(string pump_id, double rate, Datum data);
-    void initializePump(string pump_id, double rate, double syringe_diameter);
+    bool sendMessage(const boost::format &fmt) {
+        return sendMessage(fmt.str());
+    }
+    
+    bool sendMessage(string message);
+    bool dispense(string pump_id, double rate, Datum data);
+    bool initializePump(string pump_id, double rate, double syringe_diameter);
     
     
     class NE500DeviceOutputNotification : public VariableNotification {
