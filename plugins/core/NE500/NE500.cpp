@@ -251,10 +251,9 @@ void NE500PumpNetworkDevice::disconnectFromDevice() {
 
 string NE500PumpNetworkDevice::sendMessage(string message){
     
-#define RECV_BUFFER_SIZE        512
 #define PUMP_SERIAL_DELIMITER_CHAR 3 // ETX
     
-    char recv_buffer[RECV_BUFFER_SIZE];
+    std::array<char, 512> recv_buffer;
     int rc;
     bool broken = false;
     
@@ -271,15 +270,18 @@ string NE500PumpNetworkDevice::sendMessage(string message){
             mprintf("SENT: %s", message.c_str());
         }
         
-        // Clear the buffer
-        memset(recv_buffer, 0x0, RECV_BUFFER_SIZE);
-        
         // give it a moment
         shared_ptr<Clock> clock = Clock::instance();
         MWTime tic = clock->getCurrentTimeUS();
         
         while(true){
-            rc = recv(s, recv_buffer, RECV_BUFFER_SIZE, 0);
+            // Clear the buffer
+            recv_buffer.fill(0);
+            
+            rc = recv(s,
+                      recv_buffer.data(),
+                      recv_buffer.size() - 1,  // -1 to ensure there's always a terminating NUL
+                      0);
             
             // didn't receive data
             if(rc < 0){
@@ -346,7 +348,7 @@ string NE500PumpNetworkDevice::sendMessage(string message){
                 }
             }
             
-            result += string(recv_buffer);
+            result += string(recv_buffer.data());
         }
         
         if(broken){
