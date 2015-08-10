@@ -56,6 +56,7 @@ class NE500PumpNetworkDevice : public IODevice, boost::noncopyable {
 private:
     const std::string address;
     const int port;
+    const MWTime response_timeout;
     
     // the socket
     int s;
@@ -71,6 +72,7 @@ private:
 public:
     static const std::string ADDRESS;
     static const std::string PORT;
+    static const std::string RESPONSE_TIMEOUT;
     
     static void describeComponent(ComponentInfo &info);
     

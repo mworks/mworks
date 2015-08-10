@@ -46,6 +46,7 @@ NE500DeviceChannel::NE500DeviceChannel(const ParameterValueMap &parameters) :
 
 const std::string NE500PumpNetworkDevice::ADDRESS("address");
 const std::string NE500PumpNetworkDevice::PORT("port");
+const std::string NE500PumpNetworkDevice::RESPONSE_TIMEOUT("response_timeout");
 
 
 void NE500PumpNetworkDevice::describeComponent(ComponentInfo &info) {
@@ -55,6 +56,7 @@ void NE500PumpNetworkDevice::describeComponent(ComponentInfo &info) {
     
     info.addParameter(ADDRESS);
     info.addParameter(PORT);
+    info.addParameter(RESPONSE_TIMEOUT, "100ms");
 }
 
 
@@ -62,6 +64,7 @@ NE500PumpNetworkDevice::NE500PumpNetworkDevice(const ParameterValueMap &paramete
     IODevice(parameters),
     address(VariablePtr(parameters[ADDRESS])->getValue().getString()),
     port(parameters[PORT]),
+    response_timeout(parameters[RESPONSE_TIMEOUT]),
     s(-1),
     connected(false),
     active(false)
@@ -249,7 +252,6 @@ void NE500PumpNetworkDevice::disconnectFromDevice() {
 string NE500PumpNetworkDevice::sendMessage(string message){
     
 #define RECV_BUFFER_SIZE        512
-#define RESPONSE_TIMEOUT_MS     100
 #define PUMP_SERIAL_DELIMITER_CHAR 3 // ETX
     
     char recv_buffer[RECV_BUFFER_SIZE];
@@ -274,7 +276,7 @@ string NE500PumpNetworkDevice::sendMessage(string message){
         
         // give it a moment
         shared_ptr<Clock> clock = Clock::instance();
-        MWTime tic = clock->getCurrentTimeMS();
+        MWTime tic = clock->getCurrentTimeUS();
         
         while(true){
             rc = recv(s, recv_buffer, RECV_BUFFER_SIZE, 0);
@@ -337,7 +339,7 @@ string NE500PumpNetworkDevice::sendMessage(string message){
                     
                     break;
                     
-                } else if((clock->getCurrentTimeMS() - tic) > RESPONSE_TIMEOUT_MS){
+                } else if((clock->getCurrentTimeUS() - tic) > response_timeout){
                     mwarning(M_SYSTEM_MESSAGE_DOMAIN,
                              "Did not receive a complete response from the pump");
                     break;
