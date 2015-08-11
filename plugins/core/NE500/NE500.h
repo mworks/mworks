@@ -90,6 +90,8 @@ public:
 private:
     static constexpr char PUMP_SERIAL_DELIMITER_CHAR = 3;  // ETX
     
+    static std::string formatFloat(double val);
+    
     bool connectToDevice();
     void disconnectFromDevice();
     
