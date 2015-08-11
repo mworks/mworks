@@ -232,6 +232,7 @@ bool NE500PumpNetworkDevice::sendMessage(string message){
     bool broken = false;
     string result;
     bool success = true;
+    bool is_alarm = false;
     
     while(true){
         // Clear the buffer
@@ -261,12 +262,15 @@ bool NE500PumpNetworkDevice::sendMessage(string message){
                     
                     
                     switch(status_char){
-                            
                         case 'S':
                         case 'W':
                         case 'I':
-                            
                             break;
+                            
+                        case 'A':
+                            is_alarm = true;
+                            break;
+                            
                         default:
                             merror(M_IODEVICE_MESSAGE_DOMAIN,
                                    "An unknown response was received from the syringe pump: %c", status_char);
@@ -275,7 +279,7 @@ bool NE500PumpNetworkDevice::sendMessage(string message){
                     }
                 }
                 
-                if(result.size() > 4){
+                if (result.size() > 4 && !is_alarm) {
                     
                     char error_char = result[4];
                     if(error_char == '?'){
@@ -322,7 +326,11 @@ bool NE500PumpNetworkDevice::sendMessage(string message){
     }
     
     if (!result.empty()) {
-        mprintf(M_IODEVICE_MESSAGE_DOMAIN, "RETURNED: %s", result.c_str());
+        if (is_alarm) {
+            mwarning(M_IODEVICE_MESSAGE_DOMAIN, "Received alarm response from NE500 device: %s", result.c_str());
+        } else {
+            mprintf(M_IODEVICE_MESSAGE_DOMAIN, "RETURNED: %s", result.c_str());
+        }
     }
     
     return success;
