@@ -10,7 +10,7 @@
     <optimizers tag="Optimizers"></optimizers>
     <experiment tag="New Experiment" full_name="" description="">
         <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
-            <action type="assignment" tag="Assign Variable" variable="result" value="exp_rand(2, 2.5, 2.5 + 1e-7)"></action>
+            <action type="assignment" tag="Assign Variable" variable="result" value="exp_rand(2, 2.5 - 1e-7, 2.5)"></action>
             <action type="assert" tag="Assert" condition="result == 2.5" message="" stop_on_failure="0"></action>
         </protocol>
     </experiment>

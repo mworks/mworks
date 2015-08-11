@@ -688,7 +688,7 @@ void ParsedExpressionVariableTestFixture::testExpRandFunction() {
     
     // Bad parameters
     for (int i = 0; i < 10; i++) {
-        Datum result = ParsedExpressionVariable::evaluateExpression("exp_rand(2, 2.5, 2.5 + 1e-7)");
+        Datum result = ParsedExpressionVariable::evaluateExpression("exp_rand(2, 2.5 - 1e-7, 2.5)");
         CPPUNIT_ASSERT(result.isFloat());
         CPPUNIT_ASSERT_EQUAL(2.5, result.getFloat());
     }

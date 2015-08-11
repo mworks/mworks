@@ -2297,18 +2297,18 @@ namespace stx MW_SYMBOL_PUBLIC {
         for (int i = 0; i < maxDraws; i++) {
             double result = 1.0 - randDist(rng);  // Include 1, exclude 0
             result = minVal - beta * std::log(result);
-            if (result <= maxVal) {
+            if (result < maxVal) {
                 return Datum( result );
             }
         }
         
         mw::merror(mw::M_GENERIC_MESSAGE_DOMAIN,
-                   "Failed to generate an exponential random value <=%g after %d tries.  Returning %g.",
+                   "Failed to generate an exponential random value less than %g after %d tries.  Returning %g.",
                    maxVal,
                    maxDraws,
-                   minVal);
+                   maxVal);
         
-        return Datum( minVal );
+        return Datum( maxVal );
     }
 	
 	
