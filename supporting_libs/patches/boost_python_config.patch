@@ -1,12 +1,12 @@
-diff -ur boost_1_57_0/bootstrap.sh boost/bootstrap.sh
---- boost_1_57_0/bootstrap.sh	2014-10-30 08:00:14.000000000 -0400
-+++ boost/bootstrap.sh	2015-04-01 11:29:12.000000000 -0400
-@@ -345,7 +345,7 @@
-   cat >> project-config.jam <<EOF
- 
- # Python configuration
--using python : $PYTHON_VERSION : $PYTHON_ROOT ;
-+using python : $PYTHON_VERSION : $PYTHON : $PYTHON_ROOT/include/python$PYTHON_VERSION : $PYTHON_ROOT/lib ;
+diff -ur boost_1_59_0/bootstrap.sh boost/bootstrap.sh
+--- boost_1_59_0/bootstrap.sh	2015-08-11 10:00:14.000000000 -0400
++++ boost/bootstrap.sh	2015-08-17 10:52:28.000000000 -0400
+@@ -356,7 +356,7 @@
+ import python ;
+ if ! [ python.configured ]
+ {
+-    using python : $PYTHON_VERSION : $PYTHON_ROOT ;
++    using python : $PYTHON_VERSION : $PYTHON : $PYTHON_ROOT/include/python$PYTHON_VERSION : $PYTHON_ROOT/lib ;
+ }
  EOF
  fi
- 
