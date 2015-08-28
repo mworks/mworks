@@ -211,7 +211,7 @@ A folder for (purely) organizational purposes.  Variables defined in a folder wi
 		
 		<!-- Payload -->
 		<code>
-			<variable tag="New Variable" scope="global" logging="when_changed" default_value="0" type="any"/>
+			<variable tag="New Variable" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="0" type="any"/>
 		</code>
 	</MWElement>
 	

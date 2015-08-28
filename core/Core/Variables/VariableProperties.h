@@ -74,6 +74,7 @@ class VariableProperties {
 		DomainType domain; // what kind of range of values
 		bool viewable; // can the user see this variable
 		bool persistant; // save the variable from run to run
+        bool excludeFromDataFile; // should the variable be excluded from data files
         Datum * range; // an array of values in a range
 		int nvals; // number of values in the range.
 		WhenType logging; // when does this variable get logged
@@ -111,7 +112,8 @@ class VariableProperties {
 							bool view, 
 							bool persist,
 							DomainType dType, 
-							std::string groups);
+							std::string groups,
+                            bool exclude = false);
 
         /**
          * Constructors that use Datum pointers instead of value arguments
@@ -127,8 +129,9 @@ class VariableProperties {
 							bool view, 
 							bool persist,
 							DomainType dType, 
-						 Datum * rg, 
-							std::string groups);
+						    Datum * rg,
+							std::string groups,
+                            bool exclude = false);
 
         /**
          * Constructors that use Datum pointers instead of value arguments
@@ -144,9 +147,10 @@ class VariableProperties {
 							bool view, 
 							bool persist,
 							DomainType dType, 
-						 Datum * rg, 
+                            Datum * rg,
 							int numvals,
-							std::string groups);
+							std::string groups,
+                            bool exclude = false);
 
         // Constructs an interface setting from a scarab object.
         // used in network communication
@@ -172,6 +176,7 @@ class VariableProperties {
 		std::string getLongName();
 		bool getViewable();
 		bool getPersistant();
+        bool getExcludeFromDataFile();
         void setVariable(Variable *theparam);
         void addRange(Datum *, int);
 		std::vector <std::string> getGroups();

@@ -26,8 +26,12 @@ BEGIN_NAMESPACE_MW
 // see it.
 static void * write(const shared_ptr<ScarabConnection> &sc);
 
-ScarabWriteConnection::ScarabWriteConnection(shared_ptr<EventBuffer> _event_buffer, std::string uri) :
-                                                    ScarabConnection(_event_buffer, uri) { }
+ScarabWriteConnection::ScarabWriteConnection(const shared_ptr<EventBuffer> &_event_buffer,
+                                             const std::string &uri,
+                                             const std::unordered_set<int> &excluded_event_codes) :
+    ScarabConnection(_event_buffer, uri),
+    excluded_event_codes(excluded_event_codes)
+{ }
                     
 void ScarabWriteConnection::startThread(int interval) {
     if(thread) { return; } // already running
@@ -180,22 +184,27 @@ int ScarabWriteConnection::service() {
 					if(newevent == NULL) {
 						// don't send anything if an event was NULL.
 						servicing = false;
-						scarab_free_datum(scarab_event);
 						return 1;
 					}
-					
-					scarab_event = newevent->toScarabDatum();
 
 					// stop buffering when you run out of events, or you hit the max events
 					if(!(buffering = buffer_reader->nextEventExists() && numEventsBuffered<MAX_EVENTS_TO_BUFFER)) {
 						scarab_force_buffering(pipe, 0);
 					}
+                    
+                    if (excluded_event_codes.find(newevent->getEventCode()) != excluded_event_codes.end()) {
+                        // Don't write excluded event
+                        continue;
+                    }
+                    
+                    scarab_event = newevent->toScarabDatum();
 					
 					if(scarab_write(pipe, scarab_event) == 0) {
 						n_written++;
 					} else {
 						merror(M_SYSTEM_MESSAGE_DOMAIN, "scarab buffered write error");
 						servicing = false;
+                        scarab_free_datum(scarab_event);
 						return -1;
 					}
 					
@@ -214,17 +223,19 @@ int ScarabWriteConnection::service() {
 					return 1;
 				}
 				
-				scarab_event = newevent->toScarabDatum();
-								
-				if(scarab_write(pipe, scarab_event) == 0) {
-					n_written++;
-				} else {
-					merror(M_SYSTEM_MESSAGE_DOMAIN, "scarab write error");
-					servicing = false;
-					return -1;
-				}
-				
-				scarab_free_datum(scarab_event);
+                if (excluded_event_codes.find(newevent->getEventCode()) == excluded_event_codes.end()) {
+                    scarab_event = newevent->toScarabDatum();
+                    
+                    if(scarab_write(pipe, scarab_event) == 0) {
+                        n_written++;
+                    } else {
+                        merror(M_SYSTEM_MESSAGE_DOMAIN, "scarab write error");
+                        servicing = false;
+                        return -1;
+                    }
+                    
+                    scarab_free_datum(scarab_event);
+                }
 				
 			}
 			

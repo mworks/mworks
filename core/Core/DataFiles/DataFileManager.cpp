@@ -91,7 +91,18 @@ int DataFileManager::openFile(std::string _filename, DatumFileOptions opt) {
 			   "Could not create file: %s", filename.c_str());
 		return -1;
 	}
-    scarab_connection = shared_ptr<ScarabWriteConnection>(new ScarabWriteConnection(global_outgoing_event_buffer, uri));
+    
+    // Generate list of excluded event codes
+    std::unordered_set<int> excludedEventCodes;
+    for (auto &var : global_variable_registry->getGlobalVariables()) {
+        if (var->getProperties()->getExcludeFromDataFile()) {
+            excludedEventCodes.insert(var->getCodecCode());
+        }
+    }
+    
+    scarab_connection = shared_ptr<ScarabWriteConnection>(new ScarabWriteConnection(global_outgoing_event_buffer,
+                                                                                    uri,
+                                                                                    excludedEventCodes));
     scarab_connection->connect();
 	
     if(scarab_connection->isConnected()) {

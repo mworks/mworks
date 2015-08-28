@@ -1,0 +1,28 @@
+<?xml version="1.0" standalone="no"?>
+<monkeyml version="1.0">
+    <io_devices tag="IO Devices"></io_devices>
+    <variables tag="Variables">
+        <variable tag="implicitly_included" scope="global" logging="when_changed" default_value="0" type="any"></variable>
+        <variable tag="explicitly_included" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="0" type="any"></variable>
+        <variable tag="excluded" scope="global" logging="when_changed" exclude_from_data_file="YES" default_value="0" type="any"></variable>
+    </variables>
+    <sounds tag="Sounds"></sounds>
+    <stimuli tag="Stimuli"></stimuli>
+    <filters tag="Filters"></filters>
+    <optimizers tag="Optimizers"></optimizers>
+    <experiment tag="New Experiment" full_name="" description="">
+        <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
+            <action type="assignment" tag="Reset implicitly_included" variable="implicitly_included" value="0"></action>
+            <action type="assignment" tag="Reset explicitly_included" variable="explicitly_included" value="0"></action>
+            <action type="assignment" tag="Reset excluded" variable="excluded" value="0"></action>
+            <block tag="New Block" nsamples="10" sampling_method="cycles" selection="sequential" interruptible="YES">
+                <action type="assignment" tag="Increment implicitly_included" variable="implicitly_included" value="implicitly_included + 1"></action>
+                <action type="assignment" tag="Increment explicitly_included" variable="explicitly_included" value="explicitly_included + 1"></action>
+                <action type="assignment" tag="Increment excluded" variable="excluded" value="excluded + 1"></action>
+            </block>
+            <action type="assert" tag="Assert implicitly_included" condition="implicitly_included == 10" message="" stop_on_failure="0"></action>
+            <action type="assert" tag="Assert explicitly_included" condition="explicitly_included == 10" message="" stop_on_failure="0"></action>
+            <action type="assert" tag="Assert excluded" condition="excluded == 10" message="" stop_on_failure="0"></action>
+        </protocol>
+    </experiment>
+</monkeyml>

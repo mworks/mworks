@@ -81,6 +81,7 @@ shared_ptr<mw::Component> VariableFactory::createObject(std::map<std::string, st
 	std::string editable_string("");
 	std::string viewable_string("");
 	std::string persistant_string("");
+    std::string exclude_from_data_file_string("");
 	std::string logging_string("");
 	std::string scope_string("");
 	
@@ -88,6 +89,7 @@ shared_ptr<mw::Component> VariableFactory::createObject(std::map<std::string, st
 	WhenType editable = M_ALWAYS; // when can we edit the variable
 	bool viewable = true; // can the user see this variable
 	bool persistant = false; // save the variable from run to run
+    bool excludeFromDataFile = false; // should the variable be excluded from data files
 	WhenType logging = M_WHEN_CHANGED; // when does this variable get logged
  Datum defaultValue(0L); // the default value Datum object.	
 	std::string groups(EXPERIMENT_DEFINED_VARIABLES);
@@ -99,6 +101,7 @@ shared_ptr<mw::Component> VariableFactory::createObject(std::map<std::string, st
 	GET_ATTRIBUTE(parameters, editable_string, "editable", "always");
 	GET_ATTRIBUTE(parameters, viewable_string, "viewable", "1");
 	GET_ATTRIBUTE(parameters, persistant_string, "persistant", "0");
+    GET_ATTRIBUTE(parameters, exclude_from_data_file_string, "exclude_from_data_file", "0");
 	GET_ATTRIBUTE(parameters, logging_string, "logging", "never");
 	GET_ATTRIBUTE(parameters, scope_string, "scope", "global");
 
@@ -159,6 +162,12 @@ shared_ptr<mw::Component> VariableFactory::createObject(std::map<std::string, st
 	} catch (boost::bad_lexical_cast &) {
 		throw InvalidAttributeException(parameters["reference_id"], "persistant", parameters.find("persistant")->second);
 	}
+    
+    try {
+        excludeFromDataFile = reg->getBoolean(exclude_from_data_file_string);
+    } catch (boost::bad_lexical_cast &) {
+        throw InvalidAttributeException(parameters["reference_id"], "exclude_from_data_file", parameters.find("exclude_from_data_file")->second);
+    }
 	
 	
 	if(to_lower_copy(logging_string) == "never") {
@@ -228,7 +237,8 @@ shared_ptr<mw::Component> VariableFactory::createObject(std::map<std::string, st
 							  viewable,
 							  persistant,
 							  M_INTEGER_INFINITE,
-							  groups);
+							  groups,
+                              excludeFromDataFile);
 	
 	shared_ptr<mw::Component>newVar;
 	

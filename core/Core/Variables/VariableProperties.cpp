@@ -28,7 +28,9 @@ VariableProperties::VariableProperties(Datum * def,
 										 bool view, 
 										 bool persist,
 										 DomainType dType, 
-										 std::string _groups) {
+										 std::string _groups,
+                                         bool exclude)
+{
     if((dType != M_DISCRETE_BOOLEAN) && (dType != M_INTEGER_INFINITE) 
 	   && (dType != M_CONTINUOUS_INFINITE)) {
         //merror(M_SYSTEM_MESSAGE_DOMAIN,
@@ -39,6 +41,7 @@ VariableProperties::VariableProperties(Datum * def,
     longname = desc;
     editable = edit;
 	persistant = persist;
+    excludeFromDataFile = exclude;
     logging = log;
     viewable = view;
     domain = dType;
@@ -63,7 +66,9 @@ VariableProperties::VariableProperties(Datum * def,
 										 bool persist, 
 										 DomainType dType, 
 										 Datum * rg,
-										 std::string _groups) {
+										 std::string _groups,
+                                         bool exclude)
+{
     if(dType != M_INTEGER_FINITE && dType != M_CONTINUOUS_FINITE) {
         merror(M_SYSTEM_MESSAGE_DOMAIN,
 			   "Incorrect call for non-finite domain type");
@@ -73,6 +78,7 @@ VariableProperties::VariableProperties(Datum * def,
     longname = desc;
     editable = edit;
 	persistant = persist;
+    excludeFromDataFile = exclude;
     logging = log;
     viewable = view;
     domain = dType;
@@ -101,7 +107,9 @@ VariableProperties::VariableProperties(Datum * def,
 										 DomainType dType, 
 										 Datum * rg, 
 										 int numvals, 
-										 std::string _groups) {
+										 std::string _groups,
+                                         bool exclude)
+{
     if(dType != M_DISCRETE) {
         merror(M_SYSTEM_MESSAGE_DOMAIN,
 			   "Incorrect call for non-discrete domain type");
@@ -111,6 +119,7 @@ VariableProperties::VariableProperties(Datum * def,
     longname = desc;
     editable = edit;
 	persistant = persist;
+    excludeFromDataFile = exclude;
     viewable = view;
     domain = dType;
     range = new Datum[numvals];
@@ -225,11 +234,24 @@ VariableProperties::VariableProperties(ScarabDatum * datum) {
 	scarab_free_datum(string_datum);
 	if(runner == NULL || runner->type != SCARAB_INTEGER){
 		mwarning(M_NETWORK_MESSAGE_DOMAIN,
-				 "Invalid viewable value on variable (%s) received in event stream.",
+				 "Invalid persistant value on variable (%s) received in event stream.",
 				 tagname.c_str());
 		persistant = false;
 	} else {
 		persistant = (runner->data.integer?true:false);
+    }
+    
+    //excludeFromDataFile
+    string_datum = scarab_new_string("exclude_from_data_file");
+    runner = scarab_dict_get(datum, string_datum);
+    scarab_free_datum(string_datum);
+    if(runner == NULL || runner->type != SCARAB_INTEGER){
+        mwarning(M_NETWORK_MESSAGE_DOMAIN,
+                 "Invalid exclude_from_data_file value on variable (%s) received in event stream.",
+                 tagname.c_str());
+        excludeFromDataFile = false;
+    } else {
+        excludeFromDataFile = (runner->data.integer?true:false);
     }
 	
     //nvals
@@ -332,8 +354,11 @@ VariableProperties::VariableProperties(VariableProperties&  copy) {
     // viewable
     viewable = copy.getViewable();
     
-    // viewable
+    // persistant
     persistant = copy.getPersistant();
+    
+    // excludeFromDataFile
+    excludeFromDataFile = copy.getExcludeFromDataFile();
     
     // nvals
     nvals = copy.getNumberValuesInRange();
@@ -425,6 +450,10 @@ bool VariableProperties::getPersistant() {
     return persistant;
 }
 
+bool VariableProperties::getExcludeFromDataFile() {
+    return excludeFromDataFile;
+}
+
 void VariableProperties::addRange(Datum * val, int idx) {
     if(idx < 0 || idx >= nvals) {
         return;
@@ -447,6 +476,7 @@ VariableProperties::operator Datum(){
 	dict.addElement("domain", Datum((long)domain));
 	dict.addElement("viewable", Datum((long)viewable));
 	dict.addElement("persistant", Datum((long)persistant));
+    dict.addElement("exclude_from_data_file", Datum((long)excludeFromDataFile));
 	dict.addElement("nvals", (long)nvals);
 	dict.addElement("logging", Datum((long)logging));
 	
@@ -471,100 +501,8 @@ VariableProperties::operator Datum(){
 }
 
 ScarabDatum * VariableProperties::toScarabDatum() {
-    
-	// for now
  Datum dict = this->operator Datum();
 	return dict.getScarabDatumCopy();
-	
-	
-	/*	ScarabDatum *package = NULL;
-	ScarabDatum *key = 0;
-	ScarabDatum *value = 0;
-	
-    
-	
-    // package size is 11 for every variable + nvals for the number of
-    // items that are in range either 0, 2, or more
-    package = scarab_dict_new(__PACKAGESIZE__ + nvals,
-							  &scarab_dict_times2);
-    //tagname
-    key = scarab_new_string("tagname");
-    value = scarab_new_string(tagname);
-    scarab_dict_put(package, key, value);
-    scarab_free_datum(key);
-    scarab_free_datum(value);
-	
-    //shortname
-    key = scarab_new_string("shortname");
-    value = scarab_new_string(shortname);
-    scarab_dict_put(package, key, value);
-    scarab_free_datum(key);
-    scarab_free_datum(value);
-	
-    //longname
-    key = scarab_new_string("longname");
-    value = scarab_new_string(longname);
-    scarab_dict_put(package, key, value);
-    scarab_free_datum(key);
-    scarab_free_datum(value);
-	
-    //editable
-    key = scarab_new_string("editable");
-    value = scarab_new_integer(editable);
-    scarab_dict_put(package, key, value);
-    scarab_free_datum(key);
-    scarab_free_datum(value);
-	
-    //domain
-    key = scarab_new_string("domain");
-    value = scarab_new_integer(domain);
-    scarab_dict_put(package, key, value);
-    scarab_free_datum(key);
-    scarab_free_datum(value);
-	
-    //viewable
-    key = scarab_new_string("viewable");
-    value = scarab_new_integer((int)viewable);
-    scarab_dict_put(package, key, value);
-    scarab_free_datum(key);
-    scarab_free_datum(value);
-	
-    //persistant
-    key = scarab_new_string("persistant");
-	value = scarab_new_integer((int)persistant);
-    scarab_dict_put(package, key, value);
-    scarab_free_datum(key);
-    scarab_free_datum(value);
-	
-    //nvals
-    key = scarab_new_string("nvals");
-    value = scarab_new_integer(nvals);
-    scarab_dict_put(package, key, value);
-    scarab_free_datum(key);
-    scarab_free_datum(value);
-	
-    //range
-    if(range != NULL) {
-        for(int i = 0; i < nvals; i++) {
-			key = scarab_new_integer(i);
-            scarab_dict_put(package, key, range[i].getScarabDatum());
-			scarab_free_datum(key);
-        }
-    }
-	
-    //logging
-    key = scarab_new_string("logging");
-    value = scarab_new_integer(logging);
-    scarab_dict_put(package, key, value);
-    scarab_free_datum(key);
-    scarab_free_datum(value);
-	
-    //defaultvalue
-    key = scarab_new_string("defaultvalue");
-    scarab_dict_put(package, key, defaultvalue.getScarabDatum());
-    scarab_free_datum(key);
-	
-    return package;*/
 }
 
 void VariableProperties::printToSTDERR() {
@@ -575,6 +513,7 @@ void VariableProperties::printToSTDERR() {
     fprintf(stderr, "mVariableProperties.domain => %d\n", domain);
     fprintf(stderr, "mVariableProperties.viewable => %d\n", viewable);
     fprintf(stderr, "mVariableProperties.persistant => %d\n", persistant);
+    fprintf(stderr, "mVariableProperties.excludeFromDataFile => %d\n", excludeFromDataFile);
     fprintf(stderr, "mVariableProperties.logging => %d\n", logging);
     fprintf(stderr, "mVariableProperties.nvals => %d\n", nvals);
     if(nvals != 0) {
