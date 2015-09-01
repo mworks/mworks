@@ -1,15 +1,6 @@
 #ifndef NE500Plugin_Prefix_pch
 #define NE500Plugin_Prefix_pch
 
-#ifdef __cplusplus
-
-#include <MWorksCore/IODevice.h>
-#include <MWorksCore/Plugin.h>
-#include <MWorksCore/StandardComponentFactory.h>
-
-#endif /* defined(__cplusplus) */
-
-/* Include C headers *after* C++ ones to work around a bug in clang-503.0.40 (Xcode 5.1.1) */
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <stdlib.h>
@@ -19,5 +10,13 @@
 #include <arpa/inet.h>
 #include <pthread.h>
 #include <fcntl.h>
+
+#ifdef __cplusplus
+
+#include <MWorksCore/IODevice.h>
+#include <MWorksCore/Plugin.h>
+#include <MWorksCore/StandardComponentFactory.h>
+
+#endif /* defined(__cplusplus) */
 
 #endif /* !defined(NE500Plugin_Prefix_pch) */
