@@ -467,7 +467,7 @@ std::vector <std::string> VariableProperties::getGroups() {
 
 VariableProperties::operator Datum(){
 	
- Datum dict(M_DICTIONARY, 11);
+ Datum dict(M_DICTIONARY, 12);
 	
 	dict.addElement("tagname", tagname.c_str());
 	dict.addElement("shortname", shortname.c_str());
