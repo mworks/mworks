@@ -169,6 +169,18 @@ void StandardSystemEventHandler::handleSystemEvent(const Datum &sysEvent) {
 		}
 		case M_START_EXPERIMENT:
 		{
+            mprintf(M_SYSTEM_MESSAGE_DOMAIN, "Running MWorks %s", MW_VERSION);
+            
+            time_t currentTime;
+            struct tm currentLocalTime;
+            std::array<char, 128> buffer;
+            if (-1 != (currentTime = time(nullptr)) &&
+                localtime_r(&currentTime, &currentLocalTime) &&
+                0 != strftime(buffer.data(), buffer.size(), "%+", &currentLocalTime))
+            {
+                mprintf(M_SYSTEM_MESSAGE_DOMAIN, "Current date/time is %s", buffer.data());
+            }
+            
 			shared_ptr <StateSystem> state_system = StateSystem::instance();
 			state_system->start();
 		}
