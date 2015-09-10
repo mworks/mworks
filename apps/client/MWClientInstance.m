@@ -566,6 +566,21 @@
         [notebook addEntry:@"Experiment stopped"];
 	} else {
 		//start
+        
+        if (!self.dataFileOpen && appController.shouldAutoOpenDataFile) {
+            NSString *userName = NSUserName();
+            NSString *experimentBaseName = self.clientsideExperimentPath.lastPathComponent.stringByDeletingPathExtension;
+            
+            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+            dateFormatter.dateFormat = @"yyyyMMdd-HHmmss";
+            NSString *dateTag = [dateFormatter stringFromDate:[NSDate date]];
+            [dateFormatter release];
+            
+            self.dataFileName = [NSString stringWithFormat:@"%@-%@-%@", userName, experimentBaseName, dateTag];
+            self.dataFileOverwrite = NO;
+            [self openDataFile];
+        }
+        
 		if([self currentProtocolName] != Nil){
 			core->sendProtocolSelectedEvent([[self currentProtocolName] cStringUsingEncoding:NSASCIIStringEncoding]);
 		}

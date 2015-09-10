@@ -67,6 +67,7 @@
 @property int preferredWindowHeight;
 @property(nonatomic, readonly) BOOL shouldAutoClosePluginWindows;
 @property(nonatomic, readonly) BOOL shouldRestoreOpenPluginWindows;
+@property(nonatomic, readonly) BOOL shouldAutoOpenDataFile;
 
 - (void) awakeFromNib;
 

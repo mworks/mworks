@@ -13,6 +13,7 @@
 #define DEFAULTS_AUTO_CONNECT_TO_LAST_SERVER_KEY @"autoConnectToLastServer"
 #define DEFAULTS_AUTO_CLOSE_PLUGIN_WINDOWS_KEY @"autoClosePluginWindows"
 #define DEFAULTS_RESTORE_OPEN_PLUGIN_WINDOWS_KEY @"restoreOpenPluginWindows"
+#define DEFAULTS_AUTO_OPEN_DATA_FILE_KEY @"autoOpenDataFile"
 
 
 @implementation AppController
@@ -32,6 +33,7 @@
         [defaultValues setObject:[NSNumber numberWithBool:NO] forKey:DEFAULTS_AUTO_CONNECT_TO_LAST_SERVER_KEY];
         [defaultValues setObject:[NSNumber numberWithBool:YES] forKey:DEFAULTS_AUTO_CLOSE_PLUGIN_WINDOWS_KEY];
         [defaultValues setObject:[NSNumber numberWithBool:NO] forKey:DEFAULTS_RESTORE_OPEN_PLUGIN_WINDOWS_KEY];
+        [defaultValues setObject:[NSNumber numberWithBool:YES] forKey:DEFAULTS_AUTO_OPEN_DATA_FILE_KEY];
         
         [[NSUserDefaults standardUserDefaults] registerDefaults:defaultValues];
     }
@@ -45,6 +47,11 @@
 
 - (BOOL)shouldRestoreOpenPluginWindows {
     return [[NSUserDefaults standardUserDefaults] boolForKey:DEFAULTS_RESTORE_OPEN_PLUGIN_WINDOWS_KEY];
+}
+
+
+- (BOOL)shouldAutoOpenDataFile {
+    return [[NSUserDefaults standardUserDefaults] boolForKey:DEFAULTS_AUTO_OPEN_DATA_FILE_KEY];
 }
 
 

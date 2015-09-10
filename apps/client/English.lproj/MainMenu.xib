@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="macosx"/>
         <development version="5100" identifier="xcode"/>
@@ -1071,7 +1071,7 @@
                     <button verticalHuggingPriority="750" id="573">
                         <rect key="frame" x="72" y="14" width="84" height="19"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="roundRect" title="disconnect" bezelStyle="roundedRect" image="6EFD4ADA-F67F-4EFC-B514-585E4998DA39" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="574">
+                        <buttonCell key="cell" type="roundRect" title="disconnect" bezelStyle="roundedRect" image="6786796E-5C70-4C53-99B2-6F4687C361F5" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="574">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="cellTitle"/>
                         </buttonCell>
@@ -1156,7 +1156,7 @@
                     <button verticalHuggingPriority="750" id="634">
                         <rect key="frame" x="84" y="12" width="67" height="19"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="roundRect" title="connect" bezelStyle="roundedRect" image="C79000F7-D55C-45FB-95E1-0EB1285B9147" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="639">
+                        <buttonCell key="cell" type="roundRect" title="connect" bezelStyle="roundedRect" image="9369CE0E-5E0D-449A-AED7-9F0D07F702BE" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="639">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="cellTitle"/>
                         </buttonCell>
@@ -1259,7 +1259,7 @@
                     <button verticalHuggingPriority="750" id="1274">
                         <rect key="frame" x="209" y="117" width="67" height="19"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="roundRect" title="choose..." bezelStyle="roundedRect" image="C553C005-0651-49FA-A172-76501D4A6113" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="1275">
+                        <buttonCell key="cell" type="roundRect" title="choose..." bezelStyle="roundedRect" image="47FA56FF-6FE0-48BC-A34C-2D55076F96B2" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="1275">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="cellTitle"/>
                         </buttonCell>
@@ -1290,7 +1290,7 @@
                     <button verticalHuggingPriority="750" id="1278">
                         <rect key="frame" x="209" y="18" width="67" height="19"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="roundRect" title="load" bezelStyle="roundedRect" image="BF1FDDE6-6604-40B2-998F-826315BA4DEE" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="1281">
+                        <buttonCell key="cell" type="roundRect" title="load" bezelStyle="roundedRect" image="960E3D4F-D9E5-4456-9609-D18C6000D36C" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="1281">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="cellTitle"/>
                         </buttonCell>
@@ -1349,7 +1349,7 @@
                     <button verticalHuggingPriority="750" id="702">
                         <rect key="frame" x="47" y="15" width="118" height="19"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="roundRect" title="close experiment" bezelStyle="roundedRect" image="FBE02791-BA3C-4312-92E3-3B8188A5E4D9" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="705">
+                        <buttonCell key="cell" type="roundRect" title="close experiment" bezelStyle="roundedRect" image="BD45A3CD-C984-4D2C-9166-CED2FEDB06A3" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="705">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="cellTitle"/>
                         </buttonCell>
@@ -1419,7 +1419,7 @@
                     <button verticalHuggingPriority="750" id="773">
                         <rect key="frame" x="57" y="18" width="92" height="19"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="roundRect" title="close stream" bezelStyle="roundedRect" image="00CA917F-2F7F-4B28-9D41-AC2C5E567E14" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="776">
+                        <buttonCell key="cell" type="roundRect" title="close stream" bezelStyle="roundedRect" image="E6584CD1-C6FD-4B85-98D3-D5F16437DF15" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="776">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="cellTitle"/>
                         </buttonCell>
@@ -1494,7 +1494,7 @@
                     <button verticalHuggingPriority="750" id="804">
                         <rect key="frame" x="76" y="18" width="67" height="19"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="roundRect" title="stream" bezelStyle="roundedRect" image="1EE52501-B2FB-4F1C-B3C4-84ED9C747639" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="809">
+                        <buttonCell key="cell" type="roundRect" title="stream" bezelStyle="roundedRect" image="3509A6C5-F8A4-4AA7-8323-4DF859B9BBD9" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="809">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="cellTitle"/>
                         </buttonCell>
@@ -2212,14 +2212,14 @@
         <window title="Preferences" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="1303">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" topStrut="YES"/>
-            <rect key="contentRect" x="163" y="800" width="416" height="94"/>
+            <rect key="contentRect" x="163" y="800" width="416" height="114"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1028"/>
             <view key="contentView" id="1304">
-                <rect key="frame" x="0.0" y="0.0" width="416" height="94"/>
+                <rect key="frame" x="0.0" y="5" width="416" height="114"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <button id="1306">
-                        <rect key="frame" x="18" y="38" width="260" height="18"/>
+                        <rect key="frame" x="18" y="58" width="260" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="Automatically close plugin windows" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="1307">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -2230,7 +2230,7 @@
                         </connections>
                     </button>
                     <button id="1310">
-                        <rect key="frame" x="18" y="18" width="380" height="18"/>
+                        <rect key="frame" x="18" y="38" width="380" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="Save and restore open plugin windows between sessions" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="1311">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -2241,7 +2241,7 @@
                         </connections>
                     </button>
                     <button id="1331">
-                        <rect key="frame" x="18" y="58" width="226" height="18"/>
+                        <rect key="frame" x="18" y="78" width="226" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="Connect to last server at startup" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="1332">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -2251,12 +2251,24 @@
                             <binding destination="830" name="value" keyPath="values.autoConnectToLastServer" id="1334"/>
                         </connections>
                     </button>
+                    <button id="J5Q-J4-Y77">
+                        <rect key="frame" x="18" y="18" width="341" height="18"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="check" title="Automatically open data file when experiment starts" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="llE-gK-jQ3">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <binding destination="830" name="value" keyPath="values.autoOpenDataFile" id="2bC-g4-ega"/>
+                        </connections>
+                    </button>
                 </subviews>
             </view>
+            <point key="canvasLocation" x="19" y="-32"/>
         </window>
     </objects>
     <resources>
-        <image name="00CA917F-2F7F-4B28-9D41-AC2C5E567E14" width="1" height="1">
+        <image name="3509A6C5-F8A4-4AA7-8323-4DF859B9BBD9" width="1" height="1">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPj9YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQsLzI4O1UkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw
@@ -2274,7 +2286,7 @@ AhACGAIlAioCLAIuAjMCOwI+AkMCSwJOAmACYwJoAAAAAAAAAgEAAAAAAAAAQgAAAAAAAAAAAAAAAAAA
 Amo
 </mutableData>
         </image>
-        <image name="1EE52501-B2FB-4F1C-B3C4-84ED9C747639" width="1" height="1">
+        <image name="47FA56FF-6FE0-48BC-A34C-2D55076F96B2" width="1" height="1">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPj9YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQsLzI4O1UkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw
@@ -2292,7 +2304,7 @@ AhACGAIlAioCLAIuAjMCOwI+AkMCSwJOAmACYwJoAAAAAAAAAgEAAAAAAAAAQgAAAAAAAAAAAAAAAAAA
 Amo
 </mutableData>
         </image>
-        <image name="6EFD4ADA-F67F-4EFC-B514-585E4998DA39" width="1" height="1">
+        <image name="6786796E-5C70-4C53-99B2-6F4687C361F5" width="1" height="1">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPj9YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQsLzI4O1UkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw
@@ -2310,7 +2322,7 @@ AhACGAIlAioCLAIuAjMCOwI+AkMCSwJOAmACYwJoAAAAAAAAAgEAAAAAAAAAQgAAAAAAAAAAAAAAAAAA
 Amo
 </mutableData>
         </image>
-        <image name="BF1FDDE6-6604-40B2-998F-826315BA4DEE" width="1" height="1">
+        <image name="9369CE0E-5E0D-449A-AED7-9F0D07F702BE" width="1" height="1">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPj9YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQsLzI4O1UkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw
@@ -2328,7 +2340,7 @@ AhACGAIlAioCLAIuAjMCOwI+AkMCSwJOAmACYwJoAAAAAAAAAgEAAAAAAAAAQgAAAAAAAAAAAAAAAAAA
 Amo
 </mutableData>
         </image>
-        <image name="C553C005-0651-49FA-A172-76501D4A6113" width="1" height="1">
+        <image name="960E3D4F-D9E5-4456-9609-D18C6000D36C" width="1" height="1">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPj9YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQsLzI4O1UkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw
@@ -2346,7 +2358,7 @@ AhACGAIlAioCLAIuAjMCOwI+AkMCSwJOAmACYwJoAAAAAAAAAgEAAAAAAAAAQgAAAAAAAAAAAAAAAAAA
 Amo
 </mutableData>
         </image>
-        <image name="C79000F7-D55C-45FB-95E1-0EB1285B9147" width="1" height="1">
+        <image name="BD45A3CD-C984-4D2C-9166-CED2FEDB06A3" width="1" height="1">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPj9YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQsLzI4O1UkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw
@@ -2364,7 +2376,7 @@ AhACGAIlAioCLAIuAjMCOwI+AkMCSwJOAmACYwJoAAAAAAAAAgEAAAAAAAAAQgAAAAAAAAAAAAAAAAAA
 Amo
 </mutableData>
         </image>
-        <image name="FBE02791-BA3C-4312-92E3-3B8188A5E4D9" width="1" height="1">
+        <image name="E6584CD1-C6FD-4B85-98D3-D5F16437DF15" width="1" height="1">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPj9YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQsLzI4O1UkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw
