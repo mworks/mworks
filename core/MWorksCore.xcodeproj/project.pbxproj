@@ -3008,6 +3008,7 @@
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					"MW_VERSION=\\\"$(MW_VERSION)\\\"",
+					"MW_VERSION_SUFFIX=\\\"$(MW_VERSION_SUFFIX)\\\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					/usr/include/libxml2,
