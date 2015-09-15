@@ -63,10 +63,10 @@ void BasicTransformStimulus::describeComponent(ComponentInfo &info) {
 
 BasicTransformStimulus::BasicTransformStimulus(const ParameterValueMap &parameters) :
     Stimulus(parameters),
-    xscale(registerVariable(parameters[X_SIZE])),
-    yscale(registerVariable(parameters[Y_SIZE])),
     xoffset(registerVariable(parameters[X_POSITION])),
     yoffset(registerVariable(parameters[Y_POSITION])),
+    xscale(registerVariable(parameters[X_SIZE])),
+    yscale(registerVariable(parameters[Y_SIZE])),
     rotation(registerVariable(parameters[ROTATION])),
     alpha_multiplier(registerVariable(parameters[ALPHA_MULTIPLIER]))
 { }

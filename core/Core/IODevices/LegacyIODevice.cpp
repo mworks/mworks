@@ -673,8 +673,8 @@ LegacyIODevice::LegacyIODevice(const ParameterValueMap &parameters) :
     IODevice(parameters),
     attached_device(NULL),
     capabilities(new ExpandableList<IOCapability>()),
-    channels(new ExpandableList<IOChannel>()),
     pending_channel_requests(new ExpandableList<IOChannelRequest>()),
+    channels(new ExpandableList<IOChannel>()),
     incompatibilities(new ExpandableList<IOChannelIncompatibility>())
 {
 }

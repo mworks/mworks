@@ -66,10 +66,10 @@ DriftingGratingStimulus::DriftingGratingStimulus(const ParameterValueMap &parame
     height(registerVariable(parameters[BasicTransformStimulus::Y_SIZE])),
     rotation(registerVariable(parameters[BasicTransformStimulus::ROTATION])),
     alpha_multiplier(registerVariable(parameters[BasicTransformStimulus::ALPHA_MULTIPLIER])),
+    direction_in_degrees(registerVariable(parameters[DIRECTION])),
     spatial_frequency(registerVariable(parameters[FREQUENCY])),
     speed(registerVariable(parameters[SPEED])),
-    starting_phase(registerVariable(parameters[STARTING_PHASE])),
-    direction_in_degrees(registerVariable(parameters[DIRECTION]))
+    starting_phase(registerVariable(parameters[STARTING_PHASE]))
 {
     const std::string &grating_type = parameters[GRATING_TYPE].str();
     shared_ptr<Variable> grating_sample_rate(parameters[GRATING_SAMPLE_RATE]);
