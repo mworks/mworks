@@ -137,8 +137,8 @@
 	<xsl:template match="//variable[@type!='selection']" mode="variable_create">
 		<xsl:call-template name="generic_create">
 			<xsl:with-param name="groups">
-				<xsl:if test="not(@groups)">
-					<xsl:value-of select="ancestor::folder/@tag"/>
+				<xsl:if test="not(@groups) and ancestor::folder/@tag">
+					&quot;<xsl:value-of select="ancestor::folder/@tag"/>&quot;
 				</xsl:if>
 			</xsl:with-param>
 		</xsl:call-template>
@@ -148,8 +148,8 @@
 	<xsl:template match="//variable[@type='selection']" mode="selection_variable_create">
 		<xsl:call-template name="generic_create">
 			<xsl:with-param name="groups">
-				<xsl:if test="not(@groups)">
-					<xsl:value-of select="ancestor::folder/@tag"/>
+				<xsl:if test="not(@groups) and ancestor::folder/@tag">
+					&quot;<xsl:value-of select="ancestor::folder/@tag"/>&quot;
 				</xsl:if>
 			</xsl:with-param>
 		</xsl:call-template>

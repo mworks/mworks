@@ -15,8 +15,14 @@
             <variable tag="folderC_groupsAB" scope="global" logging="when_changed" default_value="0" type="any" groups="A, B"></variable>
             <variable type="selection" tag="sel_folderC_groupsAB" values="1:5" selection="sequential" nsamples="1" sampling_method="cycles" advance_on_accept="YES" autoreset="NO" groups="A, B"></variable>
         </folder>
+        <folder tag="D, E">
+            <variable tag="folderDcommaE" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="0" type="any"></variable>
+            <variable type="selection" tag="sel_folderDcommaE" values="1:5" selection="sequential" nsamples="1" sampling_method="cycles" advance_on_accept="YES" autoreset="NO"></variable>
+        </folder>
         <variable tag="groupC" scope="global" logging="when_changed" default_value="0" type="any" groups="C"></variable>
         <variable type="selection" tag="sel_groupC" values="1:5" selection="sequential" nsamples="1" sampling_method="cycles" advance_on_accept="YES" autoreset="NO" groups="C"></variable>
+        <variable tag="groupDcommaE" scope="global" logging="when_changed" default_value="0" type="any" groups="&quot;D, E&quot;"></variable>
+        <variable type="selection" tag="sel_groupDcommaE" values="1:5" selection="sequential" nsamples="1" sampling_method="cycles" advance_on_accept="YES" autoreset="NO" groups="&quot;D, E&quot;"></variable>
         <variable tag="no_group" scope="global" logging="when_changed" default_value="0" type="any"></variable>
         <variable type="selection" tag="sel_no_group" values="1:5" selection="sequential" nsamples="1" sampling_method="cycles" advance_on_accept="YES" autoreset="NO"></variable>
     </variables>

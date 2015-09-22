@@ -11,9 +11,8 @@
 
 #include "VariableProperties.h"
 #include "Utilities.h"
-#include <stdio.h>
-
-#include <sstream>
+#include <boost/algorithm/string/trim.hpp>
+#include <boost/tokenizer.hpp>
 
 
 BEGIN_NAMESPACE_MW
@@ -529,27 +528,43 @@ void VariableProperties::printToSTDERR() {
 }
 
 std::vector <std::string> VariableProperties::parseGroupList(const std::string &groups_csv) const {
-	std::stringstream groupStream(groups_csv);
-	string field;
-	
-	
-	vector <string> gps;
-
-	gps.push_back(std::string("# ALL VARIABLES"));
-	
-	while (getline(groupStream, field, ',')) {
-		string::size_type start = field.find_first_not_of(" \t\v");
-		if(start != string::npos) {
-			string::size_type end = field.find_last_not_of(" \t\v");
-			string trimmed(field.substr(start, end-start+1));
-			if(trimmed.length() > 0) {
-				gps.push_back(trimmed);
-			}
-		}
-	}	
-	
-	return gps;
+    vector <string> gps;
+    gps.push_back(std::string("# ALL VARIABLES"));
+    
+    for (string field : boost::tokenizer<boost::escaped_list_separator<char>>(groups_csv)) {
+        boost::algorithm::trim(field);
+        if (!field.empty()) {
+            gps.push_back(field);
+        }
+    }
+    
+    return std::move(gps);
 }
 
 
 END_NAMESPACE_MW
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
