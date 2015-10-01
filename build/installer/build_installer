@@ -53,6 +53,7 @@ package_contents = {
     'MWorksPythonTools':
         (
         '/Library/Application Support/MWorks/Plugins/Client/PythonBridgePlugin.bundle',
+        '/Library/Application Support/MWorks/Plugins/Core/PythonPlugin.bundle',
         '/Library/Application Support/MWorks/Scripting/Python',
         ),
 
