@@ -207,14 +207,6 @@ int OpenGLContextManager::newMirrorContext(){
 	}
     
     
-    NSRect mirror_rect = NSMakeRect(50.0, 50.0, width, height);
-
-    
-    mirror_window = [[NSWindow alloc] initWithContentRect:mirror_rect
-                                                styleMask:(NSTitledWindowMask | NSMiniaturizableWindowMask)
-                                                  backing:NSBackingStoreBuffered
-                                                    defer:NO];
-        
     NSOpenGLPixelFormatAttribute attrs[] =
     {
         NSOpenGLPFADoubleBuffer,
@@ -232,14 +224,22 @@ int OpenGLContextManager::newMirrorContext(){
     GLint swap_int = 1;
     [opengl_context setValues: &swap_int forParameter: NSOpenGLCPSwapInterval];
     
-    NSRect view_rect = NSMakeRect(0.0, 0.0, mirror_rect.size.width, mirror_rect.size.height);
-    
-    mirror_view = [[MWKOpenGLView alloc] initWithFrame:view_rect pixelFormat:pixel_format];
-    [mirror_window setContentView:mirror_view];
-    [mirror_view setOpenGLContext:opengl_context];
-    [opengl_context setView:mirror_view];
-
-    [mirror_window makeKeyAndOrderFront:nil];
+    // NOTE: As of OS X 10.11, performing window and view operations from a non-main thread causes issues
+    dispatch_sync(dispatch_get_main_queue(), ^{
+        NSRect mirror_rect = NSMakeRect(50.0, 50.0, width, height);
+        mirror_window = [[NSWindow alloc] initWithContentRect:mirror_rect
+                                                    styleMask:(NSTitledWindowMask | NSMiniaturizableWindowMask)
+                                                      backing:NSBackingStoreBuffered
+                                                        defer:NO];
+        
+        NSRect view_rect = NSMakeRect(0.0, 0.0, mirror_rect.size.width, mirror_rect.size.height);
+        mirror_view = [[MWKOpenGLView alloc] initWithFrame:view_rect pixelFormat:pixel_format];
+        [mirror_window setContentView:mirror_view];
+        [mirror_view setOpenGLContext:opengl_context];
+        [opengl_context setView:mirror_view];
+        
+        [mirror_window makeKeyAndOrderFront:nil];
+    });
     
     [contexts addObject:opengl_context];
     int context_id = [contexts count] - 1;
@@ -272,43 +272,42 @@ int OpenGLContextManager::newFullscreenContext(int screen_number){
     screen_rect.origin.x = 0.0;
     screen_rect.origin.y = 0.0;
     
-    fullscreen_window = [[NSWindow alloc] initWithContentRect:screen_rect 
-                                                    styleMask:NSBorderlessWindowMask 
-                                                      backing:NSBackingStoreBuffered 
-                                                        defer:NO 
-                                                       screen:screen];
-    
-    [fullscreen_window setLevel:NSMainMenuWindowLevel+1];
-    
-    [fullscreen_window setOpaque:YES];
-    [fullscreen_window setHidesOnDeactivate:NO];
-    
-    //[fullscreen_window setAcceptsMouseMovedEvents:YES];
-
-    
     NSOpenGLPixelFormatAttribute attrs[] =
     {
         NSOpenGLPFADoubleBuffer,
         0
     };
     
-    
     NSOpenGLPixelFormat* pixel_format = [[NSOpenGLPixelFormat alloc] initWithAttributes:attrs];
-
+    
     NSOpenGLContext *opengl_context = [[NSOpenGLContext alloc] initWithFormat:pixel_format shareContext:nil];
     
     GLint swap_int = 1;
     [opengl_context setValues: &swap_int forParameter: NSOpenGLCPSwapInterval];
     
     
-    NSRect view_rect = NSMakeRect(0.0, 0.0, screen_rect.size.width, screen_rect.size.height);
-    
-    fullscreen_view = [[MWKOpenGLView alloc] initWithFrame:view_rect pixelFormat:pixel_format];
-    [fullscreen_window setContentView:fullscreen_view];
-    [fullscreen_view setOpenGLContext:opengl_context];
-    [opengl_context setView:fullscreen_view];
-    
-    [fullscreen_window makeKeyAndOrderFront:nil];
+    // NOTE: As of OS X 10.11, performing window and view operations from a non-main thread causes issues
+    dispatch_sync(dispatch_get_main_queue(), ^{
+        fullscreen_window = [[NSWindow alloc] initWithContentRect:screen_rect
+                                                        styleMask:NSBorderlessWindowMask
+                                                          backing:NSBackingStoreBuffered
+                                                            defer:NO
+                                                           screen:screen];
+        
+        [fullscreen_window setLevel:NSMainMenuWindowLevel+1];
+        
+        [fullscreen_window setOpaque:YES];
+        [fullscreen_window setHidesOnDeactivate:NO];
+        
+        NSRect view_rect = NSMakeRect(0.0, 0.0, screen_rect.size.width, screen_rect.size.height);
+        
+        fullscreen_view = [[MWKOpenGLView alloc] initWithFrame:view_rect pixelFormat:pixel_format];
+        [fullscreen_window setContentView:fullscreen_view];
+        [fullscreen_view setOpenGLContext:opengl_context];
+        [opengl_context setView:fullscreen_view];
+        
+        [fullscreen_window makeKeyAndOrderFront:nil];
+    });
     
     [contexts addObject:opengl_context];
     int context_id = [contexts count] - 1;
@@ -353,25 +352,28 @@ void OpenGLContextManager::releaseDisplays() {
     
     [contexts makeObjectsPerformSelector:@selector(clearDrawable)];
     
-    mirror_window_active = NO;
-    if(mirror_window != nil){
-        [mirror_window orderOut:nil];
-        [mirror_window release];
-        [mirror_view clearGLContext];
-        [mirror_view release];
-        mirror_window = nil;
-        mirror_view = nil;
-    }
-    
-    fullscreen_window_active = NO;
-    if(fullscreen_window != nil){
-        [fullscreen_window orderOut:nil];
-        [fullscreen_window release];
-        [fullscreen_view clearGLContext];
-        [fullscreen_view release];
-        fullscreen_window = nil;
-        fullscreen_view = nil;
-    }
+    // NOTE: As of OS X 10.11, performing window and view operations from a non-main thread causes issues
+    dispatch_sync(dispatch_get_main_queue(), ^{
+        mirror_window_active = NO;
+        if(mirror_window != nil){
+            [mirror_window orderOut:nil];
+            [mirror_window release];
+            [mirror_view clearGLContext];
+            [mirror_view release];
+            mirror_window = nil;
+            mirror_view = nil;
+        }
+        
+        fullscreen_window_active = NO;
+        if(fullscreen_window != nil){
+            [fullscreen_window orderOut:nil];
+            [fullscreen_window release];
+            [fullscreen_view clearGLContext];
+            [fullscreen_view release];
+            fullscreen_window = nil;
+            fullscreen_view = nil;
+        }
+    });
 
     if (kIOPMNullAssertionID != display_sleep_block) {
         (void)IOPMAssertionRelease(display_sleep_block);  // Ignore the return code

@@ -280,13 +280,16 @@ void StimulusDisplay::stateSystemCallback(const Datum &data, MWorksTime time) {
         // CVDisplayLinkStop won't return until displayLinkCallback exits, leading to deadlock.
         lock.unlock();
         
-        for (auto dl : displayLinks) {
-            if (kCVReturnSuccess != CVDisplayLinkStop(dl)) {
-                merror(M_DISPLAY_MESSAGE_DOMAIN,
-                       "Unable to stop updates on display %d",
-                       CVDisplayLinkGetCurrentCGDisplay(dl));
+        // NOTE: As of OS X 10.11, stopping the display links from a non-main thread causes issues
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            for (auto dl : displayLinks) {
+                if (kCVReturnSuccess != CVDisplayLinkStop(dl)) {
+                    merror(M_DISPLAY_MESSAGE_DOMAIN,
+                           "Unable to stop updates on display %d",
+                           CVDisplayLinkGetCurrentCGDisplay(dl));
+                }
             }
-        }
+        });
         
         mprintf(M_DISPLAY_MESSAGE_DOMAIN, "Display updates stopped");
         
@@ -294,13 +297,16 @@ void StimulusDisplay::stateSystemCallback(const Datum &data, MWorksTime time) {
         
         lastFrameTime = 0;
         
-        for (auto dl : displayLinks) {
-            if (kCVReturnSuccess != CVDisplayLinkStart(dl)) {
-                merror(M_DISPLAY_MESSAGE_DOMAIN,
-                       "Unable to start updates on display %d",
-                       CVDisplayLinkGetCurrentCGDisplay(dl));
+        // NOTE: As of OS X 10.11, starting the display links from a non-main thread causes issues
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            for (auto dl : displayLinks) {
+                if (kCVReturnSuccess != CVDisplayLinkStart(dl)) {
+                    merror(M_DISPLAY_MESSAGE_DOMAIN,
+                           "Unable to start updates on display %d",
+                           CVDisplayLinkGetCurrentCGDisplay(dl));
+                }
             }
-        }
+        });
         
         displayLinksRunning = true;
         
