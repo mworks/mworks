@@ -39,80 +39,6 @@
 	[NSMenu popUpContextMenu:[self menu] withEvent:menuEvent forView:controlView];
 }
 
-- (BOOL)trackMouse:(NSEvent *)theEvent inRect:(NSRect)cellFrame ofView:(NSView *)controlView untilMouseUp:(BOOL)untilMouseUp
-{
-	
-	BOOL result = NO;
-	NSDate *endDate;
-	NSPoint currentPoint = [theEvent locationInWindow];
-	BOOL done = NO;
-	BOOL trackContinously = [self startTrackingAt:currentPoint inView:controlView];
-	
-	// Catch next mouse-dragged or mouse-up event until timeout
-	BOOL mouseIsUp = NO;
-	NSEvent *event;
-	while (!done)
-	{
-		NSPoint lastPoint = currentPoint;
-		
-		// Set up timer for pop-up menu if we have one
-		if ([self menu])
-			endDate = [NSDate dateWithTimeIntervalSinceNow:0.05];
-		else
-			endDate = [NSDate distantFuture];
-		
-		event = [NSApp nextEventMatchingMask:(NSLeftMouseUpMask|NSLeftMouseDraggedMask)
-								   untilDate:endDate
-									  inMode:NSEventTrackingRunLoopMode
-									 dequeue:YES];
-		
-		if (event)	// Mouse event
-		{
-			currentPoint = [event locationInWindow];
-			
-			// Send continueTracking.../stopTracking...
-			if (trackContinously)
-			{
-				if (![self continueTracking:lastPoint at:currentPoint inView:controlView])
-				{
-					done = YES;
-					[self stopTracking:lastPoint at:currentPoint inView:controlView mouseIsUp:mouseIsUp];
-				}
-				if ([self isContinuous])
-				{
-					[NSApp sendAction:[self action] to:[self target] from:controlView];
-				}
-			}
-			
-			mouseIsUp = ([event type] == NSLeftMouseUp);
-			done = done || mouseIsUp;
-			
-			if (untilMouseUp)
-			{
-				result = mouseIsUp;
-			}
-			else
-			{
-				// Check if the mouse left our cell rect
-				result = NSPointInRect([controlView convertPoint:currentPoint fromView:nil], cellFrame);
-				if (!result)
-					done = YES;
-			}
-			
-			if (done && result && ![self isContinuous])
-				[NSApp sendAction:[self action] to:[self target] from:controlView];
-		
-		}
-		else	// Show menu
-		{
-			done = YES;
-			result = YES;
-			[self showMenuForEvent:theEvent controlView:controlView cellFrame:cellFrame];
-		}
-	}
-	return result;
-}
-
 @end
 
 @interface KBDelayedPopUpButton : NSButton
@@ -133,6 +59,11 @@
 		}
 	}
 	return self;
+}
+
+- (void)mouseDown:(NSEvent *)theEvent
+{
+    [(KBDelayedPopUpButtonCell *)(self.cell) showMenuForEvent:theEvent controlView:self cellFrame:self.bounds];
 }
 
 @end
