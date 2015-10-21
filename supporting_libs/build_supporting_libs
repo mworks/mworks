@@ -202,7 +202,7 @@ def boost():
             './bootstrap.sh',
             '--with-toolset=clang',
             ('--with-libraries='
-             'filesystem,python,regex,serialization,system,test,thread'),
+             'filesystem,python,regex,serialization,system,thread'),
             '--without-icu',
             '--with-python=' + python,
             '--with-python-root=' + python_root,
