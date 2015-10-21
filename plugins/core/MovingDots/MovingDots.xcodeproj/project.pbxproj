@@ -1,0 +1,358 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		5CFCAB1E11060985007CE55F /* Everything */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 5CFCAB24110609AA007CE55F /* Build configuration list for PBXAggregateTarget "Everything" */;
+			buildPhases = (
+			);
+			dependencies = (
+				E12A27001201E32000CE8C55 /* PBXTargetDependency */,
+			);
+			name = Everything;
+			productName = Everything;
+		};
+		E12A26F81201E2FB00CE8C55 /* Install */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = E12A27091201E34D00CE8C55 /* Build configuration list for PBXAggregateTarget "Install" */;
+			buildPhases = (
+				E12A26F71201E2FB00CE8C55 /* CopyFiles */,
+				E125BFEE18E326B100F6C480 /* CopyFiles */,
+			);
+			dependencies = (
+				E12A26FB1201E30500CE8C55 /* PBXTargetDependency */,
+			);
+			name = Install;
+			productName = Install;
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		5CF9AEBC0FD5795C00F405F6 /* MovingDotsPlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CF9AEB90FD5795C00F405F6 /* MovingDotsPlugin.cpp */; };
+		5CFE591A0F571B15000C7F30 /* MovingDots.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CFE59190F571B15000C7F30 /* MovingDots.cpp */; };
+		BFBFB0D610446C180019216B /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFBFB0D510446C180019216B /* MWorksCore.framework */; };
+		E125BFEF18E326BC00F6C480 /* MovingDots in CopyFiles */ = {isa = PBXBuildFile; fileRef = E125BFED18E3269700F6C480 /* MovingDots */; };
+		E12A26FD1201E31400CE8C55 /* MovingDots.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8D5B49B6048680CD000E48DA /* MovingDots.bundle */; };
+		E15D0B4A16C2D15C00F331B1 /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E15D0B4916C2D15C00F331B1 /* libboost_system.a */; };
+		E162635B1403F774000F89CB /* MWLibrary.xml in Resources */ = {isa = PBXBuildFile; fileRef = E162635A1403F774000F89CB /* MWLibrary.xml */; };
+		E1FCD4CF11DAB1AE0037E6FA /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1FCD4CE11DAB1AE0037E6FA /* OpenGL.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		E12A26FA1201E30500CE8C55 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8D5B49AC048680CD000E48DA;
+			remoteInfo = MovingDots;
+		};
+		E12A26FF1201E32000CE8C55 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E12A26F81201E2FB00CE8C55;
+			remoteInfo = Install;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		E125BFEE18E326B100F6C480 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(MW_TESTS_XML_DIR)/Stimulus";
+			dstSubfolderSpec = 0;
+			files = (
+				E125BFEF18E326BC00F6C480 /* MovingDots in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E12A26F71201E2FB00CE8C55 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(MW_PLUGINS_DIR)";
+			dstSubfolderSpec = 0;
+			files = (
+				E12A26FD1201E31400CE8C55 /* MovingDots.bundle in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		32DBCF630370AF2F00C91783 /* MovingDots_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MovingDots_Prefix.pch; sourceTree = "<group>"; };
+		5C78EE6B115D02EE00151A76 /* Development.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Development.xcconfig; path = "/Library/Application Support/MWorks/Developer/Xcode/Development.xcconfig"; sourceTree = "<absolute>"; };
+		5C78EE6C115D02EE00151A76 /* WARNING.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = WARNING.txt; path = "/Library/Application Support/MWorks/Developer/Xcode/WARNING.txt"; sourceTree = "<absolute>"; };
+		5CF9AEB90FD5795C00F405F6 /* MovingDotsPlugin.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MovingDotsPlugin.cpp; sourceTree = SOURCE_ROOT; };
+		5CFE59180F571B15000C7F30 /* MovingDots.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MovingDots.h; sourceTree = SOURCE_ROOT; };
+		5CFE59190F571B15000C7F30 /* MovingDots.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MovingDots.cpp; sourceTree = SOURCE_ROOT; };
+		8D5B49B6048680CD000E48DA /* MovingDots.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MovingDots.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D5B49B7048680CD000E48DA /* MovingDots-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "MovingDots-Info.plist"; sourceTree = "<group>"; };
+		BFBFB0D510446C180019216B /* MWorksCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MWorksCore.framework; path = /Library/Frameworks/MWorksCore.framework; sourceTree = "<absolute>"; };
+		E125BFED18E3269700F6C480 /* MovingDots */ = {isa = PBXFileReference; lastKnownFileType = folder; path = MovingDots; sourceTree = "<group>"; };
+		E15D0B4916C2D15C00F331B1 /* libboost_system.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_system.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_system.a"; sourceTree = "<absolute>"; };
+		E162635A1403F774000F89CB /* MWLibrary.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MWLibrary.xml; sourceTree = "<group>"; };
+		E1FCD4CE11DAB1AE0037E6FA /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8D5B49B3048680CD000E48DA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BFBFB0D610446C180019216B /* MWorksCore.framework in Frameworks */,
+				E1FCD4CF11DAB1AE0037E6FA /* OpenGL.framework in Frameworks */,
+				E15D0B4A16C2D15C00F331B1 /* libboost_system.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		089C166AFE841209C02AAC07 /* MovingDots */ = {
+			isa = PBXGroup;
+			children = (
+				5C78EE69115D02C700151A76 /* External Config */,
+				08FB77AFFE84173DC02AAC07 /* Classes */,
+				E16263591403F73F000F89CB /* Editor Definitions */,
+				32C88E010371C26100C91783 /* Other Sources */,
+				089C167CFE841241C02AAC07 /* Resources */,
+				E125BFEC18E3267600F6C480 /* Tests */,
+				089C1671FE841209C02AAC07 /* Frameworks & Libraries */,
+				19C28FB8FE9D52D311CA2CBB /* Products */,
+			);
+			name = MovingDots;
+			sourceTree = "<group>";
+		};
+		089C1671FE841209C02AAC07 /* Frameworks & Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				BFBFB0D510446C180019216B /* MWorksCore.framework */,
+				E1FCD4CE11DAB1AE0037E6FA /* OpenGL.framework */,
+				E15D0B4916C2D15C00F331B1 /* libboost_system.a */,
+			);
+			name = "Frameworks & Libraries";
+			sourceTree = "<group>";
+		};
+		089C167CFE841241C02AAC07 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				8D5B49B7048680CD000E48DA /* MovingDots-Info.plist */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		08FB77AFFE84173DC02AAC07 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				5CFE59180F571B15000C7F30 /* MovingDots.h */,
+				5CFE59190F571B15000C7F30 /* MovingDots.cpp */,
+				5CF9AEB90FD5795C00F405F6 /* MovingDotsPlugin.cpp */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		19C28FB8FE9D52D311CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8D5B49B6048680CD000E48DA /* MovingDots.bundle */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		32C88E010371C26100C91783 /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				32DBCF630370AF2F00C91783 /* MovingDots_Prefix.pch */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		5C78EE69115D02C700151A76 /* External Config */ = {
+			isa = PBXGroup;
+			children = (
+				5C78EE6B115D02EE00151A76 /* Development.xcconfig */,
+				5C78EE6C115D02EE00151A76 /* WARNING.txt */,
+			);
+			name = "External Config";
+			sourceTree = "<group>";
+		};
+		E125BFEC18E3267600F6C480 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				E125BFED18E3269700F6C480 /* MovingDots */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
+		E16263591403F73F000F89CB /* Editor Definitions */ = {
+			isa = PBXGroup;
+			children = (
+				E162635A1403F774000F89CB /* MWLibrary.xml */,
+			);
+			name = "Editor Definitions";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8D5B49AC048680CD000E48DA /* MovingDots */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1DEB913A08733D840010E9CD /* Build configuration list for PBXNativeTarget "MovingDots" */;
+			buildPhases = (
+				8D5B49AF048680CD000E48DA /* Resources */,
+				8D5B49B1048680CD000E48DA /* Sources */,
+				8D5B49B3048680CD000E48DA /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MovingDots;
+			productInstallPath = "$(HOME)/Library/Bundles";
+			productName = MovingDots;
+			productReference = 8D5B49B6048680CD000E48DA /* MovingDots.bundle */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		089C1669FE841209C02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0410;
+			};
+			buildConfigurationList = 1DEB913E08733D840010E9CD /* Build configuration list for PBXProject "MovingDots" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
+			mainGroup = 089C166AFE841209C02AAC07 /* MovingDots */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8D5B49AC048680CD000E48DA /* MovingDots */,
+				E12A26F81201E2FB00CE8C55 /* Install */,
+				5CFCAB1E11060985007CE55F /* Everything */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8D5B49AF048680CD000E48DA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E162635B1403F774000F89CB /* MWLibrary.xml in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8D5B49B1048680CD000E48DA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5CFE591A0F571B15000C7F30 /* MovingDots.cpp in Sources */,
+				5CF9AEBC0FD5795C00F405F6 /* MovingDotsPlugin.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		E12A26FB1201E30500CE8C55 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8D5B49AC048680CD000E48DA /* MovingDots */;
+			targetProxy = E12A26FA1201E30500CE8C55 /* PBXContainerItemProxy */;
+		};
+		E12A27001201E32000CE8C55 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E12A26F81201E2FB00CE8C55 /* Install */;
+			targetProxy = E12A26FF1201E32000CE8C55 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		1DEB913B08733D840010E9CD /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = MovingDots_Prefix.pch;
+				INFOPLIST_FILE = "MovingDots-Info.plist";
+				PRODUCT_NAME = MovingDots;
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Development;
+		};
+		1DEB913F08733D840010E9CD /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5C78EE6B115D02EE00151A76 /* Development.xcconfig */;
+			buildSettings = {
+			};
+			name = Development;
+		};
+		5CFCAB1F11060986007CE55F /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = Everything;
+			};
+			name = Development;
+		};
+		E12A26F91201E2FB00CE8C55 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = Install;
+			};
+			name = Development;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1DEB913A08733D840010E9CD /* Build configuration list for PBXNativeTarget "MovingDots" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DEB913B08733D840010E9CD /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		1DEB913E08733D840010E9CD /* Build configuration list for PBXProject "MovingDots" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DEB913F08733D840010E9CD /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		5CFCAB24110609AA007CE55F /* Build configuration list for PBXAggregateTarget "Everything" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5CFCAB1F11060986007CE55F /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		E12A27091201E34D00CE8C55 /* Build configuration list for PBXAggregateTarget "Install" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E12A26F91201E2FB00CE8C55 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 089C1669FE841209C02AAC07 /* Project object */;
+}

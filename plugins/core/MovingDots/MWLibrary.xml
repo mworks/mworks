@@ -1,0 +1,31 @@
+<MWElements>
+  <MWElement name="Moving Dots">
+    <match_signature>stimulus[@type="moving_dots"]</match_signature>
+    
+    <isa>Stimulus</isa>
+    
+    <description>
+      A moving dots stimulus.
+    </description>
+    
+    <!-- Payload -->
+    <code>
+      <stimulus type="moving_dots"
+                tag="Moving Dots"
+                field_radius=""
+                field_center_x=""
+                field_center_y=""
+                dot_density=""
+                dot_size=""
+                color="1.0,1.0,1.0"
+                alpha_multiplier="1.0"
+                direction=""
+                speed=""
+                coherence="1.0"
+                lifetime="0.0"
+                announce_dots="NO"
+                autoplay="YES"
+                />
+    </code>
+  </MWElement>
+</MWElements>

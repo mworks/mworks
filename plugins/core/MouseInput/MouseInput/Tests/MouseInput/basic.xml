@@ -1,0 +1,75 @@
+<?xml version="1.0" standalone="no"?>
+<monkeyml version="1.0">
+    <io_devices tag="IO Devices">
+        <iodevice type="mouse_input" tag="mouse" mouse_position_x="mouse_position_x" mouse_position_y="mouse_position_y" mouse_down="mouse_down" hide_cursor="NO"></iodevice>
+    </io_devices>
+    <variables tag="Variables">
+        <variable tag="mouse_position_x" scope="global" logging="when_changed" default_value="0" type="integer"></variable>
+        <variable tag="mouse_position_y" scope="global" logging="when_changed" default_value="0" type="integer"></variable>
+        <variable tag="mouse_down" scope="global" logging="when_changed" default_value="0" type="integer">
+            <action type="if_else" tag="If/Else">
+                <action type="if" tag="If mouse down" condition="mouse_down">
+                    <action type="report" tag="Report" message="Mouse DOWN"></action>
+                </action>
+                <action type="if" tag="Else" condition="1">
+                    <action type="report" tag="Report" message="Mouse UP"></action>
+                </action>
+            </action>
+        </variable>
+        <variable tag="mouse_on_target" scope="global" logging="when_changed" default_value="0" type="integer">
+            <action type="if_else" tag="If/Else">
+                <action type="if" tag="If mouse on target" condition="mouse_on_target">
+                    <action type="report" tag="Report" message="Mouse ON target"></action>
+                </action>
+                <action type="if" tag="Else" condition="1">
+                    <action type="report" tag="Report" message="Mouse OFF target"></action>
+                </action>
+            </action>
+        </variable>
+        <variable tag="target_size" scope="global" logging="when_changed" default_value="5.0" type="float"></variable>
+        <variable tag="target_position_max_x" scope="global" logging="when_changed" default_value="7.5" type="float"></variable>
+        <variable tag="target_position_max_y" scope="global" logging="when_changed" default_value="7.5" type="float"></variable>
+        <variable tag="target_position_x" scope="global" logging="when_changed" default_value="0" type="integer"></variable>
+        <variable tag="target_position_y" scope="global" logging="when_changed" default_value="0" type="integer"></variable>
+        <variable tag="timeout_ms" scope="global" logging="when_changed" default_value="10000" type="integer"></variable>
+    </variables>
+    <sounds tag="Sounds"></sounds>
+    <stimuli tag="Stimuli">
+        <stimulus type="fixation_point" tag="target" color="1,0,0" trigger_width="target_size" trigger_watch_x="mouse_position_x" trigger_watch_y="mouse_position_y" trigger_flag="mouse_on_target" x_size="target_size" y_size="target_size" x_position="target_position_x" y_position="target_position_y" rotation="0.0" alpha_multiplier="1.0"></stimulus>
+    </stimuli>
+    <filters tag="Filters"></filters>
+    <optimizers tag="Optimizers"></optimizers>
+    <experiment tag="New Experiment" full_name="" description="">
+        <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
+            <action tag="Start mouse input" type="start_device_IO" device="mouse"></action>
+            <task_system tag="New Task System" interruptible="YES">
+                <task_system_state tag="Present Target" interruptible="YES">
+                    <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                    <action type="assignment" tag="Reset mouse_position_x" variable="mouse_position_x" value="-9999"></action>
+                    <action type="assignment" tag="Reset mouse_position_y" variable="mouse_position_y" value="-9999"></action>
+                    <action type="assignment" tag="Set target_position_x" variable="target_position_x" value="rand(-target_position_max_x, target_position_max_x)"></action>
+                    <action type="assignment" tag="Set target_position_y" variable="target_position_y" value="rand(-target_position_max_y, target_position_max_y)"></action>
+                    <action tag="Queue target" type="queue_stimulus" stimulus="target"></action>
+                    <action tag="Update display" type="update_stimulus_display"></action>
+                    <action type="start_timer" tag="Start Timer" timer="MyTimer" timebase="" duration="timeout_ms" duration_units="ms"></action>
+                    <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                    <transition type="timer_expired" tag="If Timer Expired, Transition to ..." target="Remove Target" timer="MyTimer"></transition>
+                </task_system_state>
+                <task_system_state tag="Remove Target" interruptible="YES">
+                    <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                    <action tag="Dequeue target" type="dequeue_stimulus" stimulus="target"></action>
+                    <action tag="Update display" type="update_stimulus_display"></action>
+                    <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                    <transition type="conditional" tag="If Condition is True, Transition to ... 2" condition="(mouse_position_x == -9999) &amp;&amp; (mouse_position_y == -9999)" target="Exit"></transition>
+                    <transition type="direct" tag="Always Go to ..." target="Present Target"></transition>
+                </task_system_state>
+                <task_system_state tag="Exit" interruptible="YES">
+                    <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                    <action type="report" tag="Announce timeout" message="Exiting on timeout"></action>
+                    <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                    <transition type="yield" tag="Exit Task System..."></transition>
+                </task_system_state>
+            </task_system>
+        </protocol>
+    </experiment>
+</monkeyml>

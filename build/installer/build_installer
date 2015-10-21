@@ -25,6 +25,7 @@ package_contents = {
     core_components_package_name:
         app_paths + (
         '/Library/Application Support/MWorks/Configuration/examples',
+        '/Library/Application Support/MWorks/Plugins/Core/HighPrecisionClock.bundle',
         '/Library/Application Support/MWorks/Plugins/Core/LowPrioritySchedulerPlugin.bundle',
         '/Library/Application Support/MWorks/Plugins/Core/MachClockPlugin.bundle',
         '/Library/Application Support/MWorks/Plugins/Core/ZenSchedulerPlugin.bundle',
@@ -40,7 +41,9 @@ package_contents = {
         '/Library/Application Support/MWorks/Plugins/Core/DriftingGratingStimulusPlugin.bundle',
         '/Library/Application Support/MWorks/Plugins/Core/HIDPlugin.bundle',
         '/Library/Application Support/MWorks/Plugins/Core/MSSWGamepadPlugin.bundle',
+        '/Library/Application Support/MWorks/Plugins/Core/MouseInput.bundle',
         '/Library/Application Support/MWorks/Plugins/Core/MovieStimulusPlugin.bundle',
+        '/Library/Application Support/MWorks/Plugins/Core/MovingDots.bundle',
         '/Library/Application Support/MWorks/Plugins/Core/NE500Plugin.bundle',
         '/Library/Application Support/MWorks/Plugins/Core/ServersideConduit.bundle',
         ),

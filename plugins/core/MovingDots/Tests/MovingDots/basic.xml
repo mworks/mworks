@@ -1,0 +1,49 @@
+<?xml version="1.0" standalone="no"?>
+<monkeyml version="1.0">
+    <io_devices tag="IO Devices"></io_devices>
+    <variables tag="Variables">
+        <variable tag="field_radius" scope="global" logging="when_changed" default_value="5" type="float"></variable>
+        <variable tag="field_center_x" scope="global" logging="when_changed" default_value="0" type="float"></variable>
+        <variable tag="field_center_y" scope="global" logging="when_changed" default_value="0" type="float"></variable>
+        <variable tag="dot_density" scope="global" logging="when_changed" default_value="12.732" type="float"></variable>
+        <variable tag="dot_size" scope="global" logging="when_changed" default_value="0.1" type="float"></variable>
+        <variable tag="direction" scope="global" logging="when_changed" default_value="45" type="float"></variable>
+        <variable tag="color_red" scope="global" logging="when_changed" default_value="1.0" type="float"></variable>
+        <variable tag="color_green" scope="global" logging="when_changed" default_value="1.0" type="float"></variable>
+        <variable tag="color_blue" scope="global" logging="when_changed" default_value="1.0" type="float"></variable>
+        <variable tag="alpha_multiplier" scope="global" logging="when_changed" default_value="1.0" type="float"></variable>
+        <variable tag="speed" scope="global" logging="when_changed" default_value="1" type="float"></variable>
+        <variable tag="coherence" scope="global" logging="when_changed" default_value="0.9" type="float"></variable>
+        <variable tag="lifetime" scope="global" logging="when_changed" default_value="2.0" type="float"></variable>
+        <variable tag="announce_dots" scope="global" logging="when_changed" default_value="0" type="boolean"></variable>
+    </variables>
+    <sounds tag="Sounds"></sounds>
+    <stimuli tag="Stimuli">
+        <stimulus tag="background" full_name="background" type="blank_screen" color="0.5, 0.5, 0.5"></stimulus>
+        <stimulus type="moving_dots" tag="dots" field_radius="field_radius" field_center_x="field_center_x" field_center_y="field_center_y" dot_density="dot_density" dot_size="dot_size" color="color_red, color_green, color_blue" alpha_multiplier="alpha_multiplier" direction="direction" speed="speed" coherence="coherence" lifetime="lifetime" announce_dots="announce_dots" autoplay="YES"></stimulus>
+    </stimuli>
+    <filters tag="Filters"></filters>
+    <optimizers tag="Optimizers"></optimizers>
+    <experiment tag="New Experiment" full_name="" description="">
+        <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential">
+            <task_system tag="New Task System" interruptible="YES">
+                <task_system_state tag="Begin State System" interruptible="YES">
+                    <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                    <action type="report" tag="Announce Begin State System" message="State system beginning"></action>
+                    <action tag="Queue background" type="queue_stimulus" stimulus="background"></action>
+                    <action tag="Live queue dots" type="live_queue_stimulus" stimulus="dots"></action>
+                    <action tag="Update display" type="update_stimulus_display"></action>
+                    <action type="start_timer" tag="Start Timer" timer="MyTimer" timebase="" duration="60" duration_units="s"></action>
+                    <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                    <transition type="timer_expired" tag="If Timer Expired, Transition to ..." target="Exit State System" timer="MyTimer"></transition>
+                </task_system_state>
+                <task_system_state tag="Exit State System" interruptible="YES">
+                    <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                    <action type="report" tag="Announce Exit State System" message="Leaving state system"></action>
+                    <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                    <transition tag="Return to parent task system" type="yield"></transition>
+                </task_system_state>
+            </task_system>
+        </protocol>
+    </experiment>
+</monkeyml>

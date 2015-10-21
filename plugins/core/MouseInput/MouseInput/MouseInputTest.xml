@@ -1,0 +1,86 @@
+<?xml version="1.0" standalone="no"?>
+<monkeyml version="1.0">
+    <io_devices tag="IO Devices">
+        <iodevice type="mouse_input" tag="mouse" mouse_position_x="mouse_position_x" mouse_position_y="mouse_position_y" mouse_down="mouse_down"></iodevice>
+    </io_devices>
+    <variables tag="Variables">
+        <variable tag="mouse_position_x" scope="global" logging="when_changed" default_value="0" type="integer"></variable>
+        <variable tag="mouse_position_y" scope="global" logging="when_changed" default_value="0" type="integer"></variable>
+        <variable tag="mouse_down" scope="global" logging="when_changed" default_value="0" type="integer"></variable>
+        <variable tag="mouse_in_target" scope="global" logging="when_changed" default_value="0" type="integer"></variable>
+        <variable tag="target_size" scope="global" logging="when_changed" default_value="2.5" type="float"></variable>
+        <variable tag="target_position_x" scope="global" logging="when_changed" default_value="0" type="integer"></variable>
+        <variable tag="target_position_y" scope="global" logging="when_changed" default_value="0" type="integer"></variable>
+        <variable tag="timeout" scope="global" logging="when_changed" default_value="5" type="integer"></variable>
+    </variables>
+    <sounds tag="Sounds"></sounds>
+    <stimuli tag="Stimuli">
+        <stimulus type="fixation_point" tag="target" color="1,0,0" trigger_width="target_size" trigger_watch_x="mouse_position_x" trigger_watch_y="mouse_position_y" trigger_flag="mouse_in_target" x_size="target_size" y_size="target_size" x_position="target_position_x" y_position="target_position_y" rotation="0.0" alpha_multiplier="1.0"></stimulus>
+    </stimuli>
+    <filters tag="Filters"></filters>
+    <optimizers tag="Optimizers"></optimizers>
+    <experiment tag="New Experiment" full_name="" description="">
+        <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
+            <task_system tag="New Task System" interruptible="YES">
+                <task_system_state tag="Prepare" interruptible="YES">
+                    <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                    <action type="assignment" tag="Set target_position_x" variable="target_position_x" value="rand(-10.0, 10.0)"></action>
+                    <action type="assignment" tag="Set target_position_y" variable="target_position_y" value="rand(-7.0, 7.0)"></action>
+                    <action tag="Queue target" type="queue_stimulus" stimulus="target"></action>
+                    <action tag="Update display" type="update_stimulus_display"></action>
+                    <action tag="Start IO Device" type="start_device_IO" device="mouse"></action>
+                    <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                    <transition type="direct" tag="Always Go to ..." target="Test Mouse Inside Target"></transition>
+                </task_system_state>
+                <task_system_state tag="Test Mouse Inside Target" interruptible="YES">
+                    <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                    <action type="report" tag="Instructions" message="Move the mouse pointer in to the red square"></action>
+                    <action type="assert" tag="Assert mouse outside target" condition="!mouse_in_target" message="Mouse inside target too early" stop_on_failure="1"></action>
+                    <action type="start_timer" tag="Start Timer" timer="MyTimer" timebase="" duration="timeout" duration_units="s"></action>
+                    <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                    <transition type="conditional" tag="If mouse inside target, Transition to ..." condition="mouse_in_target" target="Test Mouse Outside Target"></transition>
+                    <transition type="timer_expired" tag="If Timer Expired, Transition to ..." target="Timeout" timer="MyTimer"></transition>
+                </task_system_state>
+                <task_system_state tag="Test Mouse Outside Target" interruptible="YES">
+                    <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                    <action type="report" tag="Instructions" message="Move the mouse pointer out of the red square"></action>
+                    <action type="assert" tag="Assert mouse inside target" condition="mouse_in_target" message="Mouse outside target too early" stop_on_failure="1"></action>
+                    <action type="start_timer" tag="Start Timer" timer="MyTimer" timebase="" duration="timeout" duration_units="s"></action>
+                    <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                    <transition type="conditional" tag="If mouse outside target, Transition to ..." condition="!mouse_in_target" target="Test Mouse Down"></transition>
+                    <transition type="timer_expired" tag="If Timer Expired, Transition to ..." target="Timeout" timer="MyTimer"></transition>
+                </task_system_state>
+                <task_system_state tag="Test Mouse Down" interruptible="YES">
+                    <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                    <action type="report" tag="Instructions" message="Press and hold the left mouse button"></action>
+                    <action type="assert" tag="Assert mouse up" condition="!mouse_down" message="Mouse button pressed too early" stop_on_failure="1"></action>
+                    <action type="start_timer" tag="Start Timer" timer="MyTimer" timebase="" duration="timeout" duration_units="s"></action>
+                    <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                    <transition type="conditional" tag="If mouse down, Transition to ..." condition="mouse_down" target="Test Mouse Up"></transition>
+                    <transition type="timer_expired" tag="If Timer Expired, Transition to ..." target="Timeout" timer="MyTimer"></transition>
+                </task_system_state>
+                <task_system_state tag="Test Mouse Up" interruptible="YES">
+                    <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                    <action type="report" tag="Instructions" message="Release the left mouse button"></action>
+                    <action type="assert" tag="Assert mouse down" condition="mouse_down" message="Mouse button released too early" stop_on_failure="1"></action>
+                    <action type="start_timer" tag="Start Timer" timer="MyTimer" timebase="" duration="timeout" duration_units="s"></action>
+                    <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                    <transition type="conditional" tag="If mouse up, Transition to ..." condition="!mouse_down" target="Success"></transition>
+                    <transition type="timer_expired" tag="If Timer Expired, Transition to ..." target="Timeout" timer="MyTimer"></transition>
+                </task_system_state>
+                <task_system_state tag="Success" interruptible="YES">
+                    <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                    <action type="report" tag="Report success" message="All tests PASSED!"></action>
+                    <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                    <transition type="yield" tag="Exit Task System..."></transition>
+                </task_system_state>
+                <task_system_state tag="Timeout" interruptible="YES">
+                    <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                    <action type="assert" tag="Report timeout" condition="0" message="Test timed out" stop_on_failure="0"></action>
+                    <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                    <transition type="yield" tag="Exit Task System..."></transition>
+                </task_system_state>
+            </task_system>
+        </protocol>
+    </experiment>
+</monkeyml>

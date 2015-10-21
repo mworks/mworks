@@ -1,0 +1,18 @@
+//
+// Prefix header for all source files of the 'MouseInput' target in the 'MouseInput' project
+//
+
+#ifdef __cplusplus
+    #include <array>
+
+    #include <boost/noncopyable.hpp>
+    
+    #include <MWorksCore/IODevice.h>
+    #include <MWorksCore/OpenGLContextManager.h>
+    #include <MWorksCore/Plugin.h>
+    #include <MWorksCore/StandardComponentFactory.h>
+#endif
+
+#ifdef __OBJC__
+    #import <AppKit/AppKit.h>
+#endif

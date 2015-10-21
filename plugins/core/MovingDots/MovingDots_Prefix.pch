@@ -1,0 +1,10 @@
+//
+// Prefix header for all source files of the 'MovingDots' target in the 'MovingDots' project.
+//
+
+#ifdef __cplusplus
+    #include <MWorksCore/ParsedColorTrio.h>
+    #include <MWorksCore/Plugin.h>
+    #include <MWorksCore/StandardDynamicStimulus.h>
+    #include <MWorksCore/StandardStimulusFactory.h>
+#endif

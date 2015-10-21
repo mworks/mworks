@@ -1,0 +1,373 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		E1620CA91756418C0068BCF6 /* Install */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = E1620CAA1756418C0068BCF6 /* Build configuration list for PBXAggregateTarget "Install" */;
+			buildPhases = (
+				E1620CAE1756419B0068BCF6 /* CopyFiles */,
+				E140986E18ECA11B003C2B05 /* CopyFiles */,
+			);
+			dependencies = (
+				E1620CAD175641970068BCF6 /* PBXTargetDependency */,
+			);
+			name = Install;
+			productName = Install;
+		};
+		E1620CB0175641CE0068BCF6 /* Everything */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = E1620CB1175641CE0068BCF6 /* Build configuration list for PBXAggregateTarget "Everything" */;
+			buildPhases = (
+			);
+			dependencies = (
+				E1620CB4175641D20068BCF6 /* PBXTargetDependency */,
+			);
+			name = Everything;
+			productName = Everything;
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		E140986F18ECA122003C2B05 /* MouseInput in CopyFiles */ = {isa = PBXBuildFile; fileRef = E140986D18ECA106003C2B05 /* MouseInput */; };
+		E1620C9C17563F350068BCF6 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E1620C9A17563F350068BCF6 /* InfoPlist.strings */; };
+		E1620CA517563FBE0068BCF6 /* MouseInputPlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1620CA317563FBE0068BCF6 /* MouseInputPlugin.cpp */; };
+		E1620CAF175641A30068BCF6 /* MouseInput.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = E1620C8E17563F350068BCF6 /* MouseInput.bundle */; };
+		E1620CB6175642760068BCF6 /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1620CB5175642760068BCF6 /* MWorksCore.framework */; };
+		E1620CB8175642A10068BCF6 /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1620CB7175642A10068BCF6 /* libboost_system.a */; };
+		E1620CBB175644330068BCF6 /* MouseInputDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1620CB9175644330068BCF6 /* MouseInputDevice.cpp */; };
+		E1620CBE17564B4A0068BCF6 /* MouseTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = E1620CBD17564B4A0068BCF6 /* MouseTracker.m */; };
+		E1620CBF175653CF0068BCF6 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1620C9417563F350068BCF6 /* AppKit.framework */; };
+		E171A17F1757967900B91405 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E171A17E1757967900B91405 /* OpenGL.framework */; };
+		E19650AE178D95F800FB7A2A /* MWLibrary.xml in Resources */ = {isa = PBXBuildFile; fileRef = E19650AD178D95F800FB7A2A /* MWLibrary.xml */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		E1620CAC175641970068BCF6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E1620C8617563F350068BCF6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E1620C8D17563F350068BCF6;
+			remoteInfo = MouseInput;
+		};
+		E1620CB3175641D20068BCF6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E1620C8617563F350068BCF6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E1620CA91756418C0068BCF6;
+			remoteInfo = Install;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		E140986E18ECA11B003C2B05 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(MW_TESTS_XML_DIR)/IODevice";
+			dstSubfolderSpec = 0;
+			files = (
+				E140986F18ECA122003C2B05 /* MouseInput in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E1620CAE1756419B0068BCF6 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(MW_PLUGINS_DIR)";
+			dstSubfolderSpec = 0;
+			files = (
+				E1620CAF175641A30068BCF6 /* MouseInput.bundle in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		E140986D18ECA106003C2B05 /* MouseInput */ = {isa = PBXFileReference; lastKnownFileType = folder; path = MouseInput; sourceTree = "<group>"; };
+		E1620C8E17563F350068BCF6 /* MouseInput.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MouseInput.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		E1620C9417563F350068BCF6 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		E1620C9917563F350068BCF6 /* MouseInput-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MouseInput-Info.plist"; sourceTree = "<group>"; };
+		E1620C9B17563F350068BCF6 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		E1620C9D17563F350068BCF6 /* MouseInput-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MouseInput-Prefix.pch"; sourceTree = "<group>"; };
+		E1620CA317563FBE0068BCF6 /* MouseInputPlugin.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MouseInputPlugin.cpp; sourceTree = "<group>"; };
+		E1620CA7175640410068BCF6 /* Development.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Development.xcconfig; sourceTree = "<group>"; };
+		E1620CA8175640410068BCF6 /* WARNING.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = WARNING.txt; sourceTree = "<group>"; };
+		E1620CB5175642760068BCF6 /* MWorksCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MWorksCore.framework; path = /Library/Frameworks/MWorksCore.framework; sourceTree = "<absolute>"; };
+		E1620CB7175642A10068BCF6 /* libboost_system.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_system.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_system.a"; sourceTree = "<absolute>"; };
+		E1620CB9175644330068BCF6 /* MouseInputDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MouseInputDevice.cpp; sourceTree = "<group>"; };
+		E1620CBA175644330068BCF6 /* MouseInputDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MouseInputDevice.h; sourceTree = "<group>"; };
+		E1620CBC17564B4A0068BCF6 /* MouseTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MouseTracker.h; sourceTree = "<group>"; };
+		E1620CBD17564B4A0068BCF6 /* MouseTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MouseTracker.m; sourceTree = "<group>"; };
+		E171A17E1757967900B91405 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
+		E19650AD178D95F800FB7A2A /* MWLibrary.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MWLibrary.xml; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		E1620C8B17563F350068BCF6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E1620CB6175642760068BCF6 /* MWorksCore.framework in Frameworks */,
+				E1620CBF175653CF0068BCF6 /* AppKit.framework in Frameworks */,
+				E171A17F1757967900B91405 /* OpenGL.framework in Frameworks */,
+				E1620CB8175642A10068BCF6 /* libboost_system.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		E140986C18ECA0D6003C2B05 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				E140986D18ECA106003C2B05 /* MouseInput */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
+		E1620C8517563F350068BCF6 = {
+			isa = PBXGroup;
+			children = (
+				E1620CA6175640170068BCF6 /* External Config */,
+				E1620C9717563F350068BCF6 /* MouseInput */,
+				E1620C9017563F350068BCF6 /* Frameworks */,
+				E1620C8F17563F350068BCF6 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		E1620C8F17563F350068BCF6 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E1620C8E17563F350068BCF6 /* MouseInput.bundle */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E1620C9017563F350068BCF6 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E1620CB5175642760068BCF6 /* MWorksCore.framework */,
+				E1620C9417563F350068BCF6 /* AppKit.framework */,
+				E171A17E1757967900B91405 /* OpenGL.framework */,
+				E1620CB7175642A10068BCF6 /* libboost_system.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E1620C9717563F350068BCF6 /* MouseInput */ = {
+			isa = PBXGroup;
+			children = (
+				E1620CBC17564B4A0068BCF6 /* MouseTracker.h */,
+				E1620CBD17564B4A0068BCF6 /* MouseTracker.m */,
+				E1620CBA175644330068BCF6 /* MouseInputDevice.h */,
+				E1620CB9175644330068BCF6 /* MouseInputDevice.cpp */,
+				E1620CA317563FBE0068BCF6 /* MouseInputPlugin.cpp */,
+				E1620C9817563F350068BCF6 /* Supporting Files */,
+				E140986C18ECA0D6003C2B05 /* Tests */,
+			);
+			path = MouseInput;
+			sourceTree = "<group>";
+		};
+		E1620C9817563F350068BCF6 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				E1620C9917563F350068BCF6 /* MouseInput-Info.plist */,
+				E1620C9A17563F350068BCF6 /* InfoPlist.strings */,
+				E1620C9D17563F350068BCF6 /* MouseInput-Prefix.pch */,
+				E19650AD178D95F800FB7A2A /* MWLibrary.xml */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		E1620CA6175640170068BCF6 /* External Config */ = {
+			isa = PBXGroup;
+			children = (
+				E1620CA7175640410068BCF6 /* Development.xcconfig */,
+				E1620CA8175640410068BCF6 /* WARNING.txt */,
+			);
+			name = "External Config";
+			path = "/Library/Application Support/MWorks/Developer/Xcode";
+			sourceTree = "<absolute>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		E1620C8D17563F350068BCF6 /* MouseInput */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E1620CA017563F350068BCF6 /* Build configuration list for PBXNativeTarget "MouseInput" */;
+			buildPhases = (
+				E1620C8A17563F350068BCF6 /* Sources */,
+				E1620C8B17563F350068BCF6 /* Frameworks */,
+				E1620C8C17563F350068BCF6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MouseInput;
+			productName = MouseInput;
+			productReference = E1620C8E17563F350068BCF6 /* MouseInput.bundle */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E1620C8617563F350068BCF6 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0460;
+				ORGANIZATIONNAME = "The MWorks Project";
+			};
+			buildConfigurationList = E1620C8917563F350068BCF6 /* Build configuration list for PBXProject "MouseInput" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = E1620C8517563F350068BCF6;
+			productRefGroup = E1620C8F17563F350068BCF6 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				E1620C8D17563F350068BCF6 /* MouseInput */,
+				E1620CA91756418C0068BCF6 /* Install */,
+				E1620CB0175641CE0068BCF6 /* Everything */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		E1620C8C17563F350068BCF6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E1620C9C17563F350068BCF6 /* InfoPlist.strings in Resources */,
+				E19650AE178D95F800FB7A2A /* MWLibrary.xml in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		E1620C8A17563F350068BCF6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E1620CA517563FBE0068BCF6 /* MouseInputPlugin.cpp in Sources */,
+				E1620CBB175644330068BCF6 /* MouseInputDevice.cpp in Sources */,
+				E1620CBE17564B4A0068BCF6 /* MouseTracker.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		E1620CAD175641970068BCF6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E1620C8D17563F350068BCF6 /* MouseInput */;
+			targetProxy = E1620CAC175641970068BCF6 /* PBXContainerItemProxy */;
+		};
+		E1620CB4175641D20068BCF6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E1620CA91756418C0068BCF6 /* Install */;
+			targetProxy = E1620CB3175641D20068BCF6 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		E1620C9A17563F350068BCF6 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E1620C9B17563F350068BCF6 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		E1620C9E17563F350068BCF6 /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1620CA7175640410068BCF6 /* Development.xcconfig */;
+			buildSettings = {
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+			};
+			name = Development;
+		};
+		E1620CA117563F350068BCF6 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "MouseInput/MouseInput-Prefix.pch";
+				INFOPLIST_FILE = "MouseInput/MouseInput-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Development;
+		};
+		E1620CAB1756418C0068BCF6 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Development;
+		};
+		E1620CB2175641CE0068BCF6 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Development;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		E1620C8917563F350068BCF6 /* Build configuration list for PBXProject "MouseInput" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E1620C9E17563F350068BCF6 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		E1620CA017563F350068BCF6 /* Build configuration list for PBXNativeTarget "MouseInput" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E1620CA117563F350068BCF6 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		E1620CAA1756418C0068BCF6 /* Build configuration list for PBXAggregateTarget "Install" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E1620CAB1756418C0068BCF6 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		E1620CB1175641CE0068BCF6 /* Build configuration list for PBXAggregateTarget "Everything" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E1620CB2175641CE0068BCF6 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = E1620C8617563F350068BCF6 /* Project object */;
+}

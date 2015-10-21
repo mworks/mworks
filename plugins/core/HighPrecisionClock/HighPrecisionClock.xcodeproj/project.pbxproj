@@ -1,0 +1,331 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		E1B1F19E17189068006E0FC8 /* Install */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = E1B1F19F17189068006E0FC8 /* Build configuration list for PBXAggregateTarget "Install" */;
+			buildPhases = (
+				E1B1F1A317189070006E0FC8 /* CopyFiles */,
+			);
+			dependencies = (
+				E1B1F1A21718906D006E0FC8 /* PBXTargetDependency */,
+			);
+			name = Install;
+			productName = Install;
+		};
+		E1B1F1A517189087006E0FC8 /* Everything */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = E1B1F1A617189087006E0FC8 /* Build configuration list for PBXAggregateTarget "Everything" */;
+			buildPhases = (
+			);
+			dependencies = (
+				E1B1F1A91718908A006E0FC8 /* PBXTargetDependency */,
+			);
+			name = Everything;
+			productName = Everything;
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		E1B1F19117188E69006E0FC8 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E1B1F18F17188E69006E0FC8 /* InfoPlist.strings */; };
+		E1B1F19A17188F10006E0FC8 /* HighPrecisionClockPlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1B1F19817188F10006E0FC8 /* HighPrecisionClockPlugin.cpp */; };
+		E1B1F1A417189078006E0FC8 /* HighPrecisionClock.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = E1B1F18717188E69006E0FC8 /* HighPrecisionClock.bundle */; };
+		E1B1F1AB171890FC006E0FC8 /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1B1F1AA171890FC006E0FC8 /* MWorksCore.framework */; };
+		E1B1F1AD17189146006E0FC8 /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1B1F1AC17189146006E0FC8 /* libboost_system.a */; };
+		E1B1F1B0171892C0006E0FC8 /* HighPrecisionClock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1B1F1AE171892C0006E0FC8 /* HighPrecisionClock.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		E1B1F1A11718906D006E0FC8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E1B1F17F17188E69006E0FC8 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E1B1F18617188E69006E0FC8;
+			remoteInfo = HighPrecisionClock;
+		};
+		E1B1F1A81718908A006E0FC8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E1B1F17F17188E69006E0FC8 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E1B1F19E17189068006E0FC8;
+			remoteInfo = Install;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		E1B1F1A317189070006E0FC8 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(MW_PLUGINS_DIR)";
+			dstSubfolderSpec = 0;
+			files = (
+				E1B1F1A417189078006E0FC8 /* HighPrecisionClock.bundle in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		E1B1F18717188E69006E0FC8 /* HighPrecisionClock.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HighPrecisionClock.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		E1B1F18E17188E69006E0FC8 /* HighPrecisionClock-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "HighPrecisionClock-Info.plist"; sourceTree = "<group>"; };
+		E1B1F19017188E69006E0FC8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		E1B1F19217188E69006E0FC8 /* HighPrecisionClock-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "HighPrecisionClock-Prefix.pch"; sourceTree = "<group>"; };
+		E1B1F19817188F10006E0FC8 /* HighPrecisionClockPlugin.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HighPrecisionClockPlugin.cpp; sourceTree = "<group>"; };
+		E1B1F19C17188F72006E0FC8 /* Development.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Development.xcconfig; path = "/Library/Application Support/MWorks/Developer/Xcode/Development.xcconfig"; sourceTree = "<absolute>"; };
+		E1B1F19D17188F72006E0FC8 /* WARNING.txt */ = {isa = PBXFileReference; lastKnownFileType = text; name = WARNING.txt; path = "/Library/Application Support/MWorks/Developer/Xcode/WARNING.txt"; sourceTree = "<absolute>"; };
+		E1B1F1AA171890FC006E0FC8 /* MWorksCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MWorksCore.framework; path = /Library/Frameworks/MWorksCore.framework; sourceTree = "<absolute>"; };
+		E1B1F1AC17189146006E0FC8 /* libboost_system.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_system.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_system.a"; sourceTree = "<absolute>"; };
+		E1B1F1AE171892C0006E0FC8 /* HighPrecisionClock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HighPrecisionClock.cpp; sourceTree = "<group>"; };
+		E1B1F1AF171892C0006E0FC8 /* HighPrecisionClock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HighPrecisionClock.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		E1B1F18417188E69006E0FC8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E1B1F1AB171890FC006E0FC8 /* MWorksCore.framework in Frameworks */,
+				E1B1F1AD17189146006E0FC8 /* libboost_system.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		E1B1F17E17188E69006E0FC8 = {
+			isa = PBXGroup;
+			children = (
+				E1B1F19B17188F5E006E0FC8 /* External Config */,
+				E1B1F18C17188E69006E0FC8 /* HighPrecisionClock */,
+				E1B1F18917188E69006E0FC8 /* Frameworks */,
+				E1B1F18817188E69006E0FC8 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		E1B1F18817188E69006E0FC8 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E1B1F18717188E69006E0FC8 /* HighPrecisionClock.bundle */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E1B1F18917188E69006E0FC8 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E1B1F1AA171890FC006E0FC8 /* MWorksCore.framework */,
+				E1B1F1AC17189146006E0FC8 /* libboost_system.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E1B1F18C17188E69006E0FC8 /* HighPrecisionClock */ = {
+			isa = PBXGroup;
+			children = (
+				E1B1F1AF171892C0006E0FC8 /* HighPrecisionClock.h */,
+				E1B1F1AE171892C0006E0FC8 /* HighPrecisionClock.cpp */,
+				E1B1F19817188F10006E0FC8 /* HighPrecisionClockPlugin.cpp */,
+				E1B1F18D17188E69006E0FC8 /* Supporting Files */,
+			);
+			path = HighPrecisionClock;
+			sourceTree = "<group>";
+		};
+		E1B1F18D17188E69006E0FC8 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				E1B1F18E17188E69006E0FC8 /* HighPrecisionClock-Info.plist */,
+				E1B1F18F17188E69006E0FC8 /* InfoPlist.strings */,
+				E1B1F19217188E69006E0FC8 /* HighPrecisionClock-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		E1B1F19B17188F5E006E0FC8 /* External Config */ = {
+			isa = PBXGroup;
+			children = (
+				E1B1F19C17188F72006E0FC8 /* Development.xcconfig */,
+				E1B1F19D17188F72006E0FC8 /* WARNING.txt */,
+			);
+			name = "External Config";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		E1B1F18617188E69006E0FC8 /* HighPrecisionClock */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E1B1F19517188E69006E0FC8 /* Build configuration list for PBXNativeTarget "HighPrecisionClock" */;
+			buildPhases = (
+				E1B1F18317188E69006E0FC8 /* Sources */,
+				E1B1F18417188E69006E0FC8 /* Frameworks */,
+				E1B1F18517188E69006E0FC8 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = HighPrecisionClock;
+			productName = HighPrecisionClock;
+			productReference = E1B1F18717188E69006E0FC8 /* HighPrecisionClock.bundle */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E1B1F17F17188E69006E0FC8 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0460;
+				ORGANIZATIONNAME = "The MWorks Project";
+			};
+			buildConfigurationList = E1B1F18217188E69006E0FC8 /* Build configuration list for PBXProject "HighPrecisionClock" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = E1B1F17E17188E69006E0FC8;
+			productRefGroup = E1B1F18817188E69006E0FC8 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				E1B1F18617188E69006E0FC8 /* HighPrecisionClock */,
+				E1B1F19E17189068006E0FC8 /* Install */,
+				E1B1F1A517189087006E0FC8 /* Everything */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		E1B1F18517188E69006E0FC8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E1B1F19117188E69006E0FC8 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		E1B1F18317188E69006E0FC8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E1B1F19A17188F10006E0FC8 /* HighPrecisionClockPlugin.cpp in Sources */,
+				E1B1F1B0171892C0006E0FC8 /* HighPrecisionClock.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		E1B1F1A21718906D006E0FC8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E1B1F18617188E69006E0FC8 /* HighPrecisionClock */;
+			targetProxy = E1B1F1A11718906D006E0FC8 /* PBXContainerItemProxy */;
+		};
+		E1B1F1A91718908A006E0FC8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E1B1F19E17189068006E0FC8 /* Install */;
+			targetProxy = E1B1F1A81718908A006E0FC8 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		E1B1F18F17188E69006E0FC8 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E1B1F19017188E69006E0FC8 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		E1B1F19317188E69006E0FC8 /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1B1F19C17188F72006E0FC8 /* Development.xcconfig */;
+			buildSettings = {
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+			};
+			name = Development;
+		};
+		E1B1F19617188E69006E0FC8 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "HighPrecisionClock/HighPrecisionClock-Prefix.pch";
+				INFOPLIST_FILE = "HighPrecisionClock/HighPrecisionClock-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Development;
+		};
+		E1B1F1A017189068006E0FC8 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Development;
+		};
+		E1B1F1A717189087006E0FC8 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Development;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		E1B1F18217188E69006E0FC8 /* Build configuration list for PBXProject "HighPrecisionClock" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E1B1F19317188E69006E0FC8 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		E1B1F19517188E69006E0FC8 /* Build configuration list for PBXNativeTarget "HighPrecisionClock" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E1B1F19617188E69006E0FC8 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		E1B1F19F17189068006E0FC8 /* Build configuration list for PBXAggregateTarget "Install" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E1B1F1A017189068006E0FC8 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		E1B1F1A617189087006E0FC8 /* Build configuration list for PBXAggregateTarget "Everything" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E1B1F1A717189087006E0FC8 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = E1B1F17F17188E69006E0FC8 /* Project object */;
+}

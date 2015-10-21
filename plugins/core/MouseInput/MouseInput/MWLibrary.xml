@@ -1,0 +1,23 @@
+<MWElements>
+  <MWElement name="Mouse Input Device">
+    <match_signature>iodevice[@type="mouse_input"]</match_signature>
+    
+    <isa>IODevice</isa>
+
+    <icon>smallIOFolder</icon>
+    
+    <description>
+Interface to the system mouse or other pointing device
+    </description>
+    
+    <code>
+      <iodevice type="mouse_input"
+                tag="Mouse Input Device"
+                mouse_position_x=""
+                mouse_position_y=""
+                mouse_down=""
+                hide_cursor="NO"
+                />
+    </code>
+  </MWElement>
+</MWElements>

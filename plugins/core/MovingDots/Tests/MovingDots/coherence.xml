@@ -1,0 +1,62 @@
+<?xml version="1.0" standalone="no"?>
+<monkeyml version="1.0">
+    <io_devices tag="IO Devices"></io_devices>
+    <variables tag="Variables">
+        <variable tag="field_radius" scope="global" logging="when_changed" default_value="4" type="float"></variable>
+        <variable tag="field_center_x" scope="global" logging="when_changed" default_value="4.5" type="float"></variable>
+        <variable tag="field_center_y" scope="global" logging="when_changed" default_value="4.5" type="float"></variable>
+        <variable tag="dot_density" scope="global" logging="when_changed" default_value="19.894" type="float"></variable>
+        <variable tag="dot_size" scope="global" logging="when_changed" default_value="0.05" type="float"></variable>
+        <variable tag="direction" scope="global" logging="when_changed" default_value="45" type="float"></variable>
+        <variable tag="speed" scope="global" logging="when_changed" default_value="0.75" type="float"></variable>
+        <folder tag="Coherences">
+            <variable tag="coherence_00" scope="global" logging="when_changed" default_value="0.9" type="float"></variable>
+            <variable tag="coherence_01" scope="global" logging="when_changed" default_value="0.0" type="float"></variable>
+            <variable tag="coherence_10" scope="global" logging="when_changed" default_value="1.0" type="float"></variable>
+            <variable tag="coherence_11" scope="global" logging="when_changed" default_value="0.5" type="float"></variable>
+        </folder>
+        <variable tag="i" scope="local" logging="when_changed" default_value="0" type="integer"></variable>
+        <variable tag="j" scope="local" logging="when_changed" default_value="0" type="integer"></variable>
+    </variables>
+    <sounds tag="Sounds"></sounds>
+    <stimuli tag="Stimuli">
+        <stimulus tag="background" full_name="background" type="blank_screen" color="0.5, 0.5, 0.5"></stimulus>
+        <range_replicator tag="New Replicator" from="0" to="1" step="1" variable="i">
+            <range_replicator tag="New Replicator 2" from="0" to="1" step="1" variable="j">
+                <stimulus type="circle" tag="field${i}${j}" color="0,0,0" x_size="2*field_radius" y_size="2*field_radius" x_position="field_center_x * pow(-1, ${i})" y_position="field_center_y * pow(-1, ${j})" rotation="0" alpha_multiplier="1"></stimulus>
+                <stimulus type="moving_dots" tag="dots${i}${j}" field_radius="field_radius" field_center_x="field_center_x * pow(-1, ${i})" field_center_y="field_center_y * pow(-1, ${j})" dot_density="dot_density" dot_size="dot_size" color="1,1,1" alpha_multiplier="1.0" direction="direction" speed="speed" coherence="coherence_${i}${j}" autoplay="1"></stimulus>
+            </range_replicator>
+        </range_replicator>
+    </stimuli>
+    <filters tag="Filters"></filters>
+    <optimizers tag="Optimizers"></optimizers>
+    <experiment tag="New Experiment" full_name="" description="">
+        <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential">
+            <task_system tag="New Task System" interruptible="YES">
+                <task_system_state tag="Begin State System" interruptible="YES">
+                    <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                    <action type="report" tag="Announce Begin State System" message="State system beginning"></action>
+                    <action tag="Queue background" type="queue_stimulus" stimulus="background"></action>
+                    <action tag="Queue field00" type="queue_stimulus" stimulus="field00"></action>
+                    <action tag="Queue field01" type="queue_stimulus" stimulus="field01"></action>
+                    <action tag="Queue field10" type="queue_stimulus" stimulus="field10"></action>
+                    <action tag="Queue field11" type="queue_stimulus" stimulus="field11"></action>
+                    <action tag="Queue dots00" type="queue_stimulus" stimulus="dots00"></action>
+                    <action tag="Queue dots01" type="queue_stimulus" stimulus="dots01"></action>
+                    <action tag="Queue dots10" type="queue_stimulus" stimulus="dots10"></action>
+                    <action tag="Queue dots11" type="queue_stimulus" stimulus="dots11"></action>
+                    <action tag="Update display" type="update_stimulus_display"></action>
+                    <action type="start_timer" tag="Start Timer" timer="MyTimer" timebase="" duration="60" duration_units="s"></action>
+                    <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                    <transition type="timer_expired" tag="If Timer Expired, Transition to ..." target="Exit State System" timer="MyTimer"></transition>
+                </task_system_state>
+                <task_system_state tag="Exit State System" interruptible="YES">
+                    <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                    <action type="report" tag="Announce Exit State System" message="Leaving state system"></action>
+                    <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                    <transition tag="Return to parent task system" type="yield"></transition>
+                </task_system_state>
+            </task_system>
+        </protocol>
+    </experiment>
+</monkeyml>
