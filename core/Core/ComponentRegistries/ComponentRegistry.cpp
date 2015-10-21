@@ -127,7 +127,9 @@ ComponentRegistry::ComponentRegistry() :
     registerFactory<StandardStimulusFactory, BlankScreen>();
     registerFactory<StandardStimulusFactory, ImageStimulus>();
     registerFactory<StandardStimulusFactory, RectangleStimulus>();
+    registerFactory<StandardStimulusFactory, CircleStimulus>();
     registerFactory<StandardStimulusFactory, FixationPoint>();
+    registerFactory<StandardStimulusFactory, CircularFixationPoint>();
     registerFactory<StandardComponentFactory, StimulusGroup>();
 	
 	// sounds

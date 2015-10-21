@@ -1,0 +1,88 @@
+<?xml version="1.0" standalone="no"?>
+<monkeyml version="1.0">
+    <io_devices tag="IO Devices"></io_devices>
+    <variables tag="Variables">
+        <variable tag="trigger_width" scope="global" logging="when_changed" default_value="4.0" type="float"></variable>
+        <variable tag="eye_x" scope="global" logging="when_changed" default_value="0" type="integer">
+            <action tag="Update Stimulus Display" type="update_stimulus_display"></action>
+        </variable>
+        <variable tag="eye_y" scope="global" logging="when_changed" default_value="0" type="integer">
+            <action tag="Update Stimulus Display" type="update_stimulus_display"></action>
+        </variable>
+        <variable tag="eye_in_window" scope="global" logging="when_changed" default_value="0" type="integer">
+            <action type="report" tag="Report" message="eye_in_window = $eye_in_window"></action>
+        </variable>
+        <variable tag="size_x" scope="global" logging="when_changed" default_value="4.0" type="float"></variable>
+        <variable tag="size_y" scope="global" logging="when_changed" default_value="2.0" type="float"></variable>
+        <variable tag="pos_x" scope="global" logging="when_changed" default_value="-2.0" type="float"></variable>
+        <variable tag="pos_y" scope="global" logging="when_changed" default_value="4.0" type="float"></variable>
+    </variables>
+    <sounds tag="Sounds"></sounds>
+    <stimuli tag="Stimuli">
+        <stimulus type="circular_fixation_point" tag="fixation_point" color="1,1,1" trigger_width="trigger_width" trigger_watch_x="eye_x" trigger_watch_y="eye_y" trigger_flag="eye_in_window" x_size="size_x" y_size="size_y" x_position="pos_x" y_position="pos_y" rotation="0" alpha_multiplier="1"></stimulus>
+        <stimulus type="circle" tag="trigger_circle" color="0,1,0" x_size="trigger_width" y_size="trigger_width" x_position="pos_x" y_position="pos_y" rotation="0" alpha_multiplier="1"></stimulus>
+        <stimulus type="rectangle" tag="trigger_bounding_box" color="1,0,0" x_size="trigger_width" y_size="trigger_width" x_position="pos_x" y_position="pos_y" rotation="0" alpha_multiplier="1"></stimulus>
+        <stimulus type="circle" tag="eye_cursor" color="0,0,0" x_size="0.5" y_size="0.5" x_position="eye_x" y_position="eye_y" rotation="0" alpha_multiplier="1"></stimulus>
+    </stimuli>
+    <filters tag="Filters"></filters>
+    <optimizers tag="Optimizers"></optimizers>
+    <experiment tag="New Experiment" full_name="" description="">
+        <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
+            <action type="assignment" tag="Reset eye_x" variable="eye_x" value="0"></action>
+            <action type="assignment" tag="Reset eye_y" variable="eye_y" value="0"></action>
+            <action tag="Queue trigger bounding box" type="queue_stimulus" stimulus="trigger_bounding_box"></action>
+            <action tag="Queue trigger_circle" type="queue_stimulus" stimulus="trigger_circle"></action>
+            <action tag="Queue fixation point" type="queue_stimulus" stimulus="fixation_point"></action>
+            <action tag="Live queue eye cursor" type="live_queue_stimulus" stimulus="eye_cursor"></action>
+            <action tag="Update Stimulus Display" type="update_stimulus_display"></action>
+            <action type="wait" tag="Wait" duration="2" duration_units="s"></action>
+
+            <!-- Center -->
+            <action type="assignment" tag="Set eye_x" variable="eye_x" value="-2"></action>
+            <action type="assignment" tag="Set eye_y" variable="eye_y" value="4"></action>
+            <action type="assert" tag="Assert" condition="eye_in_window" message="" stop_on_failure="0"></action>
+            <action type="wait" tag="Wait" duration="2" duration_units="s"></action>
+
+            <!-- Bottom right -->
+            <action type="assignment" tag="Set eye_x" variable="eye_x" value="-0.25"></action>
+            <action type="assignment" tag="Set eye_y" variable="eye_y" value="2.25"></action>
+            <action type="assert" tag="Assert" condition="!eye_in_window" message="" stop_on_failure="0"></action>
+            <action type="wait" tag="Wait" duration="2" duration_units="s"></action>
+
+            <!-- Bottom middle -->
+            <action type="assignment" tag="Set eye_x" variable="eye_x" value="-2"></action>
+            <action type="assert" tag="Assert" condition="eye_in_window" message="" stop_on_failure="0"></action>
+            <action type="wait" tag="Wait" duration="2" duration_units="s"></action>
+
+            <!-- Bottom left -->
+            <action type="assignment" tag="Set eye_x" variable="eye_x" value="-3.75"></action>
+            <action type="assert" tag="Assert" condition="!eye_in_window" message="" stop_on_failure="0"></action>
+            <action type="wait" tag="Wait" duration="2" duration_units="s"></action>
+
+            <!-- Left middle -->
+            <action type="assignment" tag="Set eye_y" variable="eye_y" value="4"></action>
+            <action type="assert" tag="Assert" condition="eye_in_window" message="" stop_on_failure="0"></action>
+            <action type="wait" tag="Wait" duration="2" duration_units="s"></action>
+
+            <!-- Top left -->
+            <action type="assignment" tag="Set eye_y" variable="eye_y" value="5.75"></action>
+            <action type="assert" tag="Assert" condition="!eye_in_window" message="" stop_on_failure="0"></action>
+            <action type="wait" tag="Wait" duration="2" duration_units="s"></action>
+
+            <!-- Top middle -->
+            <action type="assignment" tag="Set eye_x" variable="eye_x" value="-2"></action>
+            <action type="assert" tag="Assert" condition="eye_in_window" message="" stop_on_failure="0"></action>
+            <action type="wait" tag="Wait" duration="2" duration_units="s"></action>
+
+            <!-- Top right -->
+            <action type="assignment" tag="Set eye_x" variable="eye_x" value="-0.25"></action>
+            <action type="assert" tag="Assert" condition="!eye_in_window" message="" stop_on_failure="0"></action>
+            <action type="wait" tag="Wait" duration="2" duration_units="s"></action>
+
+            <!-- Right middle -->
+            <action type="assignment" tag="Set eye_y" variable="eye_y" value="4"></action>
+            <action type="assert" tag="Assert" condition="eye_in_window" message="" stop_on_failure="0"></action>
+            <action type="wait" tag="Wait" duration="2" duration_units="s"></action>
+        </protocol>
+    </experiment>
+</monkeyml>

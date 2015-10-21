@@ -1,0 +1,64 @@
+<?xml version="1.0" standalone="no"?>
+<monkeyml version="1.0">
+    <io_devices tag="IO Devices">
+        <calibrator type="linear_eye_calibrator" tag="eye_cal" eyeh_raw="eye_h_raw" eyev_raw="eye_v_raw" eyeh_calibrated="eye_h_cal" eyev_calibrated="eye_v_cal"></calibrator>
+    </io_devices>
+    <variables tag="Variables">
+        <variable tag="eye_h_raw" scope="global" logging="when_changed" default_value="0" type="integer"></variable>
+        <variable tag="eye_v_raw" scope="global" logging="when_changed" default_value="0" type="integer"></variable>
+        <variable tag="eye_h_cal" scope="global" logging="when_changed" default_value="0" type="integer"></variable>
+        <variable tag="eye_v_cal" scope="global" logging="when_changed" default_value="0" type="integer"></variable>
+        <variable tag="eye_in_window" scope="global" logging="when_changed" default_value="0" type="integer"></variable>
+        <variable tag="size" scope="global" logging="when_changed" default_value="0.5" type="float"></variable>
+        <variable tag="pos_x" scope="global" logging="when_changed" default_value="0" type="integer"></variable>
+        <variable tag="pos_y" scope="global" logging="when_changed" default_value="0" type="integer"></variable>
+    </variables>
+    <sounds tag="Sounds"></sounds>
+    <stimuli tag="Stimuli">
+        <stimulus type="circular_fixation_point" tag="fixation_point" color="1,1,1" trigger_width="size" trigger_watch_x="eye_h_cal" trigger_watch_y="eye_v_cal" trigger_flag="eye_in_window" x_size="size" y_size="size" x_position="pos_x" y_position="pos_y" rotation="0" alpha_multiplier="1"></stimulus>
+    </stimuli>
+    <filters tag="Filters"></filters>
+    <optimizers tag="Optimizers"></optimizers>
+    <experiment tag="New Experiment" full_name="" description="">
+        <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
+            <action tag="Live queue fixation point" type="live_queue_stimulus" stimulus="fixation_point"></action>
+
+            <!-- Upper right -->
+            <action type="assignment" tag="Set eye_h_raw" variable="eye_h_raw" value="1"></action>
+            <action type="assignment" tag="Set eye_v_raw" variable="eye_v_raw" value="1"></action>
+            <action type="assignment" tag="Set pos_x" variable="pos_x" value="3"></action>
+            <action type="assignment" tag="Set pos_y" variable="pos_y" value="2"></action>
+            <action tag="Update Stimulus Display" type="update_stimulus_display"></action>
+            <action tag="Take Calibration Sample" type="take_calibration_sample" calibrator="eye_cal" calibratable_object="fixation_point"></action>
+            <action type="wait" tag="Wait" duration="1" duration_units="s"></action>
+
+            <!-- Upper left -->
+            <action type="assignment" tag="Set eye_h_raw" variable="eye_h_raw" value="-1"></action>
+            <action type="assignment" tag="Set eye_v_raw" variable="eye_v_raw" value="1"></action>
+            <action type="assignment" tag="Set pos_x" variable="pos_x" value="-3"></action>
+            <action tag="Update Stimulus Display" type="update_stimulus_display"></action>
+            <action tag="Take Calibration Sample" type="take_calibration_sample" calibrator="eye_cal" calibratable_object="fixation_point"></action>
+            <action type="wait" tag="Wait" duration="1" duration_units="s"></action>
+
+            <!-- Lower left -->
+            <action type="assignment" tag="Set eye_h_raw" variable="eye_h_raw" value="-1"></action>
+            <action type="assignment" tag="Set eye_v_raw" variable="eye_v_raw" value="-1"></action>
+            <action type="assignment" tag="Set pos_y" variable="pos_y" value="-2"></action>
+            <action tag="Update Stimulus Display" type="update_stimulus_display"></action>
+            <action tag="Take Calibration Sample" type="take_calibration_sample" calibrator="eye_cal" calibratable_object="fixation_point"></action>
+            <action type="wait" tag="Wait" duration="1" duration_units="s"></action>
+
+            <!-- Lower right -->
+            <action tag="Update Calibration" type="update_calibration" calibrator="eye_cal"></action>
+            <action type="assignment" tag="Set eye_h_raw" variable="eye_h_raw" value="1"></action>
+            <action type="assignment" tag="Set eye_v_raw" variable="eye_v_raw" value="-1"></action>
+            <action type="assignment" tag="Set pos_x" variable="pos_x" value="eye_h_cal"></action>
+            <action type="assignment" tag="Set pos_y" variable="pos_y" value="eye_v_cal"></action>
+            <action tag="Update Stimulus Display" type="update_stimulus_display"></action>
+            <action type="assert" tag="Assert" condition="abs(eye_h_cal - 3.0) &lt; 0.0001" message="" stop_on_failure="0"></action>
+            <action type="assert" tag="Assert" condition="abs(eye_v_cal - -2.0) &lt; 0.0001" message="" stop_on_failure="0"></action>
+            <action type="wait" tag="Wait" duration="1" duration_units="s"></action>
+
+        </protocol>
+    </experiment>
+</monkeyml>

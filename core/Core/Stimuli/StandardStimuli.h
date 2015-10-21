@@ -135,6 +135,23 @@ public:
 };
 
 
+class CircleStimulus : public RectangleStimulus {
+    
+public:
+    static void describeComponent(ComponentInfo &info);
+    
+    explicit CircleStimulus(const Map<ParameterValue> &parameters);
+    
+    void load(shared_ptr<StimulusDisplay> display) MW_OVERRIDE;
+    void drawInUnitSquare(shared_ptr<StimulusDisplay> display) MW_OVERRIDE;
+    Datum getCurrentAnnounceDrawData() MW_OVERRIDE;
+    
+private:
+    std::vector<double> pixelDensity;
+    
+};
+
+
 class BlankScreen : public Stimulus {
     
 public:

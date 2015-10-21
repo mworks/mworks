@@ -375,6 +375,31 @@ A rectangle stimulus
     </MWElement>
 
 
+    <MWElement name="Ellipse Stimulus">
+    	<!-- XPath 2.0 expression defining nodes of this type -->
+    	<match_signature>stimulus[@type="circle"]</match_signature>
+
+    	<isa>Stimulus</isa>
+
+    	<description>
+An ellipse stimulus
+    	</description>
+
+    	<!-- Payload -->
+    	<code>
+    		<stimulus type="circle"
+    			      tag="New Ellipse"
+    			      color="1,1,1"
+    			      x_size=""
+    			      y_size=""
+    			      x_position=""
+    			      y_position=""
+    			      rotation=""
+    			      alpha_multiplier=""/>
+        </code>
+    </MWElement>
+
+
 	<MWElement name="Fixation Point Stimulus">
 		<!-- XPath 2.0 expression defining nodes of this type -->
 		<match_signature>stimulus[@type="fixation_point"]</match_signature>
@@ -400,6 +425,35 @@ A rectangle stimulus
 											rotation=""
 											alpha_multiplier=""/>
 		</code>
+	</MWElement>
+
+
+	<MWElement name="Circular Fixation Point Stimulus">
+		<!-- XPath 2.0 expression defining nodes of this type -->
+		<match_signature>stimulus[@type="circular_fixation_point"]</match_signature>
+
+		<isa>Stimulus</isa>
+
+		<description>
+A circular fixation point stimulus
+		</description>
+
+		<!-- Payload -->
+		<code>
+			<stimulus type="circular_fixation_point"
+                      tag="New Circular Fixation Point"
+                      color="1,1,1"
+                      trigger_width=""
+                      trigger_watch_x=""
+                      trigger_watch_y=""
+                      trigger_flag=""
+                      x_size=""
+                      y_size=""
+                      x_position=""
+                      y_position=""
+                      rotation=""
+                      alpha_multiplier=""/>
+        </code>
 	</MWElement>
 
 	

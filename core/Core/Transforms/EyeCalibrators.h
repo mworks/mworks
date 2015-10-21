@@ -77,6 +77,19 @@ public:
 };
 
 
+class CircularFixationPoint : public CircleStimulus, public CircularRegionTrigger, public GoldStandard {
+    
+public:
+    static void describeComponent(ComponentInfo &info);
+    
+    explicit CircularFixationPoint(const Map<ParameterValue> &parameters);
+    
+    ExpandableList<Datum>* getGoldStandardValues() MW_OVERRIDE;
+    Datum getCurrentAnnounceDrawData() MW_OVERRIDE;
+    
+};
+
+
 // ===========================================================================
 
 
