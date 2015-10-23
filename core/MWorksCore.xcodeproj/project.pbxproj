@@ -2983,7 +2983,7 @@
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				HEADER_SEARCH_PATHS = (
-					/usr/include/libxml2,
+					"$(SDKROOT)/usr/include/libxml2",
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "UnitTests/MarionetteTest-Info.plist";
@@ -3015,7 +3015,7 @@
 					"MW_VERSION_SUFFIX=\\\"$(MW_VERSION_SUFFIX)\\\"",
 				);
 				HEADER_SEARCH_PATHS = (
-					/usr/include/libxml2,
+					"$(SDKROOT)/usr/include/libxml2",
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "MWorksCore-Info.plist";

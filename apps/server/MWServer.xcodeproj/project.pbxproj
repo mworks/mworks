@@ -424,7 +424,7 @@
 			buildSettings = {
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				HEADER_SEARCH_PATHS = (
-					/usr/include/libxml2,
+					"$(SDKROOT)/usr/include/libxml2",
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = Info.plist;
