@@ -231,11 +231,6 @@ def server():
     xcodebuild()
 
 
-#@builder('mworks/xcode')
-def xcode_templates():
-    make(['test', 'install'])
-
-
 ################################################################################
 #
 # Main function
