@@ -12,6 +12,7 @@
 
 #include "VariableTransformAdaptors.h"
 #include "FilterTransforms.h"
+#include "ParameterValue.h"
 
 
 BEGIN_NAMESPACE_MW
@@ -117,7 +118,7 @@ class EyeStatusMonitor : public VarTransformAdaptor {
         
         // computer (transform derived object to do the work)
         EyeStatusComputer  *eyeStatusComputer;
-        virtual void processAndPostEyeData(double _eyeHdeg, double _eyeVdeg, MWTime _eyeTimeUS);
+        virtual void processAndPostEyeData(double _eyeHdeg, double _eyeVdeg, MWTime _eyeTimeUS) = 0;
         
 	public:
         EyeStatusMonitor(shared_ptr<Variable> _eyeHCalibratedVar, shared_ptr<Variable> _eyeVCalibratedVar, 
@@ -135,19 +136,25 @@ class EyeStatusMonitorVer1 : public EyeStatusMonitor {
     protected:
         virtual void processAndPostEyeData(double _eyeHdeg, double _eyeVdeg, MWTime _eyeTimeUS);
     
-    public:                                    
-        EyeStatusMonitorVer1(shared_ptr<Variable> _eyeHCalibratedVar, 
+    public:
+        static const std::string EYEH_CALIBRATED;
+        static const std::string EYEV_CALIBRATED;
+        static const std::string EYE_STATE;
+        static const std::string WIDTH_SAMPLES;
+        static const std::string SACCADE_ENTRY_SPEED;
+        static const std::string SACCADE_EXIT_SPEED;
+    
+        static void describeComponent(ComponentInfo &info);
+    
+        explicit EyeStatusMonitorVer1(const ParameterValueMap &parameters);
+    
+        EyeStatusMonitorVer1(shared_ptr<Variable> _eyeHCalibratedVar,
                     shared_ptr<Variable> _eyeVCalibratedVar, shared_ptr<Variable> _eyeStatusVar, 
                     int _filterWidthSamples, 
                     shared_ptr<Variable> _saccadeEntrySpeedDegPerSec,
                     shared_ptr<Variable> _saccadeExitSpeedDegPerSec);
                                 
         virtual ~EyeStatusMonitorVer1();                                                                                          
-};
-
-class EyeStatusMonitorVer1Factory : public ComponentFactory {
-	virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-												ComponentRegistry *reg);
 };
 
 

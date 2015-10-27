@@ -111,7 +111,7 @@ ComponentRegistry::ComponentRegistry() :
 	registerFactory("averager", new AveragerUserFactory());
 	registerFactory("calibrator/standard_eye_calibrator", new EyeCalibratorFactory());
 	registerFactory("calibrator/linear_eye_calibrator", new LinearEyeCalibratorFactory());
-	registerFactory("filter/basic_eye_monitor", new EyeStatusMonitorVer1Factory());
+    registerFactory<StandardComponentFactory, EyeStatusMonitorVer1>();
 	registerFactory("filter/boxcar_filter_1d", new Filter_BoxcarFilter1DFactory());
 	registerFactory("linear_filter_1d", new Filter_LinearFilter1DFactory());
 	registerFactory("staircase", new SimpleStaircaseOptimizerFactory());

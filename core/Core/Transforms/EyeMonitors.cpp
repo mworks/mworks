@@ -138,7 +138,37 @@ void EyeStatusMonitor::newDataReceived(int inputIndex, const Datum& data, MWTime
 }
 
 
-void EyeStatusMonitor::processAndPostEyeData(double _eyeHdeg, double _eyeVdeg, MWTime _eyeTimeUS) { };
+const std::string EyeStatusMonitorVer1::EYEH_CALIBRATED("eyeh_calibrated");
+const std::string EyeStatusMonitorVer1::EYEV_CALIBRATED("eyev_calibrated");
+const std::string EyeStatusMonitorVer1::EYE_STATE("eye_state");
+const std::string EyeStatusMonitorVer1::WIDTH_SAMPLES("width_samples");
+const std::string EyeStatusMonitorVer1::SACCADE_ENTRY_SPEED("saccade_entry_speed");
+const std::string EyeStatusMonitorVer1::SACCADE_EXIT_SPEED("saccade_exit_speed");
+
+
+void EyeStatusMonitorVer1::describeComponent(ComponentInfo &info) {
+    EyeStatusMonitor::describeComponent(info);
+    
+    info.setSignature("filter/basic_eye_monitor");
+    
+    info.addParameter(EYEH_CALIBRATED);
+    info.addParameter(EYEV_CALIBRATED);
+    info.addParameter(EYE_STATE);
+    info.addParameter(WIDTH_SAMPLES);
+    info.addParameter(SACCADE_ENTRY_SPEED);
+    info.addParameter(SACCADE_EXIT_SPEED);
+}
+
+
+EyeStatusMonitorVer1::EyeStatusMonitorVer1(const ParameterValueMap &parameters) :
+    EyeStatusMonitorVer1(VariablePtr(parameters[EYEH_CALIBRATED]),
+                         VariablePtr(parameters[EYEV_CALIBRATED]),
+                         VariablePtr(parameters[EYE_STATE]),
+                         int(parameters[WIDTH_SAMPLES]),
+                         VariablePtr(parameters[SACCADE_ENTRY_SPEED]),
+                         VariablePtr(parameters[SACCADE_EXIT_SPEED]))
+{ }
+
 
 void EyeStatusMonitorVer1::processAndPostEyeData(double _eyeHdeg, double _eyeVdeg, MWTime _eyeTimeUS) {
        
@@ -173,45 +203,6 @@ EyeStatusMonitorVer1::EyeStatusMonitorVer1(shared_ptr<Variable> _eyeHCalibratedV
 	
 EyeStatusMonitorVer1::~EyeStatusMonitorVer1() {
     delete eyeStatusComputer;
-}
-
- 
-shared_ptr<mw::Component> EyeStatusMonitorVer1Factory::createObject(std::map<std::string, std::string> parameters,
-													ComponentRegistry *reg) {
-	REQUIRE_ATTRIBUTES(parameters, 
-					   
-					   "saccade_exit_speed", 
-					   "saccade_entry_speed", 
-					   "width_samples", 
-					   "eye_state", 
-					   "eyeh_calibrated", 
-					   "eyev_calibrated");
-	
-	shared_ptr<Variable> saccade_exit_speed = reg->getVariable(parameters.find("saccade_exit_speed")->second);	
-	shared_ptr<Variable> saccade_entry_speed = reg->getVariable(parameters.find("saccade_entry_speed")->second);	
-	shared_ptr<Variable> eye_state = reg->getVariable(parameters.find("eye_state")->second);	
-	shared_ptr<Variable> eyeh_calibrated = reg->getVariable(parameters.find("eyeh_calibrated")->second);	
-	shared_ptr<Variable> eyev_calibrated = reg->getVariable(parameters.find("eyev_calibrated")->second);
-	unsigned int width_samples = 0;
-	try {
-		width_samples = boost::lexical_cast< unsigned int >(parameters.find("width_samples")->second);
-	} catch(boost::bad_lexical_cast &) {
-		throw InvalidReferenceException(parameters["reference_id"], "width_samples", parameters.find("width_samples")->second);
-	}
-	
-	checkAttribute(saccade_exit_speed, parameters["reference_id"], "saccade_exit_speed", parameters.find("saccade_exit_speed")->second);
-	checkAttribute(saccade_entry_speed, parameters["reference_id"], "saccade_entry_speed", parameters.find("saccade_entry_speed")->second);
-	checkAttribute(eye_state, parameters["reference_id"], "eye_state", parameters.find("eye_state")->second);
-	checkAttribute(eyeh_calibrated, parameters["reference_id"], "eyeh_calibrated", parameters.find("eyeh_calibrated")->second);
-	checkAttribute(eyev_calibrated, parameters["reference_id"], "eyev_calibrated", parameters.find("eyev_calibrated")->second);
-	
-	shared_ptr <mw::Component> newEyeStatusMonitorVer1 = shared_ptr<mw::Component>(new EyeStatusMonitorVer1(eyeh_calibrated,
-																									   eyev_calibrated,
-																									   eye_state,
-																									   width_samples,
-																									   saccade_entry_speed,
-																									   saccade_exit_speed));
-	return newEyeStatusMonitorVer1;
 }
 
 
