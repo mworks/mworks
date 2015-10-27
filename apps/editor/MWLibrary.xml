@@ -1897,7 +1897,7 @@ Wait until a condition becomes true or a timeout occurs.  If the wait times out 
 	</MWElement>
 	
 	
-	<MWElement name="Basic Eye Monitor">
+	<MWElement name="Eye Monitor">
 		<!-- XPath 2.0 expression defining nodes of this type -->
 		<match_signature>filter[@type='basic_eye_monitor']</match_signature>
 
@@ -1915,46 +1915,13 @@ Wait until a condition becomes true or a timeout occurs.  If the wait times out 
 		
 		<!-- Payload -->
 		<code>
-			<filter type="basic_eye_monitor" tag="Basic Eye Monitor"
+			<filter type="basic_eye_monitor" tag="Eye Monitor"
 				                             eyeh_calibrated=""
 											 eyev_calibrated=""
 											 eye_state=""
 											 width_samples=""
 											 saccade_entry_speed=""
 											 saccade_exit_speed=""/>
-		</code>
-	</MWElement>
-
-
-	<MWElement name="Advanced Eye Monitor">
-		<!-- XPath 2.0 expression defining nodes of this type -->
-		<match_signature>filter[@type='basic_eye_monitor']</match_signature>
-
-		<!-- Inheritance -->
-		<isa>Filter</isa>
-		
-		<!-- Information for display in the GUI -->
-		<icon>fakeMonkey</icon>
-		<!--inspector>VariableInspectorView</inspector-->  <!-- TODO -->
-
-		<description>
-			A filter that takes in an eye signal and outputs basic parameters,
-			such as velocity, saccade state, etc.  The advanced version of this
-			monitor additionally takes into account minimum saccade amplitude
-			and duration
-		</description>
-		
-		<!-- Payload -->
-		<code>
-			<filter type="basic_eye_monitor" tag="Advanced Eye Monitor"
-				                             eyeh_calibrated=""
-											 eyev_calibrated=""
-											 eye_state=""
-											 width_samples=""
-											 saccade_entry_speed=""
-											 saccade_exit_speed=""
-											 saccade_min_amplitude=""
-											 saccade_min_duration=""/>
 		</code>
 	</MWElement>
 

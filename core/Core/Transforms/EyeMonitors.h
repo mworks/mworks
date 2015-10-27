@@ -7,18 +7,6 @@
  *
  */
 
-// summary:
-//  eye monitors:  base version.  Ver1 and ver2 are dervired from base.
-//    the base version handles basic eye data pairing and filtering
-//    the derived version sub in differnt eye computers 
-//     because of this, ver 2 provides outputs about saccades that ver1 does not.
-//
-//  eye computers:  The basic version just computed eye state based on eye speed
-//              The derived version computes saccades as well.
-//
-// As of August 20, the eyeComputer with saccades was still in development
-
-
 #ifndef _EYE_MONITORS
 #define _EYE_MONITORS
 
@@ -103,7 +91,6 @@ class PairedEyeData {
 
 
 class EyeStatusComputer;
-class EyeStatusComputerWithSaccades;
 
 // output current status of the eyes (FIXATED, SACCADING, UNKNOWN)
 // TODO not yet clear if we realy need to inherit from the TransformWithMemory class here
@@ -164,32 +151,6 @@ class EyeStatusMonitorVer1Factory : public ComponentFactory {
 };
 
 
-class EyeStatusMonitorVer2 : public EyeStatusMonitor {
-   
-         
-    protected:
-        virtual void processAndPostEyeData(double _eyeHdeg, double _eyeVdeg, MWTime _eyeTimeUS);
-    
-    public:    
-        EyeStatusMonitorVer2(shared_ptr<Variable> _eyeHCalibratedVar, 
-                    shared_ptr<Variable> _eyeVCalibratedVar, shared_ptr<Variable> _eyeStatusVar, 
-                    int _filterWidthSamples, 
-                    shared_ptr<Variable> _saccadeEntrySpeedDegPerSec,
-                    shared_ptr<Variable> _saccadeExitSpeedDegPerSec,
-                    shared_ptr<Variable> _minimumStartDirectionChangeSeg,
-                    shared_ptr<Variable> _minimumAmplitudeDeg,
-                    shared_ptr<Variable> _minimumDurationMS);                        
-        virtual ~EyeStatusMonitorVer2();               
-
-};
-
-class EyeStatusMonitorVer2Factory : public ComponentFactory {
-	virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-												ComponentRegistry *reg);
-};
-
-
-// this is the basic model
 class EyeStatusComputer : public Transform {
            
     protected:   
@@ -232,88 +193,6 @@ class EyeStatusComputer : public Transform {
         virtual void reset();
        
 };
-
-// this model handles saccade detection also and improves its performance on status monitoring because of that
-class EyeStatusComputerWithSaccades : public EyeStatusComputer {
-
-     protected: 
-        
-        // outputs
-        bool             saccadeInformationIsAvailable;        
-        SaccadeData     computedSaccadeData;
-        
-        // parameters for detection:
-        shared_ptr<Variable> minSacAmplitudeDeg;
-        shared_ptr<Variable> sacStartDirectionChangeDeg;
-        shared_ptr<Variable> minSacDurationMS;  
-        
-        // saccade detection stuff
-        MWTime     timeofLastReset;
-        bool                engageSaccadeDetection;
-        bool                checkForSaccadeStart;
-        bool                computeSacTrueEnd, inSaccade, checkForSaccadeEnd;
-        DatumWithTime        eyeSpeedDegPerSecLast; 
-        DOUBLE_POINT        eyeVelocityDegPerSecLast;
-        DOUBLE_POINT        eyeLocDegLast;
-        double              eyeDirectionAngle;
-        EyeStatusEnum      computedEyeStatusLast;
-        
-        // internal vars
-        //bool 	prediction;   
-        short			lookBackSamplesToActual;
-        bool            getPeak;
-        short           down;
-        float           lengthToPeak;
-        DOUBLE_POINT    peakLoc;
-        double          sacAmplitudePiecewise;
-        double          sacPeakSpeed;
-        bool            sacBeyondVelocityPeak;
-        short           nSamplesAveraged;
-        SaccadeData    sacData;
-        MWTime timeSinceSacDetectedEnd;
-        DOUBLE_POINT    xx;  
-        
-        // override its base class method             
-        virtual bool    computeEyeInformation();  
-        
-                      
-    public:
-        EyeStatusComputerWithSaccades(int _filterWidthSamples,
-                shared_ptr<Variable> _sacStartSpeedDegPerSec, shared_ptr<Variable> _sacEndSpeedDegPerSec,
-                shared_ptr<Variable> _sacStartDirectionChangeDeg, shared_ptr<Variable> _minSacAmplitudeDeg, shared_ptr<Variable> _minSacDurationMS);
-                            
-        virtual ~EyeStatusComputerWithSaccades();        
-        virtual void reset();           // override
-        virtual bool outputSaccade(SaccadeData *saccadeData);  // new method for this class
-    
-};
-
-
-        
-        /*
-        bool 	prediction;   
-        DOUBLE_POINT 	overshoot;
-        short			lookBackSamplesToActual;
-        double  		eyeDirection;
-        short i;
-        short boxWidthSamples;
-        bool first;
-        bool getPeak;
-        short	down;
-        float lengthToPeak;
-        DOUBLE_POINT peakLoc;
-        DOUBLE_POINT  DeyeLocFiltered;
-        
-        DOUBLE_POINT 		eyeVelocityUnfiltered;
-        DOUBLE_POINT eyeLocLastUnfiltered;
-        
-    
-        DOUBLE_POINT 	eyeVelocityStore[MAX_LOOK_BACK_SAMPLES];
-        DOUBLE_POINT 	eyeLocStore[MAX_LOOK_BACK_SAMPLES];
-        float 			eyeSpeedStore[MAX_LOOK_BACK_SAMPLES];
-        DOUBLE_POINT 	bufferLoc[MAX_LOOK_BACK_SAMPLES];
-        float 			bufferDirection[MAX_LOOK_BACK_SAMPLES];
-        */
 
 
 END_NAMESPACE_MW
