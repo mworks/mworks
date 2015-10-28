@@ -1,0 +1,73 @@
+<?xml version="1.0" standalone="no"?>
+<monkeyml version="1.0">
+    <io_devices tag="IO Devices"></io_devices>
+    <variables tag="Variables">
+        <variable tag="eye_h" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="0" type="any"></variable>
+        <variable tag="eye_v" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="0" type="any"></variable>
+        <variable tag="saccade" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="0" type="any">
+            <action type="assignment" tag="Set color_r" variable="color_r" value="saccade"></action>
+            <action type="assignment" tag="Set color_g" variable="color_g" value="!saccade"></action>
+        </variable>
+        <variable tag="eye_speed" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="0" type="any"></variable>
+        <variable tag="eye_velocity_h" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="0" type="any"></variable>
+        <variable tag="eye_velocity_v" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="0" type="any">
+            <action type="assignment" tag="Compute eye speed" variable="eye_speed" value="sqrt(eye_velocity_h*eye_velocity_h + eye_velocity_v* eye_velocity_v)"></action>
+        </variable>
+        <variable tag="expected_v_h" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="0" type="any"></variable>
+        <variable tag="tolerance" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="0.2" type="any"></variable>
+        <variable tag="saccade_speed" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="5" type="any"></variable>
+        <variable tag="color_r" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="0" type="any"></variable>
+        <variable tag="color_g" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="0" type="any"></variable>
+        <variable tag="start_time" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="0" type="any"></variable>
+        <variable tag="elapsed_time" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="0" type="any"></variable>
+        <variable tag="amplitude" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="10.0" type="any"></variable>
+        <variable tag="period" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="5.0s" type="any"></variable>
+    </variables>
+    <sounds tag="Sounds"></sounds>
+    <stimuli tag="Stimuli">
+        <stimulus type="frame_list" tag="frame_list" stimulus_group="frames" ending="" ended="" loop="YES" repeats="0" autoplay="YES"></stimulus>
+        <stimulus_group tag="frames">
+            <stimulus type="circle" tag="circle" color="color_r, color_g, 0" x_size="0.5" y_size="0.5" x_position="eye_h" y_position="eye_v" rotation="0" alpha_multiplier="1"></stimulus>
+        </stimulus_group>
+    </stimuli>
+    <filters tag="Filters">
+        <filter type="basic_eye_monitor" tag="Eye Monitor" eyeh_calibrated="eye_h" eyev_calibrated="eye_v" eye_state="saccade" eye_velocity_h="eye_velocity_h" eye_velocity_v="eye_velocity_v" width_samples="5" saccade_entry_speed="saccade_speed" saccade_exit_speed="saccade_speed"></filter>
+    </filters>
+    <optimizers tag="Optimizers"></optimizers>
+    <experiment tag="New Experiment" full_name="" description="">
+        <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
+            <task_system tag="New Task System" interruptible="YES">
+                <task_system_state tag="Begin State System" interruptible="YES">
+                    <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                    <action type="assignment" tag="Reset eye state" variable="saccade" value="0"></action>
+                    <action tag="Live queue frame list" type="live_queue_stimulus" stimulus="frame_list"></action>
+                    <action tag="Update display" type="update_stimulus_display" predicted_output_time=""></action>
+                    <action type="assignment" tag="Store start time" variable="start_time" value="now()"></action>
+                    <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                    <transition type="direct" tag="Always Go to ..." target="Update"></transition>
+                </task_system_state>
+                <task_system_state tag="Update" interruptible="YES">
+                    <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                    <action type="assignment" tag="Compute elapsed time" variable="elapsed_time" value="now() - start_time"></action>
+                    <action type="assignment" tag="Update eye_h" variable="eye_h" value="-amplitude * cos(2 * pi() * elapsed_time / period)"></action>
+                    <action type="assignment" tag="Update eye_v" variable="eye_v" value="-eye_h"></action>
+                    <action type="start_timer" tag="Start Timer" timer="MyTimer" timebase="" duration="1" duration_units="ms"></action>
+                    <action type="assignment" tag="Compute expected velocity h" variable="expected_v_h" value="2e6 * pi() * amplitude / period * sin(2 * pi() * elapsed_time / period)"></action>
+                    <action type="assert" tag="Assert eye velocity h" condition="abs(eye_velocity_h - expected_v_h) &lt;= tolerance" message="" stop_on_failure="0"></action>
+                    <action type="assert" tag="Assert eye velocity v" condition="abs(eye_velocity_v + expected_v_h) &lt;= tolerance" message="" stop_on_failure="0"></action>
+                    <action type="assert" tag="Assert eye state" condition="saccade == (eye_speed &gt;= saccade_speed)" message="" stop_on_failure="0"></action>
+                    <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                    <transition type="conditional" tag="If Condition is True, Transition to ..." condition="elapsed_time &gt;= 60s" target="Exit State System"></transition>
+                    <transition type="timer_expired" tag="If Timer Expired, Transition to ..." target="Update" timer="MyTimer"></transition>
+                </task_system_state>
+                <task_system_state tag="Exit State System" interruptible="YES">
+                    <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                    <action tag="Dequeue frame list" type="dequeue_stimulus" stimulus="frame_list"></action>
+                    <action tag="Update display" type="update_stimulus_display" predicted_output_time=""></action>
+                    <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                    <transition tag="Return to parent task system" type="yield"></transition>
+                </task_system_state>
+            </task_system>
+        </protocol>
+    </experiment>
+</monkeyml>

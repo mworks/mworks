@@ -1919,6 +1919,8 @@ Wait until a condition becomes true or a timeout occurs.  If the wait times out 
 				                             eyeh_calibrated=""
 											 eyev_calibrated=""
 											 eye_state=""
+											 eye_velocity_h=""
+											 eye_velocity_v=""
 											 width_samples=""
 											 saccade_entry_speed=""
 											 saccade_exit_speed=""/>

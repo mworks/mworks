@@ -134,12 +134,19 @@ class EyeStatusMonitor : public VarTransformAdaptor {
 class EyeStatusMonitorVer1 : public EyeStatusMonitor {
       
     protected:
+        int eyeVelocityHIndex;
+        int eyeVelocityVIndex;
+    
+        DOUBLE_POINT eyeVelocity;
+    
         virtual void processAndPostEyeData(double _eyeHdeg, double _eyeVdeg, MWTime _eyeTimeUS);
     
     public:
         static const std::string EYEH_CALIBRATED;
         static const std::string EYEV_CALIBRATED;
         static const std::string EYE_STATE;
+        static const std::string EYE_VELOCITY_H;
+        static const std::string EYE_VELOCITY_V;
         static const std::string WIDTH_SAMPLES;
         static const std::string SACCADE_ENTRY_SPEED;
         static const std::string SACCADE_EXIT_SPEED;
@@ -148,12 +155,6 @@ class EyeStatusMonitorVer1 : public EyeStatusMonitor {
     
         explicit EyeStatusMonitorVer1(const ParameterValueMap &parameters);
     
-        EyeStatusMonitorVer1(shared_ptr<Variable> _eyeHCalibratedVar,
-                    shared_ptr<Variable> _eyeVCalibratedVar, shared_ptr<Variable> _eyeStatusVar, 
-                    int _filterWidthSamples, 
-                    shared_ptr<Variable> _saccadeEntrySpeedDegPerSec,
-                    shared_ptr<Variable> _saccadeExitSpeedDegPerSec);
-                                
         virtual ~EyeStatusMonitorVer1();                                                                                          
 };
 
@@ -196,7 +197,7 @@ class EyeStatusComputer : public Transform {
                             shared_ptr<Variable> _sacStartSpeedDegPerSec, shared_ptr<Variable> _sacEndSpeedDegPerSec);
         virtual ~EyeStatusComputer();        
         virtual void input(float _eyeH, float _eyeV, MWTime _eyeTimeUS);
-        virtual bool output(EyeStatusEnum *eyeStatus, MWTime *eyeStatusTimeUS);
+        virtual bool output(EyeStatusEnum &eyeStatus, MWTime &eyeStatusTimeUS, DOUBLE_POINT &eyeVelocity);
         virtual void reset();
        
 };

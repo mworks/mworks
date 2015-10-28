@@ -141,6 +141,8 @@ void EyeStatusMonitor::newDataReceived(int inputIndex, const Datum& data, MWTime
 const std::string EyeStatusMonitorVer1::EYEH_CALIBRATED("eyeh_calibrated");
 const std::string EyeStatusMonitorVer1::EYEV_CALIBRATED("eyev_calibrated");
 const std::string EyeStatusMonitorVer1::EYE_STATE("eye_state");
+const std::string EyeStatusMonitorVer1::EYE_VELOCITY_H("eye_velocity_h");
+const std::string EyeStatusMonitorVer1::EYE_VELOCITY_V("eye_velocity_v");
 const std::string EyeStatusMonitorVer1::WIDTH_SAMPLES("width_samples");
 const std::string EyeStatusMonitorVer1::SACCADE_ENTRY_SPEED("saccade_entry_speed");
 const std::string EyeStatusMonitorVer1::SACCADE_EXIT_SPEED("saccade_exit_speed");
@@ -154,6 +156,8 @@ void EyeStatusMonitorVer1::describeComponent(ComponentInfo &info) {
     info.addParameter(EYEH_CALIBRATED);
     info.addParameter(EYEV_CALIBRATED);
     info.addParameter(EYE_STATE);
+    info.addParameter(EYE_VELOCITY_H, false);
+    info.addParameter(EYE_VELOCITY_V, false);
     info.addParameter(WIDTH_SAMPLES);
     info.addParameter(SACCADE_ENTRY_SPEED);
     info.addParameter(SACCADE_EXIT_SPEED);
@@ -161,48 +165,50 @@ void EyeStatusMonitorVer1::describeComponent(ComponentInfo &info) {
 
 
 EyeStatusMonitorVer1::EyeStatusMonitorVer1(const ParameterValueMap &parameters) :
-    EyeStatusMonitorVer1(VariablePtr(parameters[EYEH_CALIBRATED]),
-                         VariablePtr(parameters[EYEV_CALIBRATED]),
-                         VariablePtr(parameters[EYE_STATE]),
-                         int(parameters[WIDTH_SAMPLES]),
-                         VariablePtr(parameters[SACCADE_ENTRY_SPEED]),
-                         VariablePtr(parameters[SACCADE_EXIT_SPEED]))
-{ }
-
-
-void EyeStatusMonitorVer1::processAndPostEyeData(double _eyeHdeg, double _eyeVdeg, MWTime _eyeTimeUS) {
-       
-    // call a transform object to do the computation of eye status right away 
-    //mprintf("  *** calling eyeStatus computer...");
-    eyeStatusComputer->input(_eyeHdeg, _eyeVdeg, _eyeTimeUS);
+    EyeStatusMonitor(VariablePtr(parameters[EYEH_CALIBRATED]),
+                     VariablePtr(parameters[EYEV_CALIBRATED]),
+                     VariablePtr(parameters[EYE_STATE]),
+                     int(parameters[WIDTH_SAMPLES])),
+    eyeVelocityHIndex(-1),
+    eyeVelocityVIndex(-1)
+{
+    eyeStatusComputer = new EyeStatusComputer(int(parameters[WIDTH_SAMPLES]),
+                                              VariablePtr(parameters[SACCADE_ENTRY_SPEED]),
+                                              VariablePtr(parameters[SACCADE_EXIT_SPEED]));
     
-    if (eyeStatusComputer->output(&eyeStatus, &eyeStatusTimeUS)) {
-        // base class method to post the new eye status to the variable 
-        //      --> this will trigger any notifications for these vars
-        //mprintf("  *** posting results from eyeStatus computer:  eyeStatus = %d", eyeStatus);
-        postResults(eyeStatusIndex, (Datum)((long)eyeStatus), eyeStatusTimeUS);	
+    if (!(parameters[EYE_VELOCITY_H].empty())) {
+        eyeVelocityHIndex = registerOutput(VariablePtr(parameters[EYE_VELOCITY_H]));
     }
-
-}
-
-
-
-EyeStatusMonitorVer1::EyeStatusMonitorVer1(shared_ptr<Variable> _eyeHCalibratedVar, 
-                    shared_ptr<Variable> _eyeVCalibratedVar, 
-                    shared_ptr<Variable> _eyeStatusVar, 
-                    int _filterWidthSamples,                     // =5
-                    shared_ptr<Variable> _saccadeEntrySpeedDegPerSec,      // = 5
-                    shared_ptr<Variable> _saccadeExitSpeedDegPerSec) :    // = 20
-                    EyeStatusMonitor(_eyeHCalibratedVar, _eyeVCalibratedVar, 
-                                        _eyeStatusVar, _filterWidthSamples) {
-                                                                
-    eyeStatusComputer = new EyeStatusComputer(_filterWidthSamples,
-        _saccadeEntrySpeedDegPerSec,_saccadeExitSpeedDegPerSec);
+    if (!(parameters[EYE_VELOCITY_V].empty())) {
+        eyeVelocityVIndex = registerOutput(VariablePtr(parameters[EYE_VELOCITY_V]));
+    }
 }
 
 	
 EyeStatusMonitorVer1::~EyeStatusMonitorVer1() {
     delete eyeStatusComputer;
+}
+
+
+void EyeStatusMonitorVer1::processAndPostEyeData(double _eyeHdeg, double _eyeVdeg, MWTime _eyeTimeUS) {
+    
+    // call a transform object to do the computation of eye status right away
+    //mprintf("  *** calling eyeStatus computer...");
+    eyeStatusComputer->input(_eyeHdeg, _eyeVdeg, _eyeTimeUS);
+    
+    if (eyeStatusComputer->output(eyeStatus, eyeStatusTimeUS, eyeVelocity)) {
+        // base class method to post the new eye status to the variable
+        //      --> this will trigger any notifications for these vars
+        //mprintf("  *** posting results from eyeStatus computer:  eyeStatus = %d", eyeStatus);
+        postResults(eyeStatusIndex, (Datum)((long)eyeStatus), eyeStatusTimeUS);
+        if (-1 != eyeVelocityHIndex) {
+            postResults(eyeVelocityHIndex, eyeVelocity.h, eyeStatusTimeUS);
+        }
+        if (-1 != eyeVelocityVIndex) {
+            postResults(eyeVelocityVIndex, eyeVelocity.v, eyeStatusTimeUS);
+        }
+    }
+    
 }
 
 
@@ -314,16 +320,18 @@ void EyeStatusComputer::input(float _eyeHdeg, float _eyeVdeg, MWTime _eyeTimeUS)
 }
 	
 
-bool EyeStatusComputer::output(EyeStatusEnum *eyeState, MWTime *eyeStatusTimeUS) {
+bool EyeStatusComputer::output(EyeStatusEnum &eyeState, MWTime &eyeStatusTimeUS, DOUBLE_POINT &eyeVelocity) {
 
     if (eyeInformationComputedSuccessfully) {
-        *eyeState = computedEyeStatus;
-        *eyeStatusTimeUS = computedEyeStatusTimeUS;
+        eyeState = computedEyeStatus;
+        eyeStatusTimeUS = computedEyeStatusTimeUS;
+        eyeVelocity = eyeVelocityDegPerSec;
         return true;
     } else {
-        *eyeState = M_EYE_STATUS_UNKNOWN;
+        eyeState = M_EYE_STATUS_UNKNOWN;
 		shared_ptr <Clock> clock = Clock::instance();
-        *eyeStatusTimeUS = clock->getCurrentTimeUS();
+        eyeStatusTimeUS = clock->getCurrentTimeUS();
+        eyeVelocity = { std::numeric_limits<double>::quiet_NaN(), std::numeric_limits<double>::quiet_NaN() };
         return false;
     }
 }
