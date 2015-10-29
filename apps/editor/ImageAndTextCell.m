@@ -187,7 +187,10 @@
         else
             imageFrame.origin.y += ceil((cellFrame.size.height - imageFrame.size.height) / 2);
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         [image compositeToPoint:imageFrame.origin operation:NSCompositeSourceOver];
+#pragma clang diagnostic pop
     }
 	
 	int yoffset = 0;

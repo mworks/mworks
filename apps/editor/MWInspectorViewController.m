@@ -109,7 +109,10 @@
 - (BOOL)loadNib:(NSString *)name{
 
 	// TODO: error check name
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 	if (![NSBundle loadNibNamed:name owner:self]){
+#pragma clang diagnostic pop
         NSLog(@"Warning! Could not load nib file.\n");
 		return NO;
     }

@@ -146,20 +146,22 @@ NSString *percentCorrectPlotIdentifier = @"PercentCorrectLinePlot";
 			[NSNumber numberWithFloat:0],
 			NRTRightYAxisWidthCA,
 			
-			[NSArray arrayWithObjects:
+			//[NSArray arrayWithObjects:
                 //[NSNumber numberWithFloat:0], 
 				//[NSNumber numberWithFloat:50],
 				//[NSNumber numberWithFloat:100],
 				//[NSNumber numberWithFloat:150],
                 //[NSNumber numberWithFloat:maxHistory],
-				nil],
+				//nil],
+            [NSArray array],
 			NRTBottomXAxisTickCoordinatesCA,
 			
-			[NSArray arrayWithObjects:
+			//[NSArray arrayWithObjects:
 				// [NSNumber numberWithFloat:0], 
 				// [NSNumber numberWithFloat:50],
 				//[NSNumber numberWithFloat:100], 
-				nil],
+				//nil],
+            [NSArray array],
 			NRTLeftYAxisTickCoordinatesCA,
 			
 			

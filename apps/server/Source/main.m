@@ -57,7 +57,10 @@ int main(int argc, char *argv[]) {
     // ----------------------------
     // Load Basic Cocoa Resources
     // ----------------------------
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     [NSBundle loadNibNamed:@"MainMenu" owner:myapp];
+#pragma clang diagnostic pop
 	
 	if(error != Nil){
         [(MWSServer *)[myapp delegate] setError:error];

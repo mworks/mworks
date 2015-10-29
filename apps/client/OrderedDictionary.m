@@ -47,10 +47,13 @@ NSString *DescriptionForObject(NSObject *object, id locale, NSUInteger indent)
 
 @implementation OrderedDictionary
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wobjc-designated-initializers"
 - (id)init
 {
 	return [self initWithCapacity:0];
 }
+#pragma clang diagnostic pop
 
 - (id)initWithCapacity:(NSUInteger)capacity
 {

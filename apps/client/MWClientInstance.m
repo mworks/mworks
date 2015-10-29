@@ -840,7 +840,10 @@
 
     // create a carrier window to hold all of the plugins when they are grouped
     grouped_plugin_controller = [[MWGroupedPluginWindowController alloc] initWithClientInstance:self];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     [NSBundle loadNibNamed:@"GroupedPluginsWindow" owner:grouped_plugin_controller];
+#pragma clang diagnostic pop
     [grouped_plugin_controller loadWindow];
     [[grouped_plugin_controller window] orderOut:self];
     [grouped_plugin_controller setCustomColor:self.headerColor];
