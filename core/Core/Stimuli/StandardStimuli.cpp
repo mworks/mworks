@@ -27,9 +27,9 @@
 #include "ParameterValue.h"
 
 #include <boost/regex.hpp>
+#include <boost/uuid/sha1.hpp>
 
 #include <stdio.h> // for fopen()
-#include <openssl/sha.h>
 #include <iostream>
 #include <iomanip>
 
@@ -290,17 +290,24 @@ void DevILImageLoader::load(const std::string &filename, int &width, int &height
     width = ilGetInteger(IL_IMAGE_WIDTH);
     height = ilGetInteger(IL_IMAGE_HEIGHT);
 
+    //
     // Compute the SHA-1 message digest of the raw file data, convert it to a hex string, and copy it to fileHash
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    unsigned char *hash = SHA1((unsigned char*)[imageData bytes], [imageData length], NULL);
-#pragma clang diagnostic pop
+    //
+    
+    boost::uuids::detail::sha1 sha;
+    sha.process_bytes([imageData bytes], [imageData length]);
+    
+    constexpr std::size_t digestSize = 5;
+    unsigned int digest[digestSize];
+    sha.get_digest(digest);
+    
     std::ostringstream os;
     os.fill('0');
     os << std::hex;
-    for (int i = 0; i < SHA_DIGEST_LENGTH; i++) {
-        os << std::setw(2) << (unsigned int)(hash[i]);
+    for (int i = 0; i < digestSize; i++) {
+        os << std::setw(2 * sizeof(unsigned int)) << digest[i];
     }
+    
     fileHash = os.str();
 }
 

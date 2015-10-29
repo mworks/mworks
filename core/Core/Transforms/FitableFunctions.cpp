@@ -17,7 +17,7 @@
 
 #include "FitableFunctions.h"
 
-#include <vecLib/clapack.h>
+#include <Accelerate/Accelerate.h>
 
 
 BEGIN_NAMESPACE_MW

@@ -1,0 +1,27 @@
+<?xml version="1.0" standalone="no"?>
+<monkeyml version="1.0">
+    <io_devices tag="IO Devices"></io_devices>
+    <variables tag="Variables"></variables>
+    <sounds tag="Sounds"></sounds>
+    <stimuli tag="Stimuli">
+        <stimulus type="image_file" tag="img1" path="TrainingPic1.png" x_size="5.0" y_size="5.0" x_position="-10.0" y_position="0.0" rotation="0.0" alpha_multiplier="1.0" deferred="NO"></stimulus>
+        <stimulus type="image_file" tag="img2" path="TrainingPic2.png" x_size="5.0" y_size="5.0" x_position="-5.0" y_position="0.0" rotation="0.0" alpha_multiplier="1.0" deferred="NO"></stimulus>
+        <stimulus type="image_file" tag="img3" path="TrainingPic3.png" x_size="5.0" y_size="5.0" x_position="0.0" y_position="0.0" rotation="0.0" alpha_multiplier="1.0" deferred="NO"></stimulus>
+        <stimulus type="image_file" tag="img4" path="TrainingPic4.png" x_size="5.0" y_size="5.0" x_position="5.0" y_position="0.0" rotation="0.0" alpha_multiplier="1.0" deferred="NO"></stimulus>
+        <stimulus type="image_file" tag="img5" path="TrainingPic5.png" x_size="5.0" y_size="5.0" x_position="10.0" y_position="0.0" rotation="0.0" alpha_multiplier="1.0" deferred="NO"></stimulus>
+    </stimuli>
+    <filters tag="Filters"></filters>
+    <optimizers tag="Optimizers"></optimizers>
+    <experiment tag="New Experiment" full_name="" description="">
+        <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
+            <action tag="Queue img1" type="queue_stimulus" stimulus="img1"></action>
+            <action tag="Queue img2" type="queue_stimulus" stimulus="img2"></action>
+            <action tag="Queue img3" type="queue_stimulus" stimulus="img3"></action>
+            <action tag="Queue img4" type="queue_stimulus" stimulus="img4"></action>
+            <action tag="Queue img5" type="queue_stimulus" stimulus="img5"></action>
+            <action tag="Update display" type="update_stimulus_display" predicted_output_time=""></action>
+            <action type="wait" tag="Wait" duration="1" duration_units="s"></action>
+            <action type="run_python_file" tag="Run Python File" path="check_hashes.py"></action>
+        </protocol>
+    </experiment>
+</monkeyml>
