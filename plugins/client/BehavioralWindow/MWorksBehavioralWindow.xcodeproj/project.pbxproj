@@ -289,6 +289,8 @@
 		1DEB913B08733D840010E9CD /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD)";
+				CLANG_ENABLE_OBJC_ARC = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"\"$(MW_DEVELOPER_DIR)/Frameworks\"",
 					"$(inherited)",
@@ -296,6 +298,12 @@
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				GCC_PREFIX_HEADER = MWorksBehavioralWindow_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
+				OTHER_LDFLAGS = (
+					"-Xlinker",
+					"-U",
+					"-Xlinker",
+					_objc_readClassPair,
+				);
 				PRODUCT_NAME = MWorksBehavioralWindow;
 				WRAPPER_EXTENSION = bundle;
 			};
