@@ -95,13 +95,9 @@ private:
     bool connectToDevice();
     void disconnectFromDevice();
     
-    bool sendMessage(const boost::format &fmt) {
-        return sendMessage(fmt.str());
-    }
-    
-    bool sendMessage(string message);
-    bool dispense(string pump_id, double rate, Datum data);
-    bool initializePump(string pump_id, double rate, double syringe_diameter);
+    bool sendMessage(const std::string &pump_id, string message);
+    bool dispense(const std::string &pump_id, double rate, Datum data);
+    bool initializePump(const std::string &pump_id, double rate, double syringe_diameter);
     
     
     class NE500DeviceOutputNotification : public VariableNotification {

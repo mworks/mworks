@@ -227,14 +227,14 @@ void NE500PumpNetworkDevice::disconnectFromDevice() {
     }
 }
 
-bool NE500PumpNetworkDevice::sendMessage(string message){
+bool NE500PumpNetworkDevice::sendMessage(const std::string &pump_id, string message){
     if (!connected) {
         merror(M_IODEVICE_MESSAGE_DOMAIN, "No connection to NE500 device (%s)", address.c_str());
         return false;
     }
     
     // Send converted line back to client.
-    message = message + "\r";
+    message = pump_id + " " + message + "\r";
     if (send(s, message.c_str(), message.size(), 0) < 0){
         merror(M_IODEVICE_MESSAGE_DOMAIN,
                "Cannot send data to NE500 device (%s): %s",
@@ -357,7 +357,7 @@ bool NE500PumpNetworkDevice::sendMessage(string message){
 }
 
 
-bool NE500PumpNetworkDevice::dispense(string pump_id, double rate, Datum data) {
+bool NE500PumpNetworkDevice::dispense(const std::string &pump_id, double rate, Datum data) {
     scoped_lock active_lock(active_mutex);
     
     if (!active) {
@@ -378,17 +378,17 @@ bool NE500PumpNetworkDevice::dispense(string pump_id, double rate, Datum data) {
         dir_str = "WDR"; // withdraw
     }
     
-    return (sendMessage(boost::format("%s DIR %s") % pump_id % dir_str) &&
-            sendMessage(boost::format("%s RAT %s MM") % pump_id % formatFloat(rate)) &&
-            sendMessage(boost::format("%s VOL %s") % pump_id % formatFloat(amount)) &&
-            sendMessage(boost::format("%s RUN") % pump_id));
+    return (sendMessage(pump_id, "DIR " + dir_str) &&
+            sendMessage(pump_id, "RAT " + formatFloat(rate) + " MM") &&
+            sendMessage(pump_id, "VOL " + formatFloat(amount)) &&
+            sendMessage(pump_id, "RUN"));
 }
 
 
-bool NE500PumpNetworkDevice::initializePump(string pump_id, double rate, double syringe_diameter) {
-    return (sendMessage(boost::format("%s DIA %s") % pump_id % formatFloat(syringe_diameter)) &&
-            sendMessage(boost::format("%s FUN RAT") % pump_id) &&
-            sendMessage(boost::format("%s RAT %s MM") % pump_id % formatFloat(rate)));
+bool NE500PumpNetworkDevice::initializePump(const std::string &pump_id, double rate, double syringe_diameter) {
+    return (sendMessage(pump_id, "DIA " + formatFloat(syringe_diameter)) &&
+            sendMessage(pump_id, "FUN RAT") &&
+            sendMessage(pump_id, "RAT " + formatFloat(rate) + " MM"));
 }
 
 
