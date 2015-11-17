@@ -1,0 +1,290 @@
+#!/usr/bin/python
+
+from __future__ import unicode_literals
+from collections import OrderedDict
+try:
+    xrange
+except NameError:
+    xrange = range  # Python 3
+import re
+import sys
+import textwrap
+from xml.etree import ElementTree
+from xml.parsers import expat
+
+
+def warn(fmt, *args):
+    msg = fmt % args
+    sys.stderr.write('WARNING: %s\n' % msg)
+
+
+def parse_xml(stream):
+    tb = ElementTree.TreeBuilder()
+
+    def start_element(name, attrs):
+        attrs = OrderedDict(attrs[i:i+2] for i in xrange(0, len(attrs), 2))
+        tb.start(name, attrs)
+
+    def character_data(data):
+        tb.data(data)
+
+    def end_element(name):
+        tb.end(name)
+
+    def comment(data):
+        tag = ElementTree.Comment
+        tb.start(tag, {})
+        tb.data(data)
+        tb.end(tag)
+
+    def default(data):
+        if data.strip():
+            warn('Unhandled XML data: %r', data)
+    
+    p = expat.ParserCreate()
+
+    p.StartElementHandler = start_element
+    p.CharacterDataHandler = character_data
+    p.EndElementHandler = end_element
+    p.CommentHandler = comment
+    p.DefaultHandlerExpand = default
+
+    p.buffer_text = True
+    p.ordered_attributes = True
+
+    p.ParseFile(stream)
+
+    return ElementTree.ElementTree(tb.close())
+
+
+def extract_elements(tree):
+    elements = []
+
+    for elem in tree.getroot():
+        if elem.tag in ('MWElement', 'MWElementGroup'):
+            elements.append(extract_element_info(elem))
+        elif elem.tag is not ElementTree.Comment:
+            warn('Unknown element: %s', elem.tag)
+
+    return elements
+
+
+def extract_element_info(elem):
+    ib = InfoBuilder(elem)
+
+    ib.addattrib('name')
+
+    is_group = (elem.tag == 'MWElementGroup')
+    if is_group:
+        ib['is_group'] = 'yes'
+    
+    ib.addattrib('abstract', 'hidden', is_bool=True)
+    sig = extract_signature(ib)
+    ib.addtext('mandatory_tag')
+    ib.addtext('isa')
+    ib.addtext('icon')
+    ib.addtext('display_as_group', is_bool=True)
+    ib.addtext('inspector')
+    ib.addtext('group', 'belongs_to_group', allow_list=True)
+    ib.addattrib('unmoveable', is_bool=True)
+    ib.addtext('allowed_parent', allow_list=True)
+    ib.addtext('disallowed_sibling_before', allow_list=True)
+    ib.addtext('disallowed_sibling_after', allow_list=True)
+    ib.addtext('description')
+    extract_parameters(ib, sig)
+
+    if is_group:
+        subgroups = []
+        while True:
+            subelem = ib.pop('MWElementGroup')
+            if subelem is None:
+                break
+            subgroups.append(extract_element_info(subelem))
+        if subgroups:
+            ib['subgroups'] = subgroups
+
+    return ib.close()
+
+
+class InfoBuilder(object):
+
+    def __init__(self, elem):
+        self.elem = elem
+        self._info = OrderedDict()
+
+    def __contains__(self, key):
+        return key in self._info
+
+    def __getitem__(self, key):
+        return self._info[key]
+
+    def __setitem__(self, key, value):
+        self._info[key] = value
+
+    def get(self, key, default=None):
+        return self._info.get(key, default)
+
+    def pop(self, match):
+        subelem = self.elem.find(match)
+        if subelem is not None:
+            self.elem.remove(subelem)
+        return subelem
+
+    @staticmethod
+    def clean(text, is_bool=False):
+        text = ' '.join((text or '').strip().split())
+        if is_bool:
+            text = {'0': 'no', '1': 'yes'}.get(text, text)
+        return text
+
+    def addattrib(self, key, name=None, is_bool=False):
+        attr = self.elem.attrib.pop(name or key, None)
+        attr = self.clean(attr, is_bool)
+        if attr:
+            self[key] = attr
+        return self.get(key)
+
+    def addtext(self, key, match=None, allow_list=False, is_bool=False):
+        while True:
+            subelem = self.elem.find(match or key)
+            if subelem is None:
+                break
+            text = self.clean(subelem.text, is_bool)
+            if text:
+                if key not in self:
+                    self[key] = text
+                elif not allow_list:
+                    break
+                else:
+                    previous = self[key]
+                    if isinstance(previous, list):
+                        previous.append(text)
+                    else:
+                        self[key] = [previous, text]
+            self.elem.remove(subelem)
+        return self.get(key)
+
+    def close(self):
+        unhandled_attr = tuple(self.elem.attrib.keys())
+        if unhandled_attr:
+            warn('Unhandled attributes: ' + ', '.join(unhandled_attr))
+
+        unhandled_subelem = set(e.tag for e in self.elem
+                                if e.tag is not ElementTree.Comment)
+        if unhandled_subelem:
+            warn('Unhandled subelements: ' + ', '.join(unhandled_subelem))
+
+        info = self._info
+        del self.elem, self._info
+        return info
+
+
+signature_re = r'''
+\A
+(//)?
+(?P<tag> \w+)
+(\[@type=['"](?P<type> \w+)['"]\])?
+\Z
+'''
+signature_re = re.compile(signature_re, re.VERBOSE)
+
+
+def extract_signature(ib):
+    sig = ib.pop('match_signature')
+    if sig is None:
+        sig = ''
+    else:
+        sig = ib.clean(sig.text)
+        if sig != 'dummy':
+            match = signature_re.match(sig)
+            if not match:
+                warn('Invalid match signature: %s', sig)
+            else:
+                sig = '/'.join(part for part in match.group('tag', 'type')
+                               if part is not None)
+            ib['signature'] = sig
+    return sig
+
+
+def extract_parameters(ib, sig):
+    code = ib.pop('code')
+    if code is None:
+        return
+    code = [elem for elem in code if elem.tag is not ElementTree.Comment]
+    if len(code) > 0:
+        if len(code) > 1:
+            warn('Code element has multiple subelements: %s',
+                 ', '.join(e.tag for e in list(code)))
+        code = code[0]
+        if sig:
+            sig_parts = sig.split('/')
+            if code.tag != sig_parts[0]:
+                warn('Code element tag (%s) does not match signature (%s)',
+                     code.tag,
+                     sig)
+            if 'type' in code.attrib and len(sig_parts) > 1:
+                code_type = code.attrib.pop('type')
+                if code_type != sig_parts[-1]:
+                    warn('Code element type (%s) does not match signature (%s)',
+                         code_type,
+                         sig)
+        code.attrib.pop('tag', None)
+        params = []
+        for pname, pval in code.attrib.items():
+            pinfo = OrderedDict()
+            pinfo['name'] = pname
+            if pval:
+                pinfo['default'] = pval
+            params.append(pinfo)
+        if params:
+            ib['parameters'] = params
+
+
+def write_yaml(elements, stream):
+    for info in elements:
+        stream.write('---\n\n')
+        write_object(info, stream)
+        stream.write('\n\n\n')
+
+
+LINE_WIDTH = 75
+INDENT_INCREMENT = ' ' * 4
+
+
+def write_object(obj, stream, indent='', used_cols=0):
+    if isinstance(obj, dict):
+        for key, value in obj.items():
+            key_text = key + ': '
+            stream.write('\n%s%s' % (indent, key_text))
+            write_object(value, stream, indent+INDENT_INCREMENT, len(key_text))
+    elif isinstance(obj, list):
+        for item in obj:
+            stream.write('\n%s- ' % indent[:-2])
+            write_object(item, stream, indent)
+    elif isinstance(obj, type('')):
+        text = textwrap.wrap(obj,
+                             width = LINE_WIDTH,
+                             initial_indent = indent,
+                             subsequent_indent = indent,
+                             fix_sentence_endings = True)
+        text = '\n'.join(text)
+        if len(text) + used_cols - len(indent) < LINE_WIDTH:
+            stream.write(text.strip())
+        else:
+            stream.write('>\n' + text)
+    else:
+        warn('Unhandled object type: %s', type(obj))
+
+
+if __name__ == '__main__':
+    import os
+
+    xml_filename = sys.argv[1]
+    yaml_filename = os.path.join(os.path.dirname(xml_filename),
+                                 'MWComponents.yaml')
+
+    with open(xml_filename, 'rb') as fp:
+        tree = parse_xml(fp)
+    elements = extract_elements(tree)
+    with open(yaml_filename, 'w') as fp:
+        write_yaml(elements, fp)
