@@ -62,8 +62,12 @@ bool NE500PumpNetworkDevice::initialize() {
         return false;
     }
     
+    auto sendFunc = [this](const std::string &pump_id, string message) {
+        return sendMessage(pump_id, message);
+    };
+    
     for (auto &channel : pumps) {
-        if (!initializePump(channel->getPumpID(), channel->getRate(), channel->getSyringeDiameter())) {
+        if (!channel->initialize(sendFunc)) {
             return false;
         }
         
@@ -88,26 +92,6 @@ bool NE500PumpNetworkDevice::stopDeviceIO() {
     scoped_lock active_lock(active_mutex);
     active = false;
     return true;
-}
-
-
-std::string NE500PumpNetworkDevice::formatFloat(double val) {
-    val = std::max(val, 0.0);
-    val = std::min(val, 9999.0);
-    
-    boost::format fmt;
-    
-    if (val < 10.0) {
-        fmt = boost::format("%.3f");
-    } else if (val < 100.0) {
-        fmt = boost::format("%.2f");
-    } else if (val < 1000.0) {
-        fmt = boost::format("%.1f");
-    } else {
-        fmt = boost::format("%.0f");
-    }
-    
-    return (fmt % val).str();
 }
 
 
@@ -184,6 +168,7 @@ bool NE500PumpNetworkDevice::connectToDevice() {
     return true;
 }
 
+
 void NE500PumpNetworkDevice::disconnectFromDevice() {
     if (connected) {
         if (close(s) < 0) {
@@ -195,6 +180,7 @@ void NE500PumpNetworkDevice::disconnectFromDevice() {
         connected = false;
     }
 }
+
 
 bool NE500PumpNetworkDevice::sendMessage(const std::string &pump_id, string message){
     if (!connected) {
@@ -326,45 +312,15 @@ bool NE500PumpNetworkDevice::sendMessage(const std::string &pump_id, string mess
 }
 
 
-bool NE500PumpNetworkDevice::dispense(const std::string &pump_id, double rate, Datum data) {
-    scoped_lock active_lock(active_mutex);
-    
-    if (!active) {
-        return false;
-    }
-    
-    double amount = data.getFloat();
-    
-    if (amount == 0.0) {
-        return true;
-    }
-    
-    string dir_str;
-    if(amount >= 0){
-        dir_str = "INF"; // infuse
-    } else {
-        amount *= -1.0;
-        dir_str = "WDR"; // withdraw
-    }
-    
-    return (sendMessage(pump_id, "DIR " + dir_str) &&
-            sendMessage(pump_id, "RAT " + formatFloat(rate) + " MM") &&
-            sendMessage(pump_id, "VOL " + formatFloat(amount)) &&
-            sendMessage(pump_id, "RUN"));
-}
-
-
-bool NE500PumpNetworkDevice::initializePump(const std::string &pump_id, double rate, double syringe_diameter) {
-    return (sendMessage(pump_id, "DIA " + formatFloat(syringe_diameter)) &&
-            sendMessage(pump_id, "FUN RAT") &&
-            sendMessage(pump_id, "RAT " + formatFloat(rate) + " MM"));
-}
-
-
 void NE500PumpNetworkDevice::NE500DeviceOutputNotification::notify(const Datum &data, MWTime timeUS) {
     if (auto shared_pump_network = pump_network.lock()) {
         if (auto shared_channel = channel.lock()) {
-            shared_pump_network->dispense(shared_channel->getPumpID(), shared_channel->getRate(), data);
+            scoped_lock active_lock(shared_pump_network->active_mutex);
+            if (shared_pump_network->active) {
+                shared_channel->dispense([&shared_pump_network](const std::string &pump_id, string message) {
+                    return shared_pump_network->sendMessage(pump_id, message);
+                });
+            }
         }
     }
 }

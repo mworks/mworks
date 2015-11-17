@@ -55,14 +55,9 @@ public:
 private:
     static constexpr char PUMP_SERIAL_DELIMITER_CHAR = 3;  // ETX
     
-    static std::string formatFloat(double val);
-    
     bool connectToDevice();
     void disconnectFromDevice();
-    
     bool sendMessage(const std::string &pump_id, string message);
-    bool dispense(const std::string &pump_id, double rate, Datum data);
-    bool initializePump(const std::string &pump_id, double rate, double syringe_diameter);
     
     
     class NE500DeviceOutputNotification : public VariableNotification {

@@ -16,13 +16,9 @@ BEGIN_NAMESPACE_MW
 
 class NE500DeviceChannel : public Component {
     
-private:
-    const std::string pump_id;
-    const boost::shared_ptr<Variable> variable;
-    const double syringe_diameter;
-    const boost::shared_ptr<Variable> rate;
-    
 public:
+    using SendFunction = std::function<bool(const std::string &, std::string)>;
+    
     static const std::string CAPABILITY;
     static const std::string VARIABLE;
     static const std::string SYRINGE_DIAMETER;
@@ -32,21 +28,20 @@ public:
     
     explicit NE500DeviceChannel(const ParameterValueMap &parameters);
     
-    const std::string& getPumpID() const {
-        return pump_id;
+    const VariablePtr& getVariable() const {
+        return volume;
     }
     
-    const boost::shared_ptr<Variable>& getVariable() const {
-        return variable;
-    }
+    bool initialize(const SendFunction &sendMessage);
+    bool dispense(const SendFunction &sendMessage);
     
-    double getSyringeDiameter() const {
-        return syringe_diameter;
-    }
+private:
+    static std::string formatFloat(double val);
     
-    double getRate() const {
-        return rate->getValue().getFloat();
-    }
+    const std::string pump_id;
+    const double syringe_diameter;
+    const VariablePtr rate;
+    const VariablePtr volume;
     
 };
 
@@ -55,6 +50,27 @@ END_NAMESPACE_MW
 
 
 #endif
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
