@@ -1,0 +1,40 @@
+#!/usr/bin/python
+
+from __future__ import print_function, unicode_literals
+
+import serial
+
+try:
+    raw_input
+except NameError:
+    raw_input = input  # Python 3
+
+
+CR = b'\x0D'
+STX = b'\x02'
+ETX = b'\x03'
+
+
+def run(port):
+    with serial.Serial(port, 19200, timeout=1) as ser:
+        while True:
+            try:
+                cmd = raw_input('> ')
+            except EOFError:
+                print()  # Add final newline
+                break
+            ser.write(cmd.encode() + CR)
+            rsp = b''
+            while True:
+                byte = ser.read()
+                if byte == STX:
+                    continue
+                if byte == ETX:
+                    break
+                rsp += byte
+            print(rsp.decode())
+
+
+if __name__ == '__main__':
+    import sys
+    run(sys.argv[1])
