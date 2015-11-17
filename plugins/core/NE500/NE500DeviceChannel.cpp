@@ -1,5 +1,5 @@
 /*
- *  NE500.cpp
+ *  NE500DeviceChannel.cpp
  *  MWorksCore
  *
  *  Created by David Cox on 2/1/08.
@@ -7,7 +7,7 @@
  *
  */
 
-#include "NE500.h"
+#include "NE500DeviceChannel.h"
 
 
 BEGIN_NAMESPACE_MW
@@ -44,84 +44,7 @@ NE500DeviceChannel::NE500DeviceChannel(const ParameterValueMap &parameters) :
 }
 
 
-const std::string NE500PumpNetworkDevice::ADDRESS("address");
-const std::string NE500PumpNetworkDevice::PORT("port");
-const std::string NE500PumpNetworkDevice::RESPONSE_TIMEOUT("response_timeout");
-
-
-void NE500PumpNetworkDevice::describeComponent(ComponentInfo &info) {
-    IODevice::describeComponent(info);
-    
-    info.setSignature("iodevice/ne500");
-    
-    info.addParameter(ADDRESS);
-    info.addParameter(PORT);
-    info.addParameter(RESPONSE_TIMEOUT, "100ms");
-}
-
-
-NE500PumpNetworkDevice::NE500PumpNetworkDevice(const ParameterValueMap &parameters) :
-    IODevice(parameters),
-    address(VariablePtr(parameters[ADDRESS])->getValue().getString()),
-    port(parameters[PORT]),
-    response_timeout(parameters[RESPONSE_TIMEOUT]),
-    s(-1),
-    connected(false),
-    active(false)
-{ }
-
-
-NE500PumpNetworkDevice::~NE500PumpNetworkDevice() {
-    disconnectFromDevice();
-}
-
-
-void NE500PumpNetworkDevice::addChild(std::map<std::string, std::string> parameters,
-                                      ComponentRegistry *reg,
-                                      shared_ptr<Component> _child)
-{
-    shared_ptr<NE500DeviceChannel> channel = boost::dynamic_pointer_cast<NE500DeviceChannel, Component>(_child);
-    if (!channel){
-        throw SimpleException("Attempt to access an invalid NE500 channel object");
-    }
-    pumps.push_back(channel);
-}
-
-
-bool NE500PumpNetworkDevice::initialize() {
-    if (!connectToDevice()) {
-        return false;
-    }
-    
-    for (auto &channel : pumps) {
-        if (!initializePump(channel->getPumpID(), channel->getRate(), channel->getSyringeDiameter())) {
-            return false;
-        }
-        
-        shared_ptr<Variable> var = channel->getVariable();
-        shared_ptr<NE500PumpNetworkDevice> shared_self_ref(component_shared_from_this<NE500PumpNetworkDevice>());
-        shared_ptr<VariableNotification> notif(new NE500DeviceOutputNotification(shared_self_ref, channel));
-        var->addNotification(notif);
-    }
-    
-    return true;
-}
-
-
-bool NE500PumpNetworkDevice::startDeviceIO() {
-    scoped_lock active_lock(active_mutex);
-    active = true;
-    return true;
-}
-
-
-bool NE500PumpNetworkDevice::stopDeviceIO() {
-    scoped_lock active_lock(active_mutex);
-    active = false;
-    return true;
-}
-
-
+/*
 std::string NE500PumpNetworkDevice::formatFloat(double val) {
     val = std::max(val, 0.0);
     val = std::min(val, 9999.0);
@@ -141,91 +64,6 @@ std::string NE500PumpNetworkDevice::formatFloat(double val) {
     return (fmt % val).str();
 }
 
-
-bool NE500PumpNetworkDevice::connectToDevice() {
-    mprintf(M_IODEVICE_MESSAGE_DOMAIN,
-            "Connecting to NE500 Pump Network...");
-    
-    struct hostent *hostp;
-    if (NULL == (hostp = gethostbyname(address.c_str()))) {
-        merror(M_IODEVICE_MESSAGE_DOMAIN,
-               "Host lookup failed: %s: %s",
-               address.c_str(),
-               hstrerror(h_errno));
-        return false;
-    }
-    
-    struct sockaddr_in addr;
-    memset(&addr,0,sizeof(addr));
-    memcpy((char *)&addr.sin_addr,hostp->h_addr,hostp->h_length);
-    addr.sin_family = hostp->h_addrtype;
-    addr.sin_port = htons((u_short)port);
-    
-    if ((s = socket(PF_INET, SOCK_STREAM, 6)) < 0) {
-        merror(M_IODEVICE_MESSAGE_DOMAIN, "Socket creation failed: %s", strerror(errno));
-        return false;
-    }
-    
-    /* Set socket to non-blocking */
-    int flags;
-    if ((flags = fcntl(s, F_GETFL, 0)) < 0 ||
-        fcntl(s, F_SETFL, flags | O_NONBLOCK) < 0)
-    {
-        merror(M_IODEVICE_MESSAGE_DOMAIN, "Cannot set socket to non-blocking: %s", strerror(errno));
-        close(s);
-        return false;
-    }
-    
-    while(true){
-        int rc = connect(s, (struct sockaddr *) &addr, sizeof(addr));
-        int connect_errno = errno;
-        
-        if(rc >= 0 || connect_errno == EISCONN){
-            break;
-        }
-        
-        if (connect_errno != EALREADY &&
-            connect_errno != EINPROGRESS &&
-            connect_errno != EWOULDBLOCK)
-        {
-            merror(M_IODEVICE_MESSAGE_DOMAIN, "Cannot connect to %s: %s", address.c_str(), strerror(connect_errno));
-            close(s);
-            return false;
-        }
-        
-        if(connect_errno == EINPROGRESS){
-            timeval timeout;
-            timeout.tv_sec = 5;
-            timeout.tv_usec = 0;
-            fd_set fd_w;
-            FD_ZERO(&fd_w);
-            FD_SET(s,&fd_w);
-            int select_err=select(FD_SETSIZE,NULL,&fd_w,NULL,&timeout);
-            
-            /* 0 means it timed out out & no fds changed */
-            if(select_err==0) {
-                merror(M_IODEVICE_MESSAGE_DOMAIN, "Connection to NE500 device (%s) timed out", address.c_str());
-                close(s);
-                return false;
-            }
-        }
-    }
-    
-    connected = true;
-    return true;
-}
-
-void NE500PumpNetworkDevice::disconnectFromDevice() {
-    if (connected) {
-        if (close(s) < 0) {
-            mwarning(M_IODEVICE_MESSAGE_DOMAIN,
-                     "Cannot disconnect from NE500 device (%s): %s",
-                     address.c_str(),
-                     strerror(errno));
-        }
-        connected = false;
-    }
-}
 
 bool NE500PumpNetworkDevice::sendMessage(const std::string &pump_id, string message){
     if (!connected) {
@@ -390,15 +228,7 @@ bool NE500PumpNetworkDevice::initializePump(const std::string &pump_id, double r
             sendMessage(pump_id, "FUN RAT") &&
             sendMessage(pump_id, "RAT " + formatFloat(rate) + " MM"));
 }
-
-
-void NE500PumpNetworkDevice::NE500DeviceOutputNotification::notify(const Datum &data, MWTime timeUS) {
-    if (auto shared_pump_network = pump_network.lock()) {
-        if (auto shared_channel = channel.lock()) {
-            shared_pump_network->dispense(shared_channel->getPumpID(), shared_channel->getRate(), data);
-        }
-    }
-}
+ */
 
 
 END_NAMESPACE_MW

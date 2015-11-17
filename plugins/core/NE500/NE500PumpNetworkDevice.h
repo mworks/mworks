@@ -1,5 +1,5 @@
 /*
- *  NE500.h
+ *  NE500PumpNetworkDevice.h
  *  MWorksCore
  *
  *  Created by David Cox on 2/1/08.
@@ -7,48 +7,13 @@
  *
  */
 
-#ifndef	_NE500_H_
-#define _NE500_H_
+#ifndef	_NE500PUMPNETWORKDEVICE_H_
+#define _NE500PUMPNETWORKDEVICE_H_
+
+#include "NE500DeviceChannel.h"
 
 
 BEGIN_NAMESPACE_MW
-
-
-class NE500DeviceChannel : public Component {
-    
-private:
-    const std::string pump_id;
-    const boost::shared_ptr<Variable> variable;
-    const double syringe_diameter;
-    const boost::shared_ptr<Variable> rate;
-    
-public:
-    static const std::string CAPABILITY;
-    static const std::string VARIABLE;
-    static const std::string SYRINGE_DIAMETER;
-    static const std::string FLOW_RATE;
-    
-    static void describeComponent(ComponentInfo &info);
-    
-    explicit NE500DeviceChannel(const ParameterValueMap &parameters);
-    
-    const std::string& getPumpID() const {
-        return pump_id;
-    }
-    
-    const boost::shared_ptr<Variable>& getVariable() const {
-        return variable;
-    }
-    
-    double getSyringeDiameter() const {
-        return syringe_diameter;
-    }
-    
-    double getRate() const {
-        return rate->getValue().getFloat();
-    }
-    
-};
 
 
 class NE500PumpNetworkDevice : public IODevice, boost::noncopyable {

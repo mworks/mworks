@@ -7,7 +7,7 @@
  *
  */
 
-#include "NE500.h"
+#include "NE500PumpNetworkDevice.h"
 
 
 BEGIN_NAMESPACE_MW
