@@ -15,7 +15,7 @@ Used for interfacing to a network of NE-500 syringe pumps, accessed via a serial
 		<code>
 			<iodevice type="ne500"
                       tag="NE500 Network"
-                      address="#ne500_pump_address"
+                      address="&quot;10.0.254.254&quot;"
                       port="100"
                       response_timeout="100ms"
                       />
@@ -38,11 +38,13 @@ Used for interfacing to a specific pump within a NE-500 syringe pump network
 		<!-- Payload -->
 		<code>
             <iochannel type="ne500"
-                       tag="NE500 Pump" 
-                       capability="00" 
-                       flow_rate="50" 
-                       syringe_diameter="15.0" 
+                       tag="NE500 Pump"
+                       capability="00"
+                       syringe_diameter="15.0"
+                       flow_rate="5"
+                       rate_unit="MM"
                        variable=""
+                       volume_unit=""
                        />
         </code>
 	</MWElement>	

@@ -20,9 +20,11 @@ public:
     using SendFunction = std::function<bool(const std::string &, std::string)>;
     
     static const std::string CAPABILITY;
-    static const std::string VARIABLE;
     static const std::string SYRINGE_DIAMETER;
     static const std::string FLOW_RATE;
+    static const std::string RATE_UNIT;
+    static const std::string VARIABLE;
+    static const std::string VOLUME_UNIT;
     
     static void describeComponent(ComponentInfo &info);
     
@@ -62,7 +64,9 @@ private:
     const std::string pump_id;
     const double syringe_diameter;
     const VariablePtr rate;
+    const std::string rateUnit;
     const VariablePtr volume;
+    const std::string volumeUnit;
     
     double previousRate;
     double previousAbsVolume;

@@ -14,9 +14,11 @@ BEGIN_NAMESPACE_MW
 
 
 const std::string NE500DeviceChannel::CAPABILITY("capability");
-const std::string NE500DeviceChannel::VARIABLE("variable");
 const std::string NE500DeviceChannel::SYRINGE_DIAMETER("syringe_diameter");
 const std::string NE500DeviceChannel::FLOW_RATE("flow_rate");
+const std::string NE500DeviceChannel::RATE_UNIT("rate_unit");
+const std::string NE500DeviceChannel::VARIABLE("variable");
+const std::string NE500DeviceChannel::VOLUME_UNIT("volume_unit");
 
 
 void NE500DeviceChannel::describeComponent(ComponentInfo &info) {
@@ -25,9 +27,50 @@ void NE500DeviceChannel::describeComponent(ComponentInfo &info) {
     info.setSignature("iochannel/ne500");
     
     info.addParameter(CAPABILITY);
-    info.addParameter(VARIABLE);
     info.addParameter(SYRINGE_DIAMETER);
     info.addParameter(FLOW_RATE);
+    info.addParameter(RATE_UNIT, "MM");
+    info.addParameter(VARIABLE);
+    info.addParameter(VOLUME_UNIT, false);
+}
+
+
+static inline std::string getRateUnit(std::string unit) {
+    boost::algorithm::trim(unit);
+    boost::algorithm::to_upper(unit);
+    
+    if (unit != "UM" &&
+        unit != "MM" &&
+        unit != "UH" &&
+        unit != "MH")
+    {
+        throw SimpleException(M_IODEVICE_MESSAGE_DOMAIN, "Invalid NE500 rate unit", unit);
+    }
+    
+    return std::move(unit);
+}
+
+
+static inline std::string getVolumeUnit(std::string unit, double syringeDiameter) {
+    boost::algorithm::trim(unit);
+    
+    if (unit.empty()) {
+        if (syringeDiameter <= 14.0) {
+            unit = "UL";
+        } else {
+            unit = "ML";
+        }
+    } else {
+        boost::algorithm::to_upper(unit);
+        
+        if (unit != "UL" &&
+            unit != "ML")
+        {
+            throw SimpleException(M_IODEVICE_MESSAGE_DOMAIN, "Invalid NE500 volume unit", unit);
+        }
+    }
+    
+    return std::move(unit);
 }
 
 
@@ -36,7 +79,9 @@ NE500DeviceChannel::NE500DeviceChannel(const ParameterValueMap &parameters) :
     pump_id(boost::algorithm::to_lower_copy(parameters[CAPABILITY].str())),
     syringe_diameter(parameters[SYRINGE_DIAMETER]),
     rate(parameters[FLOW_RATE]),
+    rateUnit(getRateUnit(parameters[RATE_UNIT].str())),
     volume(parameters[VARIABLE]),
+    volumeUnit(getVolumeUnit(parameters[VOLUME_UNIT].str(), syringe_diameter)),
     previousRate(0.0),
     previousAbsVolume(0.0),
     previousDirection(Direction::Infuse)
@@ -58,6 +103,7 @@ bool NE500DeviceChannel::initialize(const SendFunction &sendMessage) {
             sendMessage(pump_id, "PHN 1") &&
             sendMessage(pump_id, "FUN RAT") &&
             setRate(sendMessage, currentRate) &&
+            sendMessage(pump_id, "VOL " + volumeUnit) &&
             setVolume(sendMessage, currentVolume) &&
             setDirection(sendMessage, currentDirection));
 }
@@ -115,7 +161,7 @@ std::string NE500DeviceChannel::formatFloat(double val) {
 
 
 bool NE500DeviceChannel::setRate(const SendFunction &sendMessage, double currentRate) {
-    if (sendMessage(pump_id, "RAT " + formatFloat(currentRate) + " MM")) {
+    if (sendMessage(pump_id, "RAT " + formatFloat(currentRate) + " " + rateUnit)) {
         previousRate = currentRate;
         return true;
     }
