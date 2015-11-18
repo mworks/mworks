@@ -59,6 +59,12 @@ private:
     void disconnectFromDevice();
     bool sendMessage(const std::string &pump_id, string message);
     
+    NE500DeviceChannel::SendFunction getSendFunction() {
+        return [this](const std::string &pump_id, string message) {
+            return sendMessage(pump_id, message);
+        };
+    }
+    
     
     class NE500DeviceOutputNotification : public VariableNotification {
     private:

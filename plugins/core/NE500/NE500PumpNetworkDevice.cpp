@@ -62,9 +62,7 @@ bool NE500PumpNetworkDevice::initialize() {
         return false;
     }
     
-    auto sendFunc = [this](const std::string &pump_id, string message) {
-        return sendMessage(pump_id, message);
-    };
+    const auto sendFunc = getSendFunction();
     
     for (auto &channel : pumps) {
         if (!channel->initialize(sendFunc)) {
@@ -317,9 +315,7 @@ void NE500PumpNetworkDevice::NE500DeviceOutputNotification::notify(const Datum &
         if (auto shared_channel = channel.lock()) {
             scoped_lock active_lock(shared_pump_network->active_mutex);
             if (shared_pump_network->active) {
-                shared_channel->dispense([&shared_pump_network](const std::string &pump_id, string message) {
-                    return shared_pump_network->sendMessage(pump_id, message);
-                });
+                shared_channel->dispense(shared_pump_network->getSendFunction());
             }
         }
     }

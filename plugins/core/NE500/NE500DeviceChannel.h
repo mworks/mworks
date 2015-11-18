@@ -36,12 +36,37 @@ public:
     bool dispense(const SendFunction &sendMessage);
     
 private:
+    enum class Direction {
+        Infuse,
+        Withdraw
+    };
+    
     static std::string formatFloat(double val);
+    
+    double getCurrentRate() const {
+        return rate->getValue().getFloat();
+    }
+    
+    double getCurrentVolume() const {
+        return volume->getValue().getFloat();
+    }
+    
+    Direction getCurrentDirection(double currentVolume) const {
+        return (currentVolume >= 0.0 ? Direction::Infuse : Direction::Withdraw);
+    }
+    
+    bool setRate(const SendFunction &sendMessage, double currentRate);
+    bool setVolume(const SendFunction &sendMessage, double currentVolume);
+    bool setDirection(const SendFunction &sendMessage, Direction currentDirection);
     
     const std::string pump_id;
     const double syringe_diameter;
     const VariablePtr rate;
     const VariablePtr volume;
+    
+    double previousRate;
+    double previousAbsVolume;
+    Direction previousDirection;
     
 };
 

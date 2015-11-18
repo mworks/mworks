@@ -36,7 +36,10 @@ NE500DeviceChannel::NE500DeviceChannel(const ParameterValueMap &parameters) :
     pump_id(boost::algorithm::to_lower_copy(parameters[CAPABILITY].str())),
     syringe_diameter(parameters[SYRINGE_DIAMETER]),
     rate(parameters[FLOW_RATE]),
-    volume(parameters[VARIABLE])
+    volume(parameters[VARIABLE]),
+    previousRate(0.0),
+    previousAbsVolume(0.0),
+    previousDirection(Direction::Infuse)
 {
     if (pump_id.empty()) {
         throw SimpleException(M_IODEVICE_MESSAGE_DOMAIN, "Attempt to access invalid (empty) NE500 pump id");
@@ -45,31 +48,49 @@ NE500DeviceChannel::NE500DeviceChannel(const ParameterValueMap &parameters) :
 
 
 bool NE500DeviceChannel::initialize(const SendFunction &sendMessage) {
+    const double currentRate = getCurrentRate();
+    const double currentVolume = getCurrentVolume();
+    const Direction currentDirection = getCurrentDirection(currentVolume);
+    
     return (sendMessage(pump_id, "DIA " + formatFloat(syringe_diameter)) &&
+            sendMessage(pump_id, "PHN 2") &&
+            sendMessage(pump_id, "FUN STP") &&
+            sendMessage(pump_id, "PHN 1") &&
             sendMessage(pump_id, "FUN RAT") &&
-            sendMessage(pump_id, "RAT " + formatFloat(rate->getValue().getFloat()) + " MM"));
+            setRate(sendMessage, currentRate) &&
+            setVolume(sendMessage, currentVolume) &&
+            setDirection(sendMessage, currentDirection));
 }
 
 
 bool NE500DeviceChannel::dispense(const SendFunction &sendMessage) {
-    double amount = volume->getValue().getFloat();
+    const double currentRate = getCurrentRate();
+    const double currentVolume = getCurrentVolume();
+    const Direction currentDirection = getCurrentDirection(currentVolume);
     
-    if (amount == 0.0) {
+    if (currentVolume == 0.0) {
         return true;
     }
     
-    string dir_str;
-    if(amount >= 0){
-        dir_str = "INF"; // infuse
-    } else {
-        amount *= -1.0;
-        dir_str = "WDR"; // withdraw
+    if (currentRate != previousRate) {
+        if (!setRate(sendMessage, currentRate)) {
+            return false;
+        }
     }
     
-    return (sendMessage(pump_id, "DIR " + dir_str) &&
-            sendMessage(pump_id, "RAT " + formatFloat(rate->getValue().getFloat()) + " MM") &&
-            sendMessage(pump_id, "VOL " + formatFloat(amount)) &&
-            sendMessage(pump_id, "RUN"));
+    if (std::abs(currentVolume) != previousAbsVolume) {
+        if (!setVolume(sendMessage, currentVolume)) {
+            return false;
+        }
+    }
+    
+    if (currentDirection != previousDirection) {
+        if (!setDirection(sendMessage, currentDirection)) {
+            return false;
+        }
+    }
+    
+    return sendMessage(pump_id, "RUN");
 }
 
 
@@ -90,6 +111,35 @@ std::string NE500DeviceChannel::formatFloat(double val) {
     }
     
     return (fmt % val).str();
+}
+
+
+bool NE500DeviceChannel::setRate(const SendFunction &sendMessage, double currentRate) {
+    if (sendMessage(pump_id, "RAT " + formatFloat(currentRate) + " MM")) {
+        previousRate = currentRate;
+        return true;
+    }
+    return false;
+}
+
+
+bool NE500DeviceChannel::setVolume(const SendFunction &sendMessage, double currentVolume) {
+    const double currentAbsVolume = std::abs(currentVolume);
+    if (sendMessage(pump_id, "VOL " + formatFloat(currentAbsVolume))) {
+        previousAbsVolume = currentAbsVolume;
+        return true;
+    }
+    return false;
+}
+
+
+bool NE500DeviceChannel::setDirection(const SendFunction &sendMessage, Direction currentDirection) {
+    const std::string dir_str(currentDirection == Direction::Infuse ? "INF" : "WDR");
+    if (sendMessage(pump_id, "DIR " + dir_str)) {
+        previousDirection = currentDirection;
+        return true;
+    }
+    return false;
 }
 
 
