@@ -16,6 +16,7 @@ BEGIN_NAMESPACE_MW
 const std::string NE500PumpNetworkDevice::ADDRESS("address");
 const std::string NE500PumpNetworkDevice::PORT("port");
 const std::string NE500PumpNetworkDevice::RESPONSE_TIMEOUT("response_timeout");
+const std::string NE500PumpNetworkDevice::LOG_PUMP_COMMANDS("log_pump_commands");
 
 
 void NE500PumpNetworkDevice::describeComponent(ComponentInfo &info) {
@@ -26,6 +27,7 @@ void NE500PumpNetworkDevice::describeComponent(ComponentInfo &info) {
     info.addParameter(ADDRESS);
     info.addParameter(PORT);
     info.addParameter(RESPONSE_TIMEOUT, "100ms");
+    info.addParameter(LOG_PUMP_COMMANDS, "YES");
 }
 
 
@@ -34,6 +36,7 @@ NE500PumpNetworkDevice::NE500PumpNetworkDevice(const ParameterValueMap &paramete
     address(VariablePtr(parameters[ADDRESS])->getValue().getString()),
     port(parameters[PORT]),
     response_timeout(parameters[RESPONSE_TIMEOUT]),
+    logPumpCommands(parameters[LOG_PUMP_COMMANDS]),
     s(-1),
     connected(false),
     active(false)
@@ -195,7 +198,10 @@ bool NE500PumpNetworkDevice::sendMessage(const std::string &pump_id, string mess
                strerror(errno));
         return false;
     }
-    mprintf(M_IODEVICE_MESSAGE_DOMAIN, "SENT: %s", message.c_str());
+    
+    if (logPumpCommands) {
+        mprintf(M_IODEVICE_MESSAGE_DOMAIN, "SENT: %s", message.c_str());
+    }
     
     // give it a moment
     shared_ptr<Clock> clock = Clock::instance();
@@ -301,7 +307,7 @@ bool NE500PumpNetworkDevice::sendMessage(const std::string &pump_id, string mess
     if (!result.empty()) {
         if (is_alarm) {
             mwarning(M_IODEVICE_MESSAGE_DOMAIN, "Received alarm response from NE500 device: %s", result.c_str());
-        } else {
+        } else if (logPumpCommands) {
             mprintf(M_IODEVICE_MESSAGE_DOMAIN, "RETURNED: %s", result.c_str());
         }
     }

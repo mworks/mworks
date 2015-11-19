@@ -22,6 +22,7 @@ private:
     const std::string address;
     const int port;
     const MWTime response_timeout;
+    const bool logPumpCommands;
     
     // the socket
     int s;
@@ -38,6 +39,7 @@ public:
     static const std::string ADDRESS;
     static const std::string PORT;
     static const std::string RESPONSE_TIMEOUT;
+    static const std::string LOG_PUMP_COMMANDS;
     
     static void describeComponent(ComponentInfo &info);
     

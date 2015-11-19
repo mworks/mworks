@@ -18,6 +18,7 @@ Used for interfacing to a network of NE-500 syringe pumps, accessed via a serial
                       address="&quot;10.0.254.254&quot;"
                       port="100"
                       response_timeout="100ms"
+                      log_pump_commands="YES"
                       />
 		</code>
 	</MWElement>	
