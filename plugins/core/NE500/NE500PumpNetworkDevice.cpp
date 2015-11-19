@@ -183,6 +183,14 @@ void NE500PumpNetworkDevice::disconnectFromDevice() {
 }
 
 
+static inline std::string removeControlChars(std::string str) {
+    boost::algorithm::erase_all(str, "\r");
+    boost::algorithm::erase_all(str, "\x02");
+    boost::algorithm::erase_all(str, "\x03");
+    return std::move(str);
+}
+
+
 bool NE500PumpNetworkDevice::sendMessage(const std::string &pump_id, string message){
     if (!connected) {
         merror(M_IODEVICE_MESSAGE_DOMAIN, "No connection to NE500 device (%s)", address.c_str());
@@ -200,7 +208,7 @@ bool NE500PumpNetworkDevice::sendMessage(const std::string &pump_id, string mess
     }
     
     if (logPumpCommands) {
-        mprintf(M_IODEVICE_MESSAGE_DOMAIN, "SENT: %s", message.c_str());
+        mprintf(M_IODEVICE_MESSAGE_DOMAIN, "SENT: %s", removeControlChars(message).c_str());
     }
     
     // give it a moment
@@ -306,9 +314,11 @@ bool NE500PumpNetworkDevice::sendMessage(const std::string &pump_id, string mess
     
     if (!result.empty()) {
         if (is_alarm) {
-            mwarning(M_IODEVICE_MESSAGE_DOMAIN, "Received alarm response from NE500 device: %s", result.c_str());
+            mwarning(M_IODEVICE_MESSAGE_DOMAIN,
+                     "Received alarm response from NE500 device: %s",
+                     removeControlChars(result).c_str());
         } else if (logPumpCommands) {
-            mprintf(M_IODEVICE_MESSAGE_DOMAIN, "RETURNED: %s", result.c_str());
+            mprintf(M_IODEVICE_MESSAGE_DOMAIN, "RETURNED: %s", removeControlChars(result).c_str());
         }
     }
     
