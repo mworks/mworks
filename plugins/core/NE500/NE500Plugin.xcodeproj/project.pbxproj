@@ -23,6 +23,7 @@
 			buildConfigurationList = E12D98B116BC21F7004FEF79 /* Build configuration list for PBXAggregateTarget "Install" */;
 			buildPhases = (
 				E12D98B616BC2212004FEF79 /* CopyFiles */,
+				E1E669091BFE63D7006250D0 /* CopyFiles */,
 			);
 			dependencies = (
 				E12D98B316BC2208004FEF79 /* PBXTargetDependency */,
@@ -41,6 +42,7 @@
 		E126F26E1BFBAF5F00CFC9FF /* NE500DeviceChannel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E126F26C1BFBAF5F00CFC9FF /* NE500DeviceChannel.cpp */; };
 		E12D98B716BC2217004FEF79 /* NE500Plugin.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8D5B49B6048680CD000E48DA /* NE500Plugin.bundle */; };
 		E15D0B0016C2B34100F331B1 /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E15D0AFF16C2B34100F331B1 /* libboost_system.a */; };
+		E1E6690A1BFE63E0006250D0 /* NE500 in CopyFiles */ = {isa = PBXBuildFile; fileRef = E1E669081BFE63A5006250D0 /* NE500 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,6 +73,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		E1E669091BFE63D7006250D0 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(MW_TESTS_XML_DIR)/IODevice";
+			dstSubfolderSpec = 0;
+			files = (
+				E1E6690A1BFE63E0006250D0 /* NE500 in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
@@ -88,6 +100,7 @@
 		E126F26C1BFBAF5F00CFC9FF /* NE500DeviceChannel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NE500DeviceChannel.cpp; sourceTree = "<group>"; };
 		E126F26D1BFBAF5F00CFC9FF /* NE500DeviceChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NE500DeviceChannel.h; sourceTree = "<group>"; };
 		E15D0AFF16C2B34100F331B1 /* libboost_system.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_system.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_system.a"; sourceTree = "<absolute>"; };
+		E1E669081BFE63A5006250D0 /* NE500 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = NE500; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,6 +122,7 @@
 				5CE62A87115857D000C757F1 /* External Config */,
 				08FB77AFFE84173DC02AAC07 /* Classes */,
 				32C88E010371C26100C91783 /* Other Sources */,
+				E1E668FE1BFE6372006250D0 /* Tests */,
 				089C167CFE841241C02AAC07 /* Resources */,
 				089C1671FE841209C02AAC07 /* Frameworks and Libraries */,
 				19C28FB8FE9D52D311CA2CBB /* Products */,
@@ -170,6 +184,14 @@
 				5CE62A8A115857F600C757F1 /* WARNING.txt */,
 			);
 			name = "External Config";
+			sourceTree = "<group>";
+		};
+		E1E668FE1BFE6372006250D0 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				E1E669081BFE63A5006250D0 /* NE500 */,
+			);
+			path = Tests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

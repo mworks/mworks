@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<marionette_info>
+  <requirements>
+    <feature name="ne500"/>
+  </requirements>
+  <permitted_error_messages>
+    <message type="whole_message" max_matches="1">WARNING: Received alarm response from NE500 device: 00A?R</message>
+  </permitted_error_messages>
+  <expected_messages>
+    <!-- diam_lt_14 -->
+    <message type="whole_message">SENT: 00 RAT 5.000 MM</message>
+    <message type="whole_message">SENT: 00 VOL UL</message>
+    <!-- diam_eq_14_rat_um -->
+    <message type="whole_message">SENT: 00 RAT 5.000 UM</message>
+    <message type="whole_message">SENT: 00 VOL UL</message>
+    <!-- diam_gt_14_rat_mm -->
+    <message type="whole_message">SENT: 00 RAT 5.000 MM</message>
+    <message type="whole_message">SENT: 00 VOL ML</message>
+    <!-- rat_uh_vol_ul -->
+    <message type="whole_message">SENT: 00 RAT 50.00 UH</message>
+    <message type="whole_message">SENT: 00 VOL UL</message>
+    <!-- rat_mh_vol_ml -->
+    <message type="whole_message">SENT: 00 RAT 50.00 MH</message>
+    <message type="whole_message">SENT: 00 VOL ML</message>
+  </expected_messages>
+</marionette_info>

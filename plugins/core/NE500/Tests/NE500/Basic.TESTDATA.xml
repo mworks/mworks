@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<marionette_info>
+  <requirements>
+    <feature name="ne500"/>
+  </requirements>
+  <permitted_error_messages>
+    <message type="whole_message" max_matches="1">WARNING: Received alarm response from NE500 device: 00A?R</message>
+  </permitted_error_messages>
+  <expected_messages>
+    <message type="whole_message">SENT: 00 DIA 15.00</message>
+    <!-- Might not get this one if there was an alarm -->
+    <!--message type="whole_message">RETURNED: 00S</message-->
+    <message type="whole_message">SENT: 00 PHN 2</message>
+    <message type="whole_message">RETURNED: 00S</message>
+    <message type="whole_message">SENT: 00 FUN STP</message>
+    <message type="whole_message">RETURNED: 00S</message>
+    <message type="whole_message">SENT: 00 PHN 1</message>
+    <message type="whole_message">RETURNED: 00S</message>
+    <message type="whole_message">SENT: 00 FUN RAT</message>
+    <message type="whole_message">RETURNED: 00S</message>
+    <message type="whole_message">SENT: 00 RAT 30.00 UM</message>
+    <message type="whole_message">RETURNED: 00S</message>
+    <message type="whole_message">SENT: 00 VOL UL</message>
+    <message type="whole_message">RETURNED: 00S</message>
+    <message type="whole_message">SENT: 00 VOL 1.000</message>
+    <message type="whole_message">RETURNED: 00S</message>
+    <message type="whole_message">SENT: 00 DIR INF</message>
+    <message type="whole_message">RETURNED: 00S</message>
+    <message type="whole_message">SENT: 00 RUN</message>
+    <message type="whole_message">RETURNED: 00I</message>
+    <message type="whole_message">SENT: 00 RAT 60.00 UM</message>
+    <message type="whole_message">RETURNED: 00S</message>
+    <message type="whole_message">SENT: 00 RUN</message>
+    <message type="whole_message">RETURNED: 00I</message>
+    <message type="whole_message">SENT: 00 DIR WDR</message>
+    <message type="whole_message">RETURNED: 00S</message>
+    <message type="whole_message">SENT: 00 RUN</message>
+    <message type="whole_message">RETURNED: 00W</message>
+    <message type="whole_message">SENT: 00 VOL 2.000</message>
+    <message type="whole_message">RETURNED: 00S</message>
+    <message type="whole_message">SENT: 00 RUN</message>
+    <message type="whole_message">RETURNED: 00W</message>
+    <message type="whole_message">SENT: 00 VOL 1.000</message>
+    <message type="whole_message">RETURNED: 00S</message>
+    <message type="whole_message">SENT: 00 DIR INF</message>
+    <message type="whole_message">RETURNED: 00S</message>
+    <message type="whole_message">SENT: 00 RUN</message>
+    <message type="whole_message">RETURNED: 00I</message>
+  </expected_messages>
+</marionette_info>

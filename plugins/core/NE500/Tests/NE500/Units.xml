@@ -1,0 +1,24 @@
+<?xml version="1.0" standalone="no"?>
+<monkeyml version="1.0">
+    <io_devices tag="IO Devices">
+        <iodevice type="ne500" tag="ne500" address="&quot;10.0.254.254&quot;" port="100" response_timeout="200ms" log_pump_commands="YES">
+            <iochannel type="ne500" tag="diam_lt_14" capability="00" syringe_diameter="13.5" flow_rate="5" rate_unit="" variable="volume" volume_unit=""></iochannel>
+            <iochannel type="ne500" tag="diam_eq_14_rat_um" capability="00" syringe_diameter="14.0" flow_rate="5" rate_unit="UM" variable="volume" volume_unit=""></iochannel>
+            <iochannel type="ne500" tag="diam_gt_14_rat_mm" capability="00" syringe_diameter="14.5" flow_rate="5" rate_unit="MM" variable="volume" volume_unit=""></iochannel>
+            <iochannel type="ne500" tag="rat_uh_vol_ul" capability="00" syringe_diameter="15.0" flow_rate="50" rate_unit="UH" variable="volume" volume_unit="UL"></iochannel>
+            <iochannel type="ne500" tag="rat_mh_vol_ml" capability="00" syringe_diameter="15.0" flow_rate="50" rate_unit="MH" variable="volume" volume_unit="ML"></iochannel>
+        </iodevice>
+    </io_devices>
+    <variables tag="Variables">
+        <variable tag="volume" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="0.1" type="any"></variable>
+    </variables>
+    <sounds tag="Sounds"></sounds>
+    <stimuli tag="Stimuli"></stimuli>
+    <filters tag="Filters"></filters>
+    <optimizers tag="Optimizers"></optimizers>
+    <experiment tag="New Experiment" full_name="" description="">
+        <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
+            <action type="report" tag="Report" message="Nothing to see here"></action>
+        </protocol>
+    </experiment>
+</monkeyml>
