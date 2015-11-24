@@ -1,0 +1,55 @@
+---
+
+
+name: NE-500 Syringe Pump Network
+signature: iodevice/ne500
+isa: IODevice
+icon: smallIOFolder
+description: >
+    Used for interfacing to a network of NE-500 syringe pumps, accessed via
+    a serial-to-ethernet bridge
+parameters: 
+  - 
+    name: address
+    default: "10.0.254.254"
+  - 
+    name: port
+    default: 100
+  - 
+    name: response_timeout
+    default: 100ms
+  - 
+    name: log_pump_commands
+    default: YES
+
+
+---
+
+
+name: NE-500 Syringe Pump
+signature: iochannel/ne500
+isa: IOChannel
+icon: smallIOFolder
+allowed_parent: NE-500 Syringe Pump Network
+description: >
+    Used for interfacing to a specific pump within a NE-500 syringe pump
+    network
+parameters: 
+  - 
+    name: capability
+    default: 00
+  - 
+    name: syringe_diameter
+    default: 15.0
+  - 
+    name: flow_rate
+    default: 5
+  - 
+    name: rate_unit
+    default: MM
+  - 
+    name: variable
+  - 
+    name: volume_unit
+
+

@@ -1,0 +1,56 @@
+---
+
+
+name: HID IO Device
+signature: iodevice/usbhid
+isa: IODevice
+icon: smallIOFolder
+description: Used for interfacing to a usb HID device
+parameters: 
+  - 
+    name: priority
+  - 
+    name: alt
+
+
+---
+
+
+name: HID IO Channel
+signature: iochannel/usbhid
+isa: IOChannel
+icon: smallIOFolder
+allowed_parent: HID IO Device
+description: Used for interfacing to a usb HID device
+parameters: 
+  - 
+    name: data_interval
+    default: 5us
+  - 
+    name: update_interval
+    default: 50ms
+  - 
+    name: variable
+  - 
+    name: capability
+    default: Button_X
+  - 
+    name: data_type
+    default: analog
+  - 
+    name: direction
+    default: input
+  - 
+    name: synchrony
+    default: asynchronous
+  - 
+    name: range_min
+    default: 0
+  - 
+    name: range_max
+    default: 0
+  - 
+    name: resolution
+    default: 1
+
+

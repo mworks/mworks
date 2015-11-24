@@ -1,0 +1,1759 @@
+---
+
+
+name: Variables
+is_group: yes
+icon: smallFolder
+
+
+---
+
+
+name: Actions
+is_group: yes
+icon: smallFolder
+description: >
+    Actions are paradigm components which cause some action (such as
+    playing a sound, showing a visual stimulus, or assigning a variable) to
+    occur
+
+
+---
+
+
+name: Transitions
+is_group: yes
+icon: smallFolder
+description: >
+    Transitions are paradigm components which control how you move through
+    a task system.  Each state loops through its transition list until one
+    of its transitions returns a valid target state.
+
+
+---
+
+
+name: Stimuli
+is_group: yes
+icon: smallStimulusFolder
+description: >
+    A grouping of stimulus related elements, including stimuli, and
+    stimulus-related actions
+subgroups: 
+  - 
+    name: Stimulus-Related Actions
+    is_group: yes
+    icon: smallFolder
+    description: A test of nested groups
+
+
+---
+
+
+name: Paradigm Components
+is_group: yes
+icon: smallFolder
+description: >
+    Experiment building blocks (e.g.  block, trial, task-system, etc.)
+
+
+---
+
+
+name: Input/Output
+is_group: yes
+icon: smallIOFolder
+description: I/O devices
+
+
+---
+
+
+name: Filters
+is_group: yes
+icon: smallIOFolder
+description: Filters and calibrators
+
+
+---
+
+
+name: Optimizers and Variable Monitors
+is_group: yes
+icon: smallFolder
+description: >
+    A variety of objects that watch variable values, automatically perform
+    computations, and output results
+
+
+---
+
+
+name: IODevices
+signature: io_devices
+mandatory_tag: IO Devices
+icon: smallIOFolder
+display_as_group: yes
+
+
+---
+
+
+name: Sounds
+signature: sounds
+mandatory_tag: Sounds
+icon: smallFolder
+display_as_group: yes
+
+
+---
+
+
+name: Stimuli
+signature: stimuli
+mandatory_tag: Stimuli
+icon: smallStimulusFolder
+display_as_group: yes
+
+
+---
+
+
+name: Variables
+signature: variables
+mandatory_tag: Variables
+icon: smallVariablesFolder
+display_as_group: yes
+
+
+---
+
+
+name: Calibrators
+signature: calibrators
+mandatory_tag: Calibrators
+icon: smallFolder
+display_as_group: yes
+
+
+---
+
+
+name: Optimizers
+signature: optimizers
+mandatory_tag: Optimizers
+icon: smallFolder
+display_as_group: yes
+
+
+---
+
+
+name: Filters
+signature: filters
+mandatory_tag: Filters
+icon: smallFolder
+display_as_group: yes
+
+
+---
+
+
+name: Experiment
+signature: experiment
+mandatory_tag: Experiment
+icon: smallExperiment
+display_as_group: yes
+
+
+---
+
+
+name: Folder
+signature: folder
+icon: smallFolder
+group: Variables
+allowed_parent: 
+  - Variables
+  - IODevices
+  - Filters
+  - Optimizers
+  - Stimuli
+  - Sounds
+  - Calibrators
+description: >
+    A folder for (purely) organizational purposes.  Variables defined in a
+    folder will be displayed as an expandable group in MWClient's variables
+    window.
+
+
+---
+
+
+name: Variable
+signature: variable
+icon: xyz
+inspector: VariableInspectorView
+group: Variables
+allowed_parent: 
+  - Variables
+  - Folder
+description: A variable object.
+parameters: 
+  - 
+    name: scope
+    default: global
+  - 
+    name: logging
+    default: when_changed
+  - 
+    name: exclude_from_data_file
+    default: NO
+  - 
+    name: default_value
+    default: 0
+  - 
+    name: type
+    default: any
+
+
+---
+
+
+name: Selection Variable
+signature: variable/selection
+icon: xyz
+group: Variables
+allowed_parent: 
+  - Variables
+  - Folder
+description: >
+    A variable whose value is controlled by a selection object.  A list of
+    values is associated with the Selection Variable that are selected by a
+    selection object.  Use the "Next Selection" action to advance the
+    variable's selection.
+parameters: 
+  - 
+    name: values
+  - 
+    name: selection
+    default: sequential
+  - 
+    name: nsamples
+    default: 1
+  - 
+    name: sampling_method
+    default: cycles
+  - 
+    name: advance_on_accept
+    default: YES
+  - 
+    name: autoreset
+    default: NO
+
+
+---
+
+
+name: Stimulus
+abstract: yes
+icon: smallStimulus
+group: Stimuli
+allowed_parent: 
+  - Range Replicator
+  - List Replicator
+  - Stimuli
+  - Stimulus Group
+  - Folder
+description: Base-level stimulus stub
+
+
+---
+
+
+name: Stimulus Group
+signature: stimulus_group
+isa: Stimulus
+icon: smallStimulusFolder
+group: Stimuli
+allowed_parent: 
+  - Range Replicator
+  - List Replicator
+  - Stimuli
+  - Stimulus Group
+  - Folder
+description: An indexable group of stimuli
+
+
+---
+
+
+name: Image Stimulus
+signature: stimulus/image_file
+isa: Stimulus
+inspector: ImageStimulusInspectorView
+description: An image stimulus loaded from any standard-format image file.
+parameters: 
+  - 
+    name: path
+  - 
+    name: x_size
+    default: 5.0
+  - 
+    name: y_size
+    default: 5.0
+  - 
+    name: x_position
+    default: 0.0
+  - 
+    name: y_position
+    default: 0.0
+  - 
+    name: rotation
+    default: 0.0
+  - 
+    name: alpha_multiplier
+    default: 1.0
+  - 
+    name: deferred
+    default: NO
+
+
+---
+
+
+name: Blank Fullscreen Stimulus
+signature: stimulus/blank_screen
+isa: Stimulus
+description: >
+    A stimulus that clears the screen with a user-defined color.  This
+    stimulus must be queued like any other.
+parameters: 
+  - 
+    name: color
+    default: 0.5,0.5,0.5
+
+
+---
+
+
+name: Rectangle Stimulus
+signature: stimulus/rectangle
+isa: Stimulus
+description: A rectangle stimulus
+parameters: 
+  - 
+    name: color
+    default: 1,1,1
+  - 
+    name: x_size
+  - 
+    name: y_size
+  - 
+    name: x_position
+  - 
+    name: y_position
+  - 
+    name: rotation
+  - 
+    name: alpha_multiplier
+
+
+---
+
+
+name: Ellipse Stimulus
+signature: stimulus/circle
+isa: Stimulus
+description: An ellipse stimulus
+parameters: 
+  - 
+    name: color
+    default: 1,1,1
+  - 
+    name: x_size
+  - 
+    name: y_size
+  - 
+    name: x_position
+  - 
+    name: y_position
+  - 
+    name: rotation
+  - 
+    name: alpha_multiplier
+
+
+---
+
+
+name: Fixation Point Stimulus
+signature: stimulus/fixation_point
+isa: Stimulus
+description: A fixation point stimulus
+parameters: 
+  - 
+    name: color
+    default: 1,1,1
+  - 
+    name: trigger_width
+  - 
+    name: trigger_watch_x
+  - 
+    name: trigger_watch_y
+  - 
+    name: trigger_flag
+  - 
+    name: x_size
+  - 
+    name: y_size
+  - 
+    name: x_position
+  - 
+    name: y_position
+  - 
+    name: rotation
+  - 
+    name: alpha_multiplier
+
+
+---
+
+
+name: Circular Fixation Point Stimulus
+signature: stimulus/circular_fixation_point
+isa: Stimulus
+description: A circular fixation point stimulus
+parameters: 
+  - 
+    name: color
+    default: 1,1,1
+  - 
+    name: trigger_width
+  - 
+    name: trigger_watch_x
+  - 
+    name: trigger_watch_y
+  - 
+    name: trigger_flag
+  - 
+    name: x_size
+  - 
+    name: y_size
+  - 
+    name: x_position
+  - 
+    name: y_position
+  - 
+    name: rotation
+  - 
+    name: alpha_multiplier
+
+
+---
+
+
+name: Sound Stimulus
+signature: sound/wav_file
+inspector: SoundStimulusInspectorView
+group: Stimuli
+allowed_parent: 
+  - Sounds
+  - Folder
+description: A simple wav-file based sound stimulus.
+parameters: 
+  - 
+    name: path
+  - 
+    name: amplitude
+    default: 1.0
+
+
+---
+
+
+name: Paradigm Component
+abstract: yes
+icon: fakeMonkey
+group: Paradigm Components
+allowed_parent: 
+  - Range Replicator
+  - List Replicator
+description: Base-level paradigm component stub
+
+
+---
+
+
+name: Range Replicator
+signature: range_replicator
+icon: replicatorIcon
+inspector: RangeReplicatorInspectorView
+group: Paradigm Components
+allowed_parent: 
+  - Experiment
+  - Protocol
+  - Block
+  - Trial
+  - List
+  - Range Replicator
+  - List Replicator
+  - Stimuli
+  - Stimulus Group
+  - Sounds
+  - Variables
+description: >
+    An object that lexically replicates its contents at parse time, with
+    substitution of a range variable (like a "for" loop).
+parameters: 
+  - 
+    name: from
+  - 
+    name: to
+  - 
+    name: step
+  - 
+    name: variable
+
+
+---
+
+
+name: List Replicator
+signature: list_replicator
+icon: replicatorIcon
+group: Paradigm Components
+allowed_parent: 
+  - Experiment
+  - Protocol
+  - Block
+  - Trial
+  - List
+  - Range Replicator
+  - List Replicator
+  - Stimuli
+  - Stimulus Group
+  - Sounds
+  - Variables
+description: >
+    An object that lexically replicates its contents at parse time, with
+    substitution of a list of values into a variable.
+parameters: 
+  - 
+    name: values
+  - 
+    name: variable
+
+
+---
+
+
+name: Protocol
+signature: protocol
+isa: Paradigm Component
+icon: smallProtocol
+inspector: ListStateInspectorView
+allowed_parent: Experiment
+description: >
+    A top-level paradigm component that contains other sub-components.
+    Protocols appear in a user-selected menu at run-time, and represent the
+    largest unit of logical organization in an experiment.
+parameters: 
+  - 
+    name: nsamples
+    default: 1
+  - 
+    name: sampling_method
+    default: cycles
+  - 
+    name: selection
+    default: sequential
+  - 
+    name: interruptible
+    default: YES
+
+
+---
+
+
+name: Block
+signature: block
+isa: Paradigm Component
+icon: smallBlock
+inspector: ListStateInspectorView
+allowed_parent: Protocol
+description: >
+    A container paradigm component.  Blocks can contain other paradigm
+    components and have a mechanism for selecting the ordering of selection
+    of components contained within them.
+parameters: 
+  - 
+    name: nsamples
+    default: 1
+  - 
+    name: sampling_method
+    default: cycles
+  - 
+    name: selection
+    default: sequential
+  - 
+    name: interruptible
+    default: YES
+
+
+---
+
+
+name: Trial
+signature: trial
+isa: Paradigm Component
+icon: smallTrial
+inspector: ListStateInspectorView
+allowed_parent: 
+  - Protocol
+  - Block
+  - Trial
+  - List
+description: >
+    A container paradigm component.  Trials can contain other paradigm
+    components and have a mechanism for selecting the ordering of selection
+    of components contained within them.
+parameters: 
+  - 
+    name: nsamples
+    default: 1
+  - 
+    name: sampling_method
+    default: cycles
+  - 
+    name: selection
+    default: sequential
+  - 
+    name: interruptible
+    default: YES
+
+
+---
+
+
+name: List
+signature: list
+isa: Paradigm Component
+icon: smallList
+inspector: ListStateInspectorView
+allowed_parent: 
+  - Protocol
+  - Block
+  - Trial
+  - List
+description: >
+    A container paradigm component.  Lists can contain other paradigm
+    components and have a mechanism for selecting the ordering of selection
+    of components contained within them.
+parameters: 
+  - 
+    name: nsamples
+    default: 1
+  - 
+    name: sampling_method
+    default: cycles
+  - 
+    name: selection
+    default: sequential
+  - 
+    name: interruptible
+    default: YES
+
+
+---
+
+
+name: Task System
+signature: task_system
+isa: Paradigm Component
+icon: smallTaskSystem
+allowed_parent: 
+  - Protocol
+  - Block
+  - List
+  - Trial
+description: >
+    A paradigm component defining a finite state machine.  It contains
+    "Task System State" objects, which define transitions from one state to
+    the next.  The Task System finishes when one of the states evaluates a
+    "yield" transition.
+parameters: 
+  - 
+    name: interruptible
+    default: YES
+
+
+---
+
+
+name: Task System State
+signature: task_system_state
+isa: Paradigm Component
+icon: smallTaskSystemState
+allowed_parent: Task System
+description: >
+    A paradigm component defining a state within a finite state machine.
+    It is contained within a Task System objects, and defines a list of
+    Actions, which are executed when the state first gains control, and a
+    list of Transitions, which are repeatedly evaluated until one of them
+    returns a valid target state.
+parameters: 
+  - 
+    name: interruptible
+    default: YES
+
+
+---
+
+
+name: Action
+abstract: yes
+icon: actionIcon
+group: Actions
+allowed_parent: 
+  - Task System State
+  - Variable
+  - Trial
+  - Block
+  - List
+  - Protocol
+  - Conditionally Execute Actions
+  - Schedule Actions
+  - Folder
+disallowed_sibling_before: 
+  - Transition
+  - Variable
+  - TransitionMarker
+disallowed_sibling_after: ActionMarker
+description: Base-level action stub
+
+
+---
+
+
+name: ActionMarker
+signature: action_marker
+unmoveable: yes
+allowed_parent: Task System State
+disallowed_sibling_before: TransitionMarker
+
+
+---
+
+
+name: Report / Message
+signature: action/report
+isa: Action
+icon: reportAction
+inspector: ReportInspectorView
+description: >
+    Print a message to the console.  You can place variables in the message
+    by placing a '$' in front of them (e.g.  "x = $x")
+parameters: 
+  - 
+    name: message
+    default: Your message here.
+
+
+---
+
+
+name: Assign Variable
+signature: action/assignment
+isa: Action
+icon: actionIcon
+inspector: AssignmentInspectorView
+description: Assign a value to a global variable object at runtime.
+parameters: 
+  - 
+    name: variable
+  - 
+    name: value
+
+
+---
+
+
+name: Pulse Variable
+signature: action/pulse
+isa: Action
+inspector: PulseInspectorView
+description: >
+    Pulse a variable high (1.0) for some duration, and then set it low
+    (0.0) again.
+parameters: 
+  - 
+    name: variable
+  - 
+    name: duration
+
+
+---
+
+
+name: Assert
+signature: action/assert
+isa: Action
+description: >
+    Test a boolean condition.  If it evaluates to false, report an error
+    with the specified message.  If no message is specified, a default one
+    containing the condition expression is used.  If stop_on_failure is
+    true, then the experiment will automatically stop if the assertion
+    fails.
+parameters: 
+  - 
+    name: condition
+  - 
+    name: message
+  - 
+    name: stop_on_failure
+    default: 0
+
+
+---
+
+
+name: Schedule Actions
+signature: action/schedule
+isa: Action
+inspector: ScheduleInspectorView
+description: >
+    Schedule the execution of a list of contained actions.  These actions
+    can be scheduled to occur after a user-defined delay, and can be
+    repeated some number of times, with a user-defined inter-execution
+    interval.
+parameters: 
+  - 
+    name: delay
+  - 
+    name: duration
+  - 
+    name: repeats
+  - 
+    name: cancel
+
+
+---
+
+
+name: Conditionally Execute Actions
+signature: action/if
+isa: Action
+inspector: IfInspectorView
+allowed_parent: Conditional Branching (If/Else)
+description: Execute a list of actions if a condition is true.
+parameters: 
+  - 
+    name: condition
+    default: 1
+
+
+---
+
+
+name: Conditional Branching (If/Else)
+signature: action/if_else
+isa: Action
+description: >
+    Given a list of conditional (if) actions, executes the first one whose
+    condition is true, or none if all conditions are false.  To implement
+    an unconditional "else" action, add a conditional with an always-true
+    condition at the end of the list.
+
+
+---
+
+
+name: Wait
+signature: action/wait
+isa: Action
+icon: startTimer
+inspector: WaitInspectorView
+description: >
+    Pause for a specified amount of time.  Note: this action is not
+    intended for precise coordination of timed events.  For a greater
+    degree of temporal control, use a Task System with Timer objects and
+    Timer-Expiration-based transitions.
+parameters: 
+  - 
+    name: duration
+    default: 1.0
+  - 
+    name: duration_units
+    default: s
+
+
+---
+
+
+name: Wait for Condition
+signature: action/wait_for_condition
+isa: Action
+icon: startTimer
+description: >
+    Wait until a condition becomes true or a timeout occurs.  If the wait
+    times out before the condition becomes true, issue an error message and
+    (optionally) stop the experiment.
+parameters: 
+  - 
+    name: condition
+  - 
+    name: timeout
+  - 
+    name: timeout_message
+  - 
+    name: stop_on_timeout
+    default: YES
+
+
+---
+
+
+name: Start Timer
+signature: action/start_timer
+isa: Action
+icon: startTimer
+inspector: StartTimerInspectorView
+description: >
+    Starts a nameable timer that can be use to control the flow through a
+    task system.  "Timer Expired" Transitions, and the "timer()" function
+    can be used to evaulate whether the timer has expired.
+parameters: 
+  - 
+    name: timer
+    default: MyTimer
+  - 
+    name: timebase
+  - 
+    name: duration
+    default: 0.0
+  - 
+    name: duration_units
+    default: s
+
+
+---
+
+
+name: Set Timebase
+signature: action/set_timebase
+isa: Action
+icon: startTimer
+inspector: SetTimebaseInspectorView
+description: >
+    Sets a named reference time against which timers can be defined.
+parameters: 
+  - 
+    name: timebase
+    default: MyTimebase
+
+
+---
+
+
+name: Load Stimulus
+signature: action/load_stimulus
+isa: Action
+inspector: LoadStimulusInspectorView
+group: Stimulus-Related Actions
+description: >
+    Explicitly load a stimulus object (e.g.  load a file from disk, compute
+    a dynamically generated stimulus, etc.). This is useful when the
+    "deferred" option on a stimulus is set to "true" or "explicit".
+parameters: 
+  - 
+    name: stimulus
+
+
+---
+
+
+name: Unload Stimulus
+signature: action/unload_stimulus
+isa: Action
+group: Stimulus-Related Actions
+description: >
+    Explicitly unload a stimulus object, thereby releasing any memory or
+    other resources used by the stimulus.  This is useful when the
+    "deferred" option on a stimulus is set to "true" or "explicit".
+parameters: 
+  - 
+    name: stimulus
+
+
+---
+
+
+name: Queue Stimulus
+signature: action/queue_stimulus
+isa: Action
+inspector: QueueStimulusInspectorView
+group: Stimulus-Related Actions
+description: >
+    Places a stimulus into the display queue, ready to be displayed when
+    the next Update Display action is issued.
+parameters: 
+  - 
+    name: stimulus
+
+
+---
+
+
+name: Live Queue Stimulus
+signature: action/live_queue_stimulus
+isa: Action
+inspector: QueueStimulusInspectorView
+group: Stimulus-Related Actions
+description: >
+    Places a stimulus into the display queue, ready to be displayed when
+    the next Update Display action is issued.  In contrast to the "regular"
+    Queue action, values for variables controlling the appearance of the
+    stimulus will remain malleable right up until the moment that the
+    display is updated.
+parameters: 
+  - 
+    name: stimulus
+
+
+---
+
+
+name: Dequeue Stimulus
+signature: action/dequeue_stimulus
+isa: Action
+inspector: DequeueStimulusInspectorView
+group: Stimulus-Related Actions
+description: >
+    Removes a stimulus from the display queue, such that it will not be
+    displayed when the next Update Display action is issued.
+parameters: 
+  - 
+    name: stimulus
+
+
+---
+
+
+name: Bring Stimulus to Front
+signature: action/bring_stimulus_to_front
+isa: Action
+group: Stimulus-Related Actions
+description: Move a stimulus to the top of the display queue.
+parameters: 
+  - 
+    name: stimulus
+
+
+---
+
+
+name: Send Stimulus to Back
+signature: action/send_stimulus_to_back
+isa: Action
+group: Stimulus-Related Actions
+description: Move a stimulus to the bottom of the display queue.
+parameters: 
+  - 
+    name: stimulus
+
+
+---
+
+
+name: Update Stimulus Display
+signature: action/update_stimulus_display
+isa: Action
+inspector: UpdateDisplayInspectorView
+group: Stimulus-Related Actions
+description: >
+    Redraw the stimulus display.  Any stimuli that have been queued will
+    actually be drawn at this point; any stimulus that has been dequeued
+    will not be drawn (and will thus be erased, if it was previously
+    visible).
+parameters: 
+  - 
+    name: predicted_output_time
+
+
+---
+
+
+name: Play Sound
+signature: action/play_sound
+isa: Action
+inspector: PlaySoundInspectorView
+group: Stimulus-Related Actions
+description: Play a sound stimulus.
+parameters: 
+  - 
+    name: sound
+
+
+---
+
+
+name: Stop Sound
+signature: action/stop_sound
+isa: Action
+inspector: StopSoundInspectorView
+group: Stimulus-Related Actions
+description: Stop playing a sound stimulus, if it is playing.
+parameters: 
+  - 
+    name: sound
+
+
+---
+
+
+name: Accept Selections
+signature: action/accept_selections
+isa: Action
+inspector: AcceptSelectionsInspectorView
+description: >
+    Permanently accept selections on a selectable object that have been
+    made so far.  Once accepted, these selections can not be undone with a
+    "Reject Selections" action.
+parameters: 
+  - 
+    name: selection
+
+
+---
+
+
+name: Reject Selections
+signature: action/reject_selections
+isa: Action
+inspector: RejectSelectionsInspectorView
+description: >
+    Reject all previous selections from a selectable object, since the last
+    "Accept Selections" action.  From the point of view of the selectable
+    object, it will be as if these selections were never made
+parameters: 
+  - 
+    name: selection
+
+
+---
+
+
+name: Reset Selections
+signature: action/reset_selection
+isa: Action
+inspector: ResetSelectionInspectorView
+description: >
+    Reset all previous selections from a selectable object.  From the point
+    of view of the selectable object, it will be as if these selections
+    were never made.
+parameters: 
+  - 
+    name: selection
+
+
+---
+
+
+name: Next Selection
+signature: action/next_selection
+isa: Action
+inspector: NextSelectionInspectorView
+description: >
+    Advance to the next selection on a selection variable.  This action
+    does not work on other selectable objects (such as blocks or trials).
+parameters: 
+  - 
+    name: selection
+
+
+---
+
+
+name: Stop Experiment
+signature: action/stop_experiment
+isa: Action
+description: >
+    Stop the experiment.  Gives an experiment the ability to terminate
+    itself (e.g.  in response to a fatal error).
+
+
+---
+
+
+name: Start IO Device
+signature: action/start_device_IO
+isa: Action
+inspector: StartIOInspectorView
+description: >
+    Enable an IO Device.  Variables will be modified by input channels,
+    external outputs to be set by variables, as defined in the IO channels
+    for the IO device.
+parameters: 
+  - 
+    name: device
+
+
+---
+
+
+name: Stop IO Device
+signature: action/stop_device_IO
+isa: Action
+inspector: StopIOInspectorView
+description: Disable an IO Device.
+parameters: 
+  - 
+    name: device
+
+
+---
+
+
+name: Synthetic Saccade
+signature: action/fake_monkey_saccade_to_location
+isa: Action
+inspector: SyntheticSaccadeInspectorView
+description: >
+    Direct a synthetic data source "IO" device to make a fake saccade to a
+    predefined location.  This action will have no effect if the synthetic
+    data source is not started.
+parameters: 
+  - 
+    name: fake_monkey
+  - 
+    name: h
+  - 
+    name: v
+
+
+---
+
+
+name: Take Calibration Sample
+signature: action/take_calibration_sample
+isa: Action
+description: >
+    Instruct a calibrator object to take a sample from a "calibratable"
+    object.  The calibratable objects contain both a measured and a "true"
+    value, and the calibrator uses these to determine a mapping function.
+parameters: 
+  - 
+    name: calibrator
+  - 
+    name: calibratable_object
+
+
+---
+
+
+name: Update Calibration
+signature: action/update_calibration
+isa: Action
+description: >
+    Prompt a calibrator object to compute a new calibration mapping
+    function based on samples taken using the "Take Calibration Sample"
+    action.
+parameters: 
+  - 
+    name: calibrator
+
+
+---
+
+
+name: Clear Calibration
+signature: action/clear_calibration
+isa: Action
+description: >
+    Prompt a calibrator object to "forget" all previously collected
+    calibration samples.
+parameters: 
+  - 
+    name: calibrator
+
+
+---
+
+
+name: Begin Averaged Calibration Sample
+signature: action/begin_calibration_average
+isa: Action
+description: >
+    Begin averaging calibration the values of a variable to be calibrated.
+parameters: 
+  - 
+    name: calibrator
+
+
+---
+
+
+name: End Averaged Calibration and Ignore
+signature: action/end_calibration_average_and_ignore
+isa: Action
+description: >
+    Stop averaging calibration the values of a variable to be calibrated,
+    and discard the sample.
+parameters: 
+  - 
+    name: calibrator
+
+
+---
+
+
+name: End Averaged Calibration Sample
+signature: action/end_calibration_average_and_take_sample
+isa: Action
+description: >
+    Stop averaging calibration the values of a variable to be calibrated,
+    and add the sample to the specified calibrator.
+parameters: 
+  - 
+    name: calibrator
+  - 
+    name: calibratable_object
+
+
+---
+
+
+name: Play Dynamic Stimulus
+signature: action/play_dynamic_stimulus
+isa: Action
+description: Start playing a dynamic stimulus
+parameters: 
+  - 
+    name: stimulus
+
+
+---
+
+
+name: Stop Dynamic Stimulus
+signature: action/stop_dynamic_stimulus
+isa: Action
+description: Stop a dynamic stimulus
+parameters: 
+  - 
+    name: stimulus
+
+
+---
+
+
+name: Pause Dynamic Stimulus
+signature: action/pause_dynamic_stimulus
+isa: Action
+description: Pause a playing dynamic stimulus
+parameters: 
+  - 
+    name: stimulus
+
+
+---
+
+
+name: Unpause Dynamic Stimulus
+signature: action/unpause_dynamic_stimulus
+isa: Action
+description: Unpause (i.e.  resume playing) a paused dynamic stimulus
+parameters: 
+  - 
+    name: stimulus
+
+
+---
+
+
+name: Transition
+abstract: yes
+icon: transitionIcon
+group: Transitions
+allowed_parent: Task System State
+disallowed_sibling_after: 
+  - Action
+  - ActionMarker
+  - TransitionMarker
+description: Base-level transition stub
+
+
+---
+
+
+name: TransitionMarker
+signature: transition_marker
+unmoveable: yes
+allowed_parent: Task System State
+disallowed_sibling_after: ActionMarker
+
+
+---
+
+
+name: Always Go Transition
+signature: transition/direct
+isa: Transition
+icon: alwaysGo
+inspector: AlwaysGoTransitionInspectorView
+description: A transition that always goes to the specified target.
+parameters: 
+  - 
+    name: target
+
+
+---
+
+
+name: Conditional Transition
+signature: transition/conditional
+isa: Transition
+icon: conditionalTransition
+inspector: ConditionalTransitionInspectorView
+description: >
+    A transition that goes to the target if a specified condition
+    expression is true.
+parameters: 
+  - 
+    name: condition
+  - 
+    name: target
+
+
+---
+
+
+name: Timer Expired Transition
+signature: transition/timer_expired
+isa: Transition
+icon: timerTransition
+inspector: TimerExpiredTransitionInspectorView
+description: >
+    A transition that goes to the target if a specified timer has expired.
+parameters: 
+  - 
+    name: target
+  - 
+    name: timer
+
+
+---
+
+
+name: Exit Task System
+signature: transition/yield
+isa: Transition
+icon: yieldToParent
+inspector: ExitTaskSystemTransitionInspectorView
+description: >
+    A transition that yields control back to the Task System's parent.
+
+
+---
+
+
+name: IODevice
+abstract: yes
+icon: smallIOFolder
+group: 
+  - Input/Output
+  - IODevices
+allowed_parent: 
+  - IODevices
+  - Folder
+description: Base-level IO device stub
+
+
+---
+
+
+name: Generic IO Device
+signature: iodevice
+isa: IODevice
+description: A generic IO device
+parameters: 
+  - 
+    name: type
+  - 
+    name: alt
+
+
+---
+
+
+name: IOChannel
+abstract: yes
+icon: smallIOFolder
+group: 
+  - Input/Output
+  - IODevice
+allowed_parent: Folder
+description: Base-level IO channel stub
+
+
+---
+
+
+name: Generic IO Channel
+signature: iochannel
+isa: IOChannel
+allowed_parent: Generic IO Device
+description: A generic IO channel
+parameters: 
+  - 
+    name: variable
+  - 
+    name: capability
+  - 
+    name: data_type
+  - 
+    name: direction
+  - 
+    name: synchrony
+  - 
+    name: range_min
+  - 
+    name: range_max
+  - 
+    name: resolution
+  - 
+    name: update_interval
+    default: 3ms
+  - 
+    name: data_interval
+    default: 1ms
+
+
+---
+
+
+name: Stimulus Display
+signature: iodevice/stimulus_display
+isa: IODevice
+description: >
+    A stimulus display device.  At present, MWorks always creates one (and
+    only one) of these per experiment, regardless of whether the experiment
+    file defines one.  By including a definition in your experiment file,
+    you can change the display's default background color.
+parameters: 
+  - 
+    name: background_color
+    default: 0, 0, 0
+  - 
+    name: announce_stimuli_on_implicit_updates
+    default: YES
+
+
+---
+
+
+name: Calibrator
+abstract: yes
+icon: fakeMonkey
+group: Filters
+allowed_parent: 
+  - Filters
+  - IODevices
+  - Folder
+description: Base-level calibrator stub
+
+
+---
+
+
+name: Eye Calibrator
+signature: calibrator/standard_eye_calibrator
+isa: Calibrator
+icon: fakeMonkey
+description: A IO calibrator specially tailored for eye movement signals.
+parameters: 
+  - 
+    name: eyeh_raw
+  - 
+    name: eyev_raw
+  - 
+    name: eyeh_calibrated
+  - 
+    name: eyev_calibrated
+
+
+---
+
+
+name: Linear Eye Calibrator
+signature: calibrator/linear_eye_calibrator
+isa: Calibrator
+icon: fakeMonkey
+description: A IO calibrator specially tailored for eye movement signals.
+parameters: 
+  - 
+    name: eyeh_raw
+  - 
+    name: eyev_raw
+  - 
+    name: eyeh_calibrated
+  - 
+    name: eyev_calibrated
+
+
+---
+
+
+name: Filter
+abstract: yes
+icon: fakeMonkey
+group: Filters
+allowed_parent: 
+  - Filters
+  - IODevices
+  - Folder
+description: Base-level filter stub
+
+
+---
+
+
+name: Box-car Filter
+signature: filter/boxcar_filter_1D
+isa: Filter
+icon: fakeMonkey
+description: A basic 1D boxcar filter
+parameters: 
+  - 
+    name: in1
+  - 
+    name: out1
+  - 
+    name: width_samples
+
+
+---
+
+
+name: Eye Monitor
+signature: filter/basic_eye_monitor
+isa: Filter
+icon: fakeMonkey
+description: >
+    A filter that takes in an eye signal and outputs basic parameters, such
+    as velocity, saccade state, etc.
+parameters: 
+  - 
+    name: eyeh_calibrated
+  - 
+    name: eyev_calibrated
+  - 
+    name: eye_state
+  - 
+    name: eye_velocity_h
+  - 
+    name: eye_velocity_v
+  - 
+    name: width_samples
+  - 
+    name: saccade_entry_speed
+  - 
+    name: saccade_exit_speed
+
+
+---
+
+
+name: Trigger
+abstract: yes
+icon: fakeMonkey
+group: 
+  - Input/Output
+  - Triggers
+allowed_parent: 
+  - Triggers
+  - IODevices
+description: Base-level trigger stub
+
+
+---
+
+
+name: Optimizer
+abstract: yes
+icon: smallFolder
+group: Optimizers
+allowed_parent: Optimizers
+description: Base-level Optimizer stub
+
+
+---
+
+
+name: Simple Staircase Optimizer
+signature: staircase
+isa: Optimizer
+icon: fakeMonkey
+inspector: StaircaseInspectorView
+group: Optimizers and Variable Monitors
+description: >
+    An object that watches a variable (e.g.  a flag reporting success in a
+    behavioral task), and moves another variable up and down according to
+    some criteria.
+parameters: 
+  - 
+    name: type
+    default: simple
+  - 
+    name: watch
+  - 
+    name: output
+  - 
+    name: lower_limit
+  - 
+    name: upper_limit
+  - 
+    name: up_criterion
+  - 
+    name: down_criterion
+  - 
+    name: step_size
+  - 
+    name: grace_period
+  - 
+    name: history
+
+
+---
+
+
+name: Bias Monitor
+signature: bias_monitor
+isa: Optimizer
+icon: fakeMonkey
+inspector: BiasMonitorInspectorView
+group: Optimizers and Variable Monitors
+description: >
+    An object that watches parameters of a behavioral task and assesses the
+    probability that the subject is adopting some form of biased strategy
+parameters: 
+  - 
+    name: type
+    default: simple
+  - 
+    name: success
+  - 
+    name: response_index
+  - 
+    name: task_correlation
+  - 
+    name: response_bias_correlation
+  - 
+    name: alternation_correlation
+  - 
+    name: history
+  - 
+    name: grace_period
+
+

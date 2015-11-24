@@ -1,0 +1,24 @@
+---
+
+
+name: Run Python File
+signature: action/run_python_file
+isa: Action
+description: Execute the specified file as Python source code
+parameters: 
+  - 
+    name: path
+
+
+---
+
+
+name: Run Python String
+signature: action/run_python_string
+isa: Action
+description: Execute the given string as Python source code
+parameters: 
+  - 
+    name: code
+
+

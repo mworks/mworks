@@ -1,0 +1,20 @@
+---
+
+
+name: Mouse Input Device
+signature: iodevice/mouse_input
+isa: IODevice
+icon: smallIOFolder
+description: Interface to the system mouse or other pointing device
+parameters: 
+  - 
+    name: mouse_position_x
+  - 
+    name: mouse_position_y
+  - 
+    name: mouse_down
+  - 
+    name: hide_cursor
+    default: NO
+
+

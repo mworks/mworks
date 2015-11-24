@@ -1,0 +1,102 @@
+---
+
+
+name: Frame List Stimulus
+signature: stimulus/frame_list
+isa: Stimulus
+description: >
+    A simple movie stimulus that gets its frames from the specified
+    stimulus group and presents them at the native refresh rate of the
+    display
+parameters: 
+  - 
+    name: stimulus_group
+  - 
+    name: ending
+  - 
+    name: ended
+  - 
+    name: loop
+    default: NO
+  - 
+    name: repeats
+    default: 0
+  - 
+    name: autoplay
+    default: NO
+
+
+---
+
+
+name: Movie Stimulus
+signature: stimulus/movie
+isa: Stimulus
+description: A movie stimulus
+parameters: 
+  - 
+    name: stimulus_group
+  - 
+    name: frames_per_second
+    default: 10
+  - 
+    name: ended
+  - 
+    name: loop
+    default: NO
+  - 
+    name: repeats
+    default: 0
+  - 
+    name: autoplay
+    default: NO
+
+
+---
+
+
+name: Image Directory Movie Stimulus
+signature: stimulus/image_directory_movie
+isa: Stimulus
+description: >
+    A movie stimulus that gets its frames from a directory of image files
+parameters: 
+  - 
+    name: directory_path
+  - 
+    name: x_size
+    default: 5.0
+  - 
+    name: y_size
+    default: 5.0
+  - 
+    name: x_position
+    default: 0.0
+  - 
+    name: y_position
+    default: 0.0
+  - 
+    name: rotation
+    default: 0.0
+  - 
+    name: alpha_multiplier
+    default: 1.0
+  - 
+    name: deferred
+    default: no
+  - 
+    name: frames_per_second
+    default: 10
+  - 
+    name: ended
+  - 
+    name: loop
+    default: NO
+  - 
+    name: repeats
+    default: 0
+  - 
+    name: autoplay
+    default: NO
+
+

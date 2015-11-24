@@ -1,0 +1,55 @@
+---
+
+
+name: Drifting Grating Stimulus
+signature: stimulus/drifting_grating
+isa: Stimulus
+description: A drifting grating stimulus
+parameters: 
+  - 
+    name: direction
+    default: 0
+  - 
+    name: starting_phase
+    default: 0
+  - 
+    name: spatial_frequency
+    default: 0
+  - 
+    name: speed
+    default: 1
+  - 
+    name: grating_type
+    default: sinusoid
+  - 
+    name: mask
+    default: gaussian
+  - 
+    name: std_dev
+    default: 1
+  - 
+    name: mean
+    default: 0
+  - 
+    name: x_size
+    default: 1
+  - 
+    name: y_size
+    default: 1
+  - 
+    name: x_position
+    default: 0
+  - 
+    name: y_position
+    default: 0
+  - 
+    name: rotation
+    default: 0
+  - 
+    name: alpha_multiplier
+    default: 1
+  - 
+    name: autoplay
+    default: 0
+
+
