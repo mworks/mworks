@@ -45,6 +45,7 @@
 		E1620CBF175653CF0068BCF6 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1620C9417563F350068BCF6 /* AppKit.framework */; };
 		E171A17F1757967900B91405 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E171A17E1757967900B91405 /* OpenGL.framework */; };
 		E19650AE178D95F800FB7A2A /* MWLibrary.xml in Resources */ = {isa = PBXBuildFile; fileRef = E19650AD178D95F800FB7A2A /* MWLibrary.xml */; };
+		E1E07E991C04F254008DD97E /* MWComponents.yaml in Resources */ = {isa = PBXBuildFile; fileRef = E1E07E981C04F254008DD97E /* MWComponents.yaml */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -105,6 +106,7 @@
 		E1620CBD17564B4A0068BCF6 /* MouseTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MouseTracker.m; sourceTree = "<group>"; };
 		E171A17E1757967900B91405 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		E19650AD178D95F800FB7A2A /* MWLibrary.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MWLibrary.xml; sourceTree = "<group>"; };
+		E1E07E981C04F254008DD97E /* MWComponents.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MWComponents.yaml; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -180,6 +182,7 @@
 				E1620C9A17563F350068BCF6 /* InfoPlist.strings */,
 				E1620C9D17563F350068BCF6 /* MouseInput-Prefix.pch */,
 				E19650AD178D95F800FB7A2A /* MWLibrary.xml */,
+				E1E07E981C04F254008DD97E /* MWComponents.yaml */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -249,6 +252,7 @@
 			files = (
 				E1620C9C17563F350068BCF6 /* InfoPlist.strings in Resources */,
 				E19650AE178D95F800FB7A2A /* MWLibrary.xml in Resources */,
+				E1E07E991C04F254008DD97E /* MWComponents.yaml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -74,6 +74,7 @@
 		E1DB979016C19830001481E9 /* libboost_filesystem.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB978F16C19830001481E9 /* libboost_filesystem.a */; };
 		E1DB979216C19843001481E9 /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB979116C19843001481E9 /* libboost_system.a */; };
 		E1DB979416C19859001481E9 /* libscarab.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB979316C19859001481E9 /* libscarab.a */; };
+		E1E07E931C04F17E008DD97E /* MWComponents.yaml in Resources */ = {isa = PBXBuildFile; fileRef = E1E07E921C04F17E008DD97E /* MWComponents.yaml */; };
 		E1E603A71B19062B009BA19D /* PythonPlugin.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = E1E6039E1B1904D2009BA19D /* PythonPlugin.bundle */; };
 /* End PBXBuildFile section */
 
@@ -169,6 +170,7 @@
 		E1DB978F16C19830001481E9 /* libboost_filesystem.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_filesystem.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_filesystem.a"; sourceTree = "<absolute>"; };
 		E1DB979116C19843001481E9 /* libboost_system.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_system.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_system.a"; sourceTree = "<absolute>"; };
 		E1DB979316C19859001481E9 /* libscarab.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libscarab.a; path = "/Library/Application Support/MWorks/Developer/lib/libscarab.a"; sourceTree = "<absolute>"; };
+		E1E07E921C04F17E008DD97E /* MWComponents.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MWComponents.yaml; sourceTree = "<group>"; };
 		E1E6039E1B1904D2009BA19D /* PythonPlugin.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PythonPlugin.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1E603A11B1904D2009BA19D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E1ED66D7165585E3000AAAEA /* GILHelpers.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GILHelpers.h; sourceTree = "<group>"; };
@@ -341,6 +343,7 @@
 		E1E603A01B1904D2009BA19D /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				E1E07E921C04F17E008DD97E /* MWComponents.yaml */,
 				E1D645881B31E2900092C428 /* MWLibrary.xml */,
 				E1E603A11B1904D2009BA19D /* Info.plist */,
 			);
@@ -434,6 +437,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E1E07E931C04F17E008DD97E /* MWComponents.yaml in Resources */,
 				E1D645891B31E2900092C428 /* MWLibrary.xml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

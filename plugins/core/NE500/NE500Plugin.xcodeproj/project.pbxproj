@@ -42,6 +42,7 @@
 		E126F26E1BFBAF5F00CFC9FF /* NE500DeviceChannel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E126F26C1BFBAF5F00CFC9FF /* NE500DeviceChannel.cpp */; };
 		E12D98B716BC2217004FEF79 /* NE500Plugin.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8D5B49B6048680CD000E48DA /* NE500Plugin.bundle */; };
 		E15D0B0016C2B34100F331B1 /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E15D0AFF16C2B34100F331B1 /* libboost_system.a */; };
+		E1E07E9F1C04F2D8008DD97E /* MWComponents.yaml in Resources */ = {isa = PBXBuildFile; fileRef = E1E07E9E1C04F2D8008DD97E /* MWComponents.yaml */; };
 		E1E6690A1BFE63E0006250D0 /* NE500 in CopyFiles */ = {isa = PBXBuildFile; fileRef = E1E669081BFE63A5006250D0 /* NE500 */; };
 /* End PBXBuildFile section */
 
@@ -100,6 +101,7 @@
 		E126F26C1BFBAF5F00CFC9FF /* NE500DeviceChannel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NE500DeviceChannel.cpp; sourceTree = "<group>"; };
 		E126F26D1BFBAF5F00CFC9FF /* NE500DeviceChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NE500DeviceChannel.h; sourceTree = "<group>"; };
 		E15D0AFF16C2B34100F331B1 /* libboost_system.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_system.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_system.a"; sourceTree = "<absolute>"; };
+		E1E07E9E1C04F2D8008DD97E /* MWComponents.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MWComponents.yaml; sourceTree = "<group>"; };
 		E1E669081BFE63A5006250D0 /* NE500 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = NE500; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -145,6 +147,7 @@
 				8D5B49B7048680CD000E48DA /* Info.plist */,
 				089C167DFE841241C02AAC07 /* InfoPlist.strings */,
 				5C79BEB2145709D3007CAAC0 /* MWLibrary.xml */,
+				E1E07E9E1C04F2D8008DD97E /* MWComponents.yaml */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -251,6 +254,7 @@
 			files = (
 				8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */,
 				5C79BEB3145709D3007CAAC0 /* MWLibrary.xml in Resources */,
+				E1E07E9F1C04F2D8008DD97E /* MWComponents.yaml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

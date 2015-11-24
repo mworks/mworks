@@ -46,6 +46,7 @@
 		E15DCDF817EB56B6006148B4 /* libboost_filesystem.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E15DCDF717EB56B6006148B4 /* libboost_filesystem.a */; };
 		E194490213254E7100D5ED81 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E194490113254E7100D5ED81 /* OpenGL.framework */; };
 		E1944B601325525F00D5ED81 /* MovieStimulusPlugin.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8D5B49B6048680CD000E48DA /* MovieStimulusPlugin.bundle */; };
+		E1E07E9B1C04F287008DD97E /* MWComponents.yaml in Resources */ = {isa = PBXBuildFile; fileRef = E1E07E9A1C04F287008DD97E /* MWComponents.yaml */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -101,6 +102,7 @@
 		E1895A5C116FCCB400D8CBE0 /* Development.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Development.xcconfig; path = "/Library/Application Support/MWorks/Developer/Xcode/Development.xcconfig"; sourceTree = "<absolute>"; };
 		E1895A5D116FCCB400D8CBE0 /* WARNING.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = WARNING.txt; path = "/Library/Application Support/MWorks/Developer/Xcode/WARNING.txt"; sourceTree = "<absolute>"; };
 		E194490113254E7100D5ED81 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
+		E1E07E9A1C04F287008DD97E /* MWComponents.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MWComponents.yaml; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -198,6 +200,7 @@
 		E1944B3613254FD700D5ED81 /* Editor Definitions */ = {
 			isa = PBXGroup;
 			children = (
+				E1E07E9A1C04F287008DD97E /* MWComponents.yaml */,
 				0E3A0B520EEDA37500F5C65A /* MWLibrary.xml */,
 			);
 			name = "Editor Definitions";
@@ -260,6 +263,7 @@
 			files = (
 				8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */,
 				0E3A0B530EEDA37500F5C65A /* MWLibrary.xml in Resources */,
+				E1E07E9B1C04F287008DD97E /* MWComponents.yaml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -44,6 +44,7 @@
 		E15D0AFA16C2B1D300F331B1 /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E15D0AF916C2B1D300F331B1 /* libboost_system.a */; };
 		E15D0AFC16C2B21000F331B1 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E15D0AFB16C2B21000F331B1 /* IOKit.framework */; };
 		E15D0AFE16C2B21F00F331B1 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E15D0AFD16C2B21F00F331B1 /* Carbon.framework */; };
+		E1E07E971C04F21B008DD97E /* MWComponents.yaml in Resources */ = {isa = PBXBuildFile; fileRef = E1E07E961C04F21B008DD97E /* MWComponents.yaml */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -96,6 +97,7 @@
 		E15D0AF916C2B1D300F331B1 /* libboost_system.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_system.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_system.a"; sourceTree = "<absolute>"; };
 		E15D0AFB16C2B21000F331B1 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		E15D0AFD16C2B21F00F331B1 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
+		E1E07E961C04F21B008DD97E /* MWComponents.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MWComponents.yaml; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -140,6 +142,7 @@
 		089C167CFE841241C02AAC07 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				E1E07E961C04F21B008DD97E /* MWComponents.yaml */,
 				0E8CF9F50EED99F800647AA5 /* MWLibrary.xml */,
 				8D5B49B7048680CD000E48DA /* Info.plist */,
 				089C167DFE841241C02AAC07 /* InfoPlist.strings */,
@@ -252,6 +255,7 @@
 			files = (
 				8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */,
 				0E8CF9F60EED99F800647AA5 /* MWLibrary.xml in Resources */,
+				E1E07E971C04F21B008DD97E /* MWComponents.yaml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
