@@ -1297,7 +1297,7 @@ Wait until a condition becomes true or a timeout occurs.  If the wait times out 
 	</MWElement>
 
 	<MWElement name="Next Selection">
-		<match_signature>action[@type='next_selections']</match_signature>
+		<match_signature>action[@type='next_selection']</match_signature>
 		<isa>Action</isa>
 		
 		<inspector>NextSelectionInspectorView</inspector>
