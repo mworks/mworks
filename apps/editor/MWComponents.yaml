@@ -1461,9 +1461,7 @@ description: >
 name: IODevice
 abstract: yes
 icon: smallIOFolder
-group: 
-  - Input/Output
-  - IODevices
+group: Input/Output
 allowed_parent: 
   - IODevices
   - Folder
@@ -1490,9 +1488,7 @@ parameters:
 name: IOChannel
 abstract: yes
 icon: smallIOFolder
-group: 
-  - Input/Output
-  - IODevice
+group: Input/Output
 allowed_parent: Folder
 description: Base-level IO channel stub
 
@@ -1665,25 +1661,10 @@ parameters:
 ---
 
 
-name: Trigger
-abstract: yes
-icon: fakeMonkey
-group: 
-  - Input/Output
-  - Triggers
-allowed_parent: 
-  - Triggers
-  - IODevices
-description: Base-level trigger stub
-
-
----
-
-
 name: Optimizer
 abstract: yes
 icon: smallFolder
-group: Optimizers
+group: Optimizers and Variable Monitors
 allowed_parent: Optimizers
 description: Base-level Optimizer stub
 
@@ -1696,7 +1677,6 @@ signature: staircase
 isa: Optimizer
 icon: fakeMonkey
 inspector: StaircaseInspectorView
-group: Optimizers and Variable Monitors
 description: >
     An object that watches a variable (e.g.  a flag reporting success in a
     behavioral task), and moves another variable up and down according to
@@ -1733,7 +1713,6 @@ signature: bias_monitor
 isa: Optimizer
 icon: fakeMonkey
 inspector: BiasMonitorInspectorView
-group: Optimizers and Variable Monitors
 description: >
     An object that watches parameters of a behavioral task and assesses the
     probability that the subject is adopting some form of biased strategy

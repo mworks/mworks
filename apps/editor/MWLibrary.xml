@@ -1679,7 +1679,6 @@ Wait until a condition becomes true or a timeout occurs.  If the wait times out 
 		<!-- Information for display in the GUI -->
 		<icon>smallIOFolder</icon>
 		<belongs_to_group>Input/Output</belongs_to_group>
-		<belongs_to_group>IODevices</belongs_to_group>
 		<description>Base-level IO device stub</description>
 		
 	</MWElement>
@@ -1719,7 +1718,6 @@ Wait until a condition becomes true or a timeout occurs.  If the wait times out 
 		<!-- Information for display in the GUI -->
 		<icon>smallIOFolder</icon>
 		<belongs_to_group>Input/Output</belongs_to_group>
-		<belongs_to_group>IODevice</belongs_to_group>
 		<description>Base-level IO channel stub</description>
 		
 	</MWElement>
@@ -1926,28 +1924,6 @@ Wait until a condition becomes true or a timeout occurs.  If the wait times out 
 											 saccade_exit_speed=""/>
 		</code>
 	</MWElement>
-
-	<!-- ********************** -->
-	<!-- Trigger Definitions -->
-	<!-- ********************** -->
-
-	<MWElement name="Trigger" hidden="1">
-		<match_signature>dummy</match_signature>
-		
-		<!-- Inheritance -->
-		<!-- none -->
-		
-		<!-- Placement rules -->
-		<allowed_parent>Triggers</allowed_parent>
-		<allowed_parent>IODevices</allowed_parent>
-		
-		<!-- Information for display in the GUI -->
-		<icon>fakeMonkey</icon>
-		<belongs_to_group>Input/Output</belongs_to_group>
-		<belongs_to_group>Triggers</belongs_to_group>
-		<description>Base-level trigger stub</description>
-		
-	</MWElement>
     
     
     
@@ -1966,7 +1942,7 @@ Wait until a condition becomes true or a timeout occurs.  If the wait times out 
 		
 		<!-- Information for display in the GUI -->
 		<icon>smallFolder</icon>
-		<belongs_to_group>Optimizers</belongs_to_group>
+		<belongs_to_group>Optimizers and Variable Monitors</belongs_to_group>
 		<description>Base-level Optimizer stub</description>
 		
 	</MWElement>
@@ -1981,7 +1957,6 @@ Wait until a condition becomes true or a timeout occurs.  If the wait times out 
 		<!-- Information for display in the GUI -->
 		<icon>fakeMonkey</icon>
 		<inspector>StaircaseInspectorView</inspector>  <!-- TODO -->
-        <belongs_to_group>Optimizers and Variable Monitors</belongs_to_group>
 
 
 		<description>
@@ -2015,7 +1990,6 @@ Wait until a condition becomes true or a timeout occurs.  If the wait times out 
 		<!-- Information for display in the GUI -->
 		<icon>fakeMonkey</icon>
 		<inspector>BiasMonitorInspectorView</inspector>  <!-- TODO -->
-        <belongs_to_group>Optimizers and Variable Monitors</belongs_to_group>
 
 		<description>
 			An object that watches parameters of a behavioral task and assesses
