@@ -155,7 +155,6 @@
 		E12D995816BC39C4004FEF79 /* MWEditor.app in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8D15AC370486D014006FF6A4 /* MWEditor.app */; };
 		E15D0AF616C2AF0300F331B1 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E15D0AF516C2AF0300F331B1 /* AppKit.framework */; };
 		E15D0AF816C2AF3E00F331B1 /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E15D0AF716C2AF3E00F331B1 /* Quartz.framework */; };
-		E1E07E911C04F087008DD97E /* MWComponents.yaml in Resources */ = {isa = PBXBuildFile; fileRef = E1E07E901C04F067008DD97E /* MWComponents.yaml */; };
 		E1FFCD851558203B004DD840 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = E1FFCD811558203B004DD840 /* MainMenu.xib */; };
 		E1FFCD861558203B004DD840 /* MyDocument.xib in Resources */ = {isa = PBXBuildFile; fileRef = E1FFCD831558203B004DD840 /* MyDocument.xib */; };
 /* End PBXBuildFile section */
@@ -350,7 +349,6 @@
 		E12449C711EB9FF20012EEEB /* MWGenericInspectorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWGenericInspectorView.m; sourceTree = "<group>"; };
 		E15D0AF516C2AF0300F331B1 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		E15D0AF716C2AF3E00F331B1 /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = System/Library/Frameworks/Quartz.framework; sourceTree = SDKROOT; };
-		E1E07E901C04F067008DD97E /* MWComponents.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MWComponents.yaml; sourceTree = "<group>"; };
 		E1FFCD821558203B004DD840 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		E1FFCD841558203B004DD840 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MyDocument.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -436,7 +434,6 @@
 			isa = PBXGroup;
 			children = (
 				5C56F441100EB76E007E03A9 /* Info.plist */,
-				E1E07E901C04F067008DD97E /* MWComponents.yaml */,
 				5CDC06AD0CE022DD008B67D0 /* XML */,
 				5CCBABC70CDE627000B42E7B /* Images */,
 				5CDC03EF0CDFA8F2008B67D0 /* InspectorViews */,
@@ -756,7 +753,6 @@
 				5CC65FD40CEA87490037BB6D /* MWSchematron.xml in Resources */,
 				5CC65FD50CEA874A0037BB6D /* schematron_report_generator.xsl in Resources */,
 				5CC65FD60CEA874A0037BB6D /* skeleton1-5.xsl in Resources */,
-				E1E07E911C04F087008DD97E /* MWComponents.yaml in Resources */,
 				5CC660B20CEAAD210037BB6D /* errorGlyph.tif in Resources */,
 				5CCAF5270CFFB033006BCA30 /* AssignmentInspectorView.xib in Resources */,
 				5CCAF67B0D05AF6C006BCA30 /* StartTimerInspectorView.xib in Resources */,
