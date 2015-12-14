@@ -296,12 +296,21 @@ description: An image stimulus loaded from any standard-format image file.
 parameters: 
   - 
     name: path
+    required: yes
+    example:
+      - images/image1.png
+      - /path/to/image.png
+    description: Filesystem path to the image file
   - 
     name: x_size
-    default: 5.0
+    required: yes
+    example: 5.0
+    description: Horizontal size in degrees
   - 
     name: y_size
-    default: 5.0
+    required: yes
+    example: 5.0
+    description: Vertical size in degrees
   - 
     name: x_position
     default: 0.0
@@ -316,7 +325,7 @@ parameters:
     default: 1.0
   - 
     name: deferred
-    default: NO
+    default: "NO"
 
 
 ---
