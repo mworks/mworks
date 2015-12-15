@@ -36,15 +36,7 @@ description: >
 name: Stimuli
 is_group: yes
 icon: smallStimulusFolder
-description: >
-    A grouping of stimulus related elements, including stimuli, and
-    stimulus-related actions
-subgroups: 
-  - 
-    name: Stimulus-Related Actions
-    is_group: yes
-    icon: smallFolder
-    description: A test of nested groups
+description: Visual and auditory stimuli
 
 
 ---
@@ -969,7 +961,6 @@ name: Load Stimulus
 signature: action/load_stimulus
 isa: Action
 inspector: LoadStimulusInspectorView
-group: Stimulus-Related Actions
 description: >
     Explicitly load a stimulus object (e.g.  load a file from disk, compute
     a dynamically generated stimulus, etc.). This is useful when the
@@ -985,7 +976,6 @@ parameters:
 name: Unload Stimulus
 signature: action/unload_stimulus
 isa: Action
-group: Stimulus-Related Actions
 description: >
     Explicitly unload a stimulus object, thereby releasing any memory or
     other resources used by the stimulus.  This is useful when the
@@ -1002,7 +992,6 @@ name: Queue Stimulus
 signature: action/queue_stimulus
 isa: Action
 inspector: QueueStimulusInspectorView
-group: Stimulus-Related Actions
 description: >
     Places a stimulus into the display queue, ready to be displayed when
     the next Update Display action is issued.
@@ -1018,7 +1007,6 @@ name: Live Queue Stimulus
 signature: action/live_queue_stimulus
 isa: Action
 inspector: QueueStimulusInspectorView
-group: Stimulus-Related Actions
 description: >
     Places a stimulus into the display queue, ready to be displayed when
     the next Update Display action is issued.  In contrast to the "regular"
@@ -1037,7 +1025,6 @@ name: Dequeue Stimulus
 signature: action/dequeue_stimulus
 isa: Action
 inspector: DequeueStimulusInspectorView
-group: Stimulus-Related Actions
 description: >
     Removes a stimulus from the display queue, such that it will not be
     displayed when the next Update Display action is issued.
@@ -1052,7 +1039,6 @@ parameters:
 name: Bring Stimulus to Front
 signature: action/bring_stimulus_to_front
 isa: Action
-group: Stimulus-Related Actions
 description: Move a stimulus to the top of the display queue.
 parameters: 
   - 
@@ -1065,7 +1051,6 @@ parameters:
 name: Send Stimulus to Back
 signature: action/send_stimulus_to_back
 isa: Action
-group: Stimulus-Related Actions
 description: Move a stimulus to the bottom of the display queue.
 parameters: 
   - 
@@ -1079,7 +1064,6 @@ name: Update Stimulus Display
 signature: action/update_stimulus_display
 isa: Action
 inspector: UpdateDisplayInspectorView
-group: Stimulus-Related Actions
 description: >
     Redraw the stimulus display.  Any stimuli that have been queued will
     actually be drawn at this point; any stimulus that has been dequeued
@@ -1097,7 +1081,6 @@ name: Play Sound
 signature: action/play_sound
 isa: Action
 inspector: PlaySoundInspectorView
-group: Stimulus-Related Actions
 description: Play a sound stimulus.
 parameters: 
   - 
@@ -1111,7 +1094,6 @@ name: Stop Sound
 signature: action/stop_sound
 isa: Action
 inspector: StopSoundInspectorView
-group: Stimulus-Related Actions
 description: Stop playing a sound stimulus, if it is playing.
 parameters: 
   - 

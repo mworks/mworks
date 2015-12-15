@@ -73,11 +73,8 @@ def extract_element_info(elem):
     ib = InfoBuilder(elem)
 
     ib.addattrib('name')
-
-    is_group = (elem.tag == 'MWElementGroup')
-    if is_group:
+    if elem.tag == 'MWElementGroup':
         ib['is_group'] = 'yes'
-    
     ib.addattrib('abstract', 'hidden', is_bool=True)
     sig = extract_signature(ib)
     ib.addtext('mandatory_tag')
@@ -92,16 +89,6 @@ def extract_element_info(elem):
     ib.addtext('disallowed_sibling_after', allow_list=True)
     ib.addtext('description')
     extract_parameters(ib, sig)
-
-    if is_group:
-        subgroups = []
-        while True:
-            subelem = ib.pop('MWElementGroup')
-            if subelem is None:
-                break
-            subgroups.append(extract_element_info(subelem))
-        if subgroups:
-            ib['subgroups'] = subgroups
 
     return ib.close()
 
