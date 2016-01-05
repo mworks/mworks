@@ -186,7 +186,7 @@ def run_configure_and_make(
 
 @builder
 def boost():
-    version = '1.59.0'
+    version = '1.60.0'
     srcdir = 'boost_' + version.replace('.', '_')
     tarfile = srcdir + '.tar.bz2'
 
@@ -194,6 +194,7 @@ def boost():
     unpack_tarfile(tarfile, srcdir)
 
     with workdir(srcdir):
+        apply_patch('boost_check_macro.patch')
         apply_patch('boost_python_config.patch')
 
         os.symlink('boost', 'mworks_boost')
@@ -250,9 +251,9 @@ def zeromq():
 
 @builder
 def libpng():
-    version = '1.2.54'
+    version = '1.2.56'
     srcdir = 'libpng-' + version
-    tarfile = srcdir + '.tar.bz2'
+    tarfile = srcdir + '.tar.gz'
 
     download_archive_from_sf('libpng/libpng12', version, tarfile)
     unpack_tarfile(tarfile, srcdir)
