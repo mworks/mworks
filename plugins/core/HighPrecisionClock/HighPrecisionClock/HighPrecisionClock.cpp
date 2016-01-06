@@ -81,14 +81,17 @@ void HighPrecisionClock::sleepNS(MWTime time) {
     semaphore_t *sem = threadSpecificSemaphore.get();
     if (!sem) {
         semaphore_t newSem;
-        if (logMachError("semaphore_create", semaphore_create(mach_task_self(), &newSem, SYNC_POLICY_FIFO, 0))) {
+        if (logMachError("semaphore_create", semaphore_create(mach_task_self(), &newSem, SYNC_POLICY_FIFO, 0)) ||
+            (threadSpecificSemaphore.reset(new semaphore_t(newSem)), false) ||
+            // NOTE: This final test looks unnecessary, but omitting it leads to server crashes when using
+            // Boost 1.60.0
+            !(sem = threadSpecificSemaphore.get()))
+        {
             // If we can't create the semaphore, do a low-precision wait with mach_wait_until, and hope
             // that semaphore_create will work next time
             logMachError("mach_wait_until", mach_wait_until(expirationTime));
             return;
         }
-        threadSpecificSemaphore.reset(new semaphore_t(newSem));
-        sem = threadSpecificSemaphore.get();
     }
     
     {
