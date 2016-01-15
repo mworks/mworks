@@ -36,7 +36,6 @@
 		0E37FBA30E59C3DD008B885D /* HIDPlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E37FBA10E59C3DD008B885D /* HIDPlugin.cpp */; };
 		0E52AED30E93B9780013DFCC /* USBHID.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E52AECF0E93B9780013DFCC /* USBHID.cpp */; };
 		0E52AED40E93B9780013DFCC /* HIDUtilities.c in Sources */ = {isa = PBXBuildFile; fileRef = 0E52AED10E93B9780013DFCC /* HIDUtilities.c */; settings = {COMPILER_FLAGS = "-Wno-deprecated-writable-strings -Wno-format -Wno-extra-tokens -Wno-deprecated-declarations"; }; };
-		0E8CF9F60EED99F800647AA5 /* MWLibrary.xml in Resources */ = {isa = PBXBuildFile; fileRef = 0E8CF9F50EED99F800647AA5 /* MWLibrary.xml */; };
 		5C4B0A650DC79212001BC518 /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C4B0A630DC79212001BC518 /* MWorksCore.framework */; };
 		689708DC0E5A03BB00CE38EA /* HIDFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 689708DB0E5A03BB00CE38EA /* HIDFactory.cpp */; };
 		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
@@ -44,7 +43,6 @@
 		E15D0AFA16C2B1D300F331B1 /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E15D0AF916C2B1D300F331B1 /* libboost_system.a */; };
 		E15D0AFC16C2B21000F331B1 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E15D0AFB16C2B21000F331B1 /* IOKit.framework */; };
 		E15D0AFE16C2B21F00F331B1 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E15D0AFD16C2B21F00F331B1 /* Carbon.framework */; };
-		E1E07E971C04F21B008DD97E /* MWComponents.yaml in Resources */ = {isa = PBXBuildFile; fileRef = E1E07E961C04F21B008DD97E /* MWComponents.yaml */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -85,7 +83,6 @@
 		0E52AED00E93B9780013DFCC /* USBHID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = USBHID.h; sourceTree = "<group>"; };
 		0E52AED10E93B9780013DFCC /* HIDUtilities.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; path = HIDUtilities.c; sourceTree = "<group>"; };
 		0E52AED20E93B9780013DFCC /* HIDUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HIDUtilities.h; sourceTree = "<group>"; };
-		0E8CF9F50EED99F800647AA5 /* MWLibrary.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MWLibrary.xml; sourceTree = "<group>"; };
 		32DBCF630370AF2F00C91783 /* HIDPlugin_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HIDPlugin_Prefix.pch; sourceTree = "<group>"; };
 		5C4B0A630DC79212001BC518 /* MWorksCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MWorksCore.framework; path = /Library/Frameworks/MWorksCore.framework; sourceTree = "<absolute>"; };
 		5CC987AB1159383D00B65B91 /* Development.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Development.xcconfig; path = "/Library/Application Support/MWorks/Developer/Xcode/Development.xcconfig"; sourceTree = "<absolute>"; };
@@ -97,7 +94,6 @@
 		E15D0AF916C2B1D300F331B1 /* libboost_system.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_system.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_system.a"; sourceTree = "<absolute>"; };
 		E15D0AFB16C2B21000F331B1 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		E15D0AFD16C2B21F00F331B1 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
-		E1E07E961C04F21B008DD97E /* MWComponents.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MWComponents.yaml; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -142,8 +138,6 @@
 		089C167CFE841241C02AAC07 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				E1E07E961C04F21B008DD97E /* MWComponents.yaml */,
-				0E8CF9F50EED99F800647AA5 /* MWLibrary.xml */,
 				8D5B49B7048680CD000E48DA /* Info.plist */,
 				089C167DFE841241C02AAC07 /* InfoPlist.strings */,
 			);
@@ -254,8 +248,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */,
-				0E8CF9F60EED99F800647AA5 /* MWLibrary.xml in Resources */,
-				E1E07E971C04F21B008DD97E /* MWComponents.yaml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
