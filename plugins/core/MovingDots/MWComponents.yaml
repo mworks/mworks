@@ -4,28 +4,35 @@
 name: Moving Dots
 signature: stimulus/moving_dots
 isa: Stimulus
-description: A moving dots stimulus.
+description: A moving dots stimulus
 parameters: 
   - 
     name: field_radius
+    required: yes
   - 
     name: field_center_x
+    required: yes
   - 
     name: field_center_y
+    required: yes
   - 
     name: dot_density
+    required: yes
   - 
     name: dot_size
+    required: yes
   - 
     name: color
-    default: 1.0,1.0,1.0
+    default: '1.0,1.0,1.0'
   - 
     name: alpha_multiplier
     default: 1.0
   - 
     name: direction
+    required: yes
   - 
     name: speed
+    required: yes
   - 
     name: coherence
     default: 1.0
@@ -34,9 +41,9 @@ parameters:
     default: 0.0
   - 
     name: announce_dots
-    default: NO
+    default: 'NO'
   - 
     name: autoplay
-    default: YES
+    default: 'NO'
 
 

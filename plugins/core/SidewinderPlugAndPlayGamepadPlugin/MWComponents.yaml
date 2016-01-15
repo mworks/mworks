@@ -6,18 +6,18 @@ signature: iodevice/sidewinder_gamepad
 isa: IODevice
 icon: smallIOFolder
 description: >
-    Used for interfacing to a Microsoft SideWinder gamepad.  'data_type'
-    can be "event" (variables updated on button events) or "continous"
-    (variables updated continuously every 'data_interval' period of time).
+    Used for interfacing to a Microsoft SideWinder gamepad.  `data_type`_
+    can be ``event`` (variables updated on button events) or ``continous``
+    (variables updated continuously every `data_interval`_ period of time).
 parameters: 
   - 
-    name: priority
-  - 
     name: data_type
-    default: event
+    required: yes
+    example: event
   - 
     name: data_interval
-    default: 50ms
+    required: yes
+    example: 50ms
   - 
     name: up
   - 

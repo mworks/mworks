@@ -8,48 +8,60 @@ description: A drifting grating stimulus
 parameters: 
   - 
     name: direction
-    default: 0
+    default: 0.0
   - 
     name: starting_phase
-    default: 0
+    default: 0.0
   - 
     name: spatial_frequency
-    default: 0
+    required: yes
+    example: 0
   - 
     name: speed
-    default: 1
+    required: yes
+    example: 1
   - 
     name: grating_type
-    default: sinusoid
+    required: yes
+    example: sinusoid
   - 
     name: mask
-    default: gaussian
+    required: yes
+    example: gaussian
+  -
+    name: grating_sample_rate
+    default: 32
+  -
+    name: inverted
+    default: 'NO'
   - 
     name: std_dev
-    default: 1
+    default: 1.0
   - 
     name: mean
-    default: 0
+    default: 0.0
   - 
     name: x_size
-    default: 1
+    required: yes
+    example: 1
   - 
     name: y_size
-    default: 1
+    required: yes
+    example: 1
   - 
     name: x_position
-    default: 0
+    default: 0.0
   - 
     name: y_position
-    default: 0
+    default: 0.0
   - 
     name: rotation
-    default: 0
+    default: 0.0
   - 
     name: alpha_multiplier
-    default: 1
+    default: 1.0
   - 
     name: autoplay
-    default: 0
+    default: 'NO'
 
 

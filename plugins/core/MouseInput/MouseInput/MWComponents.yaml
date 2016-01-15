@@ -9,12 +9,15 @@ description: Interface to the system mouse or other pointing device
 parameters: 
   - 
     name: mouse_position_x
+    required: yes
   - 
     name: mouse_position_y
+    required: yes
   - 
     name: mouse_down
+    required: yes
   - 
     name: hide_cursor
-    default: NO
+    default: 'NO'
 
 

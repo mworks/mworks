@@ -11,19 +11,20 @@ description: >
 parameters: 
   - 
     name: stimulus_group
+    required: yes
   - 
     name: ending
   - 
     name: ended
   - 
     name: loop
-    default: NO
+    default: 'NO'
   - 
     name: repeats
     default: 0
   - 
     name: autoplay
-    default: NO
+    default: 'NO'
 
 
 ---
@@ -36,20 +37,22 @@ description: A movie stimulus
 parameters: 
   - 
     name: stimulus_group
+    required: yes
   - 
     name: frames_per_second
-    default: 10
+    required: yes
+    example: 10
   - 
     name: ended
   - 
     name: loop
-    default: NO
+    default: 'NO'
   - 
     name: repeats
     default: 0
   - 
     name: autoplay
-    default: NO
+    default: 'NO'
 
 
 ---
@@ -63,12 +66,15 @@ description: >
 parameters: 
   - 
     name: directory_path
+    required: yes
   - 
     name: x_size
-    default: 5.0
+    required: yes
+    example: 5.0
   - 
     name: y_size
-    default: 5.0
+    required: yes
+    example: 5.0
   - 
     name: x_position
     default: 0.0
@@ -83,20 +89,21 @@ parameters:
     default: 1.0
   - 
     name: deferred
-    default: no
+    default: 'NO'
   - 
     name: frames_per_second
-    default: 10
+    required: yes
+    example: 10
   - 
     name: ended
   - 
     name: loop
-    default: NO
+    default: 'NO'
   - 
     name: repeats
     default: 0
   - 
     name: autoplay
-    default: NO
+    default: 'NO'
 
 
