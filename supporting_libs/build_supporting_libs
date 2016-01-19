@@ -195,6 +195,7 @@ def boost():
 
     with workdir(srcdir):
         apply_patch('boost_check_macro.patch')
+        apply_patch('boost_ice_deprecations.patch')
         apply_patch('boost_python_config.patch')
 
         os.symlink('boost', 'mworks_boost')

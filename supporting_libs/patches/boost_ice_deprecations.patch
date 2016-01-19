@@ -1,0 +1,60 @@
+diff -ur boost_1_60_0/boost/type_traits/detail/ice_and.hpp boost/boost/type_traits/detail/ice_and.hpp
+--- boost_1_60_0/boost/type_traits/detail/ice_and.hpp	2015-12-13 07:49:42.000000000 -0500
++++ boost/boost/type_traits/detail/ice_and.hpp	2016-01-19 10:57:22.000000000 -0500
+@@ -14,9 +14,11 @@
+ //
+ // This header is deprecated and no longer used by type_traits:
+ //
++#if 0
+ #if defined(__GNUC__) || defined(_MSC_VER)
+ # pragma message("NOTE: Use of this header (ice_and.hpp) is deprecated")
+ #endif
++#endif
+ 
+ namespace boost {
+ namespace type_traits {
+diff -ur boost_1_60_0/boost/type_traits/detail/ice_eq.hpp boost/boost/type_traits/detail/ice_eq.hpp
+--- boost_1_60_0/boost/type_traits/detail/ice_eq.hpp	2015-12-13 07:49:42.000000000 -0500
++++ boost/boost/type_traits/detail/ice_eq.hpp	2016-01-19 10:57:35.000000000 -0500
+@@ -13,9 +13,11 @@
+ //
+ // This header is deprecated and no longer used by type_traits:
+ //
++#if 0
+ #if defined(__GNUC__) || defined(_MSC_VER)
+ # pragma message("NOTE: Use of this header (ice_eq.hpp) is deprecated")
+ #endif
++#endif
+ 
+ namespace boost {
+ namespace type_traits {
+diff -ur boost_1_60_0/boost/type_traits/detail/ice_not.hpp boost/boost/type_traits/detail/ice_not.hpp
+--- boost_1_60_0/boost/type_traits/detail/ice_not.hpp	2015-12-13 07:49:42.000000000 -0500
++++ boost/boost/type_traits/detail/ice_not.hpp	2016-01-19 10:57:45.000000000 -0500
+@@ -13,9 +13,11 @@
+ //
+ // This header is deprecated and no longer used by type_traits:
+ //
++#if 0
+ #if defined(__GNUC__) || defined(_MSC_VER)
+ # pragma message("NOTE: Use of this header (ice_not.hpp) is deprecated")
+ #endif
++#endif
+ 
+ namespace boost {
+ namespace type_traits {
+diff -ur boost_1_60_0/boost/type_traits/detail/ice_or.hpp boost/boost/type_traits/detail/ice_or.hpp
+--- boost_1_60_0/boost/type_traits/detail/ice_or.hpp	2015-12-13 07:49:42.000000000 -0500
++++ boost/boost/type_traits/detail/ice_or.hpp	2016-01-19 10:57:55.000000000 -0500
+@@ -13,9 +13,11 @@
+ //
+ // This header is deprecated and no longer used by type_traits:
+ //
++#if 0
+ #if defined(__GNUC__) || defined(_MSC_VER)
+ # pragma message("NOTE: Use of this header (ice_or.hpp) is deprecated")
+ #endif
++#endif
+ 
+ namespace boost {
+ namespace type_traits {
