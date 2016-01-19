@@ -46,7 +46,7 @@ name: Paradigm Components
 is_group: yes
 icon: smallFolder
 description: >
-    Experiment building blocks (e.g.  block, trial, task-system, etc.)
+    Experiment building blocks (e.g. block, trial, task-system, etc.)
 
 
 ---
@@ -194,19 +194,23 @@ description: A variable object.
 parameters: 
   - 
     name: scope
-    default: global
+    required: yes
+    example: global
   - 
     name: logging
-    default: when_changed
+    default: never
+    example: when_changed
   - 
     name: exclude_from_data_file
-    default: NO
+    default: 'NO'
   - 
     name: default_value
-    default: 0
+    required: yes
+    example: 0
   - 
     name: type
-    default: any
+    required: yes
+    example: any
 
 
 ---
@@ -222,26 +226,30 @@ allowed_parent:
 description: >
     A variable whose value is controlled by a selection object.  A list of
     values is associated with the Selection Variable that are selected by a
-    selection object.  Use the "Next Selection" action to advance the
+    selection object.  Use the `Next Selection` action to advance the
     variable's selection.
 parameters: 
   - 
     name: values
+    required: yes
   - 
     name: selection
-    default: sequential
+    required: yes
+    example: sequential
   - 
     name: nsamples
-    default: 1
+    required: yes
+    example: 1
   - 
     name: sampling_method
-    default: cycles
+    required: yes
+    example: cycles
   - 
     name: advance_on_accept
-    default: YES
+    default: 'NO'
   - 
     name: autoreset
-    default: NO
+    default: 'NO'
 
 
 ---
@@ -317,7 +325,7 @@ parameters:
     default: 1.0
   - 
     name: deferred
-    default: "NO"
+    default: 'NO'
 
 
 ---
@@ -345,19 +353,28 @@ description: A rectangle stimulus
 parameters: 
   - 
     name: color
-    default: 1,1,1
+    default: 1.0,1.0,1.0
   - 
     name: x_size
+    required: yes
   - 
     name: y_size
+    required: yes
   - 
     name: x_position
+    default: 0.0
   - 
     name: y_position
+    default: 0.0
   - 
     name: rotation
+    default: 0.0
   - 
     name: alpha_multiplier
+    default: 1.0
+  - 
+    name: deferred
+    default: 'NO'
 
 
 ---
@@ -370,19 +387,28 @@ description: An ellipse stimulus
 parameters: 
   - 
     name: color
-    default: 1,1,1
+    default: 1.0,1.0,1.0
   - 
     name: x_size
+    required: yes
   - 
     name: y_size
+    required: yes
   - 
     name: x_position
+    default: 0.0
   - 
     name: y_position
+    default: 0.0
   - 
     name: rotation
+    default: 0.0
   - 
     name: alpha_multiplier
+    default: 1.0
+  - 
+    name: deferred
+    default: 'NO'
 
 
 ---
@@ -395,27 +421,40 @@ description: A fixation point stimulus
 parameters: 
   - 
     name: color
-    default: 1,1,1
-  - 
-    name: trigger_width
-  - 
-    name: trigger_watch_x
-  - 
-    name: trigger_watch_y
-  - 
-    name: trigger_flag
+    default: 1.0,1.0,1.0
   - 
     name: x_size
+    required: yes
   - 
     name: y_size
+    required: yes
   - 
     name: x_position
+    default: 0.0
   - 
     name: y_position
+    default: 0.0
   - 
     name: rotation
+    default: 0.0
   - 
     name: alpha_multiplier
+    default: 1.0
+  - 
+    name: deferred
+    default: 'NO'
+  - 
+    name: trigger_width
+    required: yes
+  - 
+    name: trigger_watch_x
+    required: yes
+  - 
+    name: trigger_watch_y
+    required: yes
+  - 
+    name: trigger_flag
+    required: yes
 
 
 ---
@@ -428,27 +467,40 @@ description: A circular fixation point stimulus
 parameters: 
   - 
     name: color
-    default: 1,1,1
-  - 
-    name: trigger_width
-  - 
-    name: trigger_watch_x
-  - 
-    name: trigger_watch_y
-  - 
-    name: trigger_flag
+    default: 1.0,1.0,1.0
   - 
     name: x_size
+    required: yes
   - 
     name: y_size
+    required: yes
   - 
     name: x_position
+    default: 0.0
   - 
     name: y_position
+    default: 0.0
   - 
     name: rotation
+    default: 0.0
   - 
     name: alpha_multiplier
+    default: 1.0
+  - 
+    name: deferred
+    default: 'NO'
+  - 
+    name: trigger_width
+    required: yes
+  - 
+    name: trigger_watch_x
+    required: yes
+  - 
+    name: trigger_watch_y
+    required: yes
+  - 
+    name: trigger_flag
+    required: yes
 
 
 ---
@@ -461,10 +513,13 @@ group: Stimuli
 allowed_parent: 
   - Sounds
   - Folder
-description: A simple wav-file based sound stimulus.
+description: >
+    A simple `WAV <https://en.wikipedia.org/wiki/WAV>`_ file based sound
+    stimulus
 parameters: 
   - 
     name: path
+    required: yes
   - 
     name: amplitude
     default: 1.0
@@ -509,12 +564,16 @@ description: >
 parameters: 
   - 
     name: from
+    required: yes
   - 
     name: to
+    required: yes
   - 
     name: step
+    required: yes
   - 
     name: variable
+    required: yes
 
 
 ---
@@ -542,8 +601,10 @@ description: >
 parameters: 
   - 
     name: values
+    required: yes
   - 
     name: variable
+    required: yes
 
 
 ---
@@ -562,16 +623,19 @@ description: >
 parameters: 
   - 
     name: nsamples
-    default: 1
+    required: yes
+    example: 1
   - 
     name: sampling_method
-    default: cycles
+    required: yes
+    example: cycles
   - 
     name: selection
-    default: sequential
+    required: yes
+    example: sequential
   - 
     name: interruptible
-    default: YES
+    default: 'YES'
 
 
 ---
@@ -590,16 +654,19 @@ description: >
 parameters: 
   - 
     name: nsamples
-    default: 1
+    required: yes
+    example: 1
   - 
     name: sampling_method
-    default: cycles
+    required: yes
+    example: cycles
   - 
     name: selection
-    default: sequential
+    required: yes
+    example: sequential
   - 
     name: interruptible
-    default: YES
+    default: 'YES'
 
 
 ---
@@ -622,16 +689,19 @@ description: >
 parameters: 
   - 
     name: nsamples
-    default: 1
+    required: yes
+    example: 1
   - 
     name: sampling_method
-    default: cycles
+    required: yes
+    example: cycles
   - 
     name: selection
-    default: sequential
+    required: yes
+    example: sequential
   - 
     name: interruptible
-    default: YES
+    default: 'YES'
 
 
 ---
@@ -654,16 +724,19 @@ description: >
 parameters: 
   - 
     name: nsamples
-    default: 1
+    required: yes
+    example: 1
   - 
     name: sampling_method
-    default: cycles
+    required: yes
+    example: cycles
   - 
     name: selection
-    default: sequential
+    required: yes
+    example: sequential
   - 
     name: interruptible
-    default: YES
+    default: 'YES'
 
 
 ---
@@ -680,13 +753,13 @@ allowed_parent:
   - Trial
 description: >
     A paradigm component defining a finite state machine.  It contains
-    "Task System State" objects, which define transitions from one state to
-    the next.  The Task System finishes when one of the states evaluates a
-    "yield" transition.
+    `Task System State` objects, which define transitions from one state to
+    the next.  The Task System finishes when one of the states evaluates an
+    `Exit Task System` transition.
 parameters: 
   - 
     name: interruptible
-    default: YES
+    default: 'YES'
 
 
 ---
@@ -699,14 +772,14 @@ icon: smallTaskSystemState
 allowed_parent: Task System
 description: >
     A paradigm component defining a state within a finite state machine.
-    It is contained within a Task System objects, and defines a list of
-    Actions, which are executed when the state first gains control, and a
-    list of Transitions, which are repeatedly evaluated until one of them
+    It is contained within a `Task System` and defines a list of
+    actions, which are executed when the state first gains control, and a
+    list of transitions, which are repeatedly evaluated until one of them
     returns a valid target state.
 parameters: 
   - 
     name: interruptible
-    default: YES
+    default: 'YES'
 
 
 ---
@@ -754,11 +827,11 @@ icon: reportAction
 inspector: ReportInspectorView
 description: >
     Print a message to the console.  You can place variables in the message
-    by placing a '$' in front of them (e.g.  "x = $x")
+    by placing a ``$`` in front of them (e.g.  ``x = $x``)
 parameters: 
   - 
     name: message
-    default: Your message here.
+    required: yes
 
 
 ---
@@ -773,8 +846,10 @@ description: Assign a value to a global variable object at runtime.
 parameters: 
   - 
     name: variable
+    required: yes
   - 
     name: value
+    required: yes
 
 
 ---
@@ -790,8 +865,10 @@ description: >
 parameters: 
   - 
     name: variable
+    required: yes
   - 
     name: duration
+    required: yes
 
 
 ---
@@ -803,17 +880,18 @@ isa: Action
 description: >
     Test a boolean condition.  If it evaluates to false, report an error
     with the specified message.  If no message is specified, a default one
-    containing the condition expression is used.  If stop_on_failure is
+    containing the `condition`_ expression is used.  If `stop_on_failure`_ is
     true, then the experiment will automatically stop if the assertion
     fails.
 parameters: 
   - 
     name: condition
+    required: yes
   - 
     name: message
   - 
     name: stop_on_failure
-    default: 0
+    default: 'NO'
 
 
 ---
@@ -831,12 +909,16 @@ description: >
 parameters: 
   - 
     name: delay
+    required: yes
   - 
     name: duration
+    required: yes
   - 
     name: repeats
+    required: yes
   - 
     name: cancel
+    default: 'NO'
 
 
 ---
@@ -851,7 +933,7 @@ description: Execute a list of actions if a condition is true.
 parameters: 
   - 
     name: condition
-    default: 1
+    required: yes
 
 
 ---
@@ -861,10 +943,10 @@ name: Conditional Branching (If/Else)
 signature: action/if_else
 isa: Action
 description: >
-    Given a list of conditional (if) actions, executes the first one whose
-    condition is true, or none if all conditions are false.  To implement
-    an unconditional "else" action, add a conditional with an always-true
-    condition at the end of the list.
+    Given a list of `Conditionally Execute Actions` ("if") actions, executes the
+    first one whose condition is true, or none if all conditions are false.  To
+    implement an unconditional "else" action, add a conditional with an
+    always-true condition at the end of the list.
 
 
 ---
@@ -876,17 +958,18 @@ isa: Action
 icon: startTimer
 inspector: WaitInspectorView
 description: >
-    Pause for a specified amount of time.  Note: this action is not
+    Pause for a specified amount of time.  Note: This action is not
     intended for precise coordination of timed events.  For a greater
-    degree of temporal control, use a Task System with Timer objects and
-    Timer-Expiration-based transitions.
+    degree of temporal control, use a `Task System` with a timer object and a
+    `Timer Expired Transition`.
 parameters: 
   - 
     name: duration
-    default: 1.0
+    required: yes
+    example: 1.0
   - 
     name: duration_units
-    default: s
+    default: us
 
 
 ---
@@ -903,13 +986,15 @@ description: >
 parameters: 
   - 
     name: condition
+    required: yes
   - 
     name: timeout
+    required: yes
   - 
     name: timeout_message
   - 
     name: stop_on_timeout
-    default: YES
+    default: 'YES'
 
 
 ---
@@ -922,20 +1007,21 @@ icon: startTimer
 inspector: StartTimerInspectorView
 description: >
     Starts a nameable timer that can be use to control the flow through a
-    task system.  "Timer Expired" Transitions, and the "timer()" function
+    `Task System`.  The `Timer Expired Transition` and the ``timer()`` function
     can be used to evaulate whether the timer has expired.
 parameters: 
   - 
     name: timer
-    default: MyTimer
+    required: yes
+    example: MyTimer
   - 
     name: timebase
   - 
     name: duration
-    default: 0.0
+    required: yes
   - 
     name: duration_units
-    default: s
+    default: us
 
 
 ---
@@ -951,7 +1037,8 @@ description: >
 parameters: 
   - 
     name: timebase
-    default: MyTimebase
+    required: yes
+    example: MyTimebase
 
 
 ---
@@ -962,12 +1049,13 @@ signature: action/load_stimulus
 isa: Action
 inspector: LoadStimulusInspectorView
 description: >
-    Explicitly load a stimulus object (e.g.  load a file from disk, compute
-    a dynamically generated stimulus, etc.). This is useful when the
-    "deferred" option on a stimulus is set to "true" or "explicit".
+    Explicitly load a stimulus object (e.g. load a file from disk, compute
+    a dynamically generated stimulus, etc.).  This is useful when the
+    ``deferred`` option on a stimulus is set to ``true`` or ``explicit``.
 parameters: 
   - 
     name: stimulus
+    required: yes
 
 
 ---
@@ -979,10 +1067,11 @@ isa: Action
 description: >
     Explicitly unload a stimulus object, thereby releasing any memory or
     other resources used by the stimulus.  This is useful when the
-    "deferred" option on a stimulus is set to "true" or "explicit".
+    ``deferred`` option on a stimulus is set to ``true`` or ``explicit``.
 parameters: 
   - 
     name: stimulus
+    required: yes
 
 
 ---
@@ -994,10 +1083,11 @@ isa: Action
 inspector: QueueStimulusInspectorView
 description: >
     Places a stimulus into the display queue, ready to be displayed when
-    the next Update Display action is issued.
+    the next `Update Stimulus Display` action is issued.
 parameters: 
   - 
     name: stimulus
+    required: yes
 
 
 ---
@@ -1008,14 +1098,15 @@ signature: action/live_queue_stimulus
 isa: Action
 inspector: QueueStimulusInspectorView
 description: >
-    Places a stimulus into the display queue, ready to be displayed when
-    the next Update Display action is issued.  In contrast to the "regular"
-    Queue action, values for variables controlling the appearance of the
-    stimulus will remain malleable right up until the moment that the
-    display is updated.
+    Places a stimulus into the display queue, ready to be displayed when the
+    next `Update Stimulus Display` action is issued.  In contrast to the
+    "regular" `Queue Stimulus` action, values for variables controlling the
+    appearance of the stimulus will remain malleable right up until the moment
+    that the display is updated.
 parameters: 
   - 
     name: stimulus
+    required: yes
 
 
 ---
@@ -1027,10 +1118,11 @@ isa: Action
 inspector: DequeueStimulusInspectorView
 description: >
     Removes a stimulus from the display queue, such that it will not be
-    displayed when the next Update Display action is issued.
+    displayed after the next `Update Stimulus Display` action is issued.
 parameters: 
   - 
     name: stimulus
+    required: yes
 
 
 ---
@@ -1043,6 +1135,7 @@ description: Move a stimulus to the top of the display queue.
 parameters: 
   - 
     name: stimulus
+    required: yes
 
 
 ---
@@ -1055,6 +1148,7 @@ description: Move a stimulus to the bottom of the display queue.
 parameters: 
   - 
     name: stimulus
+    required: yes
 
 
 ---
@@ -1066,9 +1160,8 @@ isa: Action
 inspector: UpdateDisplayInspectorView
 description: >
     Redraw the stimulus display.  Any stimuli that have been queued will
-    actually be drawn at this point; any stimulus that has been dequeued
-    will not be drawn (and will thus be erased, if it was previously
-    visible).
+    actually be drawn at this point; any stimuli that have been dequeued
+    will not be drawn (and will thus be erased if they were previously visible).
 parameters: 
   - 
     name: predicted_output_time
@@ -1081,10 +1174,11 @@ name: Play Sound
 signature: action/play_sound
 isa: Action
 inspector: PlaySoundInspectorView
-description: Play a sound stimulus.
+description: Play a `Sound Stimulus`
 parameters: 
   - 
     name: sound
+    required: yes
 
 
 ---
@@ -1094,10 +1188,11 @@ name: Stop Sound
 signature: action/stop_sound
 isa: Action
 inspector: StopSoundInspectorView
-description: Stop playing a sound stimulus, if it is playing.
+description: Stop playing a `Sound Stimulus` (if it is playing)
 parameters: 
   - 
     name: sound
+    required: yes
 
 
 ---
@@ -1108,12 +1203,13 @@ signature: action/accept_selections
 isa: Action
 inspector: AcceptSelectionsInspectorView
 description: >
-    Permanently accept selections on a selectable object that have been
-    made so far.  Once accepted, these selections can not be undone with a
-    "Reject Selections" action.
+    Permanently accept the selections that have been made so far on a selectable
+    object.  Once accepted, these selections cannot be undone with a `Reject
+    Selections` action.
 parameters: 
   - 
     name: selection
+    required: yes
 
 
 ---
@@ -1125,11 +1221,12 @@ isa: Action
 inspector: RejectSelectionsInspectorView
 description: >
     Reject all previous selections from a selectable object, since the last
-    "Accept Selections" action.  From the point of view of the selectable
-    object, it will be as if these selections were never made
+    `Accept Selections` action.  From the point of view of the selectable
+    object, it will be as if these selections were never made.
 parameters: 
   - 
     name: selection
+    required: yes
 
 
 ---
@@ -1146,6 +1243,7 @@ description: >
 parameters: 
   - 
     name: selection
+    required: yes
 
 
 ---
@@ -1156,11 +1254,12 @@ signature: action/next_selection
 isa: Action
 inspector: NextSelectionInspectorView
 description: >
-    Advance to the next selection on a selection variable.  This action
-    does not work on other selectable objects (such as blocks or trials).
+    Advance to the next selection on a `Selection Variable`.  This action
+    does not work on other selectable objects (such as `Block` or `Trial`).
 parameters: 
   - 
     name: selection
+    required: yes
 
 
 ---
@@ -1171,7 +1270,7 @@ signature: action/stop_experiment
 isa: Action
 description: >
     Stop the experiment.  Gives an experiment the ability to terminate
-    itself (e.g.  in response to a fatal error).
+    itself (e.g. in response to a fatal error).
 
 
 ---
@@ -1188,6 +1287,7 @@ description: >
 parameters: 
   - 
     name: device
+    required: yes
 
 
 ---
@@ -1201,26 +1301,7 @@ description: Disable an IO Device.
 parameters: 
   - 
     name: device
-
-
----
-
-
-name: Synthetic Saccade
-signature: action/fake_monkey_saccade_to_location
-isa: Action
-inspector: SyntheticSaccadeInspectorView
-description: >
-    Direct a synthetic data source "IO" device to make a fake saccade to a
-    predefined location.  This action will have no effect if the synthetic
-    data source is not started.
-parameters: 
-  - 
-    name: fake_monkey
-  - 
-    name: h
-  - 
-    name: v
+    required: yes
 
 
 ---
@@ -1236,8 +1317,10 @@ description: >
 parameters: 
   - 
     name: calibrator
+    required: yes
   - 
     name: calibratable_object
+    required: yes
 
 
 ---
@@ -1248,11 +1331,12 @@ signature: action/update_calibration
 isa: Action
 description: >
     Prompt a calibrator object to compute a new calibration mapping
-    function based on samples taken using the "Take Calibration Sample"
+    function based on samples taken using the `Take Calibration Sample`
     action.
 parameters: 
   - 
     name: calibrator
+    required: yes
 
 
 ---
@@ -1267,6 +1351,7 @@ description: >
 parameters: 
   - 
     name: calibrator
+    required: yes
 
 
 ---
@@ -1280,6 +1365,7 @@ description: >
 parameters: 
   - 
     name: calibrator
+    required: yes
 
 
 ---
@@ -1294,6 +1380,7 @@ description: >
 parameters: 
   - 
     name: calibrator
+    required: yes
 
 
 ---
@@ -1308,8 +1395,10 @@ description: >
 parameters: 
   - 
     name: calibrator
+    required: yes
   - 
     name: calibratable_object
+    required: yes
 
 
 ---
@@ -1322,6 +1411,7 @@ description: Start playing a dynamic stimulus
 parameters: 
   - 
     name: stimulus
+    required: yes
 
 
 ---
@@ -1334,6 +1424,7 @@ description: Stop a dynamic stimulus
 parameters: 
   - 
     name: stimulus
+    required: yes
 
 
 ---
@@ -1346,6 +1437,7 @@ description: Pause a playing dynamic stimulus
 parameters: 
   - 
     name: stimulus
+    required: yes
 
 
 ---
@@ -1354,10 +1446,11 @@ parameters:
 name: Unpause Dynamic Stimulus
 signature: action/unpause_dynamic_stimulus
 isa: Action
-description: Unpause (i.e.  resume playing) a paused dynamic stimulus
+description: Unpause (i.e. resume playing) a paused dynamic stimulus
 parameters: 
   - 
     name: stimulus
+    required: yes
 
 
 ---
@@ -1397,6 +1490,7 @@ description: A transition that always goes to the specified target.
 parameters: 
   - 
     name: target
+    required: yes
 
 
 ---
@@ -1413,8 +1507,10 @@ description: >
 parameters: 
   - 
     name: condition
+    required: yes
   - 
     name: target
+    required: yes
 
 
 ---
@@ -1430,8 +1526,10 @@ description: >
 parameters: 
   - 
     name: target
+    required: yes
   - 
     name: timer
+    required: yes
 
 
 ---
@@ -1443,7 +1541,8 @@ isa: Transition
 icon: yieldToParent
 inspector: ExitTaskSystemTransitionInspectorView
 description: >
-    A transition that yields control back to the Task System's parent.
+    A transition that yields control back to the parent of the current
+    `Task System`
 
 
 ---
@@ -1462,59 +1561,12 @@ description: Base-level IO device stub
 ---
 
 
-name: Generic IO Device
-signature: iodevice
-isa: IODevice
-description: A generic IO device
-parameters: 
-  - 
-    name: type
-  - 
-    name: alt
-
-
----
-
-
 name: IOChannel
 abstract: yes
 icon: smallIOFolder
 group: Input/Output
 allowed_parent: Folder
 description: Base-level IO channel stub
-
-
----
-
-
-name: Generic IO Channel
-signature: iochannel
-isa: IOChannel
-allowed_parent: Generic IO Device
-description: A generic IO channel
-parameters: 
-  - 
-    name: variable
-  - 
-    name: capability
-  - 
-    name: data_type
-  - 
-    name: direction
-  - 
-    name: synchrony
-  - 
-    name: range_min
-  - 
-    name: range_max
-  - 
-    name: resolution
-  - 
-    name: update_interval
-    default: 3ms
-  - 
-    name: data_interval
-    default: 1ms
 
 
 ---
@@ -1531,10 +1583,10 @@ description: >
 parameters: 
   - 
     name: background_color
-    default: 0, 0, 0
+    example: 0.5,0.5,0.5
   - 
     name: announce_stimuli_on_implicit_updates
-    default: YES
+    default: 'YES'
 
 
 ---
@@ -1562,12 +1614,16 @@ description: A IO calibrator specially tailored for eye movement signals.
 parameters: 
   - 
     name: eyeh_raw
+    required: yes
   - 
     name: eyev_raw
+    required: yes
   - 
     name: eyeh_calibrated
+    required: yes
   - 
     name: eyev_calibrated
+    required: yes
 
 
 ---
@@ -1581,12 +1637,16 @@ description: A IO calibrator specially tailored for eye movement signals.
 parameters: 
   - 
     name: eyeh_raw
+    required: yes
   - 
     name: eyev_raw
+    required: yes
   - 
     name: eyeh_calibrated
+    required: yes
   - 
     name: eyev_calibrated
+    required: yes
 
 
 ---
@@ -1614,10 +1674,13 @@ description: A basic 1D boxcar filter
 parameters: 
   - 
     name: in1
+    required: yes
   - 
     name: out1
+    required: yes
   - 
     name: width_samples
+    required: yes
 
 
 ---
@@ -1633,20 +1696,26 @@ description: >
 parameters: 
   - 
     name: eyeh_calibrated
+    required: yes
   - 
     name: eyev_calibrated
+    required: yes
   - 
     name: eye_state
+    required: yes
   - 
     name: eye_velocity_h
   - 
     name: eye_velocity_v
   - 
     name: width_samples
+    required: yes
   - 
     name: saccade_entry_speed
+    required: yes
   - 
     name: saccade_exit_speed
+    required: yes
 
 
 ---
@@ -1669,31 +1738,37 @@ isa: Optimizer
 icon: fakeMonkey
 inspector: StaircaseInspectorView
 description: >
-    An object that watches a variable (e.g.  a flag reporting success in a
+    An object that watches a variable (e.g. a flag reporting success in a
     behavioral task), and moves another variable up and down according to
     some criteria.
 parameters: 
   - 
-    name: type
-    default: simple
-  - 
     name: watch
+    required: yes
   - 
     name: output
+    required: yes
   - 
     name: lower_limit
+    required: yes
   - 
     name: upper_limit
+    required: yes
   - 
     name: up_criterion
+    required: yes
   - 
     name: down_criterion
+    required: yes
   - 
     name: step_size
+    required: yes
   - 
     name: grace_period
+    required: yes
   - 
     name: history
+    required: yes
 
 
 ---
@@ -1709,21 +1784,25 @@ description: >
     probability that the subject is adopting some form of biased strategy
 parameters: 
   - 
-    name: type
-    default: simple
-  - 
     name: success
+    required: yes
   - 
     name: response_index
+    required: yes
   - 
     name: task_correlation
+    required: yes
   - 
     name: response_bias_correlation
+    required: yes
   - 
     name: alternation_correlation
+    required: yes
   - 
     name: history
+    required: yes
   - 
     name: grace_period
+    required: yes
 
 
