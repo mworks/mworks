@@ -26,10 +26,5 @@
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
-	<key>LSEnvironment</key>
-	<dict>
-		<key>DYLD_FALLBACK_LIBRARY_PATH</key>
-		<string>/Applications/MATLAB/bin/maci64:/usr/local/lib:/lib:/usr/lib</string>
-	</dict>
 </dict>
 </plist>
