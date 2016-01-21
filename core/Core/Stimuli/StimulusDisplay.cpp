@@ -466,7 +466,10 @@ void StimulusDisplay::glInit() {
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity(); // Reset The Projection Matrix
     
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     gluOrtho2D(left, right, bottom, top);
+#pragma clang diagnostic pop
     glMatrixMode(GL_MODELVIEW);
     
     glClearColor(backgroundRed, backgroundGreen, backgroundBlue, 1.0);

@@ -17,7 +17,6 @@
 
 #include "FitableFunctions.h"
 
-#define __VFORCE_H  // Workaround for building against OS X 10.8 SDK
 #include <Accelerate/Accelerate.h>
 
 

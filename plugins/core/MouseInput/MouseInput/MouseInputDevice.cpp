@@ -117,11 +117,14 @@ void MouseInputDevice::postMouseLocation(NSPoint location) const {
     NSPoint locationInPixels = [mainDisplayView convertPointToBacking:location];
     GLdouble mouseX, mouseY, mouseZ;
     
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     if (GLU_TRUE != gluUnProject(locationInPixels.x, locationInPixels.y, 0.0,
                                  modelViewMatrix.data(),
                                  projectionMatrix.data(),
                                  viewport.data(),
                                  &mouseX, &mouseY, &mouseZ))
+#pragma clang diagnostic pop
     {
         merror(M_DISPLAY_MESSAGE_DOMAIN, "Unable to convert mouse location from window to eye coordinates");
     } else {

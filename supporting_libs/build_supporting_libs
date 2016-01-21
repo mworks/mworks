@@ -25,15 +25,15 @@ cxx = '/usr/bin/clang++'
 rsync = '/usr/bin/rsync'
 xcodebuild = '/usr/bin/xcodebuild'
 
-macosx_version_min = '10.8'
+macosx_version_min = '10.9'
 sdk_version = macosx_version_min
 sdk_path = (('/Applications/Xcode.app/Contents/Developer/Platforms/'
              'MacOSX.platform/Developer/SDKs/MacOSX%s.sdk') % sdk_version)
 
 python_version = '2.7'
 python = '/usr/bin/python' + python_version
-python_root = ('%s/System/Library/Frameworks/Python.framework/Versions/%s' %
-               (sdk_path, python_version))
+python_root = ('/System/Library/Frameworks/Python.framework/Versions/%s' %
+               python_version)
 
 num_cores = str(multiprocessing.cpu_count())
 
@@ -236,7 +236,7 @@ def boost():
 
 @builder
 def zeromq():
-    version = '4.1.3'
+    version = '4.1.4'
     srcdir = 'zeromq-' + version
     tarfile = srcdir + '.tar.gz'
 
@@ -264,7 +264,7 @@ def libpng():
 
 @builder
 def jpeg():
-    version = '9a'
+    version = '9b'
     srcdir = 'jpeg-' + version
     tarfile = 'jpegsrc.v%s.tar.gz' % version
 

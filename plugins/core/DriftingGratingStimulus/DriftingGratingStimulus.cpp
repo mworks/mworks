@@ -145,12 +145,15 @@ void DriftingGratingStimulus::load(shared_ptr<StimulusDisplay> display) {
 		glTexParameteri( GL_TEXTURE_1D, GL_TEXTURE_WRAP_T, GL_REPEAT );
 		
         
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 		gluBuild1DMipmaps(GL_TEXTURE_1D,
 						  GL_LUMINANCE,
 						  grating->getDataSize(),
 						  GL_LUMINANCE,
 						  GL_FLOAT,
 						  grating->get1DData());
+#pragma clang diagnostic pop
 		
 		glEnable(GL_TEXTURE_1D);
 		
@@ -183,6 +186,8 @@ void DriftingGratingStimulus::load(shared_ptr<StimulusDisplay> display) {
 		glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE );
 		glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE );
 		
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 		gluBuild2DMipmaps(GL_TEXTURE_2D,
 						  2,
 						  mask->getSize(),
@@ -190,6 +195,7 @@ void DriftingGratingStimulus::load(shared_ptr<StimulusDisplay> display) {
 						  GL_LUMINANCE_ALPHA,
 						  GL_FLOAT,
 						  mask->get2DData());
+#pragma clang diagnostic pop
 		
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

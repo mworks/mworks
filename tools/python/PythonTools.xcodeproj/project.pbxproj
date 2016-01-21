@@ -544,8 +544,8 @@
 					"PY_ARRAY_UNIQUE_SYMBOL=MWORKS_$(PRODUCT_NAME)_ARRAY_API",
 				);
 				HEADER_SEARCH_PATHS = (
-					"$(SDKROOT)/System/Library/Frameworks/Python.framework/Versions/$(MW_PYTHON_VERSION)/include/python$(MW_PYTHON_VERSION)",
-					"$(SDKROOT)/System/Library/Frameworks/Python.framework/Versions/$(MW_PYTHON_VERSION)/Extras/lib/python/numpy/core/include",
+					"/System/Library/Frameworks/Python.framework/Versions/$(MW_PYTHON_VERSION)/include/python$(MW_PYTHON_VERSION)",
+					"/System/Library/Frameworks/Python.framework/Versions/$(MW_PYTHON_VERSION)/Extras/lib/python/numpy/core/include",
 					"$(inherited)",
 				);
 			};
@@ -600,7 +600,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				INFOPLIST_FILE = PythonPlugin/Info.plist;
-				OTHER_LDFLAGS = "$(SDKROOT)/System/Library/Frameworks/Python.framework/Versions/$(MW_PYTHON_VERSION)/Python";
+				OTHER_LDFLAGS = "/System/Library/Frameworks/Python.framework/Versions/$(MW_PYTHON_VERSION)/Python";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				WRAPPER_EXTENSION = bundle;
