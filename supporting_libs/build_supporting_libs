@@ -323,6 +323,36 @@ def cppunit():
 
 
 @builder
+def numpy():
+    # NOTE: We need to use the version of numpy that's distributed with
+    # macosx_version_min
+    version = '1.6.2'  # OS X 10.9
+    srcdir = 'numpy-' + version
+    tarfile = srcdir + '.tar.gz'
+
+    download_archive_from_sf('numpy/NumPy', version, tarfile)
+    unpack_tarfile(tarfile, srcdir)
+
+    with workdir(srcdir):
+        # We don't need to set any compiler or linker flags, as we only
+        # use the installed headers
+        check_call([
+            python,
+            'setup.py',
+            'install',
+            '--install-lib=install',
+            '--install-scripts=install',
+            ])
+
+        check_call([
+            rsync,
+            '-a',
+            'install/numpy/core/include/numpy',
+            path_to_stagedir + '/include',
+            ])
+
+
+@builder
 def matlab_xunit():
     version = '3.1.1'
     srcdir = 'matlab_xunit_' + version
