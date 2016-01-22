@@ -1,4 +1,4 @@
-ARCHS = x86_64 i386
+ARCHS = x86_64
 BUILD_VARIANTS = normal
 GCC_VERSION = com.apple.compilers.llvm.clang.1_0
 DEBUG_INFORMATION_FORMAT = dwarf

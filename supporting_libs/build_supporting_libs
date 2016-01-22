@@ -37,7 +37,7 @@ python_root = ('/System/Library/Frameworks/Python.framework/Versions/%s' %
 
 num_cores = str(multiprocessing.cpu_count())
 
-compile_flags = (('-arch x86_64 -arch i386 -g -Os -fexceptions '
+compile_flags = (('-arch x86_64 -g -Os -fexceptions '
                   '-fvisibility=hidden -isysroot %s -mmacosx-version-min=%s')
                  % (sdk_path, macosx_version_min))
 cflags = '-std=c99'
