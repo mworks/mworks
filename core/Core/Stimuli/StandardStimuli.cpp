@@ -491,7 +491,9 @@ void ImageStimulus::drawInUnitSquare(shared_ptr<StimulusDisplay> display) {
         glEnd();
 		
 		
-		glBindTexture(GL_TEXTURE_2D, 0); // unbind that fucker
+        glDisable(GL_BLEND);
+        glBindTexture(GL_TEXTURE_2D, 0);
+        glDisable(GL_TEXTURE_2D);
         
         last_alpha = a;
 		
@@ -562,19 +564,15 @@ void RectangleStimulus::drawInUnitSquare(shared_ptr<StimulusDisplay> display) {
 	GLfloat _g = (float)(*g);
 	GLfloat _b = (float)(*b);
 	GLfloat _a = (float)(*alpha_multiplier);
-	   
-	glBindTexture(GL_TEXTURE_2D, 0);
+    
+    glColor4f(_r, _g, _b, _a);
+	  
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	glEnable (GL_BLEND); 
 	glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_ADD);
 	
     glBegin(GL_QUADS);
 		
-		//mprintf("fixpoint r: %g, g: %g, b: %g", red, green, blue);
-	
-        //glColor3f(_r,_g,_b);
-		glColor4f(_r, _g, _b, _a);
         glVertex3f(0.0,0.0,0.0);
 		glVertex3f(1.0,0.0,0.0);
         glVertex3f(1.0,1.0,0.0);
