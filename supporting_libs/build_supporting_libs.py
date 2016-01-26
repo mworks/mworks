@@ -1,5 +1,3 @@
-#!/usr/bin/python
-
 from contextlib import contextmanager
 import multiprocessing
 import platform
