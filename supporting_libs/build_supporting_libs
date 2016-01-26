@@ -20,30 +20,28 @@ def join_flags(*flags):
     return ' '.join(flags).strip()
 
 
+assert os.environ['GCC_VERSION'] == 'com.apple.compilers.llvm.clang.1_0'
 cc = '/usr/bin/clang'
 cxx = '/usr/bin/clang++'
 rsync = '/usr/bin/rsync'
 xcodebuild = '/usr/bin/xcodebuild'
 
-macosx_version_min = '10.9'
-sdk_version = macosx_version_min
-sdk_path = (('/Applications/Xcode.app/Contents/Developer/Platforms/'
-             'MacOSX.platform/Developer/SDKs/MacOSX%s.sdk') % sdk_version)
-
-python_version = '2.7'
-python = '/usr/bin/python' + python_version
-python_root = ('/System/Library/Frameworks/Python.framework/Versions/%s' %
-               python_version)
+python = '/usr/bin/python' + os.environ['MW_PYTHON_VERSION']
 
 num_cores = str(multiprocessing.cpu_count())
 
-compile_flags = (('-arch x86_64 -g -Os -fexceptions '
-                  '-fvisibility=hidden -isysroot %s -mmacosx-version-min=%s')
-                 % (sdk_path, macosx_version_min))
-cflags = '-std=c99'
-cxxflags = '-std=c++11 -stdlib=libc++'
+compile_flags = ' '.join(('-arch ' + arch) for arch in
+                         os.environ['ARCHS'].split())
+compile_flags += (' -g -Os -fexceptions -fvisibility=hidden'
+                  ' -isysroot %(SDKROOT)s'
+                  ' -mmacosx-version-min=%(MACOSX_DEPLOYMENT_TARGET)s'
+                  % os.environ)
+cflags = '-std=%(GCC_C_LANGUAGE_STANDARD)s' % os.environ
+cxxflags = ('-std=%(CLANG_CXX_LANGUAGE_STANDARD)s '
+            '-stdlib=%(CLANG_CXX_LIBRARY)s'
+            % os.environ)
 
-link_flags = '-Wl,-syslibroot,%s' % sdk_path
+link_flags = '-Wl,-syslibroot,%(SDKROOT)s' % os.environ
 
 downloaddir = 'download'
 path_to_downloaddir = '../' + downloaddir
@@ -52,7 +50,6 @@ path_to_patchdir = '../../' + patchdir
 builddir = 'source'
 stagedir = 'stage'
 path_to_stagedir = os.path.abspath(stagedir)
-installdir = '/Library/Application Support/MWorks/Developer'
 
 
 ################################################################################
@@ -196,7 +193,6 @@ def boost():
     with workdir(srcdir):
         apply_patch('boost_check_macro.patch')
         apply_patch('boost_ice_deprecations.patch')
-        apply_patch('boost_python_config.patch')
 
         os.symlink('boost', 'mworks_boost')
         
@@ -207,8 +203,6 @@ def boost():
              'filesystem,python,random,regex,serialization,system,thread'),
             '--without-icu',
             '--with-python=' + python,
-            '--with-python-root=' + python_root,
-            '--with-python-version=' + python_version,
             '--prefix=' + path_to_stagedir,
             ])
         
@@ -304,7 +298,7 @@ def devil():
                       '--disable-lcms', '--disable-mng', '--disable-utx',
                       '--without-squish', '--without-nvtt'],
         extra_compile_flags = ('-I%s/usr/include/malloc -I%s/include' %
-                               (sdk_path, path_to_stagedir)),
+                               (os.environ['SDKROOT'], path_to_stagedir)),
         extra_cflags = '-std=gnu89',
         extra_ldflags = ('-L%s/lib' % path_to_stagedir),
         )
@@ -325,8 +319,9 @@ def cppunit():
 @builder
 def numpy():
     # NOTE: We need to use the version of numpy that's distributed with
-    # macosx_version_min
-    version = '1.6.2'  # OS X 10.9
+    # MACOSX_DEPLOYMENT_TARGET
+    assert os.environ['MACOSX_DEPLOYMENT_TARGET'] == '10.9'
+    version = '1.6.2'
     srcdir = 'numpy-' + version
     tarfile = srcdir + '.tar.gz'
 
@@ -336,13 +331,16 @@ def numpy():
     with workdir(srcdir):
         # We don't need to set any compiler or linker flags, as we only
         # use the installed headers
+        env = os.environ.copy()
+        del env['MACOSX_DEPLOYMENT_TARGET']
         check_call([
             python,
             'setup.py',
             'install',
             '--install-lib=install',
             '--install-scripts=install',
-            ])
+            ],
+            env=env)
 
         check_call([
             rsync,
@@ -388,11 +386,11 @@ def narrative():
             xcodebuild,
             '-project', 'Narrative.xcodeproj',
             '-configuration', 'Release',
-            '-xcconfig', installdir + '/Xcode/Development.xcconfig',
+            '-xcconfig', os.environ['MW_XCODE_DIR'] + '/Development.xcconfig',
             'clean',
             'build',
             'INSTALL_PATH=@loader_path/../Frameworks',
-            'SDKROOT=macosx' + sdk_version,
+            'SDKROOT=%s' + os.environ['SDKROOT'],
             'SDKROOT_i386=$(SDKROOT)',
             'OTHER_CFLAGS=-fvisibility=default',
             ])
@@ -413,6 +411,9 @@ def narrative():
 
 
 def main():
+    if os.environ['ACTION'] == 'clean':
+        return
+
     requested_builders = sys.argv[1:]
     builder_names = set(buildfunc.__name__ for buildfunc in all_builders)
 
@@ -423,8 +424,7 @@ def main():
 
     if not requested_builders:
         remove_directory(stagedir)
-    check_call(['/bin/mkdir', '-p', downloaddir, builddir, stagedir,
-                installdir])
+    check_call(['/bin/mkdir', '-p', downloaddir, builddir, stagedir])
 
     with workdir(builddir):
         for buildfunc in all_builders:
@@ -439,7 +439,7 @@ def main():
                 '-exec', '/bin/rm', '{}', ';'])
 
     # Install files
-    check_call([rsync, '-a', (stagedir + '/'), installdir])
+    check_call([rsync, '-a', (stagedir + '/'), os.environ['MW_DEVELOPER_DIR']])
 
 
 if __name__ == '__main__':

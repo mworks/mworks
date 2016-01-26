@@ -1,0 +1,166 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		E1DF4BBC1C57E95E0081491C /* Everything */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = E1DF4BBD1C57E95E0081491C /* Build configuration list for PBXAggregateTarget "Everything" */;
+			buildPhases = (
+			);
+			dependencies = (
+				E1DF4BC01C57E96C0081491C /* PBXTargetDependency */,
+			);
+			name = Everything;
+			productName = Everything;
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXContainerItemProxy section */
+		E1DF4BBF1C57E96C0081491C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E1DF4BAD1C57E0D20081491C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E1DF4BB11C57E0D20081491C;
+			remoteInfo = SupportingLibs;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		E1DF4BB81C57E17A0081491C /* Development.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Development.xcconfig; sourceTree = "<group>"; };
+		E1DF4BB91C57E17A0081491C /* WARNING.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = WARNING.txt; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		E1DF4BAC1C57E0D20081491C = {
+			isa = PBXGroup;
+			children = (
+				E1DF4BB71C57E1570081491C /* External Config */,
+			);
+			sourceTree = "<group>";
+		};
+		E1DF4BB71C57E1570081491C /* External Config */ = {
+			isa = PBXGroup;
+			children = (
+				E1DF4BB81C57E17A0081491C /* Development.xcconfig */,
+				E1DF4BB91C57E17A0081491C /* WARNING.txt */,
+			);
+			name = "External Config";
+			path = "/Library/Application Support/MWorks/Developer/Xcode";
+			sourceTree = "<absolute>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXLegacyTarget section */
+		E1DF4BB11C57E0D20081491C /* SupportingLibs */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = build_supporting_libs;
+			buildConfigurationList = E1DF4BB41C57E0D20081491C /* Build configuration list for PBXLegacyTarget "SupportingLibs" */;
+			buildPhases = (
+			);
+			buildToolPath = /usr/bin/python;
+			buildWorkingDirectory = "";
+			dependencies = (
+			);
+			name = SupportingLibs;
+			passBuildSettingsInEnvironment = 1;
+			productName = SupportingLibs;
+		};
+/* End PBXLegacyTarget section */
+
+/* Begin PBXProject section */
+		E1DF4BAD1C57E0D20081491C /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0720;
+				ORGANIZATIONNAME = "The MWorks Project";
+				TargetAttributes = {
+					E1DF4BB11C57E0D20081491C = {
+						CreatedOnToolsVersion = 7.2;
+					};
+					E1DF4BBC1C57E95E0081491C = {
+						CreatedOnToolsVersion = 7.2;
+					};
+				};
+			};
+			buildConfigurationList = E1DF4BB01C57E0D20081491C /* Build configuration list for PBXProject "SupportingLibs" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = E1DF4BAC1C57E0D20081491C;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				E1DF4BB11C57E0D20081491C /* SupportingLibs */,
+				E1DF4BBC1C57E95E0081491C /* Everything */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXTargetDependency section */
+		E1DF4BC01C57E96C0081491C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E1DF4BB11C57E0D20081491C /* SupportingLibs */;
+			targetProxy = E1DF4BBF1C57E96C0081491C /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		E1DF4BB21C57E0D20081491C /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1DF4BB81C57E17A0081491C /* Development.xcconfig */;
+			buildSettings = {
+			};
+			name = Development;
+		};
+		E1DF4BB51C57E0D20081491C /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Development;
+		};
+		E1DF4BBE1C57E95E0081491C /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Development;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		E1DF4BB01C57E0D20081491C /* Build configuration list for PBXProject "SupportingLibs" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E1DF4BB21C57E0D20081491C /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		E1DF4BB41C57E0D20081491C /* Build configuration list for PBXLegacyTarget "SupportingLibs" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E1DF4BB51C57E0D20081491C /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		E1DF4BBD1C57E95E0081491C /* Build configuration list for PBXAggregateTarget "Everything" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E1DF4BBE1C57E95E0081491C /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = E1DF4BAD1C57E0D20081491C /* Project object */;
+}

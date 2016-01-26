@@ -131,7 +131,7 @@ def build_requirements():
 
 @builder('mworks/supporting_libs')
 def supporting_libs():
-    check_call(['./build_supporting_libs'])
+    xcodebuild()
 
 
 @builder('mworks/supporting_libs/scarab')
