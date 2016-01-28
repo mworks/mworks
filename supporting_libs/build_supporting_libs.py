@@ -318,8 +318,11 @@ def cppunit():
 def numpy():
     # NOTE: We need to use the version of numpy that's distributed with
     # MACOSX_DEPLOYMENT_TARGET
-    assert os.environ['MACOSX_DEPLOYMENT_TARGET'] == '10.9'
-    version = '1.6.2'
+    version = {
+        '10.9': '1.6.2',
+        '10.10': '1.8.0rc1',
+        '10.11': '1.8.0rc1',
+        }[os.environ['MACOSX_DEPLOYMENT_TARGET']]
     srcdir = 'numpy-' + version
     tarfile = srcdir + '.tar.gz'
 
