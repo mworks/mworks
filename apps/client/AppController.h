@@ -9,8 +9,8 @@
 #import <Cocoa/Cocoa.h>
 #import <MWorksCocoa/MWToolbarItem.h>
 
-// Not quite right, but something, for now
-#define HELP_URL @"http://help.mworks-project.org/"
+#define MWORKS_DOC_PATH @"/Library/Application Support/MWorks/Documentation/index.html"
+#define MWORKS_HELP_URL @"http://help.mworks-project.org/"
 
 @class MWClientInstance;
 
@@ -123,6 +123,7 @@
 - (IBAction)closeErrorSheet:(id)sender;
 
 
+- (IBAction)launchDocs:(id)sender;
 - (IBAction)launchHelp:(id)sender;
 
 - (NSColor *)uniqueColor;

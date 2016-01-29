@@ -22,6 +22,7 @@ import time
 xcrun = '/usr/bin/xcrun'
 
 mw_version = 'CUSTOM'
+mw_version_suffix = ''
 
 
 ################################################################################
@@ -102,14 +103,13 @@ def xcodebuild(scheme='Everything'):
     else:
         # If we're using a fake version number, attach a suffix
         # containing the date to help identify the build
-        mw_version_suffix = time.strftime('-%Y%m%d', time.localtime())
         cmd.append('MW_VERSION_SUFFIX=' + mw_version_suffix)
 
     check_call(cmd)
 
 
-def make(targets=[]):
-    check_call([xcrun, 'make'] + targets)
+def make(args=[]):
+    check_call([xcrun, 'make'] + args)
 
 
 ################################################################################
@@ -231,6 +231,16 @@ def server():
     xcodebuild()
 
 
+@builder('mworks/doc')
+def doc():
+    args = ['clean', 'install']
+    if mw_version[0] in string.digits:
+        # Use version number only if it starts with a digit.  This
+        # will exclude fake versions like "NIGHTLY" and "CUSTOM".
+        args.append('MW_VERSION=' + mw_version)
+    make(args)
+
+
 ################################################################################
 #
 # Main function
@@ -239,7 +249,7 @@ def server():
 
 
 def main():
-    global mw_version, treat_warnings_as_errors
+    global mw_version, mw_version_suffix, treat_warnings_as_errors
 
     parser = OptionParser(usage='Usage: %prog [options] [builder_name ...]')
     parser.add_option('--mw-version',
@@ -257,6 +267,7 @@ def main():
 
     (options, requested_builders) = parser.parse_args()
     mw_version = options.mw_version
+    mw_version_suffix = time.strftime('-%Y%m%d', time.localtime())
     treat_warnings_as_errors = options.treat_warnings_as_errors
 
     all_builder_names = [builder.__name__ for builder in all_builders]

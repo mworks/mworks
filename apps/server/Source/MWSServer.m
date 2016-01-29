@@ -20,7 +20,8 @@
 #define DEFAULTS_AUTO_OPEN_CLIENT @"autoOpenClient"
 #define DEFAULTS_AUTO_OPEN_CONSOLE @"autoOpenConsole"
 
-#define HELP_URL @"http://help.mworks-project.org/"
+#define MWORKS_DOC_PATH @"/Library/Application Support/MWorks/Documentation/index.html"
+#define MWORKS_HELP_URL @"http://help.mworks-project.org/"
 
 @interface MWSServer(PrivateMethods)
 - (void)processEvent:(id)cocoaEvent;
@@ -156,9 +157,13 @@
 /****************************************************************
 *              IBAction methods
 ***************************************************************/
+
+- (IBAction)launchDocs:(id)sender {
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL fileURLWithPath:MWORKS_DOC_PATH isDirectory:NO]];
+}
+
 - (IBAction) launchHelp: (id) sender {
-  NSLog(@"Launching Help...");
-  [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:HELP_URL]];
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:MWORKS_HELP_URL]];
 }
 
 - (void)toggleConsole:(id)sender {

@@ -8,7 +8,8 @@
 
 #import "MWExperimentWindowController.h"
 
-#define HELP_URL @"http://help.mworks-project.org/"
+#define MWORKS_DOC_PATH @"/Library/Application Support/MWorks/Documentation/index.html"
+#define MWORKS_HELP_URL @"http://help.mworks-project.org/"
 
 
 @implementation MWExperimentWindowController
@@ -94,8 +95,41 @@
     return [[self document] undoManager];
 }
 
+
+- (IBAction)showDocs:(id)sender {
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL fileURLWithPath:MWORKS_DOC_PATH isDirectory:NO]];
+}
+
+
 - (void)showHelp:(id)sender {
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:HELP_URL]];
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:MWORKS_HELP_URL]];
 }
 
 @end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="8191" systemVersion="15A284" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="9531" systemVersion="15D21" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="8191"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9531"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="NSApplication"/>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
-        <customObject id="-3" userLabel="Application"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <menu title="AMainMenu" systemMenu="main" id="29" userLabel="MainMenu">
             <items>
                 <menuItem title="MWEditor" id="56">
@@ -335,7 +335,14 @@ CA
                 <menuItem title="Help" id="103" userLabel="1">
                     <menu key="submenu" title="Help" id="106" userLabel="2">
                         <items>
-                            <menuItem title="MWorks Help" keyEquivalent="?" id="111">
+                            <menuItem title="MWorks Documentation" id="xOl-W7-dRl">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="showDocs:" target="-1" id="tmK-jy-uOb"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="MWorks Support" id="111">
+                                <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
                                     <action selector="showHelp:" target="-1" id="360"/>
                                 </connections>
@@ -357,14 +364,12 @@ CA
                     <tabView controlSize="mini" type="noTabsNoBorder" id="410">
                         <rect key="frame" x="-9" y="0.0" width="356" height="156"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <animations/>
                         <font key="font" metaFont="miniSystem"/>
                         <tabViewItems>
                             <tabViewItem label="General" identifier="2" id="412">
                                 <view key="view" id="413">
                                     <rect key="frame" x="0.0" y="0.0" width="356" height="156"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                    <animations/>
                                 </view>
                             </tabViewItem>
                             <tabViewItem label="Errors" identifier="1" id="411">
@@ -375,7 +380,6 @@ CA
                                         <button id="415">
                                             <rect key="frame" x="30" y="113" width="213" height="18"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <animations/>
                                             <buttonCell key="cell" type="check" title="Check for Errors automatically" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" state="on" inset="2" id="416">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                 <font key="font" metaFont="smallSystem"/>
@@ -387,7 +391,6 @@ CA
                                         <textField verticalHuggingPriority="750" id="420">
                                             <rect key="frame" x="143" y="82" width="49" height="19"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <animations/>
                                             <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="421">
                                                 <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
@@ -400,7 +403,6 @@ CA
                                         <textField verticalHuggingPriority="750" id="422">
                                             <rect key="frame" x="57" y="85" width="81" height="14"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <animations/>
                                             <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Check every" id="423">
                                                 <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -410,7 +412,6 @@ CA
                                         <textField verticalHuggingPriority="750" id="424">
                                             <rect key="frame" x="212" y="84" width="78" height="14"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <animations/>
                                             <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="seconds" id="425">
                                                 <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -420,7 +421,6 @@ CA
                                         <stepper horizontalHuggingPriority="750" verticalHuggingPriority="750" id="426">
                                             <rect key="frame" x="191" y="80" width="15" height="22"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <animations/>
                                             <stepperCell key="cell" controlSize="small" continuous="YES" alignment="left" maxValue="100" id="427">
                                                 <font key="font" metaFont="smallSystem"/>
                                             </stepperCell>
@@ -429,7 +429,6 @@ CA
                                             </connections>
                                         </stepper>
                                     </subviews>
-                                    <animations/>
                                 </view>
                             </tabViewItem>
                         </tabViewItems>
@@ -438,7 +437,6 @@ CA
                         </connections>
                     </tabView>
                 </subviews>
-                <animations/>
             </view>
             <toolbar key="toolbar" implicitIdentifier="88B42660-C4BB-42A5-8950-367EA4D86752" allowsUserCustomization="NO" displayMode="iconAndLabel" sizeMode="regular" id="401">
                 <allowedToolbarItems>

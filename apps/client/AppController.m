@@ -545,9 +545,14 @@
 }
 
 
+- (IBAction)launchDocs:(id)sender {
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL fileURLWithPath:MWORKS_DOC_PATH isDirectory:NO]];
+}
+
+
 - (IBAction) launchHelp: (id) sender {
   //NSLog(@"Launching Help...");
-  [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:HELP_URL]];
+  [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:MWORKS_HELP_URL]];
 }
 
 

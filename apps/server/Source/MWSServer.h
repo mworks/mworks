@@ -41,7 +41,8 @@
 - (IBAction)closeDataFile:(id)sender;
 - (IBAction)stopExperiment:(id)sender;
 - (IBAction)startExperiment:(id)sender;
-- (IBAction) launchHelp: (id) sender;
+- (IBAction)launchDocs:(id)sender;
+- (IBAction)launchHelp:(id)sender;
 
 @end
 

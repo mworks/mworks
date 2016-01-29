@@ -21,9 +21,9 @@ I18NSPHINXOPTS  = $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) .
 
 COMPONENTSDIR = components
 
-.DEFAULT_GOAL := html
+.DEFAULT_GOAL := install
 
-.PHONY: help clean componentref html dirhtml singlehtml pickle json htmlhelp qthelp devhelp epub latex latexpdf text man changes linkcheck doctest coverage gettext
+.PHONY: help clean install componentref html dirhtml singlehtml pickle json htmlhelp qthelp devhelp epub latex latexpdf text man changes linkcheck doctest coverage gettext
 
 help:
 	@echo "Please use 'make <target>' where <target> is one of"
@@ -54,6 +54,9 @@ help:
 
 clean:
 	rm -rf $(BUILDDIR)/* $(COMPONENTSDIR)/*
+
+install: html
+	rsync -a $(BUILDDIR)/html/ "/Library/Application Support/MWorks/Documentation"
 
 componentref:
 	$(PYTHON) generate_component_ref.py

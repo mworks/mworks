@@ -38,6 +38,7 @@
 
 - (IBAction)newElement:(id)sender;
 
-- (void)showHelp:(id)sender;
+- (IBAction)showDocs:(id)sender;
+- (IBAction)showHelp:(id)sender;
 
 @end
