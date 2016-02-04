@@ -423,6 +423,7 @@
 				LINK_WITH_STANDARD_LIBRARIES = YES;
 				MACH_O_TYPE = mh_bundle;
 				OTHER_LDFLAGS = (
+					"$(inherited)",
 					"-undefined",
 					dynamic_lookup,
 				);

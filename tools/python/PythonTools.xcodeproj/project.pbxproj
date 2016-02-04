@@ -558,6 +558,7 @@
 				LINK_WITH_STANDARD_LIBRARIES = YES;
 				MACH_O_TYPE = mh_bundle;
 				OTHER_LDFLAGS = (
+					"$(inherited)",
 					"-undefined",
 					dynamic_lookup,
 				);
@@ -599,7 +600,10 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				INFOPLIST_FILE = PythonPlugin/Info.plist;
-				OTHER_LDFLAGS = "/System/Library/Frameworks/Python.framework/Versions/$(MW_PYTHON_VERSION)/Python";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"/System/Library/Frameworks/Python.framework/Versions/$(MW_PYTHON_VERSION)/Python",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				WRAPPER_EXTENSION = bundle;

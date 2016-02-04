@@ -356,6 +356,7 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INFOPLIST_FILE = "Test-Info.plist";
 				OTHER_LDFLAGS = (
+					"$(inherited)",
 					"-lboost_system",
 					"-lboost_filesystem",
 					"-lboost_serialization",
@@ -428,6 +429,7 @@
 				E1CBF67116BB02740057CE48 /* Development */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
 		};
 /* End XCConfigurationList section */
 	};
