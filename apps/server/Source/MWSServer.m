@@ -91,11 +91,6 @@
 
 
 
-- (void)dealloc {
-	[listeningAddress release];
-	[cc release];
-	[super dealloc];
-}
 
 
 /****************************************************************
@@ -199,18 +194,17 @@
 }
 
 - (IBAction)saveVariables:(id)sender {
-    NSSavePanel * save = [[NSSavePanel savePanel] retain];
+    NSSavePanel * save = [NSSavePanel savePanel];
     [save setAllowedFileTypes:[NSArray arrayWithObject:@"xml"]];
     [save setCanCreateDirectories:NO];
     if([save runModal] == NSFileHandlingPanelOKButton) {
 		core->saveVariables(boost::filesystem::path([[[save URL] path] cStringUsingEncoding:NSASCIIStringEncoding]));
     }
 	
-	[save release];	
 }
 
 - (IBAction)loadVariables:(id)sender {
-	NSOpenPanel * op = [[NSOpenPanel openPanel] retain];
+	NSOpenPanel * op = [NSOpenPanel openPanel];
     [op setCanChooseDirectories:NO];
     // it is important that you never allow multiple files to be selected!
     [op setAllowsMultipleSelection:NO];
@@ -226,11 +220,10 @@
         }
     }
 	
-	[op release];
 }
 
 - (IBAction)openDataFile:(id)sender {
-    NSSavePanel * save = [[NSSavePanel savePanel] retain];
+    NSSavePanel * save = [NSSavePanel savePanel];
     [save setAllowedFileTypes:[NSArray arrayWithObject:@"mwk"]];
     [save setCanCreateDirectories:NO];
     if([save runModal] == NSFileHandlingPanelOKButton) {
@@ -238,7 +231,6 @@
                             cStringUsingEncoding:NSASCIIStringEncoding]);
     }
 	
-	[save release];
 }
 
 - (IBAction)closeDataFile:(id)sender {
@@ -369,7 +361,7 @@
 
 - (NSArray *)variableNames {
 	std::vector<std::string> varTagNames(core->getVariableTagNames());
-	NSMutableArray *varNames = [[[NSMutableArray alloc] init] autorelease];
+	NSMutableArray *varNames = [[NSMutableArray alloc] init];
 	
 	for(std::vector<std::string>::iterator iter = varTagNames.begin();
 		iter != varTagNames.end(); 

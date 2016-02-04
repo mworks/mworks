@@ -71,25 +71,10 @@ using mw::Datum;
 }
 
 
-- (void)dealloc {
-    [_mirrorWindowBaseHeight release];
-    [_displayDistance release];
-    [_displayHeight release];
-    [_displayWidth release];
-    [_displayToUse release];
-    [_serverName release];
-    
-    dispatch_release(writeQueue);
-    
-    [super dealloc];
-}
 
 
 - (void)setServerName:(NSString *)serverName {
-    if (_serverName != serverName) {
-        [_serverName release];
-        _serverName = [serverName copy];
-    }
+    _serverName = [serverName copy];
     [self updateVariable:mw::serverName value:[serverName UTF8String]];
 }
 
@@ -108,10 +93,7 @@ using mw::Datum;
 
 
 - (void)setDisplayToUse:(NSNumber *)displayToUse {
-    if (_displayToUse != displayToUse) {
-        [_displayToUse release];
-        _displayToUse = [displayToUse retain];
-    }
+    _displayToUse = displayToUse;
     [self updateVariable:mw::mainDisplayInfo
                      key:M_DISPLAY_TO_USE_KEY
                    value:([displayToUse longValue] - 1)];
@@ -119,10 +101,7 @@ using mw::Datum;
 
 
 - (void)setDisplayWidth:(NSNumber *)displayWidth {
-    if (_displayWidth != displayWidth) {
-        [_displayWidth release];
-        _displayWidth = [displayWidth retain];
-    }
+    _displayWidth = displayWidth;
     [self updateVariable:mw::mainDisplayInfo
                      key:M_DISPLAY_WIDTH_KEY
                    value:[displayWidth doubleValue]];
@@ -130,10 +109,7 @@ using mw::Datum;
 
 
 - (void)setDisplayHeight:(NSNumber *)displayHeight {
-    if (_displayHeight != displayHeight) {
-        [_displayHeight release];
-        _displayHeight = [displayHeight retain];
-    }
+    _displayHeight = displayHeight;
     [self updateVariable:mw::mainDisplayInfo
                      key:M_DISPLAY_HEIGHT_KEY
                    value:[displayHeight doubleValue]];
@@ -141,10 +117,7 @@ using mw::Datum;
 
 
 - (void)setDisplayDistance:(NSNumber *)displayDistance {
-    if (_displayDistance != displayDistance) {
-        [_displayDistance release];
-        _displayDistance = [displayDistance retain];
-    }
+    _displayDistance = displayDistance;
     [self updateVariable:mw::mainDisplayInfo
                      key:M_DISPLAY_DISTANCE_KEY
                    value:[displayDistance doubleValue]];
@@ -160,10 +133,7 @@ using mw::Datum;
 
 
 - (void)setMirrorWindowBaseHeight:(NSNumber *)mirrorWindowBaseHeight {
-    if (_mirrorWindowBaseHeight != mirrorWindowBaseHeight) {
-        [_mirrorWindowBaseHeight release];
-        _mirrorWindowBaseHeight = [mirrorWindowBaseHeight retain];
-    }
+    _mirrorWindowBaseHeight = mirrorWindowBaseHeight;
     [self updateVariable:mw::mainDisplayInfo
                      key:M_MIRROR_WINDOW_BASE_HEIGHT_KEY
                    value:[mirrorWindowBaseHeight doubleValue]];

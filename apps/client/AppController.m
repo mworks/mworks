@@ -170,7 +170,7 @@
 
 - (NSOpenPanel *)openPanel {
     if (nil == openPanel) {
-        openPanel = [[NSOpenPanel openPanel] retain];
+        openPanel = [NSOpenPanel openPanel];
     }
     return openPanel;
 }
@@ -523,7 +523,6 @@
         [alert setMessageText:@"Workspace already loaded"];
         [alert setInformativeText:@"Please close the current experiment before attempting to load a new workspace."];
         [alert runModal];
-        [alert release];
         
     }
     

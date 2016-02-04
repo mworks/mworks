@@ -95,9 +95,9 @@
 // Accessors
 - (shared_ptr<mw::Client>) coreClient;
 - (shared_ptr<mw::EventStreamInterface>) eventStreamInterface;
-@property(retain) MWCodec *variables;
+@property(strong) MWCodec *variables;
 - (NSArray *)variableNames;
-@property(assign)	NSMutableArray *errors;
+@property	NSMutableArray *errors;
 
 @property(copy, readwrite) NSString *errorString;
 
@@ -127,8 +127,8 @@
 
 // Variable set state
 @property BOOL variableSetLoaded;
-@property(assign, readwrite) NSString *variableSetName;
-@property(assign) NSMutableArray *serversideVariableSetNames;
+@property(copy, readwrite) NSString *variableSetName;
+@property NSMutableArray *serversideVariableSetNames;
 
 // Data File state
 @property BOOL dataFileOpen;
@@ -136,12 +136,12 @@
 @property BOOL dataFileOverwrite;
 
 // Protocol state
-@property(assign)	NSMutableArray *protocolNames;
+@property	NSMutableArray *protocolNames;
 @property(copy, readwrite) NSString *currentProtocolName;
 @property(copy, readwrite) NSString *summaryString;
 
 // Cosmetics
-@property(assign) NSColor *headerColor;
+@property(strong) NSColor *headerColor;
 
 // Maintaining Overall GUI state
 - (void)enforceDisconnectedState;

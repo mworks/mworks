@@ -20,7 +20,7 @@
 
     int currentPluginIndex;
     
-    id clientInstance;
+    id __unsafe_unretained clientInstance;
     
     NSTimer *cycleTimer;
     
@@ -33,11 +33,11 @@
 }
 
 @property(nonatomic, assign) int currentPluginIndex;
-@property(retain) NSArray* plugins;
-@property(retain) NSArray* names;
+@property(strong) NSArray* plugins;
+@property(strong) NSArray* names;
 @property(nonatomic, assign) double cycleTime;
 @property(nonatomic, assign) BOOL cycling;
-@property(assign) id clientInstance;
+@property(unsafe_unretained) id clientInstance;
 
 - (id)initWithClientInstance:(id)instance;
 

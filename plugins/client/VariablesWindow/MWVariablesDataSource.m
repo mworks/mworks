@@ -53,7 +53,7 @@
 	for (NSString *key in rootGroups) {
         MWVariableDisplayItem *item = [oldRootObjects objectForKey:key];
         if (!item) {
-            item = [[[MWVariableDisplayItem alloc] initWithName:key] autorelease];
+            item = [[MWVariableDisplayItem alloc] initWithName:key];
         }
         [item setVariables:[rootGroups objectForKey:key]];
 		[rootItems addObject:item];
@@ -71,7 +71,7 @@
 
 - (NSArray *)expandedItems
 {
-    return [[expandedItems copy] autorelease];
+    return [expandedItems copy];
 }
 
 

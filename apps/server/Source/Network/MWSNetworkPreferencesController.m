@@ -88,7 +88,7 @@
 //	[defaultAddress setStringValue:[delegate defaultNetworkAddress:self]];
 	[applyButton setEnabled:![[addresses titleOfSelectedItem] isEqualToString:[delegate defaultNetworkAddress:self]]];
 	
-	NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+	NSAlert *alert = [[NSAlert alloc] init];
 	[alert addButtonWithTitle:@"Restart"];
 	[alert addButtonWithTitle:@"Don't Restart"];
 	[alert setMessageText:@"Restart MWorksServer?"];
@@ -116,7 +116,7 @@
 		NSURL *url = [NSURL fileURLWithPath:[[NSBundle mainBundle] bundlePath]];
 		
 		LSLaunchURLSpec launchSpec;
-		launchSpec.appURL = (CFURLRef)url;
+		launchSpec.appURL = (__bridge CFURLRef)url;
 		launchSpec.itemURLs = NULL;
 		launchSpec.passThruParams = NULL;
 		launchSpec.launchFlags = kLSLaunchDefaults | kLSLaunchNewInstance;

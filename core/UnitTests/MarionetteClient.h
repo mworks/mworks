@@ -28,9 +28,9 @@ using namespace mw;
 	
 }
 
-@property (nonatomic, retain) NSMutableArray *permittedErrorMessages;
-@property (nonatomic, retain) NSMutableArray *expectedMessages;
-@property (nonatomic, retain) NSMutableArray *expectedEvents;
+@property (nonatomic, strong) NSMutableArray *permittedErrorMessages;
+@property (nonatomic, strong) NSMutableArray *expectedMessages;
+@property (nonatomic, strong) NSMutableArray *expectedEvents;
 @property (nonatomic, assign) BOOL sentRunEvent, stateSystemRunning;
 @property (nonatomic, assign) BOOL asserted, experimentEnded;
 @property (nonatomic, assign) BOOL experimentLoaded, sentExperiment, sentCloseExperiment;

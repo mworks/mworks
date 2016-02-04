@@ -52,13 +52,13 @@ namespace mw {
 			// override operator "()"
 			virtual void operator()(const shared_ptr<Event> &event)
 			{ 
-				NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+				@autoreleasepool {
 				
-				Datum data(event->getData());
-				MWCocoaEvent *cocoaEvent = [[MWCocoaEvent alloc] initWithData:&data 
+					Datum data(event->getData());
+					MWCocoaEvent *cocoaEvent = [[MWCocoaEvent alloc] initWithData:&data 
                                                                       andCode:event->getEventCode() 
                                                                       andTime:event->getTime()];
-				
+					
         //@synchronized(syncobject){
           if([receiver respondsToSelector:selector]) {
             // DDC: 5/08 changed to "OnMainThread"
@@ -68,7 +68,10 @@ namespace mw {
               if(on_main_thread){
                   [receiver performSelectorOnMainThread:selector withObject:cocoaEvent waitUntilDone:NO];
               } else {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
                   [receiver performSelector:selector withObject:cocoaEvent];
+#pragma clang diagnostic pop
               }
             //[receiver performSelector:selector withObject:cocoaEvent];
           } else {
@@ -77,8 +80,7 @@ namespace mw {
             merror(M_CLIENT_MESSAGE_DOMAIN, "%s", [[errorMessage stringByAppendingString:sn] cStringUsingEncoding:NSASCIIStringEncoding]);
           }
         //}
-                [cocoaEvent release];
-				[pool drain];
+				}
 			};         
 		};
 	
@@ -107,7 +109,6 @@ namespace mw {
                 // We can't use numberWithDouble: here, because there may not be an autorelease pool in place
 				NSNumber *data_number = [[NSNumber alloc] initWithDouble:(double)data];
 				[setter performSelectorOnMainThread:@selector(setValue:) withObject:data_number waitUntilDone:NO];
-                [data_number release];
 			}         
 		};
 	

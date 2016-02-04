@@ -31,16 +31,14 @@
 + (id)eventWithVariableName:(NSString *)var_name 
 					andData:(Datum *)_data 
 	andProcessDataAfterward:(BOOL)_continue_processing {
- 	return [[[self alloc] initWithVariableName:var_name
+ 	return [[self alloc] initWithVariableName:var_name
 									   andData:_data 
-					   andProcessDataAfterward:_continue_processing] autorelease];
+					   andProcessDataAfterward:_continue_processing];
 
 }
 
 - (void)dealloc {
-	[variable release];
 	delete data;
-	[super dealloc];
 }
 
 - (BOOL)continueProcessing {return continue_processing;}

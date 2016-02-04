@@ -25,7 +25,6 @@
 
 - (void)dealloc {
     delete _data;
-    [super dealloc];
 }
 
 // finalize is called instead of dealloc when garbage collection is enabled.  Since we don't currently

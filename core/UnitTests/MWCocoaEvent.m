@@ -25,7 +25,6 @@
 
 - (void) dealloc {
 	delete _data;
-	[super dealloc];
 }
 
 - (MWTime)time {

@@ -59,7 +59,7 @@
         serverURL = @"127.0.0.1";
     }
     
-	serverPort = [[NSNumber numberWithInteger:19989] retain];
+	serverPort = [NSNumber numberWithInteger:19989];
 	
     variableSetName = Nil;
 	self.variableSetName = Nil;
@@ -180,7 +180,7 @@
 
 - (NSArray *)variableNames {
     // Return a copy of MWCodec's internal variable names array 
-    return [[[variables variableNames] copy] autorelease];
+    return [[variables variableNames] copy];
 }
 
 - (NSDictionary *)varGroups {
@@ -207,7 +207,6 @@
 			if(aGroup == nil) {
 				aGroup = [[NSMutableArray alloc] init];
                 [allGroups setValue:aGroup forKey:groupName];
-                [aGroup release];  // allGroups retains aGroup, so we can safely release it
 			}
 			
 			[aGroup addObject:[NSString stringWithUTF8String:var->getProperties()->getTagName().c_str()]];
@@ -216,13 +215,12 @@
 		}
 	}
 	
-	return [allGroups autorelease];
+	return allGroups;
 }
 
 
 - (void)setServerURL:(NSString *)newServerURL {
     if (![serverURL isEqualToString:newServerURL]) {
-        [serverURL release];
         serverURL = [newServerURL copy];
         [grouped_plugin_controller setWindowFrameAutosaveName:serverURL];
     }
@@ -381,7 +379,6 @@
 			[defaults setObject:recentServersMutable forKey:@"recentServers"];
 			[defaults synchronize];
             
-            [recentServersMutable release];
 		}
 		
 		
@@ -472,7 +469,6 @@
         }
         
         [defaults setObject:recentExperimentsMutable forKey:@"recentExperiments"];
-        [recentExperimentsMutable release];
         
         [defaults synchronize];
     }
@@ -574,7 +570,6 @@
             NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
             dateFormatter.dateFormat = @"yyyyMMdd-HHmmss";
             NSString *dateTag = [dateFormatter stringFromDate:[NSDate date]];
-            [dateFormatter release];
             
             self.dataFileName = [NSString stringWithFormat:@"%@-%@-%@", userName, experimentBaseName, dateTag];
             self.dataFileOverwrite = NO;
@@ -1220,7 +1215,6 @@
         [alert setMessageText:@"Experiment is running"];
         [alert setInformativeText:@"Please stop the running experiment before attempting to close the workspace."];
         [alert runModal];
-        [alert release];
         return;
     }
     

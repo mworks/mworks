@@ -30,19 +30,19 @@
 		[self setToolTip:@"Access the network controls"];
 		[self setTarget:self];
 		NSString *resourcePath = [[NSBundle bundleWithPath:@"/Library/Frameworks/MWorksCocoa.framework"] resourcePath];
-		[self setImage:[[[NSImage alloc] initByReferencingFile:[resourcePath stringByAppendingPathComponent:@"greenCheck.tif"]] autorelease]];
-		submenu=[[[NSMenu alloc] init] autorelease];
-		serverControl=[[[NSMenuItem alloc] initWithTitle:STOP_SERVER
+		[self setImage:[[NSImage alloc] initByReferencingFile:[resourcePath stringByAppendingPathComponent:@"greenCheck.tif"]]];
+		submenu=[[NSMenu alloc] init];
+		serverControl=[[NSMenuItem alloc] initWithTitle:STOP_SERVER
 												 action:@selector(stopServer)
-										  keyEquivalent: @""] autorelease];
+										  keyEquivalent: @""];
 		
-		acceptControl=[[[NSMenuItem alloc] initWithTitle:STOP_ACCEPTING
+		acceptControl=[[NSMenuItem alloc] initWithTitle:STOP_ACCEPTING
 												 action:@selector(stopAccepting)
-										  keyEquivalent: @""] autorelease];
+										  keyEquivalent: @""];
 		
-		NSMenuItem *networkPreferencesControl = [[[NSMenuItem alloc] initWithTitle:@"Network Preferences"
+		NSMenuItem *networkPreferencesControl = [[NSMenuItem alloc] initWithTitle:@"Network Preferences"
 																			action:@selector(openNetworkPreferences:)
-																	keyEquivalent: @""] autorelease];
+																	keyEquivalent: @""];
 		
 		[networkPreferencesControl setTarget:self];
 		[networkPreferencesControl setEnabled:YES];
@@ -60,12 +60,6 @@
 	return self;
 }
 
-- (void)dealloc {
-	[serverControl release];
-	[acceptControl release];
-	[submenu release];
-	[super dealloc];
-}
 
 - (void)setDelegate:(id)_delegate {
 	if(![_delegate respondsToSelector:@selector(openNetworkPreferences:)] ||
@@ -91,21 +85,21 @@
 	[serverControl setEnabled:YES];
 	if(delegate != nil) {
 		if([[delegate serverAccepting:nil] boolValue]) {
-			[self setImage:[[[NSImage alloc] initByReferencingFile:[resourcePath stringByAppendingPathComponent:@"greenCheck.tif"]] autorelease]];
+			[self setImage:[[NSImage alloc] initByReferencingFile:[resourcePath stringByAppendingPathComponent:@"greenCheck.tif"]]];
 			[acceptControl setTitle:STOP_ACCEPTING];
 			[acceptControl setAction:@selector(stopAccepting:)];
 		} else {
-			[self setImage:[[[NSImage alloc] initByReferencingFile:[resourcePath stringByAppendingPathComponent:@"yellowCheck.tif"]] autorelease]];
+			[self setImage:[[NSImage alloc] initByReferencingFile:[resourcePath stringByAppendingPathComponent:@"yellowCheck.tif"]]];
 			[acceptControl setTitle:START_ACCEPTING];
 			[acceptControl setAction:@selector(startAccepting:)];		
 		}
 		
 		if([[delegate serverStarted:nil] boolValue]) {
-			[self setImage:[[[NSImage alloc] initByReferencingFile:[resourcePath stringByAppendingPathComponent:@"greenCheck.tif"]] autorelease]];
+			[self setImage:[[NSImage alloc] initByReferencingFile:[resourcePath stringByAppendingPathComponent:@"greenCheck.tif"]]];
 			[serverControl setTitle:STOP_SERVER];
 			[serverControl setAction:@selector(stopServer:)];
 		} else {
-			[self setImage:[[[NSImage alloc] initByReferencingFile:[resourcePath stringByAppendingPathComponent:@"redX.tif"]] autorelease]];
+			[self setImage:[[NSImage alloc] initByReferencingFile:[resourcePath stringByAppendingPathComponent:@"redX.tif"]]];
 			[serverControl setTitle:START_SERVER];
 			[serverControl setAction:@selector(startServer:)];	
 		}

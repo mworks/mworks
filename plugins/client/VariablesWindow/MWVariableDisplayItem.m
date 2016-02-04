@@ -26,13 +26,11 @@
 
 - (void)setVariables:(NSArray *)vars
 {
-    [children release];
     children = [[NSMutableArray alloc] initWithCapacity:[vars count]];
     
     for (NSString *newVarName in vars) {
         MWVariableDisplayItem *newChild = [[MWVariableDisplayItem alloc] initWithName:newVarName];
         [children addObject:newChild];
-        [newChild release];
     }
 }
 
@@ -57,12 +55,6 @@
 }
 
 
-- (void)dealloc
-{
-    [children release];
-    [displayName release];
-    [super dealloc];
-}
 
 
 @end

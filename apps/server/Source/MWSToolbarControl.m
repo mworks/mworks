@@ -66,18 +66,18 @@
 	if([itemIdentifier isEqualToString:NETWORK_BUTTON]) {
 		MWSNetworkToolbarItem *item = [[MWSNetworkToolbarItem alloc] initWithItemIdentifier:itemIdentifier];
 		[item setDelegate:self];
-		return [item autorelease];
+		return item;
 	} else if([itemIdentifier isEqualToString:CONSOLE_BUTTON]) {
 		NSString *resourcePath = [[NSBundle bundleWithPath:@"/Library/Frameworks/MWorksCocoa.framework"] resourcePath];
 		NSToolbarItem *item = [[NSToolbarItem alloc] initWithItemIdentifier:itemIdentifier];
 		
 		[item setLabel:@"Console"];
 		[item setPaletteLabel:[item label]];
-		[item setImage:[[[NSImage alloc] initByReferencingFile:[resourcePath stringByAppendingPathComponent:@"Console.tif"]] autorelease]];
+		[item setImage:[[NSImage alloc] initByReferencingFile:[resourcePath stringByAppendingPathComponent:@"Console.tif"]]];
 		[item setTarget:delegate];
 		[item setAction:@selector(toggleConsole:)];
 		
-		return [item autorelease];
+		return item;
 	}
 	return nil;
 }

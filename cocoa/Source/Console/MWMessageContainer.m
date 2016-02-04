@@ -13,28 +13,17 @@
 @implementation MWMessageContainer
 
 - (void)dealloc {
-    [message release];
     message = nil;
-    [timeValue release];
     timeValue = nil;
-    [altTimeValue release];
     altTimeValue = nil;
     messageTimeColor = nil;
-    [DefaultColor release];
     DefaultColor = nil;
-    [WarningColor release];
     WarningColor = nil;
-    [ErrorColor release];
     ErrorColor = nil;
-    [FatalColor release];
     FatalColor = nil;
-    [NetworkColor release];
     NetworkColor = nil;
-	[LocalColor release];
 	LocalColor = nil;
-	[RemoteColor release];
 	RemoteColor = nil;
-    [super dealloc];
 }
 
 - (id)initMessageContainerWithMessage:(NSString *)msg 
@@ -43,24 +32,24 @@
 					   onLocalConsole:(BOOL)_localConsole {
     self = [super init];
     if(self) {
-        message = [msg retain];
-        altTimeValue = [tme retain];
+        message = msg;
+        altTimeValue = tme;
         msgType = type;
         timeValue = nil;
-        DefaultColor = [[NSColor colorWithCalibratedRed:0.0 green:0.5 
-												   blue:0.0 alpha:1.0] retain];
+        DefaultColor = [NSColor colorWithCalibratedRed:0.0 green:0.5 
+												   blue:0.0 alpha:1.0];
 		
-        WarningColor = [[NSColor brownColor] retain];
-        ErrorColor = [[NSColor redColor] retain];
-        FatalColor = [[NSColor darkGrayColor] retain];
+        WarningColor = [NSColor brownColor];
+        ErrorColor = [NSColor redColor];
+        FatalColor = [NSColor darkGrayColor];
         // dark green
-        NetworkColor = [[NSColor colorWithCalibratedRed:0.0 green:0.5 
-												   blue:0.0 alpha:1.0] retain];
+        NetworkColor = [NSColor colorWithCalibratedRed:0.0 green:0.5 
+												   blue:0.0 alpha:1.0];
         
-		LocalColor = [[NSColor colorWithCalibratedRed:0.0 green:0.0 
-												 blue:0.0 alpha:1.0] retain];
-		RemoteColor = [[NSColor colorWithCalibratedRed:0.2 green:0.2 
-												 blue:0.2 alpha:1.0] retain];
+		LocalColor = [NSColor colorWithCalibratedRed:0.0 green:0.0 
+												 blue:0.0 alpha:1.0];
+		RemoteColor = [NSColor colorWithCalibratedRed:0.2 green:0.2 
+												 blue:0.2 alpha:1.0];
 
 		//[self initMessageParagraphStyle];
 		
@@ -74,7 +63,7 @@
 	static NSMutableParagraphStyle *sharedMessageParagraphStyle = nil;
 	
 	if(sharedMessageParagraphStyle == nil){
-		sharedMessageParagraphStyle = [[NSMutableParagraphStyle alloc] retain];
+		sharedMessageParagraphStyle = [NSMutableParagraphStyle alloc];
 		[sharedMessageParagraphStyle setHeadIndent:70.0];
 	}
 	
@@ -134,8 +123,7 @@ consoleMsg = [consoleMsg stringByAppendingString:[NSString
 								attributes: messageAttributes];
 	
   //[consoleMsg appendAttributedString:appendstring];
-	[consoleMsg appendAttributedString:[appendstring autorelease]];
-	[consoleMsg autorelease];
+	[consoleMsg appendAttributedString:appendstring];
 	
 	/*return [[[NSAttributedString alloc] initWithString:consoleMsg 
 attributes:[NSDictionary
@@ -191,8 +179,8 @@ autorelease];*/
 
 - (NSDate *)dateTimeValue {
     if(timeValue == nil) {
-        timeValue = [[NSDate dateWithTimeIntervalSince1970:[altTimeValue
-			doubleValue]] retain];
+        timeValue = [NSDate dateWithTimeIntervalSince1970:[altTimeValue
+			doubleValue]];
     }
     return timeValue;
 }

@@ -62,14 +62,9 @@
 }
 
 + (id)messageWithXMLNode:(NSXMLElement*)element {
-	return [[[self alloc] initWithXMLNode:element] autorelease];
+	return [[self alloc] initWithXMLNode:element];
 }
 
-- (void) dealloc {
-    [arch release];
-	[message release];
-	[super dealloc];
-}
 
 - (NSString *)message { return message; }
 - (MessageParseType)type {return type; }

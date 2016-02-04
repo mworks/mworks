@@ -28,7 +28,7 @@
         imageName = [[NSBundle mainBundle] pathForResource:@"RunTBIcon" ofType:@"tiff"];
     }
     
-    return [[[NSImage alloc] initWithContentsOfFile:imageName] autorelease];
+    return [[NSImage alloc] initWithContentsOfFile:imageName];
 }
 
 

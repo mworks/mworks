@@ -168,7 +168,7 @@
 		log = [[NSString alloc] initWithString:[msgTextView string]];
 	}	
 	
-	NSSavePanel * save = [[NSSavePanel savePanel] retain];
+	NSSavePanel * save = [NSSavePanel savePanel];
     [save setAllowedFileTypes:[NSArray arrayWithObject:@"txt"]];
     [save setCanCreateDirectories:YES];
     if([save runModal] == NSFileHandlingPanelOKButton)  {
@@ -178,8 +178,6 @@
 				   error:nil];
     }
 	
-	[save release];
-	[log release];
 }
 
 - (void)clearLog:(id)arg {
@@ -247,7 +245,6 @@
 	[[msgTextView textStorage] performSelectorOnMainThread:@selector(appendAttributedString:)
 												withObject:[msgData messageForConsole]
 											 waitUntilDone:YES];
-	[msgData release];
 	
 	
 	if([[msgTextView textStorage] length] > maxConsoleLength*1.5) {
@@ -310,7 +307,7 @@
 			
 			MWorksTime eventTime = [event time];
 			
-			NSNumber *time = [[[NSNumber alloc] initWithLongLong:eventTime] autorelease];
+			NSNumber *time = [[NSNumber alloc] initWithLongLong:eventTime];
 			
 			NSNumber *localConsole = [delegate isLocalMessage:[NSNumber numberWithInt:payload.getElement(M_MESSAGE_ORIGIN).getInteger()]];
 			if(!showGenericMessages && msgType == M_GENERIC_MESSAGE){

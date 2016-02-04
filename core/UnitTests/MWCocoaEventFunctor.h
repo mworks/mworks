@@ -38,12 +38,12 @@ public:
 	// override operator "()"
 	virtual void operator()(const shared_ptr<Event> &event)
 	{ 
-		NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+		@autoreleasepool {
 		
-	 Datum data(event->getData());
-		id cocoaEvent = [[[MWCocoaEvent alloc] initWithData:&data 
+ 	 Datum data(event->getData());
+		id cocoaEvent = [[MWCocoaEvent alloc] initWithData:&data 
 													andCode:event->getEventCode() 
-													andTime:event->getTime()] autorelease];
+													andTime:event->getTime()];
 		
 		if([receiver respondsToSelector:selector]) {
 			// DDC: 5/08 changed to "OnMainThread"
@@ -55,7 +55,7 @@ public:
 			merror(M_CLIENT_MESSAGE_DOMAIN, "%s", [[errorMessage stringByAppendingString:sn] cStringUsingEncoding:NSASCIIStringEncoding]);
 		}
 		
-		[pool release];
+		}
 	};         
 };
 

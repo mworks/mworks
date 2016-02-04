@@ -25,7 +25,7 @@
                                                                 timeZone:nil
                                                                   locale:nil];
     
-    logFilePath = [[logFileDir stringByAppendingPathComponent:logFileName] retain];
+    logFilePath = [logFileDir stringByAppendingPathComponent:logFileName];
     
     NSLog(@"log file path: %@", logFilePath);
 
@@ -37,7 +37,7 @@
     {
         NSLog(@"log file creation failed");
     } else {
-        logFile = [[NSFileHandle fileHandleForWritingAtPath:logFilePath] retain];
+        logFile = [NSFileHandle fileHandleForWritingAtPath:logFilePath];
     }
 
     return self;
@@ -61,15 +61,8 @@
     [self didChangeValueForKey:@"content"];
     
     [logFile writeData:[full_entry dataUsingEncoding: NSASCIIStringEncoding]];
-    [full_entry release];
 }
 
-- (void)dealloc {
-    [logFile release];
-    [logFilePath release];
-    [content release];
-    [super dealloc];
-}
 
 
 @end

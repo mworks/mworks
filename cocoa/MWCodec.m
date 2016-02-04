@@ -45,7 +45,6 @@
 		[update_timer invalidate];
 	}
 	
-	[super dealloc];
 }
 
 
@@ -200,7 +199,6 @@
             //NSLog(@"value is: %@", val);
         }
         
-        [scanner release];
 	}
     
     [self setValue:setval forVariable:key];

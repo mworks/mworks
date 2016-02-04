@@ -21,54 +21,54 @@
 int main(int argc, char *argv[]) {
 	using namespace mw;
 	
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    NSApplication *myapp = [NSApplication sharedApplication];
-    
-    if(argc == 1) {
-        // the program started by user clicking on application icon
-        // the only argument is the name of the program.
-    } else {
-        // the user started from the client and we need to process arguments.        
-    }
-    
-    
-    // -----------------------------
-    // Initialize the core
-    // -----------------------------
-    
-    NSError *error = Nil;
-    
-    try {
-        CoreBuilderForeman::constructCoreStandardOrder(new 
+    @autoreleasepool {
+        NSApplication *myapp = [NSApplication sharedApplication];
+        
+        if(argc == 1) {
+            // the program started by user clicking on application icon
+            // the only argument is the name of the program.
+        } else {
+            // the user started from the client and we need to process arguments.        
+        }
+        
+        
+        // -----------------------------
+        // Initialize the core
+        // -----------------------------
+        
+        NSError *error = Nil;
+        
+        try {
+            CoreBuilderForeman::constructCoreStandardOrder(new 
 													StandardServerCoreBuilder());
 	} catch(ComponentFactoryConflictException& e){
-        
-        NSString *error_description = [NSString stringWithCString:e.getMessage().c_str() encoding:NSASCIIStringEncoding];
-        NSString *recovery_suggestion = @"You must review your plugins to ensure that multiple plugins aren't trying to register functionality under the same XML signatures";
-        NSMutableDictionary *error_info = [[NSMutableDictionary alloc] init];
-        [error_info setObject: error_description  forKey: NSLocalizedDescriptionKey];
-        [error_info setObject: recovery_suggestion forKey: NSLocalizedRecoverySuggestionErrorKey];
-        
-        error = [NSError errorWithDomain:@"PluginLoader" 
-                         code: 100 
-                        userInfo: error_info];
-    }
+            
+            NSString *error_description = [NSString stringWithCString:e.getMessage().c_str() encoding:NSASCIIStringEncoding];
+            NSString *recovery_suggestion = @"You must review your plugins to ensure that multiple plugins aren't trying to register functionality under the same XML signatures";
+            NSMutableDictionary *error_info = [[NSMutableDictionary alloc] init];
+            [error_info setObject: error_description  forKey: NSLocalizedDescriptionKey];
+            [error_info setObject: recovery_suggestion forKey: NSLocalizedRecoverySuggestionErrorKey];
+            
+            error = [NSError errorWithDomain:@"PluginLoader" 
+                             code: 100 
+                            userInfo: error_info];
+        }
 	    
-    // ----------------------------
-    // Load Basic Cocoa Resources
-    // ----------------------------
+        // ----------------------------
+        // Load Basic Cocoa Resources
+        // ----------------------------
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    [NSBundle loadNibNamed:@"MainMenu" owner:myapp];
+        [NSBundle loadNibNamed:@"MainMenu" owner:myapp];
 #pragma clang diagnostic pop
 	
 	if(error != Nil){
-        [(MWSServer *)[myapp delegate] setError:error];
+            [(MWSServer *)[myapp delegate] setError:error];
+        }
+        
+        // ---------------------------------------
+        // Set UI Running
+        // ---------------------------------------    
+        [myapp run];
     }
-    
-    // ---------------------------------------
-    // Set UI Running
-    // ---------------------------------------    
-    [myapp run];
-    [pool release];
 }

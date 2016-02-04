@@ -74,11 +74,7 @@ Datum _getNumber(const string &expression, const GenericDataType type);
 
 
 - (void)dealloc {
-	[expected_messages release];
-	[expected_events release];
-	[permitted_error_messages release];
     client.reset();
-	[super dealloc];
 }
 
 - (void)awakeFromNib {
@@ -191,9 +187,9 @@ Datum _getNumber(const string &expression, const GenericDataType type);
     xmlSetGenericErrorFunc(NULL, NULL);
     xmlFreeParserCtxt(context);
     
-    NSXMLDocument *info_xml = [[[NSXMLDocument alloc] initWithData:[NSData dataWithContentsOfFile:message_file]
+    NSXMLDocument *info_xml = [[NSXMLDocument alloc] initWithData:[NSData dataWithContentsOfFile:message_file]
                                                            options:0
-                                                             error:nil] autorelease];
+                                                             error:nil];
     
     if(info_xml == nil) {
         NSLog(@"xml_file: %@ couldn't be opened", message_file);
@@ -292,7 +288,7 @@ Datum _getNumber(const string &expression, const GenericDataType type);
 	if([self.expectedEvents count] > 0) {
 		
 		// 'retain' then 'autorelease' because the event's reference count reaches zero when removeObjectAtIndex:0 is called later
-		MarionetteEvent *next_expected_event = [[[self.expectedEvents objectAtIndex:0] retain] autorelease];
+		MarionetteEvent *next_expected_event = [self.expectedEvents objectAtIndex:0];
 		int next_expected_event_code = client->lookupCodeForTag([[next_expected_event variable] cStringUsingEncoding:NSASCIIStringEncoding]);
 		if(code == next_expected_event_code && code != -1) {
 			if([next_expected_event matches:[event data]]) {

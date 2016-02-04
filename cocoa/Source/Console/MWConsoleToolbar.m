@@ -30,7 +30,7 @@
 	[toolbar setAllowsUserCustomization:NO];
 	[toolbar setAutosavesConfiguration:NO];
 	[toolbar setDelegate:self];	
-	[window setToolbar:[toolbar autorelease]];
+	[window setToolbar:toolbar];
   
 }
 

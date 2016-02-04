@@ -17,7 +17,6 @@
 }
 
 - (id)initWithItemIdentifier:(NSString *)itemIdentifier;
-- (void)dealloc;
 - (void)setDelegate:(id)_delegate;
 - (void)updateDisplay:(id)arg;
 

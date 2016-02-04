@@ -26,7 +26,7 @@
 }
 
 @property(nonatomic, copy) NSString *serverName;
-@property(nonatomic, readonly) NSArray *availableDisplays;
+@property(weak, nonatomic, readonly) NSArray *availableDisplays;
 @property(nonatomic, strong) NSNumber *displayToUse;
 @property(nonatomic, strong) NSNumber *displayWidth;
 @property(nonatomic, strong) NSNumber *displayHeight;

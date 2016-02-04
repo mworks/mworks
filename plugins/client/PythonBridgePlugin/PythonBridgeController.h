@@ -48,9 +48,9 @@
     BOOL in_grouped_window;
 }
 
-@property(retain) NSString *path;
-@property(retain) NSString *status;
-@property(retain) NSString *loadButtonTitle;
+@property(strong) NSString *path;
+@property(strong) NSString *status;
+@property(strong) NSString *loadButtonTitle;
 @property(nonatomic, assign) BOOL scrollToBottomOnOutput;
 
 

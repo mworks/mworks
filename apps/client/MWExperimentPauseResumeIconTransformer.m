@@ -28,7 +28,7 @@
         imageName = [[NSBundle mainBundle] pathForResource:@"PauseTBIcon" ofType:@"tiff"];
     }
     
-    return [[[NSImage alloc] initWithContentsOfFile:imageName] autorelease];
+    return [[NSImage alloc] initWithContentsOfFile:imageName];
 }
 
 
