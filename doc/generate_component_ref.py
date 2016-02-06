@@ -144,6 +144,13 @@ def write_parameters(fp, kind, params):
     for p in params:
         write_header(fp, p['name'], '^')
 
+        if 'recommended' in p:
+            print(':Recommended: ``%s``' % p['recommended'], file=fp)
+
+        if 'options' in p:
+            options = ', '.join(('``%s``' % c) for c in p['options'])
+            print(':Options: ' + options, file=fp)
+
         if 'default' in p:
             print(':Default: ``%s``' % p['default'], file=fp)
 
