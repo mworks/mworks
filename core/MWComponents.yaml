@@ -193,24 +193,30 @@ allowed_parent:
 description: A variable object.
 parameters: 
   - 
-    name: scope
-    required: yes
-    example: global
-  - 
-    name: logging
-    default: never
-    example: when_changed
-  - 
-    name: exclude_from_data_file
-    default: 'NO'
-  - 
     name: default_value
     required: yes
     example: 0
   - 
     name: type
     required: yes
-    example: any
+    options: [any, boolean, integer, float, string, list]
+    recommended: any
+  - 
+    name: scope
+    required: yes
+    options: [global, local]
+    recommended: global
+  - 
+    name: logging
+    options: [never, when_idle, always, at_startup, every_trial, when_changed]
+    default: never
+    recommended: when_changed
+  -
+    name: persistant
+    default: 'NO'
+  - 
+    name: exclude_from_data_file
+    default: 'NO'
 
 
 ---
@@ -235,7 +241,12 @@ parameters:
   - 
     name: selection
     required: yes
-    example: sequential
+    options:
+      - sequential
+      - sequential_ascending
+      - sequential_descending
+      - random_without_replacement
+      - random_with_replacement
   - 
     name: nsamples
     required: yes
@@ -243,7 +254,7 @@ parameters:
   - 
     name: sampling_method
     required: yes
-    example: cycles
+    options: [cycles, samples]
   - 
     name: advance_on_accept
     default: 'NO'
@@ -266,6 +277,11 @@ allowed_parent:
   - Stimulus Group
   - Folder
 description: Base-level stimulus stub
+parameters:
+  - 
+    name: deferred
+    options: ['no', 'yes', 'explicit']
+    default: 'no'
 
 
 ---
@@ -273,7 +289,6 @@ description: Base-level stimulus stub
 
 name: Stimulus Group
 signature: stimulus_group
-isa: Stimulus
 icon: smallStimulusFolder
 group: Stimuli
 allowed_parent: 
@@ -288,19 +303,10 @@ description: An indexable group of stimuli
 ---
 
 
-name: Image Stimulus
-signature: stimulus/image_file
+name: Basic Transform Stimulus
+abstract: yes
 isa: Stimulus
-inspector: ImageStimulusInspectorView
-description: An image stimulus loaded from any standard-format image file.
 parameters: 
-  - 
-    name: path
-    required: yes
-    example:
-      - images/image1.png
-      - /path/to/image.png
-    description: Filesystem path to the image file
   - 
     name: x_size
     required: yes
@@ -323,9 +329,24 @@ parameters:
   - 
     name: alpha_multiplier
     default: 1.0
+
+
+---
+
+
+name: Image Stimulus
+signature: stimulus/image_file
+isa: Basic Transform Stimulus
+inspector: ImageStimulusInspectorView
+description: An image stimulus loaded from any standard-format image file.
+parameters: 
   - 
-    name: deferred
-    default: 'NO'
+    name: path
+    required: yes
+    example:
+      - images/image1.png
+      - /path/to/image.png
+    description: Filesystem path to the image file
 
 
 ---
@@ -348,33 +369,12 @@ parameters:
 
 name: Rectangle Stimulus
 signature: stimulus/rectangle
-isa: Stimulus
+isa: Basic Transform Stimulus
 description: A rectangle stimulus
 parameters: 
   - 
     name: color
     default: 1.0,1.0,1.0
-  - 
-    name: x_size
-    required: yes
-  - 
-    name: y_size
-    required: yes
-  - 
-    name: x_position
-    default: 0.0
-  - 
-    name: y_position
-    default: 0.0
-  - 
-    name: rotation
-    default: 0.0
-  - 
-    name: alpha_multiplier
-    default: 1.0
-  - 
-    name: deferred
-    default: 'NO'
 
 
 ---
@@ -382,33 +382,8 @@ parameters:
 
 name: Ellipse Stimulus
 signature: stimulus/circle
-isa: Stimulus
+isa: Rectangle Stimulus
 description: An ellipse stimulus
-parameters: 
-  - 
-    name: color
-    default: 1.0,1.0,1.0
-  - 
-    name: x_size
-    required: yes
-  - 
-    name: y_size
-    required: yes
-  - 
-    name: x_position
-    default: 0.0
-  - 
-    name: y_position
-    default: 0.0
-  - 
-    name: rotation
-    default: 0.0
-  - 
-    name: alpha_multiplier
-    default: 1.0
-  - 
-    name: deferred
-    default: 'NO'
 
 
 ---
@@ -416,33 +391,9 @@ parameters:
 
 name: Fixation Point Stimulus
 signature: stimulus/fixation_point
-isa: Stimulus
+isa: Rectangle Stimulus
 description: A fixation point stimulus
 parameters: 
-  - 
-    name: color
-    default: 1.0,1.0,1.0
-  - 
-    name: x_size
-    required: yes
-  - 
-    name: y_size
-    required: yes
-  - 
-    name: x_position
-    default: 0.0
-  - 
-    name: y_position
-    default: 0.0
-  - 
-    name: rotation
-    default: 0.0
-  - 
-    name: alpha_multiplier
-    default: 1.0
-  - 
-    name: deferred
-    default: 'NO'
   - 
     name: trigger_width
     required: yes
@@ -462,33 +413,9 @@ parameters:
 
 name: Circular Fixation Point Stimulus
 signature: stimulus/circular_fixation_point
-isa: Stimulus
+isa: Ellipse Stimulus
 description: A circular fixation point stimulus
 parameters: 
-  - 
-    name: color
-    default: 1.0,1.0,1.0
-  - 
-    name: x_size
-    required: yes
-  - 
-    name: y_size
-    required: yes
-  - 
-    name: x_position
-    default: 0.0
-  - 
-    name: y_position
-    default: 0.0
-  - 
-    name: rotation
-    default: 0.0
-  - 
-    name: alpha_multiplier
-    default: 1.0
-  - 
-    name: deferred
-    default: 'NO'
   - 
     name: trigger_width
     required: yes
@@ -530,7 +457,6 @@ parameters:
 
 name: Paradigm Component
 abstract: yes
-icon: fakeMonkey
 group: Paradigm Components
 allowed_parent: 
   - Range Replicator
@@ -610,16 +536,22 @@ parameters:
 ---
 
 
-name: Protocol
-signature: protocol
+name: Container State
+abstract: yes
 isa: Paradigm Component
-icon: smallProtocol
+parameters: 
+  - 
+    name: interruptible
+    default: 'YES'
+
+
+---
+
+
+name: List State
+abstract: yes
+isa: Container State
 inspector: ListStateInspectorView
-allowed_parent: Experiment
-description: >
-    A top-level paradigm component that contains other sub-components.
-    Protocols appear in a user-selected menu at run-time, and represent the
-    largest unit of logical organization in an experiment.
 parameters: 
   - 
     name: nsamples
@@ -628,14 +560,30 @@ parameters:
   - 
     name: sampling_method
     required: yes
-    example: cycles
+    options: [cycles, samples]
   - 
     name: selection
     required: yes
-    example: sequential
-  - 
-    name: interruptible
-    default: 'YES'
+    options:
+      - sequential
+      - sequential_ascending
+      - sequential_descending
+      - random_without_replacement
+      - random_with_replacement
+
+
+---
+
+
+name: Protocol
+signature: protocol
+isa: List State
+icon: smallProtocol
+allowed_parent: Experiment
+description: >
+    A top-level paradigm component that contains other sub-components.
+    Protocols appear in a user-selected menu at run-time, and represent the
+    largest unit of logical organization in an experiment.
 
 
 ---
@@ -643,30 +591,13 @@ parameters:
 
 name: Block
 signature: block
-isa: Paradigm Component
+isa: List State
 icon: smallBlock
-inspector: ListStateInspectorView
 allowed_parent: Protocol
 description: >
     A container paradigm component.  Blocks can contain other paradigm
     components and have a mechanism for selecting the ordering of selection
     of components contained within them.
-parameters: 
-  - 
-    name: nsamples
-    required: yes
-    example: 1
-  - 
-    name: sampling_method
-    required: yes
-    example: cycles
-  - 
-    name: selection
-    required: yes
-    example: sequential
-  - 
-    name: interruptible
-    default: 'YES'
 
 
 ---
@@ -674,9 +605,8 @@ parameters:
 
 name: Trial
 signature: trial
-isa: Paradigm Component
+isa: List State
 icon: smallTrial
-inspector: ListStateInspectorView
 allowed_parent: 
   - Protocol
   - Block
@@ -686,22 +616,6 @@ description: >
     A container paradigm component.  Trials can contain other paradigm
     components and have a mechanism for selecting the ordering of selection
     of components contained within them.
-parameters: 
-  - 
-    name: nsamples
-    required: yes
-    example: 1
-  - 
-    name: sampling_method
-    required: yes
-    example: cycles
-  - 
-    name: selection
-    required: yes
-    example: sequential
-  - 
-    name: interruptible
-    default: 'YES'
 
 
 ---
@@ -709,9 +623,8 @@ parameters:
 
 name: List
 signature: list
-isa: Paradigm Component
+isa: List State
 icon: smallList
-inspector: ListStateInspectorView
 allowed_parent: 
   - Protocol
   - Block
@@ -721,22 +634,6 @@ description: >
     A container paradigm component.  Lists can contain other paradigm
     components and have a mechanism for selecting the ordering of selection
     of components contained within them.
-parameters: 
-  - 
-    name: nsamples
-    required: yes
-    example: 1
-  - 
-    name: sampling_method
-    required: yes
-    example: cycles
-  - 
-    name: selection
-    required: yes
-    example: sequential
-  - 
-    name: interruptible
-    default: 'YES'
 
 
 ---
@@ -744,7 +641,7 @@ parameters:
 
 name: Task System
 signature: task_system
-isa: Paradigm Component
+isa: Container State
 icon: smallTaskSystem
 allowed_parent: 
   - Protocol
@@ -756,10 +653,6 @@ description: >
     `Task System State` objects, which define transitions from one state to
     the next.  The Task System finishes when one of the states evaluates an
     `Exit Task System` transition.
-parameters: 
-  - 
-    name: interruptible
-    default: 'YES'
 
 
 ---
@@ -767,7 +660,7 @@ parameters:
 
 name: Task System State
 signature: task_system_state
-isa: Paradigm Component
+isa: Container State
 icon: smallTaskSystemState
 allowed_parent: Task System
 description: >
@@ -776,10 +669,6 @@ description: >
     actions, which are executed when the state first gains control, and a
     list of transitions, which are repeatedly evaluated until one of them
     returns a valid target state.
-parameters: 
-  - 
-    name: interruptible
-    default: 'YES'
 
 
 ---
