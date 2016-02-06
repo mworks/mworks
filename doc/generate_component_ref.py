@@ -54,9 +54,18 @@ def register_element(info):
         groups[name] = info
     else:
         group = set(str_or_list(info.get('group', [])))
+        parameters = info.get('parameters', [])
+        param_names = set(p['name'] for p in parameters)
         for ancestor in str_or_list(info.get('isa', [])):
-            group.update(components[ancestor]['group'])
+            ancestor = components[ancestor]
+            group.update(ancestor['group'])
+            for p in ancestor.get('parameters', []):
+                if p['name'] not in param_names:
+                    parameters.append(p)
+                    param_names.add(p['name'])
         info['group'] = group
+        if parameters:
+            info['parameters'] = parameters
         assert group, 'No groups for %r' % name
         for g in group:
             if not info.get('abstract', False):
