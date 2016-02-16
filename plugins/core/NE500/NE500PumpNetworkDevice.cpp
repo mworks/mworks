@@ -330,8 +330,12 @@ void NE500PumpNetworkDevice::NE500DeviceOutputNotification::notify(const Datum &
     if (auto shared_pump_network = pump_network.lock()) {
         if (auto shared_channel = channel.lock()) {
             scoped_lock active_lock(shared_pump_network->active_mutex);
-            if (shared_pump_network->active) {
-                shared_channel->dispense(shared_pump_network->getSendFunction());
+            auto sendMessage = shared_pump_network->getSendFunction();
+            
+            if (shared_channel->update(sendMessage) &&
+                shared_pump_network->active)
+            {
+                shared_channel->dispense(sendMessage);
             }
         }
     }

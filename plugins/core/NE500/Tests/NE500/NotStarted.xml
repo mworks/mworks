@@ -1,0 +1,30 @@
+<?xml version="1.0" standalone="no"?>
+<monkeyml version="1.0">
+    <io_devices tag="IO Devices">
+        <iodevice type="ne500" tag="ne500" address="&quot;10.0.254.254&quot;" port="100" response_timeout="500ms" log_pump_commands="YES">
+            <iochannel type="ne500" tag="pump0" capability="00" syringe_diameter="15.0" flow_rate="rate" rate_unit="UM" variable="volume" volume_unit="UL"></iochannel>
+        </iodevice>
+    </io_devices>
+    <variables tag="Variables">
+        <variable tag="initial_rate" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="30" type="any"></variable>
+        <variable tag="initial_volume" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="1" type="any"></variable>
+        <variable tag="rate" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="initial_rate" type="any"></variable>
+        <variable tag="volume" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="initial_volume" type="any"></variable>
+    </variables>
+    <sounds tag="Sounds"></sounds>
+    <stimuli tag="Stimuli"></stimuli>
+    <filters tag="Filters"></filters>
+    <optimizers tag="Optimizers"></optimizers>
+    <experiment tag="New Experiment" full_name="" description="">
+        <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
+            <action type="assignment" tag="Reset rate" variable="rate" value="initial_rate"></action>
+            <action type="assignment" tag="Reset volume" variable="volume" value="initial_volume"></action>
+            <action type="assignment" tag="Double rate" variable="rate" value="rate * 2"></action>
+            <action type="assignment" tag="Maintain volume" variable="volume" value="volume"></action>
+            <action type="assignment" tag="Negate volume" variable="volume" value="-volume"></action>
+            <action type="assignment" tag="Double volume" variable="volume" value="volume * 2"></action>
+            <action type="assignment" tag="Reset volume" variable="volume" value="initial_volume"></action>
+            <action type="wait" tag="Wait" duration="1" duration_units="s"></action>
+        </protocol>
+    </experiment>
+</monkeyml>

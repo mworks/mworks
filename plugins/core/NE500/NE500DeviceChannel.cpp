@@ -109,7 +109,7 @@ bool NE500DeviceChannel::initialize(const SendFunction &sendMessage) {
 }
 
 
-bool NE500DeviceChannel::dispense(const SendFunction &sendMessage) {
+bool NE500DeviceChannel::update(const SendFunction &sendMessage) {
     const double currentRate = getCurrentRate();
     const double currentVolume = getCurrentVolume();
     const Direction currentDirection = getCurrentDirection(currentVolume);
@@ -136,6 +136,11 @@ bool NE500DeviceChannel::dispense(const SendFunction &sendMessage) {
         }
     }
     
+    return true;
+}
+
+
+bool NE500DeviceChannel::dispense(const SendFunction &sendMessage) {
     return sendMessage(pump_id, "RUN");
 }
 

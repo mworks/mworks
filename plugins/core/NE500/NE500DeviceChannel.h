@@ -35,6 +35,7 @@ public:
     }
     
     bool initialize(const SendFunction &sendMessage);
+    bool update(const SendFunction &sendMessage);
     bool dispense(const SendFunction &sendMessage);
     
 private:
