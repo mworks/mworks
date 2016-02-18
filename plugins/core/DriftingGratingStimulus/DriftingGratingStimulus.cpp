@@ -208,8 +208,6 @@ void DriftingGratingStimulus::load(shared_ptr<StimulusDisplay> display) {
 		glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE0_ALPHA_ARB, GL_TEXTURE);
 		glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND0_ALPHA_ARB, GL_SRC_ALPHA);
         
-        glDisable(GL_BLEND);
-        
         // Unbind grating texture
         glActiveTextureARB(GL_TEXTURE0_ARB); 
         glBindTexture( GL_TEXTURE_1D, 0 );
@@ -225,6 +223,8 @@ void DriftingGratingStimulus::load(shared_ptr<StimulusDisplay> display) {
         glDisable(GL_TEXTURE_2D);
         
         glActiveTextureARB(0);
+        
+        glDisable(GL_BLEND);
 
 	}
     
@@ -387,8 +387,6 @@ void DriftingGratingStimulus::drawFrame(shared_ptr<StimulusDisplay> display) {
     //                CLEAN-UP
     // ----------------------------------------
     
-    glDisable(GL_BLEND);
-    
     // Unbind grating texture
     glActiveTextureARB(GL_TEXTURE0_ARB); 
     glBindTexture( GL_TEXTURE_1D, 0 );
@@ -421,8 +419,9 @@ void DriftingGratingStimulus::drawFrame(shared_ptr<StimulusDisplay> display) {
         glEnd();  // GL_QUADS
     }
     
-
-	glPopMatrix();	
+    
+    glDisable(GL_BLEND);
+	glPopMatrix();
 }
 
 
