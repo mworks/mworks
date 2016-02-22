@@ -49,61 +49,24 @@
 BEGIN_NAMESPACE_MW
 
 
-// TODO: wtf?
-// number of items in pacakge
-const int __PACKAGESIZE__ = 11;
-
 enum DomainType{ M_CONTINUOUS_INFINITE, M_CONTINUOUS_FINITE, M_DISCRETE,
                   M_DISCRETE_BOOLEAN, M_INTEGER_FINITE, M_INTEGER_INFINITE,
                   M_STRUCTURED };
 
-// These are used as error conditions when parsing the XML and also
-// used for the bounds on infinite types.
-const int M_INT_MIN = INT_MIN;
-const int M_INT_MAX = INT_MAX;
-const double M_FLOAT_MIN = DBL_MIN;
-const double M_FLOAT_MAX = DBL_MAX;
 
-// TODO: write a class destructor
 class VariableProperties {
-	protected:
+	private:
 		std::string tagname; // element tag
-        std::string shortname; // short human readable name
-        std::string longname; // a description.
-		WhenType editable; // when can we edit the variable
-		DomainType domain; // what kind of range of values
-		bool viewable; // can the user see this variable
 		bool persistant; // save the variable from run to run
         bool excludeFromDataFile; // should the variable be excluded from data files
-        Datum * range; // an array of values in a range
-		int nvals; // number of values in the range.
 		WhenType logging; // when does this variable get logged
-		Variable *parameter; // the parameter object that this setting represents
 	 Datum defaultvalue; // the default value Datum object.
 		std::vector <std::string> groups; // the groups that the variable belongs to
-        
-        
-		// this is retarded and is an accident waiting to happen
-		//ScarabDatum * package; // a scarab object for network comm.
     
 		std::vector <std::string> parseGroupList(const std::string &groups_csv) const;
-		
-    private:
-        // disable the assignment operator
-        void operator=(const VariableProperties& that) { }
 
 	public:
-	
-		VariableProperties(){ };
-		
-	
-        /**
-         * Constructors that use Datum pointers instead of value arguments
-         * so that they can be called from perl.  Call this constructor
-         * to create DISCRETE_BOOLEAN and CONTINUOUS or INTEGRAL INFINITE
-         * types of variables.
-         */
-        VariableProperties(Datum * def, 
+        VariableProperties(Datum * def,
 							std::string tag, 
 							std::string full, 
 							std::string desc,
@@ -112,86 +75,26 @@ class VariableProperties {
 							bool view, 
 							bool persist,
 							DomainType dType, 
-							std::string groups,
-                            bool exclude = false);
-
-        /**
-         * Constructors that use Datum pointers instead of value arguments
-         * so that they can be called from perl.  Call this constructor
-         * to create CONTINUOUS or INTEGRAL FINITE types of variables.
-         */
-		VariableProperties(Datum * def, 
-							std::string tag, 
-							std::string full, 
-							std::string desc, 
-							WhenType edit, 
-							WhenType log, 
-							bool view, 
-							bool persist,
-							DomainType dType, 
-						    Datum * rg,
-							std::string groups,
-                            bool exclude = false);
-
-        /**
-         * Constructors that use Datum pointers instead of value arguments
-         * so that they can be called from perl.  Call this constructor
-         * to create M_DISRETE types of variables.
-         */
-		VariableProperties(Datum * def, 
-							std::string tag, 
-							std::string full, 
-							std::string desc,
-							WhenType edit, 
-							WhenType log, 
-							bool view, 
-							bool persist,
-							DomainType dType, 
-                            Datum * rg,
-							int numvals,
 							std::string groups,
                             bool exclude = false);
 
         // Constructs an interface setting from a scarab object.
         // used in network communication
         VariableProperties(ScarabDatum * datum);
-        
-        //copy constructor
-        VariableProperties(VariableProperties& copy);
-
-        /**
-         * Destructor.
-         */
-        virtual ~VariableProperties();
-        
+    
         Datum getDefaultValue();
-        Variable * getVariable();
 		WhenType getLogging();
-		WhenType getEditable();
-        DomainType getDomainType();
-        int getNumberValuesInRange();
-        Datum * getRange();
         std::string getTagName();
-        std::string getShortName();
-		std::string getLongName();
-		bool getViewable();
 		bool getPersistant();
         bool getExcludeFromDataFile();
-        void setVariable(Variable *theparam);
-        void addRange(Datum *, int);
 		std::vector <std::string> getGroups();
         
 		/**
          * Packages this interface setting object into a dictionary.
          */
-        virtual ScarabDatum *toScarabDatum();
+        ScarabDatum *toScarabDatum();
         
 		operator Datum();
-		
-        /**
-         * Prints its data members to stderr
-         */
-        void printToSTDERR();
 };
 
 
