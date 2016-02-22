@@ -123,7 +123,6 @@ enum MessageDomain { M_GENERIC_MESSAGE_DOMAIN		= 0,
 #define M_LOADED "loaded"
 #define M_RUNNING "running"
 #define M_PAUSED "paused"
-#define M_DESCRIPTION "description"
 #define M_PROTOCOLS "protocols"
 #define M_CURRENT_PROTOCOL "current protocol"
 #define M_SAVED_VARIABLES "saved variables"

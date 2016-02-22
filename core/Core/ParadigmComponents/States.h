@@ -54,9 +54,6 @@ private:
     
     shared_ptr<ScopedVariableContext> local_variable_context;
     
-    // description of the state for user display
-    std::string description;
-    
     bool interruptible;
     
 protected:
@@ -67,7 +64,6 @@ protected:
         new_state->setParent(getParent());
         new_state->setExperiment(getExperiment());
         new_state->setScopedVariableEnvironment(getScopedVariableEnvironment());
-        new_state->setDescription(getDescription());
         new_state->setInterruptible(interruptible);
         
         return new_state;
@@ -118,17 +114,6 @@ public:
     void setName(const std::string &n) { setTag(n); }
     const std::string& getName() const { return getTag(); }
     
-    /**
-     * Sets the description for this state.
-     */
-    void setDescription(const std::string &d) { description = d; }
-    
-    /**
-     * Returns the description of this state or an empty string if no description
-     * has been set.
-     */
-    const std::string& getDescription() const { return description; }
-    
     void setParameters(std::map<std::string, std::string> parameters, ComponentRegistry *reg);
     
 };
@@ -160,14 +145,15 @@ public:
     // Subclasses must decide for themselves how child states are traversed
     virtual weak_ptr<State> next() = 0;
     
-    virtual void updateHierarchy();
+    void updateHierarchy() override;
     
-    virtual void reset();
+    void reset() override;
     
     // mw::Component methods
-    virtual void addChild(std::map<std::string, std::string> parameters,
-                          ComponentRegistry *reg,
-                          shared_ptr<mw::Component> child){
+    void addChild(std::map<std::string, std::string> parameters,
+                  ComponentRegistry *reg,
+                  shared_ptr<mw::Component> child) override
+    {
         
         shared_ptr<State> state = boost::dynamic_pointer_cast<State, mw::Component>(child);
         
@@ -207,21 +193,22 @@ public:
     ListState();
     
     // State methods
-    virtual weak_ptr<State> next();
-    virtual void reset();
+    weak_ptr<State> next() override;
+    void reset() override;
     
     // Selectable methods
-    virtual int getNItems() { return int(getList().size()); }
+    int getNItems() override { return int(getList().size()); }
     
-    virtual void finalize(std::map<std::string, std::string> parameters, ComponentRegistry *reg);
+    void finalize(std::map<std::string, std::string> parameters, ComponentRegistry *reg) override;
 	
 };
 
 template <class T>
 class ListStateFactory : public ComponentFactory {
-	virtual shared_ptr<mw::Component> 
+    shared_ptr<mw::Component>
     createObject(std::map<std::string, std::string> parameters,
-                 ComponentRegistry *reg){
+                 ComponentRegistry *reg) override
+    {
         
 		shared_ptr<T> newListState = shared_ptr<T>(new T());
 		newListState->setParameters(parameters, reg);

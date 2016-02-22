@@ -17,16 +17,16 @@
 BEGIN_NAMESPACE_MW
 
 
-class Block : public ListState{
+class Block : public ListState {
 	
 public:
 	
 	Block();
 	
-	virtual shared_ptr<mw::Component> createInstanceObject();
+    shared_ptr<mw::Component> createInstanceObject() override;
 	
-	virtual void action();
-	virtual weak_ptr<State> next();
+    void action() override;
+    weak_ptr<State> next() override;
 };
 
 
@@ -37,7 +37,7 @@ public:
 	
 	Protocol();
 	
-	virtual shared_ptr<mw::Component> createInstanceObject();
+    shared_ptr<mw::Component> createInstanceObject() override;
 };
 
 
@@ -48,9 +48,9 @@ public:
 	Trial();
 	
 	
-	virtual void action();
-	virtual weak_ptr<State> next();
-	virtual shared_ptr<mw::Component> createInstanceObject();
+    void action() override;
+    weak_ptr<State> next() override;
+    shared_ptr<mw::Component> createInstanceObject() override;
 	
 };
 
@@ -58,7 +58,7 @@ public:
 class GenericListState : public ListState {
     
 public:
-    virtual shared_ptr<mw::Component> createInstanceObject();
+    shared_ptr<mw::Component> createInstanceObject() override;
     
 };
 

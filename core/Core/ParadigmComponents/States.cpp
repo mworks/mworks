@@ -25,14 +25,11 @@
 BEGIN_NAMESPACE_MW
 
 
-State::State() {
-	experiment = weak_ptr<Experiment>(GlobalCurrentExperiment);
-    description = "";
-
+State::State() :
+    experiment(GlobalCurrentExperiment),
+    interruptible(true)
+{
 	requestVariableContext();
-
-	interruptible = true;
-
 }
 
 
@@ -162,10 +159,6 @@ void State::setParameters(std::map<std::string, std::string> parameters,
 	
 	if(parameters.find("tag") != parameters.end()) {
 		this->setTag(parameters.find("tag")->second);
-	}
-	
-	if(parameters.find("description") != parameters.end()) {
-		this->setDescription(parameters.find("description")->second);
 	}
 }
         

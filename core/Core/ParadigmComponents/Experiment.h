@@ -180,14 +180,14 @@ class Experiment : public ContainerState {
         			
     public:
 		Experiment(shared_ptr<VariableRegistry> variable_reg);
-		virtual ~Experiment();
+        ~Experiment();
 		
 		
 		// Generate variable contexts from the variable registry
 	    void createVariableContexts();
 		
 		// Base State functionality that requires an Experiment to exist already
-	   virtual void requestVariableContext(){ };
+	    void requestVariableContext() override { }
 		
 		//void addProtocol(shared_ptr<mw::Protocol> newprot);
 	    //void addProtocol(int index, shared_ptr<mw::Protocol> newprot);
@@ -195,17 +195,15 @@ class Experiment : public ContainerState {
 		
 		// Accessors for current state system state
 		// Are these used right now?
-		virtual weak_ptr<State> getCurrentState();
-	    virtual void setCurrentState(weak_ptr<State> newstate);
+        weak_ptr<State> getCurrentState();
+        void setCurrentState(weak_ptr<State> newstate);
 
 
 		// State inherited methods
-		virtual void action();
-		virtual weak_ptr<State> next();
+        void action() override;
+        weak_ptr<State> next() override;
 		
-		//virtual void announceIdentity();
-		
-		virtual void reset();
+        void reset() override;
 
 		
 		
@@ -230,7 +228,7 @@ class Experiment : public ContainerState {
 		// current).  The purpose of this method is to ensure that local
 		// variable changes are logged in the event stream when as the 
 		// control flows through the paradigm.
-		virtual void announceLocalVariables(){
+        void announceLocalVariables(){
 			ScopedVariableEnvironment::announceAll(); // ScopedVariableEnvironment method
 		}
 		
@@ -247,8 +245,8 @@ class Experiment : public ContainerState {
 	    shared_ptr<VariableRegistry> getVariableRegistry();
 
 
-		virtual void finalize(std::map<std::string, std::string> parameters,
-												ComponentRegistry *reg) {
+        void finalize(std::map<std::string, std::string> parameters, ComponentRegistry *reg) override
+        {
             shared_ptr<Experiment> self_ptr(component_shared_from_this<Experiment>());
 			current_state = self_ptr;
 			setExperiment(self_ptr);
@@ -256,9 +254,10 @@ class Experiment : public ContainerState {
 			createVariableContexts();
 		}
 		
-		virtual void addChild(std::map<std::string, std::string> parameters,
-								ComponentRegistry *reg,
-								shared_ptr<mw::Component> child){
+        void addChild(std::map<std::string, std::string> parameters,
+                      ComponentRegistry *reg,
+                      shared_ptr<mw::Component> child) override
+        {
 			
 			ContainerState::addChild(parameters, reg, child);
 			
@@ -277,8 +276,9 @@ class ExperimentFactory : public ComponentFactory {
 
 	public:
 		
-	virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-												ComponentRegistry *reg) {
+    shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
+                                           ComponentRegistry *reg) override
+    {
 		GlobalCurrentExperiment = shared_ptr<Experiment>(new Experiment(global_variable_registry));
 	
 		// TODO

@@ -116,9 +116,6 @@ shared_ptr<Event> SystemEventFactory::protocolPackage() {
         Datum protocolName(protocol->getName());
 		protocolEntry.addElement(M_PROTOCOL_NAME, protocolName);
 		
-        Datum protocolDescription(protocol->getDescription());
-		protocolEntry.addElement(M_DESCRIPTION, protocolName);
-		
 		protocolList.addElement(protocolEntry);
 	}
 	
