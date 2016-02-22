@@ -198,14 +198,12 @@ parameters:
     example: 0
   - 
     name: type
-    required: yes
     options: [any, boolean, integer, float, string, list]
-    recommended: any
+    default: any
   - 
     name: scope
-    required: yes
     options: [global, local]
-    recommended: global
+    default: global
   - 
     name: logging
     options: [never, when_idle, always, at_startup, every_trial, when_changed]
@@ -218,7 +216,6 @@ parameters:
     default: 'NO'
   -
     name: groups
-    required: no
 
 
 ---
@@ -265,7 +262,6 @@ parameters:
     default: 'NO'
   -
     name: groups
-    required: no
 
 
 ---

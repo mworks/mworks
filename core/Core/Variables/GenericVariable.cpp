@@ -71,9 +71,7 @@ shared_ptr<mw::Component> VariableFactory::createObject(std::map<std::string, st
 											   ComponentRegistry *reg){
 	REQUIRE_ATTRIBUTES(parameters,
 					   "tag",
-					   "type",
-					   "default_value",
-					   "scope");
+					   "default_value");
 	std::string tag;
 	std::string type_string("");
 	std::string persistant_string("");
@@ -81,7 +79,7 @@ shared_ptr<mw::Component> VariableFactory::createObject(std::map<std::string, st
 	std::string logging_string("");
 	std::string scope_string("");
 	
-	GenericDataType type = M_INTEGER;
+	GenericDataType type = M_UNDEFINED;
 	bool persistant = false; // save the variable from run to run
     bool excludeFromDataFile = false; // should the variable be excluded from data files
 	WhenType logging = M_WHEN_CHANGED; // when does this variable get logged
@@ -89,7 +87,7 @@ shared_ptr<mw::Component> VariableFactory::createObject(std::map<std::string, st
 	std::string groups(EXPERIMENT_DEFINED_VARIABLES);
 	
 	GET_ATTRIBUTE(parameters, tag, "tag", "NO_TAG");
-	GET_ATTRIBUTE(parameters, type_string, "type", "double");
+	GET_ATTRIBUTE(parameters, type_string, "type", "any");
 	GET_ATTRIBUTE(parameters, persistant_string, "persistant", "0");
     GET_ATTRIBUTE(parameters, exclude_from_data_file_string, "exclude_from_data_file", "0");
 	GET_ATTRIBUTE(parameters, logging_string, "logging", "when_changed");
