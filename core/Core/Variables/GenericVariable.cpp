@@ -75,31 +75,21 @@ shared_ptr<mw::Component> VariableFactory::createObject(std::map<std::string, st
 					   "default_value",
 					   "scope");
 	std::string tag;
-	std::string full_name("");
-	std::string description("");
 	std::string type_string("");
-	std::string editable_string("");
-	std::string viewable_string("");
 	std::string persistant_string("");
     std::string exclude_from_data_file_string("");
 	std::string logging_string("");
 	std::string scope_string("");
 	
 	GenericDataType type = M_INTEGER;
-	WhenType editable = M_ALWAYS; // when can we edit the variable
-	bool viewable = true; // can the user see this variable
 	bool persistant = false; // save the variable from run to run
     bool excludeFromDataFile = false; // should the variable be excluded from data files
 	WhenType logging = M_WHEN_CHANGED; // when does this variable get logged
- Datum defaultValue(0L); // the default value Datum object.	
+	Datum defaultValue(0L); // the default value Datum object.
 	std::string groups(EXPERIMENT_DEFINED_VARIABLES);
 	
 	GET_ATTRIBUTE(parameters, tag, "tag", "NO_TAG");
-	GET_ATTRIBUTE(parameters, full_name, "full_name", "");	
-	GET_ATTRIBUTE(parameters, description, "description", "");	
 	GET_ATTRIBUTE(parameters, type_string, "type", "double");
-	GET_ATTRIBUTE(parameters, editable_string, "editable", "always");
-	GET_ATTRIBUTE(parameters, viewable_string, "viewable", "1");
 	GET_ATTRIBUTE(parameters, persistant_string, "persistant", "0");
     GET_ATTRIBUTE(parameters, exclude_from_data_file_string, "exclude_from_data_file", "0");
 	GET_ATTRIBUTE(parameters, logging_string, "logging", "never");
@@ -128,33 +118,6 @@ shared_ptr<mw::Component> VariableFactory::createObject(std::map<std::string, st
 		defaultValue = Datum(M_LIST, 0);
 	} else {
 		throw InvalidAttributeException(parameters["reference_id"], "type", parameters.find("type")->second);
-	}
-	
-	
-	// TODO...when changed?
-	editable_string = to_lower_copy(editable_string);
-	
-	if(editable_string == "never") {
-		editable = M_NEVER;
-	} else if(editable_string == "when_idle") {
-		editable = M_WHEN_IDLE;
-	} else if(editable_string == "always") {
-		editable = M_ALWAYS;
-	} else if(editable_string == "at_startup") {
-		editable = M_AT_STARTUP;
-	} else if(editable_string == "every_trial") {
-		editable = M_EVERY_TRIAL;
-	} else if(editable_string == "when_changed") {
-		editable = M_WHEN_CHANGED;
-	} else {
-		throw InvalidAttributeException(parameters["reference_id"], "editable", parameters.find("editable")->second);
-	}
-
-
-	try {
-		viewable = reg->getBoolean(viewable_string);
-	} catch (boost::bad_lexical_cast &) {
-		throw InvalidAttributeException(parameters["reference_id"], "viewable", parameters.find("viewable")->second);
 	}
 	
 	try {
@@ -230,11 +193,11 @@ shared_ptr<mw::Component> VariableFactory::createObject(std::map<std::string, st
 	// TODO when the variable properties get fixed, we can get rid of this nonsense
 	VariableProperties props(&defaultValue,
 							  tag,
-							  full_name,
-							  description,
-							  editable,
+							  "",
+							  "",
+							  M_ALWAYS,
 							  logging,
-							  viewable,
+							  true,
 							  persistant,
 							  M_INTEGER_INFINITE,
 							  groups,

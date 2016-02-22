@@ -104,7 +104,7 @@ class VariableProperties; // defined in VariableProperties.h
 class ExpressionVariable;
 
 
-class Variable : public mw::Component, public ComponentFactory {
+class Variable : public mw::Component {
 
 protected:
 

@@ -217,6 +217,9 @@ parameters:
   - 
     name: exclude_from_data_file
     default: 'NO'
+  -
+    name: groups
+    required: no
 
 
 ---
@@ -261,6 +264,9 @@ parameters:
   - 
     name: autoreset
     default: 'NO'
+  -
+    name: groups
+    required: no
 
 
 ---
