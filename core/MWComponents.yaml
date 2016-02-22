@@ -209,8 +209,7 @@ parameters:
   - 
     name: logging
     options: [never, when_idle, always, at_startup, every_trial, when_changed]
-    default: never
-    recommended: when_changed
+    default: when_changed
   -
     name: persistant
     default: 'NO'

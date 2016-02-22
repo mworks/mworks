@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<marionette_info>
+  <expected_messages>
+    <message type="starts_with">var = 1 </message>
+    <message type="starts_with">var = 2 </message>
+    <message type="starts_with">var = 3 </message>
+    <message type="starts_with">var = 4 </message>
+    <message type="starts_with">var = 5 </message>
+  </expected_messages>
+  <expected_events>
+    <event variable="var">
+      <value type="integer">1</value>
+    </event>
+    <event variable="var">
+      <value type="integer">2</value>
+    </event>
+    <event variable="var">
+      <value type="integer">3</value>
+    </event>
+    <event variable="var">
+      <value type="integer">4</value>
+    </event>
+    <event variable="var">
+      <value type="integer">5</value>
+    </event>
+  </expected_events>
+</marionette_info>

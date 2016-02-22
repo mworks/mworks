@@ -1,0 +1,20 @@
+<?xml version="1.0" standalone="no"?>
+<monkeyml version="1.0">
+    <io_devices tag="IO Devices"></io_devices>
+    <variables tag="Variables">
+        <variable tag="var" scope="global" exclude_from_data_file="NO" default_value="0" type="any"></variable>
+    </variables>
+    <sounds tag="Sounds"></sounds>
+    <stimuli tag="Stimuli"></stimuli>
+    <filters tag="Filters"></filters>
+    <optimizers tag="Optimizers"></optimizers>
+    <experiment tag="New Experiment" full_name="" description="">
+        <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
+            <action type="assignment" tag="Reset var" variable="var" value="0"></action>
+            <block tag="New Block" nsamples="5" sampling_method="cycles" selection="sequential" interruptible="YES">
+                <action type="assignment" tag="Increment var" variable="var" value="var + 1"></action>
+                <action type="report" tag="Announce var" message="var = $var"></action>
+            </block>
+        </protocol>
+    </experiment>
+</monkeyml>

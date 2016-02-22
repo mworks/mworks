@@ -92,7 +92,7 @@ shared_ptr<mw::Component> VariableFactory::createObject(std::map<std::string, st
 	GET_ATTRIBUTE(parameters, type_string, "type", "double");
 	GET_ATTRIBUTE(parameters, persistant_string, "persistant", "0");
     GET_ATTRIBUTE(parameters, exclude_from_data_file_string, "exclude_from_data_file", "0");
-	GET_ATTRIBUTE(parameters, logging_string, "logging", "never");
+	GET_ATTRIBUTE(parameters, logging_string, "logging", "when_changed");
 	GET_ATTRIBUTE(parameters, scope_string, "scope", "global");
 
 
