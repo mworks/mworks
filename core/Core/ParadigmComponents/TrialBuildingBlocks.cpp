@@ -36,13 +36,12 @@ void Action::describeComponent(ComponentInfo &info) {
 }
 
 Action::Action(const ParameterValueMap &parameters) :
-    State()  // TODO: pass parameters once State supports them
+    State(parameters)
 {
     setParent(GlobalCurrentExperiment);   // a bit of kludge for now
-    setName("Action");
 }
 
-Action::Action() : State() {
+Action::Action() {
     setParent(GlobalCurrentExperiment);   // a bit of kludge for now
 	setName("Action");
 }	
@@ -1498,12 +1497,22 @@ weak_ptr<State> YieldToParent::execute() {
 /****************************************************************
  *                 TaskSystemState Methods
  ****************************************************************/
-TaskSystemState::TaskSystemState() :
-    transition_list(new vector< shared_ptr<TransitionCondition> >),
-    currentActionIndex(0)
-{
+
+
+void TaskSystemState::describeComponent(ComponentInfo &info) {
+    ContainerState::describeComponent(info);
+    info.setSignature("task_system_state");
+}
+
+
+TaskSystemState::TaskSystemState() {
 	setTag("TaskSystemState");
 }
+
+
+TaskSystemState::TaskSystemState(const ParameterValueMap &parameters) :
+    ContainerState(parameters)
+{ }
 
 
 shared_ptr<mw::Component> TaskSystemState::createInstanceObject(){
@@ -1599,11 +1608,22 @@ void TaskSystemState::addTransition(shared_ptr<TransitionCondition> trans) {
 /****************************************************************
  *                 TaskSystem Methods
  ****************************************************************/
-// execute what's in the box, leaving the transition 
-// list open to be user defined
-TaskSystem::TaskSystem() : ContainerState() {
+
+
+void TaskSystem::describeComponent(ComponentInfo &info) {
+    ContainerState::describeComponent(info);
+    info.setSignature("task_system");
+}
+
+
+TaskSystem::TaskSystem() {
 	setTag("TaskSystem");
 }
+
+
+TaskSystem::TaskSystem(const ParameterValueMap &parameters) :
+    ContainerState(parameters)
+{ }
 
 
 shared_ptr<mw::Component> TaskSystem::createInstanceObject(){
@@ -1644,6 +1664,17 @@ weak_ptr<State> TaskSystem::next() {
             return State::next();
 		}
 	}
+}
+
+
+void TaskSystem::addChild(std::map<std::string, std::string> parameters,
+                          ComponentRegistry *reg,
+                          shared_ptr<mw::Component> comp)
+{
+    ContainerState::addChild(parameters, reg, comp);
+    string full_tag = parameters["parent_tag"];
+    full_tag += "/";
+    full_tag += parameters["child_tag"];
 }
 
 

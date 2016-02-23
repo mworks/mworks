@@ -43,14 +43,13 @@ ComponentRegistry::ComponentRegistry() :
 
 	// register all of the built-ins here
 	registerFactory("experiment", new ExperimentFactory());
-	registerFactory("protocol", new ProtocolFactory());
-	registerFactory("block", new BlockFactory());
-	registerFactory("list", new GenericListStateFactory());
-	registerFactory("trial", new TrialFactory());
-	
-	
-	registerFactory("task_system", new TaskSystemFactory());
-	registerFactory("task_system_state", new TaskSystemStateFactory());
+    
+    registerFactory<StandardComponentFactory, Protocol>();
+    registerFactory<StandardComponentFactory, Block>();
+    registerFactory<StandardComponentFactory, GenericListState>();
+    registerFactory<StandardComponentFactory, Trial>();
+    registerFactory<StandardComponentFactory, TaskSystem>();
+    registerFactory<StandardComponentFactory, TaskSystemState>();
 	
 	registerFactory("variable", new VariableFactory());
 	registerFactory("variable/selection", new SelectionVariableFactory());

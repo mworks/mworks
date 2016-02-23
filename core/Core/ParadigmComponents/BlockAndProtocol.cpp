@@ -9,6 +9,9 @@
 
 #include "BlockAndProtocol.h"
 
+#include "ComponentInfo.h"
+#include "ParameterValue.h"
+
 
 BEGIN_NAMESPACE_MW
 
@@ -18,9 +21,20 @@ BEGIN_NAMESPACE_MW
 ////////////////////////////////////////////////
 
 
-Block::Block() : ListState(){
+void Block::describeComponent(ComponentInfo &info) {
+    ListState::describeComponent(info);
+    info.setSignature("block");
+}
+
+
+Block::Block() {
 	setName("Block");
 }
+
+
+Block::Block(const ParameterValueMap &parameters) :
+    ListState(parameters)
+{ }
 
 
 void Block::action(){
@@ -44,11 +58,21 @@ shared_ptr<mw::Component> Block::createInstanceObject(){
 }
 
 
+void Protocol::describeComponent(ComponentInfo &info) {
+    ListState::describeComponent(info);
+    info.setSignature("protocol");
+}
+
 		
-mw::Protocol::Protocol() : ListState(){
+Protocol::Protocol() {
 	setName("Protocol");
 }
-		
+
+
+Protocol::Protocol(const ParameterValueMap &parameters) :
+    ListState(parameters)
+{ }
+
 
 shared_ptr<mw::Component> mw::Protocol::createInstanceObject(){
     return clone<Protocol>();
@@ -57,9 +81,21 @@ shared_ptr<mw::Component> mw::Protocol::createInstanceObject(){
 
 //////////////
 
-Trial::Trial() :ListState(){
+
+void Trial::describeComponent(ComponentInfo &info) {
+    ListState::describeComponent(info);
+    info.setSignature("trial");
+}
+
+
+Trial::Trial() {
 	setName("Trial");
 }
+
+
+Trial::Trial(const ParameterValueMap &parameters) :
+    ListState(parameters)
+{ }
 
 
 void Trial::action(){
@@ -83,9 +119,52 @@ shared_ptr<mw::Component> Trial::createInstanceObject(){
 }
 
 
+void GenericListState::describeComponent(ComponentInfo &info) {
+    ListState::describeComponent(info);
+    info.setSignature("list");
+}
+
+
+GenericListState::GenericListState() {
+    setName("List");
+}
+
+
+GenericListState::GenericListState(const ParameterValueMap &parameters) :
+    ListState(parameters)
+{ }
+
+
 shared_ptr<mw::Component> GenericListState::createInstanceObject(){
     return clone<GenericListState>();
 }
 
 
 END_NAMESPACE_MW
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

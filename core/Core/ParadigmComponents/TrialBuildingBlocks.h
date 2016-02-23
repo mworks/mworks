@@ -697,74 +697,47 @@ public:
 class TaskSystemState : public ContainerState {
     
 private:
-	shared_ptr< vector< shared_ptr<TransitionCondition> > > transition_list;
-    int currentActionIndex;
+    shared_ptr< vector< shared_ptr<TransitionCondition> > > transition_list { new vector< shared_ptr<TransitionCondition> > };
+    int currentActionIndex { 0 };
     
 	void addTransition(shared_ptr<TransitionCondition> trans);
     
 public:
+    static void describeComponent(ComponentInfo &info);
+    
 	TaskSystemState();
+    explicit TaskSystemState(const ParameterValueMap &parameters);
 	
-	virtual shared_ptr<mw::Component> createInstanceObject();
-	virtual void action();
-	virtual weak_ptr<State> next();
-    virtual void reset();
+    shared_ptr<mw::Component> createInstanceObject() override;
+    void action() override;
+    weak_ptr<State> next() override;
+    void reset() override;
 	
-	virtual void addChild(std::map<std::string, std::string> parameters,
-						  ComponentRegistry *reg, shared_ptr<mw::Component> comp);
+    void addChild(std::map<std::string, std::string> parameters,
+                  ComponentRegistry *reg,
+                  shared_ptr<mw::Component> comp) override;
     
 };
 
-class TaskSystemStateFactory : public ComponentFactory{	
-	shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-											ComponentRegistry *reg){
-		
-		shared_ptr<State> component(new TaskSystemState());
-		component->setParameters(parameters, reg);
-		return component;
-	}
-};
 
-
-
-// A container for building blocks
 class TaskSystem : public ContainerState {
 	
 public:
-	// execute what's in the box, leaving the transition 
-	// list open to be user defined
+    static void describeComponent(ComponentInfo &info);
+    
 	TaskSystem();
+    explicit TaskSystem(const ParameterValueMap &parameters);
 	
-	virtual shared_ptr<mw::Component> createInstanceObject();
-	virtual void action();
-	virtual weak_ptr<State> next();
+    shared_ptr<mw::Component> createInstanceObject() override;
+	void action() override;
+    weak_ptr<State> next() override;
 	
 	void addTaskSystemState(shared_ptr<TaskSystemState> state);
 	
-	virtual void addChild(std::map<std::string, std::string> parameters,
-								ComponentRegistry *reg,
-								shared_ptr<mw::Component> comp){
-		ContainerState::addChild(parameters, reg, comp);
-		string full_tag = parameters["parent_tag"];
-		full_tag += "/";
-		full_tag += parameters["child_tag"];
-		
-		// register an alternate name (in task_system/task_system_state style)
-		// DDC: is this happening multiple times?
-        //reg->registerObject(full_tag, comp);
-	
-	}
+    void addChild(std::map<std::string, std::string> parameters,
+                  ComponentRegistry *reg,
+                  shared_ptr<mw::Component> comp) override;
     
-};
-
-class TaskSystemFactory : public ComponentFactory{	
-	shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-											ComponentRegistry *reg){
-		
-		shared_ptr<State> component(new TaskSystem());
-		component->setParameters(parameters, reg);
-		return component;
-	}
 };
 
 

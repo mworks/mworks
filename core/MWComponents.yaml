@@ -556,21 +556,20 @@ inspector: ListStateInspectorView
 parameters: 
   - 
     name: nsamples
-    required: yes
-    example: 1
+    default: 1
   - 
     name: sampling_method
-    required: yes
     options: [cycles, samples]
+    default: cycles
   - 
     name: selection
-    required: yes
     options:
       - sequential
       - sequential_ascending
       - sequential_descending
       - random_without_replacement
       - random_with_replacement
+    default: sequential
 
 
 ---

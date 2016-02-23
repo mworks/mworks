@@ -14,6 +14,8 @@
 
 #include <string>
 #include "ComponentRegistry.h"
+#include "ComponentInfo.h"
+#include "ParameterValue.h"
 
 #include "SequentialSelection.h"
 #include "RandomWORSelection.h"
@@ -26,10 +28,17 @@ BEGIN_NAMESPACE_MW
 
 
 State::State() :
-    experiment(GlobalCurrentExperiment),
-    interruptible(true)
+    experiment(GlobalCurrentExperiment)
 {
 	requestVariableContext();
+}
+
+
+State::State(const ParameterValueMap &parameters) :
+    Component(parameters),
+    experiment(GlobalCurrentExperiment)
+{
+    requestVariableContext();
 }
 
 
@@ -144,30 +153,24 @@ bool State::isInterruptible() const {
 }
 
 
-void State::setParameters(std::map<std::string, std::string> parameters,
-                          ComponentRegistry *reg){
-	if(parameters.find("interruptible") != parameters.end()) {
-		try {
-			bool _interruptible = reg->getBoolean(parameters.find("interruptible")->second);
-			this->setInterruptible(_interruptible);
-		} catch(boost::bad_lexical_cast &) {
-			throw InvalidReferenceException(parameters["reference_id"], "interruptible", parameters.find("interruptible")->second);
-		}
-	} else {
-		this->setInterruptible(true);
-	}
-	
-	if(parameters.find("tag") != parameters.end()) {
-		this->setTag(parameters.find("tag")->second);
-	}
-}
-        
+const std::string ContainerState::INTERRUPTIBLE("interruptible");
 
-ContainerState::ContainerState() : 
-	list(new vector< shared_ptr<State> >),
-    accessed(false)
-{
+
+void ContainerState::describeComponent(ComponentInfo &info) {
+    State::describeComponent(info);
+    info.addParameter(INTERRUPTIBLE, "YES");
+}
+
+
+ContainerState::ContainerState() {
 	setName("ContainerState");
+}
+
+
+ContainerState::ContainerState(const ParameterValueMap &parameters) :
+    State(parameters)
+{
+    setInterruptible(bool(parameters[INTERRUPTIBLE]));
 }
 
 
@@ -194,9 +197,82 @@ void ContainerState::reset() {
 }
 
 
-ListState::ListState() {
-	setName("List");
+void ContainerState::addChild(std::map<std::string, std::string> parameters,
+                              ComponentRegistry *reg,
+                              shared_ptr<mw::Component> child)
+{
+    auto state = boost::dynamic_pointer_cast<State>(child);
+    
+    if (!state) {
+        throw SimpleException("Attempt to add non-paradigm component object as child of a paradigm component");
+    }
+    
+    list->push_back(state);
+    state->setParent(component_shared_from_this<State>());
+    state->updateHierarchy();
 }
+
+
+const std::string ListState::SELECTION("selection");
+const std::string ListState::NSAMPLES("nsamples");
+const std::string ListState::SAMPLING_METHOD("sampling_method");
+
+
+void ListState::describeComponent(ComponentInfo &info) {
+    ContainerState::describeComponent(info);
+    info.addParameter(SELECTION, "sequential");
+    info.addParameter(NSAMPLES, "1");
+    info.addParameter(SAMPLING_METHOD, "cycles");
+}
+
+
+ListState::ListState() :
+    selection_type(M_SEQUENTIAL_ASCENDING),
+    nsamples(1),
+    sampling_method(M_CYCLES)
+{ }
+
+
+template<>
+SelectionType ParameterValue::convert(const std::string &s, ComponentRegistryPtr reg) {
+    std::string selection_string(boost::algorithm::to_lower_copy(s));
+
+    if (selection_string == "sequential") {
+        return M_SEQUENTIAL;
+    } else if (selection_string == "sequential_ascending") {
+        return M_SEQUENTIAL_ASCENDING;
+    } else if (selection_string == "sequential_descending") {
+        return M_SEQUENTIAL_DESCENDING;
+    } else if (selection_string == "random_with_replacement") {
+        return M_RANDOM_WITH_REPLACEMENT;
+    } else if (selection_string == "random_without_replacement") {
+        return M_RANDOM_WOR;
+    } else {
+        throw SimpleException("invalid value for parameter \"selection\"", s);
+    }
+}
+
+
+template<>
+SampleType ParameterValue::convert(const std::string &s, ComponentRegistryPtr reg) {
+    std::string sampling_method_string(boost::algorithm::to_lower_copy(s));
+    
+    if (sampling_method_string == "cycles") {
+        return M_CYCLES;
+    } else if (sampling_method_string == "samples") {
+        return M_SAMPLES;
+    } else {
+        throw SimpleException("invalid value for parameter \"sampling_method\"", s);
+    }
+}
+
+
+ListState::ListState(const ParameterValueMap &parameters) :
+    ContainerState(parameters),
+    selection_type(parameters[SELECTION]),
+    nsamples(parameters[NSAMPLES]),
+    sampling_method(parameters[SAMPLING_METHOD])
+{ }
 
 
 weak_ptr<State> ListState::next() {
@@ -251,82 +327,62 @@ void ListState::reset() {
 }
 	
 	
-void ListState::finalize(std::map<std::string, std::string> parameters,
-												ComponentRegistry *reg){
-		
-	std::string selection_string, nsamples_string, sampling_method_string;
-	int nsamples;
-	SelectionType selection_type;
-	SampleType sampling_method;
+void ListState::finalize(std::map<std::string, std::string> parameters, ComponentRegistry *reg) {
+    long N = nsamples;
 	
-	if(parameters.find("selection") != parameters.end()) {
-		selection_string = parameters.find("selection")->second;
-		
-		if(selection_string == "sequential_ascending"){
-			selection_type = M_SEQUENTIAL_ASCENDING;
-		} else if(selection_string == "sequential"){
-			selection_type = M_SEQUENTIAL_ASCENDING;
-		} else if(selection_string == "sequential_descending"){
-			selection_type = M_SEQUENTIAL_DESCENDING;
-		} else if (selection_string == "random_with_replacement"){
-			selection_type = M_RANDOM_WITH_REPLACEMENT;
-		} else if(selection_string == "random_without_replacement"){
-			selection_type = M_RANDOM_WOR;
-		} else {
-			selection_type = M_SEQUENTIAL_ASCENDING;
-		}
-	}
-
-	if(parameters.find("nsamples") != parameters.end()) {
-		nsamples_string = parameters.find("nsamples")->second;
-		nsamples = boost::lexical_cast<long>(nsamples_string);
-	}
-	
-	if(parameters.find("sampling_method") != parameters.end()) {
-		sampling_method_string = parameters.find("sampling_method")->second;
-		
-		if(sampling_method_string == "samples"){
-			sampling_method = M_SAMPLES;
-		} else if(sampling_method_string == "cycles"){
-			sampling_method = M_CYCLES;
-		} else {
-			sampling_method = M_CYCLES;
-		}
-	}
-	
-	long N;
-	
-	if(sampling_method == M_SAMPLES){
-		N = nsamples;
-	} else {
-		N = nsamples * getNItems();
+	if (sampling_method == M_CYCLES) {
+		N *= getNItems();
 	}
 	
 	Selection *selection = NULL;	
 	switch(selection_type){
+        case M_SEQUENTIAL:
+        case M_SEQUENTIAL_ASCENDING:
+            selection = new SequentialSelection(N);
+            break;
 	
 		case M_SEQUENTIAL_DESCENDING:
 			selection = new SequentialSelection(N, false);
 			break;
 			
-		case M_RANDOM_WOR:
-			selection = new RandomWORSelection(N);
-			break;
-			
 		case M_RANDOM_WITH_REPLACEMENT:
 			selection = new RandomWithReplacementSelection(N);
 			break;
-			
-		case M_SEQUENTIAL_ASCENDING:
-		default:
-			selection = new SequentialSelection(N);
-			break;
+            
+        case M_RANDOM_WOR:
+            selection = new RandomWORSelection(N);
+            break;
 	}
 	
 	shared_ptr<Selection> sel_ptr(selection);
 	attachSelection(sel_ptr);
-
 }
 
 
 END_NAMESPACE_MW
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

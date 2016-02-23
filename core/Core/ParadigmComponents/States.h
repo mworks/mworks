@@ -39,9 +39,6 @@ BEGIN_NAMESPACE_MW
 class Experiment;
 
 
-//#define announceState(statename) fprintf(stderr, "=> Current State: %s (%d)\n", statename, (int)this); fflush(stderr);
-#define announceState(x);
-
 class State : public ScopedVariableEnvironment, public Component {
     
 private:
@@ -54,7 +51,7 @@ private:
     
     shared_ptr<ScopedVariableContext> local_variable_context;
     
-    bool interruptible;
+    bool interruptible { true };
     
 protected:
     template <typename T>
@@ -70,10 +67,8 @@ protected:
     }
     
 public:
-    /**
-     * Default Constructor.
-     */
     State();
+    explicit State(const Map<ParameterValue> &parameters);
     
     virtual void requestVariableContext();
     
@@ -114,8 +109,6 @@ public:
     void setName(const std::string &n) { setTag(n); }
     const std::string& getName() const { return getTag(); }
     
-    void setParameters(std::map<std::string, std::string> parameters, ComponentRegistry *reg);
-    
 };
 
 
@@ -125,10 +118,10 @@ private:
     // Shared pointer to a vector of pointers to states
     // (we need a pointer, rather than a bare object so that multiple 
     //  aliases to the same underlying state can share the same list)
-    shared_ptr< vector< shared_ptr<State> > > list; // the list of states
+    shared_ptr< vector< shared_ptr<State> > > list { new vector< shared_ptr<State> > }; // the list of states
     
 protected:
-    bool accessed;
+    bool accessed { false };
 	
     template <typename T>
     shared_ptr<T> clone() {
@@ -138,7 +131,12 @@ protected:
     }
     
 public:
+    static const std::string INTERRUPTIBLE;
+    
+    static void describeComponent(ComponentInfo &info);
+    
     ContainerState();
+    explicit ContainerState(const Map<ParameterValue> &parameters);
 	
     const vector< shared_ptr<State> >& getList() const { return *list; }
     
@@ -152,26 +150,17 @@ public:
     // mw::Component methods
     void addChild(std::map<std::string, std::string> parameters,
                   ComponentRegistry *reg,
-                  shared_ptr<mw::Component> child) override
-    {
-        
-        shared_ptr<State> state = boost::dynamic_pointer_cast<State, mw::Component>(child);
-        
-        if(state == NULL){
-            // TODO: better throw
-            throw SimpleException("Attempt to add non-paradigm component object as child of a paradigm component");
-        }
-        
-        list->push_back(state);
-        state->setParent(component_shared_from_this<State>());
-        state->updateHierarchy();
-        
-    }
+                  shared_ptr<mw::Component> child) override;
     
 };
 
 
 class ListState : public ContainerState, public Selectable {
+    
+private:
+    const SelectionType selection_type;
+    const long nsamples;
+    const SampleType sampling_method;
     
 protected:
     bool hasMoreChildrenToRun() { return selection && !(selection->isFinished()); }
@@ -189,8 +178,14 @@ protected:
     }
     
 public:
+    static const std::string SELECTION;
+    static const std::string NSAMPLES;
+    static const std::string SAMPLING_METHOD;
+    
+    static void describeComponent(ComponentInfo &info);
 	
     ListState();
+    explicit ListState(const Map<ParameterValue> &parameters);
     
     // State methods
     weak_ptr<State> next() override;
@@ -201,20 +196,6 @@ public:
     
     void finalize(std::map<std::string, std::string> parameters, ComponentRegistry *reg) override;
 	
-};
-
-template <class T>
-class ListStateFactory : public ComponentFactory {
-    shared_ptr<mw::Component>
-    createObject(std::map<std::string, std::string> parameters,
-                 ComponentRegistry *reg) override
-    {
-        
-		shared_ptr<T> newListState = shared_ptr<T>(new T());
-		newListState->setParameters(parameters, reg);
-		
-		return newListState;
-	}
 };
 
 
