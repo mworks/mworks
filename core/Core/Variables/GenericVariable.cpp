@@ -189,17 +189,12 @@ shared_ptr<mw::Component> VariableFactory::createObject(std::map<std::string, st
 	}
 	
 	// TODO when the variable properties get fixed, we can get rid of this nonsense
-	VariableProperties props(&defaultValue,
-							  tag,
-							  "",
-							  "",
-							  M_ALWAYS,
-							  logging,
-							  true,
-							  persistant,
-							  M_INTEGER_INFINITE,
-							  groups,
-                              excludeFromDataFile);
+    VariableProperties props(defaultValue,
+                             tag,
+                             logging,
+                             persistant,
+                             groups,
+                             excludeFromDataFile);
 	
 	shared_ptr<mw::Component>newVar;
 	

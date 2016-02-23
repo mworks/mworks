@@ -18,25 +18,20 @@
 BEGIN_NAMESPACE_MW
 
 
-VariableProperties::VariableProperties(Datum * def, 
-										 std::string tag, 
-										 std::string full,
-										 std::string desc, 
-										 WhenType edit, 
-										 WhenType log, 
-										 bool view, 
-										 bool persist,
-										 DomainType dType, 
-										 std::string _groups,
-                                         bool exclude)
-{
-    tagname = tag;
-	persistant = persist;
-    excludeFromDataFile = exclude;
-    logging = log;
-    defaultvalue = Datum(*def);
-	groups = parseGroupList(_groups);
-}
+VariableProperties::VariableProperties(const Datum &def,
+                                       const std::string &tag,
+                                       WhenType log,
+                                       bool persist,
+                                       const std::string &groups,
+                                       bool exclude) :
+    tagname(tag),
+    persistant(persist),
+    excludeFromDataFile(exclude),
+    logging(log),
+    defaultvalue(def),
+    groups(parseGroupList(groups))
+{ }
+
 
 VariableProperties::VariableProperties(ScarabDatum * datum) {
     ScarabDatum *runner, *string_datum;

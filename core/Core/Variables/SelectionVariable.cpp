@@ -142,16 +142,11 @@ shared_ptr<mw::Component> SelectionVariableFactory::createObject(std::map<std::s
 	}
 	
 	// TODO when the variable properties get fixed, we can get rid of this nonsense
-	VariableProperties props(&defaultValue,
-							  tag,
-							  "",
-							  "",
-							  M_ALWAYS,
-							  M_WHEN_CHANGED,
-							  true,
-							  false,
-							  M_INTEGER_INFINITE,
-							  groups);
+    VariableProperties props(defaultValue,
+                             tag,
+                             M_WHEN_CHANGED,
+                             false,
+                             groups);
 	
 	boost::shared_ptr<SelectionVariable>selectionVar;
 	selectionVar = global_variable_registry->createSelectionVariable(&props);

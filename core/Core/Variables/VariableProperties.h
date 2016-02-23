@@ -60,12 +60,21 @@ class VariableProperties {
 		bool persistant; // save the variable from run to run
         bool excludeFromDataFile; // should the variable be excluded from data files
 		WhenType logging; // when does this variable get logged
-	 Datum defaultvalue; // the default value Datum object.
+		Datum defaultvalue; // the default value Datum object.
 		std::vector <std::string> groups; // the groups that the variable belongs to
     
 		std::vector <std::string> parseGroupList(const std::string &groups_csv) const;
 
 	public:
+        VariableProperties(const Datum &def,
+                           const std::string &tag,
+                           WhenType log,
+                           bool persist,
+                           const std::string &groups,
+                           bool exclude = false);
+
+        // This constructor exists only for compatibility with existing code.  New code
+        // should use the preceding constructor.
         VariableProperties(Datum * def,
 							std::string tag, 
 							std::string full, 
@@ -76,7 +85,9 @@ class VariableProperties {
 							bool persist,
 							DomainType dType, 
 							std::string groups,
-                            bool exclude = false);
+                            bool exclude = false) :
+            VariableProperties(*def, tag, log, persist, groups, exclude)
+        { }
 
         // Constructs an interface setting from a scarab object.
         // used in network communication
