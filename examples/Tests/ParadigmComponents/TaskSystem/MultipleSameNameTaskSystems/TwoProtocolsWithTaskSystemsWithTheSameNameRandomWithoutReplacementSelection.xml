@@ -6,7 +6,7 @@
     <experiment tag="MyExperiment">
         <protocol tag="Protocol1" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
             <block tag="Block1" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
-               <trial tag="Trial1" nterruptible="YES" selection="random_without_replacement" nsamples="15" sampling_method="cycles">
+               <trial tag="Trial1" interruptible="YES" selection="random_without_replacement" nsamples="15" sampling_method="cycles">
                     <task_system tag="Task System_1" interruptible="YES">
                         <task_system_state tag="TSS1" interruptible="YES">
                             <action type="report" message="TS11 x=$x"/>
