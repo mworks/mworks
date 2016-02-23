@@ -1,0 +1,36 @@
+<?xml version="1.0" standalone="no"?>
+<monkeyml version="1.0">
+    <io_devices tag="IO Devices"></io_devices>
+    <variables tag="Variables">
+        <variable tag="pause_duration_secs" scope="global" logging="when_changed" default_value="5" type="integer"></variable>
+    </variables>
+    <sounds tag="Sounds">
+        <sound tag="bach" type="wav_file" path="bach.wav" amplitude="1.0"></sound>
+    </sounds>
+    <stimuli tag="Stimuli"></stimuli>
+    <filters tag="Filters"></filters>
+    <optimizers tag="Optimizers"></optimizers>
+    <experiment tag="New Experiment" full_name="" description="">
+        <protocol tag="New Protocol" nsamples="2" sampling_method="cycles" selection="sequential" interruptible="YES">
+            <action type="report" tag="Report" message="Sound should not be playing"></action>
+            <action type="wait" tag="Wait" duration="pause_duration_secs" duration_units="s"></action>
+            <action type="report" tag="Report" message="Starting sound"></action>
+            <action tag="Play Sound" type="play_sound" sound="bach"></action>
+            <action type="wait" tag="Wait" duration="pause_duration_secs" duration_units="s"></action>
+            <action type="report" tag="Report" message="Pausing for $pause_duration_secs seconds"></action>
+            <action tag="Pause Sound" type="pause_sound" sound="bach"></action>
+            <action type="wait" tag="Wait" duration="pause_duration_secs" duration_units="s"></action>
+            <action type="report" tag="Report" message="Resuming sound"></action>
+            <action tag="Play Sound" type="play_sound" sound="bach"></action>
+            <action type="wait" tag="Wait" duration="pause_duration_secs" duration_units="s"></action>
+            <action type="report" tag="Report" message="Pausing for $pause_duration_secs seconds"></action>
+            <action tag="Pause Sound" type="pause_sound" sound="bach"></action>
+            <action type="wait" tag="Wait" duration="pause_duration_secs" duration_units="s"></action>
+            <action type="report" tag="Report" message="Resuming sound"></action>
+            <action tag="Play Sound" type="play_sound" sound="bach"></action>
+            <action type="wait" tag="Wait" duration="pause_duration_secs" duration_units="s"></action>
+            <action tag="Stop Sound" type="stop_sound" sound="bach"></action>
+            <action type="report" tag="Report" message="Sound should be stopped"></action>
+        </protocol>
+    </experiment>
+</monkeyml>

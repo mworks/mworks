@@ -1073,6 +1073,19 @@ parameters:
 ---
 
 
+name: Pause Sound
+signature: action/pause_sound
+isa: Action
+description: Pause a `Sound Stimulus`
+parameters: 
+  - 
+    name: sound
+    required: yes
+
+
+---
+
+
 name: Stop Sound
 signature: action/stop_sound
 isa: Action
@@ -1154,6 +1167,26 @@ parameters:
 ---
 
 
+name: Pause Experiment
+signature: action/pause_experiment
+isa: Action
+description: >
+    Pause the experiment
+
+
+---
+
+
+name: Resume Experiment
+signature: action/resume_experiment
+isa: Action
+description: >
+    Resume a paused experiment
+
+
+---
+
+
 name: Stop Experiment
 signature: action/stop_experiment
 isa: Action
@@ -1166,7 +1199,7 @@ description: >
 
 
 name: Start IO Device
-signature: action/start_device_IO
+signature: action/start_device_io
 isa: Action
 inspector: StartIOInspectorView
 description: >
@@ -1183,7 +1216,7 @@ parameters:
 
 
 name: Stop IO Device
-signature: action/stop_device_IO
+signature: action/stop_device_io
 isa: Action
 inspector: StopIOInspectorView
 description: Disable an IO Device.
@@ -1556,9 +1589,8 @@ description: Base-level filter stub
 
 
 name: Box-car Filter
-signature: filter/boxcar_filter_1D
+signature: filter/boxcar_filter_1d
 isa: Filter
-icon: fakeMonkey
 description: A basic 1D boxcar filter
 parameters: 
   - 
@@ -1578,7 +1610,6 @@ parameters:
 name: Eye Monitor
 signature: filter/basic_eye_monitor
 isa: Filter
-icon: fakeMonkey
 description: >
     A filter that takes in an eye signal and outputs basic parameters, such
     as velocity, saccade state, etc.
