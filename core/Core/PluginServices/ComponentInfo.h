@@ -11,6 +11,7 @@
 #define _MW_COMPONENT_INFO_H
 
 #include <string>
+#include <unordered_set>
 
 #include "ParameterInfo.h"
 
@@ -51,6 +52,10 @@ public:
         parameters[name] = info;
     }
     
+    void addIgnoredParameter(const std::string &name) {
+        ignoredParameters.insert(name);
+    }
+    
     const std::string& getSignature() const {
         return signature;
     }
@@ -67,11 +72,16 @@ public:
         return parameters;
     }
     
+    bool shouldIgnoreParameter(const std::string &name) const {
+        return (ignoredParameters.find(name) != ignoredParameters.end());
+    }
+    
 private:
     std::string signature;
     std::string displayName;
     std::string description;
     ParameterInfoMap parameters;
+    std::unordered_set<std::string> ignoredParameters;
     
 };
 

@@ -67,7 +67,10 @@ void ComponentFactory::processParameters(StdStringMap &parameters, ComponentRegi
     for (StdStringMap::const_iterator param = parameters.begin(); param != parameters.end(); param++) {
         const std::string &name = (*param).first;
         
-        if ((infoMap.find(name) == infoMap.end()) && !shouldIgnoreParameter(name)) {
+        if ((infoMap.find(name) == infoMap.end()) &&
+            !shouldIgnoreParameter(name) &&
+            !info.shouldIgnoreParameter(name))
+        {
             throw UnknownAttributeException(name);
         }
         

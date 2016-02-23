@@ -67,6 +67,8 @@ protected:
     }
     
 public:
+    static void describeComponent(ComponentInfo &info);
+    
     State();
     explicit State(const Map<ParameterValue> &parameters);
     

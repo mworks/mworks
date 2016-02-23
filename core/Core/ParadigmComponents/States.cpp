@@ -27,6 +27,14 @@
 BEGIN_NAMESPACE_MW
 
 
+void State::describeComponent(ComponentInfo &info) {
+    Component::describeComponent(info);
+    
+    // Removed parameters still present in old experiments
+    info.addIgnoredParameter("description");
+}
+
+
 State::State() :
     experiment(GlobalCurrentExperiment)
 {
@@ -158,7 +166,11 @@ const std::string ContainerState::INTERRUPTIBLE("interruptible");
 
 void ContainerState::describeComponent(ComponentInfo &info) {
     State::describeComponent(info);
+    
     info.addParameter(INTERRUPTIBLE, "YES");
+    
+    // This seems ridiculous, but this misspelling is present in many old experiments
+    info.addIgnoredParameter("interruptable");
 }
 
 
