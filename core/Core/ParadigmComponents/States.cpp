@@ -30,7 +30,7 @@ BEGIN_NAMESPACE_MW
 void State::describeComponent(ComponentInfo &info) {
     Component::describeComponent(info);
     
-    // Removed parameters still present in old experiments
+    // "description" is no longer used but is still present in many old experiments
     info.addIgnoredParameter("description");
 }
 
@@ -166,11 +166,7 @@ const std::string ContainerState::INTERRUPTIBLE("interruptible");
 
 void ContainerState::describeComponent(ComponentInfo &info) {
     State::describeComponent(info);
-    
     info.addParameter(INTERRUPTIBLE, "YES");
-    
-    // This seems ridiculous, but this misspelling is present in many old experiments
-    info.addIgnoredParameter("interruptable");
 }
 
 
@@ -239,7 +235,7 @@ void ListState::describeComponent(ComponentInfo &info) {
 
 
 ListState::ListState() :
-    selection_type(M_SEQUENTIAL_ASCENDING),
+    selection_type(M_SEQUENTIAL),
     nsamples(1),
     sampling_method(M_CYCLES)
 { }
@@ -260,7 +256,7 @@ SelectionType ParameterValue::convert(const std::string &s, ComponentRegistryPtr
     } else if (selection_string == "random_without_replacement") {
         return M_RANDOM_WOR;
     } else {
-        throw SimpleException("invalid value for parameter \"selection\"", s);
+        throw SimpleException(M_PARADIGM_MESSAGE_DOMAIN, "invalid value for parameter \"selection\"", s);
     }
 }
 
@@ -274,7 +270,7 @@ SampleType ParameterValue::convert(const std::string &s, ComponentRegistryPtr re
     } else if (sampling_method_string == "samples") {
         return M_SAMPLES;
     } else {
-        throw SimpleException("invalid value for parameter \"sampling_method\"", s);
+        throw SimpleException(M_PARADIGM_MESSAGE_DOMAIN, "invalid value for parameter \"sampling_method\"", s);
     }
 }
 
@@ -284,7 +280,11 @@ ListState::ListState(const ParameterValueMap &parameters) :
     selection_type(parameters[SELECTION]),
     nsamples(parameters[NSAMPLES]),
     sampling_method(parameters[SAMPLING_METHOD])
-{ }
+{
+    if (nsamples < 1) {
+        throw SimpleException(M_PARADIGM_MESSAGE_DOMAIN, "\"nsamples\" must be greater than or equal to 1");
+    }
+}
 
 
 weak_ptr<State> ListState::next() {
