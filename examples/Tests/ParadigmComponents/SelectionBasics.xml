@@ -1,0 +1,52 @@
+<?xml version="1.0" standalone="no"?>
+<monkeyml version="1.0">
+    <io_devices tag="IO Devices"></io_devices>
+    <variables tag="Variables">
+        <variable tag="x" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="0" type="any">
+            <action type="report" tag="Report" message="x = $x"></action>
+        </variable>
+        <variable tag="index" scope="local" logging="when_changed" exclude_from_data_file="NO" default_value="0" type="any"></variable>
+    </variables>
+    <sounds tag="Sounds"></sounds>
+    <stimuli tag="Stimuli"></stimuli>
+    <filters tag="Filters"></filters>
+    <optimizers tag="Optimizers"></optimizers>
+    <experiment tag="New Experiment" full_name="" description="">
+        <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
+            <block tag="Sequential ascending, cycles" nsamples="2" sampling_method="cycles" selection="sequential_ascending" interruptible="YES">
+                <range_replicator tag="New Range Replicator" from="1" to="5" step="1" variable="index">
+                    <list tag="New List" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
+                        <action type="assignment" tag="Set x" variable="x" value="index"></action>
+                    </list>
+                </range_replicator>
+            </block>
+            <action type="assert" tag="Assert" condition="x == 5" message="" stop_on_failure="0"></action>
+            <trial tag="Sequential descending, samples" nsamples="3" sampling_method="samples" selection="sequential_descending" interruptible="YES">
+                <range_replicator tag="New Range Replicator" from="1" to="5" step="1" variable="index">
+                    <list tag="New List" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
+                        <action type="assignment" tag="Set x" variable="x" value="index"></action>
+                    </list>
+                </range_replicator>
+            </trial>
+            <action type="assert" tag="Assert" condition="x == 3" message="" stop_on_failure="0"></action>
+            <action type="assignment" tag="Reset x" variable="x" value="0"></action>
+            <list tag="Random with replacement, cycles" nsamples="1" sampling_method="cycles" selection="random_with_replacement" interruptible="YES">
+                <range_replicator tag="New Range Replicator" from="1" to="5" step="1" variable="index">
+                    <list tag="New List" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
+                        <action type="assignment" tag="Update x" variable="x" value="x + index"></action>
+                    </list>
+                </range_replicator>
+            </list>
+            <action type="assert" tag="Assert" condition="x #GE 5 and x #LE 25" message="" stop_on_failure="0"></action>
+            <action type="assignment" tag="Reset x" variable="x" value="0"></action>
+            <block tag="Random without replacement, samples" nsamples="4" sampling_method="samples" selection="random_without_replacement" interruptible="YES">
+                <range_replicator tag="New Range Replicator" from="1" to="5" step="1" variable="index">
+                    <list tag="New List" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
+                        <action type="assignment" tag="Update x" variable="x" value="x + index"></action>
+                    </list>
+                </range_replicator>
+            </block>
+            <action type="assert" tag="Assert" condition="x #GE 10 and x #LE 14" message="" stop_on_failure="0"></action>
+        </protocol>
+    </experiment>
+</monkeyml>
