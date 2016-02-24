@@ -8,8 +8,8 @@
         <stimulus tag="blank screen" full_name="blank screen" type="blank_screen" color="1,0,0"></stimulus>
     </stimuli>
     <experiment tag="EventStartStop" full_name="EventStartStop">
-        <protocol tag="eventStartStop protocol" full_name="eventStartStop protocol" interruptable="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles" description="" interruptible="YES">
-            <block tag="eventStartStop block" full_name="eventStartStop block" interruptable="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles" description="" interruptible="YES">
+        <protocol tag="eventStartStop protocol" full_name="eventStartStop protocol" selection="sequential_ascending" nsamples="1" sampling_method="cycles" description="" interruptible="YES">
+            <block tag="eventStartStop block" full_name="eventStartStop block" selection="sequential_ascending" nsamples="1" sampling_method="cycles" description="" interruptible="YES">
                 <trial tag="startTrial" full_name="fullname_2" description="" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
                     <task_system tag="event start">
                         <task_system_state tag="Start_state" full_name="Start_state" description="" interruptible="YES">
@@ -20,9 +20,9 @@
                         </task_system_state>
                     </task_system>
                 </trial>
-                <trial tag="eventtrial" full_name="eventStartStop trial" interruptable="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles" description="" interruptible="YES">
-                    <task_system tag="the event" full_name="the event" interruptable="YES" description="" interruptible="YES">
-                        <task_system_state tag="the_event" full_name="the_event" interruptable="YES" description="" interruptible="YES">
+                <trial tag="eventtrial" full_name="eventStartStop trial" selection="sequential_ascending" nsamples="1" sampling_method="cycles" description="" interruptible="YES">
+                    <task_system tag="the event" full_name="the event" description="" interruptible="YES">
+                        <task_system_state tag="the_event" full_name="the_event" description="" interruptible="YES">
                             <action tag="assignment_event" full_name="fullname_3" type="assignment" variable="some_Var" value="rand(0,9)"></action>
                             <action tag="Assignment notification" full_name="fullname_4" type="report" message="#### Assigning some_Var = $some_Var"></action>
                             <action tag="StartTimer_2" full_name="fullname_2" type="start_timer" timer="event_timer" duration="10000"></action>

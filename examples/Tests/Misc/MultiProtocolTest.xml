@@ -7,8 +7,8 @@
         <stimulus tag="blank screen" full_name="blank screen" type="blank_screen" color="1,0,0"></stimulus>
     </stimuli>
     <experiment tag="theExperiment" full_name="the Experiment">
-        <protocol tag="Protocol1" full_name="Protocol 1" interruptable="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles" description="" interruptible="YES">
-            <block tag="theBlock" full_name="the Block" interruptable="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles" description="" interruptible="YES">
+        <protocol tag="Protocol1" full_name="Protocol 1" selection="sequential_ascending" nsamples="1" sampling_method="cycles" description="" interruptible="YES">
+            <block tag="theBlock" full_name="the Block" selection="sequential_ascending" nsamples="1" sampling_method="cycles" description="" interruptible="YES">
                 <trial tag="theTrial" full_name="the Trial" description="" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
                     <task_system tag="theTaskSystem">
                         <task_system_state tag="theState" full_name="the State" description="" interruptible="YES">
@@ -20,8 +20,8 @@
                 </trial>
             </block>
         </protocol>
-        <protocol tag="Protocol2" full_name="Protocol 2" interruptable="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles" description="" interruptible="YES">
-            <block tag="theBlock" full_name="the Block" interruptable="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles" description="" interruptible="YES">
+        <protocol tag="Protocol2" full_name="Protocol 2" selection="sequential_ascending" nsamples="1" sampling_method="cycles" description="" interruptible="YES">
+            <block tag="theBlock" full_name="the Block" selection="sequential_ascending" nsamples="1" sampling_method="cycles" description="" interruptible="YES">
                 <trial tag="theTrial" full_name="the Trial" description="" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
                     <task_system tag="theTaskSystem">
                         <task_system_state tag="theState" full_name="the State" description="" interruptible="YES">

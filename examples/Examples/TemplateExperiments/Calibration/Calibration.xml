@@ -60,9 +60,9 @@
         <sound tag="acquire_sound" type="wav_file" path="./sounds/acquire.wav" full_name="acquire_sound"/>
     </sounds>
     <experiment tag="Calibration" full_name="Calibration">
-        <protocol tag="calibration protocol" full_name="calibration protocol" interruptable="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles" description="" interruptible="YES">
-            <block tag="calibration block" full_name="calibration block" interruptable="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles" description="" interruptible="YES">
-                <trial tag="calibration trial" full_name="calibration trial" interruptable="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles" description="" interruptible="YES">
+        <protocol tag="calibration protocol" full_name="calibration protocol" selection="sequential_ascending" nsamples="1" sampling_method="cycles" description="" interruptible="YES">
+            <block tag="calibration block" full_name="calibration block" selection="sequential_ascending" nsamples="1" sampling_method="cycles" description="" interruptible="YES">
+                <trial tag="calibration trial" full_name="calibration trial" selection="sequential_ascending" nsamples="1" sampling_method="cycles" description="" interruptible="YES">
                     <task_system tag="calibration start">
                         <task_system_state tag="StartIO_state" full_name="StartIO_state" description="" interruptible="YES">
                             <action tag="start IO" full_name="start IO" type="start_device_IO" device="s1_Fake_Monkey"/>
@@ -77,41 +77,41 @@
                     <list tag="calibration_list" selection="random_without_replacement" nsamples="1" sampling_method="cycles" full_name="calibration_list" description="" interruptible="YES">
                         <range_replicator tag="fixation_selection_H" full_name="fixation_selection_H" from="-15" to="15" step="5" variable="stm_selector_x">
                             <range_replicator tag="fixation_selection_V" full_name="fixation_selection_V" from="-15" to="15" step="5" variable="stm_selector_y">
-                                <task_system tag="calibration task" full_name="calibration task" interruptable="YES" description="" interruptible="YES">
-                                    <task_system_state tag="cal target selection" full_name="cal target selection" interruptable="YES" description="" interruptible="YES">
+                                <task_system tag="calibration task" full_name="calibration task" description="" interruptible="YES">
+                                    <task_system_state tag="cal target selection" full_name="cal target selection" description="" interruptible="YES">
                                         <action tag="set fixation_pos_x" full_name="set fixation_pos_x" type="assignment" variable="fixation_pos_x" value="stm_selector_x"/>
                                         <action tag="set fixation_pos_y" full_name="set fixation_pos_y" type="assignment" variable="fixation_pos_y" value="stm_selector_y"/>
                                         <transition tag="go to cal pause" full_name="go to cal pause" target="cal pause" type="direct"/>
                                     </task_system_state>
-                                    <task_system_state tag="cal pause" full_name="cal pause" interruptable="YES" description="" interruptible="YES">
+                                    <task_system_state tag="cal pause" full_name="cal pause" description="" interruptible="YES">
                                         <action tag="start cal_timer" full_name="start cal_timer" type="start_timer" timer="cal_timer" duration="1000ms"/>
                                         <transition tag="go to cal wait" full_name="go to cal wait" target="cal wait" type="timer_expired" timer="cal_timer"/>
                                     </task_system_state>
-                                    <task_system_state tag="cal wait" full_name="cal wait" interruptable="YES" description="" interruptible="YES">
+                                    <task_system_state tag="cal wait" full_name="cal wait" description="" interruptible="YES">
                                         <action tag="set fixation_size" full_name="set fixation_size" type="assignment" variable="fixation_size" value="0"/>
                                         <action tag="queue fixation_dot" full_name="queue fixation_dot" type="live_queue_stimulus" stimulus="fixation_dot"/>
                                         <action tag="display refresh" full_name="display refresh" type="update_stimulus_display"/>
 										<action tag="report" full_name="report" type="report" message="eye_in_window: $eye_in_window"/>
                                         <transition tag="go to cal stm on" full_name="go to cal stm on" target="cal stm on" type="conditional" condition="eye_in_window == 0"/>
                                     </task_system_state>
-                                    <task_system_state tag="cal stm on" full_name="cal stm on" interruptable="YES" description="" interruptible="YES">
+                                    <task_system_state tag="cal stm on" full_name="cal stm on" description="" interruptible="YES">
                                         <action type="play_sound" sound="stm_on_sound" tag="play stm_on_sound" full_name="play stm_on_sound"/>
                                         <action tag="set fixation_size" full_name="set fixation_size" type="assignment" variable="fixation_size" value="0.4"/>
                                         <action tag="display refresh" full_name="display refresh" type="update_stimulus_display"/>
                                         <transition tag="go to cal prefixation" full_name="go to cal prefixation" target="cal prefixation" type="direct"/>
                                     </task_system_state>
-                                    <task_system_state tag="cal prefixation" full_name="cal prefixation" interruptable="YES" description="" interruptible="YES">
+                                    <task_system_state tag="cal prefixation" full_name="cal prefixation" description="" interruptible="YES">
                                         <action tag="start prefixation_timer" full_name="start prefixation_timer" type="start_timer" timer="prefixation_timer" duration="1500ms"/>
                                         <transition tag="go to cal ignore" full_name="go to cal ignore" target="cal ignore" type="timer_expired" timer="prefixation_timer"/>
 										<action tag="monkey looks" full_name="monkey looks" type="fake_monkey_saccade_to_location" fake_monkey="s1_Fake_Monkey" h="fixation_pos_x" v="fixation_pos_y"/>
                                         <transition tag="go to cal acquire" full_name="go to cal acquire" target="cal acquire" type="conditional" condition="(eye_in_window == 1) #AND (saccade == 0)"/>
                                     </task_system_state>
-                                    <task_system_state tag="cal acquire" full_name="cal acquire" interruptable="YES" description="" interruptible="YES">
+                                    <task_system_state tag="cal acquire" full_name="cal acquire" description="" interruptible="YES">
                                         <action type="play_sound" sound="acquire_sound" tag="play acquire_sound" full_name="play acquire_sound"/>
                                         <action tag="start cal_timer" full_name="start cal_timer" type="start_timer" timer="cal_timer" duration="fixation_duration"/>
                                         <transition tag="go to cal fixation" full_name="go to cal fixation" target="cal fixation" type="direct"/>
                                     </task_system_state>
-                                    <task_system_state tag="cal fixation" full_name="cal fixation" interruptable="YES" description="" interruptible="YES">
+                                    <task_system_state tag="cal fixation" full_name="cal fixation" description="" interruptible="YES">
                                         <action tag="report" full_name="report" type="report" message="************* FIXATION!!!! **********"/>
                                         <action tag="monkey looks" full_name="monkey looks" type="fake_monkey_saccade_to_location" fake_monkey="s1_Fake_Monkey" h="fixation_pos_x" v="fixation_pos_y"/>
                                         <action tag="begin averaging" full_name="begin averaging" type="begin_calibration_average" calibrator="eyeCalibrator"/>
@@ -119,18 +119,18 @@
                                         <transition tag="go to cal fixation monitor" full_name="go to cal fixation monitor" target="cal fixation monitor" type="conditional" condition="saccade==1"/>
                                         <transition tag="go to cal pre reward" full_name="go to cal pre reward" target="cal pre reward" type="timer_expired" timer="cal_timer"/>
                                     </task_system_state>
-                                    <task_system_state tag="cal fixation monitor" full_name="cal fixation monitor" interruptable="YES" description="" interruptible="YES">
+                                    <task_system_state tag="cal fixation monitor" full_name="cal fixation monitor" description="" interruptible="YES">
                                         <action tag="stop averaging" full_name="stop averaging" type="end_calibration_average_and_ignore" calibrator="eyeCalibrator"/>
                                         <action tag="report" full_name="report" type="report" message="************* Saccading!!!! **********"/>
                                         <transition tag="go to cal fixation" full_name="go to cal fixation" target="cal fixation" type="conditional" condition="(eye_in_window == 1) #AND (saccade == 0)"/>
                                         <transition tag="go to cal failure" full_name="go to cal failure" target="cal failure" type="conditional" condition="(eye_in_window == 0) #AND (saccade == 0)"/>
                                     </task_system_state>
-                                    <task_system_state tag="cal pre reward" full_name="cal pre reward" interruptable="YES" description="" interruptible="YES">
+                                    <task_system_state tag="cal pre reward" full_name="cal pre reward" description="" interruptible="YES">
                                         <action tag="start cal_timer" full_name="start cal_timer" type="start_timer" timer="cal_timer" duration="30ms"/>
                                         <transition tag="go to cal success saccade" full_name="go to cal success saccade" target="cal success" type="conditional" condition="saccade==1"/>
                                         <transition tag="go to cal success" full_name="go to cal success" target="cal success" type="timer_expired" timer="cal_timer"/>
                                     </task_system_state>
-                                    <task_system_state tag="cal success" full_name="cal success" interruptable="YES" description="" interruptible="YES">
+                                    <task_system_state tag="cal success" full_name="cal success" description="" interruptible="YES">
                                         <action tag="end averaging take sample" full_name="end averaging take sample" type="end_calibration_average_and_take_sample" calibrator="eyeCalibrator" calibratable_object="fixation_dot"/>
                                         <action tag="report" full_name="report" type="report" message="************* HIT!!!! **********"/>
                                         <action tag="set success" full_name="set success" type="assignment" variable="success" value="1"/>
@@ -142,14 +142,14 @@
                                         <action tag="accept calibration selection" full_name="accept calibration selection" type="accept_selections" selection="calibration_list"/>
                                         <transition type="yield" tag="cal yield" full_name="cal yield"/>
                                     </task_system_state>
-                                    <task_system_state tag="cal failure" full_name="cal failure" interruptable="YES" description="" interruptible="YES">
+                                    <task_system_state tag="cal failure" full_name="cal failure" description="" interruptible="YES">
                                         <action tag="stop averaging" full_name="stop averaging" type="end_calibration_average_and_ignore" calibrator="eyeCalibrator"/>
                                         <action tag="report message" full_name="report message" type="report" message="************* MISS!!!! **********"/>
                                         <action type="play_sound" sound="failure_sound" tag="play failure_sound" full_name="play failure_sound"/>
                                         <action tag="start rough_cal_timer" full_name="start rough_cal_timer" type="start_timer" timer="rough_cal_timer" duration="500ms"/>
                                         <transition tag="go to cal failure end" full_name="go to cal failure end" target="cal failure end" type="timer_expired" timer="rough_cal_timer"/>
                                     </task_system_state>
-                                    <task_system_state tag="cal failure end" full_name="cal  failure end" interruptable="YES" description="" interruptible="YES">
+                                    <task_system_state tag="cal failure end" full_name="cal  failure end" description="" interruptible="YES">
                                         <action tag="dequeue fixation_dot" full_name="dequeue fixation_dot" type="dequeue_stimulus" stimulus="fixation_dot"/>
                                         <action tag="display refresh" full_name="display refresh" type="update_stimulus_display"/>
                                         <action tag="set failure" full_name="set failure" type="assignment" variable="failure" value="1"/>
@@ -158,7 +158,7 @@
                                         <transition tag="go to cal punish" full_name="go to cal punish" target="cal punish" type="conditional" condition="miss_count==7"/>
                                         <transition type="yield" tag="cal yield" full_name="cal yield"/>
                                     </task_system_state>
-                                    <task_system_state tag="cal ignore" full_name="cal ignore" interruptable="YES" description="" interruptible="YES">
+                                    <task_system_state tag="cal ignore" full_name="cal ignore" description="" interruptible="YES">
                                         <action tag="report message" full_name="report message" type="report" message="************* IGNORE!!!! **********"/>
                                         <action tag="set ignore" full_name="set ignore" type="assignment" variable="ignore" value="1"/>
                                         <action tag="dequeue fixation_dot" full_name="dequeue fixation_dot" type="dequeue_stimulus" stimulus="fixation_dot"/>
@@ -168,7 +168,7 @@
                                         <transition tag="go to cal punish" full_name="go to cal punish" target="cal punish" type="conditional" condition="miss_count==7"/>
                                         <transition type="yield" tag="cal yield" full_name="cal yield"/>
                                     </task_system_state>
-                                    <task_system_state tag="cal punish" full_name="cal punish" interruptable="YES" description="" interruptible="YES">
+                                    <task_system_state tag="cal punish" full_name="cal punish" description="" interruptible="YES">
                                         <action tag="reset miss_count" full_name="reset miss_count" type="assignment" variable="miss_count" value="0"/>
                                         <action tag="start cal_timer" full_name="start cal_timer" type="start_timer" timer="cal_timer" duration="20000ms"/>
                                         <transition type="yield" tag="cal yield" full_name="cal yield"/>

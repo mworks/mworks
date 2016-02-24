@@ -48,9 +48,9 @@
         <sound tag="acquire_sound" type="wav_file" path="./sounds/acquire.wav" full_name="acquire_sound"/>
     </sounds>
     <experiment tag="MyExperiment" full_name="MyExperiment">
-        <protocol tag="my protocol" full_name="my protocol" interruptable="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles" description="" interruptible="YES">
-            <block tag="my block" full_name="my block" interruptable="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles" description="" interruptible="YES">
-                <trial tag="my trial" full_name="my trial" interruptable="YES" selection="sequential_ascending" nsamples="6" sampling_method="cycles" description="" interruptible="YES">
+        <protocol tag="my protocol" full_name="my protocol" selection="sequential_ascending" nsamples="1" sampling_method="cycles" description="" interruptible="YES">
+            <block tag="my block" full_name="my block" selection="sequential_ascending" nsamples="1" sampling_method="cycles" description="" interruptible="YES">
+                <trial tag="my trial" full_name="my trial" selection="sequential_ascending" nsamples="6" sampling_method="cycles" description="" interruptible="YES">
                     <task_system tag="start">
                         <task_system_state tag="StartIO_state" full_name="StartIO_state" description="" interruptible="YES">
                             <action tag="start IO" full_name="start IO" type="start_device_IO" device="Setup 1 ITC18"/>

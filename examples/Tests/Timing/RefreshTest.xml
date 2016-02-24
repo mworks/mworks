@@ -20,10 +20,10 @@
         <stimulus type="rectangle" tag="white rect" color="1,1,1" x_size="5" y_size="5" x_position="0" y_position="0" rotation="0"></stimulus>
     </stimuli>
     <experiment tag="simple_refresh_test" full_name="simple_refresh_test">
-        <protocol tag="srt" full_name="srt" interruptable="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles" description="" interruptible="YES">
-            <block tag="srt_" full_name="srt" interruptable="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles" description="" interruptible="YES">
+        <protocol tag="srt" full_name="srt" selection="sequential_ascending" nsamples="1" sampling_method="cycles" description="" interruptible="YES">
+            <block tag="srt_" full_name="srt" selection="sequential_ascending" nsamples="1" sampling_method="cycles" description="" interruptible="YES">
                 <task_system tag="task_system1" full_name="fullname_1" description="" interruptible="YES">
-                    <task_system_state tag="initiation" full_name="initiation" interruptable="YES" description="" interruptible="YES">
+                    <task_system_state tag="initiation" full_name="initiation" description="" interruptible="YES">
                         <action tag="report message" full_name="report message" type="report" message="**********STARTING**********"></action>
                         <action type="assignment" tag="reset counter" variable="counter" value="0"></action>
                         <action tag="display refresh" full_name="display refresh" type="update_stimulus_display"></action>
@@ -31,14 +31,14 @@
                         <action type="assignment" tag="store start time" variable="start_time" value="now()"></action>
                         <transition tag="go to present1" full_name="go present1" target="present1" type="timer_expired" timer="timer"></transition>
                     </task_system_state>
-                    <task_system_state tag="present1" full_name="present1" interruptable="YES" description="" interruptible="YES">
+                    <task_system_state tag="present1" full_name="present1" description="" interruptible="YES">
                         <action tag="QueueStimulus_black" full_name="fullname_1" type="queue_stimulus" stimulus="black rect"></action>
                         <action tag="display refresh" type="update_stimulus_display" predicted_output_time="predicted_output_time"></action>
                         <action type="assignment" tag="Store current time" variable="current_time" value="now()"></action>
                         <action type="assert" tag="Check predicted output time" condition="(predicted_output_time &gt; current_time) &amp;&amp; (predicted_output_time - current_time &lt; 2e6 / refreshRate())" message="predicted_output_time = $predicted_output_time, current_time = $current_time" stop_on_failure="0"></action>
                         <transition tag="AlwaysGo_2" full_name="fullname_2" target="present2" type="direct"></transition>
                     </task_system_state>
-                    <task_system_state tag="present2" full_name="present1" interruptable="YES" description="" interruptible="YES">
+                    <task_system_state tag="present2" full_name="present1" description="" interruptible="YES">
                         <action tag="QueueStimulus_white" full_name="fullname_1" type="queue_stimulus" stimulus="white rect"></action>
                         <action tag="display refresh" type="update_stimulus_display" predicted_output_time="predicted_output_time"></action>
                         <action type="assignment" tag="Store current time" variable="current_time" value="now()"></action>
@@ -47,7 +47,7 @@
                         <transition tag="ConditionalTransition_4" full_name="fullname_4" target="success" type="conditional" condition="counter==450"></transition>
                         <transition tag="AlwaysGo_2" full_name="fullname_2" target="present1" type="direct"></transition>
                     </task_system_state>
-                    <task_system_state tag="success" full_name="success" interruptable="YES" description="" interruptible="YES">
+                    <task_system_state tag="success" full_name="success" description="" interruptible="YES">
                         <action type="assignment" tag="store end time" variable="end_time" value="now()"></action>
                         <action type="assignment" tag="compute frame rate" variable="frame_rate" value="1000000.0 * (2 * counter) / (end_time - start_time)"></action>
                         <action tag="report message" full_name="report message" type="report" message="************TRIAL COMPLETE********** $counter cycles between $start_time and $end_time. Frame rate = $frame_rate"></action>

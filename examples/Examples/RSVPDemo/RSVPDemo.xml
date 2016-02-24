@@ -84,9 +84,9 @@
         <sound _id="id30726" tag="acquire_sound" type="wav_file" path="./sounds/acquire.wav"></sound>
     </sounds>
     <experiment _id="id30734" tag="Experiment">
-        <protocol _id="id30738" tag="calibration protocol" interruptable="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles" interruptible="YES">
-            <block _id="id30754" tag="calibration block" interruptable="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles" interruptible="YES">
-                <trial _id="id30771" tag="calibration trial" interruptable="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles" interruptible="YES">
+        <protocol _id="id30738" tag="calibration protocol" selection="sequential_ascending" nsamples="1" sampling_method="cycles" interruptible="YES">
+            <block _id="id30754" tag="calibration block" selection="sequential_ascending" nsamples="1" sampling_method="cycles" interruptible="YES">
+                <trial _id="id30771" tag="calibration trial" selection="sequential_ascending" nsamples="1" sampling_method="cycles" interruptible="YES">
                     <task_system _id="id30787" tag="calibration start">
                         <task_system_state _id="id30791" tag="StartIO_state" interruptible="YES">
                             <action type="start_device_IO" device="FakeMonkey" tag="Start Device IO"></action>
@@ -101,56 +101,56 @@
                     <list _id="id30846" tag="calibration_list" selection="random_without_replacement" nsamples="1" sampling_method="cycles" interruptible="YES">
                         <range_replicator _id="id30860" tag="fixation_selection_H" from="-15" to="15" step="5" variable="stm_selector_x">
                             <range_replicator _id="id30874" tag="fixation_selection_V" from="-15" to="15" step="5" variable="stm_selector_y">
-                                <task_system _id="id30888" tag="calibration task" interruptable="YES" interruptible="YES">
-                                    <task_system_state _id="id30897" tag="cal target selection" interruptable="YES" interruptible="YES">
+                                <task_system _id="id30888" tag="calibration task" interruptible="YES">
+                                    <task_system_state _id="id30897" tag="cal target selection" interruptible="YES">
                                         <action _id="id30906" type="assignment" variable="fixation_pos_x" value="stm_selector_x" tag="Assignment"></action>
                                         <action _id="id30914" type="assignment" variable="fixation_pos_y" value="stm_selector_y" tag="Assignment"></action>
                                         <transition _id="id30923" target="cal pause" type="direct"></transition>
                                     </task_system_state>
-                                    <task_system_state _id="id30929" tag="cal pause" interruptable="YES" interruptible="YES">
+                                    <task_system_state _id="id30929" tag="cal pause" interruptible="YES">
                                         <action _id="id30938" type="start_timer" timer="cal_timer" duration="1000ms" tag="Set Timer"></action>
                                         <transition _id="id30946" target="cal wait" type="timer_expired" timer="cal_timer"></transition>
                                     </task_system_state>
-                                    <task_system_state _id="id30955" tag="cal wait" interruptable="YES" interruptible="YES">
+                                    <task_system_state _id="id30955" tag="cal wait" interruptible="YES">
                                         <action _id="id30964" type="assignment" variable="fixation_point_size" value="0" tag="Assignment"></action>
                                         <action type="live_queue_stimulus" stimulus="fixation_dot" tag="Live Queue Stimulus"></action>
                                         <action _id="id30979" type="update_stimulus_display" tag="Update Stimulus Display"></action>
                                         <transition _id="id30983" target="cal stm on" type="conditional" condition="eye_in_window == 0"></transition>
                                     </task_system_state>
-                                    <task_system_state _id="id30992" tag="cal stm on" interruptable="YES" interruptible="YES">
+                                    <task_system_state _id="id30992" tag="cal stm on" interruptible="YES">
                                         <action _id="id31000" type="play_sound" sound="stm_on_sound" tag="play stm_on_sound"></action>
                                         <action _id="id31009" type="assignment" variable="fixation_point_size" value="0.4" tag="Assignment"></action>
                                         <action _id="id31018" type="update_stimulus_display" tag="Update Stimulus Display"></action>
                                         <transition _id="id31022" target="cal prefixation" type="direct"></transition>
                                     </task_system_state>
-                                    <task_system_state _id="id31028" tag="cal prefixation" interruptable="YES" interruptible="YES">
+                                    <task_system_state _id="id31028" tag="cal prefixation" interruptible="YES">
                                         <action _id="id31037" type="start_timer" timer="prefixation_timer" duration="1500ms" tag="Set Timer"></action>
                                         <action _id="id31046" type="fake_monkey_saccade_and_fixate" duration="fixation_duration*rand(1, 1.15)" fake_monkey="FakeMonkey" h="fixation_pos_x" v="fixation_pos_y" tag="Fake Monkey Saccade and Fixate"></action>
                                         <transition _id="id31060" target="cal ignore" type="timer_expired" timer="prefixation_timer"></transition>
                                         <transition _id="id31068" target="cal acquire" type="conditional" condition="(eye_in_window == 1) #AND (saccade == 0)"></transition>
                                     </task_system_state>
-                                    <task_system_state _id="id31077" tag="cal acquire" interruptable="YES" interruptible="YES">
+                                    <task_system_state _id="id31077" tag="cal acquire" interruptible="YES">
                                         <action _id="id31086" type="play_sound" sound="acquire_sound" tag="play acquire_sound"></action>
                                         <action _id="id31095" type="start_timer" timer="cal_timer" duration="fixation_duration" tag="Set Timer"></action>
                                         <transition _id="id31104" target="cal fixation" type="direct"></transition>
                                     </task_system_state>
-                                    <task_system_state _id="id31110" tag="cal fixation" interruptable="YES" interruptible="YES">
+                                    <task_system_state _id="id31110" tag="cal fixation" interruptible="YES">
                                         <action _id="id31119" type="begin_calibration_average" calibrator="eyeCalibrator" tag="Begin Calibration Average"></action>
                                         <transition _id="id31125" target="cal failure" type="conditional" condition="eye_in_window==0"></transition>
                                         <transition _id="id31134" target="cal fixation monitor" type="conditional" condition="saccade==1"></transition>
                                         <transition _id="id31143" target="cal pre reward" type="timer_expired" timer="cal_timer"></transition>
                                     </task_system_state>
-                                    <task_system_state _id="id31151" tag="cal fixation monitor" interruptable="YES" interruptible="YES">
+                                    <task_system_state _id="id31151" tag="cal fixation monitor" interruptible="YES">
                                         <action type="end_calibration_average_and_ignore" calibrator="eyeCalibrator" tag="End Calibration Average and Ignore"></action>
                                         <transition _id="id31167" target="cal fixation" type="conditional" condition="(eye_in_window == 1) #AND (saccade == 0)"></transition>
                                         <transition _id="id31176" target="cal failure" type="conditional" condition="(eye_in_window == 0) #AND (saccade == 0)"></transition>
                                     </task_system_state>
-                                    <task_system_state _id="id31185" tag="cal pre reward" interruptable="YES" interruptible="YES">
+                                    <task_system_state _id="id31185" tag="cal pre reward" interruptible="YES">
                                         <action _id="id31194" type="start_timer" timer="cal_timer" duration="30ms" tag="Set Timer"></action>
                                         <transition _id="id31202" target="cal success" type="conditional" condition="saccade==1"></transition>
                                         <transition _id="id31211" target="cal success" type="timer_expired" timer="cal_timer"></transition>
                                     </task_system_state>
-                                    <task_system_state _id="id31220" tag="cal success" interruptable="YES" interruptible="YES">
+                                    <task_system_state _id="id31220" tag="cal success" interruptible="YES">
                                         <action type="end_calibration_average_and_take_sample" calibrator="eyeCalibrator" calibratable_object="fixation_dot" tag="End Calibration Average and Take Sample"></action>
                                         <action _id="id31238" type="assignment" variable="success" value="1" tag="Assignment"></action>
                                         <action _id="id31246" type="dequeue_stimulus" stimulus="fixation_dot" tag="Dequeue Stimulus"></action>
@@ -161,14 +161,14 @@
                                         <action _id="id31283" type="accept_selections" selection="calibration_list" tag="Accept Selections"></action>
                                         <transition _id="id31289" type="yield"></transition>
                                     </task_system_state>
-                                    <task_system_state _id="id31293" tag="cal failure" interruptable="YES" interruptible="YES">
+                                    <task_system_state _id="id31293" tag="cal failure" interruptible="YES">
                                         <action type="end_calibration_average_and_ignore" calibrator="eyeCalibrator" tag="End Calibration Average and Ignore "></action>
                                         <action _id="id31309" type="report" message="************* MISS!!!! **********" tag="Report"></action>
                                         <action _id="id31315" type="play_sound" sound="failure_sound" tag="play failure_sound"></action>
                                         <action _id="id31324" type="start_timer" timer="rough_cal_timer" duration="500ms" tag="Set Timer"></action>
                                         <transition _id="id31333" target="cal failure end" type="timer_expired" timer="rough_cal_timer"></transition>
                                     </task_system_state>
-                                    <task_system_state _id="id31341" tag="cal failure end" interruptable="YES" interruptible="YES">
+                                    <task_system_state _id="id31341" tag="cal failure end" interruptible="YES">
                                         <action _id="id31350" type="dequeue_stimulus" stimulus="fixation_dot" tag="Dequeue Stimulus"></action>
                                         <action _id="id31356" type="update_stimulus_display" tag="Update Stimulus Display"></action>
                                         <action _id="id31360" type="assignment" variable="failure" value="1" tag="Assignment"></action>
@@ -177,7 +177,7 @@
                                         <transition _id="id31384" target="cal punish" type="conditional" condition="miss_count==7"></transition>
                                         <transition _id="id31393" type="yield"></transition>
                                     </task_system_state>
-                                    <task_system_state _id="id31396" tag="cal ignore" interruptable="YES" interruptible="YES">
+                                    <task_system_state _id="id31396" tag="cal ignore" interruptible="YES">
                                         <action _id="id31405" type="report" message="************* IGNORE!!!! **********" tag="Report"></action>
                                         <action _id="id31412" type="assignment" variable="ignore" value="1" tag="Assignment"></action>
                                         <action _id="id31420" type="dequeue_stimulus" stimulus="fixation_dot" tag="Dequeue Stimulus"></action>
@@ -187,7 +187,7 @@
                                         <transition _id="id31446" target="cal punish" type="conditional" condition="miss_count==7"></transition>
                                         <transition _id="id31454" type="yield"></transition>
                                     </task_system_state>
-                                    <task_system_state _id="id31458" tag="cal punish" interruptable="YES" interruptible="YES">
+                                    <task_system_state _id="id31458" tag="cal punish" interruptible="YES">
                                         <action _id="id31467" type="assignment" variable="miss_count" value="0" tag="Assignment"></action>
                                         <action _id="id31476" type="start_timer" timer="cal_timer" duration="20000ms" tag="Set Timer"></action>
                                         <transition _id="id31484" type="yield"></transition>
@@ -208,15 +208,15 @@
                 </trial>
             </block>
         </protocol>
-        <protocol _id="id31527" tag="RSVP protocol" interruptable="YES" selection="sequential" nsamples="1" sampling_method="cycles" interruptible="YES">
-            <block _id="id31543" tag="RSVP block" interruptable="YES" selection="sequential" nsamples="1" sampling_method="cycles" interruptible="YES">
+        <protocol _id="id31527" tag="RSVP protocol" selection="sequential" nsamples="1" sampling_method="cycles" interruptible="YES">
+            <block _id="id31543" tag="RSVP block" selection="sequential" nsamples="1" sampling_method="cycles" interruptible="YES">
                 <action type="reset_selection" selection="RSVP_test_stim_index" tag="Reset RSVP_test_stim_index"></action>
                 <action _id="id31565" type="assignment" variable="images_shown" value="0" tag="Assignment"></action>
                 <action _id="id31573" type="assignment" variable="imageGroup_repetition" value="0" tag="Assignment"></action>
                 <action _id="id31582" type="assignment" variable="fixation_point_size" value="0.2" tag="Assignment"></action>
                 <action _id="id31591" type="assignment" variable="fixation_pos_x" value="0" tag="Assignment"></action>
                 <action _id="id31600" type="assignment" variable="fixation_pos_y" value="0" tag="Assignment"></action>
-                <trial _id="id31608" tag="RSVP trial" interruptable="YES" selection="sequential" nsamples="1000" sampling_method="cycles" interruptible="YES">
+                <trial _id="id31608" tag="RSVP trial" selection="sequential" nsamples="1000" sampling_method="cycles" interruptible="YES">
                     <task_system _id="id31624" tag="RSVP task system">
                         <task_system_state _id="id31628" tag="RSVP check completion" interruptible="YES">
                             <transition _id="id31634" target="RSVP complete" type="conditional" condition="imageGroup_repetition #GE number_repeats"></transition>

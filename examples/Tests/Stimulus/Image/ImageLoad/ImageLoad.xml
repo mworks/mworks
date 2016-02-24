@@ -16,7 +16,7 @@
     <experiment tag="MyExperiment" full_name="My Experiment">
         <protocol tag="Protocol1" full_name="Protocol 1" description="" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
             <block tag="Block1" full_name="Block 1" description="" interruptible="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
-				<trial tag="trial20" full_name="fullname20" interruptable="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
+				<trial tag="trial20" full_name="fullname20" selection="sequential_ascending" nsamples="1" sampling_method="cycles">
 					<task_system tag="X">
                         <task_system_state tag="X_state">
                             <transition type="yield"/>

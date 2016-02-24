@@ -11,19 +11,19 @@
     <stimuli/>
     <sounds/>
     <experiment tag="LocalVarTest2" full_name="Local Var Test 2">
-        <protocol tag="theProtocol" full_name="the protocol" interruptable="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles" description="" interruptible="YES">
-            <block tag="theBlock" full_name="the block" interruptable="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles" description="" interruptible="YES">
-                <trial tag="theTrial" full_name="the trial" interruptable="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles" description="" interruptible="YES">
+        <protocol tag="theProtocol" full_name="the protocol" selection="sequential_ascending" nsamples="1" sampling_method="cycles" description="" interruptible="YES">
+            <block tag="theBlock" full_name="the block" selection="sequential_ascending" nsamples="1" sampling_method="cycles" description="" interruptible="YES">
+                <trial tag="theTrial" full_name="the trial" selection="sequential_ascending" nsamples="1" sampling_method="cycles" description="" interruptible="YES">
 					<range_replicator tag="Y_local replicator" full_name="fullname_5" from="20" to="21" step="1" variable="Y_local">
-						<task_system tag="theTask" full_name="the task" interruptable="YES" description="" interruptible="YES">
-							<task_system_state tag="theState" full_name="the state" interruptable="YES" description="" interruptible="YES">
+						<task_system tag="theTask" full_name="the task" description="" interruptible="YES">
+							<task_system_state tag="theState" full_name="the state" description="" interruptible="YES">
 								<action tag="set A_global" full_name="set A_global" type="assignment" variable="A_global" value="Y_local"/>
 								<transition type="yield" tag="yield" full_name="yield"/>
 							</task_system_state>
 						</task_system>
 					</range_replicator>
-					<task_system tag="comparison Task" full_name="the task" interruptable="YES" description="" interruptible="YES">
-						<task_system_state tag="comparison State" full_name="the state" interruptable="YES" description="" interruptible="YES">
+					<task_system tag="comparison Task" full_name="the task" description="" interruptible="YES">
+						<task_system_state tag="comparison State" full_name="the state" description="" interruptible="YES">
 							<action tag="test A_global" full_name="test A_global" type="assert" condition="A_global==21" message="ASSERT: (A_global==21)"/>
 							<action tag="test X_local" full_name="test X_local" type="assert" condition="X_local==10" message="ASSERT: (X_local==10)"/>
 							<action tag="test Y_local" full_name="test Y_local" type="assert" condition="Y_local==11" message="ASSERT: (Y_local==11)"/>

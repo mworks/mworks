@@ -2,9 +2,9 @@
 <monkeyml version="1.0">
     <stimuli/>
     <experiment tag="AssertTest" full_name="Assert Unit Test">
-        <protocol tag="AT Protocol" full_name="AT" interruptable="YES" selection="sequential" nsamples="1" sampling_method="cycles" description="" interruptible="YES">
-            <block tag="AT Block" interruptable="YES" selection="sequential" nsamples="1" sampling_method="cycles" full_name="fullname_~ELEMENTCOUNT~" description="" interruptible="YES">
-                <trial tag="AT trial" interruptable="YES" selection="sequential" nsamples="1" sampling_method="cycles" full_name="fullname_~ELEMENTCOUNT~" description="" interruptible="YES">
+        <protocol tag="AT Protocol" full_name="AT" selection="sequential" nsamples="1" sampling_method="cycles" description="" interruptible="YES">
+            <block tag="AT Block" selection="sequential" nsamples="1" sampling_method="cycles" full_name="fullname_~ELEMENTCOUNT~" description="" interruptible="YES">
+                <trial tag="AT trial" selection="sequential" nsamples="1" sampling_method="cycles" full_name="fullname_~ELEMENTCOUNT~" description="" interruptible="YES">
                     <task_system tag="AT">
                         <task_system_state tag="assert" interruptible="YES">
                             <action type="report" message="About to not assert"/>

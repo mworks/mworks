@@ -53,14 +53,14 @@
     <stimuli/>
     <sounds/>
     <experiment tag="Swap" full_name="Swap">
-        <protocol tag="swap protocol" full_name="swap protocol" interruptable="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles" description="" interruptible="YES">
-            <block tag="swap block" full_name="swap block" interruptable="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles" description="" interruptible="YES">
-                <trial tag="swap trial" full_name="swap trial" interruptable="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles" description="" interruptible="YES">
+        <protocol tag="swap protocol" full_name="swap protocol" selection="sequential_ascending" nsamples="1" sampling_method="cycles" description="" interruptible="YES">
+            <block tag="swap block" full_name="swap block" selection="sequential_ascending" nsamples="1" sampling_method="cycles" description="" interruptible="YES">
+                <trial tag="swap trial" full_name="swap trial" selection="sequential_ascending" nsamples="1" sampling_method="cycles" description="" interruptible="YES">
                     <list tag="swap_list" selection="random_without_replacement" nsamples="1" sampling_method="cycles" full_name="swap_list" description="" interruptible="YES">
                         <range_replicator tag="A_stm_index replicator" full_name="fullname_5" from="0" to="3" step="1" variable="stm_index">
                             <range_replicator tag="A_swap_position replicator" full_name="swap replicator" from="-3" to="3" step="6" variable="swap_pos">
-                                <task_system tag="swap A task" full_name="swap A task" interruptable="YES" description="" interruptible="YES">
-                                    <task_system_state tag="swap A stm on" full_name="swap A stm on" interruptable="YES" description="" interruptible="YES">
+                                <task_system tag="swap A task" full_name="swap A task" description="" interruptible="YES">
+                                    <task_system_state tag="swap A stm on" full_name="swap A stm on" description="" interruptible="YES">
                                         <action tag="set CountPosition" full_name="set CountPosition" type="assignment" variable="CountPosition" value="swap_pos"/>
                                         <action tag="set CountGroup" full_name="set CountGroup" type="assignment" variable="CountGroup" value="1"/>
                                         <action tag="set CountPair" full_name="set CountPair" type="assignment" variable="CountPair" value="1"/>
@@ -73,8 +73,8 @@
                         </range_replicator>
                         <range_replicator tag="APrime_stm_index replicator" full_name="fullname_5" from="0" to="3" step="1" variable="stm_index">
                             <range_replicator tag="APrime_swap_position replicator" full_name="swap APrime replicator" from="-3" to="3" step="6" variable="swap_pos">
-                                <task_system tag="swap APrime task" full_name="swap APrime task" interruptable="YES" description="" interruptible="YES">
-                                    <task_system_state tag="swap APrime stm on" full_name="swap APrime stm on" interruptable="YES" description="" interruptible="YES">
+                                <task_system tag="swap APrime task" full_name="swap APrime task" description="" interruptible="YES">
+                                    <task_system_state tag="swap APrime stm on" full_name="swap APrime stm on" description="" interruptible="YES">
                                         <action tag="set CountPosition" full_name="set CountPosition" type="assignment" variable="CountPosition" value="swap_pos"/>
                                         <action tag="set CountGroup" full_name="set CountGroup" type="assignment" variable="CountGroup" value="1"/>
                                         <action tag="set CountPair" full_name="set CountPair" type="assignment" variable="CountPair" value="2"/>
@@ -87,8 +87,8 @@
                         </range_replicator>
                         <range_replicator tag="B_stm_index replicator" full_name="fullname_5" from="0" to="3" step="1" variable="stm_index">
                             <range_replicator tag="B_swap_position replicator" full_name="swap B replicator" from="-3" to="3" step="6" variable="swap_pos">
-                                <task_system tag="swap B task" full_name="swap B task" interruptable="YES" description="" interruptible="YES">
-                                    <task_system_state tag="swap B stm on" full_name="swap B stm on" interruptable="YES" description="" interruptible="YES">
+                                <task_system tag="swap B task" full_name="swap B task" description="" interruptible="YES">
+                                    <task_system_state tag="swap B stm on" full_name="swap B stm on" description="" interruptible="YES">
                                         <action tag="set CountPosition" full_name="set CountPosition" type="assignment" variable="CountPosition" value="swap_pos"/>
                                         <action tag="set CountGroup" full_name="set CountGroup" type="assignment" variable="CountGroup" value="2"/>
                                         <action tag="set CountPair" full_name="set CountPair" type="assignment" variable="CountPair" value="1"/>
@@ -101,8 +101,8 @@
                         </range_replicator>
                         <range_replicator tag="BPrime_stm_index replicator" full_name="fullname_5" from="0" to="3" step="1" variable="stm_index">
                             <range_replicator tag="BPrime_swap_position replicator" full_name="swap BPrime replicator" from="-3" to="3" step="6" variable="swap_pos">
-                                <task_system tag="swap BPrime task" full_name="swap BPrime task" interruptable="YES" description="" interruptible="YES">
-                                    <task_system_state tag="swap BPrime stm on" full_name="swap BPrime stm on" interruptable="YES" description="" interruptible="YES">
+                                <task_system tag="swap BPrime task" full_name="swap BPrime task" description="" interruptible="YES">
+                                    <task_system_state tag="swap BPrime stm on" full_name="swap BPrime stm on" description="" interruptible="YES">
                                         <action tag="set CountPosition" full_name="set CountPosition" type="assignment" variable="CountPosition" value="swap_pos"/>
                                         <action tag="set CountGroup" full_name="set CountGroup" type="assignment" variable="CountGroup" value="2"/>
                                         <action tag="set CountPair" full_name="set CountPair" type="assignment" variable="CountPair" value="2"/>
@@ -115,8 +115,8 @@
                         </range_replicator>
                         <range_replicator tag="C_stm_index replicator" full_name="fullname_5" from="0" to="3" step="1" variable="stm_index">
                             <range_replicator tag="C_swap_position replicator" full_name="swap C replicator" from="-3" to="3" step="6" variable="swap_pos">
-                                <task_system tag="swap C task" full_name="swap C task" interruptable="YES" description="" interruptible="YES">
-                                    <task_system_state tag="swap C stm on" full_name="swap C stm on" interruptable="YES" description="" interruptible="YES">
+                                <task_system tag="swap C task" full_name="swap C task" description="" interruptible="YES">
+                                    <task_system_state tag="swap C stm on" full_name="swap C stm on" description="" interruptible="YES">
                                         <action tag="set CountPosition" full_name="set CountPosition" type="assignment" variable="CountPosition" value="swap_pos"/>
                                         <action tag="set CountGroup" full_name="set CountGroup" type="assignment" variable="CountGroup" value="3"/>
                                         <action tag="set CountPair" full_name="set CountPair" type="assignment" variable="CountPair" value="1"/>
@@ -129,8 +129,8 @@
                         </range_replicator>
                         <range_replicator tag="CPrime_stm_index replicator" full_name="fullname_5" from="0" to="3" step="1" variable="stm_index">
                             <range_replicator tag="CPrime_swap_position replicator" full_name="swap CPrime replicator" from="-3" to="3" step="6" variable="swap_pos">
-                                <task_system tag="swap CPrime task" full_name="swap CPrime task" interruptable="YES" description="" interruptible="YES">
-                                    <task_system_state tag="swap CPrime stm on" full_name="swap CPrime stm on" interruptable="YES" description="" interruptible="YES">
+                                <task_system tag="swap CPrime task" full_name="swap CPrime task" description="" interruptible="YES">
+                                    <task_system_state tag="swap CPrime stm on" full_name="swap CPrime stm on" description="" interruptible="YES">
                                         <action tag="set CountPosition" full_name="set CountPosition" type="assignment" variable="CountPosition" value="swap_pos"/>
                                         <action tag="set CountGroup" full_name="set CountGroup" type="assignment" variable="CountGroup" value="3"/>
                                         <action tag="set CountPair" full_name="set CountPair" type="assignment" variable="CountPair" value="2"/>
@@ -142,8 +142,8 @@
                             </range_replicator>
                         </range_replicator>
                         <range_replicator tag="swap_distractor replicator" full_name="swap_distractor replicator" from="1" to="32" step="1" variable="rep_distractor">
-                            <task_system tag="distractor task" full_name="distractor task" interruptable="YES" description="" interruptible="YES">
-                                <task_system_state tag="distractor stm on" full_name="distractor stm on" interruptable="YES" description="" interruptible="YES">
+                            <task_system tag="distractor task" full_name="distractor task" description="" interruptible="YES">
+                                <task_system_state tag="distractor stm on" full_name="distractor stm on" description="" interruptible="YES">
                                     <action tag="set CountPosition" full_name="set CountPosition" type="assignment" variable="CountPosition" value="-1000"/>
                                     <action tag="set CountGroup" full_name="set CountGroup" type="assignment" variable="CountGroup" value="4"/>
                                     <action tag="set CountPair" full_name="set CountPair" type="assignment" variable="CountPair" value="-1000"/>

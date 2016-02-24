@@ -12,12 +12,12 @@
     <stimuli/>
     <sounds/>
     <experiment tag="LocalVarTest" full_name="Local Var Test">
-        <protocol tag="theProtocol" full_name="the protocol" interruptable="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles" description="" interruptible="YES">
-            <block tag="theBlock" full_name="the block" interruptable="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles" description="" interruptible="YES">
-                <trial tag="theTrial" full_name="the trial" interruptable="YES" selection="sequential_ascending" nsamples="1" sampling_method="cycles" description="" interruptible="YES">
+        <protocol tag="theProtocol" full_name="the protocol" selection="sequential_ascending" nsamples="1" sampling_method="cycles" description="" interruptible="YES">
+            <block tag="theBlock" full_name="the block" selection="sequential_ascending" nsamples="1" sampling_method="cycles" description="" interruptible="YES">
+                <trial tag="theTrial" full_name="the trial" selection="sequential_ascending" nsamples="1" sampling_method="cycles" description="" interruptible="YES">
 					<range_replicator tag="X_local replicator" full_name="fullname_5" from="101" to="102" step="1" variable="X_local">
-						<task_system tag="theTask" full_name="the task" interruptable="YES" description="" interruptible="YES">
-							<task_system_state tag="theState" full_name="the state" interruptable="YES" description="" interruptible="YES">
+						<task_system tag="theTask" full_name="the task" description="" interruptible="YES">
+							<task_system_state tag="theState" full_name="the state" description="" interruptible="YES">
 								<action tag="test Y_local 1" full_name="test Y_local" type="assert" condition="Y_local==2" message="ASSERT: (Y_local==2)"/>
                                 <action tag="set B_global" full_name="set B_global" type="assignment" variable="B_global" value="25"/>
 								<action tag="set A_global" full_name="set A_global" type="assignment" variable="A_global" value="X_local"/>
@@ -25,8 +25,8 @@
 							</task_system_state>
 						</task_system>
 					</range_replicator>
-					<task_system tag="comparison Task" full_name="the task" interruptable="YES" description="" interruptible="YES">
-						<task_system_state tag="comparison State" full_name="the state" interruptable="YES" description="" interruptible="YES">
+					<task_system tag="comparison Task" full_name="the task" description="" interruptible="YES">
+						<task_system_state tag="comparison State" full_name="the state" description="" interruptible="YES">
 							<action tag="test A_global" full_name="test A_global" type="assert" condition="A_global==102" message="ASSERT: (A_global==102)"/>
 							<action tag="test B_global" full_name="test B_global" type="assert" condition="B_global==25" message="ASSERT: (B_global==25)"/>
 							<action tag="report A_global" full_name="report A_global" type="report" message="A_global=$A_global"/>
