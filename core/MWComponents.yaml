@@ -490,6 +490,9 @@ description: >
     substitution of a range variable (like a "for" loop).
 parameters: 
   - 
+    name: variable
+    required: yes
+  - 
     name: from
     required: yes
   - 
@@ -497,9 +500,6 @@ parameters:
     required: yes
   - 
     name: step
-    required: yes
-  - 
-    name: variable
     required: yes
 
 
@@ -527,10 +527,10 @@ description: >
     substitution of a list of values into a variable.
 parameters: 
   - 
-    name: values
+    name: variable
     required: yes
   - 
-    name: variable
+    name: values
     required: yes
 
 
