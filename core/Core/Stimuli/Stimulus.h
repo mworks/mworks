@@ -94,8 +94,6 @@ protected:
     
     bool frozen;
     
-    /*CollectionPoint *collection_point;*/
-    
 public:
     static const std::string DEFERRED;
     

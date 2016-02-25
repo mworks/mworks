@@ -893,8 +893,6 @@
 		682A94770CA9A933001DE3E2 /* SequentialSelection.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SequentialSelection.cpp; path = Core/ParadigmComponents/SequentialSelection.cpp; sourceTree = "<group>"; };
 		682A94930CA9AA20001DE3E2 /* RandomWORSelection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RandomWORSelection.h; path = Core/ParadigmComponents/RandomWORSelection.h; sourceTree = "<group>"; };
 		682A94940CA9AA20001DE3E2 /* RandomWORSelection.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RandomWORSelection.cpp; path = Core/ParadigmComponents/RandomWORSelection.cpp; sourceTree = "<group>"; };
-		682A94A30CA9AADC001DE3E2 /* DoneTableSelection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DoneTableSelection.h; path = Core/ParadigmComponents/DoneTableSelection.h; sourceTree = "<group>"; };
-		682A94A40CA9AADC001DE3E2 /* DoneTableSelection.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DoneTableSelection.cpp; path = Core/ParadigmComponents/DoneTableSelection.cpp; sourceTree = "<group>"; };
 		682A94B50CA9AB61001DE3E2 /* RandomWithReplacementSelection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RandomWithReplacementSelection.h; path = Core/ParadigmComponents/RandomWithReplacementSelection.h; sourceTree = "<group>"; };
 		682A94B60CA9AB61001DE3E2 /* RandomWithReplacementSelection.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RandomWithReplacementSelection.cpp; path = Core/ParadigmComponents/RandomWithReplacementSelection.cpp; sourceTree = "<group>"; };
 		686059580C91CB8700CD0D16 /* OutgoingEventListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OutgoingEventListener.h; path = Core/Events/OutgoingEventListener.h; sourceTree = "<group>"; };
@@ -1997,8 +1995,6 @@
 				682A94770CA9A933001DE3E2 /* SequentialSelection.cpp */,
 				682A94930CA9AA20001DE3E2 /* RandomWORSelection.h */,
 				682A94940CA9AA20001DE3E2 /* RandomWORSelection.cpp */,
-				682A94A30CA9AADC001DE3E2 /* DoneTableSelection.h */,
-				682A94A40CA9AADC001DE3E2 /* DoneTableSelection.cpp */,
 				682A94B50CA9AB61001DE3E2 /* RandomWithReplacementSelection.h */,
 				682A94B60CA9AB61001DE3E2 /* RandomWithReplacementSelection.cpp */,
 			);

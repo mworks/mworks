@@ -8,8 +8,6 @@
  *  Created by David Cox on Sat Dec 28 2002.
  *  Copyright (c) 2002 MIT. All rights reserved.
  * Paul Jankunas on 1/24/06 - Adding virtual destructor.
- *  See "ServiceRegistry.h" in the ComponentRegistries section for a discussion
- *  of ObjectFactories and plugins.
  */
 
 #include "Component.h"

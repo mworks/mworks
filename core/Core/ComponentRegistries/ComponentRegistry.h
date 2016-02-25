@@ -12,7 +12,7 @@
  *  The "mw::Component Registry" is basically just a list of service registries, organized
  *  by type.  So, there might be a Clock service registry, a state system service registry
  *  etc. etc. contained under the component registry, each of which describes and gives
- *  access to the registered components of each type (see ServiceRegistry.h)
+ *  access to the registered components of each type.
  *
  *  Typically, one would go to the component registry to gain access to plugin-defined
  *  components, and the ill-named "service" registries just work under the hood.  The
