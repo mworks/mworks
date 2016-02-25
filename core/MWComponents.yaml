@@ -555,13 +555,6 @@ isa: Container State
 inspector: ListStateInspectorView
 parameters: 
   - 
-    name: nsamples
-    default: 1
-  - 
-    name: sampling_method
-    options: [cycles, samples]
-    default: cycles
-  - 
     name: selection
     options:
       - sequential
@@ -570,6 +563,13 @@ parameters:
       - random_without_replacement
       - random_with_replacement
     default: sequential
+  - 
+    name: nsamples
+    default: 1
+  - 
+    name: sampling_method
+    options: [cycles, samples]
+    default: cycles
 
 
 ---
@@ -1505,6 +1505,7 @@ description: >
 parameters: 
   - 
     name: background_color
+    required: yes
     example: 0.5,0.5,0.5
   - 
     name: announce_stimuli_on_implicit_updates
