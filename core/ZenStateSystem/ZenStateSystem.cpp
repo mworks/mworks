@@ -65,17 +65,17 @@ void StandardStateSystem::start(){
 //	(*state_system_mode) = RUNNING;
   
 	mprintf("Called start on state system");
-	
-	if(GlobalCurrentExperiment == NULL){
+    
+    // Make a copy of the experiment to ensure that it isn't destroyed before we're done with it
+    shared_ptr<Experiment> current_experiment = GlobalCurrentExperiment;
+	if (!current_experiment) {
 		merror(M_STATE_SYSTEM_MESSAGE_DOMAIN,
 			  "Cannot start state system without a valid experiment defined");
 		return;
 	}
 	
-	// TODO: is this implicit cast kosher?
-	weak_ptr<State> exp_ref(GlobalCurrentExperiment);
-	GlobalCurrentExperiment->setCurrentState(exp_ref);
-	//GlobalCurrentExperiment->setCurrentState(GlobalCurrentExperiment->getCurrentProtocol());
+	weak_ptr<State> exp_ref(current_experiment);
+	current_experiment->setCurrentState(exp_ref);
 		
 	shared_ptr <StandardStateSystem> *shared_ptr_to_this_ptr = 
             new shared_ptr<StandardStateSystem>(component_shared_from_this<StandardStateSystem>());
@@ -209,15 +209,20 @@ void StandardStateSystem::run() {
 		fflush(stderr);
 	}
 
+    // Make a copy of the experiment to ensure that it isn't destroyed before we're done with it
+    shared_ptr<Experiment> current_experiment = GlobalCurrentExperiment;
+    if (!current_experiment) {
+        merror(M_STATE_SYSTEM_MESSAGE_DOMAIN,
+               "Cannot start state system without a valid experiment defined");
+        return;
+    }
 
 	mprintf("Starting state system....");
 
 
     //mprintf("----------setting task  mode to running------------");
 	(*state_system_mode) = (long) RUNNING;
-	current_state = GlobalCurrentExperiment->getCurrentState();
-    
-	//mExperiment *testexp = GlobalCurrentExperiment;
+	current_state = current_experiment->getCurrentState();
 	
 	if(current_state.expired()){
 		merror(M_STATE_SYSTEM_MESSAGE_DOMAIN,
@@ -309,13 +314,13 @@ void StandardStateSystem::run() {
 			
 			//mprintf("State system moving on... %d", next_state);
 			
-			GlobalCurrentExperiment->setCurrentState(next_state);
+			current_experiment->setCurrentState(next_state);
 			
 			
 			
 			// If we've finished
-			if(current_state_shared.get() == GlobalCurrentExperiment.get() && 
-					next_state_shared.get() == GlobalCurrentExperiment.get()){
+			if(current_state_shared.get() == current_experiment.get() &&
+					next_state_shared.get() == current_experiment.get()){
 					mprintf("Returned to Experiment node, halting state system...");
 					(*state_system_mode) = IDLE;
 					current_state = weak_ptr<State>();
@@ -348,10 +353,8 @@ void StandardStateSystem::run() {
         mprintf("State system ending");
         
         // DDC: graceful stop?
-        if(GlobalCurrentExperiment != NULL){
-            mprintf("Resetting experiment");
-            GlobalCurrentExperiment->reset();
-        }
+        mprintf("Resetting experiment");
+        current_experiment->reset();
     }
     
     
