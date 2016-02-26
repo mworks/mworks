@@ -422,6 +422,7 @@
 		E16BC17B137D952D0052D8E1 /* MachUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = E16BC179137D952D0052D8E1 /* MachUtilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E16BC17C137D952D0052D8E1 /* MachUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E16BC17A137D952D0052D8E1 /* MachUtilities.cpp */; };
 		E186EB661C1F512100FD7F32 /* MWComponents.yaml in Resources */ = {isa = PBXBuildFile; fileRef = E186EB651C1F511100FD7F32 /* MWComponents.yaml */; };
+		E18FF25F1C80EE7B007820D4 /* CFObjectPtr.h in Headers */ = {isa = PBXBuildFile; fileRef = E18FF25E1C80EE64007820D4 /* CFObjectPtr.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E194BF6E1590DB5300D4A62D /* StimulusDisplayDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E194BF6D1590DB5300D4A62D /* StimulusDisplayDevice.cpp */; };
 		E194BF6F1590DB6900D4A62D /* StimulusDisplayDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = E194BF6C1590DB3900D4A62D /* StimulusDisplayDevice.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1ADE3B31BDE8F8B0055642F /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1ADE3B21BDE8F8B0055642F /* Accelerate.framework */; };
@@ -1053,6 +1054,7 @@
 		E16BC179137D952D0052D8E1 /* MachUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MachUtilities.h; path = Core/Utilities/MachUtilities.h; sourceTree = "<group>"; };
 		E16BC17A137D952D0052D8E1 /* MachUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MachUtilities.cpp; path = Core/Utilities/MachUtilities.cpp; sourceTree = "<group>"; };
 		E186EB651C1F511100FD7F32 /* MWComponents.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MWComponents.yaml; sourceTree = "<group>"; };
+		E18FF25E1C80EE64007820D4 /* CFObjectPtr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CFObjectPtr.h; path = Core/Utilities/CFObjectPtr.h; sourceTree = "<group>"; };
 		E194BF6C1590DB3900D4A62D /* StimulusDisplayDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = StimulusDisplayDevice.h; path = Core/Stimuli/StimulusDisplayDevice.h; sourceTree = "<group>"; };
 		E194BF6D1590DB5300D4A62D /* StimulusDisplayDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StimulusDisplayDevice.cpp; path = Core/Stimuli/StimulusDisplayDevice.cpp; sourceTree = "<group>"; };
 		E1ADE3B21BDE8F8B0055642F /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
@@ -1722,6 +1724,7 @@
 				0EF2B5C30EBB49F20088F58F /* RegisteredSingleton.h */,
 				E16BC179137D952D0052D8E1 /* MachUtilities.h */,
 				E16BC17A137D952D0052D8E1 /* MachUtilities.cpp */,
+				E18FF25E1C80EE64007820D4 /* CFObjectPtr.h */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -2289,6 +2292,7 @@
 				8ED451E808BF5BA1003880D5 /* FilterTransforms.h in Headers */,
 				8ED452C808BF9870003880D5 /* FilterManager.h in Headers */,
 				8ED452C908BF9870003880D5 /* Transforms.h in Headers */,
+				E18FF25F1C80EE7B007820D4 /* CFObjectPtr.h in Headers */,
 				8ED452CB08BF9870003880D5 /* VariableTransformAdaptors.h in Headers */,
 				8EE2F3A108C8227700B873A2 /* FitableFunctions.h in Headers */,
 				8E1A4D4308E494CC002E47BD /* EyeCalibrators.h in Headers */,
