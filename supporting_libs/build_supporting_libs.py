@@ -28,18 +28,20 @@ python = '/usr/bin/python' + os.environ['MW_PYTHON_VERSION']
 
 num_cores = str(multiprocessing.cpu_count())
 
-compile_flags = ' '.join(('-arch ' + arch) for arch in
-                         os.environ['ARCHS'].split())
-compile_flags += (' -g -Os -fexceptions -fvisibility=hidden'
-                  ' -isysroot %(SDKROOT)s'
-                  ' -mmacosx-version-min=%(MACOSX_DEPLOYMENT_TARGET)s'
-                  % os.environ)
+common_flags = ' '.join(('-arch ' + arch) for arch in
+                        os.environ['ARCHS'].split())
+common_flags += (' -isysroot %(SDKROOT)s'
+                 ' -mmacosx-version-min=%(MACOSX_DEPLOYMENT_TARGET)s'
+                 % os.environ)
+
+compile_flags = '-g -Os -fexceptions -fvisibility=hidden ' + common_flags
+
 cflags = '-std=%(GCC_C_LANGUAGE_STANDARD)s' % os.environ
 cxxflags = ('-std=%(CLANG_CXX_LANGUAGE_STANDARD)s '
             '-stdlib=%(CLANG_CXX_LIBRARY)s'
             % os.environ)
 
-link_flags = '-Wl,-syslibroot,%(SDKROOT)s' % os.environ
+link_flags = common_flags
 
 downloaddir = 'download'
 path_to_downloaddir = '../' + downloaddir
@@ -130,16 +132,11 @@ def apply_patch(patchfile, strip=1):
             )
 
 
-def run_configure_and_make(
-    srcdir,
-    extra_args = [],
-    command = ['./configure'],
+def get_updated_env(
     extra_compile_flags = '',
     extra_cflags = '',
     extra_cxxflags = '',
     extra_ldflags = '',
-    patchfile = None,
-    post_patch_command = None,
     ):
 
     env = os.environ.copy()
@@ -152,6 +149,20 @@ def run_configure_and_make(
                                cxxflags, extra_cxxflags),
         'LDFLAGS': join_flags(link_flags, extra_ldflags),
         })
+    return env
+
+
+def run_configure_and_make(
+    srcdir,
+    extra_args = [],
+    command = ['./configure'],
+    extra_compile_flags = '',
+    extra_cflags = '',
+    extra_cxxflags = '',
+    extra_ldflags = '',
+    patchfile = None,
+    post_patch_command = None,
+    ):
 
     with workdir(srcdir):
         if patchfile:
@@ -166,7 +177,10 @@ def run_configure_and_make(
                 '--disable-shared',
                 '--enable-static',
                 ] + extra_args,
-            env = env,
+            env = get_updated_env(extra_compile_flags,
+                                  extra_cflags,
+                                  extra_cxxflags,
+                                  extra_ldflags),
             )
         
         check_call(['/usr/bin/make', '-j', num_cores, 'install'])
@@ -330,10 +344,10 @@ def numpy():
     unpack_tarfile(tarfile, srcdir)
 
     with workdir(srcdir):
-        # We don't need to set any compiler or linker flags, as we only
-        # use the installed headers
-        env = os.environ.copy()
+        env = get_updated_env()
         del env['MACOSX_DEPLOYMENT_TARGET']
+        env['NPY_NUM_BUILD_JOBS'] = num_cores
+
         check_call([
             python,
             'setup.py',
