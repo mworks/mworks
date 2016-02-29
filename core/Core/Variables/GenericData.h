@@ -53,18 +53,6 @@ enum GenericDataType {
 
 class Datum {
     
-private:
-    GenericDataType datatype;
-    ScarabDatum *data { nullptr };
-    
-    void setDataType(GenericDataType type) { datatype = type; }
-    
-    void createDictionary(int intialsize);
-    void createList(int size);
-    
-    void lockDatum() const;
-    void unlockDatum() const;
-    
 public:
     /**
      * Constructors:  All constructors create a scarab object that can
@@ -134,7 +122,7 @@ public:
     
     
     /**
-     * Default Destructor.
+     * Destructor.
      */
     ~Datum();
     
@@ -265,6 +253,16 @@ public:
     std::string toString(bool quoted = false) const;
     
 private:
+    GenericDataType datatype;
+    ScarabDatum *data { nullptr };
+    
+    void setDataType(GenericDataType type) { datatype = type; }
+    
+    void createDictionary(int intialsize);
+    void createList(int size);
+    
+    void lockDatum() const;
+    void unlockDatum() const;
     
     friend class boost::serialization::access;
     template<class Archive>
