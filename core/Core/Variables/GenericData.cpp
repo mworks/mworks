@@ -23,26 +23,13 @@
 BEGIN_NAMESPACE_MW
 
 
-void Datum::initScarabDatum(){
-  // TODO, this could cause a shitload of memory leaks
-  // when setting a new Datum it null's the ScarabDatum pointer and then writes a new one
-  //  it never deletes the old one
-  //  DDC: not really... doesn't get called except in constructors
-  //       we should phase it out nonetheless
-  data = NULL;
-}
-
 Datum::Datum() {
-  initScarabDatum();
   //setInteger(-1);
   setDataType(M_UNDEFINED);
 }
 
 
 Datum::Datum(GenericDataType type, int arg) {
-  
-  initScarabDatum();
-
   switch(type) {
   case M_INTEGER:
     setInteger(arg);
@@ -71,10 +58,6 @@ Datum::Datum(GenericDataType type, int arg) {
 }
 
 Datum::Datum(GenericDataType type, double arg) {
-  
-  
-  initScarabDatum();
-
   switch(type) {
   case M_INTEGER:
     setInteger((int)arg);
@@ -103,67 +86,45 @@ Datum::Datum(GenericDataType type, double arg) {
 }
 
 Datum::Datum(double newdata) {
-  initScarabDatum();
-  setDataType(M_FLOAT);
   setFloat(newdata);
 }
 
 
 Datum::Datum(float newdata) {
-  initScarabDatum();
-  setDataType(M_FLOAT);
   setFloat(newdata);
 }
 
 
 Datum::Datum(int newdata){
-    initScarabDatum();
-    setDataType(M_INTEGER);
     setInteger(newdata);
 }
 
 
 Datum::Datum(long newdata){
-  initScarabDatum();
-  setDataType(M_INTEGER);
   setInteger(newdata);
 }
 
 Datum::Datum(long long newdata){
-  initScarabDatum();
-  setDataType(M_INTEGER);
   setInteger(newdata);
 }
 
 Datum::Datum(const char * string, int size) {
-    initScarabDatum();
     setString(string, size);
 }
 
 Datum::Datum(const char * string) {
-  initScarabDatum();
   setString(string);
 }
 
 Datum::Datum(const std::string &string){
-  initScarabDatum();
   setString(string);
 }
 
 Datum::Datum(bool newdata) {
-  initScarabDatum();
-  setDataType(M_BOOLEAN);
   setBool(newdata);
 }
 
 Datum::Datum(const Datum& that) {
-  
-  #if INTERNALLY_LOCKED_MDATA
-	lock();
-  #endif
-  
-  data = NULL;
-
   if(that.getDataType() == M_UNDEFINED) {
 	setDataType(M_UNDEFINED);      
   } else {
@@ -215,16 +176,9 @@ Datum::Datum(const Datum& that) {
 	
 	setDataType(that.getDataType());
   }
-  
-  #if INTERNALLY_LOCKED_MDATA
-	unlock();
-  #endif
 }
 
 Datum::Datum(ScarabDatum * datum) {  
-  
-  data = 0;
-  
   if(datum == NULL){
     //mwarning( M_SYSTEM_MESSAGE_DOMAIN,
 	//      "Attempt to create an Datum object from a NULL ScarabDatum");
@@ -278,10 +232,6 @@ void Datum::unlockDatum()  const{
 	scarab_unlock_datum(theDatum);
 }
 
-GenericDataType Datum::getDataType() const {
-  return datatype;
-}
-
 const char * Datum::getDataTypeName() const {
     switch (datatype) {
         case M_BOOLEAN:
@@ -299,14 +249,6 @@ const char * Datum::getDataTypeName() const {
         default:
             return "undefined";
     }
-}
-
-void Datum::setDataType(GenericDataType type){
-  datatype = type;
-}
-
-ScarabDatum * Datum::getScarabDatum() const{ 
-  return data;
 }
 
 ScarabDatum * Datum::getScarabDatumCopy() const{
@@ -342,17 +284,9 @@ bool Datum::getBool() const{
 }
 
 double Datum::getFloat() const {
-	
-	#if INTERNALLY_LOCKED_MDATA
-		lock();
-	#endif
-
 	if(data == NULL){
 		mwarning(M_SYSTEM_MESSAGE_DOMAIN,
 				 "Attempt to access a broken Datum object");
-		#if INTERNALLY_LOCKED_MDATA
-			unlock();
-		#endif
 			return 0.0;
 	}
   
@@ -371,23 +305,13 @@ double Datum::getFloat() const {
 			break;
 	}
   
-	#if INTERNALLY_LOCKED_MDATA
-		unlock();
-	#endif
 	return result;
 }
 
 long long Datum::getInteger() const{
-#if INTERNALLY_LOCKED_MDATA
-    lock();
-#endif
-    
     if(data == NULL){
         mwarning(M_SYSTEM_MESSAGE_DOMAIN,
                  "Attempt to access a broken Datum object");
-#if INTERNALLY_LOCKED_MDATA
-        unlock();
-#endif
         return 0;
     }
     
@@ -406,17 +330,10 @@ long long Datum::getInteger() const{
             break;
     }
     
-#if INTERNALLY_LOCKED_MDATA
-    unlock();
-#endif
     return result;
 }
 
 const char * Datum::getString() const{
-#if INTERNALLY_LOCKED_MDATA
-    lock();
-#endif
-    
     const char *result = nullptr;
     
     switch (datatype) {
@@ -428,18 +345,10 @@ const char * Datum::getString() const{
             break;
     }
     
-#if INTERNALLY_LOCKED_MDATA
-    unlock();
-#endif
     return result;
 }
 
 int Datum::getStringLength()  const{
-  
-  #if INTERNALLY_LOCKED_MDATA
-	lock();
-  #endif
-  
   int result = 0;
   
   switch (datatype) {
@@ -451,16 +360,10 @@ int Datum::getStringLength()  const{
 	break;
   }
   
-  #if INTERNALLY_LOCKED_MDATA
-	unlock();
-  #endif
   return result;
 }
 
 bool Datum::stringIsCString() const {
-#if INTERNALLY_LOCKED_MDATA
-    lock();
-#endif
     bool result;
     
     switch (datatype) {
@@ -472,9 +375,6 @@ bool Datum::stringIsCString() const {
             break;
     }
     
-#if INTERNALLY_LOCKED_MDATA
-    unlock();
-#endif
     return result;
 }
 
@@ -544,56 +444,32 @@ std::string Datum::getStringQuoted() const {
 
 
 void Datum::setBool(bool newdata) {
-  
-  #if INTERNALLY_LOCKED_MDATA
-	lock();
-  #endif
-  
   datatype = M_BOOLEAN;
   if(data != NULL){
     scarab_free_datum(data);
   }
   data = scarab_new_integer( newdata);
-  
-  #if INTERNALLY_LOCKED_MDATA
-	unlock();
-  #endif
 }
 
 void Datum::setInteger(long long newdata) {
-  #if INTERNALLY_LOCKED_MDATA
-	lock();
-  #endif
   datatype = M_INTEGER;
   if(data != NULL){
     scarab_free_datum(data);
   }
   data = scarab_new_integer( newdata );
-  #if INTERNALLY_LOCKED_MDATA
-	unlock();
-  #endif
 }
 
 void Datum::setFloat(double newdata) {
-  #if INTERNALLY_LOCKED_MDATA
-	lock();
-  #endif
   datatype = M_FLOAT;
   
   if(data != NULL){
     scarab_free_datum(data);
   }
   data = scarab_new_float( newdata);
-  #if INTERNALLY_LOCKED_MDATA
-	unlock();
-  #endif
 }
 
 
 void Datum::setString(const char * newdata, int size) {
-  #if INTERNALLY_LOCKED_MDATA
-	lock();
-  #endif
   datatype = M_STRING;
 
   if(data != NULL){
@@ -601,10 +477,6 @@ void Datum::setString(const char * newdata, int size) {
   }
   
   data = scarab_new_opaque(newdata, size);
-
-  #if INTERNALLY_LOCKED_MDATA
-	unlock();
-  #endif
 }
 
 
@@ -684,11 +556,6 @@ bool Datum::isNumber() const {
 }
 
 Datum& Datum::operator=(const Datum& that) {
-
-  #if INTERNALLY_LOCKED_MDATA
-	lock();
-  #endif
-  
   setDataType(that.getDataType());
 
   if(that.getDataType() == M_UNDEFINED) {
@@ -704,9 +571,6 @@ Datum& Datum::operator=(const Datum& that) {
     data = scarab_copy_datum(that.data);    
   }
 
-  #if INTERNALLY_LOCKED_MDATA
-	unlock();
-  #endif
   return *this;
 }
 
@@ -1432,18 +1296,10 @@ void Datum::addElement(const Datum &value) {
 }
 		
 void Datum::setElement(int index, const Datum &value) {
- 
-  #if INTERNALLY_LOCKED_MDATA
-	lock();
-  #endif
-  
   // TODO: we could do something clever for M_DICTIONARY here
   if(getDataType() != M_LIST) {
     fprintf(stderr, "mData::setElement(int index, Datum value)\n"
 	    "Can't set element in order in something other than M_LIST -- Type => %d\n",getDataType());
-    #if INTERNALLY_LOCKED_MDATA
-		unlock();
-	#endif
 	return;
   }
   
@@ -1451,9 +1307,6 @@ void Datum::setElement(int index, const Datum &value) {
 	mwarning(M_SYSTEM_MESSAGE_DOMAIN,
 		"Mismatched internal data type while setting a list element; should be %d, is %d",
 			SCARAB_LIST, data->type);
-		#if INTERNALLY_LOCKED_MDATA
-			unlock();
-		#endif
 		return;
   }
 
@@ -1473,9 +1326,6 @@ void Datum::setElement(int index, const Datum &value) {
 //    mwarning(M_SYSTEM_MESSAGE_DOMAIN,
 //	     "Attempt to set an element of an Datum M_LIST beyond its edge");
 //    // TODO expand list
-//    #if INTERNALLY_LOCKED_MDATA
-//	  unlock();
-//	#endif
 //	return;
   }
   
@@ -1487,27 +1337,14 @@ void Datum::setElement(int index, const Datum &value) {
   if(item_to_remove != NULL){
     scarab_free_datum(item_to_remove);
   }
-  
-  #if INTERNALLY_LOCKED_MDATA
-	unlock();
-  #endif
-  
 }
 
 Datum Datum::getElement(int index)  const{
-  
-  #if INTERNALLY_LOCKED_MDATA
-	lock();
-  #endif
-  
   //TODO: we could do something clever for M_DICTIONARY here
 	if(getDataType() != M_LIST) {
 		merror(M_SYSTEM_MESSAGE_DOMAIN, "Cannot get element by index: value is not a list");
     
 	 Datum undefined;
-		#if INTERNALLY_LOCKED_MDATA
-			unlock();
-		#endif
 		return undefined;
 	}
 	
@@ -1518,9 +1355,6 @@ Datum Datum::getElement(int index)  const{
 			"Mismatched internal data type: attempting to access as list, but has type: %d",
 			data->type);
 	 Datum undefined;
-		#if INTERNALLY_LOCKED_MDATA
-			unlock();
-		#endif
 		return undefined;
 	}
     
@@ -1528,9 +1362,6 @@ Datum Datum::getElement(int index)  const{
         merror(M_SYSTEM_MESSAGE_DOMAIN, "Requested list index (%d) is out of bounds", index);
         
         Datum undefined;
-#if INTERNALLY_LOCKED_MDATA
-        unlock();
-#endif
         return undefined;
     }
 
@@ -1540,9 +1371,6 @@ Datum Datum::getElement(int index)  const{
 		//fprintf(stderr, "Requested index (%d) is larger than number of elements (%d)\n", index, getNElements());
     
 	 Datum undefined;
-		#if INTERNALLY_LOCKED_MDATA
-			unlock();
-		#endif
 		return undefined;
 	}
 
@@ -1550,9 +1378,6 @@ Datum Datum::getElement(int index)  const{
 	
 	
  Datum newdata(datum);
-	#if INTERNALLY_LOCKED_MDATA
-		unlock();
-	#endif
 	return newdata;
 }
 

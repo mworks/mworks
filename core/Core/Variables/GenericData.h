@@ -14,7 +14,6 @@
 #include "MWorksMacros.h"
 #include "MWorksTypes.h"
 #include "ScarabServices.h"
-#include "Lockable.h"
 #include <string>
 #include <vector>
 #include <map>
@@ -40,10 +39,6 @@ using std::vector;
 BEGIN_NAMESPACE_MW
 
     
-#define M_NO_DATA   0      // JJD added Aug 16, 2005
-	
-#define INTERNALLY_LOCKED_MDATA 0
-
 enum GenericDataType {
     M_UNDEFINED = 0,
     M_INTEGER,
@@ -56,18 +51,13 @@ enum GenericDataType {
 };
 
 
-class Datum
-#if INTERNALLY_LOCKED_MDATA
-    : public Lockable
-#endif
-{
+class Datum {
     
 private:
     GenericDataType datatype;
-    ScarabDatum *data;
+    ScarabDatum *data { nullptr };
     
-    void initScarabDatum();
-    void setDataType(GenericDataType _type);
+    void setDataType(GenericDataType type) { datatype = type; }
     
     void createDictionary(int intialsize);
     void createList(int size);
@@ -151,13 +141,13 @@ public:
     /**
      * Returns the data type of the Datum object.
      */
-    GenericDataType getDataType() const;
+    GenericDataType getDataType() const { return datatype; }
     const char * getDataTypeName() const;
     
     /**
      * Returns the scarab data package that stores this object
      */
-    ScarabDatum * getScarabDatum()  const;
+    ScarabDatum * getScarabDatum() const { return data; }
     ScarabDatum * getScarabDatumCopy()  const;
     
     /**

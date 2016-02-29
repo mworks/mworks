@@ -443,7 +443,7 @@ void IOChannel::update(MWTime timeUS){
 	unlock();
 	
     
-	if (_active) variable->setValue((Datum)((long)M_NO_DATA), timeUS); 
+	if (_active) variable->setValue(Datum(0), timeUS);
 } 
 
 IOChannelRequest *  IOChannel::getRequest(){ 
