@@ -99,54 +99,44 @@ xmlNodePtr XMLVariableWriter::recursiveValueToXML(const Datum &value) {
 	
 	if(value.getDataType() == M_DICTIONARY) {
 		value_node = xmlNewNode(NULL, (const xmlChar *)"dictionary");
-		std::vector<Datum> keys = value.getKeys();
-		for(std::vector<Datum>::const_iterator i = keys.begin();
-			i != keys.end();
-			++i) {
-			if(value.hasKey(*i)) {
-				xmlNodePtr dictionary_element_node = xmlNewNode(NULL, (const xmlChar *)"dictionary_element");
-				xmlNodePtr key_node = xmlNewNode(NULL, (const xmlChar *)"key");
-				xmlNodeSetContent(key_node, (const xmlChar *)i->toString().c_str());
-				xmlNodePtr subvalue_node = xmlNewNode(NULL, (const xmlChar *)"value");
-				
-				
-			 Datum subvalue = value.getElement(*i);
-				if(subvalue.getDataType() == M_DICTIONARY || subvalue.getDataType() == M_LIST) {
-					xmlAddChild(subvalue_node, recursiveValueToXML(subvalue));	
-				} else {
-					GenericDataType type = subvalue.getDataType();
-					if(type == M_INTEGER){
-						xmlNewProp(subvalue_node, (const xmlChar *)"type", (const xmlChar *)"integer");
-						xmlNewProp(subvalue_node, (const xmlChar *)"value", (const xmlChar *)(subvalue.toString().c_str()));
-					} else if(type == M_FLOAT){
-						xmlNewProp(subvalue_node, (const xmlChar *)"type", (const xmlChar *)"float");
-						xmlNewProp(subvalue_node, (const xmlChar *)"value", (const xmlChar *)(subvalue.toString().c_str()));
-					} else if(type == M_BOOLEAN){
-						xmlNewProp(subvalue_node, (const xmlChar *)"type", (const xmlChar *)"boolean");
-						xmlNewProp(subvalue_node, (const xmlChar *)"value", (const xmlChar *)(subvalue.toString().c_str()));
-					} else if(type == M_STRING) {
-						xmlNewProp(subvalue_node, (const xmlChar *)"type", (const xmlChar *)"string");
-						xmlNewProp(subvalue_node, (const xmlChar *)"value", (const xmlChar *)(subvalue.toString().c_str()));
-					} else {
-						throw SimpleException("Trying to find the value of a variable with a bad type");
-					}					
-				}
-				
-				xmlAddChild(dictionary_element_node, key_node);
-				xmlAddChild(dictionary_element_node, subvalue_node);
-				xmlAddChild(value_node, dictionary_element_node);
-			}
-		}
+        for (auto &item : value.getDict()) {
+            xmlNodePtr dictionary_element_node = xmlNewNode(NULL, (const xmlChar *)"dictionary_element");
+            xmlNodePtr key_node = xmlNewNode(NULL, (const xmlChar *)"key");
+            xmlNodeSetContent(key_node, (const xmlChar *)item.first.toString().c_str());
+            xmlNodePtr subvalue_node = xmlNewNode(NULL, (const xmlChar *)"value");
+            
+            auto &subvalue = item.second;
+            if(subvalue.getDataType() == M_DICTIONARY || subvalue.getDataType() == M_LIST) {
+                xmlAddChild(subvalue_node, recursiveValueToXML(subvalue));
+            } else {
+                GenericDataType type = subvalue.getDataType();
+                if(type == M_INTEGER){
+                    xmlNewProp(subvalue_node, (const xmlChar *)"type", (const xmlChar *)"integer");
+                    xmlNewProp(subvalue_node, (const xmlChar *)"value", (const xmlChar *)(subvalue.toString().c_str()));
+                } else if(type == M_FLOAT){
+                    xmlNewProp(subvalue_node, (const xmlChar *)"type", (const xmlChar *)"float");
+                    xmlNewProp(subvalue_node, (const xmlChar *)"value", (const xmlChar *)(subvalue.toString().c_str()));
+                } else if(type == M_BOOLEAN){
+                    xmlNewProp(subvalue_node, (const xmlChar *)"type", (const xmlChar *)"boolean");
+                    xmlNewProp(subvalue_node, (const xmlChar *)"value", (const xmlChar *)(subvalue.toString().c_str()));
+                } else if(type == M_STRING) {
+                    xmlNewProp(subvalue_node, (const xmlChar *)"type", (const xmlChar *)"string");
+                    xmlNewProp(subvalue_node, (const xmlChar *)"value", (const xmlChar *)(subvalue.toString().c_str()));
+                } else {
+                    throw SimpleException("Trying to find the value of a variable with a bad type");
+                }					
+            }
+            
+            xmlAddChild(dictionary_element_node, key_node);
+            xmlAddChild(dictionary_element_node, subvalue_node);
+            xmlAddChild(value_node, dictionary_element_node);
+        }
 	} else if(value.getDataType() == M_LIST) {
 		value_node = xmlNewNode(NULL, (const xmlChar *)"list_data");
-		std::vector<Datum> elements = value.getElements();
-		for(std::vector<Datum>::const_iterator i = elements.begin();
-			i != elements.end();
-			++i) {
+        for (auto &subvalue : value.getList()) {
 			xmlNodePtr list_element_node = xmlNewNode(NULL, (const xmlChar *)"list_element");
 			xmlNodePtr subvalue_node = xmlNewNode(NULL, (const xmlChar *)"value");
 			
-		 Datum subvalue(*i);
 			if(subvalue.getDataType() == M_DICTIONARY || subvalue.getDataType() == M_LIST) {
 				xmlAddChild(subvalue_node, recursiveValueToXML(subvalue));	
 			} else {

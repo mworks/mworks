@@ -70,8 +70,10 @@ class TestMWKStreamTypeConversion(MWKStreamTestMixin,
                                   TypeConversionTestMixin,
                                   unittest.TestCase):
 
+    #
     # Scarab doesn't have a boolean type, so bool and numpy.bool_ come
     # back as int
+    #
 
     def test_bool(self):
         self.assertReceivedEqualsSent(True, 1)
@@ -80,6 +82,20 @@ class TestMWKStreamTypeConversion(MWKStreamTestMixin,
     def test_numpy_bool_(self):
         self.assertReceivedEqualsSent(numpy.bool_(True), 1)
         self.assertReceivedEqualsSent(numpy.bool_(False), 0)
+
+    #
+    # If a string ends with NUL and contains no other NUL's, the NUL will be
+    # stripped in the conversion from Datum to ScarabDatum and back.  This
+    # happens because ScarabDatum doesn't distinguish between C strings (i.e.
+    # text) and binary data, so we have to use the presence of a single,
+    # terminal NUL to identify text strings.
+    #
+
+    def test_str_with_trailing_nul(self):
+        self.assertReceivedEqualsSent('foo\0', 'foo')
+
+    def test_unicode_with_trailing_nul(self):
+        self.assertReceivedEqualsSent(u'foo\0', 'foo')
 
 
 class TestMWKStreamEventIO(MWKStreamTestMixin, unittest.TestCase):

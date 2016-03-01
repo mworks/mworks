@@ -58,8 +58,6 @@ class VectorTestFixture : public CppUnit::TestFixture {
 					
 		void testGetNElements(){
 		 Datum vec(M_LIST, 4);
-			CPPUNIT_ASSERT( vec.getMaxElements() == 4 );
-			
 			CPPUNIT_ASSERT( vec.getNElements() == 0 );
 			vec.setElement(0, *a);
 			CPPUNIT_ASSERT( vec.getNElements() == 1 );
@@ -68,7 +66,6 @@ class VectorTestFixture : public CppUnit::TestFixture {
 			vec.setElement(2, *c);
 			CPPUNIT_ASSERT( vec.getNElements() == 3 );
 			vec.setElement(3, *d);
-			
 			CPPUNIT_ASSERT( vec.getNElements() == 4 );
 		}
 	

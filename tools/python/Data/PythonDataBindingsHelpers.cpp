@@ -202,11 +202,12 @@ void PythonDataStream::write(const boost::python::object &obj) {
 
 EventWrapper PythonDataStream::read_event() {
     Datum datum(readDatum());
-    if (!DataFileUtilities::isScarabEvent(datum.getScarabDatum())) {
+    auto scarabEvent = datum.toScarabDatum();
+    if (!DataFileUtilities::isScarabEvent(scarabEvent.get())) {
         PyErr_SetString(PyExc_IOError, "Read invalid event from Scarab session");
         throw_error_already_set();
     }
-    return EventWrapper(datum.getScarabDatum());
+    return EventWrapper(scarabEvent.get());
 }
 
 
@@ -272,7 +273,7 @@ void PythonDataStream::writeDatum(const Datum &datum) {
     int err;
     {
         ScopedGILRelease sgr;
-        err = scarab_write(session, datum.getScarabDatum());
+        err = scarab_write(session, datum.toScarabDatum().get());
     }
     
     if (err != 0) {

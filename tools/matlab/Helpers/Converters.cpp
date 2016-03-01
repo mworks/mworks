@@ -24,26 +24,27 @@ static inline bool isAlphanumericOrUnderscore(int ch) {
 }
 
 
-static bool isValidStructFieldName(const Datum &key) {
+static bool isValidStructFieldName(const Datum::dict_value_type::value_type &item) {
+    auto &key = item.first;
+    
     if (!(key.isString() && key.stringIsCString()))
         return false;
     
-    const char *data = key.getString();
-    int size = key.getStringLength() - 1;  // Exclude NUL terminator from size
+    auto &str = key.getString();
     
-    return ((size > 0) &&
-            std::isalpha(data[0]) &&
-            boost::algorithm::all_of(data+1, data+size, isAlphanumericOrUnderscore));
+    return (!str.empty() &&
+            std::isalpha(str.at(0)) &&
+            boost::algorithm::all_of(str.begin()+1, str.end(), isAlphanumericOrUnderscore));
 }
 
 
-static ArrayPtr convertDictionaryToStruct(const Datum &datum, const std::vector<Datum> &keys) {
+static ArrayPtr convertDictionaryToStruct(const Datum &datum) {
     std::vector<const char *> fieldNames;
     boost::container::vector<ArrayPtr> fieldValues;
     
-    BOOST_FOREACH(const Datum &k, keys) {
-        fieldNames.push_back(k.getString());
-        fieldValues.push_back(convertDatumToArray(datum.getElement(k)));
+    for (auto &item : datum.getDict()) {
+        fieldNames.push_back(item.first.getString().c_str());
+        fieldValues.push_back(convertDatumToArray(item.second));
     }
     
     ArrayPtr result(throw_if_null, mxCreateStructMatrix(1, 1, int(fieldNames.size()), &(fieldNames.front())));
@@ -56,13 +57,13 @@ static ArrayPtr convertDictionaryToStruct(const Datum &datum, const std::vector<
 }
 
 
-static ArrayPtr convertDictionaryToMap(const Datum &datum, const std::vector<Datum> &datumKeys) {
+static ArrayPtr convertDictionaryToMap(const Datum &datum) {
     boost::container::vector<ArrayPtr> keys;
     boost::container::vector<ArrayPtr> values;
     
-    BOOST_FOREACH(const Datum &k, datumKeys) {
-        keys.push_back(convertDatumToArray(k));
-        values.push_back(convertDatumToArray(datum.getElement(k)));
+    for (auto &item : datum.getDict()) {
+        keys.push_back(convertDatumToArray(item.first));
+        values.push_back(convertDatumToArray(item.second));
     }
     
     ArrayPtr keySet = Array::createVector(keys);
@@ -108,26 +109,25 @@ ArrayPtr convertDatumToArray(const Datum &datum) {
             return Array::createScalar(bool(datum.getBool()));
             
         case M_STRING: {
-            const char *data = datum.getString();
+            auto &str = datum.getString();
             if (datum.stringIsCString())
-                return Array::createString(data);
-            return Array::createVector(reinterpret_cast<const unsigned char *>(data), datum.getStringLength());
+                return Array::createString(str.c_str());
+            return Array::createVector(reinterpret_cast<const unsigned char *>(str.data()), str.size());
         }
             
         case M_LIST: {
-            int size = datum.getNElements();
             boost::container::vector<ArrayPtr> items;
-            for (int i = 0; i < size; i++) {
-                items.push_back(convertDatumToArray(datum.getElement(i)));
+            for (auto &item : datum.getList()) {
+                items.push_back(convertDatumToArray(item));
             }
             return Array::createVector(items);
         }
             
         case M_DICTIONARY: {
-            std::vector<Datum> keys = datum.getKeys();
-            if (boost::algorithm::all_of(keys.begin(), keys.end(), isValidStructFieldName))
-                return convertDictionaryToStruct(datum, keys);
-            return convertDictionaryToMap(datum, keys);
+            auto &dict = datum.getDict();
+            if (boost::algorithm::all_of(dict.begin(), dict.end(), isValidStructFieldName))
+                return convertDictionaryToStruct(datum);
+            return convertDictionaryToMap(datum);
         }
             
         default:

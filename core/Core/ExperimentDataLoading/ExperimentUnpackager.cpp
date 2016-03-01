@@ -63,7 +63,7 @@ bool ExperimentUnpackager::unpackageExperiment(Datum payload) {
  Datum experimentFileName = 
 				experimentFilePackage.getElement(M_PACKAGER_FILENAME_STRING);
 	if(experimentFileName.getDataType() != M_STRING || 
-	   experimentFileName.getStringLength() <= 0) 
+	   experimentFileName.getString().empty())
 		return false;
 	
 	bf::path experimentName(experimentFileName.getString());
@@ -81,7 +81,7 @@ bool ExperimentUnpackager::unpackageExperiment(Datum payload) {
 		experimentFilePackage.getElement(M_PACKAGER_CONTENTS_STRING);
 	
 	if(experimentFileBuffer.getDataType() != M_STRING ||
-	   experimentFileBuffer.getStringLength() <= 0) 
+	   experimentFileBuffer.getString().empty())
 		return false;
 	
 	if(!(createFile(Datum(loadedExperimentFilename.string().c_str()), 
@@ -114,7 +114,7 @@ bool ExperimentUnpackager::unpackageExperiment(Datum payload) {
 						mediaFilePackage.getElement(M_PACKAGER_CONTENTS_STRING);
 		
 			if(mediaFileName.getDataType() != M_STRING ||
-			   mediaFileName.getStringLength() <= 0 ||
+			   mediaFileName.getString().empty() ||
 			   mediaFileBuffer.getDataType() != M_STRING) return false;
 		
 			std::string filename(mediaFileName.getString());
@@ -154,7 +154,7 @@ bool ExperimentUnpackager::createFile(Datum filename, Datum buffer) {
     // create an output file.
     std::ofstream outFile(filePath.string().c_str()); //, ios::binary);
 											//write the data
-    outFile.write(buffer.getString(), buffer.getStringLength());
+    outFile << buffer.getString();
     // flush buffer
     outFile.flush();
     // close the handle

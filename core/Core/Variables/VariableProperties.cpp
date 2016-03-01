@@ -186,7 +186,7 @@ VariableProperties::operator Datum(){
 
 ScarabDatum * VariableProperties::toScarabDatum() {
  Datum dict = this->operator Datum();
-	return dict.getScarabDatumCopy();
+	return dict.toScarabDatum().detach();
 }
 
 std::vector <std::string> VariableProperties::parseGroupList(const std::string &groups_csv) const {

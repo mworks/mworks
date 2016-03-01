@@ -713,7 +713,7 @@
                 for(int i=0; i<protocols.getNElements(); ++i) {
                     mw::Datum protocol(protocols[i]);
                     
-                    NSString *protocolName = [[NSString alloc] initWithCString:protocol.getElement(M_PROTOCOL_NAME).getString()
+                    NSString *protocolName = [[NSString alloc] initWithCString:protocol.getElement(M_PROTOCOL_NAME).getString().c_str()
                                                                       encoding:NSASCIIStringEncoding];
                     
                     [protocolNames addObject:protocolName];
@@ -747,7 +747,7 @@
                     break;
                 }
                 
-                [self setDataFileName:[NSString stringWithCString:file.getString() encoding:NSASCIIStringEncoding]];
+                [self setDataFileName:[NSString stringWithCString:file.getString().c_str() encoding:NSASCIIStringEncoding]];
                 if([self dataFileName] != Nil){
                     [self setDataFileOpen: YES];
                 }
@@ -777,14 +777,14 @@
                     [self unregisterCallbacksWithKey:CLIENT_LOAD_MESSAGE_CALLBACK_KEY locking:NO]; // locked from outside callback
                     [self setExperimentPaused:state.getElement(M_PAUSED).getBool()];
                     [self setExperimentRunning: state.getElement(M_RUNNING).getBool()];
-                    [self setExperimentName:[[NSString alloc] initWithCString:state.getElement(M_EXPERIMENT_NAME).getString()
+                    [self setExperimentName:[[NSString alloc] initWithCString:state.getElement(M_EXPERIMENT_NAME).getString().c_str()
                                                                      encoding:NSASCIIStringEncoding]];
                     
                     if([self experimentName] == Nil){
                         [self setExperimentName:@"Unnamed Experiment"];
                     }
                     
-                    [self setExperimentPath:[[NSString alloc] initWithCString:state.getElement(M_EXPERIMENT_PATH).getString()
+                    [self setExperimentPath:[[NSString alloc] initWithCString:state.getElement(M_EXPERIMENT_PATH).getString().c_str()
                                                                      encoding:NSASCIIStringEncoding]];
                     
                     
@@ -797,7 +797,7 @@
                         for(int i=0; i<svs.getNElements(); ++i) {
                             mw::Datum set(svs.getElement(i));
                             
-                            [serversideVariableSetNames addObject:[NSString stringWithCString:set.getString()
+                            [serversideVariableSetNames addObject:[NSString stringWithCString:set.getString().c_str()
                                                                                      encoding:NSASCIIStringEncoding]];
                         }
                     }

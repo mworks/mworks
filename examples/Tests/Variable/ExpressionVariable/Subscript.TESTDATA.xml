@@ -10,7 +10,7 @@
     <message type="whole_message">WARNING: Subscript evaluation failed.  Returning 0 instead.</message>
     <message type="whole_message">ERROR: Requested list index (-1) is out of bounds</message>
     <message type="whole_message">WARNING: Subscript evaluation failed.  Returning 0 instead.</message>
-    <message type="whole_message">ERROR: Cannot subscript integer</message>
+    <message type="whole_message">ERROR: Cannot get element from integer</message>
     <message type="whole_message">WARNING: Subscript evaluation failed.  Returning 0 instead.</message>
     <!-- Run-time errors -->
     <message type="whole_message">ERROR: Dictionary has no element for requested key (1) [at line 20]</message>
@@ -21,7 +21,7 @@
     <message type="whole_message">WARNING: Subscript evaluation failed.  Returning 0 instead. [at line 30]</message>
     <message type="whole_message">ERROR: Requested list index (-1) is out of bounds [at line 32]</message>
     <message type="whole_message">WARNING: Subscript evaluation failed.  Returning 0 instead. [at line 32]</message>
-    <message type="whole_message">ERROR: Cannot subscript integer [at line 34]</message>
+    <message type="whole_message">ERROR: Cannot get element from integer [at line 34]</message>
     <message type="whole_message">WARNING: Subscript evaluation failed.  Returning 0 instead. [at line 34]</message>
   </expected_messages>
 </marionette_info>

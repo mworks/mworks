@@ -448,7 +448,7 @@ Datum _getNumber(const string &expression, const GenericDataType type);
 	} else if (code == assert_codec_code && assert_codec_code > RESERVED_CODEC_CODE) {
 	 Datum event_data(*[event data]);
 		if(event_data.isString()) {
-			NSString *assert_message = [NSString stringWithCString:event_data.getString() 
+			NSString *assert_message = [NSString stringWithCString:event_data.getString().c_str()
 														  encoding:NSASCIIStringEncoding];
 			if([assert_message length] > 0) {
 				[self marionetteAssert:[@"Received assert: " stringByAppendingString:assert_message]];
@@ -502,8 +502,7 @@ Datum _getNumber(const string &expression, const GenericDataType type);
 					   withMessage:@"message is an integer?"]; 			
 		} else {
 			[self checkMessageStructure:&event_data];
-			const char *c_message = event_data.getElement(M_MESSAGE).getString();
-			NSString *message = [NSString stringWithCString:c_message
+			NSString *message = [NSString stringWithCString:event_data.getElement(M_MESSAGE).getString().c_str()
 												   encoding:NSASCIIStringEncoding];
 			
 			//NSLog(message);
@@ -567,7 +566,7 @@ Datum _getNumber(const string &expression, const GenericDataType type);
 			   withMessage:@"mesasge type is not valid"];                                      
 	
 	[self marionetteAssert:type != M_FATAL_ERROR_MESSAGE
-			   withMessage:[NSString stringWithCString:payload.getElement(M_MESSAGE).getString()
+			   withMessage:[NSString stringWithCString:payload.getElement(M_MESSAGE).getString().c_str()
 											  encoding:NSASCIIStringEncoding]];
 }
 

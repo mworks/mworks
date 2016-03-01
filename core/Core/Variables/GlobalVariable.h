@@ -89,17 +89,6 @@ class GlobalVariable : public Variable{
          * Returns true, always
          */
 		bool isValue();
-        
-        /**
-         * Returns a dictionary package of this object used to send it
-         * over a network connection
-         */
-        //ScarabDatum *toScarabPackage();
-        
-        /**
-         * Prints this objects data to the stderr stream.
-         */
-        virtual void printToSTDERR();
 };
 
 

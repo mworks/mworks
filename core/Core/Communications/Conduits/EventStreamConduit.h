@@ -110,14 +110,10 @@ public:
     // Rebuild the internal representation of the codec, and launch a rebuild
     // of the callback map
     void handleCodec(shared_ptr<Event> event, bool from_conduit_side){
-        Datum codec = event->getData();
-        vector<Datum> keys = codec.getKeys();
-        
         // build a map to aid in accessing the codec
-        for(int i=0; i < keys.size(); i++){
-            
-            Datum key = keys[i];
-            Datum value = codec.getElement(keys[i]);
+        for (auto &item : event->getData().getDict()) {
+            auto &key = item.first;
+            auto &value = item.second;
             string tagname;
             if(value.getDataType() == M_STRING){
                 tagname = value.getString();

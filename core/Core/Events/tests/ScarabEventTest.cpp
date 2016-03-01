@@ -59,7 +59,7 @@ void ScarabEventTestFixture::tearDown(){
 
 void ScarabEventTestFixture::testToFromScarabDatum(){
     Datum codec(reg->generateCodecDatum());
-	Event test_event(RESERVED_CODEC_CODE, codec.getScarabDatum());
+	Event test_event(RESERVED_CODEC_CODE, codec);
 	
 	ScarabDatum *serialized = test_event.toScarabDatum();
 	
@@ -73,10 +73,7 @@ void ScarabEventTestFixture::testToFromScarabDatum(){
 	CPPUNIT_ASSERT( test_event.getData() == 
 					twice_baked->getData() );
 	
-	ScarabDatum *payload = twice_baked->getData().getScarabDatum();
-	
-	CPPUNIT_ASSERT( payload != NULL );
-	CPPUNIT_ASSERT( payload->type == SCARAB_DICT );			
+	CPPUNIT_ASSERT( twice_baked->getData().isDictionary() );
 	
 	scarab_free_datum(serialized);
 }

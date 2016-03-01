@@ -73,7 +73,8 @@ void VariableRegistry::updateFromCodecDatum(const Datum &codec) {
 	//////////////////////////////////////////////////////////////////
 	// now add what's in the codec 
 	
-	ScarabDatum *datum = codec.getScarabDatum();
+    auto scarabCodec = codec.toScarabDatum();
+    ScarabDatum *datum = scarabCodec.get();
 	
 	ScarabDatum ** keys = datum->data.dict->keys;
 	int size = datum->data.dict->tablesize;
@@ -478,7 +479,7 @@ Datum VariableRegistry::generateCodecDatum() {
             mdebug("local parameter null value at param (%d)", i);
         }
 		ScarabDatum *codec_key = scarab_new_integer(codec_code);
-        scarab_dict_put(codec, codec_key, serialized_var.getScarabDatum());
+        scarab_dict_put(codec, codec_key, serialized_var.toScarabDatum().get());
 		scarab_free_datum(codec_key);
     }
 	

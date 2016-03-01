@@ -27,22 +27,14 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
     
     CPPUNIT_TEST_SUITE( GenericDataTestFixture );
     
-#if INTERNALLY_LOCKED_MDATA
-    CPPUNIT_TEST( testMemoryManagement );
-#endif
     CPPUNIT_TEST( testString );
     CPPUNIT_TEST( testList );
-    CPPUNIT_TEST( testListLeakyness );
-    CPPUNIT_TEST( testListOverwriteLeakyness );
-    CPPUNIT_TEST( testDictOverwriteLeakyness );
-    CPPUNIT_TEST( testListUnderADictionary );
-    CPPUNIT_TEST( testDictLeakyness );
     CPPUNIT_TEST( testEmptyDictionary );
     CPPUNIT_TEST( testDictionary );
     CPPUNIT_TEST( testDictionaryStrings );
     CPPUNIT_TEST( testDictionaryAddGetElements );
     CPPUNIT_TEST( testDictionaryKey );
-    CPPUNIT_TEST( testDoubleTeamOnADictionary );
+    CPPUNIT_TEST( testDictionaryWithDictionaryKeys );
     CPPUNIT_TEST( testDataEqual );
     CPPUNIT_TEST( testIs );
     
@@ -53,6 +45,8 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
     CPPUNIT_TEST( testGetString );
     CPPUNIT_TEST( testGetStringQuoted );
     CPPUNIT_TEST( testSetStringQuoted );
+    CPPUNIT_TEST( testGetList );
+    CPPUNIT_TEST( testGetDict );
     CPPUNIT_TEST( testOperatorUnaryMinus );
     CPPUNIT_TEST( testOperatorBinaryPlus );
     CPPUNIT_TEST( testOperatorBinaryMinus );
@@ -71,22 +65,14 @@ public:
     void setUp();
     void tearDown();
     
-#if INTERNALLY_LOCKED_MDATA
-    void testMemoryManagement();
-#endif
     void testString();
     void testList();
-    void testListLeakyness();
-    void testListOverwriteLeakyness();
-    void testDictOverwriteLeakyness();
-    void testListUnderADictionary();
-    void testDictLeakyness();
     void testEmptyDictionary();
     void testDictionary();
     void testDictionaryStrings();
     void testDictionaryAddGetElements();
     void testDictionaryKey();
-    void testDoubleTeamOnADictionary();
+    void testDictionaryWithDictionaryKeys();
     void testDataEqual();
     void testIs();
     
@@ -97,6 +83,8 @@ public:
     void testGetString();
     void testGetStringQuoted();
     void testSetStringQuoted();
+    void testGetList();
+    void testGetDict();
     void testOperatorUnaryMinus();
     void testOperatorBinaryPlus();
     void testOperatorBinaryMinus();

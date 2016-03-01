@@ -27,7 +27,7 @@ void ExpandableListTestFixture::testAddSharedPtr(){
 	list.addElement(shared_data);
 	
 	CPPUNIT_ASSERT( list.getNElements() == 1 );
-	CPPUNIT_ASSERT( *(list[0]) == 10L );
+	CPPUNIT_ASSERT( *(list[0]) == Datum(10L) );
 	
 }
 

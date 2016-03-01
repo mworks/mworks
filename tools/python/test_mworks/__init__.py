@@ -102,13 +102,8 @@ class TypeConversionTestMixin(object):
         self.assertReceivedEqualsSent(' Foo \n Bar ')
         self.assertReceivedEqualsSent('foo\0bar')  # Embedded NUL
 
-        # If the string ends with NUL and contains no other NUL's, the
-        # NUL will be stripped in the conversion from Datum to
-        # PyObject.  This happens because Datum doesn't distinguish
-        # between C strings (i.e. text) and binary data, so we have to
-        # use the presence of a single, terminal NUL to identify text
-        # strings.
-        self.assertReceivedEqualsSent('foo\0', 'foo')
+    def test_str_with_trailing_nul(self):
+        self.assertReceivedEqualsSent('foo\0')
 
     def test_unicode(self):
         self.assertReceivedEqualsSent(u'', str)
@@ -128,8 +123,8 @@ class TypeConversionTestMixin(object):
         self.assertEqual(sent_encoded, received)
         self.assertEqual(sent, received.decode('utf-8'))
 
-        # See note in test_str about terminating NUL's
-        self.assertReceivedEqualsSent(u'foo\0', 'foo')
+    def test_unicode_with_trailing_nul(self):
+        self.assertReceivedEqualsSent(u'foo\0', str)
 
     def _test_sequence(self, seq_type):
         def test(list_val):

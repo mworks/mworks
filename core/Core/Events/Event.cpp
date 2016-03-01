@@ -103,7 +103,7 @@ ScarabDatum *Event::toScarabDatum() const {
 					time_datum);
  	scarab_list_put(event_datum, 
 					SCARAB_EVENT_PAYLOAD_INDEX, 
-					data.getScarabDatum());
+					data.toScarabDatum().get());
 	
 	scarab_free_datum(code_datum);
 	scarab_free_datum(time_datum);

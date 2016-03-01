@@ -26,39 +26,6 @@ BEGIN_NAMESPACE_MW
 CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( GenericDataTestFixture, "Unit Test" );
 
 
-#define LOTS	1000000
-
-
-static void *hammerit(void *thedatum){
-    Datum *datum = (Datum *)thedatum;
-    for(int i = 0; i < LOTS; i++){
-        *datum = (long)i;
-    }
-    
-    return 0;
-}
-
-
-static void *hammerlist(void *thedatum){
-    Datum *datum = (Datum *)thedatum;
-    for(int i = 0; i < LOTS; i++){
-        datum->setElement(0, Datum((long)i));
-    }
-    
-    return 0;
-}
-
-
-static void *hammerdict(void *thedatum){
-    Datum *datum = (Datum *)thedatum;
-    for(int i = 0; i < LOTS; i++){
-        datum->addElement("test", Datum((long)i));
-    }
-    
-    return 0;
-}
-
-
 void GenericDataTestFixture::setUp() {
     if (!GlobalMessageVariable) {
         VariableProperties *props = new VariableProperties(new Datum(0),
@@ -86,102 +53,13 @@ void GenericDataTestFixture::tearDown() {
 }
 
 
-#if INTERNALLY_LOCKED_MDATA
-void GenericDataTestFixture::testMemoryManagement(){
-    Datum test(M_LIST, 5);
-    
-    Datum *data = new Datum[5];
-    for(int i = 0; i < 5; i++){
-        data[i] = (long)i;
-    }
-    
-    for(int i = 0; i < 5; i++){
-        test.setElement(i, data[i]);
-    }
-    
-    for(int i = 0; i < 5; i++){
-        CPPUNIT_ASSERT(data[i] == test.getElement(i));
-    }
-    
-    
-    delete [] data;
-    
-    
-    for(int i = 0; i < 5; i++){
-        CPPUNIT_ASSERT((long)(test.getElement(i)) == i);
-    }
-    
-    
-    
-    //fprintf(stderr, "Hammering an Datum object across two threads...");
-    //fflush(stderr);
-    Datum datum(0L);
-    
-    pthread_t thread;
-    pthread_create(&thread, NULL, hammerit, (void *)(&datum));
-    
-    for(int i = 0; i < LOTS; i++){
-        //if(i % (LOTS / 100) == 0){
-        //	fprintf(stderr, "."); fflush(stderr);
-        //}
-        datum = (long)i;
-    }
-    //fprintf(stderr, "\n"); fflush(stderr);
-    
-    ScarabDatum *scarabdatum = datum.getScarabDatum();
-    CPPUNIT_ASSERT(scarabdatum != NULL);
-    CPPUNIT_ASSERT(scarabdatum->type == SCARAB_INTEGER);
-    
-    
-    //fprintf(stderr, "Hammering an M_LIST Datum object across two threads...");
-    //fflush(stderr);
-    Datum list_datum(M_LIST, 1);
-    
-    pthread_t thread2;
-    pthread_create(&thread2, NULL, hammerlist, (void *)(&list_datum));
-    
-    for(int i = 0; i < LOTS; i++){
-        //if(i % (LOTS / 100) == 0){
-        //	fprintf(stderr, "."); fflush(stderr);
-        //}
-        list_datum.setElement(0, Datum((long)i));
-    }
-    //fprintf(stderr, "\n"); fflush(stderr);
-    
-    scarabdatum = list_datum.getScarabDatum();
-    CPPUNIT_ASSERT(scarabdatum != NULL);
-    CPPUNIT_ASSERT(scarabdatum->type == SCARAB_LIST);
-    
-    //fprintf(stderr, "Hammering an M_DICT Datum object across two threads...");
-    //fflush(stderr);
-    Datum dict_datum(M_DICTIONARY, 1);
-    
-    pthread_t thread3;
-    pthread_create(&thread3, NULL, hammerdict, (void *)(&dict_datum));
-    
-    for(int i = 0; i < LOTS; i++){
-        //if(i % (LOTS / 100) == 0){
-        //	fprintf(stderr, "."); fflush(stderr);
-        //}
-        dict_datum.addElement("test", Datum((long)i));
-    }
-    //fprintf(stderr, "\n"); fflush(stderr);
-    
-    scarabdatum = dict_datum.getScarabDatum();
-    CPPUNIT_ASSERT(scarabdatum != NULL);
-    CPPUNIT_ASSERT(scarabdatum->type == SCARAB_DICT);
-    
-}
-#endif
-
-
 void GenericDataTestFixture::testString() {
     Datum data("Test string");
     const char * test = "Test string";
     
     for(unsigned int i = 0; i<strlen(test); i++)
     {
-        const char * result = data.getString();
+        const char * result = data.getString().c_str();
         CPPUNIT_ASSERT(result[i] == test[i]);
     }
     
@@ -198,7 +76,7 @@ void GenericDataTestFixture::testString() {
     
     for(unsigned int i = 0; i<strlen(test2a); i++)
     {
-        const char * result2 = data2.getString();
+        const char * result2 = data2.getString().c_str();
         CPPUNIT_ASSERT(result2[i] == test2a[i]);
     }
     
@@ -255,7 +133,6 @@ void GenericDataTestFixture::testList() {
     CPPUNIT_ASSERT(undefined == list1.getElement(1));
     
     CPPUNIT_ASSERT(list1.getNElements() == 0);
-    CPPUNIT_ASSERT(list1.getMaxElements() == 1);
     
     Datum list2(M_LIST, 1);
     
@@ -264,7 +141,6 @@ void GenericDataTestFixture::testList() {
     list1.setElement(0, testInt1);
     
     CPPUNIT_ASSERT(list1.getNElements() == 1);
-    CPPUNIT_ASSERT(list1.getMaxElements() == 1);
     CPPUNIT_ASSERT(undefined != list1.getElement(0));
     CPPUNIT_ASSERT(undefined == list1.getElement(1));
     
@@ -293,7 +169,6 @@ void GenericDataTestFixture::testList() {
     list3.setElement(1, testInt2);
     
     CPPUNIT_ASSERT(list3.getNElements() == 2);
-    CPPUNIT_ASSERT(list3.getMaxElements() == 2);
     CPPUNIT_ASSERT(list3.getElement(0) == testInt1);
     CPPUNIT_ASSERT(list3.getElement(1) == testInt2);
     
@@ -306,7 +181,6 @@ void GenericDataTestFixture::testList() {
     list4.addElement(testInt3);
     
     CPPUNIT_ASSERT(list4.getNElements() == 3);
-    CPPUNIT_ASSERT(list4.getMaxElements() == 3);
     CPPUNIT_ASSERT(list4.getElement(0) == testInt1);
     CPPUNIT_ASSERT(list4.getElement(1) == testInt2);
     CPPUNIT_ASSERT(list4.getElement(2) == testInt3);
@@ -315,8 +189,7 @@ void GenericDataTestFixture::testList() {
     list5.setElement(0, testInt1);
     list5.setElement(10, testInt2);
     
-    CPPUNIT_ASSERT(list5.getNElements() == 2);
-    CPPUNIT_ASSERT(list5.getMaxElements() == 11);
+    CPPUNIT_ASSERT(list5.getNElements() == 11);
     CPPUNIT_ASSERT(list5.getElement(0) == testInt1);
     CPPUNIT_ASSERT(list5.getElement(10) == testInt2);
     
@@ -333,8 +206,7 @@ void GenericDataTestFixture::testList() {
     Datum list7(M_LIST, 2);
     list7.setElement(1, testInt1);
     list7.addElement(testInt2);
-    CPPUNIT_ASSERT(list7.getNElements() == 2);
-    CPPUNIT_ASSERT(list7.getMaxElements() == 3);
+    CPPUNIT_ASSERT(list7.getNElements() == 3);
     CPPUNIT_ASSERT(list7.getElement(0) == undefined);
     CPPUNIT_ASSERT(list7.getElement(1) == testInt1);
     CPPUNIT_ASSERT(list7.getElement(2) == testInt2);
@@ -342,8 +214,7 @@ void GenericDataTestFixture::testList() {
     Datum list8(M_LIST, 3);
     list8.setElement(1, testInt1);
     list8.addElement(testInt2);
-    CPPUNIT_ASSERT(list8.getNElements() == 2);
-    CPPUNIT_ASSERT(list8.getMaxElements() == 3);
+    CPPUNIT_ASSERT(list8.getNElements() == 3);
     CPPUNIT_ASSERT(list8.getElement(0) == undefined);
     CPPUNIT_ASSERT(list8.getElement(1) == testInt1);
     CPPUNIT_ASSERT(list8.getElement(2) == testInt2);
@@ -351,8 +222,7 @@ void GenericDataTestFixture::testList() {
     Datum list9(M_LIST, 12);
     list9.setElement(1, testInt1);
     list9.addElement(testInt2);
-    CPPUNIT_ASSERT(list9.getNElements() == 2);
-    CPPUNIT_ASSERT(list9.getMaxElements() == 12);
+    CPPUNIT_ASSERT(list9.getNElements() == 3);
     CPPUNIT_ASSERT(list9.getElement(0) == undefined);
     CPPUNIT_ASSERT(list9.getElement(1) == testInt1);
     CPPUNIT_ASSERT(list9.getElement(2) == testInt2);
@@ -360,511 +230,14 @@ void GenericDataTestFixture::testList() {
     Datum list10(M_LIST, 1);
     list10.addElement(testInt1);
     CPPUNIT_ASSERT(list10.getNElements() == 1);
-    CPPUNIT_ASSERT(list10.getMaxElements() == 1);
     CPPUNIT_ASSERT(list10.getElement(0) == testInt1);
     
     Datum list11(M_LIST, 1);
     list11.setElement(0, testInt1);
     list11.addElement(testInt2);
     CPPUNIT_ASSERT(list11.getNElements() == 2);
-    CPPUNIT_ASSERT(list11.getMaxElements() == 2);
     CPPUNIT_ASSERT(list11.getElement(0) == testInt1);
     CPPUNIT_ASSERT(list11.getElement(1) == testInt2);
-}
-
-
-void GenericDataTestFixture::testListLeakyness() {
-    // testing leakyness for simple lists
-    const int num_elem = 8;
-    Datum list1(M_LIST, num_elem);
-    ScarabDatum *list1Datum = list1.getScarabDatum();
-    
-    for(int i = 0; i<num_elem; i++) {
-        Datum data((long)i);
-        ScarabDatum *dataDatum = data.getScarabDatum();
-        CPPUNIT_ASSERT(dataDatum->ref_count == 1);
-        
-        CPPUNIT_ASSERT(list1Datum->ref_count == 1);
-        list1.addElement(data);
-        CPPUNIT_ASSERT(list1Datum->ref_count == 1);
-        CPPUNIT_ASSERT(dataDatum->ref_count == 2);
-    }
-    
-    CPPUNIT_ASSERT(list1Datum->ref_count == 1);
-    
-    Datum list2(M_LIST, 1);
-    
-    for(int i = 0; i<num_elem; i++) {
-        Datum data((long)i);
-        ScarabDatum *dataDatum = data.getScarabDatum();
-        CPPUNIT_ASSERT(dataDatum->ref_count == 1);
-        
-        ScarabDatum *list2Datum = list2.getScarabDatum();
-        CPPUNIT_ASSERT(list2Datum->ref_count == 1);
-        list2.addElement(data);
-        list2Datum = list2.getScarabDatum();
-        CPPUNIT_ASSERT(list2Datum->ref_count == 1);
-        CPPUNIT_ASSERT(dataDatum->ref_count == 2);
-    }
-}
-
-
-void GenericDataTestFixture::testListOverwriteLeakyness() {
-    Datum list1(M_LIST, 2);
-    ScarabDatum *list1Datum = list1.getScarabDatum();
-    
-    ScarabDatum *long1Datum;
-    ScarabDatum *long2Datum;
-    {
-        Datum long1((long)1);
-        Datum long2((long)2);
-        
-        long1Datum = long1.getScarabDatum();
-        long2Datum = long2.getScarabDatum();
-        CPPUNIT_ASSERT(long1Datum->ref_count == 1);
-        CPPUNIT_ASSERT(long2Datum->ref_count == 1);
-        
-        list1.setElement(0, long1);
-        list1.setElement(1, long2);
-        
-        CPPUNIT_ASSERT(long1Datum->ref_count == 2);
-        CPPUNIT_ASSERT(long2Datum->ref_count == 2);
-    }
-    CPPUNIT_ASSERT(long1Datum->ref_count == 1);
-    CPPUNIT_ASSERT(long2Datum->ref_count == 1);
-    
-    ScarabDatum *long3Datum;
-    {
-        Datum long3((long)3);
-        long3Datum = long3.getScarabDatum();
-        
-        CPPUNIT_ASSERT(long1Datum->ref_count == 1);
-        CPPUNIT_ASSERT(long2Datum->ref_count == 1);
-        CPPUNIT_ASSERT(long3Datum->ref_count == 1);
-        
-        Datum long1Copy(long1Datum);
-        CPPUNIT_ASSERT(long1Datum->ref_count == 2);
-        
-        list1.setElement(0, long3);
-        
-        CPPUNIT_ASSERT(long1Datum->ref_count == 1);
-        CPPUNIT_ASSERT(long2Datum->ref_count == 1);
-        CPPUNIT_ASSERT(long3Datum->ref_count == 2);
-    }
-    
-    CPPUNIT_ASSERT(list1Datum->ref_count == 1);
-    CPPUNIT_ASSERT(long2Datum->ref_count == 1);
-    CPPUNIT_ASSERT(long3Datum->ref_count == 1);
-    
-}
-
-
-void GenericDataTestFixture::testDictOverwriteLeakyness() {
-    Datum dic1(M_DICTIONARY, 2);
-    ScarabDatum *dic1Datum = dic1.getScarabDatum();
-    
-    ScarabDatum *long1Datum;
-    ScarabDatum *long2Datum;
-    {
-        Datum long1((long)1);
-        Datum long2((long)2);
-        
-        long1Datum = long1.getScarabDatum();
-        long2Datum = long2.getScarabDatum();
-        CPPUNIT_ASSERT(long1Datum->ref_count == 1);
-        CPPUNIT_ASSERT(long2Datum->ref_count == 1);
-        
-        dic1.addElement("long1", long1);
-        dic1.addElement("long2", long2);
-        
-        CPPUNIT_ASSERT(long1Datum->ref_count == 2);
-        CPPUNIT_ASSERT(long2Datum->ref_count == 2);
-    }
-    CPPUNIT_ASSERT(long1Datum->ref_count == 1);
-    CPPUNIT_ASSERT(long2Datum->ref_count == 1);
-    
-    ScarabDatum *long3Datum;
-    {
-        Datum long3((long)3);
-        long3Datum = long3.getScarabDatum();
-        
-        CPPUNIT_ASSERT(long1Datum->ref_count == 1);
-        CPPUNIT_ASSERT(long2Datum->ref_count == 1);
-        CPPUNIT_ASSERT(long3Datum->ref_count == 1);
-        
-        Datum long1Copy(long1Datum);
-        CPPUNIT_ASSERT(long1Datum->ref_count == 2);
-        
-        dic1.addElement("long1", long3);
-        
-        CPPUNIT_ASSERT(long1Datum->ref_count == 1);
-        CPPUNIT_ASSERT(long2Datum->ref_count == 1);
-        CPPUNIT_ASSERT(long3Datum->ref_count == 2);
-    }
-    
-    CPPUNIT_ASSERT(dic1Datum->ref_count == 1);
-    CPPUNIT_ASSERT(long2Datum->ref_count == 1);
-    CPPUNIT_ASSERT(long3Datum->ref_count == 1);
-    
-}
-
-
-void GenericDataTestFixture::testListUnderADictionary() {
-    ScarabDatum *dic1Datum;
-    {
-        Datum dic1(M_DICTIONARY, 2);
-        dic1Datum = dic1.getScarabDatum();
-        CPPUNIT_ASSERT(dic1Datum->ref_count == 1);
-        
-        ScarabDatum *list1Datum;
-        ScarabDatum *list2Datum;
-        ScarabDatum *int1Datum;
-        ScarabDatum *int2Datum;
-        ScarabDatum *int3Datum;
-        ScarabDatum *int4Datum;
-        
-        {
-            Datum list1(M_LIST, 2);
-            Datum list2(M_LIST, 2);
-            list1Datum = list1.getScarabDatum();
-            list2Datum = list2.getScarabDatum();
-            CPPUNIT_ASSERT(list1Datum->ref_count == 1);
-            CPPUNIT_ASSERT(list2Datum->ref_count == 1);
-            CPPUNIT_ASSERT(dic1Datum->ref_count == 1);
-            
-            
-            Datum int1((long)1);
-            Datum int2((long)2);
-            Datum int3((long)3);
-            Datum int4((long)4);
-            
-            int1Datum = int1.getScarabDatum();
-            int2Datum = int2.getScarabDatum();
-            int3Datum = int3.getScarabDatum();
-            int4Datum = int4.getScarabDatum();
-            CPPUNIT_ASSERT(list1Datum->ref_count == 1);
-            CPPUNIT_ASSERT(list2Datum->ref_count == 1);
-            CPPUNIT_ASSERT(int1Datum->ref_count == 1);
-            CPPUNIT_ASSERT(int2Datum->ref_count == 1);
-            CPPUNIT_ASSERT(int3Datum->ref_count == 1);
-            CPPUNIT_ASSERT(int4Datum->ref_count == 1);
-            CPPUNIT_ASSERT(dic1Datum->ref_count == 1);
-            
-            list1.setElement(0, int1);
-            list1.setElement(1, int2);
-            list2.setElement(0, int3);
-            list2.setElement(1, int4);
-            CPPUNIT_ASSERT(list1Datum->ref_count == 1);
-            CPPUNIT_ASSERT(list2Datum->ref_count == 1);
-            CPPUNIT_ASSERT(int1Datum->ref_count == 2);
-            CPPUNIT_ASSERT(int2Datum->ref_count == 2);
-            CPPUNIT_ASSERT(int3Datum->ref_count == 2);
-            CPPUNIT_ASSERT(int4Datum->ref_count == 2);
-            CPPUNIT_ASSERT(dic1Datum->ref_count == 1);
-            
-            dic1.addElement("list1", list1);
-            dic1.addElement("list2", list2);
-            CPPUNIT_ASSERT(list1Datum->ref_count == 2);
-            CPPUNIT_ASSERT(list2Datum->ref_count == 2);
-            CPPUNIT_ASSERT(int1Datum->ref_count == 2);
-            CPPUNIT_ASSERT(int2Datum->ref_count == 2);
-            CPPUNIT_ASSERT(int3Datum->ref_count == 2);
-            CPPUNIT_ASSERT(int4Datum->ref_count == 2);
-            CPPUNIT_ASSERT(dic1Datum->ref_count == 1);
-        }
-        CPPUNIT_ASSERT(list1Datum->ref_count == 1);
-        CPPUNIT_ASSERT(list2Datum->ref_count == 1);
-        CPPUNIT_ASSERT(int1Datum->ref_count == 1);
-        CPPUNIT_ASSERT(int2Datum->ref_count == 1);
-        CPPUNIT_ASSERT(int3Datum->ref_count == 1);
-        CPPUNIT_ASSERT(int4Datum->ref_count == 1);
-        CPPUNIT_ASSERT(dic1Datum->ref_count == 1);
-    }
-    
-    // OK that worked, lets reproduce what Jim had:
-    ScarabDatum *dic2Datum;
-    Datum dic2a;
-    const int BIG_NUMBER=20000;
-    ScarabDatum *listElementArray[BIG_NUMBER];
-    {
-        Datum dic2;
-        dic2 = Datum(M_DICTIONARY, 5);
-        dic2Datum = dic2.getScarabDatum();
-        CPPUNIT_ASSERT(dic2Datum->ref_count == 1);
-        
-        double *doubleVector = new double [BIG_NUMBER];
-        for(int i=0; i<BIG_NUMBER; ++i) {
-            doubleVector[i] = (double)i/10;
-        }
-        
-        MWTime time = 42;
-        
-        // look here
-        dic2.addElement("six",(long)6);
-        dic2.addElement("MWT",(Datum)time);
-        
-        
-        ScarabDatum *key;
-        
-        key = scarab_new_string("six");
-        ScarabDatum *six = scarab_dict_get(dic2Datum, key);
-        scarab_free_datum(key);
-        //fprintf(stderr, "refcount = %d", six->ref_count);fflush(stderr);
-        CPPUNIT_ASSERT(six->ref_count == 1);
-        CPPUNIT_ASSERT(dic2Datum->ref_count == 1);
-        
-        key = scarab_new_string("MWT");
-        ScarabDatum *MWT = scarab_dict_get(dic2Datum, key);
-        scarab_free_datum(key);
-        
-        CPPUNIT_ASSERT(six->ref_count == 1);
-        CPPUNIT_ASSERT(MWT->ref_count == 1);
-        CPPUNIT_ASSERT(dic2Datum->ref_count == 1);
-        
-        ScarabDatum *list3Datum;
-        Datum list3(M_LIST, BIG_NUMBER);
-        list3Datum = list3.getScarabDatum();
-        CPPUNIT_ASSERT(list3Datum->ref_count == 1);
-        
-        
-        
-        for(int i=0; i<BIG_NUMBER; ++i) {
-            ScarabDatum *listElement;
-            list3.setElement(i,doubleVector[i]);
-            
-            CPPUNIT_ASSERT(list3Datum->ref_count == 1);
-            listElement = scarab_list_get(list3Datum, i);
-            listElementArray[i] = scarab_list_get(list3Datum, i);
-            CPPUNIT_ASSERT(list3Datum->ref_count == 1);
-            CPPUNIT_ASSERT(listElement->ref_count == 1);
-        }
-        
-        for (int i=0; i<BIG_NUMBER; ++i) {
-            CPPUNIT_ASSERT(list3Datum->ref_count == 1);
-            CPPUNIT_ASSERT(listElementArray[i]->ref_count == 1);
-        }
-        
-        dic2.addElement("The list", list3);
-        
-        CPPUNIT_ASSERT(list3Datum->ref_count == 2);
-        for (int i=0; i<BIG_NUMBER; ++i) {
-            CPPUNIT_ASSERT(listElementArray[i]->ref_count == 1);
-        }
-        
-        CPPUNIT_ASSERT(dic2Datum->ref_count == 1);
-        
-        delete [] doubleVector;
-        
-        
-        dic2a = dic2;
-        ScarabDatum *dic2bDatum = dic2a.getScarabDatum();
-        CPPUNIT_ASSERT(dic2bDatum->ref_count == 2);
-        
-        CPPUNIT_ASSERT(list3Datum->ref_count == 2);
-        for (int i=0; i<BIG_NUMBER; ++i) {
-            CPPUNIT_ASSERT(listElementArray[i]->ref_count == 1);
-        }
-        
-        dic2bDatum->ref_count = BIG_NUMBER;
-    }
-    
-    ScarabDatum *dic2aDatum = dic2a.getScarabDatum();
-    
-    CPPUNIT_ASSERT(dic2aDatum->ref_count == BIG_NUMBER-1);
-    ScarabDatum *key2 = scarab_new_string("The list");
-    ScarabDatum *list2aDatum = scarab_dict_get(dic2aDatum, key2);
-    scarab_free_datum(key2);
-    
-    for(int i=0; i<BIG_NUMBER; ++i) {
-        CPPUNIT_ASSERT(listElementArray[i]->ref_count == 1);
-    }
-    
-    for(int i=0; i<BIG_NUMBER; ++i) {
-        ScarabDatum *listElement2 = scarab_list_get(list2aDatum, i);
-        CPPUNIT_ASSERT(listElement2->ref_count == 1);
-        CPPUNIT_ASSERT(listElement2 == listElementArray[i]);
-    }
-    
-    CPPUNIT_ASSERT(list2aDatum->ref_count == 1);
-}
-
-
-void GenericDataTestFixture::testDictLeakyness() {
-    // testing leakyness for simple dictionaries
-    const int num_elem = 1000;
-    Datum *dic1 = new Datum(M_DICTIONARY,num_elem);
-    ScarabDatum *dic1Datum = dic1->getScarabDatum();
-    CPPUNIT_ASSERT(dic1Datum->ref_count == 1);
-    
-    for(int i = 0; i<num_elem; i++)
-    {
-        ostringstream oss;
-        oss << i;
-        
-        string key = "key" + oss.str();
-        Datum data((long)i);
-        ScarabDatum *dataDatum = data.getScarabDatum();
-        CPPUNIT_ASSERT(dataDatum->ref_count == 1);
-        
-        CPPUNIT_ASSERT(dic1Datum->ref_count == 1);
-        dic1->addElement(key.c_str(), data);
-        CPPUNIT_ASSERT(dic1Datum->ref_count == 1);
-        CPPUNIT_ASSERT(dataDatum->ref_count == 2);
-    }
-    
-    CPPUNIT_ASSERT(dic1Datum->ref_count == 1);
-    
-    for(int i=0; i<dic1Datum->data.dict->tablesize; ++i) {
-        ScarabDatum *key = dic1Datum->data.dict->keys[i];
-        ScarabDatum *val = dic1Datum->data.dict->values[i];
-        
-        if(key) {
-            CPPUNIT_ASSERT(key->ref_count == 1);
-            CPPUNIT_ASSERT(val->ref_count == 1);
-        } else {
-            CPPUNIT_ASSERT(val == 0);
-        }
-    }
-    
-    delete dic1;
-    
-    // testing leakyness for more complicated dictionaries
-    Datum dic2(M_DICTIONARY,1);
-    ScarabDatum *dic2Datum = dic2.getScarabDatum();
-    CPPUNIT_ASSERT(dic2Datum->ref_count == 1);
-    
-    for(int i = 0; i<num_elem; i++)
-    {
-        ostringstream oss;
-        oss << i;
-        
-        string key = "key" + oss.str();
-        Datum data((long)i);
-        ScarabDatum *dataDatum = data.getScarabDatum();
-        CPPUNIT_ASSERT(dataDatum->ref_count == 1);
-        
-        CPPUNIT_ASSERT(dic2Datum->ref_count == 1);
-        dic2.addElement(key.c_str(), data);
-        CPPUNIT_ASSERT(dic2Datum->ref_count == 1);
-        CPPUNIT_ASSERT(dataDatum->ref_count == 2);
-    }
-    
-    CPPUNIT_ASSERT(dic2Datum->ref_count == 1);
-    
-    for(int i=0; i<dic2Datum->data.dict->tablesize; ++i) {
-        ScarabDatum *key = dic2Datum->data.dict->keys[i];
-        ScarabDatum *val = dic2Datum->data.dict->values[i];
-        
-        if(key) {
-            CPPUNIT_ASSERT(key->ref_count == 1);
-            CPPUNIT_ASSERT(val->ref_count == 1);
-        } else {
-            CPPUNIT_ASSERT(val == 0);
-        }
-    }
-    
-    
-    // testing leakyness for getting dictionary items
-    for(int i = 0; i<dic2.getNElements(); i++)
-    {
-        ostringstream oss;
-        oss << i;
-        
-        string key = "key" + oss.str();
-        
-        Datum data(dic2.getElement(key.c_str()));
-        CPPUNIT_ASSERT(data == (long)i);
-        ScarabDatum *dataDatum = data.getScarabDatum();
-        
-        // look here
-        CPPUNIT_ASSERT(dic2Datum->ref_count == 1);
-        CPPUNIT_ASSERT(dataDatum->ref_count == 2);
-    }
-    
-    Datum data2 = dic2.getElement("This can't be a key");
-    CPPUNIT_ASSERT(data2.getScarabDatum() == 0);
-    CPPUNIT_ASSERT(dic2Datum->ref_count == 1);
-    
-    for(int i=0; i<dic2Datum->data.dict->tablesize; ++i) {
-        ScarabDatum *key = dic2Datum->data.dict->keys[i];
-        ScarabDatum *val = dic2Datum->data.dict->values[i];
-        
-        if(key) {
-            CPPUNIT_ASSERT(key->ref_count == 1);
-            CPPUNIT_ASSERT(val->ref_count == 1);
-        } else {
-            CPPUNIT_ASSERT(val == 0);
-        }
-    }
-    
-    
-    
-    // testing leakyness of sub dictionaries
-    Datum dicts[num_elem];
-    Datum master_dict(M_DICTIONARY, 1);
-    ScarabDatum *masterDictDatum = master_dict.getScarabDatum();
-    CPPUNIT_ASSERT(masterDictDatum->ref_count == 1);
-    
-    for (int i=0; i<num_elem; ++i) {
-        CPPUNIT_ASSERT(masterDictDatum->ref_count == 1);
-        Datum newDict(M_DICTIONARY, 2);
-        ScarabDatum *newDictDatum = newDict.getScarabDatum();
-        CPPUNIT_ASSERT(newDictDatum->ref_count == 1);
-        
-        Datum int1((long)i);
-        ScarabDatum *int1Datum = int1.getScarabDatum();
-        CPPUNIT_ASSERT(int1Datum->ref_count == 1);
-        Datum int2((long)2*i);
-        ScarabDatum *int2Datum = int2.getScarabDatum();
-        CPPUNIT_ASSERT(int2Datum->ref_count == 1);
-        CPPUNIT_ASSERT(masterDictDatum->ref_count == 1);
-        
-        
-        string key1 = "key1";
-        string key2 = "key2";
-        newDict.addElement(key1.c_str(), int1);
-        newDict.addElement(key2.c_str(), int2);
-        CPPUNIT_ASSERT(newDictDatum->ref_count == 1);
-        CPPUNIT_ASSERT(int1Datum->ref_count == 2);
-        CPPUNIT_ASSERT(int2Datum->ref_count == 2);
-        CPPUNIT_ASSERT(masterDictDatum->ref_count == 1);
-        
-        dicts[i] = newDict;
-        ScarabDatum *dictsDatum = dicts[i].getScarabDatum();
-        CPPUNIT_ASSERT(dictsDatum->ref_count == 2);
-        
-        
-        CPPUNIT_ASSERT(newDictDatum->ref_count == 2);
-        CPPUNIT_ASSERT(int1Datum->ref_count == 2);
-        CPPUNIT_ASSERT(int2Datum->ref_count == 2);
-        
-        ostringstream oss;
-        oss << i;
-        
-        string keyi = "key" + oss.str();
-        master_dict.addElement(keyi.c_str(), dicts[i]);
-        CPPUNIT_ASSERT(dictsDatum->ref_count == 3);
-        CPPUNIT_ASSERT(int1Datum->ref_count == 2);
-        CPPUNIT_ASSERT(int2Datum->ref_count == 2);
-        CPPUNIT_ASSERT(newDictDatum->ref_count == 3);
-        CPPUNIT_ASSERT(masterDictDatum->ref_count == 1);
-    }
-    CPPUNIT_ASSERT(masterDictDatum->ref_count == 1);
-    
-    ScarabDatum *dictsDatumArray[num_elem];
-    for(int i=0; i<num_elem; ++i) {
-        dictsDatumArray[i] = dicts[i].getScarabDatum();
-        CPPUNIT_ASSERT(dictsDatumArray[i]->ref_count == 2);
-    }
-    
-    CPPUNIT_ASSERT(masterDictDatum->ref_count == 1);
-    for(int i=0; i<num_elem; ++i) {
-        CPPUNIT_ASSERT(dictsDatumArray[i]->ref_count == 2);
-        dicts[i] = Datum((long)i);
-        CPPUNIT_ASSERT(dictsDatumArray[i]->ref_count == 1);
-    }
-    CPPUNIT_ASSERT(masterDictDatum->ref_count == 1);
-    
 }
 
 
@@ -892,11 +265,11 @@ void GenericDataTestFixture::testDictionary() {
         
         dic1->addElement(key.c_str(), data);
     }
-    ScarabDatum * sd = dic1->getScarabDatumCopy();
+    auto sd = dic1->toScarabDatum();
     delete dic1;
     
-    Datum *dic2 = new Datum(sd);
-    scarab_free_datum(sd);
+    Datum *dic2 = new Datum(sd.get());
+    sd.reset();
     
     CPPUNIT_ASSERT(dic2->getNElements() == num_elem);
     
@@ -1104,8 +477,8 @@ void GenericDataTestFixture::testDictionaryKey() {
         dic_d.addElement(key, val);
     }
     
-    std::vector<Datum> allKeys = dic_d.getKeys();
-    CPPUNIT_ASSERT(allKeys.size() == num_elem);
+    auto &dictValue = dic_d.getDict();
+    CPPUNIT_ASSERT(dictValue.size() == num_elem);
     
     for(long i=0; i<num_elem; i++) {
         key[0]=(char)('a' + i);
@@ -1113,7 +486,7 @@ void GenericDataTestFixture::testDictionaryKey() {
         key[2]='\0';
         
         CPPUNIT_ASSERT(dic_d.hasKey(key));
-        CPPUNIT_ASSERT(std::find(allKeys.begin(), allKeys.end(), key) != allKeys.end());
+        CPPUNIT_ASSERT(dictValue.find(key) != dictValue.end());
     }
     
     for(long i=0; i<num_elem; i++) {
@@ -1127,42 +500,27 @@ void GenericDataTestFixture::testDictionaryKey() {
 }
 
 
-void GenericDataTestFixture::testDoubleTeamOnADictionary() {
-    Datum list1(M_LIST, 2);
-    Datum list2(M_LIST, 2);
+void GenericDataTestFixture::testDictionaryWithDictionaryKeys() {
+    //
+    // NOTE: Although dictionaries really should *not* be used as dictionary keys, we nonetheless want
+    // to ensure that doing so works as expected (even if very inefficiently)
+    //
     
-    {
-        Datum subdic(M_DICTIONARY, 2);
-        ScarabDatum *dicDatum = subdic.getScarabDatum();
-        Datum int1((long)1);
-        
-        subdic.addElement("Key 1", int1);
-        
-        CPPUNIT_ASSERT(dicDatum->ref_count == 1);
-        list1.setElement(1, subdic);
-        CPPUNIT_ASSERT(dicDatum->ref_count == 2);
-        list2.setElement(1, subdic);
-        CPPUNIT_ASSERT(dicDatum->ref_count == 3);
-        
-        CPPUNIT_ASSERT(list1.getNElements() == 1);
-        CPPUNIT_ASSERT(list2.getNElements() == 1);
-        CPPUNIT_ASSERT(subdic.getNElements() == 1);
-    }
-    CPPUNIT_ASSERT(list1.getNElements() == 1);
-    CPPUNIT_ASSERT(list2.getNElements() == 1);
+    const Datum key1 { Datum::dict_value_type { { Datum("a"), Datum(1) } } };
+    const Datum key2 { Datum::dict_value_type { { Datum("b"), Datum(2) } } };
+    const Datum key3 { Datum::dict_value_type { { Datum("c"), Datum(3) } } };
     
-    Datum dic1(list1.getElement(1));
-    Datum dic2(list2.getElement(1));
+    // All dicts should have the same hash value
+    CPPUNIT_ASSERT_EQUAL( key1.getHash(), key2.getHash() );
+    CPPUNIT_ASSERT_EQUAL( key2.getHash(), key3.getHash() );
     
-    CPPUNIT_ASSERT(dic1 == dic2);
+    const Datum d { Datum::dict_value_type { { key1, Datum(1.5) }, { key2, Datum(2.5) }, { key3, Datum(3.5) } } };
     
-    Datum int2((long)2);
-    dic1.addElement("Key 2", int2);
-    
-    
-    // HERE'S THE DANGER POINT
-    CPPUNIT_ASSERT(dic1 == dic2);
-    
+    CPPUNIT_ASSERT( d.isDictionary() );
+    CPPUNIT_ASSERT_EQUAL( 3, d.getNElements() );
+    CPPUNIT_ASSERT_EQUAL( Datum(1.5), d.getElement(key1) );
+    CPPUNIT_ASSERT_EQUAL( Datum(2.5), d.getElement(key2) );
+    CPPUNIT_ASSERT_EQUAL( Datum(3.5), d.getElement(key3) );
 }
 
 
@@ -1520,12 +878,40 @@ void GenericDataTestFixture::testGetFloat() {
 
 void GenericDataTestFixture::testGetString() {
     // String
-    CPPUNIT_ASSERT_EQUAL( std::string(""), std::string(Datum("").getString()) );
-    CPPUNIT_ASSERT_EQUAL( std::string("foo"), std::string(Datum("foo").getString()) );
+    CPPUNIT_ASSERT_EQUAL( std::string(""), Datum("").getString() );
+    CPPUNIT_ASSERT_EQUAL( std::string("foo"), Datum("foo").getString() );
     
     // Other
-    CPPUNIT_ASSERT( nullptr == Datum(3).getString() );
+    CPPUNIT_ASSERT_EQUAL( std::string(), Datum(3).getString() );
     assertError("ERROR: Cannot convert integer to string");
+}
+
+
+void GenericDataTestFixture::testGetList() {
+    const Datum::list_value_type l1 { };
+    const Datum::list_value_type l2 { Datum(false), Datum(1.5), Datum("foo") };
+    
+    // List
+    CPPUNIT_ASSERT( l1 == Datum(l1).getList() );
+    CPPUNIT_ASSERT( l2 == Datum(l2).getList() );
+    
+    // Other
+    CPPUNIT_ASSERT( l1 == Datum(3).getList() );
+    assertError("ERROR: Cannot convert integer to list");
+}
+
+
+void GenericDataTestFixture::testGetDict() {
+    const Datum::dict_value_type d1 { };
+    const Datum::dict_value_type d2 { { Datum("foo"), Datum(false) }, { Datum(1.5), Datum("bar") } };
+    
+    // Dict
+    CPPUNIT_ASSERT( d1 == Datum(d1).getDict() );
+    CPPUNIT_ASSERT( d2 == Datum(d2).getDict() );
+    
+    // Other
+    CPPUNIT_ASSERT( d1 == Datum(3).getDict() );
+    assertError("ERROR: Cannot convert integer to dictionary");
 }
 
 
@@ -2235,10 +1621,26 @@ void GenericDataTestFixture::testOperatorGreaterThan() {
         }
     }
     
+    // String
+    {
+        // and string
+        {
+            CPPUNIT_ASSERT( Datum("b") > Datum("a") );
+            CPPUNIT_ASSERT( !(Datum("a") > Datum("a")) );
+            CPPUNIT_ASSERT( !(Datum("a") > Datum("b")) );
+        }
+        
+        // and other
+        {
+            CPPUNIT_ASSERT( !(Datum("foo") > Datum(1.5)) );
+            assertError("ERROR: Cannot test ordering of string and float");
+        }
+    }
+    
     // Other
     {
-        CPPUNIT_ASSERT( !(Datum("foo") > Datum(1)) );
-        assertError("ERROR: Cannot test ordering of string and integer");
+        CPPUNIT_ASSERT( !(Datum() > Datum(1)) );
+        assertError("ERROR: Cannot test ordering of undefined and integer");
     }
 }
 
@@ -2334,10 +1736,26 @@ void GenericDataTestFixture::testOperatorGreaterThanOrEqual() {
         }
     }
     
+    // String
+    {
+        // and string
+        {
+            CPPUNIT_ASSERT( Datum("b") >= Datum("a") );
+            CPPUNIT_ASSERT( Datum("a") >= Datum("a") );
+            CPPUNIT_ASSERT( !(Datum("a") >= Datum("b")) );
+        }
+        
+        // and other
+        {
+            CPPUNIT_ASSERT( !(Datum("foo") >= Datum(1.5)) );
+            assertError("ERROR: Cannot test ordering of string and float");
+        }
+    }
+    
     // Other
     {
-        CPPUNIT_ASSERT( !(Datum("foo") >= Datum(1)) );
-        assertError("ERROR: Cannot test ordering of string and integer");
+        CPPUNIT_ASSERT( !(Datum() >= Datum(1)) );
+        assertError("ERROR: Cannot test ordering of undefined and integer");
     }
 }
 
@@ -2433,10 +1851,26 @@ void GenericDataTestFixture::testOperatorLessThan() {
         }
     }
     
+    // String
+    {
+        // and string
+        {
+            CPPUNIT_ASSERT( Datum("a") < Datum("b") );
+            CPPUNIT_ASSERT( !(Datum("a") < Datum("a")) );
+            CPPUNIT_ASSERT( !(Datum("b") < Datum("a")) );
+        }
+        
+        // and other
+        {
+            CPPUNIT_ASSERT( !(Datum("foo") < Datum(1.5)) );
+            assertError("ERROR: Cannot test ordering of string and float");
+        }
+    }
+    
     // Other
     {
-        CPPUNIT_ASSERT( !(Datum("foo") < Datum(1)) );
-        assertError("ERROR: Cannot test ordering of string and integer");
+        CPPUNIT_ASSERT( !(Datum() < Datum(1)) );
+        assertError("ERROR: Cannot test ordering of undefined and integer");
     }
 }
 
@@ -2532,10 +1966,26 @@ void GenericDataTestFixture::testOperatorLessThanOrEqual() {
         }
     }
     
+    // String
+    {
+        // and string
+        {
+            CPPUNIT_ASSERT( Datum("a") <= Datum("b") );
+            CPPUNIT_ASSERT( Datum("a") <= Datum("a") );
+            CPPUNIT_ASSERT( !(Datum("b") <= Datum("a")) );
+        }
+        
+        // and other
+        {
+            CPPUNIT_ASSERT( !(Datum("foo") <= Datum(1.5)) );
+            assertError("ERROR: Cannot test ordering of string and float");
+        }
+    }
+    
     // Other
     {
-        CPPUNIT_ASSERT( !(Datum("foo") <= Datum(1)) );
-        assertError("ERROR: Cannot test ordering of string and integer");
+        CPPUNIT_ASSERT( !(Datum() <= Datum(1)) );
+        assertError("ERROR: Cannot test ordering of undefined and integer");
     }
 }
 
@@ -2574,10 +2024,8 @@ void GenericDataTestFixture::testGenericIndexing() {
         // Non-numeric index
         {
             Datum item = list[Datum("foo")];
-            // Datum::getInteger returns 0 on error, so the retrieved item is the first element
-            CPPUNIT_ASSERT( item.isInteger() );
-            CPPUNIT_ASSERT_EQUAL( 1LL, item.getInteger() );
-            assertError("ERROR: Cannot convert string to integer");
+            CPPUNIT_ASSERT( item.isUndefined() );
+            assertError("ERROR: Cannot index list with string");
         }
     }
     
@@ -2611,7 +2059,7 @@ void GenericDataTestFixture::testGenericIndexing() {
     {
         Datum item = Datum(3)[Datum("blah")];
         CPPUNIT_ASSERT( item.isUndefined() );
-        assertError("ERROR: Cannot subscript integer");
+        assertError("ERROR: Cannot get element from integer");
     }
 }
 

@@ -244,7 +244,7 @@ bool LinearFitableFunction::setParametersProtected(Datum _params) {
 
     Datum *_parameters = &_params;
     
-    if ( (_parameters->getMaxElements()) != (basisSet->getNElements())) {
+    if ( (_parameters->getNElements()) != (basisSet->getNElements())) {
         merror(M_SYSTEM_MESSAGE_DOMAIN, "Linear calibrator error:  number of parameters not as expected.");
         unlock();
         return false;

@@ -104,26 +104,5 @@ bool GlobalVariable::isValue() {
     return true;
 }
 
-/*ScarabDatum * GlobalVariable::toScarabPackage() {
-
-	ScarabDatum * package = NULL;
-	
-    if(package == NULL) {
-        package = scarab_dict_new(__VALUE_PACKAGE_SIZE__,
-                                                    &scarab_dict_times2);
-		ScarabDatum *key = scarab_new_string("value");
-        scarab_dict_put(package, key, value.getScarabDatum());
-		scarab_free_datum(key);
-    }
-    return package;
-}*/
-
-void GlobalVariable::printToSTDERR() {
-	valueLock->lock();
-    fprintf(stderr, "mGlobalVariable.value => %p", &value);
-    value->printToSTDERR();
-	valueLock->unlock();
-}
-
 
 END_NAMESPACE_MW

@@ -16,22 +16,20 @@ BEGIN_NAMESPACE_MW
 
 
 map<int, string> extract_simple_codec_map(Datum datum){
-    
     map<int, string> result;
-    vector<Datum> keys = datum.getKeys();
-    vector<Datum>::iterator key_iter;
-    for(key_iter = keys.begin(); key_iter != keys.end(); key_iter++){
-        int key = (*key_iter).getInteger();
+    
+    for (auto &item : datum.getDict()) {
+        int key = item.first.getInteger();
+        Datum value_datum = item.second;
         
-        Datum value_datum = datum.getElement(*key_iter);
-        if(value_datum.isDictionary()){
+        if (value_datum.isDictionary()) {
             value_datum = value_datum.getElement("tagname");
         }
         
         result[key] = value_datum.getString();
     }
     
-    return result;
+    return std::move(result);
 }
 
 map<int, string> extract_simple_codec_map(shared_ptr<Event> evt){

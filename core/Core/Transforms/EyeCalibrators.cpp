@@ -166,11 +166,11 @@ void Calibrator::initialize() {
     fitableFunctions = new ExpandableList<FitableFunction>( this->getNumOutputs() );
     
     // set vectors to 0 as defaults
-    for (int i=0;i<pUncalibratedData->getMaxElements();i++) {
+    for (int i=0;i<pUncalibratedData->getNElements();i++) {
         pUncalibratedData->setElement(i, (double)0);
         pSampledData->setElement(i, (double)0);
     }
-    for (int i=0;i<pCalibratedData->getMaxElements();i++) {
+    for (int i=0;i<pCalibratedData->getNElements();i++) {
         pCalibratedData->setElement(i, (double)0);
     }
     
@@ -561,12 +561,12 @@ CalibratorRequestedAction Calibrator::getRequestedAction(Datum dictionaryData) {
          return(CALIBRATOR_NO_ACTION);
     }
     
-    if (strcmp(R_CALIBRATOR_ACTION_SET_PARAMETERS, actionData.getString()) == 0) {       // check is name field matches the name of this calibrator
+    if (actionData.getString() == R_CALIBRATOR_ACTION_SET_PARAMETERS) {       // check is name field matches the name of this calibrator
         if (VERBOSE_EYE_CALIBRATORS>1) mprintf(
                 "Calibrator %s successfully received request for to update its parameters to contained values.", uniqueCalibratorName.c_str());
         return CALIBRATOR_ACTION_SET_PARAMS_TO_CONTAINED;
     }
-    else if (strcmp(R_CALIBRATOR_ACTION_SET_PARAMETERS_TO_DEFAULTS, actionData.getString()) == 0) {
+    else if (actionData.getString() == R_CALIBRATOR_ACTION_SET_PARAMETERS_TO_DEFAULTS) {
         if (VERBOSE_EYE_CALIBRATORS>1) mprintf("Calibrator %s successfully received request for to update its parameters to defaults.", uniqueCalibratorName.c_str());
         return CALIBRATOR_ACTION_SET_PARAMS_TO_DEFAULTS;
     }

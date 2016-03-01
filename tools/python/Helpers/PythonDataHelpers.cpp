@@ -95,11 +95,6 @@ Datum convert_python_to_datum(const boost::python::object &obj) {
         if (PyString_AsStringAndSize(string.ptr(), &buffer, &size))
             throw_error_already_set();
         
-        // If the buffer contains no NUL's (meaning it's probably text, not binary data), include
-        // the NUL terminator in the resulting Datum
-        if (std::memchr(buffer, 0, size) == NULL)
-            size++;
-        
         return Datum(buffer, int(size));
         
     } else if (PyMapping_Check(pObj)) {
@@ -162,20 +157,16 @@ boost::python::object convert_datum_to_python(const Datum &datum) {
             return manageNewRef( PyBool_FromLong(datum.getBool()) );
             
         case M_STRING: {
-            const char *data = datum.getString();
-            int size = datum.getStringLength();
-            if (datum.stringIsCString())
-                size -= 1;  // PyString_FromStringAndSize doesn't expect a NUL-terminated string
-            return manageNewRef( PyString_FromStringAndSize(data, size) );
+            auto &str = datum.getString();
+            return manageNewRef( PyString_FromStringAndSize(str.c_str(), str.size()) );
         }
             
         case M_LIST: {
-            int size = datum.getNElements();
+            auto &listValue = datum.getList();
+            boost::python::object list = manageNewRef( PyList_New(listValue.size()) );
             
-            boost::python::object list = manageNewRef( PyList_New(size) );
-            
-            for (int i = 0; i < size; i++) {
-                boost::python::object item = convert_datum_to_python(datum.getElement(i));
+            for (Py_ssize_t i = 0; i < listValue.size(); i++) {
+                boost::python::object item = convert_datum_to_python(listValue.at(i));
                 // PyList_SetItem "steals" the item reference, so we need to INCREF it
                 Py_INCREF(item.ptr());
                 if (PyList_SetItem(list.ptr(), i, item.ptr()))
@@ -188,12 +179,10 @@ boost::python::object convert_datum_to_python(const Datum &datum) {
         case M_DICTIONARY: {
             boost::python::object dict = manageNewRef( PyDict_New() );
             
-            std::vector<Datum> keys = datum.getKeys();
-            
-            BOOST_FOREACH( const Datum &key, keys ) {
+            for (auto &item : datum.getDict()) {
                 if (PyDict_SetItem(dict.ptr(),
-                                   convert_datum_to_python(key).ptr(),
-                                   convert_datum_to_python(datum.getElement(key)).ptr()))
+                                   convert_datum_to_python(item.first).ptr(),
+                                   convert_datum_to_python(item.second).ptr()))
                 {
                     throw_error_already_set();
                 }

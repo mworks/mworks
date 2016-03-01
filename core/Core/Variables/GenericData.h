@@ -17,9 +17,12 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <unordered_map>
 
-#include <boost/serialization/list.hpp>
+#include <boost/intrusive_ptr.hpp>
 #include <boost/serialization/string.hpp>
+#include <boost/serialization/unordered_map.hpp>
+#include <boost/serialization/vector.hpp>
 #include <boost/serialization/version.hpp>
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdivision-by-zero"
@@ -34,6 +37,10 @@ using std::map;
 using std::pair;
 using std::string;
 using std::vector;
+
+
+inline void intrusive_ptr_add_ref(ScarabDatum *d) { scarab_copy_datum(d); }
+inline void intrusive_ptr_release(ScarabDatum *d) { scarab_free_datum(d); }
 
 
 BEGIN_NAMESPACE_MW
@@ -54,160 +61,150 @@ enum GenericDataType {
 class Datum {
     
 public:
-    /**
-     * Constructors:  All constructors create a scarab object that can
-     * be sent over the network.
-     */
-    Datum();
-    Datum(GenericDataType type, int arg);
-    Datum(GenericDataType type, double arg);
-    Datum(int value);
-    Datum(long value);
-    Datum(long long value);
-    Datum(double value);
-    Datum(float value);
-    Datum(bool value);
-    Datum(const char * string, int size);
-    Datum(const char * string);
-    Datum(const std::string &string);
+    using list_value_type = std::vector<Datum>;
     
+    struct Hasher {
+        std::size_t operator()(const Datum &d) const { return d.getHash(); }
+    };
+    using dict_value_type = std::unordered_map<Datum, Datum, Hasher>;
     
-    Datum(const map<int, string> &dict) {
-        
-        int size = dict.size();
-        createDictionary(size);
-        
-        map<int,string>::const_iterator i;
-        for(i = dict.begin(); i != dict.end(); ++i){
-            
-            const pair<int, string> &key_val = *i;
-            Datum key((long)key_val.first);
-            Datum val((string)key_val.second);
-            
-            this->addElement(key, val);
-        }
-    }
-    
-    
-    Datum(const map<string, int> &dict) {
-        
-        int size = dict.size();
-        createDictionary(size);
-        
-        map<string,int>::const_iterator i;
-        for(i = dict.begin(); i != dict.end(); ++i){
-            
-            const pair<string, int> &key_val = *i;
-            Datum key(key_val.first);
-            Datum val((long)key_val.second);
-            
-            this->addElement(key, val);
-        }
-    }
-    
+    using scarab_datum_ptr = boost::intrusive_ptr<ScarabDatum>;
     
     /**
-     * Overrides the default copy constructor to deeply copy
-     * the scarab datum.
-     */
-    Datum(const Datum& that);
-    
-    /**
-     * Copies the scarabdatum, deeply, used for receiving data events
-     * on the network.
-     */
-    Datum(ScarabDatum * datum);
-    
-    
-    
-    
-    /**
-     * Destructor.
+     * Destructor
      */
     ~Datum();
     
     /**
-     * Returns the data type of the Datum object.
+     * Copy and move constructors
      */
+    Datum(const Datum &other);
+    Datum(Datum &&other);
+    
+    /**
+     * Copy and move assignment operators
+     */
+    Datum& operator=(const Datum &other);
+    Datum& operator=(Datum &&other);
+    
+    /**
+     * Constructors
+     */
+    
+    constexpr Datum() : datatype(M_UNDEFINED), intValue(0) { }
+    constexpr Datum(int value) : datatype(M_INTEGER), intValue(value) { }
+    constexpr Datum(long value) : datatype(M_INTEGER), intValue(value) { }
+    constexpr Datum(long long value) : datatype(M_INTEGER), intValue(value) { }
+    constexpr Datum(float value) : datatype(M_FLOAT), floatValue(value) { }
+    constexpr Datum(double value) : datatype(M_FLOAT), floatValue(value) { }
+    constexpr Datum(bool value) : datatype(M_BOOLEAN), boolValue(value) { }
+    
+    Datum(const char * string, int size);
+    Datum(const char * string);
+    Datum(const std::string &string);
+    explicit Datum(std::string &&string);
+    
+    explicit Datum(const list_value_type &list);
+    explicit Datum(list_value_type &&list);
+    explicit Datum(const dict_value_type &dict);
+    explicit Datum(dict_value_type &&dict);
+    
+    Datum(GenericDataType type, int arg);
+    Datum(GenericDataType type, double arg);
+    
+    template<typename T1, typename T2>
+    Datum(const std::map<T1, T2> &dict) {
+        *this = Datum(dict_value_type());
+        for (auto &item : dict) {
+            dictValue[Datum(item.first)] = Datum(item.second);
+        }
+    }
+    
+    Datum(ScarabDatum *datum);
+    
+    /**
+     * Type info
+     */
+    
     GenericDataType getDataType() const { return datatype; }
     const char * getDataTypeName() const;
     
-    /**
-     * Returns the scarab data package that stores this object
-     */
-    ScarabDatum * getScarabDatum() const { return data; }
-    ScarabDatum * getScarabDatumCopy()  const;
+    bool isInteger() const { return ((datatype == M_INTEGER) || isBool()); }
+    bool isFloat() const { return (datatype == M_FLOAT); }
+    bool isBool() const { return (datatype == M_BOOLEAN); }
+    bool isNumber() const { return (isFloat() || isInteger()); }
+    bool isString() const { return (datatype == M_STRING); }
+    bool isList() const { return (datatype == M_LIST); }
+    bool isDictionary() const { return (datatype == M_DICTIONARY); }
+    bool isUndefined() const { return (datatype == M_UNDEFINED); }
     
     /**
-     * If datatype is one of the numeric types then it will return
-     * a representation for it, otherwise it will return 0.
+     * Returns a hash value for the Datum object
      */
-    bool getBool() const;
-    double getFloat() const;
+    std::size_t getHash() const;
+    
+    /**
+     * Returns a Scarab equivalent of this object's value
+     */
+    scarab_datum_ptr toScarabDatum() const;
+    
+    /**
+     * Value getters
+     */
+    
     long long getInteger() const;
+    double getFloat() const;
+    bool getBool() const;
     
-    /**
-     * Returns a string if Datum is of type M_STRING, otherwise returns 0
-     * lenght of string is null terminated length or -1 otherwise
-     */
-    const char *getString() const;
-    int getStringLength() const;
+    const std::string& getString() const;
     bool stringIsCString() const;
     std::string getStringQuoted() const;
     
-    // debug function to print the datum.
-    void printToSTDERR() const;
+    const list_value_type& getList() const;
+    const dict_value_type& getDict() const;
     
-    // Removes old data and creates a new datum with the new value.
-    void setBool(bool value);
-    void setFloat(double value);
+    int getNElements() const;
+    bool hasKey(const Datum &key) const;
+    Datum getElement(const Datum &indexOrKey) const;
+    
+    /**
+     * Value setters
+     */
+    
     void setInteger(long long value);
+    void setFloat(double value);
+    void setBool(bool value);
+    
     void setString(const char * string, int size);
     void setString(const char * string);
     void setString(const std::string &string);
+    void setString(std::string &&string);
     void setStringQuoted(const std::string &string);
     
-    bool isInteger()  const;
-    bool isFloat() const;
-    bool isBool() const;
-    bool isString() const;
-    bool isDictionary() const;
-    bool isList() const;
-    bool isUndefined() const;
-    bool isNumber() const;
+    void setList(const list_value_type &list);
+    void setList(list_value_type &&list);
+    void setDict(const dict_value_type &dict);
+    void setDict(dict_value_type &&dict);
     
-    // this will overwrite the default asssignment operator.
-    Datum& operator=(const Datum& that);
+    void addElement(const Datum &value);
+    void addElement(const Datum &key, const Datum &value);
+    void setElement(const Datum &indexOrKey, const Datum &value);
     
-    operator long() const;
-    operator int() const;
+    /**
+     * Operators
+     */
+    
     operator short() const;
-    operator double() const;
-    operator float() const;
-    operator bool() const;
+    operator int() const;
+    operator long() const;
     operator long long() const;
+    operator float() const;
+    operator double() const;
+    operator bool() const;
     operator std::string() const;
     
-    void operator=(long long newdata);
-    void operator=(long newdata);
-    void operator=(int newdata);
-    void operator=(short newdata);
-    void operator=(bool newdata);
-    void operator=(double newdata);
-    void operator=(float newdata);
-    void operator=(const char * newdata);
-    void operator=(const std::string &newdata);
-    
-    //void inc();
-    // prefix operators.
     void operator++();
     void operator--();
-    
-    bool operator==(long newdata) const;
-    bool operator==(double newdata) const;
-    bool operator==(bool newdata) const;
-    bool operator==(const char * newdata) const;
-    bool operator!=(const char * newdata) const;
     
     Datum operator-() const;
     
@@ -219,169 +216,156 @@ public:
     
     bool operator==(const Datum&) const;
     bool operator!=(const Datum&) const;
-    bool operator>(const Datum&) const;
-    bool operator>=(const Datum&) const;
     bool operator<(const Datum&) const;
     bool operator<=(const Datum&) const;
+    bool operator>(const Datum&) const;
+    bool operator>=(const Datum&) const;
     
-    int getNElements() const;
-    int getMaxElements() const;
-    
-    bool hasKey(const Datum &key) const;
-    std::vector<Datum> getKeys() const;
-    
-    
-    void addElement(const Datum &key, const Datum &value);
-    void addElement(const Datum &value);
-    void setElement(int index, const Datum &value);
-    std::vector<Datum> getElements() const;
-    
-    Datum getElement(const Datum &key) const;
-    Datum getElement(int i) const;
-    
-    //  Datum removeElement(const char * key);
-    
-    // TODO: MUST IMPLEMENT THESE
-    // Datum removeElement(const Datum key);
-    // TODO
-    //  void removeElement(int index);
-    
-    
-    Datum operator[](const Datum &index) const;
-    Datum operator[](int i) const;
+    Datum operator[](const Datum &indexOrKey) const;
     
     std::string toString(bool quoted = false) const;
     
 private:
     GenericDataType datatype;
-    ScarabDatum *data { nullptr };
     
-    void setDataType(GenericDataType type) { datatype = type; }
+    union {
+        long long intValue;
+        double floatValue;
+        bool boolValue;
+        std::string stringValue;
+        list_value_type listValue;
+        dict_value_type dictValue;
+    };
     
-    void createDictionary(int intialsize);
-    void createList(int size);
+    void copyFrom(const Datum &other, bool assign = false);
+    void moveFrom(Datum &&other, bool assign = false);
     
-    void lockDatum() const;
-    void unlockDatum() const;
+    template<template<typename T> class Op>
+    bool compareOrdering(const Datum&) const;
     
     friend class boost::serialization::access;
+    
     template<class Archive>
     void serialize(Archive &ar, const unsigned int version){
         boost::serialization::split_member(ar, *this, version);
     }
     
     template<class Archive>
-    void save(Archive &ar, const unsigned int version) const{
-        
-        long long ival;
-        double fval;
-        bool bval;
-        int string_length;
-        int nelements;
-        std::vector<Datum> keys;
-        
+    void save(Archive &ar, const unsigned int version) const {
         ar << datatype;
-        switch(datatype){
+        
+        switch (datatype) {
             case M_INTEGER:
-                ival = getInteger();
-                ar << ival;
-                break;
-            case M_FLOAT:
-                fval = getFloat();
-                ar << fval;
-                break;
-            case M_BOOLEAN:
-                bval = getBool();
-                ar << bval;
-                break;
-            case M_STRING:
-                string_length = getStringLength();
-                ar << string_length;
-                ar.save_binary(getString(), string_length);
-                break;
-            case M_LIST:
-                nelements = getNElements();
-                ar << nelements;
-                for(int i = 0; i < nelements; i++){
-                    Datum val = getElement(i);
-                    ar << val;
-                }
-                break;
-            case M_DICTIONARY:
-                nelements = getNElements();
-                ar << nelements;
-                keys = getKeys();
-                for(int i = 0; i < keys.size(); i++){
-                    Datum key = keys[i];
-                    ar << key;
-                    Datum val = getElement(key);
-                    ar << val;
-                }
-                break;
-            default:
+                ar << intValue;
                 break;
                 
+            case M_FLOAT:
+                ar << floatValue;
+                break;
+                
+            case M_BOOLEAN:
+                ar << boolValue;
+                break;
+                
+            case M_STRING: {
+                int string_length = stringValue.size();
+                ar << string_length;
+                ar.save_binary(stringValue.c_str(), string_length);
+                break;
+            }
+                
+            case M_LIST:
+                ar << listValue;
+                break;
+                
+            case M_DICTIONARY:
+                ar << dictValue;
+                break;
+                
+            default:
+                break;
         }
     }
     
     template<class Archive>
-    void load(Archive &ar, const unsigned int version){
+    void load(Archive &ar, const unsigned int version) {
+        GenericDataType archived_datatype;
+        ar >> archived_datatype;
         
-        long long ival;
-        double fval;
-        bool bval;
-        int nelements;
-        Datum datum, key;
-        int string_length;
-        //char c;
-        
-        ar >> datatype;
-        switch(datatype){
-            case M_INTEGER:
+        switch (archived_datatype) {
+            case M_INTEGER: {
+                long long ival;
                 ar >> ival;
-                setInteger(ival);
+                *this = Datum(ival);
                 break;
-            case M_FLOAT:
+            }
+                
+            case M_FLOAT: {
+                double fval;
                 ar >> fval;
-                setFloat(fval);
+                *this = Datum(fval);
                 break;
-            case M_BOOLEAN:
+            }
+                
+            case M_BOOLEAN: {
+                bool bval;
                 ar >> bval;
-                setBool(bval);
+                *this = Datum(bval);
                 break;
-            case M_STRING:
+            }
+                
+            case M_STRING: {
+                int string_length;
                 ar >> string_length;
                 if (version > 0) {
-                    char buffer[string_length];
-                    ar.load_binary(&buffer, string_length);
-                    setString(buffer, string_length);
+                    std::vector<char> buffer(string_length);
+                    ar.load_binary(buffer.data(), buffer.size());
+                    setString(buffer.data(), buffer.size());
                 } else {
                     std::string sval;
                     ar >> sval;
                     setString(sval);
                 }
                 break;
+            }
+                
             case M_LIST:
-                ar >> nelements;
-                createList(nelements);
-                for(int i = 0; i < nelements; i++){
-                    ar >> datum;
-                    addElement(datum);
+                if (version > 1) {
+                    list_value_type lval;
+                    ar >> lval;
+                    *this = Datum(std::move(lval));
+                } else {
+                    *this = Datum(list_value_type());
+                    int nelements;
+                    ar >> nelements;
+                    for (int i = 0; i < nelements; i++) {
+                        Datum datum;
+                        ar >> datum;
+                        addElement(datum);
+                    }
                 }
                 break;
+                
             case M_DICTIONARY:
-                ar >> nelements;
-                createDictionary(nelements);
-                for(int i = 0; i < nelements; i++){
-                    ar >> key;
-                    ar >> datum;
-                    addElement(key, datum);
+                if (version > 1) {
+                    dict_value_type dval;
+                    ar >> dval;
+                    *this = Datum(std::move(dval));
+                } else {
+                    *this = Datum(dict_value_type());
+                    int nelements;
+                    ar >> nelements;
+                    for (int i = 0; i < nelements; i++) {
+                        Datum datum, key;
+                        ar >> key;
+                        ar >> datum;
+                        addElement(key, datum);
+                    }
                 }
                 break;
+                
             default:
-                
                 break;
-                
         }
     }
 };
@@ -394,7 +378,7 @@ END_NAMESPACE_MW
 
 
 // This needs to be outside of namespace mw
-BOOST_CLASS_VERSION(mw::Datum, 1)
+BOOST_CLASS_VERSION(mw::Datum, 2)
 
 
 #endif

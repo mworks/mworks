@@ -66,7 +66,8 @@ void SerializationTestFixture::testEventSerialization(){
 void SerializationTestFixture::testScarabSerialization(){
 
     Datum the_data((double)4.0);
-    ScarabDatum *datum = the_data.getScarabDatum();
+    auto scarabDatum = the_data.toScarabDatum();
+    ScarabDatum *datum = scarabDatum.get();
 
     ostringstream output_stream_;
     
