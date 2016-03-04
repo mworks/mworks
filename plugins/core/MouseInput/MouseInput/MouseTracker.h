@@ -12,12 +12,7 @@ namespace mw {
 }
 
 
-@interface MWKMouseTracker : NSObject {
-    boost::weak_ptr<mw::MouseInputDevice> mouseInputDeviceWeak;
-    BOOL shouldHideCursor;
-    id upDownEventMonitor;
-    id dragEventMonitor;
-}
+@interface MWKMouseTracker : NSObject
 
 @property (nonatomic, assign) BOOL shouldHideCursor;
 

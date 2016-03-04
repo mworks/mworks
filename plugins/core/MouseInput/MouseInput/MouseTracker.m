@@ -11,10 +11,11 @@
 #include "MouseInputDevice.h"
 
 
-@implementation MWKMouseTracker
-
-
-@synthesize shouldHideCursor;
+@implementation MWKMouseTracker {
+    boost::weak_ptr<mw::MouseInputDevice> mouseInputDeviceWeak;
+    id upDownEventMonitor;
+    id dragEventMonitor;
+}
 
 
 - (id)initWithMouseInputDevice:(boost::shared_ptr<mw::MouseInputDevice>)mouseInputDevice
@@ -41,10 +42,9 @@
 
 - (void)mouseEntered:(NSEvent *)theEvent
 {
-    // NOTE: The cursor isn't hidden until a mouse down event occurs inside the tracking area.  This isn't an
-    // issue for touchscreens, since, in that case, the cursor position changes *only* on mouse down events.
-    // However, it can be confusing when you're trying to test cursor hiding with a regular mouse.
     if (self.shouldHideCursor) {
+        // Ensure that the application is in the foreground, so that the cursor will actually hide
+        [[NSApplication sharedApplication] activateIgnoringOtherApps:YES];
         [NSCursor hide];
     }
     [self postMouseLocation:theEvent];
