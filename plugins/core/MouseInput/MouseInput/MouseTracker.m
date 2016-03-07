@@ -15,6 +15,7 @@
     boost::weak_ptr<mw::MouseInputDevice> mouseInputDeviceWeak;
     id upDownEventMonitor;
     id dragEventMonitor;
+    BOOL cursorHidden;
 }
 
 
@@ -40,12 +41,30 @@
 }
 
 
-- (void)mouseEntered:(NSEvent *)theEvent
+- (void)hideCursor
 {
-    if (self.shouldHideCursor) {
+    if (!cursorHidden) {
         // Ensure that the application is in the foreground, so that the cursor will actually hide
         [[NSApplication sharedApplication] activateIgnoringOtherApps:YES];
         [NSCursor hide];
+        cursorHidden = YES;
+    }
+}
+
+
+- (void)unhideCursor
+{
+    if (cursorHidden) {
+        [NSCursor unhide];
+        cursorHidden = NO;
+    }
+}
+
+
+- (void)mouseEntered:(NSEvent *)theEvent
+{
+    if (self.shouldHideCursor) {
+        [self hideCursor];
     }
     [self postMouseLocation:theEvent];
 }
@@ -54,7 +73,7 @@
 - (void)mouseExited:(NSEvent *)theEvent
 {
     if (self.shouldHideCursor) {
-        [NSCursor unhide];
+        [self unhideCursor];
     }
     [self postMouseLocation:theEvent];
 }

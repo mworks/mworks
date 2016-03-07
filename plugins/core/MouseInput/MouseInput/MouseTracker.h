@@ -17,5 +17,7 @@ namespace mw {
 @property (nonatomic, assign) BOOL shouldHideCursor;
 
 - (id)initWithMouseInputDevice:(boost::shared_ptr<mw::MouseInputDevice>)mouseInputDevice;
+- (void)hideCursor;
+- (void)unhideCursor;
 
 @end

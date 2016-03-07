@@ -52,6 +52,10 @@ MouseInputDevice::~MouseInputDevice() {
     }
     
     if (tracker) {
+        if (hideCursor) {
+            // Ensure that cursor is unhidden
+            [tracker performSelectorOnMainThread:@selector(unhideCursor) withObject:nil waitUntilDone:YES];
+        }
         [tracker release];
     }
     
@@ -90,6 +94,15 @@ bool MouseInputDevice::initialize() {
                                                    userInfo:nil];
         
         [mainDisplayView addTrackingArea:trackingArea];
+        
+        if (hideCursor) {
+            NSPoint mouseLocationInWindowCoords = mainDisplayView.window.mouseLocationOutsideOfEventStream;
+            NSPoint mouseLocationInViewCoords = [mainDisplayView convertPoint:mouseLocationInWindowCoords fromView:nil];
+            if (NSPointInRect(mouseLocationInViewCoords, mainDisplayView.bounds)) {
+                // Ensure that the cursor is initially hidden
+                [tracker hideCursor];
+            }
+        }
     });
     
     return true;
