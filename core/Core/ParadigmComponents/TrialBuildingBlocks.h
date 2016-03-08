@@ -21,7 +21,6 @@
 
 #include "IODevice.h"
 #include "Timer.h"
-#include "ConstantVariable.h"
 #include "SelectionVariable.h"
 #include "ExpressionVariable.h"
 #include "EyeCalibrators.h"

@@ -43,7 +43,7 @@ shared_ptr<ScopedVariableContext> ScopedVariableEnvironment::createNewDefaultCon
 	
 	for(int i = 0; i < variables.getNElements(); i++){
 		shared_ptr<ScopedVariable> var = variables[i];
-		VariableProperties *props = var->getProperties();
+		auto props = var->getProperties();
 		new_context->set(var->getContextIndex(), props->getDefaultValue());
 	}
 	

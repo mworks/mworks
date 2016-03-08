@@ -12,7 +12,6 @@
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string/case_conv.hpp>
 
-#include "VariableReference.h"
 #include "VariableProperties.h"
 #include "VariableRegistry.h"
 #include "SequentialSelection.h"
@@ -28,8 +27,7 @@ BEGIN_NAMESPACE_MW
 
 
 SelectionVariable::SelectionVariable(VariableProperties *props, shared_ptr<Selection> _selection) :
-    Selectable(),
-    Variable(props),
+    ReadOnlyVariable(props),
     selected_index(NO_SELECTION),
     advanceOnAccept(false)
 {
@@ -104,12 +102,6 @@ Datum SelectionVariable::getValue() {
 	}
 	
 	return values[selected_index];
-}
-
-
-Variable *SelectionVariable::clone(){
-	// This isn't quite right, but we can run with it for now
-	return new VariableReference(this);
 }
 
 

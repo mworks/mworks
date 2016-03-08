@@ -15,94 +15,60 @@
 BEGIN_NAMESPACE_MW
 
 
-/*******************************************************************
-*                   GlobalVariable memeber fucntions
-*******************************************************************/
+GlobalVariable::GlobalVariable(Datum value, VariableProperties *props) :
+    Variable(props),
+    value(value)
+{ }
 
-GlobalVariable::GlobalVariable(Datum _value, 
-									 VariableProperties *_props) :
-									 Variable(_props) {
-	value = shared_ptr<Datum>(new Datum(_value));
-	valueLock = shared_ptr<Lockable>(new Lockable());
+
+GlobalVariable::GlobalVariable(VariableProperties *props) :
+    Variable(props)
+{
+    if (props) {
+        value = props->getDefaultValue();
+    }
 }
 
-
-GlobalVariable::GlobalVariable(VariableProperties *_props) :
-									 Variable(_props){
-    if(properties != NULL){
-		value = shared_ptr<Datum>(new Datum(properties->getDefaultValue()));
-	} else {
-		value = shared_ptr<Datum>(new Datum());
-	}
-	
-	valueLock = shared_ptr<Lockable>(new Lockable());
-}
-
-Variable *GlobalVariable::clone(){
-	valueLock->lock();
-	GlobalVariable *returned = 
-		new GlobalVariable((const GlobalVariable&)(*this));
-	
-	returned->value = value;
-	returned->valueLock = valueLock;
-	valueLock->unlock();
-	return (Variable *)returned;
-}
-
-
-/*GlobalVariable::GlobalVariable(ScarabDatum * datum) {
-	
-    if(datum->type == SCARAB_DICT) {
-        ScarabDatum * val;
-        val = scarab_dict_get(datum, scarab_new_string("value"));
-        value = Datum(val);
-    }        
-	
-	type = M_CONSTANT_VARIABLE;
-}*/
-
-GlobalVariable::~GlobalVariable() { }
 
 Datum GlobalVariable::getValue() {
-	valueLock->lock();
-    if(value->getDataType() == M_UNDEFINED) {
-        Datum undef;
-		valueLock->unlock();
-        return undef;
-    }
-    Datum retval = *value;
-	valueLock->unlock();
-	
-    return retval;
-}
-    
-void GlobalVariable::setValue(Datum newval) {
-	setSilentValue(newval);
-	announce();
+    lock_guard lock(valueMutex);
+    return value;
 }
 
-void GlobalVariable::setValue(Datum newval, MWTime time) {
-	setSilentValue(newval, time);
-	announce(time);
-}
-
-void GlobalVariable::setSilentValue(Datum newval) {
-	valueLock->lock();
-	*value=newval;
-	valueLock->unlock();
-	performNotifications(newval);
-}
 
 void GlobalVariable::setSilentValue(Datum newval, MWTime timeUS) {
-	valueLock->lock();
-	*value=newval;
-	valueLock->unlock();
+    {
+        lock_guard lock(valueMutex);
+        value = newval;
+    }
 	performNotifications(newval, timeUS);
-}
-
-bool GlobalVariable::isValue() {
-    return true;
 }
 
 
 END_NAMESPACE_MW
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

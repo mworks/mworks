@@ -9,7 +9,6 @@
 
 
 #include "ScopedVariable.h"
-#include "ConstantVariable.h"
 #include "ExpressionVariable.h"
 #include "Experiment.h"
 #include "ScopedVariableEnvironment.h"
@@ -26,23 +25,6 @@ ScopedVariable::ScopedVariable(VariableProperties *props) : Variable(props){
 	environment = NULL;
 }
 
-//mScopedVariable::ScopedVariable(ScopedVariableEnvironment *env, 
-//								 VariableProperties *props) : Variable(props){
-//	context_index = -1;
-//	environment = env;
-//	if(environment != NULL){
-//		environment->addVariable(this); // will expand the environment's context
-//										// and set context_index
-//	}
-//}
-
-
-ScopedVariable::ScopedVariable(const ScopedVariable& that) :
-										Variable((const Variable&)that) {
-    context_index = that.context_index;
-	environment = that.environment;
-}
-
 
 Datum ScopedVariable::getValue(){  
 
@@ -55,27 +37,6 @@ Datum ScopedVariable::getValue(){
 	return environment->getValue(context_index); 
 }
 
-void ScopedVariable::setValue(Datum _data){ 
-	setSilentValue(_data);
-	announce();
-}
-
-void ScopedVariable::setValue(Datum _data, MWTime _when){
-	setSilentValue(_data, _when);
-	announce(_when);
-}
-
-void ScopedVariable::setSilentValue(Datum _data){ 
-	if(environment == NULL){
-		mwarning(M_SYSTEM_MESSAGE_DOMAIN,
-				 "Scoped variable belongs to invalid (NULL) environmnet");
-		return; // don't crash
-	}
-	
-	environment->setValue(context_index, _data);
-	performNotifications(_data);
-}
-
 void ScopedVariable::setSilentValue(Datum _data, MWTime timeUS){ 
 	if(environment == NULL){
 		mwarning(M_SYSTEM_MESSAGE_DOMAIN,
@@ -85,18 +46,6 @@ void ScopedVariable::setSilentValue(Datum _data, MWTime timeUS){
 	
 	environment->setValue(context_index, _data);
 	performNotifications(_data, timeUS);
-}
-
-
-
-
-////////////////////////////////////////////////////////////////////////////
-// A polymorphic copy constructor
-////////////////////////////////////////////////////////////////////////////
-Variable *ScopedVariable::clone(){
-	ScopedVariable *returned = 
-				new ScopedVariable((const ScopedVariable&)(*this));
-	return (Variable *)returned;
 }
 
 

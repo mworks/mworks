@@ -96,9 +96,7 @@ void ActionTestFixture::testIncrementCounterWithAssignment(){
 																		  M_CONTINUOUS_INFINITE,""));	
 	
 	Variable *v1 = v1_ptr.get();
-	ConstantVariable c((long)1);
-	ExpressionVariable e = *v1 + c;
-	shared_ptr<Variable> e_ptr(e.clone());
+	shared_ptr<Variable> e_ptr(new ParsedExpressionVariable("test1 + 1"));
 	
 	Assignment a(v1_ptr, e_ptr);
 	
@@ -123,9 +121,7 @@ void ActionTestFixture::testIncrementCounterWithAssignmentManyThreads(){
 																		  M_CONTINUOUS_INFINITE,""));	
 	
 	Variable *v1 = v1_ptr.get();
-	ConstantVariable c((long)1);
-	ExpressionVariable e = *v1 + c;
-	shared_ptr<Variable> e_ptr(e.clone());
+	shared_ptr<Variable> e_ptr(new ParsedExpressionVariable("test1 + 1"));
 	
 	Assignment a(v1_ptr, e_ptr);
 	

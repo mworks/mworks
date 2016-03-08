@@ -34,53 +34,7 @@
 BEGIN_NAMESPACE_MW
 
 
-class ExpressionVariable : public Variable {
-    
-protected:
-	
-    Variable *v1;
-    Variable *v2;
-	
-    Operator op;
-	
-public:
-	
-    ExpressionVariable(Variable *_v1 = NULL, Variable *_v2 = NULL, Operator _op = M_PLUS);
-    
-    Operator getOperator() { return op; };
-    
-    virtual Datum getValue(){
-        return getExpressionValue();
-    }
-    
-    virtual void setValue(Datum val){ return; }
-    virtual void setValue(Datum val, MWTime time){ return; }
-    virtual void setSilentValue(Datum _value){ return; }
-    
-    bool isWritable() const MW_OVERRIDE { return false; }
-    
-    // TODO: remove
-    Datum getExpressionValue();
-    
-    Variable *getFirstOperand(){ return v1; }
-    Variable *getSecondOperand(){ return v2; }
-    
-    
-    /**
-     *  A polymorphic copy constructor (inherited from Clonable)
-     */
-    virtual Variable *clone(){
-        ExpressionVariable *returned = new ExpressionVariable((const ExpressionVariable&)(*this));
-        return (Variable *)returned;
-    }
-    
-};
-
-
-class ParsedExpressionVariable : public Variable {
-    
-protected:
-    const stx::ParseTree expression_tree;
+class ParsedExpressionVariable : public ReadOnlyVariable {
     
 public:
     static stx::ParseTree parseExpression(const std::string &expr) {
@@ -128,37 +82,23 @@ public:
     }
 	
     ParsedExpressionVariable(const std::string &expression_string) :
-        Variable(),
         expression_tree(parseExpression(expression_string))
     {
         getValue();
     }
 	
     ParsedExpressionVariable(const stx::ParseTree &expression_tree) :
-        Variable(),
         expression_tree(expression_tree)
     {
         getValue();
     }
     
-    virtual Datum getValue() {
+    Datum getValue() override {
         return Datum(evaluateParseTree(expression_tree));
     }
     
-    virtual void setValue(Datum val){ return; }
-    virtual void setValue(Datum val, MWTime time){ return; }
-    virtual void setSilentValue(Datum _value){ return; }
-    
-    bool isWritable() const MW_OVERRIDE { return false; }
-    
-    /**
-     *  A polymorphic copy constructor (inherited from Clonable)
-     */
-    virtual Variable *clone(){
-        ParsedExpressionVariable *returned = 
-        new ParsedExpressionVariable((const ParsedExpressionVariable&)(*this));
-        return (Variable *)returned;
-    }
+private:
+    const stx::ParseTree expression_tree;
     
 };
 

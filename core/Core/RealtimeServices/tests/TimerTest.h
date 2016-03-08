@@ -27,7 +27,6 @@ class TimerTestFixture : public FullCoreEnvironmentTestFixture {
 	CPPUNIT_TEST( testTimerOverrideMultipleTimes );	
 	CPPUNIT_TEST( testTimerOverrideMultipleTimesFast );
 	CPPUNIT_TEST( testTimerValue );	
-	CPPUNIT_TEST( testTimerClone );	
 
 	CPPUNIT_TEST_SUITE_END();
 
@@ -44,7 +43,6 @@ protected:
 	void testTimerOverrideMultipleTimes();
 	void testTimerOverrideMultipleTimesFast();
 	void testTimerValue();	
-	void testTimerClone();
 
 };
 

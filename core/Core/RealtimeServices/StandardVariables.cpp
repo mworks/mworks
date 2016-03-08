@@ -10,7 +10,6 @@
 
 #include "StandardVariables.h"
 #include "Utilities.h"
-#include "ConstantVariable.h"
 
 #include "TrialBuildingBlocks.h"
 

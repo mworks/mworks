@@ -8,7 +8,7 @@
  */
 
 #include "RegisteredSingletonTests.h"
-#include "MWorksCore/ConstantVariable.h"
+#include "MWorksCore/GenericVariable.h"
 
 
 BEGIN_NAMESPACE_MW

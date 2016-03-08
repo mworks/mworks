@@ -19,7 +19,6 @@
 #include "MWorksCore/Trigger.h"
 #include "MWorksCore/Experiment.h"
 #include "MWorksCore/VariableRegistry.h"
-#include "MWorksCore/ConstantVariable.h"
 #include "MWorksCore/EventBuffer.h"
 
 

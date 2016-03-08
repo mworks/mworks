@@ -9,7 +9,6 @@
  */
 
 #include "GenericVariable.h"
-#include "ConstantVariable.h"
 #include "ExpressionVariable.h"
 #include "GlobalVariable.h"
 #include "ScopedVariable.h"
@@ -30,6 +29,17 @@ BEGIN_NAMESPACE_MW
 /*******************************************************************
 *                   Variable member functions
 *******************************************************************/
+
+
+MWTime Variable::getCurrentTimeUS() {
+    auto clock = Clock::instance(false);
+    if (clock) {
+        return clock->getCurrentTimeUS();
+    }
+    return 0;
+}
+
+
 Variable::Variable(VariableProperties *_properties) : mw::Component() {
     codec_code = -1;
     properties = _properties;
@@ -47,24 +57,6 @@ Variable::Variable(VariableProperties *_properties) : mw::Component() {
 	
 }
 
-Variable::Variable(const Variable& that) {
-   
-    codec_code = that.codec_code;
-    logging = that.logging;
-	if(that.properties != NULL){
-		properties = new VariableProperties(*(that.properties));
-	} else {
-		properties = NULL;
-	}
-	
-	notifications = that.notifications;
-}
-
-
-Variable *Variable::frozenClone(){
-	ConstantVariable *frozen = new ConstantVariable(getValue());
-	return (Variable *)frozen;
-}
 
 // Factory method
 shared_ptr<mw::Component> VariableFactory::createObject(std::map<std::string, std::string> parameters,
@@ -234,8 +226,8 @@ void Variable::addChild(std::map<std::string, std::string> parameters,
 	addNotification(avn);	
 }
 
-void Variable::addNotification(shared_ptr<VariableNotification> _notif) {
-	if(_notif == shared_ptr<VariableNotification>()){
+void Variable::addNotification(const shared_ptr<VariableNotification> &_notif) {
+	if (!_notif) {
 		mwarning(M_PARADIGM_MESSAGE_DOMAIN,
 					"Attempt to add a null notification to a variable");
 		return;
@@ -243,19 +235,11 @@ void Variable::addNotification(shared_ptr<VariableNotification> _notif) {
 	notifications.addToBack(_notif);
 }
 
-void Variable::performNotifications(Datum data) {
-	shared_ptr <Clock> clock = Clock::instance(false);
-	if(clock != 0) {
-		performNotifications(data, clock->getCurrentTimeUS());
-	} else {
-		performNotifications(data, 0);
-	}		
-}
 
 void Variable::performNotifications(Datum data, MWTime timeUS) {
 	notifications.lock();
 	
-	shared_ptr<VariableNotification> node = getFirstNotification(); 
+    shared_ptr<VariableNotification> node = notifications.getFrontmost();
 
 
 	while(node != NULL){
@@ -265,17 +249,6 @@ void Variable::performNotifications(Datum data, MWTime timeUS) {
 	}
 	
 	notifications.unlock();
-}
-
-
-
-void Variable::announce(){
-	shared_ptr <Clock> clock = Clock::instance(false);
-	if(clock != 0) {
-		announce(clock->getCurrentTimeUS());
-	} else {
-		announce(0);
-	}
 }
 
 
@@ -290,7 +263,13 @@ void Variable::announce(MWTime timeUS){
 }
 
 
-std::string Variable::getVariableName(){
+void Variable::setValue(Datum value, MWTime time) {
+    setSilentValue(value, time);
+    announce(time);
+}
+
+
+std::string Variable::getVariableName() const {
 	std::string returnval = "";
 	
 	if(properties != NULL){
@@ -298,15 +277,6 @@ std::string Variable::getVariableName(){
 	}
 	
 	return returnval;
-}
-
-
-WhenType Variable::getLogging() {
-    return logging;
-}
-
-void Variable::setLogging(WhenType when) {
-    logging = when;
 }
 
 
@@ -378,99 +348,6 @@ Variable::operator bool() {
 
 Variable::operator Datum(){
 	return getValue();
-}
-
-
-
-ExpressionVariable Variable::operator+(Variable& v)
-{
-	return ExpressionVariable((Variable *)clone(), (Variable *)(v.clone()), M_PLUS);
-}
-
-ExpressionVariable Variable::operator-(Variable& v)
-{
-	return ExpressionVariable((Variable *)clone(), (Variable *)v.clone(), M_MINUS);
-}
-
-ExpressionVariable Variable::operator*(Variable& v)
-{
-	return ExpressionVariable((Variable *)clone(), (Variable *)v.clone(), M_TIMES);
-}
-
-ExpressionVariable Variable::operator/(Variable& v)
-{
-	return ExpressionVariable((Variable *)clone(), (Variable *)v.clone(), M_DIVIDE);
-}
-
-ExpressionVariable Variable::operator==(Variable& v)
-{
-	return ExpressionVariable((Variable *)clone(), (Variable *)v.clone(), M_IS_EQUAL);
-}
-
-ExpressionVariable Variable::operator!=(Variable& v)
-{
-	return ExpressionVariable((Variable *)clone(), (Variable *)v.clone(), M_IS_NOT_EQUAL);
-}
-
-ExpressionVariable Variable::operator%(Variable& v)
-{
-	return ExpressionVariable((Variable *)clone(), (Variable *)v.clone(), M_MOD);
-}
-
-ExpressionVariable Variable::operator>(Variable& v)
-{
-	return ExpressionVariable((Variable *)clone(), (Variable *)v.clone(), M_IS_GREATER_THAN);
-}
-
-ExpressionVariable Variable::operator<(Variable& v)
-{
-	return ExpressionVariable((Variable *)clone(), (Variable *)v.clone(), M_IS_LESS_THAN);
-}
-
-ExpressionVariable Variable::operator>=(Variable& v)
-{
-	return ExpressionVariable((Variable *)clone(), (Variable *)v.clone(), M_IS_GREATER_THAN_OR_EQUAL);
-}
-
-ExpressionVariable Variable::operator<=(Variable& v)
-{
-	return ExpressionVariable((Variable *)clone(), (Variable *)v.clone(), M_IS_LESS_THAN_OR_EQUAL);
-}
-
-ExpressionVariable Variable::operator&&(Variable& v)
-{
-	return ExpressionVariable((Variable *)clone(), (Variable *)v.clone(), M_AND);
-}
-
-ExpressionVariable Variable::operator||(Variable& v)
-{
-	return ExpressionVariable((Variable *)clone(), (Variable *)v.clone(), M_OR);
-}
-
-ExpressionVariable Variable::operator!()
-{
-	return ExpressionVariable((Variable *)clone(), NULL, M_NOT);
-}
-
-
-ExpressionVariable Variable::operator++()
-{
-	return ExpressionVariable((Variable *)clone(), NULL, M_INCREMENT);
-}
-
-ExpressionVariable Variable::operator--()
-{
-	return ExpressionVariable((Variable *)clone(), NULL, M_DECREMENT);
-}
-
-ExpressionVariable Variable::operator-()
-{
-	return ExpressionVariable((Variable *)clone(), NULL, M_UNARY_MINUS);
-}
-
-ExpressionVariable Variable::operator+()
-{
-	return ExpressionVariable((Variable *)clone(), NULL, M_UNARY_PLUS);
 }
 
 

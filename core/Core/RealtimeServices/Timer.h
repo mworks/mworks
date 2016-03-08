@@ -37,7 +37,7 @@ public:
 };
 
 
-class Timer : public Variable {//, public enable_shared_from_this<Timer> {
+class Timer : public ReadOnlyVariable {
 
 protected:
 	shared_ptr<bool> has_expired;
@@ -58,13 +58,8 @@ public:
 	bool hasExpired();
 	void forceExpired();
 	void cleanUp();
- Datum getValue();
-	void setValue(Datum v){ }
-	void setValue(Datum v, MWTime t){ }
-	void setSilentValue(Datum _value){ }
-    bool isWritable() const MW_OVERRIDE { return false; }
-	Variable *clone();
-	
+    
+    Datum getValue() override;
 	
 };
 

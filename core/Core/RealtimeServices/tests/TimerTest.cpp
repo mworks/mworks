@@ -319,28 +319,4 @@ void TimerTestFixture::testTimerValue(){
 }
 
 
-void TimerTestFixture::testTimerClone(){
-	
-	shared_ptr<Timer> t(new Timer());
-	shared_ptr<Timer> t2(new Timer(*t));
-	
-	t->startMS(100);
-	
-	shared_ptr <Clock> clock = Clock::instance();
-	clock->sleepMS(10);
-	CPPUNIT_ASSERT( t->hasExpired() == false );
-	CPPUNIT_ASSERT( t2->hasExpired() == false );
-	
-	clock->sleepMS(50);
-	
-	CPPUNIT_ASSERT( t->hasExpired() == false );
-	CPPUNIT_ASSERT( t2->hasExpired() == false );
-	
-	clock->sleepMS(70);
-	
-	CPPUNIT_ASSERT( t->hasExpired() == true );
-	CPPUNIT_ASSERT( t2->hasExpired() == true );
-}
-
-
 END_NAMESPACE_MW

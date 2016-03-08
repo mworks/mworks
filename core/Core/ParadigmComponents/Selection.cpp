@@ -14,7 +14,6 @@
 #include "Selection.h"
 #include "Selectable.h"
 #include "Experiment.h"
-#include "ConstantVariable.h"
 
 
 BEGIN_NAMESPACE_MW

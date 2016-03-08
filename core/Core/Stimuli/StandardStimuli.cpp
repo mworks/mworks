@@ -13,7 +13,6 @@
 
 #include "StandardStimuli.h"
 #include "StandardVariables.h"
-#include "ConstantVariable.h"
 #include "ComponentRegistry.h"
 //#include "ComponentFactory.h"
 #include <boost/filesystem/path.hpp>

@@ -27,9 +27,6 @@ class VariableTestFixture : public FullCoreEnvironmentTestFixture {
 	CPPUNIT_TEST_SUITE( VariableTestFixture );
 	CPPUNIT_TEST( testSimpleConstant );
 	CPPUNIT_TEST( testSimpleGlobal );
-	CPPUNIT_TEST( testSimpleExpression );
-	CPPUNIT_TEST( testSimpleClone );
-	CPPUNIT_TEST( testExpressionClone );
 	CPPUNIT_TEST_SUITE_END();
 	
 	
@@ -38,9 +35,6 @@ public:
 
 	void testSimpleConstant();
 	void testSimpleGlobal();
-	void testSimpleExpression();
-	void testSimpleClone();
-	void testExpressionClone();
 	
 	
 };

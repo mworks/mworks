@@ -29,21 +29,6 @@ class ScopedVariable : public Variable {
 	public:
 	
 	ScopedVariable(VariableProperties *_properties);
-	
-	
-	ScopedVariable(const ScopedVariable&);
-	
-	
-	/**
-	 *  A polymorphic copy constructor
-	 */
-	virtual Variable *clone();
-	
-	
-	
-//	ScopedVariable(ScarabDatum * scarab_package);
-	
-	virtual ~ScopedVariable(){ }
 
 
 	// Accessors
@@ -55,14 +40,10 @@ class ScopedVariable : public Variable {
 
 
 	// The scoped variable delegates its get and set methods
-	virtual Datum getValue();
-	
-	virtual void setValue(Datum _data);	
-	virtual void setValue(Datum _data, MWTime _when);
-	virtual void setSilentValue(Datum _value);
-	virtual void setSilentValue(Datum _value,  MWTime _when);
+    Datum getValue() override;
+    void setSilentValue(Datum _value, MWTime _when) override;
     
-    bool isWritable() const MW_OVERRIDE { return true; }
+    bool isWritable() const override { return true; }
 	
 };
 

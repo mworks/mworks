@@ -28,67 +28,48 @@
 #ifndef	GLOBAL_VARIABLE_H_
 #define GLOBAL_VARIABLE_H_
 
+#include <mutex>
+
 #include "GenericVariable.h"
-#include "boost/shared_ptr.hpp"
 
 
 BEGIN_NAMESPACE_MW
 
 
-class GlobalVariable : public Variable{
-    protected:
-		shared_ptr<Datum> value;
-		shared_ptr<Lockable> valueLock;
-
-	public:
-        /**
-         * Sets the data value to '_value'
-         */
-        GlobalVariable(Datum _value, VariableProperties *interface=NULL);
-		        
-		/**
-         * Constructs a value object from an interface setting object
-         */
-        GlobalVariable(VariableProperties *_interface);
-        
-		
-        /**
-         * Constructs a value object from a datum
-         */
-        //mGlobalVariable(ScarabDatum *package);
-        
-		
-		/**
-		 *  A polymorphic copy constructor
-		 */
-		virtual Variable *clone();
-		
-        virtual ~GlobalVariable();
-		
-        /**
-         * Returns the value data or returns a new data object initialized
-         * to zero if the old data object type was M_UNDEFINED.
-         */
-        virtual Datum getValue();
-        
-		
-        /**
-         * Sets the data value of this parameter
-         */
-		void setValue(Datum newval);
-		void setValue(Datum newval, MWTime time);
-		void setSilentValue(Datum newval);
-		void setSilentValue(Datum newval, MWTime time);
+class GlobalVariable : public Variable {
     
-        /**
-         * The value can be modified
-         */
-        bool isWritable() const MW_OVERRIDE { return true; }
+public:
+    /**
+     * Sets the data value to '_value'
+     */
+    explicit GlobalVariable(Datum _value, VariableProperties *interface = nullptr);
     
-        /**
-         * Returns true, always
-         */
-		bool isValue();
+    /**
+     * Constructs a value object from an interface setting object
+     */
+    explicit GlobalVariable(VariableProperties *_interface);
+    
+    /**
+     * Returns the value data or returns a new data object initialized
+     * to zero if the old data object type was M_UNDEFINED.
+     */
+    Datum getValue() override;
+    
+    /**
+     * Sets the data value of this parameter
+     */
+    void setSilentValue(Datum newval, MWTime time) override;
+    
+    /**
+     * The value can be modified
+     */
+    bool isWritable() const override { return true; }
+    
+private:
+    Datum value;
+    std::mutex valueMutex;
+    using lock_guard = std::lock_guard<decltype(valueMutex)>;
+    
 };
 
 
@@ -96,4 +77,29 @@ END_NAMESPACE_MW
 
 
 #endif
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

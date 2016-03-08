@@ -10,7 +10,6 @@
 #define _UNRESOLVED_REFERENCE_VARIABLE
 
 #include "GenericVariable.h"
-#include "ConstantVariable.h"
 #include "ExpressionVariable.h"
 #include "ComponentRegistry.h"
 #include <string>
@@ -77,7 +76,7 @@ class UnresolvedVariableString {
 
 };
 
-class UnresolvedReferenceVariable : public Variable {
+class UnresolvedReferenceVariable : public ReadOnlyVariable {
 
 	protected:
 	
@@ -96,7 +95,7 @@ class UnresolvedReferenceVariable : public Variable {
 		}
 		
 		
-		virtual Datum getValue(){
+        Datum getValue() override {
 			
 			string resolved_string = unresolved_string.resolve();
 			
@@ -111,23 +110,6 @@ class UnresolvedReferenceVariable : public Variable {
 			
 			return Datum();
 		}
-		
-		
-		virtual void setValue(Datum val){ return; }
-		virtual void setValue(Datum val, MWTime time){ return; }
-		virtual void setSilentValue(Datum _value){ return; }
-        bool isWritable() const MW_OVERRIDE { return false; }
-		
-		/**
-		 *  A polymorphic copy constructor
-		 */
-		virtual Variable *clone(){
-			UnresolvedReferenceVariable *returned = 
-					new UnresolvedReferenceVariable((const UnresolvedReferenceVariable&)(*this));
-			return (Variable *)returned;
-		}
-
-		
 
 };
 

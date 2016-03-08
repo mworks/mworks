@@ -139,8 +139,6 @@
 		5C0E757209D1A886002295FB /* ZenScheduler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CF73BCD0862537E00F453C3 /* ZenScheduler.cpp */; };
 		5C18E25608A167BE00AA734D /* VariableNotification.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C18E25408A167BE00AA734D /* VariableNotification.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5C18E25708A167BE00AA734D /* VariableNotification.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C18E25508A167BE00AA734D /* VariableNotification.cpp */; };
-		5C1D35330BBAAFEA00AB6DA3 /* ConstantVariable.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C1D35310BBAAFEA00AB6DA3 /* ConstantVariable.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5C1D35340BBAAFEA00AB6DA3 /* ConstantVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C1D35320BBAAFEA00AB6DA3 /* ConstantVariable.cpp */; };
 		5C25932C10AC95180098558D /* EventHandlerConduitTest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C25932A10AC95170098558D /* EventHandlerConduitTest.h */; };
 		5C28909E0850DD96002CC31A /* LegacyIODevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2CE13A07E9F8D300C68AEF /* LegacyIODevice.cpp */; };
 		5C28909F0850DD9A002CC31A /* LegacyIODevice.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2CE13B07E9F8D300C68AEF /* LegacyIODevice.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -263,8 +261,6 @@
 		5CF85602119D8DCD004167A5 /* Shader.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CF85600119D8DCD004167A5 /* Shader.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5CF85611119D8FC3004167A5 /* glew.c in Sources */ = {isa = PBXBuildFile; fileRef = 5CF85610119D8FC3004167A5 /* glew.c */; };
 		5CF85613119D8FD9004167A5 /* glew.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CF85612119D8FD9004167A5 /* glew.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5CFC3A820AFD376D00A3C171 /* VariableReference.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CFC3A800AFD376D00A3C171 /* VariableReference.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5CFC3A830AFD376D00A3C171 /* VariableReference.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CFC3A810AFD376D00A3C171 /* VariableReference.cpp */; };
 		681F79240CA97E3E00F2F133 /* SelectionVariableTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 681F79220CA97E3E00F2F133 /* SelectionVariableTest.cpp */; };
 		681F79250CA97E3E00F2F133 /* SelectionVariableTest.h in Headers */ = {isa = PBXBuildFile; fileRef = 681F79230CA97E3E00F2F133 /* SelectionVariableTest.h */; };
 		682A94780CA9A933001DE3E2 /* SequentialSelection.h in Headers */ = {isa = PBXBuildFile; fileRef = 682A94760CA9A933001DE3E2 /* SequentialSelection.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -754,8 +750,6 @@
 		5C0E757A09D1A886002295FB /* LowPrioritySchedulerPlugin.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LowPrioritySchedulerPlugin.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		5C18E25408A167BE00AA734D /* VariableNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VariableNotification.h; path = Core/Variables/VariableNotification.h; sourceTree = SOURCE_ROOT; };
 		5C18E25508A167BE00AA734D /* VariableNotification.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = VariableNotification.cpp; path = Core/Variables/VariableNotification.cpp; sourceTree = SOURCE_ROOT; };
-		5C1D35310BBAAFEA00AB6DA3 /* ConstantVariable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConstantVariable.h; path = Core/Variables/ConstantVariable.h; sourceTree = "<group>"; };
-		5C1D35320BBAAFEA00AB6DA3 /* ConstantVariable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ConstantVariable.cpp; path = Core/Variables/ConstantVariable.cpp; sourceTree = "<group>"; };
 		5C2386B20E8D18FA00CDC4FC /* CommunicationsRefactoring.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CommunicationsRefactoring.txt; sourceTree = "<group>"; wrapsLines = 1; };
 		5C2386B40E8D18FA00CDC4FC /* Conduit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Conduit.cpp; sourceTree = "<group>"; };
 		5C2386B50E8D18FA00CDC4FC /* Conduit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Conduit.h; sourceTree = "<group>"; };
@@ -886,8 +880,6 @@
 		5CF85600119D8DCD004167A5 /* Shader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Shader.h; sourceTree = "<group>"; };
 		5CF85610119D8FC3004167A5 /* glew.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = glew.c; sourceTree = "<group>"; };
 		5CF85612119D8FD9004167A5 /* glew.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = glew.h; sourceTree = "<group>"; };
-		5CFC3A800AFD376D00A3C171 /* VariableReference.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VariableReference.h; path = Core/Variables/VariableReference.h; sourceTree = "<group>"; };
-		5CFC3A810AFD376D00A3C171 /* VariableReference.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = VariableReference.cpp; path = Core/Variables/VariableReference.cpp; sourceTree = "<group>"; };
 		681F79220CA97E3E00F2F133 /* SelectionVariableTest.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = SelectionVariableTest.cpp; sourceTree = "<group>"; };
 		681F79230CA97E3E00F2F133 /* SelectionVariableTest.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SelectionVariableTest.h; sourceTree = "<group>"; };
 		682A94760CA9A933001DE3E2 /* SequentialSelection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SequentialSelection.h; path = Core/ParadigmComponents/SequentialSelection.h; sourceTree = "<group>"; };
@@ -1866,8 +1858,6 @@
 				5C18E25508A167BE00AA734D /* VariableNotification.cpp */,
 				5C71CD6909AA507700EAD886 /* GlobalVariable.h */,
 				5C71CD6809AA507700EAD886 /* GlobalVariable.cpp */,
-				5C1D35310BBAAFEA00AB6DA3 /* ConstantVariable.h */,
-				5C1D35320BBAAFEA00AB6DA3 /* ConstantVariable.cpp */,
 				5C2B511F0BB6838200928E03 /* ScopedVariable.h */,
 				5C2B51200BB6838200928E03 /* ScopedVariable.cpp */,
 				5C0B04AA0BB8A46500FD57B9 /* ScopedVariableEnvironment.h */,
@@ -1876,8 +1866,6 @@
 				DA2CE1E607E9F97F00C68AEF /* ScopedVariableContext.cpp */,
 				5C0C4A8409B64DAD0021D3CC /* SelectionVariable.h */,
 				5C0C4A8509B64DAD0021D3CC /* SelectionVariable.cpp */,
-				5CFC3A800AFD376D00A3C171 /* VariableReference.h */,
-				5CFC3A810AFD376D00A3C171 /* VariableReference.cpp */,
 				5C643E9F0D501E99004A8BD2 /* UnresolvedReferenceVariable.h */,
 				5C643EA00D501E99004A8BD2 /* UnresolvedReferenceVariable.cpp */,
 				DA2CE1A907E9F95600C68AEF /* StandardVariables.h */,
@@ -2318,11 +2306,9 @@
 				5CBA76DC0AE06F6500D6F4A6 /* StandardSounds.h in Headers */,
 				5CBA76E20AE0706300D6F4A6 /* OpenALContextManager.h in Headers */,
 				5CAE8BF70AE4049E0013DB19 /* alut.h in Headers */,
-				5CFC3A820AFD376D00A3C171 /* VariableReference.h in Headers */,
 				0EAA0DE70B98FC1500331AA5 /* SimpleStaircase.h in Headers */,
 				5C2B51210BB6838200928E03 /* ScopedVariable.h in Headers */,
 				5C0B04AC0BB8A46500FD57B9 /* ScopedVariableEnvironment.h in Headers */,
-				5C1D35330BBAAFEA00AB6DA3 /* ConstantVariable.h in Headers */,
 				5C7CEFE30BC5D7AB00434931 /* LegacyBuffers.h in Headers */,
 				5C7CF4EF0BC6B48D00434931 /* LinkedList.h in Headers */,
 				5C76674F0C1BB28C00B1203C /* StimulusNode.h in Headers */,
@@ -2815,11 +2801,9 @@
 				5CBA76DD0AE06F6500D6F4A6 /* StandardSounds.cpp in Sources */,
 				5CBA76E30AE0706300D6F4A6 /* OpenALContextManager.cpp in Sources */,
 				5CAE8BF80AE4049E0013DB19 /* alut.c in Sources */,
-				5CFC3A830AFD376D00A3C171 /* VariableReference.cpp in Sources */,
 				0EAA0DE60B98FC1500331AA5 /* SimpleStaircase.cpp in Sources */,
 				5C2B51220BB6838200928E03 /* ScopedVariable.cpp in Sources */,
 				5C0B04AD0BB8A46500FD57B9 /* ScopedVariableEnvironment.cpp in Sources */,
-				5C1D35340BBAAFEA00AB6DA3 /* ConstantVariable.cpp in Sources */,
 				5C7CF2FE0BC69E3900434931 /* LegacyBuffers.cpp in Sources */,
 				5C7667500C1BB28C00B1203C /* StimulusNode.cpp in Sources */,
 				6860595B0C91CB8700CD0D16 /* OutgoingEventListener.cpp in Sources */,

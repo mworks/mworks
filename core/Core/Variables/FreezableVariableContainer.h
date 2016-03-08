@@ -50,8 +50,6 @@ public:
     FreezableVariableContainer(shared_ptr<Variable> _var);
     FreezableVariableContainer(const FreezableVariableContainer& tocopy);
     
-    Variable * clone();
-    
     // If should_freeze is true, make this variable behave as 
     // if it were a constant variable
     void freeze(bool should_freeze = true);
@@ -59,13 +57,12 @@ public:
     
     // Return the wrapped variable's value if not frozen,
     // otherwise return the stored (constant) value
-    Datum getValue();
+    Datum getValue() override;
     
     // Pass-through methods
-    void setValue(Datum value);
-    void setValue(Datum value, MWTime time);
-    void setSilentValue(Datum value);
-    bool isWritable() const MW_OVERRIDE;
+    void setValue(Datum value, MWTime time) override;
+    void setSilentValue(Datum value, MWTime time) override;
+    bool isWritable() const override;
 
 };
     

@@ -30,7 +30,7 @@ bool VariableSave::saveExperimentwideVariables(const boost::filesystem::path &fi
 	for(i = variable_list.begin(); i != variable_list.end(); i++)
 	{
 		shared_ptr<Variable> var = *i;
-		VariableProperties *interface = var->getProperties();
+		auto interface = var->getProperties();
 		
 		if(interface->getPersistant()){
             variables_to_write.push_back(var);

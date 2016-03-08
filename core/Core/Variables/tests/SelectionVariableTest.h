@@ -18,7 +18,6 @@
 #include <cppunit/extensions/HelperMacros.h>
 
 #include "MWorksCore/SelectionVariable.h"
-#include "MWorksCore/ConstantVariable.h"
 
 
 BEGIN_NAMESPACE_MW

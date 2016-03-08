@@ -93,19 +93,19 @@ class VariableProperties {
         // used in network communication
         VariableProperties(ScarabDatum * datum);
     
-        Datum getDefaultValue();
-		WhenType getLogging();
-        std::string getTagName();
-		bool getPersistant();
-        bool getExcludeFromDataFile();
-		std::vector <std::string> getGroups();
+        const Datum& getDefaultValue() const;
+		WhenType getLogging() const;
+        const std::string& getTagName() const;
+		bool getPersistant() const;
+        bool getExcludeFromDataFile() const;
+		const std::vector<std::string>& getGroups() const;
         
 		/**
          * Packages this interface setting object into a dictionary.
          */
-        ScarabDatum *toScarabDatum();
+        ScarabDatum *toScarabDatum() const;
         
-		operator Datum();
+		operator Datum() const;
 };
 
 

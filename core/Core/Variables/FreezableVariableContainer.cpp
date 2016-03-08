@@ -31,10 +31,6 @@ FreezableVariableContainer::FreezableVariableContainer(const FreezableVariableCo
     frozen_value = tocopy.frozen_value;
 }
 
-Variable * FreezableVariableContainer::clone(){
-    return (Variable *)new FreezableVariableContainer(*this);
-}
-
 void FreezableVariableContainer::freeze(bool should_freeze){
     
     boost::mutex::scoped_lock locker(lock);
@@ -63,23 +59,16 @@ Datum FreezableVariableContainer::getValue(){
     }
 }
 
-// Pass-through methods
-void FreezableVariableContainer::setValue(Datum value){
-    // this can rely on the contained object's locking
-    // for thread safety
-    variable->setValue(value);
-}
-
 void FreezableVariableContainer::setValue(Datum value, MWTime time){
     // this can rely on the contained object's locking
     // for thread safety
     variable->setValue(value, time);
 }
 
-void FreezableVariableContainer::setSilentValue(Datum value){
+void FreezableVariableContainer::setSilentValue(Datum value, MWTime time) {
     // this can rely on the contained object's locking
     // for thread safety
-    variable->setSilentValue(value);
+    variable->setSilentValue(value, time);
 }
 
 bool FreezableVariableContainer::isWritable() const {

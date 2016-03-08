@@ -350,28 +350,6 @@ shared_ptr<Timer> VariableRegistry::createTimer(VariableProperties *props) {
 	return new_timer;
 }
 
-//shared_ptr<EmptyVariable> VariableRegistry::addPlaceholderVariable(VariableProperties *props){
-//	
-//	VariableProperties *props_copy;
-//	
-//	if(props != NULL){
-//		props_copy = new VariableProperties(*props);	
-//	} else {
-//		props_copy = NULL;
-//	}
-//	
-//	
-//	shared_ptr<EmptyVariable> returnref(new EmptyVariable(props_copy));
-//    
-//    master_variable_list.push_back(returnref);
-//	int codec_code = master_variable_list.size() + N_RESERVED_CODEC_CODES - 1;
-//	
-//	returnref->setCodecCode(codec_code);
-//	returnref->setEventTarget(static_pointer_cast<EventReceiver>(event_buffer));
-//	
-//	return returnref;
-//}
-
 
 shared_ptr<SelectionVariable> VariableRegistry::addSelectionVariable(VariableProperties *props){
 	
@@ -423,14 +401,6 @@ shared_ptr<ConstantVariable> VariableRegistry::createConstantVariable(Datum valu
 	return addConstantVariable(value);
 }
 
-//shared_ptr<EmptyVariable> VariableRegistry::createPlaceholderVariable(VariableProperties *props){
-//    boost::mutex::scoped_lock s_lock(lock);
-//
-//	shared_ptr<EmptyVariable> var = addPlaceholderVariable(props);
-//	
-//	return var;
-//}
-
 
 shared_ptr<SelectionVariable> VariableRegistry::createSelectionVariable(VariableProperties *props){
     boost::mutex::scoped_lock s_lock(lock);
@@ -467,7 +437,7 @@ Datum VariableRegistry::generateCodecDatum() {
 			continue;
 		}
         
-		VariableProperties *props = var->getProperties();
+		auto props = var->getProperties();
 		
         if(props == NULL){ 
             continue; 

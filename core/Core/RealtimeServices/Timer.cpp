@@ -32,7 +32,7 @@ MWTime TimeBase::getTime(){
 
 
 
-Timer::Timer(VariableProperties *props) : Variable(props) {
+Timer::Timer(VariableProperties *props) : ReadOnlyVariable(props) {
 	internalLock = shared_ptr<boost::mutex>(new boost::mutex());
 	//schedule_node_lock = shared_ptr<boost::mutex>(new boost::mutex());
 	has_expired = shared_ptr<bool>(new bool(true));
@@ -111,15 +111,6 @@ void Timer::cleanUp(){}
 Datum Timer::getValue() {
 	boost::mutex::scoped_lock lock(*internalLock);
 	return Datum(M_BOOLEAN, *has_expired);
-}
-
-////////////////////////////////////////////////////////////////////////////
-// A polymorphic copy constructor
-////////////////////////////////////////////////////////////////////////////
-Variable *Timer::clone(){
-	Timer *returned = 
-	new Timer((const Timer&)(*this));
-	return (Variable *)returned;
 }
 
 

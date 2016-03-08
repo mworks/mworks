@@ -56,57 +56,25 @@
 #include "LinkedList.h"
 #include "VariableNotification.h"
 #include "Utilities.h"
+#include <boost/noncopyable.hpp>
 #include <boost/shared_ptr.hpp>
 #include <list>
-BEGIN_NAMESPACE_MW
-class EventBuffer;
 
-enum VariableScope{ M_INVALID_SCOPE = -1, 
-					 M_EXPERIMENTWIDE_SCOPE, 
-					 M_LOCAL_SCOPE };
+
+BEGIN_NAMESPACE_MW
 
 
 enum WhenType{M_NEVER = -1, M_WHEN_IDLE, M_ALWAYS, M_AT_STARTUP, M_EVERY_TRIAL, M_WHEN_CHANGED};
 
-#define M_TRUE_PARAM Variable::trueParam()
-#define M_FALSE_PARAM Variable::falseParam()
 
-// number of values in the dictionary that makeup this objects scarab package.
-const int __VARIABLE_PACKAGE_SIZE__ = 6;
-const int __VALUE_PACKAGE_SIZE__ = 1;
+// Forward declarations
+class EventBuffer;
+class VariableProperties;
 
 
-enum Operator {	M_PLUS,
-					M_INCREMENT,
-					M_MINUS,
-					M_DECREMENT,
-					M_TIMES,
-					M_DIVIDE,
-					M_MOD,
-					M_IS_EQUAL,
-					M_IS_NOT_EQUAL,
-					M_IS_GREATER_THAN,
-					M_IS_LESS_THAN,
-					M_IS_GREATER_THAN_OR_EQUAL,
-					M_IS_LESS_THAN_OR_EQUAL,
-					M_FLOAT_CAST,
-					M_INTEGER_CAST,
-					M_BOOLEAN_CAST,
-					M_AND,
-					M_OR,
-					M_NOT,
-					M_UNARY_MINUS,
-					M_UNARY_PLUS
-				};
+class Variable : public mw::Component, boost::noncopyable {
 
-
-class VariableProperties; // defined in VariableProperties.h
-class ExpressionVariable;
-
-
-class Variable : public mw::Component {
-
-protected:
+private:
 
 	VariableProperties *properties;
 	LinkedList<VariableNotification> notifications;
@@ -117,109 +85,75 @@ protected:
 						// the event stream
 						
 	shared_ptr<EventReceiver> event_target;
+    
+    static MWTime getCurrentTimeUS();
 
 public:
 
-	// Constructors & Destructors
-	Variable(VariableProperties *properties=NULL);
-	Variable(const Variable& tocopy);
-	virtual ~Variable();
+    // Destructor
+    ~Variable();
+    
+	// Constructors
+	explicit Variable(VariableProperties *properties = nullptr);
 
-	// Polymorphic copying
-	virtual Variable *clone() = 0;
-	virtual Variable *frozenClone();
-
-
+    
 	// Accessors
 
-	virtual void setEventTarget(shared_ptr<EventReceiver> _event_target){
+    void setEventTarget(const shared_ptr<EventReceiver> &_event_target) {
 		event_target = _event_target;
 	}
 
-	virtual VariableProperties *getProperties(){ return properties; }
-	virtual void setProperties(VariableProperties *props){ properties=props; }
+    const VariableProperties * getProperties() const { return properties; }
 	
-	std::string getVariableName();
+	std::string getVariableName() const;
 	
-	int getCodecCode(){ return codec_code; }
-	void setCodecCode(int _code){  codec_code = _code; }
+	int getCodecCode() const { return codec_code; }
+	void setCodecCode(int _code) { codec_code = _code; }
 	
-	WhenType getLogging();
-	void setLogging(WhenType when);
+    WhenType getLogging() const { return logging; }
+    void setLogging(WhenType when) { logging = when; }
 	
 
 	// Attaching notifications to variables for asynchronous "spring-loading"
-	virtual void addNotification(shared_ptr<VariableNotification> note);
-	void lockNotifications(){ notifications.lock(); }
-	void unlockNotifications(){ notifications.unlock(); }
+    void addNotification(const shared_ptr<VariableNotification> &note);
 	
-	shared_ptr<VariableNotification> getFirstNotification(){
-		return notifications.getFrontmost();
-	}
-	
-	virtual void performNotifications(Datum data);
-	virtual void performNotifications(Datum data, MWTime timeUS);
+    void performNotifications(Datum data, MWTime timeUS = getCurrentTimeUS());
 	
 	// Announcing a variable's value to the event stream
-	virtual void announce();
-	virtual void announce(MWTime _when);
+    void announce(MWTime when = getCurrentTimeUS());
 	
 	// Basic value get and set (overridden in subclasses)
 	virtual Datum getValue() = 0;
-	virtual void setValue(Datum _data) = 0;
-	virtual void setValue(Datum _data, MWTime _when) = 0;
-	virtual void setSilentValue(Datum _value) = 0;
+	virtual void setValue(Datum value, MWTime when = getCurrentTimeUS());
+    virtual void setSilentValue(Datum value, MWTime when = getCurrentTimeUS()) = 0;
 	
     // Can the value be modified?
     virtual bool isWritable() const = 0;
 	
-	// Hopefully to be removed
-	//virtual ScarabDatum * toScarabPackage();
-	
 	// Equals operators
-	virtual void operator=(long a);
-	virtual void operator=(int a);
-	virtual void operator=(short a);
-	virtual void operator=(double a);
-	virtual void operator=(float a);
-	virtual void operator=(bool a);
-	virtual void operator=(MWTime a);
-	virtual void operator=(std::string a);
-	virtual void operator=(Datum a);
+	void operator=(long a);
+	void operator=(int a);
+	void operator=(short a);
+	void operator=(double a);
+	void operator=(float a);
+	void operator=(bool a);
+	void operator=(MWTime a);
+	void operator=(std::string a);
+	void operator=(Datum a);
 	
 	// Cast operators
-	virtual operator long();
-	virtual operator int();
-	virtual operator short();
-	virtual operator double();
-	virtual operator float();
-	virtual operator bool();
-	virtual operator MWTime();
-	virtual operator Datum();
-			
-	// Arithmetic operator overloads
-	virtual ExpressionVariable operator+(Variable& v);
-	virtual ExpressionVariable operator-(Variable& v);
-	virtual ExpressionVariable operator*(Variable& v);
-	virtual ExpressionVariable operator/(Variable& v);
-	virtual ExpressionVariable operator==(Variable& v);
-	virtual ExpressionVariable operator!=(Variable& v);
-	virtual ExpressionVariable operator%(Variable& v);
-	virtual ExpressionVariable operator>(Variable& v);
-	virtual ExpressionVariable operator<(Variable& v);
-	virtual ExpressionVariable operator>=(Variable& v);
-	virtual ExpressionVariable operator<=(Variable& v);
-	virtual ExpressionVariable operator&&(Variable& v);
-	virtual ExpressionVariable operator||(Variable& v);
-	virtual ExpressionVariable operator++();
-	virtual ExpressionVariable operator--();
-	virtual ExpressionVariable operator!();
-	virtual ExpressionVariable operator-();
-	virtual ExpressionVariable operator+();	
+	operator long();
+	operator int();
+	operator short();
+	operator double();
+	operator float();
+	operator bool();
+	operator MWTime();
+	operator Datum();
 	
-	virtual void addChild(std::map<std::string, std::string> parameters,
-						  ComponentRegistry *reg,
-						  shared_ptr<mw::Component> child);
+    void addChild(std::map<std::string, std::string> parameters,
+                  ComponentRegistry *reg,
+                  shared_ptr<mw::Component> child) override;
 };
 
 
@@ -229,35 +163,74 @@ typedef boost::shared_ptr<Variable> VariablePtr;
 class VariableFactory : public ComponentFactory {
 
 	// Factory method
-	virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-												ComponentRegistry *reg);
+    shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
+                                           ComponentRegistry *reg) override;
 
 };
 
 
-class EmptyVariable : public Variable {
-
-public:
-
-	EmptyVariable(VariableProperties *p = NULL) : Variable(p){ };
-	
-	virtual void announce(){ }
-	virtual void announce(MWTime t){ }
-	
-	virtual Datum getValue(){  return Datum(0L); }
-	virtual void setValue(Datum v){ }
-	virtual void setValue(Datum v, MWTime t){ }
-	virtual void setSilentValue(Datum _value){ return; }
+class ReadOnlyVariable : public Variable {
     
-    bool isWritable() const MW_OVERRIDE { return false; }
-	
-	virtual Variable *clone(){ 
-		return new EmptyVariable((const EmptyVariable&)(*this));
-	}
-
+public:
+    using Variable::Variable;
+    
+    void setValue(Datum v, MWTime t) override { }
+    void setSilentValue(Datum _value, MWTime _when) override { }
+    
+    bool isWritable() const override { return false; }
+    
 };
+
+
+class ConstantVariable : public ReadOnlyVariable {
+    
+public:
+    explicit ConstantVariable(const Datum &value) : value(value) { }
+    
+    Datum getValue() override { return value; }
+    
+private:
+    const Datum value;
+    
+};
+
+
+class EmptyVariable : public ConstantVariable {
+    
+public:
+    EmptyVariable() : ConstantVariable(Datum(0)) { }
+    
+};
+
+
 END_NAMESPACE_MW
 
+
 #endif
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

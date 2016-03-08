@@ -10,7 +10,6 @@
  */
 
 #include "TrialBuildingBlocks.h"
-#include "ConstantVariable.h"
 #include "StimulusDisplay.h"
 #include "ExpressionVariable.h"
 

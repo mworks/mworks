@@ -65,9 +65,8 @@
 
 #include "Event.h"
 #include "EventBuffer.h"
-#include "GenericVariable.h"
+#include "GlobalVariable.h"
 #include "ScopedVariable.h"
-#include "ConstantVariable.h"
 #include "SelectionVariable.h"
 #include "Timer.h"
 #include "VariableProperties.h"
@@ -187,7 +186,6 @@ public:
 	
 	shared_ptr<ConstantVariable> createConstantVariable(Datum value);
 	shared_ptr<Timer> createTimer(VariableProperties *p = NULL);
-	shared_ptr<EmptyVariable> createPlaceholderVariable(VariableProperties *p = NULL);
 	
 	
 	// ********************************************************

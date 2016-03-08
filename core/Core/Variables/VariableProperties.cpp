@@ -131,31 +131,31 @@ VariableProperties::VariableProperties(ScarabDatum * datum) {
 	}
 }
 
-Datum VariableProperties::getDefaultValue() {
+const Datum& VariableProperties::getDefaultValue() const {
     return defaultvalue;
 }
 
-WhenType VariableProperties::getLogging() { 
+WhenType VariableProperties::getLogging() const {
     return logging;
 }
 
-std::string VariableProperties::getTagName() {
+const std::string& VariableProperties::getTagName() const {
     return tagname;
 }
 
-bool VariableProperties::getPersistant() {
+bool VariableProperties::getPersistant() const {
     return persistant;
 }
 
-bool VariableProperties::getExcludeFromDataFile() {
+bool VariableProperties::getExcludeFromDataFile() const {
     return excludeFromDataFile;
 }
 
-std::vector <std::string> VariableProperties::getGroups() {
+const std::vector<std::string>& VariableProperties::getGroups() const {
 	return groups;
 }
 
-VariableProperties::operator Datum(){
+VariableProperties::operator Datum() const {
 	
  Datum dict(M_DICTIONARY, 12);
 	
@@ -172,7 +172,7 @@ VariableProperties::operator Datum(){
 	
 	if(groups.size() > 0) {
 	 Datum gps(M_LIST, (int)groups.size());
-		std::vector<std::string>::iterator iter = groups.begin();
+		auto iter = groups.begin();
 		while (iter != groups.end()) {
 		 Datum group(*iter);
 			gps.addElement(group);
@@ -184,7 +184,7 @@ VariableProperties::operator Datum(){
 	return dict;
 }
 
-ScarabDatum * VariableProperties::toScarabDatum() {
+ScarabDatum * VariableProperties::toScarabDatum() const {
  Datum dict = this->operator Datum();
 	return dict.toScarabDatum().detach();
 }

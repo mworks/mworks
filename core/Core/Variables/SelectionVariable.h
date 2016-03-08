@@ -21,7 +21,7 @@
 BEGIN_NAMESPACE_MW
 
 
-class SelectionVariable : public Selectable, public Variable {
+class SelectionVariable : public Selectable, public ReadOnlyVariable {
     
 protected:
     static const int NO_SELECTION = -1;
@@ -33,53 +33,46 @@ protected:
 public:
 	SelectionVariable(VariableProperties *props, shared_ptr<Selection> _sel = shared_ptr<Selection>());
     
-    virtual ~SelectionVariable() { }
-    
     void setAdvanceOnAccept(bool val) {
         advanceOnAccept = val;
     }
     
-    virtual void addValue(const Datum &val) {
+    void addValue(const Datum &val) {
         values.push_back(val);
 		if (selection != NULL) {
 			resetSelections();
 		}
     }
     
-	virtual void addValue(shared_ptr<Variable> var) {
+    void addValue(const shared_ptr<Variable> &var) {
         if (var) {
             addValue(var->getValue());
         }
 	}
 	
-    virtual Datum getTentativeSelection(int index);
-	virtual void nextValue();
+    Datum getTentativeSelection(int index);
+    void nextValue();
 	
     // Variable overrides
-	virtual Variable *clone();
-	virtual Datum getValue();
-	virtual void setValue(Datum data) { }
-	virtual void setValue(Datum data, MWTime time) { }
-	virtual void setSilentValue(Datum data) { }
-    bool isWritable() const MW_OVERRIDE { return false; }
+    Datum getValue() override;
 
     //
     // Selectable overrides
     //
     
-    int getNItems() MW_OVERRIDE { return values.size(); }
+    int getNItems() override { return values.size(); }
     
-    void resetSelections() MW_OVERRIDE {
+    void resetSelections() override {
         Selectable::resetSelections();
 		selected_index = NO_SELECTION;
 	}
 	
-	void rejectSelections() MW_OVERRIDE {
+	void rejectSelections() override {
         Selectable::rejectSelections();
 		nextValue();
 	}
 
-    void acceptSelections() MW_OVERRIDE {
+    void acceptSelections() override {
         Selectable::acceptSelections();
         if (advanceOnAccept && (getNLeft() > 0)) {
             nextValue();
@@ -91,8 +84,8 @@ public:
 
 class SelectionVariableFactory : public ComponentFactory {
     
-	virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-                                                   ComponentRegistry *reg);
+    shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
+                                           ComponentRegistry *reg) override;
     
 };
 
