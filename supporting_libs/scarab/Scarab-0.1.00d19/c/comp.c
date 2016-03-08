@@ -34,7 +34,8 @@ scarab_hash(ScarabDatum *datum, int modulo, int atry)
 		} 
 		break;
     default:
-		hv = datum->data.integer * (atry+1);
+        /* All other types hash to zero */
+        break;
     }    
 	return hv % modulo;
 }

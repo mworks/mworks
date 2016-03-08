@@ -1,0 +1,25 @@
+<?xml version="1.0" standalone="no"?>
+<monkeyml version="1.0">
+    <io_devices tag="IO Devices"></io_devices>
+    <variables tag="Variables">
+        <variable tag="d" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="{{'a': 1.5}: 1, {'b': 2.5}: 2, {'c': 3.5}: 3}" type="any"></variable>
+        <variable tag="val" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="0" type="any"></variable>
+    </variables>
+    <sounds tag="Sounds"></sounds>
+    <stimuli tag="Stimuli"></stimuli>
+    <filters tag="Filters"></filters>
+    <optimizers tag="Optimizers"></optimizers>
+    <experiment tag="New Experiment" full_name="" description="">
+        <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
+            <action type="assignment" tag="Assign Variable" variable="val" value="d[{'a': 1.5}]"></action>
+            <action type="report" tag="Report" message="val = $val"></action>
+            <action type="assert" tag="Assert" condition="val == 1" message="" stop_on_failure="0"></action>
+            <action type="assignment" tag="Assign Variable" variable="val" value="d[{'b': 2.5}]"></action>
+            <action type="report" tag="Report" message="val = $val"></action>
+            <action type="assert" tag="Assert" condition="val == 2" message="" stop_on_failure="0"></action>
+            <action type="assignment" tag="Assign Variable" variable="val" value="d[{'c': 3.5}]"></action>
+            <action type="report" tag="Report" message="val = $val"></action>
+            <action type="assert" tag="Assert" condition="val == 3" message="" stop_on_failure="0"></action>
+        </protocol>
+    </experiment>
+</monkeyml>
