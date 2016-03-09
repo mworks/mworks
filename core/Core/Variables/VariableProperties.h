@@ -70,7 +70,7 @@ class VariableProperties {
                            const std::string &tag,
                            WhenType log,
                            bool persist,
-                           const std::string &groups,
+                           const std::string &groups = "",
                            bool exclude = false);
 
         // This constructor exists only for compatibility with existing code.  New code

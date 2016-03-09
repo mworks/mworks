@@ -14,7 +14,7 @@
     <experiment tag="New Experiment" full_name="" description="">
         <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential">
             <action type="assignment" tag="Assign Variable" variable="t_start" value="now()"></action>
-            <action type="wait" tag="Wait" duration="2" duration_units="s"></action>
+            <action type="wait" tag="Wait" duration="2000000"></action>
             <action type="assignment" tag="Assign Variable 2" variable="delta_t" value="now() - t_start"></action>
             <action type="assert" tag="Assert" condition="abs(delta_t - 2000000) &lt; tolerance" message=""></action>
             <action type="assignment" tag="Assign Variable 3" variable="t_start" value="now()"></action>
@@ -22,9 +22,9 @@
             <action type="assignment" tag="Assign Variable 4" variable="delta_t" value="now() - t_start"></action>
             <action type="assert" tag="Assert 2" condition="delta_t &lt; tolerance" message=""></action>
             <action type="set_timebase" tag="Set Timebase" timebase="MyTimebase"></action>
-            <action type="wait" tag="Wait 3" duration="3" duration_units="s"></action>
+            <action type="wait" tag="Wait 3" duration="3000" duration_units="ms"></action>
             <action type="assignment" tag="Assign Variable 5" variable="t_start" value="now()"></action>
-            <action type="wait" tag="Wait 4" duration="5" duration_units="s" timebase="MyTimebase"></action>
+            <action type="wait" tag="Wait 4" duration="5000000" duration_units="us" timebase="MyTimebase"></action>
             <action type="assignment" tag="Assign Variable 6" variable="delta_t" value="now() - t_start"></action>
             <action type="assert" tag="Assert 3" condition="abs(delta_t - 2000000) &lt; tolerance" message="" stop_on_failure="0"></action>
             <task_system tag="New Task System" interruptible="YES">

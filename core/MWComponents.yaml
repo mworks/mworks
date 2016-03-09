@@ -859,6 +859,8 @@ parameters:
   - 
     name: duration_units
     default: us
+  - 
+    name: timebase
 
 
 ---
@@ -904,13 +906,13 @@ parameters:
     required: yes
     example: MyTimer
   - 
-    name: timebase
-  - 
     name: duration
     required: yes
   - 
     name: duration_units
     default: us
+  - 
+    name: timebase
 
 
 ---

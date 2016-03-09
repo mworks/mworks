@@ -66,8 +66,8 @@ ComponentRegistry::ComponentRegistry() :
     registerFactory<StandardComponentFactory, AssertionAction>();
 	registerFactory("action/next_selection", new NextVariableSelectionFactory());
 	registerFactory("action/set_timebase", new SetTimeBaseFactory());
-	registerFactory("action/start_timer", new StartTimerFactory());
-	registerFactory("action/wait", new WaitFactory());
+    registerFactory<StandardComponentFactory, StartTimer>();
+    registerFactory<StandardComponentFactory, Wait>();
     registerFactory<StandardComponentFactory, WaitForCondition>();
 	registerFactory("action/load_stimulus", new LoadStimulusFactory());
     registerFactory("action/unload_stimulus", new UnloadStimulusFactory());

@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<marionette_info>
+  <expected_messages>
+    <message type="whole_message">WARNING: Scheduling a timer to fire at a time in the past [at line 21]</message>
+  </expected_messages>
+</marionette_info>

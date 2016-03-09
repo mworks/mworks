@@ -1,0 +1,35 @@
+<?xml version="1.0" standalone="no"?>
+<monkeyml version="1.0">
+    <io_devices tag="IO Devices"></io_devices>
+    <variables tag="Variables">
+        <variable tag="t_start" scope="global" logging="when_changed" default_value="0" type="integer"></variable>
+        <variable tag="delta_t" scope="global" logging="when_changed" default_value="0" type="integer"></variable>
+        <variable tag="tolerance" scope="global" logging="when_changed" default_value="1000" type="integer"></variable>
+    </variables>
+    <sounds tag="Sounds"></sounds>
+    <stimuli tag="Stimuli"></stimuli>
+    <filters tag="Filters"></filters>
+    <optimizers tag="Optimizers"></optimizers>
+    <experiment tag="New Experiment" full_name="" description="">
+        <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential">
+            <action type="assignment" tag="Assign Variable" variable="t_start" value="now()"></action>
+            <action type="start_timer" tag="Start Timer" timer="MyTimer" duration="2" duration_units="s"></action>
+            <action type="wait_for_condition" tag="Wait for Condition" condition="timerExpired(MyTimer)" timeout="10s" timeout_message="" stop_on_timeout="YES"></action>
+            <action type="assignment" tag="Assign Variable 2" variable="delta_t" value="now() - t_start"></action>
+            <action type="assert" tag="Assert" condition="abs(delta_t - 2000000) &lt; tolerance" message=""></action>
+            <action type="assignment" tag="Assign Variable 3" variable="t_start" value="now()"></action>
+            <action type="start_timer" tag="Start Timer 2" timer="MyTimer" duration="-1" duration_units="s"></action>
+            <action type="wait_for_condition" tag="Wait for Condition" condition="timerExpired(MyTimer)" timeout="10s" timeout_message="" stop_on_timeout="YES"></action>
+            <action type="assignment" tag="Assign Variable 4" variable="delta_t" value="now() - t_start"></action>
+            <action type="assert" tag="Assert 2" condition="delta_t &lt; tolerance" message=""></action>
+            <action type="set_timebase" tag="Set Timebase" timebase="MyTimebase"></action>
+            <action type="start_timer" tag="Start Timer 3" timer="MyTimer" duration="3000" duration_units="ms"></action>
+            <action type="wait_for_condition" tag="Wait for Condition" condition="timerExpired(MyTimer)" timeout="10s" timeout_message="" stop_on_timeout="YES"></action>
+            <action type="assignment" tag="Assign Variable 5" variable="t_start" value="now()"></action>
+            <action type="start_timer" tag="Start Timer 4" timer="MyTimer" duration="5000000" duration_units="us" timebase="MyTimebase"></action>
+            <action type="wait_for_condition" tag="Wait for Condition" condition="timerExpired(MyTimer)" timeout="10s" timeout_message="" stop_on_timeout="YES"></action>
+            <action type="assignment" tag="Assign Variable 6" variable="delta_t" value="now() - t_start"></action>
+            <action type="assert" tag="Assert 3" condition="abs(delta_t - 2000000) &lt; tolerance" message="" stop_on_failure="0"></action>
+        </protocol>
+    </experiment>
+</monkeyml>

@@ -189,52 +189,59 @@ class SetTimeBaseFactory : public ComponentFactory{
 												ComponentRegistry *reg);
 };
 
-class StartTimer : public Action {
-	
-protected:
-	shared_ptr<Timer> timer;
-	shared_ptr<TimeBase> timebase;
-	shared_ptr<Variable> time_to_wait_us;
-	
+
+class TimerAction : public Action {
+    
 public:
-	
-	StartTimer(shared_ptr<Timer> timer, shared_ptr<Variable> time_to_wait);
-	StartTimer(shared_ptr<Timer> timer, shared_ptr<TimeBase> timebase, 
-				shared_ptr<Variable> time_to_wait);
-	virtual bool execute();
-};
-
-class StartTimerFactory : public ComponentFactory{
-	virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-												ComponentRegistry *reg);
-};
-
-//class StartEggTimer : public Action {
-//protected:
-//	shared_ptr<Variable> time_to_wait_us;
-//public:
-//	StartEggTimer(shared_ptr<Variable> _time_to_wait);
-//	virtual ~StartEggTimer();
-//	virtual bool execute();
-//	shared_ptr<Variable> getTimeToWait();
-//};
-
-class Wait : public Action {
+    static const std::string DURATION;
+    static const std::string DURATION_UNITS;
+    static const std::string TIMEBASE;
+    
+    static void describeComponent(ComponentInfo &info);
+    
+    explicit TimerAction(const ParameterValueMap &parameters);
+    
 protected:
-	shared_ptr<Variable> waitTime;
-	shared_ptr<TimeBase> timeBase;
+    MWTime getExpirationTime() const;
+    
+private:
+    VariablePtr duration;
+    MWTime durationUnitsToUS;
+    boost::shared_ptr<TimeBase> timebase;
+    
+};
+
+
+class StartTimer : public TimerAction {
+    
+public:
+    static const std::string TIMER;
+    
+    static void describeComponent(ComponentInfo &info);
+    
+    explicit StartTimer(const ParameterValueMap &parameters);
+    
+    bool execute() override;
+    
+private:
+    boost::shared_ptr<Timer> timer;
+    
+};
+
+
+class Wait : public TimerAction {
+    
+public:
+    static void describeComponent(ComponentInfo &info);
+    
+    explicit Wait(const ParameterValueMap &parameters);
+    
+    bool execute() override;
+    weak_ptr<State> next() override;
+    
+private:
     MWTime expirationTime;
-public:
-	Wait(shared_ptr<Variable> time_us);
-	Wait(shared_ptr<TimeBase> timeBase,
-		  shared_ptr<Variable> time_us);
-	virtual bool execute();
-    virtual weak_ptr<State> next();
-};
-
-class WaitFactory : public ComponentFactory{
-	virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-												ComponentRegistry *reg);
+    
 };
 
 

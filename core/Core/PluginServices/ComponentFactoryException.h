@@ -62,19 +62,30 @@ public:
 
 
 class InvalidAttributeException : public ComponentFactoryException {
+    
 public:
-	InvalidAttributeException(const std::string &referenceID, const std::string &name, const std::string &value) :
-        ComponentFactoryException(referenceID, "invalid value (" + value + ") for attribute \"" + name + "\"")
+	InvalidAttributeException(const std::string &name, const std::string &value) :
+        ComponentFactoryException("invalid value (" + value + ") for attribute \"" + name + "\"")
     { }
+    
+    InvalidAttributeException(const std::string &referenceID, const std::string &name, const std::string &value) :
+        InvalidAttributeException(name, value)
+    { }
+    
 };
 
 
 class MissingReferenceException : public ComponentFactoryException {
+    
 public:
-	MissingReferenceException(const std::string &referenceID, const std::string &name, const std::string &value) :
-        ComponentFactoryException(referenceID,
-                                  "can't find a reference for \"" + value + "\" for attribute \"" + name + "\"")
+	MissingReferenceException(const std::string &name, const std::string &value) :
+        ComponentFactoryException("can't find a reference for \"" + value + "\" for attribute \"" + name + "\"")
     { }
+    
+    MissingReferenceException(const std::string &referenceID, const std::string &name, const std::string &value) :
+        MissingReferenceException(name, value)
+    { }
+    
 };
 
 

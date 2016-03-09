@@ -333,183 +333,134 @@ shared_ptr<mw::Component> SetTimeBaseFactory::createObject(std::map<std::string,
 	return newSetTimeBaseAction;		
 }
 
+
+/****************************************************************
+ *                       TimerAction Methods
+ ****************************************************************/
+
+
+const std::string TimerAction::DURATION("duration");
+const std::string TimerAction::DURATION_UNITS("duration_units");
+const std::string TimerAction::TIMEBASE("timebase");
+
+
+void TimerAction::describeComponent(ComponentInfo &info) {
+    Action::describeComponent(info);
+    
+    info.addParameter(DURATION);
+    info.addParameter(DURATION_UNITS, "us");
+    info.addParameter(TIMEBASE, false);
+}
+
+
+TimerAction::TimerAction(const ParameterValueMap &parameters) :
+    Action(parameters),
+    duration(parameters[DURATION])
+{
+    auto &units = parameters[DURATION_UNITS].str();
+    if (units == "us") {
+        durationUnitsToUS = 1;
+    } else if (units == "ms") {
+        durationUnitsToUS = 1000;
+    } else if (units == "s") {
+        durationUnitsToUS = 1000000;
+    } else {
+        throw InvalidAttributeException(DURATION_UNITS, units);
+    }
+    
+    auto &tb = parameters[TIMEBASE];
+    if (!tb.empty()) {
+        timebase = tb.getRegistry()->getObject<TimeBase>(tb.str());
+        if (!timebase) {
+            throw MissingReferenceException(TIMEBASE, tb.str());
+        }
+    }
+}
+
+
+MWTime TimerAction::getExpirationTime() const {
+    MWTime offset;
+    
+    if (timebase) {
+        offset = timebase->getTime();
+    } else {
+        offset = Clock::instance()->getCurrentTimeUS();
+    }
+    
+    return MWTime(duration->getValue()) * durationUnitsToUS + offset;
+}
+
+
 /****************************************************************
  *                       StartTimer Methods
  ****************************************************************/
 
-StartTimer::StartTimer(shared_ptr<Timer> _timer,  
-						 shared_ptr<Variable> _time_to_wait_us) : Action() {
-	setName("StartTimer");
-    timer = _timer;
-	time_to_wait_us = _time_to_wait_us;
+
+const std::string StartTimer::TIMER("timer");
+
+
+void StartTimer::describeComponent(ComponentInfo &info) {
+    TimerAction::describeComponent(info);
+    
+    info.setSignature("action/start_timer");
+    
+    info.addParameter(TIMER);
 }
 
-StartTimer::StartTimer(shared_ptr<Timer> _timer, 
-						 shared_ptr<TimeBase> _timebase, 
-						 shared_ptr<Variable> _time_to_wait_us) : Action() {
-	setName("StartTimer");
-	timer = _timer;
-	timebase = _timebase;
-	time_to_wait_us = _time_to_wait_us;
+
+StartTimer::StartTimer(const ParameterValueMap &parameters) :
+    TimerAction(parameters)
+{
+    setName("StartTimer");
+    
+    auto &t = parameters[TIMER];
+    timer = t.getRegistry()->getObject<Timer>(t.str());
+    if (!timer) {
+        // Create a new timer
+        VariableProperties props(Datum(0),
+                                 t.str(),
+                                 M_WHEN_CHANGED,
+                                 false);
+        timer = global_variable_registry->createTimer(&props);
+        t.getRegistry()->registerObject(t.str(), timer);
+    }
 }
+
 
 bool StartTimer::execute() {
-	
-	MWTime offset;
-	shared_ptr <Clock> clock = Clock::instance();
-	
-	if(timebase){
-		offset = timebase->getTime();
-		//mprintf("offset = %u, now = %u", (unsigned long)offset, (unsigned long)clock->getCurrentTimeUS());
-	} else {
-		offset = clock->getCurrentTimeUS();
-	}
-	
-	//MWTime test = ((MWTime)(*time_to_wait_us));
-	//long test2 = ((long)(*time_to_wait_us));
-	//long test3 = (static_cast<ConstantVariable *>(time_to_wait_us))->getValue();
-	
-	
-	
-	// mprintf("## time_to_wait_us = %lld", ((MWTime)(*time_to_wait_us)));
-	MWTime time_to_wait_value = (MWTime)time_to_wait_us->getValue();
-    MWTime thetime = (time_to_wait_value + offset) -  (clock->getCurrentTimeUS());
-	
-	//mprintf("the time to wait = %u", (unsigned long)thetime);
-	timer->startUS(thetime);
+    MWTime duration = getExpirationTime() - Clock::instance()->getCurrentTimeUS();
+    timer->startUS(duration);
     return true;
 }
 
-shared_ptr<mw::Component> StartTimerFactory::createObject(std::map<std::string, std::string> parameters,
-														ComponentRegistry *reg) {
-	
-	REQUIRE_ATTRIBUTES(parameters, "duration", "timer");
-	
-    shared_ptr<Variable> _timeToWait;
-    
-	shared_ptr<Variable> duration = reg->getVariable(parameters.find("duration")->second);
-	checkAttribute(duration, parameters["reference_id"], "duration", parameters.find("duration")->second);		
-    
-    string duration_units = parameters["duration_units"];
-   
-    
-    if(duration_units.empty() || duration_units == "us"){
-        _timeToWait = duration;
-    } else {
-    
-        ExpressionVariable e;
-        if(duration_units == "s"){
-            ConstantVariable one_million(1000000L);
-            e = duration->operator*((Variable &)one_million);
-        } else if(duration_units == "ms"){
-            ConstantVariable one_thousand(1000L);
-            e = duration->operator*((Variable &)one_thousand);
-        } else {
-            throw InvalidAttributeException(parameters["reference_id"], "duration_units", duration_units);
-        }
-        _timeToWait = shared_ptr<Variable>(e.clone());
-    }
-	
-	shared_ptr<Timer> _timer = reg->getObject<Timer>(parameters.find("timer")->second);
-	if(_timer == NULL) { // create a new timer
-	 Datum zero((long)0);
-		VariableProperties props(&zero, 
-								  parameters.find("timer")->second,
-								  parameters.find("timer")->second,
-								  parameters.find("timer")->second + " is a timer",
-								  M_NEVER, 
-								  M_WHEN_CHANGED,
-								  true, 
-								  false,
-								  M_DISCRETE_BOOLEAN,
-								  "");
-                                  
-		_timer = global_variable_registry->createTimer(&props);
-		reg->registerObject(parameters.find("timer")->second, _timer);
-	}
-	
-	
-	shared_ptr <mw::Component> newStartTimerAction;
-	//std::map<std::string, std::string>::const_iterator timeBaseElement = parameters.find("timebase");
-	//if(timeBaseElement != parameters.end()) {
-	std::string timebaseString = parameters["timebase"];
-	if(!timebaseString.empty()){
-		// for when there's a timebase
-		shared_ptr<TimeBase> _timeBase = reg->getObject<TimeBase>(timebaseString);
-		//checkAttribute(_timeBase, parameters["reference_id"], "_timeBase", parameters.find("_timeBase")->second);
-		checkAttribute(_timeBase, parameters["reference_id"], "timebase", parameters.find("timebase")->second);
-		
-		newStartTimerAction = shared_ptr<mw::Component>(new StartTimer(_timer, _timeBase, _timeToWait));
-	} else {
-		// no timebase
-		newStartTimerAction = shared_ptr<mw::Component>(new StartTimer(_timer, _timeToWait));
-	}
-	return newStartTimerAction;		
-}
-
-///****************************************************************
-//*                       StartEggTimer Methods
-//****************************************************************/
-//mStartEggTimer::StartEggTimer(shared_ptr<Variable> _time_to_wait_us) 
-//																: Action() {
-//    time_to_wait_us = _time_to_wait_us;
-//	//mprintf("start eggtimer action %d us", (long)*time_to_wait_us);
-//}
-//
-///*
-//mStartEggTimer::StartEggTimer(long _time_to_wait_us) : Action() {
-//    Datum the_time_data(_time_to_wait_us);
-//	time_to_wait_us = (Variable *)(new ConstantVariable(new Datum(the_time_data))); // TODO leaks
-//}*/
-//
-//mStartEggTimer::~StartEggTimer() {
-//
-//}
-//
-//bool StartEggTimer::execute() {
-//    //long thetime = (long)(*time_to_wait_us);
-//	//mprintf("fucker");
-//	startEggTimer((MWTime)(*time_to_wait_us));
-//    return true;
-//}
-//
-//shared_ptr<Variable> StartEggTimer::getTimeToWait() {
-//    return time_to_wait_us;
-//}
 
 /****************************************************************
  *                       Wait Methods
  ****************************************************************/
-Wait::Wait(shared_ptr<Variable> time_us) : Action() {
-    waitTime = time_us;
-	timeBase = shared_ptr<TimeBase>();
-	setName("Wait");
+
+
+void Wait::describeComponent(ComponentInfo &info) {
+    TimerAction::describeComponent(info);
+    info.setSignature("action/wait");
 }
 
-Wait::Wait(shared_ptr<TimeBase> _timeBase,
-			 shared_ptr<Variable> time_us) : Action() {
-    waitTime = time_us;
-	timeBase = _timeBase;
-	setName("Wait");
+
+Wait::Wait(const ParameterValueMap &parameters) :
+    TimerAction(parameters),
+    expirationTime(0)
+{
+    setName("Wait");
 }
+
 
 bool Wait::execute() {
-    shared_ptr<Clock> clock = Clock::instance();
-    MWTime now = clock->getCurrentTimeUS();
-    
-    MWTime baseTime;
-    if (timeBase) {
-        baseTime = timeBase->getTime();
-    } else {
-        baseTime = now;
-    }
-    
-    expirationTime = baseTime + MWTime(*waitTime);
+    expirationTime = getExpirationTime();
     
     if (StateSystem::instance()->getCurrentState().lock().get() != this) {
         // If we're executing outside of the normal state system (e.g. as part of a ScheduledActions instance),
         // then we need to do the wait ourselves, right here
-        MWTime timeToWait = expirationTime - now;
+        auto clock = Clock::instance();
+        MWTime timeToWait = expirationTime - clock->getCurrentTimeUS();
         if (timeToWait > 0) {
             clock->sleepUS(timeToWait);
         }
@@ -518,56 +469,12 @@ bool Wait::execute() {
     return true;
 }
 
+
 weak_ptr<State> Wait::next() {
     if (Clock::instance()->getCurrentTimeUS() >= expirationTime) {
         return Action::next();
     }
     return weak_ptr<State>();
-}
-
-shared_ptr<mw::Component> WaitFactory::createObject(std::map<std::string, std::string> parameters,
-												  ComponentRegistry *reg) {
-	
-	REQUIRE_ATTRIBUTES(parameters, "duration");
-	
-    shared_ptr<Variable> _timeToWait;
-    
-	shared_ptr<Variable> duration = reg->getVariable(parameters.find("duration")->second);
-    CHECK_ATTRIBUTE(duration, parameters, "duration");
-	
-    string duration_units = parameters["duration_units"];
-   
-    
-    if(duration_units.empty() || duration_units == "us"){
-        _timeToWait = duration;
-    } else {
-    
-        ExpressionVariable e;
-        if(duration_units == "s"){
-            ConstantVariable one_million(1000000L);
-            e = duration->operator*((Variable &)one_million);
-        } else if(duration_units == "ms"){
-            ConstantVariable one_thousand(1000L);
-            e = duration->operator*((Variable &)one_thousand);
-        } else {
-            throw InvalidAttributeException(parameters["reference_id"], "duration_units", duration_units);
-        }
-        _timeToWait = shared_ptr<Variable>(e.clone());
-    }
-    
-	
-	shared_ptr <mw::Component> newWaitAction;
-	std::map<std::string, std::string>::const_iterator timeBaseElement = parameters.find("timebase");
-	if(timeBaseElement != parameters.end()) {
-		shared_ptr<TimeBase> _timeBase = reg->getObject<TimeBase>(timeBaseElement->second);
-        CHECK_ATTRIBUTE(_timeBase, parameters, "timebase");
-		
-		newWaitAction = shared_ptr<mw::Component>(new Wait(_timeBase, _timeToWait));
-	} else {
-		newWaitAction = shared_ptr<mw::Component>(new Wait(_timeToWait));
-	}
-	
-	return newWaitAction;	
 }
 
 

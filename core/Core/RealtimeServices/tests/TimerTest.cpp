@@ -343,40 +343,4 @@ void TimerTestFixture::testTimerClone(){
 }
 
 
-void TimerTestFixture::testTimerWithTimebase(){
-    
-	set_realtime(94);
-
-	shared_ptr<TimeBase> tb(new TimeBase());
-	shared_ptr<Timer> t(new Timer());
-	
-	MWTime time_amount = 1000;
-	shared_ptr<Variable> time_to_wait(new ConstantVariable(time_amount));
-	StartTimer a(t,tb, time_to_wait);
-
-	shared_ptr <Clock> clock = Clock::instance();
-	MWTime then = clock->getCurrentTimeUS();
-	tb->setNow();
-
-	for(int i = 1; i < 5000; i++){
-		a.execute();
-		
-		while(!t->hasExpired())  clock->sleepUS(10);
-		MWTime now = clock->getCurrentTimeUS();
-		//cerr << "Now: " << now << endl;
-		
-		MWTime error = (now - then) - (MWTime)(*time_to_wait);
-		//cerr << "Error: " << (long long) error << endl;
-		CPPUNIT_ASSERT( std::abs(error) < 2000 );
-		CPPUNIT_ASSERT( error > 0 );
-		
-		time_to_wait->setValue(i * time_amount);
-		
-		
-		//cerr << "Waiting: " << (long long)(*time_to_wait) << endl;
-	}
-
-}
-
-
 END_NAMESPACE_MW
