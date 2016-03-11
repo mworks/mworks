@@ -653,8 +653,8 @@ bool Datum::hasKey(const Datum &key) const {
 }
 
 
-Datum Datum::getElement(const Datum &indexOrKey) const {
-    Datum result;
+const Datum * Datum::getReadableElementPtr(const Datum &indexOrKey) const {
+    const Datum *result = nullptr;
     
     switch (datatype) {
         case M_LIST:
@@ -665,7 +665,7 @@ Datum Datum::getElement(const Datum &indexOrKey) const {
                 if (index < 0 || index >= listValue.size()) {
                     merror(M_SYSTEM_MESSAGE_DOMAIN, "Requested list index (%d) is out of bounds", index);
                 } else {
-                    result = listValue.at(index);
+                    result = &(listValue.at(index));
                 }
             }
             break;
@@ -673,7 +673,7 @@ Datum Datum::getElement(const Datum &indexOrKey) const {
         case M_DICTIONARY: {
             auto iter = dictValue.find(indexOrKey);
             if (iter != dictValue.end()) {
-                result = iter->second;
+                result = &(iter->second);
             }
             break;
         }
@@ -683,7 +683,29 @@ Datum Datum::getElement(const Datum &indexOrKey) const {
             break;
     }
     
-    return std::move(result);
+    return result;
+}
+
+
+const Datum& Datum::getElement(const Datum &indexOrKey) const {
+    if (auto elementPtr = getReadableElementPtr(indexOrKey)) {
+        return *elementPtr;
+    }
+    static const Datum notFound;
+    return notFound;
+}
+
+
+const Datum& Datum::getElement(const std::vector<Datum> &indexOrKeyPath) const {
+    const Datum *elementPtr = this;
+    for (auto &indexOrKey : indexOrKeyPath) {
+        elementPtr = elementPtr->getReadableElementPtr(indexOrKey);
+        if (!elementPtr) {
+            static const Datum notFound;
+            return notFound;
+        }
+    }
+    return *elementPtr;
 }
 
 
@@ -809,7 +831,9 @@ void Datum::addElement(const Datum &key, const Datum &value) {
 }
 
 
-void Datum::setElement(const Datum &indexOrKey, const Datum &value) {
+Datum * Datum::getWritableElementPtr(const Datum &indexOrKey) {
+    Datum *result = nullptr;
+    
     switch (datatype) {
         case M_LIST:
             if (!indexOrKey.isInteger()) {
@@ -823,19 +847,40 @@ void Datum::setElement(const Datum &indexOrKey, const Datum &value) {
                     if (index >= listValue.size()) {
                         listValue.resize(index + 1);
                     }
-                    listValue.at(index) = value;
+                    result = &(listValue.at(index));
                 }
             }
             break;
             
         case M_DICTIONARY:
-            dictValue[indexOrKey] = value;
+            result = &(dictValue[indexOrKey]);
             break;
             
         default:
             merror(M_SYSTEM_MESSAGE_DOMAIN, "Cannot set element in %s", getDataTypeName());
             break;
     }
+    
+    return result;
+}
+
+
+void Datum::setElement(const Datum &indexOrKey, const Datum &value) {
+    if (auto elementPtr = getWritableElementPtr(indexOrKey)) {
+        *elementPtr = value;
+    }
+}
+
+
+void Datum::setElement(const std::vector<Datum> &indexOrKeyPath, const Datum &value) {
+    Datum *elementPtr = this;
+    for (auto &indexOrKey : indexOrKeyPath) {
+        elementPtr = elementPtr->getWritableElementPtr(indexOrKey);
+        if (!elementPtr) {
+            return;
+        }
+    }
+    *elementPtr = value;
 }
 
 
@@ -1106,8 +1151,8 @@ bool Datum::operator>=(const Datum& other) const {
 }
 
 
-Datum Datum::operator[](const Datum &indexOrKey) const {
-    Datum result = getElement(indexOrKey);
+const Datum& Datum::operator[](const Datum &indexOrKey) const {
+    auto &result = getElement(indexOrKey);
     
     if (isDictionary() && result.isUndefined()) {
         merror(M_SYSTEM_MESSAGE_DOMAIN,
@@ -1115,7 +1160,7 @@ Datum Datum::operator[](const Datum &indexOrKey) const {
                indexOrKey.toString(true).c_str());
     }
     
-    return std::move(result);
+    return result;
 }
 
 

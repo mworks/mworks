@@ -47,6 +47,8 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
     CPPUNIT_TEST( testSetStringQuoted );
     CPPUNIT_TEST( testGetList );
     CPPUNIT_TEST( testGetDict );
+    CPPUNIT_TEST( testGetElement );
+    CPPUNIT_TEST( testSetElement );
     CPPUNIT_TEST( testOperatorUnaryMinus );
     CPPUNIT_TEST( testOperatorBinaryPlus );
     CPPUNIT_TEST( testOperatorBinaryMinus );
@@ -85,6 +87,8 @@ public:
     void testSetStringQuoted();
     void testGetList();
     void testGetDict();
+    void testGetElement();
+    void testSetElement();
     void testOperatorUnaryMinus();
     void testOperatorBinaryPlus();
     void testOperatorBinaryMinus();

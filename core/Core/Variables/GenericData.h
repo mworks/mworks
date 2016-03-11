@@ -165,7 +165,8 @@ public:
     
     int getNElements() const;
     bool hasKey(const Datum &key) const;
-    Datum getElement(const Datum &indexOrKey) const;
+    const Datum& getElement(const Datum &indexOrKey) const;
+    const Datum& getElement(const std::vector<Datum> &indexOrKeyPath) const;
     
     /**
      * Value setters
@@ -189,6 +190,7 @@ public:
     void addElement(const Datum &value);
     void addElement(const Datum &key, const Datum &value);
     void setElement(const Datum &indexOrKey, const Datum &value);
+    void setElement(const std::vector<Datum> &indexOrKeyPath, const Datum &value);
     
     /**
      * Operators
@@ -221,7 +223,7 @@ public:
     bool operator>(const Datum&) const;
     bool operator>=(const Datum&) const;
     
-    Datum operator[](const Datum &indexOrKey) const;
+    const Datum& operator[](const Datum &indexOrKey) const;
     
     std::string toString(bool quoted = false) const;
     
@@ -239,6 +241,9 @@ private:
     
     void copyFrom(const Datum &other, bool assign = false);
     void moveFrom(Datum &&other, bool assign = false);
+    
+    const Datum * getReadableElementPtr(const Datum &indexOrKey) const;
+    Datum * getWritableElementPtr(const Datum &indexOrKey);
     
     template<template<typename T> class Op>
     bool compareOrdering(const Datum&) const;
