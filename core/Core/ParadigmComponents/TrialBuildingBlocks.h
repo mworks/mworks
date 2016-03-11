@@ -65,21 +65,24 @@ public:
 	
 };
 
-class Assignment : public Action {
-protected:
-	shared_ptr<Variable> var;
-	shared_ptr<Variable> value;
-public:
-	Assignment(shared_ptr<Variable> var, 
-				shared_ptr<Variable> val);
-	virtual ~Assignment();
-	virtual bool execute();
-};
 
-class AssignmentFactory : public ComponentFactory{
-	virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-												ComponentRegistry *reg);
-	
+class Assignment : public Action {
+    
+public:
+    static const std::string VARIABLE;
+    static const std::string VALUE;
+    
+    static void describeComponent(ComponentInfo &info);
+    
+    explicit Assignment(const ParameterValueMap &parameters);
+    Assignment(const VariablePtr &var, const VariablePtr &value);
+    
+    bool execute() override;
+    
+private:
+    const VariablePtr var;
+    const VariablePtr value;
+    
 };
 
 

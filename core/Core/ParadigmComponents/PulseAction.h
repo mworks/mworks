@@ -10,34 +10,60 @@
 #ifndef PULSE_ACTION_H
 #define PULSE_ACTION_H
 
-#include "ScheduledActions.h"
+#include "TrialBuildingBlocks.h"
 
 
 BEGIN_NAMESPACE_MW
 
 
 class Pulse: public Action {
-protected:
-	shared_ptr<Variable> var;
-	shared_ptr<ScheduledActions> actions;
-	shared_ptr<Assignment> assignment;
-	shared_ptr<ConstantVariable> one_variable; 
-	shared_ptr<ConstantVariable> zero_variable;
-	
-	
+    
 public:
-	Pulse(shared_ptr<Variable> _var, shared_ptr<Variable> _duration);
-	~Pulse();
-	virtual bool execute();
+    static const std::string VARIABLE;
+    static const std::string DURATION;
+    
+    static void describeComponent(ComponentInfo &info);
+    
+    explicit Pulse(const ParameterValueMap &parameters);
+    
+    bool execute() override;
+    
+private:
+    const VariablePtr var;
+    const VariablePtr duration;
+    boost::shared_ptr<ScheduleTask> task;
+    
 };	
-
-class PulseFactory : public ComponentFactory{
-	virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-												ComponentRegistry *reg);
-};
 
 
 END_NAMESPACE_MW
 
 
 #endif
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

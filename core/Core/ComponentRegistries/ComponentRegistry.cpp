@@ -60,8 +60,8 @@ ComponentRegistry::ComponentRegistry() :
     registerFactory<StandardComponentFactory, IfElse>();
 	
 	
-	registerFactory("action/assignment", new AssignmentFactory());
-	registerFactory("action/pulse", new PulseFactory());
+    registerFactory<StandardComponentFactory, Assignment>();
+    registerFactory<StandardComponentFactory, Pulse>();
     registerFactory<StandardComponentFactory, ReportString>();
     registerFactory<StandardComponentFactory, AssertionAction>();
 	registerFactory("action/next_selection", new NextVariableSelectionFactory());

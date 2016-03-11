@@ -72,43 +72,48 @@ void ActionVariableNotification::notify(const Datum& data, MWTime time){
 	action->execute();
 }
 
+
 /****************************************************************
  *                       Assignment Methods
  ****************************************************************/
-Assignment::Assignment(shared_ptr<Variable> _var, 
-						 shared_ptr<Variable> val) : Action() {
-	var = _var;
-	value = val;
-	setName("Assignment");
+
+
+const std::string Assignment::VARIABLE("variable");
+const std::string Assignment::VALUE("value");
+
+
+void Assignment::describeComponent(ComponentInfo &info) {
+    Action::describeComponent(info);
+    info.setSignature("action/assignment");
+    info.addParameter(VARIABLE);
+    info.addParameter(VALUE);
 }
 
-Assignment::~Assignment() {
-	
+
+Assignment::Assignment(const ParameterValueMap &parameters) :
+    Action(parameters),
+    var(parameters[VARIABLE]),
+    value(parameters[VALUE])
+{
+    setName("Assignment");
+    
+    if (!var->isWritable()) {
+        throw ComponentFactoryException("Assignment target is not writable");
+    }
 }
+
+
+Assignment::Assignment(const VariablePtr &var, const VariablePtr &value) :
+    var(var),
+    value(value)
+{
+    setName("Assignment");
+}
+
 
 bool Assignment::execute() {
-	var->operator=(value->getValue());
-	return true;
-}
-
-shared_ptr<mw::Component> AssignmentFactory::createObject(std::map<std::string, std::string> parameters,
-														ComponentRegistry *reg) {
-	REQUIRE_ATTRIBUTES(parameters, "variable", "value");
-	
-	
-	shared_ptr<Variable> variable = reg->getVariable(parameters.find("variable")->second);
-	shared_ptr<Variable> val = reg->getVariable(parameters.find("value")->second);
-	
-	
-	checkAttribute(val, parameters["reference_id"], "value", parameters.find("value")->second);
-	checkAttribute(variable, parameters["reference_id"], "variable", parameters.find("variable")->second);
-    
-    if (!variable->isWritable()) {
-        throw ComponentFactoryException(parameters["reference_id"], "Assignment target is not writable");
-    }
-	
-	shared_ptr <mw::Component> newAssignmentAction = shared_ptr<mw::Component>(new Assignment(variable, val));
-	return newAssignmentAction;		
+    var->setValue(value->getValue());
+    return true;
 }
 
 

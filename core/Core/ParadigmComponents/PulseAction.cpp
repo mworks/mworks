@@ -13,49 +13,75 @@
 BEGIN_NAMESPACE_MW
 
 
-Pulse::Pulse(shared_ptr<Variable> _var, shared_ptr<Variable> _duration) : var(_var) {
-	setName("Pulse");
-	one_variable = 
-	shared_ptr<ConstantVariable>(new ConstantVariable(1.0));
-	
-	zero_variable = 
-	shared_ptr<ConstantVariable>(new ConstantVariable(0.0));
-	
-	actions = 
-	shared_ptr<ScheduledActions>(new ScheduledActions(
-														one_variable, _duration,
-														zero_variable, zero_variable));
-	
-	assignment = 
-	shared_ptr<Assignment>(new Assignment(var, zero_variable));
-	
-	actions->addAction(assignment);
+const std::string Pulse::VARIABLE("variable");
+const std::string Pulse::DURATION("duration");
+
+
+void Pulse::describeComponent(ComponentInfo &info) {
+    Action::describeComponent(info);
+    info.setSignature("action/pulse");
+    info.addParameter(VARIABLE);
+    info.addParameter(DURATION);
 }
 
-Pulse::~Pulse(){}
 
-bool Pulse::execute(){
-	(*var) = 1L;
-	return actions->execute();
+Pulse::Pulse(const ParameterValueMap &parameters) :
+    Action(parameters),
+    var(parameters[VARIABLE]),
+    duration(parameters[DURATION])
+{
+    setName("Pulse");
 }
 
-shared_ptr<mw::Component> PulseFactory::createObject(std::map<std::string, std::string> parameters,
-												   ComponentRegistry *reg) {
-	REQUIRE_ATTRIBUTES(parameters, "variable", "duration");
-	
-	shared_ptr<Variable> variable = reg->getVariable(parameters.find("variable")->second);
-	shared_ptr<Variable> duration = reg->getVariable(parameters.find("duration")->second);
-	
-	
-	checkAttribute(duration, parameters["reference_id"], "duration", parameters.find("duration")->second);
-	
-	
-	checkAttribute(variable, parameters["reference_id"], "variable", parameters.find("variable")->second);
-	
-	
-	shared_ptr <mw::Component> newPulseAction = shared_ptr<mw::Component>(new Pulse(variable, duration));
-	return newPulseAction;		
+
+bool Pulse::execute() {
+    var->setValue(Datum(1));
+    
+    boost::weak_ptr<Variable> weakVar(var);
+    task = Scheduler::instance()->scheduleUS(FILELINE,
+                                             MWTime(duration->getValue()),
+                                             0,
+                                             1,
+                                             [weakVar]() {
+                                                 if (auto sharedVar = weakVar.lock()) {
+                                                     sharedVar->setValue(Datum(0));
+                                                 }
+                                                 return nullptr;
+                                             },
+                                             M_DEFAULT_PRIORITY,
+                                             M_DEFAULT_WARN_SLOP_US,
+                                             M_DEFAULT_FAIL_SLOP_US,
+                                             M_MISSED_EXECUTION_CATCH_UP);
+    
+    return true;
 }
 
 
 END_NAMESPACE_MW
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
