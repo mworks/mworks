@@ -42,6 +42,7 @@ class ScopedVariable : public Variable {
 	// The scoped variable delegates its get and set methods
     Datum getValue() override;
     void setSilentValue(Datum _value, MWTime _when) override;
+    void setSilentValue(const std::vector<Datum> &indexOrKeyPath, Datum value, MWTime when) override;
     
     bool isWritable() const override { return true; }
 	

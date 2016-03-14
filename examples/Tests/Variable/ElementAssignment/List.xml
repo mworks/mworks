@@ -1,0 +1,47 @@
+<?xml version="1.0" standalone="no"?>
+<monkeyml version="1.0">
+    <io_devices tag="IO Devices"></io_devices>
+    <variables tag="Variables">
+        <variable tag="x" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="0" type="any">
+            <action type="report" tag="Report" message="x = $x"></action>
+        </variable>
+        <variable tag="i" scope="local" logging="when_changed" exclude_from_data_file="NO" default_value="0" type="any"></variable>
+        <variable tag="j" scope="local" logging="when_changed" exclude_from_data_file="NO" default_value="0" type="any"></variable>
+    </variables>
+    <sounds tag="Sounds"></sounds>
+    <stimuli tag="Stimuli"></stimuli>
+    <filters tag="Filters"></filters>
+    <optimizers tag="Optimizers"></optimizers>
+    <experiment tag="New Experiment" full_name="" description="">
+        <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
+            <block tag="Initialize x" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
+                <action type="assignment" tag="Reset x" variable="x" value="[]"></action>
+                <range_replicator tag="New Range Replicator 5" from="0" to="1" step="1" variable="i">
+                    <list tag="New List 2" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
+                        <action type="assignment" tag="Set x[i]" variable="x[i]" value="[]"></action>
+                    </list>
+                </range_replicator>
+                <range_replicator tag="New Range Replicator 3" from="0" to="1" step="1" variable="i">
+                    <range_replicator tag="New Range Replicator 4" from="0" to="2" step="1" variable="j">
+                        <list tag="New List 3" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
+                            <action type="assignment" tag="Set x[i][j]" variable="x[i][j]" value="0"></action>
+                        </list>
+                    </range_replicator>
+                </range_replicator>
+            </block>
+            <block tag="Modify x" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
+                <range_replicator tag="New Range Replicator" from="0" to="1" step="1" variable="i">
+                    <range_replicator tag="New Range Replicator 2" from="0" to="2" step="1" variable="j">
+                        <list tag="New List" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
+                            <action type="assignment" tag="Set x[i][j]" variable="x[i][j]" value="3*i + j + 1"></action>
+                        </list>
+                    </range_replicator>
+                </range_replicator>
+            </block>
+            <block tag="Attempt invalid assignments" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
+                <action type="assignment" tag="Assign Variable" variable="x[0][1][2]" value="3"></action>
+                <action type="assignment" tag="Assign Variable 2" variable="x[0][1][2][3]" value="4"></action>
+            </block>
+        </protocol>
+    </experiment>
+</monkeyml>

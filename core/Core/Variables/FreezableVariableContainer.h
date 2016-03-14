@@ -47,8 +47,7 @@ protected:
 public:
     
     
-    FreezableVariableContainer(shared_ptr<Variable> _var);
-    FreezableVariableContainer(const FreezableVariableContainer& tocopy);
+    explicit FreezableVariableContainer(shared_ptr<Variable> _var);
     
     // If should_freeze is true, make this variable behave as 
     // if it were a constant variable
@@ -61,7 +60,9 @@ public:
     
     // Pass-through methods
     void setValue(Datum value, MWTime time) override;
+    void setValue(const std::vector<Datum> &indexOrKeyPath, Datum value, MWTime when) override;
     void setSilentValue(Datum value, MWTime time) override;
+    void setSilentValue(const std::vector<Datum> &indexOrKeyPath, Datum value, MWTime when) override;
     bool isWritable() const override;
 
 };

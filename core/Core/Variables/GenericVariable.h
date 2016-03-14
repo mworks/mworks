@@ -75,7 +75,6 @@ class VariableProperties;
 class Variable : public mw::Component, boost::noncopyable {
 
 private:
-
 	VariableProperties *properties;
 	LinkedList<VariableNotification> notifications;
 
@@ -87,9 +86,11 @@ private:
 	shared_ptr<EventReceiver> event_target;
     
     static MWTime getCurrentTimeUS();
+    
+protected:
+    void performNotifications(Datum data, MWTime timeUS = getCurrentTimeUS());
 
 public:
-
     // Destructor
     ~Variable();
     
@@ -117,15 +118,15 @@ public:
 	// Attaching notifications to variables for asynchronous "spring-loading"
     void addNotification(const shared_ptr<VariableNotification> &note);
 	
-    void performNotifications(Datum data, MWTime timeUS = getCurrentTimeUS());
-	
 	// Announcing a variable's value to the event stream
     void announce(MWTime when = getCurrentTimeUS());
 	
 	// Basic value get and set (overridden in subclasses)
 	virtual Datum getValue() = 0;
 	virtual void setValue(Datum value, MWTime when = getCurrentTimeUS());
+    virtual void setValue(const std::vector<Datum> &indexOrKeyPath, Datum value, MWTime when = getCurrentTimeUS());
     virtual void setSilentValue(Datum value, MWTime when = getCurrentTimeUS()) = 0;
+    virtual void setSilentValue(const std::vector<Datum> &indexOrKeyPath, Datum value, MWTime when = getCurrentTimeUS()) = 0;
 	
     // Can the value be modified?
     virtual bool isWritable() const = 0;
@@ -154,6 +155,7 @@ public:
     void addChild(std::map<std::string, std::string> parameters,
                   ComponentRegistry *reg,
                   shared_ptr<mw::Component> child) override;
+    
 };
 
 
@@ -175,7 +177,9 @@ public:
     using Variable::Variable;
     
     void setValue(Datum v, MWTime t) override { }
+    void setValue(const std::vector<Datum> &indexOrKeyPath, Datum value, MWTime when) override { }
     void setSilentValue(Datum _value, MWTime _when) override { }
+    void setSilentValue(const std::vector<Datum> &indexOrKeyPath, Datum value, MWTime when) override { }
     
     bool isWritable() const override { return false; }
     

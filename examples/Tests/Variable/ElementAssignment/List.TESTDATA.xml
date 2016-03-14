@@ -1,0 +1,321 @@
+<?xml version="1.0"?>
+<marionette_info>
+  <expected_messages>
+    <message type="starts_with">x = [] </message>
+    <message type="starts_with">x = [[]] </message>
+    <message type="starts_with">x = [[], []] </message>
+    <message type="starts_with">x = [[0], []] </message>
+    <message type="starts_with">x = [[0, 0], []] </message>
+    <message type="starts_with">x = [[0, 0, 0], []] </message>
+    <message type="starts_with">x = [[0, 0, 0], [0]] </message>
+    <message type="starts_with">x = [[0, 0, 0], [0, 0]] </message>
+    <message type="starts_with">x = [[0, 0, 0], [0, 0, 0]] </message>
+    <message type="starts_with">x = [[1, 0, 0], [0, 0, 0]] </message>
+    <message type="starts_with">x = [[1, 2, 0], [0, 0, 0]] </message>
+    <message type="starts_with">x = [[1, 2, 3], [0, 0, 0]] </message>
+    <message type="starts_with">x = [[1, 2, 3], [4, 0, 0]] </message>
+    <message type="starts_with">x = [[1, 2, 3], [4, 5, 0]] </message>
+    <message type="starts_with">x = [[1, 2, 3], [4, 5, 6]] </message>
+    <message type="whole_message">ERROR: Cannot set element in integer [at line 42]</message>
+    <message type="starts_with">x = [[1, 2, 3], [4, 5, 6]] </message>
+    <message type="whole_message">ERROR: Cannot set element in integer [at line 43]</message>
+    <message type="starts_with">x = [[1, 2, 3], [4, 5, 6]] </message>
+  </expected_messages>
+  <expected_events>
+    <event variable="x">
+      <value>
+        <list>
+        </list>
+      </value>
+    </event>
+    <event variable="x">
+      <value>
+        <list>
+          <list_element>
+            <list>
+            </list>
+          </list_element>
+        </list>
+      </value>
+    </event>
+    <event variable="x">
+      <value>
+        <list>
+          <list_element>
+            <list>
+            </list>
+          </list_element>
+          <list_element>
+            <list>
+            </list>
+          </list_element>
+        </list>
+      </value>
+    </event>
+    <event variable="x">
+      <value>
+        <list>
+          <list_element>
+            <list>
+              <list_element type="integer">0</list_element>
+            </list>
+          </list_element>
+          <list_element>
+            <list>
+            </list>
+          </list_element>
+        </list>
+      </value>
+    </event>
+    <event variable="x">
+      <value>
+        <list>
+          <list_element>
+            <list>
+              <list_element type="integer">0</list_element>
+              <list_element type="integer">0</list_element>
+            </list>
+          </list_element>
+          <list_element>
+            <list>
+            </list>
+          </list_element>
+        </list>
+      </value>
+    </event>
+    <event variable="x">
+      <value>
+        <list>
+          <list_element>
+            <list>
+              <list_element type="integer">0</list_element>
+              <list_element type="integer">0</list_element>
+              <list_element type="integer">0</list_element>
+            </list>
+          </list_element>
+          <list_element>
+            <list>
+            </list>
+          </list_element>
+        </list>
+      </value>
+    </event>
+    <event variable="x">
+      <value>
+        <list>
+          <list_element>
+            <list>
+              <list_element type="integer">0</list_element>
+              <list_element type="integer">0</list_element>
+              <list_element type="integer">0</list_element>
+            </list>
+          </list_element>
+          <list_element>
+            <list>
+              <list_element type="integer">0</list_element>
+            </list>
+          </list_element>
+        </list>
+      </value>
+    </event>
+    <event variable="x">
+      <value>
+        <list>
+          <list_element>
+            <list>
+              <list_element type="integer">0</list_element>
+              <list_element type="integer">0</list_element>
+              <list_element type="integer">0</list_element>
+            </list>
+          </list_element>
+          <list_element>
+            <list>
+              <list_element type="integer">0</list_element>
+              <list_element type="integer">0</list_element>
+            </list>
+          </list_element>
+        </list>
+      </value>
+    </event>
+    <event variable="x">
+      <value>
+        <list>
+          <list_element>
+            <list>
+              <list_element type="integer">0</list_element>
+              <list_element type="integer">0</list_element>
+              <list_element type="integer">0</list_element>
+            </list>
+          </list_element>
+          <list_element>
+            <list>
+              <list_element type="integer">0</list_element>
+              <list_element type="integer">0</list_element>
+              <list_element type="integer">0</list_element>
+            </list>
+          </list_element>
+        </list>
+      </value>
+    </event>
+    <event variable="x">
+      <value>
+        <list>
+          <list_element>
+            <list>
+              <list_element type="integer">1</list_element>
+              <list_element type="integer">0</list_element>
+              <list_element type="integer">0</list_element>
+            </list>
+          </list_element>
+          <list_element>
+            <list>
+              <list_element type="integer">0</list_element>
+              <list_element type="integer">0</list_element>
+              <list_element type="integer">0</list_element>
+            </list>
+          </list_element>
+        </list>
+      </value>
+    </event>
+    <event variable="x">
+      <value>
+        <list>
+          <list_element>
+            <list>
+              <list_element type="integer">1</list_element>
+              <list_element type="integer">2</list_element>
+              <list_element type="integer">0</list_element>
+            </list>
+          </list_element>
+          <list_element>
+            <list>
+              <list_element type="integer">0</list_element>
+              <list_element type="integer">0</list_element>
+              <list_element type="integer">0</list_element>
+            </list>
+          </list_element>
+        </list>
+      </value>
+    </event>
+    <event variable="x">
+      <value>
+        <list>
+          <list_element>
+            <list>
+              <list_element type="integer">1</list_element>
+              <list_element type="integer">2</list_element>
+              <list_element type="integer">3</list_element>
+            </list>
+          </list_element>
+          <list_element>
+            <list>
+              <list_element type="integer">0</list_element>
+              <list_element type="integer">0</list_element>
+              <list_element type="integer">0</list_element>
+            </list>
+          </list_element>
+        </list>
+      </value>
+    </event>
+    <event variable="x">
+      <value>
+        <list>
+          <list_element>
+            <list>
+              <list_element type="integer">1</list_element>
+              <list_element type="integer">2</list_element>
+              <list_element type="integer">3</list_element>
+            </list>
+          </list_element>
+          <list_element>
+            <list>
+              <list_element type="integer">4</list_element>
+              <list_element type="integer">0</list_element>
+              <list_element type="integer">0</list_element>
+            </list>
+          </list_element>
+        </list>
+      </value>
+    </event>
+    <event variable="x">
+      <value>
+        <list>
+          <list_element>
+            <list>
+              <list_element type="integer">1</list_element>
+              <list_element type="integer">2</list_element>
+              <list_element type="integer">3</list_element>
+            </list>
+          </list_element>
+          <list_element>
+            <list>
+              <list_element type="integer">4</list_element>
+              <list_element type="integer">5</list_element>
+              <list_element type="integer">0</list_element>
+            </list>
+          </list_element>
+        </list>
+      </value>
+    </event>
+    <event variable="x">
+      <value>
+        <list>
+          <list_element>
+            <list>
+              <list_element type="integer">1</list_element>
+              <list_element type="integer">2</list_element>
+              <list_element type="integer">3</list_element>
+            </list>
+          </list_element>
+          <list_element>
+            <list>
+              <list_element type="integer">4</list_element>
+              <list_element type="integer">5</list_element>
+              <list_element type="integer">6</list_element>
+            </list>
+          </list_element>
+        </list>
+      </value>
+    </event>
+    <event variable="x">
+      <value>
+        <list>
+          <list_element>
+            <list>
+              <list_element type="integer">1</list_element>
+              <list_element type="integer">2</list_element>
+              <list_element type="integer">3</list_element>
+            </list>
+          </list_element>
+          <list_element>
+            <list>
+              <list_element type="integer">4</list_element>
+              <list_element type="integer">5</list_element>
+              <list_element type="integer">6</list_element>
+            </list>
+          </list_element>
+        </list>
+      </value>
+    </event>
+    <event variable="x">
+      <value>
+        <list>
+          <list_element>
+            <list>
+              <list_element type="integer">1</list_element>
+              <list_element type="integer">2</list_element>
+              <list_element type="integer">3</list_element>
+            </list>
+          </list_element>
+          <list_element>
+            <list>
+              <list_element type="integer">4</list_element>
+              <list_element type="integer">5</list_element>
+              <list_element type="integer">6</list_element>
+            </list>
+          </list_element>
+        </list>
+      </value>
+    </event>
+  </expected_events>
+</marionette_info>

@@ -69,6 +69,14 @@ public:
         }
     }
     
+    static stx::ParseTreeList parseVarnameWithSubscripts(const std::string &input, std::string &varname) {
+        try {
+            return stx::parseVarnameWithSubscripts(boost::algorithm::trim_copy(input), varname);
+        } catch (stx::ExpressionParserException &e) {
+            throw FatalParserException("Expression parser error", e.what());
+        }
+    }
+    
     static void evaluateParseTreeList(const stx::ParseTreeList &treeList, std::vector<Datum> &values) {
         try {
             treeList.evaluate(values, (stx::SymbolTable&)(*(global_variable_registry.get())));

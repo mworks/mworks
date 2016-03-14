@@ -41,7 +41,18 @@ void GlobalVariable::setSilentValue(Datum newval, MWTime timeUS) {
         lock_guard lock(valueMutex);
         value = newval;
     }
-	performNotifications(newval, timeUS);
+    performNotifications(std::move(newval), timeUS);
+}
+
+
+void GlobalVariable::setSilentValue(const std::vector<Datum> &indexOrKeyPath, Datum elementValue, MWTime timeUS) {
+    Datum newval;
+    {
+        lock_guard lock(valueMutex);
+        value.setElement(indexOrKeyPath, elementValue);
+        newval = value;
+    }
+    performNotifications(std::move(newval), timeUS);
 }
 
 

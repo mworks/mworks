@@ -37,15 +37,30 @@ Datum ScopedVariable::getValue(){
 	return environment->getValue(context_index); 
 }
 
-void ScopedVariable::setSilentValue(Datum _data, MWTime timeUS){ 
+
+void ScopedVariable::setSilentValue(Datum data, MWTime timeUS) {
 	if(environment == NULL){
 		mwarning(M_SYSTEM_MESSAGE_DOMAIN,
 				 "Scoped variable belongs to invalid (NULL) environmnet");
 		return; // don't crash
 	}
 	
-	environment->setValue(context_index, _data);
-	performNotifications(_data, timeUS);
+	environment->setValue(context_index, data);
+    performNotifications(std::move(data), timeUS);
+}
+
+
+void ScopedVariable::setSilentValue(const std::vector<Datum> &indexOrKeyPath, Datum value, MWTime timeUS) {
+    if (!environment) {
+        mwarning(M_SYSTEM_MESSAGE_DOMAIN,
+                 "Scoped variable belongs to invalid (NULL) environmnet");
+        return;
+    }
+    
+    Datum data = environment->getValue(context_index);
+    data.setElement(indexOrKeyPath, value);
+    environment->setValue(context_index, data);
+    performNotifications(std::move(data), timeUS);
 }
 
 

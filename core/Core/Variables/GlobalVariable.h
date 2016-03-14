@@ -59,6 +59,7 @@ public:
      * Sets the data value of this parameter
      */
     void setSilentValue(Datum newval, MWTime time) override;
+    void setSilentValue(const std::vector<Datum> &indexOrKeyPath, Datum value, MWTime when) override;
     
     /**
      * The value can be modified

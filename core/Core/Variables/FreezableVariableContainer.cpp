@@ -25,11 +25,6 @@ FreezableVariableContainer::FreezableVariableContainer(shared_ptr<Variable> _var
     }
 }
 
-FreezableVariableContainer::FreezableVariableContainer(const FreezableVariableContainer& tocopy){
-    frozen = false;
-    variable = tocopy.variable;
-    frozen_value = tocopy.frozen_value;
-}
 
 void FreezableVariableContainer::freeze(bool should_freeze){
     
@@ -47,6 +42,7 @@ void FreezableVariableContainer::thaw(){
     freeze(false);
 }
 
+
 Datum FreezableVariableContainer::getValue(){
     boost::mutex::scoped_lock locker(lock);
     
@@ -59,17 +55,30 @@ Datum FreezableVariableContainer::getValue(){
     }
 }
 
+
 void FreezableVariableContainer::setValue(Datum value, MWTime time){
     // this can rely on the contained object's locking
     // for thread safety
     variable->setValue(value, time);
 }
 
+
+void FreezableVariableContainer::setValue(const std::vector<Datum> &indexOrKeyPath, Datum value, MWTime when) {
+    variable->setValue(indexOrKeyPath, value, when);
+}
+
+
 void FreezableVariableContainer::setSilentValue(Datum value, MWTime time) {
     // this can rely on the contained object's locking
     // for thread safety
     variable->setSilentValue(value, time);
 }
+
+
+void FreezableVariableContainer::setSilentValue(const std::vector<Datum> &indexOrKeyPath, Datum value, MWTime when) {
+    variable->setSilentValue(indexOrKeyPath, value, when);
+}
+
 
 bool FreezableVariableContainer::isWritable() const {
     return variable->isWritable();

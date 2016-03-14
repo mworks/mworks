@@ -80,7 +80,8 @@ public:
     bool execute() override;
     
 private:
-    const VariablePtr var;
+    VariablePtr var;
+    stx::ParseTreeList indexExprs;
     const VariablePtr value;
     
 };

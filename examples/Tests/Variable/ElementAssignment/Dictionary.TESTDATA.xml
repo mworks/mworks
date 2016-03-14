@@ -1,0 +1,339 @@
+<?xml version="1.0"?>
+<marionette_info>
+  <expected_messages>
+    <message type="starts_with">x = {} </message>
+    <message type="starts_with">x = {"foo": {}} </message>
+    <!-- Since dictionaries are inherently unordered, we can't rely on any
+         specific string representation once there's more than one elememnt -->
+    <message type="whole_message">ERROR: Cannot set element in float [at line 30]</message>
+    <message type="whole_message">ERROR: Cannot set element in float [at line 31]</message>
+  </expected_messages>
+  <expected_events>
+    <event variable="x">
+      <value>
+        <dictionary>
+        </dictionary>
+      </value>
+    </event>
+    <event variable="x">
+      <value>
+        <dictionary>
+          <dictionary_element>
+            <key>foo</key>
+            <value>
+              <dictionary>
+              </dictionary>
+            </value>
+          </dictionary_element>
+        </dictionary>
+      </value>
+    </event>
+    <event variable="x">
+      <value>
+        <dictionary>
+          <dictionary_element>
+            <key>foo</key>
+            <value>
+              <dictionary>
+              </dictionary>
+            </value>
+          </dictionary_element>
+          <dictionary_element>
+            <key>bar</key>
+            <value>
+              <dictionary>
+              </dictionary>
+            </value>
+          </dictionary_element>
+        </dictionary>
+      </value>
+    </event>
+    <event variable="x">
+      <value>
+        <dictionary>
+          <dictionary_element>
+            <key>foo</key>
+            <value>
+              <dictionary>
+                <dictionary_element>
+                  <key type="integer">1</key>
+                  <value>a</value>
+                </dictionary_element>
+              </dictionary>
+            </value>
+          </dictionary_element>
+          <dictionary_element>
+            <key>bar</key>
+            <value>
+              <dictionary>
+              </dictionary>
+            </value>
+          </dictionary_element>
+        </dictionary>
+      </value>
+    </event>
+    <event variable="x">
+      <value>
+        <dictionary>
+          <dictionary_element>
+            <key>foo</key>
+            <value>
+              <dictionary>
+                <dictionary_element>
+                  <key type="integer">1</key>
+                  <value>a</value>
+                </dictionary_element>
+                <dictionary_element>
+                  <key type="integer">2</key>
+                  <value>b</value>
+                </dictionary_element>
+              </dictionary>
+            </value>
+          </dictionary_element>
+          <dictionary_element>
+            <key>bar</key>
+            <value>
+              <dictionary>
+              </dictionary>
+            </value>
+          </dictionary_element>
+        </dictionary>
+      </value>
+    </event>
+    <event variable="x">
+      <value>
+        <dictionary>
+          <dictionary_element>
+            <key>foo</key>
+            <value>
+              <dictionary>
+                <dictionary_element>
+                  <key type="integer">1</key>
+                  <value>a</value>
+                </dictionary_element>
+                <dictionary_element>
+                  <key type="integer">2</key>
+                  <value>b</value>
+                </dictionary_element>
+                <dictionary_element>
+                  <key type="integer">3</key>
+                  <value>c</value>
+                </dictionary_element>
+              </dictionary>
+            </value>
+          </dictionary_element>
+          <dictionary_element>
+            <key>bar</key>
+            <value>
+              <dictionary>
+              </dictionary>
+            </value>
+          </dictionary_element>
+        </dictionary>
+      </value>
+    </event>
+    <event variable="x">
+      <value>
+        <dictionary>
+          <dictionary_element>
+            <key>foo</key>
+            <value>
+              <dictionary>
+                <dictionary_element>
+                  <key type="integer">1</key>
+                  <value>a</value>
+                </dictionary_element>
+                <dictionary_element>
+                  <key type="integer">2</key>
+                  <value>b</value>
+                </dictionary_element>
+                <dictionary_element>
+                  <key type="integer">3</key>
+                  <value>c</value>
+                </dictionary_element>
+              </dictionary>
+            </value>
+          </dictionary_element>
+          <dictionary_element>
+            <key>bar</key>
+            <value>
+              <dictionary>
+                <dictionary_element>
+                  <key>a</key>
+                  <value type="float">1.5</value>
+                </dictionary_element>
+              </dictionary>
+            </value>
+          </dictionary_element>
+        </dictionary>
+      </value>
+    </event>
+    <event variable="x">
+      <value>
+        <dictionary>
+          <dictionary_element>
+            <key>foo</key>
+            <value>
+              <dictionary>
+                <dictionary_element>
+                  <key type="integer">1</key>
+                  <value>a</value>
+                </dictionary_element>
+                <dictionary_element>
+                  <key type="integer">2</key>
+                  <value>b</value>
+                </dictionary_element>
+                <dictionary_element>
+                  <key type="integer">3</key>
+                  <value>c</value>
+                </dictionary_element>
+              </dictionary>
+            </value>
+          </dictionary_element>
+          <dictionary_element>
+            <key>bar</key>
+            <value>
+              <dictionary>
+                <dictionary_element>
+                  <key>a</key>
+                  <value type="float">1.5</value>
+                </dictionary_element>
+                <dictionary_element>
+                  <key>b</key>
+                  <value type="float">2.5</value>
+                </dictionary_element>
+              </dictionary>
+            </value>
+          </dictionary_element>
+        </dictionary>
+      </value>
+    </event>
+    <event variable="x">
+      <value>
+        <dictionary>
+          <dictionary_element>
+            <key>foo</key>
+            <value>
+              <dictionary>
+                <dictionary_element>
+                  <key type="integer">1</key>
+                  <value>xyz</value>
+                </dictionary_element>
+                <dictionary_element>
+                  <key type="integer">2</key>
+                  <value>b</value>
+                </dictionary_element>
+                <dictionary_element>
+                  <key type="integer">3</key>
+                  <value>c</value>
+                </dictionary_element>
+              </dictionary>
+            </value>
+          </dictionary_element>
+          <dictionary_element>
+            <key>bar</key>
+            <value>
+              <dictionary>
+                <dictionary_element>
+                  <key>a</key>
+                  <value type="float">1.5</value>
+                </dictionary_element>
+                <dictionary_element>
+                  <key>b</key>
+                  <value type="float">2.5</value>
+                </dictionary_element>
+              </dictionary>
+            </value>
+          </dictionary_element>
+        </dictionary>
+      </value>
+    </event>
+    <event variable="x">
+      <value>
+        <dictionary>
+          <dictionary_element>
+            <key>foo</key>
+            <value>
+              <dictionary>
+                <dictionary_element>
+                  <key type="integer">1</key>
+                  <value>xyz</value>
+                </dictionary_element>
+                <dictionary_element>
+                  <key type="integer">2</key>
+                  <value>b</value>
+                </dictionary_element>
+                <dictionary_element>
+                  <key type="integer">3</key>
+                  <value>c</value>
+                </dictionary_element>
+              </dictionary>
+            </value>
+          </dictionary_element>
+          <dictionary_element>
+            <key>bar</key>
+            <value type="float">3.5</value>
+          </dictionary_element>
+        </dictionary>
+      </value>
+    </event>
+    <event variable="x">
+      <value>
+        <dictionary>
+          <dictionary_element>
+            <key>foo</key>
+            <value>
+              <dictionary>
+                <dictionary_element>
+                  <key type="integer">1</key>
+                  <value>xyz</value>
+                </dictionary_element>
+                <dictionary_element>
+                  <key type="integer">2</key>
+                  <value>b</value>
+                </dictionary_element>
+                <dictionary_element>
+                  <key type="integer">3</key>
+                  <value>c</value>
+                </dictionary_element>
+              </dictionary>
+            </value>
+          </dictionary_element>
+          <dictionary_element>
+            <key>bar</key>
+            <value type="float">3.5</value>
+          </dictionary_element>
+        </dictionary>
+      </value>
+    </event>
+    <event variable="x">
+      <value>
+        <dictionary>
+          <dictionary_element>
+            <key>foo</key>
+            <value>
+              <dictionary>
+                <dictionary_element>
+                  <key type="integer">1</key>
+                  <value>xyz</value>
+                </dictionary_element>
+                <dictionary_element>
+                  <key type="integer">2</key>
+                  <value>b</value>
+                </dictionary_element>
+                <dictionary_element>
+                  <key type="integer">3</key>
+                  <value>c</value>
+                </dictionary_element>
+              </dictionary>
+            </value>
+          </dictionary_element>
+          <dictionary_element>
+            <key>bar</key>
+            <value type="float">3.5</value>
+          </dictionary_element>
+        </dictionary>
+      </value>
+    </event>
+  </expected_events>
+</marionette_info>

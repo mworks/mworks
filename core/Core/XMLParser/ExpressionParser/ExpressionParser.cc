@@ -108,6 +108,8 @@ namespace stx MW_SYMBOL_PUBLIC {
 			range_expr_id,
 			
 			exprlist_id,
+            
+            varname_with_subscripts_id,
 		};
 		
 		/// Keyword parser used for matching words with () and spaces as separators.
@@ -120,7 +122,8 @@ namespace stx MW_SYMBOL_PUBLIC {
 			/// scanner) with two entry points.
 			template <typename ScannerT>
 			struct definition : public grammar_def<rule<ScannerT, parser_context<>, parser_tag<expr_id> >,
-			rule<ScannerT, parser_context<>, parser_tag<exprlist_id> > >
+			rule<ScannerT, parser_context<>, parser_tag<exprlist_id> >,
+            rule<ScannerT, parser_context<>, parser_tag<varname_with_subscripts_id> > >
 			{
 				/// Real definition function of the grammar.
 				definition(ExpressionGrammar const& /*self*/)
@@ -280,9 +283,14 @@ namespace stx MW_SYMBOL_PUBLIC {
 					exprlist
 					= infix_node_d[ !list_p((range_expr | expr), ch_p(',')) ]
 					;
+                    
+                    varname_with_subscripts
+                    = root_node_d[ varname ]
+                    >> *( discard_node_d[ ch_p('[') ] >> expr >> discard_node_d[ ch_p(']') ] )
+                    ;
 					
 					// Special spirit feature to declare multiple grammar entry points
-					this->start_parsers(expr, exprlist); 
+					this->start_parsers(expr, exprlist, varname_with_subscripts);
 					
 #ifdef STX_DEBUG_PARSER
 					BOOST_SPIRIT_DEBUG_RULE(constant);
@@ -321,6 +329,8 @@ namespace stx MW_SYMBOL_PUBLIC {
 					BOOST_SPIRIT_DEBUG_RULE(range_expr);
 					
 					BOOST_SPIRIT_DEBUG_RULE(exprlist);
+                    
+                    BOOST_SPIRIT_DEBUG_RULE(varname_with_subscripts);
 #endif
 				}
 				
@@ -391,6 +401,8 @@ namespace stx MW_SYMBOL_PUBLIC {
 				/// Base rule to match a comma-separated list of expressions (used for
 				/// function arguments and lists of expressions)
 				rule<ScannerT, parser_context<>, parser_tag<exprlist_id> >    		exprlist;
+                
+                rule<ScannerT, parser_context<>, parser_tag<varname_with_subscripts_id> >  varname_with_subscripts;
 			};
 		};
 		
@@ -1783,6 +1795,29 @@ namespace stx MW_SYMBOL_PUBLIC {
 			
 			return ptlist;
 		}
+        
+        ParseTreeList build_varname_with_subscripts(TreeIterT const &i, std::string &varname)
+        {
+#ifdef STX_DEBUG_PARSER
+            std::cout << "In build_varname_with_subscripts. i->value = " <<
+            std::string(i->value.begin(), i->value.end()) <<
+            " i->children.size() = " << i->children.size() <<
+            " i->value.id = " << i->value.id().to_long() << std::endl;
+#endif
+            
+            varname.assign(i->value.begin(), i->value.end());
+            
+            ParseTreeList ptlist;
+            
+            for(TreeIterT ci = i->children.begin(); ci != i->children.end(); ++ci)
+            {
+                ParseNode *vas = build_expr(ci);
+                
+                ptlist.push_back( ParseTree(vas) );
+            }
+            
+            return ptlist;
+        }
 		
 		/// Uses boost::spirit::classic function to convert the parse tree into a XML document.
 		static inline void tree_dump_xml(std::ostream &os, const std::string &input, const tree_parse_info<InputIterT> &info)
@@ -1824,6 +1859,8 @@ namespace stx MW_SYMBOL_PUBLIC {
 			rule_names[range_expr_id] = "range_expr";
 			
 			rule_names[exprlist_id] = "exprlist";
+            
+            rule_names[varname_with_subscripts_id] = "varname_with_subscripts";
 			
 			tree_to_xml(os, info.trees, input.c_str(), rule_names);
 		}
@@ -1915,6 +1952,34 @@ namespace stx MW_SYMBOL_PUBLIC {
 		
 		return Grammar::build_exprlist(info.trees.begin());
 	}
+    
+    ParseTreeList parseVarnameWithSubscripts(const std::string &input, std::string &varname)
+    {
+        // instance of the grammar
+        Grammar::ExpressionGrammar g;
+        
+#ifdef STX_DEBUG_PARSER
+        BOOST_SPIRIT_DEBUG_GRAMMAR(g);
+#endif
+        
+        Grammar::tree_parse_info<Grammar::InputIterT> info =
+        boost::spirit::classic::ast_parse(input.begin(), input.end(),
+                                          g.use_parser<2>(),	// use third entry point: varname_with_subscripts
+                                          boost::spirit::classic::space_p);
+        
+        if (!info.full)
+        {
+            std::ostringstream oss;
+            oss << "Syntax error at position "
+            << static_cast<int>(info.stop - input.begin())
+            << " near "
+            << std::string(info.stop, input.end());
+            
+            throw(BadSyntaxException(oss.str()));
+        }
+        
+        return Grammar::build_varname_with_subscripts(info.trees.begin(), varname);
+    }
 	
 	void ParseTreeList::evaluate(std::vector<Datum> &values, const class SymbolTable &st) const
 	{

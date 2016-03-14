@@ -237,18 +237,14 @@ void Variable::addNotification(const shared_ptr<VariableNotification> &_notif) {
 
 
 void Variable::performNotifications(Datum data, MWTime timeUS) {
-	notifications.lock();
-	
-    shared_ptr<VariableNotification> node = notifications.getFrontmost();
-
-
-	while(node != NULL){
-		shared_ptr<VariableNotification> notif = node;
-		notif->notify(data, timeUS);
-		node = node->getNext();
-	}
-	
-	notifications.unlock();
+    Locker locker(notifications);
+    
+    auto node = notifications.getFrontmost();
+    
+    while (node) {
+        node->notify(data, timeUS);
+        node = node->getNext();
+    }
 }
 
 
@@ -265,6 +261,12 @@ void Variable::announce(MWTime timeUS){
 
 void Variable::setValue(Datum value, MWTime time) {
     setSilentValue(value, time);
+    announce(time);
+}
+
+
+void Variable::setValue(const std::vector<Datum> &indexOrKeyPath, Datum value, MWTime time) {
+    setSilentValue(indexOrKeyPath, value, time);
     announce(time);
 }
 

@@ -1,0 +1,35 @@
+<?xml version="1.0" standalone="no"?>
+<monkeyml version="1.0">
+    <io_devices tag="IO Devices"></io_devices>
+    <variables tag="Variables">
+        <variable tag="x" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="0" type="any">
+            <action type="report" tag="Report" message="x = $x"></action>
+        </variable>
+    </variables>
+    <sounds tag="Sounds"></sounds>
+    <stimuli tag="Stimuli"></stimuli>
+    <filters tag="Filters"></filters>
+    <optimizers tag="Optimizers"></optimizers>
+    <experiment tag="New Experiment" full_name="" description="">
+        <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
+            <block tag="Initialize x" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
+                <action type="assignment" tag="Reset x" variable="x" value="{}"></action>
+                <action type="assignment" tag="Set x['foo']" variable="x['foo']" value="{}"></action>
+                <action type="assignment" tag="Set x['bar']" variable="x['bar']" value="{}"></action>
+                <action type="assignment" tag="Set x['foo'][1]" variable="x['foo'][1]" value="'a'"></action>
+                <action type="assignment" tag="Set x['foo'][2]" variable="x['foo'][2]" value="'b'"></action>
+                <action type="assignment" tag="Set x['foo'][3]" variable="x['foo'][3]" value="'c'"></action>
+                <action type="assignment" tag="Set x['bar']['a']" variable="x['bar']['a']" value="1.5"></action>
+                <action type="assignment" tag="Set x['bar']['b']" variable="x['bar']['b']" value="2.5"></action>
+            </block>
+            <block tag="Modify x" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
+                <action type="assignment" tag="Set x['foo'][1]" variable="x['foo'][1]" value="'xyz'"></action>
+                <action type="assignment" tag="Set x['bar']" variable="x['bar']" value="3.5"></action>
+            </block>
+            <block tag="Attempt invalid assignments" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
+                <action type="assignment" tag="Assign Variable" variable="x['bar']['blah']" value="3"></action>
+                <action type="assignment" tag="Assign Variable 2" variable="x['bar']['blah'][0]" value="4"></action>
+            </block>
+        </protocol>
+    </experiment>
+</monkeyml>

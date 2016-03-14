@@ -417,6 +417,8 @@ public:
 /// vector of parse trees. Each parse tree is represented by its root node,
 /// which can be evaluated.
 ParseTreeList parseExpressionList(const std::string &input);
+    
+ParseTreeList parseVarnameWithSubscripts(const std::string &input, std::string &varname);
 
 } // namespace stx
 
