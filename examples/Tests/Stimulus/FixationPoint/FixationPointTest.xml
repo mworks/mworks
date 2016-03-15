@@ -29,7 +29,7 @@
                     <range_replicator tag="Range Replicator_1" from="0" to="8" step="1" variable="X">
                         <task_system tag="Task System_6" full_name="fullname_6" description="" interruptible="YES">
                             <task_system_state tag="Stim On" full_name="fullname_8" description="" interruptible="YES">
-                                <action tag="Next Fixation Point" full_name="fullname_17" type="assignment" variable="StimIndex" values="X" value="0"/>
+                                <action tag="Next Fixation Point" full_name="fullname_17" type="assignment" variable="StimIndex" value="0"/>
                                 <action tag="Report Stim On" full_name="fullname_19" type="report" message="*************** Stim On: MyGroup[$StimIndex ] **"/>
                                 <action tag="QueueStimulus" full_name="fullname_10" type="queue_stimulus" stimulus="MyGroup[X]"/>
                                 <action tag="UpdateStimulusDisplay" full_name="fullname_14" type="update_stimulus_display"/>

@@ -413,7 +413,7 @@ MWTime TimerAction::getExpirationTime() const {
         offset = Clock::instance()->getCurrentTimeUS();
     }
     
-    return MWTime(duration->getValue()) * durationUnitsToUS + offset;
+    return MWTime(duration->getValue() * Datum(durationUnitsToUS)) + offset;
 }
 
 
