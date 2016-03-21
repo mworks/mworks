@@ -204,12 +204,6 @@
 		5CA9ADA510B63E1700A04B67 /* VariableRegistryInterface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CA9AD3110B5F9B500A04B67 /* VariableRegistryInterface.cpp */; };
 		5CAE8BF70AE4049E0013DB19 /* alut.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CAE8BF50AE4049E0013DB19 /* alut.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5CAE8BF80AE4049E0013DB19 /* alut.c in Sources */ = {isa = PBXBuildFile; fileRef = 5CAE8BF60AE4049E0013DB19 /* alut.c */; };
-		5CB6C46E0E9A92B1006923EC /* ASIOEventTransport.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CB6C46A0E9A92B1006923EC /* ASIOEventTransport.cpp */; };
-		5CB6C46F0E9A92B1006923EC /* ASIOEventTransport.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CB6C46B0E9A92B1006923EC /* ASIOEventTransport.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5CB6C4700E9A92B1006923EC /* DummyEventTransport.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CB6C46C0E9A92B1006923EC /* DummyEventTransport.cpp */; };
-		5CB6C4710E9A92B1006923EC /* DummyEventTransport.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CB6C46D0E9A92B1006923EC /* DummyEventTransport.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5CB6C4790E9A92CA006923EC /* BufferSyncConduit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CB6C4730E9A92CA006923EC /* BufferSyncConduit.cpp */; };
-		5CB6C47A0E9A92CA006923EC /* BufferSyncConduit.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CB6C4740E9A92CA006923EC /* BufferSyncConduit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5CB6C47D0E9A92CA006923EC /* SimpleConduit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CB6C4770E9A92CA006923EC /* SimpleConduit.cpp */; };
 		5CB6C47E0E9A92CA006923EC /* SimpleConduit.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CB6C4780E9A92CA006923EC /* SimpleConduit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5CBA76D40AE069A300D6F4A6 /* Sound.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CBA76D20AE069A300D6F4A6 /* Sound.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -822,12 +816,6 @@
 		5CA9AD3110B5F9B500A04B67 /* VariableRegistryInterface.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = VariableRegistryInterface.cpp; path = Core/InterfaceHooks/VariableRegistryInterface.cpp; sourceTree = "<group>"; };
 		5CAE8BF50AE4049E0013DB19 /* alut.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alut.h; sourceTree = "<group>"; };
 		5CAE8BF60AE4049E0013DB19 /* alut.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alut.c; sourceTree = "<group>"; };
-		5CB6C46A0E9A92B1006923EC /* ASIOEventTransport.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ASIOEventTransport.cpp; sourceTree = "<group>"; };
-		5CB6C46B0E9A92B1006923EC /* ASIOEventTransport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASIOEventTransport.h; sourceTree = "<group>"; };
-		5CB6C46C0E9A92B1006923EC /* DummyEventTransport.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DummyEventTransport.cpp; sourceTree = "<group>"; };
-		5CB6C46D0E9A92B1006923EC /* DummyEventTransport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DummyEventTransport.h; sourceTree = "<group>"; };
-		5CB6C4730E9A92CA006923EC /* BufferSyncConduit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BufferSyncConduit.cpp; sourceTree = "<group>"; };
-		5CB6C4740E9A92CA006923EC /* BufferSyncConduit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BufferSyncConduit.h; sourceTree = "<group>"; };
 		5CB6C4770E9A92CA006923EC /* SimpleConduit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SimpleConduit.cpp; sourceTree = "<group>"; };
 		5CB6C4780E9A92CA006923EC /* SimpleConduit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleConduit.h; sourceTree = "<group>"; };
 		5CBA76D20AE069A300D6F4A6 /* Sound.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sound.h; sourceTree = "<group>"; };
@@ -1320,8 +1308,6 @@
 			isa = PBXGroup;
 			children = (
 				5CCA2CAC0E903B21007BDA56 /* tests */,
-				5CB6C4740E9A92CA006923EC /* BufferSyncConduit.h */,
-				5CB6C4730E9A92CA006923EC /* BufferSyncConduit.cpp */,
 				5CB6C4780E9A92CA006923EC /* SimpleConduit.h */,
 				5CB6C4770E9A92CA006923EC /* SimpleConduit.cpp */,
 				5C2386B50E8D18FA00CDC4FC /* Conduit.h */,
@@ -1352,10 +1338,6 @@
 			isa = PBXGroup;
 			children = (
 				5CCA2CAA0E903B04007BDA56 /* tests */,
-				5CB6C46A0E9A92B1006923EC /* ASIOEventTransport.cpp */,
-				5CB6C46B0E9A92B1006923EC /* ASIOEventTransport.h */,
-				5CB6C46C0E9A92B1006923EC /* DummyEventTransport.cpp */,
-				5CB6C46D0E9A92B1006923EC /* DummyEventTransport.h */,
 				5C2386B80E8D18FA00CDC4FC /* EventTransport.h */,
 				E10AECD115DE904300E71CA7 /* IPCUtilities.h */,
 				5C2386BA0E8D18FA00CDC4FC /* IPCEventTransport.h */,
@@ -2327,9 +2309,6 @@
 				5CCA2B5B0E8F1F9B007BDA56 /* EventTransport.h in Headers */,
 				5CCA2B5D0E8F1F9D007BDA56 /* IPCEventTransport.h in Headers */,
 				5CCA2B5F0E8F1F9F007BDA56 /* Serialization.h in Headers */,
-				5CB6C46F0E9A92B1006923EC /* ASIOEventTransport.h in Headers */,
-				5CB6C4710E9A92B1006923EC /* DummyEventTransport.h in Headers */,
-				5CB6C47A0E9A92CA006923EC /* BufferSyncConduit.h in Headers */,
 				5CB6C47E0E9A92CA006923EC /* SimpleConduit.h in Headers */,
 				0EF2B5C40EBB49F20088F58F /* RegisteredSingleton.h in Headers */,
 				0EFC71400EDBAF6800FFABA8 /* ScheduledActions.h in Headers */,
@@ -2816,9 +2795,6 @@
 				5CCA2B590E8F1F99007BDA56 /* Conduit.cpp in Sources */,
 				5CCA2B5C0E8F1F9C007BDA56 /* IPCEventTransport.cpp in Sources */,
 				5CCA2B5E0E8F1F9E007BDA56 /* Serialization.cpp in Sources */,
-				5CB6C46E0E9A92B1006923EC /* ASIOEventTransport.cpp in Sources */,
-				5CB6C4700E9A92B1006923EC /* DummyEventTransport.cpp in Sources */,
-				5CB6C4790E9A92CA006923EC /* BufferSyncConduit.cpp in Sources */,
 				5CB6C47D0E9A92CA006923EC /* SimpleConduit.cpp in Sources */,
 				0EFC71410EDBAF6800FFABA8 /* ScheduledActions.cpp in Sources */,
 				0EFC71640EDBB14000FFABA8 /* PulseAction.cpp in Sources */,
