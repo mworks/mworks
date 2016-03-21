@@ -63,30 +63,6 @@ void SerializationTestFixture::testEventSerialization(){
 
 }
 
-void SerializationTestFixture::testScarabSerialization(){
-
-    Datum the_data((double)4.0);
-    auto scarabDatum = the_data.toScarabDatum();
-    ScarabDatum *datum = scarabDatum.get();
-
-    ostringstream output_stream_;
-    
-    boost::archive::text_oarchive serialized_archive(output_stream_);
-    serialized_archive << *datum;    
-    string data = output_stream_.str();
-
-    istringstream input_stream;
-    input_stream.str(data);
-    boost::archive::text_iarchive serialized_archive2(input_stream);
-    
-    ScarabDatum datum2;
-    serialized_archive2 >> datum2;
-    
-    CPPUNIT_ASSERT(datum->type == datum2.type);
-    CPPUNIT_ASSERT(datum->data.floatp == datum2.data.floatp);
-
-}
-
 void SerializationTestFixture::testStringDatumSerialization(){
     Datum the_data("blah");
     

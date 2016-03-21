@@ -1,37 +1,7 @@
 /**
  * VariableProperties.h
  *
- * Description: 
- *
- * Note: When creating the ScarabDatum package the keys are the variable names
- * and the values are thier respective values.  This class still needs some
- * destructor methods.
- *
- * NOTE: The Param member of this object does not get sent across the network
- * because an Param object also has a reference to an VariableProperties.
- * There is a small memory leak still because if you use the setParameter
- * function the object becomes the owner of the Param, but the object is not
- * destroyed in the destrutor because of the copy constructor cannot deep
- * copy the Param object because it is NULL when adding VariableProperties
- * objects into the interface lists in the Parameter Registry.
- *
- * NOTE: VariableProperties() for objects of INFINITE and DISCRETE_BOOLEN
- * types that accept a pointer to an Datum object have an extra parameter 
- * called nothing in the argument list.  This is because the constructor has
- * the same method signature as the constructor that takes an Datum object.
- * Perl was unable to distinguish between the two objects and was calling
- * the wrong constructor.
- *
- * History:
- * David Cox on Tue Dec 10 2002 - Created.
- * Paul Jankunas on 01/27/05 - Fixed spacing added translation into scarab
- *                              object.
- * Paul Jankunas on 02/14/05 - Added copy constructor (broken).
- * Paul Jankunas on 4/5/05 - Fixing copy constructor.
- * Paul Jankunas on 06/03/05 - Added destructor, added constructors that take
- *      pointer objects of type Datum so that they can be called from perl.
- *
- * Copyright (c) 2002 MIT. All rights reserved.
+ * Copyright (c) 2002-2016 MIT. All rights reserved.
  */
 
 #ifndef UI_INTERFACE_H
@@ -89,9 +59,7 @@ class VariableProperties {
             VariableProperties(*def, tag, log, persist, groups, exclude)
         { }
 
-        // Constructs an interface setting from a scarab object.
-        // used in network communication
-        VariableProperties(ScarabDatum * datum);
+        explicit VariableProperties(const Datum &datum);
     
         const Datum& getDefaultValue() const;
 		WhenType getLogging() const;
@@ -103,8 +71,6 @@ class VariableProperties {
 		/**
          * Packages this interface setting object into a dictionary.
          */
-        ScarabDatum *toScarabDatum() const;
-        
 		operator Datum() const;
 };
 

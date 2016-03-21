@@ -16,7 +16,6 @@
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
 
-#include "MWorksCore/ScarabServices.h"
 #include "MWorksCore/VariableRegistry.h"
 
 
@@ -32,9 +31,7 @@ class VariableRegistryTestFixture : public CppUnit::TestFixture {
 
 
 	private:
-		ScarabDatum *test_codec;
-		void checkCodec(ScarabDatum *generated_codec, 
-						const int number_of_entries) const;
+		void checkCodec(const Datum &generated_codec, int number_of_entries) const;
 
 	public:
 	

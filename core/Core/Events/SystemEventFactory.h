@@ -97,15 +97,6 @@ class SystemEventFactory {
 	
 public:
         
-        /*******************************************************
-         *      Response Event Package Inspector Methods
-         ******************************************************/
-        // all response events must have a susscess/failure code
-        // in the first payload slot. returns -1 on error or a
-        // SystemEventResponseCode on success.
-        static int responseEventCommandCode(ScarabDatum * payload);
-
-        
 		// Generic system event building methods
 		static Datum systemEventPackage(SystemEventType type, 
 										SystemPayloadType,

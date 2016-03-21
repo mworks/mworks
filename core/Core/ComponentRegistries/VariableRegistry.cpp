@@ -1,17 +1,7 @@
 /**
-* VariableRegistry.cpp
+ * VariableRegistry.cpp
  *
- * History:
- * David Cox on Tue Dec 10 2002 - Created.
- * Paul Jankunas on 4/29/05 - Added the experiment package codec to package.
- *                          Also added the constant code to codec package.
- * Paul Jankunas on 5/17/05 - Removed codec code, it now is stored in a 
- *                                                          scarab package.
- * Paul Jankunas on 06/15/05 - Fixed ScarabDatum constructor, added function
- *      addVariable that takes a Variable arg, fixed a bug in getVariable
- *      that was returning empty variables for 0 index.
- *
- * Copyright (c) 2005 MIT. All rights reserved.
+ * Copyright (c) 2005-2016 MIT. All rights reserved.
  */
 
 #include "VariableRegistry.h"
@@ -73,35 +63,22 @@ void VariableRegistry::updateFromCodecDatum(const Datum &codec) {
 	//////////////////////////////////////////////////////////////////
 	// now add what's in the codec 
 	
-    auto scarabCodec = codec.toScarabDatum();
-    ScarabDatum *datum = scarabCodec.get();
-	
-	ScarabDatum ** keys = datum->data.dict->keys;
-	int size = datum->data.dict->tablesize;
-	
-	
-	
 	int maxCodecCode = -1;
 	// find the maximum codec value
-	for(int i = 0; i < size; ++i) {
-		if(keys[i]) {
-			long long code = keys[i]->data.integer;
-			maxCodecCode = (maxCodecCode < code) ? code : maxCodecCode;
-		}
-	}
+    for (auto &item : codec.getDict()) {
+        maxCodecCode = std::max(maxCodecCode, int(item.first));
+    }
 		
 	// add each variable in order to the registry
 	for(int i = N_RESERVED_CODEC_CODES; i<=maxCodecCode; ++i) {
-		ScarabDatum *key = scarab_new_integer(i);
-		ScarabDatum *serializedVariable = scarab_dict_get(datum, key);
-		scarab_free_datum(key);
+        Datum serializedVariable = codec.getElement(i);
 		
-		if(!serializedVariable) {
+		if (serializedVariable.isUndefined()) {
             shared_ptr<EmptyVariable> empty_var(new EmptyVariable);
             master_variable_list.push_back(empty_var);
             continue;
         } else {
-			if(serializedVariable->type != SCARAB_DICT) {
+			if (!serializedVariable.isDictionary()) {
 				// these must be  placeholder datums in the package
 				// that we should ignore.
 				mwarning(M_SYSTEM_MESSAGE_DOMAIN,
@@ -112,18 +89,7 @@ void VariableRegistry::updateFromCodecDatum(const Datum &codec) {
                 continue;
 			}
 						
-			VariableProperties *props = 
-				new VariableProperties(serializedVariable);
-			
-			if(props == NULL){
-				mwarning(M_SYSTEM_MESSAGE_DOMAIN,
-						 "Bad variable received from network stream");
-				
-                shared_ptr<EmptyVariable> empty_var(new EmptyVariable);
-                master_variable_list.push_back(empty_var);
-                continue;
-			}
-			
+			VariableProperties *props = new VariableProperties(serializedVariable);
 			shared_ptr<Variable> newvar(new GlobalVariable(props));
 			newvar->setCodecCode(i); //necessary? .. Yup
 			
@@ -412,20 +378,13 @@ shared_ptr<SelectionVariable> VariableRegistry::createSelectionVariable(Variable
 
 
 Datum VariableRegistry::generateCodecDatum() {
-	
-	ScarabDatum *codec = NULL;
-    shared_ptr<Variable> var;
-	
-	
 	boost::mutex::scoped_lock s_lock(lock);
 
-    int dictSize = master_variable_list.size();
-	
-	codec = scarab_dict_new(dictSize, &scarab_dict_times2);
-	
+    const int dictSize = master_variable_list.size();
+    Datum codec(M_DICTIONARY, dictSize);
 	
     for(int i = 0; i < dictSize; i++) {
-        var = master_variable_list[i];
+        shared_ptr<Variable> var = master_variable_list[i];
 		
 		if(var == NULL) { 
             continue; 
@@ -443,20 +402,15 @@ Datum VariableRegistry::generateCodecDatum() {
             continue; 
         }
         
-        Datum serialized_var(props->operator Datum());
+        Datum serialized_var(*props);
 		
         if(serialized_var.isUndefined()) {
             mdebug("local parameter null value at param (%d)", i);
         }
-		ScarabDatum *codec_key = scarab_new_integer(codec_code);
-        scarab_dict_put(codec, codec_key, serialized_var.toScarabDatum().get());
-		scarab_free_datum(codec_key);
+        codec.setElement(codec_code, serialized_var);
     }
 	
-	
-    Datum returnCodec(codec);
-	scarab_free_datum(codec);
-    return returnCodec;  
+    return std::move(codec);
 }
 
 

@@ -1,13 +1,7 @@
 /**
-* SystemEventFactory.cpp
+ * SystemEventFactory.cpp
  *
- * History:
- * Paul Jankunas on 5/3/05 - Created.
- * Paul Jankunas on 07/07/05 - Changed string ownership for the argument passed
- *      to protocolSelectionControlEvent.  The method now creates a new string
- *      and puts that into a scarab object.
- *
- * Copyright 2005 MIT. All rights reserved.
+ * Copyright 2005-2016 MIT. All rights reserved.
  */
 
 #include "SystemEventFactory.h"
@@ -341,18 +335,11 @@ shared_ptr<Event> SystemEventFactory::loadVariablesControl(const std::string &fi
 ********************************************************/ 
 shared_ptr<Event> SystemEventFactory::dataFileOpenedResponse(std::string  fname,
 														 SystemEventResponseCode code) {
-    ScarabDatum * load, *valueDatum;
-    load = scarab_list_new(DATA_FILE_OPEN_RESPONSE_PAYLOAD_SIZE);
+    Datum load(M_LIST, DATA_FILE_OPEN_RESPONSE_PAYLOAD_SIZE);
+    load.setElement(RESPONSE_EVENT_CODE_INDEX, code);
+    load.setElement(DATA_FILE_OPEN_RESPONSE_FILE_INDEX, fname);
 	
-    valueDatum = scarab_new_integer( code);
-    scarab_list_put(load, RESPONSE_EVENT_CODE_INDEX, valueDatum);
-    scarab_free_datum(valueDatum);
-	
-    valueDatum = scarab_new_string( fname.c_str());
-    scarab_list_put(load, DATA_FILE_OPEN_RESPONSE_FILE_INDEX, valueDatum);
-    scarab_free_datum(valueDatum);
-	
- Datum payload(systemEventPackage(M_SYSTEM_RESPONSE_PACKAGE, 
+    Datum payload(systemEventPackage(M_SYSTEM_RESPONSE_PACKAGE,
 									 M_DATA_FILE_OPENED, 
 									 load));
 	
@@ -364,18 +351,11 @@ shared_ptr<Event> SystemEventFactory::dataFileOpenedResponse(std::string  fname,
 
 shared_ptr<Event> SystemEventFactory::dataFileClosedResponse(std::string  fname,
 														 SystemEventResponseCode code) {
-    ScarabDatum * load, *valueDatum;
-    load = scarab_list_new(DATA_FILE_CLOSED_RESPONSE_PAYLOAD_SIZE);
+    Datum load(M_LIST, DATA_FILE_CLOSED_RESPONSE_PAYLOAD_SIZE);
+    load.setElement(RESPONSE_EVENT_CODE_INDEX, code);
+    load.setElement(DATA_FILE_CLOSED_RESPONSE_FILE_INDEX, fname);
 	
-    valueDatum = scarab_new_integer( code);
-    scarab_list_put(load, RESPONSE_EVENT_CODE_INDEX, valueDatum);
-    scarab_free_datum(valueDatum);
-	
-    valueDatum = scarab_new_string(fname.c_str());
-    scarab_list_put(load, DATA_FILE_CLOSED_RESPONSE_FILE_INDEX, valueDatum);
-    scarab_free_datum(valueDatum);
-	
- Datum payload(systemEventPackage(M_SYSTEM_RESPONSE_PACKAGE, 
+    Datum payload(systemEventPackage(M_SYSTEM_RESPONSE_PACKAGE,
 									 M_DATA_FILE_CLOSED, 
 									 load));
 	
@@ -487,28 +467,13 @@ shared_ptr<Event> SystemEventFactory::currentExperimentState() {
 }
 
 
-
-/*
- *  Response Events
- */
-int SystemEventFactory::responseEventCommandCode(ScarabDatum * payload) {
-    if(payload == NULL) { return M_COMMAND_SUCCESS; }
-    if(payload->type != SCARAB_LIST) { return -1; }
-    ScarabDatum * tmp = scarab_list_get(payload, RESPONSE_EVENT_CODE_INDEX);
-    if(tmp->type != SCARAB_INTEGER) { return -1; }
-    return tmp->data.integer;
-}
-
-
-
-
 // generic builder methods
 Datum SystemEventFactory::systemEventPackage(SystemEventType eType, 
 										SystemPayloadType pType,
 									 Datum payload) {
     
     Datum systemEventPackage(M_DICTIONARY,
-							 SCARAB_PAYLOAD_EVENT_N_TOPLEVEL_ELEMENTS);
+							 MWORKS_PAYLOAD_EVENT_N_TOPLEVEL_ELEMENTS);
 	
 	systemEventPackage.addElement(M_SYSTEM_EVENT_TYPE, (long)eType);
 	systemEventPackage.addElement(M_SYSTEM_PAYLOAD_TYPE, (long)pType);
@@ -520,7 +485,7 @@ Datum SystemEventFactory::systemEventPackage(SystemEventType eType,
 Datum SystemEventFactory::systemEventPackage(SystemEventType eType, 
 										SystemPayloadType pType) {
     Datum systemEventPackage(M_DICTIONARY,
-							 SCARAB_EVENT_N_TOPLEVEL_ELEMENTS);
+							 MWORKS_EVENT_N_TOPLEVEL_ELEMENTS);
 	
 	systemEventPackage.addElement(M_SYSTEM_EVENT_TYPE, (long)eType);
 	systemEventPackage.addElement(M_SYSTEM_PAYLOAD_TYPE, (long)pType);

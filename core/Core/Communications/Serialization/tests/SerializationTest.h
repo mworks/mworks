@@ -34,7 +34,6 @@ class SerializationTestFixture : public CppUnit::TestFixture {
 	
 	CPPUNIT_TEST_SUITE( SerializationTestFixture );
 	CPPUNIT_TEST( testEventSerialization );
-	CPPUNIT_TEST( testScarabSerialization );
     CPPUNIT_TEST( testDictSerialization );
     CPPUNIT_TEST( testStringDatumSerialization );
     CPPUNIT_TEST( testListSerialization );
@@ -47,7 +46,6 @@ public:
 	void setUp();
 	void tearDown();
 
-	void testScarabSerialization();
     void testEventSerialization();
 	void testDictSerialization();
     void testStringDatumSerialization();

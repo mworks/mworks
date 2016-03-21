@@ -33,7 +33,7 @@ inline ScarabDatum** getScarabEventElements(const ScarabDatum *datum) {
 
 
 inline ScarabDatum* getScarabEventCodeDatum(const ScarabDatum *datum) {
-    return getScarabEventElements(datum)[SCARAB_EVENT_CODEC_CODE_INDEX];
+    return getScarabEventElements(datum)[MWORKS_EVENT_CODEC_CODE_INDEX];
 }
 
 
@@ -43,7 +43,7 @@ inline unsigned int getScarabEventCode(const ScarabDatum *datum) {
 
 
 inline ScarabDatum* getScarabEventTimeDatum(const ScarabDatum *datum) {
-    return getScarabEventElements(datum)[SCARAB_EVENT_TIME_INDEX];
+    return getScarabEventElements(datum)[MWORKS_EVENT_TIME_INDEX];
 }
 
 
@@ -53,17 +53,17 @@ inline MWTime getScarabEventTime(const ScarabDatum *datum) {
 
 
 inline ScarabDatum* getScarabEventPayload(const ScarabDatum *datum) {
-    if (getScarabEventSize(datum) < SCARAB_PAYLOAD_EVENT_N_TOPLEVEL_ELEMENTS) {
+    if (getScarabEventSize(datum) < MWORKS_PAYLOAD_EVENT_N_TOPLEVEL_ELEMENTS) {
         return NULL;
     }
-    return getScarabEventElements(datum)[SCARAB_EVENT_PAYLOAD_INDEX];
+    return getScarabEventElements(datum)[MWORKS_EVENT_PAYLOAD_INDEX];
 }
 
 
 inline bool isScarabEvent(const ScarabDatum *datum) {
     return ((datum->type == SCARAB_LIST) &&
-            ((getScarabEventSize(datum) == SCARAB_PAYLOAD_EVENT_N_TOPLEVEL_ELEMENTS) ||
-             (getScarabEventSize(datum) == SCARAB_EVENT_N_TOPLEVEL_ELEMENTS)) &&
+            ((getScarabEventSize(datum) == MWORKS_PAYLOAD_EVENT_N_TOPLEVEL_ELEMENTS) ||
+             (getScarabEventSize(datum) == MWORKS_EVENT_N_TOPLEVEL_ELEMENTS)) &&
             (getScarabEventCodeDatum(datum)->type == SCARAB_INTEGER) &&
             (getScarabEventTimeDatum(datum)->type == SCARAB_INTEGER));
 }

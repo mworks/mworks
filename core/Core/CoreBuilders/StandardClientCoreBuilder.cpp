@@ -12,7 +12,6 @@
 #import "Event.h"
 #import "EventBuffer.h"
 #import "PluginServices.h"
-#import "ScarabServices.h"
 #import "StandardVariables.h"
 #include "PlatformDependentServices.h"
 

@@ -196,8 +196,6 @@
 		5CA07B4C10D055FD00000A95 /* SimpleCodecUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CA07B0E10D04E9100000A95 /* SimpleCodecUtilities.cpp */; };
 		5CA07B4D10D0560300000A95 /* SimpleCodecUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CA07B0D10D04E9100000A95 /* SimpleCodecUtilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5CA07B4E10D0560C00000A95 /* EventCallbackHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CA07B2710D052DB00000A95 /* EventCallbackHandler.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5CA07B9010D0B23B00000A95 /* EventCallbackHandlerTest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CA07B8E10D0B23B00000A95 /* EventCallbackHandlerTest.h */; };
-		5CA07B9110D0B23B00000A95 /* EventCallbackHandlerTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CA07B8F10D0B23B00000A95 /* EventCallbackHandlerTest.cpp */; };
 		5CA07BB310D0B4D200000A95 /* CodecAwareConduitTest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CA07BB110D0B4D200000A95 /* CodecAwareConduitTest.h */; };
 		5CA07BB410D0B4D200000A95 /* CodecAwareConduitTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CA07BB210D0B4D200000A95 /* CodecAwareConduitTest.cpp */; };
 		5CA07C5510D13A4700000A95 /* CodecAwareConduit.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CA07BE710D1187200000A95 /* CodecAwareConduit.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -816,8 +814,6 @@
 		5CA07B0E10D04E9100000A95 /* SimpleCodecUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SimpleCodecUtilities.cpp; sourceTree = "<group>"; };
 		5CA07B2710D052DB00000A95 /* EventCallbackHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EventCallbackHandler.h; path = Core/Events/EventCallbackHandler.h; sourceTree = "<group>"; };
 		5CA07B2810D052DB00000A95 /* EventCallbackHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EventCallbackHandler.cpp; path = Core/Events/EventCallbackHandler.cpp; sourceTree = "<group>"; };
-		5CA07B8E10D0B23B00000A95 /* EventCallbackHandlerTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventCallbackHandlerTest.h; sourceTree = "<group>"; };
-		5CA07B8F10D0B23B00000A95 /* EventCallbackHandlerTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventCallbackHandlerTest.cpp; sourceTree = "<group>"; };
 		5CA07BB110D0B4D200000A95 /* CodecAwareConduitTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CodecAwareConduitTest.h; sourceTree = "<group>"; };
 		5CA07BB210D0B4D200000A95 /* CodecAwareConduitTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CodecAwareConduitTest.cpp; sourceTree = "<group>"; };
 		5CA07BE710D1187200000A95 /* CodecAwareConduit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CodecAwareConduit.h; sourceTree = "<group>"; };
@@ -1478,8 +1474,6 @@
 			children = (
 				5C4238A009EE97820023EB90 /* ScarabEventTest.h */,
 				5C4238A109EE97820023EB90 /* ScarabEventTest.cpp */,
-				5CA07B8E10D0B23B00000A95 /* EventCallbackHandlerTest.h */,
-				5CA07B8F10D0B23B00000A95 /* EventCallbackHandlerTest.cpp */,
 			);
 			name = tests;
 			path = Core/Events/tests;
@@ -2215,7 +2209,6 @@
 				0EBCB90C0EFF42440032F669 /* XMLParserTest.h in Headers */,
 				5C7A88280F818A38007B4724 /* SimpleConduitTest.h in Headers */,
 				5C25932C10AC95180098558D /* EventHandlerConduitTest.h in Headers */,
-				5CA07B9010D0B23B00000A95 /* EventCallbackHandlerTest.h in Headers */,
 				5CA07BB310D0B4D200000A95 /* CodecAwareConduitTest.h in Headers */,
 				E104A8A2133B829F00D36236 /* MapTest.h in Headers */,
 				E1457B4E14D08F7E004D3AD5 /* MWorksCoreTestMain.h in Headers */,
@@ -2697,7 +2690,6 @@
 				5C7A88270F818A38007B4724 /* SimpleConduitTest.cpp in Sources */,
 				5CA9AD3310B5F9B500A04B67 /* VariableRegistryInterface.cpp in Sources */,
 				5CA0792110CEDD1300000A95 /* EventHandlerConduitTest.cpp in Sources */,
-				5CA07B9110D0B23B00000A95 /* EventCallbackHandlerTest.cpp in Sources */,
 				5CA07BB410D0B4D200000A95 /* CodecAwareConduitTest.cpp in Sources */,
 				E104A8A3133B829F00D36236 /* MapTest.cpp in Sources */,
 				E1457B5014D08F95004D3AD5 /* MWorksCoreTestMain.cpp in Sources */,

@@ -9,7 +9,6 @@
 
 #include "ExperimentUnpackager.h"
 #include "ExperimentPackager.h"
-#include "Scarab/scarab.h"
 #include "Utilities.h"
 #include "LoadingUtilities.h"
 #include "SystemEventFactory.h"

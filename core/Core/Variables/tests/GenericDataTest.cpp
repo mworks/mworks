@@ -727,7 +727,6 @@ void GenericDataTestFixture::testDataEqual() {
     CPPUNIT_ASSERT(!(dic1 != temp));
     
     // two inequal sized dics
-    //fprintf(stderr, "next statements Re: \"...NULL ScarabDatum...\" and \"No key...\" are OK\n");
     dic2.addElement(key1.c_str(),int10);
     CPPUNIT_ASSERT(dic2 != dic1);
     CPPUNIT_ASSERT(dic1 != dic2);

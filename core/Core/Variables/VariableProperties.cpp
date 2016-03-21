@@ -1,12 +1,7 @@
 /**
-* VariableProperties.cpp
+ * VariableProperties.cpp
  *
- * History:
- * David Cox on Tue Dec 10 2002 - Created.
- * Paul Jankunas on 01/27/05 - Fixed spacing added translation into scarab
- *                              object.
- *
- * Copyright (c) 2002 MIT. All rights reserved.
+ * Copyright (c) 2002-2016 MIT. All rights reserved.
  */
 
 #include "VariableProperties.h"
@@ -33,103 +28,95 @@ VariableProperties::VariableProperties(const Datum &def,
 { }
 
 
-VariableProperties::VariableProperties(ScarabDatum * datum) {
-    ScarabDatum *runner, *string_datum;
-    if(datum->type != SCARAB_DICT) {
-        //mwarning(M_NETWORK_MESSAGE_DOMAIN,
-		mdebug("Failed to create an VariableProperties object: invalid scarab type");
-		return;
-	}
-    
-    
-	//tagname
-	string_datum = scarab_new_string("tagname");
-    runner = scarab_dict_get(datum, string_datum);
-	scarab_free_datum(string_datum);
-	if(runner == NULL || runner->type != SCARAB_OPAQUE){
-		mwarning(M_NETWORK_MESSAGE_DOMAIN,
-				 "Invalid tagname on variable received in event stream.");
-		tagname = "<unknown>";
-	} else {
-		tagname.assign((const char *)runner->data.opaque.data);
-    }
-	
-	//persistant
-	string_datum = scarab_new_string("persistant");
-    runner = scarab_dict_get(datum, string_datum);
-	scarab_free_datum(string_datum);
-	if(runner == NULL || runner->type != SCARAB_INTEGER){
-		mwarning(M_NETWORK_MESSAGE_DOMAIN,
-				 "Invalid persistant value on variable (%s) received in event stream.",
-				 tagname.c_str());
-		persistant = false;
-	} else {
-		persistant = (runner->data.integer?true:false);
+VariableProperties::VariableProperties(const Datum &datum) {
+    if (!datum.isDictionary()) {
+        merror(M_NETWORK_MESSAGE_DOMAIN, "Failed to create an VariableProperties object: invalid Datum type");
+        return;
     }
     
-    //excludeFromDataFile
-    string_datum = scarab_new_string("exclude_from_data_file");
-    runner = scarab_dict_get(datum, string_datum);
-    scarab_free_datum(string_datum);
-    if(runner == NULL || runner->type != SCARAB_INTEGER){
-        mwarning(M_NETWORK_MESSAGE_DOMAIN,
-                 "Invalid exclude_from_data_file value on variable (%s) received in event stream.",
-                 tagname.c_str());
-        excludeFromDataFile = false;
-    } else {
-        excludeFromDataFile = (runner->data.integer?true:false);
+    // tagname
+    {
+        Datum d = datum.getElement("tagname");
+        if (!d.isString()) {
+            mwarning(M_NETWORK_MESSAGE_DOMAIN,
+                     "Invalid tagname on variable received in event stream.");
+            tagname = "<unknown>";
+        } else {
+            tagname = d.getString();
+        }
     }
     
-    //logging
-	string_datum = scarab_new_string("logging");
-    runner = scarab_dict_get(datum, string_datum);
-	scarab_free_datum(string_datum);
-	if(runner == NULL || runner->type != SCARAB_INTEGER){
-		mwarning(M_NETWORK_MESSAGE_DOMAIN,
-				 "Invalid logging value on variable (%s) received in event stream.",
-				 tagname.c_str());
-		logging = (WhenType)M_WHEN_CHANGED;  // TODO real value.
-	} else {
-		logging = (WhenType) runner->data.integer;
+    // persistant
+    {
+        Datum d = datum.getElement("persistant");
+        if (!d.isInteger()) {
+            mwarning(M_NETWORK_MESSAGE_DOMAIN,
+                     "Invalid persistant value on variable (%s) received in event stream.",
+                     tagname.c_str());
+            persistant = false;
+        } else {
+            persistant = d.getBool();
+        }
     }
-	
-	
+    
+    // excludeFromDataFile
+    {
+        Datum d = datum.getElement("exclude_from_data_file");
+        if (!d.isInteger()) {
+            mwarning(M_NETWORK_MESSAGE_DOMAIN,
+                     "Invalid exclude_from_data_file value on variable (%s) received in event stream.",
+                     tagname.c_str());
+            excludeFromDataFile = false;
+        } else {
+            excludeFromDataFile = d.getBool();
+        }
+    }
+    
+    // logging
+    {
+        Datum d = datum.getElement("logging");
+        if (!d.isInteger()) {
+            mwarning(M_NETWORK_MESSAGE_DOMAIN,
+                     "Invalid logging value on variable (%s) received in event stream.",
+                     tagname.c_str());
+            logging = M_WHEN_CHANGED;
+        } else {
+            logging = (WhenType)d.getInteger();
+        }
+    }
+    
     // default value
-	string_datum = scarab_new_string("defaultvalue");
-    runner = scarab_dict_get(datum, string_datum);
-	scarab_free_datum(string_datum);
-	if(runner == NULL){
-		mwarning(M_NETWORK_MESSAGE_DOMAIN,
-				 "Invalid default value on variable (%s) received in event stream.",
-				 tagname.c_str());
-		defaultvalue = Datum(0L);
-	} else {
-		defaultvalue = Datum(runner);
-	}
-	
-    // default value
-	groups.clear();
-	
-	string_datum = scarab_new_string("groups");
-    runner = scarab_dict_get(datum, string_datum);
-	scarab_free_datum(string_datum);
-	if(runner != NULL) {
-		if(runner->type != SCARAB_LIST){
-			mwarning(M_NETWORK_MESSAGE_DOMAIN,
-					 "Invalid default value on variable (%s) received in event stream.",
-					 tagname.c_str());
-			
-		} else {
-			for(int i=0; i<runner->data.list->size; ++i) {
-				ScarabDatum *group = runner->data.list->values[i];
-				if(group != NULL && group->type == SCARAB_OPAQUE) {
-					std::string gn((const char *)group->data.opaque.data);
-					groups.push_back(gn);
-				}
-			}
-		}
-	}
+    {
+        Datum d = datum.getElement("defaultvalue");
+        if (d.isUndefined()) {
+            mwarning(M_NETWORK_MESSAGE_DOMAIN,
+                     "Invalid defaultvalue value on variable (%s) received in event stream.",
+                     tagname.c_str());
+            defaultvalue = Datum(0L);
+        } else {
+            defaultvalue = d;
+        }
+    }
+    
+    // groups
+    {
+        Datum d = datum.getElement("groups");
+        if (!d.isUndefined()) {
+            if (!d.isList()) {
+                mwarning(M_NETWORK_MESSAGE_DOMAIN,
+                         "Invalid groups value on variable (%s) received in event stream.",
+                         tagname.c_str());
+            } else {
+                for (auto &group : d.getList()) {
+                    if (group.isString()) {
+                        groups.push_back(group.getString());
+                    }
+                }
+            }
+        }
+    }
 }
+
 
 const Datum& VariableProperties::getDefaultValue() const {
     return defaultvalue;
@@ -157,7 +144,7 @@ const std::vector<std::string>& VariableProperties::getGroups() const {
 
 VariableProperties::operator Datum() const {
 	
- Datum dict(M_DICTIONARY, 12);
+ Datum dict(M_DICTIONARY, 6);
 	
 	dict.addElement("tagname", tagname.c_str());
 	dict.addElement("persistant", Datum((long)persistant));
@@ -184,10 +171,6 @@ VariableProperties::operator Datum() const {
 	return dict;
 }
 
-ScarabDatum * VariableProperties::toScarabDatum() const {
- Datum dict = this->operator Datum();
-	return dict.toScarabDatum().detach();
-}
 
 std::vector <std::string> VariableProperties::parseGroupList(const std::string &groups_csv) const {
     vector <string> gps;

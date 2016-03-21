@@ -15,7 +15,6 @@
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
 
-#include "MWorksCore/ScarabServices.h"
 #include "MWorksCore/VariableRegistry.h"
 
 #include "MWorksCore/ScopedVariableEnvironment.h"

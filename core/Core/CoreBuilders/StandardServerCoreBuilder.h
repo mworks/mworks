@@ -62,8 +62,7 @@ class StandardServerCoreBuilder : public AbstractCoreBuilder {
 
         /*!
          * @function initializeGlobalParameters
-         * @discussion Initializes standard variables and also initializes the
-         * global scarab memory context.
+         * @discussion Initializes standard variables.
          *
          * @result True if everything went OK false otherwise.
          */

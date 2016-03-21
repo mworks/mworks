@@ -134,7 +134,7 @@ int ScarabReadConnection::service() {
             case 6://SCARAB_LIST
 				
 				code = scarab_list_get(datum, 
-								SCARAB_EVENT_CODEC_CODE_INDEX);
+								MWORKS_EVENT_CODEC_CODE_INDEX);
 				if(code->type == SCARAB_INTEGER && code->data.integer == RESERVED_TERMINATION_CODE) { 
 					//termination event
                     mwarning(M_NETWORK_MESSAGE_DOMAIN, 

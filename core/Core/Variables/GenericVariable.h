@@ -1,49 +1,7 @@
 /**
  * GenericVariable.h
  *
- * Desscription:
- * An Variableobject is a unique variable specifier.  The Variable contains no 
- * actual data, rather it is analogous to the name of a variable (like a C 
- * name token), which has an associated value which depends on context (i.e. 
- * int i declared globally means one thing, and declared locally in a 
- * function means something else. 'i' is same token used in either event).  
- * We pass Variablepointers to Experiment->getX(Variable *) type functions, and
- * get back appropriate values.
- *
- * The reason that this is important here is that we'd like to have paradigm
- * variables organized in a stack-like way, with locally defined values 
- * overriding global ones.  For instance, we might want FIXATION_POINT_LOCATION
- * to mean 0.0 by default at a global level, but might want to override this 
- * value for individual trials where we want the fixation point to move.  
- * Ideally the routine that actually draws the fixation point shouldn't know
- * anything about where we are in the paradigm hierarchy, and the fixation
- * point variable should revert back to its original value when we exit that 
- * particular trial and return to a higher (block) level in the paradigm.  
- *
- * Variable can also be added, subtracted, multiplied, etc. etc. to yield a new 
- * Variable object, and the operation is evaluated any time the Variable is 
- * accessed. From a usage standpoint, these composite values look just like
- * ordinary Variables.
- *
- * History:
- * David Cox on Tue Dec 10 2002 - Created.
- * Paul Jankunas on 01/27/05 - Fixed spacing and added codecCode member.
- * Paul Jankunas on 02/14/05 - Added deepCopy function to create a deep 
- *                              copy of an Param.
- * Paul Jankunas on 4/6/05 - Added Variablemembers to the scarab datum made 
- *                      when you send codec info over the network.  Moved
- *                      getScarabDatum function to be a virtual function in
- *                      base param class.
- * Paul Jankunas on 06/02/05 - Added destructors.
- * Paul Jankunas on 06/05/05 - Fixed copy constructor to take a reference
- *      instead of a pointer.
- * Dave Cox on 06/09/05  Renamed to Variable from Param.  Added 
- *      ParameterNotification class and  list to Variable.  Removed 
- *      BaseParam class, CompositeParam class and overloaded operaters of
- *      Param class.
- * Paul Jankunas on 1/24/06 - Adding virtual destructor.
- *
- * Copyright (c) 2002 MIT. All rights reserved.
+ * Copyright (c) 2002-2016 MIT. All rights reserved.
  */
 
 #ifndef GENERIC_VARIABLE_H

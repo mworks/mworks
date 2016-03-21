@@ -51,7 +51,7 @@ Event::Event(ScarabDatum *datum) {  // create an event from a ScarabDatum
 		return;
 	}
 	
-	ScarabDatum *code_datum = scarab_list_get(datum, SCARAB_EVENT_CODEC_CODE_INDEX);
+	ScarabDatum *code_datum = scarab_list_get(datum, MWORKS_EVENT_CODEC_CODE_INDEX);
 	if(code_datum->type != SCARAB_INTEGER){	// is the code an integer?
 		// TODO: warn here
 		mwarning(M_NETWORK_MESSAGE_DOMAIN,
@@ -65,7 +65,7 @@ Event::Event(ScarabDatum *datum) {  // create an event from a ScarabDatum
 	code = code_datum->data.integer;
 	
 	
-	ScarabDatum *time_datum = scarab_list_get(datum, SCARAB_EVENT_TIME_INDEX);
+	ScarabDatum *time_datum = scarab_list_get(datum, MWORKS_EVENT_TIME_INDEX);
 	if(time_datum == NULL){
 		mwarning(M_NETWORK_MESSAGE_DOMAIN,
 				 "Bad time datum received over the network (NULL)");
@@ -79,7 +79,7 @@ Event::Event(ScarabDatum *datum) {  // create an event from a ScarabDatum
 		time = time_datum->data.integer;
 	}
 	
-	ScarabDatum *payload = scarab_list_get(datum, SCARAB_EVENT_PAYLOAD_INDEX);
+	ScarabDatum *payload = scarab_list_get(datum, MWORKS_EVENT_PAYLOAD_INDEX);
 	
 	data = Datum(payload);	
 	nextEvent = shared_ptr<Event>();
@@ -88,21 +88,21 @@ Event::Event(ScarabDatum *datum) {  // create an event from a ScarabDatum
 ScarabDatum *Event::toScarabDatum() const {
 	boost::mutex::scoped_lock lock(eventLock);	
 	
-	ScarabDatum *event_datum = scarab_list_new(SCARAB_PAYLOAD_EVENT_N_TOPLEVEL_ELEMENTS);
+	ScarabDatum *event_datum = scarab_list_new(MWORKS_PAYLOAD_EVENT_N_TOPLEVEL_ELEMENTS);
 	
 	
 	ScarabDatum *code_datum = scarab_new_integer(code);
 	ScarabDatum *time_datum = scarab_new_integer(time);
 	
 	scarab_list_put(event_datum, 
-					SCARAB_EVENT_CODEC_CODE_INDEX, 
+					MWORKS_EVENT_CODEC_CODE_INDEX, 
 					code_datum);
 	
 	scarab_list_put(event_datum, 
-					SCARAB_EVENT_TIME_INDEX, 
+					MWORKS_EVENT_TIME_INDEX, 
 					time_datum);
  	scarab_list_put(event_datum, 
-					SCARAB_EVENT_PAYLOAD_INDEX, 
+					MWORKS_EVENT_PAYLOAD_INDEX, 
 					data.toScarabDatum().get());
 	
 	scarab_free_datum(code_datum);
