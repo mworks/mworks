@@ -5,6 +5,7 @@
  */
 
 #include "ScarabConnection.h"
+#include "ScarabServices.h"
 #include "boost/bind.hpp"
 #include <string>
 #include "Event.h"

@@ -158,8 +158,7 @@ int ScarabReadConnection::service() {
 					for(int i = 0; i < datum->data.list->size; i++){
 						ScarabDatum *subevent = scarab_list_get(datum, i);
 						
-						shared_ptr<Event> event = shared_ptr<Event>(new Event(subevent));					
-						
+						auto event = boost::make_shared<Event>(scarabEventDatumToEvent(subevent));
 						
 						if(event == NULL){
 							// TODO: warn
@@ -178,7 +177,7 @@ int ScarabReadConnection::service() {
 				
 				} else {
 				
-					shared_ptr<Event> event = shared_ptr<Event>(new Event(datum));					
+					auto event = boost::make_shared<Event>(scarabEventDatumToEvent(datum));
 					
 					if(event == NULL){
 						// TODO: warn

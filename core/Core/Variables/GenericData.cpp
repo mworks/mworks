@@ -1,13 +1,6 @@
 /**
  * GenericData.cpp
  *
- * History:
- * Dave Cox on ??/??/?? - Created.
- * Paul Jankunas on 01/28/05 - Added constructor to create Datum objects from
- *                      ScarabDatums used in network transfers. Fixed spacing
- *
- * Paul Jankunas on 4/06/05 - Changing the way scarab objects are generated.
- *
  * Copyright (c) 2005 MIT. All rights reserved.
  */
 
@@ -17,7 +10,6 @@
 #include <sstream>
 
 #include <boost/functional/hash.hpp>
-#include <boost/scope_exit.hpp>
 
 
 BEGIN_NAMESPACE_MW
@@ -290,71 +282,6 @@ Datum::Datum(GenericDataType type, double arg) :
 }
 
 
-Datum::Datum(ScarabDatum *datum) :
-    Datum()
-{
-    if (datum) {
-        switch (datum->type) {
-            case SCARAB_INTEGER:
-                *this = Datum(datum->data.integer);
-                break;
-                
-            case SCARAB_FLOAT:
-                *this = Datum(datum->data.floatp);
-                break;
-                
-            case SCARAB_DICT: {
-                *this = Datum(dict_value_type());
-                
-                scarab_lock_datum(datum);
-                BOOST_SCOPE_EXIT(datum) {
-                    scarab_unlock_datum(datum);
-                } BOOST_SCOPE_EXIT_END
-                
-                ScarabDict *dict = datum->data.dict;
-                for (int i = 0; i < dict->tablesize; i++) {
-                    if (dict->keys[i]) {
-                        dictValue.emplace(dict->keys[i], dict->values[i]);
-                    }
-                }
-                
-                break;
-            }
-                
-            case SCARAB_LIST: {
-                *this = Datum(list_value_type());
-                
-                scarab_lock_datum(datum);
-                BOOST_SCOPE_EXIT(datum) {
-                    scarab_unlock_datum(datum);
-                } BOOST_SCOPE_EXIT_END
-                
-                ScarabList *list = datum->data.list;
-                for (int i = 0; i < list->size; i++) {
-                    listValue.emplace_back(list->values[i]);
-                }
-                
-                break;
-            }
-                
-            case SCARAB_OPAQUE: {
-                const char *data = reinterpret_cast<char *>(datum->data.opaque.data);
-                int size = datum->data.opaque.size;
-                if (scarab_opaque_is_string(datum)) {
-                    // Don't include the terminal NUL
-                    size -= 1;
-                }
-                *this = Datum(data, size);
-                break;
-            }
-                
-            default:
-                break;
-        }
-    }
-}
-
-
 const char * Datum::getDataTypeName() const {
     switch (datatype) {
         case M_INTEGER:
@@ -416,53 +343,6 @@ std::size_t Datum::getHash() const {
     }
     
     return seed;
-}
-
-
-auto Datum::toScarabDatum() const -> scarab_datum_ptr {
-    switch (datatype) {
-        case M_INTEGER:
-            return scarab_datum_ptr(scarab_new_integer(intValue), false);
-            
-        case M_FLOAT:
-            return scarab_datum_ptr(scarab_new_float(floatValue), false);
-            
-        case M_BOOLEAN:
-            return scarab_datum_ptr(scarab_new_integer(boolValue), false);
-            
-        case M_STRING: {
-            const char *data = stringValue.c_str();
-            std::size_t size = stringValue.size();
-            if (stringIsCString()) {
-                // Include the terminal NUL to indicate that the opaque is a C string
-                size += 1;
-            }
-            return scarab_datum_ptr(scarab_new_opaque(data, size), false);
-        }
-            
-        case M_LIST: {
-            scarab_datum_ptr list(scarab_list_new(listValue.size()), false);
-            
-            for (std::size_t i = 0; i < listValue.size(); i++) {
-                scarab_list_put(list.get(), i, listValue.at(i).toScarabDatum().get());
-            }
-            
-            return std::move(list);
-        }
-            
-        case M_DICTIONARY: {
-            scarab_datum_ptr dict(scarab_dict_new(dictValue.size(), &scarab_dict_times2), false);
-            
-            for (auto &item : dictValue) {
-                scarab_dict_put(dict.get(), item.first.toScarabDatum().get(), item.second.toScarabDatum().get());
-            }
-            
-            return std::move(dict);
-        }
-            
-        default:
-            return scarab_datum_ptr(scarab_new_atomic(), false);
-    }
 }
 
 

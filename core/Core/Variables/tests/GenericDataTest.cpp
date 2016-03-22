@@ -265,31 +265,9 @@ void GenericDataTestFixture::testDictionary() {
         
         dic1->addElement(key.c_str(), data);
     }
-    auto sd = dic1->toScarabDatum();
+    
+    Datum *dic3 = new Datum(*dic1);
     delete dic1;
-    
-    Datum *dic2 = new Datum(sd.get());
-    sd.reset();
-    
-    CPPUNIT_ASSERT(dic2->getNElements() == num_elem);
-    
-    for(int i = 0; i<num_elem; i++)
-    {
-        ostringstream oss;
-        oss << i;
-        
-        string key = "key" + oss.str();
-        
-        Datum data = dic2->getElement(key.c_str());
-        
-        int result = data.getInteger();
-        
-        CPPUNIT_ASSERT(result == i);
-    }
-    
-    Datum *dic3 = new Datum(*dic2);
-    
-    delete dic2;
     
     CPPUNIT_ASSERT(dic3->getNElements() == num_elem);
     

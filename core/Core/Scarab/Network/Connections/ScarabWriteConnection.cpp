@@ -165,7 +165,6 @@ int ScarabWriteConnection::service() {
             //MWTime event_time = newevent->getTime();
             //mEventType type = newevent->getEventType();
             //mVariable *var = newevent->getParam();
-            ScarabDatum * scarab_event;
         			
 			#define USE_EXPLICIT_BUFFERING	1
 			#define BUFFER_HIGH_WATER_MARK	1
@@ -197,18 +196,16 @@ int ScarabWriteConnection::service() {
                         continue;
                     }
                     
-                    scarab_event = newevent->toScarabDatum();
+                    auto scarab_event = eventToScarabEventDatum(*newevent);
 					
-					if(scarab_write(pipe, scarab_event) == 0) {
+					if (scarab_write(pipe, scarab_event.get()) == 0) {
 						n_written++;
 					} else {
 						merror(M_SYSTEM_MESSAGE_DOMAIN, "scarab buffered write error");
 						servicing = false;
-                        scarab_free_datum(scarab_event);
 						return -1;
 					}
 					
-					scarab_free_datum(scarab_event);
 					++numEventsBuffered;
 				} while(buffering);
 				
@@ -224,17 +221,15 @@ int ScarabWriteConnection::service() {
 				}
 				
                 if (excluded_event_codes.find(newevent->getEventCode()) == excluded_event_codes.end()) {
-                    scarab_event = newevent->toScarabDatum();
+                    auto scarab_event = eventToScarabEventDatum(*newevent);
                     
-                    if(scarab_write(pipe, scarab_event) == 0) {
+                    if (scarab_write(pipe, scarab_event.get()) == 0) {
                         n_written++;
                     } else {
                         merror(M_SYSTEM_MESSAGE_DOMAIN, "scarab write error");
                         servicing = false;
                         return -1;
                     }
-                    
-                    scarab_free_datum(scarab_event);
                 }
 				
 			}

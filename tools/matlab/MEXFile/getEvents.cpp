@@ -8,6 +8,8 @@
 
 #include "getEvents.h"
 
+#include <MWorksCore/ScarabServices.h>
+
 #include <dfindex/dfindex.h>
 
 #include "Array.h"
@@ -38,7 +40,7 @@ void getEvents(MEXInputs &inputs, MEXOutputs &outputs)
                 break;
             codes.push_back(event.getEventCode());
             times.push_back(event.getTime());
-            values.push_back(convertDatumToArray(Datum(event.getPayload())));
+            values.push_back(convertDatumToArray(scarabDatumToDatum(event.getPayload())));
         }
     } catch (const DataFileIndexerError &e) {
         throwMATLABError("MWorks:DataFileIndexerError", e.what());

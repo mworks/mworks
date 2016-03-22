@@ -61,11 +61,11 @@ void ScarabEventTestFixture::testToFromScarabDatum(){
     Datum codec(reg->generateCodecDatum());
 	Event test_event(RESERVED_CODEC_CODE, codec);
 	
-	ScarabDatum *serialized = test_event.toScarabDatum();
+	auto serialized = eventToScarabEventDatum(test_event);
 	
-	CPPUNIT_ASSERT( serialized != NULL );
+	CPPUNIT_ASSERT( serialized.get() != NULL );
 	
-	shared_ptr<Event> twice_baked = shared_ptr<Event>(new Event(serialized));
+	shared_ptr<Event> twice_baked = shared_ptr<Event>(new Event(scarabEventDatumToEvent(serialized.get())));
 	
 	CPPUNIT_ASSERT( test_event.getEventCode() == 
 					twice_baked->getEventCode() );
@@ -75,7 +75,6 @@ void ScarabEventTestFixture::testToFromScarabDatum(){
 	
 	CPPUNIT_ASSERT( twice_baked->getData().isDictionary() );
 	
-	scarab_free_datum(serialized);
 }
 
 

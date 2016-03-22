@@ -1,25 +1,19 @@
 /**
  * GenericData.h
  *
- * You need to be careful when copying dictionaries and lists.  The under-
- * lying objects are NOT copied, so modifying a dictionary if you are not the
- * only one using use scarabDeepCopy instead to create a new Datum object.
- *
- *
  * Copyright (c) 2005 MIT. All rights reserved.
  */
+
 #ifndef _GENERIC_DATA_H
 #define _GENERIC_DATA_H
 
 #include "MWorksMacros.h"
 #include "MWorksTypes.h"
-#include "ScarabServices.h"
 #include <string>
 #include <vector>
 #include <map>
 #include <unordered_map>
 
-#include <boost/intrusive_ptr.hpp>
 #include <boost/serialization/string.hpp>
 #include <boost/serialization/unordered_map.hpp>
 #include <boost/serialization/vector.hpp>
@@ -37,10 +31,6 @@ using std::map;
 using std::pair;
 using std::string;
 using std::vector;
-
-
-inline void intrusive_ptr_add_ref(ScarabDatum *d) { scarab_copy_datum(d); }
-inline void intrusive_ptr_release(ScarabDatum *d) { scarab_free_datum(d); }
 
 
 BEGIN_NAMESPACE_MW
@@ -67,8 +57,6 @@ public:
         std::size_t operator()(const Datum &d) const { return d.getHash(); }
     };
     using dict_value_type = std::unordered_map<Datum, Datum, Hasher>;
-    
-    using scarab_datum_ptr = boost::intrusive_ptr<ScarabDatum>;
     
     /**
      * Destructor
@@ -101,6 +89,7 @@ public:
     
     Datum(const char * string, int size);
     Datum(const char * string);
+    Datum(char * string) : Datum(static_cast<const char *>(string)) { }
     Datum(const std::string &string);
     explicit Datum(std::string &&string);
     
@@ -120,7 +109,11 @@ public:
         }
     }
     
-    Datum(ScarabDatum *datum);
+    // Prevent conversion of pointer types other than char* to bool
+    template<typename T>
+    Datum(T *value) {
+        static_assert(!std::is_same<T, T>::value, "Illegal conversion from pointer to Datum");
+    }
     
     /**
      * Type info
@@ -142,11 +135,6 @@ public:
      * Returns a hash value for the Datum object
      */
     std::size_t getHash() const;
-    
-    /**
-     * Returns a Scarab equivalent of this object's value
-     */
-    scarab_datum_ptr toScarabDatum() const;
     
     /**
      * Value getters

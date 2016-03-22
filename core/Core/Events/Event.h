@@ -15,7 +15,6 @@
 #define MONKEYWORKSCORE_EVENT_H_
 
 
-#include "ScarabServices.h"
 #include "MWorksTypes.h"
 #include "GenericData.h"
 #include "EventConstants.h"
@@ -31,7 +30,7 @@ using boost::shared_ptr;
 
 /**
  *	----------------------
- *	Scarab Event Structure
+ *	Event Structure
  *  ---------------------- 
  *
  * All events have the following top-level list structure:
@@ -44,7 +43,7 @@ BEGIN_NAMESPACE_MW
 	
 	
 	class Event {
-    protected:
+    private:
 		
 		// what is this event's codec code
 		int code;
@@ -64,15 +63,12 @@ BEGIN_NAMESPACE_MW
          */
         Event(const int _code, const MWTime _time, const Datum &data);
 		Event(const int _code, const Datum &data);
-		Event(ScarabDatum *datum);  // create an event from a ScarabDatum
-        Event(){ } // for construction during deserialization
+        Event() : Event(-1, 0, Datum()) { }
         Event(const Event &e){
             code = e.code;
             time = e.time;
             data = e.data;
         }    
-        
-        virtual ~Event() {}
 		
         /**
          * Returns the event code.  This code is given to an
@@ -113,12 +109,7 @@ BEGIN_NAMESPACE_MW
 			nextEvent = _nextEvent;
 		}
 		
-		
-		
-        // Convert to ScarabDatum for later serialization
-        virtual ScarabDatum *toScarabDatum() const;
-		
-        // Boost serialization
+    private:
         friend class boost::serialization::access;
         template<class Archive>
         void serialize(Archive & ar, const unsigned int version){

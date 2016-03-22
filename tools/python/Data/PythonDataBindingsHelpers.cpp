@@ -11,6 +11,8 @@
 #include "GILHelpers.h"
 #include "PythonDataHelpers.h"
 
+#include <MWorksCore/ScarabServices.h>
+
 using boost::python::throw_error_already_set;
 
 
@@ -201,8 +203,7 @@ void PythonDataStream::write(const boost::python::object &obj) {
 
 
 EventWrapper PythonDataStream::read_event() {
-    Datum datum(readDatum());
-    auto scarabEvent = datum.toScarabDatum();
+    auto scarabEvent = datumToScarabDatum(readDatum());
     if (!DataFileUtilities::isScarabEvent(scarabEvent.get())) {
         PyErr_SetString(PyExc_IOError, "Read invalid event from Scarab session");
         throw_error_already_set();
@@ -212,8 +213,7 @@ EventWrapper PythonDataStream::read_event() {
 
 
 void PythonDataStream::write_event(const EventWrapper &e) {
-    Datum datum(e.getDatum());
-    writeDatum(datum);
+    writeDatum(scarabDatumToDatum(e.getDatum()));
 }
 
 
@@ -260,10 +260,10 @@ Datum PythonDataStream::readDatum() {
         throw_error_already_set();
     }
     
-    Datum datum(rawDatum);
+    Datum datum = scarabDatumToDatum(rawDatum);
     scarab_free_datum(rawDatum);
     
-    return datum;
+    return std::move(datum);
 }
 
 
@@ -273,7 +273,7 @@ void PythonDataStream::writeDatum(const Datum &datum) {
     int err;
     {
         ScopedGILRelease sgr;
-        err = scarab_write(session, datum.toScarabDatum().get());
+        err = scarab_write(session, datumToScarabDatum(datum).get());
     }
     
     if (err != 0) {
@@ -289,7 +289,7 @@ boost::python::object extract_event_time(const EventWrapper &e) {
 
 
 boost::python::object extract_event_value(const EventWrapper &e) {
-    return convert_datum_to_python(Datum(e.getPayload()));
+    return convert_datum_to_python(scarabDatumToDatum(e.getPayload()));
 }
 
 
