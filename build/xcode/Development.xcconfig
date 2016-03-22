@@ -3,12 +3,9 @@ BUILD_VARIANTS = normal
 GCC_VERSION = com.apple.compilers.llvm.clang.1_0
 DEBUG_INFORMATION_FORMAT = dwarf
 MACOSX_DEPLOYMENT_TARGET = 10.9
-SDKROOT = macosx$(MACOSX_DEPLOYMENT_TARGET)
+SDKROOT = macosx
 COPY_PHASE_STRIP = NO
 STRIP_INSTALLED_PRODUCT = NO
-// The following is required when using Xcode 7 to build against a
-// pre-10.10 SDK
-OTHER_LDFLAGS = -Xlinker -U -Xlinker _objc_readClassPair
 ALWAYS_SEARCH_USER_PATHS = NO
 // Xcode should find frameworks in /Library/Frameworks by default, but
 // sometimes it doesn't, so we explicitly add it to the search path
@@ -18,7 +15,7 @@ LIBRARY_SEARCH_PATHS = $(MW_LIB_DIR)
 GCC_GENERATE_DEBUGGING_SYMBOLS = YES
 GCC_OPTIMIZATION_LEVEL = s
 GCC_SYMBOLS_PRIVATE_EXTERN = YES
-WARNING_CFLAGS = -Wreorder -Wno-inconsistent-missing-override
+WARNING_CFLAGS = -Wpartial-availability -Wreorder -Wno-inconsistent-missing-override
 GCC_C_LANGUAGE_STANDARD = c99
 CLANG_CXX_LANGUAGE_STANDARD = c++0x
 CLANG_CXX_LIBRARY = libc++

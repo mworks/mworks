@@ -34,7 +34,9 @@ common_flags += (' -isysroot %(SDKROOT)s'
                  ' -mmacosx-version-min=%(MACOSX_DEPLOYMENT_TARGET)s'
                  % os.environ)
 
-compile_flags = '-g -Os -fexceptions -fvisibility=hidden ' + common_flags
+compile_flags = ('-g -Os -fexceptions -fvisibility=hidden ' +
+                 '-Werror=partial-availability ' +
+                 common_flags)
 
 cflags = '-std=%(GCC_C_LANGUAGE_STANDARD)s' % os.environ
 cxxflags = ('-std=%(CLANG_CXX_LANGUAGE_STANDARD)s '
