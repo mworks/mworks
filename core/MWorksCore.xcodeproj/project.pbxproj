@@ -754,16 +754,16 @@
 		5C25932B10AC95180098558D /* EventHandlerConduitTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventHandlerConduitTest.cpp; sourceTree = "<group>"; };
 		5C2B511F0BB6838200928E03 /* ScopedVariable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ScopedVariable.h; path = Core/Variables/ScopedVariable.h; sourceTree = "<group>"; };
 		5C2B51200BB6838200928E03 /* ScopedVariable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ScopedVariable.cpp; path = Core/Variables/ScopedVariable.cpp; sourceTree = "<group>"; };
-		5C37479309EC093900F8265F /* ScarabDataTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ScarabDataTest.h; path = Core/Scarab/tests/ScarabDataTest.h; sourceTree = SOURCE_ROOT; };
-		5C37479409EC093900F8265F /* ScarabDataTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ScarabDataTest.cpp; path = Core/Scarab/tests/ScarabDataTest.cpp; sourceTree = SOURCE_ROOT; };
-		5C37484009EC18A200F8265F /* ScarabFileTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ScarabFileTest.h; path = Core/Scarab/tests/ScarabFileTest.h; sourceTree = SOURCE_ROOT; };
-		5C37484109EC18A200F8265F /* ScarabFileTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ScarabFileTest.cpp; path = Core/Scarab/tests/ScarabFileTest.cpp; sourceTree = SOURCE_ROOT; };
+		5C37479309EC093900F8265F /* ScarabDataTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScarabDataTest.h; sourceTree = "<group>"; };
+		5C37479409EC093900F8265F /* ScarabDataTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ScarabDataTest.cpp; sourceTree = "<group>"; };
+		5C37484009EC18A200F8265F /* ScarabFileTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScarabFileTest.h; sourceTree = "<group>"; };
+		5C37484109EC18A200F8265F /* ScarabFileTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ScarabFileTest.cpp; sourceTree = "<group>"; };
 		5C37489609EC249C00F8265F /* VariableRegistryTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VariableRegistryTest.h; path = Core/ComponentRegistries/tests/VariableRegistryTest.h; sourceTree = SOURCE_ROOT; };
 		5C37489709EC249C00F8265F /* VariableRegistryTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = VariableRegistryTest.cpp; path = Core/ComponentRegistries/tests/VariableRegistryTest.cpp; sourceTree = SOURCE_ROOT; };
 		5C38FBC20DF045F600FA6A18 /* XMLVariableWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XMLVariableWriter.h; path = Core/XMLParser/XMLVariableWriter.h; sourceTree = "<group>"; };
 		5C38FBC30DF045F600FA6A18 /* XMLVariableWriter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = XMLVariableWriter.cpp; path = Core/XMLParser/XMLVariableWriter.cpp; sourceTree = "<group>"; };
-		5C4238A009EE97820023EB90 /* ScarabEventTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ScarabEventTest.h; path = Core/Events/tests/ScarabEventTest.h; sourceTree = SOURCE_ROOT; };
-		5C4238A109EE97820023EB90 /* ScarabEventTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ScarabEventTest.cpp; path = Core/Events/tests/ScarabEventTest.cpp; sourceTree = SOURCE_ROOT; };
+		5C4238A009EE97820023EB90 /* ScarabEventTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScarabEventTest.h; sourceTree = "<group>"; };
+		5C4238A109EE97820023EB90 /* ScarabEventTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ScarabEventTest.cpp; sourceTree = "<group>"; };
 		5C4D232509DC59420082BF9F /* MWorksCoreTestRunner */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = MWorksCoreTestRunner; sourceTree = BUILT_PRODUCTS_DIR; };
 		5C4D233A09DC6F0C0082BF9F /* VectorTest.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; name = VectorTest.h; path = Core/Variables/tests/VectorTest.h; sourceTree = SOURCE_ROOT; };
 		5C4D233B09DC6F0C0082BF9F /* VectorTest.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = VectorTest.cpp; path = Core/Variables/tests/VectorTest.cpp; sourceTree = SOURCE_ROOT; };
@@ -795,8 +795,8 @@
 		5C8101A311A2DE1600050690 /* VideoFilterShader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VideoFilterShader.cpp; sourceTree = "<group>"; };
 		5C8101A411A2DE1600050690 /* VideoFilterShader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoFilterShader.h; sourceTree = "<group>"; };
 		5C866A98086E1E43006CBE6F /* MWorksTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MWorksTypes.h; path = Core/MWorksTypes.h; sourceTree = "<group>"; };
-		5C8A6A2D09EC4E57007FECBA /* ScarabNetworkTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ScarabNetworkTest.h; path = Core/Scarab/tests/ScarabNetworkTest.h; sourceTree = SOURCE_ROOT; };
-		5C8A6A2E09EC4E57007FECBA /* ScarabNetworkTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ScarabNetworkTest.cpp; path = Core/Scarab/tests/ScarabNetworkTest.cpp; sourceTree = SOURCE_ROOT; };
+		5C8A6A2D09EC4E57007FECBA /* ScarabNetworkTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScarabNetworkTest.h; sourceTree = "<group>"; };
+		5C8A6A2E09EC4E57007FECBA /* ScarabNetworkTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ScarabNetworkTest.cpp; sourceTree = "<group>"; };
 		5C8D03C20D56B1AE00454461 /* DummyIODevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DummyIODevice.h; path = Core/IODevices/DummyIODevice.h; sourceTree = "<group>"; };
 		5C8D03C30D56B1AE00454461 /* DummyIODevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DummyIODevice.cpp; path = Core/IODevices/DummyIODevice.cpp; sourceTree = "<group>"; };
 		5C9186110E3548FA00B64213 /* BiasMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BiasMonitor.h; path = Core/AdaptiveOptimizers/BiasMonitor.h; sourceTree = "<group>"; };
@@ -900,10 +900,10 @@
 		8ED4542B08C56280003880D5 /* EyeCalibrators.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EyeCalibrators.cpp; path = Core/Transforms/EyeCalibrators.cpp; sourceTree = SOURCE_ROOT; };
 		8EE2F39F08C8227700B873A2 /* FitableFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FitableFunctions.h; path = Core/Transforms/FitableFunctions.h; sourceTree = SOURCE_ROOT; };
 		8EE2F3A008C8227700B873A2 /* FitableFunctions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FitableFunctions.cpp; path = Core/Transforms/FitableFunctions.cpp; sourceTree = SOURCE_ROOT; };
-		DA08704108A3D22A00D20FFB /* NetworkConnectionStats.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NetworkConnectionStats.h; path = Core/Network/NetworkConnectionStats.h; sourceTree = SOURCE_ROOT; };
-		DA08704208A3D22A00D20FFB /* NetworkConnectionStats.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NetworkConnectionStats.cpp; path = Core/Network/NetworkConnectionStats.cpp; sourceTree = SOURCE_ROOT; };
-		DA0873F608A9367E00D20FFB /* ScarabServerConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ScarabServerConnection.h; path = Core/Network/Connections/ScarabServerConnection.h; sourceTree = SOURCE_ROOT; };
-		DA0873F708A9367E00D20FFB /* ScarabServerConnection.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ScarabServerConnection.cpp; path = Core/Network/Connections/ScarabServerConnection.cpp; sourceTree = SOURCE_ROOT; };
+		DA08704108A3D22A00D20FFB /* NetworkConnectionStats.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkConnectionStats.h; sourceTree = "<group>"; };
+		DA08704208A3D22A00D20FFB /* NetworkConnectionStats.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NetworkConnectionStats.cpp; sourceTree = "<group>"; };
+		DA0873F608A9367E00D20FFB /* ScarabServerConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScarabServerConnection.h; sourceTree = "<group>"; };
+		DA0873F708A9367E00D20FFB /* ScarabServerConnection.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ScarabServerConnection.cpp; sourceTree = "<group>"; };
 		DA0C987E0827E80400BC1EF1 /* SystemEventFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SystemEventFactory.h; path = Core/Events/SystemEventFactory.h; sourceTree = "<group>"; };
 		DA0C987F0827E80400BC1EF1 /* SystemEventFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SystemEventFactory.cpp; path = Core/Events/SystemEventFactory.cpp; sourceTree = "<group>"; };
 		DA2B6A870989855C00DDE06D /* Client.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Client.h; path = Core/InterfaceHooks/ClientSide/Products/Client.h; sourceTree = "<group>"; };
@@ -922,8 +922,8 @@
 		DA2CE10D07E9F85800C68AEF /* ComponentRegistry.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 30; name = ComponentRegistry.h; path = Core/ComponentRegistries/ComponentRegistry.h; sourceTree = "<group>"; };
 		DA2CE10E07E9F85800C68AEF /* VariableRegistry.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = VariableRegistry.cpp; path = Core/ComponentRegistries/VariableRegistry.cpp; sourceTree = "<group>"; };
 		DA2CE10F07E9F85800C68AEF /* VariableRegistry.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = VariableRegistry.h; path = Core/ComponentRegistries/VariableRegistry.h; sourceTree = "<group>"; };
-		DA2CE11C07E9F86300C68AEF /* DataFileManager.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = DataFileManager.cpp; path = Core/DataFiles/DataFileManager.cpp; sourceTree = SOURCE_ROOT; };
-		DA2CE11D07E9F86300C68AEF /* DataFileManager.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = DataFileManager.h; path = Core/DataFiles/DataFileManager.h; sourceTree = SOURCE_ROOT; };
+		DA2CE11C07E9F86300C68AEF /* DataFileManager.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = DataFileManager.cpp; sourceTree = "<group>"; };
+		DA2CE11D07E9F86300C68AEF /* DataFileManager.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = DataFileManager.h; sourceTree = "<group>"; };
 		DA2CE12007E9F88900C68AEF /* Buffers.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = Buffers.cpp; path = Core/Events/Buffers.cpp; sourceTree = SOURCE_ROOT; };
 		DA2CE12107E9F88900C68AEF /* Buffers.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Buffers.h; path = Core/Events/Buffers.h; sourceTree = SOURCE_ROOT; };
 		DA2CE12207E9F88900C68AEF /* Event.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = Event.cpp; path = Core/Events/Event.cpp; sourceTree = SOURCE_ROOT; };
@@ -932,16 +932,16 @@
 		DA2CE12907E9F8B200C68AEF /* LoadingUtilities.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = LoadingUtilities.h; path = Core/ExperimentDataLoading/LoadingUtilities.h; sourceTree = SOURCE_ROOT; };
 		DA2CE13A07E9F8D300C68AEF /* LegacyIODevice.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = LegacyIODevice.cpp; path = Core/IODevices/LegacyIODevice.cpp; sourceTree = "<group>"; };
 		DA2CE13B07E9F8D300C68AEF /* LegacyIODevice.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = LegacyIODevice.h; path = Core/IODevices/LegacyIODevice.h; sourceTree = "<group>"; };
-		DA2CE15307E9F92500C68AEF /* ScarabClient.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ScarabClient.cpp; path = Core/Network/Interfaces/ScarabClient.cpp; sourceTree = SOURCE_ROOT; };
-		DA2CE15407E9F92500C68AEF /* ScarabClient.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ScarabClient.h; path = Core/Network/Interfaces/ScarabClient.h; sourceTree = SOURCE_ROOT; };
-		DA2CE15507E9F92500C68AEF /* ScarabServer.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ScarabServer.cpp; path = Core/Network/Interfaces/ScarabServer.cpp; sourceTree = SOURCE_ROOT; };
-		DA2CE15607E9F92500C68AEF /* ScarabServer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ScarabServer.h; path = Core/Network/Interfaces/ScarabServer.h; sourceTree = SOURCE_ROOT; };
-		DA2CE15E07E9F92D00C68AEF /* ScarabConnection.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ScarabConnection.cpp; path = Core/Network/Connections/ScarabConnection.cpp; sourceTree = SOURCE_ROOT; };
-		DA2CE15F07E9F92D00C68AEF /* ScarabConnection.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ScarabConnection.h; path = Core/Network/Connections/ScarabConnection.h; sourceTree = SOURCE_ROOT; };
-		DA2CE16007E9F92D00C68AEF /* ScarabReadConnection.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ScarabReadConnection.cpp; path = Core/Network/Connections/ScarabReadConnection.cpp; sourceTree = SOURCE_ROOT; };
-		DA2CE16107E9F92D00C68AEF /* ScarabReadConnection.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ScarabReadConnection.h; path = Core/Network/Connections/ScarabReadConnection.h; sourceTree = SOURCE_ROOT; };
-		DA2CE16207E9F92D00C68AEF /* ScarabWriteConnection.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ScarabWriteConnection.cpp; path = Core/Network/Connections/ScarabWriteConnection.cpp; sourceTree = SOURCE_ROOT; };
-		DA2CE16307E9F92D00C68AEF /* ScarabWriteConnection.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ScarabWriteConnection.h; path = Core/Network/Connections/ScarabWriteConnection.h; sourceTree = SOURCE_ROOT; };
+		DA2CE15307E9F92500C68AEF /* ScarabClient.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = ScarabClient.cpp; sourceTree = "<group>"; };
+		DA2CE15407E9F92500C68AEF /* ScarabClient.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ScarabClient.h; sourceTree = "<group>"; };
+		DA2CE15507E9F92500C68AEF /* ScarabServer.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = ScarabServer.cpp; sourceTree = "<group>"; };
+		DA2CE15607E9F92500C68AEF /* ScarabServer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ScarabServer.h; sourceTree = "<group>"; };
+		DA2CE15E07E9F92D00C68AEF /* ScarabConnection.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = ScarabConnection.cpp; sourceTree = "<group>"; };
+		DA2CE15F07E9F92D00C68AEF /* ScarabConnection.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ScarabConnection.h; sourceTree = "<group>"; };
+		DA2CE16007E9F92D00C68AEF /* ScarabReadConnection.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = ScarabReadConnection.cpp; sourceTree = "<group>"; };
+		DA2CE16107E9F92D00C68AEF /* ScarabReadConnection.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ScarabReadConnection.h; sourceTree = "<group>"; };
+		DA2CE16207E9F92D00C68AEF /* ScarabWriteConnection.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = ScarabWriteConnection.cpp; sourceTree = "<group>"; };
+		DA2CE16307E9F92D00C68AEF /* ScarabWriteConnection.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ScarabWriteConnection.h; sourceTree = "<group>"; };
 		DA2CE16C07E9F93900C68AEF /* BlockAndProtocol.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = BlockAndProtocol.cpp; path = Core/ParadigmComponents/BlockAndProtocol.cpp; sourceTree = SOURCE_ROOT; };
 		DA2CE16D07E9F93900C68AEF /* BlockAndProtocol.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = BlockAndProtocol.h; path = Core/ParadigmComponents/BlockAndProtocol.h; sourceTree = SOURCE_ROOT; };
 		DA2CE17007E9F93900C68AEF /* Experiment.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = Experiment.cpp; path = Core/ParadigmComponents/Experiment.cpp; sourceTree = SOURCE_ROOT; };
@@ -974,8 +974,8 @@
 		DA2CE1AD07E9F95600C68AEF /* Timer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Timer.h; path = Core/RealtimeServices/Timer.h; sourceTree = SOURCE_ROOT; };
 		DA2CE1AE07E9F95600C68AEF /* Utilities.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = Utilities.cpp; path = Core/RealtimeServices/Utilities.cpp; sourceTree = SOURCE_ROOT; };
 		DA2CE1AF07E9F95600C68AEF /* Utilities.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Utilities.h; path = Core/RealtimeServices/Utilities.h; sourceTree = SOURCE_ROOT; };
-		DA2CE1C007E9F96500C68AEF /* ScarabServices.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ScarabServices.cpp; path = Core/Scarab/ScarabServices.cpp; sourceTree = SOURCE_ROOT; };
-		DA2CE1C107E9F96500C68AEF /* ScarabServices.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ScarabServices.h; path = Core/Scarab/ScarabServices.h; sourceTree = SOURCE_ROOT; };
+		DA2CE1C007E9F96500C68AEF /* ScarabServices.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = ScarabServices.cpp; sourceTree = "<group>"; };
+		DA2CE1C107E9F96500C68AEF /* ScarabServices.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ScarabServices.h; sourceTree = "<group>"; };
 		DA2CE1C707E9F96E00C68AEF /* OpenGLContextManager.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 30; name = OpenGLContextManager.cpp; path = Core/Stimuli/OpenGLContextManager.cpp; sourceTree = SOURCE_ROOT; };
 		DA2CE1C807E9F96E00C68AEF /* OpenGLContextManager.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = OpenGLContextManager.h; path = Core/Stimuli/OpenGLContextManager.h; sourceTree = SOURCE_ROOT; };
 		DA2CE1C907E9F96E00C68AEF /* StandardStimuli.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 30; name = StandardStimuli.cpp; path = Core/Stimuli/StandardStimuli.cpp; sourceTree = SOURCE_ROOT; };
@@ -997,8 +997,8 @@
 		DA2CE39707EA040D00C68AEF /* MachClock.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MachClock.h; sourceTree = "<group>"; };
 		DA2E379C08B0FE5800BD22C4 /* EventBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = EventBuffer.cpp; path = Core/Events/EventBuffer.cpp; sourceTree = SOURCE_ROOT; };
 		DA2E379D08B0FE5800BD22C4 /* EventBuffer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = EventBuffer.h; path = Core/Events/EventBuffer.h; sourceTree = SOURCE_ROOT; };
-		DA30579B08B6A23700BA4B0E /* NetworkReturn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NetworkReturn.h; path = Core/Network/NetworkReturn.h; sourceTree = SOURCE_ROOT; };
-		DA30579C08B6A23700BA4B0E /* NetworkReturn.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NetworkReturn.cpp; path = Core/Network/NetworkReturn.cpp; sourceTree = SOURCE_ROOT; };
+		DA30579B08B6A23700BA4B0E /* NetworkReturn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkReturn.h; sourceTree = "<group>"; };
+		DA30579C08B6A23700BA4B0E /* NetworkReturn.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NetworkReturn.cpp; sourceTree = "<group>"; };
 		DA871F2409995B180084304E /* StandardClientCoreBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StandardClientCoreBuilder.h; path = Core/CoreBuilders/StandardClientCoreBuilder.h; sourceTree = SOURCE_ROOT; };
 		DA871F2509995B180084304E /* StandardClientCoreBuilder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StandardClientCoreBuilder.cpp; path = Core/CoreBuilders/StandardClientCoreBuilder.cpp; sourceTree = SOURCE_ROOT; };
 		DA96B8B20981901F0007610D /* AbstractCoreBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AbstractCoreBuilder.h; path = Core/CoreBuilders/AbstractCoreBuilder.h; sourceTree = SOURCE_ROOT; };
@@ -1351,13 +1351,14 @@
 			children = (
 				5C37479309EC093900F8265F /* ScarabDataTest.h */,
 				5C37479409EC093900F8265F /* ScarabDataTest.cpp */,
+				5C4238A009EE97820023EB90 /* ScarabEventTest.h */,
+				5C4238A109EE97820023EB90 /* ScarabEventTest.cpp */,
 				5C37484009EC18A200F8265F /* ScarabFileTest.h */,
 				5C37484109EC18A200F8265F /* ScarabFileTest.cpp */,
 				5C8A6A2D09EC4E57007FECBA /* ScarabNetworkTest.h */,
 				5C8A6A2E09EC4E57007FECBA /* ScarabNetworkTest.cpp */,
 			);
-			name = tests;
-			path = Core/Scarab/tests;
+			path = tests;
 			sourceTree = "<group>";
 		};
 		5C37489509EC248900F8265F /* tests */ = {
@@ -1444,18 +1445,15 @@
 		5C4D254309DCBADB0082BF9F /* tests */ = {
 			isa = PBXGroup;
 			children = (
-				0EDB6FAF0B2F1B9F00C60ED8 /* DataFileTest.cpp */,
 				0EDB6FB00B2F1B9F00C60ED8 /* DataFileTest.h */,
+				0EDB6FAF0B2F1B9F00C60ED8 /* DataFileTest.cpp */,
 			);
-			name = tests;
-			path = Core/DataFiles/tests;
+			path = tests;
 			sourceTree = "<group>";
 		};
 		5C4D254409DCBAF70082BF9F /* tests */ = {
 			isa = PBXGroup;
 			children = (
-				5C4238A009EE97820023EB90 /* ScarabEventTest.h */,
-				5C4238A109EE97820023EB90 /* ScarabEventTest.cpp */,
 			);
 			name = tests;
 			path = Core/Events/tests;
@@ -1785,7 +1783,6 @@
 			children = (
 				5C85E19B10F28EB2003CD8B3 /* Deprecated */,
 				5C2386B10E8D18FA00CDC4FC /* Communications */,
-				DA2CE0F707E9F70600C68AEF /* Network */,
 				DA2CE0E807E9F70400C68AEF /* Scarab */,
 				DA2CE0DC07E9F70100C68AEF /* Variables */,
 				DA2CE10607E9F70800C68AEF /* Events */,
@@ -1903,11 +1900,13 @@
 		DA2CE0E807E9F70400C68AEF /* Scarab */ = {
 			isa = PBXGroup;
 			children = (
+				DA2CE0F707E9F70600C68AEF /* Network */,
 				5C37479209EC090E00F8265F /* tests */,
-				DA2CE1C007E9F96500C68AEF /* ScarabServices.cpp */,
 				DA2CE1C107E9F96500C68AEF /* ScarabServices.h */,
+				DA2CE1C007E9F96500C68AEF /* ScarabServices.cpp */,
 			);
 			name = Scarab;
+			path = Core/Scarab;
 			sourceTree = SOURCE_ROOT;
 		};
 		DA2CE0EB07E9F70500C68AEF /* RealtimeServices */ = {
@@ -1971,14 +1970,14 @@
 		DA2CE0F707E9F70600C68AEF /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				DA2CE14A07E9F90900C68AEF /* Connections */,
+				DA2CE14D07E9F91300C68AEF /* Interfaces */,
 				DA08704108A3D22A00D20FFB /* NetworkConnectionStats.h */,
 				DA08704208A3D22A00D20FFB /* NetworkConnectionStats.cpp */,
 				DA30579B08B6A23700BA4B0E /* NetworkReturn.h */,
 				DA30579C08B6A23700BA4B0E /* NetworkReturn.cpp */,
-				DA2CE14D07E9F91300C68AEF /* Interfaces */,
-				DA2CE14A07E9F90900C68AEF /* Connections */,
 			);
-			name = Network;
+			path = Network;
 			sourceTree = "<group>";
 		};
 		DA2CE0FA07E9F70700C68AEF /* IODevices */ = {
@@ -2043,10 +2042,11 @@
 			isa = PBXGroup;
 			children = (
 				5C4D254309DCBADB0082BF9F /* tests */,
-				DA2CE11C07E9F86300C68AEF /* DataFileManager.cpp */,
 				DA2CE11D07E9F86300C68AEF /* DataFileManager.h */,
+				DA2CE11C07E9F86300C68AEF /* DataFileManager.cpp */,
 			);
 			name = DataFiles;
+			path = Core/DataFiles;
 			sourceTree = "<group>";
 		};
 		DA2CE14A07E9F90900C68AEF /* Connections */ = {
@@ -2061,7 +2061,7 @@
 				DA0873F608A9367E00D20FFB /* ScarabServerConnection.h */,
 				DA0873F708A9367E00D20FFB /* ScarabServerConnection.cpp */,
 			);
-			name = Connections;
+			path = Connections;
 			sourceTree = "<group>";
 		};
 		DA2CE14D07E9F91300C68AEF /* Interfaces */ = {
@@ -2072,7 +2072,7 @@
 				DA2CE15607E9F92500C68AEF /* ScarabServer.h */,
 				DA2CE15507E9F92500C68AEF /* ScarabServer.cpp */,
 			);
-			name = Interfaces;
+			path = Interfaces;
 			sourceTree = "<group>";
 		};
 		DA2CE39507EA040100C68AEF /* MachClock */ = {
