@@ -166,11 +166,11 @@ void Calibrator::initialize() {
     fitableFunctions = new ExpandableList<FitableFunction>( this->getNumOutputs() );
     
     // set vectors to 0 as defaults
-    for (int i=0;i<pUncalibratedData->getNElements();i++) {
+    for (int i = 0; i < this->getNumInputs(); i++) {
         pUncalibratedData->setElement(i, (double)0);
         pSampledData->setElement(i, (double)0);
     }
-    for (int i=0;i<pCalibratedData->getNElements();i++) {
+    for (int i = 0; i < this->getNumOutputs(); i++) {
         pCalibratedData->setElement(i, (double)0);
     }
     
