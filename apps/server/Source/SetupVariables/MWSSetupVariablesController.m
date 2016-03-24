@@ -179,6 +179,7 @@ using mw::Datum;
                 mw::mainDisplayInfo,
                 mw::warnOnSkippedRefresh,
                 mw::alt_failover,
+                mw::realtimeComponents,
             }, setupVariablesFile);
         } catch (const std::exception &e) {
             mw::merror(mw::M_SERVER_MESSAGE_DOMAIN, "Failed to save setup variables: %s", e.what());
