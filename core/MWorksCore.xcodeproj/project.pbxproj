@@ -66,6 +66,7 @@
 			);
 			dependencies = (
 				E1CBF65616BAFA320057CE48 /* PBXTargetDependency */,
+				E106CF161CA43306001A0928 /* PBXTargetDependency */,
 				E1CBF65816BAFA330057CE48 /* PBXTargetDependency */,
 				E1CBF65A16BAFA360057CE48 /* PBXTargetDependency */,
 				E1CBF65C16BAFA370057CE48 /* PBXTargetDependency */,
@@ -398,6 +399,11 @@
 		E104A8DE133B8D7200D36236 /* ParameterValue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E104A8DC133B8D7200D36236 /* ParameterValue.cpp */; };
 		E104A8F0133B8D9700D36236 /* StandardComponentFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = E104A8EF133B8D9700D36236 /* StandardComponentFactory.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E104A8F4133B8DB400D36236 /* StandardStimulusFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = E104A8F3133B8DB400D36236 /* StandardStimulusFactory.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E106CF111CA430D1001A0928 /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA2CE0D407E9F68100C68AEF /* MWorksCore.framework */; };
+		E106CF121CA430D9001A0928 /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB975A16C16C8D001481E9 /* libboost_system.a */; };
+		E106CF1B1CA43397001A0928 /* HighPrecisionClock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E106CF181CA43380001A0928 /* HighPrecisionClock.cpp */; };
+		E106CF1C1CA4339B001A0928 /* HighPrecisionClockPlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E106CF1A1CA43380001A0928 /* HighPrecisionClockPlugin.cpp */; };
+		E106CF1D1CA4353C001A0928 /* HighPrecisionClock.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = E106CF0C1CA42EDC001A0928 /* HighPrecisionClock.bundle */; };
 		E10AECD215DE904300E71CA7 /* IPCUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = E10AECD115DE904300E71CA7 /* IPCUtilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E10F94B916CD5A8300A31C5F /* OpenGLContextLock.h in Headers */ = {isa = PBXBuildFile; fileRef = E10F94B816CD5A8300A31C5F /* OpenGLContextLock.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E11AFFBD118F865C0034CC04 /* IODevice.h in Headers */ = {isa = PBXBuildFile; fileRef = E11AFFBC118F865C0034CC04 /* IODevice.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -488,6 +494,20 @@
 			proxyType = 1;
 			remoteGlobalIDString = 5C4D239B09DC83930082BF9F;
 			remoteInfo = MWorksCoreTest;
+		};
+		E106CF131CA430F8001A0928 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DA2CE0C907E9070200C68AEF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E1CBF63A16BAF3090057CE48;
+			remoteInfo = "Install MWorksCore";
+		};
+		E106CF151CA43306001A0928 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DA2CE0C907E9070200C68AEF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E106CF0B1CA42EDC001A0928;
+			remoteInfo = HighPrecisionClock;
 		};
 		E115420A1193461300DDE09D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -632,6 +652,7 @@
 			dstSubfolderSpec = 0;
 			files = (
 				E1CBF65E16BAFA540057CE48 /* MachClockPlugin.bundle in CopyFiles */,
+				E106CF1D1CA4353C001A0928 /* HighPrecisionClock.bundle in CopyFiles */,
 				E1CBF65F16BAFA560057CE48 /* ZenSchedulerPlugin.bundle in CopyFiles */,
 				E1CBF66016BAFA590057CE48 /* ZenStateSystemPlugin.bundle in CopyFiles */,
 				E1CBF66116BAFA5C0057CE48 /* LowPrioritySchedulerPlugin.bundle in CopyFiles */,
@@ -1017,6 +1038,12 @@
 		E104A8DC133B8D7200D36236 /* ParameterValue.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ParameterValue.cpp; path = Core/PluginServices/ParameterValue.cpp; sourceTree = "<group>"; };
 		E104A8EF133B8D9700D36236 /* StandardComponentFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StandardComponentFactory.h; path = Core/PluginServices/StandardComponentFactory.h; sourceTree = "<group>"; };
 		E104A8F3133B8DB400D36236 /* StandardStimulusFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StandardStimulusFactory.h; path = Core/Stimuli/StandardStimulusFactory.h; sourceTree = "<group>"; };
+		E106CF0C1CA42EDC001A0928 /* HighPrecisionClock.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HighPrecisionClock.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		E106CF0E1CA42EDC001A0928 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E106CF171CA43380001A0928 /* HighPrecisionClock-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "HighPrecisionClock-Prefix.pch"; sourceTree = "<group>"; };
+		E106CF181CA43380001A0928 /* HighPrecisionClock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HighPrecisionClock.cpp; sourceTree = "<group>"; };
+		E106CF191CA43380001A0928 /* HighPrecisionClock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HighPrecisionClock.h; sourceTree = "<group>"; };
+		E106CF1A1CA43380001A0928 /* HighPrecisionClockPlugin.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HighPrecisionClockPlugin.cpp; sourceTree = "<group>"; };
 		E10AECD115DE904300E71CA7 /* IPCUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IPCUtilities.h; sourceTree = "<group>"; };
 		E10F94B816CD5A8300A31C5F /* OpenGLContextLock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OpenGLContextLock.h; path = Core/Stimuli/OpenGLContextLock.h; sourceTree = "<group>"; };
 		E11542181193471F00DDE09D /* mw_test */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = mw_test; sourceTree = "<group>"; };
@@ -1161,6 +1188,15 @@
 				E1DB977916C18633001481E9 /* MWorksCore.framework in Frameworks */,
 				E1DB977816C17068001481E9 /* CoreServices.framework in Frameworks */,
 				E1DB977A16C18D44001481E9 /* libboost_system.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E106CF091CA42EDC001A0928 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E106CF111CA430D1001A0928 /* MWorksCore.framework in Frameworks */,
+				E106CF121CA430D9001A0928 /* libboost_system.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1375,6 +1411,7 @@
 				5CF73C850862613C00F453C3 /* ZenStateSystem */,
 				5CF73BAA086252E800F453C3 /* ZenScheduler */,
 				DA2CE39507EA040100C68AEF /* MachClock */,
+				E106CF0D1CA42EDC001A0928 /* HighPrecisionClock */,
 			);
 			name = "Standard Plugins";
 			sourceTree = SOURCE_ROOT;
@@ -1768,6 +1805,7 @@
 			children = (
 				DA2CE0D407E9F68100C68AEF /* MWorksCore.framework */,
 				DA2CE39007EA035F00C68AEF /* MachClockPlugin.bundle */,
+				E106CF0C1CA42EDC001A0928 /* HighPrecisionClock.bundle */,
 				5CF73C6108625E1800F453C3 /* ZenSchedulerPlugin.bundle */,
 				5CF73C7F086260E900F453C3 /* ZenStateSystemPlugin.bundle */,
 				5C0E757A09D1A886002295FB /* LowPrioritySchedulerPlugin.bundle */,
@@ -2108,6 +2146,18 @@
 				8E2A2C7C09509D6800A7E004 /* MWorksXMLSpec.rtf */,
 			);
 			name = "Docs (woefully incomplete)";
+			sourceTree = "<group>";
+		};
+		E106CF0D1CA42EDC001A0928 /* HighPrecisionClock */ = {
+			isa = PBXGroup;
+			children = (
+				E106CF191CA43380001A0928 /* HighPrecisionClock.h */,
+				E106CF181CA43380001A0928 /* HighPrecisionClock.cpp */,
+				E106CF1A1CA43380001A0928 /* HighPrecisionClockPlugin.cpp */,
+				E106CF171CA43380001A0928 /* HighPrecisionClock-Prefix.pch */,
+				E106CF0E1CA42EDC001A0928 /* Info.plist */,
+			);
+			path = HighPrecisionClock;
 			sourceTree = "<group>";
 		};
 		E1CBF63416BAF1210057CE48 /* Frameworks & Libraries */ = {
@@ -2490,6 +2540,24 @@
 			productReference = DA2CE39007EA035F00C68AEF /* MachClockPlugin.bundle */;
 			productType = "com.apple.product-type.bundle";
 		};
+		E106CF0B1CA42EDC001A0928 /* HighPrecisionClock */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E106CF101CA42EDC001A0928 /* Build configuration list for PBXNativeTarget "HighPrecisionClock" */;
+			buildPhases = (
+				E106CF081CA42EDC001A0928 /* Sources */,
+				E106CF091CA42EDC001A0928 /* Frameworks */,
+				E106CF0A1CA42EDC001A0928 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				E106CF141CA430F8001A0928 /* PBXTargetDependency */,
+			);
+			name = HighPrecisionClock;
+			productName = HighPrecisionClock;
+			productReference = E106CF0C1CA42EDC001A0928 /* HighPrecisionClock.bundle */;
+			productType = "com.apple.product-type.bundle";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -2497,6 +2565,11 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0410;
+				TargetAttributes = {
+					E106CF0B1CA42EDC001A0928 = {
+						CreatedOnToolsVersion = 7.3;
+					};
+				};
 			};
 			buildConfigurationList = 5C0E850E086D85D400B3EE7C /* Build configuration list for PBXProject "MWorksCore" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -2517,6 +2590,7 @@
 				DA2CE0D307E9F68100C68AEF /* MWorksCore */,
 				E1CBF63A16BAF3090057CE48 /* Install MWorksCore */,
 				DA2CE38F07EA035F00C68AEF /* MachClockPlugin */,
+				E106CF0B1CA42EDC001A0928 /* HighPrecisionClock */,
 				5CF73C6008625E1800F453C3 /* ZenSchedulerPlugin */,
 				5CF73C7E086260E900F453C3 /* ZenStateSystemPlugin */,
 				5C0E756F09D1A886002295FB /* LowPrioritySchedulerPlugin */,
@@ -2582,6 +2656,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		DA2CE38C07EA035F00C68AEF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E106CF0A1CA42EDC001A0928 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -2829,6 +2910,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		E106CF081CA42EDC001A0928 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E106CF1C1CA4339B001A0928 /* HighPrecisionClockPlugin.cpp in Sources */,
+				E106CF1B1CA43397001A0928 /* HighPrecisionClock.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -2841,6 +2931,16 @@
 			isa = PBXTargetDependency;
 			target = 5C4D239B09DC83930082BF9F /* MWorksCoreTest */;
 			targetProxy = 5C4D24C109DC95550082BF9F /* PBXContainerItemProxy */;
+		};
+		E106CF141CA430F8001A0928 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E1CBF63A16BAF3090057CE48 /* Install MWorksCore */;
+			targetProxy = E106CF131CA430F8001A0928 /* PBXContainerItemProxy */;
+		};
+		E106CF161CA43306001A0928 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E106CF0B1CA42EDC001A0928 /* HighPrecisionClock */;
+			targetProxy = E106CF151CA43306001A0928 /* PBXContainerItemProxy */;
 		};
 		E115420B1193461300DDE09D /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -3042,6 +3142,34 @@
 			};
 			name = Development;
 		};
+		E106CF0F1CA42EDC001A0928 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "HighPrecisionClock/HighPrecisionClock-Prefix.pch";
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				INFOPLIST_FILE = HighPrecisionClock/Info.plist;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.mworks-project.HighPrecisionClock";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Development;
+		};
 		E11542051193460300DDE09D /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -3153,6 +3281,13 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
+		};
+		E106CF101CA42EDC001A0928 /* Build configuration list for PBXNativeTarget "HighPrecisionClock" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E106CF0F1CA42EDC001A0928 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 		E11542121193464F00DDE09D /* Build configuration list for PBXAggregateTarget "Install Testing Tools" */ = {
 			isa = XCConfigurationList;
