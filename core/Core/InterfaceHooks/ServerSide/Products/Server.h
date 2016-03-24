@@ -30,8 +30,8 @@ BEGIN_NAMESPACE_MW
 
 class Server : public RegistryAwareEventStreamInterface {
     
-    protected:
-    
+    private:
+        shared_ptr<EventBuffer> incoming_event_buffer;
         shared_ptr<ScarabServer> server;
         shared_ptr<EventListener> outgoingListener;
         shared_ptr<EventListener> incomingListener;
@@ -145,8 +145,8 @@ class Server : public RegistryAwareEventStreamInterface {
 		
 		MWTime getReferenceTime();
 		
-        virtual void handleEvent(shared_ptr<Event> event);
-        virtual void putEvent(shared_ptr<Event> event);
+        void handleEvent(shared_ptr<Event> event) override;
+        void putEvent(shared_ptr<Event> event) override;
 		
 		void setListenLowPort(const int port);
 		void setListenHighPort(const int port);

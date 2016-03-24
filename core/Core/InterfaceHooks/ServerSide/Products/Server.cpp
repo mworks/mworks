@@ -24,11 +24,14 @@ BEGIN_NAMESPACE_MW
 SINGLETON_INSTANCE_STATIC_DECLARATION(Server)
 
 
-Server::Server() : RegistryAwareEventStreamInterface(M_SERVER_MESSAGE_DOMAIN, true){
+Server::Server() :
+    RegistryAwareEventStreamInterface(M_SERVER_MESSAGE_DOMAIN, true),
+    incoming_event_buffer(new EventBuffer())
+{
 	
     registry = global_variable_registry;
     
-    server = shared_ptr<ScarabServer>(new ScarabServer(global_incoming_event_buffer, global_outgoing_event_buffer));
+    server = shared_ptr<ScarabServer>(new ScarabServer(incoming_event_buffer, global_outgoing_event_buffer));
 
 	// dont know where else this would be handled?
     if(GlobalDataFileManager == NULL) {
@@ -57,7 +60,7 @@ bool Server::startServer() {
     
     shared_ptr<EventStreamInterface> _handler(new StandardSystemEventHandler());
 	// TODO: prevents there from being more than one server instance
-    incomingListener = shared_ptr<EventListener>(new EventListener(global_incoming_event_buffer, _handler));
+    incomingListener = shared_ptr<EventListener>(new EventListener(incoming_event_buffer, _handler));
     outgoingListener = shared_ptr<EventListener>(new EventListener(global_outgoing_event_buffer, shared_from_this()));
     
     
@@ -91,7 +94,7 @@ void Server::stopServer() {
 
 
 void Server::putEvent(shared_ptr<Event> event){
-    global_incoming_event_buffer->putEvent(event);
+    incoming_event_buffer->putEvent(event);
 }
 
 void Server::saveVariables(const boost::filesystem::path &file) {

@@ -14,12 +14,10 @@ BEGIN_NAMESPACE_MW
 
 
 shared_ptr<EventBuffer> global_outgoing_event_buffer;
-shared_ptr<EventBuffer> global_incoming_event_buffer;
 
 
 void initEventBuffers() {
     global_outgoing_event_buffer = shared_ptr<EventBuffer>(new EventBuffer());
-    global_incoming_event_buffer = shared_ptr<EventBuffer>(new EventBuffer());
 }
 
 

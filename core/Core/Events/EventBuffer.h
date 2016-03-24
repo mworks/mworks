@@ -37,7 +37,6 @@ class EventBuffer : public EventReceiver {
 };
 
 extern shared_ptr<EventBuffer> global_outgoing_event_buffer;
-extern shared_ptr<EventBuffer> global_incoming_event_buffer;
     
 
 class EventBufferReader {
