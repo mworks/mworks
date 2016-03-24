@@ -1,0 +1,48 @@
+<?xml version="1.0" standalone="no"?>
+<monkeyml version="1.0">
+    <io_devices tag="IO Devices">
+        <iodevice type="usbhid_generic" tag="keyboard" usage_page="1" usage="6" preferred_location_id="0" log_all_input_values="NO">
+            <iochannel type="usbhid_generic_input_channel" tag="spacebar_channel" usage_page="7" usage="44" value="spacebar_pressed"></iochannel>
+        </iodevice>
+    </io_devices>
+    <variables tag="Variables">
+        <variable tag="spacebar_pressed" scope="global" logging="when_changed" default_value="0" type="integer">
+            <action type="report" tag="Report" message="spacebar_pressed = $spacebar_pressed"></action>
+        </variable>
+        <variable tag="done" scope="global" logging="when_changed" default_value="0" type="integer"></variable>
+        <variable tag="timeout_seconds" scope="global" logging="when_changed" default_value="10" type="integer"></variable>
+    </variables>
+    <sounds tag="Sounds"></sounds>
+    <stimuli tag="Stimuli"></stimuli>
+    <filters tag="Filters"></filters>
+    <optimizers tag="Optimizers"></optimizers>
+    <experiment tag="New Experiment" full_name="" description="">
+        <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
+            <task_system tag="New Task System" interruptible="YES">
+                <task_system_state tag="Begin State System" interruptible="YES">
+                    <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                    <action type="report" tag="Announce Begin State System" message="State system beginning"></action>
+                    <action type="assignment" tag="Reset done" variable="done" value="0"></action>
+                    <action tag="Start IO Device" type="start_device_IO" device="keyboard"></action>
+                    <action type="report" tag="Announce pending timeout" message="Test will stop automatically unless spacebar is pressed in the next in $timeout_seconds seconds"></action>
+                    <action type="start_timer" tag="Start Timer" timer="MyTimer" timebase="" duration="timeout_seconds" duration_units="s"></action>
+                    <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                    <transition type="timer_expired" tag="If Timer Expired, Transition to ..." target="Exit State System" timer="MyTimer"></transition>
+                    <transition type="conditional" tag="If Condition is True, Transition to ... 2" condition="spacebar_pressed" target="Run"></transition>
+                </task_system_state>
+                <task_system_state tag="Run" interruptible="YES">
+                    <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                    <action type="report" tag="Announce test start" message="Beginning test"></action>
+                    <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                    <transition type="conditional" tag="If Condition is True, Transition to ..." condition="done" target="Exit State System"></transition>
+                </task_system_state>
+                <task_system_state tag="Exit State System" interruptible="YES">
+                    <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                    <action tag="Stop IO Device" type="stop_device_IO" device="keyboard"></action>
+                    <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                    <transition tag="Return to parent task system" type="yield"></transition>
+                </task_system_state>
+            </task_system>
+        </protocol>
+    </experiment>
+</monkeyml>

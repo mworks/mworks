@@ -47,6 +47,8 @@ package_contents = {
         '/Library/Application Support/MWorks/Plugins/Core/MovingDots.bundle',
         '/Library/Application Support/MWorks/Plugins/Core/NE500Plugin.bundle',
         '/Library/Application Support/MWorks/Plugins/Core/ServersideConduit.bundle',
+        '/Library/Application Support/MWorks/Plugins/Core/USBHID.bundle',
+        '/Library/Application Support/MWorks/Plugins/Core/WhiteNoiseBackground.bundle',
         ),
 
     optional_plugins_package_name:

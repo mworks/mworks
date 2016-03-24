@@ -1,0 +1,48 @@
+---
+
+
+name: USB HID Device
+signature: iodevice/usbhid_generic
+isa: IODevice
+icon: smallIOFolder
+description: >
+    Interface to a `USB human interface device
+    <https://en.wikipedia.org/wiki/USB_human_interface_device_class>`_ (HID)
+    class device
+parameters: 
+  - 
+    name: usage_page
+    required: yes
+  - 
+    name: usage
+    required: yes
+  - 
+    name: preferred_location_id
+    default: 0
+  - 
+    name: log_all_input_values
+    default: 'NO'
+
+
+---
+
+
+name: USB HID Input Channel
+signature: iochannel/usbhid_generic_input_channel
+isa: IOChannel
+icon: smallIOFolder
+allowed_parent: USB HID Device
+description: >
+    Input channel on a `USB HID Device`
+parameters: 
+  - 
+    name: usage_page
+    required: yes
+  - 
+    name: usage
+    required: yes
+  - 
+    name: value
+    required: yes
+
+

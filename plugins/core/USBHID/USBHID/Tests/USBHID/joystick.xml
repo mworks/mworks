@@ -1,0 +1,104 @@
+<?xml version="1.0" standalone="no"?>
+<monkeyml version="1.0">
+    <io_devices tag="IO Devices">
+        <iodevice type="usbhid_generic" tag="joystick" usage_page="1" usage="4" preferred_location_id="" log_all_input_values="NO">
+            <iochannel type="usbhid_generic_input_channel" tag="button_A_channel" usage_page="9" usage="2" value="button_A"></iochannel>
+            <iochannel type="usbhid_generic_input_channel" tag="button_B_channel" usage_page="9" usage="3" value="button_B"></iochannel>
+            <iochannel type="usbhid_generic_input_channel" tag="button_X_channel" usage_page="9" usage="1" value="button_X"></iochannel>
+            <iochannel type="usbhid_generic_input_channel" tag="button_Y_channel" usage_page="9" usage="4" value="button_Y"></iochannel>
+            <iochannel type="usbhid_generic_input_channel" tag="button_LT_channel" usage_page="9" usage="7" value="button_LT"></iochannel>
+            <iochannel type="usbhid_generic_input_channel" tag="button_LB_channel" usage_page="9" usage="5" value="button_LB"></iochannel>
+            <iochannel type="usbhid_generic_input_channel" tag="button_RT_channel" usage_page="9" usage="8" value="button_RT"></iochannel>
+            <iochannel type="usbhid_generic_input_channel" tag="button_RB_channel" usage_page="9" usage="6" value="button_RB"></iochannel>
+            <iochannel type="usbhid_generic_input_channel" tag="D_pad_channel" usage_page="1" usage="57" value="D_pad"></iochannel>
+            <iochannel type="usbhid_generic_input_channel" tag="L_stick_X_channel" usage_page="1" usage="48" value="L_stick_X"></iochannel>
+            <iochannel type="usbhid_generic_input_channel" tag="L_stick_Y_channel" usage_page="1" usage="49" value="L_stick_Y"></iochannel>
+            <iochannel type="usbhid_generic_input_channel" tag="R_stick_X_channel" usage_page="1" usage="50" value="R_stick_X"></iochannel>
+            <iochannel type="usbhid_generic_input_channel" tag="R_stick_Y_channel" usage_page="1" usage="53" value="R_stick_Y"></iochannel>
+            <iochannel type="usbhid_generic_input_channel" tag="button_BACK_channel" usage_page="9" usage="9" value="button_BACK"></iochannel>
+            <iochannel type="usbhid_generic_input_channel" tag="button_START_channel" usage_page="9" usage="10" value="button_START"></iochannel>
+        </iodevice>
+    </io_devices>
+    <variables tag="Variables">
+        <variable tag="button_A" scope="global" logging="when_changed" default_value="0" type="integer">
+            <action type="report" tag="Report" message="button_A = $button_A"></action>
+        </variable>
+        <variable tag="button_B" scope="global" logging="when_changed" default_value="0" type="integer">
+            <action type="report" tag="Report" message="button_B = $button_B"></action>
+        </variable>
+        <variable tag="button_X" scope="global" logging="when_changed" default_value="0" type="integer">
+            <action type="report" tag="Report" message="button_X = $button_X"></action>
+        </variable>
+        <variable tag="button_Y" scope="global" logging="when_changed" default_value="0" type="integer">
+            <action type="report" tag="Report" message="button_Y = $button_Y"></action>
+        </variable>
+        <variable tag="button_LT" scope="global" logging="when_changed" default_value="0" type="integer">
+            <action type="report" tag="Report" message="button_LT = $button_LT"></action>
+        </variable>
+        <variable tag="button_LB" scope="global" logging="when_changed" default_value="0" type="integer">
+            <action type="report" tag="Report" message="button_LB = $button_LB"></action>
+        </variable>
+        <variable tag="button_RT" scope="global" logging="when_changed" default_value="0" type="integer">
+            <action type="report" tag="Report" message="button_RT = $button_RT"></action>
+        </variable>
+        <variable tag="button_RB" scope="global" logging="when_changed" default_value="0" type="integer">
+            <action type="report" tag="Report" message="button_RB = $button_RB"></action>
+        </variable>
+        <variable tag="D_pad" scope="global" logging="when_changed" default_value="0" type="integer">
+            <action type="report" tag="Report" message="D_pad = $D_pad"></action>
+        </variable>
+        <variable tag="L_stick_X" scope="global" logging="when_changed" default_value="0" type="integer">
+            <action type="report" tag="Report" message="L_stick_X = $L_stick_X"></action>
+        </variable>
+        <variable tag="L_stick_Y" scope="global" logging="when_changed" default_value="0" type="integer">
+            <action type="report" tag="Report" message="L_stick_Y = $L_stick_Y"></action>
+        </variable>
+        <variable tag="R_stick_X" scope="global" logging="when_changed" default_value="0" type="integer">
+            <action type="report" tag="Report" message="R_stick_X = $R_stick_X"></action>
+        </variable>
+        <variable tag="R_stick_Y" scope="global" logging="when_changed" default_value="0" type="integer">
+            <action type="report" tag="Report" message="R_stick_Y = $R_stick_Y"></action>
+        </variable>
+        <variable tag="button_BACK" scope="global" logging="when_changed" default_value="0" type="integer">
+            <action type="report" tag="Report" message="button_BACK = $button_BACK"></action>
+        </variable>
+        <variable tag="button_START" scope="global" logging="when_changed" default_value="0" type="integer">
+            <action type="report" tag="Report" message="button_START = $button_START"></action>
+        </variable>
+        <variable tag="done" scope="global" logging="when_changed" default_value="0" type="integer"></variable>
+        <variable tag="timeout_seconds" scope="global" logging="when_changed" default_value="10" type="integer"></variable>
+    </variables>
+    <sounds tag="Sounds"></sounds>
+    <stimuli tag="Stimuli"></stimuli>
+    <filters tag="Filters"></filters>
+    <optimizers tag="Optimizers"></optimizers>
+    <experiment tag="New Experiment" full_name="" description="">
+        <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
+            <task_system tag="New Task System" interruptible="YES">
+                <task_system_state tag="Begin State System" interruptible="YES">
+                    <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                    <action type="report" tag="Announce Begin State System" message="State system beginning"></action>
+                    <action type="assignment" tag="Reset done" variable="done" value="0"></action>
+                    <action tag="Start IO Device" type="start_device_IO" device="joystick"></action>
+                    <action type="report" tag="Announce pending timeout" message="Test will stop automatically unless button A is pressed in the next in $timeout_seconds seconds"></action>
+                    <action type="start_timer" tag="Start Timer" timer="MyTimer" timebase="" duration="timeout_seconds" duration_units="s"></action>
+                    <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                    <transition type="timer_expired" tag="If Timer Expired, Transition to ..." target="Exit State System" timer="MyTimer"></transition>
+                    <transition type="conditional" tag="If Condition is True, Transition to ... 2" condition="button_A" target="Run"></transition>
+                </task_system_state>
+                <task_system_state tag="Run" interruptible="YES">
+                    <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                    <action type="report" tag="Announce test start" message="Beginning test"></action>
+                    <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                    <transition type="conditional" tag="If Condition is True, Transition to ..." condition="done" target="Exit State System"></transition>
+                </task_system_state>
+                <task_system_state tag="Exit State System" interruptible="YES">
+                    <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                    <action tag="Stop IO Device" type="stop_device_IO" device="joystick"></action>
+                    <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                    <transition tag="Return to parent task system" type="yield"></transition>
+                </task_system_state>
+            </task_system>
+        </protocol>
+    </experiment>
+</monkeyml>

@@ -1,0 +1,47 @@
+<MWElements>
+  
+  <MWElement name="USB HID Device">
+    <match_signature>iodevice[@type="usbhid_generic"]</match_signature>
+    
+    <isa>IODevice</isa>
+
+    <icon>smallIOFolder</icon>
+    
+    <description>
+Interface to a USB human interface device (HID) class device
+    </description>
+    
+    <code>
+      <iodevice type="usbhid_generic"
+                tag="USB HID Device"
+                usage_page=""
+                usage=""
+                preferred_location_id="0"
+                log_all_input_values="NO"
+                />
+    </code>
+  </MWElement>
+  
+  <MWElement name="USB HID Input Channel">
+    <match_signature>iochannel[@type="usbhid_generic_input_channel"]</match_signature>
+    
+    <isa>IOChannel</isa>
+    <allowed_parent>USB HID Device</allowed_parent>
+
+    <icon>smallIOFolder</icon>
+    
+    <description>
+Input channel on a USB human interface device (HID) class device
+    </description>
+    
+    <code>
+      <iochannel type="usbhid_generic_input_channel"
+                 tag="USB HID Input Channel"
+                 usage_page=""
+                 usage=""
+                 value=""
+                 />
+    </code>
+  </MWElement>
+  
+</MWElements>

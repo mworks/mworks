@@ -1,0 +1,20 @@
+//
+// Prefix header for all source files of the 'USBHID' target in the 'USBHID' project
+//
+
+#include <CoreAudio/HostTime.h>
+#include <IOKit/hid/IOHIDLib.h>
+#include <mach/mach_error.h>
+
+#ifdef __cplusplus
+    #include <boost/foreach.hpp>
+    #include <boost/move/move.hpp>
+    #include <boost/noncopyable.hpp>
+    #include <boost/scope_exit.hpp>
+    #include <boost/thread/thread.hpp>
+    
+    #include <MWorksCore/CFObjectPtr.h>
+    #include <MWorksCore/IODevice.h>
+    #include <MWorksCore/Plugin.h>
+    #include <MWorksCore/StandardComponentFactory.h>
+#endif

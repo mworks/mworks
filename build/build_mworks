@@ -161,7 +161,9 @@ def core_plugins():
                    'MovingDots',
                    'NE500',
                    'ServersideConduit',
-                   'SidewinderPlugAndPlayGamepadPlugin'):
+                   'SidewinderPlugAndPlayGamepadPlugin',
+                   'USBHID',
+                   'WhiteNoiseBackground'):
         with workdir(subdir):
             xcodebuild()
 

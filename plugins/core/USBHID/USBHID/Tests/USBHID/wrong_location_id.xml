@@ -1,0 +1,16 @@
+<?xml version="1.0" standalone="no"?>
+<monkeyml version="1.0">
+    <io_devices tag="IO Devices">
+        <iodevice type="usbhid_generic" tag="keyboard" usage_page="1" usage="6" preferred_location_id="1234" log_all_input_values="YES"></iodevice>
+    </io_devices>
+    <variables tag="Variables"></variables>
+    <sounds tag="Sounds"></sounds>
+    <stimuli tag="Stimuli"></stimuli>
+    <filters tag="Filters"></filters>
+    <optimizers tag="Optimizers"></optimizers>
+    <experiment tag="New Experiment" full_name="" description="">
+        <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
+            <action type="report" tag="Report" message="Nothing to see here"></action>
+        </protocol>
+    </experiment>
+</monkeyml>
