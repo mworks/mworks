@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="9531" systemVersion="15D21" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="macosx"/>
-        <development version="5100" identifier="xcode"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9531"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10116"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="NSApplication">
@@ -363,7 +362,6 @@
         </menu>
         <customObject id="206" userLabel="MWSServer" customClass="MWSServer">
             <connections>
-                <outlet property="mainWindow" destination="21" id="351"/>
                 <outlet property="mc" destination="305" id="310"/>
                 <outlet property="nc" destination="317" id="337"/>
                 <outlet property="tc" destination="293" id="294"/>
@@ -521,7 +519,7 @@
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <button id="ZCT-BB-WfO">
-                                            <rect key="frame" x="15" y="146" width="321" height="18"/>
+                                            <rect key="frame" x="15" y="166" width="321" height="18"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <buttonCell key="cell" type="check" title="Allow I/O device failover via the &quot;alt&quot; parameter" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="A4L-8b-nPm">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -529,18 +527,6 @@
                                             </buttonCell>
                                             <connections>
                                                 <binding destination="Npj-AL-FRl" name="value" keyPath="selection.allowAltFailover" id="aeh-oF-6tp"/>
-                                            </connections>
-                                        </button>
-                                        <button toolTip="Changes will take effect after restart." id="mZo-f9-7Ss">
-                                            <rect key="frame" x="15" y="166" width="281" height="18"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <buttonCell key="cell" type="check" title="Use high-precision clock (recommended)" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="nx0-gV-26o">
-                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                <font key="font" metaFont="system"/>
-                                            </buttonCell>
-                                            <connections>
-                                                <binding destination="Npj-AL-FRl" name="enabled" keyPath="selection.highPrecisionClockAvailable" id="nOS-mo-dSf"/>
-                                                <binding destination="Npj-AL-FRl" name="value" keyPath="selection.useHighPrecisionClock" id="KOl-Na-57b"/>
                                             </connections>
                                         </button>
                                         <textField verticalHuggingPriority="750" id="VrY-Uu-a31">
@@ -785,7 +771,7 @@
                     </tabView>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="140" y="413"/>
+            <point key="canvasLocation" x="-18" y="226"/>
         </window>
     </objects>
 </document>

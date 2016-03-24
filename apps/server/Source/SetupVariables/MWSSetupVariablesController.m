@@ -30,7 +30,6 @@ using mw::Datum;
 @synthesize announceIndividualStimuli = _announceIndividualStimuli;
 @synthesize warnOnSkippedRefresh = _warnOnSkippedRefresh;
 @synthesize allowAltFailover = _allowAltFailover;
-@synthesize useHighPrecisionClock = _useHighPrecisionClock;
 
 
 - (instancetype)init {
@@ -55,16 +54,6 @@ using mw::Datum;
         
         _warnOnSkippedRefresh = (BOOL)(mw::warnOnSkippedRefresh->getValue().getBool());
         _allowAltFailover = (BOOL)(mw::alt_failover->getValue().getBool());
-        
-        {
-            Datum rtc = mw::realtimeComponents->getValue();
-            if (rtc.isDictionary()) {
-                Datum clockValue = rtc.getElement(M_REALTIME_CLOCK_KEY);
-                if (clockValue.isString() && clockValue == "HighPrecisionClock") {
-                    _useHighPrecisionClock = YES;
-                }
-            }
-        }
     }
     
     return self;
@@ -160,19 +149,6 @@ using mw::Datum;
 }
 
 
-- (BOOL)highPrecisionClockAvailable {
-    return mw::ComponentRegistry::getSharedRegistry()->hasFactory("HighPrecisionClock");
-}
-
-
-- (void)setUseHighPrecisionClock:(BOOL)useHighPrecisionClock {
-    _useHighPrecisionClock = useHighPrecisionClock;
-    [self updateVariable:mw::realtimeComponents
-                     key:M_REALTIME_CLOCK_KEY
-                   value:(useHighPrecisionClock ? "HighPrecisionClock" : "MachClock")];
-}
-
-
 - (void)updateVariable:(const mw::VariablePtr &)var value:(const Datum &)value {
     var->setValue(value);
     [self writeSetupVariables];
@@ -203,7 +179,6 @@ using mw::Datum;
                 mw::mainDisplayInfo,
                 mw::warnOnSkippedRefresh,
                 mw::alt_failover,
-                mw::realtimeComponents,
             }, setupVariablesFile);
         } catch (const std::exception &e) {
             mw::merror(mw::M_SERVER_MESSAGE_DOMAIN, "Failed to save setup variables: %s", e.what());

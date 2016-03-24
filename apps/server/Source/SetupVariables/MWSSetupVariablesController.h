@@ -22,7 +22,6 @@
     BOOL _announceIndividualStimuli;
     BOOL _warnOnSkippedRefresh;
     BOOL _allowAltFailover;
-    BOOL _useHighPrecisionClock;
 }
 
 @property(nonatomic, copy) NSString *serverName;
@@ -36,7 +35,5 @@
 @property(nonatomic) BOOL announceIndividualStimuli;
 @property(nonatomic) BOOL warnOnSkippedRefresh;
 @property(nonatomic) BOOL allowAltFailover;
-@property(nonatomic, readonly) BOOL highPrecisionClockAvailable;
-@property(nonatomic) BOOL useHighPrecisionClock;
 
 @end
