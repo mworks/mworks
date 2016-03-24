@@ -269,7 +269,6 @@
 		68EC07CF0CB2BC3800FCD612 /* ActionTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68EC07CD0CB2BC3800FCD612 /* ActionTest.cpp */; };
 		68EC08740CB2C7B900FCD612 /* VariableTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 68EC08720CB2C7B900FCD612 /* VariableTest.cpp */; };
 		68EC08750CB2C7B900FCD612 /* VariableTest.h in Headers */ = {isa = PBXBuildFile; fileRef = 68EC08730CB2C7B900FCD612 /* VariableTest.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		68FEE2320C9039EE002BCAE9 /* GenericEventFunctor.h in Headers */ = {isa = PBXBuildFile; fileRef = 68FEE2310C9039EE002BCAE9 /* GenericEventFunctor.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8E16A70E0A08E12E0070955E /* Averagers.h in Headers */ = {isa = PBXBuildFile; fileRef = 8E16A70C0A08E12E0070955E /* Averagers.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8E16A70F0A08E12E0070955E /* Averagers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E16A70D0A08E12E0070955E /* Averagers.cpp */; };
 		8E1A4CB208DFBF94002E47BD /* FitableFunctions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8EE2F3A008C8227700B873A2 /* FitableFunctions.cpp */; };
@@ -880,7 +879,6 @@
 		68EC07CD0CB2BC3800FCD612 /* ActionTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ActionTest.cpp; sourceTree = "<group>"; };
 		68EC08720CB2C7B900FCD612 /* VariableTest.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = VariableTest.cpp; sourceTree = "<group>"; };
 		68EC08730CB2C7B900FCD612 /* VariableTest.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = VariableTest.h; sourceTree = "<group>"; };
-		68FEE2310C9039EE002BCAE9 /* GenericEventFunctor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GenericEventFunctor.h; path = Core/Utilities/GenericEventFunctor.h; sourceTree = "<group>"; };
 		8E16A70C0A08E12E0070955E /* Averagers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Averagers.h; path = Core/Transforms/Averagers.h; sourceTree = SOURCE_ROOT; };
 		8E16A70D0A08E12E0070955E /* Averagers.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Averagers.cpp; path = Core/Transforms/Averagers.cpp; sourceTree = SOURCE_ROOT; };
 		8E28B5FA0A6C317E00DA6287 /* Announcers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Announcers.h; path = Core/RealtimeServices/Announcers.h; sourceTree = "<group>"; };
@@ -2032,7 +2030,6 @@
 				686059610C91CD5A00CD0D16 /* EventListener.h */,
 				686059620C91CD5A00CD0D16 /* EventListener.cpp */,
 				0E5338E70CB7404E004FF889 /* EventConstants.h */,
-				68FEE2310C9039EE002BCAE9 /* GenericEventFunctor.h */,
 				5CA07B2710D052DB00000A95 /* EventCallbackHandler.h */,
 				5CA07B2810D052DB00000A95 /* EventCallbackHandler.cpp */,
 			);
@@ -2291,7 +2288,6 @@
 				5C7CF4EF0BC6B48D00434931 /* LinkedList.h in Headers */,
 				5C76674F0C1BB28C00B1203C /* StimulusNode.h in Headers */,
 				5C7667540C1BB30A00B1203C /* StimulusDisplay.h in Headers */,
-				68FEE2320C9039EE002BCAE9 /* GenericEventFunctor.h in Headers */,
 				6860595A0C91CB8700CD0D16 /* OutgoingEventListener.h in Headers */,
 				686059630C91CD5A00CD0D16 /* EventListener.h in Headers */,
 				682A94780CA9A933001DE3E2 /* SequentialSelection.h in Headers */,

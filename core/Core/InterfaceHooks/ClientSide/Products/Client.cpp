@@ -19,7 +19,6 @@ BEGIN_NAMESPACE_MW
 
 #define CLIENT_INTERNAL_KEY	"MWClientInternalCallbackKey"
 
-typedef std::vector <shared_ptr<GenericEventFunctor> > CallbacksForVar;
 
 Client::Client() : RegistryAwareEventStreamInterface(M_CLIENT_MESSAGE_DOMAIN, true){
 	incoming_event_buffer = shared_ptr<EventBuffer>(new EventBuffer());
@@ -29,15 +28,6 @@ Client::Client() : RegistryAwareEventStreamInterface(M_CLIENT_MESSAGE_DOMAIN, tr
 	
 	initializeStandardVariables(registry);
 	message_variable = registry->getVariable(ANNOUNCE_MESSAGE_VAR_TAGNAME);
-	
-	
-//	boost::recursive_mutex::scoped_lock lock(callbacksLock);
-	for(int i = 0; i < registry->getNVariables(); ++i) {
-		CallbacksForVar callbacks_for_variable;
-		callbacks.push_back(callbacks_for_variable);
-	}
-		
-	
 }
 
 
@@ -205,69 +195,9 @@ void Client::updateRegistry(const Datum &codec) {
 
 
 void Client::updateValue(const int code, const Datum &data) {
-	//shared_ptr<Variable> var = registry->getVariable(code);
-	//var->setValue(data);
 	shared_ptr<Event> event(new Event(code, data));
 	putEvent(event);
 }
-
-//void Client::registerCallback(shared_ptr<GenericEventFunctor> gef) {
-//// these cause esoteric locking problems
-////	boost::recursive_mutex::scoped_lock lock(callbacksLock);
-//	
-//	for(std::vector<CallbacksForVar>::iterator i = callbacks.begin();
-//		i != callbacks.end();
-//		++i) {
-//		i->push_back(gef);
-//	}
-//}
-//
-//void Client::registerCallback(shared_ptr<GenericEventFunctor> gef, 
-//							   int code) {
-//// these cause esoteric locking problems
-////	boost::recursive_mutex::scoped_lock lock(callbacksLock);
-//	
-//	int callbacksSize = callbacks.size();
-//	if(code >= 0 && code < callbacksSize) {
-//		callbacks.at(code).push_back(gef);
-//	} else {
-//		merror(M_CLIENT_MESSAGE_DOMAIN, 
-//			   "Attempting to register a callback (key: %s) for an variable code that doesn exist (code: %d)", 
-//			   gef->callbackID().c_str(), 
-//			   code);		
-//	}
-//}
-//
-//
-//
-//void Client::unregisterCallbacks(const std::string &callback_id) {
-////	boost::recursive_mutex::scoped_lock lock(callbacksLock);
-//	
-//	// get each vector of callbacks from the main callbacks vector 
-//	// (one vector for each variable)
-//	for(vector<CallbacksForVar>::iterator i = callbacks.begin();
-//		i != callbacks.end();
-//		++i) {
-//
-//		vector<shared_ptr<GenericEventFunctor> > new_callbacks;
-//
-//		// go through the callbacks for one variable, adding each callback to a
-//		// new vector except ones with "key"
-//		for(vector<shared_ptr<GenericEventFunctor> >::iterator j = i->begin();
-//			j != i->end();
-//			++j) {
-//			
-//			if((*j)->callbackID() != callback_id) {
-//				new_callbacks.push_back(*j);
-//			}
-//			
-//		}
-//		
-//		// copy the new vector to the main callbacks list
-//		i->assign(new_callbacks.begin(), new_callbacks.end());
-//		
-//	}
-//}
 
 
 END_NAMESPACE_MW

@@ -10,7 +10,6 @@
 #ifndef __COCOA_EVENT_FUNCTOR_H_
 #define __COCOA_EVENT_FUNCTOR_H_
 
-//#include "MWorksCore/GenericEventFunctor.h"
 #include "MWCocoaEvent.h"
 #import "CocoaBindingsSetter.h"
 #include "MWorksCore/EventStreamInterface.h"

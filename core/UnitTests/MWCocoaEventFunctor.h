@@ -10,7 +10,6 @@
 #ifndef __COCOA_EVENT_FUNCTOR_H_
 #define __COCOA_EVENT_FUNCTOR_H_
 
-#include "MWorksCore/GenericEventFunctor.h"
 #include "MWCocoaEvent.h"
 
 
@@ -18,7 +17,7 @@ BEGIN_NAMESPACE_MW
 
 
 // derived template class
-class CocoaEventFunctor : public GenericEventFunctor
+class CocoaEventFunctor
 {
 private:
 	id receiver;
@@ -28,7 +27,7 @@ public:
 		
 	// constructor - takes pointer to an object and pointer to a member and stores
 	// them in two private variables
-	CocoaEventFunctor(id _receiver, SEL _selector, const std::string &key) : GenericEventFunctor (key)
+	CocoaEventFunctor(id _receiver, SEL _selector, const std::string &key)
     {
 			receiver = _receiver;
 			selector = _selector;
@@ -36,7 +35,7 @@ public:
 	
 	
 	// override operator "()"
-	virtual void operator()(const shared_ptr<Event> &event)
+    void operator()(const shared_ptr<Event> &event)
 	{ 
 		@autoreleasepool {
 		

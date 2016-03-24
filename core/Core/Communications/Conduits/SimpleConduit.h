@@ -26,7 +26,6 @@
 #include <boost/bind.hpp>
 #include <boost/function.hpp>
 
-#include "GenericEventFunctor.h"
 #include "SimpleCodecUtilities.h"
 
 #include "EventCallbackHandler.h"

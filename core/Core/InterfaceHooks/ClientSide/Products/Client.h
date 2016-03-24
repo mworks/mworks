@@ -17,7 +17,6 @@
 
 
 #include "EventStreamInterface.h"
-#include "GenericEventFunctor.h"
 #include "VariableRegistryInterface.h"
 #include "IncomingEventListener.h"
 #include "ScarabClient.h"
@@ -40,12 +39,6 @@ class Client : public RegistryAwareEventStreamInterface {
 	shared_ptr<NetworkReturn> lastNetworkReturn;
 	
 	shared_ptr<Variable> message_variable;
-	
-	std::vector <std::vector<shared_ptr<GenericEventFunctor> > > callbacks;
-	
-	//boost::mutex event_lock;
-	boost::recursive_mutex callbacksLock;
-	
     
     public:
         /*!

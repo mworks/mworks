@@ -19,7 +19,6 @@
 #include "GenericVariable.h"
 #include <boost/thread/recursive_mutex.hpp>
 #include <boost/filesystem/path.hpp>
-#include "GenericEventFunctor.h"
 #include "ScarabServer.h"
 #include "EventStreamInterface.h"
 #include "VariableRegistryInterface.h"
@@ -148,11 +147,6 @@ class Server : public RegistryAwareEventStreamInterface {
 		
         virtual void handleEvent(shared_ptr<Event> event);
         virtual void putEvent(shared_ptr<Event> event);
-    
-    
-        //virtual void registerCallback(shared_ptr<GenericEventFunctor> gef);
-//		virtual void registerCallback(shared_ptr<GenericEventFunctor> gef, const int code);
-//		virtual void unregisterCallbacks(const std::string &key);
 		
 		void setListenLowPort(const int port);
 		void setListenHighPort(const int port);
