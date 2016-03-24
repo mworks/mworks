@@ -48,7 +48,6 @@ BEGIN_NAMESPACE_MW
 	void initializeServiceRegistries(){
 		
 		global_variable_registry = shared_ptr<VariableRegistry>(new VariableRegistry(global_outgoing_event_buffer));
-        //global_variable_registry = shared_ptr<VariableRegistry>(new VariableRegistry(global_outgoing_event_buffer));
 		
 		registries_are_initialized = true;
 	}

@@ -281,8 +281,6 @@
 		8ED451E708BF5BA1003880D5 /* FilterTransforms.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8ED451E508BF5BA1003880D5 /* FilterTransforms.cpp */; };
 		8ED451E808BF5BA1003880D5 /* FilterTransforms.h in Headers */ = {isa = PBXBuildFile; fileRef = 8ED451E608BF5BA1003880D5 /* FilterTransforms.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8ED451FF08BF5C0C003880D5 /* Transforms.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8ED451FE08BF5C0C003880D5 /* Transforms.cpp */; };
-		8ED452C708BF9870003880D5 /* FilterManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8ED452C208BF9870003880D5 /* FilterManager.cpp */; };
-		8ED452C808BF9870003880D5 /* FilterManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 8ED452C308BF9870003880D5 /* FilterManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8ED452C908BF9870003880D5 /* Transforms.h in Headers */ = {isa = PBXBuildFile; fileRef = 8ED452C408BF9870003880D5 /* Transforms.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8ED452CA08BF9870003880D5 /* VariableTransformAdaptors.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8ED452C508BF9870003880D5 /* VariableTransformAdaptors.cpp */; };
 		8ED452CB08BF9870003880D5 /* VariableTransformAdaptors.h in Headers */ = {isa = PBXBuildFile; fileRef = 8ED452C608BF9870003880D5 /* VariableTransformAdaptors.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -889,8 +887,6 @@
 		8ED451E508BF5BA1003880D5 /* FilterTransforms.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = FilterTransforms.cpp; path = Core/Transforms/FilterTransforms.cpp; sourceTree = SOURCE_ROOT; };
 		8ED451E608BF5BA1003880D5 /* FilterTransforms.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = FilterTransforms.h; path = Core/Transforms/FilterTransforms.h; sourceTree = SOURCE_ROOT; };
 		8ED451FE08BF5C0C003880D5 /* Transforms.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = Transforms.cpp; path = Core/Transforms/Transforms.cpp; sourceTree = SOURCE_ROOT; };
-		8ED452C208BF9870003880D5 /* FilterManager.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = FilterManager.cpp; path = Core/Transforms/FilterManager.cpp; sourceTree = SOURCE_ROOT; };
-		8ED452C308BF9870003880D5 /* FilterManager.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = FilterManager.h; path = Core/Transforms/FilterManager.h; sourceTree = SOURCE_ROOT; };
 		8ED452C408BF9870003880D5 /* Transforms.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Transforms.h; path = Core/Transforms/Transforms.h; sourceTree = SOURCE_ROOT; };
 		8ED452C508BF9870003880D5 /* VariableTransformAdaptors.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = VariableTransformAdaptors.cpp; path = Core/Transforms/VariableTransformAdaptors.cpp; sourceTree = SOURCE_ROOT; };
 		8ED452C608BF9870003880D5 /* VariableTransformAdaptors.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = VariableTransformAdaptors.h; path = Core/Transforms/VariableTransformAdaptors.h; sourceTree = SOURCE_ROOT; };
@@ -1698,8 +1694,6 @@
 			isa = PBXGroup;
 			children = (
 				5C4D254209DCBA7F0082BF9F /* tests */,
-				8ED452C308BF9870003880D5 /* FilterManager.h */,
-				8ED452C208BF9870003880D5 /* FilterManager.cpp */,
 				8ED452C608BF9870003880D5 /* VariableTransformAdaptors.h */,
 				8ED452C508BF9870003880D5 /* VariableTransformAdaptors.cpp */,
 				8ED452C408BF9870003880D5 /* Transforms.h */,
@@ -2253,7 +2247,6 @@
 				DA30579D08B6A23700BA4B0E /* NetworkReturn.h in Headers */,
 				8ED451E408BF5B90003880D5 /* EyeMonitors.h in Headers */,
 				8ED451E808BF5BA1003880D5 /* FilterTransforms.h in Headers */,
-				8ED452C808BF9870003880D5 /* FilterManager.h in Headers */,
 				8ED452C908BF9870003880D5 /* Transforms.h in Headers */,
 				E18FF25F1C80EE7B007820D4 /* CFObjectPtr.h in Headers */,
 				8ED452CB08BF9870003880D5 /* VariableTransformAdaptors.h in Headers */,
@@ -2750,7 +2743,6 @@
 				8ED451E308BF5B90003880D5 /* EyeMonitors.cpp in Sources */,
 				8ED451E708BF5BA1003880D5 /* FilterTransforms.cpp in Sources */,
 				8ED451FF08BF5C0C003880D5 /* Transforms.cpp in Sources */,
-				8ED452C708BF9870003880D5 /* FilterManager.cpp in Sources */,
 				8ED452CA08BF9870003880D5 /* VariableTransformAdaptors.cpp in Sources */,
 				8E1A4CB208DFBF94002E47BD /* FitableFunctions.cpp in Sources */,
 				8E58149C0920220F0058D767 /* EyeCalibrators.cpp in Sources */,

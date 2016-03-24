@@ -17,7 +17,6 @@
 #include "MWorksCore/StandardVariables.h"
 #include "MWorksCore/DataFileManager.h"
 #include "MWorksCore/OpenALContextManager.h"
-#include "MWorksCore/FilterManager.h"
 
 
 BEGIN_NAMESPACE_MW
@@ -49,14 +48,6 @@ void FullCoreEnvironmentTestFixture::tearDown(){
 	}
 
 	OpenALContextManager::destroy();
-
-	if(GlobalFilterManager) {
-	  delete GlobalFilterManager;
-	  GlobalFilterManager = 0;
-	}
-
-	
-
 	
 	if(registries_are_initialized) {
 		registries_are_initialized = false;

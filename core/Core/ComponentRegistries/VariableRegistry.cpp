@@ -428,14 +428,6 @@ Datum VariableRegistry::lookupVariable(const std::string &varname) const {
 
 
 shared_ptr<VariableRegistry> global_variable_registry;
-//static bool registry_initialized = false;
-
-
-//void initializeVariableRegistry() {
-//	global_variable_registry = shared_ptr<VariableRegistry>(new VariableRegistry(global_outgoing_event_buffer));
-//    registry_initialized = true;
-//	
-//}
 
 
 END_NAMESPACE_MW

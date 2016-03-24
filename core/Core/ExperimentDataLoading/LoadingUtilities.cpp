@@ -14,7 +14,6 @@
 #include "EventBuffer.h"
 #include "StandardVariables.h"
 #include "StandardStimuli.h"
-#include "FilterManager.h"
 #include "OpenALContextManager.h"
 #include <string>
 #include <boost/filesystem/path.hpp>
@@ -203,15 +202,6 @@ BEGIN_NAMESPACE_MW
             opengl_context_manager->releaseDisplays();
             //opengl_context_manager->destroy();
         }
-		
-		
-		// kill all filters
-		if(GlobalFilterManager != NULL) {
-			delete GlobalFilterManager;  
-		}
-		
-		
-		GlobalFilterManager = new FilterManager();
 		
         OpenALContextManager::destroy();
         shared_ptr<Component> openal_context_manager(new OpenALContextManager());
