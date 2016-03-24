@@ -70,8 +70,7 @@ class StandardServerCoreBuilder : public AbstractCoreBuilder {
 
         /*!
          * @function loadPlugins
-         * @discussion Loads the ZenScheduler, MachClock and 
-         * ZenStateSystem plugins
+         * @discussion Loads core plugins
          *
          * @result True if everything went OK false otherwise.
          */

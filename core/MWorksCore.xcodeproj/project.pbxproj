@@ -65,7 +65,6 @@
 				E1CBF65D16BAFA430057CE48 /* CopyFiles */,
 			);
 			dependencies = (
-				E1CBF65616BAFA320057CE48 /* PBXTargetDependency */,
 				E106CF161CA43306001A0928 /* PBXTargetDependency */,
 				E1CBF65816BAFA330057CE48 /* PBXTargetDependency */,
 				E1CBF65A16BAFA360057CE48 /* PBXTargetDependency */,
@@ -376,7 +375,6 @@
 		DA2CE1ED07E9F97F00C68AEF /* VariableProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2CE1E507E9F97F00C68AEF /* VariableProperties.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DA2CE1EE07E9F97F00C68AEF /* ScopedVariableContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2CE1E607E9F97F00C68AEF /* ScopedVariableContext.cpp */; };
 		DA2CE1EF07E9F97F00C68AEF /* ScopedVariableContext.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2CE1E707E9F97F00C68AEF /* ScopedVariableContext.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		DA2CE39807EA040D00C68AEF /* MachClock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2CE39607EA040D00C68AEF /* MachClock.cpp */; };
 		DA2E379E08B0FE5800BD22C4 /* EventBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2E379C08B0FE5800BD22C4 /* EventBuffer.cpp */; };
 		DA2E379F08B0FE5800BD22C4 /* EventBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2E379D08B0FE5800BD22C4 /* EventBuffer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DA30579D08B6A23700BA4B0E /* NetworkReturn.h in Headers */ = {isa = PBXBuildFile; fileRef = DA30579B08B6A23700BA4B0E /* NetworkReturn.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -426,7 +424,6 @@
 		E1CBF63E16BAF3190057CE48 /* MWorksCore.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = DA2CE0D407E9F68100C68AEF /* MWorksCore.framework */; };
 		E1CBF64016BAF32A0057CE48 /* setup_variables_macbook.xml in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0E1AE9920EF1A9EE00C224F1 /* setup_variables_macbook.xml */; };
 		E1CBF64116BAF32B0057CE48 /* setup_variables_two_monitors.xml in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0E1AE9A70EF1AB5500C224F1 /* setup_variables_two_monitors.xml */; };
-		E1CBF65E16BAFA540057CE48 /* MachClockPlugin.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = DA2CE39007EA035F00C68AEF /* MachClockPlugin.bundle */; };
 		E1CBF65F16BAFA560057CE48 /* ZenSchedulerPlugin.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5CF73C6108625E1800F453C3 /* ZenSchedulerPlugin.bundle */; };
 		E1CBF66016BAFA590057CE48 /* ZenStateSystemPlugin.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5CF73C7F086260E900F453C3 /* ZenStateSystemPlugin.bundle */; };
 		E1CBF66116BAFA5C0057CE48 /* LowPrioritySchedulerPlugin.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5C0E757A09D1A886002295FB /* LowPrioritySchedulerPlugin.bundle */; };
@@ -457,9 +454,6 @@
 		E1DB976F16C16D02001481E9 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB976E16C16D02001481E9 /* libz.dylib */; };
 		E1DB977216C16D19001481E9 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB977016C16D18001481E9 /* libxml2.dylib */; };
 		E1DB977316C16D19001481E9 /* libxslt.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB977116C16D18001481E9 /* libxslt.dylib */; };
-		E1DB977816C17068001481E9 /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB977716C17068001481E9 /* CoreServices.framework */; };
-		E1DB977916C18633001481E9 /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA2CE0D407E9F68100C68AEF /* MWorksCore.framework */; };
-		E1DB977A16C18D44001481E9 /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB975A16C16C8D001481E9 /* libboost_system.a */; };
 		E1DB977B16C18DA6001481E9 /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA2CE0D407E9F68100C68AEF /* MWorksCore.framework */; };
 		E1DB977C16C18DA9001481E9 /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB975A16C16C8D001481E9 /* libboost_system.a */; };
 		E1DB977D16C18E01001481E9 /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA2CE0D407E9F68100C68AEF /* MWorksCore.framework */; };
@@ -544,13 +538,6 @@
 			remoteGlobalIDString = E1CBF63A16BAF3090057CE48;
 			remoteInfo = "Install MWorksCore";
 		};
-		E1CBF64616BAF34F0057CE48 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = DA2CE0C907E9070200C68AEF /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = E1CBF63A16BAF3090057CE48;
-			remoteInfo = "Install MWorksCore";
-		};
 		E1CBF64816BAF3530057CE48 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = DA2CE0C907E9070200C68AEF /* Project object */;
@@ -571,13 +558,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = E1CBF63A16BAF3090057CE48;
 			remoteInfo = "Install MWorksCore";
-		};
-		E1CBF65516BAFA320057CE48 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = DA2CE0C907E9070200C68AEF /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = DA2CE38F07EA035F00C68AEF;
-			remoteInfo = MachClockPlugin;
 		};
 		E1CBF65716BAFA330057CE48 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -651,7 +631,6 @@
 			dstPath = "$(MW_PLUGINS_DIR)";
 			dstSubfolderSpec = 0;
 			files = (
-				E1CBF65E16BAFA540057CE48 /* MachClockPlugin.bundle in CopyFiles */,
 				E106CF1D1CA4353C001A0928 /* HighPrecisionClock.bundle in CopyFiles */,
 				E1CBF65F16BAFA560057CE48 /* ZenSchedulerPlugin.bundle in CopyFiles */,
 				E1CBF66016BAFA590057CE48 /* ZenStateSystemPlugin.bundle in CopyFiles */,
@@ -1012,10 +991,6 @@
 		DA2CE1E507E9F97F00C68AEF /* VariableProperties.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = VariableProperties.h; path = Core/Variables/VariableProperties.h; sourceTree = "<group>"; };
 		DA2CE1E607E9F97F00C68AEF /* ScopedVariableContext.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ScopedVariableContext.cpp; path = Core/Variables/ScopedVariableContext.cpp; sourceTree = "<group>"; };
 		DA2CE1E707E9F97F00C68AEF /* ScopedVariableContext.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ScopedVariableContext.h; path = Core/Variables/ScopedVariableContext.h; sourceTree = "<group>"; };
-		DA2CE39007EA035F00C68AEF /* MachClockPlugin.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MachClockPlugin.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
-		DA2CE39107EA035F00C68AEF /* MachClockPlugin-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MachClockPlugin-Info.plist"; sourceTree = "<group>"; };
-		DA2CE39607EA040D00C68AEF /* MachClock.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = MachClock.cpp; sourceTree = "<group>"; };
-		DA2CE39707EA040D00C68AEF /* MachClock.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MachClock.h; sourceTree = "<group>"; };
 		DA2E379C08B0FE5800BD22C4 /* EventBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = EventBuffer.cpp; path = Core/Events/EventBuffer.cpp; sourceTree = SOURCE_ROOT; };
 		DA2E379D08B0FE5800BD22C4 /* EventBuffer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = EventBuffer.h; path = Core/Events/EventBuffer.h; sourceTree = SOURCE_ROOT; };
 		DA30579B08B6A23700BA4B0E /* NetworkReturn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkReturn.h; sourceTree = "<group>"; };
@@ -1178,16 +1153,6 @@
 				E1DB976D16C16CEC001481E9 /* libpng.a in Frameworks */,
 				E1DB976716C16CC9001481E9 /* libscarab.a in Frameworks */,
 				E1DB976916C16CD4001481E9 /* libtiff.a in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		DA2CE38E07EA035F00C68AEF /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				E1DB977916C18633001481E9 /* MWorksCore.framework in Frameworks */,
-				E1DB977816C17068001481E9 /* CoreServices.framework in Frameworks */,
-				E1DB977A16C18D44001481E9 /* libboost_system.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1410,7 +1375,6 @@
 			children = (
 				5CF73C850862613C00F453C3 /* ZenStateSystem */,
 				5CF73BAA086252E800F453C3 /* ZenScheduler */,
-				DA2CE39507EA040100C68AEF /* MachClock */,
 				E106CF0D1CA42EDC001A0928 /* HighPrecisionClock */,
 			);
 			name = "Standard Plugins";
@@ -1804,7 +1768,6 @@
 			isa = PBXGroup;
 			children = (
 				DA2CE0D407E9F68100C68AEF /* MWorksCore.framework */,
-				DA2CE39007EA035F00C68AEF /* MachClockPlugin.bundle */,
 				E106CF0C1CA42EDC001A0928 /* HighPrecisionClock.bundle */,
 				5CF73C6108625E1800F453C3 /* ZenSchedulerPlugin.bundle */,
 				5CF73C7F086260E900F453C3 /* ZenStateSystemPlugin.bundle */,
@@ -2111,16 +2074,6 @@
 				DA2CE15507E9F92500C68AEF /* ScarabServer.cpp */,
 			);
 			path = Interfaces;
-			sourceTree = "<group>";
-		};
-		DA2CE39507EA040100C68AEF /* MachClock */ = {
-			isa = PBXGroup;
-			children = (
-				DA2CE39707EA040D00C68AEF /* MachClock.h */,
-				DA2CE39607EA040D00C68AEF /* MachClock.cpp */,
-				DA2CE39107EA035F00C68AEF /* MachClockPlugin-Info.plist */,
-			);
-			path = MachClock;
 			sourceTree = "<group>";
 		};
 		DA96B8A409818EF30007610D /* CoreBuilders */ = {
@@ -2522,24 +2475,6 @@
 			productReference = DA2CE0D407E9F68100C68AEF /* MWorksCore.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		DA2CE38F07EA035F00C68AEF /* MachClockPlugin */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 5C0E84EA086D85D400B3EE7C /* Build configuration list for PBXNativeTarget "MachClockPlugin" */;
-			buildPhases = (
-				DA2CE38C07EA035F00C68AEF /* Resources */,
-				DA2CE38D07EA035F00C68AEF /* Sources */,
-				DA2CE38E07EA035F00C68AEF /* Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				E1CBF64716BAF34F0057CE48 /* PBXTargetDependency */,
-			);
-			name = MachClockPlugin;
-			productName = MachClockPlugin;
-			productReference = DA2CE39007EA035F00C68AEF /* MachClockPlugin.bundle */;
-			productType = "com.apple.product-type.bundle";
-		};
 		E106CF0B1CA42EDC001A0928 /* HighPrecisionClock */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = E106CF101CA42EDC001A0928 /* Build configuration list for PBXNativeTarget "HighPrecisionClock" */;
@@ -2589,7 +2524,6 @@
 				5C488A160F4E27CD00C5A526 /* Set Version String */,
 				DA2CE0D307E9F68100C68AEF /* MWorksCore */,
 				E1CBF63A16BAF3090057CE48 /* Install MWorksCore */,
-				DA2CE38F07EA035F00C68AEF /* MachClockPlugin */,
 				E106CF0B1CA42EDC001A0928 /* HighPrecisionClock */,
 				5CF73C6008625E1800F453C3 /* ZenSchedulerPlugin */,
 				5CF73C7E086260E900F453C3 /* ZenStateSystemPlugin */,
@@ -2652,13 +2586,6 @@
 				E186EB661C1F512100FD7F32 /* MWComponents.yaml in Resources */,
 				0E1AE9A80EF1AB5500C224F1 /* setup_variables_two_monitors.xml in Resources */,
 				5C918D1810027CB3001BE3DF /* MWMediaPackagerTransformation.xsl in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		DA2CE38C07EA035F00C68AEF /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2902,14 +2829,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		DA2CE38D07EA035F00C68AEF /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				DA2CE39807EA040D00C68AEF /* MachClock.cpp in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		E106CF081CA42EDC001A0928 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -2967,11 +2886,6 @@
 			target = E1CBF63A16BAF3090057CE48 /* Install MWorksCore */;
 			targetProxy = E1CBF64416BAF3480057CE48 /* PBXContainerItemProxy */;
 		};
-		E1CBF64716BAF34F0057CE48 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = E1CBF63A16BAF3090057CE48 /* Install MWorksCore */;
-			targetProxy = E1CBF64616BAF34F0057CE48 /* PBXContainerItemProxy */;
-		};
 		E1CBF64916BAF3530057CE48 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = E1CBF63A16BAF3090057CE48 /* Install MWorksCore */;
@@ -2986,11 +2900,6 @@
 			isa = PBXTargetDependency;
 			target = E1CBF63A16BAF3090057CE48 /* Install MWorksCore */;
 			targetProxy = E1CBF64C16BAF35C0057CE48 /* PBXContainerItemProxy */;
-		};
-		E1CBF65616BAFA320057CE48 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = DA2CE38F07EA035F00C68AEF /* MachClockPlugin */;
-			targetProxy = E1CBF65516BAFA320057CE48 /* PBXContainerItemProxy */;
 		};
 		E1CBF65816BAFA330057CE48 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -3069,14 +2978,6 @@
 				);
 				INFOPLIST_FILE = "MWorksCore-Info.plist";
 				PRODUCT_NAME = MWorksCore;
-			};
-			name = Development;
-		};
-		5C0E84EB086D85D400B3EE7C /* Development */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				INFOPLIST_FILE = "MachClock/MachClockPlugin-Info.plist";
-				PRODUCT_NAME = MachClockPlugin;
 			};
 			name = Development;
 		};
@@ -3218,14 +3119,6 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
 		};
-		5C0E84EA086D85D400B3EE7C /* Build configuration list for PBXNativeTarget "MachClockPlugin" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				5C0E84EB086D85D400B3EE7C /* Development */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
-		};
 		5C0E84FA086D85D400B3EE7C /* Build configuration list for PBXNativeTarget "ZenSchedulerPlugin" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -3288,6 +3181,7 @@
 				E106CF0F1CA42EDC001A0928 /* Development */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
 		};
 		E11542121193464F00DDE09D /* Build configuration list for PBXAggregateTarget "Install Testing Tools" */ = {
 			isa = XCConfigurationList;

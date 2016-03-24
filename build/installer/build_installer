@@ -28,7 +28,6 @@ package_contents = {
         '/Library/Application Support/MWorks/Documentation',
         '/Library/Application Support/MWorks/Plugins/Core/HighPrecisionClock.bundle',
         '/Library/Application Support/MWorks/Plugins/Core/LowPrioritySchedulerPlugin.bundle',
-        '/Library/Application Support/MWorks/Plugins/Core/MachClockPlugin.bundle',
         '/Library/Application Support/MWorks/Plugins/Core/ZenSchedulerPlugin.bundle',
         '/Library/Application Support/MWorks/Plugins/Core/ZenStateSystemPlugin.bundle',
         '/Library/Frameworks/MWorksCocoa.framework',
