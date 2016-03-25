@@ -7,31 +7,17 @@
  *
  */
 
-
 #ifndef _EVENTBUFFER_H
 #define _EVENTBUFFER_H
 
-
-#include "Buffers.h"
 #include "Event.h"
-#include <boost/thread/mutex.hpp>
 
 
 BEGIN_NAMESPACE_MW
 
 
-class EventBuffer : public EventReceiver {
-    private:
-		boost::mutex bufferLock;
-        shared_ptr<Event> headEvent;
-		
-    public:
-		EventBuffer();
-    
-        void putEvent(shared_ptr<Event> event) override;
-        
-        shared_ptr<Event> getHeadEvent();
-};
+using EventBuffer = Event::Buffer;
+
 
 extern shared_ptr<EventBuffer> global_outgoing_event_buffer;
     
@@ -59,3 +45,29 @@ END_NAMESPACE_MW
 
 
 #endif
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

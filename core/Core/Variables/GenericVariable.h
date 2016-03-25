@@ -26,7 +26,6 @@ enum WhenType{M_NEVER = -1, M_WHEN_IDLE, M_ALWAYS, M_AT_STARTUP, M_EVERY_TRIAL, 
 
 
 // Forward declarations
-class EventBuffer;
 class VariableProperties;
 
 

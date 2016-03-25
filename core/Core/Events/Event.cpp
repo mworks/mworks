@@ -16,26 +16,9 @@
 BEGIN_NAMESPACE_MW
 
 
-// -----------------------------------------------------------------
-//  Event Methods
-// -----------------------------------------------------------------	  
-Event::Event(const int _code, 
-			 const MWTime _time, 
-			 const Datum &_data) {
-	code = _code;
-	data = _data; 
-	time = _time;
-	nextEvent = shared_ptr<Event>();
-}
-
-Event::Event(const int _code, 
-			 const Datum &_data) {
-	code = _code;
-	data = _data; 
-	shared_ptr <Clock> clock = Clock::instance();
-	time = clock->getCurrentTimeUS();
-	nextEvent = shared_ptr<Event>();
-}
+Event::Event(int code, const Datum &data) :
+    Event(code, Clock::instance()->getCurrentTimeUS(), data)
+{ }
 
 
 END_NAMESPACE_MW

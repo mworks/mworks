@@ -103,7 +103,7 @@ void CodecAwareConduit::codeTranslatedCallback(shared_ptr<Event> evt, EventCallb
     // This is a static method that does not need to hold conduit_mutex
     
     //std::cerr << "calling code translated callback; new_code: " << new_code << " (old code: " << evt->getEventCode() << ")" << endl;
-    evt->setEventCode(new_code);
+    evt.reset(new Event(new_code, evt->getTime(), evt->getData()));
     return cb(evt);
 }
 

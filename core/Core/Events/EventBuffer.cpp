@@ -9,6 +9,8 @@
 
 #include "EventBuffer.h"
 
+#include "Utilities.h"
+
 
 BEGIN_NAMESPACE_MW
 
@@ -20,27 +22,6 @@ void initEventBuffers() {
     global_outgoing_event_buffer = shared_ptr<EventBuffer>(new EventBuffer());
 }
 
-
-/**********************************************************************
- *         EventBuffer : public 
- **********************************************************************/
-
-EventBuffer::EventBuffer() {
-	// need to prime the buffer with at least one event
-	headEvent = shared_ptr<Event>(new Event(M_UNDEFINED_EVENT_CODE,0,Datum()));	
-}
-
-void EventBuffer::putEvent(shared_ptr<Event> event) {
-	boost::mutex::scoped_lock lock(bufferLock);
-	headEvent->setNextEvent(event);
-	headEvent = event;
-}
-
-
-shared_ptr<Event> EventBuffer::getHeadEvent() {
-	boost::mutex::scoped_lock lock(bufferLock);
-	return headEvent;
-}
 
 /**********************************************************************
  *      class EventBufferReader : public BufferReader Methods

@@ -126,7 +126,9 @@ void SimpleConduit::serviceIncomingEvents(){
         if(correct_incoming_timestamps){
             // if a clock offset has been stored from the other side of the conduit 
             // apply the offset here:
-            incoming_event->setTime( incoming_event->getTime() - remote_clock_offset ); 
+            incoming_event.reset(new Event(incoming_event->getEventCode(),
+                                           incoming_event->getTime() - remote_clock_offset,
+                                           incoming_event->getData()));
         }
                 
         handleCallbacks(incoming_event);

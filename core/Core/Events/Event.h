@@ -14,7 +14,6 @@
 #ifndef MONKEYWORKSCORE_EVENT_H_
 #define MONKEYWORKSCORE_EVENT_H_
 
-
 #include "MWorksTypes.h"
 #include "GenericData.h"
 #include "EventConstants.h"
@@ -28,107 +27,133 @@
 using boost::shared_ptr;
 
 
-/**
- *	----------------------
- *	Event Structure
- *  ---------------------- 
- *
- * All events have the following top-level list structure:
- *
- *		   0				   1					2
- * |  codec code   |   time (64bit,signed)  |	  payload      |
- *
- */
 BEGIN_NAMESPACE_MW
-	
-	
-	class Event {
-    private:
-		
-		// what is this event's codec code
-		int code;
-		
-		// when did this event occur
-		MWTime time;
-		
-        Datum data;
-		shared_ptr<Event> nextEvent;
-        
-        // Declare eventLock mutable so that it can be acquired in const methods
-		mutable boost::mutex eventLock;
-        
-    public:       
-        /**
-         * Constructor.  Defines an Variable member and the event type.
-         */
-        Event(const int _code, const MWTime _time, const Datum &data);
-		Event(const int _code, const Datum &data);
-        Event() : Event(-1, 0, Datum()) { }
-        Event(const Event &e){
-            code = e.code;
-            time = e.time;
-            data = e.data;
-        }    
-		
-        /**
-         * Returns the event code.  This code is given to an
-         * Variable by the parameter registry.
-         */
-        int getEventCode() const {
-			return code;
-		}
-		
-        void setEventCode(int new_code){
-            code = new_code;
-        }
-        
-        /**
-         * Returns the event time.
-         */
-        MWTime getTime() const {
-			return time;
-		}
-        
-        // Primarily for manipulating times from
-        // other processes.  Use with caution!
-        void setTime(MWTime _time){
-            time = _time;
-        }
-		
-        Datum getData() const {
-			return data;
-		}
-		
-		shared_ptr<Event> getNextEvent() const {
-			boost::mutex::scoped_lock lock(eventLock);
-			return nextEvent;
-		}
-		
-		void setNextEvent(shared_ptr<Event> _nextEvent) {
-			boost::mutex::scoped_lock lock(eventLock);
-			nextEvent = _nextEvent;
-		}
-		
-    private:
-        friend class boost::serialization::access;
-        template<class Archive>
-        void serialize(Archive & ar, const unsigned int version){
-            ar & code;
-            ar & time;
-            ar & data;
-        }
-	};
+
+
+class Event {
     
+public:
+    class Buffer;
     
-    // An abstract protocol for objects that can receive events
-    class EventReceiver {
-        public:
-            virtual ~EventReceiver(){ }
-            virtual void putEvent(shared_ptr<Event> evt) = 0;
-    };
+    Event() :
+        code(M_UNDEFINED_EVENT_CODE),
+        time(0)
+    { }
+    
+    Event(int code, const Datum &data);
+    
+    Event(int code, MWTime time, const Datum &data) :
+        code(code),
+        time(time),
+        data(data)
+    { }
+    
+    Event(const Event &other) :
+        Event(other.code, other.time, other.data)
+    { }
+    
+    int getEventCode() const {
+        return code;
+    }
+    
+    MWTime getTime() const {
+        return time;
+    }
+    
+    const Datum& getData() const {
+        return data;
+    }
+    
+    shared_ptr<Event> getNextEvent() const {
+        boost::mutex::scoped_lock lock(eventLock);
+        return nextEvent;
+    }
+    
+private:
+    void setNextEvent(const shared_ptr<Event> &event) {
+        boost::mutex::scoped_lock lock(eventLock);
+        nextEvent = event;
+    }
+    
+    friend class boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive &ar, const unsigned int version) {
+        ar & code;
+        ar & time;
+        ar & data;
+    }
+    
+    int code;
+    MWTime time;
+    Datum data;
+    
+    shared_ptr<Event> nextEvent;
+    mutable boost::mutex eventLock;
+    
+};
+
+
+// An abstract protocol for objects that can receive events
+class EventReceiver {
+public:
+    virtual ~EventReceiver() { }
+    virtual void putEvent(const shared_ptr<Event> &event) = 0;
+};
+
+
+class Event::Buffer : public EventReceiver {
+    
+public:
+    Buffer() :
+        headEvent(new Event)
+    { }
+    
+    void putEvent(const shared_ptr<Event> &event) override {
+        boost::mutex::scoped_lock lock(bufferLock);
+        headEvent->setNextEvent(event);
+        headEvent = event;
+    }
+    
+    shared_ptr<Event> getHeadEvent() const {
+        boost::mutex::scoped_lock lock(bufferLock);
+        return headEvent;
+    }
+    
+private:
+    shared_ptr<Event> headEvent;
+    mutable boost::mutex bufferLock;
+    
+};
 
 
 END_NAMESPACE_MW
 
 
 #endif
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
