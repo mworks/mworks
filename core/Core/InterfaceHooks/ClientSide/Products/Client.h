@@ -69,10 +69,6 @@ class Client : public RegistryAwareEventStreamInterface {
          * @result Always returns true.
          */
         virtual bool disconnectClient();
- 
-	
-        virtual void reset();
- 
 
         virtual bool isConnected();
 

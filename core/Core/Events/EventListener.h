@@ -42,9 +42,6 @@ public:
 	virtual void startListener();
 	virtual bool service();
 	virtual void killListener();
-	virtual void reset() {
-		reader->reset();
-	}
 	
 protected:
         // disallow copying

@@ -99,17 +99,6 @@ bool Client::disconnectClient() {
 	return true;
 }
 
-void  Client::reset(){
-	
-	incoming_listener->killListener(); 
-	// put the buffers back in a neutral state
-	incoming_event_buffer->reset();
-    outgoing_event_buffer->reset();
-    
-	incoming_listener->reset();
-	incoming_listener->startListener();
-}
-
 bool Client::isConnected() {
     if(NULL == remoteConnection) { return false; }
     return remoteConnection->isConnected();

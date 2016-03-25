@@ -42,17 +42,11 @@ shared_ptr<Event> EventBuffer::getHeadEvent() {
 	return headEvent;
 }
 
-void EventBuffer::reset() {
-	boost::mutex::scoped_lock lock(bufferLock);
-	// need to prime the buffer with at least one event
-	headEvent = shared_ptr<Event>(new Event(M_UNDEFINED_EVENT_CODE,0,Datum()));	
-}
-
 /**********************************************************************
  *      class EventBufferReader : public BufferReader Methods
  **********************************************************************/
-EventBufferReader::EventBufferReader(shared_ptr<EventBuffer> buffer) {
-	boost::mutex::scoped_lock lock(readerLock);
+
+EventBufferReader::EventBufferReader(const shared_ptr<EventBuffer> &buffer) {
 	currentEvent = buffer->getHeadEvent();
 }
 
@@ -84,48 +78,6 @@ bool EventBufferReader::hasAtLeastNEvents(const unsigned int n) {
 	
 	return true;
 }
-
-/**********************************************************************
- *                  BufferManager Methods
- **********************************************************************/
-
-//BufferManager::BufferManager() {
-//	main_event_buffer = shared_ptr<EventBuffer>(new EventBuffer());
-//	incomingBuffer = shared_ptr<EventBuffer>(new EventBuffer());
-//}
-//
-//shared_ptr<EventBufferReader> BufferManager::getNewMainBufferReader() {
-//    shared_ptr<EventBufferReader> reader(new EventBufferReader(main_event_buffer));
-//    return reader;
-//}
-//
-//shared_ptr<EventBufferReader> BufferManager::getNewDisplayBufferReader() {
-//    shared_ptr<EventBufferReader> reader(new EventBufferReader(main_event_buffer));
-//    return reader;
-//}
-//
-//shared_ptr<EventBufferReader> BufferManager::getNewDiskBufferReader() {
-//    shared_ptr<EventBufferReader> reader(new EventBufferReader(main_event_buffer));
-//    return reader;
-//}
-//
-//shared_ptr<EventBufferReader> BufferManager::getNewIncomingNetworkBufferReader() {
-//    shared_ptr<EventBufferReader> reader(new EventBufferReader(incomingBuffer));
-//    return reader;
-//}
-//
-//void BufferManager::putEvent(shared_ptr<Event> newevent) {
-//    main_event_buffer->putEvent(newevent);
-//}
-//
-//void BufferManager::putIncomingNetworkEvent(shared_ptr<Event> newevent) {
-//    incomingBuffer->putEvent(newevent);
-//}
-//
-//void BufferManager::reset() {
-//	main_event_buffer->reset();
-//	incomingBuffer->reset();
-//}
 
 
 END_NAMESPACE_MW
