@@ -10,6 +10,7 @@
 #ifndef	_NE500PUMPNETWORKDEVICE_H_
 #define _NE500PUMPNETWORKDEVICE_H_
 
+#include "NE500Connection.hpp"
 #include "NE500DeviceChannel.h"
 
 
@@ -24,11 +25,7 @@ private:
     const MWTime response_timeout;
     const bool logPumpCommands;
     
-    // the socket
-    int s;
-    
-    bool connected;
-    
+    std::unique_ptr<NE500Connection> connection;
     std::vector<boost::shared_ptr<NE500DeviceChannel>> pumps;
     
     bool active;
@@ -57,8 +54,6 @@ public:
 private:
     static constexpr char PUMP_SERIAL_DELIMITER_CHAR = 3;  // ETX
     
-    bool connectToDevice();
-    void disconnectFromDevice();
     bool sendMessage(const std::string &pump_id, string message);
     
     NE500DeviceChannel::SendFunction getSendFunction() {
