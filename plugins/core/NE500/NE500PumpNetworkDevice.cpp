@@ -9,6 +9,7 @@
 
 #include "NE500PumpNetworkDevice.h"
 
+#include "NE500SerialConnection.hpp"
 #include "NE500SocketConnection.hpp"
 
 
@@ -27,7 +28,7 @@ void NE500PumpNetworkDevice::describeComponent(ComponentInfo &info) {
     info.setSignature("iodevice/ne500");
     
     info.addParameter(ADDRESS);
-    info.addParameter(PORT);
+    info.addParameter(PORT, false);
     info.addParameter(RESPONSE_TIMEOUT, "100ms");
     info.addParameter(LOG_PUMP_COMMANDS, "YES");
 }
@@ -35,13 +36,16 @@ void NE500PumpNetworkDevice::describeComponent(ComponentInfo &info) {
 
 NE500PumpNetworkDevice::NE500PumpNetworkDevice(const ParameterValueMap &parameters) :
     IODevice(parameters),
-    address(VariablePtr(parameters[ADDRESS])->getValue().getString()),
-    port(parameters[PORT]),
     response_timeout(parameters[RESPONSE_TIMEOUT]),
     logPumpCommands(parameters[LOG_PUMP_COMMANDS]),
     active(false)
 {
-    connection.reset(new NE500SocketConnection(address, port));
+    const std::string address(VariablePtr(parameters[ADDRESS])->getValue().getString());
+    if (parameters[PORT].empty()) {
+        connection.reset(new NE500SerialConnection(address));
+    } else {
+        connection.reset(new NE500SocketConnection(address, int(parameters[PORT])));
+    }
 }
 
 
@@ -109,7 +113,7 @@ static inline std::string removeControlChars(std::string str) {
 
 bool NE500PumpNetworkDevice::sendMessage(const std::string &pump_id, string message) {
     if (!connection->isConnected()) {
-        merror(M_IODEVICE_MESSAGE_DOMAIN, "No connection to NE500 device (%s)", address.c_str());
+        merror(M_IODEVICE_MESSAGE_DOMAIN, "No connection to NE500 device");
         return false;
     }
     

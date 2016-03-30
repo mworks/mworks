@@ -20,8 +20,6 @@ BEGIN_NAMESPACE_MW
 class NE500PumpNetworkDevice : public IODevice, boost::noncopyable {
     
 private:
-    const std::string address;
-    const int port;
     const MWTime response_timeout;
     const bool logPumpCommands;
     

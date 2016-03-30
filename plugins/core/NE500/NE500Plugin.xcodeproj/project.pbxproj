@@ -42,6 +42,7 @@
 		E126F26E1BFBAF5F00CFC9FF /* NE500DeviceChannel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E126F26C1BFBAF5F00CFC9FF /* NE500DeviceChannel.cpp */; };
 		E12D98B716BC2217004FEF79 /* NE500Plugin.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8D5B49B6048680CD000E48DA /* NE500Plugin.bundle */; };
 		E15D0B0016C2B34100F331B1 /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E15D0AFF16C2B34100F331B1 /* libboost_system.a */; };
+		E16361131CAB04FF009752BE /* NE500SerialConnection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E16361111CAB04FF009752BE /* NE500SerialConnection.cpp */; };
 		E1810E101CAACB62003001C0 /* NE500Connection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1810E0E1CAACB62003001C0 /* NE500Connection.cpp */; };
 		E1810E131CAACDCE003001C0 /* NE500SocketConnection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1810E111CAACDCE003001C0 /* NE500SocketConnection.cpp */; };
 		E1E07E9F1C04F2D8008DD97E /* MWComponents.yaml in Resources */ = {isa = PBXBuildFile; fileRef = E1E07E9E1C04F2D8008DD97E /* MWComponents.yaml */; };
@@ -103,6 +104,8 @@
 		E126F26C1BFBAF5F00CFC9FF /* NE500DeviceChannel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NE500DeviceChannel.cpp; sourceTree = "<group>"; };
 		E126F26D1BFBAF5F00CFC9FF /* NE500DeviceChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NE500DeviceChannel.h; sourceTree = "<group>"; };
 		E15D0AFF16C2B34100F331B1 /* libboost_system.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_system.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_system.a"; sourceTree = "<absolute>"; };
+		E16361111CAB04FF009752BE /* NE500SerialConnection.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NE500SerialConnection.cpp; sourceTree = "<group>"; };
+		E16361121CAB04FF009752BE /* NE500SerialConnection.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = NE500SerialConnection.hpp; sourceTree = "<group>"; };
 		E1810E0E1CAACB62003001C0 /* NE500Connection.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NE500Connection.cpp; sourceTree = "<group>"; };
 		E1810E0F1CAACB62003001C0 /* NE500Connection.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = NE500Connection.hpp; sourceTree = "<group>"; };
 		E1810E111CAACDCE003001C0 /* NE500SocketConnection.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NE500SocketConnection.cpp; sourceTree = "<group>"; };
@@ -201,6 +204,8 @@
 			children = (
 				E1810E0F1CAACB62003001C0 /* NE500Connection.hpp */,
 				E1810E0E1CAACB62003001C0 /* NE500Connection.cpp */,
+				E16361121CAB04FF009752BE /* NE500SerialConnection.hpp */,
+				E16361111CAB04FF009752BE /* NE500SerialConnection.cpp */,
 				E1810E121CAACDCE003001C0 /* NE500SocketConnection.hpp */,
 				E1810E111CAACDCE003001C0 /* NE500SocketConnection.cpp */,
 			);
@@ -287,6 +292,7 @@
 				5C4B0A600DC791D4001BC518 /* NE500PumpNetworkDevice.cpp in Sources */,
 				5C4B0ADE0DC793E2001BC518 /* NE500Plugin.cpp in Sources */,
 				E126F26E1BFBAF5F00CFC9FF /* NE500DeviceChannel.cpp in Sources */,
+				E16361131CAB04FF009752BE /* NE500SerialConnection.cpp in Sources */,
 				E1810E131CAACDCE003001C0 /* NE500SocketConnection.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -33,7 +33,6 @@ public:
 private:
     const std::string address;
     const int port;
-    
     int s;
     
 };

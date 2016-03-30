@@ -8,15 +8,22 @@ icon: smallIOFolder
 description: >
     Used for interfacing to a network of `NE-500 syringe pumps
     <http://www.syringepump.com/oem.php#aa>`_, accessed via a serial-to-ethernet
-    bridge
+    bridge or a USB-to-serial adapter
 parameters: 
   - 
     name: address
     required: yes
-    example: "10.0.254.254"
+    example:
+      - '"10.0.254.254"'
+      - '"/dev/cu.usbserial-FTH1RRH5"'
+    description: >
+        If `port`_ is provided, the address is taken to be a host name,
+        and MWorks attempts to connect to the pump network via a
+        `TCP <https://en.wikipedia.org/wiki/Transmission_Control_Protocol>`_
+        socket.  Otherwise, the address is assumed to be a filesystem path that
+        represents a serial port.
   - 
     name: port
-    required: yes
     example: 100
   - 
     name: response_timeout
