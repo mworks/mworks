@@ -229,7 +229,7 @@ namespace low_priority_scheduler{
 		};
 		
 		
-		class ZenScheduler : public Scheduler, public ComponentFactory  {
+		class ZenScheduler : public mw::Component, public Scheduler, public ComponentFactory  {
 			
 		private:
 			

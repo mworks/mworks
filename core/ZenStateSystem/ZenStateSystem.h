@@ -29,7 +29,7 @@
 BEGIN_NAMESPACE_MW
 
 
-class StandardStateSystem : public StateSystem {
+class StandardStateSystem : public mw::Component, public StateSystem {
     
 public:
     StandardStateSystem(const shared_ptr <Clock> &a_clock);

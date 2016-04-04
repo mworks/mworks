@@ -14,7 +14,7 @@
 BEGIN_NAMESPACE_MW
 
 
-class StateSystem : public mw::Component {//, public enable_shared_from_this<StateSystem>{ //, public RegisteredSingleton<StateSystem> {
+class StateSystem {
 protected:
 	shared_ptr <Clock> the_clock;
 	
@@ -22,7 +22,7 @@ public:
     
 	StateSystem(const shared_ptr <Clock> &a_clock);
 	
-	virtual ~StateSystem();
+    virtual ~StateSystem() { }
 	
 	
 	/*StateSystem(Experiment *exp);

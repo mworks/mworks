@@ -85,9 +85,11 @@ private:
 };
 
 
-class Scheduler : public mw::Component {
+class Scheduler {
     
 public:
+    virtual ~Scheduler() { }
+    
     virtual shared_ptr<ScheduleTask> scheduleUS(const std::string &description,
                                                 MWTime initial_delay_us,
                                                 MWTime repeat_interval_us,

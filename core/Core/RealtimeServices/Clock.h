@@ -19,7 +19,7 @@
 BEGIN_NAMESPACE_MW
 
 
-class Clock : public Component {
+class Clock {
 
 public:
     static const MWTime nanosPerMilli = 1000000LL;

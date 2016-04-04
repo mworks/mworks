@@ -16,8 +16,6 @@ StateSystem::StateSystem(const shared_ptr <Clock> &a_clock) {
 	the_clock = a_clock;
 }
 
-StateSystem::~StateSystem() {}
-
 void StateSystem::start(){}
     
 void StateSystem::stop(){}

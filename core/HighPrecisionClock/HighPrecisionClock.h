@@ -13,7 +13,7 @@
 BEGIN_NAMESPACE_MW
 
 
-class HighPrecisionClock : public Clock, boost::noncopyable {
+class HighPrecisionClock : public Component, public Clock, boost::noncopyable {
     
 public:
     HighPrecisionClock();
