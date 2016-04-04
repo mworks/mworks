@@ -284,14 +284,6 @@ bool ScarabServer::isAccepting() {
     return rc;
 }
 
-bool ScarabServer::isActive() {
-	if(acceptThread != NULL){
-		return acceptThread->isActive();
-	} else {
-		return false;
-	}
-}
-
 void ScarabServer::disconnectClient(int cliNum) {
     M_HASLOCK(connectionLock);
     if(cliNum >= numberOfConnectedClients) { return; }

@@ -15,18 +15,19 @@
 #include "MWorksTypes.h"
 #include "Component.h"
 #include "Utilities.h"
-#include "boost/shared_ptr.hpp"
-#include "boost/function.hpp"
-
-#include "boost/enable_shared_from_this.hpp"
+#include <boost/shared_ptr.hpp>
+#include <boost/function.hpp>
 
 
 BEGIN_NAMESPACE_MW
 
 
-enum MissedExecutionBehavior{ M_MISSED_EXECUTION_DROP,
-	M_MISSED_EXECUTION_CATCH_UP,
-M_MISSED_EXECUTION_FAIL};
+enum MissedExecutionBehavior {
+    M_MISSED_EXECUTION_DROP,
+    M_MISSED_EXECUTION_CATCH_UP,
+    M_MISSED_EXECUTION_FAIL
+};
+
 
 #define M_REPEAT_INDEFINITELY -999
 #define M_DEFAULT_PRIORITY  94
@@ -61,80 +62,65 @@ M_MISSED_EXECUTION_FAIL};
 #define M_DEFAULT_NETWORK_WARN_SLOP_US  M_DEFAULT_NETWORK_WARN_SLOP_MS*1000LL
 #define M_DEFAULT_NETWORK_FAIL_SLOP_US  M_DEFAULT_NETWORK_FAIL_SLOP_MS*1000LL
 
-#include <pthread.h>
 
-void *dummy_function(void *);
-
-
-
-class ScheduleTask{
-protected:
-	std::string description;
+class ScheduleTask {
+    
 public:
-	
-	ScheduleTask(){ };
-	virtual ~ScheduleTask(){ };
-	
-	virtual bool isActive() = 0;
-	virtual bool isAlive() = 0;
-	
-	// stop a task; this one is essential
-	virtual void cancel() = 0;
-	
-	
-	virtual void pause() = 0;
-	virtual void resume() = 0;
-	virtual void kill() = 0; // kill the thread; dangerous except in case 
-	// of emergency
-	virtual std::string getDescription() { 
-		return description;
-	}
+    explicit ScheduleTask(const std::string &description) :
+        description(description)
+    { }
+    
+    virtual ~ScheduleTask() { }
+    
+    // Stop the task
+    virtual void cancel() = 0;
+    
+    const std::string& getDescription() const {
+        return description;
+    }
+    
+private:
+    std::string description;
+    
 };
 
 
-  class Scheduler : public mw::Component {//, public enable_shared_from_this<Scheduler>{ //, public RegisteredSingleton<Scheduler> {
-	
-protected:
-	pthread_cond_t direct_tick_condition;
-	boost::shared_ptr <Clock> the_clock;
-	
+class Scheduler : public mw::Component {
+    
 public:
-	Scheduler(const boost::shared_ptr <Clock> &a_clock);
-	virtual ~Scheduler() {}
-	
-	virtual shared_ptr<ScheduleTask> scheduleMS(const std::string &description,
-												 MWTime initial_delay_ms, 
-												 MWTime repeat_interval_ms, 
-												 int ntimes, 
-												 boost::function<void *()> _functor,
-												 int priority, 
-												 MWTime warn_slop, 
-												 MWTime fail_slop,
-												 MissedExecutionBehavior behav);
-	
-	virtual shared_ptr<ScheduleTask> scheduleUS(const std::string &description,
-												 MWTime initial_delay_us, 
-												 MWTime repeat_interval_us,
-												 int ntimes, 
-												 boost::function<void *()> _functor,
-												 int priority, 
-												 MWTime warn_slop, 
-												 MWTime fail_slop,
-												 MissedExecutionBehavior behav) = 0;
-	
-	
-	
-	virtual void removeTask(long id) = 0;
-	
-	virtual void fork(boost::function<void *()> _functor,
-					  int priority);
-	
-	boost::shared_ptr<Clock> getClock() const;
-	
-	virtual void launchWatchdogThread(){   return;  }
+    virtual shared_ptr<ScheduleTask> scheduleUS(const std::string &description,
+                                                MWTime initial_delay_us,
+                                                MWTime repeat_interval_us,
+                                                int ntimes,
+                                                boost::function<void *()> _functor,
+                                                int priority,
+                                                MWTime warn_slop,
+                                                MWTime fail_slop,
+                                                MissedExecutionBehavior behav) = 0;
     
+    shared_ptr<ScheduleTask> scheduleMS(const std::string &description,
+                                        MWTime initial_delay_ms,
+                                        MWTime repeat_interval_ms,
+                                        int ntimes,
+                                        boost::function<void *()> _functor,
+                                        int priority,
+                                        MWTime warn_slop,
+                                        MWTime fail_slop,
+                                        MissedExecutionBehavior behav)
+    {
+        return scheduleUS(description,
+                          initial_delay_ms * 1000,
+                          repeat_interval_ms * 1000,
+                          ntimes,
+                          _functor,
+                          priority,
+                          warn_slop * 1000,
+                          fail_slop * 1000,
+                          behav);
+    }
     
-  REGISTERED_SINGLETON_CODE_INJECTION(Scheduler)
+    REGISTERED_SINGLETON_CODE_INJECTION(Scheduler)
+    
 };
 
 

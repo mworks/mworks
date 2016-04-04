@@ -74,16 +74,6 @@ int get_bus_speed()
 //#endif
 
 
-void *zenSchedulerWatchDog(void *arglist){
-	
-	//mprintf("Checking watch dog tasks");
-	ZenScheduler *scheduler = (ZenScheduler *)arglist;
-	
-	scheduler->checkTasks();
-	return 0;
-}
-
-
 void *zenScheduledExecutionThread(void *arglist){
 	
 	
@@ -92,7 +82,6 @@ void *zenScheduledExecutionThread(void *arglist){
 	shared_ptr<ZenScheduleTask> task = *task_ptr;
 	delete task_ptr;	// moved until end for speediness
 	
-	//task->heartbeat();
 	if(VERBOSE_SCHEDULER) mprintf("Scheduled thread spawned %p", task.get());
 	
 	
@@ -168,8 +157,6 @@ void *zenScheduledExecutionThread(void *arglist){
 	while(task->isActive() && 
 		  (ntimes == M_REPEAT_INDEFINITELY || ndone < ntimes)){
 		
-		
-		//task->heartbeat();
 		
 		// *********************
 		// Execute the payload
@@ -336,7 +323,7 @@ void *zenScheduledExecutionThread(void *arglist){
 
 ZenScheduleTask::ZenScheduleTask(const std::string &_description,
 								   long _id,
-								   const shared_ptr<Scheduler> &_scheduler, 
+								   const shared_ptr<ZenScheduler> &_scheduler,
 								   boost::function<void *()> _functor,
 								   MWTime _start_time,
 								   MWTime _initial_delay, 
@@ -345,10 +332,11 @@ ZenScheduleTask::ZenScheduleTask(const std::string &_description,
 								   MissedExecutionBehavior _behavior,
 								   MWTime _warn_slop, 
 								   MWTime _fail_slop,
-								   MWTime _computation_time_us){
+                                   MWTime _computation_time_us) :
+    ScheduleTask(_description)
+{
 	
-	description = _description;
-	node_id = _id;	
+	node_id = _id;
 	scheduler = _scheduler;
 	functor = _functor;
 	initial_delay_us = _initial_delay;
@@ -359,7 +347,6 @@ ZenScheduleTask::ZenScheduleTask(const std::string &_description,
 	warning_slop_us = _warn_slop;
 	fail_slop_us = _fail_slop;
 	active = 1;
-	alive = 1;
 	computation_time_us = _computation_time_us;	
 	start_time_us = _start_time;
 	
@@ -367,77 +354,10 @@ ZenScheduleTask::ZenScheduleTask(const std::string &_description,
 
 
 
-void ZenScheduleTask::kill(){
-	lock();
-	pthread_cancel(thread);
-	//release();
-	unlock();
-}
-
-/*void ZenScheduleTask::restart(){
-lock();
-pthread_cancel(thread);
-
-ZenScheduler *scheduler = description->getScheduler();
-MWTime repeat_interval_us = description->getRepeatIntervalUS();
-MWTime warning_slop_us = description->getWarningSlopUS();
-MWTime fail_slop_us = description->getFailureSlopUS();
-long ntimes = description->getNTimes();
-long ndone = description->getNDone();
-long priority = description->getPriority();
-
-
-scheduler->scheduleUS(0, repeat_interval_us, ntimes - ndone, 
-					  description->getFunction(), 
-					  description->getArgument(), 
-					  priority, warning_slop_us, fail_slop_us, 
-					  description->getMissedExecutionBehavior());
-
-unlock();
-}
-*/
-
-
 void ZenScheduleTask::cancel(){
 	setActive(false);
 }
 
-void ZenScheduleTask::pause(){ /* do this later */}
-void ZenScheduleTask::resume(){ /* do this later */}
-
-
-
-
-		ZenScheduler::ZenScheduler(const shared_ptr<Clock> &a_clock) : Scheduler(a_clock) { 
-	
-	nscheduled = 0;
-	
-#ifdef LOW_PRIORITY_MODE
-	//fprintf(stderr, "Running low priority scheduler\n");
-	//fflush(stderr);
-#endif
-	
-	//launchWatchdogThread();
-}
-
-
-void ZenScheduler::launchWatchdogThread(){
-//	
-//	// experimental
-//	// launch a watchdog thread
-//	scheduleUS(FILELINE, 
-//			   1000*1000,
-//			   100*1000, 
-//			   M_REPEAT_INDEFINITELY, 
-//			   zenSchedulerWatchDog, 
-//			   (void *)this,
-//			   0,
-//			   -1,
-//			   -1,
-//			   M_MISSED_EXECUTION_DROP);
-}
-
-ZenScheduler::~ZenScheduler() {}
 
 shared_ptr<ScheduleTask> ZenScheduler::scheduleUS(const std::string &description,
 													MWTime initial_delay, 
@@ -457,7 +377,7 @@ shared_ptr<ScheduleTask> ZenScheduler::scheduleUS(const std::string &description
 	
 	pthread_t thread;
 	
-	shared_ptr<Scheduler> self_shared_ptr(component_shared_from_this<Scheduler>());
+	shared_ptr<ZenScheduler> self_shared_ptr(component_shared_from_this<ZenScheduler>());
 	
 	// Build up a description of the task to schedule
 	shared_ptr<ZenScheduleTask> *task_ptr = new shared_ptr<ZenScheduleTask>(new ZenScheduleTask(description, 
@@ -566,105 +486,6 @@ shared_ptr<ScheduleTask> ZenScheduler::scheduleUS(const std::string &description
 	return returntask;	
 }
 
-
-
-/*shared_ptr<ScheduleTask> ZenScheduler::scheduleConstrainedUS(MWTime initial_delay, 
-MWTime repeat_interval, int ntimes, void *(*funptr)(void *), 
-void *arg,int nbytes,
-MWTime _computation_time_us, 
-MWTime _warn_slop_us, 
-MWTime _fail_slop_us,
-MissedExecutionBehavior _behav = M_MISSED_EXECUTION_DROP){
-		  
-	void *argument = (void *)malloc(nbytes);
-	memcpy(argument, arg, nbytes);
-	
-	return scheduleConstrainedUS(initial_delay, repeat_interval, ntimes, 
-								 funptr, argument, _computation_time_us, 
-								 _warn_slop_us, _fail_slop_us, _behav);
-}*/
-
-
-/*shared_ptr<ScheduleTask> ZenScheduler::scheduleConstrainedUS(MWTime initial_delay, 
-MWTime repeat_interval, int ntimes, void *(*funptr)(void *), 
-void *arg, MWTime _computation_time_us, 
-MWTime _warn_slop_us, 
-MWTime _fail_slop_us,
-MissedExecutionBehavior _behav = M_MISSED_EXECUTION_DROP){
-	
-	nscheduled++;
-	
-	shared_ptr<ZenScheduleTaskDescription> task_desc(
-													  new ZenScheduleTaskDescription(
-																					  this, funptr, arg, 
-																					  initial_delay, repeat_interval, ntimes, 
-																					  96, _behav,
-																					  _warn_slop_us, _fail_slop_us,
-																					  _computation_time_us));
-	
-	//all_tasks.addToFront(task);
-	
-	
-	// TODO fix this!
-	
-	mprintf("%d tasks successfully scheduled", nscheduled);
-	
-	shared_ptr<ScheduleTask> empty;
-	return empty;
-	
-}						*/
-
-
-
-void ZenScheduler::checkTasks(){
-	
-	return;
-	
-	/*
-	 
-	 shared_ptr<ZenScheduleTask> current(all_tasks.getFrontmost());
-	 
-	 do{
-		 
-		 shared_ptr<ZenScheduleTaskDescription> description = current->getDescription();
-		 
-		 MWTime now = the_clock->getCurrentTimeUS();
-		 MWTime last = description->getLastHeartbeat();
-		 
-		 // do something more elegant / configurable
-		 
-		 MWTime interval = description->getRepeatIntervalUS();
-		 
-		 if(interval >= 0){
-			 continue;
-		 }
-		 
-#define M_ZEN_SCHEDULER_WATCHDOG_WARNING_MULTIPLE	4
-#define M_ZEN_SCHEDULER_WATCHDOG_ERROR_MULTIPLE		10
-#define M_ZEN_SCHEDULER_WATCHDOG_CANCEL_MULTIPLE	20
-		 MWTime lag = now - last;
-		 if(lag > M_ZEN_SCHEDULER_WATCHDOG_CANCEL_MULTIPLE * interval){
-			 merror(M_SCHEDULER_MESSAGE_DOMAIN,
-					"RESTARTING TASK: Task %d failed to check in for %ul ms", lag);
-			 current->restart();
-			 continue;
-		 }
-		 
-		 if(lag > M_ZEN_SCHEDULER_WATCHDOG_ERROR_MULTIPLE * interval){
-			 merror(M_SCHEDULER_MESSAGE_DOMAIN,
-					"Task %d failed to check in for %ul ms", lag);
-			 continue;
-		 }
-		 
-		 if(lag > M_ZEN_SCHEDULER_WATCHDOG_WARNING_MULTIPLE * interval){
-			 mwarning(M_SCHEDULER_MESSAGE_DOMAIN,
-					  "Task %d failed to check in for %ul ms", lag);
-			 continue;
-		 }
-		 
-	 } while(current = current->getNext());*/
-	
-}
 
 } // end namespace
 

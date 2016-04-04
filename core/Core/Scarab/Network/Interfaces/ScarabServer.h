@@ -132,11 +132,6 @@ class ScarabServer  : public boost::enable_shared_from_this<ScarabServer> {
         bool isAccepting();
         
         /**
-         * Is the accept thread active?
-         */
-        bool isActive();
-        
-        /**
          * Disconnects a client from the server.
          */
         void disconnectClient(int cliNum);

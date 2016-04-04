@@ -83,7 +83,7 @@ namespace low_priority_scheduler{
 			// is this who we think it is?
 			long node_id;
 			// who owns this task?
-			shared_ptr<Scheduler> scheduler;
+			shared_ptr<ZenScheduler> scheduler;
 			// when was this task first scheduled
 			MWTime start_time_us;
 			// how long before first execution
@@ -111,12 +111,7 @@ namespace low_priority_scheduler{
 			
 			int ndone;
 			bool active;	
-			bool alive;
 			bool executing;
-			
-			
-			// When was the last heartbeat?
-			MWTime last_beat;
 			
 			// Real(er)time add-on.  Experimental
 			MWTime computation_time_us;
@@ -127,7 +122,7 @@ namespace low_priority_scheduler{
 			
 			ZenScheduleTask(const std::string &description,
 							 long id,
-							 const shared_ptr<Scheduler> &_scheduler, 
+							 const shared_ptr<ZenScheduler> &_scheduler, 
 							 boost::function<void *()> _functor,
 							 MWTime _start_time,
 							 MWTime _initial_delay, 
@@ -143,26 +138,10 @@ namespace low_priority_scheduler{
 			
 			
 			virtual void cancel();
-			virtual void pause();
-			virtual void resume();
-			virtual void kill();
 			
 			// Set a handle to the thread (in case you need to kill it)
 			void setThread(pthread_t _thread){
 				SAFE_SET(thread, _thread);
-			}
-			
-			// heartbeat to let the scheduler know you're still alive
-			virtual void heartbeat(){
-				if(scheduler->getClock() == NULL){
-					return;
-				}
-				
-				SAFE_SET(last_beat, scheduler->getClock()->getCurrentTimeUS());
-			}
-			
-			virtual MWTime getLastHeartbeat(){
-				SAFE_GET(MWTime, last_beat);
 			}
 			
 			bool isExecuting(){
@@ -171,14 +150,6 @@ namespace low_priority_scheduler{
 			
 			void setExecuting(bool value){
 				SAFE_SET(executing, value);
-			}
-			
-			bool isAlive(){
-				SAFE_GET(bool, alive);
-			}
-			
-			void setAlive(bool value){
-				SAFE_SET(alive, value);
 			}
 			
 			bool isActive(){
@@ -248,13 +219,9 @@ namespace low_priority_scheduler{
 				SAFE_GET(long, node_id);
 			}
 			
-			std::string getDescription() {
-				SAFE_GET(std::string, description);
-			}
-			
-			shared_ptr<Scheduler> getScheduler() {
+			shared_ptr<ZenScheduler> getScheduler() {
 				lock();
-				shared_ptr<Scheduler> return_scheduler = scheduler;
+				shared_ptr<ZenScheduler> return_scheduler = scheduler;
 				unlock();
 				
 				return return_scheduler;
@@ -264,8 +231,10 @@ namespace low_priority_scheduler{
 		
 		class ZenScheduler : public Scheduler, public ComponentFactory  {
 			
-		protected:
+		private:
 			
+            boost::shared_ptr <Clock> the_clock;
+            
 			// Each scheduled task gets an id; this maps between the
 			// ids and the tasks themselves.
 			std::map<long, shared_ptr<ZenScheduleTask> > all_tasks;
@@ -276,8 +245,10 @@ namespace low_priority_scheduler{
 			
 		public:
 			
-			ZenScheduler(const shared_ptr<Clock> &a_clock);
-			~ZenScheduler();
+            explicit ZenScheduler(const shared_ptr<Clock> &a_clock) :
+                the_clock(a_clock),
+                nscheduled(0)
+            { }
 			
 			// factory method
 			virtual shared_ptr<mw::Component> createObject(
@@ -300,15 +271,15 @@ namespace low_priority_scheduler{
 			
 			
 			// Remove a task from the task list
-			virtual void removeTask(long task_id){
+            void removeTask(long task_id){
 				//boost::mutex::scoped_lock lock(scheduler_lock, true);
 				//all_tasks.erase(task_id);
 			}
+            
+            const boost::shared_ptr<Clock>& getClock() const {
+                return the_clock;
+            }
 			
-			// Check to make sure none of the tasks are spinning unduely
-			virtual void checkTasks();
-			
-			virtual void launchWatchdogThread();
 		};
 		
 		

@@ -217,7 +217,7 @@ bool Server::isStarted() {
 }
 
 bool Server::isAccepting() {
-	return server->isActive();
+	return server->isAccepting();
 }
 
 bool Server::isExperimentLoaded() {
