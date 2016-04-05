@@ -17,25 +17,14 @@
 #include "boost/thread/mutex.hpp"
 #include "boost/shared_ptr.hpp"
 
-#include <map>
 #include <string>
 
 
 BEGIN_NAMESPACE_MW
 
 
-#define SAFE_GET(type, A)   type result; lock(); result = A; unlock(); return result;
-#define SAFE_SET(A, B)	   lock(); A = B; unlock();
-//#define SAFE_GET(type, A) return A;
-//#define SAFE_SET(A,B)  A = B;
-
-//#undef REALTIME_SCHEDULER
-
-#define BASE_NUM_TASKS 5
-#define TASK_PRIORITY 64
-
 #ifndef LOW_PRIORITY_MODE
-#define ZEN_SCHEDULER_PLUGIN_NAME	"ZenScheduler"	
+#define ZEN_SCHEDULER_PLUGIN_NAME	"ZenScheduler"
 #else
 #define ZEN_SCHEDULER_PLUGIN_NAME	"LowPriorityScheduler"
 #endif
@@ -68,61 +57,25 @@ namespace low_priority_scheduler{
 		
 		class ZenScheduleTask : public ScheduleTask, public Lockable{
 			
-			// TODO: DDC: I think that the lock granularity here is too fine-grained.
-			// Particularly for scheduled tasks that repeat on a millisecond-ish
-			// timescale, there are several times more locks being acquired and
-			// released than needed.
-			// If it turns out that this represents a significant cost, we should
-			// agglomerate all of the locked accesses together and have manual
-			// lock/unlock calls from the outside
-			
 			//**********************
 			// Scheduling parameters
 			//**********************
 			
-			// is this who we think it is?
-			long node_id;
 			// who owns this task?
-			shared_ptr<ZenScheduler> scheduler;
-			// when was this task first scheduled
-			MWTime start_time_us;
-			// how long before first execution
-			MWTime initial_delay_us;
-			// how long between subsequent repeats
-			MWTime repeat_interval_us;
-			// how many times to repeat
-			int ntimes;
-			// what to do about missed execution
-			MissedExecutionBehavior behavior;
-			// priority
-			int priority;
-			// how much slop to warn about
-			int warning_slop_us;
-			// how much slop to fail over
-			int fail_slop_us;
-			// function
-			boost::function<void *()> functor;
-			// The thread that the task is running in
-			pthread_t thread;
+			const shared_ptr<ZenScheduler> scheduler;
 			
 			//**********************
 			// Task status
 			//**********************
 			
-			int ndone;
-			bool active;	
-			bool executing;
-			
-			// Real(er)time add-on.  Experimental
-			MWTime computation_time_us;
+			bool active;
 			
 			
 			
 		public:
 			
 			ZenScheduleTask(const std::string &description,
-							 long id,
-							 const shared_ptr<ZenScheduler> &_scheduler, 
+							 const shared_ptr<ZenScheduler> &_scheduler,
 							 boost::function<void *()> _functor,
 							 MWTime _start_time,
 							 MWTime _initial_delay, 
@@ -131,101 +84,29 @@ namespace low_priority_scheduler{
 							 int priority, 
 							 MissedExecutionBehavior _behave,
 							 MWTime _warn_slop, 
-							 MWTime _fail_slop,
-							 MWTime _computation_time_us);
-			
-			virtual ~ZenScheduleTask() {}
+							 MWTime _fail_slop);
 			
 			
-			virtual void cancel();
-			
-			// Set a handle to the thread (in case you need to kill it)
-			void setThread(pthread_t _thread){
-				SAFE_SET(thread, _thread);
+            bool isCanceled() override {
+                Locker locker(*this);
+                return !active;
+            }
+            
+            void cancel() override {
+                Locker locker(*this);
+                active = false;
+            }
+            
+			int getPriority() const {
+				return priority;
 			}
 			
-			bool isExecuting(){
-				SAFE_GET(bool, executing);
+			const shared_ptr<ZenScheduler>& getScheduler() const {
+				return scheduler;
 			}
-			
-			void setExecuting(bool value){
-				SAFE_SET(executing, value);
-			}
-			
-			bool isActive(){
-				SAFE_GET(bool, active);
-			}
-			
-			boost::function<void *()> getFunctor(){
-				SAFE_GET(boost::function<void *()>, functor);
-			}
-			
-			void setActive(bool value){
-				SAFE_SET(active, value);
-			}
-						
-			int getNDone(){
-				SAFE_GET(int, ndone);
-			}
-			
-			void setNDone(bool value){
-				SAFE_SET(ndone, value);
-			}
-			
-			
-			MWTime getStartTimeUS(){
-				SAFE_GET(MWTime, start_time_us);
-			}
-			
-			MWTime getInitialDelayUS(){
-				SAFE_GET(MWTime, initial_delay_us);
-			}
-			
-			MWTime getRepeatIntervalUS(){
-				SAFE_GET(MWTime, repeat_interval_us);
-			}
-			
-			int getNTimes(){
-				SAFE_GET(int, ntimes);
-			}
-			
-			// what to do about missed execution
-			MissedExecutionBehavior getMissedExecutionBehavior(){
-				SAFE_GET(MissedExecutionBehavior, behavior);
-			}
-			
-			int getPriority(){
-				SAFE_GET(int, priority);
-			}
-			
-			MWTime getWarningSlopUS(){
-				SAFE_GET(MWTime, warning_slop_us);
-			}
-			
-			MWTime getFailureSlopUS(){
-				SAFE_GET(MWTime, fail_slop_us);
-			}
-			
-			MWTime getComputationTimeUS(){
-				SAFE_GET(MWTime, computation_time_us);
-			}
-			
-			
-			//		ZenScheduler *getScheduler(){
-			//			SAFE_GET(ZenScheduler *, scheduler);
-			//		}
-			
-			long getNodeID(){
-				SAFE_GET(long, node_id);
-			}
-			
-			shared_ptr<ZenScheduler> getScheduler() {
-				lock();
-				shared_ptr<ZenScheduler> return_scheduler = scheduler;
-				unlock();
-				
-				return return_scheduler;
-			}
+            
+            using ScheduleTask::execute;
+            
 		};
 		
 		
@@ -234,20 +115,11 @@ namespace low_priority_scheduler{
 		private:
 			
             boost::shared_ptr <Clock> the_clock;
-            
-			// Each scheduled task gets an id; this maps between the
-			// ids and the tasks themselves.
-			std::map<long, shared_ptr<ZenScheduleTask> > all_tasks;
-			
-			int nscheduled;
-			
-			boost::mutex scheduler_lock;
 			
 		public:
 			
             explicit ZenScheduler(const shared_ptr<Clock> &a_clock) :
-                the_clock(a_clock),
-                nscheduled(0)
+                the_clock(a_clock)
             { }
 			
 			// factory method
@@ -270,12 +142,6 @@ namespace low_priority_scheduler{
 														 MissedExecutionBehavior behav);
 			
 			
-			// Remove a task from the task list
-            void removeTask(long task_id){
-				//boost::mutex::scoped_lock lock(scheduler_lock, true);
-				//all_tasks.erase(task_id);
-			}
-            
             const boost::shared_ptr<Clock>& getClock() const {
                 return the_clock;
             }

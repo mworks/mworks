@@ -66,21 +66,48 @@ enum MissedExecutionBehavior {
 class ScheduleTask {
     
 public:
-    explicit ScheduleTask(const std::string &description) :
-        description(description)
+    ScheduleTask(const std::string &description,
+                 MWTime start_time_us,
+                 MWTime initial_delay_us,
+                 MWTime repeat_interval_us,
+                 int ntimes,
+                 boost::function<void *()> functor,
+                 int priority,
+                 MWTime warning_slop_us,
+                 MWTime fail_slop_us,
+                 MissedExecutionBehavior behavior) :
+        description(description),
+        repeat_interval_us(repeat_interval_us),
+        ntimes(ntimes),
+        functor(functor),
+        priority(priority),
+        warning_slop_us(warning_slop_us),
+        fail_slop_us(fail_slop_us),
+        behavior(behavior),
+        next_us(start_time_us + initial_delay_us),
+        ndone(0)
     { }
     
     virtual ~ScheduleTask() { }
     
-    // Stop the task
+    virtual bool isCanceled() = 0;
     virtual void cancel() = 0;
     
-    const std::string& getDescription() const {
-        return description;
-    }
+protected:
+    MWTime execute(Clock &clock, bool doWarnings = true);
+    
+    const std::string description;
+    const MWTime repeat_interval_us;
+    const int ntimes;
+    const boost::function<void *()> functor;
+    const int priority;
+    const MWTime warning_slop_us;
+    const MWTime fail_slop_us;
+    const MissedExecutionBehavior behavior;
     
 private:
-    std::string description;
+    MWTime next_us;
+    long ndone;
     
 };
 

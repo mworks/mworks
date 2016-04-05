@@ -1367,9 +1367,9 @@
 		5C475B6107EF8BB4004A645E /* Standard Plugins */ = {
 			isa = PBXGroup;
 			children = (
-				5CF73C850862613C00F453C3 /* ZenStateSystem */,
-				5CF73BAA086252E800F453C3 /* ZenScheduler */,
 				E106CF0D1CA42EDC001A0928 /* HighPrecisionClock */,
+				5CF73BAA086252E800F453C3 /* ZenScheduler */,
+				5CF73C850862613C00F453C3 /* ZenStateSystem */,
 			);
 			name = "Standard Plugins";
 			sourceTree = SOURCE_ROOT;
