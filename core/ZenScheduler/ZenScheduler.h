@@ -55,7 +55,7 @@ namespace low_priority_scheduler{
 		class ZenScheduler; // patience...
 		
 		
-		class ZenScheduleTask : public ScheduleTask, public Lockable{
+		class ZenScheduleTask : public ScheduleTask {
 			
 			//**********************
 			// Scheduling parameters
@@ -63,12 +63,6 @@ namespace low_priority_scheduler{
 			
 			// who owns this task?
 			const shared_ptr<ZenScheduler> scheduler;
-			
-			//**********************
-			// Task status
-			//**********************
-			
-			bool active;
 			
 			
 			
@@ -87,16 +81,6 @@ namespace low_priority_scheduler{
 							 MWTime _fail_slop);
 			
 			
-            bool isCanceled() override {
-                Locker locker(*this);
-                return !active;
-            }
-            
-            void cancel() override {
-                Locker locker(*this);
-                active = false;
-            }
-            
 			int getPriority() const {
 				return priority;
 			}

@@ -100,8 +100,7 @@ ZenScheduleTask::ZenScheduleTask(const std::string &_description,
                  _warn_slop,
                  _fail_slop,
                  _behavior),
-    scheduler(_scheduler),
-    active(true)
+    scheduler(_scheduler)
 { }
 
 

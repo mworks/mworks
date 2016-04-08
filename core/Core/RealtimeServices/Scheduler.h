@@ -11,6 +11,7 @@
  *
  */
 
+#include <atomic>
 #include "Clock.h"
 #include "MWorksTypes.h"
 #include "Component.h"
@@ -66,6 +67,8 @@ enum MissedExecutionBehavior {
 class ScheduleTask {
     
 public:
+    virtual ~ScheduleTask() { }
+    
     ScheduleTask(const std::string &description,
                  MWTime start_time_us,
                  MWTime initial_delay_us,
@@ -85,13 +88,12 @@ public:
         fail_slop_us(fail_slop_us),
         behavior(behavior),
         next_us(start_time_us + initial_delay_us),
-        ndone(0)
+        ndone(0),
+        canceled(false)
     { }
     
-    virtual ~ScheduleTask() { }
-    
-    virtual bool isCanceled() = 0;
-    virtual void cancel() = 0;
+    bool isCanceled() const { return canceled.load(); }
+    void cancel() { canceled.store(true); }
     
 protected:
     MWTime execute(Clock &clock, bool doWarnings = true);
@@ -108,6 +110,8 @@ protected:
 private:
     MWTime next_us;
     long ndone;
+    static_assert(ATOMIC_BOOL_LOCK_FREE == 2, "std::atomic_bool is not always lock-free");
+    std::atomic_bool canceled;
     
 };
 
