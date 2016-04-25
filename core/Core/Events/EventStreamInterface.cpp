@@ -13,7 +13,7 @@
 BEGIN_NAMESPACE_MW
 
 
-EventStreamInterface::EventStreamInterface(MessageDomain _dom, bool locking) : EventCallbackHandler(locking){
+EventStreamInterface::EventStreamInterface(MessageDomain _dom) {
     message_domain = _dom;
 }
 

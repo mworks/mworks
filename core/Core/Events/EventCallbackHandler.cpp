@@ -42,41 +42,43 @@ void KeyedEventCallbackPair::dummyCallback(shared_ptr<Event> evt){
 }
 
 
-void EventCallbackHandler::handleCallbacks(shared_ptr<Event> evt){
-    
-    if(evt == NULL){
+void EventCallbackHandler::handleCallbacks(shared_ptr<Event> evt) {
+    if (!evt) {
         return;
     }
     
-    int code = evt->getEventCode();
-    
-    //std::cerr << "handleCallbacks called in: " << this << " with event code " << code << std::endl;
-
-    pair<EventCallbackMap::iterator, EventCallbackMap::iterator> itp;
-    EventCallbackMap::iterator callback_iterator;
-    
-    CallbacksLock lock(*this);
-    
-    // issue any "always" callbacks
-    // TODO: this can be made more efficient (e.g. search doesn't always need to be done)
-    itp = callbacks_by_code.equal_range(ALWAYS_CALLBACK);
-    for(callback_iterator = itp.first; callback_iterator != itp.second; ++callback_iterator){
-        KeyedEventCallbackPair callback_pair = (*callback_iterator).second;
-        EventCallback callback = (*callback_iterator).second.getCallback();
-        callback(evt);
-    }
-    
-    // Issue callbacks registered for particular codes
-    itp = callbacks_by_code.equal_range(code);
-    
-    for(callback_iterator = itp.first; callback_iterator != itp.second; ++callback_iterator){
-        KeyedEventCallbackPair callback_pair = (*callback_iterator).second;
-        EventCallback callback = (*callback_iterator).second.getCallback();
-        callback(evt);
-        //std::cerr << "callback called for evt: " << code << " in: " << this << std::endl;
+    //
+    // Some callbacks will want to unregister existing callbacks and/or register new callbacks.
+    // To support this, we extract all matching callbacks for the given event to a local vector
+    // before invoking any of them, so that callbacks_by_code won't be modified while we're
+    // iterating through it.
+    //
+    std::vector<EventCallback> matchingCallbacks;
+    {
+        scoped_lock lock(callbacks_lock);
         
+        {
+            // Extract "always" callbacks
+            // TODO: this can be made more efficient (e.g. search doesn't always need to be done)
+            auto alwaysMatches = callbacks_by_code.equal_range(ALWAYS_CALLBACK);
+            for (auto iter = alwaysMatches.first; iter != alwaysMatches.second; iter++) {
+                matchingCallbacks.push_back(iter->second.getCallback());
+            }
+        }
+        
+        {
+            // Extract callbacks registered for the given event's code
+            auto codeMatches = callbacks_by_code.equal_range(evt->getEventCode());
+            for (auto iter = codeMatches.first; iter != codeMatches.second; iter++) {
+                matchingCallbacks.push_back(iter->second.getCallback());
+            }
+        }
     }
     
+    // Issue callbacks
+    for (auto &callback : matchingCallbacks) {
+        callback(evt);
+    }
 }
 
 void EventCallbackHandler::registerCallback(EventCallback cb, string callback_key){
@@ -84,14 +86,14 @@ void EventCallbackHandler::registerCallback(EventCallback cb, string callback_ke
 }
 
 void EventCallbackHandler::registerCallback(int code, EventCallback cb, string callback_key){
-    CallbacksLock lock(*this);
+    scoped_lock lock(callbacks_lock);
     //std::cerr << "Registering callback for code: " << code << ", key: " << callback_key << std::endl;
     callbacks_by_code.insert(pair< int, KeyedEventCallbackPair >(code, KeyedEventCallbackPair(callback_key, cb)));
 }
 
 
 void EventCallbackHandler::unregisterCallbacks(const std::string &key) {
-    CallbacksLock lock(*this);
+    scoped_lock lock(callbacks_lock);
     
     //std::cerr << "Unregistering callbacks for key: " << key << std::endl;
     // For now, just do a straight linear time search

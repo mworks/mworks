@@ -28,7 +28,7 @@
 BEGIN_NAMESPACE_MW
 
 
-StandardSystemEventHandler::StandardSystemEventHandler() : EventStreamInterface(M_SERVER_MESSAGE_DOMAIN, true){ }
+StandardSystemEventHandler::StandardSystemEventHandler() : EventStreamInterface(M_SERVER_MESSAGE_DOMAIN) { }
 
 void StandardSystemEventHandler::handleEvent(shared_ptr <Event> evt) {
     

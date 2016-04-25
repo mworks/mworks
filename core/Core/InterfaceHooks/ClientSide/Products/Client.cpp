@@ -20,7 +20,7 @@ BEGIN_NAMESPACE_MW
 #define CLIENT_INTERNAL_KEY	"MWClientInternalCallbackKey"
 
 
-Client::Client() : RegistryAwareEventStreamInterface(M_CLIENT_MESSAGE_DOMAIN, true){
+Client::Client() : RegistryAwareEventStreamInterface(M_CLIENT_MESSAGE_DOMAIN){
 	incoming_event_buffer = shared_ptr<EventBuffer>(new EventBuffer());
     outgoing_event_buffer = shared_ptr<EventBuffer>(new EventBuffer());
     

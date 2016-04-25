@@ -44,7 +44,7 @@ protected:
     MessageDomain message_domain; 
   
 public:
-    EventStreamInterface(MessageDomain dom, bool locking);
+    explicit EventStreamInterface(MessageDomain dom);
     virtual ~EventStreamInterface();
     
     

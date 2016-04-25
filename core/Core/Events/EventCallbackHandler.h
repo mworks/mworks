@@ -34,7 +34,7 @@ typedef boost::function<void(shared_ptr<Event>)>  EventCallback;
 // simple convenience class
 class KeyedEventCallbackPair {
 
-protected:
+private:
     
     shared_ptr<EventCallback> callback;
     string key;
@@ -70,40 +70,14 @@ private:
     
     // Thread safety measures
     boost::mutex callbacks_lock;
-    boost::recursive_mutex recursive_callbacks_lock;
-    const bool recursively_lock_callbacks;
+    using scoped_lock = boost::mutex::scoped_lock;
    
 public:
     
-    class CallbacksLock {
-    public:
-        CallbacksLock(EventCallbackHandler &h) : handler(h) {
-            if (handler.recursively_lock_callbacks) {
-                handler.recursive_callbacks_lock.lock();
-            } else {
-                handler.callbacks_lock.lock();
-            }
-        }
-        
-        ~CallbacksLock() {
-            if (handler.recursively_lock_callbacks){
-                handler.recursive_callbacks_lock.unlock();
-            } else {
-                handler.callbacks_lock.unlock();
-            }
-        }
-        
-    private:
-        EventCallbackHandler &handler;
-    };
-    
-    EventCallbackHandler(bool locking) : recursively_lock_callbacks(locking) { }
-    
-    virtual ~EventCallbackHandler(){ 
-        // grab these locks to ensure that anyone else who needs them
+    virtual ~EventCallbackHandler(){
+        // grab this lock to ensure that anyone else who needs it
         // is done
-        boost::recursive_mutex::scoped_lock recursive_lock(recursive_callbacks_lock);
-        boost::mutex::scoped_lock lock(callbacks_lock);
+        scoped_lock lock(callbacks_lock);
         
     }
         

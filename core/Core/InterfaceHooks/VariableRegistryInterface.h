@@ -42,7 +42,7 @@ class RegistryAwareEventStreamInterface : public VariableRegistryInterface, publ
     
 public:
     
-    RegistryAwareEventStreamInterface(MessageDomain dom, bool locking);
+    explicit RegistryAwareEventStreamInterface(MessageDomain dom);
     
     virtual void registerCallback(string tagname, EventCallback cb, string callback_key = DEFAULT_CALLBACK_KEY);
     virtual void registerCallback(EventCallback cb, string callback_key = DEFAULT_CALLBACK_KEY);

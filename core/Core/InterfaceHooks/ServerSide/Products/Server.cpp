@@ -25,7 +25,7 @@ SINGLETON_INSTANCE_STATIC_DECLARATION(Server)
 
 
 Server::Server() :
-    RegistryAwareEventStreamInterface(M_SERVER_MESSAGE_DOMAIN, true),
+    RegistryAwareEventStreamInterface(M_SERVER_MESSAGE_DOMAIN),
     incoming_event_buffer(new EventBuffer())
 {
 	

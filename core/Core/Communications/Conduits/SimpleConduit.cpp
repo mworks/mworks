@@ -19,7 +19,6 @@ SimpleConduit::SimpleConduit(shared_ptr<EventTransport> _transport,
                              bool _correct_incoming_timestamps,
                              long _conduit_idle_quantum) :  
     Conduit(_transport), 
-    EventCallbackHandler(true),
     conduit_idle_quantum_us(_conduit_idle_quantum),
     remote_clock_offset(0),
     correct_incoming_timestamps(_correct_incoming_timestamps)

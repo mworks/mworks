@@ -47,7 +47,7 @@ std::vector<std::string> VariableRegistryInterface::getVariableTagNames() {
 }
 
 
-RegistryAwareEventStreamInterface::RegistryAwareEventStreamInterface(MessageDomain dom, bool locking) : EventStreamInterface(dom, locking){ }
+RegistryAwareEventStreamInterface::RegistryAwareEventStreamInterface(MessageDomain dom) : EventStreamInterface(dom) { }
 
 void RegistryAwareEventStreamInterface::registerCallback(string tagname, EventCallback cb, string callback_key){
     int code = lookupCodeForTag(tagname);   
