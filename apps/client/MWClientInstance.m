@@ -622,11 +622,11 @@
 
 
 - (void)unregisterCallbacksWithKey:(const char *)key {
-	core->unregisterCallbacks(key, true); // short-circuit
+	core->unregisterCallbacks(key); // short-circuit
 }
 
 - (void)unregisterCallbacksWithKey:(const char *)key locking:(BOOL)locking {
-	core->unregisterCallbacks(key, true); // short-circuit
+	core->unregisterCallbacks(key); // short-circuit
 }
 
 

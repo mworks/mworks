@@ -16,11 +16,6 @@
 #include <string>
 #include <map>
 
-#ifdef USE_HASH_MAP_IN_CALLBACK_HANDLER
-#include <ext/hash_map>
-#endif
-
-#include <map>
 #include <boost/thread/mutex.hpp>
 #include <boost/thread/recursive_mutex.hpp>
 #include "MWorksMacros.h"
@@ -37,7 +32,7 @@ BEGIN_NAMESPACE_MW
 typedef boost::function<void(shared_ptr<Event>)>  EventCallback;
 
 // simple convenience class
-class KeyedEventCallbackPair : public boost::enable_shared_from_this<KeyedEventCallbackPair>{
+class KeyedEventCallbackPair {
 
 protected:
     
@@ -49,20 +44,16 @@ public:
     KeyedEventCallbackPair();
     
     KeyedEventCallbackPair(string _key, EventCallback _callback);    
-    void operator=(const KeyedEventCallbackPair& cb_pair);    
-    EventCallback getCallback();    
+    EventCallback getCallback();
     string getKey();    
     
-    void dummyCallback(shared_ptr<Event> evt);    
+private:
+    
+    static void dummyCallback(shared_ptr<Event> evt);
+    
 };
 
-#ifdef  USE_HASH_MAP_IN_CALLBACK_HANDLER
-typedef hash_multimap<int, KeyedEventCallbackPair>  EventCallbackMap;
-#else
 typedef std::multimap<int, KeyedEventCallbackPair> EventCallbackMap;
-#endif
-
-typedef std::multimap<string, int>      EventCallbackKeyCodeMap;
 
 #define DEFAULT_CALLBACK_KEY    "<default>"
 #define ALWAYS_CALLBACK_KEY     -1
@@ -76,9 +67,6 @@ private:
     
     // A dictionary of callback functors by code
     EventCallbackMap                callbacks_by_code;
-    
-    // A dictionary of event codes indexed by callback keys
-    EventCallbackKeyCodeMap         codes_by_key;
     
     // Thread safety measures
     boost::mutex callbacks_lock;
@@ -123,9 +111,7 @@ public:
     virtual void registerCallback(int code, EventCallback cb, string callback_key = DEFAULT_CALLBACK_KEY);
     //virtual void registerCallback(string tagname, EventCallback cb, string callback_key = DEFAULT_CALLBACK_KEY);
     
-    
-    virtual void unregisterCallbacksNoLocking(const std::string &key);
-    virtual void unregisterCallbacks(const string &callback_key = DEFAULT_CALLBACK_KEY, bool locked = true);
+    virtual void unregisterCallbacks(const string &callback_key = DEFAULT_CALLBACK_KEY);
     
     // callback dispatch
     virtual void handleCallbacks(shared_ptr<Event> evt);

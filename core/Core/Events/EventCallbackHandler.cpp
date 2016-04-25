@@ -26,16 +26,11 @@ KeyedEventCallbackPair::KeyedEventCallbackPair(string _key, EventCallback _callb
     callback = shared_ptr<EventCallback>(new EventCallback(_callback));
 }
 
-void KeyedEventCallbackPair::operator=(const KeyedEventCallbackPair& cb_pair){
-    key = cb_pair.key;
-    callback = cb_pair.callback;
-}
-
 EventCallback KeyedEventCallbackPair::getCallback(){  
     if(callback != NULL){
         return *callback;
     } else {
-        return boost::bind(&KeyedEventCallbackPair::dummyCallback, shared_from_this(), _1);
+        return &dummyCallback;
     }
 }
 
@@ -92,20 +87,11 @@ void EventCallbackHandler::registerCallback(int code, EventCallback cb, string c
     CallbacksLock lock(*this);
     //std::cerr << "Registering callback for code: " << code << ", key: " << callback_key << std::endl;
     callbacks_by_code.insert(pair< int, KeyedEventCallbackPair >(code, KeyedEventCallbackPair(callback_key, cb)));
-    codes_by_key.insert( pair<string, int>(callback_key, code) );
 }
 
 
-void EventCallbackHandler::unregisterCallbacksNoLocking(const std::string &key){
-    return unregisterCallbacks(key, false);
-}
-
-void EventCallbackHandler::unregisterCallbacks(const std::string &key, bool locked) {
-    
-    boost::scoped_ptr<CallbacksLock> lock;
-    if(locked){
-        lock.reset(new CallbacksLock(*this));
-    }
+void EventCallbackHandler::unregisterCallbacks(const std::string &key) {
+    CallbacksLock lock(*this);
     
     //std::cerr << "Unregistering callbacks for key: " << key << std::endl;
     // For now, just do a straight linear time search
