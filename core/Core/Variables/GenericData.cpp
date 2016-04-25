@@ -53,12 +53,20 @@ Datum::Datum(Datum &&other) :
 Datum& Datum::operator=(const Datum &other) {
     if (this == &other) {
         // Self assignment -- do nothing
-    } else if (datatype == other.datatype) {
-        copyFrom(other, true);
     } else {
-        this->~Datum();
-        datatype = other.datatype;
-        copyFrom(other);
+        // If our current value is a container type (list, dict), and other is a reference to a
+        // contained element (e.g. returned by getElement()), then we need to ensure that other
+        // exists long enough for us to copy its value.  To do this, we move our current value
+        // to a temporary Datum before replacing it with other's value.
+        const Datum oldThis(std::move(*this));
+        
+        if (datatype == other.datatype) {
+            copyFrom(other, true);
+        } else {
+            this->~Datum();
+            datatype = other.datatype;
+            copyFrom(other);
+        }
     }
     
     return (*this);
@@ -68,12 +76,20 @@ Datum& Datum::operator=(const Datum &other) {
 Datum& Datum::operator=(Datum &&other) {
     if (this == &other) {
         // Self assignment -- do nothing
-    } else if (datatype == other.datatype) {
-        moveFrom(std::move(other), true);
     } else {
-        this->~Datum();
-        datatype = other.datatype;
-        moveFrom(std::move(other));
+        // If our current value is a container type (list, dict), and other is a reference to a
+        // contained element (e.g. returned by getElement()), then we need to ensure that other
+        // exists long enough for us to move its value.  To do this, we move our current value
+        // to a temporary Datum before replacing it with other's value.
+        const Datum oldThis(std::move(*this));
+        
+        if (datatype == other.datatype) {
+            moveFrom(std::move(other), true);
+        } else {
+            this->~Datum();
+            datatype = other.datatype;
+            moveFrom(std::move(other));
+        }
     }
     
     return (*this);
