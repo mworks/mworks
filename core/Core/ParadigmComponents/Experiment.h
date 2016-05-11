@@ -149,7 +149,7 @@ extern shared_ptr<Experiment> GlobalCurrentExperiment;
 
 enum{M_INFO, M_STATUS};
 
-class Experiment : public ContainerState {
+class Experiment : public ScopedVariableEnvironment, public ContainerState {
     protected:
 
         // A pointer to the current active state within this experiment
@@ -250,7 +250,6 @@ class Experiment : public ContainerState {
             shared_ptr<Experiment> self_ptr(component_shared_from_this<Experiment>());
 			current_state = self_ptr;
 			setExperiment(self_ptr);
-			setScopedVariableEnvironment(self_ptr);
 			createVariableContexts();
 		}
 		

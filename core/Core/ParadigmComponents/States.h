@@ -39,7 +39,7 @@ BEGIN_NAMESPACE_MW
 class Experiment;
 
 
-class State : public ScopedVariableEnvironment, public Component {
+class State : public Component {
     
 private:
     // who immediately owns this state? (e.g. a block)
@@ -47,7 +47,6 @@ private:
     
     // what experiment does this state belong to
     weak_ptr<Experiment> experiment;	
-    weak_ptr<ScopedVariableEnvironment> environment;  // TODO: what is this?
     
     shared_ptr<ScopedVariableContext> local_variable_context;
     
@@ -60,7 +59,6 @@ protected:
         
         new_state->setParent(getParent());
         new_state->setExperiment(getExperiment());
-        new_state->setScopedVariableEnvironment(getScopedVariableEnvironment());
         new_state->setInterruptible(interruptible);
         
         return new_state;
@@ -91,13 +89,9 @@ public:
     shared_ptr<Experiment> getExperiment() const { return experiment.lock(); }
     void setExperiment(shared_ptr<Experiment> _experiment) { experiment = _experiment; }
     
-    shared_ptr<ScopedVariableEnvironment> getScopedVariableEnvironment() const { return environment.lock(); }
-    void setScopedVariableEnvironment(weak_ptr<ScopedVariableEnvironment> _env) { environment = _env; }
-    
     shared_ptr<ScopedVariableContext> getLocalScopedVariableContext() const { return local_variable_context; }
     void setLocalScopedVariableContext(shared_ptr<ScopedVariableContext> c) {
         local_variable_context = c;
-        setCurrentContext(local_variable_context);
     }
     
     virtual void updateCurrentScopedVariableContext();

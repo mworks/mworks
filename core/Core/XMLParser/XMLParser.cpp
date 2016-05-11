@@ -9,6 +9,7 @@
 
 #include "XMLParser.h"
 #include "States.h"
+#include "Experiment.h"
 
 #include <algorithm>
 #include <stdlib.h>
@@ -880,12 +881,9 @@ void XMLParser::_processInstanceDirective(xmlNode *node){
 	shared_ptr<mw::Component> alias = object->createInstanceObject();
 	string instance_tag = _generateInstanceTag(tag, reference_id, instance_id);
 	
-	// If the object is a valid variable environment, we'll apply variable
-	// assignments if there are any
-	// Look for variable assignments if appropriate
-	shared_ptr<ScopedVariableEnvironment> env = boost::dynamic_pointer_cast<ScopedVariableEnvironment, mw::Component>(alias);
-	if(env != NULL){
-		
+	// If the object is a state, we'll apply variable assignments if there are any
+    shared_ptr<State> state = boost::dynamic_pointer_cast<State>(alias);
+    if (state) {
 		xmlNode *alias_child = node->children;
 		
 		while(alias_child != NULL){
@@ -915,10 +913,13 @@ void XMLParser::_processInstanceDirective(xmlNode *node){
 											  "Cannot assign a non-local variable", variable_name);
 				} 
 				
-				env->setValue(svar->getContextIndex(), value);
-				//mprintf(M_PARSER_MESSAGE_DOMAIN, "Assigned variable %s to value %s in the context of %s",
-				//						variable_name.c_str(), content.c_str(), instance_tag.c_str());
-				
+                shared_ptr<ScopedVariableEnvironment> env = state->getExperiment();
+                if (env) {
+                    state->updateCurrentScopedVariableContext();
+                    env->setValue(svar->getContextIndex(), value);
+                    //mprintf(M_PARSER_MESSAGE_DOMAIN, "Assigned variable %s to value %s in the context of %s",
+                    //						variable_name.c_str(), content.c_str(), instance_tag.c_str());
+                }
 			}
 			
 			alias_child = alias_child->next;

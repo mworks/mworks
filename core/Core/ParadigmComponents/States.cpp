@@ -60,14 +60,10 @@ void State::requestVariableContext(){
     
 	if (experiment_shared) {
 		local_variable_context = experiment_shared->createNewContext();
-		setScopedVariableEnvironment(experiment_shared);
 	} else {
 		//merror(M_PARSER_MESSAGE_DOMAIN,
 		//		"Unable to set scoped variable environment");
 	}
-
-	setCurrentContext(local_variable_context);
-												
 }
 
 
@@ -103,7 +99,6 @@ void State::updateHierarchy() {
     }
     
     setExperiment(sharedParent->getExperiment());
-    setScopedVariableEnvironment(sharedParent->getScopedVariableEnvironment());
     
     if (local_variable_context == NULL) {
 		merror(M_SYSTEM_MESSAGE_DOMAIN,
@@ -118,13 +113,11 @@ void State::updateHierarchy() {
 		//throw("I don't know what will happen here yet...");
 		//local_variable_context = new ScopedVariableContext();// DEAL WITH THIS EVENTUALLY
 	}
-	
-	setCurrentContext(local_variable_context);
 }
 
 
 void State::updateCurrentScopedVariableContext() {
-    shared_ptr<ScopedVariableEnvironment> environment_shared = environment.lock();
+    shared_ptr<ScopedVariableEnvironment> environment_shared = experiment.lock();
 	if(environment_shared){
 		environment_shared->setCurrentContext(local_variable_context);
 		
