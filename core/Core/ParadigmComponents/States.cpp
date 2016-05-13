@@ -37,34 +37,13 @@ void State::describeComponent(ComponentInfo &info) {
 
 State::State() :
     experiment(GlobalCurrentExperiment)
-{
-	requestVariableContext();
-}
+{ }
 
 
 State::State(const ParameterValueMap &parameters) :
     Component(parameters),
     experiment(GlobalCurrentExperiment)
-{
-    requestVariableContext();
-}
-
-
-void State::requestVariableContext(){
-    shared_ptr<Experiment> experiment_shared = getExperiment();
-    
-    if (!experiment_shared && GlobalCurrentExperiment) {
-        experiment_shared = GlobalCurrentExperiment;
-        setExperiment(GlobalCurrentExperiment);
-    }
-    
-	if (experiment_shared) {
-		local_variable_context = experiment_shared->createNewContext();
-	} else {
-		//merror(M_PARSER_MESSAGE_DOMAIN,
-		//		"Unable to set scoped variable environment");
-	}
-}
+{ }
 
 
 void State::action() {
@@ -93,51 +72,25 @@ weak_ptr<State> State::next() {
 
 
 void State::updateHierarchy() {
-    shared_ptr<State> sharedParent = getParent();
-	if (!sharedParent) {
-        return;
+    if (auto sharedParent = getParent()) {
+        setExperiment(sharedParent->getExperiment());
     }
-    
-    setExperiment(sharedParent->getExperiment());
-    
-    if (local_variable_context == NULL) {
-		merror(M_SYSTEM_MESSAGE_DOMAIN,
-               "Invalid variable context in state object");
-        local_variable_context = shared_ptr<ScopedVariableContext>(new ScopedVariableContext(NULL));
+}
+
+
+shared_ptr<ScopedVariableContext> State::getLocalScopedVariableContext() const {
+    if (auto sharedParent = getParent()) {
+        return sharedParent->getLocalScopedVariableContext();
     }
-	
-    if (sharedParent->getLocalScopedVariableContext()) {
-        local_variable_context->inheritFrom(sharedParent->getLocalScopedVariableContext());
-    } else {
-		merror(M_SYSTEM_MESSAGE_DOMAIN, "Invalid parent variable context");
-		//throw("I don't know what will happen here yet...");
-		//local_variable_context = new ScopedVariableContext();// DEAL WITH THIS EVENTUALLY
-	}
+    return nullptr;
 }
 
 
 void State::updateCurrentScopedVariableContext() {
-    shared_ptr<ScopedVariableEnvironment> environment_shared = experiment.lock();
-	if(environment_shared){
-		environment_shared->setCurrentContext(local_variable_context);
-		
-        shared_ptr<State> parent_shared(getParent());
-		if (parent_shared) {
-			shared_ptr<ScopedVariableContext> parentContext = parent_shared->getLocalScopedVariableContext();
-			if(parentContext) {
-				int numScopedVars = local_variable_context->getNFields();
-				for (int i=0; i<numScopedVars; ++i) {
-					if(local_variable_context->getTransparency(i) == M_TRANSPARENT) {
-						local_variable_context->setWithTransparency(i, parentContext->get(i));
-					}
-				}
-			}
-		}
-	} else {
-		// TODO: better throw
-		throw SimpleException("Cannot update scoped variable context without a valid environment");
-	}
-}	
+    if (auto sharedParent = getParent()) {
+        sharedParent->updateCurrentScopedVariableContext();
+    }
+}
 
 
 bool State::isInterruptible() const {
@@ -165,6 +118,7 @@ void ContainerState::describeComponent(ComponentInfo &info) {
 
 ContainerState::ContainerState() {
 	setName("ContainerState");
+    requestVariableContext();
 }
 
 
@@ -172,11 +126,34 @@ ContainerState::ContainerState(const ParameterValueMap &parameters) :
     State(parameters)
 {
     setInterruptible(bool(parameters[INTERRUPTIBLE]));
+    requestVariableContext();
+}
+
+
+void ContainerState::requestVariableContext() {
+    if (auto sharedExperiment = getExperiment()) {
+        local_variable_context = sharedExperiment->createNewContext();
+    }
 }
 
 
 void ContainerState::updateHierarchy() {
     State::updateHierarchy();
+    
+    if (!local_variable_context) {
+        merror(M_SYSTEM_MESSAGE_DOMAIN, "Invalid variable context in state object");
+        local_variable_context = shared_ptr<ScopedVariableContext>(new ScopedVariableContext(NULL));
+    }
+    
+    if (auto sharedParent = getParent()) {
+        if (auto parentContext = sharedParent->getLocalScopedVariableContext()) {
+            local_variable_context->inheritFrom(parentContext);
+        } else {
+            merror(M_SYSTEM_MESSAGE_DOMAIN, "Invalid parent variable context");
+            //throw("I don't know what will happen here yet...");
+            //local_variable_context = new ScopedVariableContext();// DEAL WITH THIS EVENTUALLY
+        }
+    }
     
     shared_ptr<State> self_ptr = component_shared_from_this<State>();
 	
@@ -194,6 +171,35 @@ void ContainerState::reset() {
     BOOST_FOREACH( shared_ptr<State> child, *list ) {
         // call recursively down the experiment hierarchy
         child->reset();
+    }
+}
+
+
+shared_ptr<ScopedVariableContext> ContainerState::getLocalScopedVariableContext() const {
+    return local_variable_context;
+}
+
+
+void ContainerState::updateCurrentScopedVariableContext() {
+    shared_ptr<ScopedVariableEnvironment> environment_shared = getExperiment();
+    if (environment_shared) {
+        environment_shared->setCurrentContext(local_variable_context);
+        
+        shared_ptr<State> parent_shared(getParent());
+        if (parent_shared) {
+            shared_ptr<ScopedVariableContext> parentContext = parent_shared->getLocalScopedVariableContext();
+            if (parentContext) {
+                int numScopedVars = local_variable_context->getNFields();
+                for (int i=0; i<numScopedVars; ++i) {
+                    if (local_variable_context->getTransparency(i) == M_TRANSPARENT) {
+                        local_variable_context->setWithTransparency(i, parentContext->get(i));
+                    }
+                }
+            }
+        }
+    } else {
+        // TODO: better throw
+        throw SimpleException("Cannot update scoped variable context without a valid environment");
     }
 }
 

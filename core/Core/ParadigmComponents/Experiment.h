@@ -186,9 +186,6 @@ class Experiment : public ScopedVariableEnvironment, public ContainerState {
 		// Generate variable contexts from the variable registry
 	    void createVariableContexts();
 		
-		// Base State functionality that requires an Experiment to exist already
-	    void requestVariableContext() override { }
-		
 		//void addProtocol(shared_ptr<mw::Protocol> newprot);
 	    //void addProtocol(int index, shared_ptr<mw::Protocol> newprot);
 

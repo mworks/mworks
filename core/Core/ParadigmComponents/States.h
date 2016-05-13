@@ -48,8 +48,6 @@ private:
     // what experiment does this state belong to
     weak_ptr<Experiment> experiment;	
     
-    shared_ptr<ScopedVariableContext> local_variable_context;
-    
     bool interruptible { true };
     
 protected:
@@ -70,8 +68,6 @@ public:
     State();
     explicit State(const Map<ParameterValue> &parameters);
     
-    virtual void requestVariableContext();
-    
     virtual void action();
     
     /**
@@ -89,10 +85,7 @@ public:
     shared_ptr<Experiment> getExperiment() const { return experiment.lock(); }
     void setExperiment(shared_ptr<Experiment> _experiment) { experiment = _experiment; }
     
-    shared_ptr<ScopedVariableContext> getLocalScopedVariableContext() const { return local_variable_context; }
-    void setLocalScopedVariableContext(shared_ptr<ScopedVariableContext> c) {
-        local_variable_context = c;
-    }
+    virtual shared_ptr<ScopedVariableContext> getLocalScopedVariableContext() const;
     
     virtual void updateCurrentScopedVariableContext();
     
@@ -111,10 +104,14 @@ public:
 class ContainerState : public State {
     
 private:
+    shared_ptr<ScopedVariableContext> local_variable_context;
+    
     // Shared pointer to a vector of pointers to states
     // (we need a pointer, rather than a bare object so that multiple 
     //  aliases to the same underlying state can share the same list)
     shared_ptr< vector< shared_ptr<State> > > list { new vector< shared_ptr<State> > }; // the list of states
+    
+    void requestVariableContext();
     
 protected:
     bool accessed { false };
@@ -124,6 +121,10 @@ protected:
         shared_ptr<T> new_state(State::clone<T>());
         new_state->list = list;
         return new_state;
+    }
+    
+    void setLocalScopedVariableContext(shared_ptr<ScopedVariableContext> c) {
+        local_variable_context = c;
     }
     
 public:
@@ -142,6 +143,10 @@ public:
     void updateHierarchy() override;
     
     void reset() override;
+    
+    shared_ptr<ScopedVariableContext> getLocalScopedVariableContext() const override;
+    
+    void updateCurrentScopedVariableContext() override;
     
     // mw::Component methods
     void addChild(std::map<std::string, std::string> parameters,

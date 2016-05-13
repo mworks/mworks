@@ -41,7 +41,6 @@ void Experiment::createVariableContexts(){
 	}
 	
     setLocalScopedVariableContext(createNewDefaultContext());
-	//local_variable_context = variable_registry->createLocalVariableContext();
 	
 }
 
