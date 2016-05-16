@@ -73,6 +73,18 @@
       <value type="integer">1</value>
     </event>
     <event variable="x">
+      <value type="integer">1</value>
+    </event>
+    <event variable="x">
+      <value type="integer">11</value>
+    </event>
+    <event variable="x">
+      <value type="integer">11</value>
+    </event>
+    <event variable="x">
+      <value type="integer">1</value>
+    </event>
+    <event variable="x">
       <value type="float">1.5</value>
     </event>
     <event variable="x">
@@ -135,6 +147,18 @@
     </event>
     <event variable="x">
       <value type="integer">7</value>
+    </event>
+    <event variable="x">
+      <value type="integer">1</value>
+    </event>
+    <event variable="x">
+      <value type="integer">1</value>
+    </event>
+    <event variable="x">
+      <value type="integer">11</value>
+    </event>
+    <event variable="x">
+      <value type="integer">11</value>
     </event>
     <event variable="x">
       <value type="integer">1</value>

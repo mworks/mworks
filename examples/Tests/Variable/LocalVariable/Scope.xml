@@ -94,6 +94,15 @@
                 <action type="assert" tag="Assert" condition="x == 7" message="" stop_on_failure="0"></action>
             </block>
             <action type="assert" tag="Assert" condition="x == 1" message="" stop_on_failure="0"></action>
+            <action type="schedule" tag="Scheduled Action" delay="100ms" duration="0" repeats="1" cancel="">
+                <action type="assert" tag="Assert" condition="x == 1" message="" stop_on_failure="0"></action>
+                <action type="assignment" tag="Assign Variable" variable="x" value="11"></action>
+                <action type="assert" tag="Assert" condition="x == 11" message="" stop_on_failure="0"></action>
+            </action>
+            <action type="wait" tag="Wait" duration="500" duration_units="ms"></action>
+            <action type="assert" tag="Assert" condition="x == 11" message="" stop_on_failure="0"></action>
+            <action type="assignment" tag="Assign Variable" variable="x" value="1"></action>
+            <action type="assert" tag="Assert" condition="x == 1" message="" stop_on_failure="0"></action>
             <block tag="Reassign" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
                 <action type="if" tag="If first run" condition="first_run">
                     <action type="assert" tag="Assert" condition="x == 1" message="" stop_on_failure="0"></action>
