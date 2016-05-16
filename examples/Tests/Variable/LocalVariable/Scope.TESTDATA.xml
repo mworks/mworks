@@ -13,4 +13,140 @@
     <message type="starts_with">x = 1.5 </message>
     <message type="starts_with">x = 2.5 </message>
   </expected_messages>
+  <expected_events>
+    <!-- First run -->
+    <event variable="x">
+      <value type="integer">1</value>
+    </event>
+    <event variable="x">
+      <value type="integer">2</value>
+    </event>
+    <event variable="x">
+      <value type="integer">1</value>
+    </event>
+    <event variable="x">
+      <value type="integer">3</value>
+    </event>
+    <event variable="x">
+      <value type="integer">1</value>
+    </event>
+    <event variable="x">
+      <value type="integer">4</value>
+    </event>
+    <event variable="x">
+      <value type="integer">1</value>
+    </event>
+    <event variable="x">
+      <value type="integer">5</value>
+    </event>
+    <event variable="x">
+      <value type="integer">1</value>
+    </event>
+    <event variable="x">
+      <value type="integer">6</value>
+    </event>
+    <event variable="x">
+      <value type="integer">1</value>
+    </event>
+    <event variable="x">
+      <value type="integer">7</value>
+    </event>
+    <event variable="x">
+      <value type="integer">8</value>
+    </event>
+    <event variable="x">
+      <value type="integer">9</value>
+    </event>
+    <event variable="x">
+      <value type="integer">10</value>
+    </event>
+    <event variable="x">
+      <value type="integer">9</value>
+    </event>
+    <event variable="x">
+      <value type="integer">8</value>
+    </event>
+    <event variable="x">
+      <value type="integer">7</value>
+    </event>
+    <event variable="x">
+      <value type="integer">1</value>
+    </event>
+    <event variable="x">
+      <value type="float">1.5</value>
+    </event>
+    <event variable="x">
+      <value type="integer">1</value>
+    </event>
+    <event variable="first_run">
+      <value type="integer">0</value>
+    </event>
+    <!-- Second run -->
+    <event variable="x">
+      <value type="integer">1</value>
+    </event>
+    <event variable="x">
+      <value type="integer">2</value>
+    </event>
+    <event variable="x">
+      <value type="integer">1</value>
+    </event>
+    <event variable="x">
+      <value type="integer">3</value>
+    </event>
+    <event variable="x">
+      <value type="integer">1</value>
+    </event>
+    <event variable="x">
+      <value type="integer">4</value>
+    </event>
+    <event variable="x">
+      <value type="integer">1</value>
+    </event>
+    <event variable="x">
+      <value type="integer">5</value>
+    </event>
+    <event variable="x">
+      <value type="integer">1</value>
+    </event>
+    <event variable="x">
+      <value type="integer">6</value>
+    </event>
+    <event variable="x">
+      <value type="integer">1</value>
+    </event>
+    <event variable="x">
+      <value type="integer">7</value>
+    </event>
+    <event variable="x">
+      <value type="integer">8</value>
+    </event>
+    <event variable="x">
+      <value type="integer">9</value>
+    </event>
+    <event variable="x">
+      <value type="integer">10</value>
+    </event>
+    <event variable="x">
+      <value type="integer">9</value>
+    </event>
+    <event variable="x">
+      <value type="integer">8</value>
+    </event>
+    <event variable="x">
+      <value type="integer">7</value>
+    </event>
+    <event variable="x">
+      <value type="integer">1</value>
+    </event>
+    <event variable="x">
+      <value type="float">2.5</value>
+    </event>
+    <event variable="x">
+      <value type="integer">1</value>
+    </event>
+    <event variable="first_run">
+      <value type="integer">0</value>
+    </event>
+  </expected_events>
 </marionette_info>

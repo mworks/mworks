@@ -719,7 +719,6 @@ public:
     explicit TaskSystemState(const ParameterValueMap &parameters);
 	
     shared_ptr<mw::Component> createInstanceObject() override;
-    void action() override;
     weak_ptr<State> next() override;
     void reset() override;
 	

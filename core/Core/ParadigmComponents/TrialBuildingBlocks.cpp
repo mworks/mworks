@@ -1455,14 +1455,6 @@ shared_ptr<mw::Component> TaskSystemState::createInstanceObject(){
 }
 
 
-void TaskSystemState::action() {
-    if (!accessed) {
-        currentState->setValue(getCompactID());
-        accessed = true;
-    }
-}
-
-
 weak_ptr<State> TaskSystemState::next() {
     if (currentActionIndex < getList().size()) {
         shared_ptr<State> action = getList()[currentActionIndex++];
@@ -1578,7 +1570,7 @@ shared_ptr<mw::Component> TaskSystem::createInstanceObject(){
 
 
 void TaskSystem::action() {
-	currentState->setValue(getCompactID());
+    ContainerState::action();
 	updateHierarchy();  // TODO: need to rethink how all of this is working...
 }
 
