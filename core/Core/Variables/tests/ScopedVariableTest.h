@@ -32,7 +32,6 @@ class ScopedVariableTestFixture : public FullCoreEnvironmentTestFixture {
 
 	CPPUNIT_TEST( test1 );
 	CPPUNIT_TEST( inheritedContextTest );
-	CPPUNIT_TEST( invitroTest );
 
 	CPPUNIT_TEST_SUITE_END();
 	
@@ -59,7 +58,6 @@ public:
 	
 	void test1();
 	void inheritedContextTest();
-	void invitroTest();
 	
 	
 };
