@@ -9,6 +9,7 @@
 #ifndef _SERIALIZATION_H_
 #define _SERIALIZATION_H_
 
+#include <iostream>
 
 #include <boost/archive/binary_iarchive.hpp>
 #include <boost/archive/binary_oarchive.hpp>

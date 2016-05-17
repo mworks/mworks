@@ -197,7 +197,7 @@ def run_configure_and_make(
 
 @builder
 def boost():
-    version = '1.60.0'
+    version = '1.61.0'
     srcdir = 'boost_' + version.replace('.', '_')
     tarfile = srcdir + '.tar.bz2'
 
@@ -205,9 +205,6 @@ def boost():
     unpack_tarfile(tarfile, srcdir)
 
     with workdir(srcdir):
-        apply_patch('boost_check_macro.patch')
-        apply_patch('boost_ice_deprecations.patch')
-
         os.symlink('boost', 'mworks_boost')
         
         check_call([
