@@ -14,139 +14,124 @@
 BEGIN_NAMESPACE_MW
 
 
-ScheduledActions::ScheduledActions(shared_ptr<Variable> _n_repeats, 
-                                   shared_ptr<Variable> _delay, 
-                                   shared_ptr<Variable> _interval,
-                                   shared_ptr<Variable> _cancel)
-{						  
-	n_repeats = _n_repeats;
-	delay = _delay;
-	interval = _interval;
-    cancel = _cancel;
-	setName("ScheduledActions");
+ScheduledActions::ScheduledActions(const boost::shared_ptr<Variable> &n_repeats,
+                                   const boost::shared_ptr<Variable> &delay,
+                                   const boost::shared_ptr<Variable> &interval,
+                                   const boost::shared_ptr<Variable> &cancel) :
+    delay(delay),
+    n_repeats(n_repeats),
+    interval(interval),
+    cancel(cancel),
+    clock(Clock::instance())
+{
+    setName("ScheduledActions");
+    
+    if (cancel) {
+        auto callback = [this](const Datum &data, MWTime time) {
+            if (node && data.getBool()) {
+                node->cancel();
+            }
+        };
+        cancelCallbackNotification = boost::make_shared<VariableCallbackNotification>(callback);
+        cancel->addNotification(cancelCallbackNotification);
+    }
 }
 
-void ScheduledActions::addAction(shared_ptr<Action> _action){
-	action_list.addReference(_action);
+
+ScheduledActions::~ScheduledActions() {
+    if (cancelCallbackNotification) {
+        cancelCallbackNotification->remove();
+    }
 }
+
+
+void ScheduledActions::addAction(const boost::shared_ptr<Action> &action) {
+    action_list.push_back(action);
+}
+
 
 void ScheduledActions::addChild(std::map<std::string, std::string> parameters,
-								 ComponentRegistry *reg,
-								 shared_ptr<mw::Component> child){
-	
-	shared_ptr<Action> act = boost::dynamic_pointer_cast<Action,mw::Component>(child);
-	if(act == 0) {
-		throw SimpleException("Attempting to add illegal action (" + child->getTag() + ") to scheduled action (" + this->getTag() + ")");
-	}
-	addAction(act);
-	act->setParent(component_shared_from_this<State>());
-}
-
-bool ScheduledActions::execute(){
-	shared_ptr <Clock> clock = Clock::instance();
-	timeScheduled = clock->getCurrentTimeUS();
-	nRepeated = 0;
-	
-	shared_ptr<Scheduler> scheduler = Scheduler::instance();	
-	shared_ptr<ScheduledActions> this_one = component_shared_from_this<ScheduledActions>();
-	node = scheduler->scheduleUS(FILELINE, 
-								 (MWTime)(*delay),
-								 (MWTime)(*interval),
-								 (long)(*n_repeats),
-								 boost::bind(scheduled_action_runner, this_one),
-								 M_DEFAULT_PRIORITY,
-								 M_DEFAULT_WARN_SLOP_US,
-								 M_DEFAULT_FAIL_SLOP_US,
-								 M_MISSED_EXECUTION_CATCH_UP);
-	return true;
-}
-
-shared_ptr<ScheduleTask> ScheduledActions::getNode(){ 
-	return node; 
-}
-
-MWTime ScheduledActions::getDelay() const {
-	return (MWTime)(*delay);
-}
-
-MWTime ScheduledActions::getInterval() const {
-	return (MWTime)(*interval);
-}
-
-MWTime ScheduledActions::getTimeScheduled() const {
-	return timeScheduled;
-}
-
-unsigned int ScheduledActions::getNRepeated() const {
-	return nRepeated;
-}
-
-void ScheduledActions::executeActions() {
-	for(int i = 0; i < action_list.getNElements(); i++){
-		action_list[i]->announceEntry();
-		action_list[i]->execute();
-	}
-	++nRepeated;
-}
-
-/****************************************************************
- *                       ScheduledActions Methods
- ****************************************************************/
-
-	void *scheduled_action_runner(const shared_ptr<ScheduledActions> &sa){
-		shared_ptr <Clock> clock = Clock::instance();
-		MWTime delta = clock->getCurrentTimeUS() - ((sa->getTimeScheduled() + sa->getDelay()) + sa->getNRepeated()*sa->getInterval());
-		
-		if(delta > 2000) {
-			merror(M_SCHEDULER_MESSAGE_DOMAIN, "Scheduled action is starting %lldus behind intended schedule", delta); 
-		} else if (delta > 500) {
-			mwarning(M_SCHEDULER_MESSAGE_DOMAIN, "Scheduled action is starting %lldus behind intended schedule", delta); 
-		}
-		
-		sa->executeActions();
-		return 0;
-	}
-
-
-void ScheduledActions::CancelNotification::notify(const Datum &data, MWTime time) {
-    boost::shared_ptr<ScheduledActions> sa = saWeak.lock();
-    if (sa && data.getBool()) {
-        shared_ptr<ScheduleTask> node(sa->getNode());
-        if (node) {
-            node->cancel();
-        }
+                                ComponentRegistry *reg,
+                                boost::shared_ptr<mw::Component> child)
+{
+    auto act = boost::dynamic_pointer_cast<Action>(child);
+    if (!act) {
+        throw SimpleException("Attempting to add illegal action (" + child->getTag() + ") to scheduled action (" + this->getTag() + ")");
     }
+    addAction(act);
+    act->setParent(component_shared_from_this<State>());
+}
+
+
+bool ScheduledActions::execute() {
+    if (node) {
+        node->cancel();
+    }
+    
+    timeScheduled = clock->getCurrentTimeUS();
+    scheduledDelay = MWTime(*delay);
+    scheduledInterval = MWTime(*interval);
+    nRepeated = 0;
+    
+    boost::weak_ptr<ScheduledActions> weakThis(component_shared_from_this<ScheduledActions>());
+    node = Scheduler::instance()->scheduleUS(FILELINE,
+                                             scheduledDelay,
+                                             scheduledInterval,
+                                             int(*n_repeats),
+                                             [weakThis]() {
+                                                 if (auto sharedThis = weakThis.lock()) {
+                                                     sharedThis->executeOnce();
+                                                 }
+                                                 return nullptr;
+                                             },
+                                             M_DEFAULT_PRIORITY,
+                                             M_DEFAULT_WARN_SLOP_US,
+                                             M_DEFAULT_FAIL_SLOP_US,
+                                             M_MISSED_EXECUTION_CATCH_UP);
+    
+    return true;
+}
+
+
+void ScheduledActions::executeOnce() {
+    MWTime delta = clock->getCurrentTimeUS() - ((timeScheduled + scheduledDelay) + nRepeated * scheduledInterval);
+    
+    if (delta > 2000) {
+        merror(M_SCHEDULER_MESSAGE_DOMAIN, "Scheduled action is starting %lldus behind intended schedule", delta);
+    } else if (delta > 500) {
+        mwarning(M_SCHEDULER_MESSAGE_DOMAIN, "Scheduled action is starting %lldus behind intended schedule", delta);
+    }
+    
+    for (auto &action : action_list) {
+        action->announceEntry();
+        action->execute();
+    }
+    
+    nRepeated++;
 }
 
 
 shared_ptr<Component> ScheduledActionsFactory::createObject(std::map<std::string, std::string> parameters,
-															  ComponentRegistry *reg) {
-	REQUIRE_ATTRIBUTES(parameters, "delay", "repeats", "duration");
-	
-	shared_ptr<Variable> delay = reg->getVariable(parameters["delay"]);
-	shared_ptr<Variable> duration = reg->getVariable(parameters["duration"]);
-	shared_ptr<Variable> repeats = reg->getVariable(parameters["repeats"]);
-	shared_ptr<Variable> cancel = reg->getVariable(parameters["cancel"], "0");
-	
-	checkAttribute(duration, parameters["reference_id"], "duration", parameters["duration"]);
-	
-	checkAttribute(delay, parameters["reference_id"], "delay", parameters["delay"]);
-	
-	checkAttribute(repeats, parameters["reference_id"], "repeats", parameters["repeats"]);
-	
-	checkAttribute(repeats, parameters["reference_id"], "cancel", parameters["cancel"]);
-	
-	
-	// TODO .. needs more work, the actual actions aren't included here
-	
-	auto newScheduledActions = boost::make_shared<ScheduledActions>(repeats, delay, duration, cancel);
+                                                            ComponentRegistry *reg) {
+    REQUIRE_ATTRIBUTES(parameters, "delay", "repeats", "duration");
     
-    if (cancel) {
-        auto notification = boost::make_shared<ScheduledActions::CancelNotification>(newScheduledActions);
-        cancel->addNotification(notification);
-    }
+    shared_ptr<Variable> delay = reg->getVariable(parameters["delay"]);
+    shared_ptr<Variable> duration = reg->getVariable(parameters["duration"]);
+    shared_ptr<Variable> repeats = reg->getVariable(parameters["repeats"]);
+    shared_ptr<Variable> cancel = reg->getVariable(parameters["cancel"], "0");
     
-	return newScheduledActions;		
+    checkAttribute(duration, parameters["reference_id"], "duration", parameters["duration"]);
+    
+    checkAttribute(delay, parameters["reference_id"], "delay", parameters["delay"]);
+    
+    checkAttribute(repeats, parameters["reference_id"], "repeats", parameters["repeats"]);
+    
+    checkAttribute(repeats, parameters["reference_id"], "cancel", parameters["cancel"]);
+    
+    
+    // TODO .. needs more work, the actual actions aren't included here
+    
+    return boost::make_shared<ScheduledActions>(repeats, delay, duration, cancel);
 }
 
 

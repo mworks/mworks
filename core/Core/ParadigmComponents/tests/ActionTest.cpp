@@ -709,7 +709,6 @@ void ActionTestFixture::testScheduledAssignmentWithCancel() {
 	CPPUNIT_ASSERT((long)*v1 == 0L);	
 	
 	sa->addAction(a);
-    cancel->addNotification(boost::make_shared<ScheduledActions::CancelNotification>(sa));
 	CPPUNIT_ASSERT((long)*v1 == 0L);
 	
 	shared_ptr <Clock> clock = Clock::instance();
@@ -754,7 +753,6 @@ void ActionTestFixture::testScheduledAssignmentWithCancelThatsTooLate() {
 	CPPUNIT_ASSERT((long)*v1 == 0L);	
 	
 	sa->addAction(a);
-    cancel->addNotification(boost::make_shared<ScheduledActions::CancelNotification>(sa));
 	CPPUNIT_ASSERT((long)*v1 == 0L);
 	
 	shared_ptr <Clock> clock = Clock::instance();
