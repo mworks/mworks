@@ -1,0 +1,24 @@
+<?xml version="1.0" standalone="no"?>
+<monkeyml version="1.0">
+    <io_devices tag="IO Devices"></io_devices>
+    <variables tag="Variables">
+        <variable tag="count" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="0" type="any"></variable>
+        <variable tag="max_count" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="50" type="any"></variable>
+        <variable tag="interval" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="100ms" type="any"></variable>
+    </variables>
+    <sounds tag="Sounds"></sounds>
+    <stimuli tag="Stimuli"></stimuli>
+    <filters tag="Filters"></filters>
+    <optimizers tag="Optimizers"></optimizers>
+    <experiment tag="New Experiment" full_name="" description="">
+        <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
+            <action type="assignment" tag="Reset count" variable="count" value="0"></action>
+            <action type="schedule" tag="Schedule Actions" delay="interval" duration="interval" repeats="2*max_count" cancel="">
+                <action type="assignment" tag="Increment count" variable="count" value="count + 1"></action>
+                <action type="assert" tag="Assert" condition="count &lt;= max_count" message="" stop_on_failure="0"></action>
+                <action type="report" tag="Announce count" message="count = $count"></action>
+            </action>
+            <action type="wait_for_condition" tag="Wait for Condition" condition="count &gt;= max_count" timeout="interval * max_count + 2s" timeout_message="" stop_on_timeout="NO"></action>
+        </protocol>
+    </experiment>
+</monkeyml>

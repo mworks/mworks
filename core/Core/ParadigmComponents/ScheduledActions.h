@@ -51,6 +51,7 @@ private:
     const boost::shared_ptr<Variable> interval;
     boost::shared_ptr<Variable> cancel;
     
+    boost::shared_ptr<VariableCallbackNotification> stateSystemCallbackNotification;
     boost::shared_ptr<VariableCallbackNotification> cancelCallbackNotification;
     std::vector<boost::shared_ptr<Action>> action_list;
     

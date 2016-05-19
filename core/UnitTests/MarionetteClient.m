@@ -471,6 +471,10 @@ Datum _getNumber(const string &expression, const GenericDataType type);
 				break;
 			case IDLE:
 				if (self.stateSystemRunning) {
+                    // Pause for a second to give us time to catch events that should *not* happen
+                    // but still do (e.g. scheduled actions that should have terminated but didn't)
+                    [NSThread sleepForTimeInterval:1];
+                    
 					[self marionetteAssert:self.dataFileOpen
 							   withMessage:@"data file should be open"]; 
 					
