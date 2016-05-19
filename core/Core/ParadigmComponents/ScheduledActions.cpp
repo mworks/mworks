@@ -8,22 +8,59 @@
  */
 
 #include "ScheduledActions.h"
-#include "boost/bind.hpp"
 
 
 BEGIN_NAMESPACE_MW
+
+
+const std::string ScheduledActions::DELAY{"delay"};
+const std::string ScheduledActions::DURATION("duration");
+const std::string ScheduledActions::REPEATS("repeats");
+const std::string ScheduledActions::CANCEL("cancel");
+
+
+void ScheduledActions::describeComponent(ComponentInfo &info) {
+    Action::describeComponent(info);
+    
+    info.setSignature("action/schedule");
+    
+    info.addParameter(DELAY);
+    info.addParameter(DURATION);
+    info.addParameter(REPEATS);
+    info.addParameter(CANCEL, "NO");
+}
+
+
+ScheduledActions::ScheduledActions(const ParameterValueMap &parameters) :
+    Action(parameters),
+    clock(Clock::instance()),
+    delay(parameters[DELAY]),
+    n_repeats(parameters[REPEATS]),
+    interval(parameters[DURATION])
+{
+    if (!parameters[CANCEL].empty()) {
+        cancel = VariablePtr(parameters[CANCEL]);
+    }
+    
+    init();
+}
 
 
 ScheduledActions::ScheduledActions(const boost::shared_ptr<Variable> &n_repeats,
                                    const boost::shared_ptr<Variable> &delay,
                                    const boost::shared_ptr<Variable> &interval,
                                    const boost::shared_ptr<Variable> &cancel) :
+    clock(Clock::instance()),
     delay(delay),
     n_repeats(n_repeats),
     interval(interval),
-    cancel(cancel),
-    clock(Clock::instance())
+    cancel(cancel)
 {
+    init();
+}
+
+
+void ScheduledActions::init() {
     setName("ScheduledActions");
     
     if (cancel) {
@@ -108,30 +145,6 @@ void ScheduledActions::executeOnce() {
     }
     
     nRepeated++;
-}
-
-
-shared_ptr<Component> ScheduledActionsFactory::createObject(std::map<std::string, std::string> parameters,
-                                                            ComponentRegistry *reg) {
-    REQUIRE_ATTRIBUTES(parameters, "delay", "repeats", "duration");
-    
-    shared_ptr<Variable> delay = reg->getVariable(parameters["delay"]);
-    shared_ptr<Variable> duration = reg->getVariable(parameters["duration"]);
-    shared_ptr<Variable> repeats = reg->getVariable(parameters["repeats"]);
-    shared_ptr<Variable> cancel = reg->getVariable(parameters["cancel"], "0");
-    
-    checkAttribute(duration, parameters["reference_id"], "duration", parameters["duration"]);
-    
-    checkAttribute(delay, parameters["reference_id"], "delay", parameters["delay"]);
-    
-    checkAttribute(repeats, parameters["reference_id"], "repeats", parameters["repeats"]);
-    
-    checkAttribute(repeats, parameters["reference_id"], "cancel", parameters["cancel"]);
-    
-    
-    // TODO .. needs more work, the actual actions aren't included here
-    
-    return boost::make_shared<ScheduledActions>(repeats, delay, duration, cancel);
 }
 
 

@@ -55,7 +55,7 @@ ComponentRegistry::ComponentRegistry() :
 	registerFactory("variable/selection", new SelectionVariableFactory());
 	
 	
-	registerFactory("action/schedule", new ScheduledActionsFactory());
+    registerFactory<StandardComponentFactory, ScheduledActions>();
 	registerFactory("action/if", new IfFactory());
     registerFactory<StandardComponentFactory, IfElse>();
 	

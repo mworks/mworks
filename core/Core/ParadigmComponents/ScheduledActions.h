@@ -19,6 +19,14 @@ BEGIN_NAMESPACE_MW
 class ScheduledActions : public Action, boost::noncopyable {
     
 public:
+    static const std::string DELAY;
+    static const std::string DURATION;
+    static const std::string REPEATS;
+    static const std::string CANCEL;
+    
+    static void describeComponent(ComponentInfo &info);
+    
+    explicit ScheduledActions(const ParameterValueMap &parameters);
     ScheduledActions(const boost::shared_ptr<Variable> &n_repeats,
                      const boost::shared_ptr<Variable> &delay,
                      const boost::shared_ptr<Variable> &interval,
@@ -33,14 +41,16 @@ public:
     bool execute() override;
     
 private:
+    void init();
     void executeOnce();
+    
+    const boost::shared_ptr<Clock> clock;
     
     const boost::shared_ptr<Variable> delay;
     const boost::shared_ptr<Variable> n_repeats;
     const boost::shared_ptr<Variable> interval;
-    const boost::shared_ptr<Variable> cancel;
+    boost::shared_ptr<Variable> cancel;
     
-    const boost::shared_ptr<Clock> clock;
     boost::shared_ptr<VariableCallbackNotification> cancelCallbackNotification;
     std::vector<boost::shared_ptr<Action>> action_list;
     
@@ -50,12 +60,6 @@ private:
     MWTime scheduledInterval;
     unsigned int nRepeated;
     
-};
-
-
-class ScheduledActionsFactory : public ComponentFactory{
-    virtual shared_ptr<mw::Component> createObject(std::map<std::string, std::string> parameters,
-                                                   ComponentRegistry *reg);
 };
 
 
