@@ -19,5 +19,8 @@ parameters:
   - 
     name: hide_cursor
     default: 'NO'
+  - 
+    name: use_mirror_window
+    default: 'NO'
 
 

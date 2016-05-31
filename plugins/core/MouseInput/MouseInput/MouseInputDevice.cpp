@@ -16,6 +16,7 @@ const std::string MouseInputDevice::MOUSE_POSITION_X("mouse_position_x");
 const std::string MouseInputDevice::MOUSE_POSITION_Y("mouse_position_y");
 const std::string MouseInputDevice::MOUSE_DOWN("mouse_down");
 const std::string MouseInputDevice::HIDE_CURSOR("hide_cursor");
+const std::string MouseInputDevice::USE_MIRROR_WINDOW("use_mirror_window");
 
 
 void MouseInputDevice::describeComponent(ComponentInfo &info) {
@@ -27,6 +28,7 @@ void MouseInputDevice::describeComponent(ComponentInfo &info) {
     info.addParameter(MOUSE_POSITION_Y);
     info.addParameter(MOUSE_DOWN);
     info.addParameter(HIDE_CURSOR, "NO");
+    info.addParameter(USE_MIRROR_WINDOW, "NO");
 }
 
 
@@ -36,7 +38,8 @@ MouseInputDevice::MouseInputDevice(const ParameterValueMap &parameters) :
     posY(parameters[MOUSE_POSITION_Y]),
     down(parameters[MOUSE_DOWN]),
     hideCursor(parameters[HIDE_CURSOR]),
-    mainDisplayView(nil),
+    useMirrorWindow(parameters[USE_MIRROR_WINDOW]),
+    targetView(nil),
     tracker(nil),
     trackingArea(nil),
     started(false)
@@ -45,7 +48,7 @@ MouseInputDevice::MouseInputDevice(const ParameterValueMap &parameters) :
 
 MouseInputDevice::~MouseInputDevice() {
     if (trackingArea) {
-        [mainDisplayView performSelectorOnMainThread:@selector(removeTrackingArea:)
+        [targetView performSelectorOnMainThread:@selector(removeTrackingArea:)
                                           withObject:trackingArea
                                        waitUntilDone:YES];
         [trackingArea release];
@@ -59,46 +62,58 @@ MouseInputDevice::~MouseInputDevice() {
         [tracker release];
     }
     
-    if (mainDisplayView) {
-        [mainDisplayView release];
+    if (targetView) {
+        [targetView release];
     }
 }
 
 
 bool MouseInputDevice::initialize() {
     {
-        boost::shared_ptr<StimulusDisplay> display = StimulusDisplay::getCurrentStimulusDisplay();
-        OpenGLContextLock ctxLock = display->setCurrent(0);
-        
-        // Get the parameters needed by gluUnProject
-        glGetDoublev(GL_MODELVIEW_MATRIX, modelViewMatrix.data());
-        glGetDoublev(GL_PROJECTION_MATRIX, projectionMatrix.data());
-        glGetIntegerv(GL_VIEWPORT, viewport.data());
+        auto glcm = OpenGLContextManager::instance();
+        if (useMirrorWindow) {
+            targetView = glcm->getMirrorView();
+            if (!targetView) {
+                merror(M_DISPLAY_MESSAGE_DOMAIN, "Mouse input device: mirror window requested but not found");
+                return false;
+            }
+        } else {
+            targetView = glcm->getFullscreenView();
+            if (!targetView) {
+                targetView = glcm->getMirrorView();
+            }
+        }
+        [targetView retain];
     }
     
-    mainDisplayView = OpenGLContextManager::instance()->getFullscreenView();
-    if (!mainDisplayView) {
-        mainDisplayView = OpenGLContextManager::instance()->getMirrorView();
+    // Get the parameters needed by gluUnProject
+    {
+        OpenGLContextLock ctxLock = StimulusDisplay::getCurrentStimulusDisplay()->setCurrent(0);
+        glGetDoublev(GL_MODELVIEW_MATRIX, modelViewMatrix.data());
+        glGetDoublev(GL_PROJECTION_MATRIX, projectionMatrix.data());
     }
-    [mainDisplayView retain];
+    {
+        OpenGLContextLock ctxLock = OpenGLContextManager::instance()->makeCurrent(targetView.openGLContext);
+        glGetIntegerv(GL_VIEWPORT, viewport.data());
+    }
     
     tracker = [[MWKMouseTracker alloc] initWithMouseInputDevice:component_shared_from_this<MouseInputDevice>()];
     tracker.shouldHideCursor = hideCursor;
     
     dispatch_sync(dispatch_get_main_queue(), ^{
-        trackingArea = [[NSTrackingArea alloc] initWithRect:[mainDisplayView bounds]
+        trackingArea = [[NSTrackingArea alloc] initWithRect:[targetView bounds]
                                                     options:(NSTrackingMouseEnteredAndExited |
                                                              NSTrackingMouseMoved |
                                                              NSTrackingActiveAlways)
                                                       owner:tracker
                                                    userInfo:nil];
         
-        [mainDisplayView addTrackingArea:trackingArea];
+        [targetView addTrackingArea:trackingArea];
         
         if (hideCursor) {
-            NSPoint mouseLocationInWindowCoords = mainDisplayView.window.mouseLocationOutsideOfEventStream;
-            NSPoint mouseLocationInViewCoords = [mainDisplayView convertPoint:mouseLocationInWindowCoords fromView:nil];
-            if (NSPointInRect(mouseLocationInViewCoords, mainDisplayView.bounds)) {
+            NSPoint mouseLocationInWindowCoords = targetView.window.mouseLocationOutsideOfEventStream;
+            NSPoint mouseLocationInViewCoords = [targetView convertPoint:mouseLocationInWindowCoords fromView:nil];
+            if (NSPointInRect(mouseLocationInViewCoords, targetView.bounds)) {
                 // Ensure that the cursor is initially hidden
                 [tracker hideCursor];
             }
@@ -127,7 +142,7 @@ void MouseInputDevice::postMouseLocation(NSPoint location) const {
     }
     
     // This method is always called from the main thread, so we can call convertPointToBacking: directly
-    NSPoint locationInPixels = [mainDisplayView convertPointToBacking:location];
+    NSPoint locationInPixels = [targetView convertPointToBacking:location];
     GLdouble mouseX, mouseY, mouseZ;
     
 #pragma clang diagnostic push

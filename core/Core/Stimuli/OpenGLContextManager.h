@@ -105,6 +105,7 @@ BEGIN_NAMESPACE_MW
         int getNMonitors();
         
         
+        static OpenGLContextLock makeCurrent(NSOpenGLContext *context);
         OpenGLContextLock setCurrent(int context_id);
                 
         void flush(int context_id);

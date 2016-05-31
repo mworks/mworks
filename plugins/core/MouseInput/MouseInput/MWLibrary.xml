@@ -17,6 +17,7 @@ Interface to the system mouse or other pointing device
                 mouse_position_y=""
                 mouse_down=""
                 hide_cursor="NO"
+                use_mirror_window="NO"
                 />
     </code>
   </MWElement>

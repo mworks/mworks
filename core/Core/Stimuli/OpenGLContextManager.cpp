@@ -333,6 +333,12 @@ int OpenGLContextManager::newFullscreenContext(int screen_number){
 }
 
 
+OpenGLContextLock OpenGLContextManager::makeCurrent(NSOpenGLContext *ctx) {
+    [ctx makeCurrentContext];
+    return OpenGLContextLock((CGLContextObj)[ctx CGLContextObj]);
+}
+
+
 OpenGLContextLock OpenGLContextManager::setCurrent(int context_id) {
     if(context_id < 0 || context_id >= [contexts count]) {
 		mwarning(M_SERVER_MESSAGE_DOMAIN, "OpenGL Context Manager: no context to set current.");
@@ -341,8 +347,7 @@ OpenGLContextLock OpenGLContextManager::setCurrent(int context_id) {
     }
     
     NSOpenGLContext *ctx = [contexts objectAtIndex:context_id];
-    [ctx makeCurrentContext];
-    return OpenGLContextLock((CGLContextObj)[ctx CGLContextObj]);
+    return makeCurrent(ctx);
 }
 
 

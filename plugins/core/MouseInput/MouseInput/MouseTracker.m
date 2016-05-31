@@ -87,8 +87,7 @@
 
 - (void)postMouseLocation:(NSEvent *)theEvent
 {
-    boost::shared_ptr<mw::MouseInputDevice> mouseInputDevice = mouseInputDeviceWeak.lock();
-    if (mouseInputDevice) {
+    if (auto mouseInputDevice = mouseInputDeviceWeak.lock()) {
         mouseInputDevice->postMouseLocation([theEvent locationInWindow]);
     }
 }
@@ -96,8 +95,7 @@
 
 - (void)postMouseState:(NSEvent *)theEvent
 {
-    boost::shared_ptr<mw::MouseInputDevice> mouseInputDevice = mouseInputDeviceWeak.lock();
-    if (mouseInputDevice) {
+    if (auto mouseInputDevice = mouseInputDeviceWeak.lock()) {
         mouseInputDevice->postMouseState([theEvent type] == NSLeftMouseDown);
     }
 }

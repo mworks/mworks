@@ -22,6 +22,7 @@ public:
     static const std::string MOUSE_POSITION_Y;
     static const std::string MOUSE_DOWN;
     static const std::string HIDE_CURSOR;
+    static const std::string USE_MIRROR_WINDOW;
     
     static void describeComponent(ComponentInfo &info);
     
@@ -40,12 +41,13 @@ private:
     VariablePtr posY;
     VariablePtr down;
     const bool hideCursor;
+    const bool useMirrorWindow;
     
     std::array<GLdouble, 16> modelViewMatrix;
     std::array<GLdouble, 16> projectionMatrix;
     std::array<GLint, 4> viewport;
     
-    NSOpenGLView *mainDisplayView;
+    NSOpenGLView *targetView;
     MWKMouseTracker *tracker;
     NSTrackingArea *trackingArea;
     

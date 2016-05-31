@@ -1,7 +1,7 @@
 <?xml version="1.0" standalone="no"?>
 <monkeyml version="1.0">
     <io_devices tag="IO Devices">
-        <iodevice type="mouse_input" tag="mouse" mouse_position_x="mouse_position_x" mouse_position_y="mouse_position_y" mouse_down="mouse_down" hide_cursor="NO"></iodevice>
+        <iodevice type="mouse_input" tag="mouse" mouse_position_x="mouse_position_x" mouse_position_y="mouse_position_y" mouse_down="mouse_down" hide_cursor="NO" use_mirror_window="NO"></iodevice>
     </io_devices>
     <variables tag="Variables">
         <variable tag="mouse_position_x" scope="global" logging="when_changed" default_value="0" type="integer"></variable>
