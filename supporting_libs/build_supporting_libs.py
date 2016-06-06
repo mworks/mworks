@@ -245,7 +245,7 @@ def zeromq():
     srcdir = 'zeromq-' + version
     tarfile = srcdir + '.tar.gz'
 
-    download_archive('http://download.zeromq.org/', tarfile)
+    download_archive('https://github.com/zeromq/zeromq4-1/releases/download/v%s/' % version, tarfile)
     unpack_tarfile(tarfile, srcdir)
 
     run_configure_and_make(
