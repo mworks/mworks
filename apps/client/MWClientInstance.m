@@ -12,6 +12,7 @@
 #import <MWorksCore/Client.h>
 #import <MWorksCocoa/MWCocoaEvent.h>
 #import <MWorksCocoa/MWCocoaEventFunctor.h>
+#import <MWorksCocoa/MWConsoleController.h>
 #import <MWorksCocoa/MWWindowController.h>
 #import <MWorksCocoa/MWNotebook.h>
 #import <MWorksCocoa/NSString+MWorksCocoaAdditions.h>
@@ -843,7 +844,15 @@
     [[grouped_plugin_controller window] orderOut:self];
     [grouped_plugin_controller setCustomColor:self.headerColor];
     [grouped_plugin_controller setWindowFrameAutosaveName:self.serverURL];
-	
+    
+    // Add console, which is always available
+    MWConsoleController *console = [[MWConsoleController alloc] init];
+    [console setDelegate:self];
+    [console.window bind:@"displayPatternTitle1"
+                toObject:self
+             withKeyPath:@"serverURL"
+                 options:@{NSDisplayPatternBindingOption: @"Console (%{title1}@)"}];
+    [self addPlugin:console withName:@"Console"];
   
     NSFileManager *fm = [NSFileManager defaultManager];
 	
@@ -890,21 +899,11 @@
                 continue;
             }
       
-			NSWindowController *controller = Nil;
-			
 			for(int j=0; j < [toplevel count]; j++){
 				NSObject *obj = [toplevel objectAtIndex:j];
 				//NSLog(@"object = %d", obj);
 				if([obj isKindOfClass:[NSWindowController class]]){
-					controller = (NSWindowController *)obj;
-					[controller loadWindow];
-                    [controller setWindowFrameAutosaveName:[plugin_file stringByDeletingPathExtension]];
-					[pluginWindows addObject:controller];
-                    
-                    // also, add the window to the grouped_plugin_controller
-                    [grouped_plugin_controller addPluginWindow:[controller window] withName:[[controller window] title]];
-                    [grouped_plugin_controller setCurrentPluginIndex:0];
-                    
+                    [self addPlugin:(NSWindowController *)obj withName:[plugin_file stringByDeletingPathExtension]];
 					//NSLog(@"object is a controller (%d)", [pluginWindows count]);
 					break;
 				}
@@ -925,6 +924,17 @@
     if (appController.shouldRestoreOpenPluginWindows) {
         [self restoreOpenPluginWindows];
     }
+}
+
+
+- (void)addPlugin:(NSWindowController *)controller withName:(NSString *)name {
+    [controller loadWindow];
+    [controller setWindowFrameAutosaveName:name];
+    [pluginWindows addObject:controller];
+    
+    // also, add the window to the grouped_plugin_controller
+    [grouped_plugin_controller addPluginWindow:[controller window] withName:[[controller window] title]];
+    [grouped_plugin_controller setCurrentPluginIndex:0];
 }
 
 
