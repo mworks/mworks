@@ -50,7 +50,6 @@
 		0EDBEBA20C721A8200694CA9 /* MWCocoaEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = 0EDBEBA00C721A8200694CA9 /* MWCocoaEvent.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0EDBEBA30C721A8200694CA9 /* MWCocoaEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EDBEBA10C721A8200694CA9 /* MWCocoaEvent.m */; };
 		0EE3765E0CA20F0C00874639 /* MWClientServerBase.h in Headers */ = {isa = PBXBuildFile; fileRef = 0EE3765C0CA20F0C00874639 /* MWClientServerBase.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		0EE3765F0CA20F0C00874639 /* MWClientServerBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EE3765D0CA20F0C00874639 /* MWClientServerBase.m */; };
 		5C28610B10E0976D004DA219 /* MWCoreContainer.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C28610A10E0976D004DA219 /* MWCoreContainer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5C4D285109DD90B40082BF9F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5C4D284F09DD90B40082BF9F /* Localizable.strings */; };
 		5C58924909D0BA2C00F9D2C5 /* errorGlyph.tif in Resources */ = {isa = PBXBuildFile; fileRef = 5C58924709D0BA2C00F9D2C5 /* errorGlyph.tif */; };
@@ -130,7 +129,6 @@
 		0EDBEBA00C721A8200694CA9 /* MWCocoaEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MWCocoaEvent.h; path = Source/MWCocoaEvent.h; sourceTree = "<group>"; };
 		0EDBEBA10C721A8200694CA9 /* MWCocoaEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MWCocoaEvent.m; path = Source/MWCocoaEvent.m; sourceTree = "<group>"; };
 		0EE3765C0CA20F0C00874639 /* MWClientServerBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWClientServerBase.h; sourceTree = "<group>"; };
-		0EE3765D0CA20F0C00874639 /* MWClientServerBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWClientServerBase.m; sourceTree = "<group>"; };
 		32DBCF5E0370ADEE00C91783 /* MWorksCocoa_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWorksCocoa_Prefix.pch; sourceTree = "<group>"; };
 		5C28610A10E0976D004DA219 /* MWCoreContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWCoreContainer.h; sourceTree = "<group>"; };
 		5C4D285009DD90B40082BF9F /* English */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -294,7 +292,6 @@
 				68F379000C91C456007F1A6C /* MWCocoaEventFunctor.h */,
 				5CF10C68109F3B7000FFE11A /* MWCocoaEventFunctor.cpp */,
 				0EE3765C0CA20F0C00874639 /* MWClientServerBase.h */,
-				0EE3765D0CA20F0C00874639 /* MWClientServerBase.m */,
 				5C28610A10E0976D004DA219 /* MWCoreContainer.h */,
 				5C77F7FA10EBADEF00919719 /* CocoaBindingsSetter.h */,
 				5C77F7FB10EBADEF00919719 /* CocoaBindingsSetter.m */,
@@ -437,7 +434,6 @@
 				0E36D0600C7A2F440050471A /* MWWindowController.m in Sources */,
 				68B527050CA025F20093D825 /* KBPopUpToolbarItem.m in Sources */,
 				687EAA740CA1B3FA0022EE4F /* MWToolbarItem.m in Sources */,
-				0EE3765F0CA20F0C00874639 /* MWClientServerBase.m in Sources */,
 				0E727A1C0CB64819000C7B3F /* MWConsoleToolbar.m in Sources */,
 				5CF10C69109F3B7000FFE11A /* MWCocoaEventFunctor.cpp in Sources */,
 				E112D941183BE1B5001299B5 /* NSString+MWorksCocoaAdditions.m in Sources */,

@@ -7,27 +7,26 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "MWorksCore/GenericData.h"
+#import <MWorksCore/GenericData.h>
+
 using namespace mw;
 
-@interface MWClientServerBase : NSObject {
-}
 
-- (void)registerEventCallbackWithReceiver:(id)receiver 
-                                 selector:(SEL)selector
-                              callbackKey:(const char *)key;
+@protocol MWClientServerBase <NSObject>
 
 - (void)registerEventCallbackWithReceiver:(id)receiver 
                                  selector:(SEL)selector
                               callbackKey:(const char *)key
-                          forVariableCode:(int)code;
+                             onMainThread:(BOOL)on_main;
+
+- (void)registerEventCallbackWithReceiver:(id)receiver 
+                                 selector:(SEL)selector
+                              callbackKey:(const char *)key
+                          forVariableCode:(int)code
+                             onMainThread:(BOOL)on_main;
 
 - (void)unregisterCallbacksWithKey:(const char *)key;
 - (NSNumber *)codeForTag:(NSString *)tag;
-- (void)set:(int)code to:(Datum *)data;
-- (NSNumber *)isLocalMessage:(NSNumber *)messageOrigin;
-- (NSNumber *)maxConsoleLength;
 - (NSArray *)variableNames;
-
 
 @end

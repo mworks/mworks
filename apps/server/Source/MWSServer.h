@@ -15,7 +15,8 @@
 #import "MWorksCocoa/MWClientServerBase.h"
 #import "MWorksCore/Server.h"
 
-@interface MWSServer : MWClientServerBase {
+
+@interface MWSServer : NSObject <MWClientServerBase> {
 
 	boost::shared_ptr<Server> core;
     boost::shared_ptr<EventStreamInterface> core_as_esi; // technical reasons for needing this handle
@@ -44,10 +45,6 @@
 - (IBAction)launchDocs:(id)sender;
 - (IBAction)launchHelp:(id)sender;
 
-@end
-
-// delegate methods
-@interface NSObject (MWSDelegateMethods) 
 - (void)startServer;
 - (void)stopServer;
 - (void)startAccepting;
@@ -58,18 +55,36 @@
 - (NSNumber *)experimentLoaded;
 - (void)toggleConsole:(id)arg;
 - (void)updateGUI:(id)arg;
-- (NSNumber *)codeForTag:(NSString *)tag;
-- (void)registerEventCallbackWithReceiver:(id)receiver 
-                                 selector:(SEL)selector
-                              callbackKey:(const char *)key;
-- (void)registerEventCallbackWithReceiver:(id)receiver 
-                                 selector:(SEL)selector
-                              callbackKey:(const char *)key
-                          forVariableCode:(int)code;
 - (void)openNetworkPreferences:(id)sender;
 - (NSString *)currentNetworkAddress:(id)sender;
 - (NSString *)defaultNetworkAddress:(id)sender;
 - (void)setListeningAddress:(NSString *)address;
-- (NSArray *)variableNames;
 
 @end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

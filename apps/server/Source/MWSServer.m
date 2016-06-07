@@ -308,17 +308,26 @@
 }
 
 
-- (void)registerEventCallbackWithReceiver:(id)receiver 
+- (void)registerEventCallbackWithReceiver:(id)receiver
                                  selector:(SEL)selector
                               callbackKey:(const char *)key
-                          forVariableCode:(int)code {
-	
-	if(code >= 0) {
-		
-		core->registerCallback(code, create_cocoa_event_callback(receiver, selector), key);
-	}
-	
+                             onMainThread:(BOOL)on_main
+{
+    core->registerCallback(create_cocoa_event_callback(receiver, selector, on_main), key);
 }
+
+
+- (void)registerEventCallbackWithReceiver:(id)receiver
+                                 selector:(SEL)selector
+                              callbackKey:(const char *)key
+                          forVariableCode:(int)code
+                             onMainThread:(BOOL)on_main
+{
+    if (code >= 0) {
+        core->registerCallback(code, create_cocoa_event_callback(receiver, selector, on_main), key);
+    }
+}
+
 
 - (void)openNetworkPreferences:(id)sender {
 	[nc openAndInitWindow:sender];

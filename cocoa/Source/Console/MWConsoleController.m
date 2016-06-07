@@ -14,7 +14,7 @@
 #import "MWClientServerBase.h"
 
 #define MW_CONSOLE_CONTROLLER_CALLBACK_KEY "MWorksCocoa console controller callback key"
-#define MW_CONSOLE_MAX_CHAR_LENGTH_DEFAULT 10000
+#define MW_CONSOLE_MAX_CHAR_LENGTH_DEFAULT 100000
 
 
 @interface MWConsoleController(PrivateMethods)
@@ -92,9 +92,7 @@
 
 - (void)setDelegate:(id)new_delegate {
 	if (![new_delegate respondsToSelector:@selector(codeForTag:)] ||
-		//![new_delegate respondsToSelector:@selector(maxConsoleLength)] ||
-		//w![new_delegate respondsToSelector:@selector(isLocalMessage:)] ||
-      ![new_delegate respondsToSelector:@selector(registerEventCallbackWithReceiver:selector:callbackKey:forVariableCode:)]) {
+      ![new_delegate respondsToSelector:@selector(registerEventCallbackWithReceiver:selector:callbackKey:forVariableCode:onMainThread:)]) {
         [NSException raise:NSInternalInconsistencyException
 					format:@"Delegate doesn't respond to methods required in MWConsoleController"];
     }
@@ -104,7 +102,8 @@
 	[delegate registerEventCallbackWithReceiver:self 
                                      selector:@selector(incomingEvent:)
                                   callbackKey:MW_CONSOLE_CONTROLLER_CALLBACK_KEY
-                              forVariableCode:RESERVED_CODEC_CODE];
+                              forVariableCode:RESERVED_CODEC_CODE
+                                 onMainThread:YES];
 	
 	messageCodecCode = [[delegate codeForTag:[NSString stringWithCString:ANNOUNCE_MESSAGE_VAR_TAGNAME
 																encoding:NSASCIIStringEncoding]] intValue];
@@ -114,10 +113,9 @@
 		[delegate registerEventCallbackWithReceiver:self 
                                        selector:@selector(incomingEvent:)
                                     callbackKey:MW_CONSOLE_CONTROLLER_CALLBACK_KEY
-                                forVariableCode:messageCodecCode];
+                                forVariableCode:messageCodecCode
+                                   onMainThread:YES];
 	}
-	
-	maxConsoleLength = [[delegate maxConsoleLength] intValue];
 }
 
 - (void)windowDidLoad {
@@ -309,7 +307,7 @@
 			
 			NSNumber *time = [[NSNumber alloc] initWithLongLong:eventTime];
 			
-			NSNumber *localConsole = [delegate isLocalMessage:[NSNumber numberWithInt:payload.getElement(M_MESSAGE_ORIGIN).getInteger()]];
+            BOOL localConsole = (payload.getElement(M_MESSAGE_ORIGIN).getInteger() == M_SERVER_MESSAGE_ORIGIN);
 			if(!showGenericMessages && msgType == M_GENERIC_MESSAGE){
 				return;
 			}
@@ -325,7 +323,7 @@
 			[self postMessage:message 
 					 atNumber:time
 					   ofType:msgType
-			   onLocalConsole:[localConsole boolValue]];
+			   onLocalConsole:localConsole];
 			
 			if(grabFocusOnError && msgType == M_ERROR_MESSAGE){
 				if(![[self window] isVisible]){
@@ -363,7 +361,8 @@
 		[delegate registerEventCallbackWithReceiver:self 
                                        selector:@selector(incomingEvent:)
                                     callbackKey:MW_CONSOLE_CONTROLLER_CALLBACK_KEY
-                                forVariableCode:RESERVED_CODEC_CODE];
+                                forVariableCode:RESERVED_CODEC_CODE
+                                   onMainThread:YES];
 		
 		messageCodecCode = [[delegate codeForTag:[NSString stringWithCString:ANNOUNCE_MESSAGE_VAR_TAGNAME
 																	encoding:NSASCIIStringEncoding]] intValue];
@@ -373,7 +372,8 @@
 			[delegate registerEventCallbackWithReceiver:self 
                                          selector:@selector(incomingEvent:)
                                       callbackKey:MW_CONSOLE_CONTROLLER_CALLBACK_KEY
-                                  forVariableCode:messageCodecCode];
+                                  forVariableCode:messageCodecCode
+                                     onMainThread:YES];
 		}
 	}
 }
