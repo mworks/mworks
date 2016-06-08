@@ -21,6 +21,7 @@ def join_flags(*flags):
 assert os.environ['GCC_VERSION'] == 'com.apple.compilers.llvm.clang.1_0'
 cc = '/usr/bin/clang'
 cxx = '/usr/bin/clang++'
+mkdir = '/bin/mkdir'
 rsync = '/usr/bin/rsync'
 xcodebuild = '/usr/bin/xcodebuild'
 
@@ -366,22 +367,18 @@ def numpy():
 
 @builder
 def matlab_xunit():
-    version = '3.1.1'
-    srcdir = 'matlab_xunit_' + version
-    zipfile = srcdir + '.zip'
+    version = '4.0.0'
+    tag = 'matlab-xunit-'
+    srcdir = tag * 2 + version
+    tarfile = tag + version + '.tar.gz'
 
-    download_file(('http://www.mathworks.com/matlabcentral/fileexchange/'
-                   'submissions/22846/v/13/download/zip'),
-                  zipfile)
-    unpack_zipfile(zipfile, srcdir)
+    download_archive('https://github.com/psexton/matlab-xunit/archive/', tarfile)
+    unpack_tarfile(tarfile, srcdir)
 
     with workdir(srcdir):
-        check_call([
-            rsync,
-            '-a',
-            'matlab_xunit_3_1_1/xunit',
-            path_to_stagedir + '/MATLAB',
-            ])
+        stagepath = path_to_stagedir + '/MATLAB'
+        check_call([mkdir, '-p', stagepath])
+        check_call([rsync, '-a', 'src/', stagepath + '/xunit'])
 
 
 @builder
@@ -438,7 +435,7 @@ def main():
 
     if not requested_builders:
         remove_directory(stagedir)
-    check_call(['/bin/mkdir', '-p', downloaddir, builddir, stagedir])
+    check_call([mkdir, '-p', downloaddir, builddir, stagedir])
 
     with workdir(builddir):
         for buildfunc in all_builders:

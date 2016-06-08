@@ -33,7 +33,7 @@ try
     addpath('%s/MATLAB/xunit')
     addpath('%s')
     cd tests
-    passed = runtests;
+    passed = runxunit;
 catch ME
     disp(ME.getReport)
     passed = false;
