@@ -84,11 +84,20 @@ int DataFileManager::openFile(std::string _filename, DatumFileOptions opt) {
 	}			
 	
     // Ensure that the data file directory exists
-    boost::filesystem::create_directories(dataFilePath());
+    try {
+        boost::filesystem::create_directories(dataFilePath());
+    } catch (const std::exception &e) {
+        merror(M_FILE_MESSAGE_DOMAIN, "Could not create data file directory: %s", e.what());
+        global_outgoing_event_buffer->putEvent(SystemEventFactory::dataFileOpenedResponse(filename.c_str(),
+                                                                                          M_COMMAND_FAILURE));
+        return -1;
+    }
     
     if(scarab_create_file(filename.c_str()) != 0){
 		merror(M_FILE_MESSAGE_DOMAIN,
 			   "Could not create file: %s", filename.c_str());
+        global_outgoing_event_buffer->putEvent(SystemEventFactory::dataFileOpenedResponse(filename.c_str(),
+                                                                                          M_COMMAND_FAILURE));
 		return -1;
 	}
     
