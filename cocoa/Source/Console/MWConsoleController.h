@@ -28,6 +28,7 @@ const int MWErrorMessageSegment = 1;
 	BOOL showGenericMessages;
 	BOOL showWarningMessages;
 	BOOL showErrorMessages;
+    BOOL scrollToBottomOnMessage;
 	BOOL grabFocusOnWarning;
 	BOOL grabFocusOnError;
 	
@@ -39,15 +40,12 @@ const int MWErrorMessageSegment = 1;
 
 - (id)init;
 
-- (id)initWithShowGeneric:(BOOL)show_generic showWarning:(BOOL)show_warning
-				showError:(BOOL)show_error 
-		 grabFocusOnError:(BOOL)grab_on_error;
-
 - (id)delegate;
 - (void)setDelegate:(id)new_delegate;
 - (void)setTitle:(NSString *)title;
 
 - (IBAction)setErrorFiltering:(id)sender;
+- (IBAction)setScrollToBottomOnMessage:(id)sender;
 - (IBAction)setAlertFocus:(id)sender;
 
 @end

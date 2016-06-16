@@ -16,6 +16,9 @@
 #define MW_CONSOLE_CONTROLLER_CALLBACK_KEY "MWorksCocoa console controller callback key"
 #define MW_CONSOLE_MAX_CHAR_LENGTH_DEFAULT 100000
 
+#define DEFAULTS_SCROLL_TO_BOTTOM_ON_MESSAGE @"MWorksCocoaConsoleScrollToBottomOnMessage"
+#define DEFAULTS_ALERT_ON_ERROR @"MWorksCocoaConsoleAlertOnError"
+
 
 @interface MWConsoleController(PrivateMethods)
 - (void)incomingEvent:(MWCocoaEvent *)event;
@@ -33,27 +36,34 @@
 
 @implementation MWConsoleController
 
-- (id)init {	
-	return [self initWithShowGeneric:YES showWarning:YES showError:YES 
-					grabFocusOnError:YES];
+
++ (void)initialize {
+    //
+    // The class identity test ensures that this method is called only once.  For more info, see
+    // http://lists.apple.com/archives/cocoa-dev/2009/Mar/msg01166.html
+    //
+    if (self == [MWConsoleController class]) {
+        [[NSUserDefaults standardUserDefaults] registerDefaults:@{ DEFAULTS_SCROLL_TO_BOTTOM_ON_MESSAGE: @YES,
+                                                                   DEFAULTS_ALERT_ON_ERROR: @YES }];
+    }
 }
 
-- (id)initWithShowGeneric:(BOOL)show_generic 
-			  showWarning:(BOOL)show_warning
-				showError:(BOOL)show_error 
-		 grabFocusOnError:(BOOL)grab_on_error {
-	
+
+- (id)init {
     self = [super initWithWindowNibName:@"ConsoleWindow"];
     if(self) {
         fullText = nil;
 		maxConsoleLength = MW_CONSOLE_MAX_CHAR_LENGTH_DEFAULT;
         [self window];
     }
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	
-	showGenericMessages = show_generic;
-	showErrorMessages = show_error;
-	showWarningMessages = show_warning;
-	grabFocusOnError = grab_on_error;
+	showGenericMessages = YES;
+	showErrorMessages = YES;
+	showWarningMessages = YES;
+    scrollToBottomOnMessage = [defaults boolForKey:DEFAULTS_SCROLL_TO_BOTTOM_ON_MESSAGE];
+	grabFocusOnError = [defaults boolForKey:DEFAULTS_ALERT_ON_ERROR];
 	grabFocusOnWarning = NO;
 	
 	[self performSelectorOnMainThread:@selector(updateMessageTypeControl:) 
@@ -72,8 +82,6 @@
 	//						 forSegment:MWWarningMessageSegment];
 	//	[messageTypeControl setSelected:showErrorMessages 
 	//						 forSegment:MWErrorMessageSegment];
-	
-	[alertSwitch setState:grabFocusOnError];
 	
 	messageCodecCode = -1;
 	
@@ -148,14 +156,16 @@
 	}
 }
 
-- (IBAction)setAlertFocus:(id)sender{
-	
-	if([alertSwitch state] == NSOnState){
-		grabFocusOnError = YES;
-	} else {
-		grabFocusOnError = NO;
-	}
+
+- (IBAction)setScrollToBottomOnMessage:(id)sender {
+    scrollToBottomOnMessage = ([scrollToBottomSwitch state] == NSOnState);
 }
+
+
+- (IBAction)setAlertFocus:(id)sender {
+    grabFocusOnError = ([alertSwitch state] == NSOnState);
+}
+
 
 /*****************************************************************
 *                      Delegate Methods
@@ -265,8 +275,7 @@
 //		}*/
 	}
 	
-	if([scrollToBottomSwitch state] == NSOnState) {		
-		
+	if (scrollToBottomOnMessage) {
 		[self performSelectorOnMainThread:@selector(scrollToBottom)
 							   withObject:nil
 							waitUntilDone:YES];
