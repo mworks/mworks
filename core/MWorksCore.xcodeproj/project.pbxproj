@@ -468,6 +468,8 @@
 		E1DB978A16C19344001481E9 /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB975A16C16C8D001481E9 /* libboost_system.a */; };
 		E1DB978B16C1934E001481E9 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB977016C16D18001481E9 /* libxml2.dylib */; };
 		E1DB978C16C19351001481E9 /* libxslt.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB977116C16D18001481E9 /* libxslt.dylib */; };
+		E1DC75081D259C1700D9BC19 /* SerialPort.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1DC75061D259C1700D9BC19 /* SerialPort.cpp */; };
+		E1DC75091D259C1700D9BC19 /* SerialPort.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E1DC75071D259C1700D9BC19 /* SerialPort.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1F65DF9119086A100F9A3A3 /* IODevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1F65DF8119086A100F9A3A3 /* IODevice.cpp */; };
 /* End PBXBuildFile section */
 
@@ -1056,6 +1058,8 @@
 		E1DB977116C16D18001481E9 /* libxslt.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxslt.dylib; path = usr/lib/libxslt.dylib; sourceTree = SDKROOT; };
 		E1DB977716C17068001481E9 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = System/Library/Frameworks/CoreServices.framework; sourceTree = SDKROOT; };
 		E1DB978516C18FE0001481E9 /* libcppunit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcppunit.a; path = "/Library/Application Support/MWorks/Developer/lib/libcppunit.a"; sourceTree = "<absolute>"; };
+		E1DC75061D259C1700D9BC19 /* SerialPort.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SerialPort.cpp; path = Core/Utilities/SerialPort.cpp; sourceTree = "<group>"; };
+		E1DC75071D259C1700D9BC19 /* SerialPort.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = SerialPort.hpp; path = Core/Utilities/SerialPort.hpp; sourceTree = "<group>"; };
 		E1F65DF8119086A100F9A3A3 /* IODevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IODevice.cpp; path = Core/IODevices/IODevice.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -1686,6 +1690,8 @@
 				E16BC179137D952D0052D8E1 /* MachUtilities.h */,
 				E16BC17A137D952D0052D8E1 /* MachUtilities.cpp */,
 				E18FF25E1C80EE64007820D4 /* CFObjectPtr.h */,
+				E1DC75071D259C1700D9BC19 /* SerialPort.hpp */,
+				E1DC75061D259C1700D9BC19 /* SerialPort.cpp */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -2272,6 +2278,7 @@
 				0E9AD3170AD94214009C0B0B /* ExpandableList.h in Headers */,
 				5CBA76D40AE069A300D6F4A6 /* Sound.h in Headers */,
 				5CBA76DC0AE06F6500D6F4A6 /* StandardSounds.h in Headers */,
+				E1DC75091D259C1700D9BC19 /* SerialPort.hpp in Headers */,
 				5CBA76E20AE0706300D6F4A6 /* OpenALContextManager.h in Headers */,
 				5CAE8BF70AE4049E0013DB19 /* alut.h in Headers */,
 				0EAA0DE70B98FC1500331AA5 /* SimpleStaircase.h in Headers */,
@@ -2781,6 +2788,7 @@
 				5CE30A4C0CF9FAFA00BEB3E3 /* XMLParser.cpp in Sources */,
 				5CE30A500CFA49D600BEB3E3 /* Component.cpp in Sources */,
 				5CDCC8840D2B0E10008E2F19 /* ExpressionParser.cc in Sources */,
+				E1DC75081D259C1700D9BC19 /* SerialPort.cpp in Sources */,
 				5CEFD82D0D4D1D6200EA9950 /* Exceptions.cpp in Sources */,
 				5CD504310D4ED0BA00CD1C1D /* TrialBuildingBlocks.cpp in Sources */,
 				5C643EA20D501E99004A8BD2 /* UnresolvedReferenceVariable.cpp in Sources */,
