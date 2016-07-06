@@ -12,16 +12,19 @@ description: >
 parameters: 
   - 
     name: address
-    required: yes
     example:
       - '"10.0.254.254"'
       - '"/dev/cu.usbserial-FTH1RRH5"'
-    description: >
+    description: |
         If `port`_ is provided, the address is taken to be a host name,
         and MWorks attempts to connect to the pump network via a
         `TCP <https://en.wikipedia.org/wiki/Transmission_Control_Protocol>`_
         socket.  Otherwise, the address is assumed to be a filesystem path that
         represents a serial port.
+
+        If neither address nor port is provided, MWorks looks for a single,
+        connected serial device.  If it finds one, it assumes it to be the
+        desired pump network and attempts to connect.
   - 
     name: port
     example: 100

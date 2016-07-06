@@ -11,8 +11,6 @@
 
 #include "NE500Connection.hpp"
 
-#include <termios.h>
-
 
 BEGIN_NAMESPACE_MW
 
@@ -22,7 +20,7 @@ class NE500SerialConnection : public NE500Connection {
 public:
     explicit NE500SerialConnection(const std::string &path) :
         path(path),
-        fd(-1)
+        serialPort(false)  // Non-blocking I/O
     { }
     
     bool connect() override;
@@ -33,8 +31,7 @@ public:
     
 private:
     const std::string path;
-    int fd;
-    struct termios origAttrs;
+    SerialPort serialPort;
     
 };
 

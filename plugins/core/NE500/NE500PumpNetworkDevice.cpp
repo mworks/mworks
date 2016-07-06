@@ -27,7 +27,7 @@ void NE500PumpNetworkDevice::describeComponent(ComponentInfo &info) {
     
     info.setSignature("iodevice/ne500");
     
-    info.addParameter(ADDRESS);
+    info.addParameter(ADDRESS, false);
     info.addParameter(PORT, false);
     info.addParameter(RESPONSE_TIMEOUT, "100ms");
     info.addParameter(LOG_PUMP_COMMANDS, "YES");
@@ -40,10 +40,17 @@ NE500PumpNetworkDevice::NE500PumpNetworkDevice(const ParameterValueMap &paramete
     logPumpCommands(parameters[LOG_PUMP_COMMANDS]),
     active(false)
 {
-    const std::string address(VariablePtr(parameters[ADDRESS])->getValue().getString());
+    std::string address;
+    if (!parameters[ADDRESS].empty()) {
+        address = VariablePtr(parameters[ADDRESS])->getValue().getString();
+    }
+    
     if (parameters[PORT].empty()) {
         connection.reset(new NE500SerialConnection(address));
     } else {
+        if (address.empty()) {
+            throw SimpleException(M_IODEVICE_MESSAGE_DOMAIN, "Address required for NE500 socket connection");
+        }
         connection.reset(new NE500SocketConnection(address, int(parameters[PORT])));
     }
 }

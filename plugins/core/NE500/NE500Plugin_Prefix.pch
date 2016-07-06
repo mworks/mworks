@@ -5,6 +5,7 @@
 
 #include <MWorksCore/IODevice.h>
 #include <MWorksCore/Plugin.h>
+#include <MWorksCore/SerialPort.hpp>
 #include <MWorksCore/StandardComponentFactory.h>
 
 #endif /* defined(__cplusplus) */
