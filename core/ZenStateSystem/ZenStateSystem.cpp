@@ -252,7 +252,7 @@ void StandardStateSystem::run() {
         else if (in_transition ||              // waiting for the next state
                  (canInterrupt && is_paused))  // paused
         {
-            getClock()->sleepUS(500);
+            getClock()->yield();
             if (canInterrupt && is_paused) {
                 continue;
             }

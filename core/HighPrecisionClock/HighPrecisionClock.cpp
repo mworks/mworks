@@ -24,6 +24,8 @@ mach_timebase_info_data_t HighPrecisionClock::getTimebaseInfo() {
 HighPrecisionClock::HighPrecisionClock() :
     timebaseInfo(getTimebaseInfo()),
     systemBaseTimeAbsolute(mach_absolute_time()),
+    period(nanosToAbsolute(periodUS * nanosPerMicro)),
+    computation(nanosToAbsolute(computationUS * nanosPerMicro)),
     threadSpecificSemaphore(&destroySemaphore)
 { }
 
@@ -73,11 +75,16 @@ void HighPrecisionClock::stopClock() {
 
 
 void HighPrecisionClock::sleepNS(MWTime time) {
-    // Don't try to sleep for less than one period
-    time = std::max(time, periodUS * nanosPerMicro);
-    
-    const uint64_t expirationTime = mach_absolute_time() + nanosToAbsolute(time);
-    
+    wait(mach_absolute_time() + nanosToAbsolute(std::max(MWTime(0), time)));
+}
+
+
+void HighPrecisionClock::yield() {
+    wait();
+}
+
+
+void HighPrecisionClock::wait(uint64_t expirationTime) {
     semaphore_t *sem = threadSpecificSemaphore.get();
     if (!sem) {
         semaphore_t newSem;
@@ -89,6 +96,9 @@ void HighPrecisionClock::sleepNS(MWTime time) {
         {
             // If we can't create the semaphore, do a low-precision wait with mach_wait_until, and hope
             // that semaphore_create will work next time
+            if (0 == expirationTime) {
+                expirationTime = mach_absolute_time() + period;
+            }
             logMachError("mach_wait_until", mach_wait_until(expirationTime));
             return;
         }
@@ -112,9 +122,6 @@ void HighPrecisionClock::destroySemaphore(semaphore_t *sem) {
 
 
 void HighPrecisionClock::runLoop() {
-    const uint64_t period = nanosToAbsolute(periodUS * nanosPerMicro);
-    const uint64_t computation = nanosToAbsolute(computationUS * nanosPerMicro);
-    
     if (!set_realtime(period, computation, period)) {
         merror(M_SCHEDULER_MESSAGE_DOMAIN, "HighPrecisionClock failed to achieve real time scheduling");
     }

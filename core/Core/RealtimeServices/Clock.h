@@ -29,21 +29,23 @@ public:
 	
 	MWTime getCurrentTimeMS() { return getCurrentTimeNS() / nanosPerMilli; }
 	MWTime getCurrentTimeUS() { return getCurrentTimeNS() / nanosPerMicro; }
-	virtual MWTime getCurrentTimeNS();
+    virtual MWTime getCurrentTimeNS() { return 0; }
 	
 	void sleepMS(MWTime time) { sleepNS(time * nanosPerMilli); }
 	void sleepUS(MWTime time) { sleepNS(time * nanosPerMicro); }
-	virtual void sleepNS(MWTime time);
+    virtual void sleepNS(MWTime time) { }
+    
+    virtual void yield() { }
 	
 	virtual void startClock() { }
 	virtual void stopClock() { }
 	
 	MWTime getSystemTimeMS() { return getSystemTimeNS() / nanosPerMilli; }
 	MWTime getSystemTimeUS() { return getSystemTimeNS() / nanosPerMicro; }
-	virtual MWTime getSystemTimeNS();
+    virtual MWTime getSystemTimeNS() { return 0; }
     
 	MWTime getSystemReferenceTime() { return getSystemBaseTimeNS() / nanosPerMicro; }
-	virtual MWTime getSystemBaseTimeNS();
+    virtual MWTime getSystemBaseTimeNS() { return 0; }
   
     REGISTERED_SINGLETON_CODE_INJECTION(Clock)
   

@@ -16,22 +16,4 @@ BEGIN_NAMESPACE_MW
 SINGLETON_INSTANCE_STATIC_DECLARATION(Clock)
 
 
-MWTime Clock::getCurrentTimeNS() {
-    return 0;
-}
-
-
-void Clock::sleepNS(MWTime time) { }
-
-
-MWTime Clock::getSystemTimeNS() {
-    return 0;
-}
-
-
-MWTime Clock::getSystemBaseTimeNS() {
-    return 0;
-}
-
-
 END_NAMESPACE_MW

@@ -27,6 +27,7 @@ public:
     void stopClock() MW_OVERRIDE;
     
     void sleepNS(MWTime time) MW_OVERRIDE;
+    void yield() MW_OVERRIDE;
     
 private:
     static const MWTime periodUS = 200LL;
@@ -52,10 +53,13 @@ private:
     }
     
     bool isRunning() const { return (runLoopThread.get_id() != boost::thread::id()); }
+    void wait(uint64_t expirationTime = 0);
     void runLoop();
     
     const mach_timebase_info_data_t timebaseInfo;
     const uint64_t systemBaseTimeAbsolute;
+    const uint64_t period;
+    const uint64_t computation;
     
     boost::thread runLoopThread;
     
