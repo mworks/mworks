@@ -218,7 +218,7 @@ void TimerTestFixture::testTimerUnderAttack(){
 		//cerr << "Timer fell at expiration-relative time of: " 
 		//	 << (now - then) - delay << endl;
 		
-		CPPUNIT_ASSERT( (now - then) > delay );
+		CPPUNIT_ASSERT( (now - then) >= delay );
 		CPPUNIT_ASSERT( std::abs( (now - then) - delay ) < 1000 );
 		
 		
@@ -285,7 +285,7 @@ void TimerTestFixture::testTimerValue(){
 	pthread_attr_init(&pthread_custom_attr);
 	
 	shared_ptr<Timer> t(new Timer());
-	t->setExpired(false);
+    t->startMS(10000);  // Ensure that timer is not expired initially
 	timer_CPPUNIT_ASSERT_TS( t->hasExpired() == false );
 
 	const int numberOfSecondsToWait = 1;

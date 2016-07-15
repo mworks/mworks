@@ -18,106 +18,81 @@ TimeBase::TimeBase() {
 	setNow();
 }
 
+
 void TimeBase::setTime(MWTime _time){
 	time_us = _time;
 }
+
+
 void TimeBase::setNow(){
-	shared_ptr <Clock> clock = Clock::instance();
-	time_us = clock->getCurrentTimeUS();
+	time_us = Clock::instance()->getCurrentTimeUS();
 }
 
-MWTime TimeBase::getTime(){
+
+MWTime TimeBase::getTime() const {
 	return time_us;
 }
 
 
+Timer::Timer(VariableProperties *props) :
+    ReadOnlyVariable(props),
+    clock(Clock::instance()),
+    expirationTimeUS(0)
+{ }
 
-Timer::Timer(VariableProperties *props) : ReadOnlyVariable(props) {
-	internalLock = shared_ptr<boost::mutex>(new boost::mutex());
-	//schedule_node_lock = shared_ptr<boost::mutex>(new boost::mutex());
-	has_expired = shared_ptr<bool>(new bool(true));
-}
 
-Timer::~Timer(){ }
-
-void Timer::start(MWTime howlongms){
-	startMS(howlongms);
-}
-
-void Timer::startMS(MWTime howlongms){
-	
+void Timer::startMS(MWTime howlongms) {
 	startUS(howlongms * 1000);
 }
 
-void Timer::forceExpired(){
-	boost::mutex::scoped_lock lock(*internalLock);
-	mprintf("Killing previously scheduled timer expiration");
+
+void Timer::startUS(MWTime howlongus) {
+	scoped_lock lock(mutex);
 	
-	//boost::mutex::scoped_lock lock2(*schedule_node_lock);
-	if(schedule_node != NULL){
-		schedule_node->cancel();	// kill that one
+	if (howlongus <= 0) {
+		mwarning(M_SYSTEM_MESSAGE_DOMAIN, "Scheduling a timer to fire at a time in the past");
 	}
-	
-	*has_expired = true;
-}
-
-void Timer::startUS(MWTime howlongus){
-	boost::mutex::scoped_lock lock(*internalLock);
-	
-	//boost::mutex::scoped_lock lock2(*schedule_node_lock);
-	
-	//	cerr << "Starting timer (" << howlongus << ")" << endl;
-	
-	if(schedule_node != NULL){
-		schedule_node->cancel();	// kill that one
-	}
-	
-	if(howlongus <= 0){
-		mwarning(M_SYSTEM_MESSAGE_DOMAIN,
-				 "Scheduling a timer to fire at a time in the past");
-		*has_expired = true;
-		return;
-	}
-	
-	
-	*has_expired = false;
-	
-	shared_ptr<Scheduler> scheduler = Scheduler::instance();
-	shared_ptr<Timer> this_one = component_shared_from_this<Timer>();
-	schedule_node = scheduler->scheduleUS(FILELINE,
-										  howlongus,
-										  0, 
-										  1,
-										  boost::bind(expireTheTimer, this_one),
-										  M_DEFAULT_PRIORITY,
-										  M_DEFAULT_WARN_SLOP_US,
-										  M_DEFAULT_FAIL_SLOP_US,
-										  M_MISSED_EXECUTION_CATCH_UP); 
-}
-
-void Timer::setExpired(bool has_it){
-	boost::mutex::scoped_lock lock(*internalLock);
-	*has_expired = has_it;
+    
+    expirationTimeUS = clock->getCurrentTimeUS() + howlongus;
 }
 
 
-bool Timer::hasExpired(){
-	boost::mutex::scoped_lock lock(*internalLock);
-	return *has_expired;
+bool Timer::hasExpired() const {
+	scoped_lock lock(mutex);
+	return (clock->getCurrentTimeUS() >= expirationTimeUS);
 }
 
-void Timer::cleanUp(){}
 
 Datum Timer::getValue() {
-	boost::mutex::scoped_lock lock(*internalLock);
-	return Datum(M_BOOLEAN, *has_expired);
-}
-
-
-void *expireTheTimer(const shared_ptr<Timer> &timer){
-    timer->setExpired(true);
-    return NULL;
+	return Datum(hasExpired());
 }
 
 
 END_NAMESPACE_MW
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

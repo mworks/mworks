@@ -23,51 +23,67 @@ BEGIN_NAMESPACE_MW
 
 class TimeBase : public mw::Component {
 
-protected:
-
+private:
 	MWTime time_us;
 
 public:
-
 	TimeBase();
 	
 	void setTime(MWTime _time);
 	void setNow();
-	MWTime getTime();
+	MWTime getTime() const;
+    
 };
 
 
 class Timer : public ReadOnlyVariable {
 
-protected:
-	shared_ptr<bool> has_expired;
-	shared_ptr<ScheduleTask> schedule_node;
-    // DDC: This lock is always taken at the same time as internalLock
-    //      It is therefore useless
-	//shared_ptr<boost::mutex> schedule_node_lock;
-	shared_ptr<boost::mutex> internalLock;
+private:
+    const boost::shared_ptr<Clock> clock;
+    MWTime expirationTimeUS;
+    
+    mutable boost::mutex mutex;
+    using scoped_lock = boost::mutex::scoped_lock;
 
 public:
 	Timer(VariableProperties *props = 0);
-	~Timer();
 
-	void start(MWTime howlongms);
 	void startMS(MWTime howlongms);
 	void startUS(MWTime howlongus);
-	void setExpired(bool has_it);
-	bool hasExpired();
-	void forceExpired();
-	void cleanUp();
+	bool hasExpired() const;
     
     Datum getValue() override;
 	
 };
 
 
-void *expireTheTimer(const shared_ptr<Timer> &the_timer);
-
-
 END_NAMESPACE_MW
 
 
 #endif
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
