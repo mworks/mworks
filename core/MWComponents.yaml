@@ -970,6 +970,7 @@ parameters:
 
 name: Queue Stimulus
 signature: action/queue_stimulus
+alias: action/show_stimulus
 isa: Action
 inspector: QueueStimulusInspectorView
 description: >
@@ -1005,6 +1006,7 @@ parameters:
 
 name: Dequeue Stimulus
 signature: action/dequeue_stimulus
+alias: action/hide_stimulus
 isa: Action
 inspector: DequeueStimulusInspectorView
 description: >

@@ -54,6 +54,9 @@ def register_element(info):
     if info.get('is_group', False):
         groups[name] = info
     else:
+        alias = list(str_or_list(info.get('alias', [])))
+        if alias:
+            info['alias'] = alias
         group = set(str_or_list(info.get('group', [])))
         parameters = info.get('parameters', [])
         param_names = set(p['name'] for p in parameters)
@@ -205,6 +208,12 @@ def write_entry(title, info):
             print('\n', file=fp)
             write_header(fp, 'Signature', '-')
             print('``%s``' % info['signature'], file=fp)
+            if 'alias' in info:
+                print(file=fp)
+                alias = info['alias']
+                print(('Aliases:' if len(alias) > 1 else 'Alias:'),
+                      ', '.join(('``%s``' % a) for a in alias),
+                      file=fp)
         
         if 'parameters' in info:
             required = []
