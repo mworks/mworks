@@ -2,6 +2,7 @@ from __future__ import print_function, unicode_literals
 from collections import defaultdict
 from contextlib import closing, contextmanager
 import glob
+import json
 import os
 import string
 try:
@@ -63,7 +64,7 @@ def register_element(info):
                 if p['name'] not in param_names:
                     parameters.append(p)
                     param_names.add(p['name'])
-        info['group'] = group
+        info['group'] = list(group)  # json.dump chokes on set
         if parameters:
             info['parameters'] = parameters
         assert group, 'No groups for %r' % name
@@ -82,6 +83,11 @@ for filename in yaml_files:
     with open(filename) as fp:
         for info in yaml.safe_load_all(fp):
             register_element(info)
+
+# Serialize the components map for use by other tools
+with open('/Library/Application Support/MWorks/Documentation/components.json',
+          'w') as fp:
+    json.dump(components, fp)
 
 os.chdir('components')
 
