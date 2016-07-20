@@ -70,9 +70,10 @@ def register_element(info):
         info['group'] = list(group)  # json.dump chokes on set
         if parameters:
             info['parameters'] = parameters
-        assert group, 'No groups for %r' % name
+        abstract = info.get('abstract', False)
+        assert group or abstract, 'No groups for %r' % name
         for g in group:
-            if not info.get('abstract', False):
+            if not abstract:
                 group_members[g].add(basename)
         components[name] = info
 

@@ -222,8 +222,33 @@ parameters:
 ---
 
 
+name: Selectable
+abstract: yes
+parameters: 
+  - 
+    name: selection
+    options:
+      - sequential
+      - sequential_ascending
+      - sequential_descending
+      - random_without_replacement
+      - random_with_replacement
+    default: sequential
+  - 
+    name: nsamples
+    default: 1
+  - 
+    name: sampling_method
+    options: [cycles, samples]
+    default: cycles
+
+
+---
+
+
 name: Selection Variable
 signature: variable/selection
+isa: Selectable
 icon: xyz
 group: Variables
 allowed_parent: 
@@ -238,23 +263,6 @@ parameters:
   - 
     name: values
     required: yes
-  - 
-    name: selection
-    required: yes
-    options:
-      - sequential
-      - sequential_ascending
-      - sequential_descending
-      - random_without_replacement
-      - random_with_replacement
-  - 
-    name: nsamples
-    required: yes
-    example: 1
-  - 
-    name: sampling_method
-    required: yes
-    options: [cycles, samples]
   - 
     name: advance_on_accept
     default: 'NO'
@@ -552,25 +560,8 @@ parameters:
 
 name: List State
 abstract: yes
-isa: Container State
+isa: [Container State, Selectable]
 inspector: ListStateInspectorView
-parameters: 
-  - 
-    name: selection
-    options:
-      - sequential
-      - sequential_ascending
-      - sequential_descending
-      - random_without_replacement
-      - random_with_replacement
-    default: sequential
-  - 
-    name: nsamples
-    default: 1
-  - 
-    name: sampling_method
-    options: [cycles, samples]
-    default: cycles
 
 
 ---

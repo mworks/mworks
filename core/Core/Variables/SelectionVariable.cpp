@@ -109,12 +109,16 @@ shared_ptr<mw::Component> SelectionVariableFactory::createObject(std::map<std::s
 														ComponentRegistry *reg) {
 	REQUIRE_ATTRIBUTES(parameters,
 					   "tag",
-					   "values",
-					   "sampling_method",
-					   "nsamples",
-					   "selection");
+					   "values");
+    
+    std::string sampling_method_string;
+    std::string nsamples_string;
+    std::string selection_string;
 	
-	Datum defaultValue(0L); // the default value Datum object.
+    GET_ATTRIBUTE(parameters, sampling_method_string, "sampling_method", "cycles");
+    GET_ATTRIBUTE(parameters, nsamples_string, "nsamples", "1");
+    GET_ATTRIBUTE(parameters, selection_string, "selection", "sequential");
+    
 	std::string groups(EXPERIMENT_DEFINED_VARIABLES);
     bool advanceOnAccept = false;
 	
@@ -134,7 +138,7 @@ shared_ptr<mw::Component> SelectionVariableFactory::createObject(std::map<std::s
 	}
 	
 	// TODO when the variable properties get fixed, we can get rid of this nonsense
-    VariableProperties props(defaultValue,
+    VariableProperties props(Datum(0L),
                              tag,
                              M_WHEN_CHANGED,
                              false,
@@ -149,27 +153,21 @@ shared_ptr<mw::Component> SelectionVariableFactory::createObject(std::map<std::s
     std::vector<Datum> values;
     ParsedExpressionVariable::evaluateExpressionList(parameters["values"], values);
 	
-	// get the sampling method
-	std::map<std::string, std::string>::const_iterator samplingMethodElement = parameters.find("sampling_method");
-	if(samplingMethodElement == parameters.end()) {
-		throw;	
-	}
-	
 	// get the number of samples
 	unsigned int numSamples = 0;
 	try {
-		numSamples = boost::lexical_cast< unsigned int >( parameters.find("nsamples")->second );
+		numSamples = boost::lexical_cast<unsigned int>(nsamples_string);
 	} catch (boost::bad_lexical_cast &) {
-		throw InvalidAttributeException(parameters["reference_id"], "nsamples", parameters.find("nsamples")->second);			
+		throw InvalidAttributeException(parameters["reference_id"], "nsamples", nsamples_string);
 	}
 	
 	// if it's cycles, multiply by the number of elements in the possible values
-	if(to_lower_copy(parameters.find("sampling_method")->second) == "cycles") {
+	if (to_lower_copy(sampling_method_string) == "cycles") {
 		numSamples *= values.size();
-	} else if(to_lower_copy(parameters.find("sampling_method")->second) == "samples") {
+	} else if (to_lower_copy(sampling_method_string) == "samples") {
 		// do nothing
 	} else {
-		throw InvalidAttributeException(parameters["reference_id"], "sampling_method", parameters.find("sampling_method")->second);
+		throw InvalidAttributeException(parameters["reference_id"], "sampling_method", sampling_method_string);
 	}
 	
     bool autoreset_behavior = false;
@@ -184,18 +182,18 @@ shared_ptr<mw::Component> SelectionVariableFactory::createObject(std::map<std::s
     
 	// get the selection type
 	shared_ptr<Selection> selection;
-	if(to_lower_copy(parameters.find("selection")->second) == "sequential_ascending") {
+	if (to_lower_copy(selection_string) == "sequential_ascending") {
 		selection = shared_ptr<SequentialSelection>(new SequentialSelection(numSamples, true, autoreset_behavior));
-    } else if(to_lower_copy(parameters.find("selection")->second) == "sequential") {
+    } else if (to_lower_copy(selection_string) == "sequential") {
         selection = shared_ptr<SequentialSelection>(new SequentialSelection(numSamples, true, autoreset_behavior));
-	} else if(to_lower_copy(parameters.find("selection")->second) == "sequential_descending") {
+	} else if (to_lower_copy(selection_string) == "sequential_descending") {
 		selection = shared_ptr<SequentialSelection>(new SequentialSelection(numSamples, false, autoreset_behavior));			
-	} else if(to_lower_copy(parameters.find("selection")->second) == "random_without_replacement") {
+	} else if (to_lower_copy(selection_string) == "random_without_replacement") {
 		selection = shared_ptr<RandomWORSelection>(new RandomWORSelection(numSamples, autoreset_behavior));			
-	} else if(to_lower_copy(parameters.find("selection")->second) == "random_with_replacement") {
+	} else if (to_lower_copy(selection_string) == "random_with_replacement") {
 		selection = shared_ptr<RandomWithReplacementSelection>(new RandomWithReplacementSelection(numSamples, autoreset_behavior));			
 	} else {
-		throw InvalidAttributeException(parameters["reference_id"], "selection", parameters.find("selection")->second);
+		throw InvalidAttributeException(parameters["reference_id"], "selection", selection_string);
 	}
 	
 	selectionVar->attachSelection(selection);
