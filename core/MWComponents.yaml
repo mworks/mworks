@@ -200,6 +200,7 @@ parameters:
     name: type
     options: [any, boolean, integer, float, string, list]
     default: any
+    deprecated: yes
   - 
     name: scope
     options: [global, local]

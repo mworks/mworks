@@ -218,15 +218,20 @@ def write_entry(title, info):
         if 'parameters' in info:
             required = []
             optional = []
+            deprecated = []
             for p in info['parameters']:
                 if p.get('required', False):
                     required.append(p)
+                elif p.get('deprecated', False):
+                    deprecated.append(p)
                 else:
                     optional.append(p)
             if required:
                 write_parameters(fp, 'Required', required)
             if optional:
                 write_parameters(fp, 'Optional', optional)
+            if deprecated:
+                write_parameters(fp, 'Deprecated', deprecated)
 
 
 for name, info in components.items():
