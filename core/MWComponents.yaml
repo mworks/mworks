@@ -206,7 +206,7 @@ parameters:
     default: global
   - 
     name: logging
-    options: [never, when_idle, always, at_startup, every_trial, when_changed]
+    options: [never, when_changed]
     default: when_changed
   -
     name: persistant

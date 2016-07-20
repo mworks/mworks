@@ -125,14 +125,6 @@ shared_ptr<mw::Component> VariableFactory::createObject(std::map<std::string, st
 	
 	if(to_lower_copy(logging_string) == "never") {
 		logging = M_NEVER;
-	} else if(to_lower_copy(logging_string) == "when_idle") {
-		logging = M_WHEN_IDLE;
-	} else if(to_lower_copy(logging_string) == "always" ){
-		logging = M_ALWAYS;
-	} else if(to_lower_copy(logging_string) == "at_startup") {
-		logging = M_AT_STARTUP;
-	} else if(to_lower_copy(logging_string) == "every_trial") {
-		logging = M_EVERY_TRIAL;
 	} else if(to_lower_copy(logging_string) == "when_changed") {
 		logging = M_WHEN_CHANGED;
 	} else {
@@ -194,9 +186,7 @@ shared_ptr<mw::Component> VariableFactory::createObject(std::map<std::string, st
 	if(scope_string == "global") {
 		newVar = global_variable_registry->createGlobalVariable(&props);
 	} else if(scope_string == "local") {
-        shared_ptr<ScopedVariableEnvironment> env = boost::dynamic_pointer_cast<ScopedVariableEnvironment, Experiment>(GlobalCurrentExperiment);
-        weak_ptr<ScopedVariableEnvironment> env_weak(env);
-		newVar = global_variable_registry->createScopedVariable(env_weak, &props);		
+		newVar = global_variable_registry->createScopedVariable(GlobalCurrentExperiment, &props);
 	} else {
 		throw InvalidAttributeException(parameters["reference_id"], "scope", parameters.find("scope")->second);
 	}

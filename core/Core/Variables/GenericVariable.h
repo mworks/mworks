@@ -22,7 +22,14 @@
 BEGIN_NAMESPACE_MW
 
 
-enum WhenType{M_NEVER = -1, M_WHEN_IDLE, M_ALWAYS, M_AT_STARTUP, M_EVERY_TRIAL, M_WHEN_CHANGED};
+enum WhenType {
+    M_NEVER = -1,
+    //M_WHEN_IDLE,
+    //M_ALWAYS,
+    //M_AT_STARTUP,
+    //M_EVERY_TRIAL,
+    M_WHEN_CHANGED = 4  // Maintain legacy value, which is present in old data files
+};
 
 
 // Forward declarations
