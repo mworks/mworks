@@ -20,6 +20,7 @@ ALLSPHINXOPTS   = $(VERSIONOPT) -d $(BUILDDIR)/doctrees $(PAPEROPT_$(PAPER)) $(S
 I18NSPHINXOPTS  = $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) .
 
 COMPONENTSDIR = components
+MWORKSDOCDIR = "/Library/Application Support/MWorks/Documentation"
 
 .DEFAULT_GOAL := install
 
@@ -56,10 +57,10 @@ clean:
 	rm -rf $(BUILDDIR)/* $(COMPONENTSDIR)/*
 
 install: html
-	rsync -a $(BUILDDIR)/html/ "/Library/Application Support/MWorks/Documentation"
+	rsync -a $(BUILDDIR)/html/ $(MWORKSDOCDIR)
 
 componentref:
-	$(PYTHON) generate_component_ref.py
+	$(PYTHON) generate_component_ref.py $(MWORKSDOCDIR)
 
 html: componentref
 	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(BUILDDIR)/html

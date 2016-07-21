@@ -10,8 +10,12 @@ try:
 except ImportError:
     # Python 3
     from io import StringIO
+import sys
 
 import yaml
+
+
+doc_dir = sys.argv[1]
 
 
 def str_or_list(val):
@@ -89,8 +93,9 @@ for filename in yaml_files:
             register_element(info)
 
 # Serialize the components map for use by other tools
-with open('/Library/Application Support/MWorks/Documentation/components.json',
-          'w') as fp:
+if not os.path.isdir(doc_dir):
+    os.mkdir(doc_dir)
+with open(os.path.join(doc_dir, 'components.json'), 'w') as fp:
     json.dump(components, fp)
 
 os.chdir('components')
