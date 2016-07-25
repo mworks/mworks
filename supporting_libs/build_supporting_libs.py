@@ -257,6 +257,19 @@ def zeromq():
 
 
 @builder
+def msgpack():
+    version = '2.0.0'
+    srcdir = 'msgpack-' + version
+    tarfile = srcdir + '.tar.gz'
+
+    download_archive('https://github.com/msgpack/msgpack-c/releases/download/cpp-%s/' % version, tarfile)
+    unpack_tarfile(tarfile, srcdir)
+
+    with workdir(srcdir):
+        check_call([rsync, '-a', 'include/', path_to_stagedir + '/include'])
+
+
+@builder
 def libpng():
     version = '1.2.56'
     srcdir = 'libpng-' + version
