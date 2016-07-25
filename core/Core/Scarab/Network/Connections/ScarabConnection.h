@@ -18,9 +18,9 @@
 #include "Utilities.h"
 
 #include "Lockable.h"
-#include "NetworkConnectionStats.h"
 #include "NetworkReturn.h"
 #include "Scheduler.h"
+#include "EventBuffer.h"
 
 #include "boost/enable_shared_from_this.hpp"
 
@@ -43,7 +43,6 @@ class ScarabConnection : public boost::enable_shared_from_this<ScarabConnection>
 	shared_ptr<ScheduleTask> thread;
 	shared_ptr<ScheduleTask> terminateThread;
 	long cid; // connection ID
-	shared_ptr<NetworkConnectionStats> connectionStats;
 
 	shared_ptr<EventBuffer> event_buffer;
 

@@ -118,10 +118,6 @@ int ScarabReadConnection::service() {
 			term = true;
 			return -1;
 		}
-			
-				    
-		// the connection stats is total shit
-        // connectionStats->eventReceived((EventCode)datum->type, sizeof(datum));
         
     ScarabDatum *code;
 		switch(datum->type) {

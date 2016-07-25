@@ -285,8 +285,6 @@
 		8ED452CA08BF9870003880D5 /* VariableTransformAdaptors.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8ED452C508BF9870003880D5 /* VariableTransformAdaptors.cpp */; };
 		8ED452CB08BF9870003880D5 /* VariableTransformAdaptors.h in Headers */ = {isa = PBXBuildFile; fileRef = 8ED452C608BF9870003880D5 /* VariableTransformAdaptors.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8EE2F3A108C8227700B873A2 /* FitableFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 8EE2F39F08C8227700B873A2 /* FitableFunctions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		DA08704308A3D22A00D20FFB /* NetworkConnectionStats.h in Headers */ = {isa = PBXBuildFile; fileRef = DA08704108A3D22A00D20FFB /* NetworkConnectionStats.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		DA08704408A3D22A00D20FFB /* NetworkConnectionStats.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA08704208A3D22A00D20FFB /* NetworkConnectionStats.cpp */; };
 		DA0873F808A9367E00D20FFB /* ScarabServerConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = DA0873F608A9367E00D20FFB /* ScarabServerConnection.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DA0873F908A9367E00D20FFB /* ScarabServerConnection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA0873F708A9367E00D20FFB /* ScarabServerConnection.cpp */; };
 		DA0C98800827E80400BC1EF1 /* SystemEventFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = DA0C987E0827E80400BC1EF1 /* SystemEventFactory.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -896,8 +894,6 @@
 		8ED4542B08C56280003880D5 /* EyeCalibrators.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EyeCalibrators.cpp; path = Core/Transforms/EyeCalibrators.cpp; sourceTree = SOURCE_ROOT; };
 		8EE2F39F08C8227700B873A2 /* FitableFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FitableFunctions.h; path = Core/Transforms/FitableFunctions.h; sourceTree = SOURCE_ROOT; };
 		8EE2F3A008C8227700B873A2 /* FitableFunctions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FitableFunctions.cpp; path = Core/Transforms/FitableFunctions.cpp; sourceTree = SOURCE_ROOT; };
-		DA08704108A3D22A00D20FFB /* NetworkConnectionStats.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkConnectionStats.h; sourceTree = "<group>"; };
-		DA08704208A3D22A00D20FFB /* NetworkConnectionStats.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NetworkConnectionStats.cpp; sourceTree = "<group>"; };
 		DA0873F608A9367E00D20FFB /* ScarabServerConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScarabServerConnection.h; sourceTree = "<group>"; };
 		DA0873F708A9367E00D20FFB /* ScarabServerConnection.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ScarabServerConnection.cpp; sourceTree = "<group>"; };
 		DA0C987E0827E80400BC1EF1 /* SystemEventFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SystemEventFactory.h; path = Core/Events/SystemEventFactory.h; sourceTree = "<group>"; };
@@ -1971,8 +1967,6 @@
 			children = (
 				DA2CE14A07E9F90900C68AEF /* Connections */,
 				DA2CE14D07E9F91300C68AEF /* Interfaces */,
-				DA08704108A3D22A00D20FFB /* NetworkConnectionStats.h */,
-				DA08704208A3D22A00D20FFB /* NetworkConnectionStats.cpp */,
 				DA30579B08B6A23700BA4B0E /* NetworkReturn.h */,
 				DA30579C08B6A23700BA4B0E /* NetworkReturn.cpp */,
 			);
@@ -2246,7 +2240,6 @@
 				5C28909F0850DD9A002CC31A /* LegacyIODevice.h in Headers */,
 				5C91B990086CC9DC00C14E1A /* Trigger.h in Headers */,
 				5C866A99086E1E43006CBE6F /* MWorksTypes.h in Headers */,
-				DA08704308A3D22A00D20FFB /* NetworkConnectionStats.h in Headers */,
 				DA0873F808A9367E00D20FFB /* ScarabServerConnection.h in Headers */,
 				5C18E25608A167BE00AA734D /* VariableNotification.h in Headers */,
 				DA2E379F08B0FE5800BD22C4 /* EventBuffer.h in Headers */,
@@ -2742,7 +2735,6 @@
 				DA0C98810827E80400BC1EF1 /* SystemEventFactory.cpp in Sources */,
 				5C28909E0850DD96002CC31A /* LegacyIODevice.cpp in Sources */,
 				5C91B991086CC9DC00C14E1A /* Trigger.cpp in Sources */,
-				DA08704408A3D22A00D20FFB /* NetworkConnectionStats.cpp in Sources */,
 				DA0873F908A9367E00D20FFB /* ScarabServerConnection.cpp in Sources */,
 				5C18E25708A167BE00AA734D /* VariableNotification.cpp in Sources */,
 				DA2E379E08B0FE5800BD22C4 /* EventBuffer.cpp in Sources */,

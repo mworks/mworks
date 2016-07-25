@@ -24,8 +24,6 @@ ScarabConnection::ScarabConnection(shared_ptr<EventBuffer> _event_buffer, std::s
     interrupt = false;
     term = false;
     cid = random();
-    
-    connectionStats = shared_ptr<NetworkConnectionStats>(new NetworkConnectionStats());
 	
 	event_buffer = _event_buffer;
 }
@@ -75,7 +73,6 @@ shared_ptr<NetworkReturn>  ScarabConnection::accept(ScarabSession * listener) {
     }
 	
 	shared_ptr <Clock> clock = Clock::instance();
-    connectionStats->setConnectionSpawnTime(clock->getCurrentTimeUS());
     connecting = false;
     connected = true;
     return rc;
@@ -113,7 +110,6 @@ shared_ptr<NetworkReturn>  ScarabConnection::connect() {
     }
 	
 	shared_ptr <Clock> clock = Clock::instance();
-    connectionStats->setConnectionSpawnTime(clock->getCurrentTimeUS());
     connecting = false;
     connected = true;
     return rc;
