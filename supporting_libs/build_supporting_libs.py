@@ -242,7 +242,7 @@ def boost():
 
 @builder
 def zeromq():
-    version = '4.1.4'
+    version = '4.1.5'
     srcdir = 'zeromq-' + version
     tarfile = srcdir + '.tar.gz'
 
