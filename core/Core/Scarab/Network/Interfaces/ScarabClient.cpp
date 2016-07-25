@@ -36,14 +36,6 @@ BEGIN_NAMESPACE_MW
 
 const int DEFAULT_THREAD_INTERVAL_US = 20000;
 
-ScarabClient::ScarabClient(shared_ptr<EventBuffer> _incoming_event_buffer,
-                           shared_ptr<EventBuffer> _outgoing_event_buffer) {
-    serverPort = 0;
-    threadInterval = DEFAULT_THREAD_INTERVAL_US;
-	incoming_event_buffer = _incoming_event_buffer;
-    outgoing_event_buffer = _outgoing_event_buffer;
-}
-
 ScarabClient::ScarabClient(shared_ptr<EventBuffer> _incoming_event_buffer, shared_ptr<EventBuffer> _outgoing_event_buffer, std::string  server, int port) {
     
 	incoming_event_buffer = _incoming_event_buffer;
@@ -65,11 +57,9 @@ ScarabClient::ScarabClient(shared_ptr<EventBuffer> _incoming_event_buffer, share
     threadInterval = DEFAULT_THREAD_INTERVAL_US;
 }
 
-ScarabClient::~ScarabClient() { }
-
-int ScarabClient::prepareForConnecting() {
+bool ScarabClient::connect() {
     // make sure things are ok first
-    if(host.size() == 0) { return -1; }
+    if(host.size() == 0) { return false; }
     
     //create a proper uri format
     std::string tmp = SCARAB_URI + host + ":" + (boost::format("%d")%serverPort).str();
@@ -85,13 +75,6 @@ int ScarabClient::prepareForConnecting() {
     reader->setSibling(writer);
     writer->setSibling(reader);
     
-    return 0;
-}
-
-bool ScarabClient::connect() {
-    if(prepareForConnecting() < 0) {
-        return false;
-    }
     if(!reader->connect()->wasSuccessful()) {
         mnetwork("mScarabClient::connect() failed on read connection");
         return false;
@@ -104,6 +87,10 @@ bool ScarabClient::connect() {
     }
     mnetwork("Incoming network session connected");
     outgoing_event_buffer->putEvent(SystemEventFactory::clientConnectedToServerResponse());
+    
+    reader->startThread(threadInterval);
+    writer->startThread(threadInterval);
+    
     return true;
 }
 
@@ -121,15 +108,6 @@ void ScarabClient::disconnect() {
         writer->setInterrupt(true);
     }
     outgoing_event_buffer->putEvent(SystemEventFactory::clientDisconnectedFromServerResponse());
-}
-
-void ScarabClient::start() {
-    if(reader != 0) {
-        reader->startThread(threadInterval);
-    }
-    if(writer != 0) {
-        writer->startThread(threadInterval);
-    }
 }
 
 bool ScarabClient::isConnected() {

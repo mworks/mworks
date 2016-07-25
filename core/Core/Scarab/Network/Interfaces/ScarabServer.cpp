@@ -59,9 +59,6 @@ BEGIN_NAMESPACE_MW
 	const int DEFAULT_PORT_NUMBER_HIGH = 19999;
 	const int DEFAULT_MAX_NUMBER_OF_CLIENTS = 16;
 
-	// the thread function
-	static void * acceptClients(const shared_ptr<ScarabServer> &ss);
-
 
 ScarabServer::ScarabServer(shared_ptr<EventBuffer> _incoming_event_buffer, 
                            shared_ptr<EventBuffer> _outgoing_event_buffer, 
@@ -286,7 +283,7 @@ void ScarabServer::setServerListenHighPort(int newhigh) {
 }
 
 
-void * acceptClients(const shared_ptr<ScarabServer> &ss) {
+void * ScarabServer::acceptClients(const shared_ptr<ScarabServer> &ss) {
     int rc = ss->service();
     if(rc < 0) {
         ss->stopAccepting();

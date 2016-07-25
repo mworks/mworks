@@ -21,7 +21,7 @@ BEGIN_NAMESPACE_MW
 
 
 class ScarabClient {
-    protected:
+    private:
         shared_ptr<ScarabReadConnection> reader;  // a connection for reading
         shared_ptr<ScarabWriteConnection> writer; // a connection for writing
         std::string host; // the host we are accepting on or connecting to
@@ -30,14 +30,8 @@ class ScarabClient {
 		
 		shared_ptr<EventBuffer> incoming_event_buffer;
         shared_ptr<EventBuffer> outgoing_event_buffer;
-	
-    private:
-        // prepares the client so that it can call connect
-        int prepareForConnecting();
         
     public:
-        ScarabClient(shared_ptr<EventBuffer> _incoming_event_buffer, 
-                     shared_ptr<EventBuffer> _outgoing_event_buffer);
         /**
          * Constructs a client.
          */
@@ -46,13 +40,8 @@ class ScarabClient {
                  std::string server, int port);
 
         /**
-         * Destroys a client.
-         */
-        virtual ~ScarabClient();
-
-        /**
-         * Connects to the uri that this object was constructed with.  Does
-         * not start the servicing threads.
+         * Connects to the uri that this object was constructed with and
+         * starts the servicing threads.
          */
         bool connect();
 
@@ -60,11 +49,6 @@ class ScarabClient {
          * Closes a connection.
          */
         void disconnect();
-
-        /**
-         * Starts read and writing on an open connection.
-         */
-        void start();
 
         /**
          * Is the client connected to something.

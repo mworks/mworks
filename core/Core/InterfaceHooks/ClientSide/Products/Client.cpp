@@ -83,7 +83,6 @@ bool Client::connectToServer(const std::string &host, const int port) {
         //TODO log the error somewhere.
         return false; 
     }
-    remoteConnection->start();
     return true;
 }
 

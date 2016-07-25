@@ -32,7 +32,7 @@ extern const int DEFAULT_PORT_NUMBER_HIGH;
 extern const int DEFAULT_MAX_NUMBER_OF_CLIENTS;
 
 class ScarabServer  : public boost::enable_shared_from_this<ScarabServer> {
-    protected:
+    private:
         ScarabSession * listeningSocket; // listen socket
         std::string listenUri; // scarab uri
         int listenPort; // numeric listen port
@@ -53,7 +53,6 @@ class ScarabServer  : public boost::enable_shared_from_this<ScarabServer> {
         shared_ptr<EventBuffer> incoming_event_buffer;
         shared_ptr<EventBuffer> outgoing_event_buffer;
         
-    private:
         ScarabServerConnection * tempClient; // created for accepting
         // Takes the listen address and listen port and listen uri
         // and concatenates them.
@@ -64,7 +63,13 @@ class ScarabServer  : public boost::enable_shared_from_this<ScarabServer> {
         void init();
         // schedules the accept thread
         void scheduleAccept();
-        
+        // Services the listening socket to accept connections
+        int service();
+        // Disconnects a client from the server
+        void disconnectClient(int cliNum);
+    
+        static void * acceptClients(const shared_ptr<ScarabServer> &ss);
+    
     public:
 
         /**
@@ -120,16 +125,6 @@ class ScarabServer  : public boost::enable_shared_from_this<ScarabServer> {
          * Has the accept loop started.
          */
         bool isAccepting();
-        
-        /**
-         * Disconnects a client from the server.
-         */
-        void disconnectClient(int cliNum);
-
-        /**
-         * Service the listening socket to accept connections.
-         */
-        int service();
 
         /***
          Accessor/Mutator Methods
