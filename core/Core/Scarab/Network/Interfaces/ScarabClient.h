@@ -54,7 +54,7 @@ class ScarabClient {
          * Connects to the uri that this object was constructed with.  Does
          * not start the servicing threads.
          */
-        shared_ptr<NetworkReturn> connect();
+        bool connect();
 
         /**
          * Closes a connection.

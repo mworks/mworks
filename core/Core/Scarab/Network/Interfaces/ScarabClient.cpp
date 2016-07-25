@@ -88,31 +88,23 @@ int ScarabClient::prepareForConnecting() {
     return 0;
 }
 
-shared_ptr<NetworkReturn> ScarabClient::connect() {
-    shared_ptr<NetworkReturn> rc;
+bool ScarabClient::connect() {
     if(prepareForConnecting() < 0) {
-        rc = shared_ptr<NetworkReturn>(new NetworkReturn());
-        rc->setMWorksCode(NR_FAILED);
-        rc->setInformation("Host or Reader or Writer is NULL");
-        return rc;
+        return false;
     }
-    rc = reader->connect();
-    if(!rc->wasSuccessful()) {
+    if(!reader->connect()->wasSuccessful()) {
         mnetwork("mScarabClient::connect() failed on read connection");
-        return rc;
+        return false;
     }
-    shared_ptr<NetworkReturn> writeRc;
-    writeRc = writer->connect();
-    rc->appendInformation(writeRc->getInformation());
-    if(!writeRc->wasSuccessful()) {
+    if(!writer->connect()->wasSuccessful()) {
             mnetwork("mScarabClient::connect() failed on write connection");
             mnetwork("Closing read connection");
             reader->disconnect();
-            return rc;
+            return false;
     }
     mnetwork("Incoming network session connected");
     outgoing_event_buffer->putEvent(SystemEventFactory::clientConnectedToServerResponse());
-    return rc;
+    return true;
 }
 
 void ScarabClient::disconnect() {

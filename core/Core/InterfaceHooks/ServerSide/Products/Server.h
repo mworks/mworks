@@ -48,8 +48,6 @@ class Server : public RegistryAwareEventStreamInterface {
          * to get a handle to the server and change its options.
          *
          * @result True if the server starts properly, false otherwise.
-         * Extended error information can be found in the lastNetworkReturn.
-         * TODO make accessor.
          */
         bool startServer();
         

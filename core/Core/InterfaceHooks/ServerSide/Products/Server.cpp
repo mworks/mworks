@@ -65,15 +65,15 @@ bool Server::startServer() {
     
     
 	outgoingListener->startListener();
-    NetworkReturn *lastNetworkReturn = server->startListening();
-    if(lastNetworkReturn->wasSuccessful()) {
-        lastNetworkReturn = server->startAccepting();
+    bool success = server->startListening();
+    if (success) {
+        success = server->startAccepting();
     } else { 
 		return false; 
 	}
     // start the network event listener.
     incomingListener->startListener();
-    return lastNetworkReturn->wasSuccessful();
+    return success;
 }
 
 void Server::startAccepting() {

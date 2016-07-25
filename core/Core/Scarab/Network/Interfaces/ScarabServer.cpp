@@ -16,6 +16,7 @@
 #include <string>
 #include "boost/bind.hpp"
 #include "DataFileManager.h"
+#include "NetworkReturn.h"
 
 
 BEGIN_NAMESPACE_MW
@@ -175,26 +176,19 @@ void ScarabServer::scheduleAccept() {
 										 M_MISSED_EXECUTION_DROP);
 }
 
-NetworkReturn * ScarabServer::startListening() {
-    NetworkReturn * rc = new NetworkReturn();
+bool ScarabServer::startListening() {
     mdebug("startListening()");
     if(listening) {
-        rc->setMWorksCode(NR_SUCCESS_NETWORK_MESSAGE);
-        rc->setInformation("Server is already running.");
-        return rc;
+        return true;
     }
     
 	if(listenUri.size() == 0) {
-        rc->setMWorksCode(NR_FAILED);
-        rc->setInformation("URI not specified for server");
-        return rc;
+        return false;
     }
     
 	std::string fullUri = createScarabURI();
     if(fullUri.size() == 0) {
-        rc->setMWorksCode(NR_FAILED);
-        rc->setInformation("Could not create a valid URI");
-        return rc;
+        return false;
     }
     int error = 1;
 	//    mnetwork("Trying listening socket at %s on port %d",
@@ -211,14 +205,7 @@ NetworkReturn * ScarabServer::startListening() {
 		//mdebug("Maybe print out why here??");
         // if there is another available port we will try again
         if(!chooseNewPort()) {
-            rc->setMWorksCode(NR_FATAL_ERROR);
-            rc->setPackageCode(error);
-            rc->setOSErrorCode(getScarabOSError(listeningSocket));
-            rc->setInformation("Ran out of ports to listen on. Networking impossible");
-            rc->appendInformation(getScarabErrorDescription(error));
-            rc->appendInformation(getOSErrorDescription(
-														getScarabOSError(listeningSocket)));
-            return rc;
+            return false;
         }
         fullUri = createScarabURI();
         listeningSocket = scarab_session_listen(fullUri.c_str());
@@ -227,26 +214,19 @@ NetworkReturn * ScarabServer::startListening() {
     mnetwork("Listening socket started at %s on port %d", listenAddress.c_str(),
 			 listenPort);
     listening = true;
-    return rc;
+    return true;
 }
 
-NetworkReturn * ScarabServer::startAccepting() {
-    NetworkReturn * rc = new NetworkReturn();
-    boolLock->lock();
+bool ScarabServer::startAccepting() {
+    Locker locker(*boolLock);
     if(accepting) {
-        boolLock->unlock();    
-        return rc;
+        return true;
     }
     if(listening) {
         scheduleAccept();
         accepting = true;
-        rc->setMWorksCode(NR_SUCCESS);
-    } else {
-        rc->setMWorksCode(NR_FAILED);
-        rc->setInformation("No server listening socket started.");
     }
-    boolLock->unlock();
-    return rc;
+    return accepting;
 }
 
 void ScarabServer::stopAccepting() {

@@ -35,8 +35,6 @@ class Client : public RegistryAwareEventStreamInterface {
 	
     // a connection with a server
 	shared_ptr<ScarabClient> remoteConnection;
-	// the return value of the last communication
-	shared_ptr<NetworkReturn> lastNetworkReturn;
 	
 	shared_ptr<Variable> message_variable;
     

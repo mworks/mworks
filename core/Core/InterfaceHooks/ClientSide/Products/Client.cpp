@@ -79,8 +79,7 @@ bool Client::connectToServer(const std::string &host, const int port) {
     remoteConnection = shared_ptr<ScarabClient>(new ScarabClient(incoming_event_buffer, outgoing_event_buffer, host, port));
     if(remoteConnection == NULL) { return false; }
     
-	lastNetworkReturn = remoteConnection->connect();
-    if(!lastNetworkReturn->wasSuccessful()) { 
+    if (!remoteConnection->connect()) {
         //TODO log the error somewhere.
         return false; 
     }

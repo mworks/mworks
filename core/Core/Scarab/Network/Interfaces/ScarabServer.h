@@ -17,7 +17,6 @@
 
 
 #include "ScarabServerConnection.h"
-#include "NetworkReturn.h"
 #include "LinkedList.h"
 
 #include "boost/enable_shared_from_this.hpp"
@@ -97,7 +96,7 @@ class ScarabServer  : public boost::enable_shared_from_this<ScarabServer> {
         /**
          * Starts a scarab listening session.
          */
-        NetworkReturn * startListening();
+        bool startListening();
 
         /**
          * Starts a thread where the server will wait for connections to
@@ -106,7 +105,7 @@ class ScarabServer  : public boost::enable_shared_from_this<ScarabServer> {
          * started by the server.  The interval argument tells the scheduler
          * how often to run the thread.
          */
-        NetworkReturn * startAccepting();
+        bool startAccepting();
 
         /**
          * Causes the execution of the accepting thread to stop.  The listening
