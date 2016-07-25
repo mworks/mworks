@@ -25,19 +25,11 @@
 BEGIN_NAMESPACE_MW
 
 
-// DDC a kludge for linux (why did this even work under OS X? this defined in
-// several places)
-#ifndef M_IO_MODEL
-	#define M_IO_MODEL
-	enum IOModel { M_MULTIPLEXING_IO = 0, M_BLOCKING_IO, M_MAX_IO_MODEL };
-#endif
-
 // some constants these are used for GUI preferences.
 extern const char * const DEFAULT_HOST_NAME;
 extern const int DEFAULT_PORT_NUMBER_LOW;
 extern const int DEFAULT_PORT_NUMBER_HIGH;
 extern const int DEFAULT_MAX_NUMBER_OF_CLIENTS;
-extern const IOModel DEFAULT_IO_MODEL;
 
 class ScarabServer  : public boost::enable_shared_from_this<ScarabServer> {
     protected:
@@ -52,7 +44,6 @@ class ScarabServer  : public boost::enable_shared_from_this<ScarabServer> {
         int lowServerPort; // low server listen port
         int highServerPort; // high server listen port
         int numberChecked; // how many ports we have tried on.
-        int ioModel; // the iomodel
         shared_ptr<ScheduleTask> acceptThread; // a thread to accept connections
         Lockable * connectionLock; // lock for connection access
         Lockable * boolLock;
@@ -144,21 +135,8 @@ class ScarabServer  : public boost::enable_shared_from_this<ScarabServer> {
          Accessor/Mutator Methods
          ***/
         void setServerHostname(std::string);
-        void setMaximumConnections(int);
-        void setIOModel(IOModel);
         void setServerListenLowPort(int);
         void setServerListenHighPort(int);
-        void setThreadScheduleInterval(int interval);
-        
-        int getMaxNumberOfConnections();
-        int getClientReadPort(int);
-        int getClientWritePort(int);
-        int getServerListeningPort();
-        int getNumberOfClients();
-        std::string getServerHostAddress();
-        std::string getClientAddress(int);
-        int getDefaultLowPort();
-        int getDefaultHighPort();
 };
 
 

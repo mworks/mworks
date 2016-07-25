@@ -132,26 +132,8 @@ void ScarabClient::start() {
     }
 }
 
-std::string  ScarabClient::getServerAddress() {
-    return static_cast<std::string >(host);
-}
-
-int ScarabClient::getServerPort() {
-    return serverPort;
-}
-
 bool ScarabClient::isConnected() {
     return ((reader->isConnected()) && (writer->isConnected()));
-}
-
-void ScarabClient::setServerAddress(std::string  h) {
-    if(h.size()) {
-        host = h;
-    }
-}
-
-void ScarabClient::setServerPort(int p) {
-    serverPort = p;
 }
 
 

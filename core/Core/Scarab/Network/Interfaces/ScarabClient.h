@@ -67,22 +67,9 @@ class ScarabClient {
         void start();
 
         /**
-         * 
-         */
-        std::string  getServerAddress();
-
-        /**
-         * 
-         */
-        int getServerPort();
-
-        /**
          * Is the client connected to something.
          */
         bool isConnected();
-        
-        void setServerAddress(std::string );
-        void setServerPort(int);
 };
 
 

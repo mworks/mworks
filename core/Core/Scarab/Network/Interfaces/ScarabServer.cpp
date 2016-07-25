@@ -58,8 +58,7 @@ BEGIN_NAMESPACE_MW
 	const int DEFAULT_PORT_NUMBER_LOW = 19989;
 	const int DEFAULT_PORT_NUMBER_HIGH = 19999;
 	const int DEFAULT_MAX_NUMBER_OF_CLIENTS = 16;
-	const IOModel DEFAULT_IO_MODEL = M_MULTIPLEXING_IO;
-	
+
 	// the thread function
 	static void * acceptClients(const shared_ptr<ScarabServer> &ss);
 
@@ -94,7 +93,6 @@ void ScarabServer::init() {
     boolLock = new Lockable();
     clientThreadInterval = -1; // makes connection use default
     maxConnections = DEFAULT_MAX_NUMBER_OF_CLIENTS;
-    ioModel = DEFAULT_IO_MODEL;
 	
     listenUri = DEFAULT_SCARAB_URI;
 	
@@ -279,92 +277,12 @@ void ScarabServer::setServerHostname(std::string newhost) {
 	listenAddress = newhost;
 }
 
-void ScarabServer::setMaximumConnections(int newmax) {
-    //maxConnections = newmax;
-}
-
-void ScarabServer::setIOModel(IOModel model) {
-    ioModel = model;
-    switch((int)model) {
-        case M_BLOCKING_IO:
-			listenUri = SCARAB_TCP_URI;
-            break;
-        case M_MULTIPLEXING_IO:
-        default:
-			listenUri = SCARAB_SELECT_URI;
-            break;
-    }
-}
-
 void ScarabServer::setServerListenLowPort(int newlow) {
     lowServerPort = newlow;
 }
 
 void ScarabServer::setServerListenHighPort(int newhigh) {
     highServerPort = newhigh;
-}
-
-void ScarabServer::setThreadScheduleInterval(int interval) {
-    clientThreadInterval = interval;
-}
-
-int ScarabServer::getMaxNumberOfConnections() {
-    return maxConnections;
-}
-
-int ScarabServer::getClientReadPort(int clientNumber) {
-    M_HASLOCK(connectionLock);
-    if(clientNumber >= numberOfConnectedClients) { return 0; }
-    if(clientNumber < 0) { return 0; }
-    if(numberOfConnectedClients == 0) { return 0; }
-    int rc = clients[clientNumber]->getReadPort();
-    M_HASUNLOCK(connectionLock);
-    return rc;
-}
-
-int ScarabServer::getClientWritePort(int clientNumber) {
-    M_HASLOCK(connectionLock);
-    if(clientNumber >= numberOfConnectedClients) { return 0; }
-    if(clientNumber < 0) { return 0; }
-    if(numberOfConnectedClients == 0) { return 0; }
-    int rc = clients[clientNumber]->getWritePort();
-    M_HASUNLOCK(connectionLock);
-    return rc;
-}
-
-int ScarabServer::getServerListeningPort() {
-    if(!listening) { return -1; }
-    return listenPort;
-}
-
-int ScarabServer::getNumberOfClients() {
-    int rc;
-    connectionLock->lock();
-    rc = numberOfConnectedClients;
-    connectionLock->unlock();
-    return rc;
-}
-
-std::string ScarabServer::getServerHostAddress() {
-    return listenAddress;
-}
-
-std::string ScarabServer::getClientAddress(int clientNumber) {
-    M_HASLOCK(connectionLock);
-    if(clientNumber >= numberOfConnectedClients) { return NULL; }
-    if(clientNumber < 0) { return NULL; }
-    if(numberOfConnectedClients == 0) { return NULL; }
-    std::string rc = clients[clientNumber]->getForeignHost();
-    M_HASUNLOCK(connectionLock);
-    return rc;
-}
-
-int ScarabServer::getDefaultLowPort() {
-    return DEFAULT_PORT_NUMBER_LOW;
-}
-
-int ScarabServer::getDefaultHighPort() {
-    return DEFAULT_PORT_NUMBER_HIGH;
 }
 
 
