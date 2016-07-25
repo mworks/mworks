@@ -121,6 +121,7 @@ enum MessageDomain { M_GENERIC_MESSAGE_DOMAIN		= 0,
 #define M_PROTOCOLS "protocols"
 #define M_CURRENT_PROTOCOL "current protocol"
 #define M_SAVED_VARIABLES "saved variables"
+#define M_DATA_FILE_NAME "data file name"
 
 #define M_SET_EVENT_FORWARDING_NAME   "event_name"
 #define M_SET_EVENT_FORWARDING_STATE  "forward"

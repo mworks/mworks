@@ -404,66 +404,68 @@ shared_ptr<Event> SystemEventFactory::clientDisconnectedFromServerResponse() {
 }
 
 shared_ptr<Event> SystemEventFactory::currentExperimentState() {
- Datum payload(M_DICTIONARY, 5);
-	
-	bool loaded = true;
-	if(GlobalCurrentExperiment == NULL || GlobalCurrentExperiment.use_count() == 0){
-		loaded = false;
-	}
- Datum isLoaded(M_BOOLEAN, loaded);
-	payload.addElement(M_LOADED, isLoaded);
-	
+    Datum payload(M_DICTIONARY, 7);
+    
+    bool loaded = true;
+    if(GlobalCurrentExperiment == NULL || GlobalCurrentExperiment.use_count() == 0){
+        loaded = false;
+    }
+    
+    Datum isLoaded(M_BOOLEAN, loaded);
+    payload.addElement(M_LOADED, isLoaded);
+    
     if(isLoaded.getBool()) {
-	 Datum experimentName(GlobalCurrentExperiment->getExperimentName());
-		payload.addElement(M_EXPERIMENT_NAME, experimentName);
-		
-		shared_ptr <StateSystem> state_system = StateSystem::instance();
-
+        Datum experimentName(GlobalCurrentExperiment->getExperimentName());
+        payload.addElement(M_EXPERIMENT_NAME, experimentName);
+        
+        shared_ptr <StateSystem> state_system = StateSystem::instance();
+        
         Datum isRunning(M_BOOLEAN, state_system->isRunning());
-		payload.addElement(M_RUNNING, isRunning);
-		
-	 Datum isPaused(M_BOOLEAN, state_system->isPaused()); // can it be paused yet?
-		payload.addElement(M_PAUSED, isPaused);
-	
-	 Datum experimentPathDatum(GlobalCurrentExperiment->getExperimentPath()); // can it be paused yet?
-		payload.addElement(M_EXPERIMENT_PATH, experimentPathDatum);
-	
-		
-		// get all of the possible saved variable sets and pack them up for sending
-		namespace bf = boost::filesystem;
-	
-		// make sure the proper directory structure exists
-		bf::path variablesDirectory = getExperimentSavedVariablesPath(GlobalCurrentExperiment->getExperimentDirectory());
-		
-		if(bf::exists(variablesDirectory) && bf::is_directory(variablesDirectory)) {
-		 Datum savedVarList(M_LIST,1);
-			
-			bf::directory_iterator end_itr; // default construction yields past-the-end
-			for ( bf::directory_iterator itr(variablesDirectory);
-				  itr != end_itr;
-				  ++itr ) {
-				
-				if (fileExtension(itr->path().filename().string()) == "xml")
-				{
-					savedVarList.addElement(removeFileExtension(itr->path().filename().string()));
-				}
-			}
-			
-			
-			payload.addElement(M_SAVED_VARIABLES, savedVarList);
-			
-			
-		}
-		
-	}
- Datum response(systemEventPackage(M_SYSTEM_RESPONSE_PACKAGE, 
-									  M_EXPERIMENT_STATE, 
-									  payload));
-	
-	shared_ptr<Event> ret (new Event(RESERVED_SYSTEM_EVENT_CODE, 
-									   response));
-	
-	return ret;
+        payload.addElement(M_RUNNING, isRunning);
+        
+        Datum isPaused(M_BOOLEAN, state_system->isPaused()); // can it be paused yet?
+        payload.addElement(M_PAUSED, isPaused);
+        
+        Datum experimentPathDatum(GlobalCurrentExperiment->getExperimentPath()); // can it be paused yet?
+        payload.addElement(M_EXPERIMENT_PATH, experimentPathDatum);
+        
+        // get all of the possible saved variable sets and pack them up for sending
+        namespace bf = boost::filesystem;
+        
+        // make sure the proper directory structure exists
+        bf::path variablesDirectory = getExperimentSavedVariablesPath(GlobalCurrentExperiment->getExperimentDirectory());
+        
+        if(bf::exists(variablesDirectory) && bf::is_directory(variablesDirectory)) {
+            Datum savedVarList(M_LIST,1);
+            
+            bf::directory_iterator end_itr; // default construction yields past-the-end
+            for ( bf::directory_iterator itr(variablesDirectory);
+                 itr != end_itr;
+                 ++itr ) {
+                
+                if (fileExtension(itr->path().filename().string()) == "xml")
+                {
+                    savedVarList.addElement(removeFileExtension(itr->path().filename().string()));
+                }
+            }
+            
+            payload.addElement(M_SAVED_VARIABLES, savedVarList);
+        }
+        
+        // If a data file is open, include the file name
+        if (GlobalDataFileManager && GlobalDataFileManager->isFileOpen()) {
+            payload.addElement(M_DATA_FILE_NAME, GlobalDataFileManager->getFilename());
+        }
+    }
+    
+    Datum response(systemEventPackage(M_SYSTEM_RESPONSE_PACKAGE, 
+                                      M_EXPERIMENT_STATE, 
+                                      payload));
+    
+    shared_ptr<Event> ret (new Event(RESERVED_SYSTEM_EVENT_CODE, 
+                                     response));
+    
+    return ret;
 }
 
 

@@ -805,6 +805,14 @@
                     
                     [self didChangeValueForKey:@"serversideVariableSetNames"];
                     
+                    if (state.hasKey(M_DATA_FILE_NAME)) {
+                        [self setDataFileName:[NSString stringWithCString:state.getElement(M_DATA_FILE_NAME).getString().c_str()
+                                                                 encoding:NSASCIIStringEncoding]];
+                        if ([self dataFileName] != nil) {
+                            [self setDataFileOpen:YES];
+                        }
+                    }
+                    
                     if(accumulatingErrors){
                         [self stopAccumulatingErrors];
                     }

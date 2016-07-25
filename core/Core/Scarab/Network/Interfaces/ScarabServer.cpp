@@ -366,14 +366,6 @@ int ScarabServer::service() {
 	
 	outgoing_event_buffer->putEvent(SystemEventFactory::componentCodecPackage());
     outgoing_event_buffer->putEvent(SystemEventFactory::codecPackage());
-    
-    // TODO: move this out into some sort of "announceSystemState" call?
-    if(GlobalDataFileManager != NULL && GlobalDataFileManager->isFileOpen()){
-        std::string fname = GlobalDataFileManager->getFilename();
-        outgoing_event_buffer->putEvent(SystemEventFactory::dataFileOpenedResponse(fname,
-																	   M_COMMAND_SUCCESS));
-    }
-    
 	outgoing_event_buffer->putEvent(SystemEventFactory::currentExperimentState());
 	outgoing_event_buffer->putEvent(SystemEventFactory::protocolPackage());
 	global_variable_registry->announceAll();
