@@ -8,8 +8,7 @@
  */
 
 #define DEFAULT_HOST_IP "127.0.0.1"
-#define DEFAULT_LOW_PORT 19989
-#define DEFAULT_HIGH_PORT 19999
+#define DEFAULT_PORT 19989
 
 
 

@@ -118,8 +118,7 @@
 }
 
 - (void)awakeFromNib{
-	core->setListenLowPort(19989);
-    core->setListenHighPort(19999);
+	core->setListenPort(19989);
 
 	string hostname;
 	if(listeningAddress == Nil || [listeningAddress isEqualToString:@""]){

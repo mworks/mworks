@@ -15,10 +15,7 @@
 	self = [super init];
 	if (self != nil) {		
 		core = shared_ptr<Server>(new Server());
-		
-		core->setListenLowPort(DEFAULT_LOW_PORT);
-		core->setListenHighPort(DEFAULT_HIGH_PORT);
-		
+		core->setListenPort(DEFAULT_PORT);
 		core->setHostname(DEFAULT_HOST_IP);
 		core->startServer();
 		core->startAccepting();	

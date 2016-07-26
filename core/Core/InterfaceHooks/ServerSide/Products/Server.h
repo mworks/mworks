@@ -146,8 +146,7 @@ class Server : public RegistryAwareEventStreamInterface {
         void handleEvent(shared_ptr<Event> event) override;
         void putEvent(shared_ptr<Event> event) override;
 		
-		void setListenLowPort(const int port);
-		void setListenHighPort(const int port);
+		void setListenPort(const int port);
 		void setHostname(const std::string &name);
 		
 		bool isStarted();

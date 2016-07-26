@@ -95,7 +95,7 @@ Datum _getNumber(const string &expression, const GenericDataType type);
 	while(!client->isConnected()) {
 		// give server time to fully initialize before trying to connect
 		[NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:5]];
-		client->connectToServer(DEFAULT_HOST_IP, DEFAULT_LOW_PORT);			
+		client->connectToServer(DEFAULT_HOST_IP, DEFAULT_PORT);
 	}
 	
 	[NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(waitForExperimentToEnd:) userInfo:nil repeats:YES];

@@ -200,11 +200,8 @@ void Server::handleEvent(shared_ptr<Event> evt) {
 }
 
 
-void Server::setListenLowPort(const int port) {
+void Server::setListenPort(const int port) {
 	server->setServerListenLowPort(port);
-}
-
-void Server::setListenHighPort(const int port) {
 	server->setServerListenHighPort(port);
 }
 
