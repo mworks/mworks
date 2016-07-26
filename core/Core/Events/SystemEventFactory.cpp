@@ -190,6 +190,26 @@ shared_ptr<Event> SystemEventFactory::requestCodecControl() {
 }
 
 
+shared_ptr<Event> SystemEventFactory::requestComponentCodecControl() {
+    return boost::make_shared<Event>(RESERVED_SYSTEM_EVENT_CODE,
+                                     systemEventPackage(M_SYSTEM_CONTROL_PACKAGE,
+                                                        M_REQUEST_COMPONENT_CODEC));
+}
+
+
+shared_ptr<Event> SystemEventFactory::requestExperimentStateControl() {
+    return boost::make_shared<Event>(RESERVED_SYSTEM_EVENT_CODE,
+                                     systemEventPackage(M_SYSTEM_CONTROL_PACKAGE,
+                                                        M_REQUEST_EXPERIMENT_STATE));
+}
+
+
+shared_ptr<Event> SystemEventFactory::requestProtocolsControl() {
+    return boost::make_shared<Event>(RESERVED_SYSTEM_EVENT_CODE,
+                                     systemEventPackage(M_SYSTEM_CONTROL_PACKAGE,
+                                                        M_REQUEST_PROTOCOLS));
+}
+
 
 shared_ptr<Event> SystemEventFactory::requestVariablesUpdateControl() {
     Datum payload(systemEventPackage(M_SYSTEM_CONTROL_PACKAGE, 

@@ -50,7 +50,7 @@ void Client::handleEvent(shared_ptr<Event> evt) {
 		registry->updateFromCodecDatum(evt->getData());
         
         // request updated values for these new variables
-        outgoing_event_buffer->putEvent( SystemEventFactory::requestVariablesUpdateControl() );
+        putEvent(SystemEventFactory::requestVariablesUpdateControl());
     }
     
     
@@ -83,6 +83,13 @@ bool Client::connectToServer(const std::string &host, const int port) {
         //TODO log the error somewhere.
         return false; 
     }
+    
+    // Request component codec, variable codec, experiment state, and protocol names
+    putEvent(SystemEventFactory::requestComponentCodecControl());
+    putEvent(SystemEventFactory::requestCodecControl());
+    putEvent(SystemEventFactory::requestExperimentStateControl());
+    putEvent(SystemEventFactory::requestProtocolsControl());
+    
     return true;
 }
 

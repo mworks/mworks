@@ -60,7 +60,10 @@ class SystemEventFactory {
 	static shared_ptr<Event> pauseExperimentControl();
 	static shared_ptr<Event> resumeExperimentControl();
     static shared_ptr<Event> requestCodecControl();
-	static shared_ptr<Event> dataFileOpenControl(std::string  filename, 
+    static shared_ptr<Event> requestComponentCodecControl();
+    static shared_ptr<Event> requestExperimentStateControl();
+    static shared_ptr<Event> requestProtocolsControl();
+	static shared_ptr<Event> dataFileOpenControl(std::string filename,
 												   DatumFileOptions opt);
 	static shared_ptr<Event> closeDataFileControl(std::string filename);
 	static shared_ptr<Event> closeExperimentControl(std::string);

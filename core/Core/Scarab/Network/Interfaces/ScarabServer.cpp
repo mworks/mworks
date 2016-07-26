@@ -360,17 +360,6 @@ int ScarabServer::service() {
 	startListening();
 	scheduleAccept();
 	
-	// we also should send a fresh codec so that this new client knows what is
-	// up if it is joining the party late
-	//buffer_manager->putEvent(SystemEventFactory::codecPackageEvent());
-	
-	outgoing_event_buffer->putEvent(SystemEventFactory::componentCodecPackage());
-    outgoing_event_buffer->putEvent(SystemEventFactory::codecPackage());
-	outgoing_event_buffer->putEvent(SystemEventFactory::currentExperimentState());
-	outgoing_event_buffer->putEvent(SystemEventFactory::protocolPackage());
-	global_variable_registry->announceAll();
-	
-	
 	return 0;
 } 
 

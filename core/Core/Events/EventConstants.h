@@ -60,6 +60,9 @@ typedef enum {
     M_CLOCK_OFFSET_EVENT                = 3013,
     M_CONNECTED_EVENT                   = 3014,
     M_RESUME_EXPERIMENT                 = 3015,
+    M_REQUEST_COMPONENT_CODEC           = 3016,
+    M_REQUEST_EXPERIMENT_STATE          = 3017,
+    M_REQUEST_PROTOCOLS                 = 3018,
     
 	// response messages
     M_DATA_FILE_OPENED                  = 4007,

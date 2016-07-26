@@ -131,7 +131,21 @@ void StandardSystemEventHandler::handleSystemEvent(const Datum &sysEvent) {
             global_outgoing_event_buffer->putEvent(SystemEventFactory::codecPackage());
             break;
         }
-        
+        case M_REQUEST_COMPONENT_CODEC:
+        {
+            global_outgoing_event_buffer->putEvent(SystemEventFactory::componentCodecPackage());
+            break;
+        }
+        case M_REQUEST_EXPERIMENT_STATE:
+        {
+            global_outgoing_event_buffer->putEvent(SystemEventFactory::currentExperimentState());
+            break;
+        }
+        case M_REQUEST_PROTOCOLS:
+        {
+            global_outgoing_event_buffer->putEvent(SystemEventFactory::protocolPackage());
+            break;
+        }
         case M_REQUEST_VARIABLES:
         {
             if(global_variable_registry == NULL){
