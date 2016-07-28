@@ -12,10 +12,7 @@
 #include <algorithm>
 #include <sstream>
 
-#include <boost/bind.hpp>
-
 #include "MWorksCore/GenericData.h"
-#include "MWorksCore/StandardVariables.h"
 
 using std::ostringstream;
 
@@ -24,33 +21,6 @@ BEGIN_NAMESPACE_MW
 
 
 CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( GenericDataTestFixture, "Unit Test" );
-
-
-void GenericDataTestFixture::setUp() {
-    if (!GlobalMessageVariable) {
-        VariableProperties *props = new VariableProperties(new Datum(0),
-                                                           ANNOUNCE_MESSAGE_VAR_TAGNAME,
-                                                           "message",
-                                                           "message event channel",
-                                                           M_NEVER,
-                                                           M_WHEN_CHANGED,
-                                                           true,
-                                                           false,
-                                                           M_STRUCTURED,
-                                                           PRIVATE_SYSTEM_VARIABLES);
-        GlobalMessageVariable = shared_ptr<GlobalVariable>(new GlobalVariable(props));
-    }
-    
-    messageNotification = shared_ptr<VariableNotification>(
-        new VariableCallbackNotification(boost::bind(&GenericDataTestFixture::handleNewMessage, this, _1, _2))
-    );
-    GlobalMessageVariable->addNotification(messageNotification);
-}
-
-
-void GenericDataTestFixture::tearDown() {
-    messageNotification->remove();
-}
 
 
 void GenericDataTestFixture::testString() {
@@ -2225,32 +2195,6 @@ void GenericDataTestFixture::testGenericIndexing() {
         Datum item = Datum(3)[Datum("blah")];
         CPPUNIT_ASSERT( item.isUndefined() );
         assertError("ERROR: Cannot get element from integer");
-    }
-}
-
-
-void GenericDataTestFixture::handleNewMessage(const Datum &value, MWTime time) {
-    if (value.isDictionary()) {
-        messageValue = value;
-    }
-}
-
-
-void GenericDataTestFixture::assertMessage(MessageType type, const std::string &msg) {
-    CPPUNIT_ASSERT( messageValue.isDictionary() );
-    
-    {
-        CPPUNIT_ASSERT( messageValue.hasKey(M_MESSAGE_TYPE) );
-        Datum actualType = messageValue.getElement(M_MESSAGE_TYPE);
-        CPPUNIT_ASSERT( actualType.isInteger() );
-        CPPUNIT_ASSERT_EQUAL( type, MessageType(actualType.getInteger()) );
-    }
-    
-    {
-        CPPUNIT_ASSERT( messageValue.hasKey(M_MESSAGE) );
-        Datum actualMsg = messageValue.getElement(M_MESSAGE);
-        CPPUNIT_ASSERT( actualMsg.isString() );
-        CPPUNIT_ASSERT_EQUAL( msg, std::string(actualMsg) );
     }
 }
 

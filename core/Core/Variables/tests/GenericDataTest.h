@@ -10,20 +10,13 @@
  *
  */
 
-
-#include <cppunit/TestCase.h>
-#include <cppunit/TestSuite.h>
-#include <cppunit/TestFixture.h>
-#include <cppunit/extensions/HelperMacros.h>
-
-#include "MWorksCore/EventConstants.h"
-#include "MWorksCore/VariableNotification.h"
+#include "MessageTestFixture.hpp"
 
 
 BEGIN_NAMESPACE_MW
 
 
-class GenericDataTestFixture : public CppUnit::TestFixture {
+class GenericDataTestFixture : public MessageTestFixture {
     
     CPPUNIT_TEST_SUITE( GenericDataTestFixture );
     
@@ -64,9 +57,6 @@ class GenericDataTestFixture : public CppUnit::TestFixture {
     CPPUNIT_TEST_SUITE_END();
     
 public:
-    void setUp();
-    void tearDown();
-    
     void testString();
     void testList();
     void testEmptyDictionary();
@@ -102,13 +92,7 @@ public:
     void testGenericIndexing();
     
 private:
-    void handleNewMessage(const Datum &value, MWTime time);
-    void assertError(const std::string &msg) { assertMessage(M_ERROR_MESSAGE, msg); }
-    void assertMessage(MessageType type, const std::string &msg);
     void assertEqualStrings(const std::string &expected, const std::string &actual);
-    
-    shared_ptr<VariableNotification> messageNotification;
-    Datum messageValue;
     
 };
 
