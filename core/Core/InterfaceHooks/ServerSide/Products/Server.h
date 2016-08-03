@@ -14,13 +14,10 @@
 #ifndef _SERVER_H__
 #define _SERVER_H__
 
-#include "EventListener.h"
-
-#include "GenericVariable.h"
-#include <boost/thread/recursive_mutex.hpp>
 #include <boost/filesystem/path.hpp>
+
+#include "EventListener.h"
 #include "ScarabServer.h"
-#include "EventStreamInterface.h"
 #include "VariableRegistryInterface.h"
 #include "RegisteredSingleton.h"
 
@@ -31,14 +28,16 @@ BEGIN_NAMESPACE_MW
 class Server : public RegistryAwareEventStreamInterface {
     
     private:
-        shared_ptr<EventBuffer> incoming_event_buffer;
-        shared_ptr<ScarabServer> server;
-        shared_ptr<EventListener> outgoingListener;
-        shared_ptr<EventListener> incomingListener;
+        const boost::shared_ptr<EventBuffer> incoming_event_buffer;
+        int listenPort;
+        std::string hostname;
+        boost::shared_ptr<EventListener> incomingListener;
+        boost::shared_ptr<EventListener> outgoingListener;
+        boost::shared_ptr<ScarabServer> server;
     
 	public:
         Server();
-        virtual ~Server();
+        ~Server();
         
         /*!
          * @function startServer
@@ -50,21 +49,7 @@ class Server : public RegistryAwareEventStreamInterface {
          * @result True if the server starts properly, false otherwise.
          */
         bool startServer();
-        
-        /*!
-         * @function startAccepting
-         * @discussion convenience method to make the server start accepting
-         * clients again in case you called stop accepting.
-         */
-        void startAccepting();
-        
-        /*!
-         * @function stopAccepting
-         * @discussion Convenience method to stop a server from accepting 
-         * clients.
-         */
-        void stopAccepting();
-        
+    
         /*!
          * @function stopServer
          * @discussion Convenience method that stops accepting clients and
@@ -146,11 +131,10 @@ class Server : public RegistryAwareEventStreamInterface {
         void handleEvent(shared_ptr<Event> event) override;
         void putEvent(shared_ptr<Event> event) override;
 		
-		void setListenPort(const int port);
+		void setListenPort(int port);
 		void setHostname(const std::string &name);
 		
 		bool isStarted();
-		bool isAccepting();
 		bool isExperimentLoaded();
         
         

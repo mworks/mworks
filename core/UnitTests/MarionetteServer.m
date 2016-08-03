@@ -18,7 +18,6 @@
 		core->setListenPort(DEFAULT_PORT);
 		core->setHostname(DEFAULT_HOST_IP);
 		core->startServer();
-		core->startAccepting();	
 	}
 	return self;
 }

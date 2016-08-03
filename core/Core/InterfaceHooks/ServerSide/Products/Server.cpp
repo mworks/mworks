@@ -7,6 +7,8 @@
  * Copyright 2006 MIT. All rights reserved.
  */
 
+#include "Server.h"
+
 #include "Experiment.h"
 #include "SystemEventFactory.h"
 #include "StandardSystemEventHandler.h"
@@ -14,8 +16,6 @@
 #include "DataFileManager.h"
 #include "VariableSave.h"
 #include "VariableLoad.h"
-
-#include "Server.h"
 
 
 BEGIN_NAMESPACE_MW
@@ -26,70 +26,56 @@ SINGLETON_INSTANCE_STATIC_DECLARATION(Server)
 
 Server::Server() :
     RegistryAwareEventStreamInterface(M_SERVER_MESSAGE_DOMAIN),
-    incoming_event_buffer(new EventBuffer())
+    incoming_event_buffer(new EventBuffer()),
+    listenPort(19989),
+    hostname("127.0.0.1")
 {
-	
     registry = global_variable_registry;
-    
-    server = shared_ptr<ScarabServer>(new ScarabServer(incoming_event_buffer, global_outgoing_event_buffer));
 
 	// dont know where else this would be handled?
     if(GlobalDataFileManager == NULL) {
         GlobalDataFileManager = new DataFileManager();
     }
-		
-	server->setServerListenLowPort(19989);
-    server->setServerListenHighPort(19999);
-	server->setServerHostname("127.0.0.1");
 }
 
+
 Server::~Server() {
-	if(incomingListener) {
+    stopServer();
+	if (incomingListener) {
 		incomingListener->killListener();
 	}
-	if(outgoingListener) {
+	if (outgoingListener) {
 		outgoingListener->killListener();
 	}
-	if(server) {
-        server->shutdown();
-    }
 }
 
 
 bool Server::startServer() {
-    
-    shared_ptr<EventStreamInterface> _handler(new StandardSystemEventHandler());
-	// TODO: prevents there from being more than one server instance
-    incomingListener = shared_ptr<EventListener>(new EventListener(incoming_event_buffer, _handler));
-    outgoingListener = shared_ptr<EventListener>(new EventListener(global_outgoing_event_buffer, shared_from_this()));
-    
-    
-	outgoingListener->startListener();
-    bool success = server->startListening();
-    if (success) {
-        success = server->startAccepting();
-    } else { 
-		return false; 
-	}
-    // start the network event listener.
+    incomingListener = boost::make_shared<EventListener>(incoming_event_buffer,
+                                                         boost::make_shared<StandardSystemEventHandler>());
     incomingListener->startListener();
-    return success;
+    
+    outgoingListener = boost::make_shared<EventListener>(global_outgoing_event_buffer, shared_from_this());
+    outgoingListener->startListener();
+    
+    server = boost::make_shared<ScarabServer>(incoming_event_buffer, global_outgoing_event_buffer);
+    server->setServerListenLowPort(listenPort);
+    server->setServerListenHighPort(listenPort);
+    server->setServerHostname(hostname);
+    
+    if (!(server->startListening() && server->startAccepting())) {
+        return false;
+    }
+    
+    return true;
 }
 
-void Server::startAccepting() {
-    // TODO I am ignoring the return
-	server->startListening();
-    server->startAccepting();
-}
-
-void Server::stopAccepting() {
-	//server->stopListening();
-    server->stopAccepting();
-}
 
 void Server::stopServer() {
-    server->stopAccepting();
-    server->shutdown();
+    if (server) {
+        server->stopAccepting();
+        server->shutdown();
+    }
 }
 
 
@@ -174,47 +160,25 @@ MWTime Server::getReferenceTime() {
 	return clock->getSystemReferenceTime();
 }
 
-//shared_ptr<Variable> Server::getVariable(const std::string &tag) {
-//	return global_variable_registry->getVariable(tag);
-//}
-//
-//shared_ptr<Variable> Server::getVariable(const int code) {
-//	return global_variable_registry->getVariable(code);
-//}
-//
-//int Server::getCode(const std::string &tag) {
-//	shared_ptr<Variable> var = getVariable(tag);
-//	if(var) {
-//		return var->getCodecCode();
-//	} else {
-//		return -1;
-//	}
-//}
-//
-//std::vector<std::string> Server::getVariableNames() {
-//	return global_variable_registry->getVariableTagnames();
-//}
 
 void Server::handleEvent(shared_ptr<Event> evt) {
 	handleCallbacks(evt);
 }
 
 
-void Server::setListenPort(const int port) {
-	server->setServerListenLowPort(port);
-	server->setServerListenHighPort(port);
+void Server::setListenPort(int port) {
+    listenPort = port;
 }
 
 void Server::setHostname(const std::string &name) {
-	server->setServerHostname(name);
+    hostname = name;
 }
 
 bool Server::isStarted() {
-	return server->isConnected();
-}
-
-bool Server::isAccepting() {
-	return server->isAccepting();
+    if (server) {
+        return server->isConnected();
+    }
+    return false;
 }
 
 bool Server::isExperimentLoaded() {
@@ -223,3 +187,31 @@ bool Server::isExperimentLoaded() {
 
 
 END_NAMESPACE_MW
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -131,7 +131,6 @@
 	
 
 	core->startServer();
-    core->startAccepting();	
 	
     [cc setTitle:@"Server Console"];
 	[cc setDelegate:self];
@@ -272,12 +271,12 @@
 }
 
 - (void)startAccepting {
-	core->startAccepting();
+	//core->startAccepting();
 	[self updateGUI:nil];
 }
 
 - (void)stopAccepting {
-	core->stopAccepting();	
+	//core->stopAccepting();
 	[self updateGUI:nil];
 }
 
@@ -290,7 +289,7 @@
 }
 
 - (NSNumber *)serverAccepting {
-	return [NSNumber numberWithBool:core->isAccepting()];
+	return [self serverStarted];
 }
 
 - (NSNumber *)serverStarted {
