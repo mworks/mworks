@@ -7,11 +7,12 @@
  * Copyright 2006 MIT. All rights reserved.
  */
 
+#include <boost/filesystem/path.hpp>
+
 #include "ExperimentPackager.h"
 #include "Client.h"
 #include "SystemEventFactory.h"
 #include "LoadingUtilities.h"
-#include "boost/filesystem/path.hpp"
 
 
 BEGIN_NAMESPACE_MW
@@ -20,27 +21,23 @@ BEGIN_NAMESPACE_MW
 #define CLIENT_INTERNAL_KEY	"MWClientInternalCallbackKey"
 
 
-Client::Client() : RegistryAwareEventStreamInterface(M_CLIENT_MESSAGE_DOMAIN){
-	incoming_event_buffer = shared_ptr<EventBuffer>(new EventBuffer());
-    outgoing_event_buffer = shared_ptr<EventBuffer>(new EventBuffer());
-    
-	registry = shared_ptr<VariableRegistry>(new VariableRegistry(outgoing_event_buffer));
-	
+Client::Client() :
+    RegistryAwareEventStreamInterface(M_CLIENT_MESSAGE_DOMAIN),
+    incoming_event_buffer(new EventBuffer),
+    outgoing_event_buffer(new EventBuffer)
+{
+    registry = boost::make_shared<VariableRegistry>(outgoing_event_buffer);
 	initializeStandardVariables(registry);
-	message_variable = registry->getVariable(ANNOUNCE_MESSAGE_VAR_TAGNAME);
 }
 
 
 Client::~Client() {
-    if(remoteConnection) {
-        disconnectClient();
-    }
-	
-    if(incoming_listener) {
+    disconnectClient();
+    
+    if (incoming_listener) {
         incoming_listener->killListener();
     }
 }
-
 
 
 void Client::handleEvent(shared_ptr<Event> evt) { 
@@ -66,19 +63,13 @@ void Client::handleEvent(shared_ptr<Event> evt) {
 	}
 }
 
-void Client::startEventListener(){
-    
-    //shared_ptr<Client> this_ptr = Client::shared_from_this();
-    shared_ptr<EventStreamInterface> this_as_evt_handler = shared_from_this();
-    incoming_listener = shared_ptr<EventListener>(new EventListener(incoming_event_buffer, this_as_evt_handler));
-    
-	incoming_listener->startListener();
+void Client::startEventListener() {
+    incoming_listener = boost::make_shared<EventListener>(incoming_event_buffer, shared_from_this());
+    incoming_listener->startListener();
 }
 
 bool Client::connectToServer(const std::string &host, const int port) {
-    remoteConnection = shared_ptr<ScarabClient>(new ScarabClient(incoming_event_buffer, outgoing_event_buffer, host, port));
-    if(remoteConnection == NULL) { return false; }
-    
+    remoteConnection = boost::make_shared<ScarabClient>(incoming_event_buffer, outgoing_event_buffer, host, port);
     if (!remoteConnection->connect()) {
         //TODO log the error somewhere.
         return false; 
@@ -94,21 +85,18 @@ bool Client::connectToServer(const std::string &host, const int port) {
 }
 
 bool Client::disconnectClient() {
-	
-	mprintf("resetting default client");
-	
-    if(remoteConnection->isConnected()) { 
-		remoteConnection->disconnect();
-	}
-	
-	return true;
+    if (remoteConnection && remoteConnection->isConnected()) {
+        remoteConnection->disconnect();
+    }
+    return true;
 }
 
 bool Client::isConnected() {
-    if(NULL == remoteConnection) { return false; }
-    return remoteConnection->isConnected();
+    if (remoteConnection) {
+        return remoteConnection->isConnected();
+    }
+    return false;
 }
-
 
 void Client::putEvent(shared_ptr<Event> event) {
     outgoing_event_buffer->putEvent(event);
