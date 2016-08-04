@@ -41,10 +41,8 @@ class Server : public RegistryAwareEventStreamInterface {
         
         /*!
          * @function startServer
-         * @discussion Attempts to start its ScarabServer object on
-         * whatever port and host it has been set up for.  To change the
-         * server options you can use the Server::getScarabServer method
-         * to get a handle to the server and change its options.
+         * @discussion Attempts to start the server on
+         * whatever port and host it has been set up for.
          *
          * @result True if the server starts properly, false otherwise.
          */
