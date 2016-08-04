@@ -16,6 +16,7 @@
 #include "DataFileManager.h"
 #include "VariableSave.h"
 #include "VariableLoad.h"
+#include "ZeroMQUtilities.hpp"
 
 
 BEGIN_NAMESPACE_MW
@@ -58,12 +59,17 @@ bool Server::startServer() {
     outgoingListener = boost::make_shared<EventListener>(global_outgoing_event_buffer, shared_from_this());
     outgoingListener->startListener();
     
-    server = boost::make_shared<ScarabServer>(incoming_event_buffer, global_outgoing_event_buffer);
-    server->setServerListenLowPort(listenPort);
-    server->setServerListenHighPort(listenPort);
-    server->setServerHostname(hostname);
+    std::string address;
+    if (!zeromq::resolveHostname(hostname, address)) {
+        return false;
+    }
     
-    if (!(server->startListening() && server->startAccepting())) {
+    server.reset(new ZeroMQServer(incoming_event_buffer,
+                                  global_outgoing_event_buffer,
+                                  zeromq::formatTCPEndpoint(address, listenPort + 1),
+                                  zeromq::formatTCPEndpoint(address, listenPort)));
+    
+    if (!server->start()) {
         return false;
     }
     
@@ -73,8 +79,9 @@ bool Server::startServer() {
 
 void Server::stopServer() {
     if (server) {
-        server->stopAccepting();
-        server->shutdown();
+        server->stop();
+        // Destroy server to ensure that ZeroMQ sockets are closed
+        server.reset();
     }
 }
 
@@ -176,7 +183,7 @@ void Server::setHostname(const std::string &name) {
 
 bool Server::isStarted() {
     if (server) {
-        return server->isConnected();
+        return server->isStarted();
     }
     return false;
 }

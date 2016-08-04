@@ -139,12 +139,7 @@
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
-    // stop any data files still open.
-
-    // close all open network connections.
-    
-    // close any applications it owns.
-	//delete core;
+    core->stopServer();
 }
 
 /****************************************************************

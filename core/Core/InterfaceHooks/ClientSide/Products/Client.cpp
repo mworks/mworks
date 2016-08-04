@@ -13,6 +13,7 @@
 #include "Client.h"
 #include "SystemEventFactory.h"
 #include "LoadingUtilities.h"
+#include "ZeroMQUtilities.hpp"
 
 
 BEGIN_NAMESPACE_MW
@@ -69,7 +70,10 @@ void Client::startEventListener() {
 }
 
 bool Client::connectToServer(const std::string &host, const int port) {
-    remoteConnection = boost::make_shared<ScarabClient>(incoming_event_buffer, outgoing_event_buffer, host, port);
+    remoteConnection.reset(new ZeroMQClient(incoming_event_buffer,
+                                            outgoing_event_buffer,
+                                            zeromq::formatTCPEndpoint(host, port),
+                                            zeromq::formatTCPEndpoint(host, port + 1)));
     if (!remoteConnection->connect()) {
         //TODO log the error somewhere.
         return false; 
@@ -87,6 +91,8 @@ bool Client::connectToServer(const std::string &host, const int port) {
 bool Client::disconnectClient() {
     if (remoteConnection && remoteConnection->isConnected()) {
         remoteConnection->disconnect();
+        // Destroy connection to ensure that ZeroMQ sockets are closed
+        remoteConnection.reset();
     }
     return true;
 }

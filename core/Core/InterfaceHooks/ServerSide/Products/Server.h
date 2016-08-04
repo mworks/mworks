@@ -17,7 +17,7 @@
 #include <boost/filesystem/path.hpp>
 
 #include "EventListener.h"
-#include "ScarabServer.h"
+#include "ZeroMQServer.hpp"
 #include "VariableRegistryInterface.h"
 #include "RegisteredSingleton.h"
 
@@ -33,7 +33,7 @@ class Server : public RegistryAwareEventStreamInterface {
         std::string hostname;
         boost::shared_ptr<EventListener> incomingListener;
         boost::shared_ptr<EventListener> outgoingListener;
-        boost::shared_ptr<ScarabServer> server;
+        std::unique_ptr<ZeroMQServer> server;
     
 	public:
         Server();

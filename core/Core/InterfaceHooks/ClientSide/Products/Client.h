@@ -18,7 +18,7 @@
 
 #include "VariableRegistryInterface.h"
 #include "IncomingEventListener.h"
-#include "ScarabClient.h"
+#include "ZeroMQClient.hpp"
 
 
 BEGIN_NAMESPACE_MW
@@ -31,7 +31,7 @@ class Client : public RegistryAwareEventStreamInterface {
     boost::shared_ptr<EventListener> incoming_listener;
 	
     // a connection with a server
-    boost::shared_ptr<ScarabClient> remoteConnection;
+    std::unique_ptr<ZeroMQClient> remoteConnection;
     
     public:
         /*!
