@@ -9,46 +9,34 @@
 #ifndef __EVENT_LISTENER_H__
 #define __EVENT_LISTENER_H__
 
+#include <thread>
 
 #include "EventBuffer.h"
-#include "Event.h"
 #include "EventStreamInterface.h"
-#include "Scheduler.h"
-
-#include "boost/enable_shared_from_this.hpp"
 
 
 BEGIN_NAMESPACE_MW
 
 
-class EventListener : public boost::enable_shared_from_this<EventListener>  {
-protected:
-	boost::mutex listenerLock;
-	
-	shared_ptr<EventBuffer> event_buffer;
-	
-	// listener for  events
-	shared_ptr<EventBufferReader> reader;
-	// the thread node
-	shared_ptr<ScheduleTask> thread;
-	// handle to an EventStreamInterface object
-	shared_ptr<EventStreamInterface> handler;
-	// are we in the middle of servicing
-	bool servicing;
+class EventListener {
+    
 public:
-       
-    EventListener(shared_ptr<EventBuffer> _buffer, shared_ptr<EventStreamInterface> _stream_interface);
-	virtual ~EventListener();
-	virtual void startListener();
-	virtual bool service();
-	virtual void killListener();
-	
-protected:
-        // disallow copying
-		EventListener(shared_ptr<EventBuffer> _event_buffer);
-		EventListener(){ }
-        EventListener(const EventListener&);
-        virtual EventListener& operator=(const EventListener&);
+    EventListener(const boost::shared_ptr<EventBuffer> &buffer,
+                  const boost::shared_ptr<EventStreamInterface> &stream_interface);
+    ~EventListener();
+    
+    void startListener();
+    void killListener();
+    
+private:
+    void service();
+    
+    EventBufferReader reader;
+    const boost::shared_ptr<EventStreamInterface> handler;
+    std::thread thread;
+    static_assert(ATOMIC_BOOL_LOCK_FREE == 2, "std::atomic_bool is not always lock-free");
+    std::atomic_bool servicing;
+    
 };
 
 
@@ -56,3 +44,29 @@ END_NAMESPACE_MW
 
 
 #endif
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

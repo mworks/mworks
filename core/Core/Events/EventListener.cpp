@@ -8,99 +8,73 @@
  */
 
 #include "EventListener.h"
-#include "boost/bind.hpp"
 
 
 BEGIN_NAMESPACE_MW
 
 
-// the service function for the thread
-static void * readReader(const shared_ptr<EventListener> &el);
-
-
-EventListener::EventListener(shared_ptr<EventBuffer> _event_buffer, shared_ptr<EventStreamInterface> hand){
-    reader = shared_ptr<EventBufferReader>( new EventBufferReader(_event_buffer) );
-    //thread = NULL;
-    handler = hand;
-    servicing = false;
-}
+EventListener::EventListener(const boost::shared_ptr<EventBuffer> &event_buffer,
+                             const boost::shared_ptr<EventStreamInterface> &handler) :
+    reader(event_buffer),
+    handler(handler),
+    servicing(false)
+{ }
 
 
 EventListener::~EventListener() {
-    // TODO should i lock here
-    if(thread) {
-        thread->cancel();
-    }
+    killListener();
 }
 
-void EventListener::killListener() {
-//    fprintf(stderr,"Killing listener..."); fflush(stderr);
-	if(thread) {
-        thread->cancel();
-    }
-}
 
 void EventListener::startListener() {
-//	
-	//	fprintf(stderr,"Starting listener...");fflush(stderr);
-    if(thread) { return; } // already started
-	// 100 ms interval
-	shared_ptr<Scheduler> scheduler = Scheduler::instance();
-	shared_ptr<EventListener> this_one = shared_from_this();
-	
-    thread = scheduler->scheduleUS(FILELINE,
-								   0, 
-								   5000,
-								   M_REPEAT_INDEFINITELY,
-								   boost::bind(readReader, this_one),
-								   M_DEFAULT_NETWORK_PRIORITY,
-								   M_DEFAULT_NETWORK_WARN_SLOP_US,
-								   M_DEFAULT_NETWORK_FAIL_SLOP_US,
-								   M_MISSED_EXECUTION_DROP);
-}
-
-bool EventListener::service() {
-	boost::mutex::scoped_lock lock(listenerLock);
-    if(servicing) { 
-		return true; 
-	}
-	
-    servicing = true;
-    // service all the events received
-    while((reader->nextEventExists()) && (handler != NULL)) {
-		shared_ptr<Event> event(reader->getNextEvent());
-		handler->handleEvent(event);
+    if (!thread.joinable()) {
+        servicing = true;
+        thread = std::thread([this]() { service(); });
     }
-    servicing = false;
-    return true;
 }
 
 
-/***************************************************************
-*                      Protected Methods
-**************************************************************/
-EventListener::EventListener(shared_ptr<EventBuffer> _event_buffer) {
-	event_buffer = _event_buffer;
-}
-
-EventListener::EventListener(const EventListener&) {
-	
-}
-
-EventListener& EventListener::operator=(const EventListener&) {
-    return *this;
-}
-
-/***************************************************************
-*                      Static Methods
-**************************************************************/
-static void * readReader(const shared_ptr<EventListener> &event_listener) {
-    bool rc = event_listener->service();
-    if(!rc) {
-        event_listener->killListener();
+void EventListener::killListener() {
+    if (thread.joinable()) {
+        servicing = false;
+        thread.join();
     }
-    return NULL;
+}
+
+
+void EventListener::service() {
+    while (servicing) {
+        auto event = reader.getNextEvent(500000);  // 500ms timeout
+        if (event) {
+            handler->handleEvent(event);
+        }
+    }
 }
 
 
 END_NAMESPACE_MW
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
