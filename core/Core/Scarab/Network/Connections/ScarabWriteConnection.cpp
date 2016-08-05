@@ -37,7 +37,7 @@ void ScarabWriteConnection::startThread(int interval) {
     if(thread) { return; } // already running
 	
 
-	buffer_reader = shared_ptr<EventBufferReader>( new EventBufferReader(event_buffer) );
+	buffer_reader.reset( new EventBufferReader(event_buffer) );
 	
 	shared_ptr<ScarabConnection> this_one = shared_from_this();
 	
@@ -56,7 +56,7 @@ void ScarabWriteConnection::startThread(int interval) {
 
 void ScarabWriteConnection::stopThread() {
 	boost::mutex::scoped_lock lock(connectLock);
-	buffer_reader = shared_ptr<EventBufferReader>();
+    buffer_reader.reset();
     if(thread) {
         thread->cancel();
     }

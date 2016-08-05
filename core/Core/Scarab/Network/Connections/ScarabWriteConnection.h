@@ -23,7 +23,7 @@ BEGIN_NAMESPACE_MW
 
 class ScarabWriteConnection : public ScarabConnection {
     private:
-        shared_ptr<EventBufferReader> buffer_reader;
+        std::unique_ptr<EventBufferReader> buffer_reader;
         const std::unordered_set<int> excluded_event_codes;
     
     public:
