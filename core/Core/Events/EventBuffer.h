@@ -19,26 +19,27 @@ BEGIN_NAMESPACE_MW
 using EventBuffer = Event::Buffer;
 
 
-extern shared_ptr<EventBuffer> global_outgoing_event_buffer;
-    
+extern boost::shared_ptr<EventBuffer> global_outgoing_event_buffer;
+
+
+void initEventBuffers();
+
 
 class EventBufferReader {
-
-    private:
-		shared_ptr<Event>currentEvent;
-		boost::mutex readerLock;
-		
-
-    public:
     
-        explicit EventBufferReader(const shared_ptr<EventBuffer> &buffer);
-		bool nextEventExists();
-		shared_ptr<Event> getNextEvent();
-		bool hasAtLeastNEvents(const unsigned int n);
+public:
+    explicit EventBufferReader(const boost::shared_ptr<EventBuffer> &buffer);
+    
+    bool nextEventExists() const;
+    boost::shared_ptr<Event> getNextEvent();
+    
+private:
+    using lock_guard = std::lock_guard<std::mutex>;
+    
+    boost::shared_ptr<Event> currentEvent;
+    mutable lock_guard::mutex_type mutex;
+    
 };
- 
-    
-void initEventBuffers();
 
 
 END_NAMESPACE_MW

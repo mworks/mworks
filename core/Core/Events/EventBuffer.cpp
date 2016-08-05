@@ -15,50 +15,61 @@
 BEGIN_NAMESPACE_MW
 
 
-shared_ptr<EventBuffer> global_outgoing_event_buffer;
+boost::shared_ptr<EventBuffer> global_outgoing_event_buffer;
 
 
 void initEventBuffers() {
-    global_outgoing_event_buffer = shared_ptr<EventBuffer>(new EventBuffer());
+    global_outgoing_event_buffer = boost::make_shared<EventBuffer>();
 }
 
 
-/**********************************************************************
- *      class EventBufferReader : public BufferReader Methods
- **********************************************************************/
+EventBufferReader::EventBufferReader(const boost::shared_ptr<EventBuffer> &buffer) :
+    currentEvent(buffer->getHeadEvent())
+{ }
 
-EventBufferReader::EventBufferReader(const shared_ptr<EventBuffer> &buffer) {
-	currentEvent = buffer->getHeadEvent();
+
+boost::shared_ptr<Event> EventBufferReader::getNextEvent() {
+    lock_guard lock(mutex);
+    
+    auto nextEvent = currentEvent->getNextEvent();
+    if (nextEvent) {
+        currentEvent = nextEvent;
+    }
+    
+    return nextEvent;
 }
 
-shared_ptr<Event> EventBufferReader::getNextEvent() {
-	boost::mutex::scoped_lock lock(readerLock);
-	
-	if(currentEvent->getNextEvent() != 0) {
-		currentEvent = currentEvent->getNextEvent();
-		return currentEvent;
-	} else {
-		merror(M_SYSTEM_MESSAGE_DOMAIN, "trying to get an event that is not available");
-		return shared_ptr<Event>();
-	}
-}
 
-bool EventBufferReader::nextEventExists() {
-	boost::mutex::scoped_lock lock(readerLock);
-	return (currentEvent->getNextEvent() != 0);
-}
-
-bool EventBufferReader::hasAtLeastNEvents(const unsigned int n) {
-	shared_ptr<Event> eventCounter = currentEvent;
-	for(unsigned int i=0; i<n; ++i) {
-		eventCounter = eventCounter->getNextEvent();
-		if(eventCounter == 0) {
-			return false;
-		}
-	}
-	
-	return true;
+bool EventBufferReader::nextEventExists() const {
+    lock_guard lock(mutex);
+    return bool(currentEvent->getNextEvent());
 }
 
 
 END_NAMESPACE_MW
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

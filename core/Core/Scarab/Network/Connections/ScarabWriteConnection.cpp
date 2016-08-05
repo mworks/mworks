@@ -167,10 +167,9 @@ int ScarabWriteConnection::service() {
             //mVariable *var = newevent->getParam();
         			
 			#define USE_EXPLICIT_BUFFERING	1
-			#define BUFFER_HIGH_WATER_MARK	1
 			#define MAX_EVENTS_TO_BUFFER	10000
 			
-			if(USE_EXPLICIT_BUFFERING && buffer_reader->hasAtLeastNEvents(BUFFER_HIGH_WATER_MARK)) {
+			if(USE_EXPLICIT_BUFFERING && buffer_reader->nextEventExists()) {
 			
 				scarab_force_buffering(pipe, 1);
 				
