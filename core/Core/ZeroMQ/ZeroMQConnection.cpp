@@ -30,6 +30,7 @@ ZeroMQConnection::~ZeroMQConnection() {
 
 void ZeroMQConnection::start() {
     if (!eventHandlerThread.joinable()) {
+        prepare();
         running = true;
         eventHandlerThread = std::thread([this]() { handleEvents(); });
     }
@@ -68,19 +69,24 @@ void ZeroMQIncomingConnection::handleEvents() {
 }
 
 
+void ZeroMQOutgoingConnection::prepare() {
+    // Create the buffer reader here, so that we don't miss any events added to the
+    // buffer between the call to start() and the beginning of handleEvents()
+    eventBufferReader.reset(new EventBufferReader(eventBuffer));
+}
+
+
 void ZeroMQOutgoingConnection::handleEvents() {
-    EventBufferReader eventBufferReader(eventBuffer);
-    
     if (!socket.setOption(ZMQ_SNDTIMEO, sendTimeoutMS)) {
         return;
     }
     
     while (running) {
-        if (!eventBufferReader.nextEventExists()) {
+        if (!eventBufferReader->nextEventExists()) {
             // TODO: Use a condition variable to get woken up when a new event is available
             Clock::instance()->sleepMS(20);
         } else {
-            boost::shared_ptr<Event> event = eventBufferReader.getNextEvent();
+            boost::shared_ptr<Event> event = eventBufferReader->getNextEvent();
             switch (socket.send(event)) {
                 case ZeroMQSocket::Result::timeout:
                     merror(M_NETWORK_MESSAGE_DOMAIN, "Event send timed out");

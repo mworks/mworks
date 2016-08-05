@@ -68,9 +68,9 @@ typedef enum {
     M_DATA_FILE_OPENED                  = 4007,
     M_DATA_FILE_CLOSED                  = 4008,
     M_CLIENT_CONNECTED_TO_SERVER        = 4009,
-    M_CLIENT_DISCONNECTED_FROM_SERVER   = 4010,
+    //M_CLIENT_DISCONNECTED_FROM_SERVER = 4010,
     M_SERVER_CONNECTED_CLIENT           = 4011,
-    M_SERVER_DISCONNECTED_CLIENT        = 4012,
+    //M_SERVER_DISCONNECTED_CLIENT      = 4012,
 	M_EXPERIMENT_STATE					= 4013,
 	// this payload can contain whatever
     M_USER_DEFINED                      = 6000,

@@ -86,13 +86,8 @@ class SystemEventFactory {
 	static shared_ptr<Event> dataFileOpenedResponse(std::string, SystemEventResponseCode code);
 	static shared_ptr<Event> dataFileClosedResponse(std::string, SystemEventResponseCode code);
 
-	// these will eventually need to contain the client address and
-	// maybe even port for stat tracking and other fun stuff
-	// for now they dont
-	static shared_ptr<Event> serverConnectedClientResponse();
-	static shared_ptr<Event> serverDisconnectClientResponse();
-	static shared_ptr<Event> clientConnectedToServerResponse();
-	static shared_ptr<Event> clientDisconnectedFromServerResponse();
+	static shared_ptr<Event> serverConnectedClientResponse(long clientID);
+    static shared_ptr<Event> clientConnectedToServerControl(long clientID);
 	
 	// this event sends the current state of the world to the data stream 
 	// (and therefore, clients).

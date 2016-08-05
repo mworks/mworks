@@ -41,6 +41,7 @@ protected:
     std::atomic_bool running;
     
 private:
+    virtual void prepare() { }
     virtual void handleEvents() = 0;
     
     std::thread eventHandlerThread;
@@ -65,7 +66,10 @@ public:
     using ZeroMQConnection::ZeroMQConnection;
     
 private:
+    void prepare() override;
     void handleEvents() override;
+    
+    std::unique_ptr<EventBufferReader> eventBufferReader;
     
 };
 

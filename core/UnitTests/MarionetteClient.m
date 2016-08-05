@@ -434,9 +434,7 @@ Datum _getNumber(const string &expression, const GenericDataType type);
 					case M_OPEN_DATA_FILE:
 					case M_CLOSE_DATA_FILE:
 					case M_CLIENT_CONNECTED_TO_SERVER:
-					case M_CLIENT_DISCONNECTED_FROM_SERVER:
 					case M_SERVER_CONNECTED_CLIENT:
-					case M_SERVER_DISCONNECTED_CLIENT:
 					case M_USER_DEFINED:
 						break;
 					default:

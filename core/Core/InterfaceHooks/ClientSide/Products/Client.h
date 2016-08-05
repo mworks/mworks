@@ -33,6 +33,10 @@ class Client : public RegistryAwareEventStreamInterface {
     // a connection with a server
     std::unique_ptr<ZeroMQClient> remoteConnection;
     
+    bool connectedEventReceived;
+    std::mutex connectedEventReceivedMutex;
+    std::condition_variable connectedEventReceivedCondition;
+    
     public:
         /*!
          * @function Client

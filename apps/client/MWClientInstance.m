@@ -706,30 +706,31 @@
             case M_PROTOCOL_PACKAGE:
             {
                 mw::Datum pp(payload.getElement(M_SYSTEM_PAYLOAD));
-                
-                [protocolNames removeAllObjects];
-                
                 mw::Datum protocols(pp.getElement(M_PROTOCOLS));
                 
-                for(int i=0; i<protocols.getNElements(); ++i) {
-                    mw::Datum protocol(protocols[i]);
+                if (protocols.getNElements() > 0) {
+                    [protocolNames removeAllObjects];
                     
-                    NSString *protocolName = [[NSString alloc] initWithCString:protocol.getElement(M_PROTOCOL_NAME).getString().c_str()
-                                                                      encoding:NSASCIIStringEncoding];
+                    for(int i=0; i<protocols.getNElements(); ++i) {
+                        mw::Datum protocol(protocols[i]);
+                        
+                        NSString *protocolName = [[NSString alloc] initWithCString:protocol.getElement(M_PROTOCOL_NAME).getString().c_str()
+                                                                          encoding:NSASCIIStringEncoding];
+                        
+                        [protocolNames addObject:protocolName];
+                    }
                     
-                    [protocolNames addObject:protocolName];
-                }
-                
-                [self willChangeValueForKey:@"protocolNames"];
-                [self didChangeValueForKey:@"protocolNames"];
-                
-                string current_protocol_string = pp.getElement(M_CURRENT_PROTOCOL).getString();
-                
-                [self setCurrentProtocolName:[[NSString alloc] initWithCString:current_protocol_string.c_str()
-                                                                      encoding:NSASCIIStringEncoding]];
-                
-                if(currentProtocolName == Nil || ([protocolNames indexOfObject:currentProtocolName] == NSNotFound)){
-                    [self setCurrentProtocolName:[protocolNames objectAtIndex:0]];
+                    [self willChangeValueForKey:@"protocolNames"];
+                    [self didChangeValueForKey:@"protocolNames"];
+                    
+                    string current_protocol_string = pp.getElement(M_CURRENT_PROTOCOL).getString();
+                    
+                    [self setCurrentProtocolName:[[NSString alloc] initWithCString:current_protocol_string.c_str()
+                                                                          encoding:NSASCIIStringEncoding]];
+                    
+                    if(currentProtocolName == Nil || ([protocolNames indexOfObject:currentProtocolName] == NSNotFound)){
+                        [self setCurrentProtocolName:[protocolNames objectAtIndex:0]];
+                    }
                 }
             }
                 break;

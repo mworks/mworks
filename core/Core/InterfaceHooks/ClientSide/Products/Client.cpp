@@ -25,7 +25,8 @@ BEGIN_NAMESPACE_MW
 Client::Client() :
     RegistryAwareEventStreamInterface(M_CLIENT_MESSAGE_DOMAIN),
     incoming_event_buffer(new EventBuffer),
-    outgoing_event_buffer(new EventBuffer)
+    outgoing_event_buffer(new EventBuffer),
+    connectedEventReceived(false)
 {
     registry = boost::make_shared<VariableRegistry>(outgoing_event_buffer);
 	initializeStandardVariables(registry);
@@ -44,13 +45,30 @@ Client::~Client() {
 void Client::handleEvent(shared_ptr<Event> evt) { 
 	int code = evt->getEventCode();
 	
-	if(code == RESERVED_CODEC_CODE) {
+	if (code == RESERVED_CODEC_CODE) {
+        
 		registry->updateFromCodecDatum(evt->getData());
         
         // request updated values for these new variables
         putEvent(SystemEventFactory::requestVariablesUpdateControl());
+        
+    } else if (code == RESERVED_SYSTEM_EVENT_CODE) {
+        
+        auto &sysEvent = evt->getData();
+        
+        if (sysEvent.getElement(M_SYSTEM_PAYLOAD_TYPE).getInteger() == M_SERVER_CONNECTED_CLIENT)
+        {
+            long clientID = sysEvent.getElement(M_SYSTEM_PAYLOAD).getInteger();
+            std::lock_guard<std::mutex> lock(connectedEventReceivedMutex);
+            if (remoteConnection &&
+                clientID == reinterpret_cast<long>(remoteConnection.get()))
+            {
+                connectedEventReceived = true;
+                connectedEventReceivedCondition.notify_all();
+            }
+        }
+        
     }
-    
     
     handleCallbacks(evt);
 
@@ -70,6 +88,8 @@ void Client::startEventListener() {
 }
 
 bool Client::connectToServer(const std::string &host, const int port) {
+    std::unique_lock<std::mutex> lock(connectedEventReceivedMutex);
+    
     remoteConnection.reset(new ZeroMQClient(incoming_event_buffer,
                                             outgoing_event_buffer,
                                             zeromq::formatTCPEndpoint(host, port),
@@ -77,6 +97,19 @@ bool Client::connectToServer(const std::string &host, const int port) {
     if (!remoteConnection->connect()) {
         //TODO log the error somewhere.
         return false; 
+    }
+    
+    // Send client connected event, using memory address of remoteConnection as the client ID
+    putEvent(SystemEventFactory::clientConnectedToServerControl(reinterpret_cast<long>(remoteConnection.get())));
+    
+    // Wait for connection acknowledgement from server
+    connectedEventReceived = false;
+    if (!connectedEventReceivedCondition.wait_for(lock,
+                                                  std::chrono::seconds(2),
+                                                  [this]() { return connectedEventReceived; }))
+    {
+        (void)disconnectClient();
+        return false;
     }
     
     // Request component codec, variable codec, experiment state, and protocol names

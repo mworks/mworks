@@ -315,7 +315,14 @@ void StandardSystemEventHandler::handleSystemEvent(const Datum &sysEvent) {
 			VariableLoad::loadExperimentwideVariables(filename);
 			
 			break;
-		}	
+		}
+        case M_CLIENT_CONNECTED_TO_SERVER:
+        {
+            // Client requested connection acknowledgement.  Respond with received client ID.
+            long clientID = sysEvent.getElement(M_SYSTEM_PAYLOAD).getInteger();
+            global_outgoing_event_buffer->putEvent(SystemEventFactory::serverConnectedClientResponse(clientID));
+            break;
+        }
 		default:
 			break;
 	}

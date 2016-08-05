@@ -89,7 +89,9 @@ shared_ptr<Event> SystemEventFactory::protocolPackage() {
 		payload.addElement(M_CURRENT_PROTOCOL, "No protocol currently available");
 		
 		shared_ptr<Event> empty_ret(new Event(RESERVED_SYSTEM_EVENT_CODE, 
-									  payload));
+                                              systemEventPackage(M_SYSTEM_DATA_PACKAGE,
+                                                                 M_PROTOCOL_PACKAGE,
+                                                                 payload)));
 		return empty_ret;
     }
 	
@@ -387,36 +389,20 @@ shared_ptr<Event> SystemEventFactory::dataFileClosedResponse(std::string  fname,
 
 
 
-shared_ptr<Event> SystemEventFactory::serverConnectedClientResponse() {
+shared_ptr<Event> SystemEventFactory::serverConnectedClientResponse(long clientID) {
     Datum payload(systemEventPackage(M_SYSTEM_RESPONSE_PACKAGE, 
-									 M_SERVER_CONNECTED_CLIENT));
+									 M_SERVER_CONNECTED_CLIENT,
+                                     Datum(clientID)));
 	shared_ptr<Event> ret (new Event(RESERVED_SYSTEM_EVENT_CODE, 
 									   payload));
 	
 	return ret;
 }
 
-shared_ptr<Event> SystemEventFactory::serverDisconnectClientResponse() {
-    Datum payload(systemEventPackage(M_SYSTEM_RESPONSE_PACKAGE, 
-									 M_SERVER_DISCONNECTED_CLIENT));
-	shared_ptr<Event> ret (new Event(RESERVED_SYSTEM_EVENT_CODE, 
-									   payload));
-	
-	return ret;
-}
-
-shared_ptr<Event> SystemEventFactory::clientConnectedToServerResponse() {
-    Datum payload(systemEventPackage(M_SYSTEM_RESPONSE_PACKAGE, 
-									 M_CLIENT_CONNECTED_TO_SERVER));
-	shared_ptr<Event> ret (new Event(RESERVED_SYSTEM_EVENT_CODE, 
-									   payload));
-	
-	return ret;
-}
-
-shared_ptr<Event> SystemEventFactory::clientDisconnectedFromServerResponse() {
-    Datum payload(systemEventPackage(M_SYSTEM_RESPONSE_PACKAGE, 
-									 M_CLIENT_DISCONNECTED_FROM_SERVER));
+shared_ptr<Event> SystemEventFactory::clientConnectedToServerControl(long clientID) {
+    Datum payload(systemEventPackage(M_SYSTEM_CONTROL_PACKAGE,
+									 M_CLIENT_CONNECTED_TO_SERVER,
+                                     Datum(clientID)));
 	shared_ptr<Event> ret (new Event(RESERVED_SYSTEM_EVENT_CODE, 
 									   payload));
 	
