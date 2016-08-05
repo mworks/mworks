@@ -44,30 +44,38 @@ Client::~Client() {
 
 void Client::handleEvent(shared_ptr<Event> evt) { 
 	int code = evt->getEventCode();
-	
-	if (code == RESERVED_CODEC_CODE) {
-        
-		registry->updateFromCodecDatum(evt->getData());
-        
-        // request updated values for these new variables
-        putEvent(SystemEventFactory::requestVariablesUpdateControl());
-        
-    } else if (code == RESERVED_SYSTEM_EVENT_CODE) {
-        
-        auto &sysEvent = evt->getData();
-        
-        if (sysEvent.getElement(M_SYSTEM_PAYLOAD_TYPE).getInteger() == M_SERVER_CONNECTED_CLIENT)
-        {
-            long clientID = sysEvent.getElement(M_SYSTEM_PAYLOAD).getInteger();
-            std::lock_guard<std::mutex> lock(connectedEventReceivedMutex);
-            if (remoteConnection &&
-                clientID == reinterpret_cast<long>(remoteConnection.get()))
-            {
-                connectedEventReceived = true;
-                connectedEventReceivedCondition.notify_all();
+    
+    switch (code) {
+        case RESERVED_CODEC_CODE:
+            registry->updateFromCodecDatum(evt->getData());
+            // Request updated values for all variables
+            putEvent(SystemEventFactory::requestVariablesUpdateControl());
+            break;
+            
+        case RESERVED_SYSTEM_EVENT_CODE: {
+            auto &sysEvent = evt->getData();
+            if (sysEvent.getElement(M_SYSTEM_PAYLOAD_TYPE).getInteger() == M_SERVER_CONNECTED_CLIENT) {
+                long clientID = sysEvent.getElement(M_SYSTEM_PAYLOAD).getInteger();
+                std::lock_guard<std::mutex> lock(connectedEventReceivedMutex);
+                if (remoteConnection &&
+                    clientID == reinterpret_cast<long>(remoteConnection.get()))
+                {
+                    // Received connection acknowledgement from server.  Notify any thread waiting
+                    // in connectToServer.
+                    connectedEventReceived = true;
+                    connectedEventReceivedCondition.notify_all();
+                }
             }
+            break;
         }
-        
+            
+        case RESERVED_TERMINATION_CODE:
+            mwarning(M_CLIENT_MESSAGE_DOMAIN, "Received termination notification from server; disconnecting");
+            (void)disconnectClient();
+            break;
+            
+        default:
+            break;
     }
     
     handleCallbacks(evt);

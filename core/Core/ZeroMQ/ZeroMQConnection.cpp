@@ -60,7 +60,7 @@ void ZeroMQIncomingConnection::handleEvents() {
             case ZeroMQSocket::Result::error:
                 merror(M_NETWORK_MESSAGE_DOMAIN, "Terminating incoming connection");
                 running = false;
-                break;
+                return;
                 
             default:
                 break;
@@ -95,13 +95,16 @@ void ZeroMQOutgoingConnection::handleEvents() {
                 case ZeroMQSocket::Result::error:
                     merror(M_NETWORK_MESSAGE_DOMAIN, "Terminating outgoing connection");
                     running = false;
-                    break;
+                    return;
                     
                 default:
                     break;
             }
         }
     }
+    
+    // Send termination event
+    (void)socket.send(boost::make_shared<Event>(RESERVED_TERMINATION_CODE, Datum()));
 }
 
 
