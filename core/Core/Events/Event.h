@@ -14,15 +14,18 @@
 #ifndef MONKEYWORKSCORE_EVENT_H_
 #define MONKEYWORKSCORE_EVENT_H_
 
-#include "MWorksTypes.h"
-#include "GenericData.h"
-#include "EventConstants.h"
-#include <boost/shared_ptr.hpp>
-#include <boost/thread/mutex.hpp>
+#include <condition_variable>
+#include <mutex>
 
 #include <boost/serialization/list.hpp>
 #include <boost/serialization/string.hpp>
 #include <boost/serialization/version.hpp>
+#include <boost/shared_ptr.hpp>
+#include <boost/thread/mutex.hpp>
+
+#include "MWorksTypes.h"
+#include "GenericData.h"
+#include "EventConstants.h"
 
 using boost::shared_ptr;
 
@@ -64,16 +67,10 @@ public:
         return data;
     }
     
-    shared_ptr<Event> getNextEvent() const {
-        boost::mutex::scoped_lock lock(eventLock);
-        return nextEvent;
-    }
+    boost::shared_ptr<Event> getNextEvent(MWTime timeoutUS = 0) const;
     
 private:
-    void setNextEvent(const shared_ptr<Event> &event) {
-        boost::mutex::scoped_lock lock(eventLock);
-        nextEvent = event;
-    }
+    void setNextEvent(const boost::shared_ptr<Event> &event);
     
     friend class boost::serialization::access;
     template<class Archive>
@@ -87,8 +84,11 @@ private:
     MWTime time;
     Datum data;
     
-    shared_ptr<Event> nextEvent;
-    mutable boost::mutex eventLock;
+    boost::shared_ptr<Event> nextEvent;
+    
+    mutable std::mutex mutex;
+    using lock_guard = std::lock_guard<decltype(mutex)>;
+    mutable std::condition_variable nextEventAvailable;
     
 };
 
@@ -97,7 +97,7 @@ private:
 class EventReceiver {
 public:
     virtual ~EventReceiver() { }
-    virtual void putEvent(const shared_ptr<Event> &event) = 0;
+    virtual void putEvent(const boost::shared_ptr<Event> &event) = 0;
 };
 
 
@@ -108,20 +108,20 @@ public:
         headEvent(new Event)
     { }
     
-    void putEvent(const shared_ptr<Event> &event) override {
-        boost::mutex::scoped_lock lock(bufferLock);
+    void putEvent(const boost::shared_ptr<Event> &event) override {
+        lock_guard lock(mutex);
         headEvent->setNextEvent(event);
         headEvent = event;
     }
     
-    shared_ptr<Event> getHeadEvent() const {
-        boost::mutex::scoped_lock lock(bufferLock);
+    boost::shared_ptr<Event> getHeadEvent() const {
+        lock_guard lock(mutex);
         return headEvent;
     }
     
 private:
-    shared_ptr<Event> headEvent;
-    mutable boost::mutex bufferLock;
+    boost::shared_ptr<Event> headEvent;
+    mutable std::mutex mutex;
     
 };
 

@@ -82,11 +82,8 @@ void ZeroMQOutgoingConnection::handleEvents() {
     }
     
     while (running) {
-        if (!eventBufferReader->nextEventExists()) {
-            // TODO: Use a condition variable to get woken up when a new event is available
-            Clock::instance()->sleepMS(20);
-        } else {
-            boost::shared_ptr<Event> event = eventBufferReader->getNextEvent();
+        auto event = eventBufferReader->getNextEvent(receiveTimeoutMS * 1000);
+        if (event) {
             switch (socket.send(event)) {
                 case ZeroMQSocket::Result::timeout:
                     merror(M_NETWORK_MESSAGE_DOMAIN, "Event send timed out");

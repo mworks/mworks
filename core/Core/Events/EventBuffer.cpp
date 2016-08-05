@@ -28,10 +28,10 @@ EventBufferReader::EventBufferReader(const boost::shared_ptr<EventBuffer> &buffe
 { }
 
 
-boost::shared_ptr<Event> EventBufferReader::getNextEvent() {
+boost::shared_ptr<Event> EventBufferReader::getNextEvent(MWTime timeoutUS) {
     lock_guard lock(mutex);
     
-    auto nextEvent = currentEvent->getNextEvent();
+    auto nextEvent = currentEvent->getNextEvent(timeoutUS);
     if (nextEvent) {
         currentEvent = nextEvent;
     }

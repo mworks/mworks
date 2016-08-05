@@ -31,7 +31,7 @@ public:
     explicit EventBufferReader(const boost::shared_ptr<EventBuffer> &buffer);
     
     bool nextEventExists() const;
-    boost::shared_ptr<Event> getNextEvent();
+    boost::shared_ptr<Event> getNextEvent(MWTime timeoutUS = 0);
     
 private:
     using lock_guard = std::lock_guard<std::mutex>;
