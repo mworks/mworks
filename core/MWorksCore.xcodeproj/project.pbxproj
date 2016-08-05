@@ -261,8 +261,6 @@
 		682A94960CA9AA20001DE3E2 /* RandomWORSelection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 682A94940CA9AA20001DE3E2 /* RandomWORSelection.cpp */; };
 		682A94B70CA9AB61001DE3E2 /* RandomWithReplacementSelection.h in Headers */ = {isa = PBXBuildFile; fileRef = 682A94B50CA9AB61001DE3E2 /* RandomWithReplacementSelection.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		682A94B80CA9AB61001DE3E2 /* RandomWithReplacementSelection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 682A94B60CA9AB61001DE3E2 /* RandomWithReplacementSelection.cpp */; };
-		6860595A0C91CB8700CD0D16 /* OutgoingEventListener.h in Headers */ = {isa = PBXBuildFile; fileRef = 686059580C91CB8700CD0D16 /* OutgoingEventListener.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		6860595B0C91CB8700CD0D16 /* OutgoingEventListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 686059590C91CB8700CD0D16 /* OutgoingEventListener.cpp */; };
 		686059630C91CD5A00CD0D16 /* EventListener.h in Headers */ = {isa = PBXBuildFile; fileRef = 686059610C91CD5A00CD0D16 /* EventListener.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		686059640C91CD5A00CD0D16 /* EventListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 686059620C91CD5A00CD0D16 /* EventListener.cpp */; };
 		68EC07CE0CB2BC3800FCD612 /* ActionTest.h in Headers */ = {isa = PBXBuildFile; fileRef = 68EC07CC0CB2BC3800FCD612 /* ActionTest.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -291,8 +289,6 @@
 		DA2B6A8A0989855C00DDE06D /* Client.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2B6A880989855C00DDE06D /* Client.cpp */; };
 		DA2B6B170989915900DDE06D /* Server.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2B6B150989915900DDE06D /* Server.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DA2B6B180989915900DDE06D /* Server.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2B6B160989915900DDE06D /* Server.cpp */; };
-		DA2B6C6F0989B98B00DDE06D /* IncomingEventListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2B6C6D0989B98B00DDE06D /* IncomingEventListener.cpp */; };
-		DA2B6C700989B98B00DDE06D /* IncomingEventListener.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2B6C6E0989B98B00DDE06D /* IncomingEventListener.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DA2B6D3A098AA34900DDE06D /* EventStreamInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2B6D38098AA34900DDE06D /* EventStreamInterface.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DA2B6D3B098AA34900DDE06D /* EventStreamInterface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2B6D39098AA34900DDE06D /* EventStreamInterface.cpp */; };
 		DA2B6D52098AAAEC00DDE06D /* StandardSystemEventHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2B6D50098AAAEC00DDE06D /* StandardSystemEventHandler.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -879,8 +875,6 @@
 		682A94940CA9AA20001DE3E2 /* RandomWORSelection.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RandomWORSelection.cpp; path = Core/ParadigmComponents/RandomWORSelection.cpp; sourceTree = "<group>"; };
 		682A94B50CA9AB61001DE3E2 /* RandomWithReplacementSelection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RandomWithReplacementSelection.h; path = Core/ParadigmComponents/RandomWithReplacementSelection.h; sourceTree = "<group>"; };
 		682A94B60CA9AB61001DE3E2 /* RandomWithReplacementSelection.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RandomWithReplacementSelection.cpp; path = Core/ParadigmComponents/RandomWithReplacementSelection.cpp; sourceTree = "<group>"; };
-		686059580C91CB8700CD0D16 /* OutgoingEventListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OutgoingEventListener.h; path = Core/Events/OutgoingEventListener.h; sourceTree = "<group>"; };
-		686059590C91CB8700CD0D16 /* OutgoingEventListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = OutgoingEventListener.cpp; path = Core/Events/OutgoingEventListener.cpp; sourceTree = "<group>"; };
 		686059610C91CD5A00CD0D16 /* EventListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EventListener.h; path = Core/Events/EventListener.h; sourceTree = "<group>"; };
 		686059620C91CD5A00CD0D16 /* EventListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EventListener.cpp; path = Core/Events/EventListener.cpp; sourceTree = "<group>"; };
 		68EC07CC0CB2BC3800FCD612 /* ActionTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActionTest.h; sourceTree = "<group>"; };
@@ -910,8 +904,6 @@
 		DA2B6A880989855C00DDE06D /* Client.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Client.cpp; path = Core/InterfaceHooks/ClientSide/Products/Client.cpp; sourceTree = "<group>"; };
 		DA2B6B150989915900DDE06D /* Server.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Server.h; path = Core/InterfaceHooks/ServerSide/Products/Server.h; sourceTree = "<group>"; };
 		DA2B6B160989915900DDE06D /* Server.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Server.cpp; path = Core/InterfaceHooks/ServerSide/Products/Server.cpp; sourceTree = "<group>"; };
-		DA2B6C6D0989B98B00DDE06D /* IncomingEventListener.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = IncomingEventListener.cpp; path = Core/Events/IncomingEventListener.cpp; sourceTree = SOURCE_ROOT; };
-		DA2B6C6E0989B98B00DDE06D /* IncomingEventListener.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IncomingEventListener.h; path = Core/Events/IncomingEventListener.h; sourceTree = "<group>"; };
 		DA2B6D38098AA34900DDE06D /* EventStreamInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EventStreamInterface.h; path = Core/Events/EventStreamInterface.h; sourceTree = "<group>"; };
 		DA2B6D39098AA34900DDE06D /* EventStreamInterface.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EventStreamInterface.cpp; path = Core/Events/EventStreamInterface.cpp; sourceTree = "<group>"; };
 		DA2B6D50098AAAEC00DDE06D /* StandardSystemEventHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StandardSystemEventHandler.h; path = Core/InterfaceHooks/ServerSide/Products/StandardSystemEventHandler.h; sourceTree = "<group>"; };
@@ -2040,10 +2032,6 @@
 				DA2B6D39098AA34900DDE06D /* EventStreamInterface.cpp */,
 				5C7CEFE10BC5D7AB00434931 /* LegacyBuffers.h */,
 				5C7CEFE20BC5D7AB00434931 /* LegacyBuffers.cpp */,
-				DA2B6C6E0989B98B00DDE06D /* IncomingEventListener.h */,
-				DA2B6C6D0989B98B00DDE06D /* IncomingEventListener.cpp */,
-				686059580C91CB8700CD0D16 /* OutgoingEventListener.h */,
-				686059590C91CB8700CD0D16 /* OutgoingEventListener.cpp */,
 				686059610C91CD5A00CD0D16 /* EventListener.h */,
 				686059620C91CD5A00CD0D16 /* EventListener.cpp */,
 				0E5338E70CB7404E004FF889 /* EventConstants.h */,
@@ -2302,7 +2290,6 @@
 				DA2B6A890989855C00DDE06D /* Client.h in Headers */,
 				E19B79271D525CCC00110665 /* ZeroMQUtilities.hpp in Headers */,
 				DA2B6B170989915900DDE06D /* Server.h in Headers */,
-				DA2B6C700989B98B00DDE06D /* IncomingEventListener.h in Headers */,
 				DA2B6D3A098AA34900DDE06D /* EventStreamInterface.h in Headers */,
 				DA2B6D52098AAAEC00DDE06D /* StandardSystemEventHandler.h in Headers */,
 				DA871F2609995B180084304E /* StandardClientCoreBuilder.h in Headers */,
@@ -2326,7 +2313,6 @@
 				5C7CF4EF0BC6B48D00434931 /* LinkedList.h in Headers */,
 				5C76674F0C1BB28C00B1203C /* StimulusNode.h in Headers */,
 				5C7667540C1BB30A00B1203C /* StimulusDisplay.h in Headers */,
-				6860595A0C91CB8700CD0D16 /* OutgoingEventListener.h in Headers */,
 				686059630C91CD5A00CD0D16 /* EventListener.h in Headers */,
 				682A94780CA9A933001DE3E2 /* SequentialSelection.h in Headers */,
 				682A94950CA9AA20001DE3E2 /* RandomWORSelection.h in Headers */,
@@ -2800,7 +2786,6 @@
 				DA96C0E70988546D0007610D /* ExperimentPackager.cpp in Sources */,
 				DA2B6A8A0989855C00DDE06D /* Client.cpp in Sources */,
 				DA2B6B180989915900DDE06D /* Server.cpp in Sources */,
-				DA2B6C6F0989B98B00DDE06D /* IncomingEventListener.cpp in Sources */,
 				DA2B6D3B098AA34900DDE06D /* EventStreamInterface.cpp in Sources */,
 				DA2B6D53098AAAEC00DDE06D /* StandardSystemEventHandler.cpp in Sources */,
 				DA871F2709995B180084304E /* StandardClientCoreBuilder.cpp in Sources */,
@@ -2821,7 +2806,6 @@
 				5C0B04AD0BB8A46500FD57B9 /* ScopedVariableEnvironment.cpp in Sources */,
 				5C7CF2FE0BC69E3900434931 /* LegacyBuffers.cpp in Sources */,
 				5C7667500C1BB28C00B1203C /* StimulusNode.cpp in Sources */,
-				6860595B0C91CB8700CD0D16 /* OutgoingEventListener.cpp in Sources */,
 				686059640C91CD5A00CD0D16 /* EventListener.cpp in Sources */,
 				682A94790CA9A933001DE3E2 /* SequentialSelection.cpp in Sources */,
 				682A94960CA9AA20001DE3E2 /* RandomWORSelection.cpp in Sources */,

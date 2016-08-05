@@ -17,7 +17,7 @@
 
 
 #include "VariableRegistryInterface.h"
-#include "IncomingEventListener.h"
+#include "EventListener.h"
 #include "ZeroMQClient.hpp"
 
 
