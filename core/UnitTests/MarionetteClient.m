@@ -45,6 +45,11 @@ Datum _getNumber(const string &expression, const GenericDataType type);
 - (id) init {
 	self = [super init];
 	if (self != nil) {
+        server = shared_ptr<Server>(new Server());
+        server->setListenPort(DEFAULT_PORT);
+        server->setHostname(DEFAULT_HOST_IP);
+        server->startServer();
+        
 		client = shared_ptr<Client>(new Client());
 		
 		CocoaEventFunctor cef(self, @selector(eventReceived:), MARIONETTE_KEY);
@@ -75,6 +80,7 @@ Datum _getNumber(const string &expression, const GenericDataType type);
 
 - (void)dealloc {
     client.reset();
+    server.reset();
 }
 
 - (void)awakeFromNib {
@@ -273,7 +279,8 @@ Datum _getNumber(const string &expression, const GenericDataType type);
                    withMessage:@"Data file is open when it should be closed"];
         
         client->disconnectClient();
-        [NSThread sleepForTimeInterval:1];  // Wait for client threads to shut down
+        server->stopServer();
+        [NSThread sleepForTimeInterval:1];  // Wait for client and server threads to shut down
         [self marionetteAssert:!client->isConnected()
                    withMessage:@"client should no longer be connected"];
 		

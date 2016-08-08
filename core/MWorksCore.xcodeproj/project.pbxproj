@@ -91,7 +91,6 @@
 		0E4688C10EB9061000B01560 /* ZenStateSystemFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E4688C00EB9061000B01560 /* ZenStateSystemFactory.cpp */; };
 		0E4A1DB30B1F2B7700643235 /* PlatformDependentServicesTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E4A1DB10B1F2B7700643235 /* PlatformDependentServicesTest.cpp */; };
 		0E4A1DB40B1F2B7700643235 /* PlatformDependentServicesTest.h in Headers */ = {isa = PBXBuildFile; fileRef = 0E4A1DB20B1F2B7700643235 /* PlatformDependentServicesTest.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		0E4ED23A0E46208200F06F40 /* MarionetteServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E4ED2390E46208200F06F40 /* MarionetteServer.m */; };
 		0E5338E80CB7404E004FF889 /* EventConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 0E5338E70CB7404E004FF889 /* EventConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0E681E7B0E62CF9200F4757B /* MarionetteMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EB975860E624B8700632F05 /* MarionetteMessage.m */; };
 		0E7E9FCB0A75502600E20898 /* GenericDataTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E7E9FB90A754FCD00E20898 /* GenericDataTest.cpp */; };
@@ -687,8 +686,6 @@
 		0E4688C00EB9061000B01560 /* ZenStateSystemFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ZenStateSystemFactory.cpp; sourceTree = "<group>"; };
 		0E4A1DB10B1F2B7700643235 /* PlatformDependentServicesTest.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = PlatformDependentServicesTest.cpp; path = Core/PlatformDependent/tests/PlatformDependentServicesTest.cpp; sourceTree = "<group>"; };
 		0E4A1DB20B1F2B7700643235 /* PlatformDependentServicesTest.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = PlatformDependentServicesTest.h; path = Core/PlatformDependent/tests/PlatformDependentServicesTest.h; sourceTree = "<group>"; };
-		0E4ED2390E46208200F06F40 /* MarionetteServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MarionetteServer.m; sourceTree = "<group>"; };
-		0E4ED2410E4620F100F06F40 /* MarionetteServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MarionetteServer.h; sourceTree = "<group>"; };
 		0E5338E70CB7404E004FF889 /* EventConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EventConstants.h; path = Core/Events/EventConstants.h; sourceTree = "<group>"; };
 		0E776BCB0E43590300E7B55C /* MarionetteGlobals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MarionetteGlobals.h; sourceTree = "<group>"; };
 		0E7E9FB90A754FCD00E20898 /* GenericDataTest.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = GenericDataTest.cpp; sourceTree = "<group>"; };
@@ -1217,8 +1214,6 @@
 				0E8014370E422F2800D6DE20 /* MarionetteClient.h */,
 				0E8014380E422F2800D6DE20 /* MarionetteClient.m */,
 				0E776BCB0E43590300E7B55C /* MarionetteGlobals.h */,
-				0E4ED2390E46208200F06F40 /* MarionetteServer.m */,
-				0E4ED2410E4620F100F06F40 /* MarionetteServer.h */,
 				0EB975850E624B8700632F05 /* MarionetteMessage.h */,
 				0EB975860E624B8700632F05 /* MarionetteMessage.m */,
 				0E209D080E632EBD00F00BAD /* MarionetteEvent.h */,
@@ -2647,7 +2642,6 @@
 				0E8014390E422F2800D6DE20 /* main.m in Sources */,
 				0E80143A0E422F2800D6DE20 /* MarionetteClient.m in Sources */,
 				0EE137C30E429B23009B47B5 /* MWCocoaEvent.m in Sources */,
-				0E4ED23A0E46208200F06F40 /* MarionetteServer.m in Sources */,
 				0E209D0A0E632EBD00F00BAD /* MarionetteEvent.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
