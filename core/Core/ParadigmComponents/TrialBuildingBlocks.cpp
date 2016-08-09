@@ -792,7 +792,8 @@ bool DequeueStimulus::execute() {
 		
     // set a flag that this node should be removed on the 
     // next "explicit" update
-	//stimnode->setPendingRemoval();
+	stimnode->setPendingRemoval();
+    
 	return true;
 }
 

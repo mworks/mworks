@@ -1,0 +1,31 @@
+<?xml version="1.0" standalone="no"?>
+<monkeyml version="1.0">
+    <io_devices tag="IO Devices"></io_devices>
+    <variables tag="Variables">
+        <variable tag="size" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="5.0" type="any"></variable>
+    </variables>
+    <sounds tag="Sounds"></sounds>
+    <stimuli tag="Stimuli">
+        <stimulus type="rectangle" tag="red" color="1,0,0" x_size="size" y_size="size" x_position="-size" y_position="0" rotation="0" alpha_multiplier="1"></stimulus>
+        <stimulus type="rectangle" tag="green" color="0,1,0" x_size="size" y_size="size" x_position="0" y_position="0" rotation="0" alpha_multiplier="1"></stimulus>
+        <stimulus type="rectangle" tag="blue" color="0,0,1" x_size="size" y_size="size" x_position="size" y_position="0" rotation="0" alpha_multiplier="1"></stimulus>
+    </stimuli>
+    <filters tag="Filters"></filters>
+    <optimizers tag="Optimizers"></optimizers>
+    <experiment tag="New Experiment" full_name="" description="">
+        <protocol tag="New Protocol" nsamples="3" sampling_method="cycles" selection="sequential" interruptible="YES">
+            <action tag="Queue red" type="queue_stimulus" stimulus="red"></action>
+            <action tag="Queue green" type="queue_stimulus" stimulus="green"></action>
+            <action tag="Queue blue" type="queue_stimulus" stimulus="blue"></action>
+            <action tag="Update Stimulus Display" type="update_stimulus_display" predicted_output_time=""></action>
+            <action type="report" tag="Report" message="All stimuli should be visible"></action>
+            <action type="wait" tag="Wait" duration="2" duration_units="s"></action>
+            <action tag="Dequeue red" type="dequeue_stimulus" stimulus="red"></action>
+            <action tag="Dequeue green" type="dequeue_stimulus" stimulus="green"></action>
+            <action tag="Dequeue blue" type="dequeue_stimulus" stimulus="blue"></action>
+            <action tag="Update Stimulus Display" type="update_stimulus_display" predicted_output_time=""></action>
+            <action type="report" tag="Report" message="No stimuli should be visible"></action>
+            <action type="wait" tag="Wait" duration="2" duration_units="s"></action>
+        </protocol>
+    </experiment>
+</monkeyml>

@@ -516,7 +516,9 @@ MWTime StimulusDisplay::updateDisplay() {
             
             if (node->isPendingRemoval()) {
                 node->clearPendingRemoval();
-                node->remove();
+                auto currentNode = node;
+                node = currentNode->getNext();
+                currentNode->remove();
                 continue;
             }
         }
