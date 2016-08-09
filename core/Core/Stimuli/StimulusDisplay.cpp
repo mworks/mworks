@@ -313,7 +313,7 @@ void StimulusDisplay::stateSystemCallback(const Datum &data, MWorksTime time) {
         // Wait for a refresh to complete, so we know that getCurrentOutputTimeUS() will return a valid time
         ensureRefresh(lock);
         
-        mprintf(M_DISPLAY_MESSAGE_DOMAIN, "Display updates started");
+        mprintf(M_DISPLAY_MESSAGE_DOMAIN, "Display updates started (refresh rate: %g Hz)", getMainDisplayRefreshRate());
         
     }
 }
