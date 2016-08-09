@@ -20,7 +20,9 @@ BEGIN_NAMESPACE_MW
 	
 	void unloadExperiment(bool announce = true);
 	
-	boost::filesystem::path expandPath(std::string working_directory, std::string path);
+	boost::filesystem::path expandPath(std::string working_directory,
+                                       std::string path,
+                                       bool expandAbsolutePath = false);
 	
 	
 	// Some fiddling/reorganization is required here.  This function 

@@ -135,7 +135,9 @@ inline boost::filesystem::path ParameterValue::convert(const std::string &s, Com
         workingPath = GlobalCurrentExperiment->getWorkingPath();
     }
     
-    bf::path fullPath(expandPath(workingPath, s));
+    // Expand path relative to the working path even if it's absolute, so that files identified via
+    // client-side absolute paths are found in server-side experiment storage
+    bf::path fullPath(expandPath(workingPath, s, true));
     
     if (!bf::exists(fullPath)) {
         throw SimpleException("Path does not exist", fullPath.string());

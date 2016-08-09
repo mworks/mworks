@@ -222,7 +222,7 @@ BEGIN_NAMESPACE_MW
 		}
 	}
 	
-	boost::filesystem::path expandPath(std::string working_directory, std::string path){
+	boost::filesystem::path expandPath(std::string working_directory, std::string path, bool expandAbsolutePath) {
 		
 		boost::filesystem::path specific_path;
 		boost::filesystem::path full_path;
@@ -233,7 +233,7 @@ BEGIN_NAMESPACE_MW
 			cerr << "bad path" << endl;
 		}
 		
-		if(path[0] == '/'){
+		if (path[0] == '/' && !expandAbsolutePath) {
 			return specific_path;
 		} else {
 			try{
