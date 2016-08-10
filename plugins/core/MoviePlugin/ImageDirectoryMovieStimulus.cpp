@@ -37,10 +37,14 @@ void ImageDirectoryMovieStimulus::describeComponent(ComponentInfo &info) {
 
 ImageDirectoryMovieStimulus::ImageDirectoryMovieStimulus(const ParameterValueMap &parameters) :
     BaseMovieStimulus(parameters),
-    directoryPath(parameters[DIRECTORY_PATH].as<boost::filesystem::path>().string())
+    directoryPath(parameters[DIRECTORY_PATH].str())
 {
+    std::string workingPath;
+    if (GlobalCurrentExperiment) {
+        workingPath = GlobalCurrentExperiment->getWorkingPath();
+    }
     std::vector<std::string> imageFilePaths;
-    getFilePaths(directoryPath, imageFilePaths);
+    getFilePaths(workingPath, directoryPath, imageFilePaths);
     std::sort(imageFilePaths.begin(), imageFilePaths.end());
     
     ComponentRegistryPtr reg = parameters[DIRECTORY_PATH].getRegistry();
