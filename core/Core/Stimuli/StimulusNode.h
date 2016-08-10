@@ -203,11 +203,8 @@ class StimulusGroupReferenceNode : public StimulusNode {
         virtual int getDeferred();
   
 		// LinkedListNode methods
-		//virtual void remove();
-//		virtual void bringToFront();
-//		virtual void sendToBack();
-//		virtual void bringForward();
-//		virtual void sendBackward();
+        void bringToFront() override;
+        void sendToBack() override;
 
 };
 

@@ -426,49 +426,14 @@ Datum StimulusGroupReferenceNode::getCurrentAnnounceDrawData(){
 	}
 }
 
+void StimulusGroupReferenceNode::bringToFront(){
+    STIM_GROUP_REFERENCE_NODE_PASSTHROUGH_VOID_RETURN(bringToFront)
+}
 
-//void StimulusGroupReferenceNode::remove(){
-//	int index_value = getIndexValue();
-//	int nelements = stimulus_nodes->getNElements();
-//	if(index_value >=0 && index_value < nelements ){
-//		(stimulus_nodes->getElement(index_value))->remove();
-//	}
-//}
-//
-//void StimulusGroupReferenceNode::bringToFront(){
-//	int index_value = getIndexValue();
-//	int nelements = stimulus_nodes->getNElements();
-//	if(index_value >=0 && index_value < nelements ){
-//		(stimulus_nodes->getElement(index_value))->bringToFront();
-//	}
-//}
-//
-//void StimulusGroupReferenceNode::sendToBack(){
-//	int index_value = getIndexValue();
-//	int nelements = stimulus_nodes->getNElements();
-//	if(index_value >=0 && index_value < nelements ){
-//		(stimulus_nodes->getElement(index_value))->sendToBack();
-//	}
-//}
-//
-//
-//void StimulusGroupReferenceNode::bringForward(){
-//	
-//	int index_value = getIndexValue();
-//	int nelements = stimulus_nodes->getNElements();
-//	if(index_value >=0 && index_value < nelements ){
-//		(stimulus_nodes->getElement(index_value))->moveForward();
-//	}
-//}
-//
-//void StimulusGroupReferenceNode::sendBackward(){
-//	int index_value = getIndexValue();
-//	int nelements = stimulus_nodes->getNElements();
-//	if(index_value >=0 && index_value < nelements ){
-//		(stimulus_nodes->getElement(index_value))->moveBackward();
-//	}
-//}
-//
+void StimulusGroupReferenceNode::sendToBack(){
+    STIM_GROUP_REFERENCE_NODE_PASSTHROUGH_VOID_RETURN(sendToBack)
+}
+
 
 
 END_NAMESPACE_MW
