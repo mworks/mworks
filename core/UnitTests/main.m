@@ -12,7 +12,7 @@
 #import <Cocoa/Cocoa.h>
 #import <IOKit/IOKitLib.h>
 
-#import "MWorksCore/StandardServerCoreBuilder.h"
+#import "MWorksCore/StandardClientCoreBuilder.h"
 #import "MWorksCore/CoreBuilderForeman.h"
 
 int main(int argc, const char *argv[]) {
@@ -24,7 +24,7 @@ int main(int argc, const char *argv[]) {
         (void)IOObjectRelease(entry);
     }
     
-    mw::StandardServerCoreBuilder coreBuilder;
+    mw::StandardClientCoreBuilder coreBuilder;
     mw::CoreBuilderForeman::constructCoreStandardOrder(&coreBuilder);
     
     return NSApplicationMain(argc, argv);

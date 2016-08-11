@@ -5,12 +5,10 @@
 
 #import <Cocoa/Cocoa.h>
 #import "MWorksCore/Client.h"
-#import "MWorksCore/Server.h"
 
 using namespace mw;
 
 @interface MarionetteClient : NSObject {
-    shared_ptr<Server> server;
     shared_ptr<Client> client;
 	
 	BOOL sent_run_event;

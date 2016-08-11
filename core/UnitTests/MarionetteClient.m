@@ -45,11 +45,6 @@ Datum _getNumber(const string &expression, const GenericDataType type);
 - (id) init {
 	self = [super init];
 	if (self != nil) {
-        server = shared_ptr<Server>(new Server());
-        server->setListenPort(DEFAULT_PORT);
-        server->setHostname(DEFAULT_HOST_IP);
-        server->startServer();
-        
 		client = shared_ptr<Client>(new Client());
 		
 		CocoaEventFunctor cef(self, @selector(eventReceived:), MARIONETTE_KEY);
@@ -80,7 +75,6 @@ Datum _getNumber(const string &expression, const GenericDataType type);
 
 - (void)dealloc {
     client.reset();
-    server.reset();
 }
 
 - (void)awakeFromNib {
@@ -98,11 +92,15 @@ Datum _getNumber(const string &expression, const GenericDataType type);
 		[self loadTestData:message_file];
 	}
 	
-	while(!client->isConnected()) {
-		// give server time to fully initialize before trying to connect
-		[NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:5]];
-		client->connectToServer(DEFAULT_HOST_IP, DEFAULT_PORT);
-	}
+    if (!client->connectToServer(DEFAULT_HOST_IP, DEFAULT_PORT)) {
+        // Give server time to fully initialize
+        [NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:5]];
+        
+        if (!client->connectToServer(DEFAULT_HOST_IP, DEFAULT_PORT)) {
+            NSLog(@"Can't connect to server");
+            exit(1);
+        }
+    }
 	
 	[NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(waitForExperimentToEnd:) userInfo:nil repeats:YES];
 }
@@ -259,9 +257,6 @@ Datum _getNumber(const string &expression, const GenericDataType type);
             return;
         }
         
-        // Give the MWorks threads some time to finish their business
-        [NSThread sleepForTimeInterval:5];
-        
 		if(!self.asserted && ([self.expectedMessages count] > 0 || [self.expectedEvents count] > 0)) {
 			if([self.expectedMessages count] > 0) {
 				[self marionetteAssert:[NSString stringWithFormat:@"not all required messages were recevied in the proper order.  Next expected: %@", [[self.expectedMessages objectAtIndex:0] message]]];
@@ -279,8 +274,7 @@ Datum _getNumber(const string &expression, const GenericDataType type);
                    withMessage:@"Data file is open when it should be closed"];
         
         client->disconnectClient();
-        server->stopServer();
-        [NSThread sleepForTimeInterval:1];  // Wait for client and server threads to shut down
+        [NSThread sleepForTimeInterval:1];  // Wait for client threads to shut down
         [self marionetteAssert:!client->isConnected()
                    withMessage:@"client should no longer be connected"];
 		
@@ -294,7 +288,6 @@ Datum _getNumber(const string &expression, const GenericDataType type);
 	
 	if([self.expectedEvents count] > 0) {
 		
-		// 'retain' then 'autorelease' because the event's reference count reaches zero when removeObjectAtIndex:0 is called later
 		MarionetteEvent *next_expected_event = [self.expectedEvents objectAtIndex:0];
 		int next_expected_event_code = client->lookupCodeForTag([[next_expected_event variable] cStringUsingEncoding:NSASCIIStringEncoding]);
 		if(code == next_expected_event_code && code != -1) {
@@ -405,11 +398,8 @@ Datum _getNumber(const string &expression, const GenericDataType type);
 						[self marionetteAssert:self.experimentLoaded
 								   withMessage:@"trying to send run command without loading experiment first"]; 
 						if(!self.sentRunEvent) {
-                            // Disable skipped refresh warnings
-                            warnOnSkippedRefresh->setValue(false);
-                            
                             // Wait a bit, just to make sure everything has had time to initialize properly
-                            [NSThread sleepForTimeInterval:5];
+                            [NSThread sleepForTimeInterval:3];
                             
 							client->sendRunEvent();
 							self.sentRunEvent = YES;
@@ -514,7 +504,9 @@ Datum _getNumber(const string &expression, const GenericDataType type);
 			NSString *message = [NSString stringWithCString:event_data.getElement(M_MESSAGE).getString().c_str()
 												   encoding:NSASCIIStringEncoding];
 			
-			//NSLog(message);
+            // Write message text to stderr
+            fprintf(stderr, "%s\n", message.UTF8String);
+            
 			const Datum msgType(event_data.getElement(M_MESSAGE_TYPE));
 			const MessageType type = (MessageType)msgType.getInteger();
 			[self marionetteAssert:type >= M_GENERIC_MESSAGE && type < M_MAX_MESSAGE_TYPE

@@ -16,7 +16,7 @@ tests_dir = '/Library/Application Support/MWorks/Developer/tests'
 test_file_dir = os.path.join(tests_dir, 'XML')
 
 arch = '/usr/bin/arch'
-valid_arch_names = ('x86_64', 'i386')
+valid_arch_names = ('x86_64',)
 mworks_core_test_runner = os.path.join(tests_dir, 'MWorksCoreTestRunner')
 marionette_test = os.path.join(tests_dir, ('MarionetteTest.app/Contents/'
                                            'MacOS/MarionetteTest'))
@@ -31,10 +31,28 @@ marionette_prep_applescript = """
 if (output muted of (get volume settings)) then
     set volume output muted false
 end if
+
+-- Ensure minimum output volume
 set minVolume to 10
 if (output volume of (get volume settings)) < minVolume then
     set volume output volume minVolume
 end if
+
+-- Activate MWServer
+activate application "MWServer"
+repeat until application "MWServer" is running
+    delay 1
+end repeat
+
+"""
+
+
+quit_server_applescript = """
+
+quit application "MWServer"
+repeat while application "MWServer" is running
+    delay 1
+end repeat
 
 """
 
@@ -46,6 +64,13 @@ def error(status, msg, *args):
 
 def demangle_name(name):
     return check_output(['/usr/bin/c++filt', name])
+
+
+def run_applescript(script):
+    cmd = Popen(['/usr/bin/osascript'], stdin=PIPE)
+    cmd.communicate(script)
+    if cmd.returncode != 0:
+        error(cmd.returncode, 'osascript command failed')
 
 
 def run_unit_tests(arch_name, test_names=None):
@@ -88,8 +113,8 @@ def run_marionette_tests(arch_name, test_names=None):
                     for t in iter_marionette_tests(test):
                         yield t
 
-    env = os.environ.copy()
-    env['MWORKS_WRITE_MESSAGES_TO_STDERR'] = '1'
+    # Ensure that server starts fresh
+    run_applescript(quit_server_applescript)
 
     failed_tests = []
 
@@ -139,12 +164,9 @@ def run_marionette_tests(arch_name, test_names=None):
         if os.path.isdir(saved_state_dir):
             check_call(['/bin/rm', '-Rf', saved_state_dir])
 
-        cmd = Popen(['/usr/bin/osascript'], stdin=PIPE)
-        cmd.communicate(marionette_prep_applescript)
-        if cmd.returncode != 0:
-            error(cmd.returncode, 'osascript command failed')
+        run_applescript(marionette_prep_applescript)
 
-        cmd = Popen(args, stderr=PIPE, env=env)
+        cmd = Popen(args, stderr=PIPE)
         output = cmd.communicate()[1]
         if cmd.returncode == 0:
             print 'OK'
@@ -153,6 +175,9 @@ def run_marionette_tests(arch_name, test_names=None):
             for line in output.strip().split('\n'):
                 print '    >', line
             failed_tests.append(test_name)
+
+    # Quit server
+    run_applescript(quit_server_applescript)
 
     return failed_tests
 
