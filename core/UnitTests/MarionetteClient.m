@@ -371,15 +371,11 @@ Datum _getNumber(const string &expression, const GenericDataType type);
 							if(!self.sentExperiment) {							
 								[self marionetteAssert:!self.sentExperiment
 										   withMessage:@"received trying to send an experiment more than once"]; 
-								if (!(client->sendExperiment([[[[NSProcessInfo processInfo] arguments] objectAtIndex:1] cStringUsingEncoding:NSASCIIStringEncoding]))) {
-                                    // If sendExperiment() fails, the *client* generates an experiment state event
-                                    // in order to notify the server of the failure.  Since the marionette runner
-                                    // expects all interesting events to come from the server, we need to post a fake
-                                    // experiment state event that *looks* like it came from the server.  This is a
-                                    // stupid hack, but it gets the job done.
-                                    global_outgoing_event_buffer->putEvent(SystemEventFactory::currentExperimentState());
+								if (client->sendExperiment([[[[NSProcessInfo processInfo] arguments] objectAtIndex:1] cStringUsingEncoding:NSASCIIStringEncoding])) {
+                                    self.sentExperiment = YES;
+                                } else {
+                                    self.experimentEnded = YES;
                                 }
-								self.sentExperiment = YES;
 							} else if (self.sentCloseExperiment || !self.experimentLoaded) {
                                 self.experimentEnded = YES;
                             }

@@ -40,8 +40,8 @@ if (output volume of (get volume settings)) < minVolume then
 end if
 
 -- Activate MWServer
-activate application "MWServer"
-repeat until application "MWServer" is running
+activate application "/Applications/MWServer.app"
+repeat until application "/Applications/MWServer.app" is running
     delay 1
 end repeat
 
@@ -50,8 +50,8 @@ end repeat
 
 quit_server_applescript = """
 
-quit application "MWServer"
-repeat while application "MWServer" is running
+quit application "/Applications/MWServer.app"
+repeat while application "/Applications/MWServer.app" is running
     delay 1
 end repeat
 
