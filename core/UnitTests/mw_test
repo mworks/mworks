@@ -3,6 +3,7 @@
 from cStringIO import StringIO
 from optparse import OptionParser
 import os
+import random
 from subprocess import call, check_call, check_output, Popen, PIPE
 import sys
 from tempfile import NamedTemporaryFile
@@ -113,12 +114,17 @@ def run_marionette_tests(arch_name, test_names=None):
                     for t in iter_marionette_tests(test):
                         yield t
 
+    # Randomize test order to increase our chances of catching bad
+    # interactions between different core components
+    all_test_names = list(test_file_iter())
+    random.shuffle(all_test_names)
+
     # Ensure that server starts fresh
     run_applescript(quit_server_applescript)
 
     failed_tests = []
 
-    for test_file in test_file_iter():
+    for test_num, test_file in enumerate(all_test_names):
         if not os.path.isfile(test_file):
             error(3, 'no such file: "%s"', test_file)
 
@@ -147,7 +153,7 @@ def run_marionette_tests(arch_name, test_names=None):
         else:
             test_name = test_file
 
-        print test_name, ':',
+        print '(%d/%d) %s:' %  (test_num + 1, len(all_test_names), test_name),
         sys.stdout.flush()
 
         if missing_features:
@@ -178,6 +184,9 @@ def run_marionette_tests(arch_name, test_names=None):
 
     # Quit server
     run_applescript(quit_server_applescript)
+
+    # Ensure consistent output order for test names
+    failed_tests.sort()
 
     return failed_tests
 
