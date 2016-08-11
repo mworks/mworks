@@ -244,50 +244,36 @@ void StandardSystemEventHandler::handleSystemEvent(const Datum &sysEvent) {
 				merror(M_STATE_SYSTEM_MESSAGE_DOMAIN,
 						 "illegal property in save variables event");				
 			} else {
-
-				bf::path filename;
-				// make sure the proper directory structure exists
-                
-                string filestring;
-                
-                try {
-                    filestring = file.getString();
-                } catch(std::exception& e){
-                    merror(M_SYSTEM_MESSAGE_DOMAIN, "Invalid filename for variable set");
-                }
-                
 				try {
                 
                     bf::path variablesDirectory = getExperimentSavedVariablesPath(GlobalCurrentExperiment->getExperimentDirectory());
                     
+                    // make sure the proper directory structure exists
                     if(bf::create_directories(variablesDirectory)) {
                         mprintf("Creating saved variables directory");
                     }
                     
+                    bf::path filename;
                     if(fullPath.getBool()) {
                         filename = bf::path(file.getString());				
                     } else {
-                        filename = variablesDirectory / bf::path(appendFileExtension(filestring, ".xml"));
+                        filename = variablesDirectory / bf::path(appendFileExtension(file.getString(), ".xml"));
+                    }
+                    
+                    if (!bf::exists(filename) || overwrite.getBool()) {
+                        if (VariableSave::saveExperimentwideVariables(filename)) {
+                            GlobalCurrentExperiment->setCurrentSavedVariablesFile(filename.string());
+                            global_outgoing_event_buffer->putEvent(SystemEventFactory::currentExperimentState());
+                        }
+                    } else {
+                        mwarning(M_STATE_SYSTEM_MESSAGE_DOMAIN,
+                                 "NOT overwriting current variables");
                     }
 
                 } catch (std::exception& e){
                     merror(M_SYSTEM_MESSAGE_DOMAIN, "Error interacting with file system to save variables: %s", e.what());
                 }
-                
-				if((bf::exists(filename) && overwrite.getBool()) || !bf::exists(filename)) {
-					try {
-                        VariableSave::saveExperimentwideVariables(filename);
-                    } catch (std::exception& e){
-                        merror(M_SYSTEM_MESSAGE_DOMAIN, "An error occurred while saving variables");
-                    }
-				} else {
-					mwarning(M_STATE_SYSTEM_MESSAGE_DOMAIN,
-							 "NOT overwriting current variables");
-				}
-			}			
-
-			shared_ptr<Event> experimentStateEvent = SystemEventFactory::currentExperimentState();
-			global_outgoing_event_buffer->putEvent(experimentStateEvent);
+			}
 
 			break;
 		}	
@@ -302,17 +288,20 @@ void StandardSystemEventHandler::handleSystemEvent(const Datum &sysEvent) {
 			if(!fullPath.isInteger() || !file.isString()) {
 				merror(M_STATE_SYSTEM_MESSAGE_DOMAIN,
 					   "illegal property in load variables event");				
-			}
-			
-			bf::path filename;
-			if(fullPath.getBool()) {
-				filename = bf::path(file.getString());				
-			} else {
-				filename = (getExperimentSavedVariablesPath(GlobalCurrentExperiment->getExperimentDirectory()) /
-                            bf::path(appendFileExtension(file.getString(), ".xml")));
-			}
-			
-			VariableLoad::loadExperimentwideVariables(filename);
+            } else {
+                bf::path filename;
+                if(fullPath.getBool()) {
+                    filename = bf::path(file.getString());
+                } else {
+                    filename = (getExperimentSavedVariablesPath(GlobalCurrentExperiment->getExperimentDirectory()) /
+                                bf::path(appendFileExtension(file.getString(), ".xml")));
+                }
+                
+                if (VariableLoad::loadExperimentwideVariables(filename)) {
+                    GlobalCurrentExperiment->setCurrentSavedVariablesFile(filename.string());
+                    global_outgoing_event_buffer->putEvent(SystemEventFactory::currentExperimentState());
+                }
+            }
 			
 			break;
 		}

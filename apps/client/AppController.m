@@ -284,7 +284,6 @@
 
     [modalClientInstanceInCharge setVariableSetName:new_set];
     [modalClientInstanceInCharge saveVariableSet];
-    [modalClientInstanceInCharge loadVariableSet];
     [self closeVariableSetSheet:self];
 }
 

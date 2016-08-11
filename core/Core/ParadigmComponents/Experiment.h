@@ -173,6 +173,8 @@ class Experiment : public ScopedVariableEnvironment, public ContainerState {
 		std::string experimentName;
 		std::string experimentPath;
         std::string workingPath;
+    
+        std::string currentSavedVariablesFile;
 		
 		// Private methods to log changes in variable values
 		void logChange(Variable *variable, const Datum& data);
@@ -217,6 +219,14 @@ class Experiment : public ScopedVariableEnvironment, public ContainerState {
     
         const std::string& getWorkingPath() const {
             return workingPath;
+        }
+    
+        const std::string& getCurrentSavedVariablesFile() const {
+            return currentSavedVariablesFile;
+        }
+    
+        void setCurrentSavedVariablesFile(const std::string &filePath) {
+            currentSavedVariablesFile = filePath;
         }
 		
 		

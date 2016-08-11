@@ -458,6 +458,12 @@ shared_ptr<Event> SystemEventFactory::currentExperimentState() {
             payload.addElement(M_SAVED_VARIABLES, savedVarList);
         }
         
+        auto &currentSavedVariablesFile = GlobalCurrentExperiment->getCurrentSavedVariablesFile();
+        if (!currentSavedVariablesFile.empty()) {
+            bf::path filePath(currentSavedVariablesFile);
+            payload.addElement(M_CURRENT_SAVED_VARIABLES, removeFileExtension(filePath.filename().string()));
+        }
+        
         // If a data file is open, include the file name
         if (GlobalDataFileManager && GlobalDataFileManager->isFileOpen()) {
             payload.addElement(M_DATA_FILE_NAME, GlobalDataFileManager->getFilename());

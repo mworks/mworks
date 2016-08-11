@@ -501,29 +501,17 @@
 
 
 - (void) saveVariableSet {
-
-#ifndef HOLLOW_OUT_FOR_ADC
     NSString *variable_save_name = [self variableSetName];
     if(variable_save_name != Nil){
         core->sendSaveVariablesEvent([variable_save_name cStringUsingEncoding:NSASCIIStringEncoding], 1);
-        [notebook addEntry:[NSString stringWithFormat:@"Loaded variable set %@", variable_save_name, Nil]];
-    } else {
-        // TODO
     }
-#endif
 }
 
 - (void) loadVariableSet {
-#ifndef HOLLOW_OUT_FOR_ADC
     NSString *variable_load_name = [self variableSetName];
     if(variable_load_name != Nil){
         core->sendLoadVariablesEvent([variable_load_name cStringUsingEncoding:NSASCIIStringEncoding]);
-        // TODO: should get confirmation!
-        self.variableSetLoaded = YES;
-    } else {
-        //TODO
     }
-#endif
 }
 
 - (void) openDataFile {
@@ -805,6 +793,11 @@
                     }
                     
                     [self didChangeValueForKey:@"serversideVariableSetNames"];
+                    
+                    if (state.hasKey(M_CURRENT_SAVED_VARIABLES)) {
+                        self.variableSetName = [NSString stringWithUTF8String:state.getElement(M_CURRENT_SAVED_VARIABLES).getString().c_str()];
+                        self.variableSetLoaded = YES;
+                    }
                     
                     if (state.hasKey(M_DATA_FILE_NAME)) {
                         [self setDataFileName:[NSString stringWithCString:state.getElement(M_DATA_FILE_NAME).getString().c_str()
