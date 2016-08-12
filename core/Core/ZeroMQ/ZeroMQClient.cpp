@@ -26,6 +26,7 @@ ZeroMQClient::ZeroMQClient(const boost::shared_ptr<EventBuffer> &incomingEventBu
     outgoingSocketEndpoint(outgoingSocketEndpoint)
 {
     if (!incomingSocket.setOption(ZMQ_SUBSCRIBE, "") ||  // Subscribe to all incoming messages
+        !incomingSocket.setOption(ZMQ_RCVHWM, 0) ||      // No limit on number of outstanding incoming messages
         !outgoingSocket.setOption(ZMQ_IMMEDIATE, 1))     // Block sends until connection completes
     {
         throw SimpleException(M_NETWORK_MESSAGE_DOMAIN, "Cannot configure ZeroMQ sockets");
