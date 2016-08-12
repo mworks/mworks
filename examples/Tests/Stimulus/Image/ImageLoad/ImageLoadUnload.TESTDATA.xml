@@ -1,11 +1,6 @@
 <?xml version="1.0"?>
 <marionette_info>
-  <permitted_error_messages>
-    <!-- If there's a mirrow window, the errors will be announced twice.  Ignore the duplicates. -->
-    <message type="whole_message" max_matches="4">ERROR: Stimulus image is not loaded.  Displaying nothing.</message>
-  </permitted_error_messages>
   <expected_messages>
-    <message type="whole_message">initializing image loader facility</message>
     <message type="whole_message">Image loaded into texture_map 1</message>
     <message type="whole_message">Starting state system....</message>
     <message type="starts_with">Queuing normal (</message>

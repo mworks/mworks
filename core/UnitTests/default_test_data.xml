@@ -2,11 +2,8 @@
 <marionette_info>
   <permitted_error_messages>
     <!-- Test-specific messages are appended to this list -->
-    <message type="starts_with">WARNING: Write Service Routine Interrupted on id </message>
-    <message type="starts_with">WARNING: Received Termination code on id </message>
-    <message type="starts_with">WARNING: Failed to set thread priority: </message>
-    <message type="whole_message">WARNING: Skipped 1 display refresh cycles</message>
-    <message type="whole_message">WARNING: Skipped 2 display refresh cycles</message>
+    <message type="starts_with" max_matches="1">WARNING: Write Service Routine Interrupted on id </message>
+    <message type="starts_with" max_matches="1">WARNING: Failed to set thread priority: </message>
   </permitted_error_messages>
   <expected_messages>
     <!-- Test-specific messages replace this list -->
