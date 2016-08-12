@@ -8,6 +8,8 @@
 
 #include "ZeroMQServer.hpp"
 
+#include "Utilities.h"
+
 
 BEGIN_NAMESPACE_MW
 
@@ -22,7 +24,12 @@ ZeroMQServer::ZeroMQServer(const boost::shared_ptr<EventBuffer> &incomingEventBu
     outgoingConnection(outgoingSocket, outgoingEventBuffer),
     incomingSocketEndpoint(incomingSocketEndpoint),
     outgoingSocketEndpoint(outgoingSocketEndpoint)
-{ }
+{
+    if (!outgoingSocket.setOption(ZMQ_SNDHWM, 0))  // No limit on number of outstanding outgoing messages
+    {
+        throw SimpleException(M_NETWORK_MESSAGE_DOMAIN, "Cannot configure ZeroMQ socket");
+    }
+}
 
 
 bool ZeroMQServer::start() {
