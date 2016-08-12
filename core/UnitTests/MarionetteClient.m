@@ -46,6 +46,8 @@ Datum _getNumber(const string &expression, const GenericDataType type);
 	self = [super init];
 	if (self != nil) {
 		client = shared_ptr<Client>(new Client());
+        
+        lastEventReceivedDate = [NSDate date];
 		
 		CocoaEventFunctor cef(self, @selector(eventReceived:), MARIONETTE_KEY);
 		client->registerCallback(cef);
@@ -249,6 +251,11 @@ Datum _getNumber(const string &expression, const GenericDataType type);
 @synthesize sentCloseExperiment=sent_close_experiment;
 
 - (void)waitForExperimentToEnd:(NSTimer *)the_timer {
+    if ([[NSDate date] timeIntervalSinceDate:lastEventReceivedDate] > 30.0) {
+        [self marionetteAssert:@"No events received for over 30 seconds"];
+        self.experimentEnded = YES;
+    }
+    
 	if(self.experimentEnded || self.asserted) {
         if (!self.experimentEnded && self.stateSystemRunning) {
             // If we're terminating due to an assertion, stop the experiment so that everything gets a chance
@@ -284,6 +291,8 @@ Datum _getNumber(const string &expression, const GenericDataType type);
 
 // private methods
 - (void)eventReceived:(MWCocoaEvent *)event {
+    lastEventReceivedDate = [NSDate date];
+    
 	int code = [event code];
 	
 	if([self.expectedEvents count] > 0) {

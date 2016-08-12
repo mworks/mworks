@@ -21,6 +21,8 @@ using namespace mw;
 	BOOL state_system_running;
 	BOOL experiment_ended;
 	BOOL asserted;
+    
+    NSDate *lastEventReceivedDate;
 	
 	NSMutableArray *permitted_error_messages;
 	NSMutableArray *expected_messages;
