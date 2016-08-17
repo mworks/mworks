@@ -12,18 +12,7 @@
 BEGIN_NAMESPACE_MW
 
 
-mach_timebase_info_data_t HighPrecisionClock::getTimebaseInfo() {
-    mach_timebase_info_data_t timebaseInfo;
-    if (logMachError("mach_timebase_info", mach_timebase_info(&timebaseInfo))) {
-        throw SimpleException(M_SCHEDULER_MESSAGE_DOMAIN, "Unable to create HighPrecisionClock");
-    }
-    return timebaseInfo;
-}
-
-
 HighPrecisionClock::HighPrecisionClock() :
-    timebaseInfo(getTimebaseInfo()),
-    systemBaseTimeAbsolute(mach_absolute_time()),
     period(nanosToAbsolute(periodUS * nanosPerMicro)),
     computation(nanosToAbsolute(computationUS * nanosPerMicro)),
     threadSpecificSemaphore(&destroySemaphore)
@@ -32,21 +21,6 @@ HighPrecisionClock::HighPrecisionClock() :
 
 HighPrecisionClock::~HighPrecisionClock() {
     stopClock();
-}
-
-
-MWTime HighPrecisionClock::getSystemBaseTimeNS() {
-    return absoluteToNanos(systemBaseTimeAbsolute);
-}
-
-
-MWTime HighPrecisionClock::getSystemTimeNS() {
-    return absoluteToNanos(mach_absolute_time());
-}
-
-
-MWTime HighPrecisionClock::getCurrentTimeNS() {
-    return absoluteToNanos(mach_absolute_time() - systemBaseTimeAbsolute);
 }
 
 

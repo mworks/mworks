@@ -414,6 +414,7 @@
 		E19B792B1D525E2200110665 /* ZeroMQUtilityTests.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E19B79291D525E2200110665 /* ZeroMQUtilityTests.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1A401B31D4FBE4C005B1C35 /* ZeroMQServer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1A401B11D4FBE4C005B1C35 /* ZeroMQServer.cpp */; };
 		E1A401B41D4FBE4C005B1C35 /* ZeroMQServer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E1A401B21D4FBE4C005B1C35 /* ZeroMQServer.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
+		E1A911F21D64B74000DF4AAC /* SimpleClock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1A911F01D64B74000DF4AAC /* SimpleClock.cpp */; };
 		E1ADE3B31BDE8F8B0055642F /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1ADE3B21BDE8F8B0055642F /* Accelerate.framework */; };
 		E1B6373F1D4A4B0700116BB3 /* MessageTestFixture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1B6373D1D4A4B0700116BB3 /* MessageTestFixture.cpp */; };
 		E1B637401D4A4B0700116BB3 /* MessageTestFixture.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E1B6373E1D4A4B0700116BB3 /* MessageTestFixture.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1033,6 +1034,8 @@
 		E19B79291D525E2200110665 /* ZeroMQUtilityTests.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ZeroMQUtilityTests.hpp; sourceTree = "<group>"; };
 		E1A401B11D4FBE4C005B1C35 /* ZeroMQServer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ZeroMQServer.cpp; sourceTree = "<group>"; };
 		E1A401B21D4FBE4C005B1C35 /* ZeroMQServer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ZeroMQServer.hpp; sourceTree = "<group>"; };
+		E1A911F01D64B74000DF4AAC /* SimpleClock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SimpleClock.cpp; sourceTree = "<group>"; };
+		E1A911F11D64B74000DF4AAC /* SimpleClock.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SimpleClock.hpp; sourceTree = "<group>"; };
 		E1ADE3B21BDE8F8B0055642F /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		E1B6373D1D4A4B0700116BB3 /* MessageTestFixture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MessageTestFixture.cpp; sourceTree = "<group>"; };
 		E1B6373E1D4A4B0700116BB3 /* MessageTestFixture.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MessageTestFixture.hpp; sourceTree = "<group>"; };
@@ -2086,6 +2089,8 @@
 		E106CF0D1CA42EDC001A0928 /* HighPrecisionClock */ = {
 			isa = PBXGroup;
 			children = (
+				E1A911F11D64B74000DF4AAC /* SimpleClock.hpp */,
+				E1A911F01D64B74000DF4AAC /* SimpleClock.cpp */,
 				E106CF191CA43380001A0928 /* HighPrecisionClock.h */,
 				E106CF181CA43380001A0928 /* HighPrecisionClock.cpp */,
 				E106CF1A1CA43380001A0928 /* HighPrecisionClockPlugin.cpp */,
@@ -2853,6 +2858,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E106CF1C1CA4339B001A0928 /* HighPrecisionClockPlugin.cpp in Sources */,
+				E1A911F21D64B74000DF4AAC /* SimpleClock.cpp in Sources */,
 				E106CF1B1CA43397001A0928 /* HighPrecisionClock.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -12,15 +12,23 @@
 BEGIN_NAMESPACE_MW
 
 
+class SimpleClockFactory : public ComponentFactory {
+    boost::shared_ptr<Component> createObject(StdStringMap parameters, ComponentRegistryPtr reg) override {
+        return boost::make_shared<SimpleClock>();
+    }
+};
+
+
 class HighPrecisionClockFactory : public ComponentFactory {
     boost::shared_ptr<Component> createObject(StdStringMap parameters, ComponentRegistryPtr reg) MW_OVERRIDE {
-        return boost::shared_ptr<HighPrecisionClock>(new HighPrecisionClock);
+        return boost::make_shared<HighPrecisionClock>();
     }
 };
 
 
 class HighPrecisionClockPlugin : public Plugin {
     void registerComponents(boost::shared_ptr<ComponentRegistry> registry) MW_OVERRIDE {
+        registry->registerFactory("SimpleClock", new SimpleClockFactory);
         registry->registerFactory("HighPrecisionClock", new HighPrecisionClockFactory);
         // HighPrecisionClock replaced MachClock, but keep MachClock as an alias to support
         // old configuration files that specify it

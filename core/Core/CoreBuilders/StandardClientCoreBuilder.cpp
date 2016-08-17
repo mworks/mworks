@@ -57,7 +57,7 @@ bool StandardClientCoreBuilder::chooseRealtimeComponents() {
 	
 	shared_ptr<ComponentRegistry> component_registry = ComponentRegistry::getSharedRegistry();
 	
-	shared_ptr<mw::Component> clock = component_registry->createNewObject("HighPrecisionClock", map<string, string>());
+	shared_ptr<mw::Component> clock = component_registry->createNewObject("SimpleClock", map<string, string>());
 	Clock::registerInstance(clock);
 	
 	shared_ptr<mw::Component> scheduler = component_registry->createNewObject("LowPriorityScheduler", map<string, string>());
