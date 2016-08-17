@@ -256,14 +256,7 @@ Datum _getNumber(const string &expression, const GenericDataType type);
         self.experimentEnded = YES;
     }
     
-	if(self.experimentEnded || self.asserted) {
-        if (!self.experimentEnded && self.stateSystemRunning) {
-            // If we're terminating due to an assertion, stop the experiment so that everything gets a chance
-            // to shut down cleanly
-            client->sendStopEvent();
-            return;
-        }
-        
+	if (self.experimentEnded) {
 		if(!self.asserted && ([self.expectedMessages count] > 0 || [self.expectedEvents count] > 0)) {
 			if([self.expectedMessages count] > 0) {
 				[self marionetteAssert:[NSString stringWithFormat:@"not all required messages were recevied in the proper order.  Next expected: %@", [[self.expectedMessages objectAtIndex:0] message]]];
