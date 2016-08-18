@@ -62,7 +62,10 @@ BEGIN_NAMESPACE_MW
             }
         }
 		
-		if (GlobalMessageVariable) {
+        // Make a copy of GlobalMessageVariable to ensure that it isn't replaced while we're using it.  This can
+        // happen when an experiment is being unloaded, and various threads are shutting down and trying to issue
+        // messages, while another thread is re-initializing the standard variables.
+		if (auto messageVar = GlobalMessageVariable) {
             Datum messageDatum(M_DICTIONARY, 4);
             messageDatum.addElement(M_MESSAGE_DOMAIN, Datum(M_INTEGER, domain));
             messageDatum.addElement(M_MESSAGE, Datum(buffer));
@@ -71,8 +74,8 @@ BEGIN_NAMESPACE_MW
             
             // Use a mutex to ensure that the set and reset happen atomically
             boost::lock_guard<boost::mutex> lock(globalMessageVariableMutex);
-            GlobalMessageVariable->setValue(messageDatum);
-            GlobalMessageVariable->setSilentValue(0L);
+            messageVar->setValue(messageDatum);
+            messageVar->setSilentValue(0L);
 		}
         
         // For debugging:  If the environment variable MWORKS_WRITE_MESSAGES_TO_STDERR is set,
