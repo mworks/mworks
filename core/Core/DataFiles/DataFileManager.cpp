@@ -83,11 +83,11 @@ int DataFileManager::openFile(std::string _filename, DatumFileOptions opt) {
 		}
 	}			
 	
-    // Ensure that the data file directory exists
+    // Ensure that the destination directory exists
     try {
-        boost::filesystem::create_directories(dataFilePath());
+        boost::filesystem::create_directories(boost::filesystem::path(filename).parent_path());
     } catch (const std::exception &e) {
-        merror(M_FILE_MESSAGE_DOMAIN, "Could not create data file directory: %s", e.what());
+        merror(M_FILE_MESSAGE_DOMAIN, "Could not create data file destination directory: %s", e.what());
         global_outgoing_event_buffer->putEvent(SystemEventFactory::dataFileOpenedResponse(filename.c_str(),
                                                                                           M_COMMAND_FAILURE));
         return -1;
