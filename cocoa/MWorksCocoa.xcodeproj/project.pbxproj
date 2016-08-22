@@ -65,8 +65,6 @@
 		687EAA740CA1B3FA0022EE4F /* MWToolbarItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 687EAA720CA1B3FA0022EE4F /* MWToolbarItem.m */; };
 		68915DBB0CB678A2007DDDAA /* Broom.tif in Resources */ = {isa = PBXBuildFile; fileRef = 68915DB90CB678A2007DDDAA /* Broom.tif */; };
 		68915DBC0CB678A2007DDDAA /* Disk.png in Resources */ = {isa = PBXBuildFile; fileRef = 68915DBA0CB678A2007DDDAA /* Disk.png */; };
-		68B527040CA025F20093D825 /* KBPopUpToolbarItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 68B527020CA025F20093D825 /* KBPopUpToolbarItem.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		68B527050CA025F20093D825 /* KBPopUpToolbarItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 68B527030CA025F20093D825 /* KBPopUpToolbarItem.m */; };
 		68F379010C91C456007F1A6C /* MWCocoaEventFunctor.h in Headers */ = {isa = PBXBuildFile; fileRef = 68F379000C91C456007F1A6C /* MWCocoaEventFunctor.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
 		DADADB7A07FAFC9000F8D324 /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DADADB7907FAFC9000F8D324 /* MWorksCore.framework */; };
@@ -147,8 +145,6 @@
 		687EAA720CA1B3FA0022EE4F /* MWToolbarItem.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MWToolbarItem.m; path = Source/Toolbars/MWToolbarItem.m; sourceTree = "<group>"; };
 		68915DB90CB678A2007DDDAA /* Broom.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = Broom.tif; path = Images/Broom.tif; sourceTree = "<group>"; };
 		68915DBA0CB678A2007DDDAA /* Disk.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Disk.png; path = Images/Disk.png; sourceTree = "<group>"; };
-		68B527020CA025F20093D825 /* KBPopUpToolbarItem.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = KBPopUpToolbarItem.h; path = Source/Toolbars/KBPopUpToolbarItem.h; sourceTree = "<group>"; };
-		68B527030CA025F20093D825 /* KBPopUpToolbarItem.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = KBPopUpToolbarItem.m; path = Source/Toolbars/KBPopUpToolbarItem.m; sourceTree = "<group>"; };
 		68DAF1B40AC959FA00928168 /* MWorksCocoa.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MWorksCocoa.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		68F379000C91C456007F1A6C /* MWCocoaEventFunctor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MWCocoaEventFunctor.h; path = Source/MWCocoaEventFunctor.h; sourceTree = "<group>"; };
 		8DC2EF5A0486A6940098B216 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -274,8 +270,6 @@
 			children = (
 				687EAA710CA1B3FA0022EE4F /* MWToolbarItem.h */,
 				687EAA720CA1B3FA0022EE4F /* MWToolbarItem.m */,
-				68B527020CA025F20093D825 /* KBPopUpToolbarItem.h */,
-				68B527030CA025F20093D825 /* KBPopUpToolbarItem.m */,
 			);
 			name = Toolbars;
 			sourceTree = "<group>";
@@ -336,7 +330,6 @@
 				0EDBEBA20C721A8200694CA9 /* MWCocoaEvent.h in Headers */,
 				0E36D05F0C7A2F440050471A /* MWWindowController.h in Headers */,
 				68F379010C91C456007F1A6C /* MWCocoaEventFunctor.h in Headers */,
-				68B527040CA025F20093D825 /* KBPopUpToolbarItem.h in Headers */,
 				687EAA730CA1B3FA0022EE4F /* MWToolbarItem.h in Headers */,
 				0EE3765E0CA20F0C00874639 /* MWClientServerBase.h in Headers */,
 				0E727A1B0CB64819000C7B3F /* MWConsoleToolbar.h in Headers */,
@@ -432,7 +425,6 @@
 				0E1F31A20C5B1EB700EB89EA /* MWMessageContainer.m in Sources */,
 				0EDBEBA30C721A8200694CA9 /* MWCocoaEvent.m in Sources */,
 				0E36D0600C7A2F440050471A /* MWWindowController.m in Sources */,
-				68B527050CA025F20093D825 /* KBPopUpToolbarItem.m in Sources */,
 				687EAA740CA1B3FA0022EE4F /* MWToolbarItem.m in Sources */,
 				0E727A1C0CB64819000C7B3F /* MWConsoleToolbar.m in Sources */,
 				5CF10C69109F3B7000FFE11A /* MWCocoaEventFunctor.cpp in Sources */,

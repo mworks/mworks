@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10116"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10117"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="NSApplication">
@@ -22,9 +22,30 @@
                 <rect key="frame" x="0.0" y="0.0" width="209" height="5"/>
                 <autoresizingMask key="autoresizingMask"/>
             </view>
+            <toolbar key="toolbar" implicitIdentifier="FD5688AC-E2A4-4C1B-8E1F-08EC3A7F5ECA" autosavesConfiguration="NO" allowsUserCustomization="NO" displayMode="iconAndLabel" sizeMode="regular" id="uJc-LB-haa">
+                <allowedToolbarItems>
+                    <toolbarItem implicitItemIdentifier="B1F84EF6-9F29-45AA-A6F9-6136753C66E3" label="Preferences" paletteLabel="Preferences" tag="-1" image="NSAdvanced" id="BPk-k2-khY">
+                        <connections>
+                            <action selector="togglePreferences:" target="206" id="U7C-6f-nFL"/>
+                        </connections>
+                    </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="0eZ-sh-n2A"/>
+                    <toolbarItem implicitItemIdentifier="FA628A65-62A3-469A-8FD0-DA9C25B58902" label="Console" paletteLabel="Console" tag="-1" image="Console" id="V0n-Co-J5D">
+                        <connections>
+                            <action selector="toggleConsole:" target="206" id="hlZ-2y-4cb"/>
+                        </connections>
+                    </toolbarItem>
+                </allowedToolbarItems>
+                <defaultToolbarItems>
+                    <toolbarItem reference="BPk-k2-khY"/>
+                    <toolbarItem reference="0eZ-sh-n2A"/>
+                    <toolbarItem reference="V0n-Co-J5D"/>
+                </defaultToolbarItems>
+            </toolbar>
             <connections>
                 <outlet property="delegate" destination="206" id="228"/>
             </connections>
+            <point key="canvasLocation" x="-102.5" y="568.5"/>
         </window>
         <menu title="MainMenu" systemMenu="main" id="29" userLabel="MainMenu">
             <items>
@@ -321,22 +342,6 @@
                         </items>
                     </menu>
                 </menuItem>
-                <menuItem title="Network" id="283">
-                    <menu key="submenu" title="Network" id="284">
-                        <items>
-                            <menuItem title="Stop Server" id="285"/>
-                            <menuItem title="Stop Accepting" id="286"/>
-                            <menuItem isSeparatorItem="YES" title="Network Preferences" id="288">
-                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
-                            </menuItem>
-                            <menuItem title="Network Preferences" id="287">
-                                <connections>
-                                    <action selector="openWindow:" target="317" id="339"/>
-                                </connections>
-                            </menuItem>
-                        </items>
-                    </menu>
-                </menuItem>
                 <menuItem title="Help" id="103">
                     <menu key="submenu" title="Help" id="106">
                         <items>
@@ -362,136 +367,9 @@
         </menu>
         <customObject id="206" userLabel="MWSServer" customClass="MWSServer">
             <connections>
-                <outlet property="mc" destination="305" id="310"/>
-                <outlet property="nc" destination="317" id="337"/>
-                <outlet property="tc" destination="293" id="294"/>
+                <outlet property="preferencesWindow" destination="3PL-gq-ATj" id="Nw9-wk-PL2"/>
             </connections>
         </customObject>
-        <customObject id="293" userLabel="MWSToolbarControl" customClass="MWSToolbarControl">
-            <connections>
-                <outlet property="delegate" destination="206" id="295"/>
-                <outlet property="window" destination="21" id="296"/>
-            </connections>
-        </customObject>
-        <customObject id="305" userLabel="MWSMenuControl" customClass="MWSMenuControl">
-            <connections>
-                <outlet property="delegate" destination="206" id="306"/>
-                <outlet property="menuAcceptControl" destination="286" id="308"/>
-                <outlet property="menuServerControl" destination="285" id="309"/>
-                <outlet property="runStopControl" destination="158" id="307"/>
-            </connections>
-        </customObject>
-        <customObject id="317" userLabel="MWSNetworkPreferencesController" customClass="MWSNetworkPreferencesController">
-            <connections>
-                <outlet property="addresses" destination="320" id="330"/>
-                <outlet property="applyButton" destination="325" id="353"/>
-                <outlet property="currentAddress" destination="342" id="343"/>
-                <outlet property="defaultAddress" destination="356" id="357"/>
-                <outlet property="delegate" destination="206" id="329"/>
-                <outlet property="nwpWindow" destination="318" id="352"/>
-            </connections>
-        </customObject>
-        <window title="Server Network Preferences" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="318" userLabel="NetworkPreferences" customClass="NSPanel">
-            <windowStyleMask key="styleMask" titled="YES" closable="YES"/>
-            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="676" y="621" width="375" height="162"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1028"/>
-            <value key="minSize" type="size" width="213" height="107"/>
-            <view key="contentView" id="319">
-                <rect key="frame" x="0.0" y="0.0" width="375" height="162"/>
-                <autoresizingMask key="autoresizingMask"/>
-                <subviews>
-                    <popUpButton verticalHuggingPriority="750" id="320">
-                        <rect key="frame" x="173" y="57" width="174" height="26"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <popUpButtonCell key="cell" type="push" title="Item1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="323" id="379">
-                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="menu"/>
-                            <menu key="menu" title="OtherViews" id="321">
-                                <items>
-                                    <menuItem title="Item1" state="on" id="323"/>
-                                    <menuItem title="Item2" id="322"/>
-                                    <menuItem title="Item3" id="324"/>
-                                </items>
-                            </menu>
-                        </popUpButtonCell>
-                        <connections>
-                            <action selector="addressChanged:" target="317" id="354"/>
-                        </connections>
-                    </popUpButton>
-                    <button verticalHuggingPriority="750" id="325">
-                        <rect key="frame" x="279" y="12" width="82" height="32"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <buttonCell key="cell" type="push" title="Apply" bezelStyle="rounded" alignment="center" borderStyle="border" inset="2" id="380">
-                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="apply:" target="317" id="333"/>
-                        </connections>
-                    </button>
-                    <button verticalHuggingPriority="750" id="327">
-                        <rect key="frame" x="197" y="12" width="82" height="32"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <buttonCell key="cell" type="push" title="Close" bezelStyle="rounded" alignment="center" borderStyle="border" inset="2" id="381">
-                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="performClose:" target="318" id="331"/>
-                        </connections>
-                    </button>
-                    <textField verticalHuggingPriority="750" id="340">
-                        <rect key="frame" x="51" y="63" width="120" height="17"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Listen on address:" id="382">
-                            <font key="font" metaFont="system"/>
-                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
-                    <textField verticalHuggingPriority="750" id="341">
-                        <rect key="frame" x="59" y="123" width="112" height="17"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Current Address:" id="383">
-                            <font key="font" metaFont="system"/>
-                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
-                    <textField verticalHuggingPriority="750" id="342">
-                        <rect key="frame" x="176" y="120" width="179" height="22"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="384">
-                            <font key="font" metaFont="system"/>
-                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
-                    <textField verticalHuggingPriority="750" id="355">
-                        <rect key="frame" x="17" y="93" width="154" height="17"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Address at next restart:" id="385">
-                            <font key="font" metaFont="system"/>
-                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
-                    <textField verticalHuggingPriority="750" id="356">
-                        <rect key="frame" x="176" y="90" width="179" height="22"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="386">
-                            <font key="font" metaFont="system"/>
-                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
-                </subviews>
-            </view>
-            <connections>
-                <outlet property="delegate" destination="317" id="334"/>
-            </connections>
-        </window>
         <customObject id="YTj-mv-19p" customClass="MWSSetupVariablesController"/>
         <objectController objectClassName="MWSSetupVariablesController" id="Npj-AL-FRl">
             <connections>
@@ -767,6 +645,66 @@
                                     </subviews>
                                 </view>
                             </tabViewItem>
+                            <tabViewItem label="Network" identifier="" id="Jto-82-JE4">
+                                <view key="view" id="D1L-XF-MYs">
+                                    <rect key="frame" x="10" y="33" width="434" height="268"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="nz0-fB-GML">
+                                            <rect key="frame" x="15" y="246" width="115" height="17"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Listening address:" id="Ayx-Wn-Dvs">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="gA7-iM-15i">
+                                            <rect key="frame" x="15" y="214" width="92" height="17"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Listening port:" id="wHj-zw-jiF">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                        <textField verticalHuggingPriority="750" id="hSd-FT-s8P">
+                                            <rect key="frame" x="136" y="243" width="281" height="22"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="Ltz-KU-1yo">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                            <connections>
+                                                <binding destination="470" name="value" keyPath="values.listeningAddressKey" id="WFO-sH-B75"/>
+                                            </connections>
+                                        </textField>
+                                        <textField verticalHuggingPriority="750" id="4Zm-df-3e6">
+                                            <rect key="frame" x="136" y="211" width="96" height="22"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="8Jt-UP-tYr">
+                                                <numberFormatter key="formatter" formatterBehavior="default10_4" usesGroupingSeparator="NO" groupingSize="0" minimumIntegerDigits="0" maximumIntegerDigits="42" id="GvX-rZ-jeP"/>
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                            <connections>
+                                                <binding destination="470" name="value" keyPath="values.listeningPortKey" id="fgB-pW-Hhb"/>
+                                            </connections>
+                                        </textField>
+                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="qXb-Ie-oRo">
+                                            <rect key="frame" x="15" y="176" width="200" height="17"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Changes will take effect after restart." id="8GT-3a-99Z">
+                                                <font key="font" metaFont="smallSystem"/>
+                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                    </subviews>
+                                </view>
+                            </tabViewItem>
                         </tabViewItems>
                     </tabView>
                 </subviews>
@@ -774,4 +712,8 @@
             <point key="canvasLocation" x="-18" y="226"/>
         </window>
     </objects>
+    <resources>
+        <image name="Console" width="128" height="128"/>
+        <image name="NSAdvanced" width="32" height="32"/>
+    </resources>
 </document>

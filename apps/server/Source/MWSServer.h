@@ -8,9 +8,6 @@
  */
 
 #import <Cocoa/Cocoa.h>
-#import "MWSToolbarControl.h"
-#import "MWSMenuControl.h"
-#import "MWSNetworkPreferencesController.h"
 #import "MWorksCocoa/MWConsoleController.h"
 #import "MWorksCocoa/MWClientServerBase.h"
 #import "MWorksCore/Server.h"
@@ -19,14 +16,12 @@
 @interface MWSServer : NSObject <MWClientServerBase> {
 
 	boost::shared_ptr<Server> core;
-    boost::shared_ptr<EventStreamInterface> core_as_esi; // technical reasons for needing this handle
+    
+    IBOutlet NSWindow *preferencesWindow;
 	MWConsoleController *cc;
 	
-	IBOutlet MWSToolbarControl *tc;
-	IBOutlet MWSMenuControl *mc;
-	IBOutlet MWSNetworkPreferencesController *nc;
-	
 	NSString *listeningAddress;
+    NSInteger listeningPort;
     
     NSError *err;
 }
@@ -45,20 +40,8 @@
 - (IBAction)launchDocs:(id)sender;
 - (IBAction)launchHelp:(id)sender;
 
-- (void)startServer;
-- (void)stopServer;
-- (void)startAccepting;
-- (void)stopAccepting;
-- (NSNumber *)serverAccepting;
-- (NSNumber *)serverStarted;
-- (NSNumber *)experimentRunning;
-- (NSNumber *)experimentLoaded;
-- (void)toggleConsole:(id)arg;
-- (void)updateGUI:(id)arg;
-- (void)openNetworkPreferences:(id)sender;
-- (NSString *)currentNetworkAddress:(id)sender;
-- (NSString *)defaultNetworkAddress:(id)sender;
-- (void)setListeningAddress:(NSString *)address;
+- (IBAction)togglePreferences:(id)sender;
+- (IBAction)toggleConsole:(id)sender;
 
 @end
 
