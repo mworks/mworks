@@ -25,11 +25,11 @@ int main(int argc, char *argv[]) {
     } catch (mw::ComponentFactoryConflictException &e) {
         
         @autoreleasepool {
-            NSString *error_description = [NSString stringWithCString:e.getMessage().c_str() encoding:NSASCIIStringEncoding];
+            NSString *error_description = @(e.getMessage().c_str());
             NSString *recovery_suggestion = @"You must review your plugins to ensure that multiple plugins aren't trying to register functionality under the same XML signatures";
             NSMutableDictionary *error_info = [[NSMutableDictionary alloc] init];
-            [error_info setObject:error_description forKey:NSLocalizedDescriptionKey];
-            [error_info setObject:recovery_suggestion forKey:NSLocalizedRecoverySuggestionErrorKey];
+            error_info[NSLocalizedDescriptionKey] = error_description;
+            error_info[NSLocalizedRecoverySuggestionErrorKey] = recovery_suggestion;
             NSError *error = [NSError errorWithDomain:@"PluginLoader"
                                                  code:100
                                              userInfo:error_info];

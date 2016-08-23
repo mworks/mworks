@@ -26,17 +26,17 @@
         writeQueue = dispatch_queue_create(NULL, DISPATCH_QUEUE_SERIAL);
         dispatch_set_target_queue(writeQueue, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0));
         
-        _serverName = [[NSString alloc] initWithUTF8String:(mw::serverName->getValue().toString().c_str())];
+        _serverName = @(mw::serverName->getValue().toString().c_str());
         
         {
             mw::Datum mdi = mw::mainDisplayInfo->getValue();
             if (mdi.isDictionary()) {
                 _displayToUse = [[NSNumber alloc] initWithLong:(mdi.getElement(M_DISPLAY_TO_USE_KEY).getInteger() + 1)];
-                _displayWidth = [[NSNumber alloc] initWithDouble:(mdi.getElement(M_DISPLAY_WIDTH_KEY).getFloat())];
-                _displayHeight = [[NSNumber alloc] initWithDouble:(mdi.getElement(M_DISPLAY_HEIGHT_KEY).getFloat())];
-                _displayDistance = [[NSNumber alloc] initWithDouble:(mdi.getElement(M_DISPLAY_DISTANCE_KEY).getFloat())];
+                _displayWidth = @(mdi.getElement(M_DISPLAY_WIDTH_KEY).getFloat());
+                _displayHeight = @(mdi.getElement(M_DISPLAY_HEIGHT_KEY).getFloat());
+                _displayDistance = @(mdi.getElement(M_DISPLAY_DISTANCE_KEY).getFloat());
                 _alwaysDisplayMirrorWindow = mdi.getElement(M_ALWAYS_DISPLAY_MIRROR_WINDOW_KEY).getBool();
-                _mirrorWindowBaseHeight = [[NSNumber alloc] initWithDouble:(mdi.getElement(M_MIRROR_WINDOW_BASE_HEIGHT_KEY).getFloat())];
+                _mirrorWindowBaseHeight = @(mdi.getElement(M_MIRROR_WINDOW_BASE_HEIGHT_KEY).getFloat());
                 _announceIndividualStimuli = mdi.getElement(M_ANNOUNCE_INDIVIDUAL_STIMULI_KEY).getBool();
             }
         }
@@ -51,7 +51,7 @@
 
 - (void)setServerName:(NSString *)serverName {
     _serverName = [serverName copy];
-    [self updateVariable:mw::serverName value:[serverName UTF8String]];
+    [self updateVariable:mw::serverName value:serverName.UTF8String];
 }
 
 
@@ -60,7 +60,7 @@
     
     NSArray *screens = [NSScreen screens];
     // Index 0 is always the main display, so start iteration at index 1
-    for (NSUInteger index = 1; index < [screens count]; index++) {
+    for (NSUInteger index = 1; index < screens.count; index++) {
         [displays addObject:[NSString stringWithFormat:@"Display %lu", (unsigned long)(index+1)]];
     }
     
@@ -72,7 +72,7 @@
     _displayToUse = displayToUse;
     [self updateVariable:mw::mainDisplayInfo
                      key:M_DISPLAY_TO_USE_KEY
-                   value:([displayToUse longValue] - 1)];
+                   value:(displayToUse.longValue - 1)];
 }
 
 
@@ -80,7 +80,7 @@
     _displayWidth = displayWidth;
     [self updateVariable:mw::mainDisplayInfo
                      key:M_DISPLAY_WIDTH_KEY
-                   value:[displayWidth doubleValue]];
+                   value:displayWidth.doubleValue];
 }
 
 
@@ -88,7 +88,7 @@
     _displayHeight = displayHeight;
     [self updateVariable:mw::mainDisplayInfo
                      key:M_DISPLAY_HEIGHT_KEY
-                   value:[displayHeight doubleValue]];
+                   value:displayHeight.doubleValue];
 }
 
 
@@ -96,7 +96,7 @@
     _displayDistance = displayDistance;
     [self updateVariable:mw::mainDisplayInfo
                      key:M_DISPLAY_DISTANCE_KEY
-                   value:[displayDistance doubleValue]];
+                   value:displayDistance.doubleValue];
 }
 
 
@@ -112,7 +112,7 @@
     _mirrorWindowBaseHeight = mirrorWindowBaseHeight;
     [self updateVariable:mw::mainDisplayInfo
                      key:M_MIRROR_WINDOW_BASE_HEIGHT_KEY
-                   value:[mirrorWindowBaseHeight doubleValue]];
+                   value:mirrorWindowBaseHeight.doubleValue];
 }
 
 

@@ -40,10 +40,10 @@
     if (self == [MWSServer class]) {
         NSMutableDictionary *defaultValues = [NSMutableDictionary dictionary];
         
-        [defaultValues setObject:@"127.0.0.1" forKey:LISTENING_ADDRESS_KEY];
-        [defaultValues setObject:@19989 forKey:LISTENING_PORT_KEY];
-        [defaultValues setObject:[NSNumber numberWithBool:NO] forKey:DEFAULTS_AUTO_OPEN_CLIENT];
-        [defaultValues setObject:[NSNumber numberWithBool:NO] forKey:DEFAULTS_AUTO_OPEN_CONSOLE];
+        defaultValues[LISTENING_ADDRESS_KEY] = @"127.0.0.1";
+        defaultValues[LISTENING_PORT_KEY] = @19989;
+        defaultValues[DEFAULTS_AUTO_OPEN_CLIENT] = @NO;
+        defaultValues[DEFAULTS_AUTO_OPEN_CONSOLE] = @NO;
         
         [[NSUserDefaults standardUserDefaults] registerDefaults:defaultValues];
     }
@@ -74,13 +74,13 @@
 
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-    core->setHostname([listeningAddress UTF8String]);
+    core->setHostname(listeningAddress.UTF8String);
     core->setListenPort(listeningPort);
     core->startServer();
     
     if ([[NSUserDefaults standardUserDefaults] boolForKey:DEFAULTS_AUTO_OPEN_CLIENT]) {
         [NSTask launchedTaskWithLaunchPath:@"/usr/bin/open"
-                                 arguments:[NSArray arrayWithObject:@"/Applications/MWClient.app"]];
+                                 arguments:@[@"/Applications/MWClient.app"]];
     }
     
     if ([[NSUserDefaults standardUserDefaults] boolForKey:DEFAULTS_AUTO_OPEN_CONSOLE]) {
@@ -119,7 +119,7 @@
 
 
 - (IBAction)toggleConsole:(id)sender {
-	if([[cc window] isVisible]) {
+	if (cc.window.visible) {
 		[cc close];
 	} else {
 		[cc showWindow:nil];	
@@ -133,7 +133,7 @@
 
 
 - (NSNumber *)codeForTag:(NSString *)tag {
-	return [NSNumber numberWithInt:core->lookupCodeForTag([tag cStringUsingEncoding:NSASCIIStringEncoding])];
+	return @(core->lookupCodeForTag([tag cStringUsingEncoding:NSASCIIStringEncoding]));
 }
 
 
