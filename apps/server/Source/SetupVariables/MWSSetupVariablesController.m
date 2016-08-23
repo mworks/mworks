@@ -15,21 +15,10 @@
 #include <MWorksCore/StandardVariables.h>
 #include <MWorksCore/XMLVariableWriter.h>
 
-using mw::Datum;
 
-
-@implementation MWSSetupVariablesController
-
-@synthesize serverName = _serverName;
-@synthesize displayToUse = _displayToUse;
-@synthesize displayWidth = _displayWidth;
-@synthesize displayHeight = _displayHeight;
-@synthesize displayDistance = _displayDistance;
-@synthesize alwaysDisplayMirrorWindow = _alwaysDisplayMirrorWindow;
-@synthesize mirrorWindowBaseHeight = _mirrorWindowBaseHeight;
-@synthesize announceIndividualStimuli = _announceIndividualStimuli;
-@synthesize warnOnSkippedRefresh = _warnOnSkippedRefresh;
-@synthesize allowAltFailover = _allowAltFailover;
+@implementation MWSSetupVariablesController {
+    dispatch_queue_t writeQueue;
+}
 
 
 - (instancetype)init {
@@ -40,7 +29,7 @@ using mw::Datum;
         _serverName = [[NSString alloc] initWithUTF8String:(mw::serverName->getValue().toString().c_str())];
         
         {
-            Datum mdi = mw::mainDisplayInfo->getValue();
+            mw::Datum mdi = mw::mainDisplayInfo->getValue();
             if (mdi.isDictionary()) {
                 _displayToUse = [[NSNumber alloc] initWithLong:(mdi.getElement(M_DISPLAY_TO_USE_KEY).getInteger() + 1)];
                 _displayWidth = [[NSNumber alloc] initWithDouble:(mdi.getElement(M_DISPLAY_WIDTH_KEY).getFloat())];
@@ -58,8 +47,6 @@ using mw::Datum;
     
     return self;
 }
-
-
 
 
 - (void)setServerName:(NSString *)serverName {
@@ -149,16 +136,16 @@ using mw::Datum;
 }
 
 
-- (void)updateVariable:(const mw::VariablePtr &)var value:(const Datum &)value {
+- (void)updateVariable:(const mw::VariablePtr &)var value:(const mw::Datum &)value {
     var->setValue(value);
     [self writeSetupVariables];
 }
 
 
-- (void)updateVariable:(const mw::VariablePtr &)var key:(const char *)key value:(const Datum &)value {
-    Datum dict = var->getValue();
+- (void)updateVariable:(const mw::VariablePtr &)var key:(const char *)key value:(const mw::Datum &)value {
+    mw::Datum dict = var->getValue();
     if (!dict.isDictionary()) {
-        dict = Datum(mw::M_DICTIONARY, 1);
+        dict = mw::Datum(mw::M_DICTIONARY, 1);
     }
     dict.addElement(key, value);
     [self updateVariable:var value:dict];

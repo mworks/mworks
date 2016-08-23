@@ -9,20 +9,7 @@
 #import <Foundation/Foundation.h>
 
 
-@interface MWSSetupVariablesController : NSObject {
-    dispatch_queue_t writeQueue;
-    
-    NSString *_serverName;
-    NSNumber *_displayToUse;
-    NSNumber *_displayWidth;
-    NSNumber *_displayHeight;
-    NSNumber *_displayDistance;
-    BOOL _alwaysDisplayMirrorWindow;
-    NSNumber *_mirrorWindowBaseHeight;
-    BOOL _announceIndividualStimuli;
-    BOOL _warnOnSkippedRefresh;
-    BOOL _allowAltFailover;
-}
+@interface MWSSetupVariablesController : NSObject
 
 @property(nonatomic, copy) NSString *serverName;
 @property(weak, nonatomic, readonly) NSArray *availableDisplays;
