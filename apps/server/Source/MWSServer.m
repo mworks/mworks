@@ -69,7 +69,7 @@
 
 
 /****************************************************************
- *              NSApplication Delegate Methods
+ *              NSApplicationDelegate methods
  ***************************************************************/
 
 
@@ -98,13 +98,16 @@
 *              IBAction methods
 ***************************************************************/
 
+
 - (IBAction)launchDocs:(id)sender {
     [[NSWorkspace sharedWorkspace] openURL:[NSURL fileURLWithPath:MWORKS_DOC_PATH isDirectory:NO]];
 }
 
+
 - (IBAction) launchHelp: (id) sender {
     [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:MWORKS_HELP_URL]];
 }
+
 
 - (IBAction)togglePreferences:(id)sender {
     if (self.preferencesWindow.isVisible) {
@@ -114,6 +117,7 @@
     }
 }
 
+
 - (IBAction)toggleConsole:(id)sender {
 	if([[cc window] isVisible]) {
 		[cc close];
@@ -122,95 +126,16 @@
 	}
 }
 
-- (IBAction)closeExperiment:(id)sender {
-	core->closeExperiment();
-}
-
-- (IBAction)openExperiment:(id)sender {
-    NSOpenPanel * op = [NSOpenPanel openPanel];
-    [op setCanChooseDirectories:NO];
-    // it is important that you never allow multiple files to be selected!
-    [op setAllowsMultipleSelection:NO];
-    [op setAllowedFileTypes:[NSArray arrayWithObjects:@"xml", nil]];
-
-    int bp = [op runModal];
-    if(bp == NSFileHandlingPanelOKButton) {
-        NSArray * fn = [op URLs];
-        NSEnumerator * fileEnum = [fn objectEnumerator];
-        NSURL * filename;
-        while(filename = [fileEnum nextObject]) {
-			if(!core->openExperiment([[filename path] cStringUsingEncoding:NSASCIIStringEncoding])) {
-                NSLog(@"Could not open experiment %@", filename);
-            }
-        }
-    }
-}
-
-- (IBAction)saveVariables:(id)sender {
-    NSSavePanel * save = [NSSavePanel savePanel];
-    [save setAllowedFileTypes:[NSArray arrayWithObject:@"xml"]];
-    [save setCanCreateDirectories:NO];
-    if([save runModal] == NSFileHandlingPanelOKButton) {
-		core->saveVariables(boost::filesystem::path([[[save URL] path] cStringUsingEncoding:NSASCIIStringEncoding]));
-    }
-	
-}
-
-- (IBAction)loadVariables:(id)sender {
-	NSOpenPanel * op = [NSOpenPanel openPanel];
-    [op setCanChooseDirectories:NO];
-    // it is important that you never allow multiple files to be selected!
-    [op setAllowsMultipleSelection:NO];
-    [op setAllowedFileTypes:[NSArray arrayWithObjects:@"xml", nil]];
-	
-    int bp = [op runModal];
-    if(bp == NSFileHandlingPanelOKButton) {
-        NSArray * fn = [op URLs];
-        NSEnumerator * fileEnum = [fn objectEnumerator];
-        NSURL * filename;
-        while(filename = [fileEnum nextObject]) {			
-			core->loadVariables(boost::filesystem::path([[filename path] cStringUsingEncoding:NSASCIIStringEncoding]));
-        }
-    }
-	
-}
-
-- (IBAction)openDataFile:(id)sender {
-    NSSavePanel * save = [NSSavePanel savePanel];
-    [save setAllowedFileTypes:[NSArray arrayWithObject:@"mwk"]];
-    [save setCanCreateDirectories:NO];
-    if([save runModal] == NSFileHandlingPanelOKButton) {
-        core->openDataFile([[[[save URL] path] lastPathComponent]
-                            cStringUsingEncoding:NSASCIIStringEncoding]);
-    }
-	
-}
-
-- (IBAction)closeDataFile:(id)sender {
-	core->closeFile();
-}
-
-
-- (IBAction)startExperiment:(id)delegate {
-	if(!core->isExperimentRunning()) {
-		core->startExperiment();
-	}
-}
-
-- (IBAction)stopExperiment:(id)delegate {
-	if(core->isExperimentRunning()) {
-		core->stopExperiment();
-	}
-}
-
-
 
 ////////////////////////////////////////////////////////////////////////////////
-// Delegate Methods
+// MWClientServerBase methods
 ////////////////////////////////////////////////////////////////////////////////
+
+
 - (NSNumber *)codeForTag:(NSString *)tag {
 	return [NSNumber numberWithInt:core->lookupCodeForTag([tag cStringUsingEncoding:NSASCIIStringEncoding])];
 }
+
 
 - (void)unregisterCallbacksWithKey:(const char *)key {
 	core->unregisterCallbacks(key);

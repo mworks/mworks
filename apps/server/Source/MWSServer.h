@@ -16,15 +16,6 @@
 
 @property(nonatomic, weak) IBOutlet NSWindow *preferencesWindow;
 
-- (IBAction)openExperiment:(id)sender;
-- (IBAction)closeExperiment:(id)sender;
-- (IBAction)saveVariables:(id)sender;
-- (IBAction)loadVariables:(id)sender;
-
-- (IBAction)openDataFile:(id)sender;
-- (IBAction)closeDataFile:(id)sender;
-- (IBAction)stopExperiment:(id)sender;
-- (IBAction)startExperiment:(id)sender;
 - (IBAction)launchDocs:(id)sender;
 - (IBAction)launchHelp:(id)sender;
 

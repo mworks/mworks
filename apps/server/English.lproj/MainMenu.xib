@@ -77,22 +77,6 @@
                         </items>
                     </menu>
                 </menuItem>
-                <menuItem title="File" id="83">
-                    <menu key="submenu" title="File" id="81">
-                        <items>
-                            <menuItem title="Open Experiment File..." keyEquivalent="o" id="72">
-                                <connections>
-                                    <action selector="openExperiment:" target="206" id="208"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="Close Experiment File" keyEquivalent="w" id="73">
-                                <connections>
-                                    <action selector="closeExperiment:" target="206" id="367"/>
-                                </connections>
-                            </menuItem>
-                        </items>
-                    </menu>
-                </menuItem>
                 <menuItem title="Edit" id="389">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <menu key="submenu" title="Edit" id="390">
@@ -296,48 +280,6 @@
                                         </menuItem>
                                     </items>
                                 </menu>
-                            </menuItem>
-                        </items>
-                    </menu>
-                </menuItem>
-                <menuItem title="Actions" id="163">
-                    <menu key="submenu" title="Actions" id="169">
-                        <items>
-                            <menuItem title="Run" keyEquivalent="r" id="158">
-                                <connections>
-                                    <action selector="startExperiment:" target="206" id="314"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="Stop" keyEquivalent="s" id="315">
-                                <connections>
-                                    <action selector="stopExperiment:" target="206" id="316"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem isSeparatorItem="YES" id="156">
-                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
-                            </menuItem>
-                            <menuItem title="Open Data File..." keyEquivalent="f" id="160">
-                                <connections>
-                                    <action selector="openDataFile:" target="206" id="212"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="Close Data File" keyEquivalent="F" id="157">
-                                <connections>
-                                    <action selector="closeDataFile:" target="206" id="213"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem isSeparatorItem="YES" id="174">
-                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
-                            </menuItem>
-                            <menuItem title="Save Variables" keyEquivalent="s" id="164">
-                                <connections>
-                                    <action selector="saveVariables:" target="206" id="214"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="Load Variables" keyEquivalent="l" id="172">
-                                <connections>
-                                    <action selector="loadVariables:" target="206" id="215"/>
-                                </connections>
                             </menuItem>
                         </items>
                     </menu>
