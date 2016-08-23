@@ -8,25 +8,13 @@
  */
 
 #import <Cocoa/Cocoa.h>
-#import "MWorksCocoa/MWConsoleController.h"
-#import "MWorksCocoa/MWClientServerBase.h"
-#import "MWorksCore/Server.h"
+
+#import <MWorksCocoa/MWClientServerBase.h>
 
 
-@interface MWSServer : NSObject <MWClientServerBase> {
+@interface MWSServer : NSObject <NSApplicationDelegate, MWClientServerBase>
 
-	boost::shared_ptr<Server> core;
-    
-    IBOutlet NSWindow *preferencesWindow;
-	MWConsoleController *cc;
-	
-	NSString *listeningAddress;
-    NSInteger listeningPort;
-    
-    NSError *err;
-}
-
-- (void) setError:(NSError *)error;
+@property(nonatomic, weak) IBOutlet NSWindow *preferencesWindow;
 
 - (IBAction)openExperiment:(id)sender;
 - (IBAction)closeExperiment:(id)sender;

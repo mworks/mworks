@@ -8,7 +8,10 @@
  */
 
 #import "MWSServer.h"
-#import "MWorksCocoa/MWCocoaEventFunctor.h"
+
+#import <MWorksCocoa/MWCocoaEventFunctor.h>
+#import <MWorksCocoa/MWConsoleController.h>
+#import <MWorksCore/Server.h>
 
 #define LISTENING_ADDRESS_KEY @"listeningAddressKey"
 #define LISTENING_PORT_KEY @"listeningPortKey"
@@ -20,7 +23,13 @@
 #define MWORKS_HELP_URL @"http://help.mworks-project.org/"
 
 
-@implementation MWSServer
+@implementation MWSServer {
+    NSString *listeningAddress;
+    NSInteger listeningPort;
+    
+    boost::shared_ptr<Server> core;
+    MWConsoleController *cc;
+}
 
 
 + (void)initialize {
@@ -41,38 +50,33 @@
 }
 
 
-- (id) init {
-	self = [super init];
-	if (self != nil) {
-		core = boost::shared_ptr <Server>(new Server());
+- (instancetype)init {
+    if ((self = [super init])) {
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        listeningAddress = [defaults objectForKey:LISTENING_ADDRESS_KEY];
+        listeningPort = [defaults integerForKey:LISTENING_PORT_KEY];
+        
+        core = boost::make_shared<Server>();
         Server::registerInstance(core);
         
-		NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-		listeningAddress = [defaults objectForKey:LISTENING_ADDRESS_KEY];
-        listeningPort = [defaults integerForKey:LISTENING_PORT_KEY];
-		
-		cc = [[MWConsoleController alloc] init];
-	}
-	return self;
+        cc = [[MWConsoleController alloc] init];
+        [cc setTitle:@"Server Console"];
+        [cc setDelegate:self];
+    }
+    
+    return self;
 }
-
-
-
 
 
 /****************************************************************
  *              NSApplication Delegate Methods
  ***************************************************************/
-- (void)setError:(NSError *)error{
-    err = error;
-}
-- (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
 
-	if(err != Nil){
-        NSApplication *app = [aNotification object];
-        [app presentError:err];
-        [app terminate:self];
-    }
+
+- (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
+    core->setHostname([listeningAddress UTF8String]);
+    core->setListenPort(listeningPort);
+    core->startServer();
     
     if ([[NSUserDefaults standardUserDefaults] boolForKey:DEFAULTS_AUTO_OPEN_CLIENT]) {
         [NSTask launchedTaskWithLaunchPath:@"/usr/bin/open"
@@ -84,19 +88,11 @@
     }
 }
 
-- (void)awakeFromNib{
-	core->setListenPort(listeningPort);
-	core->setHostname([listeningAddress UTF8String]);
-
-	core->startServer();
-	
-    [cc setTitle:@"Server Console"];
-	[cc setDelegate:self];
-}
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
     core->stopServer();
 }
+
 
 /****************************************************************
 *              IBAction methods
@@ -111,10 +107,10 @@
 }
 
 - (IBAction)togglePreferences:(id)sender {
-    if (preferencesWindow.isVisible) {
-        [preferencesWindow orderOut:self];
+    if (self.preferencesWindow.isVisible) {
+        [self.preferencesWindow orderOut:self];
     } else {
-        [preferencesWindow makeKeyAndOrderFront:self];
+        [self.preferencesWindow makeKeyAndOrderFront:self];
     }
 }
 
@@ -242,19 +238,30 @@
 }
 
 
-- (NSArray *)variableNames {
-	std::vector<std::string> varTagNames(core->getVariableTagNames());
-	NSMutableArray *varNames = [[NSMutableArray alloc] init];
-	
-	for(std::vector<std::string>::iterator iter = varTagNames.begin();
-		iter != varTagNames.end(); 
-		++iter) {
-		[varNames addObject:[NSString stringWithCString:iter->c_str() 
-											   encoding:NSASCIIStringEncoding]];
-	}
-	
-	return varNames;	
-}
-
-
 @end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

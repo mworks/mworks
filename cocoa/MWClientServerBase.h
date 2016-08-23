@@ -7,9 +7,6 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import <MWorksCore/GenericData.h>
-
-using namespace mw;
 
 
 @protocol MWClientServerBase <NSObject>
@@ -27,6 +24,5 @@ using namespace mw;
 
 - (void)unregisterCallbacksWithKey:(const char *)key;
 - (NSNumber *)codeForTag:(NSString *)tag;
-- (NSArray *)variableNames;
 
 @end

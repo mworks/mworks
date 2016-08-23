@@ -148,9 +148,9 @@
 			isa = PBXGroup;
 			children = (
 				E14742A7193F99B100A82D91 /* SetupVariables */,
-				29B97316FDCFA39411CA2CEA /* main.m */,
 				0EA038080C3D8A9A007C37CF /* MWSServer.h */,
 				0EA038090C3D8A9A007C37CF /* MWSServer.m */,
+				29B97316FDCFA39411CA2CEA /* main.m */,
 			);
 			path = Source;
 			sourceTree = "<group>";
