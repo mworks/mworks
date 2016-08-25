@@ -13,7 +13,6 @@
 #import <MWorksCocoa/MWCocoaEvent.h>
 #import <MWorksCocoa/MWCocoaEventFunctor.h>
 #import <MWorksCocoa/MWConsoleController.h>
-#import <MWorksCocoa/MWWindowController.h>
 #import <MWorksCocoa/MWNotebook.h>
 #import <MWorksCocoa/NSString+MWorksCocoaAdditions.h>
 
@@ -173,10 +172,6 @@
 
 - (MWNotebook *)notebook {
     return notebook;
-}
-
-- (shared_ptr<mw::EventStreamInterface>) eventStreamInterface{
-    return boost::static_pointer_cast<EventStreamInterface>(core);
 }
 
 - (NSArray *)variableNames {
@@ -950,9 +945,9 @@
         //[grouped_plugin_controller incrementPlugin:self];
     }
 	
-    NSWindowController<MWWindowController> *controller = [pluginWindows objectAtIndex:i];
+    id controller = [pluginWindows objectAtIndex:i];
     if([controller respondsToSelector:@selector(setInGroupedWindow:)]){
-        [controller setInGroupedWindow:NO];
+        [(id<MWClientPluginWindowController>)controller setInGroupedWindow:NO];
     }
     
     [[controller window] orderFront:self];

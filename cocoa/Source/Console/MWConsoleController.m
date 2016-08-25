@@ -8,7 +8,6 @@
 
 #import "MWMessageContainer.h"
 #import "MWConsoleController.h"
-#import "MWNotifications.h"
 #import "MWCocoaEvent.h"
 #import "MWorksCore/StandardVariables.h"
 #import "MWClientServerBase.h"

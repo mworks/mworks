@@ -9,7 +9,6 @@
 #import <Cocoa/Cocoa.h>
 #import <MWorksCore/Client.h>
 #import <MWorksCocoa/MWCocoaEvent.h>
-#import <MWorksCocoa/MWCoreContainer.h>
 #import <MWorksCocoa/MWClientProtocol.h>
 #import <MWorksCocoa/MWCodec.h>
 #import "MWGroupedPluginWindowController.h"
@@ -22,7 +21,7 @@
 
 #define STATE_SYSTEM_CALLBACK_KEY "MWorksClient::StateSystemCallbackKey"
 
-@interface MWClientInstance : NSObject <MWCoreContainer, MWClientProtocol> {	
+@interface MWClientInstance : NSObject <MWClientProtocol> {
 
 	// The core object that actually does all of the work
 	#ifndef HOLLOW_OUT_FOR_ADC
@@ -94,7 +93,6 @@
 
 // Accessors
 - (shared_ptr<mw::Client>) coreClient;
-- (shared_ptr<mw::EventStreamInterface>) eventStreamInterface;
 @property(strong) MWCodec *variables;
 - (NSArray *)variableNames;
 @property	NSMutableArray *errors;

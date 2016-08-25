@@ -6,14 +6,12 @@
 //  Copyright 2009 Harvard University. All rights reserved.
 //
 
-#import <MWorksCocoa/MWWindowController.h>
 #import <MWorksCocoa/MWClientProtocol.h>
 
 #import <MWorksCore/Client.h>
 #import <MWorksCore/EventStreamConduit.h>
-#import <MWorksCocoa/MWCoreContainer.h>
 
-@interface PythonBridgeController : NSWindowController <MWClientPluginWorkspaceState> {
+@interface PythonBridgeController : NSWindowController <MWClientPluginWindowController, MWClientPluginWorkspaceState> {
 
     IBOutlet id<MWClientProtocol> delegate;
     
@@ -71,8 +69,6 @@
 - (void)checkOnPythonTask;
 
 - (void) updateRecentScripts;
-
-- (void) setInGroupedWindow:(BOOL)isit;
 
 @end
 

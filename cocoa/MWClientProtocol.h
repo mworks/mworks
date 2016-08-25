@@ -48,6 +48,13 @@
 @end
 
 
+@protocol MWClientPluginWindowController <NSObject>
+
+- (void)setInGroupedWindow:(BOOL)isInGroupedWindow;
+
+@end
+
+
 @protocol MWClientPluginWorkspaceState <NSObject>
 
 - (NSDictionary *)workspaceState;

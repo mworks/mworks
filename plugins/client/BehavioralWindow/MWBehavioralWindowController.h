@@ -13,7 +13,6 @@ Copy right 2006 MIT. All rights reserved.
 
 
 
-#import "MWorksCocoa/MWWindowController.h"
 #import "MWorksCocoa/MWClientProtocol.h"
 #import "MWorksCore/GenericData.h"
 #import "Narrative/Narrative.h"

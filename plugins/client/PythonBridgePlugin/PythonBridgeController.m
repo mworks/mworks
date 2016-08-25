@@ -77,7 +77,7 @@
 }
 
 -(void)initConduit {
-    core = [(id<MWCoreContainer>)delegate eventStreamInterface];
+    core = [delegate coreClient];
     
     // TODO: generate a unique name to avoid name collisions
     shared_ptr<mw::IPCEventTransport> transport(new mw::IPCEventTransport(mw::EventTransport::server_event_transport, 
