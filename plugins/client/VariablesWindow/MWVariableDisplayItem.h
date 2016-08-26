@@ -14,7 +14,7 @@
 @property(nonatomic, readonly, copy) NSString *displayName;
 @property(nonatomic, readonly) NSInteger numberOfChildren;  // -1 for leaf nodes
 
-- (id)initWithDisplayName:(NSString *)displayName;
+- (instancetype)initWithDisplayName:(NSString *)displayName NS_DESIGNATED_INITIALIZER;
 - (void)setVariables:(NSArray *)variables;
 - (MWVariableDisplayItem *)childAtIndex:(NSUInteger)index;
 

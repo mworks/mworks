@@ -48,20 +48,20 @@
 
 
 - (void)updateRootItems:(MWCocoaEvent *)event {
-    NSMutableDictionary *oldRootObjects = [NSMutableDictionary dictionaryWithCapacity:[rootItems count]];
+    NSMutableDictionary *oldRootObjects = [NSMutableDictionary dictionaryWithCapacity:rootItems.count];
     for (MWVariableDisplayItem *item in rootItems) {
-        [oldRootObjects setObject:item forKey:item.displayName];
+        oldRootObjects[item.displayName] = item;
     }
     
     [rootItems removeAllObjects];
     
     NSDictionary *rootGroups = [self.client varGroups];
     for (NSString *key in rootGroups) {
-        MWVariableDisplayItem *item = [oldRootObjects objectForKey:key];
+        MWVariableDisplayItem *item = oldRootObjects[key];
         if (!item) {
             item = [[MWVariableDisplayItem alloc] initWithDisplayName:key];
         }
-        [item setVariables:[rootGroups objectForKey:key]];
+        [item setVariables:rootGroups[key]];
         [rootItems addObject:item];
     }
     
@@ -84,7 +84,7 @@
     if (item) {
         return [item numberOfChildren];
     }
-    return [rootItems count];
+    return rootItems.count;
 }
 
 
@@ -100,7 +100,7 @@
     if (item) {
         return [item childAtIndex:index];
     }
-    return [rootItems objectAtIndex:index];
+    return rootItems[index];
 }
 
 
@@ -117,7 +117,7 @@ objectValueForTableColumn:(NSTableColumn *)tableColumn
     }
     
     mw::Datum value = [variables valueForVariable:[item displayName]];
-    return [NSString stringWithUTF8String:(value.toString(true).c_str())];
+    return @(value.toString(true).c_str());
 }
 
 
@@ -130,7 +130,7 @@ objectValueForTableColumn:(NSTableColumn *)tableColumn
         return;
     }
     
-    const char *objectUTF8 = [(NSString *)object UTF8String];
+    const char *objectUTF8 = ((NSString *)object).UTF8String;
     mw::Datum value;
     
     try {
@@ -149,7 +149,7 @@ objectValueForTableColumn:(NSTableColumn *)tableColumn
 
 
 - (void)outlineViewItemDidExpand:(NSNotification *)notification {
-    MWVariableDisplayItem *item = [[notification userInfo] objectForKey:@"NSObject"];
+    MWVariableDisplayItem *item = notification.userInfo[@"NSObject"];
     if (NSNotFound == [expandedItems indexOfObject:item.displayName]) {
         [expandedItems addObject:item.displayName];
         [[NSUserDefaults standardUserDefaults] setObject:expandedItems forKey:DEFAULTS_EXPANDED_ITEMS_KEY];
@@ -158,7 +158,7 @@ objectValueForTableColumn:(NSTableColumn *)tableColumn
 
 
 - (void)outlineViewItemDidCollapse:(NSNotification *)notification {
-    MWVariableDisplayItem *item = [[notification userInfo] objectForKey:@"NSObject"];
+    MWVariableDisplayItem *item = notification.userInfo[@"NSObject"];
     if (NSNotFound != [expandedItems indexOfObject:item.displayName]) {
         [expandedItems removeObject:item.displayName];
         [[NSUserDefaults standardUserDefaults] setObject:expandedItems forKey:DEFAULTS_EXPANDED_ITEMS_KEY];
@@ -183,8 +183,8 @@ shouldEditTableColumn:(NSTableColumn *)tableColumn
     NSMutableDictionary *workspaceState = [NSMutableDictionary dictionary];
     
     NSArray *expandedGroups = [expandedItems copy];
-    if ([expandedGroups count] > 0) {
-        [workspaceState setObject:expandedGroups forKey:@"expandedGroups"];
+    if (expandedGroups.count > 0) {
+        workspaceState[@"expandedGroups"] = expandedGroups;
     }
     
     return workspaceState;
@@ -192,7 +192,7 @@ shouldEditTableColumn:(NSTableColumn *)tableColumn
 
 
 - (void)setWorkspaceState:(NSDictionary *)workspaceState {
-    NSArray *expandedGroups = [workspaceState objectForKey:@"expandedGroups"];
+    NSArray *expandedGroups = workspaceState[@"expandedGroups"];
     if (expandedGroups && [expandedGroups isKindOfClass:[NSArray class]]) {
         [expandedItems removeAllObjects];
         [expandedItems addObjectsFromArray:expandedGroups];

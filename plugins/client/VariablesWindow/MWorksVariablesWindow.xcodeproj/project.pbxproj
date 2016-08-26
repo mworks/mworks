@@ -285,6 +285,10 @@
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = MWorksVariablesWindow_Prefix.pch;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"NS_ENFORCE_NSOBJECT_DESIGNATED_INITIALIZER=0",
+				);
 				INFOPLIST_FILE = Info.plist;
 				PRODUCT_NAME = MWorksVariablesWindow;
 				WRAPPER_EXTENSION = bundle;

@@ -14,10 +14,10 @@
 
 - (void)textDidEndEditing:(NSNotification *)notification
 {
-    NSInteger editedColumn = [self editedColumn];
-    NSInteger lastColumn = [[self tableColumns] count] - 1;
-    int textMovement = [[[notification userInfo] valueForKey:@"NSTextMovement"] intValue];
-    NSInteger nextRow = [self editedRow] + 1;
+    NSInteger editedColumn = self.editedColumn;
+    NSInteger lastColumn = self.tableColumns.count - 1;
+    int textMovement = [[notification.userInfo valueForKey:@"NSTextMovement"] intValue];
+    NSInteger nextRow = self.editedRow + 1;
 	
     // Need to do this *after* we get the info about the edited cell
     [super textDidEndEditing:notification];
@@ -28,10 +28,10 @@
     //
     if (editedColumn == lastColumn &&
         textMovement == NSTabTextMovement &&
-        nextRow < [self numberOfRows])
+        nextRow < self.numberOfRows)
     {
-        NSUInteger firstEditableColumn = [[self tableColumns] indexOfObjectPassingTest:^(id obj, NSUInteger idx, BOOL *stop) {
-            return [(NSTableColumn *)obj isEditable];
+        NSUInteger firstEditableColumn = [self.tableColumns indexOfObjectPassingTest:^(id obj, NSUInteger idx, BOOL *stop) {
+            return ((NSTableColumn *)obj).editable;
         }];
         [self selectRowIndexes:[NSIndexSet indexSetWithIndex:nextRow] byExtendingSelection:NO];
         [self editColumn:firstEditableColumn row:nextRow withEvent:nil select:YES];

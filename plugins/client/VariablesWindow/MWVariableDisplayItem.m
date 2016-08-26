@@ -14,7 +14,7 @@
 }
 
 
-- (id)initWithDisplayName:(NSString *)displayName {
+- (instancetype)initWithDisplayName:(NSString *)displayName {
     if ((self = [super init])) {
         _displayName = [displayName copy];
     }
@@ -23,7 +23,7 @@
 
 
 - (void)setVariables:(NSArray *)variables {
-    children = [[NSMutableArray alloc] initWithCapacity:[variables count]];
+    children = [[NSMutableArray alloc] initWithCapacity:variables.count];
     
     for (NSString *newVarName in variables) {
         MWVariableDisplayItem *newChild = [[MWVariableDisplayItem alloc] initWithDisplayName:newVarName];
@@ -42,7 +42,7 @@
 
 - (NSInteger)numberOfChildren {
     if (children) {
-        return [children count];
+        return children.count;
     }
     return -1;
 }
