@@ -10,16 +10,12 @@
 
 
 @interface MWVariableDisplayItem : NSObject
-{
-	NSString *displayName;
-	NSMutableArray *children;
-}
 
-@property(nonatomic, readonly) NSString *displayName;
-@property(nonatomic, readonly) int numberOfChildren;  // -1 for leaf nodes
+@property(nonatomic, readonly, copy) NSString *displayName;
+@property(nonatomic, readonly) NSInteger numberOfChildren;  // -1 for leaf nodes
 
-- (id)initWithName:(NSString *)name;
-- (void)setVariables:(NSArray *)vars;
-- (MWVariableDisplayItem *)childAtIndex:(NSUInteger)n;  // Invalid to call on leaf nodes
+- (id)initWithDisplayName:(NSString *)displayName;
+- (void)setVariables:(NSArray *)variables;
+- (MWVariableDisplayItem *)childAtIndex:(NSUInteger)index;
 
 @end

@@ -9,52 +9,43 @@
 #import "MWVariableDisplayItem.h"
 
 
-@implementation MWVariableDisplayItem
+@implementation MWVariableDisplayItem {
+    NSMutableArray *children;
+}
 
 
-@synthesize displayName;
-
-
-- (id)initWithName:(NSString *)name
-{
+- (id)initWithDisplayName:(NSString *)displayName {
     if ((self = [super init])) {
-        displayName = [name copy];
+        _displayName = [displayName copy];
     }
     return self;
 }
 
 
-- (void)setVariables:(NSArray *)vars
-{
-    children = [[NSMutableArray alloc] initWithCapacity:[vars count]];
+- (void)setVariables:(NSArray *)variables {
+    children = [[NSMutableArray alloc] initWithCapacity:[variables count]];
     
-    for (NSString *newVarName in vars) {
-        MWVariableDisplayItem *newChild = [[MWVariableDisplayItem alloc] initWithName:newVarName];
+    for (NSString *newVarName in variables) {
+        MWVariableDisplayItem *newChild = [[MWVariableDisplayItem alloc] initWithDisplayName:newVarName];
         [children addObject:newChild];
     }
 }
 
 
-- (MWVariableDisplayItem *)childAtIndex:(NSUInteger)n
-{
-	if(children) {
-		return [children objectAtIndex:n];
-	} else {
-		return nil;
-	}
+- (MWVariableDisplayItem *)childAtIndex:(NSUInteger)index {
+    if (children) {
+        return children[index];
+    }
+    return nil;
 }
 
 
-- (int)numberOfChildren
-{
-	if (children == nil) {
-		return -1;
-	} else {
-		return [children count];
-	}
+- (NSInteger)numberOfChildren {
+    if (children) {
+        return [children count];
+    }
+    return -1;
 }
-
-
 
 
 @end

@@ -2,20 +2,16 @@
  *Copyright 2007 MIT. All rights reserved.
  */
 
-#import "MWorksCocoa/MWClientProtocol.h"
-#import "MWorksCocoa/MWCodec.h"
-#import "MWorksCore/GenericData.h"
-#import "MWVariablesDataSource.h"
+#include <MWorksCore/GenericData.h>
+
+#import <MWorksCocoa/MWClientProtocol.h>
 
 
-@interface MWVariablesWindowController : NSWindowController <MWClientPluginWorkspaceState> {
-	IBOutlet MWVariablesDataSource *ds;
-	IBOutlet NSOutlineView *varView;
-	IBOutlet id<MWClientProtocol> delegate;
-	MWCodec *variables;
-}
+@interface MWVariablesWindowController : NSWindowController <NSOutlineViewDataSource, NSOutlineViewDelegate, MWClientPluginWorkspaceState>
 
-- (NSString *)getValueString:(NSString *)tag;
-- (void)set:(NSString *)tag toValue:(mw::Datum *)val;
+@property(nonatomic, weak) IBOutlet NSOutlineView *outlineView;
+@property(nonatomic, weak) IBOutlet NSTableColumn *nameColumn;
+@property(nonatomic, weak) IBOutlet NSTableColumn *valueColumn;
+@property(nonatomic, weak) IBOutlet id<MWClientProtocol> client;
 
 @end

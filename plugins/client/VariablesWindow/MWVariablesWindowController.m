@@ -1,85 +1,188 @@
 #import "MWVariablesWindowController.h"
 
-#import "MWorksCocoa/MWClientServerBase.h"
-#import "MWorksCocoa/MWCocoaEvent.h"
-#import "MWorksCore/GenericData.h"
-#import "MWorksCore/VariableProperties.h"
+#include <MWorksCore/ExpressionVariable.h>
 
+#import <MWorksCocoa/MWCodec.h>
+
+#import "MWVariableDisplayItem.h"
+
+#define DEFAULTS_EXPANDED_ITEMS_KEY @"Variables Window - expanded items"
 #define VARIABLES_WINDOW_CALLBACK_KEY "MWorksVariableWindowCallbackKey"
 
-@interface MWVariablesWindowController(PrivateMethods)
-- (void)cacheCodes;
-- (void)populateDataSource:(MWCocoaEvent *)event;
-- (void)causeDataReload:(NSTimer *)timer;
-@end
 
-@implementation MWVariablesWindowController
+@implementation MWVariablesWindowController {
+    MWCodec *variables;
+    NSMutableArray *rootItems;
+    NSMutableArray *expandedItems;
+}
 
 
 - (void)awakeFromNib {
-
-    variables = [delegate variables];
-
-	NSTimer *reloadTimer = [NSTimer timerWithTimeInterval:0.75
+    variables = [self.client variables];
+    rootItems = [[NSMutableArray alloc] init];
+    expandedItems = [[NSMutableArray alloc] init];
+    
+    NSArray *restoredExpandedItems = [[NSUserDefaults standardUserDefaults] arrayForKey:DEFAULTS_EXPANDED_ITEMS_KEY];
+    if (restoredExpandedItems) {
+        [expandedItems addObjectsFromArray:restoredExpandedItems];
+    }
+    
+    NSTimer *reloadTimer = [NSTimer timerWithTimeInterval:0.75
                                                    target:self
                                                  selector:@selector(causeDataReload:)
                                                  userInfo:nil
                                                   repeats:YES];
     [[NSRunLoop mainRunLoop] addTimer:reloadTimer forMode:NSDefaultRunLoopMode];
-									
-    [self cacheCodes];
+    
+    [self.client registerEventCallbackWithReceiver:self
+                                          selector:@selector(updateRootItems:)
+                                       callbackKey:VARIABLES_WINDOW_CALLBACK_KEY
+                                   forVariableCode:RESERVED_CODEC_CODE
+                                      onMainThread:YES];
 }
 
-
-/*******************************************************************
-*                           Private Methods
-*******************************************************************/
-- (void)cacheCodes {
-	if(delegate != nil) {
-		[delegate unregisterCallbacksWithKey:VARIABLES_WINDOW_CALLBACK_KEY];
-		[delegate registerEventCallbackWithReceiver:self 
-                                           selector:@selector(populateDataSource:)
-                                        callbackKey:VARIABLES_WINDOW_CALLBACK_KEY
-                                    forVariableCode:RESERVED_CODEC_CODE
-                                       onMainThread:YES];
-		
-	}
-}	
-
-- (void)populateDataSource:(MWCocoaEvent *)event {
-	if(delegate != nil) {
-		[ds setRootGroups:[delegate varGroups] forOutlineView:varView];
-	}
-}
 
 - (void)causeDataReload:(NSTimer *)timer {
-    [varView setNeedsDisplayInRect:[varView rectOfColumn:1]];
+    [self.outlineView setNeedsDisplay:YES];
 }
 
 
-/*******************************************************************
-*                           Delegate Methods
-*******************************************************************/
-- (NSString *)getValueString:(NSString *)tag {
-	if(variables != nil) {
-        mw::Datum value = [variables valueForVariable:tag];
-		return [NSString stringWithUTF8String:(value.toString(true).c_str())];
-	} else {
-		return @"";
-	}
+- (void)updateRootItems:(MWCocoaEvent *)event {
+    NSMutableDictionary *oldRootObjects = [NSMutableDictionary dictionaryWithCapacity:[rootItems count]];
+    for (MWVariableDisplayItem *item in rootItems) {
+        [oldRootObjects setObject:item forKey:item.displayName];
+    }
+    
+    [rootItems removeAllObjects];
+    
+    NSDictionary *rootGroups = [self.client varGroups];
+    for (NSString *key in rootGroups) {
+        MWVariableDisplayItem *item = [oldRootObjects objectForKey:key];
+        if (!item) {
+            item = [[MWVariableDisplayItem alloc] initWithDisplayName:key];
+        }
+        [item setVariables:[rootGroups objectForKey:key]];
+        [rootItems addObject:item];
+    }
+    
+    [self.outlineView reloadData];
+    
+    for (MWVariableDisplayItem *item in rootItems) {
+        if (NSNotFound != [expandedItems indexOfObject:item.displayName]) {
+            [self.outlineView expandItem:item];
+        }
+    }
 }
 
-- (void)set:(NSString *)tag toValue:(mw::Datum *)val {
-	if(variables != nil) {	
-        [variables setValue:(*val) forVariable:tag];
-	}
+
+//
+// NSOutlineViewDataSource methods
+//
+
+
+- (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item {
+    if (item) {
+        return [item numberOfChildren];
+    }
+    return [rootItems count];
 }
+
+
+- (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item {
+    return ([item numberOfChildren] != -1);
+}
+
+
+- (id)outlineView:(NSOutlineView *)outlineView
+            child:(NSInteger)index
+           ofItem:(id)item
+{
+    if (item) {
+        return [item childAtIndex:index];
+    }
+    return [rootItems objectAtIndex:index];
+}
+
+
+- (id)outlineView:(NSOutlineView *)outlineView
+objectValueForTableColumn:(NSTableColumn *)tableColumn
+           byItem:(id)item
+{
+    if (tableColumn == self.nameColumn) {
+        return [item displayName];
+    }
+    
+    if ([item numberOfChildren] != -1) { // not a leaf
+        return @"";
+    }
+    
+    mw::Datum value = [variables valueForVariable:[item displayName]];
+    return [NSString stringWithUTF8String:(value.toString(true).c_str())];
+}
+
+
+- (void)outlineView:(NSOutlineView *)outlineView
+     setObjectValue:(id)object
+     forTableColumn:(NSTableColumn *)tableColumn
+             byItem:(id)item
+{
+    if (tableColumn != self.valueColumn) {
+        return;
+    }
+    
+    const char *objectUTF8 = [(NSString *)object UTF8String];
+    mw::Datum value;
+    
+    try {
+        value = mw::ParsedExpressionVariable::evaluateExpression(objectUTF8);
+    } catch (const mw::SimpleException &) {
+        value.setString(objectUTF8);
+    }
+    
+    [variables setValue:value forVariable:[item displayName]];
+}
+
+
+//
+// NSOutlineViewDelegate methods
+//
+
+
+- (void)outlineViewItemDidExpand:(NSNotification *)notification {
+    MWVariableDisplayItem *item = [[notification userInfo] objectForKey:@"NSObject"];
+    if (NSNotFound == [expandedItems indexOfObject:item.displayName]) {
+        [expandedItems addObject:item.displayName];
+        [[NSUserDefaults standardUserDefaults] setObject:expandedItems forKey:DEFAULTS_EXPANDED_ITEMS_KEY];
+    }
+}
+
+
+- (void)outlineViewItemDidCollapse:(NSNotification *)notification {
+    MWVariableDisplayItem *item = [[notification userInfo] objectForKey:@"NSObject"];
+    if (NSNotFound != [expandedItems indexOfObject:item.displayName]) {
+        [expandedItems removeObject:item.displayName];
+        [[NSUserDefaults standardUserDefaults] setObject:expandedItems forKey:DEFAULTS_EXPANDED_ITEMS_KEY];
+    }
+}
+
+
+- (BOOL)outlineView:(NSOutlineView *)outlineView
+shouldEditTableColumn:(NSTableColumn *)tableColumn
+               item:(id)item
+{
+    return (tableColumn == self.valueColumn) && ([item numberOfChildren] == -1);
+}
+
+
+//
+// MWClientPluginWorkspaceState methods
+//
 
 
 - (NSDictionary *)workspaceState {
     NSMutableDictionary *workspaceState = [NSMutableDictionary dictionary];
     
-    NSArray *expandedGroups = [ds expandedItems];
+    NSArray *expandedGroups = [expandedItems copy];
     if ([expandedGroups count] > 0) {
         [workspaceState setObject:expandedGroups forKey:@"expandedGroups"];
     }
@@ -91,7 +194,17 @@
 - (void)setWorkspaceState:(NSDictionary *)workspaceState {
     NSArray *expandedGroups = [workspaceState objectForKey:@"expandedGroups"];
     if (expandedGroups && [expandedGroups isKindOfClass:[NSArray class]]) {
-        [ds setExpandedItems:expandedGroups forOutlineView:varView];
+        [expandedItems removeAllObjects];
+        [expandedItems addObjectsFromArray:expandedGroups];
+        [[NSUserDefaults standardUserDefaults] setObject:expandedItems forKey:DEFAULTS_EXPANDED_ITEMS_KEY];
+        
+        for (MWVariableDisplayItem *item in rootItems) {
+            if (NSNotFound != [expandedItems indexOfObject:item.displayName]) {
+                [self.outlineView expandItem:item];
+            } else {
+                [self.outlineView collapseItem:item];
+            }
+        }
     }
 }
 
