@@ -9,42 +9,28 @@
 #import "MWVariableDisplayItem.h"
 
 
-@implementation MWVariableDisplayItem {
-    NSMutableArray *children;
-}
+@implementation MWVariableDisplayItem
 
 
-- (instancetype)initWithDisplayName:(NSString *)displayName {
+- (instancetype)initWithName:(NSString *)name {
     if ((self = [super init])) {
-        _displayName = [displayName copy];
+        _name = [name copy];
+        _value = @"";
     }
     return self;
 }
 
 
-- (void)setVariables:(NSArray *)variables {
-    children = [[NSMutableArray alloc] initWithCapacity:variables.count];
-    
-    for (NSString *newVarName in variables) {
-        MWVariableDisplayItem *newChild = [[MWVariableDisplayItem alloc] initWithDisplayName:newVarName];
-        [children addObject:newChild];
-    }
-}
-
-
-- (MWVariableDisplayItem *)childAtIndex:(NSUInteger)index {
-    if (children) {
-        return children[index];
-    }
-    return nil;
+- (BOOL)isGroup {
+    return (self.children != nil);
 }
 
 
 - (NSInteger)numberOfChildren {
-    if (children) {
-        return children.count;
+    if (self.children) {
+        return self.children.count;
     }
-    return -1;
+    return 0;
 }
 
 

@@ -11,11 +11,12 @@
 
 @interface MWVariableDisplayItem : NSObject
 
-@property(nonatomic, readonly, copy) NSString *displayName;
-@property(nonatomic, readonly) NSInteger numberOfChildren;  // -1 for leaf nodes
+@property(nonatomic, readonly, copy) NSString *name;
+@property(nonatomic, copy) NSString *value;
+@property(nonatomic, copy) NSArray<MWVariableDisplayItem *> *children;
+@property(nonatomic, readonly) BOOL isGroup;
+@property(nonatomic, readonly) NSInteger numberOfChildren;
 
-- (instancetype)initWithDisplayName:(NSString *)displayName NS_DESIGNATED_INITIALIZER;
-- (void)setVariables:(NSArray *)variables;
-- (MWVariableDisplayItem *)childAtIndex:(NSUInteger)index;
+- (instancetype)initWithName:(NSString *)name NS_DESIGNATED_INITIALIZER;
 
 @end

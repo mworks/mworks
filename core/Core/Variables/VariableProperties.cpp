@@ -174,7 +174,7 @@ VariableProperties::operator Datum() const {
 
 std::vector <std::string> VariableProperties::parseGroupList(const std::string &groups_csv) const {
     vector <string> gps;
-    gps.push_back(std::string("# ALL VARIABLES"));
+    gps.push_back(std::string(ALL_VARIABLES));
     
     for (string field : boost::tokenizer<boost::escaped_list_separator<char>>(groups_csv)) {
         boost::algorithm::trim(field);

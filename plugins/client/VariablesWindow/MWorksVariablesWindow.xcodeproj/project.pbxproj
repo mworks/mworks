@@ -34,7 +34,6 @@
 
 /* Begin PBXBuildFile section */
 		0E7B54FC0C8475C600A7BEA9 /* MWVariableDisplayItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E7B54FB0C8475C600A7BEA9 /* MWVariableDisplayItem.m */; };
-		0E7D46430C874F0A00E5AEEA /* MWVariableOutlineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E7D46420C874F0A00E5AEEA /* MWVariableOutlineView.m */; };
 		5C8E4A7B098FB02400EB44CA /* MWVariablesWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C8E4A7A098FB02400EB44CA /* MWVariablesWindowController.m */; };
 		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
 		E12D991F16BC30C8004FEF79 /* MWorksVariablesWindow.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = 686E22AF0AC84B19003EFDDA /* MWorksVariablesWindow.bundle */; };
@@ -78,8 +77,6 @@
 		089C167EFE841241C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		0E7B54FA0C8475C600A7BEA9 /* MWVariableDisplayItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWVariableDisplayItem.h; sourceTree = "<group>"; };
 		0E7B54FB0C8475C600A7BEA9 /* MWVariableDisplayItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWVariableDisplayItem.m; sourceTree = "<group>"; };
-		0E7D46410C874F0A00E5AEEA /* MWVariableOutlineView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWVariableOutlineView.h; sourceTree = "<group>"; };
-		0E7D46420C874F0A00E5AEEA /* MWVariableOutlineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWVariableOutlineView.m; sourceTree = "<group>"; };
 		32DBCF630370AF2F00C91783 /* MWorksVariablesWindow_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWorksVariablesWindow_Prefix.pch; sourceTree = "<group>"; };
 		5C8E4A79098FB02400EB44CA /* MWVariablesWindowController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MWVariablesWindowController.h; sourceTree = "<group>"; };
 		5C8E4A7A098FB02400EB44CA /* MWVariablesWindowController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = MWVariablesWindowController.m; sourceTree = "<group>"; };
@@ -143,8 +140,6 @@
 		08FB77AFFE84173DC02AAC07 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				0E7D46410C874F0A00E5AEEA /* MWVariableOutlineView.h */,
-				0E7D46420C874F0A00E5AEEA /* MWVariableOutlineView.m */,
 				0E7B54FA0C8475C600A7BEA9 /* MWVariableDisplayItem.h */,
 				0E7B54FB0C8475C600A7BEA9 /* MWVariableDisplayItem.m */,
 				5C8E4A79098FB02400EB44CA /* MWVariablesWindowController.h */,
@@ -247,7 +242,6 @@
 			files = (
 				5C8E4A7B098FB02400EB44CA /* MWVariablesWindowController.m in Sources */,
 				0E7B54FC0C8475C600A7BEA9 /* MWVariableDisplayItem.m in Sources */,
-				0E7D46430C874F0A00E5AEEA /* MWVariableOutlineView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
