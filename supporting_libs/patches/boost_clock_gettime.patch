@@ -1,0 +1,15 @@
+diff -ur boost_1_61_0/boost/interprocess/detail/os_thread_functions.hpp boost/boost/interprocess/detail/os_thread_functions.hpp
+--- boost_1_61_0/boost/interprocess/detail/os_thread_functions.hpp	2016-05-05 17:12:20.000000000 -0400
++++ boost/boost/interprocess/detail/os_thread_functions.hpp	2016-09-14 10:29:12.000000000 -0400
+@@ -67,6 +67,11 @@
+ #  else
+ #     error "No high resolution steady clock in your system, please provide a patch"
+ #  endif
++#  ifdef BOOST_INTERPROCESS_CLOCK_MONOTONIC
++#    undef BOOST_INTERPROCESS_CLOCK_MONOTONIC
++#    include <mach/mach_time.h>
++#    define BOOST_INTERPROCESS_MATCH_ABSOLUTE_TIME
++#  endif
+ #endif
+ 
+ namespace boost {

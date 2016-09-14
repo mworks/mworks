@@ -1,0 +1,12 @@
+diff -ur zeromq-4.1.5/src/platform.hpp.in zeromq/src/platform.hpp.in
+--- zeromq-4.1.5/src/platform.hpp.in	2016-06-17 07:39:35.000000000 -0400
++++ zeromq/src/platform.hpp.in	2016-09-14 09:59:57.000000000 -0400
+@@ -7,7 +7,7 @@
+ #undef HAVE_ARPA_INET_H
+ 
+ /* Define to 1 if you have the `clock_gettime' function. */
+-#undef HAVE_CLOCK_GETTIME
++/* #undef HAVE_CLOCK_GETTIME */
+ 
+ /* Define to 1 if you have the declaration of `LOCAL_PEERCRED', and to 0 if
+    you don't. */

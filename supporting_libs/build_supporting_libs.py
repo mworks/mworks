@@ -207,6 +207,8 @@ def boost():
 
     with workdir(srcdir):
         os.symlink('boost', 'mworks_boost')
+
+        apply_patch('boost_clock_gettime.patch')
         
         check_call([
             './bootstrap.sh',
@@ -248,6 +250,9 @@ def zeromq():
 
     download_archive('https://github.com/zeromq/zeromq4-1/releases/download/v%s/' % version, tarfile)
     unpack_tarfile(tarfile, srcdir)
+
+    with workdir(srcdir):
+        apply_patch('zeromq_clock_gettime.patch')
 
     run_configure_and_make(
         srcdir = srcdir,
