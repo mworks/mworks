@@ -121,46 +121,46 @@ void BasicTransformStimulus::draw(shared_ptr<StimulusDisplay>  display) {
     draw(display, *xoffset, *yoffset, *xscale, *yscale);
 }
                 
-void BasicTransformStimulus::draw(shared_ptr<StimulusDisplay>  display,float x, float y, 
-                                                    float sizex, float sizey) {
-    
-    float rot = (float)(*rotation);
+void BasicTransformStimulus::draw(shared_ptr<StimulusDisplay> display, float x, float y, float sizex, float sizey) {
+    current_posx = x;
+    current_posy = y;
+    current_sizex = sizex;
+    current_sizey = sizey;
+    current_rot = *rotation;
+    current_alpha = *alpha_multiplier;
     
     glPushMatrix();
     
-	glTranslatef(x, y,0);
-	glRotatef(rot, 0,0,1);
-	glScalef(sizex, sizey, 1.0); // scale it up
+    glTranslatef(current_posx, current_posy, 0);
+    glRotatef(current_rot, 0, 0, 1);
+    glScalef(current_sizex, current_sizey, 1.0);
     glTranslatef(-0.5, -0.5, 0);
-    					
+    
     drawInUnitSquare(display);
-                    
+    
     glPopMatrix();
     
-    // save these as last drawn values
-    last_posx = x;
-    last_posy = y;
-    last_sizex = sizex;
-    last_sizey = sizey;
-    last_rot = rot;
-    
+    last_posx = current_posx;
+    last_posy = current_posy;
+    last_sizex = current_sizex;
+    last_sizey = current_sizey;
+    last_rot = current_rot;
+    last_alpha = current_alpha;
 }
 
 
-// override of basde class to provide more info
 Datum BasicTransformStimulus::getCurrentAnnounceDrawData() {
+    Datum announceData = Stimulus::getCurrentAnnounceDrawData();
     
-    Datum announceData(M_DICTIONARY, 8);
-    announceData.addElement(STIM_NAME,getTag());        // char
-    announceData.addElement(STIM_ACTION,STIM_ACTION_DRAW);
-    announceData.addElement(STIM_TYPE,STIM_TYPE_BASICTRANSFORM);  
+    announceData.addElement(STIM_TYPE,STIM_TYPE_BASICTRANSFORM);
     announceData.addElement(STIM_POSX,last_posx);  
     announceData.addElement(STIM_POSY,last_posy);  
     announceData.addElement(STIM_SIZEX,last_sizex);  
     announceData.addElement(STIM_SIZEY,last_sizey);  
     announceData.addElement(STIM_ROT,last_rot);  
-        
-    return (announceData);
+    announceData.addElement(STIM_ALPHA,last_alpha);
+    
+    return std::move(announceData);
 }
 
 
@@ -453,8 +453,7 @@ void ImageStimulus::drawInUnitSquare(shared_ptr<StimulusDisplay> display) {
 								
         glBegin(GL_QUADS);
 		
-		float a = alpha_multiplier->getValue().getFloat();
-		glColor4f(1., 1., 1., a);
+		glColor4f(1., 1., 1., current_alpha);
 
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		
@@ -489,48 +488,37 @@ void ImageStimulus::drawInUnitSquare(shared_ptr<StimulusDisplay> display) {
 		
         glEnd();
 		
-		
         glDisable(GL_BLEND);
         glBindTexture(GL_TEXTURE_2D, 0);
         glDisable(GL_TEXTURE_2D);
-        
-        last_alpha = a;
-		
-		
-		//glActiveTexture(0);
 		
     } else {
         merror(M_DISPLAY_MESSAGE_DOMAIN, "Stimulus image is not loaded.  Displaying nothing.");
     }
 }
 
-// override of basde class to provide more info
+
 Datum ImageStimulus::getCurrentAnnounceDrawData() {
-    
-    //mprintf("getting announce DRAW data for image stimulus %s",tag );
-    
     Datum announceData = BasicTransformStimulus::getCurrentAnnounceDrawData();
     
     announceData.addElement(STIM_TYPE,STIM_TYPE_IMAGE);
     announceData.addElement(STIM_FILENAME,filename);  
     announceData.addElement(STIM_FILE_HASH,fileHash);  
-    announceData.addElement(STIM_ALPHA,last_alpha);
     
-    return (announceData);
+    return std::move(announceData);
 }
 
 
-const std::string RectangleStimulus::COLOR("color");
+const std::string ColoredTransformStimulus::COLOR("color");
 
 
-void RectangleStimulus::describeComponent(ComponentInfo &info) {
+void ColoredTransformStimulus::describeComponent(ComponentInfo &info) {
     BasicTransformStimulus::describeComponent(info);
-    info.setSignature("stimulus/rectangle");
     info.addParameter(COLOR, "1.0,1.0,1.0");
 }
 
 
-RectangleStimulus::RectangleStimulus(const ParameterValueMap &parameters) :
+ColoredTransformStimulus::ColoredTransformStimulus(const ParameterValueMap &parameters) :
     BasicTransformStimulus(parameters)
 {
     ParsedColorTrio pct(parameters[COLOR]);
@@ -540,31 +528,38 @@ RectangleStimulus::RectangleStimulus(const ParameterValueMap &parameters) :
 }
 
 
-RectangleStimulus::RectangleStimulus(const RectangleStimulus &tocopy) : 
-				BasicTransformStimulus((const BasicTransformStimulus&)tocopy){
-	r = tocopy.r;
-	g = tocopy.g;
-	b = tocopy.b;
+void ColoredTransformStimulus::draw(shared_ptr<StimulusDisplay> display, float x, float y, float sizex, float sizey) {
+    current_r = *r;
+    current_g = *g;
+    current_b = *b;
+    
+    BasicTransformStimulus::draw(display, x, y, sizex, sizey);
+    
+    last_r = current_r;
+    last_g = current_g;
+    last_b = current_b;
+}
+
+
+Datum ColoredTransformStimulus::getCurrentAnnounceDrawData() {
+    Datum announceData = BasicTransformStimulus::getCurrentAnnounceDrawData();
+    
+    announceData.addElement(STIM_COLOR_R,last_r);
+    announceData.addElement(STIM_COLOR_G,last_g);
+    announceData.addElement(STIM_COLOR_B,last_b);
+    
+    return std::move(announceData);
+}
+
+
+void RectangleStimulus::describeComponent(ComponentInfo &info) {
+    ColoredTransformStimulus::describeComponent(info);
+    info.setSignature("stimulus/rectangle");
 }
 
 
 void RectangleStimulus::drawInUnitSquare(shared_ptr<StimulusDisplay> display) {
-    
-     // draw point at desired location with desired color
-     // fill a (0,0) (1,1) box with the right color
-    if(r == NULL || g == NULL || b == NULL ){
-		merror(M_DISPLAY_MESSAGE_DOMAIN,
-				"NULL color variable in RectangleStimulus.");
-	}
-	
-	
-    // get current values in these variables.
-	GLfloat _r = (float)(*r);
-	GLfloat _g = (float)(*g);
-	GLfloat _b = (float)(*b);
-	GLfloat _a = (float)(*alpha_multiplier);
-    
-    glColor4f(_r, _g, _b, _a);
+    glColor4f(current_r, current_g, current_b, current_alpha);
 	  
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	glEnable (GL_BLEND); 
@@ -580,41 +575,20 @@ void RectangleStimulus::drawInUnitSquare(shared_ptr<StimulusDisplay> display) {
     glEnd();
     
 	glDisable(GL_BLEND);
-    
-    last_r = _r;
-    last_g = _g;
-    last_b = _b;
-    last_alpha = _a;
-    
-
 }
 
-// override of base class to provide more info
+
 Datum RectangleStimulus::getCurrentAnnounceDrawData() {
-    
-    //mprintf("getting announce DRAW data for rectangle stimulus %s",tag );
-    
-    Datum announceData = BasicTransformStimulus::getCurrentAnnounceDrawData();
-    
+    Datum announceData = ColoredTransformStimulus::getCurrentAnnounceDrawData();
     announceData.addElement(STIM_TYPE, "rectangle");
-    announceData.addElement(STIM_COLOR_R,last_r);
-    announceData.addElement(STIM_COLOR_G,last_g);  
-    announceData.addElement(STIM_COLOR_B,last_b);  
-    announceData.addElement(STIM_ALPHA, last_alpha);
-    
-    return (announceData);
+    return std::move(announceData);
 }
 
 
 void CircleStimulus::describeComponent(ComponentInfo &info) {
-    RectangleStimulus::describeComponent(info);
+    ColoredTransformStimulus::describeComponent(info);
     info.setSignature("stimulus/circle");
 }
-
-
-CircleStimulus::CircleStimulus(const ParameterValueMap &parameters) :
-    RectangleStimulus(parameters)
-{ }
 
 
 void CircleStimulus::load(shared_ptr<StimulusDisplay> display) {
@@ -641,13 +615,7 @@ void CircleStimulus::load(shared_ptr<StimulusDisplay> display) {
 #define TWO_PI (2.0 * M_PI)
 
 void CircleStimulus::drawInUnitSquare(shared_ptr<StimulusDisplay> display) {
-    // get current values in these variables.
-    GLfloat _r = (float)(*r);
-    GLfloat _g = (float)(*g);
-    GLfloat _b = (float)(*b);
-    GLfloat _a = (float)(*alpha_multiplier);
-    
-    glColor4f(_r, _g, _b, _a);
+    glColor4f(current_r, current_g, current_b, current_alpha);
     
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
     glEnable (GL_BLEND);
@@ -670,18 +638,13 @@ void CircleStimulus::drawInUnitSquare(shared_ptr<StimulusDisplay> display) {
     glEnd();
     
     glDisable(GL_BLEND);
-    
-    last_r = _r;
-    last_g = _g;
-    last_b = _b;
-    last_alpha = _a;
 }
 
 
 Datum CircleStimulus::getCurrentAnnounceDrawData() {
-    Datum announceData(RectangleStimulus::getCurrentAnnounceDrawData());
+    Datum announceData = ColoredTransformStimulus::getCurrentAnnounceDrawData();
     announceData.addElement(STIM_TYPE, "circle");
-    return announceData;
+    return std::move(announceData);
 }
 
 

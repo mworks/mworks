@@ -41,7 +41,7 @@ protected:
     shared_ptr<Variable> rotation; // planar rotation added in for free
     shared_ptr<Variable> alpha_multiplier;
     
-    // JJD added these July 2006 to keep track of what was actually done for announcing things
+    float current_posx, current_posy, current_sizex, current_sizey, current_rot, current_alpha;
     float last_posx, last_posy, last_sizex, last_sizey, last_rot, last_alpha;
     
 public:
@@ -112,39 +112,52 @@ public:
 };
 
 
-// Simple point (e.g. for fixation)
-class RectangleStimulus : public BasicTransformStimulus {
+class ColoredTransformStimulus : public BasicTransformStimulus {
+    
 protected:
     shared_ptr<Variable> r;
     shared_ptr<Variable> g;
     shared_ptr<Variable> b;
-    float last_r,last_g,last_b;
+    
+    float current_r, current_g, current_b;
+    float last_r, last_g, last_b;
     
 public:
     static const std::string COLOR;
     
     static void describeComponent(ComponentInfo &info);
     
-    explicit RectangleStimulus(const Map<ParameterValue> &parameters);
-    RectangleStimulus(const RectangleStimulus &tocopy);
-    virtual ~RectangleStimulus() { }
+    explicit ColoredTransformStimulus(const Map<ParameterValue> &parameters);
     
-    virtual void drawInUnitSquare(shared_ptr<StimulusDisplay> display);
-    virtual Datum getCurrentAnnounceDrawData();
+    void draw(shared_ptr<StimulusDisplay> display, float x, float y, float sizex, float sizey) override;
+    Datum getCurrentAnnounceDrawData() override;
     
 };
 
 
-class CircleStimulus : public RectangleStimulus {
+class RectangleStimulus : public ColoredTransformStimulus {
     
 public:
     static void describeComponent(ComponentInfo &info);
     
-    explicit CircleStimulus(const Map<ParameterValue> &parameters);
+    using ColoredTransformStimulus::ColoredTransformStimulus;
     
-    void load(shared_ptr<StimulusDisplay> display) MW_OVERRIDE;
-    void drawInUnitSquare(shared_ptr<StimulusDisplay> display) MW_OVERRIDE;
-    Datum getCurrentAnnounceDrawData() MW_OVERRIDE;
+    void drawInUnitSquare(shared_ptr<StimulusDisplay> display) override;
+    Datum getCurrentAnnounceDrawData() override;
+    
+};
+
+
+class CircleStimulus : public ColoredTransformStimulus {
+    
+public:
+    static void describeComponent(ComponentInfo &info);
+    
+    using ColoredTransformStimulus::ColoredTransformStimulus;
+    
+    void load(shared_ptr<StimulusDisplay> display) override;
+    void drawInUnitSquare(shared_ptr<StimulusDisplay> display) override;
+    Datum getCurrentAnnounceDrawData() override;
     
 private:
     std::vector<double> pixelDensity;

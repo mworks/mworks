@@ -377,10 +377,9 @@ parameters:
 ---
 
 
-name: Rectangle Stimulus
-signature: stimulus/rectangle
+name: Colored Transform Stimulus
+abstract: yes
 isa: Basic Transform Stimulus
-description: A rectangle stimulus
 parameters: 
   - 
     name: color
@@ -390,9 +389,18 @@ parameters:
 ---
 
 
+name: Rectangle Stimulus
+signature: stimulus/rectangle
+isa: Colored Transform Stimulus
+description: A rectangle stimulus
+
+
+---
+
+
 name: Ellipse Stimulus
 signature: stimulus/circle
-isa: Rectangle Stimulus
+isa: Colored Transform Stimulus
 description: An ellipse stimulus
 
 
