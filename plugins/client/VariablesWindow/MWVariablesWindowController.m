@@ -35,6 +35,15 @@
         return;
     }
     
+    // For some reason, the outline view's target and action aren't set correctly when running under OS X 10.9,
+    // so check for and, if necessary, manually make the connections here
+    if (!self.outlineView.target) {
+        self.outlineView.target = self;
+    }
+    if (!self.outlineView.doubleAction) {
+        self.outlineView.doubleAction = @selector(doubleClickOnOutlineView:);
+    }
+    
     variables = [self.client variables];
     rootItems = [[NSMutableArray alloc] init];
     expandedItems = [[NSMutableArray alloc] init];
