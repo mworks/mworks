@@ -82,7 +82,7 @@ protected:
     vector< shared_ptr<FreezableVariableContainer> > variables;
 
 public:
-    
+    virtual ~FreezableCollection() { }
     
     // Register a given variable for "freezing" (see definition above)
     // Takes any kind of variable as an argument, and then returns a "freezable"

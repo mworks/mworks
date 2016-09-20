@@ -62,8 +62,6 @@ public:
                            shared_ptr<Variable> _yscale, 
                            shared_ptr<Variable> _rot,
                            shared_ptr<Variable> _alpha);
-    BasicTransformStimulus(const BasicTransformStimulus& tocopy);
-    virtual ~BasicTransformStimulus() { }
     
     virtual void setTranslation(shared_ptr<Variable> _x, 
                                 shared_ptr<Variable> _y);
@@ -71,9 +69,7 @@ public:
     virtual void setScale(shared_ptr<Variable> _xscale, 
                           shared_ptr<Variable> _yscale);
     virtual void setRotation(shared_ptr<Variable> rot);
-    virtual void draw(shared_ptr<StimulusDisplay>  display);
-    virtual void draw(shared_ptr<StimulusDisplay>  display,float x, float y,
-                      float sizex, float sizey);
+    virtual void draw(shared_ptr<StimulusDisplay> display);
     
     virtual void drawInUnitSquare(shared_ptr<StimulusDisplay> display) = 0;
     
@@ -87,8 +83,7 @@ public:
 };
 
 
-// Image file based stimulus
-class ImageStimulus : public BasicTransformStimulus {
+class ImageStimulus : public BasicTransformStimulus, boost::noncopyable {
 protected:
     std::string filename;
     std::string fileHash;
@@ -101,8 +96,6 @@ public:
     static void describeComponent(ComponentInfo &info);
     
     explicit ImageStimulus(const Map<ParameterValue> &parameters);
-    ImageStimulus(ImageStimulus& copy);
-    virtual ~ImageStimulus() { }
     
     std::string getFilename();
     virtual void drawInUnitSquare(shared_ptr<StimulusDisplay> display);
@@ -129,7 +122,7 @@ public:
     
     explicit ColoredTransformStimulus(const Map<ParameterValue> &parameters);
     
-    void draw(shared_ptr<StimulusDisplay> display, float x, float y, float sizex, float sizey) override;
+    void draw(shared_ptr<StimulusDisplay> display) override;
     Datum getCurrentAnnounceDrawData() override;
     
 };
@@ -171,7 +164,6 @@ public:
     static void describeComponent(ComponentInfo &info);
     
     explicit BlankScreen(const Map<ParameterValue> &parameters);
-    virtual ~BlankScreen() { }
     
     virtual void draw(shared_ptr<StimulusDisplay> display);
     virtual Datum getCurrentAnnounceDrawData();

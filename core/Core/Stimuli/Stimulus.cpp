@@ -194,11 +194,7 @@ Stimulus::Stimulus(const ParameterValueMap &parameters) :
     mw::Component(parameters),
     loaded(false),
     visible(false),
-    cached(false),
-    has_thumbnail(false),
-    thumbnail(NULL),
-    deferred(parameters[DEFERRED]),
-    frozen(false)
+    deferred(parameters[DEFERRED])
 { }
 
 
@@ -206,52 +202,11 @@ Stimulus::Stimulus(std::string _tag) :
     Announcable(ANNOUNCE_STIMULUS_TAGNAME),
     mw::Component(_tag)
 {
-    //mdebug("Stimulus constructor called %x", this);
     loaded = false;
     visible = false;
-    cached = false;
-    has_thumbnail = false;
-    thumbnail = NULL;
-    
     deferred = Stimulus::nondeferred_load;
-	frozen = false;
 }
 
-
-Stimulus::Stimulus(const Stimulus& copy):
-								Announcable((const Announcable&) copy),
-								mw::Component((const mw::Component&) copy) {
-
-    loaded = copy.loaded;
-    visible = copy.visible;
-    cached = copy.cached;
-    has_thumbnail = copy.has_thumbnail;
-    deferred = copy.deferred;
-    if(has_thumbnail) {
-        // this should prevent a loop if someone set the thumbnail to
-        // be itself
-        if(copy.thumbnail == &copy) {
-            thumbnail = copy.thumbnail;
-        } else {
-            thumbnail = new Stimulus(*(copy.thumbnail));
-        }
-    } else {
-        thumbnail = NULL;
-    }
-
-//    tag = copy.tag;  
-    
-	frozen = false;
-}
-
-
-Stimulus::~Stimulus() {
-    if((thumbnail != NULL) && (thumbnail != this)) {
-        delete thumbnail;
-        thumbnail = NULL;
-    }
-	
-}
 
 void Stimulus::load(shared_ptr<StimulusDisplay> display) { }
 
@@ -261,42 +216,9 @@ void Stimulus::setVisible(bool newvis) {
     visible = newvis;
 }
 
-void Stimulus::drawInUnitSquare(shared_ptr<StimulusDisplay> display) { 
-    merror(M_DISPLAY_MESSAGE_DOMAIN, "Attempt to draw an undefined stimulus");
-
-}
-            
 void Stimulus::draw(shared_ptr<StimulusDisplay> display) {
-    draw(display, 0,0,1.0, 1.0);
+    merror(M_DISPLAY_MESSAGE_DOMAIN, "Attempt to draw an undefined stimulus");
 }
-            
-void Stimulus::draw(shared_ptr<StimulusDisplay> display, float x, float y) {
-    draw(display, x,y,1.0, 1.0);
-}
-            
-void Stimulus::draw(shared_ptr<StimulusDisplay> display, float x, float y, 
-                                                float sizex, float sizey) {
-    glPushMatrix();
-    glTranslatef(x-.5, y-.5,0);
-    glPushMatrix();
-    glScalef(sizex, sizey, 1.0);
-    drawInUnitSquare(display);
-    glPopMatrix();
-    glPopMatrix();                
-}
-            
-void Stimulus::precache(){ }
-
-void Stimulus::drawThumbnail(shared_ptr<StimulusDisplay> display, float x, 
-                                        float y, float sizex, float sizey) {
-    draw(display, x,y,sizex,sizey);
-}
-
-void Stimulus::drawThumbnail(shared_ptr<StimulusDisplay> display, float x, float y) {
-    draw(display, x,y,1.0,1.0);
-}
-
-int * Stimulus::getBounds() { return NULL; }
 
 bool Stimulus::isLoaded() {
     return loaded;
@@ -305,89 +227,17 @@ bool Stimulus::isLoaded() {
 bool Stimulus::isVisible() {
     return visible;
 }
-        
-bool Stimulus::isCached() {
-    return cached;
-}
-
-bool Stimulus::hasThumbnail() {
-    return has_thumbnail;
-}
-
-Stimulus * Stimulus::getThumbnail() {
-    return thumbnail;
-}
 
 
-
-/* The announceStimulusDraw method is called during update of the stimulus display chain
- *  for each visible stimulus node object in the chain as its draw method is called.
- *  NOTE:  the time of this "announcement" is the time of the updateDisplay method.  As of July 2006
- *   that time can lead the true appearance of the stimulus by more than 1 frame.
- *  We use the term "draw" rather than "on" because the latter implies a physical stimulus apperance.
- *   JJD TODO:  This must be corrected for with an openGL fence and monitoring of the vert refresh.
-*/
-void Stimulus::announceStimulusDraw(MWTime now) {
-    if (VERBOSE_STIMULI>0)  mprintf("Stim draw announce just triggered...");
-    Datum announceData = getCurrentAnnounceDrawData();  // will override this
-    announce(announceData, now);    // announce things here using method from Announcable
-    
-}
-
-/*void Stimulus::announceStimulusDraw(char *groupName, int idx) {
-    if (VERBOSE_STIMULI>0) mprintf("Stim draw announce just triggered from group...");
-    Datum announceData = getCurrentAnnounceDrawData();  // will override this
-    announceData.addElement(STIM_GROUP_NAME,groupName);
-    announceData.addElement(STIM_GROUP_INDEX,(long)idx);
-    announce(announceData);    // announce things here using method from Announcable
-    
-}
-
-void Stimulus::announceStimulusErase() { 
-    if (VERBOSE_STIMULI>0)  mprintf("Stim erase announce just triggered...");
-    Datum announceData = getCurrentAnnounceEraseData();  // will override this
-    announce(announceData);    // announce things here using method from Announcable
-   
-}
-
-void Stimulus::announceStimulusErase(char *groupName, int idx) { 
-    if (VERBOSE_STIMULI>0) mprintf("Stim erase announce just triggered from group...");
-    Datum announceData = getCurrentAnnounceEraseData();  // will override this
-    announceData.addElement(STIM_GROUP_NAME,groupName);
-    announceData.addElement(STIM_GROUP_INDEX,(long)idx);
-    announce(announceData);    // announce things here using method from Announcable
-   
-}*/
-
-
-
-/* method to fill the fields of the announceData object (M_DICTIONARY) 
- *  This is the base class version.  It should be overriden for each new type of 
- *  stimulus object to add more info.
- *  The stimulus object should be able to uniquely describe itself in this variable.
- *  In the future, this should involve a codec and maybe just an index value here along
- *  with things that may change every presentation (position, scale, etc.)
-*/
-    
 Datum Stimulus::getCurrentAnnounceDrawData() {
-    
     Datum announceData(M_DICTIONARY, 3);
-    announceData.addElement(STIM_NAME,getTag());        // char
+    
+    announceData.addElement(STIM_NAME,getTag());
     announceData.addElement(STIM_ACTION,STIM_ACTION_DRAW);
     announceData.addElement(STIM_TYPE,STIM_TYPE_GENERIC);  
     
     return std::move(announceData);
 }
-
-
-/*Data Stimulus::getCurrentAnnounceEraseData() {
-
-    Datum announceData(M_DICTIONARY, 2);
-    announceData.addElement(STIM_NAME,tag);       // char
-    announceData.addElement(STIM_ACTION,STIM_ACTION_ERASE);
-    
-    return (announceData);
-}*/
 
 
 END_NAMESPACE_MW

@@ -104,7 +104,6 @@ public:
     virtual void draw(shared_ptr<StimulusDisplay> display);
     
     virtual void announce(Datum announceData, MWTime time);
-    virtual void announceStimulusDraw(MWTime time);
     virtual Datum getCurrentAnnounceDrawData();
 	
     virtual void load(shared_ptr<StimulusDisplay> display);
@@ -191,7 +190,6 @@ class StimulusGroupReferenceNode : public StimulusNode {
         virtual void draw(shared_ptr<StimulusDisplay>  display);
 
         virtual void announce(Datum announceData, MWTime time);
-        virtual void announceStimulusDraw(MWTime time);  // JJD add
 		virtual Datum getCurrentAnnounceDrawData();
 		
   

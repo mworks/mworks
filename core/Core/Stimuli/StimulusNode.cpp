@@ -159,18 +159,6 @@ void StimulusNode::announce(Datum announceData, MWTime time) {
     }
 }
 
-void StimulusNode::announceStimulusDraw(MWTime now) {
-	if(stim == NULL) {
-    //if(live_stim == NULL) {
-		// TODO: warn
-		return;
-	}
-	
-    stim->announceStimulusDraw(now);
-	//live_stim->announceStimulusDraw(now);
-	
-}
-
 Datum StimulusNode::getCurrentAnnounceDrawData() {
 	if(stim == NULL) {
     //if(live_stim == NULL) {
@@ -405,14 +393,6 @@ void StimulusGroupReferenceNode::announce(Datum announceData, MWTime time) {
     if (index_value >= 0 && index_value < nelements) {
         (stimulus_nodes->getElement(index_value))->announce(announceData, time);
     }
-}
-
-void StimulusGroupReferenceNode::announceStimulusDraw(MWTime time){
-	int index_value = getIndexValue();
-	int nelements = stimulus_nodes->getNElements();
-	if(index_value >=0 && index_value < nelements ){
-		(stimulus_nodes->getElement(index_value))->announceStimulusDraw(time);
-	}
 }
 
 Datum StimulusGroupReferenceNode::getCurrentAnnounceDrawData(){

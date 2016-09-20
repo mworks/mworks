@@ -85,18 +85,6 @@ BasicTransformStimulus::BasicTransformStimulus(std::string _tag,
 	alpha_multiplier = registerVariable(_alpha);
 }
 
-
-BasicTransformStimulus::BasicTransformStimulus(
-								const BasicTransformStimulus& tocopy) :
-										Stimulus((const Stimulus &)tocopy){
-	xoffset = tocopy.xoffset;
-	yoffset = tocopy.yoffset;
-	xscale = tocopy.xscale;
-	yscale = tocopy.yscale;
-	rotation = tocopy.rotation;
-	alpha_multiplier = tocopy.alpha_multiplier;
-}
-
 							            
 void BasicTransformStimulus::setTranslation(shared_ptr<Variable> _x, shared_ptr<Variable> _y) {
     xoffset = _x;
@@ -117,15 +105,11 @@ void BasicTransformStimulus::setRotation(shared_ptr<Variable> rot) {
     rotation = rot;
 }
                 
-void BasicTransformStimulus::draw(shared_ptr<StimulusDisplay>  display) {
-    draw(display, *xoffset, *yoffset, *xscale, *yscale);
-}
-                
-void BasicTransformStimulus::draw(shared_ptr<StimulusDisplay> display, float x, float y, float sizex, float sizey) {
-    current_posx = x;
-    current_posy = y;
-    current_sizex = sizex;
-    current_sizey = sizey;
+void BasicTransformStimulus::draw(shared_ptr<StimulusDisplay> display) {
+    current_posx = *xoffset;
+    current_posy = *yoffset;
+    current_sizex = *xscale;
+    current_sizey = *yscale;
     current_rot = *rotation;
     current_alpha = *alpha_multiplier;
     
@@ -207,16 +191,14 @@ void BlankScreen::draw(shared_ptr<StimulusDisplay> display) {
 
 // override of basde class to provide more info
 Datum BlankScreen::getCurrentAnnounceDrawData() {
+    Datum announceData = Stimulus::getCurrentAnnounceDrawData();
     
-    Datum announceData(M_DICTIONARY, 6);
-    announceData.addElement(STIM_NAME,getTag());        // char
-    announceData.addElement(STIM_ACTION,STIM_ACTION_DRAW);
-    announceData.addElement(STIM_TYPE,STIM_TYPE_BLANK);  
+    announceData.addElement(STIM_TYPE,STIM_TYPE_BLANK);
     announceData.addElement(STIM_COLOR_R,last_r);  
     announceData.addElement(STIM_COLOR_G,last_g);  
     announceData.addElement(STIM_COLOR_B,last_b);
         
-    return (announceData);
+    return std::move(announceData);
 }
 
 
@@ -366,13 +348,6 @@ ImageStimulus::ImageStimulus(const ParameterValueMap &parameters) :
     
     filename = full_path.string();
 }
-
-
-ImageStimulus::ImageStimulus(ImageStimulus& copy):
-					BasicTransformStimulus((BasicTransformStimulus&) copy) { 
-    
-	filename = copy.getFilename();
-}       
 
 
 std::string ImageStimulus::getFilename() {
@@ -528,12 +503,12 @@ ColoredTransformStimulus::ColoredTransformStimulus(const ParameterValueMap &para
 }
 
 
-void ColoredTransformStimulus::draw(shared_ptr<StimulusDisplay> display, float x, float y, float sizex, float sizey) {
+void ColoredTransformStimulus::draw(shared_ptr<StimulusDisplay> display) {
     current_r = *r;
     current_g = *g;
     current_b = *b;
     
-    BasicTransformStimulus::draw(display, x, y, sizex, sizey);
+    BasicTransformStimulus::draw(display);
     
     last_r = current_r;
     last_g = current_g;
