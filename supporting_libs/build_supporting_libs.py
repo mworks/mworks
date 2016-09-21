@@ -354,6 +354,7 @@ def numpy():
         '10.9': '1.6.2',
         '10.10': '1.8.0rc1',
         '10.11': '1.8.0rc1',
+        '10.12': '1.8.0rc1',
         }[os.environ['MACOSX_DEPLOYMENT_TARGET']]
     srcdir = 'numpy-' + version
     tarfile = srcdir + '.tar.gz'
