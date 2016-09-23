@@ -13,30 +13,26 @@
 #include "StimulusDisplay.h"
 #include "VariableNotification.h"
 
-#include <boost/noncopyable.hpp>
-
 
 BEGIN_NAMESPACE_MW
 
 
-class DynamicStimulusDriver : boost::noncopyable {
+class DynamicStimulusDriver {
 	
 public:
 	DynamicStimulusDriver();
     
     virtual ~DynamicStimulusDriver();
 	
-	virtual void play();
-	virtual void stop();
+    void play();
+    void stop();
     
-	virtual void pause();
-	virtual void unpause();
+    void pause();
+    void unpause();
 
-    void stateSystemCallback(const Datum &data, MWorksTime time);
-    
 protected:
-    static const MWTime NOT_STARTED = -1LL;
-    static const MWTime NOT_PAUSED = -1LL;
+    static constexpr MWTime NOT_STARTED = -1LL;
+    static constexpr MWTime NOT_PAUSED = -1LL;
     
     bool isPlaying() const { return (startTime != NOT_STARTED); }
     bool isPaused() const { return (pauseTime != NOT_PAUSED); }
@@ -53,6 +49,8 @@ protected:
 	boost::mutex stim_lock;
 	
 private:
+    void stateSystemCallback(const Datum &data, MWorksTime time);
+    
 	MWTime startTime;
 	MWTime pauseTime;
 	MWTime elapsedTimeWhilePaused;

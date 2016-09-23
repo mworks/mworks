@@ -65,12 +65,10 @@ void StandardDynamicStimulus::draw(shared_ptr<StimulusDisplay> display) {
 
 
 Datum StandardDynamicStimulus::getCurrentAnnounceDrawData() {
-    Datum announceData(M_DICTIONARY, 4);
-    announceData.addElement(STIM_NAME, getTag());
-    announceData.addElement(STIM_ACTION, STIM_ACTION_DRAW);
-    announceData.addElement(STIM_TYPE, "standard_dynamic_stimulus");  
+    Datum announceData = Stimulus::getCurrentAnnounceDrawData();
+    announceData.addElement(STIM_TYPE, "standard_dynamic_stimulus");
     announceData.addElement("start_time", getStartTime());  
-    return announceData;
+    return std::move(announceData);
 }
 
 

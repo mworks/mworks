@@ -19,7 +19,7 @@ BEGIN_NAMESPACE_MW
 
 
 class StandardDynamicStimulus : public Stimulus, public DynamicStimulusDriver {
-
+    
 public:
     static const std::string AUTOPLAY;
     
@@ -27,21 +27,18 @@ public:
 
     explicit StandardDynamicStimulus(const ParameterValueMap &parameters);
     
-    virtual ~StandardDynamicStimulus() { }
-    
     void setVisible(bool newvis) override;
-    virtual bool needDraw();
-    virtual void draw(shared_ptr<StimulusDisplay> display);
-    virtual void drawFrame(shared_ptr<StimulusDisplay> display) = 0;
-    
-    virtual Datum getCurrentAnnounceDrawData();
+    bool needDraw() override;
+    void draw(shared_ptr<StimulusDisplay> display) override;
+    Datum getCurrentAnnounceDrawData() override;
     
 protected:
-    virtual void beginPause();
-    
-    VariablePtr autoplay;
+    void beginPause() override;
     
 private:
+    virtual void drawFrame(shared_ptr<StimulusDisplay> display) = 0;
+    
+    const VariablePtr autoplay;
     bool didDrawWhilePaused;
     
 };

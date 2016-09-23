@@ -22,8 +22,8 @@ DynamicStimulusDriver::DynamicStimulusDriver() :
     pauseTime(NOT_PAUSED),
     elapsedTimeWhilePaused(0)
 {
-    stateSystemCallbackNotification =
-        shared_ptr<VariableCallbackNotification>(new VariableCallbackNotification(boost::bind(&DynamicStimulusDriver::stateSystemCallback, this, _1,_2)));
+    auto callback = boost::bind(&DynamicStimulusDriver::stateSystemCallback, this, _1, _2);
+    stateSystemCallbackNotification = boost::make_shared<VariableCallbackNotification>(callback);
     state_system_mode->addNotification(stateSystemCallbackNotification);
 }
 
