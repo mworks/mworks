@@ -89,6 +89,7 @@ BEGIN_NAMESPACE_MW
         bool displayLinksRunning;
         double mainDisplayRefreshRate;
         int64_t lastFrameTime;
+        CVTimeStamp currentOutputTimeStamp;
         MWTime currentOutputTimeUS;
         
         const bool announceIndividualStimuli;
@@ -153,6 +154,7 @@ BEGIN_NAMESPACE_MW
 		void clearDisplay();
         void getDisplayBounds(GLdouble &left, GLdouble &right, GLdouble &bottom, GLdouble &top);
         double getMainDisplayRefreshRate() const { return mainDisplayRefreshRate; }
+        const CVTimeStamp& getCurrentOutputTimeStamp() const { return currentOutputTimeStamp; }
         MWTime getCurrentOutputTimeUS() const { return currentOutputTimeUS; }
         
         static shared_ptr<StimulusDisplay> getCurrentStimulusDisplay();

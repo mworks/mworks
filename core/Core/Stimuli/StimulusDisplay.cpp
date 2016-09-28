@@ -52,6 +52,8 @@ StimulusDisplay::StimulusDisplay(bool announceIndividualStimuli) :
     waitingForRefresh = false;
     needDraw = false;
     
+    std::memset(&currentOutputTimeStamp, 0, sizeof(currentOutputTimeStamp));
+    
     stateSystemNotification = shared_ptr<VariableCallbackNotification>(new VariableCallbackNotification(boost::bind(&StimulusDisplay::stateSystemCallback, this, _1, _2)));
     state_system_mode->addNotification(stateSystemNotification);
 }
@@ -273,6 +275,7 @@ void StimulusDisplay::stateSystemCallback(const Datum &data, MWorksTime time) {
         }
         
         displayLinksRunning = false;
+        std::memset(&currentOutputTimeStamp, 0, sizeof(currentOutputTimeStamp));
         currentOutputTimeUS = -1;
         
         // We need to release the lock before calling CVDisplayLinkStop, because
@@ -351,6 +354,7 @@ CVReturn StimulusDisplay::displayLinkCallback(CVDisplayLinkRef _displayLink,
             }
             
             display.lastFrameTime = outputTime->videoTime;
+            display.currentOutputTimeStamp = *outputTime;
             
             //
             // Here's how the time calculation works:
