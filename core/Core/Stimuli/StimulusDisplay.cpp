@@ -398,7 +398,7 @@ void StimulusDisplay::refreshMainDisplay() {
         shared_ptr<StimulusNode> node = display_stack->getFrontmost();
         while (node) {
             if (node->isVisible()) {
-                needDraw = node->needDraw();
+                needDraw = node->needDraw(shared_from_this());
                 if (needDraw)
                     break;
             }

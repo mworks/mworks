@@ -116,7 +116,7 @@ public:
      * Does the stimulus need to be redrawn?  (This is probably useful
      * only for dynamic stimuli.)
      */
-    virtual bool needDraw() { return false; }
+    virtual bool needDraw(shared_ptr<StimulusDisplay> display) { return false; }
     
     /**
      * Draws the stimulus on display 'display'

@@ -100,7 +100,7 @@ public:
     virtual void thaw();
     virtual bool isFrozen();
     
-    virtual bool needDraw();
+    virtual bool needDraw(shared_ptr<StimulusDisplay> display);
     virtual void draw(shared_ptr<StimulusDisplay> display);
     
     virtual void announce(Datum announceData, MWTime time);

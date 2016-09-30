@@ -29,7 +29,7 @@ public:
     explicit DynamicStimulusBase(const ParameterValueMap &parameters);
     
     void setVisible(bool newvis) override;
-    bool needDraw() override;
+    bool needDraw(shared_ptr<StimulusDisplay> display) override;
     void draw(shared_ptr<StimulusDisplay> display) override;
     Datum getCurrentAnnounceDrawData() override;
     
@@ -77,7 +77,7 @@ void DynamicStimulusBase<BaseStimulus>::setVisible(bool newvis) {
 
 
 template<typename BaseStimulus>
-bool DynamicStimulusBase<BaseStimulus>::needDraw() {
+bool DynamicStimulusBase<BaseStimulus>::needDraw(shared_ptr<StimulusDisplay> display) {
     return isPlaying() && !(isPaused() && didDrawWhilePaused);
 }
 

@@ -94,8 +94,8 @@ int StimulusNode::getDeferred(){
   return stim->getDeferred(); 
 }
 
-bool StimulusNode::needDraw() {
-    return stim && stim->needDraw();
+bool StimulusNode::needDraw(shared_ptr<StimulusDisplay> display) {
+    return stim && stim->needDraw(display);
 }
 
 void StimulusNode::draw(shared_ptr<StimulusDisplay> stimulus_display) {

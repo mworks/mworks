@@ -24,7 +24,7 @@ public:
     
     explicit BaseMovieStimulus(const ParameterValueMap &parameters);
     
-    bool needDraw() MW_OVERRIDE;
+    bool needDraw(shared_ptr<StimulusDisplay> display) MW_OVERRIDE;
     Datum getCurrentAnnounceDrawData() MW_OVERRIDE;
     
 protected:

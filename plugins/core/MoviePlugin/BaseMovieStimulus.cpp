@@ -45,8 +45,8 @@ void BaseMovieStimulus::startPlaying() {
 }
 
 
-bool BaseMovieStimulus::needDraw() {
-    if (!BaseFrameListStimulus::needDraw()) {
+bool BaseMovieStimulus::needDraw(shared_ptr<StimulusDisplay> display) {
+    if (!BaseFrameListStimulus::needDraw(display)) {
         return false;
     }
     
