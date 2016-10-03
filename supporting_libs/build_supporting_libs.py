@@ -198,7 +198,7 @@ def run_configure_and_make(
 
 @builder
 def boost():
-    version = '1.61.0'
+    version = '1.62.0'
     srcdir = 'boost_' + version.replace('.', '_')
     tarfile = srcdir + '.tar.bz2'
 
