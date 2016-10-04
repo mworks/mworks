@@ -678,20 +678,18 @@ Action() {
 QueueStimulus::~QueueStimulus() { }
 
 bool QueueStimulus::execute() {
-	
-    bool loaded = stimnode->isLoaded();
-    Stimulus::load_style deferred = (Stimulus::load_style)stimnode->getDeferred();
-    if(deferred == Stimulus::deferred_load && !loaded){
-      stimnode->load(display);
+    if (!(stimnode->isLoaded()) &&
+        stimnode->getDeferred() == Stimulus::deferred_load)
+    {
+        stimnode->load(display);
     }
-  
+    
     // freeze the stimulus
     stimnode->freeze();
     stimnode->setPendingVisible(true);
-	
+    
     stimnode->addToDisplay(display);
-	
-    //	display->addStimulusNode(stimnode);
+    
     return true;
 }	
 
@@ -735,20 +733,18 @@ LiveQueueStimulus::~LiveQueueStimulus() {
 }
 
 bool LiveQueueStimulus::execute() {
-	
-  if(!stimnode->isLoaded()){
-    stimnode->load(display);
-  }
-  
-  // don't freeze the stimulus
-  stimnode->thaw();
-  stimnode->setPendingVisible(true);
-  
-	
-	// see "WTF is going on here" above
-	stimnode->addToDisplay(display);
-	//	display->addStimulusNode(stimnode);
-	
+    if (!(stimnode->isLoaded()) &&
+        stimnode->getDeferred() == Stimulus::deferred_load)
+    {
+        stimnode->load(display);
+    }
+    
+    // don't freeze the stimulus
+    stimnode->thaw();
+    stimnode->setPendingVisible(true);
+    
+    stimnode->addToDisplay(display);
+    
     return true;
 }	
 

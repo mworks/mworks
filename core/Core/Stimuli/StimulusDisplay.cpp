@@ -492,12 +492,18 @@ void StimulusDisplay::drawDisplayStack() {
     shared_ptr<StimulusNode> node = display_stack->getBackmost();
     while (node) {
         if (node->isVisible()) {
-            node->draw(shared_from_this());
-            
-            Datum individualAnnounce(node->getCurrentAnnounceDrawData());
-            if (!individualAnnounce.isUndefined()) {
-                stimsToAnnounce.push_back(node);
-                stimAnnouncements.push_back(individualAnnounce);
+            if (!(node->isLoaded())) {
+                merror(M_DISPLAY_MESSAGE_DOMAIN,
+                       "Stimulus \"%s\" is not loaded and will not be displayed",
+                       node->getStimulus()->getTag().c_str());
+            } else {
+                node->draw(shared_from_this());
+                
+                Datum individualAnnounce(node->getCurrentAnnounceDrawData());
+                if (!individualAnnounce.isUndefined()) {
+                    stimsToAnnounce.push_back(node);
+                    stimAnnouncements.push_back(individualAnnounce);
+                }
             }
         }
         node = node->getPrevious();

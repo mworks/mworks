@@ -200,17 +200,20 @@ Stimulus::Stimulus(const ParameterValueMap &parameters) :
 
 Stimulus::Stimulus(std::string _tag) :
     Announcable(ANNOUNCE_STIMULUS_TAGNAME),
-    mw::Component(_tag)
-{
-    loaded = false;
-    visible = false;
-    deferred = Stimulus::nondeferred_load;
+    mw::Component(_tag),
+    loaded(false),
+    visible(false),
+    deferred(nondeferred_load)
+{ }
+
+
+void Stimulus::load(shared_ptr<StimulusDisplay> display) {
+    loaded = true;
 }
 
-
-void Stimulus::load(shared_ptr<StimulusDisplay> display) { }
-
-void Stimulus::unload(shared_ptr<StimulusDisplay> display) { }
+void Stimulus::unload(shared_ptr<StimulusDisplay> display) {
+    loaded = false;
+}
 
 void Stimulus::setVisible(bool newvis) {
     visible = newvis;

@@ -415,61 +415,55 @@ void ImageStimulus::unload(shared_ptr<StimulusDisplay> display) {
 
 void ImageStimulus::drawInUnitSquare(shared_ptr<StimulusDisplay> display) {
     double aspect = (double)width / (double)height;
-    if (loaded) {
+    
+    glActiveTextureARB(GL_TEXTURE0_ARB);
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, texture_maps[display->getCurrentContextIndex()]);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+    glEnable (GL_BLEND);
+    glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+    
+    glBegin(GL_QUADS);
+    
+    glColor4f(1., 1., 1., current_alpha);
+    
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+    
+    if(aspect > 1) {
         
-        glActiveTextureARB(GL_TEXTURE0_ARB); 
-        glEnable(GL_TEXTURE_2D);
-		glBindTexture(GL_TEXTURE_2D, texture_maps[display->getCurrentContextIndex()]);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-		glEnable (GL_BLEND); 
-		glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-								
-        glBegin(GL_QUADS);
-		
-		glColor4f(1., 1., 1., current_alpha);
-
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-		
-	
-        if(aspect > 1) {
-			
-            glTexCoord2f(0.0,0.0); 
-            glVertex3f(0.0,(0.5-0.5/aspect),0.0);
-            
-            glTexCoord2f(1.0,0.0); 
-			glVertex3f(1.0,(0.5-0.5/aspect),0.0);
-            
-            glTexCoord2f(1.0,1.0); 
-            glVertex3f(1.0,(0.5-0.5/aspect) + 1.0/aspect,0.0);
-			
-            glTexCoord2f(0.0,1.0); 
-            glVertex3f(0.0,(0.5-0.5/aspect) + 1.0/aspect,0.0);
-        } else {
-			
-            glTexCoord2f(0.0,0.0); 
-            glVertex3f((1.0 - aspect)/2.0,0.0,0.0);
-            
-            glTexCoord2f(1.0,0.0);
-			glVertex3f((1.0 - aspect)/2.0 + aspect,0.0,0.0);
-            
-            glTexCoord2f(1.0,1.0); 
-            glVertex3f((1.0 - aspect)/2.0 + aspect,1.0,0.0);
-            
-            glTexCoord2f(0.0,1.0); 
-            glVertex3f((1.0 - aspect)/2.0,1.0,0.0);
-        }
-		
-        glEnd();
-		
-        glDisable(GL_BLEND);
-        glBindTexture(GL_TEXTURE_2D, 0);
-        glDisable(GL_TEXTURE_2D);
-		
+        glTexCoord2f(0.0,0.0);
+        glVertex3f(0.0,(0.5-0.5/aspect),0.0);
+        
+        glTexCoord2f(1.0,0.0);
+        glVertex3f(1.0,(0.5-0.5/aspect),0.0);
+        
+        glTexCoord2f(1.0,1.0);
+        glVertex3f(1.0,(0.5-0.5/aspect) + 1.0/aspect,0.0);
+        
+        glTexCoord2f(0.0,1.0);
+        glVertex3f(0.0,(0.5-0.5/aspect) + 1.0/aspect,0.0);
     } else {
-        merror(M_DISPLAY_MESSAGE_DOMAIN, "Stimulus image is not loaded.  Displaying nothing.");
+        
+        glTexCoord2f(0.0,0.0);
+        glVertex3f((1.0 - aspect)/2.0,0.0,0.0);
+        
+        glTexCoord2f(1.0,0.0);
+        glVertex3f((1.0 - aspect)/2.0 + aspect,0.0,0.0);
+        
+        glTexCoord2f(1.0,1.0);
+        glVertex3f((1.0 - aspect)/2.0 + aspect,1.0,0.0);
+        
+        glTexCoord2f(0.0,1.0);
+        glVertex3f((1.0 - aspect)/2.0,1.0,0.0);
     }
+    
+    glEnd();
+    
+    glDisable(GL_BLEND);
+    glBindTexture(GL_TEXTURE_2D, 0);
+    glDisable(GL_TEXTURE_2D);
 }
 
 
@@ -597,7 +591,7 @@ void CircleStimulus::drawInUnitSquare(shared_ptr<StimulusDisplay> display) {
     glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     
     // The formula for the number of sections is borrowed from http://slabode.exofire.net/circle_draw.shtml
-    double radius = std::max(xscale->getValue().getFloat(), yscale->getValue().getFloat()) / 2.0;
+    double radius = std::max(current_sizex, current_sizey) / 2.0;
     int sections = 10 * std::sqrt(radius * pixelDensity.at(display->getCurrentContextIndex()));
     
     glBegin(GL_TRIANGLE_FAN);
