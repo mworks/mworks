@@ -32,10 +32,10 @@ public:
         ComponentType::describeComponent(info);
     }
     
-    virtual boost::shared_ptr<mw::Component> createObject(StdStringMap parameters, ComponentRegistryPtr reg) {
+    boost::shared_ptr<mw::Component> createObject(StdStringMap parameters, ComponentRegistryPtr reg) override {
         ParameterValueMap values;
         processParameters(parameters, reg, values);
-        return boost::shared_ptr<ComponentType>(new ComponentType(values));
+        return boost::make_shared<ComponentType>(values);
     }
     
 };

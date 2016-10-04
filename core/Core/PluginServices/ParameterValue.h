@@ -67,20 +67,16 @@ private:
 };
 
 
-typedef Map<ParameterValue> ParameterValueMap;
+using ParameterValueMap = Map<ParameterValue>;
 
 
 template<typename Type>
 Type ParameterValue::convert(const std::string &s, ComponentRegistryPtr reg) {
-    Type val;
-    
     try {
-        val = boost::lexical_cast<Type>(s);
-    } catch (boost::bad_lexical_cast &e) {
-        val = Type(convert<VariablePtr>(s, reg)->getValue());
+        return boost::lexical_cast<Type>(s);
+    } catch (const boost::bad_lexical_cast &) {
+        return Type(convert<VariablePtr>(s, reg)->getValue());
     }
-    
-    return val;
 }
 
 
@@ -104,32 +100,26 @@ inline RGBColor ParameterValue::convert(const std::string &s, ComponentRegistryP
 
 template<>
 inline StimulusNodePtr ParameterValue::convert(const std::string &s, ComponentRegistryPtr reg) {
-    StimulusNodePtr stimNode(reg->getStimulus(s));
-    
+    auto stimNode = reg->getStimulus(s);
     if (!stimNode) {
         throw SimpleException("Unknown stimulus", s);
     }
-    
-    return stimNode;
+    return std::move(stimNode);
 }
 
 
 template<>
 inline StimulusGroupPtr ParameterValue::convert(const std::string &s, ComponentRegistryPtr reg) {
-    StimulusGroupPtr stimGroup(reg->getObject<StimulusGroup>(s));
-    
+    auto stimGroup = reg->getObject<StimulusGroup>(s);
     if (!stimGroup) {
         throw SimpleException("Unknown stimulus group", s);
     }
-    
-    return stimGroup;
+    return std::move(stimGroup);
 }
 
 
 template<>
 inline boost::filesystem::path ParameterValue::convert(const std::string &s, ComponentRegistryPtr reg) {
-    namespace bf = boost::filesystem;
-    
     std::string workingPath;
     if (GlobalCurrentExperiment) {
         workingPath = GlobalCurrentExperiment->getWorkingPath();
@@ -137,13 +127,13 @@ inline boost::filesystem::path ParameterValue::convert(const std::string &s, Com
     
     // Expand path relative to the working path even if it's absolute, so that files identified via
     // client-side absolute paths are found in server-side experiment storage
-    bf::path fullPath(expandPath(workingPath, s, true));
+    auto fullPath = expandPath(workingPath, s, true);
     
-    if (!bf::exists(fullPath)) {
+    if (!boost::filesystem::exists(fullPath)) {
         throw SimpleException("Path does not exist", fullPath.string());
     }
     
-    return fullPath;
+    return std::move(fullPath);
 }
 
 
