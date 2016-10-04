@@ -198,7 +198,7 @@ Stimulus::Stimulus(const ParameterValueMap &parameters) :
 { }
 
 
-Stimulus::Stimulus(std::string _tag) :
+Stimulus::Stimulus(const std::string &_tag) :
     Announcable(ANNOUNCE_STIMULUS_TAGNAME),
     mw::Component(_tag),
     loaded(false),

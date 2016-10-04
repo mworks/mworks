@@ -32,14 +32,14 @@ BEGIN_NAMESPACE_MW
 class BasicTransformStimulus : public Stimulus {
 	
 protected:
-    shared_ptr<Variable> xoffset;
-    shared_ptr<Variable> yoffset;
+    const shared_ptr<Variable> xoffset;
+    const shared_ptr<Variable> yoffset;
     
-    shared_ptr<Variable> xscale;
-    shared_ptr<Variable> yscale;
+    const shared_ptr<Variable> xscale;
+    const shared_ptr<Variable> yscale;
     
-    shared_ptr<Variable> rotation; // planar rotation added in for free
-    shared_ptr<Variable> alpha_multiplier;
+    const shared_ptr<Variable> rotation; // planar rotation added in for free
+    const shared_ptr<Variable> alpha_multiplier;
     
     float current_posx, current_posy, current_sizex, current_sizey, current_rot, current_alpha;
     float last_posx, last_posy, last_sizex, last_sizey, last_rot, last_alpha;
@@ -55,30 +55,18 @@ public:
     static void describeComponent(ComponentInfo &info);
     
     explicit BasicTransformStimulus(const Map<ParameterValue> &parameters);
-    BasicTransformStimulus(std::string _tag, 
-                           shared_ptr<Variable> _xoffset, 
-                           shared_ptr<Variable> _yoffset,
-                           shared_ptr<Variable> _xscale, 
-                           shared_ptr<Variable> _yscale, 
-                           shared_ptr<Variable> _rot,
-                           shared_ptr<Variable> _alpha);
+    BasicTransformStimulus(const std::string &_tag,
+                           const shared_ptr<Variable> &_xoffset,
+                           const shared_ptr<Variable> &_yoffset,
+                           const shared_ptr<Variable> &_xscale,
+                           const shared_ptr<Variable> &_yscale,
+                           const shared_ptr<Variable> &_rot,
+                           const shared_ptr<Variable> &_alpha);
     
-    virtual void setTranslation(shared_ptr<Variable> _x, 
-                                shared_ptr<Variable> _y);
-    virtual void setScale(shared_ptr<Variable> _scale);
-    virtual void setScale(shared_ptr<Variable> _xscale, 
-                          shared_ptr<Variable> _yscale);
-    virtual void setRotation(shared_ptr<Variable> rot);
-    virtual void draw(shared_ptr<StimulusDisplay> display);
+    void draw(shared_ptr<StimulusDisplay> display) override;
+    Datum getCurrentAnnounceDrawData() override;
     
     virtual void drawInUnitSquare(shared_ptr<StimulusDisplay> display) = 0;
-    
-    virtual Datum getCurrentAnnounceDrawData();    
-	
-    virtual shared_ptr<Variable> getXScale(){ return xscale; }
-    virtual shared_ptr<Variable> getYScale(){ return yscale; }
-    virtual shared_ptr<Variable> getXOffset(){ return xoffset; }
-    virtual shared_ptr<Variable> getYOffset(){ return yoffset; }
 
 };
 
@@ -97,11 +85,12 @@ public:
     
     explicit ImageStimulus(const Map<ParameterValue> &parameters);
     
-    std::string getFilename();
-    virtual void drawInUnitSquare(shared_ptr<StimulusDisplay> display);
-    virtual void load(shared_ptr<StimulusDisplay> display);
-    virtual void unload(shared_ptr<StimulusDisplay> display);
-    virtual Datum getCurrentAnnounceDrawData();
+    const std::string& getFilename() { return filename; }
+    
+    void load(shared_ptr<StimulusDisplay> display) override;
+    void unload(shared_ptr<StimulusDisplay> display) override;
+    void drawInUnitSquare(shared_ptr<StimulusDisplay> display) override;
+    Datum getCurrentAnnounceDrawData() override;
 };
 
 
@@ -165,8 +154,8 @@ public:
     
     explicit BlankScreen(const Map<ParameterValue> &parameters);
     
-    virtual void draw(shared_ptr<StimulusDisplay> display);
-    virtual Datum getCurrentAnnounceDrawData();
+    void draw(shared_ptr<StimulusDisplay> display) override;
+    Datum getCurrentAnnounceDrawData() override;
     
 protected:
     shared_ptr<Variable> r;

@@ -71,40 +71,23 @@ BasicTransformStimulus::BasicTransformStimulus(const ParameterValueMap &paramete
 { }
 
 
-BasicTransformStimulus::BasicTransformStimulus(std::string _tag,
-										shared_ptr<Variable> _xoffset, 
-										shared_ptr<Variable> _yoffset, shared_ptr<Variable> _xscale,
-										shared_ptr<Variable> _yscale, shared_ptr<Variable> _rot,
-												 shared_ptr<Variable> _alpha)
-															: Stimulus(_tag) {
-    xoffset = registerVariable(_xoffset);
-    yoffset = registerVariable(_yoffset);
-    xscale = registerVariable(_xscale);
-    yscale = registerVariable(_yscale);
-    rotation = registerVariable(_rot);
-	alpha_multiplier = registerVariable(_alpha);
-}
+BasicTransformStimulus::BasicTransformStimulus(const std::string &_tag,
+                                               const shared_ptr<Variable> &_xoffset,
+                                               const shared_ptr<Variable> &_yoffset,
+                                               const shared_ptr<Variable> &_xscale,
+                                               const shared_ptr<Variable> &_yscale,
+                                               const shared_ptr<Variable> &_rot,
+                                               const shared_ptr<Variable> &_alpha) :
+    Stimulus(_tag),
+    xoffset(registerVariable(_xoffset)),
+    yoffset(registerVariable(_yoffset)),
+    xscale(registerVariable(_xscale)),
+    yscale(registerVariable(_yscale)),
+    rotation(registerVariable(_rot)),
+    alpha_multiplier(registerVariable(_alpha))
+{ }
 
 							            
-void BasicTransformStimulus::setTranslation(shared_ptr<Variable> _x, shared_ptr<Variable> _y) {
-    xoffset = _x;
-    yoffset = _y;
-}
-                
-void BasicTransformStimulus::setScale(shared_ptr<Variable> _scale) {
-    xscale = _scale;
-    yscale = _scale;
-}
-                
-void BasicTransformStimulus::setScale(shared_ptr<Variable> _xscale, shared_ptr<Variable> _yscale) {
-    xscale = _xscale;
-    yscale = _yscale;
-}
-                
-void BasicTransformStimulus::setRotation(shared_ptr<Variable> rot) {
-    rotation = rot;
-}
-                
 void BasicTransformStimulus::draw(shared_ptr<StimulusDisplay> display) {
     current_posx = *xoffset;
     current_posy = *yoffset;
@@ -350,10 +333,6 @@ ImageStimulus::ImageStimulus(const ParameterValueMap &parameters) :
 }
 
 
-std::string ImageStimulus::getFilename() {
-        return filename;
-}
-       
 void ImageStimulus::load(shared_ptr<StimulusDisplay> display) {
     if(loaded){
 		return;

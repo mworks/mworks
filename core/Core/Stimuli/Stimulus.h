@@ -88,7 +88,7 @@ public:
     /**
      * Default Constructor.  Sets all members to false.
      */
-    Stimulus(std::string _tag);
+    explicit Stimulus(const std::string &_tag);
     
     /**
      * StandardComponentFactory-compatible Constructor.
