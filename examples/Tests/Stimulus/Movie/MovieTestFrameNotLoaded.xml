@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<monkeyml version="1.0">
+    <io_devices tag="IO Devices"></io_devices>
+    <variables tag="Variables">
+        <variable tag="index" scope="local" logging="when_changed" default_value="0" type="integer"></variable>
+        <variable tag="ended" scope="global" logging="when_changed" default_value="0" type="boolean"></variable>
+    </variables>
+    <sounds tag="Sounds"></sounds>
+    <stimuli tag="Stimuli">
+        <stimulus_group tag="frames">
+            <range_replicator tag="New Replicator" from="1" to="51" step="25" variable="index">
+                <stimulus type="image_file" tag="frame_${index}" path="images/MotIm_${index}.jpg" x_size="25.0" y_size="25.0" x_position="0.0" y_position="0.0" rotation="0.0" alpha_multiplier="1.0"></stimulus>
+            </range_replicator>
+        </stimulus_group>
+        <stimulus type="movie" tag="movie" stimulus_group="frames" frames_per_second="1" ended="ended" loop="0"></stimulus>
+    </stimuli>
+    <filters tag="Filters"></filters>
+    <optimizers tag="Optimizers"></optimizers>
+    <experiment tag="New Experiment" full_name="" description="">
+        <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential">
+            <task_system tag="New Task System" interruptible="YES">
+                <task_system_state tag="Begin State System" interruptible="YES">
+                    <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                    <action tag="Queue movie" type="queue_stimulus" stimulus="movie"></action>
+                    <action tag="Unload frame 26" type="unload_stimulus" stimulus="frame_26"></action>
+                    <action tag="Play movie" stimulus="movie" type="play_dynamic_stimulus"></action>
+                    <action tag="Update display" type="update_stimulus_display"></action>
+                    <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                    <transition type="conditional" tag="If Condition is True, Transition to ..." condition="ended" target="Exit State System"></transition>
+                </task_system_state>
+                <task_system_state tag="Exit State System" interruptible="YES">
+                    <action_marker _unmoveable="1" tag="Actions"></action_marker>
+                    <action tag="Dequeue movie" type="dequeue_stimulus" stimulus="movie"></action>
+                    <action tag="Stop movie" stimulus="movie" type="stop_dynamic_stimulus"></action>
+                    <action tag="Update display 2" type="update_stimulus_display"></action>
+                    <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
+                    <transition tag="Return to parent task system" type="yield"></transition>
+                </task_system_state>
+            </task_system>
+        </protocol>
+    </experiment>
+</monkeyml>

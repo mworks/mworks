@@ -55,6 +55,7 @@ void BaseFrameListStimulus::load(shared_ptr<StimulusDisplay> display) {
     for (int i = 0; i < getNumFrames(); i++) {
         getStimulusForFrame(i)->load(display);
     }
+    loaded = true;
 }
 
 
@@ -62,6 +63,7 @@ void BaseFrameListStimulus::unload(shared_ptr<StimulusDisplay> display) {
     for (int i = 0; i < getNumFrames(); i++) {
         getStimulusForFrame(i)->unload(display);
     }
+    loaded = false;
 }
 
 
@@ -69,7 +71,16 @@ void BaseFrameListStimulus::drawFrame(shared_ptr<StimulusDisplay> display) {
     int frameNumber = getFrameNumber();
     int numFrames = getNumFrames();
     if (frameNumber < numFrames) {
-        getStimulusForFrame(frameNumber)->draw(display);
+        auto stim = getStimulusForFrame(frameNumber);
+        if (stim->isLoaded()) {
+            stim->draw(display);
+        } else {
+            merror(M_DISPLAY_MESSAGE_DOMAIN,
+                   "Stimulus \"%s\" (frame number %d of stimulus \"%s\") is not loaded and will not be displayed",
+                   stim->getTag().c_str(),
+                   frameNumber,
+                   getTag().c_str());
+        }
         lastFrameDrawn = frameNumber;
     }
 }

@@ -27,8 +27,10 @@ MovieStimulus::MovieStimulus(const ParameterValueMap &parameters) :
     BaseMovieStimulus(parameters),
     stimulusGroup(parameters[STIMULUS_GROUP])
 {
-    // To preserve existing behavior, do not auto-load stimulus
+    // To preserve existing behavior, do not auto-load stimulus, but *do*
+    // mark it as loaded
     setDeferred(explicit_load);
+    loaded = true;
 }
 
 
