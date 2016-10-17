@@ -146,10 +146,11 @@ def build_component_package(package_name):
     check_call(cmd)
 
 
-def codesign_app(signing_name, path):
+def codesign(signing_name, path):
     check_call([
         '/usr/bin/codesign',
         '--verbose',
+        '--force',
         '--sign', 'Developer ID Application: ' + signing_name,
         path,
         ])
@@ -175,7 +176,7 @@ def main():
             copy_path(package_name, path)
         if signing_name and package_name == core_components_package_name:
             for app_path in app_paths:
-                codesign_app(signing_name, get_tmp_path(package_name, app_path))
+                codesign(signing_name, get_tmp_path(package_name, app_path))
         build_component_package(package_name)
 
     dmg_contents_dir = os.path.join(installer_root, '%s %s' % (installer_name, installer_version))
@@ -196,12 +197,14 @@ def main():
     uninstall_script_path = os.path.join(dmg_contents_dir, 'Uninstall MWorks')
     check_call(['/bin/cp', 'scripts/uninstall_mworks', uninstall_script_path])
     if signing_name:
-        codesign_app(signing_name, uninstall_script_path)
+        codesign(signing_name, uninstall_script_path)
 
     check_call(['/bin/cp', '../../LICENSE.txt', dmg_contents_dir])
 
     output_file = os.path.join(installer_root, '%s-%s.dmg' % (installer_name, installer_version))
     check_call(['/usr/bin/hdiutil', 'create', '-srcfolder', dmg_contents_dir, output_file])
+    if signing_name:
+        codesign(signing_name, output_file)
 
 
 if __name__ == '__main__':
