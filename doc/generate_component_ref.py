@@ -133,6 +133,7 @@ def write_header(fp, title, underline_char='='):
 def write_index(basename, title, entries, description=''):
     with write_if_needed(basename + '.rst') as fp:
         write_warning(fp)
+        print('.. _%s:\n' % title, file=fp)
         write_header(fp, title)
         if description:
             print('\n' + description, file=fp)
