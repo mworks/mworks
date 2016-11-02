@@ -6,10 +6,12 @@ signature: iodevice/serverside_conduit
 isa: IODevice
 description: >
     A conduit object that allows external programs to request and interact
-    with variables within a MW server
+    with variables within an MWorks server instance
 parameters: 
   - 
     name: resource_name
     default: server_conduit
+    description: >
+        Name that the external program will use to connect to the conduit
 
 

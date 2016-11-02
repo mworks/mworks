@@ -10,17 +10,31 @@ parameters:
   - 
     name: mouse_position_x
     required: yes
+    description: >
+        Variable in which to store the horizontal position of the pointer (in
+        degrees) on the stimulus display
   - 
     name: mouse_position_y
     required: yes
+    description: >
+        Variable in which to store the vertical position of the pointer (in
+        degrees) on the stimulus display
   - 
     name: mouse_down
     required: yes
+    description: >
+        Variable in which to store the state of the primary mouse button (true
+        if down/clicked, false if up/released)
   - 
     name: hide_cursor
     default: 'NO'
+    description: >
+        If ``YES``, hide the cursor inside the stimulus display window
   - 
     name: use_mirror_window
     default: 'NO'
+    description: >
+        If ``YES``, track pointer location on the mirror window instead of the
+        main stimulus display window
 
 

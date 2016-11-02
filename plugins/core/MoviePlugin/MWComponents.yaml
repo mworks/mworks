@@ -1,30 +1,66 @@
 ---
 
 
+name: Base Frame List Stimulus
+abstract: yes
+isa: [Stimulus, Dynamic Stimulus Base]
+parameters: 
+  - 
+    name: ended
+    description: >
+        Variable that will be set to true after the last frame has displayed.
+        (Specifically, it will be set to true at the time that the next frame
+        *after* the last would have been drawn, if there were one.)
+  - 
+    name: loop
+    default: 'NO'
+    description: >
+        If ``YES``, the presentation will repeat indefinitely (or until `Stop
+        Dynamic Stimulus` is invoked)
+  - 
+    name: repeats
+    default: 0
+    description: |
+        Number of times to repeat the presentation.  Note that the presentation
+        will always run at least once, even if this value is less than one.
+
+        If `loop`_ is ``YES``, this parameter is ignored.
+
+
+---
+
+
 name: Frame List Stimulus
 signature: stimulus/frame_list
-isa: Stimulus
+isa: Base Frame List Stimulus
 description: >
-    A simple movie stimulus that gets its frames from the specified
-    stimulus group and presents them at the native refresh rate of the
-    display
+    A simple movie stimulus that gets its frames from a stimulus group and
+    presents them at the native refresh rate of the display
 parameters: 
   - 
     name: stimulus_group
     required: yes
+    description: Stimulus group providing the frames
   - 
     name: ending
+    description: >
+        Variable that will be set to true when the frame list begins drawing its
+        last frame (thereby notifying you of the optimal time to `queue <Queue
+        Stimulus>`  stimuli that should be displayed during the frame
+        *immediately following* said last frame)
+
+
+---
+
+
+name: Base Movie Stimulus
+abstract: yes
+isa: Base Frame List Stimulus
+parameters: 
   - 
-    name: ended
-  - 
-    name: loop
-    default: 'NO'
-  - 
-    name: repeats
-    default: 0
-  - 
-    name: autoplay
-    default: 'NO'
+    name: frames_per_second
+    required: yes
+    description: Rate at which to display the movie's frames
 
 
 ---
@@ -32,27 +68,15 @@ parameters:
 
 name: Movie Stimulus
 signature: stimulus/movie
-isa: Stimulus
-description: A movie stimulus
+isa: Base Movie Stimulus
+description: >
+    A simple movie stimulus that gets its frames from a stimulus group and
+    presents them at a specified frame rate
 parameters: 
   - 
     name: stimulus_group
     required: yes
-  - 
-    name: frames_per_second
-    required: yes
-    example: 10
-  - 
-    name: ended
-  - 
-    name: loop
-    default: 'NO'
-  - 
-    name: repeats
-    default: 0
-  - 
-    name: autoplay
-    default: 'NO'
+    description: Stimulus group providing the frames
 
 
 ---
@@ -60,50 +84,45 @@ parameters:
 
 name: Image Directory Movie Stimulus
 signature: stimulus/image_directory_movie
-isa: Stimulus
+isa: Base Movie Stimulus
 description: >
     A movie stimulus that gets its frames from a directory of image files
 parameters: 
   - 
     name: directory_path
     required: yes
+    description: |
+        Filesystem path to the directory containing the image files.
+
+        *All* non-hidden files in this directory must be images.  The frames are
+        ordered according to the lexical sort order of the file names.
   - 
     name: x_size
     required: yes
     example: 5.0
+    description: Horizontal size in degrees
   - 
     name: y_size
     required: yes
     example: 5.0
+    description: Vertical size in degrees
   - 
     name: x_position
     default: 0.0
+    description: Horizontal center position in degrees
   - 
     name: y_position
     default: 0.0
+    description: Vertical center position in degrees
   - 
     name: rotation
     default: 0.0
+    description: Rotation in degrees
   - 
     name: alpha_multiplier
     default: 1.0
-  - 
-    name: deferred
-    default: 'NO'
-  - 
-    name: frames_per_second
-    required: yes
-    example: 10
-  - 
-    name: ended
-  - 
-    name: loop
-    default: 'NO'
-  - 
-    name: repeats
-    default: 0
-  - 
-    name: autoplay
-    default: 'NO'
+    description: >
+        Controls the transparency of the stimulus.  ``1.0`` is fully opaque,
+        while ``0.0`` is fully tranparent.
 
 

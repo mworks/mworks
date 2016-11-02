@@ -4,12 +4,22 @@
 name: Run Python File
 signature: action/run_python_file
 isa: Action
-description: >
-    Execute the specified file as `Python <https://www.python.org>`_ source code
+description: |
+    Execute the specified file as `Python <https://www.python.org>`_ source
+    code.
+
+    Within the Python code, use ``getvar`` to retrieve the value of an MWorks
+    variable and ``setvar`` to set it, e.g.
+
+    .. code:: python
+
+        x = getvar('x')
+        setvar('x', x + 1)
 parameters: 
   - 
     name: path
     required: yes
+    description: Filesystem path to the Python source file
 
 
 ---
@@ -18,11 +28,20 @@ parameters:
 name: Run Python String
 signature: action/run_python_string
 isa: Action
-description: >
-    Execute the given string as `Python <https://www.python.org>`_ source code
+description: |
+    Execute the given string as `Python <https://www.python.org>`_ source code.
+
+    Within the Python code, use ``getvar`` to retrieve the value of an MWorks
+    variable and ``setvar`` to set it, e.g.
+
+    .. code:: python
+
+        x = getvar('x')
+        setvar('x', x + 1)
 parameters: 
   - 
     name: code
     required: yes
+    description: Python code to execute
 
 

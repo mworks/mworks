@@ -388,6 +388,24 @@ parameters:
 ---
 
 
+name: Dynamic Stimulus Base
+abstract: yes
+parameters:
+  - 
+    name: autoplay
+    default: 'NO'
+    description: >
+        If ``YES``, the stimulus will start playing automatically (as if by an
+        implicit `Play Dynamic Stimulus` action) after it has been `queued
+        <Queue Stimulus>` and `Update Stimulus Display` has been invoked.  It
+        will also stop playing automatically (as if by an implicit `Stop Dynamic
+        Stimulus` action) after it has been `dequeued <Dequeue Stimulus>` and
+        `Update Stimulus Display` is invoked.
+
+
+---
+
+
 name: Stimulus Group
 signature: stimulus_group
 icon: smallStimulusFolder
@@ -412,24 +430,24 @@ parameters:
     name: x_size
     required: yes
     example: 5.0
-    description: Horizontal size in degrees
+    description: Horizontal size (degrees)
   - 
     name: y_size
     required: yes
     example: 5.0
-    description: Vertical size in degrees
+    description: Vertical size (degrees)
   - 
     name: x_position
     default: 0.0
-    description: Horizontal center position in degrees
+    description: Horizontal center position (degrees)
   - 
     name: y_position
     default: 0.0
-    description: Vertical center position in degrees
+    description: Vertical center position (degrees)
   - 
     name: rotation
     default: 0.0
-    description: Rotation in degrees
+    description: Rotation (degrees)
   - 
     name: alpha_multiplier
     default: 1.0
@@ -1774,6 +1792,13 @@ group: Input/Output
 allowed_parent: 
   - IODevices
   - Folder
+parameters:
+  - 
+    name: alt
+    description: >
+        Alternative device to use if this one fails to initialize (e.g. because
+        the required hardware is not available).  If ``#allowAltFailover`` is
+        set to 0 or false, this parameter is ignored.
 
 
 ---

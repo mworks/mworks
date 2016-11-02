@@ -3,47 +3,75 @@
 
 name: Moving Dots
 signature: stimulus/moving_dots
-isa: Stimulus
-description: A moving dots stimulus
+isa: [Stimulus, Dynamic Stimulus Base]
+description: A moving dot field stimulus
 parameters: 
   - 
     name: field_radius
     required: yes
+    description: Field radius (degrees)
   - 
     name: field_center_x
     required: yes
+    description: Field horizontal center position (degrees)
   - 
     name: field_center_y
     required: yes
+    description: Field vertical center position (degrees)
   - 
     name: dot_density
     required: yes
+    description: Number of dots per square degree
   - 
     name: dot_size
     required: yes
+    description: Dot diameter (degrees)
   - 
     name: color
     default: '1.0,1.0,1.0'
+    description: >
+        Dot color, expressed as a comma-separated list of red, green, and blue
+        components with values between 0 and 1 (inclusive).  The list can
+        include variable names in place of explicit values, in which case the
+        corresponding component value will be read from the named variable.
   - 
     name: alpha_multiplier
     default: 1.0
+    description: >
+        Controls the transparency of the dots.  ``1.0`` is fully opaque, while
+        ``0.0`` is fully tranparent.
   - 
     name: direction
     required: yes
+    description: Direction of movement for coherent dots (degrees)
   - 
     name: speed
     required: yes
+    description: Dot speed (degrees per second)
   - 
     name: coherence
     default: 1.0
+    description: >
+        Fraction of dots that move in the specified `direction`_.  Non-coherent
+        dots receive random directions.
   - 
     name: lifetime
     default: 0.0
+    description: >
+        Dot lifetime (seconds).  When a dot reaches the end of its lifetime, it
+        is removed and replaced by a new dot in a random location.
   - 
     name: announce_dots
     default: 'NO'
-  - 
-    name: autoplay
-    default: 'NO'
+    description: |
+        If ``YES``, stimulus announcements (i.e. ``#announceStimulus`` and
+        ``#stimDisplayUpdate`` events) will include dot positions.
+
+        Position data is encoded as a binary array of single-precision floating
+        point values (in platform `byte order
+        <https://en.wikipedia.org/wiki/Endianness>`_), with each consecutive
+        pair of values representing the (x,y) coordinates of a dot.  The
+        coordinates are scaled to lie in the range [-1,1] and rotated so that
+        the direction of coherent motion is zero degrees.
 
 

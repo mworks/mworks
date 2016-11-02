@@ -4,7 +4,12 @@
 name: White Noise Background
 signature: stimulus/white_noise_background
 isa: Stimulus
-description: White noise background stimulus
+description: |
+    White noise background stimulus.
+
+    Fills every pixel on the display with a random grayscale value (drawn from a
+    uniform distribution).  The experiment must explicitly initialize and update
+    the pixel values via the `Randomize White Noise Background` action.
 
 
 ---
@@ -13,10 +18,13 @@ description: White noise background stimulus
 name: Randomize White Noise Background
 signature: action/randomize_background
 isa: Action
-description: Randomize a `White Noise Background` stimulus
+description: >
+    Initialize or update the random pixel values of a `White Noise Background`
+    stimulus
 parameters: 
   - 
     name: stimulus
     required: yes
+    description: Stimulus to randomize
 
 

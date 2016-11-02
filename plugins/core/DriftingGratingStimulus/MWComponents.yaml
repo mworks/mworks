@@ -3,65 +3,53 @@
 
 name: Drifting Grating Stimulus
 signature: stimulus/drifting_grating
-isa: Stimulus
+isa: [Basic Transform Stimulus, Dynamic Stimulus Base]
 description: A drifting grating stimulus
 parameters: 
   - 
     name: direction
     default: 0.0
+    description: Direction of drift (degrees)
   - 
     name: starting_phase
     default: 0.0
+    description: Starting phase (degrees)
   - 
     name: spatial_frequency
     required: yes
     example: 0
+    description: Spatial frequency (cycles per degree)
   - 
     name: speed
     required: yes
     example: 1
+    description: Drift speed (degrees per second)
   - 
     name: grating_type
     required: yes
-    example: sinusoid
+    options: [sinusoid, square, triangle, sawtooth]
+    description: Grating type
   - 
     name: mask
     required: yes
-    example: gaussian
+    options: [rectangle, ellipse, gaussian]
+    description: Mask type
   -
     name: grating_sample_rate
     default: 32
+    description: Number of samples to generate when computing grating values
   -
     name: inverted
     default: 'NO'
+    description: >
+        If ``YES``, sawtooth gratings will start high instead of low
   - 
     name: std_dev
     default: 1.0
+    description: Standard deviation of Gaussian mask
   - 
     name: mean
     default: 0.0
-  - 
-    name: x_size
-    required: yes
-    example: 1
-  - 
-    name: y_size
-    required: yes
-    example: 1
-  - 
-    name: x_position
-    default: 0.0
-  - 
-    name: y_position
-    default: 0.0
-  - 
-    name: rotation
-    default: 0.0
-  - 
-    name: alpha_multiplier
-    default: 1.0
-  - 
-    name: autoplay
-    default: 'NO'
+    description: Mean of Gaussian mask
 
 

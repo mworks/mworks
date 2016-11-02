@@ -4,24 +4,51 @@
 name: USB HID Device
 signature: iodevice/usbhid_generic
 isa: IODevice
-icon: smallIOFolder
-description: >
+description: |
     Interface to a `USB human interface device
     <https://en.wikipedia.org/wiki/USB_human_interface_device_class>`_ (HID)
-    class device
+    class device.
+
+    Appropriate values for the `usage_page`_ and `usage`_ parameters can be
+    found in the `HID Usage Tables
+    <http://www.usb.org/developers/hidpage#HID_Usage>`_.  Here are the values
+    for a few common device types:
+
+    =========== ========== =====
+    Device type Usage page Usage
+    =========== ========== =====
+    Keyboard    1          6
+    Joystick    1          4
+    Gamepad     1          5
+    =========== ========== =====
 parameters: 
   - 
     name: usage_page
     required: yes
+    example: 1
+    description: HID usage page for the device
   - 
     name: usage
     required: yes
+    example: 6
+    description: HID usage for the device
   - 
     name: preferred_location_id
     default: 0
+    description: >
+        If MWorks finds multiple candidate devices for the given `usage_page`_
+        and `usage`_, it will issue an error message that lists the product
+        name, manufacturer name, and "location ID" for each matching device.  To
+        select the desired device, set this parameter to the reported location
+        ID of that device.
   - 
     name: log_all_input_values
     default: 'NO'
+    description: >
+        If ``YES``, MWorks will log (to the event stream and server console) all
+        input values received from the device.  Each log message will include
+        an associated element usage page and usage.  These usage page and usage
+        values can be used to define a `USB HID Input Channel` for the input.
 
 
 ---
@@ -30,19 +57,34 @@ parameters:
 name: USB HID Input Channel
 signature: iochannel/usbhid_generic_input_channel
 isa: IOChannel
-icon: smallIOFolder
 allowed_parent: USB HID Device
-description: >
-    Input channel on a `USB HID Device`
+description: |
+    Input channel on a `USB HID Device`.  Typically, a channel corresponds to a
+    specific input (e.g. key, button, joystick axis) on the device.
+
+    Appropriate values for the `usage_page`_ and `usage`_ parameters can be
+    found in the `HID Usage Tables
+    <http://www.usb.org/developers/hidpage#HID_Usage>`_.  However, in many
+    cases, an easier method for determining the correct values is to set the
+    device's ``log_all_input_values`` parameter to ``YES``, exercise the
+    input(s) of interest, and record the usage page and usage values reported in
+    the corresponding log messages.
 parameters: 
   - 
     name: usage_page
     required: yes
+    example: 7
+    description: HID usage page for the input
   - 
     name: usage
     required: yes
+    example: 44
+    description: HID usage for the input
   - 
     name: value
     required: yes
+    description: >
+        Variable in which to store values received from the input.  Input values
+        are always converted to an integer representation before being stored.
 
 
