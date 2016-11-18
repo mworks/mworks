@@ -69,9 +69,17 @@ parameters:
 name: Movie Stimulus
 signature: stimulus/movie
 isa: Base Movie Stimulus
-description: >
+description: |
     A simple movie stimulus that gets its frames from a stimulus group and
-    presents them at a specified frame rate
+    presents them at a specified frame rate.
+
+    *Note*:  For compatibility with previous MWorks versions, this stimulus
+    ignores the `deferred`_ parameter.  Instead, the stimulus instance itself is
+    marked as loaded at creation (as if `deferred`_ were ``no``), but it does
+    not automatically load its frame stimuli (as if `deferred`_ were
+    ``explicit``).  However, explicit `load <Load Stimulus>` and `unload <Unload
+    Stimulus>` actions *will* load/unload the frames along with the movie
+    stimulus itself.
 parameters: 
   - 
     name: stimulus_group
