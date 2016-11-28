@@ -686,7 +686,9 @@ bool QueueStimulus::execute() {
     
     // freeze the stimulus
     stimnode->freeze();
+    
     stimnode->setPendingVisible(true);
+    stimnode->clearPendingRemoval();
     
     stimnode->addToDisplay(display);
     
@@ -741,7 +743,9 @@ bool LiveQueueStimulus::execute() {
     
     // don't freeze the stimulus
     stimnode->thaw();
+    
     stimnode->setPendingVisible(true);
+    stimnode->clearPendingRemoval();
     
     stimnode->addToDisplay(display);
     

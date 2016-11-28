@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<monkeyml version="1.0">
+    <io_devices tag="IO Devices"></io_devices>
+    <variables tag="Variables"></variables>
+    <sounds tag="Sounds"></sounds>
+    <stimuli tag="Stimuli">
+        <stimulus type="rectangle" tag="rect" color="1,0,0" x_size="5" y_size="5" x_position="0" y_position="0" rotation="0" alpha_multiplier="1"></stimulus>
+    </stimuli>
+    <filters tag="Filters"></filters>
+    <optimizers tag="Optimizers"></optimizers>
+    <experiment tag="New Experiment" full_name="" description="">
+        <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
+            <block tag="Normal Queue" nsamples="2" sampling_method="cycles" selection="sequential" interruptible="YES">
+                <action tag="Queue Stimulus" type="queue_stimulus" stimulus="rect"></action>
+                <action tag="Update Stimulus Display" type="update_stimulus_display" predicted_output_time=""></action>
+                <action type="report" tag="Report" message="Stim on"></action>
+                <action type="wait" tag="Wait" duration="1.0" duration_units="s"></action>
+                <action tag="Dequeue Stimulus" type="dequeue_stimulus" stimulus="rect"></action>
+                <action tag="Update Stimulus Display" type="update_stimulus_display" predicted_output_time=""></action>
+                <action tag="Dequeue Stimulus" type="dequeue_stimulus" stimulus="rect"></action>
+                <action tag="Update Stimulus Display" type="update_stimulus_display" predicted_output_time=""></action>
+                <action type="report" tag="Report" message="Stim off"></action>
+                <action type="wait" tag="Wait" duration="1.0" duration_units="s"></action>
+            </block>
+            <block tag="Live Queue" nsamples="2" sampling_method="cycles" selection="sequential" interruptible="YES">
+                <action tag="Live Queue Stimulus" type="live_queue_stimulus" stimulus="rect"></action>
+                <action tag="Update Stimulus Display" type="update_stimulus_display" predicted_output_time=""></action>
+                <action type="report" tag="Report" message="Stim on"></action>
+                <action type="wait" tag="Wait" duration="1.0" duration_units="s"></action>
+                <action tag="Dequeue Stimulus" type="dequeue_stimulus" stimulus="rect"></action>
+                <action tag="Update Stimulus Display" type="update_stimulus_display" predicted_output_time=""></action>
+                <action tag="Dequeue Stimulus" type="dequeue_stimulus" stimulus="rect"></action>
+                <action tag="Update Stimulus Display" type="update_stimulus_display" predicted_output_time=""></action>
+                <action type="report" tag="Report" message="Stim off"></action>
+                <action type="wait" tag="Wait" duration="1.0" duration_units="s"></action>
+            </block>
+        </protocol>
+    </experiment>
+</monkeyml>
