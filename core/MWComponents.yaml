@@ -542,7 +542,10 @@ description: An ellipse stimulus
 name: Fixation Point Stimulus
 signature: stimulus/fixation_point
 isa: Rectangle Stimulus
-description: A rectangluar fixation point stimulus
+description: >
+    A rectangular fixation point stimulus.  Also serves as a "calibratable"
+    object for calibrator-related actions (e.g. `Take Calibration Sample`, `End
+    Averaged Calibration Sample`).
 parameters: 
   - 
     name: trigger_width
@@ -933,7 +936,7 @@ parameters:
     required: yes
     description: >
         Message text.  You can include variable values in the message by
-        placing a ``$`` before each variable's name (e.g. ``x = $x, y = $y``)
+        placing a ``$`` before each variable's name (e.g. ``x = $x, y = $y``).
 
 
 ---
@@ -994,9 +997,13 @@ parameters:
     description: Condition expression
   - 
     name: message
-    description: >
-       Error message to report if the assertion fails.  If omitted, a default
-       message containing the condition expression is used.
+    description: |
+       Error message to report if the assertion fails.  You can include variable
+       values in the message by placing a ``$`` before each variable's name
+       (e.g. ``x = $x, y = $y``).
+
+       If omitted, a default message containing the condition expression is
+       used.
   - 
     name: stop_on_failure
     default: 'NO'

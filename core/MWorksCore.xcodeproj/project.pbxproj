@@ -883,7 +883,6 @@
 		8E16A70D0A08E12E0070955E /* Averagers.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Averagers.cpp; path = Core/Transforms/Averagers.cpp; sourceTree = SOURCE_ROOT; };
 		8E28B5FA0A6C317E00DA6287 /* Announcers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Announcers.h; path = Core/RealtimeServices/Announcers.h; sourceTree = "<group>"; };
 		8E28B5FB0A6C317E00DA6287 /* Announcers.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Announcers.cpp; path = Core/RealtimeServices/Announcers.cpp; sourceTree = "<group>"; };
-		8E2A2C7C09509D6800A7E004 /* MWorksXMLSpec.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = MWorksXMLSpec.rtf; path = Docs/MWorksXMLSpec.rtf; sourceTree = "<group>"; };
 		8ED451E108BF5B90003880D5 /* EyeMonitors.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = EyeMonitors.cpp; path = Core/Transforms/EyeMonitors.cpp; sourceTree = SOURCE_ROOT; };
 		8ED451E208BF5B90003880D5 /* EyeMonitors.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = EyeMonitors.h; path = Core/Transforms/EyeMonitors.h; sourceTree = SOURCE_ROOT; };
 		8ED451E508BF5BA1003880D5 /* FilterTransforms.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = FilterTransforms.cpp; path = Core/Transforms/FilterTransforms.cpp; sourceTree = SOURCE_ROOT; };
@@ -1765,7 +1764,6 @@
 				DA2CE0D807E9F6A700C68AEF /* Core */,
 				5C4D231C09DC3D0E0082BF9F /* Unit Testing */,
 				5C475B6107EF8BB4004A645E /* Standard Plugins */,
-				DADAD3E107F2267E00F8D324 /* Docs (woefully incomplete) */,
 				E1CBF63416BAF1210057CE48 /* Frameworks & Libraries */,
 				DA2CE0D507E9F68100C68AEF /* Products */,
 			);
@@ -2076,14 +2074,6 @@
 				5C08412309D596F800E4D2F4 /* TestBedCoreBuilder.cpp */,
 			);
 			name = CoreBuilders;
-			sourceTree = "<group>";
-		};
-		DADAD3E107F2267E00F8D324 /* Docs (woefully incomplete) */ = {
-			isa = PBXGroup;
-			children = (
-				8E2A2C7C09509D6800A7E004 /* MWorksXMLSpec.rtf */,
-			);
-			name = "Docs (woefully incomplete)";
 			sourceTree = "<group>";
 		};
 		E106CF0D1CA42EDC001A0928 /* HighPrecisionClock */ = {
