@@ -198,7 +198,7 @@ def run_configure_and_make(
 
 @builder
 def boost():
-    version = '1.62.0'
+    version = '1.63.0'
     srcdir = 'boost_' + version.replace('.', '_')
     tarfile = srcdir + '.tar.bz2'
 
@@ -276,7 +276,7 @@ def msgpack():
 
 @builder
 def libpng():
-    version = '1.2.56'
+    version = '1.2.57'
     srcdir = 'libpng-' + version
     tarfile = srcdir + '.tar.gz'
 
@@ -386,7 +386,7 @@ def numpy():
 
 @builder
 def matlab_xunit():
-    version = '4.0.0'
+    version = '4.1.0'
     tag = 'matlab-xunit-'
     srcdir = tag * 2 + version
     tarfile = tag + version + '.tar.gz'
