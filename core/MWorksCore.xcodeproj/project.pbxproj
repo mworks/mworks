@@ -389,6 +389,8 @@
 		E13BD56912130E6800DF5C02 /* StandardDynamicStimulus.h in Headers */ = {isa = PBXBuildFile; fileRef = E13BD56712130E6800DF5C02 /* StandardDynamicStimulus.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1457B4E14D08F7E004D3AD5 /* MWorksCoreTestMain.h in Headers */ = {isa = PBXBuildFile; fileRef = E1457B4D14D08F7E004D3AD5 /* MWorksCoreTestMain.h */; };
 		E1457B5014D08F95004D3AD5 /* MWorksCoreTestMain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1457B4F14D08F95004D3AD5 /* MWorksCoreTestMain.cpp */; };
+		E146B7E81E1EAB66001C7947 /* OpenGLUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E146B7E61E1EAB66001C7947 /* OpenGLUtilities.cpp */; };
+		E146B7E91E1EAB66001C7947 /* OpenGLUtilities.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E146B7E71E1EAB66001C7947 /* OpenGLUtilities.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
 		E16BC17B137D952D0052D8E1 /* MachUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = E16BC179137D952D0052D8E1 /* MachUtilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E16BC17C137D952D0052D8E1 /* MachUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E16BC17A137D952D0052D8E1 /* MachUtilities.cpp */; };
 		E186EB661C1F512100FD7F32 /* MWComponents.yaml in Resources */ = {isa = PBXBuildFile; fileRef = E186EB651C1F511100FD7F32 /* MWComponents.yaml */; };
@@ -1000,6 +1002,8 @@
 		E13BD56712130E6800DF5C02 /* StandardDynamicStimulus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StandardDynamicStimulus.h; sourceTree = "<group>"; };
 		E1457B4D14D08F7E004D3AD5 /* MWorksCoreTestMain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWorksCoreTestMain.h; sourceTree = "<group>"; };
 		E1457B4F14D08F95004D3AD5 /* MWorksCoreTestMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MWorksCoreTestMain.cpp; sourceTree = "<group>"; };
+		E146B7E61E1EAB66001C7947 /* OpenGLUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = OpenGLUtilities.cpp; path = Core/Stimuli/OpenGLUtilities.cpp; sourceTree = "<group>"; };
+		E146B7E71E1EAB66001C7947 /* OpenGLUtilities.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = OpenGLUtilities.hpp; path = Core/Stimuli/OpenGLUtilities.hpp; sourceTree = "<group>"; };
 		E16BC179137D952D0052D8E1 /* MachUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MachUtilities.h; path = Core/Utilities/MachUtilities.h; sourceTree = "<group>"; };
 		E16BC17A137D952D0052D8E1 /* MachUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MachUtilities.cpp; path = Core/Utilities/MachUtilities.cpp; sourceTree = "<group>"; };
 		E186EB651C1F511100FD7F32 /* MWComponents.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MWComponents.yaml; sourceTree = "<group>"; };
@@ -1853,6 +1857,8 @@
 			children = (
 				5C78EDE1115C00EC00151A76 /* DynamicStimuli */,
 				5C4D254E09DCBB9A0082BF9F /* tests */,
+				E146B7E71E1EAB66001C7947 /* OpenGLUtilities.hpp */,
+				E146B7E61E1EAB66001C7947 /* OpenGLUtilities.cpp */,
 				E10F94B816CD5A8300A31C5F /* OpenGLContextLock.h */,
 				DA2CE1C807E9F96E00C68AEF /* OpenGLContextManager.h */,
 				DA2CE1C707E9F96E00C68AEF /* OpenGLContextManager.cpp */,
@@ -2273,6 +2279,7 @@
 				686059630C91CD5A00CD0D16 /* EventListener.h in Headers */,
 				682A94780CA9A933001DE3E2 /* SequentialSelection.h in Headers */,
 				682A94950CA9AA20001DE3E2 /* RandomWORSelection.h in Headers */,
+				E146B7E91E1EAB66001C7947 /* OpenGLUtilities.hpp in Headers */,
 				682A94B70CA9AB61001DE3E2 /* RandomWithReplacementSelection.h in Headers */,
 				0E5338E80CB7404E004FF889 /* EventConstants.h in Headers */,
 				5CE30A4B0CF9FAFA00BEB3E3 /* XMLParser.h in Headers */,
@@ -2769,6 +2776,7 @@
 				E1DC75081D259C1700D9BC19 /* SerialPort.cpp in Sources */,
 				5CEFD82D0D4D1D6200EA9950 /* Exceptions.cpp in Sources */,
 				5CD504310D4ED0BA00CD1C1D /* TrialBuildingBlocks.cpp in Sources */,
+				E146B7E81E1EAB66001C7947 /* OpenGLUtilities.cpp in Sources */,
 				5C643EA20D501E99004A8BD2 /* UnresolvedReferenceVariable.cpp in Sources */,
 				5C8D03C50D56B1AE00454461 /* DummyIODevice.cpp in Sources */,
 				5CEDF6650D84E5E60044D738 /* Debugging.cpp in Sources */,
