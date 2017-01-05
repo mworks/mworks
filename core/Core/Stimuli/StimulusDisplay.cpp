@@ -209,10 +209,6 @@ void StimulusDisplay::addContext(int _context_id){
 
 
 void StimulusDisplay::allocateBufferStorage() {
-    if (!glewIsSupported("GL_ARB_framebuffer_object")) {
-        throw SimpleException("renderer does not support required OpenGL framebuffer extension");
-    }
-    
     glGenFramebuffers(1, &framebuffer);
     glBindFramebuffer(GL_DRAW_FRAMEBUFFER, framebuffer);
     

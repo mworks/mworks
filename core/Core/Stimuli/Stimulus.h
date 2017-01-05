@@ -32,8 +32,6 @@
 #ifndef STIMULUS_H
 #define STIMULUS_H
 
-#include "glew.h"
-
 #include "StimulusDisplay.h"
 #include "StimulusNode.h"
 

@@ -2,8 +2,6 @@
 // Prefix header for all source files of the 'HIDPlugins' target in the 'HIDPlugins' project.
 //
 
-#include <MWorksCore/glew.h>
-
 #ifdef __OBJC__
     #import <Cocoa/Cocoa.h>
 #endif

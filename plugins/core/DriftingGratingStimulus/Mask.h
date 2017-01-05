@@ -10,7 +10,6 @@
 #ifndef MASK_H
 #define MASK_H
 
-#include "MWorksCore/GenericVariable.h"
 
 using namespace mw;
 

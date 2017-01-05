@@ -8,7 +8,6 @@
 #ifndef OPENGL_CONTEXT_MANAGER__
 #define OPENGL_CONTEXT_MANAGER__
 
-#include "glew.h"
 #include "RegisteredSingleton.h"
 #include "Stimulus.h"
 
@@ -58,17 +57,6 @@ BEGIN_NAMESPACE_MW
         NSScreen                *_getScreen(const int screen_number);
         CGDirectDisplayID       _getDisplayID(int screen_number);
         void                    _measureDisplayRefreshRate(int index);
-        
-        bool glew_initialized;
-        
-        void _initGlew(){
-            
-            if(glewInit() == GLEW_OK){
-                glew_initialized = true;
-            } else {
-                glew_initialized = false;
-            }
-        }
         
     public:
         

@@ -10,8 +10,6 @@
 #ifndef DRIFTING_GRATNG_STIMULUS_H
 #define DRIFTING_GRATNG_STIMULUS_H
 
-#include <MWorksCore/StandardDynamicStimulus.h>
-
 #include "Mask.h"
 #include "GratingData.h"
 

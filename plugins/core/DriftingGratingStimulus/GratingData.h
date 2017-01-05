@@ -11,7 +11,6 @@
 #ifndef GRATING_DATA_H
 #define GRATING_DATA_H
 
-#include "MWorksCore/GenericVariable.h"
 using namespace mw;
 
 class GratingData {

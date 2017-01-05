@@ -7,9 +7,6 @@
  *
  */
 
-#include <MWorksCore/Plugin.h>
-#include <MWorksCore/StandardStimulusFactory.h>
-
 #include "DriftingGratingStimulus.h"
 
 using namespace mw;

@@ -2,8 +2,9 @@
 // Prefix header for all source files of the 'DriftingGratingStimulusPlugins' target in the 'DriftingGratingStimulusPlugins' project.
 //
 
-#include <MWorksCore/glew.h>
-
-#ifdef __OBJC__
-    #import <Cocoa/Cocoa.h>
+#ifdef __cplusplus
+    #include <MWorksCore/Plugin.h>
+    #include <MWorksCore/StandardDynamicStimulus.h>
+    #include <MWorksCore/StandardStimuli.h>
+    #include <MWorksCore/StandardStimulusFactory.h>
 #endif

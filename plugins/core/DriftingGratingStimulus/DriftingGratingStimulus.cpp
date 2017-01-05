@@ -16,8 +16,6 @@
 #include "SquareGratingData.h"
 #include "TriangleGratingData.h"
 
-#include <MWorksCore/StandardStimuli.h>
-
 #include <algorithm>
 
 

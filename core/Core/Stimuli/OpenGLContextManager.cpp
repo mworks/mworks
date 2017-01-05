@@ -93,8 +93,6 @@ OpenGLContextManager::OpenGLContextManager() {
     
     contexts = [[NSMutableArray alloc] init];
     
-    glew_initialized = false;
-    
     main_display_index = -1;
 }
 
@@ -251,8 +249,7 @@ int OpenGLContextManager::newMirrorContext(){
     
     
     OpenGLContextLock ctxLock = setCurrent(context_id);
-    _initGlew();
-        
+    
     return context_id;
     
 }
@@ -318,7 +315,6 @@ int OpenGLContextManager::newFullscreenContext(int screen_number){
     _measureDisplayRefreshRate(screen_number);
     
     OpenGLContextLock ctxLock = setCurrent(context_id);
-    _initGlew();
     
     if (kIOPMNullAssertionID == display_sleep_block) {
         if (kIOReturnSuccess != IOPMAssertionCreateWithName(kIOPMAssertionTypeNoDisplaySleep,
