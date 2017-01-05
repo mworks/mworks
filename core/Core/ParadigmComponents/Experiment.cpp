@@ -3,6 +3,7 @@
 #include "Event.h"
 #include "SystemEventFactory.h"
 #include "ExpressionVariable.h"
+#include "StimulusDisplay.h"
 //#include "UserData.h"
 
 

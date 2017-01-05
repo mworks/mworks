@@ -8,6 +8,8 @@
 
 #include "MouseInputDevice.h"
 
+#include <OpenGL/glu.h>
+
 
 BEGIN_NAMESPACE_MW
 

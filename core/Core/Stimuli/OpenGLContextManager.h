@@ -8,26 +8,11 @@
 #ifndef OPENGL_CONTEXT_MANAGER__
 #define OPENGL_CONTEXT_MANAGER__
 
-#include "RegisteredSingleton.h"
-#include "Stimulus.h"
-
-
-#include <Foundation/Foundation.h>
 #include <Cocoa/Cocoa.h>
 #include <IOKit/pwr_mgt/IOPMLib.h>
 
-
-
-#import "Scheduler.h"
-
 #include "OpenGLContextLock.h"
-
-#define M_FULLSCREEN_OPENGL_MODE 0
-#define M_MIRRORED_OPENGL_MODE 1
-
-
-
-// USE_COCOA_OPENGL
+#include "RegisteredSingleton.h"
 
 
 BEGIN_NAMESPACE_MW

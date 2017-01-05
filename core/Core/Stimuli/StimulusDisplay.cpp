@@ -9,7 +9,6 @@
  */
 
 #include "OpenGLContextManager.h"
-#include "Stimulus.h" 
 #include "StimulusNode.h"
 #include "Utilities.h"
 #include "StandardVariables.h"
@@ -21,6 +20,13 @@
 #include <CoreAudio/HostTime.h>
 
 #include "boost/bind.hpp"
+
+
+// A hack for now
+#define M_STIMULUS_DISPLAY_LEFT_EDGE		-26.57
+#define M_STIMULUS_DISPLAY_RIGHT_EDGE		26.57
+#define M_STIMULUS_DISPLAY_BOTTOM_EDGE		-17.77
+#define M_STIMULUS_DISPLAY_TOP_EDGE			17.77
 
 
 BEGIN_NAMESPACE_MW
@@ -466,10 +472,7 @@ void StimulusDisplay::glInit() {
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity(); // Reset The Projection Matrix
     
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    gluOrtho2D(left, right, bottom, top);
-#pragma clang diagnostic pop
+    glOrtho(left, right, bottom, top, -1.0, 1.0);
     glMatrixMode(GL_MODELVIEW);
     
     glClearColor(backgroundRed, backgroundGreen, backgroundBlue, 1.0);

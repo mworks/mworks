@@ -28,7 +28,7 @@
  *  about the inherited class.
  */
 
-#include "Stimulus.h"
+#include "StimulusNode.h"
 #include "Clock.h"
 #include "StateSystem.h"
 #include "Utilities.h"

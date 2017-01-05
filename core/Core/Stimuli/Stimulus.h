@@ -32,36 +32,14 @@
 #ifndef STIMULUS_H
 #define STIMULUS_H
 
-#include "StimulusDisplay.h"
-#include "StimulusNode.h"
-
-#include "GenericData.h"
-#include "GenericVariable.h"
 #include "ExpandableList.h"
-#include "Lockable.h"
-#include "Utilities.h"
 #include "Announcers.h"
-#include <vector>
 #include "FreezableVariableContainer.h"
 
+#include <OpenGL/gl.h>
 
-#ifdef	__APPLE__
-	#include <OpenGL/gl.h>
-	#include <OpenGL/glu.h>
-#elif	linux
-	// TODO: where are these under linux?
-#endif
 
-#define ILUT_USE_OPENGL
-#include <IL/ilut.h>
 BEGIN_NAMESPACE_MW
-typedef int StimID;
-
-// A hack for now
-#define M_STIMULUS_DISPLAY_LEFT_EDGE		-26.57
-#define M_STIMULUS_DISPLAY_RIGHT_EDGE		26.57
-#define M_STIMULUS_DISPLAY_BOTTOM_EDGE		-17.77
-#define M_STIMULUS_DISPLAY_TOP_EDGE			17.77
 
 
 class ComponentInfo;

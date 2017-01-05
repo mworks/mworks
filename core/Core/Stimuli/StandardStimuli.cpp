@@ -28,6 +28,9 @@
 #include <boost/regex.hpp>
 #include <boost/uuid/sha1.hpp>
 
+#define ILUT_USE_OPENGL
+#include <IL/ilut.h>
+
 #include <stdio.h> // for fopen()
 #include <iostream>
 #include <iomanip>

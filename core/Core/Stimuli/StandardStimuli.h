@@ -20,8 +20,6 @@
 #define _STANDARD_STIMULI_H
 
 #include "Stimulus.h"
-#include "Experiment.h"
-#include "ComponentFactory.h"
 
 
 BEGIN_NAMESPACE_MW

@@ -14,7 +14,6 @@
 #include <vector>
 
 #include <OpenGL/gl.h>
-#include <OpenGL/glu.h>
 #include <CoreVideo/CVDisplayLink.h>
 
 #include <boost/noncopyable.hpp>

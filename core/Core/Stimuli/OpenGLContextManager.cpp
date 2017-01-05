@@ -22,9 +22,6 @@
 
 //#include "GLWindow.h"
 #import <OpenGL/OpenGL.h>
-#import <OpenGL/gl.h>
-#import <OpenGL/glu.h>
-#import <OpenGL/glext.h>
 #import <IOKit/graphics/IOGraphicsTypes.h>
 #import "StateSystem.h"
 

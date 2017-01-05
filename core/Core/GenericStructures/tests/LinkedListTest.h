@@ -15,7 +15,7 @@
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
 
-#include "MWorksCore/Stimulus.h"
+#include "MWorksCore/StimulusNode.h"
 
 
 BEGIN_NAMESPACE_MW

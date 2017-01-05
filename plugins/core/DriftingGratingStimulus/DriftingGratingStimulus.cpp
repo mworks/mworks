@@ -18,6 +18,8 @@
 
 #include <algorithm>
 
+#include <OpenGL/glu.h>
+
 
 const std::string DriftingGratingStimulus::DIRECTION("direction");
 const std::string DriftingGratingStimulus::STARTING_PHASE("starting_phase");

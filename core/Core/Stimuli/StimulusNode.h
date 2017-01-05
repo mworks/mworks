@@ -16,9 +16,6 @@
 #include "StimulusDisplay.h"
 #include "ExpandableList.h"
 
-#include "GenericVariable.h"
-#include "Component.h"
-
 
 BEGIN_NAMESPACE_MW
 
