@@ -9,6 +9,7 @@
 #ifndef OpenGLUtilities_hpp
 #define OpenGLUtilities_hpp
 
+#include <GLKit/GLKMath.h>
 #include <OpenGL/gl3.h>
 
 #include <boost/noncopyable.hpp>
@@ -34,13 +35,37 @@ BEGIN_NAMESPACE(gl)
 
 
 template <void (*deleter)(GLuint)>
-class Object : boost::noncopyable {
+class Object {
     
 public:
-    explicit Object(GLuint obj) noexcept : obj(obj) { }
-    ~Object() { if (obj) deleter(obj); }
+    ~Object() {
+        if (obj) deleter(obj);
+    }
     
-    GLuint get() const noexcept { return obj; }
+    explicit Object(GLuint obj) noexcept :
+        obj(obj)
+    { }
+    
+    // No copying
+    Object(const Object &other) = delete;
+    Object& operator=(const Object &other) = delete;
+    
+    // Move constructor
+    Object(Object &&other) noexcept :
+        obj(other.obj)
+    {
+        other.obj = 0;
+    }
+    
+    // Move assignment
+    Object& operator=(Object &&other) noexcept {
+        std::swap(obj, other.obj);
+        return (*this);
+    }
+    
+    GLuint get() const noexcept {
+        return obj;
+    }
     
     GLuint release() noexcept {
         GLuint _obj = obj;
@@ -62,8 +87,60 @@ using Shader = Object<glDeleteShader>;
 using Program = Object<glDeleteProgram>;
 
 
-GLuint createShader(GLenum shaderType, const std::string &shaderSource);
-GLuint createProgram(const std::vector<GLuint> &shaders);
+Shader createShader(GLenum shaderType, const std::string &shaderSource);
+Shader createShader(GLenum shaderType, const std::string &glslVersion, const std::string &shaderSource);
+Program createProgram(const std::vector<GLuint> &shaders);
+
+
+template <GLenum target>
+struct BufferBinding : boost::noncopyable {
+    
+    explicit BufferBinding(GLuint buffer) { bind(buffer); }
+    ~BufferBinding() { bind(0); }
+    
+    void bind(GLuint buffer) { glBindBuffer(target, buffer); }
+    
+};
+
+
+template <GLenum cap>
+struct Enabled : boost::noncopyable {
+    
+    Enabled() { glEnable(cap); }
+    ~Enabled() { glDisable(cap); }
+    
+};
+
+
+struct ProgramUsage : boost::noncopyable {
+    
+    explicit ProgramUsage(GLuint program) { use(program); }
+    ~ProgramUsage() { use(0); }
+    
+    void use(GLuint program) { glUseProgram(program); }
+    
+};
+
+
+template <GLenum target>
+struct TextureBinding : boost::noncopyable {
+    
+    explicit TextureBinding(GLuint texture) { bind(texture); }
+    ~TextureBinding() { bind(0); }
+    
+    void bind(GLuint texture) { glBindTexture(target, texture); }
+    
+};
+
+
+struct VertexArrayBinding : boost::noncopyable {
+    
+    explicit VertexArrayBinding(GLuint array) { bind(array); }
+    ~VertexArrayBinding() { bind(0); }
+    
+    void bind(GLuint array) { glBindVertexArray(array); }
+    
+};
 
 
 END_NAMESPACE(gl)

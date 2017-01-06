@@ -7,24 +7,24 @@
  *
  */
 
-#include <MWorksCore/Plugin.h>
-#include <MWorksCore/StandardStimulusFactory.h>
-
 #include "WhiteNoiseBackground.h"
 #include "RandomizeBackground.h"
 
-using namespace mw;
+
+BEGIN_NAMESPACE_MW
 
 
 class WhiteNoiseBackgroundPlugin : public Plugin {
-	virtual void registerComponents(shared_ptr<ComponentRegistry> registry) {
+    void registerComponents(shared_ptr<ComponentRegistry> registry) override {
         registry->registerFactory<StandardStimulusFactory, WhiteNoiseBackground>();
         registry->registerFactory<StandardComponentFactory, RandomizeBackground>();
     }	
 };
 
 
-MW_SYMBOL_PUBLIC
 extern "C" Plugin* getPlugin() {
     return new WhiteNoiseBackgroundPlugin();
 }
+
+
+END_NAMESPACE_MW

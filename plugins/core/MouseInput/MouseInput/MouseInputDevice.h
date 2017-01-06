@@ -43,8 +43,7 @@ private:
     const bool hideCursor;
     const bool useMirrorWindow;
     
-    std::array<GLdouble, 16> modelViewMatrix;
-    std::array<GLdouble, 16> projectionMatrix;
+    GLKMatrix4 projectionMatrix;
     std::array<GLint, 4> viewport;
     
     NSOpenGLView *targetView;

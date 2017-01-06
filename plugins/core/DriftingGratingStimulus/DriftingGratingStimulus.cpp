@@ -33,16 +33,9 @@ const std::string DriftingGratingStimulus::MEAN("mean");
 
 
 void DriftingGratingStimulus::describeComponent(ComponentInfo &info) {
-    StandardDynamicStimulus::describeComponent(info);
+    DriftingGratingStimulusBase::describeComponent(info);
     
     info.setSignature("stimulus/drifting_grating");
-    
-    info.addParameter(BasicTransformStimulus::X_SIZE);
-    info.addParameter(BasicTransformStimulus::Y_SIZE);
-    info.addParameter(BasicTransformStimulus::X_POSITION, "0.0");
-    info.addParameter(BasicTransformStimulus::Y_POSITION, "0.0");
-    info.addParameter(BasicTransformStimulus::ROTATION, "0.0");
-    info.addParameter(BasicTransformStimulus::ALPHA_MULTIPLIER, "1.0");
     
     info.addParameter(DIRECTION, "0.0");
     info.addParameter(STARTING_PHASE, "0.0");
@@ -58,13 +51,7 @@ void DriftingGratingStimulus::describeComponent(ComponentInfo &info) {
 
 
 DriftingGratingStimulus::DriftingGratingStimulus(const ParameterValueMap &parameters) :
-    StandardDynamicStimulus(parameters),
-    xoffset(registerVariable(parameters[BasicTransformStimulus::X_POSITION])),
-    yoffset(registerVariable(parameters[BasicTransformStimulus::Y_POSITION])),
-    width(registerVariable(parameters[BasicTransformStimulus::X_SIZE])),
-    height(registerVariable(parameters[BasicTransformStimulus::Y_SIZE])),
-    rotation(registerVariable(parameters[BasicTransformStimulus::ROTATION])),
-    alpha_multiplier(registerVariable(parameters[BasicTransformStimulus::ALPHA_MULTIPLIER])),
+    DriftingGratingStimulusBase(parameters),
     direction_in_degrees(registerVariable(parameters[DIRECTION])),
     spatial_frequency(registerVariable(parameters[FREQUENCY])),
     speed(registerVariable(parameters[SPEED])),
@@ -103,119 +90,181 @@ DriftingGratingStimulus::DriftingGratingStimulus(const ParameterValueMap &parame
 }
 
 
-void DriftingGratingStimulus::load(shared_ptr<StimulusDisplay> display) {
-    if (loaded)
-        return;
+Datum DriftingGratingStimulus::getCurrentAnnounceDrawData() {
+    boost::mutex::scoped_lock locker(stim_lock);
     
-    OpenGLContextLock ctxLock = display->setCurrent(0);
+    Datum announceData = DriftingGratingStimulusBase::getCurrentAnnounceDrawData();
+    
+    announceData.addElement(STIM_TYPE, "drifting_grating");
+    announceData.addElement("frequency", spatial_frequency->getValue());
+    announceData.addElement("speed", speed->getValue());
+    announceData.addElement("starting_phase", starting_phase->getValue());
+    announceData.addElement("current_phase", last_phase);
+    announceData.addElement("direction", direction_in_degrees->getValue());
+    announceData.addElement("grating", grating->getName());
+    announceData.addElement("mask", mask->getName());
+    
+    return std::move(announceData);
+}
+
+
+gl::Shader DriftingGratingStimulus::getVertexShader() const {
+    static const std::string source
+    (R"(
+     uniform mat4 mvpMatrix;
+     
+     in vec4 vertexPosition;
+     in float gratingTexCoord;
+     in vec2 maskTexCoords;
+     
+     out float gratingVaryingTexCoord;
+     out vec2 maskVaryingTexCoords;
+     
+     void main() {
+         gl_Position = mvpMatrix * vertexPosition;
+         gratingVaryingTexCoord = gratingTexCoord;
+         maskVaryingTexCoords = maskTexCoords;
+     }
+     )");
+    
+    return gl::createShader(GL_VERTEX_SHADER, source);
+}
+
+
+gl::Shader DriftingGratingStimulus::getFragmentShader() const {
+    static const std::string source
+    (R"(
+     uniform float alpha;
+     uniform sampler1D gratingTexture;
+     uniform sampler2D maskTexture;
+     
+     in float gratingVaryingTexCoord;
+     in vec2 maskVaryingTexCoords;
+     
+     out vec4 fragColor;
+     
+     void main() {
+         float gratingValue = texture(gratingTexture, gratingVaryingTexCoord).r;
+         float maskValue = texture(maskTexture, maskVaryingTexCoords).r;
+         fragColor = vec4(gratingValue, gratingValue, gratingValue, alpha * maskValue);
+     }
+     )");
+    
+    return gl::createShader(GL_FRAGMENT_SHADER, source);
+}
+
+
+auto DriftingGratingStimulus::getVertexPositions() const -> VertexPositionArray {
+    return VertexPositionArray {
+        -0.5f, -0.5f,
+         0.5f, -0.5f,
+        -0.5f,  0.5f,
+         0.5f,  0.5f
+    };
+}
+
+
+GLKMatrix4 DriftingGratingStimulus::getCurrentMVPMatrix(const GLKMatrix4 &projectionMatrix) const {
+    auto currentMVPMatrix = GLKMatrix4Translate(projectionMatrix, current_posx, current_posy, 0.0);
+    currentMVPMatrix = GLKMatrix4Rotate(currentMVPMatrix, GLKMathDegreesToRadians(current_rot), 0.0, 0.0, 1.0);
+    auto scale_size = std::max(current_sizex, current_sizey);
+    return GLKMatrix4Scale(currentMVPMatrix, scale_size, scale_size, 1.0);
+}
+
+
+void DriftingGratingStimulus::prepare(const boost::shared_ptr<StimulusDisplay> &display) {
+    boost::mutex::scoped_lock locker(stim_lock);
+    
+    BasicTransformStimulus::prepare(display);
+    
+    alphaUniformLocation = glGetUniformLocation(program, "alpha");
+    
+    glUniform1i(glGetUniformLocation(program, "gratingTexture"), 0);
+    glUniform1i(glGetUniformLocation(program, "maskTexture"), 1);
+    
+    glGenBuffers(1, &gratingTexCoordBuffer);
+    gl::BufferBinding<GL_ARRAY_BUFFER> arrayBufferBinding(gratingTexCoordBuffer);
+    GLint gratingTexCoordAttribLocation = glGetAttribLocation(program, "gratingTexCoord");
+    glEnableVertexAttribArray(gratingTexCoordAttribLocation);
+    glVertexAttribPointer(gratingTexCoordAttribLocation, 1, GL_FLOAT, GL_FALSE, 0, nullptr);
+    
+    glGenBuffers(1, &maskTexCoordsBuffer);
+    arrayBufferBinding.bind(maskTexCoordsBuffer);
+    GLint maskTexCoordsAttribLocation = glGetAttribLocation(program, "maskTexCoords");
+    glEnableVertexAttribArray(maskTexCoordsAttribLocation);
+    glVertexAttribPointer(maskTexCoordsAttribLocation, 2, GL_FLOAT, GL_FALSE, 0, nullptr);
     
     // ----------------------------------------
     //                  GRATING
     // ----------------------------------------
     
-    glGenTextures(1, &grating_texture);
-    glBindTexture( GL_TEXTURE_1D, grating_texture );
+    glGenTextures(1, &gratingTexture);
+    gl::TextureBinding<GL_TEXTURE_1D> texture1DBinding(gratingTexture);
     
     glTexImage1D(GL_TEXTURE_1D,
                  0,
-                 GL_LUMINANCE,
+                 GL_RED,
                  grating->getDataSize(),
                  0,
-                 GL_LUMINANCE,
+                 GL_RED,
                  GL_FLOAT,
                  grating->get1DData());
     glGenerateMipmap(GL_TEXTURE_1D);
     
-    // when texture area is small, bilinear filter the closest mipmap
-    glTexParameteri( GL_TEXTURE_1D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST );
-    // when texture area is large, bilinear filter the first mipmap
-    glTexParameteri( GL_TEXTURE_1D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
-    // if wrap is true, the texture wraps over at the edges (repeat)
-    //       ... false, the texture ends at the edges (clamp)
-    glTexParameteri( GL_TEXTURE_1D, GL_TEXTURE_WRAP_S, GL_REPEAT );
-    glTexParameteri( GL_TEXTURE_1D, GL_TEXTURE_WRAP_T, GL_REPEAT );
-    
-    glBindTexture(GL_TEXTURE_1D, 0);
+    glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
+    glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_WRAP_T, GL_REPEAT);
     
     // ----------------------------------------
     //                  MASK
     // ----------------------------------------
     
-    glGenTextures(1, &mask_texture);
-    glBindTexture( GL_TEXTURE_2D, mask_texture );
+    glGenTextures(1, &maskTexture);
+    gl::TextureBinding<GL_TEXTURE_2D> texture2DBinding(maskTexture);
     
     glTexImage2D(GL_TEXTURE_2D,
                  0,
-                 GL_ALPHA,
+                 GL_RED,
                  mask->getSize(),
                  mask->getSize(),
                  0,
-                 GL_ALPHA,
+                 GL_RED,
                  GL_FLOAT,
                  mask->get2DData());
     glGenerateMipmap(GL_TEXTURE_2D);
     
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST );
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE );
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE );
-    
-    glBindTexture( GL_TEXTURE_2D, 0 );
-    
-    StandardDynamicStimulus::load(display);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 }
 
 
-void DriftingGratingStimulus::unload(shared_ptr<StimulusDisplay> display) {
-    if (!loaded)
-        return;
+void DriftingGratingStimulus::destroy(const boost::shared_ptr<StimulusDisplay> &display) {
+    boost::mutex::scoped_lock locker(stim_lock);
     
-    OpenGLContextLock ctxLock = display->setCurrent(0);
-    glDeleteTextures(1, &mask_texture);
-    glDeleteTextures(1, &grating_texture);
+    glDeleteTextures(1, &maskTexture);
+    glDeleteTextures(1, &gratingTexture);
+    glDeleteBuffers(1, &maskTexCoordsBuffer);
+    glDeleteBuffers(1, &gratingTexCoordBuffer);
     
-    StandardDynamicStimulus::unload(display);
+    BasicTransformStimulus::destroy(display);
 }
 
 
-void DriftingGratingStimulus::drawFrame(shared_ptr<StimulusDisplay> display) {
-    glPushMatrix();
-    glTranslatef(xoffset->getValue().getFloat(), yoffset->getValue().getFloat(), 0);
-    glRotatef(rotation->getValue().getFloat(),0,0,1);
-    GLfloat scale_size = std::max(width->getValue().getFloat(), height->getValue().getFloat());
-    glScalef(scale_size, scale_size, 1.0); // scale it up
+void DriftingGratingStimulus::preDraw(const boost::shared_ptr<StimulusDisplay> &display) {
+    BasicTransformStimulus::preDraw(display);
+    
+    glUniform1f(alphaUniformLocation, current_alpha);
+    
+    glBindTexture(GL_TEXTURE_1D, gratingTexture);
+    glActiveTexture(GL_TEXTURE1);
+    glBindTexture(GL_TEXTURE_2D, maskTexture);
     
     glEnable(GL_BLEND);
+    glBlendEquation(GL_FUNC_ADD);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    glColor4f(1, 1, 1, alpha_multiplier->getValue().getFloat());
-    
-    
-    // ----------------------------------------
-    //                  GRATING
-    // ----------------------------------------
-    
-    glEnable(GL_TEXTURE_1D);
-    glBindTexture( GL_TEXTURE_1D, grating_texture );
-    glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-    
-    
-    // ----------------------------------------
-    //              MASK
-    // ----------------------------------------
-    
-    glActiveTexture(GL_TEXTURE1);
-    glEnable(GL_TEXTURE_2D);
-    glBindTexture( GL_TEXTURE_2D, mask_texture );
-    glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-    
-    
-    // ----------------------------------------
-    //              DRAW THE QUAD
-    // ----------------------------------------
-    
-    glBegin(GL_QUADS);
-    
-    MWTime elapsed_time = getElapsedTime();
     
     // here's the description of this equation
     // starting_phase is in degrees ->  degrees*pi/180 = radians
@@ -230,15 +279,14 @@ void DriftingGratingStimulus::drawFrame(shared_ptr<StimulusDisplay> display) {
     //    s      degree   1000000 us   180 degrees
     //
     // multiply by -1 so it the grating goes in the correct direction
+    MWTime elapsed_time = getElapsedTime();
     double elapsed_seconds = (double)elapsed_time /  (double)1000000;
     const double phase = -1*(starting_phase->getValue().getFloat()*(M_PI/180.) + speed->getValue().getFloat()*spatial_frequency->getValue().getFloat()*(2.*M_PI)*elapsed_seconds);
     const double direction_in_radians = direction_in_degrees->getValue().getFloat()*(M_PI/180.);
-    const double aspect = width->getValue().getFloat()/height->getValue().getFloat();
+    const double aspect = current_sizex / current_sizey;
     
-    //mprintf("drifting grating draw (%lld - %lld = %lld, %g, %g, %g, %g)", now, start_time, elapsed_time, elapsed_seconds, phase, direction_in_radians, aspect);
-    
-    const float f = cos(direction_in_radians);
-    const float g = sin(direction_in_radians);
+    const float f = std::cos(direction_in_radians);
+    const float g = std::sin(direction_in_radians);
     const float d = ((f+g)-1)/2;
     const float texture_bl = 0-d;
     const float texture_br = texture_bl+f;
@@ -249,69 +297,43 @@ void DriftingGratingStimulus::drawFrame(shared_ptr<StimulusDisplay> display) {
     const float mask_t_ratio = 1-std::min(1.0,1.0/aspect);
     
     const float phase_proportion = phase/(2*M_PI);
-    const float cycle_proportion = spatial_frequency->getValue().getFloat() * scale_size;
+    const float cycle_proportion = spatial_frequency->getValue().getFloat() * std::max(current_sizex, current_sizey);
     
-    glNormal3f(0.0, 0.0, 1.0);
+    std::array<GLfloat, 4 * 1> gratingTexCoord = {
+        (cycle_proportion * texture_bl) + phase_proportion,
+        (cycle_proportion * texture_br) + phase_proportion,
+        (cycle_proportion * texture_tl) + phase_proportion,
+        (cycle_proportion * texture_tr) + phase_proportion
+    };
+    gl::BufferBinding<GL_ARRAY_BUFFER> arrayBufferBinding(gratingTexCoordBuffer);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(gratingTexCoord), gratingTexCoord.data(), GL_STREAM_DRAW);
     
-    glMultiTexCoord1f(GL_TEXTURE0, (cycle_proportion*texture_bl)+phase_proportion);
-    glMultiTexCoord2f(GL_TEXTURE1, 0-mask_s_ratio, 0-mask_t_ratio);
-    glVertex3f(-0.5,-0.5,0);
-    
-    glMultiTexCoord1f(GL_TEXTURE0, (cycle_proportion*texture_br)+phase_proportion);
-    glMultiTexCoord2f(GL_TEXTURE1, 1+mask_s_ratio, 0-mask_t_ratio);
-    glVertex3f(0.5,-0.5,0);
-    
-    glMultiTexCoord1f(GL_TEXTURE0, (cycle_proportion*texture_tr)+phase_proportion);
-    glMultiTexCoord2f(GL_TEXTURE1, 1+mask_s_ratio, 1+mask_t_ratio);
-    glVertex3f(0.5,0.5,0);
-    
-    glMultiTexCoord1f(GL_TEXTURE0, (cycle_proportion*texture_tl)+phase_proportion);
-    glMultiTexCoord2f(GL_TEXTURE1, 0-mask_s_ratio, 1+mask_t_ratio);
-    glVertex3f(-0.5,0.5,0);
-    
-    glEnd(); // GL_QUADS
+    std::array<GLfloat, 4 * 2> maskTexCoords = {
+        0 - mask_s_ratio, 0 - mask_t_ratio,
+        1 + mask_s_ratio, 0 - mask_t_ratio,
+        0 - mask_s_ratio, 1 + mask_t_ratio,
+        1 + mask_s_ratio, 1 + mask_t_ratio
+    };
+    arrayBufferBinding.bind(maskTexCoordsBuffer);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(maskTexCoords), maskTexCoords.data(), GL_STREAM_DRAW);
     
     last_phase = phase*(180/M_PI);
-    
-    
-    // ----------------------------------------
-    //                CLEAN-UP
-    // ----------------------------------------
-    
-    // Unbind mask texture
-    glBindTexture( GL_TEXTURE_2D, 0 );
-    glDisable(GL_TEXTURE_2D);
-    
-    // Unbind grating texture
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture( GL_TEXTURE_1D, 0 );
-    glDisable(GL_TEXTURE_1D);
-    
-    glDisable(GL_BLEND);
-    glPopMatrix();
 }
 
 
-Datum DriftingGratingStimulus::getCurrentAnnounceDrawData() {
-    boost::mutex::scoped_lock locker(stim_lock);
-    Datum announce_data = StandardDynamicStimulus::getCurrentAnnounceDrawData();
+void DriftingGratingStimulus::postDraw(const boost::shared_ptr<StimulusDisplay> &display) {
+    glDisable(GL_BLEND);
     
-    announce_data.addElement(STIM_TYPE, "drifting_grating");
-    announce_data.addElement("rotation", rotation->getValue());
-    announce_data.addElement("xoffset", xoffset->getValue());
-    announce_data.addElement("yoffset", yoffset->getValue());
-    announce_data.addElement("width", width->getValue());
-    announce_data.addElement("height", height->getValue());
-    announce_data.addElement("alpha_multiplier", alpha_multiplier->getValue());
-    announce_data.addElement("frequency", spatial_frequency->getValue());
-    announce_data.addElement("speed", speed->getValue());
-    announce_data.addElement("starting_phase", starting_phase->getValue());
-    announce_data.addElement("current_phase", last_phase);
-    announce_data.addElement("direction", direction_in_degrees->getValue());
-    announce_data.addElement("grating", grating->getName());
-    announce_data.addElement("mask", mask->getName());
+    glBindTexture(GL_TEXTURE_2D, 0);
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_1D, 0);
     
-    return announce_data;
+    BasicTransformStimulus::postDraw(display);
+}
+
+
+void DriftingGratingStimulus::drawFrame(boost::shared_ptr<StimulusDisplay> display) {
+    BasicTransformStimulus::draw(display);
 }
 
 

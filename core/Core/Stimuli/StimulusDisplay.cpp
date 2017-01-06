@@ -38,6 +38,7 @@ BEGIN_NAMESPACE_MW
  **********************************************************************/
 StimulusDisplay::StimulusDisplay(bool announceIndividualStimuli) :
     current_context_index(-1),
+    projectionMatrix(GLKMatrix4Identity),
     displayLinksRunning(false),
     mainDisplayRefreshRate(0.0),
     currentOutputTimeUS(-1),
@@ -143,6 +144,8 @@ void StimulusDisplay::setDisplayBounds(){
     
     Datum display_info = *main_screen_info; // from standard variables
     getDisplayBounds(display_info, left, right, bottom, top);
+    
+    projectionMatrix = GLKMatrix4MakeOrtho(left, right, bottom, top, -1.0, 1.0);
 	
 	mprintf("Display bounds set to (%g left, %g right, %g top, %g bottom)",
 			left, right, top, bottom);
@@ -460,24 +463,11 @@ void StimulusDisplay::clearDisplay() {
 
 
 void StimulusDisplay::glInit() {
-
-    glShadeModel(GL_FLAT);
     glDisable(GL_BLEND);
     glDisable(GL_DITHER);
-    glDisable(GL_FOG);
-    glDisable(GL_LIGHTING);
-    
-    glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL); // DDC added
-    
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity(); // Reset The Projection Matrix
-    
-    glOrtho(left, right, bottom, top, -1.0, 1.0);
-    glMatrixMode(GL_MODELVIEW);
     
     glClearColor(backgroundRed, backgroundGreen, backgroundBlue, 1.0);
     glClear(GL_COLOR_BUFFER_BIT);
-
 }
 
 

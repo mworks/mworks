@@ -10,10 +10,6 @@
 #ifndef MovingDots_H_
 #define MovingDots_H_
 
-#include <boost/random/mersenne_twister.hpp>
-#include <boost/random/uniform_real.hpp>
-#include <boost/random/variate_generator.hpp>
-
 
 BEGIN_NAMESPACE_MW
 
@@ -37,20 +33,21 @@ public:
     static void describeComponent(ComponentInfo &info);
 
     explicit MovingDots(const ParameterValueMap &parameters);
-    ~MovingDots() { }
     
-    void load(shared_ptr<StimulusDisplay> display) MW_OVERRIDE;
-    void drawFrame(shared_ptr<StimulusDisplay> display) MW_OVERRIDE;
-    Datum getCurrentAnnounceDrawData() MW_OVERRIDE;
-   
-protected:
-    void stopPlaying() MW_OVERRIDE;
+    void load(shared_ptr<StimulusDisplay> display) override;
+    void unload(shared_ptr<StimulusDisplay> display) override;
+    Datum getCurrentAnnounceDrawData() override;
     
 private:
+    static constexpr GLint componentsPerDot = 2;
+    
     void updateParameters();
     void updateDots();
     void advanceDot(GLint i, GLfloat dt, GLfloat dr);
     void replaceDot(GLint i, GLfloat direction, GLfloat age);
+    
+    void drawFrame(shared_ptr<StimulusDisplay> display) override;
+    void stopPlaying() override;
     
     GLfloat rand(GLfloat min, GLfloat max) {
         const boost::uniform_real<GLfloat> randDist(min, max);
@@ -58,8 +55,8 @@ private:
         return randVar();
     }
     
-    GLfloat& getX(GLint i) { return dotPositions[i*verticesPerDot]; }
-    GLfloat& getY(GLint i) { return dotPositions[i*verticesPerDot + 1]; }
+    GLfloat& getX(GLint i) { return dotPositions[i*componentsPerDot]; }
+    GLfloat& getY(GLint i) { return dotPositions[i*componentsPerDot + 1]; }
     GLfloat& getDirection(GLint i) { return dotDirections[i]; }
     GLfloat& getAge(GLint i) { return dotAges[i]; }
     
@@ -76,6 +73,9 @@ private:
         }
         return 0.0f;
     }
+    
+    static const std::string vertexShaderSource;
+    static const std::string fragmentShaderSource;
     
     shared_ptr<Variable> fieldRadius;
     shared_ptr<Variable> fieldCenterX;
@@ -98,8 +98,7 @@ private:
     GLfloat previousCoherence, currentCoherence;
     GLfloat previousLifetime, currentLifetime;
     
-    std::vector<GLfloat> dotSizeToPixels;
-    static const GLint verticesPerDot = 2;
+    GLfloat dotSizeToPixels;
     std::vector<GLfloat> dotPositions;
     std::vector<GLfloat> dotDirections;
     std::vector<GLfloat> dotAges;
@@ -107,6 +106,13 @@ private:
     boost::mt19937 randGen;
     
     MWTime previousTime, currentTime;
+    
+    GLuint program = 0;
+    GLint mvpMatrixUniformLocation = -1;
+    GLint pointSizeUniformLocation = -1;
+    GLint colorUniformLocation = -1;
+    GLuint vertexArray = 0;
+    GLuint dotPositionBuffer = 0;
     
 };
 

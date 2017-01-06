@@ -13,7 +13,7 @@
 BEGIN_NAMESPACE_MW
 
 
-class TextStimulus : public ColoredTransformStimulus, boost::noncopyable {
+class TextStimulus : public ColoredTransformStimulus {
     
 public:
     static const std::string TEXT;
@@ -24,21 +24,29 @@ public:
     
     explicit TextStimulus(const ParameterValueMap &parameters);
     
-    void load(boost::shared_ptr<StimulusDisplay> display) override;
-    void unload(boost::shared_ptr<StimulusDisplay> display) override;
-    void drawInUnitSquare(boost::shared_ptr<StimulusDisplay> display) override;
     Datum getCurrentAnnounceDrawData() override;
     
 private:
-    void bindTexture(int currentContextIndex);
+    gl::Shader getVertexShader() const override;
+    gl::Shader getFragmentShader() const override;
+    
+    void prepare(const boost::shared_ptr<StimulusDisplay> &display) override;
+    void destroy(const boost::shared_ptr<StimulusDisplay> &display) override;
+    void preDraw(const boost::shared_ptr<StimulusDisplay> &display) override;
+    void postDraw(const boost::shared_ptr<StimulusDisplay> &display) override;
+    
+    void bindTexture();
+    
+    static const VertexPositionArray texCoords;
     
     const VariablePtr text;
     const VariablePtr fontName;
     const VariablePtr fontSize;
     
-    std::vector<double> pixelsPerDegree;
-    std::vector<double> pointsPerPixel;
-    std::vector<GLuint> texture;
+    double pixelsPerDegree;
+    double pointsPerPixel;
+    GLuint texture = 0;
+    GLuint texCoordsBuffer = 0;
     
     std::string currentText, lastText;
     std::string currentFontName, lastFontName;

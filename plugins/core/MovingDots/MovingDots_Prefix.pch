@@ -3,8 +3,14 @@
 //
 
 #ifdef __cplusplus
-    #include <MWorksCore/ParsedColorTrio.h>
-    #include <MWorksCore/Plugin.h>
-    #include <MWorksCore/StandardDynamicStimulus.h>
-    #include <MWorksCore/StandardStimulusFactory.h>
+
+#include <boost/math/special_functions/round.hpp>
+#include <boost/random/mersenne_twister.hpp>
+#include <boost/random/uniform_real.hpp>
+#include <boost/random/variate_generator.hpp>
+
+#include <MWorksCore/Plugin.h>
+#include <MWorksCore/StandardDynamicStimulus.h>
+#include <MWorksCore/StandardStimulusFactory.h>
+
 #endif

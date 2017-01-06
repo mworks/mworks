@@ -2,6 +2,13 @@
 // Prefix header for all source files of the 'WhiteNoiseBackground' target in the 'WhiteNoiseBackground' project.
 //
 
-#ifdef __OBJC__
-    #import <Foundation/Foundation.h>
-#endif
+#ifdef __cplusplus
+
+#include <boost/random/linear_congruential.hpp>
+#include <boost/random/uniform_int.hpp>
+
+#include <MWorksCore/Plugin.h>
+#include <MWorksCore/StandardStimulusFactory.h>
+#include <MWorksCore/TrialBuildingBlocks.h>
+
+#endif /* defined(__cplusplus) */

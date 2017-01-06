@@ -82,71 +82,15 @@ VideoStimulus::~VideoStimulus() {
 }
 
 
-void VideoStimulus::load(boost::shared_ptr<StimulusDisplay> display) {
-    boost::mutex::scoped_lock locker(stim_lock);
-    
-    if (loaded) {
-        return;
-    }
-    
-    @autoreleasepool {
-        NSURL *fileURL = [NSURL fileURLWithPath:@(filePath.string().c_str())];
-        AVPlayerItem *item = [AVPlayerItem playerItemWithURL:fileURL];
-        [item addOutput:videoOutput];
-        [player replaceCurrentItemWithPlayerItem:item];
-        
-        while (item.status == AVPlayerItemStatusUnknown) {
-            Clock::instance()->sleepMS(100);
-        }
-        if (item.status == AVPlayerItemStatusFailed) {
-            throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN,
-                                  "Cannot load video file",
-                                  item.error.localizedDescription.UTF8String);
-        }
-    }
-    
-    for (int i = 0; i < display->getNContexts(); i++) {
-        OpenGLContextLock ctxLock = display->setCurrent(i);
-        auto context = CGLGetCurrentContext();
-        CVOpenGLTextureCacheRef newTextureCache = nullptr;
-        auto status = CVOpenGLTextureCacheCreate(kCFAllocatorDefault,
-                                                 nullptr,
-                                                 context,
-                                                 CGLGetPixelFormat(context),
-                                                 nullptr,
-                                                 &newTextureCache);
-        if (status != kCVReturnSuccess) {
-            throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN,
-                                  (boost::format("Cannot create OpenGL texture cache (error = %d)") % status).str());
-        }
-        textureCache[i] = CVOpenGLTextureCachePtr::owned(newTextureCache);
-    }
-    
-    loaded = true;
-}
-
-
-void VideoStimulus::unload(boost::shared_ptr<StimulusDisplay> display) {
-    boost::mutex::scoped_lock locker(stim_lock);
-    
-    if (!loaded) {
-        return;
-    }
-    
-    texture.clear();
-    pixelBuffer = CVPixelBufferPtr();
-    textureCache.clear();
-    
-    [player replaceCurrentItemWithPlayerItem:nil];
-    
-    loaded = false;
-}
-
-
 bool VideoStimulus::needDraw(boost::shared_ptr<StimulusDisplay> display) {
     boost::mutex::scoped_lock locker(stim_lock);
-    return (VideoStimlusBase::needDraw(display) &&
-            (checkForNewPixelBuffer(display) || (videoEnded && !didDrawAfterEnding)));
+    
+    if (!VideoStimlusBase::needDraw(display)) {
+        return false;
+    }
+    
+    auto ctxLock = display->setCurrent(0);
+    return (checkForNewPixelBuffer(display) || (videoEnded && !didDrawAfterEnding));
 }
 
 
@@ -166,6 +110,142 @@ Datum VideoStimulus::getCurrentAnnounceDrawData() {
     announceData.addElement("current_video_time_seconds", currentVideoTimeSeconds);
     
     return std::move(announceData);
+}
+
+
+gl::Shader VideoStimulus::getVertexShader() const {
+    static const std::string source
+    (R"(
+     uniform mat4 mvpMatrix;
+     in vec4 vertexPosition;
+     in vec2 texCoords;
+     out vec2 varyingTexCoords;
+     
+     void main() {
+         gl_Position = mvpMatrix * vertexPosition;
+         varyingTexCoords = texCoords;
+     }
+     )");
+    
+    return gl::createShader(GL_VERTEX_SHADER, source);
+}
+
+
+gl::Shader VideoStimulus::getFragmentShader() const {
+    static const std::string source
+    (R"(
+     uniform float alpha;
+     uniform sampler2D videoTexture;
+     uniform sampler2DRect videoTextureRect;
+     uniform bool useTextureRect;
+     
+     in vec2 varyingTexCoords;
+     
+     out vec4 fragColor;
+     
+     void main() {
+         vec4 videoColor;
+         if (useTextureRect) {
+             videoColor = texture(videoTextureRect, varyingTexCoords);
+         } else {
+             videoColor = texture(videoTexture, varyingTexCoords);
+         }
+         fragColor.rgb = videoColor.rgb;
+         fragColor.a = alpha * videoColor.a;
+     }
+     )");
+    
+    return gl::createShader(GL_FRAGMENT_SHADER, source);
+}
+
+
+void VideoStimulus::prepare(const boost::shared_ptr<StimulusDisplay> &display) {
+    boost::mutex::scoped_lock locker(stim_lock);
+    
+    BasicTransformStimulus::prepare(display);
+    
+    @autoreleasepool {
+        NSURL *fileURL = [NSURL fileURLWithPath:@(filePath.string().c_str())];
+        AVPlayerItem *item = [AVPlayerItem playerItemWithURL:fileURL];
+        [item addOutput:videoOutput];
+        [player replaceCurrentItemWithPlayerItem:item];
+        
+        while (item.status == AVPlayerItemStatusUnknown) {
+            Clock::instance()->sleepMS(100);
+        }
+        if (item.status == AVPlayerItemStatusFailed) {
+            throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN,
+                                  "Cannot load video file",
+                                  item.error.localizedDescription.UTF8String);
+        }
+    }
+    
+    auto context = CGLGetCurrentContext();
+    CVOpenGLTextureCacheRef newTextureCache = nullptr;
+    auto status = CVOpenGLTextureCacheCreate(kCFAllocatorDefault,
+                                             nullptr,
+                                             context,
+                                             CGLGetPixelFormat(context),
+                                             nullptr,
+                                             &newTextureCache);
+    if (status != kCVReturnSuccess) {
+        throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN,
+                              (boost::format("Cannot create OpenGL texture cache (error = %d)") % status).str());
+    }
+    textureCache = CVOpenGLTextureCachePtr::owned(newTextureCache);
+    
+    alphaUniformLocation = glGetUniformLocation(program, "alpha");
+    videoTextureUniformLocation = glGetUniformLocation(program, "videoTexture");
+    videoTextureRectUniformLocation = glGetUniformLocation(program, "videoTextureRect");
+    useTextureRectUniformLocation = glGetUniformLocation(program, "useTextureRect");
+    
+    glGenBuffers(1, &texCoordsBuffer);
+    gl::BufferBinding<GL_ARRAY_BUFFER> arrayBufferBinding(texCoordsBuffer);
+    GLint texCoordsAttribLocation = glGetAttribLocation(program, "texCoords");
+    glEnableVertexAttribArray(texCoordsAttribLocation);
+    glVertexAttribPointer(texCoordsAttribLocation, componentsPerVertex, GL_FLOAT, GL_FALSE, 0, nullptr);
+}
+
+
+void VideoStimulus::destroy(const boost::shared_ptr<StimulusDisplay> &display) {
+    boost::mutex::scoped_lock locker(stim_lock);
+    
+    glDeleteBuffers(1, &texCoordsBuffer);
+    
+    texture.reset();
+    pixelBuffer.reset();
+    textureCache.reset();
+    
+    [player replaceCurrentItemWithPlayerItem:nil];
+    
+    BasicTransformStimulus::destroy(display);
+}
+
+
+void VideoStimulus::preDraw(const boost::shared_ptr<StimulusDisplay> &display) {
+    BasicTransformStimulus::preDraw(display);
+    
+    checkForNewPixelBuffer(display);
+    if (!(pixelBuffer && bindTexture())) {
+        return;
+    }
+    
+    glUniform1f(alphaUniformLocation, current_alpha);
+    
+    glEnable(GL_BLEND);
+    glBlendEquation(GL_FUNC_ADD);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+}
+
+
+void VideoStimulus::postDraw(const boost::shared_ptr<StimulusDisplay> &display) {
+    glDisable(GL_BLEND);
+    
+    if (texture) {
+        glBindTexture(textureTarget, 0);
+    }
+    
+    BasicTransformStimulus::postDraw(display);
 }
 
 
@@ -207,48 +287,6 @@ void VideoStimulus::drawFrame(boost::shared_ptr<StimulusDisplay> display) {
 }
 
 
-void VideoStimulus::drawInUnitSquare(boost::shared_ptr<StimulusDisplay> display) {
-    const auto currentContextIndex = display->getCurrentContextIndex();
-    
-    if (currentContextIndex == 0) {
-        checkForNewPixelBuffer(display);
-    }
-    if (!(pixelBuffer && prepareTexture(currentContextIndex))) {
-        return;
-    }
-    
-    auto &currentTexture = texture.at(currentContextIndex);
-    auto currentTextureTarget = CVOpenGLTextureGetTarget(currentTexture.get());
-    
-    glEnable(currentTextureTarget);
-    glBindTexture(currentTextureTarget, CVOpenGLTextureGetName(currentTexture.get()));
-    glTexParameteri(currentTextureTarget, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(currentTextureTarget, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexParameteri(currentTextureTarget, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(currentTextureTarget, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-    
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    glColor4f(1.0, 1.0, 1.0, current_alpha);
-    
-    glEnableClientState(GL_VERTEX_ARRAY);
-    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-    
-    glVertexPointer(numCoordsPerVertex, GL_DOUBLE, 0, vertexCoords.data());
-    glTexCoordPointer(numCoordsPerVertex, GL_FLOAT, 0, textureCoords.at(currentContextIndex).data());
-    glDrawArrays(GL_QUADS, 0, numVertices);
-    
-    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-    glDisableClientState(GL_VERTEX_ARRAY);
-    
-    glDisable(GL_BLEND);
-    
-    glBindTexture(currentTextureTarget, 0);
-    glDisable(currentTextureTarget);
-}
-
-
 bool VideoStimulus::checkForNewPixelBuffer(const boost::shared_ptr<StimulusDisplay> &display) {
     auto outputItemTime = [videoOutput itemTimeForCVTimeStamp:display->getCurrentOutputTimeStamp()];
     if (![videoOutput hasNewPixelBufferForItemTime:outputItemTime]) {
@@ -263,60 +301,70 @@ bool VideoStimulus::checkForNewPixelBuffer(const boost::shared_ptr<StimulusDispl
     
     pixelBuffer = newPixelBuffer;
     lastOutputItemTime = outputItemTime;
-    texture.clear();
+    texture.reset();
     
     const auto newAspectRatio = (double(CVPixelBufferGetWidth(pixelBuffer.get())) /
                                  double(CVPixelBufferGetHeight(pixelBuffer.get())));
     if (newAspectRatio != aspectRatio) {
         aspectRatio = newAspectRatio;
-        if (aspectRatio > 1.0) {
-            vertexCoords = {
-                0.0, (0.5 - 0.5/aspectRatio),
-                1.0, (0.5 - 0.5/aspectRatio),
-                1.0, (0.5 - 0.5/aspectRatio) + 1.0/aspectRatio,
-                0.0, (0.5 - 0.5/aspectRatio) + 1.0/aspectRatio
-            };
-        } else {
-            vertexCoords = {
-                (1.0 - aspectRatio)/2.0, 0.0,
-                (1.0 - aspectRatio)/2.0 + aspectRatio, 0.0,
-                (1.0 - aspectRatio)/2.0 + aspectRatio, 1.0,
-                (1.0 - aspectRatio)/2.0, 1.0
-            };
-        }
+        auto vertexPositions = ImageStimulus::getVertexPositions(aspectRatio);
+        gl::BufferBinding<GL_ARRAY_BUFFER> arrayBufferBinding(vertexPositionBuffer);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(vertexPositions), vertexPositions.data(), GL_STATIC_DRAW);
     }
     
     return true;
 }
 
 
-bool VideoStimulus::prepareTexture(int currentContextIndex) {
-    if (texture.find(currentContextIndex) != texture.end()) {
+bool VideoStimulus::bindTexture() {
+    if (texture) {
+        glBindTexture(textureTarget, textureName);
         return true;
     }
     
-    auto &currentTextureCache = textureCache.at(currentContextIndex);
-    CVOpenGLTextureCacheFlush(currentTextureCache.get(), 0);
+    CVOpenGLTextureCacheFlush(textureCache.get(), 0);
     
-    CVOpenGLTextureRef newTexture = nullptr;
-    auto status = CVOpenGLTextureCacheCreateTextureFromImage(kCFAllocatorDefault,
-                                                             currentTextureCache.get(),
-                                                             pixelBuffer.get(),
-                                                             nullptr,
-                                                             &newTexture);
-    if (status != kCVReturnSuccess) {
-        merror(M_DISPLAY_MESSAGE_DOMAIN, "Cannot create OpenGL texture (error = %d)", status);
-        return false;
+    {
+        CVOpenGLTextureRef newTexture = nullptr;
+        auto status = CVOpenGLTextureCacheCreateTextureFromImage(kCFAllocatorDefault,
+                                                                 textureCache.get(),
+                                                                 pixelBuffer.get(),
+                                                                 nullptr,
+                                                                 &newTexture);
+        if (status != kCVReturnSuccess) {
+            merror(M_DISPLAY_MESSAGE_DOMAIN, "Cannot create OpenGL texture (error = %d)", status);
+            return false;
+        }
+        
+        texture = CVOpenGLTexturePtr::owned(newTexture);
+        textureTarget = CVOpenGLTextureGetTarget(newTexture);
+        textureName = CVOpenGLTextureGetName(newTexture);
     }
     
-    texture[currentContextIndex] = CVOpenGLTexturePtr::owned(newTexture);
+    glBindTexture(textureTarget, textureName);
+    glTexParameteri(textureTarget, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(textureTarget, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(textureTarget, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(textureTarget, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     
-    auto &texCoords = textureCoords[currentContextIndex];
-    CVOpenGLTextureGetCleanTexCoords(newTexture,
-                                     &(texCoords.at(0 * numCoordsPerVertex)),
-                                     &(texCoords.at(1 * numCoordsPerVertex)),
-                                     &(texCoords.at(2 * numCoordsPerVertex)),
-                                     &(texCoords.at(3 * numCoordsPerVertex)));
+    if (GL_TEXTURE_RECTANGLE == textureTarget) {
+        glUniform1i(videoTextureUniformLocation, 1);
+        glUniform1i(videoTextureRectUniformLocation, 0);
+        glUniform1i(useTextureRectUniformLocation, true);
+    } else {
+        glUniform1i(videoTextureUniformLocation, 0);
+        glUniform1i(videoTextureRectUniformLocation, 1);
+        glUniform1i(useTextureRectUniformLocation, false);
+    }
+    
+    VertexPositionArray texCoords;
+    CVOpenGLTextureGetCleanTexCoords(texture.get(),
+                                     &(texCoords.at(0 * componentsPerVertex)),
+                                     &(texCoords.at(1 * componentsPerVertex)),
+                                     &(texCoords.at(3 * componentsPerVertex)),
+                                     &(texCoords.at(2 * componentsPerVertex)));
+    gl::BufferBinding<GL_ARRAY_BUFFER> arrayBufferBinding(texCoordsBuffer);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(texCoords), texCoords.data(), GL_STREAM_DRAW);
     
     return true;
 }

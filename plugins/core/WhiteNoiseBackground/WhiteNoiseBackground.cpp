@@ -9,10 +9,8 @@
 
 #include "WhiteNoiseBackground.h"
 
-#include <algorithm>
-#include <limits>
 
-#include <MWorksCore/StandardVariables.h>
+BEGIN_NAMESPACE_MW
 
 
 void WhiteNoiseBackground::describeComponent(ComponentInfo &info) {
@@ -23,7 +21,7 @@ void WhiteNoiseBackground::describeComponent(ComponentInfo &info) {
 
 WhiteNoiseBackground::WhiteNoiseBackground(const ParameterValueMap &parameters) :
     Stimulus(parameters),
-    randGen(mw::Clock::instance()->getSystemTimeUS()),
+    randGen(Clock::instance()->getSystemTimeUS()),
     randDist(std::numeric_limits<GLubyte>::min(), std::numeric_limits<GLubyte>::max())
 { }
 
@@ -31,25 +29,41 @@ WhiteNoiseBackground::WhiteNoiseBackground(const ParameterValueMap &parameters) 
 void WhiteNoiseBackground::load(shared_ptr<StimulusDisplay> display) {
     if (loaded)
         return;
-
-    GLint maxWidth = 0;
-    GLint maxHeight = 0;
     
-    for (int i = 0; i < display->getNContexts(); i++) {
-        OpenGLContextLock ctxLock = display->setCurrent(i);
-
-        GLint width, height;
-        display->getCurrentViewportSize(width, height);
-        dims[i] = DisplayDimensions(width, height);
-        
-        maxWidth = std::max(width, maxWidth);
-        maxHeight = std::max(height, maxHeight);
-    }
-
+    auto ctxLock = display->setCurrent(0);
+    
+    display->getCurrentViewportSize(width, height);
     pixels.clear();
-    pixels.assign(maxWidth * maxHeight, std::numeric_limits<GLuint>::max());
+    pixels.assign(width * height, std::numeric_limits<GLuint>::max());
     
-    loaded = true;
+    auto vertexShader = gl::createShader(GL_VERTEX_SHADER, vertexShaderSource);
+    auto fragmentShader = gl::createShader(GL_FRAGMENT_SHADER, fragmentShaderSource);
+    program = gl::createProgram({ vertexShader.get(), fragmentShader.get() }).release();
+    gl::ProgramUsage programUsage(program);
+    
+    glUniform1i(glGetUniformLocation(program, "noiseTexture"), 0);
+    
+    glGenVertexArrays(1, &vertexArray);
+    gl::VertexArrayBinding vertexArrayBinding(vertexArray);
+    
+    glGenBuffers(1, &vertexPositionBuffer);
+    gl::BufferBinding<GL_ARRAY_BUFFER> arrayBufferBinding(vertexPositionBuffer);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertexPositions), vertexPositions.data(), GL_STATIC_DRAW);
+    GLint vertexPositionAttribLocation = glGetAttribLocation(program, "vertexPosition");
+    glEnableVertexAttribArray(vertexPositionAttribLocation);
+    glVertexAttribPointer(vertexPositionAttribLocation, componentsPerVertex, GL_FLOAT, GL_FALSE, 0, nullptr);
+    
+    glGenBuffers(1, &texCoordsBuffer);
+    arrayBufferBinding.bind(texCoordsBuffer);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(texCoords), texCoords.data(), GL_STATIC_DRAW);
+    GLint texCoordsAttribLocation = glGetAttribLocation(program, "texCoords");
+    glEnableVertexAttribArray(texCoordsAttribLocation);
+    glVertexAttribPointer(texCoordsAttribLocation, componentsPerVertex, GL_FLOAT, GL_FALSE, 0, nullptr);
+    
+    glGenTextures(1, &texture);
+    updateTexture();
+    
+    Stimulus::load(display);
 }
 
 
@@ -57,68 +71,27 @@ void WhiteNoiseBackground::unload(shared_ptr<StimulusDisplay> display) {
     if (!loaded)
         return;
     
-    dims.clear();
+    auto ctxLock = display->setCurrent(0);
+    
+    glDeleteTextures(1, &texture);
+    glDeleteBuffers(1, &texCoordsBuffer);
+    glDeleteBuffers(1, &vertexPositionBuffer);
+    glDeleteVertexArrays(1, &vertexArray);
+    glDeleteProgram(program);
+    
     pixels.clear();
     
-    loaded = false;
+    Stimulus::unload(display);
 }
 
 
 void WhiteNoiseBackground::draw(shared_ptr<StimulusDisplay> display) {
-    glPushClientAttrib(GL_CLIENT_PIXEL_STORE_BIT);
-
-    glPixelStorei(GL_UNPACK_SWAP_BYTES, GL_FALSE);
-    glPixelStorei(GL_UNPACK_LSB_FIRST, GL_FALSE);
-    glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
-    glPixelStorei(GL_UNPACK_IMAGE_HEIGHT, 0);
-    glPixelStorei(GL_UNPACK_SKIP_ROWS, 0);
-    glPixelStorei(GL_UNPACK_SKIP_PIXELS, 0);
-    glPixelStorei(GL_UNPACK_SKIP_IMAGES, 0);
-    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-
-    DisplayDimensions &currentDims = dims[display->getCurrentContextIndex()];
+    gl::ProgramUsage programUsage(program);
+    gl::VertexArrayBinding vertexArrayBinding(vertexArray);
     
-    glEnable(GL_TEXTURE_2D);
-    glBindTexture(GL_TEXTURE_2D, 0);  // Disable any previous texture binding
+    gl::TextureBinding<GL_TEXTURE_2D> textureBinding(texture);
     
-    {
-        boost::mutex::scoped_lock lock(pixelsMutex);
-        glTexImage2D(GL_TEXTURE_2D,
-                     0,
-                     GL_RGBA8,
-                     currentDims.first,
-                     currentDims.second,
-                     0,
-                     GL_BGRA,
-                     GL_UNSIGNED_INT_8_8_8_8_REV,
-                     &(pixels[0]));
-    }
-    
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
-    
-    GLdouble left, right, bottom, top;
-    display->getDisplayBounds(left, right, bottom, top);
-    
-    glBegin(GL_QUADS);
-    
-    glTexCoord2f(0.0, 0.0);
-    glVertex3f(left, bottom, 0.0);
-    
-    glTexCoord2f(1.0, 0.0);
-    glVertex3f(right, bottom, 0.0);
-    
-    glTexCoord2f(1.0, 1.0);
-    glVertex3f(right, top, 0.0);
-    
-    glTexCoord2f(0.0, 1.0);
-    glVertex3f(left, top, 0.0);
-    
-    glEnd();
-
-    glDisable(GL_TEXTURE_2D);
-    glPopClientAttrib();
+    glDrawArrays(GL_TRIANGLE_STRIP, 0, numVertices);
 }
 
 
@@ -134,12 +107,86 @@ void WhiteNoiseBackground::randomizePixels() {
 
     for (size_t i = 0; i < pixels.size(); i++) {
         GLubyte randVal = randDist(randGen);
-        GLubyte *pix = (GLubyte *)(&(pixels[i]));
+        GLubyte *pix = reinterpret_cast<GLubyte *>(&(pixels[i]));
         for (size_t j = 0; j < componentsPerPixel - 1; j++) {
             pix[j] = randVal;
         }
     }
+    
+    auto ctxLock = StimulusDisplay::getCurrentStimulusDisplay()->setCurrent(0);
+    updateTexture();
 }
+
+
+void WhiteNoiseBackground::updateTexture() {
+    glPixelStorei(GL_UNPACK_SWAP_BYTES, GL_FALSE);
+    glPixelStorei(GL_UNPACK_LSB_FIRST, GL_FALSE);
+    glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
+    glPixelStorei(GL_UNPACK_IMAGE_HEIGHT, 0);
+    glPixelStorei(GL_UNPACK_SKIP_ROWS, 0);
+    glPixelStorei(GL_UNPACK_SKIP_PIXELS, 0);
+    glPixelStorei(GL_UNPACK_SKIP_IMAGES, 0);
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+    
+    gl::TextureBinding<GL_TEXTURE_2D> textureBinding(texture);
+    
+    glTexImage2D(GL_TEXTURE_2D,
+                 0,
+                 GL_RGBA8,
+                 width,
+                 height,
+                 0,
+                 GL_BGRA,
+                 GL_UNSIGNED_INT_8_8_8_8_REV,
+                 pixels.data());
+    
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+}
+
+
+const std::string WhiteNoiseBackground::vertexShaderSource
+(R"(
+ in vec4 vertexPosition;
+ in vec2 texCoords;
+ out vec2 varyingTexCoords;
+ 
+ void main() {
+     gl_Position = vertexPosition;
+     varyingTexCoords = texCoords;
+ }
+ )");
+
+
+const std::string WhiteNoiseBackground::fragmentShaderSource
+(R"(
+ uniform sampler2D noiseTexture;
+ in vec2 varyingTexCoords;
+ out vec4 fragColor;
+ 
+ void main() {
+     fragColor = texture(noiseTexture, varyingTexCoords);
+ }
+ )");
+
+
+const WhiteNoiseBackground::VertexPositionArray WhiteNoiseBackground::vertexPositions {
+    -1.0f, -1.0f,
+     1.0f, -1.0f,
+    -1.0f,  1.0f,
+     1.0f,  1.0f
+};
+
+
+const WhiteNoiseBackground::VertexPositionArray WhiteNoiseBackground::texCoords {
+    0.0f, 0.0f,
+    1.0f, 0.0f,
+    0.0f, 1.0f,
+    1.0f, 1.0f
+};
+
+
+END_NAMESPACE_MW
 
 
 

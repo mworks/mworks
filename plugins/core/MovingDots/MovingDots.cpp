@@ -9,11 +9,6 @@
 
 #include "MovingDots.h"
 
-#include <algorithm>
-#include <cmath>
-
-#include <boost/math/special_functions/round.hpp>
-
 
 BEGIN_NAMESPACE_MW
 
@@ -77,6 +72,7 @@ MovingDots::MovingDots(const ParameterValueMap &parameters) :
     currentCoherence(1.0f),
     previousLifetime(0.0f),
     currentLifetime(0.0f),
+    dotSizeToPixels(0.0f),
     previousTime(-1),
     currentTime(-1)
 {
@@ -90,21 +86,78 @@ MovingDots::MovingDots(const ParameterValueMap &parameters) :
 void MovingDots::load(shared_ptr<StimulusDisplay> display) {
     if (loaded)
         return;
-
-    dotSizeToPixels.clear();
+    
+    auto ctxLock = display->setCurrent(0);
     
     GLdouble xMin, xMax, yMin, yMax;
-    GLint width, height;
-    
     display->getDisplayBounds(xMin, xMax, yMin, yMax);
+    GLint width, height;
+    display->getCurrentViewportSize(width, height);
+    dotSizeToPixels = GLdouble(width) / (xMax - xMin);
     
-    for (int i = 0; i < display->getNContexts(); i++) {
-        OpenGLContextLock ctxLock = display->setCurrent(i);
-        display->getCurrentViewportSize(width, height);
-        dotSizeToPixels.push_back(GLdouble(width) / (xMax - xMin));
+    auto vertexShader = gl::createShader(GL_VERTEX_SHADER, vertexShaderSource);
+    auto fragmentShader = gl::createShader(GL_FRAGMENT_SHADER, fragmentShaderSource);
+    program = gl::createProgram({ vertexShader.get(), fragmentShader.get() }).release();
+    gl::ProgramUsage programUsage(program);
+    
+    mvpMatrixUniformLocation = glGetUniformLocation(program, "mvpMatrix");
+    pointSizeUniformLocation = glGetUniformLocation(program, "pointSize");
+    colorUniformLocation = glGetUniformLocation(program, "color");
+    
+    glGenVertexArrays(1, &vertexArray);
+    gl::VertexArrayBinding vertexArrayBinding(vertexArray);
+    
+    glGenBuffers(1, &dotPositionBuffer);
+    gl::BufferBinding<GL_ARRAY_BUFFER> arrayBufferBinding(dotPositionBuffer);
+    GLint dotPositionAttribLocation = glGetAttribLocation(program, "dotPosition");
+    glEnableVertexAttribArray(dotPositionAttribLocation);
+    glVertexAttribPointer(dotPositionAttribLocation, componentsPerDot, GL_FLOAT, GL_FALSE, 0, nullptr);
+    
+    StandardDynamicStimulus::load(display);
+}
+
+
+void MovingDots::unload(shared_ptr<StimulusDisplay> display) {
+    if (!loaded)
+        return;
+    
+    auto ctxLock = display->setCurrent(0);
+    
+    glDeleteBuffers(1, &dotPositionBuffer);
+    glDeleteVertexArrays(1, &vertexArray);
+    glDeleteProgram(program);
+    
+    StandardDynamicStimulus::unload(display);
+}
+
+
+Datum MovingDots::getCurrentAnnounceDrawData() {
+    boost::mutex::scoped_lock locker(stim_lock);
+    
+    Datum announceData = StandardDynamicStimulus::getCurrentAnnounceDrawData();
+    
+    announceData.addElement(STIM_TYPE, "moving_dots");
+    announceData.addElement(FIELD_RADIUS, currentFieldRadius);
+    announceData.addElement(FIELD_CENTER_X, fieldCenterX->getValue().getFloat());
+    announceData.addElement(FIELD_CENTER_Y, fieldCenterY->getValue().getFloat());
+    announceData.addElement(DOT_DENSITY, dotDensity->getValue().getFloat());
+    announceData.addElement(DOT_SIZE, dotSize->getValue().getFloat());
+    announceData.addElement(STIM_COLOR_R, red->getValue().getFloat());
+    announceData.addElement(STIM_COLOR_G, green->getValue().getFloat());
+    announceData.addElement(STIM_COLOR_B, blue->getValue().getFloat());
+    announceData.addElement(ALPHA_MULTIPLIER, alpha->getValue().getFloat());
+    announceData.addElement(DIRECTION, direction->getValue().getFloat());
+    announceData.addElement(SPEED, currentSpeed);
+    announceData.addElement(COHERENCE, currentCoherence);
+    announceData.addElement(LIFETIME, currentLifetime);
+    announceData.addElement("num_dots", long(currentNumDots));
+    
+    if (announceDots->getValue().getBool()) {
+        Datum dotsData(reinterpret_cast<char *>(&(dotPositions[0])), dotPositions.size() * sizeof(GLfloat));
+        announceData.addElement("dots", dotsData);
     }
     
-    loaded = true;
+    return std::move(announceData);
 }
 
 
@@ -214,7 +267,7 @@ void MovingDots::updateDots() {
     //
     
     if (currentNumDots != previousNumDots) {
-        dotPositions.resize(currentNumDots * verticesPerDot);
+        dotPositions.resize(currentNumDots * componentsPerDot);
         dotDirections.resize(currentNumDots);
         dotAges.resize(currentNumDots);
         
@@ -263,15 +316,21 @@ void MovingDots::replaceDot(GLint i, GLfloat direction, GLfloat age) {
 
 void MovingDots::drawFrame(shared_ptr<StimulusDisplay> display) {
     //
-    // If we're drawing to the main display, update dots
+    // Update dots
     //
     
-    if (display->getCurrentContextIndex() == 0) {
-        currentTime = getElapsedTime();
-        if (previousTime != currentTime) {
-            updateParameters();
-            updateDots();
-            previousTime = currentTime;
+    currentTime = getElapsedTime();
+    if (previousTime != currentTime) {
+        updateParameters();
+        updateDots();
+        previousTime = currentTime;
+        
+        if (currentNumDots > 0) {
+            gl::BufferBinding<GL_ARRAY_BUFFER> arrayBufferBinding(dotPositionBuffer);
+            glBufferData(GL_ARRAY_BUFFER,
+                         dotPositions.size() * sizeof(decltype(dotPositions)::value_type),
+                         dotPositions.data(),
+                         GL_STREAM_DRAW);
         }
     }
     
@@ -284,65 +343,35 @@ void MovingDots::drawFrame(shared_ptr<StimulusDisplay> display) {
     // Draw the dots
     //
     
-    glPushMatrix();
-    glTranslatef(fieldCenterX->getValue().getFloat(), fieldCenterY->getValue().getFloat(), 0.0f);
-    glScalef(currentFieldRadius, currentFieldRadius, 1.0f);
-    glRotatef(direction->getValue().getFloat(), 0.0f, 0.0f, 1.0f);
+    gl::ProgramUsage programUsage(program);
+    gl::VertexArrayBinding vertexArrayBinding(vertexArray);
     
-    // Enable antialiasing so dots are round, not square
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    auto currentMVPMatrix = GLKMatrix4Translate(display->getProjectionMatrix(),
+                                                fieldCenterX->getValue().getFloat(),
+                                                fieldCenterY->getValue().getFloat(),
+                                                0.0);
+    currentMVPMatrix = GLKMatrix4Scale(currentMVPMatrix, currentFieldRadius, currentFieldRadius, 1.0);
+    currentMVPMatrix = GLKMatrix4Rotate(currentMVPMatrix,
+                                        GLKMathDegreesToRadians(direction->getValue().getFloat()),
+                                        0.0,
+                                        0.0,
+                                        1.0);
+    glUniformMatrix4fv(mvpMatrixUniformLocation, 1, GL_FALSE, currentMVPMatrix.m);
+    
+    gl::Enabled<GL_PROGRAM_POINT_SIZE> pointSizeEnabled;
+    glUniform1f(pointSizeUniformLocation, dotSize->getValue().getFloat() * dotSizeToPixels);
+    
+    auto currentColor = GLKVector4Make(red->getValue().getFloat(),
+                                       green->getValue().getFloat(),
+                                       blue->getValue().getFloat(),
+                                       alpha->getValue().getFloat());
+    glUniform4fv(colorUniformLocation, 1, currentColor.v);
+    
+    gl::Enabled<GL_BLEND> blendEnabled;
     glBlendEquation(GL_FUNC_ADD);
-    glEnable(GL_POINT_SMOOTH);
-    glHint(GL_POINT_SMOOTH_HINT, GL_FASTEST);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     
-    glColor4f(red->getValue().getFloat(),
-              green->getValue().getFloat(),
-              blue->getValue().getFloat(),
-              alpha->getValue().getFloat());
-
-    glEnableClientState(GL_VERTEX_ARRAY);
-
-    glPointSize(dotSize->getValue().getFloat() * dotSizeToPixels[display->getCurrentContextIndex()]);
-    glVertexPointer(verticesPerDot, GL_FLOAT, 0, &(dotPositions[0]));
     glDrawArrays(GL_POINTS, 0, currentNumDots);
-
-    glDisableClientState(GL_VERTEX_ARRAY);
-    
-    glDisable(GL_BLEND);
-    glDisable(GL_POINT_SMOOTH);
-    
-    glPopMatrix();
-}
-
-
-Datum MovingDots::getCurrentAnnounceDrawData() {
-    boost::mutex::scoped_lock locker(stim_lock);
-
-    Datum announceData = StandardDynamicStimulus::getCurrentAnnounceDrawData();
-
-    announceData.addElement(STIM_TYPE, "moving_dots");
-    announceData.addElement(FIELD_RADIUS, currentFieldRadius);
-    announceData.addElement(FIELD_CENTER_X, fieldCenterX->getValue().getFloat());
-    announceData.addElement(FIELD_CENTER_Y, fieldCenterY->getValue().getFloat());
-    announceData.addElement(DOT_DENSITY, dotDensity->getValue().getFloat());
-    announceData.addElement(DOT_SIZE, dotSize->getValue().getFloat());
-    announceData.addElement(STIM_COLOR_R, red->getValue().getFloat());
-    announceData.addElement(STIM_COLOR_G, green->getValue().getFloat());
-    announceData.addElement(STIM_COLOR_B, blue->getValue().getFloat());
-    announceData.addElement(ALPHA_MULTIPLIER, alpha->getValue().getFloat());
-    announceData.addElement(DIRECTION, direction->getValue().getFloat());
-    announceData.addElement(SPEED, currentSpeed);
-    announceData.addElement(COHERENCE, currentCoherence);
-    announceData.addElement(LIFETIME, currentLifetime);
-    announceData.addElement("num_dots", long(currentNumDots));
-    
-    if (announceDots->getValue().getBool()) {
-        Datum dotsData(reinterpret_cast<char *>(&(dotPositions[0])), dotPositions.size() * sizeof(GLfloat));
-        announceData.addElement("dots", dotsData);
-    }
-    
-    return announceData;
 }
 
 
@@ -350,6 +379,34 @@ void MovingDots::stopPlaying() {
     StandardDynamicStimulus::stopPlaying();
     previousTime = -1;
 }
+
+
+const std::string MovingDots::vertexShaderSource
+(R"(
+ uniform mat4 mvpMatrix;
+ uniform float pointSize;
+ in vec4 dotPosition;
+ 
+ void main() {
+     gl_Position = mvpMatrix * dotPosition;
+     gl_PointSize = pointSize;
+ }
+ )");
+
+
+const std::string MovingDots::fragmentShaderSource
+(R"(
+ uniform vec4 color;
+ out vec4 fragColor;
+ 
+ void main() {
+     // Make dots round, not square
+     if (distance(gl_PointCoord, vec2(0.5, 0.5)) > 0.5) {
+         discard;
+     }
+     fragColor = color;
+ }
+ )");
 
 
 END_NAMESPACE_MW

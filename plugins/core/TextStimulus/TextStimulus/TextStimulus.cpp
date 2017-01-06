@@ -56,13 +56,61 @@ TextStimulus::TextStimulus(const ParameterValueMap &parameters) :
     ColoredTransformStimulus(parameters),
     text(registerVariable(variableOrText(parameters[TEXT]))),
     fontName(registerVariable(variableOrText(parameters[FONT_NAME]))),
-    fontSize(registerVariable(parameters[FONT_SIZE]))
+    fontSize(registerVariable(parameters[FONT_SIZE])),
+    pixelsPerDegree(0.0),
+    pointsPerPixel(0.0)
 { }
 
 
-void TextStimulus::load(boost::shared_ptr<StimulusDisplay> display) {
-    if (loaded)
-        return;
+Datum TextStimulus::getCurrentAnnounceDrawData() {
+    Datum announceData = ColoredTransformStimulus::getCurrentAnnounceDrawData();
+    
+    announceData.addElement(STIM_TYPE, "text");
+    announceData.addElement(TEXT, lastText);
+    announceData.addElement(FONT_NAME, lastFontName);
+    announceData.addElement(FONT_SIZE, lastFontSize);
+    
+    return std::move(announceData);
+}
+
+
+gl::Shader TextStimulus::getVertexShader() const {
+    static const std::string source
+    (R"(
+     uniform mat4 mvpMatrix;
+     in vec4 vertexPosition;
+     in vec2 texCoords;
+     out vec2 varyingTexCoords;
+     
+     void main() {
+         gl_Position = mvpMatrix * vertexPosition;
+         varyingTexCoords = texCoords;
+     }
+     )");
+    
+    return gl::createShader(GL_VERTEX_SHADER, source);
+}
+
+
+gl::Shader TextStimulus::getFragmentShader() const {
+    static const std::string source
+    (R"(
+     uniform vec4 color;
+     uniform sampler2D textTexture;
+     in vec2 varyingTexCoords;
+     out vec4 fragColor;
+     
+     void main() {
+         fragColor = color * texture(textTexture, varyingTexCoords);
+     }
+     )");
+    
+    return gl::createShader(GL_FRAGMENT_SHADER, source);
+}
+
+
+void TextStimulus::prepare(const boost::shared_ptr<StimulusDisplay> &display) {
+    ColoredTransformStimulus::prepare(display);
     
     GLdouble xMin, xMax, yMin, yMax;
     display->getDisplayBounds(xMin, xMax, yMin, yMax);
@@ -78,93 +126,55 @@ void TextStimulus::load(boost::shared_ptr<StimulusDisplay> display) {
         displaySizeInPoints = displayView.frame.size;
     });
     
-    pixelsPerDegree.clear();
-    pointsPerPixel.clear();
-    texture.clear();
+    GLint width, height;
+    display->getCurrentViewportSize(width, height);
+    pixelsPerDegree = double(width) / (xMax - xMin);
+    pointsPerPixel = displaySizeInPoints.width / double(width);
+    texture = 0;
     
-    for (int i = 0; i < display->getNContexts(); i++) {
-        OpenGLContextLock ctxLock = display->setCurrent(i);
-        GLint width, height;
-        display->getCurrentViewportSize(width, height);
-        pixelsPerDegree.push_back(double(width) / (xMax - xMin));
-        pointsPerPixel.push_back(displaySizeInPoints.width / double(width));
-        texture.push_back(0);
-    }
+    glUniform1i(glGetUniformLocation(program, "textTexture"), 0);
     
-    loaded = true;
+    glGenBuffers(1, &texCoordsBuffer);
+    gl::BufferBinding<GL_ARRAY_BUFFER> arrayBufferBinding(texCoordsBuffer);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(texCoords), texCoords.data(), GL_STATIC_DRAW);
+    GLint texCoordsAttribLocation = glGetAttribLocation(program, "texCoords");
+    glEnableVertexAttribArray(texCoordsAttribLocation);
+    glVertexAttribPointer(texCoordsAttribLocation, componentsPerVertex, GL_FLOAT, GL_FALSE, 0, nullptr);
 }
 
 
-void TextStimulus::unload(boost::shared_ptr<StimulusDisplay> display) {
-    if (!loaded)
-        return;
+void TextStimulus::destroy(const boost::shared_ptr<StimulusDisplay> &display) {
+    glDeleteBuffers(1, &texCoordsBuffer);
+    glDeleteTextures(1, &texture);
     
-    for (int i = 0; i < display->getNContexts(); i++) {
-        OpenGLContextLock ctxLock = display->setCurrent(i);
-        glDeleteTextures(1, &(texture.at(i)));
-    }
-    
-    loaded = false;
+    ColoredTransformStimulus::destroy(display);
 }
 
 
-void TextStimulus::drawInUnitSquare(boost::shared_ptr<StimulusDisplay> display) {
+void TextStimulus::preDraw(const boost::shared_ptr<StimulusDisplay> &display) {
+    ColoredTransformStimulus::preDraw(display);
+    
     currentText = text->getValue().getString();
     currentFontName = fontName->getValue().getString();
     currentFontSize = fontSize->getValue().getFloat();
     
-    glEnable(GL_TEXTURE_2D);
-    bindTexture(display->getCurrentContextIndex());
-    glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-    
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    
-    glColor4f(current_r, current_g, current_b, current_alpha);
-    
-    glBegin(GL_QUADS);
-    
-    glTexCoord2f(0.0, 0.0);
-    glVertex3f(0.0, 0.0, 0.0);
-    
-    glTexCoord2f(1.0, 0.0);
-    glVertex3f(1.0, 0.0, 0.0);
-    
-    glTexCoord2f(1.0, 1.0);
-    glVertex3f(1.0, 1.0, 0.0);
-    
-    glTexCoord2f(0.0, 1.0);
-    glVertex3f(0.0, 1.0, 0.0);
-    
-    glEnd();
-    
-    glDisable(GL_BLEND);
-    
+    bindTexture();
+}
+
+
+void TextStimulus::postDraw(const boost::shared_ptr<StimulusDisplay> &display) {
     glBindTexture(GL_TEXTURE_2D, 0);
-    glDisable(GL_TEXTURE_2D);
     
     lastText = currentText;
     lastFontName = currentFontName;
     lastFontSize = currentFontSize;
+    
+    ColoredTransformStimulus::postDraw(display);
 }
 
 
-Datum TextStimulus::getCurrentAnnounceDrawData() {
-    Datum announceData = ColoredTransformStimulus::getCurrentAnnounceDrawData();
-    
-    announceData.addElement(STIM_TYPE, "text");
-    announceData.addElement(TEXT, lastText);
-    announceData.addElement(FONT_NAME, lastFontName);
-    announceData.addElement(FONT_SIZE, lastFontSize);
-    
-    return std::move(announceData);
-}
-
-
-void TextStimulus::bindTexture(int currentContextIndex) {
-    auto &currentTexture = texture.at(currentContextIndex);
-    
-    if (currentTexture &&
+void TextStimulus::bindTexture() {
+    if (texture &&
         current_sizex == last_sizex &&
         current_sizey == last_sizey &&
         currentText == lastText &&
@@ -173,16 +183,13 @@ void TextStimulus::bindTexture(int currentContextIndex) {
     {
         // No relevant parameters have changed since we last generated the texture, so use
         // the existing one
-        glBindTexture(GL_TEXTURE_2D, currentTexture);
+        glBindTexture(GL_TEXTURE_2D, texture);
         return;
     }
     
-    const auto currentPixelsPerDegree = pixelsPerDegree.at(currentContextIndex);
-    const auto currentPointsPerPixel = pointsPerPixel.at(currentContextIndex);
-    
     // Create a bitmap context
-    const std::size_t bitmapWidth = current_sizex * currentPixelsPerDegree;
-    const std::size_t bitmapHeight = current_sizey * currentPixelsPerDegree;
+    const std::size_t bitmapWidth = current_sizex * pixelsPerDegree;
+    const std::size_t bitmapHeight = current_sizey * pixelsPerDegree;
     auto colorSpace = cf::ObjectPtr<CGColorSpaceRef>::created(CGColorSpaceCreateDeviceRGB());
     auto context = cf::ObjectPtr<CGContextRef>::created(CGBitmapContextCreate(nullptr,
                                                                               bitmapWidth,
@@ -195,7 +202,7 @@ void TextStimulus::bindTexture(int currentContextIndex) {
     // Flip the context's coordinate system (so that the origin is in the top left corner, as in OpenGL) and
     // convert it from pixels to points
     CGContextTranslateCTM(context.get(), 0, bitmapHeight);
-    CGContextScaleCTM(context.get(), currentPointsPerPixel, -currentPointsPerPixel);
+    CGContextScaleCTM(context.get(), pointsPerPixel, -pointsPerPixel);
     
     // Create the text string with the requested font applied
     auto attrString = cf::ObjectPtr<CFMutableAttributedStringRef>::created(CFAttributedStringCreateMutable(kCFAllocatorDefault, 0));
@@ -214,8 +221,8 @@ void TextStimulus::bindTexture(int currentContextIndex) {
     auto framesetter = cf::ObjectPtr<CTFramesetterRef>::created(CTFramesetterCreateWithAttributedString(attrString.get()));
     auto path = cf::ObjectPtr<CGPathRef>::created(CGPathCreateWithRect(CGRectMake(0,
                                                                                   0,
-                                                                                  bitmapWidth * currentPointsPerPixel,
-                                                                                  bitmapHeight * currentPointsPerPixel),
+                                                                                  bitmapWidth * pointsPerPixel,
+                                                                                  bitmapHeight * pointsPerPixel),
                                                                        nullptr));
     auto frame = cf::ObjectPtr<CTFrameRef>::created(CTFramesetterCreateFrame(framesetter.get(),
                                                                              CFRangeMake(0, 0),
@@ -235,12 +242,11 @@ void TextStimulus::bindTexture(int currentContextIndex) {
     // Create an OpenGL texture from the bitmap context
     //
     
-    if (!currentTexture) {
-        glGenTextures(1, &currentTexture);
+    if (!texture) {
+        glGenTextures(1, &texture);
     }
-    glBindTexture(GL_TEXTURE_2D, currentTexture);
+    glBindTexture(GL_TEXTURE_2D, texture);
     
-    glPushClientAttrib(GL_CLIENT_PIXEL_STORE_BIT);
     glPixelStorei(GL_UNPACK_SWAP_BYTES, GL_FALSE);
     glPixelStorei(GL_UNPACK_LSB_FIRST, GL_FALSE);
     glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
@@ -262,9 +268,15 @@ void TextStimulus::bindTexture(int currentContextIndex) {
     
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    
-    glPopClientAttrib();
 }
+
+
+const TextStimulus::VertexPositionArray TextStimulus::texCoords {
+    0.0f, 0.0f,
+    1.0f, 0.0f,
+    0.0f, 1.0f,
+    1.0f, 1.0f
+};
 
 
 END_NAMESPACE_MW

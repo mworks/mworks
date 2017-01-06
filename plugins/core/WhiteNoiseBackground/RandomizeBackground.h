@@ -10,9 +10,8 @@
 #ifndef RandomizeBackground_H_
 #define RandomizeBackground_H_
 
-#include <MWorksCore/TrialBuildingBlocks.h>
 
-using namespace mw;
+BEGIN_NAMESPACE_MW
 
 
 class RandomizeBackground : public Action {
@@ -21,12 +20,15 @@ public:
     static void describeComponent(ComponentInfo &info);
     
     explicit RandomizeBackground(const ParameterValueMap &parameters);
-    virtual bool execute();
+    bool execute() override;
     
 private:
     shared_ptr<StimulusNode> backgroundNode;
     
 };
+
+
+END_NAMESPACE_MW
 
 
 #endif

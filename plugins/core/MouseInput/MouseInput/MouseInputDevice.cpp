@@ -8,8 +8,6 @@
 
 #include "MouseInputDevice.h"
 
-#include <OpenGL/glu.h>
-
 
 BEGIN_NAMESPACE_MW
 
@@ -88,12 +86,8 @@ bool MouseInputDevice::initialize() {
         [targetView retain];
     }
     
-    // Get the parameters needed by gluUnProject
-    {
-        OpenGLContextLock ctxLock = StimulusDisplay::getCurrentStimulusDisplay()->setCurrent(0);
-        glGetDoublev(GL_MODELVIEW_MATRIX, modelViewMatrix.data());
-        glGetDoublev(GL_PROJECTION_MATRIX, projectionMatrix.data());
-    }
+    // Get the parameters needed by GLKMathUnproject
+    projectionMatrix = StimulusDisplay::getCurrentStimulusDisplay()->getProjectionMatrix();
     {
         OpenGLContextLock ctxLock = OpenGLContextManager::instance()->makeCurrent(targetView.openGLContext);
         glGetIntegerv(GL_VIEWPORT, viewport.data());
@@ -145,22 +139,19 @@ void MouseInputDevice::postMouseLocation(NSPoint location) const {
     
     // This method is always called from the main thread, so we can call convertPointToBacking: directly
     NSPoint locationInPixels = [targetView convertPointToBacking:location];
-    GLdouble mouseX, mouseY, mouseZ;
+    bool success = false;
+    GLKVector3 locationInDegrees = GLKMathUnproject(GLKVector3Make(locationInPixels.x, locationInPixels.y, 0.0),
+                                                    GLKMatrix4Identity,
+                                                    projectionMatrix,
+                                                    const_cast<GLint *>(viewport.data()),
+                                                    &success);
     
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    if (GLU_TRUE != gluUnProject(locationInPixels.x, locationInPixels.y, 0.0,
-                                 modelViewMatrix.data(),
-                                 projectionMatrix.data(),
-                                 viewport.data(),
-                                 &mouseX, &mouseY, &mouseZ))
-#pragma clang diagnostic pop
-    {
+    if (!success) {
         merror(M_DISPLAY_MESSAGE_DOMAIN, "Unable to convert mouse location from window to eye coordinates");
     } else {
         MWTime time = Clock::instance()->getCurrentTimeUS();
-        posX->setValue(mouseX, time);
-        posY->setValue(mouseY, time);
+        posX->setValue(locationInDegrees.v[0], time);
+        posY->setValue(locationInDegrees.v[1], time);
     }
 }
 

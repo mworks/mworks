@@ -25,22 +25,26 @@
 BEGIN_NAMESPACE_MW
 
 
-// a stimulus object with a position stored
-// this is the base object from which many others should derive
-class BasicTransformStimulus : public Stimulus {
-	
-protected:
-    const shared_ptr<Variable> xoffset;
-    const shared_ptr<Variable> yoffset;
+class BlankScreen : public Stimulus {
     
-    const shared_ptr<Variable> xscale;
-    const shared_ptr<Variable> yscale;
+public:
+    static void describeComponent(ComponentInfo &info);
     
-    const shared_ptr<Variable> rotation; // planar rotation added in for free
-    const shared_ptr<Variable> alpha_multiplier;
+    explicit BlankScreen(const Map<ParameterValue> &parameters);
     
-    float current_posx, current_posy, current_sizex, current_sizey, current_rot, current_alpha;
-    float last_posx, last_posy, last_sizex, last_sizey, last_rot, last_alpha;
+    void draw(shared_ptr<StimulusDisplay> display) override;
+    Datum getCurrentAnnounceDrawData() override;
+    
+private:
+    shared_ptr<Variable> r;
+    shared_ptr<Variable> g;
+    shared_ptr<Variable> b;
+    float last_r,last_g,last_b;
+    
+};
+
+
+class BasicTransformStimulus : public Stimulus, boost::noncopyable {
     
 public:
     static const std::string X_SIZE;
@@ -61,46 +65,48 @@ public:
                            const shared_ptr<Variable> &_rot,
                            const shared_ptr<Variable> &_alpha);
     
+    void load(shared_ptr<StimulusDisplay> display) override;
+    void unload(shared_ptr<StimulusDisplay> display) override;
     void draw(shared_ptr<StimulusDisplay> display) override;
     Datum getCurrentAnnounceDrawData() override;
     
-    virtual void drawInUnitSquare(shared_ptr<StimulusDisplay> display) = 0;
-
-};
-
-
-class ImageStimulus : public BasicTransformStimulus, boost::noncopyable {
 protected:
-    std::string filename;
-    std::string fileHash;
-    vector<GLuint> texture_maps;
-    int width, height;
+    static constexpr GLint numVertices = 4;
+    static constexpr GLint componentsPerVertex = 2;
+    using VertexPositionArray = std::array<GLfloat, numVertices*componentsPerVertex>;
     
-public:
-    static const std::string PATH;
+    virtual gl::Shader getVertexShader() const = 0;
+    virtual gl::Shader getFragmentShader() const = 0;
     
-    static void describeComponent(ComponentInfo &info);
+    virtual VertexPositionArray getVertexPositions() const;
+    virtual GLKMatrix4 getCurrentMVPMatrix(const GLKMatrix4 &projectionMatrix) const;
     
-    explicit ImageStimulus(const Map<ParameterValue> &parameters);
+    virtual void prepare(const boost::shared_ptr<StimulusDisplay> &display) { }
+    virtual void destroy(const boost::shared_ptr<StimulusDisplay> &display) { }
+    virtual void preDraw(const boost::shared_ptr<StimulusDisplay> &display) { }
+    virtual void postDraw(const boost::shared_ptr<StimulusDisplay> &display) { }
     
-    const std::string& getFilename() { return filename; }
+    const shared_ptr<Variable> xoffset;
+    const shared_ptr<Variable> yoffset;
     
-    void load(shared_ptr<StimulusDisplay> display) override;
-    void unload(shared_ptr<StimulusDisplay> display) override;
-    void drawInUnitSquare(shared_ptr<StimulusDisplay> display) override;
-    Datum getCurrentAnnounceDrawData() override;
+    const shared_ptr<Variable> xscale;
+    const shared_ptr<Variable> yscale;
+    
+    const shared_ptr<Variable> rotation;
+    const shared_ptr<Variable> alpha_multiplier;
+    
+    float current_posx, current_posy, current_sizex, current_sizey, current_rot, current_alpha;
+    float last_posx, last_posy, last_sizex, last_sizey, last_rot, last_alpha;
+    
+    GLuint program = 0;
+    GLint mvpMatrixUniformLocation = -1;
+    GLuint vertexArray = 0;
+    GLuint vertexPositionBuffer = 0;
+    
 };
 
 
 class ColoredTransformStimulus : public BasicTransformStimulus {
-    
-protected:
-    shared_ptr<Variable> r;
-    shared_ptr<Variable> g;
-    shared_ptr<Variable> b;
-    
-    float current_r, current_g, current_b;
-    float last_r, last_g, last_b;
     
 public:
     static const std::string COLOR;
@@ -112,6 +118,20 @@ public:
     void draw(shared_ptr<StimulusDisplay> display) override;
     Datum getCurrentAnnounceDrawData() override;
     
+protected:
+    void prepare(const boost::shared_ptr<StimulusDisplay> &display) override;
+    void preDraw(const boost::shared_ptr<StimulusDisplay> &display) override;
+    void postDraw(const boost::shared_ptr<StimulusDisplay> &display) override;
+    
+    shared_ptr<Variable> r;
+    shared_ptr<Variable> g;
+    shared_ptr<Variable> b;
+    
+    float current_r, current_g, current_b;
+    float last_r, last_g, last_b;
+    
+    GLint colorUniformLocation = -1;
+    
 };
 
 
@@ -122,8 +142,11 @@ public:
     
     using ColoredTransformStimulus::ColoredTransformStimulus;
     
-    void drawInUnitSquare(shared_ptr<StimulusDisplay> display) override;
     Datum getCurrentAnnounceDrawData() override;
+    
+private:
+    gl::Shader getVertexShader() const override;
+    gl::Shader getFragmentShader() const override;
     
 };
 
@@ -135,31 +158,46 @@ public:
     
     using ColoredTransformStimulus::ColoredTransformStimulus;
     
-    void load(shared_ptr<StimulusDisplay> display) override;
-    void drawInUnitSquare(shared_ptr<StimulusDisplay> display) override;
     Datum getCurrentAnnounceDrawData() override;
     
 private:
-    std::vector<double> pixelDensity;
+    gl::Shader getVertexShader() const override;
+    gl::Shader getFragmentShader() const override;
     
 };
 
 
-class BlankScreen : public Stimulus {
+class ImageStimulus : public BasicTransformStimulus {
     
 public:
+    static const std::string PATH;
+    
+    static VertexPositionArray getVertexPositions(double aspectRatio);
+    
     static void describeComponent(ComponentInfo &info);
     
-    explicit BlankScreen(const Map<ParameterValue> &parameters);
+    explicit ImageStimulus(const Map<ParameterValue> &parameters);
     
-    void draw(shared_ptr<StimulusDisplay> display) override;
     Datum getCurrentAnnounceDrawData() override;
     
-protected:
-    shared_ptr<Variable> r;
-    shared_ptr<Variable> g;
-    shared_ptr<Variable> b;
-    float last_r,last_g,last_b;
+private:
+    gl::Shader getVertexShader() const override;
+    gl::Shader getFragmentShader() const override;
+    
+    VertexPositionArray getVertexPositions() const override;
+    
+    void prepare(const boost::shared_ptr<StimulusDisplay> &display) override;
+    void destroy(const boost::shared_ptr<StimulusDisplay> &display) override;
+    void preDraw(const boost::shared_ptr<StimulusDisplay> &display) override;
+    void postDraw(const boost::shared_ptr<StimulusDisplay> &display) override;
+    
+    std::string filename;
+    std::string fileHash;
+    double aspectRatio;
+    
+    GLint alphaUniformLocation = -1;
+    GLuint texture = 0;
+    GLuint texCoordsBuffer = 0;
     
 };
 

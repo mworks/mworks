@@ -14,7 +14,7 @@ BEGIN_NAMESPACE_MW
 
 
 class MovingDotsPlugin : public Plugin {
-	void registerComponents(shared_ptr<ComponentRegistry> registry) MW_OVERRIDE {
+	void registerComponents(shared_ptr<ComponentRegistry> registry) override {
         registry->registerFactory<StandardStimulusFactory, MovingDots>();
     }	
 };

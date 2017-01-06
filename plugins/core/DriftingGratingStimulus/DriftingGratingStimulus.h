@@ -17,7 +17,10 @@
 BEGIN_NAMESPACE_MW
 
 
-class DriftingGratingStimulus : public StandardDynamicStimulus {
+using DriftingGratingStimulusBase = DynamicStimulusBase<BasicTransformStimulus>;
+
+
+class DriftingGratingStimulus : public DriftingGratingStimulusBase {
     
 public:
     static const std::string DIRECTION;
@@ -35,20 +38,21 @@ public:
     
     explicit DriftingGratingStimulus(const ParameterValueMap &parameters);
     
-    void load(shared_ptr<StimulusDisplay> display) override;
-    void unload(shared_ptr<StimulusDisplay> display) override;
-    void drawFrame(shared_ptr<StimulusDisplay> display) override;
     Datum getCurrentAnnounceDrawData() override;
     
 private:
-    shared_ptr<Variable> xoffset;
-    shared_ptr<Variable> yoffset;
+    gl::Shader getVertexShader() const override;
+    gl::Shader getFragmentShader() const override;
     
-    shared_ptr<Variable> width;
-    shared_ptr<Variable> height;
+    VertexPositionArray getVertexPositions() const override;
+    GLKMatrix4 getCurrentMVPMatrix(const GLKMatrix4 &projectionMatrix) const override;
     
-    shared_ptr<Variable> rotation;
-    shared_ptr<Variable> alpha_multiplier;
+    void prepare(const boost::shared_ptr<StimulusDisplay> &display) override;
+    void destroy(const boost::shared_ptr<StimulusDisplay> &display) override;
+    void preDraw(const boost::shared_ptr<StimulusDisplay> &display) override;
+    void postDraw(const boost::shared_ptr<StimulusDisplay> &display) override;
+    
+    void drawFrame(boost::shared_ptr<StimulusDisplay> display) override;
     
     shared_ptr<Variable> direction_in_degrees;
     shared_ptr<Variable> spatial_frequency;
@@ -58,8 +62,11 @@ private:
     shared_ptr<Mask> mask;
     shared_ptr<GratingData> grating;
     
-    GLuint mask_texture;
-    GLuint grating_texture;
+    GLint alphaUniformLocation = -1;
+    GLuint gratingTexCoordBuffer = 0;
+    GLuint maskTexCoordsBuffer = 0;
+    GLuint gratingTexture = 0;
+    GLuint maskTexture = 0;
     
     float last_phase;
     

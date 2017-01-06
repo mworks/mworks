@@ -12,6 +12,9 @@
 #include "WhiteNoiseBackground.h"
 
 
+BEGIN_NAMESPACE_MW
+
+
 static const std::string STIMULUS("stimulus");
 
 
@@ -41,3 +44,6 @@ bool RandomizeBackground::execute() {
     background->randomizePixels();
     return true;
 }
+
+
+END_NAMESPACE_MW

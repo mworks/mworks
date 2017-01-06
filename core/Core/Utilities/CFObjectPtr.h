@@ -93,6 +93,10 @@ public:
         return _ref;
     }
     
+    void reset() {
+        (*this) = ObjectPtr();
+    }
+    
     explicit operator bool() const noexcept {
         return ref;
     }

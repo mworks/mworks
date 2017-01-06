@@ -30,15 +30,31 @@ std::string OpenGLException::formatMessage(std::string message, GLenum error) {
 BEGIN_NAMESPACE(gl)
 
 
-GLuint createShader(GLenum shaderType, const std::string &shaderSource) {
+namespace {
+    const std::string defaultGLSLVersion
+    (
+#if TARGET_OS_IPHONE
+     "300 es"
+#else
+     "330"
+#endif
+    );
+}
+
+
+Shader createShader(GLenum shaderType, const std::string &shaderSource) {
+    return createShader(shaderType, defaultGLSLVersion, shaderSource);
+}
+
+
+Shader createShader(GLenum shaderType, const std::string &glslVersion, const std::string &shaderSource) {
     Shader shader(glCreateShader(shaderType));
     if (!shader) {
         throw OpenGLException("Shader creation failed", glGetError());
     }
     
-    const GLchar *string = shaderSource.data();
-    const GLint length = GLint(shaderSource.size());
-    glShaderSource(shader.get(), 1, &string, &length);
+    const std::array<const GLchar *, 4> strings = { "#version ", glslVersion.data(), "\n", shaderSource.data() };
+    glShaderSource(shader.get(), strings.size(), strings.data(), nullptr);
     glCompileShader(shader.get());
     
     GLint infoLogLength;
@@ -57,11 +73,11 @@ GLuint createShader(GLenum shaderType, const std::string &shaderSource) {
         throw OpenGLException("Shader compilation failed");
     }
     
-    return shader.release();
+    return std::move(shader);
 }
 
 
-GLuint createProgram(const std::vector<GLuint> &shaders) {
+Program createProgram(const std::vector<GLuint> &shaders) {
     Program program(glCreateProgram());
     if (!program) {
         throw OpenGLException("Program creation failed", glGetError());
@@ -93,7 +109,7 @@ GLuint createProgram(const std::vector<GLuint> &shaders) {
         throw OpenGLException("Program linking failed");
     }
     
-    return program.release();
+    return std::move(program);
 }
 
 

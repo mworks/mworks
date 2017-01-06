@@ -29,23 +29,27 @@ public:
     explicit VideoStimulus(const ParameterValueMap &parameters);
     ~VideoStimulus();
     
-    void load(boost::shared_ptr<StimulusDisplay> display) override;
-    void unload(boost::shared_ptr<StimulusDisplay> display) override;
     bool needDraw(boost::shared_ptr<StimulusDisplay> display) override;
     Datum getCurrentAnnounceDrawData() override;
     
 private:
+    gl::Shader getVertexShader() const override;
+    gl::Shader getFragmentShader() const override;
+    
+    void prepare(const boost::shared_ptr<StimulusDisplay> &display) override;
+    void destroy(const boost::shared_ptr<StimulusDisplay> &display) override;
+    void preDraw(const boost::shared_ptr<StimulusDisplay> &display) override;
+    void postDraw(const boost::shared_ptr<StimulusDisplay> &display) override;
+    
     void startPlaying() override;
     void stopPlaying() override;
     void beginPause() override;
     void endPause() override;
     
     void drawFrame(boost::shared_ptr<StimulusDisplay> display) override;
-    void drawInUnitSquare(boost::shared_ptr<StimulusDisplay> display) override;
     
     bool checkForNewPixelBuffer(const boost::shared_ptr<StimulusDisplay> &display);
-    bool prepareTexture(int currentContextIndex);
-    
+    bool bindTexture();
     void handleVideoEnded();
     
     const boost::filesystem::path filePath;
@@ -64,19 +68,22 @@ private:
     bool didDrawAfterEnding;
     
     using CVOpenGLTextureCachePtr = cf::ObjectPtr<CVOpenGLTextureCacheRef>;
-    std::map<int, CVOpenGLTextureCachePtr> textureCache;
+    CVOpenGLTextureCachePtr textureCache;
     
     using CVPixelBufferPtr = cf::ObjectPtr<CVPixelBufferRef>;
     CVPixelBufferPtr pixelBuffer;
     double aspectRatio;
     
     using CVOpenGLTexturePtr = cf::ObjectPtr<CVOpenGLTextureRef>;
-    std::map<int, CVOpenGLTexturePtr> texture;
+    CVOpenGLTexturePtr texture;
+    GLenum textureTarget;
+    GLuint textureName;
     
-    static constexpr std::size_t numVertices = 4;
-    static constexpr std::size_t numCoordsPerVertex = 2;
-    std::array<GLdouble, numVertices*numCoordsPerVertex> vertexCoords;
-    std::map<int, std::array<GLfloat, numVertices*numCoordsPerVertex>> textureCoords;
+    GLint alphaUniformLocation = -1;
+    GLint videoTextureUniformLocation = -1;
+    GLint videoTextureRectUniformLocation = -1;
+    GLint useTextureRectUniformLocation = -1;
+    GLuint texCoordsBuffer = 0;
     
 };
 

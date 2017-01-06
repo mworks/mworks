@@ -204,6 +204,7 @@ int OpenGLContextManager::newMirrorContext(){
     
     NSOpenGLPixelFormatAttribute attrs[] =
     {
+        NSOpenGLPFAOpenGLProfile, NSOpenGLProfileVersion3_2Core,
         NSOpenGLPFADoubleBuffer,
         0
     };
@@ -218,6 +219,9 @@ int OpenGLContextManager::newMirrorContext(){
     
     GLint swap_int = 1;
     [opengl_context setValues: &swap_int forParameter: NSOpenGLCPSwapInterval];
+    
+    // Crash on calls to functions removed from the core profile
+    CGLEnable(opengl_context.CGLContextObj, kCGLCECrashOnRemovedFunctions);
     
     // NOTE: As of OS X 10.11, performing window and view operations from a non-main thread causes issues
     dispatch_sync(dispatch_get_main_queue(), ^{
@@ -268,6 +272,7 @@ int OpenGLContextManager::newFullscreenContext(int screen_number){
     
     NSOpenGLPixelFormatAttribute attrs[] =
     {
+        NSOpenGLPFAOpenGLProfile, NSOpenGLProfileVersion3_2Core,
         NSOpenGLPFADoubleBuffer,
         0
     };
@@ -279,6 +284,8 @@ int OpenGLContextManager::newFullscreenContext(int screen_number){
     GLint swap_int = 1;
     [opengl_context setValues: &swap_int forParameter: NSOpenGLCPSwapInterval];
     
+    // Crash on calls to functions removed from the core profile
+    CGLEnable(opengl_context.CGLContextObj, kCGLCECrashOnRemovedFunctions);
     
     // NOTE: As of OS X 10.11, performing window and view operations from a non-main thread causes issues
     dispatch_sync(dispatch_get_main_queue(), ^{

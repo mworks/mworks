@@ -13,7 +13,6 @@
 #include <map>
 #include <vector>
 
-#include <OpenGL/gl.h>
 #include <CoreVideo/CVDisplayLink.h>
 
 #include <boost/noncopyable.hpp>
@@ -25,6 +24,7 @@
 #include "Clock.h"
 #include "LinkedList.h"
 #include "OpenGLContextLock.h"
+#include "OpenGLUtilities.hpp"
 
 
 BEGIN_NAMESPACE_MW
@@ -79,6 +79,7 @@ BEGIN_NAMESPACE_MW
         bool needDraw;
 		
 		GLdouble left, right, top, bottom; // display bounds
+        GLKMatrix4 projectionMatrix;
         GLclampf backgroundRed, backgroundGreen, backgroundBlue;  // background color
         
         shared_ptr<VariableCallbackNotification> stateSystemNotification;
@@ -152,6 +153,7 @@ BEGIN_NAMESPACE_MW
 		MWTime updateDisplay();
 		void clearDisplay();
         void getDisplayBounds(GLdouble &left, GLdouble &right, GLdouble &bottom, GLdouble &top);
+        const GLKMatrix4& getProjectionMatrix() const { return projectionMatrix; }
         double getMainDisplayRefreshRate() const { return mainDisplayRefreshRate; }
         const CVTimeStamp& getCurrentOutputTimeStamp() const { return currentOutputTimeStamp; }
         MWTime getCurrentOutputTimeUS() const { return currentOutputTimeUS; }

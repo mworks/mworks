@@ -35,8 +35,7 @@
 #include "ExpandableList.h"
 #include "Announcers.h"
 #include "FreezableVariableContainer.h"
-
-#include <OpenGL/gl.h>
+#include "OpenGLUtilities.hpp"
 
 
 BEGIN_NAMESPACE_MW
