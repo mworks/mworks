@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<monkeyml version="1.0">
+    <io_devices tag="IO Devices">
+        <iodevice type="stimulus_display" tag="Stimulus Display" background_color="0, 0, 0" announce_stimuli_on_implicit_updates="YES"></iodevice>
+    </io_devices>
+    <variables tag="Variables"></variables>
+    <sounds tag="Sounds"></sounds>
+    <stimuli tag="Stimuli">
+        <stimulus type="blank_screen" tag="bg1" color="1,0,0"></stimulus>
+        <stimulus type="blank_screen" tag="bg2" color="0,1,0"></stimulus>
+        <stimulus type="blank_screen" tag="bg3" color="0,0,1"></stimulus>
+    </stimuli>
+    <filters tag="Filters"></filters>
+    <optimizers tag="Optimizers"></optimizers>
+    <experiment tag="New Experiment" full_name="" description="">
+        <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
+            <action type="report" tag="Report" message="Screen should be black"></action>
+            <action type="wait" tag="Wait" duration="2" duration_units="s"></action>
+            <action tag="Queue bg1" type="queue_stimulus" stimulus="bg1"></action>
+            <action tag="Update display" type="update_stimulus_display" predicted_output_time=""></action>
+            <action type="report" tag="Report" message="Screen should be red"></action>
+            <action type="wait" tag="Wait" duration="2" duration_units="s"></action>
+            <action tag="Queue bg2" type="queue_stimulus" stimulus="bg2"></action>
+            <action tag="Update display" type="update_stimulus_display" predicted_output_time=""></action>
+            <action type="report" tag="Report" message="Screen should be green"></action>
+            <action type="wait" tag="Wait" duration="2" duration_units="s"></action>
+            <action tag="Queue bg3" type="queue_stimulus" stimulus="bg3"></action>
+            <action tag="Update display" type="update_stimulus_display" predicted_output_time=""></action>
+            <action type="report" tag="Report" message="Screen should be blue"></action>
+            <action type="wait" tag="Wait" duration="2" duration_units="s"></action>
+            <action tag="Dequeue bg3" type="dequeue_stimulus" stimulus="bg3"></action>
+            <action tag="Update display" type="update_stimulus_display" predicted_output_time=""></action>
+            <action type="report" tag="Report" message="Screen should be green"></action>
+            <action type="wait" tag="Wait" duration="2" duration_units="s"></action>
+            <action tag="Dequeue bg2" type="dequeue_stimulus" stimulus="bg2"></action>
+            <action tag="Update display" type="update_stimulus_display" predicted_output_time=""></action>
+            <action type="report" tag="Report" message="Screen should be red"></action>
+            <action type="wait" tag="Wait" duration="2" duration_units="s"></action>
+            <action tag="Dequeue bg1" type="dequeue_stimulus" stimulus="bg1"></action>
+            <action tag="Update display" type="update_stimulus_display" predicted_output_time=""></action>
+            <action type="report" tag="Report" message="Screen should be black"></action>
+            <action type="wait" tag="Wait" duration="2" duration_units="s"></action>
+        </protocol>
+    </experiment>
+</monkeyml>
