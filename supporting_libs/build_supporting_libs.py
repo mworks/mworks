@@ -275,66 +275,6 @@ def msgpack():
 
 
 @builder
-def libpng():
-    version = '1.2.57'
-    srcdir = 'libpng-' + version
-    tarfile = srcdir + '.tar.gz'
-
-    download_archive_from_sf('libpng/libpng12', version, tarfile)
-    unpack_tarfile(tarfile, srcdir)
-
-    run_configure_and_make(srcdir)
-
-
-@builder
-def jpeg():
-    version = '9b'
-    srcdir = 'jpeg-' + version
-    tarfile = 'jpegsrc.v%s.tar.gz' % version
-
-    download_archive('http://www.ijg.org/files/', tarfile)
-    unpack_tarfile(tarfile, srcdir)
-
-    run_configure_and_make(srcdir)
-
-
-@builder
-def tiff():
-    version = '3.9.7'
-    srcdir = 'tiff-' + version
-    tarfile = srcdir + '.tar.gz'
-
-    download_archive('http://download.osgeo.org/libtiff/', tarfile)
-    unpack_tarfile(tarfile, srcdir)
-
-    run_configure_and_make(
-        srcdir = srcdir,
-        extra_args = ['--disable-cxx', '--with-apple-opengl-framework'],
-        )
-
-
-@builder
-def devil():
-    version = '1.7.8'
-    srcdir = 'devil-' + version
-    tarfile = 'DevIL-%s.tar.gz' % version
-
-    download_archive_from_sf('openil/DevIL', version, tarfile)
-    unpack_tarfile(tarfile, srcdir)
-
-    run_configure_and_make(
-        srcdir = srcdir,
-        extra_args = ['--enable-ILU', '--enable-ILUT', '--disable-exr',
-                      '--disable-lcms', '--disable-mng', '--disable-utx',
-                      '--without-squish', '--without-nvtt'],
-        extra_compile_flags = ('-I%s/usr/include/malloc -I%s/include' %
-                               (os.environ['SDKROOT'], path_to_stagedir)),
-        extra_cflags = '-std=gnu89',
-        extra_ldflags = ('-L%s/lib' % path_to_stagedir),
-        )
-
-
-@builder
 def cppunit():
     version = '1.13.2'
     srcdir = 'cppunit-' + version

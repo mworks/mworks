@@ -386,6 +386,10 @@
 		E13464E81D4BA32B00E4CF08 /* MessagePackAdaptorTests.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E13464E61D4BA32B00E4CF08 /* MessagePackAdaptorTests.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
 		E13464EB1D4BD8B200E4CF08 /* ZeroMQConnection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E13464E91D4BD8B200E4CF08 /* ZeroMQConnection.cpp */; };
 		E13464EC1D4BD8B200E4CF08 /* ZeroMQConnection.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E13464EA1D4BD8B200E4CF08 /* ZeroMQConnection.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
+		E13B07EE1E2929590071347C /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = E13B07ED1E2929590071347C /* libxml2.tbd */; };
+		E13B07F01E2929620071347C /* libxslt.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = E13B07EF1E2929620071347C /* libxslt.tbd */; };
+		E13B07F11E292A040071347C /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = E13B07ED1E2929590071347C /* libxml2.tbd */; };
+		E13B07F21E292A0A0071347C /* libxslt.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = E13B07EF1E2929620071347C /* libxslt.tbd */; };
 		E13BD56812130E6800DF5C02 /* StandardDynamicStimulus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E13BD56612130E6800DF5C02 /* StandardDynamicStimulus.cpp */; };
 		E13BD56912130E6800DF5C02 /* StandardDynamicStimulus.h in Headers */ = {isa = PBXBuildFile; fileRef = E13BD56712130E6800DF5C02 /* StandardDynamicStimulus.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1457B4E14D08F7E004D3AD5 /* MWorksCoreTestMain.h in Headers */ = {isa = PBXBuildFile; fileRef = E1457B4D14D08F7E004D3AD5 /* MWorksCoreTestMain.h */; };
@@ -442,16 +446,7 @@
 		E1DB975B16C16C8D001481E9 /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB975A16C16C8D001481E9 /* libboost_system.a */; };
 		E1DB975E16C16CA2001481E9 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB975C16C16CA1001481E9 /* OpenAL.framework */; };
 		E1DB975F16C16CA2001481E9 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB975D16C16CA1001481E9 /* OpenGL.framework */; };
-		E1DB976316C16CBC001481E9 /* libIL.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB976016C16CBC001481E9 /* libIL.a */; };
-		E1DB976416C16CBC001481E9 /* libILU.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB976116C16CBC001481E9 /* libILU.a */; };
-		E1DB976516C16CBC001481E9 /* libILUT.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB976216C16CBC001481E9 /* libILUT.a */; };
 		E1DB976716C16CC9001481E9 /* libscarab.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB976616C16CC9001481E9 /* libscarab.a */; };
-		E1DB976916C16CD4001481E9 /* libtiff.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB976816C16CD4001481E9 /* libtiff.a */; };
-		E1DB976B16C16CDA001481E9 /* libjpeg.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB976A16C16CD9001481E9 /* libjpeg.a */; };
-		E1DB976D16C16CEC001481E9 /* libpng.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB976C16C16CEC001481E9 /* libpng.a */; };
-		E1DB976F16C16D02001481E9 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB976E16C16D02001481E9 /* libz.dylib */; };
-		E1DB977216C16D19001481E9 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB977016C16D18001481E9 /* libxml2.dylib */; };
-		E1DB977316C16D19001481E9 /* libxslt.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB977116C16D18001481E9 /* libxslt.dylib */; };
 		E1DB977B16C18DA6001481E9 /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA2CE0D407E9F68100C68AEF /* MWorksCore.framework */; };
 		E1DB977C16C18DA9001481E9 /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB975A16C16C8D001481E9 /* libboost_system.a */; };
 		E1DB977D16C18E01001481E9 /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA2CE0D407E9F68100C68AEF /* MWorksCore.framework */; };
@@ -467,8 +462,6 @@
 		E1DB978816C1933D001481E9 /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA2CE0D407E9F68100C68AEF /* MWorksCore.framework */; };
 		E1DB978916C19340001481E9 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB974C16C16C30001481E9 /* AppKit.framework */; };
 		E1DB978A16C19344001481E9 /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB975A16C16C8D001481E9 /* libboost_system.a */; };
-		E1DB978B16C1934E001481E9 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB977016C16D18001481E9 /* libxml2.dylib */; };
-		E1DB978C16C19351001481E9 /* libxslt.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB977116C16D18001481E9 /* libxslt.dylib */; };
 		E1DC75081D259C1700D9BC19 /* SerialPort.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1DC75061D259C1700D9BC19 /* SerialPort.cpp */; };
 		E1DC75091D259C1700D9BC19 /* SerialPort.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E1DC75071D259C1700D9BC19 /* SerialPort.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1F65DF9119086A100F9A3A3 /* IODevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1F65DF8119086A100F9A3A3 /* IODevice.cpp */; };
@@ -1000,6 +993,8 @@
 		E13464E61D4BA32B00E4CF08 /* MessagePackAdaptorTests.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MessagePackAdaptorTests.hpp; sourceTree = "<group>"; };
 		E13464E91D4BD8B200E4CF08 /* ZeroMQConnection.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ZeroMQConnection.cpp; sourceTree = "<group>"; };
 		E13464EA1D4BD8B200E4CF08 /* ZeroMQConnection.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ZeroMQConnection.hpp; sourceTree = "<group>"; };
+		E13B07ED1E2929590071347C /* libxml2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.tbd; path = usr/lib/libxml2.tbd; sourceTree = SDKROOT; };
+		E13B07EF1E2929620071347C /* libxslt.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxslt.tbd; path = usr/lib/libxslt.tbd; sourceTree = SDKROOT; };
 		E13BD56612130E6800DF5C02 /* StandardDynamicStimulus.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StandardDynamicStimulus.cpp; sourceTree = "<group>"; };
 		E13BD56712130E6800DF5C02 /* StandardDynamicStimulus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StandardDynamicStimulus.h; sourceTree = "<group>"; };
 		E1457B4D14D08F7E004D3AD5 /* MWorksCoreTestMain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWorksCoreTestMain.h; sourceTree = "<group>"; };
@@ -1045,16 +1040,7 @@
 		E1DB975A16C16C8D001481E9 /* libboost_system.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_system.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_system.a"; sourceTree = "<absolute>"; };
 		E1DB975C16C16CA1001481E9 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
 		E1DB975D16C16CA1001481E9 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
-		E1DB976016C16CBC001481E9 /* libIL.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libIL.a; path = "/Library/Application Support/MWorks/Developer/lib/libIL.a"; sourceTree = "<absolute>"; };
-		E1DB976116C16CBC001481E9 /* libILU.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libILU.a; path = "/Library/Application Support/MWorks/Developer/lib/libILU.a"; sourceTree = "<absolute>"; };
-		E1DB976216C16CBC001481E9 /* libILUT.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libILUT.a; path = "/Library/Application Support/MWorks/Developer/lib/libILUT.a"; sourceTree = "<absolute>"; };
 		E1DB976616C16CC9001481E9 /* libscarab.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libscarab.a; path = "/Library/Application Support/MWorks/Developer/lib/libscarab.a"; sourceTree = "<absolute>"; };
-		E1DB976816C16CD4001481E9 /* libtiff.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libtiff.a; path = "/Library/Application Support/MWorks/Developer/lib/libtiff.a"; sourceTree = "<absolute>"; };
-		E1DB976A16C16CD9001481E9 /* libjpeg.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libjpeg.a; path = "/Library/Application Support/MWorks/Developer/lib/libjpeg.a"; sourceTree = "<absolute>"; };
-		E1DB976C16C16CEC001481E9 /* libpng.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libpng.a; path = "/Library/Application Support/MWorks/Developer/lib/libpng.a"; sourceTree = "<absolute>"; };
-		E1DB976E16C16D02001481E9 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
-		E1DB977016C16D18001481E9 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
-		E1DB977116C16D18001481E9 /* libxslt.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxslt.dylib; path = usr/lib/libxslt.dylib; sourceTree = SDKROOT; };
 		E1DB977716C17068001481E9 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = System/Library/Frameworks/CoreServices.framework; sourceTree = SDKROOT; };
 		E1DB978516C18FE0001481E9 /* libcppunit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcppunit.a; path = "/Library/Application Support/MWorks/Developer/lib/libcppunit.a"; sourceTree = "<absolute>"; };
 		E1DC75061D259C1700D9BC19 /* SerialPort.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SerialPort.cpp; path = Core/Utilities/SerialPort.cpp; sourceTree = "<group>"; };
@@ -1071,8 +1057,8 @@
 				E1DB978916C19340001481E9 /* AppKit.framework in Frameworks */,
 				E1D97A9816CD3C4700E517DF /* IOKit.framework in Frameworks */,
 				E1DB978A16C19344001481E9 /* libboost_system.a in Frameworks */,
-				E1DB978B16C1934E001481E9 /* libxml2.dylib in Frameworks */,
-				E1DB978C16C19351001481E9 /* libxslt.dylib in Frameworks */,
+				E13B07F11E292A040071347C /* libxml2.tbd in Frameworks */,
+				E13B07F21E292A0A0071347C /* libxslt.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1136,21 +1122,14 @@
 				E1DB974F16C16C3F001481E9 /* IOKit.framework in Frameworks */,
 				E1DB975E16C16CA2001481E9 /* OpenAL.framework in Frameworks */,
 				E1DB975F16C16CA2001481E9 /* OpenGL.framework in Frameworks */,
-				E1DB977216C16D19001481E9 /* libxml2.dylib in Frameworks */,
-				E1DB977316C16D19001481E9 /* libxslt.dylib in Frameworks */,
-				E1DB976F16C16D02001481E9 /* libz.dylib in Frameworks */,
 				E1DB975316C16C65001481E9 /* libboost_filesystem.a in Frameworks */,
 				E1DB975516C16C73001481E9 /* libboost_regex.a in Frameworks */,
 				E1DB975916C16C89001481E9 /* libboost_serialization.a in Frameworks */,
 				E1DB975716C16C7F001481E9 /* libboost_thread.a in Frameworks */,
 				E1DB975B16C16C8D001481E9 /* libboost_system.a in Frameworks */,
-				E1DB976316C16CBC001481E9 /* libIL.a in Frameworks */,
-				E1DB976416C16CBC001481E9 /* libILU.a in Frameworks */,
-				E1DB976516C16CBC001481E9 /* libILUT.a in Frameworks */,
-				E1DB976B16C16CDA001481E9 /* libjpeg.a in Frameworks */,
-				E1DB976D16C16CEC001481E9 /* libpng.a in Frameworks */,
 				E1DB976716C16CC9001481E9 /* libscarab.a in Frameworks */,
-				E1DB976916C16CD4001481E9 /* libtiff.a in Frameworks */,
+				E13B07EE1E2929590071347C /* libxml2.tbd in Frameworks */,
+				E13B07F01E2929620071347C /* libxslt.tbd in Frameworks */,
 				E188BE8D1D47B5D00001483A /* libzmq.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2120,9 +2099,8 @@
 				E1DB974E16C16C3F001481E9 /* IOKit.framework */,
 				E1DB975C16C16CA1001481E9 /* OpenAL.framework */,
 				E1DB975D16C16CA1001481E9 /* OpenGL.framework */,
-				E1DB977016C16D18001481E9 /* libxml2.dylib */,
-				E1DB977116C16D18001481E9 /* libxslt.dylib */,
-				E1DB976E16C16D02001481E9 /* libz.dylib */,
+				E13B07ED1E2929590071347C /* libxml2.tbd */,
+				E13B07EF1E2929620071347C /* libxslt.tbd */,
 			);
 			name = System;
 			sourceTree = "<group>";
@@ -2136,13 +2114,7 @@
 				E1DB975A16C16C8D001481E9 /* libboost_system.a */,
 				E1DB975616C16C7F001481E9 /* libboost_thread.a */,
 				E1DB978516C18FE0001481E9 /* libcppunit.a */,
-				E1DB976016C16CBC001481E9 /* libIL.a */,
-				E1DB976116C16CBC001481E9 /* libILU.a */,
-				E1DB976216C16CBC001481E9 /* libILUT.a */,
-				E1DB976A16C16CD9001481E9 /* libjpeg.a */,
-				E1DB976C16C16CEC001481E9 /* libpng.a */,
 				E1DB976616C16CC9001481E9 /* libscarab.a */,
-				E1DB976816C16CD4001481E9 /* libtiff.a */,
 				E188BE8C1D47B5D00001483A /* libzmq.a */,
 			);
 			name = Project;
