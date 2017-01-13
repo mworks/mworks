@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<monkeyml version="1.0">
+    <io_devices tag="IO Devices"></io_devices>
+    <variables tag="Variables">
+        <variable tag="ended" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="0" type="any"></variable>
+    </variables>
+    <sounds tag="Sounds"></sounds>
+    <stimuli tag="Stimuli">
+        <stimulus type="blank_screen" tag="bg" color="0,0,0"></stimulus>
+        <stimulus type="video" tag="video" path="slide.mp4" volume="1.0" loop="YES" repeats="0" ended="ended" x_size="15" y_size="15" x_position="0.0" y_position="0.0" rotation="0.0" alpha_multiplier="1.0" autoplay="YES"></stimulus>
+    </stimuli>
+    <filters tag="Filters"></filters>
+    <optimizers tag="Optimizers"></optimizers>
+    <experiment tag="New Experiment" full_name="" description="">
+        <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
+            <action type="assignment" tag="Reset ended" variable="ended" value="false"></action>
+            <action tag="Queue bg" type="queue_stimulus" stimulus="bg"></action>
+            <action tag="Queue video" type="queue_stimulus" stimulus="video"></action>
+            <action tag="Update display" type="update_stimulus_display" predicted_output_time=""></action>
+            <action type="wait" tag="Wait" duration="12" duration_units="s"></action>
+            <action type="assert" tag="Assert not ended" condition="!ended" message="&quot;ended&quot; is set" stop_on_failure="YES"></action>
+        </protocol>
+    </experiment>
+</monkeyml>

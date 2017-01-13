@@ -1,0 +1,30 @@
+---
+
+
+name: Text Stimulus
+signature: stimulus/text
+isa: Colored Transform Stimulus
+description: >
+    A stimulus that renders user-specified text within a rectangular region
+parameters: 
+  - 
+    name: text
+    required: yes
+    example:
+      - Hello, world!
+      - '"Good morning"'
+    description: Text to display
+  - 
+    name: font_name
+    required: yes
+    example:
+      - Helvetica Neue
+      - '"Courier"'
+    description: Font name
+  - 
+    name: font_size
+    required: yes
+    example: 24
+    description: Font size (points)
+
+

@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<monkeyml version="1.0">
+    <io_devices tag="IO Devices"></io_devices>
+    <variables tag="Variables"></variables>
+    <sounds tag="Sounds"></sounds>
+    <stimuli tag="Stimuli">
+        <stimulus type="video" tag="video" path="not_a_video_file.mp4" volume="0.0" loop="NO" repeats="0" ended="" x_size="5" y_size="5" x_position="0.0" y_position="0.0" rotation="0.0" alpha_multiplier="1.0" autoplay="YES"></stimulus>
+    </stimuli>
+    <filters tag="Filters"></filters>
+    <optimizers tag="Optimizers"></optimizers>
+    <experiment tag="New Experiment" full_name="" description="">
+        <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
+            <action type="report" tag="Report" message="Nothing to see here"></action>
+        </protocol>
+    </experiment>
+</monkeyml>

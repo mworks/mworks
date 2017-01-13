@@ -1,0 +1,47 @@
+<?xml version="1.0" standalone="no"?>
+<monkeyml version="1.0">
+    <io_devices tag="IO Devices"></io_devices>
+    <variables tag="Variables">
+        <variable tag="x_size" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="5" type="any"></variable>
+        <variable tag="y_size" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="5" type="any"></variable>
+        <variable tag="x_pos" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="-5" type="any"></variable>
+        <variable tag="y_pos" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="-5" type="any"></variable>
+        <variable tag="rotation" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="0" type="any"></variable>
+        <variable tag="alpha" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="1" type="any"></variable>
+    </variables>
+    <sounds tag="Sounds"></sounds>
+    <stimuli tag="Stimuli">
+        <stimulus type="video" tag="video" path="slide.mp4" volume="0" loop="YES" repeats="0" ended="" x_size="x_size" y_size="y_size" x_position="x_pos" y_position="y_pos" rotation="rotation" alpha_multiplier="alpha" autoplay="YES"></stimulus>
+    </stimuli>
+    <filters tag="Filters"></filters>
+    <optimizers tag="Optimizers"></optimizers>
+    <experiment tag="New Experiment" full_name="" description="">
+        <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
+            <action tag="Live queue video" type="live_queue_stimulus" stimulus="video"></action>
+            <action tag="Update display" type="update_stimulus_display" predicted_output_time=""></action>
+            <action type="wait" tag="Wait" duration="1.0" duration_units="s"></action>
+            <action type="assignment" tag="Change x_size" variable="x_size" value="10"></action>
+            <action tag="Update display" type="update_stimulus_display" predicted_output_time=""></action>
+            <action type="wait" tag="Wait" duration="1.0" duration_units="s"></action>
+            <action type="assignment" tag="Revert x_size" variable="x_size" value="5"></action>
+            <action type="assignment" tag="Change y_size" variable="y_size" value="10"></action>
+            <action tag="Update display" type="update_stimulus_display" predicted_output_time=""></action>
+            <action type="wait" tag="Wait" duration="1.0" duration_units="s"></action>
+            <action type="assignment" tag="Change x_size again" variable="x_size" value="10"></action>
+            <action tag="Update display" type="update_stimulus_display" predicted_output_time=""></action>
+            <action type="wait" tag="Wait" duration="1.0" duration_units="s"></action>
+            <action type="assignment" tag="Change x_pos" variable="x_pos" value="5"></action>
+            <action tag="Update display" type="update_stimulus_display" predicted_output_time=""></action>
+            <action type="wait" tag="Wait" duration="1.0" duration_units="s"></action>
+            <action type="assignment" tag="Change y_pos" variable="y_pos" value="5"></action>
+            <action tag="Update display" type="update_stimulus_display" predicted_output_time=""></action>
+            <action type="wait" tag="Wait" duration="1.0" duration_units="s"></action>
+            <action type="assignment" tag="Change rotation" variable="rotation" value="45"></action>
+            <action tag="Update display" type="update_stimulus_display" predicted_output_time=""></action>
+            <action type="wait" tag="Wait" duration="1.0" duration_units="s"></action>
+            <action type="assignment" tag="Change alpha" variable="alpha" value="0.2"></action>
+            <action tag="Update display" type="update_stimulus_display" predicted_output_time=""></action>
+            <action type="wait" tag="Wait" duration="1.0" duration_units="s"></action>
+        </protocol>
+    </experiment>
+</monkeyml>

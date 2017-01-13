@@ -1,0 +1,49 @@
+---
+
+
+name: Video Stimulus
+signature: stimulus/video
+isa: [Basic Transform Stimulus, Dynamic Stimulus Base]
+description: |
+    A stimulus that plays a video stored in any `video file format
+    <https://en.wikipedia.org/wiki/Video_file_format>`_ supported by the
+    operating system.
+
+    *Note*:  To preserve the video's aspect ratio on screen, `x_size`_ and
+    `y_size`_ must be equal.  When drawn, the larger dimension spans the full
+    specified size, while the smaller dimension is scaled to maintain the
+    aspect ratio.
+parameters: 
+  - 
+    name: path
+    required: yes
+    description: Filesystem path to the video file
+  - 
+    name: volume
+    default: 0.0
+    description: >
+        Output audio volume (floating-point value between 0 and 1, where 0 is
+        muted and 1 is full system volume)
+  - 
+    name: loop
+    default: 'NO'
+    description: >
+        If ``YES``, the video will repeat indefinitely (or until `Stop Dynamic
+        Stimulus` is invoked)
+  - 
+    name: repeats
+    default: 0
+    description: |
+        Number of times to repeat the video.  Note that the video will always
+        play at least once, even if this value is less than one.
+
+        If `loop`_ is ``YES``, this parameter is ignored.
+  - 
+    name: ended
+    description: >
+        Variable that will be set to true after the video ends.  If `repeats`_
+        is greater than 1, the variable will be set only once, after all
+        repetitions are complete.  If `loop`_ is ``YES``, the variable will
+        never be set.
+
+

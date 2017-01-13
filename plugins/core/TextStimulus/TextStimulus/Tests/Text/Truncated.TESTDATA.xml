@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<marionette_info>
+  <expected_messages>
+    <message type="whole_message">WARNING: Text for stimulus "text" does not fit within the specified region and will be truncated</message>
+  </expected_messages>
+</marionette_info>

@@ -1,0 +1,29 @@
+<MWElements>
+  <MWElement name="Video Stimulus">
+    <match_signature>stimulus[@type="video"]</match_signature>
+    
+    <isa>Stimulus</isa>
+    
+    <description>
+A stimulus that plays a video stored in any video file format supported by the operating system
+    </description>
+    
+    <!-- Payload -->
+    <code>
+      <stimulus type="video"
+          tag="New Video"
+          path=""
+          volume="0.0"
+          loop="NO"
+          repeats="0"
+          ended=""
+          x_size=""
+          y_size=""
+          x_position="0.0"
+          y_position="0.0"
+          rotation="0.0"
+          alpha_multiplier="1.0"
+          autoplay="YES"/>
+    </code>
+  </MWElement>
+</MWElements>

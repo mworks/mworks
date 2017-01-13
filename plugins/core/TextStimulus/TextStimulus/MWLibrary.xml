@@ -1,0 +1,27 @@
+<MWElements>
+  <MWElement name="Text Stimulus">
+    <match_signature>stimulus[@type="text"]</match_signature>
+    
+    <isa>Stimulus</isa>
+    
+    <description>
+A stimulus that renders user-specified text within a rectangular region
+    </description>
+    
+    <!-- Payload -->
+    <code>
+      <stimulus type="text"
+          tag="New Text"
+          text=""
+          font_name=""
+          font_size=""
+          color="1,1,1"
+          x_size=""
+          y_size=""
+          x_position=""
+          y_position=""
+          rotation=""
+          alpha_multiplier=""/>
+    </code>
+  </MWElement>
+</MWElements>

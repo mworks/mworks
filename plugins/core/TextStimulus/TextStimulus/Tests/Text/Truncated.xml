@@ -1,0 +1,18 @@
+<?xml version="1.0" standalone="no"?>
+<monkeyml version="1.0">
+    <io_devices tag="IO Devices"></io_devices>
+    <variables tag="Variables"></variables>
+    <sounds tag="Sounds"></sounds>
+    <stimuli tag="Stimuli">
+        <stimulus type="text" tag="text" text="Hello, world! It's so nice to see you today!" font_name="Courier" font_size="96" color="1,0,0" x_size="10" y_size="5" x_position="0" y_position="0" rotation="0" alpha_multiplier="1"></stimulus>
+    </stimuli>
+    <filters tag="Filters"></filters>
+    <optimizers tag="Optimizers"></optimizers>
+    <experiment tag="New Experiment" full_name="" description="">
+        <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
+            <action tag="Queue Stimulus" type="queue_stimulus" stimulus="text"></action>
+            <action tag="Update Stimulus Display" type="update_stimulus_display" predicted_output_time=""></action>
+            <action type="wait" tag="Wait" duration="5" duration_units="s"></action>
+        </protocol>
+    </experiment>
+</monkeyml>

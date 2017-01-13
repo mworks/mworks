@@ -1,0 +1,25 @@
+//
+//  TextStimulus-Prefix.pch
+//  TextStimulus
+//
+//  Created by Christopher Stawarz on 9/12/16.
+//  Copyright © 2016 The MWorks Project. All rights reserved.
+//
+
+#ifndef TextStimulus_Prefix_pch
+#define TextStimulus_Prefix_pch
+
+#include <CoreGraphics/CoreGraphics.h>
+#include <CoreText/CoreText.h>
+
+#ifdef __cplusplus
+
+#include <MWorksCore/CFObjectPtr.h>
+#include <MWorksCore/OpenGLContextManager.h>
+#include <MWorksCore/Plugin.h>
+#include <MWorksCore/StandardStimuli.h>
+#include <MWorksCore/StandardStimulusFactory.h>
+
+#endif /* defined(__cplusplus) */
+
+#endif /* TextStimulus_Prefix_pch */
