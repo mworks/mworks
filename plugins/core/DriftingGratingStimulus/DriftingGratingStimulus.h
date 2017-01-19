@@ -13,34 +13,12 @@
 #include "Mask.h"
 #include "GratingData.h"
 
-using namespace mw;
+
+BEGIN_NAMESPACE_MW
 
 
 class DriftingGratingStimulus : public StandardDynamicStimulus {
-
-private:
-	shared_ptr<Variable> xoffset;
-	shared_ptr<Variable> yoffset;
-	
-	shared_ptr<Variable> width;
-	shared_ptr<Variable> height;
-	
-	shared_ptr<Variable> rotation; // planar rotation added in for free
-	shared_ptr<Variable> alpha_multiplier;
-	
-	shared_ptr<Variable> direction_in_degrees;
-	shared_ptr<Variable> spatial_frequency;
-	shared_ptr<Variable> speed;
-	shared_ptr<Variable> starting_phase;
-	
-	shared_ptr<Mask> mask;
-	shared_ptr<GratingData> grating;
-	
-	vector<GLuint> mask_textures;
-	vector<GLuint> grating_textures;
     
-	float last_phase;
-
 public:
     static const std::string DIRECTION;
     static const std::string STARTING_PHASE;
@@ -57,14 +35,38 @@ public:
     
     explicit DriftingGratingStimulus(const ParameterValueMap &parameters);
     
-	virtual ~DriftingGratingStimulus() { }
-
-	virtual void load(shared_ptr<StimulusDisplay> display);
-	virtual void unload(shared_ptr<StimulusDisplay> display);
-    virtual void drawFrame(shared_ptr<StimulusDisplay> display);
-	virtual Datum getCurrentAnnounceDrawData();
-
+    void load(shared_ptr<StimulusDisplay> display) override;
+    void unload(shared_ptr<StimulusDisplay> display) override;
+    void drawFrame(shared_ptr<StimulusDisplay> display) override;
+    Datum getCurrentAnnounceDrawData() override;
+    
+private:
+    shared_ptr<Variable> xoffset;
+    shared_ptr<Variable> yoffset;
+    
+    shared_ptr<Variable> width;
+    shared_ptr<Variable> height;
+    
+    shared_ptr<Variable> rotation;
+    shared_ptr<Variable> alpha_multiplier;
+    
+    shared_ptr<Variable> direction_in_degrees;
+    shared_ptr<Variable> spatial_frequency;
+    shared_ptr<Variable> speed;
+    shared_ptr<Variable> starting_phase;
+    
+    shared_ptr<Mask> mask;
+    shared_ptr<GratingData> grating;
+    
+    GLuint mask_texture;
+    GLuint grating_texture;
+    
+    float last_phase;
+    
 };
+
+
+END_NAMESPACE_MW
 
 
 #endif 

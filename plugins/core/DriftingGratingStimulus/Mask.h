@@ -13,7 +13,7 @@
 
 using namespace mw;
 
-#define M_MASK_CHANNELS 2
+#define M_MASK_CHANNELS 1
 
 class Mask {
 protected:

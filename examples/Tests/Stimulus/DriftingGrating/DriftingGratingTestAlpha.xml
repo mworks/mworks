@@ -10,7 +10,7 @@
     </variables>
     <sounds tag="Sounds" />
     <stimuli tag="Stimuli">
-        <stimulus color="0.5,0.5,0.5" tag="bg" type="blank_screen" />
+        <stimulus color="1,0,0" tag="bg" type="blank_screen" />
         <stimulus alpha_multiplier="1" direction="0" grating_type="sinusoid" mask="gaussian" mean="mean" rotation="0" spatial_frequency="1" speed="1" starting_phase="0" std_dev="std_dev" tag="left_dg" type="drifting_grating" x_position="-x_pos" x_size="size" y_position="0" y_size="size" />
         <stimulus alpha_multiplier="alpha" direction="0" grating_type="sinusoid" mask="gaussian" mean="mean" rotation="0" spatial_frequency="1" speed="1" starting_phase="0" std_dev="std_dev" tag="right_dg" type="drifting_grating" x_position="x_pos" x_size="size" y_position="0" y_size="size" />
     </stimuli>

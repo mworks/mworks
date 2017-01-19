@@ -9,17 +9,20 @@
 
 #include "DriftingGratingStimulus.h"
 
-using namespace mw;
+
+BEGIN_NAMESPACE_MW
 
 
 class DriftingGratingStimulusPlugin : public Plugin {
-    void registerComponents(shared_ptr<ComponentRegistry> registry) {
+    void registerComponents(shared_ptr<ComponentRegistry> registry) override {
         registry->registerFactory<StandardStimulusFactory, DriftingGratingStimulus>();
     }
 };
 
 
-MW_SYMBOL_PUBLIC
-extern "C" Plugin* getPlugin(){
+extern "C" Plugin* getPlugin() {
     return new DriftingGratingStimulusPlugin();
 }
+
+
+END_NAMESPACE_MW

@@ -10,7 +10,6 @@
 #include "Mask.h"
 #include "DriftingGratingUtilities.h"
 
-#include <algorithm>
 
 Mask::Mask(const shared_ptr<Variable> &_size) {
 	size=_size;

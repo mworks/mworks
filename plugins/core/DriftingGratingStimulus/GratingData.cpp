@@ -11,7 +11,6 @@
 #include "GratingData.h"
 #include "DriftingGratingUtilities.h"
 
-#include <algorithm>
 
 using namespace mw;
 
