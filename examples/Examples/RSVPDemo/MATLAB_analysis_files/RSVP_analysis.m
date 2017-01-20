@@ -12,7 +12,7 @@ codecs=getCodecs(filename);
 
 % get the codec codes for the '#stimDisplayUpdate' variable
 codec = struct2cell(codecs.codec);
-codec = codec(1:2,:);
+codec = codec(1:6:7,:);
 stimDisplayUpdate_code = codec{1,find(strcmp('#stimDisplayUpdate',codec(2,:)))};
 
 
@@ -51,7 +51,7 @@ for stim7presents_index = 1:length(stim7timestamps)
     spikes = getEvents(filename, spikes_code, stim7timestamps(stim7presents_index), stim7timestamps(stim7presents_index)+500000);
     figure
     % divide by 1000 to get into milliseconds
-    hist(([spikes.time_us]-min([spikes.time_us]))/1000, [50 150 250 350 450 550]);
+    hist(cast([spikes.time_us]-min([spikes.time_us]), 'double')/1000, [50 150 250 350 450 550]);
     xlabel('ms')
 end
 
