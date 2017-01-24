@@ -13,10 +13,11 @@
 
 #include "StandardStimuli.h"
 
-#import <GLKit/GLKTextureLoader.h>
+#import <CoreGraphics/CoreGraphics.h>
 
 #include <boost/uuid/sha1.hpp>
 
+#include "CFObjectPtr.h"
 #include "ParameterValue.h"
 
 
@@ -472,8 +473,9 @@ gl::Shader ImageStimulus::getFragmentShader() const {
      
      void main() {
          vec4 imageColor = texture(imageTexture, varyingTexCoords);
-         fragColor.rgb = imageColor.rgb;
-         fragColor.a = alpha * imageColor.a;
+         // imageColor.rgb has been pre-multiplied by imageColor.a, so we multiply only
+         // by the user-specified alpha here
+         fragColor = alpha * imageColor;
      }
      )");
     
@@ -490,60 +492,114 @@ void ImageStimulus::prepare(const boost::shared_ptr<StimulusDisplay> &display) {
     BasicTransformStimulus::prepare(display);
     
     alphaUniformLocation = glGetUniformLocation(program, "alpha");
-    
-    auto imageTextureUniformLocation = glGetUniformLocation(program, "imageTexture");
-    glUniform1i(imageTextureUniformLocation, 0);
+    glUniform1i(glGetUniformLocation(program, "imageTexture"), 0);
     
     mprintf("Loading image %s", filename.c_str());
     
     @autoreleasepool {
+        NSData *imageData = nil;
+        
         //
         // Load image data
         //
-        
-        NSError *errorPtr = nil;
-        NSData *imageData = [NSData dataWithContentsOfFile:[NSString stringWithUTF8String:(filename.c_str())]
-                                                   options:0
-                                                     error:&errorPtr];
-        if (!imageData) {
-            throw SimpleException("Cannot read image file", [[errorPtr localizedDescription] UTF8String]);
+        {
+            NSError *errorPtr = nil;
+            imageData = [NSData dataWithContentsOfFile:[NSString stringWithUTF8String:(filename.c_str())]
+                                               options:0
+                                                 error:&errorPtr];
+            if (!imageData) {
+                throw SimpleException("Cannot read image file", [[errorPtr localizedDescription] UTF8String]);
+            }
         }
         
         //
         // Create texture
         //
-        
-        NSDictionary *options = @{ GLKTextureLoaderGenerateMipmaps: @YES,
-                                   GLKTextureLoaderOriginBottomLeft: @YES };
-        GLKTextureInfo *textureInfo = [GLKTextureLoader textureWithContentsOfData:imageData
-                                                                          options:options
-                                                                            error:&errorPtr];
-        if (!textureInfo) {
-            throw SimpleException("Cannot create texture from image", [[errorPtr localizedDescription] UTF8String]);
+        {
+            //
+            // The procedure used here is adapted from section "Creating a Texture from a Quartz Image Source" in
+            // "OpenGL Programming Guide for Mac":
+            //
+            // https://developer.apple.com/library/content/documentation/GraphicsImaging/Conceptual/OpenGL-MacProgGuide/opengl_texturedata/opengl_texturedata.html#//apple_ref/doc/uid/TP40001987-CH407-SW31
+            //
+            
+            auto imageSource = cf::ObjectPtr<CGImageSourceRef>::created(CGImageSourceCreateWithData(static_cast<CFDataRef>(imageData), nullptr));
+            if (CGImageSourceGetCount(imageSource.get()) < 1) {
+                auto imageSourceStatus = CGImageSourceGetStatus(imageSource.get());
+                throw SimpleException((boost::format("Cannot load image from file (status = %d)") % imageSourceStatus).str());
+            }
+            
+            auto image = cf::ObjectPtr<CGImageRef>::created(CGImageSourceCreateImageAtIndex(imageSource.get(), 0, nullptr));
+            auto width = CGImageGetWidth(image.get());
+            auto height = CGImageGetHeight(image.get());
+            aspectRatio = double(width) / double(height);
+            
+            auto colorSpace = cf::ObjectPtr<CGColorSpaceRef>::created(CGColorSpaceCreateDeviceRGB());
+            
+            auto context = cf::ObjectPtr<CGContextRef>::created(CGBitmapContextCreate(nullptr,
+                                                                                      width,
+                                                                                      height,
+                                                                                      8,
+                                                                                      width * 4,
+                                                                                      colorSpace.get(),
+                                                                                      kCGImageAlphaPremultipliedFirst | kCGBitmapByteOrder32Host));
+            
+            // Flip the context's coordinate system (so that the origin is in the bottom left corner, as in OpenGL)
+            CGContextTranslateCTM(context.get(), 0, height);
+            CGContextScaleCTM(context.get(), 1, -1);
+            
+            CGContextSetBlendMode(context.get(), kCGBlendModeCopy);
+            
+            CGContextDrawImage(context.get(), CGRectMake(0, 0, width, height), image.get());
+            
+            glGenTextures(1, &texture);
+            gl::TextureBinding<GL_TEXTURE_2D> textureBinding(texture);
+            
+            glPixelStorei(GL_UNPACK_SWAP_BYTES, GL_FALSE);
+            glPixelStorei(GL_UNPACK_LSB_FIRST, GL_FALSE);
+            glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
+            glPixelStorei(GL_UNPACK_IMAGE_HEIGHT, 0);
+            glPixelStorei(GL_UNPACK_SKIP_ROWS, 0);
+            glPixelStorei(GL_UNPACK_SKIP_PIXELS, 0);
+            glPixelStorei(GL_UNPACK_SKIP_IMAGES, 0);
+            glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
+            
+            glTexImage2D(GL_TEXTURE_2D,
+                         0,
+                         GL_RGBA8,
+                         width,
+                         height,
+                         0,
+                         GL_BGRA,
+                         GL_UNSIGNED_INT_8_8_8_8_REV,
+                         CGBitmapContextGetData(context.get()));
+            
+            glGenerateMipmap(GL_TEXTURE_2D);
+            
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
         }
-        
-        texture = textureInfo.name;
-        aspectRatio = double(textureInfo.width) / double(textureInfo.height);
         
         //
         // Compute the SHA-1 message digest of the raw file data, convert it to a hex string, and copy it to fileHash
         //
-        
-        boost::uuids::detail::sha1 sha;
-        sha.process_bytes([imageData bytes], [imageData length]);
-        
-        constexpr std::size_t digestSize = 5;
-        unsigned int digest[digestSize];
-        sha.get_digest(digest);
-        
-        std::ostringstream os;
-        os.fill('0');
-        os << std::hex;
-        for (int i = 0; i < digestSize; i++) {
-            os << std::setw(2 * sizeof(unsigned int)) << digest[i];
+        {
+            boost::uuids::detail::sha1 sha;
+            sha.process_bytes([imageData bytes], [imageData length]);
+            
+            constexpr std::size_t digestSize = 5;
+            unsigned int digest[digestSize];
+            sha.get_digest(digest);
+            
+            std::ostringstream os;
+            os.fill('0');
+            os << std::hex;
+            for (int i = 0; i < digestSize; i++) {
+                os << std::setw(2 * sizeof(unsigned int)) << digest[i];
+            }
+            
+            fileHash = os.str();
         }
-        
-        fileHash = os.str();
     }
     
     mprintf("Image loaded into texture_map %u", texture);
@@ -581,7 +637,8 @@ void ImageStimulus::preDraw(const boost::shared_ptr<StimulusDisplay> &display) {
     
     glEnable(GL_BLEND);
     glBlendEquation(GL_FUNC_ADD);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glBlendFunc(GL_ONE, // Source RGB values are pre-multiplied by source alpha
+                GL_ONE_MINUS_SRC_ALPHA);
 }
 
 

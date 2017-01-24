@@ -199,7 +199,7 @@ void TextStimulus::bindTexture() {
                                                                               colorSpace.get(),
                                                                               kCGImageAlphaPremultipliedFirst | kCGBitmapByteOrder32Host));
     
-    // Flip the context's coordinate system (so that the origin is in the top left corner, as in OpenGL) and
+    // Flip the context's coordinate system (so that the origin is in the bottom left corner, as in OpenGL) and
     // convert it from pixels to points
     CGContextTranslateCTM(context.get(), 0, bitmapHeight);
     CGContextScaleCTM(context.get(), pointsPerPixel, -pointsPerPixel);

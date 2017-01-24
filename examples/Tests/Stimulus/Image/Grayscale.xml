@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<monkeyml version="1.0">
+    <io_devices tag="IO Devices">
+        <iodevice type="stimulus_display" tag="Stimulus Display" background_color="1,1,0" announce_stimuli_on_implicit_updates="YES"></iodevice>
+    </io_devices>
+    <variables tag="Variables"></variables>
+    <sounds tag="Sounds"></sounds>
+    <stimuli tag="Stimuli">
+        <stimulus type="image_file" tag="img1" path="ImageLoad/TrainingPic3.png" x_size="10.0" y_size="10.0" x_position="-5.5" y_position="0.0" rotation="0.0" alpha_multiplier="0.5" deferred="NO"></stimulus>
+        <stimulus type="image_file" tag="img2" path="ImageLoad/TrainingPic5.png" x_size="10.0" y_size="10.0" x_position="5.5" y_position="0.0" rotation="0.0" alpha_multiplier="0.5" deferred="NO"></stimulus>
+    </stimuli>
+    <filters tag="Filters"></filters>
+    <optimizers tag="Optimizers"></optimizers>
+    <experiment tag="New Experiment" full_name="" description="">
+        <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
+            <action tag="Queue img1" type="queue_stimulus" stimulus="img1"></action>
+            <action tag="Queue img2" type="queue_stimulus" stimulus="img2"></action>
+            <action tag="Update Stimulus Display" type="update_stimulus_display" predicted_output_time=""></action>
+            <action type="report" tag="Report" message="Both images should have gray backgrounds that are partly faded to yellow.  The image on the right should *not* have a reddish background!"></action>
+            <action type="wait" tag="Wait" duration="10" duration_units="s"></action>
+        </protocol>
+    </experiment>
+</monkeyml>
