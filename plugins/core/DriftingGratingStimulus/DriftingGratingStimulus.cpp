@@ -8,13 +8,6 @@
  */
 
 #include "DriftingGratingStimulus.h"
-#include "EllipseMask.h"
-#include "GaussianMask.h"
-#include "RectangleMask.h"
-#include "SawtoothGratingData.h"
-#include "SinusoidGratingData.h"
-#include "SquareGratingData.h"
-#include "TriangleGratingData.h"
 
 
 BEGIN_NAMESPACE_MW
@@ -26,7 +19,6 @@ const std::string DriftingGratingStimulus::FREQUENCY("spatial_frequency");
 const std::string DriftingGratingStimulus::SPEED("speed");
 const std::string DriftingGratingStimulus::GRATING_TYPE("grating_type");
 const std::string DriftingGratingStimulus::MASK("mask");
-const std::string DriftingGratingStimulus::GRATING_SAMPLE_RATE("grating_sample_rate");
 const std::string DriftingGratingStimulus::INVERTED("inverted");
 const std::string DriftingGratingStimulus::STD_DEV("std_dev");
 const std::string DriftingGratingStimulus::MEAN("mean");
@@ -43,51 +35,55 @@ void DriftingGratingStimulus::describeComponent(ComponentInfo &info) {
     info.addParameter(SPEED);
     info.addParameter(GRATING_TYPE);
     info.addParameter(MASK);
-    info.addParameter(GRATING_SAMPLE_RATE, "32");
-    info.addParameter(INVERTED, "0");
+    info.addParameter(INVERTED, "NO");
     info.addParameter(STD_DEV, "1.0");
     info.addParameter(MEAN, "0.0");
+    
+    // This is no longer used but may be present in old experiments
+    info.addIgnoredParameter("grating_sample_rate");
 }
+
+
+auto DriftingGratingStimulus::gratingTypeFromName(const std::string &name) -> GratingType {
+    if (name == "sinusoid") {
+        return GratingType::sinusoid;
+    } else if (name == "square") {
+        return GratingType::square;
+    } else if (name == "triangle") {
+        return GratingType::triangle;
+    } else if (name == "sawtooth") {
+        return GratingType::sawtooth;
+    }
+    throw SimpleException("Invalid grating type", name);
+};
+
+
+auto DriftingGratingStimulus::maskTypeFromName(const std::string &name) -> MaskType {
+    if (name == "rectangle") {
+        return MaskType::rectangle;
+    } else if (name == "ellipse") {
+        return MaskType::ellipse;
+    } else if (name == "gaussian") {
+        return MaskType::gaussian;
+    }
+    throw SimpleException("Invalid mask type", name);
+};
 
 
 DriftingGratingStimulus::DriftingGratingStimulus(const ParameterValueMap &parameters) :
     DriftingGratingStimulusBase(parameters),
     direction_in_degrees(registerVariable(parameters[DIRECTION])),
+    starting_phase(registerVariable(parameters[STARTING_PHASE])),
     spatial_frequency(registerVariable(parameters[FREQUENCY])),
     speed(registerVariable(parameters[SPEED])),
-    starting_phase(registerVariable(parameters[STARTING_PHASE]))
-{
-    const std::string &grating_type = parameters[GRATING_TYPE].str();
-    shared_ptr<Variable> grating_sample_rate(parameters[GRATING_SAMPLE_RATE]);
-    
-    if (grating_type == "sinusoid") {
-        grating = shared_ptr<SinusoidGratingData>(new SinusoidGratingData(grating_sample_rate));
-    } else if (grating_type == "square") {
-        grating = shared_ptr<SquareGratingData>(new SquareGratingData(grating_sample_rate));
-    } else if (grating_type == "triangle") {
-        grating = shared_ptr<TriangleGratingData>(new TriangleGratingData(grating_sample_rate));
-    } else if (grating_type == "sawtooth") {
-        grating = shared_ptr<SawtoothGratingData>(new SawtoothGratingData(grating_sample_rate,
-                                                                          VariablePtr(parameters[INVERTED])));
-    } else {
-        throw SimpleException("illegal grating type", grating_type);
-    }
-    
-    const std::string &mask_type = parameters[MASK].str();
-    shared_ptr<Variable> mask_size(new ConstantVariable(128L));
-    
-    if (mask_type == "rectangle") {
-        mask = shared_ptr<Mask>(new RectangleMask(mask_size));
-    } else if (mask_type == "ellipse") {
-        mask = shared_ptr<Mask>(new EllipseMask(mask_size));
-    } else if (mask_type == "gaussian") {
-        mask = shared_ptr<Mask>(new GaussianMask(mask_size,
-                                                 VariablePtr(parameters[MEAN]),
-                                                 VariablePtr(parameters[STD_DEV])));
-    } else {
-        throw SimpleException("illegal mask", mask_type);				
-    }
-}
+    gratingTypeName(parameters[GRATING_TYPE].str()),
+    gratingType(gratingTypeFromName(gratingTypeName)),
+    maskTypeName(parameters[MASK].str()),
+    maskType(maskTypeFromName(maskTypeName)),
+    inverted(registerVariable(parameters[INVERTED])),
+    std_dev(registerVariable(parameters[STD_DEV])),
+    mean(registerVariable(parameters[MEAN]))
+{ }
 
 
 Datum DriftingGratingStimulus::getCurrentAnnounceDrawData() {
@@ -96,13 +92,22 @@ Datum DriftingGratingStimulus::getCurrentAnnounceDrawData() {
     Datum announceData = DriftingGratingStimulusBase::getCurrentAnnounceDrawData();
     
     announceData.addElement(STIM_TYPE, "drifting_grating");
-    announceData.addElement("frequency", spatial_frequency->getValue());
-    announceData.addElement("speed", speed->getValue());
-    announceData.addElement("starting_phase", starting_phase->getValue());
+    announceData.addElement(DIRECTION, last_direction_in_degrees);
+    announceData.addElement(STARTING_PHASE, last_starting_phase);
     announceData.addElement("current_phase", last_phase);
-    announceData.addElement("direction", direction_in_degrees->getValue());
-    announceData.addElement("grating", grating->getName());
-    announceData.addElement("mask", mask->getName());
+    announceData.addElement(FREQUENCY, last_spatial_frequency);
+    announceData.addElement(SPEED, last_speed);
+    announceData.addElement(GRATING_TYPE, gratingTypeName);
+    announceData.addElement(MASK, maskTypeName);
+    
+    if (gratingType == GratingType::sawtooth) {
+        announceData.addElement(INVERTED, last_inverted);
+    }
+    
+    if (maskType == MaskType::gaussian) {
+        announceData.addElement(STD_DEV, last_std_dev);
+        announceData.addElement(MEAN, last_mean);
+    }
     
     return std::move(announceData);
 }
@@ -114,16 +119,16 @@ gl::Shader DriftingGratingStimulus::getVertexShader() const {
      uniform mat4 mvpMatrix;
      
      in vec4 vertexPosition;
-     in float gratingTexCoord;
-     in vec2 maskTexCoords;
+     in float gratingCoord;
+     in vec2 maskCoords;
      
-     out float gratingVaryingTexCoord;
-     out vec2 maskVaryingTexCoords;
+     out float gratingVaryingCoord;
+     out vec2 maskVaryingCoords;
      
      void main() {
          gl_Position = mvpMatrix * vertexPosition;
-         gratingVaryingTexCoord = gratingTexCoord;
-         maskVaryingTexCoords = maskTexCoords;
+         gratingVaryingCoord = gratingCoord;
+         maskVaryingCoords = maskCoords;
      }
      )");
     
@@ -134,18 +139,90 @@ gl::Shader DriftingGratingStimulus::getVertexShader() const {
 gl::Shader DriftingGratingStimulus::getFragmentShader() const {
     static const std::string source
     (R"(
-     uniform float alpha;
-     uniform sampler1D gratingTexture;
-     uniform sampler2D maskTexture;
+     const int sinusoidGrating = 1;
+     const int squareGrating = 2;
+     const int triangleGrating = 3;
+     const int sawtoothGrating = 4;
      
-     in float gratingVaryingTexCoord;
-     in vec2 maskVaryingTexCoords;
+     const int rectangleMask = 1;
+     const int ellipseMask = 2;
+     const int gaussianMask = 3;
+     
+     const float pi = 3.14159265358979323846264338327950288;
+     
+     uniform int gratingType;
+     uniform int maskType;
+     uniform float alpha;
+     uniform bool inverted;
+     uniform float stdDev;
+     uniform float mean;
+     
+     in float gratingVaryingCoord;
+     in vec2 maskVaryingCoords;
      
      out vec4 fragColor;
      
      void main() {
-         float gratingValue = texture(gratingTexture, gratingVaryingTexCoord).r;
-         float maskValue = texture(maskTexture, maskVaryingTexCoords).r;
+         if (maskVaryingCoords.s < 0.0 || maskVaryingCoords.s > 1.0 ||
+             maskVaryingCoords.t < 0.0 || maskVaryingCoords.t > 1.0)
+         {
+             discard;
+         }
+         
+         float maskValue;
+         switch (maskType) {
+             case rectangleMask:
+                 maskValue = 1.0;
+                 break;
+                 
+             case ellipseMask:
+                 if (distance(maskVaryingCoords, vec2(0.5, 0.5)) > 0.5) {
+                     discard;
+                 }
+                 maskValue = 1.0;
+                 break;
+                 
+             case gaussianMask: {
+                 float s = stdDev;
+                 float u = mean;
+                 float d = distance(maskVaryingCoords, vec2(0.5, 0.5)) / 0.5;
+                 maskValue = (1/(s*sqrt(2*pi)))*exp(-1*(d-u)*(d-u)/(2*s*s));
+                 break;
+             }
+         }
+         
+         float normGratingCoord = mod(gratingVaryingCoord, 1);
+         float gratingValue;
+         switch (gratingType) {
+             case sinusoidGrating:
+                 gratingValue = 0.5*(1+cos(2*pi*normGratingCoord));
+                 break;
+                 
+             case squareGrating:
+                 if (cos(2*pi*normGratingCoord) > 0) {
+                     gratingValue = 1.0;
+                 } else {
+                     gratingValue = 0.0;
+                 }
+                 break;
+                 
+             case triangleGrating:
+                 if (normGratingCoord < 0.5) {
+                     gratingValue = (0.5 - normGratingCoord) / 0.5;
+                 } else {
+                     gratingValue = (normGratingCoord - 0.5) / 0.5;
+                 }
+                 break;
+                 
+             case sawtoothGrating:
+                 if (inverted) {
+                     gratingValue = 1.0 - normGratingCoord;
+                 } else {
+                     gratingValue = normGratingCoord;
+                 }
+                 break;
+         }
+         
          fragColor = vec4(gratingValue, gratingValue, gratingValue, alpha * maskValue);
      }
      )");
@@ -177,77 +254,33 @@ void DriftingGratingStimulus::prepare(const boost::shared_ptr<StimulusDisplay> &
     
     BasicTransformStimulus::prepare(display);
     
+    glUniform1i(glGetUniformLocation(program, "gratingType"), int(gratingType));
+    glUniform1i(glGetUniformLocation(program, "maskType"), int(maskType));
+    
     alphaUniformLocation = glGetUniformLocation(program, "alpha");
+    invertedUniformLocation = glGetUniformLocation(program, "inverted");
+    stdDevUniformLocation = glGetUniformLocation(program, "stdDev");
+    meanUniformLocation = glGetUniformLocation(program, "mean");
     
-    glUniform1i(glGetUniformLocation(program, "gratingTexture"), 0);
-    glUniform1i(glGetUniformLocation(program, "maskTexture"), 1);
+    glGenBuffers(1, &gratingCoordBuffer);
+    gl::BufferBinding<GL_ARRAY_BUFFER> arrayBufferBinding(gratingCoordBuffer);
+    GLint gratingCoordAttribLocation = glGetAttribLocation(program, "gratingCoord");
+    glEnableVertexAttribArray(gratingCoordAttribLocation);
+    glVertexAttribPointer(gratingCoordAttribLocation, 1, GL_FLOAT, GL_FALSE, 0, nullptr);
     
-    glGenBuffers(1, &gratingTexCoordBuffer);
-    gl::BufferBinding<GL_ARRAY_BUFFER> arrayBufferBinding(gratingTexCoordBuffer);
-    GLint gratingTexCoordAttribLocation = glGetAttribLocation(program, "gratingTexCoord");
-    glEnableVertexAttribArray(gratingTexCoordAttribLocation);
-    glVertexAttribPointer(gratingTexCoordAttribLocation, 1, GL_FLOAT, GL_FALSE, 0, nullptr);
-    
-    glGenBuffers(1, &maskTexCoordsBuffer);
-    arrayBufferBinding.bind(maskTexCoordsBuffer);
-    GLint maskTexCoordsAttribLocation = glGetAttribLocation(program, "maskTexCoords");
-    glEnableVertexAttribArray(maskTexCoordsAttribLocation);
-    glVertexAttribPointer(maskTexCoordsAttribLocation, 2, GL_FLOAT, GL_FALSE, 0, nullptr);
-    
-    // ----------------------------------------
-    //                  GRATING
-    // ----------------------------------------
-    
-    glGenTextures(1, &gratingTexture);
-    gl::TextureBinding<GL_TEXTURE_1D> texture1DBinding(gratingTexture);
-    
-    glTexImage1D(GL_TEXTURE_1D,
-                 0,
-                 GL_RED,
-                 grating->getDataSize(),
-                 0,
-                 GL_RED,
-                 GL_FLOAT,
-                 grating->get1DData());
-    glGenerateMipmap(GL_TEXTURE_1D);
-    
-    glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
-    glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    
-    // ----------------------------------------
-    //                  MASK
-    // ----------------------------------------
-    
-    glGenTextures(1, &maskTexture);
-    gl::TextureBinding<GL_TEXTURE_2D> texture2DBinding(maskTexture);
-    
-    glTexImage2D(GL_TEXTURE_2D,
-                 0,
-                 GL_RED,
-                 mask->getSize(),
-                 mask->getSize(),
-                 0,
-                 GL_RED,
-                 GL_FLOAT,
-                 mask->get2DData());
-    glGenerateMipmap(GL_TEXTURE_2D);
-    
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glGenBuffers(1, &maskCoordsBuffer);
+    arrayBufferBinding.bind(maskCoordsBuffer);
+    GLint maskCoordsAttribLocation = glGetAttribLocation(program, "maskCoords");
+    glEnableVertexAttribArray(maskCoordsAttribLocation);
+    glVertexAttribPointer(maskCoordsAttribLocation, 2, GL_FLOAT, GL_FALSE, 0, nullptr);
 }
 
 
 void DriftingGratingStimulus::destroy(const boost::shared_ptr<StimulusDisplay> &display) {
     boost::mutex::scoped_lock locker(stim_lock);
     
-    glDeleteTextures(1, &maskTexture);
-    glDeleteTextures(1, &gratingTexture);
-    glDeleteBuffers(1, &maskTexCoordsBuffer);
-    glDeleteBuffers(1, &gratingTexCoordBuffer);
+    glDeleteBuffers(1, &maskCoordsBuffer);
+    glDeleteBuffers(1, &gratingCoordBuffer);
     
     BasicTransformStimulus::destroy(display);
 }
@@ -257,10 +290,9 @@ void DriftingGratingStimulus::preDraw(const boost::shared_ptr<StimulusDisplay> &
     BasicTransformStimulus::preDraw(display);
     
     glUniform1f(alphaUniformLocation, current_alpha);
-    
-    glBindTexture(GL_TEXTURE_1D, gratingTexture);
-    glActiveTexture(GL_TEXTURE1);
-    glBindTexture(GL_TEXTURE_2D, maskTexture);
+    glUniform1i(invertedUniformLocation, current_inverted);
+    glUniform1f(stdDevUniformLocation, current_std_dev);
+    glUniform1f(meanUniformLocation, current_mean);
     
     glEnable(GL_BLEND);
     glBlendEquation(GL_FUNC_ADD);
@@ -281,41 +313,41 @@ void DriftingGratingStimulus::preDraw(const boost::shared_ptr<StimulusDisplay> &
     // multiply by -1 so it the grating goes in the correct direction
     MWTime elapsed_time = getElapsedTime();
     double elapsed_seconds = (double)elapsed_time /  (double)1000000;
-    const double phase = -1*(starting_phase->getValue().getFloat()*(M_PI/180.) + speed->getValue().getFloat()*spatial_frequency->getValue().getFloat()*(2.*M_PI)*elapsed_seconds);
-    const double direction_in_radians = direction_in_degrees->getValue().getFloat()*(M_PI/180.);
-    const double aspect = current_sizex / current_sizey;
+    const double phase = -1*(current_starting_phase*(M_PI/180.) + current_speed*current_spatial_frequency*(2.*M_PI)*elapsed_seconds);
+    const double direction_in_radians = current_direction_in_degrees*(M_PI/180.);
     
     const float f = std::cos(direction_in_radians);
     const float g = std::sin(direction_in_radians);
     const float d = ((f+g)-1)/2;
-    const float texture_bl = 0-d;
-    const float texture_br = texture_bl+f;
-    const float texture_tr = 1+d;
-    const float texture_tl = texture_bl+g;
+    const float grating_bl = 0-d;
+    const float grating_br = grating_bl+f;
+    const float grating_tr = 1+d;
+    const float grating_tl = grating_bl+g;
     
+    const float phase_proportion = phase/(2*M_PI);
+    const float cycle_proportion = current_spatial_frequency * std::max(current_sizex, current_sizey);
+    
+    std::array<GLfloat, 4 * 1> gratingCoord = {
+        (cycle_proportion * grating_bl) + phase_proportion,
+        (cycle_proportion * grating_br) + phase_proportion,
+        (cycle_proportion * grating_tl) + phase_proportion,
+        (cycle_proportion * grating_tr) + phase_proportion
+    };
+    gl::BufferBinding<GL_ARRAY_BUFFER> arrayBufferBinding(gratingCoordBuffer);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(gratingCoord), gratingCoord.data(), GL_STREAM_DRAW);
+    
+    const double aspect = current_sizex / current_sizey;
     const float mask_s_ratio = 1-std::min(1.0,aspect);
     const float mask_t_ratio = 1-std::min(1.0,1.0/aspect);
     
-    const float phase_proportion = phase/(2*M_PI);
-    const float cycle_proportion = spatial_frequency->getValue().getFloat() * std::max(current_sizex, current_sizey);
-    
-    std::array<GLfloat, 4 * 1> gratingTexCoord = {
-        (cycle_proportion * texture_bl) + phase_proportion,
-        (cycle_proportion * texture_br) + phase_proportion,
-        (cycle_proportion * texture_tl) + phase_proportion,
-        (cycle_proportion * texture_tr) + phase_proportion
-    };
-    gl::BufferBinding<GL_ARRAY_BUFFER> arrayBufferBinding(gratingTexCoordBuffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(gratingTexCoord), gratingTexCoord.data(), GL_STREAM_DRAW);
-    
-    std::array<GLfloat, 4 * 2> maskTexCoords = {
+    std::array<GLfloat, 4 * 2> maskCoords = {
         0 - mask_s_ratio, 0 - mask_t_ratio,
         1 + mask_s_ratio, 0 - mask_t_ratio,
         0 - mask_s_ratio, 1 + mask_t_ratio,
         1 + mask_s_ratio, 1 + mask_t_ratio
     };
-    arrayBufferBinding.bind(maskTexCoordsBuffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(maskTexCoords), maskTexCoords.data(), GL_STREAM_DRAW);
+    arrayBufferBinding.bind(maskCoordsBuffer);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(maskCoords), maskCoords.data(), GL_STREAM_DRAW);
     
     last_phase = phase*(180/M_PI);
 }
@@ -324,16 +356,28 @@ void DriftingGratingStimulus::preDraw(const boost::shared_ptr<StimulusDisplay> &
 void DriftingGratingStimulus::postDraw(const boost::shared_ptr<StimulusDisplay> &display) {
     glDisable(GL_BLEND);
     
-    glBindTexture(GL_TEXTURE_2D, 0);
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_1D, 0);
-    
     BasicTransformStimulus::postDraw(display);
 }
 
 
 void DriftingGratingStimulus::drawFrame(boost::shared_ptr<StimulusDisplay> display) {
+    current_direction_in_degrees = direction_in_degrees->getValue().getFloat();
+    current_starting_phase = starting_phase->getValue().getFloat();
+    current_spatial_frequency = spatial_frequency->getValue().getFloat();
+    current_speed = speed->getValue().getFloat();
+    current_inverted = inverted->getValue().getBool();
+    current_std_dev = std_dev->getValue().getFloat();
+    current_mean = mean->getValue().getFloat();
+    
     BasicTransformStimulus::draw(display);
+    
+    last_direction_in_degrees = current_direction_in_degrees;
+    last_starting_phase = current_starting_phase;
+    last_spatial_frequency = current_spatial_frequency;
+    last_speed = current_speed;
+    last_inverted = current_inverted;
+    last_std_dev = current_std_dev;
+    last_mean = current_mean;
 }
 
 

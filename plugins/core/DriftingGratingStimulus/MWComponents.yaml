@@ -35,10 +35,6 @@ parameters:
     options: [rectangle, ellipse, gaussian]
     description: Mask type
   -
-    name: grating_sample_rate
-    default: 32
-    description: Number of samples to generate when computing grating values
-  -
     name: inverted
     default: 'NO'
     description: >

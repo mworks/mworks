@@ -10,9 +10,6 @@
 #ifndef DRIFTING_GRATNG_STIMULUS_H
 #define DRIFTING_GRATNG_STIMULUS_H
 
-#include "Mask.h"
-#include "GratingData.h"
-
 
 BEGIN_NAMESPACE_MW
 
@@ -29,7 +26,6 @@ public:
     static const std::string SPEED;
     static const std::string GRATING_TYPE;
     static const std::string MASK;
-    static const std::string GRATING_SAMPLE_RATE;
     static const std::string INVERTED;
     static const std::string STD_DEV;
     static const std::string MEAN;
@@ -41,6 +37,22 @@ public:
     Datum getCurrentAnnounceDrawData() override;
     
 private:
+    enum class GratingType {
+        sinusoid = 1,
+        square = 2,
+        triangle = 3,
+        sawtooth = 4
+    };
+    
+    enum class MaskType {
+        rectangle = 1,
+        ellipse = 2,
+        gaussian = 3
+    };
+    
+    static GratingType gratingTypeFromName(const std::string &name);
+    static MaskType maskTypeFromName(const std::string &name);
+    
     gl::Shader getVertexShader() const override;
     gl::Shader getFragmentShader() const override;
     
@@ -54,21 +66,34 @@ private:
     
     void drawFrame(boost::shared_ptr<StimulusDisplay> display) override;
     
-    shared_ptr<Variable> direction_in_degrees;
-    shared_ptr<Variable> spatial_frequency;
-    shared_ptr<Variable> speed;
-    shared_ptr<Variable> starting_phase;
+    const boost::shared_ptr<Variable> direction_in_degrees;
+    const boost::shared_ptr<Variable> starting_phase;
+    const boost::shared_ptr<Variable> spatial_frequency;
+    const boost::shared_ptr<Variable> speed;
+    const std::string gratingTypeName;
+    const GratingType gratingType;
+    const std::string maskTypeName;
+    const MaskType maskType;
+    const boost::shared_ptr<Variable> inverted;
+    const boost::shared_ptr<Variable> std_dev;
+    const boost::shared_ptr<Variable> mean;
     
-    shared_ptr<Mask> mask;
-    shared_ptr<GratingData> grating;
+    double current_direction_in_degrees, current_starting_phase, current_spatial_frequency, current_speed;
+    bool current_inverted;
+    double current_std_dev, current_mean;
+    
+    double last_direction_in_degrees, last_starting_phase, last_spatial_frequency, last_speed;
+    bool last_inverted;
+    double last_std_dev, last_mean;
+    
+    double last_phase;
     
     GLint alphaUniformLocation = -1;
-    GLuint gratingTexCoordBuffer = 0;
-    GLuint maskTexCoordsBuffer = 0;
-    GLuint gratingTexture = 0;
-    GLuint maskTexture = 0;
-    
-    float last_phase;
+    GLint invertedUniformLocation = -1;
+    GLint stdDevUniformLocation = -1;
+    GLint meanUniformLocation = -1;
+    GLuint gratingCoordBuffer = 0;
+    GLuint maskCoordsBuffer = 0;
     
 };
 

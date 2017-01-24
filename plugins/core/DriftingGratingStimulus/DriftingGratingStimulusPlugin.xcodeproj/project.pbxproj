@@ -35,17 +35,7 @@
 /* Begin PBXBuildFile section */
 		0E287D330E64A5CD005BE396 /* DriftingGratingStimulus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E287D2F0E64A5CD005BE396 /* DriftingGratingStimulus.cpp */; };
 		0E37FBA30E59C3DD008B885D /* DriftingGratingStimulusPlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E37FBA10E59C3DD008B885D /* DriftingGratingStimulusPlugin.cpp */; };
-		0E3891CC0ECD26E500F044B8 /* TriangleGratingData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E3891CB0ECD26E500F044B8 /* TriangleGratingData.cpp */; };
-		0EC0F2400EC52BC0004AD5CE /* RectangleMask.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EC0F23F0EC52BC0004AD5CE /* RectangleMask.cpp */; };
-		0EC0F24A0EC52D17004AD5CE /* EllipseMask.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EC0F2490EC52D17004AD5CE /* EllipseMask.cpp */; };
-		0EC0F2D30EC53519004AD5CE /* SinusoidGratingData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EC0F2D20EC53519004AD5CE /* SinusoidGratingData.cpp */; };
-		0EC0F33C0EC5395C004AD5CE /* SquareGratingData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EC0F33B0EC5395C004AD5CE /* SquareGratingData.cpp */; };
 		0EDCBABF0EE9D39B00432792 /* MWLibrary.xml in Resources */ = {isa = PBXBuildFile; fileRef = 0EDCBABE0EE9D39B00432792 /* MWLibrary.xml */; };
-		0EE467290ECC934400C4CDE7 /* GratingData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EE467280ECC934400C4CDE7 /* GratingData.cpp */; };
-		0EE467A40ECC995F00C4CDE7 /* Mask.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EE467A30ECC995F00C4CDE7 /* Mask.cpp */; };
-		0EE4686D0ECCB6DC00C4CDE7 /* DriftingGratingUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EE4686C0ECCB6DC00C4CDE7 /* DriftingGratingUtilities.cpp */; };
-		0EE4691D0ECCBB4D00C4CDE7 /* GaussianMask.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EE4691C0ECCBB4D00C4CDE7 /* GaussianMask.cpp */; };
-		0EF49B6F0ECD2A6700A82BC8 /* SawtoothGratingData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EF49B6E0ECD2A6700A82BC8 /* SawtoothGratingData.cpp */; };
 		5C4B0A650DC79212001BC518 /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C4B0A630DC79212001BC518 /* MWorksCore.framework */; };
 		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
 		E12D98A116BC1FBA004FEF79 /* DriftingGratingStimulusPlugin.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8D5B49B6048680CD000E48DA /* DriftingGratingStimulusPlugin.bundle */; };
@@ -89,27 +79,7 @@
 		0E287D2F0E64A5CD005BE396 /* DriftingGratingStimulus.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DriftingGratingStimulus.cpp; sourceTree = "<group>"; };
 		0E287D300E64A5CD005BE396 /* DriftingGratingStimulus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DriftingGratingStimulus.h; sourceTree = "<group>"; };
 		0E37FBA10E59C3DD008B885D /* DriftingGratingStimulusPlugin.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DriftingGratingStimulusPlugin.cpp; sourceTree = "<group>"; };
-		0E3891CA0ECD26E500F044B8 /* TriangleGratingData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TriangleGratingData.h; sourceTree = "<group>"; };
-		0E3891CB0ECD26E500F044B8 /* TriangleGratingData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TriangleGratingData.cpp; sourceTree = "<group>"; };
-		0EC0F2360EC52B36004AD5CE /* Mask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Mask.h; sourceTree = "<group>"; };
-		0EC0F23E0EC52BC0004AD5CE /* RectangleMask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RectangleMask.h; sourceTree = "<group>"; };
-		0EC0F23F0EC52BC0004AD5CE /* RectangleMask.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RectangleMask.cpp; sourceTree = "<group>"; };
-		0EC0F2480EC52D17004AD5CE /* EllipseMask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EllipseMask.h; sourceTree = "<group>"; };
-		0EC0F2490EC52D17004AD5CE /* EllipseMask.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EllipseMask.cpp; sourceTree = "<group>"; };
-		0EC0F2CA0EC533E8004AD5CE /* GratingData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GratingData.h; sourceTree = "<group>"; };
-		0EC0F2D10EC53519004AD5CE /* SinusoidGratingData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SinusoidGratingData.h; sourceTree = "<group>"; };
-		0EC0F2D20EC53519004AD5CE /* SinusoidGratingData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SinusoidGratingData.cpp; sourceTree = "<group>"; };
-		0EC0F33A0EC5395C004AD5CE /* SquareGratingData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SquareGratingData.h; sourceTree = "<group>"; };
-		0EC0F33B0EC5395C004AD5CE /* SquareGratingData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SquareGratingData.cpp; sourceTree = "<group>"; };
 		0EDCBABE0EE9D39B00432792 /* MWLibrary.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MWLibrary.xml; sourceTree = "<group>"; };
-		0EE467280ECC934400C4CDE7 /* GratingData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GratingData.cpp; sourceTree = "<group>"; };
-		0EE467A30ECC995F00C4CDE7 /* Mask.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Mask.cpp; sourceTree = "<group>"; };
-		0EE4686B0ECCB6DC00C4CDE7 /* DriftingGratingUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DriftingGratingUtilities.h; sourceTree = "<group>"; };
-		0EE4686C0ECCB6DC00C4CDE7 /* DriftingGratingUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DriftingGratingUtilities.cpp; sourceTree = "<group>"; };
-		0EE4691B0ECCBB4D00C4CDE7 /* GaussianMask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GaussianMask.h; sourceTree = "<group>"; };
-		0EE4691C0ECCBB4D00C4CDE7 /* GaussianMask.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GaussianMask.cpp; sourceTree = "<group>"; };
-		0EF49B6D0ECD2A6700A82BC8 /* SawtoothGratingData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SawtoothGratingData.h; sourceTree = "<group>"; };
-		0EF49B6E0ECD2A6700A82BC8 /* SawtoothGratingData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SawtoothGratingData.cpp; sourceTree = "<group>"; };
 		32DBCF630370AF2F00C91783 /* DriftingGratingStimulusPlugin_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DriftingGratingStimulusPlugin_Prefix.pch; sourceTree = "<group>"; };
 		5C4B0A630DC79212001BC518 /* MWorksCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MWorksCore.framework; path = /Library/Frameworks/MWorksCore.framework; sourceTree = "<absolute>"; };
 		5CC9877B1159366900B65B91 /* Development.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Development.xcconfig; path = "/Library/Application Support/MWorks/Developer/Xcode/Development.xcconfig"; sourceTree = "<absolute>"; };
@@ -174,10 +144,6 @@
 			children = (
 				0EB9927E0EC4C26200A282C7 /* DriftingGratingStimulus */,
 				0EC0F2550EC52DE5004AD5CE /* Plugin */,
-				0EC0F2350EC52B22004AD5CE /* Masks */,
-				0EC0F2C90EC533CA004AD5CE /* Textures */,
-				0EE4686B0ECCB6DC00C4CDE7 /* DriftingGratingUtilities.h */,
-				0EE4686C0ECCB6DC00C4CDE7 /* DriftingGratingUtilities.cpp */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -191,44 +157,12 @@
 			name = DriftingGratingStimulus;
 			sourceTree = "<group>";
 		};
-		0EC0F2350EC52B22004AD5CE /* Masks */ = {
-			isa = PBXGroup;
-			children = (
-				0EC0F2360EC52B36004AD5CE /* Mask.h */,
-				0EE467A30ECC995F00C4CDE7 /* Mask.cpp */,
-				0EC0F23E0EC52BC0004AD5CE /* RectangleMask.h */,
-				0EC0F23F0EC52BC0004AD5CE /* RectangleMask.cpp */,
-				0EC0F2480EC52D17004AD5CE /* EllipseMask.h */,
-				0EC0F2490EC52D17004AD5CE /* EllipseMask.cpp */,
-				0EE4691B0ECCBB4D00C4CDE7 /* GaussianMask.h */,
-				0EE4691C0ECCBB4D00C4CDE7 /* GaussianMask.cpp */,
-			);
-			name = Masks;
-			sourceTree = "<group>";
-		};
 		0EC0F2550EC52DE5004AD5CE /* Plugin */ = {
 			isa = PBXGroup;
 			children = (
 				0E37FBA10E59C3DD008B885D /* DriftingGratingStimulusPlugin.cpp */,
 			);
 			name = Plugin;
-			sourceTree = "<group>";
-		};
-		0EC0F2C90EC533CA004AD5CE /* Textures */ = {
-			isa = PBXGroup;
-			children = (
-				0EC0F2CA0EC533E8004AD5CE /* GratingData.h */,
-				0EE467280ECC934400C4CDE7 /* GratingData.cpp */,
-				0EC0F2D10EC53519004AD5CE /* SinusoidGratingData.h */,
-				0EC0F2D20EC53519004AD5CE /* SinusoidGratingData.cpp */,
-				0EC0F33A0EC5395C004AD5CE /* SquareGratingData.h */,
-				0EC0F33B0EC5395C004AD5CE /* SquareGratingData.cpp */,
-				0E3891CA0ECD26E500F044B8 /* TriangleGratingData.h */,
-				0E3891CB0ECD26E500F044B8 /* TriangleGratingData.cpp */,
-				0EF49B6D0ECD2A6700A82BC8 /* SawtoothGratingData.h */,
-				0EF49B6E0ECD2A6700A82BC8 /* SawtoothGratingData.cpp */,
-			);
-			name = Textures;
 			sourceTree = "<group>";
 		};
 		19C28FB8FE9D52D311CA2CBB /* Products */ = {
@@ -326,16 +260,6 @@
 			files = (
 				0E37FBA30E59C3DD008B885D /* DriftingGratingStimulusPlugin.cpp in Sources */,
 				0E287D330E64A5CD005BE396 /* DriftingGratingStimulus.cpp in Sources */,
-				0EC0F2400EC52BC0004AD5CE /* RectangleMask.cpp in Sources */,
-				0EC0F24A0EC52D17004AD5CE /* EllipseMask.cpp in Sources */,
-				0EC0F2D30EC53519004AD5CE /* SinusoidGratingData.cpp in Sources */,
-				0EC0F33C0EC5395C004AD5CE /* SquareGratingData.cpp in Sources */,
-				0EE467290ECC934400C4CDE7 /* GratingData.cpp in Sources */,
-				0EE467A40ECC995F00C4CDE7 /* Mask.cpp in Sources */,
-				0EE4686D0ECCB6DC00C4CDE7 /* DriftingGratingUtilities.cpp in Sources */,
-				0EE4691D0ECCBB4D00C4CDE7 /* GaussianMask.cpp in Sources */,
-				0E3891CC0ECD26E500F044B8 /* TriangleGratingData.cpp in Sources */,
-				0EF49B6F0ECD2A6700A82BC8 /* SawtoothGratingData.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
