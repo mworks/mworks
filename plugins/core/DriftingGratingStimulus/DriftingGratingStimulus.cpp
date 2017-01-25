@@ -152,7 +152,7 @@ gl::Shader DriftingGratingStimulus::getFragmentShader() const {
      
      uniform int gratingType;
      uniform int maskType;
-     uniform float alpha;
+     uniform vec4 color;
      uniform bool inverted;
      uniform float stdDev;
      uniform float mean;
@@ -223,7 +223,8 @@ gl::Shader DriftingGratingStimulus::getFragmentShader() const {
                  break;
          }
          
-         fragColor = vec4(gratingValue, gratingValue, gratingValue, alpha * maskValue);
+         fragColor.rgb = gratingValue * color.rgb;
+         fragColor.a = color.a * maskValue;
      }
      )");
     
@@ -252,12 +253,11 @@ GLKMatrix4 DriftingGratingStimulus::getCurrentMVPMatrix(const GLKMatrix4 &projec
 void DriftingGratingStimulus::prepare(const boost::shared_ptr<StimulusDisplay> &display) {
     boost::mutex::scoped_lock locker(stim_lock);
     
-    BasicTransformStimulus::prepare(display);
+    ColoredTransformStimulus::prepare(display);
     
     glUniform1i(glGetUniformLocation(program, "gratingType"), int(gratingType));
     glUniform1i(glGetUniformLocation(program, "maskType"), int(maskType));
     
-    alphaUniformLocation = glGetUniformLocation(program, "alpha");
     invertedUniformLocation = glGetUniformLocation(program, "inverted");
     stdDevUniformLocation = glGetUniformLocation(program, "stdDev");
     meanUniformLocation = glGetUniformLocation(program, "mean");
@@ -282,21 +282,16 @@ void DriftingGratingStimulus::destroy(const boost::shared_ptr<StimulusDisplay> &
     glDeleteBuffers(1, &maskCoordsBuffer);
     glDeleteBuffers(1, &gratingCoordBuffer);
     
-    BasicTransformStimulus::destroy(display);
+    ColoredTransformStimulus::destroy(display);
 }
 
 
 void DriftingGratingStimulus::preDraw(const boost::shared_ptr<StimulusDisplay> &display) {
-    BasicTransformStimulus::preDraw(display);
+    ColoredTransformStimulus::preDraw(display);
     
-    glUniform1f(alphaUniformLocation, current_alpha);
     glUniform1i(invertedUniformLocation, current_inverted);
     glUniform1f(stdDevUniformLocation, current_std_dev);
     glUniform1f(meanUniformLocation, current_mean);
-    
-    glEnable(GL_BLEND);
-    glBlendEquation(GL_FUNC_ADD);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     
     // here's the description of this equation
     // starting_phase is in degrees ->  degrees*pi/180 = radians
@@ -358,13 +353,6 @@ void DriftingGratingStimulus::preDraw(const boost::shared_ptr<StimulusDisplay> &
 }
 
 
-void DriftingGratingStimulus::postDraw(const boost::shared_ptr<StimulusDisplay> &display) {
-    glDisable(GL_BLEND);
-    
-    BasicTransformStimulus::postDraw(display);
-}
-
-
 void DriftingGratingStimulus::drawFrame(boost::shared_ptr<StimulusDisplay> display) {
     current_direction_in_degrees = direction_in_degrees->getValue().getFloat();
     current_starting_phase = starting_phase->getValue().getFloat();
@@ -374,7 +362,7 @@ void DriftingGratingStimulus::drawFrame(boost::shared_ptr<StimulusDisplay> displ
     current_std_dev = std_dev->getValue().getFloat();
     current_mean = mean->getValue().getFloat();
     
-    BasicTransformStimulus::draw(display);
+    ColoredTransformStimulus::draw(display);
     
     last_direction_in_degrees = current_direction_in_degrees;
     last_starting_phase = current_starting_phase;

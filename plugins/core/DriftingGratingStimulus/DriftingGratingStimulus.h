@@ -14,7 +14,7 @@
 BEGIN_NAMESPACE_MW
 
 
-using DriftingGratingStimulusBase = DynamicStimulusBase<BasicTransformStimulus>;
+using DriftingGratingStimulusBase = DynamicStimulusBase<ColoredTransformStimulus>;
 
 
 class DriftingGratingStimulus : public DriftingGratingStimulusBase {
@@ -62,7 +62,6 @@ private:
     void prepare(const boost::shared_ptr<StimulusDisplay> &display) override;
     void destroy(const boost::shared_ptr<StimulusDisplay> &display) override;
     void preDraw(const boost::shared_ptr<StimulusDisplay> &display) override;
-    void postDraw(const boost::shared_ptr<StimulusDisplay> &display) override;
     
     void drawFrame(boost::shared_ptr<StimulusDisplay> display) override;
     
@@ -88,7 +87,6 @@ private:
     
     double last_phase;
     
-    GLint alphaUniformLocation = -1;
     GLint invertedUniformLocation = -1;
     GLint stdDevUniformLocation = -1;
     GLint meanUniformLocation = -1;

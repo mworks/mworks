@@ -3,7 +3,7 @@
 
 name: Drifting Grating Stimulus
 signature: stimulus/drifting_grating
-isa: [Basic Transform Stimulus, Dynamic Stimulus Base]
+isa: [Colored Transform Stimulus, Dynamic Stimulus Base]
 description: A drifting grating stimulus
 parameters: 
   - 

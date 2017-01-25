@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<monkeyml version="1.0">
+    <io_devices tag="IO Devices"></io_devices>
+    <variables tag="Variables">
+        <variable tag="x_size" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="7" type="any"></variable>
+        <variable tag="y_size" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="10" type="any"></variable>
+        <variable tag="x_pos" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="-5" type="any"></variable>
+        <variable tag="y_pos" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="-3" type="any"></variable>
+        <variable tag="rotation" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="0" type="any"></variable>
+        <variable tag="alpha" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="1" type="any"></variable>
+        <variable tag="red" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="1" type="any"></variable>
+        <variable tag="green" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="1" type="any"></variable>
+        <variable tag="blue" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="1" type="any"></variable>
+        <variable tag="direction" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="0" type="any"></variable>
+        <variable tag="starting_phase" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="0" type="any"></variable>
+        <variable tag="spatial_frequency" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="0.5" type="any"></variable>
+        <variable tag="speed" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="0.5" type="any"></variable>
+        <variable tag="inverted" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="false" type="any"></variable>
+        <variable tag="std_dev" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="0.35" type="any"></variable>
+        <variable tag="mean" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="0" type="any"></variable>
+    </variables>
+    <sounds tag="Sounds"></sounds>
+    <stimuli tag="Stimuli">
+        <stimulus type="rectangle" tag="rect" color="1,0,0" x_size="x_size" y_size="y_size" x_position="x_pos" y_position="y_pos" rotation="rotation" alpha_multiplier="1"></stimulus>
+        <stimulus type="drifting_grating" tag="grating" direction="direction" starting_phase="starting_phase" spatial_frequency="spatial_frequency" speed="speed" grating_type="sawtooth" mask="gaussian" inverted="inverted" std_dev="std_dev" mean="mean" color="red,green,blue" x_size="x_size" y_size="y_size" x_position="x_pos" y_position="y_pos" rotation="rotation" alpha_multiplier="alpha" autoplay="YES"></stimulus>
+    </stimuli>
+    <filters tag="Filters"></filters>
+    <optimizers tag="Optimizers"></optimizers>
+    <experiment tag="New Experiment" full_name="" description="">
+        <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
+            <action tag="Live queue rect" type="live_queue_stimulus" stimulus="rect"></action>
+            <action tag="Live queue grating" type="live_queue_stimulus" stimulus="grating"></action>
+            <action tag="Update display" type="update_stimulus_display" predicted_output_time=""></action>
+            <action type="wait" tag="Wait" duration="2.0" duration_units="s"></action>
+            <action type="assignment" tag="Change direction" variable="direction" value="90"></action>
+            <action type="wait" tag="Wait" duration="2.0" duration_units="s"></action>
+            <action type="assignment" tag="Change starting_phase" variable="starting_phase" value="180"></action>
+            <action type="wait" tag="Wait" duration="2.0" duration_units="s"></action>
+            <action type="assignment" tag="Change spatial_frequency" variable="spatial_frequency" value="1"></action>
+            <action type="wait" tag="Wait" duration="2.0" duration_units="s"></action>
+            <action type="assignment" tag="Change speed" variable="speed" value="2"></action>
+            <action type="wait" tag="Wait" duration="2.0" duration_units="s"></action>
+            <action type="assignment" tag="Change inverted" variable="inverted" value="true"></action>
+            <action type="wait" tag="Wait" duration="2.0" duration_units="s"></action>
+            <action type="assignment" tag="Change std_dev" variable="std_dev" value="0.45"></action>
+            <action type="wait" tag="Wait" duration="2.0" duration_units="s"></action>
+            <action type="assignment" tag="Change mean" variable="mean" value="1"></action>
+            <action type="wait" tag="Wait" duration="2.0" duration_units="s"></action>
+            <action type="assignment" tag="Change red" variable="red" value="0"></action>
+            <action type="wait" tag="Wait" duration="2.0" duration_units="s"></action>
+            <action type="assignment" tag="Change green" variable="green" value="0"></action>
+            <action type="wait" tag="Wait" duration="2.0" duration_units="s"></action>
+            <action type="assignment" tag="Change blue" variable="blue" value="0"></action>
+            <action type="wait" tag="Wait" duration="2.0" duration_units="s"></action>
+            <action type="assignment" tag="Reset red" variable="red" value="1"></action>
+            <action type="assignment" tag="Reset green" variable="green" value="1"></action>
+            <action type="assignment" tag="Reset blue" variable="blue" value="1"></action>
+            <action type="assignment" tag="Change x_size" variable="x_size" value="10"></action>
+            <action type="wait" tag="Wait" duration="2.0" duration_units="s"></action>
+            <action type="assignment" tag="Change y_size" variable="y_size" value="7"></action>
+            <action type="wait" tag="Wait" duration="2.0" duration_units="s"></action>
+            <action type="assignment" tag="Change x_pos" variable="x_pos" value="5"></action>
+            <action type="wait" tag="Wait" duration="2.0" duration_units="s"></action>
+            <action type="assignment" tag="Change y_pos" variable="y_pos" value="3"></action>
+            <action type="wait" tag="Wait" duration="2.0" duration_units="s"></action>
+            <action type="assignment" tag="Change rotation" variable="rotation" value="45"></action>
+            <action type="wait" tag="Wait" duration="2.0" duration_units="s"></action>
+            <action type="assignment" tag="Change alpha" variable="alpha" value="0.5"></action>
+            <action type="wait" tag="Wait" duration="2.0" duration_units="s"></action>
+        </protocol>
+    </experiment>
+</monkeyml>
