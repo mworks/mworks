@@ -163,8 +163,8 @@ gl::Shader DriftingGratingStimulus::getFragmentShader() const {
      out vec4 fragColor;
      
      void main() {
-         if (maskVaryingCoords.s < 0.0 || maskVaryingCoords.s > 1.0 ||
-             maskVaryingCoords.t < 0.0 || maskVaryingCoords.t > 1.0)
+         if (maskVaryingCoords.x < 0.0 || maskVaryingCoords.x > 1.0 ||
+             maskVaryingCoords.y < 0.0 || maskVaryingCoords.y > 1.0)
          {
              discard;
          }
@@ -337,14 +337,19 @@ void DriftingGratingStimulus::preDraw(const boost::shared_ptr<StimulusDisplay> &
     glBufferData(GL_ARRAY_BUFFER, sizeof(gratingCoord), gratingCoord.data(), GL_STREAM_DRAW);
     
     const double aspect = current_sizex / current_sizey;
-    const float mask_s_ratio = 1-std::min(1.0,aspect);
-    const float mask_t_ratio = 1-std::min(1.0,1.0/aspect);
+    float mask_x_offset = 0;
+    float mask_y_offset = 0;
+    if (aspect > 1.0) {
+        mask_y_offset = (aspect - 1.0) / 2.0;
+    } else if (aspect < 1.0) {
+        mask_x_offset = (1.0/aspect - 1.0) / 2.0;
+    }
     
     std::array<GLfloat, 4 * 2> maskCoords = {
-        0 - mask_s_ratio, 0 - mask_t_ratio,
-        1 + mask_s_ratio, 0 - mask_t_ratio,
-        0 - mask_s_ratio, 1 + mask_t_ratio,
-        1 + mask_s_ratio, 1 + mask_t_ratio
+        0 - mask_x_offset, 0 - mask_y_offset,
+        1 + mask_x_offset, 0 - mask_y_offset,
+        0 - mask_x_offset, 1 + mask_y_offset,
+        1 + mask_x_offset, 1 + mask_y_offset
     };
     arrayBufferBinding.bind(maskCoordsBuffer);
     glBufferData(GL_ARRAY_BUFFER, sizeof(maskCoords), maskCoords.data(), GL_STREAM_DRAW);
