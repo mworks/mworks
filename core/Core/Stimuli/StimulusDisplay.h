@@ -97,13 +97,17 @@ BEGIN_NAMESPACE_MW
         std::vector< shared_ptr<StimulusNode> > stimsToAnnounce;
         std::vector<Datum> stimAnnouncements;
         
-        GLuint framebuffer;
-        GLuint renderbuffer;
-        std::map<int, GLint> bufferWidths, bufferHeights;
+        GLuint program = 0;
+        GLuint vertexArray = 0;
+        GLuint vertexPositionBuffer = 0;
+        GLuint texCoordsBuffer = 0;
+        GLuint framebuffer = 0;
+        GLuint framebufferTexture = 0;
         
         void setMainDisplayRefreshRate();
-        void allocateBufferStorage();
-        void drawStoredBuffer(int contextIndex) const;
+        void prepareProgram();
+        void allocateFramebufferStorage();
+        void drawStoredFramebuffer(int contextIndex) const;
 		
         void glInit();
 		void setDisplayBounds();

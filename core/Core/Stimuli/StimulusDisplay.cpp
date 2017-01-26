@@ -43,9 +43,7 @@ StimulusDisplay::StimulusDisplay(bool announceIndividualStimuli) :
     mainDisplayRefreshRate(0.0),
     currentOutputTimeUS(-1),
     announceIndividualStimuli(announceIndividualStimuli),
-    announceStimuliOnImplicitUpdates(true),
-    framebuffer(0),
-    renderbuffer(0)
+    announceStimuliOnImplicitUpdates(true)
 {
     // defer creation of the display chain until after the stimulus display has been created
     display_stack = shared_ptr< LinkedList<StimulusNode> >(new LinkedList<StimulusNode>());
@@ -187,9 +185,6 @@ void StimulusDisplay::addContext(int _context_id){
 	context_ids.push_back(_context_id);
     int contextIndex = context_ids.size() - 1;
     
-    OpenGLContextLock ctxLock = opengl_context_manager->setCurrent(_context_id);
-    getCurrentViewportSize(bufferWidths[contextIndex], bufferHeights[contextIndex]);
-    
     CVDisplayLinkRef dl;
     
     if (kCVReturnSuccess != CVDisplayLinkCreateWithActiveCGDisplays(&dl)) {
@@ -212,49 +207,129 @@ void StimulusDisplay::addContext(int _context_id){
     
     if (0 == contextIndex) {
         setMainDisplayRefreshRate();
-        allocateBufferStorage();
+        auto ctxLock = opengl_context_manager->setCurrent(_context_id);
+        prepareProgram();
+        allocateFramebufferStorage();
     }
 }
 
 
-void StimulusDisplay::allocateBufferStorage() {
+namespace {
+    const std::string vertexShaderSource
+    (R"(
+     in vec4 vertexPosition;
+     in vec2 texCoords;
+     
+     out vec2 varyingTexCoords;
+     
+     void main() {
+         gl_Position = vertexPosition;
+         varyingTexCoords = texCoords;
+     }
+     )");
+    
+    
+    const std::string fragmentShaderSource
+    (R"(
+     uniform sampler2D framebufferTexture;
+     
+     in vec2 varyingTexCoords;
+     
+     out vec4 fragColor;
+     
+     void main() {
+         fragColor = texture(framebufferTexture, varyingTexCoords);
+     }
+     )");
+    
+    
+    constexpr GLint numVertices = 4;
+    constexpr GLint componentsPerVertex = 2;
+    
+    
+    const std::array<GLfloat, numVertices*componentsPerVertex> vertexPositions
+    {
+        -1.0f, -1.0f,
+         1.0f, -1.0f,
+        -1.0f,  1.0f,
+         1.0f,  1.0f,
+    };
+    
+    
+    const std::array<GLfloat, numVertices*componentsPerVertex> texCoords
+    {
+        0.0f, 0.0f,
+        1.0f, 0.0f,
+        0.0f, 1.0f,
+        1.0f, 1.0f,
+    };
+}
+
+
+void StimulusDisplay::prepareProgram() {
+    auto vertexShader = gl::createShader(GL_VERTEX_SHADER, vertexShaderSource);
+    auto fragmentShader = gl::createShader(GL_FRAGMENT_SHADER, fragmentShaderSource);
+    program = gl::createProgram({ vertexShader.get(), fragmentShader.get() }).release();
+    gl::ProgramUsage programUsage(program);
+    
+    glUniform1i(glGetUniformLocation(program, "framebufferTexture"), 0);
+    
+    glGenVertexArrays(1, &vertexArray);
+    gl::VertexArrayBinding vertexArrayBinding(vertexArray);
+    
+    glGenBuffers(1, &vertexPositionBuffer);
+    gl::BufferBinding<GL_ARRAY_BUFFER> arrayBufferBinding(vertexPositionBuffer);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertexPositions), vertexPositions.data(), GL_STATIC_DRAW);
+    GLint vertexPositionAttribLocation = glGetAttribLocation(program, "vertexPosition");
+    glEnableVertexAttribArray(vertexPositionAttribLocation);
+    glVertexAttribPointer(vertexPositionAttribLocation, componentsPerVertex, GL_FLOAT, GL_FALSE, 0, nullptr);
+    
+    glGenBuffers(1, &texCoordsBuffer);
+    arrayBufferBinding.bind(texCoordsBuffer);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(texCoords), texCoords.data(), GL_STATIC_DRAW);
+    GLint texCoordsAttribLocation = glGetAttribLocation(program, "texCoords");
+    glEnableVertexAttribArray(texCoordsAttribLocation);
+    glVertexAttribPointer(texCoordsAttribLocation, componentsPerVertex, GL_FLOAT, GL_FALSE, 0, nullptr);
+    
     glGenFramebuffers(1, &framebuffer);
-    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, framebuffer);
+    glGenTextures(1, &framebufferTexture);
+}
+
+
+void StimulusDisplay::allocateFramebufferStorage() {
+    gl::FramebufferBinding<GL_DRAW_FRAMEBUFFER> framebufferBinding(framebuffer);
+    gl::TextureBinding<GL_TEXTURE_2D> textureBinding(framebufferTexture);
     
-    glGenRenderbuffers(1, &renderbuffer);
-    glBindRenderbuffer(GL_RENDERBUFFER, renderbuffer);
+    GLint viewportWidth, viewportHeight;
+    getCurrentViewportSize(viewportWidth, viewportHeight);
     
-    glRenderbufferStorage(GL_RENDERBUFFER, GL_RGBA8, bufferWidths[0], bufferHeights[0]);
+    glTexImage2D(GL_TEXTURE_2D,
+                 0,
+                 GL_RGBA8,
+                 viewportWidth,
+                 viewportHeight,
+                 0,
+                 GL_BGRA,
+                 GL_UNSIGNED_INT_8_8_8_8_REV,
+                 nullptr);
     
-    glFramebufferRenderbuffer(GL_DRAW_FRAMEBUFFER,
-                              GL_COLOR_ATTACHMENT0,
-                              GL_RENDERBUFFER,
-                              renderbuffer);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     
-    GLenum status = glCheckFramebufferStatus(GL_DRAW_FRAMEBUFFER);
-    if (GL_FRAMEBUFFER_COMPLETE != status) {
+    glFramebufferTexture2D(GL_DRAW_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, framebufferTexture, 0);
+    
+    if (GL_FRAMEBUFFER_COMPLETE != glCheckFramebufferStatus(GL_DRAW_FRAMEBUFFER)) {
         throw SimpleException("OpenGL framebuffer setup failed");
     }
-    
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
-    glBindRenderbuffer(GL_RENDERBUFFER, 0);
 }
 
 
-void StimulusDisplay::drawStoredBuffer(int contextIndex) const {
-    glBindFramebuffer(GL_READ_FRAMEBUFFER, framebuffer);
-    glReadBuffer(GL_COLOR_ATTACHMENT0);
+void StimulusDisplay::drawStoredFramebuffer(int contextIndex) const {
+    gl::ProgramUsage programUsage(program);
+    gl::VertexArrayBinding vertexArrayBinding(vertexArray);
+    gl::TextureBinding<GL_TEXTURE_2D> textureBinding(framebufferTexture);
     
-    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
-    GLenum drawBuffers[] = { GL_BACK_LEFT };
-    glDrawBuffers(1, drawBuffers);
-    
-    glBlitFramebuffer(0, 0, bufferWidths.at(0), bufferHeights.at(0),
-                      0, 0, bufferWidths.at(contextIndex), bufferHeights.at(contextIndex),
-                      GL_COLOR_BUFFER_BIT,
-                      GL_LINEAR);
-    
-    glBindFramebuffer(GL_READ_FRAMEBUFFER, 0);
+    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 }
 
 
@@ -418,18 +493,16 @@ void StimulusDisplay::refreshMainDisplay() {
     OpenGLContextLock ctxLock = opengl_context_manager->setCurrent(context_ids.at(0));
     
     if (needDraw) {
-        glBindFramebuffer(GL_DRAW_FRAMEBUFFER, framebuffer);
-        GLenum drawBuffers[] = { GL_COLOR_ATTACHMENT0 };
-        glDrawBuffers(1, drawBuffers);
+        gl::FramebufferBinding<GL_DRAW_FRAMEBUFFER> framebufferBinding(framebuffer);
+        const GLenum drawBuffer = GL_COLOR_ATTACHMENT0;
+        glDrawBuffers(1, &drawBuffer);
         
         current_context_index = 0;
         drawDisplayStack();
         current_context_index = -1;
-        
-        glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
     }
     
-    drawStoredBuffer(0);
+    drawStoredFramebuffer(0);
     opengl_context_manager->flush(0);
     
     if (needDraw) {
@@ -443,7 +516,7 @@ void StimulusDisplay::refreshMainDisplay() {
 void StimulusDisplay::refreshMirrorDisplay(int contextIndex) const {
     OpenGLContextLock ctxLock = opengl_context_manager->setCurrent(context_ids[contextIndex]);
     
-    drawStoredBuffer(contextIndex);
+    drawStoredFramebuffer(contextIndex);
     opengl_context_manager->flush(contextIndex);
 }
 

@@ -112,6 +112,17 @@ struct Enabled : boost::noncopyable {
 };
 
 
+template <GLenum target>
+struct FramebufferBinding : boost::noncopyable {
+    
+    explicit FramebufferBinding(GLuint framebuffer) { bind(framebuffer); }
+    ~FramebufferBinding() { bind(0); }
+    
+    void bind(GLuint framebuffer) { glBindFramebuffer(target, framebuffer); }
+    
+};
+
+
 struct ProgramUsage : boost::noncopyable {
     
     explicit ProgramUsage(GLuint program) { use(program); }
