@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <marionette_info>
   <expected_messages>
-    <message type="contains">Cannot load image from file (status = -4)</message>
+    <message type="contains">Cannot load image from file</message>
     <message type="starts_with">ERROR: Failed to parse experiment </message>
   </expected_messages>
   <expected_events>

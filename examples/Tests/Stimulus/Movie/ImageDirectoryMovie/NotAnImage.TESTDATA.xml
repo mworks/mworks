@@ -4,7 +4,7 @@
     <message type="contains"> is incompatible with display refresh rate </message>
   </permitted_error_messages>
   <expected_messages>
-    <message type="contains">Cannot load image: file read error</message>
+    <message type="contains">Cannot load image from file</message>
     <message type="starts_with">ERROR: Failed to parse experiment </message>
   </expected_messages>
   <expected_events>
