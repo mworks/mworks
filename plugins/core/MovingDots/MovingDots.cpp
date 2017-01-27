@@ -396,15 +396,28 @@ const std::string MovingDots::vertexShaderSource
 
 const std::string MovingDots::fragmentShaderSource
 (R"(
+ const vec2 center = vec2(0.5, 0.5);
+ const float radius = 0.5;
+ 
  uniform vec4 color;
  out vec4 fragColor;
  
  void main() {
-     // Make dots round, not square
-     if (distance(gl_PointCoord, vec2(0.5, 0.5)) > 0.5) {
+     //
+     // Make the dots round, not square
+     //
+     // For an explanation of the edge-smoothing technique used here, see either of the following:
+     // https://rubendv.be/blog/opengl/drawing-antialiased-circles-in-opengl/
+     // http://www.numb3r23.net/2015/08/17/using-fwidth-for-distance-based-anti-aliasing/
+     //
+     float dist = distance(gl_PointCoord, center);
+     float delta = fwidth(dist) / 2;
+     if (dist > radius + delta) {
          discard;
      }
-     fragColor = color;
+     float alpha = 1.0 - smoothstep(radius - delta, radius + delta, dist);
+     fragColor.rgb = color.rgb;
+     fragColor.a = alpha * color.a;
  }
  )");
 
