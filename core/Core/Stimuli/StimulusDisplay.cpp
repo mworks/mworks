@@ -32,10 +32,11 @@
 BEGIN_NAMESPACE_MW
 
 
+void StimulusDisplay::DispatchQueueDeleter::operator()(dispatch_queue_t queue) const {
+    dispatch_release(queue);
+}
 
-/**********************************************************************
- *                  StimulusDisplay Methods
- **********************************************************************/
+
 StimulusDisplay::StimulusDisplay(bool announceIndividualStimuli) :
     current_context_index(-1),
     projectionMatrix(GLKMatrix4Identity),
@@ -43,8 +44,13 @@ StimulusDisplay::StimulusDisplay(bool announceIndividualStimuli) :
     mainDisplayRefreshRate(0.0),
     currentOutputTimeUS(-1),
     announceIndividualStimuli(announceIndividualStimuli),
-    announceStimuliOnImplicitUpdates(true)
+    announceStimuliOnImplicitUpdates(true),
+    framebufferAccessQueue(dispatch_queue_create(nullptr, DISPATCH_QUEUE_SERIAL))
 {
+    if (!framebufferAccessQueue) {
+        throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN, "Failed to create framebuffer access queue");
+    }
+    
     // defer creation of the display chain until after the stimulus display has been created
     display_stack = shared_ptr< LinkedList<StimulusNode> >(new LinkedList<StimulusNode>());
     
@@ -492,18 +498,20 @@ void StimulusDisplay::refreshMainDisplay() {
     
     OpenGLContextLock ctxLock = opengl_context_manager->setCurrent(context_ids.at(0));
     
-    if (needDraw) {
-        gl::FramebufferBinding<GL_DRAW_FRAMEBUFFER> framebufferBinding(framebuffer);
-        const GLenum drawBuffer = GL_COLOR_ATTACHMENT0;
-        glDrawBuffers(1, &drawBuffer);
+    dispatch_sync(framebufferAccessQueue.get(), ^{
+        if (needDraw) {
+            gl::FramebufferBinding<GL_DRAW_FRAMEBUFFER> framebufferBinding(framebuffer);
+            const GLenum drawBuffer = GL_COLOR_ATTACHMENT0;
+            glDrawBuffers(1, &drawBuffer);
+            
+            current_context_index = 0;
+            drawDisplayStack();
+            current_context_index = -1;
+        }
         
-        current_context_index = 0;
-        drawDisplayStack();
-        current_context_index = -1;
-    }
-    
-    drawStoredFramebuffer(0);
-    opengl_context_manager->flush(0);
+        drawStoredFramebuffer(0);
+        opengl_context_manager->flush(0);
+    });
     
     if (needDraw) {
         announceDisplayUpdate(updateIsExplicit);
@@ -516,8 +524,10 @@ void StimulusDisplay::refreshMainDisplay() {
 void StimulusDisplay::refreshMirrorDisplay(int contextIndex) const {
     OpenGLContextLock ctxLock = opengl_context_manager->setCurrent(context_ids[contextIndex]);
     
-    drawStoredFramebuffer(contextIndex);
-    opengl_context_manager->flush(contextIndex);
+    dispatch_sync(framebufferAccessQueue.get(), ^{
+        drawStoredFramebuffer(contextIndex);
+        opengl_context_manager->flush(contextIndex);
+    });
 }
 
 

@@ -42,7 +42,7 @@ public:
         if (obj) deleter(obj);
     }
     
-    explicit Object(GLuint obj) noexcept :
+    explicit Object(GLuint obj = 0) noexcept :
         obj(obj)
     { }
     

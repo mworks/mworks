@@ -97,6 +97,11 @@ BEGIN_NAMESPACE_MW
         std::vector< shared_ptr<StimulusNode> > stimsToAnnounce;
         std::vector<Datum> stimAnnouncements;
         
+        struct DispatchQueueDeleter {
+            void operator()(dispatch_queue_t queue) const;
+        };
+        const std::unique_ptr<std::remove_pointer<dispatch_queue_t>::type, DispatchQueueDeleter> framebufferAccessQueue;
+        
         GLuint program = 0;
         GLuint vertexArray = 0;
         GLuint vertexPositionBuffer = 0;
