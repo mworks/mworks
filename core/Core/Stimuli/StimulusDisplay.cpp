@@ -32,11 +32,6 @@
 BEGIN_NAMESPACE_MW
 
 
-void StimulusDisplay::DispatchQueueDeleter::operator()(dispatch_queue_t queue) const {
-    dispatch_release(queue);
-}
-
-
 StimulusDisplay::StimulusDisplay(bool announceIndividualStimuli) :
     current_context_index(-1),
     projectionMatrix(GLKMatrix4Identity),
@@ -44,13 +39,8 @@ StimulusDisplay::StimulusDisplay(bool announceIndividualStimuli) :
     mainDisplayRefreshRate(0.0),
     currentOutputTimeUS(-1),
     announceIndividualStimuli(announceIndividualStimuli),
-    announceStimuliOnImplicitUpdates(true),
-    framebufferAccessQueue(dispatch_queue_create(nullptr, DISPATCH_QUEUE_SERIAL))
+    announceStimuliOnImplicitUpdates(true)
 {
-    if (!framebufferAccessQueue) {
-        throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN, "Failed to create framebuffer access queue");
-    }
-    
     // defer creation of the display chain until after the stimulus display has been created
     display_stack = shared_ptr< LinkedList<StimulusNode> >(new LinkedList<StimulusNode>());
     
@@ -211,10 +201,11 @@ void StimulusDisplay::addContext(int _context_id){
         throw SimpleException("Unable to associate display link with OpenGL context");
     }
     
+    auto ctxLock = opengl_context_manager->setCurrent(_context_id);
+    prepareContext(contextIndex);
+    
     if (0 == contextIndex) {
         setMainDisplayRefreshRate();
-        auto ctxLock = opengl_context_manager->setCurrent(_context_id);
-        prepareProgram();
         allocateFramebufferStorage();
     }
 }
@@ -272,17 +263,21 @@ namespace {
 }
 
 
-void StimulusDisplay::prepareProgram() {
+void StimulusDisplay::prepareContext(int contextIndex) {
     auto vertexShader = gl::createShader(GL_VERTEX_SHADER, vertexShaderSource);
     auto fragmentShader = gl::createShader(GL_FRAGMENT_SHADER, fragmentShaderSource);
+    
+    auto &program = programs[contextIndex];
     program = gl::createProgram({ vertexShader.get(), fragmentShader.get() }).release();
     gl::ProgramUsage programUsage(program);
     
     glUniform1i(glGetUniformLocation(program, "framebufferTexture"), 0);
     
+    auto &vertexArray = vertexArrays[contextIndex];
     glGenVertexArrays(1, &vertexArray);
     gl::VertexArrayBinding vertexArrayBinding(vertexArray);
     
+    GLuint vertexPositionBuffer = 0;
     glGenBuffers(1, &vertexPositionBuffer);
     gl::BufferBinding<GL_ARRAY_BUFFER> arrayBufferBinding(vertexPositionBuffer);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertexPositions), vertexPositions.data(), GL_STATIC_DRAW);
@@ -290,19 +285,20 @@ void StimulusDisplay::prepareProgram() {
     glEnableVertexAttribArray(vertexPositionAttribLocation);
     glVertexAttribPointer(vertexPositionAttribLocation, componentsPerVertex, GL_FLOAT, GL_FALSE, 0, nullptr);
     
+    GLuint texCoordsBuffer = 0;
     glGenBuffers(1, &texCoordsBuffer);
     arrayBufferBinding.bind(texCoordsBuffer);
     glBufferData(GL_ARRAY_BUFFER, sizeof(texCoords), texCoords.data(), GL_STATIC_DRAW);
     GLint texCoordsAttribLocation = glGetAttribLocation(program, "texCoords");
     glEnableVertexAttribArray(texCoordsAttribLocation);
     glVertexAttribPointer(texCoordsAttribLocation, componentsPerVertex, GL_FLOAT, GL_FALSE, 0, nullptr);
-    
-    glGenFramebuffers(1, &framebuffer);
-    glGenTextures(1, &framebufferTexture);
 }
 
 
 void StimulusDisplay::allocateFramebufferStorage() {
+    glGenFramebuffers(1, &framebuffer);
+    glGenTextures(1, &framebufferTexture);
+    
     gl::FramebufferBinding<GL_DRAW_FRAMEBUFFER> framebufferBinding(framebuffer);
     gl::TextureBinding<GL_TEXTURE_2D> textureBinding(framebufferTexture);
     
@@ -331,8 +327,8 @@ void StimulusDisplay::allocateFramebufferStorage() {
 
 
 void StimulusDisplay::drawStoredFramebuffer(int contextIndex) const {
-    gl::ProgramUsage programUsage(program);
-    gl::VertexArrayBinding vertexArrayBinding(vertexArray);
+    gl::ProgramUsage programUsage(programs.at(contextIndex));
+    gl::VertexArrayBinding vertexArrayBinding(vertexArrays.at(contextIndex));
     gl::TextureBinding<GL_TEXTURE_2D> textureBinding(framebufferTexture);
     
     glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
@@ -498,20 +494,18 @@ void StimulusDisplay::refreshMainDisplay() {
     
     OpenGLContextLock ctxLock = opengl_context_manager->setCurrent(context_ids.at(0));
     
-    dispatch_sync(framebufferAccessQueue.get(), ^{
-        if (needDraw) {
-            gl::FramebufferBinding<GL_DRAW_FRAMEBUFFER> framebufferBinding(framebuffer);
-            const GLenum drawBuffer = GL_COLOR_ATTACHMENT0;
-            glDrawBuffers(1, &drawBuffer);
-            
-            current_context_index = 0;
-            drawDisplayStack();
-            current_context_index = -1;
-        }
+    if (needDraw) {
+        gl::FramebufferBinding<GL_DRAW_FRAMEBUFFER> framebufferBinding(framebuffer);
+        const GLenum drawBuffer = GL_COLOR_ATTACHMENT0;
+        glDrawBuffers(1, &drawBuffer);
         
-        drawStoredFramebuffer(0);
-        opengl_context_manager->flush(0);
-    });
+        current_context_index = 0;
+        drawDisplayStack();
+        current_context_index = -1;
+    }
+    
+    drawStoredFramebuffer(0);
+    opengl_context_manager->flush(0);
     
     if (needDraw) {
         announceDisplayUpdate(updateIsExplicit);
@@ -524,10 +518,8 @@ void StimulusDisplay::refreshMainDisplay() {
 void StimulusDisplay::refreshMirrorDisplay(int contextIndex) const {
     OpenGLContextLock ctxLock = opengl_context_manager->setCurrent(context_ids[contextIndex]);
     
-    dispatch_sync(framebufferAccessQueue.get(), ^{
-        drawStoredFramebuffer(contextIndex);
-        opengl_context_manager->flush(contextIndex);
-    });
+    drawStoredFramebuffer(contextIndex);
+    opengl_context_manager->flush(contextIndex);
 }
 
 
