@@ -8,7 +8,7 @@
     <stimuli tag="Stimuli">
         <stimulus_group tag="images">
             <range_replicator tag="New Replicator" from="1" to="124" step="1" variable="index">
-                <stimulus type="image_file" tag="image_${index}" path="dog.png" x_size="30" y_size="30" x_position="0.0" y_position="0.0" rotation="0.0" alpha_multiplier="1.0" deferred="NO"></stimulus>
+                <stimulus type="image_file" tag="image_${index}" path="dog.png" x_size="30" y_size="30" x_position="0.0" y_position="0.0" rotation="0.0" alpha_multiplier="1.0" deferred="YES"></stimulus>
             </range_replicator>
         </stimulus_group>
     </stimuli>
