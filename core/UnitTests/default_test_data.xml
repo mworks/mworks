@@ -2,7 +2,7 @@
 <marionette_info>
   <permitted_error_messages>
     <!-- Test-specific messages are appended to this list -->
-    <message type="whole_message" max_matches="2">WARNING: Skipped 1 display refresh cycles</message>
+    <message type="whole_message" max_matches="1">WARNING: Skipped 1 display refresh cycles</message>
     <message type="starts_with" max_matches="1">WARNING: Write Service Routine Interrupted on id </message>
     <message type="starts_with" max_matches="2">WARNING: Failed to set thread priority: </message>
   </permitted_error_messages>
