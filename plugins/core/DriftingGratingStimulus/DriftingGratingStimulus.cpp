@@ -148,6 +148,8 @@ gl::Shader DriftingGratingStimulus::getFragmentShader() const {
      const int ellipseMask = 2;
      const int gaussianMask = 3;
      
+     const vec2 maskCenter = vec2(0.5, 0.5);
+     const float maskRadius = 0.5;
      const float pi = 3.14159265358979323846264338327950288;
      
      uniform int gratingType;
@@ -175,17 +177,25 @@ gl::Shader DriftingGratingStimulus::getFragmentShader() const {
                  maskValue = 1.0;
                  break;
                  
-             case ellipseMask:
-                 if (distance(maskVaryingCoords, vec2(0.5, 0.5)) > 0.5) {
+             case ellipseMask: {
+                 //
+                 // For an explanation of the edge-smoothing technique used here, see either of the following:
+                 // https://rubendv.be/blog/opengl/drawing-antialiased-circles-in-opengl/
+                 // http://www.numb3r23.net/2015/08/17/using-fwidth-for-distance-based-anti-aliasing/
+                 //
+                 float dist = distance(maskVaryingCoords, maskCenter);
+                 float delta = fwidth(dist);
+                 if (dist > maskRadius) {
                      discard;
                  }
-                 maskValue = 1.0;
+                 maskValue = 1.0 - smoothstep(maskRadius - delta, maskRadius, dist);
                  break;
+             }
                  
              case gaussianMask: {
                  float s = stdDev;
                  float u = mean;
-                 float d = distance(maskVaryingCoords, vec2(0.5, 0.5)) / 0.5;
+                 float d = distance(maskVaryingCoords, maskCenter) / maskRadius;
                  maskValue = (1/(s*sqrt(2*pi)))*exp(-1*(d-u)*(d-u)/(2*s*s));
                  break;
              }

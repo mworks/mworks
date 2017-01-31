@@ -389,11 +389,11 @@ gl::Shader CircleStimulus::getFragmentShader() const {
          // http://www.numb3r23.net/2015/08/17/using-fwidth-for-distance-based-anti-aliasing/
          //
          float dist = distance(rawPosition, center);
-         float delta = fwidth(dist) / 2;
-         if (dist > radius + delta) {
+         float delta = fwidth(dist);
+         if (dist > radius) {
              discard;
          }
-         float alpha = 1.0 - smoothstep(radius - delta, radius + delta, dist);
+         float alpha = 1.0 - smoothstep(radius - delta, radius, dist);
          fragColor.rgb = color.rgb;
          fragColor.a = alpha * color.a;
      }
