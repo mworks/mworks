@@ -1,5 +1,5 @@
 function test_suite = testTypeConversion
-initTestSuite;
+test_suite = buildFunctionHandleTestSuite(localfunctions);
 
 function testUndefined
 u = getData('undefined');

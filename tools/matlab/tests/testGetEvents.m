@@ -1,5 +1,5 @@
 function test_suite = testGetEvents
-initTestSuite;
+test_suite = buildFunctionHandleTestSuite(localfunctions);
 
 
 function tooFewInputs

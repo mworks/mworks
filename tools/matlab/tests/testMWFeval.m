@@ -1,5 +1,5 @@
 function test_suite = testMWFeval
-initTestSuite;
+test_suite = buildFunctionHandleTestSuite(localfunctions);
 
 
 function testUnknownFunctionName
