@@ -103,7 +103,10 @@
 												  error:&outError];
 		
     if(outError != Nil){
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
       NSRunAlertPanel(@"Error Combining Plugin Libraries", [outError localizedDescription], @"OK", Nil, Nil, Nil);
+#pragma clang diagnostic pop
 			return self;
     }
       
@@ -133,7 +136,10 @@
 		
 			   
 		if ( outError != Nil ) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 			NSRunAlertPanel(@"Error Transforming Library", [outError localizedDescription], @"OK", Nil, Nil, Nil);
+#pragma clang diagnostic pop
 			return self;
 		}
 		
@@ -153,7 +159,10 @@
 														error:&outError];
 			   
 		if ( outError != Nil ) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 			NSRunAlertPanel(@"Error", @"Error generating library transformation", @"OK", Nil, Nil, Nil);
+#pragma clang diagnostic pop
 			return self;
 		}
 		//NSLog(@"%@", [display_hint_transformation XMLString]);
@@ -169,10 +178,13 @@
 										  
 			   
 		if ( outError != Nil ) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 			NSRunAlertPanel(
 				[NSString stringWithFormat:@"Error"], 
 				[NSString stringWithFormat:@"Error loading default xml document:%@", [outError localizedDescription] ], 
 				@"OK", Nil, Nil, Nil);
+#pragma clang diagnostic pop
 			return self;
 		}
 		
@@ -190,7 +202,10 @@
 		//NSLog(@"%@", [document XMLString]);
 		
 		if ( outError != Nil ) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 			NSRunAlertPanel(@"Error", @"Error transforming xml document", @"OK", Nil, Nil, Nil);
+#pragma clang diagnostic pop
 			return self;
 		}
 		
@@ -217,10 +232,13 @@
 		
 			   
 		if ( outError != Nil ) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 			NSRunAlertPanel(
 				[NSString stringWithFormat:@"Error"], 
 				[NSString stringWithFormat:@"Error loading schematron document:%@", [outError localizedDescription] ], 
 				@"OK", Nil, Nil, Nil);
+#pragma clang diagnostic pop
 			return self;
 		}
 
@@ -256,7 +274,10 @@
 			   
 			   
 		if ( outError != Nil ) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 			NSRunAlertPanel(@"Error", @"Error generating schematron transformation", @"OK", Nil, Nil, Nil);
+#pragma clang diagnostic pop
 			return self;
 		}
 			
@@ -406,7 +427,10 @@
 													arguments:nil
 													error:outError];
 	if(stripped_doc == Nil){
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 		NSRunAlertPanel(@"Error", @"Error writing file", @"OK", Nil, Nil, Nil);
+#pragma clang diagnostic pop
 	}
 	
 	*outError = Nil;
@@ -440,11 +464,14 @@
 	}
 	
   if ( document == Nil ) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 		if(error != Nil){
       NSRunAlertPanel(@"Error creating XML document", [error localizedDescription], @"OK", Nil, Nil, Nil);
     } else {
       NSRunAlertPanel(@"Error creating XML document", @"blah", @"OK", Nil, Nil, Nil);
 		}
+#pragma clang diagnostic pop
 	}
 	
 	

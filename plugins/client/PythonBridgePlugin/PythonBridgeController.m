@@ -149,11 +149,14 @@
         parent_window = [self window];
     }
     
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     [NSApp beginSheet: script_chooser_sheet
        modalForWindow: parent_window
         modalDelegate: self
        didEndSelector: @selector(didEndSheet:returnCode:contextInfo:)
           contextInfo: nil];
+#pragma clang diagnostic pop
     
 }
 

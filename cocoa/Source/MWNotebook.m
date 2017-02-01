@@ -21,9 +21,12 @@
     NSString *logFileDir = [[NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES)
                              objectAtIndex:0] stringByAppendingPathComponent:@"Logs/MWorks"];
     
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     NSString *logFileName = [[NSDate date] descriptionWithCalendarFormat:@"%Y%m%d_%H%M%S%F.log"
                                                                 timeZone:nil
                                                                   locale:nil];
+#pragma clang diagnostic pop
     
     logFilePath = [logFileDir stringByAppendingPathComponent:logFileName];
     
@@ -47,9 +50,12 @@
     
     NSMutableString *full_entry = [[NSMutableString alloc] init];
     
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     NSString *time_string = [[NSDate date] descriptionWithCalendarFormat:@"<%H:%M:%S>: "
                                            timeZone:nil
                                            locale:nil];
+#pragma clang diagnostic pop
     
     
     [full_entry appendString:time_string];

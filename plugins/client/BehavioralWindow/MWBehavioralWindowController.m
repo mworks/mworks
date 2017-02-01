@@ -398,8 +398,11 @@ NSString *percentCorrectPlotIdentifier = @"PercentCorrectLinePlot";
 
 
 - (IBAction)launchOptionsSheet:(id)sender{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 	[NSApp beginSheet:optionsSheet modalForWindow:[NSApp mainWindow]
 		modalDelegate:nil didEndSelector:nil contextInfo:nil];
+#pragma clang diagnostic pop
 }
 
 

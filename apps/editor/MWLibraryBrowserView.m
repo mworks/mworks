@@ -15,7 +15,10 @@
 
 - (id)initWithCoder:(NSCoder *)decoder {
     if ((self = [super initWithCoder:decoder])) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         [self setMatrixClass:[MWLibraryBrowserMatrix class]];
+#pragma clang diagnostic pop
     }
     return self;
 }

@@ -118,11 +118,14 @@
 		[modalPortField setStringValue:serverPortString];
 	}
 	
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 	[NSApp beginSheet: sheet_to_use
             modalForWindow: [self window]
             modalDelegate: self
             didEndSelector: @selector(didEndSheet:returnCode:contextInfo:)
             contextInfo: nil];
+#pragma clang diagnostic pop
 }
 
 - (IBAction)closeURLSheet: (id)sender
@@ -152,11 +155,14 @@
 //		[modalPortField setStringValue:serverPortString];
 	}
 	
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 	[NSApp beginSheet: sheet_to_use
             modalForWindow: [self window]
             modalDelegate: self
             didEndSelector: @selector(didEndSheet:returnCode:contextInfo:)
             contextInfo: nil];
+#pragma clang diagnostic pop
 }
 
 
@@ -260,11 +266,14 @@
 	
     [modalNewVariableSetField setStringValue:@""];
     
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 	[NSApp beginSheet: variableSetSheet
             modalForWindow: [self window]
             modalDelegate: self
             didEndSelector: @selector(didEndSheet:returnCode:contextInfo:)
             contextInfo: nil];
+#pragma clang diagnostic pop
 }
 
 
@@ -329,11 +338,14 @@
 	}
 	
 	
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 	[NSApp beginSheet: sheet_to_use
             modalForWindow: [self window]
             modalDelegate: self
             didEndSelector: @selector(didEndSheet:returnCode:contextInfo:)
             contextInfo: nil];
+#pragma clang diagnostic pop
 }
 
 - (IBAction) closeDataFileOpenSheet: (id)sender {
@@ -458,11 +470,14 @@
 
 	sheetOrigin = [[[self window] contentView] convertRect:[[item view] bounds] fromView:[item view]];
 	
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 	[NSApp beginSheet: errorSheet
             modalForWindow: [self window]
             modalDelegate: self
             didEndSelector: @selector(didEndSheet:returnCode:contextInfo:)
             contextInfo: nil];
+#pragma clang diagnostic pop
 }
 
 - (IBAction)closeErrorSheet:(id)sender{
