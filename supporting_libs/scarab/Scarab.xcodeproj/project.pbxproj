@@ -52,9 +52,6 @@
 		0ECA4C8A0D6DFF8600BD00B2 /* scarab_utilities.c in Sources */ = {isa = PBXBuildFile; fileRef = 5C4FDA2A059D199E00BC36A7 /* scarab_utilities.c */; };
 		0ECA4C8B0D6DFF8600BD00B2 /* session.c in Sources */ = {isa = PBXBuildFile; fileRef = 5CF4DEDB0591EAD9002A02B7 /* session.c */; };
 		0ECA4C8C0D6DFF8600BD00B2 /* stream_file.c in Sources */ = {isa = PBXBuildFile; fileRef = 5CF4DEDC0591EAD9002A02B7 /* stream_file.c */; };
-		0ECA4C8D0D6DFF8600BD00B2 /* stream_tcpip.c in Sources */ = {isa = PBXBuildFile; fileRef = 5CF4DEDD0591EAD9002A02B7 /* stream_tcpip.c */; };
-		0ECA4C8E0D6DFF8600BD00B2 /* stream_tcpip_buffered.c in Sources */ = {isa = PBXBuildFile; fileRef = 5C50306E0A67ED5700EB7EE2 /* stream_tcpip_buffered.c */; };
-		0ECA4C8F0D6DFF8600BD00B2 /* stream_tcpip_select.c in Sources */ = {isa = PBXBuildFile; fileRef = DA30B60508AA8A7F000988AD /* stream_tcpip_select.c */; };
 		E1CBF62B16BAEF120057CE48 /* scarab.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5CF4DEDA0591EAD9002A02B7 /* scarab.h */; };
 		E1CBF62C16BAEF120057CE48 /* scarab_datatypes.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5CF4DED40591EAD9002A02B7 /* scarab_datatypes.h */; };
 		E1CBF62D16BAEF120057CE48 /* scarab_dict.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5CF4DED50591EAD9002A02B7 /* scarab_dict.h */; };
@@ -118,7 +115,6 @@
 		5C4BDD8809E258B4008B8AB7 /* Scarab-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Scarab-Info.plist"; sourceTree = "<group>"; };
 		5C4FDA2A059D199E00BC36A7 /* scarab_utilities.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = scarab_utilities.c; path = "Scarab-0.1.00d19/c/scarab_utilities.c"; sourceTree = SOURCE_ROOT; };
 		5C4FDA2C059D1B1000BC36A7 /* scarab_utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = scarab_utilities.h; path = "Scarab-0.1.00d19/c/scarab_utilities.h"; sourceTree = SOURCE_ROOT; };
-		5C50306E0A67ED5700EB7EE2 /* stream_tcpip_buffered.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = stream_tcpip_buffered.c; path = "Scarab-0.1.00d19/c/stream_tcpip_buffered.c"; sourceTree = "<group>"; };
 		5C5164A60A7012600034E68E /* mem_simple.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = mem_simple.c; path = "Scarab-0.1.00d19/c/mem_simple.c"; sourceTree = "<group>"; };
 		5CF4DEC90591EAD9002A02B7 /* comp.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = comp.c; path = "Scarab-0.1.00d19/c/comp.c"; sourceTree = SOURCE_ROOT; };
 		5CF4DECA0591EAD9002A02B7 /* data.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = data.c; path = "Scarab-0.1.00d19/c/data.c"; sourceTree = SOURCE_ROOT; };
@@ -135,8 +131,6 @@
 		5CF4DEDA0591EAD9002A02B7 /* scarab.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = scarab.h; path = "Scarab-0.1.00d19/c/scarab.h"; sourceTree = SOURCE_ROOT; };
 		5CF4DEDB0591EAD9002A02B7 /* session.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = session.c; path = "Scarab-0.1.00d19/c/session.c"; sourceTree = SOURCE_ROOT; };
 		5CF4DEDC0591EAD9002A02B7 /* stream_file.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = stream_file.c; path = "Scarab-0.1.00d19/c/stream_file.c"; sourceTree = SOURCE_ROOT; };
-		5CF4DEDD0591EAD9002A02B7 /* stream_tcpip.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = stream_tcpip.c; path = "Scarab-0.1.00d19/c/stream_tcpip.c"; sourceTree = SOURCE_ROOT; };
-		DA30B60508AA8A7F000988AD /* stream_tcpip_select.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = stream_tcpip_select.c; path = "Scarab-0.1.00d19/c/stream_tcpip_select.c"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -181,9 +175,6 @@
 				5C4FDA2C059D1B1000BC36A7 /* scarab_utilities.h */,
 				5CF4DEDB0591EAD9002A02B7 /* session.c */,
 				5CF4DEDC0591EAD9002A02B7 /* stream_file.c */,
-				5CF4DEDD0591EAD9002A02B7 /* stream_tcpip.c */,
-				DA30B60508AA8A7F000988AD /* stream_tcpip_select.c */,
-				5C50306E0A67ED5700EB7EE2 /* stream_tcpip_buffered.c */,
 				5C4BDD8809E258B4008B8AB7 /* Scarab-Info.plist */,
 				5CF4DEB40591EA4B002A02B7 /* Products */,
 			);
@@ -280,9 +271,6 @@
 				0ECA4C8A0D6DFF8600BD00B2 /* scarab_utilities.c in Sources */,
 				0ECA4C8B0D6DFF8600BD00B2 /* session.c in Sources */,
 				0ECA4C8C0D6DFF8600BD00B2 /* stream_file.c in Sources */,
-				0ECA4C8D0D6DFF8600BD00B2 /* stream_tcpip.c in Sources */,
-				0ECA4C8E0D6DFF8600BD00B2 /* stream_tcpip_buffered.c in Sources */,
-				0ECA4C8F0D6DFF8600BD00B2 /* stream_tcpip_select.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

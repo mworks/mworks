@@ -24,12 +24,12 @@ extern ScarabEncoderEngine scarab_ldo_encoder;
 /*
  * Import Streams
  */
-extern ScarabStreamEngine scarab_stream_tcpip;
+//extern ScarabStreamEngine scarab_stream_tcpip;
 extern ScarabStreamEngine scarab_stream_file;
 extern ScarabStreamEngine scarab_stream_file_readonly;
 //extern ScarabStreamEngine scarab_stream_tcpipnb; // non-blocking
-extern ScarabStreamEngine scarab_stream_tcpip_select;
-extern ScarabStreamEngine scarab_buffered_stream_tcpip;
+//extern ScarabStreamEngine scarab_stream_tcpip_select;
+//extern ScarabStreamEngine scarab_buffered_stream_tcpip;
 /*
  * Define Encoder and Stream list.
  */
@@ -40,11 +40,11 @@ static ScarabEncoderEngine *g_encoder_engines[64] = {
 };
 
 static ScarabStreamEngine *g_stream_engines[64] = {
-	&scarab_stream_tcpip,
+	//&scarab_stream_tcpip,
 	&scarab_stream_file,
 	&scarab_stream_file_readonly,
-    &scarab_stream_tcpip_select,
-	&scarab_buffered_stream_tcpip,
+    //&scarab_stream_tcpip_select,
+	//&scarab_buffered_stream_tcpip,
 	NULL,
 };
 
@@ -519,10 +519,12 @@ scarab_session_geterr(ScarabSession * session)
 	return session->errcode;
 }
 
+/*
 int
 scarab_did_select_timeout(int errorCode) {
     return (errorCode == SCARAB_SELECT_TIMEDOUT);
 }
+ */
 
 int
 scarab_session_getoserr(ScarabSession * session)
@@ -654,12 +656,12 @@ char * scarab_session_foreign_address(ScarabSession * session) {
 }
 
 int scarab_session_read_should_die(ScarabSession * session) {
-    if(READ_FUBAR_FLAG) {
-        READ_FUBAR_FLAG = 0;
-        return 1;
-    } else {
+    //if(READ_FUBAR_FLAG) {
+    //    READ_FUBAR_FLAG = 0;
+    //    return 1;
+    //} else {
         return 0;
-    }
+    //}
 }
 
 int
@@ -794,4 +796,8 @@ ScarabDatum    *
 scarab_read_dict(ScarabSession * session)
 {
 	return session->encoder_engine->read(session);
+}
+
+void scarab_force_buffering(ScarabSession *s, int value){
+    s->force_buffering = value;
 }

@@ -585,10 +585,6 @@ static int buffered_stream_write(ScarabStream * stream, const void *buffer, int 
 	return size;
 }
 
-void scarab_force_buffering(ScarabSession *s, int value){
-	s->force_buffering = value;
-}
-
 static int buffered_stream_send(ScarabStream * stream) {
 	
 	if(stream->session->force_buffering){

@@ -20,8 +20,8 @@ extern "C" {
 #define FORCE_BUFFERING_OFF 0
 #define FORCE_BUFFERING_ON 0
 
-extern int SCARAB_SELECT_TIMEDOUT;
-extern int READ_FUBAR_FLAG;
+//extern int SCARAB_SELECT_TIMEDOUT;
+//extern int READ_FUBAR_FLAG;
 
 
 FWD(struct, ScarabEncoderEngine);
@@ -248,7 +248,7 @@ extern int      scarab_session_geterr(ScarabSession * session);
  * returns true if it was a timeout no otherwise.
  * errorCode should be the error code returned from a scarab session
  */
-extern int     scarab_did_select_timeout(int errorCode);
+//extern int     scarab_did_select_timeout(int errorCode);
 
 /*
  * Get the session os error code.
