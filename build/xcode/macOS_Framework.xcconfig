@@ -1,0 +1,4 @@
+#include "macOS.xcconfig"
+#include "_Framework.xcconfig"
+
+DYLIB_INSTALL_NAME_BASE = $(inherited)

@@ -1,0 +1,3 @@
+#include "macOS.xcconfig"
+
+WRAPPER_EXTENSION = bundle

@@ -1,0 +1,7 @@
+#include "Base.xcconfig"
+
+CODE_SIGN_IDENTITY[sdk=iphoneos*] = iPhone Developer
+IPHONEOS_DEPLOYMENT_TARGET = 10.2
+SDKROOT = iphoneos
+TARGETED_DEVICE_FAMILY = 1,2
+VALIDATE_PRODUCT = YES
