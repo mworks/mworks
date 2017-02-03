@@ -65,7 +65,7 @@ static std::string formatException(const std::string &description) {
         }
     }
     
-    return std::move(msg);
+    return msg;
 }
 
 

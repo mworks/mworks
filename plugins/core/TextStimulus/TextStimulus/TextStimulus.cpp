@@ -70,7 +70,7 @@ Datum TextStimulus::getCurrentAnnounceDrawData() {
     announceData.addElement(FONT_NAME, lastFontName);
     announceData.addElement(FONT_SIZE, lastFontSize);
     
-    return std::move(announceData);
+    return announceData;
 }
 
 

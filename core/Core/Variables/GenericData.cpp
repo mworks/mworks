@@ -489,7 +489,7 @@ std::string Datum::getStringQuoted() const {
     }
     
     os += "\"";
-    return std::move(os);
+    return os;
 }
 
 

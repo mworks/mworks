@@ -263,7 +263,7 @@ Datum PythonDataStream::readDatum() {
     Datum datum = scarabDatumToDatum(rawDatum);
     scarab_free_datum(rawDatum);
     
-    return std::move(datum);
+    return datum;
 }
 
 

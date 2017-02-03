@@ -157,7 +157,7 @@ Datum MovingDots::getCurrentAnnounceDrawData() {
         announceData.addElement("dots", dotsData);
     }
     
-    return std::move(announceData);
+    return announceData;
 }
 
 

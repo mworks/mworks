@@ -87,35 +87,31 @@ typedef struct                                  /* WAV Chunk-header */
 
 
 ALuint	_bs_ALuint(ALuint orig){
-
-	#if __LITTLE_ENDIAN__
+#if __LITTLE_ENDIAN__
 		return orig;
-	#endif
-
+#else
 	ALuint swapped;
 	unsigned char *orig_pointer = (unsigned char *)&orig;
 	unsigned char *swapped_pointer = (unsigned char *)&swapped;
 	for(unsigned int i = 0; i < sizeof(ALuint); i++){
 		swapped_pointer[i] = orig_pointer[sizeof(ALuint) - i - 1];
 	}
-	
 	return swapped;
+#endif
 }
 
 ALuint	_bs_ALushort(ALushort orig){
-
-	#if	__LITTLE_ENDIAN__
+#if	__LITTLE_ENDIAN__
 		return orig;
-	#endif
-
+#else
 	ALushort swapped;
 	unsigned char *orig_pointer = (unsigned char *)&orig;
 	unsigned char *swapped_pointer = (unsigned char *)&swapped;
 	for(unsigned int i = 0; i < sizeof(ALushort); i++){
 		swapped_pointer[i] = orig_pointer[sizeof(ALushort) - i - 1];
 	}
-	
 	return swapped;
+#endif
 }
 
 

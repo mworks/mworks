@@ -157,15 +157,6 @@ WavFileSound::WavFileSound(const ParameterValueMap &parameters) :
 		throw SimpleException(
 			(boost::format("Failed to load WAV into AL buffer (error code %d; data %d, format %d, size %d, freq %d)") %
 			   error % data % format % size % freq).str());
-		if(error == AL_INVALID_ENUM){
-			throw SimpleException("Unknown audio format", (boost::format("%d") % format).str());
-		}
-		
-		if(error == AL_INVALID_VALUE){
-			throw SimpleException(
-				(boost::format("Invalid buffer size (%d)") % size).str());
-		}
-		return; 
 	}
 	
 	

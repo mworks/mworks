@@ -80,6 +80,7 @@ void SchedulerTestFixture::testPeriod10HzNoPayloadChaffX4(){
     std::cout << " (DISABLED)";
     return;
 
+    /*
 	MWTime interval = 100000; // 10Hz
 	
 	std::vector<MWTime> times = timeTrial(interval, 400, 4);
@@ -89,6 +90,7 @@ void SchedulerTestFixture::testPeriod10HzNoPayloadChaffX4(){
 	for(unsigned int i = 1 ; i < times.size(); i++){
 		CPPUNIT_ASSERT(std::abs(times[i] - times[i-1] - interval) < ACCEPTABLE_ERROR_US);
 	}
+     */
 	
 	
 }

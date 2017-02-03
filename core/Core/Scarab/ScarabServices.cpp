@@ -121,7 +121,7 @@ scarab_datum_ptr datumToScarabDatum(const Datum &d) {
                 scarab_list_put(list.get(), i, datumToScarabDatum(lval.at(i)).get());
             }
             
-            return std::move(list);
+            return list;
         }
             
         case M_DICTIONARY: {
@@ -132,7 +132,7 @@ scarab_datum_ptr datumToScarabDatum(const Datum &d) {
                 scarab_dict_put(dict.get(), datumToScarabDatum(item.first).get(), datumToScarabDatum(item.second).get());
             }
             
-            return std::move(dict);
+            return dict;
         }
             
         default:
@@ -216,7 +216,7 @@ scarab_datum_ptr eventToScarabEventDatum(const Event &e) {
                     MWORKS_EVENT_PAYLOAD_INDEX,
                     datumToScarabDatum(e.getData()).get());
     
-    return std::move(event_datum);
+    return event_datum;
 }
 
 

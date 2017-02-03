@@ -239,7 +239,7 @@ Datum Stimulus::getCurrentAnnounceDrawData() {
     announceData.addElement(STIM_ACTION,STIM_ACTION_DRAW);
     announceData.addElement(STIM_TYPE,STIM_TYPE_GENERIC);  
     
-    return std::move(announceData);
+    return announceData;
 }
 
 

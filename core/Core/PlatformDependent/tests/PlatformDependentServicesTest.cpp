@@ -72,6 +72,7 @@ void PlatformDependentServicesTestFixture::testConstStrings() {
     std::cout << " (DISABLED)";
     return;
     
+    /*
   const int big_ugly_chunk_of_data = 1978;
   char *dummy[12];
 	
@@ -217,6 +218,7 @@ void PlatformDependentServicesTestFixture::testConstStrings() {
   for (int i=0; i<10; ++i) {
 	  delete [] dummy[i];
   }
+     */
 }	      
 
 

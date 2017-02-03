@@ -73,7 +73,7 @@ Datum BlankScreen::getCurrentAnnounceDrawData() {
     announceData.addElement(STIM_COLOR_G,last_g);
     announceData.addElement(STIM_COLOR_B,last_b);
     
-    return std::move(announceData);
+    return announceData;
 }
 
 
@@ -210,7 +210,7 @@ Datum BasicTransformStimulus::getCurrentAnnounceDrawData() {
     announceData.addElement(STIM_ROT,last_rot);  
     announceData.addElement(STIM_ALPHA,last_alpha);
     
-    return std::move(announceData);
+    return announceData;
 }
 
 
@@ -271,7 +271,7 @@ Datum ColoredTransformStimulus::getCurrentAnnounceDrawData() {
     announceData.addElement(STIM_COLOR_G,last_g);
     announceData.addElement(STIM_COLOR_B,last_b);
     
-    return std::move(announceData);
+    return announceData;
 }
 
 
@@ -308,7 +308,7 @@ void RectangleStimulus::describeComponent(ComponentInfo &info) {
 Datum RectangleStimulus::getCurrentAnnounceDrawData() {
     Datum announceData = ColoredTransformStimulus::getCurrentAnnounceDrawData();
     announceData.addElement(STIM_TYPE, "rectangle");
-    return std::move(announceData);
+    return announceData;
 }
 
 
@@ -351,7 +351,7 @@ void CircleStimulus::describeComponent(ComponentInfo &info) {
 Datum CircleStimulus::getCurrentAnnounceDrawData() {
     Datum announceData = ColoredTransformStimulus::getCurrentAnnounceDrawData();
     announceData.addElement(STIM_TYPE, "circle");
-    return std::move(announceData);
+    return announceData;
 }
 
 
@@ -453,7 +453,7 @@ Datum ImageStimulus::getCurrentAnnounceDrawData() {
     announceData.addElement(STIM_FILENAME,filename);  
     announceData.addElement(STIM_FILE_HASH,fileHash);  
     
-    return std::move(announceData);
+    return announceData;
 }
 
 

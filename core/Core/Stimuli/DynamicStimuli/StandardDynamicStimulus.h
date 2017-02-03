@@ -106,7 +106,7 @@ template<typename BaseStimulus>
 Datum DynamicStimulusBase<BaseStimulus>::getCurrentAnnounceDrawData() {
     Datum announceData = BaseStimulus::getCurrentAnnounceDrawData();
     announceData.addElement("start_time", getStartTime());
-    return std::move(announceData);
+    return announceData;
 }
 
 

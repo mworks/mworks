@@ -410,7 +410,7 @@ Datum VariableRegistry::generateCodecDatum() {
         codec.setElement(codec_code, serialized_var);
     }
 	
-    return std::move(codec);
+    return codec;
 }
 
 

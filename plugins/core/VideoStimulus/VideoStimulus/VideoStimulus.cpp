@@ -109,7 +109,7 @@ Datum VideoStimulus::getCurrentAnnounceDrawData() {
     }
     announceData.addElement("current_video_time_seconds", currentVideoTimeSeconds);
     
-    return std::move(announceData);
+    return announceData;
 }
 
 

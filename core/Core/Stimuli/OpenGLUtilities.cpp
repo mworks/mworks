@@ -23,7 +23,7 @@ std::string OpenGLException::formatMessage(std::string message, GLenum error) {
     if (error != GL_NO_ERROR) {
         message += (boost::format(" (0x%04X)") % error).str();
     }
-    return std::move(message);
+    return message;
 }
 
 
@@ -73,7 +73,7 @@ Shader createShader(GLenum shaderType, const std::string &glslVersion, const std
         throw OpenGLException("Shader compilation failed");
     }
     
-    return std::move(shader);
+    return shader;
 }
 
 
@@ -109,7 +109,7 @@ Program createProgram(const std::vector<GLuint> &shaders) {
         throw OpenGLException("Program linking failed");
     }
     
-    return std::move(program);
+    return program;
 }
 
 

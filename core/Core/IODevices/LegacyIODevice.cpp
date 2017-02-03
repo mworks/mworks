@@ -859,7 +859,7 @@ bool LegacyIODevice::mapRequestsToChannels(){
 	
     // will build this list of channels
     first_pass_validated_channels = new ExpandableList<IOChannel>();
-    IOChannelRequest *  request;
+    IOChannelRequest *  request = nullptr;
     IOChannelIncompatibility* incompatibility;
     
 	// for each request, try to find a matching capability and then setup a new channel

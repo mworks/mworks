@@ -36,6 +36,7 @@ void EventStreamConduitTestFixture::testInOneThread(){
     return;
     
     
+    /*
     // Create Interprocess event transports. In principle, these could be
     // in other processes
     shared_ptr<EventTransport> serverside_transport(new IPCEventTransport(EventTransport::server_event_transport,
@@ -83,6 +84,7 @@ void EventStreamConduitTestFixture::testInOneThread(){
     CPPUNIT_ASSERT(received_event != NULL);
     CPPUNIT_ASSERT(received_event->getEventCode() == 0);
     CPPUNIT_ASSERT((double)received_event->getData() == (double)4.0);
+     */
     
     
 

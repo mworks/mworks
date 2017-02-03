@@ -1618,8 +1618,8 @@ void SelectionVariableTestFixture::testRandomWORRejectsOverCycleEdge2(){
 							break;
 					}
 				}
-					break;
 				tentative_selections.clear();
+                break;
 				
 			case 18:
 				CPPUNIT_ASSERT(var.getNDone() == 5);			

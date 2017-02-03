@@ -24,7 +24,7 @@ static int      ldo_session_close(ScarabSession * session);
 static int      ldo_write_typecode(ScarabSession * session,
 
 								   unsigned char type_code);
-static unsigned char ldo_read_typecode(ScarabSession * session);
+//static unsigned char ldo_read_typecode(ScarabSession * session);
 static long long     ldo_readber(ScarabSession * session);
 static double   ldo_readfloat(ScarabSession * session, int sign, int esign);
 static int      ldo_writeber(ScarabSession * session, long long val);
@@ -122,6 +122,7 @@ ldo_write_typecode(ScarabSession * session, unsigned char type_code)
 	return 0;
 }
 
+/*
 static unsigned char
 ldo_read_typecode(ScarabSession * session)
 {
@@ -131,6 +132,7 @@ ldo_read_typecode(ScarabSession * session)
 		return 255;
 	return type_code;
 }
+ */
 
 static long long
 ldo_readber(ScarabSession * session)

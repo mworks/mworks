@@ -109,7 +109,7 @@ Datum DriftingGratingStimulus::getCurrentAnnounceDrawData() {
         announceData.addElement(MEAN, last_mean);
     }
     
-    return std::move(announceData);
+    return announceData;
 }
 
 

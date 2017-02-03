@@ -47,7 +47,7 @@ static inline std::string getRateUnit(std::string unit) {
         throw SimpleException(M_IODEVICE_MESSAGE_DOMAIN, "Invalid NE500 rate unit", unit);
     }
     
-    return std::move(unit);
+    return unit;
 }
 
 
@@ -70,7 +70,7 @@ static inline std::string getVolumeUnit(std::string unit, double syringeDiameter
         }
     }
     
-    return std::move(unit);
+    return unit;
 }
 
 

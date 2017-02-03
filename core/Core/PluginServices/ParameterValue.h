@@ -104,7 +104,7 @@ inline StimulusNodePtr ParameterValue::convert(const std::string &s, ComponentRe
     if (!stimNode) {
         throw SimpleException("Unknown stimulus", s);
     }
-    return std::move(stimNode);
+    return stimNode;
 }
 
 
@@ -114,7 +114,7 @@ inline StimulusGroupPtr ParameterValue::convert(const std::string &s, ComponentR
     if (!stimGroup) {
         throw SimpleException("Unknown stimulus group", s);
     }
-    return std::move(stimGroup);
+    return stimGroup;
 }
 
 
@@ -133,7 +133,7 @@ inline boost::filesystem::path ParameterValue::convert(const std::string &s, Com
         throw SimpleException("Path does not exist", fullPath.string());
     }
     
-    return std::move(fullPath);
+    return fullPath;
 }
 
 

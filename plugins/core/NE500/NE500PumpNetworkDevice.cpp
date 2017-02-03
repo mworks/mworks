@@ -114,7 +114,7 @@ static inline std::string removeControlChars(std::string str) {
     boost::algorithm::erase_all(str, "\r");
     boost::algorithm::erase_all(str, "\x02");
     boost::algorithm::erase_all(str, "\x03");
-    return std::move(str);
+    return str;
 }
 
 

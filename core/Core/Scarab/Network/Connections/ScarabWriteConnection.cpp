@@ -153,8 +153,6 @@ int ScarabWriteConnection::service() {
                 scarab_free_datum(termEvent);
 				return -1;
             }
-			
-			scarab_free_datum(termEvent);
         }
     
         // while we have events to process but havent been requested for

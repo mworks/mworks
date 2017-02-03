@@ -29,7 +29,7 @@ map<int, string> extract_simple_codec_map(Datum datum){
         result[key] = value_datum.getString();
     }
     
-    return std::move(result);
+    return result;
 }
 
 map<int, string> extract_simple_codec_map(shared_ptr<Event> evt){

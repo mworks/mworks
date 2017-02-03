@@ -183,7 +183,7 @@ std::vector <std::string> VariableProperties::parseGroupList(const std::string &
         }
     }
     
-    return std::move(gps);
+    return gps;
 }
 
 
