@@ -1,7 +1,7 @@
 #include <assert.h>
 #include <stdlib.h>
-#include <scarab.h>
-#include <scarab_utilities.h>
+#include "scarab.h"
+#include "scarab_utilities.h"
 
 int 
 scarab_dict_times2(ScarabDict *d)

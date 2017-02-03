@@ -1,4 +1,4 @@
-#include <scarab.h>
+#include "scarab.h"
 #include <stdio.h>
 
 /*

@@ -1,5 +1,5 @@
 #include <Scarab/scarab.h>
-#include "Scarab/encoding_ldo.h"
+#include "encoding_ldo.h"
 #include <Scarab/scarab_list.h>
 #include <Scarab/scarab_dict.h>
 #include <stdio.h>

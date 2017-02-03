@@ -1,5 +1,5 @@
 #include <assert.h>
-#include <scarab.h>
+#include "scarab.h"
 
 // TODO: does this work?
 ScarabDatum*

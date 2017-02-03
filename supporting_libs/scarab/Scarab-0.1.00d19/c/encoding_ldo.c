@@ -3,7 +3,7 @@
 #include <math.h>
 #include <stdio.h>
 
-#include <scarab.h>
+#include "scarab.h"
 #include "encoding_ldo.h"
 
 

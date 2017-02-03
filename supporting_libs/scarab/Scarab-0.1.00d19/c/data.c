@@ -1,7 +1,7 @@
 #include <assert.h>
 #include <string.h>
 
-#include <scarab.h>
+#include "scarab.h"
 
 
 ScarabDatum  *

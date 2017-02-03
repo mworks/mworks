@@ -3,7 +3,7 @@
  */
 
 #include <stdlib.h>
-#include <scarab.h>
+#include "scarab.h"
 
 #ifndef MIN
 #define MIN(x, y) ( x>y ? y : x)

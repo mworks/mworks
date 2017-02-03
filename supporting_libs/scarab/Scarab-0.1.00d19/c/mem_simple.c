@@ -9,7 +9,7 @@
 
 //#include "mem_simple.h"
 
-#include <scarab.h>
+#include "scarab.h"
 #include <stdlib.h>
 //#include <malloc.h>
 

@@ -11,7 +11,7 @@
  * Copyright 2005 MIT. All rights reserved.
  */
 
-#include <scarab.h>
+#include "scarab.h"
 #include <string.h>
 #include <signal.h>
 #include <stdio.h>
