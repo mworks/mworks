@@ -31,9 +31,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		E1DF4BB81C57E17A0081491C /* Development.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Development.xcconfig; sourceTree = "<group>"; };
-		E1DF4BB91C57E17A0081491C /* WARNING.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = WARNING.txt; sourceTree = "<group>"; };
 		E1DF4BC11C57F4630081491C /* build_supporting_libs.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = build_supporting_libs.py; sourceTree = "<group>"; };
+		E1F298CE1E451A6D006842A7 /* iOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = iOS.xcconfig; sourceTree = "<group>"; };
+		E1F298CF1E451A6D006842A7 /* macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -48,12 +48,12 @@
 		E1DF4BB71C57E1570081491C /* External Config */ = {
 			isa = PBXGroup;
 			children = (
-				E1DF4BB81C57E17A0081491C /* Development.xcconfig */,
-				E1DF4BB91C57E17A0081491C /* WARNING.txt */,
+				E1F298CF1E451A6D006842A7 /* macOS.xcconfig */,
+				E1F298CE1E451A6D006842A7 /* iOS.xcconfig */,
 			);
 			name = "External Config";
-			path = "/Library/Application Support/MWorks/Developer/Xcode";
-			sourceTree = "<absolute>";
+			path = ../build/xcode;
+			sourceTree = SOURCE_ROOT;
 		};
 /* End PBXGroup section */
 
@@ -72,6 +72,20 @@
 			passBuildSettingsInEnvironment = 1;
 			productName = SupportingLibs;
 		};
+		E1F298D01E451D7A006842A7 /* SupportingLibs-iOS */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = build_supporting_libs.py;
+			buildConfigurationList = E1F298D21E451D7A006842A7 /* Build configuration list for PBXLegacyTarget "SupportingLibs-iOS" */;
+			buildPhases = (
+			);
+			buildToolPath = /usr/bin/python;
+			buildWorkingDirectory = "";
+			dependencies = (
+			);
+			name = "SupportingLibs-iOS";
+			passBuildSettingsInEnvironment = 1;
+			productName = "SupportingLibs-iOS";
+		};
 /* End PBXLegacyTarget section */
 
 /* Begin PBXProject section */
@@ -86,6 +100,10 @@
 					};
 					E1DF4BBC1C57E95E0081491C = {
 						CreatedOnToolsVersion = 7.2;
+					};
+					E1F298D01E451D7A006842A7 = {
+						CreatedOnToolsVersion = 8.2.1;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -102,6 +120,7 @@
 			targets = (
 				E1DF4BB11C57E0D20081491C /* SupportingLibs */,
 				E1DF4BBC1C57E95E0081491C /* Everything */,
+				E1F298D01E451D7A006842A7 /* SupportingLibs-iOS */,
 			);
 		};
 /* End PBXProject section */
@@ -117,13 +136,13 @@
 /* Begin XCBuildConfiguration section */
 		E1DF4BB21C57E0D20081491C /* Development */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E1DF4BB81C57E17A0081491C /* Development.xcconfig */;
 			buildSettings = {
 			};
 			name = Development;
 		};
 		E1DF4BB51C57E0D20081491C /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1F298CF1E451A6D006842A7 /* macOS.xcconfig */;
 			buildSettings = {
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -131,6 +150,15 @@
 		};
 		E1DF4BBE1C57E95E0081491C /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1F298CF1E451A6D006842A7 /* macOS.xcconfig */;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Development;
+		};
+		E1F298D11E451D7A006842A7 /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1F298CE1E451A6D006842A7 /* iOS.xcconfig */;
 			buildSettings = {
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -159,6 +187,14 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E1DF4BBE1C57E95E0081491C /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		E1F298D21E451D7A006842A7 /* Build configuration list for PBXLegacyTarget "SupportingLibs-iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E1F298D11E451D7A006842A7 /* Development */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;

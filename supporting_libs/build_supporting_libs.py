@@ -1,6 +1,6 @@
 from contextlib import contextmanager
+import inspect
 import multiprocessing
-import platform
 import os
 import subprocess
 import sys
@@ -18,22 +18,30 @@ def join_flags(*flags):
     return ' '.join(flags).strip()
 
 
-assert os.environ['GCC_VERSION'] == 'com.apple.compilers.llvm.clang.1_0'
-cc = '/usr/bin/clang'
-cxx = '/usr/bin/clang++'
-mkdir = '/bin/mkdir'
-rsync = '/usr/bin/rsync'
-xcodebuild = '/usr/bin/xcodebuild'
+building_for_ios = False
+if os.environ['PLATFORM_NAME'] in ('iphoneos', 'iphonesimulator'):
+    building_for_ios = True
+else:
+    assert os.environ['PLATFORM_NAME'] == 'macosx'
 
+assert os.environ['GCC_VERSION'] == 'com.apple.compilers.llvm.clang.1_0'
+cc = os.environ['DT_TOOLCHAIN_DIR'] + '/usr/bin/clang'
+cxx = os.environ['DT_TOOLCHAIN_DIR'] + '/usr/bin/clang++'
+make = os.environ['DEVELOPER_DIR'] + '/usr/bin/make'
 python = '/usr/bin/python' + os.environ['MW_PYTHON_VERSION']
+rsync = '/usr/bin/rsync'
+xcodebuild = os.environ['DEVELOPER_DIR'] + '/usr/bin/xcodebuild'
 
 num_cores = str(multiprocessing.cpu_count())
 
 common_flags = ' '.join(('-arch ' + arch) for arch in
                         os.environ['ARCHS'].split())
-common_flags += (' -isysroot %(SDKROOT)s'
-                 ' -mmacosx-version-min=%(MACOSX_DEPLOYMENT_TARGET)s'
-                 % os.environ)
+common_flags += ' -isysroot %(SDKROOT)s'
+if building_for_ios:
+    common_flags += ' -miphoneos-version-min=%(IPHONEOS_DEPLOYMENT_TARGET)s'
+else:
+    common_flags += ' -mmacosx-version-min=%(MACOSX_DEPLOYMENT_TARGET)s'
+common_flags %= os.environ
 
 compile_flags = ('-g -Os -fexceptions -fvisibility=hidden ' +
                  '-Werror=partial-availability ' +
@@ -46,13 +54,16 @@ cxxflags = ('-std=%(CLANG_CXX_LANGUAGE_STANDARD)s '
 
 link_flags = common_flags
 
-downloaddir = 'download'
-path_to_downloaddir = '../' + downloaddir
-patchdir = 'patches'
-path_to_patchdir = '../../' + patchdir
-builddir = 'source'
-stagedir = 'stage'
-path_to_stagedir = os.path.abspath(stagedir)
+downloaddir = os.path.abspath('download')
+sourcedir = os.path.abspath('source')
+patchdir = os.path.abspath('patches')
+builddir = os.environ['TARGET_TEMP_DIR']
+
+prefix = os.environ['TARGET_BUILD_DIR']
+frameworksdir = prefix + '/Frameworks'
+matlabdir = prefix + '/MATLAB'
+includedir = prefix + '/include'
+libdir = prefix + '/lib'
 
 
 ################################################################################
@@ -66,7 +77,10 @@ all_builders = []
 
 
 def builder(func):
-    all_builders.append(func)
+    argspec = inspect.getargspec(func)
+    defaults = dict(zip(argspec[0], argspec[3] or []))
+    if (not building_for_ios) or defaults.get('ios', False):
+        all_builders.append(func)
     return func
 
 
@@ -90,7 +104,7 @@ def workdir(path):
 
 
 def download_file(url, filename):
-    filepath = path_to_downloaddir + '/' + filename
+    filepath = downloaddir + '/' + filename
     if os.path.isfile(filepath):
         announce('Already downloaded file %r', filename)
     else:
@@ -107,32 +121,57 @@ def download_archive_from_sf(path, version, filename):
     return download_file(url, filename)
 
 
+def make_directory(path):
+    if not os.path.isdir(path):
+        check_call(['/bin/mkdir', '-p', path])
+
+
+def make_directories(*args):
+    for path in args:
+        make_directory(path)
+
+
 def remove_directory(path):
     if os.path.isdir(path):
         check_call(['/bin/rm', '-Rf', path])
 
 
+def remove_directories(*args):
+    for path in args:
+        remove_directory(path)
+
+
 def unpack_tarfile(filename, outputdir):
-    remove_directory(outputdir)
-    check_call(['/usr/bin/tar', 'xf', path_to_downloaddir + '/' + filename])
+    check_call(['/usr/bin/tar', 'xf', downloaddir + '/' + filename])
 
 
 def unpack_zipfile(filename, outputdir):
-    remove_directory(outputdir)
     check_call([
         '/usr/bin/unzip',
         '-q',
-        path_to_downloaddir + '/' + filename,
+        downloaddir + '/' + filename,
         '-d', outputdir,
         ])
 
 
 def apply_patch(patchfile, strip=1):
-    with open(path_to_patchdir + '/' + patchfile) as fp:
+    with open(patchdir + '/' + patchfile) as fp:
         check_call(
             args = ['/usr/bin/patch', '-p%d' % strip],
             stdin = fp,
             )
+
+
+def get_clean_env():
+    env = os.environ.copy()
+
+    # The presence of these can break some build tools
+    env.pop('IPHONEOS_DEPLOYMENT_TARGET', None)
+    env.pop('MACOSX_DEPLOYMENT_TARGET', None)
+    if building_for_ios:
+        env.pop('SDKROOT', None)
+
+    return env
 
 
 def get_updated_env(
@@ -142,7 +181,7 @@ def get_updated_env(
     extra_ldflags = '',
     ):
 
-    env = os.environ.copy()
+    env = get_clean_env()
     env.update({
         'CC': cc,
         'CXX': cxx,
@@ -156,37 +195,37 @@ def get_updated_env(
 
 
 def run_configure_and_make(
-    srcdir,
     extra_args = [],
     command = ['./configure'],
     extra_compile_flags = '',
     extra_cflags = '',
     extra_cxxflags = '',
     extra_ldflags = '',
-    patchfile = None,
-    post_patch_command = None,
     ):
 
-    with workdir(srcdir):
-        if patchfile:
-            apply_patch(patchfile)
-            if post_patch_command:
-                check_call(post_patch_command)
-        
-        check_call(
-            args = command + [
-                '--prefix=' + path_to_stagedir,
-                '--disable-dependency-tracking',
-                '--disable-shared',
-                '--enable-static',
-                ] + extra_args,
-            env = get_updated_env(extra_compile_flags,
-                                  extra_cflags,
-                                  extra_cxxflags,
-                                  extra_ldflags),
-            )
-        
-        check_call(['/usr/bin/make', '-j', num_cores, 'install'])
+    args = [
+        '--prefix=' + prefix,
+        '--includedir=' + includedir,
+        '--libdir=' + libdir,
+        '--disable-dependency-tracking',
+        '--disable-shared',
+        '--enable-static',
+        ]
+
+    # Force configure into cross-compilation mode when building for an
+    # iOS device or simulator
+    if building_for_ios:
+        args.append('--host=arm-apple-darwin')
+
+    check_call(
+        args = command + args + extra_args,
+        env = get_updated_env(extra_compile_flags,
+                              extra_cflags,
+                              extra_cxxflags,
+                              extra_ldflags),
+        )
+    
+    check_call([make, '-j', num_cores, 'install'])
 
 
 ################################################################################
@@ -197,81 +236,92 @@ def run_configure_and_make(
 
 
 @builder
-def boost():
+def boost(ios=True):
     version = '1.63.0'
     srcdir = 'boost_' + version.replace('.', '_')
     tarfile = srcdir + '.tar.bz2'
 
-    download_archive_from_sf('boost/boost', version, tarfile)
-    unpack_tarfile(tarfile, srcdir)
-
+    if not os.path.isdir(srcdir):
+        download_archive_from_sf('boost/boost', version, tarfile)
+        unpack_tarfile(tarfile, srcdir)
+        with workdir(srcdir):
+            os.symlink('boost', 'mworks_boost')
+            apply_patch('boost_clock_gettime.patch')
+            check_call([
+                './bootstrap.sh',
+                '--with-toolset=clang',
+                '--without-icu',
+                '--with-python=' + python,
+                ],
+                env = get_clean_env(),
+                )
+        
     with workdir(srcdir):
-        os.symlink('boost', 'mworks_boost')
-
-        apply_patch('boost_clock_gettime.patch')
-        
-        check_call([
-            './bootstrap.sh',
-            '--with-toolset=clang',
-            ('--with-libraries='
-             'filesystem,python,random,regex,serialization,system,thread'),
-            '--without-icu',
-            '--with-python=' + python,
-            '--prefix=' + path_to_stagedir,
-            ])
-        
-        check_call([
+        b2_args = [
             './b2',
             #'-d', '2',  # Show actual commands run,
             '-j', num_cores,
+            '--build-dir=' + builddir,
+            '--prefix=' + prefix,
+            '--includedir=' + includedir,
+            '--libdir=' + libdir,
+            'variant=release',
             'optimization=space',
             'debug-symbols=on',
-            'inlining=on',
-            'runtime-debugging=off',
             'link=static',
             'threading=multi',
             'define=boost=mworks_boost',
             'cflags=' + compile_flags,
             'cxxflags=' + cxxflags,
             'linkflags=' + link_flags,
-            'install',
-            ])
+            ]
+        libraries = ['filesystem', 'random', 'regex', 'system', 'thread']
+        if not building_for_ios:
+            libraries += ['python', 'serialization']
+        b2_args += ['--with-' + l for l in libraries]
+        b2_args.append('install')
+        check_call(b2_args)
 
-    with workdir(path_to_stagedir + '/include'):
+    with workdir(includedir):
         if not os.path.islink('mworks_boost'):
             os.symlink('boost', 'mworks_boost')
 
 
 @builder
-def zeromq():
+def zeromq(ios=True):
     version = '4.1.6'
     srcdir = 'zeromq-' + version
     tarfile = srcdir + '.tar.gz'
 
-    download_archive('https://github.com/zeromq/zeromq4-1/releases/download/v%s/' % version, tarfile)
-    unpack_tarfile(tarfile, srcdir)
+    if not os.path.isdir(srcdir):
+        download_archive('https://github.com/zeromq/zeromq4-1/releases/download/v%s/' % version, tarfile)
+        unpack_tarfile(tarfile, srcdir)
+        with workdir(srcdir):
+            apply_patch('zeromq_clock_gettime.patch')
 
-    with workdir(srcdir):
-        apply_patch('zeromq_clock_gettime.patch')
+    zeromq_builddir = os.path.join(builddir, 'zeromq')
+    make_directory(zeromq_builddir)
 
-    run_configure_and_make(
-        srcdir = srcdir,
-        extra_args = ['--disable-silent-rules', '--without-libsodium'],
-        extra_ldflags = '-lc++',
-        )
+    with workdir(zeromq_builddir):
+        run_configure_and_make(
+            command = [os.path.join(sourcedir, srcdir, 'configure')],
+            extra_args = ['--disable-silent-rules', '--disable-curve'],
+            extra_ldflags = '-lc++',
+            )
 
 
 @builder
-def msgpack():
+def msgpack(ios=True):
     version = '2.0.0'
     srcdir = 'msgpack-' + version
     tarfile = srcdir + '.tar.gz'
 
-    download_archive('https://github.com/msgpack/msgpack-c/releases/download/cpp-%s/' % version, tarfile)
-    unpack_tarfile(tarfile, srcdir)
+    if not os.path.isdir(srcdir):
+        download_archive('https://github.com/msgpack/msgpack-c/releases/download/cpp-%s/' % version, tarfile)
+        unpack_tarfile(tarfile, srcdir)
 
     with workdir(srcdir):
-        check_call([rsync, '-a', 'include/', path_to_stagedir + '/include'])
+        check_call([rsync, '-a', 'include/', includedir])
 
 
 @builder
@@ -280,10 +330,18 @@ def cppunit():
     srcdir = 'cppunit-' + version
     tarfile = srcdir + '.tar.gz'
 
-    download_archive('http://dev-www.libreoffice.org/src/', tarfile)
-    unpack_tarfile(tarfile, srcdir)
+    if not os.path.isdir(srcdir):
+        download_archive('http://dev-www.libreoffice.org/src/', tarfile)
+        unpack_tarfile(tarfile, srcdir)
 
-    run_configure_and_make(srcdir, extra_compile_flags='-g0')
+    cppunit_builddir = os.path.join(builddir, 'cppunit')
+    make_directory(cppunit_builddir)
+
+    with workdir(cppunit_builddir):
+        run_configure_and_make(
+            command = [os.path.join(sourcedir, srcdir, 'configure')],
+            extra_compile_flags = '-g0',
+            )
 
 
 @builder
@@ -298,12 +356,12 @@ def numpy():
     srcdir = 'numpy-' + version
     tarfile = srcdir + '.tar.gz'
 
-    download_archive_from_sf('numpy/NumPy', version, tarfile)
-    unpack_tarfile(tarfile, srcdir)
+    if not os.path.isdir(srcdir):
+        download_archive_from_sf('numpy/NumPy', version, tarfile)
+        unpack_tarfile(tarfile, srcdir)
 
     with workdir(srcdir):
         env = get_updated_env()
-        del env['MACOSX_DEPLOYMENT_TARGET']
         env['NPY_NUM_BUILD_JOBS'] = num_cores
 
         check_call([
@@ -319,7 +377,7 @@ def numpy():
             rsync,
             '-a',
             'install/numpy/core/include/numpy',
-            path_to_stagedir + '/include',
+            includedir,
             ])
 
 
@@ -330,13 +388,13 @@ def matlab_xunit():
     srcdir = tag * 2 + version
     tarfile = tag + version + '.tar.gz'
 
-    download_archive('https://github.com/psexton/matlab-xunit/archive/', tarfile)
-    unpack_tarfile(tarfile, srcdir)
+    if not os.path.isdir(srcdir):
+        download_archive('https://github.com/psexton/matlab-xunit/archive/', tarfile)
+        unpack_tarfile(tarfile, srcdir)
 
     with workdir(srcdir):
-        stagepath = path_to_stagedir + '/MATLAB'
-        check_call([mkdir, '-p', stagepath])
-        check_call([rsync, '-a', 'src/', stagepath + '/xunit'])
+        make_directory(matlabdir)
+        check_call([rsync, '-a', 'src/', matlabdir + '/xunit'])
 
 
 @builder
@@ -345,10 +403,11 @@ def narrative():
     srcdir = 'Narrative-' + version
     zipfile = srcdir + '.zip'
 
-    download_archive_from_sf('narrative/narrative',
-                             urllib.quote(srcdir.replace('-', ' ')),
-                             zipfile)
-    unpack_zipfile(zipfile, srcdir)
+    if not os.path.isdir(srcdir):
+        download_archive_from_sf('narrative/narrative',
+                                 urllib.quote(srcdir.replace('-', ' ')),
+                                 zipfile)
+        unpack_zipfile(zipfile, srcdir)
 
     with workdir('/'.join([srcdir, srcdir, 'Narrative'])):
         check_call([
@@ -368,7 +427,7 @@ def narrative():
             rsync,
             '-a',
             'build/Release/Narrative.framework',
-            path_to_stagedir + '/Frameworks',
+            frameworksdir
             ])
 
 
@@ -381,6 +440,14 @@ def narrative():
 
 def main():
     if os.environ['ACTION'] == 'clean':
+        remove_directories(sourcedir,
+                           builddir,
+                           frameworksdir,
+                           matlabdir,
+                           prefix + '/bin',
+                           includedir,
+                           libdir,
+                           prefix + '/share')
         return
 
     requested_builders = sys.argv[1:]
@@ -388,27 +455,30 @@ def main():
 
     for name in requested_builders:
         if name not in builder_names:
-            announce('ERROR: unknown builder: %r', name)
+            announce('ERROR: invalid builder: %r', name)
             sys.exit(1)
 
-    if not requested_builders:
-        remove_directory(stagedir)
-    check_call([mkdir, '-p', downloaddir, builddir, stagedir])
+    make_directories(downloaddir, sourcedir, builddir)
 
-    with workdir(builddir):
+    with workdir(sourcedir):
         for buildfunc in all_builders:
             if ((not requested_builders) or
                 (buildfunc.__name__ in requested_builders)):
                 buildfunc()
 
-    # Remove unwanted build products
-    for dirpath in ('bin', 'lib/pkgconfig', 'share'):
-        remove_directory(stagedir + '/' + dirpath)
-    check_call(['/usr/bin/find', (stagedir + '/lib'), '-name', '*.la',
-                '-exec', '/bin/rm', '{}', ';'])
-
-    # Install files
-    check_call([rsync, '-a', (stagedir + '/'), os.environ['MW_DEVELOPER_DIR']])
+    if not building_for_ios:
+        # Install files
+        check_call([
+            rsync,
+            '-a',
+            '--exclude=*.la',
+            '--exclude=pkgconfig',
+            frameworksdir,
+            matlabdir,
+            includedir,
+            libdir,
+            os.environ['MW_DEVELOPER_DIR'],
+            ])
 
 
 if __name__ == '__main__':
