@@ -727,8 +727,6 @@
 		5C0BB1F0126CDA1900387C54 /* AccumulatingConduit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccumulatingConduit.h; sourceTree = "<group>"; };
 		5C0C4A8409B64DAD0021D3CC /* SelectionVariable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SelectionVariable.h; path = Core/Variables/SelectionVariable.h; sourceTree = SOURCE_ROOT; };
 		5C0C4A8509B64DAD0021D3CC /* SelectionVariable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SelectionVariable.cpp; path = Core/Variables/SelectionVariable.cpp; sourceTree = SOURCE_ROOT; };
-		5C0CD7A41149E75F00B1C674 /* Development.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Development.xcconfig; path = "/Library/Application Support/MWorks/Developer/Xcode/Development.xcconfig"; sourceTree = "<absolute>"; };
-		5C0CD7A51149E75F00B1C674 /* WARNING.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = WARNING.txt; path = "/Library/Application Support/MWorks/Developer/Xcode/WARNING.txt"; sourceTree = "<absolute>"; };
 		5C0E74F609D1A7E9002295FB /* LowPrioritySchedulerPlugin-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "LowPrioritySchedulerPlugin-Info.plist"; sourceTree = "<group>"; };
 		5C0E757A09D1A886002295FB /* LowPrioritySchedulerPlugin.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LowPrioritySchedulerPlugin.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		5C18E25408A167BE00AA734D /* VariableNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VariableNotification.h; path = Core/Variables/VariableNotification.h; sourceTree = SOURCE_ROOT; };
@@ -1045,6 +1043,10 @@
 		E1DB978516C18FE0001481E9 /* libcppunit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcppunit.a; path = "/Library/Application Support/MWorks/Developer/lib/libcppunit.a"; sourceTree = "<absolute>"; };
 		E1DC75061D259C1700D9BC19 /* SerialPort.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SerialPort.cpp; path = Core/Utilities/SerialPort.cpp; sourceTree = "<group>"; };
 		E1DC75071D259C1700D9BC19 /* SerialPort.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = SerialPort.hpp; path = Core/Utilities/SerialPort.hpp; sourceTree = "<group>"; };
+		E1EDA97E1E4A3A840045E5F8 /* iOS_Framework.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = iOS_Framework.xcconfig; sourceTree = "<group>"; };
+		E1EDA97F1E4A3A840045E5F8 /* macOS_Bundle.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = macOS_Bundle.xcconfig; sourceTree = "<group>"; };
+		E1EDA9801E4A3A840045E5F8 /* macOS_Framework.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = macOS_Framework.xcconfig; sourceTree = "<group>"; };
+		E1EDA9811E4A3A840045E5F8 /* macOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
 		E1F65DF8119086A100F9A3A3 /* IODevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IODevice.cpp; path = Core/IODevices/IODevice.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -1263,11 +1265,14 @@
 		5C0CD79E1149E69A00B1C674 /* External Configuration */ = {
 			isa = PBXGroup;
 			children = (
-				5C0CD7A41149E75F00B1C674 /* Development.xcconfig */,
-				5C0CD7A51149E75F00B1C674 /* WARNING.txt */,
+				E1EDA9811E4A3A840045E5F8 /* macOS.xcconfig */,
+				E1EDA97F1E4A3A840045E5F8 /* macOS_Bundle.xcconfig */,
+				E1EDA9801E4A3A840045E5F8 /* macOS_Framework.xcconfig */,
+				E1EDA97E1E4A3A840045E5F8 /* iOS_Framework.xcconfig */,
 			);
 			name = "External Configuration";
-			sourceTree = "<group>";
+			path = ../build/xcode;
+			sourceTree = SOURCE_ROOT;
 		};
 		5C2386B10E8D18FA00CDC4FC /* Communications */ = {
 			isa = PBXGroup;
@@ -2894,6 +2899,7 @@
 /* Begin XCBuildConfiguration section */
 		0E8014150E422E2B00D6DE20 /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1EDA9811E4A3A840045E5F8 /* macOS.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
@@ -2909,6 +2915,7 @@
 		};
 		5C0E757709D1A886002295FB /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1EDA97F1E4A3A840045E5F8 /* macOS_Bundle.xcconfig */;
 			buildSettings = {
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
@@ -2921,10 +2928,8 @@
 		};
 		5C0E84DB086D85D400B3EE7C /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1EDA9801E4A3A840045E5F8 /* macOS_Framework.xcconfig */;
 			buildSettings = {
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				FRAMEWORK_VERSION = A;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					"MW_VERSION=\\\"$(MW_VERSION)\\\"",
@@ -2941,6 +2946,7 @@
 		};
 		5C0E84FB086D85D400B3EE7C /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1EDA97F1E4A3A840045E5F8 /* macOS_Bundle.xcconfig */;
 			buildSettings = {
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
@@ -2953,6 +2959,7 @@
 		};
 		5C0E84FF086D85D400B3EE7C /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1EDA97F1E4A3A840045E5F8 /* macOS_Bundle.xcconfig */;
 			buildSettings = {
 				INFOPLIST_FILE = "ZenStateSystem/ZenStateSystemPlugin-Info.plist";
 				PRODUCT_NAME = ZenStateSystemPlugin;
@@ -2961,6 +2968,7 @@
 		};
 		5C0E8503086D85D400B3EE7C /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1EDA9811E4A3A840045E5F8 /* macOS.xcconfig */;
 			buildSettings = {
 				PRODUCT_NAME = Everything;
 			};
@@ -2968,13 +2976,13 @@
 		};
 		5C0E850F086D85D400B3EE7C /* Development */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5C0CD7A41149E75F00B1C674 /* Development.xcconfig */;
 			buildSettings = {
 			};
 			name = Development;
 		};
 		5C488A170F4E27CD00C5A526 /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1EDA9811E4A3A840045E5F8 /* macOS.xcconfig */;
 			buildSettings = {
 				PRODUCT_NAME = "Set Version String";
 			};
@@ -2982,6 +2990,7 @@
 		};
 		5C4D232E09DC595B0082BF9F /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1EDA9811E4A3A840045E5F8 /* macOS.xcconfig */;
 			buildSettings = {
 				GCC_OPTIMIZATION_LEVEL = 0;
 				PRODUCT_NAME = MWorksCoreTestRunner;
@@ -2990,10 +2999,8 @@
 		};
 		5C4D239F09DC83950082BF9F /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1EDA9801E4A3A840045E5F8 /* macOS_Framework.xcconfig */;
 			buildSettings = {
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				FRAMEWORK_VERSION = A;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				INFOPLIST_FILE = "UnitTests/MWorksCoreTest-Info.plist";
 				INSTALL_PATH = "$(MW_TESTS_DIR)";
@@ -3003,34 +3010,19 @@
 		};
 		E106CF0F1CA42EDC001A0928 /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1EDA97F1E4A3A840045E5F8 /* macOS_Bundle.xcconfig */;
 			buildSettings = {
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HighPrecisionClock/HighPrecisionClock-Prefix.pch";
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
 				INFOPLIST_FILE = HighPrecisionClock/Info.plist;
-				MTL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.mworks-project.HighPrecisionClock";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = bundle;
 			};
 			name = Development;
 		};
 		E11542051193460300DDE09D /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1EDA9811E4A3A840045E5F8 /* macOS.xcconfig */;
 			buildSettings = {
 				PRODUCT_NAME = "Install Testing Tools";
 			};
@@ -3038,6 +3030,7 @@
 		};
 		E1CBF63C16BAF3090057CE48 /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1EDA9811E4A3A840045E5F8 /* macOS.xcconfig */;
 			buildSettings = {
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -3045,6 +3038,7 @@
 		};
 		E1CBF65416BAFA240057CE48 /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1EDA9811E4A3A840045E5F8 /* macOS.xcconfig */;
 			buildSettings = {
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
