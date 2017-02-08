@@ -18,77 +18,77 @@
 BEGIN_NAMESPACE_MW
 
 
-	// A class to manage Cocoa OpenGL contexts
-	class OpenGLContextManager : public Component{
-		
-    protected:
-		
-		NSMutableArray			*contexts;
-        
-        std::map<int, double>   display_refresh_rates;
-		
-		NSWindow				*mirror_window;
-        NSOpenGLView            *mirror_view;
-		BOOL					mirror_window_active;
-        
-        NSWindow                *fullscreen_window;
-        NSOpenGLView            *fullscreen_view;
-        BOOL                    fullscreen_window_active;
-        
-        IOPMAssertionID         display_sleep_block;
-		
-		int						main_display_index;
-		
-        NSScreen                *_getScreen(const int screen_number);
-        CGDirectDisplayID       _getDisplayID(int screen_number);
-        void                    _measureDisplayRefreshRate(int index);
-        
-    public:
-        
-		
-        OpenGLContextManager();
-        
-        
-        // Create a "mirror" window (smaller, movable window that displays whatever
-        // is on the "main" display) and return its context index
-        int newMirrorContext();
-                
-        // Create a fullscreen context on a particular display
-		int newFullscreenContext(int index);
-        
-        // "Let go" of captured fullscreen contexts
-		void releaseDisplays();
-		
-        // Choose which display is going to have the "main" stimulus display
-		void setMainDisplayIndex(int index) { main_display_index = index; }
-		int getMainDisplayIndex() const { return main_display_index; }
-        CGDirectDisplayID getMainDisplayID();
-        CVReturn prepareDisplayLinkForContext(CVDisplayLinkRef displayLink, int context_id);
-        
-        // Get information about a given monitor
-		NSRect getDisplayFrame(const int index);
-        double getDisplayRefreshRate(int index);
-		int getDisplayWidth(const int index);
-		int getDisplayHeight(const int index);
-        
-        NSOpenGLView *getFullscreenView(){  return fullscreen_view; }
-		NSOpenGLView *getMirrorView(){  return mirror_view; }
-        
-		// Get information about the monitors attached to the system
-        int getNMonitors();
-        
-        
-        static OpenGLContextLock makeCurrent(NSOpenGLContext *context);
-        OpenGLContextLock setCurrent(int context_id);
-                
-        void flush(int context_id);
-		
-        REGISTERED_SINGLETON_CODE_INJECTION(OpenGLContextManager)
-        
-	};
-	
+// A class to manage Cocoa OpenGL contexts
+class OpenGLContextManager : public Component{
+    
+protected:
+    
+    NSMutableArray			*contexts;
+    
+    std::map<int, double>   display_refresh_rates;
+    
+    NSWindow				*mirror_window;
+    NSOpenGLView            *mirror_view;
+    BOOL					mirror_window_active;
+    
+    NSWindow                *fullscreen_window;
+    NSOpenGLView            *fullscreen_view;
+    BOOL                    fullscreen_window_active;
+    
+    IOPMAssertionID         display_sleep_block;
+    
+    int						main_display_index;
+    
+    NSScreen                *_getScreen(const int screen_number);
+    CGDirectDisplayID       _getDisplayID(int screen_number);
+    void                    _measureDisplayRefreshRate(int index);
+    
+public:
+    
+    
+    OpenGLContextManager();
+    
+    
+    // Create a "mirror" window (smaller, movable window that displays whatever
+    // is on the "main" display) and return its context index
+    int newMirrorContext();
+    
+    // Create a fullscreen context on a particular display
+    int newFullscreenContext(int index);
+    
+    // "Let go" of captured fullscreen contexts
+    void releaseDisplays();
+    
+    // Choose which display is going to have the "main" stimulus display
+    void setMainDisplayIndex(int index) { main_display_index = index; }
+    int getMainDisplayIndex() const { return main_display_index; }
+    CGDirectDisplayID getMainDisplayID();
+    CVReturn prepareDisplayLinkForContext(CVDisplayLinkRef displayLink, int context_id);
+    
+    // Get information about a given monitor
+    NSRect getDisplayFrame(const int index);
+    double getDisplayRefreshRate(int index);
+    int getDisplayWidth(const int index);
+    int getDisplayHeight(const int index);
+    
+    NSOpenGLView *getFullscreenView(){  return fullscreen_view; }
+    NSOpenGLView *getMirrorView(){  return mirror_view; }
+    
+    // Get information about the monitors attached to the system
+    int getNMonitors();
+    
+    
+    static OpenGLContextLock makeCurrent(NSOpenGLContext *context);
+    OpenGLContextLock setCurrent(int context_id);
+    
+    void flush(int context_id);
+    
+    REGISTERED_SINGLETON_CODE_INJECTION(OpenGLContextManager)
+    
+};
+
 
 END_NAMESPACE_MW
 
 
-#endif  
+#endif
