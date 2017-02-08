@@ -77,10 +77,6 @@ void OpenGLContextLock::unlock(bool clearCurrent) {
 
 
 OpenGLContextManager::OpenGLContextManager() {
-	
-	mirror_window_active = NO;
-    fullscreen_window_active = NO;
-    
     mirror_window = nil;
     mirror_view = nil;
     fullscreen_window = nil;
@@ -89,8 +85,6 @@ OpenGLContextManager::OpenGLContextManager() {
     display_sleep_block = kIOPMNullAssertionID;
     
     contexts = [[NSMutableArray alloc] init];
-    
-    main_display_index = -1;
 }
 
 
@@ -112,66 +106,6 @@ NSScreen *OpenGLContextManager::_getScreen(const int index){
     }
     
     return [screens objectAtIndex: index];
-}
-
-NSRect OpenGLContextManager::getDisplayFrame(const int index){
-    NSScreen *screen = _getScreen(index);
-    NSRect frame = [screen frame];
-    
-    return frame;
-}
-
-int OpenGLContextManager::getDisplayWidth(const int index) {
-
-    NSRect frame = getDisplayFrame(index);
-    return frame.size.width;
-
-}
-
-int OpenGLContextManager::getDisplayHeight(const int index) {
-    NSRect frame = getDisplayFrame(index);
-    return frame.size.height;
-}
-
-double OpenGLContextManager::getDisplayRefreshRate(const int index){
-    std::map<int, double>::iterator rate = display_refresh_rates.find(index);
-    
-    if (rate == display_refresh_rates.end()) {
-        return 0.0;
-    }
-    
-    double refresh_rate = (*rate).second;
-        
-    return refresh_rate;
-}
-
-CGDirectDisplayID OpenGLContextManager::_getDisplayID(int screen_number) {
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-
-	NSDictionary *device_description = [_getScreen(screen_number) deviceDescription];
-    CGDirectDisplayID display_id = [[device_description objectForKey:@"NSScreenNumber"] intValue];
-
-    [pool drain];
-    
-    return display_id;
-}
-
-void OpenGLContextManager::_measureDisplayRefreshRate(const int index)
-{
-    CGDirectDisplayID display_id = _getDisplayID(index);
-    CGDisplayModeRef mode = CGDisplayCopyDisplayMode(display_id);
-    display_refresh_rates[index] = CGDisplayModeGetRefreshRate(mode);
-}
-
-CGDirectDisplayID OpenGLContextManager::getMainDisplayID() {
-    return _getDisplayID(main_display_index);
-}
-
-CVReturn OpenGLContextManager::prepareDisplayLinkForContext(CVDisplayLinkRef displayLink, int context_id) {
-    NSOpenGLContext *ctx = [contexts objectAtIndex:context_id];
-    CGLContextObj cglContext = (CGLContextObj)[ctx CGLContextObj];
-    CGLPixelFormatObj cglPixelFormat = (CGLPixelFormatObj)[[(NSOpenGLView *)[ctx view] pixelFormat] CGLPixelFormatObj];
-    return CVDisplayLinkSetCurrentCGDisplayFromOpenGLContext(displayLink, cglContext, cglPixelFormat);
 }
 
 
@@ -246,9 +180,6 @@ int OpenGLContextManager::newMirrorContext(){
     [opengl_context release];
     [pixel_format release];
     
-    _measureDisplayRefreshRate(0);
-    
-    
     OpenGLContextLock ctxLock = setCurrent(context_id);
     
     return context_id;
@@ -316,8 +247,6 @@ int OpenGLContextManager::newFullscreenContext(int screen_number){
     [opengl_context release];
     [pixel_format release];
     
-    _measureDisplayRefreshRate(screen_number);
-    
     OpenGLContextLock ctxLock = setCurrent(context_id);
     
     if (kIOPMNullAssertionID == display_sleep_block) {
@@ -359,7 +288,6 @@ void OpenGLContextManager::releaseDisplays() {
     
     // NOTE: As of OS X 10.11, performing window and view operations from a non-main thread causes issues
     dispatch_sync(dispatch_get_main_queue(), ^{
-        mirror_window_active = NO;
         if(mirror_window != nil){
             [mirror_window orderOut:nil];
             [mirror_window release];
@@ -369,7 +297,6 @@ void OpenGLContextManager::releaseDisplays() {
             mirror_view = nil;
         }
         
-        fullscreen_window_active = NO;
         if(fullscreen_window != nil){
             [fullscreen_window orderOut:nil];
             [fullscreen_window release];
@@ -389,8 +316,15 @@ void OpenGLContextManager::releaseDisplays() {
 
     [pool drain];
 
-    main_display_index = -1;
+}
 
+
+NSOpenGLContext * OpenGLContextManager::getContext(int context_id) const {
+    if (context_id < 0 || context_id >= contexts.count) {
+        merror(M_DISPLAY_MESSAGE_DOMAIN, "OpenGL Context Manager: invalid context ID: %d", context_id);
+        return nil;
+    }
+    return contexts[context_id];
 }
 
 
@@ -409,3 +343,29 @@ SINGLETON_INSTANCE_STATIC_DECLARATION(OpenGLContextManager)
 
 
 END_NAMESPACE_MW
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

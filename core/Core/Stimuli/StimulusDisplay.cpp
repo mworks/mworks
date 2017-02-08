@@ -197,8 +197,13 @@ void StimulusDisplay::addContext(int _context_id){
         throw SimpleException("Unable to set display link output callback");
     }
     
-    if (kCVReturnSuccess != opengl_context_manager->prepareDisplayLinkForContext(dl, _context_id)) {
-        throw SimpleException("Unable to associate display link with OpenGL context");
+    {
+        NSOpenGLContext *ctx = opengl_context_manager->getContext(_context_id);
+        CGLContextObj cglContext = ctx.CGLContextObj;
+        CGLPixelFormatObj cglPixelFormat = ((NSOpenGLView *)(ctx.view)).pixelFormat.CGLPixelFormatObj;
+        if (kCVReturnSuccess != CVDisplayLinkSetCurrentCGDisplayFromOpenGLContext(dl, cglContext, cglPixelFormat)) {
+            throw SimpleException("Unable to associate display link with OpenGL context");
+        }
     }
     
     auto ctxLock = opengl_context_manager->setCurrent(_context_id);

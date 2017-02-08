@@ -299,7 +299,6 @@ BEGIN_NAMESPACE_MW
 				display_to_use = 1;						   			
 			}
 			
-			opengl_context_manager->setMainDisplayIndex(display_to_use);
 			new_context = opengl_context_manager->newFullscreenContext(display_to_use);
 			stimdisplay->addContext(new_context);
 			
@@ -309,7 +308,6 @@ BEGIN_NAMESPACE_MW
 			}
 			
 		} else {
-			opengl_context_manager->setMainDisplayIndex(0);
 			new_context = opengl_context_manager->newMirrorContext();
 			stimdisplay->addContext(new_context);		
 		}
