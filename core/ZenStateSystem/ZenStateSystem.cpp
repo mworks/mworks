@@ -21,7 +21,7 @@
 
 #ifdef __APPLE__
 // this must go AFTER the mw includes
-#import <Cocoa/Cocoa.h>
+#import <Foundation/Foundation.h>
 #endif
 
 #include <mach/mach_types.h>

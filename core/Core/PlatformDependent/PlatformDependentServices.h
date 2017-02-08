@@ -14,10 +14,10 @@
 #ifndef _PLATFORM_DEPENDENT_SERVICES_H
 #define _PLATFORM_DEPENDENT_SERVICES_H
 
-#include "Utilities.h"
-#include "Event.h"
 #include <string>
 #include <boost/filesystem/path.hpp>
+
+#include "MWorksMacros.h"
 
 
 BEGIN_NAMESPACE_MW

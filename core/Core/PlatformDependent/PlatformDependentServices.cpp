@@ -10,10 +10,11 @@
  */
 
 #include "PlatformDependentServices.h"
-#include <boost/filesystem/path.hpp>
+
 #include <boost/filesystem/operations.hpp>
+
 #ifdef	__APPLE__
-#include <Cocoa/Cocoa.h>
+#import <Foundation/Foundation.h>
 #endif
 
 
