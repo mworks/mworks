@@ -33,10 +33,12 @@ BEGIN_NAMESPACE(gl)
 namespace {
     const std::string defaultGLSLVersion
     (
-#if TARGET_OS_IPHONE
+#if GL_ES_VERSION_3_0
      "300 es"
-#else
+#elif GL_VERSION_3_3
      "330"
+#else
+#    error Unsupported OpenGL version
 #endif
     );
 }

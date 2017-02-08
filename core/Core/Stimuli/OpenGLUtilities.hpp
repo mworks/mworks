@@ -10,7 +10,13 @@
 #define OpenGLUtilities_hpp
 
 #include <GLKit/GLKMath.h>
-#include <OpenGL/gl3.h>
+#if TARGET_OS_IPHONE
+#  include <OpenGLES/ES3/gl.h>
+#elif TARGET_OS_OSX
+#  include <OpenGL/gl3.h>
+#else
+#  error Unsupported platform
+#endif
 
 #include <boost/noncopyable.hpp>
 
