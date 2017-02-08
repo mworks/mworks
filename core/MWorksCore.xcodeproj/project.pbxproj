@@ -396,6 +396,10 @@
 		E1457B5014D08F95004D3AD5 /* MWorksCoreTestMain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1457B4F14D08F95004D3AD5 /* MWorksCoreTestMain.cpp */; };
 		E146B7E81E1EAB66001C7947 /* OpenGLUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E146B7E61E1EAB66001C7947 /* OpenGLUtilities.cpp */; };
 		E146B7E91E1EAB66001C7947 /* OpenGLUtilities.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E146B7E71E1EAB66001C7947 /* OpenGLUtilities.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
+		E148A4401E4B75BC002DFB1C /* MWParserTransformation.xsl in Resources */ = {isa = PBXBuildFile; fileRef = 5CE30A470CF9FAE400BEB3E3 /* MWParserTransformation.xsl */; };
+		E148A4411E4B75BE002DFB1C /* MWMediaPackagerTransformation.xsl in Resources */ = {isa = PBXBuildFile; fileRef = 5C918D1710027CB3001BE3DF /* MWMediaPackagerTransformation.xsl */; };
+		E148A4421E4B76A5002DFB1C /* PlatformDependentServices.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2CE19007E9F94300C68AEF /* PlatformDependentServices.cpp */; };
+		E148A4431E4B76A8002DFB1C /* PlatformDependentServices.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2CE19107E9F94300C68AEF /* PlatformDependentServices.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E16BC17B137D952D0052D8E1 /* MachUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = E16BC179137D952D0052D8E1 /* MachUtilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E16BC17C137D952D0052D8E1 /* MachUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E16BC17A137D952D0052D8E1 /* MachUtilities.cpp */; };
 		E186EB661C1F512100FD7F32 /* MWComponents.yaml in Resources */ = {isa = PBXBuildFile; fileRef = E186EB651C1F511100FD7F32 /* MWComponents.yaml */; };
@@ -516,6 +520,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = E11542041193460300DDE09D;
 			remoteInfo = test_mworks;
+		};
+		E148A43E1E4B754B002DFB1C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DA2CE0C907E9070200C68AEF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5C488A160F4E27CD00C5A526;
+			remoteInfo = "Set Version String";
 		};
 		E1CBF64216BAF3380057CE48 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -999,6 +1010,7 @@
 		E1457B4F14D08F95004D3AD5 /* MWorksCoreTestMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MWorksCoreTestMain.cpp; sourceTree = "<group>"; };
 		E146B7E61E1EAB66001C7947 /* OpenGLUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = OpenGLUtilities.cpp; path = Core/Stimuli/OpenGLUtilities.cpp; sourceTree = "<group>"; };
 		E146B7E71E1EAB66001C7947 /* OpenGLUtilities.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = OpenGLUtilities.hpp; path = Core/Stimuli/OpenGLUtilities.hpp; sourceTree = "<group>"; };
+		E148A4371E4B7106002DFB1C /* MWorksCore-iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = "MWorksCore-iOS.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E16BC179137D952D0052D8E1 /* MachUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MachUtilities.h; path = Core/Utilities/MachUtilities.h; sourceTree = "<group>"; };
 		E16BC17A137D952D0052D8E1 /* MachUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MachUtilities.cpp; path = Core/Utilities/MachUtilities.cpp; sourceTree = "<group>"; };
 		E186EB651C1F511100FD7F32 /* MWComponents.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MWComponents.yaml; sourceTree = "<group>"; };
@@ -1142,6 +1154,13 @@
 			files = (
 				E106CF111CA430D1001A0928 /* MWorksCore.framework in Frameworks */,
 				E106CF121CA430D9001A0928 /* libboost_system.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E148A4331E4B7106002DFB1C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1739,6 +1758,7 @@
 				5C4D232509DC59420082BF9F /* MWorksCoreTestRunner */,
 				5C4D239C09DC83930082BF9F /* MWorksCoreTest.framework */,
 				0E39EB030E4BD33D006F38A0 /* MarionetteTest.app */,
+				E148A4371E4B7106002DFB1C /* MWorksCore-iOS.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2309,6 +2329,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		E148A4341E4B7106002DFB1C /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E148A4431E4B76A8002DFB1C /* PlatformDependentServices.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
@@ -2457,6 +2485,25 @@
 			productReference = E106CF0C1CA42EDC001A0928 /* HighPrecisionClock.bundle */;
 			productType = "com.apple.product-type.bundle";
 		};
+		E148A4361E4B7106002DFB1C /* MWorksCore-iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E148A43D1E4B7106002DFB1C /* Build configuration list for PBXNativeTarget "MWorksCore-iOS" */;
+			buildPhases = (
+				E148A4321E4B7106002DFB1C /* Sources */,
+				E148A4331E4B7106002DFB1C /* Frameworks */,
+				E148A4341E4B7106002DFB1C /* Headers */,
+				E148A4351E4B7106002DFB1C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				E148A43F1E4B754B002DFB1C /* PBXTargetDependency */,
+			);
+			name = "MWorksCore-iOS";
+			productName = "MWorksCore-iOS";
+			productReference = E148A4371E4B7106002DFB1C /* MWorksCore-iOS.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -2467,6 +2514,10 @@
 				TargetAttributes = {
 					E106CF0B1CA42EDC001A0928 = {
 						CreatedOnToolsVersion = 7.3;
+					};
+					E148A4361E4B7106002DFB1C = {
+						CreatedOnToolsVersion = 8.2.1;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -2498,6 +2549,7 @@
 				0E8014110E422E2A00D6DE20 /* MarionetteTest */,
 				E11542041193460300DDE09D /* Install Testing Tools */,
 				DA1368DC07EA27C7001BA98B /* Everything */,
+				E148A4361E4B7106002DFB1C /* MWorksCore-iOS */,
 			);
 		};
 /* End PBXProject section */
@@ -2557,6 +2609,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E148A4351E4B7106002DFB1C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E148A4401E4B75BC002DFB1C /* MWParserTransformation.xsl in Resources */,
+				E148A4411E4B75BE002DFB1C /* MWMediaPackagerTransformation.xsl in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2801,6 +2862,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		E148A4321E4B7106002DFB1C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E148A4421E4B76A5002DFB1C /* PlatformDependentServices.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -2838,6 +2907,11 @@
 			isa = PBXTargetDependency;
 			target = E11542041193460300DDE09D /* Install Testing Tools */;
 			targetProxy = E115421B1193475D00DDE09D /* PBXContainerItemProxy */;
+		};
+		E148A43F1E4B754B002DFB1C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5C488A160F4E27CD00C5A526 /* Set Version String */;
+			targetProxy = E148A43E1E4B754B002DFB1C /* PBXContainerItemProxy */;
 		};
 		E1CBF64316BAF3380057CE48 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -3028,6 +3102,20 @@
 			};
 			name = Development;
 		};
+		E148A43C1E4B7106002DFB1C /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1EDA97E1E4A3A840045E5F8 /* iOS_Framework.xcconfig */;
+			buildSettings = {
+				INFOPLIST_FILE = "MWorksCore-Info.plist";
+				OTHER_LDFLAGS = (
+					"-lboost_filesystem",
+					"-lboost_system",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "org.mworks-project.MWorksCore-iOS";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Development;
+		};
 		E1CBF63C16BAF3090057CE48 /* Development */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E1EDA9811E4A3A840045E5F8 /* macOS.xcconfig */;
@@ -3142,6 +3230,13 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
+		};
+		E148A43D1E4B7106002DFB1C /* Build configuration list for PBXNativeTarget "MWorksCore-iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E148A43C1E4B7106002DFB1C /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 		E1CBF63B16BAF3090057CE48 /* Build configuration list for PBXAggregateTarget "Install MWorksCore" */ = {
 			isa = XCConfigurationList;
