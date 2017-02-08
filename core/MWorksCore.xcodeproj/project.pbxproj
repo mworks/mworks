@@ -948,8 +948,8 @@
 		DA2CE1AF07E9F95600C68AEF /* Utilities.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Utilities.h; path = Core/RealtimeServices/Utilities.h; sourceTree = SOURCE_ROOT; };
 		DA2CE1C007E9F96500C68AEF /* ScarabServices.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = ScarabServices.cpp; sourceTree = "<group>"; };
 		DA2CE1C107E9F96500C68AEF /* ScarabServices.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ScarabServices.h; sourceTree = "<group>"; };
-		DA2CE1C707E9F96E00C68AEF /* OpenGLContextManager.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 30; name = OpenGLContextManager.cpp; path = Core/Stimuli/OpenGLContextManager.cpp; sourceTree = SOURCE_ROOT; };
-		DA2CE1C807E9F96E00C68AEF /* OpenGLContextManager.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = OpenGLContextManager.h; path = Core/Stimuli/OpenGLContextManager.h; sourceTree = SOURCE_ROOT; };
+		DA2CE1C707E9F96E00C68AEF /* OpenGLContextManager.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 30; path = OpenGLContextManager.cpp; sourceTree = "<group>"; };
+		DA2CE1C807E9F96E00C68AEF /* OpenGLContextManager.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = OpenGLContextManager.h; sourceTree = "<group>"; };
 		DA2CE1C907E9F96E00C68AEF /* StandardStimuli.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 30; name = StandardStimuli.cpp; path = Core/Stimuli/StandardStimuli.cpp; sourceTree = SOURCE_ROOT; };
 		DA2CE1CA07E9F96E00C68AEF /* StandardStimuli.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = StandardStimuli.h; path = Core/Stimuli/StandardStimuli.h; sourceTree = SOURCE_ROOT; };
 		DA2CE1CD07E9F96E00C68AEF /* Stimulus.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 30; name = Stimulus.cpp; path = Core/Stimuli/Stimulus.cpp; sourceTree = SOURCE_ROOT; };
@@ -1863,12 +1863,11 @@
 			isa = PBXGroup;
 			children = (
 				5C78EDE1115C00EC00151A76 /* DynamicStimuli */,
+				E148A4581E4BA280002DFB1C /* OpenGLContextManager */,
 				5C4D254E09DCBB9A0082BF9F /* tests */,
 				E146B7E71E1EAB66001C7947 /* OpenGLUtilities.hpp */,
 				E146B7E61E1EAB66001C7947 /* OpenGLUtilities.cpp */,
 				E10F94B816CD5A8300A31C5F /* OpenGLContextLock.h */,
-				DA2CE1C807E9F96E00C68AEF /* OpenGLContextManager.h */,
-				DA2CE1C707E9F96E00C68AEF /* OpenGLContextManager.cpp */,
 				DA2CE1C907E9F96E00C68AEF /* StandardStimuli.cpp */,
 				DA2CE1CA07E9F96E00C68AEF /* StandardStimuli.h */,
 				DA2CE1CE07E9F96E00C68AEF /* Stimulus.h */,
@@ -2081,6 +2080,16 @@
 				E19B79281D525E2200110665 /* ZeroMQUtilityTests.cpp */,
 			);
 			path = tests;
+			sourceTree = "<group>";
+		};
+		E148A4581E4BA280002DFB1C /* OpenGLContextManager */ = {
+			isa = PBXGroup;
+			children = (
+				DA2CE1C807E9F96E00C68AEF /* OpenGLContextManager.h */,
+				DA2CE1C707E9F96E00C68AEF /* OpenGLContextManager.cpp */,
+			);
+			name = OpenGLContextManager;
+			path = Core/Stimuli/OpenGLContextManager;
 			sourceTree = "<group>";
 		};
 		E188BE871D47B38C0001483A /* ZeroMQ */ = {
@@ -3237,6 +3246,7 @@
 				E148A43C1E4B7106002DFB1C /* Development */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
 		};
 		E1CBF63B16BAF3090057CE48 /* Build configuration list for PBXAggregateTarget "Install MWorksCore" */ = {
 			isa = XCConfigurationList;
