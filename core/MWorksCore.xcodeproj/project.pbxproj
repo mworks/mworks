@@ -402,6 +402,8 @@
 		E148A4431E4B76A8002DFB1C /* PlatformDependentServices.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2CE19107E9F94300C68AEF /* PlatformDependentServices.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E16BC17B137D952D0052D8E1 /* MachUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = E16BC179137D952D0052D8E1 /* MachUtilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E16BC17C137D952D0052D8E1 /* MachUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E16BC17A137D952D0052D8E1 /* MachUtilities.cpp */; };
+		E179169D1E4E27A700528B91 /* MacOSOpenGLContextManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E179169B1E4E27A700528B91 /* MacOSOpenGLContextManager.cpp */; };
+		E179169E1E4E27A700528B91 /* MacOSOpenGLContextManager.h in Headers */ = {isa = PBXBuildFile; fileRef = E179169C1E4E27A700528B91 /* MacOSOpenGLContextManager.h */; };
 		E186EB661C1F512100FD7F32 /* MWComponents.yaml in Resources */ = {isa = PBXBuildFile; fileRef = E186EB651C1F511100FD7F32 /* MWComponents.yaml */; };
 		E188BE8D1D47B5D00001483A /* libzmq.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E188BE8C1D47B5D00001483A /* libzmq.a */; };
 		E188BE901D47CAAC0001483A /* ZeroMQClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E188BE8E1D47CAAC0001483A /* ZeroMQClient.cpp */; };
@@ -1013,6 +1015,8 @@
 		E148A4371E4B7106002DFB1C /* MWorksCore-iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = "MWorksCore-iOS.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E16BC179137D952D0052D8E1 /* MachUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MachUtilities.h; path = Core/Utilities/MachUtilities.h; sourceTree = "<group>"; };
 		E16BC17A137D952D0052D8E1 /* MachUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MachUtilities.cpp; path = Core/Utilities/MachUtilities.cpp; sourceTree = "<group>"; };
+		E179169B1E4E27A700528B91 /* MacOSOpenGLContextManager.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = MacOSOpenGLContextManager.cpp; sourceTree = "<group>"; };
+		E179169C1E4E27A700528B91 /* MacOSOpenGLContextManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MacOSOpenGLContextManager.h; sourceTree = "<group>"; };
 		E186EB651C1F511100FD7F32 /* MWComponents.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MWComponents.yaml; sourceTree = "<group>"; };
 		E188BE8C1D47B5D00001483A /* libzmq.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libzmq.a; path = "/Library/Application Support/MWorks/Developer/lib/libzmq.a"; sourceTree = "<absolute>"; };
 		E188BE8E1D47CAAC0001483A /* ZeroMQClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ZeroMQClient.cpp; sourceTree = "<group>"; };
@@ -2087,6 +2091,8 @@
 			children = (
 				DA2CE1C807E9F96E00C68AEF /* OpenGLContextManager.h */,
 				DA2CE1C707E9F96E00C68AEF /* OpenGLContextManager.cpp */,
+				E179169C1E4E27A700528B91 /* MacOSOpenGLContextManager.h */,
+				E179169B1E4E27A700528B91 /* MacOSOpenGLContextManager.cpp */,
 			);
 			name = OpenGLContextManager;
 			path = Core/Stimuli/OpenGLContextManager;
@@ -2325,6 +2331,7 @@
 				E13BD56912130E6800DF5C02 /* StandardDynamicStimulus.h in Headers */,
 				E127D38C133A5CFC00532496 /* Map.h in Headers */,
 				E188BE951D47F23B0001483A /* ZeroMQSocket.hpp in Headers */,
+				E179169E1E4E27A700528B91 /* MacOSOpenGLContextManager.h in Headers */,
 				E127D3AD133A615C00532496 /* MWorksMacros.h in Headers */,
 				E104A8D4133B8D3E00D36236 /* ComponentInfo.h in Headers */,
 				E104A8D8133B8D5900D36236 /* ParameterInfo.h in Headers */,
@@ -2799,6 +2806,7 @@
 				DA2B6D3B098AA34900DDE06D /* EventStreamInterface.cpp in Sources */,
 				DA2B6D53098AAAEC00DDE06D /* StandardSystemEventHandler.cpp in Sources */,
 				DA871F2709995B180084304E /* StandardClientCoreBuilder.cpp in Sources */,
+				E179169D1E4E27A700528B91 /* MacOSOpenGLContextManager.cpp in Sources */,
 				5C71CD6C09AA507700EAD886 /* GlobalVariable.cpp in Sources */,
 				5C71CD6E09AA507700EAD886 /* ExpressionVariable.cpp in Sources */,
 				5C0C4A8709B64DAD0021D3CC /* SelectionVariable.cpp in Sources */,
