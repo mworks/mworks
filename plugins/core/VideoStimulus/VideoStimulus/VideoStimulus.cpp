@@ -287,11 +287,16 @@ void VideoStimulus::drawFrame(boost::shared_ptr<StimulusDisplay> display) {
 }
 
 
-bool VideoStimulus::checkForNewPixelBuffer(const boost::shared_ptr<StimulusDisplay> &display) {
+bool VideoStimulus::checkForNewPixelBuffer(const boost::shared_ptr<StimulusDisplay> &_display) {
+#if TARGET_OS_OSX
+    const auto &display = boost::dynamic_pointer_cast<MacOSStimulusDisplay>(_display);
     auto outputItemTime = [videoOutput itemTimeForCVTimeStamp:display->getCurrentOutputTimeStamp()];
     if (![videoOutput hasNewPixelBufferForItemTime:outputItemTime]) {
         return false;
     }
+#else
+#   error Unsupported platform
+#endif
     
     auto newPixelBuffer = CVPixelBufferPtr::owned([videoOutput copyPixelBufferForItemTime:outputItemTime
                                                                        itemTimeForDisplay:nullptr]);

@@ -13,8 +13,6 @@
 #include <map>
 #include <vector>
 
-#include <CoreVideo/CVDisplayLink.h>
-
 #include <boost/noncopyable.hpp>
 #include <boost/enable_shared_from_this.hpp>
 #include <boost/shared_ptr.hpp>
@@ -34,7 +32,6 @@ BEGIN_NAMESPACE_MW
     class Datum;
 	class Stimulus;
 	class StimulusNode;
-	class StimulusDisplay;
     class OpenGLContextManager;
     class VariableCallbackNotification;
 	
@@ -83,13 +80,8 @@ BEGIN_NAMESPACE_MW
         GLclampf backgroundRed, backgroundGreen, backgroundBlue;  // background color
         
         shared_ptr<VariableCallbackNotification> stateSystemNotification;
-        std::vector<CVDisplayLinkRef> displayLinks;
-        using DisplayLinkContext = std::pair<StimulusDisplay *, int>;
-        std::vector<std::unique_ptr<DisplayLinkContext>> displayLinkContexts;
-        bool displayLinksRunning;
+        bool displayUpdatesStarted;
         double mainDisplayRefreshRate;
-        int64_t lastFrameTime;
-        CVTimeStamp currentOutputTimeStamp;
         MWTime currentOutputTimeUS;
         
         const bool announceIndividualStimuli;
@@ -101,8 +93,8 @@ BEGIN_NAMESPACE_MW
         GLuint framebuffer = 0;
         GLuint framebufferTexture = 0;
         
-        void setMainDisplayRefreshRate();
-        void prepareContext(int contextIndex);
+        virtual void setMainDisplayRefreshRate() = 0;
+        virtual void prepareContext(int contextIndex);
         void allocateFramebufferStorage();
         void drawStoredFramebuffer(int contextIndex) const;
 		
@@ -118,13 +110,7 @@ BEGIN_NAMESPACE_MW
         Datum getAnnounceData(bool updateIsExplicit);
         bool shouldAnnounceStimuli(bool updateIsExplicit) { return updateIsExplicit || announceStimuliOnImplicitUpdates; }
 
-        void stateSystemCallback(const Datum &data, MWorksTime time);
-        static CVReturn displayLinkCallback(CVDisplayLinkRef displayLink,
-                                            const CVTimeStamp *now,
-                                            const CVTimeStamp *outputTime,
-                                            CVOptionFlags flagsIn,
-                                            CVOptionFlags *flagsOut,
-                                            void *_context);
+        virtual void stateSystemCallback(const Datum &data, MWorksTime time) = 0;
 		
     public:
         static void getDisplayBounds(const Datum &mainScreenInfo,
@@ -134,7 +120,7 @@ BEGIN_NAMESPACE_MW
                                      GLdouble &top);
 		
 		explicit StimulusDisplay(bool announceIndividualStimuli);
-		~StimulusDisplay();
+		virtual ~StimulusDisplay();
 		
 		void addContext(int _context_id);
 		
@@ -156,9 +142,9 @@ BEGIN_NAMESPACE_MW
         void getDisplayBounds(GLdouble &left, GLdouble &right, GLdouble &bottom, GLdouble &top);
         const GLKMatrix4& getProjectionMatrix() const { return projectionMatrix; }
         double getMainDisplayRefreshRate() const { return mainDisplayRefreshRate; }
-        const CVTimeStamp& getCurrentOutputTimeStamp() const { return currentOutputTimeStamp; }
         MWTime getCurrentOutputTimeUS() const { return currentOutputTimeUS; }
         
+        static boost::shared_ptr<StimulusDisplay> createPlatformStimulusDisplay(bool announceIndividualStimuli);
         static shared_ptr<StimulusDisplay> getCurrentStimulusDisplay();
 	};
 

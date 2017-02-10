@@ -17,6 +17,10 @@
 #include <MWorksCore/StandardStimuli.h>
 #include <MWorksCore/StandardStimulusFactory.h>
 
+#if TARGET_OS_OSX
+#  include <MWorksCore/MacOSStimulusDisplay.h>
+#endif
+
 #endif /* defined(__cplusplus) */
 
 #ifdef __OBJC__

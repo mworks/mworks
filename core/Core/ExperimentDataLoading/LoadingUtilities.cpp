@@ -284,7 +284,7 @@ BEGIN_NAMESPACE_MW
 			}
 		}
 		
-		shared_ptr<StimulusDisplay> stimdisplay(new StimulusDisplay(announce_individual_stimuli));
+        auto stimdisplay = StimulusDisplay::createPlatformStimulusDisplay(announce_individual_stimuli);
 		int new_context = -1;
         
         

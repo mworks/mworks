@@ -403,7 +403,9 @@
 		E16BC17B137D952D0052D8E1 /* MachUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = E16BC179137D952D0052D8E1 /* MachUtilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E16BC17C137D952D0052D8E1 /* MachUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E16BC17A137D952D0052D8E1 /* MachUtilities.cpp */; };
 		E179169D1E4E27A700528B91 /* MacOSOpenGLContextManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E179169B1E4E27A700528B91 /* MacOSOpenGLContextManager.cpp */; };
-		E179169E1E4E27A700528B91 /* MacOSOpenGLContextManager.h in Headers */ = {isa = PBXBuildFile; fileRef = E179169C1E4E27A700528B91 /* MacOSOpenGLContextManager.h */; };
+		E179169E1E4E27A700528B91 /* MacOSOpenGLContextManager.h in Headers */ = {isa = PBXBuildFile; fileRef = E179169C1E4E27A700528B91 /* MacOSOpenGLContextManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17916A21E4E416C00528B91 /* MacOSStimulusDisplay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E17916A01E4E416C00528B91 /* MacOSStimulusDisplay.cpp */; };
+		E17916A31E4E416C00528B91 /* MacOSStimulusDisplay.h in Headers */ = {isa = PBXBuildFile; fileRef = E17916A11E4E416C00528B91 /* MacOSStimulusDisplay.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E186EB661C1F512100FD7F32 /* MWComponents.yaml in Resources */ = {isa = PBXBuildFile; fileRef = E186EB651C1F511100FD7F32 /* MWComponents.yaml */; };
 		E188BE8D1D47B5D00001483A /* libzmq.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E188BE8C1D47B5D00001483A /* libzmq.a */; };
 		E188BE901D47CAAC0001483A /* ZeroMQClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E188BE8E1D47CAAC0001483A /* ZeroMQClient.cpp */; };
@@ -1017,6 +1019,8 @@
 		E16BC17A137D952D0052D8E1 /* MachUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MachUtilities.cpp; path = Core/Utilities/MachUtilities.cpp; sourceTree = "<group>"; };
 		E179169B1E4E27A700528B91 /* MacOSOpenGLContextManager.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = MacOSOpenGLContextManager.cpp; sourceTree = "<group>"; };
 		E179169C1E4E27A700528B91 /* MacOSOpenGLContextManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MacOSOpenGLContextManager.h; sourceTree = "<group>"; };
+		E17916A01E4E416C00528B91 /* MacOSStimulusDisplay.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = MacOSStimulusDisplay.cpp; sourceTree = "<group>"; };
+		E17916A11E4E416C00528B91 /* MacOSStimulusDisplay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MacOSStimulusDisplay.h; sourceTree = "<group>"; };
 		E186EB651C1F511100FD7F32 /* MWComponents.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MWComponents.yaml; sourceTree = "<group>"; };
 		E188BE8C1D47B5D00001483A /* libzmq.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libzmq.a; path = "/Library/Application Support/MWorks/Developer/lib/libzmq.a"; sourceTree = "<absolute>"; };
 		E188BE8E1D47CAAC0001483A /* ZeroMQClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ZeroMQClient.cpp; sourceTree = "<group>"; };
@@ -2102,6 +2106,8 @@
 			children = (
 				5C7667530C1BB30A00B1203C /* StimulusDisplay.h */,
 				DA2CE1CF07E9F96E00C68AEF /* StimulusDisplay.cpp */,
+				E17916A11E4E416C00528B91 /* MacOSStimulusDisplay.h */,
+				E17916A01E4E416C00528B91 /* MacOSStimulusDisplay.cpp */,
 			);
 			name = StimulusDisplay;
 			path = Core/Stimuli/StimulusDisplay;
@@ -2319,6 +2325,7 @@
 				5C9186130E3548FA00B64213 /* BiasMonitor.h in Headers */,
 				5CCA2B5A0E8F1F9A007BDA56 /* Conduit.h in Headers */,
 				5CCA2B5B0E8F1F9B007BDA56 /* EventTransport.h in Headers */,
+				E17916A31E4E416C00528B91 /* MacOSStimulusDisplay.h in Headers */,
 				5CCA2B5D0E8F1F9D007BDA56 /* IPCEventTransport.h in Headers */,
 				5CCA2B5F0E8F1F9F007BDA56 /* Serialization.h in Headers */,
 				5CB6C47E0E9A92CA006923EC /* SimpleConduit.h in Headers */,
@@ -2784,6 +2791,7 @@
 				DA2CE1B807E9F95600C68AEF /* StandardVariables.cpp in Sources */,
 				DA2CE1BA07E9F95600C68AEF /* StateSystem.cpp in Sources */,
 				DA2CE1BC07E9F95600C68AEF /* Timer.cpp in Sources */,
+				E17916A21E4E416C00528B91 /* MacOSStimulusDisplay.cpp in Sources */,
 				DA2CE1BE07E9F95600C68AEF /* Utilities.cpp in Sources */,
 				DA2CE1C207E9F96500C68AEF /* ScarabServices.cpp in Sources */,
 				DA2CE1D307E9F96E00C68AEF /* OpenGLContextManager.cpp in Sources */,
