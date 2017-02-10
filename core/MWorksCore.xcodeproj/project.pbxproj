@@ -195,7 +195,6 @@
 		5CA07BB410D0B4D200000A95 /* CodecAwareConduitTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CA07BB210D0B4D200000A95 /* CodecAwareConduitTest.cpp */; };
 		5CA07C5510D13A4700000A95 /* CodecAwareConduit.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CA07BE710D1187200000A95 /* CodecAwareConduit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5CA07C5610D13A4B00000A95 /* CodecAwareConduit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CA07BE810D1187200000A95 /* CodecAwareConduit.cpp */; };
-		5CA9AD3310B5F9B500A04B67 /* VariableRegistryInterface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CA9AD3110B5F9B500A04B67 /* VariableRegistryInterface.cpp */; };
 		5CA9ADA510B63E1700A04B67 /* VariableRegistryInterface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CA9AD3110B5F9B500A04B67 /* VariableRegistryInterface.cpp */; };
 		5CAE8BF70AE4049E0013DB19 /* alut.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CAE8BF50AE4049E0013DB19 /* alut.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5CAE8BF80AE4049E0013DB19 /* alut.c in Sources */ = {isa = PBXBuildFile; fileRef = 5CAE8BF60AE4049E0013DB19 /* alut.c */; };
@@ -406,6 +405,234 @@
 		E179169E1E4E27A700528B91 /* MacOSOpenGLContextManager.h in Headers */ = {isa = PBXBuildFile; fileRef = E179169C1E4E27A700528B91 /* MacOSOpenGLContextManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E17916A21E4E416C00528B91 /* MacOSStimulusDisplay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E17916A01E4E416C00528B91 /* MacOSStimulusDisplay.cpp */; };
 		E17916A31E4E416C00528B91 /* MacOSStimulusDisplay.h in Headers */ = {isa = PBXBuildFile; fileRef = E17916A11E4E416C00528B91 /* MacOSStimulusDisplay.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17916A41E4E504C00528B91 /* ExpandableList.h in Headers */ = {isa = PBXBuildFile; fileRef = 0E9AD30C0AD94214009C0B0B /* ExpandableList.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17916A51E4E505300528B91 /* ExpandableList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E9AD30B0AD94214009C0B0B /* ExpandableList.cpp */; };
+		E17916A61E4E506000528B91 /* Serialization.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C2386DD0E8D1A4600CDC4FC /* Serialization.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17916A71E4E506600528B91 /* Serialization.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C2386DE0E8D1A4600CDC4FC /* Serialization.cpp */; };
+		E17916A81E4E507600528B91 /* ScarabConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2CE15F07E9F92D00C68AEF /* ScarabConnection.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17916A91E4E507B00528B91 /* ScarabConnection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2CE15E07E9F92D00C68AEF /* ScarabConnection.cpp */; };
+		E17916AA1E4E507E00528B91 /* ScarabWriteConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2CE16307E9F92D00C68AEF /* ScarabWriteConnection.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17916AB1E4E508400528B91 /* ScarabWriteConnection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2CE16207E9F92D00C68AEF /* ScarabWriteConnection.cpp */; };
+		E17916AC1E4E508700528B91 /* NetworkReturn.h in Headers */ = {isa = PBXBuildFile; fileRef = DA30579B08B6A23700BA4B0E /* NetworkReturn.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17916AD1E4E508D00528B91 /* NetworkReturn.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA30579C08B6A23700BA4B0E /* NetworkReturn.cpp */; };
+		E17916AE1E4E509400528B91 /* ScarabServices.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2CE1C107E9F96500C68AEF /* ScarabServices.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17916AF1E4E509900528B91 /* ScarabServices.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2CE1C007E9F96500C68AEF /* ScarabServices.cpp */; };
+		E17916B01E4E50B600528B91 /* MessagePackAdaptors.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E1B637421D4A96C900116BB3 /* MessagePackAdaptors.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17916B11E4E50BC00528B91 /* ZeroMQSocket.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E188BE931D47F23B0001483A /* ZeroMQSocket.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17916B21E4E50C100528B91 /* ZeroMQSocket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E188BE921D47F23B0001483A /* ZeroMQSocket.cpp */; };
+		E17916B31E4E50C300528B91 /* ZeroMQConnection.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E13464EA1D4BD8B200E4CF08 /* ZeroMQConnection.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17916B41E4E50C800528B91 /* ZeroMQConnection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E13464E91D4BD8B200E4CF08 /* ZeroMQConnection.cpp */; };
+		E17916B51E4E50CB00528B91 /* ZeroMQClient.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E188BE8F1D47CAAC0001483A /* ZeroMQClient.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17916B61E4E50D000528B91 /* ZeroMQClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E188BE8E1D47CAAC0001483A /* ZeroMQClient.cpp */; };
+		E17916B71E4E50D300528B91 /* ZeroMQServer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E1A401B21D4FBE4C005B1C35 /* ZeroMQServer.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17916B81E4E50D800528B91 /* ZeroMQServer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1A401B11D4FBE4C005B1C35 /* ZeroMQServer.cpp */; };
+		E17916B91E4E50DB00528B91 /* ZeroMQUtilities.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E19B79251D525CCC00110665 /* ZeroMQUtilities.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17916BA1E4E50E000528B91 /* ZeroMQUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E19B79241D525CCC00110665 /* ZeroMQUtilities.cpp */; };
+		E17916BB1E4E510000528B91 /* VariableRegistry.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2CE10F07E9F85800C68AEF /* VariableRegistry.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17916BC1E4E510500528B91 /* VariableRegistry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2CE10E07E9F85800C68AEF /* VariableRegistry.cpp */; };
+		E17916BD1E4E510800528B91 /* VariableLoad.h in Headers */ = {isa = PBXBuildFile; fileRef = 0E86657A0AEFE8D300564B87 /* VariableLoad.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17916BE1E4E510C00528B91 /* VariableLoad.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E8665770AEFE8C700564B87 /* VariableLoad.cpp */; };
+		E17916BF1E4E511000528B91 /* VariableSave.h in Headers */ = {isa = PBXBuildFile; fileRef = 0ED111ED0A838723008C1F48 /* VariableSave.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17916C01E4E511400528B91 /* VariableSave.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0ED111EE0A838723008C1F48 /* VariableSave.cpp */; };
+		E17916C11E4E511700528B91 /* ExpressionVariable.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C71CD6B09AA507700EAD886 /* ExpressionVariable.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17916C21E4E511C00528B91 /* ExpressionVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C71CD6A09AA507700EAD886 /* ExpressionVariable.cpp */; };
+		E17916C31E4E511F00528B91 /* GenericData.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2CE1E107E9F97F00C68AEF /* GenericData.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17916C41E4E512400528B91 /* GenericData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2CE1E007E9F97F00C68AEF /* GenericData.cpp */; };
+		E17916C51E4E512700528B91 /* GenericVariable.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2CE1E307E9F97F00C68AEF /* GenericVariable.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17916C61E4E512C00528B91 /* GenericVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2CE1E207E9F97F00C68AEF /* GenericVariable.cpp */; };
+		E17916C71E4E512E00528B91 /* VariableProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2CE1E507E9F97F00C68AEF /* VariableProperties.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17916C81E4E513300528B91 /* VariableProperties.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2CE1E407E9F97F00C68AEF /* VariableProperties.cpp */; };
+		E17916C91E4E513800528B91 /* VariableNotification.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C18E25408A167BE00AA734D /* VariableNotification.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17916CA1E4E513C00528B91 /* VariableNotification.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C18E25508A167BE00AA734D /* VariableNotification.cpp */; };
+		E17916CB1E4E514000528B91 /* GlobalVariable.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C71CD6909AA507700EAD886 /* GlobalVariable.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17916CC1E4E514500528B91 /* GlobalVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C71CD6809AA507700EAD886 /* GlobalVariable.cpp */; };
+		E17916CD1E4E514700528B91 /* ScopedVariable.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C2B511F0BB6838200928E03 /* ScopedVariable.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17916CE1E4E514C00528B91 /* ScopedVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C2B51200BB6838200928E03 /* ScopedVariable.cpp */; };
+		E17916CF1E4E514F00528B91 /* ScopedVariableEnvironment.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C0B04AA0BB8A46500FD57B9 /* ScopedVariableEnvironment.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17916D01E4E515400528B91 /* ScopedVariableEnvironment.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C0B04AB0BB8A46500FD57B9 /* ScopedVariableEnvironment.cpp */; };
+		E17916D11E4E515700528B91 /* ScopedVariableContext.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2CE1E707E9F97F00C68AEF /* ScopedVariableContext.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17916D21E4E515C00528B91 /* ScopedVariableContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2CE1E607E9F97F00C68AEF /* ScopedVariableContext.cpp */; };
+		E17916D31E4E515F00528B91 /* SelectionVariable.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C0C4A8409B64DAD0021D3CC /* SelectionVariable.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17916D41E4E516500528B91 /* SelectionVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C0C4A8509B64DAD0021D3CC /* SelectionVariable.cpp */; };
+		E17916D51E4E516900528B91 /* UnresolvedReferenceVariable.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C643E9F0D501E99004A8BD2 /* UnresolvedReferenceVariable.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17916D61E4E516E00528B91 /* UnresolvedReferenceVariable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C643EA00D501E99004A8BD2 /* UnresolvedReferenceVariable.cpp */; };
+		E17916D71E4E517100528B91 /* StandardVariables.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2CE1A907E9F95600C68AEF /* StandardVariables.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17916D81E4E517700528B91 /* StandardVariables.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2CE1A807E9F95600C68AEF /* StandardVariables.cpp */; };
+		E17916D91E4E517A00528B91 /* FreezableVariableContainer.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CD621571174FF3D007339B7 /* FreezableVariableContainer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17916DA1E4E517F00528B91 /* FreezableVariableContainer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CD621581174FF3D007339B7 /* FreezableVariableContainer.cpp */; };
+		E17916DB1E4E51B500528B91 /* EventBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2E379D08B0FE5800BD22C4 /* EventBuffer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17916DC1E4E51B900528B91 /* EventBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2E379C08B0FE5800BD22C4 /* EventBuffer.cpp */; };
+		E17916DD1E4E51BC00528B91 /* SystemEventFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = DA0C987E0827E80400BC1EF1 /* SystemEventFactory.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17916DE1E4E51C000528B91 /* SystemEventFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA0C987F0827E80400BC1EF1 /* SystemEventFactory.cpp */; };
+		E17916DF1E4E51C300528B91 /* Buffers.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2CE12107E9F88900C68AEF /* Buffers.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17916E01E4E51C900528B91 /* Buffers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2CE12007E9F88900C68AEF /* Buffers.cpp */; };
+		E17916E11E4E51CD00528B91 /* Event.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2CE12307E9F88900C68AEF /* Event.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17916E21E4E51D100528B91 /* Event.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2CE12207E9F88900C68AEF /* Event.cpp */; };
+		E17916E31E4E51D500528B91 /* EventStreamInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2B6D38098AA34900DDE06D /* EventStreamInterface.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17916E41E4E51DA00528B91 /* EventStreamInterface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2B6D39098AA34900DDE06D /* EventStreamInterface.cpp */; };
+		E17916E51E4E51DE00528B91 /* LegacyBuffers.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C7CEFE10BC5D7AB00434931 /* LegacyBuffers.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17916E61E4E51E300528B91 /* LegacyBuffers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C7CEFE20BC5D7AB00434931 /* LegacyBuffers.cpp */; };
+		E17916E71E4E51E600528B91 /* EventListener.h in Headers */ = {isa = PBXBuildFile; fileRef = 686059610C91CD5A00CD0D16 /* EventListener.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17916E81E4E51EB00528B91 /* EventListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 686059620C91CD5A00CD0D16 /* EventListener.cpp */; };
+		E17916E91E4E51EE00528B91 /* EventConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 0E5338E70CB7404E004FF889 /* EventConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17916EA1E4E51F300528B91 /* EventCallbackHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CA07B2710D052DB00000A95 /* EventCallbackHandler.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17916EB1E4E51F800528B91 /* EventCallbackHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CA07B2810D052DB00000A95 /* EventCallbackHandler.cpp */; };
+		E17916EC1E4E522300528B91 /* Client.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2B6A870989855C00DDE06D /* Client.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17916ED1E4E522800528B91 /* Client.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2B6A880989855C00DDE06D /* Client.cpp */; };
+		E17916EE1E4E522D00528B91 /* Server.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2B6B150989915900DDE06D /* Server.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17916EF1E4E523300528B91 /* Server.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2B6B160989915900DDE06D /* Server.cpp */; };
+		E17916F01E4E523900528B91 /* StandardSystemEventHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2B6D50098AAAEC00DDE06D /* StandardSystemEventHandler.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17916F11E4E523D00528B91 /* StandardSystemEventHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2B6D51098AAAEC00DDE06D /* StandardSystemEventHandler.cpp */; };
+		E17916F21E4E524100528B91 /* VariableRegistryInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CA9AD3010B5F9B500A04B67 /* VariableRegistryInterface.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17916F31E4E524600528B91 /* VariableRegistryInterface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CA9AD3110B5F9B500A04B67 /* VariableRegistryInterface.cpp */; };
+		E17916F41E4E528800528B91 /* AbstractCoreBuilder.h in Headers */ = {isa = PBXBuildFile; fileRef = DA96B8B20981901F0007610D /* AbstractCoreBuilder.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17916F51E4E528D00528B91 /* AbstractCoreBuilder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA96B8B30981901F0007610D /* AbstractCoreBuilder.cpp */; };
+		E17916F61E4E528F00528B91 /* CoreBuilderForeman.h in Headers */ = {isa = PBXBuildFile; fileRef = DA96B90609819B4E0007610D /* CoreBuilderForeman.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17916F71E4E529600528B91 /* CoreBuilderForeman.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA96B90709819B4E0007610D /* CoreBuilderForeman.cpp */; };
+		E17916F81E4E529900528B91 /* StandardClientCoreBuilder.h in Headers */ = {isa = PBXBuildFile; fileRef = DA871F2409995B180084304E /* StandardClientCoreBuilder.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17916F91E4E529E00528B91 /* StandardClientCoreBuilder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA871F2509995B180084304E /* StandardClientCoreBuilder.cpp */; };
+		E17916FA1E4E52A100528B91 /* StandardServerCoreBuilder.h in Headers */ = {isa = PBXBuildFile; fileRef = DA96B8D40981951E0007610D /* StandardServerCoreBuilder.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17916FB1E4E52A600528B91 /* StandardServerCoreBuilder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA96B8D50981951E0007610D /* StandardServerCoreBuilder.cpp */; };
+		E17916FC1E4E52AA00528B91 /* TestBedCoreBuilder.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C08412209D596F800E4D2F4 /* TestBedCoreBuilder.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17916FD1E4E52AF00528B91 /* TestBedCoreBuilder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C08412309D596F800E4D2F4 /* TestBedCoreBuilder.cpp */; };
+		E17916FE1E4E52D400528B91 /* ExpressionParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CDCC87F0D2B0E10008E2F19 /* ExpressionParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17916FF1E4E52DA00528B91 /* ExpressionParser.cc in Sources */ = {isa = PBXBuildFile; fileRef = 5CDCC8800D2B0E10008E2F19 /* ExpressionParser.cc */; };
+		E17917001E4E52DD00528B91 /* ParsedColorTrio.h in Headers */ = {isa = PBXBuildFile; fileRef = 0E2FE59F0EF00CC900CEB818 /* ParsedColorTrio.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17917011E4E52E200528B91 /* ParsedColorTrio.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E2FE5A00EF00CC900CEB818 /* ParsedColorTrio.cpp */; };
+		E17917021E4E52E800528B91 /* XMLParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CE30A490CF9FAFA00BEB3E3 /* XMLParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17917031E4E52ED00528B91 /* XMLParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CE30A4A0CF9FAFA00BEB3E3 /* XMLParser.cpp */; };
+		E17917041E4E52F400528B91 /* XMLVariableWriter.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C38FBC20DF045F600FA6A18 /* XMLVariableWriter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17917051E4E52F900528B91 /* XMLVariableWriter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C38FBC30DF045F600FA6A18 /* XMLVariableWriter.cpp */; };
+		E17917061E4E531600528B91 /* ParameterInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = E104A8D7133B8D5900D36236 /* ParameterInfo.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17917071E4E531D00528B91 /* ComponentInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = E104A8D3133B8D3E00D36236 /* ComponentInfo.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17917081E4E532200528B91 /* Component.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CE30A4D0CFA49D600BEB3E3 /* Component.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17917091E4E532800528B91 /* Component.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CE30A4E0CFA49D600BEB3E3 /* Component.cpp */; };
+		E179170A1E4E532C00528B91 /* ComponentRegistry.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2CE10D07E9F85800C68AEF /* ComponentRegistry.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E179170B1E4E533100528B91 /* ComponentRegistry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2CE10C07E9F85800C68AEF /* ComponentRegistry.cpp */; };
+		E179170C1E4E533400528B91 /* ParameterValue.h in Headers */ = {isa = PBXBuildFile; fileRef = E104A8DB133B8D7200D36236 /* ParameterValue.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E179170D1E4E533900528B91 /* ParameterValue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E104A8DC133B8D7200D36236 /* ParameterValue.cpp */; };
+		E179170E1E4E533C00528B91 /* ComponentFactoryException.h in Headers */ = {isa = PBXBuildFile; fileRef = 0E88D1710D04708A00D7D273 /* ComponentFactoryException.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E179170F1E4E534100528B91 /* ComponentFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2CE19507E9F94B00C68AEF /* ComponentFactory.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17917101E4E534700528B91 /* ComponentFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2CE19407E9F94B00C68AEF /* ComponentFactory.cpp */; };
+		E17917111E4E534B00528B91 /* StandardComponentFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = E104A8EF133B8D9700D36236 /* StandardComponentFactory.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17917121E4E535100528B91 /* Plugin.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2CE19707E9F94B00C68AEF /* Plugin.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17917131E4E535700528B91 /* Plugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2CE19607E9F94B00C68AEF /* Plugin.cpp */; };
+		E17917141E4E535A00528B91 /* PluginServices.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2CE19807E9F94B00C68AEF /* PluginServices.cpp */; };
+		E17917151E4E535D00528B91 /* PluginServices.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2CE19907E9F94B00C68AEF /* PluginServices.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17917161E4E539000528B91 /* LoadingUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2CE12907E9F8B200C68AEF /* LoadingUtilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17917171E4E539400528B91 /* LoadingUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2CE12807E9F8B200C68AEF /* LoadingUtilities.cpp */; };
+		E17917181E4E539800528B91 /* ExperimentPackager.h in Headers */ = {isa = PBXBuildFile; fileRef = DA96C0E40988546D0007610D /* ExperimentPackager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17917191E4E539E00528B91 /* ExperimentPackager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA96C0E50988546D0007610D /* ExperimentPackager.cpp */; };
+		E179171A1E4E53A300528B91 /* ExperimentUnpackager.h in Headers */ = {isa = PBXBuildFile; fileRef = 0E1DB69A0B4EB878000C0D68 /* ExperimentUnpackager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E179171B1E4E53A800528B91 /* ExperimentUnpackager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E1DB69B0B4EB878000C0D68 /* ExperimentUnpackager.cpp */; };
+		E179171C1E4E53C200528B91 /* TrialBuildingBlocks.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2CE17D07E9F93900C68AEF /* TrialBuildingBlocks.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E179171D1E4E53C700528B91 /* TrialBuildingBlocks.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CD504300D4ED0BA00CD1C1D /* TrialBuildingBlocks.cpp */; };
+		E179171E1E4E53CA00528B91 /* ScheduledActions.h in Headers */ = {isa = PBXBuildFile; fileRef = 0EFC713E0EDBAF6800FFABA8 /* ScheduledActions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E179171F1E4E53CE00528B91 /* ScheduledActions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EFC713F0EDBAF6800FFABA8 /* ScheduledActions.cpp */; };
+		E17917201E4E53D100528B91 /* PulseAction.h in Headers */ = {isa = PBXBuildFile; fileRef = 0EFC71610EDBB14000FFABA8 /* PulseAction.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17917221E4E53DC00528B91 /* BlockAndProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2CE16D07E9F93900C68AEF /* BlockAndProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17917231E4E53E100528B91 /* BlockAndProtocol.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2CE16C07E9F93900C68AEF /* BlockAndProtocol.cpp */; };
+		E17917241E4E53E400528B91 /* Experiment.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2CE17107E9F93900C68AEF /* Experiment.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17917251E4E53EA00528B91 /* Experiment.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2CE17007E9F93900C68AEF /* Experiment.cpp */; };
+		E17917261E4E53ED00528B91 /* Filters.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2CE17407E9F93900C68AEF /* Filters.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17917271E4E53F200528B91 /* States.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2CE17B07E9F93900C68AEF /* States.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17917281E4E53F800528B91 /* States.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2CE17A07E9F93900C68AEF /* States.cpp */; };
+		E17917291E4E53FB00528B91 /* Selectable.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C0509990A0ED95900F02584 /* Selectable.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E179172A1E4E540200528B91 /* Selectable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C0509980A0ED95900F02584 /* Selectable.cpp */; };
+		E179172B1E4E540500528B91 /* Selection.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2CE17907E9F93900C68AEF /* Selection.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E179172C1E4E540A00528B91 /* Selection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2CE17807E9F93900C68AEF /* Selection.cpp */; };
+		E179172D1E4E540D00528B91 /* SequentialSelection.h in Headers */ = {isa = PBXBuildFile; fileRef = 682A94760CA9A933001DE3E2 /* SequentialSelection.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E179172E1E4E541200528B91 /* SequentialSelection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 682A94770CA9A933001DE3E2 /* SequentialSelection.cpp */; };
+		E179172F1E4E541700528B91 /* RandomWORSelection.h in Headers */ = {isa = PBXBuildFile; fileRef = 682A94930CA9AA20001DE3E2 /* RandomWORSelection.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17917301E4E541C00528B91 /* RandomWORSelection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 682A94940CA9AA20001DE3E2 /* RandomWORSelection.cpp */; };
+		E17917311E4E541F00528B91 /* RandomWithReplacementSelection.h in Headers */ = {isa = PBXBuildFile; fileRef = 682A94B50CA9AB61001DE3E2 /* RandomWithReplacementSelection.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17917321E4E542500528B91 /* RandomWithReplacementSelection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 682A94B60CA9AB61001DE3E2 /* RandomWithReplacementSelection.cpp */; };
+		E17917331E4E543700528B91 /* PulseAction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EFC71620EDBB14000FFABA8 /* PulseAction.cpp */; };
+		E17917341E4E546C00528B91 /* Debugging.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CEDF6630D84E5E60044D738 /* Debugging.cpp */; };
+		E17917351E4E546F00528B91 /* Debugging.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CEDF6640D84E5E60044D738 /* Debugging.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17917361E4E547400528B91 /* Clock.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2CE1A107E9F95600C68AEF /* Clock.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17917371E4E547900528B91 /* Clock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2CE1A007E9F95600C68AEF /* Clock.cpp */; };
+		E17917381E4E547D00528B91 /* Announcers.h in Headers */ = {isa = PBXBuildFile; fileRef = 8E28B5FA0A6C317E00DA6287 /* Announcers.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17917391E4E548200528B91 /* Announcers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E28B5FB0A6C317E00DA6287 /* Announcers.cpp */; };
+		E179173A1E4E548600528B91 /* Lockable.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2CE1A307E9F95600C68AEF /* Lockable.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E179173B1E4E548C00528B91 /* Lockable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2CE1A207E9F95600C68AEF /* Lockable.cpp */; };
+		E179173C1E4E548F00528B91 /* Scheduler.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2CE1A707E9F95600C68AEF /* Scheduler.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E179173D1E4E549400528B91 /* Scheduler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2CE1A607E9F95600C68AEF /* Scheduler.cpp */; };
+		E179173E1E4E549700528B91 /* StateSystem.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2CE1AB07E9F95600C68AEF /* StateSystem.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17917401E4E54A000528B91 /* Timer.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2CE1AD07E9F95600C68AEF /* Timer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17917411E4E54A600528B91 /* Timer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2CE1AC07E9F95600C68AEF /* Timer.cpp */; };
+		E17917421E4E54BA00528B91 /* StateSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2CE1AA07E9F95600C68AEF /* StateSystem.cpp */; };
+		E17917431E4E54D500528B91 /* LinkedList.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C7CF4ED0BC6B48D00434931 /* LinkedList.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17917441E4E54DC00528B91 /* Map.h in Headers */ = {isa = PBXBuildFile; fileRef = E127D38B133A5CFC00532496 /* Map.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17917451E4E54E400528B91 /* MWorksMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = E127D3AC133A615C00532496 /* MWorksMacros.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17917461E4E54EA00528B91 /* MWorksTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C866A98086E1E43006CBE6F /* MWorksTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17917471E4E54F000528B91 /* Utilities.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2CE1AF07E9F95600C68AEF /* Utilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17917481E4E54F700528B91 /* Utilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2CE1AE07E9F95600C68AEF /* Utilities.cpp */; };
+		E17917491E4E54FA00528B91 /* RegisteredSingleton.h in Headers */ = {isa = PBXBuildFile; fileRef = 0EF2B5C30EBB49F20088F58F /* RegisteredSingleton.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E179174A1E4E550000528B91 /* MachUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = E16BC179137D952D0052D8E1 /* MachUtilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E179174B1E4E550600528B91 /* MachUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E16BC17A137D952D0052D8E1 /* MachUtilities.cpp */; };
+		E179174C1E4E550A00528B91 /* CFObjectPtr.h in Headers */ = {isa = PBXBuildFile; fileRef = E18FF25E1C80EE64007820D4 /* CFObjectPtr.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E179174D1E4E552900528B91 /* Exceptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CEFD82A0D4D1D6200EA9950 /* Exceptions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E179174E1E4E553100528B91 /* Exceptions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CEFD82B0D4D1D6200EA9950 /* Exceptions.cpp */; };
+		E179174F1E4E554100528B91 /* VariableTransformAdaptors.h in Headers */ = {isa = PBXBuildFile; fileRef = 8ED452C608BF9870003880D5 /* VariableTransformAdaptors.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17917501E4E554700528B91 /* VariableTransformAdaptors.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8ED452C508BF9870003880D5 /* VariableTransformAdaptors.cpp */; };
+		E17917511E4E554B00528B91 /* Transforms.h in Headers */ = {isa = PBXBuildFile; fileRef = 8ED452C408BF9870003880D5 /* Transforms.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17917521E4E555000528B91 /* Transforms.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8ED451FE08BF5C0C003880D5 /* Transforms.cpp */; };
+		E17917531E4E555500528B91 /* FilterTransforms.h in Headers */ = {isa = PBXBuildFile; fileRef = 8ED451E608BF5BA1003880D5 /* FilterTransforms.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17917541E4E555B00528B91 /* FilterTransforms.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8ED451E508BF5BA1003880D5 /* FilterTransforms.cpp */; };
+		E17917551E4E555F00528B91 /* EyeMonitors.h in Headers */ = {isa = PBXBuildFile; fileRef = 8ED451E208BF5B90003880D5 /* EyeMonitors.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17917561E4E556400528B91 /* EyeMonitors.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8ED451E108BF5B90003880D5 /* EyeMonitors.cpp */; };
+		E17917571E4E556800528B91 /* EyeCalibrators.h in Headers */ = {isa = PBXBuildFile; fileRef = 8ED4542A08C56280003880D5 /* EyeCalibrators.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17917581E4E556F00528B91 /* EyeCalibrators.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8ED4542B08C56280003880D5 /* EyeCalibrators.cpp */; };
+		E17917591E4E557300528B91 /* FitableFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 8EE2F39F08C8227700B873A2 /* FitableFunctions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E179175B1E4E557B00528B91 /* Averagers.h in Headers */ = {isa = PBXBuildFile; fileRef = 8E16A70C0A08E12E0070955E /* Averagers.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E179175C1E4E558000528B91 /* Averagers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E16A70D0A08E12E0070955E /* Averagers.cpp */; };
+		E179175D1E4E559B00528B91 /* FitableFunctions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8EE2F3A008C8227700B873A2 /* FitableFunctions.cpp */; };
+		E179175E1E4E55A700528B91 /* SimpleStaircase.h in Headers */ = {isa = PBXBuildFile; fileRef = 0EAA0DE50B98FC1500331AA5 /* SimpleStaircase.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E179175F1E4E55AD00528B91 /* SimpleStaircase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EAA0DE40B98FC1500331AA5 /* SimpleStaircase.cpp */; };
+		E17917601E4E55B000528B91 /* BiasMonitor.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C9186110E3548FA00B64213 /* BiasMonitor.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17917611E4E55B500528B91 /* BiasMonitor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C9186120E3548FA00B64213 /* BiasMonitor.cpp */; };
+		E17917621E4E55C200528B91 /* Trigger.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C91B98E086CC9DC00C14E1A /* Trigger.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17917631E4E55C800528B91 /* Trigger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C91B98F086CC9DC00C14E1A /* Trigger.cpp */; };
+		E17917641E4E55D800528B91 /* IODevice.h in Headers */ = {isa = PBXBuildFile; fileRef = E11AFFBC118F865C0034CC04 /* IODevice.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17917651E4E55DD00528B91 /* IODevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1F65DF8119086A100F9A3A3 /* IODevice.cpp */; };
+		E17917661E4E55DF00528B91 /* LegacyIODevice.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2CE13B07E9F8D300C68AEF /* LegacyIODevice.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17917671E4E55E500528B91 /* LegacyIODevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2CE13A07E9F8D300C68AEF /* LegacyIODevice.cpp */; };
+		E17917681E4E55EA00528B91 /* DummyIODevice.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C8D03C20D56B1AE00454461 /* DummyIODevice.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17917691E4E55F100528B91 /* DummyIODevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C8D03C30D56B1AE00454461 /* DummyIODevice.cpp */; };
+		E179176A1E4E55F500528B91 /* IODeviceVariableNotification.h in Headers */ = {isa = PBXBuildFile; fileRef = 0EB1423D0EFB4EFC0056E2A2 /* IODeviceVariableNotification.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E179176B1E4E55FB00528B91 /* IODeviceVariableNotification.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EB1423E0EFB4EFC0056E2A2 /* IODeviceVariableNotification.cpp */; };
+		E179176C1E4E561800528B91 /* DataFileManager.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2CE11D07E9F86300C68AEF /* DataFileManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E179176D1E4E561D00528B91 /* DataFileManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2CE11C07E9F86300C68AEF /* DataFileManager.cpp */; };
+		E179176E1E4E563200528B91 /* DynamicStimulusDriver.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C78EDE3115C00EC00151A76 /* DynamicStimulusDriver.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E179176F1E4E563700528B91 /* DynamicStimulusDriver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C78EDE2115C00EC00151A76 /* DynamicStimulusDriver.cpp */; };
+		E17917701E4E563A00528B91 /* DynamicStimulusActions.h in Headers */ = {isa = PBXBuildFile; fileRef = E1C87A1413FDA56F005FF5ED /* DynamicStimulusActions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17917711E4E564000528B91 /* DynamicStimulusActions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1C87A1213FDA558005FF5ED /* DynamicStimulusActions.cpp */; };
+		E17917721E4E564400528B91 /* StandardDynamicStimulus.h in Headers */ = {isa = PBXBuildFile; fileRef = E13BD56712130E6800DF5C02 /* StandardDynamicStimulus.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17917731E4E564900528B91 /* StandardDynamicStimulus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E13BD56612130E6800DF5C02 /* StandardDynamicStimulus.cpp */; };
+		E17917741E4E565E00528B91 /* OpenGLContextManager.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2CE1C807E9F96E00C68AEF /* OpenGLContextManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17917751E4E566200528B91 /* OpenGLContextManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2CE1C707E9F96E00C68AEF /* OpenGLContextManager.cpp */; };
+		E17917761E4E566800528B91 /* StimulusDisplay.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C7667530C1BB30A00B1203C /* StimulusDisplay.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17917771E4E566D00528B91 /* StimulusDisplay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2CE1CF07E9F96E00C68AEF /* StimulusDisplay.cpp */; };
+		E17917781E4E567D00528B91 /* OpenGLUtilities.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E146B7E71E1EAB66001C7947 /* OpenGLUtilities.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17917791E4E568200528B91 /* OpenGLUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E146B7E61E1EAB66001C7947 /* OpenGLUtilities.cpp */; };
+		E179177A1E4E56BB00528B91 /* StandardStimuli.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2CE1C907E9F96E00C68AEF /* StandardStimuli.cpp */; };
+		E179177B1E4E56BE00528B91 /* StandardStimuli.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2CE1CA07E9F96E00C68AEF /* StandardStimuli.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E179177C1E4E56C500528B91 /* Stimulus.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2CE1CE07E9F96E00C68AEF /* Stimulus.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E179177D1E4E56CA00528B91 /* Stimulus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2CE1CD07E9F96E00C68AEF /* Stimulus.cpp */; };
+		E179177E1E4E56CD00528B91 /* StimulusDisplayDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = E194BF6C1590DB3900D4A62D /* StimulusDisplayDevice.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E179177F1E4E56D200528B91 /* StimulusDisplayDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E194BF6D1590DB5300D4A62D /* StimulusDisplayDevice.cpp */; };
+		E17917801E4E56D500528B91 /* StimulusNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C76674D0C1BB28C00B1203C /* StimulusNode.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17917811E4E56DB00528B91 /* StimulusNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C76674E0C1BB28C00B1203C /* StimulusNode.cpp */; };
+		E17917821E4E56DF00528B91 /* StandardStimulusFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = E104A8F3133B8DB400D36236 /* StandardStimulusFactory.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17917831E4E570800528B91 /* alut.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CAE8BF50AE4049E0013DB19 /* alut.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17917841E4E570D00528B91 /* alut.c in Sources */ = {isa = PBXBuildFile; fileRef = 5CAE8BF60AE4049E0013DB19 /* alut.c */; };
+		E17917851E4E572C00528B91 /* Sound.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CBA76D20AE069A300D6F4A6 /* Sound.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17917861E4E573100528B91 /* Sound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CBA76D30AE069A300D6F4A6 /* Sound.cpp */; };
+		E17917871E4E573400528B91 /* StandardSounds.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CBA76DA0AE06F6500D6F4A6 /* StandardSounds.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E17917881E4E573900528B91 /* StandardSounds.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CBA76DB0AE06F6500D6F4A6 /* StandardSounds.cpp */; };
+		E17917891E4E573C00528B91 /* OpenALContextManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CBA76E00AE0706300D6F4A6 /* OpenALContextManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E179178A1E4E574200528B91 /* OpenALContextManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CBA76E10AE0706300D6F4A6 /* OpenALContextManager.cpp */; };
 		E186EB661C1F512100FD7F32 /* MWComponents.yaml in Resources */ = {isa = PBXBuildFile; fileRef = E186EB651C1F511100FD7F32 /* MWComponents.yaml */; };
 		E188BE8D1D47B5D00001483A /* libzmq.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E188BE8C1D47B5D00001483A /* libzmq.a */; };
 		E188BE901D47CAAC0001483A /* ZeroMQClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E188BE8E1D47CAAC0001483A /* ZeroMQClient.cpp */; };
@@ -2365,7 +2592,128 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E17917221E4E53DC00528B91 /* BlockAndProtocol.h in Headers */,
+				E17917401E4E54A000528B91 /* Timer.h in Headers */,
+				E17916F01E4E523900528B91 /* StandardSystemEventHandler.h in Headers */,
+				E17916B31E4E50C300528B91 /* ZeroMQConnection.hpp in Headers */,
+				E17916B51E4E50CB00528B91 /* ZeroMQClient.hpp in Headers */,
+				E17917431E4E54D500528B91 /* LinkedList.h in Headers */,
+				E179170F1E4E534100528B91 /* ComponentFactory.h in Headers */,
+				E17916D51E4E516900528B91 /* UnresolvedReferenceVariable.h in Headers */,
+				E17916CF1E4E514F00528B91 /* ScopedVariableEnvironment.h in Headers */,
+				E17916C31E4E511F00528B91 /* GenericData.h in Headers */,
+				E17917081E4E532200528B91 /* Component.h in Headers */,
+				E17916D11E4E515700528B91 /* ScopedVariableContext.h in Headers */,
+				E17916E51E4E51DE00528B91 /* LegacyBuffers.h in Headers */,
+				E17917471E4E54F000528B91 /* Utilities.h in Headers */,
+				E17916D31E4E515F00528B91 /* SelectionVariable.h in Headers */,
+				E17917491E4E54FA00528B91 /* RegisteredSingleton.h in Headers */,
+				E17916DB1E4E51B500528B91 /* EventBuffer.h in Headers */,
+				E17917161E4E539000528B91 /* LoadingUtilities.h in Headers */,
+				E17916AA1E4E507E00528B91 /* ScarabWriteConnection.h in Headers */,
+				E17917831E4E570800528B91 /* alut.h in Headers */,
+				E179176A1E4E55F500528B91 /* IODeviceVariableNotification.h in Headers */,
+				E179171A1E4E53A300528B91 /* ExperimentUnpackager.h in Headers */,
+				E17917591E4E557300528B91 /* FitableFunctions.h in Headers */,
+				E17917781E4E567D00528B91 /* OpenGLUtilities.hpp in Headers */,
+				E179172B1E4E540500528B91 /* Selection.h in Headers */,
+				E17917511E4E554B00528B91 /* Transforms.h in Headers */,
+				E17916A81E4E507600528B91 /* ScarabConnection.h in Headers */,
+				E17917381E4E547D00528B91 /* Announcers.h in Headers */,
+				E17916CD1E4E514700528B91 /* ScopedVariable.h in Headers */,
+				E17917701E4E563A00528B91 /* DynamicStimulusActions.h in Headers */,
+				E179177E1E4E56CD00528B91 /* StimulusDisplayDevice.h in Headers */,
+				E17917821E4E56DF00528B91 /* StandardStimulusFactory.h in Headers */,
+				E17917111E4E534B00528B91 /* StandardComponentFactory.h in Headers */,
+				E17916BD1E4E510800528B91 /* VariableLoad.h in Headers */,
+				E17917151E4E535D00528B91 /* PluginServices.h in Headers */,
+				E17917891E4E573C00528B91 /* OpenALContextManager.h in Headers */,
+				E17916F81E4E529900528B91 /* StandardClientCoreBuilder.h in Headers */,
+				E17916DF1E4E51C300528B91 /* Buffers.h in Headers */,
+				E17917721E4E564400528B91 /* StandardDynamicStimulus.h in Headers */,
+				E17917241E4E53E400528B91 /* Experiment.h in Headers */,
+				E17916B91E4E50DB00528B91 /* ZeroMQUtilities.hpp in Headers */,
+				E179177C1E4E56C500528B91 /* Stimulus.h in Headers */,
+				E17917871E4E573400528B91 /* StandardSounds.h in Headers */,
+				E17917351E4E546F00528B91 /* Debugging.h in Headers */,
+				E179170A1E4E532C00528B91 /* ComponentRegistry.h in Headers */,
+				E17916FC1E4E52AA00528B91 /* TestBedCoreBuilder.h in Headers */,
+				E17916F41E4E528800528B91 /* AbstractCoreBuilder.h in Headers */,
+				E17917531E4E555500528B91 /* FilterTransforms.h in Headers */,
+				E17917681E4E55EA00528B91 /* DummyIODevice.h in Headers */,
+				E17917201E4E53D100528B91 /* PulseAction.h in Headers */,
+				E17916A41E4E504C00528B91 /* ExpandableList.h in Headers */,
+				E17917461E4E54EA00528B91 /* MWorksTypes.h in Headers */,
+				E17916FA1E4E52A100528B91 /* StandardServerCoreBuilder.h in Headers */,
+				E17916FE1E4E52D400528B91 /* ExpressionParser.h in Headers */,
+				E17917181E4E539800528B91 /* ExperimentPackager.h in Headers */,
+				E17916E11E4E51CD00528B91 /* Event.h in Headers */,
+				E17916C51E4E512700528B91 /* GenericVariable.h in Headers */,
+				E17916CB1E4E514000528B91 /* GlobalVariable.h in Headers */,
+				E17917571E4E556800528B91 /* EyeCalibrators.h in Headers */,
+				E17916D71E4E517100528B91 /* StandardVariables.h in Headers */,
+				E17917061E4E531600528B91 /* ParameterInfo.h in Headers */,
+				E179176E1E4E563200528B91 /* DynamicStimulusDriver.h in Headers */,
+				E179172F1E4E541700528B91 /* RandomWORSelection.h in Headers */,
+				E17917291E4E53FB00528B91 /* Selectable.h in Headers */,
+				E17916AE1E4E509400528B91 /* ScarabServices.h in Headers */,
+				E17916AC1E4E508700528B91 /* NetworkReturn.h in Headers */,
+				E179175B1E4E557B00528B91 /* Averagers.h in Headers */,
+				E17916BF1E4E511000528B91 /* VariableSave.h in Headers */,
+				E179174F1E4E554100528B91 /* VariableTransformAdaptors.h in Headers */,
+				E17917021E4E52E800528B91 /* XMLParser.h in Headers */,
+				E179173E1E4E549700528B91 /* StateSystem.h in Headers */,
 				E148A4431E4B76A8002DFB1C /* PlatformDependentServices.h in Headers */,
+				E17917311E4E541F00528B91 /* RandomWithReplacementSelection.h in Headers */,
+				E17916B11E4E50BC00528B91 /* ZeroMQSocket.hpp in Headers */,
+				E17916E91E4E51EE00528B91 /* EventConstants.h in Headers */,
+				E17917601E4E55B000528B91 /* BiasMonitor.h in Headers */,
+				E179170C1E4E533400528B91 /* ParameterValue.h in Headers */,
+				E17917361E4E547400528B91 /* Clock.h in Headers */,
+				E17917451E4E54E400528B91 /* MWorksMacros.h in Headers */,
+				E179177B1E4E56BE00528B91 /* StandardStimuli.h in Headers */,
+				E17917851E4E572C00528B91 /* Sound.h in Headers */,
+				E17916F21E4E524100528B91 /* VariableRegistryInterface.h in Headers */,
+				E179171E1E4E53CA00528B91 /* ScheduledActions.h in Headers */,
+				E17917551E4E555F00528B91 /* EyeMonitors.h in Headers */,
+				E17917801E4E56D500528B91 /* StimulusNode.h in Headers */,
+				E179173C1E4E548F00528B91 /* Scheduler.h in Headers */,
+				E17917261E4E53ED00528B91 /* Filters.h in Headers */,
+				E17916A61E4E506000528B91 /* Serialization.h in Headers */,
+				E17917271E4E53F200528B91 /* States.h in Headers */,
+				E17917121E4E535100528B91 /* Plugin.h in Headers */,
+				E17917661E4E55DF00528B91 /* LegacyIODevice.h in Headers */,
+				E17916B01E4E50B600528B91 /* MessagePackAdaptors.hpp in Headers */,
+				E17916C91E4E513800528B91 /* VariableNotification.h in Headers */,
+				E17917761E4E566800528B91 /* StimulusDisplay.h in Headers */,
+				E179173A1E4E548600528B91 /* Lockable.h in Headers */,
+				E17916EE1E4E522D00528B91 /* Server.h in Headers */,
+				E179176C1E4E561800528B91 /* DataFileManager.h in Headers */,
+				E17916B71E4E50D300528B91 /* ZeroMQServer.hpp in Headers */,
+				E179171C1E4E53C200528B91 /* TrialBuildingBlocks.h in Headers */,
+				E17917741E4E565E00528B91 /* OpenGLContextManager.h in Headers */,
+				E17916F61E4E528F00528B91 /* CoreBuilderForeman.h in Headers */,
+				E179172D1E4E540D00528B91 /* SequentialSelection.h in Headers */,
+				E17917441E4E54DC00528B91 /* Map.h in Headers */,
+				E17916C71E4E512E00528B91 /* VariableProperties.h in Headers */,
+				E179175E1E4E55A700528B91 /* SimpleStaircase.h in Headers */,
+				E179170E1E4E533C00528B91 /* ComponentFactoryException.h in Headers */,
+				E17917621E4E55C200528B91 /* Trigger.h in Headers */,
+				E17916EC1E4E522300528B91 /* Client.h in Headers */,
+				E17916C11E4E511700528B91 /* ExpressionVariable.h in Headers */,
+				E179174D1E4E552900528B91 /* Exceptions.h in Headers */,
+				E179174C1E4E550A00528B91 /* CFObjectPtr.h in Headers */,
+				E17916BB1E4E510000528B91 /* VariableRegistry.h in Headers */,
+				E17916E31E4E51D500528B91 /* EventStreamInterface.h in Headers */,
+				E17917001E4E52DD00528B91 /* ParsedColorTrio.h in Headers */,
+				E17916E71E4E51E600528B91 /* EventListener.h in Headers */,
+				E17916EA1E4E51F300528B91 /* EventCallbackHandler.h in Headers */,
+				E17916DD1E4E51BC00528B91 /* SystemEventFactory.h in Headers */,
+				E17917071E4E531D00528B91 /* ComponentInfo.h in Headers */,
+				E17917641E4E55D800528B91 /* IODevice.h in Headers */,
+				E17917041E4E52F400528B91 /* XMLVariableWriter.h in Headers */,
+				E179174A1E4E550000528B91 /* MachUtilities.h in Headers */,
+				E17916D91E4E517A00528B91 /* FreezableVariableContainer.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2734,7 +3082,6 @@
 				0EF2B6720EBB6ED70088F58F /* RegisteredSingletonTests.cpp in Sources */,
 				0EBCB90D0EFF42440032F669 /* XMLParserTest.cpp in Sources */,
 				5C7A88270F818A38007B4724 /* SimpleConduitTest.cpp in Sources */,
-				5CA9AD3310B5F9B500A04B67 /* VariableRegistryInterface.cpp in Sources */,
 				5CA0792110CEDD1300000A95 /* EventHandlerConduitTest.cpp in Sources */,
 				5CA07BB410D0B4D200000A95 /* CodecAwareConduitTest.cpp in Sources */,
 				E104A8A3133B829F00D36236 /* MapTest.cpp in Sources */,
@@ -2900,7 +3247,114 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E17916FD1E4E52AF00528B91 /* TestBedCoreBuilder.cpp in Sources */,
+				E179173D1E4E549400528B91 /* Scheduler.cpp in Sources */,
+				E17917771E4E566D00528B91 /* StimulusDisplay.cpp in Sources */,
+				E17916B21E4E50C100528B91 /* ZeroMQSocket.cpp in Sources */,
+				E17916AF1E4E509900528B91 /* ScarabServices.cpp in Sources */,
+				E17916C01E4E511400528B91 /* VariableSave.cpp in Sources */,
+				E17916E01E4E51C900528B91 /* Buffers.cpp in Sources */,
+				E17916C61E4E512C00528B91 /* GenericVariable.cpp in Sources */,
+				E17917651E4E55DD00528B91 /* IODevice.cpp in Sources */,
+				E17916B81E4E50D800528B91 /* ZeroMQServer.cpp in Sources */,
+				E179172E1E4E541200528B91 /* SequentialSelection.cpp in Sources */,
+				E17916F31E4E524600528B91 /* VariableRegistryInterface.cpp in Sources */,
+				E17916A71E4E506600528B91 /* Serialization.cpp in Sources */,
+				E179170D1E4E533900528B91 /* ParameterValue.cpp in Sources */,
+				E17916A91E4E507B00528B91 /* ScarabConnection.cpp in Sources */,
+				E17917301E4E541C00528B91 /* RandomWORSelection.cpp in Sources */,
+				E17916CC1E4E514500528B91 /* GlobalVariable.cpp in Sources */,
+				E17917611E4E55B500528B91 /* BiasMonitor.cpp in Sources */,
+				E17916D61E4E516E00528B91 /* UnresolvedReferenceVariable.cpp in Sources */,
+				E17916B41E4E50C800528B91 /* ZeroMQConnection.cpp in Sources */,
+				E17916DE1E4E51C000528B91 /* SystemEventFactory.cpp in Sources */,
+				E17917411E4E54A600528B91 /* Timer.cpp in Sources */,
+				E17916ED1E4E522800528B91 /* Client.cpp in Sources */,
+				E17916C41E4E512400528B91 /* GenericData.cpp in Sources */,
+				E179171B1E4E53A800528B91 /* ExperimentUnpackager.cpp in Sources */,
+				E17916DC1E4E51B900528B91 /* EventBuffer.cpp in Sources */,
+				E179171F1E4E53CE00528B91 /* ScheduledActions.cpp in Sources */,
+				E179176F1E4E563700528B91 /* DynamicStimulusDriver.cpp in Sources */,
+				E17917051E4E52F900528B91 /* XMLVariableWriter.cpp in Sources */,
+				E17917521E4E555000528B91 /* Transforms.cpp in Sources */,
+				E17917841E4E570D00528B91 /* alut.c in Sources */,
+				E17916E61E4E51E300528B91 /* LegacyBuffers.cpp in Sources */,
+				E17916EF1E4E523300528B91 /* Server.cpp in Sources */,
+				E17916AD1E4E508D00528B91 /* NetworkReturn.cpp in Sources */,
+				E17917371E4E547900528B91 /* Clock.cpp in Sources */,
+				E17917101E4E534700528B91 /* ComponentFactory.cpp in Sources */,
+				E17917191E4E539E00528B91 /* ExperimentPackager.cpp in Sources */,
+				E17917171E4E539400528B91 /* LoadingUtilities.cpp in Sources */,
+				E17917811E4E56DB00528B91 /* StimulusNode.cpp in Sources */,
+				E17917231E4E53E100528B91 /* BlockAndProtocol.cpp in Sources */,
+				E179173B1E4E548C00528B91 /* Lockable.cpp in Sources */,
+				E17917481E4E54F700528B91 /* Utilities.cpp in Sources */,
+				E17916E41E4E51DA00528B91 /* EventStreamInterface.cpp in Sources */,
+				E17917791E4E568200528B91 /* OpenGLUtilities.cpp in Sources */,
+				E17917331E4E543700528B91 /* PulseAction.cpp in Sources */,
+				E17916BC1E4E510500528B91 /* VariableRegistry.cpp in Sources */,
+				E179172C1E4E540A00528B91 /* Selection.cpp in Sources */,
+				E17917631E4E55C800528B91 /* Trigger.cpp in Sources */,
+				E179178A1E4E574200528B91 /* OpenALContextManager.cpp in Sources */,
+				E17916D01E4E515400528B91 /* ScopedVariableEnvironment.cpp in Sources */,
+				E17916B61E4E50D000528B91 /* ZeroMQClient.cpp in Sources */,
+				E179176D1E4E561D00528B91 /* DataFileManager.cpp in Sources */,
+				E17917011E4E52E200528B91 /* ParsedColorTrio.cpp in Sources */,
+				E17916FF1E4E52DA00528B91 /* ExpressionParser.cc in Sources */,
+				E17917341E4E546C00528B91 /* Debugging.cpp in Sources */,
+				E17916F91E4E529E00528B91 /* StandardClientCoreBuilder.cpp in Sources */,
+				E179175C1E4E558000528B91 /* Averagers.cpp in Sources */,
+				E179177A1E4E56BB00528B91 /* StandardStimuli.cpp in Sources */,
+				E17917881E4E573900528B91 /* StandardSounds.cpp in Sources */,
 				E148A4421E4B76A5002DFB1C /* PlatformDependentServices.cpp in Sources */,
+				E17917501E4E554700528B91 /* VariableTransformAdaptors.cpp in Sources */,
+				E17917091E4E532800528B91 /* Component.cpp in Sources */,
+				E17917421E4E54BA00528B91 /* StateSystem.cpp in Sources */,
+				E17917541E4E555B00528B91 /* FilterTransforms.cpp in Sources */,
+				E17917391E4E548200528B91 /* Announcers.cpp in Sources */,
+				E179174E1E4E553100528B91 /* Exceptions.cpp in Sources */,
+				E17917671E4E55E500528B91 /* LegacyIODevice.cpp in Sources */,
+				E17916DA1E4E517F00528B91 /* FreezableVariableContainer.cpp in Sources */,
+				E17917561E4E556400528B91 /* EyeMonitors.cpp in Sources */,
+				E17917141E4E535A00528B91 /* PluginServices.cpp in Sources */,
+				E17916FB1E4E52A600528B91 /* StandardServerCoreBuilder.cpp in Sources */,
+				E17916A51E4E505300528B91 /* ExpandableList.cpp in Sources */,
+				E17916F11E4E523D00528B91 /* StandardSystemEventHandler.cpp in Sources */,
+				E17916F51E4E528D00528B91 /* AbstractCoreBuilder.cpp in Sources */,
+				E17916CA1E4E513C00528B91 /* VariableNotification.cpp in Sources */,
+				E17917861E4E573100528B91 /* Sound.cpp in Sources */,
+				E179177D1E4E56CA00528B91 /* Stimulus.cpp in Sources */,
+				E17916BA1E4E50E000528B91 /* ZeroMQUtilities.cpp in Sources */,
+				E17916C21E4E511C00528B91 /* ExpressionVariable.cpp in Sources */,
+				E17917751E4E566200528B91 /* OpenGLContextManager.cpp in Sources */,
+				E17916F71E4E529600528B91 /* CoreBuilderForeman.cpp in Sources */,
+				E17917711E4E564000528B91 /* DynamicStimulusActions.cpp in Sources */,
+				E17916D21E4E515C00528B91 /* ScopedVariableContext.cpp in Sources */,
+				E179175F1E4E55AD00528B91 /* SimpleStaircase.cpp in Sources */,
+				E17916D41E4E516500528B91 /* SelectionVariable.cpp in Sources */,
+				E17916AB1E4E508400528B91 /* ScarabWriteConnection.cpp in Sources */,
+				E17916BE1E4E510C00528B91 /* VariableLoad.cpp in Sources */,
+				E179172A1E4E540200528B91 /* Selectable.cpp in Sources */,
+				E179170B1E4E533100528B91 /* ComponentRegistry.cpp in Sources */,
+				E179175D1E4E559B00528B91 /* FitableFunctions.cpp in Sources */,
+				E17916E21E4E51D100528B91 /* Event.cpp in Sources */,
+				E17916E81E4E51EB00528B91 /* EventListener.cpp in Sources */,
+				E17917581E4E556F00528B91 /* EyeCalibrators.cpp in Sources */,
+				E179177F1E4E56D200528B91 /* StimulusDisplayDevice.cpp in Sources */,
+				E17917321E4E542500528B91 /* RandomWithReplacementSelection.cpp in Sources */,
+				E17917131E4E535700528B91 /* Plugin.cpp in Sources */,
+				E179171D1E4E53C700528B91 /* TrialBuildingBlocks.cpp in Sources */,
+				E17917281E4E53F800528B91 /* States.cpp in Sources */,
+				E17917251E4E53EA00528B91 /* Experiment.cpp in Sources */,
+				E17916C81E4E513300528B91 /* VariableProperties.cpp in Sources */,
+				E17917691E4E55F100528B91 /* DummyIODevice.cpp in Sources */,
+				E179174B1E4E550600528B91 /* MachUtilities.cpp in Sources */,
+				E17917031E4E52ED00528B91 /* XMLParser.cpp in Sources */,
+				E179176B1E4E55FB00528B91 /* IODeviceVariableNotification.cpp in Sources */,
+				E17916CE1E4E514C00528B91 /* ScopedVariable.cpp in Sources */,
+				E17916EB1E4E51F800528B91 /* EventCallbackHandler.cpp in Sources */,
+				E17916D81E4E517700528B91 /* StandardVariables.cpp in Sources */,
+				E17917731E4E564900528B91 /* StandardDynamicStimulus.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3144,6 +3598,8 @@
 				OTHER_LDFLAGS = (
 					"-lboost_filesystem",
 					"-lboost_system",
+					"-lscarab",
+					"-lzmq",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.mworks-project.MWorksCore-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
