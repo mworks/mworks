@@ -48,31 +48,6 @@
 BEGIN_NAMESPACE_MW
 
 
-OpenGLContextLock::OpenGLContextLock(CGLContextObj contextObj) :
-    contextObj(contextObj)
-{
-    if (contextObj) {
-        CGLError error = CGLLockContext(contextObj);
-        if (kCGLNoError != error) {
-            merror(M_DISPLAY_MESSAGE_DOMAIN, "Unable to lock OpenGL context (error = %d)", error);
-        }
-    }
-}
-
-
-void OpenGLContextLock::unlock(bool clearCurrent) {
-    if (contextObj) {
-        CGLError error = CGLUnlockContext(contextObj);
-        if (kCGLNoError != error) {
-            merror(M_DISPLAY_MESSAGE_DOMAIN, "Unable to unlock OpenGL context (error = %d)", error);
-        }
-        if (clearCurrent) {
-            [NSOpenGLContext clearCurrentContext];
-        }
-    }
-}
-
-
 MacOSOpenGLContextManager::MacOSOpenGLContextManager() {
     mirror_window = nil;
     mirror_view = nil;
@@ -177,8 +152,6 @@ int MacOSOpenGLContextManager::newMirrorContext(){
     [opengl_context release];
     [pixel_format release];
     
-    OpenGLContextLock ctxLock = setCurrent(context_id);
-    
     return context_id;
     
 }
@@ -244,8 +217,6 @@ int MacOSOpenGLContextManager::newFullscreenContext(int screen_number){
     [opengl_context release];
     [pixel_format release];
     
-    OpenGLContextLock ctxLock = setCurrent(context_id);
-    
     if (kIOPMNullAssertionID == display_sleep_block) {
         if (kIOReturnSuccess != IOPMAssertionCreateWithName(kIOPMAssertionTypeNoDisplaySleep,
                                                             kIOPMAssertionLevelOn,
@@ -274,6 +245,11 @@ OpenGLContextLock MacOSOpenGLContextManager::setCurrent(int context_id) {
     
     NSOpenGLContext *ctx = [contexts objectAtIndex:context_id];
     return makeCurrent(ctx);
+}
+
+
+void MacOSOpenGLContextManager::clearCurrent() {
+    [NSOpenGLContext clearCurrentContext];
 }
 
 

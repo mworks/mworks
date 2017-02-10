@@ -8,13 +8,12 @@
 #ifndef OPENGL_CONTEXT_MANAGER__
 #define OPENGL_CONTEXT_MANAGER__
 
-#include <TargetConditionals.h>
+#include "OpenGLContextLock.h"
+#include "RegisteredSingleton.h"
+
 #if TARGET_OS_OSX
 #  include <Cocoa/Cocoa.h>
 #endif
-
-#include "OpenGLContextLock.h"
-#include "RegisteredSingleton.h"
 
 
 BEGIN_NAMESPACE_MW
@@ -51,6 +50,7 @@ public:
     
     virtual OpenGLContextLock makeCurrent(PlatformOpenGLContextPtr context) = 0;
     virtual OpenGLContextLock setCurrent(int context_id) = 0;
+    virtual void clearCurrent() = 0;
     
     virtual void flush(int context_id) = 0;
     

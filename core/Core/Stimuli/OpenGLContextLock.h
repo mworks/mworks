@@ -9,9 +9,12 @@
 #ifndef MWorksCore_OpenGLContextLock_h
 #define MWorksCore_OpenGLContextLock_h
 
-#include <OpenGL/CGLTypes.h>
-
-#include <boost/move/move.hpp>
+#include <TargetConditionals.h>
+#if TARGET_OS_OSX
+#  include <OpenGL/CGLTypes.h>
+#else
+#  include <mutex>
+#endif
 
 #include "MWorksMacros.h"
 
@@ -21,34 +24,36 @@ BEGIN_NAMESPACE_MW
 
 class OpenGLContextLock {
     
-    BOOST_MOVABLE_BUT_NOT_COPYABLE(OpenGLContextLock)
-    
 public:
     ~OpenGLContextLock() {
         unlock(true);
     }
     
-    explicit OpenGLContextLock(CGLContextObj contextObj = NULL);
+#if TARGET_OS_OSX
+    explicit OpenGLContextLock(CGLContextObj contextObj = nullptr);
+#else
+    using unique_lock = std::unique_lock<std::mutex>;
+    explicit OpenGLContextLock(unique_lock lock = unique_lock());
+#endif
+    
+    // No copying
+    OpenGLContextLock(const OpenGLContextLock &other) = delete;
+    OpenGLContextLock& operator=(const OpenGLContextLock &other) = delete;
     
     // Move constructor
-    OpenGLContextLock(BOOST_RV_REF(OpenGLContextLock) other) :
-        contextObj(other.contextObj)
-    {
-        other.contextObj = NULL;
-    }
+    OpenGLContextLock(OpenGLContextLock &&other);
     
     // Move assignment
-    OpenGLContextLock& operator=(BOOST_RV_REF(OpenGLContextLock) other) {
-        unlock(false);
-        contextObj = other.contextObj;
-        other.contextObj = NULL;
-        return (*this);
-    }
+    OpenGLContextLock& operator=(OpenGLContextLock &&other);
     
 private:
     void unlock(bool clearCurrent);
     
+#if TARGET_OS_OSX
     CGLContextObj contextObj;
+#else
+    unique_lock lock;
+#endif
     
 };
 

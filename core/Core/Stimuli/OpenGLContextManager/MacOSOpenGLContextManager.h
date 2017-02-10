@@ -34,6 +34,7 @@ public:
     
     OpenGLContextLock makeCurrent(NSOpenGLContext *context) override;
     OpenGLContextLock setCurrent(int context_id) override;
+    void clearCurrent() override;
     
     void flush(int context_id);
     
