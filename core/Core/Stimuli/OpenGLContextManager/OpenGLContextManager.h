@@ -11,8 +11,6 @@
 #include <TargetConditionals.h>
 #if TARGET_OS_OSX
 #  include <Cocoa/Cocoa.h>
-#else
-#  error Unsupported platform
 #endif
 
 #include "OpenGLContextLock.h"

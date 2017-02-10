@@ -784,7 +784,7 @@
 		5C724442109B2BC0004887A5 /* EventStreamConduit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventStreamConduit.cpp; sourceTree = "<group>"; };
 		5C76674D0C1BB28C00B1203C /* StimulusNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StimulusNode.h; path = Core/Stimuli/StimulusNode.h; sourceTree = "<group>"; };
 		5C76674E0C1BB28C00B1203C /* StimulusNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StimulusNode.cpp; path = Core/Stimuli/StimulusNode.cpp; sourceTree = "<group>"; };
-		5C7667530C1BB30A00B1203C /* StimulusDisplay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StimulusDisplay.h; path = Core/Stimuli/StimulusDisplay.h; sourceTree = "<group>"; };
+		5C7667530C1BB30A00B1203C /* StimulusDisplay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StimulusDisplay.h; sourceTree = "<group>"; };
 		5C78EDE2115C00EC00151A76 /* DynamicStimulusDriver.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DynamicStimulusDriver.cpp; sourceTree = "<group>"; };
 		5C78EDE3115C00EC00151A76 /* DynamicStimulusDriver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DynamicStimulusDriver.h; sourceTree = "<group>"; };
 		5C7A88250F818A38007B4724 /* SimpleConduitTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SimpleConduitTest.cpp; sourceTree = "<group>"; };
@@ -956,7 +956,7 @@
 		DA2CE1CA07E9F96E00C68AEF /* StandardStimuli.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = StandardStimuli.h; path = Core/Stimuli/StandardStimuli.h; sourceTree = SOURCE_ROOT; };
 		DA2CE1CD07E9F96E00C68AEF /* Stimulus.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 30; name = Stimulus.cpp; path = Core/Stimuli/Stimulus.cpp; sourceTree = SOURCE_ROOT; };
 		DA2CE1CE07E9F96E00C68AEF /* Stimulus.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Stimulus.h; path = Core/Stimuli/Stimulus.h; sourceTree = SOURCE_ROOT; };
-		DA2CE1CF07E9F96E00C68AEF /* StimulusDisplay.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 30; name = StimulusDisplay.cpp; path = Core/Stimuli/StimulusDisplay.cpp; sourceTree = SOURCE_ROOT; };
+		DA2CE1CF07E9F96E00C68AEF /* StimulusDisplay.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 30; path = StimulusDisplay.cpp; sourceTree = "<group>"; };
 		DA2CE1E007E9F97F00C68AEF /* GenericData.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = GenericData.cpp; path = Core/Variables/GenericData.cpp; sourceTree = SOURCE_ROOT; };
 		DA2CE1E107E9F97F00C68AEF /* GenericData.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GenericData.h; path = Core/Variables/GenericData.h; sourceTree = SOURCE_ROOT; };
 		DA2CE1E207E9F97F00C68AEF /* GenericVariable.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = GenericVariable.cpp; path = Core/Variables/GenericVariable.cpp; sourceTree = SOURCE_ROOT; };
@@ -1868,6 +1868,7 @@
 			children = (
 				5C78EDE1115C00EC00151A76 /* DynamicStimuli */,
 				E148A4581E4BA280002DFB1C /* OpenGLContextManager */,
+				E179169F1E4E3BA100528B91 /* StimulusDisplay */,
 				5C4D254E09DCBB9A0082BF9F /* tests */,
 				E146B7E71E1EAB66001C7947 /* OpenGLUtilities.hpp */,
 				E146B7E61E1EAB66001C7947 /* OpenGLUtilities.cpp */,
@@ -1876,8 +1877,6 @@
 				DA2CE1CA07E9F96E00C68AEF /* StandardStimuli.h */,
 				DA2CE1CE07E9F96E00C68AEF /* Stimulus.h */,
 				DA2CE1CD07E9F96E00C68AEF /* Stimulus.cpp */,
-				5C7667530C1BB30A00B1203C /* StimulusDisplay.h */,
-				DA2CE1CF07E9F96E00C68AEF /* StimulusDisplay.cpp */,
 				E194BF6C1590DB3900D4A62D /* StimulusDisplayDevice.h */,
 				E194BF6D1590DB5300D4A62D /* StimulusDisplayDevice.cpp */,
 				5C76674D0C1BB28C00B1203C /* StimulusNode.h */,
@@ -2096,6 +2095,16 @@
 			);
 			name = OpenGLContextManager;
 			path = Core/Stimuli/OpenGLContextManager;
+			sourceTree = "<group>";
+		};
+		E179169F1E4E3BA100528B91 /* StimulusDisplay */ = {
+			isa = PBXGroup;
+			children = (
+				5C7667530C1BB30A00B1203C /* StimulusDisplay.h */,
+				DA2CE1CF07E9F96E00C68AEF /* StimulusDisplay.cpp */,
+			);
+			name = StimulusDisplay;
+			path = Core/Stimuli/StimulusDisplay;
 			sourceTree = "<group>";
 		};
 		E188BE871D47B38C0001483A /* ZeroMQ */ = {

@@ -9,8 +9,6 @@
 
 #if TARGET_OS_OSX
 #  include "MacOSOpenGLContextManager.h"
-#else
-#  error Unsupported platform
 #endif
 
 
