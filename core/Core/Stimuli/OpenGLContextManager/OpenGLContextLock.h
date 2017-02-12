@@ -25,9 +25,7 @@ BEGIN_NAMESPACE_MW
 class OpenGLContextLock {
     
 public:
-    ~OpenGLContextLock() {
-        unlock(true);
-    }
+    ~OpenGLContextLock();
     
 #if TARGET_OS_OSX
     explicit OpenGLContextLock(CGLContextObj contextObj = nullptr);
@@ -47,9 +45,9 @@ public:
     OpenGLContextLock& operator=(OpenGLContextLock &&other);
     
 private:
-    void unlock(bool clearCurrent);
-    
 #if TARGET_OS_OSX
+    void unlock();
+    
     CGLContextObj contextObj;
 #else
     unique_lock lock;

@@ -18,13 +18,22 @@ BEGIN_NAMESPACE_MW
 #if TARGET_OS_OSX
 
 
+OpenGLContextLock::~OpenGLContextLock() {
+    if (contextObj) {
+        OpenGLContextManager::instance()->clearCurrent();
+        unlock();
+    }
+}
+
+
 OpenGLContextLock::OpenGLContextLock(CGLContextObj contextObj) :
     contextObj(contextObj)
 {
     if (contextObj) {
         CGLError error = CGLLockContext(contextObj);
         if (kCGLNoError != error) {
-            merror(M_DISPLAY_MESSAGE_DOMAIN, "Unable to lock OpenGL context (error = %d)", error);
+            throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN,
+                                  (boost::format("Unable to lock OpenGL context (error = %d)") % error).str());
         }
     }
 }
@@ -38,27 +47,33 @@ OpenGLContextLock::OpenGLContextLock(OpenGLContextLock &&other) :
 
 
 OpenGLContextLock& OpenGLContextLock::operator=(OpenGLContextLock &&other) {
-    unlock(false);
-    contextObj = other.contextObj;
-    other.contextObj = nullptr;
+    if (this != &other) {
+        if (contextObj) {
+            unlock();
+        }
+        contextObj = other.contextObj;
+        other.contextObj = nullptr;
+    }
     return (*this);
 }
 
 
-void OpenGLContextLock::unlock(bool clearCurrent) {
-    if (contextObj) {
-        CGLError error = CGLUnlockContext(contextObj);
-        if (kCGLNoError != error) {
-            merror(M_DISPLAY_MESSAGE_DOMAIN, "Unable to unlock OpenGL context (error = %d)", error);
-        }
-        if (clearCurrent) {
-            OpenGLContextManager::instance()->clearCurrent();
-        }
+void OpenGLContextLock::unlock() {
+    CGLError error = CGLUnlockContext(contextObj);
+    if (kCGLNoError != error) {
+        merror(M_DISPLAY_MESSAGE_DOMAIN, "Unable to unlock OpenGL context (error = %d)", error);
     }
 }
 
 
 #else  // TARGET_OS_OSX
+
+
+OpenGLContextLock::~OpenGLContextLock() {
+    if (lock) {
+        OpenGLContextManager::instance()->clearCurrent();
+    }
+}
 
 
 OpenGLContextLock::OpenGLContextLock(unique_lock lock) :
@@ -68,26 +83,14 @@ OpenGLContextLock::OpenGLContextLock(unique_lock lock) :
 
 OpenGLContextLock::OpenGLContextLock(OpenGLContextLock &&other) :
     lock(std::move(other.lock))
-{
-    other.lock = unique_lock();
-}
+{ }
 
 
 OpenGLContextLock& OpenGLContextLock::operator=(OpenGLContextLock &&other) {
-    unlock(false);
-    lock = std::move(other.lock);
-    other.lock = unique_lock();
-    return (*this);
-}
-
-
-void OpenGLContextLock::unlock(bool clearCurrent) {
-    if (lock) {
-        lock.unlock();
-        if (clearCurrent) {
-            OpenGLContextManager::instance()->clearCurrent();
-        }
+    if (this != &other) {
+        lock = std::move(other.lock);
     }
+    return (*this);
 }
 
 
