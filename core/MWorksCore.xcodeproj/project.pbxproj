@@ -642,6 +642,7 @@
 		E18FF25F1C80EE7B007820D4 /* CFObjectPtr.h in Headers */ = {isa = PBXBuildFile; fileRef = E18FF25E1C80EE64007820D4 /* CFObjectPtr.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E194BF6E1590DB5300D4A62D /* StimulusDisplayDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E194BF6D1590DB5300D4A62D /* StimulusDisplayDevice.cpp */; };
 		E194BF6F1590DB6900D4A62D /* StimulusDisplayDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = E194BF6C1590DB3900D4A62D /* StimulusDisplayDevice.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E199C8BC1E51277E00C31563 /* OpenGLContextLock.h in Headers */ = {isa = PBXBuildFile; fileRef = E10F94B816CD5A8300A31C5F /* OpenGLContextLock.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E19B79261D525CCC00110665 /* ZeroMQUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E19B79241D525CCC00110665 /* ZeroMQUtilities.cpp */; };
 		E19B79271D525CCC00110665 /* ZeroMQUtilities.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E19B79251D525CCC00110665 /* ZeroMQUtilities.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
 		E19B792A1D525E2200110665 /* ZeroMQUtilityTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E19B79281D525E2200110665 /* ZeroMQUtilityTests.cpp */; };
@@ -1223,7 +1224,7 @@
 		E106CF191CA43380001A0928 /* HighPrecisionClock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HighPrecisionClock.h; sourceTree = "<group>"; };
 		E106CF1A1CA43380001A0928 /* HighPrecisionClockPlugin.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HighPrecisionClockPlugin.cpp; sourceTree = "<group>"; };
 		E10AECD115DE904300E71CA7 /* IPCUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IPCUtilities.h; sourceTree = "<group>"; };
-		E10F94B816CD5A8300A31C5F /* OpenGLContextLock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OpenGLContextLock.h; path = Core/Stimuli/OpenGLContextLock.h; sourceTree = "<group>"; };
+		E10F94B816CD5A8300A31C5F /* OpenGLContextLock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenGLContextLock.h; sourceTree = "<group>"; };
 		E114A02E1E1FF2DD00A69E77 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
 		E11542181193471F00DDE09D /* mw_test */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = mw_test; sourceTree = "<group>"; };
 		E11AFFBC118F865C0034CC04 /* IODevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IODevice.h; path = Core/IODevices/IODevice.h; sourceTree = "<group>"; };
@@ -2103,7 +2104,6 @@
 				5C4D254E09DCBB9A0082BF9F /* tests */,
 				E146B7E71E1EAB66001C7947 /* OpenGLUtilities.hpp */,
 				E146B7E61E1EAB66001C7947 /* OpenGLUtilities.cpp */,
-				E10F94B816CD5A8300A31C5F /* OpenGLContextLock.h */,
 				DA2CE1C907E9F96E00C68AEF /* StandardStimuli.cpp */,
 				DA2CE1CA07E9F96E00C68AEF /* StandardStimuli.h */,
 				DA2CE1CE07E9F96E00C68AEF /* Stimulus.h */,
@@ -2319,6 +2319,7 @@
 		E148A4581E4BA280002DFB1C /* OpenGLContextManager */ = {
 			isa = PBXGroup;
 			children = (
+				E10F94B816CD5A8300A31C5F /* OpenGLContextLock.h */,
 				DA2CE1C807E9F96E00C68AEF /* OpenGLContextManager.h */,
 				DA2CE1C707E9F96E00C68AEF /* OpenGLContextManager.cpp */,
 				E179169C1E4E27A700528B91 /* MacOSOpenGLContextManager.h */,
@@ -2624,6 +2625,7 @@
 				E17917701E4E563A00528B91 /* DynamicStimulusActions.h in Headers */,
 				E179177E1E4E56CD00528B91 /* StimulusDisplayDevice.h in Headers */,
 				E17917821E4E56DF00528B91 /* StandardStimulusFactory.h in Headers */,
+				E199C8BC1E51277E00C31563 /* OpenGLContextLock.h in Headers */,
 				E17917111E4E534B00528B91 /* StandardComponentFactory.h in Headers */,
 				E17916BD1E4E510800528B91 /* VariableLoad.h in Headers */,
 				E17917151E4E535D00528B91 /* PluginServices.h in Headers */,
