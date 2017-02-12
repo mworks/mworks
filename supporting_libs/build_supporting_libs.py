@@ -79,8 +79,12 @@ all_builders = []
 def builder(func):
     argspec = inspect.getargspec(func)
     defaults = dict(zip(argspec[0], argspec[3] or []))
-    if (not building_for_ios) or defaults.get('ios', False):
-        all_builders.append(func)
+    if building_for_ios:
+        if defaults.get('ios', False):
+            all_builders.append(func)
+    else:
+        if defaults.get('macos', True):
+            all_builders.append(func)
     return func
 
 
@@ -322,6 +326,33 @@ def msgpack(ios=True):
 
     with workdir(srcdir):
         check_call([rsync, '-a', 'include/', includedir])
+
+
+@builder
+def libxslt(macos=False, ios=True):
+    version = '1.1.29'
+    srcdir = 'libxslt-' + version
+    tarfile = srcdir + '.tar.gz'
+
+    if not os.path.isdir(srcdir):
+        download_archive('ftp://xmlsoft.org/libxslt/', tarfile)
+        unpack_tarfile(tarfile, srcdir)
+
+    libxslt_builddir = os.path.join(builddir, 'libxslt')
+    make_directory(libxslt_builddir)
+
+    with workdir(libxslt_builddir):
+        run_configure_and_make(
+            command = [os.path.join(sourcedir, srcdir, 'configure')],
+            extra_args = [
+                '--disable-silent-rules',
+                '--without-python',
+                '--without-crypto',
+                '--with-libxml-include-prefix=%(SDKROOT)s/usr/include/libxml2' % os.environ,
+                '--with-libxml-libs-prefix=%(SDKROOT)s/usr/lib' % os.environ,
+                '--without-plugins',
+                ],
+            )
 
 
 @builder
