@@ -97,6 +97,9 @@ void OpenGLContextLock::unlock(bool clearCurrent) {
 boost::shared_ptr<OpenGLContextManager> OpenGLContextManager::createPlatformOpenGLContextManager() {
 #if TARGET_OS_OSX
     return boost::make_shared<MacOSOpenGLContextManager>();
+#elif TARGET_OS_IPHONE
+#   warning Need to implement IOSOpenGLContextManager!
+    return nullptr;
 #else
 #   error Unsupported platform
 #endif

@@ -75,7 +75,7 @@ BEGIN_NAMESPACE_MW
 
         bool needDraw;
 		
-		GLdouble left, right, top, bottom; // display bounds
+		double left, right, top, bottom; // display bounds
         GLKMatrix4 projectionMatrix;
         GLclampf backgroundRed, backgroundGreen, backgroundBlue;  // background color
         
@@ -114,10 +114,10 @@ BEGIN_NAMESPACE_MW
 		
     public:
         static void getDisplayBounds(const Datum &mainScreenInfo,
-                                     GLdouble &left,
-                                     GLdouble &right,
-                                     GLdouble &bottom,
-                                     GLdouble &top);
+                                     double &left,
+                                     double &right,
+                                     double &bottom,
+                                     double &top);
 		
 		explicit StimulusDisplay(bool announceIndividualStimuli);
 		virtual ~StimulusDisplay();
@@ -139,7 +139,7 @@ BEGIN_NAMESPACE_MW
         void setAnnounceStimuliOnImplicitUpdates(bool announceStimuliOnImplicitUpdates);
 		MWTime updateDisplay();
 		void clearDisplay();
-        void getDisplayBounds(GLdouble &left, GLdouble &right, GLdouble &bottom, GLdouble &top);
+        void getDisplayBounds(double &left, double &right, double &bottom, double &top);
         const GLKMatrix4& getProjectionMatrix() const { return projectionMatrix; }
         double getMainDisplayRefreshRate() const { return mainDisplayRefreshRate; }
         MWTime getCurrentOutputTimeUS() const { return currentOutputTimeUS; }

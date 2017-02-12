@@ -13,6 +13,9 @@
 
 #if TARGET_OS_OSX
 #  include <Cocoa/Cocoa.h>
+#elif TARGET_OS_IPHONE
+#  include <GLKit/GLKit.h>
+#  include <OpenGLES/EAGL.h>
 #endif
 
 
@@ -25,6 +28,9 @@ public:
 #if TARGET_OS_OSX
     using PlatformOpenGLContextPtr = NSOpenGLContext *;
     using PlatformOpenGLViewPtr = NSOpenGLView *;
+#elif TARGET_OS_IPHONE
+    using PlatformOpenGLContextPtr = EAGLContext *;
+    using PlatformOpenGLViewPtr = GLKView *;
 #else
 #   error Unsupported platform
 #endif

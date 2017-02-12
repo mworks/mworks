@@ -98,23 +98,23 @@ void StimulusDisplay::addStimulusNode(shared_ptr<StimulusNode> stimnode) {
 }
 
 void StimulusDisplay::getDisplayBounds(const Datum &display_info,
-                                       GLdouble &left,
-                                       GLdouble &right,
-                                       GLdouble &bottom,
-                                       GLdouble &top)
+                                       double &left,
+                                       double &right,
+                                       double &bottom,
+                                       double &top)
 {
 	if(display_info.getDataType() == M_DICTIONARY &&
 	   display_info.hasKey(M_DISPLAY_WIDTH_KEY) &&
 	   display_info.hasKey(M_DISPLAY_HEIGHT_KEY) &&
 	   display_info.hasKey(M_DISPLAY_DISTANCE_KEY)){
 	
-		GLdouble width_unknown_units = display_info.getElement(M_DISPLAY_WIDTH_KEY);
-		GLdouble height_unknown_units = display_info.getElement(M_DISPLAY_HEIGHT_KEY);
-		GLdouble distance_unknown_units = display_info.getElement(M_DISPLAY_DISTANCE_KEY);
+		double width_unknown_units = display_info.getElement(M_DISPLAY_WIDTH_KEY);
+		double height_unknown_units = display_info.getElement(M_DISPLAY_HEIGHT_KEY);
+		double distance_unknown_units = display_info.getElement(M_DISPLAY_DISTANCE_KEY);
 	
-		GLdouble half_width_deg = (180. / M_PI) * atan((width_unknown_units/2.)/distance_unknown_units);
-		GLdouble half_height_deg = half_width_deg * height_unknown_units / width_unknown_units;
-		//GLdouble half_height_deg = (180. / M_PI) * atan((height_unknown_units/2.)/distance_unknown_units);
+		double half_width_deg = (180. / M_PI) * atan((width_unknown_units/2.)/distance_unknown_units);
+		double half_height_deg = half_width_deg * height_unknown_units / width_unknown_units;
+		//double half_height_deg = (180. / M_PI) * atan((height_unknown_units/2.)/distance_unknown_units);
 		
 		left = -half_width_deg;
 		right = half_width_deg;
@@ -141,7 +141,7 @@ void StimulusDisplay::setDisplayBounds(){
 			left, right, top, bottom);
 }
 
-void StimulusDisplay::getDisplayBounds(GLdouble &left, GLdouble &right, GLdouble &bottom, GLdouble &top) {
+void StimulusDisplay::getDisplayBounds(double &left, double &right, double &bottom, double &top) {
     left = this->left;
     right = this->right;
     bottom = this->bottom;
@@ -272,8 +272,13 @@ void StimulusDisplay::allocateFramebufferStorage() {
                  viewportWidth,
                  viewportHeight,
                  0,
+#if MWORKS_OPENGL_ES
+                 GL_RGBA,
+                 GL_UNSIGNED_BYTE,
+#else
                  GL_BGRA,
                  GL_UNSIGNED_INT_8_8_8_8_REV,
+#endif
                  nullptr);
     
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -521,6 +526,9 @@ Datum StimulusDisplay::getAnnounceData(bool updateIsExplicit) {
 boost::shared_ptr<StimulusDisplay> StimulusDisplay::createPlatformStimulusDisplay(bool announceIndividualStimuli) {
 #if TARGET_OS_OSX
     return boost::make_shared<MacOSStimulusDisplay>(announceIndividualStimuli);
+#elif TARGET_OS_IPHONE
+#   warning Need to implement IOSStimulusDisplay!
+    return nullptr;
 #else
 #   error Unsupported platform
 #endif

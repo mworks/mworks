@@ -10,8 +10,10 @@
 #define OpenGLUtilities_hpp
 
 #include <GLKit/GLKMath.h>
+
 #if TARGET_OS_IPHONE
 #  include <OpenGLES/ES3/gl.h>
+#  define MWORKS_OPENGL_ES 1
 #elif TARGET_OS_OSX
 #  include <OpenGL/gl3.h>
 #else

@@ -165,6 +165,9 @@ static NSString* extractPreprocessorPath(NSString *text) {
 
 
 static NSData* getPreprocessedFileData(NSString *ppPath, NSString *filePath) {
+#if !TARGET_OS_OSX
+    throw SimpleException(M_PARSER_MESSAGE_DOMAIN, "Experiment preprocessing is not supported on this OS");
+#else
     NSTask *task = [[[NSTask alloc] init] autorelease];
     
     [task setLaunchPath:ppPath];
@@ -189,6 +192,7 @@ static NSData* getPreprocessedFileData(NSString *ppPath, NSString *filePath) {
     }
     
     return data;
+#endif
 }
 
 

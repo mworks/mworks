@@ -14,6 +14,7 @@
 #include "StandardStimuli.h"
 
 #import <CoreGraphics/CoreGraphics.h>
+#import <ImageIO/ImageIO.h>
 
 #include <boost/uuid/sha1.hpp>
 
@@ -554,7 +555,12 @@ void ImageStimulus::prepare(const boost::shared_ptr<StimulusDisplay> &display) {
                                                                                       8,
                                                                                       width * 4,
                                                                                       colorSpace.get(),
+#if MWORKS_OPENGL_ES
+                                                                                      // TODO: not sure if the byte order is correct here
+                                                                                      kCGImageAlphaPremultipliedLast | kCGBitmapByteOrder32Host));
+#else
                                                                                       kCGImageAlphaPremultipliedFirst | kCGBitmapByteOrder32Host));
+#endif
             
             // Flip the context's coordinate system (so that the origin is in the bottom left corner, as in OpenGL)
             CGContextTranslateCTM(context.get(), 0, height);
@@ -567,8 +573,10 @@ void ImageStimulus::prepare(const boost::shared_ptr<StimulusDisplay> &display) {
             glGenTextures(1, &texture);
             gl::TextureBinding<GL_TEXTURE_2D> textureBinding(texture);
             
+#if !MWORKS_OPENGL_ES
             glPixelStorei(GL_UNPACK_SWAP_BYTES, GL_FALSE);
             glPixelStorei(GL_UNPACK_LSB_FIRST, GL_FALSE);
+#endif
             glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
             glPixelStorei(GL_UNPACK_IMAGE_HEIGHT, 0);
             glPixelStorei(GL_UNPACK_SKIP_ROWS, 0);
@@ -582,8 +590,13 @@ void ImageStimulus::prepare(const boost::shared_ptr<StimulusDisplay> &display) {
                          width,
                          height,
                          0,
+#if MWORKS_OPENGL_ES
+                         GL_RGBA,
+                         GL_UNSIGNED_BYTE,
+#else
                          GL_BGRA,
                          GL_UNSIGNED_INT_8_8_8_8_REV,
+#endif
                          CGBitmapContextGetData(context.get()));
             
             glGenerateMipmap(GL_TEXTURE_2D);

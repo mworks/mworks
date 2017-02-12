@@ -3594,11 +3594,36 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E1EDA97E1E4A3A840045E5F8 /* iOS_Framework.xcconfig */;
 			buildSettings = {
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"MW_VERSION=\\\"$(MW_VERSION)\\\"",
+					"MW_VERSION_SUFFIX=\\\"$(MW_VERSION_SUFFIX)\\\"",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(SDKROOT)/usr/include/libxml2",
+					"$(inherited)",
+				);
 				INFOPLIST_FILE = "MWorksCore-Info.plist";
 				OTHER_LDFLAGS = (
+					"-framework",
+					Accelerate,
+					"-framework",
+					CoreGraphics,
+					"-framework",
+					ImageIO,
+					"-framework",
+					GLKit,
+					"-framework",
+					OpenAL,
+					"-framework",
+					OpenGLES,
 					"-lboost_filesystem",
+					"-lboost_regex",
 					"-lboost_system",
+					"-lboost_thread",
 					"-lscarab",
+					"-lxml2",
+					"-lxslt",
 					"-lzmq",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.mworks-project.MWorksCore-iOS";

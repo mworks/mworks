@@ -33,12 +33,10 @@ BEGIN_NAMESPACE(gl)
 namespace {
     const std::string defaultGLSLVersion
     (
-#if GL_ES_VERSION_3_0
+#if MWORKS_OPENGL_ES
      "300 es"
-#elif GL_VERSION_3_3
-     "330"
 #else
-#    error Unsupported OpenGL version
+     "330"
 #endif
     );
 }
