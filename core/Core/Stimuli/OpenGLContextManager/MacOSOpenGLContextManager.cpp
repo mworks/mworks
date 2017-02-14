@@ -73,7 +73,7 @@ int MacOSOpenGLContextManager::getNMonitors() const {
 NSScreen *MacOSOpenGLContextManager::_getScreen(const int index){
     NSArray *screens = [NSScreen screens];
     
-    if(index < 0 || index > [screens count]){
+    if (index < 0 || index >= [screens count]) {
         // TODO: better exception
         throw SimpleException("Attempt to query an invalid screen");
     }

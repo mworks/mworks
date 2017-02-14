@@ -9,6 +9,8 @@
 
 #if TARGET_OS_OSX
 #  include "MacOSOpenGLContextManager.h"
+#elif TARGET_OS_IPHONE
+#  include "IOSOpenGLContextManager.hpp"
 #endif
 
 
@@ -101,8 +103,7 @@ boost::shared_ptr<OpenGLContextManager> OpenGLContextManager::createPlatformOpen
 #if TARGET_OS_OSX
     return boost::make_shared<MacOSOpenGLContextManager>();
 #elif TARGET_OS_IPHONE
-#   warning Need to implement IOSOpenGLContextManager!
-    return nullptr;
+    return boost::make_shared<IOSOpenGLContextManager>();
 #else
 #   error Unsupported platform
 #endif
