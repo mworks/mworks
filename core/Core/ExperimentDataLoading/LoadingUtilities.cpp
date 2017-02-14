@@ -199,7 +199,7 @@ BEGIN_NAMESPACE_MW
         
         shared_ptr<OpenGLContextManager> opengl_context_manager = OpenGLContextManager::instance(false);
         if(opengl_context_manager != NULL){
-            opengl_context_manager->releaseDisplays();
+            opengl_context_manager->releaseContexts();
             //opengl_context_manager->destroy();
         }
 		
@@ -259,7 +259,7 @@ BEGIN_NAMESPACE_MW
             opengl_context_manager = OpenGLContextManager::createPlatformOpenGLContextManager();
             OpenGLContextManager::registerInstance(opengl_context_manager);
 		}
-        //opengl_context_manager->releaseDisplays();
+        //opengl_context_manager->releaseContexts();
 		
         shared_ptr<ComponentRegistry> reg = ComponentRegistry::getSharedRegistry();
         shared_ptr<Variable> main_screen_info = reg->getVariable(MAIN_SCREEN_INFO_TAGNAME);
@@ -288,13 +288,13 @@ BEGIN_NAMESPACE_MW
 		int new_context = -1;
         
         
-		if(display_to_use >= 0 && (opengl_context_manager->getNMonitors() > 1 || display_to_use == 0)) {
+		if(display_to_use >= 0 && (opengl_context_manager->getNumDisplays() > 1 || display_to_use == 0)) {
 			
-			if(display_to_use >= opengl_context_manager->getNMonitors()) {
+			if(display_to_use >= opengl_context_manager->getNumDisplays()) {
 				merror(M_SERVER_MESSAGE_DOMAIN,
 					   "Requested display index (%d) is greater than the number of displays (%d)", 
 					   display_to_use, 
-					   opengl_context_manager->getNMonitors());
+					   opengl_context_manager->getNumDisplays());
 				merror(M_SERVER_MESSAGE_DOMAIN, "Using default display");
 				display_to_use = 1;						   			
 			}

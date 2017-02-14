@@ -37,30 +37,36 @@ public:
     
     static boost::shared_ptr<OpenGLContextManager> createPlatformOpenGLContextManager();
     
+    OpenGLContextManager();
+    ~OpenGLContextManager();
+    
     // Create a fullscreen context on a particular display
-    virtual int newFullscreenContext(int index) = 0;
+    virtual int newFullscreenContext(int screen_number) = 0;
     
     // Create a "mirror" window (smaller, movable window that displays whatever
     // is on the "main" display) and return its context index
     virtual int newMirrorContext() = 0;
     
     // Release all contexts and associated resources
-    virtual void releaseDisplays() = 0;
+    virtual void releaseContexts() = 0;
     
-    virtual PlatformOpenGLContextPtr getContext(int context_id) const = 0;
-    virtual PlatformOpenGLViewPtr getFullscreenView() const = 0;
-    virtual PlatformOpenGLViewPtr getMirrorView() const = 0;
-    
-    // Get information about the monitors attached to the system
-    virtual int getNMonitors() const = 0;
-    
+    virtual int getNumDisplays() const = 0;
     virtual OpenGLContextLock makeCurrent(PlatformOpenGLContextPtr context) = 0;
     virtual OpenGLContextLock setCurrent(int context_id) = 0;
     virtual void clearCurrent() = 0;
-    
     virtual void flush(int context_id) = 0;
     
+    PlatformOpenGLContextPtr getContext(int context_id) const;
+    PlatformOpenGLViewPtr getView(int context_id) const;
+    PlatformOpenGLViewPtr getFullscreenView() const;
+    PlatformOpenGLViewPtr getMirrorView() const;
+    
     REGISTERED_SINGLETON_CODE_INJECTION(OpenGLContextManager)
+    
+protected:
+    NSMutableArray *contexts;
+    NSMutableArray *views;
+    NSMutableArray *windows;
     
 };
 

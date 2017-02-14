@@ -20,17 +20,14 @@ class MacOSOpenGLContextManager : public OpenGLContextManager {
     
 public:
     MacOSOpenGLContextManager();
+    ~MacOSOpenGLContextManager();
     
+    int newFullscreenContext(int screen_number) override;
     int newMirrorContext() override;
-    int newFullscreenContext(int index) override;
     
-    void releaseDisplays() override;
+    void releaseContexts() override;
     
-    NSOpenGLContext * getContext(int context_id) const override;
-    NSOpenGLView * getFullscreenView() const override { return fullscreen_view; }
-    NSOpenGLView * getMirrorView() const override { return mirror_view; }
-    
-    int getNMonitors() const override;
+    int getNumDisplays() const override;
     
     OpenGLContextLock makeCurrent(NSOpenGLContext *context) override;
     OpenGLContextLock setCurrent(int context_id) override;
@@ -39,16 +36,6 @@ public:
     void flush(int context_id) override;
     
 private:
-    NSScreen *_getScreen(const int screen_number);
-    
-    NSMutableArray *contexts;
-    
-    NSWindow *mirror_window;
-    NSOpenGLView *mirror_view;
-    
-    NSWindow *fullscreen_window;
-    NSOpenGLView *fullscreen_view;
-    
     IOPMAssertionID display_sleep_block;
     
 };

@@ -19,19 +19,15 @@ BEGIN_NAMESPACE_MW
 class IOSOpenGLContextManager : public OpenGLContextManager {
     
 public:
-    IOSOpenGLContextManager();
+    using OpenGLContextManager::OpenGLContextManager;
     ~IOSOpenGLContextManager();
     
-    int newFullscreenContext(int index) override;
+    int newFullscreenContext(int screen_number) override;
     int newMirrorContext() override;
     
-    void releaseDisplays() override;
+    void releaseContexts() override;
     
-    EAGLContext * getContext(int context_id) const override;
-    GLKView * getFullscreenView() const override { return fullscreenView; }
-    GLKView * getMirrorView() const override { return nil; }
-    
-    int getNMonitors() const override { return 1; }
+    int getNumDisplays() const override;
     
     OpenGLContextLock makeCurrent(EAGLContext *context) override;
     OpenGLContextLock setCurrent(int context_id) override;
@@ -40,9 +36,6 @@ public:
     void flush(int context_id) override;
     
 private:
-    NSMutableArray<EAGLContext *> *contexts;
-    GLKView *fullscreenView;
-    
     using unique_lock = OpenGLContextLock::unique_lock;
     std::unordered_map<EAGLContext *, unique_lock::mutex_type> mutexes;
     

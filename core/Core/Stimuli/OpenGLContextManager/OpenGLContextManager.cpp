@@ -99,6 +99,54 @@ OpenGLContextLock& OpenGLContextLock::operator=(OpenGLContextLock &&other) {
 #endif // TARGET_OS_OSX
 
 
+OpenGLContextManager::OpenGLContextManager() :
+    contexts([[NSMutableArray alloc] init]),
+    views([[NSMutableArray alloc] init]),
+    windows([[NSMutableArray alloc] init])
+{ }
+
+
+OpenGLContextManager::~OpenGLContextManager() {
+    [windows release];
+    [views release];
+    [contexts release];
+}
+
+
+auto OpenGLContextManager::getContext(int context_id) const -> PlatformOpenGLContextPtr {
+    if (context_id < 0 || context_id >= contexts.count) {
+        merror(M_DISPLAY_MESSAGE_DOMAIN, "OpenGL Context Manager: invalid context ID: %d", context_id);
+        return nil;
+    }
+    return contexts[context_id];
+}
+
+
+auto OpenGLContextManager::getView(int context_id) const -> PlatformOpenGLViewPtr {
+    if (context_id < 0 || context_id >= views.count) {
+        merror(M_DISPLAY_MESSAGE_DOMAIN, "OpenGL Context Manager: invalid context ID: %d", context_id);
+        return nil;
+    }
+    return views[context_id];
+}
+
+
+auto OpenGLContextManager::getFullscreenView() const -> PlatformOpenGLViewPtr {
+    if (views.count > 0) {
+        return views[0];
+    }
+    return nil;
+}
+
+
+auto OpenGLContextManager::getMirrorView() const -> PlatformOpenGLViewPtr {
+    if (views.count > 1) {
+        return views[1];
+    }
+    return getFullscreenView();
+}
+
+
 boost::shared_ptr<OpenGLContextManager> OpenGLContextManager::createPlatformOpenGLContextManager() {
 #if TARGET_OS_OSX
     return boost::make_shared<MacOSOpenGLContextManager>();

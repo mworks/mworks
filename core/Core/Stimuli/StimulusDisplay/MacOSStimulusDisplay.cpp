@@ -70,7 +70,7 @@ void MacOSStimulusDisplay::prepareContext(int contextIndex) {
     {
         NSOpenGLContext *ctx = opengl_context_manager->getContext(context_ids.at(contextIndex));
         CGLContextObj cglContext = ctx.CGLContextObj;
-        CGLPixelFormatObj cglPixelFormat = ((NSOpenGLView *)(ctx.view)).pixelFormat.CGLPixelFormatObj;
+        CGLPixelFormatObj cglPixelFormat = ctx.pixelFormat.CGLPixelFormatObj;
         if (kCVReturnSuccess != CVDisplayLinkSetCurrentCGDisplayFromOpenGLContext(dl, cglContext, cglPixelFormat)) {
             throw SimpleException("Unable to associate display link with OpenGL context");
         }

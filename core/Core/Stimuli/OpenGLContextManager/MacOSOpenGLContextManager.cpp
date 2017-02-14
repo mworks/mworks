@@ -6,24 +6,8 @@
  */
 
 #include "MacOSOpenGLContextManager.h"
-#include "StandardVariables.h"
-#include "Experiment.h"
-#include "Utilities.h"
-#include "Event.h"
+
 #include "ComponentRegistry.h"
-
-
-//******************************************************************
-//******************************************************************
-//                      Using Cocoa OpenGL
-//******************************************************************
-// *****************************************************************
-
-
-//#include "GLWindow.h"
-#import <OpenGL/OpenGL.h>
-#import <IOKit/graphics/IOGraphicsTypes.h>
-#import "StateSystem.h"
 
 
 @interface MWKOpenGLView : NSOpenGLView
@@ -37,7 +21,7 @@
 {
     // This method is called by the windowing system on the main thread.  Since drawing normally occurs
     // on a non-main thread, we need to acquire the context lock before updating the context.
-    mw::OpenGLContextLock ctxLock(static_cast<CGLContextObj>([[self openGLContext] CGLContextObj]));
+    mw::OpenGLContextLock ctxLock(self.openGLContext.CGLContextObj);
     [super update];
 }
 
@@ -48,37 +32,90 @@
 BEGIN_NAMESPACE_MW
 
 
-MacOSOpenGLContextManager::MacOSOpenGLContextManager() {
-    mirror_window = nil;
-    mirror_view = nil;
-    fullscreen_window = nil;
-    fullscreen_view = nil;
-    
-    display_sleep_block = kIOPMNullAssertionID;
-    
-    contexts = [[NSMutableArray alloc] init];
+MacOSOpenGLContextManager::MacOSOpenGLContextManager() :
+    display_sleep_block(kIOPMNullAssertionID)
+{ }
+
+
+MacOSOpenGLContextManager::~MacOSOpenGLContextManager() {
+    releaseContexts();
 }
 
 
-int MacOSOpenGLContextManager::getNMonitors() const {
-	NSArray *screens = [NSScreen screens];
-    if(screens != nil){
-        return [screens count];
-    } else {
-        return 0;
-    }
-}
-
-
-NSScreen *MacOSOpenGLContextManager::_getScreen(const int index){
-    NSArray *screens = [NSScreen screens];
-    
-    if (index < 0 || index >= [screens count]) {
-        // TODO: better exception
-        throw SimpleException("Attempt to query an invalid screen");
+int MacOSOpenGLContextManager::newFullscreenContext(int screen_number) {
+    if (screen_number < 0 || screen_number >= getNumDisplays()) {
+        throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN,
+                              (boost::format("Invalid screen number (%d)") % screen_number).str());
     }
     
-    return [screens objectAtIndex: index];
+    NSScreen *screen = NSScreen.screens[screen_number];
+    NSRect screen_rect = [screen frame];
+    // for some reason, some displays have random values here...
+    screen_rect.origin.x = 0.0;
+    screen_rect.origin.y = 0.0;
+    
+    NSOpenGLPixelFormatAttribute attrs[] =
+    {
+        NSOpenGLPFAOpenGLProfile, NSOpenGLProfileVersion3_2Core,
+        NSOpenGLPFADoubleBuffer,
+        0
+    };
+    
+    NSOpenGLPixelFormat* pixel_format = [[NSOpenGLPixelFormat alloc] initWithAttributes:attrs];
+    NSOpenGLContext *opengl_context = [[NSOpenGLContext alloc] initWithFormat:pixel_format shareContext:nil];
+    if (!opengl_context) {
+        [pixel_format release];
+        throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN, "Cannot create OpenGL context for fullscreen window");
+    }
+    
+    GLint swap_int = 1;
+    [opengl_context setValues: &swap_int forParameter: NSOpenGLCPSwapInterval];
+    
+    // Crash on calls to functions removed from the core profile
+    CGLEnable(opengl_context.CGLContextObj, kCGLCECrashOnRemovedFunctions);
+    
+    // NOTE: As of OS X 10.11, performing window and view operations from a non-main thread causes issues
+    dispatch_sync(dispatch_get_main_queue(), ^{
+        NSWindow *fullscreen_window = [[NSWindow alloc] initWithContentRect:screen_rect
+                                                                  styleMask:NSBorderlessWindowMask
+                                                                    backing:NSBackingStoreBuffered
+                                                                      defer:NO
+                                                                     screen:screen];
+        
+        [fullscreen_window setLevel:NSMainMenuWindowLevel+1];
+        
+        [fullscreen_window setOpaque:YES];
+        [fullscreen_window setHidesOnDeactivate:NO];
+        
+        NSRect view_rect = NSMakeRect(0.0, 0.0, screen_rect.size.width, screen_rect.size.height);
+        
+        MWKOpenGLView *fullscreen_view = [[MWKOpenGLView alloc] initWithFrame:view_rect pixelFormat:pixel_format];
+        [fullscreen_window setContentView:fullscreen_view];
+        [fullscreen_view setOpenGLContext:opengl_context];
+        [opengl_context setView:fullscreen_view];
+        
+        [fullscreen_window makeKeyAndOrderFront:nil];
+        
+        [windows addObject:fullscreen_window];
+        [fullscreen_window release];
+        [views addObject:fullscreen_view];
+        [fullscreen_view release];
+    });
+    
+    [contexts addObject:opengl_context];
+    [opengl_context release];
+    [pixel_format release];
+    
+    if (kIOPMNullAssertionID == display_sleep_block) {
+        if (kIOReturnSuccess != IOPMAssertionCreateWithName(kIOPMAssertionTypeNoDisplaySleep,
+                                                            kIOPMAssertionLevelOn,
+                                                            (CFStringRef)@"MWorks Prevent Display Sleep",
+                                                            &display_sleep_block)) {
+            mwarning(M_SERVER_MESSAGE_DOMAIN, "Cannot disable display sleep");
+        }
+    }
+    
+    return (contexts.count - 1);
 }
 
 
@@ -117,11 +154,11 @@ int MacOSOpenGLContextManager::newMirrorContext(){
     };
     
     NSOpenGLPixelFormat* pixel_format = [[NSOpenGLPixelFormat alloc] initWithAttributes:attrs];
-
     NSOpenGLContext *opengl_context = [[NSOpenGLContext alloc] initWithFormat:pixel_format
-                                                                 shareContext:[fullscreen_view openGLContext]];
+                                                                 shareContext:[getFullscreenView() openGLContext]];
     if (!opengl_context) {
-        throw SimpleException(M_SERVER_MESSAGE_DOMAIN, "Failed to create OpenGL context for mirror window");
+        [pixel_format release];
+        throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN, "Cannot create OpenGL context for mirror window");
     }
     
     GLint swap_int = 1;
@@ -133,119 +170,77 @@ int MacOSOpenGLContextManager::newMirrorContext(){
     // NOTE: As of OS X 10.11, performing window and view operations from a non-main thread causes issues
     dispatch_sync(dispatch_get_main_queue(), ^{
         NSRect mirror_rect = NSMakeRect(50.0, 50.0, width, height);
-        mirror_window = [[NSWindow alloc] initWithContentRect:mirror_rect
-                                                    styleMask:(NSTitledWindowMask | NSMiniaturizableWindowMask)
-                                                      backing:NSBackingStoreBuffered
-                                                        defer:NO];
+        NSWindow *mirror_window = [[NSWindow alloc] initWithContentRect:mirror_rect
+                                                              styleMask:(NSTitledWindowMask | NSMiniaturizableWindowMask)
+                                                                backing:NSBackingStoreBuffered
+                                                                  defer:NO];
         
         NSRect view_rect = NSMakeRect(0.0, 0.0, mirror_rect.size.width, mirror_rect.size.height);
-        mirror_view = [[MWKOpenGLView alloc] initWithFrame:view_rect pixelFormat:pixel_format];
+        MWKOpenGLView *mirror_view = [[MWKOpenGLView alloc] initWithFrame:view_rect pixelFormat:pixel_format];
         [mirror_window setContentView:mirror_view];
         [mirror_view setOpenGLContext:opengl_context];
         [opengl_context setView:mirror_view];
         
         [mirror_window makeKeyAndOrderFront:nil];
+        
+        [windows addObject:mirror_window];
+        [mirror_window release];
+        [views addObject:mirror_view];
+        [mirror_view release];
     });
     
     [contexts addObject:opengl_context];
-    int context_id = [contexts count] - 1;
-    
     [opengl_context release];
     [pixel_format release];
     
-    return context_id;
-    
+    return (contexts.count - 1);
 }
 
 
-int MacOSOpenGLContextManager::newFullscreenContext(int screen_number){
-    NSScreen *screen = _getScreen(screen_number);
+void MacOSOpenGLContextManager::releaseContexts() {
+    if (kIOPMNullAssertionID != display_sleep_block) {
+        (void)IOPMAssertionRelease(display_sleep_block);  // Ignore the return code
+        display_sleep_block = kIOPMNullAssertionID;
+    }
     
-        
-    NSRect screen_rect = [screen frame];
-//    NSLog(@"screen_rect: %g w, %g h, %g x, %g y", screen_rect.size.width,
-//          screen_rect.size.height,
-//          screen_rect.origin.x,
-//          screen_rect.origin.y);
-    
-    // for some reason, some displays have random values here...
-    screen_rect.origin.x = 0.0;
-    screen_rect.origin.y = 0.0;
-    
-    NSOpenGLPixelFormatAttribute attrs[] =
-    {
-        NSOpenGLPFAOpenGLProfile, NSOpenGLProfileVersion3_2Core,
-        NSOpenGLPFADoubleBuffer,
-        0
-    };
-    
-    NSOpenGLPixelFormat* pixel_format = [[NSOpenGLPixelFormat alloc] initWithAttributes:attrs];
-    
-    NSOpenGLContext *opengl_context = [[NSOpenGLContext alloc] initWithFormat:pixel_format shareContext:nil];
-    
-    GLint swap_int = 1;
-    [opengl_context setValues: &swap_int forParameter: NSOpenGLCPSwapInterval];
-    
-    // Crash on calls to functions removed from the core profile
-    CGLEnable(opengl_context.CGLContextObj, kCGLCECrashOnRemovedFunctions);
+    [contexts makeObjectsPerformSelector:@selector(clearDrawable)];
     
     // NOTE: As of OS X 10.11, performing window and view operations from a non-main thread causes issues
     dispatch_sync(dispatch_get_main_queue(), ^{
-        fullscreen_window = [[NSWindow alloc] initWithContentRect:screen_rect
-                                                        styleMask:NSBorderlessWindowMask
-                                                          backing:NSBackingStoreBuffered
-                                                            defer:NO
-                                                           screen:screen];
+        for (NSWindow *window : windows) {
+            [window orderOut:nil];
+        }
+        [windows removeAllObjects];
         
-        [fullscreen_window setLevel:NSMainMenuWindowLevel+1];
-        
-        [fullscreen_window setOpaque:YES];
-        [fullscreen_window setHidesOnDeactivate:NO];
-        
-        NSRect view_rect = NSMakeRect(0.0, 0.0, screen_rect.size.width, screen_rect.size.height);
-        
-        fullscreen_view = [[MWKOpenGLView alloc] initWithFrame:view_rect pixelFormat:pixel_format];
-        [fullscreen_window setContentView:fullscreen_view];
-        [fullscreen_view setOpenGLContext:opengl_context];
-        [opengl_context setView:fullscreen_view];
-        
-        [fullscreen_window makeKeyAndOrderFront:nil];
+        for (NSOpenGLView *view : views) {
+            [view clearGLContext];
+        }
+        [views removeAllObjects];
     });
     
-    [contexts addObject:opengl_context];
-    int context_id = [contexts count] - 1;
-    
-    [opengl_context release];
-    [pixel_format release];
-    
-    if (kIOPMNullAssertionID == display_sleep_block) {
-        if (kIOReturnSuccess != IOPMAssertionCreateWithName(kIOPMAssertionTypeNoDisplaySleep,
-                                                            kIOPMAssertionLevelOn,
-                                                            (CFStringRef)@"MWorks Prevent Display Sleep",
-                                                            &display_sleep_block)) {
-            mwarning(M_SERVER_MESSAGE_DOMAIN, "Cannot disable display sleep");
-        }
-    }
-    
-    return context_id;
+    [contexts removeAllObjects];
 }
 
 
-OpenGLContextLock MacOSOpenGLContextManager::makeCurrent(NSOpenGLContext *ctx) {
-    [ctx makeCurrentContext];
-    return OpenGLContextLock((CGLContextObj)[ctx CGLContextObj]);
+int MacOSOpenGLContextManager::getNumDisplays() const {
+    if (auto screens = NSScreen.screens) {
+        return screens.count;
+    }
+    return 0;
+}
+
+
+OpenGLContextLock MacOSOpenGLContextManager::makeCurrent(NSOpenGLContext *context) {
+    if (context) {
+        [context makeCurrentContext];
+        return OpenGLContextLock(context.CGLContextObj);
+    }
+    return OpenGLContextLock();
 }
 
 
 OpenGLContextLock MacOSOpenGLContextManager::setCurrent(int context_id) {
-    if(context_id < 0 || context_id >= [contexts count]) {
-		mwarning(M_SERVER_MESSAGE_DOMAIN, "OpenGL Context Manager: no context to set current.");
-		//NSLog(@"OpenGL Context Manager: no context to set current.");
-        return OpenGLContextLock();
-    }
-    
-    NSOpenGLContext *ctx = [contexts objectAtIndex:context_id];
-    return makeCurrent(ctx);
+    return makeCurrent(getContext(context_id));
 }
 
 
@@ -254,62 +249,10 @@ void MacOSOpenGLContextManager::clearCurrent() {
 }
 
 
-void MacOSOpenGLContextManager::releaseDisplays() {
-  
-    NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
-    
-    [contexts makeObjectsPerformSelector:@selector(clearDrawable)];
-    
-    // NOTE: As of OS X 10.11, performing window and view operations from a non-main thread causes issues
-    dispatch_sync(dispatch_get_main_queue(), ^{
-        if(mirror_window != nil){
-            [mirror_window orderOut:nil];
-            [mirror_window release];
-            [mirror_view clearGLContext];
-            [mirror_view release];
-            mirror_window = nil;
-            mirror_view = nil;
-        }
-        
-        if(fullscreen_window != nil){
-            [fullscreen_window orderOut:nil];
-            [fullscreen_window release];
-            [fullscreen_view clearGLContext];
-            [fullscreen_view release];
-            fullscreen_window = nil;
-            fullscreen_view = nil;
-        }
-    });
-
-    if (kIOPMNullAssertionID != display_sleep_block) {
-        (void)IOPMAssertionRelease(display_sleep_block);  // Ignore the return code
-        display_sleep_block = kIOPMNullAssertionID;
-    }
-	
-    [contexts removeAllObjects];
-
-    [pool drain];
-
-}
-
-
-NSOpenGLContext * MacOSOpenGLContextManager::getContext(int context_id) const {
-    if (context_id < 0 || context_id >= contexts.count) {
-        merror(M_DISPLAY_MESSAGE_DOMAIN, "OpenGL Context Manager: invalid context ID: %d", context_id);
-        return nil;
-    }
-    return contexts[context_id];
-}
-
-
 void MacOSOpenGLContextManager::flush(int context_id) {
-    if(context_id < 0 || context_id >= [contexts count]){
-		mwarning(M_SERVER_MESSAGE_DOMAIN, "OpenGL Context Manager: no context to flush");
-        return;
+    if (auto ctx = getContext(context_id)) {
+        [ctx flushBuffer];
     }
-    
-    [[contexts objectAtIndex:context_id] flushBuffer];
-    
 }
 
 

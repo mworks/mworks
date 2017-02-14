@@ -14,26 +14,20 @@
 BEGIN_NAMESPACE_MW
 
 
-IOSOpenGLContextManager::IOSOpenGLContextManager() :
-    contexts([[NSMutableArray alloc] init]),
-    fullscreenView(nil)
-{ }
-
-
 IOSOpenGLContextManager::~IOSOpenGLContextManager() {
-    [fullscreenView release];
-    [contexts release];
+    releaseContexts();
 }
 
 
-int IOSOpenGLContextManager::newFullscreenContext(int index) {
-    if (index < 0 || index >= getNMonitors()) {
-        throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN, (boost::format("Invalid screen number (%d)") % index).str());
+int IOSOpenGLContextManager::newFullscreenContext(int screen_number) {
+    if (screen_number < 0 || screen_number >= getNumDisplays()) {
+        throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN,
+                              (boost::format("Invalid screen number (%d)") % screen_number).str());
     }
     
     EAGLSharegroup *sharegroup = nil;
     if (contexts.count > 0) {
-        sharegroup = contexts[0].sharegroup;
+        sharegroup = static_cast<EAGLContext *>(contexts[0]).sharegroup;
     }
     
     EAGLContext *context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES3 sharegroup:sharegroup];
@@ -41,18 +35,34 @@ int IOSOpenGLContextManager::newFullscreenContext(int index) {
         throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN, "Cannot create OpenGL ES context");
     }
     
+    auto screen = UIScreen.screens[screen_number];
+    __block bool success = false;
+    
     dispatch_sync(dispatch_get_main_queue(), ^{
-        [fullscreenView release];
-        fullscreenView = [[GLKView alloc] initWithFrame:UIScreen.mainScreen.bounds context:context];
+        if (UIWindow *window = [[UIWindow alloc] initWithFrame:screen.bounds]) {
+            window.screen = screen;
+            
+            if (GLKView *view = [[GLKView alloc] initWithFrame:window.bounds context:context]) {
+                [window addSubview:view];
+                [window makeKeyAndVisible];
+                
+                [contexts addObject:context];
+                [views addObject:view];
+                [windows addObject:window];
+                
+                [view release];
+                success = true;
+            }
+            
+            [window release];
+        }
     });
     
-    if (!fullscreenView) {
-        [context release];
-        throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN, "Cannot create OpenGL ES view");
-    }
-    
-    [contexts addObject:context];
     [context release];
+    
+    if (!success) {
+        throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN, "Cannot create fullscreen window");
+    }
     
     return (contexts.count - 1);
 }
@@ -63,37 +73,38 @@ int IOSOpenGLContextManager::newMirrorContext() {
 }
 
 
-void IOSOpenGLContextManager::releaseDisplays() {
-    [contexts removeAllObjects];
-    
-    [fullscreenView release];
-    fullscreenView = nil;
-    
+void IOSOpenGLContextManager::releaseContexts() {
     mutexes.clear();
+    
+    dispatch_sync(dispatch_get_main_queue(), ^{
+        for (UIWindow *window : windows) {
+            window.hidden = YES;
+        }
+        [windows removeAllObjects];
+        [views removeAllObjects];
+    });
+    
+    [contexts removeAllObjects];
 }
 
 
-EAGLContext * IOSOpenGLContextManager::getContext(int context_id) const {
-    if (context_id < 0 || context_id >= contexts.count) {
-        merror(M_DISPLAY_MESSAGE_DOMAIN, "OpenGL Context Manager: invalid context ID: %d", context_id);
-        return nil;
-    }
-    return contexts[context_id];
+int IOSOpenGLContextManager::getNumDisplays() const {
+    // At present, we support only the main display
+    return 1;
 }
 
 
 OpenGLContextLock IOSOpenGLContextManager::makeCurrent(EAGLContext *context) {
-    [EAGLContext setCurrentContext:context];
-    return OpenGLContextLock(unique_lock(mutexes[context]));
+    if (context) {
+        [EAGLContext setCurrentContext:context];
+        return OpenGLContextLock(unique_lock(mutexes[context]));
+    }
+    return OpenGLContextLock();
 }
 
 
 OpenGLContextLock IOSOpenGLContextManager::setCurrent(int context_id) {
-    if (context_id < 0 || context_id >= contexts.count) {
-        merror(M_DISPLAY_MESSAGE_DOMAIN, "OpenGL Context Manager: invalid context ID: %d", context_id);
-        return OpenGLContextLock();
-    }
-    return makeCurrent(contexts[context_id]);
+    return makeCurrent(getContext(context_id));
 }
 
 
