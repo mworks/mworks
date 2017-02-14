@@ -30,13 +30,13 @@ public:
     NSOpenGLView * getFullscreenView() const override { return fullscreen_view; }
     NSOpenGLView * getMirrorView() const override { return mirror_view; }
     
-    int getNMonitors() override;
+    int getNMonitors() const override;
     
     OpenGLContextLock makeCurrent(NSOpenGLContext *context) override;
     OpenGLContextLock setCurrent(int context_id) override;
     void clearCurrent() override;
     
-    void flush(int context_id);
+    void flush(int context_id) override;
     
 private:
     NSScreen *_getScreen(const int screen_number);

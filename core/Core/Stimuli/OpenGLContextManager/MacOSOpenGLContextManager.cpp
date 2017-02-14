@@ -60,7 +60,7 @@ MacOSOpenGLContextManager::MacOSOpenGLContextManager() {
 }
 
 
-int MacOSOpenGLContextManager::getNMonitors() {
+int MacOSOpenGLContextManager::getNMonitors() const {
 	NSArray *screens = [NSScreen screens];
     if(screens != nil){
         return [screens count];
@@ -68,6 +68,7 @@ int MacOSOpenGLContextManager::getNMonitors() {
         return 0;
     }
 }
+
 
 NSScreen *MacOSOpenGLContextManager::_getScreen(const int index){
     NSArray *screens = [NSScreen screens];
