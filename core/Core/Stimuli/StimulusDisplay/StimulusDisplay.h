@@ -93,8 +93,8 @@ BEGIN_NAMESPACE_MW
         GLuint framebuffer = 0;
         GLuint framebufferTexture = 0;
         
-        virtual void setMainDisplayRefreshRate() = 0;
         virtual void prepareContext(int contextIndex);
+        virtual void setMainDisplayRefreshRate() = 0;
         void allocateFramebufferStorage();
         void drawStoredFramebuffer(int contextIndex) const;
 		
@@ -110,7 +110,9 @@ BEGIN_NAMESPACE_MW
         Datum getAnnounceData(bool updateIsExplicit);
         bool shouldAnnounceStimuli(bool updateIsExplicit) { return updateIsExplicit || announceStimuliOnImplicitUpdates; }
 
-        virtual void stateSystemCallback(const Datum &data, MWorksTime time) = 0;
+        void stateSystemCallback(const Datum &data, MWorksTime time);
+        virtual void startDisplayUpdates() = 0;
+        virtual void stopDisplayUpdates() = 0;
 		
     public:
         static void getDisplayBounds(const Datum &mainScreenInfo,

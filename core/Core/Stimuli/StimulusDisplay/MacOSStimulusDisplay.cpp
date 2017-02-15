@@ -34,22 +34,6 @@ MacOSStimulusDisplay::~MacOSStimulusDisplay() {
 }
 
 
-void MacOSStimulusDisplay::setMainDisplayRefreshRate() {
-    CVTime refreshPeriod = CVDisplayLinkGetNominalOutputVideoRefreshPeriod(displayLinks.at(0));
-    double refreshRate = 60.0;
-    
-    if (refreshPeriod.flags & kCVTimeIsIndefinite) {
-        mwarning(M_DISPLAY_MESSAGE_DOMAIN,
-                 "Could not determine main display refresh rate.  Assuming %g Hz.",
-                 refreshRate);
-    } else {
-        refreshRate = double(refreshPeriod.timeScale) / double(refreshPeriod.timeValue);
-    }
-    
-    mainDisplayRefreshRate = refreshRate;
-}
-
-
 void MacOSStimulusDisplay::prepareContext(int contextIndex) {
     CVDisplayLinkRef dl;
     
@@ -80,64 +64,51 @@ void MacOSStimulusDisplay::prepareContext(int contextIndex) {
 }
 
 
-void MacOSStimulusDisplay::stateSystemCallback(const Datum &data, MWorksTime time) {
-    unique_lock lock(display_lock);
+void MacOSStimulusDisplay::setMainDisplayRefreshRate() {
+    CVTime refreshPeriod = CVDisplayLinkGetNominalOutputVideoRefreshPeriod(displayLinks.at(0));
+    double refreshRate = 60.0;
     
-    int newState = data.getInteger();
-    
-    if ((IDLE == newState) && displayUpdatesStarted) {
-        
-        // If another thread is waiting for a display refresh, allow it to complete before stopping
-        // the display link
-        while (waitingForRefresh) {
-            refreshCond.wait(lock);
-        }
-        
-        displayUpdatesStarted = false;
-        std::memset(&currentOutputTimeStamp, 0, sizeof(currentOutputTimeStamp));
-        currentOutputTimeUS = -1;
-        
-        // We need to release the lock before calling CVDisplayLinkStop, because
-        // displayLinkCallback could be blocked waiting for the lock, and
-        // CVDisplayLinkStop won't return until displayLinkCallback exits, leading to deadlock.
-        lock.unlock();
-        
-        // NOTE: As of OS X 10.11, stopping the display links from a non-main thread causes issues
-        dispatch_sync(dispatch_get_main_queue(), ^{
-            for (auto dl : displayLinks) {
-                if (kCVReturnSuccess != CVDisplayLinkStop(dl)) {
-                    merror(M_DISPLAY_MESSAGE_DOMAIN,
-                           "Unable to stop updates on display %d",
-                           CVDisplayLinkGetCurrentCGDisplay(dl));
-                }
-            }
-        });
-        
-        mprintf(M_DISPLAY_MESSAGE_DOMAIN, "Display updates stopped");
-        
-    } else if ((RUNNING == newState) && !displayUpdatesStarted) {
-        
-        lastFrameTime = 0;
-        
-        // NOTE: As of OS X 10.11, starting the display links from a non-main thread causes issues
-        dispatch_sync(dispatch_get_main_queue(), ^{
-            for (auto dl : displayLinks) {
-                if (kCVReturnSuccess != CVDisplayLinkStart(dl)) {
-                    merror(M_DISPLAY_MESSAGE_DOMAIN,
-                           "Unable to start updates on display %d",
-                           CVDisplayLinkGetCurrentCGDisplay(dl));
-                }
-            }
-        });
-        
-        displayUpdatesStarted = true;
-        
-        // Wait for a refresh to complete, so we know that getCurrentOutputTimeUS() will return a valid time
-        ensureRefresh(lock);
-        
-        mprintf(M_DISPLAY_MESSAGE_DOMAIN, "Display updates started (refresh rate: %g Hz)", getMainDisplayRefreshRate());
-        
+    if (refreshPeriod.flags & kCVTimeIsIndefinite) {
+        mwarning(M_DISPLAY_MESSAGE_DOMAIN,
+                 "Could not determine main display refresh rate.  Assuming %g Hz.",
+                 refreshRate);
+    } else {
+        refreshRate = double(refreshPeriod.timeScale) / double(refreshPeriod.timeValue);
     }
+    
+    mainDisplayRefreshRate = refreshRate;
+}
+
+
+void MacOSStimulusDisplay::startDisplayUpdates() {
+    lastFrameTime = 0;
+    
+    // NOTE: As of OS X 10.11, starting the display links from a non-main thread causes issues
+    dispatch_sync(dispatch_get_main_queue(), ^{
+        for (auto dl : displayLinks) {
+            if (kCVReturnSuccess != CVDisplayLinkStart(dl)) {
+                merror(M_DISPLAY_MESSAGE_DOMAIN,
+                       "Unable to start updates on display %d",
+                       CVDisplayLinkGetCurrentCGDisplay(dl));
+            }
+        }
+    });
+}
+
+
+void MacOSStimulusDisplay::stopDisplayUpdates() {
+    std::memset(&currentOutputTimeStamp, 0, sizeof(currentOutputTimeStamp));
+    
+    // NOTE: As of OS X 10.11, stopping the display links from a non-main thread causes issues
+    dispatch_sync(dispatch_get_main_queue(), ^{
+        for (auto dl : displayLinks) {
+            if (kCVReturnSuccess != CVDisplayLinkStop(dl)) {
+                merror(M_DISPLAY_MESSAGE_DOMAIN,
+                       "Unable to stop updates on display %d",
+                       CVDisplayLinkGetCurrentCGDisplay(dl));
+            }
+        }
+    });
 }
 
 

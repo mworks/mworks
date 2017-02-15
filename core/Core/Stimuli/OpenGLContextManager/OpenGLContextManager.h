@@ -14,7 +14,7 @@
 #if TARGET_OS_OSX
 #  include <Cocoa/Cocoa.h>
 #elif TARGET_OS_IPHONE
-#  include <GLKit/GLKit.h>
+#  include <UIKit/UIKit.h>
 #  include <OpenGLES/EAGL.h>
 #endif
 
@@ -30,7 +30,7 @@ public:
     using PlatformOpenGLViewPtr = NSOpenGLView *;
 #elif TARGET_OS_IPHONE
     using PlatformOpenGLContextPtr = EAGLContext *;
-    using PlatformOpenGLViewPtr = GLKView *;
+    using PlatformOpenGLViewPtr = UIView *;
 #else
 #   error Unsupported platform
 #endif
@@ -51,9 +51,11 @@ public:
     virtual void releaseContexts() = 0;
     
     virtual int getNumDisplays() const = 0;
-    virtual OpenGLContextLock makeCurrent(PlatformOpenGLContextPtr context) = 0;
+    
     virtual OpenGLContextLock setCurrent(int context_id) = 0;
     virtual void clearCurrent() = 0;
+    
+    virtual void bindDefaultFramebuffer(int context_id) = 0;
     virtual void flush(int context_id) = 0;
     
     PlatformOpenGLContextPtr getContext(int context_id) const;

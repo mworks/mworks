@@ -115,14 +115,11 @@ void TextStimulus::prepare(const boost::shared_ptr<StimulusDisplay> &display) {
     GLdouble xMin, xMax, yMin, yMax;
     display->getDisplayBounds(xMin, xMax, yMin, yMax);
     
-    auto glcm = OpenGLContextManager::instance();
-    NSOpenGLView *displayView = glcm->getFullscreenView();
-    if (!displayView) {
-        displayView = glcm->getMirrorView();
-    }
-    
     __block NSSize displaySizeInPoints;
     dispatch_sync(dispatch_get_main_queue(), ^{
+        // If there's only a mirror window, getFullscreenView will return its view,
+        // so there's no need to call getMirrorView
+        auto displayView = OpenGLContextManager::instance()->getFullscreenView();
         displaySizeInPoints = displayView.frame.size;
     });
     

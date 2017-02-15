@@ -29,10 +29,10 @@ public:
     
     int getNumDisplays() const override;
     
-    OpenGLContextLock makeCurrent(EAGLContext *context) override;
     OpenGLContextLock setCurrent(int context_id) override;
     void clearCurrent() override;
     
+    void bindDefaultFramebuffer(int context_id) override;
     void flush(int context_id) override;
     
 private:

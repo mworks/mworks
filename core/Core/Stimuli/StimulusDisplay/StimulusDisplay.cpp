@@ -18,6 +18,8 @@
 
 #if TARGET_OS_OSX
 #  include "MacOSStimulusDisplay.h"
+#elif TARGET_OS_IPHONE
+#  include "IOSStimulusDisplay.hpp"
 #endif
 
 
@@ -309,6 +311,47 @@ void StimulusDisplay::getCurrentViewportSize(GLint &width, GLint &height) {
 }
 
 
+void StimulusDisplay::stateSystemCallback(const Datum &data, MWorksTime time) {
+    unique_lock lock(display_lock);
+    
+    const int newStateSystemMode = data.getInteger();
+    
+    if ((RUNNING == newStateSystemMode) && !displayUpdatesStarted) {
+        
+        startDisplayUpdates();
+        
+        displayUpdatesStarted = true;
+        
+        // Wait for a refresh to complete, so subclass methods that report the current
+        // output time will return a valid value
+        ensureRefresh(lock);
+        
+        mprintf(M_DISPLAY_MESSAGE_DOMAIN, "Display updates started (refresh rate: %g Hz)", getMainDisplayRefreshRate());
+    
+    } else if ((IDLE == newStateSystemMode) && displayUpdatesStarted) {
+        
+        // If another thread is waiting for a display refresh, allow it to complete before stopping
+        // the display link
+        while (waitingForRefresh) {
+            refreshCond.wait(lock);
+        }
+        
+        displayUpdatesStarted = false;
+        currentOutputTimeUS = -1;
+        
+        // We need to release the lock before calling stopDisplayUpdates, because
+        // a display update callback could be blocked waiting for the lock, and
+        // attempting to stop a blocked update loop could lead to deadlock
+        lock.unlock();
+        
+        stopDisplayUpdates();
+        
+        mprintf(M_DISPLAY_MESSAGE_DOMAIN, "Display updates stopped");
+        
+    }
+}
+
+
 void StimulusDisplay::refreshMainDisplay() {
     //
     // Determine whether we need to draw
@@ -332,20 +375,24 @@ void StimulusDisplay::refreshMainDisplay() {
     // Draw stimuli
     //
     
-    OpenGLContextLock ctxLock = opengl_context_manager->setCurrent(context_ids.at(0));
+    constexpr int contextIndex = 0;
+    const int context_id = context_ids.at(contextIndex);
+    OpenGLContextLock ctxLock = opengl_context_manager->setCurrent(context_id);
     
     if (needDraw) {
-        gl::FramebufferBinding<GL_DRAW_FRAMEBUFFER> framebufferBinding(framebuffer);
+        glBindFramebuffer(GL_DRAW_FRAMEBUFFER, framebuffer);
         const GLenum drawBuffer = GL_COLOR_ATTACHMENT0;
         glDrawBuffers(1, &drawBuffer);
         
-        current_context_index = 0;
+        current_context_index = contextIndex;
         drawDisplayStack();
         current_context_index = -1;
+        
+        opengl_context_manager->bindDefaultFramebuffer(context_id);
     }
     
-    drawStoredFramebuffer(0);
-    opengl_context_manager->flush(0);
+    drawStoredFramebuffer(contextIndex);
+    opengl_context_manager->flush(context_id);
     
     if (needDraw) {
         announceDisplayUpdate(updateIsExplicit);
@@ -356,7 +403,7 @@ void StimulusDisplay::refreshMainDisplay() {
 
 
 void StimulusDisplay::refreshMirrorDisplay(int contextIndex) const {
-    OpenGLContextLock ctxLock = opengl_context_manager->setCurrent(context_ids[contextIndex]);
+    OpenGLContextLock ctxLock = opengl_context_manager->setCurrent(context_ids.at(contextIndex));
     
     drawStoredFramebuffer(contextIndex);
     opengl_context_manager->flush(contextIndex);
@@ -527,8 +574,7 @@ boost::shared_ptr<StimulusDisplay> StimulusDisplay::createPlatformStimulusDispla
 #if TARGET_OS_OSX
     return boost::make_shared<MacOSStimulusDisplay>(announceIndividualStimuli);
 #elif TARGET_OS_IPHONE
-#   warning Need to implement IOSStimulusDisplay!
-    return nullptr;
+    return boost::make_shared<IOSStimulusDisplay>(announceIndividualStimuli);
 #else
 #   error Unsupported platform
 #endif

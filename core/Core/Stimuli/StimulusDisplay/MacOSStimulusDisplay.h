@@ -34,9 +34,10 @@ private:
                                         CVOptionFlags *flagsOut,
                                         void *_context);
     
-    void setMainDisplayRefreshRate() override;
     void prepareContext(int contextIndex) override;
-    void stateSystemCallback(const Datum &data, MWorksTime time) override;
+    void setMainDisplayRefreshRate() override;
+    void startDisplayUpdates() override;
+    void stopDisplayUpdates() override;
     
     std::vector<CVDisplayLinkRef> displayLinks;
     using DisplayLinkContext = std::pair<MacOSStimulusDisplay *, int>;

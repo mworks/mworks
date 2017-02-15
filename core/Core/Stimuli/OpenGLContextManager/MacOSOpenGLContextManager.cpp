@@ -8,6 +8,7 @@
 #include "MacOSOpenGLContextManager.h"
 
 #include "ComponentRegistry.h"
+#include "OpenGLUtilities.hpp"
 
 
 @interface MWKOpenGLView : NSOpenGLView
@@ -207,12 +208,12 @@ void MacOSOpenGLContextManager::releaseContexts() {
     
     // NOTE: As of OS X 10.11, performing window and view operations from a non-main thread causes issues
     dispatch_sync(dispatch_get_main_queue(), ^{
-        for (NSWindow *window : windows) {
+        for (NSWindow *window in windows) {
             [window orderOut:nil];
         }
         [windows removeAllObjects];
         
-        for (NSOpenGLView *view : views) {
+        for (NSOpenGLView *view in views) {
             [view clearGLContext];
         }
         [views removeAllObjects];
@@ -230,17 +231,12 @@ int MacOSOpenGLContextManager::getNumDisplays() const {
 }
 
 
-OpenGLContextLock MacOSOpenGLContextManager::makeCurrent(NSOpenGLContext *context) {
-    if (context) {
+OpenGLContextLock MacOSOpenGLContextManager::setCurrent(int context_id) {
+    if (auto context = getContext(context_id)) {
         [context makeCurrentContext];
         return OpenGLContextLock(context.CGLContextObj);
     }
     return OpenGLContextLock();
-}
-
-
-OpenGLContextLock MacOSOpenGLContextManager::setCurrent(int context_id) {
-    return makeCurrent(getContext(context_id));
 }
 
 
@@ -249,9 +245,14 @@ void MacOSOpenGLContextManager::clearCurrent() {
 }
 
 
+void MacOSOpenGLContextManager::bindDefaultFramebuffer(int context_id) {
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+}
+
+
 void MacOSOpenGLContextManager::flush(int context_id) {
-    if (auto ctx = getContext(context_id)) {
-        [ctx flushBuffer];
+    if (auto context = getContext(context_id)) {
+        [context flushBuffer];
     }
 }
 

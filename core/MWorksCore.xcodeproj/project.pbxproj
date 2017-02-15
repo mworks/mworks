@@ -700,6 +700,8 @@
 		E1DB978A16C19344001481E9 /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB975A16C16C8D001481E9 /* libboost_system.a */; };
 		E1DC75081D259C1700D9BC19 /* SerialPort.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1DC75061D259C1700D9BC19 /* SerialPort.cpp */; };
 		E1DC75091D259C1700D9BC19 /* SerialPort.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E1DC75071D259C1700D9BC19 /* SerialPort.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
+		E1E4AF411E54AE61001A2159 /* IOSStimulusDisplay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1E4AF3F1E54AE61001A2159 /* IOSStimulusDisplay.cpp */; };
+		E1E4AF421E54AE61001A2159 /* IOSStimulusDisplay.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E1E4AF401E54AE61001A2159 /* IOSStimulusDisplay.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1F65DF9119086A100F9A3A3 /* IODevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1F65DF8119086A100F9A3A3 /* IODevice.cpp */; };
 		E1F82A5E1E53532E00A2690B /* IOSOpenGLContextManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1F82A5C1E53532E00A2690B /* IOSOpenGLContextManager.cpp */; };
 		E1F82A5F1E53532E00A2690B /* IOSOpenGLContextManager.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E1F82A5D1E53532E00A2690B /* IOSOpenGLContextManager.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1293,6 +1295,8 @@
 		E1DB978516C18FE0001481E9 /* libcppunit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcppunit.a; path = "/Library/Application Support/MWorks/Developer/lib/libcppunit.a"; sourceTree = "<absolute>"; };
 		E1DC75061D259C1700D9BC19 /* SerialPort.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SerialPort.cpp; path = Core/Utilities/SerialPort.cpp; sourceTree = "<group>"; };
 		E1DC75071D259C1700D9BC19 /* SerialPort.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = SerialPort.hpp; path = Core/Utilities/SerialPort.hpp; sourceTree = "<group>"; };
+		E1E4AF3F1E54AE61001A2159 /* IOSStimulusDisplay.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = IOSStimulusDisplay.cpp; sourceTree = "<group>"; };
+		E1E4AF401E54AE61001A2159 /* IOSStimulusDisplay.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = IOSStimulusDisplay.hpp; sourceTree = "<group>"; };
 		E1EDA97E1E4A3A840045E5F8 /* iOS_Framework.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = iOS_Framework.xcconfig; sourceTree = "<group>"; };
 		E1EDA97F1E4A3A840045E5F8 /* macOS_Bundle.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = macOS_Bundle.xcconfig; sourceTree = "<group>"; };
 		E1EDA9801E4A3A840045E5F8 /* macOS_Framework.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = macOS_Framework.xcconfig; sourceTree = "<group>"; };
@@ -2342,6 +2346,8 @@
 				DA2CE1CF07E9F96E00C68AEF /* StimulusDisplay.cpp */,
 				E17916A11E4E416C00528B91 /* MacOSStimulusDisplay.h */,
 				E17916A01E4E416C00528B91 /* MacOSStimulusDisplay.cpp */,
+				E1E4AF401E54AE61001A2159 /* IOSStimulusDisplay.hpp */,
+				E1E4AF3F1E54AE61001A2159 /* IOSStimulusDisplay.cpp */,
 			);
 			name = StimulusDisplay;
 			path = Core/Stimuli/StimulusDisplay;
@@ -2658,6 +2664,7 @@
 				E17916E11E4E51CD00528B91 /* Event.h in Headers */,
 				E17916C51E4E512700528B91 /* GenericVariable.h in Headers */,
 				E17916CB1E4E514000528B91 /* GlobalVariable.h in Headers */,
+				E1E4AF421E54AE61001A2159 /* IOSStimulusDisplay.hpp in Headers */,
 				E17917571E4E556800528B91 /* EyeCalibrators.h in Headers */,
 				E17916D71E4E517100528B91 /* StandardVariables.h in Headers */,
 				E17917061E4E531600528B91 /* ParameterInfo.h in Headers */,
@@ -3360,6 +3367,7 @@
 				E17917691E4E55F100528B91 /* DummyIODevice.cpp in Sources */,
 				E179174B1E4E550600528B91 /* MachUtilities.cpp in Sources */,
 				E17917031E4E52ED00528B91 /* XMLParser.cpp in Sources */,
+				E1E4AF411E54AE61001A2159 /* IOSStimulusDisplay.cpp in Sources */,
 				E179176B1E4E55FB00528B91 /* IODeviceVariableNotification.cpp in Sources */,
 				E17916CE1E4E514C00528B91 /* ScopedVariable.cpp in Sources */,
 				E17916EB1E4E51F800528B91 /* EventCallbackHandler.cpp in Sources */,
@@ -3627,6 +3635,8 @@
 					OpenAL,
 					"-framework",
 					OpenGLES,
+					"-framework",
+					QuartzCore,
 					"-framework",
 					UIKit,
 					"-lboost_filesystem",

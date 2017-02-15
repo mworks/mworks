@@ -8,7 +8,89 @@
 
 #include "IOSOpenGLContextManager.hpp"
 
-#import <UIKit/UIKit.h>
+#include "OpenGLUtilities.hpp"
+
+
+//
+// The technique for using a CAEAGLLayer-backed UIView for displaying OpenGL ES content is taken from
+// Apple's "Real-time Video Processing Using AVPlayerItemVideoOutput" example project:
+//
+// https://developer.apple.com/library/content/samplecode/AVBasicVideoOutput/Introduction/Intro.html
+//
+
+
+@interface MWKEAGLView : UIView
+
+@property(nonatomic, readonly) EAGLContext *context;
+
+- (instancetype)initWithFrame:(CGRect)frame context:(EAGLContext *)context;
+- (BOOL)prepareGL;
+- (void)bindDrawable;
+- (void)display;
+
+@end
+
+
+@implementation MWKEAGLView {
+    GLuint framebuffer;
+    GLuint renderbuffer;
+}
+
+
++ (Class)layerClass {
+    return [CAEAGLLayer class];
+}
+
+
+- (instancetype)initWithFrame:(CGRect)frame context:(EAGLContext *)context {
+    self = [super initWithFrame:frame];
+    
+    if (self) {
+        _context = [context retain];
+        self.layer.opaque = TRUE;
+    }
+    
+    return self;
+}
+
+
+- (BOOL)prepareGL {
+    glGenFramebuffers(1, &framebuffer);
+    mw::gl::FramebufferBinding<GL_FRAMEBUFFER> framebufferBinding(framebuffer);
+    
+    glGenRenderbuffers(1, &renderbuffer);
+    mw::gl::RenderbufferBinding<GL_RENDERBUFFER> renderbufferBinding(renderbuffer);
+    
+    [self.context renderbufferStorage:GL_RENDERBUFFER fromDrawable:static_cast<CAEAGLLayer *>(self.layer)];
+    
+    GLint backingWidth, backingHeight;
+    glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_WIDTH, &backingWidth);
+    glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_HEIGHT, &backingHeight);
+    glViewport(0, 0, backingWidth, backingHeight);
+    
+    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, renderbuffer);
+    return (GL_FRAMEBUFFER_COMPLETE == glCheckFramebufferStatus(GL_FRAMEBUFFER));
+}
+
+
+- (void)bindDrawable {
+    glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
+}
+
+
+- (void)display {
+    mw::gl::RenderbufferBinding<GL_RENDERBUFFER> renderbufferBinding(renderbuffer);
+    [self.context presentRenderbuffer:GL_RENDERBUFFER];
+}
+
+
+- (void)dealloc {
+    [_context release];
+    [super dealloc];
+}
+
+
+@end
 
 
 BEGIN_NAMESPACE_MW
@@ -42,16 +124,23 @@ int IOSOpenGLContextManager::newFullscreenContext(int screen_number) {
         if (UIWindow *window = [[UIWindow alloc] initWithFrame:screen.bounds]) {
             window.screen = screen;
             
-            if (GLKView *view = [[GLKView alloc] initWithFrame:window.bounds context:context]) {
-                [window addSubview:view];
-                [window makeKeyAndVisible];
+            if (MWKEAGLView *view = [[MWKEAGLView alloc] initWithFrame:window.bounds context:context]) {
+                [EAGLContext setCurrentContext:context];
                 
-                [contexts addObject:context];
-                [views addObject:view];
-                [windows addObject:window];
+                if ([view prepareGL]) {
+                    [window addSubview:view];
+                    [window makeKeyAndVisible];
+                    
+                    [contexts addObject:context];
+                    [views addObject:view];
+                    [windows addObject:window];
+                    
+                    success = true;
+                }
+                
+                [EAGLContext setCurrentContext:nil];
                 
                 [view release];
-                success = true;
             }
             
             [window release];
@@ -77,7 +166,7 @@ void IOSOpenGLContextManager::releaseContexts() {
     mutexes.clear();
     
     dispatch_sync(dispatch_get_main_queue(), ^{
-        for (UIWindow *window : windows) {
+        for (UIWindow *window in windows) {
             window.hidden = YES;
         }
         [windows removeAllObjects];
@@ -94,27 +183,35 @@ int IOSOpenGLContextManager::getNumDisplays() const {
 }
 
 
-OpenGLContextLock IOSOpenGLContextManager::makeCurrent(EAGLContext *context) {
-    if (context) {
-        [EAGLContext setCurrentContext:context];
-        return OpenGLContextLock(unique_lock(mutexes[context]));
+OpenGLContextLock IOSOpenGLContextManager::setCurrent(int context_id) {
+    if (auto view = static_cast<MWKEAGLView *>(getView(context_id))) {
+        if ([EAGLContext setCurrentContext:view.context]) {
+            [view bindDrawable];
+            return OpenGLContextLock(unique_lock(mutexes[view.context]));
+        }
+        merror(M_DISPLAY_MESSAGE_DOMAIN, "Cannot set current OpenGL ES context");
     }
     return OpenGLContextLock();
 }
 
 
-OpenGLContextLock IOSOpenGLContextManager::setCurrent(int context_id) {
-    return makeCurrent(getContext(context_id));
-}
-
-
 void IOSOpenGLContextManager::clearCurrent() {
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);  // Unbind the view's drawable object
     [EAGLContext setCurrentContext:nil];
 }
 
 
+void IOSOpenGLContextManager::bindDefaultFramebuffer(int context_id) {
+    if (auto view = static_cast<MWKEAGLView *>(getView(context_id))) {
+        [view bindDrawable];
+    }
+}
+
+
 void IOSOpenGLContextManager::flush(int context_id) {
-    // Flushing is performed automatically as part of the drawing loop
+    if (auto view = static_cast<MWKEAGLView *>(getView(context_id))) {
+        [view display];
+    }
 }
 
 

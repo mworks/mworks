@@ -72,16 +72,10 @@ bool MouseInputDevice::initialize() {
     {
         auto glcm = OpenGLContextManager::instance();
         if (useMirrorWindow) {
+            // If there's no mirror window, getMirrorView will return the fullscreen window's view
             targetView = glcm->getMirrorView();
-            if (!targetView) {
-                merror(M_DISPLAY_MESSAGE_DOMAIN, "Mouse input device: mirror window requested but not found");
-                return false;
-            }
         } else {
             targetView = glcm->getFullscreenView();
-            if (!targetView) {
-                targetView = glcm->getMirrorView();
-            }
         }
         [targetView retain];
     }
@@ -89,7 +83,8 @@ bool MouseInputDevice::initialize() {
     // Get the parameters needed by GLKMathUnproject
     projectionMatrix = StimulusDisplay::getCurrentStimulusDisplay()->getProjectionMatrix();
     {
-        OpenGLContextLock ctxLock = OpenGLContextManager::instance()->makeCurrent(targetView.openGLContext);
+        [targetView.openGLContext makeCurrentContext];
+        OpenGLContextLock ctxLock(targetView.openGLContext.CGLContextObj);
         glGetIntegerv(GL_VIEWPORT, viewport.data());
     }
     

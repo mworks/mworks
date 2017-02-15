@@ -142,6 +142,17 @@ struct ProgramUsage : boost::noncopyable {
 
 
 template <GLenum target>
+struct RenderbufferBinding : boost::noncopyable {
+    
+    explicit RenderbufferBinding(GLuint renderbuffer) { bind(renderbuffer); }
+    ~RenderbufferBinding() { bind(0); }
+    
+    void bind(GLuint renderbuffer) { glBindRenderbuffer(target, renderbuffer); }
+    
+};
+
+
+template <GLenum target>
 struct TextureBinding : boost::noncopyable {
     
     explicit TextureBinding(GLuint texture) { bind(texture); }
