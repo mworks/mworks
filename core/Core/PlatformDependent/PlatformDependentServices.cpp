@@ -44,7 +44,12 @@ BEGIN_NAMESPACE_MW
 	const char * SETUP_VARIABLES_FILENAME = "setup_variables.xml";
 	
 	boost::filesystem::path pluginPath() {
+#if TARGET_OS_IPHONE
+        return (boost::filesystem::path(NSBundle.mainBundle.bundlePath.UTF8String) /
+                boost::filesystem::path("PlugIns"));
+#else
 		return boost::filesystem::path(PLUGIN_PATH);
+#endif
 	}
 	
 	boost::filesystem::path scriptingPath() {

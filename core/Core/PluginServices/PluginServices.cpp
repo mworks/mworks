@@ -124,8 +124,15 @@ BEGIN_NAMESPACE_MW
 		
 #ifdef	__APPLE__
 		
+#if TARGET_OS_OSX
 		sprintf(dynamic_library_path, "%s/%s.bundle/Contents/MacOS/%s",
 				pluginPath().string().c_str(), path.c_str(), path.c_str());
+#elif TARGET_OS_IPHONE
+        sprintf(dynamic_library_path, "%s/%s.plugin/%s",
+                pluginPath().string().c_str(), path.c_str(), path.c_str());
+#else
+#error  Unsupported platform
+#endif
 		
 #elif	linux
 		sprintf(dynamic_library_path, "%s/%s.so",
