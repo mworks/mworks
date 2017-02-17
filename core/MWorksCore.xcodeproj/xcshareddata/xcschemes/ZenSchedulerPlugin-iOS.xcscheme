@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E16A20E81E576DC200C48E10"
-               BuildableName = "ZenSchedulerPlugin-iOS.plugin"
+               BuildableName = "ZenSchedulerPlugin.plugin"
                BlueprintName = "ZenSchedulerPlugin-iOS"
                ReferencedContainer = "container:MWorksCore.xcodeproj">
             </BuildableReference>
@@ -46,7 +46,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E16A20E81E576DC200C48E10"
-            BuildableName = "ZenSchedulerPlugin-iOS.plugin"
+            BuildableName = "ZenSchedulerPlugin.plugin"
             BlueprintName = "ZenSchedulerPlugin-iOS"
             ReferencedContainer = "container:MWorksCore.xcodeproj">
          </BuildableReference>
@@ -64,7 +64,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E16A20E81E576DC200C48E10"
-            BuildableName = "ZenSchedulerPlugin-iOS.plugin"
+            BuildableName = "ZenSchedulerPlugin.plugin"
             BlueprintName = "ZenSchedulerPlugin-iOS"
             ReferencedContainer = "container:MWorksCore.xcodeproj">
          </BuildableReference>

@@ -514,8 +514,6 @@
 		E17916F91E4E529E00528B91 /* StandardClientCoreBuilder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA871F2509995B180084304E /* StandardClientCoreBuilder.cpp */; };
 		E17916FA1E4E52A100528B91 /* StandardServerCoreBuilder.h in Headers */ = {isa = PBXBuildFile; fileRef = DA96B8D40981951E0007610D /* StandardServerCoreBuilder.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E17916FB1E4E52A600528B91 /* StandardServerCoreBuilder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA96B8D50981951E0007610D /* StandardServerCoreBuilder.cpp */; };
-		E17916FC1E4E52AA00528B91 /* TestBedCoreBuilder.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C08412209D596F800E4D2F4 /* TestBedCoreBuilder.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E17916FD1E4E52AF00528B91 /* TestBedCoreBuilder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C08412309D596F800E4D2F4 /* TestBedCoreBuilder.cpp */; };
 		E17916FE1E4E52D400528B91 /* ExpressionParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CDCC87F0D2B0E10008E2F19 /* ExpressionParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E17916FF1E4E52DA00528B91 /* ExpressionParser.cc in Sources */ = {isa = PBXBuildFile; fileRef = 5CDCC8800D2B0E10008E2F19 /* ExpressionParser.cc */; };
 		E17917001E4E52DD00528B91 /* ParsedColorTrio.h in Headers */ = {isa = PBXBuildFile; fileRef = 0E2FE59F0EF00CC900CEB818 /* ParsedColorTrio.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1316,11 +1314,11 @@
 		E1457B4F14D08F95004D3AD5 /* MWorksCoreTestMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MWorksCoreTestMain.cpp; sourceTree = "<group>"; };
 		E146B7E61E1EAB66001C7947 /* OpenGLUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = OpenGLUtilities.cpp; path = Core/Stimuli/OpenGLUtilities.cpp; sourceTree = "<group>"; };
 		E146B7E71E1EAB66001C7947 /* OpenGLUtilities.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = OpenGLUtilities.hpp; path = Core/Stimuli/OpenGLUtilities.hpp; sourceTree = "<group>"; };
-		E148A4371E4B7106002DFB1C /* MWorksCore-iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = "MWorksCore-iOS.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E148A4371E4B7106002DFB1C /* MWorksCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MWorksCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E16A20D41E5769DF00C48E10 /* iOS_Plugin.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = iOS_Plugin.xcconfig; sourceTree = "<group>"; };
-		E16A20DA1E576A3300C48E10 /* HighPrecisionClock-iOS.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = "HighPrecisionClock-iOS.plugin"; sourceTree = BUILT_PRODUCTS_DIR; };
-		E16A20E91E576DC200C48E10 /* ZenSchedulerPlugin-iOS.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = "ZenSchedulerPlugin-iOS.plugin"; sourceTree = BUILT_PRODUCTS_DIR; };
-		E16A20F61E5770DF00C48E10 /* ZenStateSystemPlugin-iOS.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = "ZenStateSystemPlugin-iOS.plugin"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E16A20DA1E576A3300C48E10 /* HighPrecisionClock.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = HighPrecisionClock.plugin; sourceTree = BUILT_PRODUCTS_DIR; };
+		E16A20E91E576DC200C48E10 /* ZenSchedulerPlugin.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ZenSchedulerPlugin.plugin; sourceTree = BUILT_PRODUCTS_DIR; };
+		E16A20F61E5770DF00C48E10 /* ZenStateSystemPlugin.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ZenStateSystemPlugin.plugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		E16A20FD1E57726200C48E10 /* Info-iOS.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Info-iOS.plist"; sourceTree = "<group>"; };
 		E16A20FE1E57727600C48E10 /* ZenSchedulerPlugin-iOS-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "ZenSchedulerPlugin-iOS-Info.plist"; sourceTree = "<group>"; };
 		E16A20FF1E57728300C48E10 /* ZenStateSystemPlugin-iOS-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "ZenStateSystemPlugin-iOS-Info.plist"; sourceTree = "<group>"; };
@@ -2105,10 +2103,10 @@
 				5C4D232509DC59420082BF9F /* MWorksCoreTestRunner */,
 				5C4D239C09DC83930082BF9F /* MWorksCoreTest.framework */,
 				0E39EB030E4BD33D006F38A0 /* MarionetteTest.app */,
-				E148A4371E4B7106002DFB1C /* MWorksCore-iOS.framework */,
-				E16A20DA1E576A3300C48E10 /* HighPrecisionClock-iOS.plugin */,
-				E16A20E91E576DC200C48E10 /* ZenSchedulerPlugin-iOS.plugin */,
-				E16A20F61E5770DF00C48E10 /* ZenStateSystemPlugin-iOS.plugin */,
+				E148A4371E4B7106002DFB1C /* MWorksCore.framework */,
+				E16A20DA1E576A3300C48E10 /* HighPrecisionClock.plugin */,
+				E16A20E91E576DC200C48E10 /* ZenSchedulerPlugin.plugin */,
+				E16A20F61E5770DF00C48E10 /* ZenStateSystemPlugin.plugin */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2758,7 +2756,6 @@
 				E17917871E4E573400528B91 /* StandardSounds.h in Headers */,
 				E17917351E4E546F00528B91 /* Debugging.h in Headers */,
 				E179170A1E4E532C00528B91 /* ComponentRegistry.h in Headers */,
-				E17916FC1E4E52AA00528B91 /* TestBedCoreBuilder.h in Headers */,
 				E17916F41E4E528800528B91 /* AbstractCoreBuilder.h in Headers */,
 				E17917531E4E555500528B91 /* FilterTransforms.h in Headers */,
 				E17917681E4E55EA00528B91 /* DummyIODevice.h in Headers */,
@@ -3025,7 +3022,7 @@
 			);
 			name = "MWorksCore-iOS";
 			productName = "MWorksCore-iOS";
-			productReference = E148A4371E4B7106002DFB1C /* MWorksCore-iOS.framework */;
+			productReference = E148A4371E4B7106002DFB1C /* MWorksCore.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		E16A20D91E576A3300C48E10 /* HighPrecisionClock-iOS */ = {
@@ -3044,7 +3041,7 @@
 			);
 			name = "HighPrecisionClock-iOS";
 			productName = "HighPrecisionClock-iOS";
-			productReference = E16A20DA1E576A3300C48E10 /* HighPrecisionClock-iOS.plugin */;
+			productReference = E16A20DA1E576A3300C48E10 /* HighPrecisionClock.plugin */;
 			productType = "com.apple.product-type.framework";
 		};
 		E16A20E81E576DC200C48E10 /* ZenSchedulerPlugin-iOS */ = {
@@ -3063,7 +3060,7 @@
 			);
 			name = "ZenSchedulerPlugin-iOS";
 			productName = "ZenSchedulerPlugin-iOS";
-			productReference = E16A20E91E576DC200C48E10 /* ZenSchedulerPlugin-iOS.plugin */;
+			productReference = E16A20E91E576DC200C48E10 /* ZenSchedulerPlugin.plugin */;
 			productType = "com.apple.product-type.framework";
 		};
 		E16A20F51E5770DF00C48E10 /* ZenStateSystemPlugin-iOS */ = {
@@ -3082,7 +3079,7 @@
 			);
 			name = "ZenStateSystemPlugin-iOS";
 			productName = "ZenStateSystemPlugin-iOS";
-			productReference = E16A20F61E5770DF00C48E10 /* ZenStateSystemPlugin-iOS.plugin */;
+			productReference = E16A20F61E5770DF00C48E10 /* ZenStateSystemPlugin.plugin */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
@@ -3489,7 +3486,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E17916FD1E4E52AF00528B91 /* TestBedCoreBuilder.cpp in Sources */,
 				E179173D1E4E549400528B91 /* Scheduler.cpp in Sources */,
 				E17917771E4E566D00528B91 /* StimulusDisplay.cpp in Sources */,
 				E17916B21E4E50C100528B91 /* ZeroMQSocket.cpp in Sources */,
@@ -3938,7 +3934,7 @@
 					"-lzmq",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.mworks-project.MWorksCore-iOS";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = MWorksCore;
 			};
 			name = Development;
 		};
@@ -3950,7 +3946,7 @@
 				GCC_PREFIX_HEADER = "HighPrecisionClock/HighPrecisionClock-Prefix.pch";
 				INFOPLIST_FILE = "HighPrecisionClock/Info-iOS.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.mworks-project.HighPrecisionClock-iOS";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = HighPrecisionClock;
 			};
 			name = Development;
 		};
@@ -3964,7 +3960,7 @@
 				);
 				INFOPLIST_FILE = "ZenScheduler/ZenSchedulerPlugin-iOS-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.mworks-project.ZenSchedulerPlugin-iOS";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = ZenSchedulerPlugin;
 			};
 			name = Development;
 		};
@@ -3974,7 +3970,7 @@
 			buildSettings = {
 				INFOPLIST_FILE = "ZenStateSystem/ZenStateSystemPlugin-iOS-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.mworks-project.ZenStateSystemPlugin-iOS";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = ZenStateSystemPlugin;
 			};
 			name = Development;
 		};
@@ -4139,6 +4135,7 @@
 				E16A210B1E57896400C48E10 /* Development */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
 		};
 		E1CBF63B16BAF3090057CE48 /* Build configuration list for PBXAggregateTarget "Install MWorksCore" */ = {
 			isa = XCConfigurationList;

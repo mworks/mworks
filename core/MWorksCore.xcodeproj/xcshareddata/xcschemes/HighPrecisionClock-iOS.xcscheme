@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E16A20D91E576A3300C48E10"
-               BuildableName = "HighPrecisionClock-iOS.plugin"
+               BuildableName = "HighPrecisionClock.plugin"
                BlueprintName = "HighPrecisionClock-iOS"
                ReferencedContainer = "container:MWorksCore.xcodeproj">
             </BuildableReference>
@@ -46,7 +46,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E16A20D91E576A3300C48E10"
-            BuildableName = "HighPrecisionClock-iOS.plugin"
+            BuildableName = "HighPrecisionClock.plugin"
             BlueprintName = "HighPrecisionClock-iOS"
             ReferencedContainer = "container:MWorksCore.xcodeproj">
          </BuildableReference>
@@ -64,7 +64,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E16A20D91E576A3300C48E10"
-            BuildableName = "HighPrecisionClock-iOS.plugin"
+            BuildableName = "HighPrecisionClock.plugin"
             BlueprintName = "HighPrecisionClock-iOS"
             ReferencedContainer = "container:MWorksCore.xcodeproj">
          </BuildableReference>

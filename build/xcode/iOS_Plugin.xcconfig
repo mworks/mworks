@@ -2,5 +2,5 @@
 #include "_Framework.xcconfig"
 
 DYLIB_INSTALL_NAME_BASE = @executable_path/PlugIns
-OTHER_LDFLAGS = $(inherited) -framework MWorksCore-iOS -lboost_system
+OTHER_LDFLAGS = $(inherited) -framework MWorksCore -lboost_system
 WRAPPER_EXTENSION = plugin

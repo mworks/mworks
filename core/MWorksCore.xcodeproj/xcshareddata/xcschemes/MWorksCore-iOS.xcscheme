@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E148A4361E4B7106002DFB1C"
-               BuildableName = "MWorksCore-iOS.framework"
+               BuildableName = "MWorksCore.framework"
                BlueprintName = "MWorksCore-iOS"
                ReferencedContainer = "container:MWorksCore.xcodeproj">
             </BuildableReference>
@@ -46,7 +46,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E148A4361E4B7106002DFB1C"
-            BuildableName = "MWorksCore-iOS.framework"
+            BuildableName = "MWorksCore.framework"
             BlueprintName = "MWorksCore-iOS"
             ReferencedContainer = "container:MWorksCore.xcodeproj">
          </BuildableReference>
@@ -64,7 +64,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E148A4361E4B7106002DFB1C"
-            BuildableName = "MWorksCore-iOS.framework"
+            BuildableName = "MWorksCore.framework"
             BlueprintName = "MWorksCore-iOS"
             ReferencedContainer = "container:MWorksCore.xcodeproj">
          </BuildableReference>
