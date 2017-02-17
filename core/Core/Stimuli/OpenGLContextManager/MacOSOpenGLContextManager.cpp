@@ -39,7 +39,9 @@ MacOSOpenGLContextManager::MacOSOpenGLContextManager() :
 
 
 MacOSOpenGLContextManager::~MacOSOpenGLContextManager() {
-    releaseContexts();
+    // Calling releaseContexts here causes the application to crash at exit.  Since this class is
+    // used as a singleton, it doesn't matter, anyway.
+    //releaseContexts();
 }
 
 

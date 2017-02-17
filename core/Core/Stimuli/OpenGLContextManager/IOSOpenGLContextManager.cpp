@@ -97,7 +97,9 @@ BEGIN_NAMESPACE_MW
 
 
 IOSOpenGLContextManager::~IOSOpenGLContextManager() {
-    releaseContexts();
+    // Calling releaseContexts here causes the application to crash at exit.  Since this class is
+    // used as a singleton, it doesn't matter, anyway.
+    //releaseContexts();
 }
 
 
