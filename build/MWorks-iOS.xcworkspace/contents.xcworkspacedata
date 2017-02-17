@@ -10,4 +10,7 @@
    <FileRef
       location = "group:../core/MWorksCore.xcodeproj">
    </FileRef>
+   <FileRef
+      location = "group:../apps/server/MWServer.xcodeproj">
+   </FileRef>
 </Workspace>

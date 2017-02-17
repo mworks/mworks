@@ -1,1 +1,3 @@
-Info.plist
+client/Info.plist
+editor/Info.plist
+server/Info.plist
