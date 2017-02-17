@@ -106,8 +106,6 @@
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* MWServer_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWServer_Prefix.pch; sourceTree = "<group>"; };
 		5C6615620F4C91CC00C8FD71 /* Info.template.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.template.plist; sourceTree = "<group>"; };
-		5CE62A30115854CF00C757F1 /* Development.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Development.xcconfig; path = "/Library/Application Support/MWorks/Developer/Xcode/Development.xcconfig"; sourceTree = "<absolute>"; };
-		5CE62A31115854CF00C757F1 /* WARNING.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = WARNING.txt; path = "/Library/Application Support/MWorks/Developer/Xcode/WARNING.txt"; sourceTree = "<absolute>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* MWServer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MWServer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E14742A8193F9BFF00A82D91 /* MWSSetupVariablesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWSSetupVariablesController.h; sourceTree = "<group>"; };
@@ -115,6 +113,9 @@
 		E1518A9A1940C25D00ADB7D0 /* libboost_filesystem.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_filesystem.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_filesystem.a"; sourceTree = "<absolute>"; };
 		E15D0AED16C2ACAA00F331B1 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		E15D0AEF16C2ACB000F331B1 /* libboost_system.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_system.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_system.a"; sourceTree = "<absolute>"; };
+		E16A21151E579D0F00C48E10 /* iOS_App.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = iOS_App.xcconfig; sourceTree = "<group>"; };
+		E16A21161E579D0F00C48E10 /* macOS_App.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = macOS_App.xcconfig; sourceTree = "<group>"; };
+		E16A21171E579D0F00C48E10 /* macOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
 		E18B84001552D61100268197 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		E1BB72C31D6B3D240046B14F /* Console.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Console.tiff; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -211,10 +212,12 @@
 		5CE62A2E115854AB00C757F1 /* External Config */ = {
 			isa = PBXGroup;
 			children = (
-				5CE62A30115854CF00C757F1 /* Development.xcconfig */,
-				5CE62A31115854CF00C757F1 /* WARNING.txt */,
+				E16A21171E579D0F00C48E10 /* macOS.xcconfig */,
+				E16A21161E579D0F00C48E10 /* macOS_App.xcconfig */,
+				E16A21151E579D0F00C48E10 /* iOS_App.xcconfig */,
 			);
 			name = "External Config";
+			path = ../../build/xcode;
 			sourceTree = "<group>";
 		};
 		E14742A7193F99B100A82D91 /* SetupVariables */ = {
@@ -361,6 +364,7 @@
 /* Begin XCBuildConfiguration section */
 		5C488A700F4E291200C5A526 /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E16A21171E579D0F00C48E10 /* macOS.xcconfig */;
 			buildSettings = {
 				PRODUCT_NAME = "Set Version String";
 			};
@@ -368,6 +372,7 @@
 		};
 		5C77F4B210E969C600919719 /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E16A21171E579D0F00C48E10 /* macOS.xcconfig */;
 			buildSettings = {
 				PRODUCT_NAME = Everything;
 			};
@@ -375,6 +380,7 @@
 		};
 		C01FCF4B08A954540054247B /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E16A21161E579D0F00C48E10 /* macOS_App.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
@@ -390,13 +396,13 @@
 		};
 		C01FCF4F08A954540054247B /* Development */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5CE62A30115854CF00C757F1 /* Development.xcconfig */;
 			buildSettings = {
 			};
 			name = Development;
 		};
 		E12D995B16BC3B24004FEF79 /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E16A21171E579D0F00C48E10 /* macOS.xcconfig */;
 			buildSettings = {
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
