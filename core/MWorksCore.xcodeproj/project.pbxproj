@@ -1298,7 +1298,7 @@
 		E1E4AF3F1E54AE61001A2159 /* IOSStimulusDisplay.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = IOSStimulusDisplay.cpp; sourceTree = "<group>"; };
 		E1E4AF401E54AE61001A2159 /* IOSStimulusDisplay.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = IOSStimulusDisplay.hpp; sourceTree = "<group>"; };
 		E1EDA97E1E4A3A840045E5F8 /* iOS_Framework.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = iOS_Framework.xcconfig; sourceTree = "<group>"; };
-		E1EDA97F1E4A3A840045E5F8 /* macOS_Bundle.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = macOS_Bundle.xcconfig; sourceTree = "<group>"; };
+		E1EDA97F1E4A3A840045E5F8 /* macOS_Plugin.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = macOS_Plugin.xcconfig; sourceTree = "<group>"; };
 		E1EDA9801E4A3A840045E5F8 /* macOS_Framework.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = macOS_Framework.xcconfig; sourceTree = "<group>"; };
 		E1EDA9811E4A3A840045E5F8 /* macOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
 		E1F65DF8119086A100F9A3A3 /* IODevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IODevice.cpp; path = Core/IODevices/IODevice.cpp; sourceTree = "<group>"; };
@@ -1529,8 +1529,8 @@
 			isa = PBXGroup;
 			children = (
 				E1EDA9811E4A3A840045E5F8 /* macOS.xcconfig */,
-				E1EDA97F1E4A3A840045E5F8 /* macOS_Bundle.xcconfig */,
 				E1EDA9801E4A3A840045E5F8 /* macOS_Framework.xcconfig */,
+				E1EDA97F1E4A3A840045E5F8 /* macOS_Plugin.xcconfig */,
 				E1EDA97E1E4A3A840045E5F8 /* iOS_Framework.xcconfig */,
 			);
 			name = "External Configuration";
@@ -3495,7 +3495,7 @@
 		};
 		5C0E757709D1A886002295FB /* Development */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E1EDA97F1E4A3A840045E5F8 /* macOS_Bundle.xcconfig */;
+			baseConfigurationReference = E1EDA97F1E4A3A840045E5F8 /* macOS_Plugin.xcconfig */;
 			buildSettings = {
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
@@ -3526,7 +3526,7 @@
 		};
 		5C0E84FB086D85D400B3EE7C /* Development */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E1EDA97F1E4A3A840045E5F8 /* macOS_Bundle.xcconfig */;
+			baseConfigurationReference = E1EDA97F1E4A3A840045E5F8 /* macOS_Plugin.xcconfig */;
 			buildSettings = {
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
@@ -3539,7 +3539,7 @@
 		};
 		5C0E84FF086D85D400B3EE7C /* Development */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E1EDA97F1E4A3A840045E5F8 /* macOS_Bundle.xcconfig */;
+			baseConfigurationReference = E1EDA97F1E4A3A840045E5F8 /* macOS_Plugin.xcconfig */;
 			buildSettings = {
 				INFOPLIST_FILE = "ZenStateSystem/ZenStateSystemPlugin-Info.plist";
 				PRODUCT_NAME = ZenStateSystemPlugin;
@@ -3590,7 +3590,7 @@
 		};
 		E106CF0F1CA42EDC001A0928 /* Development */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E1EDA97F1E4A3A840045E5F8 /* macOS_Bundle.xcconfig */;
+			baseConfigurationReference = E1EDA97F1E4A3A840045E5F8 /* macOS_Plugin.xcconfig */;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HighPrecisionClock/HighPrecisionClock-Prefix.pch";
