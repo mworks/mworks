@@ -45,6 +45,20 @@
 			name = "Install Testing Tools";
 			productName = test_mworks;
 		};
+		E16A21091E57896400C48E10 /* Everything-iOS */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = E16A210A1E57896400C48E10 /* Build configuration list for PBXAggregateTarget "Everything-iOS" */;
+			buildPhases = (
+			);
+			dependencies = (
+				E16A210D1E57898000C48E10 /* PBXTargetDependency */,
+				E16A210F1E57898200C48E10 /* PBXTargetDependency */,
+				E16A21111E57898400C48E10 /* PBXTargetDependency */,
+				E16A21131E57898700C48E10 /* PBXTargetDependency */,
+			);
+			name = "Everything-iOS";
+			productName = "Everything-iOS";
+		};
 		E1CBF63A16BAF3090057CE48 /* Install MWorksCore */ = {
 			isa = PBXAggregateTarget;
 			buildConfigurationList = E1CBF63B16BAF3090057CE48 /* Build configuration list for PBXAggregateTarget "Install MWorksCore" */;
@@ -771,6 +785,55 @@
 			remoteGlobalIDString = 5C488A160F4E27CD00C5A526;
 			remoteInfo = "Set Version String";
 		};
+		E16A21031E5788FD00C48E10 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DA2CE0C907E9070200C68AEF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E148A4361E4B7106002DFB1C;
+			remoteInfo = "MWorksCore-iOS";
+		};
+		E16A21051E57890000C48E10 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DA2CE0C907E9070200C68AEF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E148A4361E4B7106002DFB1C;
+			remoteInfo = "MWorksCore-iOS";
+		};
+		E16A21071E57890400C48E10 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DA2CE0C907E9070200C68AEF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E148A4361E4B7106002DFB1C;
+			remoteInfo = "MWorksCore-iOS";
+		};
+		E16A210C1E57898000C48E10 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DA2CE0C907E9070200C68AEF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E148A4361E4B7106002DFB1C;
+			remoteInfo = "MWorksCore-iOS";
+		};
+		E16A210E1E57898200C48E10 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DA2CE0C907E9070200C68AEF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E16A20D91E576A3300C48E10;
+			remoteInfo = "HighPrecisionClock-iOS";
+		};
+		E16A21101E57898400C48E10 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DA2CE0C907E9070200C68AEF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E16A20E81E576DC200C48E10;
+			remoteInfo = "ZenSchedulerPlugin-iOS";
+		};
+		E16A21121E57898700C48E10 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DA2CE0C907E9070200C68AEF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E16A20F51E5770DF00C48E10;
+			remoteInfo = "ZenStateSystemPlugin-iOS";
+		};
 		E1CBF64216BAF3380057CE48 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = DA2CE0C907E9070200C68AEF /* Project object */;
@@ -1261,6 +1324,7 @@
 		E16A20FD1E57726200C48E10 /* Info-iOS.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Info-iOS.plist"; sourceTree = "<group>"; };
 		E16A20FE1E57727600C48E10 /* ZenSchedulerPlugin-iOS-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "ZenSchedulerPlugin-iOS-Info.plist"; sourceTree = "<group>"; };
 		E16A20FF1E57728300C48E10 /* ZenStateSystemPlugin-iOS-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "ZenStateSystemPlugin-iOS-Info.plist"; sourceTree = "<group>"; };
+		E16A21141E5789B900C48E10 /* iOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = iOS.xcconfig; sourceTree = "<group>"; };
 		E16BC179137D952D0052D8E1 /* MachUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MachUtilities.h; path = Core/Utilities/MachUtilities.h; sourceTree = "<group>"; };
 		E16BC17A137D952D0052D8E1 /* MachUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MachUtilities.cpp; path = Core/Utilities/MachUtilities.cpp; sourceTree = "<group>"; };
 		E179169B1E4E27A700528B91 /* MacOSOpenGLContextManager.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = MacOSOpenGLContextManager.cpp; sourceTree = "<group>"; };
@@ -1566,6 +1630,7 @@
 				E1EDA9811E4A3A840045E5F8 /* macOS.xcconfig */,
 				E1EDA9801E4A3A840045E5F8 /* macOS_Framework.xcconfig */,
 				E1EDA97F1E4A3A840045E5F8 /* macOS_Plugin.xcconfig */,
+				E16A21141E5789B900C48E10 /* iOS.xcconfig */,
 				E1EDA97E1E4A3A840045E5F8 /* iOS_Framework.xcconfig */,
 				E16A20D41E5769DF00C48E10 /* iOS_Plugin.xcconfig */,
 			);
@@ -2975,6 +3040,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				E16A21041E5788FD00C48E10 /* PBXTargetDependency */,
 			);
 			name = "HighPrecisionClock-iOS";
 			productName = "HighPrecisionClock-iOS";
@@ -2993,6 +3059,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				E16A21061E57890000C48E10 /* PBXTargetDependency */,
 			);
 			name = "ZenSchedulerPlugin-iOS";
 			productName = "ZenSchedulerPlugin-iOS";
@@ -3011,6 +3078,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				E16A21081E57890400C48E10 /* PBXTargetDependency */,
 			);
 			name = "ZenStateSystemPlugin-iOS";
 			productName = "ZenStateSystemPlugin-iOS";
@@ -3041,6 +3109,10 @@
 						ProvisioningStyle = Automatic;
 					};
 					E16A20F51E5770DF00C48E10 = {
+						CreatedOnToolsVersion = 8.2.1;
+						ProvisioningStyle = Automatic;
+					};
+					E16A21091E57896400C48E10 = {
 						CreatedOnToolsVersion = 8.2.1;
 						ProvisioningStyle = Automatic;
 					};
@@ -3078,6 +3150,7 @@
 				E16A20D91E576A3300C48E10 /* HighPrecisionClock-iOS */,
 				E16A20E81E576DC200C48E10 /* ZenSchedulerPlugin-iOS */,
 				E16A20F51E5770DF00C48E10 /* ZenStateSystemPlugin-iOS */,
+				E16A21091E57896400C48E10 /* Everything-iOS */,
 			);
 		};
 /* End PBXProject section */
@@ -3600,6 +3673,41 @@
 			target = 5C488A160F4E27CD00C5A526 /* Set Version String */;
 			targetProxy = E148A43E1E4B754B002DFB1C /* PBXContainerItemProxy */;
 		};
+		E16A21041E5788FD00C48E10 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E148A4361E4B7106002DFB1C /* MWorksCore-iOS */;
+			targetProxy = E16A21031E5788FD00C48E10 /* PBXContainerItemProxy */;
+		};
+		E16A21061E57890000C48E10 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E148A4361E4B7106002DFB1C /* MWorksCore-iOS */;
+			targetProxy = E16A21051E57890000C48E10 /* PBXContainerItemProxy */;
+		};
+		E16A21081E57890400C48E10 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E148A4361E4B7106002DFB1C /* MWorksCore-iOS */;
+			targetProxy = E16A21071E57890400C48E10 /* PBXContainerItemProxy */;
+		};
+		E16A210D1E57898000C48E10 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E148A4361E4B7106002DFB1C /* MWorksCore-iOS */;
+			targetProxy = E16A210C1E57898000C48E10 /* PBXContainerItemProxy */;
+		};
+		E16A210F1E57898200C48E10 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E16A20D91E576A3300C48E10 /* HighPrecisionClock-iOS */;
+			targetProxy = E16A210E1E57898200C48E10 /* PBXContainerItemProxy */;
+		};
+		E16A21111E57898400C48E10 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E16A20E81E576DC200C48E10 /* ZenSchedulerPlugin-iOS */;
+			targetProxy = E16A21101E57898400C48E10 /* PBXContainerItemProxy */;
+		};
+		E16A21131E57898700C48E10 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E16A20F51E5770DF00C48E10 /* ZenStateSystemPlugin-iOS */;
+			targetProxy = E16A21121E57898700C48E10 /* PBXContainerItemProxy */;
+		};
 		E1CBF64316BAF3380057CE48 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = DA2CE0D307E9F68100C68AEF /* MWorksCore */;
@@ -3870,6 +3978,14 @@
 			};
 			name = Development;
 		};
+		E16A210B1E57896400C48E10 /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E16A21141E5789B900C48E10 /* iOS.xcconfig */;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Development;
+		};
 		E1CBF63C16BAF3090057CE48 /* Development */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E1EDA9811E4A3A840045E5F8 /* macOS.xcconfig */;
@@ -4016,6 +4132,13 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
+		};
+		E16A210A1E57896400C48E10 /* Build configuration list for PBXAggregateTarget "Everything-iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E16A210B1E57896400C48E10 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 		E1CBF63B16BAF3090057CE48 /* Build configuration list for PBXAggregateTarget "Install MWorksCore" */ = {
 			isa = XCConfigurationList;

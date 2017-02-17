@@ -42,9 +42,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "E148A4361E4B7106002DFB1C"
-               BuildableName = "MWorksCore-iOS.framework"
-               BlueprintName = "MWorksCore-iOS"
+               BlueprintIdentifier = "E16A21091E57896400C48E10"
+               BuildableName = "Everything-iOS"
+               BlueprintName = "Everything-iOS"
                ReferencedContainer = "container:../core/MWorksCore.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
