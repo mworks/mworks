@@ -8,15 +8,40 @@
 
 #import "AppDelegate.h"
 
-@interface AppDelegate ()
+#include <MWorksCore/CoreBuilderForeman.h>
+#include <MWorksCore/Server.h>
+#include <MWorksCore/StandardServerCoreBuilder.h>
 
-@end
 
-@implementation AppDelegate
+@implementation AppDelegate {
+    boost::shared_ptr<mw::Server> core;
+}
+
+
+static UIAlertController * createInitializationFailureAlert(NSString *message) {
+    return [UIAlertController alertControllerWithTitle:@"Server initialization failed"
+                                               message:message
+                                        preferredStyle:UIAlertControllerStyleAlert];
+}
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+    try {
+        
+        mw::StandardServerCoreBuilder coreBuilder;
+        mw::CoreBuilderForeman::constructCoreStandardOrder(&coreBuilder);
+        
+        core = boost::make_shared<mw::Server>();
+        mw::Server::registerInstance(core);
+        
+        core->startServer();
+        
+    } catch (const std::exception &e) {
+        self.alert = createInitializationFailureAlert(@(e.what()));
+    } catch (...) {
+        self.alert = createInitializationFailureAlert(@"An unknown error occurred");
+    }
+    
     return YES;
 }
 
@@ -44,8 +69,44 @@
 
 
 - (void)applicationWillTerminate:(UIApplication *)application {
-    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    if (core) {
+        try {
+            core->stopServer();
+        } catch (const std::exception &e) {
+            NSLog(@"Exception in stopServer: %s", e.what());
+        } catch (...) {
+            NSLog(@"Unknown exception in stopServer");
+        }
+    }
 }
 
 
 @end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

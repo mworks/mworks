@@ -8,7 +8,9 @@
 
 #import "MWSSetupVariablesController.h"
 
-#import <AppKit/NSScreen.h>
+#if TARGET_OS_OSX
+#  import <AppKit/NSScreen.h>
+#endif
 
 #include <MWorksCore/ComponentRegistry.h>
 #include <MWorksCore/PlatformDependentServices.h>
@@ -56,6 +58,9 @@
 
 
 - (NSArray *)availableDisplays {
+#if TARGET_OS_IPHONE
+    return @[@"Main display"];
+#else
     NSMutableArray *displays = [NSMutableArray arrayWithArray:@[ @"Mirror window only", @"Main display" ]];
     
     NSArray *screens = [NSScreen screens];
@@ -65,6 +70,7 @@
     }
     
     return displays;
+#endif
 }
 
 

@@ -8,15 +8,25 @@
 
 #import "ViewController.h"
 
-@interface ViewController ()
+#import "AppDelegate.h"
 
-@end
 
 @implementation ViewController
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+}
+
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    AppDelegate *appDelegate = (AppDelegate *)(UIApplication.sharedApplication.delegate);
+    if (appDelegate.alert) {
+        [self presentViewController:appDelegate.alert animated:YES completion:nil];
+    }
 }
 
 
