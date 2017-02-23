@@ -64,6 +64,7 @@
 		E18B84011552D61100268197 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = E18B83FF1552D61100268197 /* MainMenu.xib */; };
 		E1BB72C61D6B3D460046B14F /* Console.tiff in Resources */ = {isa = PBXBuildFile; fileRef = E1BB72C31D6B3D240046B14F /* Console.tiff */; };
 		E1CCE03C1E5C90D100614060 /* MWSSetupVariablesController.m in Sources */ = {isa = PBXBuildFile; fileRef = E14742A9193F9BFF00A82D91 /* MWSSetupVariablesController.m */; };
+		E1CCE03F1E5CD13E00614060 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E1CCE03E1E5CD13E00614060 /* Settings.bundle */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -135,6 +136,7 @@
 		E16A212F1E57A49100C48E10 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E18B84001552D61100268197 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		E1BB72C31D6B3D240046B14F /* Console.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Console.tiff; sourceTree = "<group>"; };
+		E1CCE03E1E5CD13E00614060 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -265,6 +267,7 @@
 				E16A21271E57A49100C48E10 /* Main.storyboard */,
 				E16A212A1E57A49100C48E10 /* Assets.xcassets */,
 				E16A212C1E57A49100C48E10 /* LaunchScreen.storyboard */,
+				E1CCE03E1E5CD13E00614060 /* Settings.bundle */,
 				E16A212F1E57A49100C48E10 /* Info.plist */,
 				E16A211E1E57A49100C48E10 /* Supporting Files */,
 			);
@@ -373,6 +376,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E1CCE03F1E5CD13E00614060 /* Settings.bundle in Resources */,
 				E16A212E1E57A49100C48E10 /* LaunchScreen.storyboard in Resources */,
 				E16A212B1E57A49100C48E10 /* Assets.xcassets in Resources */,
 				E16A21291E57A49100C48E10 /* Main.storyboard in Resources */,

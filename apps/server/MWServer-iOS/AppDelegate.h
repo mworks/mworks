@@ -8,11 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
+#import "MWSSetupVariablesController.h"
+
+
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) UIAlertController* alert;
-
+@property (strong, nonatomic, readonly) MWSSetupVariablesController *setupVariablesController;
+@property (strong, nonatomic, readonly) NSString *hostName;
+@property (strong, nonatomic, readonly) NSNumber *listeningPort;
 
 @end
 

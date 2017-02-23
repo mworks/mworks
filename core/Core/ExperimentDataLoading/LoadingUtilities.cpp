@@ -59,12 +59,12 @@ BEGIN_NAMESPACE_MW
 		shared_ptr<Variable> main_screen_info_variable = reg->getVariable(MAIN_SCREEN_INFO_TAGNAME);
 		Datum main_screen_dict = main_screen_info_variable->getValue();
            
-        bool width_ok = false, height_ok = false, dist_ok = false, refresh_ok = false;
-        if(!(width_ok = CHECK_DICT_VALUE_IS_NUMBER(main_screen_dict, M_DISPLAY_WIDTH_KEY)) || 
-           !(height_ok = CHECK_DICT_VALUE_IS_NUMBER(main_screen_dict, M_DISPLAY_HEIGHT_KEY)) ||
-           !(dist_ok = CHECK_DICT_VALUE_IS_NUMBER(main_screen_dict, M_DISPLAY_DISTANCE_KEY)) ||
-           !(refresh_ok = CHECK_DICT_VALUE_IS_NUMBER(main_screen_dict, M_REFRESH_RATE_KEY))){
-
+        bool width_ok = CHECK_DICT_VALUE_IS_NUMBER(main_screen_dict, M_DISPLAY_WIDTH_KEY);
+        bool height_ok = CHECK_DICT_VALUE_IS_NUMBER(main_screen_dict, M_DISPLAY_HEIGHT_KEY);
+        bool dist_ok = CHECK_DICT_VALUE_IS_NUMBER(main_screen_dict, M_DISPLAY_DISTANCE_KEY);
+        bool refresh_ok = CHECK_DICT_VALUE_IS_NUMBER(main_screen_dict, M_REFRESH_RATE_KEY);
+        
+        if (!(width_ok && height_ok && dist_ok && refresh_ok)) {
             string stem = "Invalid display info defined in setup_variables.xml (missing/invalid: ";
             if(!width_ok) stem = stem + M_DISPLAY_WIDTH_KEY + " ";
             if(!height_ok) stem = stem + M_DISPLAY_HEIGHT_KEY + " ";

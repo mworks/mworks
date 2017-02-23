@@ -12,9 +12,68 @@
 #include <MWorksCore/Server.h>
 #include <MWorksCore/StandardServerCoreBuilder.h>
 
+#define SERVER_NAME_PREFERENCE @"server_name_preference"
+#define LISTENING_PORT_PREFERENCE @"listening_port_preference"
+#define ALLOW_ALT_FAILOVER_PREFERENCE @"allow_alt_failover_preference"
+#define DISPLAY_WIDTH_PREFERENCE @"display_width_preference"
+#define DISPLAY_HEIGHT_PREFERENCE @"display_height_preference"
+#define DISPLAY_DISTANCE_PREFERENCE @"display_distance_preference"
+#define ANNOUNCE_INDIVIDUAL_STIMULI_PREFERENCE @"announce_individual_stimuli_preference"
+#define WARN_ON_SKIPPED_REFRESH_PREFERENCE @"warn_on_skipped_refresh_preference"
+
 
 @implementation AppDelegate {
     boost::shared_ptr<mw::Server> core;
+}
+
+
+static void registerDefaultSettings(NSUserDefaults *userDefaults) {
+    NSDictionary *defaultSettings =
+    @{
+      LISTENING_PORT_PREFERENCE: @(19989),
+      ALLOW_ALT_FAILOVER_PREFERENCE: @(YES),
+      ANNOUNCE_INDIVIDUAL_STIMULI_PREFERENCE: @(YES),
+      WARN_ON_SKIPPED_REFRESH_PREFERENCE: @(YES)
+      };
+    [userDefaults registerDefaults:defaultSettings];
+}
+
+
+static void initializeSetupVariables(NSUserDefaults *userDefaults,
+                                     MWSSetupVariablesController *setupVariablesController)
+{
+    NSString *serverName = [userDefaults stringForKey:SERVER_NAME_PREFERENCE];
+    if (!serverName || serverName.length == 0) {
+        serverName = UIDevice.currentDevice.name;
+    }
+    setupVariablesController.serverName = serverName;
+    
+    setupVariablesController.displayToUse = @(1);
+    {
+        double displayWidth = [userDefaults doubleForKey:DISPLAY_WIDTH_PREFERENCE];
+        if (displayWidth != 0.0) {
+            setupVariablesController.displayWidth = @(displayWidth);
+        }
+    }
+    {
+        double displayHeight = [userDefaults doubleForKey:DISPLAY_HEIGHT_PREFERENCE];
+        if (displayHeight != 0.0) {
+            setupVariablesController.displayHeight = @(displayHeight);
+        }
+    }
+    {
+        double displayDistance = [userDefaults doubleForKey:DISPLAY_DISTANCE_PREFERENCE];
+        if (displayDistance != 0.0) {
+            setupVariablesController.displayDistance = @(displayDistance);
+        }
+    }
+    setupVariablesController.displayRefreshRateHz = @(60.0);
+    setupVariablesController.alwaysDisplayMirrorWindow = NO;
+    setupVariablesController.mirrorWindowBaseHeight = @(0);
+    setupVariablesController.announceIndividualStimuli = [userDefaults boolForKey:ANNOUNCE_INDIVIDUAL_STIMULI_PREFERENCE];
+    setupVariablesController.warnOnSkippedRefresh = [userDefaults boolForKey:WARN_ON_SKIPPED_REFRESH_PREFERENCE];
+    
+    setupVariablesController.allowAltFailover = [userDefaults boolForKey:ALLOW_ALT_FAILOVER_PREFERENCE];
 }
 
 
@@ -33,6 +92,17 @@ static UIAlertController * createInitializationFailureAlert(NSString *message) {
         
         core = boost::make_shared<mw::Server>();
         mw::Server::registerInstance(core);
+        
+        NSUserDefaults *userDefaults = NSUserDefaults.standardUserDefaults;
+        registerDefaultSettings(userDefaults);
+        _setupVariablesController = [[MWSSetupVariablesController alloc] init];
+        initializeSetupVariables(userDefaults, self.setupVariablesController);
+        
+        _hostName = NSProcessInfo.processInfo.hostName;
+        core->setHostname(self.hostName.UTF8String);
+        
+        _listeningPort = @([userDefaults integerForKey:LISTENING_PORT_PREFERENCE]);
+        core->setListenPort(self.listeningPort.intValue);
         
         core->startServer();
         

@@ -37,6 +37,7 @@
                 _displayWidth = @(mdi.getElement(M_DISPLAY_WIDTH_KEY).getFloat());
                 _displayHeight = @(mdi.getElement(M_DISPLAY_HEIGHT_KEY).getFloat());
                 _displayDistance = @(mdi.getElement(M_DISPLAY_DISTANCE_KEY).getFloat());
+                _displayRefreshRateHz = @(mdi.getElement(M_REFRESH_RATE_KEY).getFloat());
                 _alwaysDisplayMirrorWindow = mdi.getElement(M_ALWAYS_DISPLAY_MIRROR_WINDOW_KEY).getBool();
                 _mirrorWindowBaseHeight = @(mdi.getElement(M_MIRROR_WINDOW_BASE_HEIGHT_KEY).getFloat());
                 _announceIndividualStimuli = mdi.getElement(M_ANNOUNCE_INDIVIDUAL_STIMULI_KEY).getBool();
@@ -59,7 +60,7 @@
 
 - (NSArray *)availableDisplays {
 #if TARGET_OS_IPHONE
-    return @[@"Main display"];
+    return @[ @"Main display" ];
 #else
     NSMutableArray *displays = [NSMutableArray arrayWithArray:@[ @"Mirror window only", @"Main display" ]];
     
@@ -106,6 +107,14 @@
 }
 
 
+- (void)setDisplayRefreshRateHz:(NSNumber *)displayRefreshRateHz {
+    _displayRefreshRateHz = displayRefreshRateHz;
+    [self updateVariable:mw::mainDisplayInfo
+                     key:M_REFRESH_RATE_KEY
+                   value:displayRefreshRateHz.doubleValue];
+}
+
+
 - (void)setAlwaysDisplayMirrorWindow:(BOOL)alwaysDisplayMirrorWindow {
     _alwaysDisplayMirrorWindow = alwaysDisplayMirrorWindow;
     [self updateVariable:mw::mainDisplayInfo
@@ -143,6 +152,10 @@
 
 
 - (void)updateVariable:(const mw::VariablePtr &)var value:(const mw::Datum &)value {
+    // Note:  We should always set and serialize the new value, even if it's equal to the
+    // current value, because we don't know whether the current value was read from
+    // setup_variables.xml or set at run time, and changes made via this interface are
+    // always intended to be persistent.
     var->setValue(value);
     [self writeSetupVariables];
 }

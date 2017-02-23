@@ -17,6 +17,7 @@
 @property(nonatomic, strong) NSNumber *displayWidth;
 @property(nonatomic, strong) NSNumber *displayHeight;
 @property(nonatomic, strong) NSNumber *displayDistance;
+@property(nonatomic, strong) NSNumber *displayRefreshRateHz;
 @property(nonatomic) BOOL alwaysDisplayMirrorWindow;
 @property(nonatomic, strong) NSNumber *mirrorWindowBaseHeight;
 @property(nonatomic) BOOL announceIndividualStimuli;
