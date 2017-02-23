@@ -32,6 +32,8 @@
 		<string>opengles-3</string>
 		<string>wifi</string>
 	</array>
+	<key>UIRequiresFullScreen</key>
+	<true/>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>

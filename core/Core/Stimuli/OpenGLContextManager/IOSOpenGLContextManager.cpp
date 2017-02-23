@@ -93,6 +93,26 @@
 @end
 
 
+@interface MWKEAGLViewController : UIViewController
+@end
+
+
+@implementation MWKEAGLViewController
+
+
+- (BOOL)prefersStatusBarHidden {
+    return YES;
+}
+
+
+- (BOOL)shouldAutorotate {
+    return NO;
+}
+
+
+@end
+
+
 BEGIN_NAMESPACE_MW
 
 
@@ -126,23 +146,28 @@ int IOSOpenGLContextManager::newFullscreenContext(int screen_number) {
         if (UIWindow *window = [[UIWindow alloc] initWithFrame:screen.bounds]) {
             window.screen = screen;
             
-            if (MWKEAGLView *view = [[MWKEAGLView alloc] initWithFrame:window.bounds context:context]) {
-                [EAGLContext setCurrentContext:context];
+            if (MWKEAGLViewController *viewController = [[MWKEAGLViewController alloc] init]) {
+                window.rootViewController = viewController;
                 
-                if ([view prepareGL]) {
-                    [window addSubview:view];
-                    [window makeKeyAndVisible];
+                if (MWKEAGLView *view = [[MWKEAGLView alloc] initWithFrame:window.bounds context:context]) {
+                    viewController.view = view;
+                    [EAGLContext setCurrentContext:context];
                     
-                    [contexts addObject:context];
-                    [views addObject:view];
-                    [windows addObject:window];
+                    if ([view prepareGL]) {
+                        [window makeKeyAndVisible];
+                        
+                        [contexts addObject:context];
+                        [views addObject:view];
+                        [windows addObject:window];
+                        
+                        success = true;
+                    }
                     
-                    success = true;
+                    [EAGLContext setCurrentContext:nil];
+                    [view release];
                 }
                 
-                [EAGLContext setCurrentContext:nil];
-                
-                [view release];
+                [viewController release];
             }
             
             [window release];

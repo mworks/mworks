@@ -53,7 +53,11 @@ Shader createShader(GLenum shaderType, const std::string &glslVersion, const std
         throw OpenGLException("Shader creation failed", glGetError());
     }
     
-    const std::array<const GLchar *, 4> strings = { "#version ", glslVersion.data(), "\n", shaderSource.data() };
+    const std::array<const GLchar *, 5> strings = {
+        "#version ", glslVersion.data(), "\n",
+        "precision highp float;\n",
+        shaderSource.data()
+    };
     glShaderSource(shader.get(), strings.size(), strings.data(), nullptr);
     glCompileShader(shader.get());
     

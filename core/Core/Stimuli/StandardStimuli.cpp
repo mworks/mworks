@@ -556,8 +556,7 @@ void ImageStimulus::prepare(const boost::shared_ptr<StimulusDisplay> &display) {
                                                                                       width * 4,
                                                                                       colorSpace.get(),
 #if MWORKS_OPENGL_ES
-                                                                                      // TODO: not sure if the byte order is correct here
-                                                                                      kCGImageAlphaPremultipliedLast | kCGBitmapByteOrder32Host));
+                                                                                      kCGImageAlphaPremultipliedLast | kCGBitmapByteOrder32Big));
 #else
                                                                                       kCGImageAlphaPremultipliedFirst | kCGBitmapByteOrder32Host));
 #endif

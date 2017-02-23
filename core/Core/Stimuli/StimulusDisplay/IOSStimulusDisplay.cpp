@@ -79,7 +79,6 @@ void IOSStimulusDisplay::prepareContext(int contextIndex) {
     CADisplayLink *displayLink = [screen displayLinkWithTarget:displayLinkTarget selector:@selector(updateDisplay:)];
     
     [displayLinks addObject:displayLink];
-    [displayLink release];
     [displayLinkTarget release];
     
     StimulusDisplay::prepareContext(contextIndex);
