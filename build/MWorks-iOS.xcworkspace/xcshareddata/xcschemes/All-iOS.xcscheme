@@ -42,10 +42,66 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "E16A21091E57896400C48E10"
-               BuildableName = "Everything-iOS"
-               BlueprintName = "Everything-iOS"
+               BlueprintIdentifier = "E148A4361E4B7106002DFB1C"
+               BuildableName = "MWorksCore.framework"
+               BlueprintName = "MWorksCore-iOS"
                ReferencedContainer = "container:../core/MWorksCore.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "E16A20D91E576A3300C48E10"
+               BuildableName = "HighPrecisionClock.plugin"
+               BlueprintName = "HighPrecisionClock-iOS"
+               ReferencedContainer = "container:../core/MWorksCore.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "E16A20E81E576DC200C48E10"
+               BuildableName = "ZenSchedulerPlugin.plugin"
+               BlueprintName = "ZenSchedulerPlugin-iOS"
+               ReferencedContainer = "container:../core/MWorksCore.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "E16A20F51E5770DF00C48E10"
+               BuildableName = "ZenStateSystemPlugin.plugin"
+               BlueprintName = "ZenStateSystemPlugin-iOS"
+               ReferencedContainer = "container:../core/MWorksCore.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "E16A211B1E57A49100C48E10"
+               BuildableName = "MWServer.app"
+               BlueprintName = "MWServer-iOS"
+               ReferencedContainer = "container:../apps/server/MWServer.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

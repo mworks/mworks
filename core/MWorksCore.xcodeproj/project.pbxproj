@@ -45,20 +45,6 @@
 			name = "Install Testing Tools";
 			productName = test_mworks;
 		};
-		E16A21091E57896400C48E10 /* Everything-iOS */ = {
-			isa = PBXAggregateTarget;
-			buildConfigurationList = E16A210A1E57896400C48E10 /* Build configuration list for PBXAggregateTarget "Everything-iOS" */;
-			buildPhases = (
-			);
-			dependencies = (
-				E16A210D1E57898000C48E10 /* PBXTargetDependency */,
-				E16A210F1E57898200C48E10 /* PBXTargetDependency */,
-				E16A21111E57898400C48E10 /* PBXTargetDependency */,
-				E16A21131E57898700C48E10 /* PBXTargetDependency */,
-			);
-			name = "Everything-iOS";
-			productName = "Everything-iOS";
-		};
 		E1CBF63A16BAF3090057CE48 /* Install MWorksCore */ = {
 			isa = PBXAggregateTarget;
 			buildConfigurationList = E1CBF63B16BAF3090057CE48 /* Build configuration list for PBXAggregateTarget "Install MWorksCore" */;
@@ -803,34 +789,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = E148A4361E4B7106002DFB1C;
 			remoteInfo = "MWorksCore-iOS";
-		};
-		E16A210C1E57898000C48E10 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = DA2CE0C907E9070200C68AEF /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = E148A4361E4B7106002DFB1C;
-			remoteInfo = "MWorksCore-iOS";
-		};
-		E16A210E1E57898200C48E10 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = DA2CE0C907E9070200C68AEF /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = E16A20D91E576A3300C48E10;
-			remoteInfo = "HighPrecisionClock-iOS";
-		};
-		E16A21101E57898400C48E10 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = DA2CE0C907E9070200C68AEF /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = E16A20E81E576DC200C48E10;
-			remoteInfo = "ZenSchedulerPlugin-iOS";
-		};
-		E16A21121E57898700C48E10 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = DA2CE0C907E9070200C68AEF /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = E16A20F51E5770DF00C48E10;
-			remoteInfo = "ZenStateSystemPlugin-iOS";
 		};
 		E1CBF64216BAF3380057CE48 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -3109,10 +3067,6 @@
 						CreatedOnToolsVersion = 8.2.1;
 						ProvisioningStyle = Automatic;
 					};
-					E16A21091E57896400C48E10 = {
-						CreatedOnToolsVersion = 8.2.1;
-						ProvisioningStyle = Automatic;
-					};
 				};
 			};
 			buildConfigurationList = 5C0E850E086D85D400B3EE7C /* Build configuration list for PBXProject "MWorksCore" */;
@@ -3147,7 +3101,6 @@
 				E16A20D91E576A3300C48E10 /* HighPrecisionClock-iOS */,
 				E16A20E81E576DC200C48E10 /* ZenSchedulerPlugin-iOS */,
 				E16A20F51E5770DF00C48E10 /* ZenStateSystemPlugin-iOS */,
-				E16A21091E57896400C48E10 /* Everything-iOS */,
 			);
 		};
 /* End PBXProject section */
@@ -3684,26 +3637,6 @@
 			target = E148A4361E4B7106002DFB1C /* MWorksCore-iOS */;
 			targetProxy = E16A21071E57890400C48E10 /* PBXContainerItemProxy */;
 		};
-		E16A210D1E57898000C48E10 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = E148A4361E4B7106002DFB1C /* MWorksCore-iOS */;
-			targetProxy = E16A210C1E57898000C48E10 /* PBXContainerItemProxy */;
-		};
-		E16A210F1E57898200C48E10 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = E16A20D91E576A3300C48E10 /* HighPrecisionClock-iOS */;
-			targetProxy = E16A210E1E57898200C48E10 /* PBXContainerItemProxy */;
-		};
-		E16A21111E57898400C48E10 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = E16A20E81E576DC200C48E10 /* ZenSchedulerPlugin-iOS */;
-			targetProxy = E16A21101E57898400C48E10 /* PBXContainerItemProxy */;
-		};
-		E16A21131E57898700C48E10 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = E16A20F51E5770DF00C48E10 /* ZenStateSystemPlugin-iOS */;
-			targetProxy = E16A21121E57898700C48E10 /* PBXContainerItemProxy */;
-		};
 		E1CBF64316BAF3380057CE48 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = DA2CE0D307E9F68100C68AEF /* MWorksCore */;
@@ -3974,14 +3907,6 @@
 			};
 			name = Development;
 		};
-		E16A210B1E57896400C48E10 /* Development */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = E16A21141E5789B900C48E10 /* iOS.xcconfig */;
-			buildSettings = {
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Development;
-		};
 		E1CBF63C16BAF3090057CE48 /* Development */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E1EDA9811E4A3A840045E5F8 /* macOS.xcconfig */;
@@ -4125,14 +4050,6 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E16A20FC1E5770DF00C48E10 /* Development */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
-		};
-		E16A210A1E57896400C48E10 /* Build configuration list for PBXAggregateTarget "Everything-iOS" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				E16A210B1E57896400C48E10 /* Development */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
