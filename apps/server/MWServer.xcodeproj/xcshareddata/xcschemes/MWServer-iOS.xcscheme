@@ -61,18 +61,6 @@
             ReferencedContainer = "container:MWServer.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
-      <EnvironmentVariables>
-         <EnvironmentVariable
-            key = "MWORKS_WRITE_MESSAGES_TO_STDERR"
-            value = "1"
-            isEnabled = "YES">
-         </EnvironmentVariable>
-         <EnvironmentVariable
-            key = "OS_ACTIVITY_MODE"
-            value = "$(DEBUG_ACTIVITY_MODE)"
-            isEnabled = "YES">
-         </EnvironmentVariable>
-      </EnvironmentVariables>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
