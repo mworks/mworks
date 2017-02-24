@@ -7,3 +7,5 @@ LIBRARY_SEARCH_PATHS = $(inherited) $(BUILT_PRODUCTS_DIR)/lib
 SDKROOT = iphoneos
 TARGETED_DEVICE_FAMILY = 1,2
 VALIDATE_PRODUCT = YES
+
+#include? "CodeSigning.xcconfig"
