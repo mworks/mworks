@@ -107,6 +107,20 @@ def workdir(path):
     os.chdir(old_path)
 
 
+class DoneFileExists(Exception):
+    pass
+
+
+@contextmanager
+def done_file(tag):
+    filename = os.path.join(builddir, tag + '.done')
+    if os.path.isfile(filename):
+        raise DoneFileExists
+    yield
+    with open(filename, 'w') as fp:
+        fp.write('Done!\n')
+
+
 def download_file(url, filename):
     filepath = downloaddir + '/' + filename
     if os.path.isfile(filepath):
@@ -245,50 +259,51 @@ def boost(ios=True):
     srcdir = 'boost_' + version.replace('.', '_')
     tarfile = srcdir + '.tar.bz2'
 
-    if not os.path.isdir(srcdir):
-        download_archive_from_sf('boost/boost', version, tarfile)
-        unpack_tarfile(tarfile, srcdir)
+    with done_file(srcdir):
+        if not os.path.isdir(srcdir):
+            download_archive_from_sf('boost/boost', version, tarfile)
+            unpack_tarfile(tarfile, srcdir)
+            with workdir(srcdir):
+                os.symlink('boost', 'mworks_boost')
+                apply_patch('boost_clock_gettime.patch')
+                check_call([
+                    './bootstrap.sh',
+                    '--with-toolset=clang',
+                    '--without-icu',
+                    '--with-python=' + python,
+                    ],
+                    env = get_clean_env(),
+                    )
+            
         with workdir(srcdir):
-            os.symlink('boost', 'mworks_boost')
-            apply_patch('boost_clock_gettime.patch')
-            check_call([
-                './bootstrap.sh',
-                '--with-toolset=clang',
-                '--without-icu',
-                '--with-python=' + python,
-                ],
-                env = get_clean_env(),
-                )
-        
-    with workdir(srcdir):
-        b2_args = [
-            './b2',
-            #'-d', '2',  # Show actual commands run,
-            '-j', num_cores,
-            '--build-dir=' + builddir,
-            '--prefix=' + prefix,
-            '--includedir=' + includedir,
-            '--libdir=' + libdir,
-            'variant=release',
-            'optimization=space',
-            'debug-symbols=on',
-            'link=static',
-            'threading=multi',
-            'define=boost=mworks_boost',
-            'cflags=' + compile_flags,
-            'cxxflags=' + cxxflags,
-            'linkflags=' + link_flags,
-            ]
-        libraries = ['filesystem', 'random', 'regex', 'system', 'thread']
-        if not building_for_ios:
-            libraries += ['python', 'serialization']
-        b2_args += ['--with-' + l for l in libraries]
-        b2_args.append('install')
-        check_call(b2_args)
+            b2_args = [
+                './b2',
+                #'-d', '2',  # Show actual commands run,
+                '-j', num_cores,
+                '--build-dir=' + builddir,
+                '--prefix=' + prefix,
+                '--includedir=' + includedir,
+                '--libdir=' + libdir,
+                'variant=release',
+                'optimization=space',
+                'debug-symbols=on',
+                'link=static',
+                'threading=multi',
+                'define=boost=mworks_boost',
+                'cflags=' + compile_flags,
+                'cxxflags=' + cxxflags,
+                'linkflags=' + link_flags,
+                ]
+            libraries = ['filesystem', 'random', 'regex', 'system', 'thread']
+            if not building_for_ios:
+                libraries += ['python', 'serialization']
+            b2_args += ['--with-' + l for l in libraries]
+            b2_args.append('install')
+            check_call(b2_args)
 
-    with workdir(includedir):
-        if not os.path.islink('mworks_boost'):
-            os.symlink('boost', 'mworks_boost')
+        with workdir(includedir):
+            if not os.path.islink('mworks_boost'):
+                os.symlink('boost', 'mworks_boost')
 
 
 @builder
@@ -297,21 +312,22 @@ def zeromq(ios=True):
     srcdir = 'zeromq-' + version
     tarfile = srcdir + '.tar.gz'
 
-    if not os.path.isdir(srcdir):
-        download_archive('https://github.com/zeromq/zeromq4-1/releases/download/v%s/' % version, tarfile)
-        unpack_tarfile(tarfile, srcdir)
-        with workdir(srcdir):
-            apply_patch('zeromq_clock_gettime.patch')
+    with done_file(srcdir):
+        if not os.path.isdir(srcdir):
+            download_archive('https://github.com/zeromq/zeromq4-1/releases/download/v%s/' % version, tarfile)
+            unpack_tarfile(tarfile, srcdir)
+            with workdir(srcdir):
+                apply_patch('zeromq_clock_gettime.patch')
 
-    zeromq_builddir = os.path.join(builddir, 'zeromq')
-    make_directory(zeromq_builddir)
+        zeromq_builddir = os.path.join(builddir, 'zeromq')
+        make_directory(zeromq_builddir)
 
-    with workdir(zeromq_builddir):
-        run_configure_and_make(
-            command = [os.path.join(sourcedir, srcdir, 'configure')],
-            extra_args = ['--disable-silent-rules', '--disable-curve'],
-            extra_ldflags = '-lc++',
-            )
+        with workdir(zeromq_builddir):
+            run_configure_and_make(
+                command = [os.path.join(sourcedir, srcdir, 'configure')],
+                extra_args = ['--disable-silent-rules', '--disable-curve'],
+                extra_ldflags = '-lc++',
+                )
 
 
 @builder
@@ -320,12 +336,13 @@ def msgpack(ios=True):
     srcdir = 'msgpack-' + version
     tarfile = srcdir + '.tar.gz'
 
-    if not os.path.isdir(srcdir):
-        download_archive('https://github.com/msgpack/msgpack-c/releases/download/cpp-%s/' % version, tarfile)
-        unpack_tarfile(tarfile, srcdir)
+    with done_file(srcdir):
+        if not os.path.isdir(srcdir):
+            download_archive('https://github.com/msgpack/msgpack-c/releases/download/cpp-%s/' % version, tarfile)
+            unpack_tarfile(tarfile, srcdir)
 
-    with workdir(srcdir):
-        check_call([rsync, '-a', 'include/', includedir])
+        with workdir(srcdir):
+            check_call([rsync, '-a', 'include/', includedir])
 
 
 @builder
@@ -334,25 +351,26 @@ def libxslt(macos=False, ios=True):
     srcdir = 'libxslt-' + version
     tarfile = srcdir + '.tar.gz'
 
-    if not os.path.isdir(srcdir):
-        download_archive('ftp://xmlsoft.org/libxslt/', tarfile)
-        unpack_tarfile(tarfile, srcdir)
+    with done_file(srcdir):
+        if not os.path.isdir(srcdir):
+            download_archive('ftp://xmlsoft.org/libxslt/', tarfile)
+            unpack_tarfile(tarfile, srcdir)
 
-    libxslt_builddir = os.path.join(builddir, 'libxslt')
-    make_directory(libxslt_builddir)
+        libxslt_builddir = os.path.join(builddir, 'libxslt')
+        make_directory(libxslt_builddir)
 
-    with workdir(libxslt_builddir):
-        run_configure_and_make(
-            command = [os.path.join(sourcedir, srcdir, 'configure')],
-            extra_args = [
-                '--disable-silent-rules',
-                '--without-python',
-                '--without-crypto',
-                '--with-libxml-include-prefix=%(SDKROOT)s/usr/include/libxml2' % os.environ,
-                '--with-libxml-libs-prefix=%(SDKROOT)s/usr/lib' % os.environ,
-                '--without-plugins',
-                ],
-            )
+        with workdir(libxslt_builddir):
+            run_configure_and_make(
+                command = [os.path.join(sourcedir, srcdir, 'configure')],
+                extra_args = [
+                    '--disable-silent-rules',
+                    '--without-python',
+                    '--without-crypto',
+                    '--with-libxml-include-prefix=%(SDKROOT)s/usr/include/libxml2' % os.environ,
+                    '--with-libxml-libs-prefix=%(SDKROOT)s/usr/lib' % os.environ,
+                    '--without-plugins',
+                    ],
+                )
 
 
 @builder
@@ -361,18 +379,19 @@ def cppunit():
     srcdir = 'cppunit-' + version
     tarfile = srcdir + '.tar.gz'
 
-    if not os.path.isdir(srcdir):
-        download_archive('http://dev-www.libreoffice.org/src/', tarfile)
-        unpack_tarfile(tarfile, srcdir)
+    with done_file(srcdir):
+        if not os.path.isdir(srcdir):
+            download_archive('http://dev-www.libreoffice.org/src/', tarfile)
+            unpack_tarfile(tarfile, srcdir)
 
-    cppunit_builddir = os.path.join(builddir, 'cppunit')
-    make_directory(cppunit_builddir)
+        cppunit_builddir = os.path.join(builddir, 'cppunit')
+        make_directory(cppunit_builddir)
 
-    with workdir(cppunit_builddir):
-        run_configure_and_make(
-            command = [os.path.join(sourcedir, srcdir, 'configure')],
-            extra_compile_flags = '-g0',
-            )
+        with workdir(cppunit_builddir):
+            run_configure_and_make(
+                command = [os.path.join(sourcedir, srcdir, 'configure')],
+                extra_compile_flags = '-g0',
+                )
 
 
 @builder
@@ -387,29 +406,30 @@ def numpy():
     srcdir = 'numpy-' + version
     tarfile = srcdir + '.tar.gz'
 
-    if not os.path.isdir(srcdir):
-        download_archive_from_sf('numpy/NumPy', version, tarfile)
-        unpack_tarfile(tarfile, srcdir)
+    with done_file(srcdir):
+        if not os.path.isdir(srcdir):
+            download_archive_from_sf('numpy/NumPy', version, tarfile)
+            unpack_tarfile(tarfile, srcdir)
 
-    with workdir(srcdir):
-        env = get_updated_env()
-        env['NPY_NUM_BUILD_JOBS'] = num_cores
+        with workdir(srcdir):
+            env = get_updated_env()
+            env['NPY_NUM_BUILD_JOBS'] = num_cores
 
-        check_call([
-            python,
-            'setup.py',
-            'install',
-            '--install-lib=install',
-            '--install-scripts=install',
-            ],
-            env=env)
+            check_call([
+                python,
+                'setup.py',
+                'install',
+                '--install-lib=install',
+                '--install-scripts=install',
+                ],
+                env=env)
 
-        check_call([
-            rsync,
-            '-a',
-            'install/numpy/core/include/numpy',
-            includedir,
-            ])
+            check_call([
+                rsync,
+                '-a',
+                'install/numpy/core/include/numpy',
+                includedir,
+                ])
 
 
 @builder
@@ -419,13 +439,14 @@ def matlab_xunit():
     srcdir = tag * 2 + version
     tarfile = tag + version + '.tar.gz'
 
-    if not os.path.isdir(srcdir):
-        download_archive('https://github.com/psexton/matlab-xunit/archive/', tarfile)
-        unpack_tarfile(tarfile, srcdir)
+    with done_file(srcdir):
+        if not os.path.isdir(srcdir):
+            download_archive('https://github.com/psexton/matlab-xunit/archive/', tarfile)
+            unpack_tarfile(tarfile, srcdir)
 
-    with workdir(srcdir):
-        make_directory(matlabdir)
-        check_call([rsync, '-a', 'src/', matlabdir + '/xunit'])
+        with workdir(srcdir):
+            make_directory(matlabdir)
+            check_call([rsync, '-a', 'src/', matlabdir + '/xunit'])
 
 
 @builder
@@ -434,32 +455,33 @@ def narrative():
     srcdir = 'Narrative-' + version
     zipfile = srcdir + '.zip'
 
-    if not os.path.isdir(srcdir):
-        download_archive_from_sf('narrative/narrative',
-                                 urllib.quote(srcdir.replace('-', ' ')),
-                                 zipfile)
-        unpack_zipfile(zipfile, srcdir)
+    with done_file(srcdir):
+        if not os.path.isdir(srcdir):
+            download_archive_from_sf('narrative/narrative',
+                                     urllib.quote(srcdir.replace('-', ' ')),
+                                     zipfile)
+            unpack_zipfile(zipfile, srcdir)
 
-    with workdir('/'.join([srcdir, srcdir, 'Narrative'])):
-        check_call([
-            xcodebuild,
-            '-project', 'Narrative.xcodeproj',
-            '-configuration', 'Release',
-            '-xcconfig', os.environ['MW_XCODE_DIR'] + '/Development.xcconfig',
-            'clean',
-            'build',
-            'INSTALL_PATH=@loader_path/../Frameworks',
-            'SDKROOT=%s' + os.environ['SDKROOT'],
-            'SDKROOT_i386=$(SDKROOT)',
-            'OTHER_CFLAGS=-fvisibility=default',
-            ])
+        with workdir('/'.join([srcdir, srcdir, 'Narrative'])):
+            check_call([
+                xcodebuild,
+                '-project', 'Narrative.xcodeproj',
+                '-configuration', 'Release',
+                '-xcconfig', os.environ['MW_XCODE_DIR'] + '/Development.xcconfig',
+                'clean',
+                'build',
+                'INSTALL_PATH=@loader_path/../Frameworks',
+                'SDKROOT=%s' + os.environ['SDKROOT'],
+                'SDKROOT_i386=$(SDKROOT)',
+                'OTHER_CFLAGS=-fvisibility=default',
+                ])
 
-        check_call([
-            rsync,
-            '-a',
-            'build/Release/Narrative.framework',
-            frameworksdir
-            ])
+            check_call([
+                rsync,
+                '-a',
+                'build/Release/Narrative.framework',
+                frameworksdir
+                ])
 
 
 ################################################################################
@@ -495,7 +517,10 @@ def main():
         for buildfunc in all_builders:
             if ((not requested_builders) or
                 (buildfunc.__name__ in requested_builders)):
-                buildfunc()
+                try:
+                    buildfunc()
+                except DoneFileExists:
+                    pass
 
     if not building_for_ios:
         # Install files
