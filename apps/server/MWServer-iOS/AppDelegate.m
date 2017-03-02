@@ -98,8 +98,12 @@ static UIAlertController * createInitializationFailureAlert(NSString *message) {
         _setupVariablesController = [[MWSSetupVariablesController alloc] init];
         initializeSetupVariables(userDefaults, self.setupVariablesController);
         
-        _hostName = NSProcessInfo.processInfo.hostName;
-        core->setHostname(self.hostName.UTF8String);
+#if TARGET_OS_SIMULATOR
+        _listeningAddress = @"127.0.0.1";
+#else
+        _listeningAddress = NSProcessInfo.processInfo.hostName;
+#endif
+        core->setHostname(self.listeningAddress.UTF8String);
         
         _listeningPort = @([userDefaults integerForKey:LISTENING_PORT_PREFERENCE]);
         core->setListenPort(self.listeningPort.intValue);
