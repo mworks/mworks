@@ -10,6 +10,13 @@
    <FileRef
       location = "group:../core/MWorksCore.xcodeproj">
    </FileRef>
+   <Group
+      location = "container:"
+      name = "Core Plugins">
+      <FileRef
+         location = "group:../plugins/core/DriftingGratingStimulus/DriftingGratingStimulusPlugin.xcodeproj">
+      </FileRef>
+   </Group>
    <FileRef
       location = "group:../apps/server/MWServer.xcodeproj">
    </FileRef>
