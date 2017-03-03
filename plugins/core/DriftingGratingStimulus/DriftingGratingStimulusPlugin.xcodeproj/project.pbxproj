@@ -40,6 +40,8 @@
 		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
 		E12D98A116BC1FBA004FEF79 /* DriftingGratingStimulusPlugin.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8D5B49B6048680CD000E48DA /* DriftingGratingStimulusPlugin.bundle */; };
 		E12D98A516BC205E004FEF79 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E12D98A416BC205E004FEF79 /* OpenGL.framework */; };
+		E1B11F1A1E69DEA3009D877C /* DriftingGratingStimulus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E287D2F0E64A5CD005BE396 /* DriftingGratingStimulus.cpp */; };
+		E1B11F1B1E69DEAA009D877C /* DriftingGratingStimulusPlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E37FBA10E59C3DD008B885D /* DriftingGratingStimulusPlugin.cpp */; };
 		E1DB979E16C1A904001481E9 /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DB979D16C1A904001481E9 /* libboost_system.a */; };
 		E1E07E951C04F1E0008DD97E /* MWComponents.yaml in Resources */ = {isa = PBXBuildFile; fileRef = E1E07E941C04F1E0008DD97E /* MWComponents.yaml */; };
 /* End PBXBuildFile section */
@@ -88,6 +90,8 @@
 		E1B11F051E69CED1009D877C /* iOS_Plugin.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = iOS_Plugin.xcconfig; sourceTree = "<group>"; };
 		E1B11F061E69CED1009D877C /* macOS_Plugin.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = macOS_Plugin.xcconfig; sourceTree = "<group>"; };
 		E1B11F071E69CED1009D877C /* macOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
+		E1B11F101E69D09B009D877C /* DriftingGratingStimulus.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DriftingGratingStimulus.plugin; sourceTree = BUILT_PRODUCTS_DIR; };
+		E1B11F171E69D4A5009D877C /* Info-iOS.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Info-iOS.plist"; sourceTree = "<group>"; };
 		E1DB979D16C1A904001481E9 /* libboost_system.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_system.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_system.a"; sourceTree = "<absolute>"; };
 		E1E07E941C04F1E0008DD97E /* MWComponents.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MWComponents.yaml; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -100,6 +104,13 @@
 				5C4B0A650DC79212001BC518 /* MWorksCore.framework in Frameworks */,
 				E12D98A516BC205E004FEF79 /* OpenGL.framework in Frameworks */,
 				E1DB979E16C1A904001481E9 /* libboost_system.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E1B11F0C1E69D09B009D877C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -136,6 +147,7 @@
 				0EDCBABE0EE9D39B00432792 /* MWLibrary.xml */,
 				8D5B49B7048680CD000E48DA /* Info.plist */,
 				089C167DFE841241C02AAC07 /* InfoPlist.strings */,
+				E1B11F171E69D4A5009D877C /* Info-iOS.plist */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -170,6 +182,7 @@
 			isa = PBXGroup;
 			children = (
 				8D5B49B6048680CD000E48DA /* DriftingGratingStimulusPlugin.bundle */,
+				E1B11F101E69D09B009D877C /* DriftingGratingStimulus.plugin */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -195,6 +208,16 @@
 		};
 /* End PBXGroup section */
 
+/* Begin PBXHeadersBuildPhase section */
+		E1B11F0D1E69D09B009D877C /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
 /* Begin PBXNativeTarget section */
 		8D5B49AC048680CD000E48DA /* DriftingGratingStimulusPlugin */ = {
 			isa = PBXNativeTarget;
@@ -214,6 +237,24 @@
 			productReference = 8D5B49B6048680CD000E48DA /* DriftingGratingStimulusPlugin.bundle */;
 			productType = "com.apple.product-type.bundle";
 		};
+		E1B11F0F1E69D09B009D877C /* DriftingGratingStimulus-iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E1B11F151E69D09B009D877C /* Build configuration list for PBXNativeTarget "DriftingGratingStimulus-iOS" */;
+			buildPhases = (
+				E1B11F0B1E69D09B009D877C /* Sources */,
+				E1B11F0C1E69D09B009D877C /* Frameworks */,
+				E1B11F0D1E69D09B009D877C /* Headers */,
+				E1B11F0E1E69D09B009D877C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "DriftingGratingStimulus-iOS";
+			productName = "DriftingGratingStimulus-iOS";
+			productReference = E1B11F101E69D09B009D877C /* DriftingGratingStimulus.plugin */;
+			productType = "com.apple.product-type.framework";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -221,6 +262,12 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0410;
+				TargetAttributes = {
+					E1B11F0F1E69D09B009D877C = {
+						CreatedOnToolsVersion = 8.2.1;
+						ProvisioningStyle = Automatic;
+					};
+				};
 			};
 			buildConfigurationList = 1DEB913E08733D840010E9CD /* Build configuration list for PBXProject "DriftingGratingStimulusPlugin" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -239,6 +286,7 @@
 				8D5B49AC048680CD000E48DA /* DriftingGratingStimulusPlugin */,
 				E12D989B16BC1FA1004FEF79 /* Install */,
 				E17B9D28119C9E7E00EEBF5D /* Everything */,
+				E1B11F0F1E69D09B009D877C /* DriftingGratingStimulus-iOS */,
 			);
 		};
 /* End PBXProject section */
@@ -254,6 +302,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		E1B11F0E1E69D09B009D877C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -263,6 +318,15 @@
 			files = (
 				0E37FBA30E59C3DD008B885D /* DriftingGratingStimulusPlugin.cpp in Sources */,
 				0E287D330E64A5CD005BE396 /* DriftingGratingStimulus.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E1B11F0B1E69D09B009D877C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E1B11F1B1E69DEAA009D877C /* DriftingGratingStimulusPlugin.cpp in Sources */,
+				E1B11F1A1E69DEA3009D877C /* DriftingGratingStimulus.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -326,6 +390,23 @@
 			};
 			name = Development;
 		};
+		E1B11F161E69D09B009D877C /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1B11F051E69CED1009D877C /* iOS_Plugin.xcconfig */;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = DriftingGratingStimulusPlugin_Prefix.pch;
+				INFOPLIST_FILE = "Info-iOS.plist";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					OpenGLES,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "org.mworks-project.DriftingGratingStimulus-iOS";
+				PRODUCT_NAME = DriftingGratingStimulus;
+			};
+			name = Development;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -357,6 +438,14 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E17B9D29119C9E7E00EEBF5D /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		E1B11F151E69D09B009D877C /* Build configuration list for PBXNativeTarget "DriftingGratingStimulus-iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E1B11F161E69D09B009D877C /* Development */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;

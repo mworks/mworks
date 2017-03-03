@@ -98,6 +98,20 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "E1B11F0F1E69D09B009D877C"
+               BuildableName = "DriftingGratingStimulus.plugin"
+               BlueprintName = "DriftingGratingStimulus-iOS"
+               ReferencedContainer = "container:../plugins/core/DriftingGratingStimulus/DriftingGratingStimulusPlugin.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "E16A211B1E57A49100C48E10"
                BuildableName = "MWServer.app"
                BlueprintName = "MWServer-iOS"
@@ -116,10 +130,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "E1F298A91E4501F6006842A7"
-            BuildableName = "libscarab.a"
-            BlueprintName = "Scarab-iOS"
-            ReferencedContainer = "container:../supporting_libs/scarab/Scarab.xcodeproj">
+            BlueprintIdentifier = "E16A211B1E57A49100C48E10"
+            BuildableName = "MWServer.app"
+            BlueprintName = "MWServer-iOS"
+            ReferencedContainer = "container:../apps/server/MWServer.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
