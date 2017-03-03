@@ -20,6 +20,15 @@
 }
 
 
+- (void)viewWillAppear:(BOOL)animated {
+    AppDelegate *appDelegate = (AppDelegate *)(UIApplication.sharedApplication.delegate);
+    self.listeningAddress.text = appDelegate.listeningAddress;
+    self.listeningPort.text = appDelegate.listeningPort.stringValue;
+    
+    [super viewWillAppear:animated];
+}
+
+
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
