@@ -172,44 +172,43 @@ gl::Shader DriftingGratingStimulus::getFragmentShader() const {
          }
          
          float maskValue;
+         float dist;
+         float delta;
          switch (maskType) {
              case rectangleMask:
                  maskValue = 1.0;
                  break;
                  
-             case ellipseMask: {
+             case ellipseMask:
                  //
                  // For an explanation of the edge-smoothing technique used here, see either of the following:
                  // https://rubendv.be/blog/opengl/drawing-antialiased-circles-in-opengl/
                  // http://www.numb3r23.net/2015/08/17/using-fwidth-for-distance-based-anti-aliasing/
                  //
-                 float dist = distance(maskVaryingCoords, maskCenter);
-                 float delta = fwidth(dist);
+                 dist = distance(maskVaryingCoords, maskCenter);
+                 delta = fwidth(dist);
                  if (dist > maskRadius) {
                      discard;
                  }
                  maskValue = 1.0 - smoothstep(maskRadius - delta, maskRadius, dist);
                  break;
-             }
                  
-             case gaussianMask: {
-                 float s = stdDev;
-                 float u = mean;
-                 float d = distance(maskVaryingCoords, maskCenter) / maskRadius;
-                 maskValue = (1/(s*sqrt(2*pi)))*exp(-1*(d-u)*(d-u)/(2*s*s));
+             case gaussianMask:
+                 dist = distance(maskVaryingCoords, maskCenter) / maskRadius;
+                 maskValue = ((1.0 / (stdDev * sqrt(2.0 * pi))) *
+                              exp(-1.0 * (dist - mean) * (dist - mean) / (2.0 * stdDev * stdDev)));
                  break;
-             }
          }
          
-         float normGratingCoord = mod(gratingVaryingCoord, 1);
+         float normGratingCoord = mod(gratingVaryingCoord, 1.0);
          float gratingValue;
          switch (gratingType) {
              case sinusoidGrating:
-                 gratingValue = 0.5*(1+cos(2*pi*normGratingCoord));
+                 gratingValue = 0.5*(1.0+cos(2.0*pi*normGratingCoord));
                  break;
                  
              case squareGrating:
-                 if (cos(2*pi*normGratingCoord) > 0) {
+                 if (cos(2.0*pi*normGratingCoord) > 0.0) {
                      gratingValue = 1.0;
                  } else {
                      gratingValue = 0.0;
