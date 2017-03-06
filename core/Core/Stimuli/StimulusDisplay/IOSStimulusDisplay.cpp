@@ -45,7 +45,13 @@
 
 - (void)updateDisplay:(CADisplayLink *)displayLink {
     if (auto stimulusDisplay = weakStimulusDisplay.lock()) {
-        callback(displayLink, *stimulusDisplay, contextIndex);
+        try {
+            callback(displayLink, *stimulusDisplay, contextIndex);
+        } catch (const std::exception &e) {
+            mw::merror(mw::M_DISPLAY_MESSAGE_DOMAIN, "Error in display link callback: %s", e.what());
+        } catch (...) {
+            mw::merror(mw::M_DISPLAY_MESSAGE_DOMAIN, "Unknown error in display link callback");
+        }
     }
 }
 
@@ -77,9 +83,12 @@ void IOSStimulusDisplay::prepareContext(int contextIndex) {
                                                                                        contextIndex:contextIndex
                                                                                            callback:&displayLinkCallback];
     CADisplayLink *displayLink = [screen displayLinkWithTarget:displayLinkTarget selector:@selector(updateDisplay:)];
-    
-    [displayLinks addObject:displayLink];
     [displayLinkTarget release];
+    
+    // FIXME: maximumFramesPerSecond will be available starting in iOS 10.3.  For now, just assume 60 Hz.
+    //displayLink.preferredFramesPerSecond = screen.maximumFramesPerSecond;
+    displayLink.preferredFramesPerSecond = 60;
+    [displayLinks addObject:displayLink];
     
     StimulusDisplay::prepareContext(contextIndex);
 }
@@ -95,24 +104,31 @@ void IOSStimulusDisplay::setMainDisplayRefreshRate() {
 
 
 void IOSStimulusDisplay::startDisplayUpdates() {
-    dispatch_sync(dispatch_get_main_queue(), ^{
-        for (CADisplayLink *displayLink in displayLinks) {
-            // TODO: The main run loop may be too busy to keep up with display refreshes,
-            // but we'll try it for now
-            [displayLink addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
-        }
-    });
+    for (CADisplayLink *displayLink in displayLinks) {
+        displayLinkThreads.emplace_back([this, displayLink]() {
+            @autoreleasepool {
+                NSRunLoop *runLoop = NSRunLoop.currentRunLoop;
+                [displayLink addToRunLoop:runLoop forMode:NSDefaultRunLoopMode];
+                
+                while (displayUpdatesStarted) {
+                    @autoreleasepool {
+                        [runLoop runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];  // Run for 100ms
+                    }
+                }
+                
+                [displayLink removeFromRunLoop:runLoop forMode:NSDefaultRunLoopMode];
+            }
+        });
+    }
 }
 
 
 void IOSStimulusDisplay::stopDisplayUpdates() {
+    for (auto &displayLinkThread : displayLinkThreads) {
+        displayLinkThread.join();
+    }
+    displayLinkThreads.clear();
     lastTargetTimestamp = 0.0;
-    
-    dispatch_sync(dispatch_get_main_queue(), ^{
-        for (CADisplayLink *displayLink in displayLinks) {
-            [displayLink removeFromRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
-        }
-    });
 }
 
 
@@ -130,7 +146,7 @@ void IOSStimulusDisplay::displayLinkCallback(CADisplayLink *displayLink, IOSStim
                 if (display.lastTargetTimestamp) {
                     auto delta = (displayLink.targetTimestamp - display.lastTargetTimestamp) - displayLink.duration;
                     auto numSkippedFrames = delta / displayLink.duration;
-                    if (delta > 0.1) {
+                    if (numSkippedFrames >= 0.5) {
                         mwarning(M_DISPLAY_MESSAGE_DOMAIN, "Skipped %g display refresh cycles", numSkippedFrames);
                     }
                 }

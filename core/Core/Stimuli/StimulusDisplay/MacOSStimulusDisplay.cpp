@@ -97,8 +97,6 @@ void MacOSStimulusDisplay::startDisplayUpdates() {
 
 
 void MacOSStimulusDisplay::stopDisplayUpdates() {
-    std::memset(&currentOutputTimeStamp, 0, sizeof(currentOutputTimeStamp));
-    
     // NOTE: As of OS X 10.11, stopping the display links from a non-main thread causes issues
     dispatch_sync(dispatch_get_main_queue(), ^{
         for (auto dl : displayLinks) {
@@ -109,6 +107,8 @@ void MacOSStimulusDisplay::stopDisplayUpdates() {
             }
         }
     });
+    
+    std::memset(&currentOutputTimeStamp, 0, sizeof(currentOutputTimeStamp));
 }
 
 

@@ -9,6 +9,8 @@
 #ifndef IOSStimulusDisplay_hpp
 #define IOSStimulusDisplay_hpp
 
+#include <thread>
+
 #import <QuartzCore/QuartzCore.h>
 
 #include "StimulusDisplay.h"
@@ -37,6 +39,7 @@ private:
     void stopDisplayUpdates() override;
     
     NSMutableArray<CADisplayLink *> *displayLinks;
+    std::vector<std::thread> displayLinkThreads;
     CFTimeInterval lastTargetTimestamp;
     
 };

@@ -318,9 +318,8 @@ void StimulusDisplay::stateSystemCallback(const Datum &data, MWorksTime time) {
     
     if ((RUNNING == newStateSystemMode) && !displayUpdatesStarted) {
         
+        displayUpdatesStarted = true;  // Need to set this *before* calling startDisplayUpdates
         startDisplayUpdates();
-        
-        displayUpdatesStarted = true;
         
         // Wait for a refresh to complete, so subclass methods that report the current
         // output time will return a valid value
@@ -336,8 +335,7 @@ void StimulusDisplay::stateSystemCallback(const Datum &data, MWorksTime time) {
             refreshCond.wait(lock);
         }
         
-        displayUpdatesStarted = false;
-        currentOutputTimeUS = -1;
+        displayUpdatesStarted = false;  // Need to clear this *before* calling stopDisplayUpdates
         
         // We need to release the lock before calling stopDisplayUpdates, because
         // a display update callback could be blocked waiting for the lock, and
@@ -345,6 +343,7 @@ void StimulusDisplay::stateSystemCallback(const Datum &data, MWorksTime time) {
         lock.unlock();
         
         stopDisplayUpdates();
+        currentOutputTimeUS = -1;
         
         mprintf(M_DISPLAY_MESSAGE_DOMAIN, "Display updates stopped");
         

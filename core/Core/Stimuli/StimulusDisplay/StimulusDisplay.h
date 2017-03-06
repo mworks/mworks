@@ -80,7 +80,7 @@ BEGIN_NAMESPACE_MW
         GLclampf backgroundRed, backgroundGreen, backgroundBlue;  // background color
         
         shared_ptr<VariableCallbackNotification> stateSystemNotification;
-        bool displayUpdatesStarted;
+        std::atomic_bool displayUpdatesStarted;
         double mainDisplayRefreshRate;
         MWTime currentOutputTimeUS;
         
