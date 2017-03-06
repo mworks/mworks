@@ -112,10 +112,10 @@ gl::Shader TextStimulus::getFragmentShader() const {
 void TextStimulus::prepare(const boost::shared_ptr<StimulusDisplay> &display) {
     ColoredTransformStimulus::prepare(display);
     
-    GLdouble xMin, xMax, yMin, yMax;
+    double xMin, xMax, yMin, yMax;
     display->getDisplayBounds(xMin, xMax, yMin, yMax);
     
-    __block NSSize displaySizeInPoints;
+    __block CGSize displaySizeInPoints;
     dispatch_sync(dispatch_get_main_queue(), ^{
         // If there's only a mirror window, getFullscreenView will return its view,
         // so there's no need to call getMirrorView
@@ -194,7 +194,11 @@ void TextStimulus::bindTexture() {
                                                                               8,
                                                                               bitmapWidth * 4,
                                                                               colorSpace.get(),
+#if MWORKS_OPENGL_ES
+                                                                              kCGImageAlphaPremultipliedLast | kCGBitmapByteOrder32Big));
+#else
                                                                               kCGImageAlphaPremultipliedFirst | kCGBitmapByteOrder32Host));
+#endif
     
     // Flip the context's coordinate system (so that the origin is in the bottom left corner, as in OpenGL) and
     // convert it from pixels to points
@@ -208,7 +212,11 @@ void TextStimulus::bindTexture() {
     CFAttributedStringSetAttribute(attrString.get(),
                                    fullRange,
                                    kCTForegroundColorAttributeName,
+#if TARGET_OS_IPHONE
+                                   UIColor.whiteColor.CGColor);
+#else
                                    CGColorGetConstantColor(kCGColorWhite));
+#endif
     auto font = cf::ObjectPtr<CTFontRef>::created(CTFontCreateWithName(createCFString(currentFontName).get(),
                                                                        currentFontSize,
                                                                        nullptr));
@@ -244,8 +252,10 @@ void TextStimulus::bindTexture() {
     }
     glBindTexture(GL_TEXTURE_2D, texture);
     
+#if !MWORKS_OPENGL_ES
     glPixelStorei(GL_UNPACK_SWAP_BYTES, GL_FALSE);
     glPixelStorei(GL_UNPACK_LSB_FIRST, GL_FALSE);
+#endif
     glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
     glPixelStorei(GL_UNPACK_IMAGE_HEIGHT, 0);
     glPixelStorei(GL_UNPACK_SKIP_ROWS, 0);
@@ -259,8 +269,13 @@ void TextStimulus::bindTexture() {
                  bitmapWidth,
                  bitmapHeight,
                  0,
+#if MWORKS_OPENGL_ES
+                 GL_RGBA,
+                 GL_UNSIGNED_BYTE,
+#else
                  GL_BGRA,
                  GL_UNSIGNED_INT_8_8_8_8_REV,
+#endif
                  CGBitmapContextGetData(context.get()));
     
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
