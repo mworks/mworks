@@ -39,6 +39,8 @@
 		BFBFB0D610446C180019216B /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFBFB0D510446C180019216B /* MWorksCore.framework */; };
 		E125BFEF18E326BC00F6C480 /* MovingDots in CopyFiles */ = {isa = PBXBuildFile; fileRef = E125BFED18E3269700F6C480 /* MovingDots */; };
 		E12A26FD1201E31400CE8C55 /* MovingDots.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8D5B49B6048680CD000E48DA /* MovingDots.bundle */; };
+		E15C729E1E6DD2EC001CE0C0 /* MovingDots.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CFE59190F571B15000C7F30 /* MovingDots.cpp */; };
+		E15C729F1E6DD2EF001CE0C0 /* MovingDotsPlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CF9AEB90FD5795C00F405F6 /* MovingDotsPlugin.cpp */; };
 		E15D0B4A16C2D15C00F331B1 /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E15D0B4916C2D15C00F331B1 /* libboost_system.a */; };
 		E162635B1403F774000F89CB /* MWLibrary.xml in Resources */ = {isa = PBXBuildFile; fileRef = E162635A1403F774000F89CB /* MWLibrary.xml */; };
 		E1E07E9D1C04F2B0008DD97E /* MWComponents.yaml in Resources */ = {isa = PBXBuildFile; fileRef = E1E07E9C1C04F2B0008DD97E /* MWComponents.yaml */; };
@@ -97,6 +99,8 @@
 		E15C728F1E6DCFF8001CE0C0 /* iOS_Plugin.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = iOS_Plugin.xcconfig; sourceTree = "<group>"; };
 		E15C72901E6DCFF8001CE0C0 /* macOS_Plugin.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS_Plugin.xcconfig; sourceTree = "<group>"; };
 		E15C72911E6DCFF8001CE0C0 /* macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
+		E15C72971E6DD121001CE0C0 /* MovingDots.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MovingDots.plugin; sourceTree = BUILT_PRODUCTS_DIR; };
+		E15C729A1E6DD121001CE0C0 /* MovingDots-iOS-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MovingDots-iOS-Info.plist"; sourceTree = "<group>"; };
 		E15D0B4916C2D15C00F331B1 /* libboost_system.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_system.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_system.a"; sourceTree = "<absolute>"; };
 		E162635A1403F774000F89CB /* MWLibrary.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MWLibrary.xml; sourceTree = "<group>"; };
 		E1E07E9C1C04F2B0008DD97E /* MWComponents.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MWComponents.yaml; sourceTree = "<group>"; };
@@ -111,6 +115,13 @@
 				BFBFB0D610446C180019216B /* MWorksCore.framework in Frameworks */,
 				E1FCD4CF11DAB1AE0037E6FA /* OpenGL.framework in Frameworks */,
 				E15D0B4A16C2D15C00F331B1 /* libboost_system.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E15C72931E6DD121001CE0C0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -146,6 +157,7 @@
 			isa = PBXGroup;
 			children = (
 				8D5B49B7048680CD000E48DA /* MovingDots-Info.plist */,
+				E15C729A1E6DD121001CE0C0 /* MovingDots-iOS-Info.plist */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -164,6 +176,7 @@
 			isa = PBXGroup;
 			children = (
 				8D5B49B6048680CD000E48DA /* MovingDots.bundle */,
+				E15C72971E6DD121001CE0C0 /* MovingDots.plugin */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -206,6 +219,16 @@
 		};
 /* End PBXGroup section */
 
+/* Begin PBXHeadersBuildPhase section */
+		E15C72941E6DD121001CE0C0 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
 /* Begin PBXNativeTarget section */
 		8D5B49AC048680CD000E48DA /* MovingDots */ = {
 			isa = PBXNativeTarget;
@@ -225,6 +248,24 @@
 			productReference = 8D5B49B6048680CD000E48DA /* MovingDots.bundle */;
 			productType = "com.apple.product-type.bundle";
 		};
+		E15C72961E6DD121001CE0C0 /* MovingDots-iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E15C729C1E6DD121001CE0C0 /* Build configuration list for PBXNativeTarget "MovingDots-iOS" */;
+			buildPhases = (
+				E15C72921E6DD121001CE0C0 /* Sources */,
+				E15C72931E6DD121001CE0C0 /* Frameworks */,
+				E15C72941E6DD121001CE0C0 /* Headers */,
+				E15C72951E6DD121001CE0C0 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "MovingDots-iOS";
+			productName = "MovingDots-iOS";
+			productReference = E15C72971E6DD121001CE0C0 /* MovingDots.plugin */;
+			productType = "com.apple.product-type.framework";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -232,6 +273,12 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0410;
+				TargetAttributes = {
+					E15C72961E6DD121001CE0C0 = {
+						CreatedOnToolsVersion = 8.2.1;
+						ProvisioningStyle = Automatic;
+					};
+				};
 			};
 			buildConfigurationList = 1DEB913E08733D840010E9CD /* Build configuration list for PBXProject "MovingDots" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -250,6 +297,7 @@
 				8D5B49AC048680CD000E48DA /* MovingDots */,
 				E12A26F81201E2FB00CE8C55 /* Install */,
 				5CFCAB1E11060985007CE55F /* Everything */,
+				E15C72961E6DD121001CE0C0 /* MovingDots-iOS */,
 			);
 		};
 /* End PBXProject section */
@@ -264,6 +312,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		E15C72951E6DD121001CE0C0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -273,6 +328,15 @@
 			files = (
 				5CFE591A0F571B15000C7F30 /* MovingDots.cpp in Sources */,
 				5CF9AEBC0FD5795C00F405F6 /* MovingDotsPlugin.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E15C72921E6DD121001CE0C0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E15C729F1E6DD2EF001CE0C0 /* MovingDotsPlugin.cpp in Sources */,
+				E15C729E1E6DD2EC001CE0C0 /* MovingDots.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -325,6 +389,23 @@
 			};
 			name = Development;
 		};
+		E15C729D1E6DD121001CE0C0 /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E15C728F1E6DCFF8001CE0C0 /* iOS_Plugin.xcconfig */;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = MovingDots_Prefix.pch;
+				INFOPLIST_FILE = "MovingDots-iOS-Info.plist";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					OpenGLES,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "org.mworks-project.MovingDots-iOS";
+				PRODUCT_NAME = MovingDots;
+			};
+			name = Development;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -356,6 +437,14 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E12A26F91201E2FB00CE8C55 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		E15C729C1E6DD121001CE0C0 /* Build configuration list for PBXNativeTarget "MovingDots-iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E15C729D1E6DD121001CE0C0 /* Development */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;

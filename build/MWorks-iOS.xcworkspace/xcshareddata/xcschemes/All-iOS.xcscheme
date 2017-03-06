@@ -112,6 +112,20 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "E15C72961E6DD121001CE0C0"
+               BuildableName = "MovingDots.plugin"
+               BlueprintName = "MovingDots-iOS"
+               ReferencedContainer = "container:../plugins/core/MovingDots/MovingDots.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "E16A211B1E57A49100C48E10"
                BuildableName = "MWServer.app"
                BlueprintName = "MWServer-iOS"

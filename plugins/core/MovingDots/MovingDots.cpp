@@ -89,11 +89,11 @@ void MovingDots::load(shared_ptr<StimulusDisplay> display) {
     
     auto ctxLock = display->setCurrent(0);
     
-    GLdouble xMin, xMax, yMin, yMax;
+    double xMin, xMax, yMin, yMax;
     display->getDisplayBounds(xMin, xMax, yMin, yMax);
     GLint width, height;
     display->getCurrentViewportSize(width, height);
-    dotSizeToPixels = GLdouble(width) / (xMax - xMin);
+    dotSizeToPixels = double(width) / (xMax - xMin);
     
     auto vertexShader = gl::createShader(GL_VERTEX_SHADER, vertexShaderSource);
     auto fragmentShader = gl::createShader(GL_FRAGMENT_SHADER, fragmentShaderSource);
@@ -358,7 +358,9 @@ void MovingDots::drawFrame(shared_ptr<StimulusDisplay> display) {
                                         1.0);
     glUniformMatrix4fv(mvpMatrixUniformLocation, 1, GL_FALSE, currentMVPMatrix.m);
     
+#if !MWORKS_OPENGL_ES
     gl::Enabled<GL_PROGRAM_POINT_SIZE> pointSizeEnabled;
+#endif
     glUniform1f(pointSizeUniformLocation, dotSize->getValue().getFloat() * dotSizeToPixels);
     
     auto currentColor = GLKVector4Make(red->getValue().getFloat(),
