@@ -22,6 +22,9 @@
       <FileRef
          location = "group:../plugins/core/MovingDots/MovingDots.xcodeproj">
       </FileRef>
+      <FileRef
+         location = "group:../plugins/core/WhiteNoiseBackground/WhiteNoiseBackground.xcodeproj">
+      </FileRef>
    </Group>
    <FileRef
       location = "group:../apps/server/MWServer.xcodeproj">

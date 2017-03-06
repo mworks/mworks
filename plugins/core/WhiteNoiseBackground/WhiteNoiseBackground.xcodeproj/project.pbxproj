@@ -88,8 +88,6 @@
 
 /* Begin PBXFileReference section */
 		32DBCF630370AF2F00C91783 /* WhiteNoiseBackground_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WhiteNoiseBackground_Prefix.pch; sourceTree = "<group>"; };
-		5C78EE6B115D02EE00151A76 /* Development.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Development.xcconfig; path = "/Library/Application Support/MWorks/Developer/Xcode/Development.xcconfig"; sourceTree = "<absolute>"; };
-		5C78EE6C115D02EE00151A76 /* WARNING.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = WARNING.txt; path = "/Library/Application Support/MWorks/Developer/Xcode/WARNING.txt"; sourceTree = "<absolute>"; };
 		5CF9AEB90FD5795C00F405F6 /* WhiteNoiseBackgroundPlugin.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WhiteNoiseBackgroundPlugin.cpp; sourceTree = SOURCE_ROOT; };
 		5CFCAB091105FB4C007CE55F /* MWLibrary.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MWLibrary.xml; sourceTree = "<group>"; };
 		5CFE59180F571B15000C7F30 /* WhiteNoiseBackground.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WhiteNoiseBackground.h; sourceTree = SOURCE_ROOT; };
@@ -97,6 +95,9 @@
 		8D5B49B6048680CD000E48DA /* WhiteNoiseBackground.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WhiteNoiseBackground.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D5B49B7048680CD000E48DA /* WhiteNoiseBackground-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "WhiteNoiseBackground-Info.plist"; sourceTree = "<group>"; };
 		BFBFB0D510446C180019216B /* MWorksCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MWorksCore.framework; path = /Library/Frameworks/MWorksCore.framework; sourceTree = "<absolute>"; };
+		E15C72B51E6DDFC3001CE0C0 /* iOS_Plugin.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = iOS_Plugin.xcconfig; sourceTree = "<group>"; };
+		E15C72B61E6DDFC3001CE0C0 /* macOS_Plugin.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS_Plugin.xcconfig; sourceTree = "<group>"; };
+		E15C72B71E6DDFC3001CE0C0 /* macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
 		E15D0B2316C2C20300F331B1 /* libboost_system.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_system.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_system.a"; sourceTree = "<absolute>"; };
 		E18D8C3118E1D962005B7DFC /* WhiteNoiseBackground */ = {isa = PBXFileReference; lastKnownFileType = folder; path = WhiteNoiseBackground; sourceTree = "<group>"; };
 		E1E07EA81C04F416008DD97E /* MWComponents.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MWComponents.yaml; sourceTree = "<group>"; };
@@ -183,10 +184,12 @@
 		5C78EE69115D02C700151A76 /* External Config */ = {
 			isa = PBXGroup;
 			children = (
-				5C78EE6B115D02EE00151A76 /* Development.xcconfig */,
-				5C78EE6C115D02EE00151A76 /* WARNING.txt */,
+				E15C72B71E6DDFC3001CE0C0 /* macOS.xcconfig */,
+				E15C72B61E6DDFC3001CE0C0 /* macOS_Plugin.xcconfig */,
+				E15C72B51E6DDFC3001CE0C0 /* iOS_Plugin.xcconfig */,
 			);
 			name = "External Config";
+			path = ../../../build/xcode;
 			sourceTree = "<group>";
 		};
 		5CFE591C0F571BEB000C7F30 /* Editor Definitions */ = {
@@ -297,24 +300,24 @@
 /* Begin XCBuildConfiguration section */
 		1DEB913B08733D840010E9CD /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E15C72B61E6DDFC3001CE0C0 /* macOS_Plugin.xcconfig */;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = WhiteNoiseBackground_Prefix.pch;
 				INFOPLIST_FILE = "WhiteNoiseBackground-Info.plist";
 				PRODUCT_NAME = WhiteNoiseBackground;
-				WRAPPER_EXTENSION = bundle;
 			};
 			name = Development;
 		};
 		1DEB913F08733D840010E9CD /* Development */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5C78EE6B115D02EE00151A76 /* Development.xcconfig */;
 			buildSettings = {
 			};
 			name = Development;
 		};
 		5CFCAB1F11060986007CE55F /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E15C72B71E6DDFC3001CE0C0 /* macOS.xcconfig */;
 			buildSettings = {
 				PRODUCT_NAME = Everything;
 			};
@@ -322,6 +325,7 @@
 		};
 		E12A26F91201E2FB00CE8C55 /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E15C72B71E6DDFC3001CE0C0 /* macOS.xcconfig */;
 			buildSettings = {
 				PRODUCT_NAME = Install;
 			};
