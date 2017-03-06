@@ -97,10 +97,11 @@
 		E118EEC215D04F3D0018BE9C /* ImageDirectoryMovieStimulus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageDirectoryMovieStimulus.h; sourceTree = "<group>"; };
 		E118EEC415D052FD0018BE9C /* FrameListStimulus.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FrameListStimulus.cpp; sourceTree = "<group>"; };
 		E118EEC515D052FD0018BE9C /* FrameListStimulus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FrameListStimulus.h; sourceTree = "<group>"; };
+		E15C72A01E6DD9DF001CE0C0 /* iOS_Plugin.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = iOS_Plugin.xcconfig; sourceTree = "<group>"; };
+		E15C72A11E6DD9DF001CE0C0 /* macOS_Plugin.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS_Plugin.xcconfig; sourceTree = "<group>"; };
+		E15C72A21E6DD9DF001CE0C0 /* macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
 		E15D0B1F16C2BFDA00F331B1 /* libboost_system.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_system.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_system.a"; sourceTree = "<absolute>"; };
 		E15DCDF717EB56B6006148B4 /* libboost_filesystem.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_filesystem.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_filesystem.a"; sourceTree = "<absolute>"; };
-		E1895A5C116FCCB400D8CBE0 /* Development.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Development.xcconfig; path = "/Library/Application Support/MWorks/Developer/Xcode/Development.xcconfig"; sourceTree = "<absolute>"; };
-		E1895A5D116FCCB400D8CBE0 /* WARNING.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = WARNING.txt; path = "/Library/Application Support/MWorks/Developer/Xcode/WARNING.txt"; sourceTree = "<absolute>"; };
 		E194490113254E7100D5ED81 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		E1E07E9A1C04F287008DD97E /* MWComponents.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MWComponents.yaml; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -191,10 +192,12 @@
 		E1895A5A116FCCB400D8CBE0 /* External Configs */ = {
 			isa = PBXGroup;
 			children = (
-				E1895A5C116FCCB400D8CBE0 /* Development.xcconfig */,
-				E1895A5D116FCCB400D8CBE0 /* WARNING.txt */,
+				E15C72A21E6DD9DF001CE0C0 /* macOS.xcconfig */,
+				E15C72A11E6DD9DF001CE0C0 /* macOS_Plugin.xcconfig */,
+				E15C72A01E6DD9DF001CE0C0 /* iOS_Plugin.xcconfig */,
 			);
 			name = "External Configs";
+			path = ../../../build/xcode;
 			sourceTree = "<group>";
 		};
 		E1944B3613254FD700D5ED81 /* Editor Definitions */ = {
@@ -312,6 +315,7 @@
 /* Begin XCBuildConfiguration section */
 		E17B9DBE119CA26F00EEBF5D /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E15C72A21E6DD9DF001CE0C0 /* macOS.xcconfig */;
 			buildSettings = {
 				PRODUCT_NAME = Everything;
 			};
@@ -319,24 +323,24 @@
 		};
 		E1895A66116FCD0100D8CBE0 /* Development */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E1895A5C116FCCB400D8CBE0 /* Development.xcconfig */;
 			buildSettings = {
 			};
 			name = Development;
 		};
 		E1895A67116FCD0100D8CBE0 /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E15C72A11E6DD9DF001CE0C0 /* macOS_Plugin.xcconfig */;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = MovieStimulusPlugin_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
 				PRODUCT_NAME = MovieStimulusPlugin;
-				WRAPPER_EXTENSION = bundle;
 			};
 			name = Development;
 		};
 		E1944B48132551A400D5ED81 /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E15C72A21E6DD9DF001CE0C0 /* macOS.xcconfig */;
 			buildSettings = {
 				PRODUCT_NAME = Install;
 			};

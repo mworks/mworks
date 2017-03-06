@@ -17,6 +17,9 @@
          location = "group:../plugins/core/DriftingGratingStimulus/DriftingGratingStimulusPlugin.xcodeproj">
       </FileRef>
       <FileRef
+         location = "group:../plugins/core/MoviePlugin/MovieStimulusPlugin.xcodeproj">
+      </FileRef>
+      <FileRef
          location = "group:../plugins/core/MovingDots/MovingDots.xcodeproj">
       </FileRef>
    </Group>
