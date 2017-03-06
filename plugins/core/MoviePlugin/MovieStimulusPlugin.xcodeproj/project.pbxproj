@@ -42,6 +42,12 @@
 		E118EEC015D04F270018BE9C /* BaseMovieStimulus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E118EEBE15D04F270018BE9C /* BaseMovieStimulus.cpp */; };
 		E118EEC315D04F3E0018BE9C /* ImageDirectoryMovieStimulus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E118EEC115D04F3D0018BE9C /* ImageDirectoryMovieStimulus.cpp */; };
 		E118EEC615D052FD0018BE9C /* FrameListStimulus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E118EEC415D052FD0018BE9C /* FrameListStimulus.cpp */; };
+		E15C72AF1E6DDCBD001CE0C0 /* BaseFrameListStimulus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E118EEBA15D04F070018BE9C /* BaseFrameListStimulus.cpp */; };
+		E15C72B01E6DDCC2001CE0C0 /* FrameListStimulus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E118EEC415D052FD0018BE9C /* FrameListStimulus.cpp */; };
+		E15C72B11E6DDCC5001CE0C0 /* BaseMovieStimulus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E118EEBE15D04F270018BE9C /* BaseMovieStimulus.cpp */; };
+		E15C72B21E6DDCC9001CE0C0 /* MovieStimulus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EDE10470E58BA690031005B /* MovieStimulus.cpp */; };
+		E15C72B31E6DDCCE001CE0C0 /* ImageDirectoryMovieStimulus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E118EEC115D04F3D0018BE9C /* ImageDirectoryMovieStimulus.cpp */; };
+		E15C72B41E6DDCD1001CE0C0 /* MovieStimulusPlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E37FBA10E59C3DD008B885D /* MovieStimulusPlugin.cpp */; };
 		E15D0B2016C2BFDA00F331B1 /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E15D0B1F16C2BFDA00F331B1 /* libboost_system.a */; };
 		E15DCDF817EB56B6006148B4 /* libboost_filesystem.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E15DCDF717EB56B6006148B4 /* libboost_filesystem.a */; };
 		E194490213254E7100D5ED81 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E194490113254E7100D5ED81 /* OpenGL.framework */; };
@@ -100,6 +106,8 @@
 		E15C72A01E6DD9DF001CE0C0 /* iOS_Plugin.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = iOS_Plugin.xcconfig; sourceTree = "<group>"; };
 		E15C72A11E6DD9DF001CE0C0 /* macOS_Plugin.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS_Plugin.xcconfig; sourceTree = "<group>"; };
 		E15C72A21E6DD9DF001CE0C0 /* macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
+		E15C72A81E6DDB0E001CE0C0 /* MovieStimulus.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MovieStimulus.plugin; sourceTree = BUILT_PRODUCTS_DIR; };
+		E15C72AB1E6DDB0E001CE0C0 /* Info-iOS.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-iOS.plist"; sourceTree = "<group>"; };
 		E15D0B1F16C2BFDA00F331B1 /* libboost_system.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_system.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_system.a"; sourceTree = "<absolute>"; };
 		E15DCDF717EB56B6006148B4 /* libboost_filesystem.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_filesystem.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_filesystem.a"; sourceTree = "<absolute>"; };
 		E194490113254E7100D5ED81 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
@@ -115,6 +123,13 @@
 				E194490213254E7100D5ED81 /* OpenGL.framework in Frameworks */,
 				E15DCDF817EB56B6006148B4 /* libboost_filesystem.a in Frameworks */,
 				E15D0B2016C2BFDA00F331B1 /* libboost_system.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E15C72A41E6DDB0E001CE0C0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -151,6 +166,7 @@
 			children = (
 				8D5B49B7048680CD000E48DA /* Info.plist */,
 				089C167DFE841241C02AAC07 /* InfoPlist.strings */,
+				E15C72AB1E6DDB0E001CE0C0 /* Info-iOS.plist */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -177,6 +193,7 @@
 			isa = PBXGroup;
 			children = (
 				8D5B49B6048680CD000E48DA /* MovieStimulusPlugin.bundle */,
+				E15C72A81E6DDB0E001CE0C0 /* MovieStimulus.plugin */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -211,6 +228,16 @@
 		};
 /* End PBXGroup section */
 
+/* Begin PBXHeadersBuildPhase section */
+		E15C72A51E6DDB0E001CE0C0 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
 /* Begin PBXNativeTarget section */
 		8D5B49AC048680CD000E48DA /* MovieStimulusPlugin */ = {
 			isa = PBXNativeTarget;
@@ -230,6 +257,24 @@
 			productReference = 8D5B49B6048680CD000E48DA /* MovieStimulusPlugin.bundle */;
 			productType = "com.apple.product-type.bundle";
 		};
+		E15C72A71E6DDB0E001CE0C0 /* MovieStimulus-iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E15C72AD1E6DDB0E001CE0C0 /* Build configuration list for PBXNativeTarget "MovieStimulus-iOS" */;
+			buildPhases = (
+				E15C72A31E6DDB0E001CE0C0 /* Sources */,
+				E15C72A41E6DDB0E001CE0C0 /* Frameworks */,
+				E15C72A51E6DDB0E001CE0C0 /* Headers */,
+				E15C72A61E6DDB0E001CE0C0 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "MovieStimulus-iOS";
+			productName = "MovieStimulus-iOS";
+			productReference = E15C72A81E6DDB0E001CE0C0 /* MovieStimulus.plugin */;
+			productType = "com.apple.product-type.framework";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -237,6 +282,12 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0410;
+				TargetAttributes = {
+					E15C72A71E6DDB0E001CE0C0 = {
+						CreatedOnToolsVersion = 8.2.1;
+						ProvisioningStyle = Automatic;
+					};
+				};
 			};
 			buildConfigurationList = 1DEB913E08733D840010E9CD /* Build configuration list for PBXProject "MovieStimulusPlugin" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -255,6 +306,7 @@
 				8D5B49AC048680CD000E48DA /* MovieStimulusPlugin */,
 				E1944B47132551A400D5ED81 /* Install */,
 				E17B9DBD119CA26F00EEBF5D /* Everything */,
+				E15C72A71E6DDB0E001CE0C0 /* MovieStimulus-iOS */,
 			);
 		};
 /* End PBXProject section */
@@ -267,6 +319,13 @@
 				8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */,
 				0E3A0B530EEDA37500F5C65A /* MWLibrary.xml in Resources */,
 				E1E07E9B1C04F287008DD97E /* MWComponents.yaml in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E15C72A61E6DDB0E001CE0C0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -283,6 +342,19 @@
 				E118EEC015D04F270018BE9C /* BaseMovieStimulus.cpp in Sources */,
 				E118EEC315D04F3E0018BE9C /* ImageDirectoryMovieStimulus.cpp in Sources */,
 				E118EEC615D052FD0018BE9C /* FrameListStimulus.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E15C72A31E6DDB0E001CE0C0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E15C72B31E6DDCCE001CE0C0 /* ImageDirectoryMovieStimulus.cpp in Sources */,
+				E15C72B21E6DDCC9001CE0C0 /* MovieStimulus.cpp in Sources */,
+				E15C72AF1E6DDCBD001CE0C0 /* BaseFrameListStimulus.cpp in Sources */,
+				E15C72B41E6DDCD1001CE0C0 /* MovieStimulusPlugin.cpp in Sources */,
+				E15C72B11E6DDCC5001CE0C0 /* BaseMovieStimulus.cpp in Sources */,
+				E15C72B01E6DDCC2001CE0C0 /* FrameListStimulus.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -313,6 +385,18 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		E15C72AE1E6DDB0E001CE0C0 /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E15C72A01E6DD9DF001CE0C0 /* iOS_Plugin.xcconfig */;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = MovieStimulusPlugin_Prefix.pch;
+				INFOPLIST_FILE = "Info-iOS.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.mworks-project.MovieStimulus-iOS";
+				PRODUCT_NAME = MovieStimulus;
+			};
+			name = Development;
+		};
 		E17B9DBE119CA26F00EEBF5D /* Development */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E15C72A21E6DD9DF001CE0C0 /* macOS.xcconfig */;
@@ -361,6 +445,14 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E1895A66116FCD0100D8CBE0 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		E15C72AD1E6DDB0E001CE0C0 /* Build configuration list for PBXNativeTarget "MovieStimulus-iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E15C72AE1E6DDB0E001CE0C0 /* Development */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
