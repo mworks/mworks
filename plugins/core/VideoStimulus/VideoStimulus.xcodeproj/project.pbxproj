@@ -94,14 +94,15 @@
 		E14D7C541D95B1C200748503 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
 		E1556E061D945BD600AE70F9 /* VideoStimulus.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VideoStimulus.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1556E091D945BD600AE70F9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		E1556E101D945CA900AE70F9 /* Development.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Development.xcconfig; sourceTree = "<group>"; };
-		E1556E111D945CA900AE70F9 /* WARNING.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = WARNING.txt; sourceTree = "<group>"; };
 		E1556E141D945DA700AE70F9 /* VideoStimulusPlugin.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VideoStimulusPlugin.cpp; sourceTree = "<group>"; };
 		E1556E171D945E6800AE70F9 /* VideoStimulus-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "VideoStimulus-Prefix.pch"; sourceTree = "<group>"; };
 		E1556E191D945F6000AE70F9 /* MWorksCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MWorksCore.framework; path = /Library/Frameworks/MWorksCore.framework; sourceTree = "<absolute>"; };
 		E1556E1B1D945F7900AE70F9 /* libboost_system.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_system.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_system.a"; sourceTree = "<absolute>"; };
 		E1556E2A1D9463B400AE70F9 /* VideoStimulus.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VideoStimulus.cpp; sourceTree = "<group>"; };
 		E1556E2B1D9463B400AE70F9 /* VideoStimulus.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = VideoStimulus.hpp; sourceTree = "<group>"; };
+		E15C72D81E6DFBF5001CE0C0 /* iOS_Plugin.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = iOS_Plugin.xcconfig; sourceTree = "<group>"; };
+		E15C72D91E6DFBF5001CE0C0 /* macOS_Plugin.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS_Plugin.xcconfig; sourceTree = "<group>"; };
+		E15C72DA1E6DFBF5001CE0C0 /* macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
 		E1738F391DAD5BDA00B72222 /* MWComponents.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MWComponents.yaml; sourceTree = "<group>"; };
 		E1738F3A1DAD5BDA00B72222 /* MWLibrary.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MWLibrary.xml; sourceTree = "<group>"; };
 		E1D3001C1DAE8EA80050E0F8 /* Video */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Video; sourceTree = "<group>"; };
@@ -161,12 +162,13 @@
 		E1556E0F1D945C8100AE70F9 /* External Config */ = {
 			isa = PBXGroup;
 			children = (
-				E1556E101D945CA900AE70F9 /* Development.xcconfig */,
-				E1556E111D945CA900AE70F9 /* WARNING.txt */,
+				E15C72DA1E6DFBF5001CE0C0 /* macOS.xcconfig */,
+				E15C72D91E6DFBF5001CE0C0 /* macOS_Plugin.xcconfig */,
+				E15C72D81E6DFBF5001CE0C0 /* iOS_Plugin.xcconfig */,
 			);
 			name = "External Config";
-			path = "/Library/Application Support/MWorks/Developer/Xcode";
-			sourceTree = "<absolute>";
+			path = ../../../build/xcode;
+			sourceTree = "<group>";
 		};
 		E1556E161D945DB800AE70F9 /* Supporting Files */ = {
 			isa = PBXGroup;
@@ -303,48 +305,26 @@
 /* Begin XCBuildConfiguration section */
 		E1556E0A1D945BD600AE70F9 /* Development */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E1556E101D945CA900AE70F9 /* Development.xcconfig */;
 			buildSettings = {
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_SUSPICIOUS_MOVES = YES;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				MTL_ENABLE_DEBUG_INFO = YES;
 			};
 			name = Development;
 		};
 		E1556E0D1D945BD600AE70F9 /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E15C72D91E6DFBF5001CE0C0 /* macOS_Plugin.xcconfig */;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "VideoStimulus/VideoStimulus-Prefix.pch";
 				INFOPLIST_FILE = VideoStimulus/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.mworks-project.VideoStimulus";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				WRAPPER_EXTENSION = bundle;
 			};
 			name = Development;
 		};
 		E1556E1F1D945FFE00AE70F9 /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E15C72DA1E6DFBF5001CE0C0 /* macOS.xcconfig */;
 			buildSettings = {
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -352,6 +332,7 @@
 		};
 		E1556E261D94604B00AE70F9 /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E15C72DA1E6DFBF5001CE0C0 /* macOS.xcconfig */;
 			buildSettings = {
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};

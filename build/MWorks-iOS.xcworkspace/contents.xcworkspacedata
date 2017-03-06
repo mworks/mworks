@@ -26,6 +26,9 @@
          location = "group:../plugins/core/TextStimulus/TextStimulus.xcodeproj">
       </FileRef>
       <FileRef
+         location = "group:../plugins/core/VideoStimulus/VideoStimulus.xcodeproj">
+      </FileRef>
+      <FileRef
          location = "group:../plugins/core/WhiteNoiseBackground/WhiteNoiseBackground.xcodeproj">
       </FileRef>
    </Group>
