@@ -119,8 +119,10 @@ void WhiteNoiseBackground::randomizePixels() {
 
 
 void WhiteNoiseBackground::updateTexture() {
+#if !MWORKS_OPENGL_ES
     glPixelStorei(GL_UNPACK_SWAP_BYTES, GL_FALSE);
     glPixelStorei(GL_UNPACK_LSB_FIRST, GL_FALSE);
+#endif
     glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
     glPixelStorei(GL_UNPACK_IMAGE_HEIGHT, 0);
     glPixelStorei(GL_UNPACK_SKIP_ROWS, 0);
@@ -136,8 +138,13 @@ void WhiteNoiseBackground::updateTexture() {
                  width,
                  height,
                  0,
+#if MWORKS_OPENGL_ES
+                 GL_RGBA,
+                 GL_UNSIGNED_BYTE,
+#else
                  GL_BGRA,
                  GL_UNSIGNED_INT_8_8_8_8_REV,
+#endif
                  pixels.data());
     
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
