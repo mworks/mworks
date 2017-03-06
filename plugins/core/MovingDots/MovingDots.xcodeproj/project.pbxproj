@@ -87,8 +87,6 @@
 
 /* Begin PBXFileReference section */
 		32DBCF630370AF2F00C91783 /* MovingDots_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MovingDots_Prefix.pch; sourceTree = "<group>"; };
-		5C78EE6B115D02EE00151A76 /* Development.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Development.xcconfig; path = "/Library/Application Support/MWorks/Developer/Xcode/Development.xcconfig"; sourceTree = "<absolute>"; };
-		5C78EE6C115D02EE00151A76 /* WARNING.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = WARNING.txt; path = "/Library/Application Support/MWorks/Developer/Xcode/WARNING.txt"; sourceTree = "<absolute>"; };
 		5CF9AEB90FD5795C00F405F6 /* MovingDotsPlugin.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MovingDotsPlugin.cpp; sourceTree = SOURCE_ROOT; };
 		5CFE59180F571B15000C7F30 /* MovingDots.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MovingDots.h; sourceTree = SOURCE_ROOT; };
 		5CFE59190F571B15000C7F30 /* MovingDots.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MovingDots.cpp; sourceTree = SOURCE_ROOT; };
@@ -96,6 +94,9 @@
 		8D5B49B7048680CD000E48DA /* MovingDots-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "MovingDots-Info.plist"; sourceTree = "<group>"; };
 		BFBFB0D510446C180019216B /* MWorksCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MWorksCore.framework; path = /Library/Frameworks/MWorksCore.framework; sourceTree = "<absolute>"; };
 		E125BFED18E3269700F6C480 /* MovingDots */ = {isa = PBXFileReference; lastKnownFileType = folder; path = MovingDots; sourceTree = "<group>"; };
+		E15C728F1E6DCFF8001CE0C0 /* iOS_Plugin.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = iOS_Plugin.xcconfig; sourceTree = "<group>"; };
+		E15C72901E6DCFF8001CE0C0 /* macOS_Plugin.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS_Plugin.xcconfig; sourceTree = "<group>"; };
+		E15C72911E6DCFF8001CE0C0 /* macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
 		E15D0B4916C2D15C00F331B1 /* libboost_system.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_system.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_system.a"; sourceTree = "<absolute>"; };
 		E162635A1403F774000F89CB /* MWLibrary.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MWLibrary.xml; sourceTree = "<group>"; };
 		E1E07E9C1C04F2B0008DD97E /* MWComponents.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MWComponents.yaml; sourceTree = "<group>"; };
@@ -178,10 +179,12 @@
 		5C78EE69115D02C700151A76 /* External Config */ = {
 			isa = PBXGroup;
 			children = (
-				5C78EE6B115D02EE00151A76 /* Development.xcconfig */,
-				5C78EE6C115D02EE00151A76 /* WARNING.txt */,
+				E15C72911E6DCFF8001CE0C0 /* macOS.xcconfig */,
+				E15C72901E6DCFF8001CE0C0 /* macOS_Plugin.xcconfig */,
+				E15C728F1E6DCFF8001CE0C0 /* iOS_Plugin.xcconfig */,
 			);
 			name = "External Config";
+			path = ../../../build/xcode;
 			sourceTree = "<group>";
 		};
 		E125BFEC18E3267600F6C480 /* Tests */ = {
@@ -291,24 +294,24 @@
 /* Begin XCBuildConfiguration section */
 		1DEB913B08733D840010E9CD /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E15C72901E6DCFF8001CE0C0 /* macOS_Plugin.xcconfig */;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = MovingDots_Prefix.pch;
 				INFOPLIST_FILE = "MovingDots-Info.plist";
 				PRODUCT_NAME = MovingDots;
-				WRAPPER_EXTENSION = bundle;
 			};
 			name = Development;
 		};
 		1DEB913F08733D840010E9CD /* Development */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5C78EE6B115D02EE00151A76 /* Development.xcconfig */;
 			buildSettings = {
 			};
 			name = Development;
 		};
 		5CFCAB1F11060986007CE55F /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E15C72911E6DCFF8001CE0C0 /* macOS.xcconfig */;
 			buildSettings = {
 				PRODUCT_NAME = Everything;
 			};
@@ -316,6 +319,7 @@
 		};
 		E12A26F91201E2FB00CE8C55 /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E15C72911E6DCFF8001CE0C0 /* macOS.xcconfig */;
 			buildSettings = {
 				PRODUCT_NAME = Install;
 			};
