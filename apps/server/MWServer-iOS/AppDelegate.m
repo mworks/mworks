@@ -85,6 +85,9 @@ static UIAlertController * createInitializationFailureAlert(NSString *message) {
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    // Prevent system sleep
+    application.idleTimerDisabled = YES;
+    
     try {
         
         mw::StandardServerCoreBuilder coreBuilder;
@@ -152,6 +155,9 @@ static UIAlertController * createInitializationFailureAlert(NSString *message) {
             NSLog(@"Unknown exception in stopServer");
         }
     }
+    
+    // Re-enable system sleep
+    application.idleTimerDisabled = NO;
 }
 
 
