@@ -17,7 +17,9 @@
 #include <MWorksCore/StandardStimuli.h>
 #include <MWorksCore/StandardStimulusFactory.h>
 
-#if TARGET_OS_OSX
+#if TARGET_OS_IPHONE
+#  include <MWorksCore/IOSStimulusDisplay.hpp>
+#else
 #  include <MWorksCore/MacOSStimulusDisplay.h>
 #endif
 

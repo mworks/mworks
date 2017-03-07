@@ -8,6 +8,10 @@
 
 #include "VideoStimulus.hpp"
 
+#if TARGET_OS_IPHONE
+#  include <OpenGLES/ES3/glext.h>
+#endif
+
 
 BEGIN_NAMESPACE_MW
 
@@ -56,8 +60,13 @@ VideoStimulus::VideoStimulus(const ParameterValueMap &parameters) :
         player.actionAtItemEnd = AVPlayerActionAtItemEndNone;
         
         NSDictionary *pixelBufferAttributes = @{
+#if TARGET_OS_IPHONE
+            (NSString *)kCVPixelBufferPixelFormatTypeKey: @(kCVPixelFormatType_32BGRA),
+            (NSString *)kCVPixelBufferOpenGLESCompatibilityKey: @(YES)
+#else
             (NSString *)kCVPixelBufferPixelFormatTypeKey: @(kCVPixelFormatType_32ARGB),
             (NSString *)kCVPixelBufferOpenGLCompatibilityKey: @(YES)
+#endif
         };
         videoOutput = [[AVPlayerItemVideoOutput alloc] initWithPixelBufferAttributes:pixelBufferAttributes];
         
@@ -136,8 +145,10 @@ gl::Shader VideoStimulus::getFragmentShader() const {
     (R"(
      uniform float alpha;
      uniform sampler2D videoTexture;
+     #ifndef GL_ES
      uniform sampler2DRect videoTextureRect;
      uniform bool useTextureRect;
+     #endif
      
      in vec2 varyingTexCoords;
      
@@ -145,11 +156,15 @@ gl::Shader VideoStimulus::getFragmentShader() const {
      
      void main() {
          vec4 videoColor;
+         #ifdef GL_ES
+         videoColor = texture(videoTexture, varyingTexCoords);
+         #else
          if (useTextureRect) {
              videoColor = texture(videoTextureRect, varyingTexCoords);
          } else {
              videoColor = texture(videoTexture, varyingTexCoords);
          }
+         #endif
          fragColor.rgb = videoColor.rgb;
          fragColor.a = alpha * videoColor.a;
      }
@@ -180,6 +195,14 @@ void VideoStimulus::prepare(const boost::shared_ptr<StimulusDisplay> &display) {
         }
     }
     
+#if TARGET_OS_IPHONE
+    CVOpenGLESTextureCacheRef newTextureCache = nullptr;
+    auto status = CVOpenGLESTextureCacheCreate(kCFAllocatorDefault,
+                                               nullptr,
+                                               EAGLContext.currentContext,
+                                               nullptr,
+                                               &newTextureCache);
+#else
     auto context = CGLGetCurrentContext();
     CVOpenGLTextureCacheRef newTextureCache = nullptr;
     auto status = CVOpenGLTextureCacheCreate(kCFAllocatorDefault,
@@ -188,16 +211,21 @@ void VideoStimulus::prepare(const boost::shared_ptr<StimulusDisplay> &display) {
                                              CGLGetPixelFormat(context),
                                              nullptr,
                                              &newTextureCache);
+#endif
     if (status != kCVReturnSuccess) {
         throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN,
                               (boost::format("Cannot create OpenGL texture cache (error = %d)") % status).str());
     }
-    textureCache = CVOpenGLTextureCachePtr::owned(newTextureCache);
+    textureCache = TextureCachePtr::owned(newTextureCache);
     
     alphaUniformLocation = glGetUniformLocation(program, "alpha");
+#if MWORKS_OPENGL_ES
+    glUniform1i(glGetUniformLocation(program, "videoTexture"), 0);
+#else
     videoTextureUniformLocation = glGetUniformLocation(program, "videoTexture");
     videoTextureRectUniformLocation = glGetUniformLocation(program, "videoTextureRect");
     useTextureRectUniformLocation = glGetUniformLocation(program, "useTextureRect");
+#endif
     
     glGenBuffers(1, &texCoordsBuffer);
     gl::BufferBinding<GL_ARRAY_BUFFER> arrayBufferBinding(texCoordsBuffer);
@@ -288,18 +316,19 @@ void VideoStimulus::drawFrame(boost::shared_ptr<StimulusDisplay> display) {
 
 
 bool VideoStimulus::checkForNewPixelBuffer(const boost::shared_ptr<StimulusDisplay> &_display) {
-#if TARGET_OS_OSX
+#if TARGET_OS_IPHONE
+    const auto &display = boost::dynamic_pointer_cast<IOSStimulusDisplay>(_display);
+    auto outputItemTime = [videoOutput itemTimeForHostTime:display->getCurrentTargetTimestamp()];
+#else
     const auto &display = boost::dynamic_pointer_cast<MacOSStimulusDisplay>(_display);
     auto outputItemTime = [videoOutput itemTimeForCVTimeStamp:display->getCurrentOutputTimeStamp()];
+#endif
     if (![videoOutput hasNewPixelBufferForItemTime:outputItemTime]) {
         return false;
     }
-#else
-#   error Unsupported platform
-#endif
     
-    auto newPixelBuffer = CVPixelBufferPtr::owned([videoOutput copyPixelBufferForItemTime:outputItemTime
-                                                                       itemTimeForDisplay:nullptr]);
+    auto newPixelBuffer = PixelBufferPtr::owned([videoOutput copyPixelBufferForItemTime:outputItemTime
+                                                                     itemTimeForDisplay:nullptr]);
     if (!newPixelBuffer) {
         return false;
     }
@@ -327,23 +356,56 @@ bool VideoStimulus::bindTexture() {
         return true;
     }
     
+#if TARGET_OS_IPHONE
+    CVOpenGLESTextureCacheFlush(textureCache.get(), 0);
+#else
     CVOpenGLTextureCacheFlush(textureCache.get(), 0);
+#endif
     
     {
+#if TARGET_OS_IPHONE
+        CVOpenGLESTextureRef newTexture = nullptr;
+        //
+        // On iOS, we need to use GL_BGRA_EXT as the texture format, which is defined by the
+        // APPLE_texture_format_BGRA8888 extension.  Confusingly, this requires the internal format
+        // to be GL_RGBA (or GL_RGBA8):
+        //
+        // https://www.khronos.org/registry/OpenGL/extensions/APPLE/APPLE_texture_format_BGRA8888.txt
+        //
+        //
+        auto status = CVOpenGLESTextureCacheCreateTextureFromImage(kCFAllocatorDefault,
+                                                                   textureCache.get(),
+                                                                   pixelBuffer.get(),
+                                                                   nullptr,
+                                                                   GL_TEXTURE_2D,
+                                                                   GL_RGBA8,
+                                                                   CVPixelBufferGetWidth(pixelBuffer.get()),
+                                                                   CVPixelBufferGetHeight(pixelBuffer.get()),
+                                                                   GL_BGRA_EXT,
+                                                                   GL_UNSIGNED_BYTE,
+                                                                   0,
+                                                                   &newTexture);
+#else
         CVOpenGLTextureRef newTexture = nullptr;
         auto status = CVOpenGLTextureCacheCreateTextureFromImage(kCFAllocatorDefault,
                                                                  textureCache.get(),
                                                                  pixelBuffer.get(),
                                                                  nullptr,
                                                                  &newTexture);
+#endif
         if (status != kCVReturnSuccess) {
             merror(M_DISPLAY_MESSAGE_DOMAIN, "Cannot create OpenGL texture (error = %d)", status);
             return false;
         }
         
-        texture = CVOpenGLTexturePtr::owned(newTexture);
+        texture = TexturePtr::owned(newTexture);
+#if TARGET_OS_IPHONE
+        textureTarget = CVOpenGLESTextureGetTarget(newTexture);
+        textureName = CVOpenGLESTextureGetName(newTexture);
+#else
         textureTarget = CVOpenGLTextureGetTarget(newTexture);
         textureName = CVOpenGLTextureGetName(newTexture);
+#endif
     }
     
     glBindTexture(textureTarget, textureName);
@@ -352,6 +414,7 @@ bool VideoStimulus::bindTexture() {
     glTexParameteri(textureTarget, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(textureTarget, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     
+#if !MWORKS_OPENGL_ES
     if (GL_TEXTURE_RECTANGLE == textureTarget) {
         glUniform1i(videoTextureUniformLocation, 1);
         glUniform1i(videoTextureRectUniformLocation, 0);
@@ -361,9 +424,14 @@ bool VideoStimulus::bindTexture() {
         glUniform1i(videoTextureRectUniformLocation, 1);
         glUniform1i(useTextureRectUniformLocation, false);
     }
+#endif
     
     VertexPositionArray texCoords;
+#if TARGET_OS_IPHONE
+    CVOpenGLESTextureGetCleanTexCoords(texture.get(),
+#else
     CVOpenGLTextureGetCleanTexCoords(texture.get(),
+#endif
                                      &(texCoords.at(0 * componentsPerVertex)),
                                      &(texCoords.at(1 * componentsPerVertex)),
                                      &(texCoords.at(3 * componentsPerVertex)),

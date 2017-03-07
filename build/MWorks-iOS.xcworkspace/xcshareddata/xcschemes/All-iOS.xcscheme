@@ -154,6 +154,20 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "E15C72EC1E6DFE42001CE0C0"
+               BuildableName = "VideoStimulus.plugin"
+               BlueprintName = "VideoStimulus-iOS"
+               ReferencedContainer = "container:../plugins/core/VideoStimulus/VideoStimulus.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "E15C72BC1E6DE0CB001CE0C0"
                BuildableName = "WhiteNoiseBackground.plugin"
                BlueprintName = "WhiteNoiseBackground-iOS"

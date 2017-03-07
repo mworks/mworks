@@ -67,22 +67,32 @@ private:
     bool videoEnded;
     bool didDrawAfterEnding;
     
-    using CVOpenGLTextureCachePtr = cf::ObjectPtr<CVOpenGLTextureCacheRef>;
-    CVOpenGLTextureCachePtr textureCache;
+#if TARGET_OS_IPHONE
+    using TextureCachePtr = cf::ObjectPtr<CVOpenGLESTextureCacheRef>;
+#else
+    using TextureCachePtr = cf::ObjectPtr<CVOpenGLTextureCacheRef>;
+#endif
+    TextureCachePtr textureCache;
     
-    using CVPixelBufferPtr = cf::ObjectPtr<CVPixelBufferRef>;
-    CVPixelBufferPtr pixelBuffer;
+    using PixelBufferPtr = cf::ObjectPtr<CVPixelBufferRef>;
+    PixelBufferPtr pixelBuffer;
     double aspectRatio;
     
-    using CVOpenGLTexturePtr = cf::ObjectPtr<CVOpenGLTextureRef>;
-    CVOpenGLTexturePtr texture;
+#if TARGET_OS_IPHONE
+    using TexturePtr = cf::ObjectPtr<CVOpenGLESTextureRef>;
+#else
+    using TexturePtr = cf::ObjectPtr<CVOpenGLTextureRef>;
+#endif
+    TexturePtr texture;
     GLenum textureTarget;
     GLuint textureName;
     
     GLint alphaUniformLocation = -1;
+#if !MWORKS_OPENGL_ES
     GLint videoTextureUniformLocation = -1;
     GLint videoTextureRectUniformLocation = -1;
     GLint useTextureRectUniformLocation = -1;
+#endif
     GLuint texCoordsBuffer = 0;
     
 };

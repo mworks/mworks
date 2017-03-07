@@ -41,6 +41,8 @@
 		E1556E1C1D945F7900AE70F9 /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1556E1B1D945F7900AE70F9 /* libboost_system.a */; };
 		E1556E231D94601E00AE70F9 /* VideoStimulus.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = E1556E061D945BD600AE70F9 /* VideoStimulus.bundle */; };
 		E1556E2C1D9463B400AE70F9 /* VideoStimulus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1556E2A1D9463B400AE70F9 /* VideoStimulus.cpp */; };
+		E15C72F41E6DFF99001CE0C0 /* VideoStimulus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1556E2A1D9463B400AE70F9 /* VideoStimulus.cpp */; };
+		E15C72F51E6DFF9D001CE0C0 /* VideoStimulusPlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1556E141D945DA700AE70F9 /* VideoStimulusPlugin.cpp */; };
 		E1738F3B1DAD5BDA00B72222 /* MWComponents.yaml in Resources */ = {isa = PBXBuildFile; fileRef = E1738F391DAD5BDA00B72222 /* MWComponents.yaml */; };
 		E1738F3C1DAD5BDA00B72222 /* MWLibrary.xml in Resources */ = {isa = PBXBuildFile; fileRef = E1738F3A1DAD5BDA00B72222 /* MWLibrary.xml */; };
 		E1D3001E1DAE8EEB0050E0F8 /* Video in CopyFiles */ = {isa = PBXBuildFile; fileRef = E1D3001C1DAE8EA80050E0F8 /* Video */; };
@@ -103,6 +105,8 @@
 		E15C72D81E6DFBF5001CE0C0 /* iOS_Plugin.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = iOS_Plugin.xcconfig; sourceTree = "<group>"; };
 		E15C72D91E6DFBF5001CE0C0 /* macOS_Plugin.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS_Plugin.xcconfig; sourceTree = "<group>"; };
 		E15C72DA1E6DFBF5001CE0C0 /* macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
+		E15C72ED1E6DFE42001CE0C0 /* VideoStimulus.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = VideoStimulus.plugin; sourceTree = BUILT_PRODUCTS_DIR; };
+		E15C72F01E6DFE43001CE0C0 /* Info-iOS.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-iOS.plist"; sourceTree = "<group>"; };
 		E1738F391DAD5BDA00B72222 /* MWComponents.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MWComponents.yaml; sourceTree = "<group>"; };
 		E1738F3A1DAD5BDA00B72222 /* MWLibrary.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MWLibrary.xml; sourceTree = "<group>"; };
 		E1D3001C1DAE8EA80050E0F8 /* Video */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Video; sourceTree = "<group>"; };
@@ -126,6 +130,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		E15C72E91E6DFE42001CE0C0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -143,6 +154,7 @@
 			isa = PBXGroup;
 			children = (
 				E1556E061D945BD600AE70F9 /* VideoStimulus.bundle */,
+				E15C72ED1E6DFE42001CE0C0 /* VideoStimulus.plugin */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -174,6 +186,7 @@
 			isa = PBXGroup;
 			children = (
 				E1556E091D945BD600AE70F9 /* Info.plist */,
+				E15C72F01E6DFE43001CE0C0 /* Info-iOS.plist */,
 				E1556E171D945E6800AE70F9 /* VideoStimulus-Prefix.pch */,
 				E1738F391DAD5BDA00B72222 /* MWComponents.yaml */,
 				E1738F3A1DAD5BDA00B72222 /* MWLibrary.xml */,
@@ -205,6 +218,16 @@
 		};
 /* End PBXGroup section */
 
+/* Begin PBXHeadersBuildPhase section */
+		E15C72EA1E6DFE42001CE0C0 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
 /* Begin PBXNativeTarget section */
 		E1556E051D945BD600AE70F9 /* VideoStimulus */ = {
 			isa = PBXNativeTarget;
@@ -222,6 +245,24 @@
 			productName = VideoStimulus;
 			productReference = E1556E061D945BD600AE70F9 /* VideoStimulus.bundle */;
 			productType = "com.apple.product-type.bundle";
+		};
+		E15C72EC1E6DFE42001CE0C0 /* VideoStimulus-iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E15C72F31E6DFE43001CE0C0 /* Build configuration list for PBXNativeTarget "VideoStimulus-iOS" */;
+			buildPhases = (
+				E15C72E81E6DFE42001CE0C0 /* Sources */,
+				E15C72E91E6DFE42001CE0C0 /* Frameworks */,
+				E15C72EA1E6DFE42001CE0C0 /* Headers */,
+				E15C72EB1E6DFE42001CE0C0 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "VideoStimulus-iOS";
+			productName = "VideoStimulus-iOS";
+			productReference = E15C72ED1E6DFE42001CE0C0 /* VideoStimulus.plugin */;
+			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
 
@@ -244,6 +285,10 @@
 						CreatedOnToolsVersion = 8.0;
 						ProvisioningStyle = Automatic;
 					};
+					E15C72EC1E6DFE42001CE0C0 = {
+						CreatedOnToolsVersion = 8.2.1;
+						ProvisioningStyle = Automatic;
+					};
 				};
 			};
 			buildConfigurationList = E1556E011D945BD600AE70F9 /* Build configuration list for PBXProject "VideoStimulus" */;
@@ -261,6 +306,7 @@
 				E1556E051D945BD600AE70F9 /* VideoStimulus */,
 				E1556E1D1D945FFE00AE70F9 /* Install */,
 				E1556E241D94604B00AE70F9 /* Everything */,
+				E15C72EC1E6DFE42001CE0C0 /* VideoStimulus-iOS */,
 			);
 		};
 /* End PBXProject section */
@@ -275,6 +321,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		E15C72EB1E6DFE42001CE0C0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -284,6 +337,15 @@
 			files = (
 				E1556E151D945DA700AE70F9 /* VideoStimulusPlugin.cpp in Sources */,
 				E1556E2C1D9463B400AE70F9 /* VideoStimulus.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E15C72E81E6DFE42001CE0C0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E15C72F51E6DFF9D001CE0C0 /* VideoStimulusPlugin.cpp in Sources */,
+				E15C72F41E6DFF99001CE0C0 /* VideoStimulus.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -338,6 +400,31 @@
 			};
 			name = Development;
 		};
+		E15C72F21E6DFE43001CE0C0 /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E15C72D81E6DFBF5001CE0C0 /* iOS_Plugin.xcconfig */;
+			buildSettings = {
+				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "VideoStimulus/VideoStimulus-Prefix.pch";
+				INFOPLIST_FILE = "VideoStimulus/Info-iOS.plist";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					AVFoundation,
+					"-framework",
+					CoreMedia,
+					"-framework",
+					CoreVideo,
+					"-framework",
+					OpenGLES,
+					"-lboost_filesystem",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "org.mworks-project.VideoStimulus-iOS";
+				PRODUCT_NAME = VideoStimulus;
+			};
+			name = Development;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -369,6 +456,14 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E1556E261D94604B00AE70F9 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		E15C72F31E6DFE43001CE0C0 /* Build configuration list for PBXNativeTarget "VideoStimulus-iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E15C72F21E6DFE43001CE0C0 /* Development */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
