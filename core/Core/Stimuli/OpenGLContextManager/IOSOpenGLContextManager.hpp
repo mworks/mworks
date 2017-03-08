@@ -35,10 +35,6 @@ public:
     void bindDefaultFramebuffer(int context_id) override;
     void flush(int context_id) override;
     
-private:
-    using unique_lock = OpenGLContextLock::unique_lock;
-    std::unordered_map<EAGLContext *, unique_lock::mutex_type> mutexes;
-    
 };
 
 

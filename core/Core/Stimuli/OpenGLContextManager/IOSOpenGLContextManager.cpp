@@ -24,6 +24,7 @@
 @property(nonatomic, readonly) EAGLContext *context;
 
 - (instancetype)initWithFrame:(CGRect)frame context:(EAGLContext *)context;
+- (mw::OpenGLContextLock)lockContext;
 - (BOOL)prepareGL;
 - (void)bindDrawable;
 - (void)display;
@@ -32,6 +33,7 @@
 
 
 @implementation MWKEAGLView {
+    mw::OpenGLContextLock::unique_lock::mutex_type mutex;
     GLuint framebuffer;
     GLuint renderbuffer;
 }
@@ -51,6 +53,11 @@
     }
     
     return self;
+}
+
+
+- (mw::OpenGLContextLock)lockContext {
+    return mw::OpenGLContextLock(mw::OpenGLContextLock::unique_lock(mutex));
 }
 
 
@@ -190,8 +197,6 @@ int IOSOpenGLContextManager::newMirrorContext() {
 
 
 void IOSOpenGLContextManager::releaseContexts() {
-    mutexes.clear();
-    
     dispatch_sync(dispatch_get_main_queue(), ^{
         for (UIWindow *window in windows) {
             window.hidden = YES;
@@ -213,8 +218,9 @@ int IOSOpenGLContextManager::getNumDisplays() const {
 OpenGLContextLock IOSOpenGLContextManager::setCurrent(int context_id) {
     if (auto view = static_cast<MWKEAGLView *>(getView(context_id))) {
         if ([EAGLContext setCurrentContext:view.context]) {
+            auto lock = [view lockContext];
             [view bindDrawable];
-            return OpenGLContextLock(unique_lock(mutexes[view.context]));
+            return lock;
         }
         merror(M_DISPLAY_MESSAGE_DOMAIN, "Cannot set current OpenGL ES context");
     }
