@@ -13,8 +13,8 @@ BEGIN_NAMESPACE_MW
 
 
 HighPrecisionClock::HighPrecisionClock() :
-    period(nanosToAbsolute(periodUS * nanosPerMicro)),
-    computation(nanosToAbsolute(computationUS * nanosPerMicro)),
+    period(timebase.nanosToAbsolute(periodUS * nanosPerMicro)),
+    computation(timebase.nanosToAbsolute(computationUS * nanosPerMicro)),
     threadSpecificSemaphore(&destroySemaphore)
 { }
 
@@ -49,7 +49,7 @@ void HighPrecisionClock::stopClock() {
 
 
 void HighPrecisionClock::sleepNS(MWTime time) {
-    wait(mach_absolute_time() + nanosToAbsolute(std::max(MWTime(0), time)));
+    wait(mach_absolute_time() + timebase.nanosToAbsolute(std::max(MWTime(0), time)));
 }
 
 

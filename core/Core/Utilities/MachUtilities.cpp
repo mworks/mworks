@@ -35,7 +35,7 @@ public:
     
     ~MachThreadSelf() {
         if (KERN_SUCCESS != mach_port_deallocate(mach_task_self(), port)) {
-            mwarning(M_SCHEDULER_MESSAGE_DOMAIN,
+            mwarning(M_SYSTEM_MESSAGE_DOMAIN,
                      "Unable to release Mach thread self port; application is leaking system resources");
         }
     }
@@ -65,7 +65,7 @@ int set_realtime(int period, int computation, int constraint) {
                                           THREAD_TIME_CONSTRAINT_POLICY_COUNT);
     
     if (KERN_SUCCESS != ret)  {
-        merror(M_SCHEDULER_MESSAGE_DOMAIN,
+        merror(M_SYSTEM_MESSAGE_DOMAIN,
                "Set realtime failed (error code: %d, period = %d, computation = %d, constraint = %d)",
                ret, period, computation, constraint);
         return 0;
@@ -109,6 +109,24 @@ int set_realtime(int priority) {
         return 0;
     
     return 1;
+}
+
+
+bool logMachError(const char *functionName, mach_error_t error) {
+    const bool failed = (error != ERR_SUCCESS);
+    if (failed) {
+        merror(M_SYSTEM_MESSAGE_DOMAIN, "%s failed: %s (%d)", functionName, mach_error_string(error), error);
+    }
+    return failed;
+}
+
+
+mach_timebase_info_data_t MachTimebase::getTimebaseInfo() {
+    mach_timebase_info_data_t timebaseInfo;
+    if (logMachError("mach_timebase_info", mach_timebase_info(&timebaseInfo))) {
+        throw SimpleException(M_SYSTEM_MESSAGE_DOMAIN, "Unable to create MachTimebase");
+    }
+    return timebaseInfo;
 }
 
 
