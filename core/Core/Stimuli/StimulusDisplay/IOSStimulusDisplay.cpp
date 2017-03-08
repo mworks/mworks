@@ -83,12 +83,12 @@ void IOSStimulusDisplay::prepareContext(int contextIndex) {
                                                                                        contextIndex:contextIndex
                                                                                            callback:&displayLinkCallback];
     CADisplayLink *displayLink = [screen displayLinkWithTarget:displayLinkTarget selector:@selector(updateDisplay:)];
+    [displayLinks addObject:displayLink];
     [displayLinkTarget release];
     
-    // FIXME: maximumFramesPerSecond will be available starting in iOS 10.3.  For now, just assume 60 Hz.
-    //displayLink.preferredFramesPerSecond = screen.maximumFramesPerSecond;
-    displayLink.preferredFramesPerSecond = 60;
-    [displayLinks addObject:displayLink];
+    // By default, the display link will invoke the provided selector at the native refresh rate
+    // of the display, so there's no need to set its preferredFramesPerSecond property
+    NSCAssert(displayLink.preferredFramesPerSecond == 0, @"Unexpected preferredFramesPerSecond on CADisplayLink");
     
     StimulusDisplay::prepareContext(contextIndex);
 }
