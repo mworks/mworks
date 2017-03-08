@@ -145,8 +145,8 @@ void IOSStimulusDisplay::displayLinkCallback(CADisplayLink *displayLink, IOSStim
             if (bool(warnOnSkippedRefresh->getValue())) {
                 if (display.lastTargetTimestamp) {
                     auto delta = (displayLink.targetTimestamp - display.lastTargetTimestamp) - displayLink.duration;
-                    auto numSkippedFrames = delta / displayLink.duration;
-                    if (numSkippedFrames >= 0.5) {
+                    auto numSkippedFrames = std::round(delta / displayLink.duration);
+                    if (numSkippedFrames) {
                         mwarning(M_DISPLAY_MESSAGE_DOMAIN, "Skipped %g display refresh cycles", numSkippedFrames);
                     }
                 }
