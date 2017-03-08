@@ -158,6 +158,7 @@ int IOSOpenGLContextManager::newFullscreenContext(int screen_number) {
                 
                 if (MWKEAGLView *view = [[MWKEAGLView alloc] initWithFrame:window.bounds context:context]) {
                     viewController.view = view;
+                    view.contentScaleFactor = screen.scale;  // Render at full resolution of display
                     [EAGLContext setCurrentContext:context];
                     
                     if ([view prepareGL]) {
