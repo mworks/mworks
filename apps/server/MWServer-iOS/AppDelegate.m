@@ -85,6 +85,9 @@ static UIAlertController * createInitializationFailureAlert(NSString *message) {
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    // Ensure that Foundation is set up for multiple threads
+    NSAssert(NSThread.isMultiThreaded, @"Foundation multithreading is not enabled");
+    
     // Prevent system sleep
     application.idleTimerDisabled = YES;
     

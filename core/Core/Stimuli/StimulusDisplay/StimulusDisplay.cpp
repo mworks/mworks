@@ -299,7 +299,7 @@ void StimulusDisplay::drawStoredFramebuffer(int contextIndex) const {
     gl::VertexArrayBinding vertexArrayBinding(vertexArrays.at(contextIndex));
     gl::TextureBinding<GL_TEXTURE_2D> textureBinding(framebufferTexture);
     
-    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+    glDrawArrays(GL_TRIANGLE_STRIP, 0, numVertices);
 }
 
 
