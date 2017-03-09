@@ -162,6 +162,31 @@ void IOSStimulusDisplay::displayLinkCallback(CADisplayLink *displayLink, IOSStim
             display.currentOutputTimeUS = (MWTime(displayLink.targetTimestamp * 1e9) -
                                            display.clock->getSystemBaseTimeNS()) / 1000LL;
             
+#if 0
+            //
+            // Check validity of predicted output time
+            //
+            {
+                const auto currentTimeUS = display.clock->getCurrentTimeUS();
+                const auto predictedOutputTimeUS = display.currentOutputTimeUS;
+                if (predictedOutputTimeUS < currentTimeUS) {
+                    merror(M_DISPLAY_MESSAGE_DOMAIN,
+                           "Predicted display output time is %g ms in the past",
+                           (currentTimeUS - predictedOutputTimeUS) / 1000.0);
+                } else {
+                    const auto deltaMS = (predictedOutputTimeUS - currentTimeUS) / 1000.0;
+                    const auto periodMS = displayLink.duration * 1000.0;
+                    if (deltaMS > periodMS) {
+                        mwarning(M_DISPLAY_MESSAGE_DOMAIN,
+                                 "Time until predicted display output time (%g ms) "
+                                 "is greater than display refresh period (%g ms)",
+                                 deltaMS,
+                                 periodMS);
+                    }
+                }
+            }
+#endif
+            
             display.refreshMainDisplay();
             display.waitingForRefresh = false;
         }
