@@ -9,6 +9,10 @@
 
 #include "WhiteNoiseBackground.h"
 
+#if TARGET_OS_OSX
+#  include <OpenGL/gl3ext.h>
+#endif
+
 
 BEGIN_NAMESPACE_MW
 
