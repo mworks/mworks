@@ -31,10 +31,10 @@
                     <action_marker _unmoveable="1" tag="Actions"></action_marker>
                     <action tag="Stop dynamic stimulus" stimulus="movie" type="stop_dynamic_stimulus"></action>
                     <action tag="Dequeue Stimulus" type="dequeue_stimulus" stimulus="movie"></action>
+                    <action tag="Update Stimulus 2" type="update_stimulus_display"></action>
                     <action type="report" tag="Report 5" message="About to unload movie"></action>
                     <action tag="Unload Stimulus" type="unload_stimulus" stimulus="movie"></action>
                     <action type="report" tag="Report 6" message="Movie is unloaded"></action>
-                    <action tag="Update Stimulus 2" type="update_stimulus_display"></action>
                     <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
                     <transition tag="Return to parent task system" type="yield"></transition>
                 </task_system_state>

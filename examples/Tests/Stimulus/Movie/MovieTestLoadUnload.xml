@@ -33,8 +33,8 @@
                     <action_marker _unmoveable="1" tag="Actions"></action_marker>
                     <action tag="Dequeue movie" type="dequeue_stimulus" stimulus="movie"></action>
                     <action tag="Stop movie" stimulus="movie" type="stop_dynamic_stimulus"></action>
-                    <action tag="Unload movie" type="unload_stimulus" stimulus="movie"></action>
                     <action tag="Update display 2" type="update_stimulus_display"></action>
+                    <action tag="Unload movie" type="unload_stimulus" stimulus="movie"></action>
                     <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
                     <transition tag="Return to parent task system" type="yield"></transition>
                 </task_system_state>
