@@ -1,5 +1,8 @@
 <?xml version="1.0"?>
 <marionette_info>
+  <requirements>
+    <feature name="macos"/>
+  </requirements>
   <expected_messages>
     <message type="contains"><![CDATA[Python compilation failed:   File "<string>", line 1
     x = 1 + / 2

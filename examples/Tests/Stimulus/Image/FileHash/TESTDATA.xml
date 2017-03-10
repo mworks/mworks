@@ -3,7 +3,4 @@
   <requirements>
     <feature name="macos"/>
   </requirements>
-  <expected_messages>
-    <message type="starts_with">1 + 2 = 3 </message>
-  </expected_messages>
 </marionette_info>

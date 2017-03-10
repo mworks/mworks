@@ -1,5 +1,8 @@
 <?xml version="1.0"?>
 <marionette_info>
+  <requirements>
+    <feature name="macos"/>
+  </requirements>
   <expected_messages>
     <message type="whole_message">ERROR: Experiment packaging failed: Unable to launch preprocessor: launch path not accessible</message>
     <message type="whole_message">ERROR: Failed to create a valid packaged experiment.</message>

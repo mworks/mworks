@@ -1,5 +1,8 @@
 <?xml version="1.0"?>
 <marionette_info>
+  <requirements>
+    <feature name="macos"/>
+  </requirements>
   <expected_messages>
     <message type="contains">TypeError: getvar() takes exactly 1 argument (0 given)</message>
     <message type="contains">TypeError: getvar() takes exactly 1 argument (2 given)</message>

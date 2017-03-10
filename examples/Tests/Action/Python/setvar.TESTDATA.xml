@@ -1,5 +1,8 @@
 <?xml version="1.0"?>
 <marionette_info>
+  <requirements>
+    <feature name="macos"/>
+  </requirements>
   <expected_messages>
     <message type="contains">TypeError: setvar() takes exactly 2 arguments (1 given)</message>
     <message type="contains">TypeError: setvar() takes exactly 2 arguments (3 given)</message>
