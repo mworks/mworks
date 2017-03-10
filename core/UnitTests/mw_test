@@ -12,6 +12,8 @@ import xml.etree.ElementTree as etree
 
 
 available_features = set()
+server_address = None
+skip_unit_tests = False
 
 tests_dir = '/Library/Application Support/MWorks/Developer/tests'
 test_file_dir = os.path.join(tests_dir, 'XML')
@@ -119,8 +121,9 @@ def run_marionette_tests(arch_name, test_names=None):
     all_test_names = list(test_file_iter())
     random.shuffle(all_test_names)
 
-    # Ensure that server starts fresh
-    run_applescript(quit_server_applescript)
+    if not server_address:
+        # Ensure that server starts fresh
+        run_applescript(quit_server_applescript)
 
     failed_tests = []
 
@@ -170,9 +173,14 @@ def run_marionette_tests(arch_name, test_names=None):
         if os.path.isdir(saved_state_dir):
             check_call(['/bin/rm', '-Rf', saved_state_dir])
 
-        run_applescript(marionette_prep_applescript)
+        if not server_address:
+            run_applescript(marionette_prep_applescript)
 
-        cmd = Popen(args, stderr=PIPE)
+        env = os.environ.copy()
+        if server_address:
+            env['MARIONETTE_SERVER_ADDRESS'] = server_address
+
+        cmd = Popen(args, env=env, stderr=PIPE)
         output = cmd.communicate()[1]
         if cmd.returncode == 0:
             print 'OK'
@@ -182,8 +190,9 @@ def run_marionette_tests(arch_name, test_names=None):
                 print '    >', line
             failed_tests.append(test_name)
 
-    # Quit server
-    run_applescript(quit_server_applescript)
+    if not server_address:
+        # Quit server
+        run_applescript(quit_server_applescript)
 
     # Ensure consistent output order for test names
     failed_tests.sort()
@@ -196,7 +205,7 @@ def run_tests(arch_name, unit_test_names, marionette_test_names):
 
     if unit_test_names:
         failed_tests.extend(run_unit_tests(arch_name, unit_test_names))
-    elif not marionette_test_names:
+    elif not (marionette_test_names or skip_unit_tests):
         failed_tests.extend(run_unit_tests(arch_name))
 
     if marionette_test_names:
@@ -218,6 +227,8 @@ def run_tests(arch_name, unit_test_names, marionette_test_names):
 
 
 def main():
+    global server_address, skip_unit_tests
+
     op = OptionParser(usage='Usage: %prog [options] [test_name ...]')
     op.add_option('--arch',
                   type = 'choice',
@@ -227,11 +238,19 @@ def main():
     op.add_option('--features',
                   default = '',
                   help = 'available features (as a comma-separated list)')
+    op.add_option('--server-address',
+                  default = '',
+                  help = 'address of running MWServer instance')
+    op.add_option('--skip-unit-tests',
+                  action = 'store_true',
+                  help = 'do not run unit tests')
 
     (opts, args) = op.parse_args()
 
     available_features.update(name.strip() for name in
                               opts.features.split(',') if name.strip())
+    server_address = opts.server_address
+    skip_unit_tests = opts.skip_unit_tests
 
     unit_test_names = []
     marionette_test_names = []

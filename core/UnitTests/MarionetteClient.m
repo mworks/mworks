@@ -93,12 +93,17 @@ Datum _getNumber(const string &expression, const GenericDataType type);
 		NSString *message_file = [[[NSProcessInfo processInfo] arguments] objectAtIndex:2];
 		[self loadTestData:message_file];
 	}
+    
+    NSString *serverAddress = NSProcessInfo.processInfo.environment[@"MARIONETTE_SERVER_ADDRESS"];
+    if (!serverAddress) {
+        serverAddress = @(DEFAULT_HOST_IP);
+    }
 	
-    if (!client->connectToServer(DEFAULT_HOST_IP, DEFAULT_PORT)) {
+    if (!client->connectToServer(serverAddress.UTF8String, DEFAULT_PORT)) {
         // Give server time to fully initialize
         [NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:5]];
         
-        if (!client->connectToServer(DEFAULT_HOST_IP, DEFAULT_PORT)) {
+        if (!client->connectToServer(serverAddress.UTF8String, DEFAULT_PORT)) {
             NSLog(@"Can't connect to server");
             exit(1);
         }
