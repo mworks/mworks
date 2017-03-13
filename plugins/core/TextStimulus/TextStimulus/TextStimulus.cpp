@@ -203,7 +203,7 @@ void TextStimulus::bindTexture() {
     // Flip the context's coordinate system (so that the origin is in the bottom left corner, as in OpenGL) and
     // convert it from pixels to points
     CGContextTranslateCTM(context.get(), 0, bitmapHeight);
-    CGContextScaleCTM(context.get(), pointsPerPixel, -pointsPerPixel);
+    CGContextScaleCTM(context.get(), 1.0 / pointsPerPixel, -1.0 / pointsPerPixel);
     
     // Create the text string with the requested font applied
     auto attrString = cf::ObjectPtr<CFMutableAttributedStringRef>::created(CFAttributedStringCreateMutable(kCFAllocatorDefault, 0));
