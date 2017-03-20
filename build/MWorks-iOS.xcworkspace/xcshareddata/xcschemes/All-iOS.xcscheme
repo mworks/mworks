@@ -154,6 +154,20 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "E125AF821E8050C10068EB25"
+               BuildableName = "TouchInput.plugin"
+               BlueprintName = "TouchInput"
+               ReferencedContainer = "container:../plugins/core/TouchInput/TouchInput.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "E15C72EC1E6DFE42001CE0C0"
                BuildableName = "VideoStimulus.plugin"
                BlueprintName = "VideoStimulus-iOS"
