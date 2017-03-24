@@ -23,7 +23,7 @@
 BEGIN_NAMESPACE_MW
 
 
-class OpenGLContextManager : public Component {
+class OpenGLContextManager : public Component, boost::noncopyable {
     
 public:
 #if TARGET_OS_OSX
