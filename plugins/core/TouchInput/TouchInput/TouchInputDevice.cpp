@@ -41,48 +41,56 @@ TouchInputDevice::TouchInputDevice(const ParameterValueMap &parameters) :
 
 
 TouchInputDevice::~TouchInputDevice() {
-    [touchInputRecognizer release];
-    [targetView release];
+    @autoreleasepool {
+        [touchInputRecognizer release];
+        [targetView release];
+    }
 }
 
 
 bool TouchInputDevice::initialize() {
-    auto glcm = OpenGLContextManager::instance();
-    
-    // Get the parameters needed by GLKMathUnproject
-    projectionMatrix = StimulusDisplay::getCurrentStimulusDisplay()->getProjectionMatrix();
-    {
-        auto ctxLock = glcm->setCurrent(0);
-        glGetIntegerv(GL_VIEWPORT, viewport.data());
+    @autoreleasepool {
+        auto glcm = boost::dynamic_pointer_cast<AppleOpenGLContextManager>(OpenGLContextManager::instance());
+        
+        // Get the parameters needed by GLKMathUnproject
+        projectionMatrix = StimulusDisplay::getCurrentStimulusDisplay()->getProjectionMatrix();
+        {
+            auto ctxLock = glcm->setCurrent(0);
+            glGetIntegerv(GL_VIEWPORT, viewport.data());
+        }
+        
+        targetView = [glcm->getView(0) retain];
+        auto sharedThis = component_shared_from_this<TouchInputDevice>();
+        touchInputRecognizer = [[MWKTouchInputRecognizer alloc] initWithTouchInputDevice:sharedThis];
+        
+        return true;
     }
-    
-    targetView = [glcm->getView(0) retain];
-    auto sharedThis = component_shared_from_this<TouchInputDevice>();
-    touchInputRecognizer = [[MWKTouchInputRecognizer alloc] initWithTouchInputDevice:sharedThis];
-    
-    return true;
 }
 
 
 bool TouchInputDevice::startDeviceIO() {
-    if (!started) {
-        [targetView performSelectorOnMainThread:@selector(addGestureRecognizer:)
-                                     withObject:touchInputRecognizer
-                                  waitUntilDone:YES];
-        started = true;
+    @autoreleasepool {
+        if (!started) {
+            [targetView performSelectorOnMainThread:@selector(addGestureRecognizer:)
+                                         withObject:touchInputRecognizer
+                                      waitUntilDone:YES];
+            started = true;
+        }
+        return true;
     }
-    return true;
 }
 
 
 bool TouchInputDevice::stopDeviceIO() {
-    if (started) {
-        [targetView performSelectorOnMainThread:@selector(removeGestureRecognizer:)
-                                     withObject:touchInputRecognizer
-                                  waitUntilDone:YES];
-        started = false;
+    @autoreleasepool {
+        if (started) {
+            [targetView performSelectorOnMainThread:@selector(removeGestureRecognizer:)
+                                         withObject:touchInputRecognizer
+                                      waitUntilDone:YES];
+            started = false;
+        }
+        return true;
     }
-    return true;
 }
 
 
@@ -104,8 +112,11 @@ void TouchInputDevice::touchEnded() const {
 
 
 void TouchInputDevice::updatePosition(CGPoint location, MWTime time) const {
+    //
     // This method is always called from the main thread, so we can access targetView's
-    // properties directly
+    // properties directly, and we don't need to provide an autorelease pool
+    //
+    
     auto locationInPixels = GLKVector3Make(location.x * targetView.contentScaleFactor,
                                            (targetView.bounds.size.height - location.y) * targetView.contentScaleFactor,
                                            0.0);
@@ -115,7 +126,6 @@ void TouchInputDevice::updatePosition(CGPoint location, MWTime time) const {
                                               projectionMatrix,
                                               const_cast<GLint *>(viewport.data()),
                                               &success);
-    
     if (!success) {
         merror(M_DISPLAY_MESSAGE_DOMAIN, "Unable to convert touch location from window to eye coordinates");
     } else {

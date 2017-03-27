@@ -14,8 +14,10 @@
 
 #ifdef __cplusplus
 
+#ifdef __OBJC__
+#  include <MWorksCore/AppleOpenGLContextManager.hpp>
+#endif
 #include <MWorksCore/CFObjectPtr.h>
-#include <MWorksCore/OpenGLContextManager.h>
 #include <MWorksCore/Plugin.h>
 #include <MWorksCore/StandardStimuli.h>
 #include <MWorksCore/StandardStimulusFactory.h>

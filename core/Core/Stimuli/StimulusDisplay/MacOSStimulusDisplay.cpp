@@ -12,7 +12,7 @@
 
 #include <CoreAudio/HostTime.h>
 
-#include "OpenGLContextManager.h"
+#include "AppleOpenGLContextManager.hpp"
 #include "StandardVariables.h"
 #include "Utilities.h"
 
@@ -51,8 +51,9 @@ void MacOSStimulusDisplay::prepareContext(int contextIndex) {
         throw SimpleException("Unable to set display link output callback");
     }
     
-    {
-        NSOpenGLContext *ctx = opengl_context_manager->getContext(context_ids.at(contextIndex));
+    @autoreleasepool {
+        auto glcm = boost::dynamic_pointer_cast<AppleOpenGLContextManager>(opengl_context_manager);
+        NSOpenGLContext *ctx = glcm->getContext(context_ids.at(contextIndex));
         CGLContextObj cglContext = ctx.CGLContextObj;
         CGLPixelFormatObj cglPixelFormat = ctx.pixelFormat.CGLPixelFormatObj;
         if (kCVReturnSuccess != CVDisplayLinkSetCurrentCGDisplayFromOpenGLContext(dl, cglContext, cglPixelFormat)) {
@@ -174,6 +175,11 @@ CVReturn MacOSStimulusDisplay::displayLinkCallback(CVDisplayLinkRef _displayLink
     }
     
     return kCVReturnSuccess;
+}
+
+
+boost::shared_ptr<StimulusDisplay> StimulusDisplay::createPlatformStimulusDisplay(bool announceIndividualStimuli) {
+    return boost::make_shared<MacOSStimulusDisplay>(announceIndividualStimuli);
 }
 
 

@@ -131,64 +131,66 @@ IOSOpenGLContextManager::~IOSOpenGLContextManager() {
 
 
 int IOSOpenGLContextManager::newFullscreenContext(int screen_number) {
-    if (screen_number < 0 || screen_number >= getNumDisplays()) {
-        throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN,
-                              (boost::format("Invalid screen number (%d)") % screen_number).str());
-    }
-    
-    EAGLSharegroup *sharegroup = nil;
-    if (contexts.count > 0) {
-        sharegroup = static_cast<EAGLContext *>(contexts[0]).sharegroup;
-    }
-    
-    EAGLContext *context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES3 sharegroup:sharegroup];
-    if (!context) {
-        throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN, "Cannot create OpenGL ES context");
-    }
-    
-    auto screen = UIScreen.screens[screen_number];
-    __block bool success = false;
-    
-    dispatch_sync(dispatch_get_main_queue(), ^{
-        if (UIWindow *window = [[UIWindow alloc] initWithFrame:screen.bounds]) {
-            window.screen = screen;
-            
-            if (MWKEAGLViewController *viewController = [[MWKEAGLViewController alloc] init]) {
-                window.rootViewController = viewController;
+    @autoreleasepool {
+        if (screen_number < 0 || screen_number >= getNumDisplays()) {
+            throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN,
+                                  (boost::format("Invalid screen number (%d)") % screen_number).str());
+        }
+        
+        EAGLSharegroup *sharegroup = nil;
+        if (contexts.count > 0) {
+            sharegroup = static_cast<EAGLContext *>(contexts[0]).sharegroup;
+        }
+        
+        EAGLContext *context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES3 sharegroup:sharegroup];
+        if (!context) {
+            throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN, "Cannot create OpenGL ES context");
+        }
+        
+        auto screen = UIScreen.screens[screen_number];
+        __block bool success = false;
+        
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            if (UIWindow *window = [[UIWindow alloc] initWithFrame:screen.bounds]) {
+                window.screen = screen;
                 
-                if (MWKEAGLView *view = [[MWKEAGLView alloc] initWithFrame:window.bounds context:context]) {
-                    viewController.view = view;
-                    view.contentScaleFactor = screen.scale;  // Render at full resolution of display
-                    [EAGLContext setCurrentContext:context];
+                if (MWKEAGLViewController *viewController = [[MWKEAGLViewController alloc] init]) {
+                    window.rootViewController = viewController;
                     
-                    if ([view prepareGL]) {
-                        [window makeKeyAndVisible];
+                    if (MWKEAGLView *view = [[MWKEAGLView alloc] initWithFrame:window.bounds context:context]) {
+                        viewController.view = view;
+                        view.contentScaleFactor = screen.scale;  // Render at full resolution of display
+                        [EAGLContext setCurrentContext:context];
                         
-                        [contexts addObject:context];
-                        [views addObject:view];
-                        [windows addObject:window];
+                        if ([view prepareGL]) {
+                            [window makeKeyAndVisible];
+                            
+                            [contexts addObject:context];
+                            [views addObject:view];
+                            [windows addObject:window];
+                            
+                            success = true;
+                        }
                         
-                        success = true;
+                        [EAGLContext setCurrentContext:nil];
+                        [view release];
                     }
                     
-                    [EAGLContext setCurrentContext:nil];
-                    [view release];
+                    [viewController release];
                 }
                 
-                [viewController release];
+                [window release];
             }
-            
-            [window release];
+        });
+        
+        [context release];
+        
+        if (!success) {
+            throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN, "Cannot create fullscreen window");
         }
-    });
-    
-    [context release];
-    
-    if (!success) {
-        throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN, "Cannot create fullscreen window");
+        
+        return (contexts.count - 1);
     }
-    
-    return (contexts.count - 1);
 }
 
 
@@ -198,15 +200,17 @@ int IOSOpenGLContextManager::newMirrorContext() {
 
 
 void IOSOpenGLContextManager::releaseContexts() {
-    dispatch_sync(dispatch_get_main_queue(), ^{
-        for (UIWindow *window in windows) {
-            window.hidden = YES;
-        }
-        [windows removeAllObjects];
-        [views removeAllObjects];
-    });
-    
-    [contexts removeAllObjects];
+    @autoreleasepool {
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            for (UIWindow *window in windows) {
+                window.hidden = YES;
+            }
+            [windows removeAllObjects];
+            [views removeAllObjects];
+        });
+        
+        [contexts removeAllObjects];
+    }
 }
 
 
@@ -217,35 +221,48 @@ int IOSOpenGLContextManager::getNumDisplays() const {
 
 
 OpenGLContextLock IOSOpenGLContextManager::setCurrent(int context_id) {
-    if (auto view = static_cast<MWKEAGLView *>(getView(context_id))) {
-        if ([EAGLContext setCurrentContext:view.context]) {
-            auto lock = [view lockContext];
-            [view bindDrawable];
-            return lock;
+    @autoreleasepool {
+        if (auto view = static_cast<MWKEAGLView *>(getView(context_id))) {
+            if ([EAGLContext setCurrentContext:view.context]) {
+                auto lock = [view lockContext];
+                [view bindDrawable];
+                return lock;
+            }
+            merror(M_DISPLAY_MESSAGE_DOMAIN, "Cannot set current OpenGL ES context");
         }
-        merror(M_DISPLAY_MESSAGE_DOMAIN, "Cannot set current OpenGL ES context");
+        return OpenGLContextLock();
     }
-    return OpenGLContextLock();
 }
 
 
 void IOSOpenGLContextManager::clearCurrent() {
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);  // Unbind the view's drawable object
-    [EAGLContext setCurrentContext:nil];
+    @autoreleasepool {
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);  // Unbind the view's drawable object
+        [EAGLContext setCurrentContext:nil];
+    }
 }
 
 
 void IOSOpenGLContextManager::bindDefaultFramebuffer(int context_id) {
-    if (auto view = static_cast<MWKEAGLView *>(getView(context_id))) {
-        [view bindDrawable];
+    @autoreleasepool {
+        if (auto view = static_cast<MWKEAGLView *>(getView(context_id))) {
+            [view bindDrawable];
+        }
     }
 }
 
 
 void IOSOpenGLContextManager::flush(int context_id) {
-    if (auto view = static_cast<MWKEAGLView *>(getView(context_id))) {
-        [view display];
+    @autoreleasepool {
+        if (auto view = static_cast<MWKEAGLView *>(getView(context_id))) {
+            [view display];
+        }
     }
+}
+
+
+boost::shared_ptr<OpenGLContextManager> OpenGLContextManager::createPlatformOpenGLContextManager() {
+    return boost::make_shared<IOSOpenGLContextManager>();
 }
 
 

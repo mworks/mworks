@@ -16,12 +16,6 @@
 #include "ComponentRegistry.h"
 #include "VariableNotification.h"
 
-#if TARGET_OS_OSX
-#  include "MacOSStimulusDisplay.h"
-#elif TARGET_OS_IPHONE
-#  include "IOSStimulusDisplay.hpp"
-#endif
-
 
 // A hack for now
 #define M_STIMULUS_DISPLAY_LEFT_EDGE		-26.57
@@ -566,17 +560,6 @@ Datum StimulusDisplay::getAnnounceData(bool updateIsExplicit) {
     }
     
 	return stimAnnounce;
-}
-
-
-boost::shared_ptr<StimulusDisplay> StimulusDisplay::createPlatformStimulusDisplay(bool announceIndividualStimuli) {
-#if TARGET_OS_OSX
-    return boost::make_shared<MacOSStimulusDisplay>(announceIndividualStimuli);
-#elif TARGET_OS_IPHONE
-    return boost::make_shared<IOSStimulusDisplay>(announceIndividualStimuli);
-#else
-#   error Unsupported platform
-#endif
 }
 
 

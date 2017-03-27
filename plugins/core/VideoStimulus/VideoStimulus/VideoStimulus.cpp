@@ -51,11 +51,11 @@ VideoStimulus::VideoStimulus(const ParameterValueMap &parameters) :
     didDrawAfterEnding(false),
     aspectRatio(0.0)
 {
-    if (!(parameters[ENDED].empty())) {
-        ended = VariablePtr(parameters[ENDED]);
-    }
-    
     @autoreleasepool {
+        if (!(parameters[ENDED].empty())) {
+            ended = VariablePtr(parameters[ENDED]);
+        }
+        
         player = [[AVPlayer alloc] init];
         player.actionAtItemEnd = AVPlayerActionAtItemEndNone;
         
@@ -85,9 +85,11 @@ VideoStimulus::VideoStimulus(const ParameterValueMap &parameters) :
 
 
 VideoStimulus::~VideoStimulus() {
-    [[NSNotificationCenter defaultCenter] removeObserver:playedToEndObserver];
-    [videoOutput release];
-    [player release];
+    @autoreleasepool {
+        [[NSNotificationCenter defaultCenter] removeObserver:playedToEndObserver];
+        [videoOutput release];
+        [player release];
+    }
 }
 
 
@@ -175,11 +177,11 @@ gl::Shader VideoStimulus::getFragmentShader() const {
 
 
 void VideoStimulus::prepare(const boost::shared_ptr<StimulusDisplay> &display) {
-    boost::mutex::scoped_lock locker(stim_lock);
-    
-    BasicTransformStimulus::prepare(display);
-    
     @autoreleasepool {
+        boost::mutex::scoped_lock locker(stim_lock);
+        
+        BasicTransformStimulus::prepare(display);
+        
         NSURL *fileURL = [NSURL fileURLWithPath:@(filePath.string().c_str())];
         AVPlayerItem *item = [AVPlayerItem playerItemWithURL:fileURL];
         [item addOutput:videoOutput];
@@ -193,60 +195,62 @@ void VideoStimulus::prepare(const boost::shared_ptr<StimulusDisplay> &display) {
                                   "Cannot load video file",
                                   item.error.localizedDescription.UTF8String);
         }
-    }
-    
+        
 #if TARGET_OS_IPHONE
-    CVOpenGLESTextureCacheRef newTextureCache = nullptr;
-    auto status = CVOpenGLESTextureCacheCreate(kCFAllocatorDefault,
-                                               nullptr,
-                                               EAGLContext.currentContext,
-                                               nullptr,
-                                               &newTextureCache);
+        CVOpenGLESTextureCacheRef newTextureCache = nullptr;
+        auto status = CVOpenGLESTextureCacheCreate(kCFAllocatorDefault,
+                                                   nullptr,
+                                                   EAGLContext.currentContext,
+                                                   nullptr,
+                                                   &newTextureCache);
 #else
-    auto context = CGLGetCurrentContext();
-    CVOpenGLTextureCacheRef newTextureCache = nullptr;
-    auto status = CVOpenGLTextureCacheCreate(kCFAllocatorDefault,
-                                             nullptr,
-                                             context,
-                                             CGLGetPixelFormat(context),
-                                             nullptr,
-                                             &newTextureCache);
+        auto context = CGLGetCurrentContext();
+        CVOpenGLTextureCacheRef newTextureCache = nullptr;
+        auto status = CVOpenGLTextureCacheCreate(kCFAllocatorDefault,
+                                                 nullptr,
+                                                 context,
+                                                 CGLGetPixelFormat(context),
+                                                 nullptr,
+                                                 &newTextureCache);
 #endif
-    if (status != kCVReturnSuccess) {
-        throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN,
-                              (boost::format("Cannot create OpenGL texture cache (error = %d)") % status).str());
-    }
-    textureCache = TextureCachePtr::owned(newTextureCache);
-    
-    alphaUniformLocation = glGetUniformLocation(program, "alpha");
+        if (status != kCVReturnSuccess) {
+            throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN,
+                                  (boost::format("Cannot create OpenGL texture cache (error = %d)") % status).str());
+        }
+        textureCache = TextureCachePtr::owned(newTextureCache);
+        
+        alphaUniformLocation = glGetUniformLocation(program, "alpha");
 #if MWORKS_OPENGL_ES
-    glUniform1i(glGetUniformLocation(program, "videoTexture"), 0);
+        glUniform1i(glGetUniformLocation(program, "videoTexture"), 0);
 #else
-    videoTextureUniformLocation = glGetUniformLocation(program, "videoTexture");
-    videoTextureRectUniformLocation = glGetUniformLocation(program, "videoTextureRect");
-    useTextureRectUniformLocation = glGetUniformLocation(program, "useTextureRect");
+        videoTextureUniformLocation = glGetUniformLocation(program, "videoTexture");
+        videoTextureRectUniformLocation = glGetUniformLocation(program, "videoTextureRect");
+        useTextureRectUniformLocation = glGetUniformLocation(program, "useTextureRect");
 #endif
-    
-    glGenBuffers(1, &texCoordsBuffer);
-    gl::BufferBinding<GL_ARRAY_BUFFER> arrayBufferBinding(texCoordsBuffer);
-    GLint texCoordsAttribLocation = glGetAttribLocation(program, "texCoords");
-    glEnableVertexAttribArray(texCoordsAttribLocation);
-    glVertexAttribPointer(texCoordsAttribLocation, componentsPerVertex, GL_FLOAT, GL_FALSE, 0, nullptr);
+        
+        glGenBuffers(1, &texCoordsBuffer);
+        gl::BufferBinding<GL_ARRAY_BUFFER> arrayBufferBinding(texCoordsBuffer);
+        GLint texCoordsAttribLocation = glGetAttribLocation(program, "texCoords");
+        glEnableVertexAttribArray(texCoordsAttribLocation);
+        glVertexAttribPointer(texCoordsAttribLocation, componentsPerVertex, GL_FLOAT, GL_FALSE, 0, nullptr);
+    }
 }
 
 
 void VideoStimulus::destroy(const boost::shared_ptr<StimulusDisplay> &display) {
-    boost::mutex::scoped_lock locker(stim_lock);
-    
-    glDeleteBuffers(1, &texCoordsBuffer);
-    
-    texture.reset();
-    pixelBuffer.reset();
-    textureCache.reset();
-    
-    [player replaceCurrentItemWithPlayerItem:nil];
-    
-    BasicTransformStimulus::destroy(display);
+    @autoreleasepool {
+        boost::mutex::scoped_lock locker(stim_lock);
+        
+        glDeleteBuffers(1, &texCoordsBuffer);
+        
+        texture.reset();
+        pixelBuffer.reset();
+        textureCache.reset();
+        
+        [player replaceCurrentItemWithPlayerItem:nil];
+        
+        BasicTransformStimulus::destroy(display);
+    }
 }
 
 
@@ -278,31 +282,39 @@ void VideoStimulus::postDraw(const boost::shared_ptr<StimulusDisplay> &display) 
 
 
 void VideoStimulus::startPlaying() {
-    player.volume = lastVolume = volume->getValue().getFloat();
-    lastOutputItemTime = kCMTimeInvalid;
-    repeatCount = 0;
-    videoEnded = false;
-    [player play];
-    VideoStimlusBase::startPlaying();
+    @autoreleasepool {
+        player.volume = lastVolume = volume->getValue().getFloat();
+        lastOutputItemTime = kCMTimeInvalid;
+        repeatCount = 0;
+        videoEnded = false;
+        [player play];
+        VideoStimlusBase::startPlaying();
+    }
 }
 
 
 void VideoStimulus::stopPlaying() {
-    VideoStimlusBase::stopPlaying();
-    [player pause];
-    [player seekToTime:kCMTimeZero];
+    @autoreleasepool {
+        VideoStimlusBase::stopPlaying();
+        [player pause];
+        [player seekToTime:kCMTimeZero];
+    }
 }
 
 
 void VideoStimulus::beginPause() {
-    VideoStimlusBase::beginPause();
-    [player pause];
+    @autoreleasepool {
+        VideoStimlusBase::beginPause();
+        [player pause];
+    }
 }
 
 
 void VideoStimulus::endPause() {
-    [player play];
-    VideoStimlusBase::endPause();
+    @autoreleasepool {
+        [player play];
+        VideoStimlusBase::endPause();
+    }
 }
 
 
@@ -316,37 +328,39 @@ void VideoStimulus::drawFrame(boost::shared_ptr<StimulusDisplay> display) {
 
 
 bool VideoStimulus::checkForNewPixelBuffer(const boost::shared_ptr<StimulusDisplay> &_display) {
+    @autoreleasepool {
 #if TARGET_OS_IPHONE
-    const auto &display = boost::dynamic_pointer_cast<IOSStimulusDisplay>(_display);
-    auto outputItemTime = [videoOutput itemTimeForHostTime:display->getCurrentTargetTimestamp()];
+        const auto &display = boost::dynamic_pointer_cast<IOSStimulusDisplay>(_display);
+        auto outputItemTime = [videoOutput itemTimeForHostTime:display->getCurrentTargetTimestamp()];
 #else
-    const auto &display = boost::dynamic_pointer_cast<MacOSStimulusDisplay>(_display);
-    auto outputItemTime = [videoOutput itemTimeForCVTimeStamp:display->getCurrentOutputTimeStamp()];
+        const auto &display = boost::dynamic_pointer_cast<MacOSStimulusDisplay>(_display);
+        auto outputItemTime = [videoOutput itemTimeForCVTimeStamp:display->getCurrentOutputTimeStamp()];
 #endif
-    if (![videoOutput hasNewPixelBufferForItemTime:outputItemTime]) {
-        return false;
+        if (![videoOutput hasNewPixelBufferForItemTime:outputItemTime]) {
+            return false;
+        }
+        
+        auto newPixelBuffer = PixelBufferPtr::owned([videoOutput copyPixelBufferForItemTime:outputItemTime
+                                                                         itemTimeForDisplay:nullptr]);
+        if (!newPixelBuffer) {
+            return false;
+        }
+        
+        pixelBuffer = newPixelBuffer;
+        lastOutputItemTime = outputItemTime;
+        texture.reset();
+        
+        const auto newAspectRatio = (double(CVPixelBufferGetWidth(pixelBuffer.get())) /
+                                     double(CVPixelBufferGetHeight(pixelBuffer.get())));
+        if (newAspectRatio != aspectRatio) {
+            aspectRatio = newAspectRatio;
+            auto vertexPositions = ImageStimulus::getVertexPositions(aspectRatio);
+            gl::BufferBinding<GL_ARRAY_BUFFER> arrayBufferBinding(vertexPositionBuffer);
+            glBufferData(GL_ARRAY_BUFFER, sizeof(vertexPositions), vertexPositions.data(), GL_STATIC_DRAW);
+        }
+        
+        return true;
     }
-    
-    auto newPixelBuffer = PixelBufferPtr::owned([videoOutput copyPixelBufferForItemTime:outputItemTime
-                                                                     itemTimeForDisplay:nullptr]);
-    if (!newPixelBuffer) {
-        return false;
-    }
-    
-    pixelBuffer = newPixelBuffer;
-    lastOutputItemTime = outputItemTime;
-    texture.reset();
-    
-    const auto newAspectRatio = (double(CVPixelBufferGetWidth(pixelBuffer.get())) /
-                                 double(CVPixelBufferGetHeight(pixelBuffer.get())));
-    if (newAspectRatio != aspectRatio) {
-        aspectRatio = newAspectRatio;
-        auto vertexPositions = ImageStimulus::getVertexPositions(aspectRatio);
-        gl::BufferBinding<GL_ARRAY_BUFFER> arrayBufferBinding(vertexPositionBuffer);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(vertexPositions), vertexPositions.data(), GL_STATIC_DRAW);
-    }
-    
-    return true;
 }
 
 
@@ -444,6 +458,10 @@ bool VideoStimulus::bindTexture() {
 
 
 void VideoStimulus::handleVideoEnded() {
+    //
+    // This method is called from Objective-C code, so we don't need to provide an autorelease pool
+    //
+    
     repeatCount++;
     if (loop->getValue().getBool() || (repeatCount < repeats->getValue().getInteger())) {
         [player seekToTime:kCMTimeZero];

@@ -17,13 +17,6 @@
 #include "MWorksCore/StandardVariables.h"
 #include "MWorksCore/Debugging.h"
 
-
-
-#ifdef __APPLE__
-// this must go AFTER the mw includes
-#import <Foundation/Foundation.h>
-#endif
-
 #include <mach/mach_types.h>
 #include <mach/mach_init.h>
 #include <mach/thread_policy.h>
@@ -187,10 +180,6 @@ void* StandardStateSystem::runStateSystem(void *_ss) {
 
 
 void StandardStateSystem::run() {
-#ifdef __APPLE__
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-#endif
-	
 	weak_ptr<State> next_state;
 
 
@@ -356,11 +345,6 @@ void StandardStateSystem::run() {
         mprintf("Resetting experiment");
         current_experiment->reset();
     }
-    
-    
-#ifdef __APPLE__
-    [pool drain];
-#endif
 }
 
 

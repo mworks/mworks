@@ -98,7 +98,7 @@
 		E15C72D21E6DF11A001CE0C0 /* Info-iOS.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-iOS.plist"; sourceTree = "<group>"; };
 		E1E4B2AF1D883A78006EB80E /* MWorksCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MWorksCore.framework; path = /Library/Frameworks/MWorksCore.framework; sourceTree = "<absolute>"; };
 		E1E4B2B11D883A88006EB80E /* libboost_system.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_system.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_system.a"; sourceTree = "<absolute>"; };
-		E1E4B2C01D883D35006EB80E /* TextStimulus.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextStimulus.cpp; sourceTree = "<group>"; };
+		E1E4B2C01D883D35006EB80E /* TextStimulus.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = TextStimulus.cpp; sourceTree = "<group>"; };
 		E1E4B2C11D883D35006EB80E /* TextStimulus.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TextStimulus.hpp; sourceTree = "<group>"; };
 		E1E4B2C31D883F9F006EB80E /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		E1E4B2C71D8848B7006EB80E /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -362,7 +362,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E15C72C71E6DE7A4001CE0C0 /* iOS_Plugin.xcconfig */;
 			buildSettings = {
-				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TextStimulus/TextStimulus-Prefix.pch";
 				INFOPLIST_FILE = "TextStimulus/Info-iOS.plist";
@@ -408,7 +407,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E15C72C81E6DE7A4001CE0C0 /* macOS_Plugin.xcconfig */;
 			buildSettings = {
-				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TextStimulus/TextStimulus-Prefix.pch";
 				INFOPLIST_FILE = TextStimulus/Info.plist;

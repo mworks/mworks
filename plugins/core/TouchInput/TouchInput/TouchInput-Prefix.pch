@@ -11,8 +11,10 @@
 
 #ifdef __cplusplus
 
+#ifdef __OBJC__
+#  include <MWorksCore/AppleOpenGLContextManager.hpp>
+#endif
 #include <MWorksCore/IODevice.h>
-#include <MWorksCore/OpenGLContextManager.h>
 #include <MWorksCore/Plugin.h>
 #include <MWorksCore/StandardComponentFactory.h>
 

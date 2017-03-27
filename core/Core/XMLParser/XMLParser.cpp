@@ -197,38 +197,34 @@ static NSData* getPreprocessedFileData(NSString *ppPath, NSString *filePath) {
 
 
 void XMLParser::loadFile() {
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    BOOST_SCOPE_EXIT( (&pool) )
-    {
-        [pool drain];
-    } BOOST_SCOPE_EXIT_END
-    
-    NSString *filePath = [NSString stringWithUTF8String:(path.c_str())];
-    NSString *fileText = getFileText(filePath);
-    NSString *firstTwoLines = getFirstTwoLines(fileText);
-    NSString *ppPath = extractPreprocessorPath(firstTwoLines);
-
-    const char *buffer;
-    NSUInteger size;
-
-    if (!ppPath) {
-        // Didn't find a preprocessor directive, so use the file text as-is
-        buffer = [fileText UTF8String];
-        size = [fileText lengthOfBytesUsingEncoding:NSUTF8StringEncoding];
-    } else {
-        // Found a preprocessor directive, so preprocess the file and use the result
-        NSData *fileData = getPreprocessedFileData(ppPath, filePath);
-        buffer = (const char *)[fileData bytes];
-        size = [fileData length];
-    }
-    
-    xml_doc = xmlCtxtReadMemory(context, buffer, (int)size, path.c_str(), NULL, 0);
-    
-    if (xml_doc) {
-        // Perform any XInclude substitutions
-        if (-1 == xmlXIncludeProcessFlags(xml_doc, XML_PARSE_NOBASEFIX)) {
-            xmlFreeDoc(xml_doc);
-            xml_doc = NULL;
+    @autoreleasepool {
+        NSString *filePath = [NSString stringWithUTF8String:(path.c_str())];
+        NSString *fileText = getFileText(filePath);
+        NSString *firstTwoLines = getFirstTwoLines(fileText);
+        NSString *ppPath = extractPreprocessorPath(firstTwoLines);
+        
+        const char *buffer;
+        NSUInteger size;
+        
+        if (!ppPath) {
+            // Didn't find a preprocessor directive, so use the file text as-is
+            buffer = [fileText UTF8String];
+            size = [fileText lengthOfBytesUsingEncoding:NSUTF8StringEncoding];
+        } else {
+            // Found a preprocessor directive, so preprocess the file and use the result
+            NSData *fileData = getPreprocessedFileData(ppPath, filePath);
+            buffer = (const char *)[fileData bytes];
+            size = [fileData length];
+        }
+        
+        xml_doc = xmlCtxtReadMemory(context, buffer, (int)size, path.c_str(), NULL, 0);
+        
+        if (xml_doc) {
+            // Perform any XInclude substitutions
+            if (-1 == xmlXIncludeProcessFlags(xml_doc, XML_PARSE_NOBASEFIX)) {
+                xmlFreeDoc(xml_doc);
+                xml_doc = NULL;
+            }
         }
     }
 }

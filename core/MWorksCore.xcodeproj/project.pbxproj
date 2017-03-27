@@ -652,6 +652,10 @@
 		E19B79271D525CCC00110665 /* ZeroMQUtilities.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E19B79251D525CCC00110665 /* ZeroMQUtilities.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
 		E19B792A1D525E2200110665 /* ZeroMQUtilityTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E19B79281D525E2200110665 /* ZeroMQUtilityTests.cpp */; };
 		E19B792B1D525E2200110665 /* ZeroMQUtilityTests.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E19B79291D525E2200110665 /* ZeroMQUtilityTests.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
+		E19CE0D51E897068005586E5 /* AppleOpenGLContextManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E19CE0D31E897068005586E5 /* AppleOpenGLContextManager.cpp */; };
+		E19CE0D61E897068005586E5 /* AppleOpenGLContextManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E19CE0D31E897068005586E5 /* AppleOpenGLContextManager.cpp */; };
+		E19CE0D71E897068005586E5 /* AppleOpenGLContextManager.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E19CE0D41E897068005586E5 /* AppleOpenGLContextManager.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
+		E19CE0D81E897068005586E5 /* AppleOpenGLContextManager.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E19CE0D41E897068005586E5 /* AppleOpenGLContextManager.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1A401B31D4FBE4C005B1C35 /* ZeroMQServer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1A401B11D4FBE4C005B1C35 /* ZeroMQServer.cpp */; };
 		E1A401B41D4FBE4C005B1C35 /* ZeroMQServer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E1A401B21D4FBE4C005B1C35 /* ZeroMQServer.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1A911F21D64B74000DF4AAC /* SimpleClock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1A911F01D64B74000DF4AAC /* SimpleClock.cpp */; };
@@ -1115,7 +1119,7 @@
 		5CF73C7F086260E900F453C3 /* ZenStateSystemPlugin.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ZenStateSystemPlugin.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		5CF73C80086260E900F453C3 /* ZenStateSystemPlugin-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ZenStateSystemPlugin-Info.plist"; sourceTree = "<group>"; };
 		5CF73C860862616800F453C3 /* ZenStateSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZenStateSystem.h; sourceTree = "<group>"; };
-		5CF73C870862616800F453C3 /* ZenStateSystem.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = ZenStateSystem.cpp; sourceTree = "<group>"; };
+		5CF73C870862616800F453C3 /* ZenStateSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ZenStateSystem.cpp; sourceTree = "<group>"; };
 		681F79220CA97E3E00F2F133 /* SelectionVariableTest.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = SelectionVariableTest.cpp; sourceTree = "<group>"; };
 		681F79230CA97E3E00F2F133 /* SelectionVariableTest.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SelectionVariableTest.h; sourceTree = "<group>"; };
 		682A94760CA9A933001DE3E2 /* SequentialSelection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SequentialSelection.h; path = Core/ParadigmComponents/SequentialSelection.h; sourceTree = "<group>"; };
@@ -1168,7 +1172,7 @@
 		DA2CE12107E9F88900C68AEF /* Buffers.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Buffers.h; path = Core/Events/Buffers.h; sourceTree = SOURCE_ROOT; };
 		DA2CE12207E9F88900C68AEF /* Event.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = Event.cpp; path = Core/Events/Event.cpp; sourceTree = SOURCE_ROOT; };
 		DA2CE12307E9F88900C68AEF /* Event.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Event.h; path = Core/Events/Event.h; sourceTree = SOURCE_ROOT; };
-		DA2CE12807E9F8B200C68AEF /* LoadingUtilities.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 30; name = LoadingUtilities.cpp; path = Core/ExperimentDataLoading/LoadingUtilities.cpp; sourceTree = SOURCE_ROOT; };
+		DA2CE12807E9F8B200C68AEF /* LoadingUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = LoadingUtilities.cpp; path = Core/ExperimentDataLoading/LoadingUtilities.cpp; sourceTree = SOURCE_ROOT; };
 		DA2CE12907E9F8B200C68AEF /* LoadingUtilities.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = LoadingUtilities.h; path = Core/ExperimentDataLoading/LoadingUtilities.h; sourceTree = SOURCE_ROOT; };
 		DA2CE13A07E9F8D300C68AEF /* LegacyIODevice.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = LegacyIODevice.cpp; path = Core/IODevices/LegacyIODevice.cpp; sourceTree = "<group>"; };
 		DA2CE13B07E9F8D300C68AEF /* LegacyIODevice.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = LegacyIODevice.h; path = Core/IODevices/LegacyIODevice.h; sourceTree = "<group>"; };
@@ -1210,13 +1214,13 @@
 		DA2CE1AF07E9F95600C68AEF /* Utilities.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Utilities.h; path = Core/RealtimeServices/Utilities.h; sourceTree = SOURCE_ROOT; };
 		DA2CE1C007E9F96500C68AEF /* ScarabServices.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = ScarabServices.cpp; sourceTree = "<group>"; };
 		DA2CE1C107E9F96500C68AEF /* ScarabServices.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ScarabServices.h; sourceTree = "<group>"; };
-		DA2CE1C707E9F96E00C68AEF /* OpenGLContextManager.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 30; path = OpenGLContextManager.cpp; sourceTree = "<group>"; };
+		DA2CE1C707E9F96E00C68AEF /* OpenGLContextManager.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = OpenGLContextManager.cpp; sourceTree = "<group>"; };
 		DA2CE1C807E9F96E00C68AEF /* OpenGLContextManager.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = OpenGLContextManager.h; sourceTree = "<group>"; };
 		DA2CE1C907E9F96E00C68AEF /* StandardStimuli.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 30; name = StandardStimuli.cpp; path = Core/Stimuli/StandardStimuli.cpp; sourceTree = SOURCE_ROOT; };
 		DA2CE1CA07E9F96E00C68AEF /* StandardStimuli.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = StandardStimuli.h; path = Core/Stimuli/StandardStimuli.h; sourceTree = SOURCE_ROOT; };
-		DA2CE1CD07E9F96E00C68AEF /* Stimulus.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 30; name = Stimulus.cpp; path = Core/Stimuli/Stimulus.cpp; sourceTree = SOURCE_ROOT; };
+		DA2CE1CD07E9F96E00C68AEF /* Stimulus.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = Stimulus.cpp; path = Core/Stimuli/Stimulus.cpp; sourceTree = SOURCE_ROOT; };
 		DA2CE1CE07E9F96E00C68AEF /* Stimulus.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Stimulus.h; path = Core/Stimuli/Stimulus.h; sourceTree = SOURCE_ROOT; };
-		DA2CE1CF07E9F96E00C68AEF /* StimulusDisplay.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 30; path = StimulusDisplay.cpp; sourceTree = "<group>"; };
+		DA2CE1CF07E9F96E00C68AEF /* StimulusDisplay.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = StimulusDisplay.cpp; sourceTree = "<group>"; };
 		DA2CE1E007E9F97F00C68AEF /* GenericData.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = GenericData.cpp; path = Core/Variables/GenericData.cpp; sourceTree = SOURCE_ROOT; };
 		DA2CE1E107E9F97F00C68AEF /* GenericData.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GenericData.h; path = Core/Variables/GenericData.h; sourceTree = SOURCE_ROOT; };
 		DA2CE1E207E9F97F00C68AEF /* GenericVariable.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = GenericVariable.cpp; path = Core/Variables/GenericVariable.cpp; sourceTree = SOURCE_ROOT; };
@@ -1234,7 +1238,7 @@
 		DA96B8B20981901F0007610D /* AbstractCoreBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AbstractCoreBuilder.h; path = Core/CoreBuilders/AbstractCoreBuilder.h; sourceTree = SOURCE_ROOT; };
 		DA96B8B30981901F0007610D /* AbstractCoreBuilder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AbstractCoreBuilder.cpp; path = Core/CoreBuilders/AbstractCoreBuilder.cpp; sourceTree = SOURCE_ROOT; };
 		DA96B8D40981951E0007610D /* StandardServerCoreBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StandardServerCoreBuilder.h; path = Core/CoreBuilders/StandardServerCoreBuilder.h; sourceTree = SOURCE_ROOT; };
-		DA96B8D50981951E0007610D /* StandardServerCoreBuilder.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = StandardServerCoreBuilder.cpp; path = Core/CoreBuilders/StandardServerCoreBuilder.cpp; sourceTree = SOURCE_ROOT; };
+		DA96B8D50981951E0007610D /* StandardServerCoreBuilder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StandardServerCoreBuilder.cpp; path = Core/CoreBuilders/StandardServerCoreBuilder.cpp; sourceTree = SOURCE_ROOT; };
 		DA96B90609819B4E0007610D /* CoreBuilderForeman.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CoreBuilderForeman.h; path = Core/CoreBuilders/CoreBuilderForeman.h; sourceTree = SOURCE_ROOT; };
 		DA96B90709819B4E0007610D /* CoreBuilderForeman.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CoreBuilderForeman.cpp; path = Core/CoreBuilders/CoreBuilderForeman.cpp; sourceTree = SOURCE_ROOT; };
 		DA96C0E40988546D0007610D /* ExperimentPackager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ExperimentPackager.h; path = Core/ExperimentDataLoading/ExperimentPackager.h; sourceTree = SOURCE_ROOT; };
@@ -1300,6 +1304,8 @@
 		E19B79251D525CCC00110665 /* ZeroMQUtilities.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ZeroMQUtilities.hpp; sourceTree = "<group>"; };
 		E19B79281D525E2200110665 /* ZeroMQUtilityTests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ZeroMQUtilityTests.cpp; sourceTree = "<group>"; };
 		E19B79291D525E2200110665 /* ZeroMQUtilityTests.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ZeroMQUtilityTests.hpp; sourceTree = "<group>"; };
+		E19CE0D31E897068005586E5 /* AppleOpenGLContextManager.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = AppleOpenGLContextManager.cpp; sourceTree = "<group>"; };
+		E19CE0D41E897068005586E5 /* AppleOpenGLContextManager.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AppleOpenGLContextManager.hpp; sourceTree = "<group>"; };
 		E1A401B11D4FBE4C005B1C35 /* ZeroMQServer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ZeroMQServer.cpp; sourceTree = "<group>"; };
 		E1A401B21D4FBE4C005B1C35 /* ZeroMQServer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ZeroMQServer.hpp; sourceTree = "<group>"; };
 		E1A911F01D64B74000DF4AAC /* SimpleClock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SimpleClock.cpp; sourceTree = "<group>"; };
@@ -2393,6 +2399,8 @@
 				E10F94B816CD5A8300A31C5F /* OpenGLContextLock.h */,
 				DA2CE1C807E9F96E00C68AEF /* OpenGLContextManager.h */,
 				DA2CE1C707E9F96E00C68AEF /* OpenGLContextManager.cpp */,
+				E19CE0D41E897068005586E5 /* AppleOpenGLContextManager.hpp */,
+				E19CE0D31E897068005586E5 /* AppleOpenGLContextManager.cpp */,
 				E179169C1E4E27A700528B91 /* MacOSOpenGLContextManager.h */,
 				E179169B1E4E27A700528B91 /* MacOSOpenGLContextManager.cpp */,
 				E1F82A5D1E53532E00A2690B /* IOSOpenGLContextManager.hpp */,
@@ -2592,6 +2600,7 @@
 				DA871F2609995B180084304E /* StandardClientCoreBuilder.h in Headers */,
 				5C71CD6D09AA507700EAD886 /* GlobalVariable.h in Headers */,
 				5C71CD6F09AA507700EAD886 /* ExpressionVariable.h in Headers */,
+				E19CE0D71E897068005586E5 /* AppleOpenGLContextManager.hpp in Headers */,
 				5C0C4A8609B64DAD0021D3CC /* SelectionVariable.h in Headers */,
 				5C08412409D596F800E4D2F4 /* TestBedCoreBuilder.h in Headers */,
 				8E16A70E0A08E12E0070955E /* Averagers.h in Headers */,
@@ -2791,6 +2800,7 @@
 				E17917641E4E55D800528B91 /* IODevice.h in Headers */,
 				E17917041E4E52F400528B91 /* XMLVariableWriter.h in Headers */,
 				E179174A1E4E550000528B91 /* MachUtilities.h in Headers */,
+				E19CE0D81E897068005586E5 /* AppleOpenGLContextManager.hpp in Headers */,
 				E17916D91E4E517A00528B91 /* FreezableVariableContainer.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3356,6 +3366,7 @@
 				DA96B8B50981901F0007610D /* AbstractCoreBuilder.cpp in Sources */,
 				DA96B8D70981951E0007610D /* StandardServerCoreBuilder.cpp in Sources */,
 				DA96B90909819B4E0007610D /* CoreBuilderForeman.cpp in Sources */,
+				E19CE0D51E897068005586E5 /* AppleOpenGLContextManager.cpp in Sources */,
 				DA96C0E70988546D0007610D /* ExperimentPackager.cpp in Sources */,
 				DA2B6A8A0989855C00DDE06D /* Client.cpp in Sources */,
 				DA2B6B180989915900DDE06D /* Server.cpp in Sources */,
@@ -3462,6 +3473,7 @@
 				E17917411E4E54A600528B91 /* Timer.cpp in Sources */,
 				E17916ED1E4E522800528B91 /* Client.cpp in Sources */,
 				E17916C41E4E512400528B91 /* GenericData.cpp in Sources */,
+				E19CE0D61E897068005586E5 /* AppleOpenGLContextManager.cpp in Sources */,
 				E179171B1E4E53A800528B91 /* ExperimentUnpackager.cpp in Sources */,
 				E17916DC1E4E51B900528B91 /* EventBuffer.cpp in Sources */,
 				E1F82A5E1E53532E00A2690B /* IOSOpenGLContextManager.cpp in Sources */,

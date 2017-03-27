@@ -8,7 +8,7 @@
 
 #include "IOSStimulusDisplay.hpp"
 
-#include "OpenGLContextManager.h"
+#include "AppleOpenGLContextManager.hpp"
 #include "StandardVariables.h"
 #include "Utilities.h"
 
@@ -64,61 +64,74 @@ BEGIN_NAMESPACE_MW
 
 IOSStimulusDisplay::IOSStimulusDisplay(bool announceIndividualStimuli) :
     StimulusDisplay(announceIndividualStimuli),
-    displayLinks([[NSMutableArray alloc] init]),
+    displayLinks(nil),
     lastTargetTimestamp(0.0)
-{ }
+{
+    @autoreleasepool {
+        displayLinks = [[NSMutableArray alloc] init];
+    }
+}
 
 
 IOSStimulusDisplay::~IOSStimulusDisplay() {
-    [displayLinks release];
+    @autoreleasepool {
+        [displayLinks release];
+    }
 }
 
 
 void IOSStimulusDisplay::prepareContext(int contextIndex) {
-    auto view = opengl_context_manager->getView(context_ids.at(contextIndex));
-    auto screen = view.window.screen;
-    auto sharedThis = boost::dynamic_pointer_cast<IOSStimulusDisplay>(shared_from_this());
-    
-    MWKDisplayLinkTarget *displayLinkTarget = [[MWKDisplayLinkTarget alloc] initWithStimulusDisplay:sharedThis
-                                                                                       contextIndex:contextIndex
-                                                                                           callback:&displayLinkCallback];
-    CADisplayLink *displayLink = [screen displayLinkWithTarget:displayLinkTarget selector:@selector(updateDisplay:)];
-    [displayLinks addObject:displayLink];
-    [displayLinkTarget release];
-    
-    // By default, the display link will invoke the provided selector at the native refresh rate
-    // of the display, so there's no need to set its preferredFramesPerSecond property
-    NSCAssert(displayLink.preferredFramesPerSecond == 0, @"Unexpected preferredFramesPerSecond on CADisplayLink");
-    
-    StimulusDisplay::prepareContext(contextIndex);
+    @autoreleasepool {
+        auto glcm = boost::dynamic_pointer_cast<AppleOpenGLContextManager>(opengl_context_manager);
+        auto view = glcm->getView(context_ids.at(contextIndex));
+        auto screen = view.window.screen;
+        auto sharedThis = boost::dynamic_pointer_cast<IOSStimulusDisplay>(shared_from_this());
+        
+        MWKDisplayLinkTarget *displayLinkTarget = [[MWKDisplayLinkTarget alloc] initWithStimulusDisplay:sharedThis
+                                                                                           contextIndex:contextIndex
+                                                                                               callback:&displayLinkCallback];
+        CADisplayLink *displayLink = [screen displayLinkWithTarget:displayLinkTarget selector:@selector(updateDisplay:)];
+        [displayLinks addObject:displayLink];
+        [displayLinkTarget release];
+        
+        // By default, the display link will invoke the provided selector at the native refresh rate
+        // of the display, so there's no need to set its preferredFramesPerSecond property
+        NSCAssert(displayLink.preferredFramesPerSecond == 0, @"Unexpected preferredFramesPerSecond on CADisplayLink");
+        
+        StimulusDisplay::prepareContext(contextIndex);
+    }
 }
 
 
 void IOSStimulusDisplay::setMainDisplayRefreshRate() {
-    // FIXME: maximumFramesPerSecond will be available starting in iOS 10.3.  For now, just assume 60 Hz.
-    //auto view = opengl_context_manager->getView(context_ids.at(0));
-    //auto screen = view.window.screen;
-    //mainDisplayRefreshRate = double(screen.maximumFramesPerSecond);
-    mainDisplayRefreshRate = 60.0;
+    @autoreleasepool {
+        // FIXME: maximumFramesPerSecond will be available starting in iOS 10.3.  For now, just assume 60 Hz.
+        //auto view = opengl_context_manager->getView(context_ids.at(0));
+        //auto screen = view.window.screen;
+        //mainDisplayRefreshRate = double(screen.maximumFramesPerSecond);
+        mainDisplayRefreshRate = 60.0;
+    }
 }
 
 
 void IOSStimulusDisplay::startDisplayUpdates() {
-    for (CADisplayLink *displayLink in displayLinks) {
-        displayLinkThreads.emplace_back([this, displayLink]() {
-            @autoreleasepool {
-                NSRunLoop *runLoop = NSRunLoop.currentRunLoop;
-                [displayLink addToRunLoop:runLoop forMode:NSDefaultRunLoopMode];
-                
-                while (displayUpdatesStarted) {
-                    @autoreleasepool {
-                        [runLoop runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];  // Run for 100ms
+    @autoreleasepool {
+        for (CADisplayLink *displayLink in displayLinks) {
+            displayLinkThreads.emplace_back([this, displayLink]() {
+                @autoreleasepool {
+                    NSRunLoop *runLoop = NSRunLoop.currentRunLoop;
+                    [displayLink addToRunLoop:runLoop forMode:NSDefaultRunLoopMode];
+                    
+                    while (displayUpdatesStarted) {
+                        @autoreleasepool {
+                            [runLoop runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];  // Run for 100ms
+                        }
                     }
+                    
+                    [displayLink removeFromRunLoop:runLoop forMode:NSDefaultRunLoopMode];
                 }
-                
-                [displayLink removeFromRunLoop:runLoop forMode:NSDefaultRunLoopMode];
-            }
-        });
+            });
+        }
     }
 }
 
@@ -133,6 +146,10 @@ void IOSStimulusDisplay::stopDisplayUpdates() {
 
 
 void IOSStimulusDisplay::displayLinkCallback(CADisplayLink *displayLink, IOSStimulusDisplay &display, int contextIndex) {
+    //
+    // This method is only called from display link threads, which manage their own autorelease pools
+    //
+    
     if (contextIndex != 0) {
         
         display.refreshMirrorDisplay(contextIndex);
@@ -195,6 +212,11 @@ void IOSStimulusDisplay::displayLinkCallback(CADisplayLink *displayLink, IOSStim
         display.refreshCond.notify_all();
         
     }
+}
+
+
+boost::shared_ptr<StimulusDisplay> StimulusDisplay::createPlatformStimulusDisplay(bool announceIndividualStimuli) {
+    return boost::make_shared<IOSStimulusDisplay>(announceIndividualStimuli);
 }
 
 

@@ -28,12 +28,7 @@ BEGIN_NAMESPACE_MW
 	const char * CONFIG_PATH = "MWorks/Configuration";
 	const char * EXPERIMENT_INSTALL_PATH = "MWorks/Experiment Cache";
 #else
-	
-    const char * DATA_FILE_PATH "/usr/local/MWorks/plugins/";
-	const char * PLUGIN_PATH = "/usr/local/MWorks/plugins/";
-	const char * SCRIPTING_PATH = "/usr/local/MWorks/scripting/";
-	const char * CONFIG_PATH = "/usr/local/MWorks/local/";
-	const char * EXPERIMENT_INSTALL_PATH = "/tmp/mw_experiments/";
+#   error Unsupported platform
 #endif
 	
 	const char * DATA_FILE_EXT = ".mwk";
@@ -60,15 +55,13 @@ BEGIN_NAMESPACE_MW
 		namespace bf = boost::filesystem;
         bf::path data_file_path;
         
-        NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-        
-        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-        if (paths && [paths count]) {
-            data_file_path = (bf::path([[paths objectAtIndex:0] UTF8String]) /
-                              bf::path(DATA_FILE_PATH));
+        @autoreleasepool {
+            NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+            if (paths && [paths count]) {
+                data_file_path = (bf::path([[paths objectAtIndex:0] UTF8String]) /
+                                  bf::path(DATA_FILE_PATH));
+            }
         }
-        
-        [pool drain];
         
 		return data_file_path;
 	}
@@ -77,14 +70,12 @@ BEGIN_NAMESPACE_MW
 		namespace bf = boost::filesystem;
         bf::path user_path;
         
-        NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-
-        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
-        if (paths && [paths count]) {
-            user_path = bf::path([[paths objectAtIndex:0] UTF8String]) / bf::path(CONFIG_PATH);
+        @autoreleasepool {
+            NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
+            if (paths && [paths count]) {
+                user_path = bf::path([[paths objectAtIndex:0] UTF8String]) / bf::path(CONFIG_PATH);
+            }
         }
-        
-        [pool drain];
 
 		return user_path;
 	}
@@ -110,27 +101,23 @@ BEGIN_NAMESPACE_MW
 	boost::filesystem::path resourcePath() {
 		std::string resource_path;
 		
-		NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-		for(NSBundle *framework in [NSBundle allFrameworks]) {
-			if([[[[framework bundlePath] lastPathComponent] stringByDeletingPathExtension] isEqualToString:@"MWorksCore"]) {
-				resource_path = [[framework resourcePath] cStringUsingEncoding:NSASCIIStringEncoding];
-			}
-		}
-		
-		[pool drain];
-								   
+        @autoreleasepool {
+            for(NSBundle *framework in [NSBundle allFrameworks]) {
+                if([[[[framework bundlePath] lastPathComponent] stringByDeletingPathExtension] isEqualToString:@"MWorksCore"]) {
+                    resource_path = [[framework resourcePath] cStringUsingEncoding:NSASCIIStringEncoding];
+                }
+            }
+        }
+        
 		return boost::filesystem::path(resource_path);
 	}
 	
 	boost::filesystem::path experimentInstallPath() {
 		namespace bf = boost::filesystem;
         
-        NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-		bf::path experiment_install_path(bf::path([NSTemporaryDirectory() UTF8String]) /
-                                         bf::path(EXPERIMENT_INSTALL_PATH));
-        [pool drain];
-        
-        return experiment_install_path;
+        @autoreleasepool {
+            return (bf::path([NSTemporaryDirectory() UTF8String]) / bf::path(EXPERIMENT_INSTALL_PATH));
+        }
 	}
 	
 	boost::filesystem::path experimentStorageDirectoryName() {

@@ -11,7 +11,7 @@
 
 #include <TargetConditionals.h>
 #if TARGET_OS_OSX
-#  include <OpenGL/CGLTypes.h>
+#  include <OpenGL/OpenGL.h>
 #else
 #  include <mutex>
 #endif

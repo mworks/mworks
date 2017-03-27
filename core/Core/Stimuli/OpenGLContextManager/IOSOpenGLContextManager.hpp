@@ -10,16 +10,16 @@
 #define IOSOpenGLContextManager_hpp
 
 
-#include "OpenGLContextManager.h"
+#include "AppleOpenGLContextManager.hpp"
 
 
 BEGIN_NAMESPACE_MW
 
 
-class IOSOpenGLContextManager : public OpenGLContextManager {
+class IOSOpenGLContextManager : public AppleOpenGLContextManager {
     
 public:
-    using OpenGLContextManager::OpenGLContextManager;
+    using AppleOpenGLContextManager::AppleOpenGLContextManager;
     ~IOSOpenGLContextManager();
     
     int newFullscreenContext(int screen_number) override;

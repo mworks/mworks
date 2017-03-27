@@ -251,7 +251,6 @@ BEGIN_NAMESPACE_MW
 	
 	
 	void prepareStimulusDisplay() {
-		NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 		//	mprintf("Preparing stimulus display");
         
         shared_ptr<OpenGLContextManager> opengl_context_manager = OpenGLContextManager::instance(false);
@@ -315,7 +314,6 @@ BEGIN_NAMESPACE_MW
 		
 		GlobalCurrentExperiment->setStimulusDisplay(stimdisplay);
 		stimdisplay->clearDisplay();
-		[pool drain];
 	}
 	
 	

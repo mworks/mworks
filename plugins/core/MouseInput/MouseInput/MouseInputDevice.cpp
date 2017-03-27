@@ -47,71 +47,75 @@ MouseInputDevice::MouseInputDevice(const ParameterValueMap &parameters) :
 
 
 MouseInputDevice::~MouseInputDevice() {
-    if (trackingArea) {
-        [targetView performSelectorOnMainThread:@selector(removeTrackingArea:)
-                                          withObject:trackingArea
-                                       waitUntilDone:YES];
-        [trackingArea release];
-    }
-    
-    if (tracker) {
-        if (hideCursor) {
-            // Ensure that cursor is unhidden
-            [tracker performSelectorOnMainThread:@selector(unhideCursor) withObject:nil waitUntilDone:YES];
+    @autoreleasepool {
+        if (trackingArea) {
+            [targetView performSelectorOnMainThread:@selector(removeTrackingArea:)
+                                         withObject:trackingArea
+                                      waitUntilDone:YES];
+            [trackingArea release];
         }
-        [tracker release];
-    }
-    
-    if (targetView) {
-        [targetView release];
+        
+        if (tracker) {
+            if (hideCursor) {
+                // Ensure that cursor is unhidden
+                [tracker performSelectorOnMainThread:@selector(unhideCursor) withObject:nil waitUntilDone:YES];
+            }
+            [tracker release];
+        }
+        
+        if (targetView) {
+            [targetView release];
+        }
     }
 }
 
 
 bool MouseInputDevice::initialize() {
-    {
-        auto glcm = OpenGLContextManager::instance();
-        if (useMirrorWindow) {
-            // If there's no mirror window, getMirrorView will return the fullscreen window's view
-            targetView = glcm->getMirrorView();
-        } else {
-            targetView = glcm->getFullscreenView();
-        }
-        [targetView retain];
-    }
-    
-    // Get the parameters needed by GLKMathUnproject
-    projectionMatrix = StimulusDisplay::getCurrentStimulusDisplay()->getProjectionMatrix();
-    {
-        [targetView.openGLContext makeCurrentContext];
-        OpenGLContextLock ctxLock(targetView.openGLContext.CGLContextObj);
-        glGetIntegerv(GL_VIEWPORT, viewport.data());
-    }
-    
-    tracker = [[MWKMouseTracker alloc] initWithMouseInputDevice:component_shared_from_this<MouseInputDevice>()];
-    tracker.shouldHideCursor = hideCursor;
-    
-    dispatch_sync(dispatch_get_main_queue(), ^{
-        trackingArea = [[NSTrackingArea alloc] initWithRect:[targetView bounds]
-                                                    options:(NSTrackingMouseEnteredAndExited |
-                                                             NSTrackingMouseMoved |
-                                                             NSTrackingActiveAlways)
-                                                      owner:tracker
-                                                   userInfo:nil];
-        
-        [targetView addTrackingArea:trackingArea];
-        
-        if (hideCursor) {
-            NSPoint mouseLocationInWindowCoords = targetView.window.mouseLocationOutsideOfEventStream;
-            NSPoint mouseLocationInViewCoords = [targetView convertPoint:mouseLocationInWindowCoords fromView:nil];
-            if (NSPointInRect(mouseLocationInViewCoords, targetView.bounds)) {
-                // Ensure that the cursor is initially hidden
-                [tracker hideCursor];
+    @autoreleasepool {
+        {
+            auto glcm = boost::dynamic_pointer_cast<AppleOpenGLContextManager>(OpenGLContextManager::instance());
+            if (useMirrorWindow) {
+                // If there's no mirror window, getMirrorView will return the fullscreen window's view
+                targetView = glcm->getMirrorView();
+            } else {
+                targetView = glcm->getFullscreenView();
             }
+            [targetView retain];
         }
-    });
-    
-    return true;
+        
+        // Get the parameters needed by GLKMathUnproject
+        projectionMatrix = StimulusDisplay::getCurrentStimulusDisplay()->getProjectionMatrix();
+        {
+            [targetView.openGLContext makeCurrentContext];
+            OpenGLContextLock ctxLock(targetView.openGLContext.CGLContextObj);
+            glGetIntegerv(GL_VIEWPORT, viewport.data());
+        }
+        
+        tracker = [[MWKMouseTracker alloc] initWithMouseInputDevice:component_shared_from_this<MouseInputDevice>()];
+        tracker.shouldHideCursor = hideCursor;
+        
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            trackingArea = [[NSTrackingArea alloc] initWithRect:[targetView bounds]
+                                                        options:(NSTrackingMouseEnteredAndExited |
+                                                                 NSTrackingMouseMoved |
+                                                                 NSTrackingActiveAlways)
+                                                          owner:tracker
+                                                       userInfo:nil];
+            
+            [targetView addTrackingArea:trackingArea];
+            
+            if (hideCursor) {
+                NSPoint mouseLocationInWindowCoords = targetView.window.mouseLocationOutsideOfEventStream;
+                NSPoint mouseLocationInViewCoords = [targetView convertPoint:mouseLocationInWindowCoords fromView:nil];
+                if (NSPointInRect(mouseLocationInViewCoords, targetView.bounds)) {
+                    // Ensure that the cursor is initially hidden
+                    [tracker hideCursor];
+                }
+            }
+        });
+        
+        return true;
+    }
 }
 
 
@@ -128,11 +132,15 @@ bool MouseInputDevice::stopDeviceIO() {
 
 
 void MouseInputDevice::postMouseLocation(NSPoint location) const {
+    //
+    // This method is always called from the main thread, so we can call targetView's methods directly,
+    // and we don't need to provide an autorelease pool
+    //
+    
     if (!started) {
         return;
     }
     
-    // This method is always called from the main thread, so we can call convertPointToBacking: directly
     NSPoint locationInPixels = [targetView convertPointToBacking:location];
     bool success = false;
     GLKVector3 locationInDegrees = GLKMathUnproject(GLKVector3Make(locationInPixels.x, locationInPixels.y, 0.0),
