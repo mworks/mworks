@@ -6,7 +6,7 @@
 //
 //
 
-#include "OpenGLContextManager.h"
+#include "IOSOpenGLContextManager.hpp"
 
 #include "OpenGLUtilities.hpp"
 
@@ -123,7 +123,14 @@
 BEGIN_NAMESPACE_MW
 
 
-int OpenGLContextManager::newFullscreenContext(int screen_number) {
+IOSOpenGLContextManager::~IOSOpenGLContextManager() {
+    // Calling releaseContexts here causes the application to crash at exit.  Since this class is
+    // used as a singleton, it doesn't matter, anyway.
+    //releaseContexts();
+}
+
+
+int IOSOpenGLContextManager::newFullscreenContext(int screen_number) {
     if (screen_number < 0 || screen_number >= getNumDisplays()) {
         throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN,
                               (boost::format("Invalid screen number (%d)") % screen_number).str());
@@ -185,12 +192,12 @@ int OpenGLContextManager::newFullscreenContext(int screen_number) {
 }
 
 
-int OpenGLContextManager::newMirrorContext() {
+int IOSOpenGLContextManager::newMirrorContext() {
     throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN, "Mirror windows are not supported on this OS");
 }
 
 
-void OpenGLContextManager::releaseContexts() {
+void IOSOpenGLContextManager::releaseContexts() {
     dispatch_sync(dispatch_get_main_queue(), ^{
         for (UIWindow *window in windows) {
             window.hidden = YES;
@@ -203,13 +210,13 @@ void OpenGLContextManager::releaseContexts() {
 }
 
 
-int OpenGLContextManager::getNumDisplays() const {
+int IOSOpenGLContextManager::getNumDisplays() const {
     // At present, we support only the main display
     return 1;
 }
 
 
-OpenGLContextLock OpenGLContextManager::setCurrent(int context_id) {
+OpenGLContextLock IOSOpenGLContextManager::setCurrent(int context_id) {
     if (auto view = static_cast<MWKEAGLView *>(getView(context_id))) {
         if ([EAGLContext setCurrentContext:view.context]) {
             auto lock = [view lockContext];
@@ -222,20 +229,20 @@ OpenGLContextLock OpenGLContextManager::setCurrent(int context_id) {
 }
 
 
-void OpenGLContextManager::clearCurrent() {
+void IOSOpenGLContextManager::clearCurrent() {
     glBindFramebuffer(GL_FRAMEBUFFER, 0);  // Unbind the view's drawable object
     [EAGLContext setCurrentContext:nil];
 }
 
 
-void OpenGLContextManager::bindDefaultFramebuffer(int context_id) {
+void IOSOpenGLContextManager::bindDefaultFramebuffer(int context_id) {
     if (auto view = static_cast<MWKEAGLView *>(getView(context_id))) {
         [view bindDrawable];
     }
 }
 
 
-void OpenGLContextManager::flush(int context_id) {
+void IOSOpenGLContextManager::flush(int context_id) {
     if (auto view = static_cast<MWKEAGLView *>(getView(context_id))) {
         [view display];
     }

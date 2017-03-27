@@ -13,7 +13,6 @@
 
 #if TARGET_OS_OSX
 #  include <Cocoa/Cocoa.h>
-#  include <IOKit/pwr_mgt/IOPMLib.h>
 #elif TARGET_OS_IPHONE
 #  include <UIKit/UIKit.h>
 #  include <OpenGLES/EAGL.h>
@@ -36,26 +35,28 @@ public:
 #   error Unsupported platform
 #endif
     
+    static boost::shared_ptr<OpenGLContextManager> createPlatformOpenGLContextManager();
+    
     OpenGLContextManager();
     ~OpenGLContextManager();
     
     // Create a fullscreen context on a particular display
-    int newFullscreenContext(int screen_number);
+    virtual int newFullscreenContext(int screen_number) = 0;
     
     // Create a "mirror" window (smaller, movable window that displays whatever
     // is on the "main" display) and return its context index
-    int newMirrorContext();
+    virtual int newMirrorContext() = 0;
     
     // Release all contexts and associated resources
-    void releaseContexts();
+    virtual void releaseContexts() = 0;
     
-    int getNumDisplays() const;
+    virtual int getNumDisplays() const = 0;
     
-    OpenGLContextLock setCurrent(int context_id);
-    void clearCurrent();
+    virtual OpenGLContextLock setCurrent(int context_id) = 0;
+    virtual void clearCurrent() = 0;
     
-    void bindDefaultFramebuffer(int context_id);
-    void flush(int context_id);
+    virtual void bindDefaultFramebuffer(int context_id) = 0;
+    virtual void flush(int context_id) = 0;
     
     PlatformOpenGLContextPtr getContext(int context_id) const;
     PlatformOpenGLViewPtr getView(int context_id) const;
@@ -64,14 +65,10 @@ public:
     
     REGISTERED_SINGLETON_CODE_INJECTION(OpenGLContextManager)
     
-private:
+protected:
     NSMutableArray *contexts;
     NSMutableArray *views;
     NSMutableArray *windows;
-    
-#if TARGET_OS_OSX
-    IOPMAssertionID display_sleep_block;
-#endif
     
 };
 

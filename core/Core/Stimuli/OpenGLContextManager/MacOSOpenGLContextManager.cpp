@@ -5,7 +5,7 @@
  * Copyright (c) 2002 MIT. All rights reserved.
  */
 
-#include "OpenGLContextManager.h"
+#include "MacOSOpenGLContextManager.h"
 
 #include "ComponentRegistry.h"
 #include "OpenGLUtilities.hpp"
@@ -33,7 +33,19 @@
 BEGIN_NAMESPACE_MW
 
 
-int OpenGLContextManager::newFullscreenContext(int screen_number) {
+MacOSOpenGLContextManager::MacOSOpenGLContextManager() :
+    display_sleep_block(kIOPMNullAssertionID)
+{ }
+
+
+MacOSOpenGLContextManager::~MacOSOpenGLContextManager() {
+    // Calling releaseContexts here causes the application to crash at exit.  Since this class is
+    // used as a singleton, it doesn't matter, anyway.
+    //releaseContexts();
+}
+
+
+int MacOSOpenGLContextManager::newFullscreenContext(int screen_number) {
     if (screen_number < 0 || screen_number >= getNumDisplays()) {
         throw SimpleException(M_DISPLAY_MESSAGE_DOMAIN,
                               (boost::format("Invalid screen number (%d)") % screen_number).str());
@@ -110,7 +122,7 @@ int OpenGLContextManager::newFullscreenContext(int screen_number) {
 }
 
 
-int OpenGLContextManager::newMirrorContext(){
+int MacOSOpenGLContextManager::newMirrorContext(){
     
     // Determine the width and height of the mirror window
 
@@ -188,7 +200,7 @@ int OpenGLContextManager::newMirrorContext(){
 }
 
 
-void OpenGLContextManager::releaseContexts() {
+void MacOSOpenGLContextManager::releaseContexts() {
     if (kIOPMNullAssertionID != display_sleep_block) {
         (void)IOPMAssertionRelease(display_sleep_block);  // Ignore the return code
         display_sleep_block = kIOPMNullAssertionID;
@@ -213,7 +225,7 @@ void OpenGLContextManager::releaseContexts() {
 }
 
 
-int OpenGLContextManager::getNumDisplays() const {
+int MacOSOpenGLContextManager::getNumDisplays() const {
     if (auto screens = NSScreen.screens) {
         return screens.count;
     }
@@ -221,7 +233,7 @@ int OpenGLContextManager::getNumDisplays() const {
 }
 
 
-OpenGLContextLock OpenGLContextManager::setCurrent(int context_id) {
+OpenGLContextLock MacOSOpenGLContextManager::setCurrent(int context_id) {
     if (auto context = getContext(context_id)) {
         [context makeCurrentContext];
         return OpenGLContextLock(context.CGLContextObj);
@@ -230,17 +242,17 @@ OpenGLContextLock OpenGLContextManager::setCurrent(int context_id) {
 }
 
 
-void OpenGLContextManager::clearCurrent() {
+void MacOSOpenGLContextManager::clearCurrent() {
     [NSOpenGLContext clearCurrentContext];
 }
 
 
-void OpenGLContextManager::bindDefaultFramebuffer(int context_id) {
+void MacOSOpenGLContextManager::bindDefaultFramebuffer(int context_id) {
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
 
-void OpenGLContextManager::flush(int context_id) {
+void MacOSOpenGLContextManager::flush(int context_id) {
     if (auto context = getContext(context_id)) {
         [context flushBuffer];
     }

@@ -7,6 +7,12 @@
 
 #include "OpenGLContextManager.h"
 
+#if TARGET_OS_OSX
+#  include "MacOSOpenGLContextManager.h"
+#elif TARGET_OS_IPHONE
+#  include "IOSOpenGLContextManager.hpp"
+#endif
+
 
 BEGIN_NAMESPACE_MW
 
@@ -97,17 +103,10 @@ OpenGLContextManager::OpenGLContextManager() :
     contexts([[NSMutableArray alloc] init]),
     views([[NSMutableArray alloc] init]),
     windows([[NSMutableArray alloc] init])
-#if TARGET_OS_OSX
-    , display_sleep_block(kIOPMNullAssertionID)
-#endif
 { }
 
 
 OpenGLContextManager::~OpenGLContextManager() {
-    // Calling releaseContexts here causes the application to crash at exit.  Since this class is
-    // used as a singleton, it doesn't matter, anyway.
-    //releaseContexts();
-    
     [windows release];
     [views release];
     [contexts release];
@@ -145,6 +144,17 @@ auto OpenGLContextManager::getMirrorView() const -> PlatformOpenGLViewPtr {
         return views[1];
     }
     return getFullscreenView();
+}
+
+
+boost::shared_ptr<OpenGLContextManager> OpenGLContextManager::createPlatformOpenGLContextManager() {
+#if TARGET_OS_OSX
+    return boost::make_shared<MacOSOpenGLContextManager>();
+#elif TARGET_OS_IPHONE
+    return boost::make_shared<IOSOpenGLContextManager>();
+#else
+#   error Unsupported platform
+#endif
 }
 
 

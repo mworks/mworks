@@ -256,7 +256,7 @@ BEGIN_NAMESPACE_MW
         
         shared_ptr<OpenGLContextManager> opengl_context_manager = OpenGLContextManager::instance(false);
         if(opengl_context_manager == NULL){
-            opengl_context_manager = boost::make_shared<OpenGLContextManager>();
+            opengl_context_manager = OpenGLContextManager::createPlatformOpenGLContextManager();
             OpenGLContextManager::registerInstance(opengl_context_manager);
 		}
         //opengl_context_manager->releaseContexts();
