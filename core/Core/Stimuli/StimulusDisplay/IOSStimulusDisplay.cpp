@@ -121,11 +121,9 @@ void IOSStimulusDisplay::startDisplayUpdates() {
                     NSRunLoop *runLoop = NSRunLoop.currentRunLoop;
                     [displayLink addToRunLoop:runLoop forMode:NSDefaultRunLoopMode];
                     
-                    while (displayUpdatesStarted) {
-                        @autoreleasepool {
-                            [runLoop runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];  // Run for 100ms
-                        }
-                    }
+                    // The display link callback will call CFRunLoopStop when display updates stop,
+                    // see we can run continuously here
+                    CFRunLoopRun();
                     
                     [displayLink removeFromRunLoop:runLoop forMode:NSDefaultRunLoopMode];
                 }
@@ -145,9 +143,10 @@ void IOSStimulusDisplay::stopDisplayUpdates() {
 
 
 void IOSStimulusDisplay::displayLinkCallback(CADisplayLink *displayLink, IOSStimulusDisplay &display, int contextIndex) {
-    //
-    // This method is only called from display link threads, which manage their own autorelease pools
-    //
+    if (!(display.displayUpdatesStarted)) {
+        CFRunLoopStop(CFRunLoopGetCurrent());
+        return;
+    }
     
     if (contextIndex != 0) {
         
@@ -155,7 +154,7 @@ void IOSStimulusDisplay::displayLinkCallback(CADisplayLink *displayLink, IOSStim
         
     } else {
         
-        {
+        @autoreleasepool {
             unique_lock lock(display.display_lock);
             
             if (display.lastTargetTimestamp) {
