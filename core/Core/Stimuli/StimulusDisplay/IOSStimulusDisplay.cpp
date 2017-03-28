@@ -96,7 +96,8 @@ void IOSStimulusDisplay::prepareContext(int contextIndex) {
         
         // By default, the display link will invoke the provided selector at the native refresh rate
         // of the display, so there's no need to set its preferredFramesPerSecond property
-        NSCAssert(displayLink.preferredFramesPerSecond == 0, @"Unexpected preferredFramesPerSecond on CADisplayLink");
+        //NSCAssert(displayLink.preferredFramesPerSecond == screen.maximumFramesPerSecond,
+        //          @"Unexpected preferredFramesPerSecond on CADisplayLink");
         
         StimulusDisplay::prepareContext(contextIndex);
     }
@@ -105,11 +106,10 @@ void IOSStimulusDisplay::prepareContext(int contextIndex) {
 
 void IOSStimulusDisplay::setMainDisplayRefreshRate() {
     @autoreleasepool {
-        // FIXME: maximumFramesPerSecond will be available starting in iOS 10.3.  For now, just assume 60 Hz.
-        //auto view = opengl_context_manager->getView(context_ids.at(0));
-        //auto screen = view.window.screen;
-        //mainDisplayRefreshRate = double(screen.maximumFramesPerSecond);
-        mainDisplayRefreshRate = 60.0;
+        auto glcm = boost::dynamic_pointer_cast<AppleOpenGLContextManager>(opengl_context_manager);
+        auto view = glcm->getView(context_ids.at(0));
+        auto screen = view.window.screen;
+        mainDisplayRefreshRate = double(screen.maximumFramesPerSecond);
     }
 }
 
@@ -163,7 +163,10 @@ void IOSStimulusDisplay::displayLinkCallback(CADisplayLink *displayLink, IOSStim
                 if (display.lastTargetTimestamp) {
                     auto delta = (displayLink.targetTimestamp - display.lastTargetTimestamp) - displayLink.duration;
                     auto numSkippedFrames = std::round(delta / displayLink.duration);
-                    if (numSkippedFrames) {
+                    // For some reason, iOS sometimes asks us to draw the same frame twice, which results in a negative
+                    // number of skipped frames.  This is weird, but it doesn't seem like a situation that we need to
+                    // report to the user.
+                    if (numSkippedFrames > 0.0) {
                         mwarning(M_DISPLAY_MESSAGE_DOMAIN, "Skipped %g display refresh cycles", numSkippedFrames);
                     }
                 }
