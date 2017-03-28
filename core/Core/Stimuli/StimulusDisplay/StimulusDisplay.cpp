@@ -546,6 +546,13 @@ Datum StimulusDisplay::getAnnounceData(bool updateIsExplicit) {
 }
 
 
+void StimulusDisplay::reportSkippedFrames(double numSkippedFrames) const {
+    if (warnOnSkippedRefresh->getValue().getBool()) {
+        mwarning(M_DISPLAY_MESSAGE_DOMAIN, "Skipped %g display refresh cycles", numSkippedFrames);
+    }
+}
+
+
 shared_ptr<StimulusDisplay> StimulusDisplay::getCurrentStimulusDisplay() {
     if (!GlobalCurrentExperiment) {
         throw SimpleException("no experiment currently defined");		
@@ -561,6 +568,28 @@ shared_ptr<StimulusDisplay> StimulusDisplay::getCurrentStimulusDisplay() {
 
 
 END_NAMESPACE_MW
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

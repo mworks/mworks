@@ -109,6 +109,8 @@ BEGIN_NAMESPACE_MW
         void announceDisplayStack(MWTime time);
         Datum getAnnounceData(bool updateIsExplicit);
         bool shouldAnnounceStimuli(bool updateIsExplicit) { return updateIsExplicit || announceStimuliOnImplicitUpdates; }
+        
+        void reportSkippedFrames(double numSkippedFrames) const;
 
         void stateSystemCallback(const Datum &data, MWorksTime time);
         virtual void startDisplayUpdates() = 0;

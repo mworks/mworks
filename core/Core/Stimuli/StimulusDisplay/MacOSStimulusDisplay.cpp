@@ -13,7 +13,6 @@
 #include <CoreAudio/HostTime.h>
 
 #include "AppleOpenGLContextManager.hpp"
-#include "StandardVariables.h"
 #include "Utilities.h"
 
 
@@ -133,14 +132,10 @@ CVReturn MacOSStimulusDisplay::displayLinkCallback(CVDisplayLinkRef _displayLink
         {
             unique_lock lock(display.display_lock);
             
-            if (bool(warnOnSkippedRefresh->getValue())) {
-                if (display.lastFrameTime) {
-                    int64_t delta = (outputTime->videoTime - display.lastFrameTime) - outputTime->videoRefreshPeriod;
-                    if (delta) {
-                        mwarning(M_DISPLAY_MESSAGE_DOMAIN,
-                                 "Skipped %g display refresh cycles",
-                                 (double)delta / (double)(outputTime->videoRefreshPeriod));
-                    }
+            if (display.lastFrameTime) {
+                auto delta = (outputTime->videoTime - display.lastFrameTime) - outputTime->videoRefreshPeriod;
+                if (delta) {
+                    display.reportSkippedFrames(double(delta) / double(outputTime->videoRefreshPeriod));
                 }
             }
             

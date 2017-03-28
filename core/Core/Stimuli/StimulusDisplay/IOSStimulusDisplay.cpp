@@ -9,7 +9,6 @@
 #include "IOSStimulusDisplay.hpp"
 
 #include "AppleOpenGLContextManager.hpp"
-#include "StandardVariables.h"
 #include "Utilities.h"
 
 
@@ -159,16 +158,14 @@ void IOSStimulusDisplay::displayLinkCallback(CADisplayLink *displayLink, IOSStim
         {
             unique_lock lock(display.display_lock);
             
-            if (bool(warnOnSkippedRefresh->getValue())) {
-                if (display.lastTargetTimestamp) {
-                    auto delta = (displayLink.targetTimestamp - display.lastTargetTimestamp) - displayLink.duration;
-                    auto numSkippedFrames = std::round(delta / displayLink.duration);
-                    // For some reason, iOS sometimes asks us to draw the same frame twice, which results in a negative
-                    // number of skipped frames.  This is weird, but it doesn't seem like a situation that we need to
-                    // report to the user.
-                    if (numSkippedFrames > 0.0) {
-                        mwarning(M_DISPLAY_MESSAGE_DOMAIN, "Skipped %g display refresh cycles", numSkippedFrames);
-                    }
+            if (display.lastTargetTimestamp) {
+                auto delta = (displayLink.targetTimestamp - display.lastTargetTimestamp) - displayLink.duration;
+                auto numSkippedFrames = std::round(delta / displayLink.duration);
+                // For some reason, iOS sometimes asks us to draw the same frame twice, which results in a negative
+                // number of skipped frames.  This is weird, but it doesn't seem like a situation that we need to
+                // report to the user.
+                if (numSkippedFrames > 0.0) {
+                    display.reportSkippedFrames(numSkippedFrames);
                 }
             }
             
