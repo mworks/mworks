@@ -479,26 +479,9 @@ MWTime StimulusDisplay::updateDisplay() {
         
         node = node->getNext();
     }
-    
-#define ERROR_ON_LATE_FRAMES
-#ifdef ERROR_ON_LATE_FRAMES
-    MWTime before_draw = clock->getCurrentTimeUS();
-#endif
 
     needDraw = true;
     ensureRefresh(lock);
-    
-#ifdef ERROR_ON_LATE_FRAMES
-    MWTime now = clock->getCurrentTimeUS();
-    MWTime slop = 2 * (MWTime)(1000000.0 / getMainDisplayRefreshRate());
-    
-    if(now-before_draw > slop) {
-        merror(M_DISPLAY_MESSAGE_DOMAIN,
-               "updating main window display is taking longer than two frames (%lld > %lld) to update", 
-               now-before_draw, 
-               slop);		
-    }
-#endif
     
     // Return the predicted output time of the just-submitted frame
     return currentOutputTimeUS;
