@@ -50,71 +50,63 @@ BEGIN_NAMESPACE_MW
 	}
 
 
-void XMLParser::setup(shared_ptr<ComponentRegistry> _reg, std::string _path, std::string _simplification_transform_path){
-	path = _path;
-	registry = _reg;
-	
-	LIBXML_TEST_VERSION
-	
-	context = xmlNewParserCtxt();	
-	if(context == NULL){
-		throw SimpleException("Failed to create XML Parser Context");
-	}
-	
-	context->_private = (void *)this;
-	xmlSetGenericErrorFunc(context, &error_func);
-	
-	// parse the XSLT simplification transform
-	simplification_transform = xsltParseStylesheetFile((const xmlChar *)(_simplification_transform_path.c_str()));
-	
-	xml_doc = NULL;
-	errors_doc = NULL;
-}
-
-XMLParser::XMLParser(shared_ptr<ComponentRegistry> _reg, std::string _path, std::string _simplification_transform_path){
-  std::string simplification_path;
-  
-  if(_simplification_transform_path.empty()){
-    simplification_path = (prependResourcePath(std::string("MWParserTransformation.xsl"))).string();
-  } else {
-    simplification_path = (prependResourcePath(std::string(_simplification_transform_path))).string();
-  }
-  
-	setup(_reg, _path, simplification_path);
-}
-
-XMLParser::XMLParser(std::string _path, std::string _simplification_transform_path){
-	shared_ptr<ComponentRegistry> dummy(new ComponentRegistry());
-
-  std::string simplification_path;
-  
-  if(_simplification_transform_path.empty()){
-    simplification_path = (prependResourcePath(std::string("MWParserTransformation.xsl"))).string();
-  } else {
-    simplification_path = (prependResourcePath(std::string(_simplification_transform_path))).string();
-  }
-  
-	setup(dummy, _path, simplification_path);
+XMLParser::XMLParser(shared_ptr<ComponentRegistry> _reg,
+                     std::string _path,
+                     std::string _simplification_transform_path) :
+    path(_path),
+    context(nullptr),
+    xml_doc(nullptr),
+    errors_doc(nullptr),
+    simplification_transform(nullptr),
+    registry(_reg)
+{
+    std::string simplification_path;
+    
+    if (_simplification_transform_path.empty()) {
+        simplification_path = (prependResourcePath(std::string("MWParserTransformation.xsl"))).string();
+    } else {
+        simplification_path = (prependResourcePath(std::string(_simplification_transform_path))).string();
+    }
+    
+    LIBXML_TEST_VERSION
+    
+    context = xmlNewParserCtxt();
+    if (!context) {
+        throw SimpleException("Failed to create XML Parser Context");
+    }
+    
+    context->_private = this;
+    xmlSetGenericErrorFunc(context, &error_func);
+    
+    // parse the XSLT simplification transform
+    simplification_transform = xsltParseStylesheetFile(reinterpret_cast<const xmlChar *>(simplification_path.c_str()));
 }
 
 
+XMLParser::XMLParser(std::string _path, std::string _simplification_transform_path) :
+    XMLParser(boost::make_shared<ComponentRegistry>(), _path, _simplification_transform_path)
+{ }
 
 
 XMLParser::~XMLParser() {
-	if(xml_doc != NULL){
-		xmlFreeDoc(xml_doc);
-	}
-	
-	if(errors_doc != NULL){
-		xmlFreeDoc(errors_doc);
-	}
-	
-	if(context != NULL){
+    if (simplification_transform) {
+        xsltFreeStylesheet(simplification_transform);
+    }
+    
+    if (errors_doc) {
+        xmlFreeDoc(errors_doc);
+    }
+    
+    if (xml_doc) {
+        xmlFreeDoc(xml_doc);
+    }
+    
+    if (context) {
         // Clear the global generic error context, since it currently holds a pointer to context and, thereby,
         // this XMLParser instance, both of which are being deallocated
-        xmlSetGenericErrorFunc(NULL, NULL);
-		xmlFreeParserCtxt(context);
-	}
+        xmlSetGenericErrorFunc(nullptr, nullptr);
+        xmlFreeParserCtxt(context);
+    }
 }
 
 
@@ -239,12 +231,13 @@ void XMLParser::getDocumentData(std::vector<xmlChar> &data) {
     xmlChar *mem;
     int size;
     xmlDocDumpMemory(xml_doc, &mem, &size);
+    BOOST_SCOPE_EXIT( mem ) {
+        xmlFree(mem);
+    } BOOST_SCOPE_EXIT_END
     
     // mem is NUL-terminated, but the terminator is not included in size
     data.resize(size+1);
     std::copy_n(mem, data.size(), data.begin());
-    
-    xmlFree(mem);
 }
 
 
@@ -281,6 +274,9 @@ void XMLParser::parse(bool announce_progress){
     _addLineNumberAttributes(xmlDocGetRootElement(xml_doc));
 	
 	xmlDoc *simplified = xsltApplyStylesheet(simplification_transform, xml_doc, NULL);
+    BOOST_SCOPE_EXIT( simplified ) {
+        xmlFreeDoc(simplified);
+    } BOOST_SCOPE_EXIT_END
 	
 	//xmlDocDump(stderr, simplified);
 	xmlNode *root_element = xmlDocGetRootElement(simplified);
@@ -351,6 +347,9 @@ void XMLParser::_processNode(xmlNode *child){
                 
         mdebug("Error in %s node", name.c_str());
         xmlBufferPtr xml_buffer = xmlBufferCreate();
+        BOOST_SCOPE_EXIT( xml_buffer ) {
+            xmlBufferFree(xml_buffer);
+        } BOOST_SCOPE_EXIT_END
         int bytes = xmlNodeDump(xml_buffer, xml_doc, child, 1, 1);
         if(bytes != -1){
             string content((const char *)xml_buffer->content);
@@ -555,6 +554,9 @@ void XMLParser::_createAndAddReplicatedChildren(xmlNode *node,
 			}
 			
 			xmlNode *child_copy = xmlCopyNode(child, 1);
+            BOOST_SCOPE_EXIT( child_copy ) {
+                xmlFreeNode(child_copy);
+            } BOOST_SCOPE_EXIT_END
 			_substituteAttributeStrings(child_copy, variable, *value);
 			_substituteTagStrings(child_copy, variable, *value);
             
@@ -578,7 +580,6 @@ void XMLParser::_createAndAddReplicatedChildren(xmlNode *node,
 				_processNode(child_copy);
 			}
 			
-			xmlFreeNode(child_copy);
 			child = child->next;
 		}		
 	}
@@ -627,7 +628,7 @@ void XMLParser::_substituteAttributeStrings(xmlNode *node, const string& form1, 
   
   
 	if(xmlNodeIsText(node)){
-		string content((const char *)xmlNodeGetContent(node));
+		string content = _getContent(node);
 		boost::replace_all(content, form1, replacement);
 		boost::replace_all(content, form2, replacement);
 		xmlNodeSetContent(node, (const xmlChar *)(content.c_str()));
@@ -895,7 +896,7 @@ void XMLParser::_processInstanceDirective(xmlNode *node){
                 
                 shared_ptr<Variable> var = registry->getVariable(variable_name);
 				
-				string content((const char *)xmlNodeGetContent(alias_child));
+				string content = _getContent(alias_child);
                 GenericDataType dataType = var->getProperties()->getDefaultValue().getDataType();
                 Datum value = registry->getNumber(content, dataType);
 				
@@ -1088,6 +1089,9 @@ void XMLParser::_createAndConnectReplicatedChildren(shared_ptr<mw::Component> pa
 		while(subchild != NULL){
 			
 			xmlNode *subchild_copy = xmlCopyNode(subchild,1);
+            BOOST_SCOPE_EXIT( subchild_copy ) {
+                xmlFreeNode(subchild_copy);
+            } BOOST_SCOPE_EXIT_END
 			
             _substituteTagStrings(subchild_copy, variable, *value);
             			
@@ -1095,7 +1099,6 @@ void XMLParser::_createAndConnectReplicatedChildren(shared_ptr<mw::Component> pa
 			
 			_connectChildToParent(parent, properties, subchild_copy);
 			
-			xmlFreeNode(subchild_copy);
 			subchild = subchild->next;
 		}
 	}
@@ -1231,9 +1234,14 @@ vector<xmlNode *> XMLParser::_getChildren(xmlNode *node, string tag){
 }
 
 string XMLParser::_getContent(xmlNode *node){
-	
-	string returnval((const char *)xmlNodeGetContent(node));
-	return returnval;
+    auto content = xmlNodeGetContent(node);
+    if (!content) {
+        return string();
+    }
+    BOOST_SCOPE_EXIT( content ) {
+        xmlFree(content);
+    } BOOST_SCOPE_EXIT_END
+    return string(reinterpret_cast<char *>(content));
 }
 
 

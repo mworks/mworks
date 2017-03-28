@@ -140,12 +140,12 @@ void IncludedFilesParser::_processCreateDirective(xmlNode *node) {
         
         if (name == "path") {
 
-            string filePath((const char *)xmlNodeGetContent(child));
+            string filePath = _getContent(child);
             manifest.addElement(filePath);
 
         } else if (name == "directory_path") {
 
-            string directoryPath((const char *)xmlNodeGetContent(child));
+            string directoryPath = _getContent(child);
             std::vector<std::string> filePaths;
 
             mw::getFilePaths(getWorkingPathString(), directoryPath, filePaths);

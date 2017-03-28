@@ -55,7 +55,6 @@ class XMLParser {
 	
 		shared_ptr<ComponentRegistry> registry;
 	
-        void setup(shared_ptr<ComponentRegistry> _reg, std::string _path, std::string _simplification_transform);
 		virtual void validate();
         void loadFile();
         void _addLineNumberAttributes(xmlNode *node);

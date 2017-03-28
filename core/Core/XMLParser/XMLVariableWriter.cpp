@@ -9,6 +9,8 @@
 
 #include "XMLVariableWriter.h"
 
+#include <boost/scope_exit.hpp>
+
 
 BEGIN_NAMESPACE_MW
 
@@ -35,11 +37,17 @@ BEGIN_NAMESPACE_MW
 void XMLVariableWriter::writeVariablesToFile(vector< shared_ptr<Variable> > variables, 
 											 boost::filesystem::path file){
     
-    xmlParserCtxt *context = xmlNewParserCtxt();	
-	
+    xmlParserCtxt *context = xmlNewParserCtxt();
     xmlSetGenericErrorFunc(context, &variable_writer_error_func);
+    BOOST_SCOPE_EXIT( context ) {
+        xmlSetGenericErrorFunc(NULL, NULL);
+        xmlFreeParserCtxt(context);
+    } BOOST_SCOPE_EXIT_END
     
     xmlDocPtr doc = xmlNewDoc((const xmlChar *)"1.0");
+    BOOST_SCOPE_EXIT( doc ) {
+        xmlFreeDoc(doc);
+    } BOOST_SCOPE_EXIT_END
     
     xmlNodePtr mml_root = xmlNewDocNode(doc, NULL, (const xmlChar *)"monkeyml", NULL);
     xmlDocSetRootElement(doc, mml_root);
@@ -56,9 +64,6 @@ void XMLVariableWriter::writeVariablesToFile(vector< shared_ptr<Variable> > vari
     
     string path_str = file.string();
     xmlSaveFormatFile(path_str.c_str(), doc, 1);
-    
-    xmlSetGenericErrorFunc(NULL, NULL);
-    xmlFreeParserCtxt(context);
 }
 
 
