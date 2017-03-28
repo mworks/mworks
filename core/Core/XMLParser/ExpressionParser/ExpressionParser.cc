@@ -2314,7 +2314,7 @@ namespace stx MW_SYMBOL_PUBLIC {
 			} else if( Bernoulli_prob > 1 ){ 
 				mw::mwarning(mw::M_GENERIC_MESSAGE_DOMAIN,"Trying to evaluate discrete geometric random variable with Bernoulli prob > 1.  Returning 0.");
 				value = 0;	// As if Bernoulli_prob was = 1
-			} else if( Bernoulli_prob <= 0 ){
+			} else {
 				value = high;	// As if Bernoulli_prob was = 0; return range axtreme				
 				mw::mwarning(mw::M_GENERIC_MESSAGE_DOMAIN,"Trying to evaluate discrete geometric random variable with Bernoulli prob <= 0.  Returning range high limit.");
 			}
