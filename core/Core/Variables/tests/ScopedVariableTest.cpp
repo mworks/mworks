@@ -36,7 +36,7 @@ void ScopedVariableTestFixture::setUp(){
 	
 	v1 =  reg->createScopedVariable( env,
 										new VariableProperties(
-											new Datum(0L), "test1",
+											Datum(0L), "test1",
 											"Test",
 											"Test",
 											M_NEVER, M_WHEN_CHANGED,
@@ -45,7 +45,7 @@ void ScopedVariableTestFixture::setUp(){
 	
 	v2 =  reg->createScopedVariable( env,
 										new VariableProperties(
-											new Datum(0L), "test2",
+											Datum(0L), "test2",
 											"Test",
 											"Test",
 											M_NEVER, M_WHEN_CHANGED,

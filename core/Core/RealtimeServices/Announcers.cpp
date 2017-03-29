@@ -119,8 +119,7 @@ PrivateDataStorable::PrivateDataStorable(std::string _privateVariableBaseName,
         // TODO -- make sure interface says not edittable
     } else {       //  if not, register a new variable.
 		
-        privateVariable = registry->createGlobalVariable(new VariableProperties(new Datum(M_DICTIONARY, 
-																						   (int)1),
+        privateVariable = registry->createGlobalVariable(new VariableProperties(Datum(M_DICTIONARY, (int)1),
 																				 privateVariableTagname.c_str(), 
 																				 "Private data",
 																				 "private data",      

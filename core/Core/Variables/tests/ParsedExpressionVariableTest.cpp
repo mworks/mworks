@@ -21,7 +21,7 @@ CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( ParsedExpressionVariableTestFixture, "Uni
 
 
 void ParsedExpressionVariableTestFixture::createGlobalVariable(const std::string &name, Datum value) {
-    VariableProperties props(&value, 
+    VariableProperties props(value,
                              name,
                              name,
                              name,
@@ -47,7 +47,7 @@ void ParsedExpressionVariableTestFixture::testSimpleExpression() {
 	global_variable_registry = r;
 	
  Datum testInt((float)1);
-	VariableProperties props(&testInt, 
+	VariableProperties props(testInt, 
 							 "test",
 							 "Test test",
 							 "Testy test test test",

@@ -48,7 +48,7 @@ class VariableProperties {
 
         // This constructor exists only for compatibility with existing code.  New code
         // should use the preceding constructor.
-        VariableProperties(Datum * def,
+        VariableProperties(const Datum &def,
 							std::string tag, 
 							std::string full, 
 							std::string desc,
@@ -59,7 +59,7 @@ class VariableProperties {
 							DomainType dType, 
 							std::string groups,
                             bool exclude = false) :
-            VariableProperties(*def, tag, log, persist, groups, exclude)
+            VariableProperties(def, tag, log, persist, groups, exclude)
         { }
 
         explicit VariableProperties(const Datum &datum);

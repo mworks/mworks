@@ -60,7 +60,7 @@ public:
 			
 		 Datum defaultValue(0.0);
 			
-			VariableProperties props1(&defaultValue, "test1",
+			VariableProperties props1(defaultValue, "test1",
 									   "Test test",
 									   "Testy test test test",
 									   M_NEVER, M_WHEN_CHANGED,
@@ -69,7 +69,7 @@ public:
 				watchVar1 =
 				reg->createGlobalVariable(&props1);
 			
-			VariableProperties props2(&defaultValue, "test2",
+			VariableProperties props2(defaultValue, "test2",
 									   "Test test",
 									   "Testy test test test",
 									   M_NEVER, M_WHEN_CHANGED,
@@ -79,7 +79,7 @@ public:
 			
 		 Datum defaultBool((bool)false);
 			
-			VariableProperties triggerProps(&defaultBool, "triggerVar",
+			VariableProperties triggerProps(defaultBool, "triggerVar",
 											 "Test test",
 											 "Testy test test test",
 											 M_NEVER, M_WHEN_CHANGED,

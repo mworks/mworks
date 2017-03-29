@@ -31,7 +31,7 @@ void ScarabEventTestFixture::setUp(){
     reg = new VariableRegistry(global_outgoing_event_buffer);
   
  Datum defaultBool((bool)false);
-	VariableProperties props(&defaultBool, 
+	VariableProperties props(defaultBool, 
 						"test",
 						"Test test",
 						"Testy test test test",

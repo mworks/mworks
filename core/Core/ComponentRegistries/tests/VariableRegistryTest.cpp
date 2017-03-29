@@ -32,7 +32,7 @@ void VariableRegistryTestFixture::testCodec(){
 	CPPUNIT_ASSERT(r->getNVariables() == 0);
 	
     Datum test1((float)5);
-	VariableProperties props(&test1, 
+	VariableProperties props(test1,
 							  "test",
 							  "Test test",
 							  "Testy test test test",
@@ -78,7 +78,7 @@ void VariableRegistryTestFixture::testCodec(){
 	CPPUNIT_ASSERT(r2->getNVariables() == n_variables);
 	
     Datum test2((long)15);
-	VariableProperties props2(&test2, 
+	VariableProperties props2(test2, 
 							   "test2",
 							   "Test2 test2",
 							   "Testy test2 test2 test2",

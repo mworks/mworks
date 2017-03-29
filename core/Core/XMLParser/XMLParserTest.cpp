@@ -22,7 +22,7 @@ void mw::XMLParserTestFixture::setUp() {
 	mw::FullCoreEnvironmentTestFixture::setUp();
 	
 	mw::Datum default_value(0L);
-	testVar = mw::global_variable_registry->createGlobalVariable( new mw::VariableProperties(&default_value, 
+	testVar = mw::global_variable_registry->createGlobalVariable( new mw::VariableProperties(default_value, 
 																						   "testVar",
 																						   "testVar",
 																						   "testVar",

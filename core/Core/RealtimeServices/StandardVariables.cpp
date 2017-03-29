@@ -50,7 +50,7 @@ BEGIN_NAMESPACE_MW
 	void initializeStandardVariables(shared_ptr<VariableRegistry> registry) {
 		
         
-        alt_failover = registry->createGlobalVariable( new VariableProperties( new Datum((bool)true), 
+        alt_failover = registry->createGlobalVariable( new VariableProperties(     Datum((bool)true),
                                                                                    ALT_FAILOVER_TAGNAME, 
                                                                                    "allow_alt_failover", 
                                                                                    "Allow failover to 'alt' defined objects", 
@@ -62,7 +62,7 @@ BEGIN_NAMESPACE_MW
                                                                                    PRIVATE_SYSTEM_VARIABLES));
                                                                                    
 		state_system_mode = registry->createGlobalVariable( new VariableProperties(
-																			new Datum((long)IDLE), 
+																			Datum((long)IDLE), 
 																			STATE_SYSTEM_MODE_TAGNAME, 
 																			"Task Mode", 
 																			"Current Task Mode", 
@@ -76,7 +76,7 @@ BEGIN_NAMESPACE_MW
 		
 		
 		
-		GlobalMessageVariable = registry->createGlobalVariable(new VariableProperties(new Datum((long)0),
+		GlobalMessageVariable = registry->createGlobalVariable(new VariableProperties(Datum((long)0),
 																					   ANNOUNCE_MESSAGE_VAR_TAGNAME,
 																					   "message", 
 																					   "message event channel",
@@ -90,7 +90,7 @@ BEGIN_NAMESPACE_MW
 		
 		stimDisplayUpdate = registry->createGlobalVariable(
 														   new VariableProperties(
-																				   new Datum(M_LIST, 1),
+																				   Datum(M_LIST, 1),
 																				   STIMULUS_DISPLAY_UPDATE_TAGNAME, 
 																				   "Stimulus Display Update",
 																				   "Stimulus Display about to be Updated", 
@@ -104,7 +104,7 @@ BEGIN_NAMESPACE_MW
 		
 		experimentLoadProgress = registry->createGlobalVariable(
 																new VariableProperties(
-																						new Datum((double)0),
+																						Datum((double)0),
 																						EXPERIMENT_LOAD_PROGRESS_TAGNAME, 
 																						"Progress while loading an experiment",
 																						"Progress while loading an experiment", 
@@ -115,7 +115,7 @@ BEGIN_NAMESPACE_MW
 		
 		loadedExperiment = registry->createGlobalVariable(
                                                           new VariableProperties(
-                                                                                 new Datum(""),
+                                                                                 Datum(""),
                                                                                  LOADED_EXPERIMENT_TAGNAME,
                                                                                  "Source code of current experiment",
                                                                                  "The complete XML description of the currently-loaded experiment",
@@ -128,7 +128,7 @@ BEGIN_NAMESPACE_MW
 		//    values by changing this variable
 		registry->createGlobalVariable(
 									   new VariableProperties(
-															   new Datum((long)0),       // constructor to create default
+															   Datum((long)0),       // constructor to create default
 															   ANNOUNCE_STIMULUS_TAGNAME, "Announce stimulus",
 															   "A stimulus change has occured", 
 															   M_NEVER,M_WHEN_CHANGED,     // never useer edit, log when changed
@@ -138,7 +138,7 @@ BEGIN_NAMESPACE_MW
 		
 		registry->createGlobalVariable(
 									   new VariableProperties(
-															   new Datum((long)0),       // constructor to create default
+															   Datum((long)0),       // constructor to create default
 															   ANNOUNCE_SOUND_TAGNAME, "Announce Sound",
 															   "Indicates that a sound was played", 
 															   M_NEVER,M_WHEN_CHANGED,     // never useer edit, log when changed
@@ -148,7 +148,7 @@ BEGIN_NAMESPACE_MW
 		
 		registry->createGlobalVariable(
 									   new VariableProperties(
-															   new Datum(M_DICTIONARY, (int)1),       // constructor to create default
+															   Datum(M_DICTIONARY, (int)1),       // constructor to create default
 															   ANNOUNCE_CALIBRATOR_TAGNAME, "Announce calibration",
 															   "A calibration event has occured", 
 															   M_NEVER,M_WHEN_CHANGED,     // never useer edit, log when changed
@@ -157,7 +157,7 @@ BEGIN_NAMESPACE_MW
 		
 		registry->createGlobalVariable(
 									   new VariableProperties(
-															   new Datum(M_DICTIONARY, (int)1),
+															   Datum(M_DICTIONARY, (int)1),
 															   REQUEST_CALIBRATOR_TAGNAME, "Request calibrator",
 															   "used to request calibrator actions",       // e.g. update parameters
 															   M_WHEN_CHANGED,M_WHEN_CHANGED, true, false, M_DISCRETE,
@@ -165,7 +165,7 @@ BEGIN_NAMESPACE_MW
 		
 		
 		
-		currentState = registry->createGlobalVariable(new VariableProperties(new Datum(std::string("<empty>")),
+		currentState = registry->createGlobalVariable(new VariableProperties(Datum(std::string("<empty>")),
 																			  ANNOUNCE_CURRENT_STATE_TAGNAME,
 																			  "Current State",
 																			  "reports the current state",   
@@ -185,7 +185,7 @@ BEGIN_NAMESPACE_MW
 		
 		trialAnnounce = registry->createGlobalVariable(
 													   new VariableProperties(
-																			   new Datum(0L),
+																			   Datum(0L),
 																			   ANNOUNCE_TRIAL_TAGNAME, 
 																			   "Trial Announce",
 																			   "reports the entry or exit of a trial paradigm component",       // e.g. update parameters
@@ -193,7 +193,7 @@ BEGIN_NAMESPACE_MW
 																			   PRIVATE_SYSTEM_VARIABLES));                           
 		
 		blockAnnounce = registry->createGlobalVariable(new VariableProperties(
-																			   new Datum(0L),
+																			   Datum(0L),
 																			   ANNOUNCE_BLOCK_TAGNAME, "Block Announce",
 																			   "reports the entry or exit of a block paradigm component",       // e.g. update parameters
 																			   M_WHEN_CHANGED,M_WHEN_CHANGED, true, false, M_DISCRETE,
@@ -202,7 +202,7 @@ BEGIN_NAMESPACE_MW
 		
 		assertionFailure = registry->createGlobalVariable(
 														  new VariableProperties(
-																				  new Datum(0L),
+																				  Datum(0L),
 																				  ANNOUNCE_ASSERTION_TAGNAME, "Assertion Failure",
 																				  "Reports when a debugging assertion fails",
 																				  M_WHEN_CHANGED,M_WHEN_CHANGED, true, false, M_DISCRETE,
@@ -211,7 +211,7 @@ BEGIN_NAMESPACE_MW
 		
 		serverName = registry->createGlobalVariable(
 												   new VariableProperties(
-																		   new Datum(""),
+																		   Datum(""),
 																		   SETUP_NAME_TAGNAME,
 																		   "The name of this server",
 																		   "A unique name to distinguish this server machine (\"setup\") from others",
@@ -220,7 +220,7 @@ BEGIN_NAMESPACE_MW
 		
 		
         Datum default_screen_info(M_DICTIONARY, 0);
-		mainDisplayInfo = registry->createGlobalVariable(new VariableProperties(&default_screen_info,
+		mainDisplayInfo = registry->createGlobalVariable(new VariableProperties(default_screen_info,
 																				MAIN_SCREEN_INFO_TAGNAME, 
 																				"Main Screen Geometry Information",
 																				"Used to convert from screen units into degrees",
@@ -228,7 +228,7 @@ BEGIN_NAMESPACE_MW
 																				PRIVATE_SYSTEM_VARIABLES));
         
         
-        warnOnSkippedRefresh = registry->createGlobalVariable(new VariableProperties(new Datum((bool)true), 
+        warnOnSkippedRefresh = registry->createGlobalVariable(new VariableProperties(Datum((bool)true), 
                                                                                      WARN_ON_SKIPPED_REFRESH_TAGNAME, 
                                                                                      "Warn On Skipped Refresh", 
                                                                                      "Issue a warning if stimulus display driver misses a display refresh cycle", 
@@ -241,7 +241,7 @@ BEGIN_NAMESPACE_MW
 		
 		
         Datum defaultRealtimeComponents(M_DICTIONARY, 0);
-        realtimeComponents = registry->createGlobalVariable(new VariableProperties(&defaultRealtimeComponents,
+        realtimeComponents = registry->createGlobalVariable(new VariableProperties(defaultRealtimeComponents,
                                                                                    "#realtimeComponents",
                                                                                    "Realtime Component Selections",
                                                                                    "Used to select clock, scheduler, and state system components",
@@ -249,7 +249,7 @@ BEGIN_NAMESPACE_MW
                                                                                    PRIVATE_SYSTEM_VARIABLES));
 		
 		
-		debuggerActive = registry->createGlobalVariable(new VariableProperties(new Datum(0L),
+		debuggerActive = registry->createGlobalVariable(new VariableProperties(Datum(0L),
 																				DEBUGGER_ACTIVE_TAGNAME, 
 																				"Debugger Active",
 																				"When true, engages state system debugger",
@@ -262,7 +262,7 @@ BEGIN_NAMESPACE_MW
 		
 		debuggerRunning = registry->createGlobalVariable(
 														 new VariableProperties(
-																				 new Datum(1L),
+																				 Datum(1L),
 																				 DEBUGGER_RUNNING_TAGNAME, 
 																				 "Debugger Running",
 																				 "When true, allows the state system to move freely",
@@ -271,7 +271,7 @@ BEGIN_NAMESPACE_MW
 		
 		debuggerStep = registry->createGlobalVariable(
 													  new VariableProperties(
-																			  new Datum(0L),
+																			  Datum(0L),
 																			  DEBUGGER_STEP_TAGNAME, 
 																			  "Debugger Step",
 																			  "When non-zero, allows state system to move.  Each state "
