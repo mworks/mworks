@@ -1,6 +1,7 @@
 #include "Base.xcconfig"
 
 COMBINE_HIDPI_IMAGES = YES
+DEBUG_INFORMATION_FORMAT = dwarf
 // Xcode should find frameworks in /Library/Frameworks by default, but
 // sometimes it doesn't, so we explicitly add it to the search path
 FRAMEWORK_SEARCH_PATHS = $(inherited) /Library/Frameworks

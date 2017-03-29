@@ -1,6 +1,7 @@
 #include "Base.xcconfig"
 
 CODE_SIGN_IDENTITY[sdk=iphoneos*] = iPhone Developer
+DEBUG_INFORMATION_FORMAT = dwarf-with-dsym
 ENABLE_BITCODE = NO
 IPHONEOS_DEPLOYMENT_TARGET = 10.3
 LIBRARY_SEARCH_PATHS = $(inherited) $(BUILT_PRODUCTS_DIR)/lib
