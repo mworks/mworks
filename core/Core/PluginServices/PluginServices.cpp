@@ -76,8 +76,6 @@ BEGIN_NAMESPACE_MW
 	
 	void readPlugin(string path){
 		
-		Plugin *plugin = NULL;
-		
 		// Typedef for the function pointer.
 		typedef Plugin* (*GetPluginFunctionPtr)(); 
 		GetPluginFunctionPtr getplug = NULL;	
@@ -155,11 +153,10 @@ BEGIN_NAMESPACE_MW
 		
 		
 		
-		// If our function was found in the loaded code, 
-		// call it with a test value.
+        std::unique_ptr<Plugin> plugin;
+        
 		if (getplug) {
-			// This should add 1 to whatever was passed in
-			plugin = getplug();
+			plugin.reset(getplug());
 		}
 		
 		if(!plugin){
