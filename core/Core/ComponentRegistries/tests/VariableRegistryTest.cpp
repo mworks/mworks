@@ -44,7 +44,7 @@ void VariableRegistryTestFixture::testCodec(){
 							  "");
 	
 	shared_ptr<Variable> testvar =
-                r->createGlobalVariable(&props);
+                r->createGlobalVariable(props);
 	int n_variables = 1;
     
 	CPPUNIT_ASSERT(r->lookupVariable("test").getInteger() == 5);
@@ -89,7 +89,7 @@ void VariableRegistryTestFixture::testCodec(){
 							   M_CONTINUOUS_INFINITE,
 							   "");
 	shared_ptr<Variable> testvar2 =
-            r2->createGlobalVariable(&props2);
+            r2->createGlobalVariable(props2);
     
     n_variables++;
 	

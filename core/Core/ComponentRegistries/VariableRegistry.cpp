@@ -215,17 +215,14 @@ int VariableRegistry::getNVariables() {
 
 
 shared_ptr<ScopedVariable> VariableRegistry::addScopedVariable(weak_ptr<ScopedVariableEnvironment> env,
-																 VariableProperties *props) {
+                                                               const VariableProperties &props)
+{
     // create a new entry and return one instance
-    if(props == NULL) {
-        // TODO warn
-		throw SimpleException("Failed to add scoped variable to registry");
-    }
 	
     int variable_context_index = -1;
 	int codec_code = -1;
 	
-	VariableProperties *props_copy = new VariableProperties(*props);
+	VariableProperties *props_copy = new VariableProperties(props);
 	
     shared_ptr<ScopedVariable> new_variable(new ScopedVariable(props_copy));
 	//GlobalCurrentExperiment->addVariable(new_variable);
@@ -255,14 +252,8 @@ shared_ptr<ScopedVariable> VariableRegistry::addScopedVariable(weak_ptr<ScopedVa
 }
 
 
-shared_ptr<GlobalVariable> VariableRegistry::addGlobalVariable(VariableProperties *props){
-	
-	if(props == NULL){
-		// TODO: warn
-		throw SimpleException("Failed to add global variable to registry");
-	}
-	
-	VariableProperties *copy = new VariableProperties(*props);
+shared_ptr<GlobalVariable> VariableRegistry::addGlobalVariable(const VariableProperties &props) {
+	VariableProperties *copy = new VariableProperties(props);
 	shared_ptr<GlobalVariable> returnref(new GlobalVariable(copy));
 	
     master_variable_list.push_back(returnref);
@@ -292,14 +283,8 @@ shared_ptr<ConstantVariable> VariableRegistry::addConstantVariable(Datum value){
 	return returnref;
 }
 
-shared_ptr<Timer> VariableRegistry::createTimer(VariableProperties *props) {
-	VariableProperties *props_copy;
-	
-	if(props != NULL){
-		props_copy = new VariableProperties(*props);	
-	} else {
-		props_copy = NULL;
-	}
+shared_ptr<Timer> VariableRegistry::createTimer(const VariableProperties &props) {
+	VariableProperties *props_copy = new VariableProperties(props);
 	
 	shared_ptr<Timer> new_timer(new Timer(props_copy));
 	
@@ -317,16 +302,8 @@ shared_ptr<Timer> VariableRegistry::createTimer(VariableProperties *props) {
 }
 
 
-shared_ptr<SelectionVariable> VariableRegistry::addSelectionVariable(VariableProperties *props){
-	
-	VariableProperties *props_copy;
-	
-	if(props != NULL){
-		props_copy = new VariableProperties(*props);	
-	} else {
-		props_copy = NULL;
-	}
-	
+shared_ptr<SelectionVariable> VariableRegistry::addSelectionVariable(const VariableProperties &props) {
+	VariableProperties *props_copy = new VariableProperties(props);
 	
 	shared_ptr<SelectionVariable> returnref(new SelectionVariable(props_copy));
 	
@@ -346,8 +323,8 @@ shared_ptr<SelectionVariable> VariableRegistry::addSelectionVariable(VariablePro
 }
 
 shared_ptr<ScopedVariable> VariableRegistry::createScopedVariable(weak_ptr<ScopedVariableEnvironment> env,
-																	VariableProperties *props) {
-	
+                                                                  const VariableProperties &props)
+{
     boost::mutex::scoped_lock s_lock(lock);
 
 	shared_ptr<ScopedVariable> var = addScopedVariable(env, props);
@@ -355,7 +332,7 @@ shared_ptr<ScopedVariable> VariableRegistry::createScopedVariable(weak_ptr<Scope
 	return var;
 }
 
-shared_ptr<GlobalVariable> VariableRegistry::createGlobalVariable(VariableProperties *props) {
+shared_ptr<GlobalVariable> VariableRegistry::createGlobalVariable(const VariableProperties &props) {
     boost::mutex::scoped_lock s_lock(lock);
 
 	shared_ptr<GlobalVariable> var = addGlobalVariable(props);
@@ -368,7 +345,7 @@ shared_ptr<ConstantVariable> VariableRegistry::createConstantVariable(Datum valu
 }
 
 
-shared_ptr<SelectionVariable> VariableRegistry::createSelectionVariable(VariableProperties *props){
+shared_ptr<SelectionVariable> VariableRegistry::createSelectionVariable(const VariableProperties &props) {
     boost::mutex::scoped_lock s_lock(lock);
 
 	shared_ptr<SelectionVariable> var = addSelectionVariable(props);

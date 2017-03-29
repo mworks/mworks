@@ -73,9 +73,9 @@ protected:
 	
 	// create a new entry and return one instance
 	shared_ptr<ScopedVariable> addScopedVariable(boost::weak_ptr<ScopedVariableEnvironment> env,
-												  VariableProperties *p = NULL); 
-	shared_ptr<GlobalVariable> addGlobalVariable(VariableProperties *p = NULL);
-	shared_ptr<SelectionVariable> addSelectionVariable(VariableProperties *p = NULL);
+												 const VariableProperties &p);
+	shared_ptr<GlobalVariable> addGlobalVariable(const VariableProperties &p);
+	shared_ptr<SelectionVariable> addSelectionVariable(const VariableProperties &p);
 	
 	shared_ptr<ConstantVariable> addConstantVariable(Datum value);
 	
@@ -122,13 +122,13 @@ public:
 	// ********************************************************
 	
 	shared_ptr<ScopedVariable> createScopedVariable(boost::weak_ptr<ScopedVariableEnvironment> env,
-													 VariableProperties *p = NULL); 
+                                                    const VariableProperties &p);
 													 
-	shared_ptr<GlobalVariable> createGlobalVariable(VariableProperties *p = NULL);
-	shared_ptr<SelectionVariable> createSelectionVariable(VariableProperties *p = NULL);
+	shared_ptr<GlobalVariable> createGlobalVariable(const VariableProperties &p);
+	shared_ptr<SelectionVariable> createSelectionVariable(const VariableProperties &p);
 	
 	shared_ptr<ConstantVariable> createConstantVariable(Datum value);
-	shared_ptr<Timer> createTimer(VariableProperties *p = NULL);
+	shared_ptr<Timer> createTimer(const VariableProperties &p);
 	
 	
 	// ********************************************************

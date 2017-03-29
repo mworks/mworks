@@ -145,7 +145,7 @@ shared_ptr<mw::Component> SelectionVariableFactory::createObject(std::map<std::s
                              groups);
 	
 	boost::shared_ptr<SelectionVariable>selectionVar;
-	selectionVar = global_variable_registry->createSelectionVariable(&props);
+	selectionVar = global_variable_registry->createSelectionVariable(props);
     
     selectionVar->setAdvanceOnAccept(advanceOnAccept);
 	

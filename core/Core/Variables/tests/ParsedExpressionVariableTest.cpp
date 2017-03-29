@@ -32,7 +32,7 @@ void ParsedExpressionVariableTestFixture::createGlobalVariable(const std::string
                              M_INTEGER_INFINITE,
                              "");
     
-    global_variable_registry->createGlobalVariable(&props);
+    global_variable_registry->createGlobalVariable(props);
 }
 
 
@@ -59,7 +59,7 @@ void ParsedExpressionVariableTestFixture::testSimpleExpression() {
 							 "");
 	
 	shared_ptr<Variable> testvar =
-	r->createGlobalVariable(&props);
+	r->createGlobalVariable(props);
 	
 	
 	shared_ptr<ParsedExpressionVariable> e(new ParsedExpressionVariable("1 + 1"));

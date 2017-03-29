@@ -46,7 +46,7 @@ void ActionTestFixture::messageCallback(const Datum &data, MWorksTime time) {
 
 void ActionTestFixture::testSimpleAssignment1() {
 	shared_ptr<ConstantVariable>c1 = shared_ptr<ConstantVariable>(new ConstantVariable(Datum(M_FLOAT, 7.62)));
-	shared_ptr<GlobalVariable>v1 =  global_variable_registry->createGlobalVariable( new VariableProperties(Datum(0L), "test1",
+	shared_ptr<GlobalVariable>v1 =  global_variable_registry->createGlobalVariable( VariableProperties(Datum(0L), "test1",
 																										   "Test",
 																										   "Test",
 																										   M_NEVER, M_WHEN_CHANGED,
@@ -64,7 +64,7 @@ void ActionTestFixture::testSimpleAssignment1() {
 }
 
 void ActionTestFixture::testSimpleAssignment2() {
-	shared_ptr<GlobalVariable>v1 =  global_variable_registry->createGlobalVariable( new VariableProperties(
+	shared_ptr<GlobalVariable>v1 =  global_variable_registry->createGlobalVariable( VariableProperties(
 																										   Datum(0L), "test1",
 																										   "Test",
 																										   "Test",
@@ -87,7 +87,7 @@ void ActionTestFixture::testIncrementCounterWithAssignment(){
 	
 	
 	shared_ptr<GlobalVariable>v1_ptr =  
-	global_variable_registry->createGlobalVariable( new VariableProperties(
+	global_variable_registry->createGlobalVariable( VariableProperties(
 																		  Datum(0L), "test1",
 																		  "Test",
 																		  "Test",
@@ -112,7 +112,7 @@ void ActionTestFixture::testIncrementCounterWithAssignmentManyThreads(){
 	
 	
 	shared_ptr<GlobalVariable>v1_ptr =  
-	global_variable_registry->createGlobalVariable( new VariableProperties(
+	global_variable_registry->createGlobalVariable( VariableProperties(
 																		  Datum(0L), "test1",
 																		  "Test",
 																		  "Test",
@@ -175,7 +175,7 @@ void ActionTestFixture::testReportWithVariableAtEnd() {
 	std::string testVar("$" + testVarName);
 	std::string testVarValueString("testVarValueString");
 	
-	global_variable_registry->createGlobalVariable( new VariableProperties(
+	global_variable_registry->createGlobalVariable( VariableProperties(
 																		  Datum(testVarValueString), 
 																		  testVarName,
 																		  "Test",
@@ -228,7 +228,7 @@ void ActionTestFixture::testReportWithVariableAtBeginning() {
 	std::string testVar("$" + testVarName);
 	std::string testVarValueString("testVarValueString");
 	
-	global_variable_registry->createGlobalVariable( new VariableProperties(
+	global_variable_registry->createGlobalVariable( VariableProperties(
 																		  Datum(testVarValueString), 
 																		  testVarName,
 																		  "Test",
@@ -282,7 +282,7 @@ void ActionTestFixture::testReportWithVariableInMiddle() {
 	std::string testVar("$" + testVarName);
 	std::string testVarValueString("testVarValueString");
 	
-	global_variable_registry->createGlobalVariable( new VariableProperties(
+	global_variable_registry->createGlobalVariable( VariableProperties(
 																		  Datum(testVarValueString), 
 																		  testVarName,
 																		  "Test",
@@ -338,7 +338,7 @@ void ActionTestFixture::testReportWith2Variables() {
 	std::string testVarValueString("testVarValueString");
 	std::string testVarValueString2("testVarValueString2");
 	
-	global_variable_registry->createGlobalVariable( new VariableProperties(
+	global_variable_registry->createGlobalVariable( VariableProperties(
 																		  Datum(testVarValueString), 
 																		  testVarName,
 																		  "Test",
@@ -347,7 +347,7 @@ void ActionTestFixture::testReportWith2Variables() {
 																		  true, false,
 																		  M_CONTINUOUS_INFINITE,""));	
 	
-	global_variable_registry->createGlobalVariable( new VariableProperties(
+	global_variable_registry->createGlobalVariable( VariableProperties(
 																		  Datum(testVarValueString2), 
 																		  testVarName2,
 																		  "Test",
@@ -402,7 +402,7 @@ void ActionTestFixture::testReportWithBadVariable() {
 	std::string testVarValueString("testVarValueString");
 	std::string unknownVar("UNKNOWNVAR");
 	
-	global_variable_registry->createGlobalVariable( new VariableProperties(
+	global_variable_registry->createGlobalVariable( VariableProperties(
 																		  Datum(testVarValueString), 
 																		  testVarName + "Extra",
 																		  "Test",
@@ -465,7 +465,7 @@ void ActionTestFixture::testReportWithOneGoodVariableAndOneBadVariable() {
 	std::string testVarValueString2("testVarValueString2");
 	std::string unknownVar("UNKNOWNVAR");
 	
-	global_variable_registry->createGlobalVariable( new VariableProperties(
+	global_variable_registry->createGlobalVariable( VariableProperties(
 																		  Datum(testVarValueString), 
 																		  testVarName + "Extra",
 																		  "Test",
@@ -474,7 +474,7 @@ void ActionTestFixture::testReportWithOneGoodVariableAndOneBadVariable() {
 																		  true, false,
 																		  M_CONTINUOUS_INFINITE,""));	
 	
-	global_variable_registry->createGlobalVariable( new VariableProperties(
+	global_variable_registry->createGlobalVariable( VariableProperties(
 																		  Datum(testVarValueString2), 
 																		  testVarName2,
 																		  "Test",
@@ -584,7 +584,7 @@ void ActionTestFixture::testAssertWithVariableAtEnd() {
 	std::string testVar("$" + testVarName);
 	std::string testVarValueString("testVarValueString");
 	
-	global_variable_registry->createGlobalVariable( new VariableProperties(
+	global_variable_registry->createGlobalVariable( VariableProperties(
 																		  Datum(testVarValueString), 
 																		  testVarName,
 																		  "Test",
@@ -652,7 +652,7 @@ void ActionTestFixture::testScheduledAssignment() {
 	const MWTime DELAY_US = 4000000;
 	
 	shared_ptr<ConstantVariable>c1 = shared_ptr<ConstantVariable>(new ConstantVariable(1L));
-	shared_ptr<GlobalVariable>v1 =  global_variable_registry->createGlobalVariable( new VariableProperties(Datum(0L), "test1",
+	shared_ptr<GlobalVariable>v1 =  global_variable_registry->createGlobalVariable( VariableProperties(Datum(0L), "test1",
 																										   "Test",
 																										   "Test",
 																										   M_NEVER, M_WHEN_CHANGED,
@@ -691,7 +691,7 @@ void ActionTestFixture::testScheduledAssignmentWithCancel() {
 	const MWTime CANCEL_TIME_US = DELAY_US/10;
 	
 	shared_ptr<ConstantVariable>c1 = shared_ptr<ConstantVariable>(new ConstantVariable(1L));
-	shared_ptr<GlobalVariable>v1 =  global_variable_registry->createGlobalVariable( new VariableProperties(Datum(0L), "test1",
+	shared_ptr<GlobalVariable>v1 =  global_variable_registry->createGlobalVariable( VariableProperties(Datum(0L), "test1",
 																										   "Test",
 																										   "Test",
 																										   M_NEVER, M_WHEN_CHANGED,
@@ -735,7 +735,7 @@ void ActionTestFixture::testScheduledAssignmentWithCancelThatsTooLate() {
 	const MWTime CANCEL_TIME_US = 2*DELAY_US;
 	
 	shared_ptr<ConstantVariable>c1 = shared_ptr<ConstantVariable>(new ConstantVariable(1L));
-	shared_ptr<GlobalVariable>v1 =  global_variable_registry->createGlobalVariable( new VariableProperties(Datum(0L), "test1",
+	shared_ptr<GlobalVariable>v1 =  global_variable_registry->createGlobalVariable( VariableProperties(Datum(0L), "test1",
 																										   "Test",
 																										   "Test",
 																										   M_NEVER, M_WHEN_CHANGED,

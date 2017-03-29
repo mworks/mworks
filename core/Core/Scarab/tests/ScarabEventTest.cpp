@@ -42,7 +42,7 @@ void ScarabEventTestFixture::setUp(){
 						M_CONTINUOUS_INFINITE,
 							  "");
 	
-	reg->createGlobalVariable(&props);
+	reg->createGlobalVariable(props);
 }
 
 void ScarabEventTestFixture::tearDown(){

@@ -447,7 +447,7 @@ StartTimer::StartTimer(const ParameterValueMap &parameters) :
                                  t.str(),
                                  M_WHEN_CHANGED,
                                  false);
-        timer = global_variable_registry->createTimer(&props);
+        timer = global_variable_registry->createTimer(props);
         t.getRegistry()->registerObject(t.str(), timer);
     }
 }

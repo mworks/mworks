@@ -67,7 +67,7 @@ public:
 									   true, false, 
 									   M_CONTINUOUS_INFINITE,"");
 				watchVar1 =
-				reg->createGlobalVariable(&props1);
+				reg->createGlobalVariable(props1);
 			
 			VariableProperties props2(defaultValue, "test2",
 									   "Test test",
@@ -75,7 +75,7 @@ public:
 									   M_NEVER, M_WHEN_CHANGED,
 									   true, false, 
 									   M_CONTINUOUS_INFINITE,"");
-			watchVar2 = reg->createGlobalVariable(&props2);
+			watchVar2 = reg->createGlobalVariable(props2);
 			
 		 Datum defaultBool((bool)false);
 			
@@ -85,7 +85,7 @@ public:
 											 M_NEVER, M_WHEN_CHANGED,
 											 true, false,
 											 M_CONTINUOUS_INFINITE,"");
-			triggerVar = reg->createGlobalVariable(&triggerProps);
+			triggerVar = reg->createGlobalVariable(triggerProps);
 			
 			shared_ptr<Experiment> exp(new Experiment(reg));
 			exp->createVariableContexts(); // DDC added

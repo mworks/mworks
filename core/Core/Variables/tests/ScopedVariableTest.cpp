@@ -35,7 +35,7 @@ void ScopedVariableTestFixture::setUp(){
 	
 	
 	v1 =  reg->createScopedVariable( env,
-										new VariableProperties(
+										    VariableProperties(
 											Datum(0L), "test1",
 											"Test",
 											"Test",
@@ -44,7 +44,7 @@ void ScopedVariableTestFixture::setUp(){
 											M_CONTINUOUS_INFINITE,""));
 	
 	v2 =  reg->createScopedVariable( env,
-										new VariableProperties(
+										    VariableProperties(
 											Datum(0L), "test2",
 											"Test",
 											"Test",
