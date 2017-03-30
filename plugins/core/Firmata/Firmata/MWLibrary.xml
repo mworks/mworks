@@ -1,0 +1,62 @@
+<MWElements>
+  <MWElement name="Firmata Device">
+    <match_signature>iodevice[@type="firmata"]</match_signature>
+    
+    <isa>IODevice</isa>
+
+    <icon>smallIOFolder</icon>
+    
+    <description>
+Interface to a microcontroller that supports the Firmata protocol
+    </description>
+    
+    <code>
+      <iodevice type="firmata"
+                tag="Firmata Device"
+                serial_port=""
+                />
+    </code>
+  </MWElement>
+   
+  <MWElement name="Firmata Digital Input Channel">
+    <match_signature>iochannel[@type="firmata_digital_input"]</match_signature>
+    
+    <isa>IOChannel</isa>
+    <allowed_parent>Firmata Device</allowed_parent>
+
+    <icon>smallIOFolder</icon>
+    
+    <description>
+Digital input channel on a Firmata device
+    </description>
+    
+    <code>
+      <iochannel type="firmata_digital_input"
+                 tag="Firmata Digital Input Channel"
+                 pin_number=""
+                 value=""
+             />
+    </code>
+  </MWElement>
+   
+  <MWElement name="Firmata Digital Output Channel">
+    <match_signature>iochannel[@type="firmata_digital_output"]</match_signature>
+    
+    <isa>IOChannel</isa>
+    <allowed_parent>Firmata Device</allowed_parent>
+
+    <icon>smallIOFolder</icon>
+    
+    <description>
+Digital output channel on a Firmata device
+    </description>
+    
+    <code>
+      <iochannel type="firmata_digital_output"
+                 tag="Firmata Digital Output Channel"
+                 pin_number=""
+                 value=""
+             />
+    </code>
+  </MWElement>
+</MWElements>

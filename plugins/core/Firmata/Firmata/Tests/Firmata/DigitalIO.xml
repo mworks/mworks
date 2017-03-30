@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<monkeyml version="1.0">
+    <io_devices tag="IO Devices">
+        <iodevice type="firmata" tag="firmata" serial_port="">
+            <iochannel type="firmata_digital_output" tag="pin4" pin_number="4" value="output"></iochannel>
+            <iochannel type="firmata_digital_input" tag="pin13" pin_number="13" value="input"></iochannel>
+        </iodevice>
+    </io_devices>
+    <variables tag="Variables">
+        <variable tag="output" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="0" type="any">
+            <action type="report" tag="Report" message="output = $output"></action>
+        </variable>
+        <variable tag="input" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="0" type="any">
+            <action type="report" tag="Report" message="input = $input"></action>
+        </variable>
+    </variables>
+    <sounds tag="Sounds"></sounds>
+    <stimuli tag="Stimuli"></stimuli>
+    <filters tag="Filters"></filters>
+    <optimizers tag="Optimizers"></optimizers>
+    <experiment tag="New Experiment" full_name="" description="">
+        <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
+            <action type="assignment" tag="Reset output" variable="output" value="false"></action>
+            <block tag="New Block" nsamples="4" sampling_method="cycles" selection="sequential" interruptible="YES">
+                <action type="assignment" tag="Reset input" variable="input" value="!output"></action>
+                <action type="report" tag="Report" message="Starting device"></action>
+                <action tag="Start IO Device" type="start_device_IO" device="firmata"></action>
+                <action type="wait" tag="Wait" duration="1.0" duration_units="s"></action>
+                <action type="assert" tag="Assert input matches output" condition="input == output" message="" stop_on_failure="0"></action>
+                <action type="assignment" tag="Toggle output" variable="output" value="!output"></action>
+                <action type="wait" tag="Wait" duration="1.0" duration_units="s"></action>
+                <action type="assert" tag="Assert input matches output" condition="input == output" message="" stop_on_failure="0"></action>
+                <action type="report" tag="Report" message="Stopping device"></action>
+                <action tag="Stop IO Device" type="stop_device_IO" device="firmata"></action>
+            </block>
+        </protocol>
+    </experiment>
+</monkeyml>

@@ -39,6 +39,7 @@ package_contents = {
         '/Library/Application Support/MWorks/Plugins/Client/MWorksBehavioralWindow.bundle',
         '/Library/Application Support/MWorks/Plugins/Client/MWorksVariablesWindow.bundle',
         '/Library/Application Support/MWorks/Plugins/Core/DriftingGratingStimulusPlugin.bundle',
+        '/Library/Application Support/MWorks/Plugins/Core/Firmata.bundle',
         '/Library/Application Support/MWorks/Plugins/Core/HIDPlugin.bundle',
         '/Library/Application Support/MWorks/Plugins/Core/MSSWGamepadPlugin.bundle',
         '/Library/Application Support/MWorks/Plugins/Core/MouseInput.bundle',

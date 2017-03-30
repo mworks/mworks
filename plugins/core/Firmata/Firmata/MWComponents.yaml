@@ -1,0 +1,71 @@
+---
+
+
+name: Firmata Device
+signature: iodevice/firmata
+isa: IODevice
+description: |
+    Interface to a microcontroller that supports the
+    `Firmata protocol <https://github.com/firmata/protocol>`_.
+
+    Most `Arduino <https://www.arduino.cc/>`_ boards and compatible devices
+    (e.g. `Teensy <http://www.pjrc.com/teensy/>`_) can be configured to support
+    the Firmata protocol via the Arduino
+    `Firmata library <https://github.com/firmata/arduino>`_.
+parameters: 
+  - 
+    name: serial_port
+    example: /dev/cu.usbmodem31
+    description: |
+        Filesystem path that represents the serial port to which the Firmata
+        device is connected.
+
+        If omitted, MWorks looks for a single, connected serial device.  If it
+        finds one, it assumes it to be the desired Firmata device and attempts
+        to connect.
+
+
+---
+
+
+name: Firmata Digital Input Channel
+signature: iochannel/firmata_digital_input
+isa: IOChannel
+allowed_parent: Firmata Device
+description: Digital input channel on a `Firmata Device`
+parameters: 
+  - 
+    name: pin_number
+    required: yes
+    example: 13
+    description: Input pin number
+  - 
+    name: value
+    required: yes
+    description: >
+        Variable in which to store input state (true or false)
+
+
+---
+
+
+name: Firmata Digital Output Channel
+signature: iochannel/firmata_digital_output
+isa: IOChannel
+allowed_parent: Firmata Device
+description: Digital output channel on a `Firmata Device`
+parameters: 
+  - 
+    name: pin_number
+    required: yes
+    example: 4
+    description: Output pin number
+  - 
+    name: value
+    required: yes
+    description: >
+        Variable from which to read output state (true or false).  `Assigning
+        <Assign Variable>` a value to the variable causes the output state to be
+        changed immediately.
+
+

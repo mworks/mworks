@@ -1,0 +1,406 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		E1E84B051D0B2D1200F45D54 /* Install */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = E1E84B061D0B2D1200F45D54 /* Build configuration list for PBXAggregateTarget "Install" */;
+			buildPhases = (
+				E1E84B0A1D0B2D2E00F45D54 /* CopyFiles */,
+				E1E2B9DD1DD0DA5D00AFAB01 /* CopyFiles */,
+			);
+			dependencies = (
+				E1E84B091D0B2D2A00F45D54 /* PBXTargetDependency */,
+			);
+			name = Install;
+			productName = Install;
+		};
+		E1E84B0C1D0B2D4600F45D54 /* Everything */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = E1E84B0D1D0B2D4600F45D54 /* Build configuration list for PBXAggregateTarget "Everything" */;
+			buildPhases = (
+			);
+			dependencies = (
+				E1E84B101D0B2D5000F45D54 /* PBXTargetDependency */,
+			);
+			name = Everything;
+			productName = Everything;
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		E109F4FF1D148E7800854E47 /* FirmataDigitalInputChannel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E109F4FD1D148E7800854E47 /* FirmataDigitalInputChannel.cpp */; };
+		E18B6D3A1D0F19B500087249 /* FirmataDigitalChannel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E18B6D381D0F19B500087249 /* FirmataDigitalChannel.cpp */; };
+		E18B6D3D1D0F221300087249 /* FirmataDigitalOutputChannel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E18B6D3B1D0F221300087249 /* FirmataDigitalOutputChannel.cpp */; };
+		E1BE2D4B1D2EA1F800705EBE /* MWLibrary.xml in Resources */ = {isa = PBXBuildFile; fileRef = E1BE2D4A1D2EA1F800705EBE /* MWLibrary.xml */; };
+		E1BE2D4D1D2EA5F500705EBE /* MWComponents.yaml in Resources */ = {isa = PBXBuildFile; fileRef = E1BE2D4C1D2EA5F500705EBE /* MWComponents.yaml */; };
+		E1E2B9DE1DD0DA7E00AFAB01 /* Firmata in CopyFiles */ = {isa = PBXBuildFile; fileRef = E1E2B9DC1DD0DA3F00AFAB01 /* Firmata */; };
+		E1E84AFE1D0B2BC400F45D54 /* FirmataPlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1E84AFD1D0B2BC400F45D54 /* FirmataPlugin.cpp */; };
+		E1E84B0B1D0B2D3800F45D54 /* Firmata.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = E1E84AF41D0B2B4200F45D54 /* Firmata.bundle */; };
+		E1E84B131D0B30F900F45D54 /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1E84B121D0B30F900F45D54 /* MWorksCore.framework */; };
+		E1E84B151D0B311C00F45D54 /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1E84B141D0B311C00F45D54 /* libboost_system.a */; };
+		E1E84B191D0B3AD400F45D54 /* FirmataDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1E84B171D0B3AD400F45D54 /* FirmataDevice.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		E1E84B081D0B2D2A00F45D54 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E1E84AEC1D0B2B4200F45D54 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E1E84AF31D0B2B4200F45D54;
+			remoteInfo = Firmata;
+		};
+		E1E84B0F1D0B2D5000F45D54 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E1E84AEC1D0B2B4200F45D54 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E1E84B051D0B2D1200F45D54;
+			remoteInfo = Install;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		E1E2B9DD1DD0DA5D00AFAB01 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(MW_TESTS_XML_DIR)/IODevice";
+			dstSubfolderSpec = 0;
+			files = (
+				E1E2B9DE1DD0DA7E00AFAB01 /* Firmata in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E1E84B0A1D0B2D2E00F45D54 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(MW_PLUGINS_DIR)";
+			dstSubfolderSpec = 0;
+			files = (
+				E1E84B0B1D0B2D3800F45D54 /* Firmata.bundle in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		E109F4FD1D148E7800854E47 /* FirmataDigitalInputChannel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FirmataDigitalInputChannel.cpp; sourceTree = "<group>"; };
+		E109F4FE1D148E7800854E47 /* FirmataDigitalInputChannel.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FirmataDigitalInputChannel.hpp; sourceTree = "<group>"; };
+		E18B6D381D0F19B500087249 /* FirmataDigitalChannel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FirmataDigitalChannel.cpp; sourceTree = "<group>"; };
+		E18B6D391D0F19B500087249 /* FirmataDigitalChannel.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FirmataDigitalChannel.hpp; sourceTree = "<group>"; };
+		E18B6D3B1D0F221300087249 /* FirmataDigitalOutputChannel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FirmataDigitalOutputChannel.cpp; sourceTree = "<group>"; };
+		E18B6D3C1D0F221300087249 /* FirmataDigitalOutputChannel.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FirmataDigitalOutputChannel.hpp; sourceTree = "<group>"; };
+		E1BE2D4A1D2EA1F800705EBE /* MWLibrary.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MWLibrary.xml; sourceTree = "<group>"; };
+		E1BE2D4C1D2EA5F500705EBE /* MWComponents.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MWComponents.yaml; sourceTree = "<group>"; };
+		E1E2B9DC1DD0DA3F00AFAB01 /* Firmata */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Firmata; sourceTree = "<group>"; };
+		E1E84AF41D0B2B4200F45D54 /* Firmata.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Firmata.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		E1E84AF71D0B2B4200F45D54 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E1E84AFD1D0B2BC400F45D54 /* FirmataPlugin.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FirmataPlugin.cpp; sourceTree = "<group>"; };
+		E1E84B001D0B2C6F00F45D54 /* Development.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Development.xcconfig; sourceTree = "<group>"; };
+		E1E84B011D0B2C6F00F45D54 /* WARNING.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = WARNING.txt; sourceTree = "<group>"; };
+		E1E84B111D0B2F1600F45D54 /* Firmata-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Firmata-Prefix.pch"; sourceTree = "<group>"; };
+		E1E84B121D0B30F900F45D54 /* MWorksCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MWorksCore.framework; path = /Library/Frameworks/MWorksCore.framework; sourceTree = "<absolute>"; };
+		E1E84B141D0B311C00F45D54 /* libboost_system.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_system.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_system.a"; sourceTree = "<absolute>"; };
+		E1E84B171D0B3AD400F45D54 /* FirmataDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FirmataDevice.cpp; sourceTree = "<group>"; };
+		E1E84B181D0B3AD400F45D54 /* FirmataDevice.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FirmataDevice.hpp; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		E1E84AF11D0B2B4200F45D54 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E1E84B151D0B311C00F45D54 /* libboost_system.a in Frameworks */,
+				E1E84B131D0B30F900F45D54 /* MWorksCore.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		E18B6D361D0F195700087249 /* Channels */ = {
+			isa = PBXGroup;
+			children = (
+				E18B6D371D0F196800087249 /* Digital */,
+			);
+			path = Channels;
+			sourceTree = "<group>";
+		};
+		E18B6D371D0F196800087249 /* Digital */ = {
+			isa = PBXGroup;
+			children = (
+				E18B6D391D0F19B500087249 /* FirmataDigitalChannel.hpp */,
+				E18B6D381D0F19B500087249 /* FirmataDigitalChannel.cpp */,
+				E109F4FE1D148E7800854E47 /* FirmataDigitalInputChannel.hpp */,
+				E109F4FD1D148E7800854E47 /* FirmataDigitalInputChannel.cpp */,
+				E18B6D3C1D0F221300087249 /* FirmataDigitalOutputChannel.hpp */,
+				E18B6D3B1D0F221300087249 /* FirmataDigitalOutputChannel.cpp */,
+			);
+			path = Digital;
+			sourceTree = "<group>";
+		};
+		E1E2B9DB1DD0DA1100AFAB01 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				E1E2B9DC1DD0DA3F00AFAB01 /* Firmata */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
+		E1E84AEB1D0B2B4200F45D54 = {
+			isa = PBXGroup;
+			children = (
+				E1E84AFF1D0B2C0300F45D54 /* External Config */,
+				E1E84AF61D0B2B4200F45D54 /* Firmata */,
+				E1E84B161D0B312500F45D54 /* Frameworks */,
+				E1E84AF51D0B2B4200F45D54 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		E1E84AF51D0B2B4200F45D54 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E1E84AF41D0B2B4200F45D54 /* Firmata.bundle */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E1E84AF61D0B2B4200F45D54 /* Firmata */ = {
+			isa = PBXGroup;
+			children = (
+				E18B6D361D0F195700087249 /* Channels */,
+				E1E84B181D0B3AD400F45D54 /* FirmataDevice.hpp */,
+				E1E84B171D0B3AD400F45D54 /* FirmataDevice.cpp */,
+				E1E84AFD1D0B2BC400F45D54 /* FirmataPlugin.cpp */,
+				E1E84B041D0B2CA000F45D54 /* Supporting Files */,
+				E1E2B9DB1DD0DA1100AFAB01 /* Tests */,
+			);
+			path = Firmata;
+			sourceTree = "<group>";
+		};
+		E1E84AFF1D0B2C0300F45D54 /* External Config */ = {
+			isa = PBXGroup;
+			children = (
+				E1E84B001D0B2C6F00F45D54 /* Development.xcconfig */,
+				E1E84B011D0B2C6F00F45D54 /* WARNING.txt */,
+			);
+			name = "External Config";
+			path = "/Library/Application Support/MWorks/Developer/Xcode";
+			sourceTree = "<absolute>";
+		};
+		E1E84B041D0B2CA000F45D54 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				E1E84AF71D0B2B4200F45D54 /* Info.plist */,
+				E1E84B111D0B2F1600F45D54 /* Firmata-Prefix.pch */,
+				E1BE2D4C1D2EA5F500705EBE /* MWComponents.yaml */,
+				E1BE2D4A1D2EA1F800705EBE /* MWLibrary.xml */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		E1E84B161D0B312500F45D54 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E1E84B121D0B30F900F45D54 /* MWorksCore.framework */,
+				E1E84B141D0B311C00F45D54 /* libboost_system.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		E1E84AF31D0B2B4200F45D54 /* Firmata */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E1E84AFA1D0B2B4200F45D54 /* Build configuration list for PBXNativeTarget "Firmata" */;
+			buildPhases = (
+				E1E84AF01D0B2B4200F45D54 /* Sources */,
+				E1E84AF11D0B2B4200F45D54 /* Frameworks */,
+				E1E84AF21D0B2B4200F45D54 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Firmata;
+			productName = Firmata;
+			productReference = E1E84AF41D0B2B4200F45D54 /* Firmata.bundle */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E1E84AEC1D0B2B4200F45D54 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0730;
+				ORGANIZATIONNAME = "The MWorks Project";
+				TargetAttributes = {
+					E1E84AF31D0B2B4200F45D54 = {
+						CreatedOnToolsVersion = 7.3.1;
+					};
+					E1E84B051D0B2D1200F45D54 = {
+						CreatedOnToolsVersion = 7.3.1;
+					};
+					E1E84B0C1D0B2D4600F45D54 = {
+						CreatedOnToolsVersion = 7.3.1;
+					};
+				};
+			};
+			buildConfigurationList = E1E84AEF1D0B2B4200F45D54 /* Build configuration list for PBXProject "Firmata" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = E1E84AEB1D0B2B4200F45D54;
+			productRefGroup = E1E84AF51D0B2B4200F45D54 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				E1E84AF31D0B2B4200F45D54 /* Firmata */,
+				E1E84B051D0B2D1200F45D54 /* Install */,
+				E1E84B0C1D0B2D4600F45D54 /* Everything */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		E1E84AF21D0B2B4200F45D54 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E1BE2D4D1D2EA5F500705EBE /* MWComponents.yaml in Resources */,
+				E1BE2D4B1D2EA1F800705EBE /* MWLibrary.xml in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		E1E84AF01D0B2B4200F45D54 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E109F4FF1D148E7800854E47 /* FirmataDigitalInputChannel.cpp in Sources */,
+				E18B6D3D1D0F221300087249 /* FirmataDigitalOutputChannel.cpp in Sources */,
+				E1E84B191D0B3AD400F45D54 /* FirmataDevice.cpp in Sources */,
+				E1E84AFE1D0B2BC400F45D54 /* FirmataPlugin.cpp in Sources */,
+				E18B6D3A1D0F19B500087249 /* FirmataDigitalChannel.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		E1E84B091D0B2D2A00F45D54 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E1E84AF31D0B2B4200F45D54 /* Firmata */;
+			targetProxy = E1E84B081D0B2D2A00F45D54 /* PBXContainerItemProxy */;
+		};
+		E1E84B101D0B2D5000F45D54 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E1E84B051D0B2D1200F45D54 /* Install */;
+			targetProxy = E1E84B0F1D0B2D5000F45D54 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		E1E84AF81D0B2B4200F45D54 /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1E84B001D0B2C6F00F45D54 /* Development.xcconfig */;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				MTL_ENABLE_DEBUG_INFO = YES;
+			};
+			name = Development;
+		};
+		E1E84AFB1D0B2B4200F45D54 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Firmata/Firmata-Prefix.pch";
+				INFOPLIST_FILE = Firmata/Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.mworks-project.Firmata";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Development;
+		};
+		E1E84B071D0B2D1200F45D54 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Development;
+		};
+		E1E84B0E1D0B2D4600F45D54 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Development;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		E1E84AEF1D0B2B4200F45D54 /* Build configuration list for PBXProject "Firmata" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E1E84AF81D0B2B4200F45D54 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		E1E84AFA1D0B2B4200F45D54 /* Build configuration list for PBXNativeTarget "Firmata" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E1E84AFB1D0B2B4200F45D54 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		E1E84B061D0B2D1200F45D54 /* Build configuration list for PBXAggregateTarget "Install" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E1E84B071D0B2D1200F45D54 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		E1E84B0D1D0B2D4600F45D54 /* Build configuration list for PBXAggregateTarget "Everything" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E1E84B0E1D0B2D4600F45D54 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = E1E84AEC1D0B2B4200F45D54 /* Project object */;
+}

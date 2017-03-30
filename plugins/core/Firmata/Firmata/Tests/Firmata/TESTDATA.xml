@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<marionette_info>
+  <requirements>
+    <feature name="firmata"/>
+  </requirements>
+</marionette_info>

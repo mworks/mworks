@@ -154,6 +154,7 @@ def examples():
 @builder('mworks/plugins/core')
 def core_plugins():
     for subdir in ('DriftingGratingStimulus',
+                   'Firmata',
                    'HIDPlugin',
                    'MouseInput',
                    'MoviePlugin',

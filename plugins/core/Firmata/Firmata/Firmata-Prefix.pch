@@ -1,0 +1,28 @@
+//
+//  Firmata-Prefix.pch
+//  Firmata
+//
+//  Created by Christopher Stawarz on 6/10/16.
+//  Copyright © 2016 The MWorks Project. All rights reserved.
+//
+
+#ifndef Firmata_Prefix_pch
+#define Firmata_Prefix_pch
+
+#ifdef __cplusplus
+
+#include <atomic>
+#include <condition_variable>
+#include <mutex>
+#include <thread>
+
+#include <boost/scope_exit.hpp>
+
+#include <MWorksCore/IODevice.h>
+#include <MWorksCore/Plugin.h>
+#include <MWorksCore/SerialPort.hpp>
+#include <MWorksCore/StandardComponentFactory.h>
+
+#endif /* defined(__cplusplus) */
+
+#endif /* Firmata_Prefix_pch */
