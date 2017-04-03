@@ -11,104 +11,246 @@
 
 #include <mach/mach.h>
 
-#include <boost/noncopyable.hpp>
-
 #include "Utilities.h"
 
 
 BEGIN_NAMESPACE_MW
 
 
-//
-// NOTE: Although Apple's docs don't mention it, it's crucial to release the port returned by
-// mach_thread_self with mach_port_deallocate.  Otherwise, the port is leaked.  See
-// http://technosloth.blogspot.com/2010/08/unexpected-mach-port-refcounts.html
-//
-
-
-class MachThreadSelf : boost::noncopyable {
-    
-public:
-    MachThreadSelf() {
-        port = mach_thread_self();
+mach_timebase_info_data_t MachTimebase::getTimebaseInfo() {
+    mach_timebase_info_data_t timebaseInfo;
+    if (logMachError("mach_timebase_info", mach_timebase_info(&timebaseInfo))) {
+        throw SimpleException(M_SYSTEM_MESSAGE_DOMAIN, "Unable to create MachTimebase");
     }
-    
-    ~MachThreadSelf() {
-        if (KERN_SUCCESS != mach_port_deallocate(mach_task_self(), port)) {
-            mwarning(M_SYSTEM_MESSAGE_DOMAIN,
-                     "Unable to release Mach thread self port; application is leaking system resources");
-        }
-    }
-    
-    thread_port_t get() const {
-        return port;
-    }
-    
-private:
-    thread_port_t port;
-    
-};
-
-
-int set_realtime(int period, int computation, int constraint) {
-    MachThreadSelf machThread;
-
-    thread_time_constraint_policy_data_t ttcpolicy;
-    ttcpolicy.period = period;
-    ttcpolicy.computation = computation;
-    ttcpolicy.constraint = constraint;
-    ttcpolicy.preemptible = 1;
-
-    kern_return_t ret = thread_policy_set(machThread.get(),
-                                          THREAD_TIME_CONSTRAINT_POLICY,
-                                          (thread_policy_t)(&ttcpolicy),
-                                          THREAD_TIME_CONSTRAINT_POLICY_COUNT);
-    
-    if (KERN_SUCCESS != ret)  {
-        merror(M_SYSTEM_MESSAGE_DOMAIN,
-               "Set realtime failed (error code: %d, period = %d, computation = %d, constraint = %d)",
-               ret, period, computation, constraint);
-        return 0;
-    }
-    
-    return 1;
+    return timebaseInfo;
 }
 
 
-int set_realtime(int priority) {
-    MachThreadSelf machThread;
-    
-    kern_return_t result = KERN_SUCCESS;
+MachThreadSelf::MachThreadSelf(const std::string &name) :
+    port(mach_thread_self())
+{
+    pthread_setname_np(name.c_str());
+}
 
-    integer_t timeShareData;
-    if (priority > 64) {
-        timeShareData = 0;
-    } else {
-        timeShareData = 1;
+
+MachThreadSelf::~MachThreadSelf() {
+    //
+    // NOTE: Although Apple's docs don't mention it, it's crucial to release the port returned by
+    // mach_thread_self with mach_port_deallocate.  Otherwise, the port is leaked.  See
+    // http://technosloth.blogspot.com/2010/08/unexpected-mach-port-refcounts.html
+    //
+    if (logMachError("mach_port_deallocate", mach_port_deallocate(mach_task_self(), port))) {
+        mwarning(M_SYSTEM_MESSAGE_DOMAIN,
+                 "Unable to release Mach thread self port; application is leaking system resources");
+    }
+}
+
+
+//
+// MachThreadSelf::setPriority attempts to map each MWorks TaskPriority level to an appropriate
+// kernel scheduler priority.
+//
+// The scheduler priorities available to non-realtime, user-space threads range from 0 (MINPRI_USER)
+// to 63 (MAXPRI_USER).  By default, user-space threads have priority 31 (BASEPRI_DEFAULT).
+// Inspection (using logMachThreadInfo; see below) on macOS 10.12.4 and iOS 10.3.1 reveals that the
+// application main thread runs at priority 46 (BASEPRI_BACKGROUND) or 47 (BASEPRI_FOREGROUND),
+// depending on whether the application is currently frontmost.  Inspection also shows that
+// the thread created by a CVDisplayLink has priority 54 and runs in non-timesharing mode.
+//
+// Based on these observations, we have chosen MW_STIMULUS_PRIORITY to match that used by
+// CVDisplayLink (54), and we have assigned MW_IODEVICE_PRIORITY and MW_DEFAULT_PRIORITY to the two
+// levels immediately below MW_STIMULUS_PRIORITY (53 and 52, respectively).  Consequently, each of
+// these three priorities
+//   1. is always above that of the main thread and
+//   2. lies in the most elevated band of user-space priorities (52-63).
+//
+// Finally, note that we do *not* adjust the priority of network tasks.  For those, we simply accept
+// the system default.
+//
+// TODO: We should periodically check whether the priorities of system-created threads still match
+// our previous observations.
+//
+// References:
+//   * _Mac OS X Internals: A Systems Approach_ by Amit Singh (http://a.co/1igATUN )
+//   * osfmk/kern/sched.h in the XNU kernel source (available from https://opensource.apple.com )
+//
+
+
+namespace {
+    constexpr int BASEPRI_DEFAULT      = 31;  // From sched.h
+    constexpr int MW_DEFAULT_PRIORITY  = 52;
+    constexpr int MW_IODEVICE_PRIORITY = 53;
+    constexpr int MW_STIMULUS_PRIORITY = 54;
+}
+
+
+bool MachThreadSelf::setPriority(TaskPriority priority) {
+    //
+    // NOTE: The kernel computes a thread's priority by adding BASEPRI_DEFAULT to its importance
+    // value.  Therefore, to obtain our desired thread priorities, we must *subtract* BASEPRI_DEFAULT
+    // from them to obtain the appropriate importance values.
+    //
+    switch (priority) {
+        case TaskPriority::Network:
+            // No adjustment
+            return true;
+            
+        case TaskPriority::Default:
+            return setImportance(MW_DEFAULT_PRIORITY - BASEPRI_DEFAULT);
+            
+        case TaskPriority::IODevice:
+            // Since I/O device threads typically perform a fixed amount of work at regular intervals,
+            // they are good candidates for non-timesharing scheduling
+            return (setImportance(MW_IODEVICE_PRIORITY - BASEPRI_DEFAULT) &&
+                    setTimesharing(false));
+            
+        case TaskPriority::Stimulus:
+            // Copy the configuration of CVDisplayLink threads.  This is primarily for the benefit of
+            // the CADisplayLink thread spawned by IOSStimulusDisplay.
+            return (setImportance(MW_STIMULUS_PRIORITY - BASEPRI_DEFAULT) &&
+                    setTimesharing(false));
+    }
+}
+
+
+bool MachThreadSelf::setImportance(integer_t importance) {
+    thread_precedence_policy_data_t precedencePolicyData;
+    precedencePolicyData.importance = importance;
+    
+    return !logMachError("thread_policy_set",
+                         thread_policy_set(port,
+                                           THREAD_PRECEDENCE_POLICY,
+                                           reinterpret_cast<thread_policy_t>(&precedencePolicyData),
+                                           THREAD_PRECEDENCE_POLICY_COUNT));
+}
+
+
+bool MachThreadSelf::setTimesharing(bool timesharing) {
+    thread_extended_policy_data_t extendedPolicyData;
+    extendedPolicyData.timeshare = timesharing;
+    
+    return !logMachError("thread_policy_set",
+                         thread_policy_set(port,
+                                           THREAD_EXTENDED_POLICY,
+                                           reinterpret_cast<thread_policy_t>(&extendedPolicyData),
+                                           THREAD_EXTENDED_POLICY_COUNT));
+}
+
+
+bool MachThreadSelf::setRealtime(uint32_t period, uint32_t computation, uint32_t constraint, bool preemptible) {
+    thread_time_constraint_policy_data_t timeConstraintPolicyData;
+    timeConstraintPolicyData.period = period;
+    timeConstraintPolicyData.computation = computation;
+    timeConstraintPolicyData.constraint = constraint;
+    timeConstraintPolicyData.preemptible = preemptible;
+    
+    return !logMachError("thread_policy_set",
+                         thread_policy_set(port,
+                                           THREAD_TIME_CONSTRAINT_POLICY,
+                                           reinterpret_cast<thread_policy_t>(&timeConstraintPolicyData),
+                                           THREAD_TIME_CONSTRAINT_POLICY_COUNT));
+}
+
+
+void logMachThreadInfo() {
+    //
+    // Log (to stderr) the scheduling information for all threads in the current process
+    //
+    
+    thread_array_t threadList;
+    mach_msg_type_number_t threadCount;
+    if (logMachError("task_threads", task_threads(mach_task_self(), &threadList, &threadCount))) {
+        return;
     }
     
-    integer_t precedenceData = priority;
+    for (int threadNumber = 0; threadNumber < threadCount; threadNumber++) {
+        fprintf(stderr, "\nThread %d", threadNumber + 1);
+        
+        const auto thread = threadList[threadNumber];
+        mach_msg_type_number_t policyInfoCount;
+        boolean_t getDefault;
+        
+        {
+            thread_precedence_policy_data_t precedencePolicyData;
+            policyInfoCount = THREAD_PRECEDENCE_POLICY_COUNT;
+            getDefault = FALSE;
+            if (KERN_SUCCESS == thread_policy_get(thread,
+                                                  THREAD_PRECEDENCE_POLICY,
+                                                  reinterpret_cast<thread_policy_t>(&precedencePolicyData),
+                                                  &policyInfoCount,
+                                                  &getDefault))
+            {
+                if (!getDefault) {
+                    fprintf(stderr, "\n  importance = %d", precedencePolicyData.importance);
+                }
+            }
+        }
+        
+        {
+            thread_extended_policy_data_t extendedPolicyData;
+            policyInfoCount = THREAD_EXTENDED_POLICY_COUNT;
+            getDefault = FALSE;
+            if (KERN_SUCCESS == thread_policy_get(thread,
+                                                  THREAD_EXTENDED_POLICY,
+                                                  reinterpret_cast<thread_policy_t>(&extendedPolicyData),
+                                                  &policyInfoCount,
+                                                  &getDefault))
+            {
+                if (!getDefault) {
+                    fprintf(stderr, "\n  timeshare: %s", (extendedPolicyData.timeshare ? "YES" : "NO"));
+                }
+            }
+        }
+        
+        {
+            thread_time_constraint_policy_data_t timeConstraintPolicyData;
+            policyInfoCount = THREAD_TIME_CONSTRAINT_POLICY_COUNT;
+            getDefault = FALSE;
+            if (KERN_SUCCESS == thread_policy_get(thread,
+                                                  THREAD_TIME_CONSTRAINT_POLICY,
+                                                  reinterpret_cast<thread_policy_t>(&timeConstraintPolicyData),
+                                                  &policyInfoCount,
+                                                  &getDefault))
+            {
+                if (!getDefault) {
+                    fprintf(stderr,
+                            "\n  realtime:"
+                            "\n    period = %u"
+                            "\n    computation = %u"
+                            "\n    constraint = %u"
+                            "\n    preemptible: %s",
+                            timeConstraintPolicyData.period,
+                            timeConstraintPolicyData.computation,
+                            timeConstraintPolicyData.constraint,
+                            (timeConstraintPolicyData.preemptible ? "YES" : "NO"));
+                }
+            }
+        }
+        
+        {
+            thread_extended_info_data_t extendedInfo;
+            mach_msg_type_number_t extendedInfoCount = THREAD_EXTENDED_INFO_COUNT;
+            if (KERN_SUCCESS == thread_info(thread,
+                                            THREAD_EXTENDED_INFO,
+                                            reinterpret_cast<thread_info_t>(&extendedInfo),
+                                            &extendedInfoCount))
+            {
+                fprintf(stderr,
+                        "\n  priority         = %d"
+                        "\n  current priority = %d"
+                        "\n  maximum priority = %d"
+                        "\n  name: \"%s\"",
+                        extendedInfo.pth_priority,
+                        extendedInfo.pth_curpri,
+                        extendedInfo.pth_maxpriority,
+                        extendedInfo.pth_name);
+            }
+        }
+        
+        fprintf(stderr, "\n");
+    }
     
-    // Set the scheduling flavor. We want to do this first, since doing so
-    // can alter the priority
-    result = thread_policy_set(machThread.get(),
-                               THREAD_EXTENDED_POLICY,
-                               &timeShareData,
-                               THREAD_EXTENDED_POLICY_COUNT);
-    
-    if (KERN_SUCCESS != result)
-        return 0;
-    
-    // Now set the priority
-    result = thread_policy_set(machThread.get(),
-                               THREAD_PRECEDENCE_POLICY,
-                               &precedenceData,
-                               THREAD_PRECEDENCE_POLICY_COUNT);
-    
-    if (KERN_SUCCESS != result)
-        return 0;
-    
-    return 1;
+    fflush(stderr);
 }
 
 
@@ -121,16 +263,12 @@ bool logMachError(const char *functionName, mach_error_t error) {
 }
 
 
-mach_timebase_info_data_t MachTimebase::getTimebaseInfo() {
-    mach_timebase_info_data_t timebaseInfo;
-    if (logMachError("mach_timebase_info", mach_timebase_info(&timebaseInfo))) {
-        throw SimpleException(M_SYSTEM_MESSAGE_DOMAIN, "Unable to create MachTimebase");
-    }
-    return timebaseInfo;
-}
-
-
 END_NAMESPACE_MW
+
+
+
+
+
 
 
 

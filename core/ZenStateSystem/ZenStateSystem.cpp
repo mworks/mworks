@@ -17,34 +17,28 @@
 #include "MWorksCore/StandardVariables.h"
 #include "MWorksCore/Debugging.h"
 
-#include <mach/mach_types.h>
-#include <mach/mach_init.h>
-#include <mach/thread_policy.h>
-#include <mach/task_policy.h>
-#include <mach/thread_act.h>
-#include <sys/sysctl.h>
-
 #include "MachUtilities.h"
-
-#ifdef	LOW_PRIORITY_MODE
-	#define STATE_SYSTEM_PRIORITY	0
-#else
-	#define STATE_SYSTEM_PRIORITY 96
-#endif
 
 
 BEGIN_NAMESPACE_MW
 
     
 StandardStateSystem::StandardStateSystem(const shared_ptr <Clock> &a_clock) :
-    StateSystem(a_clock),
-    state_system_thread(nullptr)
+    StateSystem(a_clock)
 {
     in_action = false;
     in_transition = false;
     is_running = false;
     is_paused = false;
 }
+
+
+StandardStateSystem::~StandardStateSystem() {
+    if (state_system_thread.joinable()) {
+        state_system_thread.join();
+    }
+}
+
 
 void StandardStateSystem::start(){
     boost::mutex::scoped_lock lock(state_system_mutex);
@@ -66,19 +60,17 @@ void StandardStateSystem::start(){
 			  "Cannot start state system without a valid experiment defined");
 		return;
 	}
+    
+    // Clean up the previous thread, if any
+    if (state_system_thread.joinable()) {
+        state_system_thread.join();
+    }
 	
 	weak_ptr<State> exp_ref(current_experiment);
 	current_experiment->setCurrentState(exp_ref);
-		
-	shared_ptr <StandardStateSystem> *shared_ptr_to_this_ptr = 
-            new shared_ptr<StandardStateSystem>(component_shared_from_this<StandardStateSystem>());
-	pthread_create(&state_system_thread, NULL, runStateSystem, shared_ptr_to_this_ptr);
     
-    struct sched_param sp;
-    memset(&sp, 0, sizeof(struct sched_param));
-    sp.sched_priority=STATE_SYSTEM_PRIORITY;
-    
-    pthread_setschedparam(state_system_thread, SCHED_RR, &sp);
+    auto sharedThis = component_shared_from_this<StandardStateSystem>();
+    state_system_thread = std::thread([sharedThis]() { sharedThis->run(); });
     
     is_running = true;
 	sendSystemStateEvent();
@@ -155,48 +147,17 @@ bool StandardStateSystem::isInTransition(){
 
 weak_ptr<State> StandardStateSystem::getCurrentState(){
     // Allow access to the current state only on the state system thread
-    if (pthread_self() == state_system_thread) {
+    if (std::this_thread::get_id() == state_system_thread.get_id()) {
         return current_state;
     }
     return weak_ptr<State>();
 }
 
-//void StandardStateSystem::setCurrentState(weak_ptr<State> newcurrent){
-//    current_state = newcurrent;
-//}
-
-
-void* StandardStateSystem::runStateSystem(void *_ss) {
-	// Hand-off the self state system reference
-	shared_ptr<StandardStateSystem> *ss_ptr = (shared_ptr<StandardStateSystem> *)_ss;
-	shared_ptr<StandardStateSystem> ss = *ss_ptr;
-	delete ss_ptr;
-    
-    ss->run();
-    
-	pthread_exit(NULL);
-	return NULL;
-}
-
 
 void StandardStateSystem::run() {
-	weak_ptr<State> next_state;
-
-
-	int bus_speed, mib [2] = { CTL_HW, HW_BUS_FREQ };
-	size_t len;   
-	len = sizeof (bus_speed);
-	sysctl (mib, 2, &bus_speed, &len, NULL, 0);
-	
-	int didit = set_realtime(STATE_SYSTEM_PRIORITY);
-	
-	if(didit){
-		//fprintf(stderr,"Scheduler went realtime.  Rock on.\n");
-		//fflush(stderr);
-	} else {
-		fprintf(stderr,"Scheduler didn't go realtime.  Bummer.\n");
-		fflush(stderr);
-	}
+    if (!(MachThreadSelf("MWorks State System").setPriority(TaskPriority::Default))) {
+        merror(M_SCHEDULER_MESSAGE_DOMAIN, "Failed to set priority of state system thread");
+    }
 
     // Make a copy of the experiment to ensure that it isn't destroyed before we're done with it
     shared_ptr<Experiment> current_experiment = GlobalCurrentExperiment;
@@ -219,8 +180,6 @@ void StandardStateSystem::run() {
 				
 		(*state_system_mode) = (long)IDLE;
 	}
-        
-        //while(1){
 		
 	if(current_state.expired() == true){
 		// TODO: better throw
@@ -228,6 +187,7 @@ void StandardStateSystem::run() {
 	}
 	
 	shared_ptr<State> current_state_shared(current_state);
+    weak_ptr<State> next_state;
 	
 	while (current_state_shared) {
         const bool canInterrupt = current_state_shared->isInterruptible();  // might not be an okay place to stop

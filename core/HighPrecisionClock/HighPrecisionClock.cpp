@@ -96,7 +96,7 @@ void HighPrecisionClock::destroySemaphore(semaphore_t *sem) {
 
 
 void HighPrecisionClock::runLoop() {
-    if (!set_realtime(period, computation, period)) {
+    if (!(MachThreadSelf("MWorks High Precision Clock").setRealtime(period, computation, period))) {
         merror(M_SCHEDULER_MESSAGE_DOMAIN, "HighPrecisionClock failed to achieve real time scheduling");
     }
     

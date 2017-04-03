@@ -3758,10 +3758,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E1EDA97F1E4A3A840045E5F8 /* macOS_Plugin.xcconfig */;
 			buildSettings = {
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"$(inherited)",
-					REALTIME_SCHEDULER,
-				);
 				INFOPLIST_FILE = "ZenScheduler/ZenSchedulerPlugin-Info.plist";
 				PRODUCT_NAME = ZenSchedulerPlugin;
 			};
@@ -3899,10 +3895,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E16A20D41E5769DF00C48E10 /* iOS_Plugin.xcconfig */;
 			buildSettings = {
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"$(inherited)",
-					REALTIME_SCHEDULER,
-				);
 				INFOPLIST_FILE = "ZenScheduler/ZenSchedulerPlugin-iOS-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.mworks-project.ZenSchedulerPlugin-iOS";
 				PRODUCT_NAME = ZenSchedulerPlugin;

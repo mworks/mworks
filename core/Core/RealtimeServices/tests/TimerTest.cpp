@@ -202,7 +202,7 @@ void TimerTestFixture::testTimerUnderAttack(){
 
 	shared_ptr<Timer> t(new Timer());
 	
-	set_realtime(94);
+	//set_realtime(94);
 	
 	for(int i = 0; i < 1000; i++){
 		MWTime delay = 10000;
@@ -230,7 +230,7 @@ void TimerTestFixture::testTimerUnderAttack(){
 void TimerTestFixture::testTimerOverrideMultipleTimesFast(){
 	shared_ptr<Timer> t(new Timer());		
 
-	set_realtime(94);
+	//set_realtime(94);
 
 	for(int i = 0; i < NUM_TIMER_RESETS; i++){
 		//if(i%10 == 0) {

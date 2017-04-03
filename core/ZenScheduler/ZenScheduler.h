@@ -10,14 +10,8 @@
 #ifndef ZEN_SCHEDULER_H
 #define ZEN_SCHEDULER_H
 
-#include "MWorksCore/Scheduler.h"
-#include "MWorksCore/ExpandableList.h"
-#include "MWorksCore/LinkedList.h"
-#include "MWorksCore/Plugin.h"
-#include "boost/thread/mutex.hpp"
-#include "boost/shared_ptr.hpp"
-
-#include <string>
+#include <MWorksCore/Scheduler.h>
+#include <MWorksCore/Plugin.h>
 
 
 BEGIN_NAMESPACE_MW
@@ -50,8 +44,6 @@ namespace low_priority_scheduler{
 	namespace zen_scheduler {
 #endif
 		
-		void *zenScheduledExecutionThread(void *arglist);
-		
 		class ZenScheduler; // patience...
 		
 		
@@ -75,13 +67,17 @@ namespace low_priority_scheduler{
 							 MWTime _initial_delay, 
 							 MWTime _repeat_interval, 
 							 int _ntimes, 
-							 int priority, 
+							 TaskPriority priority,
 							 MissedExecutionBehavior _behave,
 							 MWTime _warn_slop, 
 							 MWTime _fail_slop);
 			
 			
-			int getPriority() const {
+            const std::string& getDescription() const {
+                return description;
+            }
+            
+			TaskPriority getPriority() const {
 				return priority;
 			}
 			
@@ -115,15 +111,15 @@ namespace low_priority_scheduler{
 			}
 			
 			
-			virtual shared_ptr<ScheduleTask> scheduleUS(const std::string &description,
-														 MWTime initial_delay, 
-														 MWTime repeat_interval, 
-														 int ntimes, 
-														 boost::function<void *()> _functor,
-														 int _priority,
-														 MWTime _warn_slop_us,
-														 MWTime _fail_slop_us,
-														 MissedExecutionBehavior behav);
+            shared_ptr<ScheduleTask> scheduleUS(const std::string &description,
+                                                MWTime initial_delay,
+                                                MWTime repeat_interval,
+                                                int ntimes,
+                                                boost::function<void *()> _functor,
+                                                TaskPriority _priority,
+                                                MWTime _warn_slop_us,
+                                                MWTime _fail_slop_us,
+                                                MissedExecutionBehavior behav) override;
 			
 			
             const boost::shared_ptr<Clock>& getClock() const {

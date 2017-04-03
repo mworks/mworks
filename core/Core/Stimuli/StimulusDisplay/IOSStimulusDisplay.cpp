@@ -9,6 +9,7 @@
 #include "IOSStimulusDisplay.hpp"
 
 #include "AppleOpenGLContextManager.hpp"
+#include "MachUtilities.h"
 #include "Utilities.h"
 
 
@@ -118,6 +119,10 @@ void IOSStimulusDisplay::startDisplayUpdates() {
         for (CADisplayLink *displayLink in displayLinks) {
             displayLinkThreads.emplace_back([this, displayLink]() {
                 @autoreleasepool {
+                    if (!(MachThreadSelf("MWorks CADisplayLink").setPriority(TaskPriority::Stimulus))) {
+                        merror(M_DISPLAY_MESSAGE_DOMAIN, "Failed to set priority of display link thread");
+                    }
+                    
                     NSRunLoop *runLoop = NSRunLoop.currentRunLoop;
                     [displayLink addToRunLoop:runLoop forMode:NSDefaultRunLoopMode];
                     

@@ -23,6 +23,14 @@
 BEGIN_NAMESPACE_MW
 
 
+enum class TaskPriority {
+    Network,
+    Default,
+    IODevice,
+    Stimulus
+};
+
+
 enum MissedExecutionBehavior {
     M_MISSED_EXECUTION_DROP,
     M_MISSED_EXECUTION_CATCH_UP,
@@ -31,7 +39,7 @@ enum MissedExecutionBehavior {
 
 
 #define M_REPEAT_INDEFINITELY -999
-#define M_DEFAULT_PRIORITY  94
+#define M_DEFAULT_PRIORITY  TaskPriority::Default
 
 
 #ifndef	M_DEFAULT_WARN_SLOP_MS
@@ -47,16 +55,16 @@ enum MissedExecutionBehavior {
 
 
 
-#define M_DEFAULT_STIMULUS_PRIORITY  96
+#define M_DEFAULT_STIMULUS_PRIORITY  TaskPriority::Stimulus
 
 // jjd added
-#define M_DEFAULT_IODEVICE_PRIORITY  95		
+#define M_DEFAULT_IODEVICE_PRIORITY  TaskPriority::IODevice
 #define	M_DEFAULT_IODEVICE_WARN_SLOP_MS  M_DEFAULT_WARN_SLOP_MS
 #define	M_DEFAULT_IODEVICE_FAIL_SLOP_MS  M_DEFAULT_FAIL_SLOP_MS
 #define	M_DEFAULT_IODEVICE_WARN_SLOP_US  M_DEFAULT_WARN_SLOP_US
 #define	M_DEFAULT_IODEVICE_FAIL_SLOP_US  M_DEFAULT_FAIL_SLOP_US
 
-#define M_DEFAULT_NETWORK_PRIORITY  63
+#define M_DEFAULT_NETWORK_PRIORITY  TaskPriority::Network
 #define M_DEFAULT_NETWORK_WARN_SLOP_MS  0LL		// no warnings
 #define M_DEFAULT_NETWORK_FAIL_SLOP_MS  3000LL  // 3s before we raise an alarm
 // networks can be flakey
@@ -75,7 +83,7 @@ public:
                  MWTime repeat_interval_us,
                  int ntimes,
                  boost::function<void *()> functor,
-                 int priority,
+                 TaskPriority priority,
                  MWTime warning_slop_us,
                  MWTime fail_slop_us,
                  MissedExecutionBehavior behavior) :
@@ -102,7 +110,7 @@ protected:
     const MWTime repeat_interval_us;
     const int ntimes;
     const boost::function<void *()> functor;
-    const int priority;
+    const TaskPriority priority;
     const MWTime warning_slop_us;
     const MWTime fail_slop_us;
     const MissedExecutionBehavior behavior;
@@ -126,7 +134,7 @@ public:
                                                 MWTime repeat_interval_us,
                                                 int ntimes,
                                                 boost::function<void *()> _functor,
-                                                int priority,
+                                                TaskPriority priority,
                                                 MWTime warn_slop,
                                                 MWTime fail_slop,
                                                 MissedExecutionBehavior behav) = 0;
@@ -136,7 +144,7 @@ public:
                                         MWTime repeat_interval_ms,
                                         int ntimes,
                                         boost::function<void *()> _functor,
-                                        int priority,
+                                        TaskPriority priority,
                                         MWTime warn_slop,
                                         MWTime fail_slop,
                                         MissedExecutionBehavior behav)
