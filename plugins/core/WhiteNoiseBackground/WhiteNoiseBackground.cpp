@@ -9,10 +9,6 @@
 
 #include "WhiteNoiseBackground.h"
 
-#if TARGET_OS_OSX
-#  include <OpenGL/gl3ext.h>
-#endif
-
 
 BEGIN_NAMESPACE_MW
 
@@ -65,10 +61,7 @@ void WhiteNoiseBackground::load(shared_ptr<StimulusDisplay> display) {
     glVertexAttribPointer(texCoordsAttribLocation, componentsPerVertex, GL_FLOAT, GL_FALSE, 0, nullptr);
     
     glGenTextures(1, &texture);
-    gl::TextureBinding<GL_TEXTURE_2D> textureBinding(texture);
-    glTexStorage2D(GL_TEXTURE_2D, 1, GL_RGBA8, width, height);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    updateTexture();
     
     Stimulus::load(display);
 }
@@ -139,20 +132,23 @@ void WhiteNoiseBackground::updateTexture() {
     
     gl::TextureBinding<GL_TEXTURE_2D> textureBinding(texture);
     
-    glTexSubImage2D(GL_TEXTURE_2D,
-                    0,
-                    0,
-                    0,
-                    width,
-                    height,
+    glTexImage2D(GL_TEXTURE_2D,
+                 0,
+                 GL_RGBA8,
+                 width,
+                 height,
+                 0,
 #if MWORKS_OPENGL_ES
-                    GL_RGBA,
-                    GL_UNSIGNED_BYTE,
+                 GL_RGBA,
+                 GL_UNSIGNED_BYTE,
 #else
-                    GL_BGRA,
-                    GL_UNSIGNED_INT_8_8_8_8_REV,
+                 GL_BGRA,
+                 GL_UNSIGNED_INT_8_8_8_8_REV,
 #endif
-                    pixels.data());
+                 pixels.data());
+    
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 }
 
 
