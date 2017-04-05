@@ -23,7 +23,6 @@
 			buildConfigurationList = E12A27091201E34D00CE8C55 /* Build configuration list for PBXAggregateTarget "Install" */;
 			buildPhases = (
 				E12A26F71201E2FB00CE8C55 /* CopyFiles */,
-				E125BFEE18E326B100F6C480 /* CopyFiles */,
 			);
 			dependencies = (
 				E12A26FB1201E30500CE8C55 /* PBXTargetDependency */,
@@ -37,7 +36,6 @@
 		5CF9AEBC0FD5795C00F405F6 /* MovingDotsPlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CF9AEB90FD5795C00F405F6 /* MovingDotsPlugin.cpp */; };
 		5CFE591A0F571B15000C7F30 /* MovingDots.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CFE59190F571B15000C7F30 /* MovingDots.cpp */; };
 		BFBFB0D610446C180019216B /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFBFB0D510446C180019216B /* MWorksCore.framework */; };
-		E125BFEF18E326BC00F6C480 /* MovingDots in CopyFiles */ = {isa = PBXBuildFile; fileRef = E125BFED18E3269700F6C480 /* MovingDots */; };
 		E12A26FD1201E31400CE8C55 /* MovingDots.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8D5B49B6048680CD000E48DA /* MovingDots.bundle */; };
 		E15C729E1E6DD2EC001CE0C0 /* MovingDots.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CFE59190F571B15000C7F30 /* MovingDots.cpp */; };
 		E15C729F1E6DD2EF001CE0C0 /* MovingDotsPlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CF9AEB90FD5795C00F405F6 /* MovingDotsPlugin.cpp */; };
@@ -65,16 +63,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		E125BFEE18E326B100F6C480 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "$(MW_TESTS_XML_DIR)/Stimulus";
-			dstSubfolderSpec = 0;
-			files = (
-				E125BFEF18E326BC00F6C480 /* MovingDots in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		E12A26F71201E2FB00CE8C55 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -95,7 +83,6 @@
 		8D5B49B6048680CD000E48DA /* MovingDots.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MovingDots.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D5B49B7048680CD000E48DA /* MovingDots-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "MovingDots-Info.plist"; sourceTree = "<group>"; };
 		BFBFB0D510446C180019216B /* MWorksCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MWorksCore.framework; path = /Library/Frameworks/MWorksCore.framework; sourceTree = "<absolute>"; };
-		E125BFED18E3269700F6C480 /* MovingDots */ = {isa = PBXFileReference; lastKnownFileType = folder; path = MovingDots; sourceTree = "<group>"; };
 		E15C728F1E6DCFF8001CE0C0 /* iOS_Plugin.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = iOS_Plugin.xcconfig; sourceTree = "<group>"; };
 		E15C72901E6DCFF8001CE0C0 /* macOS_Plugin.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS_Plugin.xcconfig; sourceTree = "<group>"; };
 		E15C72911E6DCFF8001CE0C0 /* macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
@@ -136,7 +123,6 @@
 				E16263591403F73F000F89CB /* Editor Definitions */,
 				32C88E010371C26100C91783 /* Other Sources */,
 				089C167CFE841241C02AAC07 /* Resources */,
-				E125BFEC18E3267600F6C480 /* Tests */,
 				089C1671FE841209C02AAC07 /* Frameworks & Libraries */,
 				19C28FB8FE9D52D311CA2CBB /* Products */,
 			);
@@ -198,14 +184,6 @@
 			);
 			name = "External Config";
 			path = ../../../build/xcode;
-			sourceTree = "<group>";
-		};
-		E125BFEC18E3267600F6C480 /* Tests */ = {
-			isa = PBXGroup;
-			children = (
-				E125BFED18E3269700F6C480 /* MovingDots */,
-			);
-			path = Tests;
 			sourceTree = "<group>";
 		};
 		E16263591403F73F000F89CB /* Editor Definitions */ = {

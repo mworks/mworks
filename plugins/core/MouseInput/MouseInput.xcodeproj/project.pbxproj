@@ -12,7 +12,6 @@
 			buildConfigurationList = E1620CAA1756418C0068BCF6 /* Build configuration list for PBXAggregateTarget "Install" */;
 			buildPhases = (
 				E1620CAE1756419B0068BCF6 /* CopyFiles */,
-				E140986E18ECA11B003C2B05 /* CopyFiles */,
 			);
 			dependencies = (
 				E1620CAD175641970068BCF6 /* PBXTargetDependency */,
@@ -34,7 +33,6 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		E140986F18ECA122003C2B05 /* MouseInput in CopyFiles */ = {isa = PBXBuildFile; fileRef = E140986D18ECA106003C2B05 /* MouseInput */; };
 		E1620C9C17563F350068BCF6 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E1620C9A17563F350068BCF6 /* InfoPlist.strings */; };
 		E1620CA517563FBE0068BCF6 /* MouseInputPlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1620CA317563FBE0068BCF6 /* MouseInputPlugin.cpp */; };
 		E1620CAF175641A30068BCF6 /* MouseInput.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = E1620C8E17563F350068BCF6 /* MouseInput.bundle */; };
@@ -67,16 +65,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		E140986E18ECA11B003C2B05 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "$(MW_TESTS_XML_DIR)/IODevice";
-			dstSubfolderSpec = 0;
-			files = (
-				E140986F18ECA122003C2B05 /* MouseInput in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		E1620CAE1756419B0068BCF6 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -90,7 +78,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		E140986D18ECA106003C2B05 /* MouseInput */ = {isa = PBXFileReference; lastKnownFileType = folder; path = MouseInput; sourceTree = "<group>"; };
 		E1620C8E17563F350068BCF6 /* MouseInput.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MouseInput.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1620C9417563F350068BCF6 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		E1620C9917563F350068BCF6 /* MouseInput-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MouseInput-Info.plist"; sourceTree = "<group>"; };
@@ -127,14 +114,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		E140986C18ECA0D6003C2B05 /* Tests */ = {
-			isa = PBXGroup;
-			children = (
-				E140986D18ECA106003C2B05 /* MouseInput */,
-			);
-			path = Tests;
-			sourceTree = "<group>";
-		};
 		E1620C8517563F350068BCF6 = {
 			isa = PBXGroup;
 			children = (
@@ -174,7 +153,6 @@
 				E1620CB9175644330068BCF6 /* MouseInputDevice.cpp */,
 				E1620CA317563FBE0068BCF6 /* MouseInputPlugin.cpp */,
 				E1620C9817563F350068BCF6 /* Supporting Files */,
-				E140986C18ECA0D6003C2B05 /* Tests */,
 			);
 			path = MouseInput;
 			sourceTree = "<group>";

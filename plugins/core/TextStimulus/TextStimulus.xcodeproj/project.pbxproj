@@ -12,7 +12,6 @@
 			buildConfigurationList = E1E4B2B51D883B01006EB80E /* Build configuration list for PBXAggregateTarget "Install" */;
 			buildPhases = (
 				E1E4B2B91D883B0B006EB80E /* CopyFiles */,
-				E1F5AD1A1D918BEB00B7D8C9 /* CopyFiles */,
 			);
 			dependencies = (
 				E1E4B2B81D883B08006EB80E /* PBXTargetDependency */,
@@ -47,7 +46,6 @@
 		E1F3746B1D87421800625A44 /* TextStimulusPlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1F3746A1D87421800625A44 /* TextStimulusPlugin.cpp */; };
 		E1F5AD151D917CA100B7D8C9 /* MWLibrary.xml in Resources */ = {isa = PBXBuildFile; fileRef = E1F5AD141D917CA100B7D8C9 /* MWLibrary.xml */; };
 		E1F5AD171D917E9D00B7D8C9 /* MWComponents.yaml in Resources */ = {isa = PBXBuildFile; fileRef = E1F5AD161D917E9D00B7D8C9 /* MWComponents.yaml */; };
-		E1F5AD1B1D918BF300B7D8C9 /* Text in CopyFiles */ = {isa = PBXBuildFile; fileRef = E1F5AD191D918BB900B7D8C9 /* Text */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -78,16 +76,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		E1F5AD1A1D918BEB00B7D8C9 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "$(MW_TESTS_XML_DIR)/Stimulus";
-			dstSubfolderSpec = 0;
-			files = (
-				E1F5AD1B1D918BF300B7D8C9 /* Text in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
@@ -110,7 +98,6 @@
 		E1F374721D87441C00625A44 /* TextStimulus-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TextStimulus-Prefix.pch"; sourceTree = "<group>"; };
 		E1F5AD141D917CA100B7D8C9 /* MWLibrary.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MWLibrary.xml; sourceTree = "<group>"; };
 		E1F5AD161D917E9D00B7D8C9 /* MWComponents.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MWComponents.yaml; sourceTree = "<group>"; };
-		E1F5AD191D918BB900B7D8C9 /* Text */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Text; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -176,7 +163,6 @@
 				E1E4B2C01D883D35006EB80E /* TextStimulus.cpp */,
 				E1F3746A1D87421800625A44 /* TextStimulusPlugin.cpp */,
 				E1F374711D8743ED00625A44 /* Supporting Files */,
-				E1F5AD181D918B8F00B7D8C9 /* Tests */,
 			);
 			path = TextStimulus;
 			sourceTree = "<group>";
@@ -202,14 +188,6 @@
 				E1F5AD141D917CA100B7D8C9 /* MWLibrary.xml */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		E1F5AD181D918B8F00B7D8C9 /* Tests */ = {
-			isa = PBXGroup;
-			children = (
-				E1F5AD191D918BB900B7D8C9 /* Text */,
-			);
-			path = Tests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

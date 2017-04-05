@@ -12,7 +12,6 @@
 			buildConfigurationList = E1A97C49170C88E400E3FC03 /* Build configuration list for PBXAggregateTarget "Install" */;
 			buildPhases = (
 				E1A97C4D170C88EE00E3FC03 /* CopyFiles */,
-				E119563218E9DA6C005608B0 /* CopyFiles */,
 			);
 			dependencies = (
 				E1A97C4C170C88EA00E3FC03 /* PBXTargetDependency */,
@@ -34,7 +33,6 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		E119563518E9DAD3005608B0 /* USBHID in CopyFiles */ = {isa = PBXBuildFile; fileRef = E119563418E9DACC005608B0 /* USBHID */; };
 		E14E2D86191295F300534ABB /* MWLibrary.xml in Resources */ = {isa = PBXBuildFile; fileRef = E14E2D85191295F300534ABB /* MWLibrary.xml */; };
 		E1A97C31170C847100E3FC03 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1A97C30170C847100E3FC03 /* CoreFoundation.framework */; };
 		E1A97C37170C847100E3FC03 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E1A97C35170C847100E3FC03 /* InfoPlist.strings */; };
@@ -67,16 +65,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		E119563218E9DA6C005608B0 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "$(MW_TESTS_XML_DIR)/IODevice";
-			dstSubfolderSpec = 0;
-			files = (
-				E119563518E9DAD3005608B0 /* USBHID in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		E1A97C4D170C88EE00E3FC03 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -90,7 +78,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		E119563418E9DACC005608B0 /* USBHID */ = {isa = PBXFileReference; lastKnownFileType = folder; path = USBHID; sourceTree = "<group>"; };
 		E14E2D85191295F300534ABB /* MWLibrary.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MWLibrary.xml; sourceTree = "<group>"; };
 		E1A97C2D170C847100E3FC03 /* USBHID.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = USBHID.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1A97C30170C847100E3FC03 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
@@ -127,14 +114,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		E119563318E9DA8B005608B0 /* Tests */ = {
-			isa = PBXGroup;
-			children = (
-				E119563418E9DACC005608B0 /* USBHID */,
-			);
-			path = Tests;
-			sourceTree = "<group>";
-		};
 		E1A97C24170C847100E3FC03 = {
 			isa = PBXGroup;
 			children = (
@@ -174,7 +153,6 @@
 				E1A97C54170C8A7F00E3FC03 /* USBHIDDevice.cpp */,
 				E1A97C3E170C857700E3FC03 /* USBHIDPlugin.cpp */,
 				E1A97C33170C847100E3FC03 /* Supporting Files */,
-				E119563318E9DA8B005608B0 /* Tests */,
 			);
 			path = USBHID;
 			sourceTree = "<group>";

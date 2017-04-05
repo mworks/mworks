@@ -23,7 +23,6 @@
 			buildConfigurationList = E12A27091201E34D00CE8C55 /* Build configuration list for PBXAggregateTarget "Install" */;
 			buildPhases = (
 				E12A26F71201E2FB00CE8C55 /* CopyFiles */,
-				E18D8C3018E1D924005B7DFC /* CopyFiles */,
 			);
 			dependencies = (
 				E12A26FB1201E30500CE8C55 /* PBXTargetDependency */,
@@ -43,7 +42,6 @@
 		E15C72C51E6DE25B001CE0C0 /* RandomizeBackground.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1EC6EBD12BBC5B5003C9543 /* RandomizeBackground.cpp */; };
 		E15C72C61E6DE25E001CE0C0 /* WhiteNoiseBackgroundPlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5CF9AEB90FD5795C00F405F6 /* WhiteNoiseBackgroundPlugin.cpp */; };
 		E15D0B2416C2C20300F331B1 /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E15D0B2316C2C20300F331B1 /* libboost_system.a */; };
-		E18D8C3218E1D96E005B7DFC /* WhiteNoiseBackground in CopyFiles */ = {isa = PBXBuildFile; fileRef = E18D8C3118E1D962005B7DFC /* WhiteNoiseBackground */; };
 		E1E07EA91C04F416008DD97E /* MWComponents.yaml in Resources */ = {isa = PBXBuildFile; fileRef = E1E07EA81C04F416008DD97E /* MWComponents.yaml */; };
 		E1EC6EBE12BBC5B5003C9543 /* RandomizeBackground.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1EC6EBD12BBC5B5003C9543 /* RandomizeBackground.cpp */; };
 		E1FCD4CF11DAB1AE0037E6FA /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1FCD4CE11DAB1AE0037E6FA /* OpenGL.framework */; };
@@ -77,16 +75,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		E18D8C3018E1D924005B7DFC /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "$(MW_TESTS_XML_DIR)/Stimulus";
-			dstSubfolderSpec = 0;
-			files = (
-				E18D8C3218E1D96E005B7DFC /* WhiteNoiseBackground in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
@@ -104,7 +92,6 @@
 		E15C72BD1E6DE0CB001CE0C0 /* WhiteNoiseBackground.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = WhiteNoiseBackground.plugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		E15C72C01E6DE0CC001CE0C0 /* WhiteNoiseBackground-iOS-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "WhiteNoiseBackground-iOS-Info.plist"; sourceTree = "<group>"; };
 		E15D0B2316C2C20300F331B1 /* libboost_system.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_system.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_system.a"; sourceTree = "<absolute>"; };
-		E18D8C3118E1D962005B7DFC /* WhiteNoiseBackground */ = {isa = PBXFileReference; lastKnownFileType = folder; path = WhiteNoiseBackground; sourceTree = "<group>"; };
 		E1E07EA81C04F416008DD97E /* MWComponents.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MWComponents.yaml; sourceTree = "<group>"; };
 		E1EC6EBC12BBC5B5003C9543 /* RandomizeBackground.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RandomizeBackground.h; sourceTree = "<group>"; };
 		E1EC6EBD12BBC5B5003C9543 /* RandomizeBackground.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RandomizeBackground.cpp; sourceTree = "<group>"; };
@@ -140,7 +127,6 @@
 				5CFE591C0F571BEB000C7F30 /* Editor Definitions */,
 				32C88E010371C26100C91783 /* Other Sources */,
 				089C167CFE841241C02AAC07 /* Resources */,
-				E18D8C2F18E1D900005B7DFC /* Tests */,
 				089C1671FE841209C02AAC07 /* Frameworks & Libraries */,
 				19C28FB8FE9D52D311CA2CBB /* Products */,
 			);
@@ -213,14 +199,6 @@
 				5CFCAB091105FB4C007CE55F /* MWLibrary.xml */,
 			);
 			name = "Editor Definitions";
-			sourceTree = "<group>";
-		};
-		E18D8C2F18E1D900005B7DFC /* Tests */ = {
-			isa = PBXGroup;
-			children = (
-				E18D8C3118E1D962005B7DFC /* WhiteNoiseBackground */,
-			);
-			path = Tests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

@@ -12,7 +12,6 @@
 			buildConfigurationList = E1556E1E1D945FFE00AE70F9 /* Build configuration list for PBXAggregateTarget "Install" */;
 			buildPhases = (
 				E1556E221D94601600AE70F9 /* CopyFiles */,
-				E1D3001D1DAE8EE40050E0F8 /* CopyFiles */,
 			);
 			dependencies = (
 				E1556E211D94601100AE70F9 /* PBXTargetDependency */,
@@ -45,7 +44,6 @@
 		E15C72F51E6DFF9D001CE0C0 /* VideoStimulusPlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1556E141D945DA700AE70F9 /* VideoStimulusPlugin.cpp */; };
 		E1738F3B1DAD5BDA00B72222 /* MWComponents.yaml in Resources */ = {isa = PBXBuildFile; fileRef = E1738F391DAD5BDA00B72222 /* MWComponents.yaml */; };
 		E1738F3C1DAD5BDA00B72222 /* MWLibrary.xml in Resources */ = {isa = PBXBuildFile; fileRef = E1738F3A1DAD5BDA00B72222 /* MWLibrary.xml */; };
-		E1D3001E1DAE8EEB0050E0F8 /* Video in CopyFiles */ = {isa = PBXBuildFile; fileRef = E1D3001C1DAE8EA80050E0F8 /* Video */; };
 		E1E780101D9D7CC400A04814 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1E7800F1D9D7CC400A04814 /* CoreMedia.framework */; };
 		E1FAA1A31D9977A100BA5D9B /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1FAA1A21D9977A100BA5D9B /* OpenGL.framework */; };
 		E1FAA1A51D99BB9400BA5D9B /* libboost_filesystem.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1FAA1A41D99BB9400BA5D9B /* libboost_filesystem.a */; };
@@ -79,16 +77,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		E1D3001D1DAE8EE40050E0F8 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "$(MW_TESTS_XML_DIR)/Stimulus";
-			dstSubfolderSpec = 0;
-			files = (
-				E1D3001E1DAE8EEB0050E0F8 /* Video in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
@@ -109,7 +97,6 @@
 		E15C72F01E6DFE43001CE0C0 /* Info-iOS.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-iOS.plist"; sourceTree = "<group>"; };
 		E1738F391DAD5BDA00B72222 /* MWComponents.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MWComponents.yaml; sourceTree = "<group>"; };
 		E1738F3A1DAD5BDA00B72222 /* MWLibrary.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MWLibrary.xml; sourceTree = "<group>"; };
-		E1D3001C1DAE8EA80050E0F8 /* Video */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Video; sourceTree = "<group>"; };
 		E1E7800F1D9D7CC400A04814 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		E1FAA1A21D9977A100BA5D9B /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		E1FAA1A41D99BB9400BA5D9B /* libboost_filesystem.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_filesystem.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_filesystem.a"; sourceTree = "<absolute>"; };
@@ -166,7 +153,6 @@
 				E1556E2A1D9463B400AE70F9 /* VideoStimulus.cpp */,
 				E1556E141D945DA700AE70F9 /* VideoStimulusPlugin.cpp */,
 				E1556E161D945DB800AE70F9 /* Supporting Files */,
-				E1D3001B1DAE8E680050E0F8 /* Tests */,
 			);
 			path = VideoStimulus;
 			sourceTree = "<group>";
@@ -206,14 +192,6 @@
 				E1556E1B1D945F7900AE70F9 /* libboost_system.a */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		E1D3001B1DAE8E680050E0F8 /* Tests */ = {
-			isa = PBXGroup;
-			children = (
-				E1D3001C1DAE8EA80050E0F8 /* Video */,
-			);
-			path = Tests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

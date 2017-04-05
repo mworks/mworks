@@ -23,7 +23,6 @@
 			buildConfigurationList = E12D98B116BC21F7004FEF79 /* Build configuration list for PBXAggregateTarget "Install" */;
 			buildPhases = (
 				E12D98B616BC2212004FEF79 /* CopyFiles */,
-				E1E669091BFE63D7006250D0 /* CopyFiles */,
 			);
 			dependencies = (
 				E12D98B316BC2208004FEF79 /* PBXTargetDependency */,
@@ -46,7 +45,6 @@
 		E1810E101CAACB62003001C0 /* NE500Connection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1810E0E1CAACB62003001C0 /* NE500Connection.cpp */; };
 		E1810E131CAACDCE003001C0 /* NE500SocketConnection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1810E111CAACDCE003001C0 /* NE500SocketConnection.cpp */; };
 		E1E07E9F1C04F2D8008DD97E /* MWComponents.yaml in Resources */ = {isa = PBXBuildFile; fileRef = E1E07E9E1C04F2D8008DD97E /* MWComponents.yaml */; };
-		E1E6690A1BFE63E0006250D0 /* NE500 in CopyFiles */ = {isa = PBXBuildFile; fileRef = E1E669081BFE63A5006250D0 /* NE500 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -77,16 +75,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		E1E669091BFE63D7006250D0 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "$(MW_TESTS_XML_DIR)/IODevice";
-			dstSubfolderSpec = 0;
-			files = (
-				E1E6690A1BFE63E0006250D0 /* NE500 in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
@@ -111,7 +99,6 @@
 		E1810E111CAACDCE003001C0 /* NE500SocketConnection.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NE500SocketConnection.cpp; sourceTree = "<group>"; };
 		E1810E121CAACDCE003001C0 /* NE500SocketConnection.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = NE500SocketConnection.hpp; sourceTree = "<group>"; };
 		E1E07E9E1C04F2D8008DD97E /* MWComponents.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MWComponents.yaml; sourceTree = "<group>"; };
-		E1E669081BFE63A5006250D0 /* NE500 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = NE500; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -133,7 +120,6 @@
 				5CE62A87115857D000C757F1 /* External Config */,
 				08FB77AFFE84173DC02AAC07 /* Classes */,
 				32C88E010371C26100C91783 /* Other Sources */,
-				E1E668FE1BFE6372006250D0 /* Tests */,
 				089C167CFE841241C02AAC07 /* Resources */,
 				089C1671FE841209C02AAC07 /* Frameworks and Libraries */,
 				19C28FB8FE9D52D311CA2CBB /* Products */,
@@ -210,14 +196,6 @@
 				E1810E111CAACDCE003001C0 /* NE500SocketConnection.cpp */,
 			);
 			path = Connections;
-			sourceTree = "<group>";
-		};
-		E1E668FE1BFE6372006250D0 /* Tests */ = {
-			isa = PBXGroup;
-			children = (
-				E1E669081BFE63A5006250D0 /* NE500 */,
-			);
-			path = Tests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
