@@ -14,7 +14,50 @@ Interface to a microcontroller that supports the Firmata protocol
       <iodevice type="firmata"
                 tag="Firmata Device"
                 serial_port=""
+                data_interval=""
                 />
+    </code>
+  </MWElement>
+   
+  <MWElement name="Firmata Analog Input Channel">
+    <match_signature>iochannel[@type="firmata_analog_input"]</match_signature>
+    
+    <isa>IOChannel</isa>
+    <allowed_parent>Firmata Device</allowed_parent>
+
+    <icon>smallIOFolder</icon>
+    
+    <description>
+Analog input channel on a Firmata device
+    </description>
+    
+    <code>
+      <iochannel type="firmata_analog_input"
+                 tag="Firmata Analog Input Channel"
+                 pin_number=""
+                 value=""
+             />
+    </code>
+  </MWElement>
+   
+  <MWElement name="Firmata Analog Output Channel">
+    <match_signature>iochannel[@type="firmata_analog_output"]</match_signature>
+    
+    <isa>IOChannel</isa>
+    <allowed_parent>Firmata Device</allowed_parent>
+
+    <icon>smallIOFolder</icon>
+    
+    <description>
+Analog output channel on a Firmata device
+    </description>
+    
+    <code>
+      <iochannel type="firmata_analog_output"
+                 tag="Firmata Analog Output Channel"
+                 pin_number=""
+                 value=""
+             />
     </code>
   </MWElement>
    

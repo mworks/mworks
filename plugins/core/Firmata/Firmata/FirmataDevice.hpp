@@ -9,7 +9,7 @@
 #ifndef FirmataDevice_hpp
 #define FirmataDevice_hpp
 
-#include "FirmataDigitalChannel.hpp"
+#include "FirmataChannel.hpp"
 
 
 BEGIN_NAMESPACE_MW
@@ -19,6 +19,7 @@ class FirmataDevice : public IODevice, boost::noncopyable {
     
 public:
     static const std::string SERIAL_PORT;
+    static const std::string DATA_INTERVAL;
     
     static void describeComponent(ComponentInfo &info);
     
@@ -42,20 +43,27 @@ private:
     static constexpr std::size_t numPorts = 16;
     static constexpr std::size_t numPinsPerPort = 8;
     
-    boost::shared_ptr<FirmataDigitalChannel>& getChannelForPin(int pinNumber) {
+    boost::shared_ptr<FirmataChannel>& getChannelForPin(int pinNumber) {
         return ports.at(pinNumber / numPinsPerPort).at(pinNumber % numPinsPerPort);
     }
     
     bool checkProtocolVersion(unique_lock &lock);
-    bool configureDigitalPorts();
-    bool startDigitalIO();
-    bool stopDigitalIO();
-    void setDigitalOutput(int pinNumber, bool value);
+    bool getDeviceInfo(unique_lock &lock);
+    bool processChannelRequests();
+    bool configurePins();
+    bool startIO();
+    bool stopIO();
+    int getResolutionForPinMode(int pinNumber, int pinMode) const;
+    double getMaximumValueForPinMode(int pinNumber, int pinMode) const;
+    bool setAnalogOutput(int pinNumber, double value);
+    bool setDigitalOutput(int pinNumber, bool value);
     bool sendData(const std::vector<std::uint8_t> &data);
     void receiveData();
     
     const std::string path;
-    std::array<std::array<boost::shared_ptr<FirmataDigitalChannel>, numPinsPerPort>, numPorts> ports;
+    MWTime samplingIntervalUS;
+    std::vector<boost::shared_ptr<FirmataChannel>> requestedChannels;
+    std::array<std::array<boost::shared_ptr<FirmataChannel>, numPinsPerPort>, numPorts> ports;
     SerialPort serialPort;
     
     unique_lock::mutex_type mutex;
@@ -66,6 +74,12 @@ private:
     bool deviceProtocolVersionReceived;
     std::uint8_t deviceProtocolVersionMajor;
     std::uint8_t deviceProtocolVersionMinor;
+    
+    bool capabilityInfoReceived;
+    std::map<std::uint8_t, std::map<std::uint8_t, std::uint8_t>> modesForPin;
+    
+    bool analogMappingInfoReceived;
+    std::map<std::uint8_t, std::uint8_t> pinForAnalogChannel;
     
     bool running;
     

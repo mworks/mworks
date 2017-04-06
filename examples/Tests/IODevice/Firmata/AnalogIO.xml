@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<monkeyml version="1.0">
+    <io_devices tag="IO Devices">
+        <iodevice type="firmata" tag="firmata" serial_port="" data_interval="sampling_interval">
+            <iochannel type="firmata_analog_output" tag="pin_3" pin_number="3" value="source"></iochannel>
+            <iochannel type="firmata_analog_input" tag="pin_a3" pin_number="a3" value="sink"></iochannel>
+        </iodevice>
+    </io_devices>
+    <variables tag="Variables">
+        <variable tag="sampling_interval" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="5ms" type="any"></variable>
+        <variable tag="source" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="0" type="any">
+            <action type="assignment" tag="Reset sample_sum" variable="sample_sum" value="0"></action>
+            <action type="assignment" tag="Reset num_samples" variable="num_samples" value="0"></action>
+        </variable>
+        <variable tag="sink" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="0" type="any">
+            <action type="assignment" tag="Update sample_sum" variable="sample_sum" value="sample_sum + sink"></action>
+            <action type="assignment" tag="Update num_samples" variable="num_samples" value="num_samples + 1"></action>
+        </variable>
+        <variable tag="measurement_duration" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="10s" type="any"></variable>
+        <variable tag="sample_sum" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="0" type="any"></variable>
+        <variable tag="num_samples" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="1" type="any"></variable>
+        <variable tag="sample_average" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="0" type="any"></variable>
+        <variable tag="expected_num_samples" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="measurement_duration / sampling_interval" type="any"></variable>
+        <variable tag="current_source_value" scope="local" logging="when_changed" exclude_from_data_file="NO" default_value="0" type="float"></variable>
+    </variables>
+    <sounds tag="Sounds"></sounds>
+    <stimuli tag="Stimuli"></stimuli>
+    <filters tag="Filters"></filters>
+    <optimizers tag="Optimizers"></optimizers>
+    <experiment tag="New Experiment" full_name="" description="">
+        <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
+            <list_replicator tag="New List Replicator" values="0.0, 0.25, 0.5, 0.75, 1.0" variable="current_source_value">
+                <trial tag="New Trial" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
+                    <action type="report" tag="Announce source value" message="source value = $current_source_value"></action>
+                    <action tag="Start firmata" type="start_device_IO" device="firmata"></action>
+                    <action type="assignment" tag="Set source value" variable="source" value="current_source_value"></action>
+                    <action type="wait" tag="Wait" duration="measurement_duration" duration_units="us"></action>
+                    <action tag="Stop firmata" type="stop_device_IO" device="firmata"></action>
+                    <action type="assignment" tag="Compute sample average" variable="sample_average" value="sample_sum / num_samples"></action>
+                    <action type="report" tag="Announce average sink value" message="average sink value = $sample_average (over $num_samples samples)"></action>
+                    <action type="assert" tag="Validate average sink value" condition="abs(source - sample_average) &lt; 0.01" message="" stop_on_failure="0"></action>
+                    <action type="assert" tag="Validate num_samples" condition="(num_samples &gt;= expected_num_samples - 1) &amp;&amp; (num_samples &lt;= expected_num_samples + 1)" message="" stop_on_failure="0"></action>
+                </trial>
+            </list_replicator>
+        </protocol>
+    </experiment>
+</monkeyml>

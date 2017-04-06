@@ -16,7 +16,7 @@
 #include <mutex>
 #include <thread>
 
-#include <boost/scope_exit.hpp>
+#include <boost/regex.hpp>
 
 #include <MWorksCore/IODevice.h>
 #include <MWorksCore/Plugin.h>

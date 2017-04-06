@@ -23,6 +23,66 @@ parameters:
         If omitted, MWorks looks for a single, connected serial device.  If it
         finds one, it assumes it to be the desired Firmata device and attempts
         to connect.
+  - 
+    name: data_interval
+    example: 5ms
+    description: >
+        Sampling interval for analog inputs.  Must be a whole number of
+        milliseconds.
+
+
+---
+
+
+name: Firmata Analog Input Channel
+signature: iochannel/firmata_analog_input
+isa: IOChannel
+allowed_parent: Firmata Device
+description: Analog input channel on a `Firmata Device`
+parameters: 
+  - 
+    name: pin_number
+    required: yes
+    example: [a0, A3, 17]
+    description: Input pin number
+  - 
+    name: value
+    required: yes
+    description: >
+        Variable in which to store input values.  The value is always between 0
+        and 1 (inclusive) and indicates the fraction of the device's operating
+        voltage (typically 5V or 3.3V) measured on the input pin.
+
+
+---
+
+
+name: Firmata Analog Output Channel
+signature: iochannel/firmata_analog_output
+isa: IOChannel
+allowed_parent: Firmata Device
+description: |
+    Analog output channel on a `Firmata Device`.
+
+    *Note*:  Most Firmata-compatible devices do not support true analog output.
+    Instead, they simulate it using `pulse-width modulation
+    <https://en.wikipedia.org/wiki/Pulse-width_modulation>`_ (PWM).  Therefore,
+    the actual output voltage will cycle between the minimum and maximum
+    voltages supported by the device, producing a time-average voltage that
+    approximates the desired value.
+parameters: 
+  - 
+    name: pin_number
+    required: yes
+    example: 3
+    description: Output pin number
+  - 
+    name: value
+    required: yes
+    description: >
+        Variable from which to read output values.  The value must be between 0
+        and 1 (inclusive) and indicates the fraction of the device's operating
+        voltage (typically 5V or 3.3V) to output on the specified pin.
 
 
 ---

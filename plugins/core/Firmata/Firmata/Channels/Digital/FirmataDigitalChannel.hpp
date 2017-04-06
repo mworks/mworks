@@ -9,32 +9,18 @@
 #ifndef FirmataDigitalChannel_hpp
 #define FirmataDigitalChannel_hpp
 
+#include "FirmataChannel.hpp"
+
 
 BEGIN_NAMESPACE_MW
 
 
-class FirmataDigitalChannel : public Component {
+class FirmataDigitalChannel : public FirmataChannel {
     
 public:
-    enum class Direction { Input = 0, Output = 1 };
+    using FirmataChannel::FirmataChannel;
     
-    static const std::string PIN_NUMBER;
-    static const std::string VALUE;
-    
-    static void describeComponent(ComponentInfo &info);
-    
-    explicit FirmataDigitalChannel(const ParameterValueMap &parameters);
-    
-    int getPinNumber() const { return pinNumber; }
-    const VariablePtr& getValueVariable() const { return value; }
-    
-    virtual Direction getDirection() const = 0;
-    bool isInput() const { return getDirection() == Direction::Input; }
-    bool isOutput() const { return getDirection() == Direction::Output; }
-    
-private:
-    const int pinNumber;
-    const VariablePtr value;
+    Type getType() const override { return Type::Digital; }
     
 };
 
