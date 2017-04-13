@@ -56,6 +56,7 @@ enum {
 
 
 const std::string FirmataDevice::SERIAL_PORT("serial_port");
+const std::string FirmataDevice::BLUETOOTH_LOCAL_NAME("bluetooth_local_name");
 const std::string FirmataDevice::DATA_INTERVAL("data_interval");
 
 
@@ -65,13 +66,14 @@ void FirmataDevice::describeComponent(ComponentInfo &info) {
     info.setSignature("iodevice/firmata");
     
     info.addParameter(SERIAL_PORT, false);
+    info.addParameter(BLUETOOTH_LOCAL_NAME, false);
     info.addParameter(DATA_INTERVAL, false);
 }
 
 
 FirmataDevice::FirmataDevice(const ParameterValueMap &parameters) :
     IODevice(parameters),
-    path(parameters[SERIAL_PORT].str()),
+    connection(FirmataConnection::create(parameters[SERIAL_PORT].str(), parameters[BLUETOOTH_LOCAL_NAME].str())),
     samplingIntervalUS(0),
     deviceProtocolVersionReceived(false),
     deviceProtocolVersionMajor(0),
@@ -96,6 +98,7 @@ FirmataDevice::~FirmataDevice() {
         continueReceivingData.clear();
         receiveDataThread.join();
     }
+    connection->disconnect();
 }
 
 
@@ -114,7 +117,7 @@ void FirmataDevice::addChild(std::map<std::string, std::string> parameters,
 bool FirmataDevice::initialize() {
     mprintf(M_IODEVICE_MESSAGE_DOMAIN, "Configuring Firmata device \"%s\"...", getTag().c_str());
     
-    if (!serialPort.connect(path, B57600)) {
+    if (!connection->connect()) {
         return false;
     }
     
@@ -535,7 +538,7 @@ bool FirmataDevice::setDigitalOutput(int pinNumber, bool value) {
 
 
 inline bool FirmataDevice::sendData(const std::vector<std::uint8_t> &data) {
-    return (-1 != serialPort.write(data));
+    return connection->write(data);
 }
 
 
@@ -551,7 +554,7 @@ void FirmataDevice::receiveData() {
     
     while (continueReceivingData.test_and_set()) {
         // Since this is the only thread that reads from the serial port, we don't need a lock here
-        auto result = serialPort.read(message.data() + bytesReceived, bytesExpected - bytesReceived);
+        auto result = connection->read(message.at(bytesReceived), bytesExpected - bytesReceived);
         
         if (-1 == result) {
             

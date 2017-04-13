@@ -12,17 +12,25 @@ description: |
     (e.g. `Teensy <http://www.pjrc.com/teensy/>`_) can be configured to support
     the Firmata protocol via the Arduino
     `Firmata library <https://github.com/firmata/arduino>`_.
+
+    The device can be connected via a serial port or `Bluetooth low energy
+    <https://en.wikipedia.org/wiki/Bluetooth_low_energy>`_ (BLE).  If both
+    `serial_port`_ and `bluetooth_local_name`_ are omitted, MWorks looks for a
+    single, connected serial device.  If it finds one, it assumes it to be the
+    desired Firmata device and attempts to connect.
 parameters: 
   - 
     name: serial_port
     example: /dev/cu.usbmodem31
     description: |
-        Filesystem path that represents the serial port to which the Firmata
-        device is connected.
-
-        If omitted, MWorks looks for a single, connected serial device.  If it
-        finds one, it assumes it to be the desired Firmata device and attempts
-        to connect.
+        If the Firmata device is connected via a serial port, this parameter
+        specifies the filesystem path that represents the serial port
+  - 
+    name: bluetooth_local_name
+    example: FIRMATA
+    description: |
+        If the Firmata device is connected via Bluetooth low energy, this
+        parameter specifies its local name
   - 
     name: data_interval
     example: 5ms

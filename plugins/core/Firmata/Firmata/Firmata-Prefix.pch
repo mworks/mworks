@@ -25,4 +25,10 @@
 
 #endif /* defined(__cplusplus) */
 
+#ifdef __OBJC__
+
+#import <CoreBluetooth/CoreBluetooth.h>
+
+#endif /* defined(__OBJC__) */
+
 #endif /* Firmata_Prefix_pch */

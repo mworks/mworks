@@ -14,6 +14,7 @@ Interface to a microcontroller that supports the Firmata protocol
       <iodevice type="firmata"
                 tag="Firmata Device"
                 serial_port=""
+                bluetooth_local_name=""
                 data_interval=""
                 />
     </code>

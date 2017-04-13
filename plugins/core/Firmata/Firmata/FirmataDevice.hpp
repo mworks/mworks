@@ -10,6 +10,7 @@
 #define FirmataDevice_hpp
 
 #include "FirmataChannel.hpp"
+#include "FirmataConnection.hpp"
 
 
 BEGIN_NAMESPACE_MW
@@ -19,6 +20,7 @@ class FirmataDevice : public IODevice, boost::noncopyable {
     
 public:
     static const std::string SERIAL_PORT;
+    static const std::string BLUETOOTH_LOCAL_NAME;
     static const std::string DATA_INTERVAL;
     
     static void describeComponent(ComponentInfo &info);
@@ -60,11 +62,10 @@ private:
     bool sendData(const std::vector<std::uint8_t> &data);
     void receiveData();
     
-    const std::string path;
+    const std::unique_ptr<FirmataConnection> connection;
     MWTime samplingIntervalUS;
     std::vector<boost::shared_ptr<FirmataChannel>> requestedChannels;
     std::array<std::array<boost::shared_ptr<FirmataChannel>, numPinsPerPort>, numPorts> ports;
-    SerialPort serialPort;
     
     unique_lock::mutex_type mutex;
     std::condition_variable condition;
