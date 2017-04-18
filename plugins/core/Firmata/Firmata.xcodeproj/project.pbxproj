@@ -109,11 +109,12 @@
 		E1C0E1E11E9D2EC300918349 /* libboost_regex.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_regex.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_regex.a"; sourceTree = "<absolute>"; };
 		E1C0E1E31E9D436400918349 /* FirmataAnalogOutputChannel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FirmataAnalogOutputChannel.cpp; sourceTree = "<group>"; };
 		E1C0E1E41E9D436400918349 /* FirmataAnalogOutputChannel.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FirmataAnalogOutputChannel.hpp; sourceTree = "<group>"; };
+		E1D54B9A1EA696CB0073D938 /* iOS_Plugin.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = iOS_Plugin.xcconfig; sourceTree = "<group>"; };
+		E1D54B9B1EA696CB0073D938 /* macOS_Plugin.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS_Plugin.xcconfig; sourceTree = "<group>"; };
+		E1D54B9C1EA696CB0073D938 /* macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
 		E1E84AF41D0B2B4200F45D54 /* Firmata.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Firmata.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1E84AF71D0B2B4200F45D54 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E1E84AFD1D0B2BC400F45D54 /* FirmataPlugin.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FirmataPlugin.cpp; sourceTree = "<group>"; };
-		E1E84B001D0B2C6F00F45D54 /* Development.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Development.xcconfig; sourceTree = "<group>"; };
-		E1E84B011D0B2C6F00F45D54 /* WARNING.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = WARNING.txt; sourceTree = "<group>"; };
 		E1E84B111D0B2F1600F45D54 /* Firmata-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Firmata-Prefix.pch"; sourceTree = "<group>"; };
 		E1E84B121D0B30F900F45D54 /* MWorksCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MWorksCore.framework; path = /Library/Frameworks/MWorksCore.framework; sourceTree = "<absolute>"; };
 		E1E84B141D0B311C00F45D54 /* libboost_system.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_system.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_system.a"; sourceTree = "<absolute>"; };
@@ -220,12 +221,13 @@
 		E1E84AFF1D0B2C0300F45D54 /* External Config */ = {
 			isa = PBXGroup;
 			children = (
-				E1E84B001D0B2C6F00F45D54 /* Development.xcconfig */,
-				E1E84B011D0B2C6F00F45D54 /* WARNING.txt */,
+				E1D54B9C1EA696CB0073D938 /* macOS.xcconfig */,
+				E1D54B9B1EA696CB0073D938 /* macOS_Plugin.xcconfig */,
+				E1D54B9A1EA696CB0073D938 /* iOS_Plugin.xcconfig */,
 			);
 			name = "External Config";
-			path = "/Library/Application Support/MWorks/Developer/Xcode";
-			sourceTree = "<absolute>";
+			path = ../../../build/xcode;
+			sourceTree = "<group>";
 		};
 		E1E84B041D0B2CA000F45D54 /* Supporting Files */ = {
 			isa = PBXGroup;
@@ -358,45 +360,25 @@
 /* Begin XCBuildConfiguration section */
 		E1E84AF81D0B2B4200F45D54 /* Development */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E1E84B001D0B2C6F00F45D54 /* Development.xcconfig */;
 			buildSettings = {
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				MTL_ENABLE_DEBUG_INFO = YES;
 			};
 			name = Development;
 		};
 		E1E84AFB1D0B2B4200F45D54 /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1D54B9B1EA696CB0073D938 /* macOS_Plugin.xcconfig */;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Firmata/Firmata-Prefix.pch";
 				INFOPLIST_FILE = Firmata/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.mworks-project.Firmata";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				WRAPPER_EXTENSION = bundle;
 			};
 			name = Development;
 		};
 		E1E84B071D0B2D1200F45D54 /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1D54B9C1EA696CB0073D938 /* macOS.xcconfig */;
 			buildSettings = {
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -404,6 +386,7 @@
 		};
 		E1E84B0E1D0B2D4600F45D54 /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1D54B9C1EA696CB0073D938 /* macOS.xcconfig */;
 			buildSettings = {
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
