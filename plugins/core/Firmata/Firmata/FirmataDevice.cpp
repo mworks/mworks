@@ -722,41 +722,42 @@ void FirmataDevice::receiveData() {
                 
                 switch (currentCommand) {
                         
-                    case DIGITAL_MESSAGE: {
-                        const std::size_t portNum = (message.at(0) & 0x0F);
-                        const std::array<std::uint8_t, 2> portState = { message.at(1), message.at(2) };
-                        const auto &port = ports.at(portNum);
-                        
-                        for (std::size_t bitNum = 0; bitNum < port.size(); bitNum++) {
-                            const auto &channel = port.at(bitNum);
-                            if (channel && channel->isDigital() && channel->isInput()) {
-                                const bool value = portState.at(bitNum / 7) & (1 << (bitNum % 7));
-                                if (channel->getValueVariable()->getValue().getBool() != value) {
-                                    channel->getValueVariable()->setValue(value, currentCommandTime);
+                    case DIGITAL_MESSAGE:
+                        if (running) {
+                            const std::size_t portNum = (message.at(0) & 0x0F);
+                            const std::array<std::uint8_t, 2> portState = { message.at(1), message.at(2) };
+                            const auto &port = ports.at(portNum);
+                            
+                            for (std::size_t bitNum = 0; bitNum < port.size(); bitNum++) {
+                                const auto &channel = port.at(bitNum);
+                                if (channel && channel->isDigital() && channel->isInput()) {
+                                    const bool value = portState.at(bitNum / 7) & (1 << (bitNum % 7));
+                                    if (channel->getValueVariable()->getValue().getBool() != value) {
+                                        channel->getValueVariable()->setValue(value, currentCommandTime);
+                                    }
                                 }
                             }
                         }
-                        
                         break;
-                    }
                         
-                    case ANALOG_MESSAGE: {
-                        const auto channelNumber = (message.at(0) & 0x0F);
-                        const auto iter = pinForAnalogChannel.find(channelNumber);
-                        if (iter != pinForAnalogChannel.end()) {
-                            const auto pinNumber = iter->second;
-                            const auto &channel = getChannelForPin(pinNumber);
-                            if (channel && channel->isAnalog() && channel->isInput()) {
-                                int value = 0;
-                                value |= (message.at(1) & 0x7F) << 0;  // LSB
-                                value |= (message.at(2) & 0x7F) << 7;  // MSB
-                                auto floatValue = double(value) / getMaximumValueForPinMode(pinNumber, PIN_MODE_ANALOG);
-                                // The user expects analog samples at a steady rate, so set the value unconditionally
-                                channel->getValueVariable()->setValue(floatValue, currentCommandTime);
+                    case ANALOG_MESSAGE:
+                        if (running) {
+                            const auto channelNumber = (message.at(0) & 0x0F);
+                            const auto iter = pinForAnalogChannel.find(channelNumber);
+                            if (iter != pinForAnalogChannel.end()) {
+                                const auto pinNumber = iter->second;
+                                const auto &channel = getChannelForPin(pinNumber);
+                                if (channel && channel->isAnalog() && channel->isInput()) {
+                                    int value = 0;
+                                    value |= (message.at(1) & 0x7F) << 0;  // LSB
+                                    value |= (message.at(2) & 0x7F) << 7;  // MSB
+                                    auto floatValue = double(value) / getMaximumValueForPinMode(pinNumber, PIN_MODE_ANALOG);
+                                    // The user expects analog samples at a steady rate, so set the value unconditionally
+                                    channel->getValueVariable()->setValue(floatValue, currentCommandTime);
+                                }
                             }
                         }
                         break;
-                    }
                         
                     case REPORT_VERSION: {
                         {

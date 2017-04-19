@@ -82,7 +82,8 @@ private:
     bool analogMappingInfoReceived;
     std::map<std::uint8_t, std::uint8_t> pinForAnalogChannel;
     
-    bool running;
+    static_assert(ATOMIC_BOOL_LOCK_FREE == 2, "std::atomic_bool is not always lock-free");
+    std::atomic_bool running;
     
 };
 
