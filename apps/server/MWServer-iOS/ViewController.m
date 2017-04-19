@@ -19,12 +19,6 @@
 }
 
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
-}
-
-
 - (void)viewWillAppear:(BOOL)animated {
     AppDelegate *appDelegate = (AppDelegate *)(UIApplication.sharedApplication.delegate);
     self.listeningAddress.text = appDelegate.listeningAddress;
@@ -41,12 +35,6 @@
     if (appDelegate.alert) {
         [self presentViewController:appDelegate.alert animated:YES completion:nil];
     }
-}
-
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 
