@@ -112,6 +112,20 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "E1D54BA11EA699450073D938"
+               BuildableName = "Firmata.plugin"
+               BlueprintName = "Firmata-iOS"
+               ReferencedContainer = "container:../plugins/core/Firmata/Firmata.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "E15C72A71E6DDB0E001CE0C0"
                BuildableName = "MovieStimulus.plugin"
                BlueprintName = "MovieStimulus-iOS"

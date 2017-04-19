@@ -75,7 +75,12 @@
 
 
 - (void)centralManagerDidUpdateState:(CBCentralManager *)central {
-    if (central.state == CBCentralManagerStatePoweredOn) {
+#if TARGET_OS_IPHONE
+    if (central.state == CBManagerStatePoweredOn)
+#else
+    if (central.state == CBCentralManagerStatePoweredOn)
+#endif
+    {
         notifyCallback(connection);
     }
 }
@@ -96,6 +101,16 @@
             notifyCallback(connection);
         }
     }
+}
+    
+    
+- (void)centralManager:(CBCentralManager *)central
+didFailToConnectPeripheral:(CBPeripheral *)peripheral
+                 error:(NSError *)error
+{
+    mw::merror(mw::M_IODEVICE_MESSAGE_DOMAIN,
+               "Failed to connect to Bluetooth device: %s",
+               error.localizedDescription.UTF8String);
 }
 
 
@@ -167,6 +182,20 @@ didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic
     } else {
         NSData *data = characteristic.value;
         dataReceivedCallback(connection, static_cast<const std::uint8_t *>(data.bytes), data.length);
+    }
+}
+
+
+- (void)centralManager:(CBCentralManager *)central
+didDisconnectPeripheral:(CBPeripheral *)peripheral
+                 error:(NSError *)error
+{
+    if (error) {
+        mw::merror(mw::M_IODEVICE_MESSAGE_DOMAIN,
+                   "Disconnected from Bluetooth device: %s",
+                   error.localizedDescription.UTF8String);
+    } else {
+        notifyCallback(connection);
     }
 }
 
@@ -255,6 +284,10 @@ void FirmataBluetoothLEConnection::disconnect() {
     unique_lock lock(mutex);
     @autoreleasepool {
         if (delegate) {
+            [delegate.centralManager cancelPeripheralConnection:delegate.peripheral];
+            if (!wait(lock)) {
+                merror(M_IODEVICE_MESSAGE_DOMAIN, "Cannot disconnect from Bluetooth device");
+            }
             [delegate release];
             delegate = nil;
         }

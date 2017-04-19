@@ -20,7 +20,9 @@
 
 #include <MWorksCore/IODevice.h>
 #include <MWorksCore/Plugin.h>
-#include <MWorksCore/SerialPort.hpp>
+#if TARGET_OS_OSX
+#  include <MWorksCore/SerialPort.hpp>
+#endif
 #include <MWorksCore/StandardComponentFactory.h>
 
 #endif /* defined(__cplusplus) */
