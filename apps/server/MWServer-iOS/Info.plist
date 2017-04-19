@@ -34,6 +34,8 @@
 	</array>
 	<key>UIRequiresFullScreen</key>
 	<true/>
+	<key>UIRequiresPersistentWiFi</key>
+	<true/>
 	<key>NSBluetoothPeripheralUsageDescription</key>
 	<string>Connect to input/output devices via Bluetooth</string>
 	<key>UISupportedInterfaceOrientations</key>
