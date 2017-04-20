@@ -255,7 +255,7 @@ def run_configure_and_make(
 
 @builder
 def boost(ios=True):
-    version = '1.63.0'
+    version = '1.64.0'
     srcdir = 'boost_' + version.replace('.', '_')
     tarfile = srcdir + '.tar.bz2'
 
@@ -308,13 +308,13 @@ def boost(ios=True):
 
 @builder
 def zeromq(ios=True):
-    version = '4.1.6'
+    version = '4.2.2'
     srcdir = 'zeromq-' + version
     tarfile = srcdir + '.tar.gz'
 
     with done_file(srcdir):
         if not os.path.isdir(srcdir):
-            download_archive('https://github.com/zeromq/zeromq4-1/releases/download/v%s/' % version, tarfile)
+            download_archive('https://github.com/zeromq/libzmq/releases/download/v%s/' % version, tarfile)
             unpack_tarfile(tarfile, srcdir)
             with workdir(srcdir):
                 apply_patch('zeromq_clock_gettime.patch')
@@ -332,7 +332,7 @@ def zeromq(ios=True):
 
 @builder
 def msgpack(ios=True):
-    version = '2.0.0'
+    version = '2.1.1'
     srcdir = 'msgpack-' + version
     tarfile = srcdir + '.tar.gz'
 
