@@ -105,11 +105,11 @@ static UIAlertController * createInitializationFailureAlert(NSString *message) {
         initializeSetupVariables(userDefaults, self.setupVariablesController);
         
 #if TARGET_OS_SIMULATOR
-        _listeningAddress = @"127.0.0.1";
+        _listeningAddress = @"localhost";
+        core->setHostname(self.listeningAddress.UTF8String);
 #else
         _listeningAddress = NSProcessInfo.processInfo.hostName;
 #endif
-        core->setHostname(self.listeningAddress.UTF8String);
         
         _listeningPort = @([userDefaults integerForKey:LISTENING_PORT_PREFERENCE]);
         core->setListenPort(self.listeningPort.intValue);

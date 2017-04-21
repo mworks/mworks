@@ -28,8 +28,7 @@ SINGLETON_INSTANCE_STATIC_DECLARATION(Server)
 Server::Server() :
     RegistryAwareEventStreamInterface(M_SERVER_MESSAGE_DOMAIN),
     incoming_event_buffer(new EventBuffer()),
-    listenPort(19989),
-    hostname("127.0.0.1")
+    listenPort(19989)
 {
     registry = global_variable_registry;
 
@@ -60,7 +59,9 @@ bool Server::startServer() {
     outgoingListener->startListener();
     
     std::string address;
-    if (!zeromq::resolveHostname(hostname, address)) {
+    if (hostname.empty()) {
+        address = "*";  // Bind to all available interfaces
+    } else if (!zeromq::resolveHostname(hostname, address)) {
         return false;
     }
     
