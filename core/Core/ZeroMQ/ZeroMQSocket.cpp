@@ -118,6 +118,24 @@ ZeroMQSocket::~ZeroMQSocket() {
 }
 
 
+bool ZeroMQSocket::getLastEndpoint(std::string &endpoint) const {
+    do {
+        std::array<char, 1024> value;
+        std::size_t valueSize = value.size();
+        if (-1 != zmq_getsockopt(socket, ZMQ_LAST_ENDPOINT, value.data(), &valueSize)) {
+            endpoint.assign(value.data(), valueSize - 1);
+            return true;
+        }
+        if (errno != EINTR) {
+            break;
+        }
+    } while (true);
+    
+    logError("Cannot retrieve last endpoint of ZeroMQ socket");
+    return false;
+}
+
+
 bool ZeroMQSocket::setOption(int name, const void *value, std::size_t valueSize) {
     do {
         if (-1 != zmq_setsockopt(socket, name, value, valueSize)) {

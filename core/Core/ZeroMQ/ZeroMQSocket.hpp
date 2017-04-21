@@ -44,6 +44,8 @@ public:
     explicit ZeroMQSocket(int type);
     ~ZeroMQSocket();
     
+    bool getLastEndpoint(std::string &endpoint) const;
+    
     bool setOption(int name, const void *value, std::size_t valueSize);
     bool setOption(int name, int value) { return setOption(name, &value, sizeof(value)); }
     bool setOption(int name, const std::string &value) { return setOption(name, value.data(), value.size()); }

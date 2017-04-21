@@ -20,6 +20,7 @@ class ZeroMQSocketTests : public MessageTestFixture {
     CPPUNIT_TEST_SUITE( ZeroMQSocketTests );
     
     CPPUNIT_TEST( testBadType );
+    CPPUNIT_TEST( testGetLastEndpoint );
     CPPUNIT_TEST( testSetOptionFailure );
     CPPUNIT_TEST( testBindFailure );
     CPPUNIT_TEST( testUnbindFailure );
@@ -33,6 +34,7 @@ class ZeroMQSocketTests : public MessageTestFixture {
     
 public:
     void testBadType();
+    void testGetLastEndpoint();
     void testSetOptionFailure();
     void testBindFailure();
     void testUnbindFailure();

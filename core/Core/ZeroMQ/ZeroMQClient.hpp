@@ -20,8 +20,9 @@ class ZeroMQClient {
 public:
     ZeroMQClient(const boost::shared_ptr<EventBuffer> &incomingEventBuffer,
                  const boost::shared_ptr<EventBuffer> &outgoingEventBuffer,
-                 const std::string &incomingSocketEndpoint,
-                 const std::string &outgoingSocketEndpoint);
+                 const std::string &hostname,
+                 int incomingSocketPort,
+                 int outgoingSocketPort);
     
     bool connect();
     bool disconnect();

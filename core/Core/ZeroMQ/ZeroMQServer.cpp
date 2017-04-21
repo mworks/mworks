@@ -9,6 +9,7 @@
 #include "ZeroMQServer.hpp"
 
 #include "Utilities.h"
+#include "ZeroMQUtilities.hpp"
 
 
 BEGIN_NAMESPACE_MW
@@ -16,14 +17,15 @@ BEGIN_NAMESPACE_MW
 
 ZeroMQServer::ZeroMQServer(const boost::shared_ptr<EventBuffer> &incomingEventBuffer,
                            const boost::shared_ptr<EventBuffer> &outgoingEventBuffer,
-                           const std::string &incomingSocketEndpoint,
-                           const std::string &outgoingSocketEndpoint) :
+                           const std::string &hostname,
+                           int incomingSocketPort,
+                           int outgoingSocketPort) :
     incomingSocket(ZMQ_PULL),
     outgoingSocket(ZMQ_PUB),
     incomingConnection(incomingSocket, incomingEventBuffer),
     outgoingConnection(outgoingSocket, outgoingEventBuffer),
-    incomingSocketEndpoint(incomingSocketEndpoint),
-    outgoingSocketEndpoint(outgoingSocketEndpoint)
+    incomingSocketEndpoint(zeromq::formatTCPEndpoint(hostname, incomingSocketPort)),
+    outgoingSocketEndpoint(zeromq::formatTCPEndpoint(hostname, outgoingSocketPort))
 {
     if (!outgoingSocket.setOption(ZMQ_SNDHWM, 0))  // No limit on number of outstanding outgoing messages
     {
@@ -38,7 +40,11 @@ bool ZeroMQServer::start() {
     }
     
     if (!outgoingSocket.bind(outgoingSocketEndpoint)) {
-        (void)incomingSocket.unbind(incomingSocketEndpoint);
+        // See note on unbinding in ZeroMQServer::stop
+        std::string lastEndpoint;
+        if (incomingSocket.getLastEndpoint(lastEndpoint)) {
+            (void)incomingSocket.unbind(lastEndpoint);
+        }
         return false;
     }
     
@@ -50,11 +56,17 @@ bool ZeroMQServer::start() {
 
 
 bool ZeroMQServer::stop() {
+    //
+    // Unbind each socket from its stored last endpoint, in case the hostname provided to the constructor
+    // was a wildcard (see http://api.zeromq.org/4-2:zmq-tcp for details)
+    //
+    
     outgoingConnection.stop();
-    bool success = outgoingSocket.unbind(outgoingSocketEndpoint);
+    std::string lastEndpoint;
+    bool success = outgoingSocket.getLastEndpoint(lastEndpoint) && outgoingSocket.unbind(lastEndpoint);
     
     incomingConnection.stop();
-    success = incomingSocket.unbind(incomingSocketEndpoint) && success;
+    success = incomingSocket.getLastEndpoint(lastEndpoint) && incomingSocket.unbind(lastEndpoint) && success;
     
     return success;
 }

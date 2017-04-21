@@ -25,6 +25,25 @@ void ZeroMQSocketTests::testBadType() {
 }
 
 
+void ZeroMQSocketTests::testGetLastEndpoint() {
+    ZeroMQSocket s(ZMQ_PUB);
+    std::string lastEndpoint;
+    
+    // No endpoint
+    CPPUNIT_ASSERT( s.getLastEndpoint(lastEndpoint) );
+    CPPUNIT_ASSERT_EQUAL( std::string(), lastEndpoint );
+    
+    // Endpoint
+    {
+        const std::string endpoint("tcp://127.0.0.1:19992");
+        CPPUNIT_ASSERT( s.bind(endpoint) );
+        CPPUNIT_ASSERT( s.getLastEndpoint(lastEndpoint) );
+        CPPUNIT_ASSERT_EQUAL( endpoint, lastEndpoint );
+        CPPUNIT_ASSERT( s.unbind(endpoint) );
+    }
+}
+
+
 void ZeroMQSocketTests::testSetOptionFailure() {
     ZeroMQSocket s(ZMQ_PAIR);
     CPPUNIT_ASSERT( !s.setOption(123456, 0) );
