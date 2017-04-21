@@ -105,7 +105,7 @@ ZeroMQSocket::ZeroMQSocket(int type) :
     if (!socket) {
         throw SimpleException(M_NETWORK_MESSAGE_DOMAIN, "Cannot create ZeroMQ socket", zmq_strerror(errno));
     }
-    if (!setOption(ZMQ_LINGER, 0)) {
+    if (!(setOption(ZMQ_IPV6, 1) && setOption(ZMQ_LINGER, 0))) {
         throw SimpleException(M_NETWORK_MESSAGE_DOMAIN, "Cannot configure ZeroMQ socket");
     }
 }

@@ -29,6 +29,7 @@ class ZeroMQSocketTests : public MessageTestFixture {
     CPPUNIT_TEST( testBasicSendReceive );
     CPPUNIT_TEST( testMultipartSendReceive );
     CPPUNIT_TEST( testEventSendReceive );
+    CPPUNIT_TEST( testIPV6 );
     
     CPPUNIT_TEST_SUITE_END();
     
@@ -43,6 +44,7 @@ public:
     void testBasicSendReceive();
     void testMultipartSendReceive();
     void testEventSendReceive();
+    void testIPV6();
     
 };
 

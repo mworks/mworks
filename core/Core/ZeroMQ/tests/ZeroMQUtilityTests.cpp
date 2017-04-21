@@ -29,9 +29,13 @@ void ZeroMQUtilityTests::testResolveHostname() {
     CPPUNIT_ASSERT( zeromq::resolveHostname("127.0.0.1", address) );
     CPPUNIT_ASSERT_EQUAL( std::string("127.0.0.1"), address );
     
+    // Local numeric (IPv6)
+    CPPUNIT_ASSERT( zeromq::resolveHostname("::1", address) );
+    CPPUNIT_ASSERT_EQUAL( std::string("::1"), address );
+    
     // Local name
     CPPUNIT_ASSERT( zeromq::resolveHostname("localhost", address) );
-    CPPUNIT_ASSERT_EQUAL( std::string("127.0.0.1"), address );
+    CPPUNIT_ASSERT_EQUAL( std::string("::1"), address );
     
     // Remote numeric
     CPPUNIT_ASSERT( zeromq::resolveHostname("8.8.4.4", address) );
