@@ -1,10 +1,10 @@
-<?xml version="1.0" standalone="no"?>
+<?xml version="1.0"?>
 <monkeyml version="1.0">
     <io_devices tag="IO Devices"></io_devices>
     <variables tag="Variables"></variables>
     <sounds tag="Sounds"></sounds>
     <stimuli tag="Stimuli">
-        <stimulus type="text" tag="text" text="Hello, world! It's so nice to see you today!" font_name="Courier" font_size="96" color="1,0,0" x_size="10" y_size="5" x_position="0" y_position="0" rotation="0" alpha_multiplier="1"></stimulus>
+        <stimulus type="text" tag="text" text="Hello, world! It's so nice to see you today!" font_name="Courier" font_size="{'macos': 96, 'ios': 64}[osname()]" color="1,0,0" x_size="10" y_size="5" x_position="0" y_position="0" rotation="0" alpha_multiplier="1"></stimulus>
     </stimuli>
     <filters tag="Filters"></filters>
     <optimizers tag="Optimizers"></optimizers>

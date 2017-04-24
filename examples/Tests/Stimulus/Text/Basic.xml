@@ -1,10 +1,10 @@
-<?xml version="1.0" standalone="no"?>
+<?xml version="1.0"?>
 <monkeyml version="1.0">
     <io_devices tag="IO Devices"></io_devices>
     <variables tag="Variables">
         <variable tag="text" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="&quot;Hello, world! How y'all doing?&quot;" type="any"></variable>
-        <variable tag="font_name" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="&quot;Marker Felt&quot;" type="any"></variable>
-        <variable tag="font_size" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="24" type="any"></variable>
+        <variable tag="font_name" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="&quot;MarkerFelt-Thin&quot;" type="any"></variable>
+        <variable tag="font_size" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="{'macos': 24, 'ios': 16}[osname()]" type="any"></variable>
         <variable tag="red" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="1" type="any"></variable>
         <variable tag="green" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="1" type="any"></variable>
         <variable tag="blue" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="1" type="any"></variable>
@@ -34,7 +34,7 @@
             <action type="assignment" tag="Change font_name" variable="font_name" value="&quot;Helvetica&quot;"></action>
             <action tag="Update display" type="update_stimulus_display" predicted_output_time=""></action>
             <action type="wait" tag="Wait" duration="1.0" duration_units="s"></action>
-            <action type="assignment" tag="Change font_size" variable="font_size" value="48"></action>
+            <action type="assignment" tag="Change font_size" variable="font_size" value="2*font_size"></action>
             <action tag="Update display" type="update_stimulus_display" predicted_output_time=""></action>
             <action type="wait" tag="Wait" duration="1.0" duration_units="s"></action>
             <action type="assignment" tag="Change red" variable="red" value="0"></action>

@@ -253,6 +253,7 @@ protected:
     static Datum	funcNUMACCEPTED(const paramlist_type& paramlist);
     
 	static Datum	funcFORMAT(const paramlist_type& paramlist);
+    static Datum	funcOSNAME(const paramlist_type& paramlist);
 	
 public:
     /// Fills in the functionmap with the standard functions.

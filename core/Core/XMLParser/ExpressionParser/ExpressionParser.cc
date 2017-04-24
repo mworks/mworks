@@ -2195,6 +2195,18 @@ namespace stx MW_SYMBOL_PUBLIC {
         }
 	}
     
+    Datum BasicSymbolTable::funcOSNAME(const paramlist_type &paramlist)
+    {
+#if TARGET_OS_IPHONE
+        static const std::string osName("ios");
+#elif TARGET_OS_OSX
+        static const std::string osName("macos");
+#else
+#  error Unsupported platform
+#endif
+        return Datum( osName );
+    }
+    
     Datum BasicSymbolTable::funcSELECTION(const paramlist_type& paramlist)
     {
         if (!(paramlist[0].isString())) {
@@ -2414,6 +2426,7 @@ namespace stx MW_SYMBOL_PUBLIC {
         setFunction("NUMACCEPTED", 1, funcNUMACCEPTED);
         
 		setFunction("FORMAT", -1, funcFORMAT);
+        setFunction("OSNAME", 0, funcOSNAME);
 	}
 	
 	Datum BasicSymbolTable::lookupVariable(const std::string &_varname) const
