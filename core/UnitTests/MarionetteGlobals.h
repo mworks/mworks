@@ -7,7 +7,7 @@
  *
  */
 
-#define DEFAULT_HOST_IP "127.0.0.1"
+#define DEFAULT_HOST_IP "localhost"
 #define DEFAULT_PORT 19989
 
 
