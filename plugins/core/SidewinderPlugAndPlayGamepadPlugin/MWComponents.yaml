@@ -4,6 +4,7 @@
 name: MSSW Gamepad
 signature: iodevice/sidewinder_gamepad
 isa: IODevice
+platform: macos
 icon: smallIOFolder
 description: |
     Used for interfacing to a `Microsoft SideWinder

@@ -4,6 +4,7 @@
 name: NE-500 Syringe Pump Network
 signature: iodevice/ne500
 isa: IODevice
+platform: macos
 icon: smallIOFolder
 description: >
     Used for interfacing to a network of `NE-500 syringe pumps
@@ -49,6 +50,7 @@ parameters:
 name: NE-500 Syringe Pump
 signature: iochannel/ne500
 isa: IOChannel
+platform: macos
 icon: smallIOFolder
 allowed_parent: NE-500 Syringe Pump Network
 description: >

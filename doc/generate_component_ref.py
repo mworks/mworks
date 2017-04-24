@@ -62,16 +62,20 @@ def register_element(info):
         if alias:
             info['alias'] = alias
         group = set(str_or_list(info.get('group', [])))
+        platform = list(str_or_list(info.get('platform', [])))
         parameters = info.get('parameters', [])
         param_names = set(p['name'] for p in parameters)
         for ancestor in str_or_list(info.get('isa', [])):
             ancestor = components[ancestor]
             group.update(ancestor['group'])
+            platform = ancestor.get('platform', []) + platform
             for p in ancestor.get('parameters', []):
                 if p['name'] not in param_names:
                     parameters.append(p)
                     param_names.add(p['name'])
         info['group'] = list(group)  # json.dump chokes on set
+        if platform:
+            info['platform'] = platform
         if parameters:
             info['parameters'] = parameters
         abstract = info.get('abstract', False)
@@ -205,6 +209,19 @@ def write_entry(title, info):
         print('.. _%s:\n' % title, file=fp)
 
         write_header(fp, title)
+
+        if 'platform' in info:
+            platforms = [{'macos': 'macOS', 'ios': 'iOS'}[p.lower()]
+                         for p in info['platform']]
+            availability = '\n*Available on '
+            all_but_last = platforms[:-1]
+            if all_but_last:
+                if len(all_but_last) > 1:
+                    availability += ', '.join(all_but_last) + ', and '
+                else:
+                    availability += all_but_last[0] + ' and '
+            availability += platforms[-1] + '*'
+            print(availability, file=fp)
         
         if 'description' in info:
             print('\n', file=fp)

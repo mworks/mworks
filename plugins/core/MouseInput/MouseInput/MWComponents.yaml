@@ -4,6 +4,7 @@
 name: Mouse Input Device
 signature: iodevice/mouse_input
 isa: IODevice
+platform: macos
 icon: smallIOFolder
 description: Interface to the system mouse or other pointing device
 parameters: 

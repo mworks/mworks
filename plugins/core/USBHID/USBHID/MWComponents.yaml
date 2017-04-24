@@ -4,6 +4,7 @@
 name: USB HID Device
 signature: iodevice/usbhid_generic
 isa: IODevice
+platform: macos
 description: |
     Interface to a `USB human interface device
     <https://en.wikipedia.org/wiki/USB_human_interface_device_class>`_ (HID)
@@ -57,6 +58,7 @@ parameters:
 name: USB HID Input Channel
 signature: iochannel/usbhid_generic_input_channel
 isa: IOChannel
+platform: macos
 allowed_parent: USB HID Device
 description: |
     Input channel on a `USB HID Device`.  Typically, a channel corresponds to a

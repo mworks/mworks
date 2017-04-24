@@ -4,6 +4,7 @@
 name: Run Python File
 signature: action/run_python_file
 isa: Action
+platform: macos
 description: |
     Execute the specified file as `Python <https://www.python.org>`_ source
     code.
@@ -28,6 +29,7 @@ parameters:
 name: Run Python String
 signature: action/run_python_string
 isa: Action
+platform: macos
 description: |
     Execute the given string as `Python <https://www.python.org>`_ source code.
 
