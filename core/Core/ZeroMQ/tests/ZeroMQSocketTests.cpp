@@ -38,7 +38,7 @@ void ZeroMQSocketTests::testGetLastEndpoint() {
         const std::string endpoint("tcp://127.0.0.1:19992");
         CPPUNIT_ASSERT( s.bind(endpoint) );
         CPPUNIT_ASSERT( s.getLastEndpoint(lastEndpoint) );
-        CPPUNIT_ASSERT_EQUAL( endpoint, lastEndpoint );
+        CPPUNIT_ASSERT( (lastEndpoint == endpoint) || (lastEndpoint == "tcp://[::ffff:127.0.0.1]:19992") );
         CPPUNIT_ASSERT( s.unbind(endpoint) );
     }
 }
@@ -274,15 +274,6 @@ void ZeroMQSocketTests::testIPV6() {
     
     CPPUNIT_ASSERT( sender.disconnect(endpoint) );
     CPPUNIT_ASSERT( receiver.unbind(endpoint) );
-    
-    // Check that wildcard address resolves to in6addr_any
-    {
-        CPPUNIT_ASSERT( receiver.bind("tcp://*:19992") );
-        std::string lastEndpoint;
-        CPPUNIT_ASSERT( receiver.getLastEndpoint(lastEndpoint) );
-        CPPUNIT_ASSERT_EQUAL( std::string("tcp://[::]:19992"), lastEndpoint );
-        CPPUNIT_ASSERT( receiver.unbind(lastEndpoint) );
-    }
 }
 
 
