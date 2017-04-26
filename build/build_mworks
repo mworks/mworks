@@ -163,6 +163,7 @@ def core_plugins():
                    'ServersideConduit',
                    'SidewinderPlugAndPlayGamepadPlugin',
                    'TextStimulus',
+                   'TouchInput',
                    'USBHID',
                    'VideoStimulus',
                    'WhiteNoiseBackground'):

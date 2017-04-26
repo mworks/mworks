@@ -6,11 +6,71 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		E1AEAC061EB1128F001150F7 /* Install */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = E1AEAC071EB1128F001150F7 /* Build configuration list for PBXAggregateTarget "Install" */;
+			buildPhases = (
+				E1AEAC0F1EB1153F001150F7 /* CopyFiles */,
+			);
+			dependencies = (
+				E1AEAC0E1EB11539001150F7 /* PBXTargetDependency */,
+			);
+			name = Install;
+			productName = Install;
+		};
+		E1AEAC091EB1129A001150F7 /* Everything */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = E1AEAC0A1EB1129A001150F7 /* Build configuration list for PBXAggregateTarget "Everything" */;
+			buildPhases = (
+			);
+			dependencies = (
+				E1AEAC121EB115B8001150F7 /* PBXTargetDependency */,
+			);
+			name = Everything;
+			productName = Everything;
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		E125AF931E8053AC0068EB25 /* TouchInputPlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E125AF921E8053AC0068EB25 /* TouchInputPlugin.cpp */; };
 		E125AF981E8057B10068EB25 /* TouchInputDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E125AF961E8057B10068EB25 /* TouchInputDevice.cpp */; };
 		E125AF9D1E805BA70068EB25 /* MWKTouchInputRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = E125AF9B1E805BA70068EB25 /* MWKTouchInputRecognizer.m */; };
+		E1AEAC0C1EB1146A001150F7 /* TouchInputPlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E125AF921E8053AC0068EB25 /* TouchInputPlugin.cpp */; };
+		E1AEAC101EB11549001150F7 /* TouchInput.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = E1AEAC011EB11212001150F7 /* TouchInput.bundle */; };
+		E1AEAC151EB11622001150F7 /* MWorksCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1AEAC141EB11622001150F7 /* MWorksCore.framework */; };
+		E1AEAC171EB11643001150F7 /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1AEAC161EB11643001150F7 /* libboost_system.a */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		E1AEAC0D1EB11539001150F7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E125AF7A1E8050C10068EB25 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E1AEAC001EB11212001150F7;
+			remoteInfo = "TouchInput-macOS";
+		};
+		E1AEAC111EB115B8001150F7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E125AF7A1E8050C10068EB25 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E1AEAC061EB1128F001150F7;
+			remoteInfo = Install;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		E1AEAC0F1EB1153F001150F7 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(MW_PLUGINS_DIR)";
+			dstSubfolderSpec = 0;
+			files = (
+				E1AEAC101EB11549001150F7 /* TouchInput.bundle in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		E125AF831E8050C10068EB25 /* TouchInput.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TouchInput.plugin; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -22,6 +82,12 @@
 		E125AF971E8057B10068EB25 /* TouchInputDevice.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TouchInputDevice.hpp; sourceTree = "<group>"; };
 		E125AF9A1E805BA70068EB25 /* MWKTouchInputRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWKTouchInputRecognizer.h; sourceTree = "<group>"; };
 		E125AF9B1E805BA70068EB25 /* MWKTouchInputRecognizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWKTouchInputRecognizer.m; sourceTree = "<group>"; };
+		E1AEABF91EB1109F001150F7 /* macOS_Plugin.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = macOS_Plugin.xcconfig; sourceTree = "<group>"; };
+		E1AEABFA1EB1109F001150F7 /* macOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
+		E1AEAC011EB11212001150F7 /* TouchInput.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TouchInput.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		E1AEAC031EB11212001150F7 /* Info-macOS.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-macOS.plist"; sourceTree = "<group>"; };
+		E1AEAC141EB11622001150F7 /* MWorksCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MWorksCore.framework; path = /Library/Frameworks/MWorksCore.framework; sourceTree = "<absolute>"; };
+		E1AEAC161EB11643001150F7 /* libboost_system.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_system.a; path = "/Library/Application Support/MWorks/Developer/lib/libboost_system.a"; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -29,6 +95,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E1AEABFE1EB11212001150F7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E1AEAC151EB11622001150F7 /* MWorksCore.framework in Frameworks */,
+				E1AEAC171EB11643001150F7 /* libboost_system.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -40,6 +115,7 @@
 			children = (
 				E125AF8E1E8051380068EB25 /* External Config */,
 				E125AF851E8050C10068EB25 /* TouchInput */,
+				E1AEAC131EB115F5001150F7 /* Frameworks */,
 				E125AF841E8050C10068EB25 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -48,6 +124,7 @@
 			isa = PBXGroup;
 			children = (
 				E125AF831E8050C10068EB25 /* TouchInput.plugin */,
+				E1AEAC011EB11212001150F7 /* TouchInput.bundle */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -69,6 +146,8 @@
 			isa = PBXGroup;
 			children = (
 				E125AF941E8054A80068EB25 /* iOS_Plugin.xcconfig */,
+				E1AEABFA1EB1109F001150F7 /* macOS.xcconfig */,
+				E1AEABF91EB1109F001150F7 /* macOS_Plugin.xcconfig */,
 			);
 			name = "External Config";
 			path = ../../../build/xcode;
@@ -78,9 +157,19 @@
 			isa = PBXGroup;
 			children = (
 				E125AF871E8050C10068EB25 /* Info.plist */,
+				E1AEAC031EB11212001150F7 /* Info-macOS.plist */,
 				E125AF911E8052E50068EB25 /* TouchInput-Prefix.pch */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		E1AEAC131EB115F5001150F7 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E1AEAC141EB11622001150F7 /* MWorksCore.framework */,
+				E1AEAC161EB11643001150F7 /* libboost_system.a */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -114,6 +203,23 @@
 			productReference = E125AF831E8050C10068EB25 /* TouchInput.plugin */;
 			productType = "com.apple.product-type.framework";
 		};
+		E1AEAC001EB11212001150F7 /* TouchInput-macOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E1AEAC041EB11212001150F7 /* Build configuration list for PBXNativeTarget "TouchInput-macOS" */;
+			buildPhases = (
+				E1AEABFD1EB11212001150F7 /* Sources */,
+				E1AEABFE1EB11212001150F7 /* Frameworks */,
+				E1AEABFF1EB11212001150F7 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "TouchInput-macOS";
+			productName = "TouchInput-macOS";
+			productReference = E1AEAC011EB11212001150F7 /* TouchInput.bundle */;
+			productType = "com.apple.product-type.bundle";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -125,6 +231,18 @@
 				TargetAttributes = {
 					E125AF821E8050C10068EB25 = {
 						CreatedOnToolsVersion = 8.2.1;
+						ProvisioningStyle = Automatic;
+					};
+					E1AEAC001EB11212001150F7 = {
+						CreatedOnToolsVersion = 8.3.2;
+						ProvisioningStyle = Automatic;
+					};
+					E1AEAC061EB1128F001150F7 = {
+						CreatedOnToolsVersion = 8.3.2;
+						ProvisioningStyle = Automatic;
+					};
+					E1AEAC091EB1129A001150F7 = {
+						CreatedOnToolsVersion = 8.3.2;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -142,12 +260,22 @@
 			projectRoot = "";
 			targets = (
 				E125AF821E8050C10068EB25 /* TouchInput */,
+				E1AEAC001EB11212001150F7 /* TouchInput-macOS */,
+				E1AEAC061EB1128F001150F7 /* Install */,
+				E1AEAC091EB1129A001150F7 /* Everything */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		E125AF811E8050C10068EB25 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E1AEABFF1EB11212001150F7 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -167,7 +295,28 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		E1AEABFD1EB11212001150F7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E1AEAC0C1EB1146A001150F7 /* TouchInputPlugin.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		E1AEAC0E1EB11539001150F7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E1AEAC001EB11212001150F7 /* TouchInput-macOS */;
+			targetProxy = E1AEAC0D1EB11539001150F7 /* PBXContainerItemProxy */;
+		};
+		E1AEAC121EB115B8001150F7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E1AEAC061EB1128F001150F7 /* Install */;
+			targetProxy = E1AEAC111EB115B8001150F7 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		E125AF891E8050C10068EB25 /* Development */ = {
@@ -198,6 +347,34 @@
 			};
 			name = Development;
 		};
+		E1AEAC051EB11212001150F7 /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1AEABF91EB1109F001150F7 /* macOS_Plugin.xcconfig */;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "TouchInput/TouchInput-Prefix.pch";
+				INFOPLIST_FILE = "TouchInput/Info-macOS.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.mworks-project.TouchInput-macOS";
+				PRODUCT_NAME = TouchInput;
+			};
+			name = Development;
+		};
+		E1AEAC081EB1128F001150F7 /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1AEABFA1EB1109F001150F7 /* macOS.xcconfig */;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Development;
+		};
+		E1AEAC0B1EB1129A001150F7 /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1AEABFA1EB1109F001150F7 /* macOS.xcconfig */;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Development;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -213,6 +390,30 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E125AF8C1E8050C10068EB25 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		E1AEAC041EB11212001150F7 /* Build configuration list for PBXNativeTarget "TouchInput-macOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E1AEAC051EB11212001150F7 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		E1AEAC071EB1128F001150F7 /* Build configuration list for PBXAggregateTarget "Install" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E1AEAC081EB1128F001150F7 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		E1AEAC0A1EB1129A001150F7 /* Build configuration list for PBXAggregateTarget "Everything" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E1AEAC0B1EB1129A001150F7 /* Development */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;

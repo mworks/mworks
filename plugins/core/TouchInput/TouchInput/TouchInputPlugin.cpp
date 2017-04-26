@@ -6,7 +6,9 @@
 //  Copyright © 2017 The MWorks Project. All rights reserved.
 //
 
-#include "TouchInputDevice.hpp"
+#if TARGET_OS_IPHONE
+#  include "TouchInputDevice.hpp"
+#endif
 
 
 BEGIN_NAMESPACE_MW
@@ -14,7 +16,9 @@ BEGIN_NAMESPACE_MW
 
 class TouchInputPlugin : public Plugin {
     void registerComponents(boost::shared_ptr<ComponentRegistry> registry) override {
+#if TARGET_OS_IPHONE
         registry->registerFactory<StandardComponentFactory, TouchInputDevice>();
+#endif
     }
 };
 

@@ -48,6 +48,7 @@ package_contents = {
         '/Library/Application Support/MWorks/Plugins/Core/NE500Plugin.bundle',
         '/Library/Application Support/MWorks/Plugins/Core/ServersideConduit.bundle',
         '/Library/Application Support/MWorks/Plugins/Core/TextStimulus.bundle',
+        '/Library/Application Support/MWorks/Plugins/Core/TouchInput.bundle',
         '/Library/Application Support/MWorks/Plugins/Core/USBHID.bundle',
         '/Library/Application Support/MWorks/Plugins/Core/VideoStimulus.bundle',
         '/Library/Application Support/MWorks/Plugins/Core/WhiteNoiseBackground.bundle',
