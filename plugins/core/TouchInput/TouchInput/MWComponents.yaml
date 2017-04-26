@@ -1,0 +1,36 @@
+---
+
+
+name: Touch Input Device
+signature: iodevice/touch_input
+isa: IODevice
+platform: ios
+icon: smallIOFolder
+description: |
+    Interface to the built-in touchscreen on an iOS device.
+
+    This device detects and tracks the movement of a single touch (e.g. finger)
+    on the screen.  If the screen is touched in multiple locations
+    simultaneously, only the first detected touch is tracked.  All other touches
+    are ignored.
+parameters: 
+  - 
+    name: touch_position_x
+    required: yes
+    description: >
+        Variable in which to store the horizontal position of the touch (in
+        degrees) on the screen
+  - 
+    name: touch_position_y
+    required: yes
+    description: >
+        Variable in which to store the vertical position of the touch (in
+        degrees) on the screen
+  - 
+    name: touch_in_progress
+    required: yes
+    description: >
+        Variable in which to store the touch state (true if a touch is in
+        progress, false otherwise)
+
+
