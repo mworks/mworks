@@ -308,13 +308,13 @@ def boost(ios=True):
 
 @builder
 def zeromq(ios=True):
-    version = '4.2.2'
+    version = '4.1.6'
     srcdir = 'zeromq-' + version
     tarfile = srcdir + '.tar.gz'
 
     with done_file(srcdir):
         if not os.path.isdir(srcdir):
-            download_archive('https://github.com/zeromq/libzmq/releases/download/v%s/' % version, tarfile)
+            download_archive('https://github.com/zeromq/zeromq4-1/releases/download/v%s/' % version, tarfile)
             unpack_tarfile(tarfile, srcdir)
             with workdir(srcdir):
                 apply_patch('zeromq_clock_gettime.patch')
