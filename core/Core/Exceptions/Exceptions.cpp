@@ -28,22 +28,6 @@ AmbiguousComponentReferenceException::AmbiguousComponentReferenceException(share
         
         extended_info << "tag = " << (*i)->getTag() << ", ";
         
-        extended_info << "reference_id = ";
-        string reference_id = (*i)->getReferenceID();
-        if(!reference_id.empty()){
-            extended_info << reference_id << ", ";
-        } else {
-            extended_info << "<unknown> ";
-        }
-        
-        extended_info << "object signature = ";
-        string object_signature = (*i)->getObjectSignature();
-        if(!object_signature.empty()){
-            extended_info << object_signature;
-        } else {
-            extended_info << "<not set>";
-        }
-        
         extended_info << std::endl;
     }
     

@@ -845,7 +845,6 @@ void XMLParser::_processGenericCreateDirective(xmlNode *node, bool anon){
 	}
 	
 	if(component != NULL){
-		component->setReferenceID(reference_id);
         component->setLineNumber(boost::lexical_cast<int>(properties["_line_number"]));
 	}
 }

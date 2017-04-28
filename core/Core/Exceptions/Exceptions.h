@@ -111,32 +111,21 @@ class MalformedXMLException : public SimpleException{
 
 class InvalidXMLException : public SimpleException{
 
-	protected:
-	
-	string reference_id;
-
-	
 	public:
 	
 	InvalidXMLException(string _refid, string _message) :
-        SimpleException(M_PARSER_MESSAGE_DOMAIN, _message),
-        reference_id(_refid)
+        SimpleException(M_PARSER_MESSAGE_DOMAIN, _message)
     { }
 	
 	InvalidXMLException(string _refid, string _message, string _subject) :
 				SimpleException(M_PARSER_MESSAGE_DOMAIN, _message, _subject){
-					
-		reference_id = _refid;
 	}
 	
 	InvalidXMLException(string _refid, const SimpleException& e) :
 				SimpleException(e){
-		reference_id = _refid;
 	}
 	
 	virtual ~InvalidXMLException() throw() {}
-	
-	string getReferenceID(){  return reference_id;  }
 };
     
 

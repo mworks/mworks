@@ -186,7 +186,6 @@ BEGIN_NAMESPACE_MW
 			}
             
             if(obj->isAmbiguous()){
-                //string string_rep = obj->getStringRepresentation();
                 shared_ptr<AmbiguousComponentReference> amb_ref = 
                             boost::dynamic_pointer_cast<AmbiguousComponentReference, Component>(obj);
                 throw AmbiguousComponentReferenceException(amb_ref);

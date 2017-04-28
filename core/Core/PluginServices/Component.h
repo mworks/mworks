@@ -33,8 +33,6 @@ BEGIN_NAMESPACE_MW
 	private:
 		
 		std::string tag;
-		std::string reference_id;
-        std::string object_signature;
         int line_number;
 		
 		// this is a compact, unique identifier for the purpose
@@ -50,8 +48,6 @@ BEGIN_NAMESPACE_MW
             shared_ptr<T> new_component(new T);
             
             new_component->setTag(getTag());
-            new_component->setReferenceID(getReferenceID());
-            new_component->setObjectSignature(getObjectSignature());
             new_component->setLineNumber(getLineNumber());
             
             return new_component;
@@ -63,13 +59,12 @@ BEGIN_NAMESPACE_MW
         static void describeComponent(ComponentInfo &info);
         
         explicit Component(const Map<ParameterValue> &parameters);
-        explicit Component(const std::string &_tag = "", const std::string &_sig = "");
+        explicit Component(const std::string &_tag = "");
 		
 		virtual ~Component(){ }
 		
 		Component( const mw::Component& copy ){ 
 			tag = copy.tag;
-			reference_id = copy.reference_id;
             line_number = copy.line_number;
 		}
 		
@@ -84,12 +79,6 @@ BEGIN_NAMESPACE_MW
 		
 		void setTag(const std::string &_tag) { tag = _tag; }
 		const std::string& getTag() const { return tag; }
-		
-		void setReferenceID(const std::string &ref_id) { reference_id = ref_id; }
-		const std::string& getReferenceID() const { return reference_id; }
-		
-        void setObjectSignature(const std::string &_sig) { object_signature = _sig; }
-        const std::string& getObjectSignature() const { return object_signature; }
         
         void setLineNumber(int lineNumber) { line_number = lineNumber; }
         int getLineNumber() const { return line_number; }
@@ -112,10 +101,6 @@ BEGIN_NAMESPACE_MW
 							  ComponentRegistry *reg){
 			return;
 		}
-		
-        virtual std::string getStringRepresentation() const {
-            return getTag();
-        }
         
 	};
 	
@@ -139,8 +124,6 @@ BEGIN_NAMESPACE_MW
 		const vector< shared_ptr<mw::Component> >& getAmbiguousComponents() const {
 			return ambiguous_components;
 		}
-        
-        virtual std::string getStringRepresentation() const;
 		
 	};
 
