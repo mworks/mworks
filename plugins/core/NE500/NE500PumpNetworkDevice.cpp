@@ -42,7 +42,7 @@ NE500PumpNetworkDevice::NE500PumpNetworkDevice(const ParameterValueMap &paramete
 {
     std::string address;
     if (!parameters[ADDRESS].empty()) {
-        address = VariablePtr(parameters[ADDRESS])->getValue().getString();
+        address = variableOrText(parameters[ADDRESS])->getValue().getString();
     }
     
     if (parameters[PORT].empty()) {

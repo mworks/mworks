@@ -143,6 +143,15 @@ inline const char* ParameterValue::convert(const std::string &s, ComponentRegist
 }
 
 
+inline VariablePtr variableOrText(const ParameterValue &param) {
+    try {
+        return VariablePtr(param);
+    } catch (const SimpleException &) {
+        return boost::make_shared<ConstantVariable>(param.str());
+    }
+}
+
+
 END_NAMESPACE_MW
 
 

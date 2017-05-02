@@ -15,7 +15,7 @@ parameters:
     name: address
     example:
       - '"10.0.254.254"'
-      - '"/dev/cu.usbserial-FTH1RRH5"'
+      - /dev/cu.usbserial-FTH1RRH5
     description: |
         If `port`_ is provided, the address is taken to be a host name,
         and MWorks attempts to connect to the pump network via a

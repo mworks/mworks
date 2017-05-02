@@ -15,15 +15,6 @@ BEGIN_NAMESPACE_MW
 BEGIN_NAMESPACE()
 
 
-VariablePtr variableOrText(const ParameterValue &param) {
-    try {
-        return VariablePtr(param);
-    } catch (const SimpleException &) {
-        return boost::make_shared<ConstantVariable>(param.str());
-    }
-}
-
-
 inline cf::StringPtr createCFString(const std::string &bytesUTF8) {
     return cf::StringPtr::created(CFStringCreateWithBytes(kCFAllocatorDefault,
                                                           reinterpret_cast<const UInt8 *>(bytesUTF8.data()),
