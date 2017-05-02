@@ -39,77 +39,72 @@ using std::vector;
 BEGIN_NAMESPACE_MW
 
 
-class XMLParser {
+class XMLParser : boost::noncopyable {
 
-	protected:
+	private:
     
-		std::string path;
+		const std::string path;
 		xmlParserCtxt *context;
 		xmlDoc *xml_doc;
 		
 		vector<string> parser_errors;
 		
-		xmlDoc *errors_doc;
-		
 		xsltStylesheetPtr simplification_transform;
 	
-		shared_ptr<ComponentRegistry> registry;
+        const boost::shared_ptr<ComponentRegistry> registry;
 	
-        void loadFile();
         void _addLineNumberAttributes(xmlNode *node);
 
-		virtual void addParserError(string error){
+        void addParserError(string error){
 			parser_errors.push_back(error);
 		}
 		
-		virtual void _processNode(xmlNode *child);
-		virtual void _processRangeReplicator(xmlNode *node);
-        virtual void _generateRangeReplicatorValues(xmlNode *node, vector<string> &values);
-		virtual void _processListReplicator(xmlNode *node);
-        virtual void _generateListReplicatorValues(xmlNode *node, vector<string> &values);
-        virtual void _generateListReplicatorFilenames(xmlNode *node, vector<string> &values, const string &pattern);
-		virtual void _dumpNode(xmlNode *node);
-		virtual void _substituteAttributeStrings(xmlNode *node, string token, string replacement);
-        virtual void _substituteAttributeStrings(xmlNode *node, const string& form1, const string& form2, const string& replacement);
+        void _processNode(xmlNode *child);
+        void _processRangeReplicator(xmlNode *node);
+        void _generateRangeReplicatorValues(xmlNode *node, vector<string> &values);
+        void _processListReplicator(xmlNode *node);
+        void _generateListReplicatorValues(xmlNode *node, vector<string> &values);
+        void _generateListReplicatorFilenames(xmlNode *node, vector<string> &values, const string &pattern);
+        void _substituteAttributeStrings(xmlNode *node, string token, string replacement);
+        void _substituteAttributeStrings(xmlNode *node, const string& form1, const string& form2, const string& replacement);
     
-        virtual void _substituteTagStrings(xmlNode *node, string token, string replacement);
-        virtual void _substituteTagStrings(xmlNode *node, const string& form1, const string& form2, const string& replacement);
+        void _substituteTagStrings(xmlNode *node, string token, string replacement);
+        void _substituteTagStrings(xmlNode *node, const string& form1, const string& form2, const string& replacement);
   
-        virtual void _addVariableAssignment(xmlNode *node, const string& variable, const string& value);
+        void _addVariableAssignment(xmlNode *node, const string& variable, const string& value);
 	
 		virtual void _processCreateDirective(xmlNode *node);
 		virtual void _processAnonymousCreateDirective(xmlNode *node);
-		virtual void _processGenericCreateDirective(xmlNode *node, bool anon);
+        void _processGenericCreateDirective(xmlNode *node, bool anon);
 		
-		virtual void _processInstanceDirective(xmlNode *node);
+        virtual void _processInstanceDirective(xmlNode *node);
 		virtual void _processConnectDirective(xmlNode *node);
-		virtual void _connectChildToParent(shared_ptr<mw::Component> parent, 
-									   map<string, string> properties, 
-									   xmlNode *child_node);
+        void _connectChildToParent(shared_ptr<mw::Component> parent,
+                                   map<string, string> properties,
+                                   xmlNode *child_node);
 									   
 		virtual void _processFinalizeDirective(xmlNode *node);
-		virtual string _attributeForName(xmlNode *node, string name);
-        virtual const char *_cStringAttributeForName(xmlNode *node, string name);
-		virtual void _setAttributeForName(xmlNode *node, string name, string value);
+        string _attributeForName(xmlNode *node, string name);
+        const char *_cStringAttributeForName(xmlNode *node, string name);
+        void _setAttributeForName(xmlNode *node, string name, string value);
   
-        inline string _generateInstanceTag(string tag, string reference_id, string instance_id){
+        string _generateInstanceTag(string tag, string reference_id, string instance_id) {
             string instance_tag = string(INSTANCE_PREFIX) + reference_id + string(INSTANCE_STEM) + instance_id; 
             return instance_tag;
         }
             
-		virtual void _processVariableAssignment(xmlNode *node);
+        void _processVariableAssignment(xmlNode *node);
 		
 		shared_ptr<mw::Component> _getConnectionChild(xmlNode *child, map<string, string> properties);
 		
-		virtual map<string, string> _createPropertiesMap(xmlNode *node);
+        map<string, string> _createPropertiesMap(xmlNode *node);
 		
 		// Parse a node which contains a numeric, or structured (e.g. list, 
 		// dictionary) datum and return an Datum object
-		virtual Datum _parseDataValue(xmlNode *node);
+        Datum _parseDataValue(xmlNode *node);
 		
 		vector<xmlNode *> _getChildren(xmlNode *node);
 		vector<xmlNode *> _getChildren(xmlNode *node, string tag);
-		string _getContent(xmlNode *node);
 	
 		void _createAndAddReplicatedChildren(xmlNode *node, 
 											 const string &variable, 
@@ -121,20 +116,26 @@ class XMLParser {
 												 const string &child_instance_id,
 												 const string &variable, 
 												 const vector<string> &values);
+    
+protected:
+        static string _getContent(xmlNode *node);
 	
 public:
 	
-		XMLParser(shared_ptr<ComponentRegistry> _reg, std::string _path, std::string _simplification_transform_path="");
-		XMLParser(std::string _path, std::string _simplification_transform_path="");
+        XMLParser(const boost::shared_ptr<ComponentRegistry> &_reg,
+                  const std::string &_path,
+                  const std::string &_simplification_transform_path="");
+		explicit XMLParser(const std::string &_path, const std::string &_simplification_transform_path="");
 		virtual ~XMLParser();
-
+    
         static void error_func(void * _parser_context, const char * error, ...);
 		
+        void loadFile();
         void getDocumentData(std::vector<xmlChar> &data);
-		virtual void parse(bool announce_progress = false);
+        void parse(bool announce_progress = false);
 		
 		static string squashFileName(string name);
-		virtual std::string getWorkingPathString();
+        std::string getWorkingPathString();
 };
 
 

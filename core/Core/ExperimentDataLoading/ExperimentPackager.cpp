@@ -132,6 +132,12 @@ Datum ExperimentPackager::packageExperiment(const boost::filesystem::path filena
 }
 
 
+IncludedFilesParser::IncludedFilesParser(const std::string &_path) :
+    XMLParser(_path, "MWMediaPackagerTransformation.xsl"),
+    manifest(M_LIST, 1)
+{ }
+
+
 void IncludedFilesParser::_processCreateDirective(xmlNode *node) {
     xmlNode *child = node->children;
     

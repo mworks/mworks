@@ -51,33 +51,25 @@ private:
 
 class IncludedFilesParser : public XMLParser {
 
-	protected:
+	private:
 	
         Datum manifest;
 
 		// instead of building experiment, just look for path arguments and save
 		// the results
-        virtual void _processCreateDirective(xmlNode *node);
-        virtual void _processAnonymousCreateDirective(xmlNode *node);
+        void _processCreateDirective(xmlNode *node) override;
+        void _processAnonymousCreateDirective(xmlNode *node) override;
 		
 		// don't do anything for these
-		virtual void _processConnectDirective(xmlNode *node){ }
-		virtual void _processInstanceDirective(xmlNode *node){ }
-		virtual void _processFinalizeDirective(xmlNode *node){ }
-		
-		// let _processRangeReplicator() do its thing
+        void _processConnectDirective(xmlNode *node) override { }
+        void _processInstanceDirective(xmlNode *node) override { }
+        void _processFinalizeDirective(xmlNode *node) override { }
 		
 	public:
 	
-		IncludedFilesParser(std::string _path) :
-            XMLParser(_path, "MWMediaPackagerTransformation.xsl")
-        {
-			manifest = Datum(M_LIST, 1);
-		}
-		
-		virtual ~IncludedFilesParser(){ }
+        explicit IncludedFilesParser(const std::string &_path);
 	
-		virtual Datum getIncludedFilesManifest(){  return manifest; }
+		const Datum& getIncludedFilesManifest() const { return manifest; }
 		
 };
 

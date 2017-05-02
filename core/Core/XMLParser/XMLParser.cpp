@@ -50,13 +50,12 @@ BEGIN_NAMESPACE_MW
 	}
 
 
-XMLParser::XMLParser(shared_ptr<ComponentRegistry> _reg,
-                     std::string _path,
-                     std::string _simplification_transform_path) :
+XMLParser::XMLParser(const shared_ptr<ComponentRegistry> &_reg,
+                     const std::string &_path,
+                     const std::string &_simplification_transform_path) :
     path(_path),
     context(nullptr),
     xml_doc(nullptr),
-    errors_doc(nullptr),
     simplification_transform(nullptr),
     registry(_reg)
 {
@@ -83,7 +82,7 @@ XMLParser::XMLParser(shared_ptr<ComponentRegistry> _reg,
 }
 
 
-XMLParser::XMLParser(std::string _path, std::string _simplification_transform_path) :
+XMLParser::XMLParser(const std::string &_path, const std::string &_simplification_transform_path) :
     XMLParser(boost::make_shared<ComponentRegistry>(), _path, _simplification_transform_path)
 { }
 
@@ -91,10 +90,6 @@ XMLParser::XMLParser(std::string _path, std::string _simplification_transform_pa
 XMLParser::~XMLParser() {
     if (simplification_transform) {
         xsltFreeStylesheet(simplification_transform);
-    }
-    
-    if (errors_doc) {
-        xmlFreeDoc(errors_doc);
     }
     
     if (xml_doc) {
@@ -187,6 +182,11 @@ static NSData* getPreprocessedFileData(NSString *ppPath, NSString *filePath) {
 
 void XMLParser::loadFile() {
     @autoreleasepool {
+        if (xml_doc) {
+            // File is already loaded
+            return;
+        }
+        
         NSString *filePath = [NSString stringWithUTF8String:(path.c_str())];
         NSString *fileText = getFileText(filePath);
         NSString *firstTwoLines = getFirstTwoLines(fileText);
@@ -532,18 +532,6 @@ void XMLParser::_addVariableAssignment(xmlNode *node, const string& variable, co
 	} else {
 		xmlNode *assignment_node = xmlNewChild(node, NULL, (const xmlChar*)"variable_assignment", (const xmlChar*)value.c_str());
 		_setAttributeForName(assignment_node, "variable", variable.c_str());
-	}
-}
-
-void XMLParser::_dumpNode(xmlNode *node){
-	
-	_xmlAttr *att = node->properties;
-	
-	while( att != NULL){
-		cerr << "\t" << att->name << ":" 
-		<< att->children->content << endl;
-		
-		att = att->next;
 	}
 }
 
