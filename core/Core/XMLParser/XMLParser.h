@@ -55,7 +55,6 @@ class XMLParser {
 	
 		shared_ptr<ComponentRegistry> registry;
 	
-		virtual void validate();
         void loadFile();
         void _addLineNumberAttributes(xmlNode *node);
 

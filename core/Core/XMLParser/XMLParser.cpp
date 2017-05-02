@@ -110,9 +110,6 @@ XMLParser::~XMLParser() {
 }
 
 
-void XMLParser::validate(){ }
-
-
 static NSString* getFileText(NSString *filePath) {
     NSStringEncoding enc;
     NSError *error = nil;
@@ -361,68 +358,6 @@ void XMLParser::_processNode(xmlNode *child){
         throw; // pass the buck
     }
 }
-
-
-//void XMLParser::_processRangeReplicator(xmlNode *node){
-//	
-//	string variable(_attributeForName(node, "variable"));
-//	string from_string(_attributeForName(node, "from"));
-//	string to_string(_attributeForName(node, "to"));
-//	string step_string(_attributeForName(node, "step"));
-//	
-//	double from = boost::lexical_cast<double>(from_string);
-//	double to = boost::lexical_cast<double>(to_string);
-//	double step = boost::lexical_cast<double>(step_string);
-//	
-//	int instance_number=0, i = 0;
-//	for(double v = from; v <= to; v += step){
-//		
-//		instance_number = i++;
-//		string current_level_instance_id((boost::format("%d")%instance_number).str());
-//		
-//		char v_char_buffer[1024];
-//		sprintf(v_char_buffer, "%g", v);
-//		string v_string(v_char_buffer);
-//		
-//		xmlNode *child = node->children;
-//		while(child){
-//			string name((const char *)(child->name));
-//			if(xmlNodeIsText(child)){
-//				child = child->next;
-//				continue;
-//			}
-//			
-//			xmlNode *child_copy = xmlCopyNode(child, 1);
-//			_substituteAttributeStrings(child_copy, variable, v_string);
-//			
-//			string reference_id = _attributeForName(child_copy, "reference_id");
-//			
-//			string instance_id;
-//			string node_instance_id(_attributeForName(node, "instance_id"));
-//			if(node_instance_id.empty()){
-//				instance_id = current_level_instance_id;
-//			} else {
-//				instance_id = node_instance_id + string(INSTANCE_STEM) + current_level_instance_id;
-//			}
-//			_setAttributeForName(child_copy, "instance_id", instance_id); 
-//			
-//			
-//			if(name == "mw_instance"){
-//				// add variable assignments
-//				xmlNode *assignment_node = xmlNewChild(child_copy, NULL, (const xmlChar*)"variable_assignment", (const xmlChar*)v_string.c_str());
-//				_setAttributeForName(assignment_node, "variable", variable.c_str());
-//				_processNode(child_copy);
-//			} else {
-//				_processNode(child_copy);
-//			}
-//			
-//			xmlFreeNode(child_copy);
-//			child = child->next;
-//		}
-//		
-//	}
-//	
-//}
 
 void XMLParser::_processRangeReplicator(xmlNode *node){
 	string variable(_attributeForName(node, "variable"));

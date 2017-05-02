@@ -8,8 +8,8 @@
 			<xsl:apply-templates mode="variable_create"/>
 			<xsl:apply-templates mode="variable_assignment"/>
 
-                        <!-- Create selection variables after regular variables and variable assignments,
-                             so that expressions in selection variable parameters will evaluate as expected -->
+            <!-- Create selection variables after regular variables and variable assignments,
+                 so that expressions in selection variable parameters will evaluate as expected -->
 			<xsl:apply-templates mode="selection_variable_create"/>
 			
 			<xsl:apply-templates mode="iodevice_create"/>
@@ -31,7 +31,6 @@
 			<xsl:apply-templates mode="list_create"/>
 			<xsl:apply-templates mode="task_system_state_create"/>
 			
-			<xsl:apply-templates mode="paradigm_component_alias"/>
 			<xsl:apply-templates mode="paradigm_component_range_replicator_alias"/>
 			<xsl:apply-templates mode="paradigm_component_list_replicator_alias"/>
 			
@@ -245,7 +244,6 @@
 		
 	<!-- List-based Paradigm Components -->
 
-	<!-- List-based Paradigm Components -->
 	<xsl:template match="//protocol" mode="list_create">
 		<xsl:call-template name="generic_create"/>
 		<xsl:apply-templates select="node()" mode="list_create"/>
@@ -270,28 +268,6 @@
 		<xsl:apply-templates select="node()" mode="list_create"/>
 	</xsl:template>
     <xsl:template match="text()" mode = "task_system_state_create"/>
-    
-<!--	<xsl:template match="//task_system_state" mode="task_system_state_create">
-        <xsl:element name="mw_create">
-			<xsl:attribute name="object">
-				<xsl:value-of select="name()"/>
-			</xsl:attribute>
-			<xsl:attribute name="reference_id">
-				<xsl:value-of select="generate-id(.)"/>
-			</xsl:attribute>
-            
-			<xsl:attribute name="parent_scope">
-				<xsl:value-of select="ancestor::protocol/@tag"/>/<xsl:value-of select="ancestor::task_system/@tag"/>
-			</xsl:attribute>
-            
-            <xsl:for-each select="./@*">
-                <xsl:element name="{name()}"><xsl:value-of select="."/></xsl:element>
-			</xsl:for-each>
-		</xsl:element>
-		<xsl:apply-templates select="node()" mode="task_system_state_create"/>
-	</xsl:template> -->
-	
-	<xsl:template match="text()" mode = "paradigm_component_create"/>
 
 	<!-- Action -->
 	<xsl:template match="//action" mode="action_create">
@@ -314,29 +290,6 @@
         </xsl:call-template>
 		<xsl:apply-templates select="node()" mode="transition_create"/>
 	</xsl:template>
-	
-	<!--<xsl:template match="//transition" mode="transition_create">
-		<xsl:element name="mw_anonymous_create">
-			<xsl:attribute name="object">
-				<xsl:value-of select="name()"/>
-			</xsl:attribute>
-			<xsl:attribute name="reference_id">
-				<xsl:value-of select="generate-id(.)"/>
-			</xsl:attribute>
-			<xsl:for-each select="./@*">
-				<xsl:param name="targetvar" select="name()"/>
-				<xsl:choose>
-					<xsl:when test="$targetvar ='target'">
-						<xsl:element name="target"><xsl:value-of select="ancestor::protocol/@tag"/>/<xsl:value-of select="ancestor::task_system/@tag"/>/<xsl:value-of select="."/></xsl:element>
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:element name="{name()}"><xsl:value-of select="."/></xsl:element>
-					</xsl:otherwise>
-				</xsl:choose>
-			</xsl:for-each>
-		</xsl:element>
-		<xsl:apply-templates select="node()" mode="transition_create"/>
-	</xsl:template>	-->
 
 	<xsl:template match="text()" mode = "transition_create"/>
 
@@ -358,14 +311,6 @@
 			</xsl:attribute>
 		</xsl:element>
 	</xsl:template>
-	
-	
-	
-<!--	<xsl:template match="//protocol | //block | //trial | //task_system | //list" mode="paradigm_component_alias">
-		<xsl:call-template name="generic_alias"/>
-		<xsl:apply-templates select="node()" mode="paradigm_component_alias"/>
-	</xsl:template> -->
-	<xsl:template match="text()" mode = "paradigm_component_alias"/> 
 	
 	
 	<xsl:template match="//range_replicator[count(ancestor::range_replicator) = 0]" mode="paradigm_component_range_replicator_alias">
@@ -450,14 +395,6 @@
 	
 	<xsl:template match="text()" mode = "paradigm_component_list_replicator_alias"/>
 	
-	<!-- Alias task_system_state objects without processing range replicators -->
-	<!--<xsl:template match="//task_system_state" mode="task_system_state_alias">
-		<xsl:call-template name="generic_alias"/>
-		<xsl:apply-templates select="node()" mode="paradigm_component_alias"/>
-	</xsl:template>-->
-	
-	<xsl:template match="text()" mode = "task_system_state_alias"/>
-	
 	
 	<!-- ************** -->	
 	<!-- Connect Passes -->
@@ -520,23 +457,6 @@
 			<xsl:attribute name="from"><xsl:value-of select="./@from"/></xsl:attribute>
 			<xsl:attribute name="to"><xsl:value-of select="./@to"/></xsl:attribute>
 			<xsl:attribute name="step"><xsl:value-of select="./@step"/></xsl:attribute>
-			<!--<xsl:for-each select = "child::*">
-				<xsl:choose>
-					<xsl:when test="mw_range_replicator">
-						<xsl:call-template name="range_replicated_children"/>
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:element name="child">
-							<xsl:attribute name="tag">
-								<xsl:value-of select="@tag"/>
-							</xsl:attribute>
-							<xsl:attribute name="reference_id">
-								<xsl:value-of select="generate-id(.)"/>
-							</xsl:attribute>
-						</xsl:element>
-					</xsl:otherwise>
-				</xsl:choose>
-			</xsl:for-each>-->
 			<xsl:for-each select="./*">
 				<xsl:call-template name="generic_connect_child"/>
 			</xsl:for-each>
@@ -577,17 +497,6 @@
 		<xsl:apply-templates select="node()" mode="list_connect"/>
 	</xsl:template>
 	<xsl:template match="text()" mode = "list_connect"/>
-
-	<!--<xsl:template match="// block | //trial | //list | //task_system" mode="list_connect">
-		<xsl:call-template name="generic_connect">
-			<xsl:with-param name="parent_scope">
-				<xsl:value-of select="ancestor::protocol/@tag"/>
-			</xsl:with-param>
-		</xsl:call-template>
-		<xsl:apply-templates select="node()" mode="list_connect"/>
-	</xsl:template>
-	
-    <xsl:template match="text()" mode = "list_connect"/>-->
 
 
 	<xsl:template match="//task_system_state" mode="task_system_state_connect">
