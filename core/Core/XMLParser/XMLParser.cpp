@@ -69,16 +69,20 @@ XMLParser::XMLParser(const shared_ptr<ComponentRegistry> &_reg,
     
     LIBXML_TEST_VERSION
     
+    // parse the XSLT simplification transform
+    simplification_transform = xsltParseStylesheetFile(reinterpret_cast<const xmlChar *>(simplification_path.c_str()));
+    if (!simplification_transform) {
+        throw SimpleException("Failed to parse XSLT stylesheet", simplification_path);
+    }
+    
     context = xmlNewParserCtxt();
     if (!context) {
+        xsltFreeStylesheet(simplification_transform);
         throw SimpleException("Failed to create XML Parser Context");
     }
     
     context->_private = this;
     xmlSetGenericErrorFunc(context, &error_func);
-    
-    // parse the XSLT simplification transform
-    simplification_transform = xsltParseStylesheetFile(reinterpret_cast<const xmlChar *>(simplification_path.c_str()));
 }
 
 
@@ -88,10 +92,6 @@ XMLParser::XMLParser(const std::string &_path, const std::string &_simplificatio
 
 
 XMLParser::~XMLParser() {
-    if (simplification_transform) {
-        xsltFreeStylesheet(simplification_transform);
-    }
-    
     if (xml_doc) {
         xmlFreeDoc(xml_doc);
     }
@@ -101,6 +101,10 @@ XMLParser::~XMLParser() {
         // this XMLParser instance, both of which are being deallocated
         xmlSetGenericErrorFunc(nullptr, nullptr);
         xmlFreeParserCtxt(context);
+    }
+    
+    if (simplification_transform) {
+        xsltFreeStylesheet(simplification_transform);
     }
 }
 
@@ -215,6 +219,16 @@ void XMLParser::loadFile() {
                 xml_doc = NULL;
             }
         }
+        
+        if (!xml_doc) {
+            string complete_message = "The following parser errors were encountered: \n\n";
+            for (const auto &error : parser_errors) {
+                complete_message += error;
+            }
+            throw MalformedXMLException(complete_message);
+        }
+        
+        _addLineNumberAttributes(xmlDocGetRootElement(xml_doc));
     }
 }
 
@@ -255,22 +269,10 @@ void XMLParser::parse(bool announce_progress){
     // parse the file and get the DOM 
     loadFile();
 	
-	if(xml_doc == NULL){
-		string complete_message = "The following parser errors were encountered: \n\n";
-		
-		vector<string>::iterator i;
-		for(i = parser_errors.begin(); i != parser_errors.end(); i++){
-			complete_message += *i;
-		}
-		throw MalformedXMLException(complete_message);
-	}
-	
-	
-	// TODO: destroy exisiting resources
-    
-    _addLineNumberAttributes(xmlDocGetRootElement(xml_doc));
-	
 	xmlDoc *simplified = xsltApplyStylesheet(simplification_transform, xml_doc, NULL);
+    if (!simplified) {
+        throw SimpleException("XML simplification transformation failed");
+    }
     BOOST_SCOPE_EXIT( simplified ) {
         xmlFreeDoc(simplified);
     } BOOST_SCOPE_EXIT_END
@@ -295,7 +297,9 @@ void XMLParser::parse(bool announce_progress){
 	
 	int counter = 0;
 	while(child != NULL){
-		experimentLoadProgress->setValue((double)counter / (double)n_nodes);
+        if (announce_progress) {
+            experimentLoadProgress->setValue((double)counter / (double)n_nodes);
+        }
 		_processNode(child);
 		counter++;
 		child = child->next;
