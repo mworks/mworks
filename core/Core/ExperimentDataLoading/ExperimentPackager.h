@@ -54,6 +54,8 @@ class IncludedFilesParser : public XMLParser {
 	private:
 	
         Datum manifest;
+    
+        void addDirectory(const std::string &directoryPath, bool recursive);
 
 		// instead of building experiment, just look for path arguments and save
 		// the results
@@ -69,6 +71,7 @@ class IncludedFilesParser : public XMLParser {
 	
         explicit IncludedFilesParser(const std::string &_path);
 	
+        void parse(bool announce_progress) override;
 		const Datum& getIncludedFilesManifest() const { return manifest; }
 		
 };

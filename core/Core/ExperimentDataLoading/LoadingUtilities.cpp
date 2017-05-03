@@ -362,11 +362,12 @@ BEGIN_NAMESPACE_MW
     
     void getFilePaths(const std::string &workingPath,
                       const std::string &directoryPath,
-                      std::vector<std::string> &filePaths)
+                      std::vector<std::string> &filePaths,
+                      bool recursive)
     {
         const std::string fullPath(expandPath(workingPath, directoryPath).string());
         
-        getFilePaths(fullPath, filePaths);
+        getFilePaths(fullPath, filePaths, recursive);
 
         if (fullPath != directoryPath) {
             for (std::vector<std::string>::iterator iter = filePaths.begin(); iter != filePaths.end(); iter++) {
@@ -374,9 +375,30 @@ BEGIN_NAMESPACE_MW
             }
         }
     }
+
+
+    static void getFilePathsInternal(const boost::filesystem::path &dirPath,
+                                     std::vector<std::string> &filePaths,
+                                     bool recursive)
+    {
+        namespace bf = boost::filesystem;
+        
+        bf::directory_iterator endIter;
+        for (bf::directory_iterator iter(dirPath); iter != endIter; iter++) {
+            // Include only regular files whose names don't start with "."
+            const auto path = iter->path();
+            if (path.filename().string().find(".") != 0) {
+                if (bf::is_regular_file(iter->status())) {
+                    filePaths.push_back(path.string());
+                } else if (recursive && bf::is_directory(iter->status())) {
+                    getFilePathsInternal(path, filePaths, true);
+                }
+            }
+        }
+    }
+
     
-    
-    void getFilePaths(const std::string &directoryPath, std::vector<std::string> &filePaths) {
+    void getFilePaths(const std::string &directoryPath, std::vector<std::string> &filePaths, bool recursive) {
         namespace bf = boost::filesystem;
         
         bf::path dirPath(directoryPath);
@@ -384,15 +406,7 @@ BEGIN_NAMESPACE_MW
             throw SimpleException("Invalid directory path", directoryPath);
         }
         
-        bf::directory_iterator endIter;
-        for (bf::directory_iterator iter(dirPath); iter != endIter; iter++) {
-            // Include only regular files whose names don't start with "."
-            if (bf::is_regular_file(iter->status()) &&
-                (iter->path().filename().string().find(".") != 0))
-            {
-                filePaths.push_back(iter->path().string());
-            }
-        }
+        getFilePathsInternal(dirPath, filePaths, recursive);
         
         if (filePaths.size() == 0) {
             throw SimpleException("Directory contains no regular files", directoryPath);

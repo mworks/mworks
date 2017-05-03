@@ -95,6 +95,16 @@ description: >
 ---
 
 
+name: Resources
+is_group: yes
+icon: smallFolder
+description: >
+    Resource files (images, scripts, etc.) needed by an experiment
+
+
+---
+
+
 ###############################################################################
 #
 # Placement roots (i.e. top-level allowed parents)
@@ -165,6 +175,16 @@ display_as_group: yes
 name: Filters
 signature: filters
 mandatory_tag: Filters
+icon: smallFolder
+display_as_group: yes
+
+
+---
+
+
+name: Resources
+signature: resources
+mandatory_tag: Resources
 icon: smallFolder
 display_as_group: yes
 
@@ -2146,3 +2166,37 @@ parameters:
         Don't do anything unless you have at least this many observations
 
 
+---
+
+
+###############################################################################
+#
+# Resources
+#
+###############################################################################
+
+
+name: Resource
+signature: resource
+group: Resources
+allowed_parent: Resources
+description: |
+    A file or set of files required by an experiment.  All resource files are
+    copied, along with the experiment file itself, to the system running
+    MWServer.
+
+    *Note*:  In the absence of resource declarations, the MWorks parser
+    infers the required resources from the ``path`` and ``directory_path``
+    attributes of other components.  However, if the experiment declares
+    any resources, then this inference step is skipped.  Hence, an experiment
+    that declares any resources must include *all* required files in its
+    resource declarations.
+parameters: 
+  - 
+    name: path
+    required: yes
+    example: [images/1.png, sounds, /shared/imagesets/01/]
+    description: >
+        Filesystem path to the required file or directory.  If a directory, all
+        non-hidden, regular files in the directory are copied, including those
+        in nested subdirectories.

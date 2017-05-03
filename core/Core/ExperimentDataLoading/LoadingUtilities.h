@@ -37,8 +37,9 @@ BEGIN_NAMESPACE_MW
     
     void getFilePaths(const std::string &workingPath,
                       const std::string &directoryPath,
-                      std::vector<std::string> &filePaths);
-    void getFilePaths(const std::string &directoryPath, std::vector<std::string> &filePaths);
+                      std::vector<std::string> &filePaths,
+                      bool recursive = false);
+    void getFilePaths(const std::string &directoryPath, std::vector<std::string> &filePaths, bool recursive = false);
 
 
 END_NAMESPACE_MW

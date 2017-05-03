@@ -191,6 +191,7 @@ private:
     void preDraw(const boost::shared_ptr<StimulusDisplay> &display) override;
     void postDraw(const boost::shared_ptr<StimulusDisplay> &display) override;
     
+    const VariablePtr path;
     std::string filename;
     std::string fileHash;
     double aspectRatio;

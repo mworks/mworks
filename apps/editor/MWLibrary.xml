@@ -99,6 +99,18 @@
                      perform computations, and output results
 		</description>
 	</MWElementGroup>
+	
+	
+    <!-- ****************************
+				RESOURCES GROUP
+		 ****************************  -->
+	
+	<MWElementGroup name="Resources">
+		<icon>smallFolder</icon>
+		<description>
+Resource files (images, scripts, etc.) needed by an experiment
+		</description>
+	</MWElementGroup>
     
 	<!-- Top-level container descriptions -->
 	
@@ -151,6 +163,13 @@
 	<MWElement name="Filters">
 		<match_signature>filters</match_signature>
 		<mandatory_tag>Filters</mandatory_tag>
+		<icon>smallFolder</icon>
+		<display_as_group>1</display_as_group>
+	</MWElement>
+
+	<MWElement name="Resources">
+		<match_signature>resources</match_signature>
+		<mandatory_tag>Resources</mandatory_tag>
 		<icon>smallFolder</icon>
 		<display_as_group>1</display_as_group>
 	</MWElement>
@@ -2008,6 +2027,27 @@ Wait until a condition becomes true or a timeout occurs.  If the wait times out 
                                      alternation_correlation=""
                                      history=""
                                      grace_period=""/>
+		</code>
+	</MWElement>
+    
+    
+    
+    <!-- ********************** -->
+	<!-- Resource Definitions -->
+	<!-- ********************** -->
+	
+	<MWElement name="Resource">
+		<match_signature>resource</match_signature>
+		
+		<allowed_parent>Resources</allowed_parent>
+		<belongs_to_group>Resources</belongs_to_group>
+		
+		<description>
+A file or set of files required by an experiment.  All resource files are copied, along with the experiment file itself, to the system running MWServer.
+		</description>
+		
+		<code>
+			<resource tag="New Resource" path=""/>
 		</code>
 	</MWElement>
 

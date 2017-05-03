@@ -18,6 +18,7 @@
 #include "PlatformDependentServices.h"
 #include "boost/filesystem/path.hpp"
 #include "boost/algorithm/string/replace.hpp"
+#include <boost/scope_exit.hpp>
 
 
 BEGIN_NAMESPACE_MW
@@ -138,6 +139,50 @@ IncludedFilesParser::IncludedFilesParser(const std::string &_path) :
 { }
 
 
+void IncludedFilesParser::parse(bool announce_progress) {
+    // Load the experiment file, applying any preprocessing and/or XInclude substitutions
+    loadFile();
+    
+    // Look for resource declarations
+    auto xpathObject = evaluateXPathExpression("/monkeyml/resources/resource/@path[string-length() != 0]");
+    if (xpathObject) {
+        BOOST_SCOPE_EXIT( xpathObject ) {
+            xmlXPathFreeObject(xpathObject);
+        } BOOST_SCOPE_EXIT_END
+        
+        if (xpathObject->type == XPATH_NODESET && xpathObject->nodesetval && xpathObject->nodesetval->nodeNr > 0) {
+            // Found one or more resource declarations, so add the identified files and directories to
+            // the manifest
+            for (int nodeIndex = 0; nodeIndex < xpathObject->nodesetval->nodeNr; nodeIndex++) {
+                auto path = _getContent(xpathObject->nodesetval->nodeTab[nodeIndex]);
+                if (boost::filesystem::is_directory(expandPath(getWorkingPathString(), path))) {
+                    addDirectory(path, true);  // Recursive
+                } else {
+                    manifest.addElement(path);
+                }
+            }
+            // Return without parsing the file.  This allows experiments that declare resources to use
+            // run-time expressions in "path" and other attributes that would otherwise need to be
+            // evaluated at parse time.
+            return;
+        }
+    }
+    
+    // No resource declarations found, so parse the experiment (expanding any replicators), and
+    // infer the included files from component attributes
+    XMLParser::parse(announce_progress);
+}
+
+
+void IncludedFilesParser::addDirectory(const std::string &directoryPath, bool recursive) {
+    std::vector<std::string> filePaths;
+    mw::getFilePaths(getWorkingPathString(), directoryPath, filePaths, recursive);
+    for (const auto &path : filePaths) {
+        manifest.addElement(path);
+    }
+}
+
+
 void IncludedFilesParser::_processCreateDirective(xmlNode *node) {
     xmlNode *child = node->children;
     
@@ -152,12 +197,7 @@ void IncludedFilesParser::_processCreateDirective(xmlNode *node) {
         } else if (name == "directory_path") {
 
             string directoryPath = _getContent(child);
-            std::vector<std::string> filePaths;
-
-            mw::getFilePaths(getWorkingPathString(), directoryPath, filePaths);
-            for (std::vector<std::string>::iterator iter = filePaths.begin(); iter != filePaths.end(); iter++) {
-                manifest.addElement(*iter);
-            }
+            addDirectory(directoryPath, false);  // Not recursive
             
         }
         

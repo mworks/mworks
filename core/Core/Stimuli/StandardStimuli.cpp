@@ -434,17 +434,9 @@ void ImageStimulus::describeComponent(ComponentInfo &info) {
 
 ImageStimulus::ImageStimulus(const ParameterValueMap &parameters) :
     BasicTransformStimulus(parameters),
+    path(variableOrText(parameters[PATH])),
     aspectRatio(1.0)
-{
-    namespace bf = boost::filesystem;
-    bf::path full_path(parameters[PATH]);
-	
-	if (bf::is_directory(full_path)) {
-		throw SimpleException("Path is a directory", full_path.string());
-	}
-    
-    filename = full_path.string();
-}
+{ }
 
 
 Datum ImageStimulus::getCurrentAnnounceDrawData() {
@@ -506,6 +498,15 @@ void ImageStimulus::prepare(const boost::shared_ptr<StimulusDisplay> &display) {
     
     alphaUniformLocation = glGetUniformLocation(program, "alpha");
     glUniform1i(glGetUniformLocation(program, "imageTexture"), 0);
+    
+    // Evaluate and store file path
+    {
+        auto fullPath = pathFromParameterString(path->getValue().getString());
+        if (boost::filesystem::is_directory(fullPath)) {
+            throw SimpleException("Path is a directory", fullPath.string());
+        }
+        filename = fullPath.string();
+    }
     
     mprintf("Loading image %s", filename.c_str());
     

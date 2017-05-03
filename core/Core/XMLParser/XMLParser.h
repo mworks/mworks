@@ -119,6 +119,7 @@ class XMLParser : boost::noncopyable {
     
 protected:
         static string _getContent(xmlNode *node);
+        xmlXPathObjectPtr evaluateXPathExpression(const std::string &expr);
 	
 public:
 	
@@ -132,7 +133,7 @@ public:
 		
         void loadFile();
         void getDocumentData(std::vector<xmlChar> &data);
-        void parse(bool announce_progress = false);
+        virtual void parse(bool announce_progress = false);
 		
 		static string squashFileName(string name);
         std::string getWorkingPathString();

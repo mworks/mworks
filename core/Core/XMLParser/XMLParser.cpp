@@ -1349,6 +1349,23 @@ void XMLParser::_processVariableAssignment(xmlNode *node){
 }
 
 
+xmlXPathObjectPtr XMLParser::evaluateXPathExpression(const std::string &expr) {
+    if (!xml_doc) {
+        return nullptr;
+    }
+    
+    auto xpathContext = xmlXPathNewContext(xml_doc);
+    if (!xpathContext) {
+        throw SimpleException("Failed to create XPath context");
+    }
+    BOOST_SCOPE_EXIT( xpathContext ) {
+        xmlXPathFreeContext(xpathContext);
+    } BOOST_SCOPE_EXIT_END
+    
+    return xmlXPathEvalExpression(reinterpret_cast<const xmlChar *>(expr.c_str()), xpathContext);
+}
+
+
 END_NAMESPACE_MW
 
 
