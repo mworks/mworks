@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <monkeyml version="1.0">
     <io_devices tag="IO Devices">
-        <iodevice type="firmata" tag="firmata" serial_port="">
+        <iodevice type="firmata" tag="firmata" serial_port="''">
             <iochannel type="firmata_digital_output" tag="pin4" pin_number="4" value="output"></iochannel>
             <iochannel type="firmata_digital_input" tag="pin13" pin_number="13" value="input"></iochannel>
         </iodevice>

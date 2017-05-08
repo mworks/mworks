@@ -37,26 +37,46 @@ void ImageDirectoryMovieStimulus::describeComponent(ComponentInfo &info) {
 
 ImageDirectoryMovieStimulus::ImageDirectoryMovieStimulus(const ParameterValueMap &parameters) :
     BaseMovieStimulus(parameters),
-    directoryPath(parameters[DIRECTORY_PATH].str())
-{
-    std::string workingPath;
-    if (GlobalCurrentExperiment) {
-        workingPath = GlobalCurrentExperiment->getWorkingPath();
+    parameters(parameters),
+    directoryPath(variableOrText(parameters[DIRECTORY_PATH]))
+{ }
+
+
+void ImageDirectoryMovieStimulus::load(shared_ptr<StimulusDisplay> display) {
+    if (!loaded) {
+        std::string workingPath;
+        if (auto experiment = GlobalCurrentExperiment) {
+            workingPath = experiment->getWorkingPath();
+        }
+        
+        currentDirectoryPath = directoryPath->getValue().getString();
+        
+        std::vector<std::string> imageFilePaths;
+        getFilePaths(workingPath, currentDirectoryPath, imageFilePaths);
+        std::sort(imageFilePaths.begin(), imageFilePaths.end());
+        
+        auto reg = parameters[DIRECTORY_PATH].getRegistry();
+        
+        for (size_t i = 0; i < imageFilePaths.size(); i++) {
+            std::string imageTag((boost::format("%1%_frame_%2%") % getTag() % i).str());
+            
+            ParameterValueMap imageParams(parameters);
+            imageParams.at(TAG) = ParameterValue(imageTag, reg);
+            imageParams.insert(std::make_pair(ImageStimulus::PATH, ParameterValue(imageFilePaths[i], reg)));
+            
+            images.push_back(boost::make_shared<ImageStimulus>(imageParams));
+        }
+        
+        BaseMovieStimulus::load(display);
     }
-    std::vector<std::string> imageFilePaths;
-    getFilePaths(workingPath, directoryPath, imageFilePaths);
-    std::sort(imageFilePaths.begin(), imageFilePaths.end());
-    
-    ComponentRegistryPtr reg = parameters[DIRECTORY_PATH].getRegistry();
-    
-    for (size_t i = 0; i < imageFilePaths.size(); i++) {
-        std::string imageTag((boost::format("%1%_frame_%2%") % getTag() % i).str());
-        
-        ParameterValueMap imageParams(parameters);
-        imageParams.at(TAG) = ParameterValue(imageTag, reg);
-        imageParams.insert(std::make_pair(ImageStimulus::PATH, ParameterValue(imageFilePaths[i], reg)));
-        
-        images.push_back(shared_ptr<ImageStimulus>(new ImageStimulus(imageParams)));
+}
+
+
+void ImageDirectoryMovieStimulus::unload(shared_ptr<StimulusDisplay> display) {
+    if (loaded) {
+        BaseMovieStimulus::unload(display);
+        images.clear();
+        currentDirectoryPath.clear();
     }
 }
 
@@ -66,7 +86,7 @@ Datum ImageDirectoryMovieStimulus::getCurrentAnnounceDrawData() {
     Datum announceData = BaseMovieStimulus::getCurrentAnnounceDrawData();
     
     announceData.addElement(STIM_TYPE, "image_directory_movie");
-    announceData.addElement(DIRECTORY_PATH, directoryPath);
+    announceData.addElement(DIRECTORY_PATH, currentDirectoryPath);
     
     return announceData;
 }

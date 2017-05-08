@@ -500,13 +500,7 @@ void ImageStimulus::prepare(const boost::shared_ptr<StimulusDisplay> &display) {
     glUniform1i(glGetUniformLocation(program, "imageTexture"), 0);
     
     // Evaluate and store file path
-    {
-        auto fullPath = pathFromParameterString(path->getValue().getString());
-        if (boost::filesystem::is_directory(fullPath)) {
-            throw SimpleException("Path is a directory", fullPath.string());
-        }
-        filename = fullPath.string();
-    }
+    filename = pathFromParameterValue(path).string();
     
     mprintf("Loading image %s", filename.c_str());
     

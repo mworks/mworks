@@ -29,7 +29,7 @@ RunPythonFileAction::RunPythonFileAction(const ParameterValueMap &parameters) :
     RunPythonAction(parameters)
 {
     // Converting to boost::filesystem::path first buys us some useful path expansion and validation
-    const std::string filename(boost::filesystem::path(parameters[PATH]).string());
+    const auto filename = pathFromParameterValue(variableOrText(parameters[PATH])).string();
     
     std::FILE *fp = std::fopen(filename.c_str(), "r");
     if (!fp) {

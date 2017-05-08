@@ -37,7 +37,7 @@ void VideoStimulus::describeComponent(ComponentInfo &info) {
 
 VideoStimulus::VideoStimulus(const ParameterValueMap &parameters) :
     VideoStimlusBase(parameters),
-    filePath(parameters[ImageStimulus::PATH]),
+    path(variableOrText(parameters[ImageStimulus::PATH])),
     volume(parameters[VOLUME]),
     loop(registerVariable(parameters[LOOP])),
     repeats(registerVariable(parameters[REPEATS])),
@@ -182,6 +182,7 @@ void VideoStimulus::prepare(const boost::shared_ptr<StimulusDisplay> &display) {
         
         BasicTransformStimulus::prepare(display);
         
+        filePath = pathFromParameterValue(path);
         NSURL *fileURL = [NSURL fileURLWithPath:@(filePath.string().c_str())];
         AVPlayerItem *item = [AVPlayerItem playerItemWithURL:fileURL];
         [item addOutput:videoOutput];

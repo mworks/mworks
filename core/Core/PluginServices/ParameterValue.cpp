@@ -13,7 +13,7 @@
 BEGIN_NAMESPACE_MW
 
 
-boost::filesystem::path pathFromParameterString(const std::string &s) {
+boost::filesystem::path pathFromParameterValue(const std::string &s, bool directoryAllowed) {
     std::string workingPath;
     if (auto experiment = GlobalCurrentExperiment) {
         workingPath = experiment->getWorkingPath();
@@ -25,6 +25,10 @@ boost::filesystem::path pathFromParameterString(const std::string &s) {
     
     if (!boost::filesystem::exists(fullPath)) {
         throw SimpleException("Path does not exist", fullPath.string());
+    }
+    
+    if (!directoryAllowed && boost::filesystem::is_directory(fullPath)) {
+        throw SimpleException("Path is a directory", fullPath.string());
     }
     
     return fullPath;

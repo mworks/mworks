@@ -118,12 +118,17 @@ inline StimulusGroupPtr ParameterValue::convert(const std::string &s, ComponentR
 }
 
 
-boost::filesystem::path pathFromParameterString(const std::string &s);
+boost::filesystem::path pathFromParameterValue(const std::string &s, bool directoryAllowed = false);
+
+
+inline boost::filesystem::path pathFromParameterValue(const VariablePtr &expr, bool directoryAllowed = false) {
+    return pathFromParameterValue(expr->getValue().getString(), directoryAllowed);
+}
 
 
 template<>
 inline boost::filesystem::path ParameterValue::convert(const std::string &s, ComponentRegistryPtr reg) {
-    return pathFromParameterString(s);
+    return pathFromParameterValue(s, true);  // Allow directory for compatibility with existing code
 }
 
 

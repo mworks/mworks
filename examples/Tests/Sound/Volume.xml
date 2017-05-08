@@ -1,4 +1,4 @@
-<?xml version="1.0" standalone="no"?>
+<?xml version="1.0"?>
 <monkeyml version="1.0">
     <io_devices tag="IO Devices"></io_devices>
     <variables tag="Variables">
@@ -7,11 +7,14 @@
         </variable>
     </variables>
     <sounds tag="Sounds">
-        <sound tag="sound" type="wav_file" path="/Library/Application Support/MWorks/Examples/RSVPDemo/sounds/reward.wav" amplitude="amplitude"></sound>
+        <sound tag="sound" type="wav_file" path="'reward.wav'" amplitude="amplitude"></sound>
     </sounds>
     <stimuli tag="Stimuli"></stimuli>
     <filters tag="Filters"></filters>
     <optimizers tag="Optimizers"></optimizers>
+    <resources tag="Resources">
+        <resource tag="Sound file" path="reward.wav"></resource>
+    </resources>
     <experiment tag="New Experiment" full_name="" description="">
         <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
             <action type="assignment" tag="Assign Variable" variable="amplitude" value="1.0"></action>

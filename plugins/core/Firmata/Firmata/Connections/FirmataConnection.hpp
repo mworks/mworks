@@ -16,8 +16,8 @@ BEGIN_NAMESPACE_MW
 class FirmataConnection : boost::noncopyable {
     
 public:
-    static std::unique_ptr<FirmataConnection> create(const std::string &serialPortPath,
-                                                     const std::string &bluetoothLocalName);
+    static std::unique_ptr<FirmataConnection> create(const ParameterValue &serialPortPath,
+                                                     const ParameterValue &bluetoothLocalName);
     
     virtual ~FirmataConnection() { }
     

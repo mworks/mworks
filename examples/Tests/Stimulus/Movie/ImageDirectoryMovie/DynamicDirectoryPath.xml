@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<monkeyml version="1.0">
+    <io_devices tag="IO Devices"></io_devices>
+    <variables tag="Variables">
+        <variable tag="directory_path" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="0" type="any"></variable>
+        <variable tag="ended" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="0" type="any"></variable>
+        <variable tag="current_directory_path" scope="local" logging="when_changed" exclude_from_data_file="NO" default_value="none" type="string"></variable>
+    </variables>
+    <sounds tag="Sounds"></sounds>
+    <stimuli tag="Stimuli">
+        <stimulus type="image_directory_movie" tag="movie" directory_path="directory_path" x_size="5.0" y_size="5.0" x_position="0.0" y_position="0.0" rotation="0.0" alpha_multiplier="1.0" deferred="YES" frames_per_second="1" ended="ended" loop="NO" repeats="0" autoplay="YES"></stimulus>
+    </stimuli>
+    <filters tag="Filters"></filters>
+    <optimizers tag="Optimizers"></optimizers>
+    <resources tag="Resources">
+        <resource tag="images" path="images"></resource>
+        <resource tag="images2" path="images2"></resource>
+    </resources>
+    <experiment tag="New Experiment" full_name="" description="">
+        <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
+            <list_replicator tag="New List Replicator" values="images, images2" variable="current_directory_path">
+                <trial tag="New Trial" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
+                    <action type="assignment" tag="Reset ended" variable="ended" value="false"></action>
+                    <action type="assignment" tag="Set directory path" variable="directory_path" value="current_directory_path"></action>
+                    <action tag="Queue movie" type="queue_stimulus" stimulus="movie"></action>
+                    <action tag="Update display" type="update_stimulus_display" predicted_output_time=""></action>
+                    <action type="wait_for_condition" tag="Wait until ended" condition="ended" timeout="60s" timeout_message="" stop_on_timeout="YES"></action>
+                    <action tag="Dequeue movie" type="dequeue_stimulus" stimulus="movie"></action>
+                    <action tag="Update display" type="update_stimulus_display" predicted_output_time=""></action>
+                    <action tag="Unload movie" type="unload_stimulus" stimulus="movie"></action>
+                </trial>
+            </list_replicator>
+        </protocol>
+    </experiment>
+</monkeyml>

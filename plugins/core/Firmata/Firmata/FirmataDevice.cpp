@@ -73,7 +73,7 @@ void FirmataDevice::describeComponent(ComponentInfo &info) {
 
 FirmataDevice::FirmataDevice(const ParameterValueMap &parameters) :
     IODevice(parameters),
-    connection(FirmataConnection::create(parameters[SERIAL_PORT].str(), parameters[BLUETOOTH_LOCAL_NAME].str())),
+    connection(FirmataConnection::create(parameters[SERIAL_PORT], parameters[BLUETOOTH_LOCAL_NAME])),
     samplingIntervalUS(0),
     deviceProtocolVersionReceived(false),
     deviceProtocolVersionMajor(0),

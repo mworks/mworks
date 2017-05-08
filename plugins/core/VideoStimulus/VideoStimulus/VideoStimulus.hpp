@@ -52,12 +52,13 @@ private:
     bool bindTexture();
     void handleVideoEnded();
     
-    const boost::filesystem::path filePath;
+    const VariablePtr path;
     const VariablePtr volume;
     const VariablePtr loop;
     const VariablePtr repeats;
     VariablePtr ended;
     
+    boost::filesystem::path filePath;
     AVPlayer *player;
     AVPlayerItemVideoOutput *videoOutput;
     double lastVolume;

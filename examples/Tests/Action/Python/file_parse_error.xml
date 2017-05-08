@@ -6,9 +6,12 @@
     <stimuli tag="Stimuli"></stimuli>
     <filters tag="Filters"></filters>
     <optimizers tag="Optimizers"></optimizers>
+    <resources tag="Resources">
+        <resource tag="Python file" path="file_parse_error.py"></resource>
+    </resources>
     <experiment tag="New Experiment" full_name="" description="">
         <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
-            <action type="run_python_file" tag="Run Python File" path="file_parse_error.py"></action>
+            <action type="run_python_file" tag="Run Python File" path="'file_parse_error.py'"></action>
         </protocol>
     </experiment>
 </monkeyml>

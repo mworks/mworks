@@ -17,17 +17,19 @@
 BEGIN_NAMESPACE_MW
 
 
-std::unique_ptr<FirmataConnection> FirmataConnection::create(const std::string &serialPortPath,
-                                                             const std::string &bluetoothLocalName)
+std::unique_ptr<FirmataConnection> FirmataConnection::create(const ParameterValue &serialPortPath,
+                                                             const ParameterValue &bluetoothLocalName)
 {
     if (bluetoothLocalName.empty()) {
 #if TARGET_OS_OSX
-        return std::unique_ptr<FirmataConnection>(new FirmataSerialConnection(serialPortPath));
+        const auto path = variableOrText(serialPortPath)->getValue().getString();
+        return std::unique_ptr<FirmataConnection>(new FirmataSerialConnection(path));
 #else
         throw SimpleException(M_IODEVICE_MESSAGE_DOMAIN, "Connection via serial port is not supported on this OS");
 #endif
     }
-    return std::unique_ptr<FirmataConnection>(new FirmataBluetoothLEConnection(bluetoothLocalName));
+    const auto localName = variableOrText(bluetoothLocalName)->getValue().getString();
+    return std::unique_ptr<FirmataConnection>(new FirmataBluetoothLEConnection(localName));
 }
 
 
