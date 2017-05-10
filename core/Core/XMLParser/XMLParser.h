@@ -53,7 +53,7 @@ class XMLParser : boost::noncopyable {
 	
         const boost::shared_ptr<ComponentRegistry> registry;
 	
-        void _addLineNumberAttributes(xmlNode *node);
+        void _addLocationAttributes(xmlNode *node);
 
         void addParserError(string error){
 			parser_errors.push_back(error);

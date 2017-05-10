@@ -55,9 +55,9 @@ BEGIN_NAMESPACE_MW
             boost::shared_ptr<StateSystem> stateSystem = StateSystem::instance(false);
             boost::shared_ptr<State> currentState;
             if (stateSystem && (currentState = stateSystem->getCurrentState().lock())) {
-                int currentLineNumber = currentState->getLineNumber();
-                if (currentLineNumber > 0) {
-                    snprintf(buffer + length, MSG_BUFFER_SIZE - length, " [at line %d]", currentLineNumber);
+                auto currentLocation = currentState->getLocation();
+                if (!currentLocation.empty()) {
+                    snprintf(buffer + length, MSG_BUFFER_SIZE - length, " [%s]", currentLocation.c_str());
                 }
             }
         }

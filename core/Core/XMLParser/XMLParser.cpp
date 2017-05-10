@@ -227,7 +227,7 @@ void XMLParser::loadFile() {
             throw MalformedXMLException(complete_message);
         }
         
-        _addLineNumberAttributes(xmlDocGetRootElement(xml_doc));
+        _addLocationAttributes(xmlDocGetRootElement(xml_doc));
     }
 }
 
@@ -251,14 +251,18 @@ void XMLParser::getDocumentData(std::vector<xmlChar> &data) {
 }
 
 
-void XMLParser::_addLineNumberAttributes(xmlNode *node) {
+void XMLParser::_addLocationAttributes(xmlNode *node) {
     if (!xmlNodeIsText(node)) {
-        _setAttributeForName(node, "_line_number", boost::lexical_cast<std::string>(node->line));
+        // Don't overwrite existing location info
+        if (_attributeForName(node, "_location").empty()) {
+            auto location = (boost::format("at line %hu") % node->line).str();
+            _setAttributeForName(node, "_location", location);
+        }
     }
     
     xmlNode *child = node->children;
     while (child) {
-        _addLineNumberAttributes(child);
+        _addLocationAttributes(child);
         child = child->next;
     }
 }
@@ -730,7 +734,7 @@ void XMLParser::_processGenericCreateDirective(xmlNode *node, bool anon){
 	}
 	
 	if(component != NULL){
-        component->setLineNumber(boost::lexical_cast<int>(properties["_line_number"]));
+        component->setLocation(properties["_location"]);
 	}
 }
 

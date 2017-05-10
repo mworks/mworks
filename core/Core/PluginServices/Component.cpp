@@ -27,16 +27,14 @@ void Component::describeComponent(ComponentInfo &info) {
 
 
 Component::Component(const ParameterValueMap &parameters) :
-    tag(parameters[TAG].str()),
-    line_number(-1)
+    tag(parameters[TAG].str())
 {
     compact_id = _id_count++;
 }
 
 
 Component::Component(const std::string &_tag) :
-    tag(_tag),
-    line_number(-1)
+    tag(_tag)
 {
     compact_id = _id_count++;
 }

@@ -27,7 +27,8 @@ bool ComponentFactory::shouldIgnoreParameter(const std::string &name) {
             (name == "variable_assignment") ||
             (name == "working_path") ||
             (name == "xml_document_path") ||
-            (name == "_line_number") ||
+            (name == "_line_number") ||  // No longer used, but may be in experiments extracted from event files
+            (name == "_location") ||
 
             //
             // Generic, currently-unused parameters that appear in many old experiments

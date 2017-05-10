@@ -33,7 +33,7 @@ BEGIN_NAMESPACE_MW
 	private:
 		
 		std::string tag;
-        int line_number;
+        std::string location;
 		
 		// this is a compact, unique identifier for the purpose
 		// of event-sending.  It needs to be small because it might
@@ -48,7 +48,7 @@ BEGIN_NAMESPACE_MW
             shared_ptr<T> new_component(new T);
             
             new_component->setTag(getTag());
-            new_component->setLineNumber(getLineNumber());
+            new_component->setLocation(getLocation());
             
             return new_component;
         }
@@ -65,7 +65,7 @@ BEGIN_NAMESPACE_MW
 		
 		Component( const mw::Component& copy ){ 
 			tag = copy.tag;
-            line_number = copy.line_number;
+            location = copy.location;
 		}
 		
 		virtual bool isAmbiguous() const { return false; }
@@ -80,8 +80,8 @@ BEGIN_NAMESPACE_MW
 		void setTag(const std::string &_tag) { tag = _tag; }
 		const std::string& getTag() const { return tag; }
         
-        void setLineNumber(int lineNumber) { line_number = lineNumber; }
-        int getLineNumber() const { return line_number; }
+        void setLocation(const std::string &loc) { location = loc; }
+        const std::string& getLocation() const { return location; }
         
 		long getCompactID() const { return compact_id; }
 		
