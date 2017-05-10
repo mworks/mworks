@@ -54,6 +54,7 @@
 #include "ComponentRegistry.h"
 #include "Selectable.h"
 #include "StimulusDisplay.h"
+#include "Experiment.h"
 
 // ugly/tricky.  I wish the STL guys would get their acts together
 char _to_lower (const char c) { return tolower(c); }
@@ -2142,6 +2143,11 @@ namespace stx MW_SYMBOL_PUBLIC {
         auto &second = paramlist[1];
         return ((first > second) ? first : second);
 	}
+    
+    Datum BasicSymbolTable::funcSIZE(const paramlist_type &paramlist)
+    {
+        return Datum( static_cast<long long>(paramlist[0].getSize()) );
+    }
 	
 	static boost::mt19937 rng;
 	static bool seeded;
@@ -2205,6 +2211,24 @@ namespace stx MW_SYMBOL_PUBLIC {
 #  error Unsupported platform
 #endif
         return Datum( osName );
+    }
+    
+    Datum BasicSymbolTable::funcFILENAMES(const paramlist_type& paramlist)
+    {
+        auto &pattern = paramlist[0];
+        if (!(pattern.isString())) {
+            throw BadFunctionCallException("Argument to function FILENAMES() must be a string");
+        }
+        
+        std::string workingPath;
+        if (auto experiment = mw::GlobalCurrentExperiment) {
+            workingPath = experiment->getWorkingPath();
+        }
+        
+        std::vector<std::string> filenames;
+        mw::getMatchingFilenames(workingPath, pattern.getString(), filenames);
+        
+        return Datum( filenames );
     }
     
     Datum BasicSymbolTable::funcSELECTION(const paramlist_type& paramlist)
@@ -2410,6 +2434,7 @@ namespace stx MW_SYMBOL_PUBLIC {
 
 		setFunction("MIN", 2, funcMIN);
 		setFunction("MAX", 2, funcMAX);
+        setFunction("SIZE", 1, funcSIZE);
 		
 		setFunction("RAND", 0, funcUNIFORM_RAND);
 		setFunction("RAND", 2, funcUNIFORM_RAND);
@@ -2427,6 +2452,7 @@ namespace stx MW_SYMBOL_PUBLIC {
         
 		setFunction("FORMAT", -1, funcFORMAT);
         setFunction("OSNAME", 0, funcOSNAME);
+        setFunction("FILENAMES", 1, funcFILENAMES);
 	}
 	
 	Datum BasicSymbolTable::lookupVariable(const std::string &_varname) const

@@ -23,6 +23,8 @@
 #include "ComponentRegistry.h"
 #include "XMLParser.h"
 #include "DataFileManager.h"
+#include <glob.h>
+#include <boost/scope_exit.hpp>
 
 
 BEGIN_NAMESPACE_MW
@@ -412,6 +414,44 @@ BEGIN_NAMESPACE_MW
             throw SimpleException("Directory contains no regular files", directoryPath);
         }
     }
+
+
+std::size_t getMatchingFilenames(const std::string &workingPath,
+                                 const string &globPattern,
+                                 std::vector<std::string> &filenames)
+{
+    auto cwdfd = open(".", O_RDONLY);
+    if (-1 == cwdfd) {
+        throw SimpleException("Unable to open current working directory", strerror(errno));
+    }
+    BOOST_SCOPE_EXIT( &cwdfd ) {
+        (void)fchdir(cwdfd);
+        (void)close(cwdfd);
+    } BOOST_SCOPE_EXIT_END
+    
+    if (!(workingPath.empty())) {
+        if (-1 == chdir(workingPath.c_str())) {
+            throw SimpleException("Unable to change directory", strerror(errno));
+        }
+    }
+    
+    glob_t globResults;
+    auto globStatus = glob(globPattern.c_str(), 0, nullptr, &globResults);
+    BOOST_SCOPE_EXIT( &globResults ) {
+        globfree(&globResults);
+    } BOOST_SCOPE_EXIT_END
+    
+    if ((0 != globStatus) && (GLOB_NOMATCH != globStatus)) {
+        throw SimpleException("Unknown error when evaluating filenames pattern", globPattern);
+    }
+    
+    for (std::size_t i = 0; i < globResults.gl_pathc; i++) {
+        boost::filesystem::path filePath(globResults.gl_pathv[i]);
+        filenames.push_back(filePath.string());
+    }
+    
+    return globResults.gl_pathc;
+}
 
 
 END_NAMESPACE_MW

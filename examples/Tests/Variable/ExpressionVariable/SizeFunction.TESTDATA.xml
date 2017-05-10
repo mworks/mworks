@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<marionette_info>
+  <expected_messages>
+    <!-- Load-time errors -->
+    <message type="whole_message">ERROR: Cannot get size of integer</message>
+    <message type="whole_message">ERROR: Cannot get size of float</message>
+    <message type="whole_message">ERROR: Cannot get size of boolean</message>
+    <!-- Run-time errors -->
+    <message type="whole_message">ERROR: Cannot get size of integer [at line 12]</message>
+    <message type="whole_message">ERROR: Cannot get size of float [at line 13]</message>
+    <message type="whole_message">ERROR: Cannot get size of boolean [at line 14]</message>
+  </expected_messages>
+</marionette_info>

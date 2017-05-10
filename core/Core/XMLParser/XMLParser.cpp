@@ -15,7 +15,6 @@
 #include <stdlib.h>
 #include <stdarg.h>
 #include <stdio.h>
-#include <glob.h>
 #include <libxml/xinclude.h>
 
 #include <boost/tokenizer.hpp>
@@ -420,55 +419,14 @@ void XMLParser::_generateListReplicatorValues(xmlNode *node, vector<string> &val
         if (!boost::regex_match(value, matchResult, filenamesRegex)) {
             values.push_back(value);
         } else {
-            _generateListReplicatorFilenames(node, values, matchResult.str("pattern"));
+            const auto pattern = matchResult.str("pattern");
+            auto numMatches = getMatchingFilenames(getWorkingPathString(), pattern, values);
+            if (0 == numMatches) {
+                throw InvalidXMLException(_attributeForName(node, "reference_id"),
+                                          "No matches for list replicator FILENAMES() expression",
+                                          pattern);
+            }
         }
-    }
-}
-
-void XMLParser::_generateListReplicatorFilenames(xmlNode *node, vector<string> &values, const string &pattern) {
-    int cwdfd = open(".", O_RDONLY);
-    if (-1 == cwdfd) {
-        throw SimpleException("Unable to open current working directory", strerror(errno));
-    }
-    BOOST_SCOPE_EXIT( (&cwdfd) )
-    {
-        (void)fchdir(cwdfd);
-        (void)close(cwdfd);
-    } BOOST_SCOPE_EXIT_END
- 
-    string workingPath(getWorkingPathString());
-    if (!(workingPath.empty())) {
-        if (-1 == chdir(workingPath.c_str())) {
-            throw SimpleException("Unable to change directory", strerror(errno));
-        }
-    }
-    
-    glob_t globResults;
-    int globStatus = glob(pattern.c_str(), 0, NULL, &globResults);
-    BOOST_SCOPE_EXIT( (&globResults) )
-    {
-        globfree(&globResults);
-    } BOOST_SCOPE_EXIT_END
-    
-    if ((0 != globStatus) && (GLOB_NOMATCH != globStatus)) {
-        throw InvalidXMLException(_attributeForName(node, "reference_id"),
-                                  "Unknown error when processing list replicator FILENAMES() expression",
-                                  pattern);
-    }
-    
-    namespace bf = boost::filesystem;
-    int numMatches = 0;
-
-    for (int i = 0; i < globResults.gl_pathc; i++) {
-        bf::path filePath(globResults.gl_pathv[i]);
-        values.push_back(filePath.string());
-        numMatches++;
-    }
-    
-    if (0 == numMatches) {
-        throw InvalidXMLException(_attributeForName(node, "reference_id"),
-                                  "No matches for list replicator FILENAMES() expression",
-                                  pattern);
     }
 }
 

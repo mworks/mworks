@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<monkeyml version="1.0">
+    <io_devices tag="IO Devices"></io_devices>
+    <variables tag="Variables"></variables>
+    <sounds tag="Sounds"></sounds>
+    <stimuli tag="Stimuli"></stimuli>
+    <filters tag="Filters"></filters>
+    <optimizers tag="Optimizers"></optimizers>
+    <resources tag="Resources">
+        <resource tag="dir1" path="dir1"></resource>
+        <resource tag="images" path="images"></resource>
+    </resources>
+    <experiment tag="New Experiment" full_name="" description="">
+        <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
+            <action type="assert" tag="Matches 1" condition="filenames('images/*') == ['images/1.png', 'images/2.png', 'images/3.png', 'images/4.png', 'images/5.png', 'images/6.png', 'images/7.png']" message="" stop_on_failure="0"></action>
+            <action type="assert" tag="Matches 2" condition="filenames('dir1/*.png') == ['dir1/1.png', 'dir1/2.png', 'dir1/3.png', 'dir1/4.png']" message="" stop_on_failure="0"></action>
+            <action type="assert" tag="No matches 1" condition="filenames('not_a_file') == []" message="" stop_on_failure="0"></action>
+            <action type="assert" tag="No matches 2" condition="filenames('dir/*') == []" message="" stop_on_failure="0"></action>
+        </protocol>
+    </experiment>
+</monkeyml>

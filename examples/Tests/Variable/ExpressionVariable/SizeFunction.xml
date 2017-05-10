@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<monkeyml version="1.0">
+    <io_devices tag="IO Devices"></io_devices>
+    <variables tag="Variables"></variables>
+    <sounds tag="Sounds"></sounds>
+    <stimuli tag="Stimuli"></stimuli>
+    <filters tag="Filters"></filters>
+    <optimizers tag="Optimizers"></optimizers>
+    <resources tag="Resources"></resources>
+    <experiment tag="New Experiment" full_name="" description="">
+        <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
+            <action type="assert" tag="Integer" condition="size(12) == 0" message="" stop_on_failure="0"></action>
+            <action type="assert" tag="Float" condition="size(-73.84) == 0" message="" stop_on_failure="0"></action>
+            <action type="assert" tag="Boolean" condition="size(false) == 0" message="" stop_on_failure="0"></action>
+            <action type="assert" tag="Empty string" condition="size(&quot;&quot;) == 0" message="" stop_on_failure="0"></action>
+            <action type="assert" tag="Non-empty string" condition="size(&quot;abc123&quot;) == 6" message="" stop_on_failure="0"></action>
+            <action type="assert" tag="Empty list" condition="size([]) == 0" message="" stop_on_failure="0"></action>
+            <action type="assert" tag="Non-empty list" condition="size([4,5,6]) == 3" message="" stop_on_failure="0"></action>
+            <action type="assert" tag="Empty dict" condition="size({}) == 0" message="" stop_on_failure="0"></action>
+            <action type="assert" tag="Non-empty dict" condition="size({'a': 1.5, 'b': true}) == 2" message="" stop_on_failure="0"></action>
+        </protocol>
+    </experiment>
+</monkeyml>

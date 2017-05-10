@@ -862,6 +862,33 @@ void GenericDataTestFixture::testGetDict() {
 }
 
 
+void GenericDataTestFixture::testGetSize() {
+    // String
+    CPPUNIT_ASSERT( 0 == Datum("").getSize() );
+    CPPUNIT_ASSERT( 4 == Datum("abcd").getSize() );
+    
+    // List
+    {
+        const Datum::list_value_type l1 { };
+        const Datum::list_value_type l2 { Datum(false), Datum(1.5), Datum("foo") };
+        CPPUNIT_ASSERT( 0 == Datum(l1).getSize() );
+        CPPUNIT_ASSERT( 3 == Datum(l2).getSize() );
+    }
+    
+    // Dict
+    {
+        const Datum::dict_value_type d1 { };
+        const Datum::dict_value_type d2 { { Datum("foo"), Datum(false) }, { Datum(1.5), Datum("bar") } };
+        CPPUNIT_ASSERT( 0 == Datum(d1).getSize() );
+        CPPUNIT_ASSERT( 2 == Datum(d2).getSize() );
+    }
+    
+    // Other
+    CPPUNIT_ASSERT( 0 == Datum(3).getSize() );
+    assertError("ERROR: Cannot get size of integer");
+}
+
+
 void GenericDataTestFixture::testGetElement() {
     // List
     {

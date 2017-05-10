@@ -41,6 +41,10 @@ BEGIN_NAMESPACE_MW
                       bool recursive = false);
     void getFilePaths(const std::string &directoryPath, std::vector<std::string> &filePaths, bool recursive = false);
 
+    std::size_t getMatchingFilenames(const std::string &workingPath,
+                                     const string &globPattern,
+                                     std::vector<std::string> &filenames);
+
 
 END_NAMESPACE_MW
 

@@ -64,7 +64,6 @@ class XMLParser : boost::noncopyable {
         void _generateRangeReplicatorValues(xmlNode *node, vector<string> &values);
         void _processListReplicator(xmlNode *node);
         void _generateListReplicatorValues(xmlNode *node, vector<string> &values);
-        void _generateListReplicatorFilenames(xmlNode *node, vector<string> &values, const string &pattern);
         void _substituteAttributeStrings(xmlNode *node, string token, string replacement);
         void _substituteAttributeStrings(xmlNode *node, const string& form1, const string& form2, const string& replacement);
     

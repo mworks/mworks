@@ -238,6 +238,7 @@ protected:
 
     static Datum	funcMIN(const paramlist_type& paramlist);
     static Datum	funcMAX(const paramlist_type& paramlist);
+    static Datum	funcSIZE(const paramlist_type& paramlist);
 
     static Datum	funcUNIFORM_RAND(const paramlist_type& paramlist);
     static Datum	funcDISC_UNIFORM_RAND(const paramlist_type& paramlist);
@@ -254,6 +255,7 @@ protected:
     
 	static Datum	funcFORMAT(const paramlist_type& paramlist);
     static Datum	funcOSNAME(const paramlist_type& paramlist);
+    static Datum	funcFILENAMES(const paramlist_type& paramlist);
 	
 public:
     /// Fills in the functionmap with the standard functions.

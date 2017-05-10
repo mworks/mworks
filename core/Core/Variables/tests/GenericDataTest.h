@@ -40,6 +40,7 @@ class GenericDataTestFixture : public MessageTestFixture {
     CPPUNIT_TEST( testSetStringQuoted );
     CPPUNIT_TEST( testGetList );
     CPPUNIT_TEST( testGetDict );
+    CPPUNIT_TEST( testGetSize );
     CPPUNIT_TEST( testGetElement );
     CPPUNIT_TEST( testSetElement );
     CPPUNIT_TEST( testOperatorUnaryMinus );
@@ -77,6 +78,7 @@ public:
     void testSetStringQuoted();
     void testGetList();
     void testGetDict();
+    void testGetSize();
     void testGetElement();
     void testSetElement();
     void testOperatorUnaryMinus();

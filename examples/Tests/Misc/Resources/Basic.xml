@@ -2,8 +2,9 @@
 <monkeyml version="1.0">
     <io_devices tag="IO Devices"></io_devices>
     <variables tag="Variables">
+        <variable tag="filenames" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="['letters/A.png', '/Library/Application Support/MWorks/Developer/tests/XML/Misc/Resources/letters/B.png', 'numbers/1-2/1.png', 'numbers/3-4/3.png', '/Library/Application Support/MWorks/Developer/tests/XML/Misc/Resources/numbers/1-2/2.png', '/Library/Application Support/MWorks/Developer/tests/XML/Misc/Resources/numbers/3-4/4.png']" type="any"></variable>
         <variable tag="path" scope="global" logging="when_changed" exclude_from_data_file="NO" default_value="0" type="any"></variable>
-        <variable tag="current_path" scope="local" logging="when_changed" exclude_from_data_file="NO" default_value="none" type="string"></variable>
+        <variable tag="index" scope="local" logging="when_changed" exclude_from_data_file="NO" default_value="0" type="any"></variable>
     </variables>
     <sounds tag="Sounds"></sounds>
     <stimuli tag="Stimuli">
@@ -19,9 +20,9 @@
     </resources>
     <experiment tag="New Experiment" full_name="" description="">
         <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
-            <list_replicator tag="New List Replicator" values="letters/A.png, /Library/Application Support/MWorks/Developer/tests/XML/Misc/Resources/letters/B.png, numbers/1-2/1.png, numbers/3-4/3.png, /Library/Application Support/MWorks/Developer/tests/XML/Misc/Resources/numbers/1-2/2.png, /Library/Application Support/MWorks/Developer/tests/XML/Misc/Resources/numbers/3-4/4.png" variable="current_path">
+            <range_replicator tag="New Range Replicator" from="0" to="size(filenames) - 1" step="1" variable="index">
                 <trial tag="New Trial" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
-                    <action type="assignment" tag="Set path" variable="path" value="current_path"></action>
+                    <action type="assignment" tag="Set path" variable="path" value="filenames[index]"></action>
                     <action tag="Queue image" type="queue_stimulus" stimulus="image"></action>
                     <action tag="Update display" type="update_stimulus_display" predicted_output_time=""></action>
                     <action type="wait" tag="Wait" duration="1.0" duration_units="s"></action>
@@ -29,7 +30,7 @@
                     <action tag="Update display" type="update_stimulus_display" predicted_output_time=""></action>
                     <action tag="Unload image" type="unload_stimulus" stimulus="image"></action>
                 </trial>
-            </list_replicator>
+            </range_replicator>
         </protocol>
     </experiment>
 </monkeyml>

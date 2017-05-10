@@ -101,6 +101,14 @@ public:
     Datum(GenericDataType type, int arg);
     Datum(GenericDataType type, double arg);
     
+    template<typename T>
+    explicit Datum(const std::vector<T> &list) {
+        *this = Datum(list_value_type());
+        for (auto &item : list) {
+            listValue.emplace_back(item);
+        }
+    }
+    
     template<typename T1, typename T2>
     Datum(const std::map<T1, T2> &dict) {
         *this = Datum(dict_value_type());
@@ -150,6 +158,8 @@ public:
     
     const list_value_type& getList() const;
     const dict_value_type& getDict() const;
+    
+    std::size_t getSize() const;
     
     int getNElements() const;
     bool hasKey(const Datum &key) const;

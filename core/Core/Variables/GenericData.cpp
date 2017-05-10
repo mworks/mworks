@@ -519,6 +519,24 @@ auto Datum::getDict() const -> const dict_value_type& {
 }
 
 
+std::size_t Datum::getSize() const {
+    switch (datatype) {
+        case M_STRING:
+            return stringValue.size();
+            
+        case M_LIST:
+            return listValue.size();
+            
+        case M_DICTIONARY:
+            return dictValue.size();
+            
+        default:
+            merror(M_SYSTEM_MESSAGE_DOMAIN, "Cannot get size of %s", getDataTypeName());
+            return 0;
+    }
+}
+
+
 int Datum::getNElements() const {
     switch (datatype) {
         case M_INTEGER:
