@@ -245,8 +245,7 @@ void XMLParser::getDocumentData(std::vector<xmlChar> &data) {
         xmlFree(mem);
     } BOOST_SCOPE_EXIT_END
     
-    // mem is NUL-terminated, but the terminator is not included in size
-    data.resize(size+1);
+    data.resize(size);
     std::copy_n(mem, data.size(), data.begin());
 }
 

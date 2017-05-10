@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<marionette_info>
+  <expected_events>
+    <event variable="#loadedExperiment">
+      <value type="string"><![CDATA[<?xml version="1.0"?>
+<monkeyml version="1.0" _location="at line 2">
+    <io_devices tag="IO Devices" _location="at line 3"/>
+    <variables tag="Variables" _location="at line 4"/>
+    <sounds tag="Sounds" _location="at line 5"/>
+    <stimuli tag="Stimuli" _location="at line 6"/>
+    <filters tag="Filters" _location="at line 7"/>
+    <optimizers tag="Optimizers" _location="at line 8"/>
+    <resources tag="Resources" _location="at line 9"/>
+    <experiment tag="New Experiment" full_name="" description="" _location="at line 10">
+        <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES" _location="at line 11">
+            <action type="report" tag="Report" message="Nothing to see here" _location="at line 12"/>
+        </protocol>
+    </experiment>
+</monkeyml>
+]]></value>
+    </event>
+  </expected_events>
+</marionette_info>

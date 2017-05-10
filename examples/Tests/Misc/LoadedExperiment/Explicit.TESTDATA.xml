@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<marionette_info>
+  <expected_events>
+    <event variable="#loadedExperiment">
+      <value type="string">This is the experiment</value>
+    </event>
+  </expected_events>
+</marionette_info>

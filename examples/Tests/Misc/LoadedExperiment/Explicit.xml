@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<monkeyml version="1.0" xmlns:xi="http://www.w3.org/2001/XInclude">
+    <xi:include href="Automatic.xml" parse="xml" xpointer="xpointer(//monkeyml/*)"/>
+    <variable_assignments>
+        <variable_assignment variable="#loadedExperiment" type="string">This is the experiment</variable_assignment>
+    </variable_assignments>
+</monkeyml>
