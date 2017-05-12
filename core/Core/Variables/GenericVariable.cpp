@@ -88,7 +88,7 @@ shared_ptr<mw::Component> VariableFactory::createObject(std::map<std::string, st
 
 	type_string = to_lower_copy(type_string);
 	
-    if(type_string == "any") {
+    if (type_string.empty() || type_string == "any") {
         type = M_UNDEFINED;
     } else if(type_string == "integer") {
 		type = M_INTEGER;

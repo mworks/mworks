@@ -133,7 +133,7 @@
 	</xsl:template>
 	
 	<!-- Variable -->
-	<xsl:template match="//variable[@type!='selection']" mode="variable_create">
+	<xsl:template match="//variable[not(@type) or @type!='selection']" mode="variable_create">
 		<xsl:call-template name="generic_create">
 			<xsl:with-param name="groups">
 				<xsl:if test="not(@groups) and ancestor::folder/@tag">
