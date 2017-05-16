@@ -5,7 +5,6 @@ name: Touch Input Device
 signature: iodevice/touch_input
 isa: IODevice
 platform: ios
-icon: smallIOFolder
 description: |
     Interface to the built-in touchscreen on an iOS device.
 

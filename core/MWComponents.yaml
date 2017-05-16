@@ -10,7 +10,6 @@
 
 name: Variables
 is_group: yes
-icon: smallFolder
 description: >
     Variables are a fundamental part of all MWorks experiments.  They store
     parameters, collect results, and mediate the transfer of data between
@@ -22,7 +21,6 @@ description: >
 
 name: Actions
 is_group: yes
-icon: smallFolder
 description: >
     Actions are the smallest unit of execution logic within an experiment. They
     initiate a single operation or event (e.g. playing a sound, showing a visual
@@ -34,7 +32,6 @@ description: >
 
 name: Transitions
 is_group: yes
-icon: smallFolder
 description: >
     Transitions control how an experiment moves through a `Task System`. Each
     `Task System State` repeatedly tests its transitions until one of them
@@ -47,7 +44,6 @@ description: >
 
 name: Stimuli
 is_group: yes
-icon: smallStimulusFolder
 description: Visual and auditory stimuli
 
 
@@ -56,7 +52,6 @@ description: Visual and auditory stimuli
 
 name: Paradigm Components
 is_group: yes
-icon: smallFolder
 description: >
     Paradigm components provide structure to an experiment and determine the
     flow of its execution.  They contain `Actions` and other paradigm
@@ -68,7 +63,6 @@ description: >
 
 name: Input/Output
 is_group: yes
-icon: smallIOFolder
 description: Input/output (I/O) devices
 
 
@@ -77,7 +71,6 @@ description: Input/output (I/O) devices
 
 name: Filters
 is_group: yes
-icon: smallIOFolder
 description: Filters and calibrators
 
 
@@ -86,7 +79,6 @@ description: Filters and calibrators
 
 name: Optimizers and Variable Monitors
 is_group: yes
-icon: smallFolder
 description: >
     Components that watch variable values, automatically perform computations,
     and output results
@@ -97,7 +89,6 @@ description: >
 
 name: Resources
 is_group: yes
-icon: smallFolder
 description: >
     Resource files (images, scripts, etc.) needed by an experiment
 
@@ -115,7 +106,6 @@ description: >
 name: IODevices
 signature: io_devices
 mandatory_tag: IO Devices
-icon: smallIOFolder
 display_as_group: yes
 
 
@@ -125,7 +115,6 @@ display_as_group: yes
 name: Sounds
 signature: sounds
 mandatory_tag: Sounds
-icon: smallFolder
 display_as_group: yes
 
 
@@ -135,7 +124,6 @@ display_as_group: yes
 name: Stimuli
 signature: stimuli
 mandatory_tag: Stimuli
-icon: smallStimulusFolder
 display_as_group: yes
 
 
@@ -145,7 +133,6 @@ display_as_group: yes
 name: Variables
 signature: variables
 mandatory_tag: Variables
-icon: smallVariablesFolder
 display_as_group: yes
 
 
@@ -155,7 +142,6 @@ display_as_group: yes
 name: Calibrators
 signature: calibrators
 mandatory_tag: Calibrators
-icon: smallFolder
 display_as_group: yes
 
 
@@ -165,7 +151,6 @@ display_as_group: yes
 name: Optimizers
 signature: optimizers
 mandatory_tag: Optimizers
-icon: smallFolder
 display_as_group: yes
 
 
@@ -175,7 +160,6 @@ display_as_group: yes
 name: Filters
 signature: filters
 mandatory_tag: Filters
-icon: smallFolder
 display_as_group: yes
 
 
@@ -185,7 +169,6 @@ display_as_group: yes
 name: Resources
 signature: resources
 mandatory_tag: Resources
-icon: smallFolder
 display_as_group: yes
 
 
@@ -195,7 +178,6 @@ display_as_group: yes
 name: Experiment
 signature: experiment
 mandatory_tag: Experiment
-icon: smallExperiment
 display_as_group: yes
 
 
@@ -211,7 +193,6 @@ display_as_group: yes
 
 name: Folder
 signature: folder
-icon: smallFolder
 group: Variables
 allowed_parent: 
   - Variables
@@ -232,8 +213,6 @@ description: >
 
 name: Variable
 signature: variable
-icon: xyz
-inspector: VariableInspectorView
 group: Variables
 allowed_parent: 
   - Variables
@@ -336,7 +315,6 @@ parameters:
 name: Selection Variable
 signature: variable/selection
 isa: Selectable
-icon: xyz
 group: Variables
 allowed_parent: 
   - Variables
@@ -385,7 +363,6 @@ parameters:
 
 name: Stimulus
 abstract: yes
-icon: smallStimulus
 group: Stimuli
 allowed_parent: 
   - Range Replicator
@@ -428,7 +405,6 @@ parameters:
 
 name: Stimulus Group
 signature: stimulus_group
-icon: smallStimulusFolder
 group: Stimuli
 allowed_parent: 
   - Range Replicator
@@ -482,7 +458,6 @@ parameters:
 name: Image Stimulus
 signature: stimulus/image_file
 isa: Basic Transform Stimulus
-inspector: ImageStimulusInspectorView
 description: |
     An image stimulus loaded from any standard-format image file.
 
@@ -634,7 +609,6 @@ parameters:
 
 name: Sound Stimulus
 signature: sound/wav_file
-inspector: SoundStimulusInspectorView
 group: Stimuli
 allowed_parent: 
   - Sounds
@@ -681,8 +655,6 @@ allowed_parent:
 
 name: Range Replicator
 signature: range_replicator
-icon: replicatorIcon
-inspector: RangeReplicatorInspectorView
 group: Paradigm Components
 allowed_parent: 
   - Experiment
@@ -732,7 +704,6 @@ parameters:
 
 name: List Replicator
 signature: list_replicator
-icon: replicatorIcon
 group: Paradigm Components
 allowed_parent: 
   - Experiment
@@ -790,7 +761,6 @@ parameters:
 name: List State
 abstract: yes
 isa: [Container State, Selectable]
-inspector: ListStateInspectorView
 
 
 ---
@@ -799,7 +769,6 @@ inspector: ListStateInspectorView
 name: Protocol
 signature: protocol
 isa: List State
-icon: smallProtocol
 allowed_parent: Experiment
 description: |
     A top-level paradigm component that contains other sub-components.
@@ -817,7 +786,6 @@ description: |
 name: Block
 signature: block
 isa: List State
-icon: smallBlock
 allowed_parent: Protocol
 description: |
     A container paradigm component.
@@ -832,7 +800,6 @@ description: |
 name: Trial
 signature: trial
 isa: List State
-icon: smallTrial
 allowed_parent: 
   - Protocol
   - Block
@@ -851,7 +818,6 @@ description: |
 name: List
 signature: list
 isa: List State
-icon: smallList
 allowed_parent: 
   - Protocol
   - Block
@@ -870,7 +836,6 @@ description: |
 name: Task System
 signature: task_system
 isa: Container State
-icon: smallTaskSystem
 allowed_parent: 
   - Protocol
   - Block
@@ -890,7 +855,6 @@ description: >
 name: Task System State
 signature: task_system_state
 isa: Container State
-icon: smallTaskSystemState
 allowed_parent: Task System
 description: >
     A paradigm component defining a state within a `finite state machine
@@ -912,7 +876,6 @@ description: >
 
 name: Action
 abstract: yes
-icon: actionIcon
 group: Actions
 allowed_parent: 
   - Task System State
@@ -924,21 +887,6 @@ allowed_parent:
   - Conditionally Execute Actions
   - Schedule Actions
   - Folder
-disallowed_sibling_before: 
-  - Transition
-  - Variable
-  - TransitionMarker
-disallowed_sibling_after: ActionMarker
-
-
----
-
-
-name: ActionMarker
-signature: action_marker
-unmoveable: yes
-allowed_parent: Task System State
-disallowed_sibling_before: TransitionMarker
 
 
 ---
@@ -947,8 +895,6 @@ disallowed_sibling_before: TransitionMarker
 name: Report / Message
 signature: action/report
 isa: Action
-icon: reportAction
-inspector: ReportInspectorView
 description: Write a message to the console and event stream
 parameters: 
   - 
@@ -965,8 +911,6 @@ parameters:
 name: Assign Variable
 signature: action/assignment
 isa: Action
-icon: actionIcon
-inspector: AssignmentInspectorView
 description: Assign a value to a variable
 parameters: 
   - 
@@ -985,7 +929,6 @@ parameters:
 name: Pulse Variable
 signature: action/pulse
 isa: Action
-inspector: PulseInspectorView
 description: >
     Sets a variable high (i.e. sets its value to 1).  Then, after the specified
     duration, sets it low (i.e. to 0).  The end of the pulse is triggered
@@ -1038,7 +981,6 @@ parameters:
 name: Schedule Actions
 signature: action/schedule
 isa: Action
-inspector: ScheduleInspectorView
 description: >
     Schedule the execution of a list of contained actions.  These actions can be
     scheduled to occur after a user-defined delay and can be repeated multiple
@@ -1073,7 +1015,6 @@ parameters:
 name: Conditionally Execute Actions
 signature: action/if
 isa: Action
-inspector: IfInspectorView
 allowed_parent: Conditional Branching (If/Else)
 description: Execute a list of actions if a condition is true
 parameters: 
@@ -1102,7 +1043,6 @@ description: >
 name: Timer Action
 abstract: yes
 isa: Action
-icon: startTimer
 parameters: 
   - 
     name: duration
@@ -1128,7 +1068,6 @@ parameters:
 name: Wait
 signature: action/wait
 isa: Timer Action
-inspector: WaitInspectorView
 description: |
     Pause for a specified amount of time.
 
@@ -1143,7 +1082,6 @@ description: |
 name: Wait for Condition
 signature: action/wait_for_condition
 isa: Action
-icon: startTimer
 description: >
     Wait until a condition becomes true or a timeout occurs.  If the wait
     times out before the condition becomes true, issue an error message and
@@ -1174,7 +1112,6 @@ parameters:
 name: Start Timer
 signature: action/start_timer
 isa: Timer Action
-inspector: StartTimerInspectorView
 description: >
     Starts a named timer that can be used to control the flow through a `Task
     System`.  The `Timer Expired Transition` and the ``timerExpired`` function
@@ -1193,8 +1130,6 @@ parameters:
 name: Set Timebase
 signature: action/set_timebase
 isa: Action
-icon: startTimer
-inspector: SetTimebaseInspectorView
 description: >
     Sets a named reference time against which `timers <Start Timer>` can be
     defined
@@ -1212,7 +1147,6 @@ parameters:
 name: Load Stimulus
 signature: action/load_stimulus
 isa: Action
-inspector: LoadStimulusInspectorView
 description: >
     Explicitly load a stimulus object (e.g. load a file from disk, compute a
     dynamically generated stimulus, etc.).  This is useful when the ``deferred``
@@ -1248,7 +1182,6 @@ name: Queue Stimulus
 signature: action/queue_stimulus
 alias: action/show_stimulus
 isa: Action
-inspector: QueueStimulusInspectorView
 description: >
     Place a stimulus into the display queue, ready to be displayed when
     the next `Update Stimulus Display` action is issued
@@ -1265,7 +1198,6 @@ parameters:
 name: Live Queue Stimulus
 signature: action/live_queue_stimulus
 isa: Action
-inspector: QueueStimulusInspectorView
 description: >
     Place a stimulus into the display queue, ready to be displayed when the next
     `Update Stimulus Display` action is issued.  Differs from `Queue Stimulus`
@@ -1285,7 +1217,6 @@ name: Dequeue Stimulus
 signature: action/dequeue_stimulus
 alias: action/hide_stimulus
 isa: Action
-inspector: DequeueStimulusInspectorView
 description: >
     Remove a stimulus from the display queue, so that it will no longer be
     displayed after the next `Update Stimulus Display` action is issued
@@ -1330,7 +1261,6 @@ parameters:
 name: Update Stimulus Display
 signature: action/update_stimulus_display
 isa: Action
-inspector: UpdateDisplayInspectorView
 description: |
     Commit pending changes to the display queue, and trigger a redraw of the
     stimulus display.  On the next display refresh, any stimuli that have been
@@ -1360,7 +1290,6 @@ parameters:
 name: Play Sound
 signature: action/play_sound
 isa: Action
-inspector: PlaySoundInspectorView
 description: Play a `Sound Stimulus`
 parameters: 
   - 
@@ -1389,7 +1318,6 @@ parameters:
 name: Stop Sound
 signature: action/stop_sound
 isa: Action
-inspector: StopSoundInspectorView
 description: Stop playing a `Sound Stimulus`
 parameters: 
   - 
@@ -1404,7 +1332,6 @@ parameters:
 name: Accept Selections
 signature: action/accept_selections
 isa: Action
-inspector: AcceptSelectionsInspectorView
 description: >
     Permanently accept the selections that have been made so far on a selectable
     object.  Once accepted, these selections cannot be undone with a `Reject
@@ -1422,7 +1349,6 @@ parameters:
 name: Reject Selections
 signature: action/reject_selections
 isa: Action
-inspector: RejectSelectionsInspectorView
 description: >
     Reject all non-accepted selections on a selectable object (i.e. those made
     since the last `Accept Selections` action).  From the point of view of the
@@ -1440,7 +1366,6 @@ parameters:
 name: Reset Selections
 signature: action/reset_selection
 isa: Action
-inspector: ResetSelectionInspectorView
 description: >
     Reset all selections on a selectable object, including any that were
     previously accepted.  From the point of view of the selectable object, it
@@ -1458,7 +1383,6 @@ parameters:
 name: Next Selection
 signature: action/next_selection
 isa: Action
-inspector: NextSelectionInspectorView
 description: >
     Advance to the next selection on a `Selection Variable`.  This action
     does not work on other selectable objects (such as `Block` or `Trial`).
@@ -1506,7 +1430,6 @@ description: >
 name: Start IO Device
 signature: action/start_device_io
 isa: Action
-inspector: StartIOInspectorView
 description: >
     Enable an `I/O device <Input/Output>`.  Most I/O devices will not perform
     input/output tasks until explicitly started.
@@ -1523,7 +1446,6 @@ parameters:
 name: Stop IO Device
 signature: action/stop_device_io
 isa: Action
-inspector: StopIOInspectorView
 description: >
     Disable an `I/O device <Input/Output>`.  Most I/O devices will stop
     performing input/output tasks when stopped.
@@ -1711,23 +1633,8 @@ parameters:
 
 name: Transition
 abstract: yes
-icon: transitionIcon
 group: Transitions
 allowed_parent: Task System State
-disallowed_sibling_after: 
-  - Action
-  - ActionMarker
-  - TransitionMarker
-
-
----
-
-
-name: TransitionMarker
-signature: transition_marker
-unmoveable: yes
-allowed_parent: Task System State
-disallowed_sibling_after: ActionMarker
 
 
 ---
@@ -1736,8 +1643,6 @@ disallowed_sibling_after: ActionMarker
 name: Always Go Transition
 signature: transition/direct
 isa: Transition
-icon: alwaysGo
-inspector: AlwaysGoTransitionInspectorView
 description: A transition that always goes to the specified target state
 parameters: 
   - 
@@ -1752,8 +1657,6 @@ parameters:
 name: Conditional Transition
 signature: transition/conditional
 isa: Transition
-icon: conditionalTransition
-inspector: ConditionalTransitionInspectorView
 description: >
     A transition that goes to the target state if a specified condition
     expression is true
@@ -1774,8 +1677,6 @@ parameters:
 name: Timer Expired Transition
 signature: transition/timer_expired
 isa: Transition
-icon: timerTransition
-inspector: TimerExpiredTransitionInspectorView
 description: >
     A transition that goes to the target state if a specified timer has expired
 parameters: 
@@ -1795,8 +1696,6 @@ parameters:
 name: Exit Task System
 signature: transition/yield
 isa: Transition
-icon: yieldToParent
-inspector: ExitTaskSystemTransitionInspectorView
 description: >
     A transition that yields control back to the parent of the current
     `Task System`
@@ -1814,7 +1713,6 @@ description: >
 
 name: IODevice
 abstract: yes
-icon: smallIOFolder
 group: Input/Output
 allowed_parent: 
   - IODevices
@@ -1833,7 +1731,6 @@ parameters:
 
 name: IOChannel
 abstract: yes
-icon: smallIOFolder
 group: Input/Output
 allowed_parent: Folder
 
@@ -1882,7 +1779,6 @@ parameters:
 
 name: Calibrator
 abstract: yes
-icon: fakeMonkey
 group: Filters
 allowed_parent: 
   - Filters
@@ -1950,7 +1846,6 @@ description: >
 
 name: Filter
 abstract: yes
-icon: fakeMonkey
 group: Filters
 allowed_parent: 
   - Filters
@@ -2049,7 +1944,6 @@ parameters:
 
 name: Optimizer
 abstract: yes
-icon: smallFolder
 group: Optimizers and Variable Monitors
 allowed_parent: Optimizers
 
@@ -2060,8 +1954,6 @@ allowed_parent: Optimizers
 name: Simple Staircase Optimizer
 signature: staircase
 isa: Optimizer
-icon: fakeMonkey
-inspector: StaircaseInspectorView
 description: >
     An object that watches a variable (e.g. a flag reporting success in a
     behavioral task) and moves another variable up and down according to
@@ -2119,8 +2011,6 @@ parameters:
 name: Bias Monitor
 signature: bias_monitor
 isa: Optimizer
-icon: fakeMonkey
-inspector: BiasMonitorInspectorView
 description: >
     An object that watches parameters of a behavioral task and assesses the
     probability that the subject is adopting some form of biased strategy
