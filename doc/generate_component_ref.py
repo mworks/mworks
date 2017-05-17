@@ -42,12 +42,6 @@ group_members = defaultdict(set)
 
 
 def register_element(info):
-    if (info.get('display_as_group', False) or
-        info.get('unmoveable', False)):
-        # Elements with these attributes are used for structuring
-        # MWorks XML files and aren't real components.  Ignore them.
-        return
-
     name = info['name']
     basename = basename_for_name(name)
     assert basename not in all_basenames, ('Duplicate basename: %r' %

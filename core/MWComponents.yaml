@@ -98,94 +98,6 @@ description: >
 
 ###############################################################################
 #
-# Placement roots (i.e. top-level allowed parents)
-#
-###############################################################################
-
-
-name: IODevices
-signature: io_devices
-mandatory_tag: IO Devices
-display_as_group: yes
-
-
----
-
-
-name: Sounds
-signature: sounds
-mandatory_tag: Sounds
-display_as_group: yes
-
-
----
-
-
-name: Stimuli
-signature: stimuli
-mandatory_tag: Stimuli
-display_as_group: yes
-
-
----
-
-
-name: Variables
-signature: variables
-mandatory_tag: Variables
-display_as_group: yes
-
-
----
-
-
-name: Calibrators
-signature: calibrators
-mandatory_tag: Calibrators
-display_as_group: yes
-
-
----
-
-
-name: Optimizers
-signature: optimizers
-mandatory_tag: Optimizers
-display_as_group: yes
-
-
----
-
-
-name: Filters
-signature: filters
-mandatory_tag: Filters
-display_as_group: yes
-
-
----
-
-
-name: Resources
-signature: resources
-mandatory_tag: Resources
-display_as_group: yes
-
-
----
-
-
-name: Experiment
-signature: experiment
-mandatory_tag: Experiment
-display_as_group: yes
-
-
----
-
-
-###############################################################################
-#
 # Variables
 #
 ###############################################################################
@@ -194,14 +106,8 @@ display_as_group: yes
 name: Folder
 signature: folder
 group: Variables
-allowed_parent: 
-  - Variables
-  - IODevices
-  - Filters
-  - Optimizers
-  - Stimuli
-  - Sounds
-  - Calibrators
+transient: yes
+toplevel: yes
 description: >
     A folder for (purely) organizational purposes.  Variables defined in a
     folder will be displayed as an expandable group in MWClient's variables
@@ -214,9 +120,8 @@ description: >
 name: Variable
 signature: variable
 group: Variables
-allowed_parent: 
-  - Variables
-  - Folder
+toplevel: yes
+allowed_parent: Folder
 description: >
     A general-purpose variable, used to store experiment parameters, collect
     results, and mediate the transfer of data between components
@@ -316,9 +221,8 @@ name: Selection Variable
 signature: variable/selection
 isa: Selectable
 group: Variables
-allowed_parent: 
-  - Variables
-  - Folder
+toplevel: yes
+allowed_parent: Folder
 description: >
     A variable whose current value is drawn from a list of possible values.  The
     order and number of selected values are determined by `selection`_,
@@ -364,10 +268,10 @@ parameters:
 name: Stimulus
 abstract: yes
 group: Stimuli
+toplevel: yes
 allowed_parent: 
   - Range Replicator
   - List Replicator
-  - Stimuli
   - Stimulus Group
   - Folder
 parameters:
@@ -406,10 +310,10 @@ parameters:
 name: Stimulus Group
 signature: stimulus_group
 group: Stimuli
+toplevel: yes
 allowed_parent: 
   - Range Replicator
   - List Replicator
-  - Stimuli
   - Stimulus Group
   - Folder
 description: An indexable group of stimuli
@@ -610,9 +514,8 @@ parameters:
 name: Sound Stimulus
 signature: sound/wav_file
 group: Stimuli
-allowed_parent: 
-  - Sounds
-  - Folder
+toplevel: yes
+allowed_parent: Folder
 description: >
     A simple `WAV <https://en.wikipedia.org/wiki/WAV>`_ file based sound
     stimulus
@@ -642,12 +545,12 @@ parameters:
 ###############################################################################
 
 
-name: Paradigm Component
-abstract: yes
+name: Experiment
+signature: experiment
 group: Paradigm Components
-allowed_parent: 
-  - Range Replicator
-  - List Replicator
+toplevel: yes
+description: >
+    Top-level container for all `protocols <Protocol>` in an experiment
 
 
 ---
@@ -656,6 +559,8 @@ allowed_parent:
 name: Range Replicator
 signature: range_replicator
 group: Paradigm Components
+transient: yes
+toplevel: yes
 allowed_parent: 
   - Experiment
   - Protocol
@@ -664,10 +569,8 @@ allowed_parent:
   - List
   - Range Replicator
   - List Replicator
-  - Stimuli
   - Stimulus Group
-  - Sounds
-  - Variables
+  - Folder
 description: >
     A construct that replicates its contents (textually) at parse time.  Each
     replication assigns a different, sequential value to the specified
@@ -705,6 +608,8 @@ parameters:
 name: List Replicator
 signature: list_replicator
 group: Paradigm Components
+transient: yes
+toplevel: yes
 allowed_parent: 
   - Experiment
   - Protocol
@@ -713,10 +618,8 @@ allowed_parent:
   - List
   - Range Replicator
   - List Replicator
-  - Stimuli
   - Stimulus Group
-  - Sounds
-  - Variables
+  - Folder
 description: >
     A construct that replicates its contents (textually) at parse time.  Each
     replication assigns a different value from a user-provided list to the
@@ -743,7 +646,7 @@ parameters:
 
 name: Container State
 abstract: yes
-isa: Paradigm Component
+group: Paradigm Components
 parameters: 
   - 
     name: interruptible
@@ -761,6 +664,9 @@ parameters:
 name: List State
 abstract: yes
 isa: [Container State, Selectable]
+allowed_parent: 
+  - Range Replicator
+  - List Replicator
 
 
 ---
@@ -786,7 +692,11 @@ description: |
 name: Block
 signature: block
 isa: List State
-allowed_parent: Protocol
+allowed_parent: 
+  - Protocol
+  - Block
+  - Trial
+  - List
 description: |
     A container paradigm component.
 
@@ -839,8 +749,8 @@ isa: Container State
 allowed_parent: 
   - Protocol
   - Block
-  - List
   - Trial
+  - List
 description: >
     A paradigm component defining a `finite state machine
     <https://en.wikipedia.org/wiki/Finite-state_machine>`_.  It contains `Task
@@ -878,15 +788,14 @@ name: Action
 abstract: yes
 group: Actions
 allowed_parent: 
+  - Protocol
+  - Block
+  - Trial
+  - List
   - Task System State
   - Variable
-  - Trial
-  - Block
-  - List
-  - Protocol
   - Conditionally Execute Actions
   - Schedule Actions
-  - Folder
 
 
 ---
@@ -1714,9 +1623,8 @@ description: >
 name: IODevice
 abstract: yes
 group: Input/Output
-allowed_parent: 
-  - IODevices
-  - Folder
+toplevel: yes
+allowed_parent: Folder
 parameters:
   - 
     name: alt
@@ -1732,7 +1640,6 @@ parameters:
 name: IOChannel
 abstract: yes
 group: Input/Output
-allowed_parent: Folder
 
 
 ---
@@ -1780,10 +1687,8 @@ parameters:
 name: Calibrator
 abstract: yes
 group: Filters
-allowed_parent: 
-  - Filters
-  - IODevices
-  - Folder
+toplevel: yes
+allowed_parent: Folder
 
 
 ---
@@ -1847,10 +1752,8 @@ description: >
 name: Filter
 abstract: yes
 group: Filters
-allowed_parent: 
-  - Filters
-  - IODevices
-  - Folder
+toplevel: yes
+allowed_parent: Folder
 
 
 ---
@@ -1945,7 +1848,8 @@ parameters:
 name: Optimizer
 abstract: yes
 group: Optimizers and Variable Monitors
-allowed_parent: Optimizers
+toplevel: yes
+allowed_parent: Folder
 
 
 ---
@@ -2069,7 +1973,8 @@ parameters:
 name: Resource
 signature: resource
 group: Resources
-allowed_parent: Resources
+toplevel: yes
+allowed_parent: Folder
 description: |
     A file or set of files required by an experiment.  All resource files are
     copied, along with the experiment file itself, to the system running

@@ -77,9 +77,7 @@ def extract_element_info(elem):
         ib['is_group'] = 'yes'
     ib.addattrib('abstract', 'hidden', is_bool=True)
     sig = extract_signature(ib)
-    ib.addtext('mandatory_tag')
     ib.addtext('isa')
-    ib.addtext('display_as_group', is_bool=True)
     ib.addtext('group', 'belongs_to_group', allow_list=True)
     ib.addtext('allowed_parent', allow_list=True)
     ib.addtext('description')
