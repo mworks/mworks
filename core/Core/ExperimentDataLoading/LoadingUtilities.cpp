@@ -169,7 +169,7 @@ BEGIN_NAMESPACE_MW
         // Store the XML source of the experiment in #loadedExperiment, so that it will be
         // recorded in the event stream (unless the experiment itself has already set #loadedExperiment,
         // in which case leave it unchanged)
-        if (loadedExperiment->getValue().getString().empty()) {
+        if (loadedExperiment->getValue().getSize() == 0) {
             loadedExperiment->setValue(Datum(reinterpret_cast<char *>(fileData.data()), fileData.size()));
         }
 		
