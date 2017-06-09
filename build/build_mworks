@@ -246,6 +246,11 @@ def doc():
     make(args)
 
 
+@builder('mworks/mwel')
+def mwel():
+    make()
+
+
 ################################################################################
 #
 # Main function
