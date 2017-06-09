@@ -55,6 +55,9 @@ def register_element(info):
         alias = list(str_or_list(info.get('alias', [])))
         if alias:
             info['alias'] = alias
+        mwel_alias = list(str_or_list(info.get('mwel_alias', [])))
+        if mwel_alias:
+            info['mwel_alias'] = mwel_alias
         group = set(str_or_list(info.get('group', [])))
         allowed_parent = set(str_or_list(info.get('allowed_parent', [])))
         platform = list(str_or_list(info.get('platform', [])))

@@ -119,6 +119,7 @@ description: >
 
 name: Variable
 signature: variable
+mwel_alias: var
 group: Variables
 toplevel: yes
 allowed_parent: Folder
@@ -745,6 +746,7 @@ description: |
 
 name: Task System
 signature: task_system
+mwel_alias: task
 isa: Container State
 allowed_parent: 
   - Protocol
@@ -764,6 +766,7 @@ description: >
 
 name: Task System State
 signature: task_system_state
+mwel_alias: state
 isa: Container State
 allowed_parent: Task System
 description: >
