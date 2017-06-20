@@ -892,7 +892,7 @@ class TestExpressionMacros(AnalyzerTestMixin, unittest.TestCase):
                                             default_value = expected)
             self.assertEqual([], children)
 
-            expected = "(y + (x + ('foo' * y)))"
+            expected = "y + (x + ('foo' * y))"
             children = self.assertComponent(cmpts[2], 11, 27,
                                             name = 'action',
                                             type = 'queue_stimulus',
@@ -1305,7 +1305,7 @@ class TestStatementMacros(AnalyzerTestMixin, unittest.TestCase):
                                             filename = ('', '', '', ''),
                                             name = 'action',
                                             type = 'queue_stimulus',
-                                            stimulus = '(1 + 2)')
+                                            stimulus = '1 + 2')
             self.assertEqual([], children)
 
             children = self.assertComponent(cmpts[4],

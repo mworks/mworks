@@ -13,17 +13,14 @@ class ExpressionAnalyzer(object):
     def analyze(self, expr):
         return self._expr(expr)
 
-    def _expr(self, expr, unquote_string=False):
-        if isinstance(expr, (ast.IdentifierExpr, ast.NumberLiteralExpr)):
-            return expr.value
-
-        if isinstance(expr, ast.StringLiteralExpr):
-            if unquote_string:
-                return expr.value[1:-1]
+    def _expr(self, expr):
+        if isinstance(expr, (ast.IdentifierExpr,
+                             ast.NumberLiteralExpr,
+                             ast.StringLiteralExpr)):
             return expr.value
 
         if isinstance(expr, ast.ListLiteralExpr):
-            return '[%s]' % ', '.join(self._expr(item) for item in expr.items)
+            return '[%s]' % self._exprlist_items(expr.items)
 
         if isinstance(expr, ast.DictLiteralExpr):
             return ('{%s}' %
@@ -31,9 +28,7 @@ class ExpressionAnalyzer(object):
                               for (key, value) in expr.items))
 
         if isinstance(expr, ast.FunctionCallExpr):
-            return ('%s(%s)' %
-                    (expr.name,
-                     ', '.join(self._expr(arg) for arg in expr.args)))
+            return ('%s(%s)' % (expr.name, self._exprlist_items(expr.args)))
 
         if isinstance(expr, ast.ParentheticExpr):
             return '(%s)' % self._expr(expr.expr)
@@ -56,16 +51,25 @@ class ExpressionAnalyzer(object):
                                  expr.op,
                                  self._expr(expr.operands[1]))
 
-        if isinstance(expr, ast.RangeExpr):
-            return '%s:%s' % (self._expr(expr.start), self._expr(expr.stop))
-
-        if isinstance(expr, ast.ExprList):
-            return self._exprlist_items(expr.items)
-
         raise NotImplementedError
 
     def _exprlist_items(self, items):
-        return ', '.join(self._expr(e) for e in items)
+        results = []
+        for expr in items:
+            if isinstance(expr, ast.RangeExpr):
+                results.append('%s:%s' % (self._expr(expr.start),
+                                          self._expr(expr.stop)))
+            else:
+                results.append(self._expr(expr))
+        return ', '.join(results)
+
+
+class StringLiteralExprValue(type('')):
+    pass
+
+
+class NonatomicExpandedExprValue(type('')):
+    pass
 
 
 class Component(object):
@@ -153,20 +157,21 @@ class Analyzer(ExpressionAnalyzer):
             macro.filename = self.error_logger.current_filename
             self._macros[name] = macro
 
-    def _expr(self, expr, unquote_string=False):
+    def _expr(self, expr):
         if isinstance(expr, ast.IdentifierExpr):
             expansion = self._active_macro_arg_expansions[-1].get(expr.value)
             if expansion:
-                if unquote_string and (expansion[0] in ("'", '"')):
-                    expansion = expansion[1:-1]
                 return expansion
 
         if isinstance(expr, (ast.IdentifierExpr, ast.FunctionCallExpr)):
-            expansion = self._macro_expansion(expr, unquote_string)
+            expansion = self._macro_expansion(expr)
             if expansion:
                 return expansion
 
-        return super(Analyzer, self)._expr(expr, unquote_string)
+        result = super(Analyzer, self)._expr(expr)
+        if isinstance(expr, ast.StringLiteralExpr):
+            result = StringLiteralExprValue(result)
+        return result
 
     def _stmt(self, stmt, cmpts):
         if isinstance(stmt, ast.VarStmt):
@@ -223,7 +228,7 @@ class Analyzer(ExpressionAnalyzer):
                                    'value': self._expr(stmt.value),
                                    })
 
-    def _macro_expansion(self, node, unquote_string=False, cmpts=None):
+    def _macro_expansion(self, node, cmpts=None):
         if isinstance(node, ast.IdentifierExpr):
             name = node.value
         elif isinstance(node, ast.FunctionCallExpr):
@@ -302,8 +307,7 @@ class Analyzer(ExpressionAnalyzer):
                                                                   args)))
                 try:
                     if isinstance(macro, ast.ExpressionMacroStmt):
-                        return self._expanded_expr(macro.value,
-                                                   unquote_string)
+                        return self._expanded_expr(macro.value)
                     else:
                         assert isinstance(macro, ast.StatementMacroStmt)
                         expansion = []
@@ -320,10 +324,10 @@ class Analyzer(ExpressionAnalyzer):
                     self._active_macros.pop()
                     self._active_macro_arg_expansions.pop()
 
-    def _expanded_expr(self, expr, unquote_string=False):
-        result = self._expr(expr, unquote_string)
+    def _expanded_expr(self, expr):
+        result = self._exprlist_or_expr(expr)
         if not isinstance(expr, ast.AtomicExpr):
-            result = '(%s)' % result
+            result = NonatomicExpandedExprValue('(%s)' % result)
         return result
 
     def _decl_stmt(self, stmt):
@@ -352,7 +356,7 @@ class Analyzer(ExpressionAnalyzer):
         if not stmt.params:
             params = {}
         elif isinstance(stmt.params, dict):
-            params = collections.OrderedDict((key, self._expr(value, True))
+            params = collections.OrderedDict((key, self._param_expr(value))
                                              for (key, value)
                                              in stmt.params.items())
         else:
@@ -366,7 +370,7 @@ class Analyzer(ExpressionAnalyzer):
                                   lineno = stmt.lineno,
                                   colno = stmt.colno)
                 name = '__UNKNOWN__'
-            params = {name: self._expr(stmt.params[0], True)}
+            params = {name: self._param_expr(stmt.params[0])}
 
         cmpt = self._component(stmt.lineno,
                                stmt.colno,
@@ -379,6 +383,18 @@ class Analyzer(ExpressionAnalyzer):
             self._stmt(child, cmpt.children)
 
         return cmpt
+
+    def _param_expr(self, expr):
+        result = self._exprlist_or_expr(expr)
+        if isinstance(result, (StringLiteralExprValue,
+                               NonatomicExpandedExprValue)):
+            result = result[1:-1]
+        return result
+
+    def _exprlist_or_expr(self, expr):
+        if isinstance(expr, ast.ExprList):
+            return self._exprlist_items(expr.items)
+        return self._expr(expr)
 
     def _range_rep_stmt(self, stmt):
         step = (self._expr(stmt.step) if stmt.step else '1')
