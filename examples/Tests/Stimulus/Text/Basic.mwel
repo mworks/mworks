@@ -1,0 +1,96 @@
+var text = "Hello, world! How y'all doing?"
+var font_name = 'MarkerFelt-Thin'
+var font_size = {'macos': 24, 'ios': 16}[osname()]
+var red = 1
+var green = 1
+var blue = 1
+var x_size = 15
+var y_size = 4
+var x_pos = -5
+var y_pos = -5
+var rotation = 0
+var alpha = 1
+
+
+rectangle rect (
+    color = 0.25, 0.25, 0.25
+    x_size = x_size
+    y_size = y_size
+    x_position = x_pos
+    y_position = y_pos
+    rotation = rotation
+)
+
+text text (
+    text = text
+    font_name = font_name
+    font_size = font_size
+    color = red, green, blue
+    x_size = x_size
+    y_size = y_size
+    x_position = x_pos
+    y_position = y_pos
+    rotation = rotation
+    alpha_multiplier = alpha
+)
+
+
+%define update_and_wait ()
+    update_stimulus_display ()
+    wait (1s)
+%end
+
+
+protocol {
+    live_queue_stimulus (rect)
+    live_queue_stimulus (text)
+    update_and_wait ()
+
+    // Change text
+    text = 'Greetings, world! How are you today?'
+    update_and_wait ()
+
+    // Change font name
+    font_name = 'Helvetica'
+    update_and_wait ()
+
+    // Change font size
+    font_size = 2 * font_size
+    update_and_wait ()
+
+    // Change red
+    red = 0
+    update_and_wait ()
+
+    // Change green
+    green = 0
+    update_and_wait ()
+
+    // Change blue
+    blue = 0
+    update_and_wait ()
+
+    // Change x size
+    x_size = 2 * x_size
+    update_and_wait ()
+
+    // Change y size
+    y_size = 0.5 * y_size
+    update_and_wait ()
+
+    // Change x position
+    x_pos = 1
+    update_and_wait ()
+
+    // Change y position
+    y_pos = 3
+    update_and_wait ()
+
+    // Change rotation
+    rotation = 45
+    update_and_wait ()
+
+    // Change alpha
+    alpha = 0.2
+    update_and_wait ()
+}

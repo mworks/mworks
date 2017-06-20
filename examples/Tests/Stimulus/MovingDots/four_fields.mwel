@@ -1,0 +1,52 @@
+%define field_radius = 4
+%define field_center_offset = sqrt(2 * (field_radius + 0.5) * (field_radius + 0.5))
+%define deg2rad(d) d * pi() / 180
+%define field_center_x(d) field_center_offset * cos(deg2rad(d))
+%define field_center_y(d) field_center_offset * sin(deg2rad(d))
+
+%define dot_field (color, direction)
+    moving_dots (
+        field_radius = field_radius
+        field_center_x = field_center_x(direction)
+        field_center_y = field_center_y(direction)
+        dot_density = 1000 / (pi() * field_radius * field_radius)
+        dot_size = 0.1
+        color = color
+        direction = direction
+        speed = 1
+        autoplay = YES
+    )
+%end
+
+
+stimulus_group dots {
+    dot_field (
+        color = 1,1,1
+        direction = 45
+    )
+
+    dot_field (
+        color = 1,0,0
+        direction = -45
+    )
+
+    dot_field (
+        color = 0,0,1
+        direction = -135
+    )
+
+    dot_field (
+        color = 0,1,0
+        direction = 135
+    )
+}
+
+
+protocol {
+    queue_stimulus (dots[0])
+    queue_stimulus (dots[1])
+    queue_stimulus (dots[2])
+    queue_stimulus (dots[3])
+    update_stimulus_display ()
+    wait (60s)
+}

@@ -24,7 +24,7 @@ mworks_core_test_runner = os.path.join(tests_dir, 'MWorksCoreTestRunner')
 marionette_test = os.path.join(tests_dir, ('MarionetteTest.app/Contents/'
                                            'MacOS/MarionetteTest'))
 
-test_file_extensions = ('.xml', '.mwtest')
+test_file_extensions = ('.xml', '.mwel', '.mwtest')
 test_data_suffix = 'TESTDATA.xml'
 
 
