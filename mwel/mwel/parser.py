@@ -633,18 +633,19 @@ class Parser(ExpressionParser):
             self.unexpected_token("'=' or '('")
 
         parameters = []
-        if not self.accept(')'):
-            while True:
-                self.expect('IDENTIFIER')
-                param = self.curr.value
-                if param in parameters:
-                    self.error("Macro definition has multiple parameters "
-                               "named '%s'" % param,
-                               token = self.curr)
-                parameters.append(param)
-                if not self.accept(','):
-                    break
-            self.expect(')')
+        with self.ignore_newlines():
+            if not self.accept(')'):
+                while True:
+                    self.expect('IDENTIFIER')
+                    param = self.curr.value
+                    if param in parameters:
+                        self.error("Macro definition has multiple parameters "
+                                   "named '%s'" % param,
+                                   token = self.curr)
+                    parameters.append(param)
+                    if not self.accept(','):
+                        break
+                self.expect(')')
 
         if not self.accept_newline():
             return self._expression_macro_stmt(lineno, colno, name, parameters)

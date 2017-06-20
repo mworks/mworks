@@ -1405,7 +1405,7 @@ class TestMacros(ParserTestMixin, unittest.TestCase):
                         %define x(a, b
                         x = y
                         '''):
-            self.assertExpected(')', lineno=2)
+            self.assertExpected(')', got='x', lineno=3)
 
         # Missing value
         with self.parse('''
@@ -1419,10 +1419,14 @@ class TestMacros(ParserTestMixin, unittest.TestCase):
                         %define f1() 1
                         %define f2(x) 2
                         %define f3(x,y) 3
-                        %define f4(x,y,z) 1 + foo
+                        %define f4(x,y,
+                                   z
+                                   ) 1 + foo
+                        %define f5(
+                                   ) 1
                         ''') as p:
             self.assertIsInstance(p, ast.Module)
-            self.assertEqual(4, len(p.statements))
+            self.assertEqual(5, len(p.statements))
             p = p.statements
 
             def test_pe(p, lineno, name, params, value):
@@ -1436,6 +1440,7 @@ class TestMacros(ParserTestMixin, unittest.TestCase):
             test_pe(p[1], 3, 'f2', ('x',), self.two)
             test_pe(p[2], 4, 'f3', ('x', 'y'), self.three)
             test_pe(p[3], 5, 'f4', ('x', 'y', 'z'), self.one_plus_foo)
+            test_pe(p[4], 8, 'f5', (), self.one)
 
     def test_statement(self):
         # Missing '%end'
