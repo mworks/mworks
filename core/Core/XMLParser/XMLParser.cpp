@@ -192,8 +192,15 @@ void XMLParser::loadFile() {
         
         NSString *filePath = [NSString stringWithUTF8String:(path.c_str())];
         NSString *fileText = getFileText(filePath);
-        NSString *firstTwoLines = getFirstTwoLines(fileText);
-        NSString *ppPath = extractPreprocessorPath(firstTwoLines);
+        NSString *ppPath = nil;
+        
+        if ([filePath.pathExtension isEqualToString:@"mwel"]) {
+            // Preprocess .mwel files with mwel2xml
+            ppPath = @"/Library/Application Support/MWorks/MWEL/mwel2xml";
+        } else {
+            NSString *firstTwoLines = getFirstTwoLines(fileText);
+            ppPath = extractPreprocessorPath(firstTwoLines);
+        }
         
         const char *buffer;
         NSUInteger size;
@@ -315,6 +322,12 @@ string XMLParser::squashFileName(string name){
 	boost::algorithm::replace_all(name, "/", "_");
 	boost::algorithm::replace_all(name, "~", "_");
 	boost::algorithm::replace_all(name, " ", "__");
+    
+    // If name ends in ".mwel", append ".xml" to prevent the server-side parser
+    // from invoking mwel2xml on it again
+    if (boost::algorithm::ends_with(name, ".mwel")) {
+        name += ".xml";
+    }
 	
 	return name;
 }
