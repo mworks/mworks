@@ -1,0 +1,18 @@
+var path = ''
+
+image_file image (
+    path = path
+    x_size = 5.0
+    y_size = 5.0
+    deferred = YES
+)
+
+resource ('letters/A.png')
+
+
+protocol {
+    path = 'letters/A.png'
+    queue_stimulus (image)
+    update_stimulus_display ()
+    wait (1s)
+}

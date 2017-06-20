@@ -144,7 +144,7 @@ void IncludedFilesParser::parse(bool announce_progress) {
     loadFile();
     
     // Look for resource declarations
-    auto xpathObject = evaluateXPathExpression("/monkeyml/resources/resource/@path[string-length() != 0]");
+    auto xpathObject = evaluateXPathExpression("//resource/@path[string-length() != 0]");
     if (xpathObject) {
         BOOST_SCOPE_EXIT( xpathObject ) {
             xmlXPathFreeObject(xpathObject);
