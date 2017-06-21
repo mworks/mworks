@@ -93,6 +93,7 @@ void display_extended_error_information(SimpleException& e){
     extended_info << "Extended information:" << endl;
     CHECK_AND_REPORT_ERROR_INFORMATION( reason, ErrorString);
     CHECK_AND_REPORT_ERROR_INFORMATION( additional_msg, ErrorString);
+    CHECK_AND_REPORT_ERROR_INFORMATION( location, ErrorString );
     CHECK_AND_REPORT_ERROR_INFORMATION( object_type, ErrorString);
     CHECK_AND_REPORT_ERROR_INFORMATION( parent_scope, ErrorString);
     CHECK_AND_REPORT_ERROR_INFORMATION( ref_id, ErrorString);

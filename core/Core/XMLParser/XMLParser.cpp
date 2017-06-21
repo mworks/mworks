@@ -740,6 +740,7 @@ void XMLParser::_processGenericCreateDirective(xmlNode *node, bool anon){
             f << parent_scope_error_info(parent_scope);
             f << ref_id_error_info(reference_id);
             f << (component ? component_error_info(component) : component_error_info(tag));
+            f << location_error_info(properties["_location"]);
             
             throw f;
 		}

@@ -225,6 +225,7 @@ ERROR_INFO_DECLARATION( col_number,             error_info_types::ErrorNumber);
 ERROR_INFO_DECLARATION( reason,         error_info_types::ErrorString);
 ERROR_INFO_DECLARATION( additional_msg,         error_info_types::ErrorString);
 ERROR_INFO_DECLARATION( parser_context,         error_info_types::ErrorString);
+ERROR_INFO_DECLARATION( location,               error_info_types::ErrorString);
 
 
 extern void display_extended_error_information(SimpleException& e);
