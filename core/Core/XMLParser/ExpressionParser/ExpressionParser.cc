@@ -2265,6 +2265,10 @@ namespace stx MW_SYMBOL_PUBLIC {
 	
 	Datum BasicSymbolTable::funcUNIFORM_RAND(const paramlist_type &paramlist)
 	{
+        if (paramlist.size() != 0 && paramlist.size() != 2) {
+            throw BadFunctionCallException("Function RAND() requires 0 or 2 parameters");
+        }
+        
 		double hi, lo;
 		
 		if(!seeded){
@@ -2436,8 +2440,7 @@ namespace stx MW_SYMBOL_PUBLIC {
 		setFunction("MAX", 2, funcMAX);
         setFunction("SIZE", 1, funcSIZE);
 		
-		setFunction("RAND", 0, funcUNIFORM_RAND);
-		setFunction("RAND", 2, funcUNIFORM_RAND);
+		setFunction("RAND", -1, funcUNIFORM_RAND);
 		setFunction("DISC_RAND", 2, funcDISC_UNIFORM_RAND);
 		setFunction("GEOM_RAND", 2, funcGEOM_RAND);
         setFunction("EXP_RAND", -1, funcEXP_RAND);

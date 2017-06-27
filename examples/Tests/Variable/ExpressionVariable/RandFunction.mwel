@@ -1,0 +1,14 @@
+var value = 0
+
+%define report_and_check(minval, maxval)
+    report ('value = $value')
+    assert (value >= minval && value < maxval)
+%end
+
+protocol (nsamples = 100) {
+    value = rand()  // Implicit range: [0, 1)
+    report_and_check(minval = 0; maxval = 1)
+
+    value = rand(-17.5, 22.5)  // Explicit range
+    report_and_check (minval = -17.5; maxval = 22.5)
+}
