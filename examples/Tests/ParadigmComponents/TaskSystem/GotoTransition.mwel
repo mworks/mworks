@@ -1,0 +1,40 @@
+var result = []
+var flag = false
+
+
+%define add_result(value)
+    result[size(result)] = value
+%end
+
+
+protocol {
+    result = []
+    flag = false
+
+    task {
+        state A {
+            report ('In state A')
+            add_result ('A')
+            transition/goto (target = C)  // Full type, explicit parameter name
+        }
+        state B {
+            report ('In state B')
+            add_result ('B')
+            flag = true
+            goto (A)  // Abbreviated type, implied parameter name
+        }
+        state C {
+            report ('In state C')
+            add_result ('C')
+            goto (target = D; when = flag)  // Two parameters
+            goto (B)
+        }
+        state D {
+            report ('In state D')
+            add_result ('D')
+            yield ()
+        }
+    }
+
+    assert (result == ['A', 'C', 'B', 'A', 'C', 'D'])
+}

@@ -1322,6 +1322,14 @@ shared_ptr<mw::Component> TransitionFactory::createObject(std::map<std::string, 
 			checkAttribute(target, parameters["reference_id"], "target", parameters.find("target")->second);		
 			
 			newTransition = shared_ptr<mw::Component>(new TransitionCondition(target));
+        } else if (type == "goto") {
+            if (parameters.find("when") == parameters.end()) {
+                newTransition = boost::make_shared<TransitionCondition>(target);
+            } else {
+                auto when = reg->getVariable(parameters.find("when")->second);
+                checkAttribute(when, parameters["reference_id"], "when", parameters.find("when")->second);
+                newTransition = boost::make_shared<TransitionCondition>(when, target);
+            }
 		} else {
 			throw SimpleException("Illegal type for transition");
 		}

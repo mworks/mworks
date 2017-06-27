@@ -1586,6 +1586,29 @@ parameters:
 ---
 
 
+name: Goto Transition
+signature: transition/goto
+isa: Transition
+description: >
+    A transition that goes to the target state either unconditionally or, if
+    `when`_ is provided, only when the specified condition expression is true.
+    Hence, it can fill the role of both the `Always Go Transition` and the
+    `Conditional Transition`.
+parameters: 
+  - 
+    name: target
+    required: yes
+    description: Name of the target state
+  - 
+    name: when
+    description: >
+        Condition expression.  If omitted, the transition always goes to the
+        target state.
+
+
+---
+
+
 name: Timer Expired Transition
 signature: transition/timer_expired
 isa: Transition

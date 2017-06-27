@@ -1635,6 +1635,28 @@ Wait until a condition becomes true or a timeout occurs.  If the wait times out 
 		</code>
 	</MWElement>
 
+	<MWElement name="Goto Transition">
+		<!-- XPath 2.0 expression defining nodes of this type -->
+		<match_signature>transition[@type='goto']</match_signature>
+		
+		<!-- Inheritance -->
+		<isa>Transition</isa>
+		
+		<!-- Information for display in the GUI -->
+		<icon>conditionalTransition</icon>
+		<description>
+A transition that goes to the target state either unconditionally or, if "when" is provided, only when the specified condition expression is true.
+		</description>
+		
+		<!-- Payload -->
+		<code>
+			<transition type="goto"
+				        tag="Transition to ... When ..."
+				        target=""
+						when=""/>
+		</code>
+	</MWElement>
+
 	<MWElement name="Timer Expired Transition">
 		<!-- XPath 2.0 expression defining nodes of this type -->
 		<match_signature>transition[@type='timer_expired']</match_signature>
