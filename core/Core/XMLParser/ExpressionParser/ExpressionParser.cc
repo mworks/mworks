@@ -2446,16 +2446,24 @@ namespace stx MW_SYMBOL_PUBLIC {
         setFunction("EXP_RAND", -1, funcEXP_RAND);
 		
 		setFunction("NOW", 0, funcNOW);
-		setFunction("TIMEREXPIRED", 1, funcTIMER_EXPIRED);
-		setFunction("REFRESHRATE", 0, funcREFRESH_RATE);
-		setFunction("NEXTFRAMETIME", 0, funcNEXT_FRAME_TIME);
+		setFunction("TIMER_EXPIRED", 1, funcTIMER_EXPIRED);
+		setFunction("REFRESH_RATE", 0, funcREFRESH_RATE);
+		setFunction("NEXT_FRAME_TIME", 0, funcNEXT_FRAME_TIME);
         
         setFunction("SELECTION", 2, funcSELECTION);
-        setFunction("NUMACCEPTED", 1, funcNUMACCEPTED);
+        setFunction("NUM_ACCEPTED", 1, funcNUMACCEPTED);
         
 		setFunction("FORMAT", -1, funcFORMAT);
         setFunction("OSNAME", 0, funcOSNAME);
         setFunction("FILENAMES", 1, funcFILENAMES);
+        
+        // We now prefer to separate the words in long function names with underscores.  However, the
+        // following functions originally had underscore-free names, so we still accept those names
+        // for compatibility with existing experiments.
+        setFunction("TIMEREXPIRED", 1, funcTIMER_EXPIRED);
+        setFunction("REFRESHRATE", 0, funcREFRESH_RATE);
+        setFunction("NEXTFRAMETIME", 0, funcNEXT_FRAME_TIME);
+        setFunction("NUMACCEPTED", 1, funcNUMACCEPTED);
 	}
 	
 	Datum BasicSymbolTable::lookupVariable(const std::string &_varname) const

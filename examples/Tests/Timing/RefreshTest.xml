@@ -42,7 +42,7 @@
                         <action tag="QueueStimulus_white" full_name="fullname_1" type="queue_stimulus" stimulus="white rect"></action>
                         <action tag="display refresh" type="update_stimulus_display" predicted_output_time="predicted_output_time"></action>
                         <action type="assignment" tag="Store current time" variable="current_time" value="now()"></action>
-                        <action type="assert" tag="Check predicted output time" condition="(predicted_output_time &gt; current_time) &amp;&amp; (predicted_output_time - current_time &lt; 2e6 / refreshRate())" message="predicted_output_time = $predicted_output_time, current_time = $current_time" stop_on_failure="0"></action>
+                        <action type="assert" tag="Check predicted output time" condition="(predicted_output_time &gt; current_time) &amp;&amp; (predicted_output_time - current_time &lt; 2e6 / refresh_rate())" message="predicted_output_time = $predicted_output_time, current_time = $current_time" stop_on_failure="0"></action>
                         <action tag="update_counter" full_name="fullname_1" type="assignment" variable="counter" value="counter+1"></action>
                         <transition tag="ConditionalTransition_4" full_name="fullname_4" target="success" type="conditional" condition="counter==450"></transition>
                         <transition tag="AlwaysGo_2" full_name="fullname_2" target="present1" type="direct"></transition>
