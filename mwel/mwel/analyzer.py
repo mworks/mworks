@@ -54,14 +54,11 @@ class ExpressionAnalyzer(object):
         raise NotImplementedError
 
     def _exprlist_items(self, items):
-        results = []
-        for expr in items:
-            if isinstance(expr, ast.RangeExpr):
-                results.append('%s:%s' % (self._expr(expr.start),
-                                          self._expr(expr.stop)))
-            else:
-                results.append(self._expr(expr))
-        return ', '.join(results)
+        return ', '.join((self._range_expr(e) if isinstance(e, ast.RangeExpr)
+                          else self._expr(e)) for e in items)
+
+    def _range_expr(self, expr):
+        return '%s:%s' % (self._expr(expr.start), self._expr(expr.stop))
 
 
 class StringLiteralExprValue(type('')):
@@ -394,6 +391,8 @@ class Analyzer(ExpressionAnalyzer):
     def _exprlist_or_expr(self, expr):
         if isinstance(expr, ast.ExprList):
             return self._exprlist_items(expr.items)
+        if isinstance(expr, ast.RangeExpr):
+            return self._range_expr(expr)
         return self._expr(expr)
 
     def _range_rep_stmt(self, stmt):

@@ -193,7 +193,7 @@ class TestAnalyzer(AnalyzerTestMixin, unittest.TestCase):
 
         # With params and children
         with self.analyze('''
-                          foo/bar blah ( a=1; b='ham' ) {
+                          foo/bar blah ( a=1 :  10; b='ham' ) {
                               x = 1
                               y = "two"
                           }
@@ -203,7 +203,7 @@ class TestAnalyzer(AnalyzerTestMixin, unittest.TestCase):
                                          name = 'foo',
                                          type = 'bar',
                                          tag = 'blah',
-                                         a = '1',
+                                         a = '1:10',
                                          b = 'ham')
             self.assertEqual(2, len(cmpts))
 
