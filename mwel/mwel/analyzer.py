@@ -312,9 +312,7 @@ class Analyzer(ExpressionAnalyzer):
                             for stmt in macro.statements:
                                 self._stmt(stmt, expansion)
                         for c in expansion:
-                            c.add_backtrace(node.lineno,
-                                            node.colno,
-                                            self.error_logger.current_filename)
+                            self._add_backtrace(c, node)
                         cmpts.extend(expansion)
                         return True
                 finally:
@@ -326,6 +324,13 @@ class Analyzer(ExpressionAnalyzer):
         if not isinstance(expr, ast.AtomicExpr):
             result = NonatomicExpandedExprValue('(%s)' % result)
         return result
+
+    def _add_backtrace(self, cmpt, node):
+        cmpt.add_backtrace(node.lineno,
+                           node.colno,
+                           self.error_logger.current_filename)
+        for c in cmpt.children:
+            self._add_backtrace(c, node)
 
     def _decl_stmt(self, stmt):
         typename = stmt.type

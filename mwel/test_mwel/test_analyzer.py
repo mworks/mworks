@@ -1363,3 +1363,40 @@ class TestStatementMacros(AnalyzerTestMixin, unittest.TestCase):
                                             variable = 'bar',
                                             value = 'y')
             self.assertEqual([], children)
+
+    def test_children_in_expansion(self):
+        with self.analyze('''
+                          %define a(x)
+                              block {
+                                  trial {
+                                      var foo = x
+                                  }
+                              }
+                          %end
+
+                          a(3)
+                          ''') as cmpts:
+            self.assertEqual(1, len(cmpts))
+
+            children = self.assertComponent(cmpts[0],
+                                            (3, 10),
+                                            (31, 27),
+                                            filename = ('', ''),
+                                            name = 'block')
+            self.assertEqual(1, len(children))
+
+            children = self.assertComponent(children[0],
+                                            (4, 10),
+                                            (35, 27),
+                                            filename = ('', ''),
+                                            name = 'trial')
+            self.assertEqual(1, len(children))
+
+            children = self.assertComponent(children[0],
+                                            (5, 10),
+                                            (39, 27),
+                                            filename = ('', ''),
+                                            name = 'variable',
+                                            tag = 'foo',
+                                            default_value = '3')
+            self.assertEqual([], children)
