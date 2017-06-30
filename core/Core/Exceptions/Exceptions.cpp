@@ -10,7 +10,7 @@ BEGIN_NAMESPACE_MW
 
 AmbiguousComponentReferenceException::AmbiguousComponentReferenceException(shared_ptr<AmbiguousComponentReference> ref) :
     SimpleException(M_PARSER_MESSAGE_DOMAIN,
-                    "An error has occurred because two objects are referenced by the same name.  "
+                    "An error has occurred because two or more objects are referenced by the same name.  "
                     "Please ensure that all object tag names are unique."),
     component_reference(ref){ 
     
@@ -26,7 +26,7 @@ AmbiguousComponentReferenceException::AmbiguousComponentReferenceException(share
             continue;
         }
         
-        extended_info << "tag = " << (*i)->getTag() << ", ";
+        extended_info << "tag = " << (*i)->getTag();
         
         extended_info << std::endl;
     }

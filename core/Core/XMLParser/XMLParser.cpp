@@ -667,12 +667,12 @@ void XMLParser::_processGenericCreateDirective(xmlNode *node, bool anon){
 	// node
 	map<string, string> properties = _createPropertiesMap(node);
 	
-    string tag;
-    if(parent_scope.empty()){
-        tag = properties["tag"];
-    } else {
-        tag = parent_scope + "/" + properties["tag"];
+    string tag = properties["tag"];
+    if (!parent_scope.empty()) {
         properties["parent_scope"] = parent_scope;
+        if (!tag.empty()) {
+            tag = parent_scope + "/" + tag;
+        }
     }
 	
 	// Add XML document information to this properties map

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <marionette_info>
   <expected_messages>
-    <message type="contains">An error has occurred because two objects are referenced by the same name.  Please ensure that all object tag names are unique.</message>
+    <message type="contains">An error has occurred because two or more objects are referenced by the same name.  Please ensure that all object tag names are unique.</message>
     <message type="starts_with">ERROR: Failed to parse experiment </message>
   </expected_messages>
   <expected_events>

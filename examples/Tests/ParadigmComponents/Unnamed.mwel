@@ -1,0 +1,36 @@
+var label = ''
+
+
+%define states(task_label)
+    state 'Begin' {
+        label = task_label
+        report ('Starting $label')
+        goto ('End')
+    }
+
+    state 'End' {
+        report ('Ending $label')
+        yield ()
+    }
+%end
+
+
+protocol 'A Protocol' {
+    //
+    // Due to an issue in the XML parser, both of the following trials used to
+    // cause experiment loading to fail.  This test confirms that the issue
+    // is resolved and the experiment now loads correctly.
+    //
+
+    trial {
+        task {
+            states ('first task')
+        }
+    }
+
+    trial {
+        task 'A Task' {
+            states ('second task')
+        }
+    }
+}

@@ -210,14 +210,15 @@ shared_ptr<mw::Component> ComponentRegistry::createNewObject(const std::string &
 
 
 void ComponentRegistry::registerObject(std::string tag_name, shared_ptr<mw::Component> component, bool force){	
-	
 	if(tag_name.empty()){
 		throw SimpleException("Attempt to register a component with an empty name");
 	}
 	if(component == NULL){
 		throw SimpleException("Attempt to register empty component", tag_name);
-	}    
-        
+	}
+    
+    component->setTag(tag_name);
+    
     // If the tag name is already registered
     if(instances.find(tag_name) != instances.end() && instances[tag_name] != NULL){
         
@@ -232,6 +233,7 @@ void ComponentRegistry::registerObject(std::string tag_name, shared_ptr<mw::Comp
             ambiguous_component = boost::dynamic_pointer_cast<AmbiguousComponentReference>(preexisting);
         } else {
             ambiguous_component = shared_ptr<AmbiguousComponentReference>(new AmbiguousComponentReference());
+            ambiguous_component->addAmbiguousComponent(preexisting);
         }
         
         ambiguous_component->addAmbiguousComponent(component);
@@ -242,12 +244,7 @@ void ComponentRegistry::registerObject(std::string tag_name, shared_ptr<mw::Comp
     }
     
 	instances[tag_name] = component;
-	
 	tagnames_by_id[component->getCompactID()] = tag_name;
-	
-	component->setTag(tag_name);
-	//weak_ptr<mw::Component> self_reference(component);
-	//component->setSelfPtr(self_reference);
 }
 
 void ComponentRegistry::registerAltObject(const std::string &tag_name, shared_ptr<mw::Component> component){	

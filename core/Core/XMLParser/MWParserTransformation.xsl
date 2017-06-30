@@ -492,7 +492,7 @@
 
 	<xsl:template match="// block | //trial | //list | //task_system" mode="list_connect">
 		<xsl:call-template name="generic_connect">
-			<xsl:with-param name="parent_scopae" select="ancestor::protocol/@tag"/>
+			<xsl:with-param name="parent_scope" select="ancestor::protocol/@tag"/>
 		</xsl:call-template>
 		<xsl:apply-templates select="node()" mode="list_connect"/>
 	</xsl:template>

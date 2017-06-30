@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<marionette_info>
+  <expected_messages>
+    <message type="starts_with">Starting first task </message>
+    <message type="starts_with">Ending first task </message>
+    <message type="starts_with">Starting second task </message>
+    <message type="starts_with">Ending second task </message>
+  </expected_messages>
+</marionette_info>
