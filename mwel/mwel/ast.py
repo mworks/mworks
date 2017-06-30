@@ -74,16 +74,6 @@ class DeclarationStmt(Stmt):
     _fields = ('type', 'tag', 'params', 'children')
 
 
-class RangeRepStmt(Stmt):
-
-    _fields = ('varname', 'start', 'stop', 'step', 'children')
-
-
-class ListRepStmt(Stmt):
-
-    _fields = ('varname', 'items', 'children')
-
-
 class MacroStmt(Stmt):
     pass
 

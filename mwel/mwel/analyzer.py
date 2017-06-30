@@ -184,12 +184,6 @@ class Analyzer(ExpressionAnalyzer):
             if not self._macro_expansion(stmt, cmpts=cmpts):
                 cmpts.append(self._decl_stmt(stmt))
 
-        elif isinstance(stmt, ast.RangeRepStmt):
-            cmpts.append(self._range_rep_stmt(stmt))
-
-        elif isinstance(stmt, ast.ListRepStmt):
-            cmpts.append(self._list_rep_stmt(stmt))
-
         else:
             raise NotImplementedError
 
@@ -399,37 +393,6 @@ class Analyzer(ExpressionAnalyzer):
         if isinstance(expr, ast.RangeExpr):
             return self._range_expr(expr)
         return self._expr(expr)
-
-    def _range_rep_stmt(self, stmt):
-        step = (self._expr(stmt.step) if stmt.step else '1')
-        cmpt = self._component(stmt.lineno,
-                               stmt.colno,
-                               name = 'range_replicator',
-                               params = {
-                                   'variable': stmt.varname,
-                                   'from': self._expr(stmt.start),
-                                   'to': self._expr(stmt.stop),
-                                   'step': step,
-                                   })
-
-        for child in stmt.children:
-            self._stmt(child, cmpt.children)
-
-        return cmpt
-
-    def _list_rep_stmt(self, stmt):
-        cmpt = self._component(stmt.lineno,
-                               stmt.colno,
-                               name = 'list_replicator',
-                               params = {
-                                   'variable': stmt.varname,
-                                   'values': self._exprlist_items(stmt.items),
-                                   })
-
-        for child in stmt.children:
-            self._stmt(child, cmpt.children)
-
-        return cmpt
 
     def _component(self, lineno=-1, colno=-1, filename='',
                    name=None, type=None, tag=None, params={}):

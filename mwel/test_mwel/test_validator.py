@@ -184,23 +184,23 @@ class TestValidator(ValidatorTestMixin, unittest.TestCase):
 
     def test_toplevel_via_transient(self):
         with self.validate('''
-                           %for foo in 1,2,3
+                           list_replicator (variable = foo; values = 1,2,3) {
                                // Allowed
                                stimulus/blank_screen bg ()
 
-                               %for bar in 4,5
+                               list_replicator (variable = bar; values = 4,5) {
                                    // Not allowed
                                    block 'A Block' {}
 
                                    // Unknown
                                    floop {}
-                               %end
-                           %end
+                               }
+                           }
                            ''') as cmpts:
             self.assertEqual(2, len(cmpts))
             self.assertDefaultExperimentAndProtocol(cmpts)
 
-            cmpts = self.assertComponent(cmpts[0], 2, 29,
+            cmpts = self.assertComponent(cmpts[0], 2, 28,
                                          name = 'list_replicator',
                                          variable = 'foo',
                                          values = '1, 2, 3')
@@ -212,7 +212,7 @@ class TestValidator(ValidatorTestMixin, unittest.TestCase):
                                             tag = 'bg')
             self.assertEqual(0, len(children))
 
-            cmpts = self.assertComponent(cmpts[1], 6, 33,
+            cmpts = self.assertComponent(cmpts[1], 6, 32,
                                          name = 'list_replicator',
                                          variable = 'bar',
                                          values = '4, 5')
@@ -288,18 +288,18 @@ class TestValidator(ValidatorTestMixin, unittest.TestCase):
     def test_parent_via_transient(self):
         with self.validate('''
                            stimulus_group 'The Stims' {
-                               %for i in 1:3
+                               list_replicator (variable = i; values = 1:3) {
                                    // Allowed
                                    stimulus/blank_screen bg {}
 
-                                   %for j in 4:5
+                                   list_replicator (variable=j; values=4:5) {
                                        // Not allowed
                                        block 'A Block' {}
 
                                        // Unknown
                                        floop {}
-                                   %end
-                               %end
+                                   }
+                               }
                            }
                            ''') as cmpts:
             self.assertEqual(2, len(cmpts))
@@ -310,7 +310,7 @@ class TestValidator(ValidatorTestMixin, unittest.TestCase):
                                          tag = 'The Stims')
             self.assertEqual(1, len(cmpts))
 
-            cmpts = self.assertComponent(cmpts[0], 3, 33,
+            cmpts = self.assertComponent(cmpts[0], 3, 32,
                                          name = 'list_replicator',
                                          variable = 'i',
                                          values = '1:3')
@@ -322,7 +322,7 @@ class TestValidator(ValidatorTestMixin, unittest.TestCase):
                                             tag = 'bg')
             self.assertEqual(0, len(children))
 
-            cmpts = self.assertComponent(cmpts[1], 7, 37,
+            cmpts = self.assertComponent(cmpts[1], 7, 36,
                                          name = 'list_replicator',
                                          variable = 'j',
                                          values = '4:5')

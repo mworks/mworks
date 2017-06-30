@@ -342,82 +342,6 @@ class TestAnalyzer(AnalyzerTestMixin, unittest.TestCase):
                                             __UNKNOWN__ = 'foo')
             self.assertEqual([], children)
 
-    def test_range_rep_stmt(self):
-        # Without step
-        with self.analyze('''
-                          %for foo = 1:5
-                              var bar = 2
-                              bar = 7
-                          %end
-                          ''') as cmpts:
-            self.assertEqual(1, len(cmpts))
-            cmpts = self.assertComponent(cmpts[0], 2, 28,
-                                         name = 'range_replicator',
-                                         **{
-                                             'variable': 'foo',
-                                             'from': '1',
-                                             'to': '5',
-                                             'step': '1',
-                                             })
-            self.assertEqual(2, len(cmpts))
-
-            children = self.assertComponent(cmpts[0], 3, 31,
-                                            name = 'variable',
-                                            tag = 'bar',
-                                            default_value = '2')
-            self.assertEqual([], children)
-
-            children = self.assertComponent(cmpts[1], 4, 35,
-                                            name = 'action',
-                                            type = 'assignment',
-                                            variable = 'bar',
-                                            value = '7')
-            self.assertEqual([], children)
-
-        # With step
-        with self.analyze('''
-                          %for blah = a : b+1:  c
-                          %end
-                          ''') as cmpts:
-            self.assertEqual(1, len(cmpts))
-            children = self.assertComponent(cmpts[0], 2, 28,
-                                            name = 'range_replicator',
-                                            **{
-                                                'variable': 'blah',
-                                                'from': 'a',
-                                                'to': 'b + 1',
-                                                'step': 'c',
-                                                })
-            self.assertEqual([], children)
-
-    def test_list_rep_stmt(self):
-        with self.analyze('''
-                          %for foo in a,  1+2,   "ham"
-                              var bar = 2
-                              bar = 7
-                          %end
-                          ''') as cmpts:
-            self.assertEqual(1, len(cmpts))
-            cmpts = self.assertComponent(cmpts[0], 2, 28,
-                                         name = 'list_replicator',
-                                         variable = 'foo',
-                                         values = 'a, 1 + 2, "ham"',
-                                         )
-            self.assertEqual(2, len(cmpts))
-
-            children = self.assertComponent(cmpts[0], 3, 31,
-                                            name = 'variable',
-                                            tag = 'bar',
-                                            default_value = '2')
-            self.assertEqual([], children)
-
-            children = self.assertComponent(cmpts[1], 4, 35,
-                                            name = 'action',
-                                            type = 'assignment',
-                                            variable = 'bar',
-                                            value = '7')
-            self.assertEqual([], children)
-
     def test_alias(self):
         with self.analyze('''
                           // Without inference
@@ -478,10 +402,10 @@ foo/bar baz {}
         include1_path = self.write_file('include1.mwel', include1_src)
 
         include2_src = '''\
-%for blah = 1:3
-%end
-%for blah in a, b, c
-%end
+range_replicator (variable = blah; from = 1; to = 3; step = 1) {
+}
+list_replicator (variable = blah; values = a, b, c) {
+}
 '''
         include2_path = self.write_file('include2.mwel', include2_src)
 
@@ -502,7 +426,7 @@ foo/bar baz {}
                                             value = '2')
             self.assertEqual([], children)
 
-            children = self.assertComponent(cmpts[2], 1, 2,
+            children = self.assertComponent(cmpts[2], 1, 1,
                                             filename = include2_path,
                                             name = 'range_replicator',
                                             **{
@@ -513,7 +437,7 @@ foo/bar baz {}
                                                 })
             self.assertEqual([], children)
 
-            children = self.assertComponent(cmpts[3], 3, 2,
+            children = self.assertComponent(cmpts[3], 3, 1,
                                             filename = include2_path,
                                             name = 'list_replicator',
                                             variable = 'blah',

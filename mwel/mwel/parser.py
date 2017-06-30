@@ -414,9 +414,6 @@ class Parser(ExpressionParser):
             else:
                 stmt = self._decl_stmt()
 
-        elif self.accept_directive('for'):
-            stmt = self._rep_stmt()
-
         elif self.accept_directive('include'):
             if not _toplevel:
                 self.error('Include statements are permitted at the top level '
@@ -532,65 +529,6 @@ class Parser(ExpressionParser):
         if len(expr.items) == 1:
             expr = expr.items[0]
         return expr
-
-    def _rep_stmt(self):
-        lineno = self.curr.lineno
-        colno = self.curr.colno
-
-        self.expect('IDENTIFIER')
-        varname = self.curr.value
-
-        if self.accept('='):
-            return self._range_rep_stmt(lineno, colno, varname)
-
-        t = self.peek('IDENTIFIER')
-        if t and t.value == 'in':
-            return self._list_rep_stmt(lineno, colno, varname)
-
-        self.unexpected_token("'=' or 'in'")
-
-    def _range_rep_stmt(self, lineno, colno, varname):
-        start = self.expr()
-        self.expect(':')
-        stop = self.expr()
-
-        if self.accept(':'):
-            step = self.expr()
-        else:
-            step = None
-
-        if not self.accept_newline():
-            self.unexpected_token('line ending')
-
-        children = []
-        while not self.accept_directive('end'):
-            children.append(self.stmt())
-
-        return ast.RangeRepStmt(lineno,
-                                colno,
-                                varname = varname,
-                                start = start,
-                                stop = stop,
-                                step = step,
-                                children = tuple(children))
-
-    def _list_rep_stmt(self, lineno, colno, varname):
-        self.accept()
-
-        items = self.expr_list().items
-
-        if not self.accept_newline():
-            self.unexpected_token('line ending')
-
-        children = []
-        while not self.accept_directive('end'):
-            children.append(self.stmt())
-
-        return ast.ListRepStmt(lineno,
-                               colno,
-                               varname = varname,
-                               items = items,
-                               children = tuple(children))
 
     def _include_stmt(self):
         lineno = self.curr.lineno
