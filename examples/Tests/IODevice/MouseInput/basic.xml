@@ -41,7 +41,7 @@
     <optimizers tag="Optimizers"></optimizers>
     <experiment tag="New Experiment" full_name="" description="">
         <protocol tag="New Protocol" nsamples="1" sampling_method="cycles" selection="sequential" interruptible="YES">
-            <action tag="Start mouse input" type="start_device_IO" device="mouse"></action>
+            <action tag="Start mouse input" type="start_io_device" device="mouse"></action>
             <task_system tag="New Task System" interruptible="YES">
                 <task_system_state tag="Present Target" interruptible="YES">
                     <action_marker _unmoveable="1" tag="Actions"></action_marker>
@@ -50,7 +50,7 @@
                     <action type="assignment" tag="Set target_position_x" variable="target_position_x" value="rand(-target_position_max_x, target_position_max_x)"></action>
                     <action type="assignment" tag="Set target_position_y" variable="target_position_y" value="rand(-target_position_max_y, target_position_max_y)"></action>
                     <action tag="Queue target" type="queue_stimulus" stimulus="target"></action>
-                    <action tag="Update display" type="update_stimulus_display"></action>
+                    <action tag="Update display" type="update_display"></action>
                     <action type="start_timer" tag="Start Timer" timer="MyTimer" timebase="" duration="timeout_ms" duration_units="ms"></action>
                     <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
                     <transition type="timer_expired" tag="If Timer Expired, Transition to ..." target="Remove Target" timer="MyTimer"></transition>
@@ -58,7 +58,7 @@
                 <task_system_state tag="Remove Target" interruptible="YES">
                     <action_marker _unmoveable="1" tag="Actions"></action_marker>
                     <action tag="Dequeue target" type="dequeue_stimulus" stimulus="target"></action>
-                    <action tag="Update display" type="update_stimulus_display"></action>
+                    <action tag="Update display" type="update_display"></action>
                     <transition_marker _unmoveable="1" tag="Transitions"></transition_marker>
                     <transition type="conditional" tag="If Condition is True, Transition to ... 2" condition="(mouse_position_x == -9999) &amp;&amp; (mouse_position_y == -9999)" target="Exit"></transition>
                     <transition type="direct" tag="Always Go to ..." target="Present Target"></transition>
@@ -70,6 +70,7 @@
                     <transition type="yield" tag="Exit Task System..."></transition>
                 </task_system_state>
             </task_system>
+        <action tag="Stop mouse input" type="stop_io_device" device="mouse"></action>
         </protocol>
     </experiment>
 </monkeyml>

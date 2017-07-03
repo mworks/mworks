@@ -79,11 +79,14 @@ ComponentRegistry::ComponentRegistry() :
 	registerFactory("action/bring_stimulus_to_front", new BringStimulusToFrontFactory());
 	registerFactory("action/send_stimulus_to_back", new SendStimulusToBackFactory());
     registerFactory<StandardComponentFactory, UpdateStimulusDisplay>();
+    registerFactoryAlias<UpdateStimulusDisplay>("action/update_display");
 	registerFactory("action/play_sound", new PlaySoundFactory());
 	registerFactory("action/stop_sound", new StopSoundFactory());
 	registerFactory("action/pause_sound", new PauseSoundFactory());
 	registerFactory("action/start_device_io", new StartDeviceIOFactory());
+    registerFactoryAlias("action/start_device_io", "action/start_io_device");
 	registerFactory("action/stop_device_io", new StopDeviceIOFactory());
+    registerFactoryAlias("action/stop_device_io", "action/stop_io_device");
 	registerFactory("action/reset_selection", new ResetSelectionFactory());
 	registerFactory("action/accept_selections", new AcceptSelectionsFactory());
 	registerFactory("action/reject_selections", new RejectSelectionsFactory());
