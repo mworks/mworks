@@ -21,7 +21,6 @@ parameters:
         degrees) on the stimulus display
   - 
     name: mouse_down
-    required: yes
     description: >
         Variable in which to store the state of the primary mouse button (true
         if down/clicked, false if up/released)

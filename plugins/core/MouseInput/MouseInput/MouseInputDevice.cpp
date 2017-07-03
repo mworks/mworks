@@ -26,7 +26,7 @@ void MouseInputDevice::describeComponent(ComponentInfo &info) {
     
     info.addParameter(MOUSE_POSITION_X);
     info.addParameter(MOUSE_POSITION_Y);
-    info.addParameter(MOUSE_DOWN);
+    info.addParameter(MOUSE_DOWN, false);
     info.addParameter(HIDE_CURSOR, "NO");
     info.addParameter(USE_MIRROR_WINDOW, "NO");
 }
@@ -36,14 +36,17 @@ MouseInputDevice::MouseInputDevice(const ParameterValueMap &parameters) :
     IODevice(parameters),
     posX(parameters[MOUSE_POSITION_X]),
     posY(parameters[MOUSE_POSITION_Y]),
-    down(parameters[MOUSE_DOWN]),
     hideCursor(parameters[HIDE_CURSOR]),
     useMirrorWindow(parameters[USE_MIRROR_WINDOW]),
     targetView(nil),
     tracker(nil),
     trackingArea(nil),
     started(false)
-{ }
+{
+    if (!(parameters[MOUSE_DOWN].empty())) {
+        down = VariablePtr(parameters[MOUSE_DOWN]);
+    }
+}
 
 
 MouseInputDevice::~MouseInputDevice() {
@@ -160,7 +163,7 @@ void MouseInputDevice::postMouseLocation(NSPoint location) const {
 
 
 void MouseInputDevice::postMouseState(bool isDown) const {
-    if (started) {
+    if (started && down) {
         down->setValue(isDown, Clock::instance()->getCurrentTimeUS());
     }
 }
