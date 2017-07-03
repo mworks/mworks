@@ -905,6 +905,16 @@ Datum Datum::operator+(const Datum& other) const {
         } else if (other.isFloat()) {
             return getFloat() + (double)other;
         }
+    } else if (isString()) {
+        if (other.isString()) {
+            return Datum(getString() + other.getString());
+        }
+    } else if (isList()) {
+        if (other.isList()) {
+            Datum result(*this);
+            result.listValue.insert(result.listValue.end(), other.listValue.begin(), other.listValue.end());
+            return result;
+        }
     }
     
     merror(M_SYSTEM_MESSAGE_DOMAIN, "Cannot add %s and %s", getDataTypeName(), other.getDataTypeName());

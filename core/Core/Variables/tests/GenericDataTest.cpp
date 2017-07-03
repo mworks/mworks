@@ -1206,12 +1206,58 @@ void GenericDataTestFixture::testOperatorBinaryPlus() {
         }
     }
     
+    // String
+    {
+        // and string
+        {
+            Datum d = Datum("abc") + Datum("defg");
+            CPPUNIT_ASSERT( d.isString() );
+            CPPUNIT_ASSERT_EQUAL( std::string("abcdefg"), d.getString() );
+        }
+        
+        // and other
+        {
+            Datum d = Datum("foo") + Datum(3);
+            CPPUNIT_ASSERT( d.isInteger() );
+            CPPUNIT_ASSERT_EQUAL( 0LL, d.getInteger() );
+            assertError("ERROR: Cannot add string and integer");
+        }
+    }
+    
+    // List
+    {
+        const Datum d1 { Datum::list_value_type { Datum(1.5), Datum("foo") } };
+        
+        // and list
+        {
+            const Datum d2 { Datum::list_value_type { Datum(2.5), Datum("bar"), Datum(true) } };
+            Datum d = d1 + d2;
+
+            CPPUNIT_ASSERT( d.isList() );
+            auto &items = d.getList();
+            CPPUNIT_ASSERT_EQUAL( 5, int(items.size()) );
+            CPPUNIT_ASSERT_EQUAL( 1.5, items.at(0).getFloat() );
+            CPPUNIT_ASSERT_EQUAL( std::string("foo"), items.at(1).getString() );
+            CPPUNIT_ASSERT_EQUAL( 2.5, items.at(2).getFloat() );
+            CPPUNIT_ASSERT_EQUAL( std::string("bar"), items.at(3).getString() );
+            CPPUNIT_ASSERT( items.at(4).getBool() );
+        }
+        
+        // and other
+        {
+            Datum d = d1 + Datum(3);
+            CPPUNIT_ASSERT( d.isInteger() );
+            CPPUNIT_ASSERT_EQUAL( 0LL, d.getInteger() );
+            assertError("ERROR: Cannot add list and integer");
+        }
+    }
+    
     // Other
     {
-        Datum d = Datum("foo") + Datum(1);
+        Datum d = Datum(Datum::dict_value_type()) + Datum(1);
         CPPUNIT_ASSERT( d.isInteger() );
         CPPUNIT_ASSERT_EQUAL( 0LL, d.getInteger() );
-        assertError("ERROR: Cannot add string and integer");
+        assertError("ERROR: Cannot add dictionary and integer");
     }
 }
 
