@@ -4,7 +4,7 @@
     <feature name="macos"/>
   </requirements>
   <expected_messages>
-    <message type="starts_with">ERROR: Experiment packaging failed: Preprocessor execution failed: </message>
+    <message type="starts_with">ERROR: Experiment packaging failed: Preprocessor execution failed:</message>
     <message type="whole_message">ERROR: Failed to create a valid packaged experiment.</message>
   </expected_messages>
   <expected_events>

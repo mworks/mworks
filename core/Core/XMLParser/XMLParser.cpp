@@ -174,8 +174,9 @@ static NSData* getPreprocessedFileData(NSString *ppPath, NSString *filePath) {
     int status = [task terminationStatus];
     if (0 != status) {
         NSData *errorData = [[[task standardError] fileHandleForReading] readDataToEndOfFile];
-        std::string errorText((const char *)[errorData bytes], [errorData length]);
-        throw SimpleException("Preprocessor execution failed", errorText);
+        std::string errorText(static_cast<const char *>(errorData.bytes), errorData.length);
+        boost::algorithm::trim(errorText);
+        throw SimpleException(M_PARSER_MESSAGE_DOMAIN, "Preprocessor execution failed:\n\n" + errorText + "\n");
     }
     
     return data;
