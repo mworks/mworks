@@ -332,7 +332,7 @@ def zeromq(ios=True):
 
 @builder
 def msgpack(ios=True):
-    version = '2.1.1'
+    version = '2.1.3'
     srcdir = 'msgpack-' + version
     tarfile = srcdir + '.tar.gz'
 
@@ -375,7 +375,7 @@ def libxslt(macos=False, ios=True):
 
 @builder
 def cppunit():
-    version = '1.13.2'
+    version = '1.14.0'
     srcdir = 'cppunit-' + version
     tarfile = srcdir + '.tar.gz'
 
