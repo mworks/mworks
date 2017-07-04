@@ -4,13 +4,26 @@
 BEGIN_NAMESPACE_MW
 
 
+const std::string IODevice::AUTOSTART("autostart");
 const std::string IODevice::ALT("alt");
 
 
 void IODevice::describeComponent(ComponentInfo &info) {
     Component::describeComponent(info);
+    info.addParameter(AUTOSTART, "NO");
     info.addParameter(ALT, false);
 }
+
+
+IODevice::IODevice(const ParameterValueMap &parameters) :
+    Component(parameters),
+    autoStart(parameters[AUTOSTART])
+{ }
+
+
+IODevice::IODevice() :
+    autoStart(false)
+{ }
 
 
 IODevice::~IODevice() {
@@ -41,6 +54,12 @@ void IODevice::stateSystemCallback(const Datum &data, MWorksTime time) {
     switch (data.getInteger()) {
         case IDLE:
             stopDeviceIO();
+            break;
+            
+        case RUNNING:
+            if (autoStart) {
+                startDeviceIO();
+            }
             break;
             
         default:

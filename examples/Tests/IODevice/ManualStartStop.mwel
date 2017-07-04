@@ -1,0 +1,11 @@
+iodevice/dummy dummy ()
+
+
+protocol {
+    report ('Protocol began')
+    start_io_device (dummy)
+    report ('Waiting')
+    wait (5s)
+    stop_io_device (dummy)
+    report ('Protocol ending')
+}

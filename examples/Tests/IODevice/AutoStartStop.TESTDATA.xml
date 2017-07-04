@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<marionette_info>
+  <expected_messages>
+    <message type="whole_message">Starting state system....</message>
+    <message type="starts_with">Display updates started</message>
+    <message type="whole_message">Started I/O on dummy device</message>
+    <message type="starts_with">Protocol began</message>
+    <message type="starts_with">Waiting</message>
+    <message type="starts_with">Protocol ending</message>
+    <message type="whole_message">Display updates stopped</message>
+    <message type="whole_message">Stopped I/O on dummy device</message>
+    <message type="whole_message">State system ending</message>
+  </expected_messages>
+</marionette_info>

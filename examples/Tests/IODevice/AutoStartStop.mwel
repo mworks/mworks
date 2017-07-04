@@ -1,0 +1,9 @@
+iodevice/dummy dummy (autostart = true)
+
+
+protocol {
+    report ('Protocol began')
+    report ('Waiting')
+    wait (5s)
+    report ('Protocol ending')
+}

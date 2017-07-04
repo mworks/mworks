@@ -13,12 +13,13 @@ BEGIN_NAMESPACE_MW
 class IODevice : public Component {
     
 public:
+    static const std::string AUTOSTART;
     static const std::string ALT;
     
     static void describeComponent(ComponentInfo &info);
     
-    explicit IODevice(const ParameterValueMap &parameters) : Component(parameters) { }
-    IODevice() { }
+    explicit IODevice(const ParameterValueMap &parameters);
+    IODevice();
 
     ~IODevice();
     
@@ -71,6 +72,7 @@ public:
 private:
     void stateSystemCallback(const Datum &data, MWorksTime time);
     
+    const bool autoStart;
     boost::shared_ptr<VariableCallbackNotification> stateSystemCallbackNotification;
     
 };

@@ -1656,6 +1656,15 @@ toplevel: yes
 allowed_parent: Folder
 parameters:
   - 
+    name: autostart
+    default: 'NO'
+    description: |
+        If ``YES``, the device will start I/O automatically (as if by an
+        implicit `Start IO Device` action) when the experiment starts running.
+
+        *Note*: Device I/O will always stop automatically when the experiment
+        stops running, irrespective of this setting.
+  - 
     name: alt
     description: >
         Alternative device to use if this one fails to initialize (e.g. because
