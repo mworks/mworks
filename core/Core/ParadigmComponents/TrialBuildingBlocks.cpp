@@ -1210,6 +1210,75 @@ bool IfElse::execute() {
 
 
 /****************************************************************
+ *                 While Methods
+ ****************************************************************/
+
+
+const std::string While::CONDITION("condition");
+
+
+void While::describeComponent(ComponentInfo &info) {
+    Action::describeComponent(info);
+    info.setSignature("action/while");
+    info.addParameter(CONDITION);
+}
+
+
+While::While(const ParameterValueMap &parameters) :
+    Action(parameters),
+    condition(parameters[CONDITION]),
+    shouldRepeat(false)
+{ }
+
+
+void While::addChild(std::map<std::string, std::string> parameters,
+                     ComponentRegistry *reg,
+                     boost::shared_ptr<Component> child)
+{
+    auto action = boost::dynamic_pointer_cast<Action>(child);
+    if (!action) {
+        throw SimpleException("while can only contain actions");
+    }
+    action->setParent(getParent());
+    actions.push_back(action);
+}
+
+
+bool While::execute() {
+    if (StateSystem::instance()->getCurrentState().lock().get() == this) {
+        shouldRepeat = performIteration();
+    } else {
+        // If we're executing outside of the normal state system (e.g. as part of a ScheduledActions instance),
+        // we need to perform all our iterations right here
+        while (performIteration()) /*repeat*/ ;
+    }
+    return true;
+}
+
+
+boost::weak_ptr<State> While::next() {
+    if (shouldRepeat) {
+        // We need to perform another iteration, so return ourselves as the next state
+        return component_shared_from_this<While>();
+    }
+    return Action::next();
+}
+
+
+bool While::performIteration() {
+    bool shouldExecute = condition->getValue().getBool();
+    
+    if (shouldExecute) {
+        for (auto &action : actions) {
+            action->execute();
+        }
+    }
+    
+    return shouldExecute;
+}
+
+
+/****************************************************************
  *                 TransitionCondition Methods
  ****************************************************************/	
 TransitionCondition::TransitionCondition(shared_ptr<Variable> v1, 

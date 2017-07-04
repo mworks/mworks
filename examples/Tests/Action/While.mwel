@@ -1,0 +1,40 @@
+var count = 0
+var done = false
+
+
+%define do_while (cond)
+    while (cond) {
+        count = count + 1
+        report ('count = $count')
+    }
+%end
+
+
+protocol {
+    count = 0
+
+    // No iterations
+    do_while (count < 0)
+    assert (count == 0)
+
+    // One iteration
+    do_while (count < 1)
+    assert (count == 1)
+
+    // Multiple iterations
+    do_while (count < 4)
+    assert (count == 4)
+
+    // Outside of state system
+    done = false
+    schedule (
+        delay = 0
+        duration = 0
+        repeats = 1
+    ) {
+        do_while (count < 6)
+        done = true
+    }
+    wait_for_condition (condition = done; timeout = 1s)
+    assert (count == 6)
+}

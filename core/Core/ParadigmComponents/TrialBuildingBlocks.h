@@ -652,6 +652,32 @@ private:
 };
 
 
+class While : public Action {
+    
+public:
+    static const std::string CONDITION;
+    
+    static void describeComponent(ComponentInfo &info);
+    
+    explicit While(const ParameterValueMap &parameters);
+    
+    void addChild(std::map<std::string, std::string> parameters,
+                  ComponentRegistry *reg,
+                  boost::shared_ptr<Component> child) override;
+    
+    bool execute() override;
+    boost::weak_ptr<State> next() override;
+    
+private:
+    bool performIteration();
+    
+    const VariablePtr condition;
+    std::vector< boost::shared_ptr<Action> > actions;
+    bool shouldRepeat;
+    
+};
+
+
 class Transition : public mw::Component { };
 
 class TransitionFactory : public ComponentFactory {

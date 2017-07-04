@@ -792,6 +792,7 @@ A circular fixation point stimulus
 		<allowed_parent>List</allowed_parent>
 		<allowed_parent>Protocol</allowed_parent>
 		<allowed_parent>Conditionally Execute Actions</allowed_parent>
+		<allowed_parent>Repeat Actions</allowed_parent>
 		<allowed_parent>Schedule Actions</allowed_parent>
 		<allowed_parent>Folder</allowed_parent>
 		
@@ -971,6 +972,24 @@ Given a list of conditional (if) actions, executes the first one whose condition
 		<!-- Payload -->
 		<code>
 			<action type="if_else" tag="If/Else"/>
+		</code>
+	</MWElement>
+
+	<MWElement name="Repeat Actions">
+		<!-- XPath 2.0 expression defining nodes of this type -->
+		<match_signature>action[@type='while']</match_signature>
+		
+		<!-- Inheritance -->
+		<isa>Action</isa>
+		
+		<!-- Information for display in the GUI -->
+		<description>
+Execute a list of actions repeatedly while a condition is true
+		</description>
+		
+		<!-- Payload -->
+		<code>
+			<action type="while" tag="Repeat Actions" condition=""/>
 		</code>
 	</MWElement>
 	

@@ -798,6 +798,7 @@ allowed_parent:
   - Task System State
   - Variable
   - Conditionally Execute Actions
+  - Repeat Actions
   - Schedule Actions
 
 
@@ -947,6 +948,20 @@ description: >
     first one whose condition is true, or none if all conditions are false.  To
     implement an unconditional "else" action, add a conditional with an
     always-true condition at the end of the list.
+
+
+---
+
+
+name: Repeat Actions
+signature: action/while
+isa: Action
+description: Execute a list of actions repeatedly while a condition is true
+parameters: 
+  - 
+    name: condition
+    required: yes
+    description: Condition expression
 
 
 ---

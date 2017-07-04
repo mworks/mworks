@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<marionette_info>
+  <expected_messages>
+    <message type="starts_with">count = 1 </message>
+    <message type="starts_with">count = 2 </message>
+    <message type="starts_with">count = 3 </message>
+    <message type="starts_with">count = 4 </message>
+    <message type="starts_with">count = 5 </message>
+    <message type="starts_with">count = 6 </message>
+  </expected_messages>
+</marionette_info>
