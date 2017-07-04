@@ -1,5 +1,4 @@
 
-#include "IODeviceVariableNotification.h"
 #include "LegacyIODevice.h"
 #include "Experiment.h"
 #include "boost/bind.hpp"

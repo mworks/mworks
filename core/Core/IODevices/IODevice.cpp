@@ -1,5 +1,4 @@
 #include "IODevice.h"
-#include "IODeviceVariableNotification.h"
 
 
 BEGIN_NAMESPACE_MW
@@ -14,13 +13,19 @@ void IODevice::describeComponent(ComponentInfo &info) {
 }
 
 
-void IODevice::finalize(std::map<std::string, std::string> parameters, ComponentRegistry *reg)
-{
-	shared_ptr<IODevice> this_one = component_shared_from_this<IODevice>();
-	shared_ptr<IODeviceVariableNotification> notification(new IODeviceVariableNotification(this_one));
-	state_system_mode->addNotification(notification);			
-	
-	if(!initialize()) {
+IODevice::~IODevice() {
+    if (stateSystemCallbackNotification) {
+        stateSystemCallbackNotification->remove();
+    }
+}
+
+
+void IODevice::finalize(std::map<std::string, std::string> parameters, ComponentRegistry *reg) {
+    if (initialize()) {
+        auto callback = [this](const Datum &data, MWorksTime time) { stateSystemCallback(data, time); };
+        stateSystemCallbackNotification = boost::make_shared<VariableCallbackNotification>(callback);
+        state_system_mode->addNotification(stateSystemCallbackNotification);
+    } else {
 		// Initialization failed, so try to map the tag to the alt device
 		if(parameters.find(ALT) == parameters.end()) {
 			throw SimpleException("Can't start iodevice (" + getTag() + ") and no alt tag specified");
@@ -32,4 +37,43 @@ void IODevice::finalize(std::map<std::string, std::string> parameters, Component
 }
 
 
+void IODevice::stateSystemCallback(const Datum &data, MWorksTime time) {
+    switch (data.getInteger()) {
+        case IDLE:
+            stopDeviceIO();
+            break;
+            
+        default:
+            break;
+    }
+}
+
+
 END_NAMESPACE_MW
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

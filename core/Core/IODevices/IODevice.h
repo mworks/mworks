@@ -20,7 +20,7 @@ public:
     explicit IODevice(const ParameterValueMap &parameters) : Component(parameters) { }
     IODevice() { }
 
-    virtual ~IODevice() { }
+    ~IODevice();
     
     //
     // finalize()
@@ -32,7 +32,7 @@ public:
     // destructor.)  This method is invoked when an experiment is first loaded and, in fact, is responsible
     // for calling the IODevice's initialize() method.
     //
-    virtual void finalize(std::map<std::string, std::string> parameters, ComponentRegistryPtr reg);
+    void finalize(std::map<std::string, std::string> parameters, ComponentRegistryPtr reg) override;
     
     //
     // initialize()
@@ -67,6 +67,11 @@ public:
     virtual bool stopDeviceIO() {
         return true;
     }
+    
+private:
+    void stateSystemCallback(const Datum &data, MWorksTime time);
+    
+    boost::shared_ptr<VariableCallbackNotification> stateSystemCallbackNotification;
     
 };
 

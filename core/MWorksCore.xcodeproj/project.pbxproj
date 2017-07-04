@@ -104,8 +104,6 @@
 		0E9AD3170AD94214009C0B0B /* ExpandableList.h in Headers */ = {isa = PBXBuildFile; fileRef = 0E9AD30C0AD94214009C0B0B /* ExpandableList.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0EAA0DE60B98FC1500331AA5 /* SimpleStaircase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EAA0DE40B98FC1500331AA5 /* SimpleStaircase.cpp */; };
 		0EAA0DE70B98FC1500331AA5 /* SimpleStaircase.h in Headers */ = {isa = PBXBuildFile; fileRef = 0EAA0DE50B98FC1500331AA5 /* SimpleStaircase.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		0EB1423F0EFB4EFC0056E2A2 /* IODeviceVariableNotification.h in Headers */ = {isa = PBXBuildFile; fileRef = 0EB1423D0EFB4EFC0056E2A2 /* IODeviceVariableNotification.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		0EB142400EFB4EFD0056E2A2 /* IODeviceVariableNotification.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EB1423E0EFB4EFC0056E2A2 /* IODeviceVariableNotification.cpp */; };
 		0EB975980E624D2F00632F05 /* default_test_data.xml in Resources */ = {isa = PBXBuildFile; fileRef = 0EB975970E624D2F00632F05 /* default_test_data.xml */; };
 		0EBCB90C0EFF42440032F669 /* XMLParserTest.h in Headers */ = {isa = PBXBuildFile; fileRef = 0EBCB90A0EFF42440032F669 /* XMLParserTest.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0EBCB90D0EFF42440032F669 /* XMLParserTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EBCB90B0EFF42440032F669 /* XMLParserTest.cpp */; };
@@ -605,8 +603,6 @@
 		E17917671E4E55E500528B91 /* LegacyIODevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2CE13A07E9F8D300C68AEF /* LegacyIODevice.cpp */; };
 		E17917681E4E55EA00528B91 /* DummyIODevice.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C8D03C20D56B1AE00454461 /* DummyIODevice.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E17917691E4E55F100528B91 /* DummyIODevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C8D03C30D56B1AE00454461 /* DummyIODevice.cpp */; };
-		E179176A1E4E55F500528B91 /* IODeviceVariableNotification.h in Headers */ = {isa = PBXBuildFile; fileRef = 0EB1423D0EFB4EFC0056E2A2 /* IODeviceVariableNotification.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E179176B1E4E55FB00528B91 /* IODeviceVariableNotification.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EB1423E0EFB4EFC0056E2A2 /* IODeviceVariableNotification.cpp */; };
 		E179176C1E4E561800528B91 /* DataFileManager.h in Headers */ = {isa = PBXBuildFile; fileRef = DA2CE11D07E9F86300C68AEF /* DataFileManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E179176D1E4E561D00528B91 /* DataFileManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2CE11C07E9F86300C68AEF /* DataFileManager.cpp */; };
 		E179176E1E4E563200528B91 /* DynamicStimulusDriver.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C78EDE3115C00EC00151A76 /* DynamicStimulusDriver.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -970,8 +966,6 @@
 		0EAA0DE40B98FC1500331AA5 /* SimpleStaircase.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = SimpleStaircase.cpp; path = Core/AdaptiveOptimizers/SimpleStaircase.cpp; sourceTree = "<group>"; };
 		0EAA0DE50B98FC1500331AA5 /* SimpleStaircase.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = SimpleStaircase.h; path = Core/AdaptiveOptimizers/SimpleStaircase.h; sourceTree = "<group>"; };
 		0EAE96050E4295FC0005613A /* MWCocoaEventFunctor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWCocoaEventFunctor.h; sourceTree = "<group>"; };
-		0EB1423D0EFB4EFC0056E2A2 /* IODeviceVariableNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IODeviceVariableNotification.h; path = Core/IODevices/IODeviceVariableNotification.h; sourceTree = "<group>"; };
-		0EB1423E0EFB4EFC0056E2A2 /* IODeviceVariableNotification.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IODeviceVariableNotification.cpp; path = Core/IODevices/IODeviceVariableNotification.cpp; sourceTree = "<group>"; };
 		0EB975850E624B8700632F05 /* MarionetteMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MarionetteMessage.h; sourceTree = "<group>"; };
 		0EB975860E624B8700632F05 /* MarionetteMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MarionetteMessage.m; sourceTree = "<group>"; };
 		0EB975970E624D2F00632F05 /* default_test_data.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = default_test_data.xml; sourceTree = "<group>"; };
@@ -2281,8 +2275,6 @@
 				DA2CE13B07E9F8D300C68AEF /* LegacyIODevice.h */,
 				DA2CE13A07E9F8D300C68AEF /* LegacyIODevice.cpp */,
 				5C8D03C10D56B18600454461 /* Dummy */,
-				0EB1423D0EFB4EFC0056E2A2 /* IODeviceVariableNotification.h */,
-				0EB1423E0EFB4EFC0056E2A2 /* IODeviceVariableNotification.cpp */,
 			);
 			name = IODevices;
 			sourceTree = "<group>";
@@ -2646,7 +2638,6 @@
 				0EFC71400EDBAF6800FFABA8 /* ScheduledActions.h in Headers */,
 				0EFC71630EDBB14000FFABA8 /* PulseAction.h in Headers */,
 				0E2FE5A10EF00CC900CEB818 /* ParsedColorTrio.h in Headers */,
-				0EB1423F0EFB4EFC0056E2A2 /* IODeviceVariableNotification.h in Headers */,
 				5C724443109B2BC0004887A5 /* EventStreamConduit.h in Headers */,
 				5C76B41710BB226400F6D029 /* VariableRegistryInterface.h in Headers */,
 				5CA07B4D10D0560300000A95 /* SimpleCodecUtilities.h in Headers */,
@@ -2697,7 +2688,6 @@
 				E17917161E4E539000528B91 /* LoadingUtilities.h in Headers */,
 				E17916AA1E4E507E00528B91 /* ScarabWriteConnection.h in Headers */,
 				E17917831E4E570800528B91 /* alut.h in Headers */,
-				E179176A1E4E55F500528B91 /* IODeviceVariableNotification.h in Headers */,
 				E179171A1E4E53A300528B91 /* ExperimentUnpackager.h in Headers */,
 				E17917591E4E557300528B91 /* FitableFunctions.h in Headers */,
 				E17917781E4E567D00528B91 /* OpenGLUtilities.hpp in Headers */,
@@ -3416,7 +3406,6 @@
 				E13464EB1D4BD8B200E4CF08 /* ZeroMQConnection.cpp in Sources */,
 				0EFC71640EDBB14000FFABA8 /* PulseAction.cpp in Sources */,
 				0E2FE5A20EF00CC900CEB818 /* ParsedColorTrio.cpp in Sources */,
-				0EB142400EFB4EFD0056E2A2 /* IODeviceVariableNotification.cpp in Sources */,
 				5CA9ADA510B63E1700A04B67 /* VariableRegistryInterface.cpp in Sources */,
 				5CA0794F10CEDFBB00000A95 /* EventStreamConduit.cpp in Sources */,
 				5CA07B4B10D055F600000A95 /* EventCallbackHandler.cpp in Sources */,
@@ -3555,7 +3544,6 @@
 				E179174B1E4E550600528B91 /* MachUtilities.cpp in Sources */,
 				E17917031E4E52ED00528B91 /* XMLParser.cpp in Sources */,
 				E1E4AF411E54AE61001A2159 /* IOSStimulusDisplay.cpp in Sources */,
-				E179176B1E4E55FB00528B91 /* IODeviceVariableNotification.cpp in Sources */,
 				E17916CE1E4E514C00528B91 /* ScopedVariable.cpp in Sources */,
 				E17916EB1E4E51F800528B91 /* EventCallbackHandler.cpp in Sources */,
 				E17916D81E4E517700528B91 /* StandardVariables.cpp in Sources */,
